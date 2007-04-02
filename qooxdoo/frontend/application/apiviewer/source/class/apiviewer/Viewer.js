@@ -97,7 +97,7 @@ qx.Class.define("apiviewer.Viewer",
         "<span>" + qx.core.Setting.get("apiviewer.title") + "</span>" +
         " API Documentation" +
         "</h1>" +
-        "<div id='qxversion'>qooxdoo " + qx.core.Version.toString() + "</div>"
+        "<div class='version'>qooxdoo " + qx.core.Version.toString() + "</div>"
       );
       header.setHtmlProperty("id", "header");
       header.setStyleProperty(
@@ -235,7 +235,7 @@ qx.Class.define("apiviewer.Viewer",
 
       detailFrame.setHtmlProperty("id", "content");
 
-      this._detailLoader = new qx.ui.embed.HtmlEmbed('<h1><div class="please">please wait</div>Loading data...</h1>');
+      this._detailLoader = new qx.ui.embed.HtmlEmbed('<h1><small>please wait</small>Loading data...</h1>');
       this._detailLoader.setHtmlProperty("id", "SplashScreen");
       this._detailLoader.setMarginLeft(20);
       this._detailLoader.setMarginTop(20);
