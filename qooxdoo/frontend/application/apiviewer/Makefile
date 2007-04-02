@@ -63,7 +63,15 @@ source-data:
 	@$(CMD_GENERATOR) \
 	  --generate-api-documentation \
 	  --api-documentation-json-file $(APPLICATION_SOURCE_PATH)/script/apidata.js \
-	  --class-path $(FRAMEWORK_SOURCE_PATH)/class --disable-internal-check
+	  --class-path $(FRAMEWORK_SOURCE_PATH)/class
+
+
+source-data-test:
+	@$(CMD_GENERATOR) \
+	  --generate-api-documentation \
+	  --api-documentation-json-file $(APPLICATION_SOURCE_PATH)/script/apidata.js \
+	  --class-path $(FRAMEWORK_SOURCE_PATH)/class --disable-internal-check --include qx.test.*
+
 
 build-data:
 	@$(CMD_GENERATOR) \

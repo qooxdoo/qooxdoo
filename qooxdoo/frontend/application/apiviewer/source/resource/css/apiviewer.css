@@ -1,26 +1,17 @@
 /* ==============================================
-    CORE
-============================================== */
-
-*{
-  padding:0;
-  margin:0
-}
-
-
-
-
-
-
-/* ==============================================
     HEADER
 ============================================== */
 
 #header{
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
   background-color: #134275;
   font-family: "Trebuchet MS", "Lucida Grande", Verdana, sans-serif;
+}
+
+#header *{
+  padding: 0;
+  margin: 0
 }
 
 #header h1{
@@ -53,9 +44,16 @@
 
 
 
+
+
 /* ==============================================
     CONTENT BASICS
 ============================================== */
+
+#content *{
+  padding: 0;
+  margin: 0
+}
 
 #content,
 #content td,
@@ -124,6 +122,8 @@
 
 
 
+
+
 /* ==============================================
     SPLASH SCREEN
 ============================================== */
@@ -150,6 +150,8 @@
   font-weight: normal;
   margin-bottom: 4px;
 }
+
+
 
 
 
@@ -200,8 +202,11 @@
 
 
 
+
+
+
 /* ==============================================
-    CLASS VIEWER
+    CLASS VIEWER: BASICS
 ============================================== */
 
 #ClassViewer code,
@@ -239,6 +244,37 @@
   list-style: square;
 }
 
+#ClassViewer th{
+  text-align: left;
+  font-weight: bold;
+  color: #535256;
+}
+
+
+
+
+
+
+/* ==============================================
+    CLASS VIEWER: HEAD
+============================================== */
+
+#ClassViewer div.package-name{
+  font-size: 14px;
+  font-weight: normal;
+  margin-bottom: 4px;
+}
+
+#ClassViewer div.class-title{
+
+}
+
+#ClassViewer div.class-title span.type{
+  color: #83B300;
+  font-weight: normal;
+}
+
+
 
 
 
@@ -249,7 +285,7 @@
     CLASS VIEWER: CLASS DESCRIPTION
 ============================================== */
 
-#ClassViewer div.classDescription{
+#ClassViewer div.class-description{
   font-size: 12px;
   line-height: 160%;
 	overflow: auto;
@@ -260,37 +296,24 @@
   padding: 2px 20px;
 }
 
-#ClassViewer div.classDescription p{
+#ClassViewer div.class-description p{
   margin-top: 14px;
   margin-bottom: 14px;
 }
 
-#ClassViewer div.classDescription table td,
-#ClassViewer div.classDescription table th{
-  text-align: left;
+#ClassViewer div.class-description table td,
+#ClassViewer div.class-description table th{
   font-size: 12px;
   padding: 2px 4px;
 }
 
-#ClassViewer div.classDescription table th{
-  font-weight: bold;
-}
-
-#ClassViewer div.classDescription pre,
-#ClassViewer div.classDescription code{
+#ClassViewer div.class-description pre,
+#ClassViewer div.class-description code{
   background: #FAFFED;
 }
 
-#ClassViewer div.packageName{
-  font-size: 14px;
-  font-weight: normal;
-  margin-bottom: 4px;
-}
 
-#ClassViewer span.typeInfo{
-  color: #83B300;
-  font-weight: normal;
-}
+
 
 
 
@@ -302,11 +325,11 @@
     CLASS VIEWER: INFO PANEL
 ============================================== */
 
-#ClassViewer div.infoPanel{
+#ClassViewer div.info-panel{
   margin-top: 30px;
 }
 
-#ClassViewer div.infoPanel h2{
+#ClassViewer div.info-panel h2{
   cursor: default;
 }
 
@@ -382,6 +405,11 @@
 	background: #FFF3F4 !important;
 }
 
+#ClassViewer span.item-deprecated{
+	text-decoration: line-through;
+	color: #7193b9;
+}
+
 #ClassViewer table.info tr td,
 #ClassViewer div.empty-info-body{
   border-top: 3px solid #fff;
@@ -396,6 +424,16 @@
   padding: 0;
 }
 
+
+
+
+
+
+
+/* ==============================================
+    CLASS VIEWER: INFO TABLE: COLUMNS
+============================================== */
+
 #ClassViewer table.info td.icon{
   text-align: center;
   width: 20px;
@@ -403,6 +441,10 @@
 
 #ClassViewer table.info td.type{
   width: 100px;
+}
+
+#ClassViewer table.info td.type,
+#ClassViewer table.info td.type a{
   font-size: 11px;
   font-style: italic;
   font-weight: bold;
@@ -443,37 +485,47 @@
 	padding: 1px 3px;
 }
 
-#ClassViewer span.item-deprecated{
-	text-decoration: line-through;
-	color: #7193b9;
-}
 
-#ClassViewer span.methodSignature{
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==============================================
+    CLASS VIEWER: METHOD SIGNATURE
+============================================== */
+
+#ClassViewer span.method-signature{
   font-size: 12px;
   color: #83B300;
 }
 
-#ClassViewer table.info td.type a,
-#ClassViewer span.methodSignature a{
+#ClassViewer span.method-signature a{
   color: #83B300 !important;
 }
 
-#ClassViewer span.methodSignature span.parameterType{
+#ClassViewer span.method-signature span.separator{
+  color: #134275;
+  font-weight: bold;
+}
+
+#ClassViewer span.method-signature span.parenthesis{
+  color: #134275;
+  font-weight: bold;
+}
+
+#ClassViewer span.method-signature span.parameter-type{
   font-style: italic;
 }
 
-#ClassViewer span.methodSignature span.separator{
-  color: #134275;
-  font-weight: bold;
-}
-
-#ClassViewer span.methodSignature span.parenthesis{
-  color: #134275;
-  font-weight: bold;
-}
-
-#ClassViewer span.methodSignature span.parameterName,
-#ClassViewer span.item-detail-param-name{
+#ClassViewer span.method-signature span.parameter-name{
   border: 1px solid #ECECEC;
   font-family: Consolas, "Bitstream Vera Sans Mono", "Courier New", monospace;
   background: #FFF;
@@ -483,6 +535,20 @@
   font-weight: bold;
   font-size: 11px;
 }
+
+
+
+
+
+
+
+
+
+
+
+/* ==============================================
+    CLASS VIEWER: TODO
+============================================== */
 
 #ClassViewer .tree-headline{
   color: #134275;
@@ -495,4 +561,11 @@
 #ClassViewer tr.state td{
 	border-bottom: 1px solid #ECECEC;
 	margin-top: 1px;
+}
+
+
+
+#ClassViewer span.item-detail-param-name{
+  color: red !important;
+  font-weight: bold;
 }

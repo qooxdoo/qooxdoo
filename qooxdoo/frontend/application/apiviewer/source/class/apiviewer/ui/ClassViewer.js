@@ -435,9 +435,10 @@ qx.Class.define("apiviewer.ui.ClassViewer",
 
       var titleHtml = new qx.util.StringBuilder();
 
-      titleHtml.add('<div class="packageName">', classNode.getPackageName(), '</div>');
+      titleHtml.add('<div class="package-name">', classNode.getPackageName(), '</div>');
+      titleHtml.add('<div class="class-title">');
 
-      titleHtml.add('<span class="typeInfo">');
+      titleHtml.add('<span class="type">');
 
       if (classNode.isAbstract()) {
         titleHtml.add("Abstract ");
@@ -447,9 +448,11 @@ qx.Class.define("apiviewer.ui.ClassViewer",
         titleHtml.add("Singleton ");
       }
 
-      titleHtml.add(objectName);
-      titleHtml.add(' </span>');
+      titleHtml.add(objectName, ' </span>');
+
       titleHtml.add(apiviewer.ui.panels.InfoPanel.setTitleClass(classNode, classNode.getName()));
+      titleHtml.add('</div>');
+
       return titleHtml.get();
     },
 
@@ -492,7 +495,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       var desc = classNode.getDescription();
 
       if (desc != "") {
-        classHtml.add('<div class="classDescription">', apiviewer.ui.panels.InfoPanel.resolveLinkAttributes(desc, classNode), '</div>');
+        classHtml.add('<div class="class-description">', apiviewer.ui.panels.InfoPanel.resolveLinkAttributes(desc, classNode), '</div>');
       }
 
       // Add the class hierarchy
