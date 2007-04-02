@@ -127,7 +127,7 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel", {
 
         if (params.length > 0)
         {
-          textHtml.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "Parameters:", ClassViewer.DIV_END);
+          textHtml.add('<div class="item-detail-headline">', "Parameters:", '</div>');
 
           for (var i=0; i<params.length; i++)
           {
@@ -144,7 +144,7 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel", {
 
             var defaultValue = param.getDefaultValue();
 
-            textHtml.add(ClassViewer.DIV_START_DETAIL_TEXT);
+            textHtml.add('<div class="item-detail-text">');
 
             if (defaultValue) {
               textHtml.add('<span class="item-detail-optional">');
@@ -153,7 +153,7 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel", {
             textHtml.add("<code>", param.getName(), "</code>");
 
             if (defaultValue) {
-              textHtml.add(" (default: ", defaultValue, ") ", ClassViewer.SPAN_END);
+              textHtml.add(" (default: ", defaultValue, ") ", '</span>');
             }
 
             var desc = param.getDescription();
@@ -162,7 +162,7 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel", {
               textHtml.add(" ", apiviewer.ui.panels.InfoPanel.resolveLinkAttributes(desc, docClass));
             }
 
-            textHtml.add(ClassViewer.DIV_END);
+            textHtml.add('</div>');
           }
         }
 
@@ -173,22 +173,22 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel", {
           var desc = returnNode.getDescription();
           if (desc) {
             textHtml.add(
-              ClassViewer.DIV_START_DETAIL_HEADLINE, "Returns:", ClassViewer.DIV_END,
-              ClassViewer.DIV_START_DETAIL_TEXT,
+              '<div class="item-detail-headline">', "Returns:", '</div>',
+              '<div class="item-detail-text">',
               apiviewer.ui.panels.InfoPanel.resolveLinkAttributes(desc, docClass),
-              ClassViewer.DIV_END
+              '</div>'
             );
           }
         }
 
         if (method.getApply()) {
           textHtml.add(
-            ClassViewer.DIV_START_DETAIL_HEADLINE, "Apply method of property:", ClassViewer.DIV_END,
-            ClassViewer.DIV_START_DETAIL_TEXT,
+            '<div class="item-detail-headline">', "Apply method of property:", '</div>',
+            '<div class="item-detail-text">',
             apiviewer.ui.panels.InfoPanel.createItemLinkHtml(
               "#"+method.getApply(), method.getClass(), true, true
             ),
-            ClassViewer.DIV_END
+            '</div>'
           );
         }
 
