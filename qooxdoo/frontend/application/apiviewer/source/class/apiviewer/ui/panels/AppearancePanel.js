@@ -129,38 +129,35 @@ qx.Class.define("apiviewer.ui.panels.AppearancePanel", {
         if (states.length > 0)
         {
           textHtml.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "States:", ClassViewer.DIV_END);
-          textHtml.add("<table class='states'>");
 
           for (var i=0; i<states.length; i++)
           {
             var state = states[i];
 
-            textHtml.add("<tr class='state'>");
             textHtml.add(
-              "<td class='state-name'><code>",
+              "<div class='item-detail-text'><code>",
               state.getName(),
-              "</code></td>"
+              "</code><p>"
             );
-            textHtml.add(
-              "<td class='state-text'>",
-              ClassViewer.DIV_START_DESC,
-              apiviewer.ui.panels.InfoPanel.createDescriptionHtml(state, true),
-              ClassViewer.DIV_END
-            );
+
             var appearance = state.getAppearance();
             if (appearance.getType() != node.getClass()) {
-              textHtml.add(ClassViewer.DIV_START_DETAIL_HEADLINE, "Defined at:", ClassViewer.DIV_END);
               textHtml.add(
-                ClassViewer.DIV_START_DETAIL_TEXT,
+                " <span class='item-detail-define'>defined by ",
                 apiviewer.ui.panels.InfoPanel.createItemLinkHtml(appearance.getType().getFullName()),
-                ClassViewer.DIV_END
+                "</span>: "
               );
             }
 
-            textHtml.add("</td></tr>");
+            var desc = state.getDocNode().getDescription();
+
+            if (desc) {
+              textHtml.add(" ", apiviewer.ui.panels.InfoPanel.resolveLinkAttributes(desc, node.getClass()));
+            }
+
+            textHtml.add("</p></div>");
           }
 
-          textHtml.add("</table>");
           textHtml.add(ClassViewer.DIV_END);
         }
       }
