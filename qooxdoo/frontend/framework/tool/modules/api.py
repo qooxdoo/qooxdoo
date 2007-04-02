@@ -405,8 +405,6 @@ def generatePropertyMethods(propertyName, classNode, checkBasic, inheritable, nu
     #print "IN: %s" % inTypes
     #print "OUT: %s" % outTypes
 
-
-
     propData = {
         access + "set" + name : """/**
  * Sets the user value of the property <code>%s</code>.
@@ -430,7 +428,8 @@ def generatePropertyMethods(propertyName, classNode, checkBasic, inheritable, nu
        access + "reset" + name : """/**
  * Resets the user value of the property <code>%s</code>.
  *
- * The computed value fallbacks to the next available value.
+ * The computed value falls back to the next available value e.g. appearance, init or
+ * inheritance value depeneding on the property configuration and value availability.
  *
  * For further details take a look at the property definition: {@link #%s}.
  *
