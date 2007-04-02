@@ -212,8 +212,8 @@
   background: #F9FFE9;
 }
 
-#ClassViewer table.info tr.marked {
-  background: #F3FFD1;
+#ClassViewer table.info tr.marked{
+  background: #E1EEFF;
 }
 
 #ClassViewer table.info tr td,
@@ -301,17 +301,20 @@
   font-weight: bold;
 }
 
-#ClassViewer span.fromProperty{
-	font-weight: normal;
-	font-size: 12px;
-}
+
 
 
 
 #ClassViewer div.item-detail-headline {
   font-weight: bold;
   color: #1D65B3;
-  margin-top: 6px;
+  margin-top: 10px;
+}
+
+#ClassViewer div.item-detail-error {
+  font-weight: bold;
+  color: #D61F1C;
+  margin-top: 10px;
 }
 
 #ClassViewer div.item-detail-text {
@@ -322,14 +325,13 @@
   display: inline;
 }
 
-#ClassViewer div.item-detail-error {
-  font-weight: bold;
-  color: #D61F1C;
-}
-
 #ClassViewer span.item-detail-optional {
   font-style: italic;
 }
+
+
+
+
 
 
 
@@ -351,7 +353,6 @@
 #ClassViewer code,
 #ClassViewer pre{
   font-family: Consolas, "Bitstream Vera Sans Mono", "Courier New", monospace;
-  font-size: 12px;
   background: #FFF;
   padding: 1px;
   border: 1px solid #ECECEC;
@@ -359,6 +360,7 @@
 
 #ClassViewer pre{
   overflow: auto;
+  font-size: 12px;
   padding: 4px 8px;
   margin-top: 14px;
   margin-bottom: 14px;
@@ -370,6 +372,22 @@
   color: #535256;
 }
 
+#ClassViewer p{
+  margin-bottom: 6px;
+}
+
+#ClassViewer p code{
+  font-size: 11px;
+}
+
+#ClassViewer ul{
+  list-style: square;
+  color: #134275;
+}
+
+#ClassViewer ul li{
+  color: black;
+}
 
 
 
