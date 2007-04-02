@@ -445,9 +445,9 @@ def generatePropertyMethods(propertyName, classNode, checkBasic, inheritable, nu
  * For further details take a look at the property definition: {@link #%s}.
  *
  * @param value {%s} Initial value for property <code>%s</code>.
- * @return {var} the default value
+ * @return {%s} the default value
  */
- function (value) {}; """ % (propertyName, propertyName, inTypes)
+ function (value) {}; """ % (propertyName, propertyName, inTypes, propertyName, outTypes)
     }
 
     if checkBasic == "Boolean":
