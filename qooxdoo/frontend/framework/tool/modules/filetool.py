@@ -18,9 +18,45 @@
 #
 ################################################################################
 
+##
+#<h2>Module Description</h2>
+#<pre>
+# NAME
+#  module.py -- module short description
+#
+# SYNTAX
+#  module.py --help
+#
+#  or
+#
+#  import module
+#  result = module.func()
+#
+# DESCRIPTION
+#  The module module does blah.
+#
+# CAVEATS
+#
+# KNOWN ISSUES
+#  There are no known issues.
+#</pre>
+##
+
 import os, codecs, cPickle, sys
 import textutil
 
+##                                                                              
+# Some nice short description of foo(); this can contain html and 
+# {@link #foo Links} to items in the current file.
+#                                                                               
+# @param     a        Describe a positional parameter
+# @keyparam  b        Describe a keyword parameter
+# @def       foo(name)    # overwrites auto-generated function signature
+# @param     name     Describe aliased parameter
+# @return             Description of the things returned
+# @defreturn          The return type
+# @exception IOError  The error it throws
+#
 def save(filePath, content="", encoding="utf-8"):
     # Normalize
     filePath = normalize(filePath)

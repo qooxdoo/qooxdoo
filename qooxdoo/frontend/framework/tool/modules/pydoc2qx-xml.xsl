@@ -57,6 +57,8 @@
 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
+  <xsl:output omit-xml-declaration="yes"/>
+
   <xsl:template match="module">
 	<xsl:variable name="packName" select="@name"/>
 	<xsl:element name="package">
@@ -105,14 +107,17 @@
       <xsl:attribute name="packageName"><xsl:value-of select="$packName"/></xsl:attribute>
       <xsl:attribute name="fullName"><xsl:value-of select="@name"/></xsl:attribute>
       <xsl:attribute name="name"><xsl:value-of select="substring-after(@name,'.')"/></xsl:attribute>
-      <!--
       <xsl:element name="constructor">
+        <xsl:for-each select="method[info/name = '__init__']">
+            <xsl:call-template name="method"/>
+        </xsl:for-each>
       </xsl:element>
+      <!--
       <xsl:element name="properties">
       </xsl:element>
       -->
       <xsl:element name="methods">
-        <xsl:apply-templates select="method"/>
+        <xsl:apply-templates select="method[info/name != '__init__']"/>
       </xsl:element>
     </xsl:element>
   </xsl:template>
@@ -124,9 +129,9 @@
   <xsl:template name="method" match="method">
     <xsl:element name="method">
       <xsl:attribute name="hasError">true</xsl:attribute>
-      <!--
-      <xsl:attribute name="fullname"><xsl:value-of select="@name"/></xsl:attribute>
-      -->
+      <xsl:if test="info/name='__init__'">
+          <xsl:attribute name="isCtor">true</xsl:attribute>
+      </xsl:if>
       <xsl:attribute name="name"><xsl:value-of select="info/name"/></xsl:attribute>
 	  <!-- description -->
       <xsl:element name="desc">

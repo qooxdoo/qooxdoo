@@ -19,6 +19,30 @@
 #
 ################################################################################
 
+##
+#<h2>Module Description</h2>
+#<pre>
+# NAME
+#  module.py -- module short description
+#
+# SYNTAX
+#  module.py --help
+#
+#  or
+#
+#  import module
+#  result = module.func()
+#
+# DESCRIPTION
+#  The module module does blah.
+#
+# CAVEATS
+#
+# KNOWN ISSUES
+#  There are no known issues.
+#</pre>
+##
+
 """
 This module contains a collection of helper functions to work with the
 JavaScript syntax tree.
@@ -30,6 +54,18 @@ import tokenizer
 import treegenerator
 
 
+##                                                                              
+# Some nice short description of foo(); this can contain html and 
+# {@link #foo Links} to items in the current file.
+#                                                                               
+# @param     a        Describe a positional parameter
+# @keyparam  b        Describe a keyword parameter
+# @def       foo(name)    # overwrites auto-generated function signature
+# @param     name     Describe aliased parameter
+# @return             Description of the things returned
+# @defreturn          The return type
+# @exception IOError  The error it throws
+#
 def selectNode(node, path):
     """
     Selects a node using a XPath like path expresseion.
