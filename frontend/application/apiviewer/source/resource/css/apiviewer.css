@@ -16,14 +16,14 @@
     HEADER
 ============================================== */
 
-#header {
+#header{
   margin: 0px;
   padding: 0px;
   background-color: #134275;
   font-family: "Trebuchet MS", "Lucida Grande", Verdana, sans-serif;
 }
 
-#header h1 {
+#header h1{
   font-size: 18px;
   font-weight: bold;
   color: #DEFF83;
@@ -34,7 +34,7 @@
   padding: 0;
 }
 
-#qxversion {
+#qxversion{
   font-size: 11px;
   text-transform: lowercase;
   color: #F3FFD1;
@@ -75,21 +75,21 @@
   color: #134275;
 }
 
-#content h1 {
+#content h1{
   font-size: 24px;
   margin-bottom: 20px;
 }
 
-#content h2 {
+#content h2{
   font-size: 18px;
   margin-bottom: 4px;
 }
 
-#content h3 {
+#content h3{
   font-size: 14px;
 }
 
-#content img {
+#content img{
   border: 0 none;
   vertical-align: middle;
 }
@@ -302,7 +302,7 @@
     CLASS VIEWER: INFO PANEL
 ============================================== */
 
-#ClassViewer div.infoPanel {
+#ClassViewer div.infoPanel{
   margin-top: 30px;
 }
 
@@ -321,19 +321,19 @@
     CLASS VIEWER: ITEM DETAILS
 ============================================== */
 
-#ClassViewer div.item-detail-headline {
+#ClassViewer div.item-detail-headline{
   font-weight: bold;
   color: #1D65B3;
   margin-top: 10px;
 }
 
-#ClassViewer div.item-detail-error {
+#ClassViewer div.item-detail-error{
   font-weight: bold;
   color: #D61F1C;
   margin-top: 10px;
 }
 
-#ClassViewer div.item-detail-text {
+#ClassViewer div.item-detail-text{
   padding-left: 12px;
   margin-bottom: 6px;
 }
@@ -342,7 +342,7 @@
   display: inline;
 }
 
-#ClassViewer span.item-detail-optional {
+#ClassViewer span.item-detail-optional{
   font-style: italic;
 }
 
@@ -357,7 +357,7 @@
     CLASS VIEWER: INFO TABLE
 ============================================== */
 
-#ClassViewer table.info {
+#ClassViewer table.info{
   table-layout: fixed;
 }
 
@@ -383,7 +383,7 @@
 }
 
 #ClassViewer table.info tr td,
-#ClassViewer div.empty-info-body {
+#ClassViewer div.empty-info-body{
   border-top: 3px solid #fff;
 }
 
@@ -432,11 +432,11 @@
 	padding: 0;
 }
 
-#ClassViewer table.info td.text table td {
+#ClassViewer table.info td.text table td{
 	padding: 1px 3px;
 }
 
-#ClassViewer table.info td.text table th {
+#ClassViewer table.info td.text table th{
 	text-align: left;
 	color: #134275;
 	font-weight: normal;
