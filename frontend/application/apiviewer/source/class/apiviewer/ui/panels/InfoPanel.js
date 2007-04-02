@@ -732,7 +732,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
     {
       var uppercaseLabelText = this._labelText.charAt(0).toUpperCase() + this._labelText.substring(1);
 
-      var html = new qx.util.StringBuilder('<div class="infoPanel"><h2>');
+      var html = new qx.util.StringBuilder('<div class="info-panel"><h2>');
       html.add(
         '<img class="openclose" src="',
         qx.manager.object.AliasManager.getInstance().resolvePath('api/image/' + (this.getIsOpen() ? 'close.gif' : 'open.gif')),

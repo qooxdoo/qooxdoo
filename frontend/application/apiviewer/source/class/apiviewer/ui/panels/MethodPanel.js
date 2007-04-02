@@ -49,7 +49,7 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel", {
       var titleHtml = new qx.util.StringBuilder(apiviewer.ui.panels.InfoPanel.setTitleClass(method, title));
 
       // Add the title (the method signature)
-      titleHtml.add('<span class="methodSignature"><span class="parenthesis">(</span>');
+      titleHtml.add('<span class="method-signature"><span class="parenthesis">(</span>');
 
       var params = method.getParams();
       for (var i=0; i<params.length; i++)
@@ -61,8 +61,8 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel", {
         }
 
         titleHtml.add(
-          '<span class="parameterType">', apiviewer.ui.panels.InfoPanel.createTypeHtml(param, "var"),
-          '</span> <span class="parameterName">', param.getName(), '</span>'
+          '<span class="parameter-type">', apiviewer.ui.panels.InfoPanel.createTypeHtml(param, "var"),
+          '</span> <span class="parameter-name">', param.getName(), '</span>'
         );
 
         if (param.getDefaultValue()) {
@@ -147,10 +147,10 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel", {
             textHtml.add(ClassViewer.DIV_START_DETAIL_TEXT);
 
             if (defaultValue) {
-              textHtml.add(ClassViewer.SPAN_START_OPTIONAL);
+              textHtml.add('<span class="item-detail-optional">');
             }
 
-            textHtml.add(ClassViewer.SPAN_START_PARAM_NAME, param.getName(), ClassViewer.SPAN_END);
+            textHtml.add("<code>", param.getName(), "</code>");
 
             if (defaultValue) {
               textHtml.add(" (default: ", defaultValue, ") ", ClassViewer.SPAN_END);

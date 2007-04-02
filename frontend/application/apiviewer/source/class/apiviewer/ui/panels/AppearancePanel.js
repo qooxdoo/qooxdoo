@@ -137,11 +137,9 @@ qx.Class.define("apiviewer.ui.panels.AppearancePanel", {
 
             textHtml.add("<tr class='state'>");
             textHtml.add(
-              "<td class='state-name'>",
-              ClassViewer.SPAN_START_PARAM_NAME,
+              "<td class='state-name'><code>",
               state.getName(),
-              ClassViewer.SPAN_END,
-              "</td>"
+              "</code></td>"
             );
             textHtml.add(
               "<td class='state-text'>",
