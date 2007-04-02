@@ -1,6 +1,3 @@
-import os
-import math
-import filetool
 ################################################################################
 #
 #  qooxdoo - the new era of web development
@@ -22,6 +19,53 @@ import filetool
 
 # Write dependencies to a Graphviz compatible file (http://www.graphviz.org/)
 
+##
+#<h2>Module Description</h2>
+#<pre>
+# NAME
+#  module.py -- module short description
+#
+# SYNTAX
+#  module.py --help
+#
+#  or
+#
+#  import module
+#  result = module.func()
+#
+# DESCRIPTION
+#  The module module does blah.
+#
+# CAVEATS
+#
+# KNOWN ISSUES
+#  There are no known issues.
+#</pre>
+##
+
+
+import os
+import math
+import filetool
+
+##                                                                              
+# Some nice short description of foo(); this can contain html and 
+# {@link #foo Links} to items in the current file.
+#                                                                               
+# @param     a        Describe a positional parameter
+# @keyparam  b        Describe a keyword parameter
+# @def       foo(name)    # overwrites auto-generated function signature
+# @param     name     Describe aliased parameter
+# @return             Description of the things returned
+# @defreturn          The return type
+# @exception IOError  The error it throws
+#
+def foo(a,b):
+ 
+    ##
+    # This comment provides documentation for the following
+    # variable.
+    variable = value
 def dotLine(fileDb, fileId, depEntry, largetFileSize):
     file = fileId.split(".")
     dep = depEntry.split(".")

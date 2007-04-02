@@ -10,9 +10,3 @@
 # @defreturn          The return type
 # @exception IOError  The error it throws
 #
-def foo(a,b):
- 
-    ##
-    # This comment provides documentation for the following
-    # variable.
-    variable = value

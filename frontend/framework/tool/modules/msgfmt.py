@@ -22,6 +22,30 @@
 # Written by Martin v. Lwis <loewis@informatik.hu-berlin.de>
 # Plural forms support added by alexander smishlajev <alex@tycobka.lv>
 
+##
+#<h2>Module Description</h2>
+#<pre>
+# NAME
+#  module.py -- module short description
+#
+# SYNTAX
+#  module.py --help
+#
+#  or
+#
+#  import module
+#  result = module.func()
+#
+# DESCRIPTION
+#  The module module does blah.
+#
+# CAVEATS
+#
+# KNOWN ISSUES
+#  There are no known issues.
+#</pre>
+##
+
 """
 Generate qooxdoo message catalog from textual translation description.
 
@@ -60,6 +84,18 @@ __version__ = "1.1"
 MESSAGES = {}
 
 
+##                                                                              
+# Some nice short description of foo(); this can contain html and 
+# {@link #foo Links} to items in the current file.
+#                                                                               
+# @param     a        Describe a positional parameter
+# @keyparam  b        Describe a keyword parameter
+# @def       foo(name)    # overwrites auto-generated function signature
+# @param     name     Describe aliased parameter
+# @return             Description of the things returned
+# @defreturn          The return type
+# @exception IOError  The error it throws
+#
 def usage (ecode, msg=''):
     """
     Print usage and msg and exit with given code.

@@ -18,6 +18,31 @@
 #
 ################################################################################
 # encoding: utf-8
+
+##
+#<h2>Module Description</h2>
+#<pre>
+# NAME
+#  module.py -- module short description
+#
+# SYNTAX
+#  module.py --help
+#
+#  or
+#
+#  import module
+#  result = module.func()
+#
+# DESCRIPTION
+#  The module module does blah.
+#
+# CAVEATS
+#
+# KNOWN ISSUES
+#  There are no known issues.
+#</pre>
+##
+
 """
 extract_cldr.py
 """
@@ -32,6 +57,10 @@ The help message goes here.
 '''
 
 
+##                                                                              
+# Some nice short description of class Foo
+#                                                                               
+# @param Super The super-class of Foo
 class Usage(Exception):
     def __init__(self, msg):
         self.msg = msg

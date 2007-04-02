@@ -18,12 +18,36 @@
 #
 ################################################################################
 
+##
+#<h2>Module Description</h2>
+#<pre>
+# NAME
+#  module.py -- module short description
+#
+# SYNTAX
+#  module.py --help
+#
+#  or
+#
+#  import module
+#  result = module.func()
+#
+# DESCRIPTION
+#  The module module does blah.
+#
+# CAVEATS
+#
+# KNOWN ISSUES
+#  There are no known issues.
+#</pre>
+##
+
 import re
 
 
 
 
-#
+##
 # FILE EXTENSIONS
 #
 
