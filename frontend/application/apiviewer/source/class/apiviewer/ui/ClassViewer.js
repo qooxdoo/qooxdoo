@@ -432,9 +432,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
 
       var titleHtml = new qx.util.StringBuilder();
 
-      titleHtml.add('<div class="package-name">', classNode.getPackageName(), '</div>');
-      titleHtml.add('<div class="class-title">');
-
+      titleHtml.add('<small>', classNode.getPackageName(), '</small>');
       titleHtml.add('<span class="type">');
 
       if (classNode.isAbstract()) {
@@ -446,9 +444,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       }
 
       titleHtml.add(objectName, ' </span>');
-
       titleHtml.add(apiviewer.ui.panels.InfoPanel.setTitleClass(classNode, classNode.getName()));
-      titleHtml.add('</div>');
 
       return titleHtml.get();
     },
