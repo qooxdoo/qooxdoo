@@ -28,7 +28,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "
 
 import config, tokenizer, loader, api, tree, treegenerator, settings, variants, resources
 import filetool, stringoptimizer, optparseext, privateoptimizer, variableoptimizer, compiler
-import migrator, textutil, graph, logoptimizer, variantoptimizer, basecalloptimizer
+import migrator, textutil, graph, variantoptimizer, basecalloptimizer
 import obfuscator
 
 
@@ -115,7 +115,6 @@ def getparser():
     parser.add_option("--optimize-base-call", action="store_true", dest="optimizeBaseCall", default=False, help="Optimize call to 'this.base'. Optimizing runtime of super class calls.")
     parser.add_option("--optimize-private", action="store_true", dest="optimizePrivate", default=False, help="Optimize private members. Reducing size and testing private.")
     parser.add_option("--obfuscate", action="store_true", dest="obfuscate", default=False, help="Enable obfuscation")
-    parser.add_option("--log-level", dest="logLevel", type="string", default="all", help="Define the log level like in qx.log.Logger.")
 
     # Options for pretty printing
     compiler.addCommandLineOptions(parser)
@@ -570,35 +569,6 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     inlineCompiledCode = []
 
 
-
-
-
-
-    ######################################################################
-    #  SUPPORT FOR LOG LEVEL FILTERING
-    ######################################################################
-
-    if options.logLevel != "all":
-        print
-        print "  LOG LEVEL FILTER:"
-        print "----------------------------------------------------------------------------"
-
-        if options.verbose:
-            print "  * Optimizing for log level configuration..."
-        else:
-            print "  * Optimizing for log level configuration: ",
-
-        for fileId in sortedIncludeList:
-            if options.verbose:
-                print "    - %s" % fileId
-            else:
-                sys.stdout.write(".")
-                sys.stdout.flush()
-
-            logoptimizer.search(loader.getTree(fileDb, fileId, options), options.logLevel, options.verbose)
-
-        if not options.verbose:
-            print
 
 
 
