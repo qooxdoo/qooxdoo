@@ -1526,7 +1526,7 @@ qx.Class.define("showcase.Application",
       var info = [];
       info.push("<table style='font-size:11px'><tr><td>");
 
-      for (var i=0; i<13; i++)
+      for (var i=0; i<15; i++)
       {
         info.push("");
         info.push("</td><td>");
@@ -1547,6 +1547,11 @@ qx.Class.define("showcase.Application",
 
         info[(i++ * 2) + 1] = this.tr("Territory code:");
         info[(i++ * 2) + 1] = qx.locale.Manager.getInstance().getTerritory();
+
+        info[(i++ * 2) + 1] = this.tr("Date format short:");
+        info[(i++ * 2) + 1] = qx.locale.Date.getDateFormat("short");
+        info[(i++ * 2) + 1] = this.tr("Date short:");
+        info[(i++ * 2) + 1] = (new qx.util.format.DateFormat(qx.locale.Date.getDateFormat("short"))).format(new Date());
 
         info[(i++ * 2) + 1] = this.tr("Date format medium:");
         info[(i++ * 2) + 1] = qx.locale.Date.getDateFormat("medium");
