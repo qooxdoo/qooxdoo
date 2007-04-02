@@ -376,7 +376,7 @@ def handleMembers(item, classNode):
                 classNode.addListChild("methods", node)
 
 
-def generatePropertyMethods(propertyName, classNode, addToggle=False):
+def generatePropertyMethods(propertyName, classNode, checkBasic, inheritable, nullable):
 
     if propertyName[:2] == "__":
         access = "__"
@@ -389,43 +389,77 @@ def generatePropertyMethods(propertyName, classNode, addToggle=False):
         name = propertyName
     name = name[0].upper() + name[1:]
 
+    if checkBasic != None:
+      inTypes = checkBasic
+    else:
+      inTypes = "var"
+
+    if inheritable:
+      inTypes += ' ? "inherit"'
+    elif nullable:
+      inTypes += ' ? null'
+
+    outTypes = inTypes.replace("?", "|")
+
+    #print "Name: %s" % propertyName
+    #print "IN: %s" % inTypes
+    #print "OUT: %s" % outTypes
+
+
+
     propData = {
         access + "set" + name : """/**
- * Sets the property {@link #%s}.
+ * Sets the user value of the property <code>%s</code>.
  *
- * @param value {var} New value of the property.
+ * For further details take a look at the property definition: {@link #%s}.
+ *
+ * @param value {%s} New value for property <code>%s</code>.
+ * @return {%s} The unmodified incoming value.
  */
- function (value) {}; """ % propertyName,
+ function (value) {}; """ % (propertyName, propertyName, inTypes, propertyName, outTypes),
 
        access + "get" + name : """/**
- * Gets the value of the property {@link #%s}.
+ * Returns the (computed) value of the property <code>%s</code>.
  *
- * @return {var} New value of the property.
+ * For further details take a look at the property definition: {@link #%s}.
+ *
+ * @return {%s} (Computed) value of <code>%s</code>.
  */
- function () {}; """ % propertyName,
+ function () {}; """ % (propertyName, propertyName, outTypes, propertyName),
 
        access + "reset" + name : """/**
- * Resets the value of the property {@link #%s}.
- * Sets the value back to the init value. If the value doesn't have an
- * init value but is inheritable the value will be set to the inherited
- * value of the parent.
+ * Resets the user value of the property <code>%s</code>.
+ *
+ * The computed value fallbacks to the next available value.
+ *
+ * For further details take a look at the property definition: {@link #%s}.
+ *
+ * @return {void}
  */
- function () {}; """ % propertyName,
+ function () {}; """ % (propertyName, propertyName),
 
        access + "init" + name : """/**
- * Calles the apply method and dispatches the change event of the property {@link #%s}
- * with the properties' default value. This function can only be called from the constructor
- * of a class.
+ * Calls the apply method and dispatches the change event of the property <code>%s</code>
+ * with the default value defined by the class developer. This function can
+ * only be called from the constructor of a class.
+ *
+ * For further details take a look at the property definition: {@link #%s}.
+ *
+ * @param value {%s}
+ * @return {var} the default value
  */
- function () {}; """ % propertyName,
-
+ function () {}; """ % (propertyName, propertyName, inTypes)
     }
 
-    if addToggle:
+    if checkBasic == "Boolean":
        propData[access + "toggle" + name] = """/**
- * Toggles the value of the boolean property {@link #%s}.
+ * Toggles the (computed) value of the boolean property <code>%s</code>.
+ *
+ * For further details take a look at the property definition: {@link #%s}.
+ *
+ * @return {Boolean} the new value
  */
- function () {}; """ % propertyName
+ function () {}; """ % (propertyName, propertyName)
 
     for funcName in propData.keys():
         functionCode = propData[funcName]
@@ -488,6 +522,7 @@ def handleProperties(item, classNode):
                 classNode.addListChild("events", event)
 
             createToggle = False
+            checkBasic = None
             if propDefinition.has_key("check"):
                 check = propDefinition["check"].getFirstChild()
                 if check.type == "array":
@@ -497,8 +532,7 @@ def handleProperties(item, classNode):
                     node.set("check", "Custom check function.")
                 elif check.type == "constant":
                     node.set("check", check.get("value"))
-                    if check.get("value") == "Boolean":
-                        createToggle = True
+                    checkBasic = check.get("value")
                 else:
                     raise DocException("Unknown check value", check)
 
@@ -514,7 +548,8 @@ def handleProperties(item, classNode):
 
             classNode.addListChild("properties", node)
 
-            generatePropertyMethods(propName, classNode, createToggle)
+            generatePropertyMethods(propName, classNode, checkBasic,
+              propDefinition.has_key("inheritable"), propDefinition.has_key("nullable"))
 
 
 def handleEvents(item, classNode):
