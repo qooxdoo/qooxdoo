@@ -47,6 +47,55 @@
 
 
 /* ==============================================
+    LEGEND (BOTTOM-LEFT)
+============================================== */
+
+#legend{
+  font-size: 11px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: white;
+}
+
+#legend tr td{
+  border-bottom: 1px solid #ECECEC;
+}
+
+#legend td,
+#legend th{
+  font-family: Verdana, "Lucida Grande", "Bitstream Vera Sans", Tahoma, "Lucida Sans Unicode", Arial, sans-serif;
+  font-size: 11px;
+  padding: 6px 8px 6px;
+}
+
+#legend td.text{
+  vertical-align: top;
+  padding-top: 4px;
+}
+
+#legend td.icon,
+#legend td.icon img{
+  vertical-align: top;
+  text-align: center;
+}
+
+#legend h3{
+  font-family: "Trebuchet MS", "Lucida Grande", Verdana, sans-serif;
+  color: #134275;
+  font-size: 13px;
+  margin: 0 !important;
+}
+
+
+
+
+
+
+
+
+
+/* ==============================================
     CONTENT (BOTTOM-RIGHT)
 ============================================== */
 
@@ -88,13 +137,14 @@
 #content h2{
   color: #134275;
   font-size: 18px;
-  margin-top: 26px;
+  margin-top: 36px;
   margin-bottom: 4px;
   font-weight: bold;
 }
 
 #content h3{
   font-size: 14px;
+  margin-bottom: 4px;
 }
 
 #content img{
@@ -124,133 +174,47 @@
 #content td,
 #content th{
   vertical-align: top;
+  text-align: left;
 }
 
-
-
-
-
-
-
-
-
-
-/* ==============================================
-    LEGEND VIEWER
-============================================== */
-
-#LegendView{
-  font-size: 11px;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  background: white;
-}
-
-#LegendView tr td{
-  border-bottom: 1px solid #ECECEC;
-}
-
-#LegendView td,
-#LegendView th{
-  font-family: Verdana, "Lucida Grande", "Bitstream Vera Sans", Tahoma, "Lucida Sans Unicode", Arial, sans-serif;
-  font-size: 11px;
-  padding: 6px 8px 6px;
-}
-
-#LegendView td.text{
-  vertical-align: top;
-  padding-top: 4px;
-}
-
-#LegendView td.icon,
-#LegendView td.icon img{
-  vertical-align: top;
-  text-align: center;
-}
-
-#LegendView h3{
-  font-family: "Trebuchet MS", "Lucida Grande", Verdana, sans-serif;
-  color: #134275;
-  font-size: 13px;
-  margin: 0 !important;
-}
-
-
-
-
-
-
-
-
-/* ==============================================
-    CLASS VIEWER: BASICS
-============================================== */
-
-#ClassViewer code,
-#ClassViewer pre{
+#content code,
+#content pre{
   font-family: Consolas, "Bitstream Vera Sans Mono", "Courier New", monospace;
-  background: #FFF;
-  padding: 1px;
+  background: white;
+  color: black;
   border: 1px solid #ECECEC;
+  font-size: 11px;
+  font-weight: normal;
 }
 
-#ClassViewer pre{
+#content code{
+  padding: 1px 3px;
+}
+
+#content pre{
   overflow: auto;
-  font-size: 12px;
   padding: 4px 8px;
   margin-top: 14px;
   margin-bottom: 14px;
 }
 
-#ClassViewer b,
-#ClassViewer strong{
+#content b,
+#content strong,
+#content th{
   font-weight: bold;
   color: #535256;
 }
 
-#ClassViewer p{
-  margin-top: 2px;
-  margin-bottom: 6px;
+#content p{
+  margin-top: 3px;
+  margin-bottom: 5px;
 }
 
-#ClassViewer p code{
-  font-size: 11px;
-}
-
-#ClassViewer ul{
+#content ul{
   list-style: square;
 }
 
-#ClassViewer th{
-  text-align: left;
-  font-weight: bold;
-  color: #535256;
-}
 
-
-
-
-
-
-/* ==============================================
-    CLASS VIEWER: HEAD
-============================================== */
-
-#ClassViewer div.package-name{
-  font-size: 14px;
-  font-weight: normal;
-  margin-bottom: 4px;
-}
-
-#ClassViewer div.class-title{
-
-}
-
-#ClassViewer div.class-title span.type{
-  color: #83B300;
-  font-weight: normal;
-}
 
 
 
@@ -262,6 +226,11 @@
 /* ==============================================
     CLASS VIEWER: CLASS DESCRIPTION
 ============================================== */
+
+#ClassViewer h1 span.type{
+  color: #83B300;
+  font-weight: normal;
+}
 
 #ClassViewer div.class-description{
   font-size: 12px;
@@ -278,18 +247,6 @@
   margin-top: 14px;
   margin-bottom: 14px;
 }
-
-#ClassViewer div.class-description table td,
-#ClassViewer div.class-description table th{
-  font-size: 12px;
-  padding: 2px 4px;
-}
-
-#ClassViewer div.class-description pre,
-#ClassViewer div.class-description code{
-  background: #FAFFED;
-}
-
 
 
 
@@ -310,6 +267,7 @@
 #ClassViewer div.info-panel h2{
   cursor: default;
 }
+
 
 
 
@@ -359,13 +317,10 @@
     CLASS VIEWER: INFO TABLE: COLUMNS
 ============================================== */
 
-#ClassViewer table.info tr td,
-#ClassViewer div.empty-info-body{
-  border-top: 3px solid #fff;
-}
-
 #ClassViewer table.info tr td{
+  border-top: 3px solid #fff;
   overflow: hidden;
+  padding: 4px 4px 2px;
 }
 
 #ClassViewer table.info tr td td{
@@ -393,7 +348,7 @@
 #ClassViewer table.info td.toggle{
   text-align: center;
   width: 16px;
-  padding: 1px;
+  padding: 6px 1px 0;
 }
 
 #ClassViewer table.info td.toggle img{
@@ -437,19 +392,14 @@
 ============================================== */
 
 #ClassViewer span.method-signature{
-  font-size: 12px;
   color: #83B300;
 }
 
 #ClassViewer span.method-signature a{
-  color: #83B300 !important;
+  color: #83B300;
 }
 
-#ClassViewer span.method-signature span.separator{
-  color: #134275;
-  font-weight: bold;
-}
-
+#ClassViewer span.method-signature span.separator,
 #ClassViewer span.method-signature span.parenthesis{
   color: #134275;
   font-weight: bold;
@@ -457,6 +407,7 @@
 
 #ClassViewer span.method-signature span.parameter-type{
   font-style: italic;
+  font-size: 11px;
 }
 
 #ClassViewer span.method-signature span.parameter-name{

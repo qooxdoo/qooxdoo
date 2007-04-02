@@ -47,6 +47,7 @@ qx.Class.define("apiviewer.ui.LegendView",
     this.setWidth("100%");
     this.setHeight("100%");
     this.setBackgroundColor("white");
+    this.setHtmlProperty("id", "legend");
 
     this.addEventListener("appear", this._showHtml, this);
   },
@@ -156,7 +157,7 @@ qx.Class.define("apiviewer.ui.LegendView",
       ]
 
       var html = new qx.util.StringBuilder();
-      html.add("<table id='LegendView' cellpadding='0' cellspacing='0'>");
+      html.add("<table cellpadding='0' cellspacing='0'>");
 
       for (var i=0; i<legend.length; i++)
       {

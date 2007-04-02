@@ -62,7 +62,7 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel", {
 
         titleHtml.add(
           '<span class="parameter-type">', apiviewer.ui.panels.InfoPanel.createTypeHtml(param, "var"),
-          '</span> <span class="parameter-name">', param.getName(), '</span>'
+          '</span> <code>', param.getName(), '</code>'
         );
 
         if (param.getDefaultValue()) {
