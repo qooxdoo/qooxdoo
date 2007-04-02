@@ -376,7 +376,7 @@ def handleMembers(item, classNode):
                 classNode.addListChild("methods", node)
 
 
-def generatePropertyMethods(propertyName, classNode, checkBasic, inheritable, nullable):
+def generatePropertyMethods(propertyName, classNode, checkBasic):
 
     if propertyName[:2] == "__":
         access = "__"
@@ -455,6 +455,97 @@ def generatePropertyMethods(propertyName, classNode, checkBasic, inheritable, nu
         classNode.addListChild("methods", docNode)
 
 
+def handlePropertyDefinitionNew(propName, propDefinition, classNode):
+    node = tree.Node("property")
+    node.set("name", propName)
+
+    if propDefinition.has_key("init"):
+        node.set("defaultValue", getValue(propDefinition["init"].getFirstChild()))
+
+    if propDefinition.has_key("nullable"):
+        node.set("allowNull", propDefinition["nullable"].getChild("constant").get("value"))
+
+    if propDefinition.has_key("inheritable"):
+        node.set("inheritable", propDefinition["inheritable"].getChild("constant").get("value"))
+
+    if propDefinition.has_key("appearance"):
+        node.set("appearance", propDefinition["appearance"].getChild("constant").get("value"))
+
+    if propDefinition.has_key("apply"):
+        node.set("apply", propDefinition["apply"].getChild("constant").get("value"))
+
+    if propDefinition.has_key("event"):
+        eventName = propDefinition["event"].getChild("constant").get("value")
+        node.set("event", eventName)
+        event = tree.Node("event")
+        event.set("name", eventName)
+        event.addChild(tree.Node("desc").set("text", "Fired on change of the property {@link #%s}." % propName))
+
+        typesNode = tree.Node("types")
+        event.addChild(typesNode)
+        itemNode = tree.Node("entry")
+        typesNode.addChild(itemNode)
+        itemNode.set("type", "qx.event.type.ChangeEvent")
+        classNode.addListChild("events", event)
+
+    #checkBasic = None
+    if propDefinition.has_key("check"):
+        check = propDefinition["check"].getFirstChild()
+        if check.type == "array":
+            values = [getValue(arrayItem) for arrayItem in check.children]
+            node.set("possibleValues", ",".join(values))
+        elif check.type == "function":
+            node.set("check", "Custom check function.")
+        elif check.type == "constant":
+            node.set("check", check.get("value"))
+            #checkBasic = check.get("value")
+        else:
+            raise DocException("Unknown check value", check)
+
+    return node
+
+
+def generateGroupPropertyMethod(propertyName, groupMembers, classNode):
+    functionTemplate = """/**
+ * Sets the values of the property group <code>%(name)s</code>.
+ *
+ * For further details take a look at the property definition: {@link #%(name)s}.
+ *
+%(params)s
+ */
+ function (%(paramList)s) {}; """
+
+    paramsTemplate = " * @param %s {var} Sets the value of the property {@link #%s}."
+    paramsDef = [paramsTemplate % (name, name) for name in groupMembers]
+
+    functionCode = functionTemplate % ({
+        "name" : propertyName,
+        "params" : "\n".join(paramsDef),
+        "paramList" : ", ".join(groupMembers)
+    })
+    functionNode = compileString(functionCode)
+    commentAttributes = comment.parseNode(functionNode)
+    docNode = handleFunction(functionNode, commentAttributes, classNode)
+
+    functionName = "set" + propertyName[0].upper() + propertyName[1:]
+
+    docNode.set("name", functionName)
+    docNode.set("fromProperty", propertyName)
+    classNode.addListChild("methods", docNode)
+
+
+def handlePropertyGroup(propName, propDefinition, classNode):
+    node = tree.Node("property")
+    node.set("name", propName)
+
+    group = propDefinition["group"].getFirstChild()
+    groupMembers = [getValue(arrayItem) for arrayItem in group.children]
+
+    node.set("group", ",".join(groupMembers));
+
+    return node
+
+
 def handleProperties(item, classNode):
     if item.hasChildren():
         for keyvalue in item.children:
@@ -473,52 +564,14 @@ def handleProperties(item, classNode):
                 handlePropertyDefinitionOldCommon(keyvalue, classNode, propName, value)
                 continue
 
-            node = tree.Node("property")
-            node.set("name", propName)
 
-            if propDefinition.has_key("init"):
-                node.set("defaultValue", getValue(propDefinition["init"].getFirstChild()))
-
-            if propDefinition.has_key("nullable"):
-                node.set("allowNull", propDefinition["nullable"].getChild("constant").get("value"))
-
-            if propDefinition.has_key("inheritable"):
-                node.set("inheritable", propDefinition["inheritable"].getChild("constant").get("value"))
-
-            if propDefinition.has_key("appearance"):
-                node.set("appearance", propDefinition["appearance"].getChild("constant").get("value"))
-
-            if propDefinition.has_key("apply"):
-                node.set("apply", propDefinition["apply"].getChild("constant").get("value"))
-
-            if propDefinition.has_key("event"):
-                eventName = propDefinition["event"].getChild("constant").get("value")
-                node.set("event", eventName)
-                event = tree.Node("event")
-                event.set("name", eventName)
-                event.addChild(tree.Node("desc").set("text", "Fired on change of the property {@link #%s}." % propName))
-
-                typesNode = tree.Node("types")
-                event.addChild(typesNode)
-                itemNode = tree.Node("entry")
-                typesNode.addChild(itemNode)
-                itemNode.set("type", "qx.event.type.ChangeEvent")
-                classNode.addListChild("events", event)
-
-            createToggle = False
-            checkBasic = None
-            if propDefinition.has_key("check"):
-                check = propDefinition["check"].getFirstChild()
-                if check.type == "array":
-                    values = [getValue(arrayItem) for arrayItem in check.children]
-                    node.set("possibleValues", ", ".join(values))
-                elif check.type == "function":
-                    node.set("check", "Custom check function.")
-                elif check.type == "constant":
-                    node.set("check", check.get("value"))
-                    checkBasic = check.get("value")
-                else:
-                    raise DocException("Unknown check value", check)
+            if propDefinition.has_key("group"):
+                node = handlePropertyGroup(propName, propDefinition, classNode)
+                groupMembers = [member[1:-1] for member in node.get("group").split(",")]
+                generateGroupPropertyMethod(propName, groupMembers, classNode)
+            else:
+                node = handlePropertyDefinitionNew(propName, propDefinition, classNode)
+                generatePropertyMethods(propName, classNode, node.get("check", False))
 
             if classNode.get("type", False) == "mixin":
                 node.set("isMixin", True)
@@ -532,8 +585,8 @@ def handleProperties(item, classNode):
 
             classNode.addListChild("properties", node)
 
-            generatePropertyMethods(propName, classNode, checkBasic,
-              propDefinition.has_key("inheritable"), propDefinition.has_key("nullable"))
+
+
 
 
 def handleEvents(item, classNode):
@@ -1301,7 +1354,7 @@ def postWorkClass(docTree, classNode):
     # Check for errors
     childHasError = listHasError(classNode, "constructor") or listHasError(classNode, "properties") \
         or listHasError(classNode, "methods") or listHasError(classNode, "methods-static") \
-        or listHasError(classNode, "constants")
+        or listHasError(classNode, "constants") or listHasError(classNode, "events")
 
     if childHasError:
         classNode.set("hasWarning", True)
@@ -1397,42 +1450,44 @@ def postWorkItemList(docTree, classNode, listName, overridable):
 
             # Check whether this item is overridden and try to inherit the
             # documentation from the next matching super class
-            if overridable:
-                superClassName = classNode.get("superClass", False)
-                overriddenFound = False
-                docFound = itemHasAnyDocs(itemNode)
-                while superClassName and (not overriddenFound or not docFound):
-                    superClassNode = getClassNode(docTree, superClassName)
-                    superItemNode = superClassNode.getListChildByAttribute(listName, "name", name, False)
+            if not overridable:
+                continue
 
-                    if superItemNode:
-                        if not docFound:
-                            # This super item has a description
-                            # -> Check whether the parameters match
-                            # NOTE: paramsMatch works for properties, too
-                            #       (Because both compared properties always have no params)
-                            if paramsMatch(itemNode, superItemNode):
-                                # The parameters match -> We can use the documentation of the super class
-                                itemNode.set("docFrom", superClassName)
-                                docFound = itemHasAnyDocs(superItemNode)
+            superClassName = classNode.get("superClass", False)
+            overriddenFound = False
+            docFound = itemHasAnyDocs(itemNode)
+            while superClassName and (not overriddenFound or not docFound):
+                superClassNode = getClassNode(docTree, superClassName)
+                superItemNode = superClassNode.getListChildByAttribute(listName, "name", name, False)
 
-                                # Remove previously recorded documentation errors from the item
-                                # (Any documentation errors will be recorded in the super class)
-                                removeErrors(itemNode)
-                            else:
-                                docFound = True;
-                        if not overriddenFound:
-                            # This super class has the item defined -> Add a overridden attribute
-                            itemNode.set("overriddenFrom", superClassName)
-                            overriddenFound = True
+                if superItemNode:
+                    if not docFound:
+                        # This super item has a description
+                        # -> Check whether the parameters match
+                        # NOTE: paramsMatch works for properties, too
+                        #       (Because both compared properties always have no params)
+                        if paramsMatch(itemNode, superItemNode):
+                            # The parameters match -> We can use the documentation of the super class
+                            itemNode.set("docFrom", superClassName)
+                            docFound = itemHasAnyDocs(superItemNode)
 
-                    # Check the next superclass
-                    superClassName = superClassNode.get("superClass", False)
+                            # Remove previously recorded documentation errors from the item
+                            # (Any documentation errors will be recorded in the super class)
+                            removeErrors(itemNode)
+                        else:
+                            docFound = True;
+                    if not overriddenFound:
+                        # This super class has the item defined -> Add a overridden attribute
+                        itemNode.set("overriddenFrom", superClassName)
+                        overriddenFound = True
 
-                if not docFound and itemNode.get("overriddenFrom", False):
-                    # This item is overridden, but we didn't find any documentation in the
-                    # super classes -> Add a warning
-                    itemNode.set("hasWarning", True)
+                # Check the next superclass
+                superClassName = superClassNode.get("superClass", False)
+
+            if not docFound and itemNode.get("overriddenFrom", False):
+                # This item is overridden, but we didn't find any documentation in the
+                # super classes -> Add a warning
+                itemNode.set("hasWarning", True)
 
 
 

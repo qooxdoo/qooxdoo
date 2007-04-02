@@ -37,9 +37,18 @@ qx.Class.define("apiviewer.dao.Param", {
 
     getTypes : function()
     {
+
+
       var fromProperty = this.getMethod().getFromProperty();
       if (fromProperty) {
-        return fromProperty.getTypes();
+        if (fromProperty.isPropertyGroup()) {
+          // handle property group setter
+          var prop = this.getClass().getItemByListAndName("properties", this.getName());
+          return prop.getTypes();
+        } else {
+          // handle generated setter and getter
+          return fromProperty.getTypes();
+        }
       }
 
       var result = [];

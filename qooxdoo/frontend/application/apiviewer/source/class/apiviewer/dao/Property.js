@@ -37,25 +37,15 @@ qx.Class.define("apiviewer.dao.Property", {
     getTypes : function()
     {
       var result = this.base(arguments);
-      var attributes = this.getDocNode()._docNode.attributes;
-      if (attributes.type) {
+      var docNode = this.getDocNode();
+      var type = docNode.getType();
+      if (type) {
         result.push({
-          type : attributes.type,
-          dimensions : attributes.dimensions
+          type : type,
+          dimensions : docNode.getNode().attributes.dimensions
         });
       }
 
-      // new style classes
-      if (attributes.check) {
-        if (
-          apiviewer.dao.Class.getClassByName(attributes.check) ||
-          apiviewer.ui.ClassViewer.PRIMITIVES[attributes.check]
-        ) {
-          result.push({
-            type : attributes.check
-          });
-        }
-      }
       return result;
     },
 
@@ -102,10 +92,41 @@ qx.Class.define("apiviewer.dao.Property", {
       return this._docNode.attributes.possibleValues;
     },
 
+    getGroup : function()
+    {
+      var group = this._docNode.attributes.group;
+      if (group) {
+        return group.split(",");
+      }
+      return [];
+    },
+
+
+    isPropertyGroup : function()
+    {
+      return this._docNode.attributes.group ? true : false;
+    },
+
+
     getType : function()
     {
-      return this._docNode.attributes.type;
+      var attributes = this._docNode.attributes;
+      if (attributes.type) {
+        return attributes.type;
+      }
+
+      // new style classes
+      if (attributes.check) {
+        if (
+          apiviewer.dao.Class.getClassByName(attributes.check) ||
+          apiviewer.ui.ClassViewer.PRIMITIVES[attributes.check]
+        ) {
+          return attributes.check;
+        }
+      }
+      return null;
     },
+
 
     getEvent : function()
     {
