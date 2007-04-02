@@ -110,16 +110,14 @@
   text-decoration: underline;
 }
 
-#content td{
-  vertical-align: top;
-  padding: 5px 2px 0;
-}
-
 #content table{
   empty-cells: show;
 }
 
-
+#content td,
+#content th{
+  vertical-align: top;
+}
 
 
 
@@ -344,42 +342,6 @@
 
 
 /* ==============================================
-    CLASS VIEWER: ITEM DETAILS
-============================================== */
-
-#ClassViewer div.item-detail-headline{
-  font-weight: bold;
-  color: #1D65B3;
-  margin-top: 10px;
-}
-
-#ClassViewer div.item-detail-error{
-  font-weight: bold;
-  color: #D61F1C;
-  margin-top: 10px;
-}
-
-#ClassViewer div.item-detail-text{
-  padding-left: 12px;
-  margin-bottom: 6px;
-}
-
-#ClassViewer div.item-detail-text p{
-  display: inline;
-}
-
-#ClassViewer span.item-detail-optional{
-  font-style: italic;
-}
-
-
-
-
-
-
-
-
-/* ==============================================
     CLASS VIEWER: INFO TABLE
 ============================================== */
 
@@ -391,27 +353,34 @@
   background: #F9FFE9;
 }
 
-#ClassViewer table.info tr.marked,
-#ClassViewer table.info tr.marked tr{
+#ClassViewer table.info tr.marked{
   background: #E1EEFF;
 }
 
-#ClassViewer table.info tr.item-protected,
-#ClassViewer table.info tr.item-protected tr{
+#ClassViewer table.info tr.item-protected{
   background: #FFFAED !important;
 }
 
 #ClassViewer table.info tr.item-private,
-#ClassViewer table.info tr.item-internal,
-#ClassViewer table.info tr.item-private tr,
-#ClassViewer table.info tr.item-internal tr{
+#ClassViewer table.info tr.item-internal{
 	background: #FFF3F4 !important;
 }
 
-#ClassViewer span.item-deprecated{
-	text-decoration: line-through;
-	color: #7193b9;
+#ClassViewer table.info tr tr{
+  background: none !important;
 }
+
+
+
+
+
+
+
+
+
+/* ==============================================
+    CLASS VIEWER: INFO TABLE: COLUMNS
+============================================== */
 
 #ClassViewer table.info tr td,
 #ClassViewer div.empty-info-body{
@@ -426,16 +395,6 @@
   border-top: 0 none;
   padding: 0;
 }
-
-
-
-
-
-
-
-/* ==============================================
-    CLASS VIEWER: INFO TABLE: COLUMNS
-============================================== */
 
 #ClassViewer table.info td.icon{
   text-align: center;
@@ -458,7 +417,6 @@
   text-align: center;
   width: 16px;
   padding: 1px;
-  padding-top: 8px;
 }
 
 #ClassViewer table.info td.toggle img{
@@ -487,10 +445,6 @@
 	font-weight: normal;
 	padding: 1px 3px;
 }
-
-
-
-
 
 
 
@@ -537,4 +491,46 @@
   color: #535256;
   font-weight: bold;
   font-size: 11px;
+}
+
+
+
+
+
+
+
+
+
+/* ==============================================
+    CLASS VIEWER: ITEM DETAILS
+============================================== */
+
+#ClassViewer div.item-detail-headline{
+  font-weight: bold;
+  color: #1D65B3;
+  margin-top: 10px;
+}
+
+#ClassViewer div.item-detail-error{
+  font-weight: bold;
+  color: #D61F1C;
+  margin-top: 10px;
+}
+
+#ClassViewer div.item-detail-text{
+  padding-left: 12px;
+  margin-bottom: 6px;
+}
+
+#ClassViewer div.item-detail-text p{
+  display: inline;
+}
+
+#ClassViewer span.item-detail-optional{
+  font-style: italic;
+}
+
+#ClassViewer span.item-deprecated{
+	text-decoration: line-through;
+	color: #7193b9;
 }
