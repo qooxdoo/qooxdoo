@@ -49,14 +49,16 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
         }
         name = qx.lang.String.toFirstUp(name);
 
-        var generatedMethods = [
-          "{@link #" + access + "set" + name + "}</td><td> Set the property value.",
-          "{@link #" + access + "get" + name + "}</td><td> Get the property value.",
-          "{@link #" + access + "reset" + name + "}</td><td> Reset the property value.",
-          "{@link #" + access + "init" + name + "}</td><td> Call apply method with the init value."
-        ];
+        var generatedMethods = [];
 
-        console.log("Name: " + node.getName() + " :: " + node.getType())
+        generatedMethods.push("{@link #" + access + "set" + name + "}</td><td> Set the property value.");
+
+        if (!node.isPropertyGroup())
+        {
+          generatedMethods.push("{@link #" + access + "get" + name + "}</td><td> Get the property value.");
+          generatedMethods.push("{@link #" + access + "reset" + name + "}</td><td> Reset the property value.");
+          generatedMethods.push("{@link #" + access + "init" + name + "}</td><td> Call apply method with the init value.");
+        }
 
         if (node.getType() == "Boolean") {
           generatedMethods.push("{@link #" + access + "toggle" + name + "}</td><td> Toggle the property value.");
@@ -171,14 +173,16 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
         }
 
         // Add default value
-        textHtml.add(
-          '<div class="item-detail-headline">', "Default value:", '</div>',
-          '<div class="item-detail-text">',
-          '<code>',
-          (node.getDefaultValue() ? node.getDefaultValue() : "null"),
-          '</code>',
-          '</div>'
-        );
+        if (!node.isPropertyGroup()) {
+          textHtml.add(
+            '<div class="item-detail-headline">', "Default value:", '</div>',
+            '<div class="item-detail-text">',
+            '<code>',
+            (node.getDefaultValue() ? node.getDefaultValue() : "null"),
+            '</code>',
+            '</div>'
+          );
+        }
 
         // Add get alias
         if (node.getGetAlias()) {

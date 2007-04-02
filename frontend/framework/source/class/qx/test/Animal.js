@@ -18,8 +18,9 @@ qx.Class.define("qx.test.Animal",
 
   properties :
   {
-    width : { init : 100, appearance : true },
-    height : { init : 30, appearance : true },
+    width : { init : 100, check : "Number", appearance : true },
+    height : { init : 30, check : "Number", appearance : true },
+    dimension : { group : ["width", "height"], mode:"shorthand" },
 
     _boxWidth : { nullable : true },
     _boxHeight: { nullable : true },
