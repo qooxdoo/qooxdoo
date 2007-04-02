@@ -236,7 +236,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
      */
     createOverlayImageHtml : function(width, height, imgUrlArr, toolTip, styleAttributes)
     {
-      var html = '<div style="display:inline;padding-right:22px;position:relative;top:0;left:0;width:' + width + 'px;height:' + height + 'px' + ((styleAttributes == null) ? '' : (';' + styleAttributes)) + '">';
+      var html = '<div style="display:inline;padding-right:18px;position:relative;top:-2px;left:0;width:' + width + 'px;height:' + height + 'px' + ((styleAttributes == null) ? '' : (';' + styleAttributes)) + '">';
 
       for (var i=0; i<imgUrlArr.length; i++)
       {
