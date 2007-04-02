@@ -1247,9 +1247,9 @@ if __name__ == "__main__":
                 # generate XML
                 filename = joinext(f, ".xml")
                 try:
-                    out = open(filename, "w")
-                    ElementTree.ElementTree(module).write(out)
-                    out.close()
+                    #out = open(filename, "w")
+                    ElementTree.ElementTree(module).write(sys.stdout)
+                    #out.close()
                 except IOError, v:
                     sys.stderr.write("%s error: %s\n" % (filename, v[1]))
                 else:
