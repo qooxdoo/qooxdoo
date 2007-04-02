@@ -387,23 +387,8 @@ def generatePropertyMethods(propertyName, classNode, checkBasic, inheritable, nu
     else:
         access = ""
         name = propertyName
+
     name = name[0].upper() + name[1:]
-
-    if checkBasic != None:
-      inTypes = checkBasic
-    else:
-      inTypes = "var"
-
-    if inheritable:
-      inTypes += ' ? "inherit"'
-    elif nullable:
-      inTypes += ' ? null'
-
-    outTypes = inTypes.replace("?", "|")
-
-    #print "Name: %s" % propertyName
-    #print "IN: %s" % inTypes
-    #print "OUT: %s" % outTypes
 
     propData = {
         access + "set" + name : """/**
@@ -411,19 +396,19 @@ def generatePropertyMethods(propertyName, classNode, checkBasic, inheritable, nu
  *
  * For further details take a look at the property definition: {@link #%s}.
  *
- * @param value {%s} New value for property <code>%s</code>.
- * @return {%s} The unmodified incoming value.
+ * @param value {var} New value for property <code>%s</code>.
+ * @return {var} The unmodified incoming value.
  */
- function (value) {}; """ % (propertyName, propertyName, inTypes, propertyName, outTypes),
+ function (value) {}; """ % (propertyName, propertyName, propertyName),
 
        access + "get" + name : """/**
  * Returns the (computed) value of the property <code>%s</code>.
  *
  * For further details take a look at the property definition: {@link #%s}.
  *
- * @return {%s} (Computed) value of <code>%s</code>.
+ * @return {var} (Computed) value of <code>%s</code>.
  */
- function () {}; """ % (propertyName, propertyName, outTypes, propertyName),
+ function () {}; """ % (propertyName, propertyName, propertyName),
 
        access + "reset" + name : """/**
  * Resets the user value of the property <code>%s</code>.
@@ -444,10 +429,10 @@ def generatePropertyMethods(propertyName, classNode, checkBasic, inheritable, nu
  *
  * For further details take a look at the property definition: {@link #%s}.
  *
- * @param value {%s} Initial value for property <code>%s</code>.
- * @return {%s} the default value
+ * @param value {var} Initial value for property <code>%s</code>.
+ * @return {var} the default value
  */
- function (value) {}; """ % (propertyName, propertyName, inTypes, propertyName, outTypes)
+ function (value) {}; """ % (propertyName, propertyName, propertyName)
     }
 
     if checkBasic == "Boolean":
