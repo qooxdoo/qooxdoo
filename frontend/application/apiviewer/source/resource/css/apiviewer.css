@@ -208,11 +208,12 @@
   table-layout: fixed;
 }
 
-#ClassViewer table.info tr {
+#ClassViewer table.info tr{
   background: #F9FFE9;
 }
 
-#ClassViewer table.info tr.marked{
+#ClassViewer table.info tr.marked,
+#ClassViewer table.info tr.marked tr{
   background: #E1EEFF;
 }
 
@@ -373,7 +374,8 @@
 }
 
 #ClassViewer p{
-  margin-bottom: 6px;
+  margin-top: 3px;
+  margin-bottom: 3px;
 }
 
 #ClassViewer p code{
@@ -454,26 +456,29 @@
 
 
 
-table.states {
+table.states{
 	empty-cells: show;
 }
 
-tr.state td {
+tr.state td{
 	border-bottom: 1px solid #ECECEC;
 	margin-top: 1px;
 }
 
-span.item-deprecated {
+span.item-deprecated{
 	text-decoration: line-through;
 	color: #7193b9;
 }
 
-tr.item-protected{
+tr.item-protected,
+tr.item-protected tr{
   background: #FFFAED !important;
 }
 
 tr.item-private,
-tr.item-internal {
+tr.item-internal,
+tr.item-private tr,
+tr.item-internal tr{
 	background: #FFF3F4 !important;
 }
 
