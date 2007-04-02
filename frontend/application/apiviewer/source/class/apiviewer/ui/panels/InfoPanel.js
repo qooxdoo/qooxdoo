@@ -224,14 +224,14 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
 
           var linkHtml = new qx.util.StringBuilder(
             '<span style="white-space: nowrap;">',
-            (typeof iconCode != "undefined" ?  iconCode : ""),
+            (typeof iconCode != "undefined" ? iconCode : ""),
             '<a href="' + window.location.protocol, '//',
             window.location.pathname, '#', fullItemName,
             '" onclick="', 'apiviewer.ui.ClassViewer.instance._onSelectItem(\'',
             fullItemName, '\'); return false;"', ' title="',
             fullItemName, '">', label, '</a></span>'
           )
-          return linkHtml.get()
+          return linkHtml.get();
         }
       }
     },
