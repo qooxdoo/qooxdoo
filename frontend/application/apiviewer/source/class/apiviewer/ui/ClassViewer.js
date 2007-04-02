@@ -700,8 +700,8 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       elem.className = "marked";
       this._markedElement = elem;
 
-      qx.html.ScrollIntoView.scrollX(elem);
-      qx.html.ScrollIntoView.scrollY(elem);
+      qx.html.ScrollIntoView.scrollX(elem, true);
+      qx.html.ScrollIntoView.scrollY(elem, true);
     },
 
 
