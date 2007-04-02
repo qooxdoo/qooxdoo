@@ -140,9 +140,9 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
             possibleValues += ", null";
           }
           allowedValue =
-            "<span class='item-detail-param-name'>" +
-            possibleValues.split(", ").join("</span>, <span class='item-detail-param-name'>") +
-            "</span>";
+            "<code>" +
+            possibleValues.split(", ").join("</code>, <code>") +
+            "</code>";
         } else if (node.getClassname()) {
           allowedValue = "instances of " + node.getClassname();
         } else if (node.getInstance()) {
@@ -174,9 +174,9 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
         textHtml.add(
           ClassViewer.DIV_START_DETAIL_HEADLINE, "Default value:", ClassViewer.DIV_END,
           ClassViewer.DIV_START_DETAIL_TEXT,
-          '<span class="item-detail-param-name">',
+          '<code>',
           (node.getDefaultValue() ? node.getDefaultValue() : "null"),
-          '</span>',
+          '</code>',
           ClassViewer.DIV_END
         );
 

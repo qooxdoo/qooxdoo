@@ -1013,7 +1013,7 @@ def handleFunction(funcItem, commentAttributes, classNode):
             paramNode = node.getListChildByAttribute("params", "name", paramName, False)
 
             if not paramNode:
-                addError(node, "Contains information for a non-existing parameter <span class='item-detail-param-name'>%s</span>." % paramName, funcItem)
+                addError(node, "Contains information for a non-existing parameter <code>%s</code>." % paramName, funcItem)
                 continue
 
             addTypeInfo(paramNode, attrib, funcItem)
@@ -1030,7 +1030,7 @@ def handleFunction(funcItem, commentAttributes, classNode):
         paramsListNode = node.getChild("params");
         for paramNode in paramsListNode.children:
             if not paramNode.getChild("desc", False):
-                addError(node, "Parameter <span class='item-detail-param-name'>%s</span> is not documented." % paramNode.get("name"), funcItem)
+                addError(node, "Parameter <code>%s</code> is not documented." % paramNode.get("name"), funcItem)
 
     if not node.hasChild("desc"):
         addError(node, "Documentation is missing.", funcItem)
