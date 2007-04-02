@@ -174,9 +174,6 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     /** {string} The start tag of a div containing the text of an item detail. */
     DIV_START_DETAIL_TEXT : '<div class="item-detail-text">',
 
-    /** {string} The start tag of a div containing the text of a tree headline. */
-    DIV_START_TREE_HEADLINE : '<div class="tree-headline">',
-
     /** {string} The start tag of a div containing the headline of an item error. */
     DIV_START_ERROR_HEADLINE : '<div class="item-detail-error">',
 
@@ -552,7 +549,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
 
       if (dependentClasses.length > 0)
       {
-        var result = new qx.util.StringBuilder(ClassViewer.DIV_START_TREE_HEADLINE, title, ClassViewer.DIV_END);
+        var result = new qx.util.StringBuilder("<h2>", title, "</h2>");
 
         for (var i=0; i<dependentClasses.length; i++)
         {
@@ -581,7 +578,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       var ClassViewer = apiviewer.ui.ClassViewer;
 
       // Create the class hierarchy
-      var classHtml = new qx.util.StringBuilder(ClassViewer.DIV_START_TREE_HEADLINE, "Inheritance hierarchy:", ClassViewer.DIV_END);
+      var classHtml = new qx.util.StringBuilder("<h2>", "Inheritance hierarchy:", "</h2>");
 
       var classHierarchy = classNode.getClassHierarchy();
 
@@ -682,7 +679,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
 
       if(classNode.getItemList(superList).length > 0)
       {
-        classHtml.add(ClassViewer.DIV_START_TREE_HEADLINE, "Inheritance hierarchy:", ClassViewer.DIV_END);
+        classHtml.add("<h2>", "Inheritance hierarchy:", "</h2>");
         classHtml.add(generateTree([classNode], true).join("<br />\n"));
       }
 
