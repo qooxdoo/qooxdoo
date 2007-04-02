@@ -79,8 +79,11 @@
 }
 
 #content h2{
+  color: #134275;
   font-size: 18px;
+  margin-top: 26px;
   margin-bottom: 4px;
+  font-weight: bold;
 }
 
 #content h3{
@@ -534,38 +537,4 @@
   color: #535256;
   font-weight: bold;
   font-size: 11px;
-}
-
-
-
-
-
-
-
-
-
-
-
-/* ==============================================
-    CLASS VIEWER: TODO
-============================================== */
-
-#ClassViewer .tree-headline{
-  color: #134275;
-  font-size: 14px;
-  margin-top: 26px;
-  margin-bottom: 4px;
-  font-weight: bold;
-}
-
-#ClassViewer tr.state td{
-	border-bottom: 1px solid #ECECEC;
-	margin-top: 1px;
-}
-
-
-
-#ClassViewer span.item-detail-param-name{
-  color: red !important;
-  font-weight: bold;
 }
