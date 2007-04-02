@@ -64,6 +64,15 @@ LOOP_KEYWORDS = ["WHILE", "IF", "FOR", "WITH"]
 # Represents the tokens of a file as a stream.
 #                                                                               
 class TokenStream:
+    ##                                                                              
+    # Some nice short description of foo(); this can contain html and 
+    # {@link #foo Links} to items in the current file.
+    #                                                                               
+    # @param     tokens   Array of Tokenizer.token that will be represented by
+    #                     the new object
+    # @return             The new object instance
+    # @defreturn          TokenStream
+    #
     def __init__ (self, tokens):
         self.tokens = tokens
         self.commentsBefore = None
