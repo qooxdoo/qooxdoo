@@ -55,7 +55,8 @@ qx.Class.define("qx.util.StringBuilder",
    */
   construct : function(varargs)
   {
-    this.base(arguments);
+    // Do not register to disposer
+    this.base(arguments, false);
 
     this.init();
     this.add.apply(this, arguments);
