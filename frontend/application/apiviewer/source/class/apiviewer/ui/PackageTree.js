@@ -36,7 +36,8 @@ qx.Class.define("apiviewer.ui.PackageTree",
 
   construct : function()
   {
-    this.base(arguments, "API Documentation");
+    //this.base(arguments, "API Documentation");
+    this.base(arguments, "Packages");
 
     this.set({
       backgroundColor : "white",
@@ -97,14 +98,16 @@ qx.Class.define("apiviewer.ui.PackageTree",
     setTreeData : function(docTree)
     {
       this._docTree = docTree;
-      var inheritenceNode = new qx.ui.tree.TreeFolder("Inheritence hierarchy");
-      var packagesNode = new qx.ui.tree.TreeFolder("Packages");
+      //var inheritenceNode = new qx.ui.tree.TreeFolder("Inheritence hierarchy");
+      //var packagesNode = new qx.ui.tree.TreeFolder("Packages");
 
       this.removeAll();
-      this.add(inheritenceNode, packagesNode);
+      //this.add(inheritenceNode, packagesNode);
+      //this.add(packagesNode);
 
       // Fill the packages tree
-      this.__fillPackageNode(packagesNode, docTree, 0);
+      //this.__fillPackageNode(packagesNode, docTree, 0);
+      this.__fillPackageNode(this, docTree, 0);
 
       /*
       var start = new Date();
@@ -124,7 +127,8 @@ qx.Class.define("apiviewer.ui.PackageTree",
       this.debug("Time to fill the inheritence tree: " + (end.getTime() - start.getTime()) + "ms");
       */
 
-      packagesNode.open();
+      //packagesNode.open();
+      this.open();
 
       if (this._wantedClassName)
       {
