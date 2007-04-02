@@ -233,10 +233,10 @@ qx.Class.define("apiviewer.Viewer",
         border          : qx.renderer.border.BorderPresets.getInstance().inset
       });
 
-      detailFrame.setHtmlProperty("id", "DetailFrame");
+      detailFrame.setHtmlProperty("id", "content");
 
       this._detailLoader = new qx.ui.embed.HtmlEmbed('<h1><div class="please">please wait</div>Loading data...</h1>');
-      this._detailLoader.setHtmlProperty("id", "DetailLoader");
+      this._detailLoader.setHtmlProperty("id", "SplashScreen");
       this._detailLoader.setMarginLeft(20);
       this._detailLoader.setMarginTop(20);
       detailFrame.add(this._detailLoader);
