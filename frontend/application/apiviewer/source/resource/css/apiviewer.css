@@ -1,4 +1,20 @@
-*{padding:0;margin:0}
+/* ==============================================
+    CORE
+============================================== */
+
+*{
+  padding:0;
+  margin:0
+}
+
+
+
+
+
+
+/* ==============================================
+    HEADER
+============================================== */
 
 #header {
   margin: 0px;
@@ -37,86 +53,82 @@
 
 
 
+/* ==============================================
+    CONTENT BASICS
+============================================== */
 
-#DetailFrame,
-#DetailFrame td,
-#DetailFrame th{
+#content,
+#content td,
+#content th{
   font-family: Verdana, "Lucida Grande", "Bitstream Vera Sans", Tahoma, "Lucida Sans Unicode", Arial, sans-serif;
   font-size: 11px;
-  line-height: 160%;
+  line-height: 140%;
 }
 
-#DetailFrame h1,
-#DetailFrame h2,
-#DetailFrame h3,
-#DetailFrame h4,
-#DetailFrame h5,
-#DetailFrame h6{
+#content h1,
+#content h2,
+#content h3,
+#content h4,
+#content h5,
+#content h6{
   font-family: "Trebuchet MS", "Lucida Grande", Verdana, sans-serif;
   color: #134275;
 }
 
-#DetailFrame *{
-  margin-top: 0;
-  margin-bottom: 0;
-  padding-top: 0;
-  padding-bottom: 0;
-}
-
-#DetailFrame #ControlFrame{
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 10px;
-  background: #FBFFEF;
-  padding: 4px 6px;
-  border: 1px solid #ECECEC;
-}
-
-#DetailFrame h1 {
+#content h1 {
   font-size: 24px;
   margin-bottom: 20px;
 }
 
-#DetailFrame h2 {
+#content h2 {
   font-size: 18px;
   margin-bottom: 4px;
 }
 
-#DetailFrame h3 {
+#content h3 {
   font-size: 14px;
 }
 
-#DetailFrame img {
+#content img {
   border: 0 none;
   vertical-align: middle;
 }
 
-#DetailFrame ul{
+#content ul{
   margin-left: 20px;
 }
 
-#DetailFrame a:link,
-#DetailFrame a:visited{
+#content a:link,
+#content a:visited{
   color: #134275;
 }
 
-#DetailFrame a:hover,
-#DetailFrame a:active{
+#content a:hover,
+#content a:active{
   color: #134275;
   text-decoration: underline;
 }
 
-#DetailFrame td{
+#content td{
   vertical-align: top;
-  padding: 2px;
+  padding: 5px 2px 0;
+}
+
+#content table{
+  empty-cells: show;
 }
 
 
 
 
 
-#DetailLoader div.please{
+
+
+/* ==============================================
+    SPLASH SCREEN
+============================================== */
+
+#SplashScreen div.please{
   font-size: 14px;
   font-weight: normal;
   margin-bottom: 4px;
@@ -126,6 +138,12 @@
 
 
 
+
+
+
+/* ==============================================
+    PACKAGE VIEWER
+============================================== */
 
 #PackageViewer div.pkgtitle{
   font-size: 14px;
@@ -137,8 +155,99 @@
 
 
 
+/* ==============================================
+    LEGEND VIEWER
+============================================== */
+
+#Legend{
+  font-size: 11px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: white;
+}
+
+#Legend tr td{
+  border-bottom: 1px solid #ECECEC;
+}
+
+#Legend td,
+#Legend th{
+  font-family: Verdana, "Lucida Grande", "Bitstream Vera Sans", Tahoma, "Lucida Sans Unicode", Arial, sans-serif;
+  font-size: 11px;
+  padding: 6px 8px 6px;
+}
+
+#Legend td.text{
+  vertical-align: top;
+  padding-top: 4px;
+}
+
+#Legend td.icon,
+#Legend td.icon img{
+  vertical-align: top;
+  text-align: center;
+}
+
+#Legend h3{
+  font-family: "Trebuchet MS", "Lucida Grande", Verdana, sans-serif;
+  color: #134275;
+  font-size: 13px;
+  margin: 0 !important;
+}
 
 
+
+
+
+/* ==============================================
+    CLASS VIEWER
+============================================== */
+
+#ClassViewer code,
+#ClassViewer pre{
+  font-family: Consolas, "Bitstream Vera Sans Mono", "Courier New", monospace;
+  background: #FFF;
+  padding: 1px;
+  border: 1px solid #ECECEC;
+}
+
+#ClassViewer pre{
+  overflow: auto;
+  font-size: 12px;
+  padding: 4px 8px;
+  margin-top: 14px;
+  margin-bottom: 14px;
+}
+
+#ClassViewer b,
+#ClassViewer strong{
+  font-weight: bold;
+  color: #535256;
+}
+
+#ClassViewer p{
+  margin-top: 2px;
+  margin-bottom: 6px;
+}
+
+#ClassViewer p code{
+  font-size: 11px;
+}
+
+#ClassViewer ul{
+  list-style: square;
+}
+
+
+
+
+
+
+
+/* ==============================================
+    CLASS VIEWER: CLASS DESCRIPTION
+============================================== */
 
 #ClassViewer div.classDescription{
   font-size: 12px;
@@ -189,6 +298,10 @@
 
 
 
+/* ==============================================
+    CLASS VIEWER: INFO PANEL
+============================================== */
+
 #ClassViewer div.infoPanel {
   margin-top: 30px;
 }
@@ -204,6 +317,46 @@
 
 
 
+/* ==============================================
+    CLASS VIEWER: ITEM DETAILS
+============================================== */
+
+#ClassViewer div.item-detail-headline {
+  font-weight: bold;
+  color: #1D65B3;
+  margin-top: 10px;
+}
+
+#ClassViewer div.item-detail-error {
+  font-weight: bold;
+  color: #D61F1C;
+  margin-top: 10px;
+}
+
+#ClassViewer div.item-detail-text {
+  padding-left: 12px;
+  margin-bottom: 6px;
+}
+
+#ClassViewer div.item-detail-text p{
+  display: inline;
+}
+
+#ClassViewer span.item-detail-optional {
+  font-style: italic;
+}
+
+
+
+
+
+
+
+
+/* ==============================================
+    CLASS VIEWER: INFO TABLE
+============================================== */
+
 #ClassViewer table.info {
   table-layout: fixed;
 }
@@ -215,6 +368,18 @@
 #ClassViewer table.info tr.marked,
 #ClassViewer table.info tr.marked tr{
   background: #E1EEFF;
+}
+
+#ClassViewer table.info tr.item-protected,
+#ClassViewer table.info tr.item-protected tr{
+  background: #FFFAED !important;
+}
+
+#ClassViewer table.info tr.item-private,
+#ClassViewer table.info tr.item-internal,
+#ClassViewer table.info tr.item-private tr,
+#ClassViewer table.info tr.item-internal tr{
+	background: #FFF3F4 !important;
 }
 
 #ClassViewer table.info tr td,
@@ -248,7 +413,7 @@
   text-align: center;
   width: 16px;
   padding: 1px;
-  padding-top: 5px;
+  padding-top: 8px;
 }
 
 #ClassViewer table.info td.toggle img{
@@ -278,6 +443,11 @@
 	padding: 1px 3px;
 }
 
+#ClassViewer span.item-deprecated{
+	text-decoration: line-through;
+	color: #7193b9;
+}
+
 #ClassViewer span.methodSignature{
   font-size: 12px;
   color: #83B300;
@@ -302,98 +472,6 @@
   font-weight: bold;
 }
 
-
-
-
-
-#ClassViewer div.item-detail-headline {
-  font-weight: bold;
-  color: #1D65B3;
-  margin-top: 10px;
-}
-
-#ClassViewer div.item-detail-error {
-  font-weight: bold;
-  color: #D61F1C;
-  margin-top: 10px;
-}
-
-#ClassViewer div.item-detail-text {
-  padding-left: 12px;
-}
-
-#ClassViewer div.item-detail-text p{
-  display: inline;
-}
-
-#ClassViewer span.item-detail-optional {
-  font-style: italic;
-}
-
-
-
-
-
-
-
-
-
-#ClassViewer .tree-headline{
-  color: #134275;
-  font-size: 14px;
-  margin-top: 26px;
-  margin-bottom: 4px;
-  font-weight: bold;
-}
-
-
-
-
-
-
-#ClassViewer code,
-#ClassViewer pre{
-  font-family: Consolas, "Bitstream Vera Sans Mono", "Courier New", monospace;
-  background: #FFF;
-  padding: 1px;
-  border: 1px solid #ECECEC;
-}
-
-#ClassViewer pre{
-  overflow: auto;
-  font-size: 12px;
-  padding: 4px 8px;
-  margin-top: 14px;
-  margin-bottom: 14px;
-}
-
-#ClassViewer b,
-#ClassViewer strong{
-  font-weight: bold;
-  color: #535256;
-}
-
-#ClassViewer p{
-  margin-top: 3px;
-  margin-bottom: 3px;
-}
-
-#ClassViewer p code{
-  font-size: 11px;
-}
-
-#ClassViewer ul{
-  list-style: square;
-  color: #134275;
-}
-
-#ClassViewer ul li{
-  color: black;
-}
-
-
-
-
 #ClassViewer span.methodSignature span.parameterName,
 #ClassViewer span.item-detail-param-name{
   border: 1px solid #ECECEC;
@@ -406,79 +484,15 @@
   font-size: 11px;
 }
 
-
-
-
-
-
-
-#Legend{
-  font-size: 11px;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  background: white;
-}
-
-#Legend tr td{
-  border-bottom: 1px solid #ECECEC;
-}
-
-#Legend td,
-#Legend th{
-  font-family: Verdana, "Lucida Grande", "Bitstream Vera Sans", Tahoma, "Lucida Sans Unicode", Arial, sans-serif;
-  font-size: 11px;
-  padding: 6px 8px 6px;
-}
-
-#Legend td.text{
-  vertical-align: top;
-  padding-top: 4px;
-}
-
-#Legend td.icon,
-#Legend td.icon img{
-  vertical-align: top;
-  text-align: center;
-}
-
-#Legend h3{
-  font-family: "Trebuchet MS", "Lucida Grande", Verdana, sans-serif;
+#ClassViewer .tree-headline{
   color: #134275;
-  font-size: 13px;
-  margin: 0 !important;
+  font-size: 14px;
+  margin-top: 26px;
+  margin-bottom: 4px;
+  font-weight: bold;
 }
 
-
-
-
-
-
-
-
-table.states{
-	empty-cells: show;
-}
-
-tr.state td{
+#ClassViewer tr.state td{
 	border-bottom: 1px solid #ECECEC;
 	margin-top: 1px;
 }
-
-span.item-deprecated{
-	text-decoration: line-through;
-	color: #7193b9;
-}
-
-tr.item-protected,
-tr.item-protected tr{
-  background: #FFFAED !important;
-}
-
-tr.item-private,
-tr.item-internal,
-tr.item-private tr,
-tr.item-internal tr{
-	background: #FFF3F4 !important;
-}
-
