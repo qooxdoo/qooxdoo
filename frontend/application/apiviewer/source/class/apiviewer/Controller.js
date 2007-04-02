@@ -111,9 +111,9 @@ qx.Class.define("apiviewer.Controller",
           }
 
           this._detailLoader.setHtml(
-            '<h1><div class="please">' +
+            '<h1><small>' +
             qx.core.Setting.get("apiviewer.title") +
-            '</div>API Documentation</h1>'
+            '</small>API Documentation</h1>'
           );
 
         }, this, 0);

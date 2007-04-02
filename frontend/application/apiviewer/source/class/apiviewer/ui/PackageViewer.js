@@ -76,7 +76,7 @@ qx.Class.define("apiviewer.ui.PackageViewer",
 
       // Title
       vHtml += '<h1>';
-      vHtml += '<div class="pkgtitle">package</div>';
+      vHtml += '<small>package</small>';
       vHtml += classNode.getFullName();
       vHtml += '</h1>';
 
