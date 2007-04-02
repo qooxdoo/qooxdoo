@@ -30,7 +30,7 @@
 # b) an absolute path starting at the root of your file system
 # Example: If you put the skeleton folder next to the qooxdoo SDK folder,
 # you can use the following relative path:
-# QOOXDOO_PATH = ../../qooxdoo-0.6.6-sdk
+# QOOXDOO_PATH = ../../qooxdoo-0.7-sdk
 # Please note that Windows users should always use relative paths.
 # It should end with the last directory. Please omit a trailing slash.
 #
@@ -48,12 +48,18 @@ APPLICATION_NAMESPACE = custom
 #
 APPLICATION_FILES = index.html
 
+#-------------------------------------------------------------------------------
+# For a full list and description of available application settings, please 
+# see the APPLICATION variables in file 
+# $(QOOXDOO_PATH)/frontend/framework/tool/make/application.mk
+# Add any of those variables for your custom configuration here:
+#-------------------------------------------------------------------------------
 
 
 
 
 ################################################################################
-# INCLUDE CORE
+# INTERNALS (PLEASE DO NOT CHANGE)
 ################################################################################
 
 ifneq ($(QOOXDOO_PATH),PLEASE_DEFINE_QOOXDOO_PATH)
