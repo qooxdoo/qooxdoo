@@ -420,7 +420,9 @@ qx.Class.define("qx.ui.form.TextField",
         }
       },
 
-      "default" : qx.lang.Function.returnTrue
+      "default" : function() {
+        this.base(arguments);
+      }
     }),
 
 
