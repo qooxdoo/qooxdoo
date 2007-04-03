@@ -149,9 +149,10 @@ qx.Class.define("qx.core.Property",
 
     $$allowedGroupKeys :
     {
-      name  : "string", // String
-      group : "object", // Array
-      mode  : "string"  // String
+      name        : "string",   // String
+      group       : "object",   // Array
+      mode        : "string",   // String
+      appearance  : "boolean"   // Boolean
     },
 
 
@@ -278,6 +279,7 @@ qx.Class.define("qx.core.Property",
     {
       var members = clazz.prototype;
       var name = config.name;
+      var appearance = config.appearance === true;
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -286,36 +288,66 @@ qx.Class.define("qx.core.Property",
         }
       }
 
-      var code = this.$$code;
+      var setter = new qx.util.StringBuilder;
+      var resetter = new qx.util.StringBuilder;
 
-      if (!code) {
-        code = this.$$code = new qx.util.StringBuilder;
+      if (appearance)
+      {
+        var styler = new qx.util.StringBuilder;
+        var unstyler = new qx.util.StringBuilder;
       }
 
-      code.add("var a=arguments;")
+      var argHandler = "var a=arguments[0] instanceof Array?arguments[0]:arguments;";
 
-      if (config.mode == "shorthand") {
-        code.add("a=qx.lang.Array.fromShortHand(qx.lang.Array.fromArguments(a));")
+      setter.add(argHandler);
+      resetter.add(argHandler);
+
+      if (appearance)
+      {
+        styler.add(argHandler);
+        unstyler.add(argHandler);
+      }
+
+      if (config.mode == "shorthand")
+      {
+        var shorthand = "a=qx.lang.Array.fromShortHand(qx.lang.Array.fromArguments(a));";
+        setter.add(shorthand);
+
+        if (appearance) {
+          styler.add(shorthand);
+        }
       }
 
       for (var i=0, a=config.group, l=a.length; i<l; i++)
       {
-        if (qx.core.Variant.isSet("qx.debug", "on"))
-        {
-          if (this.$$method.set[a[i]] === undefined) {
-            throw new Error("Missing set method cache entry for: " + a[i]);
-          }
-        }
+        setter.add("this.", this.$$method.set[a[i]], "(a[", i, "]);");
+        resetter.add("this.", this.$$method.reset[a[i]], "(a[", i, "]);");
 
-        code.add("this.", this.$$method.set[a[i]], "(a[", i, "]);");
+        if (appearance)
+        {
+          styler.add("this.", this.$$method.style[a[i]], "(a[", i, "]);");
+          unstyler.add("this.", this.$$method.unstyle[a[i]], "(a[", i, "]);");
+        }
       }
 
       // Attach setter
       this.$$method.set[name] = prefix + "set" + postfix;
-      members[this.$$method.set[name]] = new Function(code.toString());
+      members[this.$$method.set[name]] = new Function(setter.get());
 
-      // Clearing string builder
-      code.clear();
+      // Attach resetter
+      this.$$method.reset[name] = prefix + "reset" + postfix;
+      members[this.$$method.reset[name]] = new Function(resetter.get());
+
+      if (appearance)
+      {
+        // Attach styler
+        this.$$method.style[name] = prefix + "style" + postfix;
+        members[this.$$method.style[name]] = new Function(styler.get());
+
+        // Attach unstyler
+        this.$$method.unstyle[name] = prefix + "unstyle" + postfix;
+        members[this.$$method.unstyle[name]] = new Function(unstyler.get());
+      }
     },
 
 

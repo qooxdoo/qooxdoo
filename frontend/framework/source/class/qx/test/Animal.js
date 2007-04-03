@@ -29,6 +29,7 @@ qx.Class.define("qx.test.Animal",
     _string : { check : "String", init : "" },
     _object : { check : "Object", nullable : true },
     _possible : { check : [ "foo", "bar", "hello", "world" ], nullable : true },
+    _group : { group : [ "_enabled", "_target", "_string", "_object" ], appearance : true },
 
     /**
      * Complex property.
