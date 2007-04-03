@@ -423,7 +423,7 @@ qx.Theme.define("qx.theme.appearance.Ext",
 
         if (states.checked || states.over) {
           vReturn.border          = "1px solid buttonshadow";
-          vReturn.backgroundImage = states.checked ? "static/image/Ext/barbutton_gradient.png" : null,
+          vReturn.backgroundImage = states.checked ? "static/image/Ext/barbutton_gradient.png" : null;
           vReturn.backgroundColor = states.checked ? "buttonface" : null;
           vReturn.paddingTop      = vReturn.paddingBottom = 3;
           vReturn.paddingLeft     = vReturn.paddingRight  = 6;
@@ -578,7 +578,7 @@ qx.Theme.define("qx.theme.appearance.Ext",
 
         if (states.checked || states.over) {
           vReturn.border          = "1px solid buttonshadow";
-          vReturn.backgroundImage = states.checked ? "static/image/Ext/barbutton_gradient.png" : null,
+          vReturn.backgroundImage = states.checked ? "static/image/Ext/barbutton_gradient.png" : null;
           vReturn.backgroundColor = states.checked ? "buttonface" : null;
           vReturn.paddingTop      = vReturn.paddingBottom = 3;
           vReturn.paddingLeft     = vReturn.paddingRight  = 6;
