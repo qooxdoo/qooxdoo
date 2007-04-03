@@ -23,8 +23,9 @@
 ************************************************************************ */
 
 /**
- * Internal class for handling of dynamic properties.
- * 
+ * Internal class for handling of dynamic properties. Should only be used
+ * through the methods provided by {@link qx.Class}.
+ *
  * @internal
  */
 qx.Class.define("qx.core.Property",

@@ -25,6 +25,15 @@
 
 ************************************************************************ */
 
+/**
+ * Add user data handling to a class. This mixins provide the methods
+ * {@link #setUserData} and {@link #getUserData} for a user friendly
+ * interface.
+ *
+ * The stored fields are automatically disposed correctly. However the
+ * assigned values are not disposed e.g. qooxdoo objects stored are not
+ * disposed with the objects which contains the user data.
+ */
 qx.Mixin.define("qx.core.MUserData",
 {
   /*
