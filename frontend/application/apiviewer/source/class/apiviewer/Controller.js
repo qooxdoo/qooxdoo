@@ -153,7 +153,7 @@ qx.Class.define("apiviewer.Controller",
     {
       this._tree.getManager().addEventListener("changeSelection", function(evt) {
         var treeNode = evt.getData()[0];
-        if (treeNode && treeNode.docNode)
+        if (treeNode && treeNode.docNode && !this._ignoreTreeSelection)
         {
           this.__updateHistory(treeNode.docNode.getFullName());
           this.__selectClass(treeNode.docNode);
@@ -191,7 +191,7 @@ qx.Class.define("apiviewer.Controller",
     __bindHistory : function()
     {
       this._history.addEventListener("request", function(evt) {
-        this._tree.selectTreeNodeByClassName(evt.getData())
+        this.__selectItem(evt.getData())
       }, this);
     },
 
@@ -279,10 +279,19 @@ qx.Class.define("apiviewer.Controller",
         }
       }
 
+      // ignore changeSelection events
+      this._ignoreTreeSelection = true;
       this._tree.selectTreeNodeByClassName(className);
+      this._ignoreTreeSelection = false;
+
+      this.__updateHistory(fullItemName);
+      this.__selectClass(this._tree.getSelectedElement().docNode);
 
       if (itemName) {
         this._classViewer.showItem(itemName);
+      } else {
+        this.debug("scroll");
+        this._classViewer.setScrollTop(0);
       }
     }
 

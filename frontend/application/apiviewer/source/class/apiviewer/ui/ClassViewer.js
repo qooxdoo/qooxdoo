@@ -497,9 +497,6 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       // Refresh the info viewers
       this._updateInfoViewers();
 
-      // Scroll to top
-      this.getElement().scrollTop = 0;
-
       return true;
     },
 
