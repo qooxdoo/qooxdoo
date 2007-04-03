@@ -131,6 +131,10 @@ qx.Class.define("apiviewer.ui.LegendView",
           icon: "ICON_CONSTANT",
           desc: "<h3>Constant</h3>"
         },
+        {
+          icon: "ICON_BLANK",
+          desc: '<h3 style="text-decoration: line-through;color: #7193b9">deprecated</h3>'
+        },
 
 
         {
