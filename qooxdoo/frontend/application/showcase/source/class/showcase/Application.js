@@ -69,7 +69,7 @@ qx.Class.define("showcase.Application",
   {
     /**
      * TODOC
-     * 
+     *
      * @type member
      * @param e {Event} TODOC
      * @return {void}
@@ -82,15 +82,15 @@ qx.Class.define("showcase.Application",
        {
         // set Ext appearance theme
         qx.manager.object.AppearanceManager.getInstance().setAppearanceTheme(qx.theme.appearance.Ext);
-  
+
         // set Ext color theme
         qx.manager.object.ColorManager.getInstance().setColorTheme(qx.theme.appearance.Ext);
-  
+
         // set Ext widget theme
         qx.manager.object.ImageManager.getInstance().setWidgetTheme(qx.theme.appearance.Ext);
       }
      },
-    
+
     /**
      * TODOC
      *
@@ -248,7 +248,7 @@ qx.Class.define("showcase.Application",
       gl.add(label6, 0, 4);
 
       gl.add(new qx.ui.form.TextArea, 1, 4);
-      
+
       var input7 = new qx.ui.form.Button("Submit", "icon/16/actions/dialog-ok.png");
       input7.setHorizontalAlign("right");
       gl.add(input7, 1, 5);
@@ -1231,18 +1231,18 @@ qx.Class.define("showcase.Application",
 
       return table;
     },
-    
-    
+
+
     /**
      * TODOC
-     * 
+     *
      * @type member
      * @return {var} TODOC
      */
      _createSplitPaneDemo : function()
      {
        var main = new qx.ui.layout.CanvasLayout();
-       
+
        main.set(
        {
          width         : "auto",
@@ -1252,7 +1252,7 @@ qx.Class.define("showcase.Application",
          paddingBottom : 10,
          paddingRight  : 10
        });
-       
+
        /* setup the splitpane */
        var splitpane = new qx.ui.splitpane.HorizontalSplitPane(150, "1*");
        splitpane.set(
@@ -1270,8 +1270,8 @@ qx.Class.define("showcase.Application",
        });
        splitpane.getLeftArea().setPaddingRight(4);
        main.add(splitpane);
-       
-       
+
+
        /* setup the list of urls - left widget */
        var list = new qx.ui.form.List();
        list.set(
@@ -1281,40 +1281,40 @@ qx.Class.define("showcase.Application",
           width        : "100%",
           height       : "auto"
        });
-       
+
        list.getManager().addEventListener("changeSelection", function(e){
           var urlToLoad = e.getData()[0].getValue();
           iframe.setSource(urlToLoad);
        });
-       
+
        list.addEventListener("appear", function(e){
          this.getManager().setSelectedItem(this.getManager().getFirst());
        });
-       
+
        var listItems = [ { text : "qooxdoo", value : "http://www.qooxdoo.org" },
                          { text : "Ajaxian", value : "http://www.ajaxian.com" },
                          { text : "Mozilla Developer News", value : "http://developer.mozilla.org/devnews" },
                          { text : "IE Blog", value : "http://blogs.msdn.com/ie/default.aspx" },
                          { text : "Surfin Safari", value : "http://webkit.org/blog" }];
-       
+
        for (var i=0, j=listItems.length; i<j; i++)
        {
          var newListItem = new qx.ui.form.ListItem(listItems[i].text, null, listItems[i].value);
          list.add(newListItem);
        };
-       
+
        /* setup the iframe - right widget */
        var iframe = new qx.ui.embed.Iframe(listItems[0].value);
        iframe.set({
           top         : 0,
           left        : 0,
           width       : "100%",
-          height      : "100%" 
-       });       
-       
+          height      : "100%"
+       });
+
        splitpane.addLeft(list);
        splitpane.addRight(iframe);
-       
+
        return main;
      },
 
@@ -2254,15 +2254,15 @@ qx.Class.define("showcase.Application",
 
       hor.add(can);
       qx.manager.object.ColorManager.getInstance().createThemeList(can, 0, 0);
-      
+
       var vbl = new qx.ui.layout.VerticalBoxLayout;
-      
+
       vbl.set(
       {
         width  : "auto",
         height : "auto"
       });
-      
+
       var nativeWindow = new qx.client.NativeWindow;
       nativeWindow.set({
         width        : 1000,
@@ -2270,7 +2270,7 @@ qx.Class.define("showcase.Application",
         showLocation : true,
         url          : window.location.href + "?theme=ext"
       });
-      
+
       var extThemeButton = new qx.ui.form.Button("Open Ext-Theme", "icon/16/actions/format-color.png");
       extThemeButton.addEventListener("execute", function(e){
         nativeWindow.open();
@@ -2279,8 +2279,8 @@ qx.Class.define("showcase.Application",
       vbl.add(extThemeButton, extThemeText);
 
       hor.add(vbl);
-      
-      
+
+
       // Put the window in lower right corner
       win.set(
       {
