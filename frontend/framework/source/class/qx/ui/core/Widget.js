@@ -1861,8 +1861,17 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     location : { group : [ "left", "top" ] },
+
+    /**
+     * The 'dimension' property is a shorthand property for setting 'width',
+     * and 'height' at the same time.
+     */
     dimension : { group : [ "width", "height" ] },
 
+    /**
+     * The 'space' property is a shorthand property for setting 'left', 'width',
+     * 'top' and 'height' at the same time.
+     */
     space : { group : [ "left", "width", "top", "height" ] },
 
     edge :
@@ -1871,12 +1880,28 @@ qx.Class.define("qx.ui.core.Widget",
       mode  : "shorthand"
     },
 
+    /**
+     * The 'padding' property is a shorthand property for setting 'paddingTop',
+     * 'paddingRight', 'paddingBottom' and 'paddingLeft' at the same time.
+     *
+     * If four values are specified they apply to top, right, bottom and left respectively.
+     * If there is only one value, it applies to all sides, if there are two or three,
+     * the missing values are taken from the opposite side.
+     */
     padding :
     {
       group : [ "paddingTop", "paddingRight", "paddingBottom", "paddingLeft" ],
       mode  : "shorthand"
     },
 
+    /**
+     * The 'margin' property is a shorthand property for setting 'marginTop',
+     * 'marginRight', 'marginBottom' and 'marginLeft' at the same time.
+     *
+     * If four length values are specified they apply to top, right, bottom and
+     * left respectively. If there is only one value, it applies to all sides,
+     * if there are two or three, the missing values are taken from the opposite side.
+     */
     margin :
     {
       group : [ "marginTop", "marginRight", "marginBottom", "marginLeft" ],
@@ -1886,6 +1911,10 @@ qx.Class.define("qx.ui.core.Widget",
     heights : { group : [ "minHeight", "height", "maxHeight" ] },
     widths : { group : [ "minWidth", "width", "maxWidth" ] },
 
+    /**
+     * The 'align' property is a shorthand property for setting 'horizontalAlign',
+     * and 'verticalAlign' at the same time.
+     */
     align : { group : [ "horizontalAlign", "verticalAlign" ] },
 
     clipLocation : { group : [ "clipLeft", "clipTop" ] },

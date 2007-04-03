@@ -33,10 +33,6 @@
  * there are modifications to the native Array in {@link qx.lang.Core} for
  * browsers that do not support certain JavaScript 1.6 features natively .
  *
- * The additions implemented here may be added directly to native Array by
- * a setting in {@link qx.lang.Prototypes}. This feature is not enabled by
- * default.
- *
  * The string/array generics introduced in JavaScript 1.6 are supported by
  * {@link qx.lang.Generics}.
  */
@@ -121,7 +117,7 @@ qx.Class.define("qx.lang.Array",
 
     /**
      * Return a copy of the given array
-     * The same as {@link qx.lang.Array.copy}
+     * The same as {@link qx.lang.Array#copy}
      *
      * @type static
      * @param arr {Array} the array to copy
