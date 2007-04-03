@@ -488,8 +488,18 @@ qx.Class.define("apiviewer.ui.ClassViewer",
         classHtml.add(apiviewer.ui.panels.InfoPanel.createSeeAlsoHtml(construct));
       }
 
-      classHtml.add(apiviewer.ui.panels.InfoPanel.createDeprecationHtml(classNode, "class"));
-      classHtml.add('<br/><br/>');
+      if (classNode.isDeprecated())
+      {
+        classHtml.add('<h2 class="warning">', "Deprecated:", '</h2>');
+        classHtml.add('<p>');
+        var desc = classNode.getDeprecationText();
+        if (desc) {
+          classHtml.add(desc);
+        } else {
+          classHtml.add("This ", classNode.getType(), " is deprecated!");
+        }
+        classHtml.add('</p>');
+      }
 
       this._classDescElem.innerHTML = classHtml.get();
       apiviewer.ui.ClassViewer.fixLinks(this._classDescElem);
