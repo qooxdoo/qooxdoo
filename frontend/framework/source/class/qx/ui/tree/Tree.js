@@ -172,7 +172,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {qx.manager.selection.TreeSelectionManager} the selection manager of the tree.
      */
     getManager : function() {
       return this._manager;
@@ -183,7 +183,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {qx.ui.tree.TreeFolder} TODOC
      */
     getSelectedElement : function() {
       return this.getManager().getSelectedItem();
@@ -318,7 +318,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {qx.ui.tree.Tree} TODOC
      */
     getTree : function() {
       return this;
@@ -329,7 +329,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * TODOC
      *
      * @type member
-     * @return {null} TODOC
+     * @return {qx.ui.tree.TreeFolder} TODOC
      */
     getParentFolder : function() {
       return null;
@@ -340,7 +340,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * TODOC
      *
      * @type member
-     * @return {int} TODOC
+     * @return {Number} TODOC
      */
     getLevel : function() {
       return 0;

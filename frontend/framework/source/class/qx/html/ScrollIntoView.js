@@ -50,7 +50,7 @@ qx.Class.define("qx.html.ScrollIntoView",
      *
      * @type static
      * @param vElement {Element} DOM node to be scrolled into view
-     * @param vAlignLeft {Boolean} whether the element should be left aligned
+     * @param vAlignLeft {Boolean?false} whether the element should be left aligned
      * @return {Boolean} Whether the element could be scrolled into the view
      */
     scrollX : function(vElement, vAlignLeft)
@@ -124,7 +124,7 @@ qx.Class.define("qx.html.ScrollIntoView",
      *
      * @type static
      * @param vElement {Element} DOM node to be scrolled into view
-     * @param vAlignTop {Boolean} whether the element should be top aligned
+     * @param vAlignTop {Boolean?false} whether the element should be top aligned
      * @return {Boolean} Whether the element could be scrolled into the view
      */
     scrollY : function(vElement, vAlignTop)
