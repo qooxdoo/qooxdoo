@@ -28,7 +28,9 @@
 /**
  * A multi-purpose widget used by many more complex widgets.
  *
- * The intended purpose of qx.ui.basic.Atom is to easily align the common icon-text combination in different ways.
+ * The intended purpose of qx.ui.basic.Atom is to easily align the common icon-text
+ * combination in different ways.
+ *
  * This is useful for all types of buttons, menuentries, tooltips, ...
  *
  * @appearance atom
@@ -48,7 +50,7 @@ qx.Class.define("qx.ui.basic.Atom",
 
   /**
    * @param vLabel {String} label of the atom
-   * @param vIcon {String?null} Icon of the atom
+   * @param vIcon {String?null} Icon URL of the atom
    * @param vIconWidth {Integer?null} desired width of the icon (the icon will be scaled to this size)
    * @param vIconHeight {Integer?null} desired height of the icon (the icon will be scaled to this size)
    * @param vFlash {qx.ui.embed.Flash?null} optional flash animation for the Atom. Needs valid width and height values.
@@ -304,10 +306,10 @@ qx.Class.define("qx.ui.basic.Atom",
 
 
     /**
-     * TODOC
+     * Get the label widget of the atom.
      *
      * @type member
-     * @return {var} TODOC
+     * @return {qx.ui.basic.Label} The label widget of the atom.
      */
     getLabelObject : function() {
       return this._labelObject;
@@ -315,10 +317,10 @@ qx.Class.define("qx.ui.basic.Atom",
 
 
     /**
-     * TODOC
+     * Get the icon widget of the atom.
      *
      * @type member
-     * @return {var} TODOC
+     * @return {qx.ui.basic.Image|qx.ui.embed.Flash} The icon widget of the atom.
      */
     getIconObject : function() {
       return this._iconObject;
