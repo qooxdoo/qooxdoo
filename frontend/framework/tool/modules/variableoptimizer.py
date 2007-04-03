@@ -45,10 +45,10 @@
 
 import tree, mapper
 
-##                                                                              
-# Some nice short description of foo(); this can contain html and 
+##
+# Some nice short description of foo(); this can contain html and
 # {@link #foo Links} to items in the current file.
-#                                                                               
+#
 # @param     a        Describe a positional parameter
 # @keyparam  b        Describe a keyword parameter
 # @def       foo(name)    # overwrites auto-generated function signature
@@ -117,7 +117,10 @@ def search(node, found, counter, level=0, prefix="$", skipPrefix="", register=Fa
         # Iterate over content
         # Replace variables in current scope
         counter += update(node, found, 0, prefix, skipPrefix, verbose)
-        del found[foundLen:]
+
+        # this breaks the index in cases where variables are defined after
+        # the declaration of a inner function and used in this function.
+        # del found[foundLen:]
 
     return counter
 
@@ -126,9 +129,6 @@ def search(node, found, counter, level=0, prefix="$", skipPrefix="", register=Fa
 def update(node, found, counter, prefix="$", skipPrefix="", verbose=False):
     # Handle all identifiers
     if node.type == "identifier":
-
-        #print node.parent.toXml()
-
         isFirstChild = False
         isVariableMember = False
 
