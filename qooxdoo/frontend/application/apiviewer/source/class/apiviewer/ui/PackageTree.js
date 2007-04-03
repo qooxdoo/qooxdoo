@@ -143,7 +143,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
      *
      * @type member
      * @param className {String} the name of the class to show.
-     * @return {void}
+     * @return {Boolean} Whether the class name was valid and could be selected.
      */
     selectTreeNodeByClassName : function(className)
     {
@@ -152,7 +152,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
         // The doc tree has not been loaded yet
         // -> Remeber the wanted class and show when loading is done
         this._wantedClassName = className;
-        return;
+        return true;
       }
       var nameParts = className.split(".");
       var packageName = nameParts[0];
@@ -162,8 +162,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
           this._classTreeNodeHash[this._currentTreeType || apiviewer.ui.PackageTree.PACKAGE_TREE][packageName];
 
         if (!treeNode){
-          this.error("Unknown class: " + className);
-          return;
+          return false;
         }
 
         if (!treeNode.loaded) {
@@ -174,6 +173,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
       } while (i<nameParts.length);
 
       treeNode.setSelected(true);
+      return true;
     },
 
 

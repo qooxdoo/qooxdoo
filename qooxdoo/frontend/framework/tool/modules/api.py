@@ -544,6 +544,8 @@ def generateGroupPropertyMethod(propertyName, groupMembers, mode, classNode):
         access = ""
         functionName = propertyName
 
+    functionName = access + "set" + functionName[0].upper() + functionName[1:]
+
     functionTemplate = """/**
  * Sets the values of the property group <code>%(name)s</code>.
  * %(modeDoc)s
