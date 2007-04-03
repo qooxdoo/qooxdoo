@@ -290,7 +290,6 @@ qx.Class.define("apiviewer.Controller",
       if (itemName) {
         this._classViewer.showItem(itemName);
       } else {
-        this.debug("scroll");
         this._classViewer.setScrollTop(0);
       }
     }

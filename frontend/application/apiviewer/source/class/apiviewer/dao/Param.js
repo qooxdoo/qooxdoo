@@ -42,7 +42,9 @@ qx.Class.define("apiviewer.dao.Param", {
         if (fromProperty.isPropertyGroup()) {
           // handle property group setter
           var prop = this.getClass().getItemByListAndName("properties", this.getName());
-          return prop.getTypes();
+          if (prop) {
+            return prop.getTypes();
+          }
         } else {
           // handle generated setter and getter
           return fromProperty.getTypes();
