@@ -27,10 +27,11 @@
 ************************************************************************ */
 
 /**
- * Basic client detection implementation
+ * Basic client detection implementation.
  *
- *  Version shemes following wikipedia: major.minor[.revision[.build]]
- *  http://en.wikipedia.org/wiki/Software_version
+ * Version names follow the wikipedia scheme: major.minor[.revision[.build]]
+ * 
+ * http://en.wikipedia.org/wiki/Software_version
  */
 qx.Class.define("qx.core.Client",
 {
@@ -573,7 +574,7 @@ qx.Class.define("qx.core.Client",
 
 
     /**
-     * Singeleton getter for keep compatibility
+     * Singleton getter for keep compatibility
      * @deprecated
      * @return {Client} reference to the static class.
      */

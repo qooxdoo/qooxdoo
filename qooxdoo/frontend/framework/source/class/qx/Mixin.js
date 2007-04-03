@@ -26,13 +26,13 @@
 ************************************************************************ */
 
 /**
- * This class is used to define mixins.
+ * This class is used to define mixins (similar to mixins in Ruby).
  *
  * Mixins are collections of code and variables, which can be merged into
- * other classes. They are similar to classes but don't support inheritence
+ * other classes. They are similar to classes but don't support inheritance
  * and don't have a constructor.
  *
- * To define a new mixin the {@link #define} method is used.
+ * See the description of the {@link #define} method how a mixin is defined.
  */
 qx.Class.define("qx.Mixin",
 {
@@ -74,7 +74,7 @@ qx.Class.define("qx.Mixin",
      *     <tr><th>include</th><td>Mixin[]</td><td>Array of mixins, which will be merged into the mixin.</td></tr>
      *     <tr><th>statics</th><td>Map</td><td>
      *         Map of statics of the mixin. The statics will not get copied into the target class. They remain
-     *         acceccible from the mixin. This is the same behaviour as statics in Interfaces ({@link qx.Interface#define}).
+     *         acceccible from the mixin. This is the same behaviour as statics in interfaces ({@link qx.Interface#define}).
      *     </td></tr>
      *     <tr><th>members</th><td>Map</td><td>Map of members of the mixin.</td></tr>
      *     <tr><th>properties</th><td>Map</td><td>Map of property definitions. Format of the map: TODOC</td></tr>
@@ -150,7 +150,7 @@ qx.Class.define("qx.Mixin",
 
 
     /**
-     * Check compatiblity between Mixins (including their includes)
+     * Check compatiblity between mixins (including their includes)
      *
      * @param mixins {Mixin[]} an array of mixins
      * @throws an exception when there is a conflict between the mixins
@@ -307,7 +307,7 @@ qx.Class.define("qx.Mixin",
     },
 
 
-    /** Registers all defined Mixins */
+    /** Registers all defined mixins */
     __registry : {},
 
 

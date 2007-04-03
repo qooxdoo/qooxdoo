@@ -28,6 +28,12 @@
 
 ************************************************************************ */
 
+/**
+ * Early work on a cleaner way of defining themes that allow the styling of 
+ * qooxdoo applications. Supports themes for appearance, color, icon, widget.
+ * 
+ * WARNING: Work in progress!
+ */
 qx.Class.define("qx.Theme",
 {
   statics:
