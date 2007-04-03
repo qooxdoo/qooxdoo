@@ -28,7 +28,6 @@ config.py \
 filetool.py \
 graph.py \
 loader.py \
-logoptimizer.py \
 mapper.py \
 msgfmt.py \
 obfuscator.py \
@@ -80,7 +79,9 @@ api_backup:
 
 api_pydoc: 
 	# invoke pythondoc
-	python pythondoc.py -x $(MODULES) > pydata.xml
+	echo '<?xml version="1.0"?><top>' > pydata.xml
+	python pythondoc.py -x $(MODULES) >> pydata.xml
+	echo '</top>' >> pydata.xml
 
 api_xml: pydata.xml
 	echo '<?xml version="1.0"?><doctree><packages>' > apidata.xml
