@@ -32,7 +32,6 @@ APPLICATION_COMPLETE_SOURCE = false
 APPLICATION_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$(APPLICATION_NAMESPACE)
 APPLICATION_BUILD_LOG_LEVEL = error
 
-APPLICATION_OPTIMIZE_VARIABLES = false
 
 
 
@@ -57,28 +56,17 @@ error:
 # EXTENSIONS
 ################################################################################
 
-source-data:
+source:
 	@$(CMD_GENERATOR) \
 	  --generate-api-documentation \
 	  --api-documentation-json-file $(APPLICATION_SOURCE_PATH)/script/apidata.js \
 	  --class-path $(FRAMEWORK_SOURCE_PATH)/class
 
-
-source-data-test:
-	@$(CMD_GENERATOR) \
-	  --generate-api-documentation \
-	  --api-documentation-json-file $(APPLICATION_SOURCE_PATH)/script/apidata.js \
-	  --class-path $(FRAMEWORK_SOURCE_PATH)/class --disable-internal-check --include qx.test.*
-
-
-build-data:
+build:
 	@$(CMD_GENERATOR) \
 	  --generate-api-documentation \
 	  --api-documentation-json-file $(APPLICATION_BUILD_PATH)/script/apidata.js \
-	  --class-path $(FRAMEWORK_SOURCE_PATH)/class 
-
-build: build-data
-source: source-data
+	  --class-path $(FRAMEWORK_SOURCE_PATH)/class
 
 clean:
 	@$(CMD_REMOVE) source/script/apidata.js
