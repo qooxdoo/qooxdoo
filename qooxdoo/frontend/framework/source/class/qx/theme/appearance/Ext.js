@@ -521,7 +521,7 @@ qx.Theme.define("qx.theme.appearance.Ext",
           vReturn.paddingBottom = 1;
           vReturn.paddingLeft   = 0;
 
-          vReturn.border        = border_top,
+          vReturn.border        = border_top;
           vReturn.height        = "auto";
           vReturn.width         = null;
           vReturn.orientation   = "horizontal";
