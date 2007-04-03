@@ -110,6 +110,8 @@ qx.Class.define("showcase.Application",
 
       barView.addToDocument();
 
+      this._states = {};
+
       this._createPage(barView, "Form", "icon/32/apps/accessories-text-editor.png", this._createFormDemo(), "threedface");
       this._createPage(barView, "Tooltip", "icon/32/actions/system-run.png", this._createTooltipDemo());
       this._createPage(barView, "Menu and Toolbar", "icon/32/devices/video-display.png", this._createToolbarDemo());
@@ -123,6 +125,31 @@ qx.Class.define("showcase.Application",
       this._createPage(barView, "Native Window", "icon/32/devices/video-display.png", this._createNativeWindowDemo(), "threedface");
       this._createPage(barView, "Internal Window", "icon/32/apps/preferences-desktop-theme.png", this._createInternalWindowDemo(), null, true);
       this._createPage(barView, "Themes", "icon/32/apps/preferences-desktop-wallpaper.png", this._createThemesDemo());
+
+      // back button and bookmark support
+      this._history = qx.client.History.getInstance();
+
+      // read initial state
+      var state = this._history.getState();
+      if (this._states[state]) {
+        this._states[state].widget.setChecked(true);
+      } else {
+        this._states["Form"].widget.setChecked(true);
+      }
+
+      // listen for state changes
+      this._history.addEventListener("request", function(e) {
+        console.log(e.getData());
+        this._states[e.getData()].widget.setChecked(true);
+      }, this);
+
+      // update state on selection change
+      barView.getBar().getManager().addEventListener("changeSelected", function(e) {
+        var stateData = e.getData().getUserData("state");
+        this._history.addToHistory(stateData.state, "Showcase - " + stateData.title);
+      }, this);
+
+
     },
 
 
@@ -141,12 +168,17 @@ qx.Class.define("showcase.Application",
     _createPage : function(barView, title, iconUrl, widget, backgroundColor, scrolls)
     {
       var bt = new qx.ui.pageview.buttonview.Button(title, iconUrl);
-
-      if (barView.getBar().isEmpty()) {
-        bt.setChecked(true);
-      }
-
       barView.getBar().add(bt);
+
+      // store state information
+      var state = title.replace(/ /g, "");
+      var stateData = {
+        widget : bt,
+        title : title,
+        state : state
+      }
+      this._states[state] = stateData;
+      bt.setUserData("state", stateData);
 
       var page = new qx.ui.pageview.buttonview.Page(bt);
       barView.getPane().add(page);
