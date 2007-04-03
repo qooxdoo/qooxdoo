@@ -26,6 +26,81 @@
  * Internal class for handling of dynamic properties. Should only be used
  * through the methods provided by {@link qx.Class}.
  *
+ * For a complete documentation of properties take a
+ * look at http://qooxdoo.org/documentation/developer_manual/properties.
+ *
+ *
+ * *Normal properties*
+ *
+ * The <code>properties</code> key in the class definition map of {@link qx.Class#define}
+ * is used to generate the properties.
+ *
+ * Valid keys of a property definition are:
+ *
+ * <table>
+ *   <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+ *   <tr><th>check</th><td>Array, String, Function</td><td>
+ *     The check is used to validate the incoming value of a property. The check can be:
+ *     <ul>
+ *       <li>a custom check function. The function takes the incoming value as a parameter and must
+ *           return a boolean value to indicate whether the values is valid.
+ *       </li>
+ *       <li>inline check code as a string e.g. <code>"value &gt; 0 && value &lt; 100"</code></li>
+ *       <li>a class name e.g. <code>qx.ui.form.Button</code></li>
+ *       <li>an array of all valid values</li>
+ *       <li>one of the predefined checks: Boolean, String, Number, Integer, Float, Double,
+ *           Object, Array, Map, Class, Mixin, Interface, Theme, Error, RegExp, Function,
+ *           Date, Node, Element, Document, Window, Event
+ *       </li>
+ *     <ul>
+ *   </td></tr>
+ *   <tr><th>init</th><td>var</td><td>
+ *     Sets the default/inittial value of the property. If no property value is set or the property
+ *     gets resetteed, the getter will return the <code>init</code> value.
+ *   </td></tr>
+ *   <tr><th>apply</th><td>String</td><td>
+ *     On change of the property value the method of the specified name will be called. The signature of
+ *     the method is <code>function(newValue, oldValue)</code>.
+ *   </td></tr>
+ *   <tr><th>event</th><td>String</td><td>
+ *     On change of the property value an event with the given name will be dispached. The event type is
+ *     {@link qx.event.type.ChangeEvent}.
+ *   </td></tr>
+ *   <tr><th>appearance</th><td>Boolean</td><td>
+ *     Whether this property can be set using appearance themes.
+ *   </td></tr>
+ *   <tr><th>inheritable</th><td>Boolean</td><td>
+ *     Whether the property value should be inheritable. If the property does not have a user defined or an
+ *     init value, the property will try to get the value from the parent of the current object.
+ *   </td></tr>
+ *   <tr><th>nullable</th><td>Boolean</td><td>
+ *     Whether <code>null</code> is an allowed value of the property. This is complemental to the check
+ *     defined using the <code>check</code> key.
+ *   </td></tr>
+ *   <tr><th>refine</th><td>Boolean</td><td>
+ *     Whether the property definition is a refinemnet of a property in one of the super classes of the class.
+ *     Only the <code>init</code> value can be changed using refine.
+ *   </td></tr>
+ * </table>
+ *
+ *
+ * *Property groups*
+ *
+ * Property groups are defined in a similar way but support a different set of keys:
+ *
+ * <table>
+ *   <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+ *   <tr><th>group</th><td>String[]</td><td>
+ *     A list of property names which should be set using the propery group.
+ *   </td></tr>
+ *   <tr><th>mode</th><td>String</td><td>
+ *     If mode is set to <code>"shorthand"</code>, the properties can be set using a CSS like shorthand mode.
+ *   </td></tr>
+ *   <tr><th>appearance</th><td>Boolean</td><td>
+ *     Whether this property can be set using appearance themes.
+ *   </td></tr>
+ * </table>
+ *
  * @internal
  */
 qx.Class.define("qx.core.Property",
