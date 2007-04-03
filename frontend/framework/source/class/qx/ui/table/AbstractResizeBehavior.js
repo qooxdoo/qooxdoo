@@ -180,7 +180,7 @@ qx.Class.define("qx.ui.table.AbstractResizeBehavior",
      * @type member
      * @param tableColumnModel {qx.ui.table.ResizeTableColumnModel}
      *   The table column model in use.
-     * @return {Map} 
+     * @return {Map}
      *   {'width'} Provide width without scrollbar space; scrollbar space is available
      *   {'extraWidth'} qx.ui.core.Widget.SCROLLBAR_SIZE
      */

@@ -174,7 +174,7 @@ qx.Class.define("qx.ui.table.Table",
 
     // Allocate a default data row renderer
     this.setDataRowRenderer(new qx.ui.table.DefaultDataRowRenderer());
-    
+
     // Create the models
     this._selectionManager = this.getNewSelectionManager()(this);
     this.setSelectionModel(this.getNewSelectionModel()(this));
