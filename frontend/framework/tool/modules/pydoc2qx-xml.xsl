@@ -119,10 +119,12 @@
             <xsl:call-template name="method"/>
         </xsl:for-each>
       </xsl:element>
+      <!-- Properties -->
       <!--
       <xsl:element name="properties">
       </xsl:element>
       -->
+      <!-- Methods -->
       <xsl:element name="methods">
         <xsl:apply-templates select="method[info/name != '__init__']"/>
       </xsl:element>
@@ -145,6 +147,9 @@
         <xsl:element name="text"><xsl:value-of select="info/description"/></xsl:element>
       </xsl:element>
 	  <!-- @param -->
+        <!-- the next is for extracting args from the def tag - curr. not used -->
+      <xsl:variable name="arglist"  
+                    select="substring-before(substring-after(info/def,'('),')')"/>
       <xsl:element name="params">
         <xsl:apply-templates select="info/param"/>
       </xsl:element>
