@@ -2305,14 +2305,8 @@ qx.Class.define("showcase.Application",
       {
         win.open();
 
-        // the following breaks in the current layouter
-        /*
-        win.setLeft(doc.getClientWidth() - win.getBoxWidth() - 5);
-        win.setTop(doc.getClientHeight() - win.getBoxHeight() - 5);
-        */
-
-        win.setLeft(doc.getClientWidth() - 500);
-        win.setTop(doc.getClientHeight() - 300);
+        win.setRight(15);
+        win.setBottom(15);
       });
 
       main.add(openThemeWinBt);
