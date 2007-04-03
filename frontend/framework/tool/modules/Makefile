@@ -34,6 +34,7 @@ obfuscator.py \
 optparseext.py \
 path.py \
 privateoptimizer.py \
+pythondoc.py \
 resources.py \
 settings.py \
 stringoptimizer.py \

@@ -601,7 +601,7 @@ class ModuleParser:
     # be either a plain variable, or a function/method or class
     # definition.
     # <p>
-    # This method is also used to process "bare" subjects; that is,
+    # This method is also used to process \"bare\" subjects; that is,
     # functions, methods, and classes that don't have PythonDoc
     # markup.  In that case, the comment_start variable is set to
     # None.
@@ -746,7 +746,7 @@ class ModuleParser:
 
     ##
     # (Token handler helper) Processes a PythonDoc comment.  This
-    # method creates an "info" element based on the current comment,
+    # method creates an \"info\" element based on the current comment,
     # and attaches it to the current subject element.
     #
     # @param subject_name Subject name (or None if the name is not known).
