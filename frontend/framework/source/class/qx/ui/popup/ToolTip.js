@@ -244,18 +244,18 @@ qx.Class.define("qx.ui.popup.ToolTip",
 
       this._stopHideTimer();
     },
-    
-    
+
+
     /**
      * TODOC
-     * 
+     *
      * @type member
      * @return {void}
      */
     _afterAppear : function()
     {
       this.base(arguments);
-      
+
       if (this.getRestrictToPageOnOpen()) {
         var doc = qx.ui.core.ClientDocument.getInstance();
         var docWidth = doc.getClientWidth();
@@ -268,13 +268,13 @@ qx.Class.define("qx.ui.popup.ToolTip",
         var top    = this.getTop();
         var width  = this.getBoxWidth();
         var height = this.getBoxHeight();
-    
+
         var mouseX = qx.event.type.MouseEvent.getPageX();
         var mouseY = qx.event.type.MouseEvent.getPageY();
-    
+
         var oldLeft = this.getLeft();
         var oldTop = top;
-        
+
         // NOTE: We check right and bottom first, because top and left should have
         //       priority, when both sides are violated.
         if (left + width > docWidth - restrictToPageRight) {
@@ -308,18 +308,18 @@ qx.Class.define("qx.ui.popup.ToolTip",
                 [deltaXleft, 0,  violationLeft], // left
                 [deltaXright, 0, violationRight] // right
             ];
-    
+
             possibleMovements.sort(function(a, b){
                 // first sort criterion: overlap/clipping - fewer, better
                 // second criterion: combined movements - fewer, better
                 return a[2]-b[2] || (Math.abs(a[0]) + Math.abs(a[1])) - (Math.abs(b[0]) + Math.abs(b[1]));
             });
-    
+
             var minimalNonClippingMovement = possibleMovements[0];
             left = left + minimalNonClippingMovement[0];
             top = top + minimalNonClippingMovement[1];
         }
-    
+
         if (left != oldLeft || top != oldTop) {
           var self = this;
           window.setTimeout(function() {

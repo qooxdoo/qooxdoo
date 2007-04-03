@@ -275,7 +275,7 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
             this.debug("Request: " + this.getData());
           }
         }
-        
+
         vRequest.send(this.getData());
       }
       catch(ex)

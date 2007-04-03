@@ -237,7 +237,7 @@ qx.Class.define("qx.io.remote.ScriptTransport",
           this.debug("Request: " + vUrl);
         }
       }
-        
+
       document.body.appendChild(this._element);
     },
 
