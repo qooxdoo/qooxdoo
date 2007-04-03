@@ -30,7 +30,8 @@
 /* ************************************************************************ */
 
 /**
- * Variant Class
+ * Manage variants of source code. May it be for different debug options,
+ * browsers or other environment flags.
  *
  * Variants enable the selection and removal of code from the build version.
  * A variant consists of a collection of states from which exactly one is active
@@ -38,10 +39,13 @@
  * used to select a variant before the Framework is loades.
  *
  * Depending on the selected variant a specific code
- * path can be choosen using the <code>select</code> method.
+ * path can be choosen using the <code>select</code> method. The generator is
+ * able to set a variant and remove all code paths which are
+ * not selected by the variant.
  *
- * The generator is able to set a variant and remove all code paths which are not
- * selected by the variant.
+ * Variants are used to implement browser optimized builds and to remove
+ * debugging code from the build version. It is very similar to conditional
+ * compilation in C/C++.
  */
 qx.Class.define("qx.core.Variant",
 {
@@ -51,7 +55,11 @@ qx.Class.define("qx.core.Variant",
     __variants : {},
 
 
-    /** Pseudo function as replacement for isSet() which will only be handled by the optimizer */
+    /**
+     * Pseudo function as replacement for isSet() which will only be handled by the optimizer
+     *
+     * @return {Boolean}
+     */
     compilerIsSet : function() {
       return true;
     },
@@ -79,7 +87,8 @@ qx.Class.define("qx.core.Variant",
         }
       }
 
-      if (!this.__variants[key]) {
+      if (!this.__variants[key])
+      {
         this.__variants[key] = {};
       }
       else if (qx.core.Variant.compilerIsSet("qx.debug", "on"))
@@ -121,6 +130,8 @@ qx.Class.define("qx.core.Variant",
 
     /**
      * Import settings from global qxvariants into current environment
+     *
+     * @return {void}
      */
     __init : function()
     {
@@ -151,13 +162,15 @@ qx.Class.define("qx.core.Variant",
      * Select a function depending on the value of the variant.
      *
      * Example:
-     * <code>
+     *
+     * <pre>
      * var f = qx.Variant.select("qx.client", {
      *   "gecko": fucntion() { ... },
      *   "mshtml|opera": function() { ... },
      *   "default": function() { ... }
      * });
      * </code>
+     *
      * Depending on the value of the <code>"qx.client"</code> variant whit will select the
      * corresponding function. The first case is selected if the variant is "gecko", the second
      * is selected if the variant is "mshtml" or "opera" and the third function is selected if
@@ -212,7 +225,8 @@ qx.Class.define("qx.core.Variant",
      * statement.
      *
      * Example:
-     * <code>
+     *
+     * <pre>
      * if (qx.core.Variant.isSet("qx.client", "mshtml")) {
      *   // some Internet Explorer specific code
      * } else if(qx.core.Variant.isSet("qx.client", "opera")){
@@ -220,7 +234,7 @@ qx.Class.define("qx.core.Variant",
      * } else {
      *   // common code for all other browsers
      * }
-     * </code>
+     * </pre>
      *
      * @param key {String} name of the variant
      * @param variants {String} value to check for. Several values can be "or"-combined by separating
@@ -250,14 +264,12 @@ qx.Class.define("qx.core.Variant",
 
     /**
      * Whether a value is a valid array. Valid arrays are:
-     * <ul>
-     *   <li>type is object</li>
-     *   <li>instance is Array</li>
-     * </ul>
+     *
+     * * type is object
+     * * instance is Array
      *
      * @type static
      * @name __isValidArray
-     * @access private
      * @param v {var} the value to validate.
      * @return {Boolean} whether the variable is valid
      */
@@ -268,14 +280,12 @@ qx.Class.define("qx.core.Variant",
 
     /**
      * Whether a value is a valid object. Valid object are:
-     * <ul>
-     *   <li>type is object</li>
-     *   <li>instance != Array</li>
-     * </ul>
+     *
+     * * type is object
+     * * instance != Array
      *
      * @type static
      * @name __isValidObject
-     * @access private
      * @param v {var} the value to validate.
      * @return {Boolean} whether the variable is valid
      */
@@ -289,7 +299,6 @@ qx.Class.define("qx.core.Variant",
      *
      * @type static
      * @name __arrayContains
-     * @access private
      * @param arr {Array} the array
      * @param obj {var} object to look for
      * @return {Boolean} whether the array contains the element
