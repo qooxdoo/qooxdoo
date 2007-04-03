@@ -1509,19 +1509,26 @@ qx.Class.define("showcase.Application",
       main.add(controls);
 
       // Info Box
+      var w2 = new qx.ui.window.Window("Locale Information", "icon/16/actions/edit-find.png");
+      w2.setSpace(300, 0, "auto", "auto");
+      w2.set({ allowClose : false, allowMinimize : false });
+      main.add(w2);
+      w2.open();
+
       var fs = new qx.ui.groupbox.GroupBox(this.tr("Locale information"));
 
       fs.set(
       {
-        left   : 300,
+        left   : 0,
         top    : 0,
         width  : 400,
         height : "auto"
       });
+      fs.setMargin(4);
 
       var infoLabel = new qx.ui.basic.Label("");
       fs.add(infoLabel);
-      main.add(fs);
+      w2.add(fs);
 
       var info = [];
       info.push("<table style='font-size:11px'><tr><td>");
