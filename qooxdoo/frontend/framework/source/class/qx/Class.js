@@ -77,7 +77,7 @@ qx.Class.define("qx.Class",
     */
 
     /**
-     * Define a new class using the qooxdoo class system. This sets up the 
+     * Define a new class using the qooxdoo class system. This sets up the
      * namespace for the class and generates the class from the definition map.
      *
      * Example:
@@ -324,7 +324,7 @@ qx.Class.define("qx.Class",
 
 
     /**
-     * Include all features of the given mixin into the class. The mixin must 
+     * Include all features of the given mixin into the class. The mixin must
      * not include any methods or properties that are already available in the
      * class. This would only be possible using the {@link #patch} method.
      *
@@ -344,10 +344,10 @@ qx.Class.define("qx.Class",
 
     /**
      * Include all features of the given mixin into the class. The mixin may
-     * include features which are already defined in the target class. Existing 
-     * features of equal name will be overwritten. 
+     * include features which are already defined in the target class. Existing
+     * features of equal name will be overwritten.
      * Please keep in mind that this functionality is not intented for regular
-     * use, but as a formalized way (and a last resort) in order to patch 
+     * use, but as a formalized way (and a last resort) in order to patch
      * existing classes.
      *
      * <b>WARNING</b>: You may break working classes and features.
@@ -510,7 +510,7 @@ qx.Class.define("qx.Class",
 
     /**
      * Returns the class or one of its superclasses which contains the
-     * declaration for the given mixin. Returns null if the mixin is not 
+     * declaration for the given mixin. Returns null if the mixin is not
      * specified anywhere.
      *
      * @param clazz {Class} class to look for the mixin
@@ -597,7 +597,7 @@ qx.Class.define("qx.Class",
 
     /**
      * Returns the class or one of its superclasses which contains the
-     * declaration of the given interface. Returns null if the interface is not 
+     * declaration of the given interface. Returns null if the interface is not
      * specified anywhere.
      *
      * @param clazz {Class} class to look for the interface
@@ -1381,6 +1381,8 @@ qx.Class.define("qx.Class",
 
 
     /**
+     * Wraps the constructor and adds singleton and abstract checks and handles mixin
+     * constructors.
      *
      * @param construct {Fuction} the original constructor
      * @param name {String} name of the class
