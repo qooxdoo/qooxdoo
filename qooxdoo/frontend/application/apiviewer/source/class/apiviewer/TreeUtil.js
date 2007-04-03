@@ -264,6 +264,9 @@ qx.Class.define("apiviewer.TreeUtil",
     },
 
 
+    /** {string} The URL of the blank icon. */
+    ICON_BLANK : "api/image/blank.gif",
+
     /** {string} The URL of the info icon. */
     ICON_INFO : "api/image/information18.png",
 
