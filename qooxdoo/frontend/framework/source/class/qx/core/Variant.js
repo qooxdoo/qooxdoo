@@ -169,7 +169,7 @@ qx.Class.define("qx.core.Variant",
      *   "mshtml|opera": function() { ... },
      *   "default": function() { ... }
      * });
-     * </code>
+     * </pre>
      *
      * Depending on the value of the <code>"qx.client"</code> variant whit will select the
      * corresponding function. The first case is selected if the variant is "gecko", the second
