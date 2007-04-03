@@ -37,8 +37,6 @@ qx.Class.define("apiviewer.dao.Param", {
 
     getTypes : function()
     {
-
-
       var fromProperty = this.getMethod().getFromProperty();
       if (fromProperty) {
         if (fromProperty.isPropertyGroup()) {
@@ -51,8 +49,8 @@ qx.Class.define("apiviewer.dao.Param", {
         }
       }
 
-      var result = [];
-      var attributes = this.getDocNode()._docNode.attributes;
+      var result = this.base(arguments);
+      var attributes = this._docNode.attributes;
       if (attributes.type) {
         result.push({
           type : attributes.type,
