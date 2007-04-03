@@ -142,6 +142,10 @@
   font-weight: bold;
 }
 
+#content h2.warning{
+  color: #D61F1C;
+}
+
 #content h3{
   font-size: 14px;
   margin-bottom: 4px;
