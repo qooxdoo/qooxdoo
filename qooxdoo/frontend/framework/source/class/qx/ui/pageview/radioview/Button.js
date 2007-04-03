@@ -127,7 +127,7 @@ qx.Class.define("qx.ui.pageview.radioview.Button",
 
           // Move to the previous item
           vChild = vChild.getPreviousSibling();
-          
+
           // Ensure that it's a button.  If not, loop again.
         } while (! (vChild instanceof qx.ui.pageview.AbstractButton));
       }
@@ -146,7 +146,7 @@ qx.Class.define("qx.ui.pageview.radioview.Button",
 
           // Move to the next item
           vChild = vChild.getNextSibling();
-          
+
           // Ensure that it's a button.  If not, loop again.
         } while (! (vChild instanceof qx.ui.pageview.AbstractButton));
       }

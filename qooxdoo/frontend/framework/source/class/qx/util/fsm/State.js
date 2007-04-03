@@ -904,7 +904,7 @@ qx.Class.define("qx.util.fsm.State",
      *
      * @param trans {qx.util.fsm.Transition}
      *   An object of class qx.util.fsm.Transition representing a transition
-     *   which is to be a part of this state. 
+     *   which is to be a part of this state.
      *
      * @return {void}
      *
