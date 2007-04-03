@@ -533,10 +533,10 @@ def handlePropertyDefinitionNew(propName, propDefinition, classNode):
     return node
 
 
-def generateGroupPropertyMethod(propertyName, groupMembers, classNode):
+def generateGroupPropertyMethod(propertyName, groupMembers, mode, classNode):
     functionTemplate = """/**
  * Sets the values of the property group <code>%(name)s</code>.
- *
+ * %(modeDoc)s
  * For further details take a look at the property definition: {@link #%(name)s}.
  *
 %(params)s
@@ -546,8 +546,14 @@ def generateGroupPropertyMethod(propertyName, groupMembers, classNode):
     paramsTemplate = " * @param %s {var} Sets the value of the property {@link #%s}."
     paramsDef = [paramsTemplate % (name, name) for name in groupMembers]
 
+    if mode == "shorthand":
+        modeDoc = "\n * This setter supports a shorthand mode compatible with the way margins and paddins are set in CSS.\n *"
+    else:
+        modeDoc = ""
+
     functionCode = functionTemplate % ({
         "name" : propertyName,
+        "modeDoc" : modeDoc,
         "params" : "\n".join(paramsDef),
         "paramList" : ", ".join(groupMembers)
     })
@@ -570,6 +576,9 @@ def handlePropertyGroup(propName, propDefinition, classNode):
     groupMembers = [getValue(arrayItem) for arrayItem in group.children]
 
     node.set("group", ",".join(groupMembers));
+
+    if propDefinition.has_key("mode"):
+        node.set("mode", propDefinition["mode"].getChild("constant").get("value"))
 
     return node
 
@@ -596,7 +605,7 @@ def handleProperties(item, classNode):
             if propDefinition.has_key("group"):
                 node = handlePropertyGroup(propName, propDefinition, classNode)
                 groupMembers = [member[1:-1] for member in node.get("group").split(",")]
-                generateGroupPropertyMethod(propName, groupMembers, classNode)
+                generateGroupPropertyMethod(propName, groupMembers, node.get("mode", False), classNode)
             else:
                 node = handlePropertyDefinitionNew(propName, propDefinition, classNode)
                 generatePropertyMethods(propName, classNode, node.get("check", False))
