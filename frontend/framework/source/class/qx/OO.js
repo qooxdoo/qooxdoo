@@ -27,6 +27,14 @@
 
 if (qx.core.Variant.isSet("qx.compatibility", "on"))
 {
+  /**
+   * Defines a qooxdoo class. 
+   * 
+   * WARNING: This class is deprecated an will be removed in qooxdoo 0.7! Please
+   * use {@link qx.Class} instead.
+   * 
+   * @deprecated
+   */
   qx.Class.define("qx.OO",
   {
     /*
@@ -129,7 +137,7 @@ if (qx.core.Variant.isSet("qx.compatibility", "on"))
       /**
        * Legacy property handling
        *
-       * @deprecated: will be removed in qooxdoo 0.7
+       * @deprecated will be removed in qooxdoo 0.7
        * @param config {Map} Configuration map
        */
       addFastProperty : function(config)
@@ -144,7 +152,7 @@ if (qx.core.Variant.isSet("qx.compatibility", "on"))
       /**
        * Legacy property handling
        *
-       * @deprecated: will be removed in qooxdoo 0.7
+       * @deprecated will be removed in qooxdoo 0.7
        * @param config {Map} Configuration map
        */
       addCachedProperty : function(config)
@@ -159,7 +167,7 @@ if (qx.core.Variant.isSet("qx.compatibility", "on"))
       /**
        * Legacy property handling
        *
-       * @deprecated: will be removed in qooxdoo 0.7
+       * @deprecated will be removed in qooxdoo 0.7
        * @param config {Map} Configuration map
        */
       addPropertyGroup : function(config)
@@ -174,7 +182,7 @@ if (qx.core.Variant.isSet("qx.compatibility", "on"))
       /**
        * Legacy property handling
        *
-       * @deprecated: will be removed in qooxdoo 0.7
+       * @deprecated will be removed in qooxdoo 0.7
        * @param config {Map} Configuration map
        */
       removeProperty : function(config)
@@ -189,7 +197,7 @@ if (qx.core.Variant.isSet("qx.compatibility", "on"))
       /**
        * Legacy property handling
        *
-       * @deprecated: will be removed in qooxdoo 0.7
+       * @deprecated will be removed in qooxdoo 0.7
        * @param config {Map} Configuration map
        */
       changeProperty : function(config)
@@ -204,7 +212,7 @@ if (qx.core.Variant.isSet("qx.compatibility", "on"))
       /**
        * Legacy property handling
        *
-       * @deprecated: will be removed in qooxdoo 0.7
+       * @deprecated will be removed in qooxdoo 0.7
        * @param config {Map} Configuration map
        */
       addProperty : function(config)

@@ -29,10 +29,11 @@
 
 /**
  * This class is one of the most important parts of qooxdoo's
- * object-oriented features. Its {@link #define} method is used to
- * create all other classes.
+ * object-oriented features.
+ * 
+ * Its {@link #define} method is used to create qooxdoo classes.
  *
- * Each instance of a class defined by <code>qx.Class.define</code> has
+ * Each instance of a class defined by {@link #define} has
  * the following keys attached to the constructor and the prototype:
  *
  * <table>
@@ -56,7 +57,7 @@
  *
  * Each overriding method may call the overridden method by using
  * <code>this.base(arguments [, ...])</code> ({@link qx.core.Object#base}). This is also true for calling
- * the superclass' constructor.
+ * the constructor of the superclass.
  * <pre><code>
  * members: {
  *   foo: function(x) {
@@ -123,23 +124,26 @@ qx.Class.define("qx.Class",
      *     <table>
      *       <tr><th>Name</th><th>Type</th><th>Description</th></tr>
      *       <tr><th>type</th><td>String</td><td>
-     *           Type of the class. Valid types are "abstract", "static" and "singleton". If type is set to
-     *           "singleton", the mixin {@link qx.core.MSingleton} is included into the newly created class.
+     *           Type of the class. Valid types are "abstract", "static" and "singleton".
+     *           If unset it defaults to a regular non-static class.
      *       </td></tr>
      *       <tr><th>extend</th><td>Class</td><td>The super class the current class inherits from.</td></tr>
      *       <tr><th>implement</th><td>Interface | Interface[]</td><td>Single interface or array of interfaces the class implements.</td></tr>
      *       <tr><th>include</th><td>Mixin | Mixin[]</td><td>Single mixin or array of mixins, which will be merged into the class.</td></tr>
      *       <tr><th>construct</th><td>Function</td><td>The constructor of the class.</td></tr>
      *       <tr><th>statics</th><td>Map</td><td>Map of static members of the class.</td></tr>
-     *       <tr><th>properties</th><td>Map</td><td>Map of property definitions. Format of the map: TODOC</td></tr>
+     *       <tr><th>properties</th><td>Map</td><td>Map of property definitions. For a description of the format of a property definition see 
+     *           {@link qx.core.Property} or the legacy version {@link qx.core.LegacyProperty}.</td></tr>
      *       <tr><th>members</th><td>Map</td><td>Map of instance members of the class.</td></tr>
-     *       <tr><th>settings</th><td>Map</td><td>Map of settings for this class. Format of the map: TODOC</td></tr>
-     *       <tr><th>variants</th><td>Map</td><td>Map of settings for this class. Format of the map: TODOC</td></tr>
+     *       <tr><th>settings</th><td>Map</td><td>Map of settings for this class. For a description of the format of a setting see
+     *           {@link qx.core.Setting}.</td></tr>
+     *       <tr><th>variants</th><td>Map</td><td>Map of settings for this class. For a description of the format of a setting see
+     *           {@link qx.core.Variant}</td></tr>
      *       <tr><th>events</th><td>Map</td><td>
-     *           Map of events the class fires. The keys are the names of the events and the values are
-     *           corresponding event type classes.
+     *           Map of events the class fires. The keys are the names of the events and the values are the
+     *           corresponding event type class names.
      *       </td></tr>
-     *       <tr><th>defer</th><td>Function</td><td>Function that is to be called after at the end of the class declaration that allows access to the statics, members, properties.</td></tr>
+     *       <tr><th>defer</th><td>Function</td><td>Function that is called at the end of processing the class declaration. It allows access to the declared statics, members and properties.</td></tr>
      *       <tr><th>destruct</th><td>Function</td><td>The destructor of the class.</td></tr>
      *     </table>
      * @return {void}
@@ -1285,11 +1289,11 @@ qx.Class.define("qx.Class",
 
 
     /**
-     * Include all features of the Mixin into the given class (recursive).
+     * Include all features of the mixin into the given class (recursive).
      *
      * @type static
      * @param clazz {Class} A class previously defined where the mixin should be attached.
-     * @param mixin {Mixin} Include all features of this Mixin
+     * @param mixin {Mixin} Include all features of this mixin
      * @param patch {Boolean} Overwrite existing fields, functions and properties
      */
     __addMixin : function(clazz, mixin, patch)
@@ -1381,10 +1385,10 @@ qx.Class.define("qx.Class",
 
 
     /**
-     * Wraps the constructor and adds singleton and abstract checks and handles mixin
-     * constructors.
-     *
-     * @param construct {Fuction} the original constructor
+     * Generate a wrapper of the original class constructor in order to enable
+     * some of the advanced OO features (e.g. abstract class, singleton, mixins)
+     * 
+     * @param construct {Function} the original constructor
      * @param name {String} name of the class
      * @param type {String} the user specified class type
      */

@@ -22,6 +22,11 @@
 
 ************************************************************************ */
 
+/**
+ * Internal class for handling of dynamic properties.
+ * 
+ * @internal
+ */
 qx.Class.define("qx.core.Property",
 {
   statics :

@@ -26,9 +26,10 @@
 ************************************************************************ */
 
 /**
- * This class is used to define interfaces.
+ * This class is used to define interfaces (similar to Java interfaces).
  *
- * To define a new interface the {@link #define} method is used.
+ * See the description of the {@link #define} method how an interface is 
+ * defined.
  */
 qx.Class.define("qx.Interface",
 {
@@ -72,7 +73,7 @@ qx.Class.define("qx.Interface",
      *
      *   events :
      *   {
-     *     keydown : qx.event.type.KeyEvent
+     *     keydown : "qx.event.type.KeyEvent"
      *   }
      * });
      * </pre>
@@ -86,9 +87,10 @@ qx.Class.define("qx.Interface",
      *     <tr><th>members</th><td>Map</td><td>Map of members of the interface.</td></tr>
      *     <tr><th>statics</th><td>Map</td><td>
      *         Map of statics of the interface. The statics will not get copied into the target class.
-     *         This is the same behaviour as statics in Mixins ({@link qx.Mixin#define}).
+     *         This is the same behaviour as statics in mixins ({@link qx.Mixin#define}).
      *     </td></tr>
-     *     <tr><th>properties</th><td>Map</td><td>Map of properties.</td></tr>
+     *     <tr><th>properties</th><td>Map</td><td>Map of properties and their definitions.</td></tr>
+     *     <tr><th>events</th><td>Map</td><td>Map of event names and the corresponding event class name.</td></tr>
      *   </table>
      */
     define : function(name, config)
@@ -105,7 +107,7 @@ qx.Class.define("qx.Interface",
           this.__validateConfig(name, config);
         }
 
-        // Create Interface from statics
+        // Create interface from statics
         var iface = config.statics ? config.statics : {};
 
         // Attach configuration
@@ -127,7 +129,7 @@ qx.Class.define("qx.Interface",
       }
       else
       {
-        // Create empty Interface
+        // Create empty interface
         var iface = {};
       }
 
@@ -144,13 +146,13 @@ qx.Class.define("qx.Interface",
       // Add to registry
       qx.Interface.__registry[name] = iface;
 
-      // Return final Interface
+      // Return final interface
       return iface;
     },
 
 
     /**
-     * Returns a Interface by name
+     * Returns an interface by name
      *
      * @type static
      * @param name {String} class name to resolve
@@ -162,11 +164,11 @@ qx.Class.define("qx.Interface",
 
 
     /**
-     * Determine if Interface exists
+     * Determine if interface exists
      *
      * @type static
      * @param name {String} Interface name to check
-     * @return {Boolean} true if Interface exists
+     * @return {Boolean} true if interface exists
      */
     isDefined : function(name) {
       return arguments.callee.self.getByName(name) !== undefined;
@@ -185,10 +187,10 @@ qx.Class.define("qx.Interface",
 
 
     /**
-     * Generates a list of all interfaces given plus all the
-     * interfaces these extends plus... (deep)
+     * Generates a list of all interfaces including their super interfaces 
+     * (resolved recursively)
      *
-     * @param ifaces {Interface[] ? []} List of interfaces
+     * @param ifaces {Interface[] ? []} List of interfaces to be resolved
      * @returns {Array} List of all interfaces
      */
     flatten : function(ifaces)
@@ -214,11 +216,11 @@ qx.Class.define("qx.Interface",
 
 
     /**
-     * Checks if a interface is implemented by a class
+     * Checks if an interface is implemented by a class
      *
      * @type static
      * @param clazz {Class} class to check interface for
-     * @param iface {Interface} the Interface to verify
+     * @param iface {Interface} the interface to verify
      * @param wrap {Boolean ? false} wrap functions required by interface to check parameters etc.
      * @return {void}
      */

@@ -100,7 +100,8 @@ qx =
 
 
 /**
- * Bootstrap helper class
+ * Internal class that is responsible for bootstrapping the qooxdoo 
+ * framework at load time.
  */
 qx.Class.define("qx.core.Bootstrap",
 {
