@@ -501,6 +501,14 @@ qx.Class.define("apiviewer.ui.ClassViewer",
         classHtml.add('</p>');
       }
 
+      if (classNode.isInternal())
+      {
+        classHtml.add('<h2 class="warning">', "Internal:", '</h2>');
+        classHtml.add('<p>');
+        classHtml.add("This ", classNode.getType(), " is internal!");
+        classHtml.add('</p>');
+      }
+
       this._classDescElem.innerHTML = classHtml.get();
       apiviewer.ui.ClassViewer.fixLinks(this._classDescElem);
 
