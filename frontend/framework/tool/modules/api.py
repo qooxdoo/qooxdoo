@@ -56,9 +56,9 @@ from treeutil import *
 #
 ########################################################################################
 
-##                                                                              
+##
 # Some nice short description of class Foo
-#                                                                               
+#
 # @param Super The super-class of Foo
 class DocException (Exception):
     def __init__ (self, msg, syntaxItem):
@@ -404,7 +404,7 @@ def handleMembers(item, classNode):
                 classNode.addListChild("methods", node)
 
 
-def generatePropertyMethods(propertyName, classNode, checkBasic):
+def generatePropertyMethods(propertyName, classNode, generatedMethods):
 
     if propertyName[:2] == "__":
         access = "__"
@@ -460,11 +460,9 @@ def generatePropertyMethods(propertyName, classNode, checkBasic):
  * @param value {var} Initial value for property <code>%s</code>.
  * @return {var} the default value
  */
- function (value) {}; """ % (propertyName, propertyName, propertyName)
-    }
+ function (value) {}; """ % (propertyName, propertyName, propertyName),
 
-    if checkBasic == "Boolean":
-       propData[access + "toggle" + name] = """/**
+       access + "toggle" + name : """/**
  * Toggles the (computed) value of the boolean property <code>%s</code>.
  *
  * For further details take a look at the property definition: {@link #%s}.
@@ -472,8 +470,10 @@ def generatePropertyMethods(propertyName, classNode, checkBasic):
  * @return {Boolean} the new value
  */
  function () {}; """ % (propertyName, propertyName)
+    }
 
-    for funcName in propData.keys():
+    for funcName in generatedMethods:
+        funcName = access + funcName + name
         functionCode = propData[funcName]
         node = compileString(functionCode)
         commentAttributes = comment.parseNode(node)
@@ -534,6 +534,16 @@ def handlePropertyDefinitionNew(propName, propDefinition, classNode):
 
 
 def generateGroupPropertyMethod(propertyName, groupMembers, mode, classNode):
+    if propertyName[:2] == "__":
+        access = "__"
+        functionName = propertyName[2:]
+    elif propertyName[:1] == "_":
+        access = "_"
+        functionName = propertyName[1:]
+    else:
+        access = ""
+        functionName = propertyName
+
     functionTemplate = """/**
  * Sets the values of the property group <code>%(name)s</code>.
  * %(modeDoc)s
@@ -561,8 +571,6 @@ def generateGroupPropertyMethod(propertyName, groupMembers, mode, classNode):
     commentAttributes = comment.parseNode(functionNode)
     docNode = handleFunction(functionNode, commentAttributes, classNode)
 
-    functionName = "set" + propertyName[0].upper() + propertyName[1:]
-
     docNode.set("name", functionName)
     docNode.set("fromProperty", propertyName)
     classNode.addListChild("methods", docNode)
@@ -579,6 +587,9 @@ def handlePropertyGroup(propName, propDefinition, classNode):
 
     if propDefinition.has_key("mode"):
         node.set("mode", propDefinition["mode"].getChild("constant").get("value"))
+
+    if propDefinition.has_key("appearance"):
+        node.set("appearance", propDefinition["appearance"].getChild("constant").get("value"))
 
     return node
 
@@ -606,9 +617,13 @@ def handleProperties(item, classNode):
                 node = handlePropertyGroup(propName, propDefinition, classNode)
                 groupMembers = [member[1:-1] for member in node.get("group").split(",")]
                 generateGroupPropertyMethod(propName, groupMembers, node.get("mode", False), classNode)
+                generatePropertyMethods(propName, classNode, ["reset"])
             else:
                 node = handlePropertyDefinitionNew(propName, propDefinition, classNode)
-                generatePropertyMethods(propName, classNode, node.get("check", False))
+                generatePropertyMethods(propName, classNode, ["set", "get", "init", "reset"])
+                if node.get("check", False) == "Boolean":
+                    generatePropertyMethods(propName, classNode, ["toggle"])
+
 
             if classNode.get("type", False) == "mixin":
                 node.set("isMixin", True)
