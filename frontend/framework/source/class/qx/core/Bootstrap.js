@@ -100,8 +100,11 @@ qx =
 
 
 /**
- * Internal class that is responsible for bootstrapping the qooxdoo 
+ * Internal class that is responsible for bootstrapping the qooxdoo
  * framework at load time.
+ *
+ * Automatically loads JavaScript language fixes, core logging possibilities
+ * and language addons for arrays, strings, etc.
  */
 qx.Class.define("qx.core.Bootstrap",
 {

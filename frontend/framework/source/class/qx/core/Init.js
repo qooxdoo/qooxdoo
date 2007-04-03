@@ -28,13 +28,14 @@
 ************************************************************************ */
 
 /**
- * Initialize qooxdoo.
+ * Initialize qooxdoo based application.
  *
- * Attaches qooxdoo callbacks to the load events (onload, onunload, onbeforeunload)
- * and initializes the qooxdoo application. The initializations starts automatically.
+ * Attaches qooxdoo callbacks to the browser load events (onload, onunload, onbeforeunload)
+ * and initializes the application. The initializations starts automatically.
  *
  * Make sure you set the application to your application before the load event is fired:
- * <pre>qx.core.Init.getInstance().setApplication(YourApplication)</pre>
+ * <pre>qx.core.Init.getInstance().setApplication(new YourApplication)</pre>. This can
+ * also be defined using the setting <code>qx.initApplication</code>.
  */
 qx.Class.define("qx.core.Init",
 {

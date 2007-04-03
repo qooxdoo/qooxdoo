@@ -29,8 +29,7 @@
 /**
  * Basic client detection implementation.
  *
- * Version names follow the wikipedia scheme: major.minor[.revision[.build]]
- * 
+ * Version names follow the wikipedia scheme: major.minor[.revision[.build]] at
  * http://en.wikipedia.org/wiki/Software_version
  */
 qx.Class.define("qx.core.Client",

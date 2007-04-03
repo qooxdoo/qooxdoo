@@ -33,14 +33,10 @@
  * The qooxdoo root class. All other classes are direct or indirect subclasses of this one.
  *
  * This class contains methods for:
- * <ul>
- *   <li> object management (creation and destruction) </li>
- *   <li> logging & debugging </li>
- *   <li> generic getter/setter </li>
- *   <li> user data </li>
- *   <li> settings </li>
- *   <li> internationalization </li>
- * </ul>
+ *
+ * * object management (creation and destruction)
+ * * generic setter support
+ * * user friendly OO interfaces like {@link #self} or {@link #base}
  */
 qx.Class.define("qx.core.Object",
 {
