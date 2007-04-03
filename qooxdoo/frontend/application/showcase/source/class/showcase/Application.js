@@ -139,8 +139,8 @@ qx.Class.define("showcase.Application",
 
       // listen for state changes
       this._history.addEventListener("request", function(e) {
-        console.log(e.getData());
-        this._states[e.getData()].widget.setChecked(true);
+        var stateData = this._states[e.getData()];
+        stateData.widget.setChecked(true);
       }, this);
 
       // update state on selection change
@@ -2303,11 +2303,12 @@ qx.Class.define("showcase.Application",
       });
 
       var nativeWindow = new qx.client.NativeWindow;
+      var url = window.location.protocol + "//" + window.location.host + window.location.pathname + "?theme=ext" + window.location.hash;
       nativeWindow.set({
         width        : 1000,
         height       : 800,
         showLocation : true,
-        url          : window.location.href + "?theme=ext"
+        url          : url
       });
 
       var extThemeButton = new qx.ui.form.Button("Open Ext-Theme", "icon/16/actions/format-color.png");
