@@ -91,7 +91,10 @@ qx.Class.define("qx.client.History",
 
       this._titles = {};
       this._state = decodeURIComponent(this.__getHash());
-      this.__waitForIFrame(this.__startTimer, this);
+      this.__waitForIFrame(function() {
+        this.__storeState(this._state);
+        this.__startTimer()
+      }, this);
     },
 
     "default" : function()
@@ -289,8 +292,6 @@ qx.Class.define("qx.client.History",
 
       "default" : function()
       {
-        var href = top.location.href;
-        var idx = href.indexOf( "#" );
         return decodeURIComponent(this.__getHash());
       }
     }),
