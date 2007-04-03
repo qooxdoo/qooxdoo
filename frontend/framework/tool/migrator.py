@@ -274,6 +274,9 @@ def migrateFile(
     # Apply patches
     if hasPatchModule:
         fileId = loader.extractFileContentId(fileContent);
+        if fileId is None:
+            return
+
         import patch
         tree = treegenerator.createSyntaxTree(tokenizer.parseStream(patchedContent))
 
