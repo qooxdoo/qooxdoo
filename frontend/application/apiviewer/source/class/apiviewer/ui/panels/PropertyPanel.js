@@ -56,9 +56,10 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
         if (!node.isPropertyGroup())
         {
           generatedMethods.push("{@link #" + access + "get" + name + "}</td><td> Get the property value.");
-          generatedMethods.push("{@link #" + access + "reset" + name + "}</td><td> Reset the property value.");
           generatedMethods.push("{@link #" + access + "init" + name + "}</td><td> Call apply method with the init value.");
         }
+
+        generatedMethods.push("{@link #" + access + "reset" + name + "}</td><td> Reset the property value.");
 
         if (node.getType() == "Boolean") {
           generatedMethods.push("{@link #" + access + "toggle" + name + "}</td><td> Toggle the property value.");

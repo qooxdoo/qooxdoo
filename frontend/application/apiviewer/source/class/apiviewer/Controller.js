@@ -106,7 +106,7 @@ qx.Class.define("apiviewer.Controller",
           if (state)
           {
             qx.client.Timer.once(function() {
-              this.__selectItem(state);
+              this.__selectItem(this.__decodeState(state));
             }, this, 0);
           }
 
@@ -134,14 +134,7 @@ qx.Class.define("apiviewer.Controller",
     __bindClassViewer : function()
     {
       this._classViewer.addEventListener("classLinkClicked", function(e) {
-        try
-        {
           this.__selectItem(e.getData());
-        }
-        catch(exc)
-        {
-          this.error("Selecting item '" + e.getData() + "' failed", exc);
-        }
       }, this);
     },
 
@@ -191,7 +184,7 @@ qx.Class.define("apiviewer.Controller",
     __bindHistory : function()
     {
       this._history.addEventListener("request", function(evt) {
-        this.__selectItem(evt.getData())
+        this.__selectItem(this.__decodeState(evt.getData()));
       }, this);
     },
 
@@ -225,7 +218,7 @@ qx.Class.define("apiviewer.Controller",
     __updateHistory : function(className)
     {
       var newTitle = this._titlePrefix + " - class " + className;
-      qx.client.History.getInstance().addToHistory(className, newTitle);
+      qx.client.History.getInstance().addToHistory(this.__encodeState(className), newTitle);
     },
 
 
@@ -281,18 +274,41 @@ qx.Class.define("apiviewer.Controller",
 
       // ignore changeSelection events
       this._ignoreTreeSelection = true;
-      this._tree.selectTreeNodeByClassName(className);
+      var couldSelectTreeNode = this._tree.selectTreeNodeByClassName(className);
       this._ignoreTreeSelection = false;
 
-      this.__updateHistory(fullItemName);
+      if (!couldSelectTreeNode) {
+        this.error("Unknown class: " + className);
+        alert("Unknown class: " + className);
+        return;
+      }
+
       this.__selectClass(this._tree.getSelectedElement().docNode);
 
       if (itemName) {
-        this._classViewer.showItem(itemName);
+        if (!this._classViewer.showItem(itemName)) {
+          this.error("Unknown item of class '"+ className +"': " + itemName);
+          alert("Unknown item of class '"+ className +"': " + itemName);
+          return;
+        }
       } else {
         this._classViewer.setScrollTop(0);
       }
+
+      this.__updateHistory(fullItemName);
+    },
+
+
+    __encodeState : function(state)
+    {
+      return state.replace(/(.*)#(.*)/g, "$1~$2")
+    },
+
+    __decodeState : function(encodedState)
+    {
+      return encodedState.replace(/(.*)~(.*)/g, "$1#$2")
     }
+
 
   }
 

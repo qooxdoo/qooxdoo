@@ -695,17 +695,24 @@ qx.Class.define("apiviewer.ui.ClassViewer",
      *
      * @type member
      * @param itemName {String} the name of the item to highlight.
+     * @return {Boolean} whether the item name was valid and could be selected.
      */
     showItem : function(itemName)
     {
       var itemNode = this.getClassNode().getItem(itemName);
 
       if (!itemNode) {
-        alert("Item '" + itemName + "' not found");
+        return false;
       }
 
       var panel = this._getPanelForItemNode(itemNode);
-      var elem = this._getItemElement(panel, itemNode.getName()).parentNode.parentNode;
+
+      var itemElement = this._getItemElement(panel, itemNode.getName());
+      if (!itemElement) {
+        return false;
+      }
+
+      var elem = itemElement.parentNode.parentNode;
 
       // Handle mark
       if (this._markedElement) {
@@ -717,6 +724,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
 
       qx.html.ScrollIntoView.scrollX(elem, true);
       qx.html.ScrollIntoView.scrollY(elem, true);
+      return true;
     },
 
 
