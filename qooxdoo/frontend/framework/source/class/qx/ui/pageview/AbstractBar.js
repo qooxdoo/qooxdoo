@@ -64,10 +64,10 @@ qx.Class.define("qx.ui.pageview.AbstractBar",
     */
 
     /**
-     * TODOC
+     * Get the selection manager.
      *
      * @type member
-     * @return {var} TODOC
+     * @return {qx.manager.selection.RadioManager} the selection manager of the bar.
      */
     getManager : function() {
       return this._manager;
