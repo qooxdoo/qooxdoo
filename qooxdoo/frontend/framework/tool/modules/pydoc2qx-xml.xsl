@@ -107,6 +107,13 @@
       <xsl:attribute name="packageName"><xsl:value-of select="$packName"/></xsl:attribute>
       <xsl:attribute name="fullName"><xsl:value-of select="@name"/></xsl:attribute>
       <xsl:attribute name="name"><xsl:value-of select="substring-after(@name,'.')"/></xsl:attribute>
+      <!-- Class Description -->
+      <xsl:element name="desc">
+        <xsl:element name="text">
+            <xsl:value-of select="info/description"/>
+        </xsl:element>
+      </xsl:element> 
+      <!-- Constructor -->
       <xsl:element name="constructor">
         <xsl:for-each select="method[info/name = '__init__']">
             <xsl:call-template name="method"/>
