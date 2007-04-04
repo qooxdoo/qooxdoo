@@ -19,18 +19,9 @@
  */
 qx.Class.define("custom.Application",
 {
-  extend : qx.component.AbstractApplication,
+  extend : qx.application.Gui,
 
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function() {
-    qx.component.AbstractApplication.call(this);
-  },
 
 
   /*
@@ -46,24 +37,15 @@ qx.Class.define("custom.Application",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
-     */
-    initialize : function(e)
-    {
-      // Define alias for custom resource path
-      qx.manager.object.AliasManager.getInstance().add("custom", qx.core.Setting.get("custom.resourceUri"));
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     main : function(e)
     {
+      this.base(arguments);
+
+      // Define alias for custom resource path
+      qx.manager.object.AliasManager.getInstance().add("custom", qx.core.Setting.get("custom.resourceUri"));
+
       // Create button
       var button1 = new qx.ui.form.Button("First Button", "custom/image/test.png");
 
@@ -89,34 +71,27 @@ qx.Class.define("custom.Application",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
-     */
-    finalize : function(e)
-    {
-      // After initial rendering...
-    },
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     close : function(e)
     {
+      this.base(arguments);
+
       // Prompt user
-      // e.returnValue = "[qooxdoo application: Do you really want to close the application?]";  
+      // return "qooxdoo application: Do you really want to close the application?";
     },
+
 
     /**
      * TODOC
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
-    terminate : function(e) {}
+    terminate : function(e) {
+      this.base(arguments);
+    }
   },
 
 
