@@ -53,7 +53,7 @@ qx.Class.define("qx.core.Init",
 
   construct : function()
   {
-    this.base(arguments, false);
+    this.base(arguments);
 
     // Attach DOM events
     qx.html.EventRegistration.addEventListener(window, "load", qx.lang.Function.bind(this._onload, this));
@@ -95,6 +95,9 @@ qx.Class.define("qx.core.Init",
 
   members :
   {
+    _autoDispose : false,
+
+
     /**
      * load event handler
      *

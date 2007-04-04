@@ -137,7 +137,7 @@ qx.Class.define("qx.util.fsm.Transition",
   construct : function(transitionName, transitionInfo)
   {
     // Call our superclass' constructor
-    this.base(arguments, true);
+    this.base(arguments);
 
     // Save the state name
     this.setName(transitionName);

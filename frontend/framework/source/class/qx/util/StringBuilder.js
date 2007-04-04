@@ -55,8 +55,7 @@ qx.Class.define("qx.util.StringBuilder",
    */
   construct : function(varargs)
   {
-    // Do not register to disposer
-    this.base(arguments, false);
+    this.base(arguments);
 
     this.init();
     this.add.apply(this, arguments);
@@ -73,6 +72,9 @@ qx.Class.define("qx.util.StringBuilder",
 
   members :
   {
+    _autoDispose : false,
+
+
     /**
      * Resets the contents of the Stringbuilder
      * equivalent to <pre>str = ""; </pre>
