@@ -24,10 +24,10 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.component.init.Basic",
+qx.Class.define("qx.application.Basic",
 {
-  extend : qx.core.Target,
-  implement : qx.component.IApplication,
+  extend : qx.core.Object,
+  implement : qx.application.IApplication,
 
 
 

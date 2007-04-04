@@ -1,4 +1,4 @@
-qx.Interface.define("qx.component.IApplication",
+qx.Interface.define("qx.application.IApplication",
 {
   members :
   {

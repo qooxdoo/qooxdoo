@@ -39,7 +39,7 @@
  */
 qx.Class.define("feedreader.Application",
 {
-  extend : qx.component.init.Gui,
+  extend : qx.application.Gui,
 
 
 

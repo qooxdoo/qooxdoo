@@ -14,12 +14,12 @@ qx.Mixin.define("qx.core.MLegacyInit",
     defineMain : function(func)
     {
       if (!this.getApplication()) {
-        this.setApplication(new qx.component.init.Gui);
+        this.setApplication(new qx.application.Gui);
       }
 
       this.getApplication().main = function()
       {
-        qx.component.init.Gui.prototype.main();
+        qx.application.Gui.prototype.main();
         func.call(this);
       }
     },
@@ -37,12 +37,12 @@ qx.Mixin.define("qx.core.MLegacyInit",
     defineClose : function(func)
     {
       if (!this.getApplication()) {
-        this.setApplication(new qx.component.init.Gui);
+        this.setApplication(new qx.application.Gui);
       }
 
       this.getApplication().close = function()
       {
-        qx.component.init.Gui.prototype.close();
+        qx.application.Gui.prototype.close();
         func.call(this);
       }
     },
@@ -60,12 +60,12 @@ qx.Mixin.define("qx.core.MLegacyInit",
     defineTerminate : function(func)
     {
       if (!this.getApplication()) {
-        this.setApplication(new qx.component.init.Gui);
+        this.setApplication(new qx.application.Gui);
       }
 
       this.getApplication().terminate = function()
       {
-        qx.component.init.Gui.prototype.terminate();
+        qx.application.Gui.prototype.terminate();
         func.call(this);
       }
     }

@@ -80,7 +80,7 @@ qx.Class.define("qx.core.Init",
     application :
     {
       nullable : true,
-      check : "qx.component.IApplication"
+      check : "qx.application.IApplication"
     }
   },
 
@@ -199,7 +199,7 @@ qx.Class.define("qx.core.Init",
   */
 
   settings : {
-    "qx.initApplication" : "qx.component.init.Gui"
+    "qx.initApplication" : "qx.application.Gui"
   },
 
 
