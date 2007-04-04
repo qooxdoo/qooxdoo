@@ -283,8 +283,7 @@ qx.Theme.define("qx.theme.appearance.Ext",
 
     "toolbar-button" : {
       style : function(states) {
-        var border_pressed; var border_over;
-        border_pressed = border_over = new qx.renderer.border.Border(1, "solid", "#6593CF");
+        var border_pressed = new qx.renderer.border.Border(1, "solid", "#6593CF");
         var border_default = qx.renderer.border.BorderPresets.getInstance().none;
 
         return {
@@ -294,7 +293,7 @@ qx.Theme.define("qx.theme.appearance.Ext",
           verticalChildrenAlign : "middle",
 
           backgroundColor       : states.checked || states.pressed || states.over ? "highlight" : "transparent",
-          border                : states.pressed || states.checked || states.abandoned || states.over ? "1px solid #6593CF" : qx.renderer.border.BorderPresets.getInstance().none,
+          border                : states.pressed || states.checked || states.abandoned || states.over ? border_pressed : border_default,
           paddingTop            : states.pressed || states.checked || states.abandoned ? 3 : states.over ? 2 : 3,
           paddingRight          : states.pressed || states.checked || states.abandoned ? 2 : states.over ? 3 : 4,
           paddingBottom         : states.pressed || states.checked || states.abandoned ? 1 : states.over ? 2 : 3,
@@ -1709,7 +1708,7 @@ qx.Theme.define("qx.theme.appearance.Ext",
 
     "datechooser-week" : {
       style : function(states) {
-        var border_default       = new qx.renderer.border.Border;
+        var border_default = new qx.renderer.border.Border;
         border_default.setRight(1, "solid", "#6593CF");
 
         var border_header = new qx.renderer.border.Border;
@@ -1755,7 +1754,7 @@ qx.Theme.define("qx.theme.appearance.Ext",
     "table-focus-indicator" : {
       style : function(states) {
         var border_default = new qx.renderer.border.Border(3, "solid", "#B3D9FF");
-        var border_blur    = new qx.renderer.border.Border(3, "solid", "#C5C8Ca");
+        var border_blur    = new qx.renderer.border.Border(3, "solid", "#C5C8CA");
         var border_editing = new qx.renderer.border.Border(2, "solid", "#B3D9FF");
 
         return {
