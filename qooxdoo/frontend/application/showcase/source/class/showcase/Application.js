@@ -129,14 +129,6 @@ qx.Class.define("showcase.Application",
       // back button and bookmark support
       this._history = qx.client.History.getInstance();
 
-      // read initial state
-      var state = this._history.getState();
-      if (this._states[state]) {
-        this._states[state].widget.setChecked(true);
-      } else {
-        this._states["Form"].widget.setChecked(true);
-      }
-
       // listen for state changes
       this._history.addEventListener("request", function(e) {
         var stateData = this._states[e.getData()];
@@ -146,10 +138,16 @@ qx.Class.define("showcase.Application",
       // update state on selection change
       barView.getBar().getManager().addEventListener("changeSelected", function(e) {
         var stateData = e.getData().getUserData("state");
-        this._history.addToHistory(stateData.state, "Showcase - " + stateData.title);
+        this._history.addToHistory(stateData.state, "qooxdoo » Showcase - " + stateData.title);
       }, this);
 
-
+      // read initial state
+      var state = this._history.getState();
+      if (this._states[state]) {
+        this._states[state].widget.setChecked(true);
+      } else {
+        this._states["Form"].widget.setChecked(true);
+      }
     },
 
 
