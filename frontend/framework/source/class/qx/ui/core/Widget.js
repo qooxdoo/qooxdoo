@@ -21,7 +21,6 @@
 /* ************************************************************************
 
 #module(ui_core)
-#use(qx.component.init.Gui)
 #optional(qx.ui.core.Parent)
 #optional(qx.ui.form.Button)
 #optional(qx.client.Timer)
