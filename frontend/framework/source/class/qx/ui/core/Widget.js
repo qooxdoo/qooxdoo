@@ -6560,12 +6560,12 @@ qx.Class.define("qx.ui.core.Widget",
 
       if (propValue)
       {
-        this._applyBackgroundColor(propValue.getStyle());
+        this._setBackgroundColorProperty(propValue.getStyle());
         propValue.add(this);
       }
       else
       {
-        this._resetBackgroundColor();
+        this._resetBackgroundColorProperty();
       }
 
       return true;
@@ -6589,12 +6589,12 @@ qx.Class.define("qx.ui.core.Widget",
 
       if (propValue)
       {
-        this._applyColor(propValue.getStyle());
+        this._setColorProperty(propValue.getStyle());
         propValue.add(this);
       }
       else
       {
-        this._resetColor();
+        this._resetColorProperty();
       }
 
       return true;
@@ -6612,11 +6612,11 @@ qx.Class.define("qx.ui.core.Widget",
     _updateColors : function(vColor, vNewValue)
     {
       if (this.getColor() == vColor) {
-        this._applyColor(vNewValue);
+        this._setColorProperty(vNewValue);
       }
 
       if (this.getBackgroundColor() == vColor) {
-        this._applyBackgroundColor(vNewValue);
+        this._setBackgroundColorProperty(vNewValue);
       }
     },
 
@@ -6628,7 +6628,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param vNewValue {var} TODOC
      * @return {void}
      */
-    _applyColor : function(vNewValue) {
+    _setColorProperty : function(vNewValue) {
       this.setStyleProperty("color", vNewValue);
     },
 
@@ -6640,7 +6640,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param vNewValue {var} TODOC
      * @return {void}
      */
-    _applyBackgroundColor : function(vNewValue) {
+    _setBackgroundColorProperty : function(vNewValue) {
       this.setStyleProperty("backgroundColor", vNewValue);
     },
 
@@ -6652,7 +6652,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param vNewValue {var} TODOC
      * @return {void}
      */
-    _resetColor : function(vNewValue) {
+    _resetColorProperty : function(vNewValue) {
       this.removeStyleProperty("color");
     },
 
@@ -6663,7 +6663,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @return {void}
      */
-    _resetBackgroundColor : function() {
+    _resetBackgroundColorProperty : function() {
       this.removeStyleProperty("backgroundColor");
     },
 
