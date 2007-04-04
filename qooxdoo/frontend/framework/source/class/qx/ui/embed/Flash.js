@@ -532,12 +532,12 @@ qx.Class.define("qx.ui.embed.Flash",
 
       if (propValue)
       {
-        this._applyBackgroundColor(propValue.getHex());
+        this._setBackgroundColorProperty(propValue.getHex());
         propValue.add(this);
       }
       else
       {
-        this._resetBackgroundColor();
+        this._resetBackgroundColorProperty();
       }
 
       return true;
@@ -551,7 +551,7 @@ qx.Class.define("qx.ui.embed.Flash",
      * @param vNewValue {var} TODOC
      * @return {void}
      */
-    _applyBackgroundColor : function(vNewValue) {
+    _setBackgroundColorProperty : function(vNewValue) {
       this.setParam("bgcolor", vNewValue);
     },
 
