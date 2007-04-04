@@ -47,6 +47,7 @@
  *       </li>
  *       <li>inline check code as a string e.g. <code>"value &gt; 0 && value &lt; 100"</code></li>
  *       <li>a class name e.g. <code>qx.ui.form.Button</code></li>
+ *       <li>a name of an interface the value must implement, e.g. <code>qx.application.IAplpication</code></li>
  *       <li>an array of all valid values</li>
  *       <li>one of the predefined checks: Boolean, String, Number, Integer, Float, Double,
  *           Object, Array, Map, Class, Mixin, Interface, Theme, Error, RegExp, Function,
@@ -672,6 +673,10 @@ qx.Class.define("qx.core.Property",
               else if (qx.Class.isDefined(config.check))
               {
                 code.add('!(value instanceof ', config.check, ')');
+              }
+              else if (qx.Interface.isDefined(config.check))
+              {
+                code.add('!(qx.Class.hasInterface(value.constructor, ', config.check, '))');
               }
               else if (typeof config.check === "function")
               {
