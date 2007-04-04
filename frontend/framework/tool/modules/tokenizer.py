@@ -315,7 +315,12 @@ def parseStream(content, uniqueId=""):
             content = parseFragmentLead(content, fragment, tokens)
             source = recoverEscape(fragment)[1:-1]
             tokens.append({ "type" : "string", "detail" : "singlequotes", "source" : source.replace("\\\n",""), "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn })
-            parseLine += source.count("\\\n");
+            newLines = source.count("\\\n")
+            parseLine += newLines
+            if newLines:
+                parseColumn = len(source) - source.rfind("\\\n") + 2
+            else:
+                parseColumn += len(source) + 2
 
         # Handle string
         elif R_STRING_B.match(fragment):
@@ -323,7 +328,12 @@ def parseStream(content, uniqueId=""):
             content = parseFragmentLead(content, fragment, tokens)
             source = recoverEscape(fragment)[1:-1]
             tokens.append({ "type" : "string", "detail" : "doublequotes", "source" : source.replace("\\\n",""), "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn })
-            parseLine += source.count("\\\n");
+            newLines = source.count("\\\n")
+            parseLine += newLines
+            if newLines:
+                parseColumn = len(source) - source.rfind("\\\n") + 2
+            else:
+                parseColumn += len(source) + 2
 
         # Handle float num
         elif R_FLOAT.match(fragment):
