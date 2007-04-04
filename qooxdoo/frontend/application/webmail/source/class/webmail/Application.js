@@ -33,20 +33,7 @@
  */
 qx.Class.define("webmail.Application",
 {
-  extend : qx.component.AbstractApplication,
-
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function() {
-    qx.component.AbstractApplication.call(this);
-  },
+  extend : qx.application.Gui,
 
 
 
@@ -59,21 +46,10 @@ qx.Class.define("webmail.Application",
 
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      METHODS
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
-     */
-    main : function(e)
+    main : function()
     {
+      this.base(arguments);
+
       var doc = qx.ui.core.ClientDocument.getInstance();
 
       var dockLayout = new qx.ui.layout.DockLayout;

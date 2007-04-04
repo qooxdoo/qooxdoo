@@ -25,5 +25,5 @@
 ************************************************************************ */
 
 qx.Class.define("qxunit.Application", {
-  extend : qx.component.AbstractApplication
+  extend : qx.application.Basic
 });
