@@ -41,20 +41,7 @@
 
 qx.Class.define("showcase.Application",
 {
-  extend : qx.component.AbstractApplication,
-
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function() {
-    qx.component.AbstractApplication.call(this);
-  },
+  extend : qx.application.Gui,
 
 
 
@@ -74,12 +61,14 @@ qx.Class.define("showcase.Application",
      * @param e {Event} TODOC
      * @return {void}
      */
-     initialize : function(e)
-     {
-       var useExtTheme = window.location.search.indexOf("?theme=ext");
+    main : function(e)
+    {
+      this.base(arguments);
 
-       if (useExtTheme != -1)
-       {
+      var useExtTheme = window.location.search.indexOf("?theme=ext");
+
+      if (useExtTheme != -1)
+      {
         // set Ext appearance theme
         qx.manager.object.AppearanceManager.getInstance().setAppearanceTheme(qx.theme.appearance.Ext);
 
@@ -89,18 +78,6 @@ qx.Class.define("showcase.Application",
         // set Ext widget theme
         qx.manager.object.ImageManager.getInstance().setWidgetTheme(qx.theme.appearance.Ext);
       }
-     },
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
-     */
-    main : function(e)
-    {
-      qx.core.Object.call(this);
 
       var barView = new qx.ui.pageview.buttonview.ButtonView;
 

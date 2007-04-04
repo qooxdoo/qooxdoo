@@ -93,7 +93,8 @@ qx.Class.define("qx.application.Gui",
     _postload : function()
     {
       this.debug("preloading hidden images...");
-      new qx.io.image.PreloaderSystem(qx.manager.object.ImageManager.getInstance().getPostPreloadImageList());
+      var loader = new qx.io.image.PreloaderSystem(qx.manager.object.ImageManager.getInstance().getPostPreloadImageList());
+      loader.start();
     }
   }
 });
