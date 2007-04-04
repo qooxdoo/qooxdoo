@@ -34,13 +34,14 @@
  */
 qx.Class.define("apiviewer.Application",
 {
-  extend : qx.component.AbstractApplication,
+  extend : qx.application.Gui,
 
   members :
   {
-
-    initialize : function()
+    main : function()
     {
+      this.base(arguments);
+
       // Define alias for custom resource path
       qx.manager.object.AliasManager.getInstance().add("api", qx.core.Setting.get("apiviewer.resourceUri"));
 
@@ -50,19 +51,17 @@ qx.Class.define("apiviewer.Application",
       // preload images
       var preloader = new qx.io.image.PreloaderSystem(apiviewer.TreeUtil.PRELOAD_IMAGES);
       preloader.start();
-    },
 
-
-    main : function()
-    {
       // Initialize the viewer
       this.viewer = new apiviewer.Viewer;
       this.controller = new apiviewer.Controller(this.viewer);
       this.viewer.addToDocument();
+
+      // Load data file
+      qx.client.Timer.once(this._load, this, 0);
     },
 
-
-    finalize : function()
+    _load : function()
     {
       // Finally load the data
       this.controller.load("script/apidata.js");
