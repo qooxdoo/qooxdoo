@@ -115,7 +115,7 @@ qx.Class.define("showcase.Application",
       // update state on selection change
       barView.getBar().getManager().addEventListener("changeSelected", function(e) {
         var stateData = e.getData().getUserData("state");
-        this._history.addToHistory(stateData.state, "qooxdoo » Showcase - " + stateData.title);
+        this._history.addToHistory(stateData.state, "qooxdoo Showcase - " + stateData.title);
       }, this);
 
       // read initial state
