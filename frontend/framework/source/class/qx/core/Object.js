@@ -56,7 +56,6 @@ qx.Class.define("qx.core.Object",
    * Create a new instance
    *
    * @type constructor
-   * @param autoDispose {Boolean} whether the object should be automatically disposed
    */
   construct : function()
   {
