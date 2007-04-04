@@ -45,11 +45,8 @@ qx.Class.define("qx.core.Target",
   *****************************************************************************
   */
 
-  /**
-   * @param autoDispose {Boolean ? true} wether the object should be disposed automatically by qooxdoo
-   */
-  construct : function(autoDispose) {
-    this.base(arguments, autoDispose);
+  construct : function() {
+    this.base(arguments);
   },
 
 
