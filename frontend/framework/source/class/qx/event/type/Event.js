@@ -42,7 +42,7 @@ qx.Class.define("qx.event.type.Event",
 
   construct : function(vType)
   {
-    this.base(arguments, false);
+    this.base(arguments);
 
     this.setType(vType);
   },
@@ -103,13 +103,6 @@ qx.Class.define("qx.event.type.Event",
       _fast        : true,
       defaultValue : false,
       noCompute    : true
-    },
-
-    /** If the event object should automatically be disposed by the dispatcher */
-    autoDispose :
-    {
-      _fast        : true,
-      defaultValue : false
     }
   },
 
@@ -124,6 +117,9 @@ qx.Class.define("qx.event.type.Event",
 
   members :
   {
+    _autoDispose : false,
+
+
     /*
     ---------------------------------------------------------------------------
       SHORTCUTS

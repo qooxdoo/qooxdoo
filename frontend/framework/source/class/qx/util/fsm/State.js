@@ -153,7 +153,7 @@ qx.Class.define("qx.util.fsm.State",
   construct : function(stateName, stateInfo)
   {
     // Call our superclass' constructor
-    this.base(arguments, true);
+    this.base(arguments);
 
     // Save the state name
     this.setName(stateName);

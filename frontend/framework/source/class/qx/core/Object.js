@@ -58,11 +58,11 @@ qx.Class.define("qx.core.Object",
    * @type constructor
    * @param autoDispose {Boolean} whether the object should be automatically disposed
    */
-  construct : function(autoDispose)
+  construct : function()
   {
     this._hashCode = qx.core.Object.__availableHashCode++;
 
-    if (autoDispose !== false)
+    if (this._autoDispose)
     {
       this.__dbKey = qx.core.Object.__db.length;
       qx.core.Object.__db.push(this);
@@ -264,6 +264,10 @@ qx.Class.define("qx.core.Object",
 
   members :
   {
+    /** If the object should automatically be disposed on application unload */
+    _autoDispose : true,
+
+
     /*
     ---------------------------------------------------------------------------
       BASICS

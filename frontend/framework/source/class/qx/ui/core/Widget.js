@@ -57,7 +57,7 @@ qx.Class.define("qx.ui.core.Widget",
 
   construct : function()
   {
-    this.base(arguments, true);
+    this.base(arguments);
 
     // Initialize scrollbar size calculation
     var self = this.self(arguments);
