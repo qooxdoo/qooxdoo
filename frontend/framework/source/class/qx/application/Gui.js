@@ -54,12 +54,6 @@ qx.Class.define("qx.application.Gui",
 
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      STATE MODIFIER
-    ---------------------------------------------------------------------------
-    */
-
     main : function()
     {
       // Force creation of event handler
