@@ -28,7 +28,7 @@
 /**
  * This class is used to define interfaces (similar to Java interfaces).
  *
- * See the description of the {@link #define} method how an interface is 
+ * See the description of the {@link #define} method how an interface is
  * defined.
  */
 qx.Class.define("qx.Interface",
@@ -171,7 +171,7 @@ qx.Class.define("qx.Interface",
      * @return {Boolean} true if interface exists
      */
     isDefined : function(name) {
-      return arguments.callee.self.getByName(name) !== undefined;
+      return this.getByName(name) !== undefined;
     },
 
 
@@ -187,7 +187,7 @@ qx.Class.define("qx.Interface",
 
 
     /**
-     * Generates a list of all interfaces including their super interfaces 
+     * Generates a list of all interfaces including their super interfaces
      * (resolved recursively)
      *
      * @param ifaces {Interface[] ? []} List of interfaces to be resolved

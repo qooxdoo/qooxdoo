@@ -33,6 +33,21 @@ qx.Class.define("qx.component.init.Gui",
 
   /*
   *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties : {
+    uiReady : { init : false }
+  },
+
+
+
+
+
+
+  /*
+  *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
@@ -41,33 +56,11 @@ qx.Class.define("qx.component.init.Gui",
   {
     /*
     ---------------------------------------------------------------------------
-      READY STATE
-    ---------------------------------------------------------------------------
-    */
-
-    _uiReady : false,
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
-    isUiReady : function() {
-      return this._uiReady;
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
       STATE MODIFIER
     ---------------------------------------------------------------------------
     */
 
-    initialize : function(e)
+    main : function()
     {
       // Force creation of event handler
       qx.event.handler.EventHandler.getInstance();
@@ -75,111 +68,38 @@ qx.Class.define("qx.component.init.Gui",
       // Force creation of client document
       qx.ui.core.ClientDocument.getInstance();
 
-      // Start real initialisation
-      var start = (new Date).valueOf();
-      this.base(arguments);
-      this.info("initialize runtime: " + ((new Date).valueOf() - start) + "ms");
+      // Call preloader
+      qx.client.Timer.once(this._preload, this, 0);
     },
 
-
-    main : function(e)
+    _preload : function()
     {
-      // Start real main process
-      var start = (new Date).valueOf();
-      this.base(arguments);
-      this.info("main runtime: " + ((new Date).valueOf() - start) + "ms");
-
       this.debug("preloading visible images...");
-      new qx.io.image.PreloaderSystem(qx.manager.object.ImageManager.getInstance().getPreloadImageList(), this.finalize, this);
+      new qx.io.image.PreloaderSystem(qx.manager.object.ImageManager.getInstance().getPreloadImageList(), this._ready, this);
     },
 
-
-    finalize : function(e)
+    _ready : function()
     {
-      var start = (new Date).valueOf();
+      this.setUiReady(true);
 
-      this._printPreloadComplete();
-      this._uiReady = true;
+      var start = (new Date).valueOf();
 
       // Show initial widgets
       qx.ui.core.Widget.flushGlobalQueues();
 
+      this.info("render runtime: " + (new Date - start) + "ms");
+
       // Finally attach event to make the GUI ready for the user
       qx.event.handler.EventHandler.getInstance().attachEvents();
 
-      this.base(arguments);
-
-      this.info("finalize runtime: " + ((new Date).valueOf() - start) + "ms");
+      // Call postloader
+      qx.client.Timer.once(this._postload, this, 100);
     },
 
-
-    close : function(e)
+    _postload : function()
     {
-      var start = (new Date).valueOf();
-      this.base(arguments);
-
-      this.info("close runtime: " + ((new Date).valueOf() - start) + "ms");
-    },
-
-
-    terminate : function(e)
-    {
-      var start = (new Date).valueOf();
-      this.base(arguments);
-
-      this.info("terminate runtime: " + ((new Date).valueOf() - start) + "ms");
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PRELOAD UTILITIES
-    ---------------------------------------------------------------------------
-    */
-
-    preload : function()
-    {
-      if (!this._preloadDone)
-      {
-        this.debug("preloading hidden images...");
-        new qx.io.image.PreloaderSystem(qx.manager.object.ImageManager.getInstance().getPostPreloadImageList(), this._printPreloadComplete, this);
-        this._preloadDone = true;
-      }
-    },
-
-
-    _printPreloadComplete : function() {
-      this.debug("preloading complete");
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      EVENT HANDLER
-    ---------------------------------------------------------------------------
-    */
-
-    _onload : function(e)
-    {
-      this.initialize();
-      this.main();
+      this.debug("preloading hidden images...");
+      new qx.io.image.PreloaderSystem(qx.manager.object.ImageManager.getInstance().getPostPreloadImageList());
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this._disposeFields("_preloadDone", "_uiReady");
   }
 });
