@@ -24,6 +24,12 @@
 
 ************************************************************************ */
 
+/**
+ * Base class for all non GUI qooxdoo applications.
+ *
+ * The {@link #main} method will be called on the document.onload event,
+ * {@link #close} on document.beforeunload and {@link #terminate} on document.unload.
+ */
 qx.Class.define("qx.application.Basic",
 {
   extend : qx.core.Object,
@@ -41,28 +47,31 @@ qx.Class.define("qx.application.Basic",
   members :
   {
     /**
-     * Run main  part of component creation.
+     * Called in the document.onload event of the browser. This method should
+     * implement the setup code of the application.
      *
      * @type member
-     * @return {void}
      */
     main : function() {},
 
 
     /**
-     * Terminate this component.
+     * Called in the document.beforeunload event of the browser. If the method
+     * returns a string value, the user will be asked by the browser, whether
+     * he really wants to leave the page. The return string will be displayed in
+     * the message box.
      *
      * @type member
-     * @return {void}
+     * @return {String?null} message text on unloading the page
      */
     close : function() {},
 
 
     /**
-     * Terminate this component.
+     * Called in the document.onunload event of the browser. This method contains the last
+     * code which is run inside the page and may contain cleanup code.
      *
      * @type member
-     * @return {void}
      */
     terminate : function() {}
   }
