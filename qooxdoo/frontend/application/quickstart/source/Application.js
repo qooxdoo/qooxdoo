@@ -13,12 +13,15 @@
  */
 qx.Class.define("Application",
 {
-  extend : qx.component.AbstractApplication,
+  extend : qx.application.Gui,
 
   members :
   {
     main : function(e)
     {
+      // Call super class
+      this.base(arguments);
+
       // Create button
       var button1 = new qx.ui.form.Button("First Button", "./button.png");
 
