@@ -24,6 +24,13 @@
 
 ************************************************************************ */
 
+/**
+ * This is the base class for all GUI qooxdoo applications.
+ *
+ * All applications using qooxdoo widgets should be derived from
+ * this class. Normally at least the {@link #main} method will
+ * be overridden to define the GUI.
+ */
 qx.Class.define("qx.application.Gui",
 {
   extend : qx.core.Object,
@@ -37,6 +44,7 @@ qx.Class.define("qx.application.Gui",
   */
 
   properties : {
+    /** Whether the user interfacce has already been rendered */
     uiReady : { init : false }
   },
 
@@ -53,6 +61,13 @@ qx.Class.define("qx.application.Gui",
 
   members :
   {
+
+    /**
+     * Called in the document.onload event of the browser. This method should
+     * be overridden to implement the GUI setup code of the application.
+     *
+     * @type member
+     */
     main : function()
     {
       // Force creation of event handler
@@ -67,29 +82,39 @@ qx.Class.define("qx.application.Gui",
 
 
     /**
-     * Terminate this component.
+     * Called in the document.beforeunload event of the browser. If the method
+     * returns a string value, the user will be asked by the browser, whether
+     * he really wants to leave the page. The return string will be displayed in
+     * the message box.
      *
      * @type member
-     * @return {void}
+     * @return {String?null} message text on unloading the page
      */
     close : function() {},
 
 
     /**
-     * Terminate this component.
+     * Called in the document.onunload event of the browser. This method contains the last
+     * code which is run inside the page and may contain cleanup code.
      *
      * @type member
-     * @return {void}
      */
     terminate : function() {},
 
 
+    /**
+     * Start pre loading of the initially visible images.
+     */
     _preload : function()
     {
       this.debug("preloading visible images...");
       new qx.io.image.PreloaderSystem(qx.manager.object.ImageManager.getInstance().getPreloadImageList(), this._ready, this);
     },
 
+    /**
+     * Callback which is called once the pre loading of the required images
+     * is completed.
+     */
     _ready : function()
     {
       this.setUiReady(true);
@@ -108,6 +133,10 @@ qx.Class.define("qx.application.Gui",
       qx.client.Timer.once(this._postload, this, 100);
     },
 
+
+    /**
+     * Preload all remaining images.
+     */
     _postload : function()
     {
       this.debug("preloading hidden images...");
