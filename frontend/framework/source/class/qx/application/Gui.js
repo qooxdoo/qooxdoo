@@ -26,9 +26,8 @@
 
 qx.Class.define("qx.application.Gui",
 {
-  extend : qx.application.Basic,
-
-
+  extend : qx.core.Object,
+  implement : qx.application.IApplication,
 
 
   /*
@@ -65,6 +64,25 @@ qx.Class.define("qx.application.Gui",
       // Call preloader
       qx.client.Timer.once(this._preload, this, 0);
     },
+
+
+    /**
+     * Terminate this component.
+     *
+     * @type member
+     * @return {void}
+     */
+    close : function() {},
+
+
+    /**
+     * Terminate this component.
+     *
+     * @type member
+     * @return {void}
+     */
+    terminate : function() {},
+
 
     _preload : function()
     {
