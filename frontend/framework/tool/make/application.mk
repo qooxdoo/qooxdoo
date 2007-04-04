@@ -241,7 +241,7 @@ ifndef APPLICATION_OPTIMIZE_PRIVATE
 endif
 
 #
-# If enabled optimized builds for each supported browser given in 
+# If enabled optimized builds for each supported browser given in
 # APPLICATION_INDIVIDUAL_BROWSERS and a generic loader script are generated.
 #
 # This increases the time to build the application but optimizes both code size and runtime
@@ -252,7 +252,7 @@ ifndef APPLICATION_OPTIMIZE_BROWSER
 endif
 
 #
-# Individual browsers that an optimized build is generated for, if 
+# Individual browsers that an optimized build is generated for, if
 # APPLICATION_OPTIMIZE_BROWSER is enabled.
 #
 ifndef APPLICATION_INDIVIDUAL_BROWSERS

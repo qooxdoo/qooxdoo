@@ -745,8 +745,6 @@ qx.Class.define("qx.event.handler.EventHandler",
     {
       "mshtml" : function(vDomEvent)
       {
-        qx.core.Init.getInstance().getComponent().preload();
-
         if (!vDomEvent) {
           vDomEvent = window.event;
         }
@@ -798,8 +796,6 @@ qx.Class.define("qx.event.handler.EventHandler",
 
       "default" : function(vDomEvent)
       {
-        qx.core.Init.getInstance().getComponent().preload();
-
         var vDomTarget = qx.event.handler.EventHandler.getDomTarget(vDomEvent);
         var vType = vDomEvent.type;
 

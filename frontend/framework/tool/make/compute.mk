@@ -79,9 +79,6 @@ ifeq ($(APPLICATION_ENABLE_GUI),true)
 
   COMPUTED_SOURCE_SETTING += $(COMPUTED_THEME_SETTING)
   COMPUTED_BUILD_SETTING += $(COMPUTED_THEME_SETTING)
-else
-  COMPUTED_SOURCE_SETTING += --use-setting qx.initComponent:qx.component.init.Basic
-  COMPUTED_BUILD_SETTING += --use-setting qx.initComponent:qx.component.init.Basic
 endif
 
 ifneq ($(APPLICATION_SOURCE_LOG_LEVEL),)
@@ -211,13 +208,6 @@ else
   COMPUTED_API_INCLUDE =
 endif
 
-ifeq ($(APPLICATION_ENABLE_GUI),true)
-  COMPUTED_SOURCE_INCLUDE += --include qx.component.init.Gui
-  COMPUTED_BUILD_INCLUDE += --include qx.component.init.Gui
-else
-  COMPUTED_SOURCE_INCLUDE += --include qx.component.init.Basic
-  COMPUTED_BUILD_INCLUDE += --include qx.component.init.Basic
-endif
 
 
 

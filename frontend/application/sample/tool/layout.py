@@ -77,6 +77,8 @@ document.write('<div id="demoFrame">&#160;</div>');
     document.write('<script type="text/javascript">_uacct = "UA-415440-1"; function urchinStart() { urchinTracker() }; if(window.addEventListener)window.addEventListener("load", urchinStart, false); else if(window.attachEvent)window.attachEvent("onload", urchinStart);</script>');
   }
 })();
+
+qx.Class.include(qx.core.Init, qx.core.MLegacyInit);
 """
 
 

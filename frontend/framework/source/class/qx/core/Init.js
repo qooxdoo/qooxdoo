@@ -73,26 +73,14 @@ qx.Class.define("qx.core.Init",
   properties :
   {
     /**
-     * Instance of the component initializer.
-     */
-    component :
-    {
-      type     : "object",
-      instance : "qx.component.init.AbstractInit",
-      _legacy  : true
-    },
-
-
-    /**
      * Reference to the constructor of the main application.
      *
      * Set this before the onload event is fired.
      */
     application :
     {
-      type     : "object",
-      instance : "qx.component.AbstractApplication",
-      _legacy  : true
+      nullable : true,
+      check : "qx.component.IApplication"
     }
   },
 
@@ -107,115 +95,6 @@ qx.Class.define("qx.core.Init",
 
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      COMPONENT BINDING
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * define the initialisation function
-     * Don't use this method directly. Use setApplication instead!
-     *
-     * @type member
-     * @deprecated
-     * @param vFunc {Function} callback function
-     * @return {void}
-     */
-    defineInitialize : function(vFunc)
-    {
-      if (!this.getApplication()) {
-        this.setApplication(new qx.component.DummyApplication);
-      }
-
-      this.getApplication().initialize = vFunc;
-    },
-
-
-    /**
-     * define the main function
-     * Don't use this method directly. Use setApplication instead!
-     *
-     * @type member
-     * @deprecated
-     * @param vFunc {Function} callback function
-     * @return {void}
-     */
-    defineMain : function(vFunc)
-    {
-      if (!this.getApplication()) {
-        this.setApplication(new qx.component.DummyApplication);
-      }
-
-      this.getApplication().main = vFunc;
-    },
-
-
-    /**
-     * define the finalize function
-     * Don't use this method directly. Use setApplication instead!
-     *
-     * @type member
-     * @deprecated
-     * @param vFunc {Function} callback function
-     * @return {void}
-     */
-    defineFinalize : function(vFunc)
-    {
-      if (!this.getApplication()) {
-        this.setApplication(new qx.component.DummyApplication);
-      }
-
-      this.getApplication().finalize = vFunc;
-    },
-
-
-    /**
-     * define the close function
-     * Don't use this method directly. Use setApplication instead!
-     *
-     * @type member
-     * @deprecated
-     * @param vFunc {Function} callback function
-     * @return {void}
-     */
-    defineClose : function(vFunc)
-    {
-      if (!this.getApplication()) {
-        this.setApplication(new qx.component.DummyApplication);
-      }
-
-      this.getApplication().close = vFunc;
-    },
-
-
-    /**
-     * define the terminate function
-     * Don't use this method directly. Use setApplication instead!
-     *
-     * @type member
-     * @deprecated
-     * @param vFunc {Function} callback function
-     * @return {void}
-     */
-    defineTerminate : function(vFunc)
-    {
-      if (!this.getApplication()) {
-        this.setApplication(new qx.component.DummyApplication);
-      }
-
-      this.getApplication().terminate = vFunc;
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      EVENT HANDLER
-    ---------------------------------------------------------------------------
-    */
-
     /**
      * load event handler
      *
@@ -266,19 +145,13 @@ qx.Class.define("qx.core.Init",
         this.setApplication(new clazz(this));
       }
 
-      // Init component from settings
-      if (!this.getComponent())
-      {
-        var clazz = qx.Class.getByName(qx.core.Setting.get("qx.initComponent"));
-        this.setComponent(new clazz(this));
-      }
-
-      // More info
+      // Debug info
       this.debug("application: " + this.getApplication().classname);
-      this.debug("init: " + this.getComponent().classname);
 
       // Send onload
-      return this.getComponent()._onload(e);
+      var start = new Date;
+      this.getApplication().main();
+      this.info("main runtime: " + (new Date - start) + "ms");
     },
 
 
@@ -292,7 +165,10 @@ qx.Class.define("qx.core.Init",
     _onbeforeunload : function(e)
     {
       // Send onbeforeunload event (can be cancelled)
-      return this.getComponent()._onbeforeunload(e);
+      var result = this.getApplication().close();
+      if (result != null) {
+        e.returnValue = result;
+      }
     },
 
 
@@ -306,7 +182,7 @@ qx.Class.define("qx.core.Init",
     _onunload : function(e)
     {
       // Send onunload event (last event)
-      this.getComponent()._onunload(e);
+      this.getApplication().terminate();
 
       // Dispose all qooxdoo objects
       qx.core.Object.dispose();
@@ -322,10 +198,8 @@ qx.Class.define("qx.core.Init",
   *****************************************************************************
   */
 
-  settings :
-  {
-    "qx.initComponent" : "qx.component.init.Gui",
-    "qx.initApplication" : "qx.component.DummyApplication"
+  settings : {
+    "qx.initApplication" : "qx.component.init.Gui"
   },
 
 
