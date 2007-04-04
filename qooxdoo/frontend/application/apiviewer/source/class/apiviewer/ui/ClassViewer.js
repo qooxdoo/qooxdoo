@@ -626,7 +626,9 @@ qx.Class.define("apiviewer.ui.ClassViewer",
               line.add(ClassViewer.createImageHtml("api/image/cross.gif"));
             }
           } else {
-            line.add(EMPTY_CELL);
+            if (!first) {
+              line.add(EMPTY_CELL)
+            };
           }
 
           line.add(ClassViewer.createImageHtml(apiviewer.TreeUtil.getIconUrl(classNode)));
@@ -649,7 +651,11 @@ qx.Class.define("apiviewer.ui.ClassViewer",
             var subLines = generateTree(superInterfaces);
             for(var i=0; i<subLines.length; i++) {
               if (nodeIndex == nodes.length-1) {
-                lines.push(EMPTY_CELL + subLines[i]);
+                if (first) {
+                  lines.push(subLines[i]);
+                } else {
+                  lines.push(EMPTY_CELL + subLines[i]);
+                }
               } else {
                 lines.push(ClassViewer.createImageHtml("api/image/vline.gif") + subLines[i]);
               }
