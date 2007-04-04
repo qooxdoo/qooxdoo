@@ -129,9 +129,9 @@ qx.Class.define("qx.manager.object.AppearanceManager",
      */
     _modifyAppearanceTheme : function(propValue, propOldValue, propData)
     {
-      var vComp = qx.core.Init.getInstance().getComponent();
+      var vComp = qx.core.Init.getInstance().getApplication();
 
-      if (vComp && vComp.isUiReady()) {
+      if (vComp && vComp.getUiReady()) {
         qx.ui.core.ClientDocument.getInstance()._recursiveAppearanceThemeUpdate(propValue, propOldValue);
       }
 

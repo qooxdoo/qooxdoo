@@ -237,7 +237,8 @@ qx.Class.define("qx.io.image.PreloaderSystem",
   *****************************************************************************
   */
 
-  settings : {
+  settings :
+  {
     /** Timeout for the image pre loader in milliseconds */
     "qx.preloaderTimeout" : 3000
   },

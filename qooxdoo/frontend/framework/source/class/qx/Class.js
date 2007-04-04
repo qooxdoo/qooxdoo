@@ -30,7 +30,7 @@
 /**
  * This class is one of the most important parts of qooxdoo's
  * object-oriented features.
- * 
+ *
  * Its {@link #define} method is used to create qooxdoo classes.
  *
  * Each instance of a class defined by {@link #define} has
@@ -132,7 +132,7 @@ qx.Class.define("qx.Class",
      *       <tr><th>include</th><td>Mixin | Mixin[]</td><td>Single mixin or array of mixins, which will be merged into the class.</td></tr>
      *       <tr><th>construct</th><td>Function</td><td>The constructor of the class.</td></tr>
      *       <tr><th>statics</th><td>Map</td><td>Map of static members of the class.</td></tr>
-     *       <tr><th>properties</th><td>Map</td><td>Map of property definitions. For a description of the format of a property definition see 
+     *       <tr><th>properties</th><td>Map</td><td>Map of property definitions. For a description of the format of a property definition see
      *           {@link qx.core.Property} or the legacy version {@link qx.core.LegacyProperty}.</td></tr>
      *       <tr><th>members</th><td>Map</td><td>Map of instance members of the class.</td></tr>
      *       <tr><th>settings</th><td>Map</td><td>Map of settings for this class. For a description of the format of a setting see
@@ -300,7 +300,7 @@ qx.Class.define("qx.Class",
      * @return {Boolean} true if class exists
      */
     isDefined : function(name) {
-      return this.__registry[name] != null;
+      return this.getByName(name) !== undefined;
     },
 
 
@@ -1387,7 +1387,7 @@ qx.Class.define("qx.Class",
     /**
      * Generate a wrapper of the original class constructor in order to enable
      * some of the advanced OO features (e.g. abstract class, singleton, mixins)
-     * 
+     *
      * @param construct {Function} the original constructor
      * @param name {String} name of the class
      * @param type {String} the user specified class type

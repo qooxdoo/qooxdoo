@@ -39,7 +39,7 @@
  */
 qx.Class.define("feedreader.Application",
 {
-  extend : qx.component.AbstractApplication,
+  extend : qx.component.init.Gui,
 
 
 
@@ -52,7 +52,7 @@ qx.Class.define("feedreader.Application",
 
   construct : function()
   {
-    qx.component.AbstractApplication.call(this);
+    this.base(arguments);
 
     // this.fetchFeedDesc();
     this.setFeeds([]);
@@ -145,20 +145,18 @@ qx.Class.define("feedreader.Application",
     ---------------------------------------------------------------------------
     */
 
+
     /**
      * TODOC
      *
      * @type member
-     * @param e {Event} TODOC
      * @return {void}
      */
-    initialize : function(e)
+    close : function()
     {
-      // Define alias for custom resource path
-      qx.manager.object.AliasManager.getInstance().add("feedreader", qx.core.Setting.get("feedreader.resourceUri"));
+      this.base(arguments);
 
-      // Include CSS file
-      qx.html.StyleSheet.includeFile(qx.manager.object.AliasManager.getInstance().resolvePath("feedreader/css/reader.css"));
+      // return "Do you really want to quit?";
     },
 
 
@@ -166,11 +164,18 @@ qx.Class.define("feedreader.Application",
      * TODOC
      *
      * @type member
-     * @param e {Event} TODOC
      * @return {void}
      */
-    main : function(e)
+    main : function()
     {
+      this.base(arguments);
+
+      // Define alias for custom resource path
+      qx.manager.object.AliasManager.getInstance().add("feedreader", qx.core.Setting.get("feedreader.resourceUri"));
+
+      // Include CSS file
+      qx.html.StyleSheet.includeFile(qx.manager.object.AliasManager.getInstance().resolvePath("feedreader/css/reader.css"));
+
       // create main layout
       var dockLayout = new qx.ui.layout.DockLayout();
 
@@ -583,38 +588,7 @@ qx.Class.define("feedreader.Application",
      */
     displayArticle : function(item) {
       this._blogEntry.setArticle(item);
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
-     */
-    finalize : function(e) {},
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
-     */
-    close : function(e) {},
-
-    // prompt user
-    // e.returnValue = "[qooxdoo application: Do you really want to close the application?]";
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
-     */
-    terminate : function(e) {}
+    }
   },
 
 

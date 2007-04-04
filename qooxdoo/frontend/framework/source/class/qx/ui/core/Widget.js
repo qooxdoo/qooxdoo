@@ -228,6 +228,8 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _initAutoFlush : function()
     {
+      return;
+
       if (qx.ui.core.Widget._autoFlushTimeout == null) {
         qx.ui.core.Widget._autoFlushTimeout = window.setTimeout(qx.ui.core.Widget._autoFlushHelper, 0);
       }
@@ -281,7 +283,7 @@ qx.Class.define("qx.ui.core.Widget",
         qx.ui.core.Widget._removeAutoFlush();
       }
 
-      if (qx.ui.core.Widget._inFlushGlobalQueues || !qx.core.Init.getInstance().getComponent().isUiReady()) {
+      if (qx.ui.core.Widget._inFlushGlobalQueues || !qx.core.Init.getInstance().getApplication().getUiReady()) {
         return;
       }
 
@@ -7204,7 +7206,7 @@ qx.Class.define("qx.ui.core.Widget",
       {
         statics.flushGlobalQueues = function()
         {
-          if (statics._inFlushGlobalQueues || !qx.core.Init.getInstance().getComponent().isUiReady()) {
+          if (statics._inFlushGlobalQueues || !qx.core.Init.getInstance().getApplication().getUiReady()) {
             return;
           }
 

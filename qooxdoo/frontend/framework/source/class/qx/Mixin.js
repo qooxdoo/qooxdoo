@@ -242,7 +242,7 @@ qx.Class.define("qx.Mixin",
      * @return {Boolean} true if mixin exists
      */
     isDefined : function(name) {
-      return arguments.callee.self.getByName(name) !== undefined;
+      return this.getByName(name) !== undefined;
     },
 
 

@@ -26,7 +26,8 @@
 
 qx.Class.define("qx.component.init.Basic",
 {
-  extend : qx.component.init.AbstractInit,
+  extend : qx.core.Target,
+  implement : qx.component.IApplication,
 
 
 
@@ -40,41 +41,29 @@ qx.Class.define("qx.component.init.Basic",
   members :
   {
     /**
-     * TODOC
+     * Run main  part of component creation.
      *
      * @type member
-     * @param e {Event} TODOC
      * @return {void}
      */
-    _onload : function(e)
-    {
-      this.initialize(e);
-      this.main(e);
-      this.finalize(e);
-    },
+    main : function() {},
 
 
     /**
-     * TODOC
+     * Terminate this component.
      *
      * @type member
-     * @param e {Event} TODOC
      * @return {void}
      */
-    _onbeforeunload : function(e) {
-      this.close(e);
-    },
+    close : function() {},
 
 
     /**
-     * TODOC
+     * Terminate this component.
      *
      * @type member
-     * @param e {Event} TODOC
      * @return {void}
      */
-    _onunload : function(e) {
-      this.terminate(e);
-    }
+    terminate : function() {}
   }
 });
