@@ -676,7 +676,7 @@ qx.Class.define("qx.core.Property",
               }
               else if (qx.Interface.isDefined(config.check))
               {
-                code.add('!(qx.Class.hasInterface(value.constructor, ', config.check, '))');
+                code.add('!(value && qx.Class.hasInterface(value.constructor, ', config.check, '))');
               }
               else if (typeof config.check === "function")
               {

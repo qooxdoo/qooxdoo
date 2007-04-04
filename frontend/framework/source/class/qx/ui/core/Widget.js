@@ -227,8 +227,6 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _initAutoFlush : function()
     {
-      return;
-
       if (qx.ui.core.Widget._autoFlushTimeout == null) {
         qx.ui.core.Widget._autoFlushTimeout = window.setTimeout(qx.ui.core.Widget._autoFlushHelper, 0);
       }
