@@ -156,7 +156,19 @@ def getparser():
 def argparser(cmdlineargs):
 
     # Parse arguments
-    (options, args) = getparser().parse_args(cmdlineargs)
+    parser = getparser()
+    (options, args) = parser.parse_args(cmdlineargs)
+
+    if options.generateSourceScript and (
+                                         options.optimizeStrings or
+                                         options.optimizeVariables or
+                                         options.optimizeVariablesSkipPrefix or
+                                         options.optimizeBaseCall or
+                                         options.optimizePrivate or
+                                         options.obfuscate
+                                         ):
+        parser.error("The option --generate-source-script cannot be used with source code optimizations!")
+
 
     # Export to file
     if options.exportToFile != None:
