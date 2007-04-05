@@ -25,6 +25,11 @@
 ************************************************************************ */
 
 /**
+ * The Label widget displays plain text or HTML text.
+ *
+ * Most complex qooxdoo widgets use instances of Label to display text.
+ * The label supports auto sizing and internationalization.
+ *
  * @appearance label
  */
 qx.Class.define("qx.ui.basic.Label",
@@ -40,13 +45,22 @@ qx.Class.define("qx.ui.basic.Label",
   *****************************************************************************
   */
 
-  construct : function(vHtml, vMnemonic)
+  /**
+   * @param text {String} The text of the label (see property {@link #text}).
+   * @param vMnemonic {String} The mnemonic of the label (see property {@link #mnemonic}).
+   * @param textMode {String} The textMode of the label (see property {@link #textMode}).
+   */
+  construct : function(text, vMnemonic, textMode)
   {
     this.base(arguments);
 
     // Apply constructor arguments
-    if (vHtml != null) {
-      this.setHtml(vHtml);
+    if (textMode != null) {
+      this.setTextMode(textMode);
+    }
+
+    if (text != null) {
+      this.setText(text);
     }
 
     if (vMnemonic != null) {
@@ -84,6 +98,7 @@ qx.Class.define("qx.ui.basic.Label",
     ---------------------------------------------------------------------------
     */
 
+    /** The ellipsis character */
     SYMBOL_ELLIPSIS : String.fromCharCode(8230),
 
     // these are the properties what will be copied to the measuring frame.
@@ -104,10 +119,10 @@ qx.Class.define("qx.ui.basic.Label",
 
     /**
      * TODOC
-     *
+     * @internal
      * @type static
      * @param vId {var} TODOC
-     * @return {var} TODOC
+     * @return {Element} TODOC
      */
     createMeasureNode : function(vId)
     {
@@ -157,8 +172,39 @@ qx.Class.define("qx.ui.basic.Label",
     },
 
 
-    /** Any text string which can contain HTML, too */
-    html : { _legacy : true },
+    /**
+     * The text of the label. How the text is interpreted depends on the value of the
+     * property {@link #textMode}.
+     */
+    text : { apply : "_modifyText", init : "", event : "changeText"},
+
+
+    /**
+     * The text of the label. How the text is interpreted depends on the value of the
+     * property {@link #textMode}.
+     *
+     * @deprecated Use {@link #text} instead.
+     */
+    html : { apply : "_modifyText", init : "", event : "changeHtml" },
+
+
+    /**
+     * Set how the label text should be interpreted
+     *
+     * <ul>
+     *   <li><code>text</code> will set the text verbatim. Leading and trailing white space will be reserved.</li>
+     *   <li><code>html</code> will interpret the label text as html.</li>
+     *   <li><code>autodetect</code> will try to guess whether the text represents an HTML string or plain text.
+     *       This is how older qooxdoo versions treated the text.
+     *   </li>
+     * <ul>
+     */
+    textMode :
+    {
+      check : ["html", "text", "autodetect"],
+      init : "autodetect",
+      apply : "__updateText"
+    },
 
 
     /** The alignment of the text. */
@@ -231,12 +277,17 @@ qx.Class.define("qx.ui.basic.Label",
     ---------------------------------------------------------------------------
     */
 
-    _localized : false,
     _htmlContent : "",
     _htmlMode : false,
     _hasMnemonic : false,
     _mnemonicHtml : "",
     _mnemonicTest : null,
+
+
+    _applyText : function(textValue)
+    {
+      this.setHtml(textValue);
+    },
 
 
     /**
@@ -248,34 +299,58 @@ qx.Class.define("qx.ui.basic.Label",
      * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyHtml : function(propValue, propOldValue, propData)
+    _modifyText : function(propValue, propOldValue, propData)
     {
-      this._localized = this.getHtml() instanceof qx.locale.LocalizedString;
-      this._updateHtml();
+      // synchronize text and html. Can be remove once the html property is removed.
+      this.setText(propValue);
+      this.setHtml(propValue);
+      this.__updateText();
       return true;
     },
 
 
     /**
-     * TODOC
+     * Compute the values for "_htmlMode" and "_htmlContent"
      *
      * @type member
-     * @return {void}
      */
-    _updateHtml : function()
+    __updateText : function()
     {
-      if (this._localized)
+      if (this.getText() instanceof qx.locale.LocalizedString)
       {
-        this._htmlContent = this.getHtml().toString();
-        qx.locale.Manager.getInstance().addEventListener("changeLocale", this._updateHtml, this);
+        var text = this.getText().toString();
+        qx.locale.Manager.getInstance().addEventListener("changeLocale", this.__updateText, this);
       }
       else
       {
-        this._htmlContent = this.getHtml() || "";
-        qx.locale.Manager.getInstance().removeEventListener("changeLocale", this._updateHtml, this);
+        text = this.getText() || "";
+        qx.locale.Manager.getInstance().removeEventListener("changeLocale", this.__updateText, this);
       }
+      this._htmlContent = text;
 
-      this._htmlMode = qx.util.Validation.isValidString(this._htmlContent) && this._htmlContent.match(/<.*>/) ? true : false;
+      switch (this.getTextMode())
+      {
+        case "autodetect":
+          this._htmlMode = qx.util.Validation.isValidString(text) && text.match(/<.*>/) ? true : false;
+          break;
+
+        case "text":
+          var escapedText = qx.xml.String.escape(text).replace(/(^ | $)/g, "&nbsp;").replace(/  /g, "&nbsp;&nbsp;");
+          if (escapedText != text) {
+            this._htmlMode = true;
+          } else {
+            this._htmlMode = false;
+          }
+          this._htmlContent = escapedText;
+          break;
+
+        case "html":
+          this._htmlMode = true;
+          break;
+
+        default:
+          throw new Error("Invalid switch case: "+this.getTextMode()+"!");
+      }
 
       if (this._isCreated) {
         this._applyContent();
@@ -464,6 +539,7 @@ qx.Class.define("qx.ui.basic.Label",
       LAYOUT APPLY
     ---------------------------------------------------------------------------
     */
+
 
     /**
      * TODOC
