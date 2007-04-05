@@ -80,11 +80,12 @@ qx.Class.define("qx.manager.selection.RadioManager",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
+    enabled :
+    {
+      init : true,
+      check : "Boolean",
+      apply : "_modifyEnabled"
+    },
 
     selected : { _legacy : true },
 

@@ -250,7 +250,7 @@ qx.Class.define("qx.core.Property",
     {
       var clazz = widget.constructor;
       var parent = widget.getParent();
-      var store = this.$$store.computed;
+      var get = this.$$method.get;
       var refresh = this.$$method.refresh;
       var properties;
 
@@ -274,11 +274,11 @@ qx.Class.define("qx.core.Property",
               if (qx.core.Variant.isSet("qx.debug", "on"))
               {
                 if (qx.core.Setting.get("qx.propertyDebugLevel") > 2) {
-                  widget.debug("Updating property: " + name + " to '" + parent[store[name]] + "'");
+                  widget.debug("Updating property: " + name + " to '" + parent[get[name]]() + "'");
                 }
               }
 
-              widget[refresh[name]](parent[store[name]]);
+              widget[refresh[name]](parent[get[name]]());
             }
           }
         }
@@ -538,7 +538,11 @@ qx.Class.define("qx.core.Property",
       }
 
       // Overriding temporary wrapper
-      members[this.$$method[variant][name]] = new Function("value", code.toString());
+      try{
+        members[this.$$method[variant][name]] = new Function("value", code.toString());        
+      } catch(ex) {
+        alert(code);
+      }
 
       // Clearing string builder
       code.clear();
@@ -660,7 +664,7 @@ qx.Class.define("qx.core.Property",
             if (config.check !== undefined)
             {
               // Inheritable properties always accept "inherit" as value
-              if (config.inhertiable) {
+              if (config.inheritable) {
                 code.add('if(value!==qx.core.Property.$$inherit)');
               }
 
@@ -800,8 +804,6 @@ qx.Class.define("qx.core.Property",
           }
           else
           {
-            // TODO: when "parent" is a new style property we can replace
-            // getParent with the faster __computed$parent
             code.add('var pa=this.getParent();if(pa)computed=pa.', this.$$store.computed[name], ';');
           }
 
@@ -894,7 +896,7 @@ qx.Class.define("qx.core.Property",
       // Require the parent/children interface
       if (members.getChildren && config.inheritable === true)
       {
-        code.add('for(var i=0,a=this.getChildren(),l=a.length;i<l;i++){');
+        code.add('var a=this.getChildren();if(a)for(var i=0,l=a.length;i<l;i++){');
         code.add('a[i].', this.$$method.refresh[name], '(computed);');
         code.add('}');
       }
@@ -931,6 +933,6 @@ qx.Class.define("qx.core.Property",
   */
 
   settings : {
-    "qx.propertyDebugLevel" : 0
+    "qx.propertyDebugLevel" : 1
   }
 });
