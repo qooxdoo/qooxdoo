@@ -404,29 +404,6 @@ qx.Class.define("qx.ui.form.ComboBox",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {var} TODOC
-     */
-    _modifyEnabled : function(propValue, propOldValue, propData)
-    {
-      if (this._button) {
-        this._button.setEnabled(propValue);
-      }
-
-      if (this._field) {
-        this._field.setEnabled(propValue);
-      }
-
-      return this.base(arguments, propValue, propOldValue, propData);
-    },
-
-
 
 
     /*

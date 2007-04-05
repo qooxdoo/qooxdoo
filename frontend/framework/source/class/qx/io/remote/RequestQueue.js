@@ -71,11 +71,12 @@ qx.Class.define("qx.io.remote.RequestQueue",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
+    enabled :
+    {
+      init : true,
+      check : "Boolean",
+      apply : "_modifyEnabled"
+    },
 
     /**
      * @deprecated

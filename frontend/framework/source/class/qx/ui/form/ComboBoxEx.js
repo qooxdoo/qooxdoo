@@ -683,28 +683,6 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @return {var} TODOC
-     */
-    _modifyEnabled : function(propValue) /* , propOldValue, propData */
-    {
-
-      if (this._button) {
-        this._button.setEnabled(propValue);
-      }
-
-      if (this._field) {
-        this._field.setEnabled(propValue);
-      }
-
-      return qx.ui.layout.HorizontalBoxLayout.prototype._modifyEnabled.apply(this, arguments);
-    },
-
-
 
 
     /*

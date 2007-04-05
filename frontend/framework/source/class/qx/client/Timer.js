@@ -124,6 +124,13 @@ qx.Class.define("qx.client.Timer",
 
   properties :
   {
+    enabled :
+    {
+      init : true,
+      check : "Boolean",
+      apply : "_modifyEnabled"
+    },
+    
     /**
      * Time in milliseconds between two callback calls.
      * This property can be set to modify the interval of
