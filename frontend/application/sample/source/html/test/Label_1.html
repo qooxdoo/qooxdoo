@@ -113,6 +113,23 @@
     c7.setBorder(qx.renderer.border.BorderPresets.getInstance().outset);
     c7.setBackgroundColor("white");
 
+    var textLabel = new qx.ui.basic.Label("     This is a pure text label. No HTML tags like <p>, or <h1> will be evaluated.", "p", "text");
+    textLabel.set({
+      top : 530,
+      left : 20,
+      border:qx.renderer.border.BorderPresets.getInstance().thinOutset
+    });
+    var modes = ["autodetect", "html", "text"];
+    var modeIndex = 0;
+	  var labelText = textLabel.getText();
+    textLabel.addEventListener("click", function() {
+      this.debug("New text mode : " + modes[modeIndex]);
+			this.setText(labelText + " - text mode: " + modes[modeIndex]);
+      this.setTextMode(modes[modeIndex]);
+      modeIndex = (modeIndex + 1) % 3;
+    });
+
+
     c7.addEventListener("click", function(e)
     {
       switch(this.getWidth())
@@ -164,7 +181,7 @@
     parent8.add(wrapLabel2);
 
 
-    d.add(c1, c2, c3, c4, c5w, c6, c7, parent8);
+    d.add(c1, c2, c3, c4, c5w, c6, c7, textLabel, parent8);
 
   });
   </script>
