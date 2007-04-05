@@ -329,48 +329,6 @@ def getInlineCommentPadding(options, keepColumn):
 
 
 
-def getInlineCommentPadding(options, keepColumn):
-    global result
-        
-    padding = ""
-    lineLength = -1
-    
-    # Retaining keepColumn?
-    if options.prettypCommentsTrailingKeepColumn:
-        
-        # Find length of last line
-        posReturn = result.rfind("\n")
-        if posReturn == -1:
-            posReturn = 0
-        lineLength = (len(result) - posReturn - 1)
-        
-        # Work out padding to keep column at same position
-        if keepColumn > lineLength:
-            padding = " " * (keepColumn - lineLength - 1)
-    
-    # Check if preferred comment columns are defined
-    if not padding and options.prettypCommentsTrailingCommentCols:
-        
-        # Find length of last line, but only if not already done
-        if lineLength == -1:
-            posReturn = result.rfind("\n")
-            if posReturn == -1:
-                posReturn = 0
-            lineLength = (len(result) - posReturn - 1)
-        
-        # Work out preferred position of text
-        for commentCol in options.prettypCommentsTrailingCommentCols:
-            if commentCol > (lineLength + 1):   # leave room for a space
-                padding = " " * (commentCol - lineLength - 1)
-                break
-            
-    # If not retaining keepColumn or comment cols not defined or not far enough across then put in fixed padding
-    if not padding and options.prettypCommentsInlinePadding:
-        padding = options.prettypCommentsInlinePadding
-    return padding
-
-
-
 def postProcessMap(m):
     if m.get("maxKeyLength", False) != None:
         return
