@@ -284,33 +284,34 @@ exec-framework-translation:
 
 	@rm -f $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot
 	@touch $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot
-	@for file in `find $(FRAMEWORK_SOURCE_PATH)/class -name "*.js"`; do \
-	  LC_ALL=C xgettext --language=Java --from-code=UTF-8 \
+	
+	@cd $(FRAMEWORK_SOURCE_PATH) && LC_ALL=C xgettext \
+	  --language=Java --from-code=UTF-8 \
 	  -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 \
 	  -kManager.trc -kManager.tr -kManager.marktr -kManager.trn:1,2 \
-	  --sort-by-file --add-comments=TRANSLATION \
-	  -o $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot \
-	  `find $(FRAMEWORK_SOURCE_PATH)/class -name "*.js"` 2>&1 | grep -v warning; \
-	  break; done
+	  --sort-by-file --add-comments=TRANSLATION -o translation/messages.pot \
+	  `find class -name "*.js"` 2> /dev/null
 
 	@echo "  * Processing translations..."
 	@for LOC in $(COMPUTED_LOCALES); do \
+	  cd $(FRAMEWORK_SOURCE_PATH) \
 	  echo "    - Translation: $$LOC"; \
-	  if [ ! -r $(FRAMEWORK_SOURCE_PATH)/translation/$$LOC.po ]; then \
+	  if [ ! -r translation/$$LOC.po ]; then \
   	    echo "      - Generating initial translation file..."; \
-	    msginit --locale $$LOC --no-translator -i $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot -o $(FRAMEWORK_SOURCE_PATH)/translation/$$LOC.po > /dev/null 2>&1; \
+	    msginit --locale $$LOC --no-translator -i translation/messages.pot -o translation/$$LOC.po > /dev/null 2>&1; \
 	  else \
 	    echo "      - Merging translation file..."; \
-	    msgmerge --update -q $(FRAMEWORK_SOURCE_PATH)/translation/$$LOC.po $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot; \
+	    msgmerge --update -q translation/$$LOC.po translation/messages.pot; \
 	  fi; \
 	  echo "      - Generating catalog..."; \
-	  mkdir -p $(FRAMEWORK_SOURCE_PATH)/translation; \
+	  mkdir -p translation; \
 	  $(CMD_MSGFMT) \
 	    -n $(FRAMEWORK_NAMESPACE).locale.translation \
-	    -d $(FRAMEWORK_SOURCE_PATH)/class/$(FRAMEWORK_NAMESPACE_PATH)/locale/translation \
-	    $(FRAMEWORK_SOURCE_PATH)/translation/$$LOC.po; \
+	    -d class/$(FRAMEWORK_NAMESPACE_PATH)/locale/translation \
+	    translation/$$LOC.po; \
 	done
 	@rm -rf $(FRAMEWORK_SOURCE_PATH)/translation/*~
+
 
 exec-application-translation:
 	@echo
