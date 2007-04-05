@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo framework\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-05 14:15+0200\n"
+"POT-Creation-Date: 2007-04-05 16:17+0200\n"
 "PO-Revision-Date: 2006-12-18 14:30+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -14,296 +14,296 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. TRANSLATION: short representation of key names
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:81
+#: class/qx/locale/Key.js:81
 msgid "key_short_Backspace"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:82
+#: class/qx/locale/Key.js:82
 msgid "key_short_Tab"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:83
+#: class/qx/locale/Key.js:83
 msgid "key_short_Space"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:84
+#: class/qx/locale/Key.js:84
 msgid "key_short_Enter"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:85
+#: class/qx/locale/Key.js:85
 msgid "key_short_Shift"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:86
+#: class/qx/locale/Key.js:86
 msgid "key_short_Control"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:87
+#: class/qx/locale/Key.js:87
 msgid "key_short_Alt"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:88
+#: class/qx/locale/Key.js:88
 msgid "key_short_CapsLock"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:89
+#: class/qx/locale/Key.js:89
 msgid "key_short_Meta"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:90
+#: class/qx/locale/Key.js:90
 msgid "key_short_Escape"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:91
+#: class/qx/locale/Key.js:91
 msgid "key_short_Left"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:92
+#: class/qx/locale/Key.js:92
 msgid "key_short_Up"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:93
+#: class/qx/locale/Key.js:93
 msgid "key_short_Right"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:94
+#: class/qx/locale/Key.js:94
 msgid "key_short_Down"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:95
+#: class/qx/locale/Key.js:95
 msgid "key_short_PageUp"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:96
+#: class/qx/locale/Key.js:96
 msgid "key_short_PageDown"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:97
+#: class/qx/locale/Key.js:97
 msgid "key_short_End"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:98
+#: class/qx/locale/Key.js:98
 msgid "key_short_Home"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:99
+#: class/qx/locale/Key.js:99
 msgid "key_short_Insert"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:100
+#: class/qx/locale/Key.js:100
 msgid "key_short_Delete"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:101
+#: class/qx/locale/Key.js:101
 msgid "key_short_NumLock"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:102
+#: class/qx/locale/Key.js:102
 msgid "key_short_PrintScreen"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:103
+#: class/qx/locale/Key.js:103
 msgid "key_short_Scroll"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:104
+#: class/qx/locale/Key.js:104
 msgid "key_short_Pause"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:105
+#: class/qx/locale/Key.js:105
 msgid "key_short_Win"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:106
+#: class/qx/locale/Key.js:106
 msgid "key_short_Apps"
 msgstr ""
 
 #. TRANSLATION: full/long representation of key names
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:109
+#: class/qx/locale/Key.js:109
 msgid "key_full_Backspace"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:110
+#: class/qx/locale/Key.js:110
 msgid "key_full_Tab"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:111
+#: class/qx/locale/Key.js:111
 msgid "key_full_Space"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:112
+#: class/qx/locale/Key.js:112
 msgid "key_full_Enter"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:113
+#: class/qx/locale/Key.js:113
 msgid "key_full_Shift"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:114
+#: class/qx/locale/Key.js:114
 msgid "key_full_Control"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:115
+#: class/qx/locale/Key.js:115
 msgid "key_full_Alt"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:116
+#: class/qx/locale/Key.js:116
 msgid "key_full_CapsLock"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:117
+#: class/qx/locale/Key.js:117
 msgid "key_full_Meta"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:118
+#: class/qx/locale/Key.js:118
 msgid "key_full_Escape"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:119
+#: class/qx/locale/Key.js:119
 msgid "key_full_Left"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:120
+#: class/qx/locale/Key.js:120
 msgid "key_full_Up"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:121
+#: class/qx/locale/Key.js:121
 msgid "key_full_Right"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:122
+#: class/qx/locale/Key.js:122
 msgid "key_full_Down"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:123
+#: class/qx/locale/Key.js:123
 msgid "key_full_PageUp"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:124
+#: class/qx/locale/Key.js:124
 msgid "key_full_PageDown"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:125
+#: class/qx/locale/Key.js:125
 msgid "key_full_End"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:126
+#: class/qx/locale/Key.js:126
 msgid "key_full_Home"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:127
+#: class/qx/locale/Key.js:127
 msgid "key_full_Insert"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:128
+#: class/qx/locale/Key.js:128
 msgid "key_full_Delete"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:129
+#: class/qx/locale/Key.js:129
 msgid "key_full_NumLock"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:130
+#: class/qx/locale/Key.js:130
 msgid "key_full_PrintScreen"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:131
+#: class/qx/locale/Key.js:131
 msgid "key_full_Scroll"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:132
+#: class/qx/locale/Key.js:132
 msgid "key_full_Pause"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:133
+#: class/qx/locale/Key.js:133
 msgid "key_full_Win"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/locale/Key.js:134
+#: class/qx/locale/Key.js:134
 msgid "key_full_Apps"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorPopup.js:148
+#: class/qx/ui/component/ColorPopup.js:148
 msgid "Automatic"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorPopup.js:216
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:403
+#: class/qx/ui/component/ColorPopup.js:216
+#: class/qx/ui/component/ColorSelector.js:403
 msgid "Preview (Old/New)"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorPopup.js:249
+#: class/qx/ui/component/ColorPopup.js:249
 msgid "Open ColorSelector"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorPopup.js:270
+#: class/qx/ui/component/ColorPopup.js:270
 msgid "Color Selector"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:219
+#: class/qx/ui/component/ColorSelector.js:219
 msgid "Cancel"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:220
+#: class/qx/ui/component/ColorSelector.js:220
 msgid "OK"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:333
+#: class/qx/ui/component/ColorSelector.js:333
 msgid "Presets"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:384
+#: class/qx/ui/component/ColorSelector.js:384
 msgid "Details"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:438
+#: class/qx/ui/component/ColorSelector.js:438
 msgid "Hex"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:468
+#: class/qx/ui/component/ColorSelector.js:468
 msgid "RGB"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/ui/component/ColorSelector.js:503
+#: class/qx/ui/component/ColorSelector.js:503
 msgid "HSB"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:86
+#: class/qx/ui/component/DateChooser.js:86
 msgid "Last year"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:93
+#: class/qx/ui/component/DateChooser.js:93
 msgid "Last month"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:99
+#: class/qx/ui/component/DateChooser.js:99
 msgid "Next month"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooser.js:105
+#: class/qx/ui/component/DateChooser.js:105
 msgid "Next year"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/ui/component/DateChooserButton.js:112
+#: class/qx/ui/component/DateChooserButton.js:112
 msgid "Choose a date"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/ui/form/ComboBoxEx.js:84
+#: class/qx/ui/form/ComboBoxEx.js:84
 msgid "Description"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/ui/form/ComboBoxEx.js:84
+#: class/qx/ui/form/ComboBoxEx.js:84
 msgid "ID"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/ui/form/ComboBoxEx.js:1019
+#: class/qx/ui/form/ComboBoxEx.js:1041
 msgid "Case sensitive"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/ui/form/ComboBoxEx.js:1068
+#: class/qx/ui/form/ComboBoxEx.js:1090
 msgid "Search next occurrence"
 msgstr ""
 
-#: ../../../frontend/framework/source/class/qx/ui/form/ComboBoxEx.js:1112
+#: class/qx/ui/form/ComboBoxEx.js:1134
 msgid "Search items in list"
 msgstr ""
