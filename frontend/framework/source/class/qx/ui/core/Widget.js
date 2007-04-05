@@ -1198,6 +1198,14 @@ qx.Class.define("qx.ui.core.Widget",
       BASIC PROPERTIES
     ---------------------------------------------------------------------------
     */
+    
+    enabled :
+    {
+      init : "inherit",
+      check : "Boolean",
+      inheritable : true,
+      apply : "_modifyEnabled"
+    },
 
     /** The parent widget (the real object, no ID or something) */
     parent :

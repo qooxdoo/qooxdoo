@@ -79,6 +79,9 @@ qx.Class.define("qx.ui.core.ClientDocument",
     // Dialog Support
     this._modalWidgets = [];
     this._modalNativeWindow = null;
+    
+    // Debug
+    this.debug("I am enabled = " + this.getEnabled());
 
     // Register as focus root
     qx.event.handler.EventHandler.getInstance().setFocusRoot(this);
@@ -117,6 +120,12 @@ qx.Class.define("qx.ui.core.ClientDocument",
 
   properties :
   {
+    enabled : 
+    {
+      init : true,
+      refine : true
+    },
+    
     globalCursor :
     {
       _legacy : true,

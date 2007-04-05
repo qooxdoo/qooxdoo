@@ -342,27 +342,6 @@ qx.Class.define("qx.ui.basic.Atom",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {var} TODOC
-     */
-    _modifyEnabled : function(propValue, propOldValue, propData)
-    {
-      this._updateIcon();
-
-      if (this._labelObject) {
-        this._labelObject.setEnabled(propValue);
-      }
-
-      return this.base(arguments, propValue, propOldValue, propData);
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
     _modifyIconPosition : function(propValue, propOldValue, propData)

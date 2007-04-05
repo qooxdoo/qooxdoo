@@ -167,24 +167,6 @@ qx.Class.define("qx.ui.form.CheckBox",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {var} TODOC
-     */
-    _modifyEnabled : function(propValue, propOldValue, propData)
-    {
-      if (this._iconObject) {
-        this._iconObject.setEnabled(propValue);
-      }
-
-      return this.base(arguments, propValue, propOldValue, propData);
-    },
-
     // The user can't control the icon in checkboxes
     _modifyIcon : null,
     _modifyDisabledIcon : null,

@@ -230,29 +230,6 @@ qx.Class.define("qx.core.Object",
 
 
 
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-    /**
-     * Enable or disable the Object.
-     *
-     * The actual semantic of this property depends on concrete subclass of qx.core.Object.
-     */
-    enabled :
-    {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true,
-      getAlias     : "isEnabled"
-    }
-  },
-
-
 
 
   /*
@@ -363,9 +340,8 @@ qx.Class.define("qx.core.Object",
 
       return this;
     },
-
-
-
+    
+    
 
 
     /*
