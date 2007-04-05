@@ -114,21 +114,30 @@
         </xsl:element>
       </xsl:element> 
       <!-- Constructor -->
-      <xsl:element name="constructor">
-        <xsl:for-each select="method[info/name = '__init__']">
-            <xsl:call-template name="method"/>
-        </xsl:for-each>
-      </xsl:element>
+      <xsl:if test="method[info/name = '__init__']">
+          <xsl:element name="constructor">
+            <xsl:for-each select="method[info/name = '__init__']">
+                <xsl:call-template name="method"/>
+            </xsl:for-each>
+          </xsl:element>
+      </xsl:if>
       <!-- Properties -->
-      <!--
       <xsl:element name="properties">
+        <xsl:apply-templates select="variable"/>
       </xsl:element>
-      -->
       <!-- Methods -->
       <xsl:element name="methods">
         <xsl:apply-templates select="method[info/name != '__init__']"/>
       </xsl:element>
     </xsl:element>
+  </xsl:template>
+
+
+  <xsl:template match="variable">
+      <xsl:element name="property">
+          <xsl:attribute name="name"><xsl:value-of select="info/name"/></xsl:attribute>
+          <xsl:attribute name="defaultValue"></xsl:attribute>
+      </xsl:element>
   </xsl:template>
 
   <xsl:template match="function">
