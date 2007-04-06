@@ -294,21 +294,20 @@ exec-framework-translation:
 
 	@echo "  * Processing translations..."
 	@for LOC in $(COMPUTED_LOCALES); do \
-	  cd $(FRAMEWORK_SOURCE_PATH) \
 	  echo "    - Translation: $$LOC"; \
 	  if [ ! -r translation/$$LOC.po ]; then \
   	    echo "      - Generating initial translation file..."; \
-	    msginit --locale $$LOC --no-translator -i translation/messages.pot -o translation/$$LOC.po > /dev/null 2>&1; \
+	    msginit --locale $$LOC --no-translator -i $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot -o $(FRAMEWORK_SOURCE_PATH)/translation/$$LOC.po > /dev/null 2>&1; \
 	  else \
 	    echo "      - Merging translation file..."; \
-	    msgmerge --update -q translation/$$LOC.po translation/messages.pot; \
+	    msgmerge --update -q $(FRAMEWORK_SOURCE_PATH)/translation/$$LOC.po $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot; \
 	  fi; \
 	  echo "      - Generating catalog..."; \
-	  mkdir -p translation; \
+	  mkdir -p $(FRAMEWORK_SOURCE_PATH)/translation; \
 	  $(CMD_MSGFMT) \
 	    -n $(FRAMEWORK_NAMESPACE).locale.translation \
-	    -d class/$(FRAMEWORK_NAMESPACE_PATH)/locale/translation \
-	    translation/$$LOC.po; \
+	    -d $(FRAMEWORK_SOURCE_PATH)/class/$(FRAMEWORK_NAMESPACE_PATH)/locale/translation \
+	    $(FRAMEWORK_SOURCE_PATH)/translation/$$LOC.po; \
 	done
 	@rm -rf $(FRAMEWORK_SOURCE_PATH)/translation/*~
 
