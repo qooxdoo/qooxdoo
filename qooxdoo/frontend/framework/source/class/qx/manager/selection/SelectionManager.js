@@ -254,7 +254,7 @@ qx.Class.define("qx.manager.selection.SelectionManager",
       var vItem = this._getFirst();
 
       if (vItem) {
-        return vItem.isEnabled() ? vItem : this.getNext(vItem);
+        return vItem.getEnabled() ? vItem : this.getNext(vItem);
       }
     },
 
@@ -270,7 +270,7 @@ qx.Class.define("qx.manager.selection.SelectionManager",
       var vItem = this._getLast();
 
       if (vItem) {
-        return vItem.isEnabled() ? vItem : this.getPrevious(vItem);
+        return vItem.getEnabled() ? vItem : this.getPrevious(vItem);
       }
     },
 
