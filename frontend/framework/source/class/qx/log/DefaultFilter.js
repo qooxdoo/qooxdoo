@@ -104,7 +104,7 @@ qx.Class.define("qx.log.DefaultFilter",
     {
       var Filter = qx.log.Filter;
 
-      if (!this.isEnabled()) {
+      if (!this.getEnabled()) {
         return Filter.DENY;
       } else if (this.getMinLevel() == null) {
         return Filter.NEUTRAL;
