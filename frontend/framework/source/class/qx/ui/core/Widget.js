@@ -936,7 +936,7 @@ qx.Class.define("qx.ui.core.Widget",
       var vPosition = vMode == null ? vChilds.indexOf(vObject) + vCalc : vMode === "first" ? 0 : vChilds.length - 1;
       var vInstance = vChilds[vPosition];
 
-      while (vInstance && (!vInstance.isEnabled() || qx.ui.core.Widget.getActiveSiblingHelperIgnore(vIgnoreClasses, vInstance)))
+      while (vInstance && (!vInstance.getEnabled() || qx.ui.core.Widget.getActiveSiblingHelperIgnore(vIgnoreClasses, vInstance)))
       {
         vPosition += vCalc;
         vInstance = vChilds[vPosition];
@@ -5814,7 +5814,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {var} TODOC
      */
     isFocusable : function() {
-      return this.isEnabled() && this.isSeeable() && this.getTabIndex() >= 0;
+      return this.getEnabled() && this.isSeeable() && this.getTabIndex() >= 0;
     },
 
 

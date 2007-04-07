@@ -132,8 +132,8 @@ qx.Class.define("qx.ui.form.CheckBox",
       var i = this._iconObject = new qx.ui.form.InputCheckSymbol;
 
       i.setType(this.INPUT_TYPE);
-      i.setChecked(this.isChecked());
-      i.setEnabled(this.isEnabled());
+      i.setChecked(this.getChecked());
+      i.setEnabled(this.getEnabled());
       i.setAnonymous(true);
 
       this.addAtBegin(i);
