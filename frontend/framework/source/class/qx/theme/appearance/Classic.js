@@ -97,7 +97,10 @@ qx.Theme.define("qx.theme.appearance.Classic",
         return {
           cursor                        : "default",
           spacing                       : 4,
-          width                         : "auto",
+// Until applications can override styles, we can't set width to "auto" here.
+// It prevents flex widths from working.  (This probably applies to height as
+// well, but that hasn't yet been verified.)
+//          width                         : "auto",
           height                        : "auto",
           horizontalChildrenAlign       : "center",
           verticalChildrenAlign         : "middle",
