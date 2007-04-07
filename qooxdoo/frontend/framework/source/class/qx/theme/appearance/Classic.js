@@ -25,6 +25,7 @@
 #ignore(auto-use)
 #embed(qx.static/image/dotted_white.gif)
 #embed(qx.static/image/blank.gif)
+#require(qx.renderer.border.BorderPresets)
 
  ************************************************************************ */
 
