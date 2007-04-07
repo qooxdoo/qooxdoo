@@ -254,36 +254,39 @@ qx.Class.define("qx.core.Property",
       var refresh = this.$$method.refresh;
       var properties;
 
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if (parent)
       {
-        if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
-          widget.debug("Update widget: " + widget);
-        }
-      }
-
-      while(clazz)
-      {
-        properties = clazz.$$properties;
-
-        if (properties)
+        if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          for (name in properties)
-          {
-            if (properties[name].inheritable)
-            {
-              if (qx.core.Variant.isSet("qx.debug", "on"))
-              {
-                if (qx.core.Setting.get("qx.propertyDebugLevel") > 2) {
-                  widget.debug("Updating property: " + name + " to '" + parent[get[name]]() + "'");
-                }
-              }
-
-              widget[refresh[name]](parent[get[name]]());
-            }
+          if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
+            widget.debug("Update widget: " + widget);
           }
         }
 
-        clazz = clazz.superclass;
+        while(clazz)
+        {
+          properties = clazz.$$properties;
+
+          if (properties)
+          {
+            for (name in properties)
+            {
+              if (properties[name].inheritable)
+              {
+                if (qx.core.Variant.isSet("qx.debug", "on"))
+                {
+                  if (qx.core.Setting.get("qx.propertyDebugLevel") > 2) {
+                    widget.debug("Updating property: " + name + " to '" + parent[get[name]]() + "'");
+                  }
+                }
+
+                widget[refresh[name]](parent[get[name]]());
+              }
+            }
+          }
+
+          clazz = clazz.superclass;
+        }
       }
     },
 
