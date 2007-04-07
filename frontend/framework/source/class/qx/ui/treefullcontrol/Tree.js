@@ -414,8 +414,8 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
     },
 
     // Override getter so we can return a clone of the array.  Otherwise, the
-    // setter finds the identical array (after user modifications) and the modify
-    // function doesn't get called.
+    // setter finds the identical array (after user modifications) and the
+    // modify function doesn't get called.
     /**
      * TODOC
      *
@@ -424,11 +424,7 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
      */
     getExcludeSpecificTreeLines : function()
     {
-      var vName = "excludeSpecificTreeLines";
-      var vUpName = qx.lang.String.toFirstUp(vName);
-      var vStorageField = "_value" + vUpName;
-
-      return this[vStorageField].slice(0);
+      return qx.lang.Array.clone(this["__user$excludeSpecificTreeLines"]);
     },
 
 
