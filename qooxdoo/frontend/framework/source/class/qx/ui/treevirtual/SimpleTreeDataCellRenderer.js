@@ -136,13 +136,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
   members :
   {
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @return {var} TODOC
-     */
     _getCellStyle : function(cellInfo)
     {
       var node = cellInfo.value;
@@ -156,29 +149,14 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       return html;
     },
 
-    // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @return {var} TODOC
-     */
-    _getContentHtml : function(cellInfo)
+    __addImage : function(urlAndToolTip)
     {
-      var html = "";
-      var node = cellInfo.value;
-      var imageUrl;
-      var _this = this;
       var Stdcr = qx.ui.treevirtual.SimpleTreeDataCellRenderer;
+      var html = Stdcr.IMG_START;
+      var Am = qx.manager.object.AliasManager;
 
-      function addImage(urlAndToolTip)
-      {
-        var html = Stdcr.IMG_START;
-        var Am = qx.manager.object.AliasManager;
-
-        if (qx.core.Client.getInstance().isMshtml() &&
-            /\.png$/i.test(urlAndToolTip.url))
+      if (qx.core.Client.getInstance().isMshtml() &&
+          /\.png$/i.test(urlAndToolTip.url))
         {
           html +=
             this.STATIC_IMAGE_URI +
@@ -189,13 +167,13 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
             Am.getInstance().resolvePath(urlAndToolTip.url) +
             "',sizingMethod='scale')";
         }
-        else
+      else
         {
           var imageUrl = Am.getInstance().resolvePath(urlAndToolTip.url);
           html += imageUrl + '" style="';
         }
 
-        if (urlAndToolTip.imageWidth && urlAndToolTip.imageHeight)
+      if (urlAndToolTip.imageWidth && urlAndToolTip.imageHeight)
         {
           html +=
             ';width:' +
@@ -206,17 +184,27 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
             'px';
         }
 
-        var tooltip = urlAndToolTip.tooltip;
+      var tooltip = urlAndToolTip.tooltip;
 
-        if (tooltip != null)
+      if (tooltip != null)
         {
           html += Stdcr.IMG_TITLE_START + tooltip;
         }
 
-        html += Stdcr.IMG_END;
+      html += Stdcr.IMG_END;
 
-        return html;
-      }
+      return html;
+    },
+
+
+
+    // overridden
+    _getContentHtml : function(cellInfo)
+    {
+      var html = "";
+      var node = cellInfo.value;
+      var imageUrl;
+      var _this = this;
 
       // Generate the indentation.  Obtain icon determination values once
       // rather than each time through the loop.
@@ -230,7 +218,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
                                          bAlwaysShowOpenCloseSymbol,
                                          bExcludeFirstLevelTreeLines);
 
-        html += addImage(
+        html += this.__addImage(
         {
           url         : imageUrl,
           imageWidth  : 19,
@@ -259,7 +247,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         }
       }
 
-      html += addImage(
+      html += this.__addImage(
       {
         url         : imageUrl,
         imageWidth  : 16,
