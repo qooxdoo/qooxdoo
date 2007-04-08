@@ -335,10 +335,9 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       {
         // then return either a line or a blank icon, depending on
         // bUseTreeLines
-        return (bUseTreeLines &&
-                (! node.lastChild[column]
+        return (bUseTreeLines && ! node.lastChild[column]
                  ? this.WIDGET_TREE_URI + "line.gif"
-                 : this.STATIC_IMAGE_URI + "blank.gif"));
+                 : this.STATIC_IMAGE_URI + "blank.gif");
       }
 
       var bLastChild = node.lastChild[node.lastChild.length - 1];
