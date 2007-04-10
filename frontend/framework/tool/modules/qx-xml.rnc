@@ -18,7 +18,9 @@ classes = element classes { attlist.classes, class* }
 attlist.classes &= empty
 functions = element functions { attlist.functions, function* }
 attlist.functions &= empty
+
 # Class
+
 class =
   element class {
     attlist.class,
@@ -64,17 +66,23 @@ properties = element properties { attlist.properties, property* }
 attlist.properties &= empty
 methods = element methods { attlist.methods, method* }
 attlist.methods &= empty
+
 # Interface
+
 interface = element interface { attlist.interface, empty }
 attlist.interface &= attribute name { text }
+
 # Constant
+
 constant =
   element constant { attlist.constant, deprecated?, desc?, types? }
 attlist.constant &=
   attribute name { text },
   attribute value { text },
   attribute type { text }
+
 # Property
+
 property = element property { attlist.property, deprecated?, errors? }
 attlist.property &=
   attribute name { text },
@@ -85,7 +93,9 @@ attlist.property &=
   attribute defaultValue { text }?,
   attribute type { text }?,
   attribute isMixin { "true" | "false" }?
+
 # Method
+
 method =
   element method {
     attlist.method, (deprecated? & desc? & params? & return? & errors?)
@@ -104,7 +114,9 @@ param = element param { attlist.param, desc?, types? }
 attlist.param &= attribute name { text }
 return = element return { attlist.return, desc?, types? }
 attlist.return &= empty
+
 # Errors
+
 errors = element errors { attlist.errors, error* }
 attlist.errors &= empty
 error = element error { attlist.error, empty }
@@ -112,7 +124,9 @@ attlist.error &=
   attribute msg { text },
   attribute column { xsd:NMTOKEN },
   attribute line { xsd:NMTOKEN }
+
 # Misc
+
 deprecated = element deprecated { attlist.deprecated, desc? }
 attlist.deprecated &= empty
 desc = element desc { attlist.desc, \text* }
