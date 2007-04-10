@@ -107,12 +107,14 @@
       <xsl:attribute name="packageName"><xsl:value-of select="$packName"/></xsl:attribute>
       <xsl:attribute name="fullName"><xsl:value-of select="@name"/></xsl:attribute>
       <xsl:attribute name="name"><xsl:value-of select="substring-after(@name,'.')"/></xsl:attribute>
+
       <!-- Class Description -->
       <xsl:element name="desc">
         <xsl:element name="text">
             <xsl:value-of select="info/description"/>
         </xsl:element>
       </xsl:element> 
+
       <!-- Constructor -->
       <xsl:if test="method[info/name = '__init__']">
           <xsl:element name="constructor">
@@ -121,6 +123,7 @@
             </xsl:for-each>
           </xsl:element>
       </xsl:if>
+
       <!-- Properties -->
       <!-- The next would be nice, scanning for 'name=property(...)', but curr. not
            supported in Pythondoc XML
@@ -133,6 +136,7 @@
       <xsl:element name="properties">
         <xsl:apply-templates select="variable"/>
       </xsl:element>
+
       <!-- Methods -->
       <xsl:element name="methods">
         <xsl:apply-templates select="method[info/name != '__init__']"/>
