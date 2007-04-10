@@ -122,6 +122,14 @@
           </xsl:element>
       </xsl:if>
       <!-- Properties -->
+      <!-- The next would be nice, scanning for 'name=property(...)', but curr. not
+           supported in Pythondoc XML
+      <xsl:if test="contains(variable/info/def,'property(')">
+          <xsl:for-each select="variable[contains(info/def,'property(')]">
+            <xsl:call-template name="property">
+          </xsl:for-each>
+      </xsl:if>
+      -->
       <xsl:element name="properties">
         <xsl:apply-templates select="variable"/>
       </xsl:element>
