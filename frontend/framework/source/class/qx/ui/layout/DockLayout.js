@@ -60,56 +60,6 @@ qx.Class.define("qx.ui.layout.DockLayout",
       defaultValue      : "vertical",
       possibleValues    : [ "vertical", "horizontal", "ordered" ],
       addToQueueRuntime : true
-    },
-
-    /*
-      Overwrite from qx.ui.core.Widget, we do not support 'auto' and 'flex'
-    */
-
-    width :
-    {
-      _legacy       : true,
-      addToQueue    : true,
-      unitDetection : "pixelPercent"
-    },
-
-    minWidth :
-    {
-      _legacy       : true,
-      defaultValue  : -Infinity,
-      addToQueue    : true,
-      unitDetection : "pixelPercent"
-    },
-
-    minWidth :
-    {
-      _legacy       : true,
-      defaultValue  : -Infinity,
-      addToQueue    : true,
-      unitDetection : "pixelPercent"
-    },
-
-    height :
-    {
-      _legacy       : true,
-      addToQueue    : true,
-      unitDetection : "pixelPercent"
-    },
-
-    minHeight :
-    {
-      _legacy       : true,
-      defaultValue  : -Infinity,
-      addToQueue    : true,
-      unitDetection : "pixelPercent"
-    },
-
-    minHeight :
-    {
-      _legacy       : true,
-      defaultValue  : -Infinity,
-      addToQueue    : true,
-      unitDetection : "pixelPercent"
     }
   },
 

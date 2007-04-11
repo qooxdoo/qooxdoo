@@ -1455,9 +1455,9 @@ qx.Class.define("qx.ui.core.Widget",
      */
     overflow :
     {
-      _legacy    : true,
-      type       : "string",
-      addToQueue : true
+      check : "String",
+      nullable : true,
+      apply : "_modifyOverflow"
     },
 
 
@@ -1624,80 +1624,80 @@ qx.Class.define("qx.ui.core.Widget",
     /** Margin of the widget (top) */
     marginTop :
     {
-      _legacy    : true,
-      type       : "number",
-      addToQueue : true,
-      impl       : "marginY"
+      check : "Number",
+      apply : "_modifyMarginTop",
+      nullable : true,
+      appearance : true
     },
 
 
     /** Margin of the widget (right) */
     marginRight :
     {
-      _legacy    : true,
-      type       : "number",
-      addToQueue : true,
-      impl       : "marginX"
+      check : "Number",
+      apply : "_modifyMarginRight",
+      nullable : true,
+      appearance : true
     },
 
 
     /** Margin of the widget (bottom) */
     marginBottom :
     {
-      _legacy    : true,
-      type       : "number",
-      addToQueue : true,
-      impl       : "marginY"
+      check : "Number",
+      apply : "_modifyMarginBottom",
+      nullable : true,
+      appearance : true
     },
 
 
     /** Margin of the widget (left) */
     marginLeft :
     {
-      _legacy    : true,
-      type       : "number",
-      addToQueue : true,
-      impl       : "marginX"
+      check : "Number",
+      apply : "_modifyMarginLeft",
+      nullable : true,
+      appearance : true
     },
 
 
     /** Padding of the widget (top) */
     paddingTop :
     {
-      _legacy    : true,
-      type       : "number",
-      addToQueue : true,
-      impl       : "paddingY"
+      check : "Number",
+      apply : "_modifyPaddingTop",
+      nullable : true,
+      appearance : true
     },
 
 
     /** Padding of the widget (right) */
     paddingRight :
     {
-      _legacy    : true,
-      type       : "number",
-      addToQueue : true,
-      impl       : "paddingX"
+      check : "Number",
+      apply : "_modifyPaddingRight",
+      nullable : true,
+      appearance : true
     },
 
 
     /** Padding of the widget (bottom) */
     paddingBottom :
     {
-      _legacy    : true,
-      type       : "number",
-      addToQueue : true,
-      impl       : "paddingY"
+      check : "Number",
+      apply : "_modifyPaddingBottom",
+      nullable : true,
+      appearance : true
     },
 
 
     /** Padding of the widget (left) */
     paddingLeft :
     {
-      _legacy    : true,
-      type       : "number",
-      addToQueue : true,
-      impl       : "paddingX"
+      check : "Number",
+      apply : "_modifyPaddingLeft",
+      nullable : true,
+      appearance : true
     },
 
 
@@ -1718,9 +1718,9 @@ qx.Class.define("qx.ui.core.Widget",
      */
     left :
     {
-      _legacy       : true,
-      addToQueue    : true,
-      unitDetection : "pixelPercent"
+      apply : "_modifyLeft",
+      nullable : true,
+      appearance : true
     },
 
 
@@ -1733,9 +1733,9 @@ qx.Class.define("qx.ui.core.Widget",
      */
     right :
     {
-      _legacy       : true,
-      addToQueue    : true,
-      unitDetection : "pixelPercent"
+      apply : "_modifyRight",
+      nullable : true,
+      appearance : true
     },
 
 
@@ -1746,11 +1746,11 @@ qx.Class.define("qx.ui.core.Widget",
      *  at the same time. This will be omitted during the setup of the new third value. To reset a value
      *  you didn't want anymore, set it to null.
      */
-    width :
+    width : 
     {
-      _legacy       : true,
-      addToQueue    : true,
-      unitDetection : "pixelPercentAutoFlex"
+      apply : "_modifyWidth",
+      nullable : true,
+      appearance : true
     },
 
 
@@ -1761,9 +1761,9 @@ qx.Class.define("qx.ui.core.Widget",
      */
     minWidth :
     {
-      _legacy       : true,
-      addToQueue    : true,
-      unitDetection : "pixelPercentAuto"
+      apply : "_modifyMinWidth",
+      nullable : true,
+      appearance : true
     },
 
 
@@ -1774,9 +1774,9 @@ qx.Class.define("qx.ui.core.Widget",
      */
     maxWidth :
     {
-      _legacy       : true,
-      addToQueue    : true,
-      unitDetection : "pixelPercentAuto"
+      apply : "_modifyMaxWidth",
+      nullable : true,
+      appearance : true
     },
 
 
@@ -1797,9 +1797,9 @@ qx.Class.define("qx.ui.core.Widget",
      */
     top :
     {
-      _legacy       : true,
-      addToQueue    : true,
-      unitDetection : "pixelPercent"
+      apply : "_modifyTop",
+      nullable : true,
+      appearance : true
     },
 
 
@@ -1812,9 +1812,9 @@ qx.Class.define("qx.ui.core.Widget",
      */
     bottom :
     {
-      _legacy       : true,
-      addToQueue    : true,
-      unitDetection : "pixelPercent"
+      apply : "_modifyBottom",
+      nullable : true,
+      appearance : true
     },
 
 
@@ -1827,9 +1827,9 @@ qx.Class.define("qx.ui.core.Widget",
      */
     height :
     {
-      _legacy       : true,
-      addToQueue    : true,
-      unitDetection : "pixelPercentAutoFlex"
+      apply : "_modifyHeight",
+      nullable : true,
+      appearance : true
     },
 
 
@@ -1840,9 +1840,9 @@ qx.Class.define("qx.ui.core.Widget",
      */
     minHeight :
     {
-      _legacy       : true,
-      addToQueue    : true,
-      unitDetection : "pixelPercentAuto"
+      apply : "_modifyMinHeight",
+      nullable : true,
+      appearance : true
     },
 
 
@@ -1853,9 +1853,9 @@ qx.Class.define("qx.ui.core.Widget",
      */
     maxHeight :
     {
-      _legacy       : true,
-      addToQueue    : true,
-      unitDetection : "pixelPercentAuto"
+      apply : "_modifyMaxHeight",
+      nullable : true,
+      appearance : true
     },
 
 
@@ -2102,9 +2102,160 @@ qx.Class.define("qx.ui.core.Widget",
 
   members :
   {
-    /* ************************************************************************
-       Instance data, properties and methods
-    ************************************************************************ */
+    _computedLeftValue : null,
+    _computedLeftParsed : null,
+    _computedLeftType : null,
+    _computedLeftTypeNull : true,
+    _computedLeftTypePixel : false,
+    _computedLeftTypePercent : false,
+    _computedLeftTypeAuto : false,
+    _computedLeftTypeFlex : false,
+    
+    _computedRightValue : null,
+    _computedRightParsed : null,
+    _computedRightType : null,
+    _computedRightTypeNull : true,
+    _computedRightTypePixel : false,
+    _computedRightTypePercent : false,
+    _computedRightTypeAuto : false,
+    _computedRightTypeFlex : false,
+    
+    _computedTopValue : null,
+    _computedTopParsed : null,
+    _computedTopType : null,
+    _computedTopTypeNull : true,
+    _computedTopTypePixel : false,
+    _computedTopTypePercent : false,
+    _computedTopTypeAuto : false,
+    _computedTopTypeFlex : false,
+    
+    _computedBottomValue : null,
+    _computedBottomParsed : null,
+    _computedBottomType : null,
+    _computedBottomTypeNull : true,
+    _computedBottomTypePixel : false,
+    _computedBottomTypePercent : false,
+    _computedBottomTypeAuto : false,
+    _computedBottomTypeFlex : false,    
+    
+    _computedWidthValue : null,
+    _computedWidthParsed : null,
+    _computedWidthType : null,
+    _computedWidthTypeNull : true,
+    _computedWidthTypePixel : false,
+    _computedWidthTypePercent : false,
+    _computedWidthTypeAuto : false,
+    _computedWidthTypeFlex : false,
+    
+    _computedMinWidthValue : null,
+    _computedMinWidthParsed : null,
+    _computedMinWidthType : null,
+    _computedMinWidthTypeNull : true,
+    _computedMinWidthTypePixel : false,
+    _computedMinWidthTypePercent : false,
+    _computedMinWidthTypeAuto : false,
+    _computedMinWidthTypeFlex : false,
+
+    _computedMaxWidthValue : null,
+    _computedMaxWidthParsed : null,
+    _computedMaxWidthType : null,
+    _computedMaxWidthTypeNull : true,
+    _computedMaxWidthTypePixel : false,
+    _computedMaxWidthTypePercent : false,
+    _computedMaxWidthTypeAuto : false,
+    _computedMaxWidthTypeFlex : false,
+
+    _computedHeightValue : null,
+    _computedHeightParsed : null,
+    _computedHeightType : null,
+    _computedHeightTypeNull : true,
+    _computedHeightTypePixel : false,
+    _computedHeightTypePercent : false,
+    _computedHeightTypeAuto : false,
+    _computedHeightTypeFlex : false,
+
+    _computedMinHeightValue : null,
+    _computedMinHeightParsed : null,
+    _computedMinHeightType : null,
+    _computedMinHeightTypeNull : true,
+    _computedMinHeightTypePixel : false,
+    _computedMinHeightTypePercent : false,
+    _computedMinHeightTypeAuto : false,
+    _computedMinHeightTypeFlex : false,
+
+    _computedMaxHeightValue : null,
+    _computedMaxHeightParsed : null,
+    _computedMaxHeightType : null,
+    _computedMaxHeightTypeNull : true,
+    _computedMaxHeightTypePixel : false,
+    _computedMaxHeightTypePercent : false,
+    _computedMaxHeightTypeAuto : false,
+    _computedMaxHeightTypeFlex : false,
+    
+    _modifyLeft : function(value, old)
+    {
+      this._unitDetectionPixelPercent("left", value);
+      this.addToQueue("left");
+    },
+    
+    _modifyRight : function(value, old)
+    {
+      this._unitDetectionPixelPercent("right", value);
+      this.addToQueue("right");
+    },
+
+    _modifyTop : function(value, old)
+    {
+      this._unitDetectionPixelPercent("top", value);
+      this.addToQueue("top");
+    },
+
+    _modifyBottom : function(value, old)
+    {
+      this._unitDetectionPixelPercent("bottom", value);
+      this.addToQueue("bottom");
+    },
+
+    _modifyWidth : function(value, old)
+    {
+      this._unitDetectionPixelPercentAutoFlex("width", value);
+      this.addToQueue("width");
+    },
+
+    _modifyMinWidth : function(value, old)
+    {
+      this._unitDetectionPixelPercentAuto("minWidth", value);
+      this.addToQueue("minWidth");
+    },
+
+    _modifyMaxWidth : function(value, old)
+    {
+      this._unitDetectionPixelPercentAuto("maxWidth", value);      
+      this.addToQueue("maxWidth");
+    },
+    
+    _modifyHeight : function(value, old)
+    {
+      this._unitDetectionPixelPercentAutoFlex("height", value);      
+      this.addToQueue("height");
+    },
+
+    _modifyMinHeight : function(value, old)
+    {
+      this._unitDetectionPixelPercentAuto("minHeight", value);
+      this.addToQueue("minHeight");
+    },
+
+    _modifyMaxHeight : function(value, old)
+    {
+      this._unitDetectionPixelPercentAuto("maxHeight", value);      
+      this.addToQueue("maxHeight");
+    },
+    
+    
+
+
+
 
     /*
     ---------------------------------------------------------------------------
@@ -4413,9 +4564,9 @@ qx.Class.define("qx.ui.core.Widget",
      * @param propValue {var} Current value
      * @return {void}
      */
-    _unitDetectionPixelPercentAutoFlex : function(propData, propValue)
+    _unitDetectionPixelPercentAutoFlex : function(name, propValue)
     {
-      var r = qx.ui.core.Widget.layoutPropertyTypes[propData.name];
+      var r = qx.ui.core.Widget.layoutPropertyTypes[name];
 
       var s = r.dataType;
       var p = r.dataParsed;
@@ -4468,7 +4619,7 @@ qx.Class.define("qx.ui.core.Widget",
 
       if (wasPercent != this[s2])
       {
-        switch(propData.name)
+        switch(name)
         {
           case "minWidth":
           case "maxWidth":
@@ -4491,7 +4642,7 @@ qx.Class.define("qx.ui.core.Widget",
       // No ELSE because you can also switch from percent to auto
       if (wasAuto != this[s3])
       {
-        switch(propData.name)
+        switch(name)
         {
           case "minWidth":
           case "maxWidth":
@@ -4510,7 +4661,7 @@ qx.Class.define("qx.ui.core.Widget",
       // No ELSE because you can also switch from percent to auto
       if (wasFlex != this[s4])
       {
-        switch(propData.name)
+        switch(name)
         {
           case "width":
             this._invalidateHasFlexX();
@@ -4532,9 +4683,9 @@ qx.Class.define("qx.ui.core.Widget",
      * @param propValue {var} Current value
      * @return {void}
      */
-    _unitDetectionPixelPercentAuto : function(propData, propValue)
+    _unitDetectionPixelPercentAuto : function(name, propValue)
     {
-      var r = qx.ui.core.Widget.layoutPropertyTypes[propData.name];
+      var r = qx.ui.core.Widget.layoutPropertyTypes[name];
 
       var s = r.dataType;
       var p = r.dataParsed;
@@ -4578,7 +4729,7 @@ qx.Class.define("qx.ui.core.Widget",
 
       if (wasPercent != this[s2])
       {
-        switch(propData.name)
+        switch(name)
         {
           case "minWidth":
           case "maxWidth":
@@ -4601,7 +4752,7 @@ qx.Class.define("qx.ui.core.Widget",
       // No ELSE because you can also switch from percent to auto
       if (wasAuto != this[s3])
       {
-        switch(propData.name)
+        switch(name)
         {
           case "minWidth":
           case "maxWidth":
@@ -4627,9 +4778,9 @@ qx.Class.define("qx.ui.core.Widget",
      * @param propValue {var} Current value
      * @return {void}
      */
-    _unitDetectionPixelPercent : function(propData, propValue)
+    _unitDetectionPixelPercent : function(name, propValue)
     {
-      var r = qx.ui.core.Widget.layoutPropertyTypes[propData.name];
+      var r = qx.ui.core.Widget.layoutPropertyTypes[name];
 
       var s = r.dataType;
       var p = r.dataParsed;
@@ -4665,7 +4816,7 @@ qx.Class.define("qx.ui.core.Widget",
 
       if (wasPercent != this[s2])
       {
-        switch(propData.name)
+        switch(name)
         {
           case "minWidth":
           case "maxWidth":
@@ -6385,12 +6536,12 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _modifyOverflow : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(propValue, propOldValue, propData)
+      "mshtml" : function(propValue, propOldValue)
       {
         // Mshtml conforms here to CSS3 Spec. Eventually there will be multiple
         // browsers which support these new overflowX overflowY properties.
         var pv = propValue;
-        var pn = propData.name;
+        var pn = "overflow";
 
         switch(pv)
         {
@@ -6415,13 +6566,14 @@ qx.Class.define("qx.ui.core.Widget",
           }
         }
 
-        return this._applyOverflow(pn, pv, propValue, propOldValue);
+        this._applyOverflow(pn, pv, propValue, propOldValue);        
+        this.addToQueue("overflow");
       },
 
-      "gecko" : function(propValue, propOldValue, propData)
+      "gecko" : function(propValue, propOldValue)
       {
         var pv = propValue;
-        var pn = propData.name;
+        var pn = "overflow";
 
         switch(pv)
         {
@@ -6438,17 +6590,18 @@ qx.Class.define("qx.ui.core.Widget",
             break;
         }
 
-        return this._applyOverflow(pn, pv, propValue, propOldValue);
+        this._applyOverflow(pn, pv, propValue, propOldValue);
+        this.addToQueue("overflow");        
       },
 
-      "default" : function(propValue, propOldValue, propData)
+      "default" : function(propValue, propOldValue)
       {
         // Opera/Khtml Mode...
         // hopefully somewhat of this is supported in the near future.
         // overflow-x and overflow-y are also not supported by Opera 9.0 Beta1
         // and also not if we switch to IE emulation mode
         var pv = propValue;
-        var pn = propData.name;
+        var pn = "overflow";
 
         switch(pv)
         {
@@ -6458,7 +6611,8 @@ qx.Class.define("qx.ui.core.Widget",
             break;
         }
 
-        return this._applyOverflow(pn, pv, propValue, propOldValue);
+        this._applyOverflow(pn, pv, propValue, propOldValue);
+        this.addToQueue("overflow");        
       }
     }),
 
@@ -6841,37 +6995,52 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
-     */
-    _modifyPaddingX : function(propValue, propOldValue, propData)
+    _modifyPaddingLeft : function(value, old)
     {
+      this.addToQueue("paddingLeft");
       this._invalidateFrameWidth();
-      return true;
     },
 
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
-     */
-    _modifyPaddingY : function(propValue, propOldValue, propData)
+    _modifyPaddingRight : function(value, old)
     {
-      this._invalidateFrameHeight();
-      return true;
+      this.addToQueue("paddingRight");
+      this._invalidateFrameWidth();
     },
 
+    _modifyPaddingTop : function(value, old)
+    {
+      this.addToQueue("paddingTop");
+      this._invalidateFrameHeight();
+    },
+
+    _modifyPaddingBottom : function(value, old)
+    {
+      this.addToQueue("paddingBottom");
+      this._invalidateFrameHeight();
+    },
+
+
+
+
+    _modifyMarginLeft : function(value, old)
+    {
+      this.addToQueue("marginLeft");
+    },
+
+    _modifyMarginRight : function(value, old)
+    {
+      this.addToQueue("marginRight");
+    },
+
+    _modifyMarginTop : function(value, old)
+    {
+      this.addToQueue("marginTop");
+    },
+
+    _modifyMarginBottom : function(value, old)
+    {
+      this.addToQueue("marginBottom");
+    },
 
 
 

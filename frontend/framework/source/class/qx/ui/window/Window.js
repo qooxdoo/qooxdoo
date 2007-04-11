@@ -1064,6 +1064,7 @@ qx.Class.define("qx.ui.window.Window",
      * @return {var} TODOC
      */
     _modifyMaxWidth : function(propValue, propOldValue, propData) {
+      this.base(arguments);
       return this._maximizeButtonManager();
     },
 
@@ -1078,6 +1079,7 @@ qx.Class.define("qx.ui.window.Window",
      * @return {var} TODOC
      */
     _modifyMaxHeight : function(propValue, propOldValue, propData) {
+      this.base(arguments);
       return this._maximizeButtonManager();
     },
 

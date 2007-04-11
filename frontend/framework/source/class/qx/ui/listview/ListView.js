@@ -283,15 +283,15 @@ qx.Class.define("qx.ui.listview.ListView",
 
       /**
        * Bugfix for gecko 1.8 (the one released with firefox 1.5)
-       *  Overflow updates if content gets smaller are problematic
-       *  https://bugzilla.mozilla.org/show_bug.cgi?id=320106
+       * Overflow updates if content gets smaller are problematic
+       * https://bugzilla.mozilla.org/show_bug.cgi?id=320106
        */
       if (qx.core.Variant.isSet("qx.client", "gecko"))
       {
         if (qx.core.Client.getInstance().getVersion() >= 1.8)
         {
           this._scroll.setStyleProperty("height", "0px");
-          this._scroll.forceHeight(0);
+          this._scroll.setHeight(1);
           this._scroll.setHeight(null);
         }
       }
