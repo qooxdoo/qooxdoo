@@ -1,17 +1,19 @@
-# Chinese
+# Chinese translations for PACKAGE package.
+# Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2007.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: qooxdoo framework\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-05 16:31+0200\n"
-"PO-Revision-Date: 2006-12-19 16:16+0100\n"
+"POT-Creation-Date: 2007-04-11 20:25+0200\n"
+"PO-Revision-Date: 2007-04-11 20:25+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ASCII\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. TRANSLATION: short representation of key names
 #: class/qx/locale/Key.js:81
@@ -296,14 +298,14 @@ msgstr ""
 msgid "ID"
 msgstr ""
 
-#: class/qx/ui/form/ComboBoxEx.js:1041
+#: class/qx/ui/form/ComboBoxEx.js:1019
 msgid "Case sensitive"
 msgstr ""
 
-#: class/qx/ui/form/ComboBoxEx.js:1090
+#: class/qx/ui/form/ComboBoxEx.js:1068
 msgid "Search next occurrence"
 msgstr ""
 
-#: class/qx/ui/form/ComboBoxEx.js:1134
+#: class/qx/ui/form/ComboBoxEx.js:1112
 msgid "Search items in list"
 msgstr ""

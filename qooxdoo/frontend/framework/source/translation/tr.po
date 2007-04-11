@@ -1,19 +1,20 @@
-# Turkish
+# Turkish translations for PACKAGE package.
+# Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2007.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: qooxdoo framework\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-05 16:31+0200\n"
-"PO-Revision-Date: 2006-12-18 21:14+0200\n"
-"Last-Translator: Fatih Tolga Ata <fatih@diyezon.com>\n"
-"Language-Team:  <fatih@tullab.com>\n"
+"POT-Creation-Date: 2007-04-11 20:25+0200\n"
+"PO-Revision-Date: 2007-04-11 20:25+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=ASCII\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Turkish\n"
-"X-Poedit-Country: TURKEY\n"
-"X-Poedit-SourceCharset: utf-8\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #. TRANSLATION: short representation of key names
 #: class/qx/locale/Key.js:81
@@ -227,68 +228,68 @@ msgstr ""
 
 #: class/qx/ui/component/ColorPopup.js:148
 msgid "Automatic"
-msgstr "Otomatik"
+msgstr ""
 
 #: class/qx/ui/component/ColorPopup.js:216
 #: class/qx/ui/component/ColorSelector.js:403
 msgid "Preview (Old/New)"
-msgstr "Önizleme (Eski/Yeni)"
+msgstr ""
 
 #: class/qx/ui/component/ColorPopup.js:249
 msgid "Open ColorSelector"
-msgstr "RenkSeçiciyi Aç"
+msgstr ""
 
 #: class/qx/ui/component/ColorPopup.js:270
 msgid "Color Selector"
-msgstr "Renk Seçici"
+msgstr ""
 
 #: class/qx/ui/component/ColorSelector.js:219
 msgid "Cancel"
-msgstr "İptal"
+msgstr ""
 
 #: class/qx/ui/component/ColorSelector.js:220
 msgid "OK"
-msgstr "Tamam"
+msgstr ""
 
 #: class/qx/ui/component/ColorSelector.js:333
 msgid "Presets"
-msgstr "Hazırlar"
+msgstr ""
 
 #: class/qx/ui/component/ColorSelector.js:384
 msgid "Details"
-msgstr "Ayrıntılar"
+msgstr ""
 
 #: class/qx/ui/component/ColorSelector.js:438
 msgid "Hex"
-msgstr "Onaltılık"
+msgstr ""
 
 #: class/qx/ui/component/ColorSelector.js:468
 msgid "RGB"
-msgstr "RGB"
+msgstr ""
 
 #: class/qx/ui/component/ColorSelector.js:503
 msgid "HSB"
-msgstr "HSB"
+msgstr ""
 
 #: class/qx/ui/component/DateChooser.js:86
 msgid "Last year"
-msgstr "Geçen yıl"
+msgstr ""
 
 #: class/qx/ui/component/DateChooser.js:93
 msgid "Last month"
-msgstr "Geçen ay"
+msgstr ""
 
 #: class/qx/ui/component/DateChooser.js:99
 msgid "Next month"
-msgstr "Sonraki ay"
+msgstr ""
 
 #: class/qx/ui/component/DateChooser.js:105
 msgid "Next year"
-msgstr "Sonraki yıl"
+msgstr ""
 
 #: class/qx/ui/component/DateChooserButton.js:112
 msgid "Choose a date"
-msgstr "Bir tarih seç"
+msgstr ""
 
 #: class/qx/ui/form/ComboBoxEx.js:84
 msgid "Description"
@@ -298,14 +299,14 @@ msgstr ""
 msgid "ID"
 msgstr ""
 
-#: class/qx/ui/form/ComboBoxEx.js:1041
+#: class/qx/ui/form/ComboBoxEx.js:1019
 msgid "Case sensitive"
 msgstr ""
 
-#: class/qx/ui/form/ComboBoxEx.js:1090
+#: class/qx/ui/form/ComboBoxEx.js:1068
 msgid "Search next occurrence"
 msgstr ""
 
-#: class/qx/ui/form/ComboBoxEx.js:1134
+#: class/qx/ui/form/ComboBoxEx.js:1112
 msgid "Search items in list"
 msgstr ""

@@ -1,17 +1,21 @@
-# Russian
+# Russian translations for PACKAGE package.
+# Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2007.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: qooxdoo framework\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-05 16:31+0200\n"
-"PO-Revision-Date: 2006-12-20 23:13+0200\n"
-"Last-Translator:  <zindel@gammacenter.com>\n"
-"Language-Team:  <en@li.org>\n"
+"POT-Creation-Date: 2007-04-11 20:25+0200\n"
+"PO-Revision-Date: 2007-04-11 20:25+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=ASCII\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #. TRANSLATION: short representation of key names
 #: class/qx/locale/Key.js:81
@@ -225,36 +229,36 @@ msgstr ""
 
 #: class/qx/ui/component/ColorPopup.js:148
 msgid "Automatic"
-msgstr "Автоматически"
+msgstr ""
 
 #: class/qx/ui/component/ColorPopup.js:216
 #: class/qx/ui/component/ColorSelector.js:403
 msgid "Preview (Old/New)"
-msgstr "Предварительный просмотр"
+msgstr ""
 
 #: class/qx/ui/component/ColorPopup.js:249
 msgid "Open ColorSelector"
-msgstr "Выбор цвета"
+msgstr ""
 
 #: class/qx/ui/component/ColorPopup.js:270
 msgid "Color Selector"
-msgstr "Выбор цвета"
+msgstr ""
 
 #: class/qx/ui/component/ColorSelector.js:219
 msgid "Cancel"
-msgstr "Отмена"
+msgstr ""
 
 #: class/qx/ui/component/ColorSelector.js:220
 msgid "OK"
-msgstr "ОК"
+msgstr ""
 
 #: class/qx/ui/component/ColorSelector.js:333
 msgid "Presets"
-msgstr "Настройки"
+msgstr ""
 
 #: class/qx/ui/component/ColorSelector.js:384
 msgid "Details"
-msgstr "Детали"
+msgstr ""
 
 #: class/qx/ui/component/ColorSelector.js:438
 msgid "Hex"
@@ -270,23 +274,23 @@ msgstr ""
 
 #: class/qx/ui/component/DateChooser.js:86
 msgid "Last year"
-msgstr "Пред. год"
+msgstr ""
 
 #: class/qx/ui/component/DateChooser.js:93
 msgid "Last month"
-msgstr "Пред. месяц"
+msgstr ""
 
 #: class/qx/ui/component/DateChooser.js:99
 msgid "Next month"
-msgstr "След. месяц"
+msgstr ""
 
 #: class/qx/ui/component/DateChooser.js:105
 msgid "Next year"
-msgstr "След. год"
+msgstr ""
 
 #: class/qx/ui/component/DateChooserButton.js:112
 msgid "Choose a date"
-msgstr "Выберите дату"
+msgstr ""
 
 #: class/qx/ui/form/ComboBoxEx.js:84
 msgid "Description"
@@ -296,14 +300,14 @@ msgstr ""
 msgid "ID"
 msgstr ""
 
-#: class/qx/ui/form/ComboBoxEx.js:1041
+#: class/qx/ui/form/ComboBoxEx.js:1019
 msgid "Case sensitive"
 msgstr ""
 
-#: class/qx/ui/form/ComboBoxEx.js:1090
+#: class/qx/ui/form/ComboBoxEx.js:1068
 msgid "Search next occurrence"
 msgstr ""
 
-#: class/qx/ui/form/ComboBoxEx.js:1134
+#: class/qx/ui/form/ComboBoxEx.js:1112
 msgid "Search items in list"
 msgstr ""
