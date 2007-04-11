@@ -1,291 +1,295 @@
-# Swedish
+# Swedish translations for PACKAGE package.
+# Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2007.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: qooxdoo framework\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-05 16:31+0200\n"
-"PO-Revision-Date: 2006-12-19 11:01+0100\n"
-"Last-Translator: Henric Johansson <henric.johansson@mindset.se>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2007-04-11 20:25+0200\n"
+"PO-Revision-Date: 2007-04-11 20:25+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=ASCII\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. TRANSLATION: short representation of key names
 #: class/qx/locale/Key.js:81
 msgid "key_short_Backspace"
-msgstr "BS"
+msgstr ""
 
 #: class/qx/locale/Key.js:82
 msgid "key_short_Tab"
-msgstr "Tabb"
+msgstr ""
 
 #: class/qx/locale/Key.js:83
 msgid "key_short_Space"
-msgstr "Space"
+msgstr ""
 
 #: class/qx/locale/Key.js:84
 msgid "key_short_Enter"
-msgstr "Enter"
+msgstr ""
 
 #: class/qx/locale/Key.js:85
 msgid "key_short_Shift"
-msgstr "Shift"
+msgstr ""
 
 #: class/qx/locale/Key.js:86
 msgid "key_short_Control"
-msgstr "CTRL"
+msgstr ""
 
 #: class/qx/locale/Key.js:87
 msgid "key_short_Alt"
-msgstr "Alt"
+msgstr ""
 
 #: class/qx/locale/Key.js:88
 msgid "key_short_CapsLock"
-msgstr "Caps"
+msgstr ""
 
 #: class/qx/locale/Key.js:89
 msgid "key_short_Meta"
-msgstr "Meta"
+msgstr ""
 
 #: class/qx/locale/Key.js:90
 msgid "key_short_Escape"
-msgstr "ESC"
+msgstr ""
 
 #: class/qx/locale/Key.js:91
 msgid "key_short_Left"
-msgstr "Vänster"
+msgstr ""
 
 #: class/qx/locale/Key.js:92
 msgid "key_short_Up"
-msgstr "Upp"
+msgstr ""
 
 #: class/qx/locale/Key.js:93
 msgid "key_short_Right"
-msgstr "Höger"
+msgstr ""
 
 #: class/qx/locale/Key.js:94
 msgid "key_short_Down"
-msgstr "Ner"
+msgstr ""
 
 #: class/qx/locale/Key.js:95
 msgid "key_short_PageUp"
-msgstr "PGUP"
+msgstr ""
 
 #: class/qx/locale/Key.js:96
 msgid "key_short_PageDown"
-msgstr "PGDN"
+msgstr ""
 
 #: class/qx/locale/Key.js:97
 msgid "key_short_End"
-msgstr "END"
+msgstr ""
 
 #: class/qx/locale/Key.js:98
 msgid "key_short_Home"
-msgstr "HOME"
+msgstr ""
 
 #: class/qx/locale/Key.js:99
 msgid "key_short_Insert"
-msgstr "INS"
+msgstr ""
 
 #: class/qx/locale/Key.js:100
 msgid "key_short_Delete"
-msgstr "DEL"
+msgstr ""
 
 #: class/qx/locale/Key.js:101
 msgid "key_short_NumLock"
-msgstr "NUM"
+msgstr ""
 
 #: class/qx/locale/Key.js:102
 msgid "key_short_PrintScreen"
-msgstr "PRNSCN"
+msgstr ""
 
 #: class/qx/locale/Key.js:103
 msgid "key_short_Scroll"
-msgstr "SCL"
+msgstr ""
 
 #: class/qx/locale/Key.js:104
 msgid "key_short_Pause"
-msgstr "Pause"
+msgstr ""
 
 #: class/qx/locale/Key.js:105
 msgid "key_short_Win"
-msgstr "Win"
+msgstr ""
 
 #: class/qx/locale/Key.js:106
 msgid "key_short_Apps"
-msgstr "Apps"
+msgstr ""
 
 #. TRANSLATION: full/long representation of key names
 #: class/qx/locale/Key.js:109
 msgid "key_full_Backspace"
-msgstr "Backspace"
+msgstr ""
 
 #: class/qx/locale/Key.js:110
 msgid "key_full_Tab"
-msgstr "Tabb"
+msgstr ""
 
 #: class/qx/locale/Key.js:111
 msgid "key_full_Space"
-msgstr "Blanksteg"
+msgstr ""
 
 #: class/qx/locale/Key.js:112
 msgid "key_full_Enter"
-msgstr "Enter"
+msgstr ""
 
 #: class/qx/locale/Key.js:113
 msgid "key_full_Shift"
-msgstr "Shift"
+msgstr ""
 
 #: class/qx/locale/Key.js:114
 msgid "key_full_Control"
-msgstr "Control"
+msgstr ""
 
 #: class/qx/locale/Key.js:115
 msgid "key_full_Alt"
-msgstr "Alt"
+msgstr ""
 
 #: class/qx/locale/Key.js:116
 msgid "key_full_CapsLock"
-msgstr "CapsLock"
+msgstr ""
 
 #: class/qx/locale/Key.js:117
 msgid "key_full_Meta"
-msgstr "Meta"
+msgstr ""
 
 #: class/qx/locale/Key.js:118
 msgid "key_full_Escape"
-msgstr "Escape"
+msgstr ""
 
 #: class/qx/locale/Key.js:119
 msgid "key_full_Left"
-msgstr "Vänster"
+msgstr ""
 
 #: class/qx/locale/Key.js:120
 msgid "key_full_Up"
-msgstr "Upp"
+msgstr ""
 
 #: class/qx/locale/Key.js:121
 msgid "key_full_Right"
-msgstr "Höger"
+msgstr ""
 
 #: class/qx/locale/Key.js:122
 msgid "key_full_Down"
-msgstr "Ner"
+msgstr ""
 
 #: class/qx/locale/Key.js:123
 msgid "key_full_PageUp"
-msgstr "PageUp"
+msgstr ""
 
 #: class/qx/locale/Key.js:124
 msgid "key_full_PageDown"
-msgstr "PageDown"
+msgstr ""
 
 #: class/qx/locale/Key.js:125
 msgid "key_full_End"
-msgstr "End"
+msgstr ""
 
 #: class/qx/locale/Key.js:126
 msgid "key_full_Home"
-msgstr "Home"
+msgstr ""
 
 #: class/qx/locale/Key.js:127
 msgid "key_full_Insert"
-msgstr "Insert"
+msgstr ""
 
 #: class/qx/locale/Key.js:128
 msgid "key_full_Delete"
-msgstr "Delete"
+msgstr ""
 
 #: class/qx/locale/Key.js:129
 msgid "key_full_NumLock"
-msgstr "NumLock"
+msgstr ""
 
 #: class/qx/locale/Key.js:130
 msgid "key_full_PrintScreen"
-msgstr "PrintScreen"
+msgstr ""
 
 #: class/qx/locale/Key.js:131
 msgid "key_full_Scroll"
-msgstr "Scroll"
+msgstr ""
 
 #: class/qx/locale/Key.js:132
 msgid "key_full_Pause"
-msgstr "Pause"
+msgstr ""
 
 #: class/qx/locale/Key.js:133
 msgid "key_full_Win"
-msgstr "Win"
+msgstr ""
 
 #: class/qx/locale/Key.js:134
 msgid "key_full_Apps"
-msgstr "Apps"
+msgstr ""
 
 #: class/qx/ui/component/ColorPopup.js:148
 msgid "Automatic"
-msgstr "Automatiskt"
+msgstr ""
 
 #: class/qx/ui/component/ColorPopup.js:216
 #: class/qx/ui/component/ColorSelector.js:403
 msgid "Preview (Old/New)"
-msgstr "Förhandsgranska (Gammal/Ny)"
+msgstr ""
 
 #: class/qx/ui/component/ColorPopup.js:249
 msgid "Open ColorSelector"
-msgstr "Öppna färgväljare"
+msgstr ""
 
 #: class/qx/ui/component/ColorPopup.js:270
 msgid "Color Selector"
-msgstr "Färgväljare"
+msgstr ""
 
 #: class/qx/ui/component/ColorSelector.js:219
 msgid "Cancel"
-msgstr "Avbryt"
+msgstr ""
 
 #: class/qx/ui/component/ColorSelector.js:220
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 #: class/qx/ui/component/ColorSelector.js:333
 msgid "Presets"
-msgstr "Förinställningar"
+msgstr ""
 
 #: class/qx/ui/component/ColorSelector.js:384
 msgid "Details"
-msgstr "Detaljer"
+msgstr ""
 
 #: class/qx/ui/component/ColorSelector.js:438
 msgid "Hex"
-msgstr "Hex"
+msgstr ""
 
 #: class/qx/ui/component/ColorSelector.js:468
 msgid "RGB"
-msgstr "RGB"
+msgstr ""
 
 #: class/qx/ui/component/ColorSelector.js:503
 msgid "HSB"
-msgstr "HSB"
+msgstr ""
 
 #: class/qx/ui/component/DateChooser.js:86
 msgid "Last year"
-msgstr "Föregående år"
+msgstr ""
 
 #: class/qx/ui/component/DateChooser.js:93
 msgid "Last month"
-msgstr "Föregående månad"
+msgstr ""
 
 #: class/qx/ui/component/DateChooser.js:99
 msgid "Next month"
-msgstr "Nästa månad"
+msgstr ""
 
 #: class/qx/ui/component/DateChooser.js:105
 msgid "Next year"
-msgstr "Nästa år"
+msgstr ""
 
 #: class/qx/ui/component/DateChooserButton.js:112
 msgid "Choose a date"
-msgstr "Välj ett datum"
+msgstr ""
 
 #: class/qx/ui/form/ComboBoxEx.js:84
 msgid "Description"
@@ -295,14 +299,14 @@ msgstr ""
 msgid "ID"
 msgstr ""
 
-#: class/qx/ui/form/ComboBoxEx.js:1041
+#: class/qx/ui/form/ComboBoxEx.js:1019
 msgid "Case sensitive"
 msgstr ""
 
-#: class/qx/ui/form/ComboBoxEx.js:1090
+#: class/qx/ui/form/ComboBoxEx.js:1068
 msgid "Search next occurrence"
 msgstr ""
 
-#: class/qx/ui/form/ComboBoxEx.js:1134
+#: class/qx/ui/form/ComboBoxEx.js:1112
 msgid "Search items in list"
 msgstr ""
