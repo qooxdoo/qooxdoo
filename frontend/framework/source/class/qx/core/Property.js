@@ -207,7 +207,8 @@ qx.Class.define("qx.core.Property",
       refresh : {},
       style   : {},
       unstyle : {},
-      toggle  : {}
+      toggle  : {},
+      is      : {}
     },
 
 
@@ -512,6 +513,11 @@ qx.Class.define("qx.core.Property",
         members[method.toggle[name]] = function() {
           return qx.core.Property.executeOptimizedSetter(this, clazz, name, "toggle");
         }
+        
+        method.is[name] = prefix + "is" + postfix;
+        members[method.is[name]] = function() {
+          return qx.core.Property.executeOptimizedGetter(this, clazz, name, "is");
+        }        
       }
     },
 
@@ -544,7 +550,7 @@ qx.Class.define("qx.core.Property",
       try{
         members[this.$$method[variant][name]] = new Function("value", code.toString());        
       } catch(ex) {
-        alert(code);
+        alert("Malformed generated code to unwrap method: " + this.$$method[variant][name] + "\n" + code);
       }
 
       // Clearing string builder

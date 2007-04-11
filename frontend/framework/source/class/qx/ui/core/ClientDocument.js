@@ -80,9 +80,6 @@ qx.Class.define("qx.ui.core.ClientDocument",
     this._modalWidgets = [];
     this._modalNativeWindow = null;
     
-    // Debug
-    this.debug("I am enabled = " + this.getEnabled());
-
     // Register as focus root
     qx.event.handler.EventHandler.getInstance().setFocusRoot(this);
   },
@@ -95,7 +92,8 @@ qx.Class.define("qx.ui.core.ClientDocument",
   *****************************************************************************
   */
 
-  events: {
+  events: 
+  {
     /** Fired when the window looses the */
     "windowblur"    : "qx.event.type.Event",
 

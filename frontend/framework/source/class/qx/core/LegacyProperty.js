@@ -275,7 +275,6 @@ qx.Class.define("qx.core.LegacyProperty",
 
       config.hasConvert = config.convert != null;
       config.hasPossibleValues = config.possibleValues != null;
-      config.hasUnitDetection = config.unitDetection != null;
 
       config.addToQueue = config.addToQueue || false;
       config.addToQueueRuntime = config.addToQueueRuntime || false;
@@ -283,14 +282,10 @@ qx.Class.define("qx.core.LegacyProperty",
       // upper-case name
       config.up = config.name.toUpperCase();
 
-      // register global uppercase name
-      this["PROPERTY_" + config.up] = config.name;
-
       // new style keys (compatible to qx.core.Property)
       var valueKey = qx.core.Property.$$store.user[config.name] = "__user$" + config.name;
 
       // old style keys
-      var evalKey = "_eval" + config.method;
       var changeKey = "change" + config.method;
       var modifyKey = "_modify" + config.implMethod;
       var checkKey = "_check" + config.implMethod;
@@ -301,23 +296,6 @@ qx.Class.define("qx.core.LegacyProperty",
         method.set[config.name] = "set" + config.method;
         method.get[config.name] = "get" + config.method;
         method.reset[config.name] = "reset" + config.method;
-      }
-
-      // unit detection support
-      if (config.hasUnitDetection)
-      {
-        // computed unit
-        var cu = "_computed" + config.method;
-        proto[cu + "Value"] = null;
-        proto[cu + "Parsed"] = null;
-        proto[cu + "Type"] = null;
-        proto[cu + "TypeNull"] = true;
-        proto[cu + "TypePixel"] = false;
-        proto[cu + "TypePercent"] = false;
-        proto[cu + "TypeAuto"] = false;
-        proto[cu + "TypeFlex"] = false;
-
-        var unitDetectionKey = "_unitDetection" + qx.lang.String.toFirstUp(config.unitDetection);
       }
 
       // apply default value
@@ -426,11 +404,7 @@ qx.Class.define("qx.core.LegacyProperty",
           {
             try
             {
-              var r = this[modifyKey](newValue, oldValue, config);
-
-              if (!r) {
-                return this.error("Modification of property \"" + config.name + "\" failed without exception (" + r + ")", new Error());
-              }
+              this[modifyKey](newValue, oldValue, config);
             }
             catch(ex)
             {
@@ -438,15 +412,8 @@ qx.Class.define("qx.core.LegacyProperty",
             }
           }
 
-          // Unit detection support
-          if (config.hasUnitDetection) {
-            this[unitDetectionKey](config, newValue);
-          }
-
           // Auto queue addition support
-          if (config.addToQueue) {
-            this.addToQueue(config.name);
-          } else if (config.addToQueueRuntime) {
+          if (config.addToQueueRuntime) {
             this.addToQueueRuntime(config.name);
           }
 
