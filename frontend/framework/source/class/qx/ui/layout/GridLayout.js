@@ -67,76 +67,68 @@ qx.Class.define("qx.ui.layout.GridLayout",
     /** The spacing between childrens. Could be any positive integer value. */
     horizontalSpacing :
     {
-      _legacy           : true,
-      type              : "number",
-      defaultValue      : 0,
-      addToQueueRuntime : true,
-      impl              : "layout"
+      check : "Integer",
+      init : 0,
+      apply : "_applyHorizontalSpacing"
     },
 
 
     /** The spacing between childrens. Could be any positive integer value. */
     verticalSpacing :
     {
-      _legacy           : true,
-      type              : "number",
-      defaultValue      : 0,
-      addToQueueRuntime : true,
-      impl              : "layout"
+      check : "Integer",
+      init : 0,
+      apply : "_applyVerticalSpacing"
     },
 
 
     /** The horizontal align of the children. Allowed values are: "left", "center" and "right" */
     horizontalChildrenAlign :
     {
-      _legacy           : true,
-      type              : "string",
-      defaultValue      : "left",
-      possibleValues    : [ "left", "center", "right" ],
-      addToQueueRuntime : true
+      check : [ "left", "center", "right" ],
+      init : "left",
+      apply : "_applyHorizontalChildrenAlign"
     },
 
 
     /** The vertical align of the children. Allowed values are: "top", "middle" and "bottom" */
     verticalChildrenAlign :
     {
-      _legacy           : true,
-      type              : "string",
-      defaultValue      : "top",
-      possibleValues    : [ "top", "middle", "bottom" ],
-      addToQueueRuntime : true
+      check : [ "top", "middle", "bottom" ],
+      init : "top",
+      apply : "_applyVerticalChildrenAlign"
     },
 
 
     /** Cell padding top of all cells, if not locally defined */
     cellPaddingTop :
     {
-      _legacy : true,
-      type    : "number"
+      check : "Integer",
+      nullable : true
     },
 
 
     /** Cell padding right of all cells, if not locally defined */
     cellPaddingRight :
     {
-      _legacy : true,
-      type    : "number"
+      check : "Integer",
+      nullable : true
     },
 
 
     /** Cell padding bottom of all cells, if not locally defined */
     cellPaddingBottom :
     {
-      _legacy : true,
-      type    : "number"
+      check : "Integer",
+      nullable : true
     },
 
 
     /** Cell padding left of all cells, if not locally defined */
     cellPaddingLeft :
     {
-      _legacy : true,
-      type    : "number"
+      check : "Integer",
+      nullable : true
     }
   },
 
@@ -151,6 +143,43 @@ qx.Class.define("qx.ui.layout.GridLayout",
 
   members :
   {
+    _applyHorizontalSpacing : function(value, old)
+    {
+      this.addToQueueRuntime("horizontalSpacing");
+
+      // invalidate inner preferred dimensions
+      this._invalidatePreferredInnerDimensions();
+    },
+
+    _applyVerticalSpacing : function(value, old)
+    {
+      this.addToQueueRuntime("verticalSpacing");
+
+      // invalidate inner preferred dimensions
+      this._invalidatePreferredInnerDimensions();
+    },
+
+    _applyHorizontalChildrenAlign : function(value, old)
+    {
+      this.addToQueueRuntime("horizontalChildrenAlign");
+
+      // invalidate inner preferred dimensions
+      this._invalidatePreferredInnerDimensions();
+    },
+
+    _applyVerticalChildrenAlign : function(value, old)
+    {
+      this.addToQueueRuntime("verticalChildrenAlign");
+
+      // invalidate inner preferred dimensions
+      this._invalidatePreferredInnerDimensions();
+    },
+
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       INIT LAYOUT IMPL
@@ -199,30 +228,6 @@ qx.Class.define("qx.ui.layout.GridLayout",
     },
 
 
-
-
-    /*
-    ---------------------------------------------------------------------------
-      MODIFIER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
-     */
-    _modifyLayout : function(propValue, propOldValue, propData)
-    {
-      // invalidate inner preferred dimensions
-      this._invalidatePreferredInnerDimensions();
-
-      return true;
-    },
 
 
 
