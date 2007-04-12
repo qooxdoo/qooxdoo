@@ -413,6 +413,10 @@ qx.Class.define("qx.core.LegacyProperty",
           }
 
           // Auto queue addition support
+          if (config.addToQueue) {
+            this.addToQueue(config.name);
+          }
+
           if (config.addToQueueRuntime) {
             this.addToQueueRuntime(config.name);
           }
