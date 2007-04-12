@@ -79,7 +79,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
     // Dialog Support
     this._modalWidgets = [];
     this._modalNativeWindow = null;
-    
+
     // Register as focus root
     qx.event.handler.EventHandler.getInstance().setFocusRoot(this);
   },
@@ -92,7 +92,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
   *****************************************************************************
   */
 
-  events: 
+  events:
   {
     /** Fired when the window looses the */
     "windowblur"    : "qx.event.type.Event",
@@ -118,12 +118,12 @@ qx.Class.define("qx.ui.core.ClientDocument",
 
   properties :
   {
-    enabled : 
+    enabled :
     {
       init : true,
       refine : true
     },
-    
+
     globalCursor :
     {
       _legacy : true,
