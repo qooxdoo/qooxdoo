@@ -28,10 +28,10 @@
 
 /**
  * Internal class for handling dynamic properties.
- * 
+ *
  * WARNING: This is a legacy class to support the old-style dynamic properties
  * in 0.6.x. Its much improved successor is {@link qx.core.Property}.
- * 
+ *
  * @deprecated This class is supposed to be removed in qooxdoo 0.7
  */
 qx.Class.define("qx.core.LegacyProperty",
