@@ -28,11 +28,11 @@
 if (qx.core.Variant.isSet("qx.compatibility", "on"))
 {
   /**
-   * Defines a qooxdoo class. 
-   * 
+   * Defines a qooxdoo class.
+   *
    * WARNING: This class is deprecated an will be removed in qooxdoo 0.7! Please
    * use {@link qx.Class} instead.
-   * 
+   *
    * @deprecated
    */
   qx.Class.define("qx.OO",
