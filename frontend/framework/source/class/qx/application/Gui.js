@@ -108,16 +108,20 @@ qx.Class.define("qx.application.Gui",
     _preload : function()
     {
       this.debug("preloading visible images...");
-      new qx.io.image.PreloaderSystem(qx.manager.object.ImageManager.getInstance().getPreloadImageList(), this._ready, this);
+      this.__preloader = new qx.io.image.PreloaderSystem(qx.manager.object.ImageManager.getInstance().getPreloadImageList(), this._preloaderDone, this);
+      this.__preloader.start();
     },
 
     /**
      * Callback which is called once the pre loading of the required images
      * is completed.
      */
-    _ready : function()
+    _preloaderDone : function()
     {
       this.setUiReady(true);
+
+      this.__preloader.dispose();
+      this.__preloader = null;
 
       var start = (new Date).valueOf();
 
@@ -140,8 +144,18 @@ qx.Class.define("qx.application.Gui",
     _postload : function()
     {
       this.debug("preloading hidden images...");
-      var loader = new qx.io.image.PreloaderSystem(qx.manager.object.ImageManager.getInstance().getPostPreloadImageList());
-      loader.start();
+      this.__postloader = new qx.io.image.PreloaderSystem(qx.manager.object.ImageManager.getInstance().getPostPreloadImageList(), this._postloaderDone, this);
+      this.__postloader.start();
+    },
+    
+    
+    /**
+     * Callback which is called once the post loading is completed.
+     */
+    _postloaderDone : function()
+    {
+      this.__postloader.dispose();
+      this.__postloader = null; 
     }
   }
 });
