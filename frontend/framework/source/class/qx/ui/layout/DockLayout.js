@@ -55,11 +55,9 @@ qx.Class.define("qx.ui.layout.DockLayout",
     /** The layout mode (in which order the children should be layouted) */
     mode :
     {
-      _legacy           : true,
-      type              : "string",
-      defaultValue      : "vertical",
-      possibleValues    : [ "vertical", "horizontal", "ordered" ],
-      addToQueueRuntime : true
+      check : [ "vertical", "horizontal", "ordered" ],
+      init : "vertical",
+      apply : "_applyMode"
     }
   },
 
@@ -74,6 +72,19 @@ qx.Class.define("qx.ui.layout.DockLayout",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      MODIFIER
+    ---------------------------------------------------------------------------
+    */
+
+    _applyMode : function(value, old) {
+      this.addToQueueRuntime("mode");
+    },
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       INIT LAYOUT IMPL
