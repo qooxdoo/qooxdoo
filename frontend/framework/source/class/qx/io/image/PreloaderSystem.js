@@ -67,10 +67,8 @@ qx.Class.define("qx.io.image.PreloaderSystem",
     this._timer.addEventListener("interval", this.__oninterval, this);
 
     // If we use the compact syntax, automatically add an event listeners and start the loading process
-    if (vCallBack)
-    {
+    if (vCallBack) {
       this.addEventListener("completed", vCallBack, vCallBackScope || null);
-      this.start();
     }
   },
 
