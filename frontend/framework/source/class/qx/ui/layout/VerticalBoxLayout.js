@@ -29,16 +29,12 @@ qx.Class.define("qx.ui.layout.VerticalBoxLayout",
 {
   extend : qx.ui.layout.BoxLayout,
 
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function() {
-    this.base(arguments, "vertical");
+  properties :
+  {
+    orientation :
+    {
+      refine : true,
+      init : "vertical"
+    }
   }
 });

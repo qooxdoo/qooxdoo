@@ -25,20 +25,6 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.layout.HorizontalBoxLayout",
-{
-  extend : qx.ui.layout.BoxLayout,
-
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function() {
-    this.base(arguments, "horizontal");
-  }
+qx.Class.define("qx.ui.layout.HorizontalBoxLayout", {
+  extend : qx.ui.layout.BoxLayout
 });
