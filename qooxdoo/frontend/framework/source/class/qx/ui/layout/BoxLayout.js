@@ -97,7 +97,7 @@ qx.Class.define("qx.ui.layout.BoxLayout",
     {
       check : "Number",
       init : 0,
-      apply : "_modifySpacing"
+      apply : "_applySpacing"
     },
 
 
@@ -106,7 +106,7 @@ qx.Class.define("qx.ui.layout.BoxLayout",
     {
       check : [ "left", "center", "right" ],
       init : "left",
-      apply : "_modifyHorizontalChildrenAlign"
+      apply : "_applyHorizontalChildrenAlign"
     },
 
 
@@ -115,7 +115,7 @@ qx.Class.define("qx.ui.layout.BoxLayout",
     {
       check : [ "top", "middle", "bottom" ],
       init : "top",
-      apply : "_modifyVerticalChildrenAlign"
+      apply : "_applyVerticalChildrenAlign"
     },
 
 
@@ -124,7 +124,7 @@ qx.Class.define("qx.ui.layout.BoxLayout",
     {
       check : "Boolean",
       init : false,
-      apply : "_modifyReverseChildrenOrder"
+      apply : "_applyReverseChildrenOrder"
     },
 
 
@@ -136,7 +136,7 @@ qx.Class.define("qx.ui.layout.BoxLayout",
     {
       check : "Boolean",
       init : true,
-      apply : "_modifyStretchChildrenOrthogonalAxis"
+      apply : "_applyStretchChildrenOrthogonalAxis"
     },
 
 
@@ -148,7 +148,7 @@ qx.Class.define("qx.ui.layout.BoxLayout",
     {
       check : "Boolean",
       init : false,
-      apply : "_modifyUseAdvancedFlexAllocation"
+      apply : "_applyUseAdvancedFlexAllocation"
     },
 
 
@@ -323,35 +323,35 @@ qx.Class.define("qx.ui.layout.BoxLayout",
       this.addToQueueRuntime("orientation");
     },
 
-    _modifySpacing : function(propValue, propOldValue, propData)
+    _applySpacing : function(propValue, propOldValue, propData)
     {
       this._doLayout();
       this.addToQueueRuntime("spacing");
     },
 
-    _modifyHorizontalChildrenAlign : function(propValue, propOldValue, propData)
+    _applyHorizontalChildrenAlign : function(propValue, propOldValue, propData)
     {
       this._doLayoutOrder();
       this.addToQueueRuntime("horizontalChildrenAlign");
     },
 
-    _modifyVerticalChildrenAlign : function(propValue, propOldValue, propData)
+    _applyVerticalChildrenAlign : function(propValue, propOldValue, propData)
     {
       this._doLayoutOrder();
       this.addToQueueRuntime("verticalChildrenAlign");
     },
 
-    _modifyReverseChildrenOrder : function(propValue, propOldValue, propData)
+    _applyReverseChildrenOrder : function(propValue, propOldValue, propData)
     {
       this._doLayoutOrder();
       this.addToQueueRuntime("reverseChildrenOrder");
     },
 
-    _modifyStretchChildrenOrthogonalAxis : function(propValue, propOldValue, propData) {
+    _applyStretchChildrenOrthogonalAxis : function(propValue, propOldValue, propData) {
       this.addToQueueRuntime("stretchChildrenOrthogonalAxis");
     },
 
-    _modifyUseAdvancedFlexAllocation : function(propValue, propOldValue, propData) {
+    _applyUseAdvancedFlexAllocation : function(propValue, propOldValue, propData) {
       this.addToQueueRuntime("useAdvancedFlexAllocation");
     },
 

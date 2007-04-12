@@ -33,19 +33,6 @@ qx.Class.define("qx.ui.layout.FlowLayout",
 
   /*
   *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function() {
-    this.base(arguments);
-  },
-
-
-
-
-  /*
-  *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
@@ -55,55 +42,45 @@ qx.Class.define("qx.ui.layout.FlowLayout",
     /** The spacing between childrens. Could be any positive integer value. */
     horizontalSpacing :
     {
-      _legacy           : true,
-      type              : "number",
-      defaultValue      : 0,
-      addToQueueRuntime : true,
-      impl              : "layout"
+      check : "Integer",
+      init : 0,
+      apply : "_applyHorizontalSpacing"
     },
 
 
     /** The spacing between childrens. Could be any positive integer value. */
     verticalSpacing :
     {
-      _legacy           : true,
-      type              : "number",
-      defaultValue      : 0,
-      addToQueueRuntime : true,
-      impl              : "layout"
+      check : "Integer",
+      init : 0,
+      apply : "_applyVerticalSpacing"
     },
 
 
     /** The horizontal align of the children. Allowed values are: "left" and "right" */
     horizontalChildrenAlign :
     {
-      _legacy           : true,
-      type              : "string",
-      defaultValue      : "left",
-      possibleValues    : [ "left", "right" ],
-      addToQueueRuntime : true
+      check : [ "left", "right" ],
+      init : "left",
+      apply : "_applyHorizontalChildrenAlign"
     },
 
 
     /** The vertical align of the children. Allowed values are: "top" and "bottom" */
     verticalChildrenAlign :
     {
-      _legacy           : true,
-      type              : "string",
-      defaultValue      : "top",
-      possibleValues    : [ "top", "bottom" ],
-      addToQueueRuntime : true
+      check : [ "top", "bottom" ],
+      init : "top",
+      apply : "_applyVerticalChildrenAlign"
     },
 
 
     /** Should the children be layouted in reverse order? */
     reverseChildrenOrder :
     {
-      _legacy           : true,
-      type              : "boolean",
-      defaultValue      : false,
-      addToQueueRuntime : true,
-      impl              : "layout"
+      check : "Boolean",
+      init : false,
+      apply : "_applyReverseChildrenOrder"
     }
   },
 
@@ -118,6 +95,44 @@ qx.Class.define("qx.ui.layout.FlowLayout",
 
   members :
   {
+    _applyHorizontalSpacing : function(value, old)
+    {
+      this.addToQueueRuntime("horizontalSpacing");
+
+      // invalidate inner preferred dimensions
+      this._invalidatePreferredInnerDimensions();
+    },
+
+    _applyVerticalSpacing : function(value, old)
+    {
+      this.addToQueueRuntime("verticalSpacing");
+
+      // invalidate inner preferred dimensions
+      this._invalidatePreferredInnerDimensions();
+    },
+
+    _applyHorizontalChildrenAlign :function(value, old)
+    {
+      this.addToQueueRuntime("horizontalChildrenAlign");
+    },
+
+    _applyVerticalChildrenAlign :function(value, old)
+    {
+      this.addToQueueRuntime("verticalChildrenAlign");
+    },
+
+    _applyReverseChildrenOrder : function(value, old)
+    {
+      this.addToQueueRuntime("reverseChildrenOrder");
+
+      // invalidate inner preferred dimensions
+      this._invalidatePreferredInnerDimensions();
+    },
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       INIT LAYOUT IMPL
@@ -157,32 +172,6 @@ qx.Class.define("qx.ui.layout.FlowLayout",
 
       // allow 'auto' values for height to update when the inner width changes
       this._invalidatePreferredInnerHeight();
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      MODIFIER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
-     */
-    _modifyLayout : function(propValue, propOldValue, propData)
-    {
-      // invalidate inner preferred dimensions
-      this._invalidatePreferredInnerDimensions();
-
-      return true;
     }
   }
 });
