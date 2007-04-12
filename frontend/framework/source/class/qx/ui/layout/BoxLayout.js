@@ -86,8 +86,8 @@ qx.Class.define("qx.ui.layout.BoxLayout",
     /** The orientation of the layout control. */
     orientation :
     {
-      init : "horizontal",
       check : [ "horizontal", "vertical" ],
+      init : "horizontal",
       apply : "_modifyOrientation"
     },
 
@@ -95,46 +95,36 @@ qx.Class.define("qx.ui.layout.BoxLayout",
     /** The spacing between childrens. Could be any positive integer value. */
     spacing :
     {
-      _legacy           : true,
-      type              : "number",
-      defaultValue      : 0,
-      addToQueueRuntime : true,
-      impl              : "layout"
+      check : "Number",
+      init : 0,
+      apply : "_modifySpacing"
     },
 
 
     /** The horizontal align of the children. Allowed values are: "left", "center" and "right" */
     horizontalChildrenAlign :
     {
-      _legacy           : true,
-      type              : "string",
-      defaultValue      : "left",
-      possibleValues    : [ "left", "center", "right" ],
-      impl              : "layoutOrder",
-      addToQueueRuntime : true
+      check : [ "left", "center", "right" ],
+      init : "left",
+      apply : "_modifyHorizontalChildrenAlign"
     },
 
 
     /** The vertical align of the children. Allowed values are: "top", "middle" and "bottom" */
     verticalChildrenAlign :
     {
-      _legacy           : true,
-      type              : "string",
-      defaultValue      : "top",
-      possibleValues    : [ "top", "middle", "bottom" ],
-      impl              : "layoutOrder",
-      addToQueueRuntime : true
+      check : [ "top", "middle", "bottom" ],
+      init : "top",
+      apply : "_modifyVerticalChildrenAlign"
     },
 
 
     /** Should the children be layouted in reverse order? */
     reverseChildrenOrder :
     {
-      _legacy           : true,
-      type              : "boolean",
-      defaultValue      : false,
-      impl              : "layoutOrder",
-      addToQueueRuntime : true
+      check : "Boolean",
+      init : false,
+      apply : "_modifyReverseChildrenOrder"
     },
 
 
@@ -144,10 +134,9 @@ qx.Class.define("qx.ui.layout.BoxLayout",
      */
     stretchChildrenOrthogonalAxis :
     {
-      _legacy           : true,
-      type              : "boolean",
-      defaultValue      : true,
-      addToQueueRuntime : true
+      check : "Boolean",
+      init : true,
+      apply : "_modifyStretchChildrenOrthogonalAxis"
     },
 
 
@@ -157,10 +146,9 @@ qx.Class.define("qx.ui.layout.BoxLayout",
      */
     useAdvancedFlexAllocation :
     {
-      _legacy           : true,
-      type              : "boolean",
-      defaultValue      : false,
-      addToQueueRuntime : true
+      check : "Boolean",
+      init : false,
+      apply : "_modifyUseAdvancedFlexAllocation"
     },
 
 
@@ -329,11 +317,44 @@ qx.Class.define("qx.ui.layout.BoxLayout",
         this._layoutImpl = this._createLayoutImpl();
       }
 
-      // call other core modifier
-      this._modifyLayoutOrder(propValue, propOldValue, propData);
+      // call layout helper
+      this._doLayoutOrder(propValue, propOldValue, propData);
 
       this.addToQueueRuntime("orientation");
     },
+
+    _modifySpacing : function(propValue, propOldValue, propData)
+    {
+      this._doLayout();
+      this.addToQueueRuntime("spacing");
+    },
+
+    _modifyHorizontalChildrenAlign : function(propValue, propOldValue, propData)
+    {
+      this._doLayoutOrder();
+      this.addToQueueRuntime("horizontalChildrenAlign");
+    },
+
+    _modifyVerticalChildrenAlign : function(propValue, propOldValue, propData)
+    {
+      this._doLayoutOrder();
+      this.addToQueueRuntime("verticalChildrenAlign");
+    },
+
+    _modifyReverseChildrenOrder : function(propValue, propOldValue, propData)
+    {
+      this._doLayoutOrder();
+      this.addToQueueRuntime("reverseChildrenOrder");
+    },
+
+    _modifyStretchChildrenOrthogonalAxis : function(propValue, propOldValue, propData) {
+      this.addToQueueRuntime("stretchChildrenOrthogonalAxis");
+    },
+
+    _modifyUseAdvancedFlexAllocation : function(propValue, propOldValue, propData) {
+      this.addToQueueRuntime("useAdvancedFlexAllocation");
+    },
+
 
 
     /**
@@ -345,13 +366,13 @@ qx.Class.define("qx.ui.layout.BoxLayout",
      * @param propData {var} Property configuration map
      * @return {var} TODOC
      */
-    _modifyLayoutOrder : function(propValue, propOldValue, propData)
+    _doLayoutOrder : function()
     {
       // update layout mode
       this._invalidateLayoutMode();
 
-      // call other core modifier
-      return this._modifyLayout(propValue, propOldValue, propData);
+      // call doLayout
+      this._doLayout();
     },
 
 
@@ -364,7 +385,7 @@ qx.Class.define("qx.ui.layout.BoxLayout",
      * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyLayout : function(propValue, propOldValue, propData)
+    _doLayout : function()
     {
       // invalidate inner preferred dimensions
       this._invalidatePreferredInnerDimensions();
@@ -372,9 +393,6 @@ qx.Class.define("qx.ui.layout.BoxLayout",
       // accumulated width needs to be invalidated
       this._invalidateAccumulatedChildrenOuterWidth();
       this._invalidateAccumulatedChildrenOuterHeight();
-
-      // make property handling happy :)
-      return true;
     },
 
 
