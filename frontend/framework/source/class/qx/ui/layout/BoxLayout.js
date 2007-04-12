@@ -95,7 +95,7 @@ qx.Class.define("qx.ui.layout.BoxLayout",
     /** The spacing between childrens. Could be any positive integer value. */
     spacing :
     {
-      check : "Number",
+      check : "Integer",
       init : 0,
       apply : "_applySpacing"
     },
