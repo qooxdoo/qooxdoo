@@ -98,7 +98,8 @@ qx.Class.define("qx.ui.core.Widget",
   *****************************************************************************
   */
 
-  events: {
+  events:
+  {
     "beforeAppear"    : "qx.event.type.Event",
     "appear"          : "qx.event.type.Event",
     "beforeDisappear" : "qx.event.type.Event",
@@ -1198,7 +1199,7 @@ qx.Class.define("qx.ui.core.Widget",
       BASIC PROPERTIES
     ---------------------------------------------------------------------------
     */
-    
+
     enabled :
     {
       init : "inherit",
@@ -1746,7 +1747,7 @@ qx.Class.define("qx.ui.core.Widget",
      *  at the same time. This will be omitted during the setup of the new third value. To reset a value
      *  you didn't want anymore, set it to null.
      */
-    width : 
+    width :
     {
       apply : "_modifyWidth",
       nullable : true,
@@ -2110,7 +2111,7 @@ qx.Class.define("qx.ui.core.Widget",
     _computedLeftTypePercent : false,
     _computedLeftTypeAuto : false,
     _computedLeftTypeFlex : false,
-    
+
     _computedRightValue : null,
     _computedRightParsed : null,
     _computedRightType : null,
@@ -2119,7 +2120,7 @@ qx.Class.define("qx.ui.core.Widget",
     _computedRightTypePercent : false,
     _computedRightTypeAuto : false,
     _computedRightTypeFlex : false,
-    
+
     _computedTopValue : null,
     _computedTopParsed : null,
     _computedTopType : null,
@@ -2128,7 +2129,7 @@ qx.Class.define("qx.ui.core.Widget",
     _computedTopTypePercent : false,
     _computedTopTypeAuto : false,
     _computedTopTypeFlex : false,
-    
+
     _computedBottomValue : null,
     _computedBottomParsed : null,
     _computedBottomType : null,
@@ -2136,8 +2137,8 @@ qx.Class.define("qx.ui.core.Widget",
     _computedBottomTypePixel : false,
     _computedBottomTypePercent : false,
     _computedBottomTypeAuto : false,
-    _computedBottomTypeFlex : false,    
-    
+    _computedBottomTypeFlex : false,
+
     _computedWidthValue : null,
     _computedWidthParsed : null,
     _computedWidthType : null,
@@ -2146,7 +2147,7 @@ qx.Class.define("qx.ui.core.Widget",
     _computedWidthTypePercent : false,
     _computedWidthTypeAuto : false,
     _computedWidthTypeFlex : false,
-    
+
     _computedMinWidthValue : null,
     _computedMinWidthParsed : null,
     _computedMinWidthType : null,
@@ -2191,13 +2192,13 @@ qx.Class.define("qx.ui.core.Widget",
     _computedMaxHeightTypePercent : false,
     _computedMaxHeightTypeAuto : false,
     _computedMaxHeightTypeFlex : false,
-    
+
     _modifyLeft : function(value, old)
     {
       this._unitDetectionPixelPercent("left", value);
       this.addToQueue("left");
     },
-    
+
     _modifyRight : function(value, old)
     {
       this._unitDetectionPixelPercent("right", value);
@@ -2230,13 +2231,13 @@ qx.Class.define("qx.ui.core.Widget",
 
     _modifyMaxWidth : function(value, old)
     {
-      this._unitDetectionPixelPercentAuto("maxWidth", value);      
+      this._unitDetectionPixelPercentAuto("maxWidth", value);
       this.addToQueue("maxWidth");
     },
-    
+
     _modifyHeight : function(value, old)
     {
-      this._unitDetectionPixelPercentAutoFlex("height", value);      
+      this._unitDetectionPixelPercentAutoFlex("height", value);
       this.addToQueue("height");
     },
 
@@ -2248,11 +2249,11 @@ qx.Class.define("qx.ui.core.Widget",
 
     _modifyMaxHeight : function(value, old)
     {
-      this._unitDetectionPixelPercentAuto("maxHeight", value);      
+      this._unitDetectionPixelPercentAuto("maxHeight", value);
       this.addToQueue("maxHeight");
     },
-    
-    
+
+
 
 
 
@@ -6566,7 +6567,7 @@ qx.Class.define("qx.ui.core.Widget",
           }
         }
 
-        this._applyOverflow(pn, pv, propValue, propOldValue);        
+        this._applyOverflow(pn, pv, propValue, propOldValue);
         this.addToQueue("overflow");
       },
 
@@ -6591,7 +6592,7 @@ qx.Class.define("qx.ui.core.Widget",
         }
 
         this._applyOverflow(pn, pv, propValue, propOldValue);
-        this.addToQueue("overflow");        
+        this.addToQueue("overflow");
       },
 
       "default" : function(propValue, propOldValue)
@@ -6612,7 +6613,7 @@ qx.Class.define("qx.ui.core.Widget",
         }
 
         this._applyOverflow(pn, pv, propValue, propOldValue);
-        this.addToQueue("overflow");        
+        this.addToQueue("overflow");
       }
     }),
 
