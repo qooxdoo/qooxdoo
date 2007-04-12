@@ -38,13 +38,18 @@ qx.Class.define("qx.ui.layout.BoxLayout",
   *****************************************************************************
   */
 
-  construct : function(vOrientation)
+  /**
+   * @param orientation {String} Initial value for {@link #orientation}.
+   */
+  construct : function(orientation)
   {
     this.base(arguments);
 
     // apply orientation
-    if (vOrientation != null) {
-      this.setOrientation(vOrientation);
+    if (orientation != null) {
+      this.setOrientation(orientation);
+    } else {
+      this.initOrientation();
     }
   },
 
@@ -57,7 +62,9 @@ qx.Class.define("qx.ui.layout.BoxLayout",
   *****************************************************************************
   */
 
-  statics : { STR_REVERSED : "-reversed" },
+  statics : {
+    STR_REVERSED : "-reversed"
+  },
 
 
 
@@ -76,13 +83,12 @@ qx.Class.define("qx.ui.layout.BoxLayout",
     ---------------------------------------------------------------------------
     */
 
-    /** The orientation of the layout control. Allowed values are "horizontal" (default) and "vertical". */
+    /** The orientation of the layout control. */
     orientation :
     {
-      _legacy           : true,
-      type              : "string",
-      possibleValues    : [ "horizontal", "vertical" ],
-      addToQueueRuntime : true
+      init : "horizontal",
+      check : [ "horizontal", "vertical" ],
+      apply : "_modifyOrientation"
     },
 
 
@@ -319,12 +325,14 @@ qx.Class.define("qx.ui.layout.BoxLayout",
         this._layoutImpl = null;
       }
 
-      if (qx.util.Validation.isValidString(propValue)) {
+      if (propValue) {
         this._layoutImpl = this._createLayoutImpl();
       }
 
       // call other core modifier
-      return this._modifyLayoutOrder(propValue, propOldValue, propData);
+      this._modifyLayoutOrder(propValue, propOldValue, propData);
+
+      this.addToQueueRuntime("orientation");
     },
 
 
