@@ -171,13 +171,14 @@ qx.Class.define("qx.Theme",
 
 
     /** {Map} allowed keys in theme definition */
-    __allowedKeys :qx.core.Variant.select("qx.debug",
+    __allowedKeys : qx.core.Variant.select("qx.debug",
     {
       "on":
       {
         "title"       : "string", // String
         "extend"      : "object", // Theme
         "colors"      : "object", // Map
+        "borders"     : "object", // Map
         "icons"       : "object", // Map
         "widgets"     : "object", // Map
         "appearances" : "object"  // Map
