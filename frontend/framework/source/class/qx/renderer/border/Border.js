@@ -114,8 +114,7 @@ qx.Class.define("qx.renderer.border.Border",
             }
             else
             {
-              vPart = vPart.toLowerCase();
-              vBorder.setColor(new qx.renderer.color.Color(vPart));
+              vBorder.setColor(vPart);
             }
 
             break;
@@ -321,38 +320,26 @@ qx.Class.define("qx.renderer.border.Border",
 
     topColor :
     {
-      _legacy  : true,
-      impl     : "borderTopProperty",
-      type     : "object",
-      instance : "qx.renderer.color.Color",
-      convert  : qx.renderer.color.ColorCache.convert
+      nullable : true,
+      apply : "_modifyTopColor"
     },
 
     rightColor :
     {
-      _legacy  : true,
-      impl     : "borderRightProperty",
-      type     : "object",
-      instance : "qx.renderer.color.Color",
-      convert  : qx.renderer.color.ColorCache.convert
+      nullable : true,
+      apply : "_modifyRightColor"
     },
 
     bottomColor :
     {
-      _legacy  : true,
-      impl     : "borderBottomProperty",
-      type     : "object",
-      instance : "qx.renderer.color.Color",
-      convert  : qx.renderer.color.ColorCache.convert
+      nullable : true,
+      apply : "_modifyBottomColor"
     },
 
     leftColor :
     {
-      _legacy  : true,
-      impl     : "borderLeftProperty",
-      type     : "object",
-      instance : "qx.renderer.color.Color",
-      convert  : qx.renderer.color.ColorCache.convert
+      nullable : true,
+      apply : "_modifyLeftColor"
     }
   },
 
@@ -612,50 +599,6 @@ qx.Class.define("qx.renderer.border.Border",
      * TODOC
      *
      * @type member
-     * @param vProp {var} TODOC
-     * @return {void}
-     */
-    _addToThemed3DColors : function(vProp)
-    {
-      var needRegistering = qx.lang.Object.isEmpty(this._themedEdges);
-
-      this._themedEdges[vProp] = true;
-
-      if (needRegistering)
-      {
-        (new qx.renderer.color.ColorObject("ThreeDDarkShadow")).add(this);
-        (new qx.renderer.color.ColorObject("ThreeDShadow")).add(this);
-        (new qx.renderer.color.ColorObject("ThreeDLightShadow")).add(this);
-        (new qx.renderer.color.ColorObject("ThreeDHighlight")).add(this);
-      }
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vProp {var} TODOC
-     * @return {void}
-     */
-    _removeFromThemed3DColors : function(vProp)
-    {
-      delete this._themedEdges[vProp];
-
-      if (qx.lang.Object.isEmpty(this._themedEdges))
-      {
-        (new qx.renderer.color.ColorObject("ThreeDDarkShadow")).remove(this);
-        (new qx.renderer.color.ColorObject("ThreeDShadow")).remove(this);
-        (new qx.renderer.color.ColorObject("ThreeDLightShadow")).remove(this);
-        (new qx.renderer.color.ColorObject("ThreeDHighlight")).remove(this);
-      }
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
      * @param vWidth {var} TODOC
      * @param vStyle {var} TODOC
      * @param vColor {var} TODOC
@@ -705,6 +648,27 @@ qx.Class.define("qx.renderer.border.Border",
       this._sync("right");
       this._sync("bottom");
       this._sync("left");
+    },
+
+
+    _modifyTopColor : function(value, old)
+    {
+      this._modifyBorderTopProperty(value, old, "borderTopColor");
+    },
+
+    _modifyRightColor : function(value, old)
+    {
+      this._modifyBorderTopProperty(value, old, "borderRightColor");
+    },
+
+    _modifyBottomColor : function(value, old)
+    {
+      this._modifyBorderTopProperty(value, old, "borderBottomColor");
+    },
+
+    _modifyLeftColor : function(value, old)
+    {
+      this._modifyBorderTopProperty(value, old, "borderLeftColor");
     },
 
 
@@ -1082,8 +1046,10 @@ qx.Class.define("qx.renderer.border.Border",
 
           if (typeof a === "object")
           {
+            var mgr = qx.manager.object.ColorManager.getInstance();
+
             for (var i=0, s=[], l=a.length; i<l; i++) {
-              s.push((new qx.renderer.color.ColorObject(a[i]).getStyle()));
+              s.push(mgr.getThemedColorRGB(a[i]));
             }
 
             return s.join(" ");
@@ -1133,7 +1099,7 @@ qx.Class.define("qx.renderer.border.Border",
             {
               case "outset":
               case "inset":
-                vTopColor = (new qx.renderer.color.ColorObject(qx.renderer.border.Border.data[vTopWidth][vTopStyle]["top"][0]));
+                vTopColor = qx.renderer.border.Border.data[vTopWidth][vTopStyle]["top"][0];
                 vTopStyle = "solid";
             }
 
@@ -1154,11 +1120,11 @@ qx.Class.define("qx.renderer.border.Border",
                   {
                     vTopStyle = "solid";
                     vTopWidth = 1;
-                    vTopColor = (new qx.renderer.color.ColorObject(c[1]));
+                    vTopColor = c[1];
 
                     this._enhancedDefsY.borderTop = this._generateDefString(vTopWidth, vTopStyle, vTopColor);
 
-                    vTopColor = (new qx.renderer.color.ColorObject(c[0]));
+                    vTopColor = c[0];
                   }
                 }
                 catch(ex)
@@ -1209,7 +1175,7 @@ qx.Class.define("qx.renderer.border.Border",
             {
               case "outset":
               case "inset":
-                vRightColor = (new qx.renderer.color.ColorObject(qx.renderer.border.Border.data[vRightWidth][vRightStyle]["right"][0]));
+                vRightColor = qx.renderer.border.Border.data[vRightWidth][vRightStyle]["right"][0];
                 vRightStyle = "solid";
             }
 
@@ -1230,11 +1196,11 @@ qx.Class.define("qx.renderer.border.Border",
                   {
                     vRightStyle = "solid";
                     vRightWidth = 1;
-                    vRightColor = (new qx.renderer.color.ColorObject(c[1]));
+                    vRightColor = c[1];
 
                     this._enhancedDefsX.borderRight = this._generateDefString(vRightWidth, vRightStyle, vRightColor);
 
-                    vRightColor = (new qx.renderer.color.ColorObject(c[0]));
+                    vRightColor = c[0];
                   }
                 }
                 catch(ex)
@@ -1285,7 +1251,7 @@ qx.Class.define("qx.renderer.border.Border",
             {
               case "outset":
               case "inset":
-                vBottomColor = (new qx.renderer.color.ColorObject(qx.renderer.border.Border.data[vBottomWidth][vBottomStyle]["bottom"][0]));
+                vBottomColor = qx.renderer.border.Border.data[vBottomWidth][vBottomStyle]["bottom"][0];
                 vBottomStyle = "solid";
             }
 
@@ -1306,11 +1272,11 @@ qx.Class.define("qx.renderer.border.Border",
                   {
                     vBottomStyle = "solid";
                     vBottomWidth = 1;
-                    vBottomColor = (new qx.renderer.color.ColorObject(c[1]));
+                    vBottomColor = c[1];
 
                     this._enhancedDefsY.borderBottom = this._generateDefString(vBottomWidth, vBottomStyle, vBottomColor);
 
-                    vBottomColor = (new qx.renderer.color.ColorObject(c[0]));
+                    vBottomColor = c[0];
                   }
                 }
                 catch(ex)
@@ -1361,7 +1327,7 @@ qx.Class.define("qx.renderer.border.Border",
             {
               case "outset":
               case "inset":
-                vLeftColor = (new qx.renderer.color.ColorObject(qx.renderer.border.Border.data[vLeftWidth][vLeftStyle]["left"][0]));
+                vLeftColor = qx.renderer.border.Border.data[vLeftWidth][vLeftStyle]["left"][0];
                 vLeftStyle = "solid";
             }
 
@@ -1382,11 +1348,11 @@ qx.Class.define("qx.renderer.border.Border",
                   {
                     vLeftStyle = "solid";
                     vLeftWidth = 1;
-                    vLeftColor = (new qx.renderer.color.ColorObject(c[1]));
+                    vLeftColor = c[1];
 
                     this._enhancedDefsX.borderLeft = this._generateDefString(vLeftWidth, vLeftStyle, vLeftColor);
 
-                    vLeftColor = (new qx.renderer.color.ColorObject(c[0]));
+                    vLeftColor = c[0];
                   }
                 }
                 catch(ex)
