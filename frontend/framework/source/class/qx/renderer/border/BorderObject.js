@@ -95,13 +95,13 @@ qx.Class.define("qx.renderer.border.BorderObject",
           default:
             vTemp = parseFloat(vPart);
 
-            if (vTemp == vPart || qx.lang.String.contains(vPart, "px")) {
+            if (vTemp == vPart || qx.lang.String.contains(vPart, "px"))
+            {
               vBorder.setWidth(vTemp);
             }
             else
             {
-              vPart = vPart.toLowerCase();
-              vBorder.setColor(qx.renderer.color.Color.themedNames[vPart] ? new qx.renderer.color.ColorObject(vPart) : new qx.renderer.color.Color(vPart));
+              vBorder.setColor(vPart);
             }
 
             break;

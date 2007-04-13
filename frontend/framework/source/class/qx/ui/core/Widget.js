@@ -1359,6 +1359,7 @@ qx.Class.define("qx.ui.core.Widget",
      * The color style property of the rendered widget.
      *  As input are allowed any instance of qx.renderer.color.Color or a string which defines the color itself.
      */
+    /*
     color :
     {
       _legacy                : true,
@@ -1366,6 +1367,13 @@ qx.Class.define("qx.ui.core.Widget",
       instance               : "qx.renderer.color.Color",
       convert                : qx.renderer.color.ColorCache.convert,
       allowMultipleArguments : true
+    },
+    */
+
+    color :
+    {
+      nullable : true,
+      apply : "_modifyColor"
     },
 
 
@@ -6755,6 +6763,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
+    /*
     _modifyColor : function(propValue, propOldValue, propData)
     {
       if (propOldValue) {
@@ -6773,6 +6782,34 @@ qx.Class.define("qx.ui.core.Widget",
 
       return true;
     },
+    */
+
+
+
+
+
+
+
+
+    _modifyColor : function(value, old) {
+      qx.manager.object.ColorManager.getInstance().process("color", value, this, "_styleColor");
+    },
+
+    _styleColor : function(value)
+    {
+      if(value)
+      {
+        this.setStyleProperty("color", value);
+      }
+      else
+      {
+        this.removeStyleProperty("color");
+      }
+    },
+
+
+
+
 
 
     /**
