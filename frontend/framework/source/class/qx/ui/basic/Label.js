@@ -236,17 +236,6 @@ qx.Class.define("qx.ui.basic.Label",
     },
 
 
-    /** The font property describes how to paint the font on the widget. */
-    font :
-    {
-      _legacy                : true,
-      type                   : "object",
-      instance               : "qx.renderer.font.Font",
-      convert                : qx.renderer.font.FontCache.convert,
-      allowMultipleArguments : true
-    },
-
-
     /** Wrap the text? */
     wrap :
     {
@@ -412,8 +401,6 @@ qx.Class.define("qx.ui.basic.Label",
       } else if (propOldValue) {
         propOldValue._resetWidget(this);
       }
-
-      return true;
     },
 
 
