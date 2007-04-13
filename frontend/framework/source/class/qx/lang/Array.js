@@ -236,7 +236,7 @@ qx.Class.define("qx.lang.Array",
      * @return {Array} empty array
      */
     removeAll : function(arr) {
-      return arr.splice(0, arr.length);
+      return arr.length = 0;
     },
 
 
