@@ -6795,16 +6795,8 @@ qx.Class.define("qx.ui.core.Widget",
       qx.manager.object.ColorManager.getInstance().process("color", value, this, "_styleColor");
     },
 
-    _styleColor : function(value)
-    {
-      if(value)
-      {
-        this.setStyleProperty("color", value);
-      }
-      else
-      {
-        this.removeStyleProperty("color");
-      }
+    _styleColor : function(value) {
+      value ? this.setStyleProperty("color", value) : this.removeStyleProperty("color");
     },
 
 
