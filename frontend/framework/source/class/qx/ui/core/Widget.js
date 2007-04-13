@@ -1385,6 +1385,17 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+    /** The font property describes how to paint the font on the widget. */
+    font :
+    {
+      _legacy                : true,
+      type                   : "object",
+      instance               : "qx.renderer.font.Font",
+      convert                : qx.renderer.font.FontCache.convert,
+      allowMultipleArguments : true
+    },
+
+
     /**
      * Mapping to native style property opacity.
      *
@@ -6830,6 +6841,16 @@ qx.Class.define("qx.ui.core.Widget",
       this.removeStyleProperty("backgroundColor");
     },
 
+
+    /*
+    ---------------------------------------------------------------------------
+      FONT
+    ---------------------------------------------------------------------------
+    */
+
+    _modifyFont : function(value, old) {
+
+    },
 
 
 

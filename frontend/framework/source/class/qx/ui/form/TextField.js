@@ -166,17 +166,6 @@ qx.Class.define("qx.ui.form.TextField",
     {
       _legacy : true,
       type    : "function"
-    },
-
-
-    /** The font property describes how to paint the font on the widget. */
-    font :
-    {
-      _legacy                : true,
-      type                   : "object",
-      instance               : "qx.renderer.font.Font",
-      convert                : qx.renderer.font.FontCache.convert,
-      allowMultipleArguments : true
     }
   },
 
@@ -290,8 +279,6 @@ qx.Class.define("qx.ui.form.TextField",
       } else if (propOldValue) {
         propOldValue._resetWidget(this);
       }
-
-      return true;
     },
 
 
