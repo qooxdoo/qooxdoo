@@ -125,6 +125,10 @@ qx.Class.define("qx.manager.object.ColorManager",
       instance[callback](value ? this.__anyColor2Style(value) : null);
     },
 
+    getThemedColorRGB : function(value) {
+      return this.__themedColors[value];
+    },
+
 
 
 
@@ -163,6 +167,13 @@ qx.Class.define("qx.manager.object.ColorManager",
 
     __anyColor2Style : function(value)
     {
+      // TODO: Remove temporary compatibility
+      if (value instanceof qx.renderer.color.Color)
+      {
+        this.debug("Deprecated usage of Color/ColorObject: " + value.getValue());
+        return value.getStyle();
+      }
+
       if (this.__namedColors[value]) {
         return value;
       }
@@ -171,13 +182,9 @@ qx.Class.define("qx.manager.object.ColorManager",
         return this.__themedColors[value];
       }
 
-      // TODO: Remove temporary compatibility
-      if (value instanceof qx.renderer.color.Color) {
-        return value.getStyle();
-      }
-
-      this.debug("Needs color parser to handle: " + value);
-      return "black";
+      // Hex, RGB strings or other allowed values.
+      // Validation is not done here.
+      return value;
     },
 
 
@@ -256,6 +263,7 @@ qx.Class.define("qx.manager.object.ColorManager",
      * @param xCor {var} TODOC
      * @param yCor {var} TODOC
      * @return {void}
+     * @deprecated
      */
     createThemeList : function(vParent, xCor, yCor)
     {
