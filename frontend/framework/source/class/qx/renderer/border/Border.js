@@ -255,12 +255,6 @@ qx.Class.define("qx.renderer.border.Border",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
     topWidth :
     {
       _legacy      : true,
@@ -721,68 +715,10 @@ qx.Class.define("qx.renderer.border.Border",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
-     * @return {void}
-     */
-    _handleColorRegistration : function(propValue, propOldValue, propData)
-    {
-      if (qx.lang.String.contains(propData.name, "Style"))
-      {
-        switch(propValue)
-        {
-          case "outset":
-          case "inset":
-          case "groove":
-          case "ridge":
-            this._addToThemed3DColors(propData.name);
-            break;
-
-          default:
-            this._removeFromThemed3DColors(propData.name);
-        }
-      }
-
-      if (qx.lang.String.contains(propData.name, "Color"))
-      {
-        if (propOldValue instanceof qx.renderer.color.ColorObject)
-        {
-          // detect if there are no other deps anymore
-          switch(propOldValue)
-          {
-            case this.getTopColor():
-            case this.getRightColor():
-            case this.getBottomColor():
-            case this.getLeftColor():
-              break;
-
-            default:
-              propOldValue.remove(this);
-          }
-        }
-
-        if (propValue instanceof qx.renderer.color.ColorObject)
-        {
-          // simply add, internal storage is a hash key so
-          // this is not a problem also if this is already
-          // registered there.
-          propValue.add(this);
-        }
-      }
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
     _modifyBorderTopProperty : function(propValue, propOldValue, propData)
     {
-      this._handleColorRegistration(propValue, propOldValue, propData);
-
       this._needsCompilationTop = true;
       this._useEnhancedCrossBrowserMode = null;
 
@@ -803,8 +739,6 @@ qx.Class.define("qx.renderer.border.Border",
      */
     _modifyBorderRightProperty : function(propValue, propOldValue, propData)
     {
-      this._handleColorRegistration(propValue, propOldValue, propData);
-
       this._needsCompilationRight = true;
       this._useEnhancedCrossBrowserMode = null;
 
@@ -825,8 +759,6 @@ qx.Class.define("qx.renderer.border.Border",
      */
     _modifyBorderBottomProperty : function(propValue, propOldValue, propData)
     {
-      this._handleColorRegistration(propValue, propOldValue, propData);
-
       this._needsCompilationBottom = true;
       this._useEnhancedCrossBrowserMode = null;
 
@@ -847,8 +779,6 @@ qx.Class.define("qx.renderer.border.Border",
      */
     _modifyBorderLeftProperty : function(propValue, propOldValue, propData)
     {
-      this._handleColorRegistration(propValue, propOldValue, propData);
-
       this._needsCompilationLeft = true;
       this._useEnhancedCrossBrowserMode = null;
 

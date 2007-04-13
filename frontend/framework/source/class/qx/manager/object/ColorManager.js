@@ -44,7 +44,7 @@ qx.Class.define("qx.manager.object.ColorManager",
   {
     this.base(arguments);
 
-    // Themes
+    // Registers the themes
     this.__colorThemes = {};
 
     // Stores the objects
@@ -95,10 +95,19 @@ qx.Class.define("qx.manager.object.ColorManager",
       return this.__themedColors[value] !== undefined;
     },
 
-    process : function(property, value, instance, callback)
+    /**
+     * Processing a color and handle callback execution on theme updates.
+     *
+     * @param instance {Object} Any object
+     * @param callback {String} Name of callback function which handles the
+     *   apply of the resulting CSS valid value.
+     * @param value {var} Any acceptable color value
+     * @return {void}
+     */
+    process : function(instance, callback, value)
     {
       // Store references for themed colors
-      var key = "color" + instance.toHashCode() + "$" + property;
+      var key = "color" + instance.toHashCode() + "$" + callback;
       var reg = this.__themedObjects;
 
       if (value && this.__themedColors[value])
@@ -109,7 +118,7 @@ qx.Class.define("qx.manager.object.ColorManager",
       else if (reg[key])
       {
         // In all other cases try to remove previously created references
-        reg[key] = null;
+        delete reg[key];
       }
 
       // Finally executing given callback
@@ -154,10 +163,17 @@ qx.Class.define("qx.manager.object.ColorManager",
 
     __anyColor2Style : function(value)
     {
-      var ret = this.__namedColors[value] || this.__themedColors[value];
+      if (this.__namedColors[value]) {
+        return value;
+      }
 
-      if (ret) {
-        return ret;
+      if (this.__themedColors[value]) {
+        return this.__themedColors[value];
+      }
+
+      // TODO: Remove temporary compatibility
+      if (value instanceof qx.renderer.color.Color) {
+        return value.getStyle();
       }
 
       this.debug("Needs color parser to handle: " + value);
@@ -179,7 +195,7 @@ qx.Class.define("qx.manager.object.ColorManager",
       var values = value.colors;
       var result = this.__themedColors = {};
       for (var key in values) {
-        result[key] = this.__themedColor2Style(values[key]);
+        result[key] = this.__themedColor2Style(key);
       }
 
       // Inform objects which have registered

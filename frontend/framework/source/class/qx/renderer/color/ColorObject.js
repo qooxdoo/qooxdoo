@@ -42,14 +42,7 @@ qx.Class.define("qx.renderer.color.ColorObject",
     // this.debug("Value: " + vValue);
     this.setValue(vValue);
 
-    if (qx.manager.object.ColorManager.getInstance().has(this.getValue())) {
-      return qx.manager.object.ColorManager.getInstance().get(this.getValue());
-    }
-
     this.base(arguments);
-
-    // Register this color object to manager instance
-    qx.manager.object.ColorManager.getInstance().add(this);
 
     // Here will all objects with a dependency to this
     // color stored.
@@ -139,7 +132,9 @@ qx.Class.define("qx.renderer.color.ColorObject",
         this._blue = vRgb[2];
       }
 
-      this._style = vTheme._compiledColors[this._value];
+      //this._style = vTheme._compiledColors[this._value];
+      // TODO: Temporary...
+      this._style = qx.manager.object.ColorManager.getInstance().__themedColor2Style(this._value);
       this._hex = null;
     },
 
