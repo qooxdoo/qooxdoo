@@ -6769,27 +6769,6 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vColor {var} TODOC
-     * @param vNewValue {var} TODOC
-     * @return {void}
-     */
-    _updateColors : function(vColor, vNewValue)
-    {
-      if (this.getColor() == vColor) {
-        this._setColorProperty(vNewValue);
-      }
-
-      if (this.getBackgroundColor() == vColor) {
-        this._setBackgroundColorProperty(vNewValue);
-      }
-    },
-
-
-
 
 
     /*
