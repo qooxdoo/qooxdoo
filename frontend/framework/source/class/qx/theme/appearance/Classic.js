@@ -41,12 +41,10 @@ qx.Theme.define("qx.theme.appearance.Classic",
     "outset" :
     {
       width : 2,
-      style : "outset"
+      colors : [ "black", "gray", "black", "gray" ],
+      innerColors : [ "gray", "white", "gray", "white" ]
     }
-
-
   },
-
 
   appearances :
   {
