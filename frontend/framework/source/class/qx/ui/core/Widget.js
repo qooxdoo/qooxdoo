@@ -6789,51 +6789,7 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vNewValue {var} TODOC
-     * @return {void}
-     */
-    _setColorProperty : function(vNewValue) {
-      this.setStyleProperty("color", vNewValue);
-    },
 
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vNewValue {var} TODOC
-     * @return {void}
-     */
-    _setBackgroundColorProperty : function(vNewValue) {
-      this.setStyleProperty("backgroundColor", vNewValue);
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vNewValue {var} TODOC
-     * @return {void}
-     */
-    _resetColorProperty : function(vNewValue) {
-      this.removeStyleProperty("color");
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
-    _resetBackgroundColorProperty : function() {
-      this.removeStyleProperty("backgroundColor");
-    },
 
 
     /*
