@@ -29,7 +29,7 @@
 qx.Class.define("qx.manager.object.ColorManager",
 {
   type : "singleton",
-  extend : qx.manager.object.ObjectManager,
+  extend : qx.core.Target,
 
 
 
@@ -45,11 +45,10 @@ qx.Class.define("qx.manager.object.ColorManager",
     this.base(arguments);
 
     // Themes
-    this._colorThemes = {};
+    this.__colorThemes = {};
 
-    // Contains the qx.renderer.color.ColorObjects which
-    // represent a themed color.
-    this._dependentObjects = {};
+    // Stores the objects
+    this.__themedObjects = {};
   },
 
 
@@ -63,17 +62,11 @@ qx.Class.define("qx.manager.object.ColorManager",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
     colorTheme :
     {
-      _legacy   : true,
-      type      : "object",
-      allowNull : false
+      check : "Theme",
+      nullable : true,
+      apply : "_applyColorTheme"
     }
   },
 
@@ -90,7 +83,123 @@ qx.Class.define("qx.manager.object.ColorManager",
   {
     /*
     ---------------------------------------------------------------------------
-      REGISTRATION
+      COLOR VALUE HANDLING
+    ---------------------------------------------------------------------------
+    */
+
+    isNamedColor : function(value) {
+      return this.__namedColors[value] !== undefined;
+    },
+
+    isThemedColor : function(value) {
+      return this.__themedColors[value] !== undefined;
+    },
+
+    process : function(property, value, instance, callback)
+    {
+      // Store references for themed colors
+      var key = "color" + instance.toHashCode() + "$" + property;
+      var reg = this.__themedObjects;
+
+      if (value && this.__themedColors[value])
+      {
+        // Store reference for themed values
+        reg[key] = { instance : instance, callback : callback, value : value };
+      }
+      else if (reg[key])
+      {
+        // In all other cases try to remove previously created references
+        reg[key] = null;
+      }
+
+      // Finally executing given callback
+      instance[callback](value ? this.__anyColor2Style(value) : null);
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      INTERNAL COLOR VALUE HANDLING
+    ---------------------------------------------------------------------------
+    */
+
+    __namedColors :
+    {
+      black : 1,
+      silver : 1,
+      gray : 1,
+      white : 1,
+      maroon : 1,
+      red  : 1,
+      purple : 1,
+      fuchsia : 1,
+      green : 1,
+      lime : 1,
+      olive : 1,
+      yellow : 1,
+      navi : 1,
+      blue : 1,
+      teal : 1,
+      aqua : 1,
+      transparent : 1
+    },
+
+    __themedColor2Style : function(value)
+    {
+      var rgb = this.getColorTheme().colors[value];
+      return rgb ? "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")" : null;
+    },
+
+    __anyColor2Style : function(value)
+    {
+      var ret = this.__namedColors[value] || this.__themedColors[value];
+
+      if (ret) {
+        return ret;
+      }
+
+      this.debug("Needs color parser to handle: " + value);
+      return "black";
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      MODIFIER
+    ---------------------------------------------------------------------------
+    */
+
+    _applyColorTheme : function(value, old)
+    {
+      // Generating RGB strings from themed colors
+      var values = value.colors;
+      var result = this.__themedColors = {};
+      for (var key in values) {
+        result[key] = this.__themedColor2Style(values[key]);
+      }
+
+      // Inform objects which have registered
+      // regarding the theme switch
+      var reg = this.__themedObjects;
+      var entry;
+
+      for (var key in reg)
+      {
+        entry = reg[key];
+        entry.instance[entry.callback](this.__themedColors[entry.value]);
+      }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      COLOR THEME REGISTRATION
     ---------------------------------------------------------------------------
     */
 
@@ -103,7 +212,7 @@ qx.Class.define("qx.manager.object.ColorManager",
      */
     registerColorTheme : function(vThemeClass)
     {
-      this._colorThemes[vThemeClass.name] = vThemeClass;
+      this.__colorThemes[vThemeClass.name] = vThemeClass;
 
       if (vThemeClass.name == qx.core.Setting.get("qx.colorTheme")) {
         this.setColorTheme(vThemeClass);
@@ -119,142 +228,9 @@ qx.Class.define("qx.manager.object.ColorManager",
      * @return {void}
      */
     setColorThemeById : function(vId) {
-      this.setColorTheme(this._colorThemes[vId]);
+      this.setColorTheme(this.__colorThemes[vId]);
     },
 
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PUBLIC METHODS FOR qx.renderer.color.ColorOBJECTS
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param oObject {Object} TODOC
-     * @return {void}
-     */
-    add : function(oObject)
-    {
-      var vValue = oObject.getValue();
-
-      this._objects[vValue] = oObject;
-
-      if (oObject.isThemedColor()) {
-        this._dependentObjects[vValue] = oObject;
-      }
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param oObject {Object} TODOC
-     * @return {void}
-     */
-    remove : function(oObject)
-    {
-      var vValue = oObject.getValue();
-
-      delete this._objects[vValue];
-      delete this._dependentObjects[vValue];
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vValue {var} TODOC
-     * @return {var} TODOC
-     */
-    has : function(vValue) {
-      return this._objects[vValue] != null;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vValue {var} TODOC
-     * @return {var} TODOC
-     */
-    get : function(vValue) {
-      return this._objects[vValue];
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      MODIFIER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
-     */
-    _modifyColorTheme : function(propValue, propOldValue, propData)
-    {
-      this._compileTheme(propValue);
-
-      for (var i in this._dependentObjects) {
-        this._dependentObjects[i]._updateTheme(propValue);
-      }
-
-      return true;
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PROTECTED METHODS
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
-    _compileTheme : function(theme)
-    {
-      if (theme._compiledColors) {
-        return;
-      }
-
-      var colors = theme.colors;
-      var compiled = theme._compiledColors = {};
-
-      for (var name in qx.renderer.color.Color.themedNames) {
-        compiled[name] = colors[name] ? qx.renderer.color.Color.rgb2style.apply(this, colors[name]) : name;
-      }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      UTILITY
-    ---------------------------------------------------------------------------
-    */
 
     /**
      * TODOC
@@ -268,7 +244,7 @@ qx.Class.define("qx.manager.object.ColorManager",
     createThemeList : function(vParent, xCor, yCor)
     {
       var vButton;
-      var vThemes = this._colorThemes;
+      var vThemes = this.__colorThemes;
       var vIcon = "icon/16/actions/format-color.png";
       var vPrefix = "Color Theme: ";
       var vEvent = "execute";
@@ -303,6 +279,7 @@ qx.Class.define("qx.manager.object.ColorManager",
 
 
 
+
   /*
   *****************************************************************************
      DESTRUCTOR
@@ -310,6 +287,6 @@ qx.Class.define("qx.manager.object.ColorManager",
   */
 
   destruct : function() {
-    this._disposeFields("_colorThemes", "_dependentObjects");
+    this._disposeFields("__colorThemes", "__themedObjects");
   }
 });
