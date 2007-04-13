@@ -101,16 +101,16 @@ qx.Class.define("qx.manager.object.ColorManager",
     /**
      * Processing a color and handle callback execution on theme updates.
      *
-     * @param instance {Object} Any object
+     * @param obj {Object} Any object
      * @param callback {String} Name of callback function which handles the
      *   apply of the resulting CSS valid value.
      * @param value {var} Any acceptable color value
      * @return {void}
      */
-    process : function(instance, callback, value)
+    process : function(obj, callback, value)
     {
       // Store references for themed colors
-      var key = "color" + instance.toHashCode() + "$" + callback;
+      var key = "color" + obj.toHashCode() + "$" + callback;
       var reg = this.__themedObjects;
 
       if (value)
@@ -119,7 +119,7 @@ qx.Class.define("qx.manager.object.ColorManager",
       if (value && this.__themedColors[value])
       {
         // Store reference for themed values
-        reg[key] = { instance : instance, callback : callback, value : value };
+        reg[key] = { object : obj, callback : callback, value : value };
       }
       else if (reg[key])
       {
@@ -128,7 +128,7 @@ qx.Class.define("qx.manager.object.ColorManager",
       }
 
       // Finally executing given callback
-      instance[callback](value ? this.__anyColor2Style(value) : null);
+      object[callback](value ? this.__anyColor2Style(value) : null);
     },
 
     getThemedColorRGB : function(value) {
@@ -158,11 +158,43 @@ qx.Class.define("qx.manager.object.ColorManager",
       lime : 1,
       olive : 1,
       yellow : 1,
-      navi : 1,
+      navy : 1,
       blue : 1,
       teal : 1,
       aqua : 1,
       transparent : 1
+    },
+
+    __systemColors :
+    {
+      activeborder        : 1,
+      activecaption       : 1,
+      appworkspace        : 1,
+      background          : 1,
+      buttonface          : 1,
+      buttonhighlight     : 1,
+      buttonshadow        : 1,
+      buttontext          : 1,
+      captiontext         : 1,
+      graytext            : 1,
+      highlight           : 1,
+      highlighttext       : 1,
+      inactiveborder      : 1,
+      inactivecaption     : 1,
+      inactivecaptiontext : 1,
+      infobackground      : 1,
+      infotext            : 1,
+      menu                : 1,
+      menutext            : 1,
+      scrollbar           : 1,
+      threeddarkshadow    : 1,
+      threedface          : 1,
+      threedhighlight     : 1,
+      threedlightshadow   : 1,
+      threedshadow        : 1,
+      window              : 1,
+      windowframe         : 1,
+      windowtext          : 1
     },
 
     __themedColor2Style : function(value)
@@ -180,12 +212,16 @@ qx.Class.define("qx.manager.object.ColorManager",
         return value.getStyle();
       }
 
+      if (this.__themedColors[value]) {
+        return this.__themedColors[value];
+      }
+
       if (this.__namedColors[value]) {
         return value;
       }
 
-      if (this.__themedColors[value]) {
-        return this.__themedColors[value];
+      if (this.__systemColors[value]) {
+        return value;
       }
 
       // Hex, RGB strings or other allowed values.
@@ -219,7 +255,7 @@ qx.Class.define("qx.manager.object.ColorManager",
       for (var key in reg)
       {
         entry = reg[key];
-        entry.instance[entry.callback](this.__themedColors[entry.value]);
+        entry.object[entry.callback](this.__themedColors[entry.value]);
       }
     },
 
@@ -317,6 +353,6 @@ qx.Class.define("qx.manager.object.ColorManager",
   */
 
   destruct : function() {
-    this._disposeFields("__colorThemes", "__themedObjects");
+    this._disposeFields("__colorThemes", "__themedObjects", "__themedColors");
   }
 });
