@@ -83,14 +83,14 @@
       var s = new qx.util.StringBuilder;
 
       for (var i=0; i<vLoops; i++) {
-        s.add(a);
+        s.addOne(a);
       };
 
       s = s.get();
     };
 
-    new qx.dev.TimeTracker(StringConcatShort, StringConcatShortAlt, 
-      StringConcatMethod, StringConcatArrayPush, StringConcatArrayAdd, 
+    new qx.dev.TimeTracker(StringConcatShort, StringConcatShortAlt,
+      StringConcatMethod, StringConcatArrayPush, StringConcatArrayAdd,
       StringConcatStringBuilder);
   });
   </script>
