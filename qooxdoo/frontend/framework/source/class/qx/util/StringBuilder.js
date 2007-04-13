@@ -115,7 +115,8 @@ qx.Class.define("qx.util.StringBuilder",
 
 
     /**
-     * Append a variable number of string arguments
+     * Append a variable number of string arguments. To only append
+     * one use {@link #addOne} instead.
      *
      * @type member
      * @param varargs {String} variable number of strings to be added
@@ -130,6 +131,26 @@ qx.Class.define("qx.util.StringBuilder",
 
       "mshtml" : function() {
         this._array.push.apply(this._array, arguments);
+      }
+    }),
+
+
+    /**
+     * Append one string argument. To append multiple items use
+     * {@link #add} instead.
+     *
+     * @type members
+     * @param item
+     * @signature function(item)
+     */
+    addOne : qx.core.Variant.select("qx.client",
+    {
+      "default" : function(item) {
+        this._string += item;
+      },
+
+      "mshtml" : function() {
+        this._array.push(item);
       }
     }),
 
