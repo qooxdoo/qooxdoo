@@ -1347,11 +1347,8 @@ qx.Class.define("qx.ui.core.Widget",
      */
     backgroundColor :
     {
-      _legacy                : true,
-      type                   : "object",
-      instance               : "qx.renderer.color.Color",
-      convert                : qx.renderer.color.ColorCache.convert,
-      allowMultipleArguments : true
+      nullable : true,
+      apply : "_modifyBackgroundColor"
     },
 
 
@@ -1359,17 +1356,6 @@ qx.Class.define("qx.ui.core.Widget",
      * The color style property of the rendered widget.
      *  As input are allowed any instance of qx.renderer.color.Color or a string which defines the color itself.
      */
-    /*
-    color :
-    {
-      _legacy                : true,
-      type                   : "object",
-      instance               : "qx.renderer.color.Color",
-      convert                : qx.renderer.color.ColorCache.convert,
-      allowMultipleArguments : true
-    },
-    */
-
     color :
     {
       nullable : true,
@@ -6754,45 +6740,24 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
-     */
-    /*
-    _modifyColor : function(propValue, propOldValue, propData)
-    {
-      if (propOldValue) {
-        propOldValue.remove(this);
-      }
 
-      if (propValue)
-      {
-        this._setColorProperty(propValue.getStyle());
-        propValue.add(this);
-      }
-      else
-      {
-        this._resetColorProperty();
-      }
 
-      return true;
+
+
+
+    _modifyBackgroundColor : function(value, old) {
+      qx.manager.object.ColorManager.getInstance().process(this, "_styleBackgroundColor", value);
     },
-    */
 
-
-
-
+    _styleBackgroundColor : function(value) {
+      value ? this.setStyleProperty("backgroundColor", value) : this.removeStyleProperty("backgroundColor");
+    },
 
 
 
 
     _modifyColor : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().process("color", value, this, "_styleColor");
+      qx.manager.object.ColorManager.getInstance().process(this, "_styleColor", value);
     },
 
     _styleColor : function(value) {
