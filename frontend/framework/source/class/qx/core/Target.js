@@ -54,20 +54,6 @@ qx.Class.define("qx.core.Target",
 
   /*
   *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-    EVENTPREFIX : "evt"
-  },
-
-
-
-
-  /*
-  *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
@@ -121,7 +107,7 @@ qx.Class.define("qx.core.Target",
       }
 
       // Create a special key string to allow identification of each bound action
-      var key = qx.core.Target.EVENTPREFIX + qx.core.Object.toHashCode(func) + (obj ? "_" + qx.core.Object.toHashCode(obj) : "");
+      var key = "event" + qx.core.Object.toHashCode(func) + (obj ? "$" + qx.core.Object.toHashCode(obj) : "");
 
       // Finally set up the listeners object
       this.__listeners[type][key] =
@@ -159,7 +145,7 @@ qx.Class.define("qx.core.Target",
       }
 
       // Create a special key string to allow identification of each bound action
-      var key = qx.core.Target.EVENTPREFIX + qx.core.Object.toHashCode(func) + (obj ? "_" + qx.core.Object.toHashCode(obj) : "");
+      var key = "event" + qx.core.Object.toHashCode(func) + (obj ? "$" + qx.core.Object.toHashCode(obj) : "");
 
       // Delete object entry for this action
       delete this.__listeners[type][key];
