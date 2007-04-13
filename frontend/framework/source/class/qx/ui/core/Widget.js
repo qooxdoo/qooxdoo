@@ -6705,45 +6705,12 @@ qx.Class.define("qx.ui.core.Widget",
     }),
 
 
+
     /*
     ---------------------------------------------------------------------------
       COLORS
     ---------------------------------------------------------------------------
     */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
-     */
-    _modifyBackgroundColor : function(propValue, propOldValue, propData)
-    {
-      if (propOldValue) {
-        propOldValue.remove(this);
-      }
-
-      if (propValue)
-      {
-        this._setBackgroundColorProperty(propValue.getStyle());
-        propValue.add(this);
-      }
-      else
-      {
-        this._resetBackgroundColorProperty();
-      }
-
-      return true;
-    },
-
-
-
-
-
-
 
     _modifyBackgroundColor : function(value, old) {
       qx.manager.object.ColorManager.getInstance().process(this, "_styleBackgroundColor", value);
@@ -6753,9 +6720,6 @@ qx.Class.define("qx.ui.core.Widget",
       value ? this.setStyleProperty("backgroundColor", value) : this.removeStyleProperty("backgroundColor");
     },
 
-
-
-
     _modifyColor : function(value, old) {
       qx.manager.object.ColorManager.getInstance().process(this, "_styleColor", value);
     },
@@ -6763,11 +6727,6 @@ qx.Class.define("qx.ui.core.Widget",
     _styleColor : function(value) {
       value ? this.setStyleProperty("color", value) : this.removeStyleProperty("color");
     },
-
-
-
-
-
 
 
 
