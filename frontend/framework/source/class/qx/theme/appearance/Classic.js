@@ -36,6 +36,18 @@ qx.Theme.define("qx.theme.appearance.Classic",
 {
   title : "Classic",
 
+  borders :
+  {
+    "outset" :
+    {
+      width : 2,
+      style : "outset"
+    }
+
+
+  },
+
+
   appearances :
   {
     "empty" :

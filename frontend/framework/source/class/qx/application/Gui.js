@@ -76,6 +76,9 @@ qx.Class.define("qx.application.Gui",
       // Force creation of client document
       qx.ui.core.ClientDocument.getInstance();
 
+      // Initialize border presets
+      qx.renderer.border.BorderPresets.init();
+
       // Call preloader
       qx.client.Timer.once(this._preload, this, 0);
     },
@@ -147,15 +150,15 @@ qx.Class.define("qx.application.Gui",
       this.__postloader = new qx.io.image.PreloaderSystem(qx.manager.object.ImageManager.getInstance().getPostPreloadImageList(), this._postloaderDone, this);
       this.__postloader.start();
     },
-    
-    
+
+
     /**
      * Callback which is called once the post loading is completed.
      */
     _postloaderDone : function()
     {
       this.__postloader.dispose();
-      this.__postloader = null; 
+      this.__postloader = null;
     }
   }
 });

@@ -49,6 +49,9 @@ qx.Class.define("qx.manager.object.ColorManager",
 
     // Stores the objects
     this.__themedObjects = {};
+
+    // Create empty themed color map
+    this.__themedColors = {};
   },
 
 
@@ -109,6 +112,9 @@ qx.Class.define("qx.manager.object.ColorManager",
       // Store references for themed colors
       var key = "color" + instance.toHashCode() + "$" + callback;
       var reg = this.__themedObjects;
+
+      if (value)
+      this.debug("value=" + value + " themed=" + (this.__themedColors[value]!=null));
 
       if (value && this.__themedColors[value])
       {
