@@ -105,8 +105,16 @@ qx.Class.define("qx.client.Command",
 
   properties :
   {
+    /** wether the command should be respected/enabled */
+    enabled :
+    {
+      init : true,
+      check : "Boolean",
+      apply : "_modifyEnabled"
+    },
 
-    /** the command shortcut */
+
+    /** The command shortcut */
     shortcut :
     {
       type   : "string",
@@ -115,10 +123,10 @@ qx.Class.define("qx.client.Command",
 
 
     /**
-     * keyCode
-     * @deprecated
-     *
+     * Supports old keyCode layer
      * Still there for compatibility with the old key handler/commands
+     *
+     * @deprecated
      */
     keyCode :
     {
@@ -126,7 +134,8 @@ qx.Class.define("qx.client.Command",
       _legacy : true
     },
 
-    /** KeyIdentifier */
+
+    /** The key identifier */
     keyIdentifier :
     {
       type   : "string",
