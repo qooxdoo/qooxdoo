@@ -113,8 +113,11 @@ qx.Class.define("qx.manager.object.ColorManager",
       var key = "color" + obj.toHashCode() + "$" + callback;
       var reg = this.__themedObjects;
 
-      if (value)
-      this.debug("value=" + value + " themed=" + (this.__themedColors[value]!=null));
+      /*
+      if (value) {
+        this.debug("value=" + value + " themed=" + (this.__themedColors[value]!=null));
+      }
+      */
 
       if (value && this.__themedColors[value])
       {
@@ -128,7 +131,7 @@ qx.Class.define("qx.manager.object.ColorManager",
       }
 
       // Finally executing given callback
-      object[callback](value ? this.__anyColor2Style(value) : null);
+      obj[callback](value ? this.__anyColor2Style(value) : null);
     },
 
     getThemedColorRGB : function(value) {
@@ -216,11 +219,7 @@ qx.Class.define("qx.manager.object.ColorManager",
         return this.__themedColors[value];
       }
 
-      if (this.__namedColors[value]) {
-        return value;
-      }
-
-      if (this.__systemColors[value]) {
+      if (this.__namedColors[value] || this.__systemColors[value]) {
         return value;
       }
 
