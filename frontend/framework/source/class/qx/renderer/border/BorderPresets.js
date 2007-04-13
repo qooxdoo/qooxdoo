@@ -33,7 +33,7 @@ qx.Class.define("qx.renderer.border.BorderPresets",
     /**
      * initialize static class
      */
-    __init : function()
+    init : function()
     {
       this.black = new qx.renderer.border.Border(1, "solid", "black");
       this.white = new qx.renderer.border.Border(1, "solid", "white");
@@ -209,11 +209,5 @@ qx.Class.define("qx.renderer.border.BorderPresets",
     getInstance : function() {
       return this;
     }
-
-  },
-
-  defer : function(clazz) {
-    clazz.__init();
   }
-
 });
