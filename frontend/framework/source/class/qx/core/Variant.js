@@ -244,6 +244,8 @@ qx.Class.define("qx.core.Variant",
      */
     isSet : function(key, variants)
     {
+      // TODO: Caching?
+
       // fast path
       if (variants.indexOf("|") < 0) {
         return this.get(key) === variants;
