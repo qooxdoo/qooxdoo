@@ -155,13 +155,6 @@ qx.Class.define("qx.manager.object.ColorManager",
 
     __anyColor2Style : function(value)
     {
-      // TODO: Remove temporary compatibility
-      if (value instanceof qx.renderer.color.Color)
-      {
-        this.debug("Deprecated usage of Color/ColorObject: " + value.getValue());
-        return value.getStyle();
-      }
-
       // Themed colors are able to overwrite the values of named and system colors
       if (this.__themedColors[value]) {
         return this.__themedColors[value];
