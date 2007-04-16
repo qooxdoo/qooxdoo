@@ -532,11 +532,6 @@ qx.Class.define("qx.renderer.border.Border",
         vArr.push(vStyle);
       }
 
-      if (vColor instanceof qx.renderer.color.Color) {
-        this.debug("Old style color used: " + vColor.getValue());
-        vColor = vColor.getStyle();
-      }
-
       if (vColor != null) {
         vArr.push(vColor);
       }
