@@ -71,9 +71,7 @@ qx.Class.define("qx.ui.component.ColorPopup",
   {
     value :
     {
-      _legacy  : true,
-      type     : "object",
-      instance : "qx.renderer.color.Color"
+      nullable : true
     },
 
     red :
@@ -449,7 +447,7 @@ qx.Class.define("qx.ui.component.ColorPopup",
     _onColorSelectorOk : function(e)
     {
       var sel = this._colorSelector;
-      this.setValue(qx.renderer.color.ColorCache.convert([ sel.getRed(), sel.getGreen(), sel.getBlue() ]));
+      this.setValue(qx.util.ColorUtil.rgb2string([sel.getRed(), sel.getGreen(), sel.getBlue()]));
       this._colorSelectorWindow.close();
     },
 

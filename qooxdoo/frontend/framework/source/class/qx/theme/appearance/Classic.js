@@ -285,7 +285,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
           bottom : 2
         };
 
-        var b = result.border = new qx.renderer.border.BorderObject;
+        var b = result.border = new qx.renderer.border.Border;
 
         b.setLeftColor("threedshadow");
         b.setRightColor("threedhighlight");
@@ -411,7 +411,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
             paddingRight  : 0,
             paddingBottom : 1,
             paddingLeft   : 0,
-            border        : new qx.renderer.border.BorderObject,
+            border        : new qx.renderer.border.Border,
             height        : "auto",
             width         : null,
             orientation   : "horizontal"
@@ -430,7 +430,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
             paddingRight  : 0,
             paddingBottom : 1,
             paddingLeft   : 0,
-            border        : new qx.renderer.border.BorderObject,
+            border        : new qx.renderer.border.Border,
             height        : "auto",
             width         : null,
             orientation   : "horizontal"
@@ -449,7 +449,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
             paddingRight  : 1,
             paddingBottom : 0,
             paddingLeft   : 1,
-            border        : new qx.renderer.border.BorderObject,
+            border        : new qx.renderer.border.Border,
             height        : null,
             width         : "auto",
             orientation   : "vertical"
@@ -468,7 +468,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
             paddingRight  : 1,
             paddingBottom : 0,
             paddingLeft   : 1,
-            border        : new qx.renderer.border.BorderObject,
+            border        : new qx.renderer.border.Border,
             height        : null,
             width         : "auto",
             orientation   : "vertical"
@@ -615,7 +615,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
           paddingRight  : 0,
           paddingBottom : 1,
           paddingLeft   : 0,
-          border        : new qx.renderer.border.BorderObject,
+          border        : new qx.renderer.border.Border,
           height        : "auto",
           width         : null,
           orientation   : "vertical"

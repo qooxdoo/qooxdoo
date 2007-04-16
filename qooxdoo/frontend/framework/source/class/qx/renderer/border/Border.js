@@ -450,7 +450,12 @@ qx.Class.define("qx.renderer.border.Border",
      * @param o {Object} TODOC
      * @return {void}
      */
-    addListenerWidget : function(o) {
+    addListenerWidget : function(o)
+    {
+      if (!this._dependentObjects) {
+        this._dependentObjects = {};
+      }
+
       this._dependentObjects[o.toHashCode()] = o;
     },
 
@@ -462,8 +467,11 @@ qx.Class.define("qx.renderer.border.Border",
      * @param o {Object} TODOC
      * @return {void}
      */
-    removeListenerWidget : function(o) {
-      delete this._dependentObjects[o.toHashCode()];
+    removeListenerWidget : function(o)
+    {
+      if (this._dependentObjects) {
+        delete this._dependentObjects[o.toHashCode()];
+      }
     },
 
 
@@ -477,6 +485,11 @@ qx.Class.define("qx.renderer.border.Border",
     _sync : function(vEdge)
     {
       var vAll = this._dependentObjects;
+
+      if (!vAll) {
+        return;
+      }
+
       var vCurrent;
 
       for (vKey in vAll)
