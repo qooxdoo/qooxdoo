@@ -159,7 +159,7 @@ qx.Class.define("qx.manager.object.BorderManager",
       // Generating RGB strings from themed borders
       var values = value.borders;
       var result = this.__themedBorders = {};
-      var util = qx.util.BorderUtil;
+
       for (var key in values)
       {
         result[key] = new qx.renderer.border.Border;
