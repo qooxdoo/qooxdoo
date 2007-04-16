@@ -1359,17 +1359,11 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * The border property describes how to paint the border on the widget.
-     *
-     *  This should be used with caution since in some cases (mostly complex widgets)
-     *  this might give unrespected results.
      */
     border :
     {
-      _legacy                : true,
-      type                   : "object",
-      instance               : "qx.renderer.border.Border",
-      convert                : qx.renderer.border.BorderCache.convert,
-      allowMultipleArguments : true
+      nullable : true,
+      apply : "_modifyBorder"
     },
 
 
@@ -4350,44 +4344,65 @@ qx.Class.define("qx.ui.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      BORDER/MARGIN/PADDING
+      BORDER + PADDING
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vChild {var} TODOC
-     * @param vChanges {var} TODOC
-     * @param vStyle {var} TODOC
-     * @return {void}
-     */
-    _applyBorderX : function(vChild, vChanges, vStyle)
+    _applyBorderX : function(child)
     {
-      var vBorder = vChild.getBorder();
-      vBorder ? vBorder.applyWidgetX(vChild) : qx.renderer.border.Border.resetBorderX(vChild);
+      var border = child.getBorder();
+      var mgr = qx.manager.object.BorderManager.getInstance();
+
+      if (border)
+      {
+        if (mgr.isThemedBorder(border)) {
+          border = mgr.themedBorderToObject(border);
+        }
+
+        border.applyWidgetX(child);
+      }
+      else
+      {
+        qx.renderer.border.Border.resetBorderX(child);
+      }
     },
 
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vChild {var} TODOC
-     * @param vChanges {var} TODOC
-     * @param vStyle {var} TODOC
-     * @return {void}
-     */
-    _applyBorderY : function(vChild, vChanges, vStyle)
+    _applyBorderY : function(child)
     {
-      var vBorder = vChild.getBorder();
-      vBorder ? vBorder.applyWidgetY(vChild) : qx.renderer.border.Border.resetBorderY(vChild);
+      var border = child.getBorder();
+      var mgr = qx.manager.object.BorderManager.getInstance();
+
+      if (border)
+      {
+        if (mgr.isThemedBorder(border)) {
+          border = mgr.themedBorderToObject(border);
+        }
+
+        border.applyWidgetY(child);
+      }
+      else
+      {
+        qx.renderer.border.Border.resetBorderY(child);
+      }
     },
 
     _applyPaddingX : qx.lang.Function.returnTrue,
     _applyPaddingY : qx.lang.Function.returnTrue,
 
+
+
+
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUTER INTERNALS
+    ---------------------------------------------------------------------------
+    */
 
     /**
      * TODOC
@@ -6757,21 +6772,20 @@ qx.Class.define("qx.ui.core.Widget",
      * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyBorder : function(propValue, propOldValue, propData)
+    _modifyBorder : function(value, old)
+    {
+      qx.manager.object.BorderManager.getInstance().process(this, "_styleBorder", value);
+    },
+
+    _styleBorder : function(propValue, propOldValue, propData)
     {
       var vOldTop = this._cachedBorderTop;
       var vOldRight = this._cachedBorderRight;
       var vOldBottom = this._cachedBorderBottom;
       var vOldLeft = this._cachedBorderLeft;
 
-      if (propOldValue) {
-        propOldValue.removeListenerWidget(this);
-      }
-
       if (propValue)
       {
-        propValue.addListenerWidget(this);
-
         this._cachedBorderTop = propValue.getTopWidth();
         this._cachedBorderRight = propValue.getRightWidth();
         this._cachedBorderBottom = propValue.getBottomWidth();
@@ -6799,9 +6813,9 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       this.addToQueue("borderY");
-
-      return true;
     },
+
+
 
 
     /**
