@@ -308,7 +308,7 @@ qx.Class.define("qx.util.ColorUtil",
      * @return {Boolean} true if the color is a themed color
      */
     isThemedColor : function(value) {
-      return qx.object.manager.ColorManager.getInstance().isThemedColor(value);
+      return qx.manager.object.ColorManager.getInstance().isThemedColor(value);
     },
 
 

@@ -979,7 +979,7 @@ qx.Class.define("qx.renderer.border.Border",
             var mgr = qx.manager.object.ColorManager.getInstance();
 
             for (var i=0, s=[], l=a.length; i<l; i++) {
-              s.push(mgr.getThemedColorRGB(a[i]));
+              s.push(mgr.themedColorToRgb(a[i]));
             }
 
             return s.join(" ");
