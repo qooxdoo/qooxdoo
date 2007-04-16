@@ -294,7 +294,7 @@ qx.Class.define("qx.util.ColorUtil",
       }
       else if (this.isRgbString(str))
       {
-        return this.__rgbString2Rgb();
+        return this.__rgbStringToRgb();
       }
       else if (this.isHex3String(str))
       {
@@ -414,8 +414,8 @@ qx.Class.define("qx.util.ColorUtil",
      */
     hex3StringToRgb : function(value)
     {
-      if (this.isHex3(value)) {
-        return this.__hex3ToRgb(value);
+      if (this.isHex3String(value)) {
+        return this.__hex3StringToRgb(value);
       }
 
       throw new Error("Invalid hex3 value: " + value);
@@ -430,8 +430,8 @@ qx.Class.define("qx.util.ColorUtil",
      */
     hex6StringToRgb : function(value)
     {
-      if (this.isHex6(value)) {
-        return this.__hex6ToRgb(value);
+      if (this.isHex6String(value)) {
+        return this.__hex6StringToRgb(value);
       }
 
       throw new Error("Invalid hex6 value: " + value);
@@ -447,12 +447,12 @@ qx.Class.define("qx.util.ColorUtil",
      */
     hexStringToRgb : function(value)
     {
-      if (this.isHex3(value)) {
-        return this.__hex3ToRgb(value);
+      if (this.isHex3String(value)) {
+        return this.__hex3StringToRgb(value);
       }
 
-      if (this.isHex6(value)) {
-        return this.__hex6ToRgb(value);
+      if (this.isHex6String(value)) {
+        return this.__hex6StringToRgb(value);
       }
 
       throw new Error("Invalid hex value: " + value);
