@@ -91,7 +91,7 @@ qx.Class.define("qx.manager.object.ColorManager",
     */
 
     isNamedColor : function(value) {
-      return this.__namedColors[value] !== undefined;
+      return qx.util.ColorUtil.NAMED[value] !== undefined;
     },
 
     isThemedColor : function(value) {
@@ -147,59 +147,6 @@ qx.Class.define("qx.manager.object.ColorManager",
     ---------------------------------------------------------------------------
     */
 
-    __namedColors :
-    {
-      black : 1,
-      silver : 1,
-      gray : 1,
-      white : 1,
-      maroon : 1,
-      red  : 1,
-      purple : 1,
-      fuchsia : 1,
-      green : 1,
-      lime : 1,
-      olive : 1,
-      yellow : 1,
-      navy : 1,
-      blue : 1,
-      teal : 1,
-      aqua : 1,
-      transparent : 1
-    },
-
-    __systemColors :
-    {
-      activeborder        : 1,
-      activecaption       : 1,
-      appworkspace        : 1,
-      background          : 1,
-      buttonface          : 1,
-      buttonhighlight     : 1,
-      buttonshadow        : 1,
-      buttontext          : 1,
-      captiontext         : 1,
-      graytext            : 1,
-      highlight           : 1,
-      highlighttext       : 1,
-      inactiveborder      : 1,
-      inactivecaption     : 1,
-      inactivecaptiontext : 1,
-      infobackground      : 1,
-      infotext            : 1,
-      menu                : 1,
-      menutext            : 1,
-      scrollbar           : 1,
-      threeddarkshadow    : 1,
-      threedface          : 1,
-      threedhighlight     : 1,
-      threedlightshadow   : 1,
-      threedshadow        : 1,
-      window              : 1,
-      windowframe         : 1,
-      windowtext          : 1
-    },
-
     __themedColor2Style : function(value)
     {
       var rgb = this.getColorTheme().colors[value];
@@ -215,11 +162,13 @@ qx.Class.define("qx.manager.object.ColorManager",
         return value.getStyle();
       }
 
+      // Themed colors are able to overwrite the values of named and system colors
       if (this.__themedColors[value]) {
         return this.__themedColors[value];
       }
 
-      if (this.__namedColors[value] || this.__systemColors[value]) {
+      // Simple return of all named or system colors
+      if (qx.util.ColorUtil.NAMED[value] || qx.util.ColorUtil.SYSTEM[value]) {
         return value;
       }
 
