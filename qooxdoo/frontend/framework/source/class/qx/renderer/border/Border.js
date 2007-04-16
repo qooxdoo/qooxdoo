@@ -927,49 +927,6 @@ qx.Class.define("qx.renderer.border.Border",
      * TODOC
      *
      * @type member
-     * @param width {var} TODOC
-     * @param style {var} TODOC
-     * @param edge {var} TODOC
-     * @return {void}
-     * @signature function(width, style, edge)
-     */
-    _generateMozColorDefString : qx.core.Variant.select("qx.client",
-    {
-      "gecko" : function(width, style, edge)
-      {
-        try
-        {
-          try {
-            var a = qx.renderer.border.Border.data[width][style][edge];
-          } catch(ex) {}
-
-          if (typeof a === "object")
-          {
-            var mgr = qx.manager.object.ColorManager.getInstance();
-
-            for (var i=0, style=[], l=a.length; i<l; i++) {
-              style.push(mgr.themedColorToRgb(a[i]));
-            }
-
-            return style.join(" ");
-          }
-        }
-        catch(ex)
-        {
-          this.error("Failed to generate Mozilla Color Definition Strings", ex);
-        }
-
-        return "";
-      },
-
-      "default" : function() {}
-    }),
-
-
-    /**
-     * TODOC
-     *
-     * @type member
      * @return {void}
      * @signature function()
      */
@@ -980,7 +937,12 @@ qx.Class.define("qx.renderer.border.Border",
         var width = this.getTopWidth(), style = this.getTopStyle(), def = this._defsY;
 
         def.borderTop = this._generateDefString(width, style, this.getTopColor());
-        def.MozBorderTopColors = this._generateMozColorDefString(width, style, "top");
+
+        if (this.getTopInnerColor()) {
+          def.MozBorderTopColors += this.getTopColor() + " " + this.getTopInnerColor();
+        } else {
+          def.MozBorderTopColors = null;
+        }
 
         this._needsCompilationTop = false;
       },
@@ -1056,7 +1018,12 @@ qx.Class.define("qx.renderer.border.Border",
         var width = this.getRightWidth(), style = this.getRightStyle(), def = this._defsX;
 
         def.borderRight = this._generateDefString(width, style, this.getRightColor());
-        def.MozBorderRightColors = this._generateMozColorDefString(width, style, "right");
+
+        if (this.getRightInnerColor()) {
+          def.MozBorderRightColors += this.getRightColor() + " " + this.getRightInnerColor();
+        } else {
+          def.MozBorderRightColors = null;
+        }
 
         this._needsCompilationRight = false;
       },
@@ -1132,7 +1099,12 @@ qx.Class.define("qx.renderer.border.Border",
         var width = this.getBottomWidth(), style = this.getBottomStyle(), def = this._defsY;
 
         def.borderBottom = this._generateDefString(width, style, this.getBottomColor());
-        def.MozBorderBottomColors = this._generateMozColorDefString(width, style, "bottom");
+
+        if (this.getBottomInnerColor()) {
+          def.MozBorderBottomColors += this.getBottomColor() + " " + this.getBottomInnerColor();
+        } else {
+          def.MozBorderBottomColors = null;
+        }
 
         this._needsCompilationBottom = false;
       },
@@ -1208,7 +1180,12 @@ qx.Class.define("qx.renderer.border.Border",
         var width = this.getLeftWidth(), style = this.getLeftStyle(), def = this._defsX;
 
         def.borderLeft = this._generateDefString(width, style, this.getLeftColor());
-        def.MozBorderLeftColors = this._generateMozColorDefString(width, style, "left");
+
+        if (this.getLeftInnerColor()) {
+          def.MozBorderLeftColors += this.getLeftColor() + " " + this.getLeftInnerColor();
+        } else {
+          def.MozBorderLeftColors = null;
+        }
 
         this._needsCompilationLeft = false;
       },

@@ -175,7 +175,7 @@ qx.Class.define("qx.manager.object.ColorManager",
       for (var key in reg)
       {
         entry = reg[key];
-        entry.object[entry.callback](this.__themedColors[entry.value]);
+        entry.object[entry.callback](result[entry.value]);
       }
     },
 
