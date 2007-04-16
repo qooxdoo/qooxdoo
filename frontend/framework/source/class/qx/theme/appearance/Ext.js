@@ -346,16 +346,16 @@ qx.Theme.define("qx.theme.appearance.Ext",
 
     "button-view-bar" : {
       style : function(states) {
-        var border_top = new qx.renderer.border.BorderObject;
+        var border_top = new qx.renderer.border.Border;
         border_top.setBottom(1, "solid", "#6593CF");
 
-        var border_bottom = new qx.renderer.border.BorderObject;
+        var border_bottom = new qx.renderer.border.Border;
         border_bottom.setTop(1, "solid", "#6593CF");
 
-        var border_left = new qx.renderer.border.BorderObject;
+        var border_left = new qx.renderer.border.Border;
         border_left.setRight(1, "solid", "#6593CF");
 
-        var border_right = new qx.renderer.border.BorderObject;
+        var border_right = new qx.renderer.border.Border;
         border_right.setLeft(1, "solid", "#6593CF");
 
         var vReturn = {};
@@ -499,16 +499,16 @@ qx.Theme.define("qx.theme.appearance.Ext",
     {
       style : function(states)
       {
-        var border_top = new qx.renderer.border.BorderObject;
+        var border_top = new qx.renderer.border.Border;
         border_top.setBottom(1, "solid", "#6593CF");
 
-        var border_bottom = new qx.renderer.border.BorderObject;
+        var border_bottom = new qx.renderer.border.Border;
         border_bottom.setTop(1, "solid", "#6593CF");
 
-        var border_left = new qx.renderer.border.BorderObject;
+        var border_left = new qx.renderer.border.Border;
         border_left.setRight(1, "solid", "#6593CF");
 
-        var border_right = new qx.renderer.border.BorderObject;
+        var border_right = new qx.renderer.border.Border;
         border_right.setLeft(1, "solid", "#6593CF");
 
         var vReturn = {};

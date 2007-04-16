@@ -67,7 +67,7 @@ qx.Class.define("qx.renderer.border.BorderCache",
         return qx.renderer.border.BorderCache.__data[propValue];
       }
 
-      return qx.renderer.border.BorderCache.__data[propValue] = qx.renderer.border.BorderObject.fromString(propValue);
+      return qx.renderer.border.BorderCache.__data[propValue] = qx.renderer.border.Border.fromString(propValue);
     }
   }
 });
