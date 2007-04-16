@@ -121,6 +121,14 @@ qx.Class.define("qx.manager.object.BorderManager",
       obj[callback](value ? this.__themedBorders[value] || value : null);
     },
 
+    themedBorderToObject : function(value) {
+      return this.__themedBorders[value];
+    },
+
+    isThemedBorder : function(value) {
+      return this.__themedBorders[value] !== undefined;
+    },
+
 
 
 
@@ -167,7 +175,7 @@ qx.Class.define("qx.manager.object.BorderManager",
       for (var key in reg)
       {
         entry = reg[key];
-        entry.object[entry.callback](this.__themedBorders[entry.value]);
+        entry.object[entry.callback](result[entry.value]);
       }
     }
   },

@@ -25,7 +25,6 @@
 #ignore(auto-use)
 #embed(qx.static/image/dotted_white.gif)
 #embed(qx.static/image/blank.gif)
-#require(qx.renderer.border.BorderPresets)
 
  ************************************************************************ */
 
@@ -253,7 +252,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         return {
           backgroundColor : "InfoBackground",
           color           : "InfoText",
-          border          : qx.renderer.border.BorderPresets.getInstance().info,
+          border          : "info",
           paddingTop      : 1,
           paddingRight    : 3,
           paddingBottom   : 2,
@@ -265,7 +264,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     "iframe" :
     {
       style : function(states) {
-        return { border : qx.renderer.border.BorderPresets.getInstance().inset };
+        return { border : "inset" };
       }
     },
 
@@ -290,11 +289,11 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
         if (states.pressed || states.checked || states.abandoned)
         {
-          result.border = qx.renderer.border.BorderPresets.getInstance().inset;
+          result.border = "inset";
         }
         else
         {
-          result.border = qx.renderer.border.BorderPresets.getInstance().outset;
+          result.border = "outset";
         }
 
         if (states.pressed || states.abandoned)
@@ -328,7 +327,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
       style : function(states)
       {
         return {
-          border          : qx.renderer.border.BorderPresets.getInstance().thinOutset,
+          border          : "thinOutset",
           backgroundColor : "threedface",
           height          : "auto"
         };
@@ -358,7 +357,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
           left   : 3,
           bottom : 2,
           width  : 4,
-          border : qx.renderer.border.BorderPresets.getInstance().thinOutset
+          border : "thinOutset"
         };
       }
     },
@@ -414,7 +413,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
         if (states.pressed || states.checked || states.abandoned)
         {
-          result.border = qx.renderer.border.BorderPresets.getInstance().thinInset;
+          result.border = "thinInset";
 
           result.paddingTop = 3;
           result.paddingRight = 2;
@@ -423,14 +422,14 @@ qx.Theme.define("qx.theme.appearance.Classic",
         }
         else if (states.over)
         {
-          result.border = qx.renderer.border.BorderPresets.getInstance().thinOutset;
+          result.border = "thinOutset";
 
           result.paddingTop = result.paddingBottom = 2;
           result.paddingLeft = result.paddingRight = 3;
         }
         else
         {
-          result.border = qx.renderer.border.BorderPresets.getInstance().none;
+          result.border = null;
 
           result.paddingTop = result.paddingBottom = 3;
           result.paddingLeft = result.paddingRight = 4;
@@ -455,7 +454,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
       {
         return {
           backgroundColor : "#FAFBFE",
-          border          : qx.renderer.border.BorderPresets.getInstance().shadow
+          border          : "shadow"
         };
       }
     },
@@ -632,7 +631,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         }
         else
         {
-          result.border = qx.renderer.border.BorderPresets.getInstance().none;
+          result.border = null;
           result.paddingTop = result.paddingBottom = 4;
           result.paddingRight = result.paddingLeft = 7;
         }
@@ -671,7 +670,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
       {
         return {
           backgroundColor : "#FAFBFE",
-          border          : qx.renderer.border.BorderPresets.getInstance().shadow
+          border          : "shadow"
         };
       }
     },
@@ -747,7 +746,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         }
         else
         {
-          result.border = qx.renderer.border.BorderPresets.getInstance().none;
+          result.border = null;
           result.paddingTop = result.paddingBottom = 3;
           result.paddingRight = result.paddingLeft = 7;
         }
@@ -780,9 +779,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
           paddingRight    : 1,
           paddingBottom   : 1,
           paddingLeft     : 1,
-          border : states.maximized ?
-            qx.renderer.border.BorderPresets.getInstance().none :
-            qx.renderer.border.BorderPresets.getInstance().outset
+          border : states.maximized ? null : "outset"
         };
       }
     },
@@ -808,7 +805,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
     "window-resize-frame" :
     {
       style : function(states) {
-        return { border : qx.renderer.border.BorderPresets.getInstance().shadow };
+        return { border : "shadow" };
       }
     },
 
@@ -886,7 +883,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
       style : function(states)
       {
         return {
-          border : qx.renderer.border.BorderPresets.getInstance().thinInset,
+          border : "thinInset",
           height : "auto"
         };
       }
@@ -918,14 +915,14 @@ qx.Theme.define("qx.theme.appearance.Classic",
     "resizer" :
     {
       style : function(states) {
-        return { border : qx.renderer.border.BorderPresets.getInstance().outset };
+        return { border : "outset" };
       }
     },
 
     "resizer-frame" :
     {
       style : function(states) {
-        return { border : qx.renderer.border.BorderPresets.getInstance().shadow };
+        return { border : "shadow" };
       }
     },
 
@@ -946,7 +943,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
           width           : "auto",
           height          : "auto",
           backgroundColor : "menu",
-          border          : qx.renderer.border.BorderPresets.getInstance().outset,
+          border          : "outset",
           paddingTop      : 1,
           paddingRight    : 1,
           paddingBottom   : 1,
@@ -1021,7 +1018,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
           right  : 0,
           left   : 0,
           height : "auto",
-          border : qx.renderer.border.BorderPresets.getInstance().verticalDivider
+          border : "verticalDivider"
         };
       }
     },
@@ -1040,7 +1037,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
       style : function(states)
       {
         return {
-          border          : qx.renderer.border.BorderPresets.getInstance().thinInset,
+          border          : "thinInset",
           backgroundColor : "white"
         };
       }
@@ -1082,7 +1079,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
       {
         return {
           hideFocus     : true,
-          border        : qx.renderer.border.BorderPresets.getInstance().inset,
+          border        : "inset",
           paddingTop    : 1,
           paddingRight  : 3,
           paddingBottom : 1,
@@ -1130,7 +1127,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
           minWidth        : 40,
           width           : 120,
           height          : "auto",
-          border          : qx.renderer.border.BorderPresets.getInstance().inset,
+          border          : "inset",
           backgroundColor : "white",
           allowStretchY   : false
         };
@@ -1144,7 +1141,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         return {
           width           : "auto",
           height          : "auto",
-          border          : qx.renderer.border.BorderPresets.getInstance().inset,
+          border          : "inset",
           backgroundColor : "white",
           allowStretchY   : false
         };
@@ -1195,7 +1192,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         return {
           height    : "auto",
           maxHeight : 150,
-          border    : qx.renderer.border.BorderPresets.getInstance().shadow
+          border    : "shadow"
         };
       }
     },
@@ -1209,7 +1206,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         return {
           width  : "auto",
           height : "auto",
-          border : qx.renderer.border.BorderPresets.getInstance().shadow
+          border : "shadow"
         };
       }
     },
@@ -1221,7 +1218,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
       style : function(states)
       {
         return {
-          border          : qx.renderer.border.BorderPresets.getInstance().none,
+          border          : null,
           width           : "1*",
           backgroundColor : "transparent"
         };
@@ -1235,7 +1232,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
       style : function(states)
       {
         return {
-          border          : qx.renderer.border.BorderPresets.getInstance().none,
+          border          : null,
           minWidth        : 30,
           width           : 100,
           backgroundColor : "transparent"
@@ -1725,7 +1722,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
           paddingRight  : 9,
           paddingBottom : 12,
           paddingLeft   : 9,
-          border        : qx.renderer.border.BorderPresets.getInstance().groove
+          border        : "groove"
         };
       }
     },
@@ -1766,7 +1763,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         return {
           width           : 60,
           height          : 22,
-          border          : qx.renderer.border.BorderPresets.getInstance().inset,
+          border          : "inset",
           backgroundColor : "white"
         };
       }
@@ -1780,7 +1777,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
       {
         return {
           width  : "1*",
-          border : qx.renderer.border.BorderPresets.getInstance().none
+          border : null
         };
       }
     },
@@ -1800,8 +1797,8 @@ qx.Theme.define("qx.theme.appearance.Classic",
           paddingBottom : 0,
           paddingLeft   : 3,
           border : states.pressed || states.checked || states.abandoned ?
-            qx.renderer.border.BorderPresets.getInstance().inset :
-            qx.renderer.border.BorderPresets.getInstance().outset
+            "inset" :
+            "outset"
         };
       }
     },
@@ -1821,8 +1818,8 @@ qx.Theme.define("qx.theme.appearance.Classic",
           paddingBottom : 0,
           paddingLeft   : 3,
           border : states.pressed || states.checked || states.abandoned ?
-            qx.renderer.border.BorderPresets.getInstance().inset :
-            qx.renderer.border.BorderPresets.getInstance().outset
+            "inset" :
+            "outset"
         };
       }
     },
@@ -1841,7 +1838,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
       style : function(states)
       {
         return {
-          border : qx.renderer.border.BorderPresets.getInstance().outset,
+          border : "outset",
           width  : "auto",
           height : "auto"
         };
@@ -1872,9 +1869,9 @@ qx.Theme.define("qx.theme.appearance.Classic",
         };
 
         if (states.pressed || states.checked || states.abandoned) {
-          result.border = qx.renderer.border.BorderPresets.getInstance().thinInset;
+          result.border = "thinInset";
         } else if (states.over) {
-          result.border = qx.renderer.border.BorderPresets.getInstance().thinOutset;
+          result.border = "thinOutset";
         } else {
           result.border = null;
         }
@@ -1952,7 +1949,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
           textAlign     : "center",
           verticalAlign : "middle",
           selectable    : false,
-          border          : states.today ? qx.renderer.border.BorderPresets.getInstance().black : "1px none",
+          border          : states.today ? "black" : "1px none",
           color           : states.selected ? "highlightText" : states.otherMonth ? "graytext" : "windowText",
           backgroundColor : states.selected ? "highlight" : null
         };
@@ -2033,7 +2030,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
       {
         return {
           font          : '11px "Lucida Grande", "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
-          border        : qx.renderer.border.BorderPresets.getInstance().none,
+          border        : null,
           paddingLeft   : 2,
           paddingRight  : 2,
           paddingTop    : 0,
