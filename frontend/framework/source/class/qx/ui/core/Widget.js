@@ -1343,7 +1343,6 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * The backgroundColor style property of the rendered widget.
-     *  As input are allowed any instance of qx.renderer.color.Color or a string which defines the color itself.
      */
     backgroundColor :
     {
@@ -1354,7 +1353,6 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * The color style property of the rendered widget.
-     *  As input are allowed any instance of qx.renderer.color.Color or a string which defines the color itself.
      */
     color :
     {

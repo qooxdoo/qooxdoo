@@ -255,42 +255,108 @@ qx.Class.define("qx.util.ColorUtil",
       yellowgreen          : [ 154, 205, 50 ]
     },
 
-
-    string2rgb : function()
+    stringToRgb : function(str)
     {
-      var red = null;
-      var green = null;
-      var blue = null;
-
-      if (this.EXTENDED[str])
+      if (this.NAMED[str])
       {
-        return this.EXTENDED[str];
+        return this.NAMED[str];
       }
       else if (qx.manager.object.ColorManager.getInstance().isThemedColor(str))
       {
         return qx.manager.object.ColorManager.getInstance().getThemedColorRGB(str);
       }
-      else if (this.REGEXP.rgb.test(str))
+      else if (this.isRgb(str))
       {
-        red = parseInt(RegExp.$1);
-        green = parseInt(RegExp.$2);
-        blue = parseInt(RegExp.$3);
+        return this._rgbString2Rgb();
       }
-      else if (this.REGEXP.hex3.test(str))
+      else if (this.isHex3(str))
       {
-        // multiply each with 16 + 1
-        red = parseInt(RegExp.$1, 16) * 17;
-        green = parseInt(RegExp.$2, 16) * 17;
-        blue = parseInt(RegExp.$3, 16) * 17;
+        return this._hex3ToRgb();
       }
-      else if (this.REGEXP.hex6.test(str))
+      else if (this.isHex6(str))
       {
-        red = (parseInt(RegExp.$1, 16) * 16) + parseInt(RegExp.$2, 16);
-        green = (parseInt(RegExp.$3, 16) * 16) + parseInt(RegExp.$4, 16);
-        blue = (parseInt(RegExp.$5, 16) * 16) + parseInt(RegExp.$6, 16);
+        return this._hex6ToRgb();
+      }
+      else
+      {
+        throw new Error("Could not parse color: " + str);
       }
 
-      return [ red, green, blue ];
+      return [red, green, blue];
+    },
+
+    rgbToString : function(rgb) {
+      return "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")";
+    },
+
+    isHex3 : function(str) {
+      return this.REGEXP.hex3.test(str);
+    },
+
+    isHex6 : function(str) {
+      return this.REGEXP.hex6.test(str);
+    },
+
+    isRgb : function(str) {
+      return this.REGEXP.rgb.test(str);
+    },
+
+    _rgbString2Rgb : function()
+    {
+      var red = parseInt(RegExp.$1);
+      var green = parseInt(RegExp.$2);
+      var blue = parseInt(RegExp.$3);
+
+      return [red, green, blue];
+    },
+
+    _hex3ToRgb : function()
+    {
+      var red = parseInt(RegExp.$1, 16) * 17;
+      var green = parseInt(RegExp.$2, 16) * 17;
+      var blue = parseInt(RegExp.$3, 16) * 17;
+
+      return [red, green, blue];
+    },
+
+    _hex6ToRgb : function()
+    {
+      var red = (parseInt(RegExp.$1, 16) * 16) + parseInt(RegExp.$2, 16);
+      var green = (parseInt(RegExp.$3, 16) * 16) + parseInt(RegExp.$4, 16);
+      var blue = (parseInt(RegExp.$5, 16) * 16) + parseInt(RegExp.$6, 16);
+
+      return [red, green, blue];
+    },
+
+    hex3ToRgb : function(value)
+    {
+      if (this.isHex3(value)) {
+        return this._hex3ToRgb(value);
+      }
+
+      throw new Error("Invalid hex3 value: " + value);
+    },
+
+    hex6ToRgb : function(value)
+    {
+      if (this.isHex6(value)) {
+        return this._hex6ToRgb(value);
+      }
+
+      throw new Error("Invalid hex6 value: " + value);
+    },
+
+    hexToRgb : function(value)
+    {
+      if (this.isHex3(value)) {
+        return this._hex3ToRgb(value);
+      }
+
+      if (this.isHex6(value)) {
+        return this._hex6ToRgb(value);
+      }
+
+      throw new Error("Invalid hex value: " + value);
     },
 
 
@@ -308,7 +374,7 @@ qx.Class.define("qx.util.ColorUtil",
      *         <li>'brightness': range 0..100</li>
      *       </ul>
      */
-    rgb2hsb : function(red, green, blue)
+    rgbToHsb : function(red, green, blue)
     {
       var hue, saturation, brightness;
 
@@ -382,7 +448,7 @@ qx.Class.define("qx.util.ColorUtil",
      *         <li>'blue': range 0..255</li>
      *       </ul>
      */
-    hsb2rgb : function(hue, saturation, brightness)
+    hsbToRgb : function(hue, saturation, brightness)
     {
       var i, f, p, q, t, vReturn;
 
