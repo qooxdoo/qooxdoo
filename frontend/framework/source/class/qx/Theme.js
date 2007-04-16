@@ -87,7 +87,7 @@ qx.Class.define("qx.Theme",
       theme.toString = this.genericToString;
 
       // Assign to namespace
-      theme.basename = qx.Class.createNamespace(name, theme);;
+      theme.basename = qx.Class.createNamespace(name, theme);
 
       // Register to managers
       if (theme.colors) {
