@@ -2977,7 +2977,7 @@ qx.Class.define("qx.ui.core.Widget",
           var cl = this._borderElement = document.createElement("div");
 
           var es = el.style;
-          var cs = this._borderStyle = cl.style;
+          var cs = this._innerStyle = cl.style;
 
           cs.width = cs.height = "100%";
           cs.position = "absolute";
@@ -7381,7 +7381,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     this._disposeObjects("_fadeTimer");
     this._disposeFields("_isCreated", "_inlineEvents", "_element", "_style",
-      "_borderElement", "_borderStyle", "_oldParent", "_styleProperties",
+      "_borderElement", "_innerStyle", "_oldParent", "_styleProperties",
       "_htmlProperties", "_htmlAttributes", "_states", "_jobQueue",
       "_layoutChanges");
   }
