@@ -923,17 +923,17 @@ qx.Class.define("qx.ui.component.ColorSelector",
      */
     _setBrightnessOnFieldEvent : function(e)
     {
-      var vValue = qx.lang.Number.limit(e.getPageY() - this._brightnessSubtract, 0, 256);
+      var value = qx.lang.Number.limit(e.getPageY() - this._brightnessSubtract, 0, 256);
 
       this._updateContext = "brightnessField";
 
       if (this._brightnessHandle.isCreated()) {
-        this._brightnessHandle._applyRuntimeTop(vValue + this._brightnessPane.getPaddingTop());
+        this._brightnessHandle._applyRuntimeTop(value + this._brightnessPane.getPaddingTop());
       } else {
-        this._brightnessHandle.setTop(vValue);
+        this._brightnessHandle.setTop(value);
       }
 
-      this.setBrightness(100 - Math.round(vValue / 2.56));
+      this.setBrightness(100 - Math.round(value / 2.56));
 
       this._updateContext = null;
     },
@@ -1232,42 +1232,16 @@ qx.Class.define("qx.ui.component.ColorSelector",
         return;
       }
 
-      var vValue = this._hexField.getValue().toLowerCase();
-
-      var vRed = 0;
-      var vGreen = 0;
-      var vBlue = 0;
-
-      switch(vValue.length)
-      {
-        case 3:
-          vRed = qx.renderer.color.Color.m_rgb[vValue.charAt(0)];
-          vGreen = qx.renderer.color.Color.m_rgb[vValue.charAt(1)];
-          vBlue = qx.renderer.color.Color.m_rgb[vValue.charAt(2)];
-
-          vRed = (vRed * 16) + vRed;
-          vGreen = (vGreen * 16) + vGreen;
-          vBlue = (vBlue * 16) + vBlue;
-
-          break;
-
-        case 6:
-          vRed = (qx.renderer.color.Color.m_rgb[vValue.charAt(0)] * 16) + qx.renderer.color.Color.m_rgb[vValue.charAt(1)];
-          vGreen = (qx.renderer.color.Color.m_rgb[vValue.charAt(2)] * 16) + qx.renderer.color.Color.m_rgb[vValue.charAt(3)];
-          vBlue = (qx.renderer.color.Color.m_rgb[vValue.charAt(4)] * 16) + qx.renderer.color.Color.m_rgb[vValue.charAt(5)];
-
-          break;
-
-        default:
-          return false;
-      }
+      try {
+        var rgb = qx.util.ColorUtil.hexStringToRgb(this._hexField.getValue());
+      } catch(ex) {
+        return;
+      };
 
       this._updateContext = "hexField";
-
-      this.setRed(vRed);
-      this.setGreen(vGreen);
-      this.setBlue(vBlue);
-
+      this.setRed(rgb[0]);
+      this.setGreen(rgb[1]);
+      this.setBlue(rgb[2]);
       this._updateContext = null;
     },
 
@@ -1383,17 +1357,8 @@ qx.Class.define("qx.ui.component.ColorSelector",
      * @type member
      * @return {void}
      */
-    _setPreviewFromRgb : function()
-    {
-      if (this._newColorPreview.isCreated())
-      {
-        // faster (omit qx.renderer.color.Color instances)
-        this._newColorPreview._style.backgroundColor = qx.renderer.color.Color.rgb2style(this.getRed(), this.getGreen(), this.getBlue());
-      }
-      else
-      {
-        this._newColorPreview.setBackgroundColor([ this.getRed(), this.getGreen(), this.getBlue() ]);
-      }
+    _setPreviewFromRgb : function() {
+      this._newColorPreview.setBackgroundColor(qx.util.ColorUtil.rgbToRgbString([this.getRed(), this.getGreen(), this.getBlue()]));
     },
 
 
