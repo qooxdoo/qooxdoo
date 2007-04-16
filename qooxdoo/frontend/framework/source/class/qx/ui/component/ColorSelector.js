@@ -1233,7 +1233,7 @@ qx.Class.define("qx.ui.component.ColorSelector",
       }
 
       try {
-        var rgb = qx.util.ColorUtil.hexStringToRgb(this._hexField.getValue());
+        var rgb = qx.util.ColorUtil.hexStringToRgb("#" + this._hexField.getValue());
       } catch(ex) {
         return;
       };
@@ -1280,9 +1280,11 @@ qx.Class.define("qx.ui.component.ColorSelector",
         return this.error("Missing backgroundColor value for field: " + e.getTarget());
       }
 
-      this.setRed(vColor.getRed());
-      this.setGreen(vColor.getGreen());
-      this.setBlue(vColor.getBlue());
+      var rgb = qx.util.ColorUtil.stringToRgb(vColor);
+
+      this.setRed(rgb[0]);
+      this.setGreen(rgb[1]);
+      this.setBlue(rgb[2]);
     },
 
 
@@ -1310,11 +1312,11 @@ qx.Class.define("qx.ui.component.ColorSelector",
           break;
 
         default:
-          var vHsb = qx.util.ColorUtil.rgb2hsb(this.getRed(), this.getGreen(), this.getBlue());
+          var hsb = qx.util.ColorUtil.rgbToHsb([this.getRed(), this.getGreen(), this.getBlue()]);
 
-          this.setHue(vHsb.hue);
-          this.setSaturation(vHsb.saturation);
-          this.setBrightness(vHsb.brightness);
+          this.setHue(hsb[0]);
+          this.setSaturation(hsb[1]);
+          this.setBrightness(hsb[2]);
       }
     },
 
@@ -1334,7 +1336,7 @@ qx.Class.define("qx.ui.component.ColorSelector",
           break;
 
         default:
-          var vRgb = qx.util.ColorUtil.hsb2rgb(this.getHue(), this.getSaturation(), this.getBrightness());
+          var vRgb = qx.util.ColorUtil.hsbToRgb([this.getHue(), this.getSaturation(), this.getBrightness()]);
 
           this.setRed(vRgb.red);
           this.setGreen(vRgb.green);
