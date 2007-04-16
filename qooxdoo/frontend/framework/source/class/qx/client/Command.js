@@ -105,7 +105,7 @@ qx.Class.define("qx.client.Command",
 
   properties :
   {
-    /** wether the command should be respected/enabled */
+    /** whether the command should be respected/enabled */
     enabled :
     {
       init : true,
@@ -253,11 +253,11 @@ qx.Class.define("qx.client.Command",
     */
 
     /**
-     * Checks wether the given key event matches the command's shortcut
+     * Checks whether the given key event matches the command's shortcut
      *
      * @type member
      * @param e {qx.event.type.KeyEvent} the key event object
-     * @return {Boolean} wether the commands shortcut matches the key event
+     * @return {Boolean} whether the commands shortcut matches the key event
      */
     matchesKeyEvent : function(e)
     {
@@ -354,7 +354,7 @@ qx.Class.define("qx.client.Command",
 
       keyName = keyName.toLowerCase();
 
-      // check wether its a valid old key name
+      // check whether its a valid old key name
       if (!qx.event.type.KeyEvent.keys[keyName]) {
         return "Unidentified";
       }

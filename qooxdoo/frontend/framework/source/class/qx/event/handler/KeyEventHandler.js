@@ -415,7 +415,7 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
 
 
     /**
-     * Checks wether the keyCode represents a non printable key
+     * Checks whether the keyCode represents a non printable key
      *
      * @type member
      * @param keyCode {String} key code to check.
@@ -427,7 +427,7 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
 
 
     /**
-     * Check wether the keycode can be reliably detected in keyup/keydown events
+     * Check whether the keycode can be reliably detected in keyup/keydown events
      *
      * @type member
      * @param keyCode {String} key code to check.
@@ -465,11 +465,11 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
 
 
     /**
-     * Checks wether a given string is a valid keyIdentifier
+     * Checks whether a given string is a valid keyIdentifier
      *
      * @type member
      * @param keyIdentifier {String} The key identifier.
-     * @return {Boolean} wether the given string is a valid keyIdentifier
+     * @return {Boolean} whether the given string is a valid keyIdentifier
      */
     isValidKeyIdentifier : function(keyIdentifier)
     {

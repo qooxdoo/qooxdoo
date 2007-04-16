@@ -134,7 +134,7 @@ qx.Class.define("qx.xml.Element",
       }),
 
       "mshtml|opera": function(element, query) {
-        return element.selectNodes(query);;
+        return element.selectNodes(query);
       }
     }),
 
