@@ -269,7 +269,7 @@ qx.Class.define("qx.util.ColorUtil",
 
 
     /**
-     * Wether the incoming value is a named color.
+     * Whether the incoming value is a named color.
      *
      * @param value {String} the color value to test
      * @return {Boolean} true if the color is a named color
@@ -280,7 +280,7 @@ qx.Class.define("qx.util.ColorUtil",
 
 
     /**
-     * Wether the incoming value is a extended named color.
+     * Whether the incoming value is a extended named color.
      *
      * @param value {String} the color value to test
      * @return {Boolean} true if the color is a extended named color
@@ -291,7 +291,7 @@ qx.Class.define("qx.util.ColorUtil",
 
 
     /**
-     * Wether the incoming value is a system color.
+     * Whether the incoming value is a system color.
      *
      * @param value {String} the color value to test
      * @return {Boolean} true if the color is a system color
@@ -302,7 +302,7 @@ qx.Class.define("qx.util.ColorUtil",
 
 
     /**
-     * Wether the incoming value is a themed color.
+     * Whether the incoming value is a themed color.
      *
      * @param value {String} the color value to test
      * @return {Boolean} true if the color is a themed color
