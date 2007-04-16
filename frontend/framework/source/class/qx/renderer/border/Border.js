@@ -10,7 +10,7 @@
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
      EPL: http://www.eclipse.org/org/documents/epl-v10.php
-     See the LICENSE file in the project's top-level directory for details.
+     See the LICENSE file in the project'style top-level directory for details.
 
    Authors:
      * Sebastian Werner (wpbasti)
@@ -109,7 +109,7 @@ qx.Class.define("qx.renderer.border.Border",
     fromString : function(vDefString)
     {
       var border = new qx.renderer.border.Border;
-      var parts = vDefString.split(/\s+/);
+      var parts = vDefString.split(/\style+/);
       var part, temp;
 
       for (var i=0; i<parts.length; i++)
@@ -220,18 +220,18 @@ qx.Class.define("qx.renderer.border.Border",
     {
       "gecko" : function(obj)
       {
-        var s = obj._style;
-        s.borderLeft = s.borderRight = s.MozBorderLeftColors = s.MozBorderRightColors = "";
+        var style = obj._style;
+        style.borderLeft = style.borderRight = style.MozBorderLeftColors = style.MozBorderRightColors = "";
       },
 
       "default" : function(obj)
       {
-        var s = obj._style;
-        s.borderLeft = s.borderRight = "0px none";
+        var style = obj._style;
+        style.borderLeft = style.borderRight = "0px none";
 
-        s = obj._innerStyle;
-        if (s) {
-          s.borderLeft = s.borderRight = "0px none";
+        style = obj._innerStyle;
+        if (style) {
+          style.borderLeft = style.borderRight = "0px none";
         }
       }
     }),
@@ -249,18 +249,18 @@ qx.Class.define("qx.renderer.border.Border",
     {
       "gecko" : function(obj)
       {
-        var s = obj._style;
-        s.borderTop = s.borderBottom = s.MozBorderTopColors = s.MozBorderBottomColors = "";
+        var style = obj._style;
+        style.borderTop = style.borderBottom = style.MozBorderTopColors = style.MozBorderBottomColors = "";
       },
 
       "default" : function(obj)
       {
-        var s = obj._style;
-        s.borderTop = s.borderBottom = "0px none";
+        var style = obj._style;
+        style.borderTop = style.borderBottom = "0px none";
 
-        s = obj._innerStyle;
-        if (s) {
-          s.borderTop = s.borderBottom = "0px none";
+        style = obj._innerStyle;
+        if (style) {
+          style.borderTop = style.borderBottom = "0px none";
         }
       }
     })
@@ -825,7 +825,7 @@ qx.Class.define("qx.renderer.border.Border",
      * @param obj {var} TODOC
      * @return {void}
      */
-    applyWidgetXCommon : function(obj)
+    applyWidgetX : function(obj)
     {
       if (this._needsCompilationLeft) {
         this._compileLeft();
@@ -852,6 +852,20 @@ qx.Class.define("qx.renderer.border.Border",
           }
         }
       }
+
+      if(qx.core.Variant.isSet("qx.client", "mshtml|opera|webkit"))
+      {
+        if (this.getUseEnhancedCrossBrowserMode()) {
+          obj._createElementForEnhancedBorder();
+        }
+
+        if (obj._innerStyle)
+        {
+          for (var i in this._enhancedDefsX) {
+            obj._innerStyle[i] = this._enhancedDefsX[i];
+          }
+        }
+      }
     },
 
 
@@ -862,7 +876,7 @@ qx.Class.define("qx.renderer.border.Border",
      * @param obj {var} TODOC
      * @return {void}
      */
-    applyWidgetYCommon : function(obj)
+    applyWidgetY : function(obj)
     {
       if (this._needsCompilationTop) {
         this._compileTop();
@@ -889,57 +903,9 @@ qx.Class.define("qx.renderer.border.Border",
           }
         }
       }
-    },
 
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param obj {var} TODOC
-     * @return {void}
-     * @signature function(obj)
-     */
-    applyWidgetX : qx.core.Variant.select("qx.client",
-    {
-      //alias will be set in defer
-      "gecko" : null,
-
-      "default" : function(obj)
+      if(qx.core.Variant.isSet("qx.client", "mshtml|opera|webkit"))
       {
-        this.applyWidgetXCommon(obj);
-
-        if (this.getUseEnhancedCrossBrowserMode()) {
-          obj._createElementForEnhancedBorder();
-        }
-
-        if (obj._innerStyle)
-        {
-          for (var i in this._enhancedDefsX) {
-            obj._innerStyle[i] = this._enhancedDefsX[i];
-          }
-        }
-      }
-    }),
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param obj {var} TODOC
-     * @return {void}
-     * @signature function(obj)
-     */
-    applyWidgetY : qx.core.Variant.select("qx.client",
-    {
-      //alias will be set in defer
-      "gecko" : null,
-
-      "default" : function(obj)
-      {
-        this.applyWidgetYCommon(obj);
-
         if (this.getUseEnhancedCrossBrowserMode()) {
           obj._createElementForEnhancedBorder();
         }
@@ -951,7 +917,10 @@ qx.Class.define("qx.renderer.border.Border",
           }
         }
       }
-    }),
+    },
+
+
+
 
 
     /**
@@ -978,11 +947,11 @@ qx.Class.define("qx.renderer.border.Border",
           {
             var mgr = qx.manager.object.ColorManager.getInstance();
 
-            for (var i=0, s=[], l=a.length; i<l; i++) {
-              s.push(mgr.themedColorToRgb(a[i]));
+            for (var i=0, style=[], l=a.length; i<l; i++) {
+              style.push(mgr.themedColorToRgb(a[i]));
             }
 
-            return s.join(" ");
+            return style.join(" ");
           }
         }
         catch(ex)
@@ -1008,10 +977,10 @@ qx.Class.define("qx.renderer.border.Border",
     {
       "gecko" :  function()
       {
-        var w = this.getTopWidth(), s = this.getTopStyle(), d = this._defsY;
+        var width = this.getTopWidth(), style = this.getTopStyle(), def = this._defsY;
 
-        d.borderTop = this._generateDefString(w, s, this.getTopColor());
-        d.MozBorderTopColors = this._generateMozColorDefString(w, s, "top");
+        def.borderTop = this._generateDefString(width, style, this.getTopColor());
+        def.MozBorderTopColors = this._generateMozColorDefString(width, style, "top");
 
         this._needsCompilationTop = false;
       },
@@ -1084,10 +1053,10 @@ qx.Class.define("qx.renderer.border.Border",
     {
       "gecko" : function()
       {
-        var w = this.getRightWidth(), s = this.getRightStyle(), d = this._defsX;
+        var width = this.getRightWidth(), style = this.getRightStyle(), def = this._defsX;
 
-        d.borderRight = this._generateDefString(w, s, this.getRightColor());
-        d.MozBorderRightColors = this._generateMozColorDefString(w, s, "right");
+        def.borderRight = this._generateDefString(width, style, this.getRightColor());
+        def.MozBorderRightColors = this._generateMozColorDefString(width, style, "right");
 
         this._needsCompilationRight = false;
       },
@@ -1160,10 +1129,10 @@ qx.Class.define("qx.renderer.border.Border",
     {
       "gecko" : function()
       {
-        var w = this.getBottomWidth(), s = this.getBottomStyle(), d = this._defsY;
+        var width = this.getBottomWidth(), style = this.getBottomStyle(), def = this._defsY;
 
-        d.borderBottom = this._generateDefString(w, s, this.getBottomColor());
-        d.MozBorderBottomColors = this._generateMozColorDefString(w, s, "bottom");
+        def.borderBottom = this._generateDefString(width, style, this.getBottomColor());
+        def.MozBorderBottomColors = this._generateMozColorDefString(width, style, "bottom");
 
         this._needsCompilationBottom = false;
       },
@@ -1236,10 +1205,10 @@ qx.Class.define("qx.renderer.border.Border",
     {
       "gecko" : function()
       {
-        var w = this.getLeftWidth(), s = this.getLeftStyle(), d = this._defsX;
+        var width = this.getLeftWidth(), style = this.getLeftStyle(), def = this._defsX;
 
-        d.borderLeft = this._generateDefString(w, s, this.getLeftColor());
-        d.MozBorderLeftColors = this._generateMozColorDefString(w, s, "left");
+        def.borderLeft = this._generateDefString(width, style, this.getLeftColor());
+        def.MozBorderLeftColors = this._generateMozColorDefString(width, style, "left");
 
         this._needsCompilationLeft = false;
       },
@@ -1301,16 +1270,7 @@ qx.Class.define("qx.renderer.border.Border",
     })
   },
 
-  defer : qx.core.Variant.select("qx.client",
-  {
-    "default" : function() {},
-    "gecko" : function(statics, members)
-    {
-      // set up alias
-      members.applyWidgetX = members.applyWidgetXCommon;
-      members.applyWidgetY = members.applyWidgetYCommon;
-    }
-  }),
+
 
 
 
