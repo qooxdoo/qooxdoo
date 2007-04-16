@@ -1347,6 +1347,7 @@ qx.Class.define("qx.ui.core.Widget",
     backgroundColor :
     {
       nullable : true,
+      check : "Color",
       apply : "_modifyBackgroundColor"
     },
 
@@ -1357,6 +1358,7 @@ qx.Class.define("qx.ui.core.Widget",
     color :
     {
       nullable : true,
+      check : "Color",
       apply : "_modifyColor"
     },
 

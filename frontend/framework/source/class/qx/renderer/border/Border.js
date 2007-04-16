@@ -282,102 +282,120 @@ qx.Class.define("qx.renderer.border.Border",
   {
     topWidth :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 0,
-      impl         : "borderTopProperty"
+      check : "Number",
+      init : 0,
+      apply : "_applyTopWidth"
     },
 
     rightWidth :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 0,
-      impl         : "borderRightProperty"
+      check : "Number",
+      init : 0,
+      apply : "_applyRightWidth"
     },
 
     bottomWidth :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 0,
-      impl         : "borderBottomProperty"
+      check : "Number",
+      init : 0,
+      apply : "_applyBottomWidth"
     },
 
     leftWidth :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 0,
-      impl         : "borderLeftProperty"
+      check : "Number",
+      init : 0,
+      apply : "_applyLeftWidth"
     },
+
+
+
 
     topStyle :
     {
       nullable : true,
-      apply : "_modifyTopStyle"
+      apply : "_applyTopStyle"
     },
 
     rightStyle :
     {
       nullable : true,
-      apply : "_modifyRightStyle"
+      apply : "_applyRightStyle"
     },
 
     bottomStyle :
     {
       nullable : true,
-      apply : "_modifyBottomStyle"
+      apply : "_applyBottomStyle"
     },
 
     leftStyle :
     {
       nullable : true,
-      apply : "_modifyLeftStyle"
+      apply : "_applyLeftStyle"
     },
+
+
+
+
 
     topColor :
     {
       nullable : true,
-      apply : "_modifyTopColor"
+      check : "Color",
+      apply : "_applyTopColor"
     },
 
     rightColor :
     {
       nullable : true,
-      apply : "_modifyRightColor"
+      check : "Color",
+      apply : "_applyRightColor"
     },
 
     bottomColor :
     {
       nullable : true,
-      apply : "_modifyBottomColor"
+      check : "Color",
+      apply : "_applyBottomColor"
     },
 
     leftColor :
     {
       nullable : true,
-      apply : "_modifyLeftColor"
+      check : "Color",
+      apply : "_applyLeftColor"
     },
+
+
+
 
     topInnerColor :
     {
-
+      nullable : true,
+      check : "Color",
+      apply : "_applyTopInnerColor"
     },
 
     rightInnerColor :
     {
-
+      nullable : true,
+      check : "Color",
+      apply : "_applyRightInnerColor"
     },
 
     bottomInnerColor :
     {
-
+      nullable : true,
+      check : "Color",
+      apply : "_applyBottomInnerColor"
     },
 
     leftInnerColor :
     {
-
+      nullable : true,
+      check : "Color",
+      apply : "_applyLeftInnerColor"
     },
 
 
@@ -402,6 +420,7 @@ qx.Class.define("qx.renderer.border.Border",
 
 
 
+
     width : {
       group : [ "topWidth", "rightWidth", "bottomWidth", "leftWidth" ],
       mode : "shorthand"
@@ -414,6 +433,11 @@ qx.Class.define("qx.renderer.border.Border",
 
     color : {
       group : [ "topColor", "rightColor", "bottomColor", "leftColor" ],
+      mode : "shorthand"
+    },
+
+    innerColor : {
+      group : [ "topInnerColor", "rightInnerColor", "bottomInnerColor", "leftInnerColor" ],
       mode : "shorthand"
     }
   },
@@ -569,15 +593,6 @@ qx.Class.define("qx.renderer.border.Border",
       }
     }),
 
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      BORDER MODIFIER AND SYNCER
-    ---------------------------------------------------------------------------
-    */
-
     /**
      * TODOC
      *
@@ -606,169 +621,129 @@ qx.Class.define("qx.renderer.border.Border",
       return vArr.join(" ");
     },
 
-    _modifyTopColor : function(value, old)
-    {
-      qx.manager.object.ColorManager.getInstance().process(this, "_applyTopColor", value);
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      MODIFIER
+    ---------------------------------------------------------------------------
+    */
+
+    _applyTopWidth : function(value, old) {
+      this._updateTop();
     },
 
-    _modifyRightColor : function(value, old)
-    {
-      qx.manager.object.ColorManager.getInstance().process(this, "_applyRightColor", value);
+    _applyRightWidth : function(value, old) {
+      this._updateRight();
     },
 
-    _modifyBottomColor : function(value, old)
-    {
-      qx.manager.object.ColorManager.getInstance().process(this, "_applyBottomColor", value);
+    _applyBottomWidth : function(value, old) {
+      this._updateBottom();
     },
 
-    _modifyLeftColor : function(value, old)
-    {
-      qx.manager.object.ColorManager.getInstance().process(this, "_applyLeftColor", value);
+    _applyLeftWidth : function(value, old) {
+      this._updateLeft();
     },
 
-    _applyTopColor : function() {
-      this._modifyBorderTopProperty();
+    _applyTopColor : function(value, old) {
+      qx.manager.object.ColorManager.getInstance().process(this, "_updateTop", value);
     },
 
-    _applyRightColor : function() {
-      this._modifyBorderRightProperty();
+    _applyRightColor : function(value, old) {
+      qx.manager.object.ColorManager.getInstance().process(this, "_updateRight", value);
     },
 
-    _applyBottomColor : function() {
-      this._modifyBorderBottomProperty();
+    _applyBottomColor : function(value, old) {
+      qx.manager.object.ColorManager.getInstance().process(this, "_updateBottom", value);
     },
 
-    _applyLeftColor : function() {
-      this._modifyBorderLeftProperty();
+    _applyLeftColor : function(value, old) {
+      qx.manager.object.ColorManager.getInstance().process(this, "_updateLeft", value);
     },
 
-    _modifyTopStyle : function(value, old)
-    {
-      // pseudo color value threedface, ugly
-      var pseudo = qx.renderer.border.Border.themedStyles[value] !== undefined ? "threedface" : null;
-      qx.manager.object.ColorManager.getInstance().process(this, "_applyTopStyle", pseudo);
+    _applyTopInnerColor : function(value, old) {
+      qx.manager.object.ColorManager.getInstance().process(this, "_updateTop", value);
     },
 
-    _modifyRightStyle : function(value, old)
-    {
-      // pseudo color value threedface, ugly
-      var pseudo = qx.renderer.border.Border.themedStyles[value] !== undefined ? "threedface" : null;
-      qx.manager.object.ColorManager.getInstance().process(this, "_applyRightStyle", pseudo);
+    _applyRightInnerColor : function(value, old) {
+      qx.manager.object.ColorManager.getInstance().process(this, "_updateRight", value);
     },
 
-    _modifyBottomStyle : function(value, old)
-    {
-      // pseudo color value threedface, ugly
-      var pseudo = qx.renderer.border.Border.themedStyles[value] !== undefined ? "threedface" : null;
-      qx.manager.object.ColorManager.getInstance().process(this, "_applyBottomStyle", pseudo);
+    _applyBottomInnerColor : function(value, old) {
+      qx.manager.object.ColorManager.getInstance().process(this, "_updateBottom", value);
     },
 
-    _modifyLeftStyle : function(value, old)
-    {
-      // pseudo color value threedface, ugly
-      var pseudo = qx.renderer.border.Border.themedStyles[value] !== undefined ? "threedface" : null;
-      qx.manager.object.ColorManager.getInstance().process(this, "_applyLeftStyle", pseudo);
+    _applyLeftInnerColor : function(value, old) {
+      qx.manager.object.ColorManager.getInstance().process(this, "_updateLeft", value);
     },
 
     _applyTopStyle : function() {
-      this._modifyBorderTopProperty();
+      this._updateTop();
     },
 
     _applyRightStyle : function() {
-      this._modifyBorderRightProperty();
+      this._updateRight();
     },
 
     _applyBottomStyle : function() {
-      this._modifyBorderBottomProperty();
+      this._updateBottom();
     },
 
     _applyLeftStyle : function() {
-      this._modifyBorderLeftProperty();
+      this._updateLeft();
     },
 
 
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      UPDATE ROUTINES
+    ---------------------------------------------------------------------------
+    */
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
-     */
-    _modifyBorderTopProperty : function(propValue, propOldValue, propData)
+    _updateTop : function()
     {
       this._needsCompilationTop = true;
-      this._useEnhancedCrossBrowserMode = null;
-
       this._sync("top");
-
-      return true;
     },
 
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
-     */
-    _modifyBorderRightProperty : function(propValue, propOldValue, propData)
+    _updateRight : function()
     {
       this._needsCompilationRight = true;
-      this._useEnhancedCrossBrowserMode = null;
-
       this._sync("right");
-
-      return true;
     },
 
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
-     */
-    _modifyBorderBottomProperty : function(propValue, propOldValue, propData)
+    _updateBottom : function()
     {
       this._needsCompilationBottom = true;
-      this._useEnhancedCrossBrowserMode = null;
-
       this._sync("bottom");
-
-      return true;
     },
 
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
-     */
-    _modifyBorderLeftProperty : function(propValue, propOldValue, propData)
+    _updateLeft : function()
     {
       this._needsCompilationLeft = true;
-      this._useEnhancedCrossBrowserMode = null;
-
       this._sync("left");
-
-      return true;
     },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     /**
@@ -777,81 +752,19 @@ qx.Class.define("qx.renderer.border.Border",
      * @type member
      * @return {var} TODOC
      */
-    getUseEnhancedCrossBrowserMode : function()
-    {
-      if (this._useEnhancedCrossBrowserMode == null) {
-        this._useEnhancedCrossBrowserMode = this._evalUseEnhancedCrossBrowserMode();
-      }
-
-      return this._useEnhancedCrossBrowserMode;
+    getUseEnhancedCrossBrowserMode : function() {
+      return this.getTopInnerColor() || this.getRightInnerColor() || this.getLeftInnerColor() || this.getBottomInnerColor();
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {Boolean} TODOC
-     */
-    _evalUseEnhancedCrossBrowserMode : function()
-    {
-      if (this.getTopWidth() == 2)
-      {
-        switch(this.getTopStyle())
-        {
-          case "outset":
-          case "inset":
-          case "groove":
-          case "ridge":
-            return true;
-        }
-      }
 
-      if (this.getRightWidth() == 2)
-      {
-        switch(this.getRightStyle())
-        {
-          case "outset":
-          case "inset":
-          case "groove":
-          case "ridge":
-            return true;
-        }
-      }
-
-      if (this.getBottomWidth() == 2)
-      {
-        switch(this.getBottomStyle())
-        {
-          case "outset":
-          case "inset":
-          case "groove":
-          case "ridge":
-            return true;
-        }
-      }
-
-      if (this.getLeftWidth() == 2)
-      {
-        switch(this.getLeftStyle())
-        {
-          case "outset":
-          case "inset":
-          case "groove":
-          case "ridge":
-            return true;
-        }
-      }
-
-      return false;
-    },
 
 
 
 
     /*
     ---------------------------------------------------------------------------
-      BORDER APPLY IMPLEMENTATION
+      APPLY/RESET IMPLEMENTATION
     ---------------------------------------------------------------------------
     */
 

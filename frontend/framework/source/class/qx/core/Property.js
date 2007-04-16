@@ -142,7 +142,9 @@ qx.Class.define("qx.core.Property",
       "Class"     : 'value != null && value.$$type === "Class"',
       "Mixin"     : 'value != null && value.$$type === "Mixin"',
       "Interface" : 'value != null && value.$$type === "Interface"',
-      "Theme"     : 'value != null && value.$$type === "Theme"'
+      "Theme"     : 'value != null && value.$$type === "Theme"',
+
+      "Color"     : 'typeof value === "string" && qx.util.ColorUtil.stringToRgb(value)'
     },
 
 
@@ -672,6 +674,10 @@ qx.Class.define("qx.core.Property",
             // Check value
             if (config.check !== undefined)
             {
+              if (config.nullable) {
+                code.add('if(value!==null)');
+              }
+
               // Inheritable properties always accept "inherit" as value
               if (config.inheritable) {
                 code.add('if(value!==qx.core.Property.$$inherit)');
