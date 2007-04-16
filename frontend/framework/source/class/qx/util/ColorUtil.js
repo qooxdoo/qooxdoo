@@ -24,25 +24,283 @@
 ************************************************************************ */
 
 /**
- * Methods to convert colors between ddiffernt color spaces.
+ * Methods to convert colors between different color spaces.
+ *
+ * TODO: Support for alpha alá RGBA
  */
 qx.Class.define("qx.util.ColorUtil",
 {
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
   statics :
   {
+    REGEXP :
+    {
+      hex3 : /^#([0-9a-f]{1})([0-9a-f]{1})([0-9a-f]{1})$/,
+      hex6 : /^#([0-9a-f]{1})([0-9a-f]{1})([0-9a-f]{1})([0-9a-f]{1})([0-9a-f]{1})([0-9a-f]{1})$/,
+      rgb : /^rgb\(\s*([0-9]{1,3}\.{0,1}[0-9]*)\s*,\s*([0-9]{1,3}\.{0,1}[0-9]*)\s*,\s*([0-9]{1,3}\.{0,1}[0-9]*)\s*\)$/
+    },
+
+    SYSTEM :
+    {
+      activeborder        : 1,
+      activecaption       : 1,
+      appworkspace        : 1,
+      background          : 1,
+      buttonface          : 1,
+      buttonhighlight     : 1,
+      buttonshadow        : 1,
+      buttontext          : 1,
+      captiontext         : 1,
+      graytext            : 1,
+      highlight           : 1,
+      highlighttext       : 1,
+      inactiveborder      : 1,
+      inactivecaption     : 1,
+      inactivecaptiontext : 1,
+      infobackground      : 1,
+      infotext            : 1,
+      menu                : 1,
+      menutext            : 1,
+      scrollbar           : 1,
+      threeddarkshadow    : 1,
+      threedface          : 1,
+      threedhighlight     : 1,
+      threedlightshadow   : 1,
+      threedshadow        : 1,
+      window              : 1,
+      windowframe         : 1,
+      windowtext          : 1
+    },
+
+    NAMED :
+    {
+      black       : [ 0, 0, 0 ],
+      silver      : [ 192, 192, 192 ],
+      gray        : [ 128, 128, 128 ],
+      white       : [ 255, 255, 255 ],
+      maroon      : [ 128, 0, 0 ],
+      red         : [ 255, 0, 0 ],
+      purple      : [ 128, 0, 128 ],
+      fuchsia     : [ 255, 0, 255 ],
+      green       : [ 0, 128, 0 ],
+      lime        : [ 0, 255, 0 ],
+      olive       : [ 128, 128, 0 ],
+      yellow      : [ 255, 255, 0 ],
+      navy        : [ 0, 0, 128 ],
+      blue        : [ 0, 0, 255 ],
+      teal        : [ 0, 128, 128 ],
+      aqua        : [ 0, 255, 255 ],
+
+      // Additional values
+      transparent : [ -1, -1, -1 ],
+      grey        : [ 128, 128, 128 ], // also define 'grey' as a language variant
+      magenta     : [ 255, 0, 255 ], // alias for fuchsia
+      orange      : [ 255, 165, 0 ],
+      brown       : [ 165, 42, 42 ]
+    },
+
+    /**
+     * CSS 3 colors (http://www.w3.org/TR/css3-color/#svg-color)
+     *
+     * This includes all classic HTML Color names (http://www.w3.org/TR/css3-color/#html4) and the <code>transparent</code> keyword.
+     */
+    EXTENDED :
+    {
+      transparent          : [ -1, -1, -1 ],
+      aliceblue            : [ 240, 248, 255 ],
+      antiquewhite         : [ 250, 235, 215 ],
+      aqua                 : [ 0, 255, 255 ],
+      aquamarine           : [ 127, 255, 212 ],
+      azure                : [ 240, 255, 255 ],
+      beige                : [ 245, 245, 220 ],
+      bisque               : [ 255, 228, 196 ],
+      black                : [ 0, 0, 0 ],
+      blanchedalmond       : [ 255, 235, 205 ],
+      blue                 : [ 0, 0, 255 ],
+      blueviolet           : [ 138, 43, 226 ],
+      brown                : [ 165, 42, 42 ],
+      burlywood            : [ 222, 184, 135 ],
+      cadetblue            : [ 95, 158, 160 ],
+      chartreuse           : [ 127, 255, 0 ],
+      chocolate            : [ 210, 105, 30 ],
+      coral                : [ 255, 127, 80 ],
+      cornflowerblue       : [ 100, 149, 237 ],
+      cornsilk             : [ 255, 248, 220 ],
+      crimson              : [ 220, 20, 60 ],
+      cyan                 : [ 0, 255, 255 ],
+      darkblue             : [ 0, 0, 139 ],
+      darkcyan             : [ 0, 139, 139 ],
+      darkgoldenrod        : [ 184, 134, 11 ],
+      darkgray             : [ 169, 169, 169 ],
+      darkgreen            : [ 0, 100, 0 ],
+      darkgrey             : [ 169, 169, 169 ],
+      darkkhaki            : [ 189, 183, 107 ],
+      darkmagenta          : [ 139, 0, 139 ],
+      darkolivegreen       : [ 85, 107, 47 ],
+      darkorange           : [ 255, 140, 0 ],
+      darkorchid           : [ 153, 50, 204 ],
+      darkred              : [ 139, 0, 0 ],
+      darksalmon           : [ 233, 150, 122 ],
+      darkseagreen         : [ 143, 188, 143 ],
+      darkslateblue        : [ 72, 61, 139 ],
+      darkslategray        : [ 47, 79, 79 ],
+      darkslategrey        : [ 47, 79, 79 ],
+      darkturquoise        : [ 0, 206, 209 ],
+      darkviolet           : [ 148, 0, 211 ],
+      deeppink             : [ 255, 20, 147 ],
+      deepskyblue          : [ 0, 191, 255 ],
+      dimgray              : [ 105, 105, 105 ],
+      dimgrey              : [ 105, 105, 105 ],
+      dodgerblue           : [ 30, 144, 255 ],
+      firebrick            : [ 178, 34, 34 ],
+      floralwhite          : [ 255, 250, 240 ],
+      forestgreen          : [ 34, 139, 34 ],
+      fuchsia              : [ 255, 0, 255 ],
+      gainsboro            : [ 220, 220, 220 ],
+      ghostwhite           : [ 248, 248, 255 ],
+      gold                 : [ 255, 215, 0 ],
+      goldenrod            : [ 218, 165, 32 ],
+      gray                 : [ 128, 128, 128 ],
+      green                : [ 0, 128, 0 ],
+      greenyellow          : [ 173, 255, 47 ],
+      grey                 : [ 128, 128, 128 ],
+      honeydew             : [ 240, 255, 240 ],
+      hotpink              : [ 255, 105, 180 ],
+      indianred            : [ 205, 92, 92 ],
+      indigo               : [ 75, 0, 130 ],
+      ivory                : [ 255, 255, 240 ],
+      khaki                : [ 240, 230, 140 ],
+      lavender             : [ 230, 230, 250 ],
+      lavenderblush        : [ 255, 240, 245 ],
+      lawngreen            : [ 124, 252, 0 ],
+      lemonchiffon         : [ 255, 250, 205 ],
+      lightblue            : [ 173, 216, 230 ],
+      lightcoral           : [ 240, 128, 128 ],
+      lightcyan            : [ 224, 255, 255 ],
+      lightgoldenrodyellow : [ 250, 250, 210 ],
+      lightgray            : [ 211, 211, 211 ],
+      lightgreen           : [ 144, 238, 144 ],
+      lightgrey            : [ 211, 211, 211 ],
+      lightpink            : [ 255, 182, 193 ],
+      lightsalmon          : [ 255, 160, 122 ],
+      lightseagreen        : [ 32, 178, 170 ],
+      lightskyblue         : [ 135, 206, 250 ],
+      lightslategray       : [ 119, 136, 153 ],
+      lightslategrey       : [ 119, 136, 153 ],
+      lightsteelblue       : [ 176, 196, 222 ],
+      lightyellow          : [ 255, 255, 224 ],
+      lime                 : [ 0, 255, 0 ],
+      limegreen            : [ 50, 205, 50 ],
+      linen                : [ 250, 240, 230 ],
+      magenta              : [ 255, 0, 255 ],
+      maroon               : [ 128, 0, 0 ],
+      mediumaquamarine     : [ 102, 205, 170 ],
+      mediumblue           : [ 0, 0, 205 ],
+      mediumorchid         : [ 186, 85, 211 ],
+      mediumpurple         : [ 147, 112, 219 ],
+      mediumseagreen       : [ 60, 179, 113 ],
+      mediumslateblue      : [ 123, 104, 238 ],
+      mediumspringgreen    : [ 0, 250, 154 ],
+      mediumturquoise      : [ 72, 209, 204 ],
+      mediumvioletred      : [ 199, 21, 133 ],
+      midnightblue         : [ 25, 25, 112 ],
+      mintcream            : [ 245, 255, 250 ],
+      mistyrose            : [ 255, 228, 225 ],
+      moccasin             : [ 255, 228, 181 ],
+      navajowhite          : [ 255, 222, 173 ],
+      navy                 : [ 0, 0, 128 ],
+      oldlace              : [ 253, 245, 230 ],
+      olive                : [ 128, 128, 0 ],
+      olivedrab            : [ 107, 142, 35 ],
+      orange               : [ 255, 165, 0 ],
+      orangered            : [ 255, 69, 0 ],
+      orchid               : [ 218, 112, 214 ],
+      palegoldenrod        : [ 238, 232, 170 ],
+      palegreen            : [ 152, 251, 152 ],
+      paleturquoise        : [ 175, 238, 238 ],
+      palevioletred        : [ 219, 112, 147 ],
+      papayawhip           : [ 255, 239, 213 ],
+      peachpuff            : [ 255, 218, 185 ],
+      peru                 : [ 205, 133, 63 ],
+      pink                 : [ 255, 192, 203 ],
+      plum                 : [ 221, 160, 221 ],
+      powderblue           : [ 176, 224, 230 ],
+      purple               : [ 128, 0, 128 ],
+      red                  : [ 255, 0, 0 ],
+      rosybrown            : [ 188, 143, 143 ],
+      royalblue            : [ 65, 105, 225 ],
+      saddlebrown          : [ 139, 69, 19 ],
+      salmon               : [ 250, 128, 114 ],
+      sandybrown           : [ 244, 164, 96 ],
+      seagreen             : [ 46, 139, 87 ],
+      seashell             : [ 255, 245, 238 ],
+      sienna               : [ 160, 82, 45 ],
+      silver               : [ 192, 192, 192 ],
+      skyblue              : [ 135, 206, 235 ],
+      slateblue            : [ 106, 90, 205 ],
+      slategray            : [ 112, 128, 144 ],
+      slategrey            : [ 112, 128, 144 ],
+      snow                 : [ 255, 250, 250 ],
+      springgreen          : [ 0, 255, 127 ],
+      steelblue            : [ 70, 130, 180 ],
+      tan                  : [ 210, 180, 140 ],
+      teal                 : [ 0, 128, 128 ],
+      thistle              : [ 216, 191, 216 ],
+      tomato               : [ 255, 99, 71 ],
+      turquoise            : [ 64, 224, 208 ],
+      violet               : [ 238, 130, 238 ],
+      wheat                : [ 245, 222, 179 ],
+      white                : [ 255, 255, 255 ],
+      whitesmoke           : [ 245, 245, 245 ],
+      yellow               : [ 255, 255, 0 ],
+      yellowgreen          : [ 154, 205, 50 ]
+    },
+
+
+    string2rgb : function()
+    {
+      var red = null;
+      var green = null;
+      var blue = null;
+
+      if (this.EXTENDED[str])
+      {
+        return this.EXTENDED[str];
+      }
+      else if (qx.manager.object.ColorManager.getInstance().isThemedColor(str))
+      {
+        return qx.manager.object.ColorManager.getInstance().getThemedColorRGB(str);
+      }
+      else if (this.REGEXP.rgb.test(str))
+      {
+        red = parseInt(RegExp.$1);
+        green = parseInt(RegExp.$2);
+        blue = parseInt(RegExp.$3);
+      }
+      else if (this.REGEXP.hex3.test(str))
+      {
+        // multiply each with 16 + 1
+        red = parseInt(RegExp.$1, 16) * 17;
+        green = parseInt(RegExp.$2, 16) * 17;
+        blue = parseInt(RegExp.$3, 16) * 17;
+      }
+      else if (this.REGEXP.hex6.test(str))
+      {
+        red = (parseInt(RegExp.$1, 16) * 16) + parseInt(RegExp.$2, 16);
+        green = (parseInt(RegExp.$3, 16) * 16) + parseInt(RegExp.$4, 16);
+        blue = (parseInt(RegExp.$5, 16) * 16) + parseInt(RegExp.$6, 16);
+      }
+
+      return [ red, green, blue ];
+    },
+
+
     /**
      * Convert RGB colors to HSB
      *
      * @type static
-     * @param vRed {Number} Red value. Range: 0..255
-     * @param vGreen {Number} Green value. Range: 0..255
-     * @param vBlue {Number} Blue value. Range: 0..255
+     * @param red {Number} Red value. Range: 0..255
+     * @param green {Number} Green value. Range: 0..255
+     * @param blue {Number} Blue value. Range: 0..255
      * @return {Map} Map with the keys following keys:
      *       <ul>
      *         <li>'hue': range 0..360</li>
@@ -50,59 +308,62 @@ qx.Class.define("qx.util.ColorUtil",
      *         <li>'brightness': range 0..100</li>
      *       </ul>
      */
-    rgb2hsb : function(vRed, vGreen, vBlue)
+    rgb2hsb : function(red, green, blue)
     {
-      var vHue, vSaturation, vBrightness;
+      var hue, saturation, brightness;
 
-      vRed = parseFloat(vRed);
-      vGreen = parseFloat(vGreen);
-      vBlue = parseFloat(vBlue);
+      red = parseFloat(red);
+      green = parseFloat(green);
+      blue = parseFloat(blue);
 
-      var cmax = (vRed > vGreen) ? vRed : vGreen;
+      var cmax = (red > green) ? red : green;
 
-      if (vBlue > cmax) {
-        cmax = vBlue;
+      if (blue > cmax) {
+        cmax = blue;
       }
 
-      var cmin = (vRed < vGreen) ? vRed : vGreen;
+      var cmin = (red < green) ? red : green;
 
-      if (vBlue < cmin) {
-        cmin = vBlue;
+      if (blue < cmin) {
+        cmin = blue;
       }
 
-      vBrightness = cmax / 255.0;
+      brightness = cmax / 255.0;
 
       if (cmax != 0) {
-        vSaturation = (cmax - cmin) / cmax;
+        saturation = (cmax - cmin) / cmax;
       } else {
-        vSaturation = 0;
+        saturation = 0;
       }
 
-      if (vSaturation == 0) {
-        vHue = 0;
+      if (saturation == 0) {
+        hue = 0;
       }
       else
       {
-        var redc = (cmax - vRed) / (cmax - cmin);
-        var greenc = (cmax - vGreen) / (cmax - cmin);
-        var bluec = (cmax - vBlue) / (cmax - cmin);
+        var redc = (cmax - red) / (cmax - cmin);
+        var greenc = (cmax - green) / (cmax - cmin);
+        var bluec = (cmax - blue) / (cmax - cmin);
 
-        if (vRed == cmax) {
-          vHue = bluec - greenc;
-        } else if (vGreen == cmax) {
-          vHue = 2.0 + redc - bluec;
+        if (red == cmax) {
+          hue = bluec - greenc;
+        } else if (green == cmax) {
+          hue = 2.0 + redc - bluec;
         } else {
-          vHue = 4.0 + greenc - redc;
+          hue = 4.0 + greenc - redc;
         }
 
-        vHue = vHue / 6.0;
-        if (vHue < 0) vHue = vHue + 1.0;
+        hue = hue / 6.0;
+
+        if (hue < 0) {
+          hue = hue + 1.0;
+        }
       }
 
       return {
-        hue        : Math.round(vHue * 360),
-        saturation : Math.round(vSaturation * 100),
-        brightness : Math.round(vBrightness * 100)
+        hue        : Math.round(hue * 360),
+        saturation : Math.round(saturation * 100),
+        brightness : Math.round(brightness * 100)
       };
     },
 
@@ -111,9 +372,9 @@ qx.Class.define("qx.util.ColorUtil",
      * Convert HSB colors to RGB
      *
      * @type static
-     * @param vHue {Number} Hue value. Range 0..360
-     * @param vSaturation {Number} Saturation value. Range 0..100
-     * @param vBrightness {Number} Brightness value. Range 0..100
+     * @param hue {Number} Hue value. Range 0..360
+     * @param saturation {Number} Saturation value. Range 0..100
+     * @param brightness {Number} Brightness value. Range 0..100
      * @return {Map} Map the the following keys:
      *       <ul>
      *         <li>'red': range 0..255</li>
@@ -121,78 +382,79 @@ qx.Class.define("qx.util.ColorUtil",
      *         <li>'blue': range 0..255</li>
      *       </ul>
      */
-    hsb2rgb : function(vHue, vSaturation, vBrightness)
+    hsb2rgb : function(hue, saturation, brightness)
     {
       var i, f, p, q, t, vReturn;
 
-      vHue = parseFloat(vHue / 360);
-      vSaturation = parseFloat(vSaturation / 100);
-      vBrightness = parseFloat(vBrightness / 100);
+      hue = parseFloat(hue / 360);
+      saturation = parseFloat(saturation / 100);
+      brightness = parseFloat(brightness / 100);
 
-      if (vHue >= 1.0) vHue %= 1.0;
-      if (vSaturation > 1.0) vSaturation = 1.0;
-      if (vBrightness > 1.0) vBrightness = 1.0;
+      if (hue >= 1.0) hue %= 1.0;
+      if (saturation > 1.0) saturation = 1.0;
+      if (brightness > 1.0) brightness = 1.0;
 
-      var tov = Math.floor(255 * vBrightness);
+      var tov = Math.floor(255 * brightness);
 
-      var vReturn = {};
+      var rgb = {};
 
-      if (vSaturation == 0.0) {
-        vReturn.red = vReturn.green = vReturn.blue = tov;
+      if (saturation == 0.0)
+      {
+        rgb.red = rgb.green = rgb.blue = tov;
       }
       else
       {
-        vHue *= 6.0;
+        hue *= 6.0;
 
-        i = Math.floor(vHue);
+        i = Math.floor(hue);
 
-        f = vHue - i;
+        f = hue - i;
 
-        p = Math.floor(tov * (1.0 - vSaturation));
-        q = Math.floor(tov * (1.0 - (vSaturation * f)));
-        t = Math.floor(tov * (1.0 - (vSaturation * (1.0 - f))));
+        p = Math.floor(tov * (1.0 - saturation));
+        q = Math.floor(tov * (1.0 - (saturation * f)));
+        t = Math.floor(tov * (1.0 - (saturation * (1.0 - f))));
 
         switch(i)
         {
           case 0:
-            vReturn.red = tov;
-            vReturn.green = t;
-            vReturn.blue = p;
+            rgb.red = tov;
+            rgb.green = t;
+            rgb.blue = p;
             break;
 
           case 1:
-            vReturn.red = q;
-            vReturn.green = tov;
-            vReturn.blue = p;
+            rgb.red = q;
+            rgb.green = tov;
+            rgb.blue = p;
             break;
 
           case 2:
-            vReturn.red = p;
-            vReturn.green = tov;
-            vReturn.blue = t;
+            rgb.red = p;
+            rgb.green = tov;
+            rgb.blue = t;
             break;
 
           case 3:
-            vReturn.red = p;
-            vReturn.green = q;
-            vReturn.blue = tov;
+            rgb.red = p;
+            rgb.green = q;
+            rgb.blue = tov;
             break;
 
           case 4:
-            vReturn.red = t;
-            vReturn.green = p;
-            vReturn.blue = tov;
+            rgb.red = t;
+            rgb.green = p;
+            rgb.blue = tov;
             break;
 
           case 5:
-            vReturn.red = tov;
-            vReturn.green = p;
-            vReturn.blue = q;
+            rgb.red = tov;
+            rgb.green = p;
+            rgb.blue = q;
             break;
         }
       }
 
-      return vReturn;
+      return rgb;
     }
   }
 });
