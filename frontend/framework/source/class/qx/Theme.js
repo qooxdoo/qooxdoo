@@ -90,12 +90,16 @@ qx.Class.define("qx.Theme",
       theme.basename = qx.Class.createNamespace(name, theme);;
 
       // Register to managers
-      if (theme.appearances) {
-        qx.manager.object.AppearanceManager.getInstance().registerAppearanceTheme(theme);
-      }
-
       if (theme.colors) {
         qx.manager.object.ColorManager.getInstance().registerColorTheme(theme);
+      }
+
+      if (theme.borders) {
+        qx.manager.object.BorderManager.getInstance().registerBorderTheme(theme);
+      }
+
+      if (theme.appearances) {
+        qx.manager.object.AppearanceManager.getInstance().registerAppearanceTheme(theme);
       }
 
       if (theme.widgets) {
@@ -219,7 +223,7 @@ qx.Class.define("qx.Theme",
         }
 
         // Validate maps
-        var maps = [ "colors", "icons", "widgets", "appearances" ];
+        var maps = [ "colors", "borders", "icons", "widgets", "appearances" ];
         for (var i=0, l=maps.length; i<l; i++)
         {
           var key = maps[i];
