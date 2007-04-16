@@ -71,28 +71,30 @@ qx.Class.define("qx.ui.component.ColorPopup",
   {
     value :
     {
-      nullable : true
+      nullable : true,
+      apply : "_modifyValue",
+      event : "changeValue"
     },
 
     red :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 0
+      check : "Number",
+      init : 0,
+      event : "changeRed"
     },
 
     green :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 0
+      check : "Number",
+      init : 0,
+      event : "changeGreen"
     },
 
     blue :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 0
+      check : "Number",
+      init : 0,
+      event : "changeBlue"
     }
   },
 
@@ -309,9 +311,10 @@ qx.Class.define("qx.ui.component.ColorPopup",
       }
       else
       {
-        this.setRed(propValue.getRed());
-        this.setGreen(propValue.getGreen());
-        this.setBlue(propValue.getBlue());
+        var rgb = qx.util.ColorUtil.stringToRgb(propValue);
+        this.setRed(rgb[0]);
+        this.setGreen(rgb[1]);
+        this.setBlue(rgb[2]);
       }
 
       this._selectedPreview.setBackgroundColor(propValue);
@@ -341,9 +344,6 @@ qx.Class.define("qx.ui.component.ColorPopup",
       if (!newValue) {
         return;
       }
-
-      // use style compatible value (like the incoming value from the user or as RGB value string)
-      newValue = newValue.getStyle();
 
       // Modifying incoming table
       var vIndex = vRecentTable.indexOf(newValue);
@@ -447,7 +447,7 @@ qx.Class.define("qx.ui.component.ColorPopup",
     _onColorSelectorOk : function(e)
     {
       var sel = this._colorSelector;
-      this.setValue(qx.util.ColorUtil.rgb2string([sel.getRed(), sel.getGreen(), sel.getBlue()]));
+      this.setValue(qx.util.ColorUtil.rgbToRgbString([sel.getRed(), sel.getGreen(), sel.getBlue()]));
       this._colorSelectorWindow.close();
     },
 
