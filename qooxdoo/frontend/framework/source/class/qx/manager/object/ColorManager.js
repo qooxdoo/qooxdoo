@@ -131,7 +131,10 @@ qx.Class.define("qx.manager.object.ColorManager",
       }
 
       // Finally executing given callback
-      obj[callback](value ? this.__anyColor2Style(value) : null);
+      // Themed colors are able to overwrite the values of named and system colors
+      // Simple return of all other named, system, hex, RGB strings
+      // Validation is not done here.
+      obj[callback](value ? this.__themedColors[value] || value : null);
     },
 
     getThemedColorRGB : function(value) {
@@ -153,22 +156,6 @@ qx.Class.define("qx.manager.object.ColorManager",
       return rgb ? "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")" : null;
     },
 
-    __anyColor2Style : function(value)
-    {
-      // Themed colors are able to overwrite the values of named and system colors
-      if (this.__themedColors[value]) {
-        return this.__themedColors[value];
-      }
-
-      // Simple return of all named or system colors
-      if (qx.util.ColorUtil.NAMED[value] || qx.util.ColorUtil.SYSTEM[value]) {
-        return value;
-      }
-
-      // Hex, RGB strings or other allowed values.
-      // Validation is not done here.
-      return value;
-    },
 
 
 
