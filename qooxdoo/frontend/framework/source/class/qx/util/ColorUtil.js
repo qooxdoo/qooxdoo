@@ -26,7 +26,7 @@
 /**
  * Methods to convert colors between different color spaces.
  *
- * TODO: Support for alpha alá RGBA
+ * TODO: Support for alpha ala RGBA
  */
 qx.Class.define("qx.util.ColorUtil",
 {
