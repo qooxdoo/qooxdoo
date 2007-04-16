@@ -109,7 +109,7 @@ qx.Class.define("qx.renderer.border.Border",
     fromString : function(vDefString)
     {
       var border = new qx.renderer.border.Border;
-      var parts = vDefString.split(/\style+/);
+      var parts = vDefString.split(/\s+/);
       var part, temp;
 
       for (var i=0; i<parts.length; i++)
