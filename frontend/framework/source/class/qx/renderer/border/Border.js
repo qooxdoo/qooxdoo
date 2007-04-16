@@ -70,29 +70,6 @@ qx.Class.define("qx.renderer.border.Border",
 
   statics :
   {
-    nativeStyles :
-    {
-      "groove" : 1,
-      "ridge" : 1,
-      "inset" : 1,
-      "outset" : 1,
-      "solid" : 1,
-      "dotted" : 1,
-      "dashed" : 1,
-      "double" : 1,
-      "none" : 1
-    },
-
-    themedStyles :
-    {
-      "outset" : 1,
-      "inset" : 1,
-      "groove" : 1,
-      "ridge" : 1
-    },
-
-
-
     /*
     ---------------------------------------------------------------------------
       UTILITY
@@ -706,6 +683,7 @@ qx.Class.define("qx.renderer.border.Border",
 
     _updateTop : function()
     {
+      this.debug("Update top...");
       this._needsCompilationTop = true;
       this._sync("top");
     },
