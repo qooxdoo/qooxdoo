@@ -38,23 +38,23 @@ qx.Class.define("qx.renderer.border.Border",
   *****************************************************************************
   */
 
-  construct : function(vWidth, vStyle, vColor)
+  construct : function(width, style, color)
   {
     this.base(arguments);
 
     this._themedEdges = {};
     this._initCache();
 
-    if (vWidth != null)
+    if (width != null)
     {
-      this.setWidth(vWidth);
+      this.setWidth(width);
 
-      if (vStyle != null) {
-        this.setStyle(vStyle);
+      if (style != null) {
+        this.setStyle(style);
       }
 
-      if (vColor != null) {
-        this.setColor(vColor);
+      if (color != null) {
+        this.setColor(color);
       }
     }
   },
@@ -108,15 +108,15 @@ qx.Class.define("qx.renderer.border.Border",
      */
     fromString : function(vDefString)
     {
-      var vBorder = new qx.renderer.border.Border;
-      var vAllParts = vDefString.split(/\s+/);
-      var vPart, vTemp;
+      var border = new qx.renderer.border.Border;
+      var parts = vDefString.split(/\s+/);
+      var part, temp;
 
-      for (var i=0; i<vAllParts.length; i++)
+      for (var i=0; i<parts.length; i++)
       {
-        vPart = vAllParts[i];
+        part = parts[i];
 
-        switch(vPart)
+        switch(part)
         {
           case "groove":
           case "ridge":
@@ -127,26 +127,26 @@ qx.Class.define("qx.renderer.border.Border",
           case "dashed":
           case "double":
           case "none":
-            vBorder.setStyle(vPart);
+            border.setStyle(part);
             break;
 
           default:
-            vTemp = parseFloat(vPart);
+            temp = parseFloat(part);
 
-            if (vTemp == vPart || qx.lang.String.contains(vPart, "px"))
+            if (temp == part || qx.lang.String.contains(part, "px"))
             {
-              vBorder.setWidth(vTemp);
+              border.setWidth(temp);
             }
             else
             {
-              vBorder.setColor(vPart);
+              border.setColor(part);
             }
 
             break;
         }
       }
 
-      return vBorder;
+      return border;
     },
 
 
@@ -212,25 +212,24 @@ qx.Class.define("qx.renderer.border.Border",
      * TODOC
      *
      * @type static
-     * @param o {var} TODOC
+     * @param obj {var} TODOC
      * @return {void}
-     * @signature function(o)
+     * @signature function(obj)
      */
     resetBorderX : qx.core.Variant.select("qx.client",
     {
-      "gecko" : function(o)
+      "gecko" : function(obj)
       {
-        var s = o._style;
+        var s = obj._style;
         s.borderLeft = s.borderRight = s.MozBorderLeftColors = s.MozBorderRightColors = "";
       },
 
-      "default" : function(o)
+      "default" : function(obj)
       {
-        var s = o._style;
+        var s = obj._style;
         s.borderLeft = s.borderRight = "0px none";
 
-        s = o._borderStyle;
-
+        s = obj._innerStyle;
         if (s) {
           s.borderLeft = s.borderRight = "0px none";
         }
@@ -242,25 +241,24 @@ qx.Class.define("qx.renderer.border.Border",
      * TODOC
      *
      * @type static
-     * @param o {var} TODOC
+     * @param obj {var} TODOC
      * @return {void}
-     * @signature function(o)
+     * @signature function(obj)
      */
     resetBorderY : qx.core.Variant.select("qx.client",
     {
-      "gecko" : function(o)
+      "gecko" : function(obj)
       {
-        var s = o._style;
+        var s = obj._style;
         s.borderTop = s.borderBottom = s.MozBorderTopColors = s.MozBorderBottomColors = "";
       },
 
-      "default" : function(o)
+      "default" : function(obj)
       {
-        var s = o._style;
+        var s = obj._style;
         s.borderTop = s.borderBottom = "0px none";
 
-        s = o._borderStyle;
-
+        s = obj._innerStyle;
         if (s) {
           s.borderTop = s.borderBottom = "0px none";
         }
@@ -471,16 +469,16 @@ qx.Class.define("qx.renderer.border.Border",
      * TODOC
      *
      * @type member
-     * @param o {Object} TODOC
+     * @param obj {Object} TODOC
      * @return {void}
      */
-    addListenerWidget : function(o)
+    addListenerWidget : function(obj)
     {
       if (!this._dependentObjects) {
         this._dependentObjects = {};
       }
 
-      this._dependentObjects[o.toHashCode()] = o;
+      this._dependentObjects[obj.toHashCode()] = obj;
     },
 
 
@@ -488,13 +486,13 @@ qx.Class.define("qx.renderer.border.Border",
      * TODOC
      *
      * @type member
-     * @param o {Object} TODOC
+     * @param obj {Object} TODOC
      * @return {void}
      */
-    removeListenerWidget : function(o)
+    removeListenerWidget : function(obj)
     {
       if (this._dependentObjects) {
-        delete this._dependentObjects[o.toHashCode()];
+        delete this._dependentObjects[obj.toHashCode()];
       }
     },
 
@@ -503,25 +501,25 @@ qx.Class.define("qx.renderer.border.Border",
      * TODOC
      *
      * @type member
-     * @param vEdge {var} TODOC
+     * @param edge {var} TODOC
      * @return {void}
      */
-    _sync : function(vEdge)
+    _sync : function(edge)
     {
-      var vAll = this._dependentObjects;
+      var deps = this._dependentObjects;
 
-      if (!vAll) {
+      if (!deps) {
         return;
       }
 
-      var vCurrent;
+      var current;
 
-      for (vKey in vAll)
+      for (key in deps)
       {
-        vCurrent = vAll[vKey];
+        current = deps[key];
 
-        if (vCurrent.isCreated()) {
-          vCurrent._updateBorder(vEdge);
+        if (current.isCreated()) {
+          current._updateBorder(edge);
         }
       }
     },
@@ -597,25 +595,25 @@ qx.Class.define("qx.renderer.border.Border",
      * TODOC
      *
      * @type member
-     * @param vWidth {var} TODOC
-     * @param vStyle {var} TODOC
-     * @param vColor {var} TODOC
+     * @param width {var} TODOC
+     * @param style {var} TODOC
+     * @param color {var} TODOC
      * @return {string | var} TODOC
      */
-    _generateDefString : function(vWidth, vStyle, vColor)
+    _generateDefString : function(width, style, color)
     {
-      if (typeof vWidth !== "number" || vWidth < 0) {
+      if (typeof width !== "number" || width < 0) {
         return "";
       }
 
-      var vArr = [ vWidth + "px" ];
+      var vArr = [ width + "px" ];
 
-      if (vStyle != null) {
-        vArr.push(vStyle);
+      if (style != null) {
+        vArr.push(style);
       }
 
-      if (vColor != null) {
-        vArr.push(vColor);
+      if (color != null) {
+        vArr.push(color);
       }
 
       return vArr.join(" ");
@@ -772,13 +770,13 @@ qx.Class.define("qx.renderer.border.Border",
      * TODOC
      *
      * @type member
-     * @param o {Object} TODOC
+     * @param obj {Object} TODOC
      * @return {void}
      */
-    _applyWidget : function(o)
+    _applyWidget : function(obj)
     {
-      this.applyWidgetX(o);
-      this.applyWidgetY(o);
+      this.applyWidgetX(obj);
+      this.applyWidgetY(obj);
     },
 
 
@@ -786,13 +784,13 @@ qx.Class.define("qx.renderer.border.Border",
      * TODOC
      *
      * @type member
-     * @param o {Object} TODOC
+     * @param obj {Object} TODOC
      * @return {void}
      */
-    _resetWidget : function(o)
+    _resetWidget : function(obj)
     {
-      this._resetWidgetX(o);
-      this._resetWidgetY(o);
+      this._resetWidgetX(obj);
+      this._resetWidgetY(obj);
     },
 
 
@@ -800,11 +798,11 @@ qx.Class.define("qx.renderer.border.Border",
      * TODOC
      *
      * @type member
-     * @param o {Object} TODOC
+     * @param obj {Object} TODOC
      * @return {var} TODOC
      */
-    _resetWidgetX : function(o) {
-      return qx.renderer.border.Border.resetBorderX(o);
+    _resetWidgetX : function(obj) {
+      return qx.renderer.border.Border.resetBorderX(obj);
     },
 
 
@@ -812,11 +810,11 @@ qx.Class.define("qx.renderer.border.Border",
      * TODOC
      *
      * @type member
-     * @param o {Object} TODOC
+     * @param obj {Object} TODOC
      * @return {var} TODOC
      */
-    _resetWidgetY : function(o) {
-      return qx.renderer.border.Border.resetBorderY(o);
+    _resetWidgetY : function(obj) {
+      return qx.renderer.border.Border.resetBorderY(obj);
     },
 
 
@@ -824,10 +822,10 @@ qx.Class.define("qx.renderer.border.Border",
      * TODOC
      *
      * @type member
-     * @param vObject {var} TODOC
+     * @param obj {var} TODOC
      * @return {void}
      */
-    applyWidgetXCommon : function(vObject)
+    applyWidgetXCommon : function(obj)
     {
       if (this._needsCompilationLeft) {
         this._compileLeft();
@@ -838,19 +836,19 @@ qx.Class.define("qx.renderer.border.Border",
       }
 
       for (var i in this._defsX) {
-        vObject._style[i] = this._defsX[i];
+        obj._style[i] = this._defsX[i];
       }
 
       if (qx.core.Variant.isSet("qx.client", "gecko")) { /* empty */ } else
       {
         if (this.getUseEnhancedCrossBrowserMode()) {
-          vObject._createElementForEnhancedBorder();
+          obj._createElementForEnhancedBorder();
         }
 
-        if (vObject._borderStyle)
+        if (obj._innerStyle)
         {
           for (var i in this._enhancedDefsX) {
-            vObject._borderStyle[i] = this._enhancedDefsX[i];
+            obj._innerStyle[i] = this._enhancedDefsX[i];
           }
         }
       }
@@ -861,10 +859,10 @@ qx.Class.define("qx.renderer.border.Border",
      * TODOC
      *
      * @type member
-     * @param vObject {var} TODOC
+     * @param obj {var} TODOC
      * @return {void}
      */
-    applyWidgetYCommon : function(vObject)
+    applyWidgetYCommon : function(obj)
     {
       if (this._needsCompilationTop) {
         this._compileTop();
@@ -875,19 +873,19 @@ qx.Class.define("qx.renderer.border.Border",
       }
 
       for (var i in this._defsY) {
-        vObject._style[i] = this._defsY[i];
+        obj._style[i] = this._defsY[i];
       }
 
       if (qx.core.Variant.isSet("qx.client", "gecko")) { /* empty */ } else
       {
         if (this.getUseEnhancedCrossBrowserMode()) {
-          vObject._createElementForEnhancedBorder();
+          obj._createElementForEnhancedBorder();
         }
 
-        if (vObject._borderStyle)
+        if (obj._innerStyle)
         {
           for (var i in this._enhancedDefsY) {
-            vObject._borderStyle[i] = this._enhancedDefsY[i];
+            obj._innerStyle[i] = this._enhancedDefsY[i];
           }
         }
       }
@@ -898,27 +896,27 @@ qx.Class.define("qx.renderer.border.Border",
      * TODOC
      *
      * @type member
-     * @param vObject {var} TODOC
+     * @param obj {var} TODOC
      * @return {void}
-     * @signature function(vObject)
+     * @signature function(obj)
      */
     applyWidgetX : qx.core.Variant.select("qx.client",
     {
       //alias will be set in defer
       "gecko" : null,
 
-      "default" : function(vObject)
+      "default" : function(obj)
       {
-        this.applyWidgetXCommon(vObject);
+        this.applyWidgetXCommon(obj);
 
         if (this.getUseEnhancedCrossBrowserMode()) {
-          vObject._createElementForEnhancedBorder();
+          obj._createElementForEnhancedBorder();
         }
 
-        if (vObject._borderStyle)
+        if (obj._innerStyle)
         {
           for (var i in this._enhancedDefsX) {
-            vObject._borderStyle[i] = this._enhancedDefsX[i];
+            obj._innerStyle[i] = this._enhancedDefsX[i];
           }
         }
       }
@@ -929,27 +927,27 @@ qx.Class.define("qx.renderer.border.Border",
      * TODOC
      *
      * @type member
-     * @param vObject {var} TODOC
+     * @param obj {var} TODOC
      * @return {void}
-     * @signature function(vObject)
+     * @signature function(obj)
      */
     applyWidgetY : qx.core.Variant.select("qx.client",
     {
       //alias will be set in defer
       "gecko" : null,
 
-      "default" : function(vObject)
+      "default" : function(obj)
       {
-        this.applyWidgetYCommon(vObject);
+        this.applyWidgetYCommon(obj);
 
         if (this.getUseEnhancedCrossBrowserMode()) {
-          vObject._createElementForEnhancedBorder();
+          obj._createElementForEnhancedBorder();
         }
 
-        if (vObject._borderStyle)
+        if (obj._innerStyle)
         {
           for (var i in this._enhancedDefsY) {
-            vObject._borderStyle[i] = this._enhancedDefsY[i];
+            obj._innerStyle[i] = this._enhancedDefsY[i];
           }
         }
       }
@@ -960,20 +958,20 @@ qx.Class.define("qx.renderer.border.Border",
      * TODOC
      *
      * @type member
-     * @param vWidth {var} TODOC
-     * @param vStyle {var} TODOC
-     * @param vEdge {var} TODOC
+     * @param width {var} TODOC
+     * @param style {var} TODOC
+     * @param edge {var} TODOC
      * @return {void}
-     * @signature function(vWidth, vStyle, vEdge)
+     * @signature function(width, style, edge)
      */
     _generateMozColorDefString : qx.core.Variant.select("qx.client",
     {
-      "gecko" : function(vWidth, vStyle, vEdge)
+      "gecko" : function(width, style, edge)
       {
         try
         {
           try {
-            var a = qx.renderer.border.Border.data[vWidth][vStyle][vEdge];
+            var a = qx.renderer.border.Border.data[width][style][edge];
           } catch(ex) {}
 
           if (typeof a === "object")
