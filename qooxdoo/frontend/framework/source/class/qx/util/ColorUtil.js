@@ -269,6 +269,50 @@ qx.Class.define("qx.util.ColorUtil",
 
 
     /**
+     * Wether the incoming value is a named color.
+     *
+     * @param value {String} the color value to test
+     * @return {Boolean} true if the color is a named color
+     */
+    isNamedColor : function(value) {
+      return this.NAMED[value] !== undefined;
+    },
+
+
+    /**
+     * Wether the incoming value is a extended named color.
+     *
+     * @param value {String} the color value to test
+     * @return {Boolean} true if the color is a extended named color
+     */
+    isExtendedColor : function(value) {
+      return this.EXTENDED[value] !== undefined;
+    },
+
+
+    /**
+     * Wether the incoming value is a system color.
+     *
+     * @param value {String} the color value to test
+     * @return {Boolean} true if the color is a system color
+     */
+    isSystemColor : function(value) {
+      return this.SYSTEM[value] !== undefined;
+    },
+
+
+    /**
+     * Wether the incoming value is a themed color.
+     *
+     * @param value {String} the color value to test
+     * @return {Boolean} true if the color is a themed color
+     */
+    isThemedColor : function(value) {
+      return qx.object.manager.ColorManager.getInstance().isThemedColor(value);
+    },
+
+
+    /**
      * Try to convert a incoming string to an RGB array.
      * Supports themed, named and system colors, but also RGB strings,
      * hex3 and hex6 values.
@@ -280,15 +324,15 @@ qx.Class.define("qx.util.ColorUtil",
      */
     stringToRgb : function(str)
     {
-      if (qx.manager.object.ColorManager.getInstance().isThemedColor(str))
+      if (this.isThemedColor(str))
       {
-        return qx.manager.object.ColorManager.getInstance().getThemedColorRGB(str);
+        return qx.manager.object.ColorManager.getInstance().themedColorToRgb(str);
       }
-      else if (this.NAMED[str])
+      else if (this.isNamedColor(str))
       {
         return this.NAMED[str];
       }
-      else if (this.SYSTEM[str])
+      else if (this.isSystemColor(str))
       {
         throw new Error("Could not convert system colors to RGB: " + value);
       }
