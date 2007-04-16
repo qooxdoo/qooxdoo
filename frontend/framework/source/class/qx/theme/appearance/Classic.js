@@ -38,11 +38,107 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
   borders :
   {
+    "black" :
+    {
+      width : 1,
+      style : "solid",
+      color : "black"
+    },
+
+    "white" :
+    {
+      width : 1,
+      style : "solid",
+      color : "white"
+    },
+
+    "shadow" :
+    {
+      width : 1,
+      style : "solid",
+      color : "threedshadow"
+    },
+
+    "lightShadow" :
+    {
+      width : 1,
+      style : "solid",
+      color : "threedlightshadow"
+    },
+
+    "info" :
+    {
+      width : 1,
+      style : "solid",
+      color : "infotext"
+    },
+
+    "none" :
+    {
+      width : 0,
+      style : "none"
+    },
+
+    "inset" :
+    {
+      width : 2,
+      style : "inset",
+      color : [ "threedshadow", "threedhighlight", "threedhighlight", "threedshadow" ],
+      innerColor : [ "threeddarkshadow", "threedlightshadow", "threedlightshadow", "threeddarkshadow" ]
+    },
+
     "outset" :
     {
       width : 2,
-      color : [ "black", "gray", "black", "gray" ],
-      innerColor : [ "gray", "white", "gray", "white" ]
+      style : "outset",
+      color : [ "threedlightshadow", "threeddarkshadow", "threeddarkshadow", "threedlightshadow" ],
+      innerColor : [ "threedhighlight", "threedshadow", "threedshadow", "threedhighlight" ]
+    },
+
+    "groove" :
+    {
+      width : 2,
+      style : "groove",
+      color : [ "threedshadow", "threedhighlight", "threedhighlight", "threedshadow" ],
+      innerColor : [ "threedhighlight", "threedshadow", "threedshadow", "threedhighlight" ]
+    },
+
+    "ridge" :
+    {
+      width : 2,
+      style : "ridge",
+      color : [ "threedhighlight", "threedshadow", "threedshadow", "threedhighlight" ],
+      innerColor : [ "threedshadow", "threedhighlight", "threedhighlight", "threedshadow" ]
+    },
+
+    "thinInset" :
+    {
+      width : 1,
+      style : "inset",
+      color : [ "threedshadow", "threedhighlight", "threedhighlight", "threedshadow" ]
+    },
+
+    "thinOutset" :
+    {
+      width : 1,
+      style : "outset",
+      color : [ "threedhighlight", "threedshadow", "threedshadow", "threedhighlight" ]
+    },
+
+    "verticalDivider" :
+    {
+      topWidth : 1,
+      bottomWidth : 1,
+      style : "inset",
+      color : [ "threedshadow", null, "threedhighlight", null ]
+    },
+
+    "horizontalDivider" :
+    {
+      leftWidth : 1,
+      rightWidth : 1,
+      style : "inset",
+      color : [ null, "threedhighlight", null, "threedshadow" ]
     }
   },
 
