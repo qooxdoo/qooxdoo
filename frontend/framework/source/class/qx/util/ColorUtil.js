@@ -32,6 +32,9 @@ qx.Class.define("qx.util.ColorUtil",
 {
   statics :
   {
+    /**
+     * Regular expressions for color strings
+     */
     REGEXP :
     {
       hex3 : /^#([0-9a-f]{1})([0-9a-f]{1})([0-9a-f]{1})$/,
@@ -39,6 +42,10 @@ qx.Class.define("qx.util.ColorUtil",
       rgb : /^rgb\(\s*([0-9]{1,3}\.{0,1}[0-9]*)\s*,\s*([0-9]{1,3}\.{0,1}[0-9]*)\s*,\s*([0-9]{1,3}\.{0,1}[0-9]*)\s*\)$/
     },
 
+
+    /**
+     * CSS3 system color names.
+     */
     SYSTEM :
     {
       activeborder        : 1,
@@ -71,6 +78,11 @@ qx.Class.define("qx.util.ColorUtil",
       windowtext          : 1
     },
 
+
+    /**
+     * Named colors, only the 16 basic colors plus the following ones:
+     * transparent, grey, magenta, orange and brown
+     */
     NAMED :
     {
       black       : [ 0, 0, 0 ],
@@ -93,14 +105,14 @@ qx.Class.define("qx.util.ColorUtil",
       // Additional values
       transparent : [ -1, -1, -1 ],
       grey        : [ 128, 128, 128 ], // also define 'grey' as a language variant
-      magenta     : [ 255, 0, 255 ], // alias for fuchsia
+      magenta     : [ 255, 0, 255 ],   // alias for fuchsia
       orange      : [ 255, 165, 0 ],
       brown       : [ 165, 42, 42 ]
     },
 
+
     /**
      * CSS 3 colors (http://www.w3.org/TR/css3-color/#svg-color)
-     *
      * This includes all classic HTML Color names (http://www.w3.org/TR/css3-color/#html4) and the <code>transparent</code> keyword.
      */
     EXTENDED :
@@ -255,53 +267,103 @@ qx.Class.define("qx.util.ColorUtil",
       yellowgreen          : [ 154, 205, 50 ]
     },
 
+
+    /**
+     * Try to convert a incoming string to an RGB array.
+     * Supports themed, named and system colors, but also RGB strings,
+     * hex3 and hex6 values.
+     *
+     * @type static
+     * @param str {String} any string
+     * @return {Array} returns an array of red, green, blue on a successful transformation
+     * @throws an error if the string could not be parsed
+     */
     stringToRgb : function(str)
     {
-      if (this.NAMED[str])
-      {
-        return this.NAMED[str];
-      }
-      else if (qx.manager.object.ColorManager.getInstance().isThemedColor(str))
+      if (qx.manager.object.ColorManager.getInstance().isThemedColor(str))
       {
         return qx.manager.object.ColorManager.getInstance().getThemedColorRGB(str);
       }
-      else if (this.isRgb(str))
+      else if (this.NAMED[str])
       {
-        return this._rgbString2Rgb();
+        return this.NAMED[str];
       }
-      else if (this.isHex3(str))
+      else if (this.SYSTEM[str])
       {
-        return this._hex3ToRgb();
+        throw new Error("Could not convert system colors to RGB: " + value);
       }
-      else if (this.isHex6(str))
+      else if (this.isRgbString(str))
       {
-        return this._hex6ToRgb();
+        return this.__rgbString2Rgb();
       }
-      else
+      else if (this.isHex3String(str))
       {
-        throw new Error("Could not parse color: " + str);
+        return this.__hex3StringToRgb();
+      }
+      else if (this.isHex6String(str))
+      {
+        return this.__hex6StringToRgb();
       }
 
-      return [red, green, blue];
+      throw new Error("Could not parse color: " + str);
     },
 
-    rgbToString : function(rgb) {
+
+    /**
+     * Converts a RGB array to an RGB string
+     *
+     * @type static
+     * @param rgb {Array} an array with red, green and blue
+     * @return {String} a RGB string
+     */
+    rgbToRgbString : function(rgb) {
       return "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")";
     },
 
-    isHex3 : function(str) {
+
+    /**
+     * Detects if a string is a valid hex3 string
+     *
+     * @type static
+     * @param str {String} any string
+     * @return {Boolean} true when the incoming value is a valid hex3 string
+     */
+    isHex3String : function(str) {
       return this.REGEXP.hex3.test(str);
     },
 
-    isHex6 : function(str) {
+
+    /**
+     * Detects if a string is a valid hex6 string
+     *
+     * @type static
+     * @param str {String} any string
+     * @return {Boolean} true when the incoming value is a valid hex6 string
+     */
+    isHex6String : function(str) {
       return this.REGEXP.hex6.test(str);
     },
 
-    isRgb : function(str) {
+
+    /**
+     * Detects if a string is a valid RGB string
+     *
+     * @type static
+     * @param str {String} any string
+     * @return {Boolean} true when the incoming value is a valid RGB string
+     */
+    isRgbString : function(str) {
       return this.REGEXP.rgb.test(str);
     },
 
-    _rgbString2Rgb : function()
+
+    /**
+     * Converts a regexp object match of a rgb string to an RGB array.
+     *
+     * @type static
+     * @return {Array} an array with red, green, blue
+     */
+    __rgbStringToRgb : function()
     {
       var red = parseInt(RegExp.$1);
       var green = parseInt(RegExp.$2);
@@ -310,7 +372,14 @@ qx.Class.define("qx.util.ColorUtil",
       return [red, green, blue];
     },
 
-    _hex3ToRgb : function()
+
+    /**
+     * Converts a regexp object match of a hex3 string to an RGB array.
+     *
+     * @type static
+     * @return {Array} an array with red, green, blue
+     */
+    __hex3StringToRgb : function()
     {
       var red = parseInt(RegExp.$1, 16) * 17;
       var green = parseInt(RegExp.$2, 16) * 17;
@@ -319,7 +388,14 @@ qx.Class.define("qx.util.ColorUtil",
       return [red, green, blue];
     },
 
-    _hex6ToRgb : function()
+
+    /**
+     * Converts a regexp object match of a hex6 string to an RGB array.
+     *
+     * @type static
+     * @return {Array} an array with red, green, blue
+     */
+    __hex6StringToRgb : function()
     {
       var red = (parseInt(RegExp.$1, 16) * 16) + parseInt(RegExp.$2, 16);
       var green = (parseInt(RegExp.$3, 16) * 16) + parseInt(RegExp.$4, 16);
@@ -328,32 +404,55 @@ qx.Class.define("qx.util.ColorUtil",
       return [red, green, blue];
     },
 
-    hex3ToRgb : function(value)
+
+    /**
+     * Converts a hex3 string to an RGB array
+     *
+     * @type static
+     * @param value {String} a hex3 (#xxx) string
+     * @return {Array} an array with red, green, blue
+     */
+    hex3StringToRgb : function(value)
     {
       if (this.isHex3(value)) {
-        return this._hex3ToRgb(value);
+        return this.__hex3ToRgb(value);
       }
 
       throw new Error("Invalid hex3 value: " + value);
     },
 
-    hex6ToRgb : function(value)
+    /**
+     * Converts a hex6 string to an RGB array
+     *
+     * @type static
+     * @param value {String} a hex6 (#xxxxxx) string
+     * @return {Array} an array with red, green, blue
+     */
+    hex6StringToRgb : function(value)
     {
       if (this.isHex6(value)) {
-        return this._hex6ToRgb(value);
+        return this.__hex6ToRgb(value);
       }
 
       throw new Error("Invalid hex6 value: " + value);
     },
 
-    hexToRgb : function(value)
+
+    /**
+     * Converts a hex string to an RGB array
+     *
+     * @type static
+     * @param value {String} a hex3 (#xxx) or hex6 (#xxxxxx) string
+     * @return {Array} an array with red, green, blue
+     */
+    hexStringToRgb : function(value)
     {
       if (this.isHex3(value)) {
-        return this._hex3ToRgb(value);
+        return this.__hex3ToRgb(value);
       }
 
       if (this.isHex6(value)) {
-        return this._hex6ToRgb(value);
+        return this.__hex6ToRgb(value);
       }
 
       throw new Error("Invalid hex value: " + value);
@@ -364,23 +463,16 @@ qx.Class.define("qx.util.ColorUtil",
      * Convert RGB colors to HSB
      *
      * @type static
-     * @param red {Number} Red value. Range: 0..255
-     * @param green {Number} Green value. Range: 0..255
-     * @param blue {Number} Blue value. Range: 0..255
-     * @return {Map} Map with the keys following keys:
-     *       <ul>
-     *         <li>'hue': range 0..360</li>
-     *         <li>'saturation': range 0..100</li>
-     *         <li>'brightness': range 0..100</li>
-     *       </ul>
+     * @param rgb {Number[]} red, blue and green as array
+     * @return {Array} an array with hue, saturation and brightness
      */
-    rgbToHsb : function(red, green, blue)
+    rgbToHsb : function(rgb)
     {
       var hue, saturation, brightness;
 
-      red = parseFloat(red);
-      green = parseFloat(green);
-      blue = parseFloat(blue);
+      var red = rgb[0];
+      var green = rgb[1];
+      var blue = rgb[2];
 
       var cmax = (red > green) ? red : green;
 
@@ -402,7 +494,8 @@ qx.Class.define("qx.util.ColorUtil",
         saturation = 0;
       }
 
-      if (saturation == 0) {
+      if (saturation == 0)
+      {
         hue = 0;
       }
       else
@@ -426,11 +519,7 @@ qx.Class.define("qx.util.ColorUtil",
         }
       }
 
-      return {
-        hue        : Math.round(hue * 360),
-        saturation : Math.round(saturation * 100),
-        brightness : Math.round(brightness * 100)
-      };
+      return [ Math.round(hue * 360), Math.round(saturation * 100), Math.round(brightness * 100) ];
     },
 
 
@@ -438,30 +527,30 @@ qx.Class.define("qx.util.ColorUtil",
      * Convert HSB colors to RGB
      *
      * @type static
-     * @param hue {Number} Hue value. Range 0..360
-     * @param saturation {Number} Saturation value. Range 0..100
-     * @param brightness {Number} Brightness value. Range 0..100
-     * @return {Map} Map the the following keys:
-     *       <ul>
-     *         <li>'red': range 0..255</li>
-     *         <li>'green': range 0..255</li>
-     *         <li>'blue': range 0..255</li>
-     *       </ul>
+     * @param hsb {Number[]} an array with hue, saturation and brightness
+     * @return {Array} an array with red, green, blue
      */
-    hsbToRgb : function(hue, saturation, brightness)
+    hsbToRgb : function(hsb)
     {
-      var i, f, p, q, t, vReturn;
+      var i, f, p, q, t;
 
-      hue = parseFloat(hue / 360);
-      saturation = parseFloat(saturation / 100);
-      brightness = parseFloat(brightness / 100);
+      var hue = hsb[0] / 360;
+      var saturation = hsb[1] / 100;
+      var brightness = hsb[2] / 100;
 
-      if (hue >= 1.0) hue %= 1.0;
-      if (saturation > 1.0) saturation = 1.0;
-      if (brightness > 1.0) brightness = 1.0;
+      if (hue >= 1.0) {
+        hue %= 1.0;
+      }
+
+      if (saturation > 1.0) {
+        saturation = 1.0;
+      }
+
+      if (brightness > 1.0) {
+        brightness = 1.0;
+      }
 
       var tov = Math.floor(255 * brightness);
-
       var rgb = {};
 
       if (saturation == 0.0)
