@@ -114,7 +114,9 @@ qx.Class.define("qx.renderer.border.Border",
 
       for (var i=0; i<vAllParts.length; i++)
       {
-        switch(vPart = vAllParts[i])
+        vPart = vAllParts[i];
+
+        switch(vPart)
         {
           case "groove":
           case "ridge":
@@ -146,6 +148,7 @@ qx.Class.define("qx.renderer.border.Border",
 
       return vBorder;
     },
+
 
     data :
     {
@@ -357,6 +360,26 @@ qx.Class.define("qx.renderer.border.Border",
       apply : "_modifyLeftColor"
     },
 
+    topInnerColor :
+    {
+
+    },
+
+    rightInnerColor :
+    {
+
+    },
+
+    bottomInnerColor :
+    {
+
+    },
+
+    leftInnerColor :
+    {
+
+    },
+
 
 
 
@@ -421,19 +444,50 @@ qx.Class.define("qx.renderer.border.Border",
     */
 
     /**
-     * @signature function()
+     * TODOC
+     *
+     * @type member
+     * @param o {Object} TODOC
+     * @return {void}
      */
-    addListenerWidget : qx.lang.Function.returnTrue,
+    addListenerWidget : function(o) {
+      this._dependentObjects[o.toHashCode()] = o;
+    },
+
 
     /**
-     * @signature function()
+     * TODOC
+     *
+     * @type member
+     * @param o {Object} TODOC
+     * @return {void}
      */
-    removeListenerWidget : qx.lang.Function.returnTrue,
+    removeListenerWidget : function(o) {
+      delete this._dependentObjects[o.toHashCode()];
+    },
+
 
     /**
-     * @signature function()
+     * TODOC
+     *
+     * @type member
+     * @param vEdge {var} TODOC
+     * @return {void}
      */
-    _sync : qx.lang.Function.returnTrue,
+    _sync : function(vEdge)
+    {
+      var vAll = this._dependentObjects;
+      var vCurrent;
+
+      for (vKey in vAll)
+      {
+        vCurrent = vAll[vKey];
+
+        if (vCurrent.isCreated()) {
+          vCurrent._updateBorder(vEdge);
+        }
+      }
+    },
 
 
 
