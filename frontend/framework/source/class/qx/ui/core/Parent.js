@@ -137,7 +137,7 @@ qx.Class.define("qx.ui.core.Parent",
      * focus handler.
      *
      * @type member
-     * @return {Boolean} wether the widget has its own focus handler
+     * @return {Boolean} whether the widget has its own focus handler
      */
     isFocusRoot : function() {
       return this.getFocusHandler() != null;
@@ -424,7 +424,7 @@ qx.Class.define("qx.ui.core.Parent",
      * Check if the widget has children
      *
      * @type member
-     * @return {Boolean} wether the widget has children
+     * @return {Boolean} whether the widget has children
      */
     hasChildren : function() {
       return this.getChildrenLength() > 0;
@@ -435,7 +435,7 @@ qx.Class.define("qx.ui.core.Parent",
      * Check if there are any childrens inside
      *
      * @type member
-     * @return {Boolean} wether the number of children is 0
+     * @return {Boolean} whether the number of children is 0
      */
     isEmpty : function() {
       return this.getChildrenLength() == 0;

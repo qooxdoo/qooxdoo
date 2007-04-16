@@ -167,7 +167,7 @@ qx.Class.define("qx.manager.object.AliasManager",
      *
      * @type member
      * @param vPath {String} path name
-     * @param vForceUpdate {Boolean} (default=false) wether the cached value should be ignored
+     * @param vForceUpdate {Boolean ? false} whether the cached value should be ignored
      * @return {String} reolved path/url
      */
     resolvePath : function(vPath, vForceUpdate)

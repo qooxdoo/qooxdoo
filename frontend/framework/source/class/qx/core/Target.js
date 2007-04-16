@@ -233,8 +233,8 @@ qx.Class.define("qx.core.Target",
      *
      * @type member
      * @param evt {qx.event.type.Event} event to dispatch
-     * @param dispose {Boolean} wether the event object should be disposed after all event handlers run.
-     * @return {Boolean} wether the event default was prevented or not. Returns true, when the event was NOT prevented.
+     * @param dispose {Boolean} whether the event object should be disposed after all event handlers run.
+     * @return {Boolean} whether the event default was prevented or not. Returns true, when the event was NOT prevented.
      */
     dispatchEvent : function(evt, dispose)
     {

@@ -358,7 +358,7 @@ qx.Class.define("qx.core.Object",
      * Returns true if the object is disposed.
      *
      * @type member
-     * @return {Boolean} wether the object has been disposed
+     * @return {Boolean} whether the object has been disposed
      */
     getDisposed : function() {
       return this.__disposed;
@@ -369,7 +369,7 @@ qx.Class.define("qx.core.Object",
      * Returns true if the object is disposed.
      *
      * @type member
-     * @return {Boolean} wether the object has been disposed
+     * @return {Boolean} whether the object has been disposed
      */
     isDisposed : function() {
       return this.__disposed;
