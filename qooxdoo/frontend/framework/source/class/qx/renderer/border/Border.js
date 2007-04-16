@@ -853,7 +853,7 @@ qx.Class.define("qx.renderer.border.Border",
         }
       }
 
-      if(qx.core.Variant.isSet("qx.client", "mshtml|opera|webkit"))
+      if (qx.core.Variant.isSet("qx.client", "mshtml|opera|webkit"))
       {
         if (this.getUseEnhancedCrossBrowserMode()) {
           obj._createElementForEnhancedBorder();
@@ -904,7 +904,7 @@ qx.Class.define("qx.renderer.border.Border",
         }
       }
 
-      if(qx.core.Variant.isSet("qx.client", "mshtml|opera|webkit"))
+      if (qx.core.Variant.isSet("qx.client", "mshtml|opera|webkit"))
       {
         if (this.getUseEnhancedCrossBrowserMode()) {
           obj._createElementForEnhancedBorder();
