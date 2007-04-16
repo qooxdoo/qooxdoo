@@ -105,12 +105,6 @@ qx.Class.define("qx.manager.object.ColorManager",
       var key = "color" + obj.toHashCode() + "$" + callback;
       var reg = this.__themedObjects;
 
-      /*
-      if (value) {
-        this.debug("value=" + value + " themed=" + (this.__themedColors[value]!=null));
-      }
-      */
-
       if (value && this.__themedColors[value])
       {
         // Store reference for themed values

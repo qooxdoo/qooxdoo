@@ -41,8 +41,8 @@ qx.Theme.define("qx.theme.appearance.Classic",
     "outset" :
     {
       width : 2,
-      colors : [ "black", "gray", "black", "gray" ],
-      innerColors : [ "gray", "white", "gray", "white" ]
+      color : [ "black", "gray", "black", "gray" ],
+      innerColor : [ "gray", "white", "gray", "white" ]
     }
   },
 
