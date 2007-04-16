@@ -76,9 +76,6 @@ qx.Class.define("qx.application.Gui",
       // Force creation of client document
       qx.ui.core.ClientDocument.getInstance();
 
-      // Initialize border presets
-      qx.renderer.border.BorderPresets.init();
-
       // Call preloader
       qx.client.Timer.once(this._preload, this, 0);
     },

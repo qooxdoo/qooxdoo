@@ -162,7 +162,6 @@ qx.Class.define("qx.manager.object.BorderManager",
       var util = qx.util.BorderUtil;
       for (var key in values)
       {
-        this.debug("Create border from theme entry: " + key);
         result[key] = new qx.renderer.border.Border;
         result[key].set(values[key]);
       }
