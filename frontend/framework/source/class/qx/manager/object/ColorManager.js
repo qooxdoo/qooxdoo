@@ -90,14 +90,6 @@ qx.Class.define("qx.manager.object.ColorManager",
     ---------------------------------------------------------------------------
     */
 
-    isNamedColor : function(value) {
-      return qx.util.ColorUtil.NAMED[value] !== undefined;
-    },
-
-    isThemedColor : function(value) {
-      return this.__themedColors[value] !== undefined;
-    },
-
     /**
      * Processing a color and handle callback execution on theme updates.
      *
@@ -137,42 +129,48 @@ qx.Class.define("qx.manager.object.ColorManager",
       obj[callback](value ? this.__themedColors[value] || value : null);
     },
 
-    getThemedColorRGB : function(value) {
+    themedColorToRgb : function(value) {
       return this.__themedColors[value];
     },
 
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      INTERNAL COLOR VALUE HANDLING
-    ---------------------------------------------------------------------------
-    */
-
-    __themedColor2Style : function(value)
-    {
-      var rgb = this.getColorTheme().colors[value];
-      return rgb ? "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")" : null;
+    isThemedColor : function(value) {
+      return this.__themedColors[value] !== undefined;
     },
 
 
 
 
 
+
     /*
     ---------------------------------------------------------------------------
-      MODIFIER
+      COLOR THEME HANDLING
     ---------------------------------------------------------------------------
     */
+
+    registerColorTheme : function(vThemeClass)
+    {
+      this.__colorThemes[vThemeClass.name] = vThemeClass;
+
+      if (vThemeClass.name == qx.core.Setting.get("qx.colorTheme")) {
+        this.setColorTheme(vThemeClass);
+      }
+    },
+
+
+    setColorThemeById : function(vId) {
+      this.setColorTheme(this.__colorThemes[vId]);
+    },
+
 
     _applyColorTheme : function(value, old)
     {
       // Generating RGB strings from themed colors
       var values = value.colors;
       var result = this.__themedColors = {};
+      var util = qx.util.ColorUtil;
       for (var key in values) {
-        result[key] = this.__themedColor2Style(key);
+        result[key] = util.rgbToRgbString(values[key]);
       }
 
       // Inform objects which have registered
@@ -188,51 +186,7 @@ qx.Class.define("qx.manager.object.ColorManager",
     },
 
 
-
-
-    /*
-    ---------------------------------------------------------------------------
-      COLOR THEME REGISTRATION
-    ---------------------------------------------------------------------------
-    */
-
     /**
-     * TODOC
-     *
-     * @type member
-     * @param vThemeClass {var} TODOC
-     * @return {void}
-     */
-    registerColorTheme : function(vThemeClass)
-    {
-      this.__colorThemes[vThemeClass.name] = vThemeClass;
-
-      if (vThemeClass.name == qx.core.Setting.get("qx.colorTheme")) {
-        this.setColorTheme(vThemeClass);
-      }
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vId {var} TODOC
-     * @return {void}
-     */
-    setColorThemeById : function(vId) {
-      this.setColorTheme(this.__colorThemes[vId]);
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vParent {var} TODOC
-     * @param xCor {var} TODOC
-     * @param yCor {var} TODOC
-     * @return {void}
      * @deprecated
      */
     createThemeList : function(vParent, xCor, yCor)
