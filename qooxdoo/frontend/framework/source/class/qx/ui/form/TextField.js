@@ -25,6 +25,10 @@
 ************************************************************************ */
 
 /**
+ * An advanced wrapper for the HTML <code>&lt;input type="text"&gt;</code> tag.
+ *
+ * It is used for textual user input.
+ *
  * @appearance text-field
  */
 qx.Class.define("qx.ui.form.TextField",
@@ -40,6 +44,9 @@ qx.Class.define("qx.ui.form.TextField",
   *****************************************************************************
   */
 
+  /**
+   * @param vValue {String} initial text value of the input field ({@link #value}).
+   */
   construct : function(vValue)
   {
     // ************************************************************************
@@ -67,6 +74,7 @@ qx.Class.define("qx.ui.form.TextField",
 
     this.addEventListener("blur", this._onblur);
     this.addEventListener("focus", this._onfocus);
+    this.addEventListener("input", this._oninput);
   },
 
 
@@ -87,11 +95,13 @@ qx.Class.define("qx.ui.form.TextField",
     */
 
     /**
-     * TODOC
+     * Create a validator function from a regular expression.
+     * If the input string matches the regular expression, the
+     * text is considered valid.
      *
      * @type static
-     * @param vRegExp {var} TODOC
-     * @return {Function} TODOC
+     * @param vRegExp {RegExp} Regular expression to match the text against.
+     * @return {Function} Validator function.
      */
     createRegExpValidator : function(vRegExp)
     {
@@ -121,51 +131,58 @@ qx.Class.define("qx.ui.form.TextField",
     appearance :
     {
       _legacy      : true,
-      type         : "string",
+      check        : "string",
       defaultValue : "text-field"
     },
 
+    /**
+     * The value of the text field.
+     * The value is by default updated when the input field looses the focus (blur).
+     * If the property {@link #liveUpdate} is set to <code>true</code>, the value is
+     * upated on each key stroke.
+     */
     value :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : ""
+      check : "String",
+      init : "",
+      event : "changeValue",
+      apply : "_modifyValue"
     },
 
+    /**
+     * Whether the property {@link #value} should be updated "live" on each key
+     * stroke or only on focus blur (default).
+     */
+    liveUpdate :
+    {
+      check : "Boolean",
+      init : false
+    },
+
+    /** Maximum number of characters in the input field. */
     maxLength :
     {
-      _legacy : true,
-      type    : "number"
+      check : "Integer",
+      apply : "_modifyMaxLength"
     },
 
+    /** Whether the field is read only */
     readOnly :
     {
-      _legacy : true,
-      type    : "boolean"
+      check : "Integer",
+      apply : "_modifyReadOnly"
     },
 
-    selectionStart :
-    {
-      _legacy : true,
-      type    : "number"
-    },
-
-    selectionLength :
-    {
-      _legacy : true,
-      type    : "number"
-    },
-
-    selectionText :
-    {
-      _legacy : true,
-      type    : "string"
-    },
-
+    /**
+     * Set validator function. The validator function should take a
+     * string as input and return a boolean value whether the string
+     * is valid. The validator is used by the functions {@link #isValid}
+     * and {@link #isComputedValid}.
+     */
     validator :
     {
-      _legacy : true,
-      type    : "function"
+      check : "Function",
+      apply : "_modifyValidator"
     }
   },
 
@@ -180,17 +197,6 @@ qx.Class.define("qx.ui.form.TextField",
 
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      CLONING
-    ---------------------------------------------------------------------------
-    */
-
-    // Extend ignore list with selection properties
-    _clonePropertyIgnoreList : ",selectionStart,selectionLength,selectionText",
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -199,78 +205,66 @@ qx.Class.define("qx.ui.form.TextField",
     */
 
     /**
-     * TODOC
+     * Apply the enabled property.
      *
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {var} TODOC
      */
-    _modifyEnabled : function(propValue, propOldValue, propData)
+    _modifyEnabled : function(propValue, propOldValue)
     {
       propValue ? this.removeHtmlAttribute("disabled") : this.setHtmlAttribute("disabled", "disabled");
-      return this.base(arguments, propValue, propOldValue, propData);
+      return this.base(arguments, propValue, propOldValue);
     },
 
 
     /**
-     * TODOC
+     * Apply the value property
      *
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
      */
-    _modifyValue : function(propValue, propOldValue, propData)
+    _modifyValue : function(propValue, propOldValue)
     {
       this._inValueProperty = true;
-      this.setHtmlProperty(propData.name, propValue == null ? "" : propValue);
+      this.setHtmlProperty("value", propValue == null ? "" : propValue);
       delete this._inValueProperty;
-
-      return true;
     },
 
 
     /**
-     * TODOC
+     * Apply the maxLenght property.
      *
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {var} TODOC
      */
-    _modifyMaxLength : function(propValue, propOldValue, propData) {
-      return propValue ? this.setHtmlProperty(propData.name, propValue) : this.removeHtmlProperty(propData.name);
+    _modifyMaxLength : function(propValue, propOldValue) {
+      propValue ? this.setHtmlProperty("maxLength", propValue) : this.removeHtmlProperty("maxLength");
     },
 
 
     /**
-     * TODOC
+     * Apply the readOnly property.
      *
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {var} TODOC
      */
-    _modifyReadOnly : function(propValue, propOldValue, propData) {
-      return propValue ? this.setHtmlProperty(propData.name, propData.name) : this.removeHtmlProperty(propData.name);
+    _modifyReadOnly : function(propValue, propOldValue) {
+      propValue ? this.setHtmlProperty("readOnly", "readOnly") : this.removeHtmlProperty("readOnly");
     },
 
 
     /**
-     * TODOC
+     * Apply the {@link qx.ui.core.Widget#font} property.
      *
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
      */
-    _modifyFont : function(propValue, propOldValue, propData)
+    _modifyFont : function(propValue, propOldValue)
     {
       this._invalidatePreferredInnerDimensions();
 
@@ -282,8 +276,6 @@ qx.Class.define("qx.ui.form.TextField",
     },
 
 
-
-
     /*
     ---------------------------------------------------------------------------
       UTILITIES
@@ -291,13 +283,13 @@ qx.Class.define("qx.ui.form.TextField",
     */
 
     /**
-     * TODOC
+     * Return the current value of the text field. The computed values is
+     * independent of the value of the {@link #liveUpdate} property.
      *
      * @type member
-     * @param e {Event} TODOC
-     * @return {var} TODOC
+     * @return {String} The current value of the text field.
      */
-    getComputedValue : function(e)
+    getComputedValue : function()
     {
       this._visualPropertyCheck();
       return this.getElement().value;
@@ -305,10 +297,12 @@ qx.Class.define("qx.ui.form.TextField",
 
 
     /**
-     * TODOC
+     * Whether the value of the {@link #value} property is valid.
+     * The validatore function ({@link #validator}) is used to
+     * validate the text.
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Boolean} Whether the text is valid.
      */
     isValid : function()
     {
@@ -318,10 +312,13 @@ qx.Class.define("qx.ui.form.TextField",
 
 
     /**
-     * TODOC
+     * Whether the current text of the text field returned by
+     * {@link #getComputedValue} is valid.
+     * The validatore function ({@link #validator}) is used to
+     * validate the text.
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Boolean} Whether the computed value is valid.
      */
     isComputedValid : function()
     {
@@ -338,23 +335,11 @@ qx.Class.define("qx.ui.form.TextField",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {int} TODOC
-     */
     _computePreferredInnerWidth : function() {
       return 120;
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {int} TODOC
-     */
     _computePreferredInnerHeight : function() {
       return 15;
     },
@@ -372,7 +357,6 @@ qx.Class.define("qx.ui.form.TextField",
      * Fix IE's input event for filled text fields
      *
      * @type member
-     * @return {void}
      * @signature function()
      */
     _ieFirstInputFix : qx.core.Variant.select("qx.client",
@@ -390,10 +374,9 @@ qx.Class.define("qx.ui.form.TextField",
 
 
     /**
-     * TODOC
+     * Apply {@link #_ieFirstInputFix} in the appear event of the widget.
      *
      * @type member
-     * @return {void}
      * @signature function()
      */
     _afterAppear : qx.core.Variant.select("qx.client",
@@ -428,37 +411,31 @@ qx.Class.define("qx.ui.form.TextField",
 
 
     /**
-     * TODOC
+     * Tab focus event handler
      *
      * @type member
-     * @param e {Event} TODOC
-     * @return {void}
      */
-    _ontabfocus : function(e) {
+    _ontabfocus : function() {
       this.selectAll();
     },
 
 
     /**
-     * TODOC
+     * Focus event handler.
      *
      * @type member
-     * @param e {Event} TODOC
-     * @return {void}
      */
-    _onfocus : function(e) {
+    _onfocus : function() {
       this._textOnFocus = this.getComputedValue();
     },
 
 
     /**
-     * TODOC
+     * Blur event handler.
      *
      * @type member
-     * @param e {Event} TODOC
-     * @return {void}
      */
-    _onblur : function(e)
+    _onblur : function()
     {
       var vValue = this.getComputedValue().toString();
 
@@ -470,6 +447,23 @@ qx.Class.define("qx.ui.form.TextField",
     },
 
 
+    /**
+     * Input event handler.
+     *
+     * @type member
+     */
+    _oninput : function()
+    {
+      if (!this.isLiveUpdate()) {
+        return;
+      }
+
+      var vValue = this.getComputedValue().toString();
+
+      if (this._textOnFocus != vValue) {
+        this.setValue(vValue);
+      }
+    },
 
 
     /*
@@ -483,13 +477,12 @@ qx.Class.define("qx.ui.form.TextField",
     */
 
     /**
-     * TODOC
+     * Internal IE text selection helper.
      *
      * @type member
-     * @return {void}
      * @signature function()
      */
-    _getRange : qx.core.Variant.select("qx.client",
+    __getRange : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function()
       {
@@ -502,13 +495,12 @@ qx.Class.define("qx.ui.form.TextField",
 
 
     /**
-     * TODOC
+     * Internal IE text selection helper.
      *
      * @type member
-     * @return {void}
      * @signature function()
      */
-    _getSelectionRange : qx.core.Variant.select("qx.client",
+    __getSelectionRange : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function()
       {
@@ -521,11 +513,10 @@ qx.Class.define("qx.ui.form.TextField",
 
 
     /**
-     * TODOC
+     * Set the start index of the text selection in the field.
      *
      * @type member
-     * @param vStart {var} TODOC
-     * @return {void}
+     * @param vStart {Number} Start index of a new text selection.
      * @signature function(vStart)
      */
     setSelectionStart : qx.core.Variant.select("qx.client",
@@ -552,7 +543,7 @@ qx.Class.define("qx.ui.form.TextField",
           i++;
         }
 
-        var vRange = this._getRange();
+        var vRange = this.__getRange();
 
         vRange.collapse();
         vRange.move("character", vStart);
@@ -568,10 +559,10 @@ qx.Class.define("qx.ui.form.TextField",
 
 
     /**
-     * TODOC
+     * Get the start index of the text selection in the field.
      *
      * @type member
-     * @return {void}
+     * @return {Number} Start index of the current selection.
      * @signature function()
      */
     getSelectionStart : qx.core.Variant.select("qx.client",
@@ -580,13 +571,13 @@ qx.Class.define("qx.ui.form.TextField",
       {
         this._visualPropertyCheck();
 
-        var vSelectionRange = this._getSelectionRange();
+        var vSelectionRange = this.__getSelectionRange();
 
         if (!this.getElement().contains(vSelectionRange.parentElement())) {
           return -1;
         }
 
-        var vRange = this._getRange();
+        var vRange = this.__getRange();
 
         vRange.setEndPoint("EndToStart", vSelectionRange);
         return vRange.text.length;
@@ -601,11 +592,11 @@ qx.Class.define("qx.ui.form.TextField",
 
 
     /**
-     * TODOC
+     * Set the length of the selection. The selection starts at the index specified by the
+     * method {@link #setSelectionStart}.
      *
      * @type member
-     * @param vLength {var} TODOC
-     * @return {void}
+     * @param vLength {Number} Lenght of the new selection.
      * @signature function(vLength)
      */
     setSelectionLength : qx.core.Variant.select("qx.client",
@@ -614,7 +605,7 @@ qx.Class.define("qx.ui.form.TextField",
       {
         this._visualPropertyCheck();
 
-        var vSelectionRange = this._getSelectionRange();
+        var vSelectionRange = this.__getSelectionRange();
 
         if (!this.getElement().contains(vSelectionRange.parentElement())) {
           return;
@@ -639,10 +630,10 @@ qx.Class.define("qx.ui.form.TextField",
 
 
     /**
-     * TODOC
+     * Get the number of charaters in the current selection.
      *
      * @type member
-     * @return {void}
+     * @return {Number} The lenght of the selection.
      * @signature function()
      */
     getSelectionLength : qx.core.Variant.select("qx.client",
@@ -651,7 +642,7 @@ qx.Class.define("qx.ui.form.TextField",
       {
         this._visualPropertyCheck();
 
-        var vSelectionRange = this._getSelectionRange();
+        var vSelectionRange = this.__getSelectionRange();
 
         if (!this.getElement().contains(vSelectionRange.parentElement())) {
           return 0;
@@ -671,11 +662,10 @@ qx.Class.define("qx.ui.form.TextField",
 
 
     /**
-     * TODOC
+     * Set the text of the current selection.
      *
      * @type member
-     * @param vText {var} TODOC
-     * @return {void}
+     * @param vText {String} New text value of the current selection
      * @signature function(vText)
      */
     setSelectionText : qx.core.Variant.select("qx.client",
@@ -685,7 +675,7 @@ qx.Class.define("qx.ui.form.TextField",
         this._visualPropertyCheck();
 
         var vStart = this.getSelectionStart();
-        var vSelectionRange = this._getSelectionRange();
+        var vSelectionRange = this.__getSelectionRange();
 
         if (!this.getElement().contains(vSelectionRange.parentElement())) {
           return;
@@ -730,11 +720,10 @@ qx.Class.define("qx.ui.form.TextField",
 
 
     /**
-     * TODOC
+     * Get the text value of the current selection.
      *
      * @type member
-     * @param vText {var} TODOC
-     * @return {void}
+     * @return {String} The text value of the current selection.
      * @signature function()
      */
     getSelectionText : qx.core.Variant.select("qx.client",
@@ -743,7 +732,7 @@ qx.Class.define("qx.ui.form.TextField",
       {
         this._visualPropertyCheck();
 
-        var vSelectionRange = this._getSelectionRange();
+        var vSelectionRange = this.__getSelectionRange();
 
         if (!this.getElement().contains(vSelectionRange.parentElement())) {
           return "";
@@ -762,10 +751,9 @@ qx.Class.define("qx.ui.form.TextField",
 
 
     /**
-     * TODOC
+     * Select all text in the input field.
      *
      * @type member
-     * @return {void}
      * @signature function()
      */
     selectAll : qx.core.Variant.select("qx.client",
@@ -794,12 +782,11 @@ qx.Class.define("qx.ui.form.TextField",
 
 
     /**
-     * TODOC
+     * Select text within a given index range in the input field.
      *
      * @type member
-     * @param vStart {var} TODOC
-     * @param vEnd {var} TODOC
-     * @return {void}
+     * @param vStart {Number} start index of the selection
+     * @param vEnd {Number} end index of the selection.
      * @signature function(vStart, vEnd)
      */
     selectFromTo : qx.core.Variant.select("qx.client",
