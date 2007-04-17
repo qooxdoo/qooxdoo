@@ -143,7 +143,7 @@ qx.OO.addProperty({ name: "pagingInterval", type: "number", defaultValue: 10 });
 qx.OO.addProperty({ name: "idColumnVisible", type: "boolean", getAlias: "isIdColumnVisible", defaultValue: false });
 
 /*!Only used when editable is false.  It determines what to show in the text field of the combo box.*/
-qx.OO.addProperty({ name: "showOnTextField", type: "string", defaultValue: 'description', possibleValues : [ 'description', 'idAndDescription'  ] });
+qx.OO.addProperty({ name: "showOnTextField", type: "string", defaultValue: 'description', possibleValues : [ 'description', 'idAndDescription', 'id'  ] });
 
 /*!Only used when editable is false and showOnTextField=='idAndDescription'.*/
 qx.OO.addProperty({ name: "idDescriptionSeparator", type: "string", defaultValue: '- ' });
@@ -491,8 +491,21 @@ qx.Proto._calculateDimensions = function() {
       }
       columnWidths[col] = Math.max(wi, columnWidths[col]);
     }
-    this._neededTextFieldWidth = Math.max(this._neededTextFieldWidth,
-      wi1+(withDescript ? wi0:0));
+    var wi = 0;
+    switch (this.getShowOnTextField()) {
+      case 'idAndDescription':
+       wi = wi0+wi1;
+       break;
+      case 'id':
+       wi = wi0;
+       break;
+      case 'description':
+       wi = wi1;
+       break;
+      default:
+        this.warn('unexpected '+this.getShowOnTextField());
+    }
+    this._neededTextFieldWidth = Math.max(this._neededTextFieldWidth, wi);
   }
   if (this.getShowOnTextField() == 'idAndDescription') {
     this._neededTextFieldWidth += this._getTextWidth(this.getIdDescriptionSeparator());
@@ -764,9 +777,19 @@ qx.Proto._onChangeSelection = function(e) {
     if (!this.getEditable()) {
       var val = "";
       if (row) {
-        val = this.getShowOnTextField() == 'description' ?
-          row[1] :
-          (row[0] != null && row[0] != '' ? row[0] + this.getIdDescriptionSeparator() + row[1]:row[1]);
+        switch (this.getShowOnTextField()) {
+          case 'idAndDescription':
+           val = row[0] + this.getIdDescriptionSeparator() + row[1];
+           break;
+          case 'id':
+           val = row[0];
+           break;
+          case 'description':
+           val = row[1];
+           break;
+          default:
+            this.warn('unexpected '+this.getShowOnTextField());
+        }
       }
       this._field.setValue(val);
     }
