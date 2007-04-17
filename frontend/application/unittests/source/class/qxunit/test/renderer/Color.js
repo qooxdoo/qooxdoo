@@ -164,22 +164,6 @@ qx.Class.define("qxunit.test.renderer.Color", {
           this.assertEquals("#a0522d", c2.getHex());
       },
 
-      /*
-      testSystemColors: function() {
-          var ColorObject = qx.renderer.color.ColorObject;
-          var Manager = qx.manager.object.ColorManager.getInstance();
-
-          Manager.setColorTheme(qx.theme.color.System.getInstance());
-          var c1 = new ColorObject("activecaption");
-          this.assertEquals("activecaption", c1.getStyle());
-          this.assertEquals("activecaption", c1.getValue());
-          this.assertEquals("#0a246a", c1.getHex());
-          this.assertEquals(10, c1.getRed());
-          this.assertEquals(36, c1.getGreen());
-          this.assertEquals(106, c1.getBlue());
-      },
-      */
-
       testColorThemeSwitch: function() {
           var ColorObject = qx.renderer.color.ColorObject;
           var Manager = qx.manager.object.ColorManager.getInstance();

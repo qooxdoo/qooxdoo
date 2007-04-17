@@ -31,7 +31,6 @@
 #use(qx.theme.icon.CrystalClear)
 #use(qx.theme.icon.VistaInspirate)
 
-#use(qx.theme.color.System)
 #use(qx.theme.color.WindowsClassic)
 #use(qx.theme.color.WindowsLunaBlue)
 #use(qx.theme.color.WindowsLunaGreen)
