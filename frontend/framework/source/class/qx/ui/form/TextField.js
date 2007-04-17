@@ -45,33 +45,24 @@ qx.Class.define("qx.ui.form.TextField",
   */
 
   /**
-   * @param vValue {String} initial text value of the input field ({@link #value}).
+   * @param value {String} initial text value of the input field ({@link #value}).
    */
-  construct : function(vValue)
+  construct : function(value)
   {
-    // ************************************************************************
-    //   INIT
-    // ************************************************************************
     this.base(arguments);
 
-    if (typeof vValue === "string") {
-      this.setValue(vValue);
+    // Apply value
+    if (value !== undefined) {
+      this.setValue(value);
     }
 
-    // ************************************************************************
-    //   BEHAVIOR
-    // ************************************************************************
-    this.setTagName("input");
-    this.setHtmlProperty("type", "text");
-    this.setHtmlAttribute("autocomplete", "OFF");
+    // Inline event wrapper
+    this.__oninlineevent = qx.lang.Function.bind(this._oninlineevent, this);
+
+    // Enable tagIndex
     this.setTabIndex(1);
-    this.setSelectable(true);
 
-    // ************************************************************************
-    //   EVENTS
-    // ************************************************************************
-    this.enableInlineEvent("input");
-
+    // Add listeners
     this.addEventListener("blur", this._onblur);
     this.addEventListener("focus", this._onfocus);
     this.addEventListener("input", this._oninput);
@@ -163,14 +154,16 @@ qx.Class.define("qx.ui.form.TextField",
     maxLength :
     {
       check : "Integer",
-      apply : "_modifyMaxLength"
+      apply : "_modifyMaxLength",
+      nullable : true
     },
 
     /** Whether the field is read only */
     readOnly :
     {
       check : "Integer",
-      apply : "_modifyReadOnly"
+      apply : "_modifyReadOnly",
+      init : false
     },
 
     /**
@@ -204,6 +197,64 @@ qx.Class.define("qx.ui.form.TextField",
     ---------------------------------------------------------------------------
     */
 
+    _inputTag : "input",
+    _inputType : "text",
+
+    _modifyElement : function(propValue, propOldValue)
+    {
+      this.base(arguments, propValue, propOldValue);
+
+      if (propValue)
+      {
+        var inp = this._inputElement = document.createElement(this._inputTag);
+
+        // Default stuff
+        if (this._inputType) {
+          inp.type = this._inputType;
+        }
+
+        inp.autocomplete = "OFF";
+
+        // Apply properties
+        inp.disabled = !this.getEnabled();
+        inp.readOnly = this.getReadOnly();
+        inp.value = this.getValue() ? this.getValue() : "";
+
+        if (this.getMaxLength() != null) {
+          inp.maxLength = this.getMaxLength();
+        }
+
+        // Normalize styles
+        inp.style.padding = 0;
+        inp.style.margin = 0;
+        inp.style.border = "0 none";
+        inp.style.background = "transparent";
+
+        // This does not work in IEx.x
+        if (qx.core.Variant.isSet("qx.client", "mshtml"))
+        {
+
+        }
+        else
+        {
+          inp.style.fontFamily = "inherit";
+          inp.style.fontSize = "inherit";
+          inp.style.color = "inherit";
+          inp.style.cursor = "inherit";
+        }
+
+        // Register inline event
+        if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+          inp.onpropertychange = this.__oninlineevent;
+        } else {
+          inp.addEventListener("input", this.__oninlineevent, false);
+        }
+
+        // Append to real element
+        propValue.appendChild(inp);
+      }
+    },
+
     /**
      * Apply the enabled property.
      *
@@ -213,7 +264,10 @@ qx.Class.define("qx.ui.form.TextField",
      */
     _modifyEnabled : function(propValue, propOldValue)
     {
-      propValue ? this.removeHtmlAttribute("disabled") : this.setHtmlAttribute("disabled", "disabled");
+      if (this._inputElement) {
+        this._inputElement.disabled = !propValue;
+      }
+
       return this.base(arguments, propValue, propOldValue);
     },
 
@@ -228,7 +282,11 @@ qx.Class.define("qx.ui.form.TextField",
     _modifyValue : function(propValue, propOldValue)
     {
       this._inValueProperty = true;
-      this.setHtmlProperty("value", propValue == null ? "" : propValue);
+
+      if (this._inputElement) {
+        this._inputElement.value = propValue === null ? "" : propValue;
+      }
+
       delete this._inValueProperty;
     },
 
@@ -240,8 +298,11 @@ qx.Class.define("qx.ui.form.TextField",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      */
-    _modifyMaxLength : function(propValue, propOldValue) {
-      propValue ? this.setHtmlProperty("maxLength", propValue) : this.removeHtmlProperty("maxLength");
+    _modifyMaxLength : function(propValue, propOldValue)
+    {
+      if (this._inputElement) {
+        this._inputElement.maxLength = propValue == null ? "" : propValue;
+      }
     },
 
 
@@ -252,28 +313,15 @@ qx.Class.define("qx.ui.form.TextField",
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      */
-    _modifyReadOnly : function(propValue, propOldValue) {
-      propValue ? this.setHtmlProperty("readOnly", "readOnly") : this.removeHtmlProperty("readOnly");
-    },
-
-
-    /**
-     * Apply the {@link qx.ui.core.Widget#font} property.
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     */
-    _modifyFont : function(propValue, propOldValue)
+    _modifyReadOnly : function(propValue, propOldValue)
     {
-      this._invalidatePreferredInnerDimensions();
-
-      if (propValue) {
-        propValue._applyWidget(this);
-      } else if (propOldValue) {
-        propOldValue._resetWidget(this);
+      if (this._inputElement) {
+        this._inputElement.readOnly = propValue;
       }
     },
+
+
+
 
 
     /*
@@ -291,8 +339,11 @@ qx.Class.define("qx.ui.form.TextField",
      */
     getComputedValue : function()
     {
-      this._visualPropertyCheck();
-      return this.getElement().value;
+      if (this._inputElement) {
+        return this._inputElement.value;
+      }
+
+      return this.getValue();
     },
 
 
@@ -364,7 +415,7 @@ qx.Class.define("qx.ui.form.TextField",
       "mshtml" : function()
       {
         this._inValueProperty = true;
-        this.getElement().value = this.getValue() === null ? "" : this.getValue();
+        this._inputElement.value = this.getValue() === null ? "" : this.getValue();
         this._firstInputFixApplied = true;
         delete this._inValueProperty;
       },
@@ -408,6 +459,20 @@ qx.Class.define("qx.ui.form.TextField",
     */
 
     _textOnFocus : null,
+
+    _oninlineevent : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(e)
+      {
+        if (!this._inValueProperty && e.propertyName === "value") {
+          this.createDispatchDataEvent("input", this.getComputedValue());
+        }
+      },
+
+      "default" : function(e) {
+        this.createDispatchDataEvent("input", this.getComputedValue());
+      }
+    }),
 
 
     /**
@@ -487,7 +552,7 @@ qx.Class.define("qx.ui.form.TextField",
       "mshtml" : function()
       {
         this._visualPropertyCheck();
-        return this.getElement().createTextRange();
+        return this._inputElement.createTextRange();
       },
 
       "default" : null
@@ -525,7 +590,7 @@ qx.Class.define("qx.ui.form.TextField",
       {
         this._visualPropertyCheck();
 
-        var vText = this.getElement().value;
+        var vText = this._inputElement.value;
 
         // a bit hacky, special handling for line-breaks
         var i = 0;
@@ -553,7 +618,7 @@ qx.Class.define("qx.ui.form.TextField",
       "default" : function(vStart)
       {
         this._visualPropertyCheck();
-        this.getElement().selectionStart = vStart;
+        this._inputElement.selectionStart = vStart;
       }
     }),
 
@@ -573,7 +638,7 @@ qx.Class.define("qx.ui.form.TextField",
 
         var vSelectionRange = this.__getSelectionRange();
 
-        if (!this.getElement().contains(vSelectionRange.parentElement())) {
+        if (!this._inputElement.contains(vSelectionRange.parentElement())) {
           return -1;
         }
 
@@ -586,7 +651,7 @@ qx.Class.define("qx.ui.form.TextField",
       "default" : function()
       {
         this._visualPropertyCheck();
-        return this.getElement().selectionStart;
+        return this._inputElement.selectionStart;
       }
     }),
 
@@ -607,7 +672,7 @@ qx.Class.define("qx.ui.form.TextField",
 
         var vSelectionRange = this.__getSelectionRange();
 
-        if (!this.getElement().contains(vSelectionRange.parentElement())) {
+        if (!this._inputElement.contains(vSelectionRange.parentElement())) {
           return;
         }
 
@@ -620,7 +685,7 @@ qx.Class.define("qx.ui.form.TextField",
       {
         this._visualPropertyCheck();
 
-        var el = this.getElement();
+        var el = this._inputElement;
 
         if (qx.util.Validation.isValidString(el.value)) {
           el.selectionEnd = el.selectionStart + vLength;
@@ -644,7 +709,7 @@ qx.Class.define("qx.ui.form.TextField",
 
         var vSelectionRange = this.__getSelectionRange();
 
-        if (!this.getElement().contains(vSelectionRange.parentElement())) {
+        if (!this._inputElement.contains(vSelectionRange.parentElement())) {
           return 0;
         }
 
@@ -655,7 +720,7 @@ qx.Class.define("qx.ui.form.TextField",
       {
         this._visualPropertyCheck();
 
-        var el = this.getElement();
+        var el = this._inputElement;
         return el.selectionEnd - el.selectionStart;
       }
     }),
@@ -677,14 +742,14 @@ qx.Class.define("qx.ui.form.TextField",
         var vStart = this.getSelectionStart();
         var vSelectionRange = this.__getSelectionRange();
 
-        if (!this.getElement().contains(vSelectionRange.parentElement())) {
+        if (!this._inputElement.contains(vSelectionRange.parentElement())) {
           return;
         }
 
         vSelectionRange.text = vText;
 
         // apply text to internal storage
-        this.setValue(this.getElement().value);
+        this.setValue(this._inputElement.value);
 
         // recover selection (to behave the same gecko does)
         this.setSelectionStart(vStart);
@@ -697,7 +762,7 @@ qx.Class.define("qx.ui.form.TextField",
       {
         this._visualPropertyCheck();
 
-        var el = this.getElement();
+        var el = this._inputElement;
 
         var vOldText = el.value;
         var vStart = el.selectionStart;
@@ -734,7 +799,7 @@ qx.Class.define("qx.ui.form.TextField",
 
         var vSelectionRange = this.__getSelectionRange();
 
-        if (!this.getElement().contains(vSelectionRange.parentElement())) {
+        if (!this._inputElement.contains(vSelectionRange.parentElement())) {
           return "";
         }
 
@@ -745,7 +810,7 @@ qx.Class.define("qx.ui.form.TextField",
       {
         this._visualPropertyCheck();
 
-        return this.getElement().value.substr(this.getSelectionStart(), this.getSelectionLength());
+        return this._inputElement.value.substr(this.getSelectionStart(), this.getSelectionLength());
       }
     }),
 
@@ -769,14 +834,14 @@ qx.Class.define("qx.ui.form.TextField",
         }
 
         // to be sure we get the element selected
-        this.getElement().select();
+        this._inputElement.select();
       },
 
       "default" : function()
       {
         this._visualPropertyCheck();
 
-        this.getElement().select();
+        this._inputElement.select();
       }
     }),
 
@@ -803,10 +868,32 @@ qx.Class.define("qx.ui.form.TextField",
       {
         this._visualPropertyCheck();
 
-        var el = this.getElement();
+        var el = this._inputElement;
         el.selectionStart = vStart;
         el.selectionEnd = vEnd;
       }
     })
+  },
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    if (this._inputElement)
+    {
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        this._inputElement.onpropertychange = null;
+      }
+      else
+      {
+        this._inputElement.removeEventListener("input", this.__oninlineevent, false);
+      }
+    }
   }
 });
