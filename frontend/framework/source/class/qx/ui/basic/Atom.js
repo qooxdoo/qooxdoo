@@ -59,12 +59,6 @@ qx.Class.define("qx.ui.basic.Atom",
   {
     this.base(arguments);
 
-    // Until applications can override styles, we can't set width to "auto" in
-    // the theme's style.  It prevents flex widths from working.  (This
-    // probably applies to height as well, but that hasn't yet been verified.)
-    // Instead, we'll set it here in the constructor.
-    this.setWidth("auto");
-
     if (this.getOrientation() == null) {
       this.setOrientation("horizontal");
     }
