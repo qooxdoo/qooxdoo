@@ -4341,72 +4341,6 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
-    /*
-    ---------------------------------------------------------------------------
-      BORDER
-    ---------------------------------------------------------------------------
-    */
-
-    _applyBorderX : function(child)
-    {
-      var border = child.getBorder();
-      var mgr = qx.manager.object.BorderManager.getInstance();
-
-      if (border)
-      {
-        if (mgr.isThemedBorder(border)) {
-          border = mgr.themedBorderToObject(border);
-        }
-
-        border.applyWidgetLeft(child);
-        border.applyWidgetRight(child);
-      }
-      else
-      {
-        qx.renderer.border.Border.resetBorderX(child);
-      }
-    },
-
-    _applyBorderY : function(child)
-    {
-      var border = child.getBorder();
-      var mgr = qx.manager.object.BorderManager.getInstance();
-
-      if (border)
-      {
-        if (mgr.isThemedBorder(border)) {
-          border = mgr.themedBorderToObject(border);
-        }
-
-        border.applyWidgetTop(child);
-        border.applyWidgetBottom(child);
-      }
-      else
-      {
-        qx.renderer.border.Border.resetBorderY(child);
-      }
-    },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PADDING
-    ---------------------------------------------------------------------------
-    */
-
-    _applyPaddingX : qx.lang.Function.returnTrue,
-    _applyPaddingY : qx.lang.Function.returnTrue,
-
-
-
-
-
-
-
-
 
 
     /*
@@ -6550,6 +6484,16 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      OVERFLOW
+    ---------------------------------------------------------------------------
+    */
+
     /**
      * TODOC
      *
@@ -6726,9 +6670,11 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
+
     /*
     ---------------------------------------------------------------------------
-      COLORS
+      COLOR & BACKGROUND COLOR
     ---------------------------------------------------------------------------
     */
 
@@ -6762,6 +6708,9 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
+
+
     /*
     ---------------------------------------------------------------------------
       BORDER
@@ -6773,16 +6722,6 @@ qx.Class.define("qx.ui.core.Widget",
     _cachedBorderBottom : 0,
     _cachedBorderLeft : 0,
 
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
-     */
     _modifyBorder : function(value, old) {
       qx.manager.object.BorderManager.getInstance().process(this, "_styleBorder", value);
     },
@@ -6837,93 +6776,48 @@ qx.Class.define("qx.ui.core.Widget",
       this.addToQueue("borderY");
     },
 
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
-    getCachedBorderTop : function() {
-      return this._cachedBorderTop;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
-    getCachedBorderRight : function() {
-      return this._cachedBorderRight;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
-    getCachedBorderBottom : function() {
-      return this._cachedBorderBottom;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
-    getCachedBorderLeft : function() {
-      return this._cachedBorderLeft;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vEdge {var} TODOC
-     * @return {void}
-     */
-    _updateBorder : function(vEdge)
+    _applyBorderX : function(child)
     {
-      // Small hack, remove later: TODO
-      // ?? Anybody have an idea about this TODO?
-      var vBorder = this.getBorder();
-      var vEdgeUp = qx.lang.String.toFirstUp(vEdge);
+      var border = child.getBorder();
+      var mgr = qx.manager.object.BorderManager.getInstance();
 
-      var vNewValue = vBorder["get" + vEdgeUp + "Width"]();
-      var vCacheName = "_cachedBorder" + vEdgeUp;
-      var vWidthChanged = this[vCacheName] != vNewValue;
-
-      this[vCacheName] = vNewValue;
-
-      switch(vEdge)
+      if (border)
       {
-        case "left":
-        case "right":
-          if (vWidthChanged) {
-            this.addToJobQueue("borderWidthX");
-          }
+        if (mgr.isThemedBorder(border)) {
+          border = mgr.themedBorderToObject(border);
+        }
 
-          this.addToJobQueue("borderX");
-          break;
-
-        case "top":
-        case "bottom":
-          if (vWidthChanged) {
-            this.addToJobQueue("borderWidthY");
-          }
-
-          this.addToJobQueue("borderY");
-          break;
+        border.applyWidgetLeft(child);
+        border.applyWidgetRight(child);
+      }
+      else
+      {
+        qx.renderer.border.Border.resetBorderX(child);
       }
     },
+
+    _applyBorderY : function(child)
+    {
+      var border = child.getBorder();
+      var mgr = qx.manager.object.BorderManager.getInstance();
+
+      if (border)
+      {
+        if (mgr.isThemedBorder(border)) {
+          border = mgr.themedBorderToObject(border);
+        }
+
+        border.applyWidgetTop(child);
+        border.applyWidgetBottom(child);
+      }
+      else
+      {
+        qx.renderer.border.Border.resetBorderY(child);
+      }
+    },
+
+
+
 
 
 
@@ -6958,8 +6852,19 @@ qx.Class.define("qx.ui.core.Widget",
       this._invalidateFrameHeight();
     },
 
+    _applyPaddingX : qx.lang.Function.returnTrue,
+    _applyPaddingY : qx.lang.Function.returnTrue,
 
 
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      MARGIN
+    ---------------------------------------------------------------------------
+    */
 
     _modifyMarginLeft : function(value, old)
     {
