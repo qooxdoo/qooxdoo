@@ -1039,7 +1039,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
 
       // ###list, we reuse the same list in the popup
       this._calculateDimensions();
-      var border = qx.renderer.border.BorderPresets.getInset();
+      var border = "inset";
 
       var newListSettings =
       {
