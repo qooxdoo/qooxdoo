@@ -248,8 +248,9 @@ qx.Class.define("qx.core.Variant",
      */
     isSet : function(key, variants)
     {
-      if (this.__cache[key] !== undefined) {
-        return this.__cache[key];
+      var access = key + "$" + variants;
+      if (this.__cache[access] !== undefined) {
+        return this.__cache[access];
       }
 
       var retval = false;
@@ -273,7 +274,7 @@ qx.Class.define("qx.core.Variant",
         }
       }
 
-      this.__cache[key] = retval;
+      this.__cache[access] = retval;
       return retval;
     },
 
