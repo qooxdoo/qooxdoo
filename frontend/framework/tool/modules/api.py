@@ -154,7 +154,7 @@ def handleClassDefinition(docTree, item, variant):
         classNode.set("type", variant)
 
     handleDeprecated(classNode, commentAttributes)
-    handleInternal(classNode, commentAttributes)
+    handleAccess(classNode, commentAttributes)
     handleAppearance(item, classNode, className, commentAttributes)
 
     try:
@@ -287,9 +287,8 @@ function() {}""" % className
 
         node = compileString(functionCode)
         commentAttributes = comment.parseNode(node)
-        docNode = handleFunction(node, commentAttributes, classNode)
+        docNode = handleFunction(node, "getInstance", commentAttributes, classNode)
 
-        docNode.set("name", "getInstance")
         docNode.set("isStatic", True)
         classNode.addListChild("methods-static", docNode)
 
@@ -312,7 +311,7 @@ def handleInterfaces(item, classNode, docTree):
 def handleConstructor(ctorItem, classNode):
     if ctorItem and ctorItem.type == "function":
         commentAttributes = comment.parseNode(ctorItem.parent.parent)
-        ctor = handleFunction(ctorItem, commentAttributes, classNode)
+        ctor = handleFunction(ctorItem, "ctor", commentAttributes, classNode)
         removeErrors(ctor)
         ctor.set("isCtor", True)
         classNode.addListChild("constructor", ctor)
@@ -360,8 +359,7 @@ def handleStatics(item, classNode):
 
             # Function
             if value.type == "function":
-                node = handleFunction(value, commentAttributes, classNode)
-                node.set("name", key)
+                node = handleFunction(value, key, commentAttributes, classNode)
                 node.set("isStatic", True)
                 if classNode.get("type", False) == "mixin":
                     node.set("isMixin", True)
@@ -396,8 +394,7 @@ def handleMembers(item, classNode):
                         value = compileString(docItem["text"][3:-4] + "{}")
 
             if value.type == "function":
-                node = handleFunction(value, commentAttributes, classNode)
-                node.set("name", key)
+                node = handleFunction(value, key, commentAttributes, classNode)
                 if classNode.get("type", False) == "mixin":
                     node.set("isMixin", True)
 
@@ -457,6 +454,7 @@ def generatePropertyMethods(propertyName, classNode, generatedMethods):
  *
  * For further details take a look at the property definition: {@link #%s}.
  *
+ * @protected
  * @param value {var} Initial value for property <code>%s</code>.
  * @return {var} the default value
  */
@@ -477,8 +475,7 @@ def generatePropertyMethods(propertyName, classNode, generatedMethods):
         functionCode = propData[funcName]
         node = compileString(functionCode)
         commentAttributes = comment.parseNode(node)
-        docNode = handleFunction(node, commentAttributes, classNode)
-        docNode.set("name", funcName)
+        docNode = handleFunction(node, funcName, commentAttributes, classNode)
         docNode.set("fromProperty", propertyName)
         classNode.addListChild("methods", docNode)
 
@@ -571,9 +568,8 @@ def generateGroupPropertyMethod(propertyName, groupMembers, mode, classNode):
     })
     functionNode = compileString(functionCode)
     commentAttributes = comment.parseNode(functionNode)
-    docNode = handleFunction(functionNode, commentAttributes, classNode)
+    docNode = handleFunction(functionNode, functionName, commentAttributes, classNode)
 
-    docNode.set("name", functionName)
     docNode.set("fromProperty", propertyName)
     classNode.addListChild("methods", docNode)
 
@@ -635,7 +631,7 @@ def handleProperties(item, classNode):
             commentAttributes = comment.parseNode(keyvalue)
             addTypeInfo(node, comment.getAttrib(commentAttributes, "description"), item)
             handleDeprecated(node, commentAttributes)
-            handleInternal(node, commentAttributes)
+            handleAccess(node, commentAttributes)
 
             classNode.addListChild("properties", node)
 
@@ -672,7 +668,7 @@ def handleEvents(item, classNode):
             itemNode.set("type", value)
 
             handleDeprecated(node, commentAttributes)
-            handleInternal(node, commentAttributes)
+            handleAccess(node, commentAttributes)
 
             classNode.addListChild("events", node)
 
@@ -747,10 +743,30 @@ def handleDeprecated(docNode, commentAttributes):
             docNode.addChild(deprecatedNode)
 
 
-def handleInternal(docNode, commentAttributes):
+def handleAccess(docNode, commentAttributes):
+    name = docNode.get("name")
+    if name[:2] == "__":
+        access = "private"
+    elif name[:1] == "_":
+        access = "protected"
+    else:
+        access = "public"
+
     for docItem in commentAttributes:
         if docItem["category"] == "internal":
+            access = "internal"
             docNode.set("isInternal", True)
+        elif docItem["category"] == "public":
+            access = "public"
+        elif docItem["category"] == "protected":
+            access = "protected"
+        elif docItem["category"] == "public":
+            access = "public"
+
+    if access != "public":
+        docNode.set("access", access)
+
+
 
 ########################################################################################
 #
@@ -887,7 +903,7 @@ def handleClassDefinitionOld(docTree, item):
 
     # Add the constructor
     if ctorItem and ctorItem.type == "function":
-        ctor = handleFunction(ctorItem, commentAttributes, classNode)
+        ctor = handleFunction(ctorItem, "ctor", commentAttributes, classNode)
         ctor.set("isCtor", True)
         classNode.addListChild("constructor", ctor)
 
@@ -987,7 +1003,7 @@ def handlePropertyDefinitionOldCommon(item, classNode, propertyName, paramsMap):
     commentAttributes = comment.parseNode(item)
     addTypeInfo(node, comment.getAttrib(commentAttributes, "description"), item)
     handleDeprecated(node, commentAttributes)
-    handleInternal(node, commentAttributes)
+    handleAccess(node, commentAttributes)
 
     classNode.addListChild("properties", node)
 
@@ -1005,10 +1021,8 @@ def handleMethodDefinitionOld(item, isStatic, classNode):
 
     commentAttributes = comment.parseNode(item)
 
-    node = handleFunction(functionItem, commentAttributes, classNode)
-    node.set("name", name)
+    node = handleFunction(functionItem, name, commentAttributes, classNode)
 
-    isPublic = name[0] != "_"
     listName = "methods"
     if isStatic:
         node.set("isStatic", True)
@@ -1057,15 +1071,16 @@ def handleConstantDefinition(item, classNode):
     addTypeInfo(node, description, item)
 
     handleDeprecated(node, commentAttributes)
-    handleInternal(node, commentAttributes)
+    handleAccess(node, commentAttributes)
     classNode.addListChild("constants", node)
 
 
-def handleFunction(funcItem, commentAttributes, classNode):
+def handleFunction(funcItem, name, commentAttributes, classNode):
     if funcItem.type != "function":
         raise DocException("'funcItem' is no function", funcItem)
 
     node = tree.Node("method")
+    node.set("name", name)
 
     # Read the parameters
     params = funcItem.getChild("params", False)
@@ -1092,7 +1107,7 @@ def handleFunction(funcItem, commentAttributes, classNode):
         return node
 
     handleDeprecated(node, commentAttributes)
-    handleInternal(node, commentAttributes)
+    handleAccess(node, commentAttributes)
 
     # Read all description, param and return attributes
     for attrib in commentAttributes:

@@ -93,7 +93,7 @@ qx.Class.define("apiviewer.dao.Node", {
      */
     isInternal : function()
     {
-      return this._docNode.attributes.isInternal || false;
+      return this._docNode.attributes.access == "internal";
     },
 
 
@@ -104,7 +104,7 @@ qx.Class.define("apiviewer.dao.Node", {
      */
     isPrivate : function()
     {
-      return this.getName().substring(0,2) == "__";
+      return this._docNode.attributes.access == "private";
     },
 
 
@@ -115,10 +115,7 @@ qx.Class.define("apiviewer.dao.Node", {
      */
     isProtected : function()
     {
-      return (
-        this.getName().charAt(0) == "_" &&
-        this.getName().charAt(1) != "_"
-      );
+      return this._docNode.attributes.access == "protected";
     },
 
 
