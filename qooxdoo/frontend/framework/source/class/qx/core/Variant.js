@@ -55,6 +55,10 @@ qx.Class.define("qx.core.Variant",
     __variants : {},
 
 
+    /** {Map} cached results */
+    __cache : {},
+
+
     /**
      * Pseudo function as replacement for isSet() which will only be handled by the optimizer
      *
@@ -244,23 +248,33 @@ qx.Class.define("qx.core.Variant",
      */
     isSet : function(key, variants)
     {
-      // TODO: Caching?
-
-      // fast path
-      if (variants.indexOf("|") < 0) {
-        return this.get(key) === variants;
+      if (this.__cache[key] !== undefined) {
+        return this.__cache[key];
       }
 
-      var keyParts = variants.split("|");
+      var retval = false;
 
-      for (var i=0, l=keyParts.length; i<l; i++)
+      // fast path
+      if (variants.indexOf("|") < 0)
       {
-        if (this.get(key) === keyParts[i]) {
-          return true;
+        retval = this.get(key) === variants;
+      }
+      else
+      {
+        var keyParts = variants.split("|");
+
+        for (var i=0, l=keyParts.length; i<l; i++)
+        {
+          if (this.get(key) === keyParts[i])
+          {
+            retval = true;
+            break;
+          }
         }
       }
 
-      return false;
+      this.__cache[key] = retval;
+      return retval;
     },
 
 
