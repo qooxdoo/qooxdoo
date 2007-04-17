@@ -77,13 +77,13 @@ qx.Class.define("qx.renderer.border.Border",
      * TODOC
      *
      * @type static
-     * @param vDefString {var} TODOC
+     * @param str {var} TODOC
      * @return {var} TODOC
      */
-    fromString : function(vDefString)
+    fromString : function(str)
     {
       var border = new qx.renderer.border.Border;
-      var parts = vDefString.split(/\s+/);
+      var parts = str.split(/\s+/);
       var part, temp;
 
       for (var i=0; i<parts.length; i++)
@@ -128,24 +128,24 @@ qx.Class.define("qx.renderer.border.Border",
      * TODOC
      *
      * @type static
-     * @param obj {var} TODOC
+     * @param widget {var} TODOC
      * @return {void}
-     * @signature function(obj)
+     * @signature function(widget)
      */
     resetBorderX : qx.core.Variant.select("qx.client",
     {
-      "gecko" : function(obj)
+      "gecko" : function(widget)
       {
-        var style = obj._style;
+        var style = widget._style;
         style.borderLeft = style.borderRight = style.MozBorderLeftColors = style.MozBorderRightColors = "";
       },
 
-      "default" : function(obj)
+      "default" : function(widget)
       {
-        var style = obj._style;
+        var style = widget._style;
         style.borderLeft = style.borderRight = "0px none";
 
-        style = obj._innerStyle;
+        style = widget._innerStyle;
         if (style) {
           style.borderLeft = style.borderRight = "0px none";
         }
@@ -157,24 +157,24 @@ qx.Class.define("qx.renderer.border.Border",
      * TODOC
      *
      * @type static
-     * @param obj {var} TODOC
+     * @param widget {var} TODOC
      * @return {void}
-     * @signature function(obj)
+     * @signature function(widget)
      */
     resetBorderY : qx.core.Variant.select("qx.client",
     {
-      "gecko" : function(obj)
+      "gecko" : function(widget)
       {
-        var style = obj._style;
+        var style = widget._style;
         style.borderTop = style.borderBottom = style.MozBorderTopColors = style.MozBorderBottomColors = "";
       },
 
-      "default" : function(obj)
+      "default" : function(widget)
       {
-        var style = obj._style;
+        var style = widget._style;
         style.borderTop = style.borderBottom = "0px none";
 
-        style = obj._innerStyle;
+        style = widget._innerStyle;
         if (style) {
           style.borderTop = style.borderBottom = "0px none";
         }
@@ -195,6 +195,12 @@ qx.Class.define("qx.renderer.border.Border",
 
   properties :
   {
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY: WIDTH
+    ---------------------------------------------------------------------------
+    */
+
     topWidth :
     {
       check : "Number",
@@ -226,6 +232,11 @@ qx.Class.define("qx.renderer.border.Border",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY: STYLE
+    ---------------------------------------------------------------------------
+    */
 
     topStyle :
     {
@@ -262,6 +273,11 @@ qx.Class.define("qx.renderer.border.Border",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY: COLOR
+    ---------------------------------------------------------------------------
+    */
 
     topColor :
     {
@@ -294,6 +310,12 @@ qx.Class.define("qx.renderer.border.Border",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY: INNER COLOR
+    ---------------------------------------------------------------------------
+    */
+
     topInnerColor :
     {
       nullable : true,
@@ -325,6 +347,11 @@ qx.Class.define("qx.renderer.border.Border",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY GROUP: EDGE
+    ---------------------------------------------------------------------------
+    */
 
     left : {
       group : [ "leftWidth", "leftStyle", "leftColor" ]
@@ -344,6 +371,11 @@ qx.Class.define("qx.renderer.border.Border",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY GROUP: TYPE
+    ---------------------------------------------------------------------------
+    */
 
     width :
     {
@@ -383,7 +415,7 @@ qx.Class.define("qx.renderer.border.Border",
   {
     /*
     ---------------------------------------------------------------------------
-      APPLY ROUTINES
+      PROPERTY APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
 
@@ -464,6 +496,11 @@ qx.Class.define("qx.renderer.border.Border",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      COMPLEX DETECTION AND CACHE
+    ---------------------------------------------------------------------------
+    */
 
     _computeUseComplexTop : function() {
       this.__complexTop = this.getTopWidth() === 2 && this.__topInnerColor != null && this.__topColor != this.__topInnerColor;
@@ -485,6 +522,11 @@ qx.Class.define("qx.renderer.border.Border",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      COLOR MANAGER CONNECTION
+    ---------------------------------------------------------------------------
+    */
 
     _updateTopColor : function(value)
     {
@@ -545,6 +587,13 @@ qx.Class.define("qx.renderer.border.Border",
 
 
 
+
+    /*
+    ---------------------------------------------------------------------------
+      BORDER MANAGER CONNECTION
+    ---------------------------------------------------------------------------
+    */
+
     _informManager : function(edge) {
       qx.manager.object.BorderManager.getInstance().updateBorderAt(this, edge);
     },
@@ -557,67 +606,9 @@ qx.Class.define("qx.renderer.border.Border",
 
     /*
     ---------------------------------------------------------------------------
-      APPLY/RESET IMPLEMENTATION
+      APPLY IMPLEMENTATION
     ---------------------------------------------------------------------------
     */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param obj {Object} TODOC
-     * @return {void}
-     */
-    _applyWidget : function(obj)
-    {
-      this.applyWidgetX(obj);
-      this.applyWidgetY(obj);
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param obj {Object} TODOC
-     * @return {void}
-     */
-    _resetWidget : function(obj)
-    {
-      this._resetWidgetX(obj);
-      this._resetWidgetY(obj);
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param obj {Object} TODOC
-     * @return {var} TODOC
-     */
-    _resetWidgetX : function(obj) {
-      return qx.renderer.border.Border.resetBorderX(obj);
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param obj {Object} TODOC
-     * @return {var} TODOC
-     */
-    _resetWidgetY : function(obj) {
-      return qx.renderer.border.Border.resetBorderY(obj);
-    },
-
-
-
-
-
-
-
 
     applyWidgetTop : qx.core.Variant.select("qx.client",
     {
@@ -901,29 +892,7 @@ qx.Class.define("qx.renderer.border.Border",
           }
         }
       }
-    }),
-
-
-
-
-
-
-
-
-
-
-
-    applyWidgetX : function(obj)
-    {
-      this.applyWidgetLeft(obj);
-      this.applyWidgetRight(obj);
-    },
-
-    applyWidgetY : function(obj)
-    {
-      this.applyWidgetTop(obj);
-      this.applyWidgetBottom(obj);
-    }
+    })
   },
 
 
