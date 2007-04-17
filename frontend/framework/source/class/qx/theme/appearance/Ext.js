@@ -203,7 +203,7 @@ qx.Theme.define("qx.theme.appearance.Ext",
           backgroundImage : "static/image/Ext/button_gradient.png",
 
           backgroundColor : states.over ? "buttonhighlight" : "buttonface",
-          border          : states.over ? qx.renderer.border.BorderPresets.getInstance().inset : qx.renderer.border.BorderPresets.getInstance().thinOutset,
+          border          : states.over ? "inset" : "thinOutset",
           paddingTop      : states.over ? 2 : 3,
           paddingBottom   : states.over ? 2 : states.pressed ? 1 : 3,
           paddingLeft     : states.over ? 3 : 4,
@@ -284,7 +284,7 @@ qx.Theme.define("qx.theme.appearance.Ext",
     "toolbar-button" : {
       style : function(states) {
         var border_pressed = new qx.renderer.border.Border(1, "solid", "#6593CF");
-        var border_default = qx.renderer.border.BorderPresets.getInstance().none;
+        var border_default = null;
 
         return {
           cursor                : "default",
@@ -428,7 +428,7 @@ qx.Theme.define("qx.theme.appearance.Ext",
           vReturn.paddingLeft     = vReturn.paddingRight  = 6;
         }
         else {
-          vReturn.border          = qx.renderer.border.BorderPresets.getInstance().none;
+          vReturn.border          = null;
           vReturn.backgroundImage = null;
           vReturn.backgroundColor = null;
           vReturn.paddingTop      = vReturn.paddingBottom = 4;
@@ -583,7 +583,7 @@ qx.Theme.define("qx.theme.appearance.Ext",
           vReturn.paddingLeft     = vReturn.paddingRight  = 6;
         }
         else {
-          vReturn.border          = qx.renderer.border.BorderPresets.getInstance().none;
+          vReturn.border          = null;
           vReturn.backgroundImage = null;
           vReturn.backgroundColor = null;
           vReturn.paddingTop      = vReturn.paddingBottom = 4;
@@ -627,7 +627,7 @@ qx.Theme.define("qx.theme.appearance.Ext",
           paddingRight    : 0,
           paddingBottom   : 0,
           paddingLeft     : 0,
-          border          : states.maximized ? qx.renderer.border.BorderPresets.getInstance().none : "1px solid #6593CF"
+          border          : states.maximized ? null : "1px solid #6593CF"
         }
       }
     },
@@ -726,7 +726,7 @@ qx.Theme.define("qx.theme.appearance.Ext",
     "window-statusbar" : {
       style : function(states) {
         return {
-          border : qx.renderer.border.BorderPresets.getInstance().thinInset,
+          border : "thinInset",
           height : "auto"
         }
       }
@@ -758,7 +758,7 @@ qx.Theme.define("qx.theme.appearance.Ext",
 
     "resizer": {
       style: function(states) {
-        return { border : qx.renderer.border.BorderPresets.getInstance().thinOutset }
+        return { border : "thinOutset" }
       }
     },
 
@@ -1076,7 +1076,7 @@ qx.Theme.define("qx.theme.appearance.Ext",
 
       style : function(states) {
         return {
-          border          : qx.renderer.border.BorderPresets.getInstance().none,
+          border          : null,
           width           : "1*",
           backgroundColor : "transparent",
           color           : "#1E3C73"
@@ -1089,7 +1089,7 @@ qx.Theme.define("qx.theme.appearance.Ext",
 
       style : function(states) {
         return {
-          border          : qx.renderer.border.BorderPresets.getInstance().none,
+          border          : null,
           minWidth        : 30,
           width           : 100,
           backgroundColor : "transparent"
@@ -1203,7 +1203,7 @@ qx.Theme.define("qx.theme.appearance.Ext",
       style : function(states) {
         return {
           verticalChildrenAlign : "top",
-          border                : qx.renderer.border.BorderPresets.getInstance().black
+          border                : "black"
         }
       }
     },
@@ -1559,7 +1559,7 @@ qx.Theme.define("qx.theme.appearance.Ext",
 
         return {
           width  : "1*",
-          border : qx.renderer.border.BorderPresets.getInstance().none
+          border : null
         }
       }
     },
