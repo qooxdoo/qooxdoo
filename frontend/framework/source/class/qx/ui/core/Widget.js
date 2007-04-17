@@ -4339,9 +4339,11 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
+
     /*
     ---------------------------------------------------------------------------
-      BORDER + PADDING
+      BORDER
     ---------------------------------------------------------------------------
     */
 
@@ -4356,7 +4358,8 @@ qx.Class.define("qx.ui.core.Widget",
           border = mgr.themedBorderToObject(border);
         }
 
-        border.applyWidgetX(child);
+        border.applyWidgetLeft(child);
+        border.applyWidgetRight(child);
       }
       else
       {
@@ -4375,13 +4378,24 @@ qx.Class.define("qx.ui.core.Widget",
           border = mgr.themedBorderToObject(border);
         }
 
-        border.applyWidgetY(child);
+        border.applyWidgetTop(child);
+        border.applyWidgetBottom(child);
       }
       else
       {
         qx.renderer.border.Border.resetBorderY(child);
       }
     },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PADDING
+    ---------------------------------------------------------------------------
+    */
 
     _applyPaddingX : qx.lang.Function.returnTrue,
     _applyPaddingY : qx.lang.Function.returnTrue,
