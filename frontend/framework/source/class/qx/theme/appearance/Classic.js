@@ -111,14 +111,16 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       topWidth : 1,
       bottomWidth : 1,
-      color : [ "threedshadow", null, "threedhighlight", null ]
+      topColor: "threedshadow",
+      bottomColor : "threedhighlight"
     },
 
     "horizontalDivider" :
     {
       leftWidth : 1,
       rightWidth : 1,
-      color : [ null, "threedhighlight", null, "threedshadow" ]
+      leftColor : "threedhighlight",
+      rightColor : "threedshadow"
     }
   },
 
@@ -131,6 +133,10 @@ qx.Theme.define("qx.theme.appearance.Classic",
     "widget" :
     {
     },
+
+
+
+
 
     /*
     ---------------------------------------------------------------------------
@@ -183,10 +189,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         return {
           cursor                        : "default",
           spacing                       : 4,
-// Until applications can override styles, we can't set width to "auto" here.
-// It prevents flex widths from working.  (This probably applies to height as
-// well, but that hasn't yet been verified.)
-//          width                         : "auto",
+          width                         : "auto",
           height                        : "auto",
           horizontalChildrenAlign       : "center",
           verticalChildrenAlign         : "middle",

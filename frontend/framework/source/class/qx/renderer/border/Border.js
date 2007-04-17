@@ -345,22 +345,26 @@ qx.Class.define("qx.renderer.border.Border",
 
 
 
-    width : {
+    width :
+    {
       group : [ "topWidth", "rightWidth", "bottomWidth", "leftWidth" ],
       mode : "shorthand"
     },
 
-    style : {
+    style :
+    {
       group : [ "topStyle", "rightStyle", "bottomStyle", "leftStyle" ],
       mode : "shorthand"
     },
 
-    color : {
+    color :
+    {
       group : [ "topColor", "rightColor", "bottomColor", "leftColor" ],
       mode : "shorthand"
     },
 
-    innerColor : {
+    innerColor :
+    {
       group : [ "topInnerColor", "rightInnerColor", "bottomInnerColor", "leftInnerColor" ],
       mode : "shorthand"
     }
