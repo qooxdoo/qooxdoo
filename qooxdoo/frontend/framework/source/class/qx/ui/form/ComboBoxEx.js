@@ -479,7 +479,6 @@ qx.Proto._calculateDimensions = function() {
   for (var col = 0; col < cols.length; col++) {
     columnWidths[col] = 0;
   }
-  var withDescript = this.getShowOnTextField() == 'idAndDescription';
   for (var row = 0, rows = Math.min(data.length, 50); row < rows; row++) {
     var r = data[row], wi0, wi1;
     for (col = 0; col < nCols; col++) {
