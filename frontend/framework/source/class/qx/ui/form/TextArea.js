@@ -34,25 +34,6 @@ qx.Class.define("qx.ui.form.TextArea",
 
 
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  /**
-   * @param vValue {String} this string is ddisplayed as the value of the TextArea.
-   */
-  construct : function(vValue)
-  {
-    this.base(arguments, vValue);
-
-    this.setTagName("textarea");
-    this.removeHtmlProperty("type");
-  },
-
-
-
 
   /*
   *****************************************************************************
@@ -87,34 +68,36 @@ qx.Class.define("qx.ui.form.TextArea",
 
   members :
   {
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {void}
-     * @signature function(propValue, propOldValue, propData)
-     */
-    _modifyWrap : qx.core.Variant.select("qx.client",
+    _inputTag : "textarea",
+    _inputType : null,
+
+    _modifyElement : function(propValue, propOldValue)
     {
-      "mshtml" : function(propValue, propOldValue, propData) {
-        return this.setStyleProperty("whiteSpace", propValue ? "normal" : "nowrap");
+      this.base(arguments, propValue, propOldValue);
+
+      if (propValue) {
+        this._applyWrap(this.getWrap());
+      }
+    },
+
+    _modifyWrap : function(propValue, propOldValue)
+    {
+      if (this._inputElement) {
+        this._applyWrap(propValue);
+      }
+    },
+
+    _applyWrap : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(propValue) {
+        this._inputElement.style.whiteSpace = propValue ? "normal" : "nowrap";
       },
 
-      "default" : function(propValue, propOldValue, propData) {
-        return this.setHtmlProperty("wrap", propValue ? "soft" : "off");
+      "default" : function(propValue) {
+        this._inputElement.wrap = propValue ? "soft" : "off";
       }
     }),
 
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {int} TODOC
-     */
     _computePreferredInnerHeight : function() {
       return 60;
     }

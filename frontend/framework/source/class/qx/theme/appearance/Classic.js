@@ -1089,18 +1089,19 @@ qx.Theme.define("qx.theme.appearance.Classic",
       style : function(states)
       {
         return {
-          hideFocus     : true,
-          border        : "inset",
-          paddingTop    : 1,
-          paddingRight  : 3,
-          paddingBottom : 1,
-          paddingLeft   : 3,
-          allowStretchY : false,
-          allowStretchX : true,
-          font          : '11px "Lucida Grande", "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
-          width         : "auto",
-          height        : "auto",
-          color         : states.disabled ? "graytext" : null
+          hideFocus       : true,
+          border          : "inset",
+          paddingTop      : 1,
+          paddingRight    : 3,
+          paddingBottom   : 1,
+          paddingLeft     : 3,
+          allowStretchY   : false,
+          allowStretchX   : true,
+          font            : '11px "Lucida Grande", "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
+          width           : "auto",
+          height          : "auto",
+          color           : states.disabled ? "graytext" : null,
+          backgroundColor : "white"
         };
       }
     },
