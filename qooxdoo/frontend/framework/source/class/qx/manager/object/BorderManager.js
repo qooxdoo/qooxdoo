@@ -156,25 +156,61 @@ qx.Class.define("qx.manager.object.BorderManager",
 
     _applyBorderTheme : function(value, old)
     {
-      // Generating RGB strings from themed borders
-      var values = value.borders;
-      var result = this.__themedBorders = {};
-
-      for (var key in values)
-      {
-        result[key] = new qx.renderer.border.Border;
-        result[key].set(values[key]);
-      }
+      // Generating border objects
+      this._generateBorderObjects(value);
 
       // Inform objects which have registered
       // regarding the theme switch
+      this._updateThemedObjects();
+    },
+
+
+    _generateBorderObjects : function(value)
+    {
+      var source = value.borders;
+      var dest = this.__themedBorders = {};
+
+      // TODO: Dispose old borders
+
+      for (var key in source)
+      {
+        dest[key] = new qx.renderer.border.Border;
+        dest[key].name = key;
+        dest[key].set(source[key]);
+      }
+    },
+
+
+    _updateThemedObjects : function()
+    {
       var reg = this.__themedObjects;
+      var dest = this.__themedBorders;
       var entry;
 
       for (var key in reg)
       {
         entry = reg[key];
-        entry.object[entry.callback](result[entry.value]);
+        entry.object[entry.callback](dest[entry.value]);
+      }
+    },
+
+
+    updateBorderAt : function(obj, edge)
+    {
+      var reg = this.__themedObjects;
+      var dest = this.__themedBorders;
+      var entry;
+
+      for (var key in reg)
+      {
+        entry = reg[key];
+
+        if (dest[entry.value] === obj)
+        {
+          // TODO: Send context edge
+          // this.debug("Update: " + entry.object + ": " + obj.name + ": " + edge);
+          entry.object[entry.callback](dest[entry.value], edge);
+        }
       }
     }
   },

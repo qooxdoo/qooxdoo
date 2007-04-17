@@ -160,22 +160,34 @@ qx.Class.define("qx.manager.object.ColorManager",
     _applyColorTheme : function(value, old)
     {
       // Generating RGB strings from themed colors
-      var values = value.colors;
-      var result = this.__themedColors = {};
-      var util = qx.util.ColorUtil;
-      for (var key in values) {
-        result[key] = util.rgbToRgbString(values[key]);
-      }
+      this._generateRgbStrings(value);
 
       // Inform objects which have registered
       // regarding the theme switch
+      this._updateThemedObjects();
+    },
+
+    _generateRgbStrings : function(value)
+    {
+      var source = value.colors;
+      var dest = this.__themedColors = {};
+      var util = qx.util.ColorUtil;
+
+      for (var key in source) {
+        dest[key] = util.rgbToRgbString(source[key]);
+      }
+    },
+
+    _updateThemedObjects : function()
+    {
       var reg = this.__themedObjects;
+      var dest = this.__themedColors;
       var entry;
 
       for (var key in reg)
       {
         entry = reg[key];
-        entry.object[entry.callback](result[entry.value]);
+        entry.object[entry.callback](dest[entry.value]);
       }
     },
 
