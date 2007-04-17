@@ -683,7 +683,6 @@ qx.Class.define("qx.renderer.border.Border",
 
     _updateTop : function()
     {
-      this.debug("Update top...");
       this._needsCompilationTop = true;
       this._sync("top");
     },
@@ -917,7 +916,8 @@ qx.Class.define("qx.renderer.border.Border",
         def.borderTop = this._generateDefString(width, style, this.getTopColor());
 
         if (this.getTopInnerColor()) {
-          def.MozBorderTopColors += this.getTopColor() + " " + this.getTopInnerColor();
+          def.MozBorderTopColors = this.getTopColor() + " " + this.getTopInnerColor();
+          this.debug("ColorTopSet: " + def.MozBorderTopColors);
         } else {
           def.MozBorderTopColors = null;
         }
@@ -998,7 +998,7 @@ qx.Class.define("qx.renderer.border.Border",
         def.borderRight = this._generateDefString(width, style, this.getRightColor());
 
         if (this.getRightInnerColor()) {
-          def.MozBorderRightColors += this.getRightColor() + " " + this.getRightInnerColor();
+          def.MozBorderRightColors = this.getRightColor() + " " + this.getRightInnerColor();
         } else {
           def.MozBorderRightColors = null;
         }
@@ -1079,7 +1079,7 @@ qx.Class.define("qx.renderer.border.Border",
         def.borderBottom = this._generateDefString(width, style, this.getBottomColor());
 
         if (this.getBottomInnerColor()) {
-          def.MozBorderBottomColors += this.getBottomColor() + " " + this.getBottomInnerColor();
+          def.MozBorderBottomColors = this.getBottomColor() + " " + this.getBottomInnerColor();
         } else {
           def.MozBorderBottomColors = null;
         }
@@ -1160,7 +1160,7 @@ qx.Class.define("qx.renderer.border.Border",
         def.borderLeft = this._generateDefString(width, style, this.getLeftColor());
 
         if (this.getLeftInnerColor()) {
-          def.MozBorderLeftColors += this.getLeftColor() + " " + this.getLeftInnerColor();
+          def.MozBorderLeftColors = this.getLeftColor() + " " + this.getLeftInnerColor();
         } else {
           def.MozBorderLeftColors = null;
         }
