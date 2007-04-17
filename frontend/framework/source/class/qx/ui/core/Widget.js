@@ -2956,58 +2956,55 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @type member
      * @return {void}
+     * @internal
      * @signature function()
      */
-    _createElementForEnhancedBorder : qx.core.Variant.select("qx.client",
+    prepareEnhancedBorder : qx.core.Variant.select("qx.client",
     {
       "gecko" : qx.lang.Function.returnTrue,
 
       "default" : function()
       {
-        // Enhanced Border Test (for IE and Opera)
-        if (this.getTagName() == "div" && !this._borderElement)
+        var el = this.getElement();
+        var cl = this._borderElement = document.createElement("div");
+
+        var es = el.style;
+        var cs = this._innerStyle = cl.style;
+
+        cs.width = cs.height = "100%";
+        cs.position = "absolute";
+
+        for (var i in this._styleProperties)
         {
-          var el = this.getElement();
-          var cl = this._borderElement = document.createElement("div");
-
-          var es = el.style;
-          var cs = this._innerStyle = cl.style;
-
-          cs.width = cs.height = "100%";
-          cs.position = "absolute";
-
-          for (var i in this._styleProperties)
+          switch(i)
           {
-            switch(i)
-            {
-              case "position":
-              case "zIndex":
-              case "filter":
-              case "display":
-                break;
+            case "position":
+            case "zIndex":
+            case "filter":
+            case "display":
+              break;
 
-              default:
-                cs[i] = this._styleProperties[i];
-                es[i] = "";
-            }
+            default:
+              cs[i] = this._styleProperties[i];
+              es[i] = "";
           }
-
-          for (var i in this._htmlProperties)
-          {
-            switch(i)
-            {
-              case "unselectable":
-                cl.unselectable = this._htmlProperties[i];
-            }
-          }
-
-          // Move existing children
-          while (el.firstChild) {
-            cl.appendChild(el.firstChild);
-          }
-
-          el.appendChild(cl);
         }
+
+        for (var i in this._htmlProperties)
+        {
+          switch(i)
+          {
+            case "unselectable":
+              cl.unselectable = this._htmlProperties[i];
+          }
+        }
+
+        // Move existing children
+        while (el.firstChild) {
+          cl.appendChild(el.firstChild);
+        }
+
+        el.appendChild(cl);
       }
     }),
 
@@ -6772,49 +6769,59 @@ qx.Class.define("qx.ui.core.Widget",
      * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyBorder : function(value, old)
-    {
+    _modifyBorder : function(value, old) {
       qx.manager.object.BorderManager.getInstance().process(this, "_styleBorder", value);
     },
 
-    _styleBorder : function(propValue, propOldValue, propData)
+    _styleBorder : function(value, edge)
     {
-      var vOldTop = this._cachedBorderTop;
-      var vOldRight = this._cachedBorderRight;
-      var vOldBottom = this._cachedBorderBottom;
-      var vOldLeft = this._cachedBorderLeft;
-
-      if (propValue)
+      if (edge)
       {
-        this._cachedBorderTop = propValue.getTopWidth();
-        this._cachedBorderRight = propValue.getRightWidth();
-        this._cachedBorderBottom = propValue.getBottomWidth();
-        this._cachedBorderLeft = propValue.getLeftWidth();
+        if (edge === "left" || edge === "right")
+        {
+          this._styleBorderX(value);
+        }
+        else
+        {
+          this._styleBorderY(value);
+        }
       }
       else
       {
-        this._cachedBorderTop = this._cachedBorderRight = this._cachedBorderBottom = this._cachedBorderLeft = 0;
+        this._styleBorderX(value);
+        this._styleBorderY(value);
       }
+    },
 
-      // ----------------
-      // X-AXIS
-      // ----------------
-      if ((vOldLeft + vOldRight) != (this._cachedBorderLeft + this._cachedBorderRight)) {
+    _styleBorderX : function(value)
+    {
+      var oldLeftWidth = this._cachedBorderLeft;
+      var oldRightWidth = this._cachedBorderRight;
+
+      this._cachedBorderLeft = value ? value.getLeftWidth() : 0;
+      this._cachedBorderRight = value ? value.getRightWidth() : 0;
+
+      if ((oldLeftWidth + oldRightWidth) != (this._cachedBorderLeft + this._cachedBorderRight)) {
         this._invalidateFrameWidth();
       }
 
       this.addToQueue("borderX");
+    },
 
-      // ----------------
-      // Y-AXIS
-      // ----------------
-      if ((vOldTop + vOldBottom) != (this._cachedBorderTop + this._cachedBorderBottom)) {
+    _styleBorderY : function(value)
+    {
+      var oldTopWidth = this._cachedBorderTop;
+      var oldBottomWidth = this._cachedBorderBottom;
+
+      this._cachedBorderTop = value ? value.getTopWidth() : 0;
+      this._cachedBorderBottom = value ? value.getBottomWidth() : 0;
+
+      if ((oldTopWidth + oldBottomWidth) != (this._cachedBorderTop + this._cachedBorderBottom)) {
         this._invalidateFrameHeight();
       }
 
       this.addToQueue("borderY");
     },
-
 
 
 

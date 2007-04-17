@@ -40,48 +40,36 @@ qx.Theme.define("qx.theme.appearance.Classic",
     "black" :
     {
       width : 1,
-      style : "solid",
       color : "black"
     },
 
     "white" :
     {
       width : 1,
-      style : "solid",
       color : "white"
     },
 
     "shadow" :
     {
       width : 1,
-      style : "solid",
       color : "threedshadow"
     },
 
     "lightShadow" :
     {
       width : 1,
-      style : "solid",
       color : "threedlightshadow"
     },
 
     "info" :
     {
       width : 1,
-      style : "solid",
       color : "infotext"
-    },
-
-    "none" :
-    {
-      width : 0,
-      style : "none"
     },
 
     "inset" :
     {
       width : 2,
-      style : "inset",
       color : [ "threedshadow", "threedhighlight", "threedhighlight", "threedshadow" ],
       innerColor : [ "threeddarkshadow", "threedlightshadow", "threedlightshadow", "threeddarkshadow" ]
     },
@@ -89,7 +77,6 @@ qx.Theme.define("qx.theme.appearance.Classic",
     "outset" :
     {
       width : 2,
-      style : "outset",
       color : [ "threedlightshadow", "threeddarkshadow", "threeddarkshadow", "threedlightshadow" ],
       innerColor : [ "threedhighlight", "threedshadow", "threedshadow", "threedhighlight" ]
     },
@@ -97,7 +84,6 @@ qx.Theme.define("qx.theme.appearance.Classic",
     "groove" :
     {
       width : 2,
-      style : "groove",
       color : [ "threedshadow", "threedhighlight", "threedhighlight", "threedshadow" ],
       innerColor : [ "threedhighlight", "threedshadow", "threedshadow", "threedhighlight" ]
     },
@@ -105,7 +91,6 @@ qx.Theme.define("qx.theme.appearance.Classic",
     "ridge" :
     {
       width : 2,
-      style : "ridge",
       color : [ "threedhighlight", "threedshadow", "threedshadow", "threedhighlight" ],
       innerColor : [ "threedshadow", "threedhighlight", "threedhighlight", "threedshadow" ]
     },
@@ -113,14 +98,12 @@ qx.Theme.define("qx.theme.appearance.Classic",
     "thinInset" :
     {
       width : 1,
-      style : "inset",
       color : [ "threedshadow", "threedhighlight", "threedhighlight", "threedshadow" ]
     },
 
     "thinOutset" :
     {
       width : 1,
-      style : "outset",
       color : [ "threedhighlight", "threedshadow", "threedshadow", "threedhighlight" ]
     },
 
@@ -128,7 +111,6 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       topWidth : 1,
       bottomWidth : 1,
-      style : "inset",
       color : [ "threedshadow", null, "threedhighlight", null ]
     },
 
@@ -136,7 +118,6 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       leftWidth : 1,
       rightWidth : 1,
-      style : "inset",
       color : [ null, "threedhighlight", null, "threedshadow" ]
     }
   },
