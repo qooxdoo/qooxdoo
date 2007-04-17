@@ -42,9 +42,6 @@ qx.Class.define("qx.renderer.border.Border",
   {
     this.base(arguments);
 
-    this._themedEdges = {};
-    this._initCache();
-
     if (width != null)
     {
       this.setWidth(width);
@@ -127,64 +124,6 @@ qx.Class.define("qx.renderer.border.Border",
     },
 
 
-    data :
-    {
-      1 :
-      {
-        outset :
-        {
-          top    : [ "threedhighlight" ],
-          right  : [ "threedshadow" ],
-          bottom : [ "threedshadow" ],
-          left   : [ "threedhighlight" ]
-        },
-
-        inset :
-        {
-          top    : [ "threedshadow" ],
-          right  : [ "threedhighlight" ],
-          bottom : [ "threedhighlight" ],
-          left   : [ "threedshadow" ]
-        }
-      },
-
-      2 :
-      {
-        outset :
-        {
-          top    : [ "threedlightshadow", "threedhighlight" ],
-          right  : [ "threeddarkshadow", "threedshadow" ],
-          bottom : [ "threeddarkshadow", "threedshadow" ],
-          left   : [ "threedlightshadow", "threedhighlight" ]
-        },
-
-        inset :
-        {
-          top    : [ "threedshadow", "threeddarkshadow" ],
-          right  : [ "threedhighlight", "threedlightshadow" ],
-          bottom : [ "threedhighlight", "threedlightshadow" ],
-          left   : [ "threedshadow", "threeddarkshadow" ]
-        },
-
-        ridge :
-        {
-          top    : [ "threedhighlight", "threedshadow" ],
-          right  : [ "threedshadow", "threedhighlight" ],
-          bottom : [ "threedshadow", "threedhighlight" ],
-          left   : [ "threedhighlight", "threedshadow" ]
-        },
-
-        groove :
-        {
-          top    : [ "threedshadow", "threedhighlight" ],
-          right  : [ "threedhighlight", "threedshadow" ],
-          bottom : [ "threedhighlight", "threedshadow" ],
-          left   : [ "threedshadow", "threedhighlight" ]
-        }
-      }
-    },
-
-
     /**
      * TODOC
      *
@@ -241,8 +180,9 @@ qx.Class.define("qx.renderer.border.Border",
         }
       }
     })
-
   },
+
+
 
 
 
@@ -286,27 +226,36 @@ qx.Class.define("qx.renderer.border.Border",
 
 
 
+
     topStyle :
     {
       nullable : true,
+      check : [ "solid", "dotted", "dashed", "double", "outset", "inset", "ridge", "groove" ],
+      init : "solid",
       apply : "_applyTopStyle"
     },
 
     rightStyle :
     {
       nullable : true,
+      check : [ "solid", "dotted", "dashed", "double", "outset", "inset", "ridge", "groove" ],
+      init : "solid",
       apply : "_applyRightStyle"
     },
 
     bottomStyle :
     {
       nullable : true,
+      check : [ "solid", "dotted", "dashed", "double", "outset", "inset", "ridge", "groove" ],
+      init : "solid",
       apply : "_applyBottomStyle"
     },
 
     leftStyle :
     {
       nullable : true,
+      check : [ "solid", "dotted", "dashed", "double", "outset", "inset", "ridge", "groove" ],
+      init : "solid",
       apply : "_applyLeftStyle"
     },
 
@@ -428,307 +377,172 @@ qx.Class.define("qx.renderer.border.Border",
 
   members :
   {
-    _needsCompilationTop : true,
-    _needsCompilationRight : true,
-    _needsCompilationBottom : true,
-    _needsCompilationLeft : true,
-
-
-
-
     /*
     ---------------------------------------------------------------------------
-      COMPATIBILITY TO qx.renderer.border.BorderOBJECT
+      APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param obj {Object} TODOC
-     * @return {void}
-     */
-    addListenerWidget : function(obj)
+    _applyTopWidth : function(value, old)
     {
-      if (!this._dependentObjects) {
-        this._dependentObjects = {};
-      }
-
-      this._dependentObjects[obj.toHashCode()] = obj;
+      this._computeUseComplexTop();
+      this._informManager("top");
     },
 
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param obj {Object} TODOC
-     * @return {void}
-     */
-    removeListenerWidget : function(obj)
+    _applyRightWidth : function(value, old)
     {
-      if (this._dependentObjects) {
-        delete this._dependentObjects[obj.toHashCode()];
-      }
+      this._computeUseComplexRight();
+      this._informManager("right");
     },
 
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param edge {var} TODOC
-     * @return {void}
-     */
-    _sync : function(edge)
+    _applyBottomWidth : function(value, old)
     {
-      var deps = this._dependentObjects;
-
-      if (!deps) {
-        return;
-      }
-
-      var current;
-
-      for (key in deps)
-      {
-        current = deps[key];
-
-        if (current.isCreated()) {
-          current._updateBorder(edge);
-        }
-      }
+      this._computeUseComplexBottom();
+      this._informManager("bottom");
     },
 
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      INITIALISATION OF CACHE
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     * @signature function()
-     */
-    _initCache : qx.core.Variant.select("qx.client",
+    _applyLeftWidth : function(value, old)
     {
-      "gecko" : function()
-      {
-        this._defsX =
-        {
-          borderLeft           : "",
-          borderRight          : "",
-          MozBorderLeftColors  : "",
-          MozBorderRightColors : ""
-        };
-
-        this._defsY =
-        {
-          borderTop             : "",
-          borderBottom          : "",
-          MozBorderTopColors    : "",
-          MozBorderBottomColors : ""
-        };
-      },
-
-      "default" : function()
-      {
-        this._defsX =
-        {
-          borderLeft  : "",
-          borderRight : ""
-        };
-
-        this._defsY =
-        {
-          borderTop    : "",
-          borderBottom : ""
-        };
-
-        this._enhancedDefsX =
-        {
-          borderLeft  : "",
-          borderRight : ""
-        };
-
-        this._enhancedDefsY =
-        {
-          borderTop    : "",
-          borderBottom : ""
-        };
-      }
-    }),
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param width {var} TODOC
-     * @param style {var} TODOC
-     * @param color {var} TODOC
-     * @return {string | var} TODOC
-     */
-    _generateDefString : function(width, style, color)
-    {
-      if (typeof width !== "number" || width < 0) {
-        return "";
-      }
-
-      var vArr = [ width + "px" ];
-
-      if (style != null) {
-        vArr.push(style);
-      }
-
-      if (color != null) {
-        vArr.push(color);
-      }
-
-      return vArr.join(" ");
-    },
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      MODIFIER
-    ---------------------------------------------------------------------------
-    */
-
-    _applyTopWidth : function(value, old) {
-      this._updateTop();
-    },
-
-    _applyRightWidth : function(value, old) {
-      this._updateRight();
-    },
-
-    _applyBottomWidth : function(value, old) {
-      this._updateBottom();
-    },
-
-    _applyLeftWidth : function(value, old) {
-      this._updateLeft();
+      this._computeUseComplexLeft();
+      this._informManager("left");
     },
 
     _applyTopColor : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().process(this, "_updateTop", value);
+      qx.manager.object.ColorManager.getInstance().process(this, "_updateTopColor", value);
     },
 
     _applyRightColor : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().process(this, "_updateRight", value);
+      qx.manager.object.ColorManager.getInstance().process(this, "_updateRightColor", value);
     },
 
     _applyBottomColor : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().process(this, "_updateBottom", value);
+      qx.manager.object.ColorManager.getInstance().process(this, "_updateBottomColor", value);
     },
 
     _applyLeftColor : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().process(this, "_updateLeft", value);
+      qx.manager.object.ColorManager.getInstance().process(this, "_updateLeftColor", value);
     },
 
     _applyTopInnerColor : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().process(this, "_updateTop", value);
+      qx.manager.object.ColorManager.getInstance().process(this, "_updateTopInnerColor", value);
     },
 
     _applyRightInnerColor : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().process(this, "_updateRight", value);
+      qx.manager.object.ColorManager.getInstance().process(this, "_updateRightInnerColor", value);
     },
 
     _applyBottomInnerColor : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().process(this, "_updateBottom", value);
+      qx.manager.object.ColorManager.getInstance().process(this, "_updateBottomInnerColor", value);
     },
 
     _applyLeftInnerColor : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().process(this, "_updateLeft", value);
+      qx.manager.object.ColorManager.getInstance().process(this, "_updateLeftInnerColor", value);
     },
 
     _applyTopStyle : function() {
-      this._updateTop();
+      this._informManager("top");
     },
 
     _applyRightStyle : function() {
-      this._updateRight();
+      this._informManager("right");
     },
 
     _applyBottomStyle : function() {
-      this._updateBottom();
+      this._informManager("bottom");
     },
 
     _applyLeftStyle : function() {
-      this._updateLeft();
+      this._informManager("left");
     },
 
 
 
 
 
-    /*
-    ---------------------------------------------------------------------------
-      UPDATE ROUTINES
-    ---------------------------------------------------------------------------
-    */
 
-    _updateTop : function()
+
+    _computeUseComplexTop : function() {
+      this.__complexTop = this.getTopWidth() === 2 && this.__topInnerColor != null && this.__topColor != this.__topInnerColor;
+    },
+
+    _computeUseComplexRight : function() {
+      this.__complexRight = this.getRightWidth() === 2 && this.__rightInnerColor != null && this.__rightColor != this.__rightInnerColor;
+    },
+
+    _computeUseComplexBottom : function() {
+      this.__complexBottom = this.getBottomWidth() === 2 && this.__bottomInnerColor != null && this.__bottomColor != this.__bottomInnerColor;
+    },
+
+    _computeUseComplexLeft : function() {
+      this.__complexLeft = this.getLeftWidth() === 2 && this.__leftInnerColor != null && this.__leftColor != this.__leftInnerColor;
+    },
+
+
+
+
+
+
+    _updateTopColor : function(value)
     {
-      this._needsCompilationTop = true;
-      this._sync("top");
+      this.__topColor = value;
+      this._computeUseComplexTop();
+      this._informManager("top");
     },
 
-    _updateRight : function()
+    _updateTopInnerColor : function(value)
     {
-      this._needsCompilationRight = true;
-      this._sync("right");
+      this.__topInnerColor = value;
+      this._computeUseComplexTop();
+      this._informManager("top");
     },
 
-    _updateBottom : function()
+    _updateRightColor : function(value)
     {
-      this._needsCompilationBottom = true;
-      this._sync("bottom");
+      this.__rightColor = value;
+      this._computeUseComplexRight();
+      this._informManager("right");
     },
 
-    _updateLeft : function()
+    _updateRightInnerColor : function(value)
     {
-      this._needsCompilationLeft = true;
-      this._sync("left");
+      this.__rightInnerColor = value;
+      this._computeUseComplexRight();
+      this._informManager("right");
+    },
+
+    _updateBottomColor : function(value)
+    {
+      this.__bottomColor = value;
+      this._computeUseComplexBottom();
+      this._informManager("bottom");
+    },
+
+    _updateBottomInnerColor : function(value)
+    {
+      this.__bottomInnerColor = value;
+      this._computeUseComplexBottom();
+      this._informManager("bottom");
+    },
+
+    _updateLeftColor : function(value)
+    {
+      this.__leftColor = value;
+      this._computeUseComplexLeft();
+      this._informManager("left");
+    },
+
+    _updateLeftInnerColor : function(value)
+    {
+      this.__leftInnerColor = value;
+      this._computeUseComplexLeft();
+      this._informManager("left");
     },
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
-    getUseEnhancedCrossBrowserMode : function() {
-      return this.getTopInnerColor() || this.getRightInnerColor() || this.getLeftInnerColor() || this.getBottomInnerColor();
+    _informManager : function(edge) {
+      qx.manager.object.BorderManager.getInstance().updateBorderAt(this, edge);
     },
 
 
@@ -795,435 +609,319 @@ qx.Class.define("qx.renderer.border.Border",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param obj {var} TODOC
-     * @return {void}
-     */
+
+
+
+
+
+
+    applyWidgetTop : qx.core.Variant.select("qx.client",
+    {
+      "gecko" : function(obj)
+      {
+        var style = obj._style;
+
+        // Simple width & color update
+        style.borderTopWidth = this.getTopWidth() || "0px";
+        style.borderTopColor = this.__topColor || "";
+
+        // Complex border handling
+        if (this.__complexTop)
+        {
+          // be sure to use "solid" even if defined different
+          // otherwise the browser wins and don't respect the
+          // configured color set
+          style.borderTopStyle = "solid";
+
+          // Apply geckos's proprietary style
+          style.MozBorderTopColors = this.__topColor + " " + this.__topInnerColor;
+        }
+        else
+        {
+          // Simple style update
+          style.borderTopStyle = this.getTopStyle() || "none";
+
+          // Apply geckos's proprietary style
+          style.MozBorderTopColors = "";
+        }
+      },
+
+      "default" : function(obj)
+      {
+        var outer = obj._style;
+        var inner = obj._innerStyle;
+
+        if (this.__complexTop)
+        {
+          // Create required inner element
+          if (!inner)
+          {
+            obj.prepareEnhancedBorder();
+            inner = obj._innerStyle;
+          }
+
+          // Keep width and style of inner and outer in sync
+          // Force both, 1px and solid. Even if the style is configured
+          // in a different way. Otherwise the browser wins and don't respect
+          // the configured color set.
+          outer.borderTopWidth = inner.borderTopWidth = "1px";
+          outer.borderTopStyle = inner.borderTopStyle = "solid";
+
+          // Apply the different colors
+          outer.borderTopColor = this.__topColor;
+          inner.borderTopColor = this.__topInnerColor;
+        }
+        else
+        {
+          // Simple CSS value update
+          outer.borderTopWidth = this.getTopWidth() || "0px";
+          outer.borderTopStyle = this.getTopStyle() || "none";
+          outer.borderTopColor = this.__topColor || "";
+
+          // Reset inner styles
+          if (inner) {
+            inner.borderTopWidth = inner.borderTopStyle = inner.borderTopColor = "";
+          }
+        }
+      }
+    }),
+
+    applyWidgetRight : qx.core.Variant.select("qx.client",
+    {
+      "gecko" : function(obj)
+      {
+        var style = obj._style;
+
+        // Simple width & color update
+        style.borderRightWidth = this.getRightWidth() || "0px";
+        style.borderRightColor = this.__rightColor || "";
+
+        // Complex border handling
+        if (this.__complexRight)
+        {
+          // be sure to use "solid" even if defined different
+          // otherwise the browser wins and don't respect the
+          // configured color set
+          style.borderRightStyle = "solid";
+
+          // Apply geckos's proprietary style
+          style.MozBorderRightColors = this.__rightColor + " " + this.__rightInnerColor;
+        }
+        else
+        {
+          // Simple style update
+          style.borderRightStyle = this.getRightStyle() || "none";
+
+          // Apply geckos's proprietary style
+          style.MozBorderRightColors = "";
+        }
+      },
+
+      "default" : function(obj)
+      {
+        var outer = obj._style;
+        var inner = obj._innerStyle;
+
+        if (this.__complexRight)
+        {
+          // Create required inner element
+          if (!inner)
+          {
+            obj.prepareEnhancedBorder();
+            inner = obj._innerStyle;
+          }
+
+          // Keep width and style of inner and outer in sync
+          // Force both, 1px and solid. Even if the style is configured
+          // in a different way. Otherwise the browser wins and don't respect
+          // the configured color set.
+          outer.borderRightWidth = inner.borderRightWidth = "1px";
+          outer.borderRightStyle = inner.borderRightStyle = "solid";
+
+          // Apply the different colors
+          outer.borderRightColor = this.__rightColor;
+          inner.borderRightColor = this.__rightInnerColor;
+        }
+        else
+        {
+          // Simple CSS value update
+          outer.borderRightWidth = this.getRightWidth() || "0px";
+          outer.borderRightStyle = this.getRightStyle() || "none";
+          outer.borderRightColor = this.__rightColor || "";
+
+          // Reset inner styles
+          if (inner) {
+            inner.borderRightWidth = inner.borderRightStyle = inner.borderRightColor = "";
+          }
+        }
+      }
+    }),
+
+    applyWidgetBottom : qx.core.Variant.select("qx.client",
+    {
+      "gecko" : function(obj)
+      {
+        var style = obj._style;
+
+        // Simple width & color update
+        style.borderBottomWidth = this.getBottomWidth() || "0px";
+        style.borderBottomColor = this.__bottomColor || "";
+
+        // Complex border handling
+        if (this.__complexBottom)
+        {
+          // be sure to use "solid" even if defined different
+          // otherwise the browser wins and don't respect the
+          // configured color set
+          style.borderBottomStyle = "solid";
+
+          // Apply geckos's proprietary style
+          style.MozBorderBottomColors = this.__bottomColor + " " + this.__bottomInnerColor;
+        }
+        else
+        {
+          // Simple style update
+          style.borderBottomStyle = this.getBottomStyle() || "none";
+
+          // Apply geckos's proprietary style
+          style.MozBorderBottomColors = "";
+        }
+      },
+
+      "default" : function(obj)
+      {
+        var outer = obj._style;
+        var inner = obj._innerStyle;
+
+        if (this.__complexBottom)
+        {
+          // Create required inner element
+          if (!inner)
+          {
+            obj.prepareEnhancedBorder();
+            inner = obj._innerStyle;
+          }
+
+          // Keep width and style of inner and outer in sync
+          // Force both, 1px and solid. Even if the style is configured
+          // in a different way. Otherwise the browser wins and don't respect
+          // the configured color set.
+          outer.borderBottomWidth = inner.borderBottomWidth = "1px";
+          outer.borderBottomStyle = inner.borderBottomStyle = "solid";
+
+          // Apply the different colors
+          outer.borderBottomColor = this.__bottomColor;
+          inner.borderBottomColor = this.__bottomInnerColor;
+        }
+        else
+        {
+          // Simple CSS value update
+          outer.borderBottomWidth = this.getBottomWidth() || "0px";
+          outer.borderBottomStyle = this.getBottomStyle() || "none";
+          outer.borderBottomColor = this.__bottomColor || "";
+
+          // Reset inner styles
+          if (inner) {
+            inner.borderBottomWidth = inner.borderBottomStyle = inner.borderBottomColor = "";
+          }
+        }
+      }
+    }),
+
+    applyWidgetLeft : qx.core.Variant.select("qx.client",
+    {
+      "gecko" : function(obj)
+      {
+        var style = obj._style;
+
+        // Simple width & color update
+        style.borderLeftWidth = this.getLeftWidth() || "0px";
+        style.borderLeftColor = this.__leftColor || "";
+
+        // Complex border handling
+        if (this.__complexLeft)
+        {
+          // be sure to use "solid" even if defined different
+          // otherwise the browser wins and don't respect the
+          // configured color set
+          style.borderLeftStyle = "solid";
+
+          // Apply geckos's proprietary style
+          style.MozBorderLeftColors = this.__leftColor + " " + this.__leftInnerColor;
+        }
+        else
+        {
+          // Simple style update
+          style.borderLeftStyle = this.getLeftStyle() || "none";
+
+          // Apply geckos's proprietary style
+          style.MozBorderLeftColors = "";
+        }
+      },
+
+      "default" : function(obj)
+      {
+        var outer = obj._style;
+        var inner = obj._innerStyle;
+
+        if (this.__complexLeft)
+        {
+          // Create required inner element
+          if (!inner)
+          {
+            obj.prepareEnhancedBorder();
+            inner = obj._innerStyle;
+          }
+
+          // Keep width and style of inner and outer in sync
+          // Force both, 1px and solid. Even if the style is configured
+          // in a different way. Otherwise the browser wins and don't respect
+          // the configured color set.
+          outer.borderLeftWidth = inner.borderLeftWidth = "1px";
+          outer.borderLeftStyle = inner.borderLeftStyle = "solid";
+
+          // Apply the different colors
+          outer.borderLeftColor = this.__leftColor;
+          inner.borderLeftColor = this.__leftInnerColor;
+        }
+        else
+        {
+          // Simple CSS value update
+          outer.borderLeftWidth = this.getLeftWidth() || "0px";
+          outer.borderLeftStyle = this.getLeftStyle() || "none";
+          outer.borderLeftColor = this.__leftColor || "";
+
+          // Reset inner styles
+          if (inner) {
+            inner.borderLeftWidth = inner.borderLeftStyle = inner.borderLeftColor = "";
+          }
+        }
+      }
+    }),
+
+
+
+
+
+
+
+
+
+
+
     applyWidgetX : function(obj)
     {
-      if (this._needsCompilationLeft) {
-        this._compileLeft();
-      }
-
-      if (this._needsCompilationRight) {
-        this._compileRight();
-      }
-
-      for (var i in this._defsX) {
-        obj._style[i] = this._defsX[i];
-      }
-
-      if (qx.core.Variant.isSet("qx.client", "gecko")) { /* empty */ } else
-      {
-        if (this.getUseEnhancedCrossBrowserMode()) {
-          obj._createElementForEnhancedBorder();
-        }
-
-        if (obj._innerStyle)
-        {
-          for (var i in this._enhancedDefsX) {
-            obj._innerStyle[i] = this._enhancedDefsX[i];
-          }
-        }
-      }
-
-      if (qx.core.Variant.isSet("qx.client", "mshtml|opera|webkit"))
-      {
-        if (this.getUseEnhancedCrossBrowserMode()) {
-          obj._createElementForEnhancedBorder();
-        }
-
-        if (obj._innerStyle)
-        {
-          for (var i in this._enhancedDefsX) {
-            obj._innerStyle[i] = this._enhancedDefsX[i];
-          }
-        }
-      }
+      this.applyWidgetLeft(obj);
+      this.applyWidgetRight(obj);
     },
 
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param obj {var} TODOC
-     * @return {void}
-     */
     applyWidgetY : function(obj)
     {
-      if (this._needsCompilationTop) {
-        this._compileTop();
-      }
-
-      if (this._needsCompilationBottom) {
-        this._compileBottom();
-      }
-
-      for (var i in this._defsY) {
-        obj._style[i] = this._defsY[i];
-      }
-
-      if (qx.core.Variant.isSet("qx.client", "gecko")) { /* empty */ } else
-      {
-        if (this.getUseEnhancedCrossBrowserMode()) {
-          obj._createElementForEnhancedBorder();
-        }
-
-        if (obj._innerStyle)
-        {
-          for (var i in this._enhancedDefsY) {
-            obj._innerStyle[i] = this._enhancedDefsY[i];
-          }
-        }
-      }
-
-      if (qx.core.Variant.isSet("qx.client", "mshtml|opera|webkit"))
-      {
-        if (this.getUseEnhancedCrossBrowserMode()) {
-          obj._createElementForEnhancedBorder();
-        }
-
-        if (obj._innerStyle)
-        {
-          for (var i in this._enhancedDefsY) {
-            obj._innerStyle[i] = this._enhancedDefsY[i];
-          }
-        }
-      }
-    },
-
-
-
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     * @signature function()
-     */
-    _compileTop : qx.core.Variant.select("qx.client",
-    {
-      "gecko" :  function()
-      {
-        var width = this.getTopWidth(), style = this.getTopStyle(), def = this._defsY;
-
-        def.borderTop = this._generateDefString(width, style, this.getTopColor());
-
-        if (this.getTopInnerColor()) {
-          def.MozBorderTopColors = this.getTopColor() + " " + this.getTopInnerColor();
-          this.debug("ColorTopSet: " + def.MozBorderTopColors);
-        } else {
-          def.MozBorderTopColors = null;
-        }
-
-        this._needsCompilationTop = false;
-      },
-
-      "default" : function()
-      {
-        var vTopWidth = this.getTopWidth();
-        var vTopStyle = this.getTopStyle();
-        var vTopColor = this.getTopColor();
-
-        switch(vTopWidth)
-        {
-          case 1:
-            switch(vTopStyle)
-            {
-              case "outset":
-              case "inset":
-                vTopColor = qx.renderer.border.Border.data[vTopWidth][vTopStyle]["top"][0];
-                vTopStyle = "solid";
-            }
-
-            break;
-
-          case 2:
-            switch(vTopStyle)
-            {
-              case "outset":
-              case "inset":
-              case "groove":
-              case "ridge":
-                try
-                {
-                  var c = qx.renderer.border.Border.data[vTopWidth][vTopStyle]["top"];
-
-                  if (typeof c === "object")
-                  {
-                    vTopStyle = "solid";
-                    vTopWidth = 1;
-                    vTopColor = c[1];
-
-                    this._enhancedDefsY.borderTop = this._generateDefString(vTopWidth, vTopStyle, vTopColor);
-
-                    vTopColor = c[0];
-                  }
-                }
-                catch(ex)
-                {
-                  this.error("Failed to compile top border", ex);
-                  this.warn("Details: Width=" + vTopWidth + ", Style=" + vTopStyle);
-                }
-            }
-
-            break;
-        }
-
-        this._defsY.borderTop = this._generateDefString(vTopWidth, vTopStyle, vTopColor);
-        this._needsCompilationTop = false;
-      }
-    }),
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     * @signature function()
-     */
-    _compileRight : qx.core.Variant.select("qx.client",
-    {
-      "gecko" : function()
-      {
-        var width = this.getRightWidth(), style = this.getRightStyle(), def = this._defsX;
-
-        def.borderRight = this._generateDefString(width, style, this.getRightColor());
-
-        if (this.getRightInnerColor()) {
-          def.MozBorderRightColors = this.getRightColor() + " " + this.getRightInnerColor();
-        } else {
-          def.MozBorderRightColors = null;
-        }
-
-        this._needsCompilationRight = false;
-      },
-
-      "default" : function()
-      {
-        var vRightWidth = this.getRightWidth();
-        var vRightStyle = this.getRightStyle();
-        var vRightColor = this.getRightColor();
-
-        switch(vRightWidth)
-        {
-          case 1:
-            switch(vRightStyle)
-            {
-              case "outset":
-              case "inset":
-                vRightColor = qx.renderer.border.Border.data[vRightWidth][vRightStyle]["right"][0];
-                vRightStyle = "solid";
-            }
-
-            break;
-
-          case 2:
-            switch(vRightStyle)
-            {
-              case "outset":
-              case "inset":
-              case "groove":
-              case "ridge":
-                try
-                {
-                  var c = qx.renderer.border.Border.data[vRightWidth][vRightStyle]["right"];
-
-                  if (typeof c === "object")
-                  {
-                    vRightStyle = "solid";
-                    vRightWidth = 1;
-                    vRightColor = c[1];
-
-                    this._enhancedDefsX.borderRight = this._generateDefString(vRightWidth, vRightStyle, vRightColor);
-
-                    vRightColor = c[0];
-                  }
-                }
-                catch(ex)
-                {
-                  this.error("Failed to compile right border", ex);
-                  this.warn("Details: Width=" + vRightWidth + ", Style=" + vRightStyle);
-                }
-            }
-
-            break;
-        }
-
-        this._defsX.borderRight = this._generateDefString(vRightWidth, vRightStyle, vRightColor);
-        this._needsCompilationRight = false;
-      }
-    }),
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     * @signature function()
-     */
-    _compileBottom : qx.core.Variant.select("qx.client",
-    {
-      "gecko" : function()
-      {
-        var width = this.getBottomWidth(), style = this.getBottomStyle(), def = this._defsY;
-
-        def.borderBottom = this._generateDefString(width, style, this.getBottomColor());
-
-        if (this.getBottomInnerColor()) {
-          def.MozBorderBottomColors = this.getBottomColor() + " " + this.getBottomInnerColor();
-        } else {
-          def.MozBorderBottomColors = null;
-        }
-
-        this._needsCompilationBottom = false;
-      },
-
-      "default" : function()
-      {
-        var vBottomWidth = this.getBottomWidth();
-        var vBottomStyle = this.getBottomStyle();
-        var vBottomColor = this.getBottomColor();
-
-        switch(vBottomWidth)
-        {
-          case 1:
-            switch(vBottomStyle)
-            {
-              case "outset":
-              case "inset":
-                vBottomColor = qx.renderer.border.Border.data[vBottomWidth][vBottomStyle]["bottom"][0];
-                vBottomStyle = "solid";
-            }
-
-            break;
-
-          case 2:
-            switch(vBottomStyle)
-            {
-              case "outset":
-              case "inset":
-              case "groove":
-              case "ridge":
-                try
-                {
-                  var c = qx.renderer.border.Border.data[vBottomWidth][vBottomStyle]["bottom"];
-
-                  if (typeof c === "object")
-                  {
-                    vBottomStyle = "solid";
-                    vBottomWidth = 1;
-                    vBottomColor = c[1];
-
-                    this._enhancedDefsY.borderBottom = this._generateDefString(vBottomWidth, vBottomStyle, vBottomColor);
-
-                    vBottomColor = c[0];
-                  }
-                }
-                catch(ex)
-                {
-                  this.error("Failed to compile bottom border", ex);
-                  this.warn("Details: Width=" + vBottomWidth + ", Style=" + vBottomStyle);
-                }
-            }
-
-            break;
-        }
-
-        this._defsY.borderBottom = this._generateDefString(vBottomWidth, vBottomStyle, vBottomColor);
-        this._needsCompilationBottom = false;
-      }
-    }),
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     * @signature function()
-     */
-    _compileLeft : qx.core.Variant.select("qx.client",
-    {
-      "gecko" : function()
-      {
-        var width = this.getLeftWidth(), style = this.getLeftStyle(), def = this._defsX;
-
-        def.borderLeft = this._generateDefString(width, style, this.getLeftColor());
-
-        if (this.getLeftInnerColor()) {
-          def.MozBorderLeftColors = this.getLeftColor() + " " + this.getLeftInnerColor();
-        } else {
-          def.MozBorderLeftColors = null;
-        }
-
-        this._needsCompilationLeft = false;
-      },
-
-      "default" : function()
-      {
-        var vLeftWidth = this.getLeftWidth();
-        var vLeftStyle = this.getLeftStyle();
-        var vLeftColor = this.getLeftColor();
-
-        switch(vLeftWidth)
-        {
-          case 1:
-            switch(vLeftStyle)
-            {
-              case "outset":
-              case "inset":
-                vLeftColor = qx.renderer.border.Border.data[vLeftWidth][vLeftStyle]["left"][0];
-                vLeftStyle = "solid";
-            }
-
-            break;
-
-          case 2:
-            switch(vLeftStyle)
-            {
-              case "outset":
-              case "inset":
-              case "groove":
-              case "ridge":
-                try
-                {
-                  var c = qx.renderer.border.Border.data[vLeftWidth][vLeftStyle]["left"];
-
-                  if (typeof c === "object")
-                  {
-                    vLeftStyle = "solid";
-                    vLeftWidth = 1;
-                    vLeftColor = c[1];
-
-                    this._enhancedDefsX.borderLeft = this._generateDefString(vLeftWidth, vLeftStyle, vLeftColor);
-
-                    vLeftColor = c[0];
-                  }
-                }
-                catch(ex)
-                {
-                  this.error("Failed to compile left border", ex);
-                  this.warn("Details: Width=" + vLeftWidth + ", Style=" + vLeftStyle);
-                }
-            }
-
-            break;
-        }
-
-        this._defsX.borderLeft = this._generateDefString(vLeftWidth, vLeftStyle, vLeftColor);
-        this._needsCompilationLeft = false;
-      }
-    })
+      this.applyWidgetTop(obj);
+      this.applyWidgetBottom(obj);
+    }
   },
+
 
 
 
@@ -1237,6 +935,6 @@ qx.Class.define("qx.renderer.border.Border",
   */
 
   destruct : function() {
-    this._disposeFields("_defsX", "_defsY", "_enhancedDefsX", "_enhancedDefsY", "_themedEdges");
+    this._disposeFields();
   }
 });
