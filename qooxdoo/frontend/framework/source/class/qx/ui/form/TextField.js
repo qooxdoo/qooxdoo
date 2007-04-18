@@ -59,7 +59,7 @@ qx.Class.define("qx.ui.form.TextField",
     // Inline event wrapper
     this.__oninlineevent = qx.lang.Function.bindEvent(this._oninlineevent, this);
 
-    // Enable tagIndex
+    // Enable tabIndex
     this.setTabIndex(1);
 
     // Add listeners
@@ -190,16 +190,23 @@ qx.Class.define("qx.ui.form.TextField",
 
   members :
   {
-
     /*
     ---------------------------------------------------------------------------
-      MODIFIERS
+      PROTECTED CONTROLS
     ---------------------------------------------------------------------------
     */
 
     _inputTag : "input",
     _inputType : "text",
     _inputOverflow : "hidden",
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      APPLY ROUTINES
+    ---------------------------------------------------------------------------
+    */
 
     _modifyElement : function(propValue, propOldValue)
     {
@@ -232,16 +239,20 @@ qx.Class.define("qx.ui.form.TextField",
         istyle.border = "0 none";
         istyle.background = "transparent";
         istyle.overflow = this._inputOverflow;
-        istyle.display = "block";
 
         // MSHTML needs some tweaks
         if (qx.core.Variant.isSet("qx.client", "mshtml"))
         {
           // "inherit" keyword is not supported by IE 6.x and 7.x
           // apply some default and let modifiers sync to the input field, too
+
+          // TODO: Implement font-size handling after new properties are ready.
           istyle.fontFamily = "Tahoma, sans-serif";
           istyle.fontSize = "11px";
-          istyle.color = "black";
+
+          if (this.getColor()) {
+            istyle.color = this.getColor();
+          }
         }
         else
         {
@@ -253,7 +264,7 @@ qx.Class.define("qx.ui.form.TextField",
           // See also: https://bugzilla.mozilla.org/show_bug.cgi?id=73817
           istyle.margin = "1px 0"
 
-          // use inherit for faster inheritance
+          // use built-in inheritance system for optiomal performance
           istyle.fontFamily = "inherit";
           istyle.fontSize = "inherit";
           istyle.color = "inherit";
@@ -271,7 +282,11 @@ qx.Class.define("qx.ui.form.TextField",
       }
     },
 
-
+    /**
+     * We could not use width/height = 100% because the outer elements
+     * could have paddings and borders which will break. We use the
+     * computed inner width/height instead
+     */
     _postApply : function()
     {
       var istyle = this._inputElement.style;
@@ -346,6 +361,26 @@ qx.Class.define("qx.ui.form.TextField",
         this._inputElement.readOnly = propValue;
       }
     },
+
+
+    /**
+     * Sync color to embedded input element
+     */
+    _styleColor : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(value)
+      {
+        this.base(arguments, value);
+
+        if (this._inputElement) {
+          this._inputElement.style.color = value ? value : "";
+        }
+      },
+
+      "default" : function(value) {
+        this.base(arguments, value);
+      }
+    }),
 
 
 
