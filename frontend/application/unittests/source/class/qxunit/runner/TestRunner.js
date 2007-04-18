@@ -49,7 +49,7 @@ qx.Class.define("qxunit.runner.TestRunner",
     this.base(arguments);
     this.set({
       height : "100%",
-      width : "100%",
+      width : "100%"
       //border : "ridge"
       //border          : qx.renderer.border.BorderPresets.getInstance().inset
     });
