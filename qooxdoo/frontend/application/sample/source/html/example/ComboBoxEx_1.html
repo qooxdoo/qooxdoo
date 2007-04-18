@@ -172,7 +172,8 @@ qx.core.Init.getInstance().defineMain(function() {
 	var rbDesc = new form.RadioButton('Description', 'description');
 	rbDesc.setChecked(true);
 	var rbIdAndDesc = new form.RadioButton('ID and description', 'idAndDescription');
-	var fieldShowOn = new qx.manager.selection.RadioManager("showOnTextField", [ rbDesc, rbIdAndDesc ]);
+	var rbId = new form.RadioButton('ID', 'id');
+	var fieldShowOn = new qx.manager.selection.RadioManager("showOnTextField", [ rbDesc, rbIdAndDesc, rbId ]);
 	fieldShowOn.addEventListener("changeSelected", function(e) {
 		combo.setShowOnTextField(e.getData().getValue());
     });
@@ -186,7 +187,7 @@ qx.core.Init.getInstance().defineMain(function() {
 	var boxShowOn2 = new Box;
 	with (boxShowOn2) {
 		setSpacing(10);
-		add(new Label('Show on text field:'), rbDesc, rbIdAndDesc, new Label('Separator between ID and description:'), fieldSeparator);
+		add(new Label('Show on text field:'), rbDesc, rbIdAndDesc, rbId, new Label('Separator between ID and description:'), fieldSeparator);
 	}
 	var boxShowOn = new GroupBox('Test showOnTextField property');
 	boxShowOn.add(boxShowOn2);
