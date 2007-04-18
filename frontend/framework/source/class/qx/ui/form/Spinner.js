@@ -73,6 +73,8 @@ qx.Class.define("qx.ui.form.Spinner",
     // ************************************************************************
     this._textfield = new qx.ui.form.TextField;
     this._textfield.setAppearance("spinner-field");
+    // ALPHA: Testing override feature of initial appearance, see Class.js
+    // this._textfield = qx.ui.core.Widget.create(qx.ui.form.TextField, "spinner-field");
     this._textfield.setValue(String(this.getManager().getValue()));
     this.add(this._textfield);
 
