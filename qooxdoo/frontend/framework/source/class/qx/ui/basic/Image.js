@@ -564,7 +564,10 @@ qx.Class.define("qx.ui.basic.Image",
      */
     _applyEnabled : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : null, // alias will be set to "_postApply" in defer
+      "mshtml" : function()
+      {
+        this._postApply();
+      },
 
       "default" : function()
       {
@@ -778,21 +781,6 @@ qx.Class.define("qx.ui.basic.Image",
     })
   },
 
-
-
-
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
-
-  defer : function(statics, members)
-  {
-    if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-      members._applyEnabled = members._postApply;
-    }
-  },
 
 
 
