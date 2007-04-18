@@ -204,6 +204,17 @@ qx.Class.define("qx.ui.core.Widget",
 
   statics :
   {
+
+    create : function(clazz, appearance)
+    {
+      clazz._appearance = appearance;
+      return new clazz;
+    },
+
+
+
+
+
     // Will be calculated later (TODO: Move to qx.html?)
     SCROLLBAR_SIZE : null,
 
