@@ -33,6 +33,11 @@ qx.core.Init.getInstance().defineMain(
             var trs;
             var child;
 
+            if (! children)
+            {
+                return;
+            }
+
             for (i = 0; i < children.length; i++)
             {
                 child = children[i];
@@ -129,8 +134,8 @@ qx.core.Init.getInstance().defineMain(
 
         with(t)
         {
-            setBackgroundColor(255);
-            setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
+//            setBackgroundColor(255);
+            setBorder("inset");
             setOverflow("scrollY");
 
             setHeight(null);
