@@ -13,12 +13,16 @@ QOOXDOO_PATH = ../../..
 # Starting point is the application HTML file of the source folder.
 # In most cases just add a "/.." compared to above
 #
-QOOXDOO_URI = ../../../../..
+#QOOXDOO_URI = ../../../..	
 
 #
 # Namespace of your application e.g. custom
 #
 APPLICATION_NAMESPACE = qxunit
+
+APPLICATION_CLASSNAME = runner.Application
+
+APPLICATION_SCRIPT_FILENAME = qxunit.js
 
 #
 # Titles used in your API viewer and during the build process
@@ -49,10 +53,10 @@ APPLICATION_LINEBREAKS_SOURCE = true
 # Build/Integrate all features
 #
 APPLICATION_COMPLETE_BUILD = false
-APPLICATION_COMPLETE_SOURCE = false
-APPLICATION_ENABLE_GUI = false
+#APPLICATION_COMPLETE_SOURCE = false
+#APPLICATION_ENABLE_GUI = false
 
-APPLICATION_HTML_TO_ROOT_URI=..
+#APPLICATION_HTML_TO_ROOT_URI=..
 
 APPLICATION_OPTIMIZE_STRINGS = false
 APPLICATION_OPTIMIZE_VARIABLES = false
