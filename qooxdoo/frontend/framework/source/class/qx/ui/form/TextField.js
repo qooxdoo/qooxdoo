@@ -57,7 +57,7 @@ qx.Class.define("qx.ui.form.TextField",
     }
 
     // Inline event wrapper
-    this.__oninlineevent = qx.lang.Function.bind(this._oninlineevent, this);
+    this.__oninlineevent = qx.lang.Function.bindEvent(this._oninlineevent, this);
 
     // Enable tagIndex
     this.setTabIndex(1);
@@ -199,6 +199,7 @@ qx.Class.define("qx.ui.form.TextField",
 
     _inputTag : "input",
     _inputType : "text",
+    _inputOverflow : "hidden",
 
     _modifyElement : function(propValue, propOldValue)
     {
@@ -225,22 +226,37 @@ qx.Class.define("qx.ui.form.TextField",
         }
 
         // Normalize styles
-        inp.style.padding = 0;
-        inp.style.margin = 0;
-        inp.style.border = "0 none";
-        inp.style.background = "transparent";
+        istyle = inp.style;
+        istyle.padding = 0;
+        istyle.margin = 0;
+        istyle.border = "0 none";
+        istyle.background = "transparent";
+        istyle.overflow = this._inputOverflow;
+        istyle.display = "block";
 
-        // This does not work in IEx.x
+        // MSHTML needs some tweaks
         if (qx.core.Variant.isSet("qx.client", "mshtml"))
         {
-
+          // "inherit" keyword is not supported by IE 6.x and 7.x
+          // apply some default and let modifiers sync to the input field, too
+          istyle.fontFamily = "Tahoma, sans-serif";
+          istyle.fontSize = "11px";
+          istyle.color = "black";
         }
         else
         {
-          inp.style.fontFamily = "inherit";
-          inp.style.fontSize = "inherit";
-          inp.style.color = "inherit";
-          inp.style.cursor = "inherit";
+          // Emulate IE hard-coded margin
+          // Mozilla by default emulates this IE handling, but in a wrong
+          // way. IE adds the additional margin to the CSS margin where
+          // Mozilla replaces it. But this make it possible for the user
+          // to overwrite the margin, which is not possible in IE.
+          // See also: https://bugzilla.mozilla.org/show_bug.cgi?id=73817
+          istyle.margin = "1px 0"
+
+          // use inherit for faster inheritance
+          istyle.fontFamily = "inherit";
+          istyle.fontSize = "inherit";
+          istyle.color = "inherit";
         }
 
         // Register inline event
@@ -254,6 +270,17 @@ qx.Class.define("qx.ui.form.TextField",
         propValue.appendChild(inp);
       }
     },
+
+
+    _postApply : function()
+    {
+      var istyle = this._inputElement.style;
+      istyle.width = this.getInnerWidth() + "px";
+
+      // Reduce height by 2 pixels (the manual or mshtml margin)
+      istyle.height = (this.getInnerHeight() - 2) + "px";
+    },
+
 
     /**
      * Apply the enabled property.
@@ -392,7 +419,7 @@ qx.Class.define("qx.ui.form.TextField",
 
 
     _computePreferredInnerHeight : function() {
-      return 15;
+      return 16;
     },
 
 

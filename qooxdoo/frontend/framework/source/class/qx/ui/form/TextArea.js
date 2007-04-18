@@ -52,8 +52,8 @@ qx.Class.define("qx.ui.form.TextArea",
 
     wrap :
     {
-      _legacy : true,
-      type    : "boolean"
+      check : "Boolean",
+      init : true
     }
   },
 
@@ -70,31 +70,32 @@ qx.Class.define("qx.ui.form.TextArea",
   {
     _inputTag : "textarea",
     _inputType : null,
+    _inputOverflow : "auto",
 
     _modifyElement : function(propValue, propOldValue)
     {
       this.base(arguments, propValue, propOldValue);
-
-      if (propValue) {
-        this._applyWrap(this.getWrap());
-      }
+      this._styleWrap();
     },
 
-    _modifyWrap : function(propValue, propOldValue)
-    {
-      if (this._inputElement) {
-        this._applyWrap(propValue);
-      }
+    _modifyWrap : function(propValue, propOldValue) {
+      this._styleWrap();
     },
 
-    _applyWrap : qx.core.Variant.select("qx.client",
+    _styleWrap : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(propValue) {
-        this._inputElement.style.whiteSpace = propValue ? "normal" : "nowrap";
+      "mshtml" : function()
+      {
+        if (this._inputElement) {
+          this._inputElement.wrap = this.getWrap() ? "soft" : "off";
+        }
       },
 
-      "default" : function(propValue) {
-        this._inputElement.wrap = propValue ? "soft" : "off";
+      "default" : function()
+      {
+        if (this._inputElement) {
+          this._inputElement.style.whiteSpace = this.getWrap() ? "normal" : "nowrap";
+        }
       }
     }),
 
