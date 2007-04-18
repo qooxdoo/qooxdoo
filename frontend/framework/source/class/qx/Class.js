@@ -1421,7 +1421,7 @@ qx.Class.define("qx.Class",
       // Initialize local mixins
       code.push('if(clazz.$$includes){var mixins=clazz.$$flatIncludes;');
       code.push('for(var i=0,l=mixins.length;i<l;i++){');
-      code.push('if(mixins[i].$$constructor){mixins[i].$$constructor.call(this);}}}');
+      code.push('if(mixins[i].$$constructor){mixins[i].$$constructor.apply(this,arguments);}}}');
 
       // Mark instance as initialized
       code.push('if(this.classname===', name, '.classname)this.$$initialized=true;');
