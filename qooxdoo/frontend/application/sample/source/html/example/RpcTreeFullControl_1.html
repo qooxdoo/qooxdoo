@@ -33,6 +33,11 @@ qx.core.Init.getInstance().defineMain(
             var trs;
             var child;
 
+            if (! children)
+            {
+                return;
+            }
+
             for (i = 0; i < children.length; i++)
             {
                 child = children[i];
