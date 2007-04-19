@@ -12,7 +12,7 @@
   <script type="text/javascript" src="../../script/layout.js"></script>
 
   <div id="demoDescription">
-    Tests for the new implementation of the qx.ui.layout.HorizontalBoxLayout widget. 
+    Tests for the new implementation of the qx.ui.layout.HorizontalBoxLayout widget.
     This example includes a child with a width defined as percent. This makes
     things much more complex (especially on resizing of the parent) so this also
     dramatically reduces the speed ;)
@@ -23,14 +23,14 @@
   {
     var d = qx.ui.core.ClientDocument.getInstance();
 
-    var cl_white = new qx.renderer.color.Color("white");
-    var cl_blue = new qx.renderer.color.Color("blue");
-    var cl_yellow = new qx.renderer.color.Color("yellow");
-    var cl_green = new qx.renderer.color.Color("green");
-    var cl_orange = new qx.renderer.color.Color("orange");
-    var cl_purple = new qx.renderer.color.Color("purple");
-    var cl_aqua = new qx.renderer.color.Color("aqua");
-    var cl_fuchsia = new qx.renderer.color.Color("fuchsia");
+    var cl_white = "white";
+    var cl_blue = "blue";
+    var cl_yellow = "yellow";
+    var cl_green = "green";
+    var cl_orange = "orange";
+    var cl_purple = "purple";
+    var cl_aqua = "aqua";
+    var cl_fuchsia = "fuchsia";
 
     /* ***********************************************
 
@@ -51,8 +51,8 @@
     hbl1.setPadding(8);
 
     hbl1.setVerticalChildrenAlign("bottom");
-    
-    
+
+
     var w1_1 = new qx.ui.layout.CanvasLayout;
     w1_1.setWidth(25);
     w1_1.setHeight(25);
@@ -110,54 +110,54 @@
     w1_10.setBackgroundColor(cl_fuchsia);
 
     var hbl1_click = 0;
-    hbl1.addEventListener("click", function(e) 
+    hbl1.addEventListener("click", function(e)
     {
       if (e.getTarget()!=this) {
         return;
       };
-      
+
       switch(hbl1_click)
       {
         case 0:
           this.setHeight(30);
           break;
-        
+
         case 1:
           this.setHeight(80);
           break;
-          
+
         case 2:
           this.setHeight("auto");
           break;
-          
+
         case 3:
           this.setWidth(200);
           break;
-          
+
         case 4:
           this.setWidth(null);
           this.setRight(335);
           hbl1_click = 0;
-          return;        
+          return;
       };
-      
+
       hbl1_click++;
     });
 
-    w1_1.addEventListener("click", function(e) 
+    w1_1.addEventListener("click", function(e)
     {
       if (this.getWidth() == 25)
       {
         this.setWidth(65);
-        this.setHeight(65); 
+        this.setHeight(65);
         this.setBorder(new qx.renderer.border.Border(6, "double", "black"));
       }
       else
       {
         this.setWidth(25);
-        this.setHeight(25);  
+        this.setHeight(25);
         this.setBorder("black");
-      };      
+      };
     });
 
     w1_2.addEventListener("click", function(e) {
@@ -175,7 +175,7 @@
     w1_5.addEventListener("click", function(e) {
       this.getWidth() == "15%" ? this.setWidth("30%") : this.setWidth("15%");
     });
-    
+
     w1_6.addEventListener("click", function(e) {
       this.getLeft() == -25 ? this.setLeft(25) : this.setLeft(-25);
     });
@@ -183,12 +183,12 @@
     w1_7.addEventListener("click", function(e) {
       this.getSource() == "icon/32/apps/accessories-clock.png" ? this.setSource("icon/64/apps/accessories-clock.png") : this.setSource("icon/32/apps/accessories-clock.png");
     });
-    
+
     w1_8.addEventListener("click", function(e) {
       this.getSource() == "icon/32/actions/format-color.png" ? this.setSource("icon/16/actions/format-color.png") : this.setSource("icon/32/actions/format-color.png");
-    });   
-    
-    w1_9.addEventListener("click", function(e) 
+    });
+
+    w1_9.addEventListener("click", function(e)
     {
       if (this.getTop() == null)
       {
@@ -201,12 +201,12 @@
         this.setLeft(null);
       };
     });
-    
-    w1_10.addEventListener("click", function(e) 
+
+    w1_10.addEventListener("click", function(e)
     {
       if (this.getWidth() == 25)
       {
-        this.setWidth(10);  
+        this.setWidth(10);
         this.setHeight(10);
         this.setLeft(-5);
         this.setBottom(15);
@@ -218,7 +218,7 @@
         this.setLeft(null);
         this.setBottom(null);
       };
-    });    
+    });
 
 
 
@@ -289,7 +289,7 @@
     w2_6.setBorder("black");
     w2_6.setBackgroundColor(cl_purple);
     w2_6.setTop(15);
-    w2_6.setLeft(-25);    
+    w2_6.setLeft(-25);
 
     var w2_7 = new qx.ui.basic.Image("icon/32/apps/accessories-clock.png");
 
@@ -310,54 +310,54 @@
 
 
     var hbl2_click = 0;
-    hbl2.addEventListener("click", function(e) 
+    hbl2.addEventListener("click", function(e)
     {
       if (e.getTarget()!=this) {
         return;
-      };      
-      
+      };
+
       switch(hbl2_click)
       {
         case 0:
           this.setHeight(30);
           break;
-        
+
         case 1:
           this.setHeight(80);
           break;
-          
+
         case 2:
           this.setHeight("auto");
           break;
-          
+
         case 3:
           this.setWidth(200);
           break;
-          
+
         case 4:
           this.setWidth(null);
           this.setRight(335);
           hbl2_click = 0;
-          return;        
+          return;
       };
-      
+
       hbl2_click++;
     });
-    
-    w2_1.addEventListener("click", function(e) 
+
+    w2_1.addEventListener("click", function(e)
     {
       if (this.getWidth() == 25)
       {
         this.setWidth(65);
-        this.setHeight(65); 
+        this.setHeight(65);
         this.setBorder(new qx.renderer.border.Border(6, "double", "black"));
       }
       else
       {
         this.setWidth(25);
-        this.setHeight(25);  
+        this.setHeight(25);
         this.setBorder("black");
-      };      
+      };
     });
 
     w2_2.addEventListener("click", function(e) {
@@ -375,7 +375,7 @@
     w2_5.addEventListener("click", function(e) {
       this.getWidth() == "15%" ? this.setWidth("30%") : this.setWidth("15%");
     });
-    
+
     w2_6.addEventListener("click", function(e) {
       this.getLeft() == -25 ? this.setLeft(25) : this.setLeft(-25);
     });
@@ -383,12 +383,12 @@
     w2_7.addEventListener("click", function(e) {
       this.getSource() == "icon/32/apps/accessories-clock.png" ? this.setSource("icon/64/apps/accessories-clock.png") : this.setSource("icon/32/apps/accessories-clock.png");
     });
-    
+
     w2_8.addEventListener("click", function(e) {
       this.getSource() == "icon/32/actions/format-color.png" ? this.setSource("icon/16/actions/format-color.png") : this.setSource("icon/32/actions/format-color.png");
-    });   
-    
-    w2_9.addEventListener("click", function(e) 
+    });
+
+    w2_9.addEventListener("click", function(e)
     {
       if (this.getTop() == null)
       {
@@ -401,12 +401,12 @@
         this.setLeft(null);
       };
     });
-    
-    w2_10.addEventListener("click", function(e) 
+
+    w2_10.addEventListener("click", function(e)
     {
       if (this.getWidth() == 25)
       {
-        this.setWidth(10);  
+        this.setWidth(10);
         this.setHeight(10);
         this.setLeft(-5);
         this.setBottom(15);
@@ -486,7 +486,7 @@
     w3_6.setBorder("black");
     w3_6.setBackgroundColor(cl_purple);
     w3_6.setTop(15);
-    w3_6.setLeft(-25);    
+    w3_6.setLeft(-25);
 
     var w3_7 = new qx.ui.basic.Image("icon/32/apps/accessories-clock.png");
 
@@ -506,54 +506,54 @@
 
 
     var hbl3_click = 0;
-    hbl3.addEventListener("click", function(e) 
+    hbl3.addEventListener("click", function(e)
     {
       if (e.getTarget()!=this) {
         return;
-      };      
-      
+      };
+
       switch(hbl3_click)
       {
         case 0:
           this.setHeight(30);
           break;
-        
+
         case 1:
           this.setHeight(80);
           break;
-          
+
         case 2:
           this.setHeight("auto");
           break;
-          
+
         case 3:
           this.setWidth(200);
           break;
-          
+
         case 4:
           this.setWidth(null);
           this.setRight(335);
           hbl3_click = 0;
-          return;        
+          return;
       };
-      
+
       hbl3_click++;
     });
 
-    w3_1.addEventListener("click", function(e) 
+    w3_1.addEventListener("click", function(e)
     {
       if (this.getWidth() == 25)
       {
         this.setWidth(65);
-        this.setHeight(65); 
+        this.setHeight(65);
         this.setBorder(new qx.renderer.border.Border(6, "double", "black"));
       }
       else
       {
         this.setWidth(25);
-        this.setHeight(25);  
+        this.setHeight(25);
         this.setBorder("black");
-      };      
+      };
     });
 
     w3_2.addEventListener("click", function(e) {
@@ -571,7 +571,7 @@
     w3_5.addEventListener("click", function(e) {
       this.getWidth() == "15%" ? this.setWidth("30%") : this.setWidth("15%");
     });
-    
+
     w3_6.addEventListener("click", function(e) {
       this.getLeft() == -25 ? this.setLeft(25) : this.setLeft(-25);
     });
@@ -579,12 +579,12 @@
     w3_7.addEventListener("click", function(e) {
       this.getSource() == "icon/32/apps/accessories-clock.png" ? this.setSource("icon/64/apps/accessories-clock.png") : this.setSource("icon/32/apps/accessories-clock.png");
     });
-    
+
     w3_8.addEventListener("click", function(e) {
       this.getSource() == "icon/32/actions/format-color.png" ? this.setSource("icon/16/actions/format-color.png") : this.setSource("icon/32/actions/format-color.png");
-    });   
-    
-    w3_9.addEventListener("click", function(e) 
+    });
+
+    w3_9.addEventListener("click", function(e)
     {
       if (this.getTop() == null)
       {
@@ -597,12 +597,12 @@
         this.setLeft(null);
       };
     });
-    
-    w3_10.addEventListener("click", function(e) 
+
+    w3_10.addEventListener("click", function(e)
     {
       if (this.getWidth() == 25)
       {
-        this.setWidth(10);  
+        this.setWidth(10);
         this.setHeight(10);
         this.setLeft(-5);
         this.setBottom(15);
@@ -643,7 +643,7 @@
     hbl4.setPadding(8);
     hbl4.setReverseChildrenOrder(true);
     hbl4.setVerticalChildrenAlign("bottom");
-    
+
     hbl4.setHeight(80);
 
 
@@ -686,7 +686,7 @@
     w4_6.setBorder("black");
     w4_6.setBackgroundColor(cl_purple);
     w4_6.setTop(15);
-    w4_6.setLeft(-25);    
+    w4_6.setLeft(-25);
 
     var w4_7 = new qx.ui.basic.Image("icon/32/apps/accessories-clock.png");
 
@@ -706,54 +706,54 @@
 
 
     var hbl4_click = 0;
-    hbl4.addEventListener("click", function(e) 
+    hbl4.addEventListener("click", function(e)
     {
       if (e.getTarget()!=this) {
         return;
-      };      
-      
+      };
+
       switch(hbl4_click)
       {
         case 0:
           this.setHeight(30);
           break;
-        
+
         case 1:
           this.setHeight("auto");
           break;
-          
+
         case 2:
           this.setHeight(80);
           break;
-          
+
         case 3:
           this.setWidth(200);
           break;
-          
+
         case 4:
           this.setWidth(null);
           this.setRight(335);
           hbl4_click = 0;
-          return;        
+          return;
       };
-      
+
       hbl4_click++;
     });
 
-    w4_1.addEventListener("click", function(e) 
+    w4_1.addEventListener("click", function(e)
     {
       if (this.getWidth() == 25)
       {
         this.setWidth(65);
-        this.setHeight(65); 
+        this.setHeight(65);
         this.setBorder(new qx.renderer.border.Border(6, "double", "black"));
       }
       else
       {
         this.setWidth(25);
-        this.setHeight(25);  
+        this.setHeight(25);
         this.setBorder("black");
-      };      
+      };
     });
 
     w4_2.addEventListener("click", function(e) {
@@ -771,7 +771,7 @@
     w4_5.addEventListener("click", function(e) {
       this.getWidth() == "15%" ? this.setWidth("30%") : this.setWidth("15%");
     });
-    
+
     w4_6.addEventListener("click", function(e) {
       this.getLeft() == -25 ? this.setLeft(25) : this.setLeft(-25);
     });
@@ -779,12 +779,12 @@
     w4_7.addEventListener("click", function(e) {
       this.getSource() == "icon/32/apps/accessories-clock.png" ? this.setSource("icon/64/apps/accessories-clock.png") : this.setSource("icon/32/apps/accessories-clock.png");
     });
-    
+
     w4_8.addEventListener("click", function(e) {
       this.getSource() == "icon/32/actions/format-color.png" ? this.setSource("icon/16/actions/format-color.png") : this.setSource("icon/32/actions/format-color.png");
-    });   
-    
-    w4_9.addEventListener("click", function(e) 
+    });
+
+    w4_9.addEventListener("click", function(e)
     {
       if (this.getTop() == null)
       {
@@ -797,12 +797,12 @@
         this.setLeft(null);
       };
     });
-    
-    w4_10.addEventListener("click", function(e) 
+
+    w4_10.addEventListener("click", function(e)
     {
       if (this.getWidth() == 25)
       {
-        this.setWidth(10);  
+        this.setWidth(10);
         this.setHeight(10);
         this.setLeft(-5);
         this.setBottom(15);
@@ -845,7 +845,7 @@
     hbl5.setHorizontalChildrenAlign("right");
     hbl5.setReverseChildrenOrder(true);
     hbl5.setVerticalChildrenAlign("middle");
-    
+
     hbl5.setHeight(80);
 
 
@@ -887,7 +887,7 @@
     w5_6.setBorder("black");
     w5_6.setBackgroundColor(cl_purple);
     w5_6.setTop(15);
-    w5_6.setLeft(-25);    
+    w5_6.setLeft(-25);
 
     var w5_7 = new qx.ui.basic.Image("icon/32/apps/accessories-clock.png");
 
@@ -907,54 +907,54 @@
 
 
     var hbl5_click = 0;
-    hbl5.addEventListener("click", function(e) 
+    hbl5.addEventListener("click", function(e)
     {
       if (e.getTarget()!=this) {
         return;
-      };      
-      
+      };
+
       switch(hbl5_click)
       {
         case 0:
           this.setHeight(30);
           break;
-        
+
         case 1:
           this.setHeight("auto");
           break;
-          
+
         case 2:
           this.setHeight(80);
           break;
-          
+
         case 3:
           this.setWidth(200);
           break;
-          
+
         case 4:
           this.setWidth(null);
           this.setRight(335);
           hbl5_click = 0;
-          return;        
+          return;
       };
-      
+
       hbl5_click++;
     });
 
-    w5_1.addEventListener("click", function(e) 
+    w5_1.addEventListener("click", function(e)
     {
       if (this.getWidth() == 25)
       {
         this.setWidth(65);
-        this.setHeight(65); 
+        this.setHeight(65);
         this.setBorder(new qx.renderer.border.Border(6, "double", "black"));
       }
       else
       {
         this.setWidth(25);
-        this.setHeight(25);  
+        this.setHeight(25);
         this.setBorder("black");
-      };      
+      };
     });
 
     w5_2.addEventListener("click", function(e) {
@@ -972,7 +972,7 @@
     w5_5.addEventListener("click", function(e) {
       this.getWidth() == "15%" ? this.setWidth("30%") : this.setWidth("15%");
     });
-    
+
     w5_6.addEventListener("click", function(e) {
       this.getLeft() == -25 ? this.setLeft(25) : this.setLeft(-25);
     });
@@ -980,12 +980,12 @@
     w5_7.addEventListener("click", function(e) {
       this.getSource() == "icon/32/apps/accessories-clock.png" ? this.setSource("icon/64/apps/accessories-clock.png") : this.setSource("icon/32/apps/accessories-clock.png");
     });
-    
+
     w5_8.addEventListener("click", function(e) {
       this.getSource() == "icon/32/actions/format-color.png" ? this.setSource("icon/16/actions/format-color.png") : this.setSource("icon/32/actions/format-color.png");
-    });   
-    
-    w5_9.addEventListener("click", function(e) 
+    });
+
+    w5_9.addEventListener("click", function(e)
     {
       if (this.getTop() == null)
       {
@@ -998,12 +998,12 @@
         this.setLeft(null);
       };
     });
-    
-    w5_10.addEventListener("click", function(e) 
+
+    w5_10.addEventListener("click", function(e)
     {
       if (this.getWidth() == 25)
       {
-        this.setWidth(10);  
+        this.setWidth(10);
         this.setHeight(10);
         this.setLeft(-5);
         this.setBottom(15);
@@ -1090,7 +1090,7 @@
     w6_6.setBorder("black");
     w6_6.setBackgroundColor(cl_purple);
     w6_6.setTop(15);
-    w6_6.setLeft(-25);    
+    w6_6.setLeft(-25);
 
     var w6_7 = new qx.ui.basic.Image("icon/32/apps/accessories-clock.png");
 
@@ -1110,54 +1110,54 @@
 
 
     var hbl6_click = 0;
-    hbl6.addEventListener("click", function(e) 
+    hbl6.addEventListener("click", function(e)
     {
       if (e.getTarget()!=this) {
         return;
       };
-            
+
       switch(hbl6_click)
       {
         case 0:
           this.setHeight(30);
           break;
-        
+
         case 1:
           this.setHeight("auto");
           break;
-          
+
         case 2:
           this.setHeight(80);
           break;
-          
+
         case 3:
           this.setWidth(200);
           break;
-          
+
         case 4:
           this.setWidth(null);
           this.setRight(335);
           hbl6_click = 0;
-          return;        
+          return;
       };
-      
+
       hbl6_click++;
     });
 
-    w6_1.addEventListener("click", function(e) 
+    w6_1.addEventListener("click", function(e)
     {
       if (this.getWidth() == 25)
       {
         this.setWidth(65);
-        this.setHeight(65); 
+        this.setHeight(65);
         this.setBorder(new qx.renderer.border.Border(6, "double", "black"));
       }
       else
       {
         this.setWidth(25);
-        this.setHeight(25);  
+        this.setHeight(25);
         this.setBorder("black");
-      };      
+      };
     });
 
     w6_2.addEventListener("click", function(e) {
@@ -1175,7 +1175,7 @@
     w6_5.addEventListener("click", function(e) {
       this.getWidth() == "15%" ? this.setWidth("30%") : this.setWidth("15%");
     });
-    
+
     w6_6.addEventListener("click", function(e) {
       this.getLeft() == -25 ? this.setLeft(25) : this.setLeft(-25);
     });
@@ -1183,12 +1183,12 @@
     w6_7.addEventListener("click", function(e) {
       this.getSource() == "icon/32/apps/accessories-clock.png" ? this.setSource("icon/64/apps/accessories-clock.png") : this.setSource("icon/32/apps/accessories-clock.png");
     });
-    
+
     w6_8.addEventListener("click", function(e) {
       this.getSource() == "icon/32/actions/format-color.png" ? this.setSource("icon/16/actions/format-color.png") : this.setSource("icon/32/actions/format-color.png");
-    });   
-    
-    w6_9.addEventListener("click", function(e) 
+    });
+
+    w6_9.addEventListener("click", function(e)
     {
       if (this.getTop() == null)
       {
@@ -1201,12 +1201,12 @@
         this.setLeft(null);
       };
     });
-    
-    w6_10.addEventListener("click", function(e) 
+
+    w6_10.addEventListener("click", function(e)
     {
       if (this.getWidth() == 25)
       {
-        this.setWidth(10);  
+        this.setWidth(10);
         this.setHeight(10);
         this.setLeft(-5);
         this.setBottom(15);

@@ -7,9 +7,9 @@
   <link type="text/css" rel="stylesheet" href="../../css/layout_ie.css"/>
   <![endif]-->
   <script type="text/javascript" src="../../script/sample.js"></script>
-	
+
 	<style type="text/css">
-	
+
 	.box {
 		position: absolute;
 		width: 100px;
@@ -19,19 +19,19 @@
 		color: white;
 		padding: 5px;
 	}
-	
+
 	#box1 {
 		background-color: red;
 	}
-	
+
 	#box2 {
 		background-color: blue;
 		top: 200px;
 		left: 100px;
 	}
-	
+
 	</style>
-	
+
 </head>
 <body>
   <script type="text/javascript" src="../../script/layout.js"></script>
@@ -42,13 +42,13 @@
 
 
 	<div id="box1" class="box">
-		Box 1	
+		Box 1
 	</div>
-	
+
 	<div id="box2" class="box">
 		Box 2
 	</div>
-	
+
   <div style="display:none" id="control">
     <p>
 			<h3>Box 1</h3>
@@ -58,22 +58,22 @@
 			<h3>Box 1</h3>
       <a href="javascript://" onclick="qx.html.StyleSheet.addRule(sheet, '#box2', 'background-color:yellow !important');">qx.html.StyleSheet.addRule(style, '#box2', 'background-color:yellow !important')</a> <br>
       <a href="javascript://" onclick="qx.html.StyleSheet.removeRule(sheet, '#box2');">qx.html.StyleSheet.removeRule(sheet, '#box2')</a> <br>
-		<p>  
+		<p>
 			<h3>All</h3>
 			<a href="javascript://" onclick="qx.html.StyleSheet.removeAllRules(sheet)">qx.html.StyleSheet.removeAllRules(sheet)</a> <br>
     </p>
-		<p>  
+		<p>
 			<h3>Import</h3>
 			add Import <br>
 			<a href="javascript://" onclick="qx.html.StyleSheet.addImport(sheet, 'bigFont.css')">qx.html.StyleSheet.addImport(sheet, 'bigFont.css')</a> <br>
 			<a href="javascript://" onclick="qx.html.StyleSheet.addImport(sheet, 'boldFont.css')">qx.html.StyleSheet.addImport(sheet, 'boldFont.css')</a> <br>
 			remove Import<br>
 			<a href="javascript://" onclick="qx.html.StyleSheet.removeImport(sheet, 'bigFont.css')">qx.html.StyleSheet.removeImport(sheet, 'bigFont.css')</a> <br>
-			<a href="javascript://" onclick="qx.html.StyleSheet.removeImport(sheet, 'boldFont.css')">qx.html.StyleSheet.removeImport(sheet, 'boldFont.css')</a> <br>		
+			<a href="javascript://" onclick="qx.html.StyleSheet.removeImport(sheet, 'boldFont.css')">qx.html.StyleSheet.removeImport(sheet, 'boldFont.css')</a> <br>
     	remove all Imports<br>
-			<a href="javascript://" onclick="qx.html.StyleSheet.removeAllImports(sheet)">qx.html.StyleSheet.removeAllImports(sheet)</a> <br>			
+			<a href="javascript://" onclick="qx.html.StyleSheet.removeAllImports(sheet)">qx.html.StyleSheet.removeAllImports(sheet)</a> <br>
 		</p>
-		
+
   </div>
 
   <script type="text/javascript">
@@ -97,14 +97,14 @@
 
       setOverflow("auto");
 
-      setBackgroundColor(new qx.renderer.color.Color("white"));
+      setBackgroundColor("white");
       setBorder("groove");
       setPadding(10);
     };
 
     d.add(ct1);
   });
-	
+
   </script>
 </body>
 </html>
