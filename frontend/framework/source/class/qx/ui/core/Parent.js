@@ -1273,14 +1273,14 @@ qx.Class.define("qx.ui.core.Parent",
       var vChanges = vChild._layoutChanges;
 
       // this.debug("Layouting " + vChild + ": " + qx.lang.Object.getKeysAsString(vChanges));
+
       try
       {
-        if (vChanges.borderX) {
-          this._applyBorderX(vChild, vChanges);
-        }
-
-        if (vChanges.borderY) {
-          this._applyBorderY(vChild, vChanges);
+        if (vChild.renderBorder)
+        {
+          if (vChanges.borderTop || vChanges.borderRight || vChanges.borderBottom || vChanges.borderLeft) {
+            vChild.renderBorder(vChanges);
+          }
         }
       }
       catch(ex)
@@ -1290,12 +1290,11 @@ qx.Class.define("qx.ui.core.Parent",
 
       try
       {
-        if (vChanges.paddingLeft || vChanges.paddingRight) {
-          vChild._applyPaddingX(this, vChanges);
-        }
-
-        if (vChanges.paddingTop || vChanges.paddingBottom) {
-          vChild._applyPaddingY(this, vChanges);
+        if (vChild.renderPadding)
+        {
+          if (vChanges.paddingLeft || vChanges.paddingRight || vChanges.paddingTop || vChanges.paddingBottom) {
+            vChild.renderPadding(vChanges);
+          }
         }
       }
       catch(ex)
@@ -1537,7 +1536,7 @@ qx.Class.define("qx.ui.core.Parent",
 
       members._layoutChild = function(vChild)
       {
-        if (!vChild._initialLayoutDone || !vChild._layoutChanges.borderX || !vChild._layoutChanges.borderY) {
+        if (!vChild._initialLayoutDone || !vChild._layoutChanges.border) {
           return this._layoutChildOrig(vChild);
         }
 

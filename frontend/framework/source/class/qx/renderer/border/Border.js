@@ -38,21 +38,26 @@ qx.Class.define("qx.renderer.border.Border",
   *****************************************************************************
   */
 
+
+  /**
+   * @param width {Integer} The border width, see also {@link #width}
+   * @param style {String} The border style, see also {@link #style}
+   * @param color {Color} The border color, see also {@link #color}
+   */
   construct : function(width, style, color)
   {
     this.base(arguments);
 
-    if (width != null)
-    {
+    if (width !== undefined) {
       this.setWidth(width);
+    }
 
-      if (style != null) {
-        this.setStyle(style);
-      }
+    if (style !== undefined) {
+      this.setStyle(style);
+    }
 
-      if (color != null) {
-        this.setColor(color);
-      }
+    if (color !== undefined) {
+      this.setColor(color);
     }
   },
 
@@ -74,11 +79,11 @@ qx.Class.define("qx.renderer.border.Border",
     */
 
     /**
-     * TODOC
+     * Converts a typical CSS border definition string to an border object
      *
      * @type static
-     * @param str {var} TODOC
-     * @return {var} TODOC
+     * @param str {String} the CSS string
+     * @return {qx.renderer.border.Border} the created instance
      */
     fromString : function(str)
     {
@@ -125,58 +130,133 @@ qx.Class.define("qx.renderer.border.Border",
 
 
     /**
-     * TODOC
+     * Removes a border from a widget
      *
      * @type static
-     * @param widget {var} TODOC
+     * @param widget {qx.ui.core.Widget} The widget from which the border should removed
      * @return {void}
+     * @internal
      * @signature function(widget)
      */
-    resetBorderX : qx.core.Variant.select("qx.client",
+    resetTop : qx.core.Variant.select("qx.client",
     {
       "gecko" : function(widget)
       {
         var style = widget._style;
-        style.borderLeft = style.borderRight = style.MozBorderLeftColors = style.MozBorderRightColors = "";
+        if (style) {
+          style.borderTopWidth = style.borderTopStyle = style.borderTopColor = style.MozBorderTopColors = "";
+        }
       },
 
       "default" : function(widget)
       {
         var style = widget._style;
-        style.borderLeft = style.borderRight = "0px none";
+        if (style) {
+          style.borderTopWidth = style.borderTopStyle = style.borderTopColor = "";
+        }
 
         style = widget._innerStyle;
         if (style) {
-          style.borderLeft = style.borderRight = "0px none";
+          style.borderTopWidth = style.borderTopStyle = style.borderTopColor = "";
         }
       }
     }),
 
-
     /**
-     * TODOC
+     * Removes a border from a widget
      *
      * @type static
-     * @param widget {var} TODOC
+     * @param widget {qx.ui.core.Widget} The widget from which the border should removed
      * @return {void}
+     * @internal
      * @signature function(widget)
      */
-    resetBorderY : qx.core.Variant.select("qx.client",
+    resetRight : qx.core.Variant.select("qx.client",
     {
       "gecko" : function(widget)
       {
         var style = widget._style;
-        style.borderTop = style.borderBottom = style.MozBorderTopColors = style.MozBorderBottomColors = "";
+        if (style) {
+          style.borderRightWidth = style.borderRightStyle = style.borderRightColor = style.MozBorderRightColors = "";
+        }
       },
 
       "default" : function(widget)
       {
         var style = widget._style;
-        style.borderTop = style.borderBottom = "0px none";
+        if (style) {
+          style.borderRightWidth = style.borderRightStyle = style.borderRightColor = "";
+        }
 
         style = widget._innerStyle;
         if (style) {
-          style.borderTop = style.borderBottom = "0px none";
+          style.borderRightWidth = style.borderRightStyle = style.borderRightColor = "";
+        }
+      }
+    }),
+
+    /**
+     * Removes a border from a widget
+     *
+     * @type static
+     * @param widget {qx.ui.core.Widget} The widget from which the border should removed
+     * @return {void}
+     * @internal
+     * @signature function(widget)
+     */
+    resetBottom : qx.core.Variant.select("qx.client",
+    {
+      "gecko" : function(widget)
+      {
+        var style = widget._style;
+        if (style) {
+          style.borderBottomWidth = style.borderBottomStyle = style.borderBottomColor = style.MozBorderBottomColors = "";
+        }
+      },
+
+      "default" : function(widget)
+      {
+        var style = widget._style;
+        if (style) {
+          style.borderBottomWidth = style.borderBottomStyle = style.borderBottomColor = "";
+        }
+
+        style = widget._innerStyle;
+        if (style) {
+          style.borderBottomWidth = style.borderBottomStyle = style.borderBottomColor = "";
+        }
+      }
+    }),
+
+    /**
+     * Removes a border from a widget
+     *
+     * @type static
+     * @param widget {qx.ui.core.Widget} The widget from which the border should removed
+     * @return {void}
+     * @internal
+     * @signature function(widget)
+     */
+    resetLeft : qx.core.Variant.select("qx.client",
+    {
+      "gecko" : function(widget)
+      {
+        var style = widget._style;
+        if (style) {
+          style.borderLeftWidth = style.borderLeftStyle = style.borderLeftColor = style.MozBorderLeftColors = "";
+        }
+      },
+
+      "default" : function(widget)
+      {
+        var style = widget._style;
+        if (style) {
+          style.borderLeftWidth = style.borderLeftStyle = style.borderLeftColor = "";
+        }
+
+        style = widget._innerStyle;
+        if (style) {
+          style.borderLeftWidth = style.borderLeftStyle = style.borderLeftColor = "";
         }
       }
     })
@@ -444,35 +524,35 @@ qx.Class.define("qx.renderer.border.Border",
     },
 
     _applyTopColor : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().process(this, "_updateTopColor", value);
+      qx.manager.object.ColorManager.getInstance().connect(this, "_changeTopColor", value);
     },
 
     _applyRightColor : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().process(this, "_updateRightColor", value);
+      qx.manager.object.ColorManager.getInstance().connect(this, "_changeRightColor", value);
     },
 
     _applyBottomColor : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().process(this, "_updateBottomColor", value);
+      qx.manager.object.ColorManager.getInstance().connect(this, "_changeBottomColor", value);
     },
 
     _applyLeftColor : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().process(this, "_updateLeftColor", value);
+      qx.manager.object.ColorManager.getInstance().connect(this, "_changeLeftColor", value);
     },
 
     _applyTopInnerColor : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().process(this, "_updateTopInnerColor", value);
+      qx.manager.object.ColorManager.getInstance().connect(this, "_changeTopInnerColor", value);
     },
 
     _applyRightInnerColor : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().process(this, "_updateRightInnerColor", value);
+      qx.manager.object.ColorManager.getInstance().connect(this, "_changeRightInnerColor", value);
     },
 
     _applyBottomInnerColor : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().process(this, "_updateBottomInnerColor", value);
+      qx.manager.object.ColorManager.getInstance().connect(this, "_changeBottomInnerColor", value);
     },
 
     _applyLeftInnerColor : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().process(this, "_updateLeftInnerColor", value);
+      qx.manager.object.ColorManager.getInstance().connect(this, "_changeLeftInnerColor", value);
     },
 
     _applyTopStyle : function() {
@@ -528,56 +608,56 @@ qx.Class.define("qx.renderer.border.Border",
     ---------------------------------------------------------------------------
     */
 
-    _updateTopColor : function(value)
+    _changeTopColor : function(value)
     {
       this.__topColor = value;
       this._computeUseComplexTop();
       this._informManager("top");
     },
 
-    _updateTopInnerColor : function(value)
+    _changeTopInnerColor : function(value)
     {
       this.__topInnerColor = value;
       this._computeUseComplexTop();
       this._informManager("top");
     },
 
-    _updateRightColor : function(value)
+    _changeRightColor : function(value)
     {
       this.__rightColor = value;
       this._computeUseComplexRight();
       this._informManager("right");
     },
 
-    _updateRightInnerColor : function(value)
+    _changeRightInnerColor : function(value)
     {
       this.__rightInnerColor = value;
       this._computeUseComplexRight();
       this._informManager("right");
     },
 
-    _updateBottomColor : function(value)
+    _changeBottomColor : function(value)
     {
       this.__bottomColor = value;
       this._computeUseComplexBottom();
       this._informManager("bottom");
     },
 
-    _updateBottomInnerColor : function(value)
+    _changeBottomInnerColor : function(value)
     {
       this.__bottomInnerColor = value;
       this._computeUseComplexBottom();
       this._informManager("bottom");
     },
 
-    _updateLeftColor : function(value)
+    _changeLeftColor : function(value)
     {
       this.__leftColor = value;
       this._computeUseComplexLeft();
       this._informManager("left");
     },
 
-    _updateLeftInnerColor : function(value)
+    _changeLeftInnerColor : function(value)
     {
       this.__leftInnerColor = value;
       this._computeUseComplexLeft();
@@ -594,6 +674,12 @@ qx.Class.define("qx.renderer.border.Border",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Send information to BorderManager
+     *
+     * @internal
+     * @param edge {String} the edge which was updated
+     */
     _informManager : function(edge) {
       qx.manager.object.BorderManager.getInstance().updateBorderAt(this, edge);
     },
@@ -610,7 +696,14 @@ qx.Class.define("qx.renderer.border.Border",
     ---------------------------------------------------------------------------
     */
 
-    applyWidgetTop : qx.core.Variant.select("qx.client",
+
+    /**
+     * Renders top border for given widget
+     *
+     * @internal
+     * @param obj {qx.ui.core.Widget} the widget which should get the border
+     */
+    renderTop : qx.core.Variant.select("qx.client",
     {
       "gecko" : function(obj)
       {
@@ -681,7 +774,14 @@ qx.Class.define("qx.renderer.border.Border",
       }
     }),
 
-    applyWidgetRight : qx.core.Variant.select("qx.client",
+
+    /**
+     * Renders right border for given widget
+     *
+     * @internal
+     * @param obj {qx.ui.core.Widget} the widget which should get the border
+     */
+    renderRight : qx.core.Variant.select("qx.client",
     {
       "gecko" : function(obj)
       {
@@ -752,7 +852,14 @@ qx.Class.define("qx.renderer.border.Border",
       }
     }),
 
-    applyWidgetBottom : qx.core.Variant.select("qx.client",
+
+    /**
+     * Renders bottom border for given widget
+     *
+     * @internal
+     * @param obj {qx.ui.core.Widget} the widget which should get the border
+     */
+    renderBottom : qx.core.Variant.select("qx.client",
     {
       "gecko" : function(obj)
       {
@@ -823,7 +930,14 @@ qx.Class.define("qx.renderer.border.Border",
       }
     }),
 
-    applyWidgetLeft : qx.core.Variant.select("qx.client",
+
+    /**
+     * Renders left border for given widget
+     *
+     * @param obj {qx.ui.core.Widget} the widget which should get the border
+     * @internal
+     */
+    renderLeft : qx.core.Variant.select("qx.client",
     {
       "gecko" : function(obj)
       {

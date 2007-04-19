@@ -55,7 +55,7 @@ qx.Class.define("qx.ui.basic.Terminator",
   {
     /*
     ---------------------------------------------------------------------------
-      APPLY PADDING
+      PADDING
     ---------------------------------------------------------------------------
     */
 
@@ -63,39 +63,24 @@ qx.Class.define("qx.ui.basic.Terminator",
      * TODOC
      *
      * @type member
-     * @param vParent {var} TODOC
-     * @param vChanges {var} TODOC
-     * @param vStyle {var} TODOC
+     * @param changes {Map} TODOC
      * @return {void}
      */
-    _applyPaddingX : function(vParent, vChanges, vStyle)
+    renderPadding : function(changes)
     {
-      if (vChanges.paddingLeft) {
+      if (changes.paddingLeft) {
         this._applyRuntimePaddingLeft(this.getPaddingLeft());
       }
 
-      if (vChanges.paddingRight) {
+      if (changes.paddingRight) {
         this._applyRuntimePaddingRight(this.getPaddingRight());
       }
-    },
 
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vParent {var} TODOC
-     * @param vChanges {var} TODOC
-     * @param vStyle {var} TODOC
-     * @return {void}
-     */
-    _applyPaddingY : function(vParent, vChanges, vStyle)
-    {
-      if (vChanges.paddingTop) {
+      if (changes.paddingTop) {
         this._applyRuntimePaddingTop(this.getPaddingTop());
       }
 
-      if (vChanges.paddingBottom) {
+      if (changes.paddingBottom) {
         this._applyRuntimePaddingBottom(this.getPaddingBottom());
       }
     },
@@ -103,9 +88,10 @@ qx.Class.define("qx.ui.basic.Terminator",
 
 
 
+
     /*
     ---------------------------------------------------------------------------
-      APPLY CONTENT
+      CONTENT
     ---------------------------------------------------------------------------
     */
 
@@ -144,12 +130,12 @@ qx.Class.define("qx.ui.basic.Terminator",
      * TODOC
      *
      * @type member
-     * @param vChanges {var} TODOC
+     * @param changes {var} TODOC
      * @return {void}
      */
-    _layoutPost : function(vChanges)
+    _layoutPost : function(changes)
     {
-      if (vChanges.initial || vChanges.load || vChanges.width || vChanges.height) {
+      if (changes.initial || changes.load || changes.width || changes.height) {
         this._postApply();
       }
     },
