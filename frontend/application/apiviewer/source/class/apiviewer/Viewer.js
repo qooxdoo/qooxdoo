@@ -230,7 +230,7 @@ qx.Class.define("apiviewer.Viewer",
         width           : "100%",
         height          : "1*",
         backgroundColor : "white",
-        border          : qx.renderer.border.BorderPresets.getInstance().inset
+        border          : "inset"
       });
 
       detailFrame.setHtmlProperty("id", "content");
