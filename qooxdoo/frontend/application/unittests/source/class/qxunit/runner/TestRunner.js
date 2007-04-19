@@ -102,50 +102,56 @@ qx.Class.define("qxunit.runner.TestRunner",
     right.add(progress);
 
     // button view
-    var buttview = new qx.ui.pageview.tabview.TabView();
-    buttview.set({
-      width: "100%",
-      border: "inset",
-      height: "1*"
-    });
+    var buttview = this.__makeButtonView();
     right.add(buttview);
 
-    var bsb1 = new qx.ui.pageview.tabview.Button("Test Results", "icon/16/devices/video-display.png");
-    var bsb2 = new qx.ui.pageview.tabview.Button("Log", "icon/16/apps/graphics-snapshot.png");
-    bsb1.setChecked(true);
-    buttview.getBar().add(bsb1, bsb2);
-
-    var p1 = new qx.ui.pageview.tabview.Page(bsb1);
-    p1.set({
-      padding : [5]
-      //spacing   : 5
-    });
-    var p2 = new qx.ui.pageview.tabview.Page(bsb2);
-    p2.set({
-      padding : [5]
-    });
-    buttview.getPane().add(p1, p2);
-    buttview.getPane().set({
-      height : "100%"
-    });
-
-
-    var f1 = new qx.ui.form.TextField("Results of the current Test");
-    f1.set({
-      //width : "100%",
-      //height : "100%",
-      //border : "inset",
-      padding : [10]
-    });
-    var f2 = new qx.ui.form.TextField("Session Log, listing test invokations and all outputs");
-    p1.add(f1);
-    p2.add(f2);
-
     this.testLoader();
+
   }, //constructor
 
 
   members: {
+    __makeButtonView : function (){
+      var buttview = new qx.ui.pageview.tabview.TabView();
+      buttview.set({
+        width: "100%",
+        border: "inset",
+        height: "1*"
+      });
+
+      var bsb1 = new qx.ui.pageview.tabview.Button("Test Results", "icon/16/devices/video-display.png");
+      var bsb2 = new qx.ui.pageview.tabview.Button("Log", "icon/16/apps/graphics-snapshot.png");
+      bsb1.setChecked(true);
+      buttview.getBar().add(bsb1, bsb2);
+
+      var p1 = new qx.ui.pageview.tabview.Page(bsb1);
+      p1.set({
+        padding : [5]
+        //spacing   : 5
+      });
+      var p2 = new qx.ui.pageview.tabview.Page(bsb2);
+      p2.set({
+        padding : [5]
+      });
+      buttview.getPane().add(p1, p2);
+      buttview.getPane().set({
+        height : "100%"
+      });
+
+
+      var f1 = new qx.ui.form.TextField("Results of the current Test");
+      f1.set({
+        //width : "100%",
+        //height : "100%",
+        //border : "inset",
+        padding : [10]
+      });
+      var f2 = new qx.ui.form.TextField("Session Log, listing test invokations and all outputs");
+      p1.add(f1);
+      p2.add(f2);
+      return buttview;
+    }, //makeButtonView
+
     __makeLeft: function (){
       var left = new qx.ui.tree.Tree("Test Classes");
       left.set({
@@ -212,27 +218,28 @@ qx.Class.define("qxunit.runner.TestRunner",
 
     testLoader : function()
     {
-    var loader = qxunit.runner.TestLoaderStub.getInstance();
-    this.debug(qx.io.Json.stringify(loader.getTestDescriptions()));
+      var loader = qxunit.runner.TestLoaderStub.getInstance();
+      this.debug(qx.io.Json.stringify(loader.getTestDescriptions()));
 
-    var testResult = new qxunit.TestResult();
-    testResult.addEventListener("startTest", function(e) {
-    	var test = e.getData();
-    	this.debug("Test '"+test.getFullName()+"' started.");
-    });
-    testResult.addEventListener("failure", function(e) {
-    	var ex = e.getData().exception;
-    	var test = e.getData().test;
-    	this.error("Test '"+test.getFullName()+"' failed: " +  ex.getMessage() + " - " + ex.getComment());
-    });
-    testResult.addEventListener("error", function(e) {
-    	var ex = e.getData().exception
-    	this.error("The test '"+e.getData().test.getFullName()+"' had an error: " + ex, ex);
-    });
+      var testResult = new qxunit.TestResult();
+      testResult.addEventListener("startTest", function(e) {
+        var test = e.getData();
+        this.debug("Test '"+test.getFullName()+"' started.");
+      });
+      testResult.addEventListener("failure", function(e) {
+        var ex = e.getData().exception;
+        var test = e.getData().test;
+        this.error("Test '"+test.getFullName()+"' failed: " +  ex.getMessage() + " - " + ex.getComment());
+      });
+      testResult.addEventListener("error", function(e) {
+        var ex = e.getData().exception
+        this.error("The test '"+e.getData().test.getFullName()+"' had an error: " + ex, ex);
+      });
 
-    loader.runTests(testResult, "qxunit.test.Lang");
-    loader.runTests(testResult, "qxunit.test.Xml", "testParseSerializeXml");
-    }
+      loader.runTests(testResult, "qxunit.test.Lang");
+      loader.runTests(testResult, "qxunit.test.Xml", "testParseSerializeXml");
+    }//testLoader
+
   } //members
 
 });
