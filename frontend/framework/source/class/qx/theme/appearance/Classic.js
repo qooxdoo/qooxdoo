@@ -261,8 +261,8 @@ qx.Theme.define("qx.theme.appearance.Classic",
       style : function(states)
       {
         return {
-          backgroundColor : "InfoBackground",
-          color           : "InfoText",
+          backgroundColor : "infobackground",
+          color           : "infotext",
           border          : "info",
           paddingTop      : 1,
           paddingRight    : 3,
@@ -1944,13 +1944,13 @@ qx.Theme.define("qx.theme.appearance.Classic",
       {
         return {
           cursor        : "default",
-          color         : "windowText",
+          color         : "windowtext",
           font          : '11px "Lucida Grande", Tahoma, sans-serif',
           textAlign     : "center",
           verticalAlign : "middle",
           selectable    : false,
           border          : states.today ? "black" : "1px none",
-          color           : states.selected ? "highlightText" : states.otherMonth ? "graytext" : "windowText",
+          color           : states.selected ? "highlighttext" : states.otherMonth ? "graytext" : "windowtext",
           backgroundColor : states.selected ? "highlight" : null
         };
       }
