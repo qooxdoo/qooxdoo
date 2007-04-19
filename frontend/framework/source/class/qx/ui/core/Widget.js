@@ -1374,7 +1374,8 @@ qx.Class.define("qx.ui.core.Widget",
     border :
     {
       nullable : true,
-      apply : "_applyBorder"
+      apply : "_applyBorder",
+      check : "Border"
     },
 
 
