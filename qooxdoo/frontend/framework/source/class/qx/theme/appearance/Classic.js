@@ -384,19 +384,13 @@ qx.Theme.define("qx.theme.appearance.Classic",
     {
       style : function(states)
       {
-        var result = {
+        return {
           top    : 2,
           left   : 3,
           width  : 2,
-          bottom : 2
+          bottom : 2,
+          border : "verticalDivider"
         };
-
-        var b = result.border = new qx.renderer.border.Border;
-
-        b.setLeft("threedshadow", "solid", 1);
-        b.setRight("threedhighlight", "solid", 1);
-
-        return result;
       }
     },
 
