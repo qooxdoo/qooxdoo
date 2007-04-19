@@ -104,13 +104,22 @@ qx.Class.define("qxunit.runner.TestRunner",
     statuspane.set({
       border : "inset",
       padding: [10],
+      spacing : 10, 
       height : "auto",
       width : "100%"
     });
     statuspane.add(new qx.ui.basic.Label("Current Test: "));
-    statuspane.add(new qx.ui.basic.Label("qxunit.test.core.Variants"));
+    var l1 = new qx.ui.basic.Label("qxunit.test.core.Variants");
+    statuspane.add(l1);
+    l1.set({
+      backgroundColor : "#C1ECFF"
+    });
     statuspane.add(new qx.ui.basic.Label("Number of Test: "));
-    statuspane.add(new qx.ui.basic.Label("9"));
+    var l2 = new qx.ui.basic.Label("9");
+    statuspane.add(l2);
+    l2.set({
+      backgroundColor : "#C1ECFF"
+    });
     // progress bar
     var progress = new qx.ui.layout.HorizontalBoxLayout();
     right.add(progress);
