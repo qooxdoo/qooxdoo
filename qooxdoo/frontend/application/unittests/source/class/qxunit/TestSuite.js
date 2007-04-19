@@ -52,7 +52,8 @@ qx.Class.define("qxunit.TestSuite", {
           if (proto.hasOwnProperty(test)) {
                   if (typeof(proto[test]) == "function" && test.indexOf("test") == 0) {
               var testFunctionName = "$test_" + classname.replace(".", "_") + "_" + test;
-              this.__testFunctions[testFunctionName] = this.__createTestFunctionWrapper(clazz, test);
+              this.__testFunctions[testFunctionName] = new qxunit.TestFunction(clazz, test);
+              //this.__testFunctions[testFunctionName] = this.__createTestFunctionWrapper(clazz, test);
             }
           }
         }
@@ -74,12 +75,12 @@ qx.Class.define("qxunit.TestSuite", {
       if (name.charAt(0) != "$") {
         name = "$" + name;
       }
-      this.__testFunctions[name] = fcn;
+      this.__testFunctions[name] = new qxunit.TestFunction(null, null, fcn);
     },
 
-
-    addPollutionCheck: function() {
-      this.addTestFunction("$pollutionCheck", qx.lang.Function.bind(this.__pollutionCheck, this));
+    addTestMethod: function(clazz, functionName) {
+      var testFunctionName = "$test_" + clazz.classname.replace(".", "_") + "_" + functionName;
+      this.__testFunctions[testFunctionName] = new qxunit.TestFunction(clazz, functionName);
     },
 
     addFail: function(functionName, message) {
@@ -88,31 +89,19 @@ qx.Class.define("qxunit.TestSuite", {
       });
     },
 
-    runAll: function() {
+    run: function(testResult) {
       for (var testName in this.__testFunctions) {
-        this.debug("Runinng test '" + testName + "'");
-        (this.__testFunctions[testName]) ();
+        (this.__testFunctions[testName]).run(testResult);
       }
     },
 
-    exportToJsUnit: function() {
-      var names = [];
-      for (var testName in this.__testFunctions) {
-        names.push(testName);
-        window[testName] = this.__testFunctions[testName];
-      }
-      // global
-      window.exposeTestFunctionNames = function() {
-        return names;
-      }
-      // global
-      window.isTestPageLoaded = true;
+    addPollutionCheck: function() {
+      this.addTestFunction("$pollutionCheck", qx.lang.Function.bind(this.__pollutionCheck, this));
     },
-
 
     __pollutionCheck: function() {
       // ignore test functions
-      var testFunctionNames = qx.lang.Object.getKeys(this.____testFunctions)
+      var testFunctionNames = qx.lang.Object.getKeys(this.__testFunctions)
       qx.lang.Array.append(qx.dev.Pollution.ignore.window, testFunctionNames);
 
       // ignore JsUnit functions
@@ -140,16 +129,8 @@ qx.Class.define("qxunit.TestSuite", {
       qx.lang.Array.append(qx.dev.Pollution.ignore.window, ["exposeTestFunctionNames"]);
 
       var pollution = qx.dev.Pollution.extract("window");
-      new qxunit.TestCase().assertEquals(
-        qx.io.Json.stringify([]),
-        qx.io.Json.stringify(pollution)
-      );
-    },
-
-    __createTestFunctionWrapper: function(clazz, functionName) {
-      return function() {
-        ( (new clazz()) [functionName]) ();
-      }
+      new qxunit.TestCase().assertJsonEquals([], pollution);
     }
+
   }
 })

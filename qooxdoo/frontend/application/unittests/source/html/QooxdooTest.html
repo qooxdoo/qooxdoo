@@ -5,38 +5,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>qooxdoo Test</title>
     <meta name="author" content="">
-    <link rel="stylesheet" type="text/css" href="../../jsunit/css/jsUnitStyle.css">
     <script language="JavaScript" type="text/javascript" src="../script/qxunit.js"></script>
     <script language="JavaScript" type="text/javascript">
 
-    (function() {
-
-        var params = window.location.search;
-        var className = params.match(/[\?&]testclass=([A-Za-z0-9_\.]+)/);
-        if (className) {
-            className = className[1]
-        } else {
-            className = "__unknown_class__";
-        }
-
-        var suite = new qxunit.TestSuite();
-        suite.add(className);
-        suite.addPollutionCheck();
-
-        if (window.top.jsUnitTestSuite) {
-            suite.exportToJsUnit();
-        } else {
-            try {
-                suite.runAll();
-            } catch (e) {
-                if (e instanceof qxunit.AssertionError) {
-                    alert(e.getMessage() + ": " + e.getComment());
-                }
-                alert(e);
-            }
-        }
-
-    }) ();
+		qx.core.Init.getInstance().setApplication(new qxunit.TestLoader);
 
     </script>
     </head>
