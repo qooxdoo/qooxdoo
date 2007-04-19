@@ -6808,8 +6808,8 @@ qx.Class.define("qx.ui.core.Widget",
       var oldLeftWidth = this._cachedBorderLeft;
       var oldRightWidth = this._cachedBorderRight;
 
-      this._cachedBorderLeft = value ? value.getLeftWidth() : 0;
-      this._cachedBorderRight = value ? value.getRightWidth() : 0;
+      this._cachedBorderLeft = value ? value.getWidthLeft() : 0;
+      this._cachedBorderRight = value ? value.getWidthRight() : 0;
 
       if ((oldLeftWidth + oldRightWidth) != (this._cachedBorderLeft + this._cachedBorderRight)) {
         this._invalidateFrameWidth();
@@ -6825,8 +6825,8 @@ qx.Class.define("qx.ui.core.Widget",
       var oldTopWidth = this._cachedBorderTop;
       var oldBottomWidth = this._cachedBorderBottom;
 
-      this._cachedBorderTop = value ? value.getTopWidth() : 0;
-      this._cachedBorderBottom = value ? value.getBottomWidth() : 0;
+      this._cachedBorderTop = value ? value.getWidthTop() : 0;
+      this._cachedBorderBottom = value ? value.getWidthBottom() : 0;
 
       if ((oldTopWidth + oldBottomWidth) != (this._cachedBorderTop + this._cachedBorderBottom)) {
         this._invalidateFrameHeight();
