@@ -62,6 +62,10 @@ qx.Class.define("qxunit.runner.TestRunner",
       width: 300
     });
     this.iframe = iframe;
+    this.add(iframe);
+
+    // Get the TestLoader from the Iframe
+    this.loader1 = iframe.getContentWindow().qxunit.TestLoader.getInstance();
 
     // Header Pane
     this.header = new qx.ui.embed.HtmlEmbed("<center><h3>QxRunner - The qooxdoo Test Runner</h3></center>");
@@ -171,7 +175,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       //this.loader = qxunit.TestLoader.getInstance();
       this.tests = {};
       var that   = this;
-      this.tests.handler = this.__makeTestHandler(this.loader.getTestDescriptions());
+      this.tests.handler = this.__makeTestHandler(this.loader1.getTestDescriptions());
 
       /*
       var node = this.tests.handler.getRoot();
