@@ -476,7 +476,7 @@ qx.Class.define("qx.core.Property",
 
       method.set[name] = prefix + "set" + postfix;
       members[method.set[name]] = function(value) {
-        return qx.core.Property.executeOptimizedSetter(this, clazz, name, "set", value);
+        return qx.core.Property.executeOptimizedSetter(this, clazz, name, "set", arguments);
       }
 
       method.reset[name] = prefix + "reset" + postfix;
@@ -486,14 +486,14 @@ qx.Class.define("qx.core.Property",
 
       method.init[name] = prefix + "init" + postfix;
       members[method.init[name]] = function(value) {
-        return qx.core.Property.executeOptimizedSetter(this, clazz, name, "init", value);
+        return qx.core.Property.executeOptimizedSetter(this, clazz, name, "init", arguments);
       }
 
       if (config.inheritable === true)
       {
         method.refresh[name] = prefix + "refresh" + postfix;
         members[method.refresh[name]] = function(value) {
-          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "refresh", value);
+          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "refresh", arguments);
         }
       }
 
@@ -501,12 +501,12 @@ qx.Class.define("qx.core.Property",
       {
         method.style[name] = prefix + "style" + postfix;
         members[method.style[name]] = function(value) {
-          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "style", value);
+          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "style", arguments);
         }
 
         method.unstyle[name] = prefix + "unstyle" + postfix;
         members[method.unstyle[name]] = function(value) {
-          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "unstyle", value);
+          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "unstyle", arguments);
         }
       }
 
@@ -539,7 +539,7 @@ qx.Class.define("qx.core.Property",
      * @param value {var ? null} Optional value to call function with
      * @return {var} Return value of the generated function
      */
-    __unwrapFunctionFromCode : function(instance, members, name, variant, code, value)
+    __unwrapFunctionFromCode : function(instance, members, name, variant, code, args)
     {
       // Output generate code
       if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -560,7 +560,13 @@ qx.Class.define("qx.core.Property",
       code.clear();
 
       // Executing new function
-      return instance[this.$$method[variant][name]](value);
+      if (args === undefined) {
+        return instance[this.$$method[variant][name]]();
+      } else if (qx.core.Variant.isSet("qx.debug", "on")) {
+        return instance[this.$$method[variant][name]].apply(instance, args);
+      } else {
+        return instance[this.$$method[variant][name]](args[0]);
+      }
     },
 
 
@@ -617,10 +623,11 @@ qx.Class.define("qx.core.Property",
      * @param value {var ? null} Optional value to send to newly created method
      * @return {var} Execute return value of apply generated function, generally the incoming value
      */
-    executeOptimizedSetter : function(instance, clazz, name, variant, value)
+    executeOptimizedSetter : function(instance, clazz, name, variant, args)
     {
       var config = clazz.$$properties[name];
       var members = clazz.prototype;
+      var value = args[0];
 
       var code = this.$$code;
       if (!code) {
@@ -742,11 +749,14 @@ qx.Class.define("qx.core.Property",
 
         code.add('this.', store, '=value;');
       }
-      else if (variant === "init" && qx.core.Variant.isSet("qx.debug", "on"))
+      else if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        // Additional debugging to block values for init() functions
-        // which have a init value defined at property level
-        code.add('if(arguments.length!==0)throw new Error("You are not able to change the init value of the property ', name,  ' by using ', this.$$method[variant][name], '()!");');
+        if (variant === "init")
+        {
+          // Additional debugging to block values for init() functions
+          // which have a init value defined at property level
+          code.add('if(arguments.length!==0)throw new Error("You are not able to change the init value of the property ', name,  ' by using ', this.$$method[variant][name], '()!");');
+        }
       }
 
 
@@ -939,7 +949,7 @@ qx.Class.define("qx.core.Property",
 
 
 
-      return this.__unwrapFunctionFromCode(instance, members, name, variant, code, value);
+      return this.__unwrapFunctionFromCode(instance, members, name, variant, code, args);
     }
   },
 
