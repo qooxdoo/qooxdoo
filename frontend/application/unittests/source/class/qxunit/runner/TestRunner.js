@@ -163,7 +163,7 @@ qx.Class.define("qxunit.runner.TestRunner",
 
     var p1 = new qx.ui.pageview.tabview.Page(bsb1);
     p1.set({
-      padding : [5],
+      padding : [5]
       //spacing   : 5
     });
     var p2 = new qx.ui.pageview.tabview.Page(bsb2);
