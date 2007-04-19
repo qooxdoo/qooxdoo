@@ -99,7 +99,7 @@ qx.Class.define("qx.manager.object.ColorManager",
      * @param value {var} Any acceptable color value
      * @return {void}
      */
-    process : function(obj, callback, value)
+    connect : function(obj, callback, value)
     {
       // Store references for themed colors
       var key = "color" + obj.toHashCode() + "$" + callback;

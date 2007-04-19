@@ -216,12 +216,15 @@ qx.Class.define("qx.ui.form.TextField",
       {
         var inp = this._inputElement = document.createElement(this._inputTag);
 
-        // Default stuff
+        // Apply type
         if (this._inputType) {
           inp.type = this._inputType;
         }
 
-        inp.autocomplete = "OFF";
+        // Disable auto complete
+        // setAttribute() is needed for gecko
+        inp.autoComplete = "off";
+        inp.setAttribute("autoComplete", "off");
 
         // Apply properties
         inp.disabled = !this.getEnabled();
@@ -239,6 +242,10 @@ qx.Class.define("qx.ui.form.TextField",
         istyle.border = "0 none";
         istyle.background = "transparent";
         istyle.overflow = this._inputOverflow;
+
+        // Disable browser appearance
+        istyle.WebkitAppearance = "none";
+        istyle.MozAppearance = "none";
 
         // MSHTML needs some tweaks
         if (qx.core.Variant.isSet("qx.client", "mshtml"))
@@ -406,6 +413,16 @@ qx.Class.define("qx.ui.form.TextField",
       }
 
       return this.getValue();
+    },
+
+
+    /**
+     * Returns the inner input element.
+     *
+     * @return {Element} the input element
+     */
+    getInputElement : function() {
+      return this._inputElement || null;
     },
 
 

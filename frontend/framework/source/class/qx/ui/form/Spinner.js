@@ -834,7 +834,7 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     __checkValue : function(acceptEmpty, acceptEdit)
     {
-      var el = this._textfield.getElement();
+      var el = this._textfield.getInputElement();
 
       if (!el) {
         return;

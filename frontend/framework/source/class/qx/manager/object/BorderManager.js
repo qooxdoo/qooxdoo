@@ -97,7 +97,7 @@ qx.Class.define("qx.manager.object.BorderManager",
      * @param value {var} Any acceptable border value
      * @return {void}
      */
-    process : function(obj, callback, value)
+    connect : function(obj, callback, value)
     {
       // Store references for themed borders
       var key = "border" + obj.toHashCode() + "$" + callback;
@@ -118,7 +118,7 @@ qx.Class.define("qx.manager.object.BorderManager",
       // Themed borders are able to overwrite the values of named and system borders
       // Simple return of all other named, system, hex, RGB strings
       // Validation is not done here.
-      obj[callback](value ? this.__themedBorders[value] || value : null);
+      obj[callback](value ? this.__themedBorders[value] || value : null, "all");
     },
 
     themedBorderToObject : function(value) {
@@ -190,7 +190,7 @@ qx.Class.define("qx.manager.object.BorderManager",
       for (var key in reg)
       {
         entry = reg[key];
-        entry.object[entry.callback](dest[entry.value]);
+        entry.object[entry.callback](dest[entry.value], "all");
       }
     },
 
@@ -205,10 +205,7 @@ qx.Class.define("qx.manager.object.BorderManager",
       {
         entry = reg[key];
 
-        if (dest[entry.value] === obj)
-        {
-          // TODO: Send context edge
-          // this.debug("Update: " + entry.object + ": " + obj.name + ": " + edge);
+        if (dest[entry.value] === obj) {
           entry.object[entry.callback](dest[entry.value], edge);
         }
       }
