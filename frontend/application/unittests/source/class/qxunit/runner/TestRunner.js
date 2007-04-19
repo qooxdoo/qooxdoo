@@ -70,6 +70,8 @@ qx.Class.define("qxunit.runner.TestRunner",
     });
     this.add(this.toolbar);
 
+    this.runbutton.addEventListener("click", this.runTest, this);
+
 
     // Main Pane
     // split
@@ -140,6 +142,7 @@ qx.Class.define("qxunit.runner.TestRunner",
 
 
       var f1 = new qx.ui.form.TextField("Results of the current Test");
+      this.f1 = f1;
       f1.set({
         //width : "100%",
         //height : "100%",
@@ -157,7 +160,9 @@ qx.Class.define("qxunit.runner.TestRunner",
     */
     __makeLeft: function (){
       this.loader = qxunit.runner.TestLoaderStub.getInstance();
+      //this.loader = qxunit.TestLoader.getInstance();
       this.tests = {};
+      var that   = this;
       this.tests.handler = this.__makeTestHandler(this.loader.getTestDescriptions());
 
       /*
@@ -186,8 +191,10 @@ qx.Class.define("qxunit.runner.TestRunner",
       }
 
       left.getManager().addEventListener("changeSelection", function (e) {
-        this.tests.selected = e.getData()[0]._labelObject.getHtml();
-        this.right.buttview.bsb1.p1.f1 = this.tests.selected;
+        that.tests.selected = e.getData()[0]._labelObject.getHtml();
+        //that.right.buttview.bsb1.p1.f1 = this.tests.selected;
+        //that.getChildren()[2].getChildren()[1].getChildren()[1].getPane().getChildren()[0].getChildren()[0] = that.tests.selected;
+        that.f1.setValue(that.tests.selected);
       });
 
       return left;
@@ -292,6 +299,27 @@ qx.Class.define("qxunit.runner.TestRunner",
 
       return handler;
     }, //makeTestHandler
+
+
+    /**
+     * runTest - event handler for the Run Test button - performs the test
+    */
+    runTest : function (e) {
+      this.f1.setValue("Now running: " + this.tests.selected);
+      // Set status bar entries (current test, no. of tests, ...)
+      // Initialize progress bar
+      // Make initial entry in output windows (test result, log, ...)
+
+      // Foreach test subsumed by 'testLabel' (could be an individual test, or
+      //   class with subclasses) do:
+
+        // create iframe obj
+        // create testResult obj
+        // set up event listeners
+        // start test
+
+
+    }, //runTest
 
 
     testLoader : function()
