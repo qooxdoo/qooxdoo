@@ -324,18 +324,27 @@ qx.Class.define("qx.core.Object",
      */
     set : function(data)
     {
-      if (typeof data !== "object") {
-        throw new Error("Please use a valid hash of property key-values pairs. Incoming value was: '" + data + "'");
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (typeof data !== "object") {
+          throw new Error("Please use a valid hash of property key-values pairs. Incoming value was: '" + data + "'");
+        }
       }
+
+      var setter = qx.core.Property.$$method.set;
 
       for (var prop in data)
       {
-        try {
-          // TODO: Support new qx.core.Property
-          this[qx.core.LegacyProperty.getSetterName(prop)](data[prop]);
-        } catch(ex) {
-          this.error("Setter of property '" + prop + "' returned with an error", ex);
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {
+          if (!this[setter[prop]])
+          {
+            this.error("Generic setter is missing property: " + prop + ". Incoming value was: " + data[prop]);
+            continue;
+          }
         }
+
+        this[setter[prop]](data[prop]);
       }
 
       return this;
