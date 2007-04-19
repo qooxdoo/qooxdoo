@@ -328,7 +328,7 @@ qx.Class.define("qx.renderer.border.Border",
       nullable : true,
       check : [ "solid", "dotted", "dashed", "double", "outset", "inset", "ridge", "groove" ],
       init : "solid",
-      apply : "_applyTopStyle"
+      apply : "_applyStyleTop"
     },
 
     /** right style of border */
@@ -337,7 +337,7 @@ qx.Class.define("qx.renderer.border.Border",
       nullable : true,
       check : [ "solid", "dotted", "dashed", "double", "outset", "inset", "ridge", "groove" ],
       init : "solid",
-      apply : "_applyRightStyle"
+      apply : "_applyStyleRight"
     },
 
     /** bottom style of border */
@@ -346,7 +346,7 @@ qx.Class.define("qx.renderer.border.Border",
       nullable : true,
       check : [ "solid", "dotted", "dashed", "double", "outset", "inset", "ridge", "groove" ],
       init : "solid",
-      apply : "_applyBottomStyle"
+      apply : "_applyStyleBottom"
     },
 
     /** left style of border */
@@ -355,7 +355,7 @@ qx.Class.define("qx.renderer.border.Border",
       nullable : true,
       check : [ "solid", "dotted", "dashed", "double", "outset", "inset", "ridge", "groove" ],
       init : "solid",
-      apply : "_applyLeftStyle"
+      apply : "_applyStyleLeft"
     },
 
 
