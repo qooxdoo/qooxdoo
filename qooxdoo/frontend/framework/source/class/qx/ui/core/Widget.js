@@ -1374,7 +1374,7 @@ qx.Class.define("qx.ui.core.Widget",
     border :
     {
       nullable : true,
-      apply : "_modifyBorder"
+      apply : "_applyBorder"
     },
 
 
@@ -1630,7 +1630,7 @@ qx.Class.define("qx.ui.core.Widget",
     marginTop :
     {
       check : "Number",
-      apply : "_modifyMarginTop",
+      apply : "_applyMarginTop",
       nullable : true,
       appearance : true
     },
@@ -1640,7 +1640,7 @@ qx.Class.define("qx.ui.core.Widget",
     marginRight :
     {
       check : "Number",
-      apply : "_modifyMarginRight",
+      apply : "_applyMarginRight",
       nullable : true,
       appearance : true
     },
@@ -1650,7 +1650,7 @@ qx.Class.define("qx.ui.core.Widget",
     marginBottom :
     {
       check : "Number",
-      apply : "_modifyMarginBottom",
+      apply : "_applyMarginBottom",
       nullable : true,
       appearance : true
     },
@@ -1660,7 +1660,7 @@ qx.Class.define("qx.ui.core.Widget",
     marginLeft :
     {
       check : "Number",
-      apply : "_modifyMarginLeft",
+      apply : "_applyMarginLeft",
       nullable : true,
       appearance : true
     },
@@ -1670,7 +1670,7 @@ qx.Class.define("qx.ui.core.Widget",
     paddingTop :
     {
       check : "Number",
-      apply : "_modifyPaddingTop",
+      apply : "_applyPaddingTop",
       nullable : true,
       appearance : true
     },
@@ -1680,7 +1680,7 @@ qx.Class.define("qx.ui.core.Widget",
     paddingRight :
     {
       check : "Number",
-      apply : "_modifyPaddingRight",
+      apply : "_applyPaddingRight",
       nullable : true,
       appearance : true
     },
@@ -1690,7 +1690,7 @@ qx.Class.define("qx.ui.core.Widget",
     paddingBottom :
     {
       check : "Number",
-      apply : "_modifyPaddingBottom",
+      apply : "_applyPaddingBottom",
       nullable : true,
       appearance : true
     },
@@ -1700,7 +1700,7 @@ qx.Class.define("qx.ui.core.Widget",
     paddingLeft :
     {
       check : "Number",
-      apply : "_modifyPaddingLeft",
+      apply : "_applyPaddingLeft",
       nullable : true,
       appearance : true
     },
@@ -6683,22 +6683,36 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
+
+
     /*
     ---------------------------------------------------------------------------
-      COLOR & BACKGROUND COLOR
+      BACKGROUND COLOR APPLY ROUTINE
     ---------------------------------------------------------------------------
     */
 
     _modifyBackgroundColor : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().process(this, "_styleBackgroundColor", value);
+      qx.manager.object.ColorManager.getInstance().connect(this, "_styleBackgroundColor", value);
     },
 
     _styleBackgroundColor : function(value) {
       value ? this.setStyleProperty("backgroundColor", value) : this.removeStyleProperty("backgroundColor");
     },
 
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      COLOR APPLY ROUTINE
+    ---------------------------------------------------------------------------
+    */
+
     _modifyColor : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().process(this, "_styleColor", value);
+      qx.manager.object.ColorManager.getInstance().connect(this, "_styleColor", value);
     },
 
     _styleColor : function(value) {
@@ -6707,9 +6721,11 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
+
     /*
     ---------------------------------------------------------------------------
-      FONT
+      FONT APPLY ROUTINE
     ---------------------------------------------------------------------------
     */
 
@@ -6724,7 +6740,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      BORDER
+      BORDER APPLY ROUTINE
     ---------------------------------------------------------------------------
     */
 
@@ -6733,31 +6749,59 @@ qx.Class.define("qx.ui.core.Widget",
     _cachedBorderBottom : 0,
     _cachedBorderLeft : 0,
 
-    _modifyBorder : function(value, old) {
-      qx.manager.object.BorderManager.getInstance().process(this, "_styleBorder", value);
+
+    /** apply routine for property {@link #border} */
+    _applyBorder : function(value, old) {
+      qx.manager.object.BorderManager.getInstance().connect(this, "_queueBorder", value);
     },
 
-    _styleBorder : function(value, edge)
+
+    /** translates edges to (queue) jobs */
+    __borderJobs :
     {
-      if (edge)
+      top : "borderTop",
+      right : "borderRight",
+      bottom : "borderBottom",
+      left : "borderLeft"
+    },
+
+
+    /**
+     * Callback for border manager connection
+     *
+     * @param value {qx.
+     */
+    _queueBorder : function(value, edge)
+    {
+      if (edge === "all")
       {
-        if (edge === "left" || edge === "right")
-        {
-          this._styleBorderX(value);
+        var jobs = this.__borderJobs;
+        for (var entry in jobs) {
+          this.addToQueue(jobs[entry]);
         }
-        else
-        {
-          this._styleBorderY(value);
-        }
+
+        this.__reflowBorderX(value);
+        this.__reflowBorderY(value);
       }
       else
       {
-        this._styleBorderX(value);
-        this._styleBorderY(value);
+        if (edge === "left" || edge === "right") {
+          this.__reflowBorderX(value);
+        } else {
+          this.__reflowBorderY(value);
+        }
+
+        this.addToQueue(this.__borderJobs[edge]);
       }
+
+      this.__borderObject = value;
     },
 
-    _styleBorderX : function(value)
+
+    /**
+     * Invalidates the cached frame on y-axis when border changes occour
+     */
+    __reflowBorderX : function(value)
     {
       var oldLeftWidth = this._cachedBorderLeft;
       var oldRightWidth = this._cachedBorderRight;
@@ -6768,11 +6812,13 @@ qx.Class.define("qx.ui.core.Widget",
       if ((oldLeftWidth + oldRightWidth) != (this._cachedBorderLeft + this._cachedBorderRight)) {
         this._invalidateFrameWidth();
       }
-
-      this.addToQueue("borderX");
     },
 
-    _styleBorderY : function(value)
+
+    /**
+     * Invalidates the cached frame on y-axis when border changes occour
+     */
+    __reflowBorderY : function(value)
     {
       var oldTopWidth = this._cachedBorderTop;
       var oldBottomWidth = this._cachedBorderBottom;
@@ -6783,47 +6829,55 @@ qx.Class.define("qx.ui.core.Widget",
       if ((oldTopWidth + oldBottomWidth) != (this._cachedBorderTop + this._cachedBorderBottom)) {
         this._invalidateFrameHeight();
       }
-
-      this.addToQueue("borderY");
     },
 
-    _applyBorderX : function(child)
+
+    /**
+     * Renders border object to widget.
+     * Callback from layout queue
+     *
+     * @internal
+     */
+    renderBorder : function(changes)
     {
-      var border = child.getBorder();
+      var border = this.__borderObject;
       var mgr = qx.manager.object.BorderManager.getInstance();
 
       if (border)
       {
-        if (mgr.isThemedBorder(border)) {
-          border = mgr.themedBorderToObject(border);
+        if (changes.borderTop) {
+          border.renderTop(this);
         }
 
-        border.applyWidgetLeft(child);
-        border.applyWidgetRight(child);
+        if (changes.borderRight) {
+          border.renderRight(this);
+        }
+
+        if (changes.borderBottom) {
+          border.renderBottom(this);
+        }
+
+        if (changes.borderLeft) {
+          border.renderLeft(this);
+        }
       }
       else
       {
-        qx.renderer.border.Border.resetBorderX(child);
-      }
-    },
-
-    _applyBorderY : function(child)
-    {
-      var border = child.getBorder();
-      var mgr = qx.manager.object.BorderManager.getInstance();
-
-      if (border)
-      {
-        if (mgr.isThemedBorder(border)) {
-          border = mgr.themedBorderToObject(border);
+        if (changes.borderTop) {
+          qx.renderer.border.Border.resetTop(this);
         }
 
-        border.applyWidgetTop(child);
-        border.applyWidgetBottom(child);
-      }
-      else
-      {
-        qx.renderer.border.Border.resetBorderY(child);
+        if (changes.borderRight) {
+          qx.renderer.border.Border.resetRight(this);
+        }
+
+        if (changes.borderBottom) {
+          qx.renderer.border.Border.resetBottom(this);
+        }
+
+        if (changes.borderLeft) {
+          qx.renderer.border.Border.resetLeft(this);
+        }
       }
     },
 
@@ -6835,36 +6889,52 @@ qx.Class.define("qx.ui.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      PADDING
+      PADDING APPLY ROUTINE
     ---------------------------------------------------------------------------
     */
 
-    _modifyPaddingLeft : function(value, old)
-    {
-      this.addToQueue("paddingLeft");
-      this._invalidateFrameWidth();
-    },
 
-    _modifyPaddingRight : function(value, old)
-    {
-      this.addToQueue("paddingRight");
-      this._invalidateFrameWidth();
-    },
-
-    _modifyPaddingTop : function(value, old)
+    /** apply routine for property {@link #paddingTop} */
+    _applyPaddingTop : function(value, old)
     {
       this.addToQueue("paddingTop");
       this._invalidateFrameHeight();
     },
 
-    _modifyPaddingBottom : function(value, old)
+
+    /** apply routine for property {@link #paddingRight} */
+    _applyPaddingRight : function(value, old)
+    {
+      this.addToQueue("paddingRight");
+      this._invalidateFrameWidth();
+    },
+
+
+    /** apply routine for property {@link #paddingBottom} */
+    _applyPaddingBottom : function(value, old)
     {
       this.addToQueue("paddingBottom");
       this._invalidateFrameHeight();
     },
 
-    _applyPaddingX : qx.lang.Function.returnTrue,
-    _applyPaddingY : qx.lang.Function.returnTrue,
+
+    /** apply routine for property {@link #paddingLeft} */
+    _applyPaddingLeft : function(value, old)
+    {
+      this.addToQueue("paddingLeft");
+      this._invalidateFrameWidth();
+    },
+
+
+    /**
+     * Renders padding to widget
+     * Callback from layout queue
+     *
+     * @internal
+     */
+    renderPadding : function(changes) {
+      // empty
+    },
 
 
 
@@ -6873,29 +6943,30 @@ qx.Class.define("qx.ui.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      MARGIN
+      MARGIN APPLY ROUTINE
     ---------------------------------------------------------------------------
     */
 
-    _modifyMarginLeft : function(value, old)
-    {
+    /** apply routine for property {@link #marginLeft} */
+    _applyMarginLeft : function(value, old) {
       this.addToQueue("marginLeft");
     },
 
-    _modifyMarginRight : function(value, old)
-    {
+    /** apply routine for property {@link #marginRight} */
+    _applyMarginRight : function(value, old) {
       this.addToQueue("marginRight");
     },
 
-    _modifyMarginTop : function(value, old)
-    {
+    _applyMarginTop : function(value, old) {
       this.addToQueue("marginTop");
     },
 
-    _modifyMarginBottom : function(value, old)
-    {
+    _applyMarginBottom : function(value, old) {
       this.addToQueue("marginBottom");
     },
+
+
+
 
 
 
