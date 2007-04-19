@@ -105,7 +105,7 @@ qx.Class.define("qxunit.runner.TestRunner",
     var buttview = this.__makeButtonView();
     right.add(buttview);
 
-    this.testLoader();
+    //this.testLoader();
 
   }, //constructor
 
@@ -152,14 +152,44 @@ qx.Class.define("qxunit.runner.TestRunner",
       return buttview;
     }, //makeButtonView
 
+    /**
+     * Tree View in Left Pane
+    */
     __makeLeft: function (){
-      var left = new qx.ui.tree.Tree("Test Classes");
+      this.loader = qxunit.runner.TestLoaderStub.getInstance();
+      this.tests = {};
+      this.tests.handler = this.__makeTestHandler(this.loader.getTestDescriptions());
+
+      /*
+      var node = this.tests.handler.getRoot();
+      this.debug("Root node: " + node);
+      this.tests.handler.getChilds(node);
+      this.tests.handler.getTests(node);
+      */
+      var tmap = this.tests.handler.tmap;
+      
+      //var left = new qx.ui.tree.Tree("Test Classes");
+      var left = new qx.ui.tree.Tree("Root");
       left.set({
         width : "100%",
         height : "100%",
         padding : [10],
         border : "inset"
       });
+
+      for (var i=0; i<tmap.length; i++) {
+        var f = new qx.ui.tree.TreeFolder(tmap[i].classname);
+        left.add(f);
+        for (var j=0; j<tmap[i].tests.length; j++) {
+          f.add(new qx.ui.tree.TreeFile(tmap[i].tests[j]));
+        }
+      }
+
+      left.getManager().addEventListener("changeSelection", function (e) {
+        this.tests.selected = e.getData()[0]._labelObject.getHtml();
+        this.right.buttview.bsb1.p1.f1 = this.tests.selected;
+      });
+
       return left;
     }, //makeLeft
 
@@ -215,6 +245,54 @@ qx.Class.define("qxunit.runner.TestRunner",
       });
       return statuspane;
     }, //makeStatus
+
+
+    __makeTestHandler : function (testRep) {
+      //testRep is Json currently
+      var handler = function (){};
+      handler.tmap    = eval(testRep); //[{classname:myClass,tests:['test1','test2']}, {...}]
+      this.debug(qx.io.Json.stringify(testRep));
+
+      handler.getRoot = function () {
+        if (! this.Root) {
+          var root = {classname: "", tests: []};
+          var tmap = this.tmap;
+          for (var i=0;i<this.tmap.length;i++){
+            if (root.classname.length > tmap[i].classname.length){
+              root = tmap[i];
+            }
+          }
+          this.Root = root;
+        }
+        return this.Root.classname;
+      };
+
+      handler.getChilds = function (node){
+        var cldList = [];
+        var tmap    = this.tmap;
+        var nodep   = "^" + node + "\\.[^\\.]+$";
+        var pat     = new RegExp(nodep);
+        for (var i=0;i<tmap.length;i++) {
+          if (tmap[i].classname.match(pat)) {
+            cldList.push(tmap[i]);
+          }
+        }
+        return cldList;
+      };
+
+      handler.getTests = function (node) { // node is a string
+        var tmap = this.tmap;
+        for (var i=0;i<tmap.length;i++) {
+          if (tmap[i].classname == node) {
+            return tmap[i].tests;
+          }
+        }
+        return [];
+      }
+
+      return handler;
+    }, //makeTestHandler
+
 
     testLoader : function()
     {
