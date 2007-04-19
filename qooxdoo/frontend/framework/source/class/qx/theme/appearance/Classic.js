@@ -128,18 +128,18 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
     "verticalDivider" :
     {
-      topWidth : 1,
-      bottomWidth : 1,
-      topColor: "threedshadow",
-      bottomColor : "threedhighlight"
+      widthTop : 1,
+      widthBottom : 1,
+      colorTop: "threedshadow",
+      colorBottom : "threedhighlight"
     },
 
     "horizontalDivider" :
     {
-      leftWidth : 1,
-      rightWidth : 1,
-      leftColor : "threedhighlight",
-      rightColor : "threedshadow"
+      widthLeft : 1,
+      widthRight : 1,
+      colorLeft : "threedhighlight",
+      colorRight : "threedshadow"
     }
   },
 
@@ -1567,17 +1567,17 @@ qx.Theme.define("qx.theme.appearance.Classic",
       style : function(states)
       {
         var border_top_normal = new qx.renderer.border.Border(1, "solid", "#91A5BD");
-        border_top_normal.setBottomWidth(0);
+        border_top_normal.setWidthBottom(0);
 
         var border_top_checked = new qx.renderer.border.Border(1, "solid", "#91A5BD");
-        border_top_checked.setBottomWidth(0);
+        border_top_checked.setWidthBottom(0);
         border_top_checked.setTop(3, "solid", "#FEC83C");
 
         var border_bottom_normal = new qx.renderer.border.Border(1, "solid", "#91A5BD");
-        border_bottom_normal.setTopWidth(0);
+        border_bottom_normal.setWidthTop(0);
 
         var border_bottom_checked = new qx.renderer.border.Border(1, "solid", "#91A5BD");
-        border_bottom_checked.setTopWidth(0);
+        border_bottom_checked.setWidthTop(0);
         border_bottom_checked.setBottom(3, "solid", "#FEC83C");
 
         var result;
@@ -2040,12 +2040,12 @@ qx.Theme.define("qx.theme.appearance.Classic",
           var border = new qx.renderer.border.Border;
           border.set(
           {
-            rightColor  : "#d6d2c2",
-            rightStyle  : "solid",
-            rightWidth  : 1,
-            bottomColor : "#F9B119",
-            bottomStyle : "solid",
-            bottomWidth : 2
+            colorRight  : "#d6d2c2",
+            styleRight  : "solid",
+            widthRight  : 1,
+            colorBottom : "#F9B119",
+            styleBottom : "solid",
+            widthBottom : 2
           });
         }
         else
@@ -2053,12 +2053,12 @@ qx.Theme.define("qx.theme.appearance.Classic",
           var border = new qx.renderer.border.Border;
           border.set(
           {
-            rightColor  : "#d6d2c2",
-            rightStyle  : "solid",
-            rightWidth  : 1,
-            bottomColor : "#d6d2c2",
-            bottomStyle : "solid",
-            bottomWidth : 2
+            colorRight  : "#d6d2c2",
+            styleRight  : "solid",
+            widthRight  : 1,
+            colorBottom : "#d6d2c2",
+            styleBottom : "solid",
+            widthBottom : 2
           });
         }
 
