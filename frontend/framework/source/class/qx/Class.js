@@ -1181,7 +1181,10 @@ qx.Class.define("qx.Class",
           }
 
           if (config[key] == null) {
-            throw new Error('Invalid key "' + key + '" of property "' + name + '" in class "' + clazz.classname + '"! The value is undefined/null!');
+            // null is allowed as init value for nullable properties.
+            if (!(key == "init" && config.nullable == true)) {
+              throw new Error('Invalid key "' + key + '" of property "' + name + '" in class "' + clazz.classname + '"! The value is undefined/null!');
+            }
           }
 
           if (allowed[key] !== null && typeof config[key] !== allowed[key]) {
