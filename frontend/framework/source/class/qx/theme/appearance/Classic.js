@@ -1532,7 +1532,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
         return {
           height          : "1*",
           backgroundColor : "#FAFBFE",
-          border          : "1px solid #91A5BD",
+          border          : new qx.renderer.border.Border(1, "solid", "#91A5BD"),
           paddingTop      : 10,
           paddingRight    : 10,
           paddingBottom   : 10,
@@ -1901,7 +1901,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
       style : function(states)
       {
         return {
-          border          : "1px solid gray",
+          border          : new qx.renderer.border.Border(1, "solid", "gray"),
           backgroundColor : "window"
         };
       }
@@ -1935,7 +1935,7 @@ qx.Theme.define("qx.theme.appearance.Classic",
           textAlign     : "center",
           verticalAlign : "middle",
           selectable    : false,
-          border          : states.today ? "black" : "1px none",
+          border          : states.today ? new qx.renderer.border.Border(1, "solid", "black") : null,
           color           : states.selected ? "highlighttext" : states.otherMonth ? "graytext" : "windowtext",
           backgroundColor : states.selected ? "highlight" : null
         };
