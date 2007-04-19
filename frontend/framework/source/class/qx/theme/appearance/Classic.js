@@ -393,16 +393,8 @@ qx.Theme.define("qx.theme.appearance.Classic",
 
         var b = result.border = new qx.renderer.border.Border;
 
-        b.setLeftColor("threedshadow");
-        b.setRightColor("threedhighlight");
-
-        b.setLeftStyle("solid");
-        b.setRightStyle("solid");
-
-        b.setLeftWidth(1);
-        b.setRightWidth(1);
-        b.setTopWidth(0);
-        b.setBottomWidth(0);
+        b.setLeft("threedshadow", "solid", 1);
+        b.setRight("threedhighlight", "solid", 1);
 
         return result;
       }
