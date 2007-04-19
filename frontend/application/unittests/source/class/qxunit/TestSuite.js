@@ -4,6 +4,7 @@ qx.Class.define("qxunit.TestSuite", {
   extend: qx.core.Object,
 
   construct: function(testClassOrNamespace) {
+    this.base(arguments);
     //qx.log.Logger.ROOT_LOGGER.removeAllAppenders();
     this.__tests = [];
     if (testClassOrNamespace) {
@@ -12,8 +13,6 @@ qx.Class.define("qxunit.TestSuite", {
   },
 
   members: {
-
-    __checks: 0,
 
     add: function(testClassOrNamespace) {
       if (typeof(testClassOrNamespace) == "string") {
@@ -29,36 +28,18 @@ qx.Class.define("qxunit.TestSuite", {
       } else if (typeof(testClassOrNamespace) == "object") {
         this.addTestNamespace(testClassOrNamespace);
       } else {
-        this.addFail("exsitsCheck" + this.__checks++, "Unkown test class '" + testClassOrNamespace + "'!");
+        this.addFail("exsitsCheck", "Unkown test class '" + testClassOrNamespace + "'!");
         return;
-      }
-    },
-
-    addTestClass: function(clazz) {
-      if (!clazz) {
-        this.addFail("exsitsCheck", "Unkown test class '"+ clazz +"'!");
-        return;
-      }
-      if (qx.Class.isSubClassOf(clazz, qxunit.TestCase))
-      {
-        var proto = clazz.prototype;
-        var classname = clazz.classname;
-
-        for (var test in proto) {
-          if (proto.hasOwnProperty(test)) {
-                  if (typeof(proto[test]) == "function" && test.indexOf("test") == 0) {
-              var testFunctionName = "$test_" + classname.replace(".", "_") + "_" + test;
-              this.__tests.push(new qxunit.TestFunction(clazz, test));
-            }
-          }
-        }
       }
     },
 
     addTestNamespace: function(namespace) {
       if (typeof(namespace) == "function" && namespace.classname) {
-        this.addTestClass(namespace);
-        return;
+        if (qx.Class.isSubClassOf(namespace, qxunit.TestCase))
+        {
+          this.addTestClass(namespace);
+          return;
+        }
       } else if (typeof(namespace) == "object" && !(namespace instanceof Array)) {
         for (var key in namespace) {
           this.addTestNamespace(namespace[key]);
@@ -67,14 +48,15 @@ qx.Class.define("qxunit.TestSuite", {
     },
 
     addTestFunction: function(name, fcn) {
-      if (name.charAt(0) != "$") {
-        name = "$" + name;
-      }
-      this.__tests.push(new qxunit.TestFunction(null, null, fcn));
+      this.__tests.push(new qxunit.TestFunction(null, name, fcn));
     },
 
     addTestMethod: function(clazz, functionName) {
       this.__tests.push(new qxunit.TestFunction(clazz, functionName));
+    },
+
+    addTestClass: function(clazz) {
+      this.__tests.push(new qxunit.TestClass(clazz));
     },
 
     addFail: function(functionName, message) {
@@ -87,6 +69,30 @@ qx.Class.define("qxunit.TestSuite", {
       for (var i=0; i<this.__tests.length; i++) {
         (this.__tests[i]).run(testResult);
       }
+    },
+
+    getTestClasses: function()
+    {
+      var classes = [];
+      for (var i=0; i<this.__tests.length; i++) {
+        var test = this.__tests[i];
+        if (test instanceof qxunit.TestClass) {
+          classes.push(test);
+        }
+      }
+      return classes;
+    },
+
+    getTestMethods : function()
+    {
+      var methods = [];
+      for (var i=0; i<this.__tests.length; i++) {
+        var test = this.__tests[i];
+        if (test instanceof qxunit.TestFunction) {
+          methods.push(test);
+        }
+      }
+      return methods;
     },
 
 

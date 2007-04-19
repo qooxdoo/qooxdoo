@@ -5,6 +5,7 @@ qx.Class.define("qxunit.TestClass", {
 
   construct : function(clazz)
   {
+    this.base(arguments);
 
     if (!clazz) {
       this.addFail("exsitsCheck" + this.__testClassNames.length, "Unkown test class!");
@@ -17,7 +18,6 @@ qx.Class.define("qxunit.TestClass", {
 
     var proto = clazz.prototype;
     var classname = clazz.classname;
-    this.__testClassNames.push(classname);
 
     for (var test in proto) {
       if (proto.hasOwnProperty(test)) {
@@ -28,6 +28,11 @@ qx.Class.define("qxunit.TestClass", {
     }
 
     this.setName(clazz.classname);
+  },
+
+  properties :
+  {
+    name : { check : "String"}
   }
 
 });

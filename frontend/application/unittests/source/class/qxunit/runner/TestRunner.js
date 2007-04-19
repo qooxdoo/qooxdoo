@@ -169,7 +169,7 @@ qx.Class.define("qxunit.runner.TestRunner",
         border: "inset",
         height: "auto",
         padding: [5],
-        spacing : 10, 
+        spacing : 10,
         width : "100%"
       });
       progress.add(new qx.ui.basic.Label("Progress: "));
@@ -197,7 +197,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       statuspane.set({
         border : "inset",
         padding: [10],
-        spacing : 10, 
+        spacing : 10,
         height : "auto",
         width : "100%"
       });
@@ -218,6 +218,7 @@ qx.Class.define("qxunit.runner.TestRunner",
 
     testLoader : function()
     {
+
       var loader = qxunit.runner.TestLoaderStub.getInstance();
       this.debug(qx.io.Json.stringify(loader.getTestDescriptions()));
 
