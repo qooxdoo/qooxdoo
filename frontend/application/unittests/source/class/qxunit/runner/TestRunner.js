@@ -55,6 +55,14 @@ qx.Class.define("qxunit.runner.TestRunner",
       //border          : qx.renderer.border.BorderPresets.getInstance().inset
     });
 
+    // Hidden IFrame for test runs
+    var iframe = new qx.ui.embed.Iframe("html/QooxdooTest.html?testclass=qxunit.test");
+    iframe.set({
+      height: 100,
+      width: 300
+    });
+    this.iframe = iframe;
+
     // Header Pane
     this.header = new qx.ui.embed.HtmlEmbed("<center><h3>QxRunner - The qooxdoo Test Runner</h3></center>");
     this.header.setHeight(70);
