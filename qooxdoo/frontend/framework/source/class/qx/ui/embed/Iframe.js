@@ -26,6 +26,10 @@
 ************************************************************************ */
 
 /**
+ * Container widget for internal frames (iframes).
+ *
+ * An iframe can display any HTML page inside the widget.
+ *
  * @appearance iframe
  */
 qx.Class.define("qx.ui.embed.Iframe",
@@ -41,6 +45,9 @@ qx.Class.define("qx.ui.embed.Iframe",
   *****************************************************************************
   */
 
+  /**
+   * @param vSource {String?null} URL of the HTML page displayed in the iframe.
+   */
   construct : function(vSource)
   {
     // **********************************************************************
@@ -69,6 +76,10 @@ qx.Class.define("qx.ui.embed.Iframe",
   */
 
   events: {
+
+    /**
+     * The "load" event is fired after the iframe content has successfully been loaded.
+     */
     "load" : "qx.event.type.Event"
   },
 
@@ -89,13 +100,12 @@ qx.Class.define("qx.ui.embed.Iframe",
     */
 
     /**
-     * TODOC
+     * Creates an template iframe element and sets all required html and style properties.
      *
      * @type static
-     * @param vFrameName {var} TODOC
-     * @return {void}
+     * @param vFrameName {String} Name of the iframe.
      */
-    initIframe : function(vFrameName)
+    __initIframe : function(vFrameName)
     {
       if (qx.ui.embed.Iframe._element && !vFrameName) {
         return;
@@ -142,7 +152,7 @@ qx.Class.define("qx.ui.embed.Iframe",
      * @type static
      * @return {void}
      */
-    initBlocker : function()
+    __initBlocker : function()
     {
       if (qx.ui.embed.Iframe._blocker) {
         return;
@@ -195,12 +205,18 @@ qx.Class.define("qx.ui.embed.Iframe",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Source URL of the iframe.
+     */
     source :
     {
       _legacy : true,
       type    : "string"
     },
 
+    /**
+     * Name of the iframe.
+     */
     frameName :
     {
       _legacy : true,
@@ -230,10 +246,10 @@ qx.Class.define("qx.ui.embed.Iframe",
 
 
     /**
-     * TODOC
+     * Get the DOM element of the iframe.
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Element} The DOM element of the iframe.
      */
     getIframeNode : function() {
       return this._iframeNode;
@@ -241,11 +257,10 @@ qx.Class.define("qx.ui.embed.Iframe",
 
 
     /**
-     * TODOC
+     * Change the DOM element of the iframe.
      *
      * @type member
-     * @param vIframeNode {var} TODOC
-     * @return {var} TODOC
+     * @param vIframeNode {Element} The new DOM element of the iframe.
      */
     setIframeNode : function(vIframeNode) {
       return this._iframeNode = vIframeNode;
@@ -287,60 +302,36 @@ qx.Class.define("qx.ui.embed.Iframe",
     */
 
     /**
-     * @signature function()
+     * Get the DOM window object of the iframe.
+     *
+     * @type member
+     * @return {DOMWindow} The DOM window object of the iframe.
      */
-    getContentWindow : qx.core.Variant.select("qx.client",
+    getContentWindow : function()
     {
-      "mshtml" : function()
-      {
-        if (this.isCreated())
-        {
-          try {
-            return this.getIframeNode().contentWindow;
-          } catch(ex) {}
-        }
-
+      if (this.isCreated()) {
+        return qx.html.Iframe.getWindow(this.getIframeNode());
+      } else {
         return null;
-      },
-
-      "default" : function()
-      {
-        var doc = this.getContentDocument();
-        return doc ? doc.defaultView : null;
       }
-    }),
+    },
+
 
     /**
-     * @signature function()
+     * Get the DOM document object of the iframe.
+     *
+     * @type member
+     * @return {DOMDocument} The DOM document object of the iframe.
      */
-    getContentDocument : qx.core.Variant.select("qx.client",
+    getContentDocument : function()
     {
-      "mshtml" : function()
-      {
-        var win = this.getContentWindow();
-
-        if (win)
-        {
-          try {
-            return win.document;
-          } catch(ex) {}
-        }
-
-        return null;
-      },
-
-      "default" : function()
-      {
-        if (this.isCreated())
-        {
-          try {
-            return this.getIframeNode().contentDocument;
-          } catch(ex) {}
-        }
-
+      if (this.isCreated()) {
+        return qx.html.Iframe.getDocument(this.getIframeNode());
+      } else {
         return null;
       }
-    }),
+    },
+
 
     /**
      * @signature function()
@@ -368,10 +359,9 @@ qx.Class.define("qx.ui.embed.Iframe",
     */
 
     /**
-     * TODOC
+     * Reload the contents of the iframe.
      *
      * @type member
-     * @return {void}
      */
     reload : function() {
       this._applySource();
@@ -379,10 +369,11 @@ qx.Class.define("qx.ui.embed.Iframe",
 
 
     /**
-     * TODOC
+     * Cover the iframe with a transparent blocker div element. This prevents
+     * mouse or key events to be handled by the iframe. To release the blocker
+     * use {@link #release}.
      *
      * @type member
-     * @return {void}
      */
     block : function()
     {
@@ -393,10 +384,9 @@ qx.Class.define("qx.ui.embed.Iframe",
 
 
     /**
-     * TODOC
+     * Release the blocker set by {@link #block}.
      *
      * @type member
-     * @return {void}
      */
     release : function()
     {
@@ -429,12 +419,12 @@ qx.Class.define("qx.ui.embed.Iframe",
 
       if (!iframeNode)
       {
-        qx.ui.embed.Iframe.initIframe(this.getFrameName());
+        qx.ui.embed.Iframe.__initIframe(this.getFrameName());
 
         // clone proto element and assign iframe
         iframeNode = this.setIframeNode(qx.ui.embed.Iframe._element.cloneNode(true));
 
-        qx.ui.embed.Iframe.initBlocker();
+        qx.ui.embed.Iframe.__initBlocker();
 
         // clone proto blocker
         var blockerNode = this.setBlockerNode(qx.ui.embed.Iframe._blocker.cloneNode(true));
