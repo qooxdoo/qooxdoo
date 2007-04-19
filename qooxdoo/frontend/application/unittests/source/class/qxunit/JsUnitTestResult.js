@@ -13,7 +13,7 @@ qx.Class.define("qxunit.JsUnitTestResult", {
   {
     run : function(test, testFunction)
     {
-      var testFunctionName = "$test_" + test.getName().replace(/\W/g, "_");
+      var testFunctionName = "$test_" + test.getFullName().replace(/\W/g, "_");
       this._testFunctionNames.push(testFunctionName);
       window[testFunctionName] = testFunction;
     },
