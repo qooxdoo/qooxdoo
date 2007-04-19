@@ -333,7 +333,6 @@ qx.Class.define("qx.ui.window.Window",
     /** The text of the caption */
     caption :
     {
-      check : "String",
       apply : "_modifyCaption",
       event : "changeCaption"
     },

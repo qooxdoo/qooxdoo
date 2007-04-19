@@ -307,21 +307,21 @@ qx.Class.define("showcase.Application",
       var c1 = new qx.ui.basic.Atom("Hover me", "icon/32/actions/system-run.png");
       c1.setPadding(5);
       c1.setBorder("outset");
-      c1.setBackgroundColor(new qx.renderer.color.Color("#BDD2EF"));
+      c1.setBackgroundColor("#BDD2EF");
       c1.setToolTip(new qx.ui.popup.ToolTip("Look at this"));
       main.add(c1);
 
       var c2 = new qx.ui.basic.Atom("Hover me", "icon/32/apps/accessories-archiver.png");
       c2.setPadding(5);
       c2.setBorder("outset");
-      c2.setBackgroundColor(new qx.renderer.color.Color("#D1DFAD"));
+      c2.setBackgroundColor("#D1DFAD");
       c2.setToolTip(new qx.ui.popup.ToolTip("Images are also possible", "icon/16/actions/help-about.png"));
       main.add(c2);
 
       var c3 = new qx.ui.basic.Atom("Hover me", "icon/32/apps/accessories-disk-usage.png");
       c3.setPadding(5);
       c3.setBorder("outset");
-      c3.setBackgroundColor(new qx.renderer.color.Color("#D1A4AD"));
+      c3.setBackgroundColor("#D1A4AD");
       var tip3 = new qx.ui.popup.ToolTip('Such a great tooltip with a show timeout of 50ms.<br>And <b>H</b><span style="color:red">T</span><i>M</i><u>L</u>', "icon/32/apps/accessories-disk-usage.png");
       tip3.setShowInterval(50);
       c3.setToolTip(tip3);
@@ -842,7 +842,7 @@ qx.Class.define("showcase.Application",
 
       t.set(
       {
-        backgroundColor : 255,
+        backgroundColor : "white",
         border          : "inset",
         overflow        : "scrollY",
         height          : "100%",
@@ -1505,7 +1505,7 @@ qx.Class.define("showcase.Application",
       };
 
       var mypop = new qx.ui.component.ColorPopup(mytables);
-      mypop.setValue(new qx.renderer.color.Color("#23F3C1"));
+      mypop.setValue("#23F3C1");
       mypop.addToDocument();
 
       // ColorSelector
