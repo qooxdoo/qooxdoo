@@ -30,7 +30,6 @@ qx.Class.define("qxunit.test.util.NumberFormat", {
 
         var nan = Math.sqrt(-1);
         this.assertEquals("NaN", nf.format(nan));
-
     }
   }
 });

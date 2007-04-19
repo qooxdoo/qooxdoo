@@ -1,0 +1,53 @@
+####################################################################################
+# BASIC SETTINGS
+####################################################################################
+
+QOOXDOO_PATH = ../../..
+QOOXDOO_URI = ../../../../..
+APPLICATION_HTML_TO_ROOT_URI=..
+
+APPLICATION_NAMESPACE = qxunit
+APPLICATION_CLASSNAME = TestLoader
+APPLICATION_SCRIPT_FILENAME = tests.js
+
+APPLICATION_MAKE_TITLE = QXUNIT
+APPLICATION_API_TITLE = qxUnit
+
+APPLICATION_FILES = html
+APPLICATION_LOCALES = C de de_DE fr fr_FR
+
+
+####################################################################################
+# ADVANCED SETTINGS
+####################################################################################
+
+APPLICATION_LINEBREAKS_BUILD = true
+APPLICATION_LINEBREAKS_SOURCE = true
+
+
+APPLICATION_COMPLETE_BUILD = false
+#APPLICATION_COMPLETE_SOURCE = false
+#APPLICATION_ENABLE_GUI = false
+
+APPLICATION_OPTIMIZE_STRINGS = false
+APPLICATION_OPTIMIZE_VARIABLES = false
+APPLICATION_OPTIMIZE_BROWSER = false
+
+APPLICATION_ADDITIONAL_SOURCE_OPTIONS = \
+  --include qxunit.* 
+
+APPLICATION_ADDITIONAL_BUILD_OPTIONS = $(APPLICATION_ADDITIONAL_SOURCE_OPTIONS)
+
+
+####################################################################################
+# INCLUDE CORE
+####################################################################################
+
+ifneq ($(QOOXDOO_PATH),PLEASE_DEFINE_QOOXDOO_PATH)
+	include $(QOOXDOO_PATH)/frontend/framework/tool/make/targets.mk
+	include $(QOOXDOO_PATH)/frontend/framework/tool/make/application.mk
+endif
+
+error:
+	@echo "  * Please configure QOOXDOO_PATH"
+
