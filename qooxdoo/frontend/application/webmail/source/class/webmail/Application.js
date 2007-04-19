@@ -66,14 +66,14 @@ qx.Class.define("webmail.Application",
       var status = new qx.ui.basic.Atom("Status", "icon/16/categories/applications-internet.png");
 
       tree.setWidth(200);
-      tree.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
+      tree.setBorder("inset");
       tree.add(new qx.ui.tree.TreeFolder("Drafts"));
       tree.add(new qx.ui.tree.TreeFolder("Sent"));
       tree.add(new qx.ui.tree.TreeFolder("Trash"));
       tree.add(new qx.ui.tree.TreeFolder("Junk"));
 
       status.setWidth(null);
-      status.setBorder(qx.renderer.border.BorderPresets.getInstance().thinInset);
+      status.setBorder("thinInset");
       status.setHorizontalChildrenAlign("left");
       status.setPadding(2, 4);
       status.setBackgroundColor("threedface");
@@ -170,7 +170,7 @@ qx.Class.define("webmail.Application",
 
       view.setLocation(200, 47);
       view.setDimension(600, 530);
-      view.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
+      view.setBorder("inset");
 
       doc.add(view);
     }

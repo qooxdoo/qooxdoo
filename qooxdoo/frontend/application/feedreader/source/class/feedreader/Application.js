@@ -277,7 +277,7 @@ qx.Class.define("feedreader.Application",
       });
 
       tree.setOverflow("auto");
-      tree.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
+      tree.setBorder("inset");
       tree.setBackgroundColor("#EEEEEE");
 
       var feedDesc = feedreader.Application._feedDesc;
@@ -310,7 +310,7 @@ qx.Class.define("feedreader.Application",
 
       // add table
       var table = new qx.ui.table.Table(this._tableModel);
-      table.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
+      table.setBorder("inset");
 
       table.set(
       {
@@ -360,7 +360,7 @@ qx.Class.define("feedreader.Application",
         width  : "100%"
       });
 
-      this._blogEntry.setBorder(qx.renderer.border.BorderPresets.getInstance().inset);
+      this._blogEntry.setBorder("inset");
 
       // create splitpane for the right hand content area
       var contentSplitPane = new qx.ui.splitpane.VerticalSplitPane("1*", "2*");
