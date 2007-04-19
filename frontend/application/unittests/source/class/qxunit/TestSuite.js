@@ -5,6 +5,7 @@ qx.Class.define("qxunit.TestSuite", {
 
   construct: function(testClassOrNamespace) {
     //qx.log.Logger.ROOT_LOGGER.removeAllAppenders();
+    this.__tests = [];
     if (testClassOrNamespace) {
       this.add(testClassOrNamespace);
     }
@@ -33,27 +34,21 @@ qx.Class.define("qxunit.TestSuite", {
       }
     },
 
-
-    __testFunctions: {},
-    __testClassNames: [],
-
     addTestClass: function(clazz) {
       if (!clazz) {
-        this.addFail("exsitsCheck" + this.__testClassNames.length, "Unkown test class!");
+        this.addFail("exsitsCheck", "Unkown test class '"+ clazz +"'!");
         return;
       }
       if (qx.Class.isSubClassOf(clazz, qxunit.TestCase))
       {
         var proto = clazz.prototype;
         var classname = clazz.classname;
-        this.__testClassNames.push(classname);
 
         for (var test in proto) {
           if (proto.hasOwnProperty(test)) {
                   if (typeof(proto[test]) == "function" && test.indexOf("test") == 0) {
               var testFunctionName = "$test_" + classname.replace(".", "_") + "_" + test;
-              this.__testFunctions[testFunctionName] = new qxunit.TestFunction(clazz, test);
-              //this.__testFunctions[testFunctionName] = this.__createTestFunctionWrapper(clazz, test);
+              this.__tests.push(new qxunit.TestFunction(clazz, test));
             }
           }
         }
@@ -75,12 +70,11 @@ qx.Class.define("qxunit.TestSuite", {
       if (name.charAt(0) != "$") {
         name = "$" + name;
       }
-      this.__testFunctions[name] = new qxunit.TestFunction(null, null, fcn);
+      this.__tests.push(new qxunit.TestFunction(null, null, fcn));
     },
 
     addTestMethod: function(clazz, functionName) {
-      var testFunctionName = "$test_" + clazz.classname.replace(".", "_") + "_" + functionName;
-      this.__testFunctions[testFunctionName] = new qxunit.TestFunction(clazz, functionName);
+      this.__tests.push(new qxunit.TestFunction(clazz, functionName));
     },
 
     addFail: function(functionName, message) {
@@ -90,18 +84,26 @@ qx.Class.define("qxunit.TestSuite", {
     },
 
     run: function(testResult) {
-      for (var testName in this.__testFunctions) {
-        (this.__testFunctions[testName]).run(testResult);
+      for (var i=0; i<this.__tests.length; i++) {
+        (this.__tests[i]).run(testResult);
       }
     },
 
+
+    /**
+     * currently not working
+     */
     addPollutionCheck: function() {
-      this.addTestFunction("$pollutionCheck", qx.lang.Function.bind(this.__pollutionCheck, this));
+      //this.addTestFunction("$pollutionCheck", qx.lang.Function.bind(this.__pollutionCheck, this));
     },
 
+
+    /**
+     * currently not working !!!
+     */
     __pollutionCheck: function() {
       // ignore test functions
-      var testFunctionNames = qx.lang.Object.getKeys(this.__testFunctions)
+      var testFunctionNames = qx.lang.Object.getKeys(this.__tests)
       qx.lang.Array.append(qx.dev.Pollution.ignore.window, testFunctionNames);
 
       // ignore JsUnit functions

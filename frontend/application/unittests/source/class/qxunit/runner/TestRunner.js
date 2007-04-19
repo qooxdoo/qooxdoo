@@ -54,12 +54,12 @@ qx.Class.define("qxunit.runner.TestRunner",
       //border : "ridge"
       //border          : qx.renderer.border.BorderPresets.getInstance().inset
     });
-    
+
     // Header Pane
     this.header = new qx.ui.embed.HtmlEmbed("<center><h3>QxRunner - The qooxdoo Test Runner</h3></center>");
     this.header.setHeight(70);
     this.add(this.header);
-    
+
     // Toolbar
     this.toolbar = new qx.ui.toolbar.ToolBar;
     this.runbutton = new qx.ui.toolbar.Button("Run Test", "icon/16/categories/applications-development.png");
@@ -69,8 +69,8 @@ qx.Class.define("qxunit.runner.TestRunner",
       border : "inset"
     });
     this.add(this.toolbar);
-    
-    
+
+
     // Main Pane
     // split
     var mainsplit = new qx.ui.splitpane.HorizontalSplitPane(250, "1*");
@@ -91,11 +91,11 @@ qx.Class.define("qxunit.runner.TestRunner",
     var right = new qx.ui.layout.VerticalBoxLayout();
     right.set({
       width : "100%",
-      spacing : 10, 
+      spacing : 10,
       height : "100%",
       border : "inset",
       padding : [10]
-    });   
+    });
     mainsplit.addRight(right);
     // Right
     // status
@@ -127,7 +127,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       border: "inset",
       height: "auto",
       padding: [5],
-      spacing : 10, 
+      spacing : 10,
       width : "100%"
     });
     progress.add(new qx.ui.basic.Label("Progress: "));
@@ -187,7 +187,37 @@ qx.Class.define("qxunit.runner.TestRunner",
     p1.add(f1);
     p2.add(f2);
 
+    this.testLoader();
+
+  },
+
+  members :
+  {
+    testLoader : function()
+    {
+    var loader = qxunit.runner.TestLoaderStub.getInstance();
+    this.debug(qx.io.Json.stringify(loader.getTestDescriptions()));
+
+    var testResult = new qxunit.TestResult();
+    testResult.addEventListener("startTest", function(e) {
+    	var test = e.getData();
+    	this.debug("Test '"+test.getFullName()+"' started.");
+    });
+    testResult.addEventListener("failure", function(e) {
+    	var ex = e.getData().exception;
+    	var test = e.getData().test;
+    	this.error("Test '"+test.getFullName()+"' failed: " +  ex.getMessage() + " - " + ex.getComment());
+    });
+    testResult.addEventListener("error", function(e) {
+    	var ex = e.getData().exception
+    	this.error("The test '"+e.getData().test.getFullName()+"' had an error: " + ex, ex);
+    });
+
+    loader.runTests(testResult, "qxunit.test.Lang");
+    loader.runTests(testResult, "qxunit.test.Xml", "testParseSerializeXml");
+    }
   }
+
 });
 
 
