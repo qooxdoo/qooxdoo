@@ -6769,7 +6769,8 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Callback for border manager connection
      *
-     * @param value {qx.
+     * @param value {qx.renderer.border.Border} the border object
+     * @param edge {String} top, right, bottom or left
      */
     _queueBorder : function(value, edge)
     {
@@ -6840,25 +6841,25 @@ qx.Class.define("qx.ui.core.Widget",
      */
     renderBorder : function(changes)
     {
-      var border = this.__borderObject;
+      var value = this.__borderObject;
       var mgr = qx.manager.object.BorderManager.getInstance();
 
-      if (border)
+      if (value)
       {
         if (changes.borderTop) {
-          border.renderTop(this);
+          value.renderTop(this);
         }
 
         if (changes.borderRight) {
-          border.renderRight(this);
+          value.renderRight(this);
         }
 
         if (changes.borderBottom) {
-          border.renderBottom(this);
+          value.renderBottom(this);
         }
 
         if (changes.borderLeft) {
-          border.renderLeft(this);
+          value.renderLeft(this);
         }
       }
       else
