@@ -195,7 +195,10 @@ qx.Class.define("qx.ui.window.Window",
     //   INIT
     // ************************************************************************
     this.setCaption(vCaption);
-    this.setIcon(vIcon);
+
+    if (vIcon) {
+      this.setIcon(vIcon);
+    }
 
     // ************************************************************************
     //   EVENTS: WINDOW
@@ -272,8 +275,8 @@ qx.Class.define("qx.ui.window.Window",
     /** Appearance of the widget */
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
+      _legacy : true,
+      //check : "String",
       defaultValue : "window"
     },
 
@@ -281,8 +284,8 @@ qx.Class.define("qx.ui.window.Window",
     /** The windowManager to use for. */
     windowManager :
     {
-      _legacy : true,
-      type    : "object"
+      check : "qx.manager.object.WindowManager",
+      event : "changeWindowManager"
     },
 
 
@@ -292,177 +295,184 @@ qx.Class.define("qx.ui.window.Window",
      */
     active :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      check : "Boolean",
+      init : false,
+      apply : "_modifyActive",
+      event : "changeActive"
     },
 
 
     /** Should be window be modal (this disable minimize and maximize buttons) */
     modal :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      check : "Boolean",
+      init : false,
+      apply : "_modifyModal",
+      event : "changeModal"
     },
 
 
-    /** Should be window be modal (this disable minimize and maximize buttons) */
+    /** Should be window be modal (this disables minimize and maximize buttons) */
     mode :
     {
-      _legacy        : true,
-      type           : "string",
-      defaultValue   : null,
-      possibleValues : [ "minimized", "maximized" ],
-      allowNull      : true
+      check : [ "minimized", "maximized" ],
+      init : null,
+      nullable: true,
+      apply : "_modifyMode",
+      event : "changeMode"
     },
 
 
     /** The opener (button) of the window */
     opener :
     {
-      _legacy : true,
-      type    : "object"
+      check : "qx.ui.core.Widget"
     },
 
 
     /** The text of the caption */
-    caption : { _legacy : true },
+    caption :
+    {
+      check : "String",
+      apply : "_modifyCaption",
+      event : "changeCaption"
+    },
 
 
     /** The icon of the caption */
     icon :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      nullable : true,
+      event : "changeIcon"
     },
 
 
     /** The text of the statusbar */
     status :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "Ready"
+      check : "String",
+      init : "Ready",
+      apply : "_modifyStatus",
+      event :"changeStatus"
     },
 
 
     /** Should the close button be shown */
     showClose :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true,
+      apply : "_modifyShowClose"
     },
 
 
     /** Should the maximize button be shown */
     showMaximize :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true,
+      apply : "_modifyShowMaximize"
     },
 
 
     /** Should the minimize button be shown */
     showMinimize :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true,
+      apply : "_modifyShowMinimize"
     },
 
 
     /** Should the statusbar be shown */
     showStatusbar :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      check : "Boolean",
+      init : false,
+      apply : "_modifyShowStatusbar"
     },
 
 
     /** Should the user have the ability to close the window */
     allowClose :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true,
+      apply : "_modifyAllowClose"
     },
 
 
     /** Should the user have the ability to maximize the window */
     allowMaximize :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true,
+      apply : "_modifyAllowMaximize"
     },
 
 
     /** Should the user have the ability to minimize the window */
     allowMinimize :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true,
+      apply : "_modifyAllowMinimize"
     },
 
 
     /** If the text (in the captionbar) should be visible */
     showCaption :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true,
+      apply : "_modifyShowCaption"
     },
 
 
     /** If the icon (in the captionbar) should be visible */
     showIcon :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true,
+      apply : "_modifyShowIcon"
     },
 
 
     /** If the window is resizeable */
     resizeable :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true,
+      apply : "_modifyResizeable",
+      event : "changeResizable"
     },
 
 
     /** If the window is moveable */
     moveable :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true,
+      event : "changeMoveable"
     },
 
 
     /** The resize method to use */
     resizeMethod :
     {
-      _legacy        : true,
-      type           : "string",
-      defaultValue   : "frame",
-      possibleValues : [ "opaque", "lazyopaque", "frame", "translucent" ]
+      check : [ "opaque", "lazyopaque", "frame", "translucent" ],
+      init : "frame",
+      event : "changeResizeMethod"
     },
 
 
     /** The move method to use */
     moveMethod :
     {
-      _legacy        : true,
-      type           : "string",
-      defaultValue   : "opaque",
-      possibleValues : [ "opaque", "frame", "translucent" ]
+      check : [ "opaque", "frame", "translucent" ],
+      init : "opaque",
+      event : "changeMoveMethod"
     }
   },
 
