@@ -63,7 +63,7 @@ function initGui(fsm)
   hLayout.setSpacing(4);
 
   var o = new qx.ui.basic.Atom("Idle=blue, RPC=red");
-  o.setBorder(qx.renderer.border.BorderPresets.getInstance().black);
+  o.setBorder("black");
   o.setColor(new qx.renderer.color.Color("white"));
   o.setWidth(200);
   o.setHeight(30);
@@ -72,7 +72,7 @@ function initGui(fsm)
   fsm.addObject("atom_1", o, "group_color_change");
 
   var o = new qx.ui.basic.Atom("Idle=blue, RPC=red");
-  o.setBorder(qx.renderer.border.BorderPresets.getInstance().black);
+  o.setBorder("black");
   o.setColor(new qx.renderer.color.Color("white"));
   o.setWidth(200);
   o.setHeight(30);
@@ -81,7 +81,7 @@ function initGui(fsm)
   fsm.addObject("atom_2", o, "group_color_change");
 
   var o = new qx.ui.basic.Atom("Idle=blue, RPC=red");
-  o.setBorder(qx.renderer.border.BorderPresets.getInstance().black);
+  o.setBorder("black");
   o.setColor(new qx.renderer.color.Color("white"));
   o.setWidth(200);
   o.setHeight(30);

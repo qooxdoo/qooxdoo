@@ -114,7 +114,7 @@ qx.Class.define("showcase.Application",
       // update state on selection change
       barView.getBar().getManager().addEventListener("changeSelected", function(e) {
         var stateData = e.getData().getUserData("state");
-        this._history.addToHistory(stateData.state, "qooxdoo Showcase - " + stateData.title);
+        this._history.addToHistory(stateData.state, "qooxdoo » Showcase - " + stateData.title);
       }, this);
 
       // read initial state
@@ -306,21 +306,21 @@ qx.Class.define("showcase.Application",
 
       var c1 = new qx.ui.basic.Atom("Hover me", "icon/32/actions/system-run.png");
       c1.setPadding(5);
-      c1.setBorder(qx.renderer.border.BorderPresets.getInstance().outset);
+      c1.setBorder("outset");
       c1.setBackgroundColor(new qx.renderer.color.Color("#BDD2EF"));
       c1.setToolTip(new qx.ui.popup.ToolTip("Look at this"));
       main.add(c1);
 
       var c2 = new qx.ui.basic.Atom("Hover me", "icon/32/apps/accessories-archiver.png");
       c2.setPadding(5);
-      c2.setBorder(qx.renderer.border.BorderPresets.getInstance().outset);
+      c2.setBorder("outset");
       c2.setBackgroundColor(new qx.renderer.color.Color("#D1DFAD"));
       c2.setToolTip(new qx.ui.popup.ToolTip("Images are also possible", "icon/16/actions/help-about.png"));
       main.add(c2);
 
       var c3 = new qx.ui.basic.Atom("Hover me", "icon/32/apps/accessories-disk-usage.png");
       c3.setPadding(5);
-      c3.setBorder(qx.renderer.border.BorderPresets.getInstance().outset);
+      c3.setBorder("outset");
       c3.setBackgroundColor(new qx.renderer.color.Color("#D1A4AD"));
       var tip3 = new qx.ui.popup.ToolTip('Such a great tooltip with a show timeout of 50ms.<br>And <b>H</b><span style="color:red">T</span><i>M</i><u>L</u>', "icon/32/apps/accessories-disk-usage.png");
       tip3.setShowInterval(50);
@@ -843,7 +843,7 @@ qx.Class.define("showcase.Application",
       t.set(
       {
         backgroundColor : 255,
-        border          : qx.renderer.border.BorderPresets.getInstance().inset,
+        border          : "inset",
         overflow        : "scrollY",
         height          : "100%",
         width           : 200
@@ -1185,7 +1185,7 @@ qx.Class.define("showcase.Application",
       var lv = new qx.ui.listview.ListView(ld, lc);
       main.add(lv);
 
-      lv.setBorder(qx.renderer.border.BorderPresets.getInstance().shadow);
+      lv.setBorder("shadow");
       lv.setBackgroundColor("white");
       lv.setWidth(600);
       lv.setHeight(350);
@@ -1271,7 +1271,7 @@ qx.Class.define("showcase.Application",
           paddingBottom : 4,
           width         : "100%",
           height        : "100%",
-          border        : qx.renderer.border.BorderPresets.getBlack(),
+          border        : "black",
           showKnob      : true
        });
        splitpane.getLeftArea().setPaddingRight(4);
@@ -2231,7 +2231,7 @@ qx.Class.define("showcase.Application",
 
       var info = new qx.ui.basic.Atom("Click on one of the buttons and then view the " + "other tabs to see the changes", "icon/32/actions/system-run.png");
 
-      // info.set({ border:qx.renderer.border.BorderPresets.getInstance().inset, backgroundColor:"white" });
+      // info.set({ border:"inset", backgroundColor:"white" });
       info.setPadding(5);
       vert.add(info);
 
