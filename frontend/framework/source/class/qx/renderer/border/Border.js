@@ -91,7 +91,7 @@ qx.Class.define("qx.renderer.border.Border",
       var parts = str.split(/\s+/);
       var part, temp;
 
-      for (var i=0; i<parts.length; i++)
+      for (var i=0, l=parts.length; i<l; i++)
       {
         part = parts[i];
 
@@ -110,14 +110,11 @@ qx.Class.define("qx.renderer.border.Border",
             break;
 
           default:
-            temp = parseFloat(part);
+            temp = parseInt(part);
 
-            if (temp == part || qx.lang.String.contains(part, "px"))
-            {
+            if (temp === part || qx.lang.String.contains(part, "px")) {
               border.setWidth(temp);
-            }
-            else
-            {
+            } else {
               border.setColor(part);
             }
 
@@ -162,6 +159,7 @@ qx.Class.define("qx.renderer.border.Border",
       }
     }),
 
+
     /**
      * Removes a border from a widget
      *
@@ -195,6 +193,7 @@ qx.Class.define("qx.renderer.border.Border",
       }
     }),
 
+
     /**
      * Removes a border from a widget
      *
@@ -227,6 +226,7 @@ qx.Class.define("qx.renderer.border.Border",
         }
       }
     }),
+
 
     /**
      * Removes a border from a widget
