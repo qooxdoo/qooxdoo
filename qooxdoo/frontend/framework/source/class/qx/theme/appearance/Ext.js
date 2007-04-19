@@ -167,8 +167,8 @@ qx.Theme.define("qx.theme.appearance.Ext",
 
       style : function(states) {
         return {
-          backgroundColor : "InfoBackground",
-          color           : "InfoText",
+          backgroundColor : "infobackground",
+          color           : "infotext",
           border          : "1px solid #FCC90D",
           paddingTop      : 1,
           paddingRight    : 3,
