@@ -281,6 +281,7 @@ qx.Class.define("qx.renderer.border.Border",
     ---------------------------------------------------------------------------
     */
 
+    /** top width of border */
     topWidth :
     {
       check : "Number",
@@ -288,6 +289,7 @@ qx.Class.define("qx.renderer.border.Border",
       apply : "_applyTopWidth"
     },
 
+    /** right width of border */
     rightWidth :
     {
       check : "Number",
@@ -295,6 +297,7 @@ qx.Class.define("qx.renderer.border.Border",
       apply : "_applyRightWidth"
     },
 
+    /** bottom width of border */
     bottomWidth :
     {
       check : "Number",
@@ -302,6 +305,7 @@ qx.Class.define("qx.renderer.border.Border",
       apply : "_applyBottomWidth"
     },
 
+    /** left width of border */
     leftWidth :
     {
       check : "Number",
@@ -318,6 +322,7 @@ qx.Class.define("qx.renderer.border.Border",
     ---------------------------------------------------------------------------
     */
 
+    /** top style of border */
     topStyle :
     {
       nullable : true,
@@ -326,6 +331,7 @@ qx.Class.define("qx.renderer.border.Border",
       apply : "_applyTopStyle"
     },
 
+    /** right style of border */
     rightStyle :
     {
       nullable : true,
@@ -334,6 +340,7 @@ qx.Class.define("qx.renderer.border.Border",
       apply : "_applyRightStyle"
     },
 
+    /** bottom style of border */
     bottomStyle :
     {
       nullable : true,
@@ -342,6 +349,7 @@ qx.Class.define("qx.renderer.border.Border",
       apply : "_applyBottomStyle"
     },
 
+    /** left style of border */
     leftStyle :
     {
       nullable : true,
@@ -359,6 +367,7 @@ qx.Class.define("qx.renderer.border.Border",
     ---------------------------------------------------------------------------
     */
 
+    /** top color of border */
     topColor :
     {
       nullable : true,
@@ -366,6 +375,7 @@ qx.Class.define("qx.renderer.border.Border",
       apply : "_applyTopColor"
     },
 
+    /** right color of border */
     rightColor :
     {
       nullable : true,
@@ -373,6 +383,7 @@ qx.Class.define("qx.renderer.border.Border",
       apply : "_applyRightColor"
     },
 
+    /** bottom color of border */
     bottomColor :
     {
       nullable : true,
@@ -380,6 +391,7 @@ qx.Class.define("qx.renderer.border.Border",
       apply : "_applyBottomColor"
     },
 
+    /** left color of border */
     leftColor :
     {
       nullable : true,
@@ -396,6 +408,7 @@ qx.Class.define("qx.renderer.border.Border",
     ---------------------------------------------------------------------------
     */
 
+    /** top inner color of border */
     topInnerColor :
     {
       nullable : true,
@@ -403,6 +416,7 @@ qx.Class.define("qx.renderer.border.Border",
       apply : "_applyTopInnerColor"
     },
 
+    /** right inner color of border */
     rightInnerColor :
     {
       nullable : true,
@@ -410,6 +424,7 @@ qx.Class.define("qx.renderer.border.Border",
       apply : "_applyRightInnerColor"
     },
 
+    /** bottom inner color of border */
     bottomInnerColor :
     {
       nullable : true,
@@ -417,6 +432,7 @@ qx.Class.define("qx.renderer.border.Border",
       apply : "_applyBottomInnerColor"
     },
 
+    /** left inner color of border */
     leftInnerColor :
     {
       nullable : true,
@@ -501,26 +517,26 @@ qx.Class.define("qx.renderer.border.Border",
 
     _applyTopWidth : function(value, old)
     {
-      this._computeUseComplexTop();
-      this._informManager("top");
+      this.__computeUseComplexTop();
+      this.__informManager("top");
     },
 
     _applyRightWidth : function(value, old)
     {
-      this._computeUseComplexRight();
-      this._informManager("right");
+      this.__computeUseComplexRight();
+      this.__informManager("right");
     },
 
     _applyBottomWidth : function(value, old)
     {
-      this._computeUseComplexBottom();
-      this._informManager("bottom");
+      this.__computeUseComplexBottom();
+      this.__informManager("bottom");
     },
 
     _applyLeftWidth : function(value, old)
     {
-      this._computeUseComplexLeft();
-      this._informManager("left");
+      this.__computeUseComplexLeft();
+      this.__informManager("left");
     },
 
     _applyTopColor : function(value, old) {
@@ -556,20 +572,144 @@ qx.Class.define("qx.renderer.border.Border",
     },
 
     _applyTopStyle : function() {
-      this._informManager("top");
+      this.__informManager("top");
     },
 
     _applyRightStyle : function() {
-      this._informManager("right");
+      this.__informManager("right");
     },
 
     _applyBottomStyle : function() {
-      this._informManager("bottom");
+      this.__informManager("bottom");
     },
 
     _applyLeftStyle : function() {
-      this._informManager("left");
+      this.__informManager("left");
     },
+
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      COLOR MANAGER CONNECTION
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Reacts on color changes reported by the connected ColorManager.
+     *
+     * @type member
+     * @param value {Color} the color value to apply
+     */
+    _changeTopColor : function(value)
+    {
+      this.__topColor = value;
+      this.__computeUseComplexTop();
+      this.__informManager("top");
+    },
+
+
+    /**
+     * Reacts on color changes reported by the connected ColorManager.
+     *
+     * @type member
+     * @param value {Color} the color value to apply
+     */
+    _changeTopInnerColor : function(value)
+    {
+      this.__topInnerColor = value;
+      this.__computeUseComplexTop();
+      this.__informManager("top");
+    },
+
+
+    /**
+     * Reacts on color changes reported by the connected ColorManager.
+     *
+     * @type member
+     * @param value {Color} the color value to apply
+     */
+    _changeRightColor : function(value)
+    {
+      this.__rightColor = value;
+      this.__computeUseComplexRight();
+      this.__informManager("right");
+    },
+
+
+    /**
+     * Reacts on color changes reported by the connected ColorManager.
+     *
+     * @type member
+     * @param value {Color} the color value to apply
+     */
+    _changeRightInnerColor : function(value)
+    {
+      this.__rightInnerColor = value;
+      this.__computeUseComplexRight();
+      this.__informManager("right");
+    },
+
+
+    /**
+     * Reacts on color changes reported by the connected ColorManager.
+     *
+     * @type member
+     * @param value {Color} the color value to apply
+     */
+    _changeBottomColor : function(value)
+    {
+      this.__bottomColor = value;
+      this.__computeUseComplexBottom();
+      this.__informManager("bottom");
+    },
+
+
+    /**
+     * Reacts on color changes reported by the connected ColorManager.
+     *
+     * @type member
+     * @param value {Color} the color value to apply
+     */
+    _changeBottomInnerColor : function(value)
+    {
+      this.__bottomInnerColor = value;
+      this.__computeUseComplexBottom();
+      this.__informManager("bottom");
+    },
+
+
+    /**
+     * Reacts on color changes reported by the connected ColorManager.
+     *
+     * @type member
+     * @param value {Color} the color value to apply
+     */
+    _changeLeftColor : function(value)
+    {
+      this.__leftColor = value;
+      this.__computeUseComplexLeft();
+      this.__informManager("left");
+    },
+
+
+    /**
+     * Reacts on color changes reported by the connected ColorManager.
+     *
+     * @type member
+     * @param value {Color} the color value to apply
+     */
+    _changeLeftInnerColor : function(value)
+    {
+      this.__leftInnerColor = value;
+      this.__computeUseComplexLeft();
+      this.__informManager("left");
+    },
+
 
 
 
@@ -582,87 +722,23 @@ qx.Class.define("qx.renderer.border.Border",
     ---------------------------------------------------------------------------
     */
 
-    _computeUseComplexTop : function() {
+    __computeUseComplexTop : function() {
       this.__complexTop = this.getTopWidth() === 2 && this.__topInnerColor != null && this.__topColor != this.__topInnerColor;
     },
 
-    _computeUseComplexRight : function() {
+    __computeUseComplexRight : function() {
       this.__complexRight = this.getRightWidth() === 2 && this.__rightInnerColor != null && this.__rightColor != this.__rightInnerColor;
     },
 
-    _computeUseComplexBottom : function() {
+    __computeUseComplexBottom : function() {
       this.__complexBottom = this.getBottomWidth() === 2 && this.__bottomInnerColor != null && this.__bottomColor != this.__bottomInnerColor;
     },
 
-    _computeUseComplexLeft : function() {
+    __computeUseComplexLeft : function() {
       this.__complexLeft = this.getLeftWidth() === 2 && this.__leftInnerColor != null && this.__leftColor != this.__leftInnerColor;
     },
 
 
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      COLOR MANAGER CONNECTION
-    ---------------------------------------------------------------------------
-    */
-
-    _changeTopColor : function(value)
-    {
-      this.__topColor = value;
-      this._computeUseComplexTop();
-      this._informManager("top");
-    },
-
-    _changeTopInnerColor : function(value)
-    {
-      this.__topInnerColor = value;
-      this._computeUseComplexTop();
-      this._informManager("top");
-    },
-
-    _changeRightColor : function(value)
-    {
-      this.__rightColor = value;
-      this._computeUseComplexRight();
-      this._informManager("right");
-    },
-
-    _changeRightInnerColor : function(value)
-    {
-      this.__rightInnerColor = value;
-      this._computeUseComplexRight();
-      this._informManager("right");
-    },
-
-    _changeBottomColor : function(value)
-    {
-      this.__bottomColor = value;
-      this._computeUseComplexBottom();
-      this._informManager("bottom");
-    },
-
-    _changeBottomInnerColor : function(value)
-    {
-      this.__bottomInnerColor = value;
-      this._computeUseComplexBottom();
-      this._informManager("bottom");
-    },
-
-    _changeLeftColor : function(value)
-    {
-      this.__leftColor = value;
-      this._computeUseComplexLeft();
-      this._informManager("left");
-    },
-
-    _changeLeftInnerColor : function(value)
-    {
-      this.__leftInnerColor = value;
-      this._computeUseComplexLeft();
-      this._informManager("left");
-    },
 
 
 
@@ -677,10 +753,10 @@ qx.Class.define("qx.renderer.border.Border",
     /**
      * Send information to BorderManager
      *
-     * @internal
+     * @type member
      * @param edge {String} the edge which was updated
      */
-    _informManager : function(edge) {
+    __informManager : function(edge) {
       qx.manager.object.BorderManager.getInstance().updateBorderAt(this, edge);
     },
 
@@ -700,6 +776,8 @@ qx.Class.define("qx.renderer.border.Border",
     /**
      * Renders top border for given widget
      *
+     * @signature function(obj)
+     * @type member
      * @internal
      * @param obj {qx.ui.core.Widget} the widget which should get the border
      */
@@ -778,6 +856,8 @@ qx.Class.define("qx.renderer.border.Border",
     /**
      * Renders right border for given widget
      *
+     * @signature function(obj)
+     * @type member
      * @internal
      * @param obj {qx.ui.core.Widget} the widget which should get the border
      */
@@ -856,6 +936,8 @@ qx.Class.define("qx.renderer.border.Border",
     /**
      * Renders bottom border for given widget
      *
+     * @signature function(obj)
+     * @type member
      * @internal
      * @param obj {qx.ui.core.Widget} the widget which should get the border
      */
@@ -934,6 +1016,8 @@ qx.Class.define("qx.renderer.border.Border",
     /**
      * Renders left border for given widget
      *
+     * @signature function(obj)
+     * @type member
      * @param obj {qx.ui.core.Widget} the widget which should get the border
      * @internal
      */
