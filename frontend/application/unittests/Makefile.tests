@@ -10,22 +10,22 @@ APPLICATION_NAMESPACE = qxunit
 APPLICATION_CLASSNAME = TestLoader
 APPLICATION_SCRIPT_FILENAME = tests.js
 
-APPLICATION_MAKE_TITLE = QXUNIT
+APPLICATION_MAKE_TITLE = UNIT TESTS
 APPLICATION_API_TITLE = qxUnit
 
 APPLICATION_FILES = html
 APPLICATION_LOCALES = C de de_DE fr fr_FR
 
-
 ####################################################################################
 # ADVANCED SETTINGS
 ####################################################################################
 
+APPLICATION_RESOURCE_FILTER = true
+
 APPLICATION_LINEBREAKS_BUILD = true
 APPLICATION_LINEBREAKS_SOURCE = true
 
-
-APPLICATION_COMPLETE_BUILD = false
+#APPLICATION_COMPLETE_BUILD = false
 #APPLICATION_COMPLETE_SOURCE = false
 #APPLICATION_ENABLE_GUI = false
 

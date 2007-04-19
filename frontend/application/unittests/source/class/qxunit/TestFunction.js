@@ -27,23 +27,27 @@ qx.Class.define("qxunit.TestFunction", {
       });
     }
 
-    var name = "";
     if (clazz) {
-      name = clazz.classname + ":";
+      this.setClassName(clazz.classname);
     }
-    name += methodName || "";
-    this.setName(name);
+    this.setName(methodName);
   },
 
   properties : {
     testFunction : { check : "Function"},
-    name : { check : "String"}
+    name : { check : "String"},
+    className : { check : "String", init : ""}
   },
 
   members :
   {
     run : function(testResult) {
       testResult.run(this, this.getTestFunction());
+    },
+
+    getFullName : function()
+    {
+      return [this.getClassName(), this.getName()].join(":");
     }
   }
 
