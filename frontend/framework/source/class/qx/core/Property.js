@@ -627,7 +627,7 @@ qx.Class.define("qx.core.Property",
     {
       var config = clazz.$$properties[name];
       var members = clazz.prototype;
-      var value = args[0];
+      var value = args ? args[0] : undefined;
 
       var code = this.$$code;
       if (!code) {
