@@ -91,12 +91,12 @@
       setLabel("Label pure");
       setShow("label");
       setBorder("black");
-      setBackgroundColor(new qx.renderer.color.Color("red"));
+      setBackgroundColor("red");
     };
     d.add(c8);
 
     c8.addEventListener("changeChecked", function(e) {
-      this.setBackgroundColor(new qx.renderer.color.Color(this.getChecked() ? "green" : "red"));
+      this.setBackgroundColor(this.getChecked() ? "green" : "red");
     });
   });
   </script>
