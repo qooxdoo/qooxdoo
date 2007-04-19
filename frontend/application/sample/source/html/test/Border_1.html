@@ -35,7 +35,7 @@
       setLeft(20);
       setWidth(150);
       setHeight(40);
-      setBackgroundColor(new qx.renderer.color.Color("#fff"));
+      setBackgroundColor("#fff");
     };
     d.add(c1);
 
@@ -46,7 +46,7 @@
       setLeft(200);
       setWidth(150);
       setHeight(40);
-      setBackgroundColor(new qx.renderer.color.Color("#fff"));
+      setBackgroundColor("#fff");
     };
     d.add(c2);
 
@@ -57,9 +57,9 @@
 
     b1.setWidth(2);
     b1.setStyle("solid");
-    b1.setColor(new qx.renderer.color.Color("black"));
+    b1.setColor("black");
     b1.setBottomStyle("dotted");
-    b1.setTopColor(new qx.renderer.color.Color("blue"));
+    b1.setTopColor("blue");
 
     // after set border properties
     c2.setBorder(b1);
@@ -78,7 +78,7 @@
       setLeft(20);
       setWidth(40);
       setHeight(40);
-      setBackgroundColor(new qx.renderer.color.ColorObject("threedface"));
+      setBackgroundColor("threedface");
     };
     d.add(c3);
 
@@ -91,7 +91,7 @@
       setLeft(80);
       setWidth(40);
       setHeight(40);
-      setBackgroundColor(new qx.renderer.color.ColorObject("threedface"));
+      setBackgroundColor("threedface");
     };
     d.add(c4);
 
@@ -104,7 +104,7 @@
       setLeft(140);
       setWidth(40);
       setHeight(40);
-      setBackgroundColor(new qx.renderer.color.ColorObject("threedface"));
+      setBackgroundColor("threedface");
     };
     d.add(c5);
 
@@ -118,7 +118,7 @@
       setLeft(200);
       setWidth(40);
       setHeight(40);
-      setBackgroundColor(new qx.renderer.color.ColorObject("threedface"));
+      setBackgroundColor("threedface");
     };
     d.add(c6);
 
@@ -132,7 +132,7 @@
       setLeft(260);
       setWidth(40);
       setHeight(40);
-      setBackgroundColor(new qx.renderer.color.ColorObject("threedface"));
+      setBackgroundColor("threedface");
     };
     d.add(c7);
 
@@ -145,7 +145,7 @@
       setLeft(320);
       setWidth(40);
       setHeight(40);
-      setBackgroundColor(new qx.renderer.color.ColorObject("threedface"));
+      setBackgroundColor("threedface");
     };
     d.add(c8);
 
@@ -160,15 +160,15 @@
       setLeft(380);
       setWidth(40);
       setHeight(40);
-      setBackgroundColor(new qx.renderer.color.ColorObject("threedface"));
+      setBackgroundColor("threedface");
     };
     d.add(c9);
 
     var b2 = qx.renderer.border.Border.fromString("2px solid red");
     c9.setBorder(b2);
-    
-    
-    
+
+
+
     // Color Themes
     qx.manager.object.ColorManager.getInstance().createThemeList(d, 220, 248);
   });

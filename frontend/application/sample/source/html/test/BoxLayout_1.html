@@ -19,7 +19,7 @@
         bottom: 48px;
         width: 350px;
       }
-    
+
       .setform select{
         font-size: 11px;
         min-width: 75px;
@@ -56,7 +56,7 @@
         <select id="sel_height">
           <option>100</option>
           <option selected="selected">250</option>
-          <option>500</option>          
+          <option>500</option>
           <option>auto</option>
         </select>
       </td>
@@ -119,8 +119,8 @@
       </td>
     </tr>
 
-    </tbody></table>  
-    
+    </tbody></table>
+
     <p><b>Tests</b></p>
     <ul>
       <li><a href="javascript:test1()">Test 1: Remove blue widget</a></li>
@@ -163,7 +163,7 @@
     var vr = _r.options[_r.selectedIndex].firstChild.nodeValue;
     var vl = _l.options[_l.selectedIndex].firstChild.nodeValue;
     var vv = _v.options[_v.selectedIndex].firstChild.nodeValue;
-    
+
     bl.setOrientation(vt);
     bl.setWidth(vw == "auto" ? vw : parseInt(vw));
     bl.setHeight(vh == "auto" ? vh : parseInt(vh));
@@ -179,45 +179,45 @@
     _b.attachEvent("onclick", save);
   else if (_b.addEventListener)
     _b.addEventListener("click", save, false);
-    
-    
-  function test1() 
+
+
+  function test1()
   {
     bl.remove(w2);
     qx.ui.core.Widget.flushGlobalQueues();
-  };  
-  
-  function test2() 
+  };
+
+  function test2()
   {
     bl.add(w2);
     qx.ui.core.Widget.flushGlobalQueues();
   };
-  
-  function test3() 
+
+  function test3()
   {
     bl.addAt(w2, 2);
     qx.ui.core.Widget.flushGlobalQueues();
-  };  
+  };
 
-  function test4() 
+  function test4()
   {
     bl.addAt(w2, 4);
     qx.ui.core.Widget.flushGlobalQueues();
-  };  
+  };
 
-  function test5() 
+  function test5()
   {
     bl.addBefore(w3, w7);
     qx.ui.core.Widget.flushGlobalQueues();
-  };  
+  };
 
-  function test6() 
+  function test6()
   {
     bl.addAfter(w3, w4);
     qx.ui.core.Widget.flushGlobalQueues();
-  }; 
-  
-  function test7() 
+  };
+
+  function test7()
   {
     bl.addAt(w8, 1);
     qx.ui.core.Widget.flushGlobalQueues();
@@ -229,48 +229,48 @@
 
     bl = new qx.ui.layout.BoxLayout("horizontal");
     bl.setBorder("black");
-    bl.setBackgroundColor(new qx.renderer.color.Color("white"));
+    bl.setBackgroundColor("white");
     bl.setWidth(250);
     bl.setHeight(250);
     bl.setTop(48);
     bl.setLeft(20);
 
     w1 = new qx.ui.layout.CanvasLayout;
-    w1.setBackgroundColor(new qx.renderer.color.Color("orange"));
+    w1.setBackgroundColor("orange");
     w1.setMinWidth(20);
     w1.setMinHeight(20);
     w1.setBorder("black");
 
     w2 = new qx.ui.layout.CanvasLayout;
-    w2.setBackgroundColor(new qx.renderer.color.Color("blue"));
+    w2.setBackgroundColor("blue");
     w2.setMinWidth(20);
     w2.setMinHeight(20);
     w2.setBorder("black");
 
     w3 = new qx.ui.layout.CanvasLayout;
-    w3.setBackgroundColor(new qx.renderer.color.Color("green"));
+    w3.setBackgroundColor("green");
     w3.setMinWidth(20);
     w3.setMinHeight(20);
     w3.setBorder("black");
-    
+
     w4 = new qx.ui.basic.Image("icon/32/actions/format-color.png");
 
     w5 = new qx.ui.layout.CanvasLayout;
-    w5.setBackgroundColor(new qx.renderer.color.Color("yellow"));
+    w5.setBackgroundColor("yellow");
     w5.setMinWidth(20);
     w5.setMinHeight(20);
     w5.setBorder("black");
 
     w6 = new qx.ui.layout.CanvasLayout;
-    w6.setBackgroundColor(new qx.renderer.color.Color("red"));
+    w6.setBackgroundColor("red");
     w6.setMinWidth(20);
     w6.setMinHeight(20);
     w6.setBorder("black");
-    
+
     w7 = new qx.ui.basic.Image("icon/64/devices/media-optical.png");
-    
+
     w8 = new qx.ui.layout.CanvasLayout;
-    w8.setBackgroundColor(new qx.renderer.color.Color("fuchsia"));
+    w8.setBackgroundColor("fuchsia");
     w8.setMinWidth(20);
     w8.setMinHeight(20);
     w8.setBorder("black");
