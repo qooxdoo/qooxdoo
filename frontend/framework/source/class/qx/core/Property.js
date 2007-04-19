@@ -144,7 +144,8 @@ qx.Class.define("qx.core.Property",
       "Interface" : 'value != null && value.$$type === "Interface"',
       "Theme"     : 'value != null && value.$$type === "Theme"',
 
-      "Color"     : 'typeof value === "string" && qx.util.ColorUtil.stringToRgb(value)'
+      "Color"     : 'typeof value === "string" && qx.util.ColorUtil.stringToRgb(value)',
+      "Border"    : 'value != null && (qx.manager.object.BorderManager.getInstance().isThemedBorder(value) || value instanceof qx.renderer.border.Border)'
     },
 
 
@@ -658,6 +659,11 @@ qx.Class.define("qx.core.Property",
           code.add('if(value===undefined)');
           code.add('throw new Error("Undefined value for property ', name, ' is not allowed!");');
 
+          // Check argument length
+          if (qx.core.Variant.isSet("qx.debug", "on")) {
+            code.add('if(arguments.length!==1)throw new Error("The method of the property ', name,  ' by using ', this.$$method[variant][name], '() requires exactly one argument!");');
+          }
+
           // Old/new comparision
           code.add('if(this.', store, '===value)return value;');
 
@@ -740,7 +746,7 @@ qx.Class.define("qx.core.Property",
       {
         // Additional debugging to block values for init() functions
         // which have a init value defined at property level
-        code.add('if(value!==undefined)throw new Error("You are not able to change the init value of the property ', name,  ' by using ', this.$$method[variant][name], '()!");');
+        code.add('if(arguments.length!==0)throw new Error("You are not able to change the init value of the property ', name,  ' by using ', this.$$method[variant][name], '()!");');
       }
 
 
