@@ -80,14 +80,10 @@ qx.Class.define("qxunit.runner.TestRunner",
       height : "1*"
     });
     // Left
-    var left = new qx.ui.tree.Tree("Test Classes");
-    left.set({
-      width : "100%",
-      height : "100%",
-      padding : [10],
-      border : "inset"
-    });
+    var left = this.__makeLeft();
     mainsplit.addLeft(left);
+
+    // Right
     var right = new qx.ui.layout.VerticalBoxLayout();
     right.set({
       width : "100%",
@@ -97,56 +93,14 @@ qx.Class.define("qxunit.runner.TestRunner",
       padding : [10]
     });
     mainsplit.addRight(right);
-    // Right
     // status
-    var statuspane = new qx.ui.layout.HorizontalBoxLayout();
+    var statuspane = this.__makeStatus();
     right.add(statuspane);
-    statuspane.set({
-      border : "inset",
-      padding: [10],
-      spacing : 10, 
-      height : "auto",
-      width : "100%"
-    });
-    statuspane.add(new qx.ui.basic.Label("Current Test: "));
-    var l1 = new qx.ui.basic.Label("qxunit.test.core.Variants");
-    statuspane.add(l1);
-    l1.set({
-      backgroundColor : "#C1ECFF"
-    });
-    statuspane.add(new qx.ui.basic.Label("Number of Test: "));
-    var l2 = new qx.ui.basic.Label("9");
-    statuspane.add(l2);
-    l2.set({
-      backgroundColor : "#C1ECFF"
-    });
+
     // progress bar
-    var progress = new qx.ui.layout.HorizontalBoxLayout();
+    var progress = this.__makeProgress();
     right.add(progress);
-    progress.set({
-      border: "inset",
-      height: "auto",
-      padding: [5],
-      spacing : 10,
-      width : "100%"
-    });
-    progress.add(new qx.ui.basic.Label("Progress: "));
-    var progressb = new qxunit.runner.ProgressBar();
-    progress.add(progressb);
-    /*
-    var progressb = new qx.ui.component.ProgressBar();
-    progressb.set({
-      barColor : "blue",
-      scale    : null,   // display no scale
-      startLabel : "0%",
-      endLabel   : "100%",
-      fillLabel : "(0/10)", // status label right of bar
-      fillStatus: "60%"     // fill degree of the progress bar
-    });
-    progressb.update("9/15"); // update progress
-    progressb.update("68%");  // dito
-    */
-    progress.add(new qx.ui.basic.Label("(7/15)  (63%)"));
+
     // button view
     var buttview = new qx.ui.pageview.tabview.TabView();
     buttview.set({
@@ -188,11 +142,74 @@ qx.Class.define("qxunit.runner.TestRunner",
     p2.add(f2);
 
     this.testLoader();
+  }, //constructor
 
-  },
 
-  members :
-  {
+  members: {
+    __makeLeft: function (){
+      var left = new qx.ui.tree.Tree("Test Classes");
+      left.set({
+        width : "100%",
+        height : "100%",
+        padding : [10],
+        border : "inset"
+      });
+      return left;
+    }, //makeLeft
+
+    __makeProgress: function (){
+      var progress = new qx.ui.layout.HorizontalBoxLayout();
+      progress.set({
+        border: "inset",
+        height: "auto",
+        padding: [5],
+        spacing : 10, 
+        width : "100%"
+      });
+      progress.add(new qx.ui.basic.Label("Progress: "));
+      var progressb = new qxunit.runner.ProgressBar();
+      progress.add(progressb);
+      /*
+      var progressb = new qx.ui.component.ProgressBar();
+      progressb.set({
+        barColor : "blue",
+        scale    : null,   // display no scale
+        startLabel : "0%",
+        endLabel   : "100%",
+        fillLabel : "(0/10)", // status label right of bar
+        fillStatus: "60%"     // fill degree of the progress bar
+      });
+      progressb.update("9/15"); // update progress
+      progressb.update("68%");  // dito
+      */
+      progress.add(new qx.ui.basic.Label("(7/15)  (63%)"));
+      return progress;
+    }, //makeProgress
+
+    __makeStatus: function (){
+      var statuspane = new qx.ui.layout.HorizontalBoxLayout();
+      statuspane.set({
+        border : "inset",
+        padding: [10],
+        spacing : 10, 
+        height : "auto",
+        width : "100%"
+      });
+      statuspane.add(new qx.ui.basic.Label("Current Test: "));
+      var l1 = new qx.ui.basic.Label("qxunit.test.core.Variants");
+      statuspane.add(l1);
+      l1.set({
+        backgroundColor : "#C1ECFF"
+      });
+      statuspane.add(new qx.ui.basic.Label("Number of Test: "));
+      var l2 = new qx.ui.basic.Label("9");
+      statuspane.add(l2);
+      l2.set({
+        backgroundColor : "#C1ECFF"
+      });
+      return statuspane;
+    }, //makeStatus
+
     testLoader : function()
     {
     var loader = qxunit.runner.TestLoaderStub.getInstance();
@@ -216,7 +233,7 @@ qx.Class.define("qxunit.runner.TestRunner",
     loader.runTests(testResult, "qxunit.test.Lang");
     loader.runTests(testResult, "qxunit.test.Xml", "testParseSerializeXml");
     }
-  }
+  } //members
 
 });
 
