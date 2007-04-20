@@ -178,19 +178,7 @@ qx.Class.define("qx.ui.core.Widget",
     "dragstart"       : "qx.event.type.DragEvent",
 
     /** (Fired by {@link qx.event.handler.DragAndDropHandler}) */
-    "dragend"         : "qx.event.type.DragEvent",
-
-    /**
-     * Inline event. The event must be enabled using <code>enableInlineEvent("scroll")</code>
-     * before it can be used
-     */
-    "scroll"          : "qx.event.type.Event",
-
-    /**
-     * Inline event. The event must be enabled using <code>enableInlineEvent("input")</code>
-     * before it can be used
-     **/
-    "input"           : "qx.event.type.Event"
+    "dragend"         : "qx.event.type.DragEvent"
   },
 
 
@@ -2963,62 +2951,6 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     * @internal
-     * @signature function()
-     */
-    prepareEnhancedBorder : qx.core.Variant.select("qx.client",
-    {
-      "gecko" : qx.lang.Function.returnTrue,
-
-      "default" : function()
-      {
-        var el = this.getElement();
-        var cl = this._borderElement = document.createElement("div");
-
-        var es = el.style;
-        var cs = this._innerStyle = cl.style;
-
-        cs.width = cs.height = "100%";
-        cs.position = "absolute";
-
-        for (var i in this._styleProperties)
-        {
-          switch(i)
-          {
-            case "position":
-            case "zIndex":
-            case "filter":
-            case "display":
-              break;
-
-            default:
-              cs[i] = this._styleProperties[i];
-              es[i] = "";
-          }
-        }
-
-        for (var i in this._htmlProperties)
-        {
-          switch(i)
-          {
-            case "unselectable":
-              cl.unselectable = this._htmlProperties[i];
-          }
-        }
-
-        // Move existing children
-        while (el.firstChild) {
-          cl.appendChild(el.firstChild);
-        }
-
-        el.appendChild(cl);
-      }
-    }),
 
 
 
@@ -3101,9 +3033,6 @@ qx.Class.define("qx.ui.core.Widget",
       {
         // reset reference to widget instance
         propOldValue.qx_Widget = null;
-
-        // remove events
-        this._removeInlineEvents(propOldValue);
       }
 
       if (propValue)
@@ -3119,9 +3048,6 @@ qx.Class.define("qx.ui.core.Widget",
         this._applyHtmlProperties(propValue);
         this._applyHtmlAttributes(propValue);
         this._applyElementData(propValue);
-
-        // attach inline events
-        this._addInlineEvents(propValue);
 
         // send out create event
         this.createDispatchEvent("create");
@@ -4809,216 +4735,6 @@ qx.Class.define("qx.ui.core.Widget",
       }
     },
 
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vEventName {var} TODOC
-     * @return {void}
-     * @signature function(vEventName)
-     */
-    enableInlineEvent : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function(vEventName)
-      {
-        var vEventType = qx.ui.core.Widget.inlineEventMap[vEventName];
-
-        if (!this._inlineEvents) {
-          this._inlineEvents = [ vEventType ];
-        } else {
-          this._inlineEvents.push(vEventType);
-        }
-
-        if (this._isCreated) {
-          this.getElement()[vEventType] = qx.ui.core.Widget.__oninlineevent;
-        }
-      },
-
-      "default" : function(vEventName)
-      {
-        if (!this._inlineEvents) {
-          this._inlineEvents = [ vEventName ];
-        } else {
-          this._inlineEvents.push(vEventName);
-        }
-
-        if (this._isCreated) {
-          this.getElement().addEventListener(vEventName, qx.ui.core.Widget.__oninlineevent, false);
-        }
-      }
-    }),
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vEventName {var} TODOC
-     * @return {void}
-     * @signature function(vEventName)
-     */
-    disableInlineEvent : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function(vEventName)
-      {
-        var vEventType = qx.ui.core.Widget.inlineEventMap[vEventName];
-
-        if (this._inlineEvents) {
-          qx.lang.Array.remove(this._inlineEvents, vEventType);
-        }
-
-        if (this._isCreated) {
-          this.getElement()[vEventType] = null;
-        }
-      },
-
-      "default" : function(vEventName)
-      {
-        if (this._inlineEvents) {
-          qx.lang.Array.remove(this._inlineEvents, vEventName);
-        }
-
-        if (this._isCreated) {
-          this.getElement().removeEventListener(vEventName, qx.ui.core.Widget.__oninlineevent, false);
-        }
-      }
-    }),
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vElement {var} TODOC
-     * @return {void}
-     * @signature function(vElement)
-     */
-    _addInlineEvents : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function(vElement)
-      {
-        if (this._inlineEvents)
-        {
-          for (var i=0, a=this._inlineEvents, l=a.length; i<l; i++) {
-            vElement[a[i]] = qx.ui.core.Widget.__oninlineevent;
-          }
-        }
-      },
-
-      "default" : function(vElement)
-      {
-        if (this._inlineEvents)
-        {
-          for (var i=0, a=this._inlineEvents, l=a.length; i<l; i++) {
-            vElement.addEventListener(a[i], qx.ui.core.Widget.__oninlineevent, false);
-          }
-        }
-      }
-    }),
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vElement {var} TODOC
-     * @return {void}
-     * @signature function(vElement)
-     */
-    _removeInlineEvents : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function(vElement)
-      {
-        if (this._inlineEvents)
-        {
-          for (var i=0, a=this._inlineEvents, l=a.length; i<l; i++) {
-            vElement[a[i]] = null;
-          }
-        }
-      },
-
-      "default" : function(vElement)
-      {
-        if (this._inlineEvents)
-        {
-          for (var i=0, a=this._inlineEvents, l=a.length; i<l; i++) {
-            vElement.removeEventListener(a[i], qx.ui.core.Widget.__oninlineevent, false);
-          }
-        }
-      }
-    }),
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
-     */
-    _oninlineevent : function(e)
-    {
-      if (qx.ui.core.Widget._inFlushGlobalQueues) {
-        return;
-      }
-
-      // this.debug("Inlineevent: " + e.type);
-      switch(e.type)
-      {
-        case "propertychange":
-          this._oninlineproperty(e);
-          break;
-
-        case "input":
-          this._oninlineinput(e);
-          break;
-
-        default:
-          this.createDispatchEvent(e.type);
-      }
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
-     */
-    _oninlineinput : function(e)
-    {
-      this.createDispatchDataEvent("input", this.getComputedValue());
-
-      // Block parents from this event
-      if (e.stopPropagation) {
-        e.stopPropagation();
-      }
-
-      e.returnValue = -1;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
-     */
-    _oninlineproperty : function(e)
-    {
-      switch(e.propertyName)
-      {
-        case "value":
-          if (!this._inValueProperty) {
-            this._oninlineinput(e);
-          }
-
-          break;
-      }
-    },
 
 
 
@@ -6885,7 +6601,62 @@ qx.Class.define("qx.ui.core.Widget",
       }
     },
 
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void}
+     * @internal
+     * @signature function()
+     */
+    prepareEnhancedBorder : qx.core.Variant.select("qx.client",
+    {
+      "gecko" : qx.lang.Function.returnTrue,
 
+      "default" : function()
+      {
+        var el = this.getElement();
+        var cl = this._borderElement = document.createElement("div");
+
+        var es = el.style;
+        var cs = this._innerStyle = cl.style;
+
+        cs.width = cs.height = "100%";
+        cs.position = "absolute";
+
+        for (var i in this._styleProperties)
+        {
+          switch(i)
+          {
+            case "position":
+            case "zIndex":
+            case "filter":
+            case "display":
+              break;
+
+            default:
+              cs[i] = this._styleProperties[i];
+              es[i] = "";
+          }
+        }
+
+        for (var i in this._htmlProperties)
+        {
+          switch(i)
+          {
+            case "unselectable":
+              cl.unselectable = this._htmlProperties[i];
+          }
+        }
+
+        // Move existing children
+        while (el.firstChild) {
+          cl.appendChild(el.firstChild);
+        }
+
+        el.appendChild(cl);
+      }
+    }),
 
 
 
@@ -7399,9 +7170,7 @@ qx.Class.define("qx.ui.core.Widget",
   {
     var vElement = this.getElement();
 
-    if (vElement)
-    {
-      this._removeInlineEvents(vElement);
+    if (vElement) {
       vElement.qx_Widget = null;
     }
 
