@@ -97,16 +97,16 @@ qx.Class.define("qx.manager.object.BorderManager",
      * @param value {var} Any acceptable border value
      * @return {void}
      */
-    connect : function(obj, callback, value)
+    connect : function(callback, obj, value)
     {
       // Store references for themed borders
-      var key = "border" + obj.toHashCode() + "$" + callback;
+      var key = "border" + obj.toHashCode() + "$" + qx.core.Object.toHashCode(callback);
       var reg = this.__themedObjects;
 
       if (value && this.__themedBorders[value])
       {
         // Store reference for themed values
-        reg[key] = { object : obj, callback : callback, value : value };
+        reg[key] = { callback : callback, object : obj, value : value };
       }
       else if (reg[key])
       {
@@ -118,7 +118,7 @@ qx.Class.define("qx.manager.object.BorderManager",
       // Themed borders are able to overwrite the values of named and system borders
       // Simple return of all other named, system, hex, RGB strings
       // Validation is not done here.
-      obj[callback](value ? this.__themedBorders[value] || value : null, "all");
+      callback.call(obj, value ? this.__themedBorders[value] || value : null);
     },
 
     themedBorderToObject : function(value) {
@@ -172,11 +172,8 @@ qx.Class.define("qx.manager.object.BorderManager",
 
       // TODO: Dispose old borders
 
-      for (var key in source)
-      {
-        dest[key] = new qx.renderer.border.Border;
-        dest[key].name = key;
-        dest[key].set(source[key]);
+      for (var key in source) {
+        dest[key] = (new qx.renderer.border.Border).set(source[key]);
       }
     },
 
@@ -190,7 +187,7 @@ qx.Class.define("qx.manager.object.BorderManager",
       for (var key in reg)
       {
         entry = reg[key];
-        entry.object[entry.callback](dest[entry.value], "all");
+        entry.callback.call(entry.object, dest[entry.value]);
       }
     },
 
@@ -206,7 +203,7 @@ qx.Class.define("qx.manager.object.BorderManager",
         entry = reg[key];
 
         if (dest[entry.value] === obj) {
-          entry.object[entry.callback](dest[entry.value], edge);
+          entry.callback.call(entry.object, dest[entry.value], edge);
         }
       }
     }

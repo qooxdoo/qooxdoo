@@ -6694,7 +6694,7 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     _modifyBackgroundColor : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().connect(this, "_styleBackgroundColor", value);
+      qx.manager.object.ColorManager.getInstance().connect(this._styleBackgroundColor, this, value);
     },
 
     _styleBackgroundColor : function(value) {
@@ -6713,7 +6713,7 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     _modifyColor : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().connect(this, "_styleColor", value);
+      qx.manager.object.ColorManager.getInstance().connect(this._styleColor, this, value);
     },
 
     _styleColor : function(value) {
@@ -6753,7 +6753,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /** apply routine for property {@link #border} */
     _applyBorder : function(value, old) {
-      qx.manager.object.BorderManager.getInstance().connect(this, "_queueBorder", value);
+      qx.manager.object.BorderManager.getInstance().connect(this._queueBorder, this, value);
     },
 
 
@@ -6775,7 +6775,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _queueBorder : function(value, edge)
     {
-      if (edge === "all")
+      if (!edge)
       {
         var jobs = this.__borderJobs;
         for (var entry in jobs) {
