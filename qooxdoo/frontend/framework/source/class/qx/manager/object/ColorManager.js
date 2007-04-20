@@ -151,12 +151,6 @@ qx.Class.define("qx.manager.object.ColorManager",
       }
     },
 
-
-    setColorThemeById : function(vId) {
-      this.setColorTheme(this.__colorThemes[vId]);
-    },
-
-
     _applyColorTheme : function(value, old)
     {
       // Generating RGB strings from themed colors
@@ -188,32 +182,6 @@ qx.Class.define("qx.manager.object.ColorManager",
       {
         entry = reg[key];
         entry.callback.call(entry.object, dest[entry.value]);
-      }
-    },
-
-
-    /**
-     * @deprecated
-     */
-    createThemeList : function(vParent, xCor, yCor)
-    {
-      var vButton;
-      var vThemes = this.__colorThemes;
-      var vIcon = "icon/16/actions/format-color.png";
-      var vPrefix = "Color Theme: ";
-      var vEvent = "execute";
-
-      for (var vId in vThemes)
-      {
-        var vObj = vThemes[vId];
-        var vButton = new qx.ui.form.Button(vPrefix + vObj.title, vIcon);
-
-        vButton.setLocation(xCor, yCor);
-        vButton.addEventListener(vEvent, new Function("qx.manager.object.ColorManager.getInstance().setColorThemeById('" + vId + "')"));
-
-        vParent.add(vButton);
-
-        yCor += 30;
       }
     }
   },

@@ -312,39 +312,6 @@ qx.Class.define("qx.manager.object.ImageManager",
     ---------------------------------------------------------------------------
     */
 
-    // TODO: rename to createIconThemeList
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vParent {var} TODOC
-     * @param xCor {var} TODOC
-     * @param yCor {var} TODOC
-     * @return {void}
-     */
-    createThemeList : function(vParent, xCor, yCor)
-    {
-      var vButton;
-      var vThemes = this._iconThemes;
-      var vIcon = "icon/16/apps/preferences-desktop-theme.png";
-      var vPrefix = "Icon Theme: ";
-      var vEvent = "execute";
-
-      for (var vId in vThemes)
-      {
-        var vObj = vThemes[vId];
-        var vButton = new qx.ui.form.Button(vPrefix + vObj.title, vIcon);
-
-        vButton.setLocation(xCor, yCor);
-        vButton.addEventListener(vEvent, new Function("qx.manager.object.ImageManager.getInstance().setIconThemeById('" + vId + "')"));
-
-        vParent.add(vButton);
-
-        yCor += 30;
-      }
-    },
-
-
     /**
      * TODOC
      *
