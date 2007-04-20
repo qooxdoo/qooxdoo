@@ -467,6 +467,16 @@ def generatePropertyMethods(propertyName, classNode, generatedMethods):
  *
  * @return {Boolean} the new value
  */
+ function () {}; """ % (propertyName, propertyName),
+
+
+       access + "is" + name : """/**
+ * Check whether the (computed) value of the boolean property <code>%s</code> equals <code>true</code>.
+ *
+ * For further details take a look at the property definition: {@link #%s}.
+ *
+ * @return {Boolean} Whether the property equals <code>true</code>.
+ */
  function () {}; """ % (propertyName, propertyName)
     }
 
@@ -620,7 +630,7 @@ def handleProperties(item, classNode):
                 node = handlePropertyDefinitionNew(propName, propDefinition, classNode)
                 generatePropertyMethods(propName, classNode, ["set", "get", "init", "reset"])
                 if node.get("check", False) == "Boolean":
-                    generatePropertyMethods(propName, classNode, ["toggle"])
+                    generatePropertyMethods(propName, classNode, ["toggle", "is"])
 
 
             if classNode.get("type", False) == "mixin":
@@ -1102,12 +1112,13 @@ def handleFunction(funcItem, name, commentAttributes, classNode):
             # -> The function is abstract
             node.set("isAbstract", True)
 
+    handleAccess(node, commentAttributes)
+
     if len(commentAttributes) == 0:
         addError(node, "Documentation is missing.", funcItem)
         return node
 
     handleDeprecated(node, commentAttributes)
-    handleAccess(node, commentAttributes)
 
     # Read all description, param and return attributes
     for attrib in commentAttributes:
