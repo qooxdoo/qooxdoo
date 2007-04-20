@@ -66,18 +66,17 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
 
     menu :
     {
-      _legacy  : true,
-      type     : "object",
-      instance : "qx.ui.menu.Menu"
+      check : "qx.ui.menu.Menu",
+      nullable : true,
+      apply : "_modifyMenu",
+      event : "changeMenu"
     },
 
     direction :
     {
-      _legacy        : true,
-      type           : "string",
-      allowNull      : false,
-      possibleValues : [ "up", "down" ],
-      defaultValue   : "down"
+      check : [ "up", "down" ],
+      init : "down",
+      event : "changeDirection"
     }
   },
 
