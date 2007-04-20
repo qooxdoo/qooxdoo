@@ -66,9 +66,9 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
 
     openMenu :
     {
-      _legacy  : true,
-      type     : "object",
-      instance : "qx.ui.menu.Menu"
+      check : "qx.ui.menu.Menu",
+      event : "changeOpenMenu",
+      nullable : true
     },
 
 
