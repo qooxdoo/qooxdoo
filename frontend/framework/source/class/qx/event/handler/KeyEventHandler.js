@@ -132,8 +132,6 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
           this._idealKeyHandler(keyCode, charcode, type, domEvent);
         }
 
-        this.debug(domEvent.keyCode);
-
         // On non print-able character be sure to add a keypress event
         if (type == "keydown") {
           if (this._isNonPrintableKeyCode(keyCode) ||
