@@ -43,18 +43,13 @@ qx.Class.define("qx.manager.object.AppearanceManager",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
     /** currently used appearance theme */
     appearanceTheme :
     {
-      _legacy   : true,
-      type      : "object",
-      allowNull : false
+      check : "Theme",
+      nullable : true,
+      apply : "_applyAppearanceTheme",
+      event : "changeAppearanceTheme"
     }
   },
 
@@ -71,20 +66,11 @@ qx.Class.define("qx.manager.object.AppearanceManager",
   {
     /*
     ---------------------------------------------------------------------------
-      MODIFIER
+      APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
-     */
-    _modifyAppearanceTheme : function(propValue, propOldValue, propData)
+    _applyAppearanceTheme : function(propValue, propOldValue, propData)
     {
       var vComp = qx.core.Init.getInstance().getApplication();
 

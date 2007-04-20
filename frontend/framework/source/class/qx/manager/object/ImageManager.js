@@ -67,14 +67,18 @@ qx.Class.define("qx.manager.object.ImageManager",
   {
     iconTheme :
     {
-      _legacy  : true,
-      type     : "object"
+      check : "Theme",
+      nullable : true,
+      apply : "_applyIconTheme",
+      event : "changeIconTheme"
     },
 
     widgetTheme :
     {
-      _legacy  : true,
-      type     : "object"
+      check : "Theme",
+      nullable : true,
+      apply : "_applyWidgetTheme",
+      event : "changeWidgetTheme"
     }
   },
 
@@ -123,7 +127,7 @@ qx.Class.define("qx.manager.object.ImageManager",
      * @param propData {var} Property configuration map
      * @return {boolean} TODOC
      */
-    _modifyIconTheme : function(propValue, propOldValue, propData)
+    _applyIconTheme : function(propValue, propOldValue, propData)
     {
       propValue ? qx.manager.object.AliasManager.getInstance().add("icon", propValue.icons.uri) : qx.manager.object.AliasManager.getInstance().remove("icon");
       return true;
@@ -139,7 +143,7 @@ qx.Class.define("qx.manager.object.ImageManager",
      * @param propData {var} Property configuration map
      * @return {boolean} TODOC
      */
-    _modifyWidgetTheme : function(propValue, propOldValue, propData)
+    _applyWidgetTheme : function(propValue, propOldValue, propData)
     {
       propValue ? qx.manager.object.AliasManager.getInstance().add("widget", propValue.widgets.uri) : qx.manager.object.AliasManager.getInstance().remove("widget");
       return true;

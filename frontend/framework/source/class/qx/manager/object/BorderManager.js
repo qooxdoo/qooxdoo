@@ -64,7 +64,8 @@ qx.Class.define("qx.manager.object.BorderManager",
     {
       check : "Theme",
       nullable : true,
-      apply : "_applyBorderTheme"
+      apply : "_applyBorderTheme",
+      event : "changeBorderTheme"
     }
   },
 

@@ -66,7 +66,8 @@ qx.Class.define("qx.manager.object.ColorManager",
     {
       check : "Theme",
       nullable : true,
-      apply : "_applyColorTheme"
+      apply : "_applyColorTheme",
+      event : "changeColorTheme"
     }
   },
 
