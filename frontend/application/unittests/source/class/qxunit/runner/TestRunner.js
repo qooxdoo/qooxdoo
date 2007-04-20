@@ -52,20 +52,39 @@ qx.Class.define("qxunit.runner.TestRunner",
       height : "100%",
       width : "100%"
       //border : "ridge"
-      //border          : "inset"
+      //border          : qx.renderer.border.BorderPresets.getInstance().inset
     });
 
     // Hidden IFrame for test runs
     var iframe = new qx.ui.embed.Iframe("html/QooxdooTest.html?testclass=qxunit.test");
+    /*
     iframe.set({
-      height: 100,
-      width: 300
+      height: 0,
+      width:  0
     });
+    */
+    iframe.setEdge(0);
     this.iframe = iframe;
-    this.add(iframe);
+    //this.add(iframe);
+    iframe.addToDocument();
+    //iframe.hide();
+
+    this.setBackgroundColor("threedface");
+    this.setZIndex(5);
 
     // Get the TestLoader from the Iframe
-    this.loader1 = iframe.getContentWindow().qxunit.TestLoader.getInstance();
+    iframe.addEventListener("load", function (e) {
+      this.loader = iframe.getContentWindow().qxunit.TestLoader.getInstance();
+      //this.tests.handler = this.__makeTestHandler(this.loader1.getTestDescriptions());
+      var left = this.__makeLeft();
+      this.mainsplit.addLeft(left);
+      /*
+      iframe.set({
+        //visibility : false
+        display : false
+      });
+      */
+    }, this);
 
     // Header Pane
     this.header = new qx.ui.embed.HtmlEmbed("<center><h3>QxRunner - The qooxdoo Test Runner</h3></center>");
@@ -82,20 +101,23 @@ qx.Class.define("qxunit.runner.TestRunner",
     });
     this.add(this.toolbar);
 
-    this.runbutton.addEventListener("click", this.runTest, this);
+    this.runbutton.addEventListener("execute", this.runTest, this);
 
 
     // Main Pane
     // split
     var mainsplit = new qx.ui.splitpane.HorizontalSplitPane(250, "1*");
     this.add(mainsplit);
+    this.mainsplit = mainsplit;
     mainsplit.setLiveResize(true);
     mainsplit.set({
       height : "1*"
     });
     // Left
+    /*
     var left = this.__makeLeft();
     mainsplit.addLeft(left);
+    */
 
     // Right
     var right = new qx.ui.layout.VerticalBoxLayout();
@@ -121,10 +143,31 @@ qx.Class.define("qxunit.runner.TestRunner",
 
     //this.testLoader();
 
+    /*
+    this.addEventListener("load", function (e) {
+      this.iframe.set({display: false});
+    }, this);
+    */
+
   }, //constructor
 
 
   members: {
+
+    /*
+    _onreadystatechange : function()
+      {
+        if (this.getDocumentNode().readyState == "complete") {
+          this.iframe.set({display: false});
+        }
+      },
+      */
+
+    appendr : function (str) {
+      this.f1.setValue(this.f1.getValue() + str);
+    }, //appender
+
+
     __makeButtonView : function (){
       var buttview = new qx.ui.pageview.tabview.TabView();
       buttview.set({
@@ -153,16 +196,16 @@ qx.Class.define("qxunit.runner.TestRunner",
       });
 
 
-      var f1 = new qx.ui.form.TextField("Results of the current Test");
+      var f1 = new qx.ui.form.TextArea("Results of the current Test");
       this.f1 = f1;
-      f1.set({
-        //width : "100%",
-        //height : "100%",
-        //border : "inset",
-        padding : [10]
-      });
-      var f2 = new qx.ui.form.TextField("Session Log, listing test invokations and all outputs");
       p1.add(f1);
+      f1.set({
+        width : "100%",
+        height : "100%"
+        //border : "inset",
+        //padding : [10]
+      });
+      var f2 = new qx.ui.form.TextArea("Session Log, listing test invokations and all outputs");
       p2.add(f2);
       return buttview;
     }, //makeButtonView
@@ -171,11 +214,11 @@ qx.Class.define("qxunit.runner.TestRunner",
      * Tree View in Left Pane
     */
     __makeLeft: function (){
-      this.loader = qxunit.runner.TestLoaderStub.getInstance();
+      //this.loader = qxunit.runner.TestLoaderStub.getInstance();
       //this.loader = qxunit.TestLoader.getInstance();
       this.tests = {};
       var that   = this;
-      this.tests.handler = this.__makeTestHandler(this.loader1.getTestDescriptions());
+      this.tests.handler = this.__makeTestHandler(this.loader.getTestDescriptions());
 
       /*
       var node = this.tests.handler.getRoot();
@@ -329,6 +372,23 @@ qx.Class.define("qxunit.runner.TestRunner",
         // create testResult obj
         // set up event listeners
         // start test
+        var testResult = new qxunit.TestResult();
+        testResult.addEventListener("startTest", function(e) {
+          var test = e.getData();
+          this.appendr("Test '"+test.getFullName()+"' started.");
+        }, this);
+        testResult.addEventListener("failure", function(e) {
+          var ex = e.getData().exception;
+          var test = e.getData().test;
+          this.appendr("Test '"+test.getFullName()+"' failed: " +  ex.getMessage() + " - " + ex.getComment());
+        }, this);
+        testResult.addEventListener("error", function(e) {
+          var ex = e.getData().exception
+          this.appendr("The test '"+e.getData().test.getFullName()+"' had an error: " + ex, ex);
+        }, this);
+
+        //this.debug(this.loader);
+        this.loader.runTestsFromNamespace(testResult, this.tests.selected);
 
 
     }, //runTest
