@@ -54,6 +54,8 @@ qx.Class.define("qxunit.runner.TestRunner",
       //border : "ridge"
       //border          : qx.renderer.border.BorderPresets.getInstance().inset
     });
+    this.widgets = {};
+    this.tests   = {};
 
     // Hidden IFrame for test runs
     var iframe = new qx.ui.embed.Iframe("html/QooxdooTest.html?testclass=qxunit.test");
@@ -75,7 +77,7 @@ qx.Class.define("qxunit.runner.TestRunner",
     // Get the TestLoader from the Iframe
     iframe.addEventListener("load", function (e) {
       this.loader = iframe.getContentWindow().qxunit.TestLoader.getInstance();
-      //this.tests.handler = this.__makeTestHandler(this.loader1.getTestDescriptions());
+      this.tests.handler = this.__makeTestHandler(this.loader.getTestDescriptions());
       var left = this.__makeLeft();
       this.mainsplit.addLeft(left);
       /*
@@ -132,6 +134,7 @@ qx.Class.define("qxunit.runner.TestRunner",
     // status
     var statuspane = this.__makeStatus();
     right.add(statuspane);
+    this.widgets["statuspane"] = statuspane;
 
     // progress bar
     var progress = this.__makeProgress();
@@ -241,9 +244,7 @@ qx.Class.define("qxunit.runner.TestRunner",
     __makeLeft: function (){
       //this.loader = qxunit.runner.TestLoaderStub.getInstance();
       //this.loader = qxunit.TestLoader.getInstance();
-      this.tests = {};
       var that   = this;
-      this.tests.handler = this.__makeTestHandler(this.loader.getTestDescriptions());
 
       /*
       var node = this.tests.handler.getRoot();
@@ -275,6 +276,8 @@ qx.Class.define("qxunit.runner.TestRunner",
         //that.right.buttview.bsb1.p1.f1 = this.tests.selected;
         //that.getChildren()[2].getChildren()[1].getChildren()[1].getPane().getChildren()[0].getChildren()[0] = that.tests.selected;
         that.appendr(that.tests.selected);
+        that.widgets["statuspane.current"].setHtml(that.tests.selected);
+        that.widgets["statuspane.number"].setHtml(that.tests.handler.testCount(that.tests.selected));
       });
 
       return left;
@@ -318,26 +321,29 @@ qx.Class.define("qxunit.runner.TestRunner",
         height : "auto",
         width : "100%"
       });
-      statuspane.add(new qx.ui.basic.Label("Current Test: "));
-      var l1 = new qx.ui.basic.Label("qxunit.test.core.Variants");
+      statuspane.add(new qx.ui.basic.Label("Selected Test: "));
+      var l1 = new qx.ui.basic.Label("");
       statuspane.add(l1);
       l1.set({
         backgroundColor : "#C1ECFF"
       });
+      this.widgets["statuspane.current"] = l1;
       statuspane.add(new qx.ui.basic.Label("Number of Test: "));
-      var l2 = new qx.ui.basic.Label("9");
+      var l2 = new qx.ui.basic.Label("");
       statuspane.add(l2);
       l2.set({
         backgroundColor : "#C1ECFF"
       });
+      this.widgets["statuspane.number"] = l2;
+
       return statuspane;
     }, //makeStatus
 
 
     __makeTestHandler : function (testRep) {
       //testRep is Json currently
-      var handler = function (){};
-      handler.tmap    = eval(testRep); //[{classname:myClass,tests:['test1','test2']}, {...}]
+      var handler   = {};
+      handler.tmap  = eval(testRep); //[{classname:myClass,tests:['test1','test2']}, {...}]
       this.debug(qx.io.Json.stringify(testRep));
 
       handler.getRoot = function () {
@@ -375,6 +381,10 @@ qx.Class.define("qxunit.runner.TestRunner",
           }
         }
         return [];
+      };
+
+      handler.testCount = function (node) { //node is a string
+        return 4;
       }
 
       return handler;
@@ -387,6 +397,8 @@ qx.Class.define("qxunit.runner.TestRunner",
     runTest : function (e) {
       this.appendr("Now running: " + this.tests.selected);
       // Set status bar entries (current test, no. of tests, ...)
+      this.widgets["statuspane.current"] = this.tests.selected;
+      this.widgets["statuspane.number"]  = this.tests.handler.testCount(this.tests.selected);
       // Initialize progress bar
       // Make initial entry in output windows (test result, log, ...)
 
@@ -395,9 +407,8 @@ qx.Class.define("qxunit.runner.TestRunner",
 
         // create iframe obj
         // create testResult obj
-        // set up event listeners
-        // start test
         var testResult = new qxunit.TestResult();
+        // set up event listeners
         testResult.addEventListener("startTest", function(e) {
           var test = e.getData();
           this.appendr("Test '"+test.getFullName()+"' started.");
@@ -412,7 +423,7 @@ qx.Class.define("qxunit.runner.TestRunner",
           this.appendr("The test '"+e.getData().test.getFullName()+"' had an error: " + ex, ex);
         }, this);
 
-        //this.debug(this.loader);
+        // start test
         this.loader.runTestsFromNamespace(testResult, this.tests.selected);
 
 
