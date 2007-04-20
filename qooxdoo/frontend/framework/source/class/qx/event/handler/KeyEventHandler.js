@@ -132,9 +132,16 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
           this._idealKeyHandler(keyCode, charcode, type, domEvent);
         }
 
+        this.debug(domEvent.keyCode);
+
         // On non print-able character be sure to add a keypress event
-        if (this._isNonPrintableKeyCode(keyCode) && type == "keydown") {
-          this._idealKeyHandler(keyCode, charcode, "keypress", domEvent);
+        if (type == "keydown") {
+          if (this._isNonPrintableKeyCode(keyCode) ||
+            keyCode == 8 ||  // backspace
+            keyCode == 9     // tab
+          ) {
+            this._idealKeyHandler(keyCode, charcode, "keypress", domEvent);
+          }
         }
 
         // Store last type
