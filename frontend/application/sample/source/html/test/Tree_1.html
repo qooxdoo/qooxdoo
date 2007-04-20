@@ -22,7 +22,7 @@
 
       with(t)
       {
-        setBackgroundColor(255);
+        setBackgroundColor("white");
         setBorder("inset");
         setOverflow("scrollY");
 
@@ -34,7 +34,7 @@
       };
 
       qx.ui.core.ClientDocument.getInstance().add(t);
-      
+
 
       var te1 = new qx.ui.tree.TreeFolder("Desktop");
       t.add(te1);
@@ -147,19 +147,19 @@
       commandFrame.add(tTreeLines);
 
       tTreeLines.addEventListener("changeChecked", function(e) { t.setUseTreeLines(e.getData()); });
-      
-      
-      
-      
+
+
+
+
       var vShowItems = new qx.ui.form.Button("Show Items");
-      
+
       with(vShowItems) {
         setTop(100);
         setLeft(0);
       };
-      
+
       commandFrame.add(vShowItems);
-      
+
       vShowItems.addEventListener("execute", function(e) {
         alert(t.getItems());
       });
