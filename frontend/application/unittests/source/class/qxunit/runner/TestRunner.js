@@ -277,7 +277,8 @@ qx.Class.define("qxunit.runner.TestRunner",
         //that.getChildren()[2].getChildren()[1].getChildren()[1].getPane().getChildren()[0].getChildren()[0] = that.tests.selected;
         that.appendr(that.tests.selected);
         that.widgets["statuspane.current"].setHtml(that.tests.selected);
-        that.widgets["statuspane.number"].setHtml(that.tests.handler.testCount(that.tests.selected));
+        var snum = String(that.tests.handler.testCount(that.tests.selected));
+        that.widgets["statuspane.number"].setHtml(snum);
       });
 
       return left;
@@ -384,7 +385,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       };
 
       handler.testCount = function (node) { //node is a string
-        return 4;
+        return handler.getTests(node).length;
       }
 
       return handler;
@@ -396,9 +397,6 @@ qx.Class.define("qxunit.runner.TestRunner",
     */
     runTest : function (e) {
       this.appendr("Now running: " + this.tests.selected);
-      // Set status bar entries (current test, no. of tests, ...)
-      this.widgets["statuspane.current"] = this.tests.selected;
-      this.widgets["statuspane.number"]  = this.tests.handler.testCount(this.tests.selected);
       // Initialize progress bar
       // Make initial entry in output windows (test result, log, ...)
 
@@ -425,6 +423,8 @@ qx.Class.define("qxunit.runner.TestRunner",
 
         // start test
         this.loader.runTestsFromNamespace(testResult, this.tests.selected);
+        // on method
+        //this.loader.runTests(testResult), className, this.tests.selected);
 
 
     }, //runTest
