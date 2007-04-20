@@ -264,6 +264,8 @@ def migrateFile(
                 filePath, compiledPatches, compiledInfos,
                 hasPatchModule=False, options=None, encoding="UTF-8"):
 
+    logging.info("  - File: %s" % filePath)
+
     # Read in original content
     fileContent = filetool.read(filePath, encoding)
 
@@ -271,11 +273,12 @@ def migrateFile(
     patchedContent = regtool(fileContent, compiledPatches, True, filePath)
     patchedContent = regtool(patchedContent, compiledInfos, False, filePath)
 
+    fileId = loader.extractFileContentId(fileContent);
+    if fileId is None:
+        return
+
     # Apply patches
     if hasPatchModule:
-        fileId = loader.extractFileContentId(fileContent);
-        if fileId is None:
-            return
 
         import patch
         tree = treegenerator.createSyntaxTree(tokenizer.parseStream(patchedContent))
