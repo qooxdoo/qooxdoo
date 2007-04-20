@@ -54,7 +54,7 @@ qx.Class.define("qx.ui.listview.ListView",
     this._header = new qx.ui.listview.Header(vColumns);
     this._frame = new qx.ui.layout.HorizontalBoxLayout;
     this._pane = new qx.ui.listview.ListViewPane(vData, vColumns);
-    this._scroll = new qx.ui.layout.CanvasLayout;
+    this._scroll = new qx.ui.core.ScrollArea;
     this._scrollContent = new qx.ui.basic.Terminator;
     this._resizeLine = new qx.ui.basic.Terminator;
 
@@ -86,7 +86,6 @@ qx.Class.define("qx.ui.listview.ListView",
     this._scroll.setWidth("auto");
     this._scroll.setOverflow("scrollY");
     this._scroll.setParent(this._frame);
-    this._scroll.enableInlineEvent("scroll");
     this._scroll.addEventListener("scroll", this._onscroll, this);
 
     // ************************************************************************
