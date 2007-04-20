@@ -344,5 +344,5 @@ qx.Class.define("qx.Theme",
     "qx.widgetTheme" : "qx.theme.widget.Windows",
     "qx.iconTheme"   : "qx.theme.icon.Nuvola",
     "qx.appearanceTheme" : "qx.theme.appearance.Classic"
-  },
+  }
 });
