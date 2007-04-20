@@ -89,29 +89,108 @@ qx.Class.define("qx.Theme",
       // Assign to namespace
       theme.basename = qx.Class.createNamespace(name, theme);
 
-      // Register to managers
-      if (theme.colors) {
-        qx.manager.object.ColorManager.getInstance().registerColorTheme(theme);
-      }
-
-      if (theme.borders) {
-        qx.manager.object.BorderManager.getInstance().registerBorderTheme(theme);
-      }
-
-      if (theme.appearances) {
-        qx.manager.object.AppearanceManager.getInstance().registerAppearanceTheme(theme);
-      }
-
-      if (theme.widgets) {
-        qx.manager.object.ImageManager.getInstance().registerWidgetTheme(theme);
-      }
-
-      if (theme.icons) {
-        qx.manager.object.ImageManager.getInstance().registerIconTheme(theme);
-      }
-
       // Store class reference in global class registry
       this.__registry[name] = theme;
+
+      // Select via settings
+      if (name === qx.core.Setting.get("qx.colorTheme")) {
+        qx.manager.object.ColorManager.getInstance().setColorTheme(theme);
+      }
+
+      if (name === qx.core.Setting.get("qx.borderTheme")) {
+        qx.manager.object.BorderManager.getInstance().setBorderTheme(theme);
+      }
+
+      if (name === qx.core.Setting.get("qx.widgetTheme")) {
+        qx.manager.object.ImageManager.getInstance().setWidgetTheme(theme);
+      }
+
+      if (name === qx.core.Setting.get("qx.iconTheme")) {
+        qx.manager.object.ImageManager.getInstance().setIconTheme(theme);
+      }
+
+      if (name === qx.core.Setting.get("qx.appearanceTheme")) {
+        qx.manager.object.AppearanceManager.getInstance().setAppearanceTheme(theme);
+      }
+    },
+
+
+    /**
+     * Query the theme list to get all themes the given key
+     *
+     * @param key {String} the key to look for
+     * @return {Theme[]} list of matching themes
+     */
+    __queryThemes : function(key)
+    {
+      var reg = this.__registry;
+      var theme;
+      var list = [];
+
+      for (var name in reg)
+      {
+        theme = reg[name];
+        if (theme[key]) {
+          list.push(theme);
+        }
+      }
+
+      return list;
+    },
+
+
+    /**
+     * Returns a list of all registered color themes
+     *
+     * @type static
+     * @return {Theme[]} list of color themes
+     */
+    getColorThemes : function() {
+      return this.__queryThemes("colors");
+    },
+
+
+    /**
+     * Returns a list of all registered color themes
+     *
+     * @type static
+     * @return {Theme[]} list of color themes
+     */
+    getBorderThemes : function() {
+      return this.__queryThemes("borders");
+    },
+
+
+    /**
+     * Returns a list of all registered color themes
+     *
+     * @type static
+     * @return {Theme[]} list of color themes
+     */
+    getWidgetThemes : function() {
+      return this.__queryThemes("widgets");
+    },
+
+
+    /**
+     * Returns a list of all registered color themes
+     *
+     * @type static
+     * @return {Theme[]} list of color themes
+     */
+    getIconThemes : function() {
+      return this.__queryThemes("icons");
+    },
+
+
+    /**
+     * Returns a list of all registered color themes
+     *
+     * @type static
+     * @return {Theme[]} list of color themes
+     */
+    getAppearanceThemes : function() {
+      return this.__queryThemes("appearance");
     },
 
 
@@ -241,5 +320,29 @@ qx.Class.define("qx.Theme",
 
       "default" : function() {}
     })
-  }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     SETTINGS
+  *****************************************************************************
+  */
+
+  settings :
+  {
+    /*
+      Make sure to select an icon theme that is compatible to the license you
+      chose to receive the qooxdoo code under. For more information, please
+      see the LICENSE file in the project's top-level directory.
+     */
+
+    "qx.colorTheme" : "qx.theme.color.WindowsRoyale",
+    "qx.borderTheme" : "qx.theme.appearance.Classic",
+    "qx.widgetTheme" : "qx.theme.widget.Windows",
+    "qx.iconTheme"   : "qx.theme.icon.Nuvola",
+    "qx.appearanceTheme" : "qx.theme.appearance.Classic"
+  },
 });

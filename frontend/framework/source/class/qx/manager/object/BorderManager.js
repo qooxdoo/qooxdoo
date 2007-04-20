@@ -42,9 +42,6 @@ qx.Class.define("qx.manager.object.BorderManager",
   {
     this.base(arguments);
 
-    // Registers the themes
-    this.__borderThemes = {};
-
     // Stores the objects
     this.__themedObjects = {};
 
@@ -139,21 +136,6 @@ qx.Class.define("qx.manager.object.BorderManager",
     ---------------------------------------------------------------------------
     */
 
-    registerBorderTheme : function(vThemeClass)
-    {
-      this.__borderThemes[vThemeClass.name] = vThemeClass;
-
-      if (vThemeClass.name == qx.core.Setting.get("qx.borderTheme")) {
-        this.setBorderTheme(vThemeClass);
-      }
-    },
-
-
-    setBorderThemeById : function(vId) {
-      this.setBorderTheme(this.__borderThemes[vId]);
-    },
-
-
     _applyBorderTheme : function(value, old)
     {
       // Generating border objects
@@ -216,25 +198,11 @@ qx.Class.define("qx.manager.object.BorderManager",
 
   /*
   *****************************************************************************
-     SETTINGS
-  *****************************************************************************
-  */
-
-  settings : {
-    "qx.borderTheme" : "qx.theme.appearance.Classic"
-  },
-
-
-
-
-
-  /*
-  *****************************************************************************
      CONSTRUCTOR
   *****************************************************************************
   */
 
   destruct : function() {
-    this._disposeFields("__borderThemes", "__themedObjects", "__themedBorders");
+    this._disposeFields("__themedObjects", "__themedBorders");
   }
 });
