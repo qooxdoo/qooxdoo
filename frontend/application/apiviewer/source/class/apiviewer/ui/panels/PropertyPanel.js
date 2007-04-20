@@ -63,6 +63,7 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
 
         if (node.getType() == "Boolean") {
           generatedMethods.push("{@link #" + access + "toggle" + name + "}</td><td> Toggle the property value.");
+          generatedMethods.push("{@link #" + access + "is" + name + "}</td><td> Check whether the property equals <code>true</code>.");
         }
 
         var ClassViewer = apiviewer.ui.ClassViewer;
@@ -87,6 +88,9 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
       }
       if (node.isAppearance()) {
         attributes.push("The property value can be set using appearances.");
+      }
+      if (node.isPropertyGroup()) {
+        attributes.push("The property is a property group.");
       }
 
       if (attributes.length > 0)
@@ -137,14 +141,14 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
         // Add allowed values
         var allowedValue = null;
 
-        possibleValues = node.getPossibleValues()
-        if (possibleValues) {
+        possibleValues = qx.lang.Array.clone(node.getPossibleValues());
+        if (possibleValues.length > 0) {
           if (node.isNullable()) {
-            possibleValues += ", null";
+            possibleValues.push("null");
           }
           allowedValue =
             "<code>" +
-            possibleValues.split(", ").join("</code>, <code>") +
+            possibleValues.join("</code>, <code>") +
             "</code>";
         } else if (node.getClassname()) {
           allowedValue = "instances of " + node.getClassname();
