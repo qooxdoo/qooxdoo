@@ -61,10 +61,9 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
     /** The assigned qx.manager.selection.RadioManager which handles the switching between registered buttons */
     manager :
     {
-      _legacy   : true,
-      type      : "object",
-      instance  : "qx.manager.selection.RadioManager",
-      allowNull : true
+      check : "qx.manager.selection.RadioManager",
+      apply : "_modifyManager",
+      nullable : true
     },
 
 
@@ -74,17 +73,16 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
      */
     name :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      event : "changeName"
     },
 
 
     /** Prohibit the deselction of the checked radio button when clicked on it. */
     disableUncheck :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      check : "Boolean",
+      init : false
     }
   },
 
