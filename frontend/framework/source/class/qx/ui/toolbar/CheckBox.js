@@ -65,10 +65,10 @@ qx.Class.define("qx.ui.toolbar.CheckBox",
 
     checked :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false,
-      getAlias     : "isChecked"
+      check : "Boolean",
+      init : false,
+      apply : "_modifyChecked",
+      event : "changeChecked"
     }
   },
 
