@@ -1215,15 +1215,6 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-    /** The tagname of the element which should automatically be created */
-    tagName :
-    {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "div"
-    },
-
-
     /**
      * This is used by many layout managers to control the individual horizontal alignment of this widget inside this parent.
      *
@@ -2973,7 +2964,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {void}
      */
     _createElementImpl : function() {
-      this.setElement(this.getTopLevelWidget().getDocumentElement().createElement(this.getTagName()));
+      this.setElement(this.getTopLevelWidget().getDocumentElement().createElement("div"));
     },
 
 
