@@ -94,30 +94,19 @@ qx.Class.define("qx.ui.tree.TreeFolder",
       defaultValue : "tree-folder"
     },
 
-    icon :
-    {
-      _legacy : true,
-      type    : "string"
-    },
-
-    iconSelected :
-    {
-      _legacy : true,
-      type    : "string"
-    },
-
     open :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      check : "Boolean",
+      init : false,
+      apply : "_modifyOpen",
+      event : "changeOpen"
     },
 
     alwaysShowPlusMinusSymbol :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      check : "Boolean",
+      init : false,
+      apply : "_modifyAlwaysShowPlusMinusSymbol"
     }
   },
 

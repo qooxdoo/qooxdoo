@@ -141,18 +141,15 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
 
     useDoubleClick :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false,
-      getAlias     : "useDoubleClick"
+      check : "Boolean",
+      init : false
     },
 
     useTreeLines :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true,
-      getAlias     : "useTreeLines"
+      check : "Boolean",
+      init : true,
+      apply : "_modifyUseTreeLines"
     },
 
 
@@ -187,10 +184,9 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
      */
     hideNode :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false,
-      getAlias     : "hideNode"
+      check : "Boolean",
+      init : false,
+      apply : "_modifyHideNode"
     },
 
 
@@ -203,9 +199,9 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
      */
     rootOpenClose :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true,
+      apply : "_modifyRootOpenClose"
     }
   },
 
@@ -220,6 +216,31 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
 
   members :
   {
+
+    /**
+     * @deprecated better use {@link #getUseDoubleClick}.
+     */
+    useDoubleClick : function()
+    {
+      return this.getUseDoubleClick();
+    },
+
+    /**
+     * @deprecated better use {@link #getUseTreeLines}.
+     */
+    useTreeLines : function()
+    {
+      return this.getUseTreeLines();
+    },
+
+    /**
+     * @deprecated better use {@link #getHideNode}.
+     */
+    hideNode : function()
+    {
+      return this.getHideNode();
+    },
+
     /*
     ---------------------------------------------------------------------------
       MANAGER BINDING
