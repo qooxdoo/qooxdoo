@@ -332,6 +332,10 @@ qx.Class.define("qx.util.ColorUtil",
       {
         return this.NAMED[str];
       }
+      else if (this.isExtendedColor(str))
+      {
+        return this.EXTENDED[str];
+      }
       else if (this.isSystemColor(str))
       {
         throw new Error("Could not convert system colors to RGB: " + value);
@@ -350,6 +354,23 @@ qx.Class.define("qx.util.ColorUtil",
       }
 
       throw new Error("Could not parse color: " + str);
+    },
+
+
+    /**
+     * Try to convert a incoming string to an RGB string, which can be used
+     * for all color properties.
+     * Supports themed, named and system colors, but also RGB strings,
+     * hex3 and hex6 values.
+     *
+     * @type static
+     * @param str {String} any string
+     * @return {String} a RGB string
+     * @throws an error if the string could not be parsed
+     */
+    stringToRgbString : function(str)
+    {
+      return this.rgbToRgbString(this.stringToRgb(str));
     },
 
 
