@@ -89,7 +89,16 @@ qx.Class.define("apiviewer.dao.Property", {
 
     getPossibleValues : function()
     {
-      return this._docNode.attributes.possibleValues;
+      var values = this._docNode.attributes.possibleValues;
+      if (values)
+      {
+        values = values.split(",");
+        return values;
+      }
+      else
+      {
+        return [];
+      }
     },
 
     getGroup : function()
@@ -100,7 +109,6 @@ qx.Class.define("apiviewer.dao.Property", {
       }
       return [];
     },
-
 
     isPropertyGroup : function()
     {
