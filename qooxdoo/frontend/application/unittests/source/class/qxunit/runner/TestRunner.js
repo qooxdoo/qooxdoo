@@ -52,7 +52,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       height : "100%",
       width : "100%"
       //border : "ridge"
-      //border          : qx.renderer.border.BorderPresets.getInstance().inset
+      //border          : "inset"
     });
 
     // Hidden IFrame for test runs

@@ -2187,8 +2187,8 @@ qx.Class.define("showcase.Application",
       wm2.add(btn3, btn4, icon1, warn1);
 
       // Icon & Color Themes
-      // qx.manager.object.ImageManager.getInstance().createThemeList(w3, 20, 248);
-      // qx.manager.object.ColorManager.getInstance().createThemeList(w3, 4, 58);
+      // qx.util.ThemeList.createIconButtons(w3, 20, 248);
+      // qx.util.ThemeList.createColorButtons(w3, 4, 58);
       w1.open();
       w2.open();
       w3.open();
@@ -2255,7 +2255,7 @@ qx.Class.define("showcase.Application",
       });
 
       hor.add(can);
-      qx.manager.object.ImageManager.getInstance().createThemeList(can, 0, 0);
+      qx.util.ThemeList.createIconButtons(can, 0, 0);
 
       var can = new qx.ui.layout.CanvasLayout;
 
@@ -2266,7 +2266,7 @@ qx.Class.define("showcase.Application",
       });
 
       hor.add(can);
-      qx.manager.object.ColorManager.getInstance().createThemeList(can, 0, 0);
+      qx.util.ThemeList.createColorButtons(can, 0, 0);
 
       var vbl = new qx.ui.layout.VerticalBoxLayout;
 
