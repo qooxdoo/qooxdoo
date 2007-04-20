@@ -192,7 +192,7 @@ qx.Class.define("qx.ui.core.Widget",
 
   statics :
   {
-
+    // TODO
     create : function(clazz, appearance)
     {
       clazz._appearance = appearance;
@@ -1105,46 +1105,6 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
-    /*
-    ---------------------------------------------------------------------------
-      INLINE EVENTS
-    ---------------------------------------------------------------------------
-    */
-
-    inlineEventMap : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" :
-      {
-        input  : "onpropertychange",
-        select : "onselect",
-        scroll : "onscroll",
-        focus  : "onfocus",
-        blur   : "onblur"
-      },
-
-      "default" : null
-    }),
-
-
-    /**
-     * TODOC
-     *
-     * @type static
-     * @param e {Event} TODOC
-     * @return {var} TODOC
-     */
-    __oninlineevent : function(e)
-    {
-      if (!e) {
-        e = window.event;
-      }
-
-      if (this.qx_Widget) {
-        return this.qx_Widget._oninlineevent(e);
-      }
-    },
-
-
 
 
     /*
@@ -1179,8 +1139,9 @@ qx.Class.define("qx.ui.core.Widget",
 
       document.body.removeChild(t);
     }
-
   },
+
+
 
 
 
@@ -3063,9 +3024,11 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
+
     /*
     ---------------------------------------------------------------------------
-      JOBS QUEUE
+      JOB QUEUE
     ---------------------------------------------------------------------------
     */
 
@@ -3317,6 +3280,10 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       METHODS TO GIVE THE LAYOUTERS INFORMATION
@@ -3447,6 +3414,9 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
+
+
     /*
     ---------------------------------------------------------------------------
       RECOMPUTE FLEX VALUES
@@ -3495,6 +3465,9 @@ qx.Class.define("qx.ui.core.Widget",
 
       return true;
     },
+
+
+
 
 
 
@@ -3653,6 +3626,7 @@ qx.Class.define("qx.ui.core.Widget",
         return !(this._computedTopTypeNull || this._computedBottomTypeNull);
       }
     }),
+
 
 
 
@@ -4448,9 +4422,15 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
-      LAYOUT TYPE AND VALUE STORAGE
+      UNIT DETECTION FOR LAYOUT SYSTEM
     ---------------------------------------------------------------------------
     */
 
@@ -4739,6 +4719,9 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
+
+
     /*
     ---------------------------------------------------------------------------
       CHILDREN MANAGMENT
@@ -4950,43 +4933,6 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
-    /*
-    ---------------------------------------------------------------------------
-      ENABLED MODIFIER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
-     */
-    _modifyEnabled : function(propValue, propOldValue, propData)
-    {
-      if (propValue) {
-        this.removeState("disabled");
-      }
-      else
-      {
-        this.addState("disabled");
-
-        // Also reset some states to be sure a pressed/hovered button gets reset
-        this.removeState("over");
-
-        if (qx.Class.isDefined("qx.ui.form.Button"))
-        {
-          this.removeState("abandoned");
-          this.removeState("pressed");
-        }
-      }
-
-      return true;
-    },
-
 
 
 
@@ -5069,9 +5015,10 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
     /*
     ---------------------------------------------------------------------------
-      APPEARANCE
+      APPEARANCE SUPPORT
     ---------------------------------------------------------------------------
     */
 
@@ -5205,14 +5152,6 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-
-
-    /*
-    ---------------------------------------------------------------------------
-      APPEARANCE MODIFIER
-    ---------------------------------------------------------------------------
-    */
-
     /**
      * TODOC
      *
@@ -5271,6 +5210,8 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       ELEMENT DATA
@@ -5285,6 +5226,10 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {void}
      */
     _applyElementData : function(el) {},
+
+
+
+
 
 
 
@@ -5405,6 +5350,8 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       HTML ATTRIBUTES
@@ -5496,6 +5443,9 @@ qx.Class.define("qx.ui.core.Widget",
         }
       }
     },
+
+
+
 
 
 
@@ -5640,6 +5590,58 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      ENABLE/DISABLE SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {Boolean} TODOC
+     */
+    _modifyEnabled : function(propValue, propOldValue, propData)
+    {
+      if (propValue)
+      {
+        this.removeState("disabled");
+      }
+      else
+      {
+        this.addState("disabled");
+
+        // Also reset some states to be sure a pressed/hovered button gets reset
+        this.removeState("over");
+
+        if (qx.Class.isDefined("qx.ui.form.Button"))
+        {
+          this.removeState("abandoned");
+          this.removeState("pressed");
+        }
+      }
+
+      return true;
+    },
+
+
+
+
+
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       FOCUS HANDLING
@@ -5748,6 +5750,31 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {void}
+     * @signature function(propValue, propOldValue, propData)
+     */
+    _modifyHideFocus : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(propValue, propOldValue, propData)
+      {
+        this.setHtmlProperty(propData.name, propValue);
+        return true;
+      },
+
+      // Need no implementation for others then mshtml, because
+      // all these browsers support css outlines and do not
+      // have an attribute "hideFocus" as IE.
+      "default" : qx.lang.Function.returnTrue
+    }),
+
+
+    /**
+     * TODOC
+     *
+     * @type member
      * @return {Boolean} TODOC
      */
     _visualizeBlur : function()
@@ -5816,9 +5843,13 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
+
+
+
     /*
     ---------------------------------------------------------------------------
-      CAPTURE
+      CAPTURING SUPPORT
     ---------------------------------------------------------------------------
     */
 
@@ -5847,9 +5878,12 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
+
+
     /*
     ---------------------------------------------------------------------------
-      ZINDEX
+      ZINDEX SUPPORT
     ---------------------------------------------------------------------------
     */
 
@@ -5871,7 +5905,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      TAB INDEX
+      TAB INDEX SUPPORT
     ---------------------------------------------------------------------------
     */
 
@@ -5931,40 +5965,13 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
-    /*
-    ---------------------------------------------------------------------------
-      CSS CLASS NAME
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @return {void}
-     */
-    setCssClassName : function(propValue) {
-      this.setHtmlProperty("className", propValue);
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
-    getCssClassName : function() {
-      return this.getHtmlProperty("className");
-    },
 
 
 
 
     /*
     ---------------------------------------------------------------------------
-      CAN SELECT
+      SELECTABLE SUPPORT
     ---------------------------------------------------------------------------
     */
 
@@ -6027,9 +6034,13 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
+
+
+
     /*
     ---------------------------------------------------------------------------
-      OPACITY
+      OPACITY SUPPORT
     ---------------------------------------------------------------------------
     */
 
@@ -6092,9 +6103,13 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
+
+
+
     /*
     ---------------------------------------------------------------------------
-      CURSOR
+      CURSOR SUPPORT
     ---------------------------------------------------------------------------
     */
 
@@ -6129,9 +6144,12 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
+
+
     /*
     ---------------------------------------------------------------------------
-      BACKGROUND IMAGE
+      BACKGROUND IMAGE SUPPORT
     ---------------------------------------------------------------------------
     */
 
@@ -6151,9 +6169,12 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
+
+
     /*
     ---------------------------------------------------------------------------
-      CLIPPING
+      CLIPPING SUPPORT
     ---------------------------------------------------------------------------
     */
 
@@ -6218,7 +6239,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      OVERFLOW
+      OVERFLOW SUPPORT
     ---------------------------------------------------------------------------
     */
 
@@ -6366,46 +6387,13 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
-    /*
-    ---------------------------------------------------------------------------
-      HIDE FOCUS
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {void}
-     * @signature function(propValue, propOldValue, propData)
-     */
-    _modifyHideFocus : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function(propValue, propOldValue, propData)
-      {
-        this.setHtmlProperty(propData.name, propValue);
-        return true;
-      },
-
-      // Need no implementation for others then mshtml, because
-      // all these browsers support css outlines and do not
-      // have an attribute "hideFocus" as IE.
-      "default" : qx.lang.Function.returnTrue
-    }),
-
-
-
-
 
 
 
 
     /*
     ---------------------------------------------------------------------------
-      BACKGROUND COLOR APPLY ROUTINE
+      BACKGROUND COLOR SUPPORT
     ---------------------------------------------------------------------------
     */
 
@@ -6424,7 +6412,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      COLOR APPLY ROUTINE
+      FORGROUND COLOR SUPPORT
     ---------------------------------------------------------------------------
     */
 
@@ -6440,9 +6428,12 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
+
+
     /*
     ---------------------------------------------------------------------------
-      FONT APPLY ROUTINE
+      FONT SUPPORT
     ---------------------------------------------------------------------------
     */
 
@@ -6457,7 +6448,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      BORDER APPLY ROUTINE
+      BORDER SUPPORT
     ---------------------------------------------------------------------------
     */
 
@@ -6662,9 +6653,11 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
+
     /*
     ---------------------------------------------------------------------------
-      PADDING APPLY ROUTINE
+      PADDING SUPPORT
     ---------------------------------------------------------------------------
     */
 
@@ -6718,7 +6711,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      MARGIN APPLY ROUTINE
+      MARGIN SUPPORT
     ---------------------------------------------------------------------------
     */
 
@@ -6748,7 +6741,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      COMMAND INTERFACE
+      COMMAND SUPPORT
     ---------------------------------------------------------------------------
     */
 
@@ -6772,9 +6765,12 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
+
+
     /*
     ---------------------------------------------------------------------------
-      NODE ALIASES
+      DOM: OFFSET & SCROLL SUPPORT
     ---------------------------------------------------------------------------
     */
 
@@ -6953,9 +6949,12 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
+
+
     /*
     ---------------------------------------------------------------------------
-      SCROLL INTO VIEW
+      DOM: SCROLL INTO VIEW SUPPORT
     ---------------------------------------------------------------------------
     */
 
@@ -7019,6 +7018,8 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       DRAG AND DROP SUPPORT
@@ -7035,7 +7036,6 @@ qx.Class.define("qx.ui.core.Widget",
     supportsDrop : function(vDragCache) {
       return true;
     }
-
   },
 
 
@@ -7054,12 +7054,6 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
-
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
 
 
 
