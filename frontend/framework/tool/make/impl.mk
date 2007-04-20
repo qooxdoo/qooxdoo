@@ -282,6 +282,8 @@ exec-framework-translation:
 	@mkdir -p $(FRAMEWORK_SOURCE_PATH)/translation
 	@mkdir -p $(FRAMEWORK_SOURCE_PATH)/class/$(FRAMEWORK_NAMESPACE_PATH)/locale/translation
 
+	@touch $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot
+	@cp $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot.bak
 	@rm -f $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot
 	@touch $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot
 	
@@ -291,6 +293,11 @@ exec-framework-translation:
 	  -kManager.trc -kManager.tr -kManager.marktr -kManager.trn:1,2 \
 	  --sort-by-file --add-comments=TRANSLATION -o translation/messages.pot \
 	  `find class -name "*.js"` 2> /dev/null
+	  
+	@if [ `diff --ignore-matching-lines='"POT-Creation-Date:' -d $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot.bak | wc -l` = 0 ]; then \
+		cp $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot.bak $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot; \
+	fi;
+	@rm $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot.bak
 
 	@echo "  * Processing translations..."
 	@for LOC in $(COMPUTED_LOCALES); do \
