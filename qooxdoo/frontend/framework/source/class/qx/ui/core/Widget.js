@@ -6865,20 +6865,22 @@ qx.Class.define("qx.ui.core.Widget",
       }
       else
       {
+        var border = qx.renderer.border.Border;
+
         if (changes.borderTop) {
-          qx.renderer.border.Border.resetTop(this);
+          border.resetTop(this);
         }
 
         if (changes.borderRight) {
-          qx.renderer.border.Border.resetRight(this);
+          border.resetRight(this);
         }
 
         if (changes.borderBottom) {
-          qx.renderer.border.Border.resetBottom(this);
+          border.resetBottom(this);
         }
 
         if (changes.borderLeft) {
-          qx.renderer.border.Border.resetLeft(this);
+          border.resetLeft(this);
         }
       }
     },
