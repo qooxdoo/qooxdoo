@@ -26,6 +26,17 @@ qx.Class.define("qx.util.ThemeList",
 {
   statics:
   {
+    /**
+     * Generates buttons for the given list
+     *
+     * @param parent {qx.ui.layout.CanvasLayout} the parent where the buttons should be added
+     * @param x {Integer} the x coordinate
+     * @param y {Integer} the y coordinate
+     * @param list {Theme[]} list of themes
+     * @param prefix {String} button caption prefix
+     * @param callback {Function} callback function to apply new theme, the theme is stored in
+     *   the user data field "theme".
+     */
     __createButtons : function(parent, x, y, list, prefix, callback)
     {
       var theme, button;
@@ -45,6 +56,15 @@ qx.Class.define("qx.util.ThemeList",
       }
     },
 
+
+    /**
+     * Generates buttons for all existing color themes and
+     * place it to the given coordinates inside the given parent
+     *
+     * @param parent {qx.ui.layout.CanvasLayout} the parent where the buttons should be added
+     * @param x {Integer} the x coordinate
+     * @param y {Integer} the y coordinate
+     */
     createColorButtons : function(parent, x, y)
     {
       return this.__createButtons(parent, x, y, qx.Theme.getColorThemes(), "Color Theme: ", function(e) {
@@ -52,6 +72,15 @@ qx.Class.define("qx.util.ThemeList",
       });
     },
 
+
+    /**
+     * Generates buttons for all existing border themes and
+     * place it to the given coordinates inside the given parent
+     *
+     * @param parent {qx.ui.layout.CanvasLayout} the parent where the buttons should be added
+     * @param x {Integer} the x coordinate
+     * @param y {Integer} the y coordinate
+     */
     createBorderButtons : function(parent, x, y)
     {
       return this.__createButtons(parent, x, y, qx.Theme.getBorderThemes(), "Border Theme: ", function(e) {
@@ -59,6 +88,15 @@ qx.Class.define("qx.util.ThemeList",
       });
     },
 
+
+    /**
+     * Generates buttons for all existing widget themes and
+     * place it to the given coordinates inside the given parent
+     *
+     * @param parent {qx.ui.layout.CanvasLayout} the parent where the buttons should be added
+     * @param x {Integer} the x coordinate
+     * @param y {Integer} the y coordinate
+     */
     createWidgetButtons : function(parent, x, y)
     {
       return this.__createButtons(parent, x, y, qx.Theme.getWidgetThemes(), "Widget Theme: ", function(e) {
@@ -66,6 +104,15 @@ qx.Class.define("qx.util.ThemeList",
       });
     },
 
+
+    /**
+     * Generates buttons for all existing icon themes and
+     * place it to the given coordinates inside the given parent
+     *
+     * @param parent {qx.ui.layout.CanvasLayout} the parent where the buttons should be added
+     * @param x {Integer} the x coordinate
+     * @param y {Integer} the y coordinate
+     */
     createIconButtons : function(parent, x, y)
     {
       return this.__createButtons(parent, x, y, qx.Theme.getIconThemes(), "Icon Theme: ", function(e) {
@@ -73,6 +120,15 @@ qx.Class.define("qx.util.ThemeList",
       });
     },
 
+
+    /**
+     * Generates buttons for all existing appearance themes and
+     * place it to the given coordinates inside the given parent
+     *
+     * @param parent {qx.ui.layout.CanvasLayout} the parent where the buttons should be added
+     * @param x {Integer} the x coordinate
+     * @param y {Integer} the y coordinate
+     */
     createAppearanceButtons : function(parent, x, y)
     {
       return this.__createButtons(parent, x, y, qx.Theme.getAppearanceThemes(), "Appearance Theme: ", function(e) {
