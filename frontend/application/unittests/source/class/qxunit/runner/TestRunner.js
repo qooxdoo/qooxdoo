@@ -164,7 +164,8 @@ qx.Class.define("qxunit.runner.TestRunner",
       */
 
     appendr : function (str) {
-      this.f1.setValue(this.f1.getValue() + str);
+      //this.f1.setValue(this.f1.getValue() + str);
+      this.f1.setHtml(this.f1.getHtml()+"<br>"+str);
     }, //appender
 
 
@@ -196,15 +197,39 @@ qx.Class.define("qxunit.runner.TestRunner",
       });
 
 
-      var f1 = new qx.ui.form.TextArea("Results of the current Test");
+      // First Page
+      var pp1 = new qx.ui.layout.VerticalBoxLayout();
+      p1.add(pp1);
+      pp1.set({
+        height : "100%",
+        width  : "100%"
+      });
+
+      var f1 = new qx.ui.embed.HtmlEmbed("Results of the current Test");
       this.f1 = f1;
-      p1.add(f1);
+      pp1.add(f1);
       f1.set({
-        width : "100%",
-        height : "100%"
+        overflow: "auto",
+        height : "95%",
+        width : "100%"
         //border : "inset",
         //padding : [10]
       });
+
+      var ff1    = new qx.ui.toolbar.ToolBar;
+      var ff1_b1 = new qx.ui.toolbar.Button("Clear");
+      ff1.add(ff1_b1);
+      ff1_b1.set({
+        //bottom: 5,
+        //top:    300,
+        width : "auto"
+      });
+      ff1_b1.addEventListener("execute", function (e) {
+        this.f1.setHtml("");
+      }, this);
+      pp1.add(ff1);
+
+      // Second Page
       var f2 = new qx.ui.form.TextArea("Session Log, listing test invokations and all outputs");
       p2.add(f2);
       return buttview;
@@ -249,7 +274,7 @@ qx.Class.define("qxunit.runner.TestRunner",
         that.tests.selected = e.getData()[0]._labelObject.getHtml();
         //that.right.buttview.bsb1.p1.f1 = this.tests.selected;
         //that.getChildren()[2].getChildren()[1].getChildren()[1].getPane().getChildren()[0].getChildren()[0] = that.tests.selected;
-        that.f1.setValue(that.tests.selected);
+        that.appendr(that.tests.selected);
       });
 
       return left;
@@ -360,7 +385,7 @@ qx.Class.define("qxunit.runner.TestRunner",
      * runTest - event handler for the Run Test button - performs the test
     */
     runTest : function (e) {
-      this.f1.setValue("Now running: " + this.tests.selected);
+      this.appendr("Now running: " + this.tests.selected);
       // Set status bar entries (current test, no. of tests, ...)
       // Initialize progress bar
       // Make initial entry in output windows (test result, log, ...)
