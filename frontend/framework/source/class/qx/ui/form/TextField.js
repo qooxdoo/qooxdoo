@@ -57,7 +57,7 @@ qx.Class.define("qx.ui.form.TextField",
     }
 
     // Inline event wrapper
-    this.__oninlineevent = qx.lang.Function.bindEvent(this._oninlineevent, this);
+    this.__oninput = qx.lang.Function.bindEvent(this._oninput, this);
 
     // Enable tabIndex
     this.setTabIndex(1);
@@ -280,9 +280,9 @@ qx.Class.define("qx.ui.form.TextField",
 
         // Register inline event
         if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-          inp.onpropertychange = this.__oninlineevent;
+          inp.onpropertychange = this.__oninput;
         } else {
-          inp.addEventListener("input", this.__oninlineevent, false);
+          inp.addEventListener("input", this.__oninput, false);
         }
 
         // Append to real element
@@ -540,7 +540,7 @@ qx.Class.define("qx.ui.form.TextField",
 
     _textOnFocus : null,
 
-    _oninlineevent : qx.core.Variant.select("qx.client",
+    _oninput : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(e)
       {
@@ -972,8 +972,10 @@ qx.Class.define("qx.ui.form.TextField",
       }
       else
       {
-        this._inputElement.removeEventListener("input", this.__oninlineevent, false);
+        this._inputElement.removeEventListener("input", this.__oninput, false);
       }
+
+      delete this.__oninput;
     }
   }
 });
