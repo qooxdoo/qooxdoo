@@ -26,58 +26,58 @@ qx.Class.define("qx.util.ThemeList",
 {
   statics:
   {
-    createColorButtons : function(vParent, xCor, yCor)
+    __createButtons : function(parent, x, y, list, prefix, callback)
     {
-      var vButton;
-      var vThemes = this.__colorThemes;
-      var vIcon = "icon/16/actions/format-color.png";
-      var vPrefix = "Color Theme: ";
-      var vEvent = "execute";
+      var theme, button;
 
-      for (var vId in vThemes)
+      for (var i=0, l=list.length; i<l; i++)
       {
-        var vObj = vThemes[vId];
-        var vButton = new qx.ui.form.Button(vPrefix + vObj.title, vIcon);
+        theme = list[i];
 
-        vButton.setLocation(xCor, yCor);
-        vButton.addEventListener(vEvent, new Function("qx.manager.object.ColorManager.getInstance().setColorThemeById('" + vId + "')"));
+        button = new qx.ui.form.Button(prefix + theme.title, "icon/16/actions/dialog-ok.png");
 
-        vParent.add(vButton);
+        button.setUserData("theme", theme);
+        button.setLocation(x, y);
+        button.addEventListener("execute", callback);
 
-        yCor += 30;
+        parent.add(button);
+        y += 30;
       }
     },
 
-    // TODO: rename to createIconThemeList
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vParent {var} TODOC
-     * @param xCor {var} TODOC
-     * @param yCor {var} TODOC
-     * @return {void}
-     */
-    createIconButtons : function(vParent, xCor, yCor)
+    createColorButtons : function(parent, x, y)
     {
-      var vButton;
-      var vThemes = this._iconThemes;
-      var vIcon = "icon/16/apps/preferences-desktop-theme.png";
-      var vPrefix = "Icon Theme: ";
-      var vEvent = "execute";
+      return this.__createButtons(parent, x, y, qx.Theme.getColorThemes(), "Color Theme: ", function(e) {
+        qx.manager.object.ColorManager.getInstance().setColorTheme(e.getTarget().getUserData("theme"));
+      });
+    },
 
-      for (var vId in vThemes)
-      {
-        var vObj = vThemes[vId];
-        var vButton = new qx.ui.form.Button(vPrefix + vObj.title, vIcon);
+    createBorderButtons : function(parent, x, y)
+    {
+      return this.__createButtons(parent, x, y, qx.Theme.getBorderThemes(), "Border Theme: ", function(e) {
+        qx.manager.object.BorderManager.getInstance().setBorderTheme(e.getTarget().getUserData("theme"));
+      });
+    },
 
-        vButton.setLocation(xCor, yCor);
-        vButton.addEventListener(vEvent, new Function("qx.manager.object.ImageManager.getInstance().setIconThemeById('" + vId + "')"));
+    createWidgetButtons : function(parent, x, y)
+    {
+      return this.__createButtons(parent, x, y, qx.Theme.getWidgetThemes(), "Widget Theme: ", function(e) {
+        qx.manager.object.ImageManager.getInstance().setWidgetTheme(e.getTarget().getUserData("theme"));
+      });
+    },
 
-        vParent.add(vButton);
+    createIconButtons : function(parent, x, y)
+    {
+      return this.__createButtons(parent, x, y, qx.Theme.getIconThemes(), "Icon Theme: ", function(e) {
+        qx.manager.object.ImageManager.getInstance().setIconTheme(e.getTarget().getUserData("theme"));
+      });
+    },
 
-        yCor += 30;
-      }
+    createAppearanceButtons : function(parent, x, y)
+    {
+      return this.__createButtons(parent, x, y, qx.Theme.getAppearanceThemes(), "Appearance Theme: ", function(e) {
+        qx.manager.object.AppearanceManager.getInstance().setAppearanceTheme(e.getTarget().getUserData("theme"));
+      });
     }
   }
 });

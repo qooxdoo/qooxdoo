@@ -37,23 +37,6 @@ qx.Class.define("qx.manager.object.AppearanceManager",
 
   /*
   *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function()
-  {
-    this.base(arguments);
-
-    // Themes
-    this.__themes = {};
-  },
-
-
-
-
-  /*
-  *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
@@ -86,32 +69,6 @@ qx.Class.define("qx.manager.object.AppearanceManager",
 
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      REGISTRATION
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Register an theme class.
-     * The theme is applied if it is the default appearance
-     *
-     * @type member
-     * @param vThemeClass {qx.renderer.theme.AppearanceTheme} TODOC
-     * @return {void}
-     */
-    registerAppearanceTheme : function(vThemeClass)
-    {
-      this.__themes[vThemeClass.name] = vThemeClass;
-
-      if (vThemeClass.name == qx.core.Setting.get("qx.appearanceTheme")) {
-        this.setAppearanceTheme(vThemeClass);
-      }
-    },
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       MODIFIER
@@ -242,19 +199,6 @@ qx.Class.define("qx.manager.object.AppearanceManager",
 
 
 
-
-  /*
-  *****************************************************************************
-     SETTINGS
-  *****************************************************************************
-  */
-
-  settings : {
-    "qx.appearanceTheme" : "qx.theme.appearance.Classic"
-  },
-
-
-
   /*
   *****************************************************************************
      DESTRUCTOR
@@ -262,6 +206,6 @@ qx.Class.define("qx.manager.object.AppearanceManager",
   */
 
   destruct : function() {
-    this._disposeFields("__cache", "__themes");
+    this._disposeFields("__cache");
   }
 });

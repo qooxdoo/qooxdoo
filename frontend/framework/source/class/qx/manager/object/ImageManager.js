@@ -45,10 +45,6 @@ qx.Class.define("qx.manager.object.ImageManager",
   {
     this.base(arguments);
 
-    // Themes
-    this._iconThemes = {};
-    this._widgetThemes = {};
-
     // Contains known image sources (all of them, if loaded or not)
     // The value is a number which represents the number of image
     // instances which use this source
@@ -69,12 +65,6 @@ qx.Class.define("qx.manager.object.ImageManager",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
     iconTheme :
     {
       _legacy  : true,
@@ -99,72 +89,6 @@ qx.Class.define("qx.manager.object.ImageManager",
 
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      REGISTRATION
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vThemeClass {var} TODOC
-     * @return {void}
-     */
-    registerIconTheme : function(vThemeClass)
-    {
-      this._iconThemes[vThemeClass.name] = vThemeClass;
-
-      if (vThemeClass.name == qx.core.Setting.get("qx.iconTheme")) {
-        this.setIconTheme(vThemeClass);
-      }
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vThemeClass {var} TODOC
-     * @return {void}
-     */
-    registerWidgetTheme : function(vThemeClass)
-    {
-      this._widgetThemes[vThemeClass.name] = vThemeClass;
-
-      if (vThemeClass.name == qx.core.Setting.get("qx.widgetTheme")) {
-        this.setWidgetTheme(vThemeClass);
-      }
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vId {var} TODOC
-     * @return {void}
-     */
-    setIconThemeById : function(vId) {
-      this.setIconTheme(this._iconThemes[vId]);
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vId {var} TODOC
-     * @return {void}
-     */
-    setWidgetThemeById : function(vId) {
-      this.setWidgetTheme(this._widgetThemes[vId]);
-    },
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       EVENTS
@@ -329,31 +253,11 @@ qx.Class.define("qx.manager.object.ImageManager",
 
   /*
   *****************************************************************************
-     SETTINGS
-  *****************************************************************************
-  */
-
-  settings :
-  {
-    /*
-      Make sure to select an icon theme that is compatible to the license you
-      chose to receive the qooxdoo code under. For more information, please
-      see the LICENSE file in the project's top-level directory.
-     */
-
-    "qx.iconTheme"   : "qx.theme.icon.Nuvola",
-    "qx.widgetTheme" : "qx.theme.widget.Windows"
-  },
-
-
-
-  /*
-  *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
 
   destruct : function() {
-    this._disposeFields("_sources", "_iconThemes", "_widgetThemes");
+    this._disposeFields("_sources");
   }
 });

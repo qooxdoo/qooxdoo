@@ -44,9 +44,6 @@ qx.Class.define("qx.manager.object.ColorManager",
   {
     this.base(arguments);
 
-    // Registers the themes
-    this.__colorThemes = {};
-
     // Stores the objects
     this.__themedObjects = {};
 
@@ -142,15 +139,6 @@ qx.Class.define("qx.manager.object.ColorManager",
     ---------------------------------------------------------------------------
     */
 
-    registerColorTheme : function(vThemeClass)
-    {
-      this.__colorThemes[vThemeClass.name] = vThemeClass;
-
-      if (vThemeClass.name == qx.core.Setting.get("qx.colorTheme")) {
-        this.setColorTheme(vThemeClass);
-      }
-    },
-
     _applyColorTheme : function(value, old)
     {
       // Generating RGB strings from themed colors
@@ -191,24 +179,11 @@ qx.Class.define("qx.manager.object.ColorManager",
 
   /*
   *****************************************************************************
-     SETTINGS
-  *****************************************************************************
-  */
-
-  settings : {
-    "qx.colorTheme" : "qx.theme.color.WindowsRoyale"
-  },
-
-
-
-
-  /*
-  *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
 
   destruct : function() {
-    this._disposeFields("__colorThemes", "__themedObjects", "__themedColors");
+    this._disposeFields("__themedObjects", "__themedColors");
   }
 });
