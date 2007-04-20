@@ -48,7 +48,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
     this._horizontal = (horizontal == true);
 
-    this._scrollBar = new qx.ui.layout.CanvasLayout;
+    this._scrollBar = new qx.ui.core.ScrollArea;
 
     if (qx.core.Variant.isSet("qx.client", "gecko"))
     {
@@ -59,7 +59,6 @@ qx.Class.define("qx.ui.core.ScrollBar",
     }
 
     this._scrollBar.setOverflow(horizontal ? "scrollX" : "scrollY");
-    this._scrollBar.enableInlineEvent("scroll");
     this._scrollBar.addEventListener("scroll", this._onscroll, this);
 
     this._scrollContent = new qx.ui.basic.Terminator;
