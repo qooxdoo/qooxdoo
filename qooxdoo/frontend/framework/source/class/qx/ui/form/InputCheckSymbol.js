@@ -41,7 +41,6 @@ qx.Class.define("qx.ui.form.InputCheckSymbol",
   {
     this.base(arguments);
 
-    this.setTagName("input");
     this.setSelectable(false);
 
     if (qx.core.Variant.isSet("qx.client", "mshtml"))
@@ -112,6 +111,17 @@ qx.Class.define("qx.ui.form.InputCheckSymbol",
 
   members :
   {
+    /**
+     * Create widget with empty element
+     *
+     * @type member
+     * @return {void}
+     */
+    _createElementImpl : function() {
+      this.setElement(this.getTopLevelWidget().getDocumentElement().createElement("input"));
+    },
+
+
     /**
      * TODOC
      *
