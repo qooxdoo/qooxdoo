@@ -140,27 +140,32 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
     /** The icons */
     icon :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      nullable : true
     },
 
     iconSelected :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      event : "iconSelected",
+      nullable : true
     },
 
 
     /** The label/caption/text of the qx.ui.basic.Atom instance */
-    label : { _legacy : true },
+    label :
+    {
+      apply : "_modifyLabel"
+    },
 
 
     /** Selected property */
     selected :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      check : "Boolean",
+      init : false,
+      apply : "_modifySelected",
+      event : "changeSelected"
     }
   },
 

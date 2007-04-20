@@ -94,10 +94,8 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
      */
     useTreeLines :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true,
-      getAlias     : "useTreeLines"
+      check : "Boolean",
+      init : true
     },
 
     /**
@@ -106,11 +104,9 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
      */
     excludeFirstLevelTreeLines :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      check : "Boolean",
+      init : false
     },
-
 
     /**
      * Set whether the open/close button should be displayed on a branch, even
@@ -118,9 +114,8 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
      */
     alwaysShowOpenCloseSymbol :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      check : "Boolean",
+      init : false
     }
   },
 
@@ -135,6 +130,12 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
 
   members :
   {
+
+    useTreeLines : function()
+    {
+      return this.getUseTreeLines();
+    },
+
     // overridden
     _getCellStyle : function(cellInfo)
     {

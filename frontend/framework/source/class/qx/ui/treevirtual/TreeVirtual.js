@@ -196,7 +196,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
       });
 
     // Set the cell focus color
-    this.setCellFocusAttributes({ backgroundColor : "lightblue" });
+    this.setCellFocusAttributes({ backgroundColor : qx.util.ColorUtil.stringToRgbString("lightblue") });
 
     /*
     // Use this instead, to help determine which does what
@@ -296,10 +296,8 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      */
     openCloseClickSelectsRow :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false,
-      getAlias     : "openCloseClickSelectsRow"
+      check : "Boolean",
+      init : false
     }
   },
 
@@ -314,6 +312,13 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
   members :
   {
+
+    openCloseClickSelectsRow : function()
+    {
+      return this.getOpenCloseClickSelectsRow();
+    },
+
+
     /**
      * Return the data model for this tree.
      *
