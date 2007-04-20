@@ -540,35 +540,35 @@ qx.Class.define("qx.renderer.border.Border",
     },
 
     _applyColorTop : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().connect(this, "_changeColorTop", value);
+      qx.manager.object.ColorManager.getInstance().connect(this._changeColorTop, this, value);
     },
 
     _applyColorRight : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().connect(this, "_changeColorRight", value);
+      qx.manager.object.ColorManager.getInstance().connect(this._changeColorRight, this, value);
     },
 
     _applyColorBottom : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().connect(this, "_changeColorBottom", value);
+      qx.manager.object.ColorManager.getInstance().connect(this._changeColorBottom, this, value);
     },
 
     _applyColorLeft : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().connect(this, "_changeColorLeft", value);
+      qx.manager.object.ColorManager.getInstance().connect(this._changeColorLeft, this, value);
     },
 
     _applyColorInnerTop : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().connect(this, "_changeColorInnerTop", value);
+      qx.manager.object.ColorManager.getInstance().connect(this._changeColorInnerTop, this, value);
     },
 
     _applyColorInnerRight : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().connect(this, "_changeColorInnerRight", value);
+      qx.manager.object.ColorManager.getInstance().connect(this._changeColorInnerRight, this, value);
     },
 
     _applyColorInnerBottom : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().connect(this, "_changeColorInnerBottom", value);
+      qx.manager.object.ColorManager.getInstance().connect(this._changeColorInnerBottom, this, value);
     },
 
     _applyColorInnerLeft : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().connect(this, "_changeColorInnerLeft", value);
+      qx.manager.object.ColorManager.getInstance().connect(this._changeColorInnerLeft, this, value);
     },
 
     _applyStyleTop : function() {

@@ -99,16 +99,16 @@ qx.Class.define("qx.manager.object.ColorManager",
      * @param value {var} Any acceptable color value
      * @return {void}
      */
-    connect : function(obj, callback, value)
+    connect : function(callback, obj, value)
     {
       // Store references for themed colors
-      var key = "color" + obj.toHashCode() + "$" + callback;
+      var key = "color" + obj.toHashCode() + "$" + qx.core.Object.toHashCode(callback);
       var reg = this.__themedObjects;
 
       if (value && this.__themedColors[value])
       {
         // Store reference for themed values
-        reg[key] = { object : obj, callback : callback, value : value };
+        reg[key] = { callback : callback, object : obj, value : value };
       }
       else if (reg[key])
       {
@@ -120,7 +120,7 @@ qx.Class.define("qx.manager.object.ColorManager",
       // Themed colors are able to overwrite the values of named and system colors
       // Simple return of all other named, system, hex, RGB strings
       // Validation is not done here.
-      obj[callback](value ? this.__themedColors[value] || value : null);
+      callback.call(obj, value ? this.__themedColors[value] || value : null);
     },
 
     themedColorToRgb : function(value) {
@@ -187,7 +187,7 @@ qx.Class.define("qx.manager.object.ColorManager",
       for (var key in reg)
       {
         entry = reg[key];
-        entry.object[entry.callback](dest[entry.value]);
+        entry.callback.call(entry.object, dest[entry.value]);
       }
     },
 
