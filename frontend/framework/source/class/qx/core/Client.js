@@ -59,6 +59,7 @@ qx.Class.define("qx.core.Client",
       var vEngineVersionBuild = 0;
 
       var vEngineEmulation = null;
+      var vEngineNightly = null;
       var vVersionHelper;
 
       if (window.opera && /Opera[\s\/]([0-9\.]*)/.test(vBrowserUserAgent))
@@ -77,17 +78,33 @@ qx.Class.define("qx.core.Client",
         vBrowser = "konqueror";
         vEngineVersion = RegExp.$1;
       }
-      else if (vBrowserUserAgent.indexOf("AppleWebKit") != -1 && /AppleWebKit\/([0-9-\.]*)/.test(vBrowserUserAgent))
+      else if (vBrowserUserAgent.indexOf("AppleWebKit") != -1 && /AppleWebKit\/([^ ]+)/.test(vBrowserUserAgent))
       {
         vEngine = "webkit";
         vEngineVersion = RegExp.$1;
+        vEngineNightly = vEngineVersion.indexOf("+") != -1;
 
+        var invalidCharacter = RegExp("[^\\.0-9]").exec(vEngineVersion);
+        if (invalidCharacter) {
+          vEngineVersion = vEngineVersion.slice(0, invalidCharacter.index);
+        }
+            
         if (vBrowserUserAgent.indexOf("Safari") != -1) {
           vBrowser = "safari";
-        } else if (vBrowserUserAgent.indexOf("Omni") != -1) {
+        } else if (vBrowserUserAgent.indexOf("OmniWeb") != -1) {
           vBrowser = "omniweb";
+        } else if (vBrowserUserAgent.indexOf("Shiira") != -1) {
+          vBrowser = "shiira";
+        } else if (vBrowserUserAgent.indexOf("NetNewsWire") != -1) {
+          vBrowser = "netnewswire";
+        } else if (vBrowserUserAgent.indexOf("RealPlayer") != -1) {
+          vBrowser = "realplayer";
         } else {
           vBrowser = "other webkit";
+        }
+        
+        if (vEngineNightly) {
+          vBrowser += " (nightly)"
         }
       }
       else if (window.controllers && typeof vBrowserProduct === "string" && vBrowserProduct === "Gecko" && /rv\:([^\);]+)(\)|;)/.test(vBrowserUserAgent))
@@ -203,6 +220,8 @@ qx.Class.define("qx.core.Client",
       this._engineQuirksMode = vEngineQuirksMode;
       this._engineBoxSizingAttribute = vEngineBoxSizingAttr;
       this._engineEmulation = vEngineEmulation;
+      
+      this._browserName = vBrowser;
 
       this._defaultLocale = vDefaultLocale;
 
@@ -252,6 +271,17 @@ qx.Class.define("qx.core.Client",
     },
 
 
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {String} the engine identifier
+     */
+    getBrowser : function() {
+      return this._browserName;
+    },
+    
+    
     /**
      * TODOC
      *
@@ -592,8 +622,8 @@ qx.Class.define("qx.core.Client",
   *****************************************************************************
   */
 
-  defer : function(statics, members, properties) {
-
+  defer : function(statics, members, properties)
+  {
     statics.__init();
     qx.core.Variant.define("qx.client", [ "gecko", "mshtml", "opera", "webkit", "khtml" ], qx.core.Client.getInstance().getEngine());
   }
