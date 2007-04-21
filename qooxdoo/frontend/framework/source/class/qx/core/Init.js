@@ -129,6 +129,7 @@ qx.Class.define("qx.core.Init",
       // Print browser information
       var cl = qx.core.Client.getInstance();
       this.debug("client: " + cl.getEngine() + "-" + cl.getMajor() + "." + cl.getMinor() + "/" + cl.getPlatform() + "/" + cl.getLocale());
+      this.debug("browser: " + cl.getBrowser() + "/" + (cl.supportsSvg() ? "svg" : cl.supportsVml() ? "vml" : "none"));
 
       // Box model warning
       if (qx.core.Variant.isSet("qx.debug", "on"))
