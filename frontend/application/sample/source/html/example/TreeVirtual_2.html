@@ -105,8 +105,7 @@
                           {
                             alert('treeOpenWhileEmpty');
                             var node = e.getData();
-                            tree.setState(node.nodeId,
-                                          { bHideOpenClose : true });
+                            tree.setNodeHideOpenClose(node, true);
                           });
 
 

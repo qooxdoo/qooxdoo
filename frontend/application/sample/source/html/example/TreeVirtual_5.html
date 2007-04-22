@@ -46,9 +46,9 @@
     dataModel.addBranch(te1, "Files", true);
     var te = dataModel.addBranch(te1, "Workspace", true);
     var x = dataModel.addLeaf(te, "Windows (C:)");
-    tree.setState(x, { bSelected : true });
+    tree.setNodeSelected(x, true);
     x = dataModel.addLeaf(te, "Documents (D:)");
-    tree.setState(x, { bSelected : true });
+    tree.setNodeSelected(x, true);
     var te2 = dataModel.addBranch(null, "Inbox", true);
     te = dataModel.addBranch(te2, "Spam", true);
     for (var i = 1; i < 3000; i++)

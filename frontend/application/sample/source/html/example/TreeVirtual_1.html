@@ -41,10 +41,7 @@
     var dataModel = tree.getDataModel();
 
     var te1 = dataModel.addBranch(null, "Desktop", true);
-    dataModel.setState(te1,
-                       {
-                         labelStyle : "background-color: red; color: white;"
-                       });
+    tree.setNodeLabelStyle(te1, "background-color: red; color: white;");
                          
     var te;
 
