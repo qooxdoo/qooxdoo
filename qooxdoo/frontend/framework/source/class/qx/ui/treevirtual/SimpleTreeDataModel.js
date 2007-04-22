@@ -176,7 +176,8 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *
      * @return {void}
      */
-    setTreeColumn : function(columnIndex) {
+    setTreeColumn : function(columnIndex)
+    {
       this._treeColumn = columnIndex;
     },
 
@@ -475,10 +476,10 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *
      * @type member
      *
-     * @param nodeId {Integer}
-     *   The node id, previously returned by {@link #addLeaf} or
-     *   {@link #addBranch}, of the node (and its children) to be pruned from
-     *   the tree.
+     * @param nodeReference {Object | Integer}
+     *   The node to be pruned from the tree.  The node can be represented
+     *   either by the node object, or the node id (as would have been
+     *   returned by addBranch(), addLeaf(), etc.)
      *
      * @param bSelfAlso {Boolean}
      *   If <i>true</i> then remove the node identified by <i>nodeId</i> as
@@ -486,8 +487,24 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *
      * @return {void}
      */
-    prune : function(nodeId, bSelfAlso)
+    prune : function(nodeReference, bSelfAlso)
     {
+      var nodeId;
+
+      if (typeof(nodeReference) == "object")
+      {
+        node = nodeReference;
+        nodeId = node.nodeId;
+      }
+      else if (typeof(nodeReference) == "number")
+      {
+        nodeId = nodeReference;
+      }
+      else
+      {
+        throw new Error("Expected node object or node id");
+      }
+
       // First, recursively remove all children
       for (var i=this._nodeArr[nodeId].children.length-1; i>=0; i--)
       {
@@ -770,9 +787,10 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *
      * @type member
      *
-     * @param nodeId {Integer}
-     *   A node identifier, as previously returned by {@link #addBranch} or
-     *   {@link addLeaf}.
+     * @param nodeReference {Object | Integer}
+     *   The node to have its attributes set.  The node can be represented
+     *   either by the node object, or the node id (as would have been
+     *   returned by addBranch(), addLeaf(), etc.)
      *
      * @param attributes {Map}
      *   Each property name in the map may correspond to the property names of
@@ -782,8 +800,24 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *
      * @return {void}
      */
-    setState : function(nodeId, attributes)
+    setState : function(nodeReference, attributes)
     {
+      var nodeId;
+
+      if (typeof(nodeReference) == "object")
+      {
+        node = nodeReference;
+        nodeId = node.nodeId;
+      }
+      else if (typeof(nodeReference) == "number")
+      {
+        nodeId = nodeReference;
+      }
+      else
+      {
+        throw new Error("Expected node object or node id");
+      }
+
       for (var attribute in attributes)
       {
         // If the selected state is changing...
