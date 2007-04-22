@@ -57,6 +57,9 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     // Initialize the states object
     this._states = {};
 
+    // The first state added will become the start state
+    this._startState = null;
+
     // Initialize the saved-states stack
     this._savedStates = [];
 
@@ -102,15 +105,9 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
 
   statics :
   {
-    /*
-    ---------------------------------------------------------------------------
-      CLASS CONSTANTS
-    ---------------------------------------------------------------------------
-    */
-
     /**
-     * Constants which may be values of the nextState member in the transitionInfo
-     * parameter of the Transition constructor.
+     * Constants which may be values of the nextState member in the
+     * transitionInfo parameter of the Transition constructor.
      */
     StateChange :
     {
@@ -160,28 +157,13 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
       /** Show individual function invocations during transitions */
       FUNCTION_DETAIL  : 4,
 
-      /** When object friendly names are referenced but not found, show message */
+      /**
+       * When object friendly names are referenced but not found, show message
+       */
       OBJECT_NOT_FOUND : 8
     }
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      EVENT LISTENERS
-    ---------------------------------------------------------------------------
-    */
   },
 
-
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
 
   properties :
   {
@@ -326,6 +308,13 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
       // Ensure that the state name doesn't already exist
       if (stateName in this._states) {
         throw new Error("State " + stateName + " already exists");
+      }
+
+      // Is this the first state being added?
+      if (this._startState == null)
+      {
+        // Yup.  Save this state as the start state.
+        this._startState = stateName;
       }
 
       // Add the new state object to the finite state machine
@@ -577,21 +566,17 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      */
     start : function()
     {
-      var stateName;
+      var stateName = this._startState;
+
+      if (stateName == null) {
+        throw new Error("Machine started with no available states");
+      }
 
       // Set the start state to be the first state which was added to the
       // machine
-      for (stateName in this._states)
-      {
-        this.setState(stateName);
-        this.setPreviousState(null);
-        this.setNextState(null);
-        break;
-      }
-
-      if (!stateName) {
-        throw new Error("Machine started with no available states");
-      }
+      this.setState(stateName);
+      this.setPreviousState(null);
+      this.setNextState(null);
 
       var debugFunctions =
         (this.getDebugFlags() &
