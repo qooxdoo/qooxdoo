@@ -312,13 +312,6 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
   members :
   {
-
-    openCloseClickSelectsRow : function()
-    {
-      return this.getOpenCloseClickSelectsRow();
-    },
-
-
     /**
      * Return the data model for this tree.
      *
@@ -563,14 +556,28 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      *
      * @type member
      *
-     * @param node {Object}
-     *   The object representing the node to have its opened/closed state
-     *   toggled.
+     * @param nodeReference {Object | Integer}
+     *   The node to have its opened/closed state toggled.  The node can be
+     *   represented either by the node object, or the node id (as would have
+     *   been returned by addBranch(), addLeaf(), etc.)
      *
      * @return {void}
      */
-    toggleOpened : function(node)
+    toggleNodeOpened : function(nodeReference)
     {
+      if (typeof(nodeReference) == "object")
+      {
+        node = nodeReference;
+      }
+      else if (typeof(nodeReference) == "number")
+      {
+        node = this.getTableModel().getData()[nodeReference];
+      }
+      else
+      {
+        throw new Error("Expected node object or node id");
+      }
+
       // Are we opening or closing?
       if (node.bOpened)
       {
@@ -621,13 +628,38 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
 
     /**
+     * Toggle the opened state of the node: if the node is opened, close
+     * it; if it is closed, open it.
+     *
+     * @type member
+     *
+     * @deprecated
+     *
+     * @param nodeReference {Object | Integer}
+     *   The node to have its opened/closed state toggled.  The node can be
+     *   represented either by the node object, or the node id (as would have
+     *   been returned by addBranch(), addLeaf(), etc.)
+     *
+     * @return {void}
+     */
+    toggleOpened : function(nodeReference)
+    {
+      this.warn("toggleOpened() is deprecated. " +
+                "Replace with toggleNodeOpened(), or consider using new " +
+                "method setNodeOpened().");
+      this.toggleNodeOpened(nodeReference);
+    },
+    
+
+    /**
      * Set state attributes of a tree node.
      *
      * @type member
      *
-     * @param nodeId {Integer}
-     *   The node identifier (returned by addBranch() or addLeaf())
-     *   representing the node for which attributes are being set.
+     * @param nodeReference {Object | Integer}
+     *   The node for which attributes are being set.  The node can be
+     *   represented either by the node object, or the node id (as would have
+     *   been returned by addBranch(), addLeaf(), etc.)
      *
      * @param attributes {Map}
      *   Map with the node properties to be set.  The map may contain any of
@@ -636,9 +668,238 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      *
      * @return {void}
      */
-    setState : function(nodeId, attributes)
+    setNodeState : function(nodeReference, attributes)
     {
+      var nodeId;
+
+      if (typeof(nodeReference) == "object")
+      {
+        node = nodeReference;
+        nodeId = node.nodeId;
+      }
+      else if (typeof(nodeReference) == "number")
+      {
+        nodeId = nodeReference;
+      }
+      else
+      {
+        throw new Error("Expected node object or node id");
+      }
+
       this.getTableModel().setState(nodeId, attributes);
+    },
+
+
+    /**
+     * Set state attributes of a tree node.
+     *
+     * @type member
+     *
+     * @deprecated
+     *
+     * @param nodeReference {Object | Integer}
+     *   The node for which attributes are being set.  The node can be
+     *   represented either by the node object, or the node id (as would have
+     *   been returned by addBranch(), addLeaf(), etc.)
+     *
+     * @param attributes {Map}
+     *   Map with the node properties to be set.  The map may contain any of
+     *   the properties described in
+     *   {@link qx.ui.treevirtual.SimpleTreeDataModel}
+     *
+     * @return {void}
+     */
+    setState : function(nodeReference, attributes)
+    {
+      this.warn("setState() is deprecated: Replace with setNodeState()");
+      this.setNodeState(nodeReference, attributes);
+    },
+
+
+    /**
+     * Set the label for a node.
+     *
+     * @type member
+     *
+     * @param nodeReference {Object | Integer}
+     *   The node for which the label is being set.  The node can be
+     *   represented either by the node object, or the node id (as would have
+     *   been returned by addBranch(), addLeaf(), etc.)
+     *
+     * @param label {String}
+     *   The new label for the specified node
+     *
+     * @return {void}
+     */
+    setNodeLabel : function(nodeReference, label)
+    {
+      this.setNodeState(nodeReference, { label : label });
+    },
+
+
+    /**
+     * Set the selected state for a node.
+     *
+     * @type member
+     *
+     * @param nodeReference {Object | Integer}
+     *   The node for which the selected state is being set.  The node can be
+     *   represented either by the node object, or the node id (as would have
+     *   been returned by addBranch(), addLeaf(), etc.)
+     *
+     * @param b {Boolean}
+     *   The new selected state for the specified node.
+     *
+     * @return {void}
+     */
+    setNodeSelected : function(nodeReference, b)
+    {
+      this.setNodeState(nodeReference, { bSelected : b });
+    },
+
+
+    /**
+     * Set the opened state for a node.  (Note that this method has no effect
+     * if the requested state is the same as the current state.)
+     *
+     * @type member
+     *
+     * @param nodeReference {Object | Integer}
+     *   The node for which the opened state is being set.  The node can be
+     *   represented either by the node object, or the node id (as would have
+     *   been returned by addBranch(), addLeaf(), etc.)
+     *
+     * @param b {Boolean}
+     *   The new opened state for the specified node.
+     *
+     * @return {void}
+     */
+    setNodeOpened : function(nodeReference, b)
+    {
+      if (typeof(nodeReference) == "object")
+      {
+        node = nodeReference;
+      }
+      else if (typeof(nodeReference) == "number")
+      {
+        node = this.getTableModel().getData()[nodeReference];
+      }
+      else
+      {
+        throw new Error("Expected node object or node id");
+      }
+
+      // Only set new state if not already in the requested state, since
+      // setting new state involves dispatching events.
+      if (b != node.bOpened)
+      {
+        this.toggleOpened(node)
+      }
+    },
+
+
+    /**
+     * Set the hideOpenClose state for a node.
+     *
+     * @type member
+     *
+     * @param nodeReference {Object | Integer}
+     *   The node for which the hideOpenClose state is being set.  The node
+     *   can be represented either by the node object, or the node id (as
+     *   would have been returned by addBranch(), addLeaf(), etc.)
+     *
+     * @param b {Boolean}
+     *   The new hideOpenClose state for the specified node.
+     *
+     * @return {void}
+     */
+    setNodeHideOpenClose : function(nodeReference, b)
+    {
+      this.setNodeState(nodeReference, { bhideOpenClose : b });
+    },
+
+
+    /**
+     * Set the icon for a node when in its unselected (normal) state.
+     *
+     * @type member
+     *
+     * @param nodeReference {Object | Integer}
+     *   The node for which the icon is being set.  The node can be
+     *   represented either by the node object, or the node id (as would have
+     *   been returned by addBranch(), addLeaf(), etc.)
+     *
+     * @param path {String}
+     *   The path to the icon to be used when the node is not selected
+     *
+     * @return {void}
+     */
+    setNodeIcon : function(nodeReference, path)
+    {
+      this.setNodeState(nodeReference, { icon : path });
+    },
+
+
+    /**
+     * Set the icon for a node when in its selected state.
+     *
+     * @type member
+     *
+     * @param nodeReference {Object | Integer}
+     *   The node for which the icon is being set.  The node can be
+     *   represented either by the node object, or the node id (as would have
+     *   been returned by addBranch(), addLeaf(), etc.)
+     *
+     * @param path {String}
+     *   The path to the icon to be used when the node is selected
+     *
+     * @return {void}
+     */
+    setNodeSelectedIcon : function(nodeReference, path)
+    {
+      this.setNodeState(nodeReference, { iconSelected : path });
+    },
+
+
+    /**
+     * Set the cell style for a node
+     *
+     * @type member
+     *
+     * @param nodeReference {Object | Integer}
+     *   The node for which the cell style is being set.  The node can be
+     *   represented either by the node object, or the node id (as would have
+     *   been returned by addBranch(), addLeaf(), etc.)
+     *
+     * @param style {String}
+     *   The CSS style to be applied for the tree column cell for this node.
+     *
+     * @return {void}
+     */
+    setNodeCellStyle : function(nodeReference, style)
+    {
+      this.setNodeState(nodeReference, { cellStyle : style });
+    },
+
+
+    /**
+     * Set the label style for a node
+     *
+     * @type member
+     *
+     * @param nodeReference {Object | Integer}
+     *   The node for which the label style is being set.  The node can be
+     *   represented either by the node object, or the node id (as would have
+     *   been returned by addBranch(), addLeaf(), etc.)
+     *
+     * @param style {String}
+     *   The CSS style to be applied for the label for this node.
+     *
+     * @return {void}
+     */
+    setNodeLabelStyle : function(nodeReference, style)
+    {
+      this.setNodeState(nodeReference, { labelStyle : style });
     },
 
 
@@ -671,33 +932,33 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
     },
 
 
-      /**
-       * Set the attributes used to indicate the cell that has the focus.
-       *
-       * @type member
-       *
-       * @param attributes {Map}
-       *   The set of attributes that the cell focus indicator should have.
-       *   This is in the format required to call the <i>set()</i> method of a
-       *   widget, e.g.
-       *
-       *     { backgroundColor: blue }
-       *
-       *   If not otherwise specified, the opacity is set to 0.2 so that the
-       *   cell data can be seen "through" the cell focus indicator which
-       *   overlays it.
-       *
-       *   For no visible focus indicator, use:
-       *
-       *     { backgroundColor : "transparent" }
-       *
-       *   The focus indicator is a box the size of the cell, which overlays
-       *   the cell itself.  There is no text in the focus indicator itself,
-       *   so it makes no sense to set the color attribute or any other
-       *   attribute that affects fonts.
-       *
-       * @return {void}
-       */
+    /**
+     * Set the attributes used to indicate the cell that has the focus.
+     *
+     * @type member
+     *
+     * @param attributes {Map}
+     *   The set of attributes that the cell focus indicator should have.
+     *   This is in the format required to call the <i>set()</i> method of a
+     *   widget, e.g.
+     *
+     *     { backgroundColor: blue }
+     *
+     *   If not otherwise specified, the opacity is set to 0.2 so that the
+     *   cell data can be seen "through" the cell focus indicator which
+     *   overlays it.
+     *
+     *   For no visible focus indicator, use:
+     *
+     *     { backgroundColor : "transparent" }
+     *
+     *   The focus indicator is a box the size of the cell, which overlays
+     *   the cell itself.  There is no text in the focus indicator itself,
+     *   so it makes no sense to set the color attribute or any other
+     *   attribute that affects fonts.
+     *
+     * @return {void}
+     */
     setCellFocusAttributes : function(attributes)
     {
       // Add an opacity attribute so what's below the focus can be seen
@@ -981,8 +1242,10 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      *
      * @type member
      *
-     * @param nodeId {Integer}
-     *   The node id of the node for which the hierarchy is desired.
+     * @param nodeReference {Object | Integer}
+     *   The node for which the hierarchy is desired.  The node can be
+     *   represented either by the node object, or the node id (as would have
+     *   been returned by addBranch(), addLeaf(), etc.)
      *
      * @return {Array}
      *   The returned array contains one string for each label in the
@@ -992,10 +1255,25 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      *   hierarchy, etc., down to the last element in the array contain the
      *   label of the node referenced by the parameter.
      */
-    getHierarchy : function(nodeId)
+    getHierarchy : function(nodeReference)
     {
       var _this = this;
       var components = [];
+      var nodeId;
+
+      if (typeof(nodeReference) == "object")
+      {
+        node = nodeReference;
+        nodeId = node.nodeId;
+      }
+      else if (typeof(nodeReference) == "number")
+      {
+        nodeId = nodeReference;
+      }
+      else
+      {
+        throw new Error("Expected node object or node id");
+      }
 
       function addHierarchy(nodeId)
       {
@@ -1026,15 +1304,30 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      *
      * @type member
      *
-     * @param nodeId {Integer}
-     *   The node id of the node for which the first child is desired.
+     * @param nodeReference {Object | Integer}
+     *   The node for which the first child is desired.  The node can be
+     *   represented either by the node object, or the node id (as would have
+     *   been returned by addBranch(), addLeaf(), etc.)
      *
      * @return {Integer}
      *   The node id of the first child.
      */
-    getFirstChild : function(nodeId)
+    getFirstChild : function(nodeReference)
     {
-      var node = this.getTableModel().getData()[nodeId];
+      var node;
+
+      if (typeof(nodeReference) == "object")
+      {
+        node = nodeReference;
+      }
+      else if (typeof(nodeReference) == "number")
+      {
+        node = this.getTableModel().getData()[nodeReference];
+      }
+      else
+      {
+        throw new Error("Expected node object or node id");
+      }
 
       if (node.children.length > 0)
       {
@@ -1050,15 +1343,30 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      *
      * @type member
      *
-     * @param nodeId {Integer}
-     *   The node id of the node for which the last child is desired.
+     * @param nodeReference {Object | Integer}
+     *   The node for which the last child is desired.  The node can be
+     *   represented either by the node object, or the node id (as would have
+     *   been returned by addBranch(), addLeaf(), etc.)
      *
      * @return {Integer}
      *   The node id of the last child.
      */
-    getLastChild : function(nodeId)
+    getLastChild : function(nodeReference)
     {
-      var node = this.getTableModel().getData()[nodeId];
+      var node;
+
+      if (typeof(nodeReference) == "object")
+      {
+        node = nodeReference;
+      }
+      else if (typeof(nodeReference) == "number")
+      {
+        node = this.getTableModel().getData()[nodeReference];
+      }
+      else
+      {
+        throw new Error("Expected node object or node id");
+      }
 
       if (node.children.length > 0)
       {
@@ -1074,16 +1382,33 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      *
      * @type member
      *
-     * @param nodeId {Integer}
-     *   The node id of the node for which the next sibling is desired.
+     * @param nodeReference {Object | Integer}
+     *   The node for which the next sibling is desired.  The node can be
+     *   represented either by the node object, or the node id (as would have
+     *   been returned by addBranch(), addLeaf(), etc.)
      *
      * @return {Integer}
      *   The node id of the next sibling.
      */
-    getNextSibling : function(nodeId)
+    getNextSibling : function(nodeReference)
     {
+      var nodeId;
       var nodes = this.getTableModel().getData();
-      var node = nodes[nodeId];
+
+      if (typeof(nodeReference) == "object")
+      {
+        node = nodeReference;
+      }
+      else if (typeof(nodeReference) == "number")
+      {
+        nodeId = nodeReference;
+        var node = nodes[nodeId];
+      }
+      else
+      {
+        throw new Error("Expected node object or node id");
+      }
+
       var myNodeId = node.nodeId;
       var parentChildren = nodes[node.parentNodeId].children;
 
@@ -1112,16 +1437,33 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      *
      * @type member
      *
-     * @param nodeId {Integer}
-     *   The node id of the node for which the previous sibling is desired.
+     * @param nodeReference {Object | Integer}
+     *   The node for which the previous sibling is desired.  The node can be
+     *   represented either by the node object, or the node id (as would have
+     *   been returned by addBranch(), addLeaf(), etc.)
      *
      * @return {Integer}
      *   The node id of the previous sibling.
      */
-    getPrevSibling : function(nodeId)
+    getPrevSibling : function(nodeReference)
     {
+      var nodeId;
       var nodes = this.getTableModel().getData();
-      var node = nodes[nodeId];
+
+      if (typeof(nodeReference) == "object")
+      {
+        node = nodeReference;
+      }
+      else if (typeof(nodeReference) == "number")
+      {
+        nodeId = nodeReference;
+        var node = nodes[nodeId];
+      }
+      else
+      {
+        throw new Error("Expected node object or node id");
+      }
+
       var myNodeId = node.nodeId;
       var parentChildren = nodes[node.parentNodeId].children;
 
@@ -1176,7 +1518,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
              j++)
         {
           node = stdcm.getValue(stdcm.getTreeColumn(), j);
-          stdcm.setState(node.nodeId, { bSelected : true });
+          stdcm.setNodeState(node.nodeId, { bSelected : true });
           selectedNodes.push(node);
         }
       }
