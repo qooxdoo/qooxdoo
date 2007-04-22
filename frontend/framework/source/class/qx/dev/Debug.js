@@ -34,14 +34,24 @@ qx.Class.define("qx.dev.Debug",
      * Recursively display an object (as debug messages)
      *
      * @type static
-     * @param obj {Object} The object to be recursively displayed
-     * @param initialMessage {String, null} The initial message to be displayed.
-     * @param maxLevel {Integer ? 10} The maximum level of recursion.  Objects beyond this level will not be
-     *     displayed.
-     * @param appender {Object, null} If not provided (or provided as null), the default appender of the root
-     *     will be used.  If provided, this should be an instance of an appender to
-     *     which the object debug will be sent.  For example, you might pass, for
-     *     this parameter, <code>new qx.log.WindowAppender()</code>.
+     *
+     * @param obj {Object}
+     *   The object to be recursively displayed
+     *
+     * @param initialMessage {String, null}
+     *   The initial message to be displayed.
+     *
+     * @param maxLevel {Integer ? 10}
+     *   The maximum level of recursion.  Objects beyond this level will not
+     *   be displayed. 
+     *
+     * @param appender {Object, null}
+     *   If not provided (or provided as null), the default appender of the
+     *   root will be used.  If provided, this should be an instance of an
+     *   appender to which the object debug will be sent.  For example, you
+     *   might pass, for this parameter, <code>new
+     *   qx.log.WindowAppender()</code>.
+     *
      * @return {void}
      */
     debugObject : function(obj, initialMessage, maxLevel, appender)
