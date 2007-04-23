@@ -25,7 +25,7 @@
 /**
  * Windows Luna Green color theme
  */
-qx.Theme.define("qx.theme.color.WindowsLunaGreen",
+qx.Theme.define("qx.theme.classic.color.LunaGreen",
 {
   title : "Windows Luna Green",
 
