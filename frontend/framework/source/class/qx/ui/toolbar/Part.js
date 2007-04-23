@@ -64,7 +64,17 @@ qx.Class.define("qx.ui.toolbar.Part",
       _legacy      : true,
       type         : "string",
       defaultValue : "toolbar-part"
+    },
+
+    show :
+    {
+      init : "inherit",
+      check : [ "both", "label", "icon", "none"],
+      nullable : true,
+      inheritable : true,
+      event : "changeShow"
     }
+
   },
 
 
