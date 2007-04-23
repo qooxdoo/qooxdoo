@@ -99,12 +99,9 @@ qx.Class.define("qx.ui.table.DefaultDataRowRenderer",
     /** Whether the focused row should be highlighted. */
     highlightFocusRow :
     {
-      _legacy      : true,
-      type         : "boolean",
-      allowNull    : false,
-      defaultValue : true
+      check : "Boolean",
+      init : true
     },
-
 
     /**
      * Whether the focused row and the selection should be grayed out when the
@@ -112,28 +109,22 @@ qx.Class.define("qx.ui.table.DefaultDataRowRenderer",
      */
     visualizeFocusedState :
     {
-      _legacy      : true,
-      type         : "boolean",
-      allowNull    : false,
-      defaultValue : true
+      check : "Boolean",
+      init : true
     },
 
     /** The font family used for the data row */
     fontFamily :
     {
-      _legacy      : true,
-      type         : "string",
-      allowNull    : false,
-      defaultValue : "'Segoe UI', Corbel, Calibri, Tahoma, 'Lucida Sans Unicode', sans-serif"
+      check : "String",
+      init : "'Segoe UI', Corbel, Calibri, Tahoma, 'Lucida Sans Unicode', sans-serif"
     },
 
     /** The font size used for the data row */
     fontSize :
     {
-      _legacy      : true,
-      type         : "string",
-      allowNull    : false,
-      defaultValue : "11px"
+      check : "String",
+      init : "11px"
     }
   },
 

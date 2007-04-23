@@ -203,43 +203,45 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
     /** Whether to show the horizontal scroll bar */
     horizontalScrollBarVisible :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true,
+      apply : "_modifyHorizontalScrollBarVisible",
+      event : "changeHorizontalScrollBarVisible"
     },
 
     /** Whether to show the vertical scroll bar */
     verticalScrollBarVisible :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true,
+      apply : "_modifyVerticalScrollBarVisible",
+      event : "changeVerticalScrollBarVisible"
     },
 
     /** The table pane model. */
     tablePaneModel :
     {
-      _legacy  : true,
-      type     : "object",
-      instance : "qx.ui.table.TablePaneModel"
+      check : "qx.ui.table.TablePaneModel",
+      apply : "_modifyTablePaneModel",
+      event : "changeTablePaneModel"
     },
 
     /** The current position of the the horizontal scroll bar. */
     scrollX :
     {
-      _legacy      : true,
-      type         : "number",
-      allowNull    : false,
-      defaultValue : 0
+      check : "Integer",
+      init : 0,
+      apply : "_modifyScrollX",
+      event : "changeScrollX"
     },
 
     /** The current position of the the vertical scroll bar. */
     scrollY :
     {
-      _legacy      : true,
-      type         : "number",
-      allowNull    : false,
-      defaultValue : 0
+      check : "Integer",
+      init : 0,
+      apply : "_modifyScrollY",
+      event : "changeScrollY"
     },
 
 
@@ -249,9 +251,8 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
      */
     liveResize :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      check : "Boolean",
+      init : false
     },
 
 
@@ -261,9 +262,8 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
      */
     focusCellOnMouseMove :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      check : "Boolean",
+      init : false
     },
 
 
@@ -276,9 +276,8 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
      */
     selectBeforeFocus :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      check : "Boolean",
+      init : false
     }
   },
 

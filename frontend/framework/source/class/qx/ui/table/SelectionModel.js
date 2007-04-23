@@ -585,11 +585,9 @@ qx.Class.define("qx.ui.table.SelectionModel",
   {
     properties.add("selectionMode",
     {
-      _legacy        : true,
-      type           : "number",
-      defaultValue   : statics.SINGLE_SELECTION,
-      allowNull      : false,
-      possibleValues : [ statics.NO_SELECTION, statics.SINGLE_SELECTION, statics.SINGLE_INTERVAL_SELECTION, statics.MULTIPLE_INTERVAL_SELECTION ]
+      init : statics.SINGLE_SELECTION,
+      check : [ statics.NO_SELECTION, statics.SINGLE_SELECTION, statics.SINGLE_INTERVAL_SELECTION, statics.MULTIPLE_INTERVAL_SELECTION ],
+      apply : "_modifySelectionMode"
     });
   },
 
