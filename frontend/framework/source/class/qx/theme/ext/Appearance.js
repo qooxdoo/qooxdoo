@@ -23,7 +23,6 @@
 /* ************************************************************************
 
 #ignore(auto-use)
-#resource(widgettheme:widget/Ext)
 #embed(qx.static/image/dotted_white.gif)
 #embed(qx.static/image/blank.gif)
 #embed(qx.static/image/Ext/button_gradient.png)
@@ -40,43 +39,8 @@ qx.Theme.define("qx.theme.appearance.Ext",
 {
   title : "Ext",
 
-  widgets : {
-    uri : qx.core.Setting.get("qx.resourceUri") + "/widget/Ext"
-  },
-
-  colors :
+  appearances :
   {
-    activeborder        : [ 212, 208, 200 ],
-    activecaption       : [ 31, 62, 117 ],
-    appworkspace        : [ 128, 128, 128 ],
-    background          : [ 188, 212, 247 ],
-    buttonface          : [ 188, 212, 247 ],
-    buttonhighlight     : [ 229, 244, 254 ],
-    buttonshadow        : [ 31, 62, 117 ],
-    buttontext          : [ 31, 62, 117 ],
-    captiontext         : [ 255, 255, 255 ],
-    graytext            : [ 170, 170, 170 ],
-    highlight           : [ 188, 212, 247 ],
-    highlighttext       : [ 31, 62, 117 ],
-    inactiveborder      : [ 220, 220, 220 ],
-    inactivecaption     : [ 220, 220, 220 ],
-    inactivecaptiontext : [ 128, 128, 128 ],
-    infobackground      : [ 253, 255, 180 ],
-    infotext            : [ 0, 0, 0 ],
-    menu                : [ 255, 255, 255 ],
-    menutext            : [ 0, 0 ,0 ],
-    scrollbar           : [ 212, 208, 200 ],
-    threeddarkshadow    : [ 248, 178, 48 ],
-    threedface          : [ 229, 244, 254 ],
-    threedhighlight     : [ 0, 60, 116 ],
-    threedlightshadow   : [ 253, 216, 137 ],
-    threedshadow        : [ 0, 60, 116 ],
-    window              : [ 255, 255, 255 ],
-    windowframe         : [ 0, 0 ,0 ],
-    windowtext          : [ 31, 62, 117 ]
-  },
-
-  appearances : {
     "empty" :
     {
     },
@@ -1871,10 +1835,5 @@ qx.Theme.define("qx.theme.appearance.Ext",
         }
       }
     }
-    /*
-    ---------------------------------------------------------------------------
-      END
-    ---------------------------------------------------------------------------
-    */
-    }
+  }
 });
