@@ -152,12 +152,16 @@ qx.Class.define("qx.manager.object.ColorManager",
 
     _generateRgbStrings : function(value)
     {
-      var source = value.colors;
       var dest = this.__themedColors = {};
-      var util = qx.util.ColorUtil;
 
-      for (var key in source) {
-        dest[key] = util.rgbToRgbString(source[key]);
+      if (value)
+      {
+        var source = value.colors;
+        var util = qx.util.ColorUtil;
+
+        for (var key in source) {
+          dest[key] = util.rgbToRgbString(source[key]);
+        }
       }
     },
 

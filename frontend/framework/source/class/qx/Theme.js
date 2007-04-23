@@ -22,9 +22,7 @@
 
 #module(core)
 #module(oo)
-#optional(qx.manager.object.AppearanceManager)
-#optional(qx.manager.object.ColorManager)
-#optional(qx.manager.object.ImageManager)
+#require(qx.manager.object.AliasManager)
 
 ************************************************************************ */
 
@@ -91,27 +89,6 @@ qx.Class.define("qx.Theme",
 
       // Store class reference in global class registry
       this.__registry[name] = theme;
-
-      // Select via settings
-      if (name === qx.core.Setting.get("qx.colorTheme")) {
-        qx.manager.object.ColorManager.getInstance().setColorTheme(theme);
-      }
-
-      if (name === qx.core.Setting.get("qx.borderTheme")) {
-        qx.manager.object.BorderManager.getInstance().setBorderTheme(theme);
-      }
-
-      if (name === qx.core.Setting.get("qx.widgetTheme")) {
-        qx.manager.object.ImageManager.getInstance().setWidgetTheme(theme);
-      }
-
-      if (name === qx.core.Setting.get("qx.iconTheme")) {
-        qx.manager.object.ImageManager.getInstance().setIconTheme(theme);
-      }
-
-      if (name === qx.core.Setting.get("qx.appearanceTheme")) {
-        qx.manager.object.AppearanceManager.getInstance().setAppearanceTheme(theme);
-      }
     },
 
 
@@ -264,7 +241,8 @@ qx.Class.define("qx.Theme",
         "borders"     : "object", // Map
         "icons"       : "object", // Map
         "widgets"     : "object", // Map
-        "appearances" : "object"  // Map
+        "appearances" : "object", // Map
+        "meta"        : "object"
       },
 
       "default" : null
@@ -285,7 +263,6 @@ qx.Class.define("qx.Theme",
       "on": function(name, config)
       {
         var allowed = this.__allowedKeys;
-
         for (var key in config)
         {
           if (allowed[key] === undefined) {
@@ -302,13 +279,41 @@ qx.Class.define("qx.Theme",
         }
 
         // Validate maps
-        var maps = [ "colors", "borders", "icons", "widgets", "appearances" ];
+        var maps = [ "colors", "borders", "icons", "widgets", "appearances", "meta" ];
         for (var i=0, l=maps.length; i<l; i++)
         {
           var key = maps[i];
 
           if (config[key] !== undefined && (config[key] instanceof Array || config[key] instanceof RegExp || config[key] instanceof Date || config[key].classname !== undefined)) {
             throw new Error('Invalid key "' + key + '" in theme "' + name + '"! The value needs to be a map!');
+          }
+        }
+
+        // Check conflicts
+        var counter = 0;
+        for (var i=0, l=maps.length; i<l; i++)
+        {
+          var key = maps[i];
+
+          if (config[key]) {
+            counter++;
+          }
+
+          if (counter > 1) {
+            throw new Error("You can only define one theme category per file! Invalid theme: " + name);
+          }
+        }
+
+        // Validate meta
+        if (config.meta)
+        {
+          var value;
+          for (var key in config.meta)
+          {
+            value = config.meta[key];
+            if (!(typeof value === "object" && value !== null && value.$$type === "Theme")) {
+              throw new Error('The content of a meta theme must reference to other themes. The value for "' + key + '" in theme "' + name + '" is invalid: ' + value);
+            }
           }
         }
 
@@ -320,29 +325,5 @@ qx.Class.define("qx.Theme",
 
       "default" : function() {}
     })
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     SETTINGS
-  *****************************************************************************
-  */
-
-  settings :
-  {
-    /*
-      Make sure to select an icon theme that is compatible to the license you
-      chose to receive the qooxdoo code under. For more information, please
-      see the LICENSE file in the project's top-level directory.
-     */
-
-    "qx.colorTheme" : "qx.theme.color.WindowsRoyale",
-    "qx.borderTheme" : "qx.theme.appearance.Classic",
-    "qx.widgetTheme" : "qx.theme.widget.Windows",
-    "qx.iconTheme"   : "qx.theme.icon.Nuvola",
-    "qx.appearanceTheme" : "qx.theme.appearance.Classic"
   }
 });

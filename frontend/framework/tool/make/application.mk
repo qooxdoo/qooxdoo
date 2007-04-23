@@ -153,7 +153,7 @@ endif
 #
 SILENCE=
 ifneq ($(VERBOSE),true)
-SILENCE=@
+#SILENCE=@
 endif
 
 
@@ -308,32 +308,58 @@ endif
 ################################################################################
 
 #
-# Set the default icon theme
+# Set the default meta theme.
 #
-ifndef APPLICATION_THEME_ICON
-  APPLICATION_THEME_ICON = qx.theme.icon.Nuvola
-endif
-
-#
-# Set the default widget theme
-#
-ifndef APPLICATION_THEME_WIDGET
-  APPLICATION_THEME_WIDGET = qx.theme.widget.Windows
+ifndef APPLICATION_THEME
+  APPLICATION_THEME = qx.theme.ClassicRoyale
 endif
 
 #
 # Set the default color theme.
 #
 ifndef APPLICATION_THEME_COLOR
-  APPLICATION_THEME_COLOR = qx.theme.color.WindowsRoyale
+  APPLICATION_THEME_COLOR =
+endif
+
+#
+# Set the default border theme.
+#
+ifndef APPLICATION_THEME_BORDER
+  APPLICATION_THEME_BORDER =
+endif
+
+#
+# Set the default font theme.
+#
+ifndef APPLICATION_THEME_FONT
+  APPLICATION_THEME_FONT =
+endif
+
+#
+# Set the default icon theme
+#
+ifndef APPLICATION_THEME_ICON
+  APPLICATION_THEME_ICON =
+endif
+
+#
+# Set the default widget theme
+#
+ifndef APPLICATION_THEME_WIDGET
+  APPLICATION_THEME_WIDGET =
 endif
 
 #
 # Set the default appearance theme.
 #
 ifndef APPLICATION_THEME_APPEARANCE
-  APPLICATION_THEME_APPEARANCE = qx.theme.appearance.Classic
+  APPLICATION_THEME_APPEARANCE =
 endif
+
+
+
+
+
 
 
 
