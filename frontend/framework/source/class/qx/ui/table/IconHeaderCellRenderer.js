@@ -75,10 +75,8 @@ qx.Class.define("qx.ui.table.IconHeaderCellRenderer",
      */
     iconUrl :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "",
-      allowNull    : false
+      check : "String",
+      init : ""
     },
 
 
@@ -87,10 +85,9 @@ qx.Class.define("qx.ui.table.IconHeaderCellRenderer",
      */
     toolTip :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : null,
-      allowNull    : true
+      check : "string",
+      init : null,
+      nullable : true
     }
   },
 

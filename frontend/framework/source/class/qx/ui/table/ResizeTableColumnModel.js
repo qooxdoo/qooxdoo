@@ -75,13 +75,13 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
      * implement the <i>onAppear</i>, <i>onTableWidthChanged</i>,
      * <i>onColumnWidthChanged</i> and <i>onVisibilityChanged</i>methods.
      */
-
     behavior :
     {
-      _legacy      : true,
-      type         : "object",
-      instance     : "qx.ui.table.AbstractResizeBehavior",
-      defaultValue : null
+      check : "qx.ui.table.AbstractResizeBehavior",
+      init : null,
+      nullable : true,
+      apply : "_modifyBehavior",
+      event : "changeBehavior"
     }
   },
 
