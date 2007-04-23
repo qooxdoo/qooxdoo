@@ -187,7 +187,7 @@ qx.Class.define("feedreader.Application",
 
       // create header
       var header = new qx.ui.embed.HtmlEmbed("<h1><span>qooxdoo</span> reader</h1>");
-      header.setCssClassName("header");
+      header.setHtmlProperty("className", "header");
       header.setHeight(50);
       dockLayout.addTop(header);
 
