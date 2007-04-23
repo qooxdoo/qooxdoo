@@ -29,8 +29,20 @@ qx.Class.define("qx.manager.object.ThemeManager",
   type : "singleton",
   extend : qx.core.Target,
 
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
   properties :
   {
+    /**
+     * Meta theme. Applies the defined color, border, widget, ... themes to
+     * the corresponding managers.
+     */
     theme :
     {
       check : "Theme",
@@ -38,6 +50,15 @@ qx.Class.define("qx.manager.object.ThemeManager",
       apply : "_applyTheme"
     }
   },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
 
   members :
   {
@@ -65,6 +86,12 @@ qx.Class.define("qx.manager.object.ThemeManager",
       qx.manager.object.AppearanceManager.getInstance().setAppearanceTheme(appearance);
     },
 
+    /**
+     * Initialize the themes which were selected using the settings. Should only
+     * be called from qooxdoo based application.
+     *
+     * @type static
+     */
     initialize : function()
     {
       var setting = qx.core.Setting;
@@ -135,17 +162,120 @@ qx.Class.define("qx.manager.object.ThemeManager",
 
         qx.manager.object.AppearanceManager.getInstance().setAppearanceTheme(obj);
       }
+    },
+
+    /**
+     * Query the theme list to get all themes the given key
+     *
+     * @param key {String} the key to look for
+     * @return {Theme[]} list of matching themes
+     */
+    __queryThemes : function(key)
+    {
+      var reg = qx.Theme.getAll();
+      var theme;
+      var list = [];
+
+      for (var name in reg)
+      {
+        theme = reg[name];
+        if (theme[key]) {
+          list.push(theme);
+        }
+      }
+
+      return list;
+    },
+
+
+    /**
+     * Returns a list of all registered meta themes
+     *
+     * @type static
+     * @return {Theme[]} list of meta themes
+     */
+    getMetaThemes : function() {
+      return this.__queryThemes("meta");
+    },
+
+
+    /**
+     * Returns a list of all registered color themes
+     *
+     * @type static
+     * @return {Theme[]} list of color themes
+     */
+    getColorThemes : function() {
+      return this.__queryThemes("colors");
+    },
+
+
+    /**
+     * Returns a list of all registered color themes
+     *
+     * @type static
+     * @return {Theme[]} list of color themes
+     */
+    getBorderThemes : function() {
+      return this.__queryThemes("borders");
+    },
+
+
+    /**
+     * Returns a list of all registered font themes
+     *
+     * @type static
+     * @return {Theme[]} list of font themes
+     */
+    getFontThemes : function() {
+      return this.__queryThemes("fonts");
+    },
+
+
+    /**
+     * Returns a list of all registered color themes
+     *
+     * @type static
+     * @return {Theme[]} list of color themes
+     */
+    getWidgetThemes : function() {
+      return this.__queryThemes("widgets");
+    },
+
+
+    /**
+     * Returns a list of all registered color themes
+     *
+     * @type static
+     * @return {Theme[]} list of color themes
+     */
+    getIconThemes : function() {
+      return this.__queryThemes("icons");
+    },
+
+
+    /**
+     * Returns a list of all registered color themes
+     *
+     * @type static
+     * @return {Theme[]} list of color themes
+     */
+    getAppearanceThemes : function() {
+      return this.__queryThemes("appearance");
     }
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     SETTINGS
+  *****************************************************************************
+  */
+
   settings :
   {
-    /*
-      Make sure to select an icon theme that is compatible to the license you
-      chose to receive the qooxdoo code under. For more information, please
-      see the LICENSE file in the project's top-level directory.
-     */
-
     "qx.theme"           : "qx.theme.ClassicRoyale",
     "qx.colorTheme"      : null,
     "qx.borderTheme"     : null,
