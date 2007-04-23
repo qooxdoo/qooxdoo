@@ -28,7 +28,7 @@
 /**
  * The default qooxdoo border theme.
  */
-qx.Theme.define("qx.theme.classic.Borders",
+qx.Theme.define("qx.theme.classic.Border",
 {
   title : "Classic",
 
