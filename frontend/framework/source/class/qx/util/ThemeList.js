@@ -58,6 +58,22 @@ qx.Class.define("qx.util.ThemeList",
 
 
     /**
+     * Generates buttons for all existing meta themes and
+     * place it to the given coordinates inside the given parent
+     *
+     * @param parent {qx.ui.layout.CanvasLayout} the parent where the buttons should be added
+     * @param x {Integer} the x coordinate
+     * @param y {Integer} the y coordinate
+     */
+    createMetaButtons : function(parent, x, y)
+    {
+      return this.__createButtons(parent, x, y, qx.Theme.getColorThemes(), "Theme: ", function(e) {
+        qx.manager.object.ThemeManager.getInstance().setTheme(e.getTarget().getUserData("theme"));
+      });
+    },
+
+
+    /**
      * Generates buttons for all existing color themes and
      * place it to the given coordinates inside the given parent
      *
@@ -85,6 +101,22 @@ qx.Class.define("qx.util.ThemeList",
     {
       return this.__createButtons(parent, x, y, qx.Theme.getBorderThemes(), "Border Theme: ", function(e) {
         qx.manager.object.BorderManager.getInstance().setBorderTheme(e.getTarget().getUserData("theme"));
+      });
+    },
+
+
+    /**
+     * Generates buttons for all existing font themes and
+     * place it to the given coordinates inside the given parent
+     *
+     * @param parent {qx.ui.layout.CanvasLayout} the parent where the buttons should be added
+     * @param x {Integer} the x coordinate
+     * @param y {Integer} the y coordinate
+     */
+    createFontButtons : function(parent, x, y)
+    {
+      return this.__createButtons(parent, x, y, qx.Theme.getFontThemes(), "Font Theme: ", function(e) {
+        qx.manager.object.FontManager.getInstance().setFontTheme(e.getTarget().getUserData("theme"));
       });
     },
 
