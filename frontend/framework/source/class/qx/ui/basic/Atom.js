@@ -160,10 +160,12 @@ qx.Class.define("qx.ui.basic.Atom",
      */
     show :
     {
-      _legacy        : true,
-      type           : "string",
-      defaultValue   : "both",
-      possibleValues : [ "both", "label", "icon", "none", null ]
+      init : "both",
+      check : [ "both", "label", "icon", "none"],
+      nullable : true,
+      inheritable : true,
+      apply : "_modifyShow",
+      event : "changeShow"
     },
 
 

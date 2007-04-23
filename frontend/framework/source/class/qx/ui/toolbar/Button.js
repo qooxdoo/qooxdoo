@@ -64,10 +64,15 @@ qx.Class.define("qx.ui.toolbar.Button",
       _legacy      : true,
       type         : "string",
       defaultValue : "toolbar-button"
+    },
+
+    show :
+    {
+      refine : true,
+      init : "inherit"
     }
+
   },
-
-
 
 
   /*
