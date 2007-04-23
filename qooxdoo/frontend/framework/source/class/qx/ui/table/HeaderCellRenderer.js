@@ -28,6 +28,8 @@
  */
 qx.Class.define("qx.ui.table.HeaderCellRenderer",
 {
+  type : "abstract",
+
   extend : qx.core.Object,
 
 
@@ -42,30 +44,6 @@ qx.Class.define("qx.ui.table.HeaderCellRenderer",
   construct : function() {
     this.base(arguments);
   },
-
-
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-
-    /** The preferred height of cells created by this header renderer. */
-    prefferedCellHeight :
-    {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 16,
-      allowNull    : false
-    }
-  },
-
-
 
 
   /*

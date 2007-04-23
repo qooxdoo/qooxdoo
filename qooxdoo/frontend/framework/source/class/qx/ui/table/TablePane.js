@@ -88,17 +88,17 @@ qx.Class.define("qx.ui.table.TablePane",
     /** The index of the first row to show. */
     firstVisibleRow :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 0
+      check : "Number",
+      init : 0,
+      apply : "_modifyFirstVisibleRow"
     },
 
     /** The number of rows to show. */
     visibleRowCount :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 0
+      check : "Number",
+      init : 0,
+      apply : "_modifyVisibleRowCount"
     }
   },
 

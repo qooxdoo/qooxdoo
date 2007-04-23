@@ -102,11 +102,8 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
      */
     newResizeBehaviorColumnData :
     {
-      _legacy : true,
-      type : "function",
-      setOnlyOnce : true,
-
-      defaultValue : function(obj)
+      check : "Function",
+      init : function(obj)
       {
         return new qx.ui.table.ResizeBehaviorColumnData();
       }

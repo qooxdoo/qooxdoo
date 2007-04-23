@@ -66,9 +66,7 @@ qx.Class.define("qx.ui.table.SelectionManager",
      */
     selectionModel :
     {
-      _legacy  : true,
-      type     : "object",
-      instance : "qx.ui.table.SelectionModel"
+      check : "qx.ui.table.SelectionModel"
     }
   },
 

@@ -98,9 +98,8 @@ qx.Class.define("qx.ui.table.TablePaneModel",
     /** The visible x position of the first column this model should contain. */
     firstColumnX :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 0
+      check : "Integer",
+      init : 0
     },
 
 
@@ -110,9 +109,8 @@ qx.Class.define("qx.ui.table.TablePaneModel",
      */
     maxColumnCount :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : -1
+      check : "Number",
+      init : -1
     }
   },
 

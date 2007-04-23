@@ -91,19 +91,15 @@ qx.Class.define("qx.ui.table.RemoteTableModel",
     /** The number of rows that are stored in one cache block. */
     blockSize :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 50,
-      allowNull    : false
+      check : "Integer",
+      init : 50
     },
 
     /** The maximum number of row blocks kept in the cache. */
     maxCachedBlockCount :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 15,
-      allowNull    : false
+      check : "Integer",
+      init : 15
     },
 
 
@@ -113,10 +109,8 @@ qx.Class.define("qx.ui.table.RemoteTableModel",
      */
     clearCacheOnRemove :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false,
-      allowNull    : false
+      check : "Boolean",
+      init : false
     }
   },
 

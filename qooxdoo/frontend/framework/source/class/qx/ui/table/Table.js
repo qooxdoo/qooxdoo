@@ -254,50 +254,50 @@ qx.Class.define("qx.ui.table.Table",
     /** The selection model. */
     selectionModel :
     {
-      _legacy  : true,
-      type     : "object",
-      instance : "qx.ui.table.SelectionModel"
+      check : "qx.ui.table.SelectionModel",
+      apply : "_modifySelectionModel",
+      event : "changeSelectionModel"
     },
 
     /** The table model. */
     tableModel :
     {
-      _legacy  : true,
-      type     : "object",
-      instance : "qx.ui.table.TableModel"
+      check : "qx.ui.table.TableModel",
+      apply : "_modifyTableModel",
+      event : "changeTableModel",
+      nullable : true
     },
 
     /** The table column model. */
     tableColumnModel :
     {
-      _legacy     : true,
-      type        : "object",
-      setOnlyOnce : true,
-      instance    : "qx.ui.table.TableColumnModel"
+      check : "qx.ui.table.TableColumnModel",
+      apply : "_modifyTableColumnModel",
+      event : "changeTableColumnModel"
     },
 
     /** The height of the table rows. */
     rowHeight :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 15
+      check : "Number",
+      init : 15,
+      event : "changeRowHeight"
     },
 
     /** Whether to show the status bar */
     statusBarVisible :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true,
+      apply : "_modifyStatusBarVisible"
     },
 
     /** Whether to show the column visibility button */
     columnVisibilityButtonVisible :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true,
+      apply : "_modifyColumnVisibilityButtonVisible"
     },
 
 
@@ -307,8 +307,8 @@ qx.Class.define("qx.ui.table.Table",
      */
     metaColumnCounts :
     {
-      _legacy : true,
-      type    : "object"
+      check : "Object",
+      apply : "_modifyMetaColumnCounts"
     },
 
 
@@ -318,9 +318,9 @@ qx.Class.define("qx.ui.table.Table",
      */
     focusCellOnMouseMove :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      check : "Boolean",
+      init : false,
+      apply : "_modifyFocusCellOnMouseMove"
     },
 
 
@@ -330,9 +330,9 @@ qx.Class.define("qx.ui.table.Table",
      */
     keepFirstVisibleRowComplete :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true,
+      apply : "_modifyKeepFirstVisibleRowComplete"
     },
 
 
@@ -343,27 +343,27 @@ qx.Class.define("qx.ui.table.Table",
      */
     alwaysUpdateCells :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      check : "Boolean",
+      init : false
     },
 
     /** The height of the header cells. */
     headerCellHeight :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 16,
-      allowNull    : false
+      check : "Integer",
+      init : 16,
+      apply : "_modifyHeaderCellHeight",
+      event : "changeHeaderCellHeight"
     },
 
     /** The renderer to use for styling the rows. */
     dataRowRenderer :
     {
-      _legacy      : true,
-      type         : "object",
-      instance     : "qx.ui.table.DataRowRenderer",
-      defaultValue : null
+      check : "qx.ui.table.DataRowRenderer",
+      init : null,
+      nullable : true,
+      apply : "_modifyDataRowRenderer",
+      event : "changeDataRowRenderer"
     },
 
 
@@ -384,9 +384,9 @@ qx.Class.define("qx.ui.table.Table",
      */
     modalCellEditorPreOpenFunction :
     {
-      _legacy      : true,
-      type         : "function",
-      defaultValue : null
+      check : "Function",
+      init : null,
+      nullable : true
     },
 
 
@@ -397,11 +397,8 @@ qx.Class.define("qx.ui.table.Table",
      */
     newSelectionManager :
     {
-      _legacy : true,
-      type : "function",
-      setOnlyOnce : true,
-
-      defaultValue : function(obj) {
+      check : "Function",
+      init : function(obj) {
         return new qx.ui.table.SelectionManager(obj);
       }
     },
@@ -414,11 +411,8 @@ qx.Class.define("qx.ui.table.Table",
      */
     newSelectionModel :
     {
-      _legacy : true,
-      type : "function",
-      setOnlyOnce : true,
-
-      defaultValue : function(obj) {
+      check : "Function",
+      init : function(obj) {
         return new qx.ui.table.SelectionModel(obj);
       }
     },
@@ -431,11 +425,8 @@ qx.Class.define("qx.ui.table.Table",
      */
     newTableColumnModel :
     {
-      _legacy : true,
-      type : "function",
-      setOnlyOnce : true,
-
-      defaultValue : function(obj) {
+      check : "Function",
+      init : function(obj) {
         return new qx.ui.table.TableColumnModel(obj);
       }
     },
@@ -448,11 +439,8 @@ qx.Class.define("qx.ui.table.Table",
      */
     newTablePane :
     {
-      _legacy : true,
-      type : "function",
-      setOnlyOnce : true,
-
-      defaultValue : function(obj) {
+      check : "Function",
+      init : function(obj) {
         return new qx.ui.table.TablePane(obj);
       }
     },
@@ -465,11 +453,8 @@ qx.Class.define("qx.ui.table.Table",
      */
     newTablePaneHeader :
     {
-      _legacy : true,
-      type : "function",
-      setOnlyOnce : true,
-
-      defaultValue : function(obj) {
+      check : "Function",
+      init : function(obj) {
         return new qx.ui.table.TablePaneHeader(obj);
       }
     },
@@ -482,11 +467,8 @@ qx.Class.define("qx.ui.table.Table",
      */
     newTablePaneScroller :
     {
-      _legacy : true,
-      type : "function",
-      setOnlyOnce : true,
-
-      defaultValue : function(obj) {
+      check : "Function",
+      init : function(obj) {
         return new qx.ui.table.TablePaneScroller(obj);
       }
     },
@@ -499,11 +481,8 @@ qx.Class.define("qx.ui.table.Table",
      */
     newTablePaneModel :
     {
-      _legacy : true,
-      type : "function",
-      setOnlyOnce : true,
-
-      defaultValue : function(columnModel) {
+      check : "Function",
+      init : function(columnModel) {
         return new qx.ui.table.TablePaneModel(columnModel);
       }
     }

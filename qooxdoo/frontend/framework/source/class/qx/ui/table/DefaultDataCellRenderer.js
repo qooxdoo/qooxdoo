@@ -76,10 +76,8 @@ qx.Class.define("qx.ui.table.DefaultDataCellRenderer",
      */
     useAutoAlign :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true,
-      allowNull    : false
+      check : "boolean",
+      init : true
     }
   },
 
