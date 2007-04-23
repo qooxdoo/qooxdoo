@@ -37,7 +37,7 @@ qx.Class.define("feedreader.ArticleView",
   construct : function(article)
   {
     qx.ui.basic.Terminator.call(this);
-    this.setCssClassName("blogEntry");
+    this.setHtmlProperty("className", "blogEntry");
     this.setArticle(article);
   },
 
