@@ -62,11 +62,13 @@ qx.Class.define("qx.renderer.font.Font",
 
   statics :
   {
-    /*
-    ---------------------------------------------------------------------------
-      UTILITY
-    ---------------------------------------------------------------------------
-    */
+    __lineToCss :
+    {
+      below : "underline",
+      strikeout : "line-through",
+      above : "overline"
+    },
+
 
     /**
      * TODOC
@@ -129,6 +131,7 @@ qx.Class.define("qx.renderer.font.Font",
       widget.removeStyleProperty("fontWeight");
       widget.removeStyleProperty("fontStyle");
       widget.removeStyleProperty("textDecoration");
+      widget.removeStyleProperty("textTransform");
     }
   },
 
@@ -145,48 +148,40 @@ qx.Class.define("qx.renderer.font.Font",
   {
     size :
     {
-      _legacy : true,
-      type    : "number",
-      impl    : "style"
+      check : "Integer",
+      init : 11,
+      apply : "_applySize"
     },
 
     family :
     {
-      _legacy : true,
-      type    : "string",
-      impl    : "style"
+      check : "Array",
+      init : "",
+      apply : "_applyFamily"
     },
 
     bold :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false,
-      impl         : "style"
+      check : "Boolean",
+      init : false
     },
 
     italic :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false,
-      impl         : "style"
+      check : "Boolean",
+      init : false
     },
 
-    underline :
+    line :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false,
-      impl         : "style"
+      check : [ "below", "strikeout", "above" ],
+      nullable : true
     },
 
-    strikeout :
+    transform :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false,
-      impl         : "style"
+      check : [ "lowercase", "capitalize", "uppercase" ],
+      nullable : true
     }
   },
 
@@ -201,42 +196,22 @@ qx.Class.define("qx.renderer.font.Font",
 
   members :
   {
-    _compile : function()
-    {
-      var name = this.getName();
-      var vSize = this.getSize();
-      var vBold = this.getBold();
-      var vItalic = this.getItalic();
-      var vUnderline = this.getUnderline();
-      var vStrikeout = this.getStrikeout();
-      var vDecoration = "";
+    _applySize : function(value, old) {
+      this.__size = value ? value + "px" : "";
+    },
 
-      if (this.getUnderline()) {
-        vDecoration = "underline";
-      }
-
-      if (this.getStrikeout()) {
-        vDecoration += " " + "strikeout";
-      }
-
-      this._defs.fontFamily = name || "";
-      this._defs.fontSize = typeof vSize == "number" ? vSize + "px" : "";
-      this._defs.fontWeight = this.getBold() ? "bold" : "normal";
-      this._defs.fontStyle = this.getItalic() ? "italic" : "normal";
-      this._defs.textDecoration = vDecoration || "";
+    _applyFamily : function(value, old) {
+      this.__family = value ? '"' + value.join('","') + '"' : "";
     },
 
     render : function(widget)
     {
-      // TODO
-
-      /*
-      widget.setStyleProperty("fontFamily", this._defs.fontFamily);
-      widget.setStyleProperty("fontSize", this._defs.fontSize);
-      widget.setStyleProperty("fontWeight", this._defs.fontWeight);
-      widget.setStyleProperty("fontStyle", this._defs.fontStyle);
-      widget.setStyleProperty("textDecoration", this._defs.textDecoration);
-      */
+      widget.setStyleProperty("fontFamily", this.__family);
+      widget.setStyleProperty("fontSize", this.__size);
+      widget.setStyleProperty("fontWeight", this.getBold() ? "bold" : "normal");
+      widget.setStyleProperty("fontStyle", this.getItalic() ? "italic" : "normal");
+      widget.setStyleProperty("textDecoration", this.self(arguments).__lineToCss[this.getLine()] || "");
+      widget.setStyleProperty("textTransform", this.getTransform() || "");
     }
   }
 });
