@@ -94,7 +94,7 @@ qx.Class.define("qx.core.Setting",
      */
     define : function(key, defaultValue)
     {
-      if (defaultValue == undefined) {
+      if (defaultValue === undefined) {
         throw new Error('Default value of setting "' + key + '" must be defined!');
       }
 
@@ -118,11 +118,11 @@ qx.Class.define("qx.core.Setting",
      */
     get : function(key)
     {
-      if (this.__settings[key] == undefined) {
+      if (this.__settings[key] === undefined) {
         throw new Error('Setting "' + key + '" is not defined.');
       }
 
-      if (this.__settings[key].defaultValue == undefined) {
+      if (this.__settings[key].defaultValue === undefined) {
         throw new Error('Setting "' + key + '" is not supported by API.');
       }
 
