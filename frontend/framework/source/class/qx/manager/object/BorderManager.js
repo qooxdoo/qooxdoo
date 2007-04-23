@@ -63,9 +63,16 @@ qx.Class.define("qx.manager.object.BorderManager",
   {
     _applyBorderTheme : function(value)
     {
-      var dest = this._dynamic = {};
+      var dest = this._dynamic;
 
-      // TODO: Dispose old borders
+      if (dest)
+      {
+        for (var key in dest) {
+          dest[key].dispose();
+        }
+      }
+
+      dest = this._dynamic = {};
 
       if (value)
       {
