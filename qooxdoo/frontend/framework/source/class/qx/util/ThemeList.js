@@ -67,7 +67,8 @@ qx.Class.define("qx.util.ThemeList",
      */
     createMetaButtons : function(parent, x, y)
     {
-      return this.__createButtons(parent, x, y, qx.Theme.getMetaThemes(), "Theme: ", function(e) {
+      var mgr = qx.manager.object.ThemeManager.getInstance();
+      return this.__createButtons(parent, x, y, mgr.getMetaThemes(), "Theme: ", function(e) {
         qx.manager.object.ThemeManager.getInstance().setTheme(e.getTarget().getUserData("theme"));
       });
     },
@@ -83,7 +84,8 @@ qx.Class.define("qx.util.ThemeList",
      */
     createColorButtons : function(parent, x, y)
     {
-      return this.__createButtons(parent, x, y, qx.Theme.getColorThemes(), "Color Theme: ", function(e) {
+      var mgr = qx.manager.object.ThemeManager.getInstance();
+      return this.__createButtons(parent, x, y, mgr.getColorThemes(), "Color Theme: ", function(e) {
         qx.manager.object.ColorManager.getInstance().setColorTheme(e.getTarget().getUserData("theme"));
       });
     },
@@ -99,7 +101,8 @@ qx.Class.define("qx.util.ThemeList",
      */
     createBorderButtons : function(parent, x, y)
     {
-      return this.__createButtons(parent, x, y, qx.Theme.getBorderThemes(), "Border Theme: ", function(e) {
+      var mgr = qx.manager.object.ThemeManager.getInstance();
+      return this.__createButtons(parent, x, y, mgr.getBorderThemes(), "Border Theme: ", function(e) {
         qx.manager.object.BorderManager.getInstance().setBorderTheme(e.getTarget().getUserData("theme"));
       });
     },
@@ -115,7 +118,8 @@ qx.Class.define("qx.util.ThemeList",
      */
     createFontButtons : function(parent, x, y)
     {
-      return this.__createButtons(parent, x, y, qx.Theme.getFontThemes(), "Font Theme: ", function(e) {
+      var mgr = qx.manager.object.ThemeManager.getInstance();
+      return this.__createButtons(parent, x, y, mgr.getFontThemes(), "Font Theme: ", function(e) {
         qx.manager.object.FontManager.getInstance().setFontTheme(e.getTarget().getUserData("theme"));
       });
     },
@@ -131,7 +135,8 @@ qx.Class.define("qx.util.ThemeList",
      */
     createWidgetButtons : function(parent, x, y)
     {
-      return this.__createButtons(parent, x, y, qx.Theme.getWidgetThemes(), "Widget Theme: ", function(e) {
+      var mgr = qx.manager.object.ThemeManager.getInstance();
+      return this.__createButtons(parent, x, y, mgr.getWidgetThemes(), "Widget Theme: ", function(e) {
         qx.manager.object.ImageManager.getInstance().setWidgetTheme(e.getTarget().getUserData("theme"));
       });
     },
@@ -147,7 +152,8 @@ qx.Class.define("qx.util.ThemeList",
      */
     createIconButtons : function(parent, x, y)
     {
-      return this.__createButtons(parent, x, y, qx.Theme.getIconThemes(), "Icon Theme: ", function(e) {
+      var mgr = qx.manager.object.ThemeManager.getInstance();
+      return this.__createButtons(parent, x, y, mgr.getIconThemes(), "Icon Theme: ", function(e) {
         qx.manager.object.ImageManager.getInstance().setIconTheme(e.getTarget().getUserData("theme"));
       });
     },
@@ -163,7 +169,8 @@ qx.Class.define("qx.util.ThemeList",
      */
     createAppearanceButtons : function(parent, x, y)
     {
-      return this.__createButtons(parent, x, y, qx.Theme.getAppearanceThemes(), "Appearance Theme: ", function(e) {
+      var mgr = qx.manager.object.ThemeManager.getInstance();
+      return this.__createButtons(parent, x, y, mgr.getAppearanceThemes(), "Appearance Theme: ", function(e) {
         qx.manager.object.AppearanceManager.getInstance().setAppearanceTheme(e.getTarget().getUserData("theme"));
       });
     }
