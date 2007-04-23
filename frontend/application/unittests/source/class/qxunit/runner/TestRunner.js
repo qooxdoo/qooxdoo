@@ -94,15 +94,27 @@ qx.Class.define("qxunit.runner.TestRunner",
 
     // Toolbar
     this.toolbar = new qx.ui.toolbar.ToolBar;
-    this.runbutton = new qx.ui.toolbar.Button("Run Test", "icon/16/categories/applications-development.png");
-    this.toolbar.add(this.runbutton);
     this.toolbar.set({
       width : "100%",
       border : "inset"
     });
     this.add(this.toolbar);
 
+    this.runbutton = new qx.ui.toolbar.Button("Run Test", "icon/16/categories/applications-development.png");
+    this.toolbar.add(this.runbutton);
     this.runbutton.addEventListener("execute", this.runTest, this);
+    this.toolbar.add(new qx.ui.toolbar.Separator);
+
+    this.reloadbutton = new qx.ui.toolbar.Button("Reload Testsuite: ");
+    this.toolbar.add(this.reloadbutton);
+    this.testSuiteUrl = new qx.ui.form.TextField("html/QooxdooTest.html?testclass=qxunit.test");
+    this.toolbar.add(this.testSuiteUrl);
+    this.testSuiteUrl.set({
+      width : 250,
+      font  : new qx.renderer.font.Font(6,"Times")
+    });
+    this.reloadbutton.addEventListener("execute", this.reloadTestSuite, this);
+
 
 
     // Main Pane
@@ -380,6 +392,13 @@ qx.Class.define("qxunit.runner.TestRunner",
 
 
     }, //runTest
+
+    /**
+     * reloads iframe's URL
+     */
+    reloadTestSuite : function (e) {
+      this.iframe.setSource(this.testSuiteUrl.getValue());
+    }, //reloadTestSuite
 
 
     testLoader : function()
