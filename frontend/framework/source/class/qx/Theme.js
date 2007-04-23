@@ -170,6 +170,7 @@ qx.Class.define("qx.Theme",
         "extend"      : "object", // Theme
         "colors"      : "object", // Map
         "borders"     : "object", // Map
+        "fonts"       : "object", // Map
         "icons"       : "object", // Map
         "widgets"     : "object", // Map
         "appearances" : "object", // Map
@@ -210,7 +211,7 @@ qx.Class.define("qx.Theme",
         }
 
         // Validate maps
-        var maps = [ "colors", "borders", "icons", "widgets", "appearances", "meta" ];
+        var maps = [ "colors", "borders", "fonts", "icons", "widgets", "appearances", "meta" ];
         for (var i=0, l=maps.length; i<l; i++)
         {
           var key = maps[i];
