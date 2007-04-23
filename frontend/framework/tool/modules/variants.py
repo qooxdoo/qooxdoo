@@ -48,10 +48,10 @@ import filetool, optparseext
 
 
 
-##                                                                              
-# Some nice short description of foo(); this can contain html and 
+##
+# Some nice short description of foo(); this can contain html and
 # {@link #foo Links} to items in the current file.
-#                                                                               
+#
 # @param     a        Describe a positional parameter
 # @keyparam  b        Describe a keyword parameter
 # @def       foo(name)    # overwrites auto-generated function signature
@@ -75,7 +75,7 @@ def generate(variantsList, newLines):
         variantKey = variantSplit.pop(0)
         variantValue = ":".join(variantSplit)
 
-        if not (variantValue == "false" or variantValue == "true" or typeNumber.match(variantValue)):
+        if not (variantValue == "false" or variantValue == "true" or variantValue == "null" or typeNumber.match(variantValue)):
             variantValue = '"%s"' % variantValue.replace("\"", "\\\"")
 
         variantsStr += 'qxvariants["%s"]=%s;%s' % (variantKey, variantValue, lineBreak)

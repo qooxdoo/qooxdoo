@@ -48,10 +48,10 @@ import filetool, optparseext
 
 
 
-##                                                                              
-# Some nice short description of foo(); this can contain html and 
+##
+# Some nice short description of foo(); this can contain html and
 # {@link #foo Links} to items in the current file.
-#                                                                               
+#
 # @param     a        Describe a positional parameter
 # @keyparam  b        Describe a keyword parameter
 # @def       foo(name)    # overwrites auto-generated function signature
@@ -75,7 +75,7 @@ def generate(settingsList, newLines):
         settingKey = settingSplit.pop(0)
         settingValue = ":".join(settingSplit)
 
-        if not (settingValue == "false" or settingValue == "true" or typeNumber.match(settingValue)):
+        if not (settingValue == "false" or settingValue == "true" or settingValue == "null" or typeNumber.match(settingValue)):
             settingValue = '"%s"' % settingValue.replace("\"", "\\\"")
 
         settingsStr += 'if(qxsettings["%s"]==undefined)qxsettings["%s"]=%s;%s' % (settingKey, settingKey, settingValue, lineBreak)

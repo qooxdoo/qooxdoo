@@ -150,13 +150,17 @@ qx.Class.define("qx.manager.object.BorderManager",
 
     _generateBorderObjects : function(value)
     {
-      var source = value.borders;
       var dest = this.__themedBorders = {};
 
-      // TODO: Dispose old borders
+      if (value)
+      {
+        var source = value.borders;
 
-      for (var key in source) {
-        dest[key] = (new qx.renderer.border.Border).set(source[key]);
+        // TODO: Dispose old borders
+
+        for (var key in source) {
+          dest[key] = (new qx.renderer.border.Border).set(source[key]);
+        }
       }
     },
 
