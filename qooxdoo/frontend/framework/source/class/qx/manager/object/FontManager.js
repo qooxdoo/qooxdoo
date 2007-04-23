@@ -40,8 +40,8 @@ qx.Class.define("qx.manager.object.FontManager",
 
   properties :
   {
-    /** the currently selected color theme */
-    colorTheme :
+    /** the currently selected font theme */
+    fontTheme :
     {
       check : "Theme",
       nullable : true,
@@ -63,6 +63,8 @@ qx.Class.define("qx.manager.object.FontManager",
   {
     _applyFontTheme : function(value)
     {
+      this.debug("Font-Theme: " + value);
+
       var dest = this._dynamic = {};
 
       if (value)
@@ -72,6 +74,7 @@ qx.Class.define("qx.manager.object.FontManager",
         for (var key in source)
         {
           // TODO
+          this.debug("Compile: " + source[key]);
           dest[key] = source[key];
         }
       }

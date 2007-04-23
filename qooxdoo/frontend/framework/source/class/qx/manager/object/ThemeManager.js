@@ -66,6 +66,7 @@ qx.Class.define("qx.manager.object.ThemeManager",
     {
       var color = null;
       var border = null;
+      var font = null;
       var widget = null;
       var icon = null;
       var appearance = null;
@@ -74,6 +75,7 @@ qx.Class.define("qx.manager.object.ThemeManager",
       {
         color = value.meta.color || null;
         border = value.meta.border || null;
+        font = value.meta.font || null;
         widget = value.meta.widget || null;
         icon = value.meta.icon || null;
         appearance = value.meta.appearance || null;
@@ -81,6 +83,7 @@ qx.Class.define("qx.manager.object.ThemeManager",
 
       qx.manager.object.ColorManager.getInstance().setColorTheme(color);
       qx.manager.object.BorderManager.getInstance().setBorderTheme(border);
+      qx.manager.object.FontManager.getInstance().setFontTheme(font);
       qx.manager.object.ImageManager.getInstance().setWidgetTheme(widget);
       qx.manager.object.ImageManager.getInstance().setIconTheme(icon);
       qx.manager.object.AppearanceManager.getInstance().setAppearanceTheme(appearance);
@@ -128,6 +131,17 @@ qx.Class.define("qx.manager.object.ThemeManager",
         }
 
         qx.manager.object.BorderManager.getInstance().setBorderTheme(obj);
+      }
+
+      theme = setting.get("qx.fontTheme");
+      if (theme)
+      {
+        obj = qx.Theme.getByName(theme);
+        if (!obj) {
+          throw new Error("The font theme to use is not available: " + theme);
+        }
+
+        qx.manager.object.FontManager.getInstance().setFontTheme(obj);
       }
 
       theme = setting.get("qx.widgetTheme");
