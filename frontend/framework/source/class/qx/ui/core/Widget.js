@@ -6401,7 +6401,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      FORGROUND COLOR SUPPORT
+      FOREGROUND COLOR SUPPORT
     ---------------------------------------------------------------------------
     */
 
@@ -6436,7 +6436,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * @type member
-     * @param value {Map} map of CSS font properties
+     * @param value {qx.renderer.font.Font}
      */
     _styleFont : function(value) {
       value ? value.render(this) : qx.renderer.font.Font.reset(this);
