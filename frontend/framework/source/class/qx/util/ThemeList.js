@@ -67,7 +67,7 @@ qx.Class.define("qx.util.ThemeList",
      */
     createMetaButtons : function(parent, x, y)
     {
-      return this.__createButtons(parent, x, y, qx.Theme.getColorThemes(), "Theme: ", function(e) {
+      return this.__createButtons(parent, x, y, qx.Theme.getMetaThemes(), "Theme: ", function(e) {
         qx.manager.object.ThemeManager.getInstance().setTheme(e.getTarget().getUserData("theme"));
       });
     },
