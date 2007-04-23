@@ -86,7 +86,7 @@ qx.Class.define("qx.core.Variant",
           throw new Error('Allowed values of variant "' + key + '" must be defined!');
         }
 
-        if (defaultValue == undefined) {
+        if (defaultValue === undefined) {
           throw new Error('Default value of variant "' + key + '" must be defined!');
         }
       }
