@@ -63,19 +63,15 @@ qx.Class.define("qx.manager.object.FontManager",
   {
     _applyFontTheme : function(value)
     {
-      this.debug("Font-Theme: " + value);
-
       var dest = this._dynamic = {};
 
       if (value)
       {
         var source = value.fonts;
+        var font = qx.renderer.font.Font;
 
-        for (var key in source)
-        {
-          // TODO
-          this.debug("Compile: " + source[key]);
-          dest[key] = source[key];
+        for (var key in source) {
+          dest[key] = (new font).set(source[key]);
         }
       }
 
