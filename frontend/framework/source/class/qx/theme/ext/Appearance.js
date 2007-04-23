@@ -25,6 +25,7 @@
 #ignore(auto-use)
 #embed(qx.static/image/dotted_white.gif)
 #embed(qx.static/image/blank.gif)
+#embed(qx.static/image/Ext/barbutton_gradient.png)
 #embed(qx.static/image/Ext/button_gradient.png)
 #embed(qx.static/image/Ext/tabbutton_gradient.png)
 #embed(qx.static/image/Ext/tabbutton_reverse_gradient.png)
