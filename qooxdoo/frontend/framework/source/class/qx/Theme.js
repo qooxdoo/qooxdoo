@@ -117,6 +117,17 @@ qx.Class.define("qx.Theme",
 
 
     /**
+     * Returns a list of all registered meta themes
+     *
+     * @type static
+     * @return {Theme[]} list of meta themes
+     */
+    getMetaThemes : function() {
+      return this.__queryThemes("meta");
+    },
+
+
+    /**
      * Returns a list of all registered color themes
      *
      * @type static
@@ -135,6 +146,17 @@ qx.Class.define("qx.Theme",
      */
     getBorderThemes : function() {
       return this.__queryThemes("borders");
+    },
+
+
+    /**
+     * Returns a list of all registered font themes
+     *
+     * @type static
+     * @return {Theme[]} list of font themes
+     */
+    getFontThemes : function() {
+      return this.__queryThemes("fonts");
     },
 
 
