@@ -928,7 +928,7 @@ qx.Class.define("qx.core.Property",
       if (members.getChildren && config.inheritable === true)
       {
         code.add('var a=this.getChildren();if(a)for(var i=0,l=a.length;i<l;i++){');
-        code.add('a[i].', this.$$method.refresh[name], '(computed);');
+        code.add('if(a[i].', this.$$method.refresh[name], ')a[i].', this.$$method.refresh[name], '(computed);');
         code.add('}');
       }
 
