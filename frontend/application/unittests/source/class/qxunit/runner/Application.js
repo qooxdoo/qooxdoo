@@ -51,8 +51,8 @@ qx.Class.define("qxunit.runner.Application",
       //preloader.start();
 
       // Initialize the viewer
-      //this.viewer = new qxunit.runner.TestRunner;
-      this.viewer = new qxunit.runner.BasicRunner;
+      this.viewer = new qxunit.runner.TestRunner;
+      //this.viewer = new qxunit.runner.BasicRunner;
       this.viewer.addToDocument();
     }
   },
