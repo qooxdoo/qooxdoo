@@ -40,11 +40,12 @@ qx.Class.define("qx.manager.object.BorderManager",
 
   properties :
   {
+    /** the currently selected border theme */
     borderTheme :
     {
       check : "Theme",
       nullable : true,
-      apply : "_processThemedData",
+      apply : "_applyBorderTheme",
       event : "changeBorderTheme"
     }
   },
@@ -60,39 +61,46 @@ qx.Class.define("qx.manager.object.BorderManager",
 
   members :
   {
-    _processThemedData : function(value)
+    _applyBorderTheme : function(value)
     {
       var dest = this._dynamic = {};
+
+      // TODO: Dispose old borders
 
       if (value)
       {
         var source = value.borders;
-
-        // TODO: Dispose old borders
+        var border = qx.renderer.border.Border;
 
         for (var key in source) {
-          dest[key] = (new qx.renderer.border.Border).set(source[key]);
+          dest[key] = (new border).set(source[key]);
         }
       }
 
-      // Inform objects which have registered
-      // regarding the theme switch
-      this._updateThemedObjects();
+      // Inform registered objects
+      this._updateObjects();
     },
 
 
-    updateBorderAt : function(obj, edge)
+    /**
+     * Update all objects which use the given border. Only updates one edge at each call.
+     *
+     * @type member
+     * @param border {qx.renderer.border.Border} the border which have been modified
+     * @param edge {String} top, right, bottom or left
+     */
+    updateObjectsEdge : function(border, edge)
     {
       var reg = this._registry;
-      var dest = this._dynamic;
+      var dyn = this._dynamic;
       var entry;
 
       for (var key in reg)
       {
         entry = reg[key];
 
-        if (dest[entry.value] === obj) {
-          entry.callback.call(entry.object, dest[entry.value], edge);
+        if (dyn[entry.value] === border) {
+          entry.callback.call(entry.object, border, edge);
         }
       }
     }
