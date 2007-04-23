@@ -27,27 +27,7 @@
 qx.Class.define("qx.manager.object.BorderManager",
 {
   type : "singleton",
-  extend : qx.core.Target,
-
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function()
-  {
-    this.base(arguments);
-
-    // Stores the objects
-    this.__themedObjects = {};
-
-    // Create empty themed border map
-    this.__themedBorders = {};
-  },
+  extend : qx.manager.object.ValueManager,
 
 
 
@@ -64,7 +44,7 @@ qx.Class.define("qx.manager.object.BorderManager",
     {
       check : "Theme",
       nullable : true,
-      apply : "_applyBorderTheme",
+      apply : "_processThemedData",
       event : "changeBorderTheme"
     }
   },
@@ -80,77 +60,9 @@ qx.Class.define("qx.manager.object.BorderManager",
 
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      BORDER VALUE HANDLING
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Processing a border and handle callback execution on theme updates.
-     *
-     * @param obj {Object} Any object
-     * @param callback {String} Name of callback function which handles the
-     *   apply of the resulting value.
-     * @param value {var} Any acceptable border value
-     * @return {void}
-     */
-    connect : function(callback, obj, value)
+    _processThemedData : function(value)
     {
-      // Store references for themed borders
-      var key = "border" + obj.toHashCode() + "$" + qx.core.Object.toHashCode(callback);
-      var reg = this.__themedObjects;
-
-      if (value && this.__themedBorders[value])
-      {
-        // Store reference for themed values
-        reg[key] = { callback : callback, object : obj, value : value };
-      }
-      else if (reg[key])
-      {
-        // In all other cases try to remove previously created references
-        delete reg[key];
-      }
-
-      // Finally executing given callback
-      // Themed borders are able to overwrite the values of named and system borders
-      // Simple return of all other named, system, hex, RGB strings
-      // Validation is not done here.
-      callback.call(obj, value ? this.__themedBorders[value] || value : null);
-    },
-
-    themedBorderToObject : function(value) {
-      return this.__themedBorders[value];
-    },
-
-    isThemedBorder : function(value) {
-      return this.__themedBorders[value] !== undefined;
-    },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      BORDER THEME HANDLING
-    ---------------------------------------------------------------------------
-    */
-
-    _applyBorderTheme : function(value, old)
-    {
-      // Generating border objects
-      this._generateBorderObjects(value);
-
-      // Inform objects which have registered
-      // regarding the theme switch
-      this._updateThemedObjects();
-    },
-
-
-    _generateBorderObjects : function(value)
-    {
-      var dest = this.__themedBorders = {};
+      var dest = this._dynamic = {};
 
       if (value)
       {
@@ -162,27 +74,17 @@ qx.Class.define("qx.manager.object.BorderManager",
           dest[key] = (new qx.renderer.border.Border).set(source[key]);
         }
       }
-    },
 
-
-    _updateThemedObjects : function()
-    {
-      var reg = this.__themedObjects;
-      var dest = this.__themedBorders;
-      var entry;
-
-      for (var key in reg)
-      {
-        entry = reg[key];
-        entry.callback.call(entry.object, dest[entry.value]);
-      }
+      // Inform objects which have registered
+      // regarding the theme switch
+      this._updateThemedObjects();
     },
 
 
     updateBorderAt : function(obj, edge)
     {
-      var reg = this.__themedObjects;
-      var dest = this.__themedBorders;
+      var reg = this._registry;
+      var dest = this._dynamic;
       var entry;
 
       for (var key in reg)
@@ -194,20 +96,5 @@ qx.Class.define("qx.manager.object.BorderManager",
         }
       }
     }
-  },
-
-
-
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this._disposeFields("__themedObjects", "__themedBorders");
   }
 });

@@ -118,35 +118,12 @@ qx.Class.define("qx.manager.object.ImageManager",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
-     */
-    _applyIconTheme : function(propValue, propOldValue, propData)
-    {
+    _applyIconTheme : function(propValue, propOldValue, propData) {
       propValue ? qx.manager.object.AliasManager.getInstance().add("icon", propValue.icons.uri) : qx.manager.object.AliasManager.getInstance().remove("icon");
-      return true;
     },
 
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {boolean} TODOC
-     */
-    _applyWidgetTheme : function(propValue, propOldValue, propData)
-    {
+    _applyWidgetTheme : function(propValue, propOldValue, propData) {
       propValue ? qx.manager.object.AliasManager.getInstance().add("widget", propValue.widgets.uri) : qx.manager.object.AliasManager.getInstance().remove("widget");
-      return true;
     },
 
 
