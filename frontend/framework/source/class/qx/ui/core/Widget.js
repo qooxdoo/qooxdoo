@@ -1323,7 +1323,8 @@ qx.Class.define("qx.ui.core.Widget",
     font :
     {
       nullable : true,
-      apply : "_applyFont"
+      apply : "_applyFont",
+      check : "Font"
     },
 
 
