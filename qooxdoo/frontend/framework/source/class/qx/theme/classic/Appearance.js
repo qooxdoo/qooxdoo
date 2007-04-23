@@ -114,7 +114,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          font : '11px "Lucida Grande", Tahoma, sans-serif',
+          font : "default",
           color : states.disabled ? "graytext" : null
         };
       }
@@ -701,7 +701,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           cursor      : "default",
-          font        : '11px bold Tahoma, sans-serif',
+          font        : "bold",
           marginRight : 2,
           wrap        : false
         };
@@ -965,7 +965,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           paddingLeft     : 3,
           allowStretchY   : false,
           allowStretchX   : true,
-          font            : '11px "Lucida Grande", Tahoma, sans-serif',
+          font            : "default",
           width           : "auto",
           height          : "auto",
           color           : states.disabled ? "graytext" : null,
@@ -1364,7 +1364,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           overflow     : "hidden",
           paddingLeft  : 6,
           paddingRight : 6,
-          font         : '11px "Lucida Grande", Tahoma, sans-serif'
+          font         : "default"
         };
       }
     },
@@ -1771,7 +1771,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          font          : '13px Tahoma, sans-serif',
+          font          : "large",
           textAlign     : "center",
           verticalAlign : "middle"
         };
@@ -1798,7 +1798,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
         return {
           border          : border,
-          font            : '11px bold Tahoma, sans-serif',
+          font            : "bold",
           textAlign       : "center",
           color           : states.weekend ? "#6285BA" : "window",
           backgroundColor : states.weekend ? "window" : "#6285BA"
@@ -1813,7 +1813,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           cursor        : "default",
           color         : "windowtext",
-          font          : '11px "Lucida Grande", Tahoma, sans-serif',
+          font          : "default",
           textAlign     : "center",
           verticalAlign : "middle",
           selectable    : false,
@@ -1836,7 +1836,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         headerBorder.setBottom(1, "solid", "gray");
 
         return {
-          font        : '11px "Lucida Grande", Tahoma, sans-serif',
+          font        : "default",
           color       : "#6285BA",
           paddingLeft : 2,
           border : states.header ? headerBorder : border
@@ -1861,7 +1861,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         border.setTop(1, "solid", "threedshadow");
 
         return {
-          font         : '11px "Lucida Grande", Tahoma, sans-serif',
+          font         : "default",
           border       : border,
           paddingLeft  : 2,
           paddingRight : 2
@@ -1897,7 +1897,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          font          : '11px "Lucida Grande", Tahoma, sans-serif',
+          font          : "default",
           border        : null,
           paddingLeft   : 2,
           paddingRight  : 2,
