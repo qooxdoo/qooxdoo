@@ -135,6 +135,7 @@ qx.Class.define("qxunit.runner.TestRunner",
 
     // progress bar
     var progress = this.__makeProgress();
+    this.widgets["progressb"] = progress;
     right.add(progress);
 
     // button view
@@ -273,7 +274,8 @@ qx.Class.define("qxunit.runner.TestRunner",
         //that.getChildren()[2].getChildren()[1].getChildren()[1].getPane().getChildren()[0].getChildren()[0] = that.tests.selected;
         that.appendr(that.tests.selected);
         that.widgets["statuspane.current"].setHtml(that.tests.selected);
-        var snum = String(that.tests.handler.testCount(that.tests.selected));
+        that.tests.selected_cnt = that.tests.handler.testCount(that.tests.selected);
+        var snum = String(that.tests.selected_cnt);
         that.widgets["statuspane.number"].setHtml(snum);
       });
 
@@ -358,6 +360,7 @@ qx.Class.define("qxunit.runner.TestRunner",
     runTest : function (e) {
       this.appendr("Now running: " + this.tests.selected);
       // Initialize progress bar
+      this.widgets["progressb"].getChildren()[1].update("0%");
       // Make initial entry in output windows (test result, log, ...)
 
       // Foreach test subsumed by 'testLabel' (could be an individual test, or
@@ -365,11 +368,16 @@ qx.Class.define("qxunit.runner.TestRunner",
 
         // create iframe obj
         // create testResult obj
+        var tstCnt = this.tests.selected_cnt;
+        var tstCurr = 1;
         var testResult = new qxunit.TestResult();
         // set up event listeners
         testResult.addEventListener("startTest", function(e) {
           var test = e.getData();
           this.appendr("Test '"+test.getFullName()+"' started.");
+          this.widgets["progressb"].getChildren()[1].update(String(tstCurr+"/"+tstCnt));
+          this.widgets["progressb"]._children[2].setHtml(String(tstCurr+"/"+tstCnt));
+          tstCurr++;
         }, this);
         testResult.addEventListener("failure", function(e) {
           var ex = e.getData().exception;
@@ -377,7 +385,7 @@ qx.Class.define("qxunit.runner.TestRunner",
           this.appendr("Test '"+test.getFullName()+"' failed: " +  ex.getMessage() + " - " + ex.getComment());
         }, this);
         testResult.addEventListener("error", function(e) {
-          var ex = e.getData().exception
+          var ex = e.getData().exception;
           this.appendr("The test '"+e.getData().test.getFullName()+"' had an error: " + ex, ex);
         }, this);
 
