@@ -29,6 +29,7 @@ qx.Theme.define("qx.theme.Ext",
   {
     color : qx.theme.ext.Color,
     border : qx.theme.classic.Border,
+    font : qx.theme.classic.Font,
     widget : qx.theme.ext.Widget,
     appearance : qx.theme.ext.Appearance,
     icon : qx.theme.icon.CrystalClear

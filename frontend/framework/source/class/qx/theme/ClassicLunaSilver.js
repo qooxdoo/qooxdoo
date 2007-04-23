@@ -29,6 +29,7 @@ qx.Theme.define("qx.theme.ClassicLunaSilver",
   {
     color : qx.theme.classic.color.LunaSilver,
     border : qx.theme.classic.Border,
+    font : qx.theme.classic.Font,
     widget : qx.theme.classic.Widget,
     appearance : qx.theme.classic.Appearance,
     icon : qx.theme.icon.Nuvola

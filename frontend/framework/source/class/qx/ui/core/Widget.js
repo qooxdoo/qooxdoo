@@ -1322,11 +1322,8 @@ qx.Class.define("qx.ui.core.Widget",
     /** The font property describes how to paint the font on the widget. */
     font :
     {
-      _legacy                : true,
-      type                   : "object",
-      instance               : "qx.renderer.font.Font",
-      convert                : qx.renderer.font.FontCache.convert,
-      allowMultipleArguments : true
+      nullable : true,
+      apply : "_applyFont"
     },
 
 
@@ -6411,6 +6408,10 @@ qx.Class.define("qx.ui.core.Widget",
       qx.manager.object.ColorManager.getInstance().connect(this._styleColor, this, value);
     },
 
+    /**
+     * @type member
+     * @param value {var} any acceptable CSS color property
+     */
     _styleColor : function(value) {
       value ? this.setStyleProperty("color", value) : this.removeStyleProperty("color");
     },
@@ -6428,8 +6429,19 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    _modifyFont : function(value, old) {
+    _applyFont : function(value, old) {
+      qx.manager.object.FontManager.getInstance().connect(this._styleFont, this, value);
+    },
 
+    /**
+     * @type member
+     * @param value {Map} map of CSS font properties
+     */
+    _styleFont : function(value)
+    {
+      for (var prop in value) {
+        this.setStyleProperty(prop, value[prop]);
+      }
     },
 
 
