@@ -279,6 +279,7 @@ qx.Class.define("qx.manager.object.ThemeManager",
     "qx.theme"           : "qx.theme.ClassicRoyale",
     "qx.colorTheme"      : null,
     "qx.borderTheme"     : null,
+    "qx.fontTheme"       : null,
     "qx.widgetTheme"     : null,
     "qx.appearanceTheme" : null,
     "qx.iconTheme"       : null
