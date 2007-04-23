@@ -25,11 +25,11 @@
 #ignore(auto-use)
 #embed(qx.static/image/dotted_white.gif)
 #embed(qx.static/image/blank.gif)
-#embed(qx.static/image/Ext/barbutton_gradient.png)
-#embed(qx.static/image/Ext/button_gradient.png)
-#embed(qx.static/image/Ext/tabbutton_gradient.png)
-#embed(qx.static/image/Ext/tabbutton_reverse_gradient.png)
-#embed(qx.static/image/Ext/toolbar_gradient.png)
+#embed(qx.widget/gradient/barbutton_gradient.png)
+#embed(qx.widget/gradient/button_gradient.png)
+#embed(qx.widget/gradient/tabbutton_gradient.png)
+#embed(qx.widget/gradient/tabbutton_reverse_gradient.png)
+#embed(qx.widget/gradient/toolbar_gradient.png)
 
  ************************************************************************ */
 
@@ -165,7 +165,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
 
       style : function(states) {
         return {
-          backgroundImage : "static/image/Ext/button_gradient.png",
+          backgroundImage : "widget/gradient/button_gradient.png",
 
           backgroundColor : states.over ? "buttonhighlight" : "buttonface",
           border          : states.over ? "inset" : "thinOutset",
@@ -195,7 +195,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
         return {
           border          : "1px solid #98C0F4",
           backgroundColor : "#C9DEFA",
-          backgroundImage : "static/image/Ext/toolbar_gradient.png",
+          backgroundImage : "widget/gradient/toolbar_gradient.png",
           height          : "auto"
         }
       }
@@ -387,7 +387,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
 
         if (states.checked || states.over) {
           vReturn.border          = "1px solid buttonshadow";
-          vReturn.backgroundImage = states.checked ? "static/image/Ext/barbutton_gradient.png" : null;
+          vReturn.backgroundImage = states.checked ? "widget/gradient/barbutton_gradient.png" : null;
           vReturn.backgroundColor = states.checked ? "buttonface" : null;
           vReturn.paddingTop      = vReturn.paddingBottom = 3;
           vReturn.paddingLeft     = vReturn.paddingRight  = 6;
@@ -542,7 +542,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
 
         if (states.checked || states.over) {
           vReturn.border          = "1px solid buttonshadow";
-          vReturn.backgroundImage = states.checked ? "static/image/Ext/barbutton_gradient.png" : null;
+          vReturn.backgroundImage = states.checked ? "widget/gradient/barbutton_gradient.png" : null;
           vReturn.backgroundColor = states.checked ? "buttonface" : null;
           vReturn.paddingTop      = vReturn.paddingBottom = 3;
           vReturn.paddingLeft     = vReturn.paddingRight  = 6;
@@ -1376,7 +1376,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
         if (states.checked) {
           vReturn = {
             color           : "#1E3C73",
-            backgroundImage : states.barTop ? "static/image/Ext/tabbutton_gradient.png" : "static/image/Ext/tabbutton_reverse_gradient.png",
+            backgroundImage : states.barTop ? "widget/gradient/tabbutton_gradient.png" : "widget/gradient/tabbutton_reverse_gradient.png",
             backgroundColor : "buttonface",
             zIndex          : 1,
             paddingTop      : 3,
@@ -1392,7 +1392,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
         else {
           vReturn = {
             color           : "#666666",
-            backgroundImage : states.barTop ? "static/image/Ext/tabbutton_gradient.png" : "static/image/Ext/tabbutton_reverse_gradient.png",
+            backgroundImage : states.barTop ? "widget/gradient/tabbutton_gradient.png" : "widget/gradient/tabbutton_reverse_gradient.png",
             backgroundColor : "#D2D6D8",
             zIndex          : 0,
             paddingLeft     : 6,
