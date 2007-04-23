@@ -22,7 +22,6 @@
 
 #module(core)
 #module(oo)
-#require(qx.manager.object.AliasManager)
 
 ************************************************************************ */
 
@@ -93,103 +92,13 @@ qx.Class.define("qx.Theme",
 
 
     /**
-     * Query the theme list to get all themes the given key
-     *
-     * @param key {String} the key to look for
-     * @return {Theme[]} list of matching themes
-     */
-    __queryThemes : function(key)
-    {
-      var reg = this.__registry;
-      var theme;
-      var list = [];
-
-      for (var name in reg)
-      {
-        theme = reg[name];
-        if (theme[key]) {
-          list.push(theme);
-        }
-      }
-
-      return list;
-    },
-
-
-    /**
-     * Returns a list of all registered meta themes
+     * Return a map of all known themes
      *
      * @type static
-     * @return {Theme[]} list of meta themes
+     * @return {Map} known themes
      */
-    getMetaThemes : function() {
-      return this.__queryThemes("meta");
-    },
-
-
-    /**
-     * Returns a list of all registered color themes
-     *
-     * @type static
-     * @return {Theme[]} list of color themes
-     */
-    getColorThemes : function() {
-      return this.__queryThemes("colors");
-    },
-
-
-    /**
-     * Returns a list of all registered color themes
-     *
-     * @type static
-     * @return {Theme[]} list of color themes
-     */
-    getBorderThemes : function() {
-      return this.__queryThemes("borders");
-    },
-
-
-    /**
-     * Returns a list of all registered font themes
-     *
-     * @type static
-     * @return {Theme[]} list of font themes
-     */
-    getFontThemes : function() {
-      return this.__queryThemes("fonts");
-    },
-
-
-    /**
-     * Returns a list of all registered color themes
-     *
-     * @type static
-     * @return {Theme[]} list of color themes
-     */
-    getWidgetThemes : function() {
-      return this.__queryThemes("widgets");
-    },
-
-
-    /**
-     * Returns a list of all registered color themes
-     *
-     * @type static
-     * @return {Theme[]} list of color themes
-     */
-    getIconThemes : function() {
-      return this.__queryThemes("icons");
-    },
-
-
-    /**
-     * Returns a list of all registered color themes
-     *
-     * @type static
-     * @return {Theme[]} list of color themes
-     */
-    getAppearanceThemes : function() {
-      return this.__queryThemes("appearance");
+    getAll : function() {
+      return this.__registry;
     },
 
 
