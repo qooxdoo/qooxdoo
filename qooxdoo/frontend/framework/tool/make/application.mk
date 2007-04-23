@@ -153,7 +153,7 @@ endif
 #
 SILENCE=
 ifneq ($(VERBOSE),true)
-#SILENCE=@
+SILENCE=@
 endif
 
 
