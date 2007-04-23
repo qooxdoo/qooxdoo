@@ -284,7 +284,9 @@ qx.Class.define("qx.core.Property",
                   }
                 }
 
-                widget[refresh[name]](parent[get[name]]());
+                if (parent[get[name]]) {
+                  widget[refresh[name]](parent[get[name]]());
+                }
               }
             }
           }
