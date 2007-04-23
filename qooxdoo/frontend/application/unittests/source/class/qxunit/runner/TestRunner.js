@@ -67,14 +67,19 @@ qx.Class.define("qxunit.runner.TestRunner",
       var testRep = this.loader.getTestDescriptions();
       this.tests.handler = new qxunit.runner.TestHandler(testRep);
       //this.debug(qx.io.Json.stringify(testRep));
-      var left = this.__makeLeft();
-      this.mainsplit.addLeft(left);
+      if (! this.left) {
+        var left = this.__makeLeft();
+        this.left = left;
+        this.mainsplit.addLeft(left);
+      } else {
+        this.leftReloadTree();
+      }
     }, this);
 
     // Header Pane
-    this.header = new qx.ui.embed.HtmlEmbed("<h1>QxRunner - The qooxdoo Test Runner</h1>");
+    this.header = new qx.ui.embed.HtmlEmbed("<center><h1>QxRunner - The qooxdoo Test Runner</h1></center>");
     this.header.setHtmlProperty("className", "header");
-    this.header.setHeight(50);
+    this.header.setHeight(80);
     this.add(this.header);
 
     // Toolbar
@@ -245,7 +250,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       var tmap = this.tests.handler.tmap;
 
       //var left = new qx.ui.tree.Tree("Test Classes");
-      var left = new qx.ui.tree.Tree("Root");
+      var left = new qx.ui.tree.Tree("All");
       left.set({
         width : "100%",
         height : "100%",
@@ -274,6 +279,21 @@ qx.Class.define("qxunit.runner.TestRunner",
 
       return left;
     }, //makeLeft
+
+
+    leftReloadTree : function (e) {
+      var tmap = this.tests.handler.tmap;
+      var left = this.left;
+      left.removeAll();
+      for (var i=0; i<tmap.length; i++) {
+        var f = new qx.ui.tree.TreeFolder(tmap[i].classname);
+        left.add(f);
+        for (var j=0; j<tmap[i].tests.length; j++) {
+          f.add(new qx.ui.tree.TreeFile(tmap[i].tests[j]));
+        }
+      }
+    }, //leftPopulateTree
+
 
     __makeProgress: function (){
       var progress = new qx.ui.layout.HorizontalBoxLayout();
