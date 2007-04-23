@@ -396,7 +396,15 @@ qx.Class.define("qxunit.runner.TestRunner",
      * reloads iframe's URL
      */
     reloadTestSuite : function (e) {
-      this.iframe.setSource(this.testSuiteUrl.getValue());
+      var curr = this.iframe.getSource();
+      var neu  = this.testSuiteUrl.getValue();
+      this.left.setEnabled(false);
+      if (curr == neu) {
+        this.iframe.reload();
+      } else {
+        this.iframe.setSource(neu);
+      }
+      this.left.setEnabled(true);
     }, //reloadTestSuite
 
 
