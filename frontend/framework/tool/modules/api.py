@@ -340,65 +340,52 @@ def handleConstructor(ctorItem, classNode):
 
 
 def handleStatics(item, classNode):
-    if item.hasChildren():
-        for keyvalue in item.children:
-            key = keyvalue.get("key")
+    for key, value in mapNodeToMap(item).items():
+        keyvalue = value.parent
+        value = value.getFirstChild()
 
-#            # ignore private statics
-#            if key.startswith("__"):
-#                continue
+        commentAttributes = comment.parseNode(keyvalue)
 
-            value = keyvalue.getFirstChild(True, True).getFirstChild(True, True)
-            commentAttributes = comment.parseNode(keyvalue)
+        # handle @signature
+        if value.type != "function":
+            for docItem in commentAttributes:
+                if docItem["category"] == "signature":
+                    value = compileString(docItem["text"][3:-4] + "{}")
 
-            # handle @signature
-            if value.type != "function":
-                for docItem in commentAttributes:
-                    if docItem["category"] == "signature":
-                        value = compileString(docItem["text"][3:-4] + "{}")
+        # Function
+        if value.type == "function":
+            node = handleFunction(value, key, commentAttributes, classNode)
+            node.set("isStatic", True)
+            if classNode.get("type", False) == "mixin":
+                node.set("isMixin", True)
 
-            # Function
-            if value.type == "function":
-                node = handleFunction(value, key, commentAttributes, classNode)
-                node.set("isStatic", True)
-                if classNode.get("type", False) == "mixin":
-                    node.set("isMixin", True)
-
-                classNode.addListChild("methods-static", node)
+            classNode.addListChild("methods-static", node)
 
 
-            # Constant
-            elif key.isupper():
-                handleConstantDefinition(keyvalue, classNode)
+        # Constant
+        elif key.isupper():
+            handleConstantDefinition(keyvalue, classNode)
 
 
 def handleMembers(item, classNode):
-    if item.hasChildren():
-        for keyvalue in item.children:
-            if keyvalue.type != "keyvalue":
-                continue
+    for key, value in mapNodeToMap(item).items():
+        keyvalue = value.parent
+        value = value.getFirstChild()
 
-            key = keyvalue.get("key")
+        commentAttributes = comment.parseNode(keyvalue)
 
-#            # ignore private statics
-#            if key.startswith("__"):
-#                continue
+        # handle @signature
+        if value.type != "function":
+            for docItem in commentAttributes:
+                if docItem["category"] == "signature":
+                    value = compileString(docItem["text"][3:-4] + "{}")
 
-            value = keyvalue.getFirstChild(True, True).getFirstChild(True, True)
-            commentAttributes = comment.parseNode(keyvalue)
+        if value.type == "function":
+            node = handleFunction(value, key, commentAttributes, classNode)
+            if classNode.get("type", False) == "mixin":
+                node.set("isMixin", True)
 
-            # handle @signature
-            if value.type != "function":
-                for docItem in commentAttributes:
-                    if docItem["category"] == "signature":
-                        value = compileString(docItem["text"][3:-4] + "{}")
-
-            if value.type == "function":
-                node = handleFunction(value, key, commentAttributes, classNode)
-                if classNode.get("type", False) == "mixin":
-                    node.set("isMixin", True)
-
-                classNode.addListChild("methods", node)
+            classNode.addListChild("methods", node)
 
 
 def generatePropertyMethods(propertyName, classNode, generatedMethods):
@@ -603,84 +590,79 @@ def handlePropertyGroup(propName, propDefinition, classNode):
 
 
 def handleProperties(item, classNode):
-    if item.hasChildren():
-        for keyvalue in item.children:
-            propName = keyvalue.get("key")
-            value = keyvalue.getFirstChild(True, True).getFirstChild(True, True)
-            # print "  - Found Property: %s" % key
+    for propName, value in mapNodeToMap(item).items():
+        keyvalue = value.parent
+        value = value.getFirstChild()
 
-            if value.type != "map":
-                continue
+        if value.type != "map":
+            continue
 
-            propDefinition = mapNodeToMap(value)
-            #print propName, propDefinition
+        propDefinition = mapNodeToMap(value)
+        #print propName, propDefinition
 
-            # handle old style properties
-            if propDefinition.has_key("_legacy") or propDefinition.has_key("_fast") or propDefinition.has_key("_cached"):
-                handlePropertyDefinitionOldCommon(keyvalue, classNode, propName, value)
-                continue
+        # handle old style properties
+        if propDefinition.has_key("_legacy") or propDefinition.has_key("_fast") or propDefinition.has_key("_cached"):
+            handlePropertyDefinitionOldCommon(keyvalue, classNode, propName, value)
+            continue
 
 
-            if propDefinition.has_key("group"):
-                node = handlePropertyGroup(propName, propDefinition, classNode)
-                groupMembers = [member[1:-1] for member in node.get("group").split(",")]
-                generateGroupPropertyMethod(propName, groupMembers, node.get("mode", False), classNode)
-                generatePropertyMethods(propName, classNode, ["reset"])
-            else:
-                node = handlePropertyDefinitionNew(propName, propDefinition, classNode)
-                generatePropertyMethods(propName, classNode, ["set", "get", "init", "reset"])
-                if node.get("check", False) == "Boolean":
-                    generatePropertyMethods(propName, classNode, ["toggle", "is"])
+        if propDefinition.has_key("group"):
+            node = handlePropertyGroup(propName, propDefinition, classNode)
+            groupMembers = [member[1:-1] for member in node.get("group").split(",")]
+            generateGroupPropertyMethod(propName, groupMembers, node.get("mode", False), classNode)
+            generatePropertyMethods(propName, classNode, ["reset"])
+        else:
+            node = handlePropertyDefinitionNew(propName, propDefinition, classNode)
+            generatePropertyMethods(propName, classNode, ["set", "get", "init", "reset"])
+            if node.get("check", False) == "Boolean":
+                generatePropertyMethods(propName, classNode, ["toggle", "is"])
 
 
-            if classNode.get("type", False) == "mixin":
-                node.set("isMixin", True)
+        if classNode.get("type", False) == "mixin":
+            node.set("isMixin", True)
 
-            # If the description has a type specified then take this type
-            # (and not the one extracted from the paramsMap)
-            commentAttributes = comment.parseNode(keyvalue)
-            addTypeInfo(node, comment.getAttrib(commentAttributes, "description"), item)
-            handleDeprecated(node, commentAttributes)
-            handleAccess(node, commentAttributes)
+        # If the description has a type specified then take this type
+        # (and not the one extracted from the paramsMap)
+        commentAttributes = comment.parseNode(keyvalue)
+        addTypeInfo(node, comment.getAttrib(commentAttributes, "description"), item)
+        handleDeprecated(node, commentAttributes)
+        handleAccess(node, commentAttributes)
 
-            classNode.addListChild("properties", node)
+        classNode.addListChild("properties", node)
 
 
 
 
 
 def handleEvents(item, classNode):
-    if item.hasChildren():
-        for keyvalue in item.children:
-            if keyvalue.type != "keyvalue":
-                continue
+    for key, value in mapNodeToMap(item).items():
+        keyvalue = value.parent
+        value = value.getFirstChild(True, True).get("value")
 
-            node = tree.Node("event")
+        node = tree.Node("event")
 
-            key = keyvalue.get("key")
-            value = keyvalue.getFirstChild(True, True).getFirstChild(True, True).get("value")
-            commentAttributes = comment.parseNode(keyvalue)
-            try:
-                desc = commentAttributes[0]["text"]
-            except (IndexError, KeyError):
-                desc = None
-                addError(node, "Documentation is missing.", item)
+        commentAttributes = comment.parseNode(keyvalue)
+        try:
+            desc = commentAttributes[0]["text"]
+        except (IndexError, KeyError):
+            desc = None
+            addError(node, "Documentation is missing.", item)
 
-            if desc != None:
-                node.addChild(tree.Node("desc").set("text", desc))
+        if desc != None:
+            node.addChild(tree.Node("desc").set("text", desc))
 
-            node.set("name", key)
+        node.set("name", key)
 
-            typesNode = tree.Node("types")
-            node.addChild(typesNode)
-            itemNode = tree.Node("entry")
-            typesNode.addChild(itemNode)
-            itemNode.set("type", value)
+        typesNode = tree.Node("types")
+        node.addChild(typesNode)
+        itemNode = tree.Node("entry")
+        typesNode.addChild(itemNode)
+        itemNode.set("type", value)
 
-            handleDeprecated(node, commentAttributes)
-            handleAccess(node, commentAttributes)
+        handleDeprecated(node, commentAttributes)
+        handleAccess(node, commentAttributes)
 
-            classNode.addListChild("events", node)
+        classNode.addListChild("events", node)
 
 
 def handleAppearance(item, classNode, className, commentAttributes):
