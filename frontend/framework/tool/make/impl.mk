@@ -106,7 +106,7 @@ exec-script-build-split:
 	  --package-id qx \
 	  $(APPLICATION_ADDITIONAL_SCRIPT_BUILD_OPTIONS) \
 	  --export-to-file _qx.dat
-	
+
 	# generate include file list
 	$(SILENCE) $(CMD_GENERATOR) \
 	  $(COMPUTED_CLASS_PATH) \
@@ -120,10 +120,10 @@ exec-script-build-split:
 	@rm _qx.dat includes.dat
 	@$(CMD_DIR) build/script
 	@mv qx.dat build/script
-	
+
 	# generate qx.js
 	$(SILENCE) $(CMD_GENERATOR) --from-file build/script/qx.dat
-  
+
   # generate application.js
 	$(SILENCE) $(CMD_GENERATOR) \
 	  $(COMPUTED_CLASS_PATH) \
@@ -136,7 +136,7 @@ exec-script-build-split:
 	  --package-id app \
 	  --generate-compiled-script \
 	  --compiled-script-file $(COMPUTED_BUILD_SCRIPT_NAME) \
-	  $(APPLICATION_ADDITIONAL_SCRIPT_BUILD_OPTIONS)	
+	  $(APPLICATION_ADDITIONAL_SCRIPT_BUILD_OPTIONS)
 
 
 ifeq ($(APPLICATION_OPTIMIZE_BROWSER),true)
@@ -286,14 +286,14 @@ exec-framework-translation:
 	@cp $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot.bak
 	@rm -f $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot
 	@touch $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot
-	
+
 	@cd $(FRAMEWORK_SOURCE_PATH) && LC_ALL=C xgettext \
 	  --language=Java --from-code=UTF-8 \
 	  -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 \
 	  -kManager.trc -kManager.tr -kManager.marktr -kManager.trn:1,2 \
 	  --sort-by-file --add-comments=TRANSLATION -o translation/messages.pot \
 	  `find class -name "*.js"` 2> /dev/null
-	  
+
 	@if [ `diff --ignore-matching-lines='"POT-Creation-Date:' -d $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot.bak | wc -l` = 0 ]; then \
 		cp $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot.bak $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot; \
 	fi;
@@ -420,11 +420,11 @@ exec-api-build:
 	  --add-require qx.log.Logger:qx.log.NativeAppender \
 	  --use-setting qx.minLogLevel:700 \
 	  --use-variant qx.debug:off \
-    --use-setting qx.colorTheme:qx.theme.color.WindowsRoyale \
+    --use-setting qx.theme:qx.theme.ClassicRoyale \
     --use-setting qx.iconTheme:qx.theme.icon.Nuvola \
     --use-setting qx.widgetTheme:qx.theme.widget.Windows \
     --use-setting qx.appearanceTheme:qx.theme.appearance.Classic \
-    --use-setting qx.initApplication:apiviewer.Application \
+    --use-setting qx.application:apiviewer.Application \
     --include qx.theme.color.WindowsRoyale,qx.theme.icon.Nuvola,qx.theme.widget.Windows,qx.theme.appearance.Classic \
 	  --generate-compiled-script \
 	  --compiled-script-file $(APPLICATION_API_PATH)/script/$(APIVIEWER_NAMESPACE_PATH).js \

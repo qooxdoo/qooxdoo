@@ -35,7 +35,7 @@
  *
  * Make sure you set the application to your application before the load event is fired:
  * <pre>qx.core.Init.getInstance().setApplication(new YourApplication)</pre>. This can
- * also be defined using the setting <code>qx.initApplication</code>.
+ * also be defined using the setting <code>qx.application</code>.
  */
 qx.Class.define("qx.core.Init",
 {
@@ -145,7 +145,7 @@ qx.Class.define("qx.core.Init",
       // Init application from settings
       if (!this.getApplication())
       {
-        var clazz = qx.Class.getByName(qx.core.Setting.get("qx.initApplication"));
+        var clazz = qx.Class.getByName(qx.core.Setting.get("qx.application"));
         this.setApplication(new clazz(this));
       }
 
@@ -203,7 +203,7 @@ qx.Class.define("qx.core.Init",
   */
 
   settings : {
-    "qx.initApplication" : "qx.application.Gui"
+    "qx.application" : "qx.application.Gui"
   },
 
 
