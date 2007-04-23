@@ -338,7 +338,7 @@ qx.Class.define("qx.util.ColorUtil",
       }
       else if (this.isSystemColor(str))
       {
-        throw new Error("Could not convert system colors to RGB: " + value);
+        throw new Error("Could not convert system colors to RGB: " + str);
       }
       else if (this.isRgbString(str))
       {
