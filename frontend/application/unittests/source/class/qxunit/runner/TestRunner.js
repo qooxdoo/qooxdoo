@@ -48,25 +48,15 @@ qx.Class.define("qxunit.runner.TestRunner",
     this.set({
       height : "100%",
       width : "100%"
-      //border : "ridge"
-      //border          : qx.renderer.border.BorderPresets.getInstance().inset
     });
     this.widgets = {};
     this.tests   = {};
 
     // Hidden IFrame for test runs
     var iframe = new qx.ui.embed.Iframe("html/QooxdooTest.html?testclass=qxunit.test");
-    /*
-    iframe.set({
-      height: 0,
-      width:  0
-    });
-    */
     iframe.setEdge(0);
     this.iframe = iframe;
-    //this.add(iframe);
     iframe.addToDocument();
-    //iframe.hide();
 
     this.setBackgroundColor("threedface");
     this.setZIndex(5);
@@ -79,33 +69,24 @@ qx.Class.define("qxunit.runner.TestRunner",
       //this.debug(qx.io.Json.stringify(testRep));
       var left = this.__makeLeft();
       this.mainsplit.addLeft(left);
-      /*
-      iframe.set({
-        //visibility : false
-        display : false
-      });
-      */
     }, this);
 
     // Header Pane
-    this.header = new qx.ui.embed.HtmlEmbed("<center><h3>QxRunner - The qooxdoo Test Runner</h3></center>");
-    this.header.setHeight(70);
+    this.header = new qx.ui.embed.HtmlEmbed("<h1>QxRunner - The qooxdoo Test Runner</h1>");
+    this.header.setHtmlProperty("className", "header");
+    this.header.setHeight(50);
     this.add(this.header);
 
     // Toolbar
     this.toolbar = new qx.ui.toolbar.ToolBar;
-    this.toolbar.set({
-      width : "100%",
-      border : "inset"
-    });
     this.add(this.toolbar);
 
-    this.runbutton = new qx.ui.toolbar.Button("Run Test", "icon/16/categories/applications-development.png");
+    this.runbutton = new qx.ui.toolbar.Button("Run Test", "icon/16/actions/media-playback-start.png");
     this.toolbar.add(this.runbutton);
     this.runbutton.addEventListener("execute", this.runTest, this);
     this.toolbar.add(new qx.ui.toolbar.Separator);
 
-    this.reloadbutton = new qx.ui.toolbar.Button("Reload Testsuite: ");
+    this.reloadbutton = new qx.ui.toolbar.Button("Reload", "icon/16/actions/view-refresh.png");
     this.toolbar.add(this.reloadbutton);
     this.testSuiteUrl = new qx.ui.form.TextField("html/QooxdooTest.html?testclass=qxunit.test");
     this.toolbar.add(this.testSuiteUrl);
@@ -253,8 +234,6 @@ qx.Class.define("qxunit.runner.TestRunner",
      * Tree View in Left Pane
     */
     __makeLeft: function (){
-      //this.loader = qxunit.runner.TestLoaderStub.getInstance();
-      //this.loader = qxunit.TestLoader.getInstance();
       var that   = this;
 
       /*
@@ -264,7 +243,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       this.tests.handler.getTests(node);
       */
       var tmap = this.tests.handler.tmap;
-      
+
       //var left = new qx.ui.tree.Tree("Test Classes");
       var left = new qx.ui.tree.Tree("Root");
       left.set({
@@ -355,7 +334,7 @@ qx.Class.define("qxunit.runner.TestRunner",
 
     /**
      * runTest - event handler for the Run Test button - performs the test
-    */
+     */
     runTest : function (e) {
       this.appendr("Now running: " + this.tests.selected);
       // Initialize progress bar
