@@ -757,7 +757,7 @@ qx.Class.define("qx.renderer.border.Border",
      * @param edge {String} the edge which was updated
      */
     __informManager : function(edge) {
-      qx.manager.object.BorderManager.getInstance().updateBorderAt(this, edge);
+      qx.manager.object.BorderManager.getInstance().updateObjectsEdge(this, edge);
     },
 
 
