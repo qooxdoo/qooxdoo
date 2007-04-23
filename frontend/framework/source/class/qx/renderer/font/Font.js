@@ -38,18 +38,16 @@ qx.Class.define("qx.renderer.font.Font",
   *****************************************************************************
   */
 
-  construct : function(vSize, vName)
+  construct : function(size, name)
   {
     this.base(arguments);
 
-    this._defs = {};
-
-    if (vSize != null) {
-      this.setSize(vSize);
+    if (size !== undefined) {
+      this.setSize(size);
     }
 
-    if (vName != null) {
-      this.setName(vName);
+    if (name !== undefined) {
+      this.setName(name);
     }
   },
 
@@ -77,51 +75,60 @@ qx.Class.define("qx.renderer.font.Font",
      * @param s {String} TODOC
      * @return {var} TODOC
      */
-    fromString : function(s)
+    fromString : function(str)
     {
-      var vFont = new qx.renderer.font.Font;
-      var vAllParts = s.split(/\s+/);
-      var vName = [];
-      var vPart;
+      var font = new qx.renderer.font.Font;
+      var parts = str.split(/\s+/);
+      var name = [];
+      var part;
 
-      for (var i=0; i<vAllParts.length; i++)
+      for (var i=0; i<parts.length; i++)
       {
-        switch(vPart = vAllParts[i])
+        switch(part = parts[i])
         {
           case "bold":
-            vFont.setBold(true);
+            font.setBold(true);
             break;
 
           case "italic":
-            vFont.setItalic(true);
+            font.setItalic(true);
             break;
 
           case "underline":
-            vFont.setUnderline(true);
+            font.setUnderline(true);
             break;
 
           case "strikeout":
-            vFont.setStrikeout(true);
+            font.setStrikeout(true);
             break;
 
           default:
-            var vTemp = parseFloat(vPart);
+            var temp = parseFloat(part);
 
-            if (vTemp == vPart || qx.lang.String.contains(vPart, "px")) {
-              vFont.setSize(vTemp);
+            if (temp == part || qx.lang.String.contains(part, "px")) {
+              font.setSize(temp);
             } else {
-              vName.push(vPart);
+              name.push(part);
             }
 
             break;
         }
       }
 
-      if (vName.length > 0) {
-        vFont.setName(vName.join(" "));
+      if (name.length > 0) {
+        font.setName(name.join(" "));
       }
 
-      return vFont;
+      return font;
+    },
+
+    reset : function(widget)
+    {
+      widget.removeStyleProperty("fontFamily");
+      widget.removeStyleProperty("fontSize");
+      widget.removeStyleProperty("fontWeight");
+      widget.removeStyleProperty("fontStyle");
+      widget.removeStyleProperty("textDecoration");
     }
   },
 
@@ -136,12 +143,6 @@ qx.Class.define("qx.renderer.font.Font",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
     size :
     {
       _legacy : true,
@@ -149,7 +150,7 @@ qx.Class.define("qx.renderer.font.Font",
       impl    : "style"
     },
 
-    name :
+    family :
     {
       _legacy : true,
       type    : "string",
@@ -200,48 +201,9 @@ qx.Class.define("qx.renderer.font.Font",
 
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      MODIFIER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
-     */
-    _modifyStyle : function(propValue, propOldValue, propData)
-    {
-      this._needsCompilation = true;
-      return true;
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      UTILITY
-    ---------------------------------------------------------------------------
-    */
-
-    _needsCompilation : true,
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
     _compile : function()
     {
-      var vName = this.getName();
+      var name = this.getName();
       var vSize = this.getSize();
       var vBold = this.getBold();
       var vItalic = this.getItalic();
@@ -257,64 +219,24 @@ qx.Class.define("qx.renderer.font.Font",
         vDecoration += " " + "strikeout";
       }
 
-      this._defs.fontFamily = vName || "";
+      this._defs.fontFamily = name || "";
       this._defs.fontSize = typeof vSize == "number" ? vSize + "px" : "";
       this._defs.fontWeight = this.getBold() ? "bold" : "normal";
       this._defs.fontStyle = this.getItalic() ? "italic" : "normal";
       this._defs.textDecoration = vDecoration || "";
-
-      this._needsCompilation = false;
     },
 
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vWidget {var} TODOC
-     * @return {void}
-     */
-    _applyWidget : function(vWidget)
+    render : function(widget)
     {
-      if (this._needsCompilation) {
-        this._compile();
-      }
+      // TODO
 
-      vWidget.setStyleProperty("fontFamily", this._defs.fontFamily);
-      vWidget.setStyleProperty("fontSize", this._defs.fontSize);
-      vWidget.setStyleProperty("fontWeight", this._defs.fontWeight);
-      vWidget.setStyleProperty("fontStyle", this._defs.fontStyle);
-      vWidget.setStyleProperty("textDecoration", this._defs.textDecoration);
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vWidget {var} TODOC
-     * @return {void}
-     */
-    _resetWidget : function(vWidget)
-    {
-      vWidget.removeStyleProperty("fontFamily");
-      vWidget.removeStyleProperty("fontSize");
-      vWidget.removeStyleProperty("fontWeight");
-      vWidget.removeStyleProperty("fontStyle");
-      vWidget.removeStyleProperty("textDecoration");
+      /*
+      widget.setStyleProperty("fontFamily", this._defs.fontFamily);
+      widget.setStyleProperty("fontSize", this._defs.fontSize);
+      widget.setStyleProperty("fontWeight", this._defs.fontWeight);
+      widget.setStyleProperty("fontStyle", this._defs.fontStyle);
+      widget.setStyleProperty("textDecoration", this._defs.textDecoration);
+      */
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this._disposeFields("_defs");
   }
 });

@@ -6438,11 +6438,8 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param value {Map} map of CSS font properties
      */
-    _styleFont : function(value)
-    {
-      for (var prop in value) {
-        this.setStyleProperty(prop, value[prop]);
-      }
+    _styleFont : function(value) {
+      value ? value.render(this) : qx.renderer.font.Font.reset(this);
     },
 
 
