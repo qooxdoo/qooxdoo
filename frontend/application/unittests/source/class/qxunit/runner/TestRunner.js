@@ -384,9 +384,32 @@ qx.Class.define("qxunit.runner.TestRunner",
         return [];
       };
 
+      handler.isClass = function (node) {
+        for (var i in handler.tmap) {
+          if (handler.tmap[i].classname == node) {
+            return true;
+          }
+        }
+        return false;
+      };
+
+      handler.classFromTest = function (node) {
+        var class = "";
+        var tests = [];
+        classloop:  for (var i in handler.tmap) {
+          for (var j in handler.tmap[i].tests) {
+            if (handler.tmap[i].tests[j] == node) {
+              class = handler.tmap[i].classname;
+              break classloop;
+            }
+          };
+        };
+        return class;
+      };
+
       handler.testCount = function (node) { //node is a string
         return handler.getTests(node).length;
-      }
+      };
 
       return handler;
     }, //makeTestHandler
@@ -422,9 +445,12 @@ qx.Class.define("qxunit.runner.TestRunner",
         }, this);
 
         // start test
-        this.loader.runTestsFromNamespace(testResult, this.tests.selected);
-        // on method
-        //this.loader.runTests(testResult), className, this.tests.selected);
+        if (this.tests.handler.isClass(this.tests.selected)) {
+          this.loader.runTestsFromNamespace(testResult, this.tests.selected);
+        } else { // on method
+          var className = this.tests.handler.classFromTest(this.tests.selected);
+          this.loader.runTests(testResult, className, this.tests.selected);
+        }
 
 
     }, //runTest
