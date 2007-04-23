@@ -18,7 +18,7 @@ qx.Class.define("qx.test.Animal",
 
   properties :
   {
-    width : { init : 100, check : "Number", appearance : true },
+    width : { init : 100, check : "Number", appearance : true }, //some comment
     height : { init : 30, check : "Number", appearance : true },
     dimension : { group : ["width", "height"], mode:"shorthand" },
 
@@ -34,6 +34,7 @@ qx.Class.define("qx.test.Animal",
     /**
      * Complex property.
      */
+
     _complex :
     {
       check : function(value)
@@ -61,6 +62,7 @@ qx.Class.define("qx.test.Animal",
 
     test3 : { _legacy : true, type : "number" },
     test4 : { check : "Number", nullable : true }
+
   },
 
   members :
