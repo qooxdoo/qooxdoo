@@ -70,6 +70,9 @@ qx.Class.define("qx.application.Gui",
      */
     main : function()
     {
+      // Initialize themes
+      qx.manager.object.ThemeManager.getInstance().initialize();
+
       // Force creation of event handler
       qx.event.handler.EventHandler.getInstance();
 
