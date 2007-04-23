@@ -37,9 +37,6 @@ qx.Class.define("qxunit.runner.TestRunner",
 {
   extend : qx.ui.layout.VerticalBoxLayout,
 
-
-
-
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -77,7 +74,9 @@ qx.Class.define("qxunit.runner.TestRunner",
     // Get the TestLoader from the Iframe
     iframe.addEventListener("load", function (e) {
       this.loader = iframe.getContentWindow().qxunit.TestLoader.getInstance();
-      this.tests.handler = this.__makeTestHandler(this.loader.getTestDescriptions());
+      var testRep = this.loader.getTestDescriptions();
+      this.tests.handler = new qxunit.runner.TestHandler(testRep);
+      //this.debug(qx.io.Json.stringify(testRep));
       var left = this.__makeLeft();
       this.mainsplit.addLeft(left);
       /*
@@ -260,6 +259,7 @@ qx.Class.define("qxunit.runner.TestRunner",
         width : "100%",
         height : "100%",
         padding : [10],
+        overflow: "auto",
         border : "inset"
       });
 
@@ -339,80 +339,6 @@ qx.Class.define("qxunit.runner.TestRunner",
 
       return statuspane;
     }, //makeStatus
-
-
-    __makeTestHandler : function (testRep) {
-      //testRep is Json currently
-      var handler   = {};
-      handler.tmap  = eval(testRep); //[{classname:myClass,tests:['test1','test2']}, {...}]
-      this.debug(qx.io.Json.stringify(testRep));
-
-      handler.getRoot = function () {
-        if (! this.Root) {
-          var root = {classname: "", tests: []};
-          var tmap = this.tmap;
-          for (var i=0;i<this.tmap.length;i++){
-            if (root.classname.length > tmap[i].classname.length){
-              root = tmap[i];
-            }
-          }
-          this.Root = root;
-        }
-        return this.Root.classname;
-      };
-
-      handler.getChilds = function (node){
-        var cldList = [];
-        var tmap    = this.tmap;
-        var nodep   = "^" + node + "\\.[^\\.]+$";
-        var pat     = new RegExp(nodep);
-        for (var i=0;i<tmap.length;i++) {
-          if (tmap[i].classname.match(pat)) {
-            cldList.push(tmap[i]);
-          }
-        }
-        return cldList;
-      };
-
-      handler.getTests = function (node) { // node is a string
-        var tmap = this.tmap;
-        for (var i=0;i<tmap.length;i++) {
-          if (tmap[i].classname == node) {
-            return tmap[i].tests;
-          }
-        }
-        return [];
-      };
-
-      handler.isClass = function (node) {
-        for (var i in handler.tmap) {
-          if (handler.tmap[i].classname == node) {
-            return true;
-          }
-        }
-        return false;
-      };
-
-      handler.classFromTest = function (node) {
-        var class = "";
-        var tests = [];
-        classloop:  for (var i in handler.tmap) {
-          for (var j in handler.tmap[i].tests) {
-            if (handler.tmap[i].tests[j] == node) {
-              class = handler.tmap[i].classname;
-              break classloop;
-            }
-          };
-        };
-        return class;
-      };
-
-      handler.testCount = function (node) { //node is a string
-        return handler.getTests(node).length;
-      };
-
-      return handler;
-    }, //makeTestHandler
 
 
     /**
