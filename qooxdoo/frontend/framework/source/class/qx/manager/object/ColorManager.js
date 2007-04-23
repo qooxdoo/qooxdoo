@@ -40,11 +40,12 @@ qx.Class.define("qx.manager.object.ColorManager",
 
   properties :
   {
+    /** the currently selected color theme */
     colorTheme :
     {
       check : "Theme",
       nullable : true,
-      apply : "_processThemedData",
+      apply : "_applyColorTheme",
       event : "changeColorTheme"
     }
   },
@@ -60,7 +61,7 @@ qx.Class.define("qx.manager.object.ColorManager",
 
   members :
   {
-    _processThemedData : function(value)
+    _applyColorTheme : function(value)
     {
       var dest = this._dynamic = {};
 
@@ -74,9 +75,8 @@ qx.Class.define("qx.manager.object.ColorManager",
         }
       }
 
-      // Inform objects which have registered
-      // regarding the theme switch
-      this._updateThemedObjects();
+      // Inform registered objects
+      this._updateObjects();
     }
   }
 });

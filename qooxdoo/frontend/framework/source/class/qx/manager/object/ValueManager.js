@@ -26,6 +26,7 @@
 
 qx.Class.define("qx.manager.object.ValueManager",
 {
+  type : "abstract",
   extend : qx.core.Target,
 
 
@@ -44,7 +45,7 @@ qx.Class.define("qx.manager.object.ValueManager",
     // Stores the objects
     this._registry = {};
 
-    // Create empty themed color map
+    // Create empty dynamic map
     this._dynamic = {};
   },
 
@@ -60,24 +61,19 @@ qx.Class.define("qx.manager.object.ValueManager",
 
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      COLOR VALUE HANDLING
-    ---------------------------------------------------------------------------
-    */
-
     /**
-     * Processing a color and handle callback execution on theme updates.
+     * Processing a value and handle callback execution on updates.
      *
+     * @type member
      * @param obj {Object} Any object
      * @param callback {String} Name of callback function which handles the
      *   apply of the resulting CSS valid value.
-     * @param value {var} Any acceptable color value
+     * @param value {var} Any acceptable value
      * @return {void}
      */
     connect : function(callback, obj, value)
     {
-      // Store references for themed colors
+      // Store references for dynamic values
       var key = "dynamic" + obj.toHashCode() + "$" + qx.core.Object.toHashCode(callback);
       var reg = this._registry;
 
@@ -93,66 +89,49 @@ qx.Class.define("qx.manager.object.ValueManager",
       }
 
       // Finally executing given callback
-      // Themed colors are able to overwrite the values of named and system colors
-      // Simple return of all other named, system, hex, RGB strings
-      // Validation is not done here.
       callback.call(obj, value ? this._dynamic[value] || value : null);
     },
 
+
+    /**
+     * Returns the dynamically interpreted result for the incoming value
+     *
+     * @type member
+     * @param value {String} dynamically interpreted idenfier
+     * @return {var} return the (translated) result of the incoming value
+     */
     resolveDynamic : function(value) {
       return this._dynamic[value];
     },
 
+
+    /**
+     * Whether a value is interpreted dynamically
+     *
+     * @type member
+     * @param value {String} dynamically interpreted idenfier
+     * @return {Boolean} returns true if the value is interpreted dynamically
+     */
     isDynamic : function(value) {
       return this._dynamic[value] !== undefined;
     },
 
 
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      COLOR THEME HANDLING
-    ---------------------------------------------------------------------------
-    */
-
-    _applyColorTheme : function(value, old)
-    {
-      // Generating RGB strings from themed colors
-      this._generateRgbStrings(value);
-
-      // Inform objects which have registered
-      // regarding the theme switch
-      this._updateThemedObjects();
-    },
-
-    _generateRgbStrings : function(value)
-    {
-      var dest = this._dynamic = {};
-
-      if (value)
-      {
-        var source = value.colors;
-        var util = qx.util.ColorUtil;
-
-        for (var key in source) {
-          dest[key] = util.rgbToRgbString(source[key]);
-        }
-      }
-    },
-
-    _updateThemedObjects : function()
+    /**
+     * Update all registered objects regarding the value switch
+     *
+     * @type member
+     */
+    _updateObjects : function()
     {
       var reg = this._registry;
-      var dest = this._dynamic;
+      var dyn = this._dynamic;
       var entry;
 
       for (var key in reg)
       {
         entry = reg[key];
-        entry.callback.call(entry.object, dest[entry.value]);
+        entry.callback.call(entry.object, dyn[entry.value]);
       }
     }
   },
