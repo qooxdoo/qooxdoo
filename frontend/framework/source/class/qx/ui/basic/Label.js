@@ -186,22 +186,26 @@ qx.Class.define("qx.ui.basic.Label",
 
   members :
   {
+    /**
+     * @deprecated
+     */
     setHtml : function(html)
     {
-      this.debug("Deprecated usage of HTML property!");
+      this.warn("Deprecated usage of HTML property!");
       this.setText(html);
     },
 
+    /**
+     * @deprecated
+     */
     getHtml : function(html)
     {
-      this.debug("Deprecated usage of HTML property!");
+      this.warn("Deprecated usage of HTML property!");
       this.getText(html);
     },
 
     _htmlContent : "",
     _htmlMode : false,
-    _mnemonicHtml : "",
-    _mnemonicTest : null,
 
     _applyFont : function(value, old) {
       qx.manager.object.FontManager.getInstance().connect(this._styleFont, this, value);
@@ -271,7 +275,6 @@ qx.Class.define("qx.ui.basic.Label",
      */
     _applyMnemonic : function(value, old)
     {
-      this._mnemonicHtml = value ? "(<span style=\"text-decoration:underline\">" + value + "</span>)" : "";
       this._mnemonicTest = value ? new RegExp("^(((<([^>]|" + value + ")+>)|(&([^;]|" + value + ")+;)|[^&" + value + "])*)(" + value + ")", "i") : null;
 
       if (this._isCreated) {
@@ -397,9 +400,15 @@ qx.Class.define("qx.ui.basic.Label",
 
       if (this.getMnemonic())
       {
-        this._mnemonicTest.test(html);
-        html = RegExp.$1 + "<span style=\"text-decoration:underline\">" + RegExp.$7 + "</span>" + RegExp.rightContext;
-        this._htmlMode = true;
+        if (this._mnemonicTest.test(html))
+        {
+          html = RegExp.$1 + "<span style=\"text-decoration:underline\">" + RegExp.$7 + "</span>" + RegExp.rightContext;
+          this._htmlMode = true;
+        }
+        else
+        {
+          html += " (" + this.getMnemonic() + ")";
+        }
       }
 
       var style = element.style;
