@@ -23,10 +23,10 @@
  *            http://www.outofhanwell.com/blog/index.php?title=javascript_range_function&more=1&c=1&tb=1&pb=1)
  *
  * SYNTAX
- *  var r = new qx.util.IntRange(1,20);
+ *  var r = new qx.type.IntRange(1,20);
  *  for (var i in r.range) { alert(r.range[i]) }; // yields 1,2,3,..,20
  */
-qx.Class.define("qx.util.IntRange",
+qx.Class.define("qx.type.IntRange",
 {
   extend : qx.core.Object,
 
