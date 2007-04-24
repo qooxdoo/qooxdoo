@@ -30,7 +30,7 @@
     c1.setPadding(2, 4);
 
     c1.addEventListener("mouseover", function(e) {
-      this.setFont("20px bold");
+      this.setFont(qx.renderer.font.Font.fromString("20px bold"));
     });
 
     c1.addEventListener("mouseout", function(e) {
@@ -76,12 +76,10 @@
 
 
 
-    /*
-    var c4f = new qx.renderer.font.Font(16, "Times New Roman");
+    var c4f = new qx.renderer.font.Font(16, [ "Times New Roman" ]);
     c4f.setBold(true);
     c4f.setItalic(true);
-    c4f.setUnderline(true);
-    */
+    c4f.setDecoration("underline");
 
     var c4 = new qx.ui.basic.Label("Hello qooxdoo!");
 
@@ -89,42 +87,9 @@
     c4.setTop(250);
     c4.setBorder("black");
     c4.setPadding(2, 4);
-    // c4.setFont(c4f);
-
-    // implicit usage of qx.renderer.font.FontCache
-    c4.setFont("16px Times New Roman bold italic underline");
 
 
 
-
-
-    var c5 = new qx.ui.basic.Label("Delete temporary data", null, null, false);
-
-    c5.setBorder("outset");
-    c5.setPadding(4, 6);
-    c5.setBackgroundColor("white");
-
-    // re-use instance from above
-    // c5.setFont("16px Times New Roman bold italic underline");
-
-    // this is also possible and will be automatically converted to a single space seperated string
-    c5.setFont(["16px", "Times New Roman", "bold", "italic", "underline"]);
-
-    c5.addEventListener("click", function() {
-      this.getHtml() == "Delete temporary data" ? this.setHtml("Thank you<br/>All your personal data was just deleted.<br/>Have Fun!") : this.setHtml("Delete temporary data");
-    });
-
-
-    var c5w = new qx.ui.layout.CanvasLayout;
-    c5w.setBorder("outset");
-    c5w.setPadding(8);
-    c5w.setLeft(20);
-    c5w.setTop(350);
-    c5w.setWidth("auto");
-    c5w.setHeight("auto");
-
-    c5w.add(c5);
-    d.add(c5w);
 
 
 
@@ -170,7 +135,7 @@
       };
     });
 
-    d.add(c1, c2, c3, c4, c5w, c6, c7);
+    d.add(c1, c2, c3, c4, c6, c7);
   });
   </script>
 </body>
