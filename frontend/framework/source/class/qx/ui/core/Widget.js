@@ -1293,7 +1293,8 @@ qx.Class.define("qx.ui.core.Widget",
     {
       nullable : true,
       check : "Color",
-      apply : "_modifyBackgroundColor"
+      apply : "_applyBackgroundColor",
+      appearance : true
     },
 
 
@@ -1304,7 +1305,8 @@ qx.Class.define("qx.ui.core.Widget",
     {
       nullable : true,
       check : "Color",
-      apply : "_modifyColor"
+      apply : "_applyColor",
+      appearance : true
     },
 
 
@@ -1315,7 +1317,8 @@ qx.Class.define("qx.ui.core.Widget",
     {
       nullable : true,
       apply : "_applyBorder",
-      check : "Border"
+      check : "Border",
+      appearance : true
     },
 
 
@@ -1324,7 +1327,8 @@ qx.Class.define("qx.ui.core.Widget",
     {
       nullable : true,
       apply : "_applyFont",
-      check : "Font"
+      check : "Font",
+      appearance : true
     },
 
 
@@ -5034,7 +5038,7 @@ qx.Class.define("qx.ui.core.Widget",
             var r = qx.manager.object.AppearanceManager.getInstance().styleFrom(vAppearance, this._states);
 
             if (r) {
-              this.set(r);
+              this.style(r);
             }
           }
           catch(ex)
@@ -5065,14 +5069,16 @@ qx.Class.define("qx.ui.core.Widget",
         var vOldAppearanceProperties = vAppearanceManager.styleFromTheme(vOldAppearanceTheme, vAppearance, this._states);
         var vNewAppearanceProperties = vAppearanceManager.styleFromTheme(vNewAppearanceTheme, vAppearance, this._states);
 
+        var vDelProperties = {};
         for (var vProp in vOldAppearanceProperties)
         {
           if (!(vProp in vNewAppearanceProperties)) {
-            this[qx.core.LegacyProperty.getResetterName(vProp)]();
+            vDelProperties[vProp] = true;
           }
         }
 
-        this.set(vNewAppearanceProperties);
+        this.unstyle(vDelProperties);
+        this.style(vNewAppearanceProperties);
       }
     },
 
@@ -5163,16 +5169,21 @@ qx.Class.define("qx.ui.core.Widget",
       {
         var vOldAppearanceProperties = vAppearanceManager.styleFrom(propOldValue, this._states) || {};
 
+        var vDelProperties = {};
         for (var vProp in vOldAppearanceProperties)
         {
-          if (!(vProp in vNewAppearanceProperties)) {
-            this[qx.core.LegacyProperty.getResetterName(vProp)]();
+          if (!vNewAppearanceProperties || !(vProp in vNewAppearanceProperties)) {
+            vDelProperties[vProp] = true;
           }
         }
       }
 
+      if (vDelProperties) {
+        this.unstyle(vDelProperties);
+      }
+
       if (vNewAppearanceProperties) {
-        this.set(vNewAppearanceProperties);
+        this.style(vNewAppearanceProperties);
       }
 
       return true;
@@ -6386,7 +6397,7 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    _modifyBackgroundColor : function(value, old) {
+    _applyBackgroundColor : function(value, old) {
       qx.manager.object.ColorManager.getInstance().connect(this._styleBackgroundColor, this, value);
     },
 
@@ -6405,7 +6416,7 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    _modifyColor : function(value, old) {
+    _applyColor : function(value, old) {
       qx.manager.object.ColorManager.getInstance().connect(this._styleColor, this, value);
     },
 

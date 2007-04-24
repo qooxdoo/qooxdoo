@@ -131,6 +131,23 @@ qx.Class.define("qx.renderer.font.Font",
       widget.removeStyleProperty("letterSpacing");
       widget.removeStyleProperty("wordSpacing");
       widget.removeStyleProperty("lineHeight");
+    },
+
+    resetElement : function(element)
+    {
+      var style = element.style;
+
+      style.fontFamily = "";
+      style.fontSize = "";
+      style.fontWeight = "";
+      style.fontStyle = "";
+      style.textAlign = "";
+      style.whiteSpace = "";
+      style.textDecoration = "";
+      style.textTransform = "";
+      style.letterSpacing = "";
+      style.wordSpacing = "";
+      style.lineHeight = "";
     }
   },
 
@@ -286,6 +303,22 @@ qx.Class.define("qx.renderer.font.Font",
       widget.setStyleProperty("letterSpacing", this.__letterSpacing);
       widget.setStyleProperty("wordSpacing", this.__wordSpacing);
       widget.setStyleProperty("lineHeight", this.__lineHeight);
+    },
+
+    renderElement : function(element)
+    {
+      var style = element.style;
+      style.fontFamily = this.__family || "";
+      style.fontSize = this.__size || "";
+      style.fontWeight = this.__bold || "";
+      style.fontStyle =  this.__italic || "";
+      style.textAlign = this.getAlign() || "";
+      style.whiteSpace = this.__wrap || "";
+      style.textDecoration = this.getDecoration() || "";
+      style.textTransform = this.getTransform() || "";
+      style.letterSpacing = this.__letterSpacing || "";
+      style.wordSpacing = this.__wordSpacing || "";
+      style.lineHeight = this.__lineHeight || "";
     }
   }
 });
