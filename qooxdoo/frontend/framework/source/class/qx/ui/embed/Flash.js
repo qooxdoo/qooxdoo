@@ -524,16 +524,11 @@ qx.Class.define("qx.ui.embed.Flash",
      * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyBackgroundColor : function(propValue, propOldValue, propData)
+    _styleBackgroundColor : function(value)
     {
-      if (propOldValue) {
-        propOldValue.remove(this);
-      }
-
       if (propValue)
       {
-        this._setBackgroundColorProperty(propValue.getHex());
-        propValue.add(this);
+        this._setBackgroundColorProperty(value);
       }
       else
       {

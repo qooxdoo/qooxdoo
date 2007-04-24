@@ -315,7 +315,6 @@ qx.Class.define("qx.core.Object",
 
     /**
      * Sets multiple properties at once by using a property list
-     * TODO: Update to support new properties, too
      *
      * @type member
      * @param data {Map} a map of property values. The key is the name of the property.
@@ -349,6 +348,113 @@ qx.Class.define("qx.core.Object",
 
       return this;
     },
+
+
+    /**
+     * Style multiple properties at once by using a property list
+     *
+     * @type member
+     * @param data {Map} a map of property values. The key is the name of the property.
+     * @return {Object} this instance.
+     * @throws an error if the incoming data field is not a map.
+     */
+    style : function(data)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (typeof data !== "object") {
+          throw new Error("Please use a valid hash of property key-values pairs. Incoming value was: '" + data + "'");
+        }
+      }
+
+      var setter = qx.core.Property.$$method.set;
+      var styler = qx.core.Property.$$method.style;
+
+      for (var prop in data)
+      {
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {
+          if (!this[setter[prop]] && !this[styler[prop]])
+          {
+            this.error("Generic setter is missing property: " + prop + ". Incoming value was: " + data[prop]);
+            continue;
+          }
+        }
+
+        if (this[styler[prop]])
+        {
+          this[styler[prop]](data[prop]);
+        }
+        else
+        {
+          if (qx.core.Variant.isSet("qx.debug", "on"))
+          {
+            var def = qx.Class.getPropertyDefinition(this.constructor, prop);
+            if (!def._legacy) {
+              this.warn("Using normal set() for new property: " + prop);
+            }
+          }
+
+          this[setter[prop]](data[prop]);
+        }
+      }
+
+      return this;
+    },
+
+
+    /**
+     * Style multiple properties at once by using a property list
+     *
+     * @type member
+     * @param data {Map} a map of property values. The key is the name of the property.
+     * @return {Object} this instance.
+     * @throws an error if the incoming data field is not a map.
+     */
+    unstyle : function(data)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (typeof data !== "object") {
+          throw new Error("Please use a valid hash of property key-values pairs. Incoming value was: '" + data + "'");
+        }
+      }
+
+      var resetter = qx.core.Property.$$method.reset;
+      var unstyler = qx.core.Property.$$method.unstyle;
+
+      for (var prop in data)
+      {
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {
+          if (!this[resetter[prop]] && !this[unstyler[prop]])
+          {
+            this.error("Generic resetter/unstyler is missing property: " + prop + ". Incoming value was: " + data[prop]);
+            continue;
+          }
+        }
+
+        if (this[unstyler[prop]])
+        {
+          this[unstyler[prop]]();
+        }
+        else
+        {
+          if (qx.core.Variant.isSet("qx.debug", "on"))
+          {
+            var def = qx.Class.getPropertyDefinition(this.constructor, prop);
+            if (!def._legacy) {
+              this.warn("Using normal reset() for new property: " + prop);
+            }
+          }
+
+          this[resetter[prop]]();
+        }
+      }
+
+      return this;
+    },
+
 
 
 
