@@ -237,8 +237,7 @@ qx.Class.define("qx.ui.form.TextField",
 
         // Normalize styles
         istyle = inp.style;
-        istyle.padding = 0;
-        istyle.margin = 0;
+        istyle.padding = istyle.margin = 0;
         istyle.border = "0 none";
         istyle.background = "transparent";
         istyle.overflow = this._inputOverflow;
@@ -248,35 +247,19 @@ qx.Class.define("qx.ui.form.TextField",
         istyle.WebkitAppearance = "none";
         istyle.MozAppearance = "none";
 
-        // MSHTML needs some tweaks
-        if (qx.core.Variant.isSet("qx.client", "mshtml"))
-        {
-          // "inherit" keyword is not supported by IE 6.x and 7.x
-          // apply some default and let modifiers sync to the input field, too
-
-          // TODO: Implement font-size handling after new properties are ready.
-          istyle.fontFamily = "Tahoma, sans-serif";
-          istyle.fontSize = "11px";
-
-          if (this.getColor()) {
-            istyle.color = this.getColor();
-          }
-        }
-        else
-        {
-          // Emulate IE hard-coded margin
-          // Mozilla by default emulates this IE handling, but in a wrong
-          // way. IE adds the additional margin to the CSS margin where
-          // Mozilla replaces it. But this make it possible for the user
-          // to overwrite the margin, which is not possible in IE.
-          // See also: https://bugzilla.mozilla.org/show_bug.cgi?id=73817
+        // Emulate IE hard-coded margin
+        // Mozilla by default emulates this IE handling, but in a wrong
+        // way. IE adds the additional margin to the CSS margin where
+        // Mozilla replaces it. But this make it possible for the user
+        // to overwrite the margin, which is not possible in IE.
+        // See also: https://bugzilla.mozilla.org/show_bug.cgi?id=73817
+        if (qx.core.Variant.isSet("qx.client", "gecko|opera|webkit")) {
           istyle.margin = "1px 0"
-
-          // use built-in inheritance system for optiomal performance
-          istyle.fontFamily = "inherit";
-          istyle.fontSize = "inherit";
-          istyle.color = "inherit";
         }
+
+        // Sync font and color
+        this._renderFont();
+        this._renderColor();
 
         // Register inline event
         if (qx.core.Variant.isSet("qx.client", "mshtml")) {
@@ -374,21 +357,59 @@ qx.Class.define("qx.ui.form.TextField",
     /**
      * Sync color to embedded input element
      */
-    _styleColor : qx.core.Variant.select("qx.client",
+    _styleColor : function(value)
     {
-      "mshtml" : function(value)
+      this.__color = value;
+      this._renderColor();
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @param propData {var} Property configuration map
+     * @return {Boolean} TODOC
+     */
+    _applyFont : function(value, old) {
+      qx.manager.object.FontManager.getInstance().connect(this._styleFont, this, value);
+    },
+
+
+    /**
+     * @type member
+     * @param value {qx.renderer.font.Font}
+     */
+    _styleFont : function(value)
+    {
+      this.__font = value;
+      this._renderFont();
+    },
+
+    _renderFont : function()
+    {
+      var inp = this._inputElement;
+
+      if (inp)
       {
-        this.base(arguments, value);
-
-        if (this._inputElement) {
-          this._inputElement.style.color = value ? value : "";
-        }
-      },
-
-      "default" : function(value) {
-        this.base(arguments, value);
+        var value = this.__font;
+        value ? value.renderElement(inp) : qx.renderer.font.Font.resetElement(inp);
       }
-    }),
+    },
+
+    _renderColor : function()
+    {
+      var inp = this._inputElement;
+
+      if (inp)
+      {
+        var value = this.__color;
+        inp.style.color = value || "";
+      }
+    },
+
 
 
 
