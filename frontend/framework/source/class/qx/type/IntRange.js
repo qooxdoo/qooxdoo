@@ -24,7 +24,8 @@
  *
  * SYNTAX
  *  var r = new qx.type.IntRange(1,20);
- *  for (var i in r.range) { alert(r.range[i]) }; // yields 1,2,3,..,20
+ *  var i;
+ *  while ((i = r.next())!=null) { alert(i) }; // yields 1,2,3,..,20
  */
 qx.Class.define("qx.type.IntRange",
 {
@@ -63,36 +64,66 @@ qx.Class.define("qx.type.IntRange",
       step  = arguments[2] || 1;
     }
 
-    if (step < 0 || stop <= start) {
-      step = Math.abs(step);
-      if (stop <= start) {
-        var t = stop;
-        stop  = start;
-        start = t;
+    // handle descending
+    if (step < 0 || stop < start) {
+      if (stop < start) {
+        if (step < 0) {
+          this.incr  = step;
+        } else {
+          this. incr = step * (-1);
+        }
+        this.start = start;
+        this.stop  = stop;
+        this.asc   = false;
+      } else { // start < stop
+        if (step < 0) {
+          this.start = stop;
+          this.stop  = start;
+          this.asc   = false;
+        } else {
+          this.start = start;
+          this.stop  = stop;
+          this.asc   = true;
+        }
+        this.incr  = step;
       }
-      reverse = true;
+    } else { // ascending
+      this.start = start;
+      this.stop  = stop;
+      this.incr  = step;
+      this.asc   = true;
     }
 
-    // construct range list
-    for (var i=start; i<=stop; i+=step) {
-      range.push(i);
-    }
-    if (reverse) {
-      range.reverse();
-    }
-
-    if (range.length) {
-      this.range = range;
-    }
+    this.curr  = this.start;
 
     return;
   },
 
   
   members : {
+
     range : [],
 
-    foo   : function (bar) {}
+    next: function () {
+      var curr = this.curr;
+      if (curr != null) {
+        if (this.asc) { //ascending
+          if ((this.curr + this.incr) <= this.stop){
+            this.curr += this.incr;
+          } else {
+            this.curr = null;
+          }
+        } else { //descending
+          if ((this.curr + this.incr) >= this.stop){
+            this.curr += this.incr;
+          } else {
+            this.curr = null;
+          }
+        }
+      }
+      return curr;
+    } //next
+
   }
 });
 
