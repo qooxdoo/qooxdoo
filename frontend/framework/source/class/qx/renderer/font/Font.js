@@ -38,7 +38,7 @@ qx.Class.define("qx.renderer.font.Font",
   *****************************************************************************
   */
 
-  construct : function(size, name)
+  construct : function(size, family)
   {
     this.base(arguments);
 
@@ -46,8 +46,8 @@ qx.Class.define("qx.renderer.font.Font",
       this.setSize(size);
     }
 
-    if (name !== undefined) {
-      this.setName(name);
+    if (family !== undefined) {
+      this.setFamily(family);
     }
   },
 
@@ -62,14 +62,6 @@ qx.Class.define("qx.renderer.font.Font",
 
   statics :
   {
-    __lineToCss :
-    {
-      below : "underline",
-      strikeout : "line-through",
-      above : "overline"
-    },
-
-
     /**
      * TODOC
      *
@@ -132,6 +124,9 @@ qx.Class.define("qx.renderer.font.Font",
       widget.removeStyleProperty("fontStyle");
       widget.removeStyleProperty("textDecoration");
       widget.removeStyleProperty("textTransform");
+      widget.removeStyleProperty("letterSpacing");
+      widget.removeStyleProperty("wordSpacing");
+      widget.removeStyleProperty("lineHeight");
     }
   },
 
@@ -149,32 +144,34 @@ qx.Class.define("qx.renderer.font.Font",
     size :
     {
       check : "Integer",
-      init : 11,
+      nullable : true,
       apply : "_applySize"
     },
 
     family :
     {
       check : "Array",
-      init : "",
+      nullable : true,
       apply : "_applyFamily"
     },
 
     bold :
     {
       check : "Boolean",
-      init : false
+      nullable : true,
+      apply : "_applyBold"
     },
 
     italic :
     {
       check : "Boolean",
-      init : false
+      nullable : true,
+      apply : "_applyItalic"
     },
 
-    line :
+    decoration :
     {
-      check : [ "below", "strikeout", "above" ],
+      check : [ "underline", "line-through", "overline" ],
       nullable : true
     },
 
@@ -182,6 +179,27 @@ qx.Class.define("qx.renderer.font.Font",
     {
       check : [ "lowercase", "capitalize", "uppercase" ],
       nullable : true
+    },
+
+    letterSpacing :
+    {
+      check : "Integer",
+      nullable : true,
+      apply : "_applyLetterSpacing"
+    },
+
+    wordSpacing :
+    {
+      check : "Integer",
+      nullable : true,
+      apply : "_applyWordSpacing"
+    },
+
+    lineHeight :
+    {
+      check : "Integer",
+      nullable : true,
+      apply : "_applyLineHeight"
     }
   },
 
@@ -197,21 +215,44 @@ qx.Class.define("qx.renderer.font.Font",
   members :
   {
     _applySize : function(value, old) {
-      this.__size = value ? value + "px" : "";
+      this.__size = value === null ? null : value + "px";
     },
 
     _applyFamily : function(value, old) {
-      this.__family = value ? '"' + value.join('","') + '"' : "";
+      this.__family = value ? '"' + value.join('","') + '"' : null;
+    },
+
+    _applyBold : function(value, old) {
+      this.__bold = value === null ? null : value ? "bold" : "normal";
+    },
+
+    _applyItalic : function(value, old) {
+      this.__italic = value === null ? null : value ? "italic" : "normal";
+    },
+
+    _applyLetterSpacing : function(value, old) {
+      this.__letterSpacing = value === null ? null : value + "px";
+    },
+
+    _applyWordSpacing : function(value, old) {
+      this.__wordSpacing = value === null ? null : value + "px";
+    },
+
+    _applyLineHeight : function(value, old) {
+      this.__lineHeight = value === null ? null : value + "px";
     },
 
     render : function(widget)
     {
       widget.setStyleProperty("fontFamily", this.__family);
       widget.setStyleProperty("fontSize", this.__size);
-      widget.setStyleProperty("fontWeight", this.getBold() ? "bold" : "normal");
-      widget.setStyleProperty("fontStyle", this.getItalic() ? "italic" : "normal");
-      widget.setStyleProperty("textDecoration", this.self(arguments).__lineToCss[this.getLine()] || "");
-      widget.setStyleProperty("textTransform", this.getTransform() || "");
+      widget.setStyleProperty("fontWeight", this.__bold);
+      widget.setStyleProperty("fontStyle", this.__italic);
+      widget.setStyleProperty("textDecoration", this.getDecoration());
+      widget.setStyleProperty("textTransform", this.getTransform());
+      widget.setStyleProperty("letterSpacing", this.__letterSpacing);
+      widget.setStyleProperty("wordSpacing", this.__wordSpacing);
+      widget.setStyleProperty("lineHeight", this.__lineHeight);
     }
   }
 });
