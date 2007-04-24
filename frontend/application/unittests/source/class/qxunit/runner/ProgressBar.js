@@ -58,17 +58,16 @@ qx.Class.define("qxunit.runner.ProgressBar",
 
     showOff: function() {
       this.debug("Entering showOff...");
-      function e (i) {
-        this.debug("Running i: "+i);
-        if (i<=100) {
-          this.update(String(i)+"%");
-          i++;
-          setTimeout("e("+i+")",100);
-        } else {
-          this.debug("i out of Range");
-        }
+      var r = new qx.type.IntRange(0,100,5);
+      var i;
+      function delay() {
+        for(var i=0;i<10000000;i++){}
       };
-      e(0);
+      while ((i=r.next())!=null) {
+        this.debug("Running i: "+i);
+        this.update(String(i)+"%");
+        delay();
+      }
       this.debug("Leaving showOff...");
     },
 
@@ -99,7 +98,8 @@ qx.Class.define("qxunit.runner.ProgressBar",
         {
             throw new Error(paramError);
         } else {
-          this.bar.setWidth(String(Math.round(quot[0]/quot[1]*100))+"%");
+          this.bar.setWidth(Math.round(quot[0]/quot[1]*100)+"%");
+          qx.ui.core.Widget.flushGlobalQueues();
         };
 
       } else if (val[val.length-1] = "%") { // ends in '%'
@@ -109,7 +109,8 @@ qx.Class.define("qxunit.runner.ProgressBar",
         {
           throw new Error(paramError);
         } else {
-          this.bar.setWidth(String(pcnt)+"%");
+          this.bar.setWidth(pcnt+"%");
+          qx.ui.core.Widget.flushGlobalQueues();
         }
       } else {
         //throw invalid update spec exception
