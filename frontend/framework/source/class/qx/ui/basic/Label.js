@@ -47,31 +47,31 @@ qx.Class.define("qx.ui.basic.Label",
 
   /**
    * @param text {String} The text of the label (see property {@link #text}).
-   * @param vMnemonic {String} The mnemonic of the label (see property {@link #mnemonic}).
-   * @param textMode {String} The textMode of the label (see property {@link #textMode}).
+   * @param mnemonic {String} The mnemonic of the label (see property {@link #mnemonic}).
+   * @param mode {String} The mode of the label (see property {@link #mode}).
    */
-  construct : function(text, vMnemonic, textMode)
+  construct : function(text, mnemonic, mode)
   {
     this.base(arguments);
 
     // Apply constructor arguments
-    if (textMode != null) {
-      this.setTextMode(textMode);
+    if (mode != null) {
+      this.setMode(mode);
     }
 
-    if (text != null) {
+    if (text !== undefined) {
       this.setText(text);
     }
 
-    if (vMnemonic != null) {
-      this.setMnemonic(vMnemonic);
+    if (mnemonic !== undefined) {
+      this.setMnemonic(mnemonic);
     }
 
     // Prohibit stretching through layout handler
     this.setAllowStretchX(false);
     this.setAllowStretchY(false);
 
-    // Auto Sized
+    // Auto sized as default
     this.auto();
   },
 
@@ -86,37 +86,6 @@ qx.Class.define("qx.ui.basic.Label",
 
   statics :
   {
-    _measureNodes : {},
-
-    /* ************************************************************************
-       Class data, properties and methods
-    ************************************************************************ */
-
-    /*
-    ---------------------------------------------------------------------------
-      DATA
-    ---------------------------------------------------------------------------
-    */
-
-    /** The ellipsis character */
-    SYMBOL_ELLIPSIS : String.fromCharCode(8230),
-
-    // these are the properties what will be copied to the measuring frame.
-    _fontProperties :
-    {
-      "none" : [],
-      "default" : [ "fontFamily", "fontSize", "fontStyle", "fontWeight", "textDecoration" ],
-
-      "extended" : [ "fontFamily", "fontSize", "fontStyle", "fontWeight", "letterSpacing", "textDecoration", "textTransform", "whiteSpace", "wordSpacing" ],
-
-      "multiline" : [ "fontFamily", "fontSize", "fontStyle", "fontWeight", "textDecoration", "lineHeight", "wordWrap" ],
-
-      "extendedmultiline" : [ "fontFamily", "fontSize", "fontStyle", "fontWeight", "letterSpacing", "textDecoration", "textTransform", "whiteSpace", "wordSpacing", "lineHeight", "wordBreak", "wordWrap", "quotes" ],
-
-      "all" : [ "fontFamily", "fontSize", "fontStyle", "fontVariant", "fontWeight", "letterSpacing", "lineBreak", "lineHeight", "quotes", "textDecoration", "textIndent", "textShadow", "textTransform", "textUnderlinePosition", "whiteSpace", "wordBreak", "wordSpacing", "wordWrap" ]
-    },
-
-
     /**
      * TODOC
      * @internal
@@ -124,26 +93,26 @@ qx.Class.define("qx.ui.basic.Label",
      * @param vId {var} TODOC
      * @return {Element} TODOC
      */
-    createMeasureNode : function(vId)
+    _getMeasureNode : function()
     {
-      var vNode = qx.ui.basic.Label._measureNodes[vId];
+      var node = this._measureNode;
 
-      if (!vNode)
+      if (!node)
       {
-        vNode = document.createElement("div");
-        var vStyle = vNode.style;
+        node = document.createElement("div");
+        var style = node.style;
 
-        vStyle.width = vStyle.height = "auto";
-        vStyle.visibility = "hidden";
-        vStyle.position = "absolute";
-        vStyle.zIndex = "-1";
+        style.width = style.height = "auto";
+        style.visibility = "hidden";
+        style.position = "absolute";
+        style.zIndex = "-1";
 
-        document.body.appendChild(vNode);
+        document.body.appendChild(node);
 
-        qx.ui.basic.Label._measureNodes[vId] = vNode;
+        this._measureNode = node;
       }
 
-      return vNode;
+      return node;
     }
   },
 
@@ -158,12 +127,6 @@ qx.Class.define("qx.ui.basic.Label",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
     appearance :
     {
       _legacy      : true,
@@ -176,16 +139,12 @@ qx.Class.define("qx.ui.basic.Label",
      * The text of the label. How the text is interpreted depends on the value of the
      * property {@link #textMode}.
      */
-    text : { apply : "_modifyText", init : "", event : "changeText"},
-
-
-    /**
-     * The text of the label. How the text is interpreted depends on the value of the
-     * property {@link #textMode}.
-     *
-     * @deprecated Use {@link #text} instead.
-     */
-    html : { apply : "_modifyText", init : "", event : "changeHtml" },
+    text :
+    {
+      apply : "_applyText",
+      init : "",
+      event : "changeText"
+    },
 
 
     /**
@@ -194,54 +153,25 @@ qx.Class.define("qx.ui.basic.Label",
      * <ul>
      *   <li><code>text</code> will set the text verbatim. Leading and trailing white space will be reserved.</li>
      *   <li><code>html</code> will interpret the label text as html.</li>
-     *   <li><code>autodetect</code> will try to guess whether the text represents an HTML string or plain text.
+     *   <li><code>auto</code> will try to guess whether the text represents an HTML string or plain text.
      *       This is how older qooxdoo versions treated the text.
      *   </li>
      * <ul>
      */
-    textMode :
+    mode :
     {
-      check : ["html", "text", "autodetect"],
-      init : "autodetect",
-      apply : "__updateText"
-    },
-
-
-    /** The alignment of the text. */
-    textAlign :
-    {
-      _legacy        : true,
-      type           : "string",
-      defaultValue   : "left",
-      possibleValues : [ "left", "center", "right", "justify" ]
-    },
-
-
-    /** The styles which should be copied */
-    fontPropertiesProfile :
-    {
-      _legacy : true,
-      type : "string",
-      defaultValue : "default",
-
-      possibleValues : [ "none", "default", "extended", "multiline", "extendedmultiline", "all" ]
+      check : [ "html", "text", "auto" ],
+      init : "auto",
+      apply : "_applyText"
     },
 
 
     /** A single character which will be underlined inside the text. */
     mnemonic :
     {
-      _legacy : true,
-      type    : "string"
-    },
-
-
-    /** Wrap the text? */
-    wrap :
-    {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      check : "String",
+      nullable : true,
+      apply : "_applyMnemonic"
     }
   },
 
@@ -256,45 +186,36 @@ qx.Class.define("qx.ui.basic.Label",
 
   members :
   {
-    /* ************************************************************************
-       Instance data, properties and methods
-    ************************************************************************ */
+    setHtml : function(html)
+    {
+      this.debug("Deprecated usage of HTML property!");
+      this.setText(html);
+    },
 
-    /*
-    ---------------------------------------------------------------------------
-      MODIFIER
-    ---------------------------------------------------------------------------
-    */
+    getHtml : function(html)
+    {
+      this.debug("Deprecated usage of HTML property!");
+      this.getText(html);
+    },
 
     _htmlContent : "",
     _htmlMode : false,
-    _hasMnemonic : false,
     _mnemonicHtml : "",
     _mnemonicTest : null,
 
-
-    _applyText : function(textValue)
-    {
-      this.setHtml(textValue);
+    _applyFont : function(value, old) {
+      qx.manager.object.FontManager.getInstance().connect(this._styleFont, this, value);
     },
 
 
     /**
-     * TODOC
-     *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
+     * @param value {qx.renderer.font.Font}
      */
-    _modifyText : function(propValue, propOldValue, propData)
+    _styleFont : function(value)
     {
-      // synchronize text and html. Can be remove once the html property is removed.
-      this.setText(propValue);
-      this.setHtml(propValue);
-      this.__updateText();
-      return true;
+      this._invalidatePreferredInnerDimensions();
+      value ? value.render(this) : qx.renderer.font.Font.reset(this);
     },
 
 
@@ -303,7 +224,7 @@ qx.Class.define("qx.ui.basic.Label",
      *
      * @type member
      */
-    __updateText : function()
+    _applyText : function()
     {
       if (this.getText() instanceof qx.locale.LocalizedString)
       {
@@ -315,34 +236,28 @@ qx.Class.define("qx.ui.basic.Label",
         text = this.getText() || "";
         qx.locale.Manager.getInstance().removeEventListener("changeLocale", this.__updateText, this);
       }
-      this._htmlContent = text;
 
-      switch (this.getTextMode())
+      switch (this.getMode())
       {
-        case "autodetect":
+        case "auto":
           this._htmlMode = qx.util.Validation.isValidString(text) && text.match(/<.*>/) ? true : false;
+          this._htmlContent = text;
           break;
 
         case "text":
           var escapedText = qx.xml.String.escape(text).replace(/(^ | $)/g, "&nbsp;").replace(/  /g, "&nbsp;&nbsp;");
-          if (escapedText != text) {
-            this._htmlMode = true;
-          } else {
-            this._htmlMode = false;
-          }
+          this._htmlMode = escapedText !== text;
           this._htmlContent = escapedText;
           break;
 
         case "html":
           this._htmlMode = true;
+          this._htmlContent = text;
           break;
-
-        default:
-          throw new Error("Invalid switch case: "+this.getTextMode()+"!");
       }
 
       if (this._isCreated) {
-        this._applyContent();
+        this._renderContent();
       }
     },
 
@@ -351,73 +266,22 @@ qx.Class.define("qx.ui.basic.Label",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
+     * @param value {var} Current value
+     * @param old {var} Previous value
      */
-    _modifyTextAlign : function(propValue, propOldValue, propData)
+    _applyMnemonic : function(value, old)
     {
-      this.setStyleProperty("textAlign", propValue);
-      return true;
-    },
+      this._mnemonicHtml = value ? "(<span style=\"text-decoration:underline\">" + value + "</span>)" : "";
+      this._mnemonicTest = value ? new RegExp("^(((<([^>]|" + value + ")+>)|(&([^;]|" + value + ")+;)|[^&" + value + "])*)(" + value + ")", "i") : null;
 
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
-     */
-    _modifyMnemonic : function(propValue, propOldValue, propData)
-    {
-      this._hasMnemonic = qx.util.Validation.isValidString(propValue) && propValue.length == 1;
-
-      this._mnemonicHtml = this._hasMnemonic ? "(<span style=\"text-decoration:underline\">" + propValue + "</span>)" : "";
-      this._mnemonicTest = this._hasMnemonic ? new RegExp("^(((<([^>]|" + propValue + ")+>)|(&([^;]|" + propValue + ")+;)|[^&" + propValue + "])*)(" + propValue + ")", "i") : null;
-
-      return true;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
-     */
-    _modifyFont : function(propValue, propOldValue, propData)
-    {
-      this._invalidatePreferredInnerDimensions();
-
-      if (propValue) {
-        propValue._applyWidget(this);
-      } else if (propOldValue) {
-        propOldValue._resetWidget(this);
+      if (this._isCreated) {
+        this._renderContent();
       }
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
-     */
-    _modifyWrap : function(propValue, propOldValue, propData)
-    {
-      this.setStyleProperty("whiteSpace", propValue ? "normal" : "nowrap");
-      return true;
-    },
+
+
 
 
 
@@ -436,53 +300,34 @@ qx.Class.define("qx.ui.basic.Label",
      */
     _computeObjectNeededDimensions : function()
     {
-      // copy styles
-      var vNode = this._copyStyles();
+      // get node
+      var node = this.self(arguments)._getMeasureNode();
+      var style = node.style;
+      var source = this._styleProperties;
 
-      // prepare html
-      var vHtml = this._htmlContent;
-
-      // test for mnemonic and fix content
-      if (this._hasMnemonic && !this._mnemonicTest.test(vHtml)) {
-        vHtml += this._mnemonicHtml;
-      }
+      // sync styles
+      style.fontFamily = source.fontFamily || "";
+      style.fontSize = source.fontSize || "";
+      style.fontWeight = source.fontWeight || "";
+      style.fontStyle = source.fontStyle || "";
+      style.textAlign = source.textAlign || "";
+      style.whiteSpace = source.whiteSpace || "";
+      style.textDecoration = source.textDecoration || "";
+      style.textTransform = source.textTransform || "";
+      style.letterSpacing = source.letterSpacing || "";
+      style.wordSpacing = source.wordSpacing || "";
+      style.lineHeight = source.lineHeight || "";
 
       // apply html
-      vNode.innerHTML = vHtml;
+      node.innerHTML = this._htmlContent;
 
       // store values
-      this._cachedPreferredInnerWidth = vNode.scrollWidth;
-      this._cachedPreferredInnerHeight = vNode.scrollHeight;
+      this._cachedPreferredInnerWidth = node.scrollWidth;
+      this._cachedPreferredInnerHeight = node.scrollHeight;
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
-    _copyStyles : function()
-    {
-      var vProps = this.getFontPropertiesProfile();
-      var vNode = qx.ui.basic.Label.createMeasureNode(vProps);
-      var vUseProperties = qx.ui.basic.Label._fontProperties[vProps];
-      var vUsePropertiesLength = vUseProperties.length - 1;
-      var vProperty = vUseProperties[vUsePropertiesLength--];
 
-      var vStyle = vNode.style;
-      var vTemp;
-
-      if (!vProperty) {
-        return vNode;
-      }
-
-      do {
-        vStyle[vProperty] = qx.util.Validation.isValid(vTemp = this.getStyleProperty([ vProperty ])) ? vTemp : "";
-      } while (vProperty = vUseProperties[vUsePropertiesLength--]);
-
-      return vNode;
-    },
 
 
 
@@ -528,6 +373,11 @@ qx.Class.define("qx.ui.basic.Label",
     */
 
 
+    _patchGeckoHtml : function(html, inner) {
+      return "<div style='float:left;width:" + (inner-10) + "px;overflow:hidden;white-space:nowrap'>" + html + "</div><span style='float:left'>&hellip;</span>";
+    },
+
+
     /**
      * TODOC
      *
@@ -536,189 +386,66 @@ qx.Class.define("qx.ui.basic.Label",
      */
     _postApply : function()
     {
-      var vHtml = this._htmlContent;
-      var vElement = this._getTargetNode();
-      var vMnemonicMode = 0;
+      var html = this._htmlContent;
+      var element = this._getTargetNode();
 
-      if (qx.util.Validation.isInvalidString(vHtml))
+      if (html == null)
       {
-        vElement.innerHTML = "";
+        element.innerHTML = "";
         return;
       }
 
-      if (this._hasMnemonic) {
-        vMnemonicMode = this._mnemonicTest.test(vHtml) ? 1 : 2;
+      if (this.getMnemonic())
+      {
+        this._mnemonicTest.test(html);
+        html = RegExp.$1 + "<span style=\"text-decoration:underline\">" + RegExp.$7 + "</span>" + RegExp.rightContext;
+        this._htmlMode = true;
       }
 
-      // works only with text, don't use when wrap is enabled
-      if (!this._htmlMode && !this.getWrap())
+      var style = element.style;
+
+      if (this.getInnerWidth() < this.getPreferredInnerWidth())
       {
-        switch(this._computedWidthType)
+        style.overflow = "hidden";
+
+        if (qx.core.Variant.isSet("qx.client", "mshtml|webkit"))
         {
-          case qx.ui.core.Widget.TYPE_PIXEL:
-          case qx.ui.core.Widget.TYPE_PERCENT:
-            // carstenl: enabled truncation code for flex sizing, too. Appears to work except for the
-            //          truncation code (gecko version), which I have disabled (see below).
-          case qx.ui.core.Widget.TYPE_FLEX:
-            var vNeeded = this.getPreferredInnerWidth();
-            var vInner = this.getInnerWidth();
+          style.textOverflow = "ellipsis";
+        }
+        else if (qx.core.Variant.isSet("qx.client", "opera"))
+        {
+          style.OTextOverflow = "ellipsis";
+        }
+        else if (qx.core.Variant.isSet("qx.client", "gecko"))
+        {
+          html = this._patchGeckoHtml(html, this.getInnerWidth());
+          this._htmlMode = true;
+        }
+      }
+      else
+      {
+        style.overflow = "";
 
-            if (vInner < vNeeded)
-            {
-              vElement.style.overflow = "hidden";
-
-              if (qx.core.Variant.isSet("qx.client", "mshtml"))
-              {
-                vElement.style.textOverflow = "ellipsis";
-                vHtml += this._mnemonicHtml;
-              }
-              else
-              {
-                var vMeasureNode = this._copyStyles();
-
-                var vSplitString = vHtml.split(" ");
-                var vSplitLength = vSplitString.length;
-
-                var vWordIterator = 0;
-                var vCharaterIterator = 0;
-
-                var vPost = qx.ui.basic.Label.SYMBOL_ELLIPSIS;
-
-                var vUseInnerText = true;
-
-                if (vMnemonicMode == 2)
-                {
-                  var vPost = this._mnemonicHtml + vPost;
-                  vUseInnerText = false;
-                }
-
-                // Measure Words (if more than one)
-                if (vSplitLength > 1)
-                {
-                  var vSplitTemp = [];
-
-                  for (vWordIterator=0; vWordIterator<vSplitLength; vWordIterator++)
-                  {
-                    vSplitTemp.push(vSplitString[vWordIterator]);
-
-                    var vLabelText = vSplitTemp.join(" ") + vPost;
-
-                    if (vUseInnerText) {
-                      qx.dom.Element.setTextContent(vMeasureNode, vLabelText);
-                    } else {
-                      vMeasureNode.innerHTML = vLabelText;
-                    }
-
-                    if (
-                    /* carstenl: The following code (truncate the text to fit in the available
-                     *           space, append ellipsis to indicate truncation) did not reliably
-                     *           work in my tests. Problem was that sometimes the measurer returned
-                     *           insanely high values for short texts, like "I..." requiring 738 px.
-                     *
-                     *           I don't have time to examine this code in detail. Since all of my
-                     *           tests used flex width and the truncation code never was intended
-                     *           for this, I am disabling truncation if flex is active.
-                     */
-
-                    (vMeasureNode.scrollWidth > vInner) && (this._computedWidthType != qx.ui.core.Widget.TYPE_FLEX)) {
-                      break;
-                    }
-                  }
-
-                  // Remove last word which does not fit
-                  vSplitTemp.pop();
-
-                  // Building new temportary array
-                  vSplitTemp = [ vSplitTemp.join(" ") ];
-
-                  // Extracting remaining string
-                  vCharaterString = vHtml.replace(vSplitTemp[0], "");
-                }
-                else
-                {
-                  var vSplitTemp = [];
-                  vCharaterString = vHtml;
-                }
-
-                var vCharaterLength = vCharaterString.length;
-
-                // Measure Chars
-                for (var vCharaterIterator=0; vCharaterIterator<vCharaterLength; vCharaterIterator++)
-                {
-                  vSplitTemp.push(vCharaterString.charAt(vCharaterIterator));
-
-                  var vLabelText = vSplitTemp.join("") + vPost;
-
-                  if (vUseInnerText) {
-                    qx.dom.Element.setTextContent(vMeasureNode, vLabelText);
-                  } else {
-                    vMeasureNode.innerHTML = vLabelText;
-                  }
-
-                  if (vMeasureNode.scrollWidth > vInner) {
-                    break;
-                  }
-                }
-
-                // Remove last char which does not fit
-                vSplitTemp.pop();
-
-                // Add mnemonic and ellipsis symbol
-                vSplitTemp.push(vPost);
-
-                // Building Final HTML String
-                vHtml = vSplitTemp.join("");
-              }
-
-              break;
-            }
-            else
-            {
-              vHtml += this._mnemonicHtml;
-            }
-
-            // no break here
-
-          default:
-            vElement.style.overflow = "";
-
-            if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-              vElement.style.textOverflow = "";
-            }
+        if (qx.core.Variant.isSet("qx.client", "mshtml|webkit"))
+        {
+          style.textOverflow = "";
+        }
+        else if (qx.core.Variant.isSet("qx.client", "opera"))
+        {
+          style.OTextOverflow = "";
         }
       }
 
-      if (vMnemonicMode == 1)
+      if (this._htmlMode)
       {
-        // re-test: needed to make ellipsis handling correct
-        this._mnemonicTest.test(vHtml);
-        vHtml = RegExp.$1 + "<span style=\"text-decoration:underline\">" + RegExp.$7 + "</span>" + RegExp.rightContext;
-      }
-
-      return this._postApplyHtml(vElement, vHtml, vMnemonicMode);
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vElement {var} TODOC
-     * @param vHtml {var} TODOC
-     * @param vMnemonicMode {var} TODOC
-     * @return {void}
-     */
-    _postApplyHtml : function(vElement, vHtml, vMnemonicMode)
-    {
-      if (this._htmlMode || vMnemonicMode > 0) {
-        vElement.innerHTML = vHtml;
+        element.innerHTML = html;
       }
       else
       {
         try {
-          qx.dom.Element.setTextContent(vElement, vHtml);
+          qx.dom.Element.setTextContent(element, html);
         } catch(ex) {
-          vElement.innerHTML = vHtml;
+          element.innerHTML = html;
         }
       }
     }

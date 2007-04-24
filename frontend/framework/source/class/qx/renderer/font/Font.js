@@ -49,6 +49,8 @@ qx.Class.define("qx.renderer.font.Font",
     if (family !== undefined) {
       this.setFamily(family);
     }
+
+    this.initWrap();
   },
 
 
@@ -122,6 +124,8 @@ qx.Class.define("qx.renderer.font.Font",
       widget.removeStyleProperty("fontSize");
       widget.removeStyleProperty("fontWeight");
       widget.removeStyleProperty("fontStyle");
+      widget.removeStyleProperty("textAlign");
+      widget.removeStyleProperty("whiteSpace");
       widget.removeStyleProperty("textDecoration");
       widget.removeStyleProperty("textTransform");
       widget.removeStyleProperty("letterSpacing");
@@ -169,6 +173,20 @@ qx.Class.define("qx.renderer.font.Font",
       apply : "_applyItalic"
     },
 
+    align :
+    {
+      check : [ "left", "center", "right", "justify" ],
+      nullable : true
+    },
+
+    wrap :
+    {
+      check : "Boolean",
+      init : false,
+      nullable : true,
+      apply : "_applyWrap"
+    },
+
     decoration :
     {
       check : [ "underline", "line-through", "overline" ],
@@ -214,6 +232,15 @@ qx.Class.define("qx.renderer.font.Font",
 
   members :
   {
+    __size : null,
+    __family : null,
+    __bold : null,
+    __italic : null,
+    __wrap : null,
+    __letterSpacing : null,
+    __wordSpacing : null,
+    __lineHeight : null,
+
     _applySize : function(value, old) {
       this.__size = value === null ? null : value + "px";
     },
@@ -228,6 +255,10 @@ qx.Class.define("qx.renderer.font.Font",
 
     _applyItalic : function(value, old) {
       this.__italic = value === null ? null : value ? "italic" : "normal";
+    },
+
+    _applyWrap : function(value, old) {
+      this.__wrap = value === null ? null : value ? "normal" : "nowrap";
     },
 
     _applyLetterSpacing : function(value, old) {
@@ -248,6 +279,8 @@ qx.Class.define("qx.renderer.font.Font",
       widget.setStyleProperty("fontSize", this.__size);
       widget.setStyleProperty("fontWeight", this.__bold);
       widget.setStyleProperty("fontStyle", this.__italic);
+      widget.setStyleProperty("textAlign", this.getAlign());
+      widget.setStyleProperty("whiteSpace", this.__wrap);
       widget.setStyleProperty("textDecoration", this.getDecoration());
       widget.setStyleProperty("textTransform", this.getTransform());
       widget.setStyleProperty("letterSpacing", this.__letterSpacing);

@@ -350,8 +350,9 @@ qx.Class.define("qx.ui.basic.Image",
      */
     _modifyLoaded : function(propValue, propOldValue, propData)
     {
-      if (propValue && this.isCreated()) {
-        this._applyContent();
+      if (propValue && this.isCreated())
+      {
+        this._renderContent();
       }
       else if (!propValue)
       {
@@ -652,7 +653,7 @@ qx.Class.define("qx.ui.basic.Image",
      * @type member
      * @return {void}
      */
-    _applyContent : function()
+    _renderContent : function()
     {
       this.base(arguments);
 
