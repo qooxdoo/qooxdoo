@@ -184,6 +184,14 @@ qx.Class.define("qx.core.Property",
 
 
     /**
+     * Undefined value, used to unstyle a property
+     *
+     * @internal
+     */
+    $$undefined : "undefined",
+
+
+    /**
      * Caching field names for each property created
      *
      * @internal
@@ -673,6 +681,8 @@ qx.Class.define("qx.core.Property",
           if (qx.core.Variant.isSet("qx.debug", "on")) {
             code.add('if(arguments.length!==1)throw new Error("The method of the property ', name,  ' by using ', this.$$method[variant][name], '() requires exactly one argument!");');
           }
+
+          code.add('if(value===qx.core.Property.$$undefined)value=undefined;');
 
           // Old/new comparision
           code.add('if(this.', store, '===value)return value;');
