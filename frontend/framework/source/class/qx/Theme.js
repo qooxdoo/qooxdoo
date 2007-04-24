@@ -48,12 +48,15 @@ qx.Class.define("qx.Theme",
      * <pre><code>
      * qx.Theme.define("name",
      * {
+     *   title : "MyThemeTitle",
      *   extend : otherTheme,
-     *   title : "MyThemeTitle"
+     *   colors : {},
+     *   borders : {},
+     *   fonts : {},
      *   icons : {},
      *   widgets : {},
-     *   colors : {},
-     *   appearances : {}
+     *   appearances : {},
+     *   meta : {}
      * });
      * </code></pre>
      *
