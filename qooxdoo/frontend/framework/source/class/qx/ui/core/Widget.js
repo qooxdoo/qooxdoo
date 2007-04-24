@@ -1294,7 +1294,8 @@ qx.Class.define("qx.ui.core.Widget",
       nullable : true,
       check : "Color",
       apply : "_applyBackgroundColor",
-      appearance : true
+      appearance : true,
+      inheritable : true
     },
 
 
@@ -1306,7 +1307,8 @@ qx.Class.define("qx.ui.core.Widget",
       nullable : true,
       check : "Color",
       apply : "_applyColor",
-      appearance : true
+      appearance : true,
+      inheritable : true
     },
 
 
@@ -1328,7 +1330,8 @@ qx.Class.define("qx.ui.core.Widget",
       nullable : true,
       apply : "_applyFont",
       check : "Font",
-      appearance : true
+      appearance : true,
+      inheritable : true
     },
 
 
