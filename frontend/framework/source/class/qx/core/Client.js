@@ -66,6 +66,7 @@ qx.Class.define("qx.core.Client",
       {
         vEngine = "opera";
         vEngineVersion = RegExp.$1;
+        vBrowser = "opera";
 
         // Fix Opera version to match wikipedia style
         vEngineVersion = vEngineVersion.substring(0, 3) + "." + vEngineVersion.substring(3);
@@ -88,7 +89,7 @@ qx.Class.define("qx.core.Client",
         if (invalidCharacter) {
           vEngineVersion = vEngineVersion.slice(0, invalidCharacter.index);
         }
-            
+
         if (vBrowserUserAgent.indexOf("Safari") != -1) {
           vBrowser = "safari";
         } else if (vBrowserUserAgent.indexOf("OmniWeb") != -1) {
@@ -102,7 +103,7 @@ qx.Class.define("qx.core.Client",
         } else {
           vBrowser = "other webkit";
         }
-        
+
         if (vEngineNightly) {
           vBrowser += " (nightly)"
         }
@@ -127,6 +128,7 @@ qx.Class.define("qx.core.Client",
       {
         vEngine = "mshtml";
         vEngineVersion = RegExp.$1;
+        vBrowser = "explorer";
 
         vBrowserModeHta = !window.external;
       }
@@ -220,7 +222,7 @@ qx.Class.define("qx.core.Client",
       this._engineQuirksMode = vEngineQuirksMode;
       this._engineBoxSizingAttribute = vEngineBoxSizingAttr;
       this._engineEmulation = vEngineEmulation;
-      
+
       this._browserName = vBrowser;
 
       this._defaultLocale = vDefaultLocale;
@@ -280,8 +282,8 @@ qx.Class.define("qx.core.Client",
     getBrowser : function() {
       return this._browserName;
     },
-    
-    
+
+
     /**
      * TODOC
      *
