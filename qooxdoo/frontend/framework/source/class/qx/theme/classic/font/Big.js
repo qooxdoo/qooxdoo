@@ -19,30 +19,30 @@
 ************************************************************************* */
 
 /**
- * The default qooxdoo font theme.
+ * The qooxdoo big font theme.
  */
-qx.Theme.define("qx.theme.classic.Font",
+qx.Theme.define("qx.theme.classic.font.Big",
 {
-  title : "Classic",
+  title : "Classic Big",
 
   fonts :
   {
     "default" :
     {
-      size : 11,
+      size : 13,
       family : [ "Lucida Grande", "Tahoma", "sans-serif" ]
     },
 
     "bold" :
     {
-      size : 11,
+      size : 13,
       family : [ "Lucida Grande", "Tahoma", "sans-serif" ],
       bold : true
     },
 
     "large" :
     {
-      size : 13,
+      size : 16,
       family : [ "Lucida Grande", "Tahoma", "sans-serif" ]
     }
   }

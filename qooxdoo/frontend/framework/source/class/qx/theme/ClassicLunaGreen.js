@@ -29,7 +29,7 @@ qx.Theme.define("qx.theme.ClassicLunaGreen",
   {
     color : qx.theme.classic.color.LunaGreen,
     border : qx.theme.classic.Border,
-    font : qx.theme.classic.Font,
+    font : qx.theme.classic.font.Default,
     widget : qx.theme.classic.Widget,
     appearance : qx.theme.classic.Appearance,
     icon : qx.theme.icon.Nuvola
