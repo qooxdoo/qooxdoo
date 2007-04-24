@@ -376,8 +376,8 @@ qx.Class.define("qx.ui.basic.Label",
     */
 
 
-    _patchGeckoHtml : function(html, inner) {
-      return "<div style='float:left;width:" + (inner-10) + "px;overflow:hidden;white-space:nowrap'>" + html + "</div><span style='float:left'>&hellip;</span>";
+    _patchTextOverflow : function(html, inner) {
+      return "<div style='float:left;width:" + (inner-14) + "px;overflow:hidden;white-space:nowrap'>" + html + "</div><span style='float:left'>&hellip;</span>";
     },
 
 
@@ -425,9 +425,9 @@ qx.Class.define("qx.ui.basic.Label",
         {
           style.OTextOverflow = "ellipsis";
         }
-        else if (qx.core.Variant.isSet("qx.client", "gecko"))
+        else
         {
-          html = this._patchGeckoHtml(html, this.getInnerWidth());
+          html = this._patchTextOverflow(html, this.getInnerWidth());
           this._htmlMode = true;
         }
       }
