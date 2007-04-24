@@ -682,8 +682,11 @@ qx.Class.define("qx.core.Property",
             code.add('if(arguments.length!==1)throw new Error("The method of the property ', name,  ' by using ', this.$$method[variant][name], '() requires exactly one argument!");');
           }
 
-          code.add('if(value===qx.core.Property.$$undefined)value=undefined;');
-
+          // Allow to unstyle appearance properties by explicit "undefined" string value
+          if (variant === "style") {
+            code.add('if(value===qx.core.Property.$$undefined)value=undefined;');
+          }
+          
           // Old/new comparision
           code.add('if(this.', store, '===value)return value;');
 
