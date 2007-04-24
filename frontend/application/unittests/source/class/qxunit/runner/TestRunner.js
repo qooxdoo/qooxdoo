@@ -96,8 +96,8 @@ qx.Class.define("qxunit.runner.TestRunner",
     this.testSuiteUrl = new qx.ui.form.TextField("html/QooxdooTest.html?testclass=qxunit.test");
     this.toolbar.add(this.testSuiteUrl);
     this.testSuiteUrl.set({
-      width : 250,
-      font  : new qx.renderer.font.Font(6,"Times")
+      width : 250
+      //font  : new qx.renderer.font.Font(6,"Times")
     });
     this.reloadbutton.addEventListener("execute", this.reloadTestSuite, this);
 
@@ -135,20 +135,13 @@ qx.Class.define("qxunit.runner.TestRunner",
 
     // progress bar
     var progress = this.__makeProgress();
-    this.widgets["progressb"] = progress;
+    this.widgets["progresspane"] = progress;
+    this.widgets["progresspane.progressbar"] = progress.getChildren()[1];
     right.add(progress);
 
     // button view
     var buttview = this.__makeButtonView();
     right.add(buttview);
-
-    //this.testLoader();
-
-    /*
-    this.addEventListener("load", function (e) {
-      this.iframe.set({display: false});
-    }, this);
-    */
 
   }, //constructor
 
@@ -360,7 +353,7 @@ qx.Class.define("qxunit.runner.TestRunner",
     runTest : function (e) {
       this.appendr("Now running: " + this.tests.selected);
       // Initialize progress bar
-      this.widgets["progressb"].getChildren()[1].update("0%");
+      this.widgets["progresspane.progressbar"].update("0%");
       // Make initial entry in output windows (test result, log, ...)
 
       // Foreach test subsumed by 'testLabel' (could be an individual test, or
@@ -375,8 +368,8 @@ qx.Class.define("qxunit.runner.TestRunner",
         testResult.addEventListener("startTest", function(e) {
           var test = e.getData();
           this.appendr("Test '"+test.getFullName()+"' started.");
-          this.widgets["progressb"].getChildren()[1].update(String(tstCurr+"/"+tstCnt));
-          this.widgets["progressb"]._children[2].setHtml(String(tstCurr+"/"+tstCnt));
+          this.widgets["progresspane.progressbar"].update(String(tstCurr+"/"+tstCnt));
+          this.widgets["progresspane"]._children[2].setHtml(String(tstCurr+"/"+tstCnt));
           tstCurr++;
         }, this);
         testResult.addEventListener("failure", function(e) {
@@ -413,33 +406,7 @@ qx.Class.define("qxunit.runner.TestRunner",
         this.iframe.setSource(neu);
       }
       this.left.setEnabled(true);
-    }, //reloadTestSuite
-
-
-    testLoader : function()
-    {
-
-      var loader = qxunit.runner.TestLoaderStub.getInstance();
-      this.debug(qx.io.Json.stringify(loader.getTestDescriptions()));
-
-      var testResult = new qxunit.TestResult();
-      testResult.addEventListener("startTest", function(e) {
-        var test = e.getData();
-        this.debug("Test '"+test.getFullName()+"' started.");
-      });
-      testResult.addEventListener("failure", function(e) {
-        var ex = e.getData().exception;
-        var test = e.getData().test;
-        this.error("Test '"+test.getFullName()+"' failed: " +  ex.getMessage() + " - " + ex.getComment());
-      });
-      testResult.addEventListener("error", function(e) {
-        var ex = e.getData().exception
-        this.error("The test '"+e.getData().test.getFullName()+"' had an error: " + ex, ex);
-      });
-
-      loader.runTests(testResult, "qxunit.test.Lang");
-      loader.runTests(testResult, "qxunit.test.Xml", "testParseSerializeXml");
-    }//testLoader
+    } //reloadTestSuite
 
   } //members
 
