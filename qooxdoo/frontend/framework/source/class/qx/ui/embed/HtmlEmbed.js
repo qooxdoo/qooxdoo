@@ -68,15 +68,6 @@ qx.Class.define("qx.ui.embed.HtmlEmbed",
     {
       _legacy : true,
       type    : "string"
-    },
-
-
-    /** Wrap the text? */
-    wrap :
-    {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
     }
   },
 
@@ -113,39 +104,21 @@ qx.Class.define("qx.ui.embed.HtmlEmbed",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
-     */
-    _modifyFont : function(propValue, propOldValue, propData)
-    {
-      if (propValue) {
-        propValue._applyWidget(this);
-      } else if (propOldValue) {
-        propOldValue._resetWidget(this);
-      }
+    _applyFont : function(value, old) {
+      qx.manager.object.FontManager.getInstance().connect(this._styleFont, this, value);
     },
 
 
     /**
-     * TODOC
-     *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
+     * @param value {qx.renderer.font.Font}
      */
-    _modifyWrap : function(propValue, propOldValue, propData)
-    {
-      this.setStyleProperty("whiteSpace", propValue ? "normal" : "nowrap");
-      return true;
+    _styleFont : function(value) {
+      value ? value.render(this) : qx.renderer.font.Font.reset(this);
     },
+
+
+
 
 
 
