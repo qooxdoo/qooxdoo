@@ -574,9 +574,11 @@ qx.Class.define("qx.ui.core.ClientDocument",
 
     // Fix IE background image cache, see also:
     // http://misterpixel.blogspot.com/2006/09/forensic-analysis-of-ie6.html
+    /*
     if (qx.core.Variant.isSet("qx.client", "mshtml")) {
       document.execCommand("BackgroundImageCache", false, true);
     }
+    */
   },
 
 
