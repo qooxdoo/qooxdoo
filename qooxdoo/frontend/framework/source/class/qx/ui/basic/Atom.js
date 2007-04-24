@@ -396,7 +396,7 @@ qx.Class.define("qx.ui.basic.Atom",
     _modifyLabel : function(propValue, propOldValue, propData)
     {
       if (this._labelObject) {
-        this._labelObject.setHtml(propValue);
+        this._labelObject.setText(propValue);
       }
 
       this._handleLabel();

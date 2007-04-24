@@ -101,7 +101,7 @@ qx.Class.define("qx.ui.basic.Terminator",
      * @type member
      * @return {void}
      */
-    _applyContent : function()
+    _renderContent : function()
     {
       // Small optimization: Only add innerPreferred jobs
       // if we don't have a static width

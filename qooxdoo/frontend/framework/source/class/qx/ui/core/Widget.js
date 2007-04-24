@@ -5490,7 +5490,7 @@ qx.Class.define("qx.ui.core.Widget",
         }
 
         if (vElement) {
-          vElement.style[propName] = propValue;
+          vElement.style[propName] = propValue == null ? "" : propValue;
         }
       }
 
@@ -6431,16 +6431,9 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     _applyFont : function(value, old) {
-      qx.manager.object.FontManager.getInstance().connect(this._styleFont, this, value);
+
     },
 
-    /**
-     * @type member
-     * @param value {qx.renderer.font.Font}
-     */
-    _styleFont : function(value) {
-      value ? value.render(this) : qx.renderer.font.Font.reset(this);
-    },
 
 
 
@@ -6627,7 +6620,7 @@ qx.Class.define("qx.ui.core.Widget",
               break;
 
             default:
-              cs[i] = this._styleProperties[i];
+              cs[i] = es[i];
               es[i] = "";
           }
         }
