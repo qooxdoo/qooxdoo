@@ -18,6 +18,7 @@
 ************************************************************************ */
 
 /**
+ *<PRE>
  * NAME
  *  IntRange - create a list of successive integers (inspired by Matthias Miller
  *            http://www.outofhanwell.com/blog/index.php?title=javascript_range_function&more=1&c=1&tb=1&pb=1)
@@ -26,22 +27,26 @@
  *  var r = new qx.type.IntRange(1,20);
  *  var i;
  *  while ((i = r.next())!=null) { alert(i) }; // yields 1,2,3,..,20
+ *
+ *  The constructor can take a negative step width, or start > stop, to create 
+ *  decreasing ranges.For more information on the arguments, see the 
+ *  constructor.
+ *</PRE>
  */
 qx.Class.define("qx.type.IntRange",
 {
   extend : qx.core.Object,
 
   /**
-   * IntRange constructor
-   * can take negative step width, or min > max, to create decreasing ranges.
-   *
-   * @type constructor
-   * @param start {Integer} inclusive start of range [default: 0]
-   * @param stop  {Integer} inclusive end of range
-   * @param step  {Integer} step width between data points [default: 1]
-   * @return {void} 
+   * @param start {Integer ? 0} 
+   *   inclusive start of range; can be bigger than stop to create decreasing 
+   *   ranges (default: 0)
+   * @param stop  {Integer}     inclusive end of range
+   * @param step  {Integer ? 1} 
+   *   step width between data points; can be negative to create decreasing
+   *   ranges (default: 1)
    */
-  construct : function(/*[start,] stop [,step]*/)
+  construct : function(start, stop ,step) // these parms are only for docu
   {
     this.base(arguments);
 
@@ -49,48 +54,46 @@ qx.Class.define("qx.type.IntRange",
       return;
     }
 
-    var range = [];
-    var start, stop, step;
-    var reverse;
+    var pstart, pstop, pstep;
 
     // init iterator params
     if (arguments.length == 1) {
-      start = 0;
-      stop  = arguments[0];
-      step  = 1;
+      pstart = 0;
+      pstop  = arguments[0];
+      pstep  = 1;
     } else {
-      start = arguments[0];
-      stop  = arguments[1];
-      step  = arguments[2] || 1;
+      pstart = arguments[0];
+      pstop  = arguments[1];
+      pstep  = arguments[2] || 1;
     }
 
     // handle descending
-    if (step < 0 || stop < start) {
-      if (stop < start) {
-        if (step < 0) {
-          this.incr  = step;
+    if (pstep < 0 || pstop < pstart) {
+      if (pstop < pstart) {
+        if (pstep < 0) {
+          this.incr  = pstep;
         } else {
-          this. incr = step * (-1);
+          this. incr = pstep * (-1);
         }
-        this.start = start;
-        this.stop  = stop;
+        this.start = pstart;
+        this.stop  = pstop;
         this.asc   = false;
-      } else { // start < stop
-        if (step < 0) {
-          this.start = stop;
-          this.stop  = start;
+      } else { // pstart < pstop
+        if (pstep < 0) {
+          this.start = pstop;
+          this.stop  = pstart;
           this.asc   = false;
         } else {
-          this.start = start;
-          this.stop  = stop;
+          this.start = pstart;
+          this.stop  = pstop;
           this.asc   = true;
         }
-        this.incr  = step;
+        this.incr  = pstep;
       }
     } else { // ascending
-      this.start = start;
-      this.stop  = stop;
-      this.incr  = step;
+      this.start = pstart;
+      this.stop  = pstop;
+      this.incr  = pstep;
       this.asc   = true;
     }
 
@@ -102,8 +105,12 @@ qx.Class.define("qx.type.IntRange",
   
   members : {
 
-    range : [],
-
+    /**
+     * Return the next number in the range, or null.
+     *
+     * @type member
+     * @return {Integer/Null} 
+     */
     next: function () {
       var curr = this.curr;
       if (curr != null) {
