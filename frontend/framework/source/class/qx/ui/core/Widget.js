@@ -1407,7 +1407,8 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "String",
       nullable : true,
-      apply : "_modifyOverflow"
+      apply : "_modifyOverflow",
+      themeable : true
     },
 
 
@@ -5045,6 +5046,10 @@ qx.Class.define("qx.ui.core.Widget",
             if (def && !def._legacy) {
               this.warn("Using set() for new non-themeable property: " + prop);
             }
+          }
+
+          if (!this[setter[prop]]) {
+            this.debug("Setter is not available: " + prop);
           }
 
           this[setter[prop]](data[prop]);
