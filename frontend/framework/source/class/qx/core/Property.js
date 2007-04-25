@@ -608,7 +608,7 @@ qx.Class.define("qx.core.Property",
       if (config.init !== undefined) {
         code.add('return this.', this.$$store.init[name], ';');
       } else if (config.inheritable || config.nullable) {
-        code.add('return null');
+        code.add('return null;');
       } else {
         code.add('throw new Error("Property ', name, ' of an instance of ', clazz.classname, ' is not (yet) ready!");');
       }
