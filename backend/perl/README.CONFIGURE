@@ -26,6 +26,8 @@ needs configuring slightly differently.
     module:
 
       $ ./jsonrpc.pl
+      Set-Cookie: CGISESSID=c78f793d1906c8b9a47f0c82bec4df42; path=/
+      Date: Thu, 19 Dec 2006 10:40:02 GMT
       Content-Type: text/html; charset=ISO-8859-1
 
       Your HTTP Client is not using the JSON-RPC protocol
@@ -65,3 +67,7 @@ The tests
     qooxdoo/frontend/application/sample/source/html/test/RPC_?.html
 
 can be tested from your web browser. For the URL, enter your URL to jsonrpc.
+
+The RpcTreeFullControl 1 example is known to work with this backend,
+but unfortunately has a hard-coded URL which needs changing.
+
