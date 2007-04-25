@@ -1294,8 +1294,7 @@ qx.Class.define("qx.ui.core.Widget",
       nullable : true,
       check : "Color",
       apply : "_applyBackgroundColor",
-      themeable : true,
-      inheritable : true
+      themeable : true
     },
 
 
