@@ -88,7 +88,7 @@ qx.Class.define("qx.ui.layout.BoxLayout",
     {
       check : [ "horizontal", "vertical" ],
       init : "horizontal",
-      appearance : true,
+      themeable : true,
       apply : "_modifyOrientation"
     },
 
@@ -98,7 +98,7 @@ qx.Class.define("qx.ui.layout.BoxLayout",
     {
       check : "Integer",
       init : 0,
-      appearance : true,
+      themeable : true,
       apply : "_applySpacing"
     },
 
@@ -108,7 +108,7 @@ qx.Class.define("qx.ui.layout.BoxLayout",
     {
       check : [ "left", "center", "right" ],
       init : "left",
-      appearance : true,
+      themeable : true,
       apply : "_applyHorizontalChildrenAlign"
     },
 
@@ -118,7 +118,7 @@ qx.Class.define("qx.ui.layout.BoxLayout",
     {
       check : [ "top", "middle", "bottom" ],
       init : "top",
-      appearance : true,
+      themeable : true,
       apply : "_applyVerticalChildrenAlign"
     },
 
@@ -128,7 +128,7 @@ qx.Class.define("qx.ui.layout.BoxLayout",
     {
       check : "Boolean",
       init : false,
-      appearance : true,
+      themeable : true,
       apply : "_applyReverseChildrenOrder"
     },
 
@@ -141,7 +141,7 @@ qx.Class.define("qx.ui.layout.BoxLayout",
     {
       check : "Boolean",
       init : true,
-      appearance : true,
+      themeable : true,
       apply : "_applyStretchChildrenOrthogonalAxis"
     },
 

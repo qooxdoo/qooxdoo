@@ -20,10 +20,10 @@ qx.Class.define("qx.test.Layout",
     /**
      * @deprecated
      */
-    width12: { inheritable : true, appearance : true },
-    _height : { inheritable : true, appearance : true },
-    _left : { inheritable : true, appearance : true },
-    _top : { inheritable : true, appearance : true }
+    width12: { inheritable : true, themeable : true },
+    _height : { inheritable : true, themeable : true },
+    _left : { inheritable : true, themeable : true },
+    _top : { inheritable : true, themeable : true }
   },
 
 
