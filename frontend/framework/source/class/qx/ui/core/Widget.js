@@ -5368,6 +5368,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param propName {var} TODOC
      * @param propValue {var} Current value
      * @return {Boolean} TODOC
+     * @deprecated Use {@link #setHtmlProperty} instead
      */
     setHtmlAttribute : function(propName, propValue)
     {
@@ -5391,6 +5392,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param propName {var} TODOC
      * @return {void | Boolean} TODOC
+     * @deprecated Use {@link #removeHtmlProperty} instead
      */
     removeHtmlAttribute : function(propName)
     {
@@ -5414,6 +5416,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param propName {var} TODOC
      * @return {string | var} TODOC
+     * @deprecated Use {@link #getHtmlProperty} instead
      */
     getHtmlAttribute : function(propName)
     {
@@ -5431,6 +5434,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param vElement {var} TODOC
      * @return {void}
+     * @deprecated Use {@link #_applyHtmlProperties} instead
      */
     _applyHtmlAttributes : function(vElement)
     {
