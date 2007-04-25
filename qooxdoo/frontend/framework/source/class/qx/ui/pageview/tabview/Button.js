@@ -73,9 +73,8 @@ qx.Class.define("qx.ui.pageview.tabview.Button",
   {
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "tab-view-button"
+      refine : true,
+      init : "tab-view-button"
     },
 
 

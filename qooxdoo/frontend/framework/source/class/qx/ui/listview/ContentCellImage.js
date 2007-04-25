@@ -69,9 +69,8 @@ qx.Class.define("qx.ui.listview.ContentCellImage",
   {
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "list-view-content-cell-image"
+      refine : true,
+      init : "list-view-content-cell-image"
     }
   },
 

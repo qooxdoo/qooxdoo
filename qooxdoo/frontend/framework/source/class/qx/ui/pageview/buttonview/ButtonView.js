@@ -79,9 +79,8 @@ qx.Class.define("qx.ui.pageview.buttonview.ButtonView",
 
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "button-view"
+      refine : true,
+      init : "button-view"
     }
   },
 

@@ -122,9 +122,8 @@ qx.Class.define("qx.ui.listview.HeaderCell",
   {
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "list-view-header-cell"
+      refine : true,
+      init : "list-view-header-cell"
     },
 
     sortOrder :

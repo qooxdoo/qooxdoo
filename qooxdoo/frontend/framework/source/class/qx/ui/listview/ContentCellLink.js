@@ -79,9 +79,8 @@ qx.Class.define("qx.ui.listview.ContentCellLink",
   {
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "list-view-content-cell-link"
+      refine : true,
+      init : "list-view-content-cell-link"
     }
   }
 });

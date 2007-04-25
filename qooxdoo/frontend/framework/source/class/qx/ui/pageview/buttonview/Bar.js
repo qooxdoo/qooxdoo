@@ -57,9 +57,8 @@ qx.Class.define("qx.ui.pageview.buttonview.Bar",
   {
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "button-view-bar"
+      refine : true,
+      init : "button-view-bar"
     }
   },
 

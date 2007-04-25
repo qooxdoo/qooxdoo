@@ -74,9 +74,8 @@ qx.Class.define("qx.ui.form.Button",
   {
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "button"
+      refine : true,
+      init : "button"
     }
   },
 

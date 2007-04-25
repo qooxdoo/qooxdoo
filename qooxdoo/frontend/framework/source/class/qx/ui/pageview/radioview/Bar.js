@@ -57,9 +57,8 @@ qx.Class.define("qx.ui.pageview.radioview.Bar",
   {
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "radio-view-bar"
+      refine : true,
+      init : "radio-view-bar"
     }
   }
 });

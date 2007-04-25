@@ -63,9 +63,8 @@ qx.Class.define("qx.ui.pageview.tabview.TabView",
 
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "tab-view"
+      refine : true,
+      init : "tab-view"
     },
 
     alignTabsToLeft :

@@ -63,9 +63,8 @@ qx.Class.define("qx.ui.toolbar.PartHandle",
   {
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "toolbar-part-handle"
+      refine : true,
+      init : "toolbar-part-handle"
     }
   }
 });

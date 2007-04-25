@@ -57,9 +57,8 @@ qx.Class.define("qx.ui.pageview.radioview.Pane",
   {
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "radio-view-pane"
+      refine : true,
+      init : "radio-view-pane"
     }
   }
 });

@@ -63,9 +63,8 @@ qx.Class.define("qx.ui.toolbar.Separator",
   {
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "toolbar-separator"
+      refine : true,
+      init : "toolbar-separator"
     }
   }
 });

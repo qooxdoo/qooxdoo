@@ -191,9 +191,8 @@ qx.Class.define("qx.ui.embed.Iframe",
   {
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "iframe"
+      refine : true,
+      init : "iframe"
     },
 
 

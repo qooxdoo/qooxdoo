@@ -129,9 +129,8 @@ qx.Class.define("qx.ui.basic.Label",
   {
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "label"
+      refine : true,
+      init : "label"
     },
 
 

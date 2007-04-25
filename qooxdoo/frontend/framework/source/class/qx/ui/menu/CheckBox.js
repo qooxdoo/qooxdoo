@@ -75,9 +75,8 @@ qx.Class.define("qx.ui.menu.CheckBox",
 
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "menu-check-box"
+      refine : true,
+      init : "menu-check-box"
     },
 
     name :

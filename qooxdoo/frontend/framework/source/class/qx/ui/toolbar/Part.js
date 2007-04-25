@@ -61,9 +61,8 @@ qx.Class.define("qx.ui.toolbar.Part",
   {
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "toolbar-part"
+      refine : true,
+      init : "toolbar-part"
     },
 
     show :

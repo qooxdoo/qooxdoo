@@ -55,7 +55,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
     // ************************************************************************
     //   INIT
     // ************************************************************************
-    this.setLegend(vLegend);
+    this.setLegend(vLegend | "");
 
     if (vIcon != null) {
       this.setIcon(vIcon);
@@ -80,10 +80,9 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
   {
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "field-set"
-    }
+      refine : true,
+      init : "field-set"
+    },
   },
 
 

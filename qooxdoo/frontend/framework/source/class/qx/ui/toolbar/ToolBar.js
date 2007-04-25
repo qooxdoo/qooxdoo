@@ -75,9 +75,8 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     /** Appearance of the widget */
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "toolbar"
+      refine : true,
+      init : "toolbar"
     },
 
 

@@ -187,9 +187,8 @@ qx.Class.define("qx.ui.form.ComboBox",
 
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "combo-box"
+      refine : true,
+      init : "combo-box"
     },
 
     editable :

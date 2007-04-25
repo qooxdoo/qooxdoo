@@ -57,9 +57,8 @@ qx.Class.define("qx.ui.pageview.buttonview.Page",
   {
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "button-view-page"
+      refine : true,
+      init : "button-view-page"
     }
   }
 });
