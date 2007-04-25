@@ -30,12 +30,21 @@
 
 qx.Class.define("qxunit.runner.ProgressBar",
 {
-  extend : qx.ui.layout.CanvasLayout,
+  extend : qx.ui.layout.HorizontalBoxLayout,
 
   construct : function()
   {
     this.base(arguments);
     this.set({
+      spacing: 10
+    });
+
+    this.label = new qx.ui.basic.Label("Progress:"); // should use arguemnts[0] here
+    this.add(this.label);
+  
+    this.hull = new qx.ui.layout.CanvasLayout();
+    this.add(this.hull);
+    this.hull.set({
       height : 20,
       width  : 200,
       backgroundColor : "#C1ECFF",
@@ -44,13 +53,19 @@ qx.Class.define("qxunit.runner.ProgressBar",
 
 
     this.bar = new qx.ui.basic.Terminator();
-    this.add(this.bar);
+    this.hull.add(this.bar);
     this.bar.set({
       height : 16,
       width  : "0%",
       //left   : 0,
       backgroundColor: "#0000FF"
     });
+
+    this.stepStatus = new qx.ui.basic.Label("(7/15)");
+    this.add(this.stepStatus);
+
+    this.pcntStatus = new qx.ui.basic.Label("(63%)");
+    this.add(this.pcntStatus);
 
   }, //construct
 
@@ -84,6 +99,7 @@ qx.Class.define("qxunit.runner.ProgressBar",
      */
     update: function(val) {
       var paramError = "Parameter to 'update' function must be a string representing a fraction or a percentage.";  //type error
+      var quotVal, pcntVal;
       if (typeof(val) != 'string') {
         throw new Error(paramError);
       }
@@ -98,8 +114,11 @@ qx.Class.define("qxunit.runner.ProgressBar",
         {
             throw new Error(paramError);
         } else {
-          this.bar.setWidth(Math.round(quot[0]/quot[1]*100)+"%");
+          quotVal = Math.round(quot[0]/quot[1]*100);
+          this.bar.setWidth(quotVal+"%");
           qx.ui.core.Widget.flushGlobalQueues();
+          this.stepStatus.setValue(val+"");
+          this.stepStatus.setValue("("+quotVal+"%)");
         };
 
       } else if (val[val.length-1] = "%") { // ends in '%'
@@ -111,6 +130,9 @@ qx.Class.define("qxunit.runner.ProgressBar",
         } else {
           this.bar.setWidth(pcnt+"%");
           qx.ui.core.Widget.flushGlobalQueues();
+          this.pcntStatus.setValue("("+pcnt+"%)");
+          quotVal = pcnt+"/100";
+          this.stepStatus.setValue("("+quotVal+")");
         }
       } else {
         //throw invalid update spec exception
@@ -121,7 +143,9 @@ qx.Class.define("qxunit.runner.ProgressBar",
   },//members
 
   properties: {
-    status: {type: "integer", _legacy: true}
+    status: {type: "integer", _legacy: true},
+    showStepStatus : {type: "bool", _legacy: true},
+    showPcntStatus : {type: "bool", _legacy: true}
   }
 
 });

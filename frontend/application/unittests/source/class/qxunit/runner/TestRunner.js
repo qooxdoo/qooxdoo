@@ -299,7 +299,7 @@ qx.Class.define("qxunit.runner.TestRunner",
         spacing : 10,
         width : "100%"
       });
-      progress.add(new qx.ui.basic.Label("Progress: "));
+      //progress.add(new qx.ui.basic.Label("Progress: "));
       var progressb = new qxunit.runner.ProgressBar();
       progress.add(progressb);
       /*
@@ -315,7 +315,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       progressb.update("9/15"); // update progress
       progressb.update("68%");  // dito
       */
-      progress.add(new qx.ui.basic.Label("(7/15)  (63%)"));
+      //progress.add(new qx.ui.basic.Label("(7/15)  (63%)"));
       return progress;
     }, //makeProgress
 
