@@ -199,7 +199,7 @@ qx.Class.define("qx.core.Property",
     $$store :
     {
       user     : {},
-      style    : {},
+      theme    : {},
       computed : {},
       init     : {}
     },
@@ -477,7 +477,7 @@ qx.Class.define("qx.core.Property",
 
       store.user[name] = "__user$" + name;
       store.init[name] = "__init$" + name;
-      store.style[name] = "__style$" + name;
+      store.theme[name] = "__theme$" + name;
       store.computed[name] = "__computed$" + name;
 
       method.get[name] = prefix + "get" + postfix;
@@ -662,7 +662,7 @@ qx.Class.define("qx.core.Property",
       if (variant === "set" || variant === "reset" || variant === "style" || variant === "unstyle" || variant === "toggle" || (variant === "init" && config.init === undefined))
       {
         if (variant === "style" || variant === "unstyle") {
-          var store = this.$$store.style[name];
+          var store = this.$$store.theme[name];
         } else if (variant === "init") {
           var store = this.$$store.init[name];
         } else {
@@ -817,8 +817,8 @@ qx.Class.define("qx.core.Property",
             code.add('else ');
           }
 
-          code.add('if(this.', this.$$store.style[name], '!==undefined)');
-          code.add('computed=this.', this.$$store.style[name], ';');
+          code.add('if(this.', this.$$store.theme[name], '!==undefined)');
+          code.add('computed=this.', this.$$store.theme[name], ';');
           hasComputeIf = true;
         }
 
