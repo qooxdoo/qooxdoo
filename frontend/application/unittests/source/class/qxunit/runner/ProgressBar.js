@@ -61,10 +61,10 @@ qx.Class.define("qxunit.runner.ProgressBar",
       backgroundColor: "#0000FF"
     });
 
-    this.stepStatus = new qx.ui.basic.Label("(7/15)");
+    this.stepStatus = new qx.ui.basic.Label("");
     this.add(this.stepStatus);
 
-    this.pcntStatus = new qx.ui.basic.Label("(63%)");
+    this.pcntStatus = new qx.ui.basic.Label("");
     this.add(this.pcntStatus);
 
   }, //construct
@@ -117,8 +117,8 @@ qx.Class.define("qxunit.runner.ProgressBar",
           quotVal = Math.round(quot[0]/quot[1]*100);
           this.bar.setWidth(quotVal+"%");
           qx.ui.core.Widget.flushGlobalQueues();
-          this.stepStatus.setValue(val+"");
-          this.stepStatus.setValue("("+quotVal+"%)");
+          this.stepStatus.setText("("+val+")");
+          this.pcntStatus.setText("("+quotVal+"%)");
         };
 
       } else if (val[val.length-1] = "%") { // ends in '%'
@@ -130,9 +130,9 @@ qx.Class.define("qxunit.runner.ProgressBar",
         } else {
           this.bar.setWidth(pcnt+"%");
           qx.ui.core.Widget.flushGlobalQueues();
-          this.pcntStatus.setValue("("+pcnt+"%)");
+          this.pcntStatus.setText("("+pcnt+"%)");
           quotVal = pcnt+"/100";
-          this.stepStatus.setValue("("+quotVal+")");
+          this.stepStatus.setText("("+quotVal+")");
         }
       } else {
         //throw invalid update spec exception

@@ -99,7 +99,11 @@ qx.Class.define("qxunit.runner.TestHandler",
       },
 
       testCount : function (node) { //node is a string
-        return this.getTests(node).length;
+        if (this.isClass(node)) {
+          return this.getTests(node).length;
+        } else {
+          return 1;
+        }
       }
 
   }
