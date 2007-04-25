@@ -57,12 +57,6 @@ qx.Class.define("qx.ui.embed.HtmlEmbed",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
     /** Any text string which can contain HTML, too */
     html :
     {
