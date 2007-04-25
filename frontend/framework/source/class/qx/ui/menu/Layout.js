@@ -65,7 +65,7 @@ qx.Class.define("qx.ui.menu.Layout",
     {
       refine : true,
       init : "menu-layout"
-    },
+    }
   },
 
 
