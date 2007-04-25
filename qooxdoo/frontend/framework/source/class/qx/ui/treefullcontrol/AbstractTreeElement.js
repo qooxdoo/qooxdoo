@@ -71,6 +71,9 @@ qx.Class.define("qx.ui.treefullcontrol.AbstractTreeElement",
     this._labelObject.setSelectable(false);
     this._labelObject.setStyleProperty("lineHeight", "100%");
 
+    // Simplify label object rendering
+    this._labelObject.setMode("text");
+
     this.base(arguments, "horizontal");
 
     if (qx.util.Validation.isValid(treeRowStructure._label)) {
@@ -211,7 +214,7 @@ qx.Class.define("qx.ui.treefullcontrol.AbstractTreeElement",
     _modifyLabel : function(propValue, propOldValue, propData)
     {
       if (this._labelObject) {
-        this._labelObject.setHtml(propValue);
+        this._labelObject.setText(propValue);
       }
 
       return true;
