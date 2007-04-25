@@ -33,7 +33,7 @@
       setHeight(50);
       setWidth(80);
       setBackgroundColor("#fff");
-      setColor("blue");
+      setTextColor("blue");
       setTabIndex(1);
       setBorder(new qx.renderer.border.Border(2, "solid", "blue"));
       setEnabled(false);
@@ -58,7 +58,7 @@
     {
       setTop(60);
       setLeft(220);
-      addEventListener("changeChecked", function(e) { w1.setEnabled(e.getData()); });
+      addEventListener("changeChecked", function(e) { w1.setEnabled(this.getChecked()); });
     };
 
     d.add(c1t);
@@ -85,7 +85,7 @@
     {
       setTop(196);
       setLeft(220);
-      addEventListener("changeChecked", function(e) { a1.setEnabled(e.getData()); });
+      addEventListener("changeChecked", function(e) { a1.setEnabled(this.getChecked()); });
     };
 
     d.add(swa1);
@@ -109,7 +109,7 @@
     {
       setTop(244);
       setLeft(220);
-      addEventListener("changeChecked", function(e) { btn1.setEnabled(e.getData()); });
+      addEventListener("changeChecked", function(e) { btn1.setEnabled(this.getChecked()); });
     };
 
     d.add(swbtn1);
@@ -133,7 +133,7 @@
     {
       setTop(292);
       setLeft(220);
-      addEventListener("changeChecked", function(e) { rb1.setEnabled(e.getData()); });
+      addEventListener("changeChecked", function(e) { rb1.setEnabled(this.getChecked()); });
     };
 
     d.add(swrb1);
@@ -157,7 +157,7 @@
     {
       setTop(340);
       setLeft(220);
-      addEventListener("changeChecked", function(e) { cb1.setEnabled(e.getData()); });
+      addEventListener("changeChecked", function(e) { cb1.setEnabled(this.getChecked()); });
     };
 
     d.add(swcb1);
@@ -181,7 +181,7 @@
     {
       setTop(388);
       setLeft(220);
-      addEventListener("changeChecked", function(e) { tf1.setEnabled(e.getData()); });
+      addEventListener("changeChecked", function(e) { tf1.setEnabled(this.getChecked()); });
     };
 
     d.add(swtf1);
@@ -190,8 +190,8 @@
     // ComboBox
     //-----------
 
-    var cb1 = new qx.ui.form.ComboBox;
-    with(cb1)
+    var com1 = new qx.ui.form.ComboBox;
+    with(com1)
     {
       setTop(436);
       setLeft(20);
@@ -199,9 +199,9 @@
       setEditable(true);
     };
 
-    d.add(cb1);
+    d.add(com1);
 
-    cb1.addEventListener("beforeInitialOpen", function(e)
+    com1.addEventListener("beforeInitialOpen", function(e)
     {
       var item;
 
@@ -209,19 +209,19 @@
       {
         item = new qx.ui.form.ListItem("Item No " + i);
         !(i % 10) && (item.setEnabled(false));
-        cb1.add(item);
+        com1.add(item);
       };
     });
 
-    var swcb1 = new qx.ui.form.CheckBox("Enabled");
-    with(swcb1)
+    var swcb1c = new qx.ui.form.CheckBox("Enabled");
+    with(swcb1c)
     {
       setTop(436);
       setLeft(220);
-      addEventListener("changeChecked", function(e) { cb1.setEnabled(e.getData()); });
+      addEventListener("changeChecked", function(e) { com1.setEnabled(this.getChecked()); });
     };
 
-    d.add(swcb1);
+    d.add(swcb1c);
 
   });
 
