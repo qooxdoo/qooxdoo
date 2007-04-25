@@ -115,7 +115,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     },
 
     "htmlcontainer" : {
-      extend : "label"
+      include : "label"
     },
 
     "popup" : {
@@ -128,7 +128,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     },
 
     "tool-tip" : {
-      extend : "popup",
+      include : "popup",
 
       style : function(states) {
         return {
@@ -161,7 +161,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     */
 
     "button" : {
-      extend : "atom",
+      include : "atom",
 
       style : function(states) {
         return {
@@ -376,7 +376,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     },
 
     "button-view-button" : {
-      extend : "atom",
+      include : "atom",
 
       style : function(states) {
         var vReturn = {
@@ -530,7 +530,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
 
     "radio-view-button" :
     {
-      extend : "atom",
+      include : "atom",
 
       style : function(states)
       {
@@ -638,7 +638,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     },
 
     "window-captionbar-button" : {
-      extend : "button",
+      include : "button",
 
       style : function(states) {
         return {
@@ -654,7 +654,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     },
 
     "window-captionbar-minimize-button" : {
-      extend : "window-captionbar-button",
+      include : "window-captionbar-button",
 
       style : function(states) {
         return { icon : states.active ? "widget/window/minimize.gif" : "widget/window/minimize_inactive.gif" }
@@ -662,7 +662,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     },
 
     "window-captionbar-restore-button" : {
-      extend : "window-captionbar-button",
+      include : "window-captionbar-button",
 
       style : function(states) {
         return { icon : states.active ? "widget/window/restore.gif" : "widget/window/restore_inactive.gif" }
@@ -670,7 +670,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     },
 
     "window-captionbar-maximize-button" : {
-      extend : "window-captionbar-button",
+      include : "window-captionbar-button",
 
       style : function(states) {
         return { icon : states.active ? "widget/window/maximize.gif" : "widget/window/maximize_inactive.gif" }
@@ -678,7 +678,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     },
 
     "window-captionbar-close-button" : {
-      extend : "window-captionbar-button",
+      include : "window-captionbar-button",
 
       style : function(states) {
         return {
@@ -791,11 +791,11 @@ qx.Theme.define("qx.theme.ext.Appearance",
     },
 
     "menu-check-box" : {
-      extend : "menu-button"
+      include : "menu-button"
     },
 
     "menu-radio-button" : {
-      extend : "menu-button"
+      include : "menu-button"
     },
 
     "menu-separator" : {
@@ -902,7 +902,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     },
 
     "text-area" : {
-      extend : "text-field",
+      include : "text-field",
 
       style : function(states) {
         return {
@@ -966,7 +966,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     },
 
     "combo-box-list" : {
-      extend : "list",
+      include : "list",
 
       style : function(states) {
         return {
@@ -983,7 +983,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     },
 
     "combo-box-ex-list" : {
-      extend : "list",
+      include : "list",
 
       style : function(states) {
         return {
@@ -999,7 +999,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     },
 
     "combo-box-popup" : {
-      extend : "list",
+      include : "list",
 
       style : function(states) {
         var border_default = new qx.renderer.border.Border;
@@ -1020,7 +1020,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     },
 
     "combo-box-ex-popup" : {
-      extend : "list",
+      include : "list",
 
       style : function(states) {
         var border_default = new qx.renderer.border.Border;
@@ -1037,7 +1037,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     },
 
     "combo-box-text-field" : {
-      extend : "text-field",
+      include : "text-field",
 
       style : function(states) {
         return {
@@ -1050,7 +1050,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     },
 
     "combo-box-ex-text-field" : {
-      extend : "text-field",
+      include : "text-field",
 
       style : function(states) {
         return {
@@ -1064,7 +1064,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
 
     // Used both for ComboBox and ComboBoxEx
     "combo-box-button" : {
-      extend : "button",
+      include : "button",
 
       style : function(states) {
         var border_default = new qx.renderer.border.Border;
@@ -1116,7 +1116,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     },
 
     "tree-element-label" : {
-      extend : "label",
+      include : "label",
 
       style : function(states) {
         return {
@@ -1136,7 +1136,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     },
 
     "tree-folder" : {
-      extend : "tree-element"
+      include : "tree-element"
     },
 
     "tree-folder-icon" : {
@@ -1149,19 +1149,19 @@ qx.Theme.define("qx.theme.ext.Appearance",
     },
 
     "tree-folder-label" : {
-      extend : "tree-element-label"
+      include : "tree-element-label"
     },
 
     "tree" : {
-      extend : "tree-folder"
+      include : "tree-folder"
     },
 
     "tree-icon" : {
-      extend : "tree-folder-icon"
+      include : "tree-folder-icon"
     },
 
     "tree-label" : {
-      extend : "tree-folder-label"
+      include : "tree-folder-label"
     },
 
     "tree-container" : {
@@ -1267,7 +1267,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     },
 
     "list-view-content-cell-image" : {
-      extend : "list-view-content-cell",
+      include : "list-view-content-cell",
 
       style : function(states) {
         return {
@@ -1278,7 +1278,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     },
 
     "list-view-content-cell-text" : {
-      extend : "list-view-content-cell",
+      include : "list-view-content-cell",
 
       style : function(states) {
         return {
@@ -1291,15 +1291,15 @@ qx.Theme.define("qx.theme.ext.Appearance",
     },
 
     "list-view-content-cell-html" : {
-      extend : "list-view-content-cell-text"
+      include : "list-view-content-cell-text"
     },
 
     "list-view-content-cell-icon-html" : {
-      extend : "list-view-content-cell-text"
+      include : "list-view-content-cell-text"
     },
 
     "list-view-content-cell-link" : {
-      extend : "list-view-content-cell-text"
+      include : "list-view-content-cell-text"
     },
 
 
@@ -1353,7 +1353,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     },
 
     "tab-view-button" : {
-      extend : "atom",
+      include : "atom",
 
       style : function(states) {
         // state-check - only create the border-instance which is needed
@@ -1438,7 +1438,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     },
 
     "field-set-legend" : {
-      extend : "atom",
+      include : "atom",
 
       style : function(states) {
         return {
@@ -1473,7 +1473,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     },
 
     "check-box-field-set-legend" : {
-      extend : "atom",
+      include : "atom",
 
       style : function(states) {
         return {
@@ -1486,7 +1486,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     },
 
     "radio-button-field-set-legend" : {
-      extend : "check-box-field-set-legend"
+      include : "check-box-field-set-legend"
     },
 
 
@@ -1517,7 +1517,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     },
 
     "spinner-field" : {
-      extend : "text-field",
+      include : "text-field",
 
       style : function(states) {
 
@@ -1552,7 +1552,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     },
 
     "spinner-button-down" : {
-      extend : "spinner-button-up",
+      include : "spinner-button-up",
 
       style : function(states) {
         var border_default = new qx.renderer.border.Border;

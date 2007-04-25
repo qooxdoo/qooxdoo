@@ -122,7 +122,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "htmlcontainer" :
     {
-      extend : "label"
+      include : "label"
     },
 
     "popup" :
@@ -138,7 +138,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "tool-tip" :
     {
-      extend : "popup",
+      include : "popup",
 
       style : function(states)
       {
@@ -172,7 +172,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "button" :
     {
-      extend : "atom",
+      include : "atom",
 
       style : function(states)
       {
@@ -457,7 +457,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "button-view-button" :
     {
-      extend : "atom",
+      include : "atom",
 
       style : function(states)
       {
@@ -603,7 +603,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "radio-view-button" :
     {
-      extend : "atom",
+      include : "atom",
 
       style : function(states)
       {
@@ -702,15 +702,14 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           cursor      : "default",
           font        : "bold",
-          marginRight : 2,
-          wrap        : false
+          marginRight : 2
         };
       }
     },
 
     "window-captionbar-button" :
     {
-      extend : "button",
+      include : "button",
 
       style : function(states)
       {
@@ -735,22 +734,22 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "window-captionbar-minimize-button" :
     {
-      extend : "window-captionbar-button"
+      include : "window-captionbar-button"
     },
 
     "window-captionbar-restore-button" :
     {
-      extend : "window-captionbar-button"
+      include : "window-captionbar-button"
     },
 
     "window-captionbar-maximize-button" :
     {
-      extend : "window-captionbar-button"
+      include : "window-captionbar-button"
     },
 
     "window-captionbar-close-button" :
     {
-      extend : "window-captionbar-button",
+      include : "window-captionbar-button",
 
       style : function(states) {
         return { marginLeft : 2 };
@@ -867,12 +866,12 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "menu-check-box" :
     {
-      extend : "menu-button"
+      include : "menu-button"
     },
 
     "menu-radio-button" :
     {
-      extend : "menu-button"
+      include : "menu-button"
     },
 
     "menu-separator" :
@@ -975,7 +974,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     },
 
     "text-area" : {
-      extend : "text-field"
+      include : "text-field"
     },
 
 
@@ -1018,7 +1017,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "combo-box-list" :
     {
-      extend : "list",
+      include : "list",
 
       style : function(states)
       {
@@ -1035,7 +1034,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "combo-box-ex-list" :
     {
-      extend : "list",
+      include : "list",
 
       style : function(states)
       {
@@ -1053,7 +1052,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "combo-box-popup" :
     {
-      extend : "list",
+      include : "list",
 
       style : function(states)
       {
@@ -1067,7 +1066,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "combo-box-ex-popup" :
     {
-      extend : "list",
+      include : "list",
 
       style : function(states)
       {
@@ -1081,7 +1080,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "combo-box-text-field" :
     {
-      extend : "text-field",
+      include : "text-field",
 
       style : function(states)
       {
@@ -1095,7 +1094,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "combo-box-ex-text-field" :
     {
-      extend : "text-field",
+      include : "text-field",
 
       style : function(states)
       {
@@ -1111,7 +1110,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     // Used both for ComboBox and ComboBoxEx
     "combo-box-button" :
     {
-      extend : "button",
+      include : "button",
 
       style : function(states)
       {
@@ -1137,7 +1136,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "treevirtual-focus-indicator" :
     {
-      extend : "empty"
+      include : "empty"
     },
 
 
@@ -1173,7 +1172,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "tree-element-label" :
     {
-      extend : "label",
+      include : "label",
 
       style : function(states)
       {
@@ -1194,7 +1193,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "tree-folder" :
     {
-      extend : "tree-element"
+      include : "tree-element"
     },
 
     "tree-folder-icon" :
@@ -1210,22 +1209,22 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "tree-folder-label" :
     {
-      extend : "tree-element-label"
+      include : "tree-element-label"
     },
 
     "tree" :
     {
-      extend : "tree-folder"
+      include : "tree-folder"
     },
 
     "tree-icon" :
     {
-      extend : "tree-folder-icon"
+      include : "tree-folder-icon"
     },
 
     "tree-label" :
     {
-      extend : "tree-folder-label"
+      include : "tree-folder-label"
     },
 
     "tree-container" :
@@ -1343,7 +1342,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "list-view-content-cell-image" :
     {
-      extend : "list-view-content-cell",
+      include : "list-view-content-cell",
 
       style : function(states)
       {
@@ -1356,7 +1355,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "list-view-content-cell-text" :
     {
-      extend : "list-view-content-cell",
+      include : "list-view-content-cell",
 
       style : function(states)
       {
@@ -1371,17 +1370,17 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "list-view-content-cell-html" :
     {
-      extend : "list-view-content-cell-text"
+      include : "list-view-content-cell-text"
     },
 
     "list-view-content-cell-icon-html" :
     {
-      extend : "list-view-content-cell-text"
+      include : "list-view-content-cell-text"
     },
 
     "list-view-content-cell-link" :
     {
-      extend : "list-view-content-cell-text"
+      include : "list-view-content-cell-text"
     },
 
 
@@ -1438,7 +1437,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "tab-view-button" :
     {
-      extend : "atom",
+      include : "atom",
 
       style : function(states)
       {
@@ -1562,7 +1561,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "field-set-legend" :
     {
-      extend : "atom",
+      include : "atom",
 
       style : function(states)
       {
@@ -1597,7 +1596,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "check-box-field-set-legend" :
     {
-      extend : "atom",
+      include : "atom",
 
       style : function(states)
       {
@@ -1612,7 +1611,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "radio-button-field-set-legend" :
     {
-      extend : "check-box-field-set-legend"
+      include : "check-box-field-set-legend"
     },
 
 
@@ -1639,7 +1638,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "spinner-field" :
     {
-      extend : "text-field",
+      include : "text-field",
 
       style : function(states)
       {
