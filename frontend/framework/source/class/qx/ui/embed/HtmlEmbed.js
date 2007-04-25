@@ -113,7 +113,16 @@ qx.Class.define("qx.ui.embed.HtmlEmbed",
      * @type member
      * @param value {qx.renderer.font.Font}
      */
-    _styleFont : function(value) {
+    _styleFont : function(value) 
+    {
+      if (value === "inherit") {
+        value = null;
+      }
+      
+      if (value && !value.render) {
+        this.debug("Invalid font value: " + value)
+      }
+      
       value ? value.render(this) : qx.renderer.font.Font.reset(this);
     },
 
