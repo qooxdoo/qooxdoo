@@ -67,6 +67,6 @@ qx.Class.define("qx.ui.core.ClientDocumentBlocker",
     {
       refine : true,
       init : "blocker"
-    },
+    }
   }
 });

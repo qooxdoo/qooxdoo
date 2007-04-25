@@ -82,7 +82,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
     {
       refine : true,
       init : "field-set"
-    },
+    }
   },
 
 
