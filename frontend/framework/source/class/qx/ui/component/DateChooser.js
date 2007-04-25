@@ -125,7 +125,7 @@ qx.Class.define("qx.ui.component.DateChooser",
 
     navBar.add(lastYearBt, lastMonthBt, monthYearLabel, nextMonthBt, nextYearBt);
     this._monthYearLabel = monthYearLabel;
-    navBar.setHtmlAttribute("id", "navBar");
+    navBar.setHtmlProperty("id", "navBar");
 
     // Calculate the cell width and height
     var testLabel = new qx.ui.basic.Label;
