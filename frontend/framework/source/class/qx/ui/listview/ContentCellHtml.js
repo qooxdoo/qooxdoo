@@ -71,9 +71,8 @@ qx.Class.define("qx.ui.listview.ContentCellHtml",
   {
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "list-view-content-cell-html"
+      refine : true,
+      init : "list-view-content-cell-html"
     }
   }
 });

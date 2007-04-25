@@ -60,9 +60,8 @@ qx.Class.define("qx.ui.pageview.tabview.Bar",
   {
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "tab-view-bar"
+      refine : true,
+      init : "radio-view-bar"
     }
   }
 });

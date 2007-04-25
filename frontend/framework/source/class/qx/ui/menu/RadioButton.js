@@ -68,9 +68,8 @@ qx.Class.define("qx.ui.menu.RadioButton",
 
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "menu-radio-button"
+      refine : true,
+      init : "menu-radio-button"
     },
 
 

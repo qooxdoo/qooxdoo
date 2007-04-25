@@ -139,8 +139,8 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      */
     appearance :
     {
-      _legacy      : true,
-      defaultValue : "splitpane"
+      refine : true,
+      init : "splitpane"
     },
 
 

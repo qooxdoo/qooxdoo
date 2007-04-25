@@ -132,10 +132,9 @@ qx.Class.define("qx.ui.core.ClientDocument",
 
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "client-document"
-    }
+      refine : true,
+      init : "client-document"
+    },
   },
 
 

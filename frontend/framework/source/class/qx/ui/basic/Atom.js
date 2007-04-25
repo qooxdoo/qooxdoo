@@ -205,10 +205,10 @@ qx.Class.define("qx.ui.basic.Atom",
 
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "atom"
+      refine : true,
+      init : "atom"
     }
+
   },
 
 

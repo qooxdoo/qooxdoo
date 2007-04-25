@@ -66,9 +66,8 @@ qx.Class.define("qx.ui.pageview.radioview.Button",
   {
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "radio-view-button"
+      refine : true,
+      init : "radio-view-button"
     }
   },
 

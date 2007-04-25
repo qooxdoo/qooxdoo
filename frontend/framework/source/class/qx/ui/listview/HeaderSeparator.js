@@ -57,9 +57,8 @@ qx.Class.define("qx.ui.listview.HeaderSeparator",
   {
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "list-view-header-separator"
+      refine : true,
+      init : "list-view-header-separator"
     }
   }
 });

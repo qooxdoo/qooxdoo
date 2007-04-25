@@ -60,9 +60,8 @@ qx.Class.define("qx.ui.pageview.tabview.Pane",
   {
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "tab-view-pane"
+      refine : true,
+      init : "tab-view-pane"
     }
   }
 });

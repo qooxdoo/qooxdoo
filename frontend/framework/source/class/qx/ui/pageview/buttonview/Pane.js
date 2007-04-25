@@ -57,9 +57,8 @@ qx.Class.define("qx.ui.pageview.buttonview.Pane",
   {
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "button-view-pane"
+      refine : true,
+      init : "button-view-pane"
     }
   },
 

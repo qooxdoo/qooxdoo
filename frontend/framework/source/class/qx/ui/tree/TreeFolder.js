@@ -89,9 +89,8 @@ qx.Class.define("qx.ui.tree.TreeFolder",
 
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "tree-folder"
+      refine : true,
+      init : "tree-folder"
     },
 
     open :

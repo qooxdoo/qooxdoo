@@ -139,9 +139,8 @@ qx.Class.define("qx.ui.basic.Image",
     /** Appearance of the widget */
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "image"
+      refine : true,
+      init : "image"
     }
   },
 

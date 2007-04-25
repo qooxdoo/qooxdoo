@@ -81,9 +81,8 @@ qx.Class.define("qx.ui.form.ListItem",
   {
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "list-item"
+      refine : true,
+      init : "list-item"
     },
 
     value : { _legacy : true }

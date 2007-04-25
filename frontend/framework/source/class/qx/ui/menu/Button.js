@@ -112,9 +112,8 @@ qx.Class.define("qx.ui.menu.Button",
 
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "menu-button"
+      refine : true,
+      init : "menu-button"
     },
 
     icon :

@@ -275,9 +275,8 @@ qx.Class.define("qx.ui.window.Window",
     /** Appearance of the widget */
     appearance :
     {
-      _legacy : true,
-      //check : "String",
-      defaultValue : "window"
+      refine : true,
+      init : "window"
     },
 
 

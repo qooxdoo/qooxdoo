@@ -63,10 +63,9 @@ qx.Class.define("qx.ui.menu.Layout",
     /** Appearance of the widget */
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "menu-layout"
-    }
+      refine : true,
+      init : "menu-layout"
+    },
   },
 
 
