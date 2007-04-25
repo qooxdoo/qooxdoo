@@ -131,7 +131,7 @@ qx.Class.define("qx.ui.component.DateChooser",
     var testLabel = new qx.ui.basic.Label;
     var testParent = new qx.ui.layout.CanvasLayout;
     testParent.add(testLabel);
-    testLabel.setHtml("Xx");
+    testLabel.setText("Xx");
 
     testLabel.set(
     {
@@ -635,7 +635,7 @@ qx.Class.define("qx.ui.component.DateChooser",
       // Create a help date that points to the first of the current month
       var helpDate = new Date(this.getShownYear(), this.getShownMonth(), 1);
 
-      this._monthYearLabel.setHtml((new qx.util.format.DateFormat(DateChooser.MONTH_YEAR_FORMAT)).format(helpDate));
+      this._monthYearLabel.setText((new qx.util.format.DateFormat(DateChooser.MONTH_YEAR_FORMAT)).format(helpDate));
 
       // Show the day names
       var firstDayOfWeek = helpDate.getDay();
@@ -648,7 +648,7 @@ qx.Class.define("qx.ui.component.DateChooser",
         var dayLabel = this._weekdayLabelArr[i];
 
         helpDate.setDate(firstSundayInMonth + day);
-        dayLabel.setHtml(DateChooser.WEEKDAY_FORMAT.format(helpDate));
+        dayLabel.setText(DateChooser.WEEKDAY_FORMAT.format(helpDate));
 
         if (qx.locale.Date.isWeekend(day)) {
           dayLabel.addState("weekend");
@@ -664,7 +664,7 @@ qx.Class.define("qx.ui.component.DateChooser",
 
       for (var week=0; week<6; week++)
       {
-        this._weekLabelArr[week].setHtml(DateChooser.WEEK_FORMAT.format(helpDate));
+        this._weekLabelArr[week].setText(DateChooser.WEEK_FORMAT.format(helpDate));
 
         for (var i=0; i<7; i++)
         {
@@ -696,7 +696,7 @@ qx.Class.define("qx.ui.component.DateChooser",
             dayLabel.removeState("today");
           }
 
-          dayLabel.setHtml("" + dayOfMonth);
+          dayLabel.setText("" + dayOfMonth);
           dayLabel.dateTime = helpDate.getTime();
 
           // Go to the next day

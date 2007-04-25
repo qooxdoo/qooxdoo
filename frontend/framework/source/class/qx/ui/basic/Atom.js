@@ -301,7 +301,7 @@ qx.Class.define("qx.ui.basic.Atom",
         else
         {
           this._iconObject.setSource(this.getIcon());
-          this._iconObject.setEnabled(this.getEnabled());
+          this._iconObject.resetEnabled();
         }
       }
     },
