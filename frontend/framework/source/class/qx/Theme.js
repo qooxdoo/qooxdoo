@@ -77,17 +77,21 @@ qx.Class.define("qx.Theme",
       }
 
       // Create alias
-      var theme = config;
+      var theme =
+      {
+        $$type : "Theme",
+        name : name,
+        title : config.title,
 
-      // Add name and basename to object
-      theme.$$type = "Theme";
-      theme.name = name;
-
-      // Attach toString
-      theme.toString = this.genericToString;
+        // Attach toString
+        toString : this.genericToString
+      };
 
       // Assign to namespace
       theme.basename = qx.Class.createNamespace(name, theme);
+
+      // Convert theme entry from Object to Function (for prototype inheritance)
+      this.__convert(theme, config);
 
       // Store class reference in global class registry
       this.__registry[name] = theme;
@@ -160,8 +164,78 @@ qx.Class.define("qx.Theme",
     },
 
 
-    /** {var} TODOC */
+    /**
+     * Extract the inheritable key (could be only one)
+     *
+     * @param config {Map} The map from where to extract the key
+     * @return {String} the key which was found
+     */
+    __extractInheritableKey : function(config)
+    {
+      for (var i=0, keys=this.__inheritableKeys, l=keys.length; i<l; i++)
+      {
+        if (config[keys[i]]) {
+          return keys[i];
+        }
+      }
+    },
+
+
+    /**
+     * Convert existing entry to a prototype based inheritance function
+     *
+     * @param theme {Theme} newly created theme object
+     * @param config {Map} incoming theme configuration
+     */
+    __convert : function(theme, config)
+    {
+      var keyCurrent = this.__extractInheritableKey(config);
+
+      if (config.extend)
+      {
+        var keyExtended = this.__extractInheritableKey(config.extend);
+
+        // Use theme key from extended theme if own one is not available
+        if (!keyCurrent) {
+          keyCurrent = keyExtended;
+        }
+      }
+
+      // Return if there is no key defined at all
+      if (!keyCurrent) {
+        return;
+      }
+
+      // Create pseudo class
+      var clazz = function() {};
+
+      // Process extend config
+      if (config.extend) {
+        clazz.prototype = new config.extend.$$clazz;
+      }
+
+      var target = clazz.prototype;
+      var source = config[keyCurrent];
+
+      // Copy entries to prototype
+      for (var id in source) {
+        target[id] = source[id];
+      }
+
+      // store pseudo class
+      theme.$$clazz = clazz;
+
+      // and create instance under the old key
+      theme[keyCurrent] = new clazz;
+    },
+
+
+    /** {Map} Internal theme registry */
     __registry : {},
+
+
+    /** {Array} Keys which support inheritance */
+    __inheritableKeys : [ "colors", "borders", "fonts", "icons", "widgets", "appearances", "meta" ],
 
 
     /** {Map} allowed keys in theme definition */
@@ -213,6 +287,11 @@ qx.Class.define("qx.Theme",
           }
         }
 
+        // Test for title
+        if (config.title === undefined) {
+          throw new Error("Missing title definition in theme: " + name);
+        }
+
         // Validate maps
         var maps = [ "colors", "borders", "fonts", "icons", "widgets", "appearances", "meta" ];
         for (var i=0, l=maps.length; i<l; i++)
@@ -224,7 +303,7 @@ qx.Class.define("qx.Theme",
           }
         }
 
-        // Check conflicts
+        // Check conflicts (detect number ...)
         var counter = 0;
         for (var i=0, l=maps.length; i<l; i++)
         {
@@ -237,6 +316,11 @@ qx.Class.define("qx.Theme",
           if (counter > 1) {
             throw new Error("You can only define one theme category per file! Invalid theme: " + name);
           }
+        }
+
+        // At least one entry
+        if (!config.extend && counter === 0) {
+          throw new Error("You must define at least one entry in your theme configuration :" + name);
         }
 
         // Validate meta
