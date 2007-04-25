@@ -433,7 +433,7 @@ qx.Class.define("qx.ui.popup.ToolTip",
       this.show();
 
       // we need a manual flushing because it could be that
-      // there is currently no event which do this for us
+      // there is currently no event which does this for us
       // and so show the tooltip.
       qx.ui.core.Widget.flushGlobalQueues();
 
