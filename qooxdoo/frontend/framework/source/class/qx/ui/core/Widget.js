@@ -1299,13 +1299,13 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
-     * The color style property of the rendered widget.
+     * The color (textColor) style property of the rendered widget.
      */
-    color :
+    textColor :
     {
       nullable : true,
       check : "Color",
-      apply : "_applyColor",
+      apply : "_applyTextColor",
       themeable : true,
       inheritable : true
     },
@@ -5018,6 +5018,79 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     /**
+     * Style multiple properties at once by using a property list
+     *
+     * @type member
+     * @param data {Map} a map of property values. The key is the name of the property.
+     * @return {Object} this instance.
+     * @throws an error if the incoming data field is not a map.
+     */
+    _styleFromMap : function(data)
+    {
+      var setter = qx.core.Property.$$method.set;
+      var styler = qx.core.Property.$$method.style;
+
+      for (var prop in data)
+      {
+        if (this[styler[prop]])
+        {
+          this[styler[prop]](data[prop]);
+        }
+        else if (qx.core.Variant.isSet("qx.compatibility", "on"))
+        {
+          if (qx.core.Variant.isSet("qx.debug", "on"))
+          {
+            var def = qx.Class.getPropertyDefinition(this.constructor, prop);
+            if (def && !def._legacy) {
+              this.warn("Using set() for new non-themeable property: " + prop);
+            }
+          }
+
+          this[setter[prop]](data[prop]);
+        }
+      }
+    },
+
+
+    /**
+     * Style multiple properties at once by using a property list
+     *
+     * @type member
+     * @param data {Array} a array of property names.
+     * @return {Object} this instance.
+     * @throws an error if the incoming data field is not a map.
+     */
+    _unstyleFromArray : function(data)
+    {
+      var resetter = qx.core.Property.$$method.reset;
+      var unstyler = qx.core.Property.$$method.unstyle;
+      var prop;
+
+      for (var i=0, l=data.length; i<l; i++)
+      {
+        prop = data[i];
+
+        if (this[unstyler[prop]])
+        {
+          this[unstyler[prop]]();
+        }
+        else if (qx.core.Variant.isSet("qx.compatibility", "on"))
+        {
+          if (qx.core.Variant.isSet("qx.debug", "on"))
+          {
+            var def = qx.Class.getPropertyDefinition(this.constructor, prop);
+            if (def && !def._legacy) {
+              this.warn("Using reset() for new non-themeable property: " + prop);
+            }
+          }
+
+          this[resetter[prop]]();
+        }
+      }
+    },
+
+
+    /**
      * TODOC
      *
      * @type member
@@ -5040,7 +5113,7 @@ qx.Class.define("qx.ui.core.Widget",
             var r = qx.manager.object.AppearanceManager.getInstance().styleFrom(vAppearance, this._states);
 
             if (r) {
-              this.style(r);
+              this._styleFromMap(r);
             }
           }
           catch(ex)
@@ -5071,16 +5144,16 @@ qx.Class.define("qx.ui.core.Widget",
         var vOldAppearanceProperties = vAppearanceManager.styleFromTheme(vOldAppearanceTheme, vAppearance, this._states);
         var vNewAppearanceProperties = vAppearanceManager.styleFromTheme(vNewAppearanceTheme, vAppearance, this._states);
 
-        var vDelProperties = {};
+        var vUnstyleList = {};
         for (var vProp in vOldAppearanceProperties)
         {
           if (!(vProp in vNewAppearanceProperties)) {
-            vDelProperties[vProp] = true;
+            vUnstyleList.push(vProp);
           }
         }
 
-        this.unstyle(vDelProperties);
-        this.style(vNewAppearanceProperties);
+        this._unstyleFromArray(vDelProperties);
+        this._styleFromMap(vNewAppearanceProperties);
       }
     },
 
@@ -5171,21 +5244,21 @@ qx.Class.define("qx.ui.core.Widget",
       {
         var vOldAppearanceProperties = vAppearanceManager.styleFrom(propOldValue, this._states) || {};
 
-        var vDelProperties = {};
+        var vUnstyleList = [];
         for (var vProp in vOldAppearanceProperties)
         {
           if (!vNewAppearanceProperties || !(vProp in vNewAppearanceProperties)) {
-            vDelProperties[vProp] = true;
+            vUnstyleList.push(vProp);
           }
         }
       }
 
-      if (vDelProperties) {
-        this.unstyle(vDelProperties);
+      if (vUnstyleList) {
+        this._unstyleFromArray(vUnstyleList);
       }
 
       if (vNewAppearanceProperties) {
-        this.style(vNewAppearanceProperties);
+        this._styleFromMap(vNewAppearanceProperties);
       }
 
       return true;
@@ -6422,15 +6495,15 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    _applyColor : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().connect(this._styleColor, this, value);
+    _applyTextColor : function(value, old) {
+      qx.manager.object.ColorManager.getInstance().connect(this._styleTextColor, this, value);
     },
 
     /**
      * @type member
      * @param value {var} any acceptable CSS color property
      */
-    _styleColor : function(value) {
+    _styleTextColor : function(value) {
       value ? this.setStyleProperty("color", value) : this.removeStyleProperty("color");
     },
 

@@ -357,7 +357,7 @@ qx.Class.define("qx.ui.form.TextField",
     /**
      * Sync color to embedded input element
      */
-    _styleColor : function(value)
+    _styleTextColor : function(value)
     {
       this.__color = value;
       this._renderColor();
