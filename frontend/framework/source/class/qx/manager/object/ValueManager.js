@@ -73,6 +73,17 @@ qx.Class.define("qx.manager.object.ValueManager",
      */
     connect : function(callback, obj, value)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (!callback) {
+          throw new Error("Can not connect to invalid callback: " + callback);
+        }
+
+        if (!obj) {
+          throw new Error("Can not connect to invalid object: " + obj);
+        }
+      }
+
       // Store references for dynamic values
       var key = "dynamic" + obj.toHashCode() + "$" + qx.core.Object.toHashCode(callback);
       var reg = this._registry;

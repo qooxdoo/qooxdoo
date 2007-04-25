@@ -69,7 +69,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
       style : function(states) {
         return {
           backgroundColor    : "threedface",
-          color              : "windowtext",
+          textColor          : "windowtext",
           hideFocus          : true,
           enableElementFocus : false
         }
@@ -109,7 +109,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
         return {
           font  : '11px verdana, helvetica, tahoma, sans-serif',
           wrap  : false,
-          color : states.disabled ? "graytext" : "undefined"
+          textColor : states.disabled ? "graytext" : "undefined"
         }
       }
     },
@@ -133,7 +133,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
       style : function(states) {
         return {
           backgroundColor : "infobackground",
-          color           : "infotext",
+          textColor       : "infotext",
           border          : "1px solid #FCC90D",
           paddingTop      : 1,
           paddingRight    : 3,
@@ -587,7 +587,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
       style : function(states) {
         return {
           backgroundColor : "background",
-          color           : "windowtext",
+          textColor       : "windowtext",
           paddingTop      : 0,
           paddingRight    : 0,
           paddingBottom   : 0,
@@ -609,7 +609,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
           overflow              : "hidden",
 
           backgroundColor       : states.active ? "activecaption" : "inactivecaption",
-          color                 : states.active ? "captiontext" : "inactivecaptiontext"
+          textColor             : states.active ? "captiontext" : "inactivecaptiontext"
         }
       }
     },
@@ -785,7 +785,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
           verticalChildrenAlign : "middle",
           allowStretchX         : true,
           backgroundColor       : states.over ? "highlight" : "undefined",
-          color                 : states.over ? "highlighttext" : "undefined"
+          textColor             : states.over ? "highlighttext" : "undefined"
         }
       }
     },
@@ -862,7 +862,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
           minWidth                : "auto",
 
           backgroundColor         : states.selected ? "highlight" : "undefined",
-          color                   : states.selected ? "highlighttext" : "undefined"
+          textColor               : states.selected ? "highlighttext" : "undefined"
         }
       }
     },
@@ -895,7 +895,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
           paddingLeft     : 3,
           paddingRight    : 3,
 
-          color           : states.disabled ? "graytext" : "#1E3C73",
+          textColor       : states.disabled ? "graytext" : "#1E3C73",
           backgroundColor : states.focused ? "#BCD4F7" : "white"
         }
       }
@@ -971,7 +971,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
       style : function(states) {
         return {
           backgroundColor : "white",
-          color           : "#1E3C73",
+          textColor       : "#1E3C73",
           top             : 0,
           right           : 0,
           bottom          : 0,
@@ -1044,7 +1044,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
           border          : "undefined",
           width           : "1*",
           backgroundColor : "transparent",
-          color           : "#1E3C73"
+          textColor       : "#1E3C73"
         }
       }
     },
@@ -1130,7 +1130,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
           allowStretchY   : false,
 
           backgroundColor : states.selected ? "highlight" : "undefined",
-          color           : states.selected ? "highlighttext" : "undefined"
+          textColor       : states.selected ? "highlighttext" : "undefined"
         }
       }
     },
@@ -1261,7 +1261,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
       style : function(states) {
         return {
           backgroundColor : states.selected ? "#5A8AD3" : "undefined",
-          color           : states.selected ? "white" : "undefined"
+          textColor       : states.selected ? "white" : "undefined"
         };
       }
     },
@@ -1343,7 +1343,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     "tab-view-page" : {
       style : function(style) {
         return {
-          color  : "#1E3C73",
+          textColor  : "#1E3C73",
           top    : 0,
           right  : 0,
           bottom : 0,
@@ -1375,7 +1375,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
 
         if (states.checked) {
           vReturn = {
-            color           : "#1E3C73",
+            textColor           : "#1E3C73",
             backgroundImage : states.barTop ? "widget/gradient/tabbutton_gradient.png" : "widget/gradient/tabbutton_reverse_gradient.png",
             backgroundColor : "buttonface",
             zIndex          : 1,
@@ -1391,7 +1391,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
         }
         else {
           vReturn = {
-            color           : "#666666",
+            textColor           : "#666666",
             backgroundImage : states.barTop ? "widget/gradient/tabbutton_gradient.png" : "widget/gradient/tabbutton_reverse_gradient.png",
             backgroundColor : "#D2D6D8",
             zIndex          : 0,
@@ -1445,7 +1445,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
           top             : 1,
           left            : 10,
           backgroundColor : "#6593CF",
-          color           : "captiontext",
+          textColor           : "captiontext",
           paddingTop      : 1,
           paddingBottom   : 2,
           paddingRight    : 3,
@@ -1644,7 +1644,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
           font            : '11px bold verdana, helvetica, tahoma, sans-serif',
           textAlign       : "center",
 
-          color           : states.weekend ? "#406FAC" : "#C3DAF9",
+          textColor           : states.weekend ? "#406FAC" : "#C3DAF9",
           backgroundColor : states.weekend ? "#C3DAF9" : "#406FAC"
         }
       }
@@ -1665,7 +1665,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
           selectable      : false,
 
           border          : states.today ? border_today : border_transparent,
-          color           : states.selected ? "highlightText" : (states.otherMonth ? "grayText" : "#1F3E75"),
+          textColor           : states.selected ? "highlightText" : (states.otherMonth ? "grayText" : "#1F3E75"),
           backgroundColor : states.selected ? "highlight" : "undefined"
         }
       }
@@ -1682,7 +1682,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
 
         return {
           font        : '11px verdana, helvetica, tahoma, sans-serif',
-          color       : "#1F3E75",
+          textColor       : "#1F3E75",
           paddingLeft : 2,
 
           border      : states.header ? border_header : border_default
