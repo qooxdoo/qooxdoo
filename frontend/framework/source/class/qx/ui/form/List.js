@@ -86,9 +86,8 @@ qx.Class.define("qx.ui.form.List",
   {
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "list"
+      refine : true,
+      init : "list"
     },
 
     enableInlineFind :

@@ -86,9 +86,8 @@ qx.Class.define("qx.ui.popup.ToolTip",
 
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "tool-tip"
+      refine : true,
+      init : "tool-tip"
     },
 
     hideOnHover :

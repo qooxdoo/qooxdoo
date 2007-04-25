@@ -70,9 +70,8 @@ qx.Class.define("qx.ui.pageview.radioview.RadioView",
 
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "radio-view"
+      refine : true,
+      init : "radio-view"
     }
   },
 

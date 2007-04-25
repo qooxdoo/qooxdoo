@@ -74,9 +74,8 @@ qx.Class.define("qx.ui.listview.ContentCellText",
   {
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "list-view-content-cell-text"
+      refine : true,
+      init : "list-view-content-cell-text"
     }
   }
 });

@@ -174,9 +174,8 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
 
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "combo-box-ex"
+      refine : true,
+      init : "combo-box-ex"
     },
 
     /** Is the text field component editable or the user can only select from the list? */

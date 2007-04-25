@@ -45,9 +45,8 @@ qx.Class.define("qx.ui.form.TextArea",
   {
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "text-area"
+      refine : true,
+      init : "text-area"
     },
 
     wrap :

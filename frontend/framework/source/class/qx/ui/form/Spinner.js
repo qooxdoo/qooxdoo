@@ -169,9 +169,8 @@ qx.Class.define("qx.ui.form.Spinner",
 
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "spinner"
+      refine : true,
+      init : "spinner"
     },
 
 

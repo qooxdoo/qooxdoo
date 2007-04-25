@@ -65,9 +65,8 @@ qx.Class.define("qx.ui.core.ClientDocumentBlocker",
   {
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "blocker"
-    }
+      refine : true,
+      init : "blocker"
+    },
   }
 });

@@ -111,9 +111,8 @@ qx.Class.define("qx.ui.component.ColorSelector",
   {
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "colorselector"
+      refine : true,
+      init : "colorselector"
     },
 
     red :

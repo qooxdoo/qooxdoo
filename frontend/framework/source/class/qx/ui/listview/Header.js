@@ -100,9 +100,8 @@ qx.Class.define("qx.ui.listview.Header",
   {
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "list-view-header"
+      refine : true,
+      init : "list-view-header"
     }
   },
 

@@ -61,9 +61,8 @@ qx.Class.define("qx.ui.toolbar.Button",
   {
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "toolbar-button"
+      refine : true,
+      init : "toolbar-button"
     },
 
     show :

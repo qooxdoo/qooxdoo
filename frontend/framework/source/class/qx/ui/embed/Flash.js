@@ -526,7 +526,7 @@ qx.Class.define("qx.ui.embed.Flash",
      */
     _styleBackgroundColor : function(value)
     {
-      if (propValue)
+      if (value)
       {
         this._setBackgroundColorProperty(value);
       }

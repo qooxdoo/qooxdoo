@@ -126,9 +126,8 @@ qx.Class.define("qx.ui.listview.ListView",
 
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "list-view"
+      refine : true,
+      init : "list-view"
     },
 
     resizable :

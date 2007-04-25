@@ -66,9 +66,8 @@ qx.Class.define("qx.ui.popup.Popup",
   {
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "popup"
+      refine : true,
+      init : "popup"
     },
 
 

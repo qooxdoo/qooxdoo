@@ -57,9 +57,8 @@ qx.Class.define("qx.ui.pageview.tabview.Page",
   {
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "tab-view-page"
+      refine : true,
+      init : "tab-view-page"
     }
   }
 });

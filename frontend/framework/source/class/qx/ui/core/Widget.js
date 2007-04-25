@@ -1557,9 +1557,10 @@ qx.Class.define("qx.ui.core.Widget",
     /** Appearance of the widget */
     appearance :
     {
-      _legacy : true,
-      type    : "string",
-      defaultValue : "widget"
+      check : "String",
+      init : "widget",
+      apply : "_modifyAppearance",
+      event : "changeAppearance"
     },
 
 

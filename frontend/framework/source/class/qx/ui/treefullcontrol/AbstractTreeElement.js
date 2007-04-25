@@ -147,9 +147,8 @@ qx.Class.define("qx.ui.treefullcontrol.AbstractTreeElement",
 
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "tree-element"
+      refine : true,
+      init : "tree-element"
     },
 
 

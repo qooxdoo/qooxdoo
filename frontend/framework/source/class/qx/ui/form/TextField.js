@@ -121,9 +121,8 @@ qx.Class.define("qx.ui.form.TextField",
 
     appearance :
     {
-      _legacy      : true,
-      check        : "string",
-      defaultValue : "text-field"
+      refine : true,
+      init : "text-field"
     },
 
     /**
@@ -134,8 +133,8 @@ qx.Class.define("qx.ui.form.TextField",
      */
     value :
     {
-      check : "String",
       init : "",
+      nullable : true,
       event : "changeValue",
       apply : "_modifyValue"
     },

@@ -94,9 +94,8 @@ qx.Class.define("qx.ui.menu.Menu",
 
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "menu"
+      refine : true,
+      init : "menu"
     },
 
     iconContentGap :

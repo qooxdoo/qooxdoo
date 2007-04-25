@@ -78,9 +78,8 @@ qx.Class.define("qx.ui.listview.ContentCellIconHtml",
   {
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "list-view-content-cell-icon-html"
+      refine : true,
+      init : "list-view-content-cell-icon-html"
     }
   }
 });

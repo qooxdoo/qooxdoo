@@ -134,9 +134,8 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
 
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "tree-element"
+      refine : true,
+      init : "tree-element"
     },
 
 

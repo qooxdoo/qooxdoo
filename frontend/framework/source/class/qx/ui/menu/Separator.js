@@ -77,9 +77,8 @@ qx.Class.define("qx.ui.menu.Separator",
   {
     appearance :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "menu-separator"
+      refine : true,
+      init : "menu-separator"
     }
   },
 
