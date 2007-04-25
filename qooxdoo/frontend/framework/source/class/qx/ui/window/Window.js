@@ -1056,7 +1056,7 @@ qx.Class.define("qx.ui.window.Window",
      */
     _modifyStatus : function(propValue, propOldValue, propData)
     {
-      this._statusText.setHtml(propValue);
+      this._statusText.setText(propValue);
 
       return true;
     },
@@ -1117,7 +1117,7 @@ qx.Class.define("qx.ui.window.Window",
      */
     _modifyCaption : function(propValue, propOldValue, propData)
     {
-      this._captionTitle.setHtml(propValue);
+      this._captionTitle.setText(propValue);
       return true;
     },
 

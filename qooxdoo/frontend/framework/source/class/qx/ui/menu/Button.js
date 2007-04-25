@@ -334,7 +334,7 @@ qx.Class.define("qx.ui.menu.Button",
      */
     _modifyLabel : function(propValue, propOldValue, propData)
     {
-      this._labelObject.setHtml(propValue);
+      this._labelObject.setText(propValue);
 
       if ((typeof propValue == "string" && propValue != "") || propValue instanceof qx.locale.LocalizedString)
       {
@@ -367,7 +367,7 @@ qx.Class.define("qx.ui.menu.Button",
     {
       var vHtml = propValue ? propValue.toString() : "";
 
-      this._shortcutObject.setHtml(vHtml);
+      this._shortcutObject.setText(vHtml);
 
       if (qx.util.Validation.isValidString(vHtml))
       {
