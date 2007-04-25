@@ -23,10 +23,24 @@
 
 use strict;
 
+use CGI;
+use CGI::Session;
+
+use vars qw($cgi $session);
+
 # Change this space-separated list of directories to include
 # Qooxdoo::JSONRPC.pm and co-located Services
 use lib qw(/PATH_TO_QOOXDOO/backend/perl);
 
+# If this module can't be found, the previous line is incorrect
 use Qooxdoo::JSONRPC;
 
-Qooxdoo::JSONRPC::handle_request ();
+# Instantiating the CGI module which parses the HTTP request
+
+$cgi     = new CGI;
+$session = new CGI::Session;
+
+# You can customise this harness here to handle cases before treating
+# the request as being JSON-RPC
+
+Qooxdoo::JSONRPC::handle_request ($cgi, $session);

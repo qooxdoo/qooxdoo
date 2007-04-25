@@ -68,15 +68,12 @@ use constant ScriptTransport_NotInUse        => -1;
 
 sub handle_request
 {
-    # Instantiating the CGI module which parses the HTTP request
-    my $cgi = new CGI;
-
-    my $session = new CGI::Session;
+    my ($cgi, $session) = @_;
 
     my $session_id = $session->id ();
 
     print STDERR "Session id: $session_id\n" 
-        if $Qooxdoo::JSONRPC::debug;
+	if $Qooxdoo::JSONRPC::debug;
 
     print $session->header;
 
@@ -462,12 +459,26 @@ sub send_reply
 }
 
 
+##############################################################################
+
+# These two routines are useful to the Services themselves
+
 sub json_bool
 {
-    my $bool = shift;
+    my $value = shift;
 
-    return $bool ? JSON::True : JSON::False;
+    return $value ? JSON::True : JSON::False;
+}
 
+
+sub json_istrue
+{
+    my $value = shift;
+
+    my $is_true = ref $value eq 'JSON::NotString'
+        && defined $value->{value} && $value->{value} eq 'true';
+
+    return $is_true;
 }
 
 ##############################################################################
@@ -787,6 +798,7 @@ sub blessed_date
                    $second,
                    $millisecond);
 }
+
 
 
 ##############################################################################

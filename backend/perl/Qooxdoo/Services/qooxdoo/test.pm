@@ -216,8 +216,8 @@ sub method_isBoolean
 
     my $is_true = ref $param eq 'JSON::NotString'
         && defined $param->{value}
-    && ($param->{value} eq 'true' ||
-        $param->{value} eq 'false');
+        && ($param->{value} eq 'true' ||
+            $param->{value} eq 'false');
     
     return Qooxdoo::JSONRPC::json_bool ($is_true);
 }
