@@ -27,7 +27,7 @@
  *
  * This class can be used to periodically fire an event. This event can be
  * used to simulate e.g. a background task. The static method
- * {@link once} is a special case. It will call a function deferred after a
+ * {@link #once} is a special case. It will call a function deferred after a
  * given timeout.
  */
 qx.Class.define("qx.client.Timer",
