@@ -134,7 +134,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
     {
       refine : true,
       init : "client-document"
-    },
+    }
   },
 
 
