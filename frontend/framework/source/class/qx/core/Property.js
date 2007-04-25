@@ -695,7 +695,7 @@ qx.Class.define("qx.core.Property",
             if (!config.nullable)
             {
               code.add('if(value===null)');
-              code.add('throw new Error("Null value for property ', name, ' is not allowed!");');
+              code.add('throw new Error("Null value for property ', name, ' of class \'"+this.constructor.classname+"\' is not allowed!");');
             }
 
             // Check value
