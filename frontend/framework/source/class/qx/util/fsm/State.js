@@ -252,7 +252,7 @@ qx.Class.define("qx.util.fsm.State",
      *         }
      *       ];
      *
-     *       "setColor" :
+     *       "setTextColor" :
      *       [
      *         {
      *           "parameters" : [ "blue" ]
