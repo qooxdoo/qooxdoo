@@ -5048,8 +5048,10 @@ qx.Class.define("qx.ui.core.Widget",
             }
           }
 
-          if (!this[setter[prop]]) {
-            this.debug("Setter is not available: " + prop);
+          if (!this[setter[prop]])
+          {
+            this.warn("Setter is not available: " + prop);
+            continue;
           }
 
           this[setter[prop]](data[prop]);
@@ -5088,6 +5090,12 @@ qx.Class.define("qx.ui.core.Widget",
             if (def && !def._legacy) {
               this.warn("Using reset() for new non-themeable property: " + prop);
             }
+          }
+
+          if (!this[resetter[prop]])
+          {
+            this.warn("Resetter is not available: " + prop);
+            continue;
           }
 
           this[resetter[prop]]();
