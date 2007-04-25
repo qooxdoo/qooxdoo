@@ -607,10 +607,8 @@ qx.Class.define("qx.core.Property",
 
       if (config.init !== undefined) {
         code.add('return this.', this.$$store.init[name], ';');
-      } else if (config.inheritable) {
-        code.add('return qx.core.Property.$$inherit;');
-      } else if (config.nullable) {
-        code.add('return null;');
+      } else if (config.inheritable || config.nullable) {
+        code.add('return null');
       } else {
         code.add('throw new Error("Property ', name, ' of an instance of ', clazz.classname, ' is not (yet) ready!");');
       }
@@ -686,7 +684,7 @@ qx.Class.define("qx.core.Property",
           if (variant === "style") {
             code.add('if(value===qx.core.Property.$$undefined)value=undefined;');
           }
-          
+
           // Old/new comparision
           code.add('if(this.', store, '===value)return value;');
 
@@ -703,7 +701,7 @@ qx.Class.define("qx.core.Property",
             // Check value
             if (config.check !== undefined)
             {
-              if (config.nullable) 
+              if (config.nullable)
               {
                 if (variant === "style") {
                   code.add('if(value!=null)'); // allow both undefined and null
@@ -879,7 +877,7 @@ qx.Class.define("qx.core.Property",
       if (config.inheritable === true)
       {
         // Normalize 'undefined' to 'inherit' in inheritable properties
-        code.add('if(computed===undefined)computed=qx.core.Property.$$inherit;');
+        code.add('if(computed===undefined||computed===qx.core.Property.$$inherit)computed=null;');
       }
       else
       {
