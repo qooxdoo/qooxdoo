@@ -252,28 +252,23 @@ qx.Class.define("qxunit.runner.TestRunner",
         border : "inset"
       });
 
-      for (var i=0; i<tmap.length; i++) {
-        var f = new qx.ui.tree.TreeFolder(tmap[i].classname);
-        left.add(f);
-        for (var j=0; j<tmap[i].tests.length; j++) {
-          f.add(new qx.ui.tree.TreeFile(tmap[i].tests[j]));
-        }
-      }
+      // fill the tree
+      this.left = left; // only because leftReloadTree needs it
+      this.leftReloadTree(null);
 
-      left.getManager().addEventListener("changeSelection", function (e) {
-        that.tests.selected = e.getData()[0]._labelObject.getText();
-        //that.right.buttview.bsb1.p1.f1 = this.tests.selected;
-        //that.getChildren()[2].getChildren()[1].getChildren()[1].getPane().getChildren()[0].getChildren()[0] = that.tests.selected;
-        that.appendr(that.tests.selected);
-        that.widgets["statuspane.current"].setText(that.tests.selected);
-        that.tests.selected_cnt = that.tests.handler.testCount(that.tests.selected);
-        var snum = String(that.tests.selected_cnt);
-        that.widgets["statuspane.number"].setText(snum);
-      });
+      left.getManager().addEventListener("changeSelection", this.leftGetSelection, this);
 
       return left;
     }, //makeLeft
 
+
+    leftGetSelection : function (e) {
+      this.tests.selected = e.getData()[0]._labelObject.getText();
+      this.appendr(this.tests.selected);
+      this.widgets["statuspane.current"].setText(this.tests.selected);
+      this.tests.selected_cnt = this.tests.handler.testCount(this.tests.selected);
+      this.widgets["statuspane.number"].setText(this.tests.selected_cnt+"");
+    }, //leftGetSelection
 
     leftReloadTree : function (e) {
       var tmap = this.tests.handler.tmap;
@@ -286,7 +281,7 @@ qx.Class.define("qxunit.runner.TestRunner",
           f.add(new qx.ui.tree.TreeFile(tmap[i].tests[j]));
         }
       }
-    }, //leftPopulateTree
+    }, //leftReloadTree
 
 
     __makeProgress: function (){
