@@ -444,7 +444,6 @@ qx.Class.define("qx.ui.component.ColorSelector",
 
       this._hexField = new qx.ui.form.TextField("FFFFFF");
       this._hexField.setWidth(50);
-      this._hexField.setFont('11px "Bitstream Vera Sans Mono", monospace');
       this._hexField.setParent(this._hexLayout);
 
       this._hexField.addEventListener("changeValue", this._onHexFieldChange, this);
