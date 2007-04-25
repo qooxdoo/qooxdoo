@@ -5152,7 +5152,7 @@ qx.Class.define("qx.ui.core.Widget",
           }
         }
 
-        this._unstyleFromArray(vDelProperties);
+        this._unstyleFromArray(vUnstyleList);
         this._styleFromMap(vNewAppearanceProperties);
       }
     },
