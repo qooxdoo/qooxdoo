@@ -31,8 +31,8 @@ qx.Class.define("qxunit.test.Mixin", {
       this.assertEquals("foo", qxunit.MMix1.foo());
       this.assertEquals("bar", new qxunit.Mix().bar());
       var mix = new qxunit.Mix();
-      mix.setColor("red");
-      this.assertEquals("red", mix.getColor());
+      mix.setTextColor("red");
+      this.assertEquals("red", mix.getTextColor());
 
       this.assertExceptionDebugOn(function() {
         qx.Class.define("qxunit.Mix1", {

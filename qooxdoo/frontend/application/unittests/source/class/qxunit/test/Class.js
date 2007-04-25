@@ -219,8 +219,8 @@ qx.Class.define("qxunit.test.Class", {
       var defer = new qxunit.Defer();
       this.assertEquals("Juhu", defer.sayJuhu());
 
-      defer.setColor("red");
-      this.assertEquals("red", defer.getColor());
+      defer.setTextColor("red");
+      this.assertEquals("red", defer.getTextColor());
     },
 
     __testCaller: function() {
