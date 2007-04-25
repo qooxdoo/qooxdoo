@@ -65,6 +65,9 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
     this._labelObject.setSelectable(false);
     this._labelObject.setStyleProperty("lineHeight", "100%");
 
+    // Simplify label object rendering
+    this._labelObject.setMode("text");
+
     this.base(arguments, "horizontal");
 
     this.setLabel(vLabel);
@@ -198,7 +201,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
     _modifyLabel : function(propValue, propOldValue, propData)
     {
       if (this._labelObject) {
-        this._labelObject.setHtml(propValue);
+        this._labelObject.setText(propValue);
       }
 
       return true;
