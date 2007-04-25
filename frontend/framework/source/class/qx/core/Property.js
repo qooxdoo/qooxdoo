@@ -703,8 +703,17 @@ qx.Class.define("qx.core.Property",
             // Check value
             if (config.check !== undefined)
             {
-              if (config.nullable) {
-                code.add('if(value!==null)');
+              if (config.nullable) 
+              {
+                if (variant === "style") {
+                  code.add('if(value!=null)'); // allow both undefined and null
+                } else {
+                  code.add('if(value!==null)') // allow null
+                }
+              }
+              else if (variant === "style")
+              {
+                code.add('if(value!==undefined)'); // allow undefined
               }
 
               // Inheritable properties always accept "inherit" as value
