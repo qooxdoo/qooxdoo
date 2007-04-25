@@ -67,8 +67,8 @@
  *     On change of the property value an event with the given name will be dispached. The event type is
  *     {@link qx.event.type.ChangeEvent}.
  *   </td></tr>
- *   <tr><th>appearance</th><td>Boolean</td><td>
- *     Whether this property can be set using appearance themes.
+ *   <tr><th>themeable</th><td>Boolean</td><td>
+ *     Whether this property can be set using themes.
  *   </td></tr>
  *   <tr><th>inheritable</th><td>Boolean</td><td>
  *     Whether the property value should be inheritable. If the property does not have a user defined or an
@@ -97,8 +97,8 @@
  *   <tr><th>mode</th><td>String</td><td>
  *     If mode is set to <code>"shorthand"</code>, the properties can be set using a CSS like shorthand mode.
  *   </td></tr>
- *   <tr><th>appearance</th><td>Boolean</td><td>
- *     Whether this property can be set using appearance themes.
+ *   <tr><th>themeable</th><td>Boolean</td><td>
+ *     Whether this property can be set using themes.
  *   </td></tr>
  * </table>
  *
@@ -234,12 +234,12 @@ qx.Class.define("qx.core.Property",
       name        : "string",   // String
       inheritable : "boolean",  // Boolean
       nullable    : "boolean",  // Boolean
+      themeable   : "boolean",  // Boolean
       refine      : "boolean",  // Boolean
-      appearance  : "boolean",  // Boolean
       init        : null,       // var
-      check       : null,       // Array, String, Function
+      apply       : "string",   // String
       event       : "string",   // String
-      apply       : "string"    // String
+      check       : null        // Array, String, Function
     },
 
     $$allowedGroupKeys :
@@ -247,7 +247,7 @@ qx.Class.define("qx.core.Property",
       name        : "string",   // String
       group       : "object",   // Array
       mode        : "string",   // String
-      appearance  : "boolean"   // Boolean
+      themeable   : "boolean"   // Boolean
     },
 
 
@@ -379,7 +379,7 @@ qx.Class.define("qx.core.Property",
     {
       var members = clazz.prototype;
       var name = config.name;
-      var appearance = config.appearance === true;
+      var themeable = config.themeable === true;
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -391,7 +391,7 @@ qx.Class.define("qx.core.Property",
       var setter = new qx.util.StringBuilder;
       var resetter = new qx.util.StringBuilder;
 
-      if (appearance)
+      if (themeable)
       {
         var styler = new qx.util.StringBuilder;
         var unstyler = new qx.util.StringBuilder;
@@ -402,7 +402,7 @@ qx.Class.define("qx.core.Property",
       setter.add(argHandler);
       resetter.add(argHandler);
 
-      if (appearance)
+      if (themeable)
       {
         styler.add(argHandler);
         unstyler.add(argHandler);
@@ -413,7 +413,7 @@ qx.Class.define("qx.core.Property",
         var shorthand = "a=qx.lang.Array.fromShortHand(qx.lang.Array.fromArguments(a));";
         setter.add(shorthand);
 
-        if (appearance) {
+        if (themeable) {
           styler.add(shorthand);
         }
       }
@@ -423,7 +423,7 @@ qx.Class.define("qx.core.Property",
         setter.add("this.", this.$$method.set[a[i]], "(a[", i, "]);");
         resetter.add("this.", this.$$method.reset[a[i]], "(a[", i, "]);");
 
-        if (appearance)
+        if (themeable)
         {
           styler.add("this.", this.$$method.style[a[i]], "(a[", i, "]);");
           unstyler.add("this.", this.$$method.unstyle[a[i]], "(a[", i, "]);");
@@ -438,7 +438,7 @@ qx.Class.define("qx.core.Property",
       this.$$method.reset[name] = prefix + "reset" + postfix;
       members[this.$$method.reset[name]] = new Function(resetter.get());
 
-      if (appearance)
+      if (themeable)
       {
         // Attach styler
         this.$$method.style[name] = prefix + "style" + postfix;
@@ -508,7 +508,7 @@ qx.Class.define("qx.core.Property",
         }
       }
 
-      if (config.appearance === true)
+      if (config.themeable === true)
       {
         method.style[name] = prefix + "style" + postfix;
         members[method.style[name]] = function(value) {
@@ -682,7 +682,7 @@ qx.Class.define("qx.core.Property",
             code.add('if(arguments.length!==1)throw new Error("The method of the property ', name,  ' by using ', this.$$method[variant][name], '() requires exactly one argument!");');
           }
 
-          // Allow to unstyle appearance properties by explicit "undefined" string value
+          // Allow to unstyle themeable properties by explicit "undefined" string value
           if (variant === "style") {
             code.add('if(value===qx.core.Property.$$undefined)value=undefined;');
           }
@@ -810,8 +810,8 @@ qx.Class.define("qx.core.Property",
           hasComputeIf = true;
         }
 
-        // Try to use appearance value when available
-        if (config.appearance === true)
+        // Try to use themeable value when available
+        if (config.themeable === true)
         {
           if (hasComputeIf) {
             code.add('else ');

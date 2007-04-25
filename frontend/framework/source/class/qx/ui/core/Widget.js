@@ -1294,7 +1294,7 @@ qx.Class.define("qx.ui.core.Widget",
       nullable : true,
       check : "Color",
       apply : "_applyBackgroundColor",
-      appearance : true,
+      themeable : true,
       inheritable : true
     },
 
@@ -1307,7 +1307,7 @@ qx.Class.define("qx.ui.core.Widget",
       nullable : true,
       check : "Color",
       apply : "_applyColor",
-      appearance : true,
+      themeable : true,
       inheritable : true
     },
 
@@ -1320,7 +1320,7 @@ qx.Class.define("qx.ui.core.Widget",
       nullable : true,
       apply : "_applyBorder",
       check : "Border",
-      appearance : true
+      themeable : true
     },
 
 
@@ -1330,7 +1330,7 @@ qx.Class.define("qx.ui.core.Widget",
       nullable : true,
       apply : "_applyFont",
       check : "Font",
-      appearance : true,
+      themeable : true,
       inheritable : true
     },
 
@@ -1578,7 +1578,7 @@ qx.Class.define("qx.ui.core.Widget",
       check : "Number",
       apply : "_applyMarginTop",
       nullable : true,
-      appearance : true
+      themeable : true
     },
 
 
@@ -1588,7 +1588,7 @@ qx.Class.define("qx.ui.core.Widget",
       check : "Number",
       apply : "_applyMarginRight",
       nullable : true,
-      appearance : true
+      themeable : true
     },
 
 
@@ -1598,7 +1598,7 @@ qx.Class.define("qx.ui.core.Widget",
       check : "Number",
       apply : "_applyMarginBottom",
       nullable : true,
-      appearance : true
+      themeable : true
     },
 
 
@@ -1608,7 +1608,7 @@ qx.Class.define("qx.ui.core.Widget",
       check : "Number",
       apply : "_applyMarginLeft",
       nullable : true,
-      appearance : true
+      themeable : true
     },
 
 
@@ -1618,7 +1618,7 @@ qx.Class.define("qx.ui.core.Widget",
       check : "Number",
       apply : "_applyPaddingTop",
       nullable : true,
-      appearance : true
+      themeable : true
     },
 
 
@@ -1628,7 +1628,7 @@ qx.Class.define("qx.ui.core.Widget",
       check : "Number",
       apply : "_applyPaddingRight",
       nullable : true,
-      appearance : true
+      themeable : true
     },
 
 
@@ -1638,7 +1638,7 @@ qx.Class.define("qx.ui.core.Widget",
       check : "Number",
       apply : "_applyPaddingBottom",
       nullable : true,
-      appearance : true
+      themeable : true
     },
 
 
@@ -1648,7 +1648,7 @@ qx.Class.define("qx.ui.core.Widget",
       check : "Number",
       apply : "_applyPaddingLeft",
       nullable : true,
-      appearance : true
+      themeable : true
     },
 
 
@@ -1671,7 +1671,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       apply : "_modifyLeft",
       nullable : true,
-      appearance : true
+      themeable : true
     },
 
 
@@ -1686,7 +1686,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       apply : "_modifyRight",
       nullable : true,
-      appearance : true
+      themeable : true
     },
 
 
@@ -1701,7 +1701,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       apply : "_modifyWidth",
       nullable : true,
-      appearance : true
+      themeable : true
     },
 
 
@@ -1714,7 +1714,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       apply : "_modifyMinWidth",
       nullable : true,
-      appearance : true
+      themeable : true
     },
 
 
@@ -1727,7 +1727,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       apply : "_modifyMaxWidth",
       nullable : true,
-      appearance : true
+      themeable : true
     },
 
 
@@ -1750,7 +1750,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       apply : "_modifyTop",
       nullable : true,
-      appearance : true
+      themeable : true
     },
 
 
@@ -1765,7 +1765,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       apply : "_modifyBottom",
       nullable : true,
-      appearance : true
+      themeable : true
     },
 
 
@@ -1780,7 +1780,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       apply : "_modifyHeight",
       nullable : true,
-      appearance : true
+      themeable : true
     },
 
 
@@ -1793,7 +1793,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       apply : "_modifyMinHeight",
       nullable : true,
-      appearance : true
+      themeable : true
     },
 
 
@@ -1806,7 +1806,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       apply : "_modifyMaxHeight",
       nullable : true,
-      appearance : true
+      themeable : true
     },
 
 
