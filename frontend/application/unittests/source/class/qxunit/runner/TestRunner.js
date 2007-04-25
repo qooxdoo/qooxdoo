@@ -74,6 +74,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       } else {
         this.leftReloadTree();
       }
+      this.toolbar.setEnabled(true);  // in case it was disabled (for reload)
     }, this);
 
     // Header Pane
@@ -418,14 +419,13 @@ qx.Class.define("qxunit.runner.TestRunner",
       var curr = this.iframe.getSource();
       var neu  = this.testSuiteUrl.getValue();
       this.toolbar.setEnabled(false);
-      qx.ui.core.Widget.flushGlobalQueues();
-      if (curr == neu) {
-        this.iframe.reload();
-      } else {
-        this.iframe.setSource(neu);
-      }
-      this.toolbar.setEnabled(true);
-      qx.ui.core.Widget.flushGlobalQueues();
+      qx.client.Timer.once(function () {
+        if (curr == neu) {
+          this.iframe.reload();
+        } else {
+          this.iframe.setSource(neu);
+        }
+      },this,0);
     } //reloadTestSuite
 
   } //members
