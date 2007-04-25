@@ -135,8 +135,6 @@ qx.Class.define("qxunit.runner.TestRunner",
 
     // progress bar
     var progress = this.__makeProgress();
-    this.widgets["progresspane"] = progress;
-    this.widgets["progresspane.progressbar"] = progress.getChildren()[1];
     right.add(progress);
 
     // button view
@@ -262,14 +260,14 @@ qx.Class.define("qxunit.runner.TestRunner",
       }
 
       left.getManager().addEventListener("changeSelection", function (e) {
-        that.tests.selected = e.getData()[0]._labelObject.getHtml();
+        that.tests.selected = e.getData()[0]._labelObject.getText();
         //that.right.buttview.bsb1.p1.f1 = this.tests.selected;
         //that.getChildren()[2].getChildren()[1].getChildren()[1].getPane().getChildren()[0].getChildren()[0] = that.tests.selected;
         that.appendr(that.tests.selected);
-        that.widgets["statuspane.current"].setHtml(that.tests.selected);
+        that.widgets["statuspane.current"].setText(that.tests.selected);
         that.tests.selected_cnt = that.tests.handler.testCount(that.tests.selected);
         var snum = String(that.tests.selected_cnt);
-        that.widgets["statuspane.number"].setHtml(snum);
+        that.widgets["statuspane.number"].setText(snum);
       });
 
       return left;
@@ -302,6 +300,8 @@ qx.Class.define("qxunit.runner.TestRunner",
       //progress.add(new qx.ui.basic.Label("Progress: "));
       var progressb = new qxunit.runner.ProgressBar();
       progress.add(progressb);
+      this.widgets["progresspane"] = progress;
+      this.widgets["progresspane.progressbar"] = progressb;
       /*
       var progressb = new qx.ui.component.ProgressBar();
       progressb.set({
@@ -351,6 +351,7 @@ qx.Class.define("qxunit.runner.TestRunner",
      * runTest - event handler for the Run Test button - performs the test
      */
     runTest : function (e) {
+      this.toolbar.setEnabled(false);
       this.appendr("Now running: " + this.tests.selected);
       // Initialize progress bar
       this.widgets["progresspane.progressbar"].update("0%");
@@ -369,7 +370,6 @@ qx.Class.define("qxunit.runner.TestRunner",
           var test = e.getData();
           this.appendr("Test '"+test.getFullName()+"' started.");
           this.widgets["progresspane.progressbar"].update(String(tstCurr+"/"+tstCnt));
-          this.widgets["progresspane"]._children[2].setHtml(String(tstCurr+"/"+tstCnt));
           tstCurr++;
         }, this);
         testResult.addEventListener("failure", function(e) {
@@ -383,13 +383,31 @@ qx.Class.define("qxunit.runner.TestRunner",
         }, this);
 
         // start test
+        var that = this;
+        var tlist =[];
+        function runtest() {
+          if (tlist.length) {
+            var test = tlist[0];
+            var className = that.tests.handler.classFromTest(test);
+            that.loader.runTests(testResult, className, test);
+            tlist = tlist.slice(1,tlist.length);  // recurse with rest of list
+            qx.client.Timer.once(runtest,this,100);
+          } else { // no more tests -> enable toolbar
+            that.toolbar.setEnabled(true);
+          }
+        };
         if (this.tests.handler.isClass(this.tests.selected)) {
-          this.loader.runTestsFromNamespace(testResult, this.tests.selected);
+          //this.loader.runTestsFromNamespace(testResult, this.tests.selected);
+          tlist = this.tests.handler.getTests(this.tests.selected);
+          runtest(tlist);
         } else { // on method
+          /*
           var className = this.tests.handler.classFromTest(this.tests.selected);
           this.loader.runTests(testResult, className, this.tests.selected);
+          */
+          tlist = [this.tests.selected];
+          runtest(tlist);
         }
-
 
     }, //runTest
 
@@ -399,13 +417,15 @@ qx.Class.define("qxunit.runner.TestRunner",
     reloadTestSuite : function (e) {
       var curr = this.iframe.getSource();
       var neu  = this.testSuiteUrl.getValue();
-      this.left.setEnabled(false);
+      this.toolbar.setEnabled(false);
+      qx.ui.core.Widget.flushGlobalQueues();
       if (curr == neu) {
         this.iframe.reload();
       } else {
         this.iframe.setSource(neu);
       }
-      this.left.setEnabled(true);
+      this.toolbar.setEnabled(true);
+      qx.ui.core.Widget.flushGlobalQueues();
     } //reloadTestSuite
 
   } //members
