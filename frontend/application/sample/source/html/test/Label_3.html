@@ -62,13 +62,13 @@
       if (this.getHtml() == "Delete temporary data")
       {
         this.setHtml("Thank you");
-        this.setColor("red");
+        this.setTextColor("red");
         this.setFont("bold");
       }
       else
       {
         this.setHtml("Delete temporary data");
-        this.setColor(null);
+        this.resetTextColor();
         this.setFont(null);
       };
     });
