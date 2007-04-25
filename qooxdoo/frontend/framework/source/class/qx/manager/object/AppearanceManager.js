@@ -135,8 +135,8 @@ qx.Class.define("qx.manager.object.AppearanceManager",
       }
 
       // Fast fallback to super entry
-      if (!entry.style && entry.extend) {
-        return this.styleFromTheme(theme, entry.extend, states);
+      if (!entry.style && entry.include) {
+        return this.styleFromTheme(theme, entry.include, states);
       }
 
       // Creating cache-able ID
@@ -165,8 +165,8 @@ qx.Class.define("qx.manager.object.AppearanceManager",
         ret = entry.style(states);
 
         // Fill with data from inheritance
-        if (entry.extend) {
-          qx.lang.Object.carefullyMergeWith(ret, this.styleFromTheme(theme, entry.extend, states));
+        if (entry.include) {
+          qx.lang.Object.carefullyMergeWith(ret, this.styleFromTheme(theme, entry.include, states));
         }
       }
 
