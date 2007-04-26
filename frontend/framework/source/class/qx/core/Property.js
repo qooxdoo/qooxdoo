@@ -118,6 +118,7 @@ qx.Class.define("qx.core.Property",
     {
       "Boolean"   : 'typeof value === "boolean"',
       "String"    : 'typeof value === "string"',
+      "NonEmptyString" : 'typeof value === "string" && value.length > 0',
 
       "Number"    : '!isNaN(value)',
       "Integer"   : '!isNaN(value) && value%1 == 0',
