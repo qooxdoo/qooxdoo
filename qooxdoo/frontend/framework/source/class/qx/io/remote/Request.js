@@ -60,7 +60,10 @@ qx.Class.define("qx.io.remote.Request",
     this._parameters = {};
     this._formFields = {};
 
-    this.setUrl(vUrl);
+    if (vUrl !== undefined) {
+      this.setUrl(vUrl);
+    }
+
     this.setMethod(vMethod || qx.net.Http.METHOD_GET);
     this.setResponseType(vResponseType || qx.util.Mime.TEXT);
 
@@ -128,19 +131,13 @@ qx.Class.define("qx.io.remote.Request",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
     /**
      * Target url to issue the request to.
      */
     url :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      init : ""
     },
 
 
@@ -149,9 +146,9 @@ qx.Class.define("qx.io.remote.Request",
      */
     method :
     {
-      _legacy        : true,
-      type           : "string",
-      possibleValues : [ qx.net.Http.METHOD_GET, qx.net.Http.METHOD_POST, qx.net.Http.METHOD_PUT, qx.net.Http.METHOD_HEAD, qx.net.Http.METHOD_DELETE ]
+      check : [ qx.net.Http.METHOD_GET, qx.net.Http.METHOD_POST, qx.net.Http.METHOD_PUT, qx.net.Http.METHOD_HEAD, qx.net.Http.METHOD_DELETE ],
+      apply : "_modifyMethod",
+      init : qx.net.Http.METHOD_GET
     },
 
 
@@ -160,10 +157,8 @@ qx.Class.define("qx.io.remote.Request",
      */
     asynchronous :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true,
-      getAlias     : "isAsynchronous"
+      check : "Boolean",
+      init : true
     },
 
 
@@ -172,8 +167,8 @@ qx.Class.define("qx.io.remote.Request",
      */
     data :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      nullable : true
     },
 
 
@@ -183,8 +178,8 @@ qx.Class.define("qx.io.remote.Request",
      */
     username :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      nullable : true
     },
 
 
@@ -194,8 +189,8 @@ qx.Class.define("qx.io.remote.Request",
      */
     password :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      nullable : true
     },
 
 
@@ -204,12 +199,10 @@ qx.Class.define("qx.io.remote.Request",
      */
     state :
     {
-      _legacy : true,
-      type : "string",
-
-      possibleValues : [ "configured", "queued", "sending", "receiving", "completed", "aborted", "timeout", "failed" ],
-
-      defaultValue : "configured"
+      check : [ "configured", "queued", "sending", "receiving", "completed", "aborted", "timeout", "failed" ],
+      init : "configured",
+      apply : "_modifyState",
+      event : "changeState"
     },
 
 
@@ -224,9 +217,9 @@ qx.Class.define("qx.io.remote.Request",
      */
     responseType :
     {
-      _legacy        : true,
-      type           : "string",
-      possibleValues : [ qx.util.Mime.TEXT, qx.util.Mime.JAVASCRIPT, qx.util.Mime.JSON, qx.util.Mime.XML, qx.util.Mime.HTML ]
+      check : [ qx.util.Mime.TEXT, qx.util.Mime.JAVASCRIPT, qx.util.Mime.JSON, qx.util.Mime.XML, qx.util.Mime.HTML ],
+      init : qx.util.Mime.TEXT,
+      apply : "_modifyResponseType"
     },
 
 
@@ -238,8 +231,8 @@ qx.Class.define("qx.io.remote.Request",
      */
     timeout :
     {
-      _legacy : true,
-      type    : "number"
+      check : "Integer",
+      nullable : true
     },
 
 
@@ -252,8 +245,9 @@ qx.Class.define("qx.io.remote.Request",
      */
     prohibitCaching :
     {
-      _legacy : true,
-      type    : "boolean"
+      check : "Boolean",
+      init : true,
+      apply : "_modifyProhibitCaching"
     },
 
 
@@ -268,9 +262,8 @@ qx.Class.define("qx.io.remote.Request",
      */
     crossDomain :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      check : "Boolean",
+      init : true
     },
 
 
@@ -284,9 +277,8 @@ qx.Class.define("qx.io.remote.Request",
      */
     fileUpload :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      check : "Boolean",
+      init : false
     },
 
 
@@ -297,9 +289,8 @@ qx.Class.define("qx.io.remote.Request",
      */
     transport :
     {
-      _legacy  : true,
-      type     : "object",
-      instance : "qx.io.remote.Exchange"
+      check : "qx.io.remote.Exchange",
+      nullable : true
     },
 
 
@@ -308,8 +299,8 @@ qx.Class.define("qx.io.remote.Request",
      */
     useBasicHttpAuth :
     {
-      _legacy : true,
-      type    : "boolean"
+      check : "Boolean",
+      init : false
     }
   },
 

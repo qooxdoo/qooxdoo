@@ -83,8 +83,8 @@ qx.Class.define("qx.io.remote.RequestQueue",
      */
     maxTotalRequests :
     {
-      _legacy : true,
-      type    : "number"
+      check : "Integer",
+      nullable : true
     },
 
 
@@ -93,9 +93,8 @@ qx.Class.define("qx.io.remote.RequestQueue",
      */
     maxConcurrentRequests :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 3
+      check : "Integer",
+      init : 3
     },
 
 
@@ -104,9 +103,8 @@ qx.Class.define("qx.io.remote.RequestQueue",
      */
     defaultTimeout :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 5000
+      check : "Integer",
+      init : 5000
     }
   },
 
@@ -386,8 +384,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
       }
 
       this._timer.setEnabled(propValue);
-
-      return true;
     },
 
 

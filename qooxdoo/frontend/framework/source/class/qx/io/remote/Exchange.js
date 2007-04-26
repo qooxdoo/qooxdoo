@@ -490,22 +490,11 @@ qx.Class.define("qx.io.remote.Exchange",
 
   properties :
   {
-    /* ************************************************************************
-       Instance data, properties and methods
-    ************************************************************************ */
-
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
     /** Set the request to send with this transport. */
     request :
     {
-      _legacy  : true,
-      type     : "object",
-      instance : "qx.io.remote.Request"
+      check : "qx.io.remote.Request",
+      nullable : true
     },
 
 
@@ -517,18 +506,17 @@ qx.Class.define("qx.io.remote.Exchange",
      */
     implementation :
     {
-      _legacy : true,
-      type    : "object"
+      check : "qx.io.remote.AbstractRemoteTransport",
+      nullable : true,
+      apply : "_modifyImplementation"
     },
 
     state :
     {
-      _legacy : true,
-      type : "string",
-
-      possibleValues : [ "configured", "sending", "receiving", "completed", "aborted", "timeout", "failed" ],
-
-      defaultValue : "configured"
+      check : [ "configured", "sending", "receiving", "completed", "aborted", "timeout", "failed" ],
+      init : "configured",
+      event : "changeState",
+      apply : "_modifyState"
     }
   },
 
