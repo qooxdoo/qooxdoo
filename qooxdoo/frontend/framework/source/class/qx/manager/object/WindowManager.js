@@ -55,8 +55,9 @@ qx.Class.define("qx.manager.object.WindowManager",
   {
     activeWindow :
     {
-      _legacy : true,
-      type    : "object"
+      check : "Object",
+      nullable : true,
+      apply : "_modifyActiveWindow"
     }
   },
 

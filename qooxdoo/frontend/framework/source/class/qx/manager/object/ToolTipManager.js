@@ -56,9 +56,9 @@ qx.Class.define("qx.manager.object.ToolTipManager",
   {
     currentToolTip :
     {
-      _legacy  : true,
-      type     : "object",
-      instance : "qx.ui.popup.ToolTip"
+      check : "qx.ui.popup.ToolTip",
+      nullable : true,
+      apply : "_modifyCurrentToolTip"
     }
   },
 
