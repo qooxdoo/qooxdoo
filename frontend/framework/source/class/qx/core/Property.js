@@ -973,8 +973,7 @@ qx.Class.define("qx.core.Property",
 
 
       return this.__unwrapFunctionFromCode(instance, members, name, variant, code, args);
-    },
-
+    }
   },
 
 
