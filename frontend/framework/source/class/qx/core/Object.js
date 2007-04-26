@@ -323,13 +323,6 @@ qx.Class.define("qx.core.Object",
      */
     set : function(data)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (typeof data !== "object") {
-          throw new Error("Please use a valid hash of property key-values pairs. Incoming value was: '" + data + "'");
-        }
-      }
-
       var setter = qx.core.Property.$$method.set;
 
       for (var prop in data)
@@ -338,7 +331,7 @@ qx.Class.define("qx.core.Object",
         {
           if (!this[setter[prop]])
           {
-            this.error("Generic setter is missing property: " + prop + ". Incoming value was: " + data[prop]);
+            this.warn("No such property: " + prop);
             continue;
           }
         }

@@ -24,6 +24,7 @@
 qx.Theme.define("qx.theme.classic.font.Big",
 {
   title : "Classic Big",
+  extend : qx.theme.classic.font.Default,
 
   fonts :
   {
