@@ -147,8 +147,7 @@ qx.Class.define("qx.util.format.NumberFormat",
     groupingUsed :
     {
       check : "Boolean",
-      init : true,
-      event : "changeGroupingUsed"
+      init : true
     },
 
 
@@ -156,8 +155,7 @@ qx.Class.define("qx.util.format.NumberFormat",
     prefix :
     {
       check : "String",
-      init : "",
-      event : "changePrefix"
+      init : ""
     },
 
 
@@ -165,8 +163,7 @@ qx.Class.define("qx.util.format.NumberFormat",
     postfix :
     {
       check : "String",
-      init : "",
-      event : "changePostfix"
+      init : ""
     }
   },
 
