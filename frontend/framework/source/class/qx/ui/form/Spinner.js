@@ -586,9 +586,11 @@ qx.Class.define("qx.ui.form.Spinner",
       }
       else
       {
-        this.getManager().setValue(this.getManager().getValue() +
+        var value = this.getManager().getValue() +
                                    (this.getWheelIncrementAmount() *
-                                    e.getWheelDelta()));
+                                    e.getWheelDelta())
+        value = this.getManager().limit(value);
+        this.getManager().setValue(value);
       }
       this._textfield.selectAll();
     },
@@ -683,7 +685,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * @return {void}
      */
     setValue : function(nValue) {
-      this.getManager().setValue(nValue);
+      this.getManager().setValue(this.getManager().limit(nValue));
     },
 
 
@@ -879,7 +881,7 @@ qx.Class.define("qx.ui.form.Spinner",
 
         // main check routine
         var doFix = true;
-        var fixedVal = this.getManager()._checkValue(val);
+        var fixedVal = this.getManager().limit(val);
 
         if (isNaN(fixedVal)) {
           fixedVal = this.getManager().getValue();
@@ -952,9 +954,13 @@ qx.Class.define("qx.ui.form.Spinner",
       }
       else
       {
-        this.getManager().setValue(this.getManager().getValue() +
+        var value = this.getManager().getValue() +
                                    ((this._intervalIncrease ? 1 : -1) *
-                                    this.getPageIncrementAmount()));
+                                    this.getPageIncrementAmount());
+
+        value = this.getManager().limit(value);
+
+        this.getManager().setValue(value);
       }
     },
 
