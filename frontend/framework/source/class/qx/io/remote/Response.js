@@ -60,24 +60,26 @@ qx.Class.define("qx.io.remote.Response",
 
     state :
     {
-      _legacy : true,
-      type    : "number"
+      check : "Integer",
+      nullable : true
     },
 
 
     /** Status code of the response. */
     statusCode :
     {
-      _legacy : true,
-      type    : "number"
+      check : "Integer",
+      nullable : true
     },
 
-    content : { _legacy : true },
+    content : {
+      nullable : true
+    },
 
     responseHeaders :
     {
-      _legacy : true,
-      type    : "object"
+      check : "Object",
+      nullable : true
     }
   },
 
