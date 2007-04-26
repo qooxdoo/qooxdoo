@@ -108,7 +108,7 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
     name :
     {
       check : "String",
-      apply : "_modifyChecked"
+      apply : "_modifyName"
     }
   },
 
