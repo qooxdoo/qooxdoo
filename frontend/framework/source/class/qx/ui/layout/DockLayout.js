@@ -57,7 +57,8 @@ qx.Class.define("qx.ui.layout.DockLayout",
     {
       check : [ "vertical", "horizontal", "ordered" ],
       init : "vertical",
-      apply : "_applyMode"
+      apply : "_applyMode",
+      themeable : true
     }
   },
 

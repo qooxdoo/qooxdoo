@@ -69,7 +69,8 @@ qx.Class.define("qx.ui.layout.GridLayout",
     {
       check : "Integer",
       init : 0,
-      apply : "_applyHorizontalSpacing"
+      apply : "_applyHorizontalSpacing",
+      themeable : true
     },
 
 
@@ -78,7 +79,8 @@ qx.Class.define("qx.ui.layout.GridLayout",
     {
       check : "Integer",
       init : 0,
-      apply : "_applyVerticalSpacing"
+      apply : "_applyVerticalSpacing",
+      themeable : true
     },
 
 
@@ -87,7 +89,8 @@ qx.Class.define("qx.ui.layout.GridLayout",
     {
       check : [ "left", "center", "right" ],
       init : "left",
-      apply : "_applyHorizontalChildrenAlign"
+      apply : "_applyHorizontalChildrenAlign",
+      themeable : true
     },
 
 
@@ -96,7 +99,8 @@ qx.Class.define("qx.ui.layout.GridLayout",
     {
       check : [ "top", "middle", "bottom" ],
       init : "top",
-      apply : "_applyVerticalChildrenAlign"
+      apply : "_applyVerticalChildrenAlign",
+      themeable : true
     },
 
 
@@ -112,7 +116,8 @@ qx.Class.define("qx.ui.layout.GridLayout",
     cellPaddingRight :
     {
       check : "Integer",
-      nullable : true
+      nullable : true,
+      themeable : true
     },
 
 
@@ -120,7 +125,8 @@ qx.Class.define("qx.ui.layout.GridLayout",
     cellPaddingBottom :
     {
       check : "Integer",
-      nullable : true
+      nullable : true,
+      themeable : true
     },
 
 
@@ -128,7 +134,8 @@ qx.Class.define("qx.ui.layout.GridLayout",
     cellPaddingLeft :
     {
       check : "Integer",
-      nullable : true
+      nullable : true,
+      themeable : true
     }
   },
 
