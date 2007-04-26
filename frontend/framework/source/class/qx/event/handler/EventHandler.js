@@ -329,32 +329,28 @@ qx.Class.define("qx.event.handler.EventHandler",
   {
     allowClientContextMenu :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      check : "Boolean",
+      init : false
     },
 
     allowClientSelectAll :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      check : "Boolean",
+      init : false
     },
 
     captureWidget :
     {
-      _legacy   : true,
-      type      : "object",
-      instance  : "qx.ui.core.Widget",
-      allowNull : true
+      check : "qx.ui.core.Widget",
+      nullable : true,
+      apply : "_modifyCaptureWidget"
     },
 
     focusRoot :
     {
-      _legacy   : true,
-      type      : "object",
-      instance  : "qx.ui.core.Parent",
-      allowNull : true
+      check : "qx.ui.core.Parent",
+      nullable : true,
+      apply : "_modifyFocusRoot"
     }
   },
 
