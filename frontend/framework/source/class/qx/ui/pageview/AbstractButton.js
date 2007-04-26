@@ -77,27 +77,26 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
     /** If this tab is the currently selected/active one */
     checked :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      check :"Boolean",
+      init : false,
+      apply : "_modifyChecked"
     },
 
 
     /** The attached page of this tab */
     page :
     {
-      _legacy : true,
-      type    : "object"
+      check : "qx.ui.pageview.AbstractPage",
+      apply : "_modifyPage"
     },
 
 
     /** The assigned qx.manager.selection.RadioManager which handles the switching between registered buttons */
     manager :
     {
-      _legacy   : true,
-      type      : "object",
-      instance  : "qx.manager.selection.RadioManager",
-      allowNull : true
+      check  : "qx.manager.selection.RadioManager",
+      nullable : true,
+      apply : "_modifyManager"
     },
 
 
@@ -107,8 +106,8 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
      */
     name :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      apply : "_modifyChecked"
     }
   },
 

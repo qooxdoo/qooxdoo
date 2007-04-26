@@ -85,36 +85,32 @@ qx.Class.define("qx.ui.resizer.Resizer",
     /** If the window is resizeable in the left direction. */
     resizeableWest :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true
     },
 
 
     /** If the window is resizeable in the top direction. */
     resizeableNorth :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true
     },
 
 
     /** If the window is resizeable in the right direction. */
     resizeableEast :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true
     },
 
 
     /** If the window is resizeable in the bottom direction. */
     resizeableSouth :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true
     },
 
 
@@ -129,20 +125,9 @@ qx.Class.define("qx.ui.resizer.Resizer",
     /** The resize method to use */
     resizeMethod :
     {
-      _legacy        : true,
-      type           : "string",
-      defaultValue   : "frame",
-      possibleValues : [ "opaque", "lazyopaque", "frame", "translucent" ]
-    },
-
-
-    /** The resize method to use */
-    resizeMethod :
-    {
-      _legacy        : true,
-      type           : "string",
-      defaultValue   : "frame",
-      possibleValues : [ "opaque", "lazyopaque", "frame", "translucent" ]
+      init : "frame",
+      check : [ "opaque", "lazyopaque", "frame", "translucent" ],
+      event : "changeResizeMethod"
     }
   },
 

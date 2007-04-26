@@ -1293,8 +1293,9 @@ qx.Class.define("qx.ui.core.Widget",
      */
     zIndex :
     {
-      check : "Integer",
-      apply : "_modifyZIndex"
+      check : "Number",
+      apply : "_modifyZIndex",
+      themeable : true
     },
 
 
@@ -1389,7 +1390,8 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "String",
       apply : "_modifyCursor",
-      themeable : true
+      themeable : true,
+      nullable : true
     },
 
 
@@ -2976,7 +2978,7 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
-     * Create widget with empty element (of specified tagname).
+     * Create widget with empty element.
      *
      * @type member
      * @return {void}

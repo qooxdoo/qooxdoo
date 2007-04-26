@@ -149,10 +149,9 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      */
     showKnob :
     {
-      _legacy      : true,
-      type         : "boolean",
-      allowNull    : false,
-      defaultValue : false
+      check : "Boolean",
+      init : false,
+      apply : "_modifyShowKnob"
     },
 
 
@@ -161,11 +160,8 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      */
     liveResize :
     {
-      _legacy      : true,
-      type         : "boolean",
-      allowNull    : false,
-      defaultValue : false,
-      getAlias     : "isLiveResize"
+      check : "Boolean",
+      init : false
     },
 
 
@@ -174,22 +170,28 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      */
     orientation :
     {
-      _legacy        : true,
-      type           : "string",
-      possibleValues : [ "horizontal", "vertical" ]
+      check : [ "horizontal", "vertical" ],
+      apply : "_modifyOrientation",
+      nullable : true
     },
 
 
     /**
      * The size of the first (left/top) area.
      */
-    firstSize : { _legacy : true },
+    firstSize :
+    {
+      apply : "_modifyFirstSize"
+    },
 
 
     /**
      * The size of the second (right/bottom) area.
      */
-    secondSize : { _legacy : true },
+    secondSize :
+    {
+      apply : "_modifySecondSize"
+    },
 
 
     /**
@@ -197,8 +199,9 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      */
     splitterSize :
     {
-      _legacy      : true,
-      defaultValue : 4
+      check : "Integer",
+      init : 4,
+      apply : "_modifySplitterSize"
     }
   },
 

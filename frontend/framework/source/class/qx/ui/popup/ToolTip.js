@@ -92,44 +92,40 @@ qx.Class.define("qx.ui.popup.ToolTip",
 
     hideOnHover :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true
     },
 
     mousePointerOffsetX :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 1
+      check : "Integer",
+      init : 1
     },
 
     mousePointerOffsetY :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 20
+      check : "Integer",
+      init : 20
     },
 
     showInterval :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 1000
+      check : "Integer",
+      init : 1000,
+      apply : "_modifyShowInterval"
     },
 
     hideInterval :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 4000
+      check : "Integer",
+      init : 4000,
+      apply : "_modifyHideInterval"
     },
 
     boundToWidget :
     {
-      _legacy  : true,
-      type     : "object",
-      instance : "qx.ui.core.Widget"
+      check : "qx.ui.core.Widget",
+      apply : "_modifyBoundToWidget"
     }
   },
 
