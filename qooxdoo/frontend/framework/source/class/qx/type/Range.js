@@ -63,7 +63,7 @@ qx.Class.define("qx.type.Range",
     min :
     {
       check : "Number",
-      init : 0,
+      init : -Infinity,
       apply : "_modifyMin",
       event : "change"
     },
@@ -72,7 +72,7 @@ qx.Class.define("qx.type.Range",
     max :
     {
       check : "Number",
-      init : 0,
+      init : Infinity,
       apply : "_modifyMax",
       event : "change"
     }
