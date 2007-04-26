@@ -63,13 +63,10 @@ qx.Class.define("qx.log.AlertAppender",
 
   properties :
   {
-    // overridden
     useLongFormat :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false,
-      allowNull    : false
+      refine : true,
+      init : false
     }
   },
 

@@ -122,18 +122,15 @@ qx.Class.define("qx.log.WindowAppender",
      */
     maxMessages :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 500
+      check : "Integer",
+      init : 500
     },
 
     /** Whether the window should appear under the main window. */
     popUnder :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false,
-      allowNull    : false
+      check : "Boolean",
+      init : false
     },
 
 
@@ -146,36 +143,33 @@ qx.Class.define("qx.log.WindowAppender",
      */
     autoCloseWithErrors :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true,
-      allowNull    : false
+      check : "Boolean",
+      init : true,
+      apply : "_modifyAutoCloseWithErrors"
     },
 
     windowWidth :
     {
-      _legacy      : true,
-      defaultValue : 600,
-      allowNull    : false
+      check : "Integer",
+      init : 600
     },
 
     windowHeight :
     {
-      _legacy      : true,
-      defaultValue : 350,
-      allowNull    : false
+      check : "Integer",
+      init : 350
     },
 
     windowLeft :
     {
-      _legacy      : true,
-      defaultValue : null
+      check : "Integer",
+      nullable : true
     },
 
     windowTop :
     {
-      _legacy      : true,
-      defaultValue : null
+      check : "Integer",
+      nullable : true
     }
 
   },

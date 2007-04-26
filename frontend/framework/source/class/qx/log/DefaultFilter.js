@@ -61,11 +61,8 @@ qx.Class.define("qx.log.DefaultFilter",
      */
     enabled :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true,
-      allowNull    : false,
-      getAlias     : "isEnabled"
+      check : "Boolean",
+      init : true
     },
 
 
@@ -75,9 +72,8 @@ qx.Class.define("qx.log.DefaultFilter",
      */
     minLevel :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : null
+      check : "Number",
+      nullable : true
     }
   },
 
