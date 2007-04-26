@@ -110,7 +110,7 @@ qx.Class.define("qx.client.Command",
     {
       init : true,
       check : "Boolean",
-      apply : "_modifyEnabled"
+      event : "changeEnabled"
     },
 
 
