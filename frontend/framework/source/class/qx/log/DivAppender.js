@@ -70,74 +70,64 @@ qx.Class.define("qx.log.DivAppender",
      */
     maxMessages :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 500
+      check : "Integer",
+      init : 500
     },
 
-    // overridden
     useLongFormat :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false,
-      allowNull    : false
+      refine : true,
+      init : false
     },
 
     /** The CSS class name for the head div {containing the clear button}. */
     headClassName :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "log-head"
+      check : "String",
+      init : "log-head"
     },
 
     /** The CSS class name for the body div {containing the log messages}. */
     bodyClassName :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "log-body"
+      check : "String",
+      init : "log-body"
     },
 
     /** The CSS class name for a div showing the name of the current group. */
     groupClassName :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "log-group"
+      check : "String",
+      init : "log-group"
     },
 
     /** The CSS class name for a div showing a debug message. */
     debugClassName :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "log-debug"
+      check : "String",
+      init : "log-debug"
     },
 
     /** The CSS class name for a div showing a info message. */
     infoClassName :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "log-info"
+      check : "String",
+      init : "log-info"
     },
 
     /** The CSS class name for a div showing a warn message. */
     warnClassName :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "log-warn"
+      check : "String",
+      init : "log-warn"
+
     },
 
     /** The CSS class name for a div showing a error message. */
     errorClassName :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "log-error"
+      check : "String",
+      init : "log-error"
     }
   },
 
