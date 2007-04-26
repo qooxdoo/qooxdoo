@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.pageview.tabview.Bar",
   construct : function()
   {
     this.base(arguments);
-
+    this.setOrientation("horizontal");
     this.setZIndex(2);
   },
 
