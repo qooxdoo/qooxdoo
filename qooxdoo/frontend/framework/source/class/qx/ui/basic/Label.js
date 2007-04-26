@@ -232,12 +232,20 @@ qx.Class.define("qx.ui.basic.Label",
       if (this.getText() instanceof qx.locale.LocalizedString)
       {
         var text = this.getText().toString();
-        qx.locale.Manager.getInstance().addEventListener("changeLocale", this.__updateText, this);
+
+        if (!this._hasLocaleListener)
+        {
+          qx.locale.Manager.getInstance().addEventListener("changeLocale", this._applyText, this);
+          this._hasLocaleListener = true;
+        }
       }
       else
       {
         text = this.getText() || "";
-        qx.locale.Manager.getInstance().removeEventListener("changeLocale", this.__updateText, this);
+
+        if (this._hasLocaleListener) {
+          qx.locale.Manager.getInstance().removeEventListener("changeLocale", this._applyText, this);
+        }
       }
 
       switch (this.getMode())
