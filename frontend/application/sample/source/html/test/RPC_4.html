@@ -6,6 +6,11 @@
   <!--[if IE]>
   <link type="text/css" rel="stylesheet" href="../../css/layout_ie.css"/>
   <![endif]-->
+  <script type="text/javascript">
+		var qxsettings = {
+			"qx.jsonDebugging" : true
+		}
+  </script>
   <script type="text/javascript" src="../../script/sample.js"></script>
   <script type="text/javascript" src=".qxrpc"></script>
   <!-- With the above script, the service URL for a J2EE application can be
@@ -32,8 +37,6 @@
   </div>
 
   <script type="text/javascript">
-    qx.Settings.setCustomOfClass("qx.io.Json", "enableDebug", true);
-
     qx.core.Init.getInstance().defineMain(function() {
       var layout1 = new qx.ui.layout.VerticalBoxLayout();
       layout1.setTop(40);
