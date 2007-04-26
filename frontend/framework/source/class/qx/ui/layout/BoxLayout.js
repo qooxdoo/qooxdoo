@@ -89,7 +89,8 @@ qx.Class.define("qx.ui.layout.BoxLayout",
       check : [ "horizontal", "vertical" ],
       init : "horizontal",
       themeable : true,
-      apply : "_modifyOrientation"
+      apply : "_modifyOrientation",
+      event : "changeOrientation"
     },
 
 
@@ -99,7 +100,8 @@ qx.Class.define("qx.ui.layout.BoxLayout",
       check : "Integer",
       init : 0,
       themeable : true,
-      apply : "_applySpacing"
+      apply : "_applySpacing",
+      event : "changeSpacing"
     },
 
 

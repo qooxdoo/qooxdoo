@@ -77,9 +77,8 @@ qx.Class.define("qx.ui.pageview.AbstractPage",
      */
     display :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      refine: true,
+      init : false
     }
   },
 
