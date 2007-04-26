@@ -31,20 +31,6 @@ qx.Class.define("qx.renderer.layout.HorizontalBoxLayoutImpl",
 
 
 
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function(vWidget) {
-    this.base(arguments, vWidget);
-  },
-
-
-
-
   /*
   *****************************************************************************
      PROPERTIES
@@ -55,9 +41,8 @@ qx.Class.define("qx.renderer.layout.HorizontalBoxLayoutImpl",
   {
     enableFlexSupport :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true
     }
   },
 
