@@ -88,13 +88,15 @@ qx.Class.define("qx.manager.selection.RadioManager",
     },
 
     selected : {
-      nullable : true
+      nullable : true,
+      apply : "_modifySelected"
     },
 
     name :
     {
       check : "String",
-      nullable : true
+      nullable : true,
+      apply : "_modifyName"
     }
   },
 
