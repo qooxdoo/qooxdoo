@@ -295,11 +295,7 @@ qx.Class.define("qx.core.Target",
             obj = typeListeners[vHashCode].object || this;
 
             // Call object function
-            try {
-              func.call(obj, evt);
-            } catch(ex) {
-              this.error("Could not dispatch event of type \"" + evt.getType() + "\"", ex);
-            }
+            func.call(obj, evt);
           }
         }
       }
