@@ -59,9 +59,6 @@ qx.Class.define("qx.ui.core.ClientDocument",
     // Init element
     this.setElement(this._document.body);
 
-    // Configure as focus root
-    this.activateFocusRoot();
-
     // Cache current size
     this._cachedInnerWidth = this._document.body.offsetWidth;
     this._cachedInnerHeight = this._document.body.offsetHeight;
@@ -73,7 +70,10 @@ qx.Class.define("qx.ui.core.ClientDocument",
     this._modalWidgets = [];
     this._modalNativeWindow = null;
 
-    // Register as focus root
+    // Enable as focus root behavior
+    this.activateFocusRoot();
+
+    // Register as current focus root
     qx.event.handler.EventHandler.getInstance().setFocusRoot(this);
   },
 
@@ -87,11 +87,11 @@ qx.Class.define("qx.ui.core.ClientDocument",
 
   events:
   {
-    /** Fired when the window looses the */
-    "windowblur"    : "qx.event.type.Event",
-
     /** (Fired by {@link qx.event.handler.EventHandler}) */
     "focus"         : "qx.event.type.Event",
+
+    /** Fired when the window looses the focus (Fired by {@link qx.event.handler.EventHandler}) */
+    "windowblur"    : "qx.event.type.Event",
 
     /**  Fired when the window gets the focus (Fired by {@link qx.event.handler.EventHandler}) */
     "windowfocus"   : "qx.event.type.Event",
