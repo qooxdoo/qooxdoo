@@ -58,60 +58,52 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
     /** The amount of steps for the fade. */
     fadeSteps :
     {
-      _legacy      : true,
-      type         : "number",
-      allowNull    : false,
-      defaultValue : 10
+      check : "Integer",
+      init : 10,
+      apply : "_modifyFadeSteps"
     },
 
 
     /** The duration for the fade in milliseconds. */
     fadeTime :
     {
-      _legacy      : true,
-      type         : "number",
-      allowNull    : false,
-      defaultValue : 400
+      check : "Integer",
+      init : 400,
+      apply : "_modifyFadeTime"
     },
 
 
     /** The time between the fade steps. */
     fadeInterval :
     {
-      _legacy      : true,
-      type         : "number",
-      allowNull    : false,
-      defaultValue : 40
+      check : "Integer",
+      init : 40
     },
 
 
     /** The current state of a fade in progress. */
     fadeCounter :
     {
-      _legacy      : true,
-      type         : "number",
-      allowNull    : false,
-      defaultValue : 0
+      check : "Integer",
+      init : 0
     },
 
 
     /** The amount of oppacity changed on each fade step. */
     fadeUnit :
     {
-      _legacy      : true,
-      type         : "number",
-      allowNull    : false,
-      defaultValue : 10
+      check : "Integer",
+      init : 10,
+      apply : "_modifyFadeUnit"
     },
 
 
     /** The maximum opacity for a fadeIn. */
     fadeMax :
     {
-      _legacy      : true,
-      type         : "number",
-      allowNull    : false,
-      defaultValue : 100
+      check : "Integer",
+      init : 100,
+      apply : "_modifyFadeMax"
     }
   },
 

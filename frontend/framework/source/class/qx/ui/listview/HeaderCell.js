@@ -128,10 +128,10 @@ qx.Class.define("qx.ui.listview.HeaderCell",
 
     sortOrder :
     {
-      _legacy        : true,
-      type           : "string",
-      allowNull      : true,
-      possibleValues : [ "ascending", "descending" ]
+      check : [ "ascending", "descending" ],
+      nullable : true,
+      apply : "_modifySortOrder",
+      event : "changeSortOrder"
     }
   },
 

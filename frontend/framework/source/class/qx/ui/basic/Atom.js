@@ -131,14 +131,19 @@ qx.Class.define("qx.ui.basic.Atom",
     */
 
     /** The label/caption/text of the qx.ui.basic.Atom instance */
-    label : { _legacy : true },
+    label :
+    {
+      apply : "_modifyLabel",
+      nullable : true
+    },
 
 
     /** Any URI String supported by qx.ui.basic.Image to display a icon */
     icon :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      apply : "_modifyIcon",
+      init : ""
     },
 
 
@@ -149,8 +154,9 @@ qx.Class.define("qx.ui.basic.Atom",
      */
     disabledIcon :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      apply : "_modifyDisabledIcon",
+      init : ""
     },
 
 
@@ -175,10 +181,9 @@ qx.Class.define("qx.ui.basic.Atom",
      */
     iconPosition :
     {
-      _legacy        : true,
-      type           : "string",
-      defaultValue   : "left",
-      possibleValues : [ "top", "right", "bottom", "left" ]
+      init   : "left",
+      check : [ "top", "right", "bottom", "left" ],
+      apply : "_modifyIconPosition"
     },
 
 
@@ -188,8 +193,9 @@ qx.Class.define("qx.ui.basic.Atom",
      */
     iconWidth :
     {
-      _legacy : true,
-      type    : "number"
+      check : "Integer",
+      apply : "_modifyIconWidth",
+      init : 0
     },
 
 
@@ -199,9 +205,11 @@ qx.Class.define("qx.ui.basic.Atom",
      */
     iconHeight :
     {
-      _legacy : true,
-      type    : "number"
+      check : "Integer",
+      apply : "_modifyIconHeight",
+      init : 0
     },
+
 
     appearance :
     {

@@ -118,16 +118,20 @@ qx.Class.define("qx.ui.menu.Button",
 
     icon :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      apply : "_modifyIcon"
     },
 
-    label : { _legacy : true },
+    label :
+    {
+      apply : "_modifyLabel"
+    },
 
     menu :
     {
-      _legacy : true,
-      type    : "object"
+      check : "qx.ui.menu.Menu",
+      nullable : true,
+      apply : "_modifyMenu"
     }
   },
 

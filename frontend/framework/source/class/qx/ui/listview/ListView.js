@@ -132,22 +132,20 @@ qx.Class.define("qx.ui.listview.ListView",
 
     resizable :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true
     },
 
     liveResize :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      check : "Boolean",
+      init : false
     },
 
     sortBy :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      apply : "_modifySortBy"
     }
   },
 
