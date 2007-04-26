@@ -273,7 +273,9 @@ qx.Class.define("qxunit.runner.TestRunner",
     leftReloadTree : function (e) {
       var tmap = this.tests.handler.tmap;
       var left = this.left;
-      left.removeAll();
+      left.setEnabled(false);
+      left.destroyContent();
+
       for (var i=0; i<tmap.length; i++) {
         var f = new qx.ui.tree.TreeFolder(tmap[i].classname);
         left.add(f);
@@ -281,6 +283,7 @@ qx.Class.define("qxunit.runner.TestRunner",
           f.add(new qx.ui.tree.TreeFile(tmap[i].tests[j]));
         }
       }
+      left.setEnabled(true);
     }, //leftReloadTree
 
 
@@ -379,13 +382,13 @@ qx.Class.define("qxunit.runner.TestRunner",
         }, this);
 
         // start test
-        var that = this;
-        var tlist =[];
+        var that    = this;
+        var tlist   = [];
+        var handler = this.tests.handler;
         function runtest() {
           if (tlist.length) {
             var test = tlist[0];
-            var className = that.tests.handler.classFromTest(test);
-            that.loader.runTests(testResult, className, test);
+            that.loader.runTests(testResult, test[0], test[1]);
             tlist = tlist.slice(1,tlist.length);  // recurse with rest of list
             qx.client.Timer.once(runtest,this,100);
           } else { // no more tests -> enable toolbar
@@ -393,15 +396,39 @@ qx.Class.define("qxunit.runner.TestRunner",
           }
         };
         if (this.tests.handler.isClass(this.tests.selected)) {
-          //this.loader.runTestsFromNamespace(testResult, this.tests.selected);
-          tlist = this.tests.handler.getTests(this.tests.selected);
+          /*
+          this.loader.runTestsFromNamespace(testResult, this.tests.selected);
+          var tests = this.tests.handler.getTests(this.tests.selected); 
+          for (var i in tests) {
+            tlist.push([this.tests.selected, tests[i]]);
+          }
+          */
+          function buildList(node) {
+            var tlist = [];
+            if (handler.isClass(node)) {
+              var children = handler.getChildren(node);
+              for (var i in children) {
+                if (handler.isClass(children[i])){
+                  tlist = tlist.concat(buildList(children[i]));
+                } else {
+                  tlist.push([node, children[i]]);
+                }
+              }
+            } else {
+              var class = handler.classFromTest(node);
+              tlist.push([class, node]);
+            }
+            return tlist;
+          };
+          tlist = buildList(this.tests.selected);
           runtest(tlist);
         } else { // on method
           /*
           var className = this.tests.handler.classFromTest(this.tests.selected);
           this.loader.runTests(testResult, className, this.tests.selected);
           */
-          tlist = [this.tests.selected];
+          var className = that.tests.handler.classFromTest(this.tests.selected);
+          tlist = [[className, this.tests.selected]];
           runtest(tlist);
         }
 
