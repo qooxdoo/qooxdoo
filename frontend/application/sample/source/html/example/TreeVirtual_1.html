@@ -18,6 +18,12 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
+    // We want to use some of the high-level node operation convenience
+    // methods rather than manually digging into the TreeVirtual helper
+    // classes.  Include the mixin that provides them.
+    qx.Class.include(qx.ui.treevirtual.TreeVirtual,
+                     qx.ui.treevirtual.MNode);
+    
     var d = qx.ui.core.ClientDocument.getInstance();
 
     // tree
@@ -41,7 +47,7 @@
     var dataModel = tree.getDataModel();
 
     var te1 = dataModel.addBranch(null, "Desktop", true);
-    tree.setNodeLabelStyle(te1, "background-color: red; color: white;");
+    tree.nodeSetLabelStyle(te1, "background-color: red; color: white;");
                          
     var te;
 
@@ -54,11 +60,7 @@
     dataModel.addBranch(te1, "Network", true);
 
     te = dataModel.addBranch(te1, "Trash", true);
-    dataModel.setState(te,
-                       {
-                         cellStyle : "background-color: cyan;"
-                       });
-
+    tree.nodeSetCellStyle(te, "background-color: cyan;");
 
     var te2 = dataModel.addBranch(null, "Inbox", true);
 
