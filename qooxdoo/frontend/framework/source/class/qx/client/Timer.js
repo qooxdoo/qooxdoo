@@ -124,6 +124,11 @@ qx.Class.define("qx.client.Timer",
 
   properties :
   {
+    /**
+     * With the enabled property the Timer can be started and suspended.
+     * Setting it to "true" is equivalent to {@link #start}, setting it
+     * to "false" is equivalent to {@link #stop}.
+     */
     enabled :
     {
       init : true,
@@ -138,24 +143,10 @@ qx.Class.define("qx.client.Timer",
      */
     interval :
     {
-      type         : "number",
-      defaultValue : 1000,
-      _legacy      : true
-    },
-
-
-    /**
-     * With the enabled property the Timer can be started and suspended.
-     * Setting it to "true" is equivalent to {@link #start}, setting it
-     * to "false" is equivalent to {@link #stop}.
-     */
-    enabled :
-    {
-      _legacy      : true,
-      type         : "boolean",
-      getAlias     : "isEnabled"
+      check : "Integer",
+      init : 1000,
+      apply : "_modifyInterval"
     }
-
   },
 
 
@@ -188,7 +179,7 @@ qx.Class.define("qx.client.Timer",
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
      */
-    _modifyEnabled : function(propValue, propOldValue, propData)
+    _modifyInterval : function(propValue, propOldValue, propData)
     {
       if (this.getEnabled()) {
         this.restart();

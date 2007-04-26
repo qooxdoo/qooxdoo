@@ -139,9 +139,9 @@ qx.Class.define("qx.client.History",
      */
     timeoutInterval :
     {
-      _legacy: true,
-      type: "number",
-      defaultValue : 100
+      check: "Number",
+      init : 100,
+      apply : "_modifyTimeoutInterval"
     }
   },
 
