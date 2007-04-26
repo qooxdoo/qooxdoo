@@ -105,10 +105,8 @@ qx.Class.define("qx.util.format.NumberFormat",
      */
     minimumIntegerDigits :
     {
-      type         : "number",
-      defaultValue : 0,
-      allowNull    : false,
-      _legacy       : true
+      check : "Number",
+      init : 0
     },
 
 
@@ -118,9 +116,8 @@ qx.Class.define("qx.util.format.NumberFormat",
      */
     maximumIntegerDigits :
     {
-      type         : "number",
-      defaultValue : null,
-      _legacy       : true
+      check : "Number",
+      nullable : true
     },
 
 
@@ -130,10 +127,8 @@ qx.Class.define("qx.util.format.NumberFormat",
      */
     minimumFractionDigits :
     {
-      type         : "number",
-      defaultValue : 0,
-      allowNull    : false,
-      _legacy       : true
+      check : "Number",
+      init : 0
     },
 
 
@@ -143,36 +138,35 @@ qx.Class.define("qx.util.format.NumberFormat",
      */
     maximumFractionDigits :
     {
-      type         : "number",
-      defaultValue : null,
-      _legacy       : true
+      check : "Number",
+      nullable : true
     },
+
 
     /** Whether thousand groupings should be used {e.g. "1,432,234.65"}. */
     groupingUsed :
     {
-      type         : "boolean",
-      defaultValue : true,
-      allowNull    : false,
-      _legacy       : true
+      check : "Boolean",
+      init : true,
+      event : "changeGroupingUsed"
     },
+
 
     /** The prefix to put before the number {"EUR " -> "EUR 12.31"}. */
     prefix :
     {
-      type         : "string",
-      defaultValue : "",
-      allowNull    : false,
-      _legacy       : true
+      check : "String",
+      init : "",
+      event : "changePrefix"
     },
+
 
     /** Sets the postfix to put after the number {" %" -> "56.13 %"}. */
     postfix :
     {
-      type         : "string",
-      defaultValue : "",
-      allowNull    : false,
-      _legacy       : true
+      check : "String",
+      init : "",
+      event : "changePostfix"
     }
   },
 
