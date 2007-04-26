@@ -1796,7 +1796,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
         return {
           border          : border,
-          textAlign       : "boldCenter",
+          font            : "boldCenter",
           textColor       : states.weekend ? "#6285BA" : "window",
           backgroundColor : states.weekend ? "window" : "#6285BA"
         };
