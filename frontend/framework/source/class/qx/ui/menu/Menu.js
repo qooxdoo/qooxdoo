@@ -100,105 +100,105 @@ qx.Class.define("qx.ui.menu.Menu",
 
     iconContentGap :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 4
+      check : "Integer",
+      themeable : true,
+      init : 4
     },
 
     labelShortcutGap :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 10
+      check : "Integer",
+      themeable : true,
+      init : 10
     },
 
     contentArrowGap :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 8
+      check : "Integer",
+      themeable : true,
+      init : 8
     },
 
     contentNonIconPadding :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 20
+      check : "Integer",
+      themeable : true,
+      init : 20
     },
 
     contentNonArrowPadding :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 8
+      check : "Integer",
+      themeable : true,
+      init : 8
     },
 
     hoverItem :
     {
-      _legacy : true,
-      type    : "object"
+      check : "qx.ui.core.Widget",
+      nullable : true,
+      apply : "_modifyHoverItem"
     },
 
     openItem :
     {
-      _legacy : true,
-      type    : "object"
+      check : "qx.ui.core.Widget",
+      nullable : true,
+      apply : "_modifyOpenItem"
     },
 
     /** Widget that opened the menu */
     opener :
     {
-      _legacy : true,
-      type    : "object"
+      check : "qx.ui.core.Widget",
+      nullable : true
     },
 
     /** reference to the parent menu if the menu is a submenu */
     parentMenu :
     {
-      _legacy : true,
-      type    : "object"
+      check : "qx.ui.menu.Menu",
+      nullable : true
     },
 
     fastReopen :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      check : "Boolean",
+      init : false
     },
 
     openInterval :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 250
+      check : "Integer",
+      themeable : true,
+      init : 250
     },
 
     closeInterval :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 250
+      check : "Integer",
+      themeable : true,
+      init : 250
     },
 
     subMenuHorizontalOffset :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : -3
+      check : "Integer",
+      themeable : true,
+      init : -3
     },
 
     subMenuVerticalOffset :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : -2
+      check : "Integer",
+      themeable : true,
+      init : -2
     },
 
     indentShortcuts :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true
     },
 
 

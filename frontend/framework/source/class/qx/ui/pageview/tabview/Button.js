@@ -89,18 +89,19 @@ qx.Class.define("qx.ui.pageview.tabview.Button",
     /** default Close Tab Button */
     showCloseButton :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      check : "Boolean",
+      init : false,
+      apply : "_modifyShowCloseButton",
+      event : "changeShowCloseButton"
     },
 
 
     /** Close Tab Icon */
     closeButtonImage :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "icon/16/actions/dialog-cancel.png"
+      check : "String",
+      init : "icon/16/actions/dialog-cancel.png",
+      apply : "_modifyCloseButtonImage"
     }
   },
 

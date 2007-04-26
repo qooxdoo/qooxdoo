@@ -81,22 +81,20 @@ qx.Class.define("qx.ui.menu.CheckBox",
 
     name :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String"
     },
 
     value :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      event : "changeValue"
     },
 
     checked :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false,
-      getAlias     : "isChecked"
+      check : "Boolean",
+      init : false,
+      apply : "_modifyChecked"
     }
   },
 

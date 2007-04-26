@@ -71,10 +71,10 @@ qx.Class.define("qx.ui.pageview.buttonview.ButtonView",
 
     barPosition :
     {
-      _legacy        : true,
-      type           : "string",
-      defaultValue   : "top",
-      possibleValues : [ "top", "right", "bottom", "left" ]
+      init   : "top",
+      check : [ "top", "right", "bottom", "left" ],
+      apply : "_modifyBarPosition",
+      event : "changeBarPosition"
     },
 
     appearance :
