@@ -43,7 +43,6 @@ qx.Class.define("qx.ui.pageview.tabview.Bar",
   construct : function()
   {
     this.base(arguments);
-    this.setOrientation("horizontal");
     this.setZIndex(2);
   },
 
@@ -61,7 +60,7 @@ qx.Class.define("qx.ui.pageview.tabview.Bar",
     appearance :
     {
       refine : true,
-      init : "radio-view-bar"
+      init : "tab-view-bar"
     }
   }
 });
