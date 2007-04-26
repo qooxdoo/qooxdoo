@@ -117,8 +117,8 @@ qx.Class.define("qx.client.Command",
     /** The command shortcut */
     shortcut :
     {
-      type   : "string",
-      _legacy : true
+      check : "String",
+      apply : "_modifyShortcut"
     },
 
 
@@ -128,18 +128,14 @@ qx.Class.define("qx.client.Command",
      *
      * @deprecated
      */
-    keyCode :
-    {
-      type   : "number",
-      _legacy : true
+    keyCode : {
+      check : "Number",
     },
 
 
     /** The key identifier */
-    keyIdentifier :
-    {
-      type   : "string",
-      _legacy : true
+    keyIdentifier : {
+      check : "String"
     }
   },
 

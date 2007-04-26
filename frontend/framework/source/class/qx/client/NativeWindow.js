@@ -66,146 +66,135 @@ qx.Class.define("qx.client.NativeWindow",
     /** If the window is open or closed */
     open :
     {
-      type         : "boolean",
-      defaultValue : false,
-      _legacy      : true
+      check : "Boolean",
+      init : false,
+      apply : "_modifyOpen"
     },
 
 
     /** The outer width of the window. */
     width :
     {
-      type         : "number",
-      defaultValue : 400,
-      impl         : "dimension",
-      _legacy      : true
+      check : "Integer",
+      init : 400,
+      apply : "_modifyDimension"
     },
 
 
     /** The outer height of the window. */
     height :
     {
-      type         : "number",
-      defaultValue : 250,
-      impl         : "dimension",
-      _legacy      : true
+      check : "Integer",
+      init : 250,
+      apply : "_modifyDimension"
     },
 
 
     /** The left screen coordinate of the window. */
     left :
     {
-      type         : "number",
-      defaultValue : 100,
-      impl         : "position",
-      _legacy      : true
+      check : "Integer",
+      init : 100,
+      apply : "_modifyPosition"
     },
 
 
     /** The top screen coordinate of the window. */
     top :
     {
-      type         : "number",
-      defaultValue : 200,
-      impl         : "position",
-      _legacy      : true
+      check : "Integer",
+      init : 200,
+      apply : "_modifyPosition"
     },
 
 
     /** Should be window be modal */
     modal :
     {
-      type         : "boolean",
-      defaultValue : false,
-      _legacy      : true
+      check : "Boolean",
+      init : false
     },
 
 
     /** Should be window be dependent on this application window */
     dependent :
     {
-      type         : "boolean",
-      defaultValue : true,
-      _legacy      : true
+      check : "Boolean",
+      init : true
     },
 
 
     /** The url */
     url :
     {
-      type   : "string",
-      _legacy : true
+      check : "String",
+      apply : "_modifyUrl",
+      init : "about:blank"
     },
 
 
     /** The window name */
     name :
     {
-      type   : "string",
-      _legacy : true
+      check : "String",
+      apply : "_modifyName",
+      init : ""
     },
 
 
     /** The text of the statusbar */
     status :
     {
-      type         : "string",
-      defaultValue : "Ready",
-      _legacy      : true
+      check : "String",
+      init : "Ready"
     },
 
 
     /** Should the statusbar be shown */
     showStatusbar :
     {
-      type         : "boolean",
-      defaultValue : false,
-      _legacy      : true
+      check : "Boolean",
+      init : false
     },
 
 
     /** Should the menubar be shown */
     showMenubar :
     {
-      type         : "boolean",
-      defaultValue : false,
-      _legacy      : true
+      check : "Boolean",
+      init : false
     },
 
 
     /** Should the location(bar) be shown */
     showLocation :
     {
-      type         : "boolean",
-      defaultValue : false,
-      _legacy      : true
+      check : "Boolean",
+      init : false
     },
 
 
     /** Should the toolbar be shown */
     showToolbar :
     {
-      type         : "boolean",
-      defaultValue : false,
-      _legacy      : true
+      check : "Boolean",
+      init : false
     },
 
 
     /** If the window is resizeable */
     resizeable :
     {
-      type         : "boolean",
-      defaultValue : true,
-      _legacy      : true
+      check : "Boolean",
+      init : true
     },
 
 
     /** If the window is able to scroll and has visible scrollbars if needed */
     allowScrollbars :
     {
-      type         : "boolean",
-      defaultValue : true,
-      _legacy      : true
+      check : "Boolean",
+      init : true
     },
 
     /** Location (left, right) of the window */
