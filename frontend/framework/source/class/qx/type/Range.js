@@ -54,6 +54,7 @@ qx.Class.define("qx.type.Range",
     value :
     {
       check : "!isNaN(value)&&value>=this.getMin()&&value<=this.getMax()",
+      init : 0,
       apply : "_modifyValue",
       event : "change"
     },
