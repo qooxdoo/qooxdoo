@@ -76,15 +76,15 @@ qx.Class.define("qx.locale.LocalizedString",
 
   properties :
   {
-
     /** message id */
-    id   : {
-      _legacy : true,
-      type : "string"
+    id :
+    {
+      check : "String",
+      nullable : true
     },
 
     /** list of arguments to be applied to the format string */
-    args : { _legacy : true }
+    args : { nullable : true }
   },
 
 
@@ -107,6 +107,5 @@ qx.Class.define("qx.locale.LocalizedString",
     toString : function() {
       return qx.locale.Manager.getInstance().translate(this.getId(), this.getArgs(), this._locale);
     }
-
   }
 });

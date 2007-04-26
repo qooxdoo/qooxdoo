@@ -144,7 +144,11 @@ qx.Class.define("qx.locale.Manager",
   properties :
   {
     /** current locale. locale is an language code like de, de_AT, en, en_GB, fr, ... */
-    locale : { _legacy : true }
+    locale :
+    {
+      check : "String",
+      nullable : true
+    }
   },
 
 
