@@ -1145,6 +1145,13 @@ qx.Class.define("qx.Class",
       {
         var has = this.hasProperty(clazz, name);
         var compat = config._legacy || config._fast || config._cached;
+        if (has) {
+          var existingProperty = this.getPropertyDefinition(clazz, name);
+          var existingCompat = existingProperty._legacy || existingProperty._fast || existingProperty._cached;
+          if (compat != existingCompat) {
+            throw new Error("Could not redefine existing property '"+name+"' of class '"+clazz.classname+"'.");
+          }
+        }
 
         if (!has && config.refine) {
           throw new Error("Could not refine non-existend property: " + name + "!");
@@ -1197,6 +1204,11 @@ qx.Class.define("qx.Class",
           if (!(typeof config.check == "string" ||config.check instanceof Array || config.check instanceof Function)) {
             throw new Error('Invalid check definition in of property "' + name + '" in class "' + clazz.classname + '"! Needs to be a String, Array or Function.');
           }
+        }
+
+        if (config.event != null && !this.isSubClassOf(clazz, qx.core.Target))
+        {
+          throw new Error("Invalid property '"+name+"' in class '"+clazz.classname+"': Properties defining an event can only be defined in sub classes of 'qx.core.Target'!");
         }
       },
 
