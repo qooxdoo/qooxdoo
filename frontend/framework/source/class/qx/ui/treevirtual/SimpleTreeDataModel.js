@@ -111,10 +111,13 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 
   statics :
   {
+    // The tree to which this data model is attached
+    __tree : null,
+
     // We currently support these types of tree nodes
     Type :
     {
-      LEAF : 1,
+      LEAF   : 1,
       BRANCH : 2
     }
   },
@@ -130,6 +133,16 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 
   members :
   {
+    setTree : function(tree)
+    {
+      this.__tree = tree;
+    },
+
+    getTree : function()
+    {
+      return this.__tree;
+    },
+
     // overridden
     setColumnEditable : function(columnIndex, editable)
     {
@@ -812,6 +825,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       else if (typeof(nodeReference) == "number")
       {
         nodeId = nodeReference;
+        node = this._nodeArr[nodeId];
       }
       else
       {
@@ -820,10 +834,11 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 
       for (var attribute in attributes)
       {
-        // If the selected state is changing...
-        if (attribute == "bSelected")
+        // Do any attribute-specific processing
+        switch(attribute)
         {
-          // ... then keep track of what is selected
+        case "bSelected":
+          // The selected state is changing. Keep track of what is selected
           if (attributes[attribute])
           {
             this._selections[nodeId] = true;
@@ -832,9 +847,72 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
           {
             delete this._selections[nodeId];
           }
+          break;
+
+        case "bOpened":
+          // Don't do anything if the requested state is the same as the
+          // current state.
+          if (attributes[attribute] == node.bOpened)
+          {
+            break;
+          }
+
+          // Get the tree to which this data model is attached
+          var tree = this.__tree;
+
+          // Are we opening or closing?
+          if (node.bOpened)
+          {
+            // We're closing.  If there are listeners, generate a treeClose
+            // event.
+            tree.createDispatchDataEvent("treeClose", node);
+          }
+          else
+          {
+            // We're opening.  Are there any children?
+            if (node.children.length > 0)
+            {
+              // Yup.  If there any listeners, generate a "treeOpenWithContent"
+              // event.
+              tree.createDispatchDataEvent("treeOpenWithContent", node);
+            }
+            else
+            {
+              // No children.  If there are listeners, generate a
+              // "treeOpenWhileEmpty" event.
+              tree.createDispatchDataEvent("treeOpenWhileEmpty", node);
+            }
+          }
+
+          // Event handler may have modified the opened state.  Check before
+          // toggling.
+          if (!node.bHideOpenClose)
+          {
+            // It's still boolean.  Toggle the state
+            node.bOpened = !node.bOpened;
+
+            // Get the selection model
+            var sm = tree.getSelectionModel();
+
+            // Determine if this node was selected
+            var rowIndex = this.getNodeRowMap()[node.nodeId];
+
+            // Clear the old selections in the tree
+            tree.getSelectionModel()._clearSelection();
+          }
+
+          // Re-render the row data since formerly visible rows may now be
+          // invisible, or vice versa.
+          this.setData();
+          break;
+
+        default:
+          // no attribute-specific processing required
+          break;
         }
 
-        this._nodeArr[nodeId][attribute] = attributes[attribute];
+        // Set the new attribute value
+        node[attribute] = attributes[attribute];
       }
     },
 
