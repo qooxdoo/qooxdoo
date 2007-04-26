@@ -50,10 +50,10 @@ from treeutil import *
 
 global verbose
 
-##                                                                              
-# Some nice short description of foo(); this can contain html and 
+##
+# Some nice short description of foo(); this can contain html and
 # {@link #foo Links} to items in the current file.
-#                                                                               
+#
 # @param     a        Describe a positional parameter
 # @keyparam  b        Describe a keyword parameter
 # @def       foo(name)    # overwrites auto-generated function signature
@@ -190,7 +190,7 @@ def processVariantIsSet(callNode, variantMap):
         else:
             variantValue = secondParam.get("value")
             constantNode = tree.Node("constant")
-            constantNode.set("value", str(__variantMatchKey(variantValue, variantMap, variantGroup)))
+            constantNode.set("value", str(__variantMatchKey(variantValue, variantMap, variantGroup)).lower())
             constantNode.set("constantType", "boolean")
             constantNode.set("line", callNode.get("line"))
             callNode.parent.replaceChild(callNode, constantNode)
