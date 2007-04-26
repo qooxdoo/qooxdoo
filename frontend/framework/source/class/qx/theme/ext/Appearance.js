@@ -1616,8 +1616,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     "datechooser-monthyear" : {
       style : function(states) {
         return {
-          font          : '13px verdana, helvetica, tahoma, sans-serif',
-          textAlign     : "center",
+          font          : "boldCenter",
           verticalAlign : "middle"
         }
       }
@@ -1641,8 +1640,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
 
         return {
           border          : border_default,
-          font            : '11px bold verdana, helvetica, tahoma, sans-serif',
-          textAlign       : "center",
+          font            : "center",
 
           textColor           : states.weekend ? "#406FAC" : "#C3DAF9",
           backgroundColor : states.weekend ? "#C3DAF9" : "#406FAC"
@@ -1659,8 +1657,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
 
         return {
           cursor          : "default",
-          font            : '11px verdana, helvetica, tahoma, sans-serif',
-          textAlign       : "center",
+          font            : 'center',
           verticalAlign   : "middle",
           selectable      : false,
 
