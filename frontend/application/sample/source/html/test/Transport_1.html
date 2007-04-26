@@ -156,7 +156,7 @@
           inf.setValue("Completed");
           typ.setValue(e.getData().getResponseHeader("Content-Type"));
           len.setValue(e.getData().getResponseHeader("Content-Length"));
-          code.setValue(e.getData().getStatusCode().toString());
+          code.setValue(e.getData().getStatusCode());
           area.setValue(e.getData().getContent());
         });
 
