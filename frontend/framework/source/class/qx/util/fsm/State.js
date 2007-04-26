@@ -639,7 +639,7 @@ qx.Class.define("qx.util.fsm.State",
     autoActionsAfterOnexit :
     {
       check : "this._checkAutoActionsAfterOnexit(value)",
-      nullable : true
+      nullable : true,
       init : function(fsm, event) {}
     },
 
