@@ -65,6 +65,9 @@ qx.Class.define("qxunit.runner.TestHandler",
         return cldList;
       },
 
+      /*
+       * get the tests directly contained in a class
+       */
       getTests : function (node) { // node is a string
         var tmap = this.tmap;
         for (var i=0;i<tmap.length;i++) {
@@ -75,13 +78,36 @@ qx.Class.define("qxunit.runner.TestHandler",
         return [];
       },
 
-      isClass : function (node) {
-        for (var i in this.tmap) {
-          if (this.tmap[i].classname == node) {
-            return true;
+      /**
+       * @param node {String} a class or test name
+       * @returns nodeList {List} list of tests or direct subclasses
+       */
+      getChildren : function (node) {
+        if (node == "All") {
+          var tmap = this.tmap;
+          var classes = [];
+          for (var i=0;i<tmap.length;i++) {
+            classes.push(tmap[i].classname);
           }
+          return classes;
+        } else if (this.isClass(node)) {
+          return this.getTests(node);
+        } else {
+          return [];
         }
-        return false;
+      },
+
+      isClass : function (node) {
+        if (node == "All") {
+          return true;
+        } else {
+          for (var i in this.tmap) {
+            if (this.tmap[i].classname == node) {
+              return true;
+            }
+          }
+          return false;
+        }
       },
 
       classFromTest : function (node) {
@@ -100,7 +126,16 @@ qx.Class.define("qxunit.runner.TestHandler",
 
       testCount : function (node) { //node is a string
         if (this.isClass(node)) {
-          return this.getTests(node).length;
+          var num = 0;
+          var children = this.getChildren(node);
+          for (var i in children) {
+            if (this.isClass(children[i])){
+              num += this.testCount(children[i]);
+            } else {
+              num++;
+            }
+          }
+          return num;
         } else {
           return 1;
         }
