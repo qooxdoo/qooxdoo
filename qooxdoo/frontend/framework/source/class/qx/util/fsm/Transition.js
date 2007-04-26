@@ -191,19 +191,13 @@ qx.Class.define("qx.util.fsm.Transition",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
     /**
      * The name of this transition
      */
     name :
     {
-      type   : "string",
-      _legacy: true
+      check : "NonEmptyString",
+      nullable : true
     },
 
 
@@ -215,11 +209,36 @@ qx.Class.define("qx.util.fsm.Transition",
      */
     predicate :
     {
-      defaultValue : function(fsm, event) {
-        return true;
+      check : function(value)
+      {
+        // Validate the predicate.  Convert all valid types to function.
+        switch(typeof (value))
+        {
+          case "undefined":
+            // No predicate means predicate passes
+            return function(fsm, event) {
+              return true;
+            };
+
+          case "boolean":
+            // Convert boolean predicate to a function which returns that value
+            return function(fsm, event) {
+              return value;
+            };
+
+          case "function":
+            // Use user-provided function.
+            return value;
+
+          default:
+            throw new Error("Invalid transition predicate type: " + typeof (value));
+            break;
+        }
       },
 
-      _legacy: true
+      init : function(fsm, event) {
+        return true;
+      }
     },
 
 
@@ -231,8 +250,36 @@ qx.Class.define("qx.util.fsm.Transition",
      */
     nextState :
     {
-      defaultValue : qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE,
-      _legacy       : true
+      check : function(value)
+      {
+        // Validate nextState.  It must be a string or a number.
+        switch(typeof (value))
+        {
+          case "string":
+            return value;
+
+          case "number":
+            // Ensure that it's one of the possible state-change constants
+            switch(value)
+            {
+              case qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE:
+              case qx.util.fsm.FiniteStateMachine.StateChange.POP_STATE_STACK:
+              case qx.util.fsm.FiniteStateMachine.StateChange.TERMINATE:
+                return value;
+
+              default:
+                throw new Error("Invalid transition nextState value: " + value + ": nextState must be an explicit state name, " + "or one of the Fsm.StateChange constants");
+            }
+
+            break;
+
+          default:
+            throw new Error("Invalid transition nextState type: " + typeof (value));
+            break;
+        }
+      },
+
+      init : qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE
     },
 
 
@@ -242,10 +289,8 @@ qx.Class.define("qx.util.fsm.Transition",
      * through the constructor's transitionInfo object, but it is also possible
      * (but highly NOT recommended) to change this dynamically.
      */
-    autoActionsBeforeOntransition :
-    {
-      defaultValue : function(fsm, event) {},
-      _legacy       : true
+    autoActionsBeforeOntransition : {
+      init : function(fsm, event) {}
     },
 
 
@@ -255,10 +300,8 @@ qx.Class.define("qx.util.fsm.Transition",
      * typically provided through the constructor's transitionInfo object, but it
      * is also possible (but highly NOT recommended) to change this dynamically.
      */
-    autoActionsAfterOntransition :
-    {
-      defaultValue : function(fsm, event) {},
-      _legacy       : true
+    autoActionsAfterOntransition : {
+      init : function(fsm, event) {}
     },
 
 
@@ -270,150 +313,26 @@ qx.Class.define("qx.util.fsm.Transition",
      */
     ontransition :
     {
-      defaultValue : function(fsm, event) {},
-      _legacy       : true
-    }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
-  members :
-  {
-    /*
-    ---------------------------------------------------------------------------
-      MODIFIER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propData {var} Property configuration map
-     * @return {var} TODOC
-     * @throws TODOC
-     */
-    _checkName : function(propValue, propData)
-    {
-      // Ensure that we got a valid state name
-      if (typeof (propValue) != "string" || propValue.length < 1) {
-        throw new Error("Invalid transition name");
-      }
-
-      return propValue;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propData {var} Property configuration map
-     * @return {Function | var} TODOC
-     * @throws TODOC
-     */
-    _checkPredicate : function(propValue, propData)
-    {
-      // Validate the predicate.  Convert all valid types to function.
-      switch(typeof (propValue))
+      check : function(value)
       {
-        case "undefined":
-          // No predicate means predicate passes
-          return function(fsm, event) {
-            return true;
-          };
+        // Validate the ontransition function.  Convert undefined to function.
+        switch(typeof (value))
+        {
+          case "undefined":
+            // No provided function just means do nothing.  Use a null function.
+            return function(fsm, event) {};
 
-        case "boolean":
-          // Convert boolean predicate to a function which returns that value
-          return function(fsm, event) {
-            return propValue;
-          };
+          case "function":
+            // Use user-provided function.
+            return value;
 
-        case "function":
-          // Use user-provided function.
-          return propValue;
+          default:
+            throw new Error("Invalid ontransition type: " + typeof (value));
+            break;
+        }
+      },
 
-        default:
-          throw new Error("Invalid transition predicate type: " + typeof (propValue));
-          break;
-      }
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propData {var} Property configuration map
-     * @return {var} TODOC
-     * @throws TODOC
-     */
-    _checkNextState : function(propValue, propData)
-    {
-      // Validate nextState.  It must be a string or a number.
-      switch(typeof (propValue))
-      {
-        case "string":
-          return propValue;
-
-        case "number":
-          // Ensure that it's one of the possible state-change constants
-          switch(propValue)
-          {
-            case qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE:
-            case qx.util.fsm.FiniteStateMachine.StateChange.POP_STATE_STACK:
-            case qx.util.fsm.FiniteStateMachine.StateChange.TERMINATE:
-              return propValue;
-
-            default:
-              throw new Error("Invalid transition nextState value: " + propValue + ": nextState must be an explicit state name, " + "or one of the Fsm.StateChange constants");
-          }
-
-          break;
-
-        default:
-          throw new Error("Invalid transition nextState type: " + typeof (propValue));
-          break;
-      }
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propData {var} Property configuration map
-     * @return {Function | var} TODOC
-     * @throws TODOC
-     */
-    _checkOntransition : function(propValue, propData)
-    {
-      // Validate the ontransition function.  Convert undefined to function.
-      switch(typeof (propValue))
-      {
-        case "undefined":
-          // No provided function just means do nothing.  Use a null function.
-          return function(fsm, event) {};
-
-        case "function":
-          // Use user-provided function.
-          return propValue;
-
-        default:
-          throw new Error("Invalid ontransition type: " + typeof (propValue));
-          break;
-      }
+      init : function(fsm, event) {}
     }
   }
 });

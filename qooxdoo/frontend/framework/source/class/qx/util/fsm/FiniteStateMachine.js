@@ -178,8 +178,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      */
     name :
     {
-      type   : "string",
-      _legacy: true
+      check : "String",
+      nullable : true
     },
 
 
@@ -188,8 +188,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      */
     state :
     {
-      type   : "string",
-      _legacy: true
+      check : "String",
+      nullable : true
     },
 
 
@@ -201,8 +201,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      */
     previousState :
     {
-      type   : "string",
-      _legacy: true
+      check : "String",
+      nullable : true
     },
 
 
@@ -213,8 +213,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      */
     nextState :
     {
-      type   : "string",
-      _legacy: true
+      check : "String",
+      nullable : true
     },
 
 
@@ -227,9 +227,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      */
     maxSavedStates :
     {
-      type         : "number",
-      defaultValue : 2,
-      _legacy      : true
+      check : "Number",
+      init : 2
     },
 
 
@@ -247,14 +246,13 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      */
     debugFlags :
     {
-      type         : "number",
+      check : "Number",
 
       // Default:
       // (qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS |
       //  qx.util.fsm.FiniteStateMachine.DebugFlags.TRANSITIONS |
       //  qx.util.fsm.FiniteStateMachine.DebugFlags.OBJECT_NOT_FOUND)
-      defaultValue : 7,
-      _legacy      : true
+      init : 7
     }
   },
 
