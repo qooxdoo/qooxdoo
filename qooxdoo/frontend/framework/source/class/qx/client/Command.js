@@ -129,7 +129,7 @@ qx.Class.define("qx.client.Command",
      * @deprecated
      */
     keyCode : {
-      check : "Number",
+      check : "Number"
     },
 
 
