@@ -46,15 +46,15 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
   {
     this.base(arguments);
 
-    this._data = {};
-    this._actions = {};
-    this._cursors = {};
+    this.__data = {};
+    this.__actions = {};
+    this.__cursors = {};
 
     var vCursor;
 
-    for (var vAction in this._actionNames)
+    for (var vAction in this.__actionNames)
     {
-      vCursor = this._cursors[vAction] = new qx.ui.basic.Image(this._cursorPath + vAction + "." + this._cursorFormat);
+      vCursor = this.__cursors[vAction] = new qx.ui.basic.Image(this.__cursorPath + vAction + "." + this.__cursorFormat);
       vCursor.setZIndex(1e8);
     }
   },
@@ -72,26 +72,21 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
   {
     sourceWidget :
     {
-      _legacy : true,
-      type    : "object"
+      check : "qx.ui.core.Widget",
+      nullable : true
     },
 
     destinationWidget :
     {
-      _legacy : true,
-      type    : "object"
-    },
-
-    cursor :
-    {
-      _legacy : true,
-      type    : "object"
+      check : "qx.ui.core.Widget",
+      nullable : true,
+      apply : "_modifyDestinationWidget"
     },
 
     currentAction :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      nullable : true
     },
 
 
@@ -102,10 +97,8 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
      */
     defaultCursorDeltaX :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 5,
-      allowNull    : false
+      check : "Integer",
+      init : 5
     },
 
 
@@ -116,10 +109,8 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
      */
     defaultCursorDeltaY :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 15,
-      allowNull    : false
+      check : "Integer",
+      init : 15
     }
   },
 
@@ -134,7 +125,7 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
 
   members :
   {
-    _actionNames :
+    __actionNames :
     {
       move   : "move",
       copy   : "copy",
@@ -142,9 +133,9 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
       nodrop : "nodrop"
     },
 
-    _cursorPath : "widget/cursors/",
-    _cursorFormat : "gif",
-    _lastDestinationEvent : null,
+    __cursorPath : "widget/cursors/",
+    __cursorFormat : "gif",
+    __lastDestinationEvent : null,
 
 
 
@@ -168,8 +159,8 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
     {
       if (propValue)
       {
-        propValue.dispatchEvent(new qx.event.type.DragEvent("dragdrop", this._lastDestinationEvent, propValue, this.getSourceWidget()));
-        this._lastDestinationEvent = null;
+        propValue.dispatchEvent(new qx.event.type.DragEvent("dragdrop", this.__lastDestinationEvent, propValue, this.getSourceWidget()));
+        this.__lastDestinationEvent = null;
       }
 
       return true;
@@ -196,7 +187,7 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
      * @return {void}
      */
     addData : function(vMimeType, vData) {
-      this._data[vMimeType] = vData;
+      this.__data[vMimeType] = vData;
     },
 
 
@@ -208,7 +199,7 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
      * @return {var} TODOC
      */
     getData : function(vMimeType) {
-      return this._data[vMimeType];
+      return this.__data[vMimeType];
     },
 
 
@@ -219,7 +210,7 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
      * @return {void}
      */
     clearData : function() {
-      this._data = {};
+      this.__data = {};
     },
 
 
@@ -252,7 +243,7 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
 
       for (var i=0, l=vDropDataTypes.length; i<l; i++)
       {
-        if (vDropDataTypes[i] in this._data) {
+        if (vDropDataTypes[i] in this.__data) {
           vDropTypes.push(vDropDataTypes[i]);
         }
       }
@@ -273,15 +264,15 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
         // clicking on a free space and drag prohibit the get of
         // a valid event target. The target is always the element
         // which was the one with the mousedown event before.
-        if (vCurrent == this._dragCache.sourceWidget) {
+        if (vCurrent == this.__dragCache.sourceWidget) {
           vCurrent = qx.event.handler.EventHandler.getTargetObject(qx.html.ElementFromPoint.getElementFromPoint(e.getPageX(), e.getPageY()));
         } else {
           vCurrent = qx.event.handler.EventHandler.getTargetObject(null, vCurrent);
         }
 
-        while (vCurrent != null && vCurrent != this._dragCache.sourceWidget)
+        while (vCurrent != null && vCurrent != this.__dragCache.sourceWidget)
         {
-          if (!vCurrent.supportsDrop(this._dragCache)) {
+          if (!vCurrent.supportsDrop(this.__dragCache)) {
             return null;
           }
 
@@ -301,7 +292,7 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
 
         while (vCurrent != null)
         {
-          if (!vCurrent.supportsDrop(this._dragCache)) {
+          if (!vCurrent.supportsDrop(this.__dragCache)) {
             return null;
           }
 
@@ -335,23 +326,23 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
      */
     startDrag : function()
     {
-      if (!this._dragCache) {
+      if (!this.__dragCache) {
         throw new Error("Invalid usage of startDrag. Missing dragInfo!");
       }
 
       // Update status flag
-      this._dragCache.dragHandlerActive = true;
+      this.__dragCache.dragHandlerActive = true;
 
       // Internal storage of source widget
-      this.setSourceWidget(this._dragCache.sourceWidget);
+      this.setSourceWidget(this.__dragCache.sourceWidget);
 
       // Add feedback widget
-      if (this._feedbackWidget)
+      if (this.__feedbackWidget)
       {
-        this._feedbackWidget.setVisibility(false);
+        this.__feedbackWidget.setVisibility(false);
 
         var doc = qx.ui.core.ClientDocument.getInstance();
-        doc.add(this._feedbackWidget);
+        doc.add(this.__feedbackWidget);
       }
     },
 
@@ -441,7 +432,7 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
       }
 
       // Store initial dragCache
-      this._dragCache =
+      this.__dragCache =
       {
         startScreenX      : e.getScreenX(),
         startScreenY      : e.getScreenY(),
@@ -465,7 +456,7 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
     _handleMouseMove : function(e)
     {
       // Return if dragCache was not filled before
-      if (!this._dragCache) {
+      if (!this.__dragCache) {
         return;
       }
 
@@ -473,11 +464,11 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
         Default handling if drag handler is activated
       */
 
-      if (this._dragCache.dragHandlerActive)
+      if (this.__dragCache.dragHandlerActive)
       {
         // Update page coordinates
-        this._dragCache.pageX = e.getPageX();
-        this._dragCache.pageY = e.getPageY();
+        this.__dragCache.pageX = e.getPageX();
+        this.__dragCache.pageY = e.getPageY();
 
         // Get current target
         var currentDropTarget = this.getDropTarget(e);
@@ -486,10 +477,10 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
         this.setCurrentAction(currentDropTarget ? this._evalNewAction(e.isShiftPressed(), e.isCtrlPressed(), e.isAltPressed()) : null);
 
         // Fire user events
-        this._fireUserEvents(this._dragCache.currentDropWidget, currentDropTarget, e);
+        this._fireUserEvents(this.__dragCache.currentDropWidget, currentDropTarget, e);
 
         // Store current widget
-        this._dragCache.currentDropWidget = currentDropTarget;
+        this.__dragCache.currentDropWidget = currentDropTarget;
 
         // Update cursor icon
         this._renderCursor();
@@ -502,24 +493,24 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
         Initial activation and fire of dragstart
       */
 
-      else if (!this._dragCache.hasFiredDragStart)
+      else if (!this.__dragCache.hasFiredDragStart)
       {
-        if (Math.abs(e.getScreenX() - this._dragCache.startScreenX) > 5 || Math.abs(e.getScreenY() - this._dragCache.startScreenY) > 5)
+        if (Math.abs(e.getScreenX() - this.__dragCache.startScreenX) > 5 || Math.abs(e.getScreenY() - this.__dragCache.startScreenY) > 5)
         {
           // Fire dragstart event to finally allow the above if to handle next events
-          this._dragCache.sourceWidget.dispatchEvent(new qx.event.type.DragEvent("dragstart", e, this._dragCache.sourceWidget), true);
+          this.__dragCache.sourceWidget.dispatchEvent(new qx.event.type.DragEvent("dragstart", e, this.__dragCache.sourceWidget), true);
 
           // Update status flag
-          this._dragCache.hasFiredDragStart = true;
+          this.__dragCache.hasFiredDragStart = true;
 
           // Look if handler become active
-          if (this._dragCache.dragHandlerActive)
+          if (this.__dragCache.dragHandlerActive)
           {
             // Fire first user events
-            this._fireUserEvents(this._dragCache.currentDropWidget, this._dragCache.sourceWidget, e);
+            this._fireUserEvents(this.__dragCache.currentDropWidget, this.__dragCache.sourceWidget, e);
 
             // Update status flags
-            this._dragCache.currentDropWidget = this._dragCache.sourceWidget;
+            this.__dragCache.currentDropWidget = this.__dragCache.sourceWidget;
 
             // Activate capture for clientDocument
             qx.ui.core.ClientDocument.getInstance().setCapture(true);
@@ -539,17 +530,17 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
     _handleMouseUp : function(e)
     {
       // Return if dragCache was not filled before
-      if (!this._dragCache) {
+      if (!this.__dragCache) {
         return;
       }
 
-      if (this._dragCache.dragHandlerActive) {
+      if (this.__dragCache.dragHandlerActive) {
         this._endDrag(this.getDropTarget(e), e);
       }
       else
       {
         // Clear drag cache
-        this._dragCache = null;
+        this.__dragCache = null;
       }
     },
 
@@ -571,7 +562,7 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
      */
     handleKeyEvent : function(e)
     {
-      if (!this._dragCache) {
+      if (!this.__dragCache) {
         return;
       }
 
@@ -665,17 +656,17 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
     cancelDrag : function(e)
     {
       // Return if dragCache was not filled before
-      if (!this._dragCache) {
+      if (!this.__dragCache) {
         return;
       }
 
-      if (this._dragCache.dragHandlerActive) {
+      if (this.__dragCache.dragHandlerActive) {
         this._endDrag(null, e);
       }
       else
       {
         // Clear drag cache
-        this._dragCache = null;
+        this.__dragCache = null;
       }
     },
 
@@ -688,7 +679,7 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
      */
     globalCancelDrag : function()
     {
-      if (this._dragCache && this._dragCache.dragHandlerActive) {
+      if (this.__dragCache && this.__dragCache.dragHandlerActive) {
         this._endDragCore();
       }
     },
@@ -707,7 +698,7 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
       // Use given destination widget
       if (currentDestinationWidget)
       {
-        this._lastDestinationEvent = e;
+        this.__lastDestinationEvent = e;
         this.setDestinationWidget(currentDestinationWidget);
       }
 
@@ -715,7 +706,7 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
       this.getSourceWidget().dispatchEvent(new qx.event.type.DragEvent("dragend", e, this.getSourceWidget(), currentDestinationWidget), true);
 
       // Fire dragout event
-      this._fireUserEvents(this._dragCache && this._dragCache.currentDropWidget, null, e);
+      this._fireUserEvents(this.__dragCache && this.__dragCache.currentDropWidget, null, e);
 
       // Call helper
       this._endDragCore();
@@ -731,35 +722,35 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
     _endDragCore : function()
     {
       // Cleanup feedback widget
-      if (this._feedbackWidget)
+      if (this.__feedbackWidget)
       {
         var doc = qx.ui.core.ClientDocument.getInstance();
-        doc.remove(this._feedbackWidget);
+        doc.remove(this.__feedbackWidget);
 
-        if (this._feedbackAutoDispose) {
-          this._feedbackWidget.dispose();
+        if (this.__feedbackAutoDispose) {
+          this.__feedbackWidget.dispose();
         }
 
-        this._feedbackWidget = null;
+        this.__feedbackWidget = null;
       }
 
       // Remove cursor
-      var oldCursor = this.getCursor();
+      var oldCursor = this.__cursor;
 
       if (oldCursor)
       {
         oldCursor._style.display = "none";
-        this.forceCursor(null);
+        this.__cursor = null;
       }
 
       this._cursorDeltaX = null;
       this._cursorDeltaY = null;
 
       // Reset drag cache for next drag and drop session
-      if (this._dragCache)
+      if (this.__dragCache)
       {
-        this._dragCache.currentDropWidget = null;
-        this._dragCache = null;
+        this.__dragCache.currentDropWidget = null;
+        this.__dragCache = null;
       }
 
       // Deactivate capture for clientDocument
@@ -810,24 +801,24 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
     _renderCursor : function()
     {
       var vNewCursor;
-      var vOldCursor = this.getCursor();
+      var vOldCursor = this.__cursor;
 
       switch(this.getCurrentAction())
       {
-        case this._actionNames.move:
-          vNewCursor = this._cursors.move;
+        case this.__actionNames.move:
+          vNewCursor = this.__cursors.move;
           break;
 
-        case this._actionNames.copy:
-          vNewCursor = this._cursors.copy;
+        case this.__actionNames.copy:
+          vNewCursor = this.__cursors.copy;
           break;
 
-        case this._actionNames.alias:
-          vNewCursor = this._cursors.alias;
+        case this.__actionNames.alias:
+          vNewCursor = this.__cursors.alias;
           break;
 
         default:
-          vNewCursor = this._cursors.nodrop;
+          vNewCursor = this.__cursors.nodrop;
       }
 
       // Hide old cursor
@@ -843,8 +834,8 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
       }
 
       // Apply position with runtime style (fastest qooxdoo method)
-      vNewCursor._applyRuntimeLeft(this._dragCache.pageX + ((this._cursorDeltaX != null) ? this._cursorDeltaX : this.getDefaultCursorDeltaX()));
-      vNewCursor._applyRuntimeTop(this._dragCache.pageY + ((this._cursorDeltaY != null) ? this._cursorDeltaY : this.getDefaultCursorDeltaY()));
+      vNewCursor._applyRuntimeLeft(this.__dragCache.pageX + ((this._cursorDeltaX != null) ? this._cursorDeltaX : this.getDefaultCursorDeltaX()));
+      vNewCursor._applyRuntimeTop(this.__dragCache.pageY + ((this._cursorDeltaY != null) ? this._cursorDeltaY : this.getDefaultCursorDeltaY()));
 
       // Finally show new cursor
       if (vNewCursor != vOldCursor) {
@@ -852,7 +843,7 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
       }
 
       // Store new cursor
-      this.forceCursor(vNewCursor);
+      this.__cursor = vNewCursor;
     },
 
 
@@ -881,7 +872,7 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
 
       for (var i=0; i<vTypes.length; i++)
       {
-        if (vTypes[i] in this._data) {
+        if (vTypes[i] in this.__data) {
           return true;
         }
       }
@@ -908,7 +899,7 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
      */
     addAction : function(vAction, vForce)
     {
-      this._actions[vAction] = true;
+      this.__actions[vAction] = true;
 
       // Defaults to first added action
       if (vForce || this.getCurrentAction() == null) {
@@ -925,7 +916,7 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
      */
     clearActions : function()
     {
-      this._actions = {};
+      this.__actions = {};
       this.setCurrentAction(null);
     },
 
@@ -939,7 +930,7 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
      */
     removeAction : function(vAction)
     {
-      delete this._actions[vAction];
+      delete this.__actions[vAction];
 
       // Reset current action on remove
       if (this.getCurrentAction() == vAction) {
@@ -957,7 +948,7 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
      */
     setAction : function(vAction)
     {
-      if (vAction != null && !(vAction in this._actions)) {
+      if (vAction != null && !(vAction in this.__actions)) {
         this.addAction(vAction, true);
       } else {
         this.setCurrentAction(vAction);
@@ -976,21 +967,21 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
      */
     _evalNewAction : function(vKeyShift, vKeyCtrl, vKeyAlt)
     {
-      if (vKeyShift && vKeyCtrl && this._actionNames.alias in this._actions) {
-        return this._actionNames.alias;
-      } else if (vKeyShift && vKeyAlt && this._actionNames.copy in this._actions) {
-        return this._actionNames.copy;
-      } else if (vKeyShift && this._actionNames.move in this._actions) {
-        return this._actionNames.move;
-      } else if (vKeyAlt && this._actionNames.alias in this._actions) {
-        return this._actionNames.alias;
-      } else if (vKeyCtrl && this._actionNames.copy in this._actions) {
-        return this._actionNames.copy;
+      if (vKeyShift && vKeyCtrl && this.__actionNames.alias in this.__actions) {
+        return this.__actionNames.alias;
+      } else if (vKeyShift && vKeyAlt && this.__actionNames.copy in this.__actions) {
+        return this.__actionNames.copy;
+      } else if (vKeyShift && this.__actionNames.move in this.__actions) {
+        return this.__actionNames.move;
+      } else if (vKeyAlt && this.__actionNames.alias in this.__actions) {
+        return this.__actionNames.alias;
+      } else if (vKeyCtrl && this.__actionNames.copy in this.__actions) {
+        return this.__actionNames.copy;
       }
       else
       {
         // Return the first action found
-        for (var vAction in this._actions) {
+        for (var vAction in this.__actions) {
           return vAction;
         }
       }
@@ -1023,10 +1014,10 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
      */
     setFeedbackWidget : function(widget, deltaX, deltaY, autoDisposeWidget)
     {
-      this._feedbackWidget = widget;
-      this._feedbackDeltaX = (deltaX != null) ? deltaX : 10;
-      this._feedbackDeltaY = (deltaY != null) ? deltaY : 10;
-      this._feedbackAutoDispose = autoDisposeWidget ? true : false;
+      this.__feedbackWidget = widget;
+      this.__feedbackDeltaX = (deltaX != null) ? deltaX : 10;
+      this.__feedbackDeltaY = (deltaY != null) ? deltaY : 10;
+      this.__feedbackAutoDispose = autoDisposeWidget ? true : false;
     },
 
 
@@ -1038,13 +1029,13 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
      */
     _renderFeedbackWidget : function()
     {
-      if (this._feedbackWidget)
+      if (this.__feedbackWidget)
       {
-        this._feedbackWidget.setVisibility(true);
+        this.__feedbackWidget.setVisibility(true);
 
         // Apply position with runtime style (fastest qooxdoo method)
-        this._feedbackWidget._applyRuntimeLeft(this._dragCache.pageX + this._feedbackDeltaX);
-        this._feedbackWidget._applyRuntimeTop(this._dragCache.pageY + this._feedbackDeltaY);
+        this.__feedbackWidget._applyRuntimeLeft(this.__dragCache.pageX + this.__feedbackDeltaX);
+        this.__feedbackWidget._applyRuntimeTop(this.__dragCache.pageY + this.__feedbackDeltaY);
       }
     }
   },
@@ -1060,8 +1051,8 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
 
   destruct : function()
   {
-    this._disposeObjectDeep("_cursors", 1);
-    this._disposeObjects("_feedbackWidget");
-    this._disposeFields("_dragCache", "_data", "_actions", "_actionNames", "_lastDestinationEvent");
+    this._disposeObjectDeep("__cursors", 1);
+    this._disposeObjects("__feedbackWidget");
+    this._disposeFields("__dragCache", "__data", "__actions", "__actionNames", "__lastDestinationEvent");
   }
 });
