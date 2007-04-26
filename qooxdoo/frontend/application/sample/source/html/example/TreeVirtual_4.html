@@ -18,6 +18,12 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
+    // We want to use some of the high-level node operation convenience
+    // methods rather than manually digging into the TreeVirtual helper
+    // classes.  Include the mixin that provides them.
+    qx.Class.include(qx.ui.treevirtual.TreeVirtual,
+                     qx.ui.treevirtual.MNode);
+    
     // tree
     var tree = new qx.ui.treevirtual.TreeVirtual("Tree");
     with (tree)
@@ -50,9 +56,9 @@
 
     te = dataModel.addBranch(te1, "Workspace", true);
     x = dataModel.addLeaf(te, "Windows (C:)");
-    tree.setState(x, { bSelected : true });
+    tree.nodeSetSelected(x, true);
     x = dataModel.addLeaf(te, "Documents (D:)");
-    tree.setState(x, { bSelected : true });
+    tree.nodeSetSelected(x, true);
 
     dataModel.addBranch(te1, "Network", true);
     dataModel.addBranch(te1, "Trash", true);

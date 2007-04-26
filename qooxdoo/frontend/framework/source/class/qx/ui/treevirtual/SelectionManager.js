@@ -111,9 +111,11 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
         // Determine the column containing the tree
         var treeCol = table.getTableModel().getTreeColumn();
 
+        // Get the table model
+        var tableModel = table.getTableModel();
+
         // Get the node to which this event applies
-        var node =
-          table.getTableModel().getValue(treeCol, table.getFocusedRow());
+        var node = tableModel.getValue(treeCol, table.getFocusedRow());
 
         if (!node) {
           return false;
@@ -144,8 +146,8 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
           if (x >= buttonPos - latitude && x <= buttonPos + 19 + latitude)
           {
             // Yup.  Toggle the opened state for this node.
-            table.toggleOpened(node);
-            return table.openCloseClickSelectsRow() ? false : true;
+            tableModel.setState(node, { bOpened : ! node.bOpened });
+            return table.getOpenCloseClickSelectsRow() ? false : true;
           }
           else
           {
@@ -166,10 +168,10 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
             case "Enter":
               // Toggle the open state if open/close is allowed
               if (!node.bHideOpenClose) {
-                table.toggleOpened(node);
+                tableModel.setState(node, { bOpened : ! node.bOpened });
               }
 
-              return table.openCloseClickSelectsRow() ? false : true;
+              return table.getOpenCloseClickSelectsRow() ? false : true;
 
             default:
               // Unrecognized key.  Ignore it.
