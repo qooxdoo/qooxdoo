@@ -66,8 +66,10 @@ qx.Class.define("qx.ui.embed.TextEmbed",
     /** Any text string which can contain TEXT, too */
     text :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      init : "",
+      apply : "_modifyText",
+      event : "changeText"
     }
   },
 

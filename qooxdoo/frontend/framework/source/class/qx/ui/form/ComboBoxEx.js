@@ -178,77 +178,77 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       init : "combo-box-ex"
     },
 
-    /** Is the text field component editable or the user can only select from the list? */
+    /**
+     * Is the text field component editable or the user can only select
+     * from the list?
+     */
     editable :
     {
-      _legacy  : true,
-      type     : "boolean",
-      getAlias : "isEditable"
+      check : "Boolean",
+      apply : "_modifyEditable",
+      event : "changeEditable"
     },
 
     /** 0 based. -1 means no selected index.  It retrieves always the value column of the selection, not the description. */
     value :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      nullable : true,
+      apply : "_modifyValue",
+      event : "changeValue"
     },
 
     /** How many items to transverse with PageUp and PageDn. */
     pagingInterval :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 10
+      check : "Integer",
+      init : 10
     },
 
     /** Show the ID column (column 0) of the selection data? */
     idColumnVisible :
     {
-      _legacy      : true,
-      type         : "boolean",
-      getAlias     : "isIdColumnVisible",
-      defaultValue : false
+      check : "Boolean",
+      init : false,
+      apply : "_modifyIdColumnVisible"
     },
 
     /** Only used when editable is false.  It determines what to show in the text field of the combo box. */
     showOnTextField :
     {
-      _legacy        : true,
-      type           : "string",
-      defaultValue   : 'description',
-      possibleValues : [ 'description', 'idAndDescription', 'id' ]
+      init : 'description',
+      check : [ 'description', 'idAndDescription', 'id' ],
+      apply : "_modifyShowOnTextField"
     },
 
     /** Only used when editable is false and showOnTextField=='idAndDescription'. */
     idDescriptionSeparator :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : '- '
+      check : "String",
+      init : '- ',
+      apply : "_modifyIdDescriptionSeparator"
     },
 
     /** Ensures that always an item is selected (in case the selection isn't empty). Only used when editable is false. */
     ensureSomethingSelected :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true
     },
 
     /** Allow the search dialog when double clicking the combo, or pressing special keys?. */
     allowSearch :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true
     },
 
     /** Maximum number of visible rows in the popup list. */
     maxVisibleRows :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 10
+      check : "Integer",
+      init : 10,
+      apply : "_modifyMaxVisibleRows"
     }
   },
 

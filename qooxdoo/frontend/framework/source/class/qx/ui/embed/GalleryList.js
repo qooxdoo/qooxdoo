@@ -132,23 +132,20 @@ qx.Class.define("qx.ui.embed.GalleryList",
   {
     thumbMaxWidth :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 60
+      check : "Integer",
+      init : 60
     },
 
     thumbMaxHeight :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 60
+      check : "Integer",
+      init : 60
     },
 
     decorHeight :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 40
+      check : "Integer",
+      init : 40
     }
   },
 

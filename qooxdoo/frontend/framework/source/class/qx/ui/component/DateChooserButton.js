@@ -99,25 +99,25 @@ qx.Class.define("qx.ui.component.DateChooserButton",
     /** The target widget the selected Date should be synchronized with. */
     targetWidget :
     {
-      _legacy      : true,
-      type         : "object",
-      instance     : "qx.ui.core.Widget",
-      defaultValue : null
+      check : "qx.ui.core.Widget",
+      init : null,
+      nullable : true,
+      apply : "_modifyTargetWidget"
     },
 
     /** The title of the date chooser window. */
     chooserTitle :
     {
-      _legacy      : true,
-      defaultValue : qx.locale.Manager.tr("Choose a date")
+      init : qx.locale.Manager.tr("Choose a date"),
+      apply : "_modifyChooserTitle"
     },
 
-    /** The date format size according to the size parameter in {qx.locale.Date.getDateFormat}. */
+    /** The date format size according to the size parameter in {@link qx.locale.Date#getDateFormat}. */
     dateFormatSize :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "short"
+      check : ["short", "medium", "long", "full"],
+      init : "short",
+      apply : "_modifyDateFormatSize"
     }
   },
 

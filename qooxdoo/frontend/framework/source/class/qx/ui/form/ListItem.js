@@ -85,7 +85,9 @@ qx.Class.define("qx.ui.form.ListItem",
       init : "list-item"
     },
 
-    value : { _legacy : true }
+    value : {
+      event : "changeValue"
+    }
   },
 
 

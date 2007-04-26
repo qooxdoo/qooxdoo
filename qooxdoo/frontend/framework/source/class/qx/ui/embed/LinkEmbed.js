@@ -92,20 +92,18 @@ qx.Class.define("qx.ui.embed.LinkEmbed",
     /** Any valid html URI */
     uri :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "#",
-      impl         : "html"
+      check : "String",
+      init : "#",
+      apply : "_modifyHtml"
     },
 
 
     /** Any valid html target */
     target :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : "_blank",
-      impl         : "html"
+      check : "String",
+      init : "_blank",
+      apply : "_modifyHtml"
     }
   },
 

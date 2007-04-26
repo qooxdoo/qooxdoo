@@ -79,25 +79,26 @@ qx.Class.define("qx.ui.form.CheckBox",
     /** The HTML name of the form element used by the widget */
     name :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      event : "changeName"
     },
 
 
     /** The HTML value of the form element used by the widget */
     value :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      event : "changeValue"
     },
 
 
     /** If the widget is checked */
     checked :
     {
-      _legacy  : true,
-      type     : "boolean",
-      getAlias : "isChecked"
+      check : "Boolean",
+      apply : "_modifyChecked",
+      init : false,
+      event : "changeChecked"
     }
   },
 

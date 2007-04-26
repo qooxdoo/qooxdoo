@@ -191,31 +191,37 @@ qx.Class.define("qx.ui.form.ComboBox",
       init : "combo-box"
     },
 
+    /**
+     * Is the text field component editable or the user can only select
+     * from the list?
+     */
     editable :
     {
-      _legacy  : true,
-      type     : "boolean",
-      getAlias : "isEditable"
+      check : "Boolean",
+      apply : "_modifyEditable",
+      event : "changeEditable"
     },
 
     selected :
     {
-      _legacy  : true,
-      type     : "object",
-      instance : "qx.ui.form.ListItem"
+      check : "qx.ui.form.ListItem",
+      nullable : true,
+      apply : "_modifySelected"
     },
 
     value :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      nullable : true,
+      apply : "_modifyValue",
+      event : "changeValue"
     },
 
+    /** How many items to transverse with PageUp and PageDn. */
     pagingInterval :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 10
+      check : "Integer",
+      init : 10
     }
   },
 
@@ -354,7 +360,7 @@ qx.Class.define("qx.ui.form.ComboBox",
       if (!this._fromInput)
       {
         if (this._field.getValue() == propValue) {
-          this._field.forceValue(null);
+          this._field.setValue(null);
         }
 
         this._field.setValue(propValue);
