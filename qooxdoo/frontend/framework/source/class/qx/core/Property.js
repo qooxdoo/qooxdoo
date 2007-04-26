@@ -674,7 +674,7 @@ qx.Class.define("qx.core.Property",
           // Must be above the comparision between old and new, because otherwise previously unset
           // values get not detected and will be quitely ignored which is a bad behavior.
           code.add('if(value===undefined)');
-          code.add('throw new Error("Undefined value for property ', name, ' is not allowed!");');
+          code.add('throw new Error("Undefined value for property ', name, ' of class \'"+this.constructor.classname+"\' is not allowed!");');
 
           // Check argument length
           if (qx.core.Variant.isSet("qx.debug", "on")) {
@@ -755,8 +755,7 @@ qx.Class.define("qx.core.Property",
               {
                 throw new Error("Could not add check to property " + name + " of class " + clazz.classname);
               }
-
-              code.add(')throw new Error("Invalid value for property ', name, ': " + value);');
+              code.add(')throw new Error("Invalid value for property \'', name, '\' of class ' + clazz.classname + ': " + value);');
             }
           }
         }
@@ -974,7 +973,8 @@ qx.Class.define("qx.core.Property",
 
 
       return this.__unwrapFunctionFromCode(instance, members, name, variant, code, args);
-    }
+    },
+
   },
 
 
