@@ -60,10 +60,8 @@ qx.Class.define("qx.log.Appender",
     /** Whether the logger name and log level should be included in the formatted log message. */
     useLongFormat :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true,
-      allowNull    : false
+      check : "Boolean",
+      init : true
     }
   },
 

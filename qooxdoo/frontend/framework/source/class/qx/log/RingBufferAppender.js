@@ -68,9 +68,8 @@ qx.Class.define("qx.log.RingBufferAppender",
      */
     maxMessages :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 50
+      check : "Integer",
+      init : 50
     }
   },
 
