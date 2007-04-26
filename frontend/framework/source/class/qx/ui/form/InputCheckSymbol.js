@@ -79,29 +79,31 @@ qx.Class.define("qx.ui.form.InputCheckSymbol",
 
     name :
     {
-      _legacy : true,
-      type    : "string",
-      impl    : "apply"
+      check : "String",
+      init : null,
+      nullable : true,
+      apply : "_modifyName"
     },
 
     value :
     {
-      _legacy : true,
-      impl    : "apply"
+      init : null,
+      nullable : true,
+      apply : "_modifyValue"
     },
 
     type :
     {
-      _legacy : true,
-      impl    : "apply"
+      init : null,
+      nullable : true,
+      apply : "_modifyType"
     },
 
     checked :
     {
-      _legacy  : true,
-      type     : "boolean",
-      impl     : "apply",
-      getAlias : "isChecked"
+      check : "Boolean",
+      init : false,
+      apply : "_modifyChecked"
     }
   },
 
@@ -133,11 +135,49 @@ qx.Class.define("qx.ui.form.InputCheckSymbol",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {var} TODOC
      */
-    _modifyApply : function(propValue, propOldValue, propData) {
-      return this.setHtmlProperty(propData.name, propValue);
+    _modifyName : function(propValue, propOldValue) {
+      return this.setHtmlProperty("name", propValue);
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @return {var} TODOC
+     */
+    _modifyValue : function(propValue, propOldValue) {
+      return this.setHtmlProperty("value", propValue);
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @return {var} TODOC
+     */
+    _modifyType : function(propValue, propOldValue) {
+      return this.setHtmlProperty("type", propValue);
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @return {var} TODOC
+     */
+    _modifyChecked : function(propValue, propOldValue) {
+      return this.setHtmlProperty("checked", propValue);
     },
 
 

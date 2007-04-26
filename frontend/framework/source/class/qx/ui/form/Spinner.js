@@ -177,89 +177,83 @@ qx.Class.define("qx.ui.form.Spinner",
     /** The amount to increment on each event (keypress or mousedown). */
     incrementAmount :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 1
+      check : "Integer",
+      init : 1,
+      apply : "_modifyIncrementAmount"
     },
 
 
     /** The amount to increment on each event (keypress or mousedown). */
     wheelIncrementAmount :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 1
+      check : "Integer",
+      init : 1
     },
 
 
     /** The amount to increment on each pageup / pagedown keypress */
     pageIncrementAmount :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 10
+      check : "Integer",
+      init : 10
     },
 
 
     /** The current value of the interval (this should be used internally only). */
     interval :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 100
+      check : "Integer",
+      init : 100
     },
 
 
     /** The first interval on event based shrink/growth of the value. */
     firstInterval :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 500
+      check : "Integer",
+      init : 500
     },
 
 
     /** This configures the minimum value for the timer interval. */
     minTimer :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 20
+      check : "Integer",
+      init : 20
     },
 
 
     /** Decrease of the timer on each interval (for the next interval) until minTimer reached. */
     timerDecrease :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 2
+      check : "Integer",
+      init : 2
     },
 
 
     /** If minTimer was reached, how much the amount of each interval should growth (in relation to the previous interval). */
     amountGrowth :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 1.01
+      check : "Number",
+      init : 1.01
     },
 
     editable :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true,
+      apply : "_modifyEditable"
     },
 
     manager :
     {
-      _legacy      : true
+      check : "qx.type.Range",
+      apply : "_modifyManager"
     },
 
     checkValueFunction :
     {
-      _legacy      : true
+      apply : "_modifyCheckValueFunction"
     }
   },
 

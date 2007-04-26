@@ -144,37 +144,32 @@ qx.Class.define("qx.ui.embed.Gallery",
 
     thumbMaxWidth :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 100
+      check : "Integer",
+      init : 100
     },
 
     thumbMaxHeight :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 100
+      check : "Integer",
+      init : 100
     },
 
     decorHeight :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 40
+      check : "Integer",
+      init : 40
     },
 
     showTitle :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true
     },
 
     showComment :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true
     }
   },
 

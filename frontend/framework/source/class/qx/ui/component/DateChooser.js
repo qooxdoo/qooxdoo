@@ -311,25 +311,29 @@ qx.Class.define("qx.ui.component.DateChooser",
     /** The currently shown month. 0 = january, 1 = february, and so on. */
     shownMonth :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : null
+      check : "Integer",
+      init : null,
+      nullable : true,
+      event : "changeShownMonth"
     },
 
     /** The currently shown year. */
     shownYear :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : null
+      check : "Integer",
+      init : null,
+      nullable : true,
+      event : "changeShownYear"
     },
 
     /** {Date} The currently selected date. */
     date :
     {
-      _legacy      : true,
-      type         : "object",
-      defaultValue : null
+      check : "Date",
+      init : null,
+      nullable : true,
+      apply : "_modifyDate",
+      event : "changeDate"
     }
   },
 
