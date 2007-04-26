@@ -96,55 +96,6 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
       }
 
       this.getTableModel().setState(nodeId, { bOpened : ! node.bOpened });
-
-/*
-      // Are we opening or closing?
-      if (node.bOpened)
-      {
-        // We're closing.  If there are listeners, generate a treeClose event.
-        this.createDispatchDataEvent("treeClose", node);
-      }
-      else
-      {
-        // We're opening.  Are there any children?
-        if (node.children.length > 0)
-        {
-          // Yup.  If there any listeners, generate a "treeOpenWithContent"
-          // event.
-          this.createDispatchDataEvent("treeOpenWithContent", node);
-        }
-        else
-        {
-          // No children.  If there are listeners, generate a
-          // "treeOpenWhileEmpty" event.
-          this.createDispatchDataEvent("treeOpenWhileEmpty", node);
-        }
-      }
-
-      // Event handler may have modified the opened state.  Check before
-      // toggling.
-      if (!node.bHideOpenClose)
-      {
-        // It's still boolean.  Toggle the state
-        node.bOpened = !node.bOpened;
-
-        // Get the selection model
-        var sm = this.getSelectionModel();
-
-        // Get the data model
-        var dm = this.getTableModel();
-
-        // Determine if this node was selected
-        var rowIndex = dm.getNodeRowMap()[node.nodeId];
-
-        // Clear the old selections in the tree
-        this.getSelectionModel()._clearSelection();
-      }
-
-      // Re-render the row data since formerly visible rows may now be
-      // invisible, or vice versa.
-      this.getTableModel().setData();
-*/
     },
 
 
