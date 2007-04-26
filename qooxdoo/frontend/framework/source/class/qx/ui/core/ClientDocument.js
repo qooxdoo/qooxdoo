@@ -63,8 +63,6 @@ qx.Class.define("qx.ui.core.ClientDocument",
     // would not be added initially to the state queue
     this.addToStateQueue();
 
-    this.base(arguments);
-
     // Don't use widget styles
     this._styleProperties = {};
 

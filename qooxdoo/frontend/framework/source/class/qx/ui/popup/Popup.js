@@ -78,9 +78,8 @@ qx.Class.define("qx.ui.popup.Popup",
      */
     autoHide :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true
     },
 
 
@@ -98,9 +97,8 @@ qx.Class.define("qx.ui.popup.Popup",
     /** Center the popup on open */
     centered :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      check : "Boolean",
+      init : false
     },
 
 
@@ -109,9 +107,8 @@ qx.Class.define("qx.ui.popup.Popup",
      */
     restrictToPageOnOpen :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true
     }
   },
 
@@ -337,8 +334,7 @@ qx.Class.define("qx.ui.popup.Popup",
      */
     bringToFront : function()
     {
-      // this.setOverflow("auto");
-      this.forceZIndex(Infinity);
+      this.setZIndex(Infinity);
       this._sendTo();
     },
 
@@ -351,7 +347,7 @@ qx.Class.define("qx.ui.popup.Popup",
      */
     sendToBack : function()
     {
-      this.forceZIndex(-Infinity);
+      this.setZIndex(-Infinity);
       this._sendTo();
     },
 

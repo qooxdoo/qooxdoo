@@ -66,8 +66,8 @@ qx.Class.define("qx.ui.pageview.AbstractPage",
     /** The attached tab of this page. */
     button :
     {
-      _legacy : true,
-      type    : "object"
+      check : "qx.ui.pageview.AbstractButton",
+      apply : "_modifyButton"
     },
 
 

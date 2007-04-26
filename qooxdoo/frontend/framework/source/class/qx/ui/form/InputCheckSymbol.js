@@ -56,8 +56,7 @@ qx.Class.define("qx.ui.form.InputCheckSymbol",
     }
 
     // we need to be sure that the dom protection of this is added
-    this.forceTabIndex(1);
-    this.setTabIndex(-1);
+    this.initTabIndex();
     this.setChecked(false);
   },
 
@@ -72,6 +71,12 @@ qx.Class.define("qx.ui.form.InputCheckSymbol",
 
   properties :
   {
+    tabIndex :
+    {
+      refine : true,
+      init : -1
+    },
+
     name :
     {
       _legacy : true,
