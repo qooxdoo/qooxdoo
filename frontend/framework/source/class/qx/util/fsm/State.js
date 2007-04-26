@@ -466,12 +466,6 @@ qx.Class.define("qx.util.fsm.State",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
     /**
      * The name of this state.  This name may be used as a Transition's
      * nextState value, or an explicit next state in the 'events' handling
@@ -479,8 +473,8 @@ qx.Class.define("qx.util.fsm.State",
      */
     name :
     {
-      type   : "string",
-      _legacy: true
+      check : "this._checkName(value)",
+      nullable : true
     },
 
 
@@ -492,8 +486,9 @@ qx.Class.define("qx.util.fsm.State",
      */
     onentry :
     {
-      defaultValue : function(fsm, event) {},
-      _legacy      : true
+      check : "this._checkOnentry(value)",
+      nullable : true,
+      init : function(fsm, event) {}
     },
 
 
@@ -505,8 +500,9 @@ qx.Class.define("qx.util.fsm.State",
      */
     onexit :
     {
-      defaultValue : function(fsm, event) {},
-      _legacy       : true
+      check : "this._checkOnexit(value)",
+      nullable : true,
+      init : function(fsm, event) {}
     },
 
 
@@ -538,8 +534,9 @@ qx.Class.define("qx.util.fsm.State",
      */
     autoActionsBeforeOnentry :
     {
-      defaultValue : function(fsm, event) {},
-      _legacy       : true
+      check : "this._checkAutoActionsBeforeOnentry(value)",
+      nullable : true,
+      init : function(fsm, event) {}
     },
 
 
@@ -572,8 +569,9 @@ qx.Class.define("qx.util.fsm.State",
      */
     autoActionsAfterOnentry :
     {
-      defaultValue : function(fsm, event) {},
-      _legacy       : true
+      check : "this._checkAutoActionsAfterOnentry(value)",
+      nullable : true,
+      init : function(fsm, event) {}
     },
 
 
@@ -605,8 +603,9 @@ qx.Class.define("qx.util.fsm.State",
      */
     autoActionsBeforeOnexit :
     {
-      defaultValue : function(fsm, event) {},
-      _legacy       : true
+      check : "this._checkAutoActionsBeforeOnexit(value)",
+      nullable : true,
+      init : function(fsm, event) {}
     },
 
 
@@ -639,8 +638,9 @@ qx.Class.define("qx.util.fsm.State",
      */
     autoActionsAfterOnexit :
     {
-      defaultValue : function(fsm, event) {},
-      _legacy       : true
+      check : "this._checkAutoActionsAfterOnexit(value)",
+      nullable : true
+      init : function(fsm, event) {}
     },
 
 
@@ -650,7 +650,7 @@ qx.Class.define("qx.util.fsm.State",
      * through the constructor's stateInfo object, but it is also possible
      * (but highly NOT recommended) to change this dynamically.
      */
-    events : { _legacy: true }
+    events : { nullable : true }
   },
 
 
