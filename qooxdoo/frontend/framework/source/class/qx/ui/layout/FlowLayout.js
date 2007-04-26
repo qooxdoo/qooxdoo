@@ -44,7 +44,8 @@ qx.Class.define("qx.ui.layout.FlowLayout",
     {
       check : "Integer",
       init : 0,
-      apply : "_applyHorizontalSpacing"
+      apply : "_applyHorizontalSpacing",
+      themeable : true
     },
 
 
@@ -53,7 +54,8 @@ qx.Class.define("qx.ui.layout.FlowLayout",
     {
       check : "Integer",
       init : 0,
-      apply : "_applyVerticalSpacing"
+      apply : "_applyVerticalSpacing",
+      themeable : true
     },
 
 
@@ -62,7 +64,8 @@ qx.Class.define("qx.ui.layout.FlowLayout",
     {
       check : [ "left", "right" ],
       init : "left",
-      apply : "_applyHorizontalChildrenAlign"
+      apply : "_applyHorizontalChildrenAlign",
+      themeable : true
     },
 
 
@@ -71,7 +74,8 @@ qx.Class.define("qx.ui.layout.FlowLayout",
     {
       check : [ "top", "bottom" ],
       init : "top",
-      apply : "_applyVerticalChildrenAlign"
+      apply : "_applyVerticalChildrenAlign",
+      themeable : true
     },
 
 
@@ -80,7 +84,8 @@ qx.Class.define("qx.ui.layout.FlowLayout",
     {
       check : "Boolean",
       init : false,
-      apply : "_applyReverseChildrenOrder"
+      apply : "_applyReverseChildrenOrder",
+      themeable : true
     }
   },
 

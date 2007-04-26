@@ -24,6 +24,7 @@
 qx.Theme.define("qx.theme.classic.font.Serif",
 {
   title : "Classic Serif",
+  extend : qx.theme.classic.font.Default,
 
   fonts :
   {

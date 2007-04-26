@@ -1770,8 +1770,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          font          : "large",
-          textAlign     : "center",
+          font          : "largeCenter",
           verticalAlign : "middle"
         };
       }
@@ -1797,8 +1796,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
         return {
           border          : border,
-          font            : "bold",
-          textAlign       : "center",
+          textAlign       : "boldCenter",
           textColor       : states.weekend ? "#6285BA" : "window",
           backgroundColor : states.weekend ? "window" : "#6285BA"
         };
@@ -1812,8 +1810,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           cursor          : "default",
           textColor       : "windowtext",
-          font            : "default",
-          textAlign       : "center",
+          font            : "center",
           verticalAlign   : "middle",
           selectable      : false,
           border          : states.today ? new qx.renderer.border.Border(1, "solid", "black") : "undefined",
