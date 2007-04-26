@@ -55,18 +55,15 @@ qx.Class.define("qx.manager.selection.TreeSelectionManager",
     /** Should multiple selection be allowed? */
     multiSelection :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      refine : true,
+      init : false
     },
-
 
     /** Enable drag selection? */
     dragSelection :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      refine : true,
+      init : false
     }
   },
 

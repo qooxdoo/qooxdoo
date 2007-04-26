@@ -60,7 +60,8 @@ qx.Class.define("qx.manager.selection.SelectionManager",
   *****************************************************************************
   */
 
-  events: {
+  events:
+  {
     /** sets the data property of the event object to an arryas of selected items. */
     "changeSelection" : "qx.event.type.DataEvent"
   },
@@ -75,78 +76,71 @@ qx.Class.define("qx.manager.selection.SelectionManager",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
     /** This contains the currently assigned widget (qx.ui.form.List, ...) */
     boundedWidget :
     {
-      _legacy : true,
-      type    : "object"
+      check : "qx.ui.core.Widget",
+      nullable : true
     },
 
 
     /** Should multiple selection be allowed? */
     multiSelection :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check: "Boolean",
+      init : true
     },
 
 
     /** Enable drag selection? */
     dragSelection :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true
     },
 
 
     /** Should the user be able to select */
     canDeselect :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true
     },
 
 
     /** Should a change event be fired? */
     fireChange :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true
     },
 
 
     /** The current anchor in range selections. */
     anchorItem :
     {
-      _legacy : true,
-      type    : "object"
+      check : "Object",
+      nullable : true,
+      apply : "_modifyAnchorItem",
+      event : "changeAnchorItem"
     },
 
 
     /** The last selected item */
     leadItem :
     {
-      _legacy : true,
-      type    : "object"
+      check : "Object",
+      nullable : true,
+      apply : "_modifyLeadItem",
+      event : "changeLeadItem"
     },
 
 
     /** Grid selection */
     multiColumnSupport :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      check : "Boolean",
+      init : false
     }
   },
 
