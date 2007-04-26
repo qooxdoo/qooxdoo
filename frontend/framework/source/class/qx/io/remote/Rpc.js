@@ -196,8 +196,8 @@ qx.Class.define("qx.io.remote.Rpc",
     /** The timeout for asynchronous calls in milliseconds. */
     timeout :
     {
-      _legacy : true,
-      type    : "number"
+      check : "Integer",
+      nullable : true
     },
 
 
@@ -212,27 +212,24 @@ qx.Class.define("qx.io.remote.Rpc",
     */
     crossDomain :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      check : "Boolean",
+      init : false
     },
 
 
     /** The URL at which the service is located. */
     url :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : null
+      check : "String",
+      nullable : true
     },
 
 
     /** The service name.  */
     serviceName :
     {
-      _legacy      : true,
-      type         : "string",
-      defaultValue : null
+      check : "String",
+      nullable : true
     },
 
 
@@ -243,12 +240,14 @@ qx.Class.define("qx.io.remote.Rpc",
       handle it locally before calling the specified method, or pass it on to the
       method.  This server data is not sent to the server if it has been set to
       'undefined'.
+
+      TODO: undefined is not supported by the new properties, alternative ways to
+        implement this? Maybe use null instead?
     */
     serverData :
     {
-      _legacy      : true,
-      type         : "object",
-      defaultValue : undefined
+      check : "Object",
+      nullable : true
     },
 
 
@@ -258,8 +257,8 @@ qx.Class.define("qx.io.remote.Rpc",
     */
     username :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      nullable : true
     },
 
 
@@ -269,8 +268,8 @@ qx.Class.define("qx.io.remote.Rpc",
     */
     password :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      nullable : true
     },
 
 
@@ -279,8 +278,8 @@ qx.Class.define("qx.io.remote.Rpc",
     */
     useBasicHttpAuth :
     {
-      _legacy : true,
-      type    : "boolean"
+      check : "Boolean",
+      nullable : true
     }
   },
 

@@ -73,109 +73,100 @@ qx.Class.define("qx.io.remote.AbstractRemoteTransport",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
     /** Target url to issue the request to */
     url :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      nullable : true
     },
 
 
     /** Determines what type of request to issue */
     method :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      nullable : true
     },
 
 
     /** Set the request to asynchronous */
     asynchronous :
     {
-      _legacy : true,
-      type    : "boolean"
+      check : "Boolean",
+      nullable : true
     },
 
 
     /** Set the data to be sent via this request */
     data :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      nullable : true
     },
 
 
     /** Username to use for HTTP authentication */
     username :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      nullable : true
     },
 
 
     /** Password to use for HTTP authentication */
     password :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      nullable : true
     },
 
 
     /** The state of the current request */
     state :
     {
-      _legacy : true,
-      type : "string",
-
-      possibleValues : [ "created", "configured", "sending", "receiving", "completed", "aborted", "timeout", "failed" ],
-
-      defaultValue : "created"
+      check : [ "created", "configured", "sending", "receiving", "completed", "aborted", "timeout", "failed" ],
+      init : "created",
+      event : "changeState"
     },
 
 
     /** Request headers */
     requestHeaders :
     {
-      _legacy : true,
-      type    : "object"
+      check : "Object",
+      nullable : true
     },
 
 
     /** Request parameters to send. */
     parameters :
     {
-      _legacy : true,
-      type    : "object"
+      check : "Object",
+      nullable : true
     },
 
 
     /** Request form fields to send. */
     formFields :
     {
-      _legacy : true,
-      type    : "object"
+      check : "Object",
+      nullable : true
     },
 
 
     /** Response Type */
     responseType :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      nullable : true
     },
 
 
     /** Use Basic HTTP Authentication */
     useBasicHttpAuth :
     {
-      _legacy : true,
-      type    : "boolean"
+      check : "Boolean",
+      nullable : true
     }
   },
 
