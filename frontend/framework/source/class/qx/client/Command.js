@@ -135,7 +135,8 @@ qx.Class.define("qx.client.Command",
 
     /** The key identifier */
     keyIdentifier : {
-      check : "String"
+      check : "String",
+      nullable : true
     }
   },
 
