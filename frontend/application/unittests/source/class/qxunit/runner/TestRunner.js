@@ -27,10 +27,7 @@
 ************************************************************************ */
 
 /**
- * The GUI definition of the API viewer.
- *
- * The connections between the GUI components are established in
- * the {@link Controller}.
+ * The GUI definition of the qooxdoo unit test runner.
  */
 
 qx.Class.define("qxunit.runner.TestRunner",
@@ -142,9 +139,17 @@ qx.Class.define("qxunit.runner.TestRunner",
     var buttview = this.__makeButtonView();
     right.add(buttview);
 
+    // EXPERIMENTAL !
+    var treetest = new qxunit.runner.TreeTest();
+
   }, //constructor
 
 
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
   members: {
 
     /*
@@ -156,7 +161,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       },
       */
 
-    appendr : function (str) {
+    appender : function (str) {
       //this.f1.setValue(this.f1.getValue() + str);
       this.f1.setHtml(this.f1.getHtml()+"<br>"+str);
     }, //appender
@@ -264,11 +269,12 @@ qx.Class.define("qxunit.runner.TestRunner",
 
     leftGetSelection : function (e) {
       this.tests.selected = e.getData()[0]._labelObject.getText();
-      this.appendr(this.tests.selected);
+      this.appender(this.tests.selected);
       this.widgets["statuspane.current"].setText(this.tests.selected);
       this.tests.selected_cnt = this.tests.handler.testCount(this.tests.selected);
       this.widgets["statuspane.number"].setText(this.tests.selected_cnt+"");
     }, //leftGetSelection
+
 
     leftReloadTree : function (e) {
       var tmap = this.tests.handler.tmap;
@@ -334,7 +340,7 @@ qx.Class.define("qxunit.runner.TestRunner",
         backgroundColor : "#C1ECFF"
       });
       this.widgets["statuspane.current"] = l1;
-      statuspane.add(new qx.ui.basic.Label("Number of Test: "));
+      statuspane.add(new qx.ui.basic.Label("Number of Tests: "));
       var l2 = new qx.ui.basic.Label("");
       statuspane.add(l2);
       l2.set({
@@ -347,97 +353,102 @@ qx.Class.define("qxunit.runner.TestRunner",
 
 
     /**
-     * runTest - event handler for the Run Test button - performs the test
+     * event handler for the Run Test button - performs the tests
      */
-    runTest : function (e) {
+    runTest : function (e) 
+    {
       this.toolbar.setEnabled(false);
-      this.appendr("Now running: " + this.tests.selected);
       // Initialize progress bar
       this.widgets["progresspane.progressbar"].update("0%");
       // Make initial entry in output windows (test result, log, ...)
+      this.appender("Now running: " + this.tests.selected);
 
-      // Foreach test subsumed by 'testLabel' (could be an individual test, or
-      //   class with subclasses) do:
+      // create testResult obj
+      var tstCnt = this.tests.selected_cnt;
+      var tstCurr = 1;
+      var testResult = new qxunit.TestResult();
 
-        // create iframe obj
-        // create testResult obj
-        var tstCnt = this.tests.selected_cnt;
-        var tstCurr = 1;
-        var testResult = new qxunit.TestResult();
-        // set up event listeners
-        testResult.addEventListener("startTest", function(e) {
-          var test = e.getData();
-          this.appendr("Test '"+test.getFullName()+"' started.");
-          this.widgets["progresspane.progressbar"].update(String(tstCurr+"/"+tstCnt));
-          tstCurr++;
-        }, this);
-        testResult.addEventListener("failure", function(e) {
-          var ex = e.getData().exception;
-          var test = e.getData().test;
-          this.appendr("Test '"+test.getFullName()+"' failed: " +  ex.getMessage() + " - " + ex.getComment());
-        }, this);
-        testResult.addEventListener("error", function(e) {
-          var ex = e.getData().exception;
-          this.appendr("The test '"+e.getData().test.getFullName()+"' had an error: " + ex, ex);
-        }, this);
+      // set up event listeners
+      testResult.addEventListener("startTest", function(e) 
+      {
+        var test = e.getData();
+        this.appender("Test '"+test.getFullName()+"' started.");
+        this.widgets["progresspane.progressbar"].update(String(tstCurr+"/"+tstCnt));
+        tstCurr++;
+      }, this);
 
-        // start test
-        var that    = this;
-        var tlist   = [];
-        var handler = this.tests.handler;
-        function runtest() {
-          if (tlist.length) {
-            var test = tlist[0];
-            that.loader.runTests(testResult, test[0], test[1]);
-            tlist = tlist.slice(1,tlist.length);  // recurse with rest of list
-            qx.client.Timer.once(runtest,this,100);
-          } else { // no more tests -> enable toolbar
-            that.toolbar.setEnabled(true);
-          }
-        };
-        if (this.tests.handler.isClass(this.tests.selected)) {
-          /*
-          this.loader.runTestsFromNamespace(testResult, this.tests.selected);
-          var tests = this.tests.handler.getTests(this.tests.selected); 
-          for (var i in tests) {
-            tlist.push([this.tests.selected, tests[i]]);
-          }
-          */
-          function buildList(node) {
-            var tlist = [];
-            if (handler.isClass(node)) {
-              var children = handler.getChildren(node);
-              for (var i in children) {
-                if (handler.isClass(children[i])){
-                  tlist = tlist.concat(buildList(children[i]));
-                } else {
-                  tlist.push([node, children[i]]);
-                }
-              }
-            } else {
-              var class = handler.classFromTest(node);
-              tlist.push([class, node]);
-            }
-            return tlist;
-          };
-          tlist = buildList(this.tests.selected);
-          runtest(tlist);
-        } else { // on method
-          /*
-          var className = this.tests.handler.classFromTest(this.tests.selected);
-          this.loader.runTests(testResult, className, this.tests.selected);
-          */
-          var className = that.tests.handler.classFromTest(this.tests.selected);
-          tlist = [[className, this.tests.selected]];
-          runtest(tlist);
+      testResult.addEventListener("failure", function(e) 
+      {
+        var ex = e.getData().exception;
+        var test = e.getData().test;
+        this.appender("Test '"+test.getFullName()+"' failed: " +  ex.getMessage() + " - " + ex.getComment());
+      }, this);
+
+      testResult.addEventListener("error", function(e) 
+      {
+        var ex = e.getData().exception;
+        this.appender("The test '"+e.getData().test.getFullName()+"' had an error: " + ex, ex);
+      }, this);
+
+      // start test
+
+      // Currently, a flat list of individual tests is computed (buildList), and
+      // then processed by a recursive Timer.once-controlled funtion (runtest);
+      // each test is passed to the same iframe object to be run.
+
+      var that    = this;
+      var tlist   = [];
+      var handler = this.tests.handler;
+
+      function runtest() // processes list of indiv. tests
+      {
+        if (tlist.length) {
+          var test = tlist[0];
+          that.loader.runTests(testResult, test[0], test[1]);
+          tlist = tlist.slice(1,tlist.length);  // recurse with rest of list
+          qx.client.Timer.once(runtest,this,100);
+        } else { // no more tests -> enable toolbar
+          that.toolbar.setEnabled(true);
         }
+      };
+
+      /*
+      this.loader.runTestsFromNamespace(testResult, this.tests.selected);
+      var tests = this.tests.handler.getTests(this.tests.selected); 
+      for (var i in tests) {
+        tlist.push([this.tests.selected, tests[i]]);
+      }
+      */
+      function buildList(node) // build input list of tests for runtest()
+      {
+        var tlist = [];
+        if (handler.isClass(node)) {
+          var children = handler.getChildren(node);
+          for (var i in children) {
+            if (handler.isClass(children[i])){
+              tlist = tlist.concat(buildList(children[i]));
+            } else {
+              tlist.push([node, children[i]]);
+            }
+          }
+        } else {
+          var tclass = handler.classFromTest(node);
+          tlist.push([tclass, node]);
+        }
+        return tlist;
+      }; //buildList
+
+      tlist = buildList(this.tests.selected);
+      runtest(tlist);
 
     }, //runTest
+
 
     /**
      * reloads iframe's URL
      */
-    reloadTestSuite : function (e) {
+    reloadTestSuite : function (e) 
+    {
       var curr = this.iframe.getSource();
       var neu  = this.testSuiteUrl.getValue();
       this.toolbar.setEnabled(false);
