@@ -144,10 +144,10 @@ qx.Class.define("qx.ui.core.ScrollBar",
      */
     value :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 0,
-      allowNull    : false
+      check : "Integer",
+      init : 0,
+      apply : "_modifyValue",
+      event : "changeValue"
     },
 
 
@@ -159,9 +159,8 @@ qx.Class.define("qx.ui.core.ScrollBar",
      */
     maximum :
     {
-      _legacy   : true,
-      type      : "number",
-      allowNull : false
+      check : "Integer",
+      apply : "_modifyMaximum"
     },
 
 
@@ -172,10 +171,8 @@ qx.Class.define("qx.ui.core.ScrollBar",
      */
     mergeEvents :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false,
-      allowNull    : false
+      check : "Boolean",
+      init : false
     }
   },
 

@@ -1165,39 +1165,50 @@ qx.Class.define("qx.ui.core.Widget",
     /** The parent widget (the real object, no ID or something) */
     parent :
     {
-      _legacy      : true,
-      type         : "object",
-      instance     : "qx.ui.core.Parent",
-      defaultValue : null
+      check : "qx.ui.core.Parent",
+      nullable : true,
+      event : "changeParent",
+      apply : "_modifyParent"
     },
 
 
     /** The element node (if the widget is created, otherwise null) */
     element :
     {
-      _legacy : true,
-      dispose : true
-    },
-
-
-    /** Simple and fast switch of the visibility of a widget. */
-    visibility :
-    {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Element",
+      nullable : true,
+      apply : "_modifyElement",
+      event : "changeElement"
     },
 
 
     /**
-     * If the widget should be displayed. Use this property instead of visibility if the change
-     *  in visibility should have effects on the parent widget.
+     * Toggle the visibility of a widget.
+     * Setting this property to false will hide the widget but will not remove
+     * it from the layout flow, so other widgets will not be repositioned. This
+     * is similar to the CSS property <code>visibility</code>.
+     **/
+    visibility :
+    {
+      check : "Boolean",
+      init : true,
+      apply : "_modifyVisibility",
+      event : "changeVisibility"
+    },
+
+
+    /**
+     * Whether the widget should be displayed.
+     * Use this property instead of visibility if the change of the visibility
+     * should remove the widget from the layout flow and force a relayout of the
+     * application. This is similar to the CSS property <code>display</code>.
      */
     display :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true,
+      apply : "_modifyDisplay",
+      event : "changeDisplay"
     },
 
 
@@ -1208,10 +1219,9 @@ qx.Class.define("qx.ui.core.Widget",
      */
     anonymous :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false,
-      getAlias     : "isAnonymous"
+      check : "Boolean",
+      init: false,
+      event : "changeAnonymous"
     },
 
 
@@ -1223,8 +1233,9 @@ qx.Class.define("qx.ui.core.Widget",
      */
     horizontalAlign :
     {
-      _legacy : true,
-      type    : "string"
+      check : [ "left", "center", "right" ],
+      themeable : true,
+      nullable : true
     },
 
 
@@ -1236,8 +1247,9 @@ qx.Class.define("qx.ui.core.Widget",
      */
     verticalAlign :
     {
-      _legacy : true,
-      type    : "string"
+      check : [ "top", "middle", "bottom" ],
+      themeable : true,
+      nullable : true
     },
 
 
@@ -1247,9 +1259,9 @@ qx.Class.define("qx.ui.core.Widget",
      */
     allowStretchX :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true,
+      themeable : true
     },
 
 
@@ -1259,9 +1271,9 @@ qx.Class.define("qx.ui.core.Widget",
      */
     allowStretchY :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true,
+      themeable : true
     },
 
 
@@ -1281,8 +1293,8 @@ qx.Class.define("qx.ui.core.Widget",
      */
     zIndex :
     {
-      _legacy : true,
-      type    : "number"
+      check : "Integer",
+      apply : "_modifyZIndex"
     },
 
 
@@ -1342,8 +1354,9 @@ qx.Class.define("qx.ui.core.Widget",
      */
     opacity :
     {
-      _legacy : true,
-      type    : "number"
+      check : "Number",
+      apply : "_modifyOpacity",
+      themeable : true
     },
 
 
@@ -1374,8 +1387,9 @@ qx.Class.define("qx.ui.core.Widget",
      */
     cursor :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      apply : "_modifyCursor",
+      themeable : true
     },
 
 
@@ -1386,8 +1400,10 @@ qx.Class.define("qx.ui.core.Widget",
      */
     backgroundImage :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      nullable : true,
+      apply : "_modifyBackgroundImage",
+      themeable : true
     },
 
 
@@ -1405,46 +1421,47 @@ qx.Class.define("qx.ui.core.Widget",
      */
     overflow :
     {
-      check : "String",
+      check : ["hidden", "auto", "scroll" ,"scrollX", "scrollY"],
       nullable : true,
       apply : "_modifyOverflow",
-      themeable : true
+      themeable : true,
+      apply : "_modifyOverflow"
     },
 
 
     /** Clipping of the widget (left) */
     clipLeft :
     {
-      _legacy : true,
-      type    : "number",
-      impl    : "clip"
+      check : "Integer",
+      apply : "_modifyClip",
+      themeable : true
     },
 
 
     /** Clipping of the widget (top) */
     clipTop :
     {
-      _legacy : true,
-      type    : "number",
-      impl    : "clip"
+      check : "Integer",
+      apply : "_modifyClip",
+      themeable : true
     },
 
 
     /** Clipping of the widget (width) */
     clipWidth :
     {
-      _legacy : true,
-      type    : "number",
-      impl    : "clip"
+      check : "Integer",
+      apply : "_modifyClip",
+      themeable : true
     },
 
 
     /** Clipping of the widget (height) */
     clipHeight :
     {
-      _legacy : true,
-      type    : "number",
-      impl    : "clip"
+      check : "Integer",
+      apply : "_modifyClip",
+      themeable : true
     },
 
 
@@ -1465,27 +1482,28 @@ qx.Class.define("qx.ui.core.Widget",
      */
     tabIndex :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : -1
+      check : "Integer",
+      init : -1,
+      apply : "_modifyTabIndex"
     },
 
 
     /** If the focus outline should be hidden. */
     hideFocus :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      check : "Boolean",
+      init : false,
+      apply : "_modifyHideFocus",
+      themeable : true
     },
 
 
     /** Use DOM focussing (focus() and blur() methods of DOM nodes) */
     enableElementFocus :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true,
+      themeable : true
     },
 
 
@@ -1499,59 +1517,57 @@ qx.Class.define("qx.ui.core.Widget",
      */
     focused :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      check : "Boolean",
+      init : false,
+      apply : "_modifyFocused",
+      event : "changeFocused"
     },
 
 
     /** Toggle the possibility to select the element of this widget. */
     selectable :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true,
-      getAlias     : "isSelectable"
+      check : "Boolean",
+      init : true,
+      themeable : true,
+      apply : "_modifySelectable"
     },
 
 
     /** Contains the tooltip object connected to the widget. */
     toolTip :
     {
-      _legacy  : true,
-      type     : "object",
-      instance : "qx.ui.popup.ToolTip"
+      check : "qx.ui.popup.ToolTip",
+      nullable : true
     },
 
 
     /** Contains the context menu object connected to the widget. (Need real implementation) */
     contextMenu :
     {
-      _legacy  : true,
-      type     : "object",
-      instance : "qx.ui.menu.Menu"
+      check : "qx.ui.menu.Menu",
+      nullable : true
     },
 
 
     /** Capture all events and map them to this widget */
     capture :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      check : "Boolean",
+      init : false,
+      apply : "_modifyCapture"
     },
 
 
     /** Contains the support drop types for drag and drop support */
-    dropDataTypes : { _legacy : true },
+    dropDataTypes : {},
 
 
     /** A command called if the widget should be excecuted (a placeholder for buttons, ...) */
     command :
     {
-      _legacy  : true,
-      type     : "object",
-      instance : "qx.client.Command"
+      check : "qx.client.Command",
+      nullable : true
     },
 
 
@@ -2386,11 +2402,10 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {var} TODOC
      * @throws TODOC
      */
-    _checkParent : function(propValue, propOldValue, propData)
+    _checkParent : function(propValue, propOldValue)
     {
       if (this.contains(propValue)) {
         throw new Error("Could not insert myself into a child " + propValue + "!");
@@ -2406,10 +2421,9 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {var} TODOC
      */
-    _modifyParent : function(propValue, propOldValue, propData)
+    _modifyParent : function(propValue, propOldValue)
     {
       if (propOldValue)
       {
@@ -2475,10 +2489,9 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {var} TODOC
      */
-    _modifyDisplay : function(propValue, propOldValue, propData) {
+    _modifyDisplay : function(propValue, propOldValue) {
       return this._handleDisplayable("display");
     },
 
@@ -2829,10 +2842,9 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyVisibility : function(propValue, propOldValue, propData)
+    _modifyVisibility : function(propValue, propOldValue)
     {
       if (propValue)
       {
@@ -2980,10 +2992,9 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyElement : function(propValue, propOldValue, propData)
+    _modifyElement : function(propValue, propOldValue)
     {
       this._isCreated = propValue != null;
 
@@ -4435,7 +4446,6 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @param propData {var} Property configuration map
      * @param propValue {var} Current value
      * @return {void}
      */
@@ -4554,7 +4564,6 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @param propData {var} Property configuration map
      * @param propValue {var} Current value
      * @return {void}
      */
@@ -4649,7 +4658,6 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @param propData {var} Property configuration map
      * @param propValue {var} Current value
      * @return {void}
      */
@@ -5242,10 +5250,9 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyAppearance : function(propValue, propOldValue, propData)
+    _modifyAppearance : function(propValue, propOldValue)
     {
       var vAppearanceManager = qx.manager.object.AppearanceManager.getInstance();
 
@@ -5700,10 +5707,9 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyEnabled : function(propValue, propOldValue, propData)
+    _modifyEnabled : function(propValue, propOldValue)
     {
       if (propValue)
       {
@@ -5805,10 +5811,9 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyFocused : function(propValue, propOldValue, propData)
+    _modifyFocused : function(propValue, propOldValue)
     {
       if (!this.isCreated()) {
         return true;
@@ -5845,15 +5850,14 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {void}
-     * @signature function(propValue, propOldValue, propData)
+     * @signature function(propValue, propOldValue)
      */
     _modifyHideFocus : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(propValue, propOldValue, propData)
+      "mshtml" : function(propValue, propOldValue)
       {
-        this.setHtmlProperty(propData.name, propValue);
+        this.setHtmlProperty("hideFocus", propValue);
         return true;
       },
 
@@ -5952,10 +5956,9 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyCapture : function(propValue, propOldValue, propData)
+    _modifyCapture : function(propValue, propOldValue)
     {
       var vMgr = qx.event.handler.EventHandler.getInstance();
 
@@ -5986,11 +5989,10 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {var} TODOC
      */
-    _modifyZIndex : function(propValue, propOldValue, propData) {
-      return this.setStyleProperty(propData.name, propValue);
+    _modifyZIndex : function(propValue, propOldValue) {
+      return this.setStyleProperty("zIndex", propValue);
     },
 
 
@@ -6008,13 +6010,12 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {void}
-     * @signature function(propValue, propOldValue, propData)
+     * @signature function(propValue, propOldValue)
      */
     _modifyTabIndex : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(propValue, propOldValue, propData)
+      "mshtml" : function(propValue, propOldValue)
       {
         if (propValue < 0 || !this.getEnabled()) {
           this.setHtmlProperty("unselectable", "on");
@@ -6027,7 +6028,7 @@ qx.Class.define("qx.ui.core.Widget",
         return true;
       },
 
-      "gecko" : function(propValue, propOldValue, propData)
+      "gecko" : function(propValue, propOldValue)
       {
         this.setStyleProperty("MozUserFocus", (propValue < 0 ? "ignore" : "normal"));
 
@@ -6037,7 +6038,7 @@ qx.Class.define("qx.ui.core.Widget",
         return true;
       },
 
-      "default" : function(propValue, propOldValue, propData)
+      "default" : function(propValue, propOldValue)
       {
         // CSS 3 Draft
         this.setStyleProperty("userFocus", (propValue < 0 ? "ignore" : "normal"));
@@ -6074,13 +6075,12 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {void}
-     * @signature function(propValue, propOldValue, propData)
+     * @signature function(propValue, propOldValue)
      */
     _modifySelectable : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(propValue, propOldValue, propData)
+      "mshtml" : function(propValue, propOldValue)
       {
         if (propValue) {
           return this.removeHtmlProperty("unselectable");
@@ -6089,7 +6089,7 @@ qx.Class.define("qx.ui.core.Widget",
         }
       },
 
-      "gecko" : function(propValue, propOldValue, propData)
+      "gecko" : function(propValue, propOldValue)
       {
         if (propValue) {
           this.removeStyleProperty("MozUserSelect");
@@ -6102,7 +6102,7 @@ qx.Class.define("qx.ui.core.Widget",
 
       "opera" : qx.lang.Function.returnTrue,
 
-      "webkit|khtml" : function(propValue, propOldValue, propData)
+      "webkit|khtml" : function(propValue, propOldValue)
       {
         // Be forward compatible and use both userSelect and KhtmlUserSelect
         if (propValue) {
@@ -6114,7 +6114,7 @@ qx.Class.define("qx.ui.core.Widget",
         return true;
       },
 
-      "default" : function(propValue, propOldValue, propData)
+      "default" : function(propValue, propOldValue)
       {
         if (propValue) {
           return this.removeStyleProperty("userSelect");
@@ -6145,13 +6145,12 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {void}
-     * @signature function(propValue, propOldValue, propData)
+     * @signature function(propValue, propOldValue)
      */
     _modifyOpacity : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(propValue, propOldValue, propData)
+      "mshtml" : function(propValue, propOldValue)
       {
         if (propValue == null || propValue >= 1 || propValue < 0) {
           this.removeStyleProperty("filter");
@@ -6162,7 +6161,7 @@ qx.Class.define("qx.ui.core.Widget",
         return true;
       },
 
-      "default" : function(propValue, propOldValue, propData)
+      "default" : function(propValue, propOldValue)
       {
         if (propValue == null || propValue > 1)
         {
@@ -6212,11 +6211,10 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
-     * @signature function(propValue, propOldValue, propData)
+     * @signature function(propValue, propOldValue)
      */
-    _modifyCursor : function(propValue, propOldValue, propData)
+    _modifyCursor : function(propValue, propOldValue)
     {
       if (propValue)
       {
@@ -6252,10 +6250,9 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {var} TODOC
      */
-    _modifyBackgroundImage : function(propValue, propOldValue, propData) {
+    _modifyBackgroundImage : function(propValue, propOldValue) {
       return qx.util.Validation.isValidString(propValue) ? this.setStyleProperty("backgroundImage", "url(" + qx.manager.object.AliasManager.getInstance().resolvePath(propValue) + ")") : this.removeStyleProperty("backgroundImage");
     },
 
@@ -6277,10 +6274,9 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {var} TODOC
      */
-    _modifyClip : function(propValue, propOldValue, propData) {
+    _modifyClip : function(propValue, propOldValue) {
       return this._compileClipString();
     },
 
@@ -6342,9 +6338,8 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {void}
-     * @signature function(propValue, propOldValue, propData)
+     * @signature function(propValue, propOldValue)
      */
     _modifyOverflow : qx.core.Variant.select("qx.client",
     {

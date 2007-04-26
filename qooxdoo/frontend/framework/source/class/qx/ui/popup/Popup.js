@@ -90,9 +90,8 @@ qx.Class.define("qx.ui.popup.Popup",
      */
     display :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      refine : true,
+      init : false
     },
 
 

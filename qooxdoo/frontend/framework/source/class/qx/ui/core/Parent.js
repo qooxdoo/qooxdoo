@@ -77,25 +77,26 @@ qx.Class.define("qx.ui.core.Parent",
     /** Individual focus handler for all child elements. */
     focusHandler :
     {
-      _legacy  : true,
-      type     : "object",
-      instance : "qx.event.handler.FocusHandler"
+      check : "qx.event.handler.FocusHandler",
+      apply : "_modifyFocusHandler",
+      nullable : true
     },
 
     /** The current active child. */
     activeChild :
     {
-      _legacy  : true,
-      type     : "object",
-      instance : "qx.ui.core.Widget"
+      check : "qx.ui.core.Widget",
+      event : "changeActiveChild",
+      nullable : true
     },
 
     /** The current focused child. */
     focusedChild :
     {
-      _legacy  : true,
-      type     : "object",
-      instance : "qx.ui.core.Widget"
+      check : "qx.ui.core.Widget",
+      apply : "_modifyFocusedChild",
+      event : "changeFocusedChild",
+      nullable : true
     },
 
 
