@@ -80,6 +80,7 @@ qx.Class.define("qx.ui.component.ColorPopup",
     {
       check : "Number",
       init : 0,
+      nullable : true,
       event : "changeRed"
     },
 
@@ -87,6 +88,7 @@ qx.Class.define("qx.ui.component.ColorPopup",
     {
       check : "Number",
       init : 0,
+      nullable : true,
       event : "changeGreen"
     },
 
@@ -94,6 +96,7 @@ qx.Class.define("qx.ui.component.ColorPopup",
     {
       check : "Number",
       init : 0,
+      nullable : true,
       event : "changeBlue"
     }
   },

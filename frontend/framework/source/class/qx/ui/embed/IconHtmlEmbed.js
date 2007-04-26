@@ -75,9 +75,9 @@ qx.Class.define("qx.ui.embed.IconHtmlEmbed",
     /** Any URI String supported by qx.ui.basic.Image to display a icon */
     icon :
     {
-      _legacy : true,
-      type    : "string",
-      impl    : "html"
+      check : "String",
+      init : "",
+      apply : "_modifyHtml"
     },
 
 
@@ -87,9 +87,9 @@ qx.Class.define("qx.ui.embed.IconHtmlEmbed",
      */
     iconWidth :
     {
-      _legacy : true,
-      type    : "number",
-      impl    : "html"
+      check : "Number",
+      init : 0,
+      apply : "_modifyHtml"
     },
 
 
@@ -99,19 +99,18 @@ qx.Class.define("qx.ui.embed.IconHtmlEmbed",
      */
     iconHeight :
     {
-      _legacy : true,
-      type    : "number",
-      impl    : "html"
+      check : "Integer",
+      init : 0,
+      apply : "_modifyHtml"
     },
 
 
     /** Space in pixels between the icon and the HTML. */
     spacing :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 4,
-      impl         : "html"
+      check : "Number",
+      init : 4,
+      apply : "_modifyHtml"
     }
   },
 

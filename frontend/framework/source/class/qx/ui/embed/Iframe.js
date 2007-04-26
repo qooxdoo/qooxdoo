@@ -209,8 +209,11 @@ qx.Class.define("qx.ui.embed.Iframe",
      */
     source :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      init : "",
+      apply : "_modifySource",
+      event : "changeSource"
+
     },
 
     /**
@@ -218,8 +221,9 @@ qx.Class.define("qx.ui.embed.Iframe",
      */
     frameName :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      init : "",
+      apply : "_modifyFrameName"
     }
   },
 

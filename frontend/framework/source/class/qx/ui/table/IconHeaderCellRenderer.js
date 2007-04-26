@@ -85,7 +85,7 @@ qx.Class.define("qx.ui.table.IconHeaderCellRenderer",
      */
     toolTip :
     {
-      check : "string",
+      check : "String",
       init : null,
       nullable : true
     }

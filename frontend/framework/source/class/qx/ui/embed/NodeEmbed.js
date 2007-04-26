@@ -59,8 +59,8 @@ qx.Class.define("qx.ui.embed.NodeEmbed",
   {
     sourceNodeId :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      nullable : true
     }
   },
 

@@ -117,44 +117,44 @@ qx.Class.define("qx.ui.component.ColorSelector",
 
     red :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 255
+      check : "Integer",
+      init : 255,
+      apply : "_modifyRed"
     },
 
     green :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 255
+      check : "Integer",
+      init : 255,
+      apply : "_modifyGreen"
     },
 
     blue :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 255
+      check : "Integer",
+      init :  255,
+      apply : "_modifyBlue"
     },
 
     hue :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 0
+      check : "Number",
+      init : 0,
+      apply : "_modifyHue"
     },
 
     saturation :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 0
+      check : "Number",
+      init : 0,
+      apply : "_modifySaturation"
     },
 
     brightness :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 100
+      check : "Number",
+      init : 100,
+      apply : "_modifyBrightness"
     }
   },
 

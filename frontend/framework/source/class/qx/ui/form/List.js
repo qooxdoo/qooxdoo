@@ -92,16 +92,14 @@ qx.Class.define("qx.ui.form.List",
 
     enableInlineFind :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true
     },
 
     markLeadingItem :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      check : "Boolean",
+      init : false
     }
   },
 

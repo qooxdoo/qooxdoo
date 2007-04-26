@@ -198,82 +198,75 @@ qx.Class.define("qx.ui.embed.Flash",
   {
     source :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      nullable : true,
+      apply : "_modifySource"
     },
 
-    version : { _legacy : true },
+    version : {
+      apply : "_modifyVersion",
+      nullable : true
+    },
 
     enableExpressInstall :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      check : "Boolean",
+      init : false
     },
 
     enableDetection :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true
     },
 
     redirectUrl :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      nullable : true
     },
 
     quality :
     {
-      _legacy : true,
-      type : "string",
-      impl : "param",
-      defaultValue : "high",
-
-      possibleValues : [ "low", "autolow", "autohigh", "medium", "high", "best" ]
+      init : "high",
+      check : [ "low", "autolow", "autohigh", "medium", "high", "best" ],
+      apply : "_modifyQuality"
     },
 
     scale :
     {
-      _legacy        : true,
-      type           : "string",
-      impl           : "param",
-      defaultValue   : "showall",
-      possibleValues : [ "showall", "noborder", "excactfit", "noscale" ]
+      init : "showall",
+      check : [ "showall", "noborder", "excactfit", "noscale" ],
+      apply : "_modifyScale"
     },
 
     wmode :
     {
-      _legacy        : true,
-      type           : "string",
-      impl           : "param",
-      defaultValue   : "",
-      possibleValues : [ "window", "opaque", "transparent" ]
+      init : "",
+      check : [ "window", "opaque", "transparent", "" ],
+      apply : "_modifyWmode"
     },
 
     play :
     {
-      _legacy      : true,
-      type         : "boolean",
-      impl         : "param",
-      defaultValue : true
+
+      check : "Boolean",
+      init : true,
+      apply : "_modifyPlay"
     },
 
     loop :
     {
-      _legacy      : true,
-      type         : "boolean",
-      impl         : "param",
-      defaultValue : true
+      check : "Boolean",
+      init : true,
+      apply : "_modifyLoop"
     },
 
     menu :
     {
-      _legacy      : true,
-      type         : "boolean",
-      impl         : "param",
-      defaultValue : true
+      check : "Boolean",
+      init : true,
+      apply : "_modifyMenu"
     }
   },
 
@@ -497,15 +490,68 @@ qx.Class.define("qx.ui.embed.Flash",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyParam : function(propValue, propOldValue, propData)
+    _modifyQuality : function(propValue, propOldValue)
     {
-      this.setParam(propData.name, propValue.toString());
-      return true;
+      this.setParam("quality", propValue.toString());
     },
 
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @return {Boolean} TODOC
+     */
+    _modifyScale : function(propValue, propOldValue)
+    {
+      this.setParam("scale", propValue.toString());
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @return {Boolean} TODOC
+     */
+    _modifyWmode : function(propValue, propOldValue)
+    {
+      this.setParam("wmode", propValue.toString());
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @return {Boolean} TODOC
+     */
+    _modifyPlay : function(propValue, propOldValue)
+    {
+      this.setParam("play", propValue.toString());
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @param propOldValue {var} Previous value
+     * @return {Boolean} TODOC
+     */
+    _modifyLoop : function(propValue, propOldValue)
+    {
+      this.setParam("loop", propValue.toString());
+    },
 
 
 

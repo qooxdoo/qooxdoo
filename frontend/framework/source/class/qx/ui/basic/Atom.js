@@ -70,7 +70,7 @@ qx.Class.define("qx.ui.basic.Atom",
     this.getLayoutImpl().setEnableFlexSupport(false);
 
     // Apply constructor arguments
-    this.setLabel(vLabel);
+    this.setLabel(vLabel || "");
 
     // Simple flash wrapper
     if (qx.Class.isDefined("qx.ui.embed.Flash") && vFlash != null && vIconWidth != null && vIconHeight != null && qx.ui.embed.Flash.getPlayerVersion().getMajor() > 0)
@@ -133,8 +133,8 @@ qx.Class.define("qx.ui.basic.Atom",
     /** The label/caption/text of the qx.ui.basic.Atom instance */
     label :
     {
-      apply : "_modifyLabel",
-      nullable : true
+      init : "",
+      apply : "_modifyLabel"
     },
 
 
@@ -143,7 +143,7 @@ qx.Class.define("qx.ui.basic.Atom",
     {
       check : "String",
       apply : "_modifyIcon",
-      init : ""
+      nullable : true
     },
 
 
@@ -156,7 +156,7 @@ qx.Class.define("qx.ui.basic.Atom",
     {
       check : "String",
       apply : "_modifyDisabledIcon",
-      init : ""
+      nullable : true
     },
 
 
@@ -168,6 +168,7 @@ qx.Class.define("qx.ui.basic.Atom",
     {
       init : "both",
       check : [ "both", "label", "icon", "none"],
+      themeable : true,
       nullable : true,
       inheritable : true,
       apply : "_modifyShow",
@@ -183,6 +184,7 @@ qx.Class.define("qx.ui.basic.Atom",
     {
       init   : "left",
       check : [ "top", "right", "bottom", "left" ],
+      themeable : true,
       apply : "_modifyIconPosition"
     },
 
@@ -194,6 +196,7 @@ qx.Class.define("qx.ui.basic.Atom",
     iconWidth :
     {
       check : "Integer",
+      themeable : true,
       apply : "_modifyIconWidth",
       init : 0
     },
@@ -206,6 +209,7 @@ qx.Class.define("qx.ui.basic.Atom",
     iconHeight :
     {
       check : "Integer",
+      themeable : true,
       apply : "_modifyIconHeight",
       init : 0
     },

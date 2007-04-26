@@ -77,16 +77,14 @@ qx.Class.define("qx.ui.form.RepeatButton",
 
     interval :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 100
+      check : "Integer",
+      init : 100
     },
 
     firstInterval :
     {
-      _legacy      : true,
-      type         : "number",
-      defaultValue : 500
+      check : "Integer",
+      init : 500
     }
   },
 

@@ -60,8 +60,10 @@ qx.Class.define("qx.ui.embed.HtmlEmbed",
     /** Any text string which can contain HTML, too */
     html :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      init : "",
+      apply : "_modifyHtml",
+      event : "changeHtml"
     }
   },
 
