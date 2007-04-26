@@ -18,30 +18,12 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-
-************************************************************************ */
-
 /**
  * This manager is used by all objects which needs ranges like qx.ui.form.Spinner, ...
  */
 qx.Class.define("qx.type.Range",
 {
   extend : qx.core.Target,
-
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function() {
-    this.base(arguments);
-  },
 
 
 
@@ -57,6 +39,9 @@ qx.Class.define("qx.type.Range",
   },
 
 
+
+
+
   /*
   *****************************************************************************
      PROPERTIES
@@ -65,37 +50,30 @@ qx.Class.define("qx.type.Range",
 
   properties :
   {
-
     /** current value of the Range object */
     value :
     {
-      type         : "number",
-      defaultValue : 0,
-      _legacy      : true
+      check : "!isNaN(value)&&value>=this.getMin()&&value<=this.getMax()",
+      apply : "_modifyValue",
+      event : "change"
     },
 
     /** minimal value of the Range object */
     min :
     {
-      type         : "number",
-      defaultValue : 0,
-      _legacy      : true
+      check : "Number",
+      init : 0,
+      apply : "_modifyMin",
+      event : "change"
     },
 
     /** maximal value of the Range object */
     max :
     {
-      type         : "number",
-      defaultValue : 100,
-      _legacy      : true
-    },
-
-    /** Step size for increments/decrements of the value property */
-    step :
-    {
-      type         : "number",
-      defaultValue : 1,
-      _legacy      : true
+      check : "Number",
+      init : 0,
+      apply : "_modifyMax",
+      event : "change"
     }
   },
 
@@ -115,74 +93,12 @@ qx.Class.define("qx.type.Range",
      *
      * @type member
      * @param propValue {var} Current value
-     * @return {call} TODOC
-     */
-    _checkValue : function(propValue) {
-      return Math.max(this.getMin(), Math.min(this.getMax(), Math.floor(propValue)));
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
      * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyValue : function(propValue, propOldValue, propData)
-    {
-      if (this.hasEventListeners("change")) {
-        this.dispatchEvent(new qx.event.type.Event("change"), true);
-      }
-
-      return true;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @return {call} TODOC
-     */
-    _checkMax : function(propValue) {
-      return Math.floor(propValue);
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
-     */
-    _modifyMax : function(propValue, propOldValue, propData)
-    {
+    _modifyMax : function(propValue, propOldValue, propData) {
       this.setValue(Math.min(this.getValue(), propValue));
-
-      if (this.hasEventListeners("change")) {
-        this.dispatchEvent(new qx.event.type.Event("change"), true);
-      }
-
-      return true;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @return {call} TODOC
-     */
-    _checkMin : function(propValue) {
-      return Math.floor(propValue);
     },
 
 
@@ -195,15 +111,8 @@ qx.Class.define("qx.type.Range",
      * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyMin : function(propValue, propOldValue, propData)
-    {
+    _modifyMin : function(propValue, propOldValue, propData) {
       this.setValue(Math.max(this.getValue(), propValue));
-
-      if (this.hasEventListeners("change")) {
-        this.dispatchEvent(new qx.event.type.Event("change"), true);
-      }
-
-      return true;
     }
   }
 });
