@@ -113,6 +113,20 @@ qx.Class.define("qx.type.Range",
      */
     _modifyMin : function(propValue, propOldValue, propData) {
       this.setValue(Math.max(this.getValue(), propValue));
+    },
+
+
+    limit : function(value)
+    {
+      if (value < this.getMin()) {
+        return this.getMin();
+      }
+
+      if (value > this.getMax()) {
+        return this.getMax();
+      }
+
+      return value;
     }
   }
 });
