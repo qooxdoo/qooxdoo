@@ -59,13 +59,6 @@ qx.Class.define("qx.ui.core.ClientDocument",
     // Init element
     this.setElement(this._document.body);
 
-    // Needed hard-coded because otherwise the client document
-    // would not be added initially to the state queue
-    this.addToStateQueue();
-
-    // Don't use widget styles
-    this._styleProperties = {};
-
     // Configure as focus root
     this.activateFocusRoot();
 
@@ -192,41 +185,6 @@ qx.Class.define("qx.ui.core.ClientDocument",
      */
     _modifyVisible : qx.lang.Function.returnTrue,
 
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
-     */
-    _modifyElement : function(propValue, propOldValue, propData)
-    {
-      this._isCreated = qx.util.Validation.isValidElement(propValue);
-
-      if (propOldValue) {
-        propOldValue.qx_Widget = null;
-      }
-
-      if (propValue)
-      {
-        // add reference to widget instance
-        propValue.qx_Widget = this;
-
-        // link element and style reference
-        this._element = propValue;
-        this._style = propValue.style;
-      }
-      else
-      {
-        this._element = null;
-        this._style = null;
-      }
-
-      return true;
-    },
 
     getTopLevelWidget : qx.lang.Function.returnThis,
 
