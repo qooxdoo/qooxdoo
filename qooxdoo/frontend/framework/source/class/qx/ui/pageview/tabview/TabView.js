@@ -69,16 +69,16 @@ qx.Class.define("qx.ui.pageview.tabview.TabView",
 
     alignTabsToLeft :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true,
+      apply : "_modifyAlignTabsToLeft"
     },
 
     placeBarOnTop :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : true
+      check : "Boolean",
+      init : true,
+      apply : "_modifyPlaceBarOnTop"
     }
   },
 

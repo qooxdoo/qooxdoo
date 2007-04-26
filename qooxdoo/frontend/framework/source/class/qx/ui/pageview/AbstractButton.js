@@ -87,7 +87,8 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
     page :
     {
       check : "qx.ui.pageview.AbstractPage",
-      apply : "_modifyPage"
+      apply : "_modifyPage",
+      nullable : true
     },
 
 

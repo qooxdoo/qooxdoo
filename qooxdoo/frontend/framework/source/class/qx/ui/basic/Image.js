@@ -100,16 +100,17 @@ qx.Class.define("qx.ui.basic.Image",
     /** The source uri of the image. */
     source :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String",
+      apply : "_modifySource",
+      event : "changeSource"
     },
 
 
     /** The assigned preloader instance of the image. */
     preloader :
     {
-      _legacy : true,
-      type    : "object"
+      check : "qx.io.image.Preloader",
+      apply : "_modifyPreloader"
     },
 
 
@@ -121,18 +122,17 @@ qx.Class.define("qx.ui.basic.Image",
      */
     loaded :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      check : "Boolean",
+      init : false,
+      apply : "_modifyLoaded"
     },
 
 
     /** Should the image be maxified in it's own container? */
     resizeToInner :
     {
-      _legacy      : true,
-      type         : "boolean",
-      defaultValue : false
+      check : "Boolean",
+      init : false
     },
 
 
@@ -312,8 +312,7 @@ qx.Class.define("qx.ui.basic.Image",
 
         // Omit  here, otherwise the later setLoaded(true)
         // will not be executed (prevent recursion)
-        // Changed: Use forceLoaded instead of setLoaded => should be faster
-        this.forceLoaded(false);
+        this.setLoaded(false);
 
         if (propValue.isErroneous()) {
           this._onerror();

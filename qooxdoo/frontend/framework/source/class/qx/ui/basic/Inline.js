@@ -64,8 +64,7 @@ qx.Class.define("qx.ui.basic.Inline",
   {
     inlineNodeId :
     {
-      _legacy : true,
-      type    : "string"
+      check : "String"
     }
   }
 });
