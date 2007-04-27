@@ -57,7 +57,7 @@ qx.Class.define("qx.ui.form.TextField",
     }
 
     // Inline event wrapper
-    this.__oninput = qx.lang.Function.bindEvent(this._oninput, this);
+    this.__oninput = qx.lang.Function.bindEvent(this._oninputDom, this);
 
     // Add listeners
     this.addEventListener("blur", this._onblur);
@@ -609,7 +609,7 @@ qx.Class.define("qx.ui.form.TextField",
 
     _textOnFocus : null,
 
-    _oninput : qx.core.Variant.select("qx.client",
+    _oninputDom : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(e)
       {
@@ -1035,12 +1035,9 @@ qx.Class.define("qx.ui.form.TextField",
   {
     if (this._inputElement)
     {
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
+      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
         this._inputElement.onpropertychange = null;
-      }
-      else
-      {
+      } else {
         this._inputElement.removeEventListener("input", this.__oninput, false);
       }
 
