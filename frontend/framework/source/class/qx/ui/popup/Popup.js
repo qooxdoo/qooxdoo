@@ -70,16 +70,16 @@ qx.Class.define("qx.ui.popup.Popup",
       init : "popup"
     },
 
-
-    /**
-     * Whether to let the system decide when to hide the popup. Setting
-     *  this to false gives you better control but it also requires you
-     *  to handle the closing of the popup.
-     */
-    autoHide :
+    width :
     {
-      check : "Boolean",
-      init : true
+      refine : true,
+      init : "auto"
+    },
+
+    height :
+    {
+      refine : true,
+      init : "auto"
     },
 
 
@@ -91,6 +91,20 @@ qx.Class.define("qx.ui.popup.Popup",
     {
       refine : true,
       init : false
+    },
+
+
+
+
+    /**
+     * Whether to let the system decide when to hide the popup. Setting
+     *  this to false gives you better control but it also requires you
+     *  to handle the closing of the popup.
+     */
+    autoHide :
+    {
+      check : "Boolean",
+      init : true
     },
 
 

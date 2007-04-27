@@ -92,8 +92,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           width                         : "auto",
           height                        : "auto",
           horizontalChildrenAlign       : "center",
-          verticalChildrenAlign         : "middle",
-          stretchChildrenOrthogonalAxis : false
+          verticalChildrenAlign         : "middle"
         };
       }
     },
@@ -116,13 +115,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "popup" :
     {
-      style : function(states)
-      {
-        return {
-          width  : "auto",
-          height : "auto"
-        };
-      }
+
     },
 
     "tool-tip" :
@@ -329,36 +322,12 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "button-view-pane" :
     {
-      style : function(states)
-      {
-        if (states.barHorizontal)
-        {
-          return {
-            width  : null,
-            height : "1*"
-          };
-        }
-        else
-        {
-          return {
-            width  : "1*",
-            height : null
-          };
-        }
-      }
+
     },
 
     "button-view-page" :
     {
-      style : function(states)
-      {
-        return {
-          left   : 0,
-          right  : 0,
-          top    : 0,
-          bottom : 0
-        };
-      }
+
     },
 
     "button-view-bar" :
@@ -374,10 +343,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
             paddingRight  : 0,
             paddingBottom : 1,
             paddingLeft   : 0,
-            border        : new qx.renderer.border.Border,
-            height        : "auto",
-            width         : null,
-            orientation   : "horizontal"
+            border        : new qx.renderer.border.Border
           };
 
           result.border.setBottom(1, "solid", "threedshadow");
@@ -393,10 +359,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
             paddingRight  : 0,
             paddingBottom : 1,
             paddingLeft   : 0,
-            border        : new qx.renderer.border.Border,
-            height        : "auto",
-            width         : null,
-            orientation   : "horizontal"
+            border        : new qx.renderer.border.Border
           };
 
           result.border.setTop(1, "solid", "threedshadow");
@@ -412,10 +375,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
             paddingRight  : 1,
             paddingBottom : 0,
             paddingLeft   : 1,
-            border        : new qx.renderer.border.Border,
-            height        : null,
-            width         : "auto",
-            orientation   : "vertical"
+            border        : new qx.renderer.border.Border
           };
 
           result.border.setRight(1, "solid", "threedshadow");
@@ -431,10 +391,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
             paddingRight  : 1,
             paddingBottom : 0,
             paddingLeft   : 1,
-            border        : new qx.renderer.border.Border,
-            height        : null,
-            width         : "auto",
-            orientation   : "vertical"
+            border        : new qx.renderer.border.Border
           };
 
           result.border.setLeft(1, "solid", "threedshadow");
@@ -554,15 +511,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "radio-view-page" :
     {
-      style : function(states)
-      {
-        return {
-          left   : 0,
-          right  : 0,
-          top    : 0,
-          bottom : 0
-        };
-      }
     },
 
     "radio-view-bar" :
@@ -1406,15 +1354,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "tab-view-page" :
     {
-      style : function(states)
-      {
-        return {
-          top    : 0,
-          right  : 0,
-          bottom : 0,
-          left   : 0
-        };
-      }
+
     },
 
     "tab-view-button" :

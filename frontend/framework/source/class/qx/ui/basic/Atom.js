@@ -140,6 +140,24 @@ qx.Class.define("qx.ui.basic.Atom",
       init : "atom"
     },
 
+    stretchChildrenOrthogonalAxis :
+    {
+      refine : true,
+      init : false
+    },
+
+    width :
+    {
+      refine : true,
+      init : "auto"
+    },
+
+    height :
+    {
+      refine : true,
+      init : "auto"
+    },
+
 
 
 

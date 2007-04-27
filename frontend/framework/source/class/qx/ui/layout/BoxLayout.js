@@ -88,7 +88,6 @@ qx.Class.define("qx.ui.layout.BoxLayout",
     {
       check : [ "horizontal", "vertical" ],
       init : "horizontal",
-      themeable : true,
       apply : "_modifyOrientation",
       event : "changeOrientation"
     },
@@ -130,7 +129,6 @@ qx.Class.define("qx.ui.layout.BoxLayout",
     {
       check : "Boolean",
       init : false,
-      themeable : true,
       apply : "_applyReverseChildrenOrder"
     },
 
@@ -143,7 +141,6 @@ qx.Class.define("qx.ui.layout.BoxLayout",
     {
       check : "Boolean",
       init : true,
-      themeable : true,
       apply : "_applyStretchChildrenOrthogonalAxis"
     },
 
