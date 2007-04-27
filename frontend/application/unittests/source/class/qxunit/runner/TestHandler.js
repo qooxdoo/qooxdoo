@@ -45,7 +45,7 @@ qx.Class.define("qxunit.runner.TestHandler",
         this.ttree = new qxunit.runner.Tree("All");
         for (var i in tmap) // array of maps
         {
-          
+           
         }
       },
 
