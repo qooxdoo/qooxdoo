@@ -44,11 +44,7 @@ qx.Class.define("qxunit.runner.Application",
       qx.manager.object.AliasManager.getInstance().add("qxunit", qx.core.Setting.get("qxunit.resourceUri"));
 
       // Include CSS file
-      //qx.html.StyleSheet.includeFile(qx.manager.object.AliasManager.getInstance().resolvePath("qxunit/css/qxunit.css"));
-
-      // preload images
-      //var preloader = new qx.io.image.PreloaderSystem(apiviewer.TreeUtil.PRELOAD_IMAGES);
-      //preloader.start();
+      qx.html.StyleSheet.includeFile(qx.manager.object.AliasManager.getInstance().resolvePath("qxunit/css/qxunit.css"));
 
       // Initialize the viewer
       this.viewer = new qxunit.runner.TestRunner;
