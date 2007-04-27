@@ -59,38 +59,17 @@ qx.Class.define("qx.ui.core.Widget",
   {
     this.base(arguments);
 
-    // Initialize scrollbar size calculation
-    var self = this.self(arguments);
-    if (self.SCROLLBAR_SIZE === null) {
-      self.__initOverflow();
-    }
-
-    // ************************************************************************
-    //   HTML MAPPING DATA STRUCTURES
-    // ************************************************************************
-    // Allows the user to setup styles and attributes without a
-    // need to have the target element created already.
-    /*
-    this._htmlProperties = { className : this.classname }
-    this._htmlAttributes = { qxhashcode : this._hashCode }
-    */
-
+    // Data structures
     this._styleProperties = { position : "absolute" };
 
-    // ************************************************************************
-    //   LAYOUT CHANGES
-    // ************************************************************************
+    // Layout queue helper
     this._layoutChanges = {};
 
-    // ************************************************************************
-    //   APPEARANCE
-    // ************************************************************************
+    // Prepare appearance
     this._states = {};
     this._applyAppearance();
 
-    // ************************************************************************
-    //   PROPERTY INIT
-    // ************************************************************************
+    // Property init
     this.initTop();
     this.initRight();
     this.initBottom();
@@ -107,6 +86,7 @@ qx.Class.define("qx.ui.core.Widget",
     this.initOverflow();
     this.initTabIndex();
     this.initSelectable();
+    this.initOpacity();
   },
 
 
@@ -1143,7 +1123,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @type static
      * @return {void}
      */
-    __initOverflow : function()
+    initScrollbarWidth : function()
     {
       var t = document.createElement("div");
       var s = t.style;
@@ -1375,7 +1355,8 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Number",
       apply : "_modifyOpacity",
-      themeable : true
+      themeable : true,
+      init : null
     },
 
 
