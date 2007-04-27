@@ -239,8 +239,8 @@ qx.Class.define("qxunit.test.PropertyHelper",
     noProp          : { check : "String", nullable : true },
     initProp        : { init : "foo" },
     nullProp        : { init : "bar", nullable : true },
-    appearanceProp  : { appearance : true, nullable : true },
-    fullProp        : { init : 100, appearance : true }
+    appearanceProp  : { themeable : true, nullable : true },
+    fullProp        : { init : 100, themeable : true }
   }
 });
 
@@ -251,9 +251,9 @@ qx.Class.define("qxunit.test.Layout",
   properties :
   {
     _enabled : { inheritable : true },
-    _width : { inheritable : true, appearance : true },
-    _height : { inheritable : true, appearance : true },
-    _left : { inheritable : true, appearance : true },
-    _top : { inheritable : true, appearance : true }
+    _width : { inheritable : true, themeable : true },
+    _height : { inheritable : true, themeable : true },
+    _left : { inheritable : true, themeable : true },
+    _top : { inheritable : true, themeable : true }
   }
 });
