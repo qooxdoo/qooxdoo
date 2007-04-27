@@ -931,9 +931,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          right    : 0,
-          bottom   : 0,
-          left     : 0,
           border   : "undefined",
           overflow : "scrollY"
         };

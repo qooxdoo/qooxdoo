@@ -44,30 +44,14 @@ qx.Class.define("qx.ui.form.List",
   {
     this.base(arguments);
 
-    // ************************************************************************
-    //   INITILISIZE MANAGER
-    // ************************************************************************
     this._manager = new qx.manager.selection.SelectionManager(this);
 
-    // ************************************************************************
-    //   BEHAVIOR
-    // ************************************************************************
-    this.setSelectable(false);
-    this.setTabIndex(1);
-    this.setOverflow("hidden");
-
-    // ************************************************************************
-    //   MOUSE EVENT LISTENER
-    // ************************************************************************
     this.addEventListener("mouseover", this._onmouseover);
     this.addEventListener("mousedown", this._onmousedown);
     this.addEventListener("mouseup", this._onmouseup);
     this.addEventListener("click", this._onclick);
     this.addEventListener("dblclick", this._ondblclick);
 
-    // ************************************************************************
-    //   KEY EVENT LISTENER
-    // ************************************************************************
     this.addEventListener("keydown", this._onkeydown);
     this.addEventListener("keypress", this._onkeypress);
     this.addEventListener("keyinput", this._onkeyinput);
@@ -88,6 +72,24 @@ qx.Class.define("qx.ui.form.List",
     {
       refine : true,
       init : "list"
+    },
+
+    overflow :
+    {
+      refine : true,
+      init : "hidden"
+    },
+
+    tabIndex :
+    {
+      refine : true,
+      init : 1
+    },
+
+    selectable :
+    {
+      refine : true,
+      init : false
     },
 
     enableInlineFind :

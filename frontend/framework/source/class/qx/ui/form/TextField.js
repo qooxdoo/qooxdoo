@@ -52,15 +52,12 @@ qx.Class.define("qx.ui.form.TextField",
     this.base(arguments);
 
     // Apply value
-    if (value !== undefined) {
+    if (value != null) {
       this.setValue(value);
     }
 
     // Inline event wrapper
     this.__oninput = qx.lang.Function.bindEvent(this._oninput, this);
-
-    // Enable tabIndex
-    this.setTabIndex(1);
 
     // Add listeners
     this.addEventListener("blur", this._onblur);
@@ -129,6 +126,12 @@ qx.Class.define("qx.ui.form.TextField",
     {
       refine : true,
       init : "text-field"
+    },
+
+    tabIndex :
+    {
+      refine : true,
+      init : 1
     },
 
     /**
@@ -248,6 +251,9 @@ qx.Class.define("qx.ui.form.TextField",
         istyle.overflow = this._inputOverflow;
         istyle.outline = "none";
 
+        // Sync cursor
+        this._modifyCursor(this.getCursor());
+
         // Disable browser appearance
         istyle.WebkitAppearance = "none";
         istyle.MozAppearance = "none";
@@ -278,6 +284,22 @@ qx.Class.define("qx.ui.form.TextField",
       }
     },
 
+    _modifyCursor : function(propValue, propOldValue)
+    {
+      if (propValue)
+      {
+        if (propValue == "pointer" && qx.core.Client.getInstance().isMshtml()) {
+          this.setStyleProperty("cursor", "hand");
+        } else {
+          this.setStyleProperty("cursor", propValue);
+        }
+      }
+      else
+      {
+        this.removeStyleProperty("cursor");
+      }
+    },
+
     /**
      * We could not use width/height = 100% because the outer elements
      * could have paddings and borders which will break. We use the
@@ -292,6 +314,27 @@ qx.Class.define("qx.ui.form.TextField",
       istyle.height = (this.getInnerHeight() - 2) + "px";
     },
 
+
+    _modifyCursor : function(propValue, propOldValue)
+    {
+      if (this._inputElement)
+      {
+        var style = this._inputElement.style;
+
+        if (propValue)
+        {
+          if (propValue == "pointer" && qx.core.Client.getInstance().isMshtml()) {
+            style.cursor = "hand";
+          } else {
+            style.cursor = propValue;
+          }
+        }
+        else
+        {
+          style.cursor = "";
+        }
+      }
+    },
 
     /**
      * Apply the enabled property.
