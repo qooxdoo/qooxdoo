@@ -70,6 +70,9 @@ qx.Class.define("qx.application.Gui",
      */
     main : function()
     {
+      // Prepare widget
+      qx.ui.core.Widget.initScrollbarWidth();
+
       // Initialize themes
       qx.manager.object.ThemeManager.getInstance().initialize();
 
