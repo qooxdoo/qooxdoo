@@ -278,12 +278,12 @@ qx.Class.define("qx.util.fsm.State",
      *
      * @throws TODOC
      */
-    _commonCheckAutoActions : function(actionType, propValue, propData)
+    _commonTransformAutoActions : function(actionType, value)
     {
       // Validate that we received an object property value
-      if (typeof (propValue) != "object") {
+      if (typeof (value) != "object") {
         throw new Error("Invalid " + actionType + " value: " +
-                        typeof (propValue));
+                        typeof (value));
       }
 
       // We'll create a function to do the requested actions.  Initialize the
@@ -299,7 +299,7 @@ qx.Class.define("qx.util.fsm.State",
 
       // Retrieve the function request, e.g.
       // "enabled" :
-      for (var f in propValue)
+      for (var f in value)
       {
         // Get the function request value object, e.g.
         // "setEnabled" :
@@ -310,7 +310,7 @@ qx.Class.define("qx.util.fsm.State",
         //     "groups"  : [ "group1", "group2" ],
         //   }
         // ];
-        var functionRequest = propValue[f];
+        var functionRequest = value[f];
 
         // The function request value should be an object
         if (!functionRequest instanceof Array) {
@@ -473,7 +473,7 @@ qx.Class.define("qx.util.fsm.State",
      */
     name :
     {
-      check : "this._checkName(value)",
+      transform : "__transformName",
       nullable : true
     },
 
@@ -486,7 +486,7 @@ qx.Class.define("qx.util.fsm.State",
      */
     onentry :
     {
-      check : "this._checkOnentry(value)",
+      transform : "__transformOnentry",
       nullable : true,
       init : function(fsm, event) {}
     },
@@ -500,7 +500,7 @@ qx.Class.define("qx.util.fsm.State",
      */
     onexit :
     {
-      check : "this._checkOnexit(value)",
+      transform : "__transformOnexit",
       nullable : true,
       init : function(fsm, event) {}
     },
@@ -534,7 +534,7 @@ qx.Class.define("qx.util.fsm.State",
      */
     autoActionsBeforeOnentry :
     {
-      check : "this._checkAutoActionsBeforeOnentry(value)",
+      transform : "__transformAutoActionsBeforeOnentry",
       nullable : true,
       init : function(fsm, event) {}
     },
@@ -569,7 +569,7 @@ qx.Class.define("qx.util.fsm.State",
      */
     autoActionsAfterOnentry :
     {
-      check : "this._checkAutoActionsAfterOnentry(value)",
+      transform : "__transformAutoActionsAfterOnentry",
       nullable : true,
       init : function(fsm, event) {}
     },
@@ -603,7 +603,7 @@ qx.Class.define("qx.util.fsm.State",
      */
     autoActionsBeforeOnexit :
     {
-      check : "this._checkAutoActionsBeforeOnexit(value)",
+      transform : "__transformAutoActionsBeforeOnexit",
       nullable : true,
       init : function(fsm, event) {}
     },
@@ -638,7 +638,7 @@ qx.Class.define("qx.util.fsm.State",
      */
     autoActionsAfterOnexit :
     {
-      check : "this._checkAutoActionsAfterOnexit(value)",
+      transform : "__transformAutoActionsAfterOnexit",
       nullable : true,
       init : function(fsm, event) {}
     },
@@ -650,7 +650,11 @@ qx.Class.define("qx.util.fsm.State",
      * through the constructor's stateInfo object, but it is also possible
      * (but highly NOT recommended) to change this dynamically.
      */
-    events : { nullable : true }
+    events :
+    {
+      transform : "__transformEvents",
+      nullable : true
+    }
   },
 
 
@@ -674,20 +678,19 @@ qx.Class.define("qx.util.fsm.State",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propData {var} Property configuration map
+     * @param value {var} Value passed to setter
      * @return {var} TODOC
      * @throws TODOC
      */
-    _checkName : function(propValue, propData)
+    __transformName : function(value)
     {
       // Ensure that we got a valid state name
-      if (typeof (propValue) != "string" || propValue.length < 1)
+      if (typeof (value) != "string" || value.length < 1)
       {
         throw new Error("Invalid state name");
       }
 
-      return propValue;
+      return value;
     },
 
 
@@ -695,15 +698,14 @@ qx.Class.define("qx.util.fsm.State",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propData {var} Property configuration map
+     * @param value {var} Current value
      * @return {Function | var | null} TODOC
      * @throws TODOC
      */
-    _checkOnentry : function(propValue, propData)
+    __transformOnentry : function(value)
     {
       // Validate the onentry function
-      switch(typeof (propValue))
+      switch(typeof (value))
       {
         case "undefined":
           // None provided.  Convert it to a null function
@@ -711,10 +713,10 @@ qx.Class.define("qx.util.fsm.State",
 
         case "function":
           // We're cool.  No changes required
-          return propValue;
+          return value;
 
         default:
-          throw new Error("Invalid onentry type: " + typeof (propValue));
+          throw new Error("Invalid onentry type: " + typeof (value));
           return null;
       }
     },
@@ -724,15 +726,14 @@ qx.Class.define("qx.util.fsm.State",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propData {var} Property configuration map
+     * @param value {var} Current value
      * @return {Function | var | null} TODOC
      * @throws TODOC
      */
-    _checkOnexit : function(propValue, propData)
+    __transformOnexit : function(value)
     {
       // Validate the onexit function
-      switch(typeof (propValue))
+      switch(typeof (value))
       {
         case "undefined":
           // None provided.  Convert it to a null function
@@ -740,10 +741,10 @@ qx.Class.define("qx.util.fsm.State",
 
         case "function":
           // We're cool.  No changes required
-          return propValue;
+          return value;
 
         default:
-          throw new Error("Invalid onexit type: " + typeof (propValue));
+          throw new Error("Invalid onexit type: " + typeof (value));
           return null;
       }
     },
@@ -753,15 +754,14 @@ qx.Class.define("qx.util.fsm.State",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propData {var} Property configuration map
+     * @param value {var} Current value
      * @return {var} TODOC
      * @throws TODOC
      */
-    _checkEvents : function(propValue, propData)
+    __transformEvents : function(value)
     {
       // Validate that events is an object
-      if (typeof (propValue) != "object") {
+      if (typeof (value) != "object") {
         throw new Error("events must be an object");
       }
 
@@ -778,9 +778,9 @@ qx.Class.define("qx.util.fsm.State",
       //     object (meaning that this rule applies if both the event and
       //     the event's target object's Friendly Name match), and its
       //     property value is one of (a), (b) or (c), above.
-      for (var e in propValue)
+      for (var e in value)
       {
-        var action = propValue[e];
+        var action = value[e];
 
         if (typeof (action) == "number" &&
             action != qx.util.fsm.FiniteStateMachine.EventHandling.PREDICATE &&
@@ -816,12 +816,12 @@ qx.Class.define("qx.util.fsm.State",
         else if (typeof (action) != "string" && typeof (action) != "number")
         {
           throw new Error("Invalid value in events object: " +
-                          e + ": " + propValue[e]);
+                          e + ": " + value[e]);
         }
       }
 
       // We're cool.  No changes required.
-      return propValue;
+      return value;
     },
 
 
@@ -829,15 +829,14 @@ qx.Class.define("qx.util.fsm.State",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propData {var} Property configuration map
+     * @param value {var} Current value
      * @return {var} TODOC
      */
-    _checkAutoActionsBeforeOnentry : function(propValue, propData) {
-      return qx.util.fsm.State._commonCheckAutoActions(
+    __transformAutoActionsBeforeOnentry : function(value)
+    {
+      return qx.util.fsm.State._commonTransformAutoActions(
         "autoActionsBeforeOnentry",
-        propValue,
-        propData);
+        value);
     },
 
 
@@ -845,15 +844,14 @@ qx.Class.define("qx.util.fsm.State",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propData {var} Property configuration map
+     * @param value {var} Current value
      * @return {var} TODOC
      */
-    _checkAutoActionsAfterOnentry : function(propValue, propData) {
-      return qx.util.fsm.State._commonCheckAutoActions(
+    __transformAutoActionsAfterOnentry : function(value)
+    {
+      return qx.util.fsm.State._commonTransformAutoActions(
         "autoActionsAfterOnentry",
-        propValue,
-        propData);
+        value);
     },
 
 
@@ -861,15 +859,14 @@ qx.Class.define("qx.util.fsm.State",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propData {var} Property configuration map
+     * @param value {var} Current value
      * @return {var} TODOC
      */
-    _checkAutoActionsBeforeOnexit : function(propValue, propData) {
-      return qx.util.fsm.State._commonCheckAutoActions(
+    __transformAutoActionsBeforeOnexit : function(value)
+    {
+      return qx.util.fsm.State._commonTransformAutoActions(
         "autoActionsBeforeOnexit",
-        propValue,
-        propData);
+        value);
     },
 
 
@@ -877,15 +874,14 @@ qx.Class.define("qx.util.fsm.State",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propData {var} Property configuration map
+     * @param value {var} Current value
      * @return {var} TODOC
      */
-    _checkAutoActionsAfterOnexit : function(propValue, propData) {
-      return qx.util.fsm.State._commonCheckAutoActions(
+    __transformAutoActionsAfterOnexit : function(value)
+    {
+      return qx.util.fsm.State._commonTransformAutoActions(
         "autoActionsAfterOnexit",
-        propValue,
-        propData);
+        value);
     },
 
 

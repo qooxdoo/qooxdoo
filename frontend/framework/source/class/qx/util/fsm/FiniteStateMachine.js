@@ -295,7 +295,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     addState : function(state)
     {
       // Ensure that we got valid state info
-      if (!state instanceof qx.util.fsm.State) {
+      if (!state instanceof qx.util.fsm.State)
+      {
         throw new Error("Invalid state: not an instance of " +
                         "qx.util.fsm.State");
       }
@@ -304,7 +305,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
       var stateName = state.getName();
 
       // Ensure that the state name doesn't already exist
-      if (stateName in this._states) {
+      if (stateName in this._states)
+      {
         throw new Error("State " + stateName + " already exists");
       }
 
@@ -346,7 +348,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     replaceState : function(state, bDispose)
     {
       // Ensure that we got valid state info
-      if (!state instanceof qx.util.fsm.State) {
+      if (!state instanceof qx.util.fsm.State)
+      {
         throw new Error("Invalid state: not an instance of " +
                         "qx.util.fsm.State");
       }
@@ -396,14 +399,16 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
       this._friendlyToObject[friendlyName] = obj;
 
       // If no groupNames are specified, we're done.
-      if (!groupNames) {
+      if (!groupNames)
+      {
         return;
       }
 
       // Allow either a single group name or an array of group names.  If the
       // former, we convert it to the latter to make the subsequent code
       // simpler.
-      if (typeof (groupNames) == "string") {
+      if (typeof (groupNames) == "string")
+      {
         groupNames = [ groupNames ];
       }
 
@@ -431,7 +436,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
 
         // Append this group name to the list of groups this friendly name is
         // in
-        this._friendlyToGroups[friendlyName] = this._friendlyToGroups[friendlyName].concat(groupNames);
+        this._friendlyToGroups[friendlyName] =
+          this._friendlyToGroups[friendlyName].concat(groupNames);
       }
     },
 
@@ -454,7 +460,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
       // Delete references to any groupos this friendly name was in
       if (this._friendlyToGroups[friendlyName])
       {
-        for (groupName in this._friendlyToGroups[friendlyName]) {
+        for (groupName in this._friendlyToGroups[friendlyName])
+        {
           delete this._groupToFriendly[groupName];
         }
 
@@ -481,7 +488,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      *   The object which has the specified friendly name, or undefined if no
      *   object has been associated with that name.
      */
-    getObject : function(friendlyName) {
+    getObject : function(friendlyName)
+    {
       return this._friendlyToObject[friendlyName];
     },
 
@@ -522,7 +530,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     {
       var a = [];
 
-      for (var name in this._groupToFriendly[groupName]) {
+      for (var name in this._groupToFriendly[groupName])
+      {
         a.push(name);
       }
 
@@ -566,7 +575,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     {
       var stateName = this._startState;
 
-      if (stateName == null) {
+      if (stateName == null)
+      {
         throw new Error("Machine started with no available states");
       }
 
@@ -581,21 +591,24 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
          qx.util.fsm.FiniteStateMachine.DebugFlags.FUNCTION_DETAIL);
 
       // Run the actionsBeforeOnentry actions for the initial state
-      if (debugFunctions) {
+      if (debugFunctions)
+      {
         this.debug(this.getName() + "#" + stateName + "#actionsBeforeOnentry");
       }
 
       this._states[stateName].getAutoActionsBeforeOnentry()(this);
 
       // Run the entry function for the new state, if one is specified
-      if (debugFunctions) {
+      if (debugFunctions)
+      {
         this.debug(this.getName() + "#" + stateName + "#entry");
       }
 
       this._states[stateName].getOnentry()(this, null);
 
       // Run the actionsAfterOnentry actions for the initial state
-      if (debugFunctions) {
+      if (debugFunctions)
+      {
         this.debug(this.getName() + "#" + stateName + "#actionsAfterOnentry");
       }
 
@@ -679,7 +692,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     {
       var e = {};
 
-      for (var prop in event) {
+      for (var prop in event)
+      {
         e[prop] = event[prop];
       }
 
@@ -719,9 +733,12 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
       if (this.getDebugFlags() &
           qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS)
       {
-        if (bAddAtHead) {
+        if (bAddAtHead)
+        {
           this.debug(this.getName() + ": Pushed event: " + event.getType());
-        } else {
+        }
+        else
+        {
           this.debug(this.getName() + ": Queued event: " + event.getType());
         }
       }
@@ -782,7 +799,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         var bDispose = this.__run(event);
 
         // If we didn't block (and re-queue) the event, dispose it.
-        if (bDispose) {
+        if (bDispose)
+        {
           event.dispose();
         }
       }
@@ -885,7 +903,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         if (!friendly)
         {
           // Nope, it doesn't seem so.  Just discard it.
-          if (debugObjectNotFound) {
+          if (debugObjectNotFound)
+          {
             this.debug(this.getName() +
                        ": Could not find friendly name for '" +
                        event.getType() + "' on '" + event.getTarget() + "'");
@@ -947,7 +966,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
             }
             else
             {
-              throw new Error("Explicit transition " + action + " does not exist");
+              throw new Error("Explicit transition " +
+                              action + " does not exist");
             }
 
             break;
@@ -987,7 +1007,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         if (typeof (nextState) == "string")
         {
           // We found a literal state name.  Ensure it exists.
-          if (!nextState in this._states) {
+          if (!nextState in this._states)
+          {
             throw new Error("Attempt to transition to nonexistent state " +
                             nextState);
           }
@@ -1008,7 +1029,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
 
             case qx.util.fsm.FiniteStateMachine.StateChange.POP_STATE_STACK:
               // Switch to the state at the top of the state stack.
-              if (this._savedStates.length == 0) {
+              if (this._savedStates.length == 0)
+              {
                 throw new Error("Attempt to transition to POP_STATE_STACK " +
                                 "while state stack is empty.");
               }
@@ -1025,7 +1047,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         }
 
         // Run the actionsBeforeOntransition actions for this transition
-        if (debugFunctions) {
+        if (debugFunctions)
+        {
           this.debug(this.getName() + "#" + thisState + "#" + t +
                      "#autoActionsBeforeOntransition");
         }
@@ -1033,7 +1056,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         trans.getAutoActionsBeforeOntransition()(this);
 
         // Run the 'ontransition' function
-        if (debugFunctions) {
+        if (debugFunctions)
+        {
           this.debug(this.getName() + "#" + thisState + "#" + t +
                      "#ontransition");
         }
@@ -1041,7 +1065,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         trans.getOntransition()(this, event);
 
         // Run the autoActionsAfterOntransition actions for this transition
-        if (debugFunctions) {
+        if (debugFunctions)
+        {
           this.debug(this.getName() + "#" + thisState + "#" + t +
                      "#autoActionsAfterOntransition");
         }
@@ -1049,7 +1074,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         trans.getAutoActionsAfterOntransition()(this);
 
         // Run the autoActionsBeforeOnexit actions for the old state
-        if (debugFunctions) {
+        if (debugFunctions)
+        {
           this.debug(this.getName() + "#" + thisState +
                      "#autoActionsBeforeOnexit");
         }
@@ -1057,14 +1083,16 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         currentState.getAutoActionsBeforeOnexit()(this);
 
         // Run the exit function for the old state
-        if (debugFunctions) {
+        if (debugFunctions)
+        {
           this.debug(this.getName() + "#" + thisState + "#exit");
         }
 
         currentState.getOnexit()(this, event);
 
         // Run the autoActionsAfterOnexit actions for the old state
-        if (debugFunctions) {
+        if (debugFunctions)
+        {
           this.debug(this.getName() + "#" + thisState +
                      "#autoActionsAfterOnexit");
         }
@@ -1090,7 +1118,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         nextState = undefined;
 
         // Run the autoActionsBeforeOnentry actions for the new state
-        if (debugFunctions) {
+        if (debugFunctions)
+        {
           this.debug(this.getName() + "#" + thisState +
                      "#autoActionsBeforeOnentry");
         }
@@ -1098,14 +1127,16 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         currentState.getAutoActionsBeforeOnentry()(this);
 
         // Run the entry function for the new state, if one is specified
-        if (debugFunctions) {
+        if (debugFunctions)
+        {
           this.debug(this.getName() + "#" + thisState + "#entry");
         }
 
         currentState.getOnentry()(this, event);
 
         // Run the autoActionsAfterOnentry actions for the new state
-        if (debugFunctions) {
+        if (debugFunctions)
+        {
           this.debug(this.getName() + "#" + thisState +
                      "#autoActionsAfterOnentry");
         }
@@ -1124,7 +1155,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         // Ensure that all actions have been flushed
         qx.ui.core.Widget.flushGlobalQueues();
 
-        if (debugTransitions) {
+        if (debugTransitions)
+        {
           this.debug(this.getName() + "#" + prevState + " => " +
                      this.getName() + "#" + thisState);
         }
@@ -1133,8 +1165,12 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         return true;
       }
 
-      if (debugTransitions) {
-        this.debug(this.getName() + "#" + thisState + ": event '" + event.getType() + "'" + ": no transition found.  No state change.");
+      if (debugTransitions)
+      {
+        this.debug(this.getName() +
+                   "#" + thisState + ": event '" +
+                   event.getType() + "'" +
+                   ": no transition found.  No state change.");
       }
 
       return true;
