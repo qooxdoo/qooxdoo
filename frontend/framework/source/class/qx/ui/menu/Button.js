@@ -116,12 +116,14 @@ qx.Class.define("qx.ui.menu.Button",
     icon :
     {
       check : "String",
-      apply : "_modifyIcon"
+      apply : "_modifyIcon",
+      nullable : true
     },
 
     label :
     {
-      apply : "_modifyLabel"
+      apply : "_modifyLabel",
+      nullable : true
     },
 
     menu :

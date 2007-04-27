@@ -54,25 +54,17 @@ qx.Class.define("qx.ui.basic.Label",
   {
     this.base(arguments);
 
-    // Apply constructor arguments
     if (mode != null) {
       this.setMode(mode);
     }
 
-    if (text !== undefined) {
+    if (text != null) {
       this.setText(text);
     }
 
-    if (mnemonic !== undefined) {
+    if (mnemonic != null) {
       this.setMnemonic(mnemonic);
     }
-
-    // Prohibit stretching through layout handler
-    this.setAllowStretchX(false);
-    this.setAllowStretchY(false);
-
-    // Auto sized as default
-    this.auto();
   },
 
 
@@ -132,6 +124,31 @@ qx.Class.define("qx.ui.basic.Label",
       refine : true,
       init : "label"
     },
+
+    width :
+    {
+      refine : true,
+      init : "auto"
+    },
+
+    height :
+    {
+      refine : true,
+      init : "auto"
+    },
+
+    allowStretchX :
+    {
+      refine : true,
+      init : false
+    },
+
+    allowStretchY :
+    {
+      refine : true,
+      init : false
+    },
+
 
 
     /**
