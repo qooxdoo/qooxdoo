@@ -945,16 +945,13 @@ qx.Class.define("qx.core.Property",
       // Execute user configured setter
       if (config.apply)
       {
-        if (!(variant === "init" && config.applyInit === false))
+        if (variant === "init")
         {
-          if (variant === "init")
-          {
-            code.push('this.', config.apply, '(computed, null);');
-          }
-          else
-          {
-            code.push('this.', config.apply, '(computed, old);');
-          }
+          code.push('this.', config.apply, '(computed, null);');
+        }
+        else
+        {
+          code.push('this.', config.apply, '(computed, old);');
         }
       }
 
