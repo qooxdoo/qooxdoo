@@ -1483,7 +1483,7 @@ qx.Class.define("qx.ui.table.Table",
           text = selectedRowCount + " of " + rowCount + ((rowCount == 1) ? " row" : " rows") + " selected";
         }
 
-        this._statusBar.setHtml(text);
+        this._statusBar.setText(text);
       }
     },
 
