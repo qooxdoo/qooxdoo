@@ -104,7 +104,7 @@ qx.Theme.define("qx.theme.classic.Border",
       color : [ "threedhighlight", "threedshadow", "threedshadow", "threedhighlight" ]
     },
 
-    "horizontalDivider" :
+    "verticalDivider" :
     {
       widthTop : 1,
       widthBottom : 1,
@@ -112,7 +112,7 @@ qx.Theme.define("qx.theme.classic.Border",
       colorBottom : "threedhighlight"
     },
 
-    "verticalDivider" :
+    "horizontalDivider" :
     {
       widthLeft : 1,
       widthRight : 1,
