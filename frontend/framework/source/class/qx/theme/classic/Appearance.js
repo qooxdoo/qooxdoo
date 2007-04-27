@@ -271,7 +271,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           left   : 3,
           width  : 2,
           bottom : 2,
-          border : "verticalDivider"
+          border : "horizontalDivider"
         };
       }
     },
@@ -895,7 +895,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           right  : 0,
           left   : 0,
-          height : "auto",
+          height : 0,
           border : "verticalDivider"
         };
       }
