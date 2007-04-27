@@ -1199,10 +1199,17 @@ qx.Class.define("qx.Class",
           }
         }
 
+        if (config.transform != null)
+        {
+          if (!(typeof config.transform == "string")) {
+            throw new Error('Invalid transform definition of property "' + name + '" in class "' + clazz.classname + '"! Needs to be a String.');
+          }
+        }
+
         if (config.check != null)
         {
           if (!(typeof config.check == "string" ||config.check instanceof Array || config.check instanceof Function)) {
-            throw new Error('Invalid check definition in of property "' + name + '" in class "' + clazz.classname + '"! Needs to be a String, Array or Function.');
+            throw new Error('Invalid check definition of property "' + name + '" in class "' + clazz.classname + '"! Needs to be a String, Array or Function.');
           }
         }
 

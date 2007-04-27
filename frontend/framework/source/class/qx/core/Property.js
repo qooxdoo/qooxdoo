@@ -56,8 +56,8 @@
  *     <ul>
  *   </td></tr>
  *   <tr><th>init</th><td>var</td><td>
- *     Sets the default/inittial value of the property. If no property value is set or the property
- *     gets resetteed, the getter will return the <code>init</code> value.
+ *     Sets the default/initial value of the property. If no property value is set or the property
+ *     gets reset, the getter will return the <code>init</code> value.
  *   </td></tr>
  *   <tr><th>apply</th><td>String</td><td>
  *     On change of the property value the method of the specified name will be called. The signature of
@@ -81,6 +81,15 @@
  *   <tr><th>refine</th><td>Boolean</td><td>
  *     Whether the property definition is a refinemnet of a property in one of the super classes of the class.
  *     Only the <code>init</code> value can be changed using refine.
+ *   </td></tr>
+ *   <tr><th>transform</th><td>String</td><td>
+ *     On setting of the property value the method of the specified name will
+ *     be called. The signature of the method is <code>function(value)</code>.
+ *     The parameter <code>value</code> is the value passed to the setter.
+ *     The function must return the modified or unmodified value.
+ *     Transformation occurs before the check function, so both may be
+ *     specified if desired.  Alternatively, the transform function may throw
+ *     an error if the value passed to it is invalid.
  *   </td></tr>
  * </table>
  *
@@ -240,7 +249,8 @@ qx.Class.define("qx.core.Property",
       init        : null,       // var
       apply       : "string",   // String
       event       : "string",   // String
-      check       : null        // Array, String, Function
+      check       : null,       // Array, String, Function
+      transform   : "string"    // String
     },
 
     $$allowedGroupKeys :
@@ -666,6 +676,13 @@ qx.Class.define("qx.core.Property",
           var store = this.$$store.init[name];
         } else {
           var store = this.$$store.user[name];
+        }
+
+        // Call user-provided transform method, if one is provided.  Transform
+        // method should either throw an error or return the new value.
+        if ((variant === "set" || variant === "init") && config.transform)
+        {
+          code.add('value=this.', config.transform, '(value);');
         }
 
         if (variant === "set" || variant === "style" || variant === "init")
