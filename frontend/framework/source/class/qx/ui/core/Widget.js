@@ -103,6 +103,10 @@ qx.Class.define("qx.ui.core.Widget",
     this.initHeight();
     this.initMinHeight();
     this.initMaxHeight();
+
+    this.initOverflow();
+    this.initTabIndex();
+    this.initSelectable();
   },
 
 
@@ -1440,7 +1444,8 @@ qx.Class.define("qx.ui.core.Widget",
       check : ["hidden", "auto", "scroll" ,"scrollX", "scrollY"],
       nullable : true,
       apply : "_modifyOverflow",
-      themeable : true
+      themeable : true,
+      init : 0
     },
 
 
@@ -5924,8 +5929,13 @@ qx.Class.define("qx.ui.core.Widget",
      * @param propOldValue {var} Previous value
      * @return {var} TODOC
      */
-    _modifyZIndex : function(propValue, propOldValue) {
-      return this.setStyleProperty("zIndex", propValue);
+    _modifyZIndex : function(propValue, propOldValue)
+    {
+      if (propValue == null) {
+        this.removeStyleProperty("zIndex");
+      } else {
+        this.setStyleProperty("zIndex", propValue);
+      }
     },
 
 
@@ -6370,7 +6380,7 @@ qx.Class.define("qx.ui.core.Widget",
     _applyOverflow : function(pn, pv, propValue, propOldValue)
     {
       // Apply Style
-      this.setStyleProperty(pn, pv);
+      this.setStyleProperty(pn, pv || "");
 
       // Invalidate Frame
       this._invalidateFrameWidth();

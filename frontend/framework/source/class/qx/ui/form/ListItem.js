@@ -48,9 +48,6 @@ qx.Class.define("qx.ui.form.ListItem",
       this.setValue(vValue);
     }
 
-    // ************************************************************************
-    //   EVENT LISTENER
-    // ************************************************************************
     this.addEventListener("dblclick", this._ondblclick);
   },
 
@@ -83,6 +80,30 @@ qx.Class.define("qx.ui.form.ListItem",
     {
       refine : true,
       init : "list-item"
+    },
+
+    height :
+    {
+      refine : true,
+      init : "auto"
+    },
+
+    minWidth :
+    {
+      refine : true,
+      init : "auto"
+    },
+
+    width :
+    {
+      refine : true,
+      init : null
+    },
+
+    allowStretchX :
+    {
+      refine : true,
+      init : true
     },
 
     value : {
