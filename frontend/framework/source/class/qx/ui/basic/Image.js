@@ -52,7 +52,7 @@ qx.Class.define("qx.ui.basic.Image",
   {
     this.base(arguments);
 
-    // Reset Alt and Title
+    // Force empty alt and title property
     this.setHtmlProperty("alt", "");
     this.setHtmlProperty("title", "");
 
@@ -97,6 +97,12 @@ qx.Class.define("qx.ui.basic.Image",
 
   properties :
   {
+    /*
+    ---------------------------------------------------------------------------
+      REFINED PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
     allowStretchX :
     {
       refine : true,
@@ -127,7 +133,21 @@ qx.Class.define("qx.ui.basic.Image",
       init : "auto"
     },
 
+    appearance :
+    {
+      refine : true,
+      init : "image"
+    },
 
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      OWN PROPERTIES
+    ---------------------------------------------------------------------------
+    */
 
     /** The source uri of the image. */
     source :
@@ -166,14 +186,6 @@ qx.Class.define("qx.ui.basic.Image",
     {
       check : "Boolean",
       init : false
-    },
-
-
-    /** Appearance of the widget */
-    appearance :
-    {
-      refine : true,
-      init : "image"
     }
   },
 
