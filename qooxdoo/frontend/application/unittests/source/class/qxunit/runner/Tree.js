@@ -39,6 +39,11 @@ qx.Class.define("qxunit.runner.Tree",
 
   members : {
 
+    hasChildren : function () 
+    {
+      return this.children.length;
+    },
+
     getChildren : function () 
     {
       return this.children;
@@ -77,7 +82,7 @@ qx.Class.define("qxunit.runner.Tree",
         if (agenda.length)
         {
           curr = agenda.shift();
-          var children = curr.getChildren;
+          var children = curr.getChildren();
           if ( children.length) // expand container
           {
             agenda = agenda.concat(children);

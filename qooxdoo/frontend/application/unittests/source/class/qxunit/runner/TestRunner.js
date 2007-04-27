@@ -277,19 +277,38 @@ qx.Class.define("qxunit.runner.TestRunner",
     }, //leftGetSelection
 
 
-    leftReloadTree : function (e) {
-      var tmap = this.tests.handler.tmap;
+    leftReloadTree : function (e) {  // use tree struct
+      var ttree = this.tests.handler.ttree;
       var left = this.left;
       left.setEnabled(false);
       left.destroyContent();
 
-      for (var i=0; i<tmap.length; i++) {
-        var f = new qx.ui.tree.TreeFolder(tmap[i].classname);
-        left.add(f);
-        for (var j=0; j<tmap[i].tests.length; j++) {
-          f.add(new qx.ui.tree.TreeFile(tmap[i].tests[j]));
+      function buildSubTree (widgetR, modelR)
+      {
+        var children = modelR.getChildren();
+        var t;
+        for (var i in children)
+        {
+          var currNode = children[i];
+          if (currNode.hasChildren())
+          {
+            t = new qx.ui.tree.TreeFolder(currNode.label);
+            buildSubTree(t,currNode);
+          } else 
+          {
+            t = new qx.ui.tree.TreeFile(currNode.label);
+          }
+          // make connections
+          widgetR.add(t);
+          t.modelLink         = currNode;
+          currNode.widgetLink = t;
         }
-      }
+      };
+      // link top leve widget and model
+      left.modelLink   = ttree;
+      ttree.widgetLink = left;
+      buildSubTree(left,ttree);
+
       left.setEnabled(true);
     }, //leftReloadTree
 

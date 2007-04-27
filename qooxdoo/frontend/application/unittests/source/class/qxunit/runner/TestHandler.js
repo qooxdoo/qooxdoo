@@ -34,7 +34,7 @@ qx.Class.define("qxunit.runner.TestHandler",
   {
     this.base(arguments);
     this.tmap  = eval(testRep); //[{classname:myClass,tests:['test1','test2']}, {...}]
-    this.__readTestRep(testRep);
+    this.ttree = this.__readTestRep(testRep);
   },
 
   members : {
@@ -42,11 +42,32 @@ qx.Class.define("qxunit.runner.TestHandler",
       __readTestRep : function (testRep)
       {
         var tmap = eval(testRep); // Json -> JS
-        this.ttree = new qxunit.runner.Tree("All");
-        for (var i in tmap) // array of maps
+
+        // recursive struct reader
+        function readTree (struct) // struct has single root node! 
         {
-           
+          var tree;
+          // current node
+          tree = new qxunit.runner.Tree(struct.classname)
+          // current test leafs
+          for (var j in struct.tests) 
+          {
+            tree.add(new qxunit.runner.Tree(struct.tests[j]));
+          }
+          // current children
+          for (var j in struct.children)
+          {
+            tree.add(readTree(struct.children[j]));
+          }
+          return tree;
+        };
+        var root = new qxunit.runner.Tree("All");
+        for (var i in tmap)
+        {
+          root.add(readTree(tmap[i]));
         }
+
+        return root;
       },
 
 
