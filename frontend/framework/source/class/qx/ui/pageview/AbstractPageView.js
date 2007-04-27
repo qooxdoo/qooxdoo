@@ -45,7 +45,23 @@ qx.Class.define("qx.ui.pageview.AbstractPageView",
     this._pane = new vPaneClass;
 
     this.add(this._bar, this._pane);
-    this.setOrientation("vertical");
+  },
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    orientation :
+    {
+      refine : true,
+      init : "vertical"
+    }
   },
 
 

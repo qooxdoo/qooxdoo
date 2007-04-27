@@ -680,13 +680,20 @@ qx.Class.define("qx.core.Property",
 
         // Call user-provided transform method, if one is provided.  Transform
         // method should either throw an error or return the new value.
-        if (config.transform && (variant === "set" || variant === "init"))
-        {
+        if (config.transform && (variant === "set" || variant === "init")) {
           code.add('value=this.', config.transform, '(value);');
         }
 
         if (variant === "set" || variant === "style" || variant === "init")
         {
+          // Another variant. If there is no init value defined for the property,
+          // and the init() method is called without any argument, then just ignore
+          // the call. This is needed because derived classes can add the init value
+          // for properties which were missing them in the original declaration.
+          if (config.nullable && variant === "init") {
+            code.add('if(value===undefined)return;');
+          }
+
           // Undefined check
           // Must be above the comparision between old and new, because otherwise previously unset
           // values get not detected and will be quitely ignored which is a bad behavior.

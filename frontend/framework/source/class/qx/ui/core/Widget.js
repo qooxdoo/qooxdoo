@@ -87,6 +87,21 @@ qx.Class.define("qx.ui.core.Widget",
     // ************************************************************************
     this._states = {};
     this._applyAppearance();
+
+
+    // Initialize dimension & location
+    this.initTop();
+    this.initRight();
+    this.initBottom();
+    this.initLeft();
+
+    this.initWidth();
+    this.initMinWidth();
+    this.initMaxWidth();
+
+    this.initHeight();
+    this.initMinHeight();
+    this.initMaxHeight();
   },
 
 

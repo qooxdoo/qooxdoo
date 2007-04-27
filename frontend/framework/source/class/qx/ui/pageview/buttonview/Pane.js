@@ -34,18 +34,6 @@ qx.Class.define("qx.ui.pageview.buttonview.Pane",
 
 
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function() {
-    this.base(arguments);
-  },
-
-
-
 
   /*
   *****************************************************************************
@@ -73,21 +61,9 @@ qx.Class.define("qx.ui.pageview.buttonview.Pane",
 
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      APPEARANCE ADDITIONS
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
     _applyAppearance : function()
     {
-      if (this.getParent())
+      if (this._hasParent)
       {
         var vPos = this.getParent().getBarPosition();
 
