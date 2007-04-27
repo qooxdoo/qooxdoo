@@ -247,7 +247,7 @@ qx.Class.define("qx.ui.form.Spinner",
 
     manager :
     {
-      check : "qx.type.Range",
+      check : "qx.type.IRange",
       apply : "_modifyManager"
     },
 
