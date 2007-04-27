@@ -42,32 +42,97 @@ qx.Class.define("qxunit.runner.TestHandler",
       __readTestRep : function (testRep)
       {
         var tmap = eval(testRep); // Json -> JS
-
-        // recursive struct reader
-        function readTree (struct) // struct has single root node! 
-        {
-          var tree;
-          // current node
-          tree = new qxunit.runner.Tree(struct.classname)
-          // current test leafs
-          for (var j in struct.tests) 
-          {
-            tree.add(new qxunit.runner.Tree(struct.tests[j]));
-          }
-          // current children
-          for (var j in struct.children)
-          {
-            tree.add(readTree(struct.children[j]));
-          }
-          return tree;
-        };
         var root = new qxunit.runner.Tree("All");
         for (var i in tmap)
         {
-          root.add(readTree(tmap[i]));
+          root.add(this.readTree(tmap[i]));
         }
 
         return root;
+      },
+
+
+      __readTestRep1 : function (testRep)
+      {
+        var tmap = eval(testRep); // Json -> JS
+        
+        function insert (root, el)
+        {
+          var mclass = el.classname;
+          var path   = mclass.split(".");
+          var dirname = path.slice(0,path.length-1);
+          var basename= path[path.length-1];
+
+          function createPath (node, path)
+          {
+            if (path == [])
+            {
+              return null;
+            }
+            var head     = path[0];
+
+            if (node.label == head)
+            {
+              var pathrest = path.slice(1,path.length);
+              if (! pathrest.length) // end of match
+              {
+                return node;
+              } else {
+                // check children
+                var children = node.getChildren();
+                var target = null;
+                for (var i in children)
+                {
+                  target = createPath(children[i], pathrest);
+                }
+                // create new
+                if (target == null)
+                {
+                  var neu = new qxunit.runner.Tree(pathrest[0]);
+                  node.add(neu);
+                  target = createPath(neu, pathrest);
+                }
+                return target;
+              }
+            } else  // match failed
+            {
+              return null;
+            }
+          } //createPath()
+
+          var target = createPath(root, dirname);
+          if (!target) { throw new Exception("No target to insert tests"); }
+          target.add(that.readTree(el));
+          target.label = basename; // correct target name
+        } //insert()
+
+        var root = new qxunit.runner.Tree("qxunit");
+        var that = this;
+        for (var i in tmap)
+        {
+          insert(root,tmap[i]);
+        }
+
+        return root;
+      },
+
+
+      // recursive struct reader
+      readTree : function (struct,node) // struct has single root node! 
+      {
+        // current node
+        var tree = arguments[1] || new qxunit.runner.Tree(struct.classname);
+        // current test leafs
+        for (var j in struct.tests) 
+        {
+          tree.add(new qxunit.runner.Tree(struct.tests[j]));
+        }
+        // current children
+        for (var j in struct.children)
+        {
+          tree.add(readTree(struct.children[j]));
+        }
+        return tree;
       },
 
 
