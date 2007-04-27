@@ -561,6 +561,19 @@ qx.Class.define("qx.core.Property",
      * @param value {var ? null} Optional value to call function with
      * @return {var} Return value of the generated function
      */
+    __counter:
+    {
+      get : 0,
+      set : 0,
+      init : 0,
+      reset : 0,
+      refresh : 0,
+      style : 0,
+      unstyle : 0,
+      toggle : 0,
+      is : 0
+    },
+
     __unwrapFunctionFromCode : function(instance, members, name, variant, code, args)
     {
       // Output generate code
@@ -573,6 +586,7 @@ qx.Class.define("qx.core.Property",
 
       // Overriding temporary wrapper
       try{
+        var s = new Date;
         members[this.$$method[variant][name]] = new Function("value", code.toString());
       } catch(ex) {
         alert("Malformed generated code to unwrap method: " + this.$$method[variant][name] + "\n" + code);
@@ -580,6 +594,18 @@ qx.Class.define("qx.core.Property",
 
       // Clearing string builder
       code.clear();
+
+      // Status
+      this.__counter[variant]++;
+      window.status = "Generated: set=" + this.__counter.set + ", get=" + this.__counter.get +
+        ", init=" + this.__counter.init + ", style=" + this.__counter.style +
+        ", reset=" + this.__counter.reset + ", refresh=" + this.__counter.refresh +
+        ", unstyle=" + this.__counter.unstyle + ", toggle=" + this.__counter.toggle +
+        ", is=" + this.__counter.is;
+
+      if (variant === "set") {
+        console.log("SET: " + name);
+      }
 
       // Executing new function
       if (args === undefined) {
