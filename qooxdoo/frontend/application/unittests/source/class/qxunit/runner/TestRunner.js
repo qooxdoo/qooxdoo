@@ -148,15 +148,6 @@ qx.Class.define("qxunit.runner.TestRunner",
   */
   members: {
 
-    /*
-    _onreadystatechange : function()
-      {
-        if (this.getDocumentNode().readyState == "complete") {
-          this.iframe.set({display: false});
-        }
-      },
-      */
-
     appender : function (str) {
       //this.f1.setValue(this.f1.getValue() + str);
       //this.f1.setHtml(this.f1.getHtml()+"<br>"+str);
@@ -287,7 +278,7 @@ qx.Class.define("qxunit.runner.TestRunner",
           {
             t = new qx.ui.tree.TreeFolder(currNode.label);
             buildSubTree(t,currNode);
-          } else 
+          } else
           {
             t = new qx.ui.tree.TreeFile(currNode.label);
           }
