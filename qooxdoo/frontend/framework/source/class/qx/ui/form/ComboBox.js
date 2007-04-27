@@ -64,90 +64,54 @@ qx.Class.define("qx.ui.form.ComboBox",
   {
     this.base(arguments);
 
-    // ************************************************************************
-    //   LIST
-    // ************************************************************************
+    // List
     var l = this._list = new qx.ui.form.List;
-
     l.setAppearance("combo-box-list");
+    l.setEdge(0);
 
-    // ************************************************************************
-    //   MANAGER
-    // ************************************************************************
+    // Manager
     var m = this._manager = this._list.getManager();
-
     m.setMultiSelection(false);
     m.setDragSelection(false);
 
-    // ************************************************************************
-    //   POPUP
-    // ************************************************************************
+    // Popup
     var p = this._popup = new qx.ui.popup.Popup;
-
     p.setAppearance("combo-box-popup");
     p.setAutoHide(false);
-
     p.add(l);
 
-    // ************************************************************************
-    //   TEXTFIELD
-    // ************************************************************************
+    // Textfield
     var f = this._field = new qx.ui.form.TextField;
-
     f.setAppearance("combo-box-text-field");
     f.setTabIndex(-1);
-
     this.add(f);
 
-    // ************************************************************************
-    //   BUTTON
-    // ************************************************************************
+    // Button
     // Use qx.ui.basic.Atom instead of qx.ui.form.Button here to omit the registration
     // of the unneeded and complex button events.
     var b = this._button = new qx.ui.basic.Atom(null, "widget/arrows/down.gif");
-
     b.setAppearance("combo-box-button");
     b.setAllowStretchY(true);
     b.setTabIndex(-1);
     b.setHeight(null);
-
     this.add(b);
 
-    // ************************************************************************
-    //   BEHAVIOR
-    // ************************************************************************
-    this.setTabIndex(1);
-    this.setEditable(false);
-
-    // ************************************************************************
-    //   WIDGET MOUSE EVENTS
-    // ************************************************************************
+    // Mouse Events
     this.addEventListener("mousedown", this._onmousedown);
     this.addEventListener("mouseup", this._onmouseup);
     this.addEventListener("mouseover", this._onmouseover);
     this.addEventListener("mousewheel", this._onmousewheel);
 
-    // ************************************************************************
-    //   WIDGET KEY EVENTS
-    // ************************************************************************
+    // Key Events
     this.addEventListener("keydown", this._onkeydown);
     this.addEventListener("keypress", this._onkeypress);
     this.addEventListener("keyinput", this._onkeyinput);
 
-    // ************************************************************************
-    //   WIDGET STATE EVENTS
-    // ************************************************************************
+    // Other Events
     this.addEventListener("beforeDisappear", this._onbeforedisappear);
-
-    // ************************************************************************
-    //   CHILDREN EVENTS
-    // ************************************************************************
     this._popup.addEventListener("appear", this._onpopupappear, this);
     this._field.addEventListener("input", this._oninput, this);
 
-    // ************************************************************************
-    //   DOCUMENT EVENTS
-    // ************************************************************************
     var vDoc = qx.ui.core.ClientDocument.getInstance();
     vDoc.addEventListener("windowblur", this._testClosePopup, this);
 
@@ -155,6 +119,10 @@ qx.Class.define("qx.ui.form.ComboBox",
     //   REMAPPING
     // ************************************************************************
     this.remapChildrenHandlingTo(l);
+
+
+    // Init
+    this.initEditable();
   },
 
 
@@ -181,12 +149,6 @@ qx.Class.define("qx.ui.form.ComboBox",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
     appearance :
     {
       refine : true,
@@ -211,6 +173,12 @@ qx.Class.define("qx.ui.form.ComboBox",
       init : 40
     },
 
+    tabIndex :
+    {
+      refine : true,
+      init : 1
+    },
+
 
     /**
      * Is the text field component editable or the user can only select
@@ -220,7 +188,8 @@ qx.Class.define("qx.ui.form.ComboBox",
     {
       check : "Boolean",
       apply : "_modifyEditable",
-      event : "changeEditable"
+      event : "changeEditable",
+      init : false
     },
 
     selected :
