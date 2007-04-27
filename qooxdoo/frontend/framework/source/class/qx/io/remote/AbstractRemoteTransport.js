@@ -126,7 +126,8 @@ qx.Class.define("qx.io.remote.AbstractRemoteTransport",
     {
       check : [ "created", "configured", "sending", "receiving", "completed", "aborted", "timeout", "failed" ],
       init : "created",
-      event : "changeState"
+      event : "changeState",
+      apply : "_applyState"
     },
 
 
@@ -422,7 +423,7 @@ qx.Class.define("qx.io.remote.AbstractRemoteTransport",
      * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyState : function(propValue, propOldValue, propData)
+    _applyState : function(propValue, propOldValue, propData)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
