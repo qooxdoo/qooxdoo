@@ -45,9 +45,8 @@ qx.Class.define("qx.ui.menu.Button",
   {
     this.base(arguments);
 
-    // ************************************************************************
-    //   LAYOUT
-    // ************************************************************************
+
+
     var io = this._iconObject = new qx.ui.basic.Image;
     io.setWidth(16);
     io.setAnonymous(true);
@@ -63,18 +62,17 @@ qx.Class.define("qx.ui.menu.Button",
     var ao = this._arrowObject = new qx.ui.basic.Image("widget/arrows/next.gif");
     ao.setAnonymous(true);
 
-    // ************************************************************************
-    //   INIT
-    // ************************************************************************
-    if (vLabel != null) {
+
+
+    if (vLabel !== undefined) {
       this.setLabel(vLabel);
     }
 
-    if (vIcon != null) {
+    if (vIcon !== undefined) {
       this.setIcon(vIcon);
     }
 
-    if (vCommand != null)
+    if (vCommand !== undefined)
     {
       this.setCommand(vCommand);
 
@@ -83,13 +81,12 @@ qx.Class.define("qx.ui.menu.Button",
       }, this);
     }
 
-    if (vMenu != null) {
+    if (vMenu !== undefined) {
       this.setMenu(vMenu);
     }
 
-    // ************************************************************************
-    //   EVENTS
-    // ************************************************************************
+
+
     this.addEventListener("mouseup", this._onmouseup);
   },
 
