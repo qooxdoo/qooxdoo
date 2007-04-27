@@ -35,9 +35,21 @@ qx.Class.define("qxunit.runner.Tree",
 
     this.label    = arguments[0];
     this.children = [];
+    this.parent   = null;
   },
 
   members : {
+
+    pwd : function ()  // aka 'dirname'
+    {
+      if (this.parent == null)
+      {
+        return [];
+      } else 
+      {
+        return [this.parent.label].concat(this.parent.pwd());
+      }
+    },
 
     hasChildren : function () 
     {
@@ -98,6 +110,7 @@ qx.Class.define("qxunit.runner.Tree",
     add : function (node)
     {
       this.children.push(node);
+      node.parent = this;
     }
   }
 });
