@@ -141,7 +141,7 @@ qx.Class.define("qxunit.runner.TestRunner",
     right.add(buttview);
 
     // EXPERIMENTAL !
-    var treetest = new qxunit.runner.TreeTest();
+    //var treetest = new qxunit.runner.TreeTest();
 
   }, //constructor
 
