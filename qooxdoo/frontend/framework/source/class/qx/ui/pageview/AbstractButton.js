@@ -41,6 +41,8 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
   {
     this.base(arguments, vText, vIcon, vIconWidth, vIconHeight, vFlash);
 
+    this.initChecked();
+
     this.addEventListener("mouseover", this._onmouseover);
     this.addEventListener("mouseout", this._onmouseout);
     this.addEventListener("mousedown", this._onmousedown);

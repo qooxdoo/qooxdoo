@@ -14,6 +14,7 @@
 
    Authors:
      * Derrell Lipman (derrell)
+     * Sebastian Werner (wpbasti)
 
 ************************************************************************ */
 
@@ -44,11 +45,8 @@ qx.Class.define("qx.ui.pageview.radioview.RadioView",
   *****************************************************************************
   */
 
-  construct : function()
-  {
-    this.base(arguments,
-              qx.ui.pageview.radioview.Bar,
-              qx.ui.pageview.radioview.Pane);
+  construct : function() {
+    this.base(arguments, qx.ui.pageview.radioview.Bar, qx.ui.pageview.radioview.Pane);
   },
 
 
@@ -62,40 +60,10 @@ qx.Class.define("qx.ui.pageview.radioview.RadioView",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
     appearance :
     {
       refine : true,
       init : "radio-view"
-    }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
-  members :
-  {
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
-    getBarPosition : function()
-    {
-      // always at top
-      return "top";
     }
   }
 });
