@@ -36,9 +36,12 @@ qx.Class.define("qxunit.runner.TreeTest",
     var tree = new qxunit.runner.Tree("Root");
     tree.add(new qxunit.runner.Tree("First"));
     tree.add(new qxunit.runner.Tree("Second"));
-    tree.add(new qxunit.runner.Tree("Third"));
+    var three = new qxunit.runner.Tree("Third");
+    tree.add(three);
 
     tree.print();
+    var s = three.pwd().concat([three.label]).join(".");
+    this.debug("Three is exactly :"+s);
 
 
   },
