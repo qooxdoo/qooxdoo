@@ -206,7 +206,8 @@ qx.Class.define("qx.ui.form.ComboBox",
     {
       check : "qx.ui.form.ListItem",
       nullable : true,
-      apply : "_modifySelected"
+      apply : "_modifySelected",
+      event : "changeSelected"
     },
 
     value :
