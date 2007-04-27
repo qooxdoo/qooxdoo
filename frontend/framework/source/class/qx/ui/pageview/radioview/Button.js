@@ -14,6 +14,7 @@
 
    Authors:
      * Derrell Lipman (derrell)
+     * Sebastian Werner (wpbasti)
 
 ************************************************************************ */
 
@@ -31,27 +32,6 @@
 qx.Class.define("qx.ui.pageview.radioview.Button",
 {
   extend : qx.ui.pageview.AbstractButton,
-
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
-  {
-    this.base(arguments, vText, vIcon, vIconWidth, vIconHeight, vFlash);
-
-    // Initially, the icon is in its unselected state
-    var oIcon = this.getIconObject();
-    if (oIcon)
-    {
-      this.getIconObject().setOpacity(0.3);
-    }
-  },
 
 
 
@@ -94,12 +74,6 @@ qx.Class.define("qx.ui.pageview.radioview.Button",
 
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      EVENT HANDLER
-    ---------------------------------------------------------------------------
-    */
-
     /**
      * TODOC
      *
@@ -140,7 +114,8 @@ qx.Class.define("qx.ui.pageview.radioview.Button",
           vChild = vChild.getPreviousSibling();
 
           // Ensure that it's a button.  If not, loop again.
-        } while (! (vChild instanceof qx.ui.pageview.AbstractButton));
+        }
+        while (!(vChild instanceof qx.ui.pageview.AbstractButton));
       }
       else
       {
@@ -159,7 +134,8 @@ qx.Class.define("qx.ui.pageview.radioview.Button",
           vChild = vChild.getNextSibling();
 
           // Ensure that it's a button.  If not, loop again.
-        } while (! (vChild instanceof qx.ui.pageview.AbstractButton));
+        }
+        while (!(vChild instanceof qx.ui.pageview.AbstractButton));
       }
 
       // focus next/previous button
@@ -167,36 +143,6 @@ qx.Class.define("qx.ui.pageview.radioview.Button",
 
       // and naturally also check it
       vChild.setChecked(true);
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      MODIFIER
-    ---------------------------------------------------------------------------
-     */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
-     */
-    _modifyChecked : function(propValue, propOldValue, propData)
-    {
-      this.base(arguments, propValue, propOldValue, propData);
-
-      // Show the icon only for the checked item
-      var oIcon = this.getIconObject();
-      if (oIcon)
-      {
-        oIcon.setOpacity(propValue ? 1.0 : 0.3);
-      }
-
-      return true;
     }
   }
 });

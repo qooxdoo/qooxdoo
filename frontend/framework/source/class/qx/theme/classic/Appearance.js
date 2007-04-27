@@ -487,26 +487,12 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "radio-view" :
-    {
-      style : function(states)
-      {
-        return {
-          backgroundColor : "#FAFBFE",
-          border          : "shadow"
-        };
-      }
+    "radio-view" : {
+      include : "button-view"
     },
 
     "radio-view-pane" :
     {
-      style : function(states)
-      {
-        return {
-          width  : null,
-          height : "1*"
-        };
-      }
     },
 
     "radio-view-page" :
@@ -524,10 +510,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           paddingRight  : 0,
           paddingBottom : 1,
           paddingLeft   : 0,
-          border        : new qx.renderer.border.Border,
-          height        : "auto",
-          width         : null,
-          orientation   : "vertical"
+          border        : new qx.renderer.border.Border
         };
 
         result.border.setBottom(1, "solid", "threedshadow");
@@ -566,6 +549,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         result.marginTop = result.marginBottom = 0;
         result.marginRight = result.marginLeft = 1;
         result.width = "auto";
+        result.opacity = states.checked ? 1.0 : 0.3;
 
         return result;
       }

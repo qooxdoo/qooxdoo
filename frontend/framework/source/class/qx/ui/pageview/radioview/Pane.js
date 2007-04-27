@@ -14,6 +14,7 @@
 
    Authors:
      * Derrell Lipman (derrell)
+     * Sebastian Werner (wpbasti)
 
 ************************************************************************ */
 
@@ -28,22 +29,7 @@
  */
 qx.Class.define("qx.ui.pageview.radioview.Pane",
 {
-  extend : qx.ui.pageview.buttonview.Pane,
-
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function()
-  {
-    this.base(arguments);
-  },
-
+  extend : qx.ui.pageview.AbstractPane,
 
 
 
