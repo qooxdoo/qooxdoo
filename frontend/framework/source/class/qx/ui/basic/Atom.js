@@ -124,11 +124,17 @@ qx.Class.define("qx.ui.basic.Atom",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
+    allowStretchX :
+    {
+      refine : true,
+      init : false
+    },
+
+    allowStretchY :
+    {
+      refine : true,
+      init : false
+    },
 
     /** The label/caption/text of the qx.ui.basic.Atom instance */
     label :

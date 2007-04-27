@@ -933,9 +933,13 @@ qx.Class.define("qx.ui.form.Spinner",
       }
       else
       {
-        this.getManager().setValue(this.getManager().getValue() +
+        value = this.getManager().getValue() +
                                    ((this._intervalIncrease ? 1 : -1) *
-                                    this._computedIncrementAmount));
+                                    this._computedIncrementAmount);
+
+        value = this.getManager().limit(value);
+
+        this.getManager().setValue(value);
       }
     },
 

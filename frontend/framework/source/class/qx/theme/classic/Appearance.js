@@ -43,6 +43,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "widget" : {
     },
 
+    "image" : {
+
+    },
 
 
 
@@ -53,17 +56,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "image" :
-    {
-      style : function(states)
-      {
-        return {
-          allowStretchX : false,
-          allowStretchY : false
-        };
-      }
-    },
-
     "client-document" :
     {
       style : function(states)
@@ -71,8 +63,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           backgroundColor    : "threedface",
           textColor          : "windowtext",
-          hideFocus          : true,
-          enableElementFocus : false
+          hideFocus          : true
         };
       }
     },
@@ -102,9 +93,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           height                        : "auto",
           horizontalChildrenAlign       : "center",
           verticalChildrenAlign         : "middle",
-          stretchChildrenOrthogonalAxis : false,
-          allowStretchY                 : false,
-          allowStretchX                 : false
+          stretchChildrenOrthogonalAxis : false
         };
       }
     },
@@ -464,8 +453,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
         var result =
         {
           backgroundColor : states.checked ? "#FAFBFE" : "undefined",
-          allowStretchX   : true,
-          allowStretchY   : true,
           iconPosition : "top"
         };
 
@@ -610,8 +597,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
         var result =
         {
           backgroundColor : states.checked ? "#FAFBFE" : "undefined",
-          allowStretchX   : true,
-          allowStretchY   : true,
           iconPosition : "left"
         };
 
@@ -857,7 +842,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
           paddingLeft           : 4,
           cursor                : "default",
           verticalChildrenAlign : "middle",
-          allowStretchX         : true,
           backgroundColor       : states.over ? "highlight" : "undefined",
           textColor             : states.over ? "highlighttext" : "undefined"
         };
@@ -962,8 +946,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
           paddingRight    : 3,
           paddingBottom   : 1,
           paddingLeft     : 3,
-          allowStretchY   : false,
-          allowStretchX   : true,
           font            : "default",
           width           : "auto",
           height          : "auto",
@@ -1654,18 +1636,14 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          allowStretchX : false,
-          allowStretchY : false,
           height          : "1*",
           width           : 16,
           backgroundColor : "threedface",
-          paddingTop    : 0,
-          paddingRight  : 0,
-          paddingBottom : 0,
-          paddingLeft   : 3,
-          border : states.pressed || states.checked || states.abandoned ?
-            "inset" :
-            "outset"
+          paddingTop      : 0,
+          paddingRight    : 0,
+          paddingBottom   : 0,
+          paddingLeft     : 3,
+          border          : states.pressed || states.checked || states.abandoned ? "inset" : "outset"
         };
       }
     },
@@ -1675,8 +1653,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          allowStretchX : false,
-          allowStretchY : false,
           height          : "1*",
           width           : 16,
           backgroundColor : "threedface",

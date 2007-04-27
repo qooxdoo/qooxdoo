@@ -113,11 +113,17 @@ qx.Class.define("qx.ui.form.TextField",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
+    allowStretchX :
+    {
+      refine : true,
+      init : true
+    },
+
+    allowStretchY :
+    {
+      refine : true,
+      init : false
+    },
 
     appearance :
     {

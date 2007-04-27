@@ -1260,8 +1260,7 @@ qx.Class.define("qx.ui.core.Widget",
     allowStretchX :
     {
       check : "Boolean",
-      init : true,
-      themeable : true
+      init : true
     },
 
 
@@ -1272,8 +1271,7 @@ qx.Class.define("qx.ui.core.Widget",
     allowStretchY :
     {
       check : "Boolean",
-      init : true,
-      themeable : true
+      init : true
     },
 
 
@@ -1426,8 +1424,7 @@ qx.Class.define("qx.ui.core.Widget",
       check : ["hidden", "auto", "scroll" ,"scrollX", "scrollY"],
       nullable : true,
       apply : "_modifyOverflow",
-      themeable : true,
-      apply : "_modifyOverflow"
+      themeable : true
     },
 
 
@@ -1504,8 +1501,7 @@ qx.Class.define("qx.ui.core.Widget",
     enableElementFocus :
     {
       check : "Boolean",
-      init : true,
-      themeable : true
+      init : true
     },
 
 
@@ -1531,7 +1527,6 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Boolean",
       init : true,
-      themeable : true,
       apply : "_modifySelectable"
     },
 

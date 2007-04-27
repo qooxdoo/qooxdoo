@@ -50,28 +50,23 @@ qx.Theme.define("qx.theme.ext.Appearance",
     {
     },
 
+    "image" : {
+    },
+
+
+
     /*
     ---------------------------------------------------------------------------
       CORE
     ---------------------------------------------------------------------------
     */
 
-    "image" : {
-      style : function(states) {
-        return {
-          allowStretchX : false,
-          allowStretchY : false
-        }
-      }
-    },
-
     "client-document" : {
       style : function(states) {
         return {
           backgroundColor    : "threedface",
           textColor          : "windowtext",
-          hideFocus          : true,
-          enableElementFocus : false
+          hideFocus          : true
         }
       }
     },
@@ -97,9 +92,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
           height                        : "auto",
           horizontalChildrenAlign       : "center",
           verticalChildrenAlign         : "middle",
-          stretchChildrenOrthogonalAxis : false,
-          allowStretchY                 : false,
-          allowStretchX                 : false
+          stretchChildrenOrthogonalAxis : false
         }
       }
     },
@@ -380,9 +373,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
 
       style : function(states) {
         var vReturn = {
-          iconPosition  : "top",
-          allowStretchX : true,
-          allowStretchY : true
+          iconPosition  : "top"
         };
 
         if (states.checked || states.over) {
@@ -535,9 +526,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
       style : function(states)
       {
         var vReturn = {
-          iconPosition  : "top",
-          allowStretchX : true,
-          allowStretchY : true
+          iconPosition  : "top"
         };
 
         if (states.checked || states.over) {
@@ -783,7 +772,6 @@ qx.Theme.define("qx.theme.ext.Appearance",
           paddingLeft           : 4,
           cursor                : "default",
           verticalChildrenAlign : "middle",
-          allowStretchX         : true,
           backgroundColor       : states.over ? "highlight" : "undefined",
           textColor             : states.over ? "highlighttext" : "undefined"
         }
@@ -884,8 +872,6 @@ qx.Theme.define("qx.theme.ext.Appearance",
       style : function(states) {
         return {
           hideFocus       : true,
-          allowStretchY   : false,
-          allowStretchX   : true,
           font            : '11px verdana, helvetica, tahoma, sans-serif',
           border          : "1px solid #6593CF",
           width           : "auto",
@@ -1537,8 +1523,6 @@ qx.Theme.define("qx.theme.ext.Appearance",
         border_default.setRight(1, "solid", "#6593CF");
 
         return {
-          allowStretchX   : false,
-          allowStretchY   : false,
           height          : "1*",
           width           : "auto",
           backgroundColor : "#E2E3E8",
