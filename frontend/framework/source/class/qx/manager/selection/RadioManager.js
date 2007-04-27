@@ -84,12 +84,14 @@ qx.Class.define("qx.manager.selection.RadioManager",
     {
       init : true,
       check : "Boolean",
-      apply : "_modifyEnabled"
+      apply : "_modifyEnabled",
+      event : "changeEnabled"
     },
 
     selected : {
       nullable : true,
-      apply : "_modifySelected"
+      apply : "_modifySelected",
+      event : "changeSelected"
     },
 
     name :
