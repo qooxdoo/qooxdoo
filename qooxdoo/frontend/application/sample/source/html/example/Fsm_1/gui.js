@@ -64,7 +64,7 @@ function initGui(fsm)
 
   var o = new qx.ui.basic.Atom("Idle=blue, RPC=red");
   o.setBorder("black");
-  o.setColor(new qx.renderer.color.Color("white"));
+  o.setTextColor("white");
   o.setWidth(200);
   o.setHeight(30);
   o.setPadding(4);
@@ -73,7 +73,7 @@ function initGui(fsm)
 
   var o = new qx.ui.basic.Atom("Idle=blue, RPC=red");
   o.setBorder("black");
-  o.setColor(new qx.renderer.color.Color("white"));
+  o.setTextColor("white");
   o.setWidth(200);
   o.setHeight(30);
   o.setPadding(4);
@@ -82,7 +82,7 @@ function initGui(fsm)
 
   var o = new qx.ui.basic.Atom("Idle=blue, RPC=red");
   o.setBorder("black");
-  o.setColor(new qx.renderer.color.Color("white"));
+  o.setTextColor("white");
   o.setWidth(200);
   o.setHeight(30);
   o.setPadding(4);

@@ -69,10 +69,7 @@ function initFsm()
             // We want to change the atoms' background color to blue
             "parameters" :
               [
-               // We want the color oject created when needed, not "now"
-               // Providing a function as a parameter allows the value to be
-               // determined later.
-               function (fsm) { return new qx.renderer.color.Color("blue"); }
+                "blue"
               ],
 
             // Call this.getObject(<object>).seBackgroundcolor("blue") on
@@ -173,10 +170,7 @@ function initFsm()
             // We want to change the atoms' background color to red
             "parameters" :
                [
-                 // We want the color oject created when needed, not "now"
-                 // Providing a function as a parameter allows the value to be
-                 // determined later.
-                 function (fsm) { return new qx.renderer.color.Color("red"); }
+                 "red"
                ],
 
             // Call this.getObject(<object>).seBackgroundcolor("red"), for
