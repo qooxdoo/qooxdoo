@@ -288,7 +288,6 @@ qx.Class.define("qx.ui.basic.Atom",
       var l = this._labelObject = new qx.ui.basic.Label(this.getLabel());
 
       l.setAnonymous(true);
-      l.setEnabled(this.getEnabled());
       l.setSelectable(false);
 
       this.addAt(l, this._iconObject ? 1 : 0);
