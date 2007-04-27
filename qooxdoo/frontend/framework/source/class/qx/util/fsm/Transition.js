@@ -50,14 +50,16 @@ qx.Class.define("qx.util.fsm.Transition",
    *       A function which is called to determine whether this transition is
    *       acceptable.  An acceptable transition will cause the transition's
    *       "ontransition" function to be run, the current state's "onexit"
-   *       function to be run, and the new state's "onentry" function to be run.
+   *       function to be run, and the new state's "onentry" function to be
+   *       run.
    *
-   *       The predicate function's signature is function(fsm, event) and it is
-   *       saved in the predicate property of the transition object.  In the
-   *       predicate function:
+   *       The predicate function's signature is function(fsm, event) and it
+   *       is saved in the predicate property of the transition object.  In
+   *       the predicate function:
    *
    *         fsm -
-   *           The finite state machine object to which this state is attached.
+   *           The finite state machine object to which this state is
+   *           attached.
    *
    *         event -
    *           The event that caused a run of the finite state machine
@@ -68,23 +70,23 @@ qx.Class.define("qx.util.fsm.Transition",
    *         - true means the transition is acceptable
    *
    *         - false means the transition is not acceptable, and the next
-   *           transition (if one exists) should be tried to determine if it is
-   *           acceptable
+   *           transition (if one exists) should be tried to determine if it
+   *           is acceptable
    *
    *         - null means that the transition determined that no further
    *           transitions should be tried.  This might be used when the
-   *           transition ascertained that the event is for a target that is not
-   *           available in the current state, and the event has called
+   *           transition ascertained that the event is for a target that is
+   *           not available in the current state, and the event has called
    *           fsm.queueEvent() to have the event delivered upon state
    *           transition.
    *
-   *       It is possible to create a default predicate -- one that will cause a
-   *       transition to be acceptable always -- by either not providing a
+   *       It is possible to create a default predicate -- one that will cause
+   *       a transition to be acceptable always -- by either not providing a
    *       predicate property, or by explicitely either setting the predicate
    *       property to 'true' or setting it to a function that unconditionally
-   *       returns 'true'.  This default transition should, of course, always be
-   *       the last transition added to a state, since no transition added after
-   *       it will ever be tried.
+   *       returns 'true'.  This default transition should, of course, always
+   *       be the last transition added to a state, since no transition added
+   *       after it will ever be tried.
    *
    *     nextState -
    *       The state to which we transition, if the predicate returns true
@@ -97,9 +99,9 @@ qx.Class.define("qx.util.fsm.Transition",
    *           - qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE:
    *               Remain in whatever is the current state
    *           - qx.util.fsm.FiniteStateMachine.StateChange.POP_STATE_STACK:
-   *               Transition to the state at the top of the saved-state stack,
-   *               and remove the top element from the saved-state stack.
-   *               Elements are added to the saved-state stack using
+   *               Transition to the state at the top of the saved-state
+   *               stack, and remove the top element from the saved-state
+   *               stack.  Elements are added to the saved-state stack using
    *               fsm.pushState().  It is an error if no state exists on the
    *               saved-state stack.
    *           - qx.util.fsm.FiniteStateMachine.StateChange.TERMINATE:
@@ -124,7 +126,8 @@ qx.Class.define("qx.util.fsm.Transition",
    *       In the ontransition function:
    *
    *         fsm -
-   *           The finite state machine object to which this state is attached.
+   *           The finite state machine object to which this state is
+   *           attached.
    *
    *         event -
    *           The event that caused a run of the finite state machine
@@ -173,7 +176,8 @@ qx.Class.define("qx.util.fsm.Transition",
           this.setUserData(field, transitionInfo[field]);
 
           // Log it in case it was a typo and they intended a built-in field
-          this.debug("Transition " + transitionName + ": " + "Adding user-provided field to transition: " + field);
+          this.debug("Transition " + transitionName + ": " +
+                     "Adding user-provided field to transition: " + field);
 
           break;
       }
@@ -204,92 +208,44 @@ qx.Class.define("qx.util.fsm.Transition",
     /**
      * The predicate function for this transition.  This is documented in the
      * constructor, and is typically provided through the constructor's
-     * transitionInfo object, but it is also possible (but highly NOT recommended)
-     * to change this dynamically.
+     * transitionInfo object, but it is also possible (but highly NOT
+     * recommended) to change this dynamically.
      */
     predicate :
     {
-      check : function(value)
+      init : function(fsm, event)
       {
-        // Validate the predicate.  Convert all valid types to function.
-        switch(typeof (value))
-        {
-          case "undefined":
-            // No predicate means predicate passes
-            return function(fsm, event) {
-              return true;
-            };
-
-          case "boolean":
-            // Convert boolean predicate to a function which returns that value
-            return function(fsm, event) {
-              return value;
-            };
-
-          case "function":
-            // Use user-provided function.
-            return value;
-
-          default:
-            throw new Error("Invalid transition predicate type: " + typeof (value));
-            break;
-        }
+        return true;
       },
 
-      init : function(fsm, event) {
-        return true;
-      }
+      transform : "__transformPredicate"
     },
 
 
     /**
      * The state to transition to, if the predicate determines that this
-     * transition is acceptable.  This is documented in the constructor, and is
-     * typically provided through the constructor's transitionInfo object, but it
-     * is also possible (but highly NOT recommended) to change this dynamically.
+     * transition is acceptable.  This is documented in the constructor, and
+     * is typically provided through the constructor's transitionInfo object,
+     * but it is also possible (but highly NOT recommended) to change this
+     * dynamically.
      */
     nextState :
     {
-      check : function(value)
-      {
-        // Validate nextState.  It must be a string or a number.
-        switch(typeof (value))
-        {
-          case "string":
-            return value;
+      init : qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE,
 
-          case "number":
-            // Ensure that it's one of the possible state-change constants
-            switch(value)
-            {
-              case qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE:
-              case qx.util.fsm.FiniteStateMachine.StateChange.POP_STATE_STACK:
-              case qx.util.fsm.FiniteStateMachine.StateChange.TERMINATE:
-                return value;
-
-              default:
-                throw new Error("Invalid transition nextState value: " + value + ": nextState must be an explicit state name, " + "or one of the Fsm.StateChange constants");
-            }
-
-            break;
-
-          default:
-            throw new Error("Invalid transition nextState type: " + typeof (value));
-            break;
-        }
-      },
-
-      init : qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE
+      transform : "__transformNextState"
     },
 
 
     /**
-     * Automatic actions to take prior to calling the transition's ontransition
-     * function.  This is documented in the constructor, and is typically provided
-     * through the constructor's transitionInfo object, but it is also possible
-     * (but highly NOT recommended) to change this dynamically.
+     * Automatic actions to take prior to calling the transition's
+     * ontransition function.  This is documented in the constructor, and is
+     * typically provided through the constructor's transitionInfo object, but
+     * it is also possible (but highly NOT recommended) to change this
+     * dynamically.
      */
-    autoActionsBeforeOntransition : {
+    autoActionsBeforeOntransition :
+    {
       init : function(fsm, event) {}
     },
 
@@ -297,42 +253,113 @@ qx.Class.define("qx.util.fsm.Transition",
     /**
      * Automatic actions to take immediately after calling the transition's
      * ontransition function.  This is documented in the constructor, and is
-     * typically provided through the constructor's transitionInfo object, but it
-     * is also possible (but highly NOT recommended) to change this dynamically.
+     * typically provided through the constructor's transitionInfo object, but
+     * it is also possible (but highly NOT recommended) to change this
+     * dynamically.
      */
-    autoActionsAfterOntransition : {
+    autoActionsAfterOntransition :
+    {
       init : function(fsm, event) {}
     },
 
 
     /**
-     * The function run when the transition is accepted.  This is documented in
-     * the constructor, and is typically provided through the constructor's
-     * transitionInfo object, but it is also possible (but highly NOT recommended)
-     * to change this dynamically.
+     * The function run when the transition is accepted.  This is documented
+     * in the constructor, and is typically provided through the constructor's
+     * transitionInfo object, but it is also possible (but highly NOT
+     * recommended) to change this dynamically.
      */
     ontransition :
     {
-      check : function(value)
+      init : function(fsm, event) {},
+
+      transform : "__transformOntransition"
+    }
+  },
+
+  members:
+  {
+    __transformPredicate : function(value)
+    {
+      // Validate the predicate.  Convert all valid types to function.
+      switch(typeof (value))
       {
-        // Validate the ontransition function.  Convert undefined to function.
-        switch(typeof (value))
+      case "undefined":
+        // No predicate means predicate passes
+        return function(fsm, event)
         {
-          case "undefined":
-            // No provided function just means do nothing.  Use a null function.
-            return function(fsm, event) {};
+          return true;
+        };
 
-          case "function":
-            // Use user-provided function.
-            return value;
+      case "boolean":
+        // Convert boolean predicate to a function which returns that value
+        return function(fsm, event)
+        {
+          return value;
+        };
 
-          default:
-            throw new Error("Invalid ontransition type: " + typeof (value));
-            break;
+      case "function":
+        // Use user-provided function.
+        return value;
+
+      default:
+        throw new Error("Invalid transition predicate type: " +
+                        typeof (value));
+        break;
+      }
+    },
+
+    __transformNextState : function(value)
+    {
+      // Validate nextState.  It must be a string or a number.
+      switch(typeof (value))
+      {
+      case "string":
+        return value;
+
+      case "number":
+        // Ensure that it's one of the possible state-change constants
+        switch(value)
+        {
+        case qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE:
+        case qx.util.fsm.FiniteStateMachine.StateChange.POP_STATE_STACK:
+        case qx.util.fsm.FiniteStateMachine.StateChange.TERMINATE:
+          return value;
+
+        default:
+          throw new Error("Invalid transition nextState value: " +
+                          value + ": " +
+                          "nextState must be an explicit state name, " +
+                          "or one of the Fsm.StateChange constants");
         }
-      },
 
-      init : function(fsm, event) {}
+        break;
+
+      default:
+        throw new Error("Invalid transition nextState type: " +
+                        typeof (value));
+        break;
+      }
+    },
+
+    __transformOntransition : function(value)
+    {
+      // Validate the ontransition function.  Convert undefined to function.
+      switch(typeof (value))
+      {
+      case "undefined":
+        // No provided function just means do nothing.  Use a null
+        // function.
+        return function(fsm, event) {};
+
+      case "function":
+        // Use user-provided function.
+        return value;
+
+      default:
+        throw new Error("Invalid ontransition type: " + typeof (value));
+        break;
+      }
     }
   }
 });
