@@ -94,6 +94,7 @@ qx.Class.define("qx.ui.table.DefaultHeaderCellRenderer",
     {
       var widget = new qx.ui.basic.Atom();
       widget.setAppearance("table-header-cell");
+      widget.setSelectable(false);
 
       this.updateHeaderCell(cellInfo, widget);
 
