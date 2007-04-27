@@ -177,14 +177,14 @@
 
           var vContent = e.getData().getContent();
 
-          fgivenname.setHtml(vContent.givenName.toString());
-          fname.setHtml(vContent.name.toString());
-          fage.setHtml(vContent.age.toString());
-          fstreet.setHtml(vContent.street.toString());
-          fplz.setHtml(vContent.plz.toString());
-          fcity.setHtml(vContent.city.toString());
-          fcountry.setHtml(vContent.country.toString());
-          fphone.setHtml(vContent.phone.toString());
+          fgivenname.setText(vContent.givenName.toString());
+          fname.setText(vContent.name.toString());
+          fage.setText(vContent.age.toString());
+          fstreet.setText(vContent.street.toString());
+          fplz.setText(vContent.plz.toString());
+          fcity.setText(vContent.city.toString());
+          fcountry.setText(vContent.country.toString());
+          fphone.setText(vContent.phone.toString());
 
           qx.ui.core.Widget.flushGlobalQueues();
         });
