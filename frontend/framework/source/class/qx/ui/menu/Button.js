@@ -104,11 +104,11 @@ qx.Class.define("qx.ui.menu.Button",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
+    allowStretchX :
+    {
+      refine : true,
+      init : true
+    },
 
     appearance :
     {

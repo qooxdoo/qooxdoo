@@ -54,6 +54,7 @@ qx.Class.define("qx.type.Range",
     value :
     {
       check : "!isNaN(value)&&value>=this.getMin()&&value<=this.getMax()",
+      nullable : true,
       init : 0,
       event : "change"
     },
@@ -62,18 +63,18 @@ qx.Class.define("qx.type.Range",
     min :
     {
       check : "Number",
-      init : -Infinity,
       apply : "_modifyMin",
-      event : "change"
+      event : "change",
+      init : 0
     },
 
     /** maximal value of the Range object */
     max :
     {
       check : "Number",
-      init : Infinity,
       apply : "_modifyMax",
-      event : "change"
+      event : "change",
+      init : 100
     }
   },
 

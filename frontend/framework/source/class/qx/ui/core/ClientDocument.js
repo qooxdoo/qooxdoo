@@ -111,10 +111,16 @@ qx.Class.define("qx.ui.core.ClientDocument",
 
   properties :
   {
+    enableElementFocus :
+    {
+      refine : true,
+      init : false
+    },
+
     enabled :
     {
-      init : true,
-      refine : true
+      refine : true,
+      init : true
     },
 
     /**
