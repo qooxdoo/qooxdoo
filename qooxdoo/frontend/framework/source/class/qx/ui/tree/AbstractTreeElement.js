@@ -64,6 +64,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
     // Behaviour and Hard Styling
     this._labelObject.setSelectable(false);
     this._labelObject.setStyleProperty("lineHeight", "100%");
+    this._labelObject.setAllowStretchY(false);
 
     // Simplify label object rendering
     this._labelObject.setMode("text");

@@ -221,6 +221,7 @@ qx.Class.define("qx.ui.component.DateChooser",
       {
         var label = new qx.ui.basic.Label;
         label.setAppearance("datechooser-day");
+        label.setSelectable(false);
 
         label.set(
         {
