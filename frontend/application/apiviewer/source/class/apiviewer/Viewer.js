@@ -175,10 +175,6 @@ qx.Class.define("apiviewer.Viewer",
       }
 
       var toolbar = new qx.ui.toolbar.ToolBar;
-
-      // TODO: this is a hack to override the appearance. Once the new properties are
-      // TODO: implemented this is hopefully no longer needed.
-      toolbar.setAppearance("empty");
       toolbar.set({
         horizontalChildrenAlign : "right",
         backgroundColor : "threedface",
