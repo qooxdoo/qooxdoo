@@ -34,9 +34,21 @@ qx.Class.define("qxunit.runner.TestHandler",
   {
     this.base(arguments);
     this.tmap  = eval(testRep); //[{classname:myClass,tests:['test1','test2']}, {...}]
+    this.__readTestRep(testRep);
   },
 
   members : {
+
+      __readTestRep : function (testRep)
+      {
+        var tmap = eval(testRep); // Json -> JS
+        this.ttree = new qxunit.runner.Tree("All");
+        for (var i in tmap) // array of maps
+        {
+          
+        }
+      },
+
 
       getRoot : function () {
         if (! this.Root) {
