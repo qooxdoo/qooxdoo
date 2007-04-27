@@ -41,18 +41,9 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
   {
     this.base(arguments, vText, vIcon, vIconWidth, vIconHeight, vFlash);
 
-    this.setTabIndex(1);
-
-    // ************************************************************************
-    //   MOUSE EVENTS
-    // ************************************************************************
     this.addEventListener("mouseover", this._onmouseover);
     this.addEventListener("mouseout", this._onmouseout);
     this.addEventListener("mousedown", this._onmousedown);
-
-    // ************************************************************************
-    //   KEY EVENTS
-    // ************************************************************************
     this.addEventListener("keydown", this._onkeydown);
     this.addEventListener("keypress", this._onkeypress);
   },
@@ -68,11 +59,13 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-     */
+    tabIndex :
+    {
+      refine : true,
+      init : 1
+    },
+
+
 
     /** If this tab is the currently selected/active one */
     checked :
@@ -127,7 +120,7 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
     ---------------------------------------------------------------------------
       UTILITIES
     ---------------------------------------------------------------------------
-     */
+    */
 
     /**
      * TODOC
@@ -146,9 +139,9 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
 
     /*
     ---------------------------------------------------------------------------
-      MODIFIER
+      APPLY ROUTINES
     ---------------------------------------------------------------------------
-     */
+    */
 
     /**
      * TODOC
@@ -159,7 +152,7 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
      * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyManager : function(propValue, propOldValue, propData)
+    _modifyManager : function(propValue, propOldValue)
     {
       if (propOldValue) {
         propOldValue.remove(this);
@@ -168,8 +161,6 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
       if (propValue) {
         propValue.add(this);
       }
-
-      return true;
     },
 
 
@@ -182,8 +173,10 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
      * @param propData {var} Property configuration map
      * @return {var} TODOC
      */
-    _modifyParent : function(propValue, propOldValue, propData)
+    _modifyParent : function(propValue, propOldValue)
     {
+      this.base(arguments, propValue, propOldValue);
+
       if (propOldValue) {
         propOldValue.getManager().remove(this);
       }
@@ -191,8 +184,6 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
       if (propValue) {
         propValue.getManager().add(this);
       }
-
-      return this.base(arguments, propValue, propOldValue, propData);
     },
 
 
@@ -205,7 +196,7 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
      * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyPage : function(propValue, propOldValue, propData)
+    _modifyPage : function(propValue, propOldValue)
     {
       if (propOldValue) {
         propOldValue.setButton(null);
@@ -216,8 +207,6 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
         propValue.setButton(this);
         this.getChecked() ? propValue.show() : propValue.hide();
       }
-
-      return true;
     },
 
 
@@ -230,7 +219,7 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
      * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyChecked : function(propValue, propOldValue, propData)
+    _modifyChecked : function(propValue, propOldValue)
     {
       if (this._hasParent)
       {
@@ -248,8 +237,6 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
       if (vPage) {
         this.getChecked() ? vPage.show() : vPage.hide();
       }
-
-      return true;
     },
 
 
@@ -262,13 +249,11 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
      * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyName : function(propValue, propOldValue, propData)
+    _modifyName : function(propValue, propOldValue)
     {
       if (this.getManager()) {
         this.getManager().setName(propValue);
       }
-
-      return true;
     },
 
 
@@ -278,7 +263,7 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
     ---------------------------------------------------------------------------
       EVENT HANDLER
     ---------------------------------------------------------------------------
-     */
+    */
 
     /**
      * TODOC

@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.pageview.AbstractPage",
   {
     this.base(arguments);
 
-    if (vButton != null) {
+    if (vButton !== undefined) {
       this.setButton(vButton);
     }
   },
@@ -57,19 +57,29 @@ qx.Class.define("qx.ui.pageview.AbstractPage",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
-    /** The attached tab of this page. */
-    button :
+    top :
     {
-      check : "qx.ui.pageview.AbstractButton",
-      apply : "_modifyButton"
+      refine : true,
+      init : 0
     },
 
+    right :
+    {
+      refine : true,
+      init : 0
+    },
+
+    bottom :
+    {
+      refine : true,
+      init : 0
+    },
+
+    left :
+    {
+      refine : true,
+      init : 0
+    },
 
     /**
      * Make element displayed (if switched to true the widget will be created, if needed, too).
@@ -79,6 +89,14 @@ qx.Class.define("qx.ui.pageview.AbstractPage",
     {
       refine: true,
       init : false
+    },
+
+
+    /** The attached tab of this page. */
+    button :
+    {
+      check : "qx.ui.pageview.AbstractButton",
+      apply : "_modifyButton"
     }
   },
 
@@ -87,28 +105,13 @@ qx.Class.define("qx.ui.pageview.AbstractPage",
 
   /*
   *****************************************************************************
-     MEMBERS
+     APPLY ROUTINES
   *****************************************************************************
   */
 
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      MODIFIER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
-     */
-    _modifyButton : function(propValue, propOldValue, propData)
+    _modifyButton : function(propValue, propOldValue)
     {
       if (propOldValue) {
         propOldValue.setPage(null);
@@ -117,8 +120,6 @@ qx.Class.define("qx.ui.pageview.AbstractPage",
       if (propValue) {
         propValue.setPage(this);
       }
-
-      return true;
     }
   }
 });

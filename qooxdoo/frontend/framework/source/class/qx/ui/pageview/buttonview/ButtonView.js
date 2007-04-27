@@ -49,7 +49,7 @@ qx.Class.define("qx.ui.pageview.buttonview.ButtonView",
   {
     this.base(arguments, qx.ui.pageview.buttonview.Bar, qx.ui.pageview.buttonview.Pane);
 
-    this.setOrientation("vertical");
+    this.initBarPosition();
   },
 
 
@@ -63,11 +63,11 @@ qx.Class.define("qx.ui.pageview.buttonview.ButtonView",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
+    appearance :
+    {
+      refine : true,
+      init : "button-view"
+    },
 
     barPosition :
     {
@@ -75,14 +75,9 @@ qx.Class.define("qx.ui.pageview.buttonview.ButtonView",
       check : [ "top", "right", "bottom", "left" ],
       apply : "_modifyBarPosition",
       event : "changeBarPosition"
-    },
-
-    appearance :
-    {
-      refine : true,
-      init : "button-view"
     }
   },
+
 
 
 
@@ -95,45 +90,59 @@ qx.Class.define("qx.ui.pageview.buttonview.ButtonView",
 
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      MODIFIER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
-     */
-    _modifyBarPosition : function(propValue, propOldValue, propData)
+    _modifyBarPosition : function(propValue, propOldValue)
     {
       var vBar = this._bar;
+      var vPane = this._pane;
 
       // move bar around and change orientation
       switch(propValue)
       {
         case "top":
           vBar.moveSelfToBegin();
+          vBar.setHeight("auto");
+          vBar.setWidth(null);
+          vBar.setOrientation("horizontal");
+
+          vPane.setWidth(null);
+          vPane.setHeight("1*");
+
           this.setOrientation("vertical");
           break;
 
         case "bottom":
           vBar.moveSelfToEnd();
+          vBar.setHeight("auto");
+          vBar.setWidth(null);
+          vBar.setOrientation("horizontal");
+
+          vPane.setWidth(null);
+          vPane.setHeight("1*");
+
           this.setOrientation("vertical");
           break;
 
         case "left":
           vBar.moveSelfToBegin();
+          vBar.setWidth("auto");
+          vBar.setHeight(null);
+          vBar.setOrientation("vertical");
+
+          vPane.setHeight(null);
+          vPane.setWidth("1*");
+
           this.setOrientation("horizontal");
           break;
 
         case "right":
           vBar.moveSelfToEnd();
+          vBar.setWidth("auto");
+          vBar.setHeight(null);
+          vBar.setOrientation("vertical");
+
+          vPane.setHeight(null);
+          vPane.setWidth("1*");
+
           this.setOrientation("horizontal");
           break;
       }
@@ -143,8 +152,6 @@ qx.Class.define("qx.ui.pageview.buttonview.ButtonView",
 
       // force re-apply of states for all tabs
       vBar._addChildrenToStateQueue();
-
-      return true;
     }
   }
 });
