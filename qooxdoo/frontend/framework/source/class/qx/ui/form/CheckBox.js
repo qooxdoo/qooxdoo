@@ -134,7 +134,6 @@ qx.Class.define("qx.ui.form.CheckBox",
 
       i.setType(this.INPUT_TYPE);
       i.setChecked(this.getChecked());
-      i.setEnabled(this.getEnabled());
       i.setAnonymous(true);
 
       this.addAtBegin(i);
