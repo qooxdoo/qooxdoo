@@ -172,8 +172,8 @@ qx.Class.define("qx.ui.basic.Atom",
     /** The label/caption/text of the qx.ui.basic.Atom instance */
     label :
     {
-      init : "",
-      apply : "_modifyLabel"
+      apply : "_modifyLabel",
+      nullable : true
     },
 
 
