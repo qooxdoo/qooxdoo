@@ -63,7 +63,6 @@ qx.Class.define("qxunit.runner.TestRunner",
       this.loader = iframe.getContentWindow().qxunit.TestLoader.getInstance();
       var testRep = this.loader.getTestDescriptions();
       this.tests.handler = new qxunit.runner.TestHandler(testRep);
-      //this.debug(qx.io.Json.stringify(testRep));
       if (! this.left) {
         var left = this.__makeLeft();
         this.left = left;
@@ -77,7 +76,7 @@ qx.Class.define("qxunit.runner.TestRunner",
     // Header Pane
     this.header = new qx.ui.embed.HtmlEmbed("<center><h1>QxRunner - The qooxdoo Test Runner</h1></center>");
     this.header.setHtmlProperty("className", "header");
-    this.header.setHeight(80);
+    this.header.setHeight(50);
     this.add(this.header);
 
     // Toolbar
@@ -111,11 +110,6 @@ qx.Class.define("qxunit.runner.TestRunner",
     mainsplit.set({
       height : "1*"
     });
-    // Left
-    /*
-    var left = this.__makeLeft();
-    mainsplit.addLeft(left);
-    */
 
     // Right
     var right = new qx.ui.layout.VerticalBoxLayout();
@@ -127,6 +121,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       padding : [10]
     });
     mainsplit.addRight(right);
+
     // status
     var statuspane = this.__makeStatus();
     right.add(statuspane);
@@ -164,7 +159,7 @@ qx.Class.define("qxunit.runner.TestRunner",
 
     appender : function (str) {
       //this.f1.setValue(this.f1.getValue() + str);
-      this.f1.setHtml(this.f1.getHtml()+"<br>"+str);
+      //this.f1.setHtml(this.f1.getHtml()+"<br>"+str);
     }, //appender
 
 
@@ -172,7 +167,6 @@ qx.Class.define("qxunit.runner.TestRunner",
       var buttview = new qx.ui.pageview.tabview.TabView();
       buttview.set({
         width: "100%",
-        border: "inset",
         height: "1*"
       });
 
@@ -204,7 +198,8 @@ qx.Class.define("qxunit.runner.TestRunner",
         width  : "100%"
       });
 
-      var f1 = new qx.ui.embed.HtmlEmbed("Results of the current Test");
+      //var f1 = new qx.ui.embed.HtmlEmbed("Results of the current Test");
+      var f1 = new qxunit.runner.TestResultView();
       this.f1 = f1;
       pp1.add(f1);
       f1.set({
@@ -219,8 +214,6 @@ qx.Class.define("qxunit.runner.TestRunner",
       var ff1_b1 = new qx.ui.toolbar.Button("Clear");
       ff1.add(ff1_b1);
       ff1_b1.set({
-        //bottom: 5,
-        //top:    300,
         width : "auto"
       });
       ff1_b1.addEventListener("execute", function (e) {
@@ -375,39 +368,57 @@ qx.Class.define("qxunit.runner.TestRunner",
     /**
      * event handler for the Run Test button - performs the tests
      */
-    runTest : function (e) 
+    runTest : function (e)
     {
       this.toolbar.setEnabled(false);
       // Initialize progress bar
-      this.widgets["progresspane.progressbar"].update("0%");
+      var bar = this.widgets["progresspane.progressbar"];
+      bar.update("0%");
+      bar.setBarColor("green");
       // Make initial entry in output windows (test result, log, ...)
       this.appender("Now running: " + this.tests.selected);
 
       // create testResult obj
       var tstCnt = this.tests.selected_cnt;
       var tstCurr = 1;
+      this.f1.clear();
       var testResult = new qxunit.TestResult();
 
       // set up event listeners
-      testResult.addEventListener("startTest", function(e) 
+      testResult.addEventListener("startTest", function(e)
       {
         var test = e.getData();
+        this.currentTestData = new qxunit.runner.TestResultData(test.getFullName());
+        this.f1.addTestResult(this.currentTestData);
         this.appender("Test '"+test.getFullName()+"' started.");
         this.widgets["progresspane.progressbar"].update(String(tstCurr+"/"+tstCnt));
         tstCurr++;
       }, this);
 
-      testResult.addEventListener("failure", function(e) 
+      testResult.addEventListener("failure", function(e)
       {
         var ex = e.getData().exception;
         var test = e.getData().test;
+        this.currentTestData.setState("failure");
+        this.currentTestData.setMessage(ex.getComment() + ":" + ex.getMessage());
+        bar.setBarColor("red");
         this.appender("Test '"+test.getFullName()+"' failed: " +  ex.getMessage() + " - " + ex.getComment());
       }, this);
 
-      testResult.addEventListener("error", function(e) 
+      testResult.addEventListener("error", function(e)
       {
         var ex = e.getData().exception;
+        this.currentTestData.setState("error");
+        bar.setBarColor("red");
         this.appender("The test '"+e.getData().test.getFullName()+"' had an error: " + ex, ex);
+      }, this);
+
+      testResult.addEventListener("endTest", function(e)
+      {
+        var state = this.currentTestData.getState();
+        if (state == "start") {
+          this.currentTestData.setState("success");
+        }
       }, this);
 
       // start test
@@ -434,7 +445,7 @@ qx.Class.define("qxunit.runner.TestRunner",
 
       /*
       this.loader.runTestsFromNamespace(testResult, this.tests.selected);
-      var tests = this.tests.handler.getTests(this.tests.selected); 
+      var tests = this.tests.handler.getTests(this.tests.selected);
       for (var i in tests) {
         tlist.push([this.tests.selected, tests[i]]);
       }
@@ -467,7 +478,7 @@ qx.Class.define("qxunit.runner.TestRunner",
     /**
      * reloads iframe's URL
      */
-    reloadTestSuite : function (e) 
+    reloadTestSuite : function (e)
     {
       var curr = this.iframe.getSource();
       var neu  = this.testSuiteUrl.getValue();

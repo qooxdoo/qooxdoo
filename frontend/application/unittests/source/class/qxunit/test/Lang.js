@@ -143,7 +143,7 @@ qx.Class.define("qxunit.test.Lang",{
             qx.html.String.unescape("&#X20AC;")
           );
 
-          // escape XMl
+          // escape XML
           this.assertEquals("\n", qx.xml.String.escape("\n"));
           this.assertEquals("Hello", qx.xml.String.escape("Hello"));
           this.assertEquals("juhu &lt;&gt;", qx.xml.String.escape("juhu <>"));

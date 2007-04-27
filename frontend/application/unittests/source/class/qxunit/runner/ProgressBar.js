@@ -41,7 +41,7 @@ qx.Class.define("qxunit.runner.ProgressBar",
 
     this.label = new qx.ui.basic.Label("Progress:"); // should use arguemnts[0] here
     this.add(this.label);
-  
+
     this.hull = new qx.ui.layout.CanvasLayout();
     this.add(this.hull);
     this.hull.set({
@@ -69,6 +69,21 @@ qx.Class.define("qxunit.runner.ProgressBar",
 
   }, //construct
 
+  properties :
+  {
+    status: {type: "integer", _legacy: true},
+
+    showStepStatus : {type: "bool", _legacy: true},
+
+    showPcntStatus : {type: "bool", _legacy: true},
+
+    barColor :
+    {
+      check : "Color",
+      apply : "_applyBarColor"
+    }
+  },
+
   members: {
 
     showOff: function() {
@@ -88,7 +103,7 @@ qx.Class.define("qxunit.runner.ProgressBar",
 
     // update with increment
     increment : function (){
-      
+
     },
 
     /*
@@ -139,16 +154,16 @@ qx.Class.define("qxunit.runner.ProgressBar",
         throw new Error(paramError);
       }
       return true;
-    }//update
-  },//members
+    },//update
 
-  properties: {
-    status: {type: "integer", _legacy: true},
-    showStepStatus : {type: "bool", _legacy: true},
-    showPcntStatus : {type: "bool", _legacy: true}
-  }
+    _applyBarColor : function(newColor)
+    {
+      this.bar.setBackgroundColor(newColor);
+    }
+
+  }//members
 
 });
 /*
-Setter of property 'backgroundColor' returned with an error: Error - Could not parse color: C1ECFF 
+Setter of property 'backgroundColor' returned with an error: Error - Could not parse color: C1ECFF
 */
