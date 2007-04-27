@@ -905,12 +905,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          minWidth        : 40,
           width           : 120,
-          height          : "auto",
           border          : "inset",
-          backgroundColor : "white",
-          allowStretchY   : false
+          backgroundColor : "white"
         };
       }
     },
@@ -921,10 +918,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           width           : "auto",
-          height          : "auto",
           border          : "inset",
-          backgroundColor : "white",
-          allowStretchY   : false
+          backgroundColor : "white"
         };
       }
     },
@@ -936,7 +931,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          top      : 0,
           right    : 0,
           bottom   : 0,
           left     : 0,
@@ -1029,8 +1023,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          height        : null,
-          allowStretchY : true,
           paddingTop    : 0,
           paddingRight  : 3,
           paddingBottom : 0,
@@ -1098,7 +1090,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
           paddingRight    : 2,
           paddingBottom   : 2,
           paddingLeft     : 2,
-          allowStretchY   : false,
           backgroundColor : states.selected ? "highlight" : "undefined",
           textColor       : states.selected ? "highlighttext" : "undefined"
         };
@@ -1712,7 +1703,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
           textColor       : "windowtext",
           font            : "center",
           verticalAlign   : "middle",
-          selectable      : false,
           border          : states.today ? new qx.renderer.border.Border(1, "solid", "black") : "undefined",
           textColor       : states.selected ? "highlighttext" : states.otherMonth ? "graytext" : "windowtext",
           backgroundColor : states.selected ? "highlight" : "undefined"
@@ -1840,7 +1830,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
           paddingRight          : 2,
           spacing               : 2,
           overflow              : "hidden",
-          selectable            : false,
           iconPosition          : "right",
           verticalChildrenAlign : "middle",
           border                : border,

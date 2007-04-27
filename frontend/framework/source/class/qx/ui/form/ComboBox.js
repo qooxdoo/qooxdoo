@@ -107,7 +107,9 @@ qx.Class.define("qx.ui.form.ComboBox",
     var b = this._button = new qx.ui.basic.Atom(null, "widget/arrows/down.gif");
 
     b.setAppearance("combo-box-button");
+    b.setAllowStretchY(true);
     b.setTabIndex(-1);
+    b.setHeight(null);
 
     this.add(b);
 
@@ -190,6 +192,25 @@ qx.Class.define("qx.ui.form.ComboBox",
       refine : true,
       init : "combo-box"
     },
+
+    allowStretchY :
+    {
+      refine : true,
+      init : false
+    },
+
+    height :
+    {
+      refine : true,
+      init : "auto"
+    },
+
+    minWidth :
+    {
+      refine : true,
+      init : 40
+    },
+
 
     /**
      * Is the text field component editable or the user can only select

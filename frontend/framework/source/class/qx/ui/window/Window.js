@@ -61,13 +61,6 @@ qx.Class.define("qx.ui.window.Window",
     this.base(arguments);
 
     // ************************************************************************
-    //   FUNCTIONAL STYLE
-    // ************************************************************************
-    this.setMinWidth("auto");
-    this.setMinHeight("auto");
-    this.setAutoHide(false);
-
-    // ************************************************************************
     //   MANAGER
     // ************************************************************************
     // Init Window Manager
@@ -194,11 +187,20 @@ qx.Class.define("qx.ui.window.Window",
     // ************************************************************************
     //   INIT
     // ************************************************************************
-    this.setCaption(vCaption);
+    if (vCaption != null) {
+      this.setCaption(vCaption);
+    }
 
-    if (vIcon) {
+    if (vIcon != null) {
       this.setIcon(vIcon);
     }
+
+    // ************************************************************************
+    //   FUNCTIONAL STYLE
+    // ************************************************************************
+    this.setMinWidth("auto");
+    this.setMinHeight("auto");
+    this.setAutoHide(false);
 
     // ************************************************************************
     //   EVENTS: WINDOW
@@ -1038,8 +1040,13 @@ qx.Class.define("qx.ui.window.Window",
     {
       var b = this.getAllowMaximize() && this.getResizeable() && this._computedMaxWidthTypeNull && this._computedMaxHeightTypeNull;
 
-      this._maximizeButton.setEnabled(b);
-      this._restoreButton.setEnabled(b);
+      if (this._maximizeButton) {
+        this._maximizeButton.setEnabled(b);
+      }
+
+      if (this._restoreButton) {
+        this._restoreButton.setEnabled(b);
+      }
 
       return true;
     },
