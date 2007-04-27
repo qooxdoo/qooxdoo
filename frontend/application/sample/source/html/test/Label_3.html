@@ -59,15 +59,15 @@
 
     c3.addEventListener("click", function()
     {
-      if (this.getHtml() == "Delete temporary data")
+      if (this.getText() == "Delete temporary data")
       {
-        this.setHtml("Thank you");
+        this.setText("Thank you");
         this.setTextColor("red");
         this.setFont("bold");
       }
       else
       {
-        this.setHtml("Delete temporary data");
+        this.setText("Delete temporary data");
         this.resetTextColor();
         this.setFont(null);
       };
