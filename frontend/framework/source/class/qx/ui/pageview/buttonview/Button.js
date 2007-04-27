@@ -36,18 +36,6 @@ qx.Class.define("qx.ui.pageview.buttonview.Button",
 
 
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function(vText, vIcon, vIconWidth, vIconHeight, vFlash) {
-    this.base(arguments, vText, vIcon, vIconWidth, vIconHeight, vFlash);
-  },
-
-
-
 
   /*
   *****************************************************************************

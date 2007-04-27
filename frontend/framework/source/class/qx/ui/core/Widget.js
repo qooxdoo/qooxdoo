@@ -88,8 +88,9 @@ qx.Class.define("qx.ui.core.Widget",
     this._states = {};
     this._applyAppearance();
 
-
-    // Initialize dimension & location
+    // ************************************************************************
+    //   PROPERTY INIT
+    // ************************************************************************
     this.initTop();
     this.initRight();
     this.initBottom();
@@ -1700,7 +1701,8 @@ qx.Class.define("qx.ui.core.Widget",
     {
       apply : "_modifyLeft",
       nullable : true,
-      themeable : true
+      themeable : true,
+      init : null
     },
 
 
@@ -1715,7 +1717,8 @@ qx.Class.define("qx.ui.core.Widget",
     {
       apply : "_modifyRight",
       nullable : true,
-      themeable : true
+      themeable : true,
+      init : null
     },
 
 
@@ -1730,7 +1733,8 @@ qx.Class.define("qx.ui.core.Widget",
     {
       apply : "_modifyWidth",
       nullable : true,
-      themeable : true
+      themeable : true,
+      init : null
     },
 
 
@@ -1743,7 +1747,8 @@ qx.Class.define("qx.ui.core.Widget",
     {
       apply : "_modifyMinWidth",
       nullable : true,
-      themeable : true
+      themeable : true,
+      init : null
     },
 
 
@@ -1756,7 +1761,8 @@ qx.Class.define("qx.ui.core.Widget",
     {
       apply : "_modifyMaxWidth",
       nullable : true,
-      themeable : true
+      themeable : true,
+      init : null
     },
 
 
@@ -1779,7 +1785,8 @@ qx.Class.define("qx.ui.core.Widget",
     {
       apply : "_modifyTop",
       nullable : true,
-      themeable : true
+      themeable : true,
+      init : null
     },
 
 
@@ -1794,7 +1801,8 @@ qx.Class.define("qx.ui.core.Widget",
     {
       apply : "_modifyBottom",
       nullable : true,
-      themeable : true
+      themeable : true,
+      init : null
     },
 
 
@@ -1809,7 +1817,8 @@ qx.Class.define("qx.ui.core.Widget",
     {
       apply : "_modifyHeight",
       nullable : true,
-      themeable : true
+      themeable : true,
+      init : null
     },
 
 
@@ -1822,7 +1831,8 @@ qx.Class.define("qx.ui.core.Widget",
     {
       apply : "_modifyMinHeight",
       nullable : true,
-      themeable : true
+      themeable : true,
+      init : null
     },
 
 
@@ -1835,7 +1845,8 @@ qx.Class.define("qx.ui.core.Widget",
     {
       apply : "_modifyMaxHeight",
       nullable : true,
-      themeable : true
+      themeable : true,
+      init : null
     },
 
 

@@ -37,17 +37,6 @@ qx.Class.define("qx.ui.pageview.tabview.Button",
 
 
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function(vText, vIcon, vIconWidth, vIconHeight, vFlash) {
-    this.base(arguments, vText, vIcon, vIconWidth, vIconHeight, vFlash);
-  },
-
-
 
 
   /*
@@ -77,14 +66,6 @@ qx.Class.define("qx.ui.pageview.tabview.Button",
       init : "tab-view-button"
     },
 
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-     */
 
     /** default Close Tab Button */
     showCloseButton :
