@@ -56,15 +56,21 @@ qx.Class.define("qx.ui.basic.Image",
     this.setHtmlProperty("alt", "");
     this.setHtmlProperty("title", "");
 
-    // Apply constructor arguments
-    this.setSource(vSource || "static/image/blank.gif");
+    // Source
+    if (vSource !== undefined) {
+      this.setSource(vSource);
+    } else {
+      this.initSource();
+    }
 
     // Dimensions
-    this.setWidth(vWidth !== undefined ? vWidth : "auto");
-    this.setHeight(vHeight !== undefined ? vHeight : "auto");
+    if (vWidth !== undefined) {
+      this.setWidth(vWidth);
+    }
 
-    // Prohibit selection
-    this.setSelectable(false);
+    if (vHeight !== undefined) {
+      this.setHeight(vHeight);
+    }
   },
 
 
@@ -91,18 +97,45 @@ qx.Class.define("qx.ui.basic.Image",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
+    allowStretchX :
+    {
+      refine : true,
+      init : false
+    },
+
+    allowStretchY :
+    {
+      refine : true,
+      init : false
+    },
+
+    selectable :
+    {
+      refine : true,
+      init : false
+    },
+
+    width :
+    {
+      refine : true,
+      init : "auto"
+    },
+
+    height :
+    {
+      refine : true,
+      init : "auto"
+    },
+
+
 
     /** The source uri of the image. */
     source :
     {
       check : "String",
       apply : "_modifySource",
-      event : "changeSource"
+      event : "changeSource",
+      init : "static/image/blank.gif"
     },
 
 

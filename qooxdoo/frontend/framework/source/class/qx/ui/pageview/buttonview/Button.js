@@ -57,6 +57,18 @@ qx.Class.define("qx.ui.pageview.buttonview.Button",
 
   properties :
   {
+    allowStretchX :
+    {
+      refine : true,
+      init : true
+    },
+
+    allowStretchY :
+    {
+      refine : true,
+      init : true
+    },
+
     appearance :
     {
       refine : true,
