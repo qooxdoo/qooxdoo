@@ -155,6 +155,7 @@ qx.Class.define("qx.ui.basic.Image",
       check : "String",
       apply : "_modifySource",
       event : "changeSource",
+      nullable : true,
       init : "static/image/blank.gif"
     },
 
@@ -163,7 +164,8 @@ qx.Class.define("qx.ui.basic.Image",
     preloader :
     {
       check : "qx.io.image.Preloader",
-      apply : "_modifyPreloader"
+      apply : "_modifyPreloader",
+      nullable : true
     },
 
 
