@@ -55,6 +55,8 @@ qx.Class.define("qx.core.Init",
   {
     this.base(arguments);
 
+    console.info("Initializing qooxdoo...");
+
     // Attach DOM events
     qx.html.EventRegistration.addEventListener(window, "load", qx.lang.Function.bind(this._onload, this));
     qx.html.EventRegistration.addEventListener(window, "beforeunload", qx.lang.Function.bind(this._onbeforeunload, this));
