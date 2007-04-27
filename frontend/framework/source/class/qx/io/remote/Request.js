@@ -91,10 +91,10 @@ qx.Class.define("qx.io.remote.Request",
     "configured" : "qx.event.type.Event",
     "sending" : "qx.event.type.Event",
     "receiving" : "qx.event.type.Event",
-    "completed" : "qx.event.type.Event",
-    "aborted" : "qx.event.type.Event",
-    "failed" : "qx.event.type.Event",
-    "timeout" : "qx.event.type.Event"
+    "completed" : "qqx.io.remote.Response",
+    "aborted" : "qx.io.remote.Response",
+    "failed" : "qx.io.remote.Response",
+    "timeout" : "qx.io.remote.Response"
   },
 
 
@@ -263,7 +263,7 @@ qx.Class.define("qx.io.remote.Request",
     crossDomain :
     {
       check : "Boolean",
-      init : true
+      init : false
     },
 
 
