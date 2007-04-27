@@ -547,6 +547,10 @@ qx.Class.define("qx.core.Property",
     },
 
 
+    sumNumber : 0,
+    sumGen : 0,     
+    sumUnwrap : 0,
+
     /**
      * Compiles a string builder object to a function, executes the function and
      * returns the return value.
@@ -561,51 +565,26 @@ qx.Class.define("qx.core.Property",
      * @param value {var ? null} Optional value to call function with
      * @return {var} Return value of the generated function
      */
-    __counter:
-    {
-      get : 0,
-      set : 0,
-      init : 0,
-      reset : 0,
-      refresh : 0,
-      style : 0,
-      unstyle : 0,
-      toggle : 0,
-      is : 0
-    },
-
     __unwrapFunctionFromCode : function(instance, members, name, variant, code, args)
     {
       // Output generate code
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
-          console.debug("Code[" + this.$$method[variant][name] + "]: " + code);
+          console.debug("Code[" + this.$$method[variant][name] + "]: " + code.join(""));
         }
       }
 
       // Overriding temporary wrapper
       try{
         var s = new Date;
-        members[this.$$method[variant][name]] = new Function("value", code.toString());
+        members[this.$$method[variant][name]] = new Function("value", code.join(""));
+        this.sumUnwrap += new Date - s;        
       } catch(ex) {
-        alert("Malformed generated code to unwrap method: " + this.$$method[variant][name] + "\n" + code);
+        alert("Malformed generated code to unwrap method: " + this.$$method[variant][name] + "\n" + code.join(""));
       }
-
-      // Clearing string builder
-      code.clear();
-
-      // Status
-      this.__counter[variant]++;
-      window.status = "Generated: set=" + this.__counter.set + ", get=" + this.__counter.get +
-        ", init=" + this.__counter.init + ", style=" + this.__counter.style +
-        ", reset=" + this.__counter.reset + ", refresh=" + this.__counter.refresh +
-        ", unstyle=" + this.__counter.unstyle + ", toggle=" + this.__counter.toggle +
-        ", is=" + this.__counter.is;
-
-      if (variant === "set") {
-        console.log("SET: " + name);
-      }
+      
+      this.sumNumber++;
 
       // Executing new function
       if (args === undefined) {
@@ -632,25 +611,25 @@ qx.Class.define("qx.core.Property",
      */
     executeOptimizedGetter : function(instance, clazz, name, variant)
     {
+      var start = new Date;
+      
       var config = clazz.$$properties[name];
       var members = clazz.prototype;
+      var code = [];
 
-      var code = this.$$code;
-      if (!code) {
-        code = this.$$code = new qx.util.StringBuilder;
-      }
-
-      code.add('if(this.', this.$$store.computed[name], '===undefined)');
+      code.push('if(this.', this.$$store.computed[name], '===undefined)');
 
       if (config.init !== undefined) {
-        code.add('return this.', this.$$store.init[name], ';');
+        code.push('return this.', this.$$store.init[name], ';');
       } else if (config.inheritable || config.nullable) {
-        code.add('return null;');
+        code.push('return null;');
       } else {
-        code.add('throw new Error("Property ', name, ' of an instance of ', clazz.classname, ' is not (yet) ready!");');
+        code.push('throw new Error("Property ', name, ' of an instance of ', clazz.classname, ' is not (yet) ready!");');
       }
 
-      code.add('return this.', this.$$store.computed[name], ';');
+      code.push('return this.', this.$$store.computed[name], ';');
+      
+      this.sumGen += new Date - start;
 
       return this.__unwrapFunctionFromCode(instance, members, name, variant, code);
     },
@@ -671,14 +650,14 @@ qx.Class.define("qx.core.Property",
      */
     executeOptimizedSetter : function(instance, clazz, name, variant, args)
     {
+      var start = new Date;
+      
       var config = clazz.$$properties[name];
       var members = clazz.prototype;
       var value = args ? args[0] : undefined;
+      var code = [];
 
-      var code = this.$$code;
-      if (!code) {
-        code = this.$$code = new qx.util.StringBuilder;
-      }
+
 
 
 
@@ -686,7 +665,7 @@ qx.Class.define("qx.core.Property",
       // [1] PRE CONDITIONS
 
       if (variant === "init") {
-        code.add('if(this.$$initialized)throw new Error("Could not change or apply init value after constructing phase!");');
+        code.push('if(this.$$initialized)throw new Error("Could not change or apply init value after constructing phase!");');
       }
 
 
@@ -708,7 +687,7 @@ qx.Class.define("qx.core.Property",
         // Call user-provided transform method, if one is provided.  Transform
         // method should either throw an error or return the new value.
         if (config.transform && (variant === "set" || variant === "init")) {
-          code.add('value=this.', config.transform, '(value);');
+          code.push('value=this.', config.transform, '(value);');
         }
 
         if (variant === "set" || variant === "style" || variant === "init")
@@ -716,21 +695,21 @@ qx.Class.define("qx.core.Property",
           // Undefined check
           // Must be above the comparision between old and new, because otherwise previously unset
           // values get not detected and will be quitely ignored which is a bad behavior.
-          code.add('if(value===undefined)');
-          code.add('throw new Error("Undefined value for property ', name, ' of class \'"+this.constructor.classname+"\' is not allowed!");');
+          code.push('if(value===undefined)');
+          code.push('throw new Error("Undefined value for property ', name, ' of class \'"+this.constructor.classname+"\' is not allowed!");');
 
           // Check argument length
           if (qx.core.Variant.isSet("qx.debug", "on")) {
-            code.add('if(arguments.length!==1)throw new Error("The method of the property ', name,  ' by using ', this.$$method[variant][name], '() requires exactly one argument!");');
+            code.push('if(arguments.length!==1)throw new Error("The method of the property ', name,  ' by using ', this.$$method[variant][name], '() requires exactly one argument!");');
           }
 
           // Allow to unstyle themeable properties by explicit "undefined" string value
           if (variant === "style") {
-            code.add('if(value===qx.core.Property.$$undefined)value=undefined;');
+            code.push('if(value===qx.core.Property.$$undefined)value=undefined;');
           }
 
           // Old/new comparision
-          code.add('if(this.', store, '===value)return value;');
+          code.push('if(this.', store, '===value)return value;');
 
           // Enable checks in setter and in style and init method if debugging is enabled
           if (variant === "set" || (qx.core.Variant.isSet("qx.debug", "on") && (variant === "style" || variant === "init")))
@@ -738,8 +717,8 @@ qx.Class.define("qx.core.Property",
             // Null check
             if (!config.nullable)
             {
-              code.add('if(value===null)');
-              code.add('throw new Error("Null value for property \'', name, '\' of class \'"+this.constructor.classname+"\' is not allowed (' + variant + ')!");');
+              code.push('if(value===null)');
+              code.push('throw new Error("Null value for property \'', name, '\' of class \'"+this.constructor.classname+"\' is not allowed (' + variant + ')!");');
             }
 
             // Check value
@@ -748,72 +727,72 @@ qx.Class.define("qx.core.Property",
               if (config.nullable)
               {
                 if (variant === "style") {
-                  code.add('if(value!=null)'); // allow both undefined and null
+                  code.push('if(value!=null)'); // allow both undefined and null
                 } else {
-                  code.add('if(value!==null)') // allow null
+                  code.push('if(value!==null)') // allow null
                 }
               }
               else if (variant === "style")
               {
-                code.add('if(value!==undefined)'); // allow undefined
+                code.push('if(value!==undefined)'); // allow undefined
               }
 
               // Inheritable properties always accept "inherit" as value
               if (config.inheritable) {
-                code.add('if(value!==qx.core.Property.$$inherit)');
+                code.push('if(value!==qx.core.Property.$$inherit)');
               }
 
-              code.add('if(');
+              code.push('if(');
 
               if (this.__checks[config.check] !== undefined)
               {
-                code.add('!(', this.__checks[config.check], ')');
+                code.push('!(', this.__checks[config.check], ')');
               }
               else if (qx.Class.isDefined(config.check))
               {
-                code.add('!(value instanceof ', config.check, ')');
+                code.push('!(value instanceof ', config.check, ')');
               }
               else if (qx.Interface.isDefined(config.check))
               {
-                code.add('!(value && qx.Class.hasInterface(value.constructor, ', config.check, '))');
+                code.push('!(value && qx.Class.hasInterface(value.constructor, ', config.check, '))');
               }
               else if (typeof config.check === "function")
               {
-                code.add('!', clazz.classname, '.$$properties.', name);
-                code.add('.check.call(this, value)');
+                code.push('!', clazz.classname, '.$$properties.', name);
+                code.push('.check.call(this, value)');
               }
               else if (typeof config.check === "string")
               {
-                code.add('!(', config.check, ')');
+                code.push('!(', config.check, ')');
               }
               else if (config.check instanceof Array)
               {
                 // reconfigure for faster access trough map usage
                 config.checkMap = qx.lang.Object.fromArray(config.check);
 
-                code.add(clazz.classname, '.$$properties.', name);
-                code.add('.checkMap[value]===undefined');
+                code.push(clazz.classname, '.$$properties.', name);
+                code.push('.checkMap[value]===undefined');
               }
               else
               {
                 throw new Error("Could not add check to property " + name + " of class " + clazz.classname);
               }
-              code.add(')throw new Error("Invalid value for property \'', name, '\' of class ' + clazz.classname + ': " + value);');
+              code.push(')throw new Error("Invalid value for property \'', name, '\' of class ' + clazz.classname + ': " + value);');
             }
           }
         }
         else if (variant === "toggle")
         {
           // Toggle value (Replace eventually incoming value for setter etc.)
-          code.add('value=!this.', this.$$store.computed[name], ';');
+          code.push('value=!this.', this.$$store.computed[name], ';');
         }
         else if (variant === "reset" || variant === "unstyle")
         {
           // Remove value
-          code.add('value=undefined;');
+          code.push('value=undefined;');
         }
 
-        code.add('this.', store, '=value;');
+        code.push('this.', store, '=value;');
       }
       else if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -821,7 +800,7 @@ qx.Class.define("qx.core.Property",
         {
           // Additional debugging to block values for init() functions
           // which have a init value defined at property level
-          code.add('if(arguments.length!==0)throw new Error("You are not able to change the init value of the property ', name,  ' by using ', this.$$method[variant][name], '()!");');
+          code.push('if(arguments.length!==0)throw new Error("You are not able to change the init value of the property ', name,  ' by using ', this.$$method[variant][name], '()!");');
         }
       }
 
@@ -838,7 +817,7 @@ qx.Class.define("qx.core.Property",
       // Use complex evaluation for reset, refresh and style
       if (variant === "refresh" || variant === "reset" || variant === "style" || variant === "unstyle" || variant === "init")
       {
-        code.add('var computed;');
+        code.push('var computed;');
 
         var hasComputeIf = false;
 
@@ -846,8 +825,8 @@ qx.Class.define("qx.core.Property",
         // Hint: Always undefined in reset variant
         if (variant !== "reset")
         {
-          code.add('if(this.', this.$$store.user[name], '!==undefined)');
-          code.add('computed=this.', this.$$store.user[name], ';');
+          code.push('if(this.', this.$$store.user[name], '!==undefined)');
+          code.push('computed=this.', this.$$store.user[name], ';');
           hasComputeIf = true;
         }
 
@@ -855,11 +834,11 @@ qx.Class.define("qx.core.Property",
         if (config.themeable === true)
         {
           if (hasComputeIf) {
-            code.add('else ');
+            code.push('else ');
           }
 
-          code.add('if(this.', this.$$store.theme[name], '!==undefined)');
-          code.add('computed=this.', this.$$store.theme[name], ';');
+          code.push('if(this.', this.$$store.theme[name], '!==undefined)');
+          code.push('computed=this.', this.$$store.theme[name], ';');
           hasComputeIf = true;
         }
 
@@ -868,16 +847,16 @@ qx.Class.define("qx.core.Property",
         // because of the possibility to set the init value of properties
         // without init value at construction time (for complex values like arrays etc.)
         if (hasComputeIf) {
-          code.add('else ');
+          code.push('else ');
         }
 
-        code.add('computed=this.', this.$$store.init[name], ';');
+        code.push('computed=this.', this.$$store.init[name], ';');
       }
 
       // Use simple evaluation for set and toggle
       else
       {
-        code.add('var computed=value;');
+        code.push('var computed=value;');
       }
 
 
@@ -893,18 +872,18 @@ qx.Class.define("qx.core.Property",
       {
         if (variant === "set" || variant == "reset" || variant === "refresh" || variant === "style" || variant === "unstyle" || variant === "init")
         {
-          code.add('if(computed===qx.core.Property.$$inherit||computed===undefined){');
+          code.push('if(computed===qx.core.Property.$$inherit||computed===undefined){');
 
           if (variant === "refresh")
           {
-            code.add('computed=value;');
+            code.push('computed=value;');
           }
           else
           {
-            code.add('var pa=this.getParent();if(pa)computed=pa.', this.$$store.computed[name], ';');
+            code.push('var pa=this.getParent();if(pa)computed=pa.', this.$$store.computed[name], ';');
           }
 
-          code.add('}');
+          code.push('}');
         }
 
         // Hint: No toggle() here, toggle only allows true/false user value and no inherit
@@ -920,12 +899,12 @@ qx.Class.define("qx.core.Property",
       if (config.inheritable === true)
       {
         // Normalize 'undefined' to 'inherit' in inheritable properties
-        code.add('if(computed===undefined||computed===qx.core.Property.$$inherit)computed=null;');
+        code.push('if(computed===undefined||computed===qx.core.Property.$$inherit)computed=null;');
       }
       else
       {
         // Normalize 'undefined' to 'null'
-        code.add('if(computed===undefined)computed=null;');
+        code.push('if(computed===undefined)computed=null;');
       }
 
 
@@ -935,26 +914,26 @@ qx.Class.define("qx.core.Property",
       // [6] STORING COMPUTED VALUE
 
       // Remember computed old value
-      code.add('var old=this.', this.$$store.computed[name], ';');
+      code.push('var old=this.', this.$$store.computed[name], ';');
 
       // Normalize 'undefined' to 'null'
       // Could only be undefined in cases when the setter was never executed before
       // Because of this we can do the following old/new check in an else case to optimize performance
-      code.add('if(old===undefined)old=null;');
+      code.push('if(old===undefined)old=null;');
 
       // Compare old/new computed value
-      code.add('else if(old===computed)return value;');
+      code.push('else if(old===computed)return value;');
 
       // Inform user
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (qx.core.Setting.get("qx.propertyDebugLevel") > 0) {
-          code.add('this.debug("', name, ' changed: " + old + " => " + computed + " [' + variant + ']");');
+          code.push('this.debug("', name, ' changed: " + old + " => " + computed + " [' + variant + ']");');
         }
       }
 
       // Store new computed value
-      code.add('this.', this.$$store.computed[name], '=computed;');
+      code.push('this.', this.$$store.computed[name], '=computed;');
 
 
 
@@ -970,11 +949,11 @@ qx.Class.define("qx.core.Property",
         {
           if (variant === "init")
           {
-            code.add('this.', config.apply, '(computed, null);');
+            code.push('this.', config.apply, '(computed, null);');
           }
           else
           {
-            code.add('this.', config.apply, '(computed, old);');
+            code.push('this.', config.apply, '(computed, old);');
           }
         }
       }
@@ -982,8 +961,8 @@ qx.Class.define("qx.core.Property",
       // Fire event
       if (config.event)
       {
-        code.add('if(this.hasEventListeners("', config.event, '"))');
-        code.add('this.dispatchEvent(new qx.event.type.ChangeEvent("', config.event, '", computed, old), true);');
+        code.push('if(this.hasEventListeners("', config.event, '"))');
+        code.push('this.dispatchEvent(new qx.event.type.ChangeEvent("', config.event, '", computed, old), true);');
       }
 
       // Don't fire event and not update children in init().
@@ -993,9 +972,9 @@ qx.Class.define("qx.core.Property",
       // Require the parent/children interface
       if (members.getChildren && config.inheritable === true)
       {
-        code.add('var a=this.getChildren();if(a)for(var i=0,l=a.length;i<l;i++){');
-        code.add('if(a[i].', this.$$method.refresh[name], ')a[i].', this.$$method.refresh[name], '(computed);');
-        code.add('}');
+        code.push('var a=this.getChildren();if(a)for(var i=0,l=a.length;i<l;i++){');
+        code.push('if(a[i].', this.$$method.refresh[name], ')a[i].', this.$$method.refresh[name], '(computed);');
+        code.push('}');
       }
 
 
@@ -1007,11 +986,13 @@ qx.Class.define("qx.core.Property",
 
       // Return value
       if (variant !== "reset" && variant !== "unstyle") {
-        code.add('return value;');
+        code.push('return value;');
       }
 
 
 
+      this.sumGen += new Date - start;
+      
 
 
 
