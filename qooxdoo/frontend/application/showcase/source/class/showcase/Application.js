@@ -1532,7 +1532,7 @@ qx.Class.define("showcase.Application",
       });
       fs.setMargin(4);
 
-      var infoLabel = new qx.ui.basic.Label("");
+      var infoLabel = new qx.ui.basic.Label("", "html");
       fs.add(infoLabel);
       w2.add(fs);
 
@@ -1597,7 +1597,7 @@ qx.Class.define("showcase.Application",
         info[(i++ * 2) + 1] = this.tr("Format of %1:", 10000.12);
         info[(i++ * 2) + 1] = qx.util.format.NumberFormat.getInstance().format(10000.12);
 
-        infoLabel.setHtml(info.join(""));
+        infoLabel.setText(info.join(""));
       };
 
       // update info box
