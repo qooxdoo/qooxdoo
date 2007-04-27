@@ -5,8 +5,8 @@ qx.Class.define("qxunit.TestResult", {
 
   construct : function()
   {
-    this.initFailures([]);
-    this.initErrors([]);
+    this.setFailures([]);
+    this.setErrors([]);
   },
 
   events :
@@ -31,7 +31,7 @@ qx.Class.define("qxunit.TestResult", {
       {
         testFunction();
       } catch (e) {
-        if (e instanceof qxunit.AssertionError) {
+        if (e.classname == "qxunit.AssertionError") {
           var failure = { exception : e, test : test};
           this.getFailures().push(failure);
           this.createDispatchDataEvent("failure", failure);
