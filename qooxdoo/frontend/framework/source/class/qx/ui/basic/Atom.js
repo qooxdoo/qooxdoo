@@ -59,18 +59,13 @@ qx.Class.define("qx.ui.basic.Atom",
   {
     this.base(arguments);
 
-    if (this.getOrientation() == null) {
-      this.setOrientation("horizontal");
-    }
-
-    // Prohibit selection
-    this.setSelectable(false);
-
     // Disable flex support
     this.getLayoutImpl().setEnableFlexSupport(false);
 
     // Apply constructor arguments
-    this.setLabel(vLabel || "");
+    if (vLabel !== undefined) {
+      this.setLabel(vLabel);
+    }
 
     // Simple flash wrapper
     if (qx.Class.isDefined("qx.ui.embed.Flash") && vFlash != null && vIconWidth != null && vIconHeight != null && qx.ui.embed.Flash.getPlayerVersion().getMajor() > 0)
@@ -100,21 +95,6 @@ qx.Class.define("qx.ui.basic.Atom",
 
 
 
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-    SHOW_LABEL : "label",
-    SHOW_ICON  : "icon",
-    SHOW_BOTH  : "both"
-  },
-
-
-
 
   /*
   *****************************************************************************
@@ -124,6 +104,24 @@ qx.Class.define("qx.ui.basic.Atom",
 
   properties :
   {
+    /*
+    ---------------------------------------------------------------------------
+      REFINED PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    orientation :
+    {
+      refine : true,
+      init : "horizontal"
+    },
+
+    selectable :
+    {
+      refine : true,
+      init : false
+    },
+
     allowStretchX :
     {
       refine : true,
@@ -135,6 +133,23 @@ qx.Class.define("qx.ui.basic.Atom",
       refine : true,
       init : false
     },
+
+    appearance :
+    {
+      refine : true,
+      init : "atom"
+    },
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      OWN PROPERTIES
+    ---------------------------------------------------------------------------
+    */
 
     /** The label/caption/text of the qx.ui.basic.Atom instance */
     label :
@@ -218,15 +233,7 @@ qx.Class.define("qx.ui.basic.Atom",
       themeable : true,
       apply : "_modifyIconHeight",
       init : 0
-    },
-
-
-    appearance :
-    {
-      refine : true,
-      init : "atom"
     }
-
   },
 
 
@@ -513,8 +520,8 @@ qx.Class.define("qx.ui.basic.Atom",
     {
       switch(this.getShow())
       {
-        case qx.ui.basic.Atom.SHOW_LABEL:
-        case qx.ui.basic.Atom.SHOW_BOTH:
+        case "label":
+        case "both":
           this._labelIsVisible = qx.util.Validation.isValidString(this.getLabel()) || this.getLabel() instanceof qx.locale.LocalizedString;
           break;
 
@@ -540,8 +547,8 @@ qx.Class.define("qx.ui.basic.Atom",
     {
       switch(this.getShow())
       {
-        case qx.ui.basic.Atom.SHOW_ICON:
-        case qx.ui.basic.Atom.SHOW_BOTH:
+        case "icon":
+        case "both":
           this._iconIsVisible = qx.util.Validation.isValidString(this.getIcon());
           break;
 
