@@ -82,6 +82,7 @@ qx.Class.define("qxunit.runner.TestRunner",
 
     // Toolbar
     this.toolbar = new qx.ui.toolbar.ToolBar;
+    this.toolbar.setShow("icon");
     this.add(this.toolbar);
 
     this.runbutton = new qx.ui.toolbar.Button("Run Test", "icon/16/actions/media-playback-start.png");
