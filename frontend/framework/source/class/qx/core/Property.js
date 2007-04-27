@@ -680,7 +680,7 @@ qx.Class.define("qx.core.Property",
 
         // Call user-provided transform method, if one is provided.  Transform
         // method should either throw an error or return the new value.
-        if ((variant === "set" || variant === "init") && config.transform)
+        if (config.transform && (variant === "set" || variant === "init"))
         {
           code.add('value=this.', config.transform, '(value);');
         }
