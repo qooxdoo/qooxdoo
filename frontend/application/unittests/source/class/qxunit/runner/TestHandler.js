@@ -63,50 +63,48 @@ qx.Class.define("qxunit.runner.TestHandler",
           var dirname = path.slice(0,path.length-1);
           var basename= path[path.length-1];
 
-          function createPath (node, path)
+          /**
+           * create a new tree path from path, under parent node
+           */
+          function createPath (parent, path)
           {
-            if (path == [])
+            if (! path.length) // never do "path == []"
             {
-              return null;
-            }
-            var head     = path[0];
-
-            if (node.label == head)
+              return parent;
+            } else 
             {
+              var head     = path[0];
               var pathrest = path.slice(1,path.length);
-              if (! pathrest.length) // end of match
+              var target   = null;
+              var nextRoot = null;
+              // check children
+              var children = parent.getChildren();
+              for (var i in children)
               {
-                return node;
-              } else {
-                // check children
-                var children = node.getChildren();
-                var target = null;
-                for (var i in children)
+                if (children[i].label == head)
                 {
-                  target = createPath(children[i], pathrest);
+                  nextRoot = children[i];
+                  break;
                 }
-                // create new
-                if (target == null)
-                {
-                  var neu = new qxunit.runner.Tree(pathrest[0]);
-                  node.add(neu);
-                  target = createPath(neu, pathrest);
-                }
-                return target;
               }
-            } else  // match failed
-            {
-              return null;
+              // else create new
+              if (nextRoot == null)
+              {
+                nextRoot = new qxunit.runner.Tree(head);
+                parent.add(nextRoot);
+              }
+              // and recurse with the new root and the rest of path
+              target = createPath(nextRoot, pathrest);
+              return target;
             }
           } //createPath()
 
-          var target = createPath(root, dirname);
+          var target = createPath(root, path);
           if (!target) { throw new Exception("No target to insert tests"); }
-          target.add(that.readTree(el));
-          target.label = basename; // correct target name
+          that.readTree(el,target);
         } //insert()
 
-        var root = new qxunit.runner.Tree("qxunit");
+        var root = new qxunit.runner.Tree("All");
         var that = this;
         for (var i in tmap)
         {
