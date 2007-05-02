@@ -74,6 +74,38 @@ qx.Class.define("qx.ui.table.ConditionalDataCellRenderer",
 
   members :
   {
+    _apply_formatting : function(conditions, cond_num, style)
+    {
+      if (conditions[cond_num][1] != null) {
+        style.textAlign = conditions[cond_num][1];
+      }
+
+      if (conditions[cond_num][2] != null) {
+        style.color = conditions[cond_num][2];
+      }
+
+      if (conditions[cond_num][3] != null) {
+        style.fontStyle = conditions[cond_num][3];
+      }
+
+      if (conditions[cond_num][4] != null) {
+        style.fontWeight = conditions[cond_num][4];
+      }
+    },
+
+    _js_in_array : function(the_needle, the_haystack)
+    {
+      var the_hay = the_haystack.toString();
+
+      if (the_hay == '') {
+        return false;
+      }
+
+      var the_pattern = new RegExp(the_needle, 'g');
+      var matched = the_pattern.test(the_haystack);
+      return matched;
+    },
+
     /**
      * The addNumericCondition method is used to add a basic numeric condition to
      * the cell renderer.
@@ -101,7 +133,7 @@ qx.Class.define("qx.ui.table.ConditionalDataCellRenderer",
     {
       var temp = null;
 
-      if (js_in_array(condition, this.numericAllowed))
+      if (this._js_in_array(condition, this.numericAllowed))
       {
         if (value1 != null) {
           temp = new Array(condition, align, color, style, weight, value1, target);
@@ -141,7 +173,7 @@ qx.Class.define("qx.ui.table.ConditionalDataCellRenderer",
      */
     addBetweenCondition : function(condition, value1, value2, align, color, style, weight, target)
     {
-      if (js_in_array(condition, this.betweenAllowed))
+      if (this._js_in_array(condition, this.betweenAllowed))
       {
         if (value1 != null && value2 != null) {
           var temp = new Array(condition, align, color, style, weight, value1, value2, target);
@@ -221,7 +253,7 @@ qx.Class.define("qx.ui.table.ConditionalDataCellRenderer",
       {
         cond_test = false;
 
-        if (js_in_array(this.Conditions[i][0], this.numericAllowed))
+        if (this._js_in_array(this.Conditions[i][0], this.numericAllowed))
         {
           if (this.Conditions[i][6] == null) {
             compareValue = cellInfo.value;
@@ -274,7 +306,7 @@ qx.Class.define("qx.ui.table.ConditionalDataCellRenderer",
               break;
           }
         }
-        else if (js_in_array(this.Conditions[i][0], this.betweenAllowed))
+        else if (this._js_in_array(this.Conditions[i][0], this.betweenAllowed))
         {
           if (this.Conditions[i][7] == null) {
             compareValue = cellInfo.value;
@@ -313,7 +345,7 @@ qx.Class.define("qx.ui.table.ConditionalDataCellRenderer",
 
         // Apply formatting, if any.
         if (cond_test == true) {
-          apply_formatting(this.Conditions, i, style);
+          this._apply_formatting(this.Conditions, i, style);
         }
       }
 
@@ -327,35 +359,3 @@ qx.Class.define("qx.ui.table.ConditionalDataCellRenderer",
     }
   }
 });
-
-function apply_formatting(conditions, cond_num, style)
-{
-  if (conditions[cond_num][1] != null) {
-    style.textAlign = conditions[cond_num][1];
-  }
-
-  if (conditions[cond_num][2] != null) {
-    style.color = conditions[cond_num][2];
-  }
-
-  if (conditions[cond_num][3] != null) {
-    style.fontStyle = conditions[cond_num][3];
-  }
-
-  if (conditions[cond_num][4] != null) {
-    style.fontWeight = conditions[cond_num][4];
-  }
-}
-
-function js_in_array(the_needle, the_haystack)
-{
-  var the_hay = the_haystack.toString();
-
-  if (the_hay == '') {
-    return false;
-  }
-
-  var the_pattern = new RegExp(the_needle, 'g');
-  var matched = the_pattern.test(the_haystack);
-  return matched;
-}
