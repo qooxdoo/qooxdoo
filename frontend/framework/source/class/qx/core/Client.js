@@ -143,7 +143,24 @@ qx.Class.define("qx.core.Client",
         vEngineVersionBuild = vVersionHelper[3] || 0;
       }
 
-      var vEngineBoxSizingAttr = vEngine == "gecko" ? "-moz-box-sizing" : vEngine == "mshtml" ? null : "box-sizing";
+      switch (vEngine)
+      {
+        case "gecko":
+          var vEngineBoxSizingAttr = "-moz-box-sizing";
+          break;
+
+        case "webkit":
+          var vEngineBoxSizingAttr = "-webkit-box-sizing";
+          break;
+
+        case "mshtml":
+          var vEngineBoxSizingAttr = null;
+          break;
+
+        default:
+          var vEngineBoxSizingAttr = "box-sizing";
+      }
+
       var vEngineQuirksMode = document.compatMode !== "CSS1Compat";
 
       var vDefaultLocale = "en";
