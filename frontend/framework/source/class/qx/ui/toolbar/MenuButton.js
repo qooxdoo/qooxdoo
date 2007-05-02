@@ -137,10 +137,12 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
         // Apply X-Location
         var vMenuParentLeft = qx.html.Location.getPageBoxLeft(vMenuParentElement);
         var vButtonLeft = qx.html.Location.getPageBoxLeft(vButtonElement);
+        var vScrollLeft = qx.html.Scroll.getLeftSum(vButtonElement);
 
-        vMenu.setLeft(vButtonLeft - vMenuParentLeft);
+        vMenu.setLeft(vButtonLeft - vMenuParentLeft - vScrollLeft);
 
         // Apply Y-Location
+        var vScrollTop = qx.html.Scroll.getTopSum(vButtonElement);
         switch(this.getDirection())
         {
           case "up":
@@ -148,14 +150,14 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
             var vMenuParentBottom = qx.html.Location.getPageBoxBottom(vMenuParentElement);
             var vButtonBottom = qx.html.Location.getPageBoxBottom(vButtonElement);
 
-            vMenu.setBottom(vButtonHeight + (vBodyHeight - vButtonBottom) - (vBodyHeight - vMenuParentBottom));
+            vMenu.setBottom(vButtonHeight + (vBodyHeight - vButtonBottom) - (vBodyHeight - vMenuParentBottom) - vScrollTop);
             vMenu.setTop(null);
             break;
 
           case "down":
             var vButtonTop = qx.html.Location.getPageBoxTop(vButtonElement);
 
-            vMenu.setTop(vButtonTop + vButtonHeight);
+            vMenu.setTop(vButtonTop + vButtonHeight - vScrollTop);
             vMenu.setBottom(null);
             break;
         }
