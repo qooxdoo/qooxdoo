@@ -65,6 +65,10 @@ qx.Class.define("qx.ui.basic.Label",
     if (mnemonic != null) {
       this.setMnemonic(mnemonic);
     }
+
+    // Property init
+    this.initWidth();
+    this.initHeight();
   },
 
 
