@@ -49,6 +49,10 @@ qx.Class.define("qx.ui.form.ListItem",
     }
 
     this.addEventListener("dblclick", this._ondblclick);
+
+    // Initialize properties
+    // Hint: width is already initialized in Atom
+    this.initMinWidth();
   },
 
 
@@ -80,12 +84,6 @@ qx.Class.define("qx.ui.form.ListItem",
     {
       refine : true,
       init : "list-item"
-    },
-
-    height :
-    {
-      refine : true,
-      init : "auto"
     },
 
     minWidth :
