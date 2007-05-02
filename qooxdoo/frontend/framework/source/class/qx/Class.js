@@ -841,7 +841,7 @@ qx.Class.define("qx.Class",
           {
             for (var i=0, a=config.include, l=a.length; i<l; i++)
             {
-              if (a[i].$$type !== "Mixin") {
+              if (a[i] == null || a[i].$$type !== "Mixin") {
                 throw new Error('The include defintion in class "' + name + '" contains a invalid mixin at position ' + i + ': ' + a[i]);
               }
             }
@@ -859,7 +859,7 @@ qx.Class.define("qx.Class",
           {
             for (var i=0, a=config.implement, l=a.length; i<l; i++)
             {
-              if (a[i].$$type !== "Interface") {
+              if (a[i] == null || a[i].$$type !== "Interface") {
                 throw new Error('The implement defintion in class "' + name + '" contains a invalid interface at position ' + i + ': ' + a[i]);
               }
             }
