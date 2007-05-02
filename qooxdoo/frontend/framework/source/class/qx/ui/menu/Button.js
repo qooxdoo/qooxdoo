@@ -86,6 +86,11 @@ qx.Class.define("qx.ui.menu.Button",
     }
 
 
+    // Initialize properties
+    this.initMinWidth();
+    this.initHeight();
+
+
 
     this.addEventListener("mouseup", this._onmouseup);
   },
@@ -111,6 +116,18 @@ qx.Class.define("qx.ui.menu.Button",
     {
       refine : true,
       init : "menu-button"
+    },
+
+    minWidth :
+    {
+      refine : true,
+      init : "auto"
+    },
+
+    height :
+    {
+      refine : true,
+      init : "auto"
     },
 
     icon :
