@@ -31,24 +31,23 @@
  * By default it tries to occupy the all the remaining space by setting
  * a flex height of <code>1*</code>.
  */
-
 qx.Class.define("qx.ui.basic.VerticalSpacer",
 {
   extend : qx.ui.basic.Terminator,
-
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
 
   construct : function()
   {
     this.base(arguments);
 
-    this.setHeight("1*");
+    this.initHeight();
+  },
+
+  properties :
+  {
+    height :
+    {
+      refine : true,
+      init : "1*"
+    }
   }
 });

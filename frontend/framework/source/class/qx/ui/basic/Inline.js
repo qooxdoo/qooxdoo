@@ -64,7 +64,8 @@ qx.Class.define("qx.ui.basic.Inline",
   {
     inlineNodeId :
     {
-      check : "String"
+      check : "String",
+      nullable : true
     }
   }
 });
