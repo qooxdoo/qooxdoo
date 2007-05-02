@@ -84,6 +84,8 @@ qx.Class.define("qx.ui.window.Window",
     // ************************************************************************
     var cb = this._captionBar = new qx.ui.layout.HorizontalBoxLayout;
     cb.setAppearance("window-captionbar");
+    cb.setHeight("auto");
+    cb.setOverflow("hidden");
     l.add(cb);
 
     // ************************************************************************
@@ -175,6 +177,7 @@ qx.Class.define("qx.ui.window.Window",
     // ************************************************************************
     var sb = this._statusBar = new qx.ui.layout.HorizontalBoxLayout;
     sb.setAppearance("window-statusbar");
+    sb.setHeight("auto");
 
     // ************************************************************************
     //   STATUSTEXT

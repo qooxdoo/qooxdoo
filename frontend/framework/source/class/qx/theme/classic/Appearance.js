@@ -507,30 +507,31 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          paddingTop            : 1,
-          paddingRight          : 2,
-          paddingBottom         : 2,
-          paddingLeft           : 2,
+          padding : [ 1, 2, 2 ],
           verticalChildrenAlign : "middle",
-          height                : "auto",
-          overflow              : "hidden",
-          backgroundColor       : states.active ? "activecaption" : "inactivecaption",
-          textColor             : states.active ? "captiontext" : "inactivecaptiontext"
+          backgroundColor : states.active ? "activecaption" : "inactivecaption",
+          textColor : states.active ? "captiontext" : "inactivecaptiontext"
         };
       }
     },
 
     "window-resize-frame" :
     {
-      style : function(states) {
-        return { border : "shadow" };
+      style : function(states)
+      {
+        return {
+          border : "shadow"
+        };
       }
     },
 
     "window-captionbar-icon" :
     {
-      style : function(states) {
-        return { marginRight : 2 };
+      style : function(states)
+      {
+        return {
+          marginRight : 2
+        };
       }
     },
 
@@ -539,8 +540,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          cursor      : "default",
-          font        : "bold",
+          cursor : "default",
+          font : "bold",
           marginRight : 2
         };
       }
@@ -552,37 +553,21 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
       style : function(states)
       {
-        var result = {};
-
-        if (states.pressed || states.abandoned)
-        {
-          result.paddingTop = 2;
-          result.paddingRight = 1;
-          result.paddingBottom = 0;
-          result.paddingLeft = 3;
-        }
-        else
-        {
-          result.paddingTop = result.paddingBottom = 1;
-          result.paddingRight = result.paddingLeft = 2;
-        }
-
-        return result;
+        return result = {
+          padding : states.pressed || states.abandoned ? [ 2, 1, 0, 3] : [ 1, 2 ]
+        };
       }
     },
 
-    "window-captionbar-minimize-button" :
-    {
+    "window-captionbar-minimize-button" : {
       include : "window-captionbar-button"
     },
 
-    "window-captionbar-restore-button" :
-    {
+    "window-captionbar-restore-button" : {
       include : "window-captionbar-button"
     },
 
-    "window-captionbar-maximize-button" :
-    {
+    "window-captionbar-maximize-button" : {
       include : "window-captionbar-button"
     },
 
@@ -590,8 +575,11 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       include : "window-captionbar-button",
 
-      style : function(states) {
-        return { marginLeft : 2 };
+      style : function(states)
+      {
+        return {
+          marginLeft : 2
+        };
       }
     },
 
@@ -600,8 +588,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          border : "thinInset",
-          height : "auto"
+          border : "thinInset"
         };
       }
     },
@@ -611,11 +598,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          paddingTop    : 1,
-          paddingRight  : 4,
-          paddingBottom : 1,
-          paddingLeft   : 4,
-          cursor        : "default"
+          padding : [ 1, 4 ],
+          cursor : "default"
         };
       }
     },
@@ -631,15 +615,21 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "resizer" :
     {
-      style : function(states) {
-        return { border : "outset" };
+      style : function(states)
+      {
+        return {
+          border : "outset"
+        };
       }
     },
 
     "resizer-frame" :
     {
-      style : function(states) {
-        return { border : "shadow" };
+      style : function(states)
+      {
+        return {
+          border : "shadow"
+        };
       }
     },
 
