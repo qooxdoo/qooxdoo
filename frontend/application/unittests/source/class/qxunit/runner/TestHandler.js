@@ -34,7 +34,7 @@ qx.Class.define("qxunit.runner.TestHandler",
   {
     this.base(arguments);
     this.tmap  = eval(testRep); //[{classname:myClass,tests:['test1','test2']}, {...}]
-    this.ttree = this.__readTestRep(testRep);
+    this.ttree = this.__readTestRep1(testRep);
   },
 
   members : {
@@ -120,10 +120,13 @@ qx.Class.define("qxunit.runner.TestHandler",
       {
         // current node
         var tree = arguments[1] || new qxunit.runner.Tree(struct.classname);
+        var node;
         // current test leafs
         for (var j in struct.tests) 
         {
-          tree.add(new qxunit.runner.Tree(struct.tests[j]));
+          node = new qxunit.runner.Tree(struct.tests[j]);
+          node.type = "test";  // tests are leaf nodes
+          tree.add(node);
         }
         // current children
         for (var j in struct.children)
@@ -174,6 +177,18 @@ qx.Class.define("qxunit.runner.TestHandler",
         return [];
       },
 
+
+      getPath : function (node) { // node is a modelNode
+        var path   = node.pwd();
+        path.shift(); // remove leading 'All'
+        var tclass = path.join(".")+"."+node.label;
+        if(this.isClass(tclass)) 
+        {
+          path = path.concat(node.label);
+        }
+        return path;
+      },
+
       /**
        * @param node {String} a class or test name
        * @returns nodeList {List} list of tests or direct subclasses
@@ -193,7 +208,17 @@ qx.Class.define("qxunit.runner.TestHandler",
         }
       },
 
+
       isClass : function (node) {
+        if (node.type && node.type == "test") {
+          return false;
+        } else {
+          return true;
+        }
+      },
+
+
+      isClass1 : function (node) {
         if (node == "All") {
           return true;
         } else {
@@ -218,6 +243,42 @@ qx.Class.define("qxunit.runner.TestHandler",
           };
         };
         return classname;
+      },
+
+
+      /**
+       * return the full name of a test from its model node
+       *
+       * @param node {Tree} a model node
+       * @return fullName {String} like "qxunit.test.Class.testEmptyClass"
+       */
+      getFullName : function (node)  // node is a tree node
+      {
+        var path = this.getPath(node);
+        if (node.type && node.type == "test")
+        {
+          path = path.concat(node.label);
+        }
+        return path.join(".");
+      },
+
+
+      testCount1 : function (node) { //node is a tree node
+        if (node.type && node.type=="test") {
+          return 1;
+        } else { // enumerate recursively
+          var num = 0;
+          var iter = node.getIterator("depth");
+          var curr;
+          while(curr = iter())
+          {
+            if (curr.type && curr.type == "test")
+            {
+              num++;
+            }
+          }
+          return num;
+        }
       },
 
       testCount : function (node) { //node is a string
