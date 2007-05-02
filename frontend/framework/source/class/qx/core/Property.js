@@ -270,6 +270,14 @@ qx.Class.define("qx.core.Property",
      * @param widget {qx.core.ui.Widget} the widget
      * @return {void}
      */
+    hack :
+    {
+      font : 1,
+      textColor : 1,
+      show : 1,
+      enabled : 1
+    },
+
     refresh : function(widget)
     {
       var clazz = widget.constructor;
@@ -293,9 +301,9 @@ qx.Class.define("qx.core.Property",
 
           if (properties)
           {
-            for (name in properties)
+            for (name in this.hack)
             {
-              if (properties[name].inheritable)
+              if (properties[name])
               {
                 if (qx.core.Variant.isSet("qx.debug", "on"))
                 {
@@ -548,7 +556,7 @@ qx.Class.define("qx.core.Property",
 
 
     sumNumber : 0,
-    sumGen : 0,     
+    sumGen : 0,
     sumUnwrap : 0,
 
     /**
@@ -567,32 +575,41 @@ qx.Class.define("qx.core.Property",
      */
     __unwrapFunctionFromCode : function(instance, members, name, variant, code, args)
     {
+      var store = this.$$method[variant][name];
+
       // Output generate code
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if (qx.core.Variant.isSet("qx.debug", "on") && false)
       {
         if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
           console.debug("Code[" + this.$$method[variant][name] + "]: " + code.join(""));
         }
+
+        // Overriding temporary wrapper
+        try{
+          var s = new Date;
+          members[store] = new Function("value", code.join(""));
+          this.sumUnwrap += new Date - s;
+        } catch(ex) {
+          alert("Malformed generated code to unwrap method: " + this.$$method[variant][name] + "\n" + code.join(""));
+        }
+      }
+      else
+      {
+        var s = new Date;
+//        members[store] = new Function("value", code.join(""));
+        eval("members[store] = function " + instance.classname.replace(/\./g, "_") + "$" + store + "(value) { " + code.join("") + "}");
+        this.sumUnwrap += new Date - s;
       }
 
-      // Overriding temporary wrapper
-      try{
-        var s = new Date;
-        members[this.$$method[variant][name]] = new Function("value", code.join(""));
-        this.sumUnwrap += new Date - s;        
-      } catch(ex) {
-        alert("Malformed generated code to unwrap method: " + this.$$method[variant][name] + "\n" + code.join(""));
-      }
-      
       this.sumNumber++;
 
       // Executing new function
       if (args === undefined) {
-        return instance[this.$$method[variant][name]]();
+        return instance[store]();
       } else if (qx.core.Variant.isSet("qx.debug", "on")) {
-        return instance[this.$$method[variant][name]].apply(instance, args);
+        return instance[store].apply(instance, args);
       } else {
-        return instance[this.$$method[variant][name]](args[0]);
+        return instance[store](args[0]);
       }
     },
 
@@ -612,7 +629,7 @@ qx.Class.define("qx.core.Property",
     executeOptimizedGetter : function(instance, clazz, name, variant)
     {
       var start = new Date;
-      
+
       var config = clazz.$$properties[name];
       var members = clazz.prototype;
       var code = [];
@@ -628,7 +645,7 @@ qx.Class.define("qx.core.Property",
       }
 
       code.push('return this.', this.$$store.computed[name], ';');
-      
+
       this.sumGen += new Date - start;
 
       return this.__unwrapFunctionFromCode(instance, members, name, variant, code);
@@ -651,7 +668,7 @@ qx.Class.define("qx.core.Property",
     executeOptimizedSetter : function(instance, clazz, name, variant, args)
     {
       var start = new Date;
-      
+
       var config = clazz.$$properties[name];
       var members = clazz.prototype;
       var value = args ? args[0] : undefined;
@@ -989,7 +1006,7 @@ qx.Class.define("qx.core.Property",
 
 
       this.sumGen += new Date - start;
-      
+
 
 
 
