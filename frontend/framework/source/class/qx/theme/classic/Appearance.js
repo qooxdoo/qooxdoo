@@ -647,29 +647,15 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          width           : "auto",
-          height          : "auto",
           backgroundColor : "menu",
-          border          : "outset",
-          paddingTop      : 1,
-          paddingRight    : 1,
-          paddingBottom   : 1,
-          paddingLeft     : 1
+          border : "outset",
+          padding : 1
         };
       }
     },
 
     "menu-layout" :
     {
-      style : function(states)
-      {
-        return {
-          top    : 0,
-          right  : 0,
-          bottom : 0,
-          left   : 0
-        };
-      }
     },
 
     "menu-button" :
@@ -677,13 +663,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          minWidth              : "auto",
-          height                : "auto",
           spacing               : 2,
-          paddingTop            : 2,
-          paddingRight          : 4,
-          paddingBottom         : 2,
-          paddingLeft           : 4,
+          padding               : [ 2, 4 ],
           cursor                : "default",
           verticalChildrenAlign : "middle",
           backgroundColor       : states.over ? "highlight" : "undefined",
@@ -707,7 +688,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          height       : "auto",
           marginTop    : 3,
           marginBottom : 2,
           paddingLeft  : 3,
@@ -723,7 +703,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           right  : 0,
           left   : 0,
-          height : 0,
+          height : "auto",
           border : "verticalDivider"
         };
       }
