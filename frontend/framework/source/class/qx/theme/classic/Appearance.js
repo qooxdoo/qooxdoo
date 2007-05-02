@@ -37,6 +37,12 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
   appearances :
   {
+    /*
+    ---------------------------------------------------------------------------
+      CORE
+    ---------------------------------------------------------------------------
+    */
+
     "empty" : {
     },
 
@@ -45,15 +51,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "image" : {
     },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      CORE
-    ---------------------------------------------------------------------------
-    */
 
     "client-document" :
     {
@@ -85,12 +82,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          cursor                        : "default",
-          spacing                       : 4,
-          width                         : "auto",
-          height                        : "auto",
-          horizontalChildrenAlign       : "center",
-          verticalChildrenAlign         : "middle"
+          spacing                 : 4,
+          horizontalChildrenAlign : "center",
+          verticalChildrenAlign   : "middle"
         };
       }
     },
@@ -126,18 +120,18 @@ qx.Theme.define("qx.theme.classic.Appearance",
           backgroundColor : "infobackground",
           textColor       : "infotext",
           border          : "info",
-          paddingTop      : 1,
-          paddingRight    : 3,
-          paddingBottom   : 2,
-          paddingLeft     : 3
+          padding         : [ 1, 3, 2, 3 ]
         };
       }
     },
 
     "iframe" :
     {
-      style : function(states) {
-        return { border : "inset" };
+      style : function(states)
+      {
+        return {
+          border : "inset"
+        };
       }
     },
 
@@ -171,15 +165,11 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
         if (states.pressed || states.abandoned)
         {
-          result.paddingTop = 4;
-          result.paddingRight = 3;
-          result.paddingBottom = 2;
-          result.paddingLeft = 5;
+          result.padding = [ 4, 3, 2, 5 ];
         }
         else
         {
-          result.paddingTop = result.paddingBottom = 3;
-          result.paddingRight = result.paddingLeft = 4;
+          result.padding = [ 3, 4 ];
         }
 
         return result;
@@ -201,23 +191,23 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           border          : "thinOutset",
-          backgroundColor : "threedface",
-          height          : "auto"
+          backgroundColor : "threedface"
         };
       }
     },
 
     "toolbar-part" :
     {
-      style : function(states) {
-        return { width : "auto" };
-      }
+
     },
 
     "toolbar-part-handle" :
     {
-      style : function(states) {
-        return { width : 10 };
+      style : function(states)
+      {
+        return {
+          width : 10
+        };
       }
     },
 
@@ -237,8 +227,11 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "toolbar-separator" :
     {
-      style : function(states) {
-        return { width : 8 };
+      style : function(states)
+      {
+        return {
+          width : 8
+        };
       }
     },
 
@@ -273,25 +266,17 @@ qx.Theme.define("qx.theme.classic.Appearance",
         if (states.pressed || states.checked || states.abandoned)
         {
           result.border = "thinInset";
-
-          result.paddingTop = 3;
-          result.paddingRight = 2;
-          result.paddingBottom = 1;
-          result.paddingLeft = 4;
+          result.padding = [ 3, 2, 1, 4 ];
         }
         else if (states.over)
         {
           result.border = "thinOutset";
-
-          result.paddingTop = result.paddingBottom = 2;
-          result.paddingLeft = result.paddingRight = 3;
+          result.padding = [ 2, 3 ];
         }
         else
         {
           result.border = "undefined";
-
-          result.paddingTop = result.paddingBottom = 3;
-          result.paddingLeft = result.paddingRight = 4;
+          result.padding = [ 3, 4 ];
         }
 
         return result;
@@ -332,70 +317,34 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       style : function(states)
       {
+        var result =
+        {
+          backgroundColor : "#E1EEFF",
+          border : new qx.renderer.border.Border
+        };
+
         if (states.barTop)
         {
-          var result =
-          {
-            backgroundColor : "#E1EEFF",
-            paddingTop    : 1,
-            paddingRight  : 0,
-            paddingBottom : 1,
-            paddingLeft   : 0,
-            border        : new qx.renderer.border.Border
-          };
-
+          result.padding = [ 1, 0 ];
           result.border.setBottom(1, "solid", "threedshadow");
-
-          return result;
         }
         else if (states.barBottom)
         {
-          var result =
-          {
-            backgroundColor : "#E1EEFF",
-            paddingTop    : 1,
-            paddingRight  : 0,
-            paddingBottom : 1,
-            paddingLeft   : 0,
-            border        : new qx.renderer.border.Border
-          };
-
+          result.padding = [ 1, 0 ];
           result.border.setTop(1, "solid", "threedshadow");
-
-          return result;
         }
         else if (states.barLeft)
         {
-          var result =
-          {
-            backgroundColor : "#E1EEFF",
-            paddingTop    : 0,
-            paddingRight  : 1,
-            paddingBottom : 0,
-            paddingLeft   : 1,
-            border        : new qx.renderer.border.Border
-          };
-
+          result.padding = [ 0, 1 ];
           result.border.setRight(1, "solid", "threedshadow");
-
-          return result;
         }
         else if (states.barRight)
         {
-          var result =
-          {
-            backgroundColor : "#E1EEFF",
-            paddingTop    : 0,
-            paddingRight  : 1,
-            paddingBottom : 0,
-            paddingLeft   : 1,
-            border        : new qx.renderer.border.Border
-          };
-
+          result.padding = [ 0, 1 ];
           result.border.setLeft(1, "solid", "threedshadow");
-
-          return result;
         }
+
+        return result;
       }
     },
 
@@ -417,57 +366,42 @@ qx.Theme.define("qx.theme.classic.Appearance",
           {
             result.border = new qx.renderer.border.Border(1, "solid", "threedshadow");
             result.border.setBottom(3, "solid", "#FEC83C");
-            result.paddingTop = 3;
-            result.paddingRight = 6;
-            result.paddingBottom = 1;
-            result.paddingLeft = 6;
+            result.padding = [ 3, 6, 1, 6 ];
           }
           else if (states.barBottom)
           {
             result.border = new qx.renderer.border.Border(1, "solid", "threedshadow");
             result.border.setTop(3, "solid", "#FEC83C");
-            result.paddingTop = 1;
-            result.paddingRight = 6;
-            result.paddingBottom = 3;
-            result.paddingLeft = 6;
+            result.padding = [ 1, 6, 3, 6 ];
           }
           else if (states.barLeft)
           {
             result.border = new qx.renderer.border.Border(1, "solid", "threedshadow");
             result.border.setRight(3, "solid", "#FEC83C");
-            result.paddingTop = 3;
-            result.paddingRight = 4;
-            result.paddingBottom = 3;
-            result.paddingLeft = 6;
+            result.padding = [ 3, 4, 3, 6 ];
           }
           else if (states.barRight)
           {
             result.border = new qx.renderer.border.Border(1, "solid", "threedshadow");
             result.border.setLeft(3, "solid", "#FEC83C");
-            result.paddingTop = 3;
-            result.paddingRight = 6;
-            result.paddingBottom = 3;
-            result.paddingLeft = 4;
+            result.padding = [ 3, 6, 3, 4 ];
           }
         }
         else
         {
           result.border = "undefined";
-          result.paddingTop = result.paddingBottom = 4;
-          result.paddingRight = result.paddingLeft = 7;
+          result.padding = [ 4, 7 ];
         }
 
         if (states.barTop || states.barBottom)
         {
-          result.marginTop = result.marginBottom = 0;
-          result.marginRight = result.marginLeft = 1;
+          result.margin = [ 0, 1 ];
           result.width = "auto";
           result.height = null;
         }
         else if (states.barLeft || states.barRight)
         {
-          result.marginTop = result.marginBottom = 1;
-          result.marginRight = result.marginLeft = 0;
+          result.margin = [ 1, 0 ];
           result.height = "auto";
           result.width = null;
         }
@@ -504,11 +438,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
         var result =
         {
           backgroundColor : "#E1EEFF",
-          paddingTop    : 1,
-          paddingRight  : 0,
-          paddingBottom : 1,
-          paddingLeft   : 0,
-          border        : new qx.renderer.border.Border
+          padding : [ 1, 0 ],
+          border : new qx.renderer.border.Border
         };
 
         result.border.setBottom(1, "solid", "threedshadow");
@@ -533,19 +464,15 @@ qx.Theme.define("qx.theme.classic.Appearance",
         {
           result.border = new qx.renderer.border.Border(1, "solid", "threedshadow");
           result.border.setLeft(3, "solid", "#FEC83C");
-          result.paddingTop = result.paddingBottom = 2;
-          result.paddingRight = 6;
-          result.paddingLeft = 4;
+          result.padding = [ 2, 6, 2, 4 ];
         }
         else
         {
           result.border = "undefined";
-          result.paddingTop = result.paddingBottom = 3;
-          result.paddingRight = result.paddingLeft = 7;
+          result.padding = [ 3, 7 ];
         }
 
-        result.marginTop = result.marginBottom = 0;
-        result.marginRight = result.marginLeft = 1;
+        result.margin = [ 0, 1 ];
         result.width = "auto";
         result.opacity = states.checked ? 1.0 : 0.3;
 
@@ -568,11 +495,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           backgroundColor : "threedface",
-          textColor       : "windowtext",
-          paddingTop      : 1,
-          paddingRight    : 1,
-          paddingBottom   : 1,
-          paddingLeft     : 1,
+          textColor : "windowtext",
+          padding : 1,
           border : states.maximized ? "undefined" : "outset"
         };
       }
