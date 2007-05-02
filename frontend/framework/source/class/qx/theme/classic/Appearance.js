@@ -665,7 +665,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           spacing               : 2,
           padding               : [ 2, 4 ],
-          cursor                : "default",
           verticalChildrenAlign : "middle",
           backgroundColor       : states.over ? "highlight" : "undefined",
           textColor             : states.over ? "highlighttext" : "undefined"
