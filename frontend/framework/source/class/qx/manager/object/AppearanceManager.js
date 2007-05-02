@@ -96,6 +96,8 @@ qx.Class.define("qx.manager.object.AppearanceManager",
     */
 
     __cache : {},
+    __stateMap : {},
+    __stateMapLength : 0,
 
 
     /**
@@ -108,11 +110,13 @@ qx.Class.define("qx.manager.object.AppearanceManager",
      */
     styleFrom : function(id, states)
     {
-      if (!this.getAppearanceTheme()) {
+      var theme = this.getAppearanceTheme();
+
+      if (!theme) {
         return;
       }
 
-      return this.styleFromTheme(this.getAppearanceTheme(), id, states);
+      return this.styleFromTheme(theme, id, states);
     },
 
 
@@ -130,8 +134,11 @@ qx.Class.define("qx.manager.object.AppearanceManager",
       var cache = this.__cache;
       var entry = theme.appearances[id];
 
-      if (!entry) {
-        throw new Error("Missing appearance entry: " + id);
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (!entry) {
+          throw new Error("Missing appearance entry: " + id);
+        }
       }
 
       // Fast fallback to super entry
@@ -140,15 +147,20 @@ qx.Class.define("qx.manager.object.AppearanceManager",
       }
 
       // Creating cache-able ID
-      var helper = [];
+      // TODO: only works for 30 different states
+      var unique = 0;
+      var map = this.__stateMap;
+
       for (var state in states)
       {
-        if (states[state]) {
-          helper.push(state);
+        if (!map[state]) {
+          map[state] = 1 << (this.__stateMapLength++);
         }
+
+        unique += map[state];
       }
-      helper.sort().unshift(id);
-      var unique = helper.join(":");
+
+      unique = id + unique;
 
       // Using cache if available
       if (cache[unique] !== undefined) {
