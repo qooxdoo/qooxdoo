@@ -55,6 +55,10 @@ qx.Class.define("qx.ui.form.List",
     this.addEventListener("keydown", this._onkeydown);
     this.addEventListener("keypress", this._onkeypress);
     this.addEventListener("keyinput", this._onkeyinput);
+
+    // Initialize properties
+    this.initOverflow();
+    this.initTabIndex();
   },
 
 
@@ -84,12 +88,6 @@ qx.Class.define("qx.ui.form.List",
     {
       refine : true,
       init : 1
-    },
-
-    selectable :
-    {
-      refine : true,
-      init : false
     },
 
     enableInlineFind :
