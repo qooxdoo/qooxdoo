@@ -47,7 +47,7 @@ qx.Class.define("qxunit.runner.Tree",
         return [];
       } else 
       {
-        return [this.parent.label].concat(this.parent.pwd());
+        return this.parent.pwd().concat(this.parent.label);
       }
     },
 

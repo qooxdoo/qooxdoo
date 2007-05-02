@@ -253,10 +253,12 @@ qx.Class.define("qxunit.runner.TestRunner",
 
 
     leftGetSelection : function (e) {
-      this.tests.selected = e.getData()[0]._labelObject.getText();
+      //this.tests.selected = e.getData()[0]._labelObject.getText();
+      this.tests.selected = this.tests.handler.getFullName(this.left.getSelectedElement().modelLink);
       this.appender(this.tests.selected);
       this.widgets["statuspane.current"].setText(this.tests.selected);
-      this.tests.selected_cnt = this.tests.handler.testCount(this.tests.selected);
+      //this.tests.selected_cnt = this.tests.handler.testCount(this.tests.selected);
+      this.tests.selected_cnt = this.tests.handler.testCount1(this.left.getSelectedElement().modelLink);
       this.widgets["statuspane.number"].setText(this.tests.selected_cnt+"");
     }, //leftGetSelection
 
@@ -420,6 +422,7 @@ qx.Class.define("qxunit.runner.TestRunner",
 
       var that    = this;
       var tlist   = [];
+      var tlist1  = [];
       var handler = this.tests.handler;
 
       function runtest() // processes list of indiv. tests
@@ -442,7 +445,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       }
       */
       function buildList(node) // build input list of tests for runtest()
-      {
+      {                        // node is a string
         var tlist = [];
         if (handler.isClass(node)) {
           var children = handler.getChildren(node);
@@ -460,8 +463,34 @@ qx.Class.define("qxunit.runner.TestRunner",
         return tlist;
       }; //buildList
 
-      tlist = buildList(this.tests.selected);
-      runtest(tlist);
+
+      function buildList1(node) // node is a modelNode
+      {
+        var tlist = [];
+        var path = handler.getPath(node);
+        var tclass = path.join(".");
+
+        if (node.hasChildren()) {
+          var children = node.getChildren();
+          for (var i in children) {
+            if (children[i].hasChildren()){
+              tlist = tlist.concat(buildList1(children[i]));
+            } else {
+              tlist.push([tclass, children[i].label]);
+            }
+          }
+        } else {
+          tlist.push([tclass, node.label]);
+        }
+        return tlist;
+      }; //buildList
+
+      // get model node from selected tree node
+      var modelNode = this.left.getSelectedElement().modelLink;
+      // build list of individual tests to perform
+      tlist = buildList1(modelNode);
+      tlist1 = buildList(this.tests.selected);
+      runtest();
 
     }, //runTest
 
