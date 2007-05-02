@@ -100,6 +100,15 @@ qx.Class.define("qx.ui.embed.HtmlEmbed",
     },
 
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      FONT SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
     _applyFont : function(value, old) {
       qx.manager.object.FontManager.getInstance().connect(this._styleFont, this, value);
     },
@@ -115,6 +124,24 @@ qx.Class.define("qx.ui.embed.HtmlEmbed",
 
 
 
+
+    /*
+    ---------------------------------------------------------------------------
+      TEXT COLOR SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    _applyTextColor : function(value, old) {
+      qx.manager.object.ColorManager.getInstance().connect(this._styleTextColor, this, value);
+    },
+
+    /**
+     * @type member
+     * @param value {var} any acceptable CSS color property
+     */
+    _styleTextColor : function(value) {
+      value ? this.setStyleProperty("color", value) : this.removeStyleProperty("color");
+    },
 
 
 

@@ -6508,23 +6508,13 @@ qx.Class.define("qx.ui.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      FOREGROUND COLOR SUPPORT
+      TEXT COLOR SUPPORT
     ---------------------------------------------------------------------------
     */
 
     _applyTextColor : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().connect(this._styleTextColor, this, value);
+      // place holder
     },
-
-    /**
-     * @type member
-     * @param value {var} any acceptable CSS color property
-     */
-    _styleTextColor : function(value) {
-      value ? this.setStyleProperty("color", value) : this.removeStyleProperty("color");
-    },
-
-
 
 
 
@@ -6538,7 +6528,7 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     _applyFont : function(value, old) {
-
+      // place holder
     },
 
 

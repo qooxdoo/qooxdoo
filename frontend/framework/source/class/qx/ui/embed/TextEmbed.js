@@ -106,6 +106,14 @@ qx.Class.define("qx.ui.embed.TextEmbed",
     },
 
 
+
+
+    /*
+    ---------------------------------------------------------------------------
+      FONT SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
     /**
      * TODOC
      *
@@ -128,6 +136,25 @@ qx.Class.define("qx.ui.embed.TextEmbed",
       value ? value.render(this) : qx.renderer.font.Font.reset(this);
     },
 
+
+
+    /*
+    ---------------------------------------------------------------------------
+      TEXT COLOR SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    _applyTextColor : function(value, old) {
+      qx.manager.object.ColorManager.getInstance().connect(this._styleTextColor, this, value);
+    },
+
+    /**
+     * @type member
+     * @param value {var} any acceptable CSS color property
+     */
+    _styleTextColor : function(value) {
+      value ? this.setStyleProperty("color", value) : this.removeStyleProperty("color");
+    },
 
 
 
