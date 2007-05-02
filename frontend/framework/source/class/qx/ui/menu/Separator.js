@@ -45,6 +45,8 @@ qx.Class.define("qx.ui.menu.Separator",
   {
     this.base(arguments);
 
+    this.initHeight();
+
     // Fix IE Styling Issues
     this.setStyleProperty("fontSize", "0");
     this.setStyleProperty("lineHeight", "0");
@@ -75,6 +77,12 @@ qx.Class.define("qx.ui.menu.Separator",
 
   properties :
   {
+    height :
+    {
+      refine : true,
+      init : "auto"
+    },
+
     appearance :
     {
       refine : true,

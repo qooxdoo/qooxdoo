@@ -48,6 +48,7 @@ qx.Class.define("qx.ui.menu.Menu",
     //   LAYOUT
     // ************************************************************************
     var l = this._layout = new qx.ui.menu.Layout;
+    l.setEdge(0);
     this.add(l);
 
     // ************************************************************************
@@ -73,6 +74,10 @@ qx.Class.define("qx.ui.menu.Menu",
     //   REMAPPING
     // ************************************************************************
     this.remapChildrenHandlingTo(this._layout);
+
+    // Initialize properties
+    this.initWidth();
+    this.initHeight();
   },
 
 
@@ -96,6 +101,18 @@ qx.Class.define("qx.ui.menu.Menu",
     {
       refine : true,
       init : "menu"
+    },
+
+    width :
+    {
+      refine : true,
+      init : "auto"
+    },
+
+    height :
+    {
+      refine : true,
+      init : "auto"
     },
 
     iconContentGap :
