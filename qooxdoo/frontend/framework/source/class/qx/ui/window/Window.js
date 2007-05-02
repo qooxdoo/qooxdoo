@@ -1464,28 +1464,33 @@ qx.Class.define("qx.ui.window.Window",
         return;
       }
 
+      var el = this.getElement();
+      var pageX = e.getPageX() + qx.html.Scroll.getLeftSum(el);
+      var pageY = e.getPageY() + qx.html.Scroll.getTopSum(el);
+
+
       var s = this._resizeSession;
 
       if (s)
       {
         if (this._resizeWest)
         {
-          s.lastWidth = qx.lang.Number.limit(s.boxWidth + s.boxLeft - Math.max(e.getPageX(), s.parentAreaOffsetLeft), s.minWidth, s.maxWidth);
+          s.lastWidth = qx.lang.Number.limit(s.boxWidth + s.boxLeft - Math.max(pageX, s.parentAreaOffsetLeft), s.minWidth, s.maxWidth);
           s.lastLeft = s.boxRight - s.lastWidth - s.parentAreaOffsetLeft;
         }
         else if (this._resizeEast)
         {
-          s.lastWidth = qx.lang.Number.limit(Math.min(e.getPageX(), s.parentAreaOffsetRight) - s.boxLeft, s.minWidth, s.maxWidth);
+          s.lastWidth = qx.lang.Number.limit(Math.min(pageX, s.parentAreaOffsetRight) - s.boxLeft, s.minWidth, s.maxWidth);
         }
 
         if (this._resizeNorth)
         {
-          s.lastHeight = qx.lang.Number.limit(s.boxHeight + s.boxTop - Math.max(e.getPageY(), s.parentAreaOffsetTop), s.minHeight, s.maxHeight);
+          s.lastHeight = qx.lang.Number.limit(s.boxHeight + s.boxTop - Math.max(pageY, s.parentAreaOffsetTop), s.minHeight, s.maxHeight);
           s.lastTop = s.boxBottom - s.lastHeight - s.parentAreaOffsetTop;
         }
         else if (this._resizeSouth)
         {
-          s.lastHeight = qx.lang.Number.limit(Math.min(e.getPageY(), s.parentAreaOffsetBottom) - s.boxTop, s.minHeight, s.maxHeight);
+          s.lastHeight = qx.lang.Number.limit(Math.min(pageY, s.parentAreaOffsetBottom) - s.boxTop, s.minHeight, s.maxHeight);
         }
 
         switch(this.getResizeMethod())
@@ -1537,27 +1542,26 @@ qx.Class.define("qx.ui.window.Window",
       else
       {
         var resizeMode = "";
-        var el = this.getElement();
 
         this._resizeNorth = this._resizeSouth = this._resizeWest = this._resizeEast = false;
 
-        if (this._near(qx.html.Location.getPageBoxTop(el), e.getPageY()))
+        if (this._near(qx.html.Location.getPageBoxTop(el), pageY))
         {
           resizeMode = "n";
           this._resizeNorth = true;
         }
-        else if (this._near(qx.html.Location.getPageBoxBottom(el), e.getPageY()))
+        else if (this._near(qx.html.Location.getPageBoxBottom(el), pageY))
         {
           resizeMode = "s";
           this._resizeSouth = true;
         }
 
-        if (this._near(qx.html.Location.getPageBoxLeft(el), e.getPageX()))
+        if (this._near(qx.html.Location.getPageBoxLeft(el), pageX))
         {
           resizeMode += "w";
           this._resizeWest = true;
         }
-        else if (this._near(qx.html.Location.getPageBoxRight(el), e.getPageX()))
+        else if (this._near(qx.html.Location.getPageBoxRight(el), pageX))
         {
           resizeMode += "e";
           this._resizeEast = true;
