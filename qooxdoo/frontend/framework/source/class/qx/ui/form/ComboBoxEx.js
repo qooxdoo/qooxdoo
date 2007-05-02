@@ -361,9 +361,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       l.setFocusedCell = function() {};
       l.setAppearance('combo-box-ex-list');
 
-      // We receive this: Modification of property "keepFirstVisibleRowComplete" failed with exception: TypeError - vCurrentChild has no properties or
-      // this: Modification of property "keepFirstVisibleRowComplete" failed with exception: TypeError - this.getParent() has no properties
-      l.forceKeepFirstVisibleRowComplete(false);
+      l.setKeepFirstVisibleRowComplete(false);
       var selMan = l._getSelectionManager();
       var oldHandle = selMan.handleMouseUp, me = this;
 
