@@ -73,6 +73,9 @@ qx.Class.define("qx.ui.core.ClientDocument",
     // Enable as focus root behavior
     this.activateFocusRoot();
 
+    // Initialize Properties
+    this.initHideFocus();
+
     // Register as current focus root
     qx.event.handler.EventHandler.getInstance().setFocusRoot(this);
   },
@@ -124,6 +127,12 @@ qx.Class.define("qx.ui.core.ClientDocument",
     },
 
     enabled :
+    {
+      refine : true,
+      init : true
+    },
+
+    hideFocus :
     {
       refine : true,
       init : true
