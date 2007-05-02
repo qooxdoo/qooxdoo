@@ -36,19 +36,19 @@ qx.Class.define("qx.ui.basic.HorizontalSpacer",
 {
   extend : qx.ui.basic.Terminator,
 
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   construct : function()
   {
     this.base(arguments);
 
-    this.setWidth("1*");
+    this.initWidth();
+  },
+
+  properties :
+  {
+    width :
+    {
+      refine : true,
+      init : "1*"
+    }
   }
 });
