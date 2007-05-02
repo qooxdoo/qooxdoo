@@ -5585,44 +5585,15 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propName {var} TODOC
-     * @param propValue {var} Current value
-     * @return {Boolean} TODOC
-     */
-    setStyleProperty : function(propName, propValue)
-    {
-      this._styleProperties[propName] = propValue;
-
-      if (this._isCreated)
-      {
-        /*
-          The zIndex and filter properties should always be
-          applied on the "real" element node.
-        */
-
-        switch(propName)
-        {
-          case "zIndex":
-          case "filter":
-          case "display":
-          case "visibility":
-            var vElement = this.getElement();
-            break;
-
-          default:
-            var vElement = this._getTargetNode();
-        }
-
-        if (vElement) {
-          vElement.style[propName] = propValue == null ? "" : propValue;
-        }
-      }
-
-      return true;
+    /*
+      The zIndex and filter properties should always be
+      applied on the "real" element node.
+    */
+    __outerElementStyleProperties : {
+      zIndex : true,
+      filter : true,
+      display : true,
+      visibility : true
     },
 
 
@@ -5631,7 +5602,27 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @type member
      * @param propName {var} TODOC
-     * @return {Boolean} TODOC
+     * @param propValue {var} Current value
+     */
+    setStyleProperty : function(propName, propValue)
+    {
+      this._styleProperties[propName] = propValue;
+
+      if (this._isCreated)
+      {
+        var vElement = this.__outerElementStyleProperties[propName] ? this.getElement() : this._getTargetNode();
+        if (vElement) {
+          vElement.style[propName] = (propValue == null) ? "" : propValue;
+        }
+      }
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param propName {var} TODOC
      */
     removeStyleProperty : function(propName)
     {
@@ -5639,30 +5630,11 @@ qx.Class.define("qx.ui.core.Widget",
 
       if (this._isCreated)
       {
-        /*
-          The zIndex and filter properties should always be
-          applied on the "real" element node.
-        */
-
-        switch(propName)
-        {
-          case "zIndex":
-          case "filter":
-          case "display":
-          case "visibility":
-            var vElement = this.getElement();
-            break;
-
-          default:
-            var vElement = this._getTargetNode();
-        }
-
+        var vElement = this.__outerElementStyleProperties[propName] ? this.getElement() : this._getTargetNode();
         if (vElement) {
           vElement.style[propName] = "";
         }
       }
-
-      return true;
     },
 
 
@@ -5680,26 +5652,13 @@ qx.Class.define("qx.ui.core.Widget",
 
       var vBaseElement = vElement;
       var vTargetElement = this._getTargetNode();
+      var vElement;
 
+      var value;
       for (propName in vProperties)
       {
-        /*
-          The zIndex and filter properties should always be
-          applied on the "real" element node.
-        */
-
-        switch(propName)
-        {
-          case "zIndex":
-          case "filter":
-            vElement = vBaseElement;
-            break;
-
-          default:
-            vElement = vTargetElement;
-        }
-
-        var value = vProperties[propName];
+        vElement = this.__outerElementStyleProperties[propName] ? vBaseElement : vTargetElement;
+        value = vProperties[propName];
         vElement.style[propName] = (value == null) ? "" : value;
       }
     },
