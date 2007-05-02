@@ -45,6 +45,9 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     this.base(arguments);
 
     this.addEventListener("keypress", this._onkeypress);
+
+    // Initialize properties
+    this.initHeight();
   },
 
 
@@ -58,20 +61,6 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
-    openMenu :
-    {
-      check : "qx.ui.menu.Menu",
-      event : "changeOpenMenu",
-      nullable : true
-    },
-
-
     /** Appearance of the widget */
     appearance :
     {
@@ -79,6 +68,19 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       init : "toolbar"
     },
 
+    height :
+    {
+      refine : true,
+      init : "auto"
+    },
+
+
+    openMenu :
+    {
+      check : "qx.ui.menu.Menu",
+      event : "changeOpenMenu",
+      nullable : true
+    },
 
     show :
     {

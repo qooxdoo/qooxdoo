@@ -46,6 +46,8 @@ qx.Class.define("qx.ui.toolbar.Part",
 
     this._handle = new qx.ui.toolbar.PartHandle;
     this.add(this._handle);
+
+    this.initWidth();
   },
 
 
@@ -65,6 +67,12 @@ qx.Class.define("qx.ui.toolbar.Part",
       init : "toolbar-part"
     },
 
+    width :
+    {
+      refine : true,
+      init : "auto"
+    },
+
     show :
     {
       init : "inherit",
@@ -73,7 +81,6 @@ qx.Class.define("qx.ui.toolbar.Part",
       inheritable : true,
       event : "changeShow"
     }
-
   },
 
 
