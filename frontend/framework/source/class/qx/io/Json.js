@@ -361,11 +361,13 @@ qx.Class.define("qx.io.Json",
     {
       if (incoming)
       {
-        if (incoming instanceof Array) {
+        // for objects defined in other frames the instanceof check failes.
+        var constructorName = incoming.constructor.name;
+        if (incoming instanceof Array || constructorName == "Array") {
           return this.__convertArray(incoming);
-        } else if (incoming instanceof Date) {
+        } else if (incoming instanceof Date || constructorName == "Date") {
           return this.__convertDate(incoming);
-        } else if (incoming instanceof Object) {
+        } else if (incoming instanceof Object || constructorName == "Object") {
           return this.__convertMap(incoming);
         }
 
