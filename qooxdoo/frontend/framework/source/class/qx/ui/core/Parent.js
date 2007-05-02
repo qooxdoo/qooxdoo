@@ -68,12 +68,6 @@ qx.Class.define("qx.ui.core.Parent",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
     /** Individual focus handler for all child elements. */
     focusHandler :
     {
@@ -98,15 +92,6 @@ qx.Class.define("qx.ui.core.Parent",
       event : "changeFocusedChild",
       nullable : true
     },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      CACHED PRIVATE PROPERTIES
-    ---------------------------------------------------------------------------
-    */
 
     /** all visible child widgets */
     visibleChildren :
@@ -228,8 +213,6 @@ qx.Class.define("qx.ui.core.Parent",
         // Don't hide focus outline
         this.setHideFocus(false);
       }
-
-      return true;
     },
 
 
@@ -344,11 +327,6 @@ qx.Class.define("qx.ui.core.Parent",
 
         vEventObject.dispose();
       }
-
-      // Flush Queues
-      // Do we really need this?
-      // qx.ui.core.Widget.flushGlobalQueues();
-      return true;
     },
 
 

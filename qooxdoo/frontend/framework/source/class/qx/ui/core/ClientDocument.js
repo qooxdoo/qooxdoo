@@ -111,6 +111,12 @@ qx.Class.define("qx.ui.core.ClientDocument",
 
   properties :
   {
+    appearance :
+    {
+      refine : true,
+      init : "client-document"
+    },
+
     enableElementFocus :
     {
       refine : true,
@@ -155,12 +161,6 @@ qx.Class.define("qx.ui.core.ClientDocument",
       themeable : true,
       apply : "_modifyGlobalCursor",
       event : "changeGlobalCursor"
-    },
-
-    appearance :
-    {
-      refine : true,
-      init : "client-document"
     }
   },
 
