@@ -293,21 +293,6 @@ qx.Class.define("qx.ui.form.TextField",
       }
     },
 
-    _modifyCursor : function(propValue, propOldValue)
-    {
-      if (propValue)
-      {
-        if (propValue == "pointer" && qx.core.Client.getInstance().isMshtml()) {
-          this.setStyleProperty("cursor", "hand");
-        } else {
-          this.setStyleProperty("cursor", propValue);
-        }
-      }
-      else
-      {
-        this.removeStyleProperty("cursor");
-      }
-    },
 
     /**
      * We could not use width/height = 100% because the outer elements
