@@ -183,7 +183,7 @@ qx.Class.define("qx.ui.form.TextField",
     validator :
     {
       check : "Function",
-      apply : "_modifyValidator"
+      event : "changeValidator"
     }
   },
 

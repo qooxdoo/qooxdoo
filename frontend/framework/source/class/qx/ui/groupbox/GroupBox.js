@@ -55,7 +55,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
     // ************************************************************************
     //   INIT
     // ************************************************************************
-    this.setLegend(vLegend | "");
+    this.setLegend(vLegend || "");
 
     if (vIcon != null) {
       this.setIcon(vIcon);
