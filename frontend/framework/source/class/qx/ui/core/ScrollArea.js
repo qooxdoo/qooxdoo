@@ -27,12 +27,28 @@ qx.Class.define("qx.ui.core.ScrollArea",
 {
   extend : qx.ui.layout.CanvasLayout,
 
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   construct : function()
   {
     this.base(arguments);
 
     this.__onscroll = qx.lang.Function.bindEvent(this._onscroll, this);
   },
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
 
   members :
   {
@@ -57,6 +73,14 @@ qx.Class.define("qx.ui.core.ScrollArea",
       this.createDispatchEvent("scroll");
     }
   },
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
 
   destruct : function()
   {
