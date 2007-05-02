@@ -1501,8 +1501,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Boolean",
       init : false,
-      apply : "_modifyHideFocus",
-      themeable : true
+      apply : "_modifyHideFocus"
     },
 
 

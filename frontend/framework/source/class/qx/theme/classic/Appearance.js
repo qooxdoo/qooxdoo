@@ -44,7 +44,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
     },
 
     "image" : {
-
     },
 
 
@@ -61,9 +60,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor    : "threedface",
-          textColor          : "windowtext",
-          hideFocus          : true
+          backgroundColor : "threedface",
+          textColor       : "windowtext"
         };
       }
     },
@@ -872,7 +870,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          hideFocus       : true,
           border          : "inset",
           paddingTop      : 1,
           paddingRight    : 3,
