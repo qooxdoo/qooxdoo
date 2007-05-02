@@ -66,11 +66,18 @@ qx.Class.define("qx.ui.basic.Image",
     // Dimensions
     if (vWidth !== undefined) {
       this.setWidth(vWidth);
+    } else {
+      this.initWidth();
     }
 
     if (vHeight !== undefined) {
       this.setHeight(vHeight);
+    } else {
+      this.initHeight();
     }
+
+    // Property init
+    this.initSelectable();
   },
 
 

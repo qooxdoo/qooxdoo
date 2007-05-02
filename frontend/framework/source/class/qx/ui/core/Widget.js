@@ -62,6 +62,10 @@ qx.Class.define("qx.ui.core.Widget",
     // Data structures
     this._styleProperties = { position : "absolute" };
 
+    // Property init
+    // User of the location, dimension, overflow, tabIndex, selectable and opacity properties
+    // need to add a init call to the class where the property is defined
+
     // Layout queue helper
     this._layoutChanges = {};
 
@@ -69,24 +73,25 @@ qx.Class.define("qx.ui.core.Widget",
     this._states = {};
     this._applyAppearance();
 
-    // Property init
+
+    /*
+    this.initWidth();
+    this.initHeight();
+    */
+
+    /*
     this.initTop();
     this.initRight();
     this.initBottom();
     this.initLeft();
 
-    this.initWidth();
+
     this.initMinWidth();
     this.initMaxWidth();
 
-    this.initHeight();
     this.initMinHeight();
     this.initMaxHeight();
-
-    this.initOverflow();
-    this.initTabIndex();
-    this.initSelectable();
-    this.initOpacity();
+    */
   },
 
 
@@ -1356,6 +1361,7 @@ qx.Class.define("qx.ui.core.Widget",
       check : "Number",
       apply : "_modifyOpacity",
       themeable : true,
+      nullable : true,
       init : null
     },
 
@@ -1426,7 +1432,7 @@ qx.Class.define("qx.ui.core.Widget",
       nullable : true,
       apply : "_modifyOverflow",
       themeable : true,
-      init : 0
+      init : null
     },
 
 
@@ -1476,15 +1482,16 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Set this to a positive value makes the widget able to get the focus.
-     *  It even is reachable through the usage of the tab-key.
+     * It even is reachable through the usage of the tab-key.
      *
-     *  Widgets with the same tabIndex are handled through there position
-     *  in the document.
+     * Widgets with the same tabIndex are handled through there position
+     * in the document.
      */
     tabIndex :
     {
       check : "Integer",
-      init : -1,
+      nullable : true,
+      init : null,
       apply : "_modifyTabIndex"
     },
 
@@ -2065,7 +2072,6 @@ qx.Class.define("qx.ui.core.Widget",
       _cached      : true,
       defaultValue : false
     }
-
   },
 
 
@@ -2079,6 +2085,96 @@ qx.Class.define("qx.ui.core.Widget",
 
   members :
   {
+    _computedLeftValue : null,
+    _computedLeftParsed : null,
+    _computedLeftType : null,
+    _computedLeftTypeNull : true,
+    _computedLeftTypePixel : false,
+    _computedLeftTypePercent : false,
+    _computedLeftTypeAuto : false,
+    _computedLeftTypeFlex : false,
+
+    _computedRightValue : null,
+    _computedRightParsed : null,
+    _computedRightType : null,
+    _computedRightTypeNull : true,
+    _computedRightTypePixel : false,
+    _computedRightTypePercent : false,
+    _computedRightTypeAuto : false,
+    _computedRightTypeFlex : false,
+
+    _computedTopValue : null,
+    _computedTopParsed : null,
+    _computedTopType : null,
+    _computedTopTypeNull : true,
+    _computedTopTypePixel : false,
+    _computedTopTypePercent : false,
+    _computedTopTypeAuto : false,
+    _computedTopTypeFlex : false,
+
+    _computedBottomValue : null,
+    _computedBottomParsed : null,
+    _computedBottomType : null,
+    _computedBottomTypeNull : true,
+    _computedBottomTypePixel : false,
+    _computedBottomTypePercent : false,
+    _computedBottomTypeAuto : false,
+    _computedBottomTypeFlex : false,
+
+    _computedWidthValue : null,
+    _computedWidthParsed : null,
+    _computedWidthType : null,
+    _computedWidthTypeNull : true,
+    _computedWidthTypePixel : false,
+    _computedWidthTypePercent : false,
+    _computedWidthTypeAuto : false,
+    _computedWidthTypeFlex : false,
+
+    _computedMinWidthValue : null,
+    _computedMinWidthParsed : null,
+    _computedMinWidthType : null,
+    _computedMinWidthTypeNull : true,
+    _computedMinWidthTypePixel : false,
+    _computedMinWidthTypePercent : false,
+    _computedMinWidthTypeAuto : false,
+    _computedMinWidthTypeFlex : false,
+
+    _computedMaxWidthValue : null,
+    _computedMaxWidthParsed : null,
+    _computedMaxWidthType : null,
+    _computedMaxWidthTypeNull : true,
+    _computedMaxWidthTypePixel : false,
+    _computedMaxWidthTypePercent : false,
+    _computedMaxWidthTypeAuto : false,
+    _computedMaxWidthTypeFlex : false,
+
+    _computedHeightValue : null,
+    _computedHeightParsed : null,
+    _computedHeightType : null,
+    _computedHeightTypeNull : true,
+    _computedHeightTypePixel : false,
+    _computedHeightTypePercent : false,
+    _computedHeightTypeAuto : false,
+    _computedHeightTypeFlex : false,
+
+    _computedMinHeightValue : null,
+    _computedMinHeightParsed : null,
+    _computedMinHeightType : null,
+    _computedMinHeightTypeNull : true,
+    _computedMinHeightTypePixel : false,
+    _computedMinHeightTypePercent : false,
+    _computedMinHeightTypeAuto : false,
+    _computedMinHeightTypeFlex : false,
+
+    _computedMaxHeightValue : null,
+    _computedMaxHeightParsed : null,
+    _computedMaxHeightType : null,
+    _computedMaxHeightTypeNull : true,
+    _computedMaxHeightTypePixel : false,
+    _computedMaxHeightTypePercent : false,
+    _computedMaxHeightTypeAuto : false,
+    _computedMaxHeightTypeFlex : false,
+
     _modifyLeft : function(value, old)
     {
       this._unitDetectionPixelPercent("left", value);
@@ -5941,42 +6037,31 @@ qx.Class.define("qx.ui.core.Widget",
     {
       "mshtml" : function(propValue, propOldValue)
       {
+        /*
         if (propValue < 0 || !this.getEnabled()) {
           this.setHtmlProperty("unselectable", "on");
         } else {
           this.removeHtmlProperty("unselectable");
         }
+        */
 
+        // Legacy tabIndex property
         this.setHtmlProperty("tabIndex", propValue < 0 ? -1 : 1);
-
-        return true;
       },
 
       "gecko" : function(propValue, propOldValue)
       {
+        // CSS 3 draft userFocus property
         this.setStyleProperty("MozUserFocus", (propValue < 0 ? "ignore" : "normal"));
-
-        // be forward compatible (CSS 3 Draft)
-        this.setStyleProperty("userFocus", (propValue < 0 ? "ignore" : "normal"));
-
-        return true;
       },
 
       "default" : function(propValue, propOldValue)
       {
-        // CSS 3 Draft
+        // CSS 3 draft userFocus property
         this.setStyleProperty("userFocus", (propValue < 0 ? "ignore" : "normal"));
 
-        // IE Backward Compatible
-        if (propValue < 0 || !this.getEnabled()) {
-          this.setHtmlProperty("unselectable", "on");
-        } else {
-          this.removeHtmlProperty("unselectable");
-        }
-
+        // Legacy tabIndex property
         this.setHtmlProperty("tabIndex", propValue < 0 ? -1 : 1);
-
-        return true;
       }
     }),
 
