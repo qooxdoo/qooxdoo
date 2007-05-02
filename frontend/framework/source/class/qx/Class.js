@@ -1249,7 +1249,8 @@ qx.Class.define("qx.Class",
         }
 
         // Added helper stuff to functions
-        if (base !== false && typeof member === "function" && !(member instanceof RegExp))
+        // Hint: Could not use typeof function because RegExp objects are functions, too
+        if (base !== false && member instanceof Function)
         {
           // Configure extend (named base here)
           if (superproto[key]) {
@@ -1421,7 +1422,7 @@ qx.Class.define("qx.Class",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         // new keyword check
-        code.push('if(!(this instanceof clazz))throw new Error("Plase initialize ', name, ' objects using the new keyword!");');
+        code.push('if(!(this instanceof clazz))throw new Error("Please initialize ', name, ' objects using the new keyword!");');
 
         // add abstract and singleton checks
         if (type === "abstract") {
