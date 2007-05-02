@@ -254,6 +254,11 @@ qx.Class.define("qxunit.runner.TestRunner",
 
     leftGetSelection : function (e) {
       //this.tests.selected = e.getData()[0]._labelObject.getText();
+      
+      if (! this.left.getSelectedElement()) // this is a kludge!
+      {
+        return;
+      }
       this.tests.selected = this.tests.handler.getFullName(this.left.getSelectedElement().modelLink);
       this.appender(this.tests.selected);
       this.widgets["statuspane.current"].setText(this.tests.selected);
@@ -266,6 +271,9 @@ qx.Class.define("qxunit.runner.TestRunner",
     leftReloadTree : function (e) {  // use tree struct
       var ttree = this.tests.handler.ttree;
       var left = this.left;
+      this.widgets["statuspane.current"].setText("");
+      this.widgets["statuspane.number"].setText("");
+      left.resetSelected();
       left.setEnabled(false);
       left.destroyContent();
 
