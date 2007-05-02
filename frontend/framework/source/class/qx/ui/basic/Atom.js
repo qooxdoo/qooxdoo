@@ -294,6 +294,7 @@ qx.Class.define("qx.ui.basic.Atom",
 
       l.setAnonymous(true);
       l.setSelectable(false);
+      l.setCursor("default");
 
       this.addAt(l, this._iconObject ? 1 : 0);
     },

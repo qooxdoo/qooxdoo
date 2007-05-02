@@ -1850,23 +1850,24 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    location : { group : [ "left", "top" ] },
+    location : { group : [ "left", "top" ], themeable : true },
 
     /**
      * The 'dimension' property is a shorthand property for setting 'width',
      * and 'height' at the same time.
      */
-    dimension : { group : [ "width", "height" ] },
+    dimension : { group : [ "width", "height" ], themeable : true },
 
     /**
      * The 'space' property is a shorthand property for setting 'left', 'width',
      * 'top' and 'height' at the same time.
      */
-    space : { group : [ "left", "width", "top", "height" ] },
+    space : { group : [ "left", "width", "top", "height" ], themeable : true },
 
     edge :
     {
       group : [ "top", "right", "bottom", "left" ],
+      themeable : true,
       mode  : "shorthand"
     },
 
@@ -1881,7 +1882,8 @@ qx.Class.define("qx.ui.core.Widget",
     padding :
     {
       group : [ "paddingTop", "paddingRight", "paddingBottom", "paddingLeft" ],
-      mode  : "shorthand"
+      mode  : "shorthand",
+      themeable : true
     },
 
     /**
@@ -1895,17 +1897,18 @@ qx.Class.define("qx.ui.core.Widget",
     margin :
     {
       group : [ "marginTop", "marginRight", "marginBottom", "marginLeft" ],
-      mode  : "shorthand"
+      mode  : "shorthand",
+      themeable : true
     },
 
-    heights : { group : [ "minHeight", "height", "maxHeight" ] },
-    widths : { group : [ "minWidth", "width", "maxWidth" ] },
+    heights : { group : [ "minHeight", "height", "maxHeight" ], themeable : true },
+    widths : { group : [ "minWidth", "width", "maxWidth" ], themeable : true },
 
     /**
      * The 'align' property is a shorthand property for setting 'horizontalAlign',
      * and 'verticalAlign' at the same time.
      */
-    align : { group : [ "horizontalAlign", "verticalAlign" ] },
+    align : { group : [ "horizontalAlign", "verticalAlign" ], themeable : true },
 
     clipLocation : { group : [ "clipLeft", "clipTop" ] },
     clipDimension : { group : [ "clipWidth", "clipHeight" ] },
