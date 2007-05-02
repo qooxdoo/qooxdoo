@@ -90,6 +90,11 @@ qx.Class.define("qx.ui.basic.Atom",
         this.setIconHeight(vIconHeight);
       }
     }
+
+    // Property init
+    this.initWidth();
+    this.initHeight();
+    this.initSelectable();
   },
 
 
