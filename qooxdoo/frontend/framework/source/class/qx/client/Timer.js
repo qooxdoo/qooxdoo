@@ -101,8 +101,8 @@ qx.Class.define("qx.client.Timer",
       // Add event listener to interval
       timer.addEventListener("interval", function(e)
       {
-        func.call(obj, e);
         timer.dispose();
+        func.call(obj, e);
 
         obj = null;
       },
