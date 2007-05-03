@@ -26,13 +26,14 @@
 
 .testResult h3 {
 	font-size: 14px;
-	padding: 0px 2px 0px 3px;
+	padding: 0px;
+	margin: 0px 2px 3px 3px;
 }
 
 .error, .failure {
-	background-color: red;
+	background-color: #9d1111;
 }
 
 .success {
-	background-color: green;
+	background-color: #36a618;
 }

@@ -43,7 +43,7 @@ qx.Class.define("qxunit.runner.TestHandler",
       __readTestRep : function (testRep)
       {
         var tmap = eval(testRep); // Json -> JS
-        
+
         function insert (root, el)
         {
           var mclass = el.classname;
@@ -59,7 +59,7 @@ qx.Class.define("qxunit.runner.TestHandler",
             if (! path.length) // never do "path == []"
             {
               return parent;
-            } else 
+            } else
             {
               var head     = path[0];
               var pathrest = path.slice(1,path.length);
@@ -104,13 +104,13 @@ qx.Class.define("qxunit.runner.TestHandler",
 
 
       // recursive struct reader
-      readTree : function (struct,node) // struct has single root node! 
+      readTree : function (struct,node) // struct has single root node!
       {
         // current node
         var tree = arguments[1] || new qxunit.runner.Tree(struct.classname);
         var node;
         // current test leafs
-        for (var j in struct.tests) 
+        for (var j in struct.tests)
         {
           node = new qxunit.runner.Tree(struct.tests[j]);
           node.type = "test";  // tests are leaf nodes
