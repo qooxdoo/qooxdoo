@@ -583,23 +583,7 @@ qx.Class.define("qx.ui.basic.Atom",
       } else if (this._iconObject) {
         this._iconObject.setDisplay(false);
       }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      CLONE
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Omit recursive cloning
-     *
-     * @signature function()
-     */
-    _cloneRecursive : qx.lang.Function.returnTrue
+    }
   },
 
 
