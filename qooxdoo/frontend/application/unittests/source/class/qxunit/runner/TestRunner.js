@@ -148,11 +148,9 @@ qx.Class.define("qxunit.runner.TestRunner",
   */
   members: {
 
-    appender : function (str) {
-      //this.f1.setValue(this.f1.getValue() + str);
-      //this.f1.setHtml(this.f1.getHtml()+"<br>"+str);
-    }, //appender
-
+    // ------------------------------------------------------------------------
+    //   CONSTRUCTOR HELPERS
+    // ------------------------------------------------------------------------
 
     __makeButtonView : function (){
       var buttview = new qx.ui.pageview.tabview.TabView();
@@ -218,6 +216,8 @@ qx.Class.define("qxunit.runner.TestRunner",
       return buttview;
     }, //makeButtonView
 
+    // -------------------------------------------------------------------------
+
     /**
      * Tree View in Left Pane
     */
@@ -245,67 +245,13 @@ qx.Class.define("qxunit.runner.TestRunner",
       // fill the tree
       this.left = left; // only because leftReloadTree needs it
       this.leftReloadTree(null);
-
       left.getManager().addEventListener("changeSelection", this.leftGetSelection, this);
 
       return left;
     }, //makeLeft
 
 
-    leftGetSelection : function (e) {
-      //this.tests.selected = e.getData()[0]._labelObject.getText();
-      
-      if (! this.left.getSelectedElement()) // this is a kludge!
-      {
-        return;
-      }
-      this.tests.selected = this.tests.handler.getFullName(this.left.getSelectedElement().modelLink);
-      this.appender(this.tests.selected);
-      this.widgets["statuspane.current"].setText(this.tests.selected);
-      //this.tests.selected_cnt = this.tests.handler.testCount(this.tests.selected);
-      this.tests.selected_cnt = this.tests.handler.testCount1(this.left.getSelectedElement().modelLink);
-      this.widgets["statuspane.number"].setText(this.tests.selected_cnt+"");
-    }, //leftGetSelection
-
-
-    leftReloadTree : function (e) {  // use tree struct
-      var ttree = this.tests.handler.ttree;
-      var left = this.left;
-      this.widgets["statuspane.current"].setText("");
-      this.widgets["statuspane.number"].setText("");
-      left.resetSelected();
-      left.setEnabled(false);
-      left.destroyContent();
-
-      function buildSubTree (widgetR, modelR)
-      {
-        var children = modelR.getChildren();
-        var t;
-        for (var i in children)
-        {
-          var currNode = children[i];
-          if (currNode.hasChildren())
-          {
-            t = new qx.ui.tree.TreeFolder(currNode.label);
-            buildSubTree(t,currNode);
-          } else
-          {
-            t = new qx.ui.tree.TreeFile(currNode.label);
-          }
-          // make connections
-          widgetR.add(t);
-          t.modelLink         = currNode;
-          currNode.widgetLink = t;
-        }
-      };
-      // link top leve widget and model
-      left.modelLink   = ttree;
-      ttree.widgetLink = left;
-      buildSubTree(left,ttree);
-
-      left.setEnabled(true);
-    }, //leftReloadTree
-
+    // -------------------------------------------------------------------------
 
     __makeProgress: function (){
       var progress = new qx.ui.layout.HorizontalBoxLayout();
@@ -316,12 +262,12 @@ qx.Class.define("qxunit.runner.TestRunner",
         spacing : 10,
         width : "100%"
       });
-      //progress.add(new qx.ui.basic.Label("Progress: "));
+
       var progressb = new qxunit.runner.ProgressBar();
       progress.add(progressb);
       this.widgets["progresspane"] = progress;
       this.widgets["progresspane.progressbar"] = progressb;
-      /*
+      /* Wishlist:
       var progressb = new qx.ui.component.ProgressBar();
       progressb.set({
         barColor : "blue",
@@ -334,10 +280,12 @@ qx.Class.define("qxunit.runner.TestRunner",
       progressb.update("9/15"); // update progress
       progressb.update("68%");  // dito
       */
-      //progress.add(new qx.ui.basic.Label("(7/15)  (63%)"));
+
       return progress;
     }, //makeProgress
 
+
+    // -------------------------------------------------------------------------
 
     __makeStatus: function (){
       var statuspane = new qx.ui.layout.HorizontalBoxLayout();
@@ -367,12 +315,120 @@ qx.Class.define("qxunit.runner.TestRunner",
     }, //makeStatus
 
 
+    // ------------------------------------------------------------------------
+    //   EVENT HANDLER
+    // ------------------------------------------------------------------------
+
+    leftGetSelection : function (e) {
+      if (! this.left.getSelectedElement()) // this is a kludge!
+        return;
+      this.tests.selected = this.tests.handler.getFullName(this.left.getSelectedElement().modelLink);
+      this.appender(this.tests.selected);
+      this.widgets["statuspane.current"].setText(this.tests.selected);
+      this.tests.selected_cnt = this.tests.handler.testCount(this.left.getSelectedElement().modelLink);
+      this.widgets["statuspane.number"].setText(this.tests.selected_cnt+"");
+    }, //leftGetSelection
+
+
+    // -------------------------------------------------------------------------
+
+    leftReloadTree : function (e) {  // use tree struct
+      var ttree   = this.tests.handler.ttree;
+      var left    = this.left;
+      var handler = this.tests.handler;
+      this.widgets["statuspane.current"].setText("");
+      this.widgets["statuspane.number"].setText("");
+      left.resetSelected();
+      left.setEnabled(false);
+      left.destroyContent(); // clean up before re-build
+
+      /** 
+       * create widget tree from model
+       *
+       * @param widgetR {qx.ui.tree.Tree}    [In/Out]
+       *        widget root under which the widget tree will be built
+       * @param modelR  {qxunit.runner.Tree} [In]
+       *        model root for the tree from which the widgets representation
+       *        will be built
+       */
+      function buildSubTree (widgetR, modelR)
+      {
+        var children = modelR.getChildren();
+        var t;
+        for (var i in children)
+        {
+          var currNode = children[i];
+          if (currNode.hasChildren())
+          {
+            t = new qx.ui.tree.TreeFolder(currNode.label);
+            buildSubTree(t,currNode);
+          } else
+          {
+            t = new qx.ui.tree.TreeFile(currNode.label);
+          }
+          // make connections
+          widgetR.add(t);
+          t.modelLink         = currNode;
+          currNode.widgetLink = t;
+        }
+      }; //buildSubTree;
+
+
+      function buildSubTreeFlat (widgetR, modelR)
+      {
+        var iter = modelR.getIterator("depth");
+        var currNode;
+        while (currNode = iter())
+        {
+          if (currNode.type && currNode.type == "test")
+            ;
+          else  // it's a container
+          {
+            if (handler.hasTests(currNode)) {
+              var fullName = handler.getFullName(currNode);
+              var t = new qx.ui.tree.TreeFolder(fullName);
+              widgetR.add(t);
+              t.modelLink         = currNode;
+              currNode.widgetLink = t;
+              var children = currNode.getChildren();
+              for (var i in children)
+              {
+                if (children[i].type && children[i].type == "test")
+                {
+                  var c = new qx.ui.tree.TreeFile(children[i].label);
+                  t.add(c);
+                  c.modelLink            = children[i];
+                  children[i].widgetLink = c;
+                }
+              }
+            }
+          }
+        }
+      }; //buildSubTreeFlat
+
+      // -- Main --------------------------------
+
+      // link top leve widget and model
+      left.modelLink   = ttree;
+      ttree.widgetLink = left;
+      //buildSubTree(left,ttree);
+      buildSubTreeFlat(left,ttree);
+
+      left.setEnabled(true);
+    }, //leftReloadTree
+
+
+    // -------------------------------------------------------------------------
     /**
      * event handler for the Run Test button - performs the tests
      */
     runTest : function (e)
     {
+
+      // -- Vars and Setup -----------------------
+
       this.toolbar.setEnabled(false);
+      //this.left.setEnabled(false);
       // Initialize progress bar
       var bar = this.widgets["progresspane.progressbar"];
       bar.update("0%");
@@ -427,54 +483,39 @@ qx.Class.define("qxunit.runner.TestRunner",
 
       // Currently, a flat list of individual tests is computed (buildList), and
       // then processed by a recursive Timer.once-controlled funtion (runtest);
-      // each test is passed to the same iframe object to be run.
+      // each test is passed to the same iframe object to be run(loader.runTests).
 
       var that    = this;
       var tlist   = [];
       var tlist1  = [];
       var handler = this.tests.handler;
 
-      function runtest() // processes list of indiv. tests
+      // -- Helper Functions ---------------------
+
+      /*
+       * function to process a list of individual tests
+       *
+       * because of Timer.once restrictions, using an external var as parameter
+       * (tlist)
+       */
+      function runtest()
       {
         if (tlist.length) {
           var test = tlist[0];
           that.loader.runTests(testResult, test[0], test[1]);
           tlist = tlist.slice(1,tlist.length);  // recurse with rest of list
           qx.client.Timer.once(runtest,this,100);
-        } else { // no more tests -> enable toolbar
+        } else { // no more tests -> re-enable toolbar
           that.toolbar.setEnabled(true);
+          //that.left.setEnabled(true);
         }
       };
 
 
-      /*
-      this.loader.runTestsFromNamespace(testResult, this.tests.selected);
-      var tests = this.tests.handler.getTests(this.tests.selected);
-      for (var i in tests) {
-        tlist.push([this.tests.selected, tests[i]]);
-      }
+      /**
+       * build up a list that will be used by runtest() as input (var tlist)
       */
-      function buildList(node) // build input list of tests for runtest()
-      {                        // node is a string
-        var tlist = [];
-        if (handler.isClass(node)) {
-          var children = handler.getChildren(node);
-          for (var i in children) {
-            if (handler.isClass(children[i])){
-              tlist = tlist.concat(buildList(children[i]));
-            } else {
-              tlist.push([node, children[i]]);
-            }
-          }
-        } else {
-          var tclass = handler.classFromTest(node);
-          tlist.push([tclass, node]);
-        }
-        return tlist;
-      }; //buildList
-
-
-      function buildList1(node) // node is a modelNode
+      function buildList(node) // node is a modelNode
       {
         var tlist = [];
         var path = handler.getPath(node);
@@ -484,7 +525,7 @@ qx.Class.define("qxunit.runner.TestRunner",
           var children = node.getChildren();
           for (var i in children) {
             if (children[i].hasChildren()){
-              tlist = tlist.concat(buildList1(children[i]));
+              tlist = tlist.concat(buildList(children[i]));
             } else {
               tlist.push([tclass, children[i].label]);
             }
@@ -495,16 +536,19 @@ qx.Class.define("qxunit.runner.TestRunner",
         return tlist;
       }; //buildList
 
+
+      // -- Main ---------------------------------
+
       // get model node from selected tree node
       var modelNode = this.left.getSelectedElement().modelLink;
       // build list of individual tests to perform
-      tlist = buildList1(modelNode);
-      tlist1 = buildList(this.tests.selected);
+      tlist = buildList(modelNode);
       runtest();
 
     }, //runTest
 
 
+    // -------------------------------------------------------------------------
     /**
      * reloads iframe's URL
      */
@@ -520,7 +564,18 @@ qx.Class.define("qxunit.runner.TestRunner",
           this.iframe.setSource(neu);
         }
       },this,0);
-    } //reloadTestSuite
+    }, //reloadTestSuite
+
+
+    // ------------------------------------------------------------------------
+    //   MISC HELPERS
+    // ------------------------------------------------------------------------
+
+    appender : function (str) {
+      //this.f1.setValue(this.f1.getValue() + str);
+      //this.f1.setHtml(this.f1.getHtml()+"<br>"+str);
+    } //appender
+
 
   } //members
 
