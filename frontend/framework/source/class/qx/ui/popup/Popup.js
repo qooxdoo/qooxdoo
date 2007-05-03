@@ -51,6 +51,9 @@ qx.Class.define("qx.ui.popup.Popup",
     if (this._isFocusRoot) {
       this.activateFocusRoot();
     }
+
+    this.initHeight();
+    this.initWidth();
   },
 
 
