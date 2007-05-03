@@ -127,6 +127,21 @@ qx.Class.define("qx.renderer.border.Border",
 
 
     /**
+     * Converts a map property definition into a border object.
+     *
+     * @type static
+     * @param config {Map} map of property values
+     * @return {qx.renderer.border.Border} the created instance
+     */
+    fromConfig : function(config)
+    {
+      var border = new qx.renderer.border.Border;
+      border.set(config);
+      return border;
+    },
+
+
+    /**
      * Removes a border from a widget
      *
      * @type static

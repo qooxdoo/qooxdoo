@@ -69,7 +69,7 @@ qx.Class.define("qx.ui.core.ClientDocumentBlocker",
     appearance :
     {
       refine : true,
-      init : "blocker"
+      init : "client-document-blocker"
     },
 
     zIndex :
