@@ -714,7 +714,7 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
     getHierarchy : function(vArr)
     {
       if (!this.hideNode() && this._labelObject) {
-        vArr.unshift(this._labelObject.getHtml());
+        vArr.unshift(this._labelObject.getText());
       }
 
       return vArr;

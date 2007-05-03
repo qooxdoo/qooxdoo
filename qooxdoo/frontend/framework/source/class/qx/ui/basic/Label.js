@@ -225,7 +225,7 @@ qx.Class.define("qx.ui.basic.Label",
      */
     setHtml : function(html)
     {
-      this.warn("Deprecated usage of HTML property!");
+      throw new Error("Deprecated usage of HTML property!");
       this.setText(html);
     },
 
@@ -234,7 +234,7 @@ qx.Class.define("qx.ui.basic.Label",
      */
     getHtml : function(html)
     {
-      this.warn("Deprecated usage of HTML property!");
+      throw new Error("Deprecated usage of HTML property!");
       return this.getText(html);
     },
 

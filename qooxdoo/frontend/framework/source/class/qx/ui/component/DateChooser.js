@@ -186,6 +186,7 @@ qx.Class.define("qx.ui.component.DateChooser",
     {
       var label = new qx.ui.basic.Label;
       label.setAppearance("datechooser-weekday");
+      label.setMode("text");
 
       label.set(
       {
@@ -206,6 +207,7 @@ qx.Class.define("qx.ui.component.DateChooser",
       // Add the week label
       var label = new qx.ui.basic.Label;
       label.setAppearance("datechooser-week");
+      label.setMode("text");
 
       label.set(
       {
@@ -222,6 +224,7 @@ qx.Class.define("qx.ui.component.DateChooser",
         var label = new qx.ui.basic.Label;
         label.setAppearance("datechooser-day");
         label.setSelectable(false);
+        label.setMode("text");
 
         label.set(
         {
@@ -250,6 +253,10 @@ qx.Class.define("qx.ui.component.DateChooser",
     // Add the main widgets
     this.add(navBar);
     this.add(datePane);
+
+    // Initialize dimensions
+    this.initWidth();
+    this.initHeight();
   },
 
 
@@ -308,7 +315,18 @@ qx.Class.define("qx.ui.component.DateChooser",
 
   properties :
   {
-    // ***** Properties *****
+    width :
+    {
+      refine : true,
+      init : "auto"
+    },
+
+    height :
+    {
+      refine : true,
+      init : "auto"
+    },
+
     /** The currently shown month. 0 = january, 1 = february, and so on. */
     shownMonth :
     {
@@ -400,7 +418,7 @@ qx.Class.define("qx.ui.component.DateChooser",
           }
           else
           {
-            var day = parseInt(dayLabel.getHtml());
+            var day = parseInt(dayLabel.getText());
 
             if (day == newDay) {
               dayLabel.addState("selected");
