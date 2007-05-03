@@ -1476,7 +1476,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
         return {
           border          : border,
-          font            : "boldCenter",
+          font            : "boldLargeCenter",
           textColor       : states.weekend ? "#6285BA" : "window",
           backgroundColor : states.weekend ? "window" : "#6285BA"
         };
@@ -1493,7 +1493,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
           verticalAlign   : "middle",
           border          : states.today ? new qx.renderer.border.Border(1, "solid", "black") : "undefined",
           textColor       : states.selected ? "highlighttext" : states.otherMonth ? "graytext" : "windowtext",
-          backgroundColor : states.selected ? "highlight" : "undefined"
+          backgroundColor : states.selected ? "highlight" : "undefined",
+          padding : [ 2, 4 ]
         };
       }
     },
@@ -1510,9 +1511,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
         headerBorder.setBottom(1, "solid", "gray");
 
         return {
-          font : "default",
+          font : "center",
           textColor : "#6285BA",
-          paddingLeft : 2,
+          padding : [ 2, 4 ],
           border : states.header ? headerBorder : border
         };
       }
