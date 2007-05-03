@@ -69,7 +69,6 @@ qx.Class.define("qx.ui.component.DateChooser",
 
     navBar.set(
     {
-      width   : null,
       height  : "auto",
       spacing : 1
     });
@@ -127,24 +126,6 @@ qx.Class.define("qx.ui.component.DateChooser",
     this._monthYearLabel = monthYearLabel;
     navBar.setHtmlProperty("id", "navBar");
 
-    // Calculate the cell width and height
-    var testLabel = new qx.ui.basic.Label;
-    var testParent = new qx.ui.layout.CanvasLayout;
-    testParent.add(testLabel);
-    testLabel.setText("Xx");
-
-    testLabel.set(
-    {
-      paddingLeft  : 5,
-      paddingRight : 5
-    });
-
-    testLabel.setAppearance("datechooser-weekday");
-    var cellWidth = testLabel.getBoxWidth();
-    var cellHeight = testLabel.getBoxHeight();
-    testLabel.dispose();
-    testParent.dispose();
-
     // Create the date pane
     var datePane = new qx.ui.layout.GridLayout;
     datePane.setAppearance("datechooser-datepane");
@@ -159,11 +140,11 @@ qx.Class.define("qx.ui.component.DateChooser",
     datePane.setRowCount(7);
 
     for (var i=0; i<datePane.getColumnCount(); i++) {
-      datePane.setColumnWidth(i, cellWidth);
+      datePane.setColumnWidth(i, 24);
     }
 
     for (var i=0; i<datePane.getRowCount(); i++) {
-      datePane.setRowHeight(i, cellHeight);
+      datePane.setRowHeight(i, 18);
     }
 
     // Create the weekdays
