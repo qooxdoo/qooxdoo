@@ -338,6 +338,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       return progress;
     }, //makeProgress
 
+
     __makeStatus: function (){
       var statuspane = new qx.ui.layout.HorizontalBoxLayout();
       statuspane.set({
@@ -444,6 +445,7 @@ qx.Class.define("qxunit.runner.TestRunner",
           that.toolbar.setEnabled(true);
         }
       };
+
 
       /*
       this.loader.runTestsFromNamespace(testResult, this.tests.selected);
