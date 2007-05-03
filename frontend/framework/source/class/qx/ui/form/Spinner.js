@@ -57,8 +57,6 @@ qx.Class.define("qx.ui.form.Spinner",
     // ************************************************************************
     //   BEHAVIOR
     // ************************************************************************
-    this.setTabIndex(-1);
-
     if (qx.core.Variant.isSet("qx.client", "mshtml")) {
       this.setStyleProperty("fontSize", "0px");
     }
@@ -138,6 +136,9 @@ qx.Class.define("qx.ui.form.Spinner",
     }
 
     this._checkValue = this.__checkValue;
+
+    this.initWidth();
+    this.initHeight();
   },
 
 
@@ -175,6 +176,20 @@ qx.Class.define("qx.ui.form.Spinner",
       refine : true,
       init : "spinner"
     },
+
+    width :
+    {
+      refine : true,
+      init : 60
+    },
+
+    height :
+    {
+      refine : true,
+      init : 22
+    },
+
+
 
 
     /** The amount to increment on each event (keypress or mousedown). */

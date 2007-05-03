@@ -190,7 +190,14 @@ qx.Class.define("qx.ui.pageview.tabview.Button",
     ---------------------------------------------------------------------------
       MODIFIER
     ---------------------------------------------------------------------------
-     */
+    */
+
+    _modifyChecked : function(propValue, propOldValue)
+    {
+      this.base(arguments, propValue, propOldValue);
+
+      this.setZIndex(propValue ? 1 : 0);
+    },
 
     /**
      * TODOC
