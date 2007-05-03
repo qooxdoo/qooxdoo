@@ -52,8 +52,32 @@ qx.Class.define("qxunit.runner.TestResultData",
     {
       check : "String",
       init : ""
+    },
+
+    exception :
+    {
+      nullable : true
     }
 
+  },
+
+  members :
+  {
+    getStackTrace : function()
+    {
+      /*
+      var ex = this.getException();
+      if (!ex) {
+        return "";
+      }
+      if (ex.stack) {
+        return qx.log.Appender.beautyStackTrace(ex.stack);
+      } else {
+        return "";
+      }
+      */
+      return "";
+    }
   }
 
 });

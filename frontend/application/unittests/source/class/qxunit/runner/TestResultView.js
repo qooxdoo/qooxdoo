@@ -64,11 +64,12 @@ qx.Class.define("qxunit.runner.TestResultView",
       var html = "<div class='testResult " + testResult.getState() + "' id='testResult" + testResult.toHashCode() + "'>";
       html += "<h3>" + testResult.getName() + "</h3>";
 
-      if (testResult.getState() == "failure")
+      if (testResult.getState() == "failure" || testResult.getState() == "error")
       {
         html +=
           "Error message is: <br />" +
-          testResult.getMessage();
+          testResult.getMessage() +
+          "<br/>Stack trace: <div class='trace'>" + testResult.getStackTrace() + "</div>";
       }
 
       html += "</div>";
