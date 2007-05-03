@@ -31,6 +31,14 @@ qx.Class.define("qx.ui.pageview.radioview.Bar",
 {
   extend : qx.ui.pageview.AbstractBar,
 
+  construct : function()
+  {
+    this.base(arguments);
+
+    this.initHeight();
+    this.initWidth();
+  },
+
   properties :
   {
     appearance :

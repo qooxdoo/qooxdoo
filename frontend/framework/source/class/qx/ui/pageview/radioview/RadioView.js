@@ -64,6 +64,12 @@ qx.Class.define("qx.ui.pageview.radioview.RadioView",
     {
       refine : true,
       init : "radio-view"
+    },
+
+    orientation :
+    {
+      refine : true,
+      init : "vertical"
     }
   }
 });
