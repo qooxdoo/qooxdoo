@@ -41,7 +41,7 @@ qx.Mixin.define("qxunit.MAssert", {
 
     __assert: function(condition, comment, failMsg) {
       if (!condition) {
-        throw new qxunit.AssertionError(comment, failMsg);
+        throw new qxunit.AssertionError(comment, failMsg, arguments);
       }
     },
 

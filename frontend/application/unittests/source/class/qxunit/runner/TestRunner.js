@@ -131,18 +131,32 @@ qx.Class.define("qxunit.runner.TestRunner",
       spacing : 10,
       height : "100%",
       border : "inset",
-      padding : [10]
+      padding : 10
     });
     mainsplit.addRight(right);
 
+    var groupBox = new qx.ui.groupbox.GroupBox();
+    groupBox.set({
+      height : "auto"
+    });
+    right.add(groupBox);
+
+    var vert = new qx.ui.layout.VerticalBoxLayout();
+    vert.set({
+      height : "auto"
+    });
+    groupBox.add(vert);
+
     // status
     var statuspane = this.__makeStatus();
-    right.add(statuspane);
+    //right.add(statuspane);
+    vert.add(statuspane);
     this.widgets["statuspane"] = statuspane;
 
     // progress bar
     var progress = this.__makeProgress();
-    right.add(progress);
+    vert.add(progress);
+    //right.add(progress);
 
     // button view
     var buttview = this.__makeButtonView();
@@ -165,11 +179,11 @@ qx.Class.define("qxunit.runner.TestRunner",
     //   CONSTRUCTOR HELPERS
     // ------------------------------------------------------------------------
 
-    __makeButtonView : function (){
+    __makeButtonView : function ()
+    {
       var buttview = new qx.ui.pageview.tabview.TabView();
       buttview.set({
-        width: "100%",
-        height: "1*"
+        height : "1*"
       });
 
       var bsb1 = new qx.ui.pageview.tabview.Button("Test Results", "icon/16/devices/video-display.png");
@@ -187,45 +201,42 @@ qx.Class.define("qxunit.runner.TestRunner",
         padding : [5]
       });
       buttview.getPane().add(p1, p2);
-      buttview.getPane().set({
-        height : "100%"
-      });
-
 
       // First Page
-      var pp1 = new qx.ui.layout.VerticalBoxLayout();
-      p1.add(pp1);
-      pp1.set({
+      var f1 = new qxunit.runner.TestResultView();
+      this.f1 = f1;
+      p1.add(f1);
+      f1.set({
+        overflow: "auto",
+        height : "100%",
+        width : "100%"
+      });
+
+      // Second Page
+      var pp2 = new qx.ui.layout.VerticalBoxLayout();
+      p2.add(pp2);
+      pp2.set({
         height : "100%",
         width  : "100%"
       });
 
-      //var f1 = new qx.ui.embed.HtmlEmbed("Results of the current Test");
-      var f1 = new qxunit.runner.TestResultView();
-      this.f1 = f1;
-      pp1.add(f1);
-      f1.set({
-        overflow: "auto",
-        height : "95%",
+      this.f2 = new qx.ui.form.TextArea("Session Log, listing test invokations and all outputs");
+      this.f2.set({
+        height : "1*",
         width : "100%"
-        //border : "inset",
-        //padding : [10]
       });
 
-      var ff1    = new qx.ui.toolbar.ToolBar;
+      var ff1 = new qx.ui.toolbar.ToolBar;
       var ff1_b1 = new qx.ui.toolbar.Button("Clear");
       ff1.add(ff1_b1);
       ff1_b1.set({
         width : "auto"
       });
       ff1_b1.addEventListener("execute", function (e) {
-        this.f1.setHtml("");
+        this.f2.setValue("");
       }, this);
-      pp1.add(ff1);
+      pp2.add(ff1, this.f2);
 
-      // Second Page
-      var f2 = new qx.ui.form.TextArea("Session Log, listing test invokations and all outputs");
-      p2.add(f2);
       return buttview;
     }, //makeButtonView
 
@@ -234,7 +245,8 @@ qx.Class.define("qxunit.runner.TestRunner",
     /**
      * Tree View in Left Pane
     */
-    __makeLeft: function (){
+    __makeLeft: function ()
+    {
       var that   = this;
 
       /*
@@ -266,10 +278,10 @@ qx.Class.define("qxunit.runner.TestRunner",
 
     // -------------------------------------------------------------------------
 
-    __makeProgress: function (){
+    __makeProgress: function ()
+    {
       var progress = new qx.ui.layout.HorizontalBoxLayout();
       progress.set({
-        border: "inset",
         height: "auto",
         padding: [5],
         spacing : 10,
@@ -280,6 +292,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       progress.add(progressb);
       this.widgets["progresspane"] = progress;
       this.widgets["progresspane.progressbar"] = progressb;
+
       /* Wishlist:
       var progressb = new qx.ui.component.ProgressBar();
       progressb.set({
@@ -303,7 +316,6 @@ qx.Class.define("qxunit.runner.TestRunner",
     __makeStatus: function (){
       var statuspane = new qx.ui.layout.HorizontalBoxLayout();
       statuspane.set({
-        border : "inset",
         padding: [10],
         spacing : 10,
         height : "auto",
@@ -355,7 +367,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       left.setEnabled(false);
       left.destroyContent(); // clean up before re-build
 
-      /** 
+      /**
        * create widget tree from model
        *
        * @param widgetR {qx.ui.tree.Tree}    [In/Out]
@@ -426,7 +438,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       ttree.widgetLink = left;
       var selectedView = this.widgets["toolbar.treeview"].b1.getManager().getSelected();
       //var selectedView = this.widgets["toolbar.treeview"];
-      if (selectedView.getLabel()=="Full Tree") 
+      if (selectedView.getLabel()=="Full Tree")
         buildSubTree(left,ttree);
       else
         buildSubTreeFlat(left,ttree);
@@ -449,7 +461,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       // Initialize progress bar
       var bar = this.widgets["progresspane.progressbar"];
       bar.update("0%");
-      bar.setBarColor("green");
+      bar.setBarColor("#36a618");
       // Make initial entry in output windows (test result, log, ...)
       this.appender("Now running: " + this.tests.selected);
 
@@ -474,17 +486,20 @@ qx.Class.define("qxunit.runner.TestRunner",
       {
         var ex = e.getData().exception;
         var test = e.getData().test;
+        this.currentTestData.setMessage(ex.toString());
+        this.currentTestData.setException(ex);
         this.currentTestData.setState("failure");
-        this.currentTestData.setMessage(ex.getComment() + ":" + ex.getMessage());
-        bar.setBarColor("red");
+        bar.setBarColor("#9d1111");
         this.appender("Test '"+test.getFullName()+"' failed: " +  ex.getMessage() + " - " + ex.getComment());
       }, this);
 
       testResult.addEventListener("error", function(e)
       {
         var ex = e.getData().exception;
+        this.currentTestData.setMessage(ex.toString());
+        this.currentTestData.setException(ex);
         this.currentTestData.setState("error");
-        bar.setBarColor("red");
+        bar.setBarColor("#9d1111");
         this.appender("The test '"+e.getData().test.getFullName()+"' had an error: " + ex, ex);
       }, this);
 

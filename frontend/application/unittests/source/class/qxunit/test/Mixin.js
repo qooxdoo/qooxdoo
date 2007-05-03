@@ -120,6 +120,12 @@ qx.Class.define("qxunit.test.Mixin", {
       this.assertEquals("foo", new qxunit.UseLog3().log("Juhu"));
       qx.Class.patch(qxunit.UseLog3, qxunit.MLogger);
       this.assertEquals("Juhu", new qxunit.UseLog3().log("Juhu"));
+
+      // extended classes must have included methods as well
+      qx.Class.define("qxunit.ExtendUseLog1", {
+        extend : qxunit.UseLog1
+      });
+      this.assertEquals("Juhu", new qxunit.ExtendUseLog1().log("Juhu"));
     }
   }
 
