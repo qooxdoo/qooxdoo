@@ -163,6 +163,24 @@ qx.Class.define("qx.ui.basic.Atom",
       init : "auto"
     },
 
+    horizontalChildrenAlign :
+    {
+      refine : true,
+      init : "center"
+    },
+
+    verticalChildrenAlign :
+    {
+      refine : true,
+      init : "middle"
+    },
+
+    spacing :
+    {
+      refine : true,
+      init : 4
+    },
+
 
 
 
