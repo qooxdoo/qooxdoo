@@ -1398,9 +1398,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          border : "outset",
-          width  : "auto",
-          height : "auto"
+          border : "outset"
         };
       }
     },
@@ -1437,20 +1435,15 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
         if (states.pressed || states.checked || states.abandoned)
         {
-          result.paddingTop = 2;
-          result.paddingRight = 0;
-          result.paddingBottom = 0;
-          result.paddingLeft = 2;
+          result.padding = [ 2, 0, 0, 2 ];
         }
         else if (states.over)
         {
-          result.paddingTop = result.paddingBottom = 1;
-          result.paddingLeft = result.paddingRight = 1;
+          result.padding = 1;
         }
         else
         {
-          result.paddingTop = result.paddingBottom = 2;
-          result.paddingLeft = result.paddingRight = 2;
+          result.padding = 2;
         }
 
         return result;

@@ -115,6 +115,18 @@ qx.Class.define("qx.ui.component.ColorSelector",
       init : "colorselector"
     },
 
+    width :
+    {
+      refine : true,
+      init : "auto"
+    },
+
+    height :
+    {
+      refine : true,
+      init : "auto"
+    },
+
     red :
     {
       check : "Integer",
