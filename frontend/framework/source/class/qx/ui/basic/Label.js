@@ -235,7 +235,7 @@ qx.Class.define("qx.ui.basic.Label",
     getHtml : function(html)
     {
       this.warn("Deprecated usage of HTML property!");
-      this.getText(html);
+      return this.getText(html);
     },
 
     _htmlContent : "",
