@@ -58,6 +58,9 @@ qx.Class.define("qx.ui.form.TextField",
 
     // Initialize Properties
     this.initHideFocus();
+    this.initWidth();
+    this.initHeight();
+    this.initTabIndex();
 
     // Inline event wrapper
     this.__oninput = qx.lang.Function.bindEvent(this._oninputDom, this);
@@ -141,6 +144,18 @@ qx.Class.define("qx.ui.form.TextField",
     {
       refine : true,
       init : true
+    },
+
+    width :
+    {
+      refine : true,
+      init : "auto"
+    },
+
+    height :
+    {
+      refine : true,
+      init : "auto"
     },
 
     /**

@@ -72,36 +72,29 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
   {
     this.base(arguments);
 
-    // ************************************************************************
-    //   POPUP
-    // ************************************************************************
+    // Popup
     var p = this._popup = new qx.ui.popup.Popup;
     p.setAppearance('combo-box-ex-popup');
+    p.setHeight("auto");
 
-    // ************************************************************************
-    //   LIST
-    // ************************************************************************
+    // List
     this._createList([ this.tr("ID"), this.tr("Description") ]);
 
-    // ************************************************************************
-    //   FIELD
-    // ************************************************************************
+    // Textfield
     var f = this._field = new qx.ui.form.TextField;
     f.setAppearance('combo-box-ex-text-field');
     f.addEventListener("input", this._oninput, this);
     this.add(f);
     this.setEditable(false);
 
-    // ************************************************************************
-    //   BUTTON
-    // ************************************************************************
+    // Button
     // Use qx.ui.basic.Atom instead of qx.ui.form.Button here to omit the registration
     // of the unneeded and complex button events.
     var b = this._button = new qx.ui.basic.Atom(null, "widget/arrows/down.gif");
 
     b.set(
     {
-      appearance : "combo-box-button",
+      appearance : "combo-box-ex-button",
       tabIndex   : -1,
       allowStretchY : true,
       height : null
@@ -109,14 +102,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
 
     this.add(b);
 
-    // ************************************************************************
-    //   BEHAVIOR
-    // ************************************************************************
-    this.setTabIndex(1);
-
-    // ************************************************************************
-    //   WIDGET MOUSE EVENTS
-    // ************************************************************************
+    // Events
     this.addEventListener("mousedown", this._onmousedown);
     this.addEventListener("mouseup", this._onmouseup);
     this.addEventListener("mousewheel", this._onmousewheel);
@@ -128,21 +114,15 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       }
     });
 
-    // ************************************************************************
-    //   WIDGET KEY EVENTS
-    // ************************************************************************
     this.addEventListener("keydown", this._onkeydown);
     this.addEventListener("keypress", this._onkeypress);
-
-    // ************************************************************************
-    //   WIDGET STATE EVENTS
-    // ************************************************************************
     this.addEventListener("beforeDisappear", this._testClosePopup);
-
-    // ************************************************************************
-    //   CHILDREN EVENTS
-    // ************************************************************************
     this._popup.addEventListener("appear", this._onpopupappear, this);
+
+    // Initialize properties
+    this.initWidth();
+    this.initHeight();
+    this.initTabIndex();
   },
 
 
@@ -192,7 +172,17 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       init : "auto"
     },
 
+    width :
+    {
+      refine : true,
+      init : "auto"
+    },
 
+    tabIndex :
+    {
+      refine : true,
+      init : 1
+    },
 
 
 
@@ -360,8 +350,11 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       var l = this._list = new qx.ui.table.Table(this._model);
       l.setFocusedCell = function() {};
       l.setAppearance('combo-box-ex-list');
+      l.setLocation(0, 0);
+      l.setStatusBarVisible(false);
+      l.setColumnVisibilityButtonVisible(false);
+      //l.setKeepFirstVisibleRowComplete(false);
 
-      l.setKeepFirstVisibleRowComplete(false);
       var selMan = l._getSelectionManager();
       var oldHandle = selMan.handleMouseUp, me = this;
 
