@@ -31,13 +31,12 @@ qx.Class.define("qx.ui.pageview.radioview.Pane",
 {
   extend : qx.ui.pageview.AbstractPane,
 
+  construct : function()
+  {
+    this.base(arguments);
 
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
+    this.initHeight();
+  },
 
   properties :
   {
@@ -45,6 +44,12 @@ qx.Class.define("qx.ui.pageview.radioview.Pane",
     {
       refine : true,
       init : "radio-view-pane"
+    },
+
+    height :
+    {
+      refine : true,
+      init : "1*"
     }
   }
 });
