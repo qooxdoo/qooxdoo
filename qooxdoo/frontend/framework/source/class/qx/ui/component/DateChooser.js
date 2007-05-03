@@ -165,9 +165,10 @@ qx.Class.define("qx.ui.component.DateChooser",
 
     for (var i=0; i<7; i++)
     {
-      var label = new qx.ui.basic.Label;
+      var label = new qx.ui.embed.TextEmbed;
       label.setAppearance("datechooser-weekday");
-      label.setMode("text");
+      label.setSelectable(false);
+      label.setCursor("default");
 
       label.set(
       {
@@ -186,9 +187,10 @@ qx.Class.define("qx.ui.component.DateChooser",
     for (var y=0; y<6; y++)
     {
       // Add the week label
-      var label = new qx.ui.basic.Label;
+      var label = new qx.ui.embed.TextEmbed;
       label.setAppearance("datechooser-week");
-      label.setMode("text");
+      label.setSelectable(false);
+      label.setCursor("default");
 
       label.set(
       {
@@ -202,10 +204,10 @@ qx.Class.define("qx.ui.component.DateChooser",
       // Add the day labels
       for (var x=0; x<7; x++)
       {
-        var label = new qx.ui.basic.Label;
+        var label = new qx.ui.embed.TextEmbed;
         label.setAppearance("datechooser-day");
         label.setSelectable(false);
-        label.setMode("text");
+        label.setCursor("default");
 
         label.set(
         {
