@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 /**
- * @appearance check-box-field-set-legend {qx.ui.form.CheckBox}
+ * @appearance check-box-group-box-legend {qx.ui.form.CheckBox}
  */
 qx.Class.define("qx.ui.groupbox.CheckGroupBox",
 {
@@ -64,7 +64,7 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
     _createLegendObject : function()
     {
       this._legendObject = new qx.ui.form.CheckBox;
-      this._legendObject.setAppearance("check-box-field-set-legend");
+      this._legendObject.setAppearance("check-box-group-box-legend");
       this._legendObject.setChecked(true);
 
       this.add(this._legendObject);

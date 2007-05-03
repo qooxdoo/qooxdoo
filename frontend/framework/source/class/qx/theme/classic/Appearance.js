@@ -77,16 +77,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "atom" :
-    {
-      style : function(states)
-      {
-        return {
-          spacing                 : 4,
-          horizontalChildrenAlign : "center",
-          verticalChildrenAlign   : "middle"
-        };
-      }
+    "atom" : {
     },
 
     "label" :
@@ -146,8 +137,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "button" :
     {
-      include : "atom",
-
       style : function(states)
       {
         var result = {
@@ -355,8 +344,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "button-view-button" :
     {
-      include : "atom",
-
       style : function(states)
       {
         var result =
@@ -456,8 +443,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "tab-view-button" :
     {
-      include : "atom",
-
       style : function(states)
       {
         var border_top_normal = new qx.renderer.border.Border(1, "solid", "#91A5BD");
@@ -609,8 +594,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "radio-view-button" :
     {
-      include : "atom",
-
       style : function(states)
       {
         var result =
@@ -1292,26 +1275,26 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     /*
     ---------------------------------------------------------------------------
-      FIELDSET
+      GROUP BOX
     ---------------------------------------------------------------------------
     */
 
-    "field-set" :
+    "group-box" :
     {
-      style : function(states) {
-        return { backgroundColor : "threedface" };
-      }
-    },
-
-    "field-set-legend" :
-    {
-      include : "atom",
-
       style : function(states)
       {
         return {
-          top             : 1,
-          left            : 10,
+          backgroundColor : "threedface"
+        };
+      }
+    },
+
+    "group-box-legend" :
+    {
+      style : function(states)
+      {
+        return {
+          location        : [ 10, 1 ],
           backgroundColor : "threedface",
           paddingRight    : 3,
           paddingLeft     : 4,
@@ -1320,43 +1303,35 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "field-set-frame" :
+    "group-box-frame" :
     {
       style : function(states)
       {
         return {
-          top           : 8,
-          left          : 2,
-          right         : 2,
-          bottom        : 2,
-          paddingTop    : 12,
-          paddingRight  : 9,
-          paddingBottom : 12,
-          paddingLeft   : 9,
+          edge          : [ 8, 2, 2 ],
+          padding       : [ 12, 9 ],
           border        : "groove"
         };
       }
     },
 
-    "check-box-field-set-legend" :
+    "check-box-group-box-legend" :
     {
-      include : "atom",
-
       style : function(states)
       {
         return {
-          top             : 1,
-          left            : 10,
+          location        : [ 10, 1 ],
           backgroundColor : "threedface",
           paddingRight    : 3
         };
       }
     },
 
-    "radio-button-field-set-legend" :
-    {
-      include : "check-box-field-set-legend"
+    "radio-button-group-box-legend" : {
+      include : "check-box-group-box-legend"
     },
+
+
 
 
 

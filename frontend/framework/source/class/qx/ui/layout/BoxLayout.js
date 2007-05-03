@@ -77,12 +77,6 @@ qx.Class.define("qx.ui.layout.BoxLayout",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
     /** The orientation of the layout control. */
     orientation :
     {

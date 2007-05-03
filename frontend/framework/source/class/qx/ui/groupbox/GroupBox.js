@@ -25,9 +25,9 @@
 ************************************************************************ */
 
 /**
- * @appearance field-set
- * @appearance field-set-legend {qx.ui.basic.Atom}
- * @appearance field-set-frame {qx.ui.layout.CanvasLayout}
+ * @appearance group-box
+ * @appearance group-box-legend {qx.ui.basic.Atom}
+ * @appearance group-box-frame {qx.ui.layout.CanvasLayout}
  */
 qx.Class.define("qx.ui.groupbox.GroupBox",
 {
@@ -81,7 +81,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
     appearance :
     {
       refine : true,
-      init : "field-set"
+      init : "group-box"
     }
   },
 
@@ -111,7 +111,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
     _createLegendObject : function()
     {
       this._legendObject = new qx.ui.basic.Atom;
-      this._legendObject.setAppearance("field-set-legend");
+      this._legendObject.setAppearance("group-box-legend");
 
       this.add(this._legendObject);
     },
@@ -126,7 +126,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
     _createFrameObject : function()
     {
       this._frameObject = new qx.ui.layout.CanvasLayout;
-      this._frameObject.setAppearance("field-set-frame");
+      this._frameObject.setAppearance("group-box-frame");
 
       this.add(this._frameObject);
     },
