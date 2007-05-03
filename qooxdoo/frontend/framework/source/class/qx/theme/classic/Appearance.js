@@ -732,15 +732,10 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          height                  : "auto",
           horizontalChildrenAlign : "left",
           verticalChildrenAlign   : "middle",
           spacing                 : 4,
-          paddingTop              : 3,
-          paddingRight            : 5,
-          paddingBottom           : 3,
-          paddingLeft             : 5,
-          minWidth                : "auto",
+          padding                 : [ 3, 5 ],
           backgroundColor         : states.selected ? "highlight" : "undefined",
           textColor               : states.selected ? "highlighttext" : "undefined"
         };
@@ -752,7 +747,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     /*
     ---------------------------------------------------------------------------
-      FIELDS
+      FORM FIELDS
     ---------------------------------------------------------------------------
     */
 
@@ -762,13 +757,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           border          : "inset",
-          paddingTop      : 1,
-          paddingRight    : 3,
-          paddingBottom   : 1,
-          paddingLeft     : 3,
+          padding         : [ 1, 3 ],
           font            : "default",
-          width           : "auto",
-          height          : "auto",
           textColor       : states.disabled ? "graytext" : "undefined",
           backgroundColor : "white"
         };
@@ -793,19 +783,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          width           : 120,
-          border          : "inset",
-          backgroundColor : "white"
-        };
-      }
-    },
-
-    "combo-box-ex" :
-    {
-      style : function(states)
-      {
-        return {
-          width           : "auto",
           border          : "inset",
           backgroundColor : "white"
         };
@@ -825,24 +802,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "combo-box-ex-list" :
-    {
-      include : "list",
-
-      style : function(states)
-      {
-        return {
-          statusBarVisible              : false,
-          columnVisibilityButtonVisible : false,
-          height                        : 'auto',
-          maxHeight                     : 150,
-          top                           : 0,
-          left                          : 0,
-          border                        : "undefined"
-        };
-      }
-    },
-
     "combo-box-popup" :
     {
       include : "list",
@@ -850,23 +809,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          height    : "auto",
           maxHeight : 150,
           border    : "shadow"
-        };
-      }
-    },
-
-    "combo-box-ex-popup" :
-    {
-      include : "list",
-
-      style : function(states)
-      {
-        return {
-          width  : "auto",
-          height : "auto",
-          border : "shadow"
         };
       }
     },
@@ -879,8 +823,54 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           border          : "undefined",
-          width           : "1*",
           backgroundColor : "transparent"
+        };
+      }
+    },
+
+    "combo-box-button" :
+    {
+      include : "button",
+
+      style : function(states)
+      {
+        return {
+          padding : [ 0, 3, 0, 2 ]
+        };
+      }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      COMBOBOX EX
+    ---------------------------------------------------------------------------
+    */
+
+
+    "combo-box-ex" :
+    {
+      style : function(states)
+      {
+        return {
+          border          : "inset",
+          backgroundColor : "white"
+        };
+      }
+    },
+
+    "combo-box-ex-list" :
+    {
+      include : "list",
+
+      style : function(states)
+      {
+        return {
+          height    : "auto",
+          maxHeight : 150,
+          border    : "undefined"
         };
       }
     },
@@ -900,28 +890,31 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    // Used both for ComboBox and ComboBoxEx
-    "combo-box-button" :
+    "combo-box-ex-popup" :
     {
-      include : "button",
+      include : "list",
 
       style : function(states)
       {
         return {
-          paddingTop    : 0,
-          paddingRight  : 3,
-          paddingBottom : 0,
-          paddingLeft   : 2
+          width  : "auto",
+          border : "shadow"
         };
       }
     },
+
+    "combo-box-ex-button" : {
+      include : "combo-box-button"
+    },
+
+
 
 
 
 
     /*
     ---------------------------------------------------------------------------
-      TREEVIRTUAL
+      TREE VIRTUAL
     ---------------------------------------------------------------------------
     */
 
@@ -929,6 +922,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       include : "empty"
     },
+
 
 
 
