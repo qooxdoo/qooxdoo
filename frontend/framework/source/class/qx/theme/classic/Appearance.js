@@ -1040,8 +1040,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "treevirtual-focus-indicator" :
-    {
+    "treevirtual-focus-indicator" : {
       include : "empty"
     },
 
@@ -1437,11 +1436,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       style : function(states)
       {
-        var border = new qx.renderer.border.Border;
-        border.setBottom(1, "solid", "gray");
-
         return {
-          border          : border,
+          border          : "shadow",
           font            : "boldLargeCenter",
           textColor       : states.weekend ? "#6285BA" : "window",
           backgroundColor : states.weekend ? "window" : "#6285BA"
@@ -1457,10 +1453,10 @@ qx.Theme.define("qx.theme.classic.Appearance",
           textColor       : "windowtext",
           font            : "center",
           verticalAlign   : "middle",
-          border          : states.today ? new qx.renderer.border.Border(1, "solid", "black") : "undefined",
+          border          : states.today ? "black" : "undefined",
           textColor       : states.selected ? "highlighttext" : states.otherMonth ? "graytext" : "windowtext",
           backgroundColor : states.selected ? "highlight" : "undefined",
-          padding : [ 2, 4 ]
+          padding         : [ 2, 4 ]
         };
       }
     },
@@ -1469,18 +1465,25 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       style : function(states)
       {
-        var border = new qx.renderer.border.Border;
-        border.setRight(1, "solid", "gray");
-
-        var headerBorder = new qx.renderer.border.Border;
-        headerBorder.setRight(1, "solid", "gray");
-        headerBorder.setBottom(1, "solid", "gray");
+        if (states.header)
+        {
+          var border = qx.renderer.border.Border.fromConfig({
+            right : [ 1, "solid", "gray" ],
+            bottom : [ 1, "solid", "gray" ]
+          });
+        }
+        else
+        {
+          var border = qx.renderer.border.Border.fromConfig({
+            right : [ 1, "solid", "gray" ]
+          });
+        }
 
         return {
-          font : "center",
+          font      : "center",
           textColor : "#6285BA",
-          padding : [ 2, 4 ],
-          border : states.header ? headerBorder : border
+          padding   : [ 2, 4 ],
+          border    : border
         };
       }
     },
@@ -1498,13 +1501,10 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       style : function(states)
       {
-        var border = new qx.renderer.border.Border;
-        border.setTop(1, "solid", "threedshadow");
-
         return {
-          font         : "default",
-          border       : border,
-          paddingLeft  : 2,
+          font : "default",
+          border : qx.renderer.border.Border.fromConfig({ top : [ 1, "solid", "threedshadow" ] }),
+          paddingLeft : 2,
           paddingRight : 2
         };
       }
@@ -1514,17 +1514,19 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       style : function(states)
       {
-        var result = {};
+        var border;
 
         if (states.editing) {
-          result.border = new qx.renderer.border.Border(2, "solid", "#b3d9ff");
+          border = new qx.renderer.border.Border(2, "solid", "#b3d9ff");
         } else if (states.tableHasFocus) {
-          result.border = new qx.renderer.border.Border(3, "solid", "#b3d9ff");
+          border = new qx.renderer.border.Border(3, "solid", "#b3d9ff");
         } else {
-          result.border = new qx.renderer.border.Border(3, "solid", "#c5c8ca");
+          border = new qx.renderer.border.Border(3, "solid", "#c5c8ca");
         }
 
-        return result;
+        return {
+          border : border
+        };
       }
     },
 
@@ -1544,31 +1546,27 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       style : function(states)
       {
+        var border, color;
+
         if (states.mouseover)
         {
-          var border = new qx.renderer.border.Border;
-          border.set(
+          border = qx.renderer.border.Border.fromConfig(
           {
-            colorRight  : "#d6d2c2",
-            styleRight  : "solid",
-            widthRight  : 1,
-            colorBottom : "#F9B119",
-            styleBottom : "solid",
-            widthBottom : 2
+            right : [ 1, "solid", "#d6d2c2" ],
+            bottom : [ 2, "solid", "#F9B119" ]
           });
+
+          color = "white";
         }
         else
         {
-          var border = new qx.renderer.border.Border;
-          border.set(
+          border = qx.renderer.border.Border.fromConfig(
           {
-            colorRight  : "#d6d2c2",
-            styleRight  : "solid",
-            widthRight  : 1,
-            colorBottom : "#d6d2c2",
-            styleBottom : "solid",
-            widthBottom : 2
+            right : [ 1, "solid", "#d6d2c2" ],
+            bottom : [ 2, "solid", "#d6d2c2" ]
           });
+
+          color = "#ebeadb";
         }
 
         return {
@@ -1579,7 +1577,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           iconPosition          : "right",
           verticalChildrenAlign : "middle",
           border                : border,
-          backgroundColor       : states.mouseover ? "white" : "#ebeadb"
+          backgroundColor       : color
         };
       }
     },
