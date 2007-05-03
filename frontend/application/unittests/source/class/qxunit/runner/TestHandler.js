@@ -34,26 +34,13 @@ qx.Class.define("qxunit.runner.TestHandler",
   {
     this.base(arguments);
     this.tmap  = eval(testRep); //[{classname:myClass,tests:['test1','test2']}, {...}]
-    this.ttree = this.__readTestRep1(testRep);
+    this.ttree = this.__readTestRep(testRep);
   },
 
 
   members : {
 
       __readTestRep : function (testRep)
-      {
-        var tmap = eval(testRep); // Json -> JS
-        var root = new qxunit.runner.Tree("All");
-        for (var i in tmap)
-        {
-          root.add(this.readTree(tmap[i]));
-        }
-
-        return root;
-      },
-
-
-      __readTestRep1 : function (testRep)
       {
         var tmap = eval(testRep); // Json -> JS
         
@@ -184,8 +171,8 @@ qx.Class.define("qxunit.runner.TestHandler",
       getPath : function (node) { // node is a modelNode
         var path   = node.pwd();
         path.shift(); // remove leading 'All'
-        var tclass = path.join(".")+"."+node.label;
-        if(this.isClass(tclass)) 
+        //var tclass = path.join(".")+"."+node.label;
+        if(this.isClass(node)) 
         {
           path = path.concat(node.label);
         }
@@ -194,6 +181,8 @@ qx.Class.define("qxunit.runner.TestHandler",
 
 
       /**
+       * TODO: still uses string-based class spec!!
+       *
        * @param node {String} a class or test name
        * @returns nodeList {List} list of tests or direct subclasses
        */
@@ -222,14 +211,17 @@ qx.Class.define("qxunit.runner.TestHandler",
       },
 
 
-      isClass1 : function (node) {
-        if (node == "All") {
-          return true;
-        } else {
-          for (var i in this.tmap) {
-            if (this.tmap[i].classname == node) {
+      hasTests : function (node) 
+      {
+        if (! this.isClass(node))
+          return false;
+        else
+        {
+          var children = node.getChildren();
+          for (var i in children) 
+          {
+            if (children[i].type && children[i].type == "test")
               return true;
-            }
           }
           return false;
         }
@@ -268,7 +260,7 @@ qx.Class.define("qxunit.runner.TestHandler",
       },
 
 
-      testCount1 : function (node) { //node is a tree node
+      testCount : function (node) { //node is a tree node
         if (node.type && node.type=="test") {
           return 1;
         } else { // enumerate recursively
@@ -284,24 +276,8 @@ qx.Class.define("qxunit.runner.TestHandler",
           }
           return num;
         }
-      },
-
-      testCount : function (node) { //node is a string
-        if (this.isClass(node)) {
-          var num = 0;
-          var children = this.getChildren(node);
-          for (var i in children) {
-            if (this.isClass(children[i])){
-              num += this.testCount(children[i]);
-            } else {
-              num++;
-            }
-          }
-          return num;
-        } else {
-          return 1;
-        }
       }
+
 
   }
 });
