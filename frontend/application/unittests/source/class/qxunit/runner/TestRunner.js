@@ -99,6 +99,19 @@ qx.Class.define("qxunit.runner.TestRunner",
     });
     this.reloadbutton.addEventListener("execute", this.reloadTestSuite, this);
 
+    // -- tree view radio
+    var treeview = new qx.ui.toolbar.Part;
+    this.toolbar.add(treeview);
+    this.widgets["toolbar.treeview"] = treeview;
+    var b1 = new qx.ui.toolbar.RadioButton("Full Tree","icon/16/actions/view-pane-tree.png");
+    var b2 = new qx.ui.toolbar.RadioButton("Flat Tree","icon/16/actions/view-pane-text.png");
+    b1.setChecked(true);
+    treeview.add(b1,b2);
+    treeview.b1 = b1;
+    treeview.b2 = b2;
+    var radiomgr = new qx.manager.selection.RadioManager(null, [b1,b2]);
+    radiomgr.addEventListener("changeSelected", this.leftReloadTree, this);
+
 
 
     // Main Pane
@@ -411,8 +424,12 @@ qx.Class.define("qxunit.runner.TestRunner",
       // link top leve widget and model
       left.modelLink   = ttree;
       ttree.widgetLink = left;
-      //buildSubTree(left,ttree);
-      buildSubTreeFlat(left,ttree);
+      var selectedView = this.widgets["toolbar.treeview"].b1.getManager().getSelected();
+      //var selectedView = this.widgets["toolbar.treeview"];
+      if (selectedView.getLabel()=="Full Tree") 
+        buildSubTree(left,ttree);
+      else
+        buildSubTreeFlat(left,ttree);
 
       left.setEnabled(true);
     }, //leftReloadTree
