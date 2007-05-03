@@ -7,6 +7,10 @@
   <link type="text/css" rel="stylesheet" href="../../css/layout_ie.css"/>
   <![endif]-->
   <script type="text/javascript" src="../../script/sample.js"></script>
+</head>
+<body>
+  <script type="text/javascript" src="../../script/layout.js"></script>
+
   <script type="text/javascript">
 
 function getTestData() {
@@ -56,7 +60,6 @@ qx.Class.define('GroupBox', {
 		this.auto();
 	}
 });
-
 
 qx.core.Init.getInstance().defineMain(function() {
 	// Shortcuts
@@ -222,9 +225,7 @@ qx.core.Init.getInstance().defineMain(function() {
 	combo.focus();
 });
   </script>
-</head>
-<body>
-  <script type="text/javascript" src="../../script/layout.js"></script>
+
   <script type="text/javascript">
 if (console.debug) {
 	with (qx.log.Logger.ROOT_LOGGER) {

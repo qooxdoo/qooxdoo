@@ -78,12 +78,14 @@ qx.Class.define("qx.ui.form.ComboBox",
     var p = this._popup = new qx.ui.popup.Popup;
     p.setAppearance("combo-box-popup");
     p.setAutoHide(false);
+    p.setHeight("auto");
     p.add(l);
 
     // Textfield
     var f = this._field = new qx.ui.form.TextField;
     f.setAppearance("combo-box-text-field");
     f.setTabIndex(-1);
+    f.setWidth("1*");
     this.add(f);
 
     // Button
@@ -115,14 +117,15 @@ qx.Class.define("qx.ui.form.ComboBox",
     var vDoc = qx.ui.core.ClientDocument.getInstance();
     vDoc.addEventListener("windowblur", this._testClosePopup, this);
 
-    // ************************************************************************
-    //   REMAPPING
-    // ************************************************************************
+    // Remapping
     this.remapChildrenHandlingTo(l);
 
-
-    // Init
+    // Initialize properties
     this.initEditable();
+    this.initTabIndex();
+    this.initWidth();
+    this.initHeight();
+    this.initMinWidth();
   },
 
 
@@ -159,6 +162,12 @@ qx.Class.define("qx.ui.form.ComboBox",
     {
       refine : true,
       init : false
+    },
+
+    width :
+    {
+      refine : true,
+      init : 120
     },
 
     height :
