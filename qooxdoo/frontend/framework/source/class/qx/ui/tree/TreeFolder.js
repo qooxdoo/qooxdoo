@@ -212,7 +212,10 @@ qx.Class.define("qx.ui.tree.TreeFolder",
      */
     _createChildrenStructure : function()
     {
-      this.setHeight(this instanceof qx.ui.tree.Tree ? null : "auto");
+      if (!(this instanceof qx.ui.tree.Tree)) {
+        this.setHeight("auto");
+      }
+
       this.setVerticalChildrenAlign("top");
 
       if (!this._horizontalLayout)
