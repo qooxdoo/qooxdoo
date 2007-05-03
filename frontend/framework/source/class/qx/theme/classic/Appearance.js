@@ -1355,51 +1355,31 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "spinner-field" :
+    "spinner-button-common":
     {
-      include : "text-field",
-
       style : function(states)
       {
         return {
-          width  : "1*",
-          border : "undefined"
+          width : 16,
+          backgroundColor : "threedface",
+          paddingLeft : 3,
+          border : states.pressed || states.checked || states.abandoned ? "inset" : "outset"
         };
       }
     },
 
-    "spinner-button-up" :
-    {
-      style : function(states)
-      {
-        return {
-          height          : "1*",
-          width           : 16,
-          backgroundColor : "threedface",
-          paddingTop      : 0,
-          paddingRight    : 0,
-          paddingBottom   : 0,
-          paddingLeft     : 3,
-          border          : states.pressed || states.checked || states.abandoned ? "inset" : "outset"
-        };
-      }
+    "spinner-button-up" : {
+      include : "spinner-button-common"
     },
 
     "spinner-button-down" :
     {
+      include : "spinner-button-common",
+
       style : function(states)
       {
         return {
-          height          : "1*",
-          width           : 16,
-          backgroundColor : "threedface",
-          paddingTop    : 1,
-          paddingRight  : 0,
-          paddingBottom : 0,
-          paddingLeft   : 3,
-          border : states.pressed || states.checked || states.abandoned ?
-            "inset" :
-            "outset"
+          paddingTop : 1
         };
       }
     },

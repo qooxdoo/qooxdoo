@@ -72,7 +72,8 @@ qx.Class.define("qx.ui.form.Spinner",
     //   TEXTFIELD
     // ************************************************************************
     this._textfield = new qx.ui.form.TextField;
-    this._textfield.setAppearance("spinner-field");
+    this._textfield.setBorder(null);
+    this._textfield.setWidth("1*");
     // ALPHA: Testing override feature of initial appearance, see Class.js
     // this._textfield = qx.ui.core.Widget.create(qx.ui.form.TextField, "spinner-field");
     this._textfield.setValue(String(this.getManager().getValue()));
@@ -90,6 +91,7 @@ qx.Class.define("qx.ui.form.Spinner",
     // ************************************************************************
     this._upbutton = new qx.ui.basic.Image("widget/arrows/up_small.gif");
     this._upbutton.setAppearance("spinner-button-up");
+    this._upbutton.setHeight("1*");
     this._buttonlayout.add(this._upbutton);
 
     // ************************************************************************
@@ -97,6 +99,7 @@ qx.Class.define("qx.ui.form.Spinner",
     // ************************************************************************
     this._downbutton = new qx.ui.basic.Image("widget/arrows/down_small.gif");
     this._downbutton.setAppearance("spinner-button-down");
+    this._downbutton.setHeight("1*");
     this._buttonlayout.add(this._downbutton);
 
     // ************************************************************************
