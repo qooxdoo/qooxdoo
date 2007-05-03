@@ -42,6 +42,17 @@ qx.Class.define("qx.ui.splitpane.SplitPaneSlider",
     this.setStyleProperty("lineHeight", "0px");
     this.hide();
     this._pane = pane;
+
+    this.initZIndex();
+  },
+
+  properties :
+  {
+    zIndex :
+    {
+      refine : true,
+      init : 1e8
+    }
   },
 
   destruct : function() {

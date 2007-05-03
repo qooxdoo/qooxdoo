@@ -1550,16 +1550,11 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         var result = {};
 
-        if (states.editing)
-        {
+        if (states.editing) {
           result.border = new qx.renderer.border.Border(2, "solid", "#b3d9ff");
-        }
-        else if (states.tableHasFocus)
-        {
+        } else if (states.tableHasFocus) {
           result.border = new qx.renderer.border.Border(3, "solid", "#b3d9ff");
-        }
-        else
-        {
+        } else {
           result.border = new qx.renderer.border.Border(3, "solid", "#c5c8ca");
         }
 
@@ -1572,12 +1567,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          font          : "default",
-          border        : "undefined",
-          paddingLeft   : 2,
-          paddingRight  : 2,
-          paddingTop    : 0,
-          paddingBottom : 0
+          font    : "default",
+          border  : "undefined",
+          padding : [ 0, 2 ]
         };
       }
     },
@@ -1637,19 +1629,10 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "splitpane" :
     {
-      style : function(states) {
-        return { overflow : "hidden" };
-      }
-    },
-
-    "splitpane-glasspane" :
-    {
       style : function(states)
       {
         return {
-          zIndex          : 1e7,
-          backgroundColor : "threedshadow",
-          opacity : states.visible ? 0.2 : 0
+          overflow : "hidden"
         };
       }
     },
@@ -1671,7 +1654,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           opacity : 0.5,
-          zIndex  : 1e8,
           backgroundColor : states.dragging ? "threeddarkshadow" : "threedface"
         };
       }
@@ -1681,7 +1663,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       style : function(states)
       {
-        var result = { opacity : states.dragging ? 0.5 : 1.0 };
+        var result = {
+          opacity : states.dragging ? 0.5 : 1.0
+        };
 
         if (states.horizontal)
         {
