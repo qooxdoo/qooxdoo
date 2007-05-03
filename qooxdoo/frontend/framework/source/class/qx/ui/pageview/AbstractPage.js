@@ -44,6 +44,11 @@ qx.Class.define("qx.ui.pageview.AbstractPage",
     if (vButton !== undefined) {
       this.setButton(vButton);
     }
+
+    this.initTop();
+    this.initRight();
+    this.initBottom();
+    this.initLeft();
   },
 
 
