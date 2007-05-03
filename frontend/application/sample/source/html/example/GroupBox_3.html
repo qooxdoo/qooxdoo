@@ -144,13 +144,7 @@
 
 
       fs.getLegendObject().addEventListener("changeChecked", function(e) {
-        i1.setEnabled(e.getData());
-        i2.setEnabled(e.getData());
-        i3.setEnabled(e.getData());
-
-        a1.setEnabled(e.getData());
-        a2.setEnabled(e.getData());
-        a3.setEnabled(e.getData());
+        fs.getFrameObject().setEnabled(e.getValue());
       });
 
 
