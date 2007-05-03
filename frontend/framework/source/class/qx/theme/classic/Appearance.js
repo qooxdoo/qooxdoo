@@ -305,7 +305,12 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "button-view-pane" :
     {
-
+      style : function(states)
+      {
+        return {
+          padding : 10
+        };
+      }
     },
 
     "button-view-page" :
