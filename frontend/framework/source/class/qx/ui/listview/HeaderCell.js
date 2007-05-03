@@ -92,6 +92,8 @@ qx.Class.define("qx.ui.listview.HeaderCell",
     this.addEventListener("mouseup", this._onmouseup);
     this.addEventListener("mouseover", this._onmouseover);
     this.addEventListener("mouseout", this._onmouseout);
+
+    this.initOverflow();
   },
 
 
@@ -120,6 +122,12 @@ qx.Class.define("qx.ui.listview.HeaderCell",
 
   properties :
   {
+    overflow :
+    {
+      refine : true,
+      init : "hidden"
+    },
+
     appearance :
     {
       refine : true,
