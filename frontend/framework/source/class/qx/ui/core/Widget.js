@@ -1396,7 +1396,8 @@ qx.Class.define("qx.ui.core.Widget",
       check : "String",
       apply : "_modifyCursor",
       themeable : true,
-      nullable : true
+      nullable : true,
+      init : null
     },
 
 
