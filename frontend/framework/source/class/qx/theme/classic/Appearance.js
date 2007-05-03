@@ -1420,8 +1420,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
         {
           backgroundColor : states.abandoned ? "#FFF0C9" : "buttonface",
           backgroundImage : (states.checked && !states.over) ? "static/image/dotted_white.gif" : null,
-          spacing               : 4,
-          width                 : "auto",
+          spacing : 4,
+          width : "auto",
           verticalChildrenAlign : "middle"
         };
 
@@ -1433,16 +1433,11 @@ qx.Theme.define("qx.theme.classic.Appearance",
           result.border = "undefined";
         }
 
-        if (states.pressed || states.checked || states.abandoned)
-        {
+        if (states.pressed || states.checked || states.abandoned) {
           result.padding = [ 2, 0, 0, 2 ];
-        }
-        else if (states.over)
-        {
+        } else if (states.over) {
           result.padding = 1;
-        }
-        else
-        {
+        } else {
           result.padding = 2;
         }
 
@@ -1515,8 +1510,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
         headerBorder.setBottom(1, "solid", "gray");
 
         return {
-          font        : "default",
-          textColor   : "#6285BA",
+          font : "default",
+          textColor : "#6285BA",
           paddingLeft : 2,
           border : states.header ? headerBorder : border
         };

@@ -1821,7 +1821,7 @@ qx.Class.define("qx.manager.selection.SelectionManager",
         tryLoops++;
       }
 
-      // this.debug("Select: " + nextItem._labelObject.getHtml());
+      // this.debug("Select: " + nextItem._labelObject.getText());
       return nextItem;
     }
   },
