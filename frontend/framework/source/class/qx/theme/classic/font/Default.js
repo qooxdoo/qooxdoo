@@ -61,11 +61,12 @@ qx.Theme.define("qx.theme.classic.font.Default",
       align : "center"
     },
 
-    "boldCenter" :
+    "boldLargeCenter" :
     {
       size : 13,
       family : [ "Lucida Grande", "Tahoma", "sans-serif" ],
-      bold : true
+      bold : true,
+      align : "center"
     }
   }
 });

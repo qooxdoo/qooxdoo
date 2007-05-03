@@ -57,12 +57,6 @@ qx.Class.define("qx.ui.embed.TextEmbed",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
     /** Any text string which can contain TEXT, too */
     text :
     {
