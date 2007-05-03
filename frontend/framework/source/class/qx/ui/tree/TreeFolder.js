@@ -27,7 +27,6 @@
 ************************************************************************ */
 
 /**
- * @appearance tree-folder-container
  * @appearance tree-folder {qx.ui.layout.HorizontalBoxLayout}
  * @appearance tree-folder {qx.ui.layout.HorizontalBoxLayout}
  * @appearance tree-folder-icon {qx.ui.basic.Image}
@@ -213,7 +212,8 @@ qx.Class.define("qx.ui.tree.TreeFolder",
      */
     _createChildrenStructure : function()
     {
-      this.setAppearance(this instanceof qx.ui.tree.Tree ? "tree-container" : "tree-folder-container");
+      this.setHeight(this instanceof qx.ui.tree.Tree ? null : "auto");
+      this.setVerticalChildrenAlign("top");
 
       if (!this._horizontalLayout)
       {

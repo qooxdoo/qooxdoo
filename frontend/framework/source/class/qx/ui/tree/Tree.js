@@ -25,7 +25,6 @@
 ************************************************************************ */
 
 /**
- * @appearance tree-container
  * @appearance tree {qx.ui.layout.HorizontalBoxLayout}
  * @appearance tree-icon {qx.ui.basic.Image}
  * @appearance tree-label {qx.ui.basic.Label}
