@@ -45,6 +45,10 @@ qx.Class.define("qx.util.ThemeList",
       {
         theme = list[i];
 
+        if (theme.type === "abstract") {
+          continue;
+        }
+
         button = new qx.ui.form.Button(prefix + theme.title, "icon/16/actions/dialog-ok.png");
 
         button.setUserData("theme", theme);
