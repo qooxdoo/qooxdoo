@@ -418,6 +418,160 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
 
 
+
+
+    /*
+    ---------------------------------------------------------------------------
+      TABVIEW
+    ---------------------------------------------------------------------------
+    */
+
+    "tab-view" :
+    {
+      style : function(states)
+      {
+        return {
+          spacing : -1
+        };
+      }
+    },
+
+    "tab-view-bar" : {
+    },
+
+    "tab-view-pane" :
+    {
+      style : function(states)
+      {
+        return {
+          backgroundColor : "#FAFBFE",
+          border          : new qx.renderer.border.Border(1, "solid", "#91A5BD"),
+          padding         : 10
+        };
+      }
+    },
+
+    "tab-view-page" : {
+    },
+
+    "tab-view-button" :
+    {
+      include : "atom",
+
+      style : function(states)
+      {
+        var border_top_normal = new qx.renderer.border.Border(1, "solid", "#91A5BD");
+        border_top_normal.setWidthBottom(0);
+
+        var border_top_checked = new qx.renderer.border.Border(1, "solid", "#91A5BD");
+        border_top_checked.setWidthBottom(0);
+        border_top_checked.setTop(3, "solid", "#FEC83C");
+
+        var border_bottom_normal = new qx.renderer.border.Border(1, "solid", "#91A5BD");
+        border_bottom_normal.setWidthTop(0);
+
+        var border_bottom_checked = new qx.renderer.border.Border(1, "solid", "#91A5BD");
+        border_bottom_checked.setWidthTop(0);
+        border_bottom_checked.setBottom(3, "solid", "#FEC83C");
+
+        var result;
+
+        if (states.checked)
+        {
+          result =
+          {
+            backgroundColor : "#FAFBFE",
+            zIndex          : 1,
+            paddingTop      : 2,
+            paddingBottom   : 4,
+            paddingLeft     : 7,
+            paddingRight    : 8,
+            border          : states.barTop ? border_top_checked : border_bottom_checked,
+            marginTop       : 0,
+            marginBottom    : 0,
+            marginRight     : -1,
+            marginLeft      : -2,
+            spacing                 : 4,
+            horizontalChildrenAlign : "center",
+            verticalChildrenAlign   : "middle"
+          };
+
+          if (states.alignLeft)
+          {
+            if (states.firstChild)
+            {
+              result.paddingLeft = 6;
+              result.paddingRight = 7;
+              result.marginLeft = 0;
+            }
+          }
+          else
+          {
+            if (states.lastChild)
+            {
+              result.paddingLeft = 8;
+              result.paddingRight = 5;
+              result.marginRight = 0;
+            }
+          }
+        }
+        else
+        {
+          result =
+          {
+            backgroundColor : states.over ? "#FAFBFE" : "#E1EEFF",
+            zIndex          : 0,
+            paddingTop      : 2,
+            paddingBottom   : 2,
+            paddingLeft     : 5,
+            paddingRight    : 6,
+            marginRight     : 1,
+            marginLeft      : 0,
+            spacing                 : 4,
+            horizontalChildrenAlign : "center",
+            verticalChildrenAlign   : "middle"
+         };
+
+          if (states.alignLeft)
+          {
+            if (states.firstChild)
+            {
+              result.paddingLeft = 6;
+              result.paddingRight = 5;
+            }
+          }
+          else
+          {
+            if (states.lastChild)
+            {
+              result.paddingLeft = 6;
+              result.paddingRight = 5;
+              result.marginRight = 0;
+            }
+          }
+
+          if (states.barTop)
+          {
+            result.border = border_top_normal;
+            result.marginTop = 3;
+            result.marginBottom = 1;
+          }
+          else
+          {
+            result.border = border_bottom_normal;
+            result.marginTop = 1;
+            result.marginBottom = 3;
+          }
+        }
+
+        return result;
+      }
+    },
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       RADIO VIEW
@@ -1132,152 +1286,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
 
 
-
-    /*
-    ---------------------------------------------------------------------------
-      TABVIEW
-    ---------------------------------------------------------------------------
-    */
-
-    "tab-view" :
-    {
-      style : function(states) {
-        return { spacing : -1 };
-      }
-    },
-
-    "tab-view-bar" :
-    {
-      style : function(states) {
-        return { height : "auto" };
-      }
-    },
-
-    "tab-view-pane" :
-    {
-      style : function(states)
-      {
-        return {
-          height          : "1*",
-          backgroundColor : "#FAFBFE",
-          border          : new qx.renderer.border.Border(1, "solid", "#91A5BD"),
-          padding         : 10
-        };
-      }
-    },
-
-    "tab-view-page" :
-    {
-
-    },
-
-    "tab-view-button" :
-    {
-      include : "atom",
-
-      style : function(states)
-      {
-        var border_top_normal = new qx.renderer.border.Border(1, "solid", "#91A5BD");
-        border_top_normal.setWidthBottom(0);
-
-        var border_top_checked = new qx.renderer.border.Border(1, "solid", "#91A5BD");
-        border_top_checked.setWidthBottom(0);
-        border_top_checked.setTop(3, "solid", "#FEC83C");
-
-        var border_bottom_normal = new qx.renderer.border.Border(1, "solid", "#91A5BD");
-        border_bottom_normal.setWidthTop(0);
-
-        var border_bottom_checked = new qx.renderer.border.Border(1, "solid", "#91A5BD");
-        border_bottom_checked.setWidthTop(0);
-        border_bottom_checked.setBottom(3, "solid", "#FEC83C");
-
-        var result;
-
-        if (states.checked)
-        {
-          result =
-          {
-            backgroundColor : "#FAFBFE",
-            zIndex          : 1,
-            paddingTop      : 2,
-            paddingBottom   : 4,
-            paddingLeft     : 7,
-            paddingRight    : 8,
-            border          : states.barTop ? border_top_checked : border_bottom_checked,
-            marginTop       : 0,
-            marginBottom    : 0,
-            marginRight     : -1,
-            marginLeft      : -2
-          };
-
-          if (states.alignLeft)
-          {
-            if (states.firstChild)
-            {
-              result.paddingLeft = 6;
-              result.paddingRight = 7;
-              result.marginLeft = 0;
-            }
-          }
-          else
-          {
-            if (states.lastChild)
-            {
-              result.paddingLeft = 8;
-              result.paddingRight = 5;
-              result.marginRight = 0;
-            }
-          }
-        }
-        else
-        {
-          result =
-          {
-            backgroundColor : states.over ? "#FAFBFE" : "#E1EEFF",
-            zIndex          : 0,
-            paddingTop      : 2,
-            paddingBottom   : 2,
-            paddingLeft     : 5,
-            paddingRight    : 6,
-            marginRight     : 1,
-            marginLeft      : 0
-          };
-
-          if (states.alignLeft)
-          {
-            if (states.firstChild)
-            {
-              result.paddingLeft = 6;
-              result.paddingRight = 5;
-            }
-          }
-          else
-          {
-            if (states.lastChild)
-            {
-              result.paddingLeft = 6;
-              result.paddingRight = 5;
-              result.marginRight = 0;
-            }
-          }
-
-          if (states.barTop)
-          {
-            result.border = border_top_normal;
-            result.marginTop = 3;
-            result.marginBottom = 1;
-          }
-          else
-          {
-            result.border = border_bottom_normal;
-            result.marginTop = 1;
-            result.marginBottom = 3;
-          }
-        }
-
-        return result;
-      }
-    },
 
 
 

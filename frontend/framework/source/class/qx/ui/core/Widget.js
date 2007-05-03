@@ -1298,7 +1298,8 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Number",
       apply : "_modifyZIndex",
-      themeable : true
+      themeable : true,
+      init : null
     },
 
 

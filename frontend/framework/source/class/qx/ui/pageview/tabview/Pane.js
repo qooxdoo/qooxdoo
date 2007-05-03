@@ -44,7 +44,8 @@ qx.Class.define("qx.ui.pageview.tabview.Pane",
   {
     this.base(arguments);
 
-    this.setZIndex(1);
+    this.initZIndex();
+    this.initHeight();
   },
 
 
@@ -62,6 +63,18 @@ qx.Class.define("qx.ui.pageview.tabview.Pane",
     {
       refine : true,
       init : "tab-view-pane"
+    },
+
+    zIndex :
+    {
+      refine : true,
+      init : 1
+    },
+
+    height :
+    {
+      refine : true,
+      init : "1*"
     }
   }
 });
