@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 /**
- * @appearance radio-button-field-set-legend {qx.ui.form.RadioButton}
+ * @appearance radio-button-group-box-legend {qx.ui.form.RadioButton}
  */
 qx.Class.define("qx.ui.groupbox.RadioGroupBox",
 {
@@ -64,7 +64,7 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
     _createLegendObject : function()
     {
       this._legendObject = new qx.ui.form.RadioButton;
-      this._legendObject.setAppearance("radio-button-field-set-legend");
+      this._legendObject.setAppearance("radio-button-group-box-legend");
       this._legendObject.setChecked(true);
 
       this.add(this._legendObject);
