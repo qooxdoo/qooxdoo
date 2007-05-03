@@ -55,12 +55,6 @@ qx.Class.define("qx.ui.pageview.tabview.TabView",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
     appearance :
     {
       refine : true,
@@ -93,12 +87,6 @@ qx.Class.define("qx.ui.pageview.tabview.TabView",
 
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      MODIFIER
-    ---------------------------------------------------------------------------
-    */
-
     /**
      * TODOC
      *
@@ -116,8 +104,6 @@ qx.Class.define("qx.ui.pageview.tabview.TabView",
 
       // force re-apply of states for all tabs
       vBar._addChildrenToStateQueue();
-
-      return true;
     },
 
 
@@ -145,8 +131,6 @@ qx.Class.define("qx.ui.pageview.tabview.TabView",
 
       // force re-apply of states for all tabs
       vBar._addChildrenToStateQueue();
-
-      return true;
     }
   }
 });
