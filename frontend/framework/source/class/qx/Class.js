@@ -1121,6 +1121,11 @@ qx.Class.define("qx.Class",
           clazz.prototype["__init$" + name] = config.init;
         }
 
+        // Remember inheritable properties
+        if (config.inheritable) {
+          qx.core.Property.$$inheritable[name] = true;
+        }
+
         // Create old style properties
         if (config._fast) {
           qx.core.LegacyProperty.addFastProperty(config, clazz.prototype);

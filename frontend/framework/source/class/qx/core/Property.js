@@ -262,6 +262,10 @@ qx.Class.define("qx.core.Property",
     },
 
 
+    /** Contains names of inheritable properties, filled by {@link qx.Class.define} */
+    $$inheritable : {},
+
+
     /**
      * Refreshes widget whose parent has changed (including the children)
      *
@@ -270,14 +274,6 @@ qx.Class.define("qx.core.Property",
      * @param widget {qx.core.ui.Widget} the widget
      * @return {void}
      */
-    hack :
-    {
-      font : 1,
-      textColor : 1,
-      show : 1,
-      enabled : 1
-    },
-
     refresh : function(widget)
     {
       var clazz = widget.constructor;
@@ -301,7 +297,7 @@ qx.Class.define("qx.core.Property",
 
           if (properties)
           {
-            for (name in this.hack)
+            for (name in this.$$inheritable)
             {
               if (properties[name])
               {
@@ -578,7 +574,7 @@ qx.Class.define("qx.core.Property",
       var store = this.$$method[variant][name];
 
       // Output generate code
-      if (qx.core.Variant.isSet("qx.debug", "on") && false)
+      if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
           console.debug("Code[" + this.$$method[variant][name] + "]: " + code.join(""));
@@ -588,6 +584,7 @@ qx.Class.define("qx.core.Property",
         try{
           var s = new Date;
           members[store] = new Function("value", code.join(""));
+          // eval("members[store] = function " + instance.classname.replace(/\./g, "_") + "$" + store + "(value) { " + code.join("") + "}");
           this.sumUnwrap += new Date - s;
         } catch(ex) {
           alert("Malformed generated code to unwrap method: " + this.$$method[variant][name] + "\n" + code.join(""));
@@ -596,8 +593,8 @@ qx.Class.define("qx.core.Property",
       else
       {
         var s = new Date;
-//        members[store] = new Function("value", code.join(""));
-        eval("members[store] = function " + instance.classname.replace(/\./g, "_") + "$" + store + "(value) { " + code.join("") + "}");
+        members[store] = new Function("value", code.join(""));
+        // eval("members[store] = function " + instance.classname.replace(/\./g, "_") + "$" + store + "(value) { " + code.join("") + "}");
         this.sumUnwrap += new Date - s;
       }
 
