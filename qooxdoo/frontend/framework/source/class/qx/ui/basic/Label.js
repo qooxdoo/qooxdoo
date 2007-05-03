@@ -69,6 +69,8 @@ qx.Class.define("qx.ui.basic.Label",
     // Property init
     this.initWidth();
     this.initHeight();
+    this.initSelectable();
+    this.initCursor();
   },
 
 
@@ -151,6 +153,18 @@ qx.Class.define("qx.ui.basic.Label",
     {
       refine : true,
       init : false
+    },
+
+    selectable :
+    {
+      refine : true,
+      init : false
+    },
+
+    cursor :
+    {
+      refine : true,
+      init : "default"
     },
 
 

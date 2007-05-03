@@ -598,8 +598,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          padding : [ 1, 4 ],
-          cursor : "default"
+          padding : [ 1, 4 ]
         };
       }
     },
@@ -733,7 +732,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          cursor                  : "default",
           height                  : "auto",
           horizontalChildrenAlign : "left",
           verticalChildrenAlign   : "middle",
@@ -970,7 +968,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          cursor          : "default",
           marginLeft      : 3,
           height          : 15,
           paddingTop      : 2,
@@ -1507,7 +1504,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
         {
           backgroundColor : states.abandoned ? "#FFF0C9" : "buttonface",
           backgroundImage : (states.checked && !states.over) ? "static/image/dotted_white.gif" : null,
-          cursor                : "default",
           spacing               : 4,
           width                 : "auto",
           verticalChildrenAlign : "middle"
@@ -1586,7 +1582,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          cursor          : "default",
           textColor       : "windowtext",
           font            : "center",
           verticalAlign   : "middle",
@@ -1712,7 +1707,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
 
         return {
-          cursor                : "default",
           paddingLeft           : 2,
           paddingRight          : 2,
           spacing               : 2,
