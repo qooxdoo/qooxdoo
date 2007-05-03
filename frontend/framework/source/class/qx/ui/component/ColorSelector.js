@@ -82,6 +82,9 @@ qx.Class.define("qx.ui.component.ColorSelector",
     if (arguments.length == 3) {
       this.setPreviousColor(vPreviousRed, vPreviousGreen, vPreviousBlue);
     }
+
+    this.initWidth();
+    this.initHeight();
   },
 
 

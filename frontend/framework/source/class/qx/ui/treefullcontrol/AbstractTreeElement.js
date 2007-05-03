@@ -456,7 +456,7 @@ qx.Class.define("qx.ui.treefullcontrol.AbstractTreeElement",
     {
       // Add our label to the array
       if (this._labelObject) {
-        vArr.unshift(this._labelObject.getHtml());
+        vArr.unshift(this._labelObject.getText());
       }
 
       // Get the parent folder
