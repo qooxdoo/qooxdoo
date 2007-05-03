@@ -207,7 +207,8 @@ qx.Class.define("qx.ui.form.TextField",
     validator :
     {
       check : "Function",
-      event : "changeValidator"
+      event : "changeValidator",
+      nullable : true
     }
   },
 
@@ -771,7 +772,7 @@ qx.Class.define("qx.ui.form.TextField",
         vRange.collapse();
         vRange.move("character", vStart);
         vRange.select();
-  },
+      },
 
       "default" : function(vStart)
       {

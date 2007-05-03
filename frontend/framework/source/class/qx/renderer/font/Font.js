@@ -65,11 +65,11 @@ qx.Class.define("qx.renderer.font.Font",
   statics :
   {
     /**
-     * TODOC
+     * Converts a typical CSS font definition string to an font object
      *
      * @type static
-     * @param s {String} TODOC
-     * @return {var} TODOC
+     * @param str {String} the CSS string
+     * @return {qx.renderer.font.Font} the created instance
      */
     fromString : function(str)
     {
@@ -117,6 +117,22 @@ qx.Class.define("qx.renderer.font.Font",
 
       return font;
     },
+
+
+    /**
+     * Converts a map property definition into a border object.
+     *
+     * @type static
+     * @param config {Map} map of property values
+     * @return {qx.renderer.border.Border} the created instance
+     */
+    fromConfig : function(config)
+    {
+      var font = new qx.renderer.font.Font;
+      font.set(config);
+      return font;
+    },
+
 
     reset : function(widget)
     {
