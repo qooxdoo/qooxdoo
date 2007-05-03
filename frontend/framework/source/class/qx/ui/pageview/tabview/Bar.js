@@ -43,7 +43,9 @@ qx.Class.define("qx.ui.pageview.tabview.Bar",
   construct : function()
   {
     this.base(arguments);
-    this.setZIndex(2);
+
+    this.initZIndex();
+    this.initHeight();
   },
 
 
@@ -61,6 +63,18 @@ qx.Class.define("qx.ui.pageview.tabview.Bar",
     {
       refine : true,
       init : "tab-view-bar"
+    },
+
+    zIndex :
+    {
+      refine : true,
+      init : 2
+    },
+
+    height :
+    {
+      refine : true,
+      init : "auto"
     }
   }
 });
