@@ -85,6 +85,9 @@ qx.Class.define("qx.ui.listview.Header",
     this.addEventListener("mousedown", this._onmousedown);
     this.addEventListener("mouseup", this._onmouseup);
     this.addEventListener("mouseout", this._onmouseout);
+
+    this.initHeight();
+    this.initOverflow();
   },
 
 
@@ -98,6 +101,18 @@ qx.Class.define("qx.ui.listview.Header",
 
   properties :
   {
+    overflow :
+    {
+      refine : true,
+      init : "hidden"
+    },
+
+    height :
+    {
+      refine : true,
+      init : "auto"
+    },
+
     appearance :
     {
       refine : true,

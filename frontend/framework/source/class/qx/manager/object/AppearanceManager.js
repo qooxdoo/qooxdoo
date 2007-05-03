@@ -147,7 +147,20 @@ qx.Class.define("qx.manager.object.AppearanceManager",
       }
 
       // Creating cache-able ID
+      var helper = [];
+      for (var state in states)
+      {
+        if (states[state]) {
+          helper.push(state);
+        }
+      }
+
+      helper.sort().unshift(id);
+      var unique = helper.join(":");
+
+      // Creating cache-able ID
       // TODO: only works for 30 different states
+      /*
       var unique = 0;
       var map = this.__stateMap;
 
@@ -161,6 +174,7 @@ qx.Class.define("qx.manager.object.AppearanceManager",
       }
 
       unique = id + unique;
+      */
 
       // Using cache if available
       if (cache[unique] !== undefined) {

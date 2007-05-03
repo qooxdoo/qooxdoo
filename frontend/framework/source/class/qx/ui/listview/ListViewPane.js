@@ -79,6 +79,9 @@ qx.Class.define("qx.ui.listview.ListViewPane",
     //   KEY EVENT LISTENER
     // ************************************************************************
     this.addEventListener("keypress", this._onkeypress);
+
+    this.initWidth();
+    this.initOverflow();
   },
 
 
@@ -92,6 +95,18 @@ qx.Class.define("qx.ui.listview.ListViewPane",
 
   properties :
   {
+    width :
+    {
+      refine : true,
+      init : "1*"
+    },
+
+    overflow :
+    {
+      refine : true,
+      init : "hidden"
+    },
+
     appearance :
     {
       refine : true,

@@ -42,6 +42,7 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
     this.base(arguments, vText, vIcon, vIconWidth, vIconHeight, vFlash);
 
     this.initChecked();
+    this.initTabIndex();
 
     this.addEventListener("mouseover", this._onmouseover);
     this.addEventListener("mouseout", this._onmouseout);
@@ -66,7 +67,6 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
       refine : true,
       init : 1
     },
-
 
 
     /** If this tab is the currently selected/active one */

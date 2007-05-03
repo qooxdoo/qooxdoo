@@ -1007,13 +1007,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "list-view" :
     {
-      style : function(states)
-      {
-        return {
-          cursor   : "default",
-          overflow : "hidden"
-        };
-      }
+
     },
 
     "list-view-pane" :
@@ -1021,9 +1015,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          width             : "1*",
-          horizontalSpacing : 1,
-          overflow          : "hidden"
+          horizontalSpacing : 1
         };
       }
     },
@@ -1034,8 +1026,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         var result =
         {
-          height          : "auto",
-          overflow        : "hidden",
           border          : new qx.renderer.border.Border,
           backgroundColor : "#f2f2f2"
         };
@@ -1050,19 +1040,22 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       style : function(states)
       {
-        var border_hover = new qx.renderer.border.Border;
-        border_hover.setBottom(2, "solid", "#F9B119");
+        if (states.over)
+        {
+          var border = new qx.renderer.border.Border;
+          border.setBottom(2, "solid", "#F9B119");
+        }
+        else
+        {
+          var border = "undefined";
+        }
 
         return {
-          overflow      : "hidden",
-          paddingTop    : 2,
-          paddingRight  : 6,
-          paddingBottom : 2,
-          paddingLeft   : 6,
-          spacing       : 4,
+          padding : [ 2, 6 ],
+          spacing : 4,
           backgroundColor : states.over ? "white" : "undefined",
           paddingBottom   : states.over ? 0 : 2,
-          border          : states.over ? border_hover : "undefined"
+          border          : border
         };
       }
     },
@@ -1085,6 +1078,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
+          cursor          : "default",
           backgroundColor : states.selected ? "highlight" : "undefined",
           textColor       : states.selected ? "highlighttext" : "undefined"
         };
@@ -1119,18 +1113,15 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "list-view-content-cell-html" :
-    {
+    "list-view-content-cell-html" : {
       include : "list-view-content-cell-text"
     },
 
-    "list-view-content-cell-icon-html" :
-    {
+    "list-view-content-cell-icon-html" : {
       include : "list-view-content-cell-text"
     },
 
-    "list-view-content-cell-link" :
-    {
+    "list-view-content-cell-link" : {
       include : "list-view-content-cell-text"
     },
 
@@ -1165,10 +1156,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           height          : "1*",
           backgroundColor : "#FAFBFE",
           border          : new qx.renderer.border.Border(1, "solid", "#91A5BD"),
-          paddingTop      : 10,
-          paddingRight    : 10,
-          paddingBottom   : 10,
-          paddingLeft     : 10
+          padding         : 10
         };
       }
     },
