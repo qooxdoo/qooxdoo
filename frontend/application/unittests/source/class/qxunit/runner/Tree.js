@@ -33,10 +33,11 @@ qx.Class.define("qxunit.runner.Tree",
   {
     this.base(arguments);
 
-    this.label    = arguments[0];
+    this.label    = arguments[0] || "";
     this.children = [];
     this.parent   = null;
   },
+
 
   members : {
 
@@ -51,15 +52,18 @@ qx.Class.define("qxunit.runner.Tree",
       }
     },
 
+
     hasChildren : function () 
     {
       return this.children.length;
     },
 
+
     getChildren : function () 
     {
       return this.children;
     },
+
 
     map : function (fun, args)
     {
@@ -73,21 +77,25 @@ qx.Class.define("qxunit.runner.Tree",
       }
     },
 
+
     print : function ()
     {
       this.map(function () { this.debug(this.label); }, []);
     },
 
+
     /**
      * returns an iterator function for the tree from this.
-     * (Implemented with agenda search)
+     * (implemented with Agenda Search)
      *
-     * @param style {String} "depth"|"width" - traversal style
+     * @param style {String} "depth"|"breadth" - traversal style
      * @return iterator {Function}
      */
     getIterator : function (style)  // returns an iterator function
     {
-      var agenda = [this];
+      var agenda     = [this];
+      var depthfirst = style == "depth" ? 1 : 0;
+
       function f () 
       {
         var curr;
@@ -97,21 +105,31 @@ qx.Class.define("qxunit.runner.Tree",
           var children = curr.getChildren();
           if ( children.length) // expand container
           {
-            agenda = agenda.concat(children);
+            if (depthfirst)
+            {
+              agenda = children.concat(agenda);  // depth-first
+            } else 
+            {
+              agenda = agenda.concat(children);  // breadth-first
+            }
           }
         } else {
           curr = null;
         }
         return curr;
       }; // f()
+
       return f;
     },
+
 
     add : function (node)
     {
       this.children.push(node);
       node.parent = this;
     }
+
+
   }
 });
 
