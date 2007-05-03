@@ -34,9 +34,14 @@ qx.Class.define("qxunit.runner.TreeTest",
     this.base(arguments);
 
     var tree = new qxunit.runner.Tree("Root");
-    tree.add(new qxunit.runner.Tree("First"));
+    var first;
+    tree.add(first = new qxunit.runner.Tree("First"));
+    first.add(new qxunit.runner.Tree("First.1"));
+    first.add(new qxunit.runner.Tree("First.2"));
     tree.add(new qxunit.runner.Tree("Second"));
     var three = new qxunit.runner.Tree("Third");
+    //three.add(new qxunit.runner.Tree("Third.1"));
+    //three.add(new qxunit.runner.Tree("Third.2"));
     tree.add(three);
 
     tree.print();

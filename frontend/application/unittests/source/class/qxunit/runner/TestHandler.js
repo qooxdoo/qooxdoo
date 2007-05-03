@@ -37,6 +37,7 @@ qx.Class.define("qxunit.runner.TestHandler",
     this.ttree = this.__readTestRep1(testRep);
   },
 
+
   members : {
 
       __readTestRep : function (testRep)
@@ -151,6 +152,7 @@ qx.Class.define("qxunit.runner.TestHandler",
         return this.Root.classname;
       },
 
+
       getChilds : function (node){
         var cldList = [];
         var tmap    = this.tmap;
@@ -163,6 +165,7 @@ qx.Class.define("qxunit.runner.TestHandler",
         }
         return cldList;
       },
+
 
       /*
        * get the tests directly contained in a class
@@ -188,6 +191,7 @@ qx.Class.define("qxunit.runner.TestHandler",
         }
         return path;
       },
+
 
       /**
        * @param node {String} a class or test name
@@ -230,6 +234,7 @@ qx.Class.define("qxunit.runner.TestHandler",
           return false;
         }
       },
+
 
       classFromTest : function (node) {
         var classname = "";
