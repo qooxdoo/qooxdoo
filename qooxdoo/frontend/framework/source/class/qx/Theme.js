@@ -82,6 +82,7 @@ qx.Class.define("qx.Theme",
         $$type : "Theme",
         name : name,
         title : config.title,
+        type : config.type || "normal",
 
         // Attach toString
         toString : this.genericToString
@@ -244,6 +245,7 @@ qx.Class.define("qx.Theme",
       "on":
       {
         "title"       : "string", // String
+        "type"        : "string", // String
         "extend"      : "object", // Theme
         "colors"      : "object", // Map
         "borders"     : "object", // Map
