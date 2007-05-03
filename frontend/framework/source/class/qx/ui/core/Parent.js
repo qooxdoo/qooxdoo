@@ -1433,33 +1433,6 @@ qx.Class.define("qx.ui.core.Parent",
 
 
 
-    /*
-    ---------------------------------------------------------------------------
-      CLONE
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cloneInstance {var} TODOC
-     * @return {void}
-     */
-    _cloneRecursive : function(cloneInstance)
-    {
-      var ch = this.getChildren();
-      var chl = ch.length;
-      var cloneChild;
-
-      for (var i=0; i<chl; i++)
-      {
-        cloneChild = ch[i].clone(true);
-        cloneInstance.add(cloneChild);
-      }
-    },
-
-
 
 
     /*

@@ -86,44 +86,6 @@ qx.Class.define("qx.ui.toolbar.Part",
 
 
 
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
-  members :
-  {
-    /*
-    ---------------------------------------------------------------------------
-      CLONE
-    ---------------------------------------------------------------------------
-    */
-
-    // Omit recursive cloning of qx.ui.toolbar.PartHandle
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cloneInstance {var} TODOC
-     * @return {void}
-     */
-    _cloneRecursive : function(cloneInstance)
-    {
-      var vChildren = this.getChildren();
-      var vLength = vChildren.length;
-
-      for (var i=0; i<vLength; i++)
-      {
-        if (!(vChildren[i] instanceof qx.ui.toolbar.PartHandle)) {
-          cloneInstance.add(vChildren[i].clone(true));
-        }
-      }
-    }
-  },
-
-
-
 
   /*
   *****************************************************************************
