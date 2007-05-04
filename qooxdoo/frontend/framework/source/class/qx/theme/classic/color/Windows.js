@@ -46,7 +46,7 @@ qx.Theme.define("qx.theme.classic.color.Windows",
     infobackground      : [ 255, 255, 225 ],
     infotext            : [ 0, 0, 0 ],
     menu                : [ 212, 208, 200 ],
-    buttonface          : [ 212, 208, 200 ],
+    buttonface          : [ 212, 208, 200 ]
 
 
   }
