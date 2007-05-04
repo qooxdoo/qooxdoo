@@ -58,10 +58,10 @@ qx.Theme.define("qx.theme.classic.Border",
       color : "threedlightshadow"
     },
 
-    "info" :
+    "tooltip" :
     {
       width : 1,
-      color : "infotext"
+      color : "tooltip-text"
     },
 
     "inset" :
