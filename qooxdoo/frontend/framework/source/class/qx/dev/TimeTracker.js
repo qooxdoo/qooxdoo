@@ -142,7 +142,7 @@ qx.Class.define("qx.dev.TimeTracker",
       htmlOutput.setLocation(20, 78);
       htmlOutput.setRight(335);
       htmlOutput.setBottom(48);
-      htmlOutput.setBorder("1px solid black");
+      htmlOutput.setBorder("black");
       htmlOutput.setBackgroundColor("white");
       htmlOutput.setPadding(10);
       htmlOutput.setOverflow("auto");
