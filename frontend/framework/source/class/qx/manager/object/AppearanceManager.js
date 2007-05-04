@@ -173,6 +173,8 @@ qx.Class.define("qx.manager.object.AppearanceManager",
         return cache[unique];
       }
 
+      var result;
+
       // Otherwise "compile" the appearance
       // If a include is defined, too, we need to merge the entries
       if (entry.include)
@@ -185,32 +187,29 @@ qx.Class.define("qx.manager.object.AppearanceManager",
         var incl = this.styleFromTheme(theme, entry.include, states);
         var local = entry.style(states);
 
+        // Create new map
+        result = {};
+
         // Copy include data, but exclude overwritten local stuff
-        var ret = {};
         for (var key in incl)
         {
           if (local[key] === undefined) {
-            ret[key] = incl[key]
+            result[key] = incl[key]
           }
         }
 
         // Append local data
         for (var key in local) {
-          ret[key] = local[key];
+          result[key] = local[key];
         }
       }
       else
       {
-        var ret = entry.style(states);
+        result = entry.style(states);
       }
 
-      // Cache new entry
-      cache[unique] = ret || null;
-
-      // Debug
-      // this.debug("Cached: " + qx.lang.Object.getLength(cache) + " :: " + unique);
-
-      return ret;
+      // Cache new entry and return
+      return cache[unique] = (ret || null);
     }
   },
 
