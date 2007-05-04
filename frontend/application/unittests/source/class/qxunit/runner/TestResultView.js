@@ -61,19 +61,24 @@ qx.Class.define("qxunit.runner.TestResultView",
      */
     __createResultHtml : function(testResult)
     {
-      var html = "<div class='testResult " + testResult.getState() + "' id='testResult" + testResult.toHashCode() + "'>";
-      html += "<h3>" + testResult.getName() + "</h3>";
+      var html = new qx.util.StringBuilder();
+      html.add(
+        "<div class='testResult ", testResult.getState(),
+        "' id='testResult", testResult.toHashCode(), "'>"
+      );
+      html.add("<h3>", testResult.getName(), "</h3>");
 
       if (testResult.getState() == "failure" || testResult.getState() == "error")
       {
-        html +=
-          "Error message is: <br />" +
-          testResult.getMessage() +
-          "<br/>Stack trace: <div class='trace'>" + testResult.getStackTrace() + "</div>";
+        html.add(
+          "Error message is: <br />",
+          testResult.getMessage(),
+          "<br/>Stack trace: <div class='trace'>", testResult.getStackTrace(), "</div>"
+        );
       }
 
-      html += "</div>";
-      return html;
+      html.add("</div>");
+      return html.get();
     },
 
 

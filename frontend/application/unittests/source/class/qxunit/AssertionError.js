@@ -3,7 +3,7 @@ qx.Class.define("qxunit.AssertionError", {
   extend: Error,
   construct: function(comment, failMessage, args) {
     //arguments.callee.base.call(this, comment + ": " + failMessage);
-    arguments.callee.base.apply(this, arguments);
+    Error.call(this, failMessage);
     this.setComment(comment);
     this.setMessage(failMessage);
     this.setArguments(args);

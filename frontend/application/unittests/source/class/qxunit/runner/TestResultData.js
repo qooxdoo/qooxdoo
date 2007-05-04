@@ -65,19 +65,41 @@ qx.Class.define("qxunit.runner.TestResultData",
   {
     getStackTrace : function()
     {
-      /*
+
       var ex = this.getException();
       if (!ex) {
         return "";
       }
       if (ex.stack) {
-        return qx.log.Appender.beautyStackTrace(ex.stack);
+        this.debug(ex.stack);
+        return this._beautyStackTrace(ex.stack);
       } else {
         return "";
       }
-      */
-      return "";
+    },
+
+
+    _beautyStackTrace : function(stack)
+    {
+      // e.g. "()@http://localhost:8080/webcomponent-test-SNAPSHOT/webcomponent/js/com/ptvag/webcomponent/common/log/Logger:253"
+      var lineRe = /@(.+):(\d+)$/gm;
+      var hit;
+      var out = "";
+      var scriptDir = "/source/class/";
+
+      while ((hit = lineRe.exec(stack)) != null)
+      {
+        var url = hit[1];
+        var jsPos = url.indexOf(scriptDir);
+        var className = (jsPos == -1) ? url : url.substring(jsPos + scriptDir.length).replace(/\//g, ".").replace(/\.js$/, "");
+
+        var lineNumber = hit[2];
+        out += className + ":" + lineNumber + "<br>";
+      }
+
+      return out;
     }
+
   }
 
 });
