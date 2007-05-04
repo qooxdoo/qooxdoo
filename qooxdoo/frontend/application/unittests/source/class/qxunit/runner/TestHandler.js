@@ -67,7 +67,7 @@ qx.Class.define("qxunit.runner.TestHandler",
               var nextRoot = null;
               // check children
               var children = parent.getChildren();
-              for (var i in children)
+              for (var i=0; i<children.length; i++)
               {
                 if (children[i].label == head)
                 {
@@ -94,7 +94,7 @@ qx.Class.define("qxunit.runner.TestHandler",
 
         var root = new qxunit.runner.Tree("All");
         var that = this;
-        for (var i in tmap)
+        for (var i=0; i<tmap.length; i++)
         {
           insert(root,tmap[i]);
         }
@@ -110,16 +110,19 @@ qx.Class.define("qxunit.runner.TestHandler",
         var tree = arguments[1] || new qxunit.runner.Tree(struct.classname);
         var node;
         // current test leafs
-        for (var j in struct.tests)
+        for (var j=0; j<struct.tests.length; j++)
         {
           node = new qxunit.runner.Tree(struct.tests[j]);
           node.type = "test";  // tests are leaf nodes
           tree.add(node);
         }
         // current children
-        for (var j in struct.children)
+        if (struct.children && struct.children.length)
         {
-          tree.add(readTree(struct.children[j]));
+          for (var j=0; j<struct.children.length; j++)
+          {
+            tree.add(readTree(struct.children[j]));
+          }
         }
         return tree;
       },
@@ -218,7 +221,7 @@ qx.Class.define("qxunit.runner.TestHandler",
         else
         {
           var children = node.getChildren();
-          for (var i in children) 
+          for (var i=0; i<children.length; i++)
           {
             if (children[i].type && children[i].type == "test")
               return true;
@@ -231,8 +234,9 @@ qx.Class.define("qxunit.runner.TestHandler",
       classFromTest : function (node) {
         var classname = "";
         var tests = [];
-        classloop:  for (var i in this.tmap) {
-          for (var j in this.tmap[i].tests) {
+        classloop:
+        for (var i=0; i<this.tmap.length; i++) {
+          for (var j=0; j<this.tmap[i].tests.length; j++) {
             if (this.tmap[i].tests[j] == node) {
               classname = this.tmap[i].classname;
               break classloop;
