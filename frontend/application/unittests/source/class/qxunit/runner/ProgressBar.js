@@ -36,6 +36,7 @@ qx.Class.define("qxunit.runner.ProgressBar",
   {
     this.base(arguments);
     this.set({
+      width  : "auto",
       spacing: 10
     });
 
