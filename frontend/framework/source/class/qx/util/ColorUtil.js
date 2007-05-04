@@ -48,34 +48,34 @@ qx.Class.define("qx.util.ColorUtil",
      */
     SYSTEM :
     {
-      activeborder        : 1,
-      activecaption       : 1,
-      appworkspace        : 1,
-      background          : 1,
-      buttonface          : 1,
-      buttonhighlight     : 1,
-      buttonshadow        : 1,
-      buttontext          : 1,
-      captiontext         : 1,
-      graytext            : 1,
-      highlight           : 1,
-      highlighttext       : 1,
-      inactiveborder      : 1,
-      inactivecaption     : 1,
-      inactivecaptiontext : 1,
-      infobackground      : 1,
-      infotext            : 1,
-      menu                : 1,
-      menutext            : 1,
-      scrollbar           : 1,
-      threeddarkshadow    : 1,
-      threedface          : 1,
-      threedhighlight     : 1,
-      threedlightshadow   : 1,
-      threedshadow        : 1,
-      window              : 1,
-      windowframe         : 1,
-      windowtext          : 1
+      activeborder        : true,
+      activecaption       : true,
+      appworkspace        : true,
+      background          : true,
+      buttonface          : true,
+      buttonhighlight     : true,
+      buttonshadow        : true,
+      buttontext          : true,
+      captiontext         : true,
+      graytext            : true,
+      highlight           : true,
+      highlighttext       : true,
+      inactiveborder      : true,
+      inactivecaption     : true,
+      inactivecaptiontext : true,
+      infobackground      : true,
+      infotext            : true,
+      menu                : true,
+      menutext            : true,
+      scrollbar           : true,
+      threeddarkshadow    : true,
+      threedface          : true,
+      threedhighlight     : true,
+      threedlightshadow   : true,
+      threedshadow        : true,
+      window              : true,
+      windowframe         : true,
+      windowtext          : true
     },
 
 
@@ -332,10 +332,6 @@ qx.Class.define("qx.util.ColorUtil",
       {
         return this.NAMED[str];
       }
-      else if (this.isExtendedColor(str))
-      {
-        return this.EXTENDED[str];
-      }
       else if (this.isSystemColor(str))
       {
         throw new Error("Could not convert system colors to RGB: " + str);
@@ -358,6 +354,37 @@ qx.Class.define("qx.util.ColorUtil",
 
 
     /**
+     * Try to convert a incoming string to an RGB array.
+     * Supports named colors, RGB strings, hex3 and hex6 values.
+     *
+     * @type static
+     * @param str {String} any string
+     * @return {Array} returns an array of red, green, blue on a successful transformation
+     * @throws an error if the string could not be parsed
+     */
+    cssStringToRgb : function(str)
+    {
+      if (this.isNamedColor(str))
+      {
+        return this.NAMED[str];
+      }
+      else if (this.isRgbString(str))
+      {
+        return this.__rgbStringToRgb();
+      }
+      else if (this.isHex3String(str))
+      {
+        return this.__hex3StringToRgb();
+      }
+      else if (this.isHex6String(str))
+      {
+        return this.__hex6StringToRgb();
+      }
+
+      throw new Error("Could not parse color: " + str);
+    },
+
+    /**
      * Try to convert a incoming string to an RGB string, which can be used
      * for all color properties.
      * Supports themed, named and system colors, but also RGB strings,
@@ -368,8 +395,7 @@ qx.Class.define("qx.util.ColorUtil",
      * @return {String} a RGB string
      * @throws an error if the string could not be parsed
      */
-    stringToRgbString : function(str)
-    {
+    stringToRgbString : function(str) {
       return this.rgbToRgbString(this.stringToRgb(str));
     },
 
@@ -383,6 +409,18 @@ qx.Class.define("qx.util.ColorUtil",
      */
     rgbToRgbString : function(rgb) {
       return "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")";
+    },
+
+
+    /**
+     * Detects if a string is a valid CSS color string
+     *
+     * @type static
+     * @param str {String} any string
+     * @return {Boolean} true when the incoming value is a valid CSS color string
+     */
+    isCssString : function(str) {
+      return this.isNamedColor(str) || this.isHex3String(str) || this.isHex6String(str) || this.isRgbString(str);
     },
 
 
@@ -485,6 +523,7 @@ qx.Class.define("qx.util.ColorUtil",
 
       throw new Error("Invalid hex3 value: " + value);
     },
+
 
     /**
      * Converts a hex6 string to an RGB array
