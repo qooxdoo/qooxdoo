@@ -29,9 +29,7 @@ qx.Theme.define("qx.theme.classic.color.LunaGreen",
   colors :
   {
     activecaption       : [ 139, 161, 105 ],
-    background          : [ 157, 172, 189 ],
     buttonface          : [ 236, 233, 216 ],
-    buttonshadow        : [ 172, 168, 153 ],
     captiontext         : [ 255, 255, 255 ],
     highlight           : [ 147, 160, 112 ],
     highlighttext       : [ 255, 255, 255 ],
