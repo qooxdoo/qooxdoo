@@ -18,36 +18,36 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-************************************************************************ */
-
 /**
  * Windows classic color theme
  */
 qx.Theme.define("qx.theme.classic.color.Windows",
 {
   title : "Windows Classic",
+  extend : qx.theme.classic.color.Royale,
 
   colors :
   {
-    threeddarkshadow    : [ 64, 64, 64 ],
-    threedface          : [ 212, 208, 200 ],
-    threedhighlight     : [ 255, 255, 255 ],
-    threedlightshadow   : [ 212, 208, 200 ],
-    threedshadow        : [ 128, 128, 128 ],
-    graytext            : [ 128, 128, 128 ],
-    highlight           : [ 10, 36, 106 ],
-    highlighttext       : [ 255, 255, 255 ],
-    inactivecaption     : [ 128, 128, 128 ],
-    inactivecaptiontext : [ 212, 208, 200 ],
-    activecaption       : [ 10, 36, 106 ],
-    captiontext         : [ 255, 255, 255 ],
-    infobackground      : [ 255, 255, 225 ],
-    infotext            : [ 0, 0, 0 ],
-    menu                : [ 212, 208, 200 ],
-    buttonface          : [ 212, 208, 200 ]
+    "background" : [ 212, 208, 200 ],
+    "selected" : [ 10, 36, 106 ],
 
+    "border-light" : [ 255, 255, 255 ],
+    "border-light-shadow" : [ 212, 208, 200 ],
+    "border-dark" : [ 64, 64, 64 ],
+    "border-dark-shadow" : [ 128, 128, 128 ],
 
+    "text-selected" : [ 255, 255, 255 ],
+    "text-disabled" : [ 128, 128, 128 ],
+
+    "tooltip" : [ 255, 255, 225 ],
+    "tooltip-text" : [ 0, 0, 0 ],
+
+    "menu" : [ 212, 208, 200 ],
+    "button" : [ 212, 208, 200 ],
+
+    "window-active-caption" : [ 10, 36, 106 ],
+    "window-active-caption-text" : [ 255, 255, 255 ],
+    "window-inactive-caption" : [ 128, 128, 128 ],
+    "window-inactive-caption-text" : [ 212, 208, 200 ]
   }
 });
