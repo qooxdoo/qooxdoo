@@ -122,6 +122,12 @@ qx.Class.define("qx.ui.listview.HeaderCell",
 
   properties :
   {
+    horizontalChildrenAlign :
+    {
+      refine : true,
+      init : "left"
+    },
+
     overflow :
     {
       refine : true,
