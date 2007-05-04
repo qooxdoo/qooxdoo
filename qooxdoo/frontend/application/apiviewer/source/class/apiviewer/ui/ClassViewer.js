@@ -356,6 +356,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       this.getElement().innerHTML = html.get();
       ClassViewer.fixLinks(this.getElement());
 
+
       // Extract the main elements
       var divArr = this.getElement().childNodes;
       this._titleElem = divArr[0];
@@ -438,6 +439,9 @@ qx.Class.define("apiviewer.ui.ClassViewer",
         return true;
       }
 
+      //console.profile("HTML");
+      var start = new Date();
+
       this._titleElem.innerHTML = this.__getTitleHtml(classNode);
 
       switch (classNode.getType())
@@ -515,7 +519,9 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       // Refresh the info viewers
       this._updateInfoViewers();
 
-      return true;
+      var end = new Date();
+      this.debug("Html render time: " + (end-start));
+      //console.profileEnd();
     },
 
 

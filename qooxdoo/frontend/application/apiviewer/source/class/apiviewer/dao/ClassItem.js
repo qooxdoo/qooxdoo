@@ -85,7 +85,7 @@ qx.Class.define("apiviewer.dao.ClassItem",
      */
     getDescription : function()
     {
-      return this._desc || "";
+      return this.getDocNode()._desc || "";
     },
 
 
@@ -140,16 +140,22 @@ qx.Class.define("apiviewer.dao.ClassItem",
      */
     getDocNode : function()
     {
-      if (this._itemDocNode) {
+      if (this._itemDocNode)
+      {
         return this._itemDocNode;
       }
+      this._itemDocNode = this;
       var docClass = apiviewer.dao.Class.getClassByName(this._docNode.attributes.docFrom);
       if (docClass) {
-        var listNode = apiviewer.TreeUtil.getChild(docClass.getNode(), this._listName);
-        var itemDocNode = apiviewer.TreeUtil.getChildByAttribute(listNode, "name", this.getName());
-        this._itemDocNode = itemDocNode.cls;
+        var itemList = docClass.getItemList(this._listName);
+        for (var i=0; i<itemList.length; i++) {
+          if (itemList[i].getName() == this.getName())
+          {
+            this._itemDocNode = itemList[i];
+            break;
+          }
+        }
       }
-      this._itemDocNode = this._itemDocNode || this;
       return this._itemDocNode;
     },
 
