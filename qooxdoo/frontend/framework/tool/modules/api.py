@@ -490,8 +490,13 @@ def handlePropertyDefinitionNew(propName, propDefinition, classNode):
     if propDefinition.has_key("inheritable"):
         node.set("inheritable", propDefinition["inheritable"].getChild("constant").get("value"))
 
-    if propDefinition.has_key("appearance"):
-        node.set("appearance", propDefinition["appearance"].getChild("constant").get("value"))
+    if propDefinition.has_key("themeable"):
+        node.set("themeable", propDefinition["themeable"].getChild("constant").get("value"))
+
+    if propDefinition.has_key("refine"):
+        refineValue = propDefinition["refine"].getChild("constant").get("value")
+        if refineValue == "true":
+            node.set("refine", "true")
 
     if propDefinition.has_key("apply"):
         node.set("apply", propDefinition["apply"].getChild("constant").get("value"))
@@ -583,8 +588,8 @@ def handlePropertyGroup(propName, propDefinition, classNode):
     if propDefinition.has_key("mode"):
         node.set("mode", propDefinition["mode"].getChild("constant").get("value"))
 
-    if propDefinition.has_key("appearance"):
-        node.set("appearance", propDefinition["appearance"].getChild("constant").get("value"))
+    if propDefinition.has_key("themeable"):
+        node.set("themeable", propDefinition["themeable"].getChild("constant").get("value"))
 
     return node
 
@@ -613,9 +618,10 @@ def handleProperties(item, classNode):
             generatePropertyMethods(propName, classNode, ["reset"])
         else:
             node = handlePropertyDefinitionNew(propName, propDefinition, classNode)
-            generatePropertyMethods(propName, classNode, ["set", "get", "init", "reset"])
-            if node.get("check", False) == "Boolean":
-                generatePropertyMethods(propName, classNode, ["toggle", "is"])
+            if node.get("refine", False) != "true":
+                generatePropertyMethods(propName, classNode, ["set", "get", "init", "reset"])
+                if node.get("check", False) == "Boolean":
+                    generatePropertyMethods(propName, classNode, ["toggle", "is"])
 
 
         if classNode.get("type", False) == "mixin":
@@ -1239,8 +1245,8 @@ def addTypeInfo(node, commentAttrib=None, item=None):
                 itemNode.set("dimensions", item["dimensions"])
 
     # add default value
-    if commentAttrib.has_key("default"):
-        defaultValue = commentAttrib["default"]
+    if commentAttrib.has_key("defaultValue"):
+        defaultValue = commentAttrib["defaultValue"]
         if defaultValue != None:
             # print "defaultValue: %s" % defaultValue
             node.set("defaultValue", defaultValue)
