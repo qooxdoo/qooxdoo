@@ -276,14 +276,15 @@ qx.Class.define("qx.core.Property",
      */
     refresh : function(widget)
     {
-      var clazz = widget.constructor;
       var parent = widget.getParent();
-      var get = this.$$method.get;
-      var refresh = this.$$method.refresh;
-      var properties;
 
       if (parent)
       {
+        var clazz = widget.constructor;
+        var get = this.$$method.get;
+        var refresh = this.$$method.refresh;
+        var properties;
+
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
           if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
