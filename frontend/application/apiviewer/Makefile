@@ -59,6 +59,7 @@ error:
 source:
 	@$(CMD_GENERATOR) \
 	  --generate-api-documentation \
+	  --add-new-lines \
 	  --api-documentation-json-file $(APPLICATION_SOURCE_PATH)/script/apidata.js \
 	  --class-path $(FRAMEWORK_SOURCE_PATH)/class
 

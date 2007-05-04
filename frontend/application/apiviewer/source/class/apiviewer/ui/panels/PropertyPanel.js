@@ -86,11 +86,14 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
       if (node.isInheritable()) {
         attributes.push("The property value can be inherited from a parent object.");
       }
-      if (node.isAppearance()) {
-        attributes.push("The property value can be set using appearances.");
+      if (node.isThemeable()) {
+        attributes.push("The property value can be set using appearance themes.");
       }
       if (node.isPropertyGroup()) {
         attributes.push("The property is a property group.");
+      }
+      if (node.isRefined()) {
+        attributes.push("The property refines the init value of an existing property.");
       }
 
       if (attributes.length > 0)
@@ -110,6 +113,31 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
       }
     },
 
+
+    /**
+     * Creates the HTML showing whether the item is refined
+     *
+     * @param node {apiviewer.dao.ClassItem} item to get the the information from
+     * @return {String} HTML fragment
+     */
+    __createRefinedFromHtml : function(node)
+    {
+      var ClassViewer = apiviewer.ui.ClassViewer;
+      if (node.isRefined())
+      {
+        var html = new qx.util.StringBuilder(
+          '<div class="item-detail-headline">', "Refined property:", '</div>',
+          '<div class="item-detail-text">',
+          apiviewer.ui.panels.InfoPanel.createItemLinkHtml(node.getOverriddenFrom().getFullName()+"#"+node.getName()),
+          '</div>'
+        );
+        return html.get();
+      }
+      else
+      {
+        return "";
+      }
+    },
 
 
     /**
@@ -232,7 +260,7 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
         textHtml.add(this.__createAttributesHtml(node));
         textHtml.add(this.__createGeneratedMethodsHtml(node, currentClassDocNode));
         textHtml.add(apiviewer.ui.panels.InfoPanel.createIncludedFromHtml(node, currentClassDocNode));
-        textHtml.add(apiviewer.ui.panels.InfoPanel.createOverwriddenFromHtml(node));
+        textHtml.add(this.__createRefinedFromHtml(node));
         textHtml.add(apiviewer.ui.panels.InfoPanel.createInheritedFromHtml(node, currentClassDocNode));
         textHtml.add(apiviewer.ui.panels.InfoPanel.createInfoRequiredByHtml(node));
         textHtml.add(apiviewer.ui.panels.InfoPanel.createSeeAlsoHtml(docNode));

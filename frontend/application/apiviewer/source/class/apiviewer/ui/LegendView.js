@@ -124,6 +124,10 @@ qx.Class.define("apiviewer.ui.LegendView",
           desc: "<h3>Private Property</h3>"
         },
         {
+          icon: "ICON_PROPERTY_PUB_THEMEABLE",
+          desc: "<h3>Themeable Property</h3>"
+        },
+        {
           icon: "ICON_EVENT",
           desc: "<h3>Event</h3>"
         },

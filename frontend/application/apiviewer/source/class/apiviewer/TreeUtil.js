@@ -163,6 +163,9 @@ qx.Class.define("apiviewer.TreeUtil",
         } else if (node.isPrivate() || node.isInternal()) {
           constName += "_PRIV";
         }
+        if (node.isThemeable()) {
+          constName += "_THEMEABLE";
+        }
       }
       else if (node instanceof dao.Event)
       {
@@ -282,6 +285,9 @@ qx.Class.define("apiviewer.TreeUtil",
     /** {string} The URL of the overlay "overridden". */
     OVERLAY_OVERRIDDEN : "api/image/overlay_overridden18.gif",
 
+    /** {string} The URL of the overlay "themeable". */
+    OVERLAY_THEMEABLE : "api/image/overlay_themeable18.gif",
+
     /** {string} The URL of the overlay "static". */
     OVERLAY_STATIC : "api/image/overlay_static18.gif",
 
@@ -398,6 +404,7 @@ qx.Class.define("apiviewer.TreeUtil",
       statics.OVERLAY_STATIC,
       statics.OVERLAY_WARN,
       statics.OVERLAY_MIXIN,
+      statics.OVERLAY_THEMEABLE,
       statics.ICON_PACKAGE,
       statics.ICON_PACKAGE_WARN,
       statics.ICON_CLASS,
