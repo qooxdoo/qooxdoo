@@ -106,6 +106,14 @@ qx.Class.define("qxunit.runner.ProgressBar",
 
     },
 
+
+    reset : function () 
+    {
+      this.stepStatus.setText("");
+      this.pcntStatus.setText("");
+      this.bar.setWidth("0%");
+    },
+
     /*
      * @param val {String} val can be either a fraction ("5/12") specifying the degree
      *            of completeness with discrete values (like 5 of 12 items have
@@ -164,6 +172,3 @@ qx.Class.define("qxunit.runner.ProgressBar",
   }//members
 
 });
-/*
-Setter of property 'backgroundColor' returned with an error: Error - Could not parse color: C1ECFF
-*/

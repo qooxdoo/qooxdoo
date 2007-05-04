@@ -591,6 +591,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       this.toolbar.setEnabled(false);
       // clear Test Results window
       this.f1.clear();
+      this.widgets["progresspane.progressbar"].reset();
       qx.client.Timer.once(function () {
         if (curr == neu) {
           this.iframe.reload();
