@@ -131,7 +131,6 @@ qx.Class.define("qx.manager.object.AppearanceManager",
      */
     styleFromTheme : function(theme, id, states)
     {
-      var cache = this.__cache;
       var entry = theme.appearances[id];
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -142,8 +141,13 @@ qx.Class.define("qx.manager.object.AppearanceManager",
       }
 
       // Fast fallback to super entry
-      if (!entry.style && entry.include) {
-        return this.styleFromTheme(theme, entry.include, states);
+      if (!entry.style)
+      {
+        if (entry.include) {
+          return this.styleFromTheme(theme, entry.include, states);
+        } else {
+          return null;
+        }
       }
 
       // Creating cache-able ID
@@ -164,30 +168,44 @@ qx.Class.define("qx.manager.object.AppearanceManager",
       var unique = helper.join();
 
       // Using cache if available
+      var cache = this.__cache;
       if (cache[unique] !== undefined) {
         return cache[unique];
       }
 
       // Otherwise "compile" the appearance
-      var ret;
-
-      // This is the place where we really call the appearance theme
-      if (entry.style)
+      // If a include is defined, too, we need to merge the entries
+      if (entry.include)
       {
-        // Executing appearance theme style definition
-        ret = entry.style(states);
+        // This process tries to insert the original data first, and
+        // append the new data later, to higher priorise the local
+        // data above the included data. This is especially needed
+        // for property groups or properties which includences other
+        // properties when modified.
+        var incl = this.styleFromTheme(theme, entry.include, states);
+        var local = entry.style(states);
 
-        // Fill with data from inheritance
-        if (entry.include) {
-          qx.lang.Object.carefullyMergeWith(ret, this.styleFromTheme(theme, entry.include, states));
+        // Copy include data, but exclude overwritten local stuff
+        var ret = {};
+        for (var key in incl)
+        {
+          if (local[key] === undefined) {
+            ret[key] = incl[key]
+          }
+        }
+
+        // Append local data
+        for (var key in local) {
+          ret[key] = local[key];
         }
       }
-
-      // Normalize to null (needed for caching)
-      ret = ret || null;
+      else
+      {
+        var ret = entry.style(states);
+      }
 
       // Cache new entry
-      cache[unique] = ret;
+      cache[unique] = ret || null;
 
       // Debug
       // this.debug("Cached: " + qx.lang.Object.getLength(cache) + " :: " + unique);
