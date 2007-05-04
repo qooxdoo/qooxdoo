@@ -69,9 +69,28 @@ qx.Class.define("qx.manager.object.ColorManager",
       {
         var source = value.colors;
         var util = qx.util.ColorUtil;
+        var temp;
 
-        for (var key in source) {
-          dest[key] = util.rgbToRgbString(source[key]);
+        for (var key in source)
+        {
+          temp = source[key];
+
+          if (typeof temp === "string")
+          {
+            if (!util.isCssString(temp)) {
+              throw new Error("Could not parse color: " + temp);
+            }
+          }
+          else if (temp instanceof Array)
+          {
+            temp = util.rgbToRgbString(temp);
+          }
+          else
+          {
+            throw new Error("Could not parse color: " + temp);
+          }
+
+          dest[key] = temp;
         }
       }
 
