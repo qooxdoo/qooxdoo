@@ -281,7 +281,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           backgroundColor : "button-view",
-          border          : "shadow"
+          border          : "dark-shadow"
         };
       }
     },
@@ -642,7 +642,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          border : "shadow"
+          border : "dark-shadow"
         };
       }
     },
@@ -749,7 +749,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          border : "shadow"
+          border : "dark-shadow"
         };
       }
     },
@@ -931,7 +931,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           maxHeight : 150,
-          border    : "shadow"
+          border    : "dark-shadow"
         };
       }
     },
@@ -1019,7 +1019,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           width  : "auto",
-          border : "shadow"
+          border : "dark-shadow"
         };
       }
     },

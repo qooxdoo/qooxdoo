@@ -46,10 +46,28 @@ qx.Theme.define("qx.theme.classic.Border",
       color : "white"
     },
 
-    "shadow" :
+    "dark-shadow" :
     {
       width : 1,
-      color : "threedshadow"
+      color : "border-dark-shadow"
+    },
+
+    "light-shadow" :
+    {
+      width : 1,
+      color : "border-light-shadow"
+    },
+
+    "light" :
+    {
+      width : 1,
+      color : "border-light"
+    },
+
+    "dark" :
+    {
+      width : 1,
+      color : "border-dark"
     },
 
     "tooltip" :
@@ -61,57 +79,57 @@ qx.Theme.define("qx.theme.classic.Border",
     "inset" :
     {
       width : 2,
-      color : [ "threedshadow", "threedhighlight", "threedhighlight", "threedshadow" ],
-      innerColor : [ "threeddarkshadow", "threedlightshadow", "threedlightshadow", "threeddarkshadow" ]
+      color : [ "border-dark-shadow", "border-light", "border-light", "border-dark-shadow" ],
+      innerColor : [ "border-dark", "border-light-shadow", "border-light-shadow", "border-dark" ]
     },
 
     "outset" :
     {
       width : 2,
-      color : [ "threedlightshadow", "threeddarkshadow", "threeddarkshadow", "threedlightshadow" ],
-      innerColor : [ "threedhighlight", "threedshadow", "threedshadow", "threedhighlight" ]
+      color : [ "border-light-shadow", "border-dark", "border-dark", "border-light-shadow" ],
+      innerColor : [ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ]
     },
 
     "groove" :
     {
       width : 2,
-      color : [ "threedshadow", "threedhighlight", "threedhighlight", "threedshadow" ],
-      innerColor : [ "threedhighlight", "threedshadow", "threedshadow", "threedhighlight" ]
+      color : [ "border-dark-shadow", "border-light", "border-light", "border-dark-shadow" ],
+      innerColor : [ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ]
     },
 
     "ridge" :
     {
       width : 2,
-      color : [ "threedhighlight", "threedshadow", "threedshadow", "threedhighlight" ],
-      innerColor : [ "threedshadow", "threedhighlight", "threedhighlight", "threedshadow" ]
+      color : [ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ],
+      innerColor : [ "border-dark-shadow", "border-light", "border-light", "border-dark-shadow" ]
     },
 
     "inset-thin" :
     {
       width : 1,
-      color : [ "threedshadow", "threedhighlight", "threedhighlight", "threedshadow" ]
+      color : [ "border-dark-shadow", "border-light", "border-light", "border-dark-shadow" ]
     },
 
     "outset-thin" :
     {
       width : 1,
-      color : [ "threedhighlight", "threedshadow", "threedshadow", "threedhighlight" ]
+      color : [ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ]
     },
 
     "divider-vertical" :
     {
       widthTop : 1,
       widthBottom : 1,
-      colorTop: "threedshadow",
-      colorBottom : "threedhighlight"
+      colorTop: "border-dark-shadow",
+      colorBottom : "border-light"
     },
 
     "divider-horizontal" :
     {
       widthLeft : 1,
       widthRight : 1,
-      colorLeft : "threedhighlight",
-      colorRight : "threedshadow"
+      colorLeft : "border-light",
+      colorRight : "border-dark-shadow"
     }
   }
 });
