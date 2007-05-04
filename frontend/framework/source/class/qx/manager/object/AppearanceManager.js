@@ -209,7 +209,7 @@ qx.Class.define("qx.manager.object.AppearanceManager",
       }
 
       // Cache new entry and return
-      return cache[unique] = (ret || null);
+      return cache[unique] = (result || null);
     }
   },
 
