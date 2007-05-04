@@ -84,6 +84,11 @@ qx.Class.define("qx.ui.table.TablePane",
 
   properties :
   {
+    appearance :
+    {
+      refine : true,
+      init : "table-pane"
+    },
 
     /** The index of the first row to show. */
     firstVisibleRow :
