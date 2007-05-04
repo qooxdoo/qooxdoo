@@ -32,10 +32,12 @@ qx.Class.define("qxunit.TestResult", {
         testFunction();
       } catch (e) {
         if (e.classname == "qxunit.AssertionError") {
+          //debugger;
           var failure = { exception : e, test : test};
           this.getFailures().push(failure);
           this.createDispatchDataEvent("failure", failure);
         } else {
+          //debugger;
           var error = { exception : e, test : test};
           this.getErrors().push(error);
           this.createDispatchDataEvent("error", error);
