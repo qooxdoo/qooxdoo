@@ -29,6 +29,8 @@ qx.Theme.define("qx.theme.classic.color.LunaSilver",
   colors :
   {
     "background" : [ 224, 223, 227 ],
+
+    "effect" : [ 192, 192, 192 ],
     "selected" : [ 178, 180, 191 ],
 
     "border-light" : [ 255, 255, 255 ],
