@@ -84,21 +84,6 @@ qx.Class.define("qxunit.runner.TestRunner",
     this.toolbar.setShow("icon");
     this.add(this.toolbar);
 
-    this.runbutton = new qx.ui.toolbar.Button("Run Test", "icon/16/actions/media-playback-start.png");
-    this.toolbar.add(this.runbutton);
-    this.runbutton.addEventListener("execute", this.runTest, this);
-    this.toolbar.add(new qx.ui.toolbar.Separator);
-
-    this.reloadbutton = new qx.ui.toolbar.Button("Reload", "icon/16/actions/view-refresh.png");
-    this.toolbar.add(this.reloadbutton);
-    this.testSuiteUrl = new qx.ui.form.TextField("html/QooxdooTest.html?testclass=qxunit.test");
-    this.toolbar.add(this.testSuiteUrl);
-    this.testSuiteUrl.set({
-      width : 250
-      //font  : new qx.renderer.font.Font(6,"Times")
-    });
-    this.reloadbutton.addEventListener("execute", this.reloadTestSuite, this);
-
     // -- tree view radio
     var treeview = new qx.ui.toolbar.Part;
     this.toolbar.add(treeview);
@@ -111,7 +96,23 @@ qx.Class.define("qxunit.runner.TestRunner",
     treeview.b2 = b2;
     var radiomgr = new qx.manager.selection.RadioManager(null, [b1,b2]);
     radiomgr.addEventListener("changeSelected", this.leftReloadTree, this);
+    this.toolbar.add(new qx.ui.toolbar.Separator);
 
+    // -- run button
+    this.runbutton = new qx.ui.toolbar.Button("Run Test", "icon/16/actions/media-playback-start.png");
+    this.toolbar.add(this.runbutton);
+    this.runbutton.addEventListener("execute", this.runTest, this);
+    this.toolbar.add(new qx.ui.toolbar.Separator);
+
+    // -- reload button
+    this.reloadbutton = new qx.ui.toolbar.Button("Reload", "icon/16/actions/view-refresh.png");
+    this.toolbar.add(this.reloadbutton);
+    this.testSuiteUrl = new qx.ui.form.TextField("html/QooxdooTest.html?testclass=qxunit.test");
+    this.toolbar.add(this.testSuiteUrl);
+    this.testSuiteUrl.set({
+      width : 300
+    });
+    this.reloadbutton.addEventListener("execute", this.reloadTestSuite, this);
 
 
     // Main Pane
@@ -166,6 +167,30 @@ qx.Class.define("qxunit.runner.TestRunner",
     //var treetest = new qxunit.runner.TreeTest();
 
   }, //constructor
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties : 
+  {
+    succCnt :
+    {
+      check : "Integer",
+      init  : 0,
+      apply : "_applySuccCnt"
+    },
+
+    failCnt : 
+    {
+      check : "Integer",
+      init  : 0,
+      apply : "_applyFailCnt"
+    }
+  },
 
 
   /*
@@ -290,8 +315,10 @@ qx.Class.define("qxunit.runner.TestRunner",
 
       var progressb = new qxunit.runner.ProgressBar();
       progress.add(progressb);
+      progressb.setBarColor("#36a618");
       this.widgets["progresspane"] = progress;
       this.widgets["progresspane.progressbar"] = progressb;
+      progress.add(new qx.ui.toolbar.Separator);
 
       /* Wishlist:
       var progressb = new qx.ui.component.ProgressBar();
@@ -306,6 +333,22 @@ qx.Class.define("qxunit.runner.TestRunner",
       progressb.update("9/15"); // update progress
       progressb.update("68%");  // dito
       */
+
+      progress.add(new qx.ui.basic.Label("Failed: "));
+      var failcnt = new qx.ui.basic.Label("0");
+      progress.add(failcnt);
+      failcnt.set({
+        backgroundColor : "#C1ECFF"
+      });
+
+      progress.add(new qx.ui.basic.Label("Succeeded: "));
+      var succcnt = new qx.ui.basic.Label("0");
+      progress.add(succcnt);
+      succcnt.set({
+        backgroundColor : "#C1ECFF"
+      });
+      this.widgets["progresspane.succ_cnt"] = succcnt;
+      this.widgets["progresspane.fail_cnt"] = failcnt;
 
       return progress;
     }, //makeProgress
@@ -458,17 +501,15 @@ qx.Class.define("qxunit.runner.TestRunner",
 
       this.toolbar.setEnabled(false);
       //this.left.setEnabled(false);
-      // Initialize progress bar
+      
+      this.resetGui();
       var bar = this.widgets["progresspane.progressbar"];
-      bar.update("0%");
-      bar.setBarColor("#36a618");
       // Make initial entry in output windows (test result, log, ...)
       this.appender("Now running: " + this.tests.selected);
 
       // create testResult obj
       var tstCnt = this.tests.selected_cnt;
       var tstCurr = 1;
-      this.f1.clear();
       var testResult = new qxunit.TestResult();
 
       // set up event listeners
@@ -490,6 +531,8 @@ qx.Class.define("qxunit.runner.TestRunner",
         this.currentTestData.setException(ex);
         this.currentTestData.setState("failure");
         bar.setBarColor("#9d1111");
+        var val = this.getFailCnt();
+        this.setFailCnt(++val);
         this.appender("Test '"+test.getFullName()+"' failed: " +  ex.getMessage() + " - " + ex.getComment());
       }, this);
 
@@ -500,6 +543,8 @@ qx.Class.define("qxunit.runner.TestRunner",
         this.currentTestData.setException(ex);
         this.currentTestData.setState("error");
         bar.setBarColor("#9d1111");
+        var val = this.getFailCnt();
+        this.setFailCnt(++val);
         this.appender("The test '"+e.getData().test.getFullName()+"' had an error: " + ex, ex);
       }, this);
 
@@ -508,6 +553,9 @@ qx.Class.define("qxunit.runner.TestRunner",
         var state = this.currentTestData.getState();
         if (state == "start") {
           this.currentTestData.setState("success");
+          //this.widgets["progresspane.succ_cnt"].setText(++this.tests.succ_cnt+"");
+          var val = this.getSuccCnt();
+          this.setSuccCnt(++val);
         }
       }, this);
 
@@ -589,9 +637,8 @@ qx.Class.define("qxunit.runner.TestRunner",
       var curr = this.iframe.getSource();
       var neu  = this.testSuiteUrl.getValue();
       this.toolbar.setEnabled(false);
-      // clear Test Results window
-      this.f1.clear();
-      this.widgets["progresspane.progressbar"].reset();
+      // reset status information
+      this.resetGui();
       qx.client.Timer.once(function () {
         if (curr == neu) {
           this.iframe.reload();
@@ -605,6 +652,41 @@ qx.Class.define("qxunit.runner.TestRunner",
     // ------------------------------------------------------------------------
     //   MISC HELPERS
     // ------------------------------------------------------------------------
+
+    resetGui : function () 
+    {
+      this.resetProgress();
+      this.resetTabView();
+    },
+
+
+    resetProgress : function ()
+    {
+      var bar = this.widgets["progresspane.progressbar"];
+      bar.reset();
+      bar.setBarColor("#36a618");
+      this.setSuccCnt(0);
+      this.setFailCnt(0);
+    },
+
+
+    resetTabView : function () 
+    {
+      this.f1.clear();
+    },
+
+
+    _applySuccCnt : function (newSucc)
+    {
+      this.widgets["progresspane.succ_cnt"].setText(newSucc+"");
+    },
+      
+
+    _applyFailCnt : function (newFail)
+    {
+      this.widgets["progresspane.fail_cnt"].setText(newFail+"");
+    },
+      
 
     appender : function (str) {
       //this.f1.setValue(this.f1.getValue() + str);
