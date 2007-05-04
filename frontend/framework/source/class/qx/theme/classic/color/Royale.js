@@ -66,54 +66,60 @@ qx.Theme.define("qx.theme.classic.color.Royale",
     threedshadow        : [ 167, 166, 170 ],
 
     // NEW
+    "background" : [ 235, 233, 237 ],  // threedface
+
+    "border-dark" : [ 133, 135, 140 ],  // threeddarkshadow
+    "border-dark-shadow" : [ 167, 166, 170 ],  // threedshadow
+    "border-light" : [ 255, 255, 255 ],  // threedhighlight
+    "border-light-shadow" : [ 220, 223, 228 ],  // threedlightshadow
+
+    "effect" : [ 254, 200, 60 ],
+    "selected" : [ 51, 94, 168 ],  // highlight
+
+    "text" : "black",  // NEW
+    "text-disabled" : [ 167, 166, 170 ],  // graytext
+    "text-selected" : [ 255, 255, 255 ],  //highlighttext
+
+    "tooltip" : [ 255, 255, 225 ],  // infobackground
+    "tooltip-text" : "black",  // infotext
+
+    "menu" : "white",  // menu
+
+    "button" : [ 235, 233, 237 ],  // buttonface
+    "button-hover" : [ 135, 188, 229 ],
+    "button-abandoned" : [ 255, 240, 201 ],
+
     "window-active-caption-text" : [ 255, 255, 255 ],  // captiontext
     "window-inactive-caption-text" : [ 255, 255, 255 ],  // inactivecaption
     "window-active-caption" : [ 51, 94, 168 ],  // activecaption
     "window-inactive-caption" : [ 111, 161, 217 ],  // inactivecaptiontext
 
-    "button" : [ 235, 233, 237 ],  // buttonface
-    "button-hover" : [ 135, 188, 229 ],  // NEW
-    "button-abandoned" : [ 255, 240, 201 ],  // NEW
-    "button-text" : [ 0, 0, 0 ],  // buttontext
+    "button-view" : [ 250, 251, 254 ],
+    "button-view-bar" : [ 225, 238, 255 ],
 
-    "effect" : [ 254, 200, 60 ], // NEW
-    "selected" : [ 51, 94, 168 ],  // highlight
+    "tab-view-pane" : [ 250, 251, 254 ],
+    "tab-view-border" : [ 145, 165, 189 ],
+    "tab-view-button" : [ 225, 238, 255 ],
+    "tab-view-button-hover" : [ 250, 251, 254 ],
+    "tab-view-button-checked" : [ 250, 251, 254 ],
 
-    "text" : [ 0, 0, 0 ],  // NEW
-    "text-disabled" : [ 167, 166, 170 ],  // graytext
-    "text-selected" : [ 255, 255, 255 ],  //highlighttext
+    "radio-view-bar" : [ 225, 238, 255 ],
+    "radio-view-button-checked" : [ 250, 251, 254 ],
 
-    "tooltip" : [ 255, 255, 225 ],  // infobackground
-    "tooltip-text" : [ 0, 0, 0 ],  // infotext
+    "list-view-border" : [ 167,166,170 ],
+    "list-view-header" : [ 242, 242, 242 ],
+    "list-view-header-border" : [ 214, 213, 217 ],
+    "list-view-header-cell-hover" : [ 255, 255, 255 ],
 
-    "menu" : [ 255, 255, 255 ],  // menu
+    "date-chooser" : [ 255, 255, 255 ],
+    "date-chooser-title" : [ 98, 133, 186 ],
 
-    "button-view" : [ 250, 251, 254 ],  // NEW
-    "button-view-bar" : [ 225, 238, 255 ],  // NEW
-
-    "tab-view-pane" : [ 250, 251, 254 ],  // NEW
-    "tab-view-border" : [ 145, 165, 189 ],  // NEW
-    "tab-view-button" : [ 225, 238, 255 ],  // NEW
-    "tab-view-button-hover" : [ 250, 251, 254 ],  // NEW
-    "tab-view-button-checked" : [ 250, 251, 254 ],  // NEW
-
-    "radio-view-bar" : [ 225, 238, 255 ],  // NEW
-    "radio-view-button-checked" : [ 250, 251, 254 ],  // NEW
-
-    "list-view-border" : [ 167,166,170 ],  // NEW
-    "list-view-header" : [ 242, 242, 242 ],  // NEW
-    "list-view-header-border" : [ 214, 213, 217 ],  // NEW
-    "list-view-header-cell-hover" : [ 255, 255, 255 ],  // NEW
-
-    "date-chooser" : [ 255, 255, 255 ],  // NEW
-    "date-chooser-title" : [ 98, 133, 186 ],  // NEW
-
-    "table-pane" : [ 255, 255, 255 ],  // NEW
-    "table-header" : [ 242, 242, 242 ],  // NEW
-    "table-header-border" : [ 214, 213, 217 ],  // NEW
-    "table-header-cell" : [ 235, 234, 219 ],  // NEW
-    "table-header-cell-hover" : [ 255, 255, 255 ],  // NEW
-    "table-focus-indicator" : [ 197, 200, 202 ],  // NEW
-    "table-focus-indicator-active" : [ 179, 217, 255 ],  // NEW
+    "table-pane" : [ 255, 255, 255 ],
+    "table-header" : [ 242, 242, 242 ],
+    "table-header-border" : [ 214, 213, 217 ],
+    "table-header-cell" : [ 235, 234, 219 ],
+    "table-header-cell-hover" : [ 255, 255, 255 ],
+    "table-focus-indicator" : [ 197, 200, 202 ],
+    "table-focus-indicator-active" : [ 179, 217, 255 ]
   }
 });
