@@ -24,10 +24,16 @@
 qx.Theme.define("qx.theme.classic.color.LunaSilver",
 {
   title : "Windows Luna Silver",
-  extend : qx.theme.classic.color.LunaCore,
 
   colors :
   {
+    graytext            : [ 172, 168, 153 ],
+    infobackground      : [ 255, 255, 225 ],
+    infotext            : [ 0, 0, 0 ],
+    menu                : [ 255, 255, 255 ],
+    threeddarkshadow    : [ 113, 111, 100 ],
+    threedhighlight     : [ 255, 255, 255 ],
+    threedlightshadow   : [ 241, 239, 226 ],
     activecaption       : [ 192, 192, 192 ],
     buttonface          : [ 224, 223, 227 ],
     captiontext         : [ 14, 16, 16 ],
