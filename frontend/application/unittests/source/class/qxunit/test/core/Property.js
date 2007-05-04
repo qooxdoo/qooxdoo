@@ -37,7 +37,7 @@ qx.Class.define("qxunit.test.core.Property", {
       });
 
       var root = new qxunit.Node();
-      root.setTextColor("red");
+      root.setColor("red");
 
       var child1 = new qxunit.Node();
       var child2 = new qxunit.Node();
@@ -45,9 +45,9 @@ qx.Class.define("qxunit.test.core.Property", {
       child2.setParent(child1);
       child1.setParent(root);
 
-      this.debug("child2: " + child1.getTextColor());
-      this.debug("child1: " + child2.getTextColor());
-      this.debug("root: " + root.getTextColor());
+      this.debug("child2: " + child1.getColor());
+      this.debug("child1: " + child2.getColor());
+      this.debug("root: " + root.getColor());
 
     }
 
