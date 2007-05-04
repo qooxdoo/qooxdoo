@@ -205,11 +205,11 @@ qx.Class.define("qxunit.test.Class", {
       qx.Class.define("qxunit.Defer", {
         extend: qx.core.Object,
 
-        defer: function(statics, prot, settings) {
+        defer: function(statics, prot, properties) {
           statics.FOO = 12;
           statics.sayHello = function() { return "Hello"; };
           prot.sayJuhu = function() { return "Juhu"; };
-          settings.add("color", {_legacy: true });
+          properties.add("color", {});
         }
       });
 
@@ -219,8 +219,8 @@ qx.Class.define("qxunit.test.Class", {
       var defer = new qxunit.Defer();
       this.assertEquals("Juhu", defer.sayJuhu());
 
-      defer.setTextColor("red");
-      this.assertEquals("red", defer.getTextColor());
+      defer.setColor("red");
+      this.assertEquals("red", defer.getColor());
     },
 
     __testCaller: function() {
