@@ -423,7 +423,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       {
         var children = modelR.getChildren();
         var t;
-        for (var i in children)
+        for (var i=0; i<children.length; i++)
         {
           var currNode = children[i];
           if (currNode.hasChildren())
@@ -459,7 +459,7 @@ qx.Class.define("qxunit.runner.TestRunner",
               t.modelLink         = currNode;
               currNode.widgetLink = t;
               var children = currNode.getChildren();
-              for (var i in children)
+              for (var i=0; i<children.length; i++)
               {
                 if (children[i].type && children[i].type == "test")
                 {
@@ -603,7 +603,8 @@ qx.Class.define("qxunit.runner.TestRunner",
 
         if (node.hasChildren()) {
           var children = node.getChildren();
-          for (var i in children) {
+          for (var i=0; i<children.length; i++)
+          {
             if (children[i].hasChildren()){
               tlist = tlist.concat(buildList(children[i]));
             } else {
