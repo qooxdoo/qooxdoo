@@ -29,6 +29,8 @@ qx.Theme.define("qx.theme.classic.color.LunaGreen",
   colors :
   {
     "background" : [ 236, 233, 216 ],
+
+    "effect" : [ 139, 161, 105 ],
     "selected" : [ 147, 160, 112 ],
 
     "border-light" : [ 255, 255, 255 ],
