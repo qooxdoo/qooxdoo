@@ -52,12 +52,6 @@ qx.Theme.define("qx.theme.classic.Border",
       color : "threedshadow"
     },
 
-    "lightShadow" :
-    {
-      width : 1,
-      color : "threedlightshadow"
-    },
-
     "tooltip" :
     {
       width : 1,
@@ -92,19 +86,19 @@ qx.Theme.define("qx.theme.classic.Border",
       innerColor : [ "threedshadow", "threedhighlight", "threedhighlight", "threedshadow" ]
     },
 
-    "thinInset" :
+    "inset-thin" :
     {
       width : 1,
       color : [ "threedshadow", "threedhighlight", "threedhighlight", "threedshadow" ]
     },
 
-    "thinOutset" :
+    "outset-thin" :
     {
       width : 1,
       color : [ "threedhighlight", "threedshadow", "threedshadow", "threedhighlight" ]
     },
 
-    "verticalDivider" :
+    "divider-vertical" :
     {
       widthTop : 1,
       widthBottom : 1,
@@ -112,7 +106,7 @@ qx.Theme.define("qx.theme.classic.Border",
       colorBottom : "threedhighlight"
     },
 
-    "horizontalDivider" :
+    "divider-horizontal" :
     {
       widthLeft : 1,
       widthRight : 1,
