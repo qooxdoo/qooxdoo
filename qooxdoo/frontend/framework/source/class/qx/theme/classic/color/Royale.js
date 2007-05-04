@@ -18,10 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-************************************************************************ */
-
 /**
  * Windows Royale color theme
  */
@@ -31,33 +27,33 @@ qx.Theme.define("qx.theme.classic.color.Royale",
 
   colors :
   {
-    "background" : [ 235, 233, 237 ],  // threedface
+    "background" : [ 235, 233, 237 ],
 
-    "border-dark" : [ 133, 135, 140 ],  // threeddarkshadow
-    "border-dark-shadow" : [ 167, 166, 170 ],  // threedshadow
-    "border-light" : "white",  // threedhighlight
-    "border-light-shadow" : [ 220, 223, 228 ],  // threedlightshadow
+    "border-dark" : [ 133, 135, 140 ],
+    "border-dark-shadow" : [ 167, 166, 170 ],
+    "border-light" : "white",
+    "border-light-shadow" : [ 220, 223, 228 ],
 
     "effect" : [ 254, 200, 60 ],
-    "selected" : [ 51, 94, 168 ],  // highlight
+    "selected" : [ 51, 94, 168 ],
 
     "text" : "black",
-    "text-disabled" : [ 167, 166, 170 ],  // graytext
-    "text-selected" : "white",  //highlighttext
+    "text-disabled" : [ 167, 166, 170 ],
+    "text-selected" : "white",
 
-    "tooltip" : [ 255, 255, 225 ],  // infobackground
-    "tooltip-text" : "black",  // infotext
+    "tooltip" : [ 255, 255, 225 ],
+    "tooltip-text" : "black",
 
-    "menu" : "white",  // menu
+    "menu" : "white",
 
-    "button" : [ 235, 233, 237 ],  // buttonface
+    "button" : [ 235, 233, 237 ],
     "button-hover" : [ 135, 188, 229 ],
     "button-abandoned" : [ 255, 240, 201 ],
 
-    "window-active-caption-text" : [ 255, 255, 255 ],  // captiontext
-    "window-inactive-caption-text" : [ 255, 255, 255 ],  // inactivecaption
-    "window-active-caption" : [ 51, 94, 168 ],  // activecaption
-    "window-inactive-caption" : [ 111, 161, 217 ],  // inactivecaptiontext
+    "window-active-caption-text" : [ 255, 255, 255 ],
+    "window-inactive-caption-text" : [ 255, 255, 255 ],
+    "window-active-caption" : [ 51, 94, 168 ],
+    "window-inactive-caption" : [ 111, 161, 217 ],
 
     "button-view" : [ 250, 251, 254 ],
     "button-view-bar" : [ 225, 238, 255 ],

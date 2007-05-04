@@ -24,24 +24,30 @@
 qx.Theme.define("qx.theme.classic.color.LunaSilver",
 {
   title : "Windows Luna Silver",
+  extend : qx.theme.classic.color.Royale,
 
   colors :
   {
-    graytext            : [ 172, 168, 153 ],
-    infobackground      : [ 255, 255, 225 ],
-    infotext            : [ 0, 0, 0 ],
-    menu                : [ 255, 255, 255 ],
-    threeddarkshadow    : [ 113, 111, 100 ],
-    threedhighlight     : [ 255, 255, 255 ],
-    threedlightshadow   : [ 241, 239, 226 ],
-    activecaption       : [ 192, 192, 192 ],
-    buttonface          : [ 224, 223, 227 ],
-    captiontext         : [ 14, 16, 16 ],
-    highlight           : [ 178, 180, 191 ],
-    highlighttext       : [ 0, 0, 0 ],
-    inactivecaption     : [ 255, 255, 255 ],
-    inactivecaptiontext : [ 162, 161, 161 ],
-    threedface          : [ 224, 223, 227 ],
-    threedshadow        : [ 157, 157, 161 ]
+    "background" : [ 224, 223, 227 ],
+    "selected" : [ 178, 180, 191 ],
+
+    "border-light" : [ 255, 255, 255 ],
+    "border-light-shadow" : [ 241, 239, 226 ],
+    "border-dark" : [ 113, 111, 100 ],
+    "border-dark-shadow" : [ 157, 157, 161 ],
+
+    "text-selected" : [ 0, 0, 0 ],
+    "text-disabled" : [ 172, 168, 153 ],
+
+    "tooltip" : [ 255, 255, 225 ],
+    "tooltip-text" : [ 0, 0, 0 ],
+
+    "menu" : [ 255, 255, 255 ],
+    "button" : [ 224, 223, 227 ],
+
+    "window-active-caption" : [ 192, 192, 192 ],
+    "window-active-caption-text" : [ 14, 16, 16 ],
+    "window-inactive-caption" : [ 255, 255, 255 ],
+    "window-inactive-caption-text" : [ 162, 161, 161 ]
   }
 });
