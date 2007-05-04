@@ -211,7 +211,7 @@ qx.Class.define("qx.ui.component.ColorPopup",
         {
           field = new qx.ui.basic.Terminator;
 
-          field.setBorder("thinInset");
+          field.setBorder("inset-thin");
           field.setBackgroundColor(table.values[i] || null);
           field.setDimension(this._fieldWidth, this._fieldHeight);
 
