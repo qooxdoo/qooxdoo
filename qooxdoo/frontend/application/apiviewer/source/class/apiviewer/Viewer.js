@@ -177,7 +177,7 @@ qx.Class.define("apiviewer.Viewer",
       var toolbar = new qx.ui.toolbar.ToolBar;
       toolbar.set({
         horizontalChildrenAlign : "right",
-        backgroundColor : "threedface",
+        backgroundColor : "background",
         height : 30
       });
 
