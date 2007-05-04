@@ -310,22 +310,22 @@ qx.Theme.define("qx.theme.classic.Appearance",
         if (states.barTop)
         {
           padding = [ 1, 0 ];
-          border = clazz.fromConfig({ bottom : [ 1, "solid", "threedshadow" ] });
+          border = clazz.fromConfig({ bottom : [ 1, "solid", "border-dark-shadow" ] });
         }
         else if (states.barBottom)
         {
           padding = [ 1, 0 ];
-          border = clazz.fromConfig({ top : [ 1, "solid", "threedshadow" ] });
+          border = clazz.fromConfig({ top : [ 1, "solid", "border-dark-shadow" ] });
         }
         else if (states.barLeft)
         {
           padding = [ 0, 1 ];
-          border = clazz.fromConfig({ right : [ 1, "solid", "threedshadow" ] });
+          border = clazz.fromConfig({ right : [ 1, "solid", "border-dark-shadow" ] });
         }
         else if (states.barRight)
         {
           padding = [ 0, 1 ];
-          border = clazz.fromConfig({ left : [ 1, "solid", "threedshadow" ] });
+          border = clazz.fromConfig({ left : [ 1, "solid", "border-dark-shadow" ] });
         }
 
         return {
@@ -345,7 +345,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
         if (states.checked || states.over)
         {
-          border = new qx.renderer.border.Border(1, "solid", "threedshadow");
+          border = new qx.renderer.border.Border(1, "solid", "border-dark-shadow");
 
           if (states.barTop)
           {
@@ -568,7 +568,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           backgroundColor : "radio-view-bar",
           padding : [ 1, 0 ],
-          border : qx.renderer.border.Border.fromConfig({ bottom : [ 1, "solid", "threedshadow" ] })
+          border : qx.renderer.border.Border.fromConfig({ bottom : [ 1, "solid", "border-dark-shadow" ] })
         };
       }
     },
@@ -581,7 +581,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
         if (states.checked || states.over)
         {
-          border = new qx.renderer.border.Border(1, "solid", "threedshadow");
+          border = new qx.renderer.border.Border(1, "solid", "border-dark-shadow");
           border.setLeft(3, "solid", "effect");
           padding = [ 2, 6, 2, 4 ];
         }
@@ -1531,7 +1531,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           font : "default",
-          border : qx.renderer.border.Border.fromConfig({ top : [ 1, "solid", "threedshadow" ] }),
+          border : qx.renderer.border.Border.fromConfig({ top : [ 1, "solid", "border-dark-shadow" ] }),
           paddingLeft : 2,
           paddingRight : 2
         };
@@ -1668,7 +1668,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           opacity : 0.5,
-          backgroundColor : states.dragging ? "threeddarkshadow" : "background"
+          backgroundColor : states.dragging ? "border-dark" : "background"
         };
       }
     },
