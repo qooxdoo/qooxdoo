@@ -41,7 +41,7 @@ qx.Theme.define("qx.theme.classic.color.Royale",
     "effect" : [ 254, 200, 60 ],
     "selected" : [ 51, 94, 168 ],  // highlight
 
-    "text" : "black",  // NEW
+    "text" : "black",
     "text-disabled" : [ 167, 166, 170 ],  // graytext
     "text-selected" : "white",  //highlighttext
 
