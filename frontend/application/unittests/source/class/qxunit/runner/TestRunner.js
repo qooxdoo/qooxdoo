@@ -437,11 +437,11 @@ qx.Class.define("qxunit.runner.TestRunner",
       left.modelLink   = ttree;
       ttree.widgetLink = left;
       var selectedView = this.widgets["toolbar.treeview"].b1.getManager().getSelected();
-      //var selectedView = this.widgets["toolbar.treeview"];
-      if (selectedView.getLabel()=="Full Tree")
-        buildSubTree(left,ttree);
-      else
+      if (selectedView.getLabel && selectedView.getLabel()=="Flat Tree") {
         buildSubTreeFlat(left,ttree);
+      } else {
+        buildSubTree(left,ttree);
+      }
 
       left.setEnabled(true);
     }, //leftReloadTree
@@ -589,6 +589,8 @@ qx.Class.define("qxunit.runner.TestRunner",
       var curr = this.iframe.getSource();
       var neu  = this.testSuiteUrl.getValue();
       this.toolbar.setEnabled(false);
+      // clear Test Results window
+      this.f1.clear();
       qx.client.Timer.once(function () {
         if (curr == neu) {
           this.iframe.reload();
