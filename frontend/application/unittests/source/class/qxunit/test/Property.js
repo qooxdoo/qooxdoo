@@ -145,10 +145,10 @@ qx.Class.define("qxunit.test.Property",
       var ch2 = new qxunit.test.Layout;
       var ch3 = new qxunit.test.Layout;
 
-      this.assertIdentical(pa._getEnabled(), "inherit", "d1");
-      this.assertIdentical(ch1._getEnabled(), "inherit", "d2");
-      this.assertIdentical(ch2._getEnabled(), "inherit", "d3");
-      this.assertIdentical(ch3._getEnabled(), "inherit", "d4");
+      this.assertIdentical(pa._getEnabled(), null, "d1");
+      this.assertIdentical(ch1._getEnabled(), null, "d2");
+      this.assertIdentical(ch2._getEnabled(), null, "d3");
+      this.assertIdentical(ch3._getEnabled(), null, "d4");
 
       ch1.setParent(pa);
 
@@ -157,7 +157,7 @@ qx.Class.define("qxunit.test.Property",
 
       this.assertTrue(pa._getEnabled(), "b1");
       this.assertTrue(ch1._getEnabled(), "b2");
-      this.assertIdentical(ch2._getEnabled(), "inherit", "b3");
+      this.assertIdentical(ch2._getEnabled(), null, "b3");
       this.assertFalse(ch3._getEnabled(), "b4");
 
       ch2.setParent(pa); // make ch2 enabled through inheritance
