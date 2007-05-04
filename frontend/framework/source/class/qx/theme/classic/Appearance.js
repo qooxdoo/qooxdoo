@@ -176,7 +176,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          border : "thinOutset",
+          border : "outset-thin",
           backgroundColor : "threedface"
         };
       }
@@ -204,7 +204,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           left   : 3,
           bottom : 2,
           width  : 4,
-          border : "thinOutset"
+          border : "outset-thin"
         };
       }
     },
@@ -228,7 +228,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           left   : 3,
           width  : 2,
           bottom : 2,
-          border : "horizontalDivider"
+          border : "divider-horizontal"
         };
       }
     },
@@ -239,12 +239,12 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         if (states.pressed || states.checked || states.abandoned)
         {
-          var border = "thinInset";
+          var border = "inset-thin";
           var padding = [ 3, 2, 1, 4 ];
         }
         else if (states.over)
         {
-          var border = "thinOutset";
+          var border = "outset-thin";
           var padding = [ 2, 3 ];
         }
         else
@@ -710,7 +710,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          border : "thinInset"
+          border : "inset-thin"
         };
       }
     },
@@ -823,7 +823,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           right  : 0,
           left   : 0,
           height : "auto",
-          border : "verticalDivider"
+          border : "divider-vertical"
         };
       }
     },
@@ -842,7 +842,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          border          : "thinInset",
+          border          : "inset-thin",
           backgroundColor : "white"
         };
       }
@@ -1395,9 +1395,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
 
         if (states.pressed || states.checked || states.abandoned) {
-          result.border = "thinInset";
+          result.border = "inset-thin";
         } else if (states.over) {
-          result.border = "thinOutset";
+          result.border = "outset-thin";
         } else {
           result.border = "undefined";
         }
