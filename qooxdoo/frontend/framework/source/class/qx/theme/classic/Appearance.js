@@ -84,7 +84,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "threedface",
+          backgroundColor : "background",
           textColor : "text"
         };
       }
@@ -177,7 +177,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           border : "outset-thin",
-          backgroundColor : "threedface"
+          backgroundColor : "background"
         };
       }
     },
@@ -617,7 +617,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "threedface",
+          backgroundColor : "background",
           padding : 1,
           border : states.maximized ? "undefined" : "outset"
         };
@@ -1254,7 +1254,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "threedface"
+          backgroundColor : "background"
         };
       }
     },
@@ -1265,7 +1265,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           location        : [ 10, 1 ],
-          backgroundColor : "threedface",
+          backgroundColor : "background",
           paddingRight    : 3,
           paddingLeft     : 4,
           marginRight     : 10
@@ -1291,7 +1291,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           location        : [ 10, 1 ],
-          backgroundColor : "threedface",
+          backgroundColor : "background",
           paddingRight    : 3
         };
       }
@@ -1329,7 +1329,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           width : 16,
-          backgroundColor : "threedface",
+          backgroundColor : "background",
           paddingLeft : 3,
           border : states.pressed || states.checked || states.abandoned ?
             "inset" : "outset"
@@ -1635,7 +1635,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "threedface",
+          backgroundColor : "background",
           cursor : states.horizontal ? "col-resize" : "row-resize"
         };
       }
@@ -1647,7 +1647,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           opacity : 0.5,
-          backgroundColor : states.dragging ? "threeddarkshadow" : "threedface"
+          backgroundColor : states.dragging ? "threeddarkshadow" : "background"
         };
       }
     },
