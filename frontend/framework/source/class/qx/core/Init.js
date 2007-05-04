@@ -68,6 +68,34 @@ qx.Class.define("qx.core.Init",
 
   /*
   *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events :
+  {
+    /**
+     * Fired in the load event of the document window and before the main init
+     * function is called
+     */
+    "load" : "qx.event.type.Event",
+
+    /**
+     * Fired in the beforeunload event of the document window and before the default
+     * handler is called.
+     */
+    "beforeunload" : "qx.event.type.Event",
+
+    /**
+     * Fired in the unload event of the document window and before the default
+     * handler is called.
+     */
+    "unload" : "qx.event.type.Event"
+  },
+
+
+  /*
+  *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
@@ -109,6 +137,8 @@ qx.Class.define("qx.core.Init",
      */
     _onload : function(e)
     {
+      this.createDispatchEvent("load");
+
       this.debug("qooxdoo " + qx.core.Version.toString());
 
       // Print out class information
@@ -170,6 +200,7 @@ qx.Class.define("qx.core.Init",
      */
     _onbeforeunload : function(e)
     {
+      this.createDispatchEvent("beforeunload");
       // Send onbeforeunload event (can be cancelled)
       var result = this.getApplication().close();
       if (result != null) {
@@ -187,6 +218,7 @@ qx.Class.define("qx.core.Init",
      */
     _onunload : function(e)
     {
+      this.createDispatchEvent("unload");
       // Send onunload event (last event)
       this.getApplication().terminate();
 
