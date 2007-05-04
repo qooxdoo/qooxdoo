@@ -42,10 +42,8 @@ qx.Class.define("qx.ui.component.ColorPopup",
   {
     this.base(arguments);
 
-    this.setPadding(4);
-    this.auto();
-    this.setBorder("outset");
-    this.setBackgroundColor("threedface");
+    this.initWidth();
+    this.initHeight();
 
     this._tables = tables;
 
@@ -69,6 +67,24 @@ qx.Class.define("qx.ui.component.ColorPopup",
 
   properties :
   {
+    width :
+    {
+      refine : true,
+      init : "auto"
+    },
+
+    height :
+    {
+      refine : true,
+      init : "auto"
+    },
+
+    appearance :
+    {
+      refine : true,
+      init : "color-popup"
+    },
+
     value :
     {
       nullable : true,
