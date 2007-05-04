@@ -31,46 +31,11 @@ qx.Theme.define("qx.theme.classic.color.Royale",
 
   colors :
   {
-    // Unused
-    activeborder        : [ 212, 208, 200 ],
-    appworkspace        : [ 128, 128, 128 ],
-    background          : [ 0, 0, 64 ],
-    buttonhighlight     : [ 255, 255, 255 ],
-    buttonshadow        : [ 167, 166, 170 ],
-    inactiveborder      : [ 212, 208, 200 ],
-    scrollbar           : [ 212, 208, 200 ],
-    window              : [ 255, 255, 255 ],
-    windowframe         : [ 0, 0, 0 ],
-    windowtext          : [ 0, 0, 0 ],
-
-    // Renamed
-    activecaption       : [ 51, 94, 168 ],
-    captiontext         : [ 255, 255, 255 ],
-    inactivecaption     : [ 111, 161, 217 ],
-    inactivecaptiontext : [ 255, 255, 255 ],
-    buttonface          : [ 235, 233, 237 ],
-    buttontext          : [ 0, 0, 0 ],
-    graytext            : [ 167, 166, 170 ],
-    highlight           : [ 51, 94, 168 ],
-    highlighttext       : [ 255, 255, 255 ],
-    infobackground      : [ 255, 255, 225 ],
-    infotext            : [ 0, 0, 0 ],
-    menu                : [ 255, 255, 255 ],
-    menutext            : [ 0, 0, 0 ],
-
-    // TODO
-    threeddarkshadow    : [ 133, 135, 140 ],
-    threedface          : [ 235, 233, 237 ],
-    threedhighlight     : [ 255, 255, 255 ],
-    threedlightshadow   : [ 220, 223, 228 ],
-    threedshadow        : [ 167, 166, 170 ],
-
-    // NEW
     "background" : [ 235, 233, 237 ],  // threedface
 
     "border-dark" : [ 133, 135, 140 ],  // threeddarkshadow
     "border-dark-shadow" : [ 167, 166, 170 ],  // threedshadow
-    "border-light" : [ 255, 255, 255 ],  // threedhighlight
+    "border-light" : "white",  // threedhighlight
     "border-light-shadow" : [ 220, 223, 228 ],  // threedlightshadow
 
     "effect" : [ 254, 200, 60 ],
@@ -78,7 +43,7 @@ qx.Theme.define("qx.theme.classic.color.Royale",
 
     "text" : "black",  // NEW
     "text-disabled" : [ 167, 166, 170 ],  // graytext
-    "text-selected" : [ 255, 255, 255 ],  //highlighttext
+    "text-selected" : "white",  //highlighttext
 
     "tooltip" : [ 255, 255, 225 ],  // infobackground
     "tooltip-text" : "black",  // infotext
@@ -109,12 +74,12 @@ qx.Theme.define("qx.theme.classic.color.Royale",
     "list-view-border" : [ 167,166,170 ],
     "list-view-header" : [ 242, 242, 242 ],
     "list-view-header-border" : [ 214, 213, 217 ],
-    "list-view-header-cell-hover" : [ 255, 255, 255 ],
+    "list-view-header-cell-hover" : "white",
 
-    "date-chooser" : [ 255, 255, 255 ],
+    "date-chooser" : "white",
     "date-chooser-title" : [ 98, 133, 186 ],
 
-    "table-pane" : [ 255, 255, 255 ],
+    "table-pane" : "white",
     "table-header" : [ 242, 242, 242 ],
     "table-header-border" : [ 214, 213, 217 ],
     "table-header-cell" : [ 235, 234, 219 ],
