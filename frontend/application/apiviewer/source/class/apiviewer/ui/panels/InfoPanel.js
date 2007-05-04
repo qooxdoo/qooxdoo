@@ -373,7 +373,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
      */
     createDescriptionHtml : function(node, showDetails)
     {
-      var desc = node.getDocNode().getDescription();
+      var desc = node.getDescription();
 
       if (desc)
       {

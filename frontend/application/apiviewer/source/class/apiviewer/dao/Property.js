@@ -103,7 +103,7 @@ qx.Class.define("apiviewer.dao.Property", {
 
     getGroup : function()
     {
-      var group = this._docNode.attributes.group;
+      var group = this.getDocNode()._docNode.attributes.group;
       if (group) {
         return group.split(",");
       }
@@ -112,7 +112,7 @@ qx.Class.define("apiviewer.dao.Property", {
 
     isPropertyGroup : function()
     {
-      return this._docNode.attributes.group ? true : false;
+      return this.getDocNode()._docNode.attributes.group ? true : false;
     },
 
 
@@ -138,18 +138,18 @@ qx.Class.define("apiviewer.dao.Property", {
 
     getEvent : function()
     {
-      return this._docNode.attributes.event;
+      return this.getDocNode()._docNode.attributes.event;
     },
 
 
     getApplyMethod : function()
     {
-      return this._docNode.attributes.apply;
+      return this.getDocNode()._docNode.attributes.apply;
     },
 
     isNullable : function()
     {
-      return this._docNode.attributes.allowNull || false;
+      return this.getDocNode()._docNode.attributes.allowNull || false;
     },
 
     getDefaultValue : function()
@@ -169,12 +169,17 @@ qx.Class.define("apiviewer.dao.Property", {
 
     isInheritable : function()
     {
-      return this._docNode.attributes.inheritable || false;
+      return this.getDocNode()._docNode.attributes.inheritable || false;
     },
 
-    isAppearance : function()
+    isThemeable : function()
     {
-      return this._docNode.attributes.appearance || false;
+      return this.getDocNode()._docNode.attributes.themeable || false;
+    },
+
+    isRefined : function()
+    {
+      return this._docNode.attributes.refine || false;
     },
 
     isOldProperty : function()
