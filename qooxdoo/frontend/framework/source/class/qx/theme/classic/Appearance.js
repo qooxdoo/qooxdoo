@@ -1158,7 +1158,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          border : new qx.renderer.border.Border(1, "solid", "list-view-border")
+          border : new qx.renderer.border.Border(1, "solid", "list-view-border"),
+          backgroundColor : "list-view"
         }
       }
     },

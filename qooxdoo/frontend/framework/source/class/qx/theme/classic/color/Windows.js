@@ -70,7 +70,7 @@ qx.Theme.define("qx.theme.classic.color.Windows",
     "radio-view-bar" : [ 225, 238, 255 ],
     "radio-view-button-checked" : [ 250, 251, 254 ],
 
-    "list-view-border" : [ 167,166,170 ],
+    "list-view-border" : [ 167, 166, 170 ],
     "list-view-header" : [ 242, 242, 242 ],
     "list-view-header-border" : [ 214, 213, 217 ],
     "list-view-header-cell-hover" : "white",
