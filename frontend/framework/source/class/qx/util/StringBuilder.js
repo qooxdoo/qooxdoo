@@ -21,6 +21,7 @@
 /* ************************************************************************
 
 #embed(qx.static/history/historyHelper.html)
+#require(qx.core.Init)
 
 ************************************************************************ */
 
@@ -221,7 +222,6 @@ qx.Class.define("qx.util.StringBuilder",
     "mshtml" : function(statics, members)
     {
       members.toString = members.get;
-
 
       // first use the plain IE StringBuilder and on window load replace it with a sub class
       // of Array obtained from an IFrame. This technique is described by Dean Edwards at
