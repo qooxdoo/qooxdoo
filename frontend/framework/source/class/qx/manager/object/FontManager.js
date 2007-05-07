@@ -61,6 +61,24 @@ qx.Class.define("qx.manager.object.FontManager",
 
   members :
   {
+    _processStatic : function(value)
+    {
+      if (value instanceof qx.renderer.font.Font)
+      {
+        var key = "f" + value.toHashCode();
+
+        if (!this._static[key]) {
+
+          this._static[key] = value;
+        }
+
+        return key;
+      }
+
+      return value;
+    },
+
+
     _applyFontTheme : function(value)
     {
       var dest = this._dynamic = {};
