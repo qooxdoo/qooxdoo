@@ -65,10 +65,10 @@ qx.Class.define("qx.io.remote.Exchange",
   events : {
     "sending" : "qx.event.type.Event",
     "receiving" : "qx.event.type.Event",
-    "completed" : "qx.event.type.Event",
-    "aborted" : "qx.event.type.Event",
-    "failed" : "qx.event.type.Event",
-    "timeout" : "qx.event.type.Event"
+    "completed" : "qx.io.remote.Response",
+    "aborted" : "qx.io.remote.Response",
+    "failed" : "qx.io.remote.Response",
+    "timeout" : "qx.io.remote.Response"
   },
 
 
@@ -871,56 +871,62 @@ qx.Class.define("qx.io.remote.Exchange",
             break;
           }
 
-          var vResponse = new qx.io.remote.Response;
-
-          if (propValue == "completed")
+          if (this.hasEventListeners(propValue))
           {
-            var vContent = vImpl.getResponseContent();
-            vResponse.setContent(vContent);
+            var vResponse = new qx.io.remote.Response(propValue);
+
+            if (propValue == "completed")
+            {
+              var vContent = vImpl.getResponseContent();
+              vResponse.setContent(vContent);
+
+              /*
+               * Was there acceptable content?  This might occur, for example, if
+               * the web server was shut down unexpectedly and thus the connection
+               * closed with no data having been sent.
+               */
+
+              if (vContent === null)
+              {
+                // Nope.  Change COMPLETED to FAILED.
+                if (qx.core.Variant.isSet("qx.debug", "on"))
+                {
+                  if (qx.core.Setting.get("qx.ioRemoteDebug")) {
+                    this.debug("Altered State: " + propValue + " => failed");
+                  }
+                }
+
+                propValue = "failed";
+              }
+            }
+
+            vResponse.setStatusCode(vImpl.getStatusCode());
+            vResponse.setResponseHeaders(vImpl.getResponseHeaders());
+
+            this.dispatchEvent(vResponse);
+            // this.debug("Result Text: " + vResponse.getTextContent());
+            //var vEventType;
 
             /*
-             * Was there acceptable content?  This might occur, for example, if
-             * the web server was shut down unexpectedly and thus the connection
-             * closed with no data having been sent.
-             */
-
-            if (vContent === null)
+            switch(propValue)
             {
-              // Nope.  Change COMPLETED to FAILED.
-              if (qx.core.Variant.isSet("qx.debug", "on"))
-              {
-                if (qx.core.Setting.get("qx.ioRemoteDebug")) {
-                  this.debug("Altered State: " + propValue + " => failed");
-                }
-              }
+              case "completed":
+                vEventType = "completed";
+                break;
 
-              propValue = "failed";
+              case "aborted":
+                vEventType = "aborted";
+                break;
+
+              case "timeout":
+                vEventType = "timeout";
+                break;
+
+              case "failed":
+                vEventType = "failed";
+                break;
             }
-          }
-
-          vResponse.setStatusCode(vImpl.getStatusCode());
-          vResponse.setResponseHeaders(vImpl.getResponseHeaders());
-
-          // this.debug("Result Text: " + vResponse.getTextContent());
-          var vEventType;
-
-          switch(propValue)
-          {
-            case "completed":
-              vEventType = "completed";
-              break;
-
-            case "aborted":
-              vEventType = "aborted";
-              break;
-
-            case "timeout":
-              vEventType = "timeout";
-              break;
-
-            case "failed":
-              vEventType = "failed";
-              break;
+            */
           }
 
           // Disconnect and dispose implementation
@@ -928,7 +934,8 @@ qx.Class.define("qx.io.remote.Exchange",
           vImpl.dispose();
 
           // Fire event to listeners
-          this.createDispatchDataEvent(vEventType, vResponse);
+          //this.createDispatchDataEvent(vEventType, vResponse);
+
           break;
       }
 
