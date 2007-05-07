@@ -871,7 +871,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           border          : "inset-thin",
-          backgroundColor : "white"
+          backgroundColor : "list"
         };
       }
     },

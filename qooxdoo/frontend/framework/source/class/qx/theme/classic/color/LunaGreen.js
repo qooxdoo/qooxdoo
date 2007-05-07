@@ -44,7 +44,8 @@ qx.Theme.define("qx.theme.classic.color.LunaGreen",
     "tooltip" : [ 255, 255, 225 ],
     "tooltip-text" : [ 0, 0, 0 ],
 
-    "menu" : [ 255, 255, 255 ],
+    "menu" : [ 249, 248, 243 ],
+    "list" : [ 249, 248, 243 ],
 
     "button" : [ 236, 233, 216 ],
     "button-hover" : [ 245, 244, 235 ],
