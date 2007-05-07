@@ -339,46 +339,60 @@ qx.Class.define("qx.core.Property",
         }
       }
 
-      var config, name, prefix, postfix;
       var properties = clazz.$$properties;
 
       if (properties)
       {
-        for (name in properties)
-        {
-          config = properties[name];
-
-          // Filter old properties and groups
-          if (!config._legacy && !config._fast && !config._cached)
-          {
-            if (name.indexOf("__") == 0)
-            {
-              prefix = "__";
-              postfix = qx.lang.String.toFirstUp(name.substring(2));
-            }
-            else if (name.indexOf("_") == 0)
-            {
-              prefix = "_";
-              postfix = qx.lang.String.toFirstUp(name.substring(1));
-            }
-            else
-            {
-              prefix = "";
-              postfix = qx.lang.String.toFirstUp(name);
-            }
-
-            // Fill dispose value
-            if (config.dispose === undefined && typeof config.check === "string") {
-              config.dispose = this.__dispose[config.check] || qx.Class.isDefined(config.check);
-            }
-
-            // Attach methods
-            config.group ? this.__attachGroupMethods(clazz, config, prefix, postfix) : this.__attachPropertyMethods(clazz, config, prefix, postfix);
-          }
+        for (var name in properties) {
+          this.attachMethods(clazz, name, properties[name]);
         }
       }
 
       clazz.$$propertiesAttached = true;
+    },
+
+
+    /**
+     * Attach one property to class
+     *
+     * @type static
+     * @internal
+     * @param clazz {Class} Class to attach properties to
+     * @param name {String} Name of property
+     * @param config {Map} Configuration map of property
+     * @return {void}
+     */
+    attachMethods : function(clazz, name, config)
+    {
+      var prefix, postfix;
+
+      // Filter old properties and groups
+      if (!config._legacy && !config._fast && !config._cached)
+      {
+        if (name.indexOf("__") == 0)
+        {
+          prefix = "__";
+          postfix = qx.lang.String.toFirstUp(name.substring(2));
+        }
+        else if (name.indexOf("_") == 0)
+        {
+          prefix = "_";
+          postfix = qx.lang.String.toFirstUp(name.substring(1));
+        }
+        else
+        {
+          prefix = "";
+          postfix = qx.lang.String.toFirstUp(name);
+        }
+
+        // Fill dispose value
+        if (config.dispose === undefined && typeof config.check === "string") {
+          config.dispose = this.__dispose[config.check] || qx.Class.isDefined(config.check);
+        }
+
+        // Attach methods
+        config.group ? this.__attachGroupMethods(clazz, config, prefix, postfix) : this.__attachPropertyMethods(clazz, config, prefix, postfix);
+      }
     },
 
 

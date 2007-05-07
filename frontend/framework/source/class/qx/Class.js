@@ -1093,6 +1093,8 @@ qx.Class.define("qx.Class",
         patch = false;
       }
 
+      var attach = !!clazz.$$propertiesAttached;
+
       for (var name in properties)
       {
         config = properties[name];
@@ -1124,6 +1126,12 @@ qx.Class.define("qx.Class",
         // Remember inheritable properties
         if (config.inheritable) {
           qx.core.Property.$$inheritable[name] = true;
+        }
+
+        // If instances of this class were already created, we
+        // need to attach the new style properties functions, directly.
+        if (attach) {
+          qx.core.Property.attachMethods(clazz, name, config);
         }
 
         // Create old style properties
