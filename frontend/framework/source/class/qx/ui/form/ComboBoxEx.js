@@ -36,12 +36,13 @@
  * <li>Complete key-navigation</li>
  * <li>Mouse wheel navigation</li>
  * <li>Multicolumn display in list</li>
- * <li>If more than one column, headers are automatically shown</li>
+ * <li>By default, if more than one column, headers are automatically shown</li>
  * <li>Can show the ID and/or description of each list item</li>
  * <li>Automatically calculating needed width</li>
  * <li>Popup list always shows full contents, and can be wider than text field</li>
  * <li>Search values through popup dialog</li>
  * <li>Internationalization support of messages</li>
+ * <li>List resizeable by the end user both in width and height, by using the mouse</li>
  * </ul>
  * <p>Pending features:</p>
  * <ul>
@@ -382,7 +383,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       // Avoid deselection from user
       this._manager.removeSelectionInterval = function() {};
       this._manager.setSelectionMode(qx.ui.table.SelectionModel.SINGLE_SELECTION);
-      this._popup.add(l);
+      this._popup.add(new qx.ui.resizer.Resizer(l));
 
       // Invalidate calculation of column widths
       delete this._calcDimensions;
@@ -918,7 +919,9 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       this._list.set(
       {
         width  : width,
-        height : this._list.getRowHeight() * Math.min(maxRows, (this.hasHeaders ? 1 : 0) + data.length) + 2 + (this.hasHeaders ? 2 : 0)
+        height : this._list.getRowHeight() * Math.min(maxRows, (this.hasHeaders ? 1 : 0) + data.length) + 2 + (this.hasHeaders ? 2 : 0),
+        // The resizer use this setting
+        maxHeight: 400
       });
 
       // This denotes dimensions are already calculated
