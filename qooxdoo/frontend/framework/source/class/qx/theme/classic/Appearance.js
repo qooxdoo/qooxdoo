@@ -933,7 +933,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           border          : "inset",
-          backgroundColor : "white"
+          backgroundColor : "field"
         };
       }
     },
@@ -1005,7 +1005,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           border          : "inset",
-          backgroundColor : "white"
+          backgroundColor : "field"
         };
       }
     },
@@ -1346,7 +1346,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           border          : "inset",
-          backgroundColor : "white"
+          backgroundColor : "field"
         };
       }
     },
@@ -1675,7 +1675,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           opacity : 0.5,
-          backgroundColor : states.dragging ? "border-dark" : "background"
+          backgroundColor : states.dragging ? "black" : "background"
         };
       }
     },
