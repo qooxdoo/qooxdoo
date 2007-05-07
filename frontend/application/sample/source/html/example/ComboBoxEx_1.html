@@ -109,7 +109,7 @@ qx.core.Init.getInstance().defineMain(function() {
 	});
 
 	var fieldItems = new form.Spinner(0, 0, testData.length);
-	fieldItems.getManager().addEventListener('changeValue', function() {
+	fieldItems.getManager().addEventListener('change', function() {
 		var sel = [], count = fieldItems.getValue();
 		for (var i = 0; i < count; i++) {
 			sel.push(testData[i]);
