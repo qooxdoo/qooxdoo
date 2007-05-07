@@ -440,10 +440,9 @@ qx.Class.define("qx.ui.popup.Popup",
      * Positions the popup relative to some reference element.
      *
      * @type member
-     * @param el {var} Reference DOM element/widget.
-     * @param offsetX {Integer} Offset in pixels in X direction (optional).
-     * @param offsetY {Integer} Offset in pixels in Y direction (optional).
-     * @return {void}
+     * @param el {Element|qx.ui.core.Widget} Reference DOM element/widget.
+     * @param offsetX {Integer ? 0} Offset in pixels in X direction (optional).
+     * @param offsetY {Integer ? 0} Offset in pixels in Y direction (optional).
      */
     positionRelativeTo : function(el, offsetX, offsetY)
     {
@@ -454,7 +453,13 @@ qx.Class.define("qx.ui.popup.Popup",
       if (el)
       {
         var loc = qx.html.Location;
-        this.setLocation(loc.getClientAreaLeft(el) - (qx.core.Variant.isSet("qx.client", "gecko") ? qx.html.Style.getBorderLeft(el) : 0) + (offsetX || 0), loc.getClientAreaTop(el) - (qx.core.Variant.isSet("qx.client", "gecko") ? qx.html.Style.getBorderTop(el) : 0) + (offsetY || 0));
+        this.setLocation(
+          loc.getClientAreaLeft(el) -
+          (qx.core.Variant.isSet("qx.client", "gecko") ? qx.html.Style.getBorderLeft(el) : 0) +
+          (offsetX || 0), loc.getClientAreaTop(el) -
+          (qx.core.Variant.isSet("qx.client", "gecko") ? qx.html.Style.getBorderTop(el) : 0) +
+          (offsetY || 0)
+        );
       }
       else
       {
