@@ -89,6 +89,12 @@ qx.Class.define("qxunit.runner.ProgressBar",
       apply: "_applyLabel"
     },
 
+    barWidth : 
+    {
+      check: "Integer",
+      apply: "_applyBarWidth"
+    },
+
     showStepStatus : 
     {
       check: "Boolean",
@@ -182,6 +188,7 @@ qx.Class.define("qxunit.runner.ProgressBar",
           qx.ui.core.Widget.flushGlobalQueues();
           this.stepStatus.setText("("+val+")");
           this.pcntStatus.setText("("+quotVal+"%)");
+          //alternative use properties, e.g. this.setPcntStatus(..)
         };
 
       } else if (val[val.length-1] = "%") { // ends in '%'
@@ -208,6 +215,12 @@ qx.Class.define("qxunit.runner.ProgressBar",
     _applyLabel : function (newLabel)
     {
       this.label.setText(newLabel);
+    },
+
+
+    _applyBarWidth : function (newWidth)
+    {
+      this.hull.setWidth(newWidth);
     },
 
 
