@@ -171,7 +171,7 @@ qx.Class.define("qx.ui.basic.Label",
 
     /**
      * The text of the label. How the text is interpreted depends on the value of the
-     * property {@link #textMode}.
+     * property {@link #mode}.
      */
     text :
     {
