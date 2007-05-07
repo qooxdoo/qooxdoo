@@ -46,6 +46,7 @@ qx.Theme.define("qx.theme.classic.color.Royale",
 
     "menu" : "white",
     "list" : "white",
+    "field" : "white",
 
     "button" : [ 235, 233, 237 ],
     "button-hover" : [ 246, 245, 247 ],
