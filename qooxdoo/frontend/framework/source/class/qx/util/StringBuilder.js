@@ -268,6 +268,15 @@ qx.Class.define("qx.util.StringBuilder",
     toString : function() {}
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
   defer : qx.core.Variant.select("qx.client",
   {
     "default" : function(statics, members)
