@@ -26,7 +26,7 @@
 
 qx.Class.define("qx.io.remote.Response",
 {
-  extend : qx.core.Target,
+  extend : qx.event.type.Event,
 
 
 
@@ -37,8 +37,8 @@ qx.Class.define("qx.io.remote.Response",
   *****************************************************************************
   */
 
-  construct : function() {
-    this.base(arguments);
+  construct : function(eventType) {
+    this.base(arguments, eventType);
   },
 
 
@@ -116,6 +116,16 @@ qx.Class.define("qx.io.remote.Response",
       }
 
       return null;
-    }
+    },
+
+
+    /**
+     * @deprecated This method is no longer needed since the event object is now an
+     *     instance of the Response class.
+     */
+     getData : function()
+     {
+       return this;
+     }
   }
 });
