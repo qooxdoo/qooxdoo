@@ -121,12 +121,14 @@ qx.Class.define("qx.io.remote.ScriptTransport",
 
 
     /**
-     * TODOC
+     * This method can be called by the script loaded by the ScriptTransport
+     * class.
      *
      * @type static
-     * @param id {var} TODOC
-     * @param content {var} TODOC
-     * @return {void}
+     * @param id {String} Id of the corresponding transport object,
+     *     which is passesd as an URL parameter to the server an
+     * @param content {String} This string is passed to the content property
+     *     of the {@link #Response} object.
      */
     _requestFinished : function(id, content)
     {
@@ -224,10 +226,11 @@ qx.Class.define("qx.io.remote.ScriptTransport",
 
       qx.io.remote.ScriptTransport._instanceRegistry[this._uniqueId] = this;
       this._element = document.createElement("script");
-      this._element.charset = "utf-8"; // IE needs this (it ignores the
 
+      // IE needs this (it ignores the
       // encoding from the header sent by the
       // server for dynamic script tags)
+      this._element.charset = "utf-8";
       this._element.src = vUrl;
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -408,7 +411,7 @@ qx.Class.define("qx.io.remote.ScriptTransport",
               this.debug("Response: " + this._responseContent);
             }
           }
-          return this._responseContent;
+          return this._responseContent || null;
 
         default:
           this.warn("No valid responseType specified (" + this.getResponseType() + ")!");
