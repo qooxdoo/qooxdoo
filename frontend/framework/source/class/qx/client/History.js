@@ -38,7 +38,7 @@
 
 /* ************************************************************************
 
-#embed(qx.static/history/historyHelper.html)
+#embed(qx.static/history/helper.html)
 
 ************************************************************************ */
 
@@ -86,7 +86,7 @@ qx.Class.define("qx.client.History",
       this._iframe.style.visibility = "hidden";
 
       document.body.appendChild(this._iframe);
-      var src = qx.manager.object.AliasManager.getInstance().resolvePath("static/history/historyHelper.html");
+      var src = qx.manager.object.AliasManager.getInstance().resolvePath("static/history/helper.html");
       this._iframe.src = src;
 
       this._titles = {};
