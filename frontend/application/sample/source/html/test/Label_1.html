@@ -119,7 +119,7 @@
     textLabel.set({
       top : 530,
       left : 20,
-      border:"thinOutset"
+      border:"outset-thin"
     });
     var modes = ["auto", "html", "text"];
     var modeIndex = 0;
@@ -161,7 +161,7 @@
 
     var parent8 = new qx.ui.layout.VerticalBoxLayout();
     parent8.set({ top:48, left:500, width:150, height:150, spacing:5,
-        border:"thinInset" });
+        border:"inset-thin" });
     parent8.setPadding(5);
     parent8.addToDocument();
     parent8.addEventListener("click", function() {
@@ -170,18 +170,18 @@
 
     var clickHint = new qx.ui.basic.Label("Click me");
     clickHint.set({ width:"100%", height:"auto",
-        border:"thinOutset" });
+        border:"outset-thin" });
     parent8.add(clickHint);
 
     var wrapFont = new qx.renderer.font.Font(11, ["Verdana"]);
     wrapFont.setWrap(true);
 
     var wrapLabel1 = new qx.ui.basic.Label("This is a label having a auto-height that needs wrapping");
-    wrapLabel1.set({ width:"100%", height:"auto", font : wrapFont, border:"thinOutset" });
+    wrapLabel1.set({ width:"100%", height:"auto", font : wrapFont, border:"outset-thin" });
     parent8.add(wrapLabel1);
 
     var wrapLabel2 = new qx.ui.basic.Label("This is a label having a auto-height that needs wrapping");
-    wrapLabel2.set({ width:"100%", height:"auto", font : wrapFont, border:"thinOutset" });
+    wrapLabel2.set({ width:"100%", height:"auto", font : wrapFont, border:"outset-thin" });
     parent8.add(wrapLabel2);
   });
   </script>
