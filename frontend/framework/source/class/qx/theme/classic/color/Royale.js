@@ -29,10 +29,10 @@ qx.Theme.define("qx.theme.classic.color.Royale",
   {
     "background" : [ 235, 233, 237 ],
 
-    "border-dark" : [ 133, 135, 140 ],
-    "border-dark-shadow" : [ 167, 166, 170 ],
     "border-light" : "white",
     "border-light-shadow" : [ 220, 223, 228 ],
+    "border-dark" : [ 133, 135, 140 ],
+    "border-dark-shadow" : [ 167, 166, 170 ],
 
     "effect" : [ 254, 200, 60 ],
     "selected" : [ 51, 94, 168 ],
@@ -47,8 +47,8 @@ qx.Theme.define("qx.theme.classic.color.Royale",
     "menu" : "white",
 
     "button" : [ 235, 233, 237 ],
-    "button-hover" : [ 135, 188, 229 ],
-    "button-abandoned" : [ 255, 240, 201 ],
+    "button-hover" : [ 246, 245, 247 ],
+    "button-abandoned" : [ 235, 233, 237 ],
 
     "window-active-caption-text" : [ 255, 255, 255 ],
     "window-inactive-caption-text" : [ 255, 255, 255 ],
