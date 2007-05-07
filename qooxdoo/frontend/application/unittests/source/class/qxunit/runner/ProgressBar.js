@@ -40,8 +40,11 @@ qx.Class.define("qxunit.runner.ProgressBar",
       spacing: 10
     });
 
-    this.label = new qx.ui.basic.Label("Progress:"); // should use arguemnts[0] here
+    var label = arguments[0] || "Progress:";
+
+    this.label = new qx.ui.basic.Label(label);
     this.add(this.label);
+    this.setLabel(label);
 
     this.hull = new qx.ui.layout.CanvasLayout();
     this.add(this.hull);
@@ -62,21 +65,57 @@ qx.Class.define("qxunit.runner.ProgressBar",
       backgroundColor: "#0000FF"
     });
 
-    this.stepStatus = new qx.ui.basic.Label("");
+    this.stepStatus = new qx.ui.basic.Label("(0/0)");
     this.add(this.stepStatus);
+    if (!this.isShowStepStatus()) {
+      this.stepStatus.setDisplay(false);
+    }
 
-    this.pcntStatus = new qx.ui.basic.Label("");
+    this.pcntStatus = new qx.ui.basic.Label("(0%)");
     this.add(this.pcntStatus);
+    if (!this.isShowPcntStatus()) {
+      this.pcntStatus.setDisplay(false);
+    }
 
   }, //construct
 
   properties :
   {
-    status: {type: "integer", _legacy: true},
+    status: {check: "Integer"},
 
-    showStepStatus : {type: "bool", _legacy: true},
+    label : 
+    {
+      check: "String",
+      apply: "_applyLabel"
+    },
 
-    showPcntStatus : {type: "bool", _legacy: true},
+    showStepStatus : 
+    {
+      check: "Boolean",
+      init : false,
+      apply: "_applyShowStepStatus"
+    },
+
+    stepStatus :
+    {
+      check: "String",
+      init : "",
+      apply: "_applyStepStatus"
+    },
+
+    showPcntStatus : 
+    {
+      check: "Boolean",
+      init : false,
+      apply: "_applyShowPcntStatus"
+    },
+
+    pcntStatus :
+    {
+      check: "String",
+      init : "",
+      apply: "_applyPcntStatus"
+    },
 
     barColor :
     {
@@ -164,6 +203,49 @@ qx.Class.define("qxunit.runner.ProgressBar",
       }
       return true;
     },//update
+
+
+    _applyLabel : function (newLabel)
+    {
+      this.label.setText(newLabel);
+    },
+
+
+    _applyShowStepStatus : function(newStatus)
+    {
+      if (newStatus) {
+        this.stepStatus.setDisplay(true); 
+      } else {
+        this.stepStatus.setDisplay(false);
+      }
+    },
+
+
+    _applyStepStatus : function (newStatus)
+    {
+      if(this.isShowStepStatus()){
+        this.stepStatus.setText(newStatus);
+      }
+    },
+
+
+    _applyShowPcntStatus : function(newStatus)
+    {
+      if (newStatus) {
+        this.pcntStatus.setDisplay(true); 
+      } else {
+        this.pcntStatus.setDisplay(false);
+      }
+    },
+
+
+    _applyPcntStatus : function (newStatus)
+    {
+      if(this.isShowPcntStatus()){
+        this.pcntStatus.setText(newStatus);
+      }
+    },
+
 
     _applyBarColor : function(newColor)
     {
