@@ -18,7 +18,17 @@ qx.Class.define("qxunit.runner.BasicRunner", {
       width: 300
     });
 
-    var testResult = new qxunit.TestResult();
+
+    iframe.addEventListener("load", function() {
+      var testLoader = iframe.getContentWindow().qxunit.TestLoader.getInstance();
+
+      // wait for the iframe to load
+      if (!testLoader) {
+        qx.client.Timer.once(arguments.callee, this, 50);
+        return;
+      }
+
+    var testResult = new (iframe.getContentWindow().qxunit.TestResult)();
     testResult.addEventListener("startTest", function(e) {
     	var test = e.getData();
     	this.debug("Test '"+test.getFullName()+"' started.");
@@ -27,14 +37,13 @@ qx.Class.define("qxunit.runner.BasicRunner", {
     	var ex = e.getData().exception;
     	var test = e.getData().test;
     	this.error("Test '"+test.getFullName()+"' failed: " +  ex.getMessage() + " - " + ex.getComment());
+    	//this.error(ex.getStackTrace());
     });
     testResult.addEventListener("error", function(e) {
     	var ex = e.getData().exception
     	this.error("The test '"+e.getData().test.getFullName()+"' had an error: " + ex, ex);
     });
 
-    iframe.addEventListener("load", function() {
-      var testLoader = iframe.getContentWindow().qxunit.TestLoader.getInstance();
       this.debug(testLoader.getTestDescriptions());
       gb.setEnabled(true);
 

@@ -78,6 +78,7 @@ qx.Class.define("qxunit.TestLoader", {
       	var ex = e.getData().exception;
       	var test = e.getData().test;
       	this.error("Test '"+test.getFullName()+"' failed: " +  ex.getMessage() + " - " + ex.getComment());
+      	this.error("Stack trace: " + ex.getStackTrace().join("\n"));
       });
       testResult.addEventListener("error", function(e) {
       	var ex = e.getData().exception
