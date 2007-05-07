@@ -47,6 +47,9 @@ qx.Class.define("qx.manager.object.ValueManager",
 
     // Create empty dynamic map
     this._dynamic = {};
+
+    // Static, non-changeable values, which should be registered, too
+    this._static = {};
   },
 
 
@@ -88,7 +91,11 @@ qx.Class.define("qx.manager.object.ValueManager",
       var key = "dynamic" + obj.toHashCode() + "$" + qx.core.Object.toHashCode(callback);
       var reg = this._registry;
 
-      if (value && this._dynamic[value])
+      // Detect and process static value
+      value = this._processStatic(value);
+
+      // Callback handling
+      if (value && (this._dynamic[value] || this._static[value]))
       {
         // Store reference for themed values
         reg[key] = { callback : callback, object : obj, value : value };
@@ -100,7 +107,7 @@ qx.Class.define("qx.manager.object.ValueManager",
       }
 
       // Finally executing given callback
-      callback.call(obj, value ? this._dynamic[value] || value : null);
+      callback.call(obj, value ? this._dynamic[value] || this._static[value] || value : null);
     },
 
 
@@ -117,6 +124,18 @@ qx.Class.define("qx.manager.object.ValueManager",
 
 
     /**
+     * Returns the dynamically interpreted result for the incoming value
+     *
+     * @type member
+     * @param value {String} dynamically interpreted idenfier
+     * @return {var} return the (translated) result of the incoming value
+     */
+    resolveStatic : function(value) {
+      return this._static[value];
+    },
+
+
+    /**
      * Whether a value is interpreted dynamically
      *
      * @type member
@@ -129,6 +148,32 @@ qx.Class.define("qx.manager.object.ValueManager",
 
 
     /**
+     * Whether a value is interpreted dynamically
+     *
+     * @type member
+     * @param value {String} dynamically interpreted idenfier
+     * @return {Boolean} returns true if the value is interpreted dynamically
+     */
+    isStatic : function(value) {
+      return this._static[value] !== undefined;
+    },
+
+
+    /**
+     * Processes static values, placeholder for derived classes.
+     * Can be used to also connect uninterpreted values/instances
+     * to dependend objects.
+     *
+     * @type member
+     * @param value {var} The incoming value
+     * @return {var} The resulting value
+     */
+    _processStatic : function(value) {
+      return value;
+    },
+
+
+    /**
      * Update all registered objects regarding the value switch
      *
      * @type member
@@ -136,13 +181,14 @@ qx.Class.define("qx.manager.object.ValueManager",
     _updateObjects : function()
     {
       var reg = this._registry;
-      var dyn = this._dynamic;
+      var dynamics = this._dynamic;
+      var statics = this._static;
       var entry;
 
       for (var key in reg)
       {
         entry = reg[key];
-        entry.callback.call(entry.object, dyn[entry.value]);
+        entry.callback.call(entry.object, dynamics[entry.value] || statics[entry.value]);
       }
     }
   },
@@ -157,6 +203,6 @@ qx.Class.define("qx.manager.object.ValueManager",
   */
 
   destruct : function() {
-    this._disposeFields("_registry", "_dynamic");
+    this._disposeFields("_registry", "_dynamic", "_static");
   }
 });
