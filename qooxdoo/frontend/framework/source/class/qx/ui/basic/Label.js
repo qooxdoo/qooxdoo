@@ -71,6 +71,7 @@ qx.Class.define("qx.ui.basic.Label",
     this.initHeight();
     this.initSelectable();
     this.initCursor();
+    this.initWrap();
   },
 
 
@@ -182,6 +183,18 @@ qx.Class.define("qx.ui.basic.Label",
 
 
     /**
+     * Whether the text should be automatically wrapped into the next line
+     */
+    wrap :
+    {
+      check : "Boolean",
+      init : false,
+      nullable : true,
+      apply : "_applyWrap"
+    },
+
+
+    /**
      * Set how the label text should be interpreted
      *
      * <ul>
@@ -289,7 +302,24 @@ qx.Class.define("qx.ui.basic.Label",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      WRAP SUPPORT
+    ---------------------------------------------------------------------------
+    */
 
+    _applyWrap : function(value, old) {
+      value == null ? this.removeStyleProperty("whiteSpace") : this.setStyleProperty("whiteSpace", value ? "normal" : "nowrap");
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      TEXT HANDLING
+    ---------------------------------------------------------------------------
+    */
 
     /**
      * Compute the values for "_htmlMode" and "_htmlContent"
