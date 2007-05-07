@@ -47,8 +47,8 @@ qx.Theme.define("qx.theme.classic.color.LunaSilver",
     "menu" : [ 255, 255, 255 ],
 
     "button" : [ 224, 223, 227 ],
-    "button-hover" : [ 135, 188, 229 ],
-    "button-abandoned" : [ 255, 240, 201 ],
+    "button-hover" : [ 234, 234, 236 ],
+    "button-abandoned" : [ 224, 223, 227 ],
 
     "window-active-caption" : [ 192, 192, 192 ],
     "window-active-caption-text" : [ 14, 16, 16 ],
