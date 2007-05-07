@@ -113,6 +113,11 @@ qx.Class.define("qxunit.runner.TestRunner",
       width : 300
     });
     this.reloadbutton.addEventListener("execute", this.reloadTestSuite, this);
+    this.testSuiteUrl.addEventListener("keydown", function (e) {
+      if (e.getKeyIdentifier() == "Enter") {
+        this.reloadTestSuite();
+      }
+    }, this);
 
 
     // Main Pane
@@ -308,7 +313,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       var progress = new qx.ui.layout.HorizontalBoxLayout();
       progress.set({
         height: "auto",
-        padding: [5],
+        padding: [10],
         spacing : 10,
         width : "100%"
       });
@@ -327,7 +332,6 @@ qx.Class.define("qxunit.runner.TestRunner",
       /* Wishlist:
       var progressb = new qx.ui.component.ProgressBar();
       progressb.set({
-        barColor : "blue",
         scale    : null,   // display no scale
         startLabel : "0%",
         endLabel   : "100%",
