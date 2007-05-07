@@ -79,6 +79,10 @@ qx.Class.define("qxunit.runner.TestRunner",
         this.leftReloadTree();
       }
       this.toolbar.setEnabled(true);  // in case it was disabled (for reload)
+      if (this.tests.run_pending) {
+        this.tests.run_pending();
+        delete this.tests.run_pending;
+      }
     }, this);
 
     // Header Pane
@@ -126,6 +130,12 @@ qx.Class.define("qxunit.runner.TestRunner",
         this.reloadTestSuite();
       }
     }, this);
+    this.toolbar.add(new qx.ui.toolbar.Separator);
+
+    // -- reload switch
+    this.reloadswitch = new qx.ui.toolbar.CheckBox("Reload before Test");
+    this.toolbar.add(this.reloadswitch);
+    this.reloadswitch.setShow("both");
 
 
     // Main Pane
@@ -404,8 +414,8 @@ qx.Class.define("qxunit.runner.TestRunner",
     // ------------------------------------------------------------------------
 
     leftGetSelection : function (e) {
-      if (! this.left.getSelectedElement()) // this is a kludge!
-        return;
+      if (! this.left.getSelectedElement()) {// this is a kludge!
+        return; }
       this.tests.selected = this.tests.handler.getFullName(this.left.getSelectedElement().modelLink);
       this.appender(this.tests.selected);
       this.widgets["statuspane.current"].setText(this.tests.selected);
@@ -420,6 +430,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       var ttree   = this.tests.handler.ttree;
       var left    = this.left;
       var handler = this.tests.handler;
+      var that    = this;
       this.widgets["statuspane.current"].setText("");
       this.widgets["statuspane.number"].setText("");
       left.resetSelected();
@@ -454,6 +465,11 @@ qx.Class.define("qxunit.runner.TestRunner",
           widgetR.add(t);
           t.modelLink         = currNode;
           currNode.widgetLink = t;
+          if (that.tests.handler.getFullName(currNode) == that.tests.selected) 
+          {
+            that.debug("Trying to re-select: "+that.tests.selected);
+            that.left.setSelectedElement(t);
+          }
         }
       }; //buildSubTree;
 
@@ -644,7 +660,15 @@ qx.Class.define("qxunit.runner.TestRunner",
       var modelNode = this.left.getSelectedElement().modelLink;
       // build list of individual tests to perform
       tlist = buildList(modelNode);
-      runtest();
+      if (this.reloadswitch.getChecked()) {
+        this.tests.run_pending = function () 
+        {
+          runtest();
+        };
+        this.reloadTestSuite();
+      } else {
+        runtest();
+      }
 
     }, //runTest
 
