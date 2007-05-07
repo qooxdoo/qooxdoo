@@ -315,7 +315,11 @@ qx.Class.define("qxunit.runner.TestRunner",
 
       var progressb = new qxunit.runner.ProgressBar();
       progress.add(progressb);
-      progressb.setBarColor("#36a618");
+      progressb.set({
+        showStepStatus: true,
+        showPcntStatus: true,
+        barColor: "#36a618"
+      });
       this.widgets["progresspane"] = progress;
       this.widgets["progresspane.progressbar"] = progressb;
       progress.add(new qx.ui.toolbar.Separator);
@@ -519,8 +523,6 @@ qx.Class.define("qxunit.runner.TestRunner",
         this.currentTestData = new qxunit.runner.TestResultData(test.getFullName());
         this.f1.addTestResult(this.currentTestData);
         this.appender("Test '"+test.getFullName()+"' started.");
-        this.widgets["progresspane.progressbar"].update(String(tstCurr+"/"+tstCnt));
-        tstCurr++;
       }, this);
 
       testResult.addEventListener("failure", function(e)
@@ -534,6 +536,8 @@ qx.Class.define("qxunit.runner.TestRunner",
         var val = this.getFailCnt();
         this.setFailCnt(++val);
         this.appender("Test '"+test.getFullName()+"' failed: " +  ex.getMessage() + " - " + ex.getComment());
+        this.widgets["progresspane.progressbar"].update(String(tstCurr+"/"+tstCnt));
+        tstCurr++;
       }, this);
 
       testResult.addEventListener("error", function(e)
@@ -546,6 +550,8 @@ qx.Class.define("qxunit.runner.TestRunner",
         var val = this.getFailCnt();
         this.setFailCnt(++val);
         this.appender("The test '"+e.getData().test.getFullName()+"' had an error: " + ex, ex);
+        this.widgets["progresspane.progressbar"].update(String(tstCurr+"/"+tstCnt));
+        tstCurr++;
       }, this);
 
       testResult.addEventListener("endTest", function(e)
@@ -556,6 +562,8 @@ qx.Class.define("qxunit.runner.TestRunner",
           //this.widgets["progresspane.succ_cnt"].setText(++this.tests.succ_cnt+"");
           var val = this.getSuccCnt();
           this.setSuccCnt(++val);
+          this.widgets["progresspane.progressbar"].update(String(tstCurr+"/"+tstCnt));
+          tstCurr++;
         }
       }, this);
 
