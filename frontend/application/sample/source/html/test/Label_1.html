@@ -173,15 +173,12 @@
         border:"outset-thin" });
     parent8.add(clickHint);
 
-    var wrapFont = new qx.renderer.font.Font(11, ["Verdana"]);
-    wrapFont.setWrap(true);
-
     var wrapLabel1 = new qx.ui.basic.Label("This is a label having a auto-height that needs wrapping");
-    wrapLabel1.set({ width:"100%", height:"auto", font : wrapFont, border:"outset-thin" });
+    wrapLabel1.set({ width:"100%", height:"auto", wrap : true, border:"outset-thin" });
     parent8.add(wrapLabel1);
 
     var wrapLabel2 = new qx.ui.basic.Label("This is a label having a auto-height that needs wrapping");
-    wrapLabel2.set({ width:"100%", height:"auto", font : wrapFont, border:"outset-thin" });
+    wrapLabel2.set({ width:"100%", height:"auto", wrap : true, border:"outset-thin" });
     parent8.add(wrapLabel2);
   });
   </script>

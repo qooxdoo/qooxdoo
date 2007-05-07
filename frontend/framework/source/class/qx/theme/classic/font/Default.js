@@ -51,7 +51,6 @@ qx.Theme.define("qx.theme.classic.font.Default",
       size : 11,
       family : [ "Lucida Grande", "Tahoma", "sans-serif" ],
       align : "center"
-
     },
 
     "largeCenter" :
