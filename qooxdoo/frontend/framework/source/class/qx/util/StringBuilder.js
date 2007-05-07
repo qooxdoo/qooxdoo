@@ -20,7 +20,7 @@
 
 /* ************************************************************************
 
-#embed(qx.static/history/historyHelper.html)
+#embed(qx.static/stringbuilder/helper.html)
 #require(qx.core.Init)
 
 ************************************************************************ */
@@ -69,6 +69,81 @@ qx.Class.define("qx.util.StringBuilder",
 
 
 
+
+
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics :
+  {
+    /**
+     * @internal
+     */
+    __init : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function()
+      {
+        // first use the plain IE StringBuilder and on window load replace it with a sub class
+        // of Array obtained from an IFrame. This technique is described by Dean Edwards at
+        // http://dean.edwards.name/weblog/2006/11/hooray/
+        qx.core.Init.getInstance().addEventListener("load", this.__onload, this);
+      },
+
+      "default" : null
+    }),
+
+
+    /**
+     * @internal
+     */
+    __onload : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function()
+      {
+        // create an <iframe>
+        this._frame = document.createElement("iframe");
+        this._frame.style.visibility = "hidden";
+        this._frame.src = qx.manager.object.AliasManager.getInstance().resolvePath("static/stringbuilder/helper.html")
+        document.body.appendChild(this._frame);
+      },
+
+      "default" : null
+    }),
+
+
+    /**
+     * @internal
+     */
+    rebuild : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(arr)
+      {
+        var prot = arr.prototype;
+
+        // Patch instance methods
+        prot.add = prot.push;
+        prot.toString = prot.get = new Function("return this.join('');");
+        prot.clear = prot.init = new Function("this.length = 0;");
+        prot.isEmpty = new Function("return this.length === 0;");
+
+        // Store under StringBuilder
+        qx.util.StringBuilder = arr;
+
+        // Remove helper frame
+        document.body.removeChild(this._frame);
+      },
+
+      "default" : null
+    })
+  },
+
+
+
+
+
   /*
   *****************************************************************************
      MEMBERS
@@ -77,7 +152,6 @@ qx.Class.define("qx.util.StringBuilder",
 
   members :
   {
-
     /**
      * Resets the contents of the Stringbuilder
      * equivalent to <pre>str = ""; </pre>
@@ -137,24 +211,6 @@ qx.Class.define("qx.util.StringBuilder",
 
 
     /**
-     * Append one string argument. To append multiple items use
-     * {@link #add} instead.
-     *
-     * @type members
-     * @param item
-     * @signature function(item)
-     */
-    addOne : qx.core.Variant.select("qx.client",
-    {
-      "default" : function(item) {},
-
-      "mshtml" : function() {
-        this._array.push(item);
-      }
-    }),
-
-
-    /**
      * Initializes the contents of the Stringbuilder
      * equivalent to <pre>str = ""; </pre>
      *
@@ -180,23 +236,25 @@ qx.Class.define("qx.util.StringBuilder",
      * @return {Boolean} whether the string is empty
      * @signature function()
      */
-    isEmpty:  qx.core.Variant.select("qx.client",
+    isEmpty : qx.core.Variant.select("qx.client",
     {
       "default" : function() {
-        return this.lenght == 0;
+        return this.length == 0;
       },
 
-      "mshtml" :function() {
+      "mshtml" :function()
+      {
         if (this._array.length == 0) {
           return true;
         }
 
         for (var i=0; i< this._array.length; i++) {
           if (this._array[i] != "") {
-            return false
+            return false;
           }
         }
-        return true
+
+        return true;
       }
     }),
 
@@ -215,52 +273,13 @@ qx.Class.define("qx.util.StringBuilder",
     "default" : function(statics, members)
     {
       members.add = Array.prototype.push;
-      members.addOne = Array.prototype.push;
       members.toString = members.get;
     },
 
     "mshtml" : function(statics, members)
     {
       members.toString = members.get;
-
-      // first use the plain IE StringBuilder and on window load replace it with a sub class
-      // of Array obtained from an IFrame. This technique is described by Dean Edwards at
-      // http://dean.edwards.name/weblog/2006/11/hooray/
-      qx.core.Init.getInstance().addEventListener("load", function() {
-        // create an <iframe>
-        var iframe = document.createElement("iframe");
-        iframe.src = qx.manager.object.AliasManager.getInstance().resolvePath("static/history/historyHelper.html")
-        iframe.style.display = "none";
-
-        document.body.appendChild(iframe);
-
-        // write a script into the <iframe> and steal its Array object
-        var doc = frames[frames.length - 1].document;
-        doc.open();
-        doc.write(
-        	"<html><head><script>parent.qx.util.StringBuilder = Array;<\/script></head></html>"
-        );
-        doc.close();
-
-        document.body.removeChild(iframe);
-
-        qx.util.StringBuilder.prototype.add = qx.util.StringBuilder.prototype.push;
-        qx.util.StringBuilder.prototype.addOne = qx.util.StringBuilder.prototype.push;
-        qx.util.StringBuilder.prototype.get = function() {
-          return this.join("");
-        };
-        qx.util.StringBuilder.prototype.toString = qx.util.StringBuilder.prototype.get;
-        qx.util.StringBuilder.prototype.clear = function() {
-          this.length = 0;
-        };
-        qx.util.StringBuilder.prototype.init = function() {
-          this.length = 0;
-        };
-        qx.util.StringBuilder.prototype.isEmpty = function() {
-          return this.lenght == 0;
-        }
-      });
+      statics.__init();
     }
   })
-
 });
