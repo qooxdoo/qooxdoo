@@ -61,6 +61,14 @@ qx.Class.define("qx.manager.object.FontManager",
 
   members :
   {
+    /**
+     * If the incoming value is a border object it will be stored into the
+     * static map and return the corresponding hashCode.
+     *
+     * @type member
+     * @param value {var} The original value
+     * @return {var} The result value
+     */
     _processStatic : function(value)
     {
       if (value instanceof qx.renderer.font.Font)
