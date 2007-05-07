@@ -384,6 +384,7 @@ qx.Class.define("qx.util.ColorUtil",
       throw new Error("Could not parse color: " + str);
     },
 
+
     /**
      * Try to convert a incoming string to an RGB string, which can be used
      * for all color properties.
@@ -413,6 +414,18 @@ qx.Class.define("qx.util.ColorUtil",
 
 
     /**
+     * Detects if a string is a valid qooxdoo color
+     *
+     * @type static
+     * @param str {String} any string
+     * @return {Boolean} true when the incoming value is a valid qooxdoo color
+     */
+    isValid : function(str) {
+      return this.isThemedColor(str) || this.isCssString(str);
+    },
+
+
+    /**
      * Detects if a string is a valid CSS color string
      *
      * @type static
@@ -420,7 +433,7 @@ qx.Class.define("qx.util.ColorUtil",
      * @return {Boolean} true when the incoming value is a valid CSS color string
      */
     isCssString : function(str) {
-      return this.isNamedColor(str) || this.isHex3String(str) || this.isHex6String(str) || this.isRgbString(str);
+      return this.isSystemColor(str) || this.isNamedColor(str) || this.isHex3String(str) || this.isHex6String(str) || this.isRgbString(str);
     },
 
 
