@@ -153,13 +153,33 @@ qx.core.Init.getInstance().defineMain(function() {
 		combo.setColumnHeaders(headers);
     });
 
+	var boxShowHeaders = new Box;
+	var fieldShowHeaders = new qx.manager.selection.RadioManager("showHeaders", [
+		new form.RadioButton('Auto', 'auto'),
+		new form.RadioButton('Always', 'always'),
+		new form.RadioButton('Never', 'never')
+	]);
+	boxShowHeaders.add(new qx.ui.basic.Label('ShowColumnHeaders'));
+	var items = fieldShowHeaders.getItems();
+	for (var i = 0; i < items.length; i++) {
+		boxShowHeaders.add(items[i]);
+	}
+	fieldShowHeaders.setSelected(fieldShowHeaders.getItems()[0]);
+	fieldShowHeaders.addEventListener("changeSelected", function(e) {
+		combo.setShowColumnHeaders(e.getData().getValue());
+    });
+
 	var boxHeaders2 = new Box;
 	with (boxHeaders2) {
 		setSpacing(10);
-		add(new Label('# of headers'), rb1, rb2, rb3, rb4, butChangeHeaders);
+		add(new Label('# of headers'), rb1, rb2, rb3, rb4, butChangeHeaders, boxShowHeaders);
 	}
 	var boxHeaders = new GroupBox('Test headers');
+
 	boxHeaders.add(boxHeaders2);
+
+	var boxRow3 = new Box;
+	boxRow3.add(boxHeaders);
 
 	var fieldMaxRows = new form.Spinner(2, combo.getMaxVisibleRows(), 20);
 	fieldMaxRows.getManager().addEventListener('changeValue', function() {
@@ -168,8 +188,8 @@ qx.core.Init.getInstance().defineMain(function() {
 	var boxMaxRows = new GroupBox('Max. number of visible rows');
 	boxMaxRows.add(fieldMaxRows);
 
-	var boxRow3 = new Box;
-	boxRow3.add(boxHeaders, boxMaxRows);
+	var boxRow4 = new Box;
+	boxRow4.add(boxMaxRows);
 
 	//###Test of showOnTextField
 	var rbDesc = new form.RadioButton('Description', 'description');
@@ -219,7 +239,7 @@ qx.core.Init.getInstance().defineMain(function() {
 		setSpacing(10);
 		setTop(50);
 		setLeft(30);
-		add(boxCombo, boxProp, boxRow3, boxShowOn, boxVal);
+		add(boxCombo, boxProp, boxRow3, boxRow4, boxShowOn, boxVal);
 		addToDocument();
 	}
 	combo.focus();
