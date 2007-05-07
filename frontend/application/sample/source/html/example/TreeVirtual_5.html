@@ -33,7 +33,7 @@
             right  : 300,
             top    : 30,
             bottom : '50%',
-            border : "thinInset"
+            border : "inset-thin"
           });
       setColumnWidth(0, 400);
       setColumnWidth(1, 100);
@@ -88,7 +88,7 @@
     // table
     var table = new qx.ui.table.Table(tableModel);
     with (table) {
-      set({ left: 10, right: 300, top: '55%', bottom: 30, border:"thinInset" });
+      set({ left: 10, right: 300, top: '55%', bottom: 30, border:"inset-thin" });
       getSelectionModel().setSelectionMode(qx.ui.table.SelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
 	  if (1) {	// uncomment this section to see how the column widths of the tree are affected
