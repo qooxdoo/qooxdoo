@@ -244,6 +244,14 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       init : true
     },
 
+	/** Show column headers in the popup list?.  Default value is "Auto" and means to show headers if there is more than one visible column.*/
+    showColumnHeaders :
+    {
+      check : [ "always", "never", "auto" ],
+      init: "auto",
+      apply : "_modifyShowColumnHeaders"
+    },
+
     /** Allow the search dialog when double clicking the combo, or pressing special keys?. */
     allowSearch :
     {
@@ -627,13 +635,29 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       return true;
     },
 
-
     /**
-     * TODOC
+     * Post-processing after property showColumnHeaders changes.
      *
      * @type member
      * @param propValue {var} Current value
-     * @return {Boolean} TODOC
+     * @return {Boolean} Success
+     */
+    _modifyShowColumnHeaders: function(propVal)
+    {
+      if (this._list)
+      {
+        this.hasHeaders = propVal == 'always' || propVal == 'auto' && this._list.getTableColumnModel().getVisibleColumnCount() > 1;
+        this._list.getPaneScroller(0).getHeader().setHeight(this.hasHeaders ? 'auto' : 1);
+      }
+      return true;
+    },
+
+    /**
+     * Post-processing after property editable changes.
+     *
+     * @type member
+     * @param propValue {var} Current value
+     * @return {Boolean} Success
      */
     _modifyEditable : function(propValue) /* , propOldValue, propData */
     {
@@ -642,6 +666,11 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       f.setReadOnly(!propValue);
       f.setCursor(propValue ? null : "default");
       f.setSelectable(propValue);
+      // When turning off editable, maybe the current value isn't valid
+      /*if (!propValue && this._list)
+      {
+      	this.setValue(this.getValue());
+      }*/
       return true;
     },
 
@@ -864,18 +893,9 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       var maxRows = this.getMaxVisibleRows(),
 
       // Only assign room for the vertical scrollbar when needed
-      width = data.length > maxRows ? (new qx.ui.core.ScrollBar)._getScrollBarWidth() : 0, colModel = this._list.getTableColumnModel(), countVisible = 0;
+      width = data.length > maxRows ? (new qx.ui.core.ScrollBar)._getScrollBarWidth() : 0, colModel = this._list.getTableColumnModel();
 
-      // ##Only show headers if we have more than 1 column visible
-      for (col=0; col<nCols; col++)
-      {
-        if (colModel.isColumnVisible(col)) {
-          countVisible++;
-        }
-      }
-
-      var hasHeaders = countVisible > 1;
-      this._list.getPaneScroller(0).getHeader().setHeight(hasHeaders ? 'auto' : 1);
+      this._modifyShowColumnHeaders(this.getShowColumnHeaders());
 
       // ##Size each column
       for (col=0; col<nCols; col++)
@@ -883,11 +903,11 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
         if (colModel.isColumnVisible(col))
         {
           var w = columnWidths[col];
-
-          if (hasHeaders) {
+          // Set by _modifyShowColumnHeaders
+          if (this.hasHeaders)
+          {
             w = Math.max(w, this._getTextWidth(cols[col]));
           }
-
           w += 8;
           this._list.setColumnWidth(col, w);
           width += w;
@@ -898,7 +918,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       this._list.set(
       {
         width  : width,
-        height : this._list.getRowHeight() * Math.min(maxRows, (hasHeaders ? 1 : 0) + data.length) + 2 + (hasHeaders ? 2 : 0)
+        height : this._list.getRowHeight() * Math.min(maxRows, (this.hasHeaders ? 1 : 0) + data.length) + 2 + (this.hasHeaders ? 2 : 0)
       });
 
       // This denotes dimensions are already calculated
