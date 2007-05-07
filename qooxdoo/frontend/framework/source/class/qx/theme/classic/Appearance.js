@@ -909,7 +909,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           padding         : [ 1, 3 ],
           font            : "default",
           textColor       : states.disabled ? "text-disabled" : "undefined",
-          backgroundColor : "white"
+          backgroundColor : "field"
         };
       }
     },

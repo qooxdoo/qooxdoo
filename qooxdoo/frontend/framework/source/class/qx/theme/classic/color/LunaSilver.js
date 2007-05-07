@@ -46,6 +46,7 @@ qx.Theme.define("qx.theme.classic.color.LunaSilver",
 
     "menu" : [ 250, 251, 254 ],
     "list" : [ 250, 251, 254 ],
+    "field" : [ 250, 251, 254 ],
 
     "button" : [ 224, 223, 227 ],
     "button-hover" : [ 234, 234, 236 ],

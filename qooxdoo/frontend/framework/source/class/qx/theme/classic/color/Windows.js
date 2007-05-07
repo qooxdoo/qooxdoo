@@ -46,6 +46,7 @@ qx.Theme.define("qx.theme.classic.color.Windows",
 
     "menu" : [ 212, 208, 200 ],
     "list" : [ 250, 249, 248 ],
+    "field" : [ 250, 249, 248 ],
 
     "button" : [ 212, 208, 200 ],
     "button-hover" : [ 212, 208, 200 ],
