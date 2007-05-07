@@ -19,9 +19,9 @@
 ************************************************************************ */
 
 /**
- * Methods to convert colors between different color spaces.
+ * Support for extended CSS color names
  */
-qx.Class.define("qx.util.ColorUtil",
+qx.Class.define("qx.util.ExtendedColor",
 {
   statics :
   {
