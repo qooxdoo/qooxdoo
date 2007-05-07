@@ -65,26 +65,42 @@ qx.Class.define("qxunit.runner.TestResultData",
   {
     getStackTrace : function()
     {
-
       var ex = this.getException();
-      if (!ex) {
-        return "";
+
+      var trace = [];
+      if (typeof(ex.getStackTrace) == "function") {
+        trace = ex.getStackTrace();
+      } else if (ex.stack) {
+        trace = this.__beautyStackTrace(ex.stack);
       }
-      if (ex.stack) {
-        this.debug(ex.stack);
-        return this._beautyStackTrace(ex.stack);
-      } else {
-        return "";
+/*
+      while (trace.length > 0)
+      {
+        var first = trace[0];
+        if (
+          first.indexOf("qxunit.AssertionError") == 0 ||
+          first.indexOf("qx.Class") == 0 ||
+          first.indexOf("qxunit.MAssert") == 0
+          )
+        {
+          trace.shift();
+        }
+        else
+        {
+          break;
+        }
       }
+*/
+      return trace.join("<br>");
     },
 
 
-    _beautyStackTrace : function(stack)
+    __beautyStackTrace : function(stack)
     {
       // e.g. "()@http://localhost:8080/webcomponent-test-SNAPSHOT/webcomponent/js/com/ptvag/webcomponent/common/log/Logger:253"
       var lineRe = /@(.+):(\d+)$/gm;
       var hit;
-      var out = "";
+      var trace = [];
       var scriptDir = "/source/class/";
 
       while ((hit = lineRe.exec(stack)) != null)
@@ -94,10 +110,10 @@ qx.Class.define("qxunit.runner.TestResultData",
         var className = (jsPos == -1) ? url : url.substring(jsPos + scriptDir.length).replace(/\//g, ".").replace(/\.js$/, "");
 
         var lineNumber = hit[2];
-        out += className + ":" + lineNumber + "<br>";
+        trace.push(className + ":" + lineNumber);
       }
 
-      return out;
+      return trace;
     }
 
   }

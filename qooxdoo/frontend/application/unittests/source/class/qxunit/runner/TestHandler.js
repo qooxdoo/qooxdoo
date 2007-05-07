@@ -175,7 +175,7 @@ qx.Class.define("qxunit.runner.TestHandler",
         var path   = node.pwd();
         path.shift(); // remove leading 'All'
         //var tclass = path.join(".")+"."+node.label;
-        if(this.isClass(node)) 
+        if(this.isClass(node))
         {
           path = path.concat(node.label);
         }
@@ -214,7 +214,7 @@ qx.Class.define("qxunit.runner.TestHandler",
       },
 
 
-      hasTests : function (node) 
+      hasTests : function (node)
       {
         if (! this.isClass(node))
           return false;

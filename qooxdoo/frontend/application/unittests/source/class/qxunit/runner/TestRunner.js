@@ -55,12 +55,20 @@ qx.Class.define("qxunit.runner.TestRunner",
     this.iframe = iframe;
     iframe.addToDocument();
 
-    this.setBackgroundColor("threedface");
+    //this.setBackgroundColor("threedface");
     this.setZIndex(5);
 
     // Get the TestLoader from the Iframe
     iframe.addEventListener("load", function (e) {
       this.loader = iframe.getContentWindow().qxunit.TestLoader.getInstance();
+
+      // wait for the iframe to load
+      if (!this.loader) {
+        qx.client.Timer.once(arguments.callee, this, 50);
+        return;
+      }
+
+      this.frameWindow = iframe.getContentWindow();
       var testRep = this.loader.getTestDescriptions();
       this.tests.handler = new qxunit.runner.TestHandler(testRep);
       if (! this.left) {
@@ -180,7 +188,7 @@ qx.Class.define("qxunit.runner.TestRunner",
   *****************************************************************************
   */
 
-  properties : 
+  properties :
   {
     succCnt :
     {
@@ -189,7 +197,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       apply : "_applySuccCnt"
     },
 
-    failCnt : 
+    failCnt :
     {
       check : "Integer",
       init  : 0,
@@ -509,7 +517,7 @@ qx.Class.define("qxunit.runner.TestRunner",
 
       this.toolbar.setEnabled(false);
       //this.left.setEnabled(false);
-      
+
       this.resetGui();
       var bar = this.widgets["progresspane.progressbar"];
       // Make initial entry in output windows (test result, log, ...)
@@ -518,7 +526,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       // create testResult obj
       var tstCnt = this.tests.selected_cnt;
       var tstCurr = 1;
-      var testResult = new qxunit.TestResult();
+      var testResult = new this.frameWindow.qxunit.TestResult();
 
       // set up event listeners
       testResult.addEventListener("startTest", function(e)
@@ -666,7 +674,7 @@ qx.Class.define("qxunit.runner.TestRunner",
     //   MISC HELPERS
     // ------------------------------------------------------------------------
 
-    resetGui : function () 
+    resetGui : function ()
     {
       this.resetProgress();
       this.resetTabView();
@@ -683,7 +691,7 @@ qx.Class.define("qxunit.runner.TestRunner",
     },
 
 
-    resetTabView : function () 
+    resetTabView : function ()
     {
       this.f1.clear();
     },
@@ -693,13 +701,13 @@ qx.Class.define("qxunit.runner.TestRunner",
     {
       this.widgets["progresspane.succ_cnt"].setText(newSucc+"");
     },
-      
+
 
     _applyFailCnt : function (newFail)
     {
       this.widgets["progresspane.fail_cnt"].setText(newFail+"");
     },
-      
+
 
     appender : function (str) {
       //this.f1.setValue(this.f1.getValue() + str);

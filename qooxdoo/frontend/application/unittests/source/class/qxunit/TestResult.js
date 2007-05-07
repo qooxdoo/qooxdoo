@@ -25,25 +25,40 @@ qx.Class.define("qxunit.TestResult", {
 
   members :
   {
-    run : function(test, testFunction) {
+    run : function(test, testFunction)
+    {
       this.createDispatchDataEvent("startTest", test);
       try
       {
         testFunction();
-      } catch (e) {
-        if (e.classname == "qxunit.AssertionError") {
-          //debugger;
+      }
+      catch (e)
+      {
+        if (e.classname == "qxunit.AssertionError")
+        {
           var failure = { exception : e, test : test};
           this.getFailures().push(failure);
           this.createDispatchDataEvent("failure", failure);
-        } else {
-          //debugger;
+        }
+        else
+        {
           var error = { exception : e, test : test};
           this.getErrors().push(error);
           this.createDispatchDataEvent("error", error);
         }
       }
-      this.createDispatchDataEvent("endTest", test);
+      finally
+      {
+        this.createDispatchDataEvent("endTest", test);
+      }
+    }
+  },
+
+  statics :
+  {
+    run : function(testResult, test, testFunction)
+    {
+      testResult.run(test, testFunction);
     }
   }
 
