@@ -100,6 +100,9 @@ qx.Class.define("qx.Mixin",
 
         // Create Interface from statics
         var mixin = config.statics ? config.statics : {};
+        for(var key in mixin) {
+          mixin[key].mixin = mixin;
+        }
 
         // Attach configuration
         if (config.construct) {
@@ -116,6 +119,9 @@ qx.Class.define("qx.Mixin",
 
         if (config.members) {
           mixin.$$members = config.members;
+        }
+        for(var key in mixin.$$members) {
+          mixin.$$members[key].mixin = mixin;
         }
 
         if (config.events) {
