@@ -25,6 +25,16 @@
 ************************************************************************ */
 
 /**
+ * Table Widget
+ *
+ * This widget displays data like text, images or links in a table.
+ *
+ * Note:
+ * The ListView widget renders the table a lot faster than the similar
+ * {@link qx.ui.table.Table} widget. On the other hand does it have less
+ * features works only reliable with fixed dimensions and does
+ * not work properly in auto-sized layout managers!
+ *
  * @appearance list-view
  */
 qx.Class.define("qx.ui.listview.ListView",
