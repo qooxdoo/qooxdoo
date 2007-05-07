@@ -27,7 +27,7 @@
 qx.Class.define("qx.manager.object.ValueManager",
 {
   type : "abstract",
-  extend : qx.core.Target,
+  extend : qx.core.Object,
 
 
 
@@ -88,7 +88,7 @@ qx.Class.define("qx.manager.object.ValueManager",
       }
 
       // Store references for dynamic values
-      var key = "dynamic" + obj.toHashCode() + "$" + qx.core.Object.toHashCode(callback);
+      var key = "v" + obj.toHashCode() + "$" + qx.core.Object.toHashCode(callback);
       var reg = this._registry;
 
       // Detect and process static value
