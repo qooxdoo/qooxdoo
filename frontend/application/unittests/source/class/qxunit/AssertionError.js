@@ -49,10 +49,10 @@ qx.Class.define("qxunit.AssertionError", {
         return [];
       },
 
-      "mshtml" : function()
+      "mshtml|webkit" : function()
       {
         var trace = [];
-        var fcn = arguments.callee.caller;
+        var fcn = qx.lang.Function.getCaller(arguments);
         var i=0;
         while (fcn)
         {
@@ -115,9 +115,9 @@ qx.Class.define("qxunit.AssertionError", {
         }
       }
 
-      var fcnReResult = fcn.toString().match(/function(\s*)(\w*)/);
-      if (fcnReResult && fcnReResult.length >= 2 && fcnReResult[2]) {
-        return fcnReResult[2];
+      var fcnReResult = fcn.toString().match(/(function\s*\w*\(.*?\))/);
+      if (fcnReResult && fcnReResult.length >= 1 && fcnReResult[1]) {
+        return fcnReResult[1];
       }
       var fcnReResult = fcn.toString().match(/(function\s*\(.*?\))/);
       if (fcnReResult && fcnReResult.length >= 1 && fcnReResult[1]) {
