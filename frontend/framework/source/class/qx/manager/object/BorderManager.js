@@ -61,6 +61,23 @@ qx.Class.define("qx.manager.object.BorderManager",
 
   members :
   {
+    _processStatic : function(value)
+    {
+      if (value instanceof qx.renderer.border.Border)
+      {
+        var key = "b" + value.toHashCode();
+
+        if (!this._static[key]) {
+          this._static[key] = value;
+        }
+
+        return key;
+      }
+
+      return value;
+    },
+
+
     _applyBorderTheme : function(value)
     {
       var dest = this._dynamic;
@@ -99,14 +116,15 @@ qx.Class.define("qx.manager.object.BorderManager",
     updateObjectsEdge : function(border, edge)
     {
       var reg = this._registry;
-      var dyn = this._dynamic;
+      var dynamics = this._dynamic;
+      var statics = this._static;
       var entry;
 
       for (var key in reg)
       {
         entry = reg[key];
 
-        if (dyn[entry.value] === border) {
+        if ((dynamics[entry.value] || statics[entry.value]) === border) {
           entry.callback.call(entry.object, border, edge);
         }
       }

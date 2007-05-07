@@ -52,7 +52,6 @@ qx.Theme.define("qx.theme.classic.color.LunaGreen",
     "window-inactive-caption" : [ 212, 214, 186 ],
     "window-inactive-caption-text" : [ 255, 255, 255 ],
 
-    "tab-view-border" : [ 70, 65, 34 ],
     "tab-view-button" : [ 211, 220, 198 ]
   }
 });
