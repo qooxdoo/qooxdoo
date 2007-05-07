@@ -280,8 +280,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "button-view",
-          border          : "dark-shadow"
+          border : "dark-shadow"
         };
       }
     },
@@ -291,6 +290,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
+          backgroundColor : "button-view-pane",
           padding : 10
         };
       }
@@ -388,7 +388,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
 
         return {
-          backgroundColor : states.checked ? "button-view" : "undefined",
+          backgroundColor : states.checked ? "button-view-pane" : "undefined",
           iconPosition : "top",
           margin : margin,
           width : width ,
@@ -555,7 +555,14 @@ qx.Theme.define("qx.theme.classic.Appearance",
       include : "button-view"
     },
 
-    "radio-view-pane" : {
+    "radio-view-pane" :
+    {
+      style : function(states)
+      {
+        return {
+          backgroundColor : "radio-view-pane"
+        };
+      }
     },
 
     "radio-view-page" : {
