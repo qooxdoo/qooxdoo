@@ -55,7 +55,7 @@ qx.Theme.define("qx.theme.classic.color.Windows",
     "window-inactive-caption" : [ 128, 128, 128 ],
     "window-inactive-caption-text" : [ 212, 208, 200 ],
 
-    "button-view" : [ 250, 251, 254 ],
+    "button-view-pane" : [ 250, 251, 254 ],
     "button-view-bar" : [ 225, 238, 255 ],
 
     "tab-view-pane" : [ 250, 249, 248 ],
@@ -64,6 +64,7 @@ qx.Theme.define("qx.theme.classic.color.Windows",
     "tab-view-button-hover" : [ 250, 249, 248 ],
     "tab-view-button-checked" : [ 250, 249, 248 ],
 
+    "radio-view-pane" : [ 250, 251, 254 ],
     "radio-view-bar" : [ 225, 238, 255 ],
     "radio-view-button-checked" : [ 250, 251, 254 ],
 
