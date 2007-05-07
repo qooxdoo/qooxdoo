@@ -1443,7 +1443,8 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Integer",
       apply : "_modifyClip",
-      themeable : true
+      themeable : true,
+      nullable : true
     },
 
 
@@ -1452,7 +1453,8 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Integer",
       apply : "_modifyClip",
-      themeable : true
+      themeable : true,
+      nullable : true
     },
 
 
@@ -1461,7 +1463,8 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Integer",
       apply : "_modifyClip",
-      themeable : true
+      themeable : true,
+      nullable : true
     },
 
 
@@ -1470,7 +1473,8 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Integer",
       apply : "_modifyClip",
-      themeable : true
+      themeable : true,
+      nullable : true
     },
 
 
