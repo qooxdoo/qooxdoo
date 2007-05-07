@@ -418,65 +418,65 @@ qx.Class.define("qx.core.Property",
         }
       }
 
-      var setter = new qx.util.StringBuilder;
-      var resetter = new qx.util.StringBuilder;
+      var setter = [];
+      var resetter = [];
 
       if (themeable)
       {
-        var styler = new qx.util.StringBuilder;
-        var unstyler = new qx.util.StringBuilder;
+        var styler = [];
+        var unstyler = [];
       }
 
       var argHandler = "var a=arguments[0] instanceof Array?arguments[0]:arguments;";
 
-      setter.add(argHandler);
-      resetter.add(argHandler);
+      setter.push(argHandler);
+      resetter.push(argHandler);
 
       if (themeable)
       {
-        styler.add(argHandler);
-        unstyler.add(argHandler);
+        styler.push(argHandler);
+        unstyler.push(argHandler);
       }
 
       if (config.mode == "shorthand")
       {
         var shorthand = "a=qx.lang.Array.fromShortHand(qx.lang.Array.fromArguments(a));";
-        setter.add(shorthand);
+        setter.push(shorthand);
 
         if (themeable) {
-          styler.add(shorthand);
+          styler.push(shorthand);
         }
       }
 
       for (var i=0, a=config.group, l=a.length; i<l; i++)
       {
-        setter.add("this.", this.$$method.set[a[i]], "(a[", i, "]);");
-        resetter.add("this.", this.$$method.reset[a[i]], "(a[", i, "]);");
+        setter.push("this.", this.$$method.set[a[i]], "(a[", i, "]);");
+        resetter.push("this.", this.$$method.reset[a[i]], "(a[", i, "]);");
 
         if (themeable)
         {
-          styler.add("this.", this.$$method.style[a[i]], "(a[", i, "]);");
-          unstyler.add("this.", this.$$method.unstyle[a[i]], "(a[", i, "]);");
+          styler.push("this.", this.$$method.style[a[i]], "(a[", i, "]);");
+          unstyler.push("this.", this.$$method.unstyle[a[i]], "(a[", i, "]);");
         }
       }
 
       // Attach setter
       this.$$method.set[name] = prefix + "set" + postfix;
-      members[this.$$method.set[name]] = new Function(setter.get());
+      members[this.$$method.set[name]] = new Function(setter.join(""));
 
       // Attach resetter
       this.$$method.reset[name] = prefix + "reset" + postfix;
-      members[this.$$method.reset[name]] = new Function(resetter.get());
+      members[this.$$method.reset[name]] = new Function(resetter.join(""));
 
       if (themeable)
       {
         // Attach styler
         this.$$method.style[name] = prefix + "style" + postfix;
-        members[this.$$method.style[name]] = new Function(styler.get());
+        members[this.$$method.style[name]] = new Function(styler.join(""));
 
         // Attach unstyler
         this.$$method.unstyle[name] = prefix + "unstyle" + postfix;
-        members[this.$$method.unstyle[name]] = new Function(unstyler.get());
+        members[this.$$method.unstyle[name]] = new Function(unstyler.join(""));
       }
     },
 
