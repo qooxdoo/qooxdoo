@@ -59,39 +59,12 @@ qx.Class.define("qx.ui.core.Widget",
   {
     this.base(arguments);
 
-    // Data structures
-    this._styleProperties = { position : "absolute" };
-
-    // Property init
-    // User of the location, dimension, overflow, tabIndex, selectable and opacity properties
-    // need to add a init call to the class where the property is defined
-
-    // Layout queue helper
+    // Create data structures
     this._layoutChanges = {};
-
-    // Prepare appearance
     this._states = {};
+
+    // Apply initial appearance
     this._applyAppearance();
-
-
-    /*
-    this.initWidth();
-    this.initHeight();
-    */
-
-    /*
-    this.initTop();
-    this.initRight();
-    this.initBottom();
-    this.initLeft();
-
-
-    this.initMinWidth();
-    this.initMaxWidth();
-
-    this.initMinHeight();
-    this.initMaxHeight();
-    */
   },
 
 
@@ -3033,6 +3006,9 @@ qx.Class.define("qx.ui.core.Widget",
         // add reference to widget instance
         propValue.qx_Widget = this;
 
+        // make absolute
+        propValue.style.position = "absolute";
+
         // link element and style reference
         this._element = propValue;
         this._style = propValue.style;
@@ -5587,7 +5563,12 @@ qx.Class.define("qx.ui.core.Widget",
      * @param propName {var} TODOC
      * @return {var} TODOC
      */
-    getStyleProperty : function(propName) {
+    getStyleProperty : function(propName)
+    {
+      if (!this._styleProperties) {
+        return "";
+      }
+
       return this._styleProperties[propName] || "";
     },
 
@@ -5613,6 +5594,10 @@ qx.Class.define("qx.ui.core.Widget",
      */
     setStyleProperty : function(propName, propValue)
     {
+      if (!this._styleProperties) {
+        this._styleProperties = {};
+      }
+
       this._styleProperties[propName] = propValue;
 
       if (this._isCreated)
@@ -5633,6 +5618,10 @@ qx.Class.define("qx.ui.core.Widget",
      */
     removeStyleProperty : function(propName)
     {
+      if (!this._styleProperties) {
+        return;
+      }
+
       delete this._styleProperties[propName];
 
       if (this._isCreated)
@@ -5655,6 +5644,11 @@ qx.Class.define("qx.ui.core.Widget",
     _applyStyleProperties : function(vElement)
     {
       var vProperties = this._styleProperties;
+
+      if (!vProperties) {
+        return;
+      }
+
       var propName;
 
       var vBaseElement = vElement;
@@ -6679,7 +6673,6 @@ qx.Class.define("qx.ui.core.Widget",
         {
           switch(i)
           {
-            case "position":
             case "zIndex":
             case "filter":
             case "display":

@@ -51,9 +51,6 @@ qx.Class.define("qx.ui.component.ColorSelector",
   {
     this.base(arguments);
 
-    // ********************************************
-    //   CREATE CHILDREN
-    // ********************************************
     // 1. Base Structure (Vertical Split)
     this._createControlBar();
     this._createButtonBar();
@@ -76,13 +73,12 @@ qx.Class.define("qx.ui.component.ColorSelector",
     // 5. Preview FieldSet Content
     this._createPreviewContent();
 
-    // ********************************************
-    //   INIT COLORS
-    // ********************************************
+    // Apply colors
     if (arguments.length == 3) {
       this.setPreviousColor(vPreviousRed, vPreviousGreen, vPreviousBlue);
     }
 
+    // Initialize properties
     this.initWidth();
     this.initHeight();
   },
