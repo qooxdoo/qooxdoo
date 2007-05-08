@@ -60,9 +60,12 @@ qx.Class.define("qxunit.runner.TestRunner",
     iframe.addEventListener("load", this.ehIframeOnLoad, this);
 
     // Header Pane
-    this.header = new qx.ui.embed.HtmlEmbed("<center><h1>QxRunner - The qooxdoo Test Runner</h1></center>");
+    /*
+    this.header = new qx.ui.embed.HtmlEmbed("<h1>qooxdoo Test Runner</h1>");
     this.header.setHtmlProperty("className", "header");
     this.header.setHeight(50);
+    */
+    this.header = this.__makeHeader();
     this.add(this.header);
 
     // Toolbar
@@ -107,9 +110,20 @@ qx.Class.define("qxunit.runner.TestRunner",
     this.toolbar.add(new qx.ui.toolbar.Separator);
 
     // -- reload switch
-    this.reloadswitch = new qx.ui.toolbar.CheckBox("Reload before Test");
+    this.reloadswitch = new qx.ui.toolbar.CheckBox("Reload before Test",
+                                                   "resource/image/yellow_diamond_hollow18.gif");
     this.toolbar.add(this.reloadswitch);
     this.reloadswitch.setShow("both");
+    this.reloadswitch.addEventListener("changeChecked",function (e) 
+    {
+      if (this.reloadswitch.getChecked())
+      {
+        this.reloadswitch.setIcon("resource/image/yellow_diamond_full18.gif");
+      } else 
+      {
+        this.reloadswitch.setIcon("resource/image/yellow_diamond_hollow18.gif");
+      }
+    },this);
 
 
     // Main Pane
@@ -121,6 +135,8 @@ qx.Class.define("qxunit.runner.TestRunner",
     mainsplit.set({
       height : "1*"
     });
+
+    // Left -- is done when iframe is loaded
 
     // Right
     var right = new qx.ui.layout.VerticalBoxLayout();
@@ -201,6 +217,32 @@ qx.Class.define("qxunit.runner.TestRunner",
     //   CONSTRUCTOR HELPERS
     // ------------------------------------------------------------------------
 
+    
+        /**                                                                                    
+     * Create the header widget                                                            
+     *                                                                                     
+     * @return {qx.ui.embed.HtmlEmbed} The header widget                                   
+     */                                                                                    
+    __makeHeader : function()                                                            
+    {                                                                                      
+      var header = new qx.ui.embed.HtmlEmbed(                                              
+        "<h1>" +                                                                           
+        "<span>" + "qooxdoo Test Runner" + "</span>" +                    
+        "</h1>" +                                                                          
+        "<div class='version'>qooxdoo " + qx.core.Version.toString() + "</div>"            
+      );                                                                                   
+      header.setHtmlProperty("id", "header");                                              
+      header.setStyleProperty(                                                             
+        "background",                                                                      
+        "#134275 url(" +                                                                   
+        qx.manager.object.AliasManager.getInstance().resolvePath("qxunit/image/colorstrip.gif") +                                                                                        
+        ") top left repeat-x"                                                              
+      );                                                                                   
+      header.setHeight(70);                                                                
+      return header;                                                                       
+    },                                                                                     
+
+
     __makeButtonView : function ()
     {
       var buttview = new qx.ui.pageview.tabview.TabView();
@@ -280,12 +322,13 @@ qx.Class.define("qxunit.runner.TestRunner",
       var tmap = this.tests.handler.tmap;
 
       //var left = new qx.ui.tree.Tree("Test Classes");
-      var left = new qx.ui.tree.Tree("All","resource/image/package18.gif");
+      var left = new qx.ui.tree.Tree("Tests");
       left.set({
         width : "100%",
         height : "100%",
         padding : [10],
         overflow: "auto",
+        backgroundColor: "white",
         border : "inset"
       });
 
