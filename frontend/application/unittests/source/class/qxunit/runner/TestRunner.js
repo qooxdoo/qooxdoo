@@ -54,36 +54,10 @@ qx.Class.define("qxunit.runner.TestRunner",
     iframe.setEdge(0);
     this.iframe = iframe;
     iframe.addToDocument();
-
-    //this.setBackgroundColor("threedface");
     this.setZIndex(5);
 
-    // Get the TestLoader from the Iframe
-    iframe.addEventListener("load", function (e) {
-      this.loader = iframe.getContentWindow().qxunit.TestLoader.getInstance();
-
-      // wait for the iframe to load
-      if (!this.loader) {
-        qx.client.Timer.once(arguments.callee, this, 50);
-        return;
-      }
-
-      this.frameWindow = iframe.getContentWindow();
-      var testRep = this.loader.getTestDescriptions();
-      this.tests.handler = new qxunit.runner.TestHandler(testRep);
-      if (! this.left) {
-        var left = this.__makeLeft();
-        this.left = left;
-        this.mainsplit.addLeft(left);
-      } else {
-        this.leftReloadTree();
-      }
-      this.toolbar.setEnabled(true);  // in case it was disabled (for reload)
-      if (this.tests.run_pending) {   // do we have pending tests to run?
-        this.tests.run_pending();
-        delete this.tests.run_pending;
-      }
-    }, this);
+    // Get the TestLoader from the Iframe (in the event handler)
+    iframe.addEventListener("load", this.ehIframeOnLoad, this);
 
     // Header Pane
     this.header = new qx.ui.embed.HtmlEmbed("<center><h1>QxRunner - The qooxdoo Test Runner</h1></center>");
@@ -616,7 +590,6 @@ qx.Class.define("qxunit.runner.TestRunner",
 
       /*
        * function to process a list of individual tests
-       *
        * because of Timer.once restrictions, using an external var as parameter
        * (tlist)
        */
@@ -667,6 +640,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       // build list of individual tests to perform
       tlist = buildList(modelNode);
       if (this.reloadswitch.getChecked()) {
+        // set up pending tests
         this.tests.run_pending = function () 
         {
           testResult = init_testResult();
@@ -674,10 +648,10 @@ qx.Class.define("qxunit.runner.TestRunner",
             that.debug("Alarm: no testResult!");} 
           else {
             runtest();}
-          //delete this.tests.run_pending;
         };
         this.reloadTestSuite();
       } else {
+        // run the tests now
         testResult = init_testResult();
         runtest();
       }
@@ -704,6 +678,32 @@ qx.Class.define("qxunit.runner.TestRunner",
         }
       },this,0);
     }, //reloadTestSuite
+
+
+    ehIframeOnLoad : function (e) {
+      var iframe = this.iframe;
+      this.loader = iframe.getContentWindow().qxunit.TestLoader.getInstance();
+      if (!this.loader) { // wait for the iframe to load
+        qx.client.Timer.once(arguments.callee, this, 50);
+        return;
+      }
+
+      this.frameWindow   = iframe.getContentWindow();
+      var testRep        = this.loader.getTestDescriptions();
+      this.tests.handler = new qxunit.runner.TestHandler(testRep);
+      if (! this.left) {
+        var left = this.__makeLeft();
+        this.left = left;
+        this.mainsplit.addLeft(left);
+      } else {
+        this.leftReloadTree();
+      }
+      this.toolbar.setEnabled(true);  // in case it was disabled (for reload)
+      if (this.tests.run_pending) {   // do we have pending tests to run?
+        this.tests.run_pending();
+        delete this.tests.run_pending;
+      }
+    },
 
 
     // ------------------------------------------------------------------------
