@@ -60,6 +60,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
     this.addEventListener("dblclick", this._ondblclick);
 
     // Remapping of add/remove methods
+    // not done in defer because this.base needs the original methods.
     this.add = this.addToFolder;
     this.addBefore = this.addBeforeToFolder;
     this.addAfter = this.addAfterToFolder;
@@ -299,12 +300,21 @@ qx.Class.define("qx.ui.tree.TreeFolder",
 
 
     /**
+     * Alias for {@link #addToFolder}.
+     *
+     * @type member
+     * @param varargs {AbstractTreeElement} variable number of tree nodes to addC
+     */
+    add : function(varargs) {},
+
+
+    /**
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @param varargs {AbstractTreeElement} variable number of tree nodes to add
      */
-    addToFolder : function()
+    addToFolder : function(varargs)
     {
       this._createChildrenStructure();
 
@@ -315,12 +325,21 @@ qx.Class.define("qx.ui.tree.TreeFolder",
 
 
     /**
+     * Alias for {@link #addBeforeToFolder}.
+     *
+     * @type member
+     * @param vChild {AbstractTreeElement} TODOC
+     * @param vBefore {Integer} TODOC
+     */
+    addBefore : function(vChild, vBefore) {},
+
+
+    /**
      * TODOC
      *
      * @type member
-     * @param vChild {var} TODOC
-     * @param vBefore {var} TODOC
-     * @return {var} TODOC
+     * @param vChild {AbstractTreeElement} TODOC
+     * @param vBefore {Integer} TODOC
      */
     addBeforeToFolder : function(vChild, vBefore)
     {
@@ -335,12 +354,21 @@ qx.Class.define("qx.ui.tree.TreeFolder",
 
 
     /**
+     * Alias for {@link #addAfterToFolder}.
+     *
+     * @type member
+     * @param vChild {AbstractTreeElement} TODOC
+     * @param vAfter {Integer} TODOC
+     */
+    addAfter : function(vChild, vAfter) {},
+
+
+    /**
      * TODOC
      *
      * @type member
-     * @param vChild {var} TODOC
-     * @param vAfter {var} TODOC
-     * @return {var} TODOC
+     * @param vChild {AbstractTreeElement} TODOC
+     * @param vAfter {Integer} TODOC
      */
     addAfterToFolder : function(vChild, vAfter)
     {
@@ -355,12 +383,21 @@ qx.Class.define("qx.ui.tree.TreeFolder",
 
 
     /**
+     * Alias for {@link #addAtToFolder}.
+     *
+     * @type member
+     * @param vChild {AbstractTreeElement} TODOC
+     * @param vIndex {Integer} TODOC
+     */
+    addAt : function(vChild, vIndex) {},
+
+
+    /**
      * TODOC
      *
      * @type member
-     * @param vChild {var} TODOC
-     * @param vIndex {var} TODOC
-     * @return {var} TODOC
+     * @param vChild {AbstractTreeElement} TODOC
+     * @param vIndex {Integer} TODOC
      */
     addAtToFolder : function(vChild, vIndex)
     {
@@ -375,23 +412,40 @@ qx.Class.define("qx.ui.tree.TreeFolder",
 
 
     /**
-     * TODOC
+     * Alias for {@link #addAtBeginToFolder}.
      *
      * @type member
-     * @param vChild {var} TODOC
-     * @return {var} TODOC
+     * @param vChild {AbstractTreeElement} TODOC
      */
-    addAtBeginToFolder : function(vChild) {
-      return this.addAtToFolder(vChild, 0);
-    },
+    addAtBegin : function(vChild) {},
 
 
     /**
      * TODOC
      *
      * @type member
-     * @param vChild {var} TODOC
-     * @return {var} TODOC
+     * @param vChild {AbstractTreeElement} TODOC
+     */
+    addAtBeginToFolder : function(vChild) {
+      return this.addAtToFolder(vChild, 0);
+    },
+
+
+
+    /**
+     * Alias for {@link #addAtEndToFolder}.
+     *
+     * @type member
+     * @param vChild {AbstractTreeElement} TODOC
+     */
+    addAtEnd : function(vChild, vBefore) {},
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vChild {AbstractTreeElement} TODOC
      */
     addAtEndToFolder : function(vChild)
     {
@@ -428,7 +482,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {qx.ui.layout.VerticalBoxLayout} TODOC
      */
     getContainerObject : function() {
       return this._containerObject;
@@ -439,7 +493,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {qx.ui.layout.HorizontalBoxLayout} TODOC
      */
     getHorizontalLayout : function() {
       return this._horizontalLayout;
@@ -450,7 +504,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {AbstractTreeElement} TODOC
      */
     getFirstVisibleChildOfFolder : function()
     {
@@ -464,7 +518,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {AbstractTreeElement} TODOC
      */
     getLastVisibleChildOfFolder : function()
     {
@@ -478,9 +532,9 @@ qx.Class.define("qx.ui.tree.TreeFolder",
      * TODOC
      *
      * @type member
-     * @param recursive {var} TODOC
-     * @param invisible {var} TODOC
-     * @return {Array} TODOC
+     * @param recursive {Boolean} TODOC
+     * @param invisible {Boolean} TODOC
+     * @return {AbstractTreeElement[]} TODOC
      */
     getItems : function(recursive, invisible)
     {
@@ -517,7 +571,6 @@ qx.Class.define("qx.ui.tree.TreeFolder",
      *
      *
      * @type member
-     * @return {void}
      */
     destroyContent : function()
     {
@@ -592,6 +645,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
 
           // first disconnect the item so rendering
           // of the tree lines can be done correctly
+          console.log(item);
           item.removeFromTreeQueue();
           item.disconnect();
 
@@ -796,9 +850,9 @@ qx.Class.define("qx.ui.tree.TreeFolder",
      * TODOC
      *
      * @type member
-     * @param vUseTreeLines {var} TODOC
-     * @param vIsLastColumn {var} TODOC
-     * @return {var} TODOC
+     * @param vUseTreeLines {Boolean} TODOC
+     * @param vIsLastColumn {Boolean} TODOC
+     * @return {String} TODOC
      */
     getIndentSymbol : function(vUseTreeLines, vIsLastColumn)
     {
@@ -848,8 +902,6 @@ qx.Class.define("qx.ui.tree.TreeFolder",
       }
     }
   },
-
-
 
 
   /*
