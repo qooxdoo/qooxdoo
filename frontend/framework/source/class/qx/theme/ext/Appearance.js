@@ -1750,6 +1750,26 @@ qx.Theme.define("qx.theme.ext.Appearance",
     },
 
 
+    "table-menubar-button" : {
+      style : function(states) {
+        var border_pressed = new qx.renderer.border.Border(1, "solid", "#6593CF");
+        var border_default = "undefined";
+
+        return {
+          cursor                : "default",
+          spacing               : 4,
+          width                 : "auto",
+          verticalChildrenAlign : "middle",
+
+          backgroundColor       : states.checked || states.pressed || states.over ? "highlight" : "transparent",
+          border                : states.pressed || states.checked || states.abandoned || states.over ? border_pressed : border_default,
+          paddingTop            : states.pressed || states.checked || states.abandoned ? 3 : states.over ? 2 : 3,
+          paddingRight          : states.pressed || states.checked || states.abandoned ? 2 : states.over ? 3 : 4,
+          paddingBottom         : states.pressed || states.checked || states.abandoned ? 1 : states.over ? 2 : 3,
+          paddingLeft           : states.pressed || states.checked || states.abandoned ? 4 : states.over ? 3 : 4
+        }
+      }
+    },
 
 
     /*

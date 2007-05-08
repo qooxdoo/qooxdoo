@@ -1599,6 +1599,38 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
+    "table-menubar-button" :
+    {
+      style : function(states)
+      {
+        if (states.pressed || states.checked || states.abandoned)
+        {
+          var border = "inset-thin";
+          var padding = [ 3, 2, 1, 4 ];
+        }
+        else if (states.over)
+        {
+          var border = "outset-thin";
+          var padding = [ 2, 3 ];
+        }
+        else
+        {
+          var border = "undefined";
+          var padding = [ 3, 4 ];
+        }
+
+        return {
+          cursor  : "default",
+          spacing : 4,
+          width   : "auto",
+          border  : border,
+          padding : padding,
+          verticalChildrenAlign : "middle",
+          backgroundColor       : states.abandoned ? "button-abandoned" : "button"
+        };
+      }
+    },
+
     "table-header-cell" :
     {
       style : function(states)
