@@ -824,17 +824,13 @@ qx.Class.define("qx.core.Property",
             }
           }
         }
-        else if (variant === "toggle")
-        {
-          // Toggle value (Replace eventually incoming value for setter etc.)
-          code.push('value=!this.', this.$$store.computed[name], ';');
-        }
         else if (variant === "reset" || variant === "unstyle")
         {
           // Remove value
           code.push('value=undefined;');
         }
 
+        // Read in old value
         if (config.inheritable) {
           code.push('old=this.', this.$$store.computed[name], ';');
         }
@@ -846,6 +842,11 @@ qx.Class.define("qx.core.Property",
         }
 
         code.push('if(old===undefined)old=this.', this.$$store.init[name], ';');
+
+        // Toggle value (Replace eventually incoming value for setter etc.)
+        if (variant === "toggle") {
+          code.push('value=!old;');
+        }
 
         // Store new value
         code.push('this.', store, '=value;');

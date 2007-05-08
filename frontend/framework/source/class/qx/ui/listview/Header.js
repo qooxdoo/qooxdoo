@@ -105,7 +105,7 @@ qx.Class.define("qx.ui.listview.Header",
     height :
     {
       refine : true,
-      init : "auto"
+      init : 18
     },
 
     appearance :
