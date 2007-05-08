@@ -839,13 +839,13 @@ qx.Class.define("qx.core.Property",
           code.push('old=this.', this.$$store.computed[name], ';');
         }
 
-        code.push('if(old!==undefined)old=this.', this.$$store.user[name], ';');
+        code.push('if(old===undefined)old=this.', this.$$store.user[name], ';');
 
         if (config.themeable) {
-          code.push('if(old!==undefined)old=this.', this.$$store.theme[name], ';');
+          code.push('if(old===undefined)old=this.', this.$$store.theme[name], ';');
         }
 
-        code.push('if(old!==undefined)old=this.', this.$$store.init[name], ';');
+        code.push('if(old===undefined)old=this.', this.$$store.init[name], ';');
 
         // Store new value
         code.push('this.', store, '=value;');
