@@ -1655,7 +1655,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           });
 
           paddingBottom = 2;
-          backgroundColor = "undefined";
+          backgroundColor = "table-header-cell";
         }
 
         return {
