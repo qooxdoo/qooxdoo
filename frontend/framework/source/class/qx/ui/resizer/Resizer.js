@@ -55,18 +55,15 @@ qx.Class.define("qx.ui.resizer.Resizer",
 
     this._registerResizeEvents();
 
-    this.setAppearance('resizer');
-    this.setResizeableWest(false);
-    this.setResizeableNorth(false);
-
-    this.setMinWidth("auto");
-    this.setMinHeight("auto");
-    this.auto();
+    this.initMinWidth();
+    this.initMinHeight();
+    this.initWidth();
+    this.initHeight();
 
     if (child)
     {
       // Remove child border, as the resizer has already its own border.
-      child.setBorder(new qx.renderer.border.Border(0));
+      child.setBorder(null);
       this.add(this._child = child);
     }
   },
@@ -82,11 +79,41 @@ qx.Class.define("qx.ui.resizer.Resizer",
 
   properties :
   {
+    appearance :
+    {
+      refine : true,
+      init : "resizer"
+    },
+
+    minWidth :
+    {
+      refine : true,
+      init : "auto"
+    },
+
+    minHeight :
+    {
+      refine : true,
+      init : "auto"
+    },
+
+    width :
+    {
+      refine : true,
+      init : "auto"
+    },
+
+    height :
+    {
+      refine : true,
+      init : "auto"
+    },
+
     /** If the window is resizeable in the left direction. */
     resizeableWest :
     {
       check : "Boolean",
-      init : true
+      init : false
     },
 
 
@@ -94,7 +121,7 @@ qx.Class.define("qx.ui.resizer.Resizer",
     resizeableNorth :
     {
       check : "Boolean",
-      init : true
+      init : false
     },
 
 

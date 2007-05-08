@@ -60,18 +60,11 @@ qx.Class.define("qx.ui.menu.RadioButton",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
     appearance :
     {
       refine : true,
       init : "menu-radio-button"
     },
-
 
     /** The assigned qx.manager.selection.RadioManager which handles the switching between registered buttons */
     manager :

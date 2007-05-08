@@ -44,25 +44,19 @@ qx.Class.define("qx.ui.menu.Menu",
   {
     this.base(arguments);
 
-    // ************************************************************************
-    //   LAYOUT
-    // ************************************************************************
+    // Layout
     var l = this._layout = new qx.ui.menu.Layout;
     l.setEdge(0);
     this.add(l);
 
-    // ************************************************************************
-    //   TIMER
-    // ************************************************************************
+    // Timer
     this._openTimer = new qx.client.Timer(this.getOpenInterval());
     this._openTimer.addEventListener("interval", this._onopentimer, this);
 
     this._closeTimer = new qx.client.Timer(this.getCloseInterval());
     this._closeTimer.addEventListener("interval", this._onclosetimer, this);
 
-    // ************************************************************************
-    //   EVENTS
-    // ************************************************************************
+    // Event Listeners
     this.addEventListener("mouseover", this._onmouseover);
     this.addEventListener("mousemove", this._onmouseover);
     this.addEventListener("mouseout", this._onmouseout);
@@ -70,9 +64,7 @@ qx.Class.define("qx.ui.menu.Menu",
     this.addEventListener("keydown", this._onkeydown);
     this.addEventListener("keypress", this._onkeypress);
 
-    // ************************************************************************
-    //   REMAPPING
-    // ************************************************************************
+    // Activate remapping
     this.remapChildrenHandlingTo(this._layout);
 
     // Initialize properties

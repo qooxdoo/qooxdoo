@@ -67,10 +67,11 @@ qx.Class.define("qx.ui.pageview.buttonview.Pane",
       {
         var vPos = this.getParent().getBarPosition();
 
-        this._states.barHorizontal = vPos === "top" || vPos === "bottom";
+        vPos === "top" || vPos === "bottom" ? this.addState("barHorizontal") : this.removeState("barHorizontal");
+        vPos === "left" || vPos === "right" ? this.addState("barVertical") : this.removeState("barVertical");
       }
 
-      qx.ui.pageview.AbstractButton.prototype._applyAppearance.call(this);
+      this.base(arguments);
     }
   }
 });

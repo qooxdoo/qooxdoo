@@ -61,10 +61,6 @@ qx.Class.define("qx.ui.core.Widget",
 
     // Create data structures
     this._layoutChanges = {};
-    this._states = {};
-
-    // Apply initial appearance
-    this._applyAppearance();
   },
 
 
@@ -495,7 +491,6 @@ qx.Class.define("qx.ui.core.Widget",
         for (var i=0; i<vLength; i++)
         {
           vWidget = vQueue[i];
-
           vWidget._applyAppearance();
 
           delete vWidget._isInGlobalStateQueue;
@@ -3020,6 +3015,9 @@ qx.Class.define("qx.ui.core.Widget",
 
         // send out create event
         this.createDispatchEvent("create");
+
+        // add created instances to state queue
+        this.addToStateQueue();
       }
       else
       {
@@ -4955,7 +4953,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {Boolean} whether the state is set.
      */
     hasState : function(vState) {
-      return this._states && this._states[vState] ? true : false;
+      return this.__states && this.__states[vState] ? true : false;
     },
 
 
@@ -4968,9 +4966,13 @@ qx.Class.define("qx.ui.core.Widget",
      */
     addState : function(vState)
     {
-      if (this._states && !this._states[vState])
+      if (!this.__states) {
+        this.__states = {};
+      }
+
+      if (!this.__states[vState])
       {
-        this._states[vState] = true;
+        this.__states[vState] = true;
 
         if (this._hasParent) {
           qx.ui.core.Widget.addToGlobalStateQueue(this);
@@ -4988,32 +4990,13 @@ qx.Class.define("qx.ui.core.Widget",
      */
     removeState : function(vState)
     {
-      if (this._states && this._states[vState])
+      if (this.__states && this.__states[vState])
       {
-        delete this._states[vState];
+        delete this.__states[vState];
 
         if (this._hasParent) {
           qx.ui.core.Widget.addToGlobalStateQueue(this);
         }
-      }
-    },
-
-
-    /**
-     * Sets or clears a state.
-     *
-     * @type member
-     * @param state {String} the state to set or clear.
-     * @param enabled {Boolean} whether the state should be set.
-     *          If false it will be cleared.
-     * @return {void}
-     */
-    setState : function(state, enabled)
-    {
-      if (enabled) {
-        this.addState(state);
-      } else {
-        this.removeState(state);
       }
     },
 
@@ -5120,28 +5103,29 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _applyAppearance : function()
     {
+      if (!this.__states) {
+        this.__states = {};
+      }
+
       // HACK: Is there a cleaner way to implement this?
       // Maybe not use the appearance for this, but a simple property and event handler combination?
-      if (this._states)
+      this._applyStateStyleFocus(this.__states);
+
+      var vAppearance = this.getAppearance();
+
+      if (vAppearance)
       {
-        this._applyStateStyleFocus(this._states);
-
-        var vAppearance = this.getAppearance();
-
-        if (vAppearance)
+        try
         {
-          try
-          {
-            var r = qx.manager.object.AppearanceManager.getInstance().styleFrom(vAppearance, this._states);
+          var r = qx.manager.object.AppearanceManager.getInstance().styleFrom(vAppearance, this.__states);
 
-            if (r) {
-              this._styleFromMap(r);
-            }
+          if (r) {
+            this._styleFromMap(r);
           }
-          catch(ex)
-          {
-            this.error("Could not apply state appearance", ex);
-          }
+        }
+        catch(ex)
+        {
+          this.error("Could not apply state appearance", ex);
         }
       }
     },
@@ -5163,8 +5147,8 @@ qx.Class.define("qx.ui.core.Widget",
       {
         var vAppearanceManager = qx.manager.object.AppearanceManager.getInstance();
 
-        var vOldAppearanceProperties = vAppearanceManager.styleFromTheme(vOldAppearanceTheme, vAppearance, this._states);
-        var vNewAppearanceProperties = vAppearanceManager.styleFromTheme(vNewAppearanceTheme, vAppearance, this._states);
+        var vOldAppearanceProperties = vAppearanceManager.styleFromTheme(vOldAppearanceTheme, vAppearance, this.__states);
+        var vNewAppearanceProperties = vAppearanceManager.styleFromTheme(vNewAppearanceTheme, vAppearance, this.__states);
 
         var vUnstyleList = {};
         for (var vProp in vOldAppearanceProperties)
@@ -5254,16 +5238,20 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _modifyAppearance : function(value, old)
     {
+      if (!this.__states) {
+        this.__states = {};
+      }
+
       var vAppearanceManager = qx.manager.object.AppearanceManager.getInstance();
 
       if (value)
       {
-        var vNewAppearanceProperties = vAppearanceManager.styleFrom(value, this._states) || {};
+        var vNewAppearanceProperties = vAppearanceManager.styleFrom(value, this.__states) || {};
       }
 
       if (old)
       {
-        var vOldAppearanceProperties = vAppearanceManager.styleFrom(old, this._states) || {};
+        var vOldAppearanceProperties = vAppearanceManager.styleFrom(old, this.__states) || {};
 
         var vUnstyleList = [];
         for (var vProp in vOldAppearanceProperties)
@@ -5281,8 +5269,6 @@ qx.Class.define("qx.ui.core.Widget",
       if (vNewAppearanceProperties) {
         this._styleFromMap(vNewAppearanceProperties);
       }
-
-      return true;
     },
 
 
@@ -7223,7 +7209,7 @@ qx.Class.define("qx.ui.core.Widget",
     this._disposeObjects("_fadeTimer");
     this._disposeFields("_isCreated", "_inlineEvents", "_element", "_style",
       "_borderElement", "_innerStyle", "_oldParent", "_styleProperties",
-      "_htmlProperties", "_htmlAttributes", "_states", "_jobQueue",
+      "_htmlProperties", "_htmlAttributes", "__states", "_jobQueue",
       "_layoutChanges");
   }
 });
