@@ -242,42 +242,23 @@ qx.Class.define("qx.log.Appender",
           text += " (#" + thr.number + ")";
         }
 
-        if (thr.stack != null) {
-          text += "\n" + this._beautyStackTrace(thr.stack);
+        var trace = qx.dev.StackTrace.getStackTraceFromError(thr);
+      }
+
+      if (evt.trace) {
+        var trace = evt.trace;
+      }
+
+      if (trace && trace.length > 0)
+      {
+        text += "\n";
+        for (var i=0; i<trace.length; i++)
+        {
+          text += "  at " + trace[i] + "\n";
         }
       }
 
       return text;
-    },
-
-
-    /**
-     * Beautifies a stack trace.
-     *
-     * @type member
-     * @param stack {String} the stack trace to beautify.
-     * @return {String} the beautified stack trace.
-     */
-    _beautyStackTrace : function(stack)
-    {
-      // e.g. "()@http://localhost:8080/webcomponent-test-SNAPSHOT/webcomponent/js/com/ptvag/webcomponent/common/log/Logger:253"
-      var lineRe = /@(.+):(\d+)$/gm;
-      var hit;
-      var out = "";
-      var scriptDir = "/script/";
-
-      while ((hit = lineRe.exec(stack)) != null)
-      {
-        var url = hit[1];
-
-        var jsPos = url.indexOf(scriptDir);
-        var className = (jsPos == -1) ? url : url.substring(jsPos + scriptDir.length).replace(/\//g, ".");
-
-        var lineNumber = hit[2];
-        out += "  at " + className + ":" + lineNumber + "\n";
-      }
-
-      return out;
     }
   }
 });
