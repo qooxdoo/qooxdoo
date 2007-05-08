@@ -23,7 +23,7 @@
 #module(qxunit)
 #resource(css:css)
 #resource(image:image)
-#embed(apiviewer.css/*)
+#embed(qxunit.css/*)
 
 ************************************************************************ */
 
