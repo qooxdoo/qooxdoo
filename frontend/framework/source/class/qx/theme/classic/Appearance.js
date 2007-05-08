@@ -85,7 +85,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           backgroundColor : "background",
-          textColor : "text"
+          textColor : "text",
+          font : "default"
         };
       }
     },
