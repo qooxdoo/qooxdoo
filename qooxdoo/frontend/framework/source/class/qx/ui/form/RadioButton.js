@@ -55,11 +55,11 @@ qx.Class.define("qx.ui.form.RadioButton",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
+    appearance :
+    {
+      refine : true,
+      init : "radio-button"
+    },
 
     /** The assigned qx.manager.selection.RadioManager which handles the switching between registered buttons */
     manager :
@@ -118,8 +118,6 @@ qx.Class.define("qx.ui.form.RadioButton",
       if (vManager) {
         vManager.handleItemChecked(this, propValue);
       }
-
-      return true;
     },
 
 
@@ -141,8 +139,6 @@ qx.Class.define("qx.ui.form.RadioButton",
       if (propValue) {
         propValue.add(this);
       }
-
-      return true;
     },
 
 
@@ -164,8 +160,6 @@ qx.Class.define("qx.ui.form.RadioButton",
       if (this.getManager()) {
         this.getManager().setName(propValue);
       }
-
-      return true;
     },
 
 
@@ -183,8 +177,6 @@ qx.Class.define("qx.ui.form.RadioButton",
       if (this.isCreated() && this._iconObject) {
         this._iconObject.setValue(propValue);
       }
-
-      return true;
     },
 
 

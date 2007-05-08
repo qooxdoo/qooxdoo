@@ -50,13 +50,10 @@ qx.Class.define("qx.ui.embed.Iframe",
    */
   construct : function(vSource)
   {
-    // **********************************************************************
-    //   INIT
-    // **********************************************************************
     this.base(arguments);
 
-    this.setSelectable(false);
-    this.setTabIndex(0);
+    this.initSelectable();
+    this.initTabIndex();
 
     this.__onreadystatechange = qx.lang.Function.bind(this._onreadystatechange, this);
     this.__onload = qx.lang.Function.bind(this._onload, this);
@@ -189,6 +186,18 @@ qx.Class.define("qx.ui.embed.Iframe",
 
   properties :
   {
+    tabIndex :
+    {
+      refine : true,
+      init : 0
+    },
+
+    selectable :
+    {
+      refine : true,
+      init : false
+    },
+
     appearance :
     {
       refine : true,

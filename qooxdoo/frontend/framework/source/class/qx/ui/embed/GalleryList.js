@@ -47,7 +47,7 @@ qx.Class.define("qx.ui.embed.GalleryList",
     this._listSize = galleryList.length;
     this._processedImages = 0;
 
-    this.setOverflow("auto");
+    this.initOverflow();
 
     this.setHtmlProperty("className", "qx_ui_embed_GalleryList");
 
@@ -130,6 +130,12 @@ qx.Class.define("qx.ui.embed.GalleryList",
 
   properties :
   {
+    overflow :
+    {
+      refine : true,
+      init : "auto"
+    },
+
     thumbMaxWidth :
     {
       check : "Integer",
