@@ -109,13 +109,13 @@ qx.Class.define("qx.ui.pageview.buttonview.Bar",
       {
         var vPos = this.getParent().getBarPosition();
 
-        this._states.barLeft = vPos === "left";
-        this._states.barRight = vPos === "right";
-        this._states.barTop = vPos === "top";
-        this._states.barBottom = vPos === "bottom";
+        vPos === "left" ? this.addState("barLeft") : this.removeState("barLeft");
+        vPos === "right" ? this.addState("barRight") : this.removeState("barRight");
+        vPos === "top" ? this.addState("barTop") : this.removeState("barTop");
+        vPos === "bottom" ? this.addState("barBottom") : this.removeState("barBottom");
       }
 
-      qx.ui.pageview.AbstractButton.prototype._applyAppearance.call(this);
+      this.base(arguments);
     }
   }
 });

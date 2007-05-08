@@ -31,16 +31,6 @@ qx.Class.define("qx.ui.pageview.radioview.Page",
 {
   extend : qx.ui.pageview.AbstractPage,
 
-
-
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
   properties :
   {
     appearance :

@@ -155,14 +155,11 @@ qx.Class.define("qx.manager.object.AppearanceManager",
       var helper = [id];
       for (var state in states)
       {
-        if (states[state])
-        {
-          if (!map[state]) {
-            map[state] = this.__stateMapLength++;
-          }
-
-          helper[map[state]] = true;
+        if (!map[state]) {
+          map[state] = this.__stateMapLength++;
         }
+
+        helper[map[state]] = true;
       }
 
       var unique = helper.join();

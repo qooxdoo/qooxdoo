@@ -36,21 +36,6 @@ qx.Class.define("qx.ui.menu.Layout",
 
 
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function()
-  {
-    this.base(arguments);
-
-    this.setAnonymous(true);
-  },
-
-
-
 
   /*
   *****************************************************************************
@@ -60,6 +45,12 @@ qx.Class.define("qx.ui.menu.Layout",
 
   properties :
   {
+    anonymous :
+    {
+      refine : true,
+      init : true
+    },
+
     /** Appearance of the widget */
     appearance :
     {
