@@ -46,18 +46,14 @@ qx.Class.define("qx.ui.listview.HeaderCell",
   {
     this.base(arguments, vConfig.label, vConfig.icon, vConfig.iconWidth, vConfig.iconHeight, vConfig.flash);
 
-    // Text Overflow
+    // Enable textOverflow
     this.setStyleProperty("textOverflow", "ellipsis");
 
-    // ************************************************************************
-    //   STORE REFERENCE TO CONFIG ENTRY
-    // ************************************************************************
+    // Store configuration
     this._config = vConfig;
     this._id = vId;
 
-    // ************************************************************************
-    //   ARGUMENTS
-    // ************************************************************************
+    // Processing arguments
     this.setWidth(typeof vConfig.width === "undefined" ? "auto" : vConfig.width);
 
     if (vConfig.minWidth != null) {
@@ -68,12 +64,10 @@ qx.Class.define("qx.ui.listview.HeaderCell",
       this.setMaxWidth(vConfig.maxWidth);
     }
 
-    // ************************************************************************
-    //   ADDITIONAL CHILDREN
-    // ************************************************************************
     // Re-Enable flex support
     this.getLayoutImpl().setEnableFlexSupport(true);
 
+    // Children
     this._spacer = new qx.ui.basic.HorizontalSpacer;
 
     this._arrowup = new qx.ui.basic.Image("widget/arrows/up.gif");
@@ -86,13 +80,12 @@ qx.Class.define("qx.ui.listview.HeaderCell",
 
     this.add(this._spacer, this._arrowup, this._arrowdown);
 
-    // ************************************************************************
-    //   EVENTS
-    // ************************************************************************
+    // Event Listeners
     this.addEventListener("mouseup", this._onmouseup);
     this.addEventListener("mouseover", this._onmouseover);
     this.addEventListener("mouseout", this._onmouseout);
 
+    // Property initialization
     this.initOverflow();
   },
 

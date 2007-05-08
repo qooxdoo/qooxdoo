@@ -80,6 +80,7 @@ qx.Class.define("qx.ui.listview.ListViewPane",
     // ************************************************************************
     this.addEventListener("keypress", this._onkeypress);
 
+    // Initialize properties
     this.initWidth();
     this.initOverflow();
   },

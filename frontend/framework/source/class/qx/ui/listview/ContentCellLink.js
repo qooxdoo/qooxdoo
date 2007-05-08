@@ -44,8 +44,7 @@ qx.Class.define("qx.ui.listview.ContentCellLink",
   {
     this.base(arguments, vHtml);
 
-    // selectable = false will break links in gecko based browsers
-    this.setSelectable(true);
+    this.initSelectable();
   },
 
 
@@ -59,6 +58,13 @@ qx.Class.define("qx.ui.listview.ContentCellLink",
 
   statics :
   {
+    // selectable = false will break links in gecko based browsers
+    selectable :
+    {
+      refine : true,
+      init : true
+    },
+
     empty :
     {
       html : "",

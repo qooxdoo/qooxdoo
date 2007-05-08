@@ -47,14 +47,10 @@ qx.Class.define("qx.ui.listview.Header",
     // This fixes the innerWidth calculation difference between the grid(pane) and the head.
     this.setPaddingRight(qx.ui.core.Widget.SCROLLBAR_SIZE);
 
-    // ************************************************************************
-    //   STORE REFERENCE TO CONFIG ENTRY
-    // ************************************************************************
+    // Store configuration
     this._columns = vColumns;
 
-    // ************************************************************************
-    //   CREATE HEADER CELLS
-    // ************************************************************************
+    // Column headers
     var vHeadCell, vHeadSeparator;
 
     for (var vCol in vColumns)
@@ -78,14 +74,13 @@ qx.Class.define("qx.ui.listview.Header",
       vColumns[vCol].headerCell = vHeadCell;
     }
 
-    // ************************************************************************
-    //   ADD EVENT LISTENERS
-    // ************************************************************************
+    // Event Listeners
     this.addEventListener("mousemove", this._onmousemove);
     this.addEventListener("mousedown", this._onmousedown);
     this.addEventListener("mouseup", this._onmouseup);
     this.addEventListener("mouseout", this._onmouseout);
 
+    // Property initialization
     this.initHeight();
     this.initOverflow();
   },

@@ -54,7 +54,9 @@ qx.Class.define("qx.ui.listview.ContentCellImage",
   *****************************************************************************
   */
 
-  statics : { empty : { source : "static/image/blank.gif" } },
+  statics : {
+    empty : { source : "static/image/blank.gif" }
+  },
 
 
 

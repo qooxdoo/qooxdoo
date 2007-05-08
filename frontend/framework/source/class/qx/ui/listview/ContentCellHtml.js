@@ -44,7 +44,7 @@ qx.Class.define("qx.ui.listview.ContentCellHtml",
   {
     this.base(arguments, vHtml);
 
-    this.setSelectable(false);
+    this.initSelectable();
   },
 
 
@@ -56,7 +56,9 @@ qx.Class.define("qx.ui.listview.ContentCellHtml",
   *****************************************************************************
   */
 
-  statics : { empty : { html : "" } },
+  statics : {
+    empty : { html : "" }
+  },
 
 
 
@@ -69,6 +71,12 @@ qx.Class.define("qx.ui.listview.ContentCellHtml",
 
   properties :
   {
+    selectable :
+    {
+      refine : true,
+      init : false
+    },
+
     appearance :
     {
       refine : true,
