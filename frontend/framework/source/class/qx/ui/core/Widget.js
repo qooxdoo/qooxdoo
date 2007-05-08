@@ -2236,13 +2236,13 @@ qx.Class.define("qx.ui.core.Widget",
      */
     isMaterialized : function()
     {
-      var el = this._element;
+      var elem = this._element;
       return (
         this._initialLayoutDone &&
         this._isDisplayable &&
-        qx.html.Style.getStyleProperty(el, "display") != "none" &&
-        qx.html.Style.getStyleProperty(el, "visibility") != "hidden" &&
-        el.offsetWidth > 0 && el.offsetHeight > 0
+        qx.html.Style.getStyleProperty(elem, "display") != "none" &&
+        qx.html.Style.getStyleProperty(elem, "visibility") != "hidden" &&
+        elem.offsetWidth > 0 && elem.offsetHeight > 0
       );
     },
 
@@ -2397,18 +2397,18 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {var} TODOC
      * @throws TODOC
      */
-    _checkParent : function(propValue, propOldValue)
+    _checkParent : function(value, old)
     {
-      if (this.contains(propValue)) {
-        throw new Error("Could not insert myself into a child " + propValue + "!");
+      if (this.contains(value)) {
+        throw new Error("Could not insert myself into a child " + value + "!");
       }
 
-      return propValue;
+      return value;
     },
 
 
@@ -2416,15 +2416,15 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyParent : function(propValue, propOldValue)
+    _modifyParent : function(value, old)
     {
-      if (propOldValue)
+      if (old)
       {
-        var vOldIndex = propOldValue.getChildren().indexOf(this);
+        var vOldIndex = old.getChildren().indexOf(this);
 
         // Reset cached dimension and location values
         this._computedWidthValue = this._computedMinWidthValue = this._computedMaxWidthValue = this._computedLeftValue = this._computedRightValue = null;
@@ -2434,39 +2434,39 @@ qx.Class.define("qx.ui.core.Widget",
         this._cachedBoxHeight = this._cachedInnerHeight = this._cachedOuterHeight = null;
 
         // Finally remove from children array
-        qx.lang.Array.removeAt(propOldValue.getChildren(), vOldIndex);
+        qx.lang.Array.removeAt(old.getChildren(), vOldIndex);
 
         // Invalidate visible children cache
-        propOldValue._invalidateVisibleChildren();
+        old._invalidateVisibleChildren();
 
         // Remove child from old parent's children queue
-        propOldValue._removeChildFromChildrenQueue(this);
+        old._removeChildFromChildrenQueue(this);
 
         // The layouter adds some layout jobs
-        propOldValue.getLayoutImpl().updateChildrenOnRemoveChild(this, vOldIndex);
+        old.getLayoutImpl().updateChildrenOnRemoveChild(this, vOldIndex);
 
         // Inform job queue
-        propOldValue.addToJobQueue("removeChild");
+        old.addToJobQueue("removeChild");
 
         // Invalidate inner preferred dimensions
-        propOldValue._invalidatePreferredInnerDimensions();
+        old._invalidatePreferredInnerDimensions();
 
         // Store old parent (needed later by _handleDisplayable)
-        this._oldParent = propOldValue;
+        this._oldParent = old;
       }
 
-      if (propValue)
+      if (value)
       {
         this._hasParent = true;
 
         if (typeof this._insertIndex == "number")
         {
-          qx.lang.Array.insertAt(propValue.getChildren(), this, this._insertIndex);
+          qx.lang.Array.insertAt(value.getChildren(), this, this._insertIndex);
           delete this._insertIndex;
         }
         else
         {
-          propValue.getChildren().push(this);
+          value.getChildren().push(this);
         }
       }
       else
@@ -2484,11 +2484,11 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyDisplay : function(propValue, propOldValue) {
+    _modifyDisplay : function(value, old) {
       return this._handleDisplayable("display");
     },
 
@@ -2533,9 +2533,9 @@ qx.Class.define("qx.ui.core.Widget",
       // Remove old parent's elements from DOM and delete old parent
       if (vHint && this._oldParent && this._oldParent._initialLayoutDone)
       {
-        var vElement = this.getElement();
+        var elem = this.getElement();
 
-        if (vElement)
+        if (elem)
         {
           if (this.getVisibility()) {
             this._beforeDisappear();
@@ -2543,7 +2543,7 @@ qx.Class.define("qx.ui.core.Widget",
 
           this._beforeRemoveDom();
 
-          this._oldParent._getTargetNode().removeChild(vElement);
+          this._oldParent._getTargetNode().removeChild(elem);
 
           this._afterRemoveDom();
 
@@ -2837,13 +2837,13 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyVisibility : function(propValue, propOldValue)
+    _modifyVisibility : function(value, old)
     {
-      if (propValue)
+      if (value)
       {
         if (this._isDisplayable) {
           this._beforeAppear();
@@ -2987,36 +2987,36 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyElement : function(propValue, propOldValue)
+    _modifyElement : function(value, old)
     {
-      this._isCreated = propValue != null;
+      this._isCreated = value != null;
 
-      if (propOldValue)
+      if (old)
       {
         // reset reference to widget instance
-        propOldValue.qx_Widget = null;
+        old.qx_Widget = null;
       }
 
-      if (propValue)
+      if (value)
       {
         // add reference to widget instance
-        propValue.qx_Widget = this;
+        value.qx_Widget = this;
 
         // make absolute
-        propValue.style.position = "absolute";
+        value.style.position = "absolute";
 
         // link element and style reference
-        this._element = propValue;
-        this._style = propValue.style;
+        this._element = value;
+        this._style = value.style;
 
-        this._applyStyleProperties(propValue);
-        this._applyHtmlProperties(propValue);
-        this._applyHtmlAttributes(propValue);
-        this._applyElementData(propValue);
+        this._applyStyleProperties(value);
+        this._applyHtmlProperties(value);
+        this._applyHtmlAttributes(value);
+        this._applyElementData(value);
 
         // send out create event
         this.createDispatchEvent("create");
@@ -4339,12 +4339,12 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
+     * @param value {var} Current value
      * @return {var} TODOC
      */
-    _evalUnitsPixelPercentAutoFlex : function(propValue)
+    _evalUnitsPixelPercentAutoFlex : function(value)
     {
-      switch(propValue)
+      switch(value)
       {
         case "auto":
           return qx.ui.core.Widget.TYPE_AUTO;
@@ -4354,13 +4354,13 @@ qx.Class.define("qx.ui.core.Widget",
           return qx.ui.core.Widget.TYPE_NULL;
       }
 
-      switch(typeof propValue)
+      switch(typeof value)
       {
         case "number":
-          return isNaN(propValue) ? qx.ui.core.Widget.TYPE_NULL : qx.ui.core.Widget.TYPE_PIXEL;
+          return isNaN(value) ? qx.ui.core.Widget.TYPE_NULL : qx.ui.core.Widget.TYPE_PIXEL;
 
         case "string":
-          return propValue.indexOf("%") != -1 ? qx.ui.core.Widget.TYPE_PERCENT : propValue.indexOf("*") != -1 ? qx.ui.core.Widget.TYPE_FLEX : qx.ui.core.Widget.TYPE_NULL;
+          return value.indexOf("%") != -1 ? qx.ui.core.Widget.TYPE_PERCENT : value.indexOf("*") != -1 ? qx.ui.core.Widget.TYPE_FLEX : qx.ui.core.Widget.TYPE_NULL;
       }
 
       return qx.ui.core.Widget.TYPE_NULL;
@@ -4371,12 +4371,12 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
+     * @param value {var} Current value
      * @return {var} TODOC
      */
-    _evalUnitsPixelPercentAuto : function(propValue)
+    _evalUnitsPixelPercentAuto : function(value)
     {
-      switch(propValue)
+      switch(value)
       {
         case "auto":
           return qx.ui.core.Widget.TYPE_AUTO;
@@ -4386,13 +4386,13 @@ qx.Class.define("qx.ui.core.Widget",
           return qx.ui.core.Widget.TYPE_NULL;
       }
 
-      switch(typeof propValue)
+      switch(typeof value)
       {
         case "number":
-          return isNaN(propValue) ? qx.ui.core.Widget.TYPE_NULL : qx.ui.core.Widget.TYPE_PIXEL;
+          return isNaN(value) ? qx.ui.core.Widget.TYPE_NULL : qx.ui.core.Widget.TYPE_PIXEL;
 
         case "string":
-          return propValue.indexOf("%") != -1 ? qx.ui.core.Widget.TYPE_PERCENT : qx.ui.core.Widget.TYPE_NULL;
+          return value.indexOf("%") != -1 ? qx.ui.core.Widget.TYPE_PERCENT : qx.ui.core.Widget.TYPE_NULL;
       }
 
       return qx.ui.core.Widget.TYPE_NULL;
@@ -4403,25 +4403,25 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
+     * @param value {var} Current value
      * @return {var} TODOC
      */
-    _evalUnitsPixelPercent : function(propValue)
+    _evalUnitsPixelPercent : function(value)
     {
-      switch(propValue)
+      switch(value)
       {
         case Infinity:
         case -Infinity:
           return qx.ui.core.Widget.TYPE_NULL;
       }
 
-      switch(typeof propValue)
+      switch(typeof value)
       {
         case "number":
-          return isNaN(propValue) ? qx.ui.core.Widget.TYPE_NULL : qx.ui.core.Widget.TYPE_PIXEL;
+          return isNaN(value) ? qx.ui.core.Widget.TYPE_NULL : qx.ui.core.Widget.TYPE_PIXEL;
 
         case "string":
-          return propValue.indexOf("%") != -1 ? qx.ui.core.Widget.TYPE_PERCENT : qx.ui.core.Widget.TYPE_NULL;
+          return value.indexOf("%") != -1 ? qx.ui.core.Widget.TYPE_PERCENT : qx.ui.core.Widget.TYPE_NULL;
       }
 
       return qx.ui.core.Widget.TYPE_NULL;
@@ -4446,10 +4446,10 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
+     * @param value {var} Current value
      * @return {void}
      */
-    _unitDetectionPixelPercentAutoFlex : function(name, propValue)
+    _unitDetectionPixelPercentAutoFlex : function(name, value)
     {
       var r = qx.ui.core.Widget.layoutPropertyTypes[name];
 
@@ -4467,18 +4467,18 @@ qx.Class.define("qx.ui.core.Widget",
       var wasAuto = this[s3];
       var wasFlex = this[s4];
 
-      switch(this[s] = this._evalUnitsPixelPercentAutoFlex(propValue))
+      switch(this[s] = this._evalUnitsPixelPercentAutoFlex(value))
       {
         case qx.ui.core.Widget.TYPE_PIXEL:
           this[s1] = true;
           this[s2] = this[s3] = this[s4] = this[s5] = false;
-          this[p] = this[v] = Math.round(propValue);
+          this[p] = this[v] = Math.round(value);
           break;
 
         case qx.ui.core.Widget.TYPE_PERCENT:
           this[s2] = true;
           this[s1] = this[s3] = this[s4] = this[s5] = false;
-          this[p] = parseFloat(propValue);
+          this[p] = parseFloat(value);
           this[v] = null;
           break;
 
@@ -4491,7 +4491,7 @@ qx.Class.define("qx.ui.core.Widget",
         case qx.ui.core.Widget.TYPE_FLEX:
           this[s4] = true;
           this[s1] = this[s2] = this[s3] = this[s5] = false;
-          this[p] = parseFloat(propValue);
+          this[p] = parseFloat(value);
           this[v] = null;
           break;
 
@@ -4564,10 +4564,10 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
+     * @param value {var} Current value
      * @return {void}
      */
-    _unitDetectionPixelPercentAuto : function(name, propValue)
+    _unitDetectionPixelPercentAuto : function(name, value)
     {
       var r = qx.ui.core.Widget.layoutPropertyTypes[name];
 
@@ -4583,18 +4583,18 @@ qx.Class.define("qx.ui.core.Widget",
       var wasPercent = this[s2];
       var wasAuto = this[s3];
 
-      switch(this[s] = this._evalUnitsPixelPercentAuto(propValue))
+      switch(this[s] = this._evalUnitsPixelPercentAuto(value))
       {
         case qx.ui.core.Widget.TYPE_PIXEL:
           this[s1] = true;
           this[s2] = this[s3] = this[s4] = false;
-          this[p] = this[v] = Math.round(propValue);
+          this[p] = this[v] = Math.round(value);
           break;
 
         case qx.ui.core.Widget.TYPE_PERCENT:
           this[s2] = true;
           this[s1] = this[s3] = this[s4] = false;
-          this[p] = parseFloat(propValue);
+          this[p] = parseFloat(value);
           this[v] = null;
           break;
 
@@ -4658,10 +4658,10 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
+     * @param value {var} Current value
      * @return {void}
      */
-    _unitDetectionPixelPercent : function(name, propValue)
+    _unitDetectionPixelPercent : function(name, value)
     {
       var r = qx.ui.core.Widget.layoutPropertyTypes[name];
 
@@ -4675,18 +4675,18 @@ qx.Class.define("qx.ui.core.Widget",
 
       var wasPercent = this[s2];
 
-      switch(this[s] = this._evalUnitsPixelPercent(propValue))
+      switch(this[s] = this._evalUnitsPixelPercent(value))
       {
         case qx.ui.core.Widget.TYPE_PIXEL:
           this[s1] = true;
           this[s2] = this[s3] = false;
-          this[p] = this[v] = Math.round(propValue);
+          this[p] = this[v] = Math.round(value);
           break;
 
         case qx.ui.core.Widget.TYPE_PERCENT:
           this[s2] = true;
           this[s1] = this[s3] = false;
-          this[p] = parseFloat(propValue);
+          this[p] = parseFloat(value);
           this[v] = null;
           break;
 
@@ -5248,22 +5248,22 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyAppearance : function(propValue, propOldValue)
+    _modifyAppearance : function(value, old)
     {
       var vAppearanceManager = qx.manager.object.AppearanceManager.getInstance();
 
-      if (propValue)
+      if (value)
       {
-        var vNewAppearanceProperties = vAppearanceManager.styleFrom(propValue, this._states) || {};
+        var vNewAppearanceProperties = vAppearanceManager.styleFrom(value, this._states) || {};
       }
 
-      if (propOldValue)
+      if (old)
       {
-        var vOldAppearanceProperties = vAppearanceManager.styleFrom(propOldValue, this._states) || {};
+        var vOldAppearanceProperties = vAppearanceManager.styleFrom(old, this._states) || {};
 
         var vUnstyleList = [];
         for (var vProp in vOldAppearanceProperties)
@@ -5318,10 +5318,10 @@ qx.Class.define("qx.ui.core.Widget",
      * Placeholder method to add attributes and other content to element node
      *
      * @type member
-     * @param el {Element} TODOC
+     * @param elem {Element} TODOC
      * @return {void}
      */
-    _applyElementData : function(el) {},
+    _applyElementData : function(elem) {},
 
 
 
@@ -5341,19 +5341,19 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @type member
      * @param propName {var} TODOC
-     * @param propValue {var} Current value
+     * @param value {var} Current value
      * @return {Boolean} TODOC
      */
-    setHtmlProperty : function(propName, propValue)
+    setHtmlProperty : function(propName, value)
     {
       if (!this._htmlProperties) {
         this._htmlProperties = {};
       }
 
-      this._htmlProperties[propName] = propValue;
+      this._htmlProperties[propName] = value;
 
-      if (this._isCreated && this.getElement()[propName] != propValue) {
-        this.getElement()[propName] = propValue;
+      if (this._isCreated && this.getElement()[propName] != value) {
+        this.getElement()[propName] = value;
       }
 
       return true;
@@ -5425,10 +5425,10 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @param vElement {var} TODOC
+     * @param elem {var} TODOC
      * @return {void}
      */
-    _applyHtmlProperties : function(vElement)
+    _applyHtmlProperties : function(elem)
     {
       var vProperties = this._htmlProperties;
 
@@ -5438,7 +5438,7 @@ qx.Class.define("qx.ui.core.Widget",
         var propName;
 
         for (propName in vProperties) {
-          vElement[propName] = vProperties[propName];
+          elem[propName] = vProperties[propName];
         }
       }
     },
@@ -5459,20 +5459,20 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @type member
      * @param propName {var} TODOC
-     * @param propValue {var} Current value
+     * @param value {var} Current value
      * @return {Boolean} TODOC
      * @deprecated Use {@link #setHtmlProperty} instead
      */
-    setHtmlAttribute : function(propName, propValue)
+    setHtmlAttribute : function(propName, value)
     {
       if (!this._htmlAttributes) {
         this._htmlAttributes = {};
       }
 
-      this._htmlAttributes[propName] = propValue;
+      this._htmlAttributes[propName] = value;
 
       if (this._isCreated) {
-        this.getElement().setAttribute(propName, propValue);
+        this.getElement().setAttribute(propName, value);
       }
 
       return true;
@@ -5525,11 +5525,11 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @param vElement {var} TODOC
+     * @param elem {var} TODOC
      * @return {void}
      * @deprecated Use {@link #_applyHtmlProperties} instead
      */
-    _applyHtmlAttributes : function(vElement)
+    _applyHtmlAttributes : function(elem)
     {
       var vAttributes = this._htmlAttributes;
 
@@ -5539,7 +5539,7 @@ qx.Class.define("qx.ui.core.Widget",
         var propName;
 
         for (propName in vAttributes) {
-          vElement.setAttribute(propName, vAttributes[propName]);
+          elem.setAttribute(propName, vAttributes[propName]);
         }
       }
     },
@@ -5590,21 +5590,21 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @type member
      * @param propName {var} TODOC
-     * @param propValue {var} Current value
+     * @param value {var} Current value
      */
-    setStyleProperty : function(propName, propValue)
+    setStyleProperty : function(propName, value)
     {
       if (!this._styleProperties) {
         this._styleProperties = {};
       }
 
-      this._styleProperties[propName] = propValue;
+      this._styleProperties[propName] = value;
 
       if (this._isCreated)
       {
-        var vElement = this.__outerElementStyleProperties[propName] ? this.getElement() : this._getTargetNode();
-        if (vElement) {
-          vElement.style[propName] = (propValue == null) ? "" : propValue;
+        var elem = this.__outerElementStyleProperties[propName] ? this.getElement() : this._getTargetNode();
+        if (elem) {
+          elem.style[propName] = (value == null) ? "" : value;
         }
       }
     },
@@ -5626,9 +5626,9 @@ qx.Class.define("qx.ui.core.Widget",
 
       if (this._isCreated)
       {
-        var vElement = this.__outerElementStyleProperties[propName] ? this.getElement() : this._getTargetNode();
-        if (vElement) {
-          vElement.style[propName] = "";
+        var elem = this.__outerElementStyleProperties[propName] ? this.getElement() : this._getTargetNode();
+        if (elem) {
+          elem.style[propName] = "";
         }
       }
     },
@@ -5638,10 +5638,10 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @param vElement {var} TODOC
+     * @param elem {var} TODOC
      * @return {void}
      */
-    _applyStyleProperties : function(vElement)
+    _applyStyleProperties : function(elem)
     {
       var vProperties = this._styleProperties;
 
@@ -5651,16 +5651,16 @@ qx.Class.define("qx.ui.core.Widget",
 
       var propName;
 
-      var vBaseElement = vElement;
+      var vBaseElement = elem;
       var vTargetElement = this._getTargetNode();
-      var vElement;
+      var elem;
 
       var value;
       for (propName in vProperties)
       {
-        vElement = this.__outerElementStyleProperties[propName] ? vBaseElement : vTargetElement;
+        elem = this.__outerElementStyleProperties[propName] ? vBaseElement : vTargetElement;
         value = vProperties[propName];
-        vElement.style[propName] = (value == null) ? "" : value;
+        elem.style[propName] = (value == null) ? "" : value;
       }
     },
 
@@ -5682,13 +5682,13 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyEnabled : function(propValue, propOldValue)
+    _modifyEnabled : function(value, old)
     {
-      if (propValue)
+      if (value)
       {
         this.removeState("disabled");
       }
@@ -5786,11 +5786,11 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyFocused : function(propValue, propOldValue)
+    _modifyFocused : function(value, old)
     {
       if (!this.isCreated()) {
         return true;
@@ -5798,11 +5798,11 @@ qx.Class.define("qx.ui.core.Widget",
 
       var vFocusRoot = this.getFocusRoot();
 
-      // this.debug("Focused: " + propValue);
+      // this.debug("Focused: " + value);
       if (vFocusRoot)
       {
         // may be undefined if this widget has been removed
-        if (propValue)
+        if (value)
         {
           vFocusRoot.setFocusedChild(this);
           this._visualizeFocus();
@@ -5825,16 +5825,16 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {void}
-     * @signature function(propValue, propOldValue)
+     * @signature function(value, old)
      */
     _modifyHideFocus : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(propValue, propOldValue)
+      "mshtml" : function(value, old)
       {
-        this.setHtmlProperty("hideFocus", propValue);
+        this.setHtmlProperty("hideFocus", value);
         return true;
       },
 
@@ -5931,17 +5931,17 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyCapture : function(propValue, propOldValue)
+    _modifyCapture : function(value, old)
     {
       var vMgr = qx.event.handler.EventHandler.getInstance();
 
-      if (propOldValue) {
+      if (old) {
         vMgr.setCaptureWidget(null);
-      } else if (propValue) {
+      } else if (value) {
         vMgr.setCaptureWidget(this);
       }
 
@@ -5964,16 +5964,16 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyZIndex : function(propValue, propOldValue)
+    _modifyZIndex : function(value, old)
     {
-      if (propValue == null) {
+      if (value == null) {
         this.removeStyleProperty("zIndex");
       } else {
-        this.setStyleProperty("zIndex", propValue);
+        this.setStyleProperty("zIndex", value);
       }
     },
 
@@ -5990,17 +5990,17 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {void}
-     * @signature function(propValue, propOldValue)
+     * @signature function(value, old)
      */
     _modifyTabIndex : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(propValue, propOldValue)
+      "mshtml" : function(value, old)
       {
         /*
-        if (propValue < 0 || !this.getEnabled()) {
+        if (value < 0 || !this.getEnabled()) {
           this.setHtmlProperty("unselectable", "on");
         } else {
           this.removeHtmlProperty("unselectable");
@@ -6008,22 +6008,22 @@ qx.Class.define("qx.ui.core.Widget",
         */
 
         // Legacy tabIndex property
-        this.setHtmlProperty("tabIndex", propValue < 0 ? -1 : 1);
+        this.setHtmlProperty("tabIndex", value < 0 ? -1 : 1);
       },
 
-      "gecko" : function(propValue, propOldValue)
+      "gecko" : function(value, old)
       {
         // CSS 3 draft userFocus property
-        this.setStyleProperty("MozUserFocus", (propValue < 0 ? "ignore" : "normal"));
+        this.setStyleProperty("MozUserFocus", (value < 0 ? "ignore" : "normal"));
       },
 
-      "default" : function(propValue, propOldValue)
+      "default" : function(value, old)
       {
         // CSS 3 draft userFocus property
-        this.setStyleProperty("userFocus", (propValue < 0 ? "ignore" : "normal"));
+        this.setStyleProperty("userFocus", (value < 0 ? "ignore" : "normal"));
 
         // Legacy tabIndex property
-        this.setHtmlProperty("tabIndex", propValue < 0 ? -1 : 1);
+        this.setHtmlProperty("tabIndex", value < 0 ? -1 : 1);
       }
     }),
 
@@ -6044,25 +6044,25 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {void}
-     * @signature function(propValue, propOldValue)
+     * @signature function(value, old)
      */
     _modifySelectable : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(propValue, propOldValue)
+      "mshtml" : function(value, old)
       {
-        if (propValue) {
+        if (value) {
           return this.removeHtmlProperty("unselectable");
         } else {
           return this.setHtmlProperty("unselectable", "on");
         }
       },
 
-      "gecko" : function(propValue, propOldValue)
+      "gecko" : function(value, old)
       {
-        if (propValue) {
+        if (value) {
           this.removeStyleProperty("MozUserSelect");
         } else {
           this.setStyleProperty("MozUserSelect", "none");
@@ -6073,10 +6073,10 @@ qx.Class.define("qx.ui.core.Widget",
 
       "opera" : qx.lang.Function.returnTrue,
 
-      "webkit|khtml" : function(propValue, propOldValue)
+      "webkit|khtml" : function(value, old)
       {
         // Be forward compatible and use both userSelect and KhtmlUserSelect
-        if (propValue) {
+        if (value) {
           this.removeStyleProperty("KhtmlUserSelect");
         } else {
           this.setStyleProperty("KhtmlUserSelect", "none");
@@ -6085,9 +6085,9 @@ qx.Class.define("qx.ui.core.Widget",
         return true;
       },
 
-      "default" : function(propValue, propOldValue)
+      "default" : function(value, old)
       {
-        if (propValue) {
+        if (value) {
           return this.removeStyleProperty("userSelect");
         } else {
           this.setStyleProperty("userSelect", "none");
@@ -6114,27 +6114,27 @@ qx.Class.define("qx.ui.core.Widget",
      * inclusive, where 1 means totally opaque and 0 invisible.
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {void}
-     * @signature function(propValue, propOldValue)
+     * @signature function(value, old)
      */
     _modifyOpacity : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(propValue, propOldValue)
+      "mshtml" : function(value, old)
       {
-        if (propValue == null || propValue >= 1 || propValue < 0) {
+        if (value == null || value >= 1 || value < 0) {
           this.removeStyleProperty("filter");
         } else {
-          this.setStyleProperty("filter", ("Alpha(Opacity=" + Math.round(propValue * 100) + ")"));
+          this.setStyleProperty("filter", ("Alpha(Opacity=" + Math.round(value * 100) + ")"));
         }
 
         return true;
       },
 
-      "default" : function(propValue, propOldValue)
+      "default" : function(value, old)
       {
-        if (propValue == null || propValue > 1)
+        if (value == null || value > 1)
         {
           if (qx.core.Variant.isSet("qx.client", "gecko")) {
             this.removeStyleProperty("MozOpacity");
@@ -6146,17 +6146,17 @@ qx.Class.define("qx.ui.core.Widget",
         }
         else
         {
-          propValue = qx.lang.Number.limit(propValue, 0, 1);
+          value = qx.lang.Number.limit(value, 0, 1);
 
           // should we omit gecko's flickering here
           // and limit the max value to 0.99?
           if (qx.core.Variant.isSet("qx.client", "gecko")) {
-            this.setStyleProperty("MozOpacity", propValue);
+            this.setStyleProperty("MozOpacity", value);
           } else if (qx.core.Variant.isSet("qx.client", "khtml")) {
-            this.setStyleProperty("KhtmlOpacity", propValue);
+            this.setStyleProperty("KhtmlOpacity", value);
           }
 
-          this.setStyleProperty("opacity", propValue);
+          this.setStyleProperty("opacity", value);
         }
 
         return true;
@@ -6180,19 +6180,19 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
-     * @signature function(propValue, propOldValue)
+     * @signature function(value, old)
      */
-    _modifyCursor : function(propValue, propOldValue)
+    _modifyCursor : function(value, old)
     {
-      if (propValue)
+      if (value)
       {
-        if (propValue == "pointer" && qx.core.Client.getInstance().isMshtml()) {
+        if (value == "pointer" && qx.core.Client.getInstance().isMshtml()) {
           this.setStyleProperty("cursor", "hand");
         } else {
-          this.setStyleProperty("cursor", propValue);
+          this.setStyleProperty("cursor", value);
         }
       }
       else
@@ -6219,12 +6219,12 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyBackgroundImage : function(propValue, propOldValue) {
-      return qx.util.Validation.isValidString(propValue) ? this.setStyleProperty("backgroundImage", "url(" + qx.manager.object.AliasManager.getInstance().resolvePath(propValue) + ")") : this.removeStyleProperty("backgroundImage");
+    _modifyBackgroundImage : function(value, old) {
+      return qx.util.Validation.isValidString(value) ? this.setStyleProperty("backgroundImage", "url(" + qx.manager.object.AliasManager.getInstance().resolvePath(value) + ")") : this.removeStyleProperty("backgroundImage");
     },
 
 
@@ -6243,11 +6243,11 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyClip : function(propValue, propOldValue) {
+    _modifyClip : function(value, old) {
       return this._compileClipString();
     },
 
@@ -6307,18 +6307,18 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {void}
-     * @signature function(propValue, propOldValue)
+     * @signature function(value, old)
      */
     _modifyOverflow : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(propValue, propOldValue)
+      "mshtml" : function(value, old)
       {
         // Mshtml conforms here to CSS3 Spec. Eventually there will be multiple
         // browsers which support these new overflowX overflowY properties.
-        var pv = propValue;
+        var pv = value;
         var pn = "overflow";
 
         switch(pv)
@@ -6344,13 +6344,13 @@ qx.Class.define("qx.ui.core.Widget",
           }
         }
 
-        this._applyOverflow(pn, pv, propValue, propOldValue);
+        this._applyOverflow(pn, pv, value, old);
         this.addToQueue("overflow");
       },
 
-      "gecko" : function(propValue, propOldValue)
+      "gecko" : function(value, old)
       {
-        var pv = propValue;
+        var pv = value;
         var pn = "overflow";
 
         switch(pv)
@@ -6368,17 +6368,17 @@ qx.Class.define("qx.ui.core.Widget",
             break;
         }
 
-        this._applyOverflow(pn, pv, propValue, propOldValue);
+        this._applyOverflow(pn, pv, value, old);
         this.addToQueue("overflow");
       },
 
-      "default" : function(propValue, propOldValue)
+      "default" : function(value, old)
       {
         // Opera/Khtml Mode...
         // hopefully somewhat of this is supported in the near future.
         // overflow-x and overflow-y are also not supported by Opera 9.0 Beta1
         // and also not if we switch to IE emulation mode
-        var pv = propValue;
+        var pv = value;
         var pn = "overflow";
 
         switch(pv)
@@ -6389,7 +6389,7 @@ qx.Class.define("qx.ui.core.Widget",
             break;
         }
 
-        this._applyOverflow(pn, pv, propValue, propOldValue);
+        this._applyOverflow(pn, pv, value, old);
         this.addToQueue("overflow");
       }
     }),
@@ -6401,11 +6401,11 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param pn {var} TODOC
      * @param pv {var} TODOC
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _applyOverflow : function(pn, pv, propValue, propOldValue)
+    _applyOverflow : function(pn, pv, value, old)
     {
       // Apply Style
       this.setStyleProperty(pn, pv || "");
@@ -6660,10 +6660,10 @@ qx.Class.define("qx.ui.core.Widget",
 
       "default" : function()
       {
-        var el = this.getElement();
+        var elem = this.getElement();
         var cl = this._borderElement = document.createElement("div");
 
-        var es = el.style;
+        var es = elem.style;
         var cs = this._innerStyle = cl.style;
 
         cs.width = cs.height = "100%";
@@ -6694,11 +6694,11 @@ qx.Class.define("qx.ui.core.Widget",
         }
 
         // Move existing children
-        while (el.firstChild) {
-          cl.appendChild(el.firstChild);
+        while (elem.firstChild) {
+          cl.appendChild(elem.firstChild);
         }
 
-        el.appendChild(cl);
+        elem.appendChild(cl);
       }
     }),
 
@@ -6806,10 +6806,10 @@ qx.Class.define("qx.ui.core.Widget",
      */
     execute : function()
     {
-      var vCommand = this.getCommand();
+      var cmd = this.getCommand();
 
-      if (vCommand) {
-        vCommand.execute(this);
+      if (cmd) {
+        cmd.execute(this);
       }
 
       this.createDispatchEvent("execute");
@@ -7018,12 +7018,12 @@ qx.Class.define("qx.ui.core.Widget",
      * This is true for example in the "appear" event handler of a widget.
      *
      * @type member
-     * @param vAlignTopLeft {Boolean} Set the alignment. "True" means top left align, "False" means bottom right.
+     * @param alignTopLeft {Boolean} Set the alignment. "True" means top left align, "False" means bottom right.
      */
-    scrollIntoView : function(vAlignTopLeft)
+    scrollIntoView : function(alignTopLeft)
     {
-      this.scrollIntoViewX(vAlignTopLeft);
-      this.scrollIntoViewY(vAlignTopLeft);
+      this.scrollIntoViewX(alignTopLeft);
+      this.scrollIntoViewY(alignTopLeft);
     },
 
 
@@ -7034,17 +7034,17 @@ qx.Class.define("qx.ui.core.Widget",
      * This is true for example in the "appear" event handler of a widget.
      *
      * @type member
-     * @param vAlignLeft {Boolean} whether the element should be left aligned
+     * @param alignLeft {Boolean} whether the element should be left aligned
      * @return {Boolean} Whether the element could be scrolled into the view
      */
-    scrollIntoViewX : function(vAlignLeft)
+    scrollIntoViewX : function(alignLeft)
     {
       if (!this._isCreated || !this._isDisplayable) {
         this.warn("The function scrollIntoViewX can only be called after the widget is created!");
         return false;
       }
 
-      return qx.html.ScrollIntoView.scrollX(this.getElement(), vAlignLeft);
+      return qx.html.ScrollIntoView.scrollX(this.getElement(), alignLeft);
     },
 
 
@@ -7055,17 +7055,17 @@ qx.Class.define("qx.ui.core.Widget",
      * This is true for example in the "appear" event handler of a widget.
 
      * @type member
-     * @param vAlignTop {Boolean} whether the element should be top aligned
+     * @param alignTop {Boolean} whether the element should be top aligned
      * @return {Boolean} Whether the element could be scrolled into the view
      */
-    scrollIntoViewY : function(vAlignTop)
+    scrollIntoViewY : function(alignTop)
     {
       if (!this._isCreated || !this._isDisplayable) {
         this.warn("The function scrollIntoViewY can only be called after the widget is created!");
         return false;
       }
 
-      return qx.html.ScrollIntoView.scrollY(this.getElement(), vAlignTop);
+      return qx.html.ScrollIntoView.scrollY(this.getElement(), alignTop);
     },
 
 
@@ -7083,10 +7083,10 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @param vDragCache {var} TODOC
+     * @param dragCache {var} TODOC
      * @return {Boolean} TODOC
      */
-    supportsDrop : function(vDragCache) {
+    supportsDrop : function(dragCache) {
       return true;
     }
   },
@@ -7100,8 +7100,7 @@ qx.Class.define("qx.ui.core.Widget",
   *****************************************************************************
   */
 
-  settings :
-  {
+  settings : {
     "qx.widgetQueueDebugging" : false
   },
 
@@ -7153,31 +7152,31 @@ qx.Class.define("qx.ui.core.Widget",
           // Also used for inline event handling to seperate 'real' events
           statics._inFlushGlobalQueues = true;
 
-          var vStart;
+          var start;
 
-          vStart = (new Date).valueOf();
+          start = (new Date).valueOf();
           statics.flushGlobalWidgetQueue();
-          var vWidgetDuration = (new Date).valueOf() - vStart;
+          var vWidgetDuration = (new Date).valueOf() - start;
 
-          vStart = (new Date).valueOf();
+          start = (new Date).valueOf();
           statics.flushGlobalStateQueue();
-          var vStateDuration = (new Date).valueOf() - vStart;
+          var vStateDuration = (new Date).valueOf() - start;
 
-          vStart = (new Date).valueOf();
+          start = (new Date).valueOf();
           statics.flushGlobalElementQueue();
-          var vElementDuration = (new Date).valueOf() - vStart;
+          var vElementDuration = (new Date).valueOf() - start;
 
-          vStart = (new Date).valueOf();
+          start = (new Date).valueOf();
           statics.flushGlobalJobQueue();
-          var vJobDuration = (new Date).valueOf() - vStart;
+          var vJobDuration = (new Date).valueOf() - start;
 
-          vStart = (new Date).valueOf();
+          start = (new Date).valueOf();
           statics.flushGlobalLayoutQueue();
-          var vLayoutDuration = (new Date).valueOf() - vStart;
+          var vLayoutDuration = (new Date).valueOf() - start;
 
-          vStart = (new Date).valueOf();
+          start = (new Date).valueOf();
           statics.flushGlobalDisplayQueue();
-          var vDisplayDuration = (new Date).valueOf() - vStart;
+          var vDisplayDuration = (new Date).valueOf() - start;
 
           var vSum = vWidgetDuration + vStateDuration + vElementDuration + vJobDuration + vLayoutDuration + vDisplayDuration;
 
@@ -7215,10 +7214,10 @@ qx.Class.define("qx.ui.core.Widget",
 
   destruct : function()
   {
-    var vElement = this.getElement();
+    var elem = this.getElement();
 
-    if (vElement) {
-      vElement.qx_Widget = null;
+    if (elem) {
+      elem.qx_Widget = null;
     }
 
     this._disposeObjects("_fadeTimer");
