@@ -504,6 +504,10 @@ qx.Class.define("qxunit.runner.TestRunner",
       left.setEnabled(true);
       if (selectedElement) { // try to re-select previously selected element
         this.left.setSelectedElement(selectedElement);
+        if (selectedElement instanceof qx.ui.tree.TreeFolder) 
+        {
+          selectedElement.open();
+        }
       }
     }, //leftReloadTree
 
