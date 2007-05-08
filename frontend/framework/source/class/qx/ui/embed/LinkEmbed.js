@@ -40,36 +40,13 @@ qx.Class.define("qx.ui.embed.LinkEmbed",
   {
     this.base(arguments, vHtml);
 
-    if (typeof vUri != "undefined") {
+    if (vUri != null) {
       this.setUri(vUri);
     }
 
-    if (typeof vTarget != "undefined") {
+    if (vTarget != null) {
       this.setTarget(vTarget);
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-    /*
-    ---------------------------------------------------------------------------
-      UTILITIES
-    ---------------------------------------------------------------------------
-    */
-
-    LINK_START : "<a target='",
-    HREF_START : "' href='",
-    HREF_STOP  : "'>",
-    LINK_STOP  : "</a>"
   },
 
 
@@ -83,12 +60,6 @@ qx.Class.define("qx.ui.embed.LinkEmbed",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
     /** Any valid html URI */
     uri :
     {
@@ -128,13 +99,13 @@ qx.Class.define("qx.ui.embed.LinkEmbed",
     {
       var vHtml = [];
 
-      vHtml.push(qx.ui.embed.LinkEmbed.LINK_START);
+      vHtml.push("<a target='");
       vHtml.push(this.getTarget());
-      vHtml.push(qx.ui.embed.LinkEmbed.HREF_START);
+      vHtml.push("' href='");
       vHtml.push(this.getUri());
-      vHtml.push(qx.ui.embed.LinkEmbed.HREF_STOP);
+      vHtml.push("'>");
       vHtml.push(this.getHtml());
-      vHtml.push(qx.ui.embed.LinkEmbed.LINK_STOP);
+      vHtml.push("</a>");
 
       this.getElement().innerHTML = vHtml.join("");
     }

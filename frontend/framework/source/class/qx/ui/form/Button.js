@@ -49,8 +49,7 @@ qx.Class.define("qx.ui.form.Button",
   {
     this.base(arguments, vText, vIcon, vIconWidth, vIconHeight, vFlash);
 
-    // Make focusable
-    this.setTabIndex(1);
+    this.initTabIndex();
 
     this.addEventListener("mouseover", this._onmouseover);
     this.addEventListener("mouseout", this._onmouseout);
@@ -76,6 +75,12 @@ qx.Class.define("qx.ui.form.Button",
     {
       refine : true,
       init : "button"
+    },
+
+    tabIndex :
+    {
+      refine : true,
+      init : 1
     }
   },
 
@@ -90,12 +95,6 @@ qx.Class.define("qx.ui.form.Button",
 
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      EVENT HANDLER
-    ---------------------------------------------------------------------------
-    */
-
     /**
      * TODOC
      *

@@ -130,6 +130,21 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
+    "check-box" :
+    {
+      style : function(states)
+      {
+        return {
+          padding : [ 2, 3 ]
+        };
+      }
+    },
+
+    "radio-button" : {
+      include : "check-box"
+    },
+
+
 
 
 

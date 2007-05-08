@@ -41,9 +41,7 @@ qx.Class.define("qx.ui.form.CheckBox",
   {
     this.base(arguments, vText);
 
-    this.setTabIndex(1);
-    this.setPadding(2, 3);
-
+    this.initTabIndex();
     this._createIcon();
 
     if (vValue != null) {
@@ -57,7 +55,7 @@ qx.Class.define("qx.ui.form.CheckBox",
     if (vChecked != null) {
       this.setChecked(vChecked);
     } else {
-      this.setChecked(false);
+      this.initChecked();
     }
 
     this.addEventListener("click", this._onclick);
@@ -76,6 +74,19 @@ qx.Class.define("qx.ui.form.CheckBox",
 
   properties :
   {
+    appearance :
+    {
+      refine : true,
+      init : "check-box"
+    },
+
+    tabIndex :
+    {
+      refine : true,
+      init : 1
+    },
+
+
     /** The HTML name of the form element used by the widget */
     name :
     {
@@ -162,8 +173,6 @@ qx.Class.define("qx.ui.form.CheckBox",
       if (this._iconObject) {
         this._iconObject.setChecked(propValue);
       }
-
-      return true;
     },
 
 

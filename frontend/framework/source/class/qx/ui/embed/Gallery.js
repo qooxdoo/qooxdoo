@@ -48,7 +48,7 @@ qx.Class.define("qx.ui.embed.Gallery",
     this._listSize = vGalleryList.length;
     this._processedImages = 0;
 
-    this.setOverflow("auto");
+    this.initOverflow();
 
     this.setHtmlProperty("className", "qx_ui_embed_Gallery");
 
@@ -95,6 +95,13 @@ qx.Class.define("qx.ui.embed.Gallery",
 
   statics :
   {
+    overflow :
+    {
+      refine : true,
+      init : "auto"
+    },
+
+
     /**
      * TODOC
      *
