@@ -89,15 +89,11 @@ qx.Class.define("qx.renderer.font.Font",
             break;
 
           case "underline":
-            font.setUnderline(true);
-            break;
-
-          case "strikeout":
-            font.setStrikeout(true);
+            font.setDecoration("underline");
             break;
 
           default:
-            var temp = parseFloat(part);
+            var temp = parseInt(part);
 
             if (temp == part || qx.lang.String.contains(part, "px")) {
               font.setSize(temp);
@@ -138,12 +134,7 @@ qx.Class.define("qx.renderer.font.Font",
       widget.removeStyleProperty("fontSize");
       widget.removeStyleProperty("fontWeight");
       widget.removeStyleProperty("fontStyle");
-      widget.removeStyleProperty("textAlign");
       widget.removeStyleProperty("textDecoration");
-      widget.removeStyleProperty("textTransform");
-      widget.removeStyleProperty("letterSpacing");
-      widget.removeStyleProperty("wordSpacing");
-      widget.removeStyleProperty("lineHeight");
     },
 
     resetElement : function(element)
@@ -154,12 +145,7 @@ qx.Class.define("qx.renderer.font.Font",
       style.fontSize = "";
       style.fontWeight = "";
       style.fontStyle = "";
-      style.textAlign = "";
       style.textDecoration = "";
-      style.textTransform = "";
-      style.letterSpacing = "";
-      style.wordSpacing = "";
-      style.lineHeight = "";
     }
   },
 
@@ -202,43 +188,10 @@ qx.Class.define("qx.renderer.font.Font",
       apply : "_applyItalic"
     },
 
-    align :
-    {
-      check : [ "left", "center", "right", "justify" ],
-      nullable : true
-    },
-
     decoration :
     {
       check : [ "underline", "line-through", "overline" ],
       nullable : true
-    },
-
-    transform :
-    {
-      check : [ "lowercase", "capitalize", "uppercase" ],
-      nullable : true
-    },
-
-    letterSpacing :
-    {
-      check : "Integer",
-      nullable : true,
-      apply : "_applyLetterSpacing"
-    },
-
-    wordSpacing :
-    {
-      check : "Integer",
-      nullable : true,
-      apply : "_applyWordSpacing"
-    },
-
-    lineHeight :
-    {
-      check : "Integer",
-      nullable : true,
-      apply : "_applyLineHeight"
     }
   },
 
@@ -257,9 +210,7 @@ qx.Class.define("qx.renderer.font.Font",
     __family : null,
     __bold : null,
     __italic : null,
-    __letterSpacing : null,
-    __wordSpacing : null,
-    __lineHeight : null,
+    __decoration : null,
 
     _applySize : function(value, old) {
       this.__size = value === null ? null : value + "px";
@@ -277,16 +228,8 @@ qx.Class.define("qx.renderer.font.Font",
       this.__italic = value === null ? null : value ? "italic" : "normal";
     },
 
-    _applyLetterSpacing : function(value, old) {
-      this.__letterSpacing = value === null ? null : value + "px";
-    },
-
-    _applyWordSpacing : function(value, old) {
-      this.__wordSpacing = value === null ? null : value + "px";
-    },
-
-    _applyLineHeight : function(value, old) {
-      this.__lineHeight = value === null ? null : value + "px";
+    _applyDecoration : function(value, old) {
+      this.__decoration = value || null;
     },
 
     render : function(widget)
@@ -295,12 +238,7 @@ qx.Class.define("qx.renderer.font.Font",
       widget.setStyleProperty("fontSize", this.__size);
       widget.setStyleProperty("fontWeight", this.__bold);
       widget.setStyleProperty("fontStyle", this.__italic);
-      widget.setStyleProperty("textAlign", this.getAlign());
-      widget.setStyleProperty("textDecoration", this.getDecoration());
-      widget.setStyleProperty("textTransform", this.getTransform());
-      widget.setStyleProperty("letterSpacing", this.__letterSpacing);
-      widget.setStyleProperty("wordSpacing", this.__wordSpacing);
-      widget.setStyleProperty("lineHeight", this.__lineHeight);
+      widget.setStyleProperty("textDecoration", this.__decoration);
     },
 
     renderElement : function(element)
@@ -310,12 +248,7 @@ qx.Class.define("qx.renderer.font.Font",
       style.fontSize = this.__size || "";
       style.fontWeight = this.__bold || "";
       style.fontStyle =  this.__italic || "";
-      style.textAlign = this.getAlign() || "";
       style.textDecoration = this.getDecoration() || "";
-      style.textTransform = this.getTransform() || "";
-      style.letterSpacing = this.__letterSpacing || "";
-      style.wordSpacing = this.__wordSpacing || "";
-      style.lineHeight = this.__lineHeight || "";
     }
   }
 });
