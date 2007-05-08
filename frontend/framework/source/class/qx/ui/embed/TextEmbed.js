@@ -64,6 +64,17 @@ qx.Class.define("qx.ui.embed.TextEmbed",
       init : "",
       apply : "_modifyText",
       event : "changeText"
+    },
+
+    /**
+     * The alignment of the text inside the box
+     */
+    textAlign :
+    {
+      check : [ "left", "center", "right", "justify" ],
+      nullable : true,
+      themeable : true,
+      apply : "_applyTextAlign"
     }
   },
 
@@ -97,6 +108,19 @@ qx.Class.define("qx.ui.embed.TextEmbed",
       }
 
       return true;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      TEXTALIGN SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    _applyTextAlign : function(value, old) {
+      value === null ? this.removeStyleProperty("textAlign") : this.setStyleProperty("textAlign", value);
     },
 
 

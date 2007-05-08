@@ -1448,7 +1448,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          font          : "largeCenter",
+          font          : "large",
+          textAlign     : "center",
           verticalAlign : "middle"
         };
       }
@@ -1475,7 +1476,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
         return {
           border          : border,
-          font            : "boldLargeCenter",
+          font            : "boldLarge",
+          textAlign       : "center",
           textColor       : states.weekend ? "date-chooser-title" : "date-chooser",
           backgroundColor : states.weekend ? "date-chooser" : "date-chooser-title"
         };
@@ -1487,7 +1489,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          font            : "center",
+          textAlign       : "center",
           verticalAlign   : "middle",
           border          : states.today ? "black" : "undefined",
           textColor       : states.selected ? "text-selected" : states.otherMonth ? "text-disabled" : "undefined",
@@ -1516,7 +1518,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
 
         return {
-          font      : "center",
+          textAlign : "center",
           textColor : "date-chooser-title",
           padding   : [ 2, 4 ],
           border    : border

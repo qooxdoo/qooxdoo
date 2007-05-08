@@ -46,26 +46,11 @@ qx.Theme.define("qx.theme.classic.font.Default",
       family : [ "Lucida Grande", "Tahoma", "sans-serif" ]
     },
 
-    "center" :
-    {
-      size : 11,
-      family : [ "Lucida Grande", "Tahoma", "sans-serif" ],
-      align : "center"
-    },
-
-    "largeCenter" :
+    "boldLarge" :
     {
       size : 13,
       family : [ "Lucida Grande", "Tahoma", "sans-serif" ],
-      align : "center"
-    },
-
-    "boldLargeCenter" :
-    {
-      size : 13,
-      family : [ "Lucida Grande", "Tahoma", "sans-serif" ],
-      bold : true,
-      align : "center"
+      bold : true
     }
   }
 });

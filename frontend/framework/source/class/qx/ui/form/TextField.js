@@ -172,6 +172,19 @@ qx.Class.define("qx.ui.form.TextField",
       apply : "_modifyValue"
     },
 
+
+    /**
+     * The alignment of the text inside the box
+     */
+    textAlign :
+    {
+      check : [ "left", "center", "right", "justify" ],
+      nullable : true,
+      themeable : true,
+      apply : "_applyTextAlign"
+    },
+
+
     /**
      * Whether the property {@link #value} should be updated "live" on each key
      * stroke or only on focus blur (default).
@@ -276,9 +289,6 @@ qx.Class.define("qx.ui.form.TextField",
         istyle.overflow = this._inputOverflow;
         istyle.outline = "none";
 
-        // Sync cursor
-        this._modifyCursor(this.getCursor());
-
         // Disable browser appearance
         istyle.WebkitAppearance = "none";
         istyle.MozAppearance = "none";
@@ -293,9 +303,11 @@ qx.Class.define("qx.ui.form.TextField",
           istyle.margin = "1px 0"
         }
 
-        // Sync font and color
+        // Sync font, color, textAlign and cursor
         this._renderFont();
         this._renderColor();
+        this._renderTextAlign();
+        this._renderCursor();
 
         // Register inline event
         if (qx.core.Variant.isSet("qx.client", "mshtml")) {
@@ -327,24 +339,41 @@ qx.Class.define("qx.ui.form.TextField",
 
     _modifyCursor : function(propValue, propOldValue)
     {
-      if (this._inputElement)
-      {
-        var style = this._inputElement.style;
-
-        if (propValue)
-        {
-          if (propValue == "pointer" && qx.core.Client.getInstance().isMshtml()) {
-            style.cursor = "hand";
-          } else {
-            style.cursor = propValue;
-          }
-        }
-        else
-        {
-          style.cursor = "";
-        }
+      if (this._inputElement) {
+        this._renderCursor();
       }
     },
+
+    _renderCursor : function()
+    {
+      var style = this._inputElement.style;
+      var value = this.getCursor();
+
+      if (value)
+      {
+        if (value == "pointer" && qx.core.Client.getInstance().isMshtml()) {
+          style.cursor = "hand";
+        } else {
+          style.cursor = value;
+        }
+      }
+      else
+      {
+        style.cursor = "";
+      }
+    },
+
+    _applyTextAlign : function(value, old)
+    {
+      if (this._inputElement) {
+        this._renderTextAlign();
+      }
+    },
+
+    _renderTextAlign : function() {
+      this._inputElement.style.textAlign = this.getTextAlign() || "";
+    },
+
 
     /**
      * Apply the enabled property.
