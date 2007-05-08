@@ -41,17 +41,16 @@ qx.Class.define("qx.ui.embed.IconHtmlEmbed",
   {
     this.base(arguments, vHtml);
 
-    if (vIcon != null)
-    {
+    if (vIcon != null) {
       this.setIcon(vIcon);
+    }
 
-      if (vIconWidth != null) {
-        this.setIconWidth(vIconWidth);
-      }
+    if (vIconWidth != null) {
+      this.setIconWidth(vIconWidth);
+    }
 
-      if (vIconHeight != null) {
-        this.setIconHeight(vIconHeight);
-      }
+    if (vIconHeight != null) {
+      this.setIconHeight(vIconHeight);
     }
   },
 
