@@ -46,24 +46,18 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
   {
     this.base(arguments);
 
-    // ************************************************************************
-    //   SUB WIDGETS
-    // ************************************************************************
+    // Sub widgets
     this._createFrameObject();
     this._createLegendObject();
 
-    // ************************************************************************
-    //   INIT
-    // ************************************************************************
+    // Processing parameters
     this.setLegend(vLegend || "");
 
     if (vIcon != null) {
       this.setIcon(vIcon);
     }
 
-    // ************************************************************************
-    //   REMAPPING
-    // ************************************************************************
+    // Enable method remapping
     this.remapChildrenHandlingTo(this._frameObject);
   },
 

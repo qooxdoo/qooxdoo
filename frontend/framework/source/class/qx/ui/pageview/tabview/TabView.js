@@ -42,8 +42,6 @@ qx.Class.define("qx.ui.pageview.tabview.TabView",
 
   construct : function() {
     this.base(arguments, qx.ui.pageview.tabview.Bar, qx.ui.pageview.tabview.Pane);
-
-    this.initOrientation();
   },
 
 

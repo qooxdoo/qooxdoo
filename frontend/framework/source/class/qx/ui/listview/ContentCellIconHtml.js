@@ -44,7 +44,7 @@ qx.Class.define("qx.ui.listview.ContentCellIconHtml",
   {
     this.base(arguments, vHtml, vIcon, vIconWidth, vIconHeight);
 
-    this.setSelectable(false);
+    this.initSelectable();
   },
 
 
@@ -76,6 +76,12 @@ qx.Class.define("qx.ui.listview.ContentCellIconHtml",
 
   properties :
   {
+    selectable :
+    {
+      refine : true,
+      init : false
+    },
+
     appearance :
     {
       refine : true,
