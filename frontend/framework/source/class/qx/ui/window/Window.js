@@ -1013,7 +1013,7 @@ qx.Class.define("qx.ui.window.Window",
      */
     _minimizeButtonManager : function()
     {
-      this._minimizeButton.setEnabled(this.getAllowMinimize());
+      this.getAllowMinimize() ? this._minimizeButton.resetEnabled() : this._minimizeButton.setEnabled(false);
 
       return true;
     },
@@ -1027,7 +1027,7 @@ qx.Class.define("qx.ui.window.Window",
      */
     _closeButtonManager : function()
     {
-      this._closeButton.setEnabled(this.getAllowClose());
+      this.getAllowClose() ? this._closeButton.resetEnabled() : this._closeButton.setEnabled(false);
 
       return true;
     },
@@ -1044,11 +1044,11 @@ qx.Class.define("qx.ui.window.Window",
       var b = this.getAllowMaximize() && this.getResizeable() && this._computedMaxWidthTypeNull && this._computedMaxHeightTypeNull;
 
       if (this._maximizeButton) {
-        this._maximizeButton.setEnabled(b);
+        b ? this._maximizeButton.resetEnabled() : this._maximizeButton.setEnabled(false);
       }
 
       if (this._restoreButton) {
-        this._restoreButton.setEnabled(b);
+        b ? this._restoreButton.resetEnabled() : this._restoreButton.setEnabled(false);
       }
 
       return true;
