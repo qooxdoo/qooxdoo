@@ -30,6 +30,16 @@ qx.Class.define("qxunit.test.Xml", {
           this.assertEquals(xmlStr, qx.xml.Element.serialize(doc2));
       },
 
+
+      testFromString : function()
+      {
+        data = "<Root><Row>test1</Row><Row>test2</Row><Row>test3</Row></Root>";
+
+        var xml = qx.xml.Document.fromString(data);
+        this.debug("Converted to XML Document " + xml);
+      },
+
+
       testCreateDocument: function() {
           var doc = qx.xml.Document.create("", "rss");
           this.assertEquals(
