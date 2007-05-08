@@ -80,14 +80,6 @@ qx.Class.define("qx.manager.selection.RadioManager",
 
   properties :
   {
-    enabled :
-    {
-      init : true,
-      check : "Boolean",
-      apply : "_modifyEnabled",
-      event : "changeEnabled"
-    },
-
     selected : {
       nullable : true,
       apply : "_modifySelected",
@@ -209,9 +201,6 @@ qx.Class.define("qx.manager.selection.RadioManager",
           this.setSelected(vItem);
         }
 
-        // Make enabled the same status as the the manager has
-        vItem.setEnabled(this.getEnabled());
-
         // Apply Make name the same
         vItem.setName(this.getName());
       }
@@ -265,25 +254,6 @@ qx.Class.define("qx.manager.selection.RadioManager",
 
       if (propValue && !propValue.getChecked()) {
         propValue.setChecked(true);
-      }
-
-      return true;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
-     */
-    _modifyEnabled : function(propValue, propOldValue, propData)
-    {
-      for (var i=0, vItems=this._items, vLength=vItems.length; i<vLength; i++) {
-        vItems[i].setEnabled(propValue);
       }
 
       return true;
