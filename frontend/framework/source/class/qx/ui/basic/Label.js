@@ -195,6 +195,18 @@ qx.Class.define("qx.ui.basic.Label",
 
 
     /**
+     * The alignment of the text inside the box
+     */
+    textAlign :
+    {
+      check : [ "left", "center", "right", "justify" ],
+      nullable : true,
+      themeable : true,
+      apply : "_applyTextAlign"
+    },
+
+
+    /**
      * Set how the label text should be interpreted
      *
      * <ul>
@@ -233,26 +245,21 @@ qx.Class.define("qx.ui.basic.Label",
 
   members :
   {
-    /**
-     * @deprecated
-     */
-    setHtml : function(html)
-    {
-      throw new Error("Deprecated usage of HTML property!");
-      this.setText(html);
-    },
-
-    /**
-     * @deprecated
-     */
-    getHtml : function(html)
-    {
-      throw new Error("Deprecated usage of HTML property!");
-      return this.getText(html);
-    },
-
     _htmlContent : "",
     _htmlMode : false,
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      TEXTALIGN SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    _applyTextAlign : function(value, old) {
+      value === null ? this.removeStyleProperty("textAlign") : this.setStyleProperty("textAlign", value);
+    },
 
 
 
