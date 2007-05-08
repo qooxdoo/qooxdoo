@@ -14,7 +14,11 @@ qx.Class.define("qxunit.TestLoader", {
 
   properties :
   {
-    suite : { check : "qxunit.TestSuite" }
+    suite :
+    {
+      check : "qxunit.TestSuite",
+      nullable : true
+    }
   },
 
 
