@@ -48,12 +48,6 @@ qx.Class.define("qxunit.runner.TestResultData",
       event : "changeState"
     },
 
-    message :
-    {
-      check : "String",
-      init : ""
-    },
-
     exception :
     {
       nullable : true
@@ -63,6 +57,32 @@ qx.Class.define("qxunit.runner.TestResultData",
 
   members :
   {
+    getMessage : qx.core.Variant.select("qx.client",
+    {
+      "default" : function()
+      {
+        if (this.getException()) {
+          return this.getException().toString();
+        } else {
+          return "";
+        }
+      },
+
+      "opera" : function() {
+        if (this.getException()) {
+          var msg = this.getException().message;
+          if (msg.indexOf("Backtrace:") < 0) {
+            return this.getException().toString();
+          } else {
+            return qx.lang.String.trim(msg.split("Backtrace:")[0]);
+          }
+        } else {
+          return "";
+        }
+      }
+    }),
+
+
     getStackTrace : function()
     {
       var ex = this.getException();
@@ -70,17 +90,19 @@ qx.Class.define("qxunit.runner.TestResultData",
       var trace = [];
       if (typeof(ex.getStackTrace) == "function") {
         trace = ex.getStackTrace();
-      } else if (ex.stack) {
-        trace = this.__beautyStackTrace(ex.stack);
+      } else {
+        trace = qx.dev.StackTrace.getStackTraceFromError(ex);
       }
-/*
+
+      // filter Test Runner functions from the stack trace
       while (trace.length > 0)
       {
         var first = trace[0];
         if (
           first.indexOf("qxunit.AssertionError") == 0 ||
           first.indexOf("qx.Class") == 0 ||
-          first.indexOf("qxunit.MAssert") == 0
+          first.indexOf("qxunit.MAssert") == 0 ||
+          first.indexOf("script") == 0
           )
         {
           trace.shift();
@@ -90,30 +112,8 @@ qx.Class.define("qxunit.runner.TestResultData",
           break;
         }
       }
-*/
+
       return trace.join("<br>");
-    },
-
-
-    __beautyStackTrace : function(stack)
-    {
-      // e.g. "()@http://localhost:8080/webcomponent-test-SNAPSHOT/webcomponent/js/com/ptvag/webcomponent/common/log/Logger:253"
-      var lineRe = /@(.+):(\d+)$/gm;
-      var hit;
-      var trace = [];
-      var scriptDir = "/source/class/";
-
-      while ((hit = lineRe.exec(stack)) != null)
-      {
-        var url = hit[1];
-        var jsPos = url.indexOf(scriptDir);
-        var className = (jsPos == -1) ? url : url.substring(jsPos + scriptDir.length).replace(/\//g, ".").replace(/\.js$/, "");
-
-        var lineNumber = hit[2];
-        trace.push(className + ":" + lineNumber);
-      }
-
-      return trace;
     }
 
   }

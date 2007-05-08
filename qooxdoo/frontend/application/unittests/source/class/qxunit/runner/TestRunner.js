@@ -439,12 +439,13 @@ qx.Class.define("qxunit.runner.TestRunner",
           widgetR.add(t);
           t.modelLink         = currNode;
           currNode.widgetLink = t;
-          if (that.tests.handler.getFullName(currNode) == that.tests.selected) 
+          if (that.tests.handler.getFullName(currNode) == that.tests.selected)
           {
             that.debug("Trying to re-select: "+that.tests.selected);
-            that.left.setSelectedElement(t);
+            selectedElement = t;//that.left.setSelectedElement(t);
           }
         }
+
       }; //buildSubTree;
 
 
@@ -486,6 +487,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       left.modelLink   = ttree;
       ttree.widgetLink = left;
       var selectedView = this.widgets["toolbar.treeview"].b1.getManager().getSelected();
+      var selectedElement = null;
       if (selectedView.getLabel && selectedView.getLabel()=="Flat Tree") {
         buildSubTreeFlat(left,ttree);
       } else {
@@ -493,6 +495,9 @@ qx.Class.define("qxunit.runner.TestRunner",
       }
 
       left.setEnabled(true);
+      if (selectedElement) {
+        that.left.setSelectedElement(selectedElement);
+      }
     }, //leftReloadTree
 
 
@@ -641,11 +646,11 @@ qx.Class.define("qxunit.runner.TestRunner",
       tlist = buildList(modelNode);
       if (this.reloadswitch.getChecked()) {
         // set up pending tests
-        this.tests.run_pending = function () 
+        this.tests.run_pending = function ()
         {
           testResult = init_testResult();
           if (!testResult) {
-            that.debug("Alarm: no testResult!");} 
+            that.debug("Alarm: no testResult!");}
           else {
             runtest();}
         };

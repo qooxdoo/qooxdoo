@@ -73,8 +73,11 @@ qx.Class.define("qxunit.runner.TestResultView",
         html.add(
           "Error message is: <br />",
           testResult.getMessage(),
-          "<br/>Stack trace: <div class='trace'>", testResult.getStackTrace(), "</div>"
+          "<br />"
         );
+        if (testResult.getStackTrace().length > 0) {
+          html.add("Stack trace: <div class='trace'>", testResult.getStackTrace(), "</div>");
+        }
       }
 
       html.add("</div>");

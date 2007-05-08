@@ -3,24 +3,12 @@ qx.Class.define("qxunit.TestResult", {
 
   extend : qx.core.Target,
 
-  construct : function()
-  {
-    this.setFailures([]);
-    this.setErrors([]);
-  },
-
   events :
   {
     startTest : "qx.event.type.DataEvent",
     endTest : "qx.event.type.DataEvent",
     error : "qx.event.type.DataEvent",
     failure : "qx.event.type.DataEvent"
-  },
-
-  properties :
-  {
-    failures : { check : "Array" },
-    errors : { check : "Array" }
   },
 
   members :
@@ -34,24 +22,31 @@ qx.Class.define("qxunit.TestResult", {
       }
       catch (e)
       {
-        if (e.classname == "qxunit.AssertionError")
-        {
-          var failure = { exception : e, test : test};
-          this.getFailures().push(failure);
-          this.createDispatchDataEvent("failure", failure);
+        var error = true;
+        if (e.classname == "qxunit.AssertionError") {
+          this.__createError("failure", e, test);
         }
-        else
-        {
-          var error = { exception : e, test : test};
-          this.getErrors().push(error);
-          this.createDispatchDataEvent("error", error);
+        else {
+          this.__createError("error", e, test);
         }
       }
-      finally
-      {
+      if (!error) {
         this.createDispatchDataEvent("endTest", test);
       }
+    },
+
+
+    __createError : function(eventName, exception, test)
+    {
+      // WebKit and Opera
+      var error = {
+        exception: exception,
+        test: test
+      };
+      this.createDispatchDataEvent(eventName, error);
+      this.createDispatchDataEvent("endTest", test);
     }
+
   },
 
   statics :
