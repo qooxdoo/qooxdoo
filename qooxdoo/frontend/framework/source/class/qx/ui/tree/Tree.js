@@ -45,6 +45,7 @@ qx.Class.define("qx.ui.tree.Tree",
   /**
    * @param vLabel {qx.ui.basic.Label}
    * @param vIcon {qx.ui.basic.Image}
+   * @param vIconSelected {qx.ui.basic.Image}
    */
   construct : function(vLabel, vIcon, vIconSelected)
   {
@@ -96,8 +97,8 @@ qx.Class.define("qx.ui.tree.Tree",
      * TODOC
      *
      * @type static
-     * @param vObject {var} TODOC
-     * @return {var} TODOC
+     * @param vObject {Object} TODOC
+     * @return {Boolean} TODOC
      */
     isTreeFolder : function(vObject) {
       return vObject && vObject instanceof qx.ui.tree.TreeFolder && !(vObject instanceof qx.ui.tree.Tree);
@@ -108,8 +109,8 @@ qx.Class.define("qx.ui.tree.Tree",
      * TODOC
      *
      * @type static
-     * @param vObject {var} TODOC
-     * @return {var} TODOC
+     * @param vObject {Object} TODOC
+     * @return {Boolean} TODOC
      */
     isOpenTreeFolder : function(vObject) {
       return vObject instanceof qx.ui.tree.TreeFolder && vObject.getOpen() && vObject.hasContent();
@@ -197,7 +198,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * TODOC
      *
      * @type member
-     * @return {qx.ui.tree.TreeFolder} TODOC
+     * @return {qx.ui.tree.AbstractTreeElement} TODOC
      */
     getSelectedElement : function() {
       return this.getManager().getSelectedItem();
@@ -216,7 +217,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * TODOC
      *
      * @type member
-     * @param vChild {var} TODOC
+     * @param vChild {AbstractTreeElement} TODOC
      * @return {void}
      */
     addChildToTreeQueue : function(vChild)
@@ -244,7 +245,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * TODOC
      *
      * @type member
-     * @param vChild {var} TODOC
+     * @param vChild {AbstractTreeElement} TODOC
      * @return {void}
      */
     removeChildFromTreeQueue : function(vChild)
@@ -354,7 +355,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * TODOC
      *
      * @type member
-     * @return {Number} TODOC
+     * @return {Integer} TODOC
      */
     getLevel : function() {
       return 0;
@@ -505,7 +506,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * TODOC
      *
      * @type member
-     * @return {var | null} TODOC
+     * @return {AbstractTreeElement | null} TODOC
      */
     getLastTreeChild : function()
     {
@@ -528,7 +529,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {AbstractTreeElement} TODOC
      */
     getFirstTreeChild : function() {
       return this;
@@ -539,8 +540,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * TODOC
      *
      * @type member
-     * @param vElement {var} TODOC
-     * @return {void}
+     * @param vElement {AbstractTreeElement} TODOC
      */
     setSelectedElement : function(vElement)
     {
