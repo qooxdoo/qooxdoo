@@ -48,6 +48,9 @@ qx.Class.define("qx.ui.listview.HeaderCell",
 
     // Enable textOverflow
     this.setStyleProperty("textOverflow", "ellipsis");
+    
+    // Apply appearance
+    this._applyAppearance();
 
     // Store configuration
     this._config = vConfig;
