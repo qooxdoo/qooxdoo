@@ -123,8 +123,8 @@ qx.Class.define("apiviewer.Viewer",
 
       var buttonView = new qx.ui.pageview.buttonview.ButtonView();
       buttonView.set({
-        width           : "100%",
-        height          : "100%"
+        width : "100%",
+        height : "100%"
       });
       var treeButton = new qx.ui.pageview.buttonview.Button("Packages", apiviewer.TreeUtil.ICON_PACKAGE);
       treeButton.setShow("icon");
@@ -138,7 +138,10 @@ qx.Class.define("apiviewer.Viewer",
 
       var treePane = new qx.ui.pageview.buttonview.Page(treeButton);
       var infoPane = new qx.ui.pageview.buttonview.Page(infoButton);
-      buttonView.getPane().add(treePane, infoPane);
+
+      var pane = buttonView.getPane();
+      pane.add(treePane, infoPane);
+      pane.setPadding(0);
 
       treePane.add(treeWidget);
       infoPane.add(infoWidget);
