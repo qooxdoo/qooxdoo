@@ -118,43 +118,35 @@ qx.Class.define("qx.ui.table.Table",
     //
     // Use default objects if custom objects are not specified
     //
-    if (! custom)
-    {
+    if (!custom) {
       custom = { };
     }
 
-    if (custom.selectionManager)
-    {
+    if (custom.selectionManager) {
       this.setNewSelectionManager(custom.selectionManager);
     }
 
-    if (custom.selectionModel)
-    {
+    if (custom.selectionModel) {
       this.setNewSelectionModel(custom.selectionModel);
     }
 
-    if (custom.tableColumnModel)
-    {
+    if (custom.tableColumnModel) {
       this.setNewTableColumnModel(custom.tableColumnModel);
     }
 
-    if (custom.tablePane)
-    {
+    if (custom.tablePane) {
       this.setNewTablePane(custom.tablePane);
     }
 
-    if (custom.tablePaneHeader)
-    {
+    if (custom.tablePaneHeader) {
       this.setNewTablePaneHeader(custom.tablePaneHeader);
     }
 
-    if (custom.tablePaneScroller)
-    {
+    if (custom.tablePaneScroller) {
       this.setNewTablePaneScroller(custom.tablePaneScroller);
     }
 
-    if (custom.tablePaneModel)
-    {
+    if (custom.tablePaneModel) {
       this.setNewTablePaneModel(custom.tablePaneModel);
     }
 
@@ -210,8 +202,8 @@ qx.Class.define("qx.ui.table.Table",
   *****************************************************************************
   */
 
-  events : {
-
+  events :
+  {
     /**
      * Dispatched before adding the column list to the column visibility menu.
      * The event data is a map with two properties: table and menu.  Listeners

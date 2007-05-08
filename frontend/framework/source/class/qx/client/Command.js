@@ -118,7 +118,8 @@ qx.Class.define("qx.client.Command",
     shortcut :
     {
       check : "String",
-      apply : "_modifyShortcut"
+      apply : "_modifyShortcut",
+      nullable : true
     },
 
 
@@ -128,13 +129,16 @@ qx.Class.define("qx.client.Command",
      *
      * @deprecated
      */
-    keyCode : {
-      check : "Number"
+    keyCode :
+    {
+      check : "Number",
+      nullable : true
     },
 
 
     /** The key identifier */
-    keyIdentifier : {
+    keyIdentifier :
+    {
       check : "String",
       nullable : true
     }

@@ -31,18 +31,6 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
 
 
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function(vText, vIcon, vChecked) {
-    this.base(arguments, vText, vIcon, vChecked);
-  },
-
-
-
 
   /*
   *****************************************************************************
@@ -52,12 +40,6 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
     /** The assigned qx.manager.selection.RadioManager which handles the switching between registered buttons */
     manager :
     {

@@ -81,7 +81,7 @@ qx.Class.define("qx.ui.treefullcontrol.AbstractTreeElement",
     }
 
     // Prohibit selection
-    this.setSelectable(false);
+    this.initSelectable();
 
     // Base URL used for indent images
     this.BASE_URI = qx.manager.object.AliasManager.getInstance().resolvePath("widget/tree/");
@@ -144,6 +144,12 @@ qx.Class.define("qx.ui.treefullcontrol.AbstractTreeElement",
       PROPERTIES
     ---------------------------------------------------------------------------
     */
+
+    selectable :
+    {
+      refine : true,
+      init : false
+    },
 
     appearance :
     {

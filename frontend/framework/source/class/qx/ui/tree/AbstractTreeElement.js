@@ -69,12 +69,12 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
     // Simplify label object rendering
     this._labelObject.setMode("text");
 
-    this.base(arguments, "horizontal");
+    this.base(arguments);
 
     this.setLabel(vLabel);
 
     // Prohibit selection
-    this.setSelectable(false);
+    this.initSelectable();
 
     // Base URL used for indent images
     this.BASE_URI = qx.manager.object.AliasManager.getInstance().resolvePath("widget/tree/");
@@ -127,11 +127,17 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
+    orientation:
+    {
+      refine : true,
+      init : "horizontal"
+    },
+
+    selectable :
+    {
+      refine : true,
+      init : false
+    },
 
     appearance :
     {

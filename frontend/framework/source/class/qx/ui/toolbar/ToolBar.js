@@ -90,7 +90,6 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       inheritable : true,
       event : "changeShow"
     }
-
   },
 
 
