@@ -646,7 +646,20 @@ qx.Class.define("qx.core.Property",
       var members = clazz.prototype;
       var code = [];
 
-      code.push('if(this.', this.$$store.computed[name], '===undefined)');
+      if (config.inheritable)
+      {
+        code.push('if(this.', this.$$store.computed[name], '!==undefined)');
+        code.push('return this.', this.$$store.computed[name], ';');
+      }
+
+      code.push('if(this.', this.$$store.user[name], '!==undefined)');
+      code.push('return this.', this.$$store.user[name], ';');
+
+      if (config.themeable)
+      {
+        code.push('if(this.', this.$$store.theme[name], '!==undefined)');
+        code.push('return this.', this.$$store.theme[name], ';');
+      }
 
       if (config.init !== undefined) {
         code.push('return this.', this.$$store.init[name], ';');
@@ -655,8 +668,6 @@ qx.Class.define("qx.core.Property",
       } else {
         code.push('throw new Error("Property ', name, ' of an instance of ', clazz.classname, ' is not (yet) ready!");');
       }
-
-      code.push('return this.', this.$$store.computed[name], ';');
 
       this.sumGen += new Date - start;
 
@@ -821,10 +832,28 @@ qx.Class.define("qx.core.Property",
           code.push('value=undefined;');
         }
 
+        // Read out old computed value
+        code.push('var old;');
+
+        if (config.inheritable) {
+          code.push('old=this.', this.$$store.computed[name], ';');
+        }
+
+        code.push('if(old!==undefined)old=this.', this.$$store.user[name], ';');
+
+        if (config.themeable) {
+          code.push('if(old!==undefined)old=this.', this.$$store.theme[name], ';');
+        }
+
+        code.push('if(old!==undefined)old=this.', this.$$store.init[name], ';');
+
+        // Store new value
         code.push('this.', store, '=value;');
       }
       else if (qx.core.Variant.isSet("qx.debug", "on"))
       {
+        code.push('var old;');
+
         if (variant === "init")
         {
           // Additional debugging to block values for init() functions
@@ -939,11 +968,7 @@ qx.Class.define("qx.core.Property",
 
 
 
-
-      // [6] STORING COMPUTED VALUE
-
-      // Remember computed old value
-      code.push('var old=this.', this.$$store.computed[name], ';');
+      // [6] COMPARING COMPUTED VALUE
 
       // Normalize 'undefined' to 'null'
       // Could only be undefined in cases when the setter was never executed before
@@ -953,6 +978,12 @@ qx.Class.define("qx.core.Property",
       // Compare old/new computed value
       code.push('else if(old===computed)return value;');
 
+
+
+
+
+      // [7] STORING COMPUTED VALUE
+
       // Inform user
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -961,15 +992,22 @@ qx.Class.define("qx.core.Property",
         }
       }
 
-      // Store new computed value
-      code.push('this.', this.$$store.computed[name], '=computed;');
+      // Only store computed value of inheritable properties
+      if (config.inheritable)
+      {
+        // Store new computed value
+        code.push('this.', this.$$store.computed[name], '=computed;');
+      }
 
 
 
 
 
 
-      // [7] NOTIFYING DEPENDEND OBJECTS
+
+
+
+      // [8] NOTIFYING DEPENDEND OBJECTS
 
       // Execute user configured setter
       if (config.apply)
@@ -1008,7 +1046,7 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [8] RETURNING WITH ORIGINAL INCOMING VALUE
+      // [9] RETURNING WITH ORIGINAL INCOMING VALUE
 
       // Return value
       if (variant !== "reset" && variant !== "unstyle") {
