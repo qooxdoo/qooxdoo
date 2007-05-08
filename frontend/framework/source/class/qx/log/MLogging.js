@@ -99,6 +99,17 @@ qx.Mixin.define("qx.log.MLogging",
      */
     error : function(msg, exc) {
       this.getLogger().error(msg, this.toHashCode(), exc);
+    },
+
+    /**
+     * Logs the current stack trace as a debug message.
+     *
+     * @type member
+     * @return {void}
+     */
+    printStackTrace : function()
+    {
+      this.getLogger().printStackTrace();
     }
   }
 });

@@ -331,7 +331,7 @@ qx.Class.define("qx.log.Logger",
      * @param exc {var ? null} the exception to log.
      * @return {void}
      */
-    log : function(level, msg, instanceId, exc)
+    log : function(level, msg, instanceId, exc, trace)
     {
       var evt =
       {
@@ -339,6 +339,7 @@ qx.Class.define("qx.log.Logger",
         level      : level,
         message    : msg,
         throwable  : exc,
+        trace      : trace,
         indent     : qx.log.Logger._indent,
         instanceId : instanceId
       };
@@ -479,11 +480,9 @@ qx.Class.define("qx.log.Logger",
      */
     printStackTrace : function()
     {
-      try {
-        forced_exception.go;
-      } catch(exc) {
-        this.debug("Current stack trace", "", exc);
-      }
+      var trace = qx.dev.StackTrace.getStackTrace();
+      qx.lang.Array.removeAt(trace, 0);
+      this.log(qx.log.Logger.LEVEL_DEBUG, "Current stack trace", "", null, trace);
     }
   },
 
