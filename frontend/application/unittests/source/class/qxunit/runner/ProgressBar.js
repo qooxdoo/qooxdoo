@@ -59,11 +59,13 @@ qx.Class.define("qxunit.runner.ProgressBar",
     this.bar = new qx.ui.basic.Terminator();
     this.hull.add(this.bar);
     this.bar.set({
-      height : 16,
+      //height : 10,
+      height : "100%",
       width  : "0%",
       //left   : 0,
       backgroundColor: "#0000FF"
     });
+    this.bar.setStyleProperty("fontSize",0); // for IE
 
     this.stepStatus = new qx.ui.basic.Label("(0/0)");
     this.add(this.stepStatus);
