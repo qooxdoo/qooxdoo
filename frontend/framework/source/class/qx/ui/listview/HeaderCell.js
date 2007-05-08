@@ -49,7 +49,7 @@ qx.Class.define("qx.ui.listview.HeaderCell",
     // Enable textOverflow
     this.setStyleProperty("textOverflow", "ellipsis");
     
-    // Apply appearance
+    // Apply appearance (Hack needed for 0.7.x layout issues)
     this._applyAppearance();
 
     // Store configuration
