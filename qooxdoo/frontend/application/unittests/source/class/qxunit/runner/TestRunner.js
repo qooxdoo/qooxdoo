@@ -441,7 +441,6 @@ qx.Class.define("qxunit.runner.TestRunner",
           currNode.widgetLink = t;
           if (that.tests.handler.getFullName(currNode) == that.tests.selected)
           {
-            that.debug("Trying to re-select: "+that.tests.selected);
             selectedElement = t;//that.left.setSelectedElement(t);
           }
         }
@@ -465,6 +464,10 @@ qx.Class.define("qxunit.runner.TestRunner",
               widgetR.add(t);
               t.modelLink         = currNode;
               currNode.widgetLink = t;
+              if (that.tests.handler.getFullName(currNode) == that.tests.selected)
+              {
+                selectedElement = t;
+              }
               var children = currNode.getChildren();
               for (var i=0; i<children.length; i++)
               {
@@ -474,6 +477,10 @@ qx.Class.define("qxunit.runner.TestRunner",
                   t.add(c);
                   c.modelLink            = children[i];
                   children[i].widgetLink = c;
+                  if (that.tests.handler.getFullName(children[i]) == that.tests.selected)
+                  {
+                    selectedElement = c;
+                  }
                 }
               }
             }
@@ -495,8 +502,8 @@ qx.Class.define("qxunit.runner.TestRunner",
       }
 
       left.setEnabled(true);
-      if (selectedElement) {
-        that.left.setSelectedElement(selectedElement);
+      if (selectedElement) { // try to re-select previously selected element
+        this.left.setSelectedElement(selectedElement);
       }
     }, //leftReloadTree
 
