@@ -280,7 +280,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       var tmap = this.tests.handler.tmap;
 
       //var left = new qx.ui.tree.Tree("Test Classes");
-      var left = new qx.ui.tree.Tree("All");
+      var left = new qx.ui.tree.Tree("All","resource/image/package18.gif");
       left.set({
         width : "100%",
         height : "100%",
@@ -429,11 +429,11 @@ qx.Class.define("qxunit.runner.TestRunner",
           var currNode = children[i];
           if (currNode.hasChildren())
           {
-            t = new qx.ui.tree.TreeFolder(currNode.label);
+            t = new qx.ui.tree.TreeFolder(currNode.label,"resource/image/package18.gif");
             buildSubTree(t,currNode);
           } else
           {
-            t = new qx.ui.tree.TreeFile(currNode.label);
+            t = new qx.ui.tree.TreeFile(currNode.label,"resource/image/class18.gif");
           }
           // make connections
           widgetR.add(t);
@@ -460,7 +460,7 @@ qx.Class.define("qxunit.runner.TestRunner",
           {
             if (handler.hasTests(currNode)) {
               var fullName = handler.getFullName(currNode);
-              var t = new qx.ui.tree.TreeFolder(fullName);
+              var t = new qx.ui.tree.TreeFolder(fullName,"resource/image/package18.gif");
               widgetR.add(t);
               t.modelLink         = currNode;
               currNode.widgetLink = t;
@@ -473,7 +473,7 @@ qx.Class.define("qxunit.runner.TestRunner",
               {
                 if (children[i].type && children[i].type == "test")
                 {
-                  var c = new qx.ui.tree.TreeFile(children[i].label);
+                  var c = new qx.ui.tree.TreeFile(children[i].label,"resource/image/class18.gif");
                   t.add(c);
                   c.modelLink            = children[i];
                   children[i].widgetLink = c;
