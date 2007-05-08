@@ -169,7 +169,8 @@ qx.Class.define("qx.ui.table.Table",
 
     this.add(this._scrollerParent, this._statusBar);
 
-    this._columnVisibilityBt = new qx.ui.toolbar.Button(null, "widget/table/selectColumnOrder.png");
+    this._columnVisibilityBt = new qx.ui.form.Button(null, "widget/table/selectColumnOrder.png");
+    this._columnVisibilityBt.setAppearance("table-menubar-button");
     this._columnVisibilityBt.addEventListener("execute", this._onColumnVisibilityBtExecuted, this);
 
     // Allocate a default data row renderer
