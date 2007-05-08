@@ -646,11 +646,8 @@ qx.Class.define("qx.core.Property",
       var members = clazz.prototype;
       var code = [];
 
-      if (config.inheritable)
-      {
-        code.push('if(this.', this.$$store.computed[name], '!==undefined)');
-        code.push('return this.', this.$$store.computed[name], ';');
-      }
+      code.push('if(this.', this.$$store.computed[name], '!==undefined)');
+      code.push('return this.', this.$$store.computed[name], ';');
 
       code.push('if(this.', this.$$store.user[name], '!==undefined)');
       code.push('return this.', this.$$store.user[name], ';');
@@ -750,7 +747,7 @@ qx.Class.define("qx.core.Property",
           if (variant === "style") {
             code.push('if(value===qx.core.Property.$$undefined)value=undefined;');
           }
-
+          
           // Old/new comparision
           code.push('if(this.', store, '===value)return value;');
 
@@ -831,20 +828,20 @@ qx.Class.define("qx.core.Property",
         }
 
         // Read in old value
-        if (config.inheritable) {
-          code.push('old=this.', this.$$store.computed[name], ';');
-        }
-
+        code.push('old=this.', this.$$store.computed[name], ';');
         code.push('if(old===undefined)old=this.', this.$$store.user[name], ';');
 
         if (config.themeable) {
           code.push('if(old===undefined)old=this.', this.$$store.theme[name], ';');
         }
-
-        code.push('if(old===undefined)old=this.', this.$$store.init[name], ';');
-
+        
         // Toggle value (Replace eventually incoming value for setter etc.)
-        if (variant === "toggle") {
+        if (variant === "toggle") 
+        {
+          if (config.init !== undefined) {
+            code.push('if(old===undefined)old=this.', this.$$store.init[name], ';');
+          }
+
           code.push('value=!old;');
         }
 
@@ -874,6 +871,10 @@ qx.Class.define("qx.core.Property",
       // Use complex evaluation for reset, refresh and style
       if (variant === "refresh" || variant === "reset" || variant === "style" || variant === "unstyle" || variant === "init")
       {
+        // Remember from where the value comes
+        code.push('var fromInit=false;');
+        
+        // Create computed value        
         code.push('var computed;');
 
         var hasComputeIf = false;
@@ -904,10 +905,10 @@ qx.Class.define("qx.core.Property",
         // because of the possibility to set the init value of properties
         // without init value at construction time (for complex values like arrays etc.)
         if (hasComputeIf) {
-          code.push('else ');
+          code.push('else');
         }
 
-        code.push('computed=this.', this.$$store.init[name], ';');
+        code.push('{computed=this.', this.$$store.init[name], ';fromInit=true;}');
       }
 
       // Use simple evaluation for set and toggle
@@ -939,7 +940,7 @@ qx.Class.define("qx.core.Property",
           {
             code.push('var pa=this.getParent();if(pa)computed=pa.', this.$$store.computed[name], ';');
           }
-
+          
           code.push('}');
         }
 
@@ -951,7 +952,7 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [5] NORMALIZING UNDEFINED
+      // [5] NORMALIZING UNDEFINED FOR COMPUTED VALUE
 
       if (config.inheritable === true)
       {
@@ -967,7 +968,7 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [6] COMPARING COMPUTED VALUE
+      // [6] COMPARING COMPUTED VALUE WITH OLD COMPUTED VALUE
 
       // Normalize 'undefined' to 'null'
       // Could only be undefined in cases when the setter was never executed before
@@ -981,7 +982,7 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [7] STORING COMPUTED VALUE
+      // [7] STORING NEW COMPUTED VALUE
 
       // Inform user
       if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -991,15 +992,21 @@ qx.Class.define("qx.core.Property",
         }
       }
 
-      // Only store computed value of inheritable properties
+      // Store computed value of inheritable properties
       if (config.inheritable)
       {
-        // Store new computed value
         code.push('this.', this.$$store.computed[name], '=computed;');
       }
-
-
-
+      else if(variant === "refresh" || variant === "reset" || variant === "style" || variant === "unstyle" || variant === "init")
+      {
+        // And for all others if the init value was used to generate the computed value.
+        code.push('if(fromInit)this.', this.$$store.computed[name], '=computed;');
+        code.push('else if(this.', this.$$store.computed[name], '!==undefined)delete this.', this.$$store.computed[name], ';');
+      }
+      else
+      {
+        code.push('if(this.', this.$$store.computed[name], '!==undefined)delete this.', this.$$store.computed[name], ';');
+      }
 
 
 
@@ -1044,7 +1051,6 @@ qx.Class.define("qx.core.Property",
 
 
 
-
       // [9] RETURNING WITH ORIGINAL INCOMING VALUE
 
       // Return value
@@ -1054,11 +1060,9 @@ qx.Class.define("qx.core.Property",
 
 
 
+
+
       this.sumGen += new Date - start;
-
-
-
-
       return this.__unwrapFunctionFromCode(instance, members, name, variant, code, args);
     }
   },
