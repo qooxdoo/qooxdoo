@@ -279,7 +279,7 @@ qx.Class.define("qx.Class",
       // do not overwrite
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (parent[part] != undefined) {
+        if (parent[part] !== undefined) {
           throw new Error("An object of the name '" + name + "' aready exists and overwriting is not allowed!");
         }
       }
