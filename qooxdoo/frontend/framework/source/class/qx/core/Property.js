@@ -713,6 +713,9 @@ qx.Class.define("qx.core.Property",
 
       // [2] CHECKING & STORING INCOMING VALUE
 
+      // Local variable for old value
+      code.push('var old;');
+
       // Hint: No refresh() here, the value of refresh is the parent value
       if (variant === "set" || variant === "reset" || variant === "style" || variant === "unstyle" || variant === "toggle" || (variant === "init" && config.init === undefined))
       {
@@ -832,9 +835,6 @@ qx.Class.define("qx.core.Property",
           code.push('value=undefined;');
         }
 
-        // Read out old computed value
-        code.push('var old;');
-
         if (config.inheritable) {
           code.push('old=this.', this.$$store.computed[name], ';');
         }
@@ -852,8 +852,6 @@ qx.Class.define("qx.core.Property",
       }
       else if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        code.push('var old;');
-
         if (variant === "init")
         {
           // Additional debugging to block values for init() functions
