@@ -116,7 +116,7 @@ qx.Class.define("qx.ui.listview.ListView",
     // ************************************************************************
     this.addEventListener("mousedown", this._onmousedown);
 
-
+    // Initialize properties
     this.initOverflow();
   },
 

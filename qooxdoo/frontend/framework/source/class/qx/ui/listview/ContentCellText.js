@@ -47,7 +47,7 @@ qx.Class.define("qx.ui.listview.ContentCellText",
     this.setStyleProperty("whiteSpace", "nowrap");
     this.setStyleProperty("textOverflow", "ellipsis");
 
-    this.setSelectable(false);
+    this.initSelectable();
   },
 
 
@@ -59,7 +59,9 @@ qx.Class.define("qx.ui.listview.ContentCellText",
   *****************************************************************************
   */
 
-  statics : { empty : { text : "" } },
+  statics : {
+    empty : { text : "" }
+  },
 
 
 
@@ -72,6 +74,12 @@ qx.Class.define("qx.ui.listview.ContentCellText",
 
   properties :
   {
+    selectable :
+    {
+      refine : true,
+      init : false
+    },
+
     appearance :
     {
       refine : true,
