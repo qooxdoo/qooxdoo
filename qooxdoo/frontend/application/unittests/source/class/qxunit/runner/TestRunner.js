@@ -79,7 +79,7 @@ qx.Class.define("qxunit.runner.TestRunner",
         this.leftReloadTree();
       }
       this.toolbar.setEnabled(true);  // in case it was disabled (for reload)
-      if (this.tests.run_pending) {
+      if (this.tests.run_pending) {   // do we have pending tests to run?
         this.tests.run_pending();
         delete this.tests.run_pending;
       }
@@ -539,61 +539,9 @@ qx.Class.define("qxunit.runner.TestRunner",
       // Make initial entry in output windows (test result, log, ...)
       this.appender("Now running: " + this.tests.selected);
 
-      // create testResult obj
       var tstCnt = this.tests.selected_cnt;
       var tstCurr = 1;
-      var testResult = new this.frameWindow.qxunit.TestResult();
-
-      // set up event listeners
-      testResult.addEventListener("startTest", function(e)
-      {
-        var test = e.getData();
-        this.currentTestData = new qxunit.runner.TestResultData(test.getFullName());
-        this.f1.addTestResult(this.currentTestData);
-        this.appender("Test '"+test.getFullName()+"' started.");
-      }, this);
-
-      testResult.addEventListener("failure", function(e)
-      {
-        var ex = e.getData().exception;
-        var test = e.getData().test;
-        this.currentTestData.setMessage(ex.toString());
-        this.currentTestData.setException(ex);
-        this.currentTestData.setState("failure");
-        bar.setBarColor("#9d1111");
-        var val = this.getFailCnt();
-        this.setFailCnt(++val);
-        this.appender("Test '"+test.getFullName()+"' failed: " +  ex.getMessage() + " - " + ex.getComment());
-        this.widgets["progresspane.progressbar"].update(String(tstCurr+"/"+tstCnt));
-        tstCurr++;
-      }, this);
-
-      testResult.addEventListener("error", function(e)
-      {
-        var ex = e.getData().exception;
-        this.currentTestData.setMessage(ex.toString());
-        this.currentTestData.setException(ex);
-        this.currentTestData.setState("error");
-        bar.setBarColor("#9d1111");
-        var val = this.getFailCnt();
-        this.setFailCnt(++val);
-        this.appender("The test '"+e.getData().test.getFullName()+"' had an error: " + ex, ex);
-        this.widgets["progresspane.progressbar"].update(String(tstCurr+"/"+tstCnt));
-        tstCurr++;
-      }, this);
-
-      testResult.addEventListener("endTest", function(e)
-      {
-        var state = this.currentTestData.getState();
-        if (state == "start") {
-          this.currentTestData.setState("success");
-          //this.widgets["progresspane.succ_cnt"].setText(++this.tests.succ_cnt+"");
-          var val = this.getSuccCnt();
-          this.setSuccCnt(++val);
-          this.widgets["progresspane.progressbar"].update(String(tstCurr+"/"+tstCnt));
-          tstCurr++;
-        }
-      }, this);
+      var testResult;
 
       // start test
 
@@ -607,6 +555,64 @@ qx.Class.define("qxunit.runner.TestRunner",
       var handler = this.tests.handler;
 
       // -- Helper Functions ---------------------
+
+      // create testResult obj
+      function init_testResult () {
+        var testResult = new that.frameWindow.qxunit.TestResult();
+
+        // set up event listeners
+        testResult.addEventListener("startTest", function(e)
+        {
+          var test = e.getData();
+          that.currentTestData = new qxunit.runner.TestResultData(test.getFullName());
+          that.f1.addTestResult(that.currentTestData);
+          that.appender("Test '"+test.getFullName()+"' started.");
+        }, that);
+
+        testResult.addEventListener("failure", function(e)
+        {
+          var ex = e.getData().exception;
+          var test = e.getData().test;
+          that.currentTestData.setMessage(ex.toString());
+          that.currentTestData.setException(ex);
+          that.currentTestData.setState("failure");
+          bar.setBarColor("#9d1111");
+          var val = that.getFailCnt();
+          that.setFailCnt(++val);
+          that.appender("Test '"+test.getFullName()+"' failed: " +  ex.getMessage() + " - " + ex.getComment());
+          that.widgets["progresspane.progressbar"].update(String(tstCurr+"/"+tstCnt));
+          tstCurr++;
+        }, that);
+
+        testResult.addEventListener("error", function(e)
+        {
+          var ex = e.getData().exception;
+          that.currentTestData.setMessage(ex.toString());
+          that.currentTestData.setException(ex);
+          that.currentTestData.setState("error");
+          bar.setBarColor("#9d1111");
+          var val = that.getFailCnt();
+          that.setFailCnt(++val);
+          that.appender("The test '"+e.getData().test.getFullName()+"' had an error: " + ex, ex);
+          that.widgets["progresspane.progressbar"].update(String(tstCurr+"/"+tstCnt));
+          tstCurr++;
+        }, that);
+
+        testResult.addEventListener("endTest", function(e)
+        {
+          var state = that.currentTestData.getState();
+          if (state == "start") {
+            that.currentTestData.setState("success");
+            //that.widgets["progresspane.succ_cnt"].setText(++that.tests.succ_cnt+"");
+            var val = that.getSuccCnt();
+            that.setSuccCnt(++val);
+            that.widgets["progresspane.progressbar"].update(String(tstCurr+"/"+tstCnt));
+            tstCurr++;
+          }
+        }, that);
+
+        return testResult;
+      }; //init_testResult
 
       /*
        * function to process a list of individual tests
@@ -663,10 +669,16 @@ qx.Class.define("qxunit.runner.TestRunner",
       if (this.reloadswitch.getChecked()) {
         this.tests.run_pending = function () 
         {
-          runtest();
+          testResult = init_testResult();
+          if (!testResult) {
+            that.debug("Alarm: no testResult!");} 
+          else {
+            runtest();}
+          //delete this.tests.run_pending;
         };
         this.reloadTestSuite();
       } else {
+        testResult = init_testResult();
         runtest();
       }
 
