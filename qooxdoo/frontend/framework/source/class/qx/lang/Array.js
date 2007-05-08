@@ -221,7 +221,7 @@ qx.Class.define("qx.lang.Array",
      * @type static
      * @param arr {Array} the array
      * @param i {Integer} index of the element to be removed
-     * @return {Array} the array with the element removed
+     * @return {var} The removed element.
      */
     removeAt : function(arr, i) {
       return arr.splice(i, 1);
