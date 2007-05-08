@@ -34,22 +34,6 @@ qx.Class.define("qx.ui.toolbar.Button",
 
 
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function(vText, vIcon, vIconWidth, vIconHeight, vFlash)
-  {
-    this.base(arguments, vText, vIcon, vIconWidth, vIconHeight, vFlash);
-
-    // Omit focus
-    this.setTabIndex(-1);
-  },
-
-
-
 
   /*
   *****************************************************************************
@@ -59,6 +43,13 @@ qx.Class.define("qx.ui.toolbar.Button",
 
   properties :
   {
+    // Omit focus
+    tabIndex :
+    {
+      refine : true,
+      init : -1
+    },
+
     appearance :
     {
       refine : true,

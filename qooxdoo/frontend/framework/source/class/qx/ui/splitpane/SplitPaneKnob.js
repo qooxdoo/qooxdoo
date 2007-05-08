@@ -35,11 +35,18 @@ qx.Class.define("qx.ui.splitpane.SplitPaneKnob",
 {
   extend : qx.ui.basic.Image,
 
-  construct : function(pane)
+  properties :
   {
-    this.base(arguments);
+    appearance :
+    {
+      refine : true,
+      init : "splitpane-knob"
+    },
 
-    this.setAppearance("splitpane-knob");
-    this.setVisibility(false);
+    visibility :
+    {
+      refine : true,
+      init : false
+    }
   }
 });

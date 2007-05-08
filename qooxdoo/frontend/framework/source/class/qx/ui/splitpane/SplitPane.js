@@ -110,11 +110,22 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
     box.add(this._firstArea, this._splitter, this._secondArea);
 
     // APPLY DIMENSIONS
-    this.setFirstSize(firstSize || "1*");
-    this.setSecondSize(secondSize || "1*");
+    if (firstSize != null) {
+      this.setFirstSize(firstSize);
+    } else {
+      this.initFirstSize();
+    }
+
+    if (secondSize != null) {
+      this.setSecondSize(secondSize);
+    } else {
+      this.initSecondSize();
+    }
 
     // APPLY ORIENTATION
-    this.setOrientation(orientation || "horizontal");
+    if (orientation != null) {
+      this.setOrientation(orientation);
+    }
   },
 
 
@@ -166,6 +177,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
     {
       check : [ "horizontal", "vertical" ],
       apply : "_modifyOrientation",
+      init : "horizontal",
       nullable : true
     },
 
@@ -175,7 +187,8 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      */
     firstSize :
     {
-      apply : "_modifyFirstSize"
+      apply : "_modifyFirstSize",
+      init : "1*"
     },
 
 
@@ -184,7 +197,8 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      */
     secondSize :
     {
-      apply : "_modifySecondSize"
+      apply : "_modifySecondSize",
+      init : "1*"
     },
 
 
