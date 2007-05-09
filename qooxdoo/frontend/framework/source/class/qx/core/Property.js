@@ -937,7 +937,7 @@ qx.Class.define("qx.core.Property",
           }
           else
           {
-            code.push('var pa=this.getParent();if(pa)computed=pa.', this.$$store.computed[name], ';');
+            code.push('var pa=this.getParent();if(pa)computed=pa.', this.$$store.inherited[name], ';');
           }
 
           code.push('}');
