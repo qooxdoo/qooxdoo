@@ -1020,7 +1020,7 @@ qx.Class.define("qx.core.Property",
       // Delete useinit flag for set(), refresh() and inheritable properties
       if (config.inheritable || variant === "set" || variant === "refresh")
       {
-        code.push('if(this.', this.$$store.useinit[name], ')delete this.', this.$$store.useinit[name], ';');
+        code.push('delete this.', this.$$store.useinit[name], ';');
 
         // Store inherited value of inheritable properties
         if (config.inheritable) {
@@ -1031,7 +1031,7 @@ qx.Class.define("qx.core.Property",
       {
         // And for all others if the init value was used to generate the computed value.
         code.push('if(useInit)this.', this.$$store.useinit[name], '=true;');
-        code.push('else if(this.', this.$$store.useinit[name], ')delete this.', this.$$store.useinit[name], ';');
+        code.push('else delete this.', this.$$store.useinit[name], ';');
       }
 
 
