@@ -300,15 +300,6 @@ qx.Class.define("qx.ui.tree.TreeFolder",
 
 
     /**
-     * Alias for {@link #addToFolder}.
-     *
-     * @type member
-     * @param varargs {AbstractTreeElement} variable number of tree nodes to addC
-     */
-    add : function(varargs) {},
-
-
-    /**
      * TODOC
      *
      * @type member
@@ -322,16 +313,6 @@ qx.Class.define("qx.ui.tree.TreeFolder",
         return this._containerObject.add.apply(this._containerObject, arguments);
       }
     },
-
-
-    /**
-     * Alias for {@link #addBeforeToFolder}.
-     *
-     * @type member
-     * @param vChild {AbstractTreeElement} TODOC
-     * @param vBefore {Integer} TODOC
-     */
-    addBefore : function(vChild, vBefore) {},
 
 
     /**
@@ -354,16 +335,6 @@ qx.Class.define("qx.ui.tree.TreeFolder",
 
 
     /**
-     * Alias for {@link #addAfterToFolder}.
-     *
-     * @type member
-     * @param vChild {AbstractTreeElement} TODOC
-     * @param vAfter {Integer} TODOC
-     */
-    addAfter : function(vChild, vAfter) {},
-
-
-    /**
      * TODOC
      *
      * @type member
@@ -380,16 +351,6 @@ qx.Class.define("qx.ui.tree.TreeFolder",
         return this._containerObject.addAfter.apply(this._containerObject, arguments);
       }
     },
-
-
-    /**
-     * Alias for {@link #addAtToFolder}.
-     *
-     * @type member
-     * @param vChild {AbstractTreeElement} TODOC
-     * @param vIndex {Integer} TODOC
-     */
-    addAt : function(vChild, vIndex) {},
 
 
     /**
@@ -412,15 +373,6 @@ qx.Class.define("qx.ui.tree.TreeFolder",
 
 
     /**
-     * Alias for {@link #addAtBeginToFolder}.
-     *
-     * @type member
-     * @param vChild {AbstractTreeElement} TODOC
-     */
-    addAtBegin : function(vChild) {},
-
-
-    /**
      * TODOC
      *
      * @type member
@@ -429,16 +381,6 @@ qx.Class.define("qx.ui.tree.TreeFolder",
     addAtBeginToFolder : function(vChild) {
       return this.addAtToFolder(vChild, 0);
     },
-
-
-
-    /**
-     * Alias for {@link #addAtEndToFolder}.
-     *
-     * @type member
-     * @param vChild {AbstractTreeElement} TODOC
-     */
-    addAtEnd : function(vChild, vBefore) {},
 
 
     /**
