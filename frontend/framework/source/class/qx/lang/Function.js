@@ -32,11 +32,6 @@ qx.Class.define("qx.lang.Function",
 {
   statics :
   {
-    /*
-    ---------------------------------------------------------------------------
-      SIMPLE RETURN METHODS
-    ---------------------------------------------------------------------------
-    */
 
     /**
      * Simply return true.
@@ -154,7 +149,7 @@ qx.Class.define("qx.lang.Function",
         // Static arguments
         var args = Array.prototype.slice.call(arguments, 2);
 
-        function wrap()
+        var wrap = function()
         {
           fcn.context = self;
           var ret = fcn.apply(self, args.concat(qx.lang.Array.fromArguments(arguments)));
@@ -164,7 +159,7 @@ qx.Class.define("qx.lang.Function",
       }
       else
       {
-        function wrap()
+        var wrap = function()
         {
           fcn.context = self;
           var ret = fcn.apply(self, arguments);
@@ -203,7 +198,7 @@ qx.Class.define("qx.lang.Function",
       }
 
       // Create wrapper method
-      function wrap(event)
+      var wrap = function(event)
       {
         fcn.context = self;
         var ret = fcn.call(self, event||window.event);
