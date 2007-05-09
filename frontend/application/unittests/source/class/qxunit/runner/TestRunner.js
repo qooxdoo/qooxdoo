@@ -49,22 +49,7 @@ qx.Class.define("qxunit.runner.TestRunner",
     this.widgets = {};
     this.tests   = {};
 
-    // Hidden IFrame for test runs
-    var iframe = new qx.ui.embed.Iframe("html/QooxdooTest.html?testclass=qxunit.test");
-    iframe.setEdge(0);
-    this.iframe = iframe;
-    iframe.addToDocument();
-    this.setZIndex(5);
-
-    // Get the TestLoader from the Iframe (in the event handler)
-    iframe.addEventListener("load", this.ehIframeOnLoad, this);
-
     // Header Pane
-    /*
-    this.header = new qx.ui.embed.HtmlEmbed("<h1>qooxdoo Test Runner</h1>");
-    this.header.setHtmlProperty("className", "header");
-    this.header.setHeight(50);
-    */
     this.header = this.__makeHeader();
     this.add(this.header);
 
@@ -84,6 +69,9 @@ qx.Class.define("qxunit.runner.TestRunner",
     });
 
     // Left -- is done when iframe is loaded
+    var left = this.__makeLeft();
+    this.left = left;
+    this.mainsplit.addLeft(left);
 
     // Right
     var right = new qx.ui.layout.VerticalBoxLayout();
@@ -119,9 +107,20 @@ qx.Class.define("qxunit.runner.TestRunner",
     vert.add(progress);
     //right.add(progress);
 
-    // button view
-    var buttview = this.__makeButtonView();
+    // output views
+    var buttview = this.__makeOutputViews();
     right.add(buttview);
+
+    // Last but not least:
+    // Hidden IFrame for test runs
+    var iframe = new qx.ui.embed.Iframe("html/QooxdooTest.html?testclass=qxunit.test");
+    iframe.setEdge(0);
+    this.iframe = iframe;
+    iframe.addToDocument();
+    this.setZIndex(5);
+
+    // Get the TestLoader from the Iframe (in the event handler)
+    iframe.addEventListener("load", this.ehIframeOnLoad, this);
 
     // EXPERIMENTAL !
     //var treetest = new qxunit.runner.TreeTest();
@@ -255,8 +254,11 @@ qx.Class.define("qxunit.runner.TestRunner",
       return toolbar;
     }, //makeToolbar
 
-    __makeButtonView : function ()
+
+    __makeOutputViews : function ()
     {
+
+      // Main Container
       var buttview = new qx.ui.pageview.tabview.TabView();
       buttview.set({
         height : "1*"
@@ -313,27 +315,35 @@ qx.Class.define("qxunit.runner.TestRunner",
       }, this);
       pp2.add(ff1, this.f2);
 
+      // Third Page
+      // -- Tab Button
+      var bsb3 = new qx.ui.pageview.tabview.Button("Tabled Results","icon/16/apps/graphics-snapshot.png");
+      buttview.getBar().add(bsb3);
+
+      // -- Tab Pane
+      var p3 = new qx.ui.pageview.tabview.Page(bsb3);
+      p3.set({
+        padding : [5]
+      });
+      buttview.getPane().add(p3);
+
+      // -- Pane Content
+      var f3 =  new qx.ui.embed.HtmlEmbed("HUHU!");
+      p3.add(f3);
+
+
       return buttview;
-    }, //makeButtonView
+    }, //makeOutputViews
 
     // -------------------------------------------------------------------------
 
     /**
      * Tree View in Left Pane
+     * - only make root node; rest will befilled when iframe has loaded (with
+     *   leftReloadTree)
     */
     __makeLeft: function ()
     {
-      var that   = this;
-
-      /*
-      var node = this.tests.handler.getRoot();
-      this.debug("Root node: " + node);
-      this.tests.handler.getChilds(node);
-      this.tests.handler.getTests(node);
-      */
-      var tmap = this.tests.handler.tmap;
-
-      //var left = new qx.ui.tree.Tree("Test Classes");
       var left = new qx.ui.tree.Tree("Tests");
       left.set({
         width : "100%",
@@ -343,10 +353,6 @@ qx.Class.define("qxunit.runner.TestRunner",
         backgroundColor: "white",
         border : "inset"
       });
-
-      // fill the tree
-      this.left = left; // only because leftReloadTree needs it
-      this.leftReloadTree(null);
       left.getManager().addEventListener("changeSelection", this.leftGetSelection, this);
 
       return left;
@@ -762,13 +768,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       this.frameWindow   = iframe.getContentWindow();
       var testRep        = this.loader.getTestDescriptions();
       this.tests.handler = new qxunit.runner.TestHandler(testRep);
-      if (! this.left) {
-        var left = this.__makeLeft();
-        this.left = left;
-        this.mainsplit.addLeft(left);
-      } else {
-        this.leftReloadTree();
-      }
+      this.leftReloadTree();
       this.toolbar.setEnabled(true);  // in case it was disabled (for reload)
       if (this.tests.run_pending) {   // do we have pending tests to run?
         this.tests.run_pending();
