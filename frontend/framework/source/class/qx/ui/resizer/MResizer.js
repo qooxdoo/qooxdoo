@@ -32,6 +32,10 @@ qx.Mixin.define("qx.ui.resizer.MResizer",
   {
     this._frame = new qx.ui.basic.Terminator;
     this._frame.setAppearance("resizer-frame");
+    this.setAppearance("resizer");
+    this.setMinWidth("auto");
+    this.setMinHeight("auto");
+    this.auto();
 
     this._registerResizeEvents();
   },
@@ -45,36 +49,6 @@ qx.Mixin.define("qx.ui.resizer.MResizer",
 
   properties :
   {
-    appearance :
-    {
-      refine : true,
-      init : "resizer"
-    },
-
-    minWidth :
-    {
-      refine : true,
-      init : "auto"
-    },
-
-    minHeight :
-    {
-      refine : true,
-      init : "auto"
-    },
-
-    width :
-    {
-      refine : true,
-      init : "auto"
-    },
-
-    height :
-    {
-      refine : true,
-      init : "auto"
-    },
-
     /** It is resizeable in the left direction. */
     resizeableWest :
     {
