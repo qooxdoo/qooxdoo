@@ -724,14 +724,14 @@ qx.Class.define("qx.core.Property",
           var store = this.$$store.user[name];
         }
 
-        // Call user-provided transform method, if one is provided.  Transform
-        // method should either throw an error or return the new value.
-        if (config.transform && (variant === "set" || variant === "init")) {
-          code.push('value=this.', config.transform, '(value);');
-        }
-
         if (variant === "set" || variant === "style" || variant === "init")
         {
+          // Call user-provided transform method, if one is provided.  Transform
+          // method should either throw an error or return the new value.
+          if (config.transform) {
+            code.push('value=this.', config.transform, '(value);');
+          }
+
           // Undefined check
           // Must be above the comparision between old and new, because otherwise previously unset
           // values get not detected and will be quitely ignored which is a bad behavior.
@@ -747,7 +747,7 @@ qx.Class.define("qx.core.Property",
           if (variant === "style") {
             code.push('if(value===qx.core.Property.$$undefined)value=undefined;');
           }
-          
+
           // Old/new comparision
           code.push('if(this.', store, '===value)return value;');
 
@@ -834,9 +834,9 @@ qx.Class.define("qx.core.Property",
         if (config.themeable) {
           code.push('if(old===undefined)old=this.', this.$$store.theme[name], ';');
         }
-        
+
         // Toggle value (Replace eventually incoming value for setter etc.)
-        if (variant === "toggle") 
+        if (variant === "toggle")
         {
           if (config.init !== undefined) {
             code.push('if(old===undefined)old=this.', this.$$store.init[name], ';');
@@ -873,8 +873,8 @@ qx.Class.define("qx.core.Property",
       {
         // Remember from where the value comes
         code.push('var fromInit=false;');
-        
-        // Create computed value        
+
+        // Create computed value
         code.push('var computed;');
 
         var hasComputeIf = false;
@@ -940,7 +940,7 @@ qx.Class.define("qx.core.Property",
           {
             code.push('var pa=this.getParent();if(pa)computed=pa.', this.$$store.computed[name], ';');
           }
-          
+
           code.push('}');
         }
 
