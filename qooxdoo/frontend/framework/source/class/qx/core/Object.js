@@ -709,7 +709,7 @@ qx.Class.define("qx.core.Object",
     var store = qx.core.Property.$$store;
     var storeUser = store.user;
     var storeTheme = store.theme;
-    var storeInherited = store.inherited;
+    var storeInherit = store.inherit;
     var storeUseinit = store.useinit;
     var storeInit = store.init;
 
@@ -721,7 +721,7 @@ qx.Class.define("qx.core.Object",
         for (var name in properties)
         {
           if (properties[name].dispose) {
-            this[storeUser[name]] = this[storeTheme[name]] = this[storeInherited[name]] = this[storeUseinit[name]] = this[storeInit[name]] = undefined;
+            this[storeUser[name]] = this[storeTheme[name]] = this[storeInherit[name]] = this[storeUseinit[name]] = this[storeInit[name]] = undefined;
           }
         }
       }
