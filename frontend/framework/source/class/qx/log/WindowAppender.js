@@ -51,7 +51,7 @@ qx.Class.define("qx.log.WindowAppender",
     this.base(arguments);
 
     this._id = qx.log.WindowAppender.register(this);
-    this._name = (name == null) ? "qx_log" + (new Date() - 0) : name;
+    this._name = (name == null) ? "qx_log" + (new Date()).getTime() : name;
 
     this._errorsPreventingAutoCloseCount = 0;
 
