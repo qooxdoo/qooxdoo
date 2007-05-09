@@ -202,6 +202,12 @@ qx.Class.define("qx.core.Property",
 
 
     /**
+     * Used in build version for storage names
+     */
+    $$idcounter : 0,
+
+
+    /**
      * Caching field names for each property created
      *
      * @internal
@@ -707,10 +713,29 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [2] CHECKING & STORING INCOMING VALUE
+
+      // [2] READING OLD VALUE
 
       // Local variable for old value
       code.push('var old;');
+
+      // Read in old value
+      if (config.inheritable) {
+        code.push('if(old===undefined)old=this.', this.$$store.inherited[name], ';');
+      }
+
+      code.push('if(old===undefined&&this.', this.$$store.useinit[name], ')old=this.', this.$$store.init[name], ';');
+
+      code.push('if(old===undefined)old=this.', this.$$store.user[name], ';');
+
+      if (config.themeable) {
+        code.push('if(old===undefined)old=this.', this.$$store.theme[name], ';');
+      }
+
+
+
+
+      // [3] CHECKING & STORING INCOMING VALUE
 
       // Hint: No refresh() here, the value of refresh is the parent value
       if (variant === "set" || variant === "reset" || variant === "style" || variant === "unstyle" || (variant === "init" && config.init === undefined))
@@ -826,24 +851,6 @@ qx.Class.define("qx.core.Property",
           code.push('value=undefined;');
         }
 
-
-
-
-        // Read in old value
-        if (config.inheritable) {
-          code.push('if(old===undefined)old=this.', this.$$store.inherited[name], ';');
-        }
-
-        code.push('if(old===undefined&&this.', this.$$store.useinit[name], ')old=this.', this.$$store.init[name], ';');
-
-        code.push('if(old===undefined)old=this.', this.$$store.user[name], ';');
-
-        if (config.themeable) {
-          code.push('if(old===undefined)old=this.', this.$$store.theme[name], ';');
-        }
-
-
-
         // Store new value
         code.push('this.', store, '=value;');
       }
@@ -861,7 +868,7 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [3] GENERATING COMPUTED VALUE
+      // [4] GENERATING COMPUTED VALUE
 
       // In variant "set" the value is always the user value and is
       // could not be undefined. This way we are sure we can use this value and don't
@@ -921,7 +928,7 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [4] RESPECTING INHERITANCE
+      // [5] RESPECTING INHERITANCE
 
       // Require the parent/children interface
 
@@ -949,7 +956,7 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [5] NORMALIZING UNDEFINED FOR COMPUTED VALUE
+      // [6] NORMALIZING UNDEFINED FOR COMPUTED VALUE
 
       if (config.inheritable === true)
       {
@@ -965,7 +972,7 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [6] COMPARING COMPUTED VALUE WITH OLD COMPUTED VALUE
+      // [7] COMPARING COMPUTED VALUE WITH OLD COMPUTED VALUE
 
       // Normalize 'undefined' to 'null'
       // Could only be undefined in cases when the setter was never executed before
@@ -979,7 +986,7 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [7] STORING NEW COMPUTED VALUE
+      // [8] STORING NEW COMPUTED VALUE
 
       // Inform user
       if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -1006,7 +1013,7 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [8] NOTIFYING DEPENDEND OBJECTS
+      // [9] NOTIFYING DEPENDEND OBJECTS
 
       // Execute user configured setter
       if (config.apply)
@@ -1044,7 +1051,7 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [9] RETURNING WITH ORIGINAL INCOMING VALUE
+      // [10] RETURNING WITH ORIGINAL INCOMING VALUE
 
       // Return value
       if (variant !== "reset" && variant !== "unstyle") {
