@@ -1,22 +1,41 @@
-.PHONY: source build clean distclean
+################################################################################
+#
+#  qooxdoo - the new era of web development
+#
+#  http://qooxdoo.org
+#
+#  Copyright:
+#    2007 1&1 Internet AG, Germany, http://www.1and1.org
+#
+#  License:
+#    LGPL: http://www.gnu.org/licenses/lgpl.html
+#    EPL: http://www.eclipse.org/org/documents/epl-v10.php
+#    See the LICENSE file in the project's top-level directory for details.
+#
+#  Authors:
+#    * Fabian Jakobs (fjakobs)
+#
+################################################################################
+
+.PHONY: source build clean distclean api
 
 source:
-	@$(MAKE) -f Makefile.runner source
-	@$(MAKE) -f Makefile.tests source
+	@$(MAKE) -s -f Makefile.runner source
+	@$(MAKE) -s -f Makefile.tests source
     
     
 build:
-	@$(MAKE) -f Makefile.runner build
-	@$(MAKE) -f Makefile.tests build
+	@$(MAKE) -s -f Makefile.runner build
+	@$(MAKE) -s -f Makefile.tests build
     
 clean:
-	@$(MAKE) -f Makefile.runner clean
-	@$(MAKE) -f Makefile.tests clean
+	@$(MAKE) -s -f Makefile.runner clean
+	@$(MAKE) -s -f Makefile.tests clean
     
 distclean:
-	@$(MAKE) -f Makefile.runner distclean
-	@$(MAKE) -f Makefile.tests distclean
+	@$(MAKE) -s -f Makefile.runner distclean
+	@$(MAKE) -s -f Makefile.tests distclean
 	
 api:
-	@$(MAKE) -f Makefile.runner api
+	@$(MAKE) -s -f Makefile.runner api
 	
