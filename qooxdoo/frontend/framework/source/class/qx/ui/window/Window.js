@@ -683,13 +683,13 @@ qx.Class.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyActive : function(propValue, propOldValue)
+    _modifyActive : function(value, old)
     {
-      if (propOldValue)
+      if (old)
       {
         if (this.getFocused()) {
           this.setFocused(false);
@@ -732,17 +732,17 @@ qx.Class.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyModal : function(propValue, propOldValue)
+    _modifyModal : function(value, old)
     {
       // Inform blocker
       if (this._initialLayoutDone && this.getVisibility() && this.getDisplay())
       {
         var vTop = this.getTopLevelWidget();
-        propValue ? vTop.block(this) : vTop.release(this);
+        value ? vTop.block(this) : vTop.release(this);
       }
     },
 
@@ -751,11 +751,11 @@ qx.Class.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyAllowClose : function(propValue, propOldValue) {
+    _modifyAllowClose : function(value, old) {
       this._closeButtonManager();
     },
 
@@ -764,11 +764,11 @@ qx.Class.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyAllowMaximize : function(propValue, propOldValue) {
+    _modifyAllowMaximize : function(value, old) {
       this._maximizeButtonManager();
     },
 
@@ -777,11 +777,11 @@ qx.Class.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyAllowMinimize : function(propValue, propOldValue) {
+    _modifyAllowMinimize : function(value, old) {
       this._minimizeButtonManager();
     },
 
@@ -790,13 +790,13 @@ qx.Class.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyMode : function(propValue, propOldValue)
+    _modifyMode : function(value, old)
     {
-      switch(propValue)
+      switch(value)
       {
         case "minimized":
           this._minimize();
@@ -807,7 +807,7 @@ qx.Class.define("qx.ui.window.Window",
           break;
 
         default:
-          switch(propOldValue)
+          switch(old)
           {
             case "maximized":
               this._restoreFromMaximized();
@@ -825,13 +825,13 @@ qx.Class.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyShowCaption : function(propValue, propOldValue)
+    _modifyShowCaption : function(value, old)
     {
-      if (propValue) {
+      if (value) {
         this._captionBar.addAt(this._captionTitle, this.getShowIcon() ? 1 : 0);
       } else {
         this._captionBar.remove(this._captionTitle);
@@ -843,13 +843,13 @@ qx.Class.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyShowIcon : function(propValue, propOldValue)
+    _modifyShowIcon : function(value, old)
     {
-      if (propValue) {
+      if (value) {
         this._captionBar.addAtBegin(this._captionIcon);
       } else {
         this._captionBar.remove(this._captionIcon);
@@ -861,13 +861,13 @@ qx.Class.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyShowStatusbar : function(propValue, propOldValue)
+    _modifyShowStatusbar : function(value, old)
     {
-      if (propValue) {
+      if (value) {
         this._layout.addAtEnd(this._statusBar);
       } else {
         this._layout.remove(this._statusBar);
@@ -879,13 +879,13 @@ qx.Class.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyShowClose : function(propValue, propOldValue)
+    _modifyShowClose : function(value, old)
     {
-      if (propValue) {
+      if (value) {
         this._captionBar.addAtEnd(this._closeButton);
       } else {
         this._captionBar.remove(this._closeButton);
@@ -897,13 +897,13 @@ qx.Class.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyShowMaximize : function(propValue, propOldValue)
+    _modifyShowMaximize : function(value, old)
     {
-      if (propValue)
+      if (value)
       {
         var t = this.getMode() == "maximized" ? this._restoreButton : this._maximizeButton;
 
@@ -925,13 +925,13 @@ qx.Class.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyShowMinimize : function(propValue, propOldValue)
+    _modifyShowMinimize : function(value, old)
     {
-      if (propValue) {
+      if (value) {
         this._captionBar.addAfter(this._minimizeButton, this._captionFlex);
       } else {
         this._captionBar.remove(this._minimizeButton);
@@ -986,12 +986,12 @@ qx.Class.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyStatus : function(propValue, propOldValue) {
-      this._statusText.setText(propValue);
+    _modifyStatus : function(value, old) {
+      this._statusText.setText(value);
     },
 
 
@@ -999,11 +999,11 @@ qx.Class.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyMaxWidth : function(propValue, propOldValue)
+    _modifyMaxWidth : function(value, old)
     {
       this.base(arguments);
       this._maximizeButtonManager();
@@ -1014,11 +1014,11 @@ qx.Class.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyMaxHeight : function(propValue, propOldValue)
+    _modifyMaxHeight : function(value, old)
     {
       this.base(arguments);
       this._maximizeButtonManager();
@@ -1029,11 +1029,11 @@ qx.Class.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyResizeable : function(propValue, propOldValue) {
+    _modifyResizeable : function(value, old) {
       this._maximizeButtonManager();
     },
 
@@ -1042,12 +1042,12 @@ qx.Class.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyCaption : function(propValue, propOldValue) {
-      this._captionTitle.setText(propValue);
+    _modifyCaption : function(value, old) {
+      this._captionTitle.setText(value);
     },
 
 
