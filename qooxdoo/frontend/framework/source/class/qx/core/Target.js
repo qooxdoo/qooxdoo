@@ -239,7 +239,7 @@ qx.Class.define("qx.core.Target",
     dispatchEvent : function(evt, dispose)
     {
       // Ignore event if eventTarget is disposed
-      if (this.getDisposed() && this.getEnabled()) {
+      if (this.getDisposed()) {
         return;
       }
 
@@ -302,7 +302,7 @@ qx.Class.define("qx.core.Target",
 
       // Bubble event to parents
       // TODO: Move this to Parent or Widget?
-      if (evt.getBubbles() && !evt.getPropagationStopped() && this.getParent)
+      if (evt.getBubbles() && !evt.getPropagationStopped() && typeof(this.getParent) == "function")
       {
         var parent = this.getParent();
 

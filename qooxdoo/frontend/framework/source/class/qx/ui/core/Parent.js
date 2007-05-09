@@ -545,10 +545,11 @@ qx.Class.define("qx.ui.core.Parent",
      *  one, a parameter could be a widget.
      *
      * @type member
-     * @return {var} TODOC
+     * @param varargs {qx.core.Widget} variable number of widgets to add
+     * @return {Parent} This widget.
      * @throws TODOC
      */
-    add : function()
+    add : function(varargs)
     {
       var vWidget;
 
@@ -557,6 +558,7 @@ qx.Class.define("qx.ui.core.Parent",
         vWidget = arguments[i];
 
         if (!(vWidget instanceof qx.ui.core.Parent) && !(vWidget instanceof qx.ui.basic.Terminator)) {
+//if (!(vWidget instanceof qx.ui.core.Widget)) {
           throw new Error("Invalid Widget: " + vWidget);
         } else {
           vWidget.setParent(this);
