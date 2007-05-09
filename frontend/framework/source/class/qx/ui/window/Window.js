@@ -199,8 +199,8 @@ qx.Class.define("qx.ui.window.Window",
     // ************************************************************************
     //   EVENTS: WINDOW
     // ************************************************************************
-    this.addEventListener("mousedown", this.focus);
-    this.addEventListener("click", this._onwindowclick, this);
+    this.addEventListener("mousedown", this._onwindowmousedown);
+    this.addEventListener("click", this._onwindowclick);
 
     // ************************************************************************
     //   EVENTS: CAPTIONBAR
@@ -1243,6 +1243,17 @@ qx.Class.define("qx.ui.window.Window",
       e.stopPropagation();
     },
 
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void}
+     */
+    _onwindowmousedown : function(e) {
+      this.focus();
+    },
 
 
 
