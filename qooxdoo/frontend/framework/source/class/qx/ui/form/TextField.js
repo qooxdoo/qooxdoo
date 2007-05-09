@@ -282,7 +282,7 @@ qx.Class.define("qx.ui.form.TextField",
         }
 
         // Normalize styles
-        istyle = inp.style;
+        var istyle = inp.style;
         istyle.padding = istyle.margin = 0;
         istyle.border = "0 none";
         istyle.background = "transparent";
