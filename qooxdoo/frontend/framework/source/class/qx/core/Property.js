@@ -208,10 +208,11 @@ qx.Class.define("qx.core.Property",
      */
     $$store :
     {
-      user     : {},
-      theme    : {},
-      computed : {},
-      init     : {}
+      user      : {},
+      theme     : {},
+      inherited : {},
+      init      : {},
+      useinit   : {}
     },
 
 
@@ -228,9 +229,7 @@ qx.Class.define("qx.core.Property",
       init    : {},
       refresh : {},
       style   : {},
-      unstyle : {},
-      toggle  : {},
-      is      : {}
+      unstyle : {}
     },
 
 
@@ -506,9 +505,10 @@ qx.Class.define("qx.core.Property",
       var store = this.$$store;
 
       store.user[name] = "__user$" + name;
-      store.init[name] = "__init$" + name;
       store.theme[name] = "__theme$" + name;
-      store.computed[name] = "__computed$" + name;
+      store.init[name] = "__init$" + name;
+      store.inherited[name] = "__inherited$" + name;
+      store.useinit[name] = "__useinit$" + name;
 
       method.get[name] = prefix + "get" + postfix;
       members[method.get[name]] = function() {
@@ -553,15 +553,8 @@ qx.Class.define("qx.core.Property",
 
       if (config.check === "Boolean")
       {
-        method.toggle[name] = prefix + "toggle" + postfix;
-        members[method.toggle[name]] = function() {
-          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "toggle");
-        }
-
-        method.is[name] = prefix + "is" + postfix;
-        members[method.is[name]] = function() {
-          return qx.core.Property.executeOptimizedGetter(this, clazz, name, "is");
-        }
+        members[prefix + "toggle" + postfix] = new Function("return this." + method.set[name] + "(!" + method.get[name] + ")");
+        members[prefix + "is" + postfix] = new Function("return this." + method.get[name] + "()");
       }
     },
 
@@ -646,8 +639,14 @@ qx.Class.define("qx.core.Property",
       var members = clazz.prototype;
       var code = [];
 
-      code.push('if(this.', this.$$store.computed[name], '!==undefined)');
-      code.push('return this.', this.$$store.computed[name], ';');
+      if (config.inheritable)
+      {
+        code.push('if(this.', this.$$store.inherited[name], '!==undefined)');
+        code.push('return this.', this.$$store.inherited[name], ';');
+      }
+
+      code.push('if(this.', this.$$store.useinit[name], ')');
+      code.push('return this.', this.$$store.init[name], ';');
 
       code.push('if(this.', this.$$store.user[name], '!==undefined)');
       code.push('return this.', this.$$store.user[name], ';');
@@ -674,7 +673,7 @@ qx.Class.define("qx.core.Property",
 
     /**
      * Generates the optimized setter
-     * Supported variants: set, reset, init, refresh, style, unstyle, toggle
+     * Supported variants: set, reset, init, refresh, style, unstyle
      *
      * @type static
      * @internal
@@ -714,7 +713,7 @@ qx.Class.define("qx.core.Property",
       code.push('var old;');
 
       // Hint: No refresh() here, the value of refresh is the parent value
-      if (variant === "set" || variant === "reset" || variant === "style" || variant === "unstyle" || variant === "toggle" || (variant === "init" && config.init === undefined))
+      if (variant === "set" || variant === "reset" || variant === "style" || variant === "unstyle" || (variant === "init" && config.init === undefined))
       {
         if (variant === "style" || variant === "unstyle") {
           var store = this.$$store.theme[name];
@@ -827,23 +826,23 @@ qx.Class.define("qx.core.Property",
           code.push('value=undefined;');
         }
 
+
+
+
         // Read in old value
-        code.push('old=this.', this.$$store.computed[name], ';');
+        if (config.inheritable) {
+          code.push('if(old===undefined)old=this.', this.$$store.inherited[name], ';');
+        }
+
+        code.push('if(old===undefined&&this.', this.$$store.useinit[name], ')old=this.', this.$$store.init[name], ';');
+
         code.push('if(old===undefined)old=this.', this.$$store.user[name], ';');
 
         if (config.themeable) {
           code.push('if(old===undefined)old=this.', this.$$store.theme[name], ';');
         }
 
-        // Toggle value (Replace eventually incoming value for setter etc.)
-        if (variant === "toggle")
-        {
-          if (config.init !== undefined) {
-            code.push('if(old===undefined)old=this.', this.$$store.init[name], ';');
-          }
 
-          code.push('value=!old;');
-        }
 
         // Store new value
         code.push('this.', store, '=value;');
@@ -864,16 +863,16 @@ qx.Class.define("qx.core.Property",
 
       // [3] GENERATING COMPUTED VALUE
 
-      // In both variants, set and toggle, the value is always the user value and is
+      // In variant "set" the value is always the user value and is
       // could not be undefined. This way we are sure we can use this value and don't
       // need a complex logic to find the usable value. (See else case)
+
+      // Remember from where the value comes
+      code.push('var useInit=false;');
 
       // Use complex evaluation for reset, refresh and style
       if (variant === "refresh" || variant === "reset" || variant === "style" || variant === "unstyle" || variant === "init")
       {
-        // Remember from where the value comes
-        code.push('var fromInit=false;');
-
         // Create computed value
         code.push('var computed;');
 
@@ -908,10 +907,10 @@ qx.Class.define("qx.core.Property",
           code.push('else');
         }
 
-        code.push('{computed=this.', this.$$store.init[name], ';fromInit=true;}');
+        code.push('{computed=this.', this.$$store.init[name], ';useInit=true;}');
       }
 
-      // Use simple evaluation for set and toggle
+      // Use simple evaluation for set()
       else
       {
         code.push('var computed=value;');
@@ -943,8 +942,6 @@ qx.Class.define("qx.core.Property",
 
           code.push('}');
         }
-
-        // Hint: No toggle() here, toggle only allows true/false user value and no inherit
       }
 
 
@@ -995,17 +992,13 @@ qx.Class.define("qx.core.Property",
       // Store computed value of inheritable properties
       if (config.inheritable)
       {
-        code.push('this.', this.$$store.computed[name], '=computed;');
-      }
-      else if(variant === "refresh" || variant === "reset" || variant === "style" || variant === "unstyle" || variant === "init")
-      {
-        // And for all others if the init value was used to generate the computed value.
-        code.push('if(fromInit)this.', this.$$store.computed[name], '=computed;');
-        code.push('else if(this.', this.$$store.computed[name], '!==undefined)delete this.', this.$$store.computed[name], ';');
+        code.push('this.', this.$$store.inherited[name], '=computed;');
       }
       else
       {
-        code.push('if(this.', this.$$store.computed[name], '!==undefined)delete this.', this.$$store.computed[name], ';');
+        // And for all others if the init value was used to generate the computed value.
+        code.push('if(useInit)this.', this.$$store.useinit[name], '=true;');
+        code.push('else delete this.', this.$$store.useinit[name], ';');
       }
 
 
