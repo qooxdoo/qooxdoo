@@ -32,10 +32,6 @@ qx.Mixin.define("qx.ui.resizer.MResizer",
   {
     this._frame = new qx.ui.basic.Terminator;
     this._frame.setAppearance("resizer-frame");
-    this.setAppearance("resizer");
-    this.setMinWidth("auto");
-    this.setMinHeight("auto");
-    this.auto();
 
     this._registerResizeEvents();
   },
