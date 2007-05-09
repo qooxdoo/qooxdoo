@@ -6,6 +6,7 @@
 
    Copyright:
      2007 David Pérez Carmona
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -14,6 +15,7 @@
 
    Authors:
      * David Perez Carmona (david-perez)
+     * Sebastian Werner (wpbasti)
 
 ************************************************************************ */
 
@@ -35,6 +37,10 @@ qx.Mixin.define("qx.ui.resizer.MResizer",
 
     this._registerResizeEvents();
   },
+
+
+
+
 
 
   /*
@@ -93,6 +99,8 @@ qx.Mixin.define("qx.ui.resizer.MResizer",
       event : "changeResizeMethod"
     }
   },
+
+
 
 
 
@@ -465,24 +473,10 @@ qx.Mixin.define("qx.ui.resizer.MResizer",
       // stop event
       e.stopPropagation();
     }
-
-    /*_changeWidth: function(newWidth)
-    {
-    },
-
-    _changeHeight: function(newHeight)
-    {
-    },
-
-    _getResizeParent: function()
-    {
-    },
-
-    _getMinSizeReference: function()
-    {
-    }*/
-
   },
+
+
+
 
 
   /*
