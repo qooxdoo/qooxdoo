@@ -45,9 +45,8 @@
  */
 qx.Class.define("qx.ui.window.Window",
 {
-  extend : qx.ui.popup.Popup,
+  extend : qx.ui.resizer.ResizeablePopup,
 
-  include : qx.ui.resizer.MResizer,
 
 
   /*
@@ -65,12 +64,6 @@ qx.Class.define("qx.ui.window.Window",
     // ************************************************************************
     // Init Window Manager
     this.setWindowManager(vWindowManager || qx.ui.window.Window.getDefaultWindowManager());
-
-    // ************************************************************************
-    //   RESIZE AND MOVE FRAME
-    // ************************************************************************
-    var f = this._frame = new qx.ui.basic.Terminator;
-    f.setAppearance("window-resize-frame");
 
     // ************************************************************************
     //   LAYOUT
@@ -1230,33 +1223,6 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
-
-
-    /*
-    ---------------------------------------------------------------------------
-      MResizer support
-    ---------------------------------------------------------------------------
-    */
-
-    _changeWidth: function(value)
-    {
-      this.setWidth(value);
-    },
-
-    _changeHeight: function(value)
-    {
-      this.setHeight(value);
-    },
-
-    _getResizeParent: function()
-    {
-      return this.getParent();
-    },
-
-    _getMinSizeReference: function()
-    {
-      return this;
-    },
 
 
     /*
