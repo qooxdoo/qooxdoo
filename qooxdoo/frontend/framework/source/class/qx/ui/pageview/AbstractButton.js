@@ -177,15 +177,15 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
      */
     _modifyParent : function(propValue, propOldValue)
     {
+      this.base(arguments, propValue, propOldValue);
+
       if (propOldValue) {
         propOldValue.getManager().remove(this);
       }
-       /*
+
       if (propValue) {
         propValue.getManager().add(this);
       }
-*/
-      this.base(arguments, propValue, propOldValue);
     },
 
 
