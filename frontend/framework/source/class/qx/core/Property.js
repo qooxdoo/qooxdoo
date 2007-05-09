@@ -214,11 +214,11 @@ qx.Class.define("qx.core.Property",
      */
     $$store :
     {
-      user      : {},
-      theme     : {},
-      inherited : {},
-      init      : {},
-      useinit   : {}
+      user    : {},
+      theme   : {},
+      inherit : {},
+      init    : {},
+      useinit : {}
     },
 
 
@@ -513,7 +513,7 @@ qx.Class.define("qx.core.Property",
       store.user[name] = "__user$" + name;
       store.theme[name] = "__theme$" + name;
       store.init[name] = "__init$" + name;
-      store.inherited[name] = "__inherited$" + name;
+      store.inherit[name] = "__inherit$" + name;
       store.useinit[name] = "__useinit$" + name;
 
       method.get[name] = prefix + "get" + postfix;
@@ -647,8 +647,8 @@ qx.Class.define("qx.core.Property",
 
       if (config.inheritable)
       {
-        code.push('if(this.', this.$$store.inherited[name], '!==undefined)');
-        code.push('return this.', this.$$store.inherited[name], ';');
+        code.push('if(this.', this.$$store.inherit[name], '!==undefined)');
+        code.push('return this.', this.$$store.inherit[name], ';');
       }
 
       code.push('if(this.', this.$$store.useinit[name], ')');
@@ -700,28 +700,184 @@ qx.Class.define("qx.core.Property",
       var code = [];
 
 
+      var globalInit = variant === "init" && config.init !== undefined;
+      var localInit = variant === "init" && config.init === undefined;
+
+      var incomingValue = variant === "set" || variant === "style" || localInit;
+      var resetValue = variant === "reset" || variant === "unstyle";
+
+      var enableChecks = incomingValue && qx.core.Variant.isSet("qx.debug", "on") || variant === "set";
 
 
 
-
-      // [1] PRE CONDITIONS
-
-      if (variant === "init") {
-        code.push('if(this.$$initialized)throw new Error("Could not change or apply init value after constructing phase!");');
+      if (variant === "style" || variant === "unstyle") {
+        var store = this.$$store.theme[name];
+      } else if (variant === "init") {
+        var store = this.$$store.init[name];
+      } else {
+        var store = this.$$store.user[name];
       }
 
 
 
 
 
-      // [2] READING OLD VALUE
+
+      // [1] PRE CONDITIONS
+
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (variant === "init")
+        {
+          code.push('if(this.$$initialized)throw new Error("Could not change or apply init value after constructing phase!");');
+
+          if (!incomingValue)
+          {
+            // Additional debugging to block values for init() functions
+            // which have a init value defined at property level
+            code.push('if(arguments.length!==0)throw new Error("You are not able to change the init value of the property ', name,  ' by using ', this.$$method[variant][name], '()!");');
+          }
+        }
+      }
+
+
+
+
+
+      // [2] PREPROCESS INCOMING VALUE
+
+      if (incomingValue)
+      {
+        if (enableChecks)
+        {
+          // Undefined check
+          // Must be above the comparision between old and new, because otherwise previously unset
+          // values get not detected and will be quitely ignored which is a bad behavior.
+          code.push('if(value===undefined)');
+          code.push('throw new Error("Undefined value for property \'', name, '\' of class \'"+this.constructor.classname+"\' is not allowed!");');
+
+          // Check argument length
+          if (qx.core.Variant.isSet("qx.debug", "on")) {
+            code.push('if(arguments.length!==1)throw new Error("The method of the property \'', name,  '\' by using ', this.$$method[variant][name], '() requires exactly one argument!");');
+          }
+        }
+
+        // Allow to unstyle themeable properties by explicit "undefined" string value
+        if (variant === "style") {
+          code.push('if(value===qx.core.Property.$$undefined)value=undefined;');
+        }
+
+        // Call user-provided transform method, if one is provided.  Transform
+        // method should either throw an error or return the new value.
+        if (config.transform) {
+          code.push('value=this.', config.transform, '(value);');
+        }
+      }
+
+
+
+
+
+
+      // [3] COMPARING (LOCAL) NEW AND OLD VALUE
+
+      // Old/new comparision
+      if (incomingValue || resetValue) {
+        code.push('if(this.', store, '===value)return value;');
+      }
+
+
+
+
+
+
+      // [4] CHECKING VALUE
+
+      // Enable checks in debugging mode or then generating the setter
+
+      if (enableChecks)
+      {
+        // Null check
+        if (!config.nullable)
+        {
+          code.push('if(value===null)');
+          code.push('throw new Error("Null value for property \'', name, '\' of class \'"+this.constructor.classname+"\' is not allowed (' + variant + ')!");');
+        }
+
+        // Processing check definition
+        if (config.check !== undefined)
+        {
+          if (config.nullable)
+          {
+            if (variant === "style") {
+              code.push('if(value!=null)'); // allow both undefined and null
+            } else {
+              code.push('if(value!==null)') // allow null
+            }
+          }
+          else if (variant === "style")
+          {
+            code.push('if(value!==undefined)'); // allow undefined
+          }
+
+          // Inheritable properties always accept "inherit" as value
+          if (config.inheritable) {
+            code.push('if(value!==qx.core.Property.$$inherit)');
+          }
+
+          code.push('if(');
+
+          if (this.__checks[config.check] !== undefined)
+          {
+            code.push('!(', this.__checks[config.check], ')');
+          }
+          else if (qx.Class.isDefined(config.check))
+          {
+            code.push('!(value instanceof ', config.check, ')');
+          }
+          else if (qx.Interface.isDefined(config.check))
+          {
+            code.push('!(value && qx.Class.hasInterface(value.constructor, ', config.check, '))');
+          }
+          else if (typeof config.check === "function")
+          {
+            code.push('!', clazz.classname, '.$$properties.', name);
+            code.push('.check.call(this, value)');
+          }
+          else if (typeof config.check === "string")
+          {
+            code.push('!(', config.check, ')');
+          }
+          else if (config.check instanceof Array)
+          {
+            // reconfigure for faster access trough map usage
+            config.checkMap = qx.lang.Object.fromArray(config.check);
+
+            code.push(clazz.classname, '.$$properties.', name);
+            code.push('.checkMap[value]===undefined');
+          }
+          else
+          {
+            throw new Error("Could not add check to property " + name + " of class " + clazz.classname);
+          }
+
+          code.push(')throw new Error("Invalid value for property \'', name, '\' of class ' + clazz.classname + ': " + value);');
+        }
+      }
+
+
+
+
+
+
+      // [5] READING OLD VALUE
 
       // Local variable for old value
       code.push('var old;');
 
       // Read in old value
       if (config.inheritable) {
-        code.push('if(old===undefined)old=this.', this.$$store.inherited[name], ';');
+        code.push('if(old===undefined)old=this.', this.$$store.inherit[name], ';');
       }
 
       code.push('if(old===undefined&&this.', this.$$store.useinit[name], ')old=this.', this.$$store.init[name], ';');
@@ -735,151 +891,42 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [3] CHECKING & STORING INCOMING VALUE
 
-      // Hint: No refresh() here, the value of refresh is the parent value
-      if (variant === "set" || variant === "reset" || variant === "style" || variant === "unstyle" || (variant === "init" && config.init === undefined))
+
+      // [6] STORING INCOMING VALUE
+
+      if (incomingValue)
       {
-        if (variant === "style" || variant === "unstyle") {
-          var store = this.$$store.theme[name];
-        } else if (variant === "init") {
-          var store = this.$$store.init[name];
-        } else {
-          var store = this.$$store.user[name];
-        }
-
-        if (variant === "set" || variant === "style" || variant === "init")
-        {
-          // Call user-provided transform method, if one is provided.  Transform
-          // method should either throw an error or return the new value.
-          if (config.transform) {
-            code.push('value=this.', config.transform, '(value);');
-          }
-
-          // Undefined check
-          // Must be above the comparision between old and new, because otherwise previously unset
-          // values get not detected and will be quitely ignored which is a bad behavior.
-          code.push('if(value===undefined)');
-          code.push('throw new Error("Undefined value for property \'', name, '\' of class \'"+this.constructor.classname+"\' is not allowed!");');
-
-          // Check argument length
-          if (qx.core.Variant.isSet("qx.debug", "on")) {
-            code.push('if(arguments.length!==1)throw new Error("The method of the property \'', name,  '\' by using ', this.$$method[variant][name], '() requires exactly one argument!");');
-          }
-
-          // Allow to unstyle themeable properties by explicit "undefined" string value
-          if (variant === "style") {
-            code.push('if(value===qx.core.Property.$$undefined)value=undefined;');
-          }
-
-          // Old/new comparision
-          code.push('if(this.', store, '===value)return value;');
-
-          // Enable checks in setter and in style and init method if debugging is enabled
-          if (variant === "set" || (qx.core.Variant.isSet("qx.debug", "on") && (variant === "style" || variant === "init")))
-          {
-            // Null check
-            if (!config.nullable)
-            {
-              code.push('if(value===null)');
-              code.push('throw new Error("Null value for property \'', name, '\' of class \'"+this.constructor.classname+"\' is not allowed (' + variant + ')!");');
-            }
-
-            // Check value
-            if (config.check !== undefined)
-            {
-              if (config.nullable)
-              {
-                if (variant === "style") {
-                  code.push('if(value!=null)'); // allow both undefined and null
-                } else {
-                  code.push('if(value!==null)') // allow null
-                }
-              }
-              else if (variant === "style")
-              {
-                code.push('if(value!==undefined)'); // allow undefined
-              }
-
-              // Inheritable properties always accept "inherit" as value
-              if (config.inheritable) {
-                code.push('if(value!==qx.core.Property.$$inherit)');
-              }
-
-              code.push('if(');
-
-              if (this.__checks[config.check] !== undefined)
-              {
-                code.push('!(', this.__checks[config.check], ')');
-              }
-              else if (qx.Class.isDefined(config.check))
-              {
-                code.push('!(value instanceof ', config.check, ')');
-              }
-              else if (qx.Interface.isDefined(config.check))
-              {
-                code.push('!(value && qx.Class.hasInterface(value.constructor, ', config.check, '))');
-              }
-              else if (typeof config.check === "function")
-              {
-                code.push('!', clazz.classname, '.$$properties.', name);
-                code.push('.check.call(this, value)');
-              }
-              else if (typeof config.check === "string")
-              {
-                code.push('!(', config.check, ')');
-              }
-              else if (config.check instanceof Array)
-              {
-                // reconfigure for faster access trough map usage
-                config.checkMap = qx.lang.Object.fromArray(config.check);
-
-                code.push(clazz.classname, '.$$properties.', name);
-                code.push('.checkMap[value]===undefined');
-              }
-              else
-              {
-                throw new Error("Could not add check to property " + name + " of class " + clazz.classname);
-              }
-              code.push(')throw new Error("Invalid value for property \'', name, '\' of class ' + clazz.classname + ': " + value);');
-            }
-          }
-        }
-        else if (variant === "reset" || variant === "unstyle")
-        {
-          // Remove value
-          code.push('value=undefined;');
-        }
-
-        // Store new value
+        // Store value
         code.push('this.', store, '=value;');
       }
-      else if (qx.core.Variant.isSet("qx.debug", "on"))
+      else if (resetValue)
       {
-        if (variant === "init")
-        {
-          // Additional debugging to block values for init() functions
-          // which have a init value defined at property level
-          code.push('if(arguments.length!==0)throw new Error("You are not able to change the init value of the property ', name,  ' by using ', this.$$method[variant][name], '()!");');
-        }
+        // Remove value
+        code.push('value=undefined;');
+        code.push('delete this.', store, ';');
       }
 
 
 
 
 
-      // [4] GENERATING COMPUTED VALUE
 
-      // In variant "set" the value is always the user value and is
+      // [7] GENERATING COMPUTED VALUE
+
+      // In variant "set" the value is always the highest priorist value and
       // could not be undefined. This way we are sure we can use this value and don't
-      // need a complex logic to find the usable value. (See else case)
+      // need a complex logic to find the usable value.
 
-      // Remember from where the value comes
-      code.push('var useInit=false;');
-
-      // Use complex evaluation for reset, refresh and style
-      if (variant === "refresh" || variant === "reset" || variant === "style" || variant === "unstyle" || variant === "init")
+      if (variant === "set")
       {
+        code.push('var computed=value;');
+      }
+      else
+      {
+        // Remember from where the value comes
+        code.push('var useInit=false;');
+
         // Create computed value
         code.push('var computed;');
 
@@ -917,37 +964,28 @@ qx.Class.define("qx.core.Property",
         code.push('{computed=this.', this.$$store.init[name], ';useInit=true;}');
       }
 
-      // Use simple evaluation for set()
-      else
+
+
+
+
+
+
+      // [8] RESPECTING INHERITANCE
+
+      // The value which comes with refresh() already has the needed computed parent value
+      // Note: The computed (inherited) value of the parent could never be "inherit" itself.
+
+      if (config.inheritable === true)
       {
-        code.push('var computed=value;');
-      }
-
-
-
-
-
-
-      // [5] RESPECTING INHERITANCE
-
-      // Require the parent/children interface
-
-      if (members.getParent && config.inheritable === true)
-      {
-        if (variant === "set" || variant == "reset" || variant === "refresh" || variant === "style" || variant === "unstyle" || variant === "init")
+        if (variant === "refresh")
         {
-          code.push('if(computed===qx.core.Property.$$inherit||computed===undefined){');
-
-          if (variant === "refresh")
-          {
-            code.push('computed=value;');
-          }
-          else
-          {
-            code.push('var pa=this.getParent();if(pa)computed=pa.', this.$$store.inherited[name], ';');
-          }
-
-          code.push('}');
+          code.push('if(computed===undefined||computed===qx.core.Property.$$inherit)');
+          code.push('computed=value;');
+        }
+        else
+        {
+          code.push('if(computed===undefined||computed===qx.core.Property.$$inherit){');
+          code.push('var pa=this.getParent();if(pa)computed=pa.', this.$$store.inherit[name], ';}');
         }
       }
 
@@ -956,37 +994,53 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [6] NORMALIZING UNDEFINED FOR COMPUTED VALUE
+      // [9] NORMALIZING UNDEFINED TO NULL
 
-      if (config.inheritable === true)
-      {
-        // Normalize 'undefined' to 'inherit' in inheritable properties
-        code.push('if(computed===undefined||computed===qx.core.Property.$$inherit)computed=null;');
-      }
-      else
-      {
-        // Normalize 'undefined' to 'null'
+      // Normalize 'undefined' to 'null'
+      if (variant !== "refresh") {
         code.push('if(computed===undefined)computed=null;');
       }
 
 
 
 
-      // [7] COMPARING COMPUTED VALUE WITH OLD COMPUTED VALUE
+
+
+
+
+      // [10] SYNCING WITH OBJECT
+
+      // Delete useinit flag for set(), refresh() and inheritable properties
+      if (config.inheritable || variant === "set" || variant === "refresh")
+      {
+        code.push('if(this.', this.$$store.useinit[name], ')delete this.', this.$$store.useinit[name], ';');
+
+        // Store inherited value of inheritable properties
+        if (config.inheritable) {
+          code.push('this.', this.$$store.inherit[name], '=computed;');
+        }
+      }
+      else
+      {
+        // And for all others if the init value was used to generate the computed value.
+        code.push('if(useInit)this.', this.$$store.useinit[name], '=true;');
+        code.push('else if(this.', this.$$store.useinit[name], ')delete this.', this.$$store.useinit[name], ';');
+      }
+
+
+
+
+
+
+
+      // [11] COMPARING (COMPUTED) VALUE WITH OLD (COMPUTED) VALUE
+
+      // Compare old/new computed value
+      code.push('if(old===computed)return value;');
 
       // Normalize 'undefined' to 'null'
       // Could only be undefined in cases when the setter was never executed before
-      // Because of this we can do the following old/new check in an else case to optimize performance
       code.push('if(old===undefined)old=null;');
-
-      // Compare old/new computed value
-      code.push('else if(old===computed)return value;');
-
-
-
-
-
-      // [8] STORING NEW COMPUTED VALUE
 
       // Inform user
       if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -996,36 +1050,16 @@ qx.Class.define("qx.core.Property",
         }
       }
 
-      // Store computed value of inheritable properties
-      if (config.inheritable)
-      {
-        code.push('this.', this.$$store.inherited[name], '=computed;');
-      }
-      else
-      {
-        // And for all others if the init value was used to generate the computed value.
-        code.push('if(useInit)this.', this.$$store.useinit[name], '=true;');
-        code.push('else delete this.', this.$$store.useinit[name], ';');
-      }
 
 
 
 
 
-
-      // [9] NOTIFYING DEPENDEND OBJECTS
+      // [12] NOTIFYING DEPENDEND OBJECTS
 
       // Execute user configured setter
-      if (config.apply)
-      {
-        if (variant === "init")
-        {
-          code.push('this.', config.apply, '(computed, null);');
-        }
-        else
-        {
-          code.push('this.', config.apply, '(computed, old);');
-        }
+      if (config.apply) {
+        code.push('this.', config.apply, '(computed, old);');
       }
 
       // Fire event
@@ -1035,12 +1069,9 @@ qx.Class.define("qx.core.Property",
         code.push('this.dispatchEvent(new qx.event.type.ChangeEvent("', config.event, '", computed, old), true);');
       }
 
-      // Don't fire event and not update children in init().
-      // There is no chance to attach an event listener or add children before.
-
       // Refresh children
       // Require the parent/children interface
-      if (members.getChildren && config.inheritable === true)
+      if (config.inheritable)
       {
         code.push('var a=this.getChildren();if(a)for(var i=0,l=a.length;i<l;i++){');
         code.push('if(a[i].', this.$$method.refresh[name], ')a[i].', this.$$method.refresh[name], '(computed);');
@@ -1051,10 +1082,10 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [10] RETURNING WITH ORIGINAL INCOMING VALUE
+      // [13] RETURNING WITH ORIGINAL INCOMING VALUE
 
       // Return value
-      if (variant !== "reset" && variant !== "unstyle") {
+      if (incomingValue) {
         code.push('return value;');
       }
 
