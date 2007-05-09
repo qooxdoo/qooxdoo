@@ -739,7 +739,7 @@ qx.Class.define("qx.core.Property",
 
           // Check argument length
           if (qx.core.Variant.isSet("qx.debug", "on")) {
-            code.push('if(arguments.length!==1)throw new Error("The method of the property ', name,  ' by using ', this.$$method[variant][name], '() requires exactly one argument!");');
+            code.push('if(arguments.length!==1)throw new Error("The method of the property \'', name,  '\' by using ', this.$$method[variant][name], '() requires exactly one argument!");');
           }
 
           // Allow to unstyle themeable properties by explicit "undefined" string value
