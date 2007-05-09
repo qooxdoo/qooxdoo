@@ -86,7 +86,7 @@ qx.Mixin.define("qx.ui.resizer.MResizer",
     /** If the window is resizeable */
     resizeable :
     {
-      group : [ "west", "north", "east", "south" ],
+      group : [ "north", "west", "south", "east" ],
       mode  : "shorthand"
     },
 
