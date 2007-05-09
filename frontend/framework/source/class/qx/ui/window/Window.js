@@ -47,7 +47,7 @@ qx.Class.define("qx.ui.window.Window",
 {
   extend : qx.ui.popup.Popup,
 
-
+  include : qx.ui.resizer.MResizer,
 
 
   /*
@@ -208,9 +208,7 @@ qx.Class.define("qx.ui.window.Window",
     // ************************************************************************
     //   EVENTS: WINDOW
     // ************************************************************************
-    this.addEventListener("mousedown", this._onwindowmousedown, this);
-    this.addEventListener("mouseup", this._onwindowmouseup, this);
-    this.addEventListener("mousemove", this._onwindowmousemove, this);
+    this.addEventListener("mousedown", this.focus);
     this.addEventListener("click", this._onwindowclick, this);
 
     // ************************************************************************
@@ -442,31 +440,12 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
-    /** If the window is resizeable */
-    resizeable :
-    {
-      check : "Boolean",
-      init : true,
-      apply : "_modifyResizeable",
-      event : "changeResizable"
-    },
-
-
     /** If the window is moveable */
     moveable :
     {
       check : "Boolean",
       init : true,
       event : "changeMoveable"
-    },
-
-
-    /** The resize method to use */
-    resizeMethod :
-    {
-      check : [ "opaque", "lazyopaque", "frame", "translucent" ],
-      init : "frame",
-      event : "changeResizeMethod"
     },
 
 
@@ -1255,332 +1234,36 @@ qx.Class.define("qx.ui.window.Window",
 
     /*
     ---------------------------------------------------------------------------
-      EVENTS: WINDOW
+      MResizer support
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
-     */
-    _onwindowmousedown : function(e)
+    _changeWidth: function(value)
     {
-      this.focus();
-
-      if (this._resizeNorth || this._resizeSouth || this._resizeWest || this._resizeEast)
-      {
-        // enable capturing
-        this.setCapture(true);
-
-        // activate global cursor
-        this.getTopLevelWidget().setGlobalCursor(this.getCursor());
-
-        // caching element
-        var el = this.getElement();
-
-        // measuring and caching of values for resize session
-        var pa = this.getParent();
-        var pl = pa.getElement();
-
-        var l = qx.html.Location.getPageAreaLeft(pl);
-        var t = qx.html.Location.getPageAreaTop(pl);
-        var r = qx.html.Location.getPageAreaRight(pl);
-        var b = qx.html.Location.getPageAreaBottom(pl);
-
-        // handle frame and translucently
-        switch(this.getResizeMethod())
-        {
-          case "translucent":
-            this.setOpacity(0.5);
-            break;
-
-          case "frame":
-            var f = this._frame;
-
-            if (f.getParent() != this.getParent())
-            {
-              f.setParent(this.getParent());
-              qx.ui.core.Widget.flushGlobalQueues();
-            }
-
-            f._applyRuntimeLeft(qx.html.Location.getPageBoxLeft(el) - l);
-            f._applyRuntimeTop(qx.html.Location.getPageBoxTop(el) - t);
-
-            f._applyRuntimeWidth(qx.html.Dimension.getBoxWidth(el));
-            f._applyRuntimeHeight(qx.html.Dimension.getBoxHeight(el));
-
-            f.setZIndex(this.getZIndex() + 1);
-
-            break;
-        }
-
-        // create resize session
-        var s = this._resizeSession = {};
-
-        if (this._resizeWest)
-        {
-          s.boxWidth = qx.html.Dimension.getBoxWidth(el);
-          s.boxRight = qx.html.Location.getPageBoxRight(el);
-        }
-
-        if (this._resizeWest || this._resizeEast)
-        {
-          s.boxLeft = qx.html.Location.getPageBoxLeft(el);
-
-          s.parentAreaOffsetLeft = l;
-          s.parentAreaOffsetRight = r;
-
-          s.minWidth = this.getMinWidthValue();
-          s.maxWidth = this.getMaxWidthValue();
-        }
-
-        if (this._resizeNorth)
-        {
-          s.boxHeight = qx.html.Dimension.getBoxHeight(el);
-          s.boxBottom = qx.html.Location.getPageBoxBottom(el);
-        }
-
-        if (this._resizeNorth || this._resizeSouth)
-        {
-          s.boxTop = qx.html.Location.getPageBoxTop(el);
-
-          s.parentAreaOffsetTop = t;
-          s.parentAreaOffsetBottom = b;
-
-          s.minHeight = this.getMinHeightValue();
-          s.maxHeight = this.getMaxHeightValue();
-        }
-      }
-      else
-      {
-        // cleanup resize session
-        delete this._resizeSession;
-      }
-
-      // stop event
-      e.stopPropagation();
+      this.setWidth(value);
     },
 
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
-     */
-    _onwindowmouseup : function(e)
+    _changeHeight: function(value)
     {
-      var s = this._resizeSession;
-
-      if (s)
-      {
-        // disable capturing
-        this.setCapture(false);
-
-        // deactivate global cursor
-        this.getTopLevelWidget().setGlobalCursor(null);
-
-        // sync sizes to frame
-        switch(this.getResizeMethod())
-        {
-          case "frame":
-            var o = this._frame;
-
-            if (!(o && o.getParent())) {
-              break;
-            }
-
-            // no break here
-
-          case "lazyopaque":
-            if (s.lastLeft != null) {
-              this.setLeft(s.lastLeft);
-            }
-
-            if (s.lastTop != null) {
-              this.setTop(s.lastTop);
-            }
-
-            if (s.lastWidth != null) {
-              this.setWidth(s.lastWidth);
-            }
-
-            if (s.lastHeight != null) {
-              this.setHeight(s.lastHeight);
-            }
-
-            if (this.getResizeMethod() == "frame") {
-              this._frame.setParent(null);
-            }
-
-            break;
-
-          case "translucent":
-            this.setOpacity(null);
-            break;
-        }
-
-        // cleanup session
-        delete this._resizeNorth;
-        delete this._resizeEast;
-        delete this._resizeSouth;
-        delete this._resizeWest;
-
-        delete this._resizeSession;
-      }
-
-      // stop event
-      e.stopPropagation();
+      this.setHeight(value);
     },
 
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param p {var} TODOC
-     * @param e {Event} TODOC
-     * @return {var} TODOC
-     */
-    _near : function(p, e) {
-      return e > (p - 5) && e < (p + 5);
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
-     */
-    _onwindowmousemove : function(e)
+    _getResizeParent: function()
     {
-      if (!this.getResizeable() || this.getMode() != null) {
-        return;
-      }
-
-      var el = this.getElement();
-      var pageX = e.getPageX() + qx.html.Scroll.getLeftSum(el);
-      var pageY = e.getPageY() + qx.html.Scroll.getTopSum(el);
-
-
-      var s = this._resizeSession;
-
-      if (s)
-      {
-        if (this._resizeWest)
-        {
-          s.lastWidth = qx.lang.Number.limit(s.boxWidth + s.boxLeft - Math.max(pageX, s.parentAreaOffsetLeft), s.minWidth, s.maxWidth);
-          s.lastLeft = s.boxRight - s.lastWidth - s.parentAreaOffsetLeft;
-        }
-        else if (this._resizeEast)
-        {
-          s.lastWidth = qx.lang.Number.limit(Math.min(pageX, s.parentAreaOffsetRight) - s.boxLeft, s.minWidth, s.maxWidth);
-        }
-
-        if (this._resizeNorth)
-        {
-          s.lastHeight = qx.lang.Number.limit(s.boxHeight + s.boxTop - Math.max(pageY, s.parentAreaOffsetTop), s.minHeight, s.maxHeight);
-          s.lastTop = s.boxBottom - s.lastHeight - s.parentAreaOffsetTop;
-        }
-        else if (this._resizeSouth)
-        {
-          s.lastHeight = qx.lang.Number.limit(Math.min(pageY, s.parentAreaOffsetBottom) - s.boxTop, s.minHeight, s.maxHeight);
-        }
-
-        switch(this.getResizeMethod())
-        {
-          case "opaque":
-          case "translucent":
-            if (this._resizeWest || this._resizeEast)
-            {
-              this.setWidth(s.lastWidth);
-
-              if (this._resizeWest) {
-                this.setLeft(s.lastLeft);
-              }
-            }
-
-            if (this._resizeNorth || this._resizeSouth)
-            {
-              this.setHeight(s.lastHeight);
-
-              if (this._resizeNorth) {
-                this.setTop(s.lastTop);
-              }
-            }
-
-            break;
-
-          default:
-            var o = this.getResizeMethod() == "frame" ? this._frame : this;
-
-            if (this._resizeWest || this._resizeEast)
-            {
-              o._applyRuntimeWidth(s.lastWidth);
-
-              if (this._resizeWest) {
-                o._applyRuntimeLeft(s.lastLeft);
-              }
-            }
-
-            if (this._resizeNorth || this._resizeSouth)
-            {
-              o._applyRuntimeHeight(s.lastHeight);
-
-              if (this._resizeNorth) {
-                o._applyRuntimeTop(s.lastTop);
-              }
-            }
-        }
-      }
-      else
-      {
-        var resizeMode = "";
-
-        this._resizeNorth = this._resizeSouth = this._resizeWest = this._resizeEast = false;
-
-        if (this._near(qx.html.Location.getPageBoxTop(el), pageY))
-        {
-          resizeMode = "n";
-          this._resizeNorth = true;
-        }
-        else if (this._near(qx.html.Location.getPageBoxBottom(el), pageY))
-        {
-          resizeMode = "s";
-          this._resizeSouth = true;
-        }
-
-        if (this._near(qx.html.Location.getPageBoxLeft(el), pageX))
-        {
-          resizeMode += "w";
-          this._resizeWest = true;
-        }
-        else if (this._near(qx.html.Location.getPageBoxRight(el), pageX))
-        {
-          resizeMode += "e";
-          this._resizeEast = true;
-        }
-
-        if (this._resizeNorth || this._resizeSouth || this._resizeWest || this._resizeEast) {
-          this.setCursor(resizeMode + "-resize");
-        } else {
-          this.setCursor(null);
-        }
-      }
-
-      // stop event
-      e.stopPropagation();
-
-      // prevent default (IE7 selection stop)
-      // See also bug #311
-      e.preventDefault();
+      return this.getParent();
     },
+
+    _getMinSizeReference: function()
+    {
+      return this;
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENTS: WINDOW
+    ---------------------------------------------------------------------------
+    */
 
 
     /**
@@ -1876,7 +1559,7 @@ qx.Class.define("qx.ui.window.Window",
 
   destruct : function()
   {
-    this._disposeObjects("_layout", "_frame", "_captionBar", "_captionIcon",
+    this._disposeObjects("_layout", "_captionBar", "_captionIcon",
       "_captionTitle", "_captionFlex", "_closeButton", "_minimizeButton",
       "_maximizeButton", "_restoreButton", "_pane", "_statusBar", "_statusText");
   }
