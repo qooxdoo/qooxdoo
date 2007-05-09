@@ -363,7 +363,11 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
 
       // Default column titles
       model.setColumns(this.getColumnHeaders());
-      var l = this._list = new qx.ui.table.Table(model);
+      var l = this._list = new qx.ui.table.Table(model, {
+        tableColumnModel : function(obj) {
+          return new qx.ui.table.ResizeTableColumnModel(obj);
+        }
+      });
       l.setFocusedCell = function() {};
       l.setAppearance('combo-box-ex-list');
       l.setLocation(0, 0);
@@ -392,7 +396,6 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       this._manager.setSelectionMode(qx.ui.table.SelectionModel.SINGLE_SELECTION);
       this._popup.add(new qx.ui.resizer.Resizer(l));
 
-      // Invalidate calculation of column widths
       this._invalidateDimensions();
 
       if (this._data)
@@ -874,6 +877,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       width = data.length > maxRows ? (new qx.ui.core.ScrollBar)._getScrollBarWidth() : 0, colModel = this._list.getTableColumnModel();
 
       this._modifyShowColumnHeaders(this.getShowColumnHeaders());
+      var beh = this._list.getTableColumnModel().getBehavior();
 
       // ##Size each column
       for (col=0; col<nCols; col++)
@@ -887,7 +891,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
             w = Math.max(w, this._getTextWidth(cols[col]));
           }
           w += 8;
-          this._list.setColumnWidth(col, w);
+          beh.setWidth(col, w+'*');
           width += w;
         }
       }
