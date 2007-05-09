@@ -735,7 +735,7 @@ qx.Class.define("qx.core.Property",
           // Must be above the comparision between old and new, because otherwise previously unset
           // values get not detected and will be quitely ignored which is a bad behavior.
           code.push('if(value===undefined)');
-          code.push('throw new Error("Undefined value for property ', name, ' of class \'"+this.constructor.classname+"\' is not allowed!");');
+          code.push('throw new Error("Undefined value for property \'', name, '\' of class \'"+this.constructor.classname+"\' is not allowed!");');
 
           // Check argument length
           if (qx.core.Variant.isSet("qx.debug", "on")) {
