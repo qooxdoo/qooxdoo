@@ -25,6 +25,19 @@ qx.Class.define("qx.ui.resizer.ResizeablePopup",
   extend : qx.ui.popup.Popup,
   include : qx.ui.resizer.MResizer,
 
+  construct : function()
+  {
+    this.base(arguments);
+
+    this.initMinWidth();
+    this.initMinHeight();
+    this.initWidth();
+    this.initHeight();
+  },
+
+
+
+
   /*
   *****************************************************************************
      PROPERTIES
@@ -64,6 +77,11 @@ qx.Class.define("qx.ui.resizer.ResizeablePopup",
     }
   },
 
+
+
+
+
+
   members:
   {
     /*
@@ -72,23 +90,19 @@ qx.Class.define("qx.ui.resizer.ResizeablePopup",
     ---------------------------------------------------------------------------
     */
 
-    _changeWidth: function(value)
-    {
+    _changeWidth: function(value) {
       this.setWidth(value);
     },
 
-    _changeHeight: function(value)
-    {
+    _changeHeight: function(value) {
       this.setHeight(value);
     },
 
-    _getResizeParent: function()
-    {
+    _getResizeParent: function() {
       return this.getParent();
     },
 
-    _getMinSizeReference: function()
-    {
+    _getMinSizeReference: function() {
       return this;
     }
   }

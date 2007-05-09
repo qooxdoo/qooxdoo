@@ -36,8 +36,10 @@
 qx.Class.define("qx.ui.resizer.Resizer",
 {
   extend : qx.ui.layout.CanvasLayout,
-
   include : qx.ui.resizer.MResizer,
+
+
+
 
 
   /*
@@ -64,6 +66,8 @@ qx.Class.define("qx.ui.resizer.Resizer",
       this.add(this._child = child);
     }
   },
+
+
 
 
   /*
@@ -105,6 +109,10 @@ qx.Class.define("qx.ui.resizer.Resizer",
     }
   },
 
+
+
+
+
   /*
   *****************************************************************************
      MEMBERS
@@ -118,6 +126,7 @@ qx.Class.define("qx.ui.resizer.Resizer",
       MResizer support
     ---------------------------------------------------------------------------
     */
+
     _changeWidth: function(value)
     {
       var child = this.getChildren()[0];
@@ -130,13 +139,11 @@ qx.Class.define("qx.ui.resizer.Resizer",
       child && child.setHeight(value);
     },
 
-    _getResizeParent: function()
-    {
+    _getResizeParent: function() {
       return this.getTopLevelWidget();
     },
 
-    _getMinSizeReference: function()
-    {
+    _getMinSizeReference: function() {
       return this._child;
     }
   }
