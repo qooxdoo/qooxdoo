@@ -646,7 +646,6 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       var f = this._field;
       f.setReadOnly(!propValue);
       f.setCursor(propValue ? null : "default");
-      f.setSelectable(propValue);
       // When turning off editable, maybe the current value isn't valid
       /*if (!propValue && this._list)
       {
