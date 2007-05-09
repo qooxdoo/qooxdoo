@@ -490,10 +490,8 @@ qx.Class.define("qx.ui.form.TextField",
     {
       var inp = this._inputElement;
 
-      if (inp)
-      {
-        var value = this.__color;
-        inp.style.color = value || "";
+      if (inp) {
+        inp.style.color = this.__color || "";
       }
     },
 
