@@ -455,6 +455,13 @@ qx.Class.define("qx.core.Property",
 
       for (var i=0, a=config.group, l=a.length; i<l; i++)
       {
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {
+          if (!this.$$method.set[a[i]]||!this.$$method.reset[a[i]]) {
+            throw new Error("Cannot create property group '" + name + "' including non-existing property '" + a[i] + "'!");
+          }
+        }
+
         setter.push("this.", this.$$method.set[a[i]], "(a[", i, "]);");
         resetter.push("this.", this.$$method.reset[a[i]], "(a[", i, "]);");
 
