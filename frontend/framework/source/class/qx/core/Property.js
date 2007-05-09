@@ -559,7 +559,7 @@ qx.Class.define("qx.core.Property",
 
       if (config.check === "Boolean")
       {
-        members[prefix + "toggle" + postfix] = new Function("return this." + method.set[name] + "(!" + method.get[name] + ")");
+        members[prefix + "toggle" + postfix] = new Function("return this." + method.set[name] + "(!this." + method.get[name] + "())");
         members[prefix + "is" + postfix] = new Function("return this." + method.get[name] + "()");
       }
     },
