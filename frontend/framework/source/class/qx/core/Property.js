@@ -303,7 +303,7 @@ qx.Class.define("qx.core.Property",
 
           if (properties)
           {
-            for (name in this.$$inheritable)
+            for (var name in this.$$inheritable)
             {
               if (properties[name])
               {
