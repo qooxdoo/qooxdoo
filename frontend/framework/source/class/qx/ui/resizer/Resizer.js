@@ -52,8 +52,6 @@ qx.Class.define("qx.ui.resizer.Resizer",
   {
     this.base(arguments);
 
-    this._registerResizeEvents();
-
     this.initMinWidth();
     this.initMinHeight();
     this.initWidth();
