@@ -43,6 +43,9 @@
  * <li>Search values through popup dialog</li>
  * <li>Internationalization support of messages</li>
  * <li>List resizeable by the end user both in width and height, by using the mouse</li>
+ * <li>Lazy creation of the popup, sometimes in a form with a lot of combos,
+ *     only a subset of them are used by the end user.</li>
+ * <li>Quite configurable</li>
  * </ul>
  * <p>Pending features:</p>
  * <ul>
@@ -72,14 +75,6 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
   construct : function()
   {
     this.base(arguments);
-
-    // Popup
-    var p = this._popup = new qx.ui.popup.Popup;
-    p.setAppearance('combo-box-ex-popup');
-    p.setHeight("auto");
-
-    // List
-    this._createList([ this.tr("ID"), this.tr("Description") ]);
 
     // Textfield
     var f = this._field = new qx.ui.form.TextField;
@@ -117,8 +112,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
 
     this.addEventListener("keydown", this._onkeydown);
     this.addEventListener("keypress", this._onkeypress);
-    this.addEventListener("beforeDisappear", this._testClosePopup);
-    this._popup.addEventListener("appear", this._onpopupappear, this);
+    this.addEventListener("beforeDisappear", this._closePopup);
 
     // Initialize properties
     this.initWidth();
@@ -219,7 +213,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
     {
       check : "Boolean",
       init : false,
-      apply : "_modifyIdColumnVisible"
+      apply : "_recreateList" //"_modifyIdColumnVisible"
     },
 
     /** Only used when editable is false.  It determines what to show in the text field of the combo box. */
@@ -245,7 +239,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       init : true
     },
 
-	/** Show column headers in the popup list?.  Default value is "Auto" and means to show headers if there is more than one visible column.*/
+  /** Show column headers in the popup list?.  Default value is "Auto" and means to show headers if there is more than one visible column.*/
     showColumnHeaders :
     {
       check : [ "always", "never", "auto" ],
@@ -265,8 +259,17 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
     {
       check : "Integer",
       init : 10,
-      apply : "_modifyMaxVisibleRows"
+      apply : "_invalidateDimensions"  // Invalidate this._list.height
+    },
+
+    /** The header of each column in the list. */
+    columnHeaders :
+    {
+        check: "Array",
+        init: [ qx.locale.Manager.tr("ID"), qx.locale.Manager.tr("Description") ],
+        apply: "_recreateList"
     }
+
   },
 
 
@@ -287,10 +290,10 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
     */
 
     /**
-     * TODOC
+     * Returns a reference to the popup component.
      *
      * @type member
-     * @return {var} TODOC
+     * @return {var} undefined if the popup component isn't created.  The popup is lazy created when displayed.
      */
     getPopup : function() {
       return this._popup;
@@ -298,10 +301,10 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
 
 
     /**
-     * TODOC
+     * Returns a reference to the popup list.
      *
      * @type member
-     * @return {var} TODOC
+     * @return {qx.ui.table.Table} undefined if hasn't been created yet.  The list is lazy created when displayed.
      */
     getList : function() {
       return this._list;
@@ -309,10 +312,10 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
 
 
     /**
-     * TODOC
+     * Returns a reference to the field.
      *
      * @type member
-     * @return {var} TODOC
+     * @return {qx.ui.core.Widget} label or textbox, depending if the combo is editable or not.
      */
     getField : function() {
       return this._field;
@@ -339,7 +342,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
     getSelectedRow : function()
     {
       var ind = this.getSelectedIndex();
-      return ind < 0 ? null : this._model.getData()[ind];
+      return ind < 0 ? null : this.getSelection()[ind];
     },
 
 
@@ -350,13 +353,17 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      * @param columns {var} TODOC
      * @return {void}
      */
-    _createList : function(columns)
+    _createList : function()
     {
-      this._model = new qx.ui.table.SimpleTableModel;
+      if (!this._popup)
+      {
+        return;
+      }
+      var model = new qx.ui.table.SimpleTableModel;
 
       // Default column titles
-      this._model.setColumns(columns);
-      var l = this._list = new qx.ui.table.Table(this._model);
+      model.setColumns(this.getColumnHeaders());
+      var l = this._list = new qx.ui.table.Table(model);
       l.setFocusedCell = function() {};
       l.setAppearance('combo-box-ex-list');
       l.setLocation(0, 0);
@@ -372,7 +379,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
         oldHandle.apply(selMan, arguments);
 
         if (e.isLeftButtonPressed()) {
-          me._testClosePopup();
+          me._closePopup();
         }
       };
 
@@ -386,10 +393,31 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       this._popup.add(new qx.ui.resizer.Resizer(l));
 
       // Invalidate calculation of column widths
-      delete this._calcDimensions;
+      this._invalidateDimensions();
+
+      if (this._data)
+      {
+        this.setSelection(this._data);
+      }
     },
 
+    /**
+     * Forces the list to be recreated next time.
+     * @return {void}
+     */
+    _recreateList: function()
+    {
+      this._closePopup();
+      this._popup && this._popup.removeAll();
+      this._disposeObjects("_popup", "_list", "_manager");
+    },
 
+    /**Invalidate the calculated of dimensions
+     * @return {void}*/
+    _invalidateDimensions: function()
+    {
+      delete this._calcDimensions;
+    },
 
 
     /*
@@ -399,69 +427,13 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
     */
 
     /**
-     * Sets the header for each column.
-     *
-     * @type member
-     * @param columns {String[]} TODOC
-     * @return {void}
-     */
-    setColumnHeaders : function(columns)
-    {
-      if (!this._list || columns.length != this._model.getColumnCount())
-      {
-        if (this._list)
-        {
-          var data = this._model.getData();
-          this._list.setParent(null);
-          this._list.dispose();
-          this._list = null;
-        }
-
-        this._createList(columns);
-
-        if (data && data.length) {
-          this._model.setData(data);
-        }
-      }
-      else
-      {
-        this._model.setColumns(columns);
-        this._list.getTableColumnModel().init(columns.length);
-        delete this._calcDimensions;
-      }
-
-      this._modifyIdColumnVisible(this.getIdColumnVisible());
-    },
-
-
-    /**
-     * Getter for {@link #setColumnHeaders}.
-     *
-     * @type member
-     * @param propVal {var} TODOC
-     * @return {String[]} TODOC
-     */
-    getColumnHeaders : function(propVal)
-    {
-      var cols = [];
-      cols.length = this._model.getColumnCount();
-
-      for (var col=0; col<cols.length; col++) {
-        cols[col] = this._model.getColumnName(col);
-      }
-
-      return cols;
-    },
-
-
-    /**
      * Sets the list of selectable items.
      *
      * @type member
      * @param data {var[][]} Array of values.  Its value is an array, with the following info:<ul>.
      *    <li>Column 0 represents the ID, i.e. the value that is stored internally and used by the app.</li>
      *    <li>Column 1 represents the description, the text that the end user normally sees.</li>
-     *    <li>Columns > 1 will also be shown in the popup list, it you have set the appropiate column headers with {@link #setColumnHeaders}.</li>
+     *    <li>Columns > 1 will also be shown in the popup list, it you have set the appropiate column headers with the property {@link #columnHeaders}.</li>
      *    </ul>
      * @param newValue {String} optional, the new value to set.
      *                     If not specified or null, it will try to preserve the previous value.
@@ -470,20 +442,24 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      */
     setSelection : function(data, newValue)
     {
+      this._data = data;
       // Invalidate calculation of column widths
-      delete this._calcDimensions;
-      this._model.setData(data);
-
-      // Try to preserve currently selected value
-      if (!this.getEditable())
+      this._invalidateDimensions();
+      if (this._list)
       {
-        if (newValue != null && newValue != this.getValue()) {
-          this.setValue(newValue);
-        }
-        else
+        this._list.getTableModel().setData(data);
+
+        // Try to preserve currently selected value
+        if (!this.getEditable())
         {
-          // Checks if the value is in the list, and recalculates the selected index
-          this._modifyValue(this.getValue());
+          if (newValue != null && newValue != this.getValue()) {
+            this.setValue(newValue);
+          }
+          else
+          {
+            // Checks if the value is in the list, and recalculates the selected index
+            this._modifyValue(this.getValue());
+          }
         }
       }
     },
@@ -493,10 +469,10 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      * Getter for {@link #setSelection}.
      *
      * @type member
-     * @return {Array} TODOC
+     * @return {Array} the list of selectable items.
      */
     getSelection : function() {
-      return this._model.getData();
+      return this._data || [];
     },
 
 
@@ -505,7 +481,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      *
      * @type member
      * @param index {number} -1 means no selected index
-     * @return {Boolean} TODOC
+     * @return {void}
      */
     setSelectedIndex : function(index)
     {
@@ -513,26 +489,30 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
 
       if (items >= 0)
       {
-        if (index < 0 && !this.getEditable() && this.getEnsureSomethingSelected()) {
+        if (index < 0 && !this.getEditable() && this.getEnsureSomethingSelected())
+        {
           index = 0;
         }
 
         if (index >= 0)
         {
           index = qx.lang.Number.limit(index, 0, items - 1);
-          this._manager.setSelectionInterval(index, index);
-
-          if (this._popup.isSeeable()) {
-            this._list.scrollCellVisible(0, index);
+          if (this._manager)
+          {
+            this._manager.setSelectionInterval(index, index);
+            this._popup.isSeeable() && this._list.scrollCellVisible(0, index);
+          }
+          else
+          {
+            // List not created yet
+            this._onChangeSelection(index);
           }
         }
         else
         {
-          this._manager.clearSelection();
+          this._manager && this._manager.clearSelection();
         }
       }
-
-      return true;
     },
 
 
@@ -540,12 +520,28 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      * Getter for {@link #setSelectedIndex}.
      *
      * @type member
-     * @return {var} TODOC
+     * @return {number} -1 if nothing selected or >=0.
      */
     getSelectedIndex : function()
     {
-      var index = this._manager.getAnchorSelectionIndex();
-      return this._manager.isSelectedIndex(index) ? index : -1;
+      if (this._manager)
+      {
+        var index = this._manager.getAnchorSelectionIndex();
+        return this._manager.isSelectedIndex(index) ? index : -1;
+      }
+      else
+      {
+        // List not created yet
+        var data = this.getSelection(), val = this.getValue();
+        for (var i = 0; i < data.length; i++)
+        {
+          if (data[i][0] == val)
+          {
+            return i;
+          }
+        }
+        return -1;
+      }
     },
 
 
@@ -569,10 +565,8 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       if (!this.getEditable())
       {
         this.setSelectedIndex(this.getSelectedIndex());
-        delete this._calcDimensions; // Invalidate this._neededTextFieldWidth
+        this._invalidateDimensions(); // Invalidate this._neededTextFieldWidth
       }
-
-      return true;
     },
 
 
@@ -580,21 +574,8 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
-     */
-    _modifyMaxVisibleRows : function()
-    {
-      delete this._calcDimensions; // Invalidate this._list.height
-      return true;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propVal {var} TODOC
-     * @return {var} TODOC
+     * @param propValue {var} Current value
+     * @return {Boolean}
      */
     _checkIdDescriptionSeparator : function(propVal)
     {
@@ -607,18 +588,16 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      * TODOC
      *
      * @type member
-     * @param propVal {var} TODOC
-     * @return {Boolean} TODOC
+     * @param propValue {var} Current value
+     * @return {void}
      */
     _modifyIdDescriptionSeparator : function(propVal)
     {
       if (!this.getEditable() && this.getShowOnTextField() == 'idAndDescription')
       {
         this.setSelectedIndex(this.getSelectedIndex());
-        delete this._calcDimensions; // Invalidate this._neededTextFieldWidth
+        this._invalidateDimensions(); // Invalidate this._neededTextFieldWidth
       }
-
-      return true;
     },
 
 
@@ -626,14 +605,16 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      * TODOC
      *
      * @type member
-     * @param propVal {var} TODOC
-     * @return {Boolean} TODOC
+     * @param propValue {var} Current value
+     * @return {void}
      */
     _modifyIdColumnVisible : function(propVal)
     {
-      this._list.getTableColumnModel().setColumnVisible(0, propVal);
-      delete this._calcDimensions;
-      return true;
+      if (this._list)
+      {
+        this._list.getTableColumnModel().setColumnVisible(0, propVal);
+        this._invalidateDimensions();
+      }
     },
 
     /**
@@ -641,7 +622,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      *
      * @type member
      * @param propValue {var} Current value
-     * @return {Boolean} Success
+     * @return {void}
      */
     _modifyShowColumnHeaders: function(propVal)
     {
@@ -650,7 +631,6 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
         this.hasHeaders = propVal == 'always' || propVal == 'auto' && this._list.getTableColumnModel().getVisibleColumnCount() > 1;
         this._list.getPaneScroller(0).getHeader().setHeight(this.hasHeaders ? 'auto' : 1);
       }
-      return true;
     },
 
     /**
@@ -658,7 +638,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      *
      * @type member
      * @param propValue {var} Current value
-     * @return {Boolean} Success
+     * @return {void}
      */
     _modifyEditable : function(propValue) /* , propOldValue, propData */
     {
@@ -670,9 +650,8 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       // When turning off editable, maybe the current value isn't valid
       /*if (!propValue && this._list)
       {
-      	this.setValue(this.getValue());
+        this.setValue(this.getValue());
       }*/
-      return true;
     },
 
 
@@ -683,41 +662,40 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      * @param propValue {var} Current value
      * @return {Boolean} TODOC
      */
-    _modifyValue : function(propValue) /* , propOldValue, propData */
+    _modifyValue : function(propValue/*, propOldValue, propData */)
     {
-
       this._fromValue = true;
-
-      var values = this._model.getData();
-      var i = -1;
-
-      if (propValue != null)
+      try
       {
-        for (var i=0; i<values.length; i++)
+        var values = this.getSelection();
+        var i = -1;
+
+        if (propValue != null)
         {
-          if (propValue == values[i][0]) {
-            break;
+          for (var i=0; i<values.length; i++)
+          {
+            if (propValue == values[i][0]) {
+              break;
+            }
+          }
+          if (i == values.length) {
+            i = -1;
           }
         }
-
-        if (i == values.length) {
-          i = -1;
+        if (this.getEditable()) {
+          this._field.setValue(propValue);
+        }
+        // only do this if we called setValue separately
+        // and not from the property "selected".
+        if (!this._fromSelected) {
+          this.setSelectedIndex(i);
         }
       }
-
-      if (this.getEditable()) {
-        this._field.setValue(propValue);
+      finally
+      {
+        // reset hint
+        delete this._fromValue;
       }
-
-      // only do this if we called setValue separately
-      // and not from the property "selected".
-      if (!this._fromSelected) {
-        this.setSelectedIndex(i);
-      }
-
-      // reset hint
-      delete this._fromValue;
-      return true;
     },
 
 
@@ -728,34 +706,48 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       POPUP HELPER
     ---------------------------------------------------------------------------
     */
-
     _oldSelected : null,
+
+    /**
+     * Creates the popup if necessary with its list.
+     *
+     * @type member
+     * @return {void}
+     */
+    _createPopup: function()
+    {
+      var p = this._popup;
+      if (!p)
+      {
+        var p = this._popup = new qx.ui.popup.Popup;
+        p.setAppearance('combo-box-ex-popup');
+        p.setHeight("auto");
+        p.addEventListener("appear", this._onpopupappear, this);
+        this.createDispatchEvent("beforeInitialOpen");
+      }
+      if (!this._list)
+      {
+        this._createList();
+      }
+    },
 
 
     /**
-     * TODOC
+     * Opens the popup (and creates it if necessary).
      *
      * @type member
      * @return {void}
      */
     _openPopup : function()
     {
-      if (this.isSearchInProgress()) {
+      if (this.isSearchInProgress() || !this.getSelection().length)
+      {
         return;
       }
-
+      this._createPopup();
       var p = this._popup;
       p.setAutoHide(false);
       var el = this.getElement();
-
-      if (!p.isCreated()) {
-        this.createDispatchEvent("beforeInitialOpen");
-      }
-
-      if (!this.getSelection().length) {
-        return;
-      }
-
       p.positionRelativeTo(el, 1, qx.html.Dimension.getBoxHeight(el));
       this._calculateDimensions();
       p.setParent(this.getTopLevelWidget());
@@ -776,21 +768,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      * @return {void}
      */
     _closePopup : function() {
-      this._popup.hide();
-    },
-
-
-    /**
-     * Hide the popup list only when needed.
-     *
-     * @type member
-     * @return {void}
-     */
-    _testClosePopup : function()
-    {
-      if (this._popup.isSeeable()) {
-        this._closePopup();
-      }
+      this._popup && this._popup.hide();
     },
 
 
@@ -801,7 +779,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      * @return {void}
      */
     _togglePopup : function() {
-      this._popup.isSeeable() ? this._closePopup() : this._openPopup();
+      this._popup && this._popup.isSeeable() ? this._closePopup() : this._openPopup();
     },
 
 
@@ -837,7 +815,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       if (this._calcDimensions)
       {
         // Already calculated
-        return ;
+        return;
       }
 
       var data = this.getSelection();
@@ -958,10 +936,10 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      * Does this combo have the searched dialog open?
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Boolean}
      */
     isSearchInProgress : function() {
-      return !this._popup.contains(this._list);
+      return this._popup && this._list && !this._popup.contains(this._list);
     },
 
 
@@ -980,7 +958,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
         return;
       }
 
-      var row = startIndex, nCols = this._model.getColumnCount(), nRows = this.getSelection().length, data = this._model.getData();
+      var row = startIndex, nCols = this._list.getTableModel().getColumnCount(), nRows = this.getSelection().length, data = this.getSelection();
 
       if (!caseSens) {
         txt = txt.toLowerCase();
@@ -1038,7 +1016,9 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
         return;
       }
 
-      this._testClosePopup();
+      this._closePopup();
+      // Force the list to be created
+      this._createPopup();
 
       var me = this, oldSelectedIndex = this.getSelectedIndex(), startIndex = oldSelectedIndex;
 
@@ -1087,11 +1067,8 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
 
       var newListSettings =
       {
-        /* minHeight: border.getTopWidth()+this._list.getHeight()+border.getBottomWidth(),
-        height: '1*', */
-
-        height : border.getTopWidth() + this._list.getHeight() + border.getBottomWidth(),
-        width  : border.getLeftWidth() + this._list.getWidth() + border.getRightWidth(),
+        height : 2/*border.getTopWidth()*/ + this._list.getHeight() + 2/*border.getBottomWidth()*/,
+        width  : 2/*border.getLeftWidth()*/ + this._list.getWidth() + 2/*border.getRightWidth()*/,
         border : border,
         parent : vbox
       };
@@ -1222,57 +1199,61 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
     */
 
     /**
-     * TODOC
+     * Event handler from changing the selected index.
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {var} event or row index (when called from {@link #setSelectedIndex()}).
      * @return {void}
      */
     _onChangeSelection : function(e)
     {
       this._fromSelected = true;
-
-      // only do this if we called setValue separately
-      // and not from the event "input".
-      if (!this._fromInput)
+      try
       {
-        var index = this.getSelectedIndex();
-
-        if (index >= 0) {
-          var row = this._model.getData()[index];
-        }
-
-        if (row || !this.getEditable()) {
-          this.setValue(row && row[0]);
-        }
-
-        // In case of editable, this.setValue() already calls this._field.setValue()
-        if (!this.getEditable())
+        // only do this if we called setValue separately
+        // and not from the event "input".
+        if (!this._fromInput)
         {
-          var val = "";
-          if (row)
-          {
-            switch (this.getShowOnTextField())
-            {
-              case 'idAndDescription':
-               val = row[0] + this.getIdDescriptionSeparator() + row[1];
-               break;
-              case 'id':
-               val = row[0];
-               break;
-              case 'description':
-               val = row[1];
-               break;
-              default:
-                this.warn('unexpected '+this.getShowOnTextField());
-            }
+          var index = typeof e == 'number' ? e:this.getSelectedIndex();
+
+          if (index >= 0) {
+            var row = this.getSelection()[index];
           }
-          this._field.setValue(val);
+
+          if (row || !this.getEditable()) {
+            this.setValue(row && row[0]);
+          }
+
+          // In case of editable, this.setValue() already calls this._field.setValue()
+          if (!this.getEditable())
+          {
+            var val = "";
+            if (row)
+            {
+              switch (this.getShowOnTextField())
+              {
+                case 'idAndDescription':
+                 val = row[0] + this.getIdDescriptionSeparator() + row[1];
+                break;
+                case 'id':
+                 val = row[0];
+                 break;
+                case 'description':
+                 val = row[1];
+                 break;
+                default:
+                  this.warn('unexpected '+this.getShowOnTextField());
+              }
+            }
+            this._field.setValue(val);
+          }
         }
       }
-
-      // reset hint
-      delete this._fromSelected;
+      finally
+      {
+        // reset hint
+        delete this._fromSelected;
+      }
     },
 
 
@@ -1382,7 +1363,8 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      */
     _onmousewheel : function(e)
     {
-      if (!this._popup.isSeeable()) {
+      if (!this._popup || !this._popup.isSeeable())
+      {
         this.setSelectedIndex(Math.max(0, this.getSelectedIndex() + (e.getWheelDelta() < 0 ? -1 : 1)));
       }
     },
@@ -1405,7 +1387,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      */
     _onkeydown : function(e)
     {
-      var vVisible = this._popup.isSeeable();
+      var vVisible = this._popup && this._popup.isSeeable();
 
       switch(e.getKeyIdentifier())
       {
@@ -1492,7 +1474,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      */
     _onkeypress : function(e)
     {
-      var vVisible = this._popup.isSeeable();
+      var vVisible = this._popup && this._popup.isSeeable();
 
       switch(e.getKeyIdentifier())
       {
@@ -1633,6 +1615,6 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       this._popup.setParent(null);
     }
 
-    this._disposeObjects("_model", "_popup", "_list", "_manager", "_field", "_button");
+    this._disposeObjects("_popup", "_list", "_manager", "_field", "_button");
   }
 });
