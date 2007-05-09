@@ -697,7 +697,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
       style : function(states)
       {
-        return result = {
+        return {
           padding : states.pressed || states.abandoned ? [ 2, 1, 0, 3] : [ 1, 2 ]
         };
       }
