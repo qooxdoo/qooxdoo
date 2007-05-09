@@ -25,6 +25,45 @@ qx.Class.define("qx.ui.resizer.ResizeablePopup",
   extend : qx.ui.popup.Popup,
   include : qx.ui.resizer.MResizer,
 
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties:
+  {
+    appearance :
+    {
+      refine : true,
+      init : "resizer"
+    },
+
+    minWidth :
+    {
+      refine : true,
+      init : "auto"
+    },
+
+    minHeight :
+    {
+      refine : true,
+      init : "auto"
+    },
+
+    width :
+    {
+      refine : true,
+      init : "auto"
+    },
+
+    height :
+    {
+      refine : true,
+      init : "auto"
+    }
+  },
+
   members:
   {
     /*
