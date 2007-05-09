@@ -346,17 +346,6 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
 
 
     /**
-     * Alias for {@link #addToFolder}.
-     *
-     * @type member
-     * @param vChild {var} TODOC
-     * @param vBefore {var} TODOC
-     * @return {var} TODOC
-     */
-    add : function(vChild, vBefore) {},
-
-
-    /**
      * TODOC
      *
      * @type member
@@ -370,17 +359,6 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
         return this._containerObject.add.apply(this._containerObject, arguments);
       }
     },
-
-
-    /**
-     * Alias for {@link #addBeforeToFolder}.
-     *
-     * @type member
-     * @param vChild {var} TODOC
-     * @param vBefore {var} TODOC
-     * @return {var} TODOC
-     */
-    addBefore : function(vChild, vBefore) {},
 
 
     /**
@@ -404,17 +382,6 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
 
 
     /**
-     * Alias for {@link #addAfterToFolder}.
-     *
-     * @type member
-     * @param vChild {var} TODOC
-     * @param vBefore {var} TODOC
-     * @return {var} TODOC
-     */
-    addAfter : function(vChild, vBefore) {},
-
-
-    /**
      * TODOC
      *
      * @type member
@@ -432,17 +399,6 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
         return this._containerObject.addAfter.apply(this._containerObject, arguments);
       }
     },
-
-
-    /**
-     * Alias for {@link #addAtToFolder}.
-     *
-     * @type member
-     * @param vChild {var} TODOC
-     * @param vBefore {var} TODOC
-     * @return {var} TODOC
-     */
-    addAt : function(vChild, vBefore) {},
 
 
     /**
@@ -466,17 +422,6 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
 
 
     /**
-     * Alias for {@link #addAtBeginToFolder}.
-     *
-     * @type member
-     * @param vChild {var} TODOC
-     * @param vBefore {var} TODOC
-     * @return {var} TODOC
-     */
-    addAtBegin : function(vChild, vBefore) {},
-
-
-    /**
      * TODOC
      *
      * @type member
@@ -486,17 +431,6 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
     addAtBeginToFolder : function(vChild) {
       return this.addAtToFolder(vChild, 0);
     },
-
-
-    /**
-     * Alias for {@link #addAtEndToFolder}.
-     *
-     * @type member
-     * @param vChild {var} TODOC
-     * @param vBefore {var} TODOC
-     * @return {var} TODOC
-     */
-    addAtEnd : function(vChild, vBefore) {},
 
 
     /**
