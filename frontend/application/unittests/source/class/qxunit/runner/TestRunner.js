@@ -69,62 +69,9 @@ qx.Class.define("qxunit.runner.TestRunner",
     this.add(this.header);
 
     // Toolbar
-    this.toolbar = new qx.ui.toolbar.ToolBar;
+    this.toolbar = this.__makeToolbar();
     this.toolbar.setShow("icon");
     this.add(this.toolbar);
-
-    // -- tree view radio
-    var treeview = new qx.ui.toolbar.Part;
-    this.toolbar.add(treeview);
-    this.widgets["toolbar.treeview"] = treeview;
-    var b1 = new qx.ui.toolbar.RadioButton("Full Tree","icon/16/actions/view-pane-tree.png");
-    var b2 = new qx.ui.toolbar.RadioButton("Flat Tree","icon/16/actions/view-pane-text.png");
-    b1.setChecked(true);
-    treeview.add(b1,b2);
-    treeview.b1 = b1;
-    treeview.b2 = b2;
-    var radiomgr = new qx.manager.selection.RadioManager(null, [b1,b2]);
-    radiomgr.addEventListener("changeSelected", this.leftReloadTree, this);
-    this.toolbar.add(new qx.ui.toolbar.Separator);
-
-    // -- run button
-    this.runbutton = new qx.ui.toolbar.Button("Run Test", "icon/16/actions/media-playback-start.png");
-    this.toolbar.add(this.runbutton);
-    this.runbutton.addEventListener("execute", this.runTest, this);
-    this.toolbar.add(new qx.ui.toolbar.Separator);
-
-    // -- reload button
-    this.reloadbutton = new qx.ui.toolbar.Button("Reload", "icon/16/actions/view-refresh.png");
-    this.toolbar.add(this.reloadbutton);
-    this.testSuiteUrl = new qx.ui.form.TextField("html/QooxdooTest.html?testclass=qxunit.test");
-    this.toolbar.add(this.testSuiteUrl);
-    this.testSuiteUrl.set({
-      width : 300
-    });
-    this.reloadbutton.addEventListener("execute", this.reloadTestSuite, this);
-    this.testSuiteUrl.addEventListener("keydown", function (e) {
-      if (e.getKeyIdentifier() == "Enter") {
-        this.reloadTestSuite();
-      }
-    }, this);
-    this.toolbar.add(new qx.ui.toolbar.Separator);
-
-    // -- reload switch
-    this.reloadswitch = new qx.ui.toolbar.CheckBox("Reload before Test",
-                                                   "resource/image/yellow_diamond_hollow18.gif");
-    this.toolbar.add(this.reloadswitch);
-    this.reloadswitch.setShow("both");
-    this.reloadswitch.addEventListener("changeChecked",function (e) 
-    {
-      if (this.reloadswitch.getChecked())
-      {
-        this.reloadswitch.setIcon("resource/image/yellow_diamond_full18.gif");
-      } else 
-      {
-        this.reloadswitch.setIcon("resource/image/yellow_diamond_hollow18.gif");
-      }
-    },this);
-
 
     // Main Pane
     // split
@@ -242,6 +189,71 @@ qx.Class.define("qxunit.runner.TestRunner",
       return header;                                                                       
     },                                                                                     
 
+
+    __makeToolbar : function () {
+      var toolbar = new qx.ui.toolbar.ToolBar;
+
+      // -- tree view radio
+      var treeview = new qx.ui.toolbar.Part;
+      toolbar.add(treeview);
+      this.widgets["toolbar.treeview"] = treeview;
+      var b1 = new qx.ui.toolbar.RadioButton("Full Tree","icon/16/actions/view-pane-tree.png");
+      var b2 = new qx.ui.toolbar.RadioButton("Flat Tree","icon/16/actions/view-pane-text.png");
+      b1.setChecked(true);
+      b1.setToolTip(new qx.ui.popup.ToolTip("Full tree view"));
+      b2.setToolTip(new qx.ui.popup.ToolTip("Flat tree view (only one level of containers)"));
+      treeview.add(b1,b2);
+      treeview.b1 = b1;
+      treeview.b2 = b2;
+      var radiomgr = new qx.manager.selection.RadioManager(null, [b1,b2]);
+      radiomgr.addEventListener("changeSelected", this.leftReloadTree, this);
+      toolbar.add(new qx.ui.toolbar.Separator);
+
+      // -- run button
+      this.runbutton = new qx.ui.toolbar.Button("Run Test", "icon/16/actions/media-playback-start.png");
+      toolbar.add(this.runbutton);
+      this.runbutton.addEventListener("execute", this.runTest, this);
+      this.runbutton.setToolTip(new qx.ui.popup.ToolTip("Run selected test(s)"));
+      toolbar.add(new qx.ui.toolbar.Separator);
+
+      // -- reload button
+      this.reloadbutton = new qx.ui.toolbar.Button("Reload", "icon/16/actions/view-refresh.png");
+      toolbar.add(this.reloadbutton);
+      this.reloadbutton.setToolTip(new qx.ui.popup.ToolTip("Reload test backend application"));
+      this.testSuiteUrl = new qx.ui.form.TextField("html/QooxdooTest.html?testclass=qxunit.test");
+      toolbar.add(this.testSuiteUrl);
+      this.testSuiteUrl.setToolTip(new qx.ui.popup.ToolTip("Test backend application URL"));
+      this.testSuiteUrl.set({
+        width : 300
+      });
+      this.reloadbutton.addEventListener("execute", this.reloadTestSuite, this);
+      this.testSuiteUrl.addEventListener("keydown", function (e) {
+        if (e.getKeyIdentifier() == "Enter") {
+          this.reloadTestSuite();
+        }
+      }, this);
+      toolbar.add(new qx.ui.toolbar.Separator);
+
+      // -- reload switch
+      this.reloadswitch = new qx.ui.toolbar.CheckBox("Reload before Test",
+                                                     "resource/image/yellow_diamond_hollow18.gif");
+      toolbar.add(this.reloadswitch);
+      this.reloadswitch.setShow("both");
+      this.reloadswitch.setToolTip(new qx.ui.popup.ToolTip("Always reload test backend before testing"));
+      this.reloadswitch.addEventListener("changeChecked",function (e) 
+      {
+        if (this.reloadswitch.getChecked())
+        {
+          this.reloadswitch.setIcon("resource/image/yellow_diamond_full18.gif");
+        } else 
+        {
+          this.reloadswitch.setIcon("resource/image/yellow_diamond_hollow18.gif");
+        }
+      },this);
+      this.reloadswitch.setChecked(true);
+
+      return toolbar;
+    }, //makeToolbar
 
     __makeButtonView : function ()
     {
