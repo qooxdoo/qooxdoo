@@ -709,7 +709,12 @@ qx.Class.define("qx.core.Property",
       var incomingValue = variant === "set" || variant === "style" || localInit;
       var resetValue = variant === "reset" || variant === "unstyle";
       var enableChecks = incomingValue && (qx.core.Variant.isSet("qx.debug", "on") || variant === "set");
-      var normalizeUndefined = config.apply || config.event;
+
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        var normalizeUndefined = config.apply || config.event || qx.core.Setting.get("qx.propertyDebugLevel") > 0;
+      } else {
+        var normalizeUndefined = config.apply || config.event;
+      }
 
 
 
@@ -931,15 +936,15 @@ qx.Class.define("qx.core.Property",
       // could not be undefined. This way we are sure we can use this value and don't
       // need a complex logic to find the usable value.
 
-      code.push('var computed, useInit;');
-
       if (variant === "set")
       {
         // Create computed value
-        code.push('computed=value;useInit=false;');
+        code.push('var computed=value,useInit=false;');
       }
       else
       {
+        code.push('var computed, useInit;');
+
         var hasComputeIf = false;
 
         // Try to use user value when available
@@ -985,7 +990,7 @@ qx.Class.define("qx.core.Property",
       // The value which comes with refresh() already has the needed computed parent value
       // Note: The computed (inherited) value of the parent could never be "inherit" itself.
 
-      if (config.inheritable === true)
+      if (config.inheritable)
       {
         code.push('if(computed===undefined||computed===qx.core.Property.$$inherit)');
 
@@ -1015,25 +1020,45 @@ qx.Class.define("qx.core.Property",
       code.push('if(useInit)this.', this.$$store.useinit[name], '=true;');
       code.push('else delete this.', this.$$store.useinit[name], ';');
 
-      // Store inherited value of inheritable properties
-      if (config.inheritable) {
-        code.push('var inherited=this.', this.$$store.inherit[name], '=computed;');
 
-        code.push('console.log("inherited: " + this.classname + ".' + name + '= "+ inherited);')
+
+
+
+      // [10] NORMALIZATION AND COMPARISON
+
+      // Not for inherited properties, because they need be able to differ
+      // between null and undefined.
+      if (normalizeUndefined && !config.inheritable)
+      {
+        code.push('if(computed===undefined)computed=null;');
+        code.push('if(old===undefined)old=null;');
       }
 
-
-
-      // [10] COMPARING (COMPUTED) VALUE WITH OLD (COMPUTED) VALUE
-
       // Compare old/new computed value
-      code.push('if(old===computed)return value;');
+      // We can reduce the overhead here, if the property is not
+      // inheritable and has no event or apply method assigned
+      if (config.apply || config.event || config.inheritable) {
+        code.push('if(old===computed)return value;');
+      }
 
-      // Inform user
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      // Store inherited value of inheritable properties
+      if (config.inheritable)
       {
-        if (qx.core.Setting.get("qx.propertyDebugLevel") > 0) {
-          code.push('this.debug("', name, ' changed: " + old + " => " + computed + " [' + variant + ']");');
+        // Normlize "inherit" to null.
+        code.push('if(computed===qx.core.Property.$$inherit)computed=undefined;');
+
+        // Store inherited value
+        code.push('if(computed===undefined)delete this.', this.$$store.inherit[name], ';');
+        code.push('else this.', this.$$store.inherit[name], '=computed;');
+
+        // Protect against normalization
+        code.push('var inherited=computed;');
+
+        if (normalizeUndefined)
+        {
+          // After storage finally normalize computed and old value
+          code.push('if(computed===undefined)computed=null;');
+          code.push('if(old===undefined)old=null;');
         }
       }
 
@@ -1041,24 +1066,10 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [11] NORMALIZING OLD AND COMPUTED VALUE
-      if (config.inheritable) {
-        code.push('if(computed===undefined||computed===qx.core.Property.$$inherit)computed=null;');
-      } else {
-        code.push('if(computed===undefined)computed=null;');
-      }
-
-      // Normalize 'undefined' to 'null'
-      // Could only be undefined in cases when the setter was never executed before
-      code.push('if(old===undefined)old=null;');
 
 
 
-
-
-
-
-      // [12] NOTIFYING DEPENDEND OBJECTS
+      // [13] NOTIFYING DEPENDEND OBJECTS
 
       // Execute user configured setter
       if (config.apply) {
