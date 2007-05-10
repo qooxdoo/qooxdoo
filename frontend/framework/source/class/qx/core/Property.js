@@ -656,19 +656,22 @@ qx.Class.define("qx.core.Property",
       {
         code.push('if(this.', this.$$store.inherit[name], '!==undefined)');
         code.push('return this.', this.$$store.inherit[name], ';');
+        code.push('else ');
       }
 
       code.push('if(this.', this.$$store.useinit[name], ')');
       code.push('return this.', this.$$store.init[name], ';');
 
-      code.push('if(this.', this.$$store.user[name], '!==undefined)');
+      code.push('else if(this.', this.$$store.user[name], '!==undefined)');
       code.push('return this.', this.$$store.user[name], ';');
 
       if (config.themeable)
       {
-        code.push('if(this.', this.$$store.theme[name], '!==undefined)');
+        code.push('else if(this.', this.$$store.theme[name], '!==undefined)');
         code.push('return this.', this.$$store.theme[name], ';');
       }
+
+      code.push('else ');
 
       if (config.init !== undefined) {
         code.push('return this.', this.$$store.init[name], ';');
