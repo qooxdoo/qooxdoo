@@ -682,6 +682,24 @@ qx.Class.define("qx.core.Property",
     },
 
 
+    __errors :
+    {
+      0 : 'Could not change or apply init value after constructing phase!',
+      1 : 'Requires exactly one argument!',
+      2 : 'Undefined value is not allowed!',
+      3 : 'Does not allow any arguments!',
+      4 : 'Null value is not allowed!',
+      5 : 'Is invalid!'
+    },
+
+    error : function(obj, id, property, variant)
+    {
+      var classname = obj.constructor.classname;
+      var msg = "Error in property " + property + " of class " + classname + " in method " + this.$$method[variant][property] + ": ";
+      throw new Error(msg + (this.__errors[id] || "Unknown reason: " + id));
+    },
+
+
     /**
      * Generates the optimized setter
      * Supported variants: set, reset, init, refresh, style, unstyle
@@ -726,13 +744,21 @@ qx.Class.define("qx.core.Property",
 
 
 
+      // [1] INTEGRATE ERROR HELPER METHOD
 
-      // [1] PRE CONDITIONS
+      code.push('function err(obj,id){qx.core.Property.error(obj,id,"' + name + '","' + variant + '");}');
+
+
+
+
+
+
+      // [2] PRE CONDITIONS
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (variant === "init") {
-          code.push('if(this.$$initialized)throw new Error("Could not change or apply init value after constructing phase!");');
+          code.push('if(this.$$initialized)err(this,0);');
         }
 
         if (variant === "refresh")
@@ -744,25 +770,22 @@ qx.Class.define("qx.core.Property",
         else if (incomingValue)
         {
           // Check argument length
-          code.push('if(arguments.length!==1)throw new Error("The method of the property \'', name,  '\' by using ', this.$$method[variant][name], '() requires exactly one argument!");');
+          code.push('if(arguments.length!==1)err(this,1);');
 
           // Undefined check
-          code.push('if(value===undefined)');
-          code.push('throw new Error("Undefined value for property \'', name, '\' of class \'"+this.constructor.classname+"\' is not allowed!");');
+          code.push('if(value===undefined)err(this,2);');
         }
         else
         {
           // Check argument length
-          code.push('if(arguments.length!==0)throw new Error("The method of the property \'', name,  '\' by using ', this.$$method[variant][name], '() does not allow any arguments!");');
+          code.push('if(arguments.length!==0)err(this,3);');
         }
       }
       else
       {
         // Undefined check
-        if (incomingValue)
-        {
-          code.push('if(value===undefined)');
-          code.push('throw new Error("Undefined value for property \'', name, '\' of class \'"+this.constructor.classname+"\' is not allowed!");');
+        if (incomingValue) {
+          code.push('if(value===undefined)err(this,2);');
         }
       }
 
@@ -770,7 +793,7 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [2] PREPROCESSING INCOMING VALUE
+      // [3] PREPROCESSING INCOMING VALUE
 
       if (incomingValue)
       {
@@ -792,7 +815,7 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [3] COMPARING (LOCAL) NEW AND OLD VALUE
+      // [4] COMPARING (LOCAL) NEW AND OLD VALUE
 
       // Old/new comparision
       if (incomingValue) {
@@ -806,17 +829,15 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [4] CHECKING VALUE
+      // [5] CHECKING VALUE
 
       // Enable checks in debugging mode or then generating the setter
 
       if (incomingValue && (qx.core.Variant.isSet("qx.debug", "on") || variant === "set"))
       {
         // Null check
-        if (!config.nullable)
-        {
-          code.push('if(value===null)');
-          code.push('throw new Error("Null value for property \'', name, '\' of class \'"+this.constructor.classname+"\' is not allowed (' + variant + ')!");');
+        if (!config.nullable) {
+          code.push('if(value===null)err(this,4);');
         }
 
         // Processing check definition
@@ -876,7 +897,7 @@ qx.Class.define("qx.core.Property",
             throw new Error("Could not add check to property " + name + " of class " + clazz.classname);
           }
 
-          code.push(')throw new Error("Invalid value for property \'', name, '\' of class ' + clazz.classname + ': " + value);');
+          code.push(')err(this,5);');
         }
       }
 
@@ -885,7 +906,7 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [5] READING OLD VALUE
+      // [6] READING OLD VALUE
 
       // Local variable for old value
       code.push('var old;');
@@ -908,7 +929,7 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [6] STORING INCOMING VALUE
+      // [7] STORING INCOMING VALUE
 
       if (incomingValue)
       {
@@ -926,7 +947,7 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [7] GENERATING COMPUTED VALUE
+      // [8] GENERATING COMPUTED VALUE
 
       // In variant "set" the value is always the highest priorist value and
       // could not be undefined. This way we are sure we can use this value and don't
@@ -981,7 +1002,7 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [8] RESPECTING INHERITANCE
+      // [9] RESPECTING INHERITANCE
 
       // The value which comes with refresh() already has the needed computed parent value
       // Note: The computed (inherited) value of the parent could never be "inherit" itself.
@@ -1010,7 +1031,7 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [9] SYNCING WITH OBJECT
+      // [10] SYNCING WITH OBJECT
 
       // And for all others if the init value was used to generate the computed value.
       code.push('if(useInit)this.', this.$$store.useinit[name], '=true;');
@@ -1020,7 +1041,7 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [10] NORMALIZATION AND COMPARISON
+      // [11] NORMALIZATION AND COMPARISON
 
       // Not for inherited properties, because they need be able to differ
       // between null and undefined.
@@ -1065,7 +1086,7 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [13] NOTIFYING DEPENDEND OBJECTS
+      // [12] NOTIFYING DEPENDEND OBJECTS
 
       // Execute user configured setter
       if (config.apply) {
