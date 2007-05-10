@@ -587,7 +587,6 @@ qx.Class.define("qx.ui.tree.TreeFolder",
 
           // first disconnect the item so rendering
           // of the tree lines can be done correctly
-          console.log(item);
           item.removeFromTreeQueue();
           item.disconnect();
 
