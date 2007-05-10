@@ -968,7 +968,7 @@ qx.Class.define("qx.core.Property",
         // However it is possible that the computed value gets
         // translated later through inheritance.
         if (config.inheritable) {
-          code.push('var computed=value,useInit=false;');
+          code.push('var computed=value,useinit=false;');
         }
 
         // We don't need the computed value at all for
@@ -980,40 +980,28 @@ qx.Class.define("qx.core.Property",
       }
       else
       {
-        code.push('var computed, useInit;');
-
-        var hasComputeIf = false;
+        code.push('var computed, useinit;');
 
         // Try to use user value when available
         // Hint: Always undefined in reset variant
         if (variant !== "reset")
         {
           code.push('if(this.', this.$$store.user[name], '!==undefined)');
-          code.push('{computed=this.', this.$$store.user[name], ';useInit=false;}');
-          hasComputeIf = true;
+          code.push('{computed=this.', this.$$store.user[name], ';useinit=false;}else ');
         }
 
         // Try to use themeable value when available
         if (config.themeable === true && variant !== "unstyle")
         {
-          if (hasComputeIf) {
-            code.push('else ');
-          }
-
           code.push('if(this.', this.$$store.theme[name], '!==undefined)');
-          code.push('{computed=this.', this.$$store.theme[name], ';useInit=false;}');
-          hasComputeIf = true;
+          code.push('{computed=this.', this.$$store.theme[name], ';useinit=false;}else ');
         }
 
         // Try to use initial value when available
         // Hint: This may also be available even if not defined at declaration time
         // because of the possibility to set the init value of properties
         // without init value at construction time (for complex values like arrays etc.)
-        if (hasComputeIf) {
-          code.push('else');
-        }
-
-        code.push('{computed=this.', this.$$store.init[name], ';useInit=true;}');
+        code.push('{computed=this.', this.$$store.init[name], ';useinit=true;}');
       }
 
 
@@ -1039,8 +1027,8 @@ qx.Class.define("qx.core.Property",
 
         code.push('if(computed===undefined||computed===qx.core.Property.$$inherit){');
         code.push('computed=this.', this.$$store.init[name], ';');
-        code.push('if(computed===qx.core.Property.$$inherit)useInit=false;else useInit=true;');
-        code.push('}else{useInit=false;}')
+        code.push('if(computed===qx.core.Property.$$inherit)useinit=false;else useinit=true;');
+        code.push('}else{useinit=false;}')
       }
 
 
@@ -1062,7 +1050,7 @@ qx.Class.define("qx.core.Property",
       }
       else
       {
-        code.push('if(useInit)this.', this.$$store.useinit[name], '=true;');
+        code.push('if(useinit)this.', this.$$store.useinit[name], '=true;');
         code.push('else delete this.', this.$$store.useinit[name], ';');
       }
 
@@ -1077,7 +1065,12 @@ qx.Class.define("qx.core.Property",
       // between null and undefined.
       if (hasCallback && !config.inheritable)
       {
-        code.push('if(computed===undefined)computed=null;');
+        // Properties which are not inheritable have no possiblity to get
+        // undefined at this position. (Hint: set() only allows non undefined values)
+        if (variant!=="set") {
+          code.push('if(computed===undefined)computed=null;');
+        }
+
         code.push('if(old===undefined)old=null;');
       }
 
@@ -1118,16 +1111,19 @@ qx.Class.define("qx.core.Property",
 
       // [12] NOTIFYING DEPENDEND OBJECTS
 
-      // Execute user configured setter
-      if (config.apply) {
-        code.push('this.', config.apply, '(computed, old);');
-      }
-
-      // Fire event
-      if (config.event)
+      if (hasCallback)
       {
-        code.push('if(this.hasEventListeners("', config.event, '"))');
-        code.push('this.dispatchEvent(new qx.event.type.ChangeEvent("', config.event, '", computed, old), true);');
+        // Execute user configured setter
+        if (config.apply) {
+          code.push('this.', config.apply, '(computed, old);');
+        }
+
+        // Fire event
+        if (config.event)
+        {
+          code.push('if(this.hasEventListeners("', config.event, '"))');
+          code.push('this.dispatchEvent(new qx.event.type.ChangeEvent("', config.event, '", computed, old), true);');
+        }
       }
 
       // Refresh children
