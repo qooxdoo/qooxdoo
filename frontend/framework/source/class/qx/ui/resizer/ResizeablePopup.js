@@ -24,7 +24,7 @@ qx.Class.define("qx.ui.resizer.ResizeablePopup",
 {
   extend   : qx.ui.popup.Popup,
   include  : qx.ui.resizer.MResizeable,
-//implement: qx.ui.resizer.IResizeable,
+  implement: qx.ui.resizer.IResizeable,
 
   construct : function()
   {
