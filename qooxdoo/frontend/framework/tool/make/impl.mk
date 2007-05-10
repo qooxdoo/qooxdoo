@@ -421,11 +421,8 @@ exec-api-build:
 	  --use-setting qx.minLogLevel:700 \
 	  --use-variant qx.debug:off \
     --use-setting qx.theme:qx.theme.ClassicRoyale \
-    --use-setting qx.iconTheme:qx.theme.icon.Nuvola \
-    --use-setting qx.widgetTheme:qx.theme.widget.Windows \
-    --use-setting qx.appearanceTheme:qx.theme.appearance.Classic \
     --use-setting qx.application:apiviewer.Application \
-    --include qx.theme.color.WindowsRoyale,qx.theme.icon.Nuvola,qx.theme.widget.Windows,qx.theme.appearance.Classic \
+    --include qx.theme.ClassicRoyale,qx.theme.classic.color.Royale,qx.theme.classic.Border,qx.theme.classic.font.Default,qx.theme.classic.Widget,qx.theme.classic.Appearance,qx.theme.icon.Nuvola \
 	  --generate-compiled-script \
 	  --compiled-script-file $(APPLICATION_API_PATH)/script/$(APIVIEWER_NAMESPACE_PATH).js \
 	  --optimize-strings --optimize-variables \
