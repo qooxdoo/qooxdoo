@@ -42,10 +42,10 @@ qx.Interface.define("qx.ui.resizer.IResizeable",
 
     /**
      * After resizing completes, it updates the height.
-     * @param height  {Number}
+     * @param newHeight  {Number}
      * @return {void}
      */
-    _changeHeight: function(value) {
+    _changeHeight: function(newHeight) {
       return true;
     },
 
