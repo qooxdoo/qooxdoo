@@ -239,7 +239,7 @@ qx.Class.define("qx.ui.form.InputCheckSymbol",
      */
     _modifyEnabled : function(propValue, propOldValue, propData)
     {
-      propValue ? this.removeHtmlProperty("disabled") : this.setHtmlProperty("disabled", "disabled");
+      propValue===false ? this.setHtmlProperty("disabled", "disabled") : this.removeHtmlProperty("disabled");
       return this.base(arguments, propValue, propOldValue, propData);
     }
   },

@@ -385,7 +385,7 @@ qx.Class.define("qx.ui.form.TextField",
     _modifyEnabled : function(propValue, propOldValue)
     {
       if (this._inputElement) {
-        this._inputElement.disabled = !propValue;
+        this._inputElement.disabled = propValue!==false;
       }
 
       return this.base(arguments, propValue, propOldValue);
