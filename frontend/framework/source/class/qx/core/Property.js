@@ -802,7 +802,7 @@ qx.Class.define("qx.core.Property",
         // Allow to unstyle themeable properties by explicit "undefined" string value
         // Note: Normalization must occour after the undefined check above.
         if (variant === "style") {
-          code.push('if(value===qx.core.Property.$$undefined)value=undefined;');
+          code.push('if(value===prop.$$undefined)value=undefined;');
         }
 
         // Call user-provided transform method, if one is provided.  Transform
@@ -860,7 +860,7 @@ qx.Class.define("qx.core.Property",
 
           // Inheritable properties always accept "inherit" as value
           if (config.inheritable) {
-            code.push('if(value!==qx.core.Property.$$inherit)');
+            code.push('if(value!==prop.$$inherit)');
           }
 
           code.push('if(');
@@ -982,21 +982,21 @@ qx.Class.define("qx.core.Property",
       }
       else
       {
-        code.push('var computed, useinit;');
+        code.push('var computed,useinit=false;');
 
         // Try to use user value when available
         // Hint: Always undefined in reset variant
         if (variant !== "reset")
         {
           code.push('if(this.', this.$$store.user[name], '!==undefined)');
-          code.push('{computed=this.', this.$$store.user[name], ';useinit=false;}else ');
+          code.push('computed=this.', this.$$store.user[name], ';else ');
         }
 
         // Try to use themeable value when available
         if (config.themeable === true && variant !== "unstyle")
         {
           code.push('if(this.', this.$$store.theme[name], '!==undefined)');
-          code.push('{computed=this.', this.$$store.theme[name], ';useinit=false;}else ');
+          code.push('computed=this.', this.$$store.theme[name], ';else ');
         }
 
         // Try to use initial value when available
@@ -1019,7 +1019,7 @@ qx.Class.define("qx.core.Property",
 
       if (config.inheritable)
       {
-        code.push('if(computed===undefined||computed===qx.core.Property.$$inherit)');
+        code.push('if(computed===undefined||computed===prop.$$inherit)');
 
         if (variant === "refresh") {
           code.push('computed=value;');
@@ -1027,9 +1027,9 @@ qx.Class.define("qx.core.Property",
           code.push('{var pa=this.getParent();if(pa)computed=pa.', this.$$store.inherit[name], ';}');
         }
 
-        code.push('if(computed===undefined||computed===qx.core.Property.$$inherit){');
+        code.push('if(computed===undefined||computed===prop.$$inherit){');
         code.push('computed=this.', this.$$store.init[name], ';');
-        code.push('if(computed===qx.core.Property.$$inherit)useinit=false;else useinit=true;');
+        code.push('useinit=computed!==prop.$$inherit;');
         code.push('}else{useinit=false;}')
       }
 
@@ -1086,11 +1086,13 @@ qx.Class.define("qx.core.Property",
       // Store inherited value of inheritable properties
       if (config.inheritable)
       {
-        // Normlize "inherit" to null.
-        code.push('if(computed===qx.core.Property.$$inherit)computed=undefined;');
+        // Normalize "inherit" to undefined and delete inherited value
+        code.push('if(computed===prop.$$inherit){computed=undefined;delete this.', this.$$store.inherit[name], ';}');
+
+        // Only delete inherited value
+        code.push('else if(computed===undefined)delete this.', this.$$store.inherit[name], ';');
 
         // Store inherited value
-        code.push('if(computed===undefined)delete this.', this.$$store.inherit[name], ';');
         code.push('else this.', this.$$store.inherit[name], '=computed;');
 
         // Protect against normalization
