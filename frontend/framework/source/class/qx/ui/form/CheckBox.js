@@ -199,8 +199,8 @@ qx.Class.define("qx.ui.form.CheckBox",
     {
       switch(this.getShow())
       {
-        case qx.ui.basic.Atom.SHOW_ICON:
-        case qx.ui.basic.Atom.SHOW_BOTH:
+        case "icon":
+        case "both":
           this._iconIsVisible = true;
           break;
 
