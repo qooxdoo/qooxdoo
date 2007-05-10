@@ -739,6 +739,7 @@ qx.Class.define("qx.core.Property",
         {
           // do nothing
           // refresh() is internal => no arguments test
+          // also note that refresh() supports "undefined" values
         }
         else if (incomingValue)
         {
@@ -746,18 +747,22 @@ qx.Class.define("qx.core.Property",
           code.push('if(arguments.length!==1)throw new Error("The method of the property \'', name,  '\' by using ', this.$$method[variant][name], '() requires exactly one argument!");');
 
           // Undefined check
-          // Must be above the comparision between old and new, because otherwise previously unset
-          // values get not detected and will be quitely ignored which is a bad behavior.
-          if (variant !== "refresh")
-          {
-            code.push('if(value===undefined)');
-            code.push('throw new Error("Undefined value for property \'', name, '\' of class \'"+this.constructor.classname+"\' is not allowed!");');
-          }
+          code.push('if(value===undefined)');
+          code.push('throw new Error("Undefined value for property \'', name, '\' of class \'"+this.constructor.classname+"\' is not allowed!");');
         }
         else
         {
           // Check argument length
           code.push('if(arguments.length!==0)throw new Error("The method of the property \'', name,  '\' by using ', this.$$method[variant][name], '() does not allow any arguments!");');
+        }
+      }
+      else
+      {
+        // Undefined check
+        if (incomingValue)
+        {
+          code.push('if(value===undefined)');
+          code.push('throw new Error("Undefined value for property \'', name, '\' of class \'"+this.constructor.classname+"\' is not allowed!");');
         }
       }
 
