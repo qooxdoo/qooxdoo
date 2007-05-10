@@ -36,8 +36,8 @@ qx.Interface.define("qx.ui.resizer.IResizeable",
      * @param newWidth  {Number}
      * @return {void}
      */
-    _changeWidth: function(newWidth)
-    {
+    _changeWidth: function(newWidth) {
+      return true;
     },
 
     /**
@@ -45,8 +45,8 @@ qx.Interface.define("qx.ui.resizer.IResizeable",
      * @param height  {Number}
      * @return {void}
      */
-    _changeHeight: function(value)
-    {
+    _changeHeight: function(value) {
+      return true;
     },
 
     /**
@@ -54,7 +54,7 @@ qx.Interface.define("qx.ui.resizer.IResizeable",
      * @return {qx.ui.core.Widget}
      */
     _getResizeParent: function() {
-      return this;
+      return true;
     },
 
     /**
@@ -62,7 +62,7 @@ qx.Interface.define("qx.ui.resizer.IResizeable",
      * @return {qx.ui.core.Widget}
      */
     _getMinSizeReference: function() {
-      return this;
+      return true;
     }
   }
 });
