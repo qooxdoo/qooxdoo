@@ -5674,11 +5674,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _modifyEnabled : function(value, old)
     {
-      if (value)
-      {
-        this.removeState("disabled");
-      }
-      else
+      if (value===false)
       {
         this.addState("disabled");
 
@@ -5691,8 +5687,10 @@ qx.Class.define("qx.ui.core.Widget",
           this.removeState("pressed");
         }
       }
-
-      return true;
+      else
+      {
+        this.removeState("disabled");
+      }
     },
 
 
