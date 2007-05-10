@@ -704,19 +704,15 @@ qx.Class.define("qx.core.Property",
       var value = args ? args[0] : undefined;
       var code = [];
 
-
       var localInit = variant === "init" && config.init === undefined;
       var incomingValue = variant === "set" || variant === "style" || localInit;
       var resetValue = variant === "reset" || variant === "unstyle";
-      var enableChecks = incomingValue && (qx.core.Variant.isSet("qx.debug", "on") || variant === "set");
 
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         var normalizeUndefined = config.apply || config.event || qx.core.Setting.get("qx.propertyDebugLevel") > 0;
       } else {
         var normalizeUndefined = config.apply || config.event;
       }
-
-
 
       if (variant === "style" || variant === "unstyle") {
         var store = this.$$store.theme[name];
@@ -735,28 +731,16 @@ qx.Class.define("qx.core.Property",
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (variant === "init")
-        {
+        if (variant === "init") {
           code.push('if(this.$$initialized)throw new Error("Could not change or apply init value after constructing phase!");');
-
-          if (!localInit)
-          {
-            // Additional debugging to block values for init() functions
-            // which have a init value defined at property level
-            code.push('if(arguments.length!==0)throw new Error("You are not able to change the init value of the property ', name,  ' by using ', this.$$method[variant][name], '()!");');
-          }
         }
-      }
 
-
-
-
-
-      // [2] PREPROCESS INCOMING VALUE
-
-      if (incomingValue || variant === "refresh")
-      {
-        if (enableChecks)
+        if (variant === "refresh")
+        {
+          // do nothing
+          // refresh() is internal => no arguments test
+        }
+        else if (incomingValue)
         {
           // Check argument length
           code.push('if(arguments.length!==1)throw new Error("The method of the property \'', name,  '\' by using ', this.$$method[variant][name], '() requires exactly one argument!");');
@@ -770,16 +754,23 @@ qx.Class.define("qx.core.Property",
             code.push('throw new Error("Undefined value for property \'', name, '\' of class \'"+this.constructor.classname+"\' is not allowed!");');
           }
         }
+        else
+        {
+          // Check argument length
+          code.push('if(arguments.length!==0)throw new Error("The method of the property \'', name,  '\' by using ', this.$$method[variant][name], '() does not allow any arguments!");');
+        }
       }
-      else
-      {
-        // Check argument length
-        code.push('if(arguments.length!==0)throw new Error("The method of the property \'', name,  '\' by using ', this.$$method[variant][name], '() does not allow any arguments!");');
-      }
+
+
+
+
+
+      // [2] PREPROCESSING INCOMING VALUE
 
       if (incomingValue)
       {
         // Allow to unstyle themeable properties by explicit "undefined" string value
+        // Note: Normalization must occour after the undefined check above.
         if (variant === "style") {
           code.push('if(value===qx.core.Property.$$undefined)value=undefined;');
         }
@@ -814,7 +805,7 @@ qx.Class.define("qx.core.Property",
 
       // Enable checks in debugging mode or then generating the setter
 
-      if (enableChecks)
+      if (incomingValue && (qx.core.Variant.isSet("qx.debug", "on") || variant === "set"))
       {
         // Null check
         if (!config.nullable)
