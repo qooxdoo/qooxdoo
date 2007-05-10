@@ -30,7 +30,9 @@ qx.Class.define("apiviewer.ui.panels.EventPanel", {
 
   extend: apiviewer.ui.panels.InfoPanel,
 
-  members : {
+  members :
+  {
+
     /**
      * Checks whether an event has details.
      *
@@ -49,6 +51,18 @@ qx.Class.define("apiviewer.ui.panels.EventPanel", {
     },
 
 
+    getItemTypeHtml : function(node)
+    {
+      return apiviewer.ui.panels.InfoPanel.createTypeHtml(node, "var");
+    },
+
+
+    getItemTitleHtml : function(node)
+    {
+       return apiviewer.ui.panels.InfoPanel.setTitleClass(node, node.getName());
+    },
+
+
     /**
      * Creates the HTML showing the information about an event.
      *
@@ -58,13 +72,8 @@ qx.Class.define("apiviewer.ui.panels.EventPanel", {
      * @param showDetails {Boolean} whether to show the details.
      * @return {String} the HTML showing the information about the event.
      */
-    getItemHtml : function(node, currentClassDocNode, showDetails)
+    getItemTextHtml : function(node, currentClassDocNode, showDetails)
     {
-      var info = {};
-
-      info.typeHtml = apiviewer.ui.panels.InfoPanel.createTypeHtml(node, "var");
-      info.titleHtml = apiviewer.ui.panels.InfoPanel.setTitleClass(node, node.getName());
-
       // Add the description
       textHtml = new qx.util.StringBuilder(apiviewer.ui.panels.InfoPanel.createDescriptionHtml(node, showDetails));
 
@@ -77,8 +86,7 @@ qx.Class.define("apiviewer.ui.panels.EventPanel", {
 
       }
 
-      info.textHtml = textHtml.get()
-      return info;
+      return textHtml.get()
     }
 
   }

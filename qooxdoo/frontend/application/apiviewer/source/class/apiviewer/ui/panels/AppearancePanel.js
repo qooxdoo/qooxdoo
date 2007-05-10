@@ -94,6 +94,24 @@ qx.Class.define("apiviewer.ui.panels.AppearancePanel", {
     },
 
 
+    getItemTypeHtml : function(node)
+    {
+      var nodeName = node.getName();
+      if (node.getType() == node.getClass()) {
+        var titleHtml = nodeName + " (default appearance of the class)";
+      } else {
+        var titleHtml = nodeName;
+      }
+      return titleHtml;
+    },
+
+
+    getItemTitleHtml : function(node)
+    {
+       return apiviewer.ui.panels.InfoPanel.setTitleClass(node, node.getName());
+    },
+
+
     /**
      * Creates the HTML showing the information about an appearance.
      *
@@ -103,17 +121,9 @@ qx.Class.define("apiviewer.ui.panels.AppearancePanel", {
      * @param showDetails {Boolean} whether to show the details.
      * @return {String} the HTML showing the information about the property.
      */
-    getItemHtml : function(node, currentClassDocNode, showDetails)
+    getItemTextHtml : function(node, currentClassDocNode, showDetails)
     {
       var ClassViewer = apiviewer.ui.ClassViewer;
-
-      var nodeName = node.getName();
-      if (node.getType() == node.getClass()) {
-        var titleHtml = nodeName + " (default appearance of the class)";
-      } else {
-        var titleHtml = nodeName;
-      }
-      var typeHtml = apiviewer.ui.panels.InfoPanel.createTypeHtml(node, "var");
 
       var textHtml = new qx.util.StringBuilder();
       textHtml.add(
@@ -149,7 +159,7 @@ qx.Class.define("apiviewer.ui.panels.AppearancePanel", {
               );
             }
 
-            var desc = state.getDocNode().getDescription();
+            var desc = state.getDescription();
 
             if (desc) {
               textHtml.add(" ", apiviewer.ui.panels.InfoPanel.resolveLinkAttributes(desc, state.getClass()));
@@ -162,12 +172,7 @@ qx.Class.define("apiviewer.ui.panels.AppearancePanel", {
         }
       }
 
-      var info = {};
-      info.textHtml = textHtml.get();
-      info.typeHtml = typeHtml;
-      info.titleHtml = titleHtml;
-
-      return info;
+      return textHtml.get();
     },
 
 
