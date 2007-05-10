@@ -624,7 +624,6 @@ qx.Class.define("qxunit.runner.TestRunner",
         {
           var ex = e.getData().exception;
           var test = e.getData().test;
-          that.currentTestData.setMessage(ex.toString());
           that.currentTestData.setException(ex);
           that.currentTestData.setState("failure");
           bar.setBarColor("#9d1111");
@@ -638,7 +637,6 @@ qx.Class.define("qxunit.runner.TestRunner",
         testResult.addEventListener("error", function(e)
         {
           var ex = e.getData().exception;
-          that.currentTestData.setMessage(ex.toString());
           that.currentTestData.setException(ex);
           that.currentTestData.setState("error");
           bar.setBarColor("#9d1111");
