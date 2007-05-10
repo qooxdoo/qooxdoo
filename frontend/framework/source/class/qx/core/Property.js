@@ -746,7 +746,9 @@ qx.Class.define("qx.core.Property",
 
       // [1] INTEGRATE ERROR HELPER METHOD
 
-      code.push('function err(obj,id){qx.core.Property.error(obj,id,"' + name + '","' + variant + '");}');
+      code.push('var prop=qx.core.Property;');
+
+
 
 
 
@@ -758,7 +760,7 @@ qx.Class.define("qx.core.Property",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (variant === "init") {
-          code.push('if(this.$$initialized)err(this,0);');
+          code.push('if(this.$$initialized)prop.error(this,0,"'+name+'","'+variant+'");');
         }
 
         if (variant === "refresh")
@@ -770,22 +772,22 @@ qx.Class.define("qx.core.Property",
         else if (incomingValue)
         {
           // Check argument length
-          code.push('if(arguments.length!==1)err(this,1);');
+          code.push('if(arguments.length!==1)prop.error(this,1,"'+name+'","'+variant+'");');
 
           // Undefined check
-          code.push('if(value===undefined)err(this,2);');
+          code.push('if(value===undefined)prop.error(this,2,"'+name+'","'+variant+'");');
         }
         else
         {
           // Check argument length
-          code.push('if(arguments.length!==0)err(this,3);');
+          code.push('if(arguments.length!==0)prop.error(this,3,"'+name+'","'+variant+'");');
         }
       }
       else
       {
         // Undefined check
         if (variant === "set") {
-          code.push('if(value===undefined)err(this,2);');
+          code.push('if(value===undefined)prop.error(this,2,"'+name+'","'+variant+'");');
         }
       }
 
@@ -837,7 +839,7 @@ qx.Class.define("qx.core.Property",
       {
         // Null check
         if (!config.nullable) {
-          code.push('if(value===null)err(this,4);');
+          code.push('if(value===null)prop.error(this,4,"'+name+'","'+variant+'");');
         }
 
         // Processing check definition
@@ -897,7 +899,7 @@ qx.Class.define("qx.core.Property",
             throw new Error("Could not add check to property " + name + " of class " + clazz.classname);
           }
 
-          code.push(')err(this,5);');
+          code.push(')prop.error(this,5,"'+name+'","'+variant+'");');
         }
       }
 
