@@ -94,13 +94,9 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
     // CREATE SPLITTER
     this._splitter = new qx.ui.splitpane.SplitPaneSplitter(this);
 
-    // PATCH METHODS
-    this._slider._applyRuntimeLeft = this._splitter._applyRuntimeLeft = this._applyRuntimeLeftWrapper;
-    this._slider._applyRuntimeTop = this._splitter._applyRuntimeTop = this._applyRuntimeTopWrapper;
-
     // CREATE KNOB
     this._knob = new qx.ui.splitpane.SplitPaneKnob;
-    this.add(this._knob);
+    this._splitter.add(this._knob);
 
     // CREATE AREAS
     this._firstArea = new qx.ui.layout.CanvasLayout;
@@ -868,41 +864,8 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      */
     _normalizeY : function(e) {
       return qx.lang.Number.limit(e.getPageY() - this._dragOffset, this._dragMin, this._dragMax) - this._dragMin;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param v {var} TODOC
-     * @return {var} TODOC
-     */
-    _applyRuntimeLeftWrapper : function(v)
-    {
-      if (this._pane.getOrientation() == "horizontal") {
-        this._pane._knob._applyRuntimeLeft(v);
-      }
-
-      return this.constructor.prototype._applyRuntimeLeft.call(this, v);
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param v {var} TODOC
-     * @return {var} TODOC
-     */
-    _applyRuntimeTopWrapper : function(v)
-    {
-      if (this._pane.getOrientation() == "vertical") {
-        this._pane._knob._applyRuntimeTop(v);
-      }
-
-      return this.constructor.prototype._applyRuntimeTop.call(this, v);
     }
+
   },
 
 
