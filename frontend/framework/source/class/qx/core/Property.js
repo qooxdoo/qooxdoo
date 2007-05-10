@@ -911,24 +911,23 @@ qx.Class.define("qx.core.Property",
 
       if (hasCallback)
       {
-        // declare variable
-        code.push('var old;');
-
-        // read inherited (computed) value
-        if (config.inheritable) {
-          code.push('if(this.', this.$$store.inherit[name], '!==undefined)old=this.', this.$$store.inherit[name], ';else ');
+        if (config.inheritable)
+        {
+          code.push('var old=this.', this.$$store.inherit[name], ';');
         }
+        else
+        {
+          // read user value
+          code.push('if(this.', this.$$store.user[name], '!==undefined)var old=this.', this.$$store.user[name], ';else ');
 
-        // read user value
-        code.push('if(this.', this.$$store.user[name], '!==undefined)old=this.', this.$$store.user[name], ';else ');
+          // read theme value
+          if (config.themeable) {
+            code.push('if(this.', this.$$store.theme[name], '!==undefined)old=this.', this.$$store.theme[name], ';else ');
+          }
 
-        // read theme value
-        if (config.themeable) {
-          code.push('if(this.', this.$$store.theme[name], '!==undefined)old=this.', this.$$store.theme[name], ';else ');
+          // read init value
+          code.push('if(this.', this.$$store.useinit[name], ')old=this.', this.$$store.init[name], ';');
         }
-
-        // read init value
-        code.push('if(this.', this.$$store.useinit[name], ')old=this.', this.$$store.init[name], ';');
       }
 
 
