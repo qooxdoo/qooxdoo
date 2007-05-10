@@ -727,9 +727,9 @@ qx.Class.define("qx.core.Property",
       var resetValue = variant === "reset" || variant === "unstyle";
 
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        var normalizeUndefined = config.apply || config.event || qx.core.Setting.get("qx.propertyDebugLevel") > 0;
+        var hasCallback = config.apply || config.event || qx.core.Setting.get("qx.propertyDebugLevel") > 0;
       } else {
-        var normalizeUndefined = config.apply || config.event;
+        var hasCallback = config.apply || config.event;
       }
 
       if (variant === "style" || variant === "unstyle") {
@@ -906,23 +906,32 @@ qx.Class.define("qx.core.Property",
 
 
 
+
       // [6] READING OLD VALUE
 
-      // Local variable for old value
-      code.push('var old;');
+      if (hasCallback)
+      {
+        // declare variable
+        code.push('var old;');
 
-      // Read in old value
-      if (config.inheritable) {
-        code.push('old=this.', this.$$store.inherit[name], ';if(old===undefined)');
+        // read inherited (computed) value
+        if (config.inheritable) {
+          code.push('if(this.', this.$$store.inherit[name], '!==undefined)old=this.', this.$$store.inherit[name], ';else ');
+        }
+
+        // read user value
+        code.push('if(this.', this.$$store.user[name], '!==undefined)old=this.', this.$$store.user[name], ';else ');
+
+        // read theme value
+        if (config.themeable) {
+          code.push('if(this.', this.$$store.theme[name], '!==undefined)old=this.', this.$$store.theme[name], ';else ');
+        }
+
+        // read init value
+        code.push('if(this.', this.$$store.useinit[name], ')old=this.', this.$$store.init[name], ';');
       }
 
-      code.push('old=this.', this.$$store.user[name], ';');
 
-      if (config.themeable) {
-        code.push('if(old===undefined)old=this.', this.$$store.theme[name], ';');
-      }
-
-      code.push('if(old===undefined&&this.', this.$$store.useinit[name], ')old=this.', this.$$store.init[name], ';');
 
 
 
@@ -956,7 +965,19 @@ qx.Class.define("qx.core.Property",
       if (variant === "set")
       {
         // Create computed value
-        code.push('var computed=value,useInit=false;');
+        // For the first shot identical to user value in set()
+        // However it is possible that the computed value gets
+        // translated later through inheritance.
+        if (config.inheritable) {
+          code.push('var computed=value,useInit=false;');
+        }
+
+        // We don't need the computed value at all for
+        // setters of properties which are not inheritable
+        // and do not define a "apply" or "event" key.
+        else if (hasCallback) {
+          code.push('var computed=value;');
+        }
       }
       else
       {
@@ -1033,9 +1054,19 @@ qx.Class.define("qx.core.Property",
 
       // [10] SYNCING WITH OBJECT
 
-      // And for all others if the init value was used to generate the computed value.
-      code.push('if(useInit)this.', this.$$store.useinit[name], '=true;');
-      code.push('else delete this.', this.$$store.useinit[name], ';');
+      // All set methods normally do not allow "undefined" values.
+      // But there is one excpetion. Inheritable properties can translate
+      // "inherit" to "undefined" as seen above.
+      if (variant === "set" && !config.inheritable)
+      {
+        code.push('delete this.', this.$$store.useinit[name], ';');
+      }
+      else
+      {
+        code.push('if(useInit)this.', this.$$store.useinit[name], '=true;');
+        code.push('else delete this.', this.$$store.useinit[name], ';');
+      }
+
 
 
 
@@ -1045,7 +1076,7 @@ qx.Class.define("qx.core.Property",
 
       // Not for inherited properties, because they need be able to differ
       // between null and undefined.
-      if (normalizeUndefined && !config.inheritable)
+      if (hasCallback && !config.inheritable)
       {
         code.push('if(computed===undefined)computed=null;');
         code.push('if(old===undefined)old=null;');
@@ -1071,7 +1102,7 @@ qx.Class.define("qx.core.Property",
         // Protect against normalization
         code.push('var inherited=computed;');
 
-        if (normalizeUndefined)
+        if (hasCallback)
         {
           // After storage finally normalize computed and old value
           code.push('if(computed===undefined)computed=null;');
