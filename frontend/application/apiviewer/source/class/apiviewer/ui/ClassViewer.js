@@ -31,7 +31,7 @@
  */
 qx.Class.define("apiviewer.ui.ClassViewer",
 {
-  extend : qx.ui.embed.HtmlEmbed,
+  extend : apiviewer.ui.AbstractViewer,
 
 
 
@@ -44,16 +44,22 @@ qx.Class.define("apiviewer.ui.ClassViewer",
 
   construct : function()
   {
-    qx.ui.embed.HtmlEmbed.call(this);
+    this.base(arguments);
 
-    this.setOverflow("auto");
-    this.setPadding(20);
-    this.setEdge(0);
     this.setHtmlProperty("id", "ClassViewer");
     this.setVisibility(false);
-    this.setClassNode(new apiviewer.dao.Class({}));
+    this.setDocNode(new apiviewer.dao.Class({}));
 
+    document._detailViewer = this;
     apiviewer.ui.ClassViewer.instance = this;
+
+    this.addInfoPanel(new apiviewer.ui.panels.MethodPanel("constructor", "constructor", false, true));
+    this.addInfoPanel(new apiviewer.ui.panels.EventPanel("events", "events", true, true));
+    this.addInfoPanel(new apiviewer.ui.panels.PropertyPanel("properties", "properties", true, true));
+    this.addInfoPanel(new apiviewer.ui.panels.MethodPanel("methods", "methods", true, true));
+    this.addInfoPanel(new apiviewer.ui.panels.MethodPanel("methods-static", "static methods", false, true));
+    this.addInfoPanel(new apiviewer.ui.panels.ConstantPanel("constants", "constants", false, true));
+    this.addInfoPanel(new apiviewer.ui.panels.AppearancePanel("appearances", "appearances", false, true));
   },
 
 
@@ -79,16 +85,25 @@ qx.Class.define("apiviewer.ui.ClassViewer",
   properties :
   {
     /** whether to display inherited items */
-    showInherited : { _legacy: true, type: "boolean", defaultValue: false },
+    showInherited : {
+      check: "Boolean",
+      init: false,
+      apply: "_updatePanels"
+    },
 
     /** whether to display protected items */
-    showProtected : { _legacy: true, type: "boolean", defaultValue: false },
+    showProtected :  {
+      check: "Boolean",
+      init: false,
+      apply: "_updatePanels"
+    },
 
     /** whether to display private and internal items */
-    showPrivate : { _legacy: true, type: "boolean", defaultValue: false },
-
-    /** The class to display */
-    classNode : { _legacy: true}
+    showPrivate : {
+      check: "Boolean",
+      init: false,
+      apply: "_updatePanels"
+    }
   },
 
 
@@ -139,28 +154,6 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       "Interface" : true,
       "Theme"     : true
     },
-
-
-    /** {Integer} The node type of a constructor. */
-    NODE_TYPE_CONSTRUCTOR : 1,
-
-    /** {Integer} The node type of an event. */
-    NODE_TYPE_EVENT : 2,
-
-    /** {Integer} The node type of a property. */
-    NODE_TYPE_PROPERTY : 3,
-
-    /** {Integer} The node type of a public method. */
-    NODE_TYPE_METHOD : 4,
-
-    /** {Integer} The node type of a static public method. */
-    NODE_TYPE_METHOD_STATIC : 5,
-
-    /** {Integer} The node type of a constant. */
-    NODE_TYPE_CONSTANT : 6,
-
-    /** {Integer} The node type of a appearance. */
-    NODE_TYPE_APPEARANCE : 7,
 
 
     /**
@@ -238,27 +231,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       */
 
       return html;
-    },
-
-
-    /**
-     * Change the target of all external links inside the given element to open in a new browser window.
-     *
-     * @type member
-     * @param el {Element} Root element
-     */
-    fixLinks : function(el)
-    {
-      var a = el.getElementsByTagName("a");
-
-      for (var i=0; i<a.length; i++)
-      {
-        if (typeof a[i].href == "string" && a[i].href.indexOf("http://") == 0) {
-          a[i].target = "_blank";
-        }
-      }
     }
-
   },
 
 
@@ -273,112 +246,6 @@ qx.Class.define("apiviewer.ui.ClassViewer",
   members :
   {
 
-    _modifyShowInherited : function(value)
-    {
-      this._updateInfoViewers();
-      return true;
-    },
-
-
-    _modifyShowProtected : function(value)
-    {
-      this._updateInfoViewers();
-      return true;
-    },
-
-
-    _modifyShowPrivate : function(value)
-    {
-      this._updateInfoViewers();
-      return true;
-    },
-
-
-    /**
-     * Initializes the content of the embedding DIV. Will be called by the
-     * HtmlEmbed element initialization routine.
-     *
-     * @type member
-     */
-    _syncHtml : function()
-    {
-      var ClassViewer = apiviewer.ui.ClassViewer;
-
-      document._detailViewer = this;
-
-      this._infoPanelHash = {};
-
-      var html = new qx.util.StringBuilder();
-
-      // Add title
-      html.add('<h1></h1>');
-
-      // Add description
-      html.add('<div>', '</div>');
-
-      // Add constructor info
-      var constructorPanel = new apiviewer.ui.panels.MethodPanel(ClassViewer.NODE_TYPE_CONSTRUCTOR, "constructor", "constructor", false, true);
-      this._infoPanelHash[ClassViewer.NODE_TYPE_CONSTRUCTOR] = constructorPanel;
-      html.add(constructorPanel.getPanelHtml());
-
-      // Add event info
-      var eventPanel = new apiviewer.ui.panels.EventPanel(ClassViewer.NODE_TYPE_EVENT, "events", "events", true, true)
-      this._infoPanelHash[ClassViewer.NODE_TYPE_EVENT] = eventPanel;
-      html.add(eventPanel.getPanelHtml());
-
-      // Add properties info
-      var propPanel = new apiviewer.ui.panels.PropertyPanel(ClassViewer.NODE_TYPE_PROPERTY, "properties", "properties", true, true);
-      this._infoPanelHash[ClassViewer.NODE_TYPE_PROPERTY] = propPanel;
-      html.add(propPanel.getPanelHtml());
-
-      // Add methods info
-      var memberPanel = new apiviewer.ui.panels.MethodPanel(ClassViewer.NODE_TYPE_METHOD, "methods", "methods", true, true);
-      this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD] = memberPanel;
-      html.add(memberPanel.getPanelHtml());
-
-      // Add static methods info
-      var staticsPanel = new apiviewer.ui.panels.MethodPanel(ClassViewer.NODE_TYPE_METHOD_STATIC, "methods-static", "static methods", false, true);
-      this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD_STATIC] = staticsPanel;
-      html.add(staticsPanel.getPanelHtml());
-
-      // Add constants info
-      var constantsPanel = new apiviewer.ui.panels.ConstantPanel(ClassViewer.NODE_TYPE_CONSTANT, "constants", "constants", false, true);
-      this._infoPanelHash[ClassViewer.NODE_TYPE_CONSTANT] = constantsPanel;
-      html.add(constantsPanel.getPanelHtml());
-
-      // Add constants info
-      var appearPanel = new apiviewer.ui.panels.AppearancePanel(ClassViewer.NODE_TYPE_APPEARANCE, "appearances", "appearances", false, true);
-      this._infoPanelHash[ClassViewer.NODE_TYPE_APPEARANCE] = appearPanel;
-      html.add(appearPanel.getPanelHtml());
-
-
-      // Set the html
-      this.getElement().innerHTML = html.get();
-      ClassViewer.fixLinks(this.getElement());
-
-
-      // Extract the main elements
-      var divArr = this.getElement().childNodes;
-      this._titleElem = divArr[0];
-      this._classDescElem = divArr[1];
-
-      this._infoPanelHash[ClassViewer.NODE_TYPE_CONSTRUCTOR].setInfoElement(divArr[2]);
-      this._infoPanelHash[ClassViewer.NODE_TYPE_EVENT].setInfoElement(divArr[3]);
-      this._infoPanelHash[ClassViewer.NODE_TYPE_PROPERTY].setInfoElement(divArr[4]);
-      this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD].setInfoElement(divArr[5]);
-      this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD_STATIC].setInfoElement(divArr[6]);
-      this._infoPanelHash[ClassViewer.NODE_TYPE_CONSTANT].setInfoElement(divArr[7]);
-      this._infoPanelHash[ClassViewer.NODE_TYPE_APPEARANCE].setInfoElement(divArr[8]);
-
-      // Get the child elements
-      for (var nodeType in this._infoPanelHash)
-      {
-        var panel = this._infoPanelHash[nodeType];
-        panel.setInfoTitleElement(panel.getInfoElement().firstChild);
-        panel.setInfoBodyElement(panel.getInfoElement().lastChild);
-      }
-    },
-
 
     /**
      * Returns the HTML fragment for the title
@@ -387,7 +254,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
      * @param classNode {apiviewer.dao.Class} the class documentation node for the title
      * @return {String} HTML fragment of the title
      */
-    __getTitleHtml : function(classNode)
+    _getTitleHtml : function(classNode)
     {
       switch (classNode.getType())
       {
@@ -424,26 +291,8 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     },
 
 
-    /**
-     * Shows the information about a class.
-     *
-     * @type member
-     * @param classNode {apiviewer.dao.Class} the doc node of the class to show.
-     */
-    _modifyClassNode : function(classNode)
+    _getDescriptionHtml : function(classNode)
     {
-      if (!this._titleElem)
-      {
-        // _initContentDocument was not called yet
-        // -> Do nothing, the class will be shown in _initContentDocument.
-        return true;
-      }
-
-      //console.profile("HTML");
-      var start = new Date();
-
-      this._titleElem.innerHTML = this.__getTitleHtml(classNode);
-
       switch (classNode.getType())
       {
         case "mixin" :
@@ -513,15 +362,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
         classHtml.add('</p>');
       }
 
-      this._classDescElem.innerHTML = classHtml.get();
-      apiviewer.ui.ClassViewer.fixLinks(this._classDescElem);
-
-      // Refresh the info viewers
-      this._updateInfoViewers();
-
-      var end = new Date();
-      this.debug("Html render time: " + (end-start));
-      //console.profileEnd();
+      return classHtml.get();
     },
 
 
@@ -684,25 +525,6 @@ qx.Class.define("apiviewer.ui.ClassViewer",
 
 
     /**
-     * Updates all info panels
-     *
-     * @type member
-     */
-    _updateInfoViewers : function()
-    {
-      for (var nodeType in this._infoPanelHash) {
-       var panel = this._infoPanelHash[nodeType];
-        panel.update(
-          this.getShowProtected(),
-          this.getShowInherited(),
-          this.getShowPrivate(),
-          this.getClassNode()
-        );
-      }
-    },
-
-
-    /**
      * Highlights an item (property, method or constant) and scrolls it visible.
      *
      * @type member
@@ -711,7 +533,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
      */
     showItem : function(itemName)
     {
-      var itemNode = this.getClassNode().getItem(itemName);
+      var itemNode = this.getDocNode().getItem(itemName);
 
       if (!itemNode) {
         return false;
@@ -719,7 +541,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
 
       var panel = this._getPanelForItemNode(itemNode);
 
-      var itemElement = this._getItemElement(panel, itemNode.getName());
+      var itemElement = panel.getItemElement(itemNode.getName());
       if (!itemElement) {
         return false;
       }
@@ -742,103 +564,27 @@ qx.Class.define("apiviewer.ui.ClassViewer",
 
     /**
      * Event handler. Called when the user clicked a button for showing/hiding the
-     * details of an item.
-     *
-     * @type member
-     * @param nodeType {Integer} the node type of the item to show/hide the details.
-     * @param name {String} the name of the item.
-     * @param fromClassName {String} the name of the class the item the item was
-     *          defined in.
-     */
-    _onShowItemDetailClicked : function(nodeType, name, fromClassName)
-    {
-      try
-      {
-        var panel = this._infoPanelHash[nodeType];
-        var textDiv = this._getItemElement(panel, name);
-
-        if (!textDiv) {
-          throw Error("Element for name '" + name + "' not found!");
-        }
-
-        var showDetails = textDiv._showDetails ? !textDiv._showDetails : true;
-        textDiv._showDetails = showDetails;
-
-        if (fromClassName) {
-          var fromClassNode = apiviewer.dao.Class.getClassByName(fromClassName);
-        } else {
-          fromClassNode = this.getClassNode();
-        }
-
-        var node = fromClassNode.getItemByListAndName(panel.getListName(), name);
-
-        // Update the close/open image
-        var opencloseImgElem = textDiv.parentNode.previousSibling.firstChild;
-        opencloseImgElem.src = qx.manager.object.AliasManager.getInstance().resolvePath(showDetails ? 'api/image/close.gif' : 'api/image/open.gif');
-
-        // Update content
-        var info = panel.getItemHtml(node, this.getClassNode(), showDetails);
-        textDiv.innerHTML = info.textHtml;
-        apiviewer.ui.ClassViewer.fixLinks(textDiv);
-      }
-      catch(exc)
-      {
-        this.error("Toggling item details failed", exc);
-      }
-    },
-
-
-    /**
-     * Event handler. Called when the user clicked a button for showing/hiding the
      * body of an info panel.
      *
      * @type member
-     * @param nodeType {Integer} the node type of which the show/hide-body-button was
-     *          clicked.
+     * @param panelHashCode {Integer} hash code of the panel object.
      */
-    _onShowInfoPanelBodyClicked : function(nodeType)
+    _onShowInfoPanelBodyClicked : function(panelHashCode)
     {
       try
       {
-        var panel = this._infoPanelHash[nodeType];
+        var panel = this.getPanelFromHashCode(panelHashCode);
         panel.setIsOpen(!panel.getIsOpen());
 
-        var imgElem = panel.getInfoTitleElement().getElementsByTagName("img")[0];
+        var imgElem = panel.getTitleElement().getElementsByTagName("img")[0];
         imgElem.src = qx.manager.object.AliasManager.getInstance().resolvePath(panel.getIsOpen() ? 'api/image/close.gif' : 'api/image/open.gif');
 
-        panel.update(
-          this.getShowProtected(),
-          this.getShowInherited(),
-          this.getShowPrivate(),
-          this.getClassNode()
+        panel.update(this, this.getDocNode()
         );
       }
       catch(exc)
       {
         this.error("Toggling info body failed", exc);
-      }
-    },
-
-
-    /**
-     * Gets the HTML element showing the details of an item.
-     *
-     * @type member
-     * @param panel {InfoPanel} the info panel of the item.
-     * @param name {String} the item's name.
-     * @return {Element} the HTML element showing the details of the item.
-     */
-    _getItemElement : function(panel, name)
-    {
-      var elemArr = panel.getInfoBodyElement().getElementsByTagName("TBODY")[0].childNodes;
-
-      for (var i=0; i<elemArr.length; i++)
-      {
-        // ARRG, should be implemented in a more fault-tolerant way
-        // iterate over tr's, look inside the third "td" and there the second element
-        if (elemArr[i].childNodes[3].childNodes[1].getAttribute("_itemName") == name) {
-          return elemArr[i].childNodes[3].childNodes[1];
-        }
       }
     },
 
@@ -867,30 +613,12 @@ qx.Class.define("apiviewer.ui.ClassViewer",
      */
     _getPanelForItemNode : function(itemNode)
     {
-      itemNode = itemNode.getNode();
-      var ClassViewer = apiviewer.ui.ClassViewer;
-
-      if (itemNode.getType == "constant") {
-        return this._infoPanelHash[ClassViewer.NODE_TYPE_CONSTANT];
-      } else if (itemNode.type == "property") {
-        return this._infoPanelHash[ClassViewer.NODE_TYPE_PROPERTY];
-      } else if (itemNode.type == "event") {
-        return this._infoPanelHash[ClassViewer.NODE_TYPE_EVENT];
-      }
-      else if (itemNode.type == "method")
+      var panels = this.getPanels();
+      for (var i=0; i<panels.length; i++)
       {
-        var name = itemNode.attributes.name;
-
-        if (name == null) {
-          return this._infoPanelHash[ClassViewer.NODE_TYPE_CONSTRUCTOR];
-        }
-        else
-        {
-          if (itemNode.attributes.isStatic) {
-            return this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD_STATIC];
-          } else {
-            return this._infoPanelHash[ClassViewer.NODE_TYPE_METHOD];
-          }
+        var panel = panels[i];
+        if (panel.canDisplayItem(itemNode)) {
+          return panel;
         }
       }
     }

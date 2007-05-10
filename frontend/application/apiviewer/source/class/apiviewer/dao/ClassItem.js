@@ -68,6 +68,15 @@ qx.Class.define("apiviewer.dao.ClassItem",
 
 
     /**
+     * @return {String}
+     */
+    getListName : function()
+    {
+      return this._listName;
+    },
+
+
+    /**
      * Get a list of errors of this item.
      *
      * @return {Map[]} errors of this item.

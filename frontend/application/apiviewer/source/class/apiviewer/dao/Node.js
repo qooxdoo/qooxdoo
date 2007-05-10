@@ -65,6 +65,17 @@ qx.Class.define("apiviewer.dao.Node", {
 
 
     /**
+     * Get the node type of the internal node
+     *
+     * @return {String} the node type name
+     */
+    getNodeType : function()
+    {
+      return this._docNode.type;
+    },
+
+
+    /**
      * Get the text of the deprecation message.
      *
      * @return {String} the deprecation message.

@@ -31,7 +31,7 @@
  */
 qx.Class.define("apiviewer.ui.PackageViewer",
 {
-  extend : qx.ui.embed.HtmlEmbed,
+  extend : apiviewer.ui.AbstractViewer,
 
 
 
@@ -44,13 +44,13 @@ qx.Class.define("apiviewer.ui.PackageViewer",
 
   construct : function()
   {
-    qx.ui.embed.HtmlEmbed.call(this);
+    this.base(arguments);
 
-    this.setOverflow("auto");
-    this.setPadding(20);
-    this.setEdge(0);
-    this.setHtmlProperty("id", "PackageViewer");
+    this.setHtmlProperty("id", "ClassViewer");
     this.setVisibility(false);
+    this.setDocNode(new apiviewer.dao.Package({}));
+
+    this.addInfoPanel(new apiviewer.ui.panels.ClassPanel("classes", "classes", false, true));
   },
 
 
@@ -64,25 +64,35 @@ qx.Class.define("apiviewer.ui.PackageViewer",
 
   members :
   {
+
     /**
-     * Shows information about a package
+     * Returns the HTML fragment for the title
      *
      * @type member
-     * @param classNode {apiviewer.dao.Package} package to display
+     * @param classNode {apiviewer.dao.Package} the package documentation node for the title
+     * @return {String} HTML fragment of the title
      */
-    showInfo : function(classNode)
+    _getTitleHtml : function(classNode)
     {
       var vHtml = "";
 
       // Title
-      vHtml += '<h1>';
       vHtml += '<small>package</small>';
       vHtml += classNode.getFullName();
-      vHtml += '</h1>';
+      return vHtml;
+    },
 
-      // TODO: Overview of classes in this package
-      // Apply HTML
-      this.setHtml(vHtml);
+
+    _getDescriptionHtml : function(classNode)
+    {
+      var descHtml = new qx.util.StringBuilder();
+      desc = "TODO: put the package description here...";
+      //desc = classNode.getDescription();
+      if (desc != "") {
+        descHtml.add('<div class="class-description">', apiviewer.ui.panels.InfoPanel.resolveLinkAttributes(desc, classNode), '</div>');
+      }
+      return descHtml.get();
     }
+
   }
 });

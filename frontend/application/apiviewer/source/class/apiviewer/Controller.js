@@ -235,13 +235,13 @@ qx.Class.define("apiviewer.Controller",
       if (classNode instanceof apiviewer.dao.Class)
       {
         this._packageViewer.setVisibility(false);
-        this._classViewer.setClassNode(classNode);
+        this._classViewer.setDocNode(classNode);
         this._classViewer.setVisibility(true);
       }
       else
       {
         this._classViewer.setVisibility(false);
-        this._packageViewer.showInfo(classNode);
+        this._packageViewer.setDocNode(classNode);
         this._packageViewer.setVisibility(true);
       }
     },
