@@ -37,9 +37,7 @@ qx.Class.define("qx.ui.resizer.Resizer",
 {
   extend    : qx.ui.layout.CanvasLayout,
   include   : qx.ui.resizer.MResizeable,
-//implement : qx.ui.resizer.IResizeable,
-
-
+  implement : qx.ui.resizer.IResizeable,
 
 
 
