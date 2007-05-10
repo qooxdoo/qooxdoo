@@ -713,7 +713,7 @@ qx.Class.define("qx.core.Property",
       var incomingValue = variant === "set" || variant === "style" || localInit;
       var resetValue = variant === "reset" || variant === "unstyle";
 
-      var enableChecks = incomingValue && qx.core.Variant.isSet("qx.debug", "on") || variant === "set";
+      var enableChecks = incomingValue && (qx.core.Variant.isSet("qx.debug", "on") || variant === "set");
 
 
 
@@ -753,22 +753,28 @@ qx.Class.define("qx.core.Property",
 
       // [2] PREPROCESS INCOMING VALUE
 
-      if (incomingValue)
+      if (incomingValue || variant === "refresh")
       {
         if (enableChecks)
         {
+          // Check argument length
+          code.push('if(arguments.length!==1)throw new Error("The method of the property \'', name,  '\' by using ', this.$$method[variant][name], '() requires exactly one argument!");');
+
           // Undefined check
           // Must be above the comparision between old and new, because otherwise previously unset
           // values get not detected and will be quitely ignored which is a bad behavior.
           code.push('if(value===undefined)');
           code.push('throw new Error("Undefined value for property \'', name, '\' of class \'"+this.constructor.classname+"\' is not allowed!");');
-
-          // Check argument length
-          if (qx.core.Variant.isSet("qx.debug", "on")) {
-            code.push('if(arguments.length!==1)throw new Error("The method of the property \'', name,  '\' by using ', this.$$method[variant][name], '() requires exactly one argument!");');
-          }
         }
+      }
+      else
+      {
+        // Check argument length
+        code.push('if(arguments.length!==0)throw new Error("The method of the property \'', name,  '\' by using ', this.$$method[variant][name], '() does not allow any arguments!");');
+      }
 
+      if (incomingValue)
+      {
         // Allow to unstyle themeable properties by explicit "undefined" string value
         if (variant === "style") {
           code.push('if(value===qx.core.Property.$$undefined)value=undefined;');
@@ -910,7 +916,7 @@ qx.Class.define("qx.core.Property",
       else if (resetValue)
       {
         // Remove value
-        code.push('value=undefined;');
+        // code.push('value=undefined;');
         code.push('delete this.', store, ';');
       }
 
@@ -1042,12 +1048,12 @@ qx.Class.define("qx.core.Property",
 
       // [11] COMPARING (COMPUTED) VALUE WITH OLD (COMPUTED) VALUE
 
-      // Compare old/new computed value
-      code.push('if(old===computed)return value;');
-
       // Normalize 'undefined' to 'null'
       // Could only be undefined in cases when the setter was never executed before
       code.push('if(old===undefined)old=null;');
+
+      // Compare old/new computed value
+      code.push('if(old===computed)return value;');
 
       // Inform user
       if (qx.core.Variant.isSet("qx.debug", "on"))
