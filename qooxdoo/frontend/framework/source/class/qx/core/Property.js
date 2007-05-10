@@ -784,7 +784,7 @@ qx.Class.define("qx.core.Property",
       else
       {
         // Undefined check
-        if (incomingValue) {
+        if (variant === "set") {
           code.push('if(value===undefined)err(this,2);');
         }
       }
