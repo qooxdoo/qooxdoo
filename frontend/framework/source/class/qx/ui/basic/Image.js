@@ -626,7 +626,7 @@ qx.Class.define("qx.ui.basic.Image",
       {
         if (this._image)
         {
-          var o = this.getEnabled() ? "" : 0.3;
+          var o = this.getEnabled()===false ? 0.3 : "";
           var s = this._image.style;
 
           s.opacity = s.KhtmlOpacity = s.MozOpacity = o;
