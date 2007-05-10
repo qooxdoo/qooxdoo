@@ -705,13 +705,11 @@ qx.Class.define("qx.core.Property",
       var code = [];
 
 
-//      var globalInit = variant === "init" && config.init !== undefined;
       var localInit = variant === "init" && config.init === undefined;
-
       var incomingValue = variant === "set" || variant === "style" || localInit;
       var resetValue = variant === "reset" || variant === "unstyle";
-
       var enableChecks = incomingValue && (qx.core.Variant.isSet("qx.debug", "on") || variant === "set");
+      var normalizeUndefined = config.apply || config.event;
 
 
 
@@ -996,7 +994,7 @@ qx.Class.define("qx.core.Property",
         } else {
           code.push('{var pa=this.getParent();if(pa)computed=pa.', this.$$store.inherit[name], ';}');
         }
-        
+
         code.push('if(computed===undefined||computed===qx.core.Property.$$inherit){');
         code.push('computed=this.', this.$$store.init[name], ';');
         code.push('if(computed===qx.core.Property.$$inherit)useInit=false;else useInit=true;');
@@ -1011,7 +1009,7 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [10] SYNCING WITH OBJECT
+      // [9] SYNCING WITH OBJECT
 
       // And for all others if the init value was used to generate the computed value.
       code.push('if(useInit)this.', this.$$store.useinit[name], '=true;');
@@ -1020,14 +1018,14 @@ qx.Class.define("qx.core.Property",
       // Store inherited value of inheritable properties
       if (config.inheritable) {
         code.push('var inherited=this.', this.$$store.inherit[name], '=computed;');
-        
+
         code.push('console.log("inherited: " + this.classname + ".' + name + '= "+ inherited);')
       }
 
 
 
-      // [11] COMPARING (COMPUTED) VALUE WITH OLD (COMPUTED) VALUE
-      
+      // [10] COMPARING (COMPUTED) VALUE WITH OLD (COMPUTED) VALUE
+
       // Compare old/new computed value
       code.push('if(old===computed)return value;');
 
@@ -1043,7 +1041,7 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [9] NORMALIZING OLD AND COMPUTED VALUE
+      // [11] NORMALIZING OLD AND COMPUTED VALUE
       if (config.inheritable) {
         code.push('if(computed===undefined||computed===qx.core.Property.$$inherit)computed=null;');
       } else {
