@@ -1736,18 +1736,20 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
         if (states.horizontal)
         {
-          result.top = "33%";
-          result.left = null;
-          result.marginLeft = -6;
-          result.marginTop = 0;
+          result.top = "50%";
+          result.left = "50%";
+          // center knob image (15x4 Pixel)
+          result.marginLeft = -2;
+          result.marginTop = -7;
           result.cursor = "col-resize";
         }
         else if (states.vertical)
         {
-          result.top = null;
-          result.left = "33%";
-          result.marginTop = -6;
-          result.marginLeft = 0;
+          result.top = "50%";
+          result.left = "50%";
+          // center knob image (4x15 Pixel)
+          result.marginTop = -2;
+          result.marginLeft = -7;
           result.cursor = "row-resize";
         }
 
