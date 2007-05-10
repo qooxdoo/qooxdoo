@@ -34,10 +34,11 @@ qx.Class.define("apiviewer.dao.Class",
   /**
    * @param classDocNode {Map} class documentation node
    */
-  construct : function(classDocNode)
+  construct : function(classDocNode, pkg)
   {
     this.base(arguments, classDocNode);
     this.self(arguments).__registerClass(this);
+    this._package = pkg;
   },
 
 
@@ -112,6 +113,12 @@ qx.Class.define("apiviewer.dao.Class",
     },
 
 
+    getPackage : function()
+    {
+      return this._package;
+    },
+
+
     /**
      * Get the full name of the class, including the package name.
      *
@@ -153,6 +160,12 @@ qx.Class.define("apiviewer.dao.Class",
     getType : function()
     {
       return this._docNode.attributes.type || "class";
+    },
+
+
+    getTypes : function()
+    {
+      return [{ type : this.getName() }];
     },
 
 

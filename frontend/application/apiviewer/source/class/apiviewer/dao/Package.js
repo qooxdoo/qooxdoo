@@ -27,9 +27,10 @@
 qx.Class.define("apiviewer.dao.Package", {
   extend : apiviewer.dao.Node,
 
-  construct : function(classDocNode)
+  construct : function(classDocNode, pkg)
   {
     this.base(arguments, classDocNode);
+    this._package = pkg;
   },
 
   members : {
@@ -44,6 +45,16 @@ qx.Class.define("apiviewer.dao.Package", {
       return this._docNode.attributes.fullName || "";
     },
 
+    /**
+     * Get package description
+     *
+     * @return {String} package description
+     */
+    getDescription : function()
+    {
+      return this._desc || "";
+    },
+
     getClasses : function()
     {
       return this._classes;
@@ -54,20 +65,78 @@ qx.Class.define("apiviewer.dao.Package", {
       return this._packages;
     },
 
+    getPackage : function()
+    {
+      return this._package;
+    },
+
+
+    /**
+     * Get an array of class items matching the given list name. Known list names are:
+     * <ul>
+     *   <li>classes</li>
+     *   <li>packages</li>
+     *   <li>properties</li>
+     *   <li>methods</li>
+     *   <li>methods-static</li>
+     *   <li>constants</li>
+     *   <li>appearances</li>
+     *   <li>superInterfaces</li>
+     *   <li>superMixins</li>
+     * </li>
+     *
+     * @param listName {String} name of the item list
+     * @return {apiviewer.dao.ClassItem[]} item list
+     */
+    getItemList : function(listName)
+    {
+      var methodMap = {
+        "classes" : "getClasses",
+        "packages": "getPackages"
+      };
+      if (listName == "constructor") {
+        return this.getConstructor() ? [this.getConstructor()] : [];
+      } else {
+        return this[methodMap[listName]]();
+      }
+    },
+
+
+    /**
+     * Get a class item by the item list name and the item name.
+     * Valid item list names aer documented at {@link #getItemList}.
+     * .
+     * @param listName {String} name of the item list.
+     * @param itemName {String} name of the class item.
+     * @return {apiviewer.dao.ClassItem} the matching class item.
+     */
+    getItemByListAndName : function(listName, itemName)
+    {
+      var list = this.getItemList(listName);
+      for (var j=0; j<list.length; j++)
+      {
+        if (itemName == list[j].getName()) {
+          return list[j];
+        }
+      }
+    },
+
+
     _initializeFields : function() {
       this.base(arguments);
       this._classes = [];
       this._packages = [];
     },
 
+
     _addChildNode : function(node)
     {
       switch (node.type) {
         case "classes":
-          this._classes = this._createNodeList(node, apiviewer.dao.Class);
+          this._classes = this._createNodeList(node, apiviewer.dao.Class, this);
           break;
         case "packages":
-          this._packages = this._createNodeList(node, apiviewer.dao.Package);
+          this._packages = this._createNodeList(node, apiviewer.dao.Package, this);
           break;
         default:
           return this.base(arguments, node);

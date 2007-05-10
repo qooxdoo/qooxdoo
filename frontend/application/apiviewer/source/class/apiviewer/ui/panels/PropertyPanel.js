@@ -140,6 +140,18 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
     },
 
 
+    getItemTypeHtml : function(node)
+    {
+      return apiviewer.ui.panels.InfoPanel.createTypeHtml(node, "var");
+    },
+
+
+    getItemTitleHtml : function(node)
+    {
+       return apiviewer.ui.panels.InfoPanel.setTitleClass(node, node.getName());
+    },
+
+
     /**
      * Creates the HTML showing the information about a property.
      *
@@ -149,16 +161,12 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
      * @param showDetails {Boolean} whether to show the details.
      * @return {String} the HTML showing the information about the property.
      */
-    getItemHtml : function(node, currentClassDocNode, showDetails)
+    getItemTextHtml : function(node, currentClassDocNode, showDetails)
     {
       var ClassViewer = apiviewer.ui.ClassViewer;
 
       // Get the property node that holds the documentation
       var docNode = node.getDocNode();
-
-      // Add the title
-      var typeHtml = apiviewer.ui.panels.InfoPanel.createTypeHtml(node, "var");
-      var titleHtml = apiviewer.ui.panels.InfoPanel.setTitleClass(node, node.getName());
 
       // Add the description
       var textHtml = new qx.util.StringBuilder(apiviewer.ui.panels.InfoPanel.createDescriptionHtml(node, showDetails));
@@ -268,12 +276,7 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
         textHtml.add(apiviewer.ui.panels.InfoPanel.createDeprecationHtml(docNode, "property"));
       }
 
-      var info = {};
-      info.textHtml = textHtml.get();
-      info.typeHtml = typeHtml;
-      info.titleHtml = titleHtml;
-
-      return info;
+      return textHtml.get();
     }
 
   }

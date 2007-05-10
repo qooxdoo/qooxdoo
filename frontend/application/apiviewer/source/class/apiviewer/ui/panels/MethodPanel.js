@@ -39,7 +39,7 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel", {
      * @param method {apiviewer.dao.Method} The method doc node.
      * @return {String} The HTML fragment of the title.
      */
-    getTitleHtml : function(method)
+    getItemTitleHtml : function(method)
     {
       if (method.isConstructor()) {
         var title = method.getClass().getName();
@@ -82,7 +82,7 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel", {
      * @param method {apiviewer.dao.Method} The method doc node.
      * @return {String} The HTML fragment of the type.
      */
-    getTypeHtml : function(method)
+    getItemTypeHtml : function(method)
     {
       var typeHtml = new qx.util.StringBuilder();
       if (method.isAbstract()) {
@@ -106,7 +106,7 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel", {
      * @param showDetails {Boolean} whether to show the details.
      * @return {String} the HTML showing the information about the method.
      */
-    getItemHtml : function(method, currentClassDocNode, showDetails)
+    getItemTextHtml : function(method, currentClassDocNode, showDetails)
     {
       var ClassViewer = apiviewer.ui.ClassViewer;
 
@@ -202,11 +202,7 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel", {
         textHtml.add(apiviewer.ui.panels.InfoPanel.createDeprecationHtml(method, "function"));
       }
 
-      var info = {};
-      info.titleHtml = this.getTitleHtml(method);
-      info.textHtml = textHtml.get();
-      info.typeHtml = this.getTypeHtml(method);
-      return info;
+      return textHtml.get();
     },
 
 
@@ -233,7 +229,7 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel", {
         node.getErrors().length > 0 ||
         node.isDeprecated() ||
         node.getApply() ||
-        apiviewer.ui.panels.InfoPanel.descriptionHasDetails(docNode)
+        apiviewer.ui.panels.InfoPanel.descriptionHasDetails(node)
       );
     }
 

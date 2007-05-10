@@ -23,6 +23,18 @@ qx.Class.define("apiviewer.ui.panels.ConstantPanel", {
     },
 
 
+    getItemTypeHtml : function(node)
+    {
+      return apiviewer.ui.panels.InfoPanel.createTypeHtml(node, "var");
+    },
+
+
+    getItemTitleHtml : function(node)
+    {
+       return apiviewer.ui.panels.InfoPanel.setTitleClass(node, node.getName());
+    },
+
+
     /**
      * Creates the HTML showing the information about a constant.
      *
@@ -32,26 +44,20 @@ qx.Class.define("apiviewer.ui.panels.ConstantPanel", {
      * @param showDetails {Boolean} whether to show the details.
      * @return {String} the HTML showing the information about the constant.
      */
-    getItemHtml : function(node, currentClassDocNode, showDetails)
+    getItemTextHtml : function(node, currentClassDocNode, showDetails)
     {
-      var info = {};
 
-      // Add the title
-      info.typeHtml = apiviewer.ui.panels.InfoPanel.createTypeHtml(node, "var");
-      info.titleHtml = apiviewer.ui.panels.InfoPanel.setTitleClass(node, node.getName());
-
-      // Add the description
-      info.textHtml = apiviewer.ui.panels.InfoPanel.createDescriptionHtml(node, showDetails);
+      var textHtml = apiviewer.ui.panels.InfoPanel.createDescriptionHtml(node, showDetails);
 
       if (showDetails)
       {
-        info.textHtml += this.__createConstantValueHtml(node);
-        info.textHtml += apiviewer.ui.panels.InfoPanel.createSeeAlsoHtml(node);
-        info.textHtml += apiviewer.ui.panels.InfoPanel.createErrorHtml(node, currentClassDocNode);
-        info.textHtml += apiviewer.ui.panels.InfoPanel.createDeprecationHtml(node, "constant");
+        textHtml += this.__createConstantValueHtml(node);
+        textHtml += apiviewer.ui.panels.InfoPanel.createSeeAlsoHtml(node);
+        textHtml += apiviewer.ui.panels.InfoPanel.createErrorHtml(node, currentClassDocNode);
+        textHtml += apiviewer.ui.panels.InfoPanel.createDeprecationHtml(node, "constant");
       }
 
-      return info;
+      return textHtml;
     },
 
 
