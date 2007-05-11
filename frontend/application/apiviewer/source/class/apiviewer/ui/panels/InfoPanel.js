@@ -785,10 +785,10 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
         // This node has details -> Show the detail button
         html.add(
           '<img src="', qx.manager.object.AliasManager.getInstance().resolvePath("api/image/open.gif"),
-          '"', " onclick=\"apiviewer.ObjectRegistry.getObjectFromHashCode("+this.toHashCode()+")._onShowItemDetailClicked(", this.toHashCode(), ",'",
+          '" onclick="', this.__encodeObject(this), ".toggleShowItemDetails('",
           node.getName(), "'" ,
           ((parentNode != currentDocNode) ? ",'" + parentNode.getFullName() + "'" : ""),
-          ")\"/>"
+          ')"/>'
         );
       }
       else
@@ -805,10 +805,10 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
 
       if (this.itemHasDetails(node, currentDocNode)) {
         html.add(
-          " onclick=\"apiviewer.ObjectRegistry.getObjectFromHashCode("+this.toHashCode()+")._onShowItemDetailClicked(",
-          this.toHashCode(), ",'", node.getName(), "'",
+          ' onclick="', this.__encodeObject(this), ".toggleShowItemDetails('",
+          node.getName(), "'",
           ((parentNode != currentDocNode) ? ",'" + parentNode.getFullName() + "'" : ""),
-          ")\">"
+          ')">'
         );
       } else {
         html.add('>');
@@ -843,6 +843,12 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
     itemHasDetails : qx.lang.Function.returnTrue,
 
 
+    __encodeObject : function(object)
+    {
+      return "apiviewer.ObjectRegistry.getObjectFromHashCode("+object.toHashCode()+")";
+    },
+
+
     /**
      * Get the HTML fragmet of the info panel
      *
@@ -856,8 +862,10 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
       html.add(
         '<img class="openclose" src="',
         qx.manager.object.AliasManager.getInstance().resolvePath('api/image/' + (this.getIsOpen() ? 'close.gif' : 'open.gif')),
-        '"', " onclick=\"apiviewer.ObjectRegistry.getObjectFromHashCode("+viewer.toHashCode()+")._onShowInfoPanelBodyClicked(" + viewer.toHashCode() + ")\"/> ",
-        '<span ' + " onclick=\"apiviewer.ObjectRegistry.getObjectFromHashCode("+viewer.toHashCode()+")._onShowInfoPanelBodyClicked(" + viewer.toHashCode() + ")\">",
+        '" onclick="', this.__encodeObject(viewer),
+        '.togglePanelVisibility(' + this.__encodeObject(this), ')"/> ',
+        '<span onclick="', this.__encodeObject(viewer),
+        '.togglePanelVisibility(', this.__encodeObject(this), ')">',
         uppercaseLabelText, '</span>'
       );
 
@@ -1126,12 +1134,11 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
      * @param fromClassName {String} the name of the class the item the item was
      *          defined in.
      */
-    _onShowItemDetailClicked : function(panelHashCode, itemName, fromClassName)
+    toggleShowItemDetails : function(itemName, fromClassName)
     {
       try
       {
-        var panel = this; //.getPanelFromHashCode(panelHashCode);
-        var textDiv = panel.getItemElement(itemName);
+        var textDiv = this.getItemElement(itemName);
 
         if (!textDiv) {
           throw Error("Element for name '" + itemName + "' not found!");
@@ -1145,14 +1152,14 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
         } else {
           fromClassNode = this.getDocNode();
         }
-        var node = fromClassNode.getItemByListAndName(panel.getListName(), itemName);
+        var node = fromClassNode.getItemByListAndName(this.getListName(), itemName);
 
         // Update the close/open image
         var opencloseImgElem = textDiv.parentNode.previousSibling.firstChild;
         opencloseImgElem.src = qx.manager.object.AliasManager.getInstance().resolvePath(showDetails ? 'api/image/close.gif' : 'api/image/open.gif');
 
         // Update content
-        textDiv.innerHTML = panel.getItemTextHtml(node, this.getDocNode(), showDetails);
+        textDiv.innerHTML = this.getItemTextHtml(node, this.getDocNode(), showDetails);
         apiviewer.ui.AbstractViewer.fixLinks(textDiv);
       }
       catch(exc)
