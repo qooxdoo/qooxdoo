@@ -981,7 +981,7 @@ qx.Class.define("qx.core.Property",
       {
         if (incomingValue) {
           code.push('if(nochange)return value;');
-        } else if (resetValue) {
+        } else {
           code.push('if(nochange)return;');
         }
       }
