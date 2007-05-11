@@ -33,7 +33,7 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
   members : {
 
     __createGeneratedMethodsHtml : function(node, currentClassDocNode) {
-        if (node.isOldProperty()) {
+        if (node.isOldProperty() || node.isRefined()) {
           return "";
         }
 

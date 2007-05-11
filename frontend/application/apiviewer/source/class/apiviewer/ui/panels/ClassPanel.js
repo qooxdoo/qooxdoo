@@ -64,31 +64,7 @@ qx.Class.define("apiviewer.ui.panels.ClassPanel",
 
     getItemTitleHtml : function(node)
     {
-      var titleHtml = new qx.util.StringBuilder();
-
-      if (node.isAbstract()) {
-        titleHtml.add("Abstract ");
-      } else if (node.isStatic()) {
-        titleHtml.add("Static ");
-      } else if (node.isSingleton()) {
-        titleHtml.add("Singleton ");
-      }
-      switch (node.getType())
-      {
-        case "mixin" :
-          titleHtml.add("Mixin ");
-          break;
-
-        case "interface" :
-          titleHtml.add("Interface ");
-          break;
-
-        default:
-          titleHtml.add("Class ");
-          break;
-      }
-      titleHtml.add(node.getFullName());
-      return titleHtml.get();
+      return node.getFullName();
     },
 
 
@@ -104,6 +80,35 @@ qx.Class.define("apiviewer.ui.panels.ClassPanel",
       } else {
         return apiviewer.ui.panels.InfoPanel.createDescriptionHtml(node, node.getClass(), showDetails);
       }
+    },
+
+
+    getItemTooltip : function(classNode, currentClassDocNode)
+    {
+      if (classNode.isAbstract()) {
+        var tooltip ="Abstract ";
+      } else if (classNode.isStatic()) {
+        var tooltip = "Static ";
+      } else if (classNode.isSingleton()) {
+        var tooltip = "Singleton ";
+      } else {
+        var tooltip = "";
+      }
+      switch (classNode.getType())
+      {
+        case "mixin" :
+          tooltip += "Mixin";
+          break;
+
+        case "interface" :
+          tooltip += "Interface";
+          break;
+
+        default:
+          tooltip += "Class";
+          break;
+      }
+      return tooltip;
     },
 
 
