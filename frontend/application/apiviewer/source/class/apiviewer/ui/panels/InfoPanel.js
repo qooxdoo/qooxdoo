@@ -748,6 +748,12 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
     },
 
 
+    getItemTooltip : function(node, currentClassDocNode)
+    {
+      return "";
+    },
+
+
     /**
      * Creates the HTML showing the information about a class item.
      * The root HTML element must be a table row (&lt;tr&gt;).
@@ -774,7 +780,9 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
 
       // Create the title row
       html.add('<tr class="', apiviewer.ui.panels.InfoPanel.getItemCssClasses(node), '">');
-      html.add('<td class="icon">', apiviewer.ui.ClassViewer.createImageHtml(iconUrl), '</td>');
+      var tooltipText = this.getItemTooltip(node, currentDocNode);
+      var tooltip = tooltipText ? 'title="'+ tooltipText +'" alt="' + tooltipText + '"' : '';
+      html.add('<td class="icon" ', tooltip, '>', apiviewer.ui.ClassViewer.createImageHtml(iconUrl), '</td>');
 
       var typeHtml = this.getItemTypeHtml(node, currentDocNode);
       html.add('<td class="type">', ((typeHtml) ? (typeHtml + "&nbsp;") : "&nbsp;"), '</td>');

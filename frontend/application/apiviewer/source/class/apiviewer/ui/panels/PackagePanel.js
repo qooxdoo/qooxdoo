@@ -59,6 +59,12 @@ qx.Class.define("apiviewer.ui.panels.PackagePanel",
     },
 
 
+    getItemTooltip : function(classNode, currentClassDocNode)
+    {
+      return "Package";
+    },
+
+
     itemHasDetails : function(node, currentClassDocNode)
     {
       return apiviewer.ui.panels.InfoPanel.descriptionHasDetails(node);
