@@ -229,6 +229,12 @@ def getTokens(fileDb, fileId, options):
             tokens = filetool.readCache(cachePath)
         else:
             fileContent = filetool.read(filePath, fileEncoding)
+
+            #TODO: This hack is neccesary becaus the current parser cannot handle comments
+            #      Without a context.
+            if fileId.endswith("__init__"):
+                fileContent += "\nfunction() {}"
+
             tokens = tokenizer.parseStream(fileContent, fileId)
 
             if useCache:
