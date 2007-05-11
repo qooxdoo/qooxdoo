@@ -49,10 +49,10 @@ import treeutil
 internalModTime = 0
 
 
-##                                                                              
-# Some nice short description of foo(); this can contain html and 
+##
+# Some nice short description of foo(); this can contain html and
 # {@link #foo Links} to items in the current file.
-#                                                                               
+#
 # @param     a        Describe a positional parameter
 # @keyparam  b        Describe a keyword parameter
 # @def       foo(name)    # overwrites auto-generated function signature
@@ -489,7 +489,8 @@ def indexFile(filePath, filePathId, classPath, listIndex, classEncoding, classUr
 
         # Search for valid ID
         if fileContentId == None:
-            print "    - Could not extract ID from file: %s. Fallback to path %s!" % (filePath, filePathId)
+            if not filePathId.endswith("__init__"):
+                print "    - Could not extract ID from file: %s. Fallback to path %s!" % (filePath, filePathId)
             fileId = filePathId
 
         else:
