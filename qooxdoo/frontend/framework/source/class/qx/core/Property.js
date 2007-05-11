@@ -1126,10 +1126,8 @@ qx.Class.define("qx.core.Property",
         }
 
         // Fire event
-        if (config.event)
-        {
-          code.push('if(this.hasEventListeners("', config.event, '"))');
-          code.push('this.dispatchEvent(new qx.event.type.ChangeEvent("', config.event, '", computed, old), true);');
+        if (config.event) {
+          code.push('this.createDispatchChangeEvent("', config.event, '", computed, old);');
         }
 
         // Refresh children
