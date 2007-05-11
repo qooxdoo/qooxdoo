@@ -921,12 +921,35 @@ qx.Class.define("qx.core.Property",
         }
         else
         {
+          code.push('var old;');
+
+          if(variant === "style" || variant === "unstyle" || variant === "init") {
+            code.push('var nochange;');
+          }
+
           // read user value
-          code.push('if(this.', this.$$store.user[name], '!==undefined)var old=this.', this.$$store.user[name], ';else ');
+          code.push('if(this.', this.$$store.user[name], '!==undefined)');
+
+          if(variant === "style" || variant === "unstyle" || variant === "init") {
+            code.push('nochange=true;');
+          } else {
+            code.push('old=this.', this.$$store.user[name], ';');
+          }
+
+          code.push('else ');
 
           // read theme value
-          if (config.themeable) {
-            code.push('if(this.', this.$$store.theme[name], '!==undefined)old=this.', this.$$store.theme[name], ';else ');
+          if (config.themeable)
+          {
+            code.push('if(this.', this.$$store.theme[name], '!==undefined)');
+
+            if(variant === "init") {
+              code.push('nochange=true;');
+            } else {
+              code.push('old=this.', this.$$store.theme[name], ';');
+            }
+
+            code.push('else ');
           }
 
           // read init value
@@ -943,16 +966,26 @@ qx.Class.define("qx.core.Property",
 
       // [7] STORING INCOMING VALUE
 
-      if (incomingValue)
-      {
-        // Store value
+      // Store value
+      if (incomingValue) {
         code.push('this.', store, '=value;');
       }
-      else if (resetValue)
-      {
-        // Remove key
+
+      // Remove value and key
+      else if (resetValue) {
         code.push('delete this.', store, ';');
       }
+
+      // Fast return if old value has higher priority
+      if (hasCallback && !config.inheritable && (variant === "style" || variant === "unstyle" || variant === "init"))
+      {
+        if (incomingValue) {
+          code.push('if(nochange)return value;');
+        } else if (resetValue) {
+          code.push('if(nochange)return;');
+        }
+      }
+
 
 
 
