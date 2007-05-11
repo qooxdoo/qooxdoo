@@ -31,6 +31,7 @@ qx.Class.define("apiviewer.dao.Package", {
   {
     this.base(arguments, classDocNode);
     this._package = pkg;
+    apiviewer.dao.Class.registerClass(this);
   },
 
   members : {
@@ -69,7 +70,6 @@ qx.Class.define("apiviewer.dao.Package", {
     {
       return this._package;
     },
-
 
     /**
      * Get an array of class items matching the given list name. Known list names are:
@@ -137,6 +137,9 @@ qx.Class.define("apiviewer.dao.Package", {
           break;
         case "packages":
           this._packages = this._createNodeList(node, apiviewer.dao.Package, this);
+          break;
+        case "desc":
+          this._desc = node.attributes.text || "";
           break;
         default:
           return this.base(arguments, node);

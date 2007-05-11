@@ -50,7 +50,10 @@ qx.Class.define("apiviewer.ui.PackageViewer",
     this.setVisibility(false);
     this.setDocNode(new apiviewer.dao.Package({}));
 
-    this.addInfoPanel(new apiviewer.ui.panels.ClassPanel("classes", "classes", false, true));
+    this.addInfoPanel(new apiviewer.ui.panels.ClassPanel("classes", "classes", "class"));
+    this.addInfoPanel(new apiviewer.ui.panels.ClassPanel("classes", "interfaces", "interface"));
+    this.addInfoPanel(new apiviewer.ui.panels.ClassPanel("classes", "mixins", "mixin"));
+    this.addInfoPanel(new apiviewer.ui.panels.PackagePanel("packages", "packages"));
   },
 
 
@@ -86,8 +89,8 @@ qx.Class.define("apiviewer.ui.PackageViewer",
     _getDescriptionHtml : function(classNode)
     {
       var descHtml = new qx.util.StringBuilder();
-      desc = "TODO: put the package description here...";
-      //desc = classNode.getDescription();
+      //desc = "TODO: put the package description here...";
+      desc = classNode.getDescription();
       if (desc != "") {
         descHtml.add('<div class="class-description">', apiviewer.ui.panels.InfoPanel.resolveLinkAttributes(desc, classNode), '</div>');
       }

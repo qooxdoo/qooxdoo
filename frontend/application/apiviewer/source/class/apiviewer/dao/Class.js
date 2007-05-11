@@ -37,7 +37,7 @@ qx.Class.define("apiviewer.dao.Class",
   construct : function(classDocNode, pkg)
   {
     this.base(arguments, classDocNode);
-    this.self(arguments).__registerClass(this);
+    this.self(arguments).registerClass(this);
     this._package = pkg;
   },
 
@@ -52,7 +52,7 @@ qx.Class.define("apiviewer.dao.Class",
      *
      * @param cls {apiviewer.dao.Class} The class to register.
      */
-    __registerClass : function(cls)
+    registerClass : function(cls)
     {
       if (!cls.getFullName()) return;
       this._class_registry[cls.getFullName()] = cls;
@@ -160,12 +160,6 @@ qx.Class.define("apiviewer.dao.Class",
     getType : function()
     {
       return this._docNode.attributes.type || "class";
-    },
-
-
-    getTypes : function()
-    {
-      return [{ type : this.getName() }];
     },
 
 

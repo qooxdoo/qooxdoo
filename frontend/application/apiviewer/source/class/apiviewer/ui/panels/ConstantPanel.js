@@ -47,7 +47,7 @@ qx.Class.define("apiviewer.ui.panels.ConstantPanel", {
     getItemTextHtml : function(node, currentClassDocNode, showDetails)
     {
 
-      var textHtml = apiviewer.ui.panels.InfoPanel.createDescriptionHtml(node, showDetails);
+      var textHtml = apiviewer.ui.panels.InfoPanel.createDescriptionHtml(node, node.getClass(), showDetails);
 
       if (showDetails)
       {
