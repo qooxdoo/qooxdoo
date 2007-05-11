@@ -711,7 +711,11 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
           }
 
           try {
-            return vText && vText.length > 0 ? qx.io.Json.parseQx(vText) : null;
+            if (vText && vText.length > 0) {
+              return qx.io.Json.parseQx(vText) || null;
+            } else {
+              return null;
+            }
           }
           catch(ex)
           {
@@ -729,9 +733,14 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
           }
 
           try {
-            return vText && vText.length > 0 ? window.eval(vText) : null;
+            if(vText && vText.length > 0) {
+              return window.eval(vText) || null;
+            } else {
+              return null;
+            }
           } catch(ex) {
-            return this.error("Could not execute javascript: [" + vText + "]", ex);
+            this.error("Could not execute javascript: [" + vText + "]", ex);
+            return null;
           }
 
         case qx.util.Mime.XML:
@@ -745,7 +754,7 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
             }
           }
 
-          return vText;
+          return vText || null;
 
         default:
           this.warn("No valid responseType specified (" + this.getResponseType() + ")!");
@@ -840,13 +849,13 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
        arrives. The problem is propably some manipulation on the XmlHttpRequest object
        during the handling of onreadystatechange. This problem needs further
        investigation.
- 
+
        http://bugzilla.qooxdoo.org/show_bug.cgi?id=190
-    
-       The following workaround calls the handler code with a zero timeout in order 
+
+       The following workaround calls the handler code with a zero timeout in order
        to avoid those problems, because onreadystatechange can then return instantly.
     */
-    if (qx.core.Variant.isSet("qx.client", "mshtml")) {  
+    if (qx.core.Variant.isSet("qx.client", "mshtml")) {
 
       statics.__originalOnreadystatechange = members._onreadystatechange;
 
