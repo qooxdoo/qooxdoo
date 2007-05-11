@@ -34,7 +34,6 @@ APPLICATION_BUILD_LOG_LEVEL = error
 
 
 
-
 ################################################################################
 # INCLUDE CORE
 ################################################################################
@@ -57,18 +56,16 @@ error:
 ################################################################################
 
 source:
-	@$(CMD_GENERATOR) \
+	$(CMD_GENERATOR) \
 	  --generate-api-documentation \
-	  --add-new-lines \	  
-	  --cache-directory $(FRAMEWORK_CACHE_PATH) \
+	  --add-new-lines \
 	  --api-documentation-json-file $(APPLICATION_SOURCE_PATH)/script/apidata.js \
-	  --class-path $(FRAMEWORK_SOURCE_PATH)/class
+	  --class-path $(FRAMEWORK_SOURCE_PATH)/class \
 	  #--disable-internal-check \
 
 build:
 	@$(CMD_GENERATOR) \
 	  --generate-api-documentation \
-	  --cache-directory $(FRAMEWORK_CACHE_PATH) \
 	  --api-documentation-json-file $(APPLICATION_BUILD_PATH)/script/apidata.js \
 	  --class-path $(FRAMEWORK_SOURCE_PATH)/class
 
