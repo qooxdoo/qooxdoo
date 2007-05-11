@@ -195,22 +195,6 @@ qx.Class.define("qxunit.runner.TestRunner",
     __makeToolbar : function () {
       var toolbar = new qx.ui.toolbar.ToolBar;
 
-      /*
-      // -- tree view radio
-      var treeview = new qx.ui.toolbar.Part;
-      toolbar.add(treeview);
-      this.widgets["toolbar.treeview"] = treeview;
-      var b1 = new qx.ui.toolbar.RadioButton("Full Tree","icon/16/actions/view-pane-tree.png");
-      var b2 = new qx.ui.toolbar.RadioButton("Flat Tree","icon/16/actions/view-pane-text.png");
-      b1.setChecked(true);
-      treeview.add(b1,b2);
-      treeview.b1 = b1;
-      treeview.b2 = b2;
-      var radiomgr = new qx.manager.selection.RadioManager(null, [b1,b2]);
-      radiomgr.addEventListener("changeSelected", this.leftReloadTree, this);
-      toolbar.add(new qx.ui.toolbar.Separator);
-      */
-
       // -- run button
       this.runbutton = new qx.ui.toolbar.Button("Run Test", "icon/16/actions/media-playback-start.png");
       toolbar.add(this.runbutton);
@@ -234,12 +218,16 @@ qx.Class.define("qxunit.runner.TestRunner",
           this.reloadTestSuite();
         }
       }, this);
-      toolbar.add(new qx.ui.toolbar.Separator);
 
       // -- reload switch
+      var part = new qx.ui.toolbar.Part();
+      toolbar.add(part);
+      part.set({
+        horizontalAlign : "right"
+      });
       this.reloadswitch = new qx.ui.toolbar.CheckBox("Reload before Test",
                                                      "resource/image/yellow_diamond_hollow18.gif");
-      toolbar.add(this.reloadswitch);
+      part.add(this.reloadswitch);
       this.reloadswitch.setShow("both");
       this.reloadswitch.setToolTip(new qx.ui.popup.ToolTip("Always reload test backend before testing"));
       this.reloadswitch.addEventListener("changeChecked",function (e) 
@@ -331,7 +319,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       buttview.getPane().add(p3);
 
       // -- Pane Content
-      var f3 =  new qx.ui.embed.HtmlEmbed("HUHU!");
+      var f3 =  new qx.ui.embed.HtmlEmbed("Results should go into a table here.");
       p3.add(f3);
 
 
@@ -357,6 +345,13 @@ qx.Class.define("qxunit.runner.TestRunner",
         height          : 29
       });
       this.widgets["treeview"] = buttview;
+      /*
+      this.widgets["treeview"].getBar().getManager.addEventListener("changeSelection",
+        function (e) 
+        {
+        },
+      this);
+      */
 
       // full view
       var bsb1 = new qx.ui.pageview.buttonview.Button("Full Tree","icon/16/actions/view-pane-tree.png");
@@ -414,6 +409,23 @@ qx.Class.define("qxunit.runner.TestRunner",
       });
       tree1.getManager().addEventListener("changeSelection", this.treeGetSelection, this);
 
+      // fake unique tree for selection (better to have a selection on the model)
+      this.tree = {};
+      var that  = this;
+      this.tree.getSelectedElement = function ()
+      {
+        var sel = that.widgets["treeview"].getBar().getManager().getSelected();
+        var elem;
+        if (sel.getLabel() == "Full Tree")
+        {
+          elem = that.widgets["treeview.full"].getSelectedElement();
+        } else 
+        {
+          elem = that.widgets["treeview.flat"].getSelectedElement();
+        }
+
+        return elem;
+      };
 
       return buttview;
     }, //makeLeft
@@ -511,11 +523,24 @@ qx.Class.define("qxunit.runner.TestRunner",
     treeGetSelection : function (e) {
       if (! this.tree.getSelectedElement()) {// this is a kludge!
         return; }
-      this.tests.selected = this.tests.handler.getFullName(this.tree.getSelectedElement().modelLink);
-      this.appender(this.tests.selected);
+      var treeNode    = this.tree.getSelectedElement();
+      var modelNode   = treeNode.modelLink;
+      this.tests.selected = this.tests.handler.getFullName(modelNode);
+      // update status pane
       this.widgets["statuspane.current"].setText(this.tests.selected);
-      this.tests.selected_cnt = this.tests.handler.testCount(this.tree.getSelectedElement().modelLink);
+      this.tests.selected_cnt = this.tests.handler.testCount(modelNode);
       this.widgets["statuspane.number"].setText(this.tests.selected_cnt+"");
+      // update selection in other tree
+      /* -- not working!
+      var sel = this.widgets["treeview"].getBar().getManager().getSelected();
+      if (sel.getLabel() == "Full Tree")
+      {
+        this.widgets["treeview.flat"].setSelectedElement(modelNode.widgetLinkFlat);
+      } else 
+      {
+        this.widgets["treeview.full"].setSelectedElement(modelNode.widgetLinkFull);
+      }
+      */
     }, //treeGetSelection
 
 
@@ -550,10 +575,10 @@ qx.Class.define("qxunit.runner.TestRunner",
           // make connections
           widgetR.add(t);
           t.modelLink         = currNode;
-          currNode.widgetLink = t;
+          currNode.widgetLinkFull = t;
           if (that.tests.handler.getFullName(currNode) == that.tests.selected)
           {
-            selectedElement = t;//that.tree.setSelectedElement(t);
+            selectedElement = currNode;
           }
         }
 
@@ -575,10 +600,10 @@ qx.Class.define("qxunit.runner.TestRunner",
               var t = new qx.ui.tree.TreeFolder(fullName,"resource/image/package18.gif");
               widgetR.add(t);
               t.modelLink         = currNode;
-              currNode.widgetLink = t;
+              currNode.widgetLinkFlat = t;
               if (that.tests.handler.getFullName(currNode) == that.tests.selected)
               {
-                selectedElement = t;
+                selectedElement = currNode;
               }
               var children = currNode.getChildren();
               for (var i=0; i<children.length; i++)
@@ -588,10 +613,10 @@ qx.Class.define("qxunit.runner.TestRunner",
                   var c = new qx.ui.tree.TreeFile(children[i].label,"resource/image/class18.gif");
                   t.add(c);
                   c.modelLink            = children[i];
-                  children[i].widgetLink = c;
+                  children[i].widgetLinkFlat = c;
                   if (that.tests.handler.getFullName(children[i]) == that.tests.selected)
                   {
-                    selectedElement = c;
+                    selectedElement = children[i];
                   }
                 }
               }
@@ -624,10 +649,13 @@ qx.Class.define("qxunit.runner.TestRunner",
         trees[i].resetSelected();
         trees[i].destroyContent(); // clean up before re-build
         trees[i].modelLink   = ttree; // link top level widgets and model
-        ttree.widgetLink = trees[i]; // TODO!!!
       }
+      // link top level model to widgets
+      ttree.widgetLinkFull = fulltree;
+      ttree.widgetLinkFlat = flattree;
 
-      var selectedElement = null; // will be set by buildSubTree* functions
+      var selectedElement = null; // if selection exists will be set by 
+                                  // buildSubTree* functions to a model node
       // Build the widget trees
       buildSubTree(this.widgets["treeview.full"],ttree);
       buildSubTreeFlat(this.widgets["treeview.flat"],ttree);
@@ -635,11 +663,30 @@ qx.Class.define("qxunit.runner.TestRunner",
       // Re-enable and Re-select
       this.widgets["treeview"].setEnabled(true);
       if (selectedElement) { // try to re-select previously selected element
-        stree.setSelectedElement(selectedElement);
-        if (selectedElement instanceof qx.ui.tree.TreeFolder) 
-        {
-          selectedElement.open();
+        // select tree element and open if folder
+        if (selectedElement.widgetLinkFull) {
+          this.widgets["treeview.full"].setSelectedElement(selectedElement.widgetLinkFull);
+          if (selectedElement.widgetLinkFull instanceof qx.ui.tree.TreeFolder)  {
+            selectedElement.widgetLinkFull.open();
+          }
         }
+        if (selectedElement.widgetLinkFlat) {
+          this.widgets["treeview.flat"].setSelectedElement(selectedElement.widgetLinkFlat);
+          if (selectedElement.widgetLinkFlat instanceof qx.ui.tree.TreeFolder) {
+            selectedElement.widgetLinkFlat.open();
+          }
+        }
+        // open if folder
+        /* -- not working!
+        if (selectedElement.widgetLinkFull instanceof qx.ui.tree.TreeFolder) 
+        {
+          selectedElement.widgetLinkFull.open();
+        }
+        if (selectedElement.widgetLinkFlat && 
+            selectedElement.widgetLinkFlat instanceof qx.ui.tree.TreeFolder) 
+        {
+        }
+        */
       }
 
     }, //leftReloadTree
