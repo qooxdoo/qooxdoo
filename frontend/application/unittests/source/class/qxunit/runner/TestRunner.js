@@ -219,6 +219,8 @@ qx.Class.define("qxunit.runner.TestRunner",
         }
       }, this);
 
+      toolbar.add(new qx.ui.basic.HorizontalSpacer());
+
       // -- reload switch
       var part = new qx.ui.toolbar.Part();
       toolbar.add(part);
