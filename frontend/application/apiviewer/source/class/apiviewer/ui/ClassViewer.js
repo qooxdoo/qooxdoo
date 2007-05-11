@@ -50,7 +50,6 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     this.setVisibility(false);
     this.setDocNode(new apiviewer.dao.Class({}));
 
-    document._detailViewer = this;
     apiviewer.ui.ClassViewer.instance = this;
 
     this.addInfoPanel(new apiviewer.ui.panels.MethodPanel("constructor", "constructor", false, true));
@@ -563,33 +562,6 @@ qx.Class.define("apiviewer.ui.ClassViewer",
 
 
     /**
-     * Event handler. Called when the user clicked a button for showing/hiding the
-     * body of an info panel.
-     *
-     * @type member
-     * @param panelHashCode {Integer} hash code of the panel object.
-     */
-    _onShowInfoPanelBodyClicked : function(panelHashCode)
-    {
-      try
-      {
-        var panel = this.getPanelFromHashCode(panelHashCode);
-        panel.setIsOpen(!panel.getIsOpen());
-
-        var imgElem = panel.getTitleElement().getElementsByTagName("img")[0];
-        imgElem.src = qx.manager.object.AliasManager.getInstance().resolvePath(panel.getIsOpen() ? 'api/image/close.gif' : 'api/image/open.gif');
-
-        panel.update(this, this.getDocNode()
-        );
-      }
-      catch(exc)
-      {
-        this.error("Toggling info body failed", exc);
-      }
-    },
-
-
-    /**
      * Callback for internal links to other classes/items.
      * This code is called directly from the generated HTML of the
      * class viewer.
@@ -637,6 +609,5 @@ qx.Class.define("apiviewer.ui.ClassViewer",
   {
     this._disposeObjectDeep("_infoPanelHash", 1);
     this._disposeFields("_titleElem", "_classDescElem", "_markedElement");
-    document._detailViewer = null;
   }
 });

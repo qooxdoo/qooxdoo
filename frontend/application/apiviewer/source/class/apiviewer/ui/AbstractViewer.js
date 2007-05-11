@@ -201,7 +201,38 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
 
       // Refresh the info viewers
       this._updatePanels();
+    },
+
+
+
+
+    /**
+     * Event handler. Called when the user clicked a button for showing/hiding the
+     * body of an info panel.
+     *
+     * @type member
+     * @param panelHashCode {Integer} hash code of the panel object.
+     */
+    togglePanelVisibility : function(panel)
+    //_onShowInfoPanelBodyClicked : function(panelHashCode)
+    {
+      try
+      {
+        //var panel = this.getPanelFromHashCode(panelHashCode);
+        panel.setIsOpen(!panel.getIsOpen());
+
+        var imgElem = panel.getTitleElement().getElementsByTagName("img")[0];
+        imgElem.src = qx.manager.object.AliasManager.getInstance().resolvePath(panel.getIsOpen() ? 'api/image/close.gif' : 'api/image/open.gif');
+
+        panel.update(this, this.getDocNode()
+        );
+      }
+      catch(exc)
+      {
+        this.error("Toggling info body failed", exc);
+      }
     }
+
 
   }
 
