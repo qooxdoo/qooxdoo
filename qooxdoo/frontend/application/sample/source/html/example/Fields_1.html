@@ -59,6 +59,15 @@
     t3.setWidth(300);
     t3.setHeight(60);
 
+    btn = new qx.ui.form.Button("select all");
+    btn.set({
+    	left : 400,
+    	top : 110
+    });
+    btn.addEventListener("execute", t3.selectAll, t3);
+    d.add(btn);
+    //t3.selectAll();
+
     t3.addEventListener("changeValue", textChange);
 
     d.add(t3);
