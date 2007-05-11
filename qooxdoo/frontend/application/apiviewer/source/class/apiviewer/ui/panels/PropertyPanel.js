@@ -169,7 +169,7 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
       var docNode = node.getDocNode();
 
       // Add the description
-      var textHtml = new qx.util.StringBuilder(apiviewer.ui.panels.InfoPanel.createDescriptionHtml(node, showDetails));
+      var textHtml = new qx.util.StringBuilder(apiviewer.ui.panels.InfoPanel.createDescriptionHtml(node, node.getClass(), showDetails));
 
       if (showDetails)
       {
