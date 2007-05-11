@@ -1326,6 +1326,7 @@ def getClassNode(docTree, className, commentAttributes = None):
                 childPackage.set("name", split)
                 childPackage.set("fullName", childPackageName)
                 childPackage.set("packageName", childPackageName.replace("." + split, ""))
+                childPackage.addChild(tree.Node("desc").set("text", "TODO: put the package description here..."))
 
                 currPackage.addListChild("packages", childPackage)
 
