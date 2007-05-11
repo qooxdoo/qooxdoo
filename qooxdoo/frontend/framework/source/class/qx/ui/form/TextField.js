@@ -285,6 +285,21 @@ qx.Proto._onblur = function(e)
 ---------------------------------------------------------------------------
 */
 
+qx.Proto.selectAll = function()
+{
+  this._visualPropertyCheck();
+
+  if (this.getValue() != null)
+  {
+    this.setSelectionStart(0);
+    this.setSelectionLength(this.getValue().length);
+  }
+
+  // to be sure we get the element selected
+  this.getElement().select();
+}
+
+
 if (qx.core.Client.getInstance().isMshtml())
 {
   /*!
@@ -413,20 +428,6 @@ if (qx.core.Client.getInstance().isMshtml())
     return vSelectionRange.text;
   }
 
-  qx.Proto.selectAll = function()
-  {
-    this._visualPropertyCheck();
-
-    if (this.getValue() != null)
-    {
-      this.setSelectionStart(0);
-      this.setSelectionLength(this.getValue().length);
-    }
-
-    // to be sure we get the element selected
-    this.getElement().select();
-  }
-
   qx.Proto.selectFromTo = function(vStart, vEnd)
   {
     this._visualPropertyCheck();
@@ -496,13 +497,6 @@ else
     this._visualPropertyCheck();
 
     return this.getElement().value.substr(this.getSelectionStart(), this.getSelectionLength());
-  }
-
-  qx.Proto.selectAll = function()
-  {
-    this._visualPropertyCheck();
-
-    this.getElement().select();
   }
 
   qx.Proto.selectFromTo = function(vStart, vEnd)
