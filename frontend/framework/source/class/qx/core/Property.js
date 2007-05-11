@@ -570,6 +570,35 @@ qx.Class.define("qx.core.Property",
     },
 
 
+    /** {Map} Internal data field for error messages used by {@link #error} */
+    __errors :
+    {
+      0 : 'Could not change or apply init value after constructing phase!',
+      1 : 'Requires exactly one argument!',
+      2 : 'Undefined value is not allowed!',
+      3 : 'Does not allow any arguments!',
+      4 : 'Null value is not allowed!',
+      5 : 'Is invalid!'
+    },
+
+
+    /**
+     * Error method used by the property system to report errors.
+     *
+     * @type static
+     * @internal
+     * @param obj {qx.core.Object} Any qooxdoo object
+     * @param id {Integer} Numeric error identifier
+     * @param property {String} Name of the property
+     * @param variant {String} Name of the method variant e.g. "set", "reset", ...
+     */
+    error : function(obj, id, property, variant)
+    {
+      var classname = obj.constructor.classname;
+      var msg = "Error in property " + property + " of class " + classname + " in method " + this.$$method[variant][property] + ": ";
+      throw new Error(msg + (this.__errors[id] || "Unknown reason: " + id));
+    },
+
     sumNumber : 0,
     sumGen : 0,
     sumUnwrap : 0,
@@ -682,24 +711,6 @@ qx.Class.define("qx.core.Property",
     },
 
 
-    __errors :
-    {
-      0 : 'Could not change or apply init value after constructing phase!',
-      1 : 'Requires exactly one argument!',
-      2 : 'Undefined value is not allowed!',
-      3 : 'Does not allow any arguments!',
-      4 : 'Null value is not allowed!',
-      5 : 'Is invalid!'
-    },
-
-    error : function(obj, id, property, variant)
-    {
-      var classname = obj.constructor.classname;
-      var msg = "Error in property " + property + " of class " + classname + " in method " + this.$$method[variant][property] + ": ";
-      throw new Error(msg + (this.__errors[id] || "Unknown reason: " + id));
-    },
-
-
     /**
      * Generates the optimized setter
      * Supported variants: set, reset, init, refresh, style, unstyle
@@ -722,8 +733,7 @@ qx.Class.define("qx.core.Property",
       var value = args ? args[0] : undefined;
       var code = [];
 
-      var localInit = variant === "init" && config.init === undefined;
-      var incomingValue = variant === "set" || variant === "style" || localInit;
+      var incomingValue = variant === "set" || variant === "style" || (variant === "init" && config.init === undefined);
       var resetValue = variant === "reset" || variant === "unstyle";
       var hasCallback = config.apply || config.event || config.inheritable;
 
@@ -738,12 +748,9 @@ qx.Class.define("qx.core.Property",
 
 
 
-
       // [1] INTEGRATE ERROR HELPER METHOD
 
       code.push('var prop=qx.core.Property;');
-
-
 
 
 
