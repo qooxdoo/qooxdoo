@@ -87,9 +87,13 @@ def findQxDefine(rootNode):
 
 
 def createDoc(syntaxTree, docTree = None):
+    if not docTree:
+        docTree = tree.Node("doctree")
+
     try:
-        if not docTree:
-            docTree = tree.Node("doctree")
+        file = syntaxTree.get("file")
+        if file.endswith("__init__"):
+            return createPackageDoc(syntaxTree, docTree, file[:-9])
 
         defineNode = findQxDefine(syntaxTree)
         if defineNode != None:
@@ -129,6 +133,29 @@ def createDoc(syntaxTree, docTree = None):
 #  COMPATIBLE TO 0.7 STYLE ONLY!
 #
 ########################################################################################
+
+
+def createPackageDoc(syntaxTree, docTree, packageName):
+    package = getPackageNode(docTree, packageName)
+
+    commentAttributes = comment.parseNode(syntaxTree.children[0])
+    # Read all description, param and return attributes
+    for attrib in commentAttributes:
+        # Add description
+        if attrib["category"] == "description":
+            if attrib.has_key("text"):
+                descNode = tree.Node("desc").set("text", attrib["text"])
+                package.addChild(descNode)
+
+        elif attrib["category"] == "see":
+            if not attrib.has_key("name"):
+                raise DocException("Missing target for see.", classNode)
+
+            seeNode = tree.Node("see").set("name", attrib["name"])
+            package.addChild(seeNode)
+
+    return docTree
+
 
 def handleClassDefinition(docTree, item, variant):
     params = item.getChild("params")
@@ -1304,63 +1331,66 @@ def getType(item):
         raise DocException("Can't gess type. type is neither string nor variable: " + item.type, item)
 
 
-def getClassNode(docTree, className, commentAttributes = None):
+def getPackageNode(docTree, namespace):
+    currPackage = docTree
+    childPackageName = ""
+    for nsPart in namespace.split("."):
+        childPackage = currPackage.getListChildByAttribute("packages", "name", nsPart, False)
+        childPackageName += nsPart
+        if not childPackage:
+
+            # The package does not exist -> Create it
+            childPackage = tree.Node("package")
+            childPackage.set("name", nsPart)
+            childPackage.set("fullName", childPackageName)
+            childPackage.set("packageName", childPackageName.replace("." + nsPart, ""))
+
+            currPackage.addListChild("packages", childPackage)
+
+        childPackageName += "."
+
+        # Update current package
+        currPackage = childPackage
+
+    return currPackage
+
+
+def getClassNode(docTree, fullClassName, commentAttributes = None):
     if commentAttributes == None:
         commentAttributes = {}
 
-    splits = className.split(".")
+    dotIndex = fullClassName.rindex(".")
+    packageName = fullClassName[:dotIndex]
+    className = fullClassName[dotIndex+1:]
 
-    currPackage = docTree
-    length = len(splits)
-    for i in range(length):
-        split = splits[i]
+    package = getPackageNode(docTree, packageName)
 
-        if (i < length - 1):
-            # This is a package name -> Get the right package
-            childPackage = currPackage.getListChildByAttribute("packages", "name", split, False)
-            if not childPackage:
-                childPackageName = ".".join(splits[:-(length-i-1)])
+    classNode = package.getListChildByAttribute("classes", "name", className, False)
+    if not classNode:
+        # The class does not exist -> Create it
+        classNode = tree.Node("class")
+        classNode.set("name", className)
+        classNode.set("fullName", fullClassName)
+        classNode.set("packageName", fullClassName.replace("." + className, ""))
 
-                # The package does not exist -> Create it
-                childPackage = tree.Node("package")
-                childPackage.set("name", split)
-                childPackage.set("fullName", childPackageName)
-                childPackage.set("packageName", childPackageName.replace("." + split, ""))
-                childPackage.addChild(tree.Node("desc").set("text", "TODO: put the package description here..."))
+        # Read all description, param and return attributes
+        for attrib in commentAttributes:
+            # Add description
+            if attrib["category"] == "description":
+                if attrib.has_key("text"):
+                    descNode = tree.Node("desc").set("text", attrib["text"])
+                    classNode.addChild(descNode)
 
-                currPackage.addListChild("packages", childPackage)
+            elif attrib["category"] == "see":
+                if not attrib.has_key("name"):
+                    raise DocException("Missing target for see.", classNode)
 
-            # Update current package
-            currPackage = childPackage
+                seeNode = tree.Node("see").set("name", attrib["name"])
+                classNode.addChild(seeNode)
 
-        else:
-            # This is a class name -> Get the right class
-            classNode = currPackage.getListChildByAttribute("classes", "name", split, False)
-            if not classNode:
-                # The class does not exist -> Create it
-                classNode = tree.Node("class")
-                classNode.set("name", split)
-                classNode.set("fullName", className)
-                classNode.set("packageName", className.replace("." + split, ""))
+        package.addListChild("classes", classNode)
 
-                # Read all description, param and return attributes
-                for attrib in commentAttributes:
-                    # Add description
-                    if attrib["category"] == "description":
-                        if attrib.has_key("text"):
-                            descNode = tree.Node("desc").set("text", attrib["text"])
-                            classNode.addChild(descNode)
-
-                    elif attrib["category"] == "see":
-                        if not attrib.has_key("name"):
-                            raise DocException("Missing target for see.", classNode)
-
-                        seeNode = tree.Node("see").set("name", attrib["name"])
-                        classNode.addChild(seeNode)
-
-                currPackage.addListChild("classes", classNode)
-
-            return classNode
+    return classNode
 
 
 
