@@ -725,12 +725,7 @@ qx.Class.define("qx.core.Property",
       var localInit = variant === "init" && config.init === undefined;
       var incomingValue = variant === "set" || variant === "style" || localInit;
       var resetValue = variant === "reset" || variant === "unstyle";
-
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        var hasCallback = config.apply || config.event || qx.core.Setting.get("qx.propertyDebugLevel") > 0;
-      } else {
-        var hasCallback = config.apply || config.event;
-      }
+      var hasCallback = config.apply || config.event || config.inheritable;
 
       if (variant === "style" || variant === "unstyle") {
         var store = this.$$store.theme[name];
@@ -965,19 +960,22 @@ qx.Class.define("qx.core.Property",
 
       if (variant === "set")
       {
-        // Create computed value
-        // For the first shot identical to user value in set()
-        // However it is possible that the computed value gets
-        // translated later through inheritance.
-        if (config.inheritable) {
-          code.push('var computed=value,useinit=false;');
-        }
+        if (hasCallback)
+        {
+          // Create computed value
+          // For the first shot identical to user value in set()
+          // However it is possible that the computed value gets
+          // translated later through inheritance.
+          if (config.inheritable) {
+            code.push('var computed=value,useinit=false;');
+          }
 
-        // We don't need the computed value at all for
-        // setters of properties which are not inheritable
-        // and do not define a "apply" or "event" key.
-        else if (hasCallback) {
-          code.push('var computed=value;');
+          // We don't need the computed value at all for
+          // setters of properties which are not inheritable
+          // and do not define a "apply" or "event" key.
+          else {
+            code.push('var computed=value;');
+          }
         }
       }
       else
@@ -1063,43 +1061,41 @@ qx.Class.define("qx.core.Property",
 
       // [11] NORMALIZATION AND COMPARISON
 
-      // Not for inherited properties, because they need be able to differ
-      // between null and undefined.
-      if (hasCallback && !config.inheritable)
+      if (hasCallback)
       {
-        // Properties which are not inheritable have no possiblity to get
-        // undefined at this position. (Hint: set() only allows non undefined values)
-        if (variant!=="set") {
-          code.push('if(computed===undefined)computed=null;');
+        // Not for inherited properties, because they need be able to differ
+        // between null and undefined.
+        if (!config.inheritable)
+        {
+          // Properties which are not inheritable have no possiblity to get
+          // undefined at this position. (Hint: set() only allows non undefined values)
+          if (variant!=="set") {
+            code.push('if(computed===undefined)computed=null;');
+          }
+
+          code.push('if(old===undefined)old=null;');
         }
 
-        code.push('if(old===undefined)old=null;');
-      }
-
-      // Compare old/new computed value
-      // We can reduce the overhead here, if the property is not
-      // inheritable and has no event or apply method assigned
-      if (config.apply || config.event || config.inheritable) {
+        // Compare old/new computed value
+        // We can reduce the overhead here, if the property is not
+        // inheritable and has no event or apply method assigned
         code.push('if(old===computed)return value;');
-      }
 
-      // Store inherited value of inheritable properties
-      if (config.inheritable)
-      {
-        // Normalize "inherit" to undefined and delete inherited value
-        code.push('if(computed===prop.$$inherit){computed=undefined;delete this.', this.$$store.inherit[name], ';}');
-
-        // Only delete inherited value
-        code.push('else if(computed===undefined)delete this.', this.$$store.inherit[name], ';');
-
-        // Store inherited value
-        code.push('else this.', this.$$store.inherit[name], '=computed;');
-
-        // Protect against normalization
-        code.push('var inherited=computed;');
-
-        if (hasCallback)
+        // Store inherited value of inheritable properties
+        if (config.inheritable)
         {
+          // Normalize "inherit" to undefined and delete inherited value
+          code.push('if(computed===prop.$$inherit){computed=undefined;delete this.', this.$$store.inherit[name], ';}');
+
+          // Only delete inherited value
+          code.push('else if(computed===undefined)delete this.', this.$$store.inherit[name], ';');
+
+          // Store inherited value
+          code.push('else this.', this.$$store.inherit[name], '=computed;');
+
+          // Protect against normalization
+          code.push('var inherited=computed;');
+
           // After storage finally normalize computed and old value
           code.push('if(computed===undefined)computed=null;');
           code.push('if(old===undefined)old=null;');
@@ -1128,16 +1124,17 @@ qx.Class.define("qx.core.Property",
           code.push('if(this.hasEventListeners("', config.event, '"))');
           code.push('this.dispatchEvent(new qx.event.type.ChangeEvent("', config.event, '", computed, old), true);');
         }
+
+        // Refresh children
+        // Require the parent/children interface
+        if (config.inheritable)
+        {
+          code.push('var a=this.getChildren();if(a)for(var i=0,l=a.length;i<l;i++){');
+          code.push('if(a[i].', this.$$method.refresh[name], ')a[i].', this.$$method.refresh[name], '(inherited);');
+          code.push('}');
+        }
       }
 
-      // Refresh children
-      // Require the parent/children interface
-      if (config.inheritable)
-      {
-        code.push('var a=this.getChildren();if(a)for(var i=0,l=a.length;i<l;i++){');
-        code.push('if(a[i].', this.$$method.refresh[name], ')a[i].', this.$$method.refresh[name], '(inherited);');
-        code.push('}');
-      }
 
 
 
