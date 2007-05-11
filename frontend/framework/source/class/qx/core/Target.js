@@ -34,6 +34,7 @@
  */
 qx.Class.define("qx.core.Target",
 {
+  type : "abstract",
   extend : qx.core.Object,
 
 
