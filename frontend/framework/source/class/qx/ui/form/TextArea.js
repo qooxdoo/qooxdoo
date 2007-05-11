@@ -49,6 +49,12 @@ qx.Class.define("qx.ui.form.TextArea",
       init : "text-area"
     },
 
+    allowStretchY :
+    {
+      refine : true,
+      init : true
+    },
+
     wrap :
     {
       check : "Boolean",
