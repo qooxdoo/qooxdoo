@@ -241,15 +241,15 @@
   line-height: 160%;
 	overflow: auto;
 	background: #F3FFD1;
-	margin-bottom: 10px;
+	margin-bottom: 30px;
 	border: 1px solid #F3FFD1;
   -moz-border-radius-topright: 20px;
-  padding: 2px 20px 2px 12px;
+  padding: 2px 20px;
 }
 
 #ClassViewer div.class-description p{
-  margin-top: 6px;
-  margin-bottom: 6px;
+  margin-top: 14px;
+  margin-bottom: 14px;
 }
 
 
