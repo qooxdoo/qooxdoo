@@ -83,7 +83,9 @@ qx.Class.define("qxunit.runner.TestRunner",
     this.toolbar = this.__makeToolbar();
     this.toolbar.set({
       height : 30,
-      show   : "icon"
+      show   : "icon",
+      verticalChildrenAlign : "middle",
+      padding : [0,3]
     });
     right.add(this.toolbar);
 
@@ -202,32 +204,32 @@ qx.Class.define("qxunit.runner.TestRunner",
       this.runbutton.setToolTip(new qx.ui.popup.ToolTip("Run selected test(s)"));
       toolbar.add(new qx.ui.toolbar.Separator);
 
-      // -- reload button
-      this.reloadbutton = new qx.ui.toolbar.Button("Reload", "icon/16/actions/view-refresh.png");
-      toolbar.add(this.reloadbutton);
-      this.reloadbutton.setToolTip(new qx.ui.popup.ToolTip("Reload test backend application"));
       this.testSuiteUrl = new qx.ui.form.TextField("html/QooxdooTest.html?testclass=qxunit.test");
       toolbar.add(this.testSuiteUrl);
       this.testSuiteUrl.setToolTip(new qx.ui.popup.ToolTip("Test backend application URL"));
       this.testSuiteUrl.set({
-        width : 300
+        width : 300,
+        marginRight : 5
       });
-      this.reloadbutton.addEventListener("execute", this.reloadTestSuite, this);
       this.testSuiteUrl.addEventListener("keydown", function (e) {
         if (e.getKeyIdentifier() == "Enter") {
           this.reloadTestSuite();
         }
       }, this);
 
-      toolbar.add(new qx.ui.basic.HorizontalSpacer());
+      // -- reload button
+      this.reloadbutton = new qx.ui.toolbar.Button("Reload", "icon/16/actions/view-refresh.png");
+      toolbar.add(this.reloadbutton);
+      this.reloadbutton.setToolTip(new qx.ui.popup.ToolTip("Reload test backend application"));
+      this.reloadbutton.addEventListener("execute", this.reloadTestSuite, this);
+
+      toolbar.add((new qx.ui.basic.HorizontalSpacer).set({width:"1*"}));
 
       // -- reload switch
       var part = new qx.ui.toolbar.Part();
+      part.setVerticalChildrenAlign("middle");
       toolbar.add(part);
-      part.set({
-        horizontalAlign : "right"
-      });
-      this.reloadswitch = new qx.ui.toolbar.CheckBox("Reload before Test",
+       this.reloadswitch = new qx.ui.toolbar.CheckBox("Reload before Test",
                                                      "resource/image/yellow_diamond_hollow18.gif");
       part.add(this.reloadswitch);
       this.reloadswitch.setShow("both");
