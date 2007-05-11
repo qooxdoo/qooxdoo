@@ -1005,31 +1005,20 @@ qx.Class.define("qx.ui.form.TextField",
      * Select all text in the input field.
      *
      * @type member
-     * @signature function()
      */
-    selectAll : qx.core.Variant.select("qx.client",
+    selectAll : function()
     {
-      "mshtml" : function()
+      this._visualPropertyCheck();
+
+      if (this.getValue() != null)
       {
-        this._visualPropertyCheck();
-
-        if (this.getValue() != null)
-        {
-          this.setSelectionStart(0);
-          this.setSelectionLength(this.getValue().length);
-        }
-
-        // to be sure we get the element selected
-        this._inputElement.select();
-      },
-
-      "default" : function()
-      {
-        this._visualPropertyCheck();
-
-        this._inputElement.select();
+        this.setSelectionStart(0);
+        this.setSelectionLength(this.getValue().length);
       }
-    }),
+
+      // to be sure we get the element selected
+      this._inputElement.select();
+    },
 
 
     /**
