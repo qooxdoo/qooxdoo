@@ -27,33 +27,9 @@
 ************************************************************************ */
 
 
-qx.Class.define("apiviewer.ui.panels.ClassPanel",
+qx.Class.define("apiviewer.ui.panels.PackagePanel",
 {
   extend: apiviewer.ui.panels.InfoPanel,
-
-  /**
-   * Creates class panel. An class panel shows information about classes, mixins
-   * and interfaces
-   *
-   * @param listName {String} the name of the node list in the class doc node where
-   *          the items shown by this info panel are stored.
-   * @param labelText {String} the label text describing the node type.
-   * @param type {String} One of "class", "mixin" or "interface"
-   */
-  construct : function(listName, labelText, type)
-  {
-    this.base(arguments, listName, labelText);
-    this.setType(type);
-  },
-
-
-  properties :
-  {
-    type : {
-      check : ["class", "mixin", "interface"]
-    }
-  },
-
 
   members :
   {
@@ -64,31 +40,7 @@ qx.Class.define("apiviewer.ui.panels.ClassPanel",
 
     getItemTitleHtml : function(node)
     {
-      var titleHtml = new qx.util.StringBuilder();
-
-      if (node.isAbstract()) {
-        titleHtml.add("Abstract ");
-      } else if (node.isStatic()) {
-        titleHtml.add("Static ");
-      } else if (node.isSingleton()) {
-        titleHtml.add("Singleton ");
-      }
-      switch (node.getType())
-      {
-        case "mixin" :
-          titleHtml.add("Mixin ");
-          break;
-
-        case "interface" :
-          titleHtml.add("Interface ");
-          break;
-
-        default:
-          titleHtml.add("Class ");
-          break;
-      }
-      titleHtml.add(node.getFullName());
-      return titleHtml.get();
+      return node.getFullName();
     },
 
 
@@ -102,7 +54,7 @@ qx.Class.define("apiviewer.ui.panels.ClassPanel",
           '</div>'
         );
       } else {
-        return apiviewer.ui.panels.InfoPanel.createDescriptionHtml(node, node.getClass(), showDetails);
+        return apiviewer.ui.panels.InfoPanel.createDescriptionHtml(node, node.getPackage(), showDetails);
       }
     },
 
@@ -123,17 +75,9 @@ qx.Class.define("apiviewer.ui.panels.ClassPanel",
     {
       this.setDocNode(currentClassDocNode);
 
-      var classes = currentClassDocNode.getClasses();
-      var nodeArr = [];
-      for (var i=0; i<classes.length; i++)
-      {
-        if (classes[i].getType() == this.getType()) {
-          nodeArr.push(classes[i]);
-        }
-      }
+      var nodeArr = currentClassDocNode.getPackages();
 
-      if (nodeArr && nodeArr.length > 0)
-      {
+      if (nodeArr && nodeArr.length > 0) {
         this._sortItems(nodeArr);
       }
 

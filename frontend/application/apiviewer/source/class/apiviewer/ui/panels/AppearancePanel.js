@@ -128,7 +128,7 @@ qx.Class.define("apiviewer.ui.panels.AppearancePanel", {
       var textHtml = new qx.util.StringBuilder();
       textHtml.add(
         '<div class="item-desc">',
-        apiviewer.ui.panels.InfoPanel.createDescriptionHtml(node, true),
+        apiviewer.ui.panels.InfoPanel.createDescriptionHtml(node, node.getClass(), true),
         '</div>'
       );
 

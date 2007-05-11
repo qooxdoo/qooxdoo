@@ -36,7 +36,6 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
    * Creates an info panel. An info panel shows the information about one item
    * type (e.g. for public methods).
    *
-   * @param nodeType {Integer} the node type to create the info panel for.
    * @param listName {String} the name of the node list in the class doc node where
    *          the items shown by this info panel are stored.
    * @param labelText {String} the label text describing the node type.
@@ -368,11 +367,13 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
      *
      * @type member
      * @param node {apiviewer.dao.Node} the doc node of the item.
+     * @param packageBaseClass {apiviewer.dao.Class|apiviewer.dao.Package?null} the doc node of the class to use for
+     *          auto-adding packages.
      * @param showDetails {Boolean} whether to show details. If <code>false</code>
      *          only the first sentence of the description will be shown.
      * @return {String} the HTML showing the description.
      */
-    createDescriptionHtml : function(node, showDetails)
+    createDescriptionHtml : function(node, packageBaseClass, showDetails)
     {
       var desc = node.getDescription();
 
@@ -381,7 +382,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
         if (!showDetails) {
           desc = this.__extractFirstSentence(desc);
         }
-        return '<div class="item-desc">' + this.resolveLinkAttributes(desc, node.getClass()) + '</div>';
+        return '<div class="item-desc">' + this.resolveLinkAttributes(desc, packageBaseClass) + '</div>';
       }
       else
       {
@@ -759,7 +760,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
      */
     getItemHtml : function(node, currentDocNode, showDetails)
     {
-      if (node instanceof apiviewer.dao.Class) {
+      if ( (node instanceof apiviewer.dao.Class) || node instanceof apiviewer.dao.Package) {
         var parentNode = node.getPackage();
       } else {
         var parentNode = node.getClass();

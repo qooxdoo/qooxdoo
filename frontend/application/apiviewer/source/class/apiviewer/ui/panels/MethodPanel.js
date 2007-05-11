@@ -117,7 +117,7 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel", {
       if (method.isConstructor() && !method.getDescription()) {
         textHtml.add("Creates a new instance of ", docClass.getName(), ".");
       } else {
-        textHtml.add(apiviewer.ui.panels.InfoPanel.createDescriptionHtml(method, showDetails));
+        textHtml.add(apiviewer.ui.panels.InfoPanel.createDescriptionHtml(method, docClass, showDetails));
       }
 
       if (showDetails)
