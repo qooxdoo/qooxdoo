@@ -26,15 +26,17 @@
 #embed(qx.icontheme/32/*)
 #embed(qx.icontheme/48/*)
 
+#use(qx.theme.Ext)
+ 
 #use(qx.theme.icon.Nuvola)
 #use(qx.theme.icon.NuoveXT)
 #use(qx.theme.icon.CrystalClear)
 #use(qx.theme.icon.VistaInspirate)
 
-#use(qx.theme.color.WindowsClassic)
-#use(qx.theme.color.WindowsLunaBlue)
-#use(qx.theme.color.WindowsLunaGreen)
-#use(qx.theme.color.WindowsLunaSilver)
+#use(qx.theme.classic.color.Windows)
+#use(qx.theme.classic.color.LunaBlue)
+#use(qx.theme.classic.color.LunaGreen)
+#use(qx.theme.classic.color.LunaSilver)
 
 ************************************************************************ */
 
@@ -63,20 +65,6 @@ qx.Class.define("showcase.Application",
     main : function(e)
     {
       this.base(arguments);
-
-      var useExtTheme = window.location.search.indexOf("?theme=ext");
-
-      if (useExtTheme != -1)
-      {
-        // set Ext appearance theme
-        qx.manager.object.AppearanceManager.getInstance().setAppearanceTheme(qx.theme.appearance.Ext);
-
-        // set Ext color theme
-        qx.manager.object.ColorManager.getInstance().setColorTheme(qx.theme.appearance.Ext);
-
-        // set Ext widget theme
-        qx.manager.object.ImageManager.getInstance().setWidgetTheme(qx.theme.appearance.Ext);
-      }
 
       var barView = new qx.ui.pageview.buttonview.ButtonView;
 
@@ -1186,8 +1174,8 @@ qx.Class.define("showcase.Application",
       var lv = new qx.ui.listview.ListView(ld, lc);
       main.add(lv);
 
-      lv.setBorder("dark-shadow");
-      lv.setBackgroundColor("white");
+      /*lv.setBorder("dark-shadow");
+      lv.setBackgroundColor("white");*/
       lv.setWidth(600);
       lv.setHeight(350);
 
@@ -2285,16 +2273,9 @@ qx.Class.define("showcase.Application",
         showLocation : true,
         url          : url
       });
-
-      var extThemeButton = new qx.ui.form.Button("Open Ext-Theme", "icon/16/actions/format-color.png");
-      extThemeButton.addEventListener("execute", function(e){
-        nativeWindow.open();
-      });
-      var extThemeText = new qx.ui.basic.Label("Please press the button to switch to the Ext-theme.<br/>At the moment it is necessary to reload the showcase.<br/>Switching appearances-themes will soon be available at runtime.");
-      vbl.add(extThemeButton, extThemeText);
-
-      hor.add(vbl);
-
+      
+      // output meta theme list
+      qx.util.ThemeList.createMetaButtons(can, 250, 0);
 
       // Put the window in lower right corner
       win.set(
