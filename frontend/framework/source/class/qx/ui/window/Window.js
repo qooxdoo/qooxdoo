@@ -108,7 +108,7 @@ qx.Class.define("qx.ui.window.Window",
     // ************************************************************************
     //   CAPTIONBUTTONS: MINIMIZE
     // ************************************************************************
-    var bm = this._minimizeButton = new qx.ui.form.Button(null, "widget/window/minimize.gif");
+    var bm = this._minimizeButton = new qx.ui.form.Button;
 
     bm.setAppearance("window-captionbar-minimize-button");
     bm.setTabIndex(-1);
@@ -121,7 +121,7 @@ qx.Class.define("qx.ui.window.Window",
     // ************************************************************************
     //   CAPTIONBUTTONS: RESTORE
     // ************************************************************************
-    var br = this._restoreButton = new qx.ui.form.Button(null, "widget/window/restore.gif");
+    var br = this._restoreButton = new qx.ui.form.Button;
 
     br.setAppearance("window-captionbar-restore-button");
     br.setTabIndex(-1);
@@ -134,7 +134,7 @@ qx.Class.define("qx.ui.window.Window",
     // ************************************************************************
     //   CAPTIONBUTTONS: MAXIMIZE
     // ************************************************************************
-    var bx = this._maximizeButton = new qx.ui.form.Button(null, "widget/window/maximize.gif");
+    var bx = this._maximizeButton = new qx.ui.form.Button;
 
     bx.setAppearance("window-captionbar-maximize-button");
     bx.setTabIndex(-1);
@@ -147,7 +147,7 @@ qx.Class.define("qx.ui.window.Window",
     // ************************************************************************
     //   CAPTIONBUTTONS: CLOSE
     // ************************************************************************
-    var bc = this._closeButton = new qx.ui.form.Button(null, "widget/window/close.gif");
+    var bc = this._closeButton = new qx.ui.form.Button;
 
     bc.setAppearance("window-captionbar-close-button");
     bc.setTabIndex(-1);
