@@ -83,6 +83,7 @@ qx.Class.define("showcase.Application",
       barView.setLocation(10, 10);
       barView.setRight(10);
       barView.setBottom(10);
+      barView.getPane().setPadding(0);
 
       barView.addToDocument();
 
