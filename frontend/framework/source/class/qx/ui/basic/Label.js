@@ -207,6 +207,19 @@ qx.Class.define("qx.ui.basic.Label",
 
 
     /**
+     * Whether an ellipsis symbol should be rendered if there is not enough room for the full text.
+     *
+     * Please note: If enabled this conflicts with a custom overflow setting.
+     */
+    textOverflow :
+    {
+      check : "Boolean",
+      init : true,
+      apply : "_applyText"
+    },
+
+
+    /**
      * Set how the label text should be interpreted
      *
      * <ul>
@@ -526,35 +539,38 @@ qx.Class.define("qx.ui.basic.Label",
 
       var style = element.style;
 
-      if (this.getInnerWidth() < this.getPreferredInnerWidth())
+      if (this.getEnableTextOverflow())
       {
-        style.overflow = "hidden";
+        if (this.getInnerWidth() < this.getPreferredInnerWidth())
+        {
+          style.overflow = "hidden";
 
-        if (qx.core.Variant.isSet("qx.client", "mshtml|webkit"))
-        {
-          style.textOverflow = "ellipsis";
-        }
-        else if (qx.core.Variant.isSet("qx.client", "opera"))
-        {
-          style.OTextOverflow = "ellipsis";
+          if (qx.core.Variant.isSet("qx.client", "mshtml|webkit"))
+          {
+            style.textOverflow = "ellipsis";
+          }
+          else if (qx.core.Variant.isSet("qx.client", "opera"))
+          {
+            style.OTextOverflow = "ellipsis";
+          }
+          else
+          {
+            html = this._patchTextOverflow(html, this.getInnerWidth());
+            this._htmlMode = true;
+          }
         }
         else
         {
-          html = this._patchTextOverflow(html, this.getInnerWidth());
-          this._htmlMode = true;
-        }
-      }
-      else
-      {
-        style.overflow = "";
+          style.overflow = "";
 
-        if (qx.core.Variant.isSet("qx.client", "mshtml|webkit"))
-        {
-          style.textOverflow = "";
-        }
-        else if (qx.core.Variant.isSet("qx.client", "opera"))
-        {
-          style.OTextOverflow = "";
+          if (qx.core.Variant.isSet("qx.client", "mshtml|webkit"))
+          {
+            style.textOverflow = "";
+          }
+          else if (qx.core.Variant.isSet("qx.client", "opera"))
+          {
+            style.OTextOverflow = "";
+          }
         }
       }
 
