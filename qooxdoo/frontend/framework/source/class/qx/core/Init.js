@@ -108,7 +108,15 @@ qx.Class.define("qx.core.Init",
     application :
     {
       nullable : true,
-      check : "qx.application.IApplication"
+      check : function(value)
+      {
+        if (typeof value == "function") {
+          throw new Error(
+          "The application property takes an application instance as parameter " +
+          "and no longer a class/constructor. You may have to fix your 'index.html'.");
+        }
+        return value && qx.Class.hasInterface(value.constructor, qx.application.IApplication);
+      }
     }
   },
 
