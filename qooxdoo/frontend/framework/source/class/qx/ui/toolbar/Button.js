@@ -60,8 +60,13 @@ qx.Class.define("qx.ui.toolbar.Button",
     {
       refine : true,
       init : "inherit"
-    }
+    },
 
+    height :
+    {
+      refine : true,
+      init : null
+    }
   },
 
 
