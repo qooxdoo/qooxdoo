@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-02 17:20+0200\n"
-"PO-Revision-Date: 2007-05-02 17:20+0200\n"
+"POT-Creation-Date: 2007-05-10 19:24+0200\n"
+"PO-Revision-Date: 2007-05-10 19:24+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -227,64 +227,64 @@ msgstr ""
 msgid "key_full_Apps"
 msgstr ""
 
-#: class/qx/ui/component/ColorPopup.js:151
+#: class/qx/ui/component/ColorPopup.js:167
 msgid "Automatic"
 msgstr ""
 
-#: class/qx/ui/component/ColorPopup.js:219
-#: class/qx/ui/component/ColorSelector.js:402
+#: class/qx/ui/component/ColorPopup.js:235
+#: class/qx/ui/component/ColorSelector.js:413
 msgid "Preview (Old/New)"
 msgstr ""
 
-#: class/qx/ui/component/ColorPopup.js:252
+#: class/qx/ui/component/ColorPopup.js:268
 msgid "Open ColorSelector"
 msgstr ""
 
-#: class/qx/ui/component/ColorPopup.js:273
+#: class/qx/ui/component/ColorPopup.js:289
 msgid "Color Selector"
 msgstr ""
 
-#: class/qx/ui/component/ColorSelector.js:218
+#: class/qx/ui/component/ColorSelector.js:229
 msgid "Cancel"
 msgstr ""
 
-#: class/qx/ui/component/ColorSelector.js:219
+#: class/qx/ui/component/ColorSelector.js:230
 msgid "OK"
 msgstr ""
 
-#: class/qx/ui/component/ColorSelector.js:332
+#: class/qx/ui/component/ColorSelector.js:343
 msgid "Presets"
 msgstr ""
 
-#: class/qx/ui/component/ColorSelector.js:383
+#: class/qx/ui/component/ColorSelector.js:394
 msgid "Details"
 msgstr ""
 
-#: class/qx/ui/component/ColorSelector.js:437
+#: class/qx/ui/component/ColorSelector.js:448
 msgid "Hex"
 msgstr ""
 
-#: class/qx/ui/component/ColorSelector.js:466
+#: class/qx/ui/component/ColorSelector.js:477
 msgid "RGB"
 msgstr ""
 
-#: class/qx/ui/component/ColorSelector.js:501
+#: class/qx/ui/component/ColorSelector.js:512
 msgid "HSB"
 msgstr ""
 
-#: class/qx/ui/component/DateChooser.js:86
+#: class/qx/ui/component/DateChooser.js:85
 msgid "Last year"
 msgstr ""
 
-#: class/qx/ui/component/DateChooser.js:93
+#: class/qx/ui/component/DateChooser.js:92
 msgid "Last month"
 msgstr ""
 
-#: class/qx/ui/component/DateChooser.js:99
+#: class/qx/ui/component/DateChooser.js:98
 msgid "Next month"
 msgstr ""
 
-#: class/qx/ui/component/DateChooser.js:105
+#: class/qx/ui/component/DateChooser.js:104
 msgid "Next year"
 msgstr ""
 
@@ -292,22 +292,22 @@ msgstr ""
 msgid "Choose a date"
 msgstr ""
 
-#: class/qx/ui/form/ComboBoxEx.js:84
+#: class/qx/ui/form/ComboBoxEx.js:269
 msgid "Description"
 msgstr ""
 
-#: class/qx/ui/form/ComboBoxEx.js:84
+#: class/qx/ui/form/ComboBoxEx.js:269
 msgid "ID"
 msgstr ""
 
-#: class/qx/ui/form/ComboBoxEx.js:1047
+#: class/qx/ui/form/ComboBoxEx.js:1046
 msgid "Case sensitive"
 msgstr ""
 
-#: class/qx/ui/form/ComboBoxEx.js:1096
+#: class/qx/ui/form/ComboBoxEx.js:1092
 msgid "Search next occurrence"
 msgstr ""
 
-#: class/qx/ui/form/ComboBoxEx.js:1140
+#: class/qx/ui/form/ComboBoxEx.js:1136
 msgid "Search items in list"
 msgstr ""
