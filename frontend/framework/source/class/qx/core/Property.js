@@ -897,7 +897,16 @@ qx.Class.define("qx.core.Property",
 
       // [6] READING OLD VALUE
 
-      code.push('var computed, old;');
+      if (config.inheritable)
+      {
+        code.push('var computed, old=this.', this.$$store.inherit[name], ';');
+      }
+      else
+      {
+        code.push('var computed, old;');
+      }
+
+
 
 
 
@@ -907,16 +916,22 @@ qx.Class.define("qx.core.Property",
 
       if (variant === "set")
       {
-        // Remember old value
-        code.push('old=this.', this.$$store.user[name], ';');
+        if (!config.inheritable)
+        {
+          // Remember old value
+          code.push('old=this.', this.$$store.user[name], ';');
+        }
 
         // Replace it with new value
         code.push('computed=this.', this.$$store.user[name], '=value;');
       }
       else if (variant === "reset")
       {
-        // Remember old value
-        code.push('old=this.', this.$$store.user[name], ';');
+        if (!config.inheritable)
+        {
+          // Remember old value
+          code.push('old=this.', this.$$store.user[name], ';');
+        }
 
         // Delete field
         code.push('delete this.', this.$$store.user[name], ';');
@@ -931,8 +946,16 @@ qx.Class.define("qx.core.Property",
       }
       else
       {
-        // Use user value where it has higher priority
-        code.push('old=computed=this.', this.$$store.user[name], ';');
+        if (config.inheritable)
+        {
+          // Use user value where it has higher priority
+          code.push('computed=this.', this.$$store.user[name], ';');
+        }
+        else
+        {
+          // Use user value where it has higher priority
+          code.push('old=computed=this.', this.$$store.user[name], ';');
+        }
 
         // Store incoming value
         if (variant === "style")
@@ -960,7 +983,11 @@ qx.Class.define("qx.core.Property",
       if (config.themeable)
       {
         code.push('else if(this.', this.$$store.theme[name], '!==undefined){');
-        code.push('old=this.', this.$$store.theme[name], ';');
+
+        if (!config.inheritable)
+        {
+          code.push('old=this.', this.$$store.theme[name], ';');
+        }
 
         if (variant === "set")
         {
@@ -1008,25 +1035,12 @@ qx.Class.define("qx.core.Property",
       // OLD = INIT VALUE
 
       code.push('else if(this.', this.$$store.useinit[name], '){');
-      code.push('old=this.', this.$$store.init[name], ';');
 
-      if (variant === "set")
-      {
-        code.push('delete this.', this.$$store.useinit[name], ';');
-        code.push('computed=this.', this.$$store.user[name], '=value;');
+      if (!config.inheritable) {
+        code.push('old=this.', this.$$store.init[name], ';');
       }
 
-      else if (variant === "style")
-      {
-        code.push('delete this.', this.$$store.useinit[name], ';');
-        code.push('computed=this.', this.$$store.theme[name], '=value;');
-      }
-
-      // reset() and unstyle() are impossible, because the user and themed values have a
-      // higher priority than the init value, so the themed value has no chance to ever get used,
-      // when there is a user or themed value, too.
-
-      else if (variant === "init")
+      if (variant === "init")
       {
         if (incomingValue) {
           code.push('computed=this.', this.$$store.init[name], '=value;');
@@ -1037,9 +1051,21 @@ qx.Class.define("qx.core.Property",
         // useinit flag is already initialized
       }
 
-      else if (variant === "refresh")
+      // reset() and unstyle() are impossible, because the user and themed values have a
+      // higher priority than the init value, so the themed value has no chance to ever get used,
+      // when there is a user or themed value, too.
+
+      else if (variant === "set" || variant === "style" || variant === "refresh")
       {
-        code.push('computed=this.', this.$$store.init[name], ';');
+        code.push('delete this.', this.$$store.useinit[name], ';');
+
+        if (variant === "set") {
+          code.push('computed=this.', this.$$store.user[name], '=value;');
+        } else if (variant === "style") {
+          code.push('computed=this.', this.$$store.theme[name], '=value;');
+        } else if (variant === "refresh") {
+          code.push('computed=this.', this.$$store.init[name], ';');
+        }
       }
 
       code.push('}');
@@ -1079,10 +1105,7 @@ qx.Class.define("qx.core.Property",
           code.push('this.', this.$$store.useinit[name], '=true;');
         }
 
-        else if (variant === "refresh")
-        {
-          code.push('computed=value;');
-        }
+        // refresh() will work with the undefined value, later
 
         code.push('}');
       }
@@ -1098,24 +1121,24 @@ qx.Class.define("qx.core.Property",
 
       if (config.inheritable)
       {
-        code.push('if(old===undefined)old=this.', this.$$store.inherit[name], ';');
+        code.push('if(computed===undefined||computed===prop.$$inherit){');
 
-        code.push('if(computed===undefined||computed===prop.$$inherit)');
+          if (variant === "refresh") {
+            code.push('computed=value;');
+          } else {
+            code.push('var pa=this.getParent();if(pa)computed=pa.', this.$$store.inherit[name], ';');
+          }
 
-        if (variant === "refresh") {
-          code.push('computed=value;');
-        } else {
-          code.push('{var pa=this.getParent();if(pa)computed=pa.', this.$$store.inherit[name], ';}');
-        }
+          // Fallback to init value if inheritance was unsuccessful
+          code.push('if((computed===undefined||computed===prop.$$inherit)&&');
+          code.push('this.', this.$$store.init[name], '!==undefined&&');
+          code.push('this.', this.$$store.init[name], '!==prop.$$inherit){');
+            code.push('computed=this.', this.$$store.init[name], ';');
+            code.push('this.', this.$$store.useinit[name], '=true;');
+          code.push('}else{');
+          code.push('delete this.', this.$$store.useinit[name], ';}');
 
-        // Fallback to init value if inheritance was unsuccessful
-        code.push('if((computed===undefined||computed===prop.$$inherit)&&');
-        code.push('this.', this.$$store.init[name], '!==undefined&&');
-        code.push('this.', this.$$store.init[name], '!==prop.$$inherit){');
-          code.push('computed=this.', this.$$store.init[name], ';');
-          code.push('this.', this.$$store.useinit[name], '=true;');
-        code.push('}else{');
-        code.push('delete this.', this.$$store.useinit[name], ';}');
+        code.push('}');
 
         // Compare old/new computed value
         code.push('if(old===computed)return value;');
