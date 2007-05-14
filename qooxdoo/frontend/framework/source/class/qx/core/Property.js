@@ -978,7 +978,7 @@ qx.Class.define("qx.core.Property",
         else if (variant === "unstyle")
         {
           // user value is not available
-          code.push('delete ', this.$$store.theme[name], ';');
+          code.push('delete this.', this.$$store.theme[name], ';');
 
           // if available => use init value
           code.push('if(this.', this.$$store.init[name], '!==undefined){');
