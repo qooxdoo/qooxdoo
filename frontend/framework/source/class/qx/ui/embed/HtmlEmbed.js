@@ -76,6 +76,22 @@ qx.Class.define("qx.ui.embed.HtmlEmbed",
       nullable : true,
       themeable : true,
       apply : "_applyTextAlign"
+    },
+
+
+    /** Block inheritance as default for font property */
+    font :
+    {
+      refine : true,
+      init : null
+    },
+
+
+    /** Block inheritance as default for textColor property */
+    textColor :
+    {
+      refine : true,
+      init : null
     }
   },
 
