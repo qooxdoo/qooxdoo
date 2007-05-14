@@ -586,11 +586,12 @@ qx.Class.define("qx.core.Property",
      * @param id {Integer} Numeric error identifier
      * @param property {String} Name of the property
      * @param variant {String} Name of the method variant e.g. "set", "reset", ...
+     * @param value {var} Incoming value
      */
-    error : function(obj, id, property, variant)
+    error : function(obj, id, property, variant, value)
     {
       var classname = obj.constructor.classname;
-      var msg = "Error in property " + property + " of class " + classname + " in method " + this.$$method[variant][property] + ": ";
+      var msg = "Error in property " + property + " of class " + classname + " in method " + this.$$method[variant][property] + " with incoming value '" + value + "': ";
       throw new Error(msg + (this.__errors[id] || "Unknown reason: " + id));
     },
 
@@ -760,7 +761,7 @@ qx.Class.define("qx.core.Property",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (variant === "init") {
-          code.push('if(this.$$initialized)prop.error(this,0,"'+name+'","'+variant+'");');
+          code.push('if(this.$$initialized)prop.error(this,0,"'+name+'","'+variant+'",value);');
         }
 
         if (variant === "refresh")
@@ -772,22 +773,22 @@ qx.Class.define("qx.core.Property",
         else if (incomingValue)
         {
           // Check argument length
-          code.push('if(arguments.length!==1)prop.error(this,1,"'+name+'","'+variant+'");');
+          code.push('if(arguments.length!==1)prop.error(this,1,"'+name+'","'+variant+'",value);');
 
           // Undefined check
-          code.push('if(value===undefined)prop.error(this,2,"'+name+'","'+variant+'");');
+          code.push('if(value===undefined)prop.error(this,2,"'+name+'","'+variant+'",value);');
         }
         else
         {
           // Check argument length
-          code.push('if(arguments.length!==0)prop.error(this,3,"'+name+'","'+variant+'");');
+          code.push('if(arguments.length!==0)prop.error(this,3,"'+name+'","'+variant+'",value);');
         }
       }
       else
       {
         // Undefined check
         if (variant === "set") {
-          code.push('if(value===undefined)prop.error(this,2,"'+name+'","'+variant+'");');
+          code.push('if(value===undefined)prop.error(this,2,"'+name+'","'+variant+'",value);');
         }
       }
 
@@ -836,7 +837,7 @@ qx.Class.define("qx.core.Property",
       {
         // Null check
         if (!config.nullable) {
-          code.push('if(value===null)prop.error(this,4,"'+name+'","'+variant+'");');
+          code.push('if(value===null)prop.error(this,4,"'+name+'","'+variant+'",value);');
         }
 
         // Processing check definition
@@ -888,7 +889,7 @@ qx.Class.define("qx.core.Property",
             throw new Error("Could not add check to property " + name + " of class " + clazz.classname);
           }
 
-          code.push(')prop.error(this,5,"'+name+'","'+variant+'");');
+          code.push(')prop.error(this,5,"'+name+'","'+variant+'",value);');
         }
       }
 
