@@ -1132,7 +1132,8 @@ qx.Class.define("qx.ui.core.Widget",
       init : "inherit",
       check : "Boolean",
       inheritable : true,
-      apply : "_modifyEnabled"
+      apply : "_modifyEnabled",
+      event : "changeEnabled"
     },
 
     /** The parent widget (the real object, no ID or something) */
