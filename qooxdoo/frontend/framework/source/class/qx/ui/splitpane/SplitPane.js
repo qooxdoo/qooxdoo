@@ -153,7 +153,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
     showKnob :
     {
       check : "Boolean",
-      init : false,
+      init : true,
       apply : "_modifyShowKnob"
     },
 
