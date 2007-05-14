@@ -748,6 +748,9 @@ qx.Class.define("qx.core.Property",
 
 
 
+
+
+
       // [1] INTEGRATE ERROR HELPER METHOD
 
       code.push('var prop=qx.core.Property;');
@@ -911,137 +914,205 @@ qx.Class.define("qx.core.Property",
 
 
 
+
+
+
       // [6] READING OLD VALUE
 
-      if (hasCallback)
-      {
-        if (config.inheritable)
-        {
-          code.push('var old=this.', this.$$store.inherit[name], ';');
-        }
-        else
-        {
-          code.push('var old;');
-
-          if(variant === "style" || variant === "unstyle" || variant === "init") {
-            code.push('var nochange;');
-          }
-
-          // read user value
-          code.push('if(this.', this.$$store.user[name], '!==undefined)');
-
-          if(variant === "style" || variant === "unstyle" || variant === "init") {
-            code.push('nochange=true;');
-          } else {
-            code.push('old=this.', this.$$store.user[name], ';');
-          }
-
-          code.push('else ');
-
-          // read theme value
-          if (config.themeable)
-          {
-            code.push('if(this.', this.$$store.theme[name], '!==undefined)');
-
-            if(variant === "init") {
-              code.push('nochange=true;');
-            } else {
-              code.push('old=this.', this.$$store.theme[name], ';');
-            }
-
-            code.push('else ');
-          }
-
-          // read init value
-          code.push('if(this.', this.$$store.useinit[name], ')old=this.', this.$$store.init[name], ';');
-        }
-      }
+      code.push('var computed, old;');
 
 
 
+      // OLD = USER VALUE
 
-
-
-
-
-      // [7] STORING INCOMING VALUE
-
-      // Store value
-      if (incomingValue) {
-        code.push('this.', store, '=value;');
-      }
-
-      // Remove value and key
-      else if (resetValue) {
-        code.push('delete this.', store, ';');
-      }
-
-      // Fast return if old value has higher priority
-      if (hasCallback && !config.inheritable && (variant === "style" || variant === "unstyle" || variant === "init"))
-      {
-        if (incomingValue) {
-          code.push('if(nochange)return value;');
-        } else {
-          code.push('if(nochange)return;');
-        }
-      }
-
-
-
-
-
-
-
-      // [8] GENERATING COMPUTED VALUE
-
-      // In variant "set" the value is always the highest priorist value and
-      // could not be undefined. This way we are sure we can use this value and don't
-      // need a complex logic to find the usable value.
+      code.push('if(this.', this.$$store.user[name], '!==undefined){');
+      code.push('old=this.', this.$$store.user[name], ';');
 
       if (variant === "set")
       {
-        if (hasCallback)
-        {
-          // Create computed value
-          // For the first shot identical to user value in set()
-          // However it is possible that the computed value gets
-          // translated later through inheritance.
-          if (config.inheritable) {
-            code.push('var computed=value,useinit=false;');
-          }
-
-          // We don't need the computed value at all for
-          // setters of properties which are not inheritable
-          // and do not define a "apply" or "event" key.
-          else {
-            code.push('var computed=value;');
-          }
-        }
+        code.push('computed=this.', this.$$store.user[name], '=value;');
       }
-      else
+      else if (variant === "reset")
       {
-        code.push('var computed,useinit=false;');
+        code.push('delete this.', this.$$store.user[name], ';');
 
-        // Try to use user value when available
-        // Hint: Always undefined in reset variant
-        if (variant !== "reset")
-        {
-          code.push('if(this.', this.$$store.user[name], '!==undefined)');
-          code.push('computed=this.', this.$$store.user[name], ';else ');
+        code.push('if(this.', this.$$store.theme[name], '!==undefined)');
+        code.push('computed=this.', this.$$store.theme[name], ';');
+        code.push('else if(this.', this.$$store.init[name], '!==undefined){');
+        code.push('computed=this.', this.$$store.init[name], ';');
+        code.push('this.', this.$$store.useinit[name], '=true;');
+        code.push('}');
+      }
+      else if (config.themeable && (variant === "style" || variant === "unstyle"))
+      {
+        if (variant === "style") {
+          code.push('this.', this.$$store.theme[name], '=value;');
+        } else {
+          code.push('delete this.', this.$$store.theme[name], ';');
         }
 
-        // Try to use themeable value when available
-        if (config.themeable === true && variant !== "unstyle")
-        {
-          code.push('if(this.', this.$$store.theme[name], '!==undefined)');
-          code.push('computed=this.', this.$$store.theme[name], ';else ');
+        code.push('computed=this.', this.$$store.user[name], ';');
+      }
+      else if (variant === "init")
+      {
+        if (incomingValue) {
+          code.push('this.', this.$$store.init[name], '=value;');
         }
 
-        // Try to use initial value when available
-        // Hint: This may also be available even if not defined at declaration time
-        // because of the possibility to set the init value of properties
-        // without init value at construction time (for complex values like arrays etc.)
-        code.push('{computed=this.', this.$$store.init[name], ';useinit=true;}');
+        code.push('computed=this.', this.$$store.user[name], ';');
+      }
+      else if (variant === "refresh")
+      {
+        code.push('computed=this.', this.$$store.user[name], ';');
+      }
+
+      code.push('}');
+
+
+
+
+
+      // OLD = THEMED VALUE
+
+      if (config.themeable)
+      {
+        code.push('else if(this.', this.$$store.theme[name], '!==undefined){');
+        code.push('old=this.', this.$$store.theme[name], ';');
+
+        if (variant === "set")
+        {
+          code.push('computed=this.', this.$$store.user[name], '=value;');
+        }
+
+        // reset() is impossible, because the user has higher priority than
+        // the themed value, so the themed value has no chance to ever get used,
+        // when there is a user value, too.
+
+        else if (variant === "style")
+        {
+          // user value is not available
+          code.push('if(value===undefined){');
+            code.push('delete this.', this.$$store.theme[name], ';');
+
+            // if available => use init value
+            code.push('if(this.', this.$$store.init[name], '!==undefined){');
+              code.push('computed=this.', this.$$store.init[name], ';');
+              code.push('this.', this.$$store.useinit[name], '=true;');
+            code.push('}');
+
+          // store new theme value
+          code.push('}else computed=this.', this.$$store.theme[name], '=value;');
+        }
+        else if (variant === "unstyle")
+        {
+          // user value is not available
+          code.push('delete ', this.$$store.theme[name], ';');
+
+          // if available => use init value
+          code.push('if(this.', this.$$store.init[name], '!==undefined){');
+            code.push('computed=this.', this.$$store.init[name], ';');
+            code.push('this.', this.$$store.useinit[name], '=true;');
+          code.push('}');
+        }
+        else if (variant === "init")
+        {
+          if (incomingValue) {
+            code.push('this.', this.$$store.init[name], '=value;');
+          }
+
+          code.push('computed=this.', this.$$store.theme[name], ';');
+        }
+        else if (variant === "refresh")
+        {
+          code.push('computed=this.', this.$$store.theme[name], ';');
+        }
+
+        code.push('}');
+      }
+
+
+
+
+      // OLD = INIT VALUE
+
+      code.push('else if(this.', this.$$store.useinit[name], '){');
+      code.push('old=this.', this.$$store.init[name], ';');
+
+      if (variant === "set")
+      {
+        code.push('delete this.', this.$$store.useinit[name], ';');
+        code.push('computed=this.', this.$$store.user[name], '=value;');
+      }
+
+      else if (variant === "style")
+      {
+        code.push('delete this.', this.$$store.useinit[name], ';');
+        code.push('computed=this.', this.$$store.theme[name], '=value;');
+      }
+
+      // reset() and unstyle() are impossible, because the user and themed values have a
+      // higher priority than the init value, so the themed value has no chance to ever get used,
+      // when there is a user or themed value, too.
+
+      else if (variant === "init")
+      {
+        if (incomingValue) {
+          code.push('computed=this.', this.$$store.init[name], '=value;');
+        } else {
+          code.push('computed=this.', this.$$store.init[name], ';');
+        }
+
+        // useinit flag is already initialized
+      }
+
+      else if (variant === "refresh")
+      {
+        code.push('computed=this.', this.$$store.init[name], ';');
+      }
+
+      code.push('}');
+
+
+
+
+
+
+      // OLD = NONE
+
+      // reset() and unstyle() are impossible because otherwise there
+      // is already an old value
+
+      if (variant === "set" || variant === "style" || variant === "init")
+      {
+        code.push('else{');
+
+        if (variant === "set")
+        {
+          code.push('computed=this.', this.$$store.user[name], '=value;');
+        }
+
+        else if (variant === "style")
+        {
+          code.push('computed=this.', this.$$store.theme[name], '=value;');
+        }
+
+        else if (variant === "init")
+        {
+          if (incomingValue) {
+            code.push('computed=this.', this.$$store.init[name], '=value;');
+          } else {
+            code.push('computed=this.', this.$$store.init[name], ';');
+          }
+
+          code.push('this.', this.$$store.useinit[name], '=true;');
+        }
+
+        else if (variant === "refresh")
+        {
+          code.push('computed=value;');
+        }
+
+        code.push('}');
       }
 
 
@@ -1050,10 +1121,8 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [9] RESPECTING INHERITANCE
 
-      // The value which comes with refresh() already has the needed computed parent value
-      // Note: The computed (inherited) value of the parent could never be "inherit" itself.
+
 
       if (config.inheritable)
       {
@@ -1065,82 +1134,74 @@ qx.Class.define("qx.core.Property",
           code.push('{var pa=this.getParent();if(pa)computed=pa.', this.$$store.inherit[name], ';}');
         }
 
-        code.push('if(computed===undefined||computed===prop.$$inherit){');
+        // Fallback to init value if inheritance was unsuccessful
+        code.push('if((computed===undefined||computed===prop.$$inherit)&&');
+        code.push('this.', this.$$store.init[name], '!==undefined&&');
+        code.push('this.', this.$$store.init[name], '!==prop.$$inherit){');
         code.push('computed=this.', this.$$store.init[name], ';');
-        code.push('useinit=computed!==prop.$$inherit;');
-        code.push('}else{useinit=false;}')
-      }
+        code.push('this.', this.$$store.useinit[name], '=true;');
+        code.push('}');
 
 
-
-
-
-
-
-
-
-      // [10] SYNCING WITH OBJECT
-
-      // All set methods normally do not allow "undefined" values.
-      // But there is one excpetion. Inheritable properties can translate
-      // "inherit" to "undefined" as seen above.
-      if (variant === "set" && !config.inheritable)
-      {
+        code.push('else ');
         code.push('delete this.', this.$$store.useinit[name], ';');
-      }
-      else
-      {
-        code.push('if(useinit)this.', this.$$store.useinit[name], '=true;');
-        code.push('else delete this.', this.$$store.useinit[name], ';');
-      }
 
 
-
-
-
-
-      // [11] NORMALIZATION AND COMPARISON
-
-      if (hasCallback)
-      {
-        // Not for inherited properties, because they need be able to differ
-        // between null and undefined.
-        if (!config.inheritable)
-        {
-          // Properties which are not inheritable have no possiblity to get
-          // undefined at this position. (Hint: set() only allows non undefined values)
-          if (variant!=="set") {
-            code.push('if(computed===undefined)computed=null;');
-          }
-
-          code.push('if(old===undefined)old=null;');
-        }
+        // Note: At this point computed can be "inherit" or "undefined".
 
         // Compare old/new computed value
         // We can reduce the overhead here, if the property is not
         // inheritable and has no event or apply method assigned
         code.push('if(old===computed)return value;');
 
-        // Store inherited value of inheritable properties
-        if (config.inheritable)
-        {
-          // Normalize "inherit" to undefined and delete inherited value
-          code.push('if(computed===prop.$$inherit){computed=undefined;delete this.', this.$$store.inherit[name], ';}');
+        // Normalize "inherit" to undefined and delete inherited value
+        code.push('if(computed===prop.$$inherit){');
+        code.push('computed=undefined;delete this.', this.$$store.inherit[name], ';');
+        code.push('}');
 
-          // Only delete inherited value
-          code.push('else if(computed===undefined)delete this.', this.$$store.inherit[name], ';');
+        // Only delete inherited value
+        code.push('else if(computed===undefined)');
+        code.push('delete this.', this.$$store.inherit[name], ';');
 
-          // Store inherited value
-          code.push('else this.', this.$$store.inherit[name], '=computed;');
+        // Store inherited value
+        code.push('else this.', this.$$store.inherit[name], '=computed;');
 
-          // Protect against normalization
-          code.push('var inherited=computed;');
+        // Protect against normalization
+        code.push('var inherited=computed;');
 
-          // After storage finally normalize computed and old value
-          code.push('if(computed===undefined)computed=null;');
-          code.push('if(old===undefined)old=null;');
-        }
+        // After storage finally normalize computed and old value
+        code.push('if(computed===undefined)computed=null;');
+        code.push('if(old===undefined)old=null;');
       }
+      else if (hasCallback)
+      {
+        // Properties which are not inheritable have no possiblity to get
+        // undefined at this position. (Hint: set() only allows non undefined values)
+        if (variant !== "set") {
+          code.push('if(computed===undefined)computed=null;');
+        }
+
+        code.push('if(old===undefined)old=null;');
+
+        // Compare old/new computed value
+        // We can reduce the overhead here, if the property is not
+        // inheritable and has no event or apply method assigned
+        code.push('if(old===computed)return value;');
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
