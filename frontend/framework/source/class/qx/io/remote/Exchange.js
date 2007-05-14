@@ -810,12 +810,8 @@ qx.Class.define("qx.io.remote.Exchange",
         propValue.setUsername(vRequest.getUsername());
         propValue.setPassword(vRequest.getPassword());
 
-        // be careful not to modify the parameters of the request
-        var parameters = qx.lang.Object.copy(vRequest.getParameters());
-        qx.lang.Object.mergeWith(parameters, vRequest.getParameters());
-        propValue.setParameters(parameters);
-
-        propValue.setParameters(vRequest.getFormFields());
+        propValue.setParameters(vRequest.getParameters());
+        propValue.setFormFields(vRequest.getFormFields());
         propValue.setRequestHeaders(vRequest.getRequestHeaders());
         propValue.setData(vRequest.getData());
 
