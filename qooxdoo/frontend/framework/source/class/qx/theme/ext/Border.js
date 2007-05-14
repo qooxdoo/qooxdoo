@@ -69,6 +69,18 @@ qx.Theme.define("qx.theme.ext.Border",
      {
         width : 1,
         color : "button-view-button-border"
-     }
+     },
+     
+     "tab-view-pane" :
+     {
+        width : 1,
+        color : "tab-view-border"
+     },
+     
+     "list-view" :
+     {
+        width : 1,
+        color : "list-view-border"
+     }     
   }
 });
