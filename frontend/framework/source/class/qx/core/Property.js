@@ -977,10 +977,10 @@ qx.Class.define("qx.core.Property",
         }
         else if (variant === "unstyle")
         {
-          // user value is not available
+          // Delete entry
           code.push('delete this.', this.$$store.theme[name], ';');
 
-          // if available => use init value
+          // Fallback to init value
           code.push('if(this.', this.$$store.init[name], '!==undefined){');
             code.push('computed=this.', this.$$store.init[name], ';');
             code.push('this.', this.$$store.useinit[name], '=true;');
