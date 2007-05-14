@@ -21,8 +21,6 @@
 /* ************************************************************************
 
 #module(ui_listview)
-#embed(qx.widgettheme/arrows/up.gif)
-#embed(qx.widgettheme/arrows/down.gif)
 
 ************************************************************************ */
 
@@ -48,7 +46,7 @@ qx.Class.define("qx.ui.listview.HeaderCell",
 
     // Enable textOverflow
     this.setStyleProperty("textOverflow", "ellipsis");
-    
+
     // Apply appearance (Hack needed for 0.7.x layout issues)
     this._applyAppearance();
 
@@ -73,11 +71,13 @@ qx.Class.define("qx.ui.listview.HeaderCell",
     // Children
     this._spacer = new qx.ui.basic.HorizontalSpacer;
 
-    this._arrowup = new qx.ui.basic.Image("widget/arrows/up.gif");
+    this._arrowup = new qx.ui.basic.Image;
+    this._arrowup.setAppearance("list-view-header-cell-arrow-up");
     this._arrowup.setVerticalAlign("middle");
     this._arrowup.setDisplay(false);
 
-    this._arrowdown = new qx.ui.basic.Image("widget/arrows/down.gif");
+    this._arrowdown = new qx.ui.basic.Image;
+    this._arrowdown.setAppearance("list-view-header-cell-arrow-down");
     this._arrowdown.setVerticalAlign("middle");
     this._arrowdown.setDisplay(false);
 

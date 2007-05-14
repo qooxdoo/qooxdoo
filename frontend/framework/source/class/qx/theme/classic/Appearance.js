@@ -36,6 +36,9 @@
 #embed(qx.widgettheme/arrows/up_small.gif)
 #embed(qx.widgettheme/arrows/down_small.gif)
 
+# ListView (HeaderCell)
+#embed(qx.widgettheme/arrows/up.gif)
+#embed(qx.widgettheme/arrows/down.gif)
 
 
 ************************************************************************* */
@@ -1249,6 +1252,26 @@ qx.Theme.define("qx.theme.classic.Appearance",
           border : states.over ?
             new qx.renderer.border.Border.fromConfig({ bottom : [ 2, "solid", "effect" ] }) :
             "undefined"
+        };
+      }
+    },
+
+    "list-view-header-cell-arrow-up" :
+    {
+      style : function(states)
+      {
+        return {
+          source : "widget/arrows/up.gif"
+        };
+      }
+    },
+
+    "list-view-header-cell-arrow-down" :
+    {
+      style : function(states)
+      {
+        return {
+          source : "widget/arrows/down.gif"
         };
       }
     },
