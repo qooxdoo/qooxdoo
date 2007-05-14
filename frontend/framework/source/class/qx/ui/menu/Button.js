@@ -21,7 +21,6 @@
 /* ************************************************************************
 
 #module(ui_menu)
-#embed(qx.widgettheme/arrows/next.gif)
 
 ************************************************************************ */
 
@@ -59,20 +58,21 @@ qx.Class.define("qx.ui.menu.Button",
     so.setAnonymous(true);
     so.setSelectable(false);
 
-    var ao = this._arrowObject = new qx.ui.basic.Image("widget/arrows/next.gif");
+    var ao = this._arrowObject = new qx.ui.basic.Image;
+    ao.setAppearance("menu-button-arrow");
     ao.setAnonymous(true);
 
 
 
-    if (vLabel !== undefined) {
+    if (vLabel != null) {
       this.setLabel(vLabel);
     }
 
-    if (vIcon !== undefined) {
+    if (vIcon != null) {
       this.setIcon(vIcon);
     }
 
-    if (vCommand !== undefined)
+    if (vCommand != null)
     {
       this.setCommand(vCommand);
 
@@ -81,7 +81,7 @@ qx.Class.define("qx.ui.menu.Button",
       }, this);
     }
 
-    if (vMenu !== undefined) {
+    if (vMenu != null) {
       this.setMenu(vMenu);
     }
 
@@ -134,7 +134,8 @@ qx.Class.define("qx.ui.menu.Button",
     {
       check : "String",
       apply : "_modifyIcon",
-      nullable : true
+      nullable : true,
+      themeable : true
     },
 
     label :

@@ -80,7 +80,8 @@ qx.Class.define("qx.manager.selection.RadioManager",
 
   properties :
   {
-    selected : {
+    selected :
+    {
       nullable : true,
       apply : "_modifySelected",
       event : "changeSelected"
@@ -248,15 +249,13 @@ qx.Class.define("qx.manager.selection.RadioManager",
      */
     _modifySelected : function(propValue, propOldValue, propData)
     {
-      if (propOldValue && propOldValue.getChecked()) {
+      if (propOldValue) {
         propOldValue.setChecked(false);
       }
 
-      if (propValue && !propValue.getChecked()) {
+      if (propValue) {
         propValue.setChecked(true);
       }
-
-      return true;
     },
 
 

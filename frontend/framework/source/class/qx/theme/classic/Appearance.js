@@ -40,6 +40,11 @@
 #embed(qx.widgettheme/arrows/up.gif)
 #embed(qx.widgettheme/arrows/down.gif)
 
+# Menu
+#embed(qx.widgettheme/menu/radiobutton.gif)
+#embed(qx.widgettheme/menu/checkbox.gif)
+#embed(qx.widgettheme/arrows/next.gif)
+
 
 ************************************************************************* */
 
@@ -875,14 +880,38 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
+    "menu-button-arrow" :
+    {
+      style : function(states)
+      {
+        return {
+          source : "widget/arrows/next.gif"
+        };
+      }
+    },
+
     "menu-check-box" :
     {
-      include : "menu-button"
+      include : "menu-button",
+
+      style : function(states)
+      {
+        return {
+          icon : states.checked ? "widget/menu/checkbox.gif" : "static/image/blank.gif"
+        };
+      }
     },
 
     "menu-radio-button" :
     {
-      include : "menu-button"
+      include : "menu-button",
+
+      style : function(states)
+      {
+        return {
+          icon : states.checked ? "widget/menu/radiobutton.gif" : "static/image/blank.gif"
+        };
+      }
     },
 
     "menu-separator" :
