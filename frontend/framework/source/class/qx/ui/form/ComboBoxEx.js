@@ -20,7 +20,6 @@
 /* ************************************************************************
 
 #module(ui_comboboxex)
-#embed(qx.widgettheme/arrows/down.gif)
 #embed(qx.icontheme/16/actions/edit-find.png)
 #embed(qx.icontheme/16/actions/dialog-ok.png)
 #embed(qx.icontheme/16/actions/dialog-cancel.png)
@@ -86,7 +85,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
     // Button
     // Use qx.ui.basic.Atom instead of qx.ui.form.Button here to omit the registration
     // of the unneeded and complex button events.
-    var b = this._button = new qx.ui.basic.Atom(null, "widget/arrows/down.gif");
+    var b = this._button = new qx.ui.basic.Atom();
 
     b.set(
     {
