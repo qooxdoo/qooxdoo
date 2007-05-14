@@ -68,6 +68,7 @@ qx.Class.define("qx.ui.table.TextFieldCellEditorFactory",
     {
       var cellEditor = new qx.ui.form.TextField;
       cellEditor.setAppearance("table-editor-textfield");
+      cellEditor.setLiveUpdate(true);
       cellEditor.originalValue = cellInfo.value;
       cellEditor.setValue("" + cellInfo.value);
 
@@ -88,9 +89,7 @@ qx.Class.define("qx.ui.table.TextFieldCellEditorFactory",
      */
     getCellEditorValue : function(cellEditor)
     {
-      // Workaround: qx.ui.form.TextField.getValue() delivers the old value, so we use the
-      //             value property of the DOM element directly
-      var value = cellEditor.getElement().value;
+      var value = cellEditor.getValue();
 
       if (typeof cellEditor.originalValue == "number") {
         value = parseFloat(value);
