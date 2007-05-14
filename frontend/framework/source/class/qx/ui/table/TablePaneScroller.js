@@ -524,7 +524,9 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
      */
     _onFocusChanged : function(evt)
     {
-      this._focusIndicator.setState("tableHasFocus", this.getTable().getFocused());
+      this.getTable().getFocused() ?
+        this._focusIndicator.addState("tableHasFocus") :
+        this._focusIndicator.removeState("tableHasFocus");
 
       this._tablePane._onFocusChanged(evt);
     },
