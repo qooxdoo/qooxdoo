@@ -116,6 +116,18 @@ qx.Class.define("qxunit.runner.TestRunner",
     var buttview = this.__makeOutputViews();
     right.add(buttview);
 
+    // add eventhandler now, after objects are created
+    this.widgets["treeview"].getBar().getManager().addEventListener("changeSelected",
+      function (e) 
+      {
+        if (e.getData().tree.getSelectedElement() == null) 
+        {
+          this.widgets["toolbar.runbutton"].setEnabled(false);
+        }
+      },
+      this);
+    this.widgets["treeview.bsb1"].setChecked(true);
+
     // Last but not least:
     // Hidden IFrame for test runs
     var iframe = new qx.ui.embed.Iframe("html/QooxdooTest.html?testclass=qxunit.test");
@@ -351,18 +363,11 @@ qx.Class.define("qxunit.runner.TestRunner",
         height          : 29
       });
       this.widgets["treeview"] = buttview;
-      /*
-      this.widgets["treeview"].getBar().getManager.addEventListener("changeSelection",
-        function (e) 
-        {
-        },
-      this);
-      */
 
       // full view
       var bsb1 = new qx.ui.pageview.buttonview.Button("Full Tree","icon/16/actions/view-pane-tree.png");
       buttview.getBar().add(bsb1);
-      bsb1.setChecked(true);
+      this.widgets["treeview.bsb1"] = bsb1;
       bsb1.setShow("icon");
       bsb1.setToolTip(new qx.ui.popup.ToolTip("Full tree view"));
 
@@ -379,6 +384,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       p1.add(tree);
       this.tree = tree;
       this.widgets["treeview.full"] = tree;
+      bsb1.tree = tree;    // for changeSelected handling
       tree.set({
         width : "100%",
         height : "100%",
@@ -392,6 +398,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       // flat view
       var bsb2 = new qx.ui.pageview.buttonview.Button("Flat Tree","icon/16/actions/view-pane-text.png");
       buttview.getBar().add(bsb2);
+      this.widgets["treeview.bsb2"] = bsb2;
       bsb2.setShow("icon");
       bsb2.setToolTip(new qx.ui.popup.ToolTip("Flat tree view (only one level of containers)"));
 
@@ -405,6 +412,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       p2.add(tree1);
       this.tree1 = tree1;
       this.widgets["treeview.flat"] = tree1;
+      bsb2.tree = tree1;    // for changeSelected handling
       tree1.set({
         width : "100%",
         height : "100%",
@@ -432,6 +440,7 @@ qx.Class.define("qxunit.runner.TestRunner",
 
         return elem;
       };
+
 
       return buttview;
     }, //makeLeft
@@ -536,6 +545,8 @@ qx.Class.define("qxunit.runner.TestRunner",
       this.widgets["statuspane.current"].setText(this.tests.selected);
       this.tests.selected_cnt = this.tests.handler.testCount(modelNode);
       this.widgets["statuspane.number"].setText(this.tests.selected_cnt+"");
+      // update toolbar
+      this.widgets["toolbar.runbutton"].setEnabled(true);
       // update selection in other tree
       /* -- not working!
       var sel = this.widgets["treeview"].getBar().getManager().getSelected();
@@ -953,6 +964,13 @@ qx.Class.define("qxunit.runner.TestRunner",
         var modelNode  = widgetNode.modelLink;
       } else 
       {
+        /*
+        //if (e.getTarget().getSelectedItems.length() == 0) 
+        if (! this.widgets["treeview.full"].isSelected())
+        {
+          alert("There is no selection!");
+        }
+        */
         alert("Please select a test node from the tree!");
         this.widgets["toolbar.runbutton"].setEnabled(true);
         return;
