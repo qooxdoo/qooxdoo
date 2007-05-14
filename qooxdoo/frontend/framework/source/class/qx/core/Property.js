@@ -194,14 +194,6 @@ qx.Class.define("qx.core.Property",
 
 
     /**
-     * Undefined value, used to unstyle a property
-     *
-     * @internal
-     */
-    $$undefined : "undefined",
-
-
-    /**
      * Used in build version for storage names
      */
     $$idcounter : 0,
@@ -804,12 +796,6 @@ qx.Class.define("qx.core.Property",
 
       if (incomingValue)
       {
-        // Allow to unstyle themeable properties by explicit "undefined" string value
-        // Note: Normalization must occour after the undefined check above.
-        if (variant === "style") {
-          code.push('if(value===prop.$$undefined)value=undefined;');
-        }
-
         // Call user-provided transform method, if one is provided.  Transform
         // method should either throw an error or return the new value.
         if (config.transform) {
@@ -850,17 +836,9 @@ qx.Class.define("qx.core.Property",
         // Processing check definition
         if (config.check !== undefined)
         {
-          if (config.nullable)
-          {
-            if (variant === "style") {
-              code.push('if(value!=null)'); // allow both undefined and null
-            } else {
-              code.push('if(value!==null)') // allow null
-            }
-          }
-          else if (variant === "style")
-          {
-            code.push('if(value!==undefined)'); // allow undefined
+          // Accept "null"
+          if (config.nullable) {
+            code.push('if(value!==null)');
           }
 
           // Inheritable properties always accept "inherit" as value
@@ -959,9 +937,7 @@ qx.Class.define("qx.core.Property",
         // Store incoming value
         if (variant === "style")
         {
-          // The style handling supports "undefined" values, too
-          code.push('if(value!==undefined)this.', this.$$store.theme[name], '=value;');
-          code.push('else delete this.', this.$$store.theme[name], ';');
+          code.push('this.', this.$$store.theme[name], '=value;');
         }
         else if (variant === "unstyle")
         {
@@ -997,18 +973,7 @@ qx.Class.define("qx.core.Property",
 
         else if (variant === "style")
         {
-          // user value is not available
-          code.push('if(value===undefined){');
-            code.push('delete this.', this.$$store.theme[name], ';');
-
-            // if available => use init value
-            code.push('if(this.', this.$$store.init[name], '!==undefined){');
-              code.push('computed=this.', this.$$store.init[name], ';');
-              code.push('this.', this.$$store.useinit[name], '=true;');
-            code.push('}');
-
-          // store new theme value
-          code.push('}else computed=this.', this.$$store.theme[name], '=value;');
+          code.push('computed=this.', this.$$store.theme[name], '=value;');
         }
         else if (variant === "unstyle")
         {
@@ -1179,11 +1144,12 @@ qx.Class.define("qx.core.Property",
       else if (hasCallback)
       {
         // Properties which are not inheritable have no possiblity to get
-        // undefined at this position. (Hint: set() only allows non undefined values)
-        if (variant !== "set") {
+        // undefined at this position. (Hint: set() and style() only allow non undefined values)
+        if (variant !== "set" && variant !== "style") {
           code.push('if(computed===undefined)computed=null;');
         }
 
+        // Normalize old value
         code.push('if(old===undefined)old=null;');
 
         // Compare old/new computed value

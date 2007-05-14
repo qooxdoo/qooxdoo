@@ -5020,39 +5020,20 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _styleFromMap : function(data)
     {
-      var setter = qx.core.Property.$$method.set;
       var styler = qx.core.Property.$$method.style;
+      var unstyler = qx.core.Property.$$method.unstyle;
+      var value;
 
       for (var prop in data)
       {
-        if (this[styler[prop]])
-        {
-          this[styler[prop]](data[prop]);
-        }
-        else if (qx.core.Variant.isSet("qx.compatibility", "on"))
-        {
-          if (qx.core.Variant.isSet("qx.debug", "on"))
-          {
-            var def = qx.Class.getPropertyDefinition(this.constructor, prop);
-            if (def && !def._legacy) {
-              this.warn("Using set() for new non-themeable property: " + prop);
-            }
-
-            if (!this[setter[prop]])
-            {
-              this.warn("No such property: " + prop);
-              continue;
-            }
-          }
-
-          this[setter[prop]](data[prop]);
-        }
+        value = data[prop];
+        value === "undefined" ? this[unstyler[prop]]() : this[styler[prop]](value);
       }
     },
 
 
     /**
-     * Style multiple properties at once by using a property list
+     * Unstyle multiple properties at once by using a property list
      *
      * @type member
      * @param data {Array} a array of property names.
@@ -5061,36 +5042,10 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _unstyleFromArray : function(data)
     {
-      var resetter = qx.core.Property.$$method.reset;
       var unstyler = qx.core.Property.$$method.unstyle;
-      var prop;
 
-      for (var i=0, l=data.length; i<l; i++)
-      {
-        prop = data[i];
-
-        if (this[unstyler[prop]])
-        {
-          this[unstyler[prop]]();
-        }
-        else if (qx.core.Variant.isSet("qx.compatibility", "on"))
-        {
-          if (qx.core.Variant.isSet("qx.debug", "on"))
-          {
-            var def = qx.Class.getPropertyDefinition(this.constructor, prop);
-            if (def && !def._legacy) {
-              this.warn("Using reset() for new non-themeable property: " + prop);
-            }
-
-            if (!this[resetter[prop]])
-            {
-              this.warn("No such property: " + prop);
-              continue;
-            }
-          }
-
-          this[resetter[prop]]();
-        }
+      for (var i=0, l=data.length; i<l; i++) {
+        this[unstyler[data[i]]]();
       }
     },
 
