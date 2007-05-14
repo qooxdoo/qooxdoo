@@ -562,7 +562,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       } else 
       {
         this.widgets["treeview.full"].setSelectedElement(modelNode.widgetLinkFull);
-        if (sel.widgetLinkFull instanceof qx.ui.tree.TreeFolder) 
+        if (modelNode.widgetLinkFull instanceof qx.ui.tree.TreeFolder) 
         {
           modelNode.widgetLinkFull.open();
         }
