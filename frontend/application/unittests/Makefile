@@ -39,3 +39,8 @@ distclean:
 api:
 	@$(MAKE) -s -f Makefile.runner api
 	
+
+publish:
+	@$(MAKE) -s -f Makefile.runner publish
+	@$(MAKE) -s -f Makefile.tests publish
+
