@@ -206,7 +206,8 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
       });
 
     // Set the cell focus color
-    this.setCellFocusAttributes({ backgroundColor : "lightblue" });
+    var lightblue = "rgb(" + qx.util.ExtendedColor.toRgb("lightblue") + ")";
+    this.setCellFocusAttributes({ backgroundColor : lightblue });
 
     /*
     // Use this instead, to help determine which does what
