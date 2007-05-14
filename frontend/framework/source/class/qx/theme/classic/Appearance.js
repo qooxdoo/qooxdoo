@@ -1421,8 +1421,11 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       include : "spinner-button",
 
-      style : function(states) {
-        src : "widget/arrows/up_small.gif"
+      style : function(states)
+      {
+        return {
+          source : "widget/arrows/up_small.gif"
+        }
       }
     },
 
@@ -1434,7 +1437,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           paddingTop : 1,
-          src : "widget/arrows/down_small.gif"
+          source : "widget/arrows/down_small.gif"
         };
       }
     },
