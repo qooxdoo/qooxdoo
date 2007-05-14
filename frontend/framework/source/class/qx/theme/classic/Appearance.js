@@ -25,8 +25,18 @@
 #ignore(auto-use)
 #embed(qx.static/image/dotted_white.gif)
 #embed(qx.static/image/blank.gif)
+
+# Window
 #embed(qx.widgettheme/window/*)
+
+# ComboBox, ComboBoxEx
 #embed(qx.widgettheme/arrows/down.gif)
+
+# Spinner
+#embed(qx.widgettheme/arrows/up_small.gif)
+#embed(qx.widgettheme/arrows/down_small.gif)
+
+
 
 ************************************************************************* */
 
@@ -1407,8 +1417,13 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "spinner-button-up" : {
-      include : "spinner-button"
+    "spinner-button-up" :
+    {
+      include : "spinner-button",
+
+      style : function(states) {
+        src : "widget/arrows/up_small.gif"
+      }
     },
 
     "spinner-button-down" :
@@ -1418,7 +1433,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          paddingTop : 1
+          paddingTop : 1,
+          src : "widget/arrows/down_small.gif"
         };
       }
     },
