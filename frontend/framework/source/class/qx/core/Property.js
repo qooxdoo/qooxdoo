@@ -926,14 +926,15 @@ qx.Class.define("qx.core.Property",
       // OLD = USER VALUE
 
       code.push('if(this.', this.$$store.user[name], '!==undefined){');
-      code.push('old=this.', this.$$store.user[name], ';');
 
       if (variant === "set")
       {
+        code.push('old=this.', this.$$store.user[name], ';');
         code.push('computed=this.', this.$$store.user[name], '=value;');
       }
       else if (variant === "reset")
       {
+        code.push('old=this.', this.$$store.user[name], ';');
         code.push('delete this.', this.$$store.user[name], ';');
 
         code.push('if(this.', this.$$store.theme[name], '!==undefined)');
@@ -943,27 +944,22 @@ qx.Class.define("qx.core.Property",
         code.push('this.', this.$$store.useinit[name], '=true;');
         code.push('}');
       }
-      else if (config.themeable && (variant === "style" || variant === "unstyle"))
+      else if (variant === "style")
       {
-        if (variant === "style") {
-          code.push('this.', this.$$store.theme[name], '=value;');
-        } else {
-          code.push('delete this.', this.$$store.theme[name], ';');
-        }
-
-        code.push('computed=this.', this.$$store.user[name], ';');
+        code.push('this.', this.$$store.theme[name], '=value;');
       }
-      else if (variant === "init")
+      else if (variant === "unstyle")
       {
-        if (incomingValue) {
-          code.push('this.', this.$$store.init[name], '=value;');
-        }
-
-        code.push('computed=this.', this.$$store.user[name], ';');
+        code.push('delete this.', this.$$store.theme[name], ';');
       }
-      else if (variant === "refresh")
+      else if (variant === "init" && incomingValue)
       {
-        code.push('computed=this.', this.$$store.user[name], ';');
+        code.push('this.', this.$$store.init[name], '=value;');
+      }
+
+      // Use user value where it has higher priority
+      if (variant === "style" || variant === "unstyle" || variant === "init" || variant === "refresh") {
+        code.push('old=computed=this.', this.$$store.user[name], ';');
       }
 
       code.push('}');
