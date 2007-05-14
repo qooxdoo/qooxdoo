@@ -539,7 +539,7 @@ qx.Class.define("qx.ui.basic.Label",
 
       var style = element.style;
 
-      if (this.getEnableTextOverflow())
+      if (this.getTextOverflow())
       {
         if (this.getInnerWidth() < this.getPreferredInnerWidth())
         {
