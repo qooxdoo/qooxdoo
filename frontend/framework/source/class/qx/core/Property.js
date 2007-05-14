@@ -528,12 +528,15 @@ qx.Class.define("qx.core.Property",
         return qx.core.Property.executeOptimizedSetter(this, clazz, name, "reset");
       }
 
-      method.init[name] = prefix + "init" + postfix;
-      members[method.init[name]] = function(value) {
-        return qx.core.Property.executeOptimizedSetter(this, clazz, name, "init", arguments);
+      if (config.inheritable || config.apply || config.event)
+      {
+        method.init[name] = prefix + "init" + postfix;
+        members[method.init[name]] = function(value) {
+          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "init", arguments);
+        }
       }
 
-      if (config.inheritable === true)
+      if (config.inheritable)
       {
         method.refresh[name] = prefix + "refresh" + postfix;
         members[method.refresh[name]] = function(value) {
@@ -541,7 +544,7 @@ qx.Class.define("qx.core.Property",
         }
       }
 
-      if (config.themeable === true)
+      if (config.themeable)
       {
         method.style[name] = prefix + "style" + postfix;
         members[method.style[name]] = function(value) {
@@ -811,10 +814,13 @@ qx.Class.define("qx.core.Property",
       // [4] COMPARING (LOCAL) NEW AND OLD VALUE
 
       // Old/new comparision
-      if (incomingValue) {
-        code.push('if(this.', store, '===value)return value;');
-      } else if (resetValue) {
-        code.push('if(this.', store, '===undefined)return;');
+      if (hasCallback)
+      {
+        if (incomingValue) {
+          code.push('if(this.', store, '===value)return value;');
+        } else if (resetValue) {
+          code.push('if(this.', store, '===undefined)return;');
+        }
       }
 
 
@@ -895,75 +901,26 @@ qx.Class.define("qx.core.Property",
 
 
 
-      // [6] READING OLD VALUE
 
-      if (config.inheritable)
+      if (!hasCallback)
       {
-        code.push('var computed, old=this.', this.$$store.inherit[name], ';');
-      }
-      else
-      {
-        code.push('var computed, old;');
-      }
-
-
-
-
-
-      // OLD = USER VALUE
-
-      code.push('if(this.', this.$$store.user[name], '!==undefined){');
-
-      if (variant === "set")
-      {
-        if (!config.inheritable)
+        if (variant === "set")
         {
-          // Remember old value
-          code.push('old=this.', this.$$store.user[name], ';');
+          code.push('this.', this.$$store.user[name], '=value;');
         }
-
-        // Replace it with new value
-        code.push('computed=this.', this.$$store.user[name], '=value;');
-      }
-      else if (variant === "reset")
-      {
-        if (!config.inheritable)
+        else if (variant === "reset")
         {
-          // Remember old value
-          code.push('old=this.', this.$$store.user[name], ';');
+          code.push('if(this.', this.$$store.user[name], '!==undefined)');
+          code.push('delete this.', this.$$store.user[name], ';');
         }
-
-        // Delete field
-        code.push('delete this.', this.$$store.user[name], ';');
-
-        // Complex compution of new value
-        code.push('if(this.', this.$$store.theme[name], '!==undefined)');
-        code.push('computed=this.', this.$$store.theme[name], ';');
-        code.push('else if(this.', this.$$store.init[name], '!==undefined){');
-        code.push('computed=this.', this.$$store.init[name], ';');
-        code.push('this.', this.$$store.useinit[name], '=true;');
-        code.push('}');
-      }
-      else
-      {
-        if (config.inheritable)
-        {
-          // Use user value where it has higher priority
-          code.push('computed=this.', this.$$store.user[name], ';');
-        }
-        else
-        {
-          // Use user value where it has higher priority
-          code.push('old=computed=this.', this.$$store.user[name], ';');
-        }
-
         // Store incoming value
-        if (variant === "style")
+        else if (variant === "style")
         {
           code.push('this.', this.$$store.theme[name], '=value;');
         }
         else if (variant === "unstyle")
         {
+          code.push('if(this.', this.$$store.theme[name], '!==undefined)');
           code.push('delete this.', this.$$store.theme[name], ';');
         }
         else if (variant === "init" && incomingValue)
@@ -971,130 +928,151 @@ qx.Class.define("qx.core.Property",
           code.push('this.', this.$$store.init[name], '=value;');
         }
       }
-
-      code.push('}');
-
-
-
-
-
-      // OLD = THEMED VALUE
-
-      if (config.themeable)
+      else
       {
-        code.push('else if(this.', this.$$store.theme[name], '!==undefined){');
-
-        if (!config.inheritable)
+        if (config.inheritable)
         {
-          code.push('old=this.', this.$$store.theme[name], ';');
+          code.push('var computed, old=this.', this.$$store.inherit[name], ';');
         }
+        else
+        {
+          code.push('var computed, old;');
+        }
+
+
+
+
+        // OLD = USER VALUE
+
+        code.push('if(this.', this.$$store.user[name], '!==undefined){');
 
         if (variant === "set")
         {
-          code.push('computed=this.', this.$$store.user[name], '=value;');
-        }
-
-        // reset() is impossible, because the user has higher priority than
-        // the themed value, so the themed value has no chance to ever get used,
-        // when there is a user value, too.
-
-        else if (variant === "style")
-        {
-          code.push('computed=this.', this.$$store.theme[name], '=value;');
-        }
-        else if (variant === "unstyle")
-        {
-          // Delete entry
-          code.push('delete this.', this.$$store.theme[name], ';');
-
-          // Fallback to init value
-          code.push('if(this.', this.$$store.init[name], '!==undefined){');
-            code.push('computed=this.', this.$$store.init[name], ';');
-            code.push('this.', this.$$store.useinit[name], '=true;');
-          code.push('}');
-        }
-        else if (variant === "init")
-        {
-          if (incomingValue) {
-            code.push('this.', this.$$store.init[name], '=value;');
+          if (!config.inheritable)
+          {
+            // Remember old value
+            code.push('old=this.', this.$$store.user[name], ';');
           }
 
-          code.push('computed=this.', this.$$store.theme[name], ';');
+          // Replace it with new value
+          code.push('computed=this.', this.$$store.user[name], '=value;');
         }
-        else if (variant === "refresh")
+        else if (variant === "reset")
         {
+          if (!config.inheritable)
+          {
+            // Remember old value
+            code.push('old=this.', this.$$store.user[name], ';');
+          }
+
+          // Delete field
+          code.push('delete this.', this.$$store.user[name], ';');
+
+          // Complex compution of new value
+          code.push('if(this.', this.$$store.theme[name], '!==undefined)');
           code.push('computed=this.', this.$$store.theme[name], ';');
+          code.push('else if(this.', this.$$store.init[name], '!==undefined){');
+          code.push('computed=this.', this.$$store.init[name], ';');
+          code.push('this.', this.$$store.useinit[name], '=true;');
+          code.push('}');
+        }
+        else
+        {
+          if (config.inheritable)
+          {
+            // Use user value where it has higher priority
+            code.push('computed=this.', this.$$store.user[name], ';');
+          }
+          else
+          {
+            // Use user value where it has higher priority
+            code.push('old=computed=this.', this.$$store.user[name], ';');
+          }
+
+          // Store incoming value
+          if (variant === "style")
+          {
+            code.push('this.', this.$$store.theme[name], '=value;');
+          }
+          else if (variant === "unstyle")
+          {
+            code.push('delete this.', this.$$store.theme[name], ';');
+          }
+          else if (variant === "init" && incomingValue)
+          {
+            code.push('this.', this.$$store.init[name], '=value;');
+          }
         }
 
         code.push('}');
-      }
-
-
-
-
-      // OLD = INIT VALUE
-
-      code.push('else if(this.', this.$$store.useinit[name], '){');
-
-      if (!config.inheritable) {
-        code.push('old=this.', this.$$store.init[name], ';');
-      }
-
-      if (variant === "init")
-      {
-        if (incomingValue) {
-          code.push('computed=this.', this.$$store.init[name], '=value;');
-        } else {
-          code.push('computed=this.', this.$$store.init[name], ';');
-        }
-
-        // useinit flag is already initialized
-      }
-
-      // reset() and unstyle() are impossible, because the user and themed values have a
-      // higher priority than the init value, so the themed value has no chance to ever get used,
-      // when there is a user or themed value, too.
-
-      else if (variant === "set" || variant === "style" || variant === "refresh")
-      {
-        code.push('delete this.', this.$$store.useinit[name], ';');
-
-        if (variant === "set") {
-          code.push('computed=this.', this.$$store.user[name], '=value;');
-        } else if (variant === "style") {
-          code.push('computed=this.', this.$$store.theme[name], '=value;');
-        } else if (variant === "refresh") {
-          code.push('computed=this.', this.$$store.init[name], ';');
-        }
-      }
-
-      code.push('}');
 
 
 
 
 
+        // OLD = THEMED VALUE
 
-      // OLD = NONE
-
-      // reset() and unstyle() are impossible because otherwise there
-      // is already an old value
-
-      if (variant === "set" || variant === "style" || variant === "init")
-      {
-        code.push('else{');
-
-        if (variant === "set")
+        if (config.themeable)
         {
-          code.push('computed=this.', this.$$store.user[name], '=value;');
+          code.push('else if(this.', this.$$store.theme[name], '!==undefined){');
+
+          if (!config.inheritable)
+          {
+            code.push('old=this.', this.$$store.theme[name], ';');
+          }
+
+          if (variant === "set")
+          {
+            code.push('computed=this.', this.$$store.user[name], '=value;');
+          }
+
+          // reset() is impossible, because the user has higher priority than
+          // the themed value, so the themed value has no chance to ever get used,
+          // when there is a user value, too.
+
+          else if (variant === "style")
+          {
+            code.push('computed=this.', this.$$store.theme[name], '=value;');
+          }
+          else if (variant === "unstyle")
+          {
+            // Delete entry
+            code.push('delete this.', this.$$store.theme[name], ';');
+
+            // Fallback to init value
+            code.push('if(this.', this.$$store.init[name], '!==undefined){');
+              code.push('computed=this.', this.$$store.init[name], ';');
+              code.push('this.', this.$$store.useinit[name], '=true;');
+            code.push('}');
+          }
+          else if (variant === "init")
+          {
+            if (incomingValue) {
+              code.push('this.', this.$$store.init[name], '=value;');
+            }
+
+            code.push('computed=this.', this.$$store.theme[name], ';');
+          }
+          else if (variant === "refresh")
+          {
+            code.push('computed=this.', this.$$store.theme[name], ';');
+          }
+
+          code.push('}');
         }
 
-        else if (variant === "style")
-        {
-          code.push('computed=this.', this.$$store.theme[name], '=value;');
+
+
+
+        // OLD = INIT VALUE
+
+        code.push('else if(this.', this.$$store.useinit[name], '){');
+
+        if (!config.inheritable) {
+          code.push('old=this.', this.$$store.init[name], ';');
         }
 
-        else if (variant === "init")
+        if (variant === "init")
         {
           if (incomingValue) {
             code.push('computed=this.', this.$$store.init[name], '=value;');
@@ -1102,13 +1080,74 @@ qx.Class.define("qx.core.Property",
             code.push('computed=this.', this.$$store.init[name], ';');
           }
 
-          code.push('this.', this.$$store.useinit[name], '=true;');
+          // useinit flag is already initialized
         }
 
-        // refresh() will work with the undefined value, later
+        // reset() and unstyle() are impossible, because the user and themed values have a
+        // higher priority than the init value, so the themed value has no chance to ever get used,
+        // when there is a user or themed value, too.
+
+        else if (variant === "set" || variant === "style" || variant === "refresh")
+        {
+          code.push('delete this.', this.$$store.useinit[name], ';');
+
+          if (variant === "set") {
+            code.push('computed=this.', this.$$store.user[name], '=value;');
+          } else if (variant === "style") {
+            code.push('computed=this.', this.$$store.theme[name], '=value;');
+          } else if (variant === "refresh") {
+            code.push('computed=this.', this.$$store.init[name], ';');
+          }
+        }
 
         code.push('}');
+
+
+
+
+
+
+        // OLD = NONE
+
+        // reset() and unstyle() are impossible because otherwise there
+        // is already an old value
+
+        if (variant === "set" || variant === "style" || variant === "init")
+        {
+          code.push('else{');
+
+          if (variant === "set")
+          {
+            code.push('computed=this.', this.$$store.user[name], '=value;');
+          }
+
+          else if (variant === "style")
+          {
+            code.push('computed=this.', this.$$store.theme[name], '=value;');
+          }
+
+          else if (variant === "init")
+          {
+            if (incomingValue) {
+              code.push('computed=this.', this.$$store.init[name], '=value;');
+            } else {
+              code.push('computed=this.', this.$$store.init[name], ';');
+            }
+
+            code.push('this.', this.$$store.useinit[name], '=true;');
+          }
+
+          // refresh() will work with the undefined value, later
+
+          code.push('}');
+        }
       }
+
+
+
+
+
+
 
 
 
