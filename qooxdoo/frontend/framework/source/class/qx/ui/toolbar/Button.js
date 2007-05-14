@@ -66,6 +66,12 @@ qx.Class.define("qx.ui.toolbar.Button",
     {
       refine : true,
       init : null
+    },
+
+    allowStretchY :
+    {
+      refine : true,
+      init : true
     }
   },
 
