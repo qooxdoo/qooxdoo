@@ -929,14 +929,21 @@ qx.Class.define("qx.core.Property",
 
       if (variant === "set")
       {
+        // Remember old value
         code.push('old=this.', this.$$store.user[name], ';');
+
+        // Replace it with new value
         code.push('computed=this.', this.$$store.user[name], '=value;');
       }
       else if (variant === "reset")
       {
+        // Remember old value
         code.push('old=this.', this.$$store.user[name], ';');
+
+        // Delete field
         code.push('delete this.', this.$$store.user[name], ';');
 
+        // Complex compution of new value
         code.push('if(this.', this.$$store.theme[name], '!==undefined)');
         code.push('computed=this.', this.$$store.theme[name], ';');
         code.push('else if(this.', this.$$store.init[name], '!==undefined){');
@@ -944,22 +951,26 @@ qx.Class.define("qx.core.Property",
         code.push('this.', this.$$store.useinit[name], '=true;');
         code.push('}');
       }
-      else if (variant === "style")
+      else
       {
-        code.push('this.', this.$$store.theme[name], '=value;');
-      }
-      else if (variant === "unstyle")
-      {
-        code.push('delete this.', this.$$store.theme[name], ';');
-      }
-      else if (variant === "init" && incomingValue)
-      {
-        code.push('this.', this.$$store.init[name], '=value;');
-      }
-
-      // Use user value where it has higher priority
-      if (variant === "style" || variant === "unstyle" || variant === "init" || variant === "refresh") {
+        // Use user value where it has higher priority
         code.push('old=computed=this.', this.$$store.user[name], ';');
+
+        // Store incoming value
+        if (variant === "style")
+        {
+          // The style handling supports "undefined" values, too
+          code.push('if(value!==undefined)this.', this.$$store.theme[name], '=value;');
+          code.push('else delete this.', this.$$store.theme[name], ';');
+        }
+        else if (variant === "unstyle")
+        {
+          code.push('delete this.', this.$$store.theme[name], ';');
+        }
+        else if (variant === "init" && incomingValue)
+        {
+          code.push('this.', this.$$store.init[name], '=value;');
+        }
       }
 
       code.push('}');
@@ -1122,6 +1133,8 @@ qx.Class.define("qx.core.Property",
 
       if (config.inheritable)
       {
+        code.push('if(old===undefined)old=this.', this.$$store.inherit[name], ';');
+
         code.push('if(computed===undefined||computed===prop.$$inherit)');
 
         if (variant === "refresh") {
@@ -1134,21 +1147,15 @@ qx.Class.define("qx.core.Property",
         code.push('if((computed===undefined||computed===prop.$$inherit)&&');
         code.push('this.', this.$$store.init[name], '!==undefined&&');
         code.push('this.', this.$$store.init[name], '!==prop.$$inherit){');
-        code.push('computed=this.', this.$$store.init[name], ';');
-        code.push('this.', this.$$store.useinit[name], '=true;');
-        code.push('}');
-
-
-        code.push('else ');
-        code.push('delete this.', this.$$store.useinit[name], ';');
-
-
-        // Note: At this point computed can be "inherit" or "undefined".
+          code.push('computed=this.', this.$$store.init[name], ';');
+          code.push('this.', this.$$store.useinit[name], '=true;');
+        code.push('}else{');
+        code.push('delete this.', this.$$store.useinit[name], ';}');
 
         // Compare old/new computed value
-        // We can reduce the overhead here, if the property is not
-        // inheritable and has no event or apply method assigned
         code.push('if(old===computed)return value;');
+
+        // Note: At this point computed can be "inherit" or "undefined".
 
         // Normalize "inherit" to undefined and delete inherited value
         code.push('if(computed===prop.$$inherit){');
@@ -1180,24 +1187,8 @@ qx.Class.define("qx.core.Property",
         code.push('if(old===undefined)old=null;');
 
         // Compare old/new computed value
-        // We can reduce the overhead here, if the property is not
-        // inheritable and has no event or apply method assigned
         code.push('if(old===computed)return value;');
       }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1222,7 +1213,7 @@ qx.Class.define("qx.core.Property",
 
         // Refresh children
         // Require the parent/children interface
-        if (config.inheritable)
+        if (config.inheritable && members.getChildren)
         {
           code.push('var a=this.getChildren();if(a)for(var i=0,l=a.length;i<l;i++){');
           code.push('if(a[i].', this.$$method.refresh[name], ')a[i].', this.$$method.refresh[name], '(inherited);');
