@@ -1667,6 +1667,7 @@ qx.Class.define("qx.ui.core.Widget",
     left :
     {
       apply : "_modifyLeft",
+      event : "changeLeft",
       nullable : true,
       themeable : true,
       init : null
@@ -1683,6 +1684,7 @@ qx.Class.define("qx.ui.core.Widget",
     right :
     {
       apply : "_modifyRight",
+      event : "changeRight",
       nullable : true,
       themeable : true,
       init : null
@@ -1699,6 +1701,7 @@ qx.Class.define("qx.ui.core.Widget",
     width :
     {
       apply : "_modifyWidth",
+      event : "changeWidth",
       nullable : true,
       themeable : true,
       init : null
@@ -1713,6 +1716,7 @@ qx.Class.define("qx.ui.core.Widget",
     minWidth :
     {
       apply : "_modifyMinWidth",
+      event : "changeMinWidth",
       nullable : true,
       themeable : true,
       init : null
@@ -1727,6 +1731,7 @@ qx.Class.define("qx.ui.core.Widget",
     maxWidth :
     {
       apply : "_modifyMaxWidth",
+      event : "changeMaxWidth",
       nullable : true,
       themeable : true,
       init : null
@@ -1751,6 +1756,7 @@ qx.Class.define("qx.ui.core.Widget",
     top :
     {
       apply : "_modifyTop",
+      event : "changeTop",
       nullable : true,
       themeable : true,
       init : null
@@ -1767,6 +1773,7 @@ qx.Class.define("qx.ui.core.Widget",
     bottom :
     {
       apply : "_modifyBottom",
+      event : "changeBottom",
       nullable : true,
       themeable : true,
       init : null
@@ -1783,6 +1790,7 @@ qx.Class.define("qx.ui.core.Widget",
     height :
     {
       apply : "_modifyHeight",
+      event : "changeHeight",
       nullable : true,
       themeable : true,
       init : null
@@ -1797,6 +1805,7 @@ qx.Class.define("qx.ui.core.Widget",
     minHeight :
     {
       apply : "_modifyMinHeight",
+      event : "changeMinHeight",
       nullable : true,
       themeable : true,
       init : null
@@ -1811,6 +1820,7 @@ qx.Class.define("qx.ui.core.Widget",
     maxHeight :
     {
       apply : "_modifyMaxHeight",
+      event : "changeMaxHeight",
       nullable : true,
       themeable : true,
       init : null
