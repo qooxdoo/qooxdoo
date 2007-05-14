@@ -21,7 +21,6 @@
 /* ************************************************************************
 
 #module(ui_menu)
-#embed(qx.widgettheme/menu/checkbox.gif)
 #embed(qx.static/image/blank.gif)
 
 ************************************************************************ */
@@ -47,13 +46,11 @@ qx.Class.define("qx.ui.menu.CheckBox",
 
   construct : function(vLabel, vCommand, vChecked)
   {
-    this.base(arguments, vLabel, "static/image/blank.gif", vCommand);
+    this.base(arguments, vLabel, null, vCommand);
 
     if (vChecked != null) {
       this.setChecked(vChecked);
     }
-
-    qx.manager.object.ImageManager.getInstance().preload("widget/menu/checkbox.gif");
   },
 
 
@@ -67,12 +64,6 @@ qx.Class.define("qx.ui.menu.CheckBox",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
     appearance :
     {
       refine : true,
@@ -124,12 +115,8 @@ qx.Class.define("qx.ui.menu.CheckBox",
      * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyChecked : function(propValue, propOldValue, propData)
-    {
-      propValue ? this.addState("checked") : this.removeState("checked");
-      this.getIconObject().setSource(propValue ? "widget/menu/checkbox.gif" : "static/image/blank.gif");
-
-      return true;
+    _modifyChecked : function(propValue, propOldValue, propData) {
+      propValue === true ? this.addState("checked") : this.removeState("checked");
     },
 
 
@@ -149,8 +136,12 @@ qx.Class.define("qx.ui.menu.CheckBox",
      */
     execute : function()
     {
-      this.setChecked(!this.getChecked());
+      this._processExecute();
       this.base(arguments);
+    },
+
+    _processExecute : function() {
+      this.toggleChecked();
     }
   }
 });

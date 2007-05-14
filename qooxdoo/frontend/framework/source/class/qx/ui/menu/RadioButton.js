@@ -21,7 +21,6 @@
 /* ************************************************************************
 
 #module(ui_menu)
-#embed(qx.widgettheme/menu/radiobutton.gif)
 #embed(qx.static/image/blank.gif)
 
 ************************************************************************ */
@@ -33,21 +32,6 @@ qx.Class.define("qx.ui.menu.RadioButton",
 {
   extend : qx.ui.menu.CheckBox,
 
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function(vLabel, vCommand, vChecked)
-  {
-    this.base(arguments, vLabel, vCommand, vChecked);
-
-    qx.manager.object.ImageManager.getInstance().preload("widget/menu/radiobutton.gif");
-  },
 
 
 
@@ -71,7 +55,7 @@ qx.Class.define("qx.ui.menu.RadioButton",
     {
       check : "qx.manager.selection.RadioManager",
       nullable : true,
-      apply : "_modifyChecked"
+      apply : "_modifyManager"
     }
   },
 
@@ -103,21 +87,13 @@ qx.Class.define("qx.ui.menu.RadioButton",
      */
     _modifyChecked : function(propValue, propOldValue, propData)
     {
+      this.base(arguments, propValue, propOldValue, propData);
+
       var vManager = this.getManager();
 
-      if (vManager)
-      {
-        if (propValue) {
-          vManager.setSelected(this);
-        } else if (vManager.getSelected() == this) {
-          vManager.setSelected(null);
-        }
+      if (vManager) {
+        vManager.handleItemChecked(this, propValue);
       }
-
-      propValue ? this.addState("checked") : this.removeState("checked");
-      this.getIconObject().setSource(propValue ? "widget/menu/radiobutton.gif" : "static/image/blank.gif");
-
-      return true;
     },
 
 
@@ -139,8 +115,6 @@ qx.Class.define("qx.ui.menu.RadioButton",
       if (propValue) {
         propValue.add(this);
       }
-
-      return true;
     },
 
 
@@ -158,8 +132,6 @@ qx.Class.define("qx.ui.menu.RadioButton",
       if (this.getManager()) {
         this.getManager().setName(propValue);
       }
-
-      return true;
     },
 
 
@@ -177,12 +149,8 @@ qx.Class.define("qx.ui.menu.RadioButton",
      * @type member
      * @return {void}
      */
-    execute : function()
-    {
+    _processExecute : function() {
       this.setChecked(true);
-
-      // Intentionally bypass superclass and call super.super.execute
-      this.base(arguments);
     }
   }
 });
