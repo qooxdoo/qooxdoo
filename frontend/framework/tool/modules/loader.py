@@ -233,7 +233,7 @@ def getTokens(fileDb, fileId, options):
             #TODO: This hack is neccesary becaus the current parser cannot handle comments
             #      Without a context.
             if fileId.endswith("__init__"):
-                fileContent += "\nfunction() {}"
+                fileContent += "\n(function() {})()"
 
             tokens = tokenizer.parseStream(fileContent, fileId)
 
