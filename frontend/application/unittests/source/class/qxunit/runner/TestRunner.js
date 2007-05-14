@@ -200,8 +200,10 @@ qx.Class.define("qxunit.runner.TestRunner",
       // -- run button
       this.runbutton = new qx.ui.toolbar.Button("Run Test", "icon/16/actions/media-playback-start.png");
       toolbar.add(this.runbutton);
+      this.widgets["toolbar.runbutton"] = this.runbutton;
       this.runbutton.addEventListener("execute", this.runTest, this);
       this.runbutton.setToolTip(new qx.ui.popup.ToolTip("Run selected test(s)"));
+
       toolbar.add(new qx.ui.toolbar.Separator);
 
       this.testSuiteUrl = new qx.ui.form.TextField("html/QooxdooTest.html?testclass=qxunit.test");
@@ -946,7 +948,15 @@ qx.Class.define("qxunit.runner.TestRunner",
       // -- Main ---------------------------------
 
       // get model node from selected tree node
-      var modelNode = this.tree.getSelectedElement().modelLink;
+      var widgetNode = this.tree.getSelectedElement();
+      if (widgetNode) {
+        var modelNode  = widgetNode.modelLink;
+      } else 
+      {
+        alert("Please select a test node from the tree!");
+        this.widgets["toolbar.runbutton"].setEnabled(true);
+        return;
+      }
       // build list of individual tests to perform
       tlist = buildList(modelNode);
       if (this.reloadswitch.getChecked()) {
