@@ -548,16 +548,26 @@ qx.Class.define("qxunit.runner.TestRunner",
       // update toolbar
       this.widgets["toolbar.runbutton"].setEnabled(true);
       // update selection in other tree
-      /* -- not working!
-      var sel = this.widgets["treeview"].getBar().getManager().getSelected();
-      if (sel.getLabel() == "Full Tree")
+      // -- not working!
+      var selButt = this.widgets["treeview"].getBar().getManager().getSelected();
+      if (selButt.getLabel() == "Full Tree")
       {
-        this.widgets["treeview.flat"].setSelectedElement(modelNode.widgetLinkFlat);
+        if (modelNode.widgetLinkFlat){
+          this.widgets["treeview.flat"].setSelectedElement(modelNode.widgetLinkFlat);
+          if (modelNode.widgetLinkFlat instanceof qx.ui.tree.TreeFolder) 
+          {
+            modelNode.widgetLinkFlat.open();
+          }
+        }
       } else 
       {
         this.widgets["treeview.full"].setSelectedElement(modelNode.widgetLinkFull);
+        if (sel.widgetLinkFull instanceof qx.ui.tree.TreeFolder) 
+        {
+          modelNode.widgetLinkFull.open();
+        }
       }
-      */
+      //
     }, //treeGetSelection
 
 
