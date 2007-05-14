@@ -703,16 +703,40 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "window-captionbar-minimize-button" : {
-      include : "window-captionbar-button"
+    "window-captionbar-minimize-button" :
+    {
+      include : "window-captionbar-button",
+
+      style : function(states)
+      {
+        return {
+          icon : "widget/window/minimize.gif"
+        };
+      }
     },
 
-    "window-captionbar-restore-button" : {
-      include : "window-captionbar-button"
+    "window-captionbar-restore-button" :
+    {
+      include : "window-captionbar-button",
+
+      style : function(states)
+      {
+        return {
+          icon : "widget/window/restore.gif"
+        };
+      }
     },
 
-    "window-captionbar-maximize-button" : {
-      include : "window-captionbar-button"
+    "window-captionbar-maximize-button" :
+    {
+      include : "window-captionbar-button",
+
+      style : function(states)
+      {
+        return {
+          icon : "widget/window/maximize.gif"
+        };
+      }
     },
 
     "window-captionbar-close-button" :
@@ -722,7 +746,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          marginLeft : 2
+          marginLeft : 2,
+          icon : "widget/window/close.gif"
         };
       }
     },
