@@ -44,6 +44,7 @@ qx.Class.define("qx.ui.embed.TextEmbed",
     if (vText != null) {
       this.setText(vText);
     }
+    this.initWrap();
   },
 
 
@@ -75,7 +76,19 @@ qx.Class.define("qx.ui.embed.TextEmbed",
       nullable : true,
       themeable : true,
       apply : "_applyTextAlign"
+    },
+
+    /**
+     * Whether the text should be automatically wrapped into the next line
+     */
+    wrap :
+    {
+      check : "Boolean",
+      init : false,
+      nullable : true,
+      apply : "_applyWrap"
     }
+
   },
 
 
@@ -174,6 +187,18 @@ qx.Class.define("qx.ui.embed.TextEmbed",
       value ? this.setStyleProperty("color", value) : this.removeStyleProperty("color");
     },
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      WRAP SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    _applyWrap : function(value, old) {
+      value == null ? this.removeStyleProperty("whiteSpace") : this.setStyleProperty("whiteSpace", value ? "normal" : "nowrap");
+    },
 
 
 
