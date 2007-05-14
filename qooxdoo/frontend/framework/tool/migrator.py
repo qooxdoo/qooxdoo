@@ -269,24 +269,24 @@ def migrateFile(
     # Read in original content
     fileContent = filetool.read(filePath, encoding)
 
-    # apply RE patches
-    patchedContent = regtool(fileContent, compiledPatches, True, filePath)
-    patchedContent = regtool(patchedContent, compiledInfos, False, filePath)
-
     fileId = loader.extractFileContentId(fileContent);
-    if fileId is None:
-        return
 
     # Apply patches
-    if hasPatchModule:
+    patchedContent = fileContent
+
+    if hasPatchModule and fileId is not None:
 
         import patch
-        tree = treegenerator.createSyntaxTree(tokenizer.parseStream(patchedContent))
+        tree = treegenerator.createSyntaxTree(tokenizer.parseStream(fileContent))
 
         # If there were any changes, compile the result
         if patch.patch(fileId, tree):
             options.prettyPrint = True  # make sure it's set
             patchedContent = compiler.compile(tree, options)
+
+    # apply RE patches
+    patchedContent = regtool(patchedContent, compiledPatches, True, filePath)
+    patchedContent = regtool(patchedContent, compiledInfos, False, filePath)
 
     # Write file
     if patchedContent != fileContent:
