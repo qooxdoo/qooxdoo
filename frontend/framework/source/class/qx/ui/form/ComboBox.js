@@ -21,7 +21,6 @@
 /* ************************************************************************
 
 #module(ui_form)
-#embed(qx.widgettheme/arrows/down.gif)
 
 ************************************************************************ */
 
@@ -91,7 +90,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     // Button
     // Use qx.ui.basic.Atom instead of qx.ui.form.Button here to omit the registration
     // of the unneeded and complex button events.
-    var b = this._button = new qx.ui.basic.Atom(null, "widget/arrows/down.gif");
+    var b = this._button = new qx.ui.basic.Atom;
     b.setAppearance("combo-box-button");
     b.setAllowStretchY(true);
     b.setTabIndex(-1);

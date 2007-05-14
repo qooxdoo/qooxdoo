@@ -25,6 +25,8 @@
 #ignore(auto-use)
 #embed(qx.static/image/dotted_white.gif)
 #embed(qx.static/image/blank.gif)
+#embed(qx.widgettheme/window/*)
+#embed(qx.widgettheme/arrows/down.gif)
 
 ************************************************************************* */
 
@@ -1023,7 +1025,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          padding : [ 0, 3, 0, 2 ]
+          padding : [ 0, 3, 0, 2 ],
+          icon : "widget/arrows/down.gif"
         };
       }
     },
