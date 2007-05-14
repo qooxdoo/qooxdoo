@@ -946,7 +946,7 @@ qx.Class.define("qx.ui.window.Window",
      * @return {Boolean} TODOC
      */
     _minimizeButtonManager : function() {
-      this.getAllowMinimize() ? this._minimizeButton.resetEnabled() : this._minimizeButton.setEnabled(false);
+      this.getAllowMinimize() === false ? this._minimizeButton.setEnabled(false) : this._minimizeButton.resetEnabled();
     },
 
 
@@ -957,8 +957,7 @@ qx.Class.define("qx.ui.window.Window",
      * @return {Boolean} TODOC
      */
     _closeButtonManager : function() {
-      this.getAllowClose() ? this._closeButton.resetEnabled() : this._closeButton.setEnabled(false);
-
+      this.getAllowClose() === false ? this._closeButton.setEnabled(false) : this._closeButton.resetEnabled();
     },
 
 
@@ -973,11 +972,11 @@ qx.Class.define("qx.ui.window.Window",
       var b = this.getAllowMaximize() && this.getResizeable() && this._computedMaxWidthTypeNull && this._computedMaxHeightTypeNull;
 
       if (this._maximizeButton) {
-        b ? this._maximizeButton.resetEnabled() : this._maximizeButton.setEnabled(false);
+        b === false ? this._maximizeButton.setEnabled(false) : this._maximizeButton.resetEnabled();
       }
 
       if (this._restoreButton) {
-        b ? this._restoreButton.resetEnabled() : this._restoreButton.setEnabled(false);
+        b === false ? this._restoreButton.setEnabled(false) : this._restoreButton.resetEnabled();
       }
     },
 
