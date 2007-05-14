@@ -163,6 +163,7 @@ qx.Class.define("qx.ui.basic.Image",
       apply : "_modifySource",
       event : "changeSource",
       nullable : true,
+      themeable : true,
       init : "static/image/blank.gif"
     },
 
