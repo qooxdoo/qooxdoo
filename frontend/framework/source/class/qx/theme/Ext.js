@@ -27,11 +27,11 @@ qx.Theme.define("qx.theme.Ext",
 
   meta :
   {
-    color : qx.theme.ext.Color,
-    border : qx.theme.classic.Border,
-    font : qx.theme.classic.font.Default,
-    widget : qx.theme.ext.Widget,
+    color      : qx.theme.ext.Color,
+    border     : qx.theme.ext.Border,
+    font       : qx.theme.ext.font.Default,
+    widget     : qx.theme.ext.Widget,
     appearance : qx.theme.ext.Appearance,
-    icon : qx.theme.icon.CrystalClear
+    icon       : qx.theme.icon.CrystalClear
   }
 });
