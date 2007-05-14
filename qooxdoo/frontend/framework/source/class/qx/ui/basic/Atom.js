@@ -205,7 +205,8 @@ qx.Class.define("qx.ui.basic.Atom",
     {
       check : "String",
       apply : "_modifyIcon",
-      nullable : true
+      nullable : true,
+      themeable : true
     },
 
 
@@ -218,7 +219,8 @@ qx.Class.define("qx.ui.basic.Atom",
     {
       check : "String",
       apply : "_modifyDisabledIcon",
-      nullable : true
+      nullable : true,
+      themeable : true
     },
 
 
