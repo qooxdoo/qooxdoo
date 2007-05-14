@@ -117,8 +117,14 @@ qx.Class.define("qx.ui.table.DefaultHeaderCellRenderer",
       cellWidget.setLabel(cellInfo.name);
 
       cellWidget.setIcon(cellInfo.sorted ? (cellInfo.sortedAscending ? "widget/table/ascending.png" : "widget/table/descending.png") : null);
-      cellWidget.setState(DefaultHeaderCellRenderer.STATE_SORTED, cellInfo.sorted);
-      cellWidget.setState(DefaultHeaderCellRenderer.STATE_SORTED_ASCENDING, cellInfo.sortedAscending);
+
+      cellInfo.sorted ?
+        cellWidget.addState(DefaultHeaderCellRenderer.STATE_SORTED) :
+        cellWidget.removeState(DefaultHeaderCellRenderer.STATE_SORTED);
+
+      cellInfo.sortedAscending ?
+        cellWidget.addState(DefaultHeaderCellRenderer.STATE_SORTED_ASCENDING) :
+        cellWidget.removeState(DefaultHeaderCellRenderer.STATE_SORTED_ASCENDING);
     }
   }
 });
