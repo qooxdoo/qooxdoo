@@ -21,8 +21,6 @@
 /* ************************************************************************
 
 #module(ui_form)
-#embed(qx.widgettheme/arrows/up_small.gif)
-#embed(qx.widgettheme/arrows/down_small.gif)
 
 ************************************************************************ */
 
@@ -87,7 +85,7 @@ qx.Class.define("qx.ui.form.Spinner",
     // ************************************************************************
     //   UP-BUTTON
     // ************************************************************************
-    this._upbutton = new qx.ui.basic.Image("widget/arrows/up_small.gif");
+    this._upbutton = new qx.ui.basic.Image;
     this._upbutton.setAppearance("spinner-button-up");
     this._upbutton.setHeight("1*");
     this._buttonlayout.add(this._upbutton);
@@ -95,7 +93,7 @@ qx.Class.define("qx.ui.form.Spinner",
     // ************************************************************************
     //   DOWN-BUTTON
     // ************************************************************************
-    this._downbutton = new qx.ui.basic.Image("widget/arrows/down_small.gif");
+    this._downbutton = new qx.ui.basic.Image;
     this._downbutton.setAppearance("spinner-button-down");
     this._downbutton.setHeight("1*");
     this._buttonlayout.add(this._downbutton);
