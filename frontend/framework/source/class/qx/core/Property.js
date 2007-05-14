@@ -749,9 +749,6 @@ qx.Class.define("qx.core.Property",
 
       // [1] INTEGRATE ERROR HELPER METHOD
 
-      code.push('var prop=qx.core.Property;');
-
-
 
 
 
@@ -760,6 +757,8 @@ qx.Class.define("qx.core.Property",
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
+        code.push('var prop=qx.core.Property;');
+
         if (variant === "init") {
           code.push('if(this.$$initialized)prop.error(this,0,"'+name+'","'+variant+'",value);');
         }
@@ -786,6 +785,10 @@ qx.Class.define("qx.core.Property",
       }
       else
       {
+        if (!config.nullable || config.check || config.inheritable) {
+          code.push('var prop=qx.core.Property;');
+        }
+
         // Undefined check
         if (variant === "set") {
           code.push('if(value===undefined)prop.error(this,2,"'+name+'","'+variant+'",value);');
@@ -831,6 +834,10 @@ qx.Class.define("qx.core.Property",
 
       // [5] CHECKING VALUE
 
+      if (config.inheritable) {
+        code.push('var inherit=prop.$$inherit;');
+      }
+
       // Enable checks in debugging mode or then generating the setter
 
       if (incomingValue && (qx.core.Variant.isSet("qx.debug", "on") || variant === "set"))
@@ -850,7 +857,7 @@ qx.Class.define("qx.core.Property",
 
           // Inheritable properties always accept "inherit" as value
           if (config.inheritable) {
-            code.push('if(value!==prop.$$inherit)');
+            code.push('if(value!==inherit)');
           }
 
           code.push('if(');
@@ -1161,7 +1168,7 @@ qx.Class.define("qx.core.Property",
 
       if (config.inheritable)
       {
-        code.push('if(computed===undefined||computed===prop.$$inherit){');
+        code.push('if(computed===undefined||computed===inherit){');
 
           if (variant === "refresh") {
             code.push('computed=value;');
@@ -1170,9 +1177,9 @@ qx.Class.define("qx.core.Property",
           }
 
           // Fallback to init value if inheritance was unsuccessful
-          code.push('if((computed===undefined||computed===prop.$$inherit)&&');
+          code.push('if((computed===undefined||computed===inherit)&&');
           code.push('this.', this.$$store.init[name], '!==undefined&&');
-          code.push('this.', this.$$store.init[name], '!==prop.$$inherit){');
+          code.push('this.', this.$$store.init[name], '!==inherit){');
             code.push('computed=this.', this.$$store.init[name], ';');
             code.push('this.', this.$$store.useinit[name], '=true;');
           code.push('}else{');
@@ -1186,7 +1193,7 @@ qx.Class.define("qx.core.Property",
         // Note: At this point computed can be "inherit" or "undefined".
 
         // Normalize "inherit" to undefined and delete inherited value
-        code.push('if(computed===prop.$$inherit){');
+        code.push('if(computed===inherit){');
         code.push('computed=undefined;delete this.', this.$$store.inherit[name], ';');
         code.push('}');
 
@@ -1198,7 +1205,7 @@ qx.Class.define("qx.core.Property",
         code.push('else this.', this.$$store.inherit[name], '=computed;');
 
         // Protect against normalization
-        code.push('var inherited=computed;');
+        code.push('var backup=computed;');
 
         // After storage finally normalize computed and old value
         code.push('if(computed===undefined)computed=null;');
@@ -1245,7 +1252,7 @@ qx.Class.define("qx.core.Property",
         if (config.inheritable && members.getChildren)
         {
           code.push('var a=this.getChildren();if(a)for(var i=0,l=a.length;i<l;i++){');
-          code.push('if(a[i].', this.$$method.refresh[name], ')a[i].', this.$$method.refresh[name], '(inherited);');
+          code.push('if(a[i].', this.$$method.refresh[name], ')a[i].', this.$$method.refresh[name], '(backup);');
           code.push('}');
         }
       }
