@@ -5035,6 +5035,16 @@ qx.Class.define("qx.ui.core.Widget",
       var unstyler = qx.core.Property.$$method.unstyle;
       var value;
 
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        for (var prop in data)
+        {
+          if (!this[styler[prop]]) {
+            throw new Error(this.classname + ' has no themeable property "' + prop + '"');
+          }
+        }
+      }
+
       for (var prop in data)
       {
         value = data[prop];
@@ -5054,6 +5064,16 @@ qx.Class.define("qx.ui.core.Widget",
     _unstyleFromArray : function(data)
     {
       var unstyler = qx.core.Property.$$method.unstyle;
+
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        for (var i=0, l=data.length; i<l; i++)
+        {
+          if (!this[unstyler[data[i]]]) {
+            throw new Error(this.classname + ' has no themeable property "' + prop + '"');
+          }
+        }
+      }
 
       for (var i=0, l=data.length; i<l; i++) {
         this[unstyler[data[i]]]();
