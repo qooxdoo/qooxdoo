@@ -38,6 +38,46 @@
     inputText.setFont(codeFont);
     layout.add(inputText);
 
+/*
+		var fieldsConfig = [
+			{name: "name", type:"String"},
+			{name: "init", type:"String"},
+			{name: "nullable", type:"Boolean"},
+			{name: "themeable", type:"Boolean"},
+			{name: "inheritable", type:"Boolean"},
+			{name: "apply", type:"String"},
+			{name: "event", type:"String"},
+			{name: "transform", type:"String"}
+		];
+
+		var fieldsLayout = new qx.ui.layout.GridLayout;
+
+    fieldsLayout.setBorder("outset");
+    fieldsLayout.setPadding(2, 4);
+    fieldsLayout.setColumnCount(2);
+    fieldsLayout.setRowCount(fieldsConfig.length+1);
+
+		fieldsLayout.setColumnWidth(0, 100);
+		fieldsLayout.setColumnWidth(1, 100);
+
+		fieldsLayout.setWidth("auto");
+		fieldsLayout.setHeight("auto");
+
+
+		for (var field=0; field<fieldsConfig.length; field++)
+		{
+  		fieldsLayout.setRowHeight(field, 30);
+			fieldsLayout.add(new qx.ui.basic.Label(fieldsConfig[field].name + ":"), 0, field);
+			if (fieldsConfig[field].type == "String") {
+				fieldsLayout.add( new qx.ui.form.TextField, 1, field);
+			} else if (fieldsConfig[field].type == "Boolean") {
+				fieldsLayout.add( new qx.ui.form.CheckBox, 1, field);
+			}
+		}
+
+		layout.add(fieldsLayout);
+*/
+
     var toolbar = new qx.ui.toolbar.ToolBar;
     var run = new qx.ui.toolbar.Button("Run", "icon/32/apps/accessories-archiver.png");
     toolbar.add(run);
@@ -177,58 +217,51 @@
       {
         if (instance.getTest) {
           getCode.setValue(instance.getTest.toString());
-          getButton.setIcon(good);
+          getButton.set({icon: good, enabled:true});
         } else {
-          getCode.setValue("does not exist");
-          getButton.setIcon(bad);
+          getButton.set({icon: bad, enabled:false});
         }
 
         if (instance.setTest) {
           setCode.setValue(instance.setTest.toString());
-          setButton.setIcon(good);
+          setButton.set({icon: good, enabled:true});
         } else {
-          setCode.setValue("does not exist");
-          setButton.setIcon(bad);
+          setButton.set({icon: bad, enabled:false});
         }
 
         if (instance.resetTest) {
           resetCode.setValue(instance.resetTest.toString());
-          resetButton.setIcon(good);
+          resetButton.set({icon: good, enabled:true});
         } else {
-          getCode.setValue("does not exist");
-          resetButton.setIcon(bad);
+          resetButton.set({icon: bad, enabled:false});
         }
 
         if (instance.initTest) {
           initCode.setValue(instance.initTest.toString());
-          initButton.setIcon(good);
+          initButton.set({icon: good, enabled:true});
         } else {
-          initCode.setValue("does not exist");
-          initButton.setIcon(bad);
+          initButton.set({icon: bad, enabled:false});
         }
 
         if (instance.styleTest) {
           styleCode.setValue(instance.styleTest.toString());
-          styleButton.setIcon(good);
+          styleButton.set({icon: good, enabled:true});
         } else {
-          styleCode.setValue("does not exist");
-          styleButton.setIcon(bad);
+          styleButton.set({icon: bad, enabled:false});
         }
 
         if (instance.unstyleTest) {
           unstyleCode.setValue(instance.unstyleTest.toString());
-          unstyleButton.setIcon(good);
+          unstyleButton.set({icon: good, enabled:true});
         } else {
-          unstyleCode.setValue("does not exist");
-          unstyleButton.setIcon(bad);
+          unstyleButton.set({icon: bad, enabled:false});
         }
 
         if (instance.refreshTest) {
           refreshCode.setValue(instance.refreshTest.toString());
-          refreshButton.setIcon(good);
+          refreshButton.set({icon: good, enabled:true});
         } else {
-          refreshCode.setValue("does not exist");
-          refreshButton.setIcon(bad);
+          refreshButton.set({icon: bad, enabled:false});
         }
       }
       catch(ex)
