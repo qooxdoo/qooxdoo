@@ -244,7 +244,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       part.setVerticalChildrenAlign("middle");
       toolbar.add(part);
        this.reloadswitch = new qx.ui.toolbar.CheckBox("Reload before Test",
-                                                     "resource/image/yellow_diamond_hollow18.gif");
+                                                     "qxunit/image/yellow_diamond_hollow18.gif");
       part.add(this.reloadswitch);
       this.reloadswitch.setShow("both");
       this.reloadswitch.setToolTip(new qx.ui.popup.ToolTip("Always reload test backend before testing"));
@@ -252,10 +252,10 @@ qx.Class.define("qxunit.runner.TestRunner",
       {
         if (this.reloadswitch.getChecked())
         {
-          this.reloadswitch.setIcon("resource/image/yellow_diamond_full18.gif");
+          this.reloadswitch.setIcon("qxunit/image/yellow_diamond_full18.gif");
         } else
         {
-          this.reloadswitch.setIcon("resource/image/yellow_diamond_hollow18.gif");
+          this.reloadswitch.setIcon("qxunit/image/yellow_diamond_hollow18.gif");
         }
       },this);
       this.reloadswitch.setChecked(true);
@@ -596,11 +596,11 @@ qx.Class.define("qxunit.runner.TestRunner",
           var currNode = children[i];
           if (currNode.hasChildren())
           {
-            t = new qx.ui.tree.TreeFolder(currNode.label,"resource/image/package18.gif");
+            t = new qx.ui.tree.TreeFolder(currNode.label,"qxunit/image/package18.gif");
             buildSubTree(t,currNode);
           } else
           {
-            t = new qx.ui.tree.TreeFile(currNode.label,"resource/image/class18.gif");
+            t = new qx.ui.tree.TreeFile(currNode.label,"qxunit/image/class18.gif");
           }
           // make connections
           widgetR.add(t);
@@ -627,7 +627,7 @@ qx.Class.define("qxunit.runner.TestRunner",
           {
             if (handler.hasTests(currNode)) {
               var fullName = handler.getFullName(currNode);
-              var t = new qx.ui.tree.TreeFolder(fullName,"resource/image/package18.gif");
+              var t = new qx.ui.tree.TreeFolder(fullName,"qxunit/image/package18.gif");
               widgetR.add(t);
               t.modelLink         = currNode;
               currNode.widgetLinkFlat = t;
@@ -640,7 +640,7 @@ qx.Class.define("qxunit.runner.TestRunner",
               {
                 if (children[i].type && children[i].type == "test")
                 {
-                  var c = new qx.ui.tree.TreeFile(children[i].label,"resource/image/class18.gif");
+                  var c = new qx.ui.tree.TreeFile(children[i].label,"qxunit/image/class18.gif");
                   t.add(c);
                   c.modelLink            = children[i];
                   children[i].widgetLinkFlat = c;
@@ -751,11 +751,11 @@ qx.Class.define("qxunit.runner.TestRunner",
           var currNode = children[i];
           if (currNode.hasChildren())
           {
-            t = new qx.ui.tree.TreeFolder(currNode.label,"resource/image/package18.gif");
+            t = new qx.ui.tree.TreeFolder(currNode.label,"qxunit/image/package18.gif");
             buildSubTree(t,currNode);
           } else
           {
-            t = new qx.ui.tree.TreeFile(currNode.label,"resource/image/class18.gif");
+            t = new qx.ui.tree.TreeFile(currNode.label,"qxunit/image/class18.gif");
           }
           // make connections
           widgetR.add(t);
@@ -782,7 +782,7 @@ qx.Class.define("qxunit.runner.TestRunner",
           {
             if (handler.hasTests(currNode)) {
               var fullName = handler.getFullName(currNode);
-              var t = new qx.ui.tree.TreeFolder(fullName,"resource/image/package18.gif");
+              var t = new qx.ui.tree.TreeFolder(fullName,"qxunit/image/package18.gif");
               widgetR.add(t);
               t.modelLink         = currNode;
               currNode.widgetLink = t;
@@ -795,7 +795,7 @@ qx.Class.define("qxunit.runner.TestRunner",
               {
                 if (children[i].type && children[i].type == "test")
                 {
-                  var c = new qx.ui.tree.TreeFile(children[i].label,"resource/image/class18.gif");
+                  var c = new qx.ui.tree.TreeFile(children[i].label,"qxunit/image/class18.gif");
                   t.add(c);
                   c.modelLink            = children[i];
                   children[i].widgetLink = c;
