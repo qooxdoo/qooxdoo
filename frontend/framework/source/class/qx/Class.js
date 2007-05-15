@@ -1311,7 +1311,7 @@ qx.Class.define("qx.Class",
       if (clazz.$$implements)
       {
         clazz.$$implements.push(iface);
-        clazz.$$flatImplements.push.apply(list);
+        clazz.$$flatImplements.push.apply(clazz.$$flatImplements, list);
       }
       else
       {
@@ -1370,7 +1370,7 @@ qx.Class.define("qx.Class",
       if (clazz.$$includes)
       {
         clazz.$$includes.push(mixin);
-        clazz.$$flatIncludes.push.apply(list);
+        clazz.$$flatIncludes.push.apply(clazz.$$flatIncludes, list);
       }
       else
       {

@@ -372,7 +372,8 @@ qx.Class.define("qx.client.History",
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct : function()
+  {
     this._timer.stop();
     this._disposeFields("_iframe", "_titles", "_timer");
   }

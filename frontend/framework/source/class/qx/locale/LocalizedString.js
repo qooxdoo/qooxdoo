@@ -84,7 +84,11 @@ qx.Class.define("qx.locale.LocalizedString",
     },
 
     /** list of arguments to be applied to the format string */
-    args : { nullable : true }
+    args :
+    {
+      nullable : true,
+      dispose : true
+    }
   },
 
 

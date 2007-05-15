@@ -1066,8 +1066,8 @@ qx.Class.define("qx.ui.form.TextField",
       } else {
         this._inputElement.removeEventListener("input", this.__oninput, false);
       }
-
-      delete this.__oninput;
     }
+
+    this._disposeFields("_inputElement", "__font", "__oninput");
   }
 });

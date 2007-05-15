@@ -320,7 +320,8 @@ qx.Class.define("qx.ui.window.Window",
     caption :
     {
       apply : "_modifyCaption",
-      event : "changeCaption"
+      event : "changeCaption",
+      dispose : true
     },
 
 
