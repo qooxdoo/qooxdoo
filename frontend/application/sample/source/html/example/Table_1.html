@@ -6,6 +6,16 @@
   <!--[if IE]>
   <link type="text/css" rel="stylesheet" href="../../css/layout_ie.css"/>
   <![endif]-->
+  <script type="text/javascript">
+    qxsettings =
+    {
+      "qx.disposerDebugLevel"     : 0
+    };
+    qxvariants =
+    {
+      "qx.debug" : "on"
+    };
+  </script>
   <script type="text/javascript" src="../../script/sample.js"></script>
 </head>
 <body>
@@ -147,17 +157,45 @@
     var tcm = table.getTableColumnModel();
     
     var checkBox =
-      new qx.ui.form.CheckBox("Show ID column",
+      new qx.ui.form.CheckBox("Sort ID column even/odd",
                               null, null,
-                              tcm.isColumnVisible(0));
+                              false);
     checkBox.setToolTip(new qx.ui.popup.ToolTip(
-                          "Whether the the ID column should be shown."));
+                          "Demonstrate use of alternate sorting algorithm."));
     checkBox.addEventListener(
       "changeChecked",
       function(evt)
       {
-        tcm.setColumnVisible(0, ! tcm.isColumnVisible(0));
-        this.info("Set ID column visibility to: " + tcm.isColumnVisible(0));
+        if (evt.getData())
+        {
+          var ascending = function(row1, row2)
+            {
+              var obj1 = row1[arguments.callee.columnIndex];
+              var obj2 = row2[arguments.callee.columnIndex];
+              if (obj1 % 2 == 1 && obj2 % 2 == 0) return 1;
+              if (obj2 % 2 == 1 && obj1 % 2 == 0) return -1;
+              return (obj1 > obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
+            };
+
+          var descending = function(row1, row2)
+            {
+              var obj1 = row1[arguments.callee.columnIndex];
+              var obj2 = row2[arguments.callee.columnIndex];
+              if (obj1 % 2 == 1 && obj2 % 2 == 0) return -1;
+              if (obj2 % 2 == 1 && obj1 % 2 == 0) return 1;
+              return (obj1 < obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
+            }
+
+          table.getTableModel().setSortMethods(0,
+                                               {
+                                                 ascending  : ascending,
+                                                 descending : descending
+                                               });
+        }
+        else
+        {
+          table.getTableModel().setSortMethods(0, null);
+        }
       },
       checkBox);
     buttonBar.add(checkBox);
