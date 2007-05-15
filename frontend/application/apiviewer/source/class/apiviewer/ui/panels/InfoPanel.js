@@ -905,9 +905,9 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
       if (
         showInherited &&
         (
-          listName == "event" ||
-          listName == "property" ||
-          listName == "method"
+          listName == "events" ||
+          listName == "properties" ||
+          listName == "methods"
         )
       )
       {
@@ -921,9 +921,9 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
         var currClassNode = classNodes[classIndex];
         var currNodeArr = currClassNode.getItemList(this.getListName());
         if (
-          listName == "event" ||
-          listName == "property" ||
-          listName == "method"
+          listName == "events" ||
+          listName == "properties" ||
+          listName == "methods"
         ) {
           qx.lang.Array.append(currNodeArr, currClassNode.getNodesOfTypeFromMixins(this.getListName()));
         }
