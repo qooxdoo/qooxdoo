@@ -31,14 +31,6 @@ qx.Class.define("qx.ui.table.SimpleTableModel",
   extend : qx.ui.table.AbstractTableModel,
 
 
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   construct : function()
   {
     this.base(arguments);
@@ -47,17 +39,33 @@ qx.Class.define("qx.ui.table.SimpleTableModel",
     this._sortColumnIndex = -1;
     this._sortAscending;
 
+    // Array of objects, each with property "ascending" and "descending"
+    this._sortMethods = [];
+
     this._editableColArr = null;
   },
 
 
+  statics :
+  {
+    // Default sort methods to use if no custom method has been provided
+    _defaultSortComparatorAscending :
+      function(row1, row2)
+      {
+        var obj1 = row1[arguments.callee.columnIndex];
+        var obj2 = row2[arguments.callee.columnIndex];
+        return (obj1 > obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
+      },
 
+    _defaultSortComparatorDescending :
+      function(row1, row2)
+      {
+        var obj1 = row1[arguments.callee.columnIndex];
+        var obj2 = row2[arguments.callee.columnIndex];
+        return (obj1 < obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
+      }
+  },
 
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
 
   members :
   {
@@ -75,8 +83,8 @@ qx.Class.define("qx.ui.table.SimpleTableModel",
 
 
     /**
-     * Returns the data of one row as map containing the column IDs as key and the
-     * cell values as value.
+     * Returns the data of one row as map containing the column IDs as key and
+     * the cell values as value.
      *
      * @type member
      * @param rowIndex {Integer} the model index of the row.
@@ -173,33 +181,56 @@ qx.Class.define("qx.ui.table.SimpleTableModel",
     {
       // NOTE: We use different comperators for ascending and descending,
       //     because comperators should be really fast.
-      var comperator;
+      var comparator;
 
-      if (ascending)
+      var sortMethods = this._sortMethods[columnIndex];
+      if (sortMethods)
       {
-        comperator = function(row1, row2)
-        {
-          var obj1 = row1[columnIndex];
-          var obj2 = row2[columnIndex];
-          return (obj1 > obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
-        };
+        comparator =
+          (ascending
+           ? sortMethods.ascending
+           : sortMethods.descending);
       }
       else
       {
-        comperator = function(row1, row2)
-        {
-          var obj1 = row1[columnIndex];
-          var obj2 = row2[columnIndex];
-          return (obj1 < obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
-        };
+        comparator =
+          (ascending
+           ? qx.ui.table.SimpleTableModel._defaultSortComparatorAscending
+           : qx.ui.table.SimpleTableModel._defaultSortComparatorDescending);
       }
 
-      this._rowArr.sort(comperator);
+      comparator.columnIndex = columnIndex;
+      this._rowArr.sort(comparator);
 
       this._sortColumnIndex = columnIndex;
       this._sortAscending = ascending;
 
       this.createDispatchEvent(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED);
+    },
+
+
+    /**
+     * Specify the methods to use for ascending and descending sorts of a
+     * particular column.
+     *
+     * @param columnIndex {Integer}
+     *   The index of the column or which the sort methods are being
+     *   provided.
+     *
+     * @param methods {Map}
+     *   Map with two properties: "ascending" and "descending".  The
+     *   property value of each is a comparator function which takes two
+     *   parameters: the two arrays of row data, row1 and row2, being
+     *   compared.  It may determine which column to of the row data to sort
+     *   on by accessing arguments.callee.columnIndex.  Each comparator
+     *   function must return 1, 0 or -1, when the column in row1 is greater
+     *   than, equal to, or less than, respectively, the column in row2.
+     *
+     * @return {void}
+     */
+    setSortMethods : function(columnIndex, methods)
+    {
+      this._sortMethods[columnIndex] = methods;
     },
 
 
@@ -483,14 +514,6 @@ qx.Class.define("qx.ui.table.SimpleTableModel",
     }
   },
 
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
 
   destruct : function() {
     this._disposeFields("_rowArr", "_editableColArr");
