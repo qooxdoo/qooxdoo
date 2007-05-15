@@ -71,19 +71,19 @@ qx.Class.define("showcase.Application",
 
       this._states = {};
 
-      this._createPage(barView, "Form", "icon/32/apps/accessories-text-editor.png", this._createFormDemo());
-      this._createPage(barView, "Tooltip", "icon/32/actions/system-run.png", this._createTooltipDemo());
-      this._createPage(barView, "Menu and Toolbar", "icon/32/devices/video-display.png", this._createToolbarDemo());
-      this._createPage(barView, "Tab", "icon/32/places/user-desktop.png", this._createTabDemo(), true);
-      this._createPage(barView, "Tree", "icon/32/actions/view-pane-tree.png", this._createTreeDemo());
-      this._createPage(barView, "List", "icon/32/actions/view-pane-detailed.png", this._createListDemo());
-      this._createPage(barView, "ListView", "icon/32/actions/view-pane-icon.png", this._createListViewDemo());
-      this._createPage(barView, "Table", "icon/32/actions/view-pane-column.png", this._createTableDemo(), true);
-      this._createPage(barView, "SplitPane", "icon/32/actions/view-pane-text.png", this._createSplitPaneDemo(), true);
-      this._createPage(barView, "Localization", "icon/32/apps/accessories-archiver.png", this._createLocalizationDemo());
-      this._createPage(barView, "Native Window", "icon/32/devices/video-display.png", this._createNativeWindowDemo());
-      this._createPage(barView, "Internal Window", "icon/32/apps/preferences-desktop-theme.png", this._createInternalWindowDemo(), true);
-      this._createPage(barView, "Themes", "icon/32/apps/preferences-desktop-wallpaper.png", this._createThemesDemo());
+      this._createPage(barView, "Form", "icon/32/apps/accessories-text-editor.png", this._createFormDemo);
+      this._createPage(barView, "Tooltip", "icon/32/actions/system-run.png", this._createTooltipDemo);
+      this._createPage(barView, "Menu and Toolbar", "icon/32/devices/video-display.png", this._createToolbarDemo);
+      this._createPage(barView, "Tab", "icon/32/places/user-desktop.png", this._createTabDemo, true);
+      this._createPage(barView, "Tree", "icon/32/actions/view-pane-tree.png", this._createTreeDemo);
+      this._createPage(barView, "List", "icon/32/actions/view-pane-detailed.png", this._createListDemo);
+      this._createPage(barView, "ListView", "icon/32/actions/view-pane-icon.png", this._createListViewDemo);
+      this._createPage(barView, "Table", "icon/32/actions/view-pane-column.png", this._createTableDemo, true);
+      this._createPage(barView, "SplitPane", "icon/32/actions/view-pane-text.png", this._createSplitPaneDemo, true);
+      this._createPage(barView, "Localization", "icon/32/apps/accessories-archiver.png", this._createLocalizationDemo);
+      this._createPage(barView, "Native Window", "icon/32/devices/video-display.png", this._createNativeWindowDemo);
+      this._createPage(barView, "Internal Window", "icon/32/apps/preferences-desktop-theme.png", this._createInternalWindowDemo, true);
+      this._createPage(barView, "Themes", "icon/32/apps/preferences-desktop-wallpaper.png", this._createThemesDemo);
 
       // back button and bookmark support
       this._history = qx.client.History.getInstance();
@@ -122,7 +122,7 @@ qx.Class.define("showcase.Application",
      * @param scrolls {var} TODOC
      * @return {var} TODOC
      */
-    _createPage : function(barView, title, iconUrl, widget, scrolls)
+    _createPage : function(barView, title, iconUrl, callback, scrolls)
     {
       var bt = new qx.ui.pageview.buttonview.Button(title, iconUrl);
       barView.getBar().add(bt);
@@ -140,27 +140,36 @@ qx.Class.define("showcase.Application",
       var page = new qx.ui.pageview.buttonview.Page(bt);
       barView.getPane().add(page);
 
-      widget.setLocation(0, 0);
-
-      widget.set(
+      bt.addEventListener("changeChecked", function(e)
       {
-        left   : 0,
-        right  : 0,
-        bottom : 0,
-        right  : 0
-      });
+        if (page.getFirstChild()) {
+          return;
+        }
 
-      if (!scrolls)
-      {
+        widget = callback.call(this);
+
+        widget.setLocation(0, 0);
+
         widget.set(
         {
-          height   : null,
-          width    : null,
-          overflow : "auto"
+          left   : 0,
+          right  : 0,
+          bottom : 0,
+          right  : 0
         });
-      }
 
-      page.add(widget);
+        if (!scrolls)
+        {
+          widget.set(
+          {
+            height   : null,
+            width    : null,
+            overflow : "auto"
+          });
+        }
+
+        page.add(widget);
+      });
 
       return page;
     },
