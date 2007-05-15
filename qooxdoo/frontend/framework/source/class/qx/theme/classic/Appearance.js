@@ -325,7 +325,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "button-view-pane",
+          backgroundColor : "background",
           padding : 10
         };
       }
