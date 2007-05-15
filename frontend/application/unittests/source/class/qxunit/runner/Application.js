@@ -23,6 +23,9 @@
 #module(qxunit)
 #resource(css:css)
 #resource(image:image)
+
+#embed(qx.icontheme/16/*)
+#embed(qxunit.image/*)
 #embed(qxunit.css/*)
 
 ************************************************************************ */
