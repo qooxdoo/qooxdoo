@@ -34,10 +34,23 @@ qx.Theme.define("qx.theme.ext.Border",
 
   borders :
   {
+     "inset-thin" :
+     {
+       width : 1,
+       color : "border-light"
+     },
+     
+     "outset" :
+     {
+       width : 2,
+       color : "border-light",
+       innerColor : "border-light"
+     },
+     
      "inset-button" :
      {
        width      : 2,
-       color      : "border-light",
+       color      : "border-dark",
        innerColor : "border-light-shadow"
      },
 

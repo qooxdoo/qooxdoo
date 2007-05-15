@@ -251,7 +251,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
       {
         return {
           backgroundColor : "button-view-pane",
-          padding         : 0
+          padding         : 10
         };
       }
     },
