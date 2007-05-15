@@ -539,7 +539,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       if (! this.tree.getSelectedElement()) {// this is a kludge!
         return; }
       var treeNode    = this.tree.getSelectedElement();
-      var modelNode   = treeNode.modelLink;
+      var modelNode   = treeNode.getUserData("modelLink");
       this.tests.selected = this.tests.handler.getFullName(modelNode);
       // update status pane
       this.widgets["statuspane.current"].setText(this.tests.selected);
@@ -604,7 +604,7 @@ qx.Class.define("testrunner.runner.TestRunner",
           }
           // make connections
           widgetR.add(t);
-          t.modelLink         = currNode;
+          t.setUserData("modelLink", currNode);
           currNode.widgetLinkFull = t;
           if (that.tests.handler.getFullName(currNode) == that.tests.selected)
           {
@@ -629,7 +629,7 @@ qx.Class.define("testrunner.runner.TestRunner",
               var fullName = handler.getFullName(currNode);
               var t = new qx.ui.tree.TreeFolder(fullName,"testrunner/image/package18.gif");
               widgetR.add(t);
-              t.modelLink         = currNode;
+              t.setUserData("modelLink", currNode);
               currNode.widgetLinkFlat = t;
               if (that.tests.handler.getFullName(currNode) == that.tests.selected)
               {
@@ -642,7 +642,7 @@ qx.Class.define("testrunner.runner.TestRunner",
                 {
                   var c = new qx.ui.tree.TreeFile(children[i].label,"testrunner/image/class18.gif");
                   t.add(c);
-                  c.modelLink            = children[i];
+                  c.setUserData("modelLink", children[i]);
                   children[i].widgetLinkFlat = c;
                   if (that.tests.handler.getFullName(children[i]) == that.tests.selected)
                   {
@@ -678,7 +678,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       {
         trees[i].resetSelected();
         trees[i].destroyContent(); // clean up before re-build
-        trees[i].modelLink   = ttree; // link top level widgets and model
+        trees[i].setUserData("modelLink", ttree); // link top level widgets and model
       }
       // link top level model to widgets
       ttree.widgetLinkFull = fulltree;
@@ -759,7 +759,7 @@ qx.Class.define("testrunner.runner.TestRunner",
           }
           // make connections
           widgetR.add(t);
-          t.modelLink         = currNode;
+          t.setUserData("modelLink", currNode);
           currNode.widgetLink = t;
           if (that.tests.handler.getFullName(currNode) == that.tests.selected)
           {
@@ -784,7 +784,7 @@ qx.Class.define("testrunner.runner.TestRunner",
               var fullName = handler.getFullName(currNode);
               var t = new qx.ui.tree.TreeFolder(fullName,"testrunner/image/package18.gif");
               widgetR.add(t);
-              t.modelLink         = currNode;
+              t.setUserData("modelLink", currNode);
               currNode.widgetLink = t;
               if (that.tests.handler.getFullName(currNode) == that.tests.selected)
               {
@@ -797,7 +797,7 @@ qx.Class.define("testrunner.runner.TestRunner",
                 {
                   var c = new qx.ui.tree.TreeFile(children[i].label,"testrunner/image/class18.gif");
                   t.add(c);
-                  c.modelLink            = children[i];
+                  c.setUserData("modelLink", children[i]);
                   children[i].widgetLink = c;
                   if (that.tests.handler.getFullName(children[i]) == that.tests.selected)
                   {
@@ -813,7 +813,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       // -- Main --------------------------------
 
       // link top leve widget and model
-      tree.modelLink   = ttree;
+      tree.setUserData("modelLink", ttree);
       ttree.widgetLink = tree;
       var selectedView = this.widgets["toolbar.treeview"].b1.getManager().getSelected();
       var selectedElement = null;
@@ -974,7 +974,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       // get model node from selected tree node
       var widgetNode = this.tree.getSelectedElement();
       if (widgetNode) {
-        var modelNode  = widgetNode.modelLink;
+        var modelNode  = widgetNode.getUserData("modelLink");
       } else
       {
         /*
