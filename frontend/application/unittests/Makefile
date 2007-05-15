@@ -17,13 +17,12 @@
 #
 ################################################################################
 
-.PHONY: source build clean distclean api
+.PHONY: source build clean distclean api publish fix
 
 source:
 	@$(MAKE) -s -f Makefile.runner source
 	@$(MAKE) -s -f Makefile.tests source
-    
-    
+      
 build:
 	@$(MAKE) -s -f Makefile.runner build
 	@$(MAKE) -s -f Makefile.tests build
@@ -38,9 +37,12 @@ distclean:
 	
 api:
 	@$(MAKE) -s -f Makefile.runner api
-	
 
 publish:
 	@$(MAKE) -s -f Makefile.runner publish
 	@$(MAKE) -s -f Makefile.tests publish
+
+fix:
+	@$(MAKE) -s -f Makefile.runner fix
+	@$(MAKE) -s -f Makefile.tests fix
 
