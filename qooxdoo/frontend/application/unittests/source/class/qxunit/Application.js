@@ -21,8 +21,21 @@
 
 #module(core)
 
+#resource(data:data)
+#embed(qxunit.data/*)
+
 ************************************************************************ */
 
 qx.Class.define("qxunit.Application", {
-  extend : qx.application.Basic
+  extend : qx.application.Basic,
+
+  construct : function()
+  {
+    // Define alias for custom resource path
+    qx.manager.object.AliasManager.getInstance().add("qxunit", qx.core.Setting.get("qxunit.resourceUri"));
+  },
+
+  settings : {
+    "qxunit.resourceUri" : "./resource"
+  }
 });

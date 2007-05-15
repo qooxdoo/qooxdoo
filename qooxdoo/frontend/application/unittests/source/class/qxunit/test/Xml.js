@@ -112,7 +112,7 @@ qx.Class.define("qxunit.test.Xml", {
           );
       },
 
-      __testXHR: function() {
+      testXHR: function() {
 
           function error(msg) {
               return function() {
@@ -121,7 +121,7 @@ qx.Class.define("qxunit.test.Xml", {
           }
 
           var req = new qx.io.remote.Request(
-              "../source/html/qooxdoo-blog.xml",
+              qx.manager.object.AliasManager.getInstance().resolvePath("qxunit/data/qooxdoo-blog.xml"),
               qx.net.Http.METHOD_GET, qx.util.Mime.XML
           );
           req.setAsynchronous(false);
