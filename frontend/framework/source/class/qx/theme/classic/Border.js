@@ -116,6 +116,14 @@ qx.Theme.define("qx.theme.classic.Border",
       color : [ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ]
     },
 
+    /*Resizeable in the right/bottom area*/
+    "resizer" :
+    {
+      width : [ 1, 3, 3, 1 ],
+      color : [ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ],
+      innerColor : [ "border-light-shadow", "border-dark", "border-dark", "border-light-shadow" ]
+    },
+
     "divider-vertical" :
     {
       widthTop : 1,

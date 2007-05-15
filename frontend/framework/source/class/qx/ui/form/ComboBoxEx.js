@@ -751,7 +751,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       p.positionRelativeTo(el, 1, qx.html.Dimension.getBoxHeight(el));
       this._calculateDimensions();
       // For aesthetic purposes, make the list width at least the width of the combo.
-      this._popup.set({
+      p.set({
         autoHide: false,
         minWidth : this.getWidthValue(),
         parent: this.getTopLevelWidget()
@@ -897,20 +897,23 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
           width += w;
         }
       }
-
       // ##Final width and height
-      this._list.set(
-      {
-        minWidth: width+4,
-        width  : '100%',
-        minHeight : this._list.getRowHeight() * Math.min(maxRows, (this.hasHeaders ? 1 : 0) + data.length) + 2 + (this.hasHeaders ? 2 : 0),
-        height : '100%'
+      var borderObj = qx.manager.object.BorderManager.getInstance().resolveDynamic(this._popup.getBorder());
+      this._popup.set({
+          width : borderObj.getWidthLeft()+width+borderObj.getWidthRight(),
+          height: this._getPopupHeight(maxRows),
+          minHeight: this._getPopupHeight(1)
       });
-      this._popup.auto();
-
 
       // This denotes dimensions are already calculated
       this._calcDimensions = true;
+    },
+
+    _getPopupHeight: function(rows)
+    {
+      var borderObj = qx.manager.object.BorderManager.getInstance().resolveDynamic(this._popup.getBorder());
+      return borderObj.getWidthTop()+ this._list.getRowHeight() * Math.min(rows, (this.hasHeaders ? 1 : 0) + this.getSelection().length) +
+         2 + (this.hasHeaders ? 2 : 0) + borderObj.getWidthBottom();
     },
 
 
@@ -1070,14 +1073,11 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       vbox.add(searchField, checkCase);
 
       // ###list, we reuse the same list in the popup
-      var border = "inset",
-        borderObj = qx.manager.object.BorderManager.getInstance().resolveDynamic(border);
-
       var newListSettings =
       {
-        height : borderObj.getWidthTop() + this._list.getMinHeightValue() + borderObj.getWidthBottom(),
-        width  : borderObj.getWidthLeft() + this._list.getMinWidthValue() + borderObj.getWidthRight(),
-        border : border,
+        height : this._popup.getHeightValue(),
+        width  : this._popup.getWidthValue(),
+        border : "inset",
         parent : vbox
       };
 

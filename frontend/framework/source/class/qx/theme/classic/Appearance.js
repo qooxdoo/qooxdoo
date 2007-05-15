@@ -1101,9 +1101,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          height    : "auto",
-          maxHeight : 150,
-          border    : "undefined"
+          border    : "undefined",
+          width     : "100%",
+          height    : "100%"
         };
       }
     },
@@ -1130,8 +1130,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          width  : "auto",
-          border : "dark-shadow"
+          border    : "resizer"
         };
       }
     },
