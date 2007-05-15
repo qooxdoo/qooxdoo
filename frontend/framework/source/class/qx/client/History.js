@@ -91,17 +91,21 @@ qx.Class.define("qx.client.History",
 
       this._titles = {};
       this._state = decodeURIComponent(this.__getHash());
-      this.__waitForIFrame(function() {
+
+      this.__waitForIFrame(function()
+      {
         this.__storeState(this._state);
-        this.__startTimer()
+        this.__startTimer();
       }, this);
     },
 
     "default" : function()
     {
       this.base(arguments);
+
       this._titles = {};
       this._state = this.__getState();
+
       this.__startTimer();
     }
   }),
@@ -194,8 +198,7 @@ qx.Class.define("qx.client.History",
      *
      * @return {String} The current state
      */
-    getState : function()
-    {
+    getState : function() {
       return this._state;
     },
 
@@ -253,12 +256,14 @@ qx.Class.define("qx.client.History",
     __startTimer : function()
     {
       this._timer = new qx.client.Timer(this.getTimeoutInterval());
+
       this._timer.addEventListener("interval", function(e) {
         var newHash = this.__getState();
         if (newHash != this._state) {
           this.__onHistoryLoad(newHash);
         }
       }, this);
+
       this._timer.start();
     },
 
