@@ -17,10 +17,10 @@
 
 ************************************************************************ */
 
-qx.Class.define("qxunit.TestCase", {
+qx.Class.define("testrunner.TestCase", {
   extend : qx.core.Object,
 
-  include : qxunit.MAssert,
+  include : testrunner.MAssert,
 
   members :
   {

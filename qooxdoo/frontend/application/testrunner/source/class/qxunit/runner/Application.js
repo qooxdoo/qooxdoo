@@ -20,20 +20,20 @@
 
 /* ************************************************************************
 
-#module(qxunit)
+#module(testrunner)
 #resource(css:css)
 #resource(image:image)
 
 #embed(qx.icontheme/16/*)
-#embed(qxunit.image/*)
-#embed(qxunit.css/*)
+#embed(testrunner.image/*)
+#embed(testrunner.css/*)
 
 ************************************************************************ */
 
 /**
  * The main application class.
  */
-qx.Class.define("qxunit.runner.Application",
+qx.Class.define("testrunner.runner.Application",
 {
   extend : qx.application.Gui,
 
@@ -44,19 +44,19 @@ qx.Class.define("qxunit.runner.Application",
       this.base(arguments);
 
       // Define alias for custom resource path
-      qx.manager.object.AliasManager.getInstance().add("qxunit", qx.core.Setting.get("qxunit.resourceUri"));
+      qx.manager.object.AliasManager.getInstance().add("testrunner", qx.core.Setting.get("testrunner.resourceUri"));
 
       // Include CSS file
-      qx.html.StyleSheet.includeFile(qx.manager.object.AliasManager.getInstance().resolvePath("qxunit/css/qxunit.css"));
+      qx.html.StyleSheet.includeFile(qx.manager.object.AliasManager.getInstance().resolvePath("testrunner/css/testrunner.css"));
 
       // Initialize the viewer
-      this.viewer = new qxunit.runner.TestRunner;
-      //this.viewer = new qxunit.runner.BasicRunner;
+      this.viewer = new testrunner.runner.TestRunner;
+      //this.viewer = new testrunner.runner.BasicRunner;
       this.viewer.addToDocument();
     }
   },
 
   settings : {
-    "qxunit.resourceUri" : "./resource"
+    "testrunner.resourceUri" : "./resource"
   }
 });

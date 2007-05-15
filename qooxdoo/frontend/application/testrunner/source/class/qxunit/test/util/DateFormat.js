@@ -22,8 +22,8 @@
 #require qx.locale.data.fr_FR
 */
 
-qx.Class.define("qxunit.test.util.DateFormat", {
-  extend: qxunit.TestCase,
+qx.Class.define("testrunner.test.util.DateFormat", {
+  extend: testrunner.TestCase,
 
   members : {
 

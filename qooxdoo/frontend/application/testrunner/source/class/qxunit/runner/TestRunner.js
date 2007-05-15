@@ -20,7 +20,7 @@
 
 /* ************************************************************************
 
-#module(qxunit)
+#module(testrunner)
 #resource(css:css)
 #resource(image:image)
 
@@ -30,7 +30,7 @@
  * The GUI definition of the qooxdoo unit test runner.
  */
 
-qx.Class.define("qxunit.runner.TestRunner",
+qx.Class.define("testrunner.runner.TestRunner",
 {
   extend : qx.ui.layout.VerticalBoxLayout,
 
@@ -130,7 +130,7 @@ qx.Class.define("qxunit.runner.TestRunner",
 
     // Last but not least:
     // Hidden IFrame for test runs
-    var iframe = new qx.ui.embed.Iframe("html/QooxdooTest.html?testclass=qxunit.test");
+    var iframe = new qx.ui.embed.Iframe("html/QooxdooTest.html?testclass=testrunner.test");
     iframe.setEdge(0);
     this.iframe = iframe;
     iframe.addToDocument();
@@ -140,7 +140,7 @@ qx.Class.define("qxunit.runner.TestRunner",
     iframe.addEventListener("load", this.ehIframeOnLoad, this);
 
     // EXPERIMENTAL !
-    //var treetest = new qxunit.runner.TreeTest();
+    //var treetest = new testrunner.runner.TreeTest();
 
   }, //constructor
 
@@ -198,7 +198,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       header.setStyleProperty(
         "background",
         "#134275 url(" +
-        qx.manager.object.AliasManager.getInstance().resolvePath("qxunit/image/colorstrip.gif") +
+        qx.manager.object.AliasManager.getInstance().resolvePath("testrunner/image/colorstrip.gif") +
         ") top left repeat-x"
       );
       header.setHeight(70);
@@ -218,7 +218,7 @@ qx.Class.define("qxunit.runner.TestRunner",
 
       toolbar.add(new qx.ui.toolbar.Separator);
 
-      this.testSuiteUrl = new qx.ui.form.TextField("html/QooxdooTest.html?testclass=qxunit.test");
+      this.testSuiteUrl = new qx.ui.form.TextField("html/QooxdooTest.html?testclass=testrunner.test");
       toolbar.add(this.testSuiteUrl);
       this.testSuiteUrl.setToolTip(new qx.ui.popup.ToolTip("Test backend application URL"));
       this.testSuiteUrl.set({
@@ -244,7 +244,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       part.setVerticalChildrenAlign("middle");
       toolbar.add(part);
        this.reloadswitch = new qx.ui.toolbar.CheckBox("Reload before Test",
-                                                     "qxunit/image/yellow_diamond_hollow18.gif");
+                                                     "testrunner/image/yellow_diamond_hollow18.gif");
       part.add(this.reloadswitch);
       this.reloadswitch.setShow("both");
       this.reloadswitch.setToolTip(new qx.ui.popup.ToolTip("Always reload test backend before testing"));
@@ -252,10 +252,10 @@ qx.Class.define("qxunit.runner.TestRunner",
       {
         if (this.reloadswitch.getChecked())
         {
-          this.reloadswitch.setIcon("qxunit/image/yellow_diamond_full18.gif");
+          this.reloadswitch.setIcon("testrunner/image/yellow_diamond_full18.gif");
         } else
         {
-          this.reloadswitch.setIcon("qxunit/image/yellow_diamond_hollow18.gif");
+          this.reloadswitch.setIcon("testrunner/image/yellow_diamond_hollow18.gif");
         }
       },this);
       this.reloadswitch.setChecked(true);
@@ -290,7 +290,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       buttview.getPane().add(p1, p2);
 
       // First Page
-      var f1 = new qxunit.runner.TestResultView();
+      var f1 = new testrunner.runner.TestResultView();
       this.f1 = f1;
       p1.add(f1);
       f1.set({
@@ -458,7 +458,7 @@ qx.Class.define("qxunit.runner.TestRunner",
         width : "100%"
       });
 
-      var progressb = new qxunit.runner.ProgressBar();
+      var progressb = new testrunner.runner.ProgressBar();
       progress.add(progressb);
       progressb.set({
         showStepStatus: true,
@@ -583,7 +583,7 @@ qx.Class.define("qxunit.runner.TestRunner",
        *
        * @param widgetR {qx.ui.tree.Tree}    [In/Out]
        *        widget root under which the widget tree will be built
-       * @param modelR  {qxunit.runner.Tree} [In]
+       * @param modelR  {testrunner.runner.Tree} [In]
        *        model root for the tree from which the widgets representation
        *        will be built
        */
@@ -596,11 +596,11 @@ qx.Class.define("qxunit.runner.TestRunner",
           var currNode = children[i];
           if (currNode.hasChildren())
           {
-            t = new qx.ui.tree.TreeFolder(currNode.label,"qxunit/image/package18.gif");
+            t = new qx.ui.tree.TreeFolder(currNode.label,"testrunner/image/package18.gif");
             buildSubTree(t,currNode);
           } else
           {
-            t = new qx.ui.tree.TreeFile(currNode.label,"qxunit/image/class18.gif");
+            t = new qx.ui.tree.TreeFile(currNode.label,"testrunner/image/class18.gif");
           }
           // make connections
           widgetR.add(t);
@@ -627,7 +627,7 @@ qx.Class.define("qxunit.runner.TestRunner",
           {
             if (handler.hasTests(currNode)) {
               var fullName = handler.getFullName(currNode);
-              var t = new qx.ui.tree.TreeFolder(fullName,"qxunit/image/package18.gif");
+              var t = new qx.ui.tree.TreeFolder(fullName,"testrunner/image/package18.gif");
               widgetR.add(t);
               t.modelLink         = currNode;
               currNode.widgetLinkFlat = t;
@@ -640,7 +640,7 @@ qx.Class.define("qxunit.runner.TestRunner",
               {
                 if (children[i].type && children[i].type == "test")
                 {
-                  var c = new qx.ui.tree.TreeFile(children[i].label,"qxunit/image/class18.gif");
+                  var c = new qx.ui.tree.TreeFile(children[i].label,"testrunner/image/class18.gif");
                   t.add(c);
                   c.modelLink            = children[i];
                   children[i].widgetLinkFlat = c;
@@ -738,7 +738,7 @@ qx.Class.define("qxunit.runner.TestRunner",
        *
        * @param widgetR {qx.ui.tree.Tree}    [In/Out]
        *        widget root under which the widget tree will be built
-       * @param modelR  {qxunit.runner.Tree} [In]
+       * @param modelR  {testrunner.runner.Tree} [In]
        *        model root for the tree from which the widgets representation
        *        will be built
        */
@@ -751,11 +751,11 @@ qx.Class.define("qxunit.runner.TestRunner",
           var currNode = children[i];
           if (currNode.hasChildren())
           {
-            t = new qx.ui.tree.TreeFolder(currNode.label,"qxunit/image/package18.gif");
+            t = new qx.ui.tree.TreeFolder(currNode.label,"testrunner/image/package18.gif");
             buildSubTree(t,currNode);
           } else
           {
-            t = new qx.ui.tree.TreeFile(currNode.label,"qxunit/image/class18.gif");
+            t = new qx.ui.tree.TreeFile(currNode.label,"testrunner/image/class18.gif");
           }
           // make connections
           widgetR.add(t);
@@ -782,7 +782,7 @@ qx.Class.define("qxunit.runner.TestRunner",
           {
             if (handler.hasTests(currNode)) {
               var fullName = handler.getFullName(currNode);
-              var t = new qx.ui.tree.TreeFolder(fullName,"qxunit/image/package18.gif");
+              var t = new qx.ui.tree.TreeFolder(fullName,"testrunner/image/package18.gif");
               widgetR.add(t);
               t.modelLink         = currNode;
               currNode.widgetLink = t;
@@ -795,7 +795,7 @@ qx.Class.define("qxunit.runner.TestRunner",
               {
                 if (children[i].type && children[i].type == "test")
                 {
-                  var c = new qx.ui.tree.TreeFile(children[i].label,"qxunit/image/class18.gif");
+                  var c = new qx.ui.tree.TreeFile(children[i].label,"testrunner/image/class18.gif");
                   t.add(c);
                   c.modelLink            = children[i];
                   children[i].widgetLink = c;
@@ -870,13 +870,13 @@ qx.Class.define("qxunit.runner.TestRunner",
 
       // create testResult obj
       function init_testResult () {
-        var testResult = new that.frameWindow.qxunit.TestResult();
+        var testResult = new that.frameWindow.testrunner.TestResult();
 
         // set up event listeners
         testResult.addEventListener("startTest", function(e)
         {
           var test = e.getData();
-          that.currentTestData = new qxunit.runner.TestResultData(test.getFullName());
+          that.currentTestData = new testrunner.runner.TestResultData(test.getFullName());
           that.f1.addTestResult(that.currentTestData);
           that.appender("Test '"+test.getFullName()+"' started.");
         }, that);
@@ -1033,7 +1033,7 @@ qx.Class.define("qxunit.runner.TestRunner",
 
     ehIframeOnLoad : function (e) {
       var iframe = this.iframe;
-      this.loader = iframe.getContentWindow().qxunit.TestLoader.getInstance();
+      this.loader = iframe.getContentWindow().testrunner.TestLoader.getInstance();
       if (!this.loader) { // wait for the iframe to load
         qx.client.Timer.once(arguments.callee, this, 50);
         return;
@@ -1041,7 +1041,7 @@ qx.Class.define("qxunit.runner.TestRunner",
 
       this.frameWindow   = iframe.getContentWindow();
       var testRep        = this.loader.getTestDescriptions();
-      this.tests.handler = new qxunit.runner.TestHandler(testRep);
+      this.tests.handler = new testrunner.runner.TestHandler(testRep);
       this.leftReloadTree();
       this.toolbar.setEnabled(true);  // in case it was disabled (for reload)
       if (this.tests.run_pending) {   // do we have pending tests to run?

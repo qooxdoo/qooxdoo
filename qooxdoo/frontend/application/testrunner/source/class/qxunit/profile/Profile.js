@@ -17,8 +17,8 @@
 
 ************************************************************************ */
 
-qx.Class.define("qxunit.profile.Profile", {
-  extend: qxunit.TestCase,
+qx.Class.define("testrunner.profile.Profile", {
+  extend: testrunner.TestCase,
 
   members : {
 
@@ -43,7 +43,7 @@ qx.Class.define("qxunit.profile.Profile", {
 
       console.profile("object create complex");
       for (var i=0; i<loops; i++) {
-        qx.Class.define("qxunit.Empty2_"+i, {
+        qx.Class.define("testrunner.Empty2_"+i, {
               extend: qx.core.Object,
               construct: function() {},
           type: "abstract",
@@ -71,7 +71,7 @@ qx.Class.define("qxunit.profile.Profile", {
 
       console.profile("object create complex without properties");
       for (var i=0; i<loops; i++) {
-          qx.Class.define("qxunit.Empty3_"+i, {
+          qx.Class.define("testrunner.Empty3_"+i, {
               extend: qx.core.Object,
               construct: function() {},
           type: "abstract",

@@ -17,13 +17,13 @@
 
 ************************************************************************ */
 
-qx.Class.define("qxunit.test.Mixin", {
-  extend: qxunit.TestCase,
+qx.Class.define("testrunner.test.Mixin", {
+  extend: testrunner.TestCase,
 
   members : {
 
     testMixinBasic: function() {
-      qx.Mixin.define("qxunit.MMix1", {
+      qx.Mixin.define("testrunner.MMix1", {
         statics: {
           foo: function() { return "foo"; }
         },
@@ -35,35 +35,35 @@ qx.Class.define("qxunit.test.Mixin", {
         }
       });
 
-      qx.Mixin.define("qxunit.MMix2", {
+      qx.Mixin.define("testrunner.MMix2", {
         members: {
           bar: function() { return "bar"; }
         }
       });
 
-      qx.Class.define("qxunit.Mix", {
+      qx.Class.define("testrunner.Mix", {
         extend: Object,
-        include: qxunit.MMix1,
+        include: testrunner.MMix1,
         construct: function() {}
       });
-      this.assertEquals("foo", qxunit.MMix1.foo());
-      this.assertEquals("bar", new qxunit.Mix().bar());
-      var mix = new qxunit.Mix();
+      this.assertEquals("foo", testrunner.MMix1.foo());
+      this.assertEquals("bar", new testrunner.Mix().bar());
+      var mix = new testrunner.Mix();
       mix.setColor("red");
       this.assertEquals("red", mix.getColor());
 
       this.assertExceptionDebugOn(function() {
-        qx.Class.define("qxunit.Mix1", {
+        qx.Class.define("testrunner.Mix1", {
           extend: Object,
-          include: [qxunit.MMix1, qxunit.MMix2],
+          include: [testrunner.MMix1, testrunner.MMix2],
           construct: function() {}
         });
       }, Error, "Overwriting member", "t1");
 
       this.assertExceptionDebugOn(function() {
-        qx.Class.define("qxunit.Mix2", {
+        qx.Class.define("testrunner.Mix2", {
           extend: Object,
-          include: qxunit.MMix1,
+          include: testrunner.MMix1,
           construct: function() {},
           members: {
             bar: function() { return "bar"; }
@@ -72,9 +72,9 @@ qx.Class.define("qxunit.test.Mixin", {
       }, Error, "Overwriting member", "t2");
 
       // this is allowed
-      qx.Class.define("qxunit.Mix3", {
+      qx.Class.define("testrunner.Mix3", {
         extend: Object,
-        include: qxunit.MMix1,
+        include: testrunner.MMix1,
         construct: function() {},
         statics: {
           foo: function() { return "foo"; }
@@ -82,9 +82,9 @@ qx.Class.define("qxunit.test.Mixin", {
       });
 
       this.assertExceptionDebugOn(function() {
-        qx.Class.define("qxunit.Mix4", {
+        qx.Class.define("testrunner.Mix4", {
           extend: Object,
-          include: qxunit.MMix1,
+          include: testrunner.MMix1,
           construct: function() {},
           properties: {
             color: { _legacy: true }
@@ -96,7 +96,7 @@ qx.Class.define("qxunit.test.Mixin", {
 
     testInclude: function() {
 
-      qx.Mixin.define("qxunit.MLogger", {
+      qx.Mixin.define("testrunner.MLogger", {
         members: {
           log: function(msg) {
             return msg;
@@ -105,15 +105,15 @@ qx.Class.define("qxunit.test.Mixin", {
       });
 
       // normal usage
-      qx.Class.define("qxunit.UseLog1", {
+      qx.Class.define("testrunner.UseLog1", {
         extend: Object,
         construct: function() {}
       });
-      qx.Class.include(qxunit.UseLog1, qxunit.MLogger);
-      this.assertEquals("Juhu", new qxunit.UseLog1().log("Juhu"));
+      qx.Class.include(testrunner.UseLog1, testrunner.MLogger);
+      this.assertEquals("Juhu", new testrunner.UseLog1().log("Juhu"));
 
       // not allowed to overwrite!
-      qx.Class.define("qxunit.UseLog2", {
+      qx.Class.define("testrunner.UseLog2", {
         extend: Object,
         construct: function() {},
         members: {
@@ -123,11 +123,11 @@ qx.Class.define("qxunit.test.Mixin", {
 
 
       this.assertExceptionDebugOn(function() {
-        qx.Class.include(qxunit.UseLog2, qxunit.MLogger);
+        qx.Class.include(testrunner.UseLog2, testrunner.MLogger);
       }, Error, "Overwriting member");
 
       // allowed to overwrite!
-      qx.Class.define("qxunit.UseLog3", {
+      qx.Class.define("testrunner.UseLog3", {
         extend: Object,
         construct: function() {},
         members: {
@@ -135,15 +135,15 @@ qx.Class.define("qxunit.test.Mixin", {
         }
       });
 
-      this.assertEquals("foo", new qxunit.UseLog3().log("Juhu"));
-      qx.Class.patch(qxunit.UseLog3, qxunit.MLogger);
-      this.assertEquals("Juhu", new qxunit.UseLog3().log("Juhu"));
+      this.assertEquals("foo", new testrunner.UseLog3().log("Juhu"));
+      qx.Class.patch(testrunner.UseLog3, testrunner.MLogger);
+      this.assertEquals("Juhu", new testrunner.UseLog3().log("Juhu"));
 
       // extended classes must have included methods as well
-      qx.Class.define("qxunit.ExtendUseLog1", {
-        extend : qxunit.UseLog1
+      qx.Class.define("testrunner.ExtendUseLog1", {
+        extend : testrunner.UseLog1
       });
-      this.assertEquals("Juhu", new qxunit.ExtendUseLog1().log("Juhu"));
+      this.assertEquals("Juhu", new testrunner.ExtendUseLog1().log("Juhu"));
     }
   }
 

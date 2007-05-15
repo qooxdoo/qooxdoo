@@ -24,7 +24,7 @@
 /**
  * Data class which hold all data of a test run.
  */
-qx.Class.define("qxunit.runner.TestResultData",
+qx.Class.define("testrunner.runner.TestResultData",
 {
   extend : qx.core.Target,
 
@@ -99,9 +99,9 @@ qx.Class.define("qxunit.runner.TestResultData",
       {
         var first = trace[0];
         if (
-          first.indexOf("qxunit.AssertionError") == 0 ||
+          first.indexOf("testrunner.AssertionError") == 0 ||
           first.indexOf("qx.Class") == 0 ||
-          first.indexOf("qxunit.MAssert") == 0 ||
+          first.indexOf("testrunner.MAssert") == 0 ||
           first.indexOf("script") == 0
           )
         {

@@ -17,8 +17,8 @@
 
 ************************************************************************ */
 
-qx.Class.define("qxunit.test.Io",{
-  extend: qxunit.TestCase,
+qx.Class.define("testrunner.test.Io",{
+  extend: testrunner.TestCase,
 
   members : {
 

@@ -20,13 +20,13 @@
 
 /* ************************************************************************
 
-#module(qxunit)
+#module(testrunner)
 #resource(css:css)
 #resource(image:image)
 
 ************************************************************************ */
 
-qx.Class.define("qxunit.runner.TestHandler",
+qx.Class.define("testrunner.runner.TestHandler",
 {
   extend : qx.core.Object,
 
@@ -78,7 +78,7 @@ qx.Class.define("qxunit.runner.TestHandler",
               // else create new
               if (nextRoot == null)
               {
-                nextRoot = new qxunit.runner.Tree(head);
+                nextRoot = new testrunner.runner.Tree(head);
                 parent.add(nextRoot);
               }
               // and recurse with the new root and the rest of path
@@ -92,7 +92,7 @@ qx.Class.define("qxunit.runner.TestHandler",
           that.readTree(el,target);
         } //insert()
 
-        var root = new qxunit.runner.Tree("All");
+        var root = new testrunner.runner.Tree("All");
         var that = this;
         for (var i=0; i<tmap.length; i++)
         {
@@ -107,12 +107,12 @@ qx.Class.define("qxunit.runner.TestHandler",
       readTree : function (struct,node) // struct has single root node!
       {
         // current node
-        var tree = arguments[1] || new qxunit.runner.Tree(struct.classname);
+        var tree = arguments[1] || new testrunner.runner.Tree(struct.classname);
         var node;
         // current test leafs
         for (var j=0; j<struct.tests.length; j++)
         {
-          node = new qxunit.runner.Tree(struct.tests[j]);
+          node = new testrunner.runner.Tree(struct.tests[j]);
           node.type = "test";  // tests are leaf nodes
           tree.add(node);
         }
@@ -251,7 +251,7 @@ qx.Class.define("qxunit.runner.TestHandler",
        * return the full name of a test from its model node
        *
        * @param node {Tree} a model node
-       * @return fullName {String} like "qxunit.test.Class.testEmptyClass"
+       * @return fullName {String} like "testrunner.test.Class.testEmptyClass"
        */
       getFullName : function (node)  // node is a tree node
       {

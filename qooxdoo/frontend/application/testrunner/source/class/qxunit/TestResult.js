@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qxunit.TestResult", {
+qx.Class.define("testrunner.TestResult", {
 
   extend : qx.core.Target,
 
@@ -41,7 +41,7 @@ qx.Class.define("qxunit.TestResult", {
       catch (e)
       {
         var error = true;
-        if (e.classname == "qxunit.AssertionError") {
+        if (e.classname == "testrunner.AssertionError") {
           this.__createError("failure", e, test);
         }
         else {

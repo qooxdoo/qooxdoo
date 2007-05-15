@@ -17,9 +17,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qxunit.JsUnitTestResult", {
+qx.Class.define("testrunner.JsUnitTestResult", {
 
-  extend : qxunit.TestResult,
+  extend : testrunner.TestResult,
 
   construct : function()
   {

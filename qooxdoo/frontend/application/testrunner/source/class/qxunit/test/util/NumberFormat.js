@@ -21,8 +21,8 @@
 #require qx.locale.data.de_DE
 */
 
-qx.Class.define("qxunit.test.util.NumberFormat", {
-  extend: qxunit.TestCase,
+qx.Class.define("testrunner.test.util.NumberFormat", {
+  extend: testrunner.TestCase,
 
   members : {
     testNumberFormat: function() {

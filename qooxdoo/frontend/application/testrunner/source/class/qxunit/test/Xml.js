@@ -17,8 +17,8 @@
 
 ************************************************************************ */
 
-qx.Class.define("qxunit.test.Xml", {
-  extend: qxunit.TestCase,
+qx.Class.define("testrunner.test.Xml", {
+  extend: testrunner.TestCase,
 
   members : {
 
@@ -121,7 +121,7 @@ qx.Class.define("qxunit.test.Xml", {
           }
 
           var req = new qx.io.remote.Request(
-              qx.manager.object.AliasManager.getInstance().resolvePath("qxunit/data/qooxdoo-blog.xml"),
+              qx.manager.object.AliasManager.getInstance().resolvePath("testrunner/data/qooxdoo-blog.xml"),
               qx.net.Http.METHOD_GET, qx.util.Mime.XML
           );
           req.setAsynchronous(false);

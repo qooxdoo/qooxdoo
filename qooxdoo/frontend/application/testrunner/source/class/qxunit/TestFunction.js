@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qxunit.TestFunction", {
+qx.Class.define("testrunner.TestFunction", {
 
   extend : qx.core.Object,
 
