@@ -325,7 +325,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "background",
+          backgroundColor : "button-view-pane",
           padding : 10
         };
       }
@@ -1507,6 +1507,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
+          backgroundColor : "background",
           border : "outset"
         };
       }
