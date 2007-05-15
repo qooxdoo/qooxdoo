@@ -30,7 +30,7 @@ qx.Theme.define("qx.theme.ext.Color",
   colors :
   {
     "document-background"               : [ 229, 244, 254 ],
-    "background"                        : [ 188, 212, 247 ],
+    "background"                        : [ 229, 244, 254 ],
 
     "border-light"                      : [ 101, 147, 207 ],
     "border-light-shadow"               : [ 253, 216, 137 ],
@@ -61,7 +61,7 @@ qx.Theme.define("qx.theme.ext.Color",
     "window-active-caption"             : [ 31, 62, 117 ],
     "window-inactive-caption"           : [ 220, 220, 220 ],
 
-    "button-view-pane"                  : [ 229, 244, 254 ],
+    "button-view-pane"                  : [ 255, 255, 255 ],
     "button-view-bar"                   : [ 188, 212, 247 ],
     "button-view-button"                : [ 188, 212, 247 ],
     "button-view-button-border"         : [ 31, 62, 117 ],
