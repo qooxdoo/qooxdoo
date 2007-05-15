@@ -672,7 +672,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       var trees    = [fulltree, flattree];
       var stree    = this.widgets["treeview"].getBar().getManager().getSelected();
 
-      for (var i in trees)
+      for (var i=0; i<trees.length; i++)
       {
         trees[i].resetSelected();
         trees[i].destroyContent(); // clean up before re-build
@@ -1031,14 +1031,21 @@ qx.Class.define("testrunner.runner.TestRunner",
 
     ehIframeOnLoad : function (e) {
       var iframe = this.iframe;
-      this.loader = iframe.getContentWindow().testrunner.TestLoader.getInstance();
-      if (!this.loader) { // wait for the iframe to load
+
+      this.frameWindow = iframe.getContentWindow();
+
+      if (
+        !this.frameWindow ||
+        !this.frameWindow.testrunner ||
+        !this.frameWindow.testrunner.TestLoader ||
+        !this.frameWindow.testrunner.TestLoader.getInstance()
+      ) { // wait for the iframe to load
         qx.client.Timer.once(arguments.callee, this, 50);
         return;
       }
 
-      this.frameWindow   = iframe.getContentWindow();
-      var testRep        = this.loader.getTestDescriptions();
+      this.loader = this.frameWindow.testrunner.TestLoader.getInstance();
+      var testRep = this.loader.getTestDescriptions();
       this.tests.handler = new testrunner.runner.TestHandler(testRep);
       this.leftReloadTree();
       this.toolbar.setEnabled(true);  // in case it was disabled (for reload)
