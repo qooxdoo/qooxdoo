@@ -21,7 +21,7 @@ qx.Class.define("testrunner.test.renderer.Color", {
   extend: testrunner.TestCase,
 
   members : {
-    testColor: function() {
+    __testColor: function() {
           this.assertNotUndefined(qx.renderer.color.Color);
           var Color = qx.renderer.color.Color;
 
@@ -148,71 +148,6 @@ qx.Class.define("testrunner.test.renderer.Color", {
           this.assertTrue(c instanceof Color);
 
           this.assertEquals("rgb(1,2,3)", Color.rgb2style(1,2,3));
-      },
-
-      testColorObject: function() {
-          var ColorObject = qx.renderer.color.ColorObject;
-          var Manager = qx.manager.object.ColorManager.getInstance();
-
-          Manager.setColorTheme(qx.theme.color.WindowsRoyale);
-          var c1 = new ColorObject("activecaption");
-          this.assertEquals("rgb(51,94,168)", c1.getStyle());
-          this.assertEquals("activecaption", c1.getValue());
-          this.assertEquals("#335ea8", c1.getHex());
-          this.assertEquals(51, c1.getRed());
-          this.assertEquals(94, c1.getGreen());
-          this.assertEquals(168, c1.getBlue());
-
-          var c2 = new ColorObject("sienna");
-          this.assertEquals("sienna", c2.getStyle());
-          this.assertEquals("sienna", c2.getValue());
-          this.assertEquals("#a0522d", c2.getHex());
-          this.assertEquals(160, c2.getRed());
-          this.assertEquals(82, c2.getGreen());
-          this.assertEquals(45, c2.getBlue());
-
-          Manager.setColorTheme(qx.theme.color.WindowsClassic);
-          this.assertEquals("rgb(10,36,106)", c1.getStyle());
-          this.assertEquals("activecaption", c1.getValue());
-          this.assertEquals("#0a246a", c1.getHex());
-          this.assertEquals(10, c1.getRed());
-          this.assertEquals(36, c1.getGreen());
-          this.assertEquals(106, c1.getBlue());
-
-          this.assertEquals("#a0522d", c2.getHex());
-      },
-
-      testColorThemeSwitch: function() {
-          var ColorObject = qx.renderer.color.ColorObject;
-          var Manager = qx.manager.object.ColorManager.getInstance();
-
-          var c1 = new ColorObject("activecaption");
-          var c2 = new ColorObject("sienna");
-
-          Manager.setColorTheme(qx.theme.color.WindowsClassic);
-          var calledStyle = "";
-          var dpendendObj = {
-              _updateColors: function(color, style) {
-                  calledStyle = style;
-              },
-              toHashCode: function() { return 4711; }
-          }
-          c1.add(dpendendObj);
-          Manager.setColorTheme(qx.theme.color.WindowsRoyale);
-          this.assertEquals("rgb(51,94,168)", calledStyle);
-
-          Manager.setColorTheme(qx.theme.color.WindowsClassic);
-          var calledStyle2 = "";
-          var dpendendObj = {
-              _updateColors: function(color, style) {
-                  calledStyle2 = style;
-              },
-              toHashCode: function() { return 4712; }
-          }
-          c2.add(dpendendObj);
-          Manager.setColorTheme(qx.theme.color.WindowsRoyale);
-          this.assertEquals("", calledStyle2);
-          this.assertEquals("#a0522d", c2.getHex());
       }
   }
 });

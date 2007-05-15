@@ -112,7 +112,7 @@ qx.Class.define("testrunner.test.Xml", {
           );
       },
 
-      testXHR: function() {
+      __testXHR: function() {
 
           function error(msg) {
               return function() {
@@ -120,10 +120,8 @@ qx.Class.define("testrunner.test.Xml", {
               }
           }
 
-          this.debug("../" + (qx.manager.object.AliasManager.getInstance().resolve("testrunner")) + "/data/qooxdoo-blog.xml");
-
           var req = new qx.io.remote.Request(
-              "../" + qx.manager.object.AliasManager.getInstance().resolvePath("testrunner/data/qooxdoo-blog.xml"),
+              qx.manager.object.AliasManager.getInstance().resolvePath("testrunner/data/qooxdoo-blog.xml"),
               qx.net.Http.METHOD_GET, qx.util.Mime.XML
           );
           req.setAsynchronous(false);
