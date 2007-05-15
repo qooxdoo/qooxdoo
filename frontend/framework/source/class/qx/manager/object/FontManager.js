@@ -101,7 +101,19 @@ qx.Class.define("qx.manager.object.FontManager",
         }
       }
 
-      // Inform registered objects
+      if (qx.manager.object.ThemeManager.getInstance().getAutoSync()) {
+        this.syncFontTheme();
+      }
+    },
+
+
+    /**
+     * Sync dependend objects with internal database
+     *
+     * @type member
+     * @return {void}
+     */
+    syncFontTheme : function() {
       this._updateObjects();
     }
   }
