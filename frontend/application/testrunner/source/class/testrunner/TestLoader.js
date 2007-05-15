@@ -17,9 +17,32 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#module(core)
+
+#resource(data:data)
+#embed(testrunner.data/*)
+
+************************************************************************ */
+
 qx.Class.define("testrunner.TestLoader", {
 
   extend: qx.application.Gui,
+
+  construct : function()
+  {
+    this.base(arguments);
+
+    // Define alias for custom resource path
+    qx.manager.object.AliasManager.getInstance().add("testrunner", qx.core.Setting.get("testrunner.resourceUri"));
+  },
+
+
+  settings : {
+    "testrunner.resourceUri" : "./resource"
+  },
+
 
   statics :
   {
