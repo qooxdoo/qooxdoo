@@ -110,9 +110,9 @@
     });
   }
 
-  function testQooxdoo07()
+  function testQooxdoo07(index)
   {
-    qx.Class.define("qx07Animal",
+    qx.Class.define("qx07Animal"+index,
     {
       extend : Object,
       construct : function(name) {
@@ -129,9 +129,9 @@
       }
     });
 
-    qx.Class.define("qx07Cat",
+    qx.Class.define("qx07Cat"+index,
     {
-      extend : qx07Animal,
+      extend : qx07Animal0,
       construct : function(name) {
         this.base(arguments, "cat");
       },
@@ -143,13 +143,32 @@
       }
     });
 
-    qx.Class.define("qx07Lion",
+    qx.Class.define("qx07Lion"+index,
     {
-      extend : qx07Cat,
+      extend : qx07Cat0,
       construct : function(name) {
         this.base(arguments, "lion");
       }
     });
+  }
+
+  function cleanup07(loops) 
+  {
+    
+    for (var i=0; i<loops; i++) {
+      if (eval("typeof qx07Animal"+i+"=='function'"))
+      {
+        eval("delete qx07Animal"+i);
+      }
+      if (eval("typeof qx07Cat"+i+"=='function'"))
+      {
+        eval("delete qx07Cat"+i);
+      }
+      if (eval("typeof qx07Lion"+i+"=='function'"))
+      {
+        eval("delete qx07Lion"+i);
+      }
+    }
   }
 
   qx.core.Init.getInstance().defineMain(function()
@@ -184,9 +203,10 @@
       this.debug("qx 0.6: " + ((new Date)-start) + "ms");
 
       Animal = Cat = Lion = null;
+      cleanup07(loops);
       var start = new Date;
       for (var i=0; i<loops; i++) {
-        testQooxdoo07();
+        testQooxdoo07(i);
       }
       this.debug("qx 0.7: " + ((new Date)-start) + "ms");
     });
@@ -240,9 +260,10 @@
     btn5.addEventListener("execute", function(e)
     {
       Animal = Cat = Lion = null;
+      cleanup07(loops);
       var start = new Date;
       for (var i=0; i<loops; i++) {
-        testQooxdoo07();
+        testQooxdoo07(i);
       }
       this.debug("qx 0.7: " + ((new Date)-start) + "ms");
     });
