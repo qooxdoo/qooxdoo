@@ -60,11 +60,6 @@ qx.Class.define("qx.ui.form.Spinner",
     }
 
     // ************************************************************************
-    //   MANAGER
-    // ************************************************************************
-    this.setManager(new qx.type.Range());
-
-    // ************************************************************************
     //   TEXTFIELD
     // ************************************************************************
     this._textfield = new qx.ui.form.TextField;
@@ -72,7 +67,7 @@ qx.Class.define("qx.ui.form.Spinner",
     this._textfield.setWidth("1*");
     // ALPHA: Testing override feature of initial appearance, see Class.js
     // this._textfield = qx.ui.core.Widget.create(qx.ui.form.TextField, "spinner-field");
-    this._textfield.setValue(String(this.getManager().getValue()));
+    //this._textfield.setValue(String(this.getManager().getValue()));
     this.add(this._textfield);
 
     // ************************************************************************
@@ -102,6 +97,11 @@ qx.Class.define("qx.ui.form.Spinner",
     //   TIMER
     // ************************************************************************
     this._timer = new qx.client.Timer(this.getInterval());
+
+    // ************************************************************************
+    //   MANAGER
+    // ************************************************************************
+    this.setManager(new qx.type.Range());
 
     // ************************************************************************
     //   EVENTS
@@ -341,11 +341,8 @@ qx.Class.define("qx.ui.form.Spinner",
         propValue.addEventListener("change", this._onchange, this);
       }
 
-      if (this._textfield)
-      {
-        this._textfield.setValue(String(propValue.getValue()));
-      }
-      return true;
+      // apply initital value
+      this._onchange();
     },
 
 
