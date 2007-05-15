@@ -733,6 +733,6 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
 
   destruct : function()
   {
-    this._disposeFields("_resizeColumnData");
+    this._disposeFields("_resizeColumnData", "_width");
   }
 });
