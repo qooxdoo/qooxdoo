@@ -1,6 +1,6 @@
 Welcome!  :-)
 
-qooxdoo is one of the most comprehensive and innovative Open Source AJAX 
+qooxdoo is one of the most comprehensive and innovative Open Source Ajax 
 frameworks. It is a multipurpose framework that includes support for 
 professional JavaScript development, a state-of-the-art GUI toolkit and 
 high-level client-server communication.
@@ -52,7 +52,7 @@ full-fledged styling that even supports runtime switching.
 AJAX
 
 While being a client-side and server-agnostic solution, the qooxdoo project 
-does include complete implementations of RPC servers (currently Java and PHP) 
+does include complete implementations of RPC servers (currently Java, PHP, Perl) 
 to demonstrate some of its advanced client-server communcation. An abstract 
 transport layer supports queues, timeouts and implementations via 
 XMLHttpRequest, Iframes and Scripts. Like the rest of qooxdoo it fully 
