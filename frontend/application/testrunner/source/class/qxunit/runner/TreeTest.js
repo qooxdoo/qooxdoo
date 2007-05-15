@@ -19,13 +19,13 @@
 
 /* ************************************************************************
 
-#module(qxunit)
+#module(testrunner)
 #resource(css:css)
 #resource(image:image)
 
 ************************************************************************ */
 
-qx.Class.define("qxunit.runner.TreeTest",
+qx.Class.define("testrunner.runner.TreeTest",
 {
   extend : qx.core.Object,
 
@@ -33,15 +33,15 @@ qx.Class.define("qxunit.runner.TreeTest",
   {
     this.base(arguments);
 
-    var tree = new qxunit.runner.Tree("Root");
+    var tree = new testrunner.runner.Tree("Root");
     var first;
-    tree.add(first = new qxunit.runner.Tree("First"));
-    first.add(new qxunit.runner.Tree("First.1"));
-    first.add(new qxunit.runner.Tree("First.2"));
-    tree.add(new qxunit.runner.Tree("Second"));
-    var three = new qxunit.runner.Tree("Third");
-    //three.add(new qxunit.runner.Tree("Third.1"));
-    //three.add(new qxunit.runner.Tree("Third.2"));
+    tree.add(first = new testrunner.runner.Tree("First"));
+    first.add(new testrunner.runner.Tree("First.1"));
+    first.add(new testrunner.runner.Tree("First.2"));
+    tree.add(new testrunner.runner.Tree("Second"));
+    var three = new testrunner.runner.Tree("Third");
+    //three.add(new testrunner.runner.Tree("Third.1"));
+    //three.add(new testrunner.runner.Tree("Third.2"));
     tree.add(three);
 
     tree.print();

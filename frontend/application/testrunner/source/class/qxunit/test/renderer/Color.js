@@ -17,8 +17,8 @@
 
 ************************************************************************ */
 
-qx.Class.define("qxunit.test.renderer.Color", {
-  extend: qxunit.TestCase,
+qx.Class.define("testrunner.test.renderer.Color", {
+  extend: testrunner.TestCase,
 
   members : {
     testColor: function() {

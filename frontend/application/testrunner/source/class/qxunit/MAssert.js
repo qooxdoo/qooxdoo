@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Mixin.define("qxunit.MAssert", {
+qx.Mixin.define("testrunner.MAssert", {
 
   members: {
 
@@ -59,7 +59,7 @@ qx.Mixin.define("qxunit.MAssert", {
 
     __assert: function(condition, comment, failMsg) {
       if (!condition) {
-        throw new qxunit.AssertionError(comment, failMsg);
+        throw new testrunner.AssertionError(comment, failMsg);
       }
     },
 

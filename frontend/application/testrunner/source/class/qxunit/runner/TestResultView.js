@@ -24,7 +24,7 @@
 /**
  * Widget which displayes the test results as a formatted list.
  */
-qx.Class.define("qxunit.runner.TestResultView",
+qx.Class.define("testrunner.runner.TestResultView",
 {
   extend : qx.ui.embed.HtmlEmbed,
 

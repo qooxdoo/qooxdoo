@@ -17,8 +17,8 @@
 
 ************************************************************************ */
 
-qx.Class.define("qxunit.test.util.Validation", {
-  extend: qxunit.TestCase,
+qx.Class.define("testrunner.test.util.Validation", {
+  extend: testrunner.TestCase,
 
   members : {
 

@@ -17,9 +17,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qxunit.TestClass", {
+qx.Class.define("testrunner.TestClass", {
 
-  extend : qxunit.TestSuite,
+  extend : testrunner.TestSuite,
 
   construct : function(clazz)
   {
@@ -29,8 +29,8 @@ qx.Class.define("qxunit.TestClass", {
       this.addFail("exsitsCheck" + this.__testClassNames.length, "Unkown test class!");
       return;
     }
-    if (!qx.Class.isSubClassOf(clazz, qxunit.TestCase)) {
-      this.addFail("Sub class check.", "The test class '"+ clazz.classname +"'is not a sub class of 'qxunit.TestCase'");
+    if (!qx.Class.isSubClassOf(clazz, testrunner.TestCase)) {
+      this.addFail("Sub class check.", "The test class '"+ clazz.classname +"'is not a sub class of 'testrunner.TestCase'");
       return;
     }
 

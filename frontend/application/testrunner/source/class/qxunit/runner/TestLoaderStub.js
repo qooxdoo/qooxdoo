@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qxunit.runner.TestLoaderStub", {
+qx.Class.define("testrunner.runner.TestLoaderStub", {
   extend : qx.core.Object,
 
   type : "singleton",
@@ -26,7 +26,7 @@ qx.Class.define("qxunit.runner.TestLoaderStub", {
   {
     this.tests = [
       {
-        classname : "qxunit.test.Xml",
+        classname : "testrunner.test.Xml",
         tests : [
           "serializeArray",
           "testParseSerializeXml",
@@ -36,7 +36,7 @@ qx.Class.define("qxunit.runner.TestLoaderStub", {
       },
 
       {
-        classname : "qxunit.test.Lang",
+        classname : "testrunner.test.Lang",
         tests : [
           "testString",
           "testFormat",
@@ -70,10 +70,10 @@ qx.Class.define("qxunit.runner.TestLoaderStub", {
           }
           var testFunction = function() {};
           var failTest = function() {
-            throw new qxunit.AssertionError("Unknown error!", "Crazy error.");
+            throw new testrunner.AssertionError("Unknown error!", "Crazy error.");
           };
           var fcn = testClass.tests[j] == "testAddRemovelistItem" ? failTest : testFunction;
-          var test = new qxunit.TestFunction(testClass, testClass.tests[j], fcn);
+          var test = new testrunner.TestFunction(testClass, testClass.tests[j], fcn);
           test.run(testResult);
         }
       }

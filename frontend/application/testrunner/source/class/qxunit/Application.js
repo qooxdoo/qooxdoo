@@ -22,20 +22,20 @@
 #module(core)
 
 #resource(data:data)
-#embed(qxunit.data/*)
+#embed(testrunner.data/*)
 
 ************************************************************************ */
 
-qx.Class.define("qxunit.Application", {
+qx.Class.define("testrunner.Application", {
   extend : qx.application.Basic,
 
   construct : function()
   {
     // Define alias for custom resource path
-    qx.manager.object.AliasManager.getInstance().add("qxunit", qx.core.Setting.get("qxunit.resourceUri"));
+    qx.manager.object.AliasManager.getInstance().add("testrunner", qx.core.Setting.get("testrunner.resourceUri"));
   },
 
   settings : {
-    "qxunit.resourceUri" : "./resource"
+    "testrunner.resourceUri" : "./resource"
   }
 });

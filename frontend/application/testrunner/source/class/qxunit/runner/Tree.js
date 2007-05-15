@@ -19,13 +19,13 @@
 
 /* ************************************************************************
 
-#module(qxunit)
+#module(testrunner)
 #resource(css:css)
 #resource(image:image)
 
 ************************************************************************ */
 
-qx.Class.define("qxunit.runner.Tree",
+qx.Class.define("testrunner.runner.Tree",
 {
   extend : qx.core.Object,
 

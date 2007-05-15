@@ -17,16 +17,16 @@
 
 ************************************************************************ */
 
-qx.Class.define("qxunit.test.core.Property", {
+qx.Class.define("testrunner.test.core.Property", {
 
-  extend: qxunit.TestCase,
+  extend: testrunner.TestCase,
 
   members: {
 
     testInherited : function()
     {
 
-      qx.Class.define("qxunit.Node", {
+      qx.Class.define("testrunner.Node", {
         extend : qx.core.Target,
 
         construct : function() {
@@ -54,11 +54,11 @@ qx.Class.define("qxunit.test.core.Property", {
         }
       });
 
-      var root = new qxunit.Node();
+      var root = new testrunner.Node();
       root.setColor("red");
 
-      var child1 = new qxunit.Node();
-      var child2 = new qxunit.Node();
+      var child1 = new testrunner.Node();
+      var child2 = new testrunner.Node();
 
       child2.setParent(child1);
       child1.setParent(root);
