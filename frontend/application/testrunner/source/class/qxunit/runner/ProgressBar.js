@@ -20,7 +20,7 @@
 
 /* ************************************************************************
 
-#module(qxunit)
+#module(testrunner)
 #resource(css:css)
 #resource(image:image)
 
@@ -28,7 +28,7 @@
 ************************************************************************ */
 
 
-qx.Class.define("qxunit.runner.ProgressBar",
+qx.Class.define("testrunner.runner.ProgressBar",
 {
   extend : qx.ui.layout.HorizontalBoxLayout,
 

@@ -23,8 +23,8 @@
 
 ************************************************************************ */
 
-qx.Class.define("qxunit.test.core.Variants", {
-  extend: qxunit.TestCase,
+qx.Class.define("testrunner.test.core.Variants", {
+  extend: testrunner.TestCase,
 
   members : {
 

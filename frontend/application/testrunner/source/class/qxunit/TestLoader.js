@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qxunit.TestLoader", {
+qx.Class.define("testrunner.TestLoader", {
 
   extend: qx.application.Gui,
 
@@ -34,7 +34,7 @@ qx.Class.define("qxunit.TestLoader", {
   {
     suite :
     {
-      check : "qxunit.TestSuite",
+      check : "testrunner.TestSuite",
       nullable : true
     }
   },
@@ -45,7 +45,7 @@ qx.Class.define("qxunit.TestLoader", {
     main : function()
     {
       this.base(arguments);
-      qxunit.TestLoader.instance = this;
+      testrunner.TestLoader.instance = this;
 
       this.setTestNamespace(this.__getClassNameFromUrl());
 
@@ -77,7 +77,7 @@ qx.Class.define("qxunit.TestLoader", {
 
     setTestNamespace : function(namespace)
     {
-      var suite = new qxunit.TestSuite();
+      var suite = new testrunner.TestSuite();
       suite.add(namespace);
       this.setSuite(suite);
     },
@@ -85,7 +85,7 @@ qx.Class.define("qxunit.TestLoader", {
 
     runJsUnit : function()
     {
-      var testResult = new qxunit.JsUnitTestResult();
+      var testResult = new testrunner.JsUnitTestResult();
       this.getSuite().run(testResult);
       testResult.exportToJsUnit();
     },
@@ -95,7 +95,7 @@ qx.Class.define("qxunit.TestLoader", {
     {
       console.log(this.getTestDescriptions());
 
-      var testResult = new qxunit.TestResult();
+      var testResult = new testrunner.TestResult();
       testResult.addEventListener("failure", function(e) {
         var ex = e.getData().exception;
         var test = e.getData().test;

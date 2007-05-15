@@ -17,19 +17,19 @@
 
 ************************************************************************ */
 
-qx.Class.define("qxunit.test.core.Target", {
+qx.Class.define("testrunner.test.core.Target", {
 
-  extend: qxunit.TestCase,
+  extend: testrunner.TestCase,
 
   members: {
     testEvents: function() {
 
-      qx.Class.define("qxunit.Event", {
+      qx.Class.define("testrunner.Event", {
         extend: qx.core.Target,
         events: {"click": "qx.event.type.Event"}
       });
 
-      var target = new qxunit.Event();
+      var target = new testrunner.Event();
       target.addEventListener("click", function() {});
 
       // this will only issue a warning!

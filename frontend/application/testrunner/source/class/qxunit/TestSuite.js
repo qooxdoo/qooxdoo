@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qxunit.TestSuite", {
+qx.Class.define("testrunner.TestSuite", {
 
   extend: qx.core.Object,
 
@@ -53,7 +53,7 @@ qx.Class.define("qxunit.TestSuite", {
 
     addTestNamespace: function(namespace) {
       if (typeof(namespace) == "function" && namespace.classname) {
-        if (qx.Class.isSubClassOf(namespace, qxunit.TestCase))
+        if (qx.Class.isSubClassOf(namespace, testrunner.TestCase))
         {
           this.addTestClass(namespace);
           return;
@@ -66,15 +66,15 @@ qx.Class.define("qxunit.TestSuite", {
     },
 
     addTestFunction: function(name, fcn) {
-      this.__tests.push(new qxunit.TestFunction(null, name, fcn));
+      this.__tests.push(new testrunner.TestFunction(null, name, fcn));
     },
 
     addTestMethod: function(clazz, functionName) {
-      this.__tests.push(new qxunit.TestFunction(clazz, functionName));
+      this.__tests.push(new testrunner.TestFunction(clazz, functionName));
     },
 
     addTestClass: function(clazz) {
-      this.__tests.push(new qxunit.TestClass(clazz));
+      this.__tests.push(new testrunner.TestClass(clazz));
     },
 
     addFail: function(functionName, message) {
@@ -94,7 +94,7 @@ qx.Class.define("qxunit.TestSuite", {
       var classes = [];
       for (var i=0; i<this.__tests.length; i++) {
         var test = this.__tests[i];
-        if (test instanceof qxunit.TestClass) {
+        if (test instanceof testrunner.TestClass) {
           classes.push(test);
         }
       }
@@ -106,7 +106,7 @@ qx.Class.define("qxunit.TestSuite", {
       var methods = [];
       for (var i=0; i<this.__tests.length; i++) {
         var test = this.__tests[i];
-        if (test instanceof qxunit.TestFunction) {
+        if (test instanceof testrunner.TestFunction) {
           methods.push(test);
         }
       }
@@ -155,7 +155,7 @@ qx.Class.define("qxunit.TestSuite", {
       qx.lang.Array.append(qx.dev.Pollution.ignore.window, ["exposeTestFunctionNames"]);
 
       var pollution = qx.dev.Pollution.extract("window");
-      new qxunit.TestCase().assertJsonEquals([], pollution);
+      new testrunner.TestCase().assertJsonEquals([], pollution);
     }
 
   }

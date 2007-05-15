@@ -23,7 +23,7 @@
 
 QOOXDOO_PATH = ../../..
 
-APPLICATION_NAMESPACE = qxunit
+APPLICATION_NAMESPACE = testrunner
 APPLICATION_CLASSNAME = runner.Application
 APPLICATION_SCRIPT_FILENAME = testrunner.js
 

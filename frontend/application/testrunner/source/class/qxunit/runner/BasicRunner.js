@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qxunit.runner.BasicRunner", {
+qx.Class.define("testrunner.runner.BasicRunner", {
 
   extend : qx.ui.layout.VerticalBoxLayout,
 
@@ -30,7 +30,7 @@ qx.Class.define("qxunit.runner.BasicRunner", {
       width : "100%"
     });
 
-    var iframe = new qx.ui.embed.Iframe("html/QooxdooTest.html?testclass=qxunit.test");
+    var iframe = new qx.ui.embed.Iframe("html/QooxdooTest.html?testclass=testrunner.test");
     iframe.set({
       height: 100,
       width: 300
@@ -38,7 +38,7 @@ qx.Class.define("qxunit.runner.BasicRunner", {
 
 
     iframe.addEventListener("load", function() {
-      var testLoader = iframe.getContentWindow().qxunit.TestLoader.getInstance();
+      var testLoader = iframe.getContentWindow().testrunner.TestLoader.getInstance();
 
       // wait for the iframe to load
       if (!testLoader) {
@@ -46,7 +46,7 @@ qx.Class.define("qxunit.runner.BasicRunner", {
         return;
       }
 
-    var testResult = new (iframe.getContentWindow().qxunit.TestResult)();
+    var testResult = new (iframe.getContentWindow().testrunner.TestResult)();
     testResult.addEventListener("startTest", function(e) {
       var test = e.getData();
       this.debug("Test '"+test.getFullName()+"' started.");

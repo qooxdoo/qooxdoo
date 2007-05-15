@@ -17,8 +17,8 @@
 
 ************************************************************************ */
 
-qx.Class.define("qxunit.test.Lang",{
-  extend: qxunit.TestCase,
+qx.Class.define("testrunner.test.Lang",{
+  extend: testrunner.TestCase,
 
   members :
   {

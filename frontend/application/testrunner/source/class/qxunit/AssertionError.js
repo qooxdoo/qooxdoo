@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qxunit.AssertionError", {
+qx.Class.define("testrunner.AssertionError", {
   extend: Error,
 
   construct: function(comment, failMessage) {

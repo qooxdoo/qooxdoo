@@ -17,8 +17,8 @@
 
 ************************************************************************ */
 
-qx.Class.define("qxunit.profile.String", {
-  extend: qxunit.TestCase,
+qx.Class.define("testrunner.profile.String", {
+  extend: testrunner.TestCase,
 
   members: {
     testProfileString: function() {

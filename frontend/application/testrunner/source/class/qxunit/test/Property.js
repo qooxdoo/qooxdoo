@@ -17,9 +17,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qxunit.test.Property",
+qx.Class.define("testrunner.test.Property",
 {
-  extend: qxunit.TestCase,
+  extend: testrunner.TestCase,
 
   members :
   {
@@ -30,7 +30,7 @@ qx.Class.define("qxunit.test.Property",
       this.assertNotUndefined(qx.core.Property);
 
       // Check instance
-      var inst = new qxunit.test.PropertyHelper;
+      var inst = new testrunner.test.PropertyHelper;
       this.assertNotUndefined(inst, "instance");
 
       // Public setter/getter etc.
@@ -67,7 +67,7 @@ qx.Class.define("qxunit.test.Property",
       this.assertNotUndefined(qx.core.Property);
 
       // Check instance
-      var inst = new qxunit.test.PropertyHelper;
+      var inst = new testrunner.test.PropertyHelper;
       this.assertNotUndefined(inst, "instance");
 
       // Type checks: String
@@ -119,13 +119,13 @@ qx.Class.define("qxunit.test.Property",
 
       this.assertNotUndefined(qx.core.Property);
 
-      var pa = new qxunit.test.Layout;
-      var ch1 = new qxunit.test.Layout;
-      var ch2 = new qxunit.test.Layout;
-      var ch3 = new qxunit.test.Layout;
-      var chh1 = new qxunit.test.Layout;
-      var chh2 = new qxunit.test.Layout;
-      var chh3 = new qxunit.test.Layout;
+      var pa = new testrunner.test.Layout;
+      var ch1 = new testrunner.test.Layout;
+      var ch2 = new testrunner.test.Layout;
+      var ch3 = new testrunner.test.Layout;
+      var chh1 = new testrunner.test.Layout;
+      var chh2 = new testrunner.test.Layout;
+      var chh3 = new testrunner.test.Layout;
 
       pa.add(ch1, ch2, ch3);
       ch2.add(chh1, chh2, chh3);
@@ -159,10 +159,10 @@ qx.Class.define("qxunit.test.Property",
 
     testParent : function()
     {
-      var pa = new qxunit.test.Layout;
-      var ch1 = new qxunit.test.Layout;
-      var ch2 = new qxunit.test.Layout;
-      var ch3 = new qxunit.test.Layout;
+      var pa = new testrunner.test.Layout;
+      var ch1 = new testrunner.test.Layout;
+      var ch2 = new testrunner.test.Layout;
+      var ch3 = new testrunner.test.Layout;
 
       this.assertIdentical(pa._getEnabled(), null, "d1");
       this.assertIdentical(ch1._getEnabled(), null, "d2");
@@ -195,7 +195,7 @@ qx.Class.define("qxunit.test.Property",
       this.assertNotUndefined(qx.core.Property);
 
       // Check instance
-      var inst = new qxunit.test.PropertyHelper;
+      var inst = new testrunner.test.PropertyHelper;
       this.assertNotUndefined(inst, "instance");
 
       // Check init value
@@ -230,7 +230,7 @@ qx.Class.define("qxunit.test.Property",
   }
 });
 
-qx.Class.define("qxunit.test.PropertyHelper",
+qx.Class.define("testrunner.test.PropertyHelper",
 {
   extend : qx.core.Target,
 
@@ -263,7 +263,7 @@ qx.Class.define("qxunit.test.PropertyHelper",
   }
 });
 
-qx.Class.define("qxunit.test.Layout",
+qx.Class.define("testrunner.test.Layout",
 {
   extend : qx.ui.layout.CanvasLayout,
 
