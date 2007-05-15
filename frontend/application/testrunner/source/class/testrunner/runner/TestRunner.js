@@ -690,7 +690,8 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       // Re-enable and Re-select
       this.widgets["treeview"].setEnabled(true);
-      if (selectedElement) { // try to re-select previously selected element
+      if (selectedElement)  // try to re-select previously selected element
+      {
         // select tree element and open if folder
         if (selectedElement.widgetLinkFull) {
           this.widgets["treeview.full"].setSelectedElement(selectedElement.widgetLinkFull);
@@ -704,17 +705,6 @@ qx.Class.define("testrunner.runner.TestRunner",
             selectedElement.widgetLinkFlat.open();
           }
         }
-        // open if folder
-        /* -- not working!
-        if (selectedElement.widgetLinkFull instanceof qx.ui.tree.TreeFolder)
-        {
-          selectedElement.widgetLinkFull.open();
-        }
-        if (selectedElement.widgetLinkFlat &&
-            selectedElement.widgetLinkFlat instanceof qx.ui.tree.TreeFolder)
-        {
-        }
-        */
       }
 
     }, //leftReloadTree
