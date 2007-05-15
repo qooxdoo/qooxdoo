@@ -48,7 +48,7 @@ RELEASE_BUILD_DOS = release/temp/build/dos/qooxdoo-$(FRAMEWORK_VERSION)-build
 RELEASE_SDK_UNIX = release/temp/sdk/unix/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 RELEASE_SDK_DOS = release/temp/sdk/dos/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
-APPLICATIONS = apiviewer feedreader sample showcase webmail quickstart unittests
+APPLICATIONS = apiviewer feedreader sample showcase webmail quickstart testrunner
 SDK_COPY = Makefile application/Makefile application/index.html
 
 
@@ -428,7 +428,7 @@ release-build-unix-collect:
 
 	@echo "  * Synchronizing applications..."
 	@for APPLICATION in $(APPLICATIONS); do \
-	  if [ "$$APPLICATION" == "unittests" ]; then continue; fi; \
+	  if [ "$$APPLICATION" == "testrunner" ]; then continue; fi; \
 		echo "    - $$APPLICATION"; \
 	  $(CMD_DIR) $(RELEASE_BUILD_UNIX)/frontend/$$APPLICATION; \
 		if [ ! -r application/$$APPLICATION/build ]; then \
@@ -469,7 +469,7 @@ release-build-dos-collect:
 
 	@echo "  * Synchronizing applications..."
 	@for APPLICATION in $(APPLICATIONS); do \
-	  if [ "$$APPLICATION" == "unittests" ]; then continue; fi; \
+	  if [ "$$APPLICATION" == "testrunner" ]; then continue; fi; \
 		echo "    - $$APPLICATION"; \
 	  $(CMD_DIR) $(RELEASE_BUILD_DOS)/frontend/$$APPLICATION; \
 		if [ ! -r application/$$APPLICATION/build ]; then \
