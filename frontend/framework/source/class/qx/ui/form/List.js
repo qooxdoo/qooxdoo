@@ -129,7 +129,7 @@ qx.Class.define("qx.ui.form.List",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {qx.manager.selection.SelectionManager} TODOC
      */
     getManager : function() {
       return this._manager;
@@ -160,7 +160,7 @@ qx.Class.define("qx.ui.form.List",
      * @return {var} TODOC
      */
     getSelectedItem : function() {
-      return this.getSelectedItems()[0];
+      return this.getSelectedItems()[0] || null;
     },
 
 
