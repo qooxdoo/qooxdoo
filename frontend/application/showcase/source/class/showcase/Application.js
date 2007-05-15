@@ -71,18 +71,18 @@ qx.Class.define("showcase.Application",
 
       this._states = {};
 
-      this._createPage(barView, "Form", "icon/32/apps/accessories-text-editor.png", this._createFormDemo(), "background");
+      this._createPage(barView, "Form", "icon/32/apps/accessories-text-editor.png", this._createFormDemo());
       this._createPage(barView, "Tooltip", "icon/32/actions/system-run.png", this._createTooltipDemo());
       this._createPage(barView, "Menu and Toolbar", "icon/32/devices/video-display.png", this._createToolbarDemo());
-      this._createPage(barView, "Tab", "icon/32/places/user-desktop.png", this._createTabDemo(), "background", true);
-      this._createPage(barView, "Tree", "icon/32/actions/view-pane-tree.png", this._createTreeDemo(), "background");
-      this._createPage(barView, "List", "icon/32/actions/view-pane-detailed.png", this._createListDemo(), "background");
-      this._createPage(barView, "ListView", "icon/32/actions/view-pane-icon.png", this._createListViewDemo(), "background");
-      this._createPage(barView, "Table", "icon/32/actions/view-pane-column.png", this._createTableDemo(), "background", true);
-      this._createPage(barView, "SplitPane", "icon/32/actions/view-pane-text.png", this._createSplitPaneDemo(), "background", true);
-      this._createPage(barView, "Localization", "icon/32/apps/accessories-archiver.png", this._createLocalizationDemo(), "background");
-      this._createPage(barView, "Native Window", "icon/32/devices/video-display.png", this._createNativeWindowDemo(), "background");
-      this._createPage(barView, "Internal Window", "icon/32/apps/preferences-desktop-theme.png", this._createInternalWindowDemo(), null, true);
+      this._createPage(barView, "Tab", "icon/32/places/user-desktop.png", this._createTabDemo(), true);
+      this._createPage(barView, "Tree", "icon/32/actions/view-pane-tree.png", this._createTreeDemo());
+      this._createPage(barView, "List", "icon/32/actions/view-pane-detailed.png", this._createListDemo());
+      this._createPage(barView, "ListView", "icon/32/actions/view-pane-icon.png", this._createListViewDemo());
+      this._createPage(barView, "Table", "icon/32/actions/view-pane-column.png", this._createTableDemo(), true);
+      this._createPage(barView, "SplitPane", "icon/32/actions/view-pane-text.png", this._createSplitPaneDemo(), true);
+      this._createPage(barView, "Localization", "icon/32/apps/accessories-archiver.png", this._createLocalizationDemo());
+      this._createPage(barView, "Native Window", "icon/32/devices/video-display.png", this._createNativeWindowDemo());
+      this._createPage(barView, "Internal Window", "icon/32/apps/preferences-desktop-theme.png", this._createInternalWindowDemo(), true);
       this._createPage(barView, "Themes", "icon/32/apps/preferences-desktop-wallpaper.png", this._createThemesDemo());
 
       // back button and bookmark support
@@ -122,7 +122,7 @@ qx.Class.define("showcase.Application",
      * @param scrolls {var} TODOC
      * @return {var} TODOC
      */
-    _createPage : function(barView, title, iconUrl, widget, backgroundColor, scrolls)
+    _createPage : function(barView, title, iconUrl, widget, scrolls)
     {
       var bt = new qx.ui.pageview.buttonview.Button(title, iconUrl);
       barView.getBar().add(bt);
@@ -158,10 +158,6 @@ qx.Class.define("showcase.Application",
           width    : null,
           overflow : "auto"
         });
-      }
-
-      if (backgroundColor) {
-        page.setBackgroundColor(backgroundColor);
       }
 
       page.add(widget);
@@ -826,10 +822,12 @@ qx.Class.define("showcase.Application",
       t.set(
       {
         backgroundColor : "white",
-        border          : "inset",
+        border          : "inset-thin",
         overflow        : "scrollY",
         height          : "100%",
-        width           : 200
+        width           : 200,
+        paddingLeft     : 4,
+        paddingTop      : 4
       });
 
       main.add(t);
@@ -1168,8 +1166,6 @@ qx.Class.define("showcase.Application",
       var lv = new qx.ui.listview.ListView(ld, lc);
       main.add(lv);
 
-      /*lv.setBorder("dark-shadow");
-      lv.setBackgroundColor("white");*/
       lv.setWidth(600);
       lv.setHeight(350);
 
@@ -1209,8 +1205,8 @@ qx.Class.define("showcase.Application",
       {
         set(
         {
-          width  : "100%",
-          height : "100%"
+          width   : "100%",
+          height  : "100%"
         });
 
         setMetaColumnCounts([ 1, -1 ]);
@@ -1254,7 +1250,7 @@ qx.Class.define("showcase.Application",
           paddingBottom : 4,
           width         : "100%",
           height        : "100%",
-          border        : "black",
+          border        : "inset-thin",
           showKnob      : true
        });
        splitpane.getLeftArea().setPaddingRight(4);
@@ -2169,6 +2165,9 @@ qx.Class.define("showcase.Application",
 
       wm2.add(btn3, btn4, icon1, warn1);
 
+      // Icon & Color Themes
+      // qx.util.ThemeList.createIconButtons(w3, 20, 248);
+      // qx.util.ThemeList.createColorButtons(w3, 4, 58);
       w1.open();
       w2.open();
       w3.open();
@@ -2226,6 +2225,28 @@ qx.Class.define("showcase.Application",
 
       vert.add(hor);
 
+      var can = new qx.ui.layout.CanvasLayout;
+
+      can.set(
+      {
+        width  : "auto",
+        height : "auto"
+      });
+
+      hor.add(can);
+      qx.util.ThemeList.createIconButtons(can, 0, 0);
+
+      var can = new qx.ui.layout.CanvasLayout;
+
+      can.set(
+      {
+        width  : "auto",
+        height : "auto"
+      });
+
+      hor.add(can);
+      qx.util.ThemeList.createColorButtons(can, 0, 0);
+
       var vbl = new qx.ui.layout.VerticalBoxLayout;
 
       vbl.set(
@@ -2244,12 +2265,13 @@ qx.Class.define("showcase.Application",
       });
 
       // output meta theme list
-      qx.util.ThemeList.createMetaButtons(win.getPane(), 20, 50);
+      qx.util.ThemeList.createMetaButtons(can, 250, 0);
 
+      // Put the window in lower right corner
       win.set(
       {
-        top: 200,
-        left: 300,
+        width  : "auto",
+        height : "auto",
         allowMinimize : false
       });
 
@@ -2265,8 +2287,12 @@ qx.Class.define("showcase.Application",
 
       var openThemeWinBt = new qx.ui.form.Button("Open theming window", "icon/16/actions/edit-find.png");
 
-      openThemeWinBt.addEventListener("execute", function(e) {
+      openThemeWinBt.addEventListener("execute", function(e)
+      {
         win.open();
+
+        win.setRight(15);
+        win.setBottom(15);
       });
 
       main.add(openThemeWinBt);

@@ -30,13 +30,12 @@ qx.Theme.define("qx.theme.ext.Color",
   colors :
   {
     "document-background"               : [ 229, 244, 254 ],
-    "threedface"                        : [ 229, 244, 254 ],
     "background"                        : [ 188, 212, 247 ],
 
-    "border-light"                      : [ 0, 60, 116 ],
+    "border-light"                      : [ 101, 147, 207 ],
     "border-light-shadow"               : [ 253, 216, 137 ],
     "border-dark"                       : [ 0, 60, 116 ],
-    "border-dark-shadow"                : [ 0, 60, 116 ],
+    "border-dark-shadow"                : [ 101, 147, 207 ],
 
     "effect"                            : [ 188, 212, 247 ],
     "selected"                          : [ 188, 212, 247 ],
@@ -62,7 +61,7 @@ qx.Theme.define("qx.theme.ext.Color",
     "window-active-caption"             : [ 31, 62, 117 ],
     "window-inactive-caption"           : [ 220, 220, 220 ],
 
-    "button-view-pane"                  : [ 255, 255, 255 ],
+    "button-view-pane"                  : [ 229, 244, 254 ],
     "button-view-bar"                   : [ 188, 212, 247 ],
     "button-view-button"                : [ 188, 212, 247 ],
     "button-view-button-border"         : [ 31, 62, 117 ],
@@ -81,7 +80,7 @@ qx.Theme.define("qx.theme.ext.Color",
     "radio-view-button-checked"         : [ 250, 251, 254 ],
 
     "list-view"                         : "white",
-    "list-view-border"                  : [ 0, 60, 116 ],
+    "list-view-border"                  : [ 101, 147, 207 ],
     "list-view-header"                  : [ 235, 234, 219 ],
     "list-view-header-border"           : [ 226, 226, 226 ],
     "list-view-header-separator-border" : [ 214, 213, 217 ],
