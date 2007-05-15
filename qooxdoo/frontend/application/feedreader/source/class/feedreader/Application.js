@@ -308,8 +308,18 @@ qx.Class.define("feedreader.Application",
         date   : this.tr("Date")
       });
 
+
       // add table
-      var table = new qx.ui.table.Table(this._tableModel);
+
+      // Customize the table column model.  We want one that automatically
+      // resizes columns.
+      var custom = {
+        tableColumnModel : function(obj) {
+          return new qx.ui.table.ResizeTableColumnModel(obj);
+        }
+      };
+
+      var table = new qx.ui.table.Table(this._tableModel, custom);
       table.setBorder("inset");
 
       table.set(
