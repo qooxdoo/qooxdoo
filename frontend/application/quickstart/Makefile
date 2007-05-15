@@ -34,8 +34,8 @@ APPLICATION_RESOURCE_FILTER = true
 # Generate a single JavaScript file
 APPLICATION_SCRIPT_FILENAME = qx.js
 
-APPLICATION_ADDITIONAL_SOURCE_OPTIONS = --exclude-without-dependencies qx.theme.icon.VistaInspirate,qx.theme.icon.NuoveXT
-APPLICATION_ADDITIONAL_BUILD_OPTIONS = --exclude-without-dependencies qx.theme.icon.VistaInspirate,qx.theme.icon.NuoveXT
+APPLICATION_ADDITIONAL_SOURCE_OPTIONS = --exclude-without-dependencies qx.theme.icon.VistaInspirate,qx.theme.icon.NuoveXT,qx.theme.icon.CrystalClear,qx.theme.ext.*
+APPLICATION_ADDITIONAL_BUILD_OPTIONS = --exclude-without-dependencies qx.theme.icon.VistaInspirate,qx.theme.icon.NuoveXT,qx.theme.icon.CrystalClear,qx.theme.ext.*
 
 APPLICATION_COMPLETE_SOURCE = true
 APPLICATION_COMPLETE_BUILD = true
