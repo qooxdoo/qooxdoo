@@ -144,6 +144,7 @@ qx.Class.define("qx.type.Selection",
       for (var key in this.__storage) {
         return this.__storage[key];
       }
+      return null;
     },
 
 

@@ -245,7 +245,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {qx.manager.selection.SelectionManager} TODOC
      */
     getManager : function() {
       return this._manager;
@@ -827,7 +827,7 @@ qx.Class.define("qx.ui.form.ComboBox",
               vNext = vManager.getFirst();
             }
 
-            this.setSelected(vNext);
+            this.setSelected(vNext||null);
 
             return;
           }
