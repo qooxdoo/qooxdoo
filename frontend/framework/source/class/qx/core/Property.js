@@ -425,12 +425,9 @@ qx.Class.define("qx.core.Property",
       var argHandler = "var a=arguments[0] instanceof Array?arguments[0]:arguments;";
 
       setter.push(argHandler);
-      resetter.push(argHandler);
 
-      if (themeable)
-      {
+      if (themeable) {
         styler.push(argHandler);
-        unstyler.push(argHandler);
       }
 
       if (config.mode == "shorthand")
@@ -453,12 +450,12 @@ qx.Class.define("qx.core.Property",
         }
 
         setter.push("this.", this.$$method.set[a[i]], "(a[", i, "]);");
-        resetter.push("this.", this.$$method.reset[a[i]], "(a[", i, "]);");
+        resetter.push("this.", this.$$method.reset[a[i]], "();");
 
         if (themeable)
         {
           styler.push("this.", this.$$method.style[a[i]], "(a[", i, "]);");
-          unstyler.push("this.", this.$$method.unstyle[a[i]], "(a[", i, "]);");
+          unstyler.push("this.", this.$$method.unstyle[a[i]], "();");
         }
       }
 
@@ -552,8 +549,8 @@ qx.Class.define("qx.core.Property",
         }
 
         method.unstyle[name] = prefix + "unstyle" + postfix;
-        members[method.unstyle[name]] = function(value) {
-          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "unstyle", arguments);
+        members[method.unstyle[name]] = function() {
+          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "unstyle");
         }
       }
 
