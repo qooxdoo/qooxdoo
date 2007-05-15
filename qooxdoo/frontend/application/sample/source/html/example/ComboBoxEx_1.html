@@ -70,6 +70,9 @@ qx.core.Init.getInstance().defineMain(function() {
   //###1st row: combo
 
   combo = new form.ComboBoxEx;
+  combo.addEventListener('changeValue', function(ev) {
+    this.debug('Changed value: '+ev.getOldValue()+' --> '+ev.getValue());
+  });
   var butSize = new form.Button('Size text field to content');
   butSize.addEventListener('execute', function() {
     combo.sizeTextFieldToContent();
