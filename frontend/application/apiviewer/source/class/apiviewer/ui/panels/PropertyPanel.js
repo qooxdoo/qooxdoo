@@ -242,7 +242,7 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
         }
 
         // add event
-        if (node.getEvent()) {
+        if (node.getEvent() && !node.isRefined()) {
           textHtml.add(
             '<div class="item-detail-headline">', "Change event:", '</div>',
             '<div class="item-detail-text">',
@@ -254,7 +254,7 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
         }
 
         // add apply method
-        if (node.getApplyMethod()) {
+        if (node.getApplyMethod() && !node.isRefined()) {
           textHtml.add(
             '<div class="item-detail-headline">', "Apply method:", '</div>',
             '<div class="item-detail-text">',
