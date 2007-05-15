@@ -456,7 +456,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
       {
         return {
           backgroundColor : "radio-view-bar",
-          padding         : [ 1, 0 ],
+          padding         : 4,
           border          : qx.renderer.border.Border.fromConfig({ bottom : [ 1, "solid", "radio-view-border" ] })
         };
       }
@@ -471,7 +471,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
         if (states.checked || states.over)
         {
           border = new qx.renderer.border.Border(1, "solid", "radio-view-border");
-          border.setLeftWidth(3);
+          border.setWidthLeft(3);
           padding = [ 2, 6, 2, 4 ];
         }
         else
