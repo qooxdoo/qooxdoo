@@ -77,17 +77,17 @@ qx.Class.define("showcase.Application",
 
       this._states = {};
 
-      this._createPage(barView, "Form", "icon/32/apps/accessories-text-editor.png", this._createFormDemo(), "threedface");
+      this._createPage(barView, "Form", "icon/32/apps/accessories-text-editor.png", this._createFormDemo(), "background");
       this._createPage(barView, "Tooltip", "icon/32/actions/system-run.png", this._createTooltipDemo());
       this._createPage(barView, "Menu and Toolbar", "icon/32/devices/video-display.png", this._createToolbarDemo());
-      this._createPage(barView, "Tab", "icon/32/places/user-desktop.png", this._createTabDemo(), "threedface", true);
-      this._createPage(barView, "Tree", "icon/32/actions/view-pane-tree.png", this._createTreeDemo(), "threedface");
-      this._createPage(barView, "List", "icon/32/actions/view-pane-detailed.png", this._createListDemo(), "threedface");
-      this._createPage(barView, "ListView", "icon/32/actions/view-pane-icon.png", this._createListViewDemo(), "threedface");
-      this._createPage(barView, "Table", "icon/32/actions/view-pane-column.png", this._createTableDemo(), "threedface", true);
-      this._createPage(barView, "SplitPane", "icon/32/actions/view-pane-text.png", this._createSplitPaneDemo(), "threedface", true);
-      this._createPage(barView, "Localization", "icon/32/apps/accessories-archiver.png", this._createLocalizationDemo(), "threedface");
-      this._createPage(barView, "Native Window", "icon/32/devices/video-display.png", this._createNativeWindowDemo(), "threedface");
+      this._createPage(barView, "Tab", "icon/32/places/user-desktop.png", this._createTabDemo(), "background", true);
+      this._createPage(barView, "Tree", "icon/32/actions/view-pane-tree.png", this._createTreeDemo(), "background");
+      this._createPage(barView, "List", "icon/32/actions/view-pane-detailed.png", this._createListDemo(), "background");
+      this._createPage(barView, "ListView", "icon/32/actions/view-pane-icon.png", this._createListViewDemo(), "background");
+      this._createPage(barView, "Table", "icon/32/actions/view-pane-column.png", this._createTableDemo(), "background", true);
+      this._createPage(barView, "SplitPane", "icon/32/actions/view-pane-text.png", this._createSplitPaneDemo(), "background", true);
+      this._createPage(barView, "Localization", "icon/32/apps/accessories-archiver.png", this._createLocalizationDemo(), "background");
+      this._createPage(barView, "Native Window", "icon/32/devices/video-display.png", this._createNativeWindowDemo(), "background");
       this._createPage(barView, "Internal Window", "icon/32/apps/preferences-desktop-theme.png", this._createInternalWindowDemo(), null, true);
       this._createPage(barView, "Themes", "icon/32/apps/preferences-desktop-wallpaper.png", this._createThemesDemo());
 
