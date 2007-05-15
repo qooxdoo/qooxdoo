@@ -164,7 +164,8 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
     /** The label/caption/text of the qx.ui.basic.Atom instance */
     label :
     {
-      apply : "_modifyLabel"
+      apply : "_modifyLabel",
+      dispose : true
     },
 
 

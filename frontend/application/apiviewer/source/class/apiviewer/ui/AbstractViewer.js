@@ -232,8 +232,20 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
         this.error("Toggling info body failed", exc);
       }
     }
+  },
+  
+    
+  
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
 
-
+  destruct : function()
+  {
+    this._disposeFields("_classDescElem", "_titleElem");
+    this._disposeObjectDeep("_infoPanels", 1);
+    this._disposeObjectDeep("_infoPanelHash", 1);
   }
-
 });
