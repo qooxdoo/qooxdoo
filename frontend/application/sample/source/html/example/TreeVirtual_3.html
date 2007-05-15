@@ -27,7 +27,7 @@
     // classes.  Include the mixin that provides them.
     qx.Class.include(qx.ui.treevirtual.TreeVirtual,
                      qx.ui.treevirtual.MNode);
-    
+
     // tree
     var tree = new qx.ui.treevirtual.TreeVirtual(
         [
@@ -204,7 +204,7 @@
                          {
                            tree.setCellFocusAttributes(
                              {
-                               backgroundColor : qx.util.ColorUtil.stringToRgbString("lightblue")
+                               backgroundColor : qx.util.ExtendedColor.toRgbString("lightblue")
                              });
                          }
                          else
