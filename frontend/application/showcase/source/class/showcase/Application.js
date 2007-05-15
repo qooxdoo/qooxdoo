@@ -27,7 +27,7 @@
 #embed(qx.icontheme/48/*)
 
 #use(qx.theme.Ext)
- 
+
 #use(qx.theme.icon.Nuvola)
 #use(qx.theme.icon.NuoveXT)
 #use(qx.theme.icon.CrystalClear)
@@ -2273,7 +2273,7 @@ qx.Class.define("showcase.Application",
         showLocation : true,
         url          : url
       });
-      
+
       // output meta theme list
       qx.util.ThemeList.createMetaButtons(can, 250, 0);
 

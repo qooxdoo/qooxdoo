@@ -47,10 +47,10 @@ qx.Class.define("qx.ui.listview.Header",
     // Property initialization
     this.initHeight();
     this.initOverflow();
-    
+
     // This fixes the innerWidth calculation difference between the grid(pane) and the head.
     this.setPaddingRight(qx.ui.core.Widget.SCROLLBAR_SIZE);
-    
+
     // Apply appearance (Hack needed for 0.7.x layout issues)
     this._applyAppearance();
 

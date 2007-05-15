@@ -68,7 +68,7 @@ qx.Class.define("qxunit.TestLoader", {
     runJsUnit : function()
     {
       var testResult = new qxunit.JsUnitTestResult();
-			this.getSuite().run(testResult);
+      this.getSuite().run(testResult);
       testResult.exportToJsUnit();
     },
 
@@ -79,14 +79,14 @@ qx.Class.define("qxunit.TestLoader", {
 
       var testResult = new qxunit.TestResult();
       testResult.addEventListener("failure", function(e) {
-      	var ex = e.getData().exception;
-      	var test = e.getData().test;
-      	this.error("Test '"+test.getFullName()+"' failed: " +  ex.getMessage() + " - " + ex.getComment());
-      	this.error("Stack trace: " + ex.getStackTrace().join("\n"));
+        var ex = e.getData().exception;
+        var test = e.getData().test;
+        this.error("Test '"+test.getFullName()+"' failed: " +  ex.getMessage() + " - " + ex.getComment());
+        this.error("Stack trace: " + ex.getStackTrace().join("\n"));
       });
       testResult.addEventListener("error", function(e) {
-      	var ex = e.getData().exception
-      	this.error("The test '"+e.getData().test.getFullName()+"' had an error: " + ex, ex);
+        var ex = e.getData().exception
+        this.error("The test '"+e.getData().test.getFullName()+"' had an error: " + ex, ex);
       });
       this.getSuite().run(testResult);
     },
