@@ -393,7 +393,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       // Avoid deselection from user
       this._manager.removeSelectionInterval = function() {};
       this._manager.setSelectionMode(qx.ui.table.SelectionModel.SINGLE_SELECTION);
-      this._popup.add(new qx.ui.resizer.Resizer(l));
+      this._popup.add(l);
 
       this._invalidateDimensions();
 
@@ -720,9 +720,9 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       var p = this._popup;
       if (!p)
       {
-        var p = this._popup = new qx.ui.popup.Popup;
+        var p = this._popup = new qx.ui.resizer.ResizeablePopup;
+        p.auto();
         p.setAppearance('combo-box-ex-popup');
-        p.setHeight("auto");
         p.addEventListener("appear", this._onpopupappear, this);
         this.createDispatchEvent("beforeInitialOpen");
       }
@@ -747,12 +747,15 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       }
       this._createPopup();
       var p = this._popup;
-      p.setAutoHide(false);
       var el = this.getElement();
       p.positionRelativeTo(el, 1, qx.html.Dimension.getBoxHeight(el));
       this._calculateDimensions();
-      p.setParent(this.getTopLevelWidget());
-      p.auto();
+      // For aesthetic purposes, make the list width at least the width of the combo.
+      this._popup.set({
+        autoHide: false,
+        minWidth : this.getWidthValue(),
+        parent: this.getTopLevelWidget()
+      });
       p.show();
       this._oldSelected = this.getSelectedIndex();
 
@@ -800,14 +803,15 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      */
     sizeTextFieldToContent : function()
     {
+      this._createPopup();
       this._calculateDimensions();
       this._field.setWidth(this._neededTextFieldWidth);
     },
 
 
     /**
-     * Calculates the needed dimensions for the text field and list components
-     *
+     * Calculates the needed dimensions for the text field and list components.
+     * PRECONDITION: the _list must be created.
      * @type member
      * @return {void}
      */
@@ -818,7 +822,6 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
         // Already calculated
         return;
       }
-
       var data = this.getSelection();
       var cols = this.getColumnHeaders(), nCols = cols.length;
       var columnWidths = [];
@@ -898,11 +901,13 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       // ##Final width and height
       this._list.set(
       {
-        width  : width,
-        height : this._list.getRowHeight() * Math.min(maxRows, (this.hasHeaders ? 1 : 0) + data.length) + 2 + (this.hasHeaders ? 2 : 0),
-        // The resizer use this setting
-        maxHeight: 400
+        minWidth: width+4,
+        width  : '100%',
+        minHeight : this._list.getRowHeight() * Math.min(maxRows, (this.hasHeaders ? 1 : 0) + data.length) + 2 + (this.hasHeaders ? 2 : 0),
+        height : '100%'
       });
+      this._popup.auto();
+
 
       // This denotes dimensions are already calculated
       this._calcDimensions = true;
@@ -959,7 +964,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       if (txt == null || !txt.length) {
         return;
       }
-
+      startIndex = Math.max(startIndex, 0);
       var row = startIndex, nCols = this._list.getTableModel().getColumnCount(), nRows = this.getSelection().length, data = this.getSelection();
 
       if (!caseSens) {
@@ -1021,6 +1026,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       this._closePopup();
       // Force the list to be created
       this._createPopup();
+      this._calculateDimensions();
 
       var me = this, oldSelectedIndex = this.getSelectedIndex(), startIndex = oldSelectedIndex;
 
@@ -1064,13 +1070,13 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       vbox.add(searchField, checkCase);
 
       // ###list, we reuse the same list in the popup
-      this._calculateDimensions();
-      var border = "inset";
+      var border = "inset",
+        borderObj = qx.manager.object.BorderManager.getInstance().resolveDynamic(border);
 
       var newListSettings =
       {
-        height : 2/*border.getTopWidth()*/ + this._list.getHeight() + 2/*border.getBottomWidth()*/,
-        width  : 2/*border.getLeftWidth()*/ + this._list.getWidth() + 2/*border.getRightWidth()*/,
+        height : borderObj.getWidthTop() + this._list.getMinHeightValue() + borderObj.getWidthBottom(),
+        width  : borderObj.getWidthLeft() + this._list.getMinWidthValue() + borderObj.getWidthRight(),
         border : border,
         parent : vbox
       };
