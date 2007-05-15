@@ -258,11 +258,11 @@ qx.Class.define("qx.dev.StackTrace",
       if (fcn.$$original) {
         return fcn.classname + ":constructor wrapper";
       }
-      
+
       if (fcn.wrapper) {
         return fcn.wrapper.classname + ":constructor";
       }
-      
+
       if (fcn.classname) {
         return fcn.classname + ":constructor";
       }

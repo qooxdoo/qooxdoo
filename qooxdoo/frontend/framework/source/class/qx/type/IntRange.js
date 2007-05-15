@@ -28,8 +28,8 @@
  *  var i;
  *  while ((i = r.next())!=null) { alert(i) }; // yields 1,2,3,..,20
  *
- *  The constructor can take a negative step width, or start > stop, to create 
- *  decreasing ranges.For more information on the arguments, see the 
+ *  The constructor can take a negative step width, or start > stop, to create
+ *  decreasing ranges.For more information on the arguments, see the
  *  constructor.
  *</PRE>
  */
@@ -38,11 +38,11 @@ qx.Class.define("qx.type.IntRange",
   extend : qx.core.Object,
 
   /**
-   * @param start {Integer ? 0} 
-   *   inclusive start of range; can be bigger than stop to create decreasing 
+   * @param start {Integer ? 0}
+   *   inclusive start of range; can be bigger than stop to create decreasing
    *   ranges (default: 0)
    * @param stop  {Integer}     inclusive end of range
-   * @param step  {Integer ? 1} 
+   * @param step  {Integer ? 1}
    *   step width between data points; can be negative to create decreasing
    *   ranges (default: 1)
    */
@@ -102,14 +102,14 @@ qx.Class.define("qx.type.IntRange",
     return;
   },
 
-  
+
   members : {
 
     /**
      * Return the next number in the range, or null.
      *
      * @type member
-     * @return {Integer/Null} 
+     * @return {Integer/Null}
      */
     next: function () {
       var curr = this.curr;

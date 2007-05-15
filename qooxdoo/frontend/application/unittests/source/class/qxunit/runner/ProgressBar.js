@@ -85,19 +85,19 @@ qx.Class.define("qxunit.runner.ProgressBar",
   {
     status: {check: "Integer"},
 
-    label : 
+    label :
     {
       check: "String",
       apply: "_applyLabel"
     },
 
-    barWidth : 
+    barWidth :
     {
       check: "Integer",
       apply: "_applyBarWidth"
     },
 
-    showStepStatus : 
+    showStepStatus :
     {
       check: "Boolean",
       init : false,
@@ -111,7 +111,7 @@ qx.Class.define("qxunit.runner.ProgressBar",
       apply: "_applyStepStatus"
     },
 
-    showPcntStatus : 
+    showPcntStatus :
     {
       check: "Boolean",
       init : false,
@@ -155,7 +155,7 @@ qx.Class.define("qxunit.runner.ProgressBar",
     },
 
 
-    reset : function () 
+    reset : function ()
     {
       this.stepStatus.setText("");
       this.pcntStatus.setText("");
@@ -229,7 +229,7 @@ qx.Class.define("qxunit.runner.ProgressBar",
     _applyShowStepStatus : function(newStatus)
     {
       if (newStatus) {
-        this.stepStatus.setDisplay(true); 
+        this.stepStatus.setDisplay(true);
       } else {
         this.stepStatus.setDisplay(false);
       }
@@ -247,7 +247,7 @@ qx.Class.define("qxunit.runner.ProgressBar",
     _applyShowPcntStatus : function(newStatus)
     {
       if (newStatus) {
-        this.pcntStatus.setDisplay(true); 
+        this.pcntStatus.setDisplay(true);
       } else {
         this.pcntStatus.setDisplay(false);
       }

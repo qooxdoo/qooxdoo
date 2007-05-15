@@ -24,7 +24,7 @@
 qx.Theme.define("qx.theme.ext.Color",
 {
   title : "Ext",
-  
+
   extend : qx.theme.classic.color.Royale,
 
   colors :
@@ -101,17 +101,17 @@ qx.Theme.define("qx.theme.ext.Color",
     "table-header-cell-hover"           : [ 255, 255, 255 ],
     "table-focus-indicator"             : [ 179, 217, 255 ],
     "table-focus-indicator-active"      : [ 197, 200, 202 ],
-    
+
     "general-border"                    : [ 101, 147, 207 ],
-    
+
     "toolbar-background"                : [ 201, 222, 250 ],
     "toolbar-border"                    : [ 152, 192, 244 ],
-    
+
     "combo-box-button"                  : [ 226, 227, 232 ],
     "spinner-button"                    : [ 226, 227, 232 ],
-    
+
     "group-box-legend"                  : [ 101, 147, 207 ],
-    
+
     "splitpane-slider-dragging"         : [ 0, 60, 116 ]
-  }  
+  }
 });

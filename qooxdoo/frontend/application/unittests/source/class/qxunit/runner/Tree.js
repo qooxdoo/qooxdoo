@@ -46,20 +46,20 @@ qx.Class.define("qxunit.runner.Tree",
       if (this.parent == null)
       {
         return [];
-      } else 
+      } else
       {
         return this.parent.pwd().concat(this.parent.label);
       }
     },
 
 
-    hasChildren : function () 
+    hasChildren : function ()
     {
       return this.children.length;
     },
 
 
-    getChildren : function () 
+    getChildren : function ()
     {
       return this.children;
     },
@@ -96,7 +96,7 @@ qx.Class.define("qxunit.runner.Tree",
       var agenda     = [this];
       var depthfirst = style == "depth" ? 1 : 0;
 
-      function f () 
+      function f ()
       {
         var curr;
         if (agenda.length)
@@ -108,7 +108,7 @@ qx.Class.define("qxunit.runner.Tree",
             if (depthfirst)
             {
               agenda = children.concat(agenda);  // depth-first
-            } else 
+            } else
             {
               agenda = agenda.concat(children);  // breadth-first
             }

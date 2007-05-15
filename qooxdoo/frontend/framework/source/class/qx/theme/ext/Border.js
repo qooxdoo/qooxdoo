@@ -29,7 +29,7 @@
 qx.Theme.define("qx.theme.ext.Border",
 {
   title : "Ext",
-  
+
   extend : qx.theme.classic.Border,
 
   borders :
@@ -38,49 +38,49 @@ qx.Theme.define("qx.theme.ext.Border",
      {
        width      : 2,
        color      : "border-light",
-       innerColor : "border-light-shadow" 
+       innerColor : "border-light-shadow"
      },
-     
+
      "outset-thin-button" :
      {
        width : 1,
        color : "border-dark"
      },
-     
-     "tooltip" : 
+
+     "tooltip" :
      {
         width : 1,
         color : "tooltip-border"
      },
-     
-     "general" : 
+
+     "general" :
      {
        width :  1,
        color : "general-border"
      },
-     
+
      "toolbar" :
      {
         width : 1,
         color : "toolbar-border"
      },
-     
+
      "button-view-button" :
      {
         width : 1,
         color : "button-view-button-border"
      },
-     
+
      "tab-view-pane" :
      {
         width : 1,
         color : "tab-view-border"
      },
-     
+
      "list-view" :
      {
         width : 1,
         color : "list-view-border"
-     }     
+     }
   }
 });

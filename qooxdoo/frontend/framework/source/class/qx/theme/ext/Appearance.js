@@ -37,9 +37,9 @@
 qx.Theme.define("qx.theme.ext.Appearance",
 {
   extend : qx.theme.classic.Appearance,
-  
+
   title : "Ext",
-  
+
   appearances :
   {
     /*
@@ -55,7 +55,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
         }
       }
     },
-    
+
     "client-document" : {
       style : function(states) {
         return {
@@ -65,7 +65,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
         }
       }
     },
-    
+
     "tool-tip" :
     {
       include : "popup",
@@ -104,7 +104,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     "radio-button" : {
       include : "check-box"
     },
-    
+
     /*
     ---------------------------------------------------------------------------
       BUTTON
@@ -131,18 +131,18 @@ qx.Theme.define("qx.theme.ext.Appearance",
         else {
           var padding = [ 3, 4, 3, 4 ];
         }
-        
+
         return {
           backgroundImage : "widget/gradient/button_gradient.png",
-          
+
           backgroundColor : states.over ? "button-hover" : "button",
           border          : border,
           padding         : padding
         };
       }
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       TOOLBAR
@@ -174,7 +174,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
         };
       }
     },
-    
+
     "toolbar-separator-line" :
     {
       style : function(states)
@@ -182,7 +182,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
         var border = new qx.renderer.border.Border.fromConfig({
            left : [ 1, "solid", "general-border"]
         });
-         
+
         return {
           top    : 2,
           left   : 3,
@@ -205,7 +205,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
         {
           var border  = "undefined";
         }
-        
+
         if (states.pressed || states.checked || states.abandoned)
         {
           var padding = [ 3, 2, 1, 4 ];
@@ -218,16 +218,16 @@ qx.Theme.define("qx.theme.ext.Appearance",
         {
           var padding = [ 3, 4, 3, 4 ];
         }
-        
+
         return {
           border          : border,
           padding         : padding,
           backgroundColor : states.checked || states.pressed || states.over ? "effect" : "transparent"
         };
-      }      
+      }
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       BUTTON VIEW
@@ -339,9 +339,9 @@ qx.Theme.define("qx.theme.ext.Appearance",
         };
       }
     },
-    
-    
-    
+
+
+
     /*
     ---------------------------------------------------------------------------
       TABVIEW
@@ -378,7 +378,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
 
         marginTop    = 0;
         marginBottom = 0;
-        
+
         if (states.barTop) {
           var border_top_default = qx.renderer.border.Border.fromConfig({
              left  : [ 1, "solid", "tab-view-border"],
@@ -394,8 +394,8 @@ qx.Theme.define("qx.theme.ext.Appearance",
              left   : [ 1, "solid", "tab-view-border"]
           });
         };
-        
-        
+
+
         if (states.checked) {
           vReturn = {
             textColor       : "tab-view-text",
@@ -442,8 +442,8 @@ qx.Theme.define("qx.theme.ext.Appearance",
         return vReturn;
       }
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       RADIO VIEW
@@ -471,7 +471,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
         if (states.checked || states.over)
         {
           border = new qx.renderer.border.Border(1, "solid", "radio-view-border");
-          border.setLeftWidth(3);          
+          border.setLeftWidth(3);
           padding = [ 2, 6, 2, 4 ];
         }
         else
@@ -493,9 +493,9 @@ qx.Theme.define("qx.theme.ext.Appearance",
         };
       }
     },
-    
-    
-    
+
+
+
     /*
     ---------------------------------------------------------------------------
       WINDOW
@@ -522,7 +522,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
           padding               : [ 4, 2, 5, 2 ],
           verticalChildrenAlign : "middle",
           height                : 24,
-          
+
           backgroundColor       : states.active ? "window-active-caption" : "window-inactive-caption",
           textColor             : states.active ? "window-active-caption-text" : "window-inactive-caption-text"
         };
@@ -538,7 +538,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
         };
       }
     },
- 
+
     "window-captionbar-button" :
     {
       include : "button",
@@ -553,7 +553,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
         };
       }
     },
-    
+
     "window-captionbar-minimize-button" : {
       include : "window-captionbar-button",
 
@@ -588,7 +588,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
         }
       }
     },
-       
+
     "window-statusbar" :
     {
       style : function(states)
@@ -596,15 +596,15 @@ qx.Theme.define("qx.theme.ext.Appearance",
         var border = qx.renderer.border.Border.fromConfig({
            top : [ 1, "solid", "general-border" ]
         });
-        
+
         return {
           border : border
         };
       }
     },
-    
-    
-    
+
+
+
     /*
     ---------------------------------------------------------------------------
       COLOR POPUP
@@ -651,8 +651,8 @@ qx.Theme.define("qx.theme.ext.Appearance",
         };
       }
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       MENU
@@ -701,7 +701,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
         var border = qx.renderer.border.Border.fromConfig({
            top : [ 1, "solid", "general-border" ]
         });
-        
+
         return {
           right  : 0,
           left   : 0,
@@ -710,8 +710,8 @@ qx.Theme.define("qx.theme.ext.Appearance",
         };
       }
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       LIST
@@ -745,9 +745,9 @@ qx.Theme.define("qx.theme.ext.Appearance",
         };
       }
     },
-    
-    
-    
+
+
+
     /*
     ---------------------------------------------------------------------------
       FORM FIELDS
@@ -783,7 +783,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
            left   : [ 1, "solid", "general-border"],
            bottom : [ 1, "solid", "general-border"]
         });
-        
+
         return {
           border          : border,
           backgroundColor : "white"
@@ -818,7 +818,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
            bottom : [ 1, "solid", "general-border" ],
            right  : [ 1, "solid", "general-border" ]
         });
-        
+
         return {
           maxHeight    : 150,
           border       : border,
@@ -854,14 +854,14 @@ qx.Theme.define("qx.theme.ext.Appearance",
            left  : [ 1, "solid", "general-border" ],
            right : [ 1, "solid", "general-border" ]
         });
-       
+
         return {
           backgroundImage : null,
           backgroundColor : "combo-box-button",
           border          : border,
           padding         : [ 0, 3, 0, 2 ]
         }
-        
+
       }
     },
 
@@ -916,9 +916,9 @@ qx.Theme.define("qx.theme.ext.Appearance",
     "combo-box-ex-button" : {
       include : "combo-box-button"
     },
-    
-    
-    
+
+
+
     /*
     ---------------------------------------------------------------------------
       LISTVIEW
@@ -935,7 +935,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
         }
       }
     },
-    
+
     "list-view-header" :
     {
       style : function(states)
@@ -985,10 +985,10 @@ qx.Theme.define("qx.theme.ext.Appearance",
         };
       }
     },
-    
-    
-    
-    
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       GROUP BOX
@@ -1047,9 +1047,9 @@ qx.Theme.define("qx.theme.ext.Appearance",
     "radio-button-group-box-legend" : {
       include : "check-box-group-box-legend"
     },
-    
-    
-    
+
+
+
     /*
     ---------------------------------------------------------------------------
       SPINNER
@@ -1065,7 +1065,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
            left   : [ 1, "solid", "general-border" ],
            bottom : [ 1, "solid", "general-border" ]
         });
-        
+
         return {
           border          : border,
           backgroundColor : "white"
@@ -1082,7 +1082,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
            bottom : [ 1, "solid", "general-border" ],
            right  : [ 1, "solid", "general-border" ]
         });
-         
+
         return {
           height          : "1*",
           width           : "auto",
@@ -1108,7 +1108,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
            top   : [ 1, "solid", "general-border" ],
            right : [ 1, "solid", "general-border" ]
         });
-        
+
         return {
           paddingTop    : 3,
           paddingBottom : 0,
@@ -1116,8 +1116,8 @@ qx.Theme.define("qx.theme.ext.Appearance",
         };
       }
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       COLORSELECTOR
@@ -1133,8 +1133,8 @@ qx.Theme.define("qx.theme.ext.Appearance",
         };
       }
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       DATECHOOSER
@@ -1265,7 +1265,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
       style : function(states)
       {
         var border;
-        
+
         if (states.editing) {
           border = new qx.renderer.border.Border(2, "solid", "table-focus-indicator-active");
         } else if (states.tableHasFocus) {
@@ -1309,7 +1309,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
           verticalChildrenAlign : "middle",
           backgroundColor       : states.abandoned ? "button" : "transparent"
         };
-      } 
+      }
     },
 
     "table-header-cell" :
@@ -1391,7 +1391,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
         {
           result.top        = "45%";
           result.left       = null;
-          
+
           // center knob image (15x4 Pixel)
           result.marginLeft = 1;
           result.marginTop  = 0;
