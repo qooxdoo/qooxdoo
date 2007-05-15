@@ -566,7 +566,10 @@ qx.Theme.define("qx.theme.ext.Appearance",
       include : "window-captionbar-button",
 
       style : function(states) {
-        return { icon : states.active ? "widget/window/restore.gif" : "widget/window/restore_inactive.gif" }
+        return { 
+          marginLeft : 2,
+          icon : states.active ? "widget/window/restore.gif" : "widget/window/restore_inactive.gif"
+        }
       }
     },
 
@@ -574,7 +577,10 @@ qx.Theme.define("qx.theme.ext.Appearance",
       include : "window-captionbar-button",
 
       style : function(states) {
-        return { icon : states.active ? "widget/window/maximize.gif" : "widget/window/maximize_inactive.gif" }
+        return { 
+          marginLeft : 2,
+          icon : states.active ? "widget/window/maximize.gif" : "widget/window/maximize_inactive.gif"
+        }
       }
     },
 
@@ -859,7 +865,8 @@ qx.Theme.define("qx.theme.ext.Appearance",
           backgroundImage : null,
           backgroundColor : "combo-box-button",
           border          : border,
-          padding         : [ 0, 3, 0, 2 ]
+          padding         : [ 0, 3, 0, 2 ],
+          icon            : "widget/arrows/down.gif"
         }
 
       }
@@ -1094,7 +1101,14 @@ qx.Theme.define("qx.theme.ext.Appearance",
     },
 
     "spinner-button-up" : {
-      include : "spinner-button"
+      include : "spinner-button",
+      
+      style : function(states)
+      {
+         return {
+           source : "widget/arrows/up_small.gif"
+         }
+      }
     },
 
     "spinner-button-down" :
@@ -1112,7 +1126,8 @@ qx.Theme.define("qx.theme.ext.Appearance",
         return {
           paddingTop    : 3,
           paddingBottom : 0,
-          border        : border
+          border        : border,
+          source        : "widget/arrows/down_small.gif"
         };
       }
     },
