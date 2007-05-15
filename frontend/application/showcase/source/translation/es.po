@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo showcase\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-17 14:44+0200\n"
+"POT-Creation-Date: 2007-05-15 08:42+0200\n"
 "PO-Revision-Date: 2007-01-25 08:03+0100\n"
 "Last-Translator: Carsten Rammoser <carsten@rammoser.com>\n"
 "Language-Team: none\n"
@@ -13,139 +13,139 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: source/class/showcase/Application.js:1370
+#: source/class/showcase/Application.js:1359
 msgid "Choose a locale: "
 msgstr "Selecciona localisación:"
 
-#: source/class/showcase/Application.js:1401
+#: source/class/showcase/Application.js:1390
 msgid "A date: "
 msgstr "Una fecha:"
 
-#: source/class/showcase/Application.js:1434
+#: source/class/showcase/Application.js:1423
 msgid "Undo"
 msgstr "Deshacer"
 
-#: source/class/showcase/Application.js:1435
+#: source/class/showcase/Application.js:1424
 msgid "Redo"
 msgstr "Rehacer"
 
-#: source/class/showcase/Application.js:1437
+#: source/class/showcase/Application.js:1426
 msgid "Cut"
 msgstr "Cortar"
 
-#: source/class/showcase/Application.js:1438
+#: source/class/showcase/Application.js:1427
 msgid "Copy"
 msgstr "Copiar"
 
-#: source/class/showcase/Application.js:1439
+#: source/class/showcase/Application.js:1428
 msgid "Paste"
 msgstr "Pegar"
 
-#: source/class/showcase/Application.js:1440
+#: source/class/showcase/Application.js:1429
 msgid "Delete"
 msgstr "Borrar"
 
-#: source/class/showcase/Application.js:1441
+#: source/class/showcase/Application.js:1430
 msgid "Select All"
 msgstr "Seleccionar todo"
 
-#: source/class/showcase/Application.js:1443
+#: source/class/showcase/Application.js:1432
 msgid "Search"
 msgstr "Búsqueda"
 
-#: source/class/showcase/Application.js:1444
+#: source/class/showcase/Application.js:1433
 msgid "Search Again"
 msgstr "Buscar otra vez"
 
-#: source/class/showcase/Application.js:1447
+#: source/class/showcase/Application.js:1436
 msgid "Command Menu (keyboard shortcuts)"
 msgstr "Menú de comando (claves del teclado)"
 
-#: source/class/showcase/Application.js:1472
+#: source/class/showcase/Application.js:1461
 #, fuzzy
 msgid "Open Color Popup"
 msgstr "Abrir ventana de color"
 
-#: source/class/showcase/Application.js:1487
+#: source/class/showcase/Application.js:1476
 msgid "Basic Colors"
 msgstr "Colores básicos"
 
-#: source/class/showcase/Application.js:1494
+#: source/class/showcase/Application.js:1483
 #, fuzzy
 msgid "Template Colors"
 msgstr "Colores de fondo"
 
-#: source/class/showcase/Application.js:1500
+#: source/class/showcase/Application.js:1489
 msgid "Recent Colors"
 msgstr "Últimos colores"
 
-#: source/class/showcase/Application.js:1524
+#: source/class/showcase/Application.js:1513
 msgid "Locale information"
 msgstr "Información de la localisación"
 
-#: source/class/showcase/Application.js:1558
+#: source/class/showcase/Application.js:1547
 msgid "Locale:"
 msgstr "Localisación:"
 
-#: source/class/showcase/Application.js:1561
+#: source/class/showcase/Application.js:1550
 msgid "Territory code:"
 msgstr "Código regional:"
 
-#: source/class/showcase/Application.js:1564
+#: source/class/showcase/Application.js:1553
 #, fuzzy
 msgid "Date format short:"
 msgstr "Formato de hora corto:"
 
-#: source/class/showcase/Application.js:1566
+#: source/class/showcase/Application.js:1555
 #, fuzzy
 msgid "Date short:"
 msgstr "Hora corto:"
 
-#: source/class/showcase/Application.js:1569
+#: source/class/showcase/Application.js:1558
 msgid "Date format medium:"
 msgstr "Formato de fecha mediano:"
 
-#: source/class/showcase/Application.js:1571
+#: source/class/showcase/Application.js:1560
 msgid "Date medium:"
 msgstr "Fecha mediano:"
 
-#: source/class/showcase/Application.js:1574
+#: source/class/showcase/Application.js:1563
 msgid "Date format long:"
 msgstr "Formato de fecha largo:"
 
-#: source/class/showcase/Application.js:1576
+#: source/class/showcase/Application.js:1565
 msgid "Date long:"
 msgstr "Fecha largo:"
 
-#: source/class/showcase/Application.js:1579
+#: source/class/showcase/Application.js:1568
 msgid "Date format full:"
 msgstr "Formato de fecha completo:"
 
-#: source/class/showcase/Application.js:1581
+#: source/class/showcase/Application.js:1570
 msgid "Date full:"
 msgstr "Fecha completo:"
 
-#: source/class/showcase/Application.js:1584
+#: source/class/showcase/Application.js:1573
 msgid "Time format short:"
 msgstr "Formato de hora corto:"
 
-#: source/class/showcase/Application.js:1586
+#: source/class/showcase/Application.js:1575
 msgid "Time short:"
 msgstr "Hora corto:"
 
-#: source/class/showcase/Application.js:1589
+#: source/class/showcase/Application.js:1578
 msgid "Time format long:"
 msgstr "Formato de hora largo:"
 
-#: source/class/showcase/Application.js:1591
+#: source/class/showcase/Application.js:1580
 msgid "Time long:"
 msgstr "Hora largo:"
 
-#: source/class/showcase/Application.js:1594
+#: source/class/showcase/Application.js:1583
 msgid "Week start:"
 msgstr "Inicio de semana:"
 
-#: source/class/showcase/Application.js:1597
+#: source/class/showcase/Application.js:1586
 #, fuzzy
 msgid "Format of %1:"
 msgstr "Formato de %1:"
