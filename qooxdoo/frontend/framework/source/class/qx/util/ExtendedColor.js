@@ -208,6 +208,18 @@ qx.Class.define("qx.util.ExtendedColor",
       }
 
       throw new Error("Could not convert other than extended colors to RGB: " + value);
+    },
+
+    /**
+     * Converts an extended color to a CSS RGB string
+     *
+     * @param value {String} The incoming string
+     * @return {String} the resulting RGB string
+     */
+    toRgbString : function(value)
+    {
+      return qx.util.ColorUtil.rgbToRgbString(this.toRgb(value));
     }
+
   }
 });
