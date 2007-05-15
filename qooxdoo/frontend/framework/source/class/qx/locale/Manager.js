@@ -148,7 +148,8 @@ qx.Class.define("qx.locale.Manager",
     {
       check : "String",
       nullable : true,
-      apply : "_modifyLocale"
+      apply : "_modifyLocale",
+      event : "changeLocale"
     }
   },
 
