@@ -33,14 +33,6 @@ qx.Class.define("qx.ui.table.AbstractTableModel",
   extend : qx.ui.table.TableModel,
 
 
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   construct : function()
   {
     this.base(arguments);
@@ -50,14 +42,6 @@ qx.Class.define("qx.ui.table.AbstractTableModel",
     this._columnIndexMap = {};
   },
 
-
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
 
   members :
   {
@@ -216,14 +200,6 @@ qx.Class.define("qx.ui.table.AbstractTableModel",
     }
   },
 
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
 
   destruct : function() {
     this._disposeFields("_columnIdArr", "_columnNameArr", "_columnIndexMap");
