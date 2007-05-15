@@ -30,18 +30,18 @@ qx.Class.define("qxunit.runner.BasicRunner", {
 
     var testResult = new (iframe.getContentWindow().qxunit.TestResult)();
     testResult.addEventListener("startTest", function(e) {
-    	var test = e.getData();
-    	this.debug("Test '"+test.getFullName()+"' started.");
+      var test = e.getData();
+      this.debug("Test '"+test.getFullName()+"' started.");
     });
     testResult.addEventListener("failure", function(e) {
-    	var ex = e.getData().exception;
-    	var test = e.getData().test;
-    	this.error("Test '"+test.getFullName()+"' failed: " +  ex.getMessage() + " - " + ex.getComment());
-    	//this.error(ex.getStackTrace());
+      var ex = e.getData().exception;
+      var test = e.getData().test;
+      this.error("Test '"+test.getFullName()+"' failed: " +  ex.getMessage() + " - " + ex.getComment());
+      //this.error(ex.getStackTrace());
     });
     testResult.addEventListener("error", function(e) {
-    	var ex = e.getData().exception
-    	this.error("The test '"+e.getData().test.getFullName()+"' had an error: " + ex, ex);
+      var ex = e.getData().exception
+      this.error("The test '"+e.getData().test.getFullName()+"' had an error: " + ex, ex);
     });
 
       this.debug(testLoader.getTestDescriptions());

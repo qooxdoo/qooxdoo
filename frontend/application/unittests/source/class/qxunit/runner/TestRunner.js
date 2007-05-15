@@ -118,9 +118,9 @@ qx.Class.define("qxunit.runner.TestRunner",
 
     // add eventhandler now, after objects are created
     this.widgets["treeview"].getBar().getManager().addEventListener("changeSelected",
-      function (e) 
+      function (e)
       {
-        if (e.getData().tree.getSelectedElement() == null) 
+        if (e.getData().tree.getSelectedElement() == null)
         {
           this.widgets["toolbar.runbutton"].setEnabled(false);
         }
@@ -180,30 +180,30 @@ qx.Class.define("qxunit.runner.TestRunner",
     //   CONSTRUCTOR HELPERS
     // ------------------------------------------------------------------------
 
-    
-        /**                                                                                    
-     * Create the header widget                                                            
-     *                                                                                     
-     * @return {qx.ui.embed.HtmlEmbed} The header widget                                   
-     */                                                                                    
-    __makeHeader : function()                                                            
-    {                                                                                      
-      var header = new qx.ui.embed.HtmlEmbed(                                              
-        "<h1>" +                                                                           
-        "<span>" + "qooxdoo Test Runner" + "</span>" +                    
-        "</h1>" +                                                                          
-        "<div class='version'>qooxdoo " + qx.core.Version.toString() + "</div>"            
-      );                                                                                   
-      header.setHtmlProperty("id", "header");                                              
-      header.setStyleProperty(                                                             
-        "background",                                                                      
-        "#134275 url(" +                                                                   
-        qx.manager.object.AliasManager.getInstance().resolvePath("qxunit/image/colorstrip.gif") +                                                                                        
-        ") top left repeat-x"                                                              
-      );                                                                                   
-      header.setHeight(70);                                                                
-      return header;                                                                       
-    },                                                                                     
+
+        /**
+     * Create the header widget
+     *
+     * @return {qx.ui.embed.HtmlEmbed} The header widget
+     */
+    __makeHeader : function()
+    {
+      var header = new qx.ui.embed.HtmlEmbed(
+        "<h1>" +
+        "<span>" + "qooxdoo Test Runner" + "</span>" +
+        "</h1>" +
+        "<div class='version'>qooxdoo " + qx.core.Version.toString() + "</div>"
+      );
+      header.setHtmlProperty("id", "header");
+      header.setStyleProperty(
+        "background",
+        "#134275 url(" +
+        qx.manager.object.AliasManager.getInstance().resolvePath("qxunit/image/colorstrip.gif") +
+        ") top left repeat-x"
+      );
+      header.setHeight(70);
+      return header;
+    },
 
 
     __makeToolbar : function () {
@@ -248,12 +248,12 @@ qx.Class.define("qxunit.runner.TestRunner",
       part.add(this.reloadswitch);
       this.reloadswitch.setShow("both");
       this.reloadswitch.setToolTip(new qx.ui.popup.ToolTip("Always reload test backend before testing"));
-      this.reloadswitch.addEventListener("changeChecked",function (e) 
+      this.reloadswitch.addEventListener("changeChecked",function (e)
       {
         if (this.reloadswitch.getChecked())
         {
           this.reloadswitch.setIcon("resource/image/yellow_diamond_full18.gif");
-        } else 
+        } else
         {
           this.reloadswitch.setIcon("resource/image/yellow_diamond_hollow18.gif");
         }
@@ -433,7 +433,7 @@ qx.Class.define("qxunit.runner.TestRunner",
         if (sel.getLabel() == "Full Tree")
         {
           elem = that.widgets["treeview.full"].getSelectedElement();
-        } else 
+        } else
         {
           elem = that.widgets["treeview.flat"].getSelectedElement();
         }
@@ -554,15 +554,15 @@ qx.Class.define("qxunit.runner.TestRunner",
       {
         if (modelNode.widgetLinkFlat){
           this.widgets["treeview.flat"].setSelectedElement(modelNode.widgetLinkFlat);
-          if (modelNode.widgetLinkFlat instanceof qx.ui.tree.TreeFolder) 
+          if (modelNode.widgetLinkFlat instanceof qx.ui.tree.TreeFolder)
           {
             modelNode.widgetLinkFlat.open();
           }
         }
-      } else 
+      } else
       {
         this.widgets["treeview.full"].setSelectedElement(modelNode.widgetLinkFull);
-        if (modelNode.widgetLinkFull instanceof qx.ui.tree.TreeFolder) 
+        if (modelNode.widgetLinkFull instanceof qx.ui.tree.TreeFolder)
         {
           modelNode.widgetLinkFull.open();
         }
@@ -681,7 +681,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       ttree.widgetLinkFull = fulltree;
       ttree.widgetLinkFlat = flattree;
 
-      var selectedElement = null; // if selection exists will be set by 
+      var selectedElement = null; // if selection exists will be set by
                                   // buildSubTree* functions to a model node
       // Build the widget trees
       buildSubTree(this.widgets["treeview.full"],ttree);
@@ -705,12 +705,12 @@ qx.Class.define("qxunit.runner.TestRunner",
         }
         // open if folder
         /* -- not working!
-        if (selectedElement.widgetLinkFull instanceof qx.ui.tree.TreeFolder) 
+        if (selectedElement.widgetLinkFull instanceof qx.ui.tree.TreeFolder)
         {
           selectedElement.widgetLinkFull.open();
         }
-        if (selectedElement.widgetLinkFlat && 
-            selectedElement.widgetLinkFlat instanceof qx.ui.tree.TreeFolder) 
+        if (selectedElement.widgetLinkFlat &&
+            selectedElement.widgetLinkFlat instanceof qx.ui.tree.TreeFolder)
         {
         }
         */
@@ -823,7 +823,7 @@ qx.Class.define("qxunit.runner.TestRunner",
       tree.setEnabled(true);
       if (selectedElement) { // try to re-select previously selected element
         this.tree.setSelectedElement(selectedElement);
-        if (selectedElement instanceof qx.ui.tree.TreeFolder) 
+        if (selectedElement instanceof qx.ui.tree.TreeFolder)
         {
           selectedElement.open();
         }
@@ -972,10 +972,10 @@ qx.Class.define("qxunit.runner.TestRunner",
       var widgetNode = this.tree.getSelectedElement();
       if (widgetNode) {
         var modelNode  = widgetNode.modelLink;
-      } else 
+      } else
       {
         /*
-        //if (e.getTarget().getSelectedItems.length() == 0) 
+        //if (e.getTarget().getSelectedItems.length() == 0)
         if (! this.widgets["treeview.full"].isSelected())
         {
           alert("There is no selection!");
