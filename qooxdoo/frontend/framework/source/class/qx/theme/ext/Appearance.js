@@ -23,11 +23,27 @@
 #ignore(auto-use)
 #embed(qx.static/image/dotted_white.gif)
 #embed(qx.static/image/blank.gif)
-#embed(qx.widget/gradient/barbutton_gradient.png)
-#embed(qx.widget/gradient/button_gradient.png)
-#embed(qx.widget/gradient/tabbutton_gradient.png)
-#embed(qx.widget/gradient/tabbutton_reverse_gradient.png)
-#embed(qx.widget/gradient/toolbar_gradient.png)
+
+# Window
+#embed(qx.widgettheme/window/*)
+
+# ComboBox, ComboBoxEx
+#embed(qx.widgettheme/arrows/down.gif)
+
+# Spinner
+#embed(qx.widgettheme/arrows/up_small.gif)
+#embed(qx.widgettheme/arrows/down_small.gif)
+
+# ListView (HeaderCell)
+#embed(qx.widgettheme/arrows/up.gif)
+#embed(qx.widgettheme/arrows/down.gif)
+
+# Menu
+#embed(qx.widgettheme/menu/radiobutton.gif)
+#embed(qx.widgettheme/menu/checkbox.gif)
+#embed(qx.widgettheme/arrows/next.gif)
+
+#embed(qx.widgettheme/gradient/*)
 
 ************************************************************************* */
 
