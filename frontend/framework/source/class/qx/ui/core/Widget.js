@@ -7194,6 +7194,6 @@ qx.Class.define("qx.ui.core.Widget",
     this._disposeFields("_isCreated", "_inlineEvents", "_element", "_style",
       "_borderElement", "_innerStyle", "_oldParent", "_styleProperties",
       "_htmlProperties", "_htmlAttributes", "__states", "_jobQueue",
-      "_layoutChanges");
+      "_layoutChanges", "__borderObject");
   }
 });

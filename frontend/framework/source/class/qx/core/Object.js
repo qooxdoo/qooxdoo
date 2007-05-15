@@ -429,6 +429,22 @@ qx.Class.define("qx.core.Object",
         // Jump up to next super class
         clazz = clazz.superclass;
       }
+
+      // Additional checks
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (qx.core.Setting.get("qx.disposerDebugLevel") > 0)
+        {
+          for (var vKey in this)
+          {
+            if (this[vKey] !== null && typeof this[vKey] === "object" && this.constructor.prototype[vKey] === undefined)
+            {
+              console.warn("Missing destruct definition for '" + vKey + "' in " + this.classname + "[" + this.toHashCode() + "]");
+              delete this[vKey];
+            }
+          }
+        }
+      }
     },
 
 
@@ -700,9 +716,6 @@ qx.Class.define("qx.core.Object",
 
   destruct : function()
   {
-    // Cleanup user data
-    this._disposeObjectDeep("_userData", 1);
-
     // Cleanup properties
     var clazz = this.constructor;
     var properties;
@@ -736,27 +749,6 @@ qx.Class.define("qx.core.Object",
         qx.core.Object.__db[this.__dbKey] = null;
       } else {
         delete qx.core.Object.__db[this.__dbKey];
-      }
-    }
-
-    // Additional checks
-    if (qx.core.Variant.isSet("qx.debug", "on"))
-    {
-      if (qx.core.Setting.get("qx.disposerDebugLevel") > 0)
-      {
-        for (var vKey in this)
-        {
-          if (this[vKey] !== null && typeof this[vKey] === "object" && this.constructor.prototype[vKey] === undefined)
-          {
-            var detail = "";
-            if (this.getAppearance) {
-              detail = " (" + this.getAppearance() + ")";
-            }
-
-            console.warn("Missing destruct definition for '" + vKey + "' in " + this.classname + "[" + this.toHashCode() + "]" + detail);
-            delete this[vKey];
-          }
-        }
       }
     }
   }

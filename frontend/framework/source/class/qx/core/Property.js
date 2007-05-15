@@ -180,7 +180,9 @@ qx.Class.define("qx.core.Property",
       "Class"     : true,
       "Mixin"     : true,
       "Interface" : true,
-      "Theme"     : true
+      "Theme"     : true,
+      "Border"    : true,
+      "Font"      : true
     },
 
 
@@ -239,6 +241,7 @@ qx.Class.define("qx.core.Property",
     $$allowedKeys :
     {
       name        : "string",   // String
+      dispose     : "boolean",  // Boolean
       inheritable : "boolean",  // Boolean
       nullable    : "boolean",  // Boolean
       themeable   : "boolean",  // Boolean

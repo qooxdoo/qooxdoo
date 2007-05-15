@@ -44,6 +44,7 @@ qx.Class.define("qx.ui.embed.TextEmbed",
     if (vText != null) {
       this.setText(vText);
     }
+
     this.initWrap();
   },
 

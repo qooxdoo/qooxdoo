@@ -196,7 +196,8 @@ qx.Class.define("qx.ui.basic.Atom",
     label :
     {
       apply : "_modifyLabel",
-      nullable : true
+      nullable : true,
+      dispose : true
     },
 
 

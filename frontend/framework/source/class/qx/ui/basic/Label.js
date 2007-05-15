@@ -178,6 +178,7 @@ qx.Class.define("qx.ui.basic.Label",
     {
       apply : "_applyText",
       init : "",
+      dispose : true,
       event : "changeText"
     },
 
