@@ -229,7 +229,7 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
     /** The current position of the the horizontal scroll bar. */
     scrollX :
     {
-      check : "Integer",
+      check : "Number",
       init : 0,
       apply : "_modifyScrollX",
       event : "changeScrollX"
@@ -238,7 +238,7 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
     /** The current position of the the vertical scroll bar. */
     scrollY :
     {
-      check : "Integer",
+      check : "Number",
       init : 0,
       apply : "_modifyScrollY",
       event : "changeScrollY"
