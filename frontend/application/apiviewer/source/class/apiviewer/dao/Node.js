@@ -207,8 +207,8 @@ qx.Class.define("apiviewer.dao.Node", {
       return true;
     }
   },
-  
-  
+
+
   /*
   *****************************************************************************
      DESTRUCTOR
