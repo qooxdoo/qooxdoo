@@ -39,14 +39,14 @@ qx.Theme.define("qx.theme.ext.Border",
        width : 1,
        color : "border-light"
      },
-     
+
      "outset" :
      {
        width : 2,
        color : "border-light",
        innerColor : "border-light"
      },
-     
+
      "inset-button" :
      {
        width      : 2,
