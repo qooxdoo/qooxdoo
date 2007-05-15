@@ -38,6 +38,9 @@ APPLICATION_RESOURCE_FILTER = true
 APPLICATION_LINEBREAKS_BUILD = true
 APPLICATION_LINEBREAKS_SOURCE = true
 
+APPLICATION_COMPLETE_BUILD = false
+APPLICATION_COMPLETE_SOURCE = false
+
 ####################################################################################
 # INCLUDE CORE
 ####################################################################################
