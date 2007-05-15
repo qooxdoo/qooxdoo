@@ -74,7 +74,8 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
     {
       check :"Boolean",
       init : false,
-      apply : "_modifyChecked"
+      apply : "_modifyChecked",
+      event : "changeChecked"
     },
 
 
