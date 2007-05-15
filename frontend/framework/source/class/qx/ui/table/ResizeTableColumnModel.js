@@ -414,9 +414,9 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
   {
     "qx.tableResizeDebug" : false
   },
-  
 
-  
+
+
  /*
   *****************************************************************************
      DESTRUCTOR
