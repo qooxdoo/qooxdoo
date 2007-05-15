@@ -144,7 +144,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
      */
     value :
     {
-      check : "Integer",
+      check : "Number",
       init : 0,
       apply : "_modifyValue",
       event : "changeValue",
