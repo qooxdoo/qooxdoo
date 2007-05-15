@@ -30,7 +30,7 @@
         setTop(48);
         setLeft(20);
         setRight(335);
-        
+
         // setWidth("auto");
       };
 
@@ -56,14 +56,14 @@
       function changeLayout(e) {
         this.setShow(e.getData());
       };
-      
+
       function changeSize(e) {
         var v = e.getData();
         var o = v == 22 ? 32 : 22;
-        
+
         this.setIcon(this.getIcon().replace(o, v));
-      };      
-      
+      };
+
       function buttonExecute() { this.debug("Executed: " + this.getLabel()); };
 
       var useParts = true;
@@ -94,7 +94,7 @@
 
               d.addEventListener("changeLayout", changeLayout, o);
               d.addEventListener("changeSize", changeSize, o);
-              
+
               o.addEventListener("execute", buttonExecute);
               break;
           };
@@ -229,20 +229,20 @@
       });
 
       d.add(b3, b4);
-      
-      
-      
-      
+
+
+
+
 
       // Icon & Color Themes
       qx.util.ThemeList.createIconButtons(d, 20, 248);
-      qx.util.ThemeList.createColorButtons(d, 220, 248);
-       
+      qx.util.ThemeList.createMetaButtons(d, 220, 248);
 
-     
+
+
       /*
       Test for cloning support
-      
+
       tb2 = tb.clone(true);
       tb2.setTop(400);
       */
