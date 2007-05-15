@@ -1385,7 +1385,7 @@ qx.Class.define("qx.ui.component.ColorSelector",
     setPreviousColor : function(vRed, vGreen, vBlue)
     {
       this._oldColorPreview.setBackgroundImage(null);
-      this._oldColorPreview.setBackgroundColor([ vRed, vGreen, vBlue ]);
+      this._oldColorPreview.setBackgroundColor(qx.util.ColorUtil.rgbToRgbString([ vRed, vGreen, vBlue ]));
 
       this.setRed(vRed);
       this.setGreen(vGreen);
