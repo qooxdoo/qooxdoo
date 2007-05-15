@@ -32,7 +32,6 @@
  * qx.ui.treefullcontrol.TreeFolder objects are tree rows which may contain
  * sub-trees
  *
- * @appearance tree-folder-container
  * @appearance tree-folder {qx.ui.layout.HorizontalBoxLayout}
  * @appearance tree-folder-icon {qx.ui.basic.Image}
  * @appearance tree-folder-label {qx.ui.basic.Label}
@@ -257,7 +256,11 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
      */
     _createChildrenStructure : function()
     {
-      this.setAppearance(this instanceof qx.ui.treefullcontrol.Tree ? "tree-container" : "tree-folder-container");
+      if (!(this instanceof qx.ui.treefullcontrol.Tree)) {
+        this.setHeight("auto");
+      }
+
+      this.setVerticalChildrenAlign("top");
 
       if (!this._horizontalLayout)
       {
