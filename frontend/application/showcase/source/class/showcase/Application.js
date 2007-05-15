@@ -2202,80 +2202,14 @@ qx.Class.define("showcase.Application",
       // win.set({ width:"auto", height:"auto" });
       doc.add(win);
 
-      var vert = new qx.ui.layout.VerticalBoxLayout;
-
-      vert.set(
-      {
-        width   : "auto",
-        height  : "auto",
-        spacing : 5,
-        left    : 0,
-        top     : 0,
-        right   : 0,
-        bottom  : 0
-      });
-
-      vert.setPadding(10);
-      win.add(vert);
+      win.getPane().setPadding(20);
 
       var info = new qx.ui.basic.Atom("Click on one of the buttons and then view the " + "other tabs to see the changes", "icon/32/actions/system-run.png");
-
-      // info.set({ border:"inset", backgroundColor:"white" });
-      info.setPadding(5);
-      vert.add(info);
-
-      var hor = new qx.ui.layout.HorizontalBoxLayout;
-
-      hor.set(
-      {
-        width   : "auto",
-        height  : "auto",
-        spacing : 5
-      });
-
-      vert.add(hor);
-
-      var can = new qx.ui.layout.CanvasLayout;
-
-      can.set(
-      {
-        width  : "auto",
-        height : "auto"
-      });
-
-      hor.add(can);
-      qx.util.ThemeList.createIconButtons(can, 0, 0);
-
-      var can = new qx.ui.layout.CanvasLayout;
-
-      can.set(
-      {
-        width  : "auto",
-        height : "auto"
-      });
-
-      hor.add(can);
-      qx.util.ThemeList.createColorButtons(can, 0, 0);
-
-      var vbl = new qx.ui.layout.VerticalBoxLayout;
-
-      vbl.set(
-      {
-        width  : "auto",
-        height : "auto"
-      });
-
-      var nativeWindow = new qx.client.NativeWindow;
-      var url = window.location.protocol + "//" + window.location.host + window.location.pathname + "?theme=ext" + window.location.hash;
-      nativeWindow.set({
-        width        : 1000,
-        height       : 800,
-        showLocation : true,
-        url          : url
-      });
+      info.setLocation(0, 0);
+      win.add(info);
 
       // output meta theme list
-      qx.util.ThemeList.createMetaButtons(can, 250, 0);
+      qx.util.ThemeList.createMetaButtons(win.getPane(), 20, 50);
 
       // Put the window in lower right corner
       win.set(
@@ -2297,12 +2231,8 @@ qx.Class.define("showcase.Application",
 
       var openThemeWinBt = new qx.ui.form.Button("Open theming window", "icon/16/actions/edit-find.png");
 
-      openThemeWinBt.addEventListener("execute", function(e)
-      {
+      openThemeWinBt.addEventListener("execute", function(e) {
         win.open();
-
-        win.setRight(15);
-        win.setBottom(15);
       });
 
       main.add(openThemeWinBt);
