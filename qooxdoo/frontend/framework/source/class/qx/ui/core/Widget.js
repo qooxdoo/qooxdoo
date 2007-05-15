@@ -5136,11 +5136,11 @@ qx.Class.define("qx.ui.core.Widget",
         var vOldAppearanceProperties = vAppearanceManager.styleFromTheme(vOldAppearanceTheme, vAppearance, this.__states);
         var vNewAppearanceProperties = vAppearanceManager.styleFromTheme(vNewAppearanceTheme, vAppearance, this.__states);
 
-        var vUnstyleList = {};
-        for (var vProp in vOldAppearanceProperties)
+        var vUnstyleList = [];
+        for (var prop in vOldAppearanceProperties)
         {
-          if (!(vProp in vNewAppearanceProperties)) {
-            vUnstyleList.push(vProp);
+          if (vNewAppearanceProperties[prop] === undefined) {
+            vUnstyleList.push(prop);
           }
         }
 
@@ -5240,10 +5240,10 @@ qx.Class.define("qx.ui.core.Widget",
         var vOldAppearanceProperties = vAppearanceManager.styleFrom(old, this.__states) || {};
 
         var vUnstyleList = [];
-        for (var vProp in vOldAppearanceProperties)
+        for (var prop in vOldAppearanceProperties)
         {
-          if (!vNewAppearanceProperties || !(vProp in vNewAppearanceProperties)) {
-            vUnstyleList.push(vProp);
+          if (!vNewAppearanceProperties || !(prop in vNewAppearanceProperties)) {
+            vUnstyleList.push(prop);
           }
         }
       }

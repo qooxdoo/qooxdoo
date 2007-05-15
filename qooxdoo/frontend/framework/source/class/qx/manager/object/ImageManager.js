@@ -105,8 +105,11 @@ qx.Class.define("qx.manager.object.ImageManager",
      * @type member
      * @return {void}
      */
-    _onaliaschange : function() {
-      this._updateImages();
+    _onaliaschange : function()
+    {
+      if (qx.manager.object.ThemeManager.getInstance().getAutoSync()) {
+        this.syncThemes();
+      }
     },
 
 
@@ -118,13 +121,26 @@ qx.Class.define("qx.manager.object.ImageManager",
     ---------------------------------------------------------------------------
     */
 
-    _applyIconTheme : function(propValue, propOldValue, propData) {
-      propValue ? qx.manager.object.AliasManager.getInstance().add("icon", propValue.icons.uri) : qx.manager.object.AliasManager.getInstance().remove("icon");
+    _applyIconTheme : function(value, old)
+    {
+      var value = this.getIconTheme();
+      var alias = qx.manager.object.AliasManager.getInstance();
+
+      value ? alias.add("icon", value.icons.uri) : alias.remove("icon");
     },
 
-    _applyWidgetTheme : function(propValue, propOldValue, propData) {
-      propValue ? qx.manager.object.AliasManager.getInstance().add("widget", propValue.widgets.uri) : qx.manager.object.AliasManager.getInstance().remove("widget");
+
+    _applyWidgetTheme : function(value, old)
+    {
+      var value = this.getWidgetTheme();
+      var alias = qx.manager.object.AliasManager.getInstance();
+
+      value ? alias.add("widget", value.widgets.uri) : alias.remove("widget");
     },
+
+
+
+
 
 
 
@@ -191,7 +207,7 @@ qx.Class.define("qx.manager.object.ImageManager",
      * @type member
      * @return {boolean} TODOC
      */
-    _updateImages : function()
+    syncThemes : function()
     {
       var vAll = this.getAll();
       var vPreMgr = qx.manager.object.ImagePreloaderManager.getInstance();
