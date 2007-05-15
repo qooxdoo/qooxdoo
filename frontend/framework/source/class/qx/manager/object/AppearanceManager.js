@@ -37,6 +37,24 @@ qx.Class.define("qx.manager.object.AppearanceManager",
 
   /*
   *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function()
+  {
+    this.base(arguments);
+
+    this.__cache = {};
+    this.__stateMap = {};
+    this.__stateMapLength = 1;
+  },
+
+
+
+
+  /*
+  *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
@@ -64,26 +82,45 @@ qx.Class.define("qx.manager.object.AppearanceManager",
 
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      APPLY ROUTINES
-    ---------------------------------------------------------------------------
-    */
-
-    _applyAppearanceTheme : function(propValue, propOldValue, propData)
+    _applyAppearanceTheme : function(value, old)
     {
-      var vComp = qx.core.Init.getInstance().getApplication();
+      this._currentTheme = value;
+      this._oldTheme = old;
 
-      if (vComp && vComp.getUiReady()) {
-        qx.ui.core.ClientDocument.getInstance()._recursiveAppearanceThemeUpdate(propValue, propOldValue);
+      if (qx.manager.object.ThemeManager.getInstance().getAutoSync()) {
+        this.syncAppearanceTheme();
+      }
+    },
+
+
+    /**
+     * Sync dependend objects with internal database
+     *
+     * @type member
+     * @return {void}
+     */
+    syncAppearanceTheme : function()
+    {
+      if (!this._currentTheme && !this._oldTheme) {
+        return;
       }
 
-      // Reset cache
-      if (propValue) {
-        this.__cache = {};
+      if (this._currentTheme) {
+        this.__cache[this._currentTheme.name] = {};
       }
 
-      return true;
+      var app = qx.core.Init.getInstance().getApplication();
+
+      if (app && app.getUiReady()) {
+        qx.ui.core.ClientDocument.getInstance()._recursiveAppearanceThemeUpdate(this._currentTheme, this._oldTheme);
+      }
+
+      if (this._oldTheme) {
+        delete this.__cache[this._oldTheme.name];
+      }
+
+      delete this._currentTheme;
+      delete this._oldTheme;
     },
 
 
@@ -94,11 +131,6 @@ qx.Class.define("qx.manager.object.AppearanceManager",
       THEME HELPER
     ---------------------------------------------------------------------------
     */
-
-    __cache : {},
-    __stateMap : {},
-    __stateMapLength : 1,
-
 
     /**
      * Get the result of the "initial" function for a given id
@@ -165,7 +197,7 @@ qx.Class.define("qx.manager.object.AppearanceManager",
       var unique = helper.join();
 
       // Using cache if available
-      var cache = this.__cache;
+      var cache = this.__cache[theme.name];
       if (cache[unique] !== undefined) {
         return cache[unique];
       }
@@ -219,6 +251,6 @@ qx.Class.define("qx.manager.object.AppearanceManager",
   */
 
   destruct : function() {
-    this._disposeFields("__cache");
+    this._disposeFields("__cache", "__stateMap");
   }
 });

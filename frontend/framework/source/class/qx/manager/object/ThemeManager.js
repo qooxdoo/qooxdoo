@@ -48,6 +48,13 @@ qx.Class.define("qx.manager.object.ThemeManager",
       check : "Theme",
       nullable : true,
       apply : "_applyTheme"
+    },
+
+    autoSync :
+    {
+      check : "Boolean",
+      init : true,
+      apply : "_applyAutoSync"
     }
   },
 
@@ -81,13 +88,41 @@ qx.Class.define("qx.manager.object.ThemeManager",
         appearance = value.meta.appearance || null;
       }
 
-      qx.manager.object.ColorManager.getInstance().setColorTheme(color);
-      qx.manager.object.BorderManager.getInstance().setBorderTheme(border);
-      qx.manager.object.FontManager.getInstance().setFontTheme(font);
-      qx.manager.object.ImageManager.getInstance().setWidgetTheme(widget);
-      qx.manager.object.ImageManager.getInstance().setIconTheme(icon);
-      qx.manager.object.AppearanceManager.getInstance().setAppearanceTheme(appearance);
+      if (old) {
+        this.setAutoSync(false);
+      }
+
+      var colorMgr = qx.manager.object.ColorManager.getInstance();
+      var borderMgr = qx.manager.object.BorderManager.getInstance();
+      var fontMgr = qx.manager.object.FontManager.getInstance();
+      var imageMgr = qx.manager.object.ImageManager.getInstance();
+      var appearanceMgr = qx.manager.object.AppearanceManager.getInstance();
+
+      colorMgr.setColorTheme(color);
+      borderMgr.setBorderTheme(border);
+      fontMgr.setFontTheme(font);
+      imageMgr.setWidgetTheme(widget);
+      imageMgr.setIconTheme(icon);
+      appearanceMgr.setAppearanceTheme(appearance);
+
+      if (old) {
+        this.setAutoSync(true);
+      }
     },
+
+
+    _applyAutoSync : function(value, old)
+    {
+      if (value)
+      {
+        qx.manager.object.AppearanceManager.getInstance().syncAppearanceTheme();
+        qx.manager.object.ImageManager.getInstance().syncThemes();
+        qx.manager.object.FontManager.getInstance().syncFontTheme();
+        qx.manager.object.BorderManager.getInstance().syncBorderTheme();
+        qx.manager.object.ColorManager.getInstance().syncColorTheme();
+      }
+    },
+
 
     /**
      * Initialize the themes which were selected using the settings. Should only

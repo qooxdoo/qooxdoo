@@ -94,7 +94,19 @@ qx.Class.define("qx.manager.object.ColorManager",
         }
       }
 
-      // Inform registered objects
+      if (qx.manager.object.ThemeManager.getInstance().getAutoSync()) {
+        this.syncColorTheme();
+      }
+    },
+
+
+    /**
+     * Sync dependend objects with internal database
+     *
+     * @type member
+     * @return {void}
+     */
+    syncColorTheme : function() {
       this._updateObjects();
     }
   }
