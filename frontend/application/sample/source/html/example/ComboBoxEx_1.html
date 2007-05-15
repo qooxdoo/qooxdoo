@@ -260,13 +260,13 @@ qx.core.Init.getInstance().defineMain(function() {
   </script>
 
   <script type="text/javascript">
-if (console.debug) {
-  with (qx.log.Logger.ROOT_LOGGER) {
-    removeAllAppenders();
-    addAppender(new qx.log.FireBugAppender);
-    setMinLevel(qx.log.Logger.LEVEL_WARN);
-  }
-}
+   if (window.console && console.debug) {
+     with (qx.log.Logger.ROOT_LOGGER) {
+       removeAllAppenders();
+       addAppender(new qx.log.FireBugAppender);
+       setMinLevel(qx.log.Logger.LEVEL_WARN);
+     }
+   }
   </script>
   <div id="demoDescription">
     <p>ComboBoxEx is an enhanced version of ComboBox</p>
