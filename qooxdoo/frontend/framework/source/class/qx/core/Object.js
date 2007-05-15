@@ -439,7 +439,7 @@ qx.Class.define("qx.core.Object",
           {
             if (this[vKey] !== null && typeof this[vKey] === "object" && this.constructor.prototype[vKey] === undefined)
             {
-              console.warn("Missing destruct definition for '" + vKey + "' in " + this.classname + "[" + this.toHashCode() + "]");
+              console.warn("Missing destruct definition for '" + vKey + "' in " + this.classname + "[" + this.toHashCode() + "]: " + this[vKey]);
               delete this[vKey];
             }
           }
