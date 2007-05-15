@@ -26,17 +26,11 @@
 #embed(qx.icontheme/32/*)
 #embed(qx.icontheme/48/*)
 
+#use(qx.theme.ClassicRoyale)
+#use(qx.theme.ClassicLunaBlue)
+#use(qx.theme.ClassicLunaGreen)
+#use(qx.theme.ClassicLunaSilver)
 #use(qx.theme.Ext)
-
-#use(qx.theme.icon.Nuvola)
-#use(qx.theme.icon.NuoveXT)
-#use(qx.theme.icon.CrystalClear)
-#use(qx.theme.icon.VistaInspirate)
-
-#use(qx.theme.classic.color.Windows)
-#use(qx.theme.classic.color.LunaBlue)
-#use(qx.theme.classic.color.LunaGreen)
-#use(qx.theme.classic.color.LunaSilver)
 
 ************************************************************************ */
 
@@ -2175,9 +2169,6 @@ qx.Class.define("showcase.Application",
 
       wm2.add(btn3, btn4, icon1, warn1);
 
-      // Icon & Color Themes
-      // qx.util.ThemeList.createIconButtons(w3, 20, 248);
-      // qx.util.ThemeList.createColorButtons(w3, 4, 58);
       w1.open();
       w2.open();
       w3.open();
@@ -2235,28 +2226,6 @@ qx.Class.define("showcase.Application",
 
       vert.add(hor);
 
-      var can = new qx.ui.layout.CanvasLayout;
-
-      can.set(
-      {
-        width  : "auto",
-        height : "auto"
-      });
-
-      hor.add(can);
-      qx.util.ThemeList.createIconButtons(can, 0, 0);
-
-      var can = new qx.ui.layout.CanvasLayout;
-
-      can.set(
-      {
-        width  : "auto",
-        height : "auto"
-      });
-
-      hor.add(can);
-      qx.util.ThemeList.createColorButtons(can, 0, 0);
-
       var vbl = new qx.ui.layout.VerticalBoxLayout;
 
       vbl.set(
@@ -2275,13 +2244,12 @@ qx.Class.define("showcase.Application",
       });
 
       // output meta theme list
-      qx.util.ThemeList.createMetaButtons(can, 250, 0);
+      qx.util.ThemeList.createMetaButtons(win.getPane(), 20, 50);
 
-      // Put the window in lower right corner
       win.set(
       {
-        width  : "auto",
-        height : "auto",
+        top: 200,
+        left: 300,
         allowMinimize : false
       });
 
@@ -2297,12 +2265,8 @@ qx.Class.define("showcase.Application",
 
       var openThemeWinBt = new qx.ui.form.Button("Open theming window", "icon/16/actions/edit-find.png");
 
-      openThemeWinBt.addEventListener("execute", function(e)
-      {
+      openThemeWinBt.addEventListener("execute", function(e) {
         win.open();
-
-        win.setRight(15);
-        win.setBottom(15);
       });
 
       main.add(openThemeWinBt);
