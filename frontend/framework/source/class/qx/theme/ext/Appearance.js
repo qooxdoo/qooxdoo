@@ -582,7 +582,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
       include : "window-captionbar-button",
 
       style : function(states) {
-        return { 
+        return {
           marginLeft : 2,
           icon : states.active ? "widget/window/restore.gif" : "widget/window/restore_inactive.gif"
         }
@@ -593,7 +593,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
       include : "window-captionbar-button",
 
       style : function(states) {
-        return { 
+        return {
           marginLeft : 2,
           icon : states.active ? "widget/window/maximize.gif" : "widget/window/maximize_inactive.gif"
         }
@@ -1118,7 +1118,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
 
     "spinner-button-up" : {
       include : "spinner-button",
-      
+
       style : function(states)
       {
          return {
