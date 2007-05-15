@@ -2209,13 +2209,15 @@ qx.Class.define("showcase.Application",
       win.add(info);
 
       // output meta theme list
-      qx.util.ThemeList.createMetaButtons(win.getPane(), 20, 50);
+      qx.util.ThemeList.createMetaButtons(win.getPane(), 0, 50);
 
       // Put the window in lower right corner
       win.set(
       {
         width  : "auto",
         height : "auto",
+        left: 50,
+        top: 150,
         allowMinimize : false
       });
 
