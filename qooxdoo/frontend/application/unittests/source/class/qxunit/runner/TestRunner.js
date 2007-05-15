@@ -558,6 +558,9 @@ qx.Class.define("qxunit.runner.TestRunner",
           {
             modelNode.widgetLinkFlat.open();
           }
+        } else 
+        {
+          this.widgets["treeview.flat"].getManager().deselectAll();
         }
       } else
       {
