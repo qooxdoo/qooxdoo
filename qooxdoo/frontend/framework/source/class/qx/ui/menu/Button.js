@@ -141,7 +141,8 @@ qx.Class.define("qx.ui.menu.Button",
     label :
     {
       apply : "_modifyLabel",
-      nullable : true
+      nullable : true,
+      dispose : true
     },
 
     menu :

@@ -2299,5 +2299,21 @@ qx.Class.define("showcase.Application",
 
       return main;
     }
+  },
+
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeFields("_states");
+    this._disposeObjects("_history");
   }
 });

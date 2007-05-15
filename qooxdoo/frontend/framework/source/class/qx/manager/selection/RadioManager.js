@@ -67,7 +67,9 @@ qx.Class.define("qx.manager.selection.RadioManager",
   *****************************************************************************
   */
 
-  statics : { AUTO_NAME_PREFIX : "qx-radio-" },
+  statics : {
+    AUTO_NAME_PREFIX : "qx-radio-"
+  },
 
 
 
@@ -84,7 +86,8 @@ qx.Class.define("qx.manager.selection.RadioManager",
     {
       nullable : true,
       apply : "_modifySelected",
-      event : "changeSelected"
+      event : "changeSelected",
+      check : "qx.core.Object"
     },
 
     name :
