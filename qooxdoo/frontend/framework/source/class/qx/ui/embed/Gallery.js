@@ -85,8 +85,6 @@ qx.Class.define("qx.ui.embed.Gallery",
   },
 
 
-
-
   /*
   *****************************************************************************
      STATICS
@@ -95,12 +93,6 @@ qx.Class.define("qx.ui.embed.Gallery",
 
   statics :
   {
-    overflow :
-    {
-      refine : true,
-      init : "auto"
-    },
-
 
     /**
      * TODOC
@@ -143,11 +135,11 @@ qx.Class.define("qx.ui.embed.Gallery",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
+    overflow :
+    {
+      refine : true,
+      init : "auto"
+    },
 
     thumbMaxWidth :
     {
