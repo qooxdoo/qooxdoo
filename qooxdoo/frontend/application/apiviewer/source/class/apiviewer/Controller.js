@@ -146,10 +146,10 @@ qx.Class.define("apiviewer.Controller",
     {
       this._tree.getManager().addEventListener("changeSelection", function(evt) {
         var treeNode = evt.getData()[0];
-        if (treeNode && treeNode.docNode && !this._ignoreTreeSelection)
+        if (treeNode && treeNode.getUserData("docNode") && !this._ignoreTreeSelection)
         {
-          this.__updateHistory(treeNode.docNode.getFullName());
-          this.__selectClass(treeNode.docNode);
+          this.__updateHistory(treeNode.getUserData("docNode").getFullName());
+          this.__selectClass(treeNode.getUserData("docNode"));
         }
       }, this);
 
@@ -283,7 +283,7 @@ qx.Class.define("apiviewer.Controller",
         return;
       }
 
-      this.__selectClass(this._tree.getSelectedElement().docNode);
+      this.__selectClass(this._tree.getSelectedElement().getUserData("docNode"));
 
       if (itemName) {
         if (!this._classViewer.showItem(itemName)) {
@@ -308,8 +308,19 @@ qx.Class.define("apiviewer.Controller",
     {
       return encodedState.replace(/(.*)~(.*)/g, "$1#$2")
     }
+  },
 
 
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeObjects("_widgetRegistry", "_detailLoader", "_packageViewer",
+      "_classViewer", "_tree", "_history");
   }
-
 });
