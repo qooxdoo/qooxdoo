@@ -22,14 +22,13 @@
 ####################################################################################
 
 QOOXDOO_PATH = ../../..
-#QOOXDOO_URI = ../../../..	
 
 APPLICATION_NAMESPACE = qxunit
 APPLICATION_CLASSNAME = runner.Application
-APPLICATION_SCRIPT_FILENAME = qxunit.js
+APPLICATION_SCRIPT_FILENAME = testrunner.js
 
 APPLICATION_MAKE_TITLE = TEST RUNNER
-APPLICATION_API_TITLE = qxUnit Test Runner
+APPLICATION_API_TITLE = qooxdoo Test Runner
 
 APPLICATION_FILES = index.html
 
