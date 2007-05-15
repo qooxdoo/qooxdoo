@@ -66,6 +66,7 @@ qx.Class.define("showcase.Application",
       barView.setRight(10);
       barView.setBottom(10);
       barView.getPane().setPadding(0);
+      barView.getPane().setBackgroundColor("background");
 
       barView.addToDocument();
 
