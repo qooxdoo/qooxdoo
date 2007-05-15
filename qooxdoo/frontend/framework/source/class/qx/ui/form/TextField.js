@@ -273,7 +273,7 @@ qx.Class.define("qx.ui.form.TextField",
         inp.setAttribute("autoComplete", "off");
 
         // Apply properties
-        inp.disabled = !this.getEnabled();
+        inp.disabled = this.getEnabled()===false;
         inp.readOnly = this.getReadOnly();
         inp.value = this.getValue() ? this.getValue() : "";
 
@@ -385,7 +385,7 @@ qx.Class.define("qx.ui.form.TextField",
     _modifyEnabled : function(propValue, propOldValue)
     {
       if (this._inputElement) {
-        this._inputElement.disabled = propValue!==false;
+        this._inputElement.disabled = propValue===false;
       }
 
       return this.base(arguments, propValue, propOldValue);
