@@ -26,14 +26,14 @@ The qooxdoo default icon theme ("Nuvola") is available only under the LGPL.
 Therefore, you have to select another icon theme that is compatible to EPL. 
 
 You may do so by switching to another default icon theme:
-in class qx.manager.object.ImageManager, which is declared in file 
-frontend/framework/source/class/qx/manager/object/ImageManager.js, change 
-the following line in the "settings" section:
-  "qx.iconTheme"   : "qx.theme.icon.Nuvola",
+in default meta theme qx.theme.ClassicRoyale, which is declared in file 
+frontend/framework/source/class/qx/theme/ClassicRoyale.js, change 
+the following line:
+  icon : qx.theme.icon.Nuvola
 to either
-  "qx.iconTheme"   : "qx.theme.icon.NuoveXT",
+  icon : qx.theme.icon.NuoveXT
 or
-  "qx.iconTheme"   : "qx.theme.icon.VistaInspirate",
+  icon : qx.theme.icon.VistaInspirate
 or to a custom icon theme that is license-compatible.
 ________________________________________________________________________________
 
