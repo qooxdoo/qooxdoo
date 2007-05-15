@@ -607,7 +607,6 @@ qx.Class.define("apiviewer.ui.ClassViewer",
 
   destruct : function()
   {
-    this._disposeObjectDeep("_infoPanelHash", 1);
     this._disposeFields("_titleElem", "_classDescElem", "_markedElement");
   }
 });

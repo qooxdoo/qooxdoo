@@ -1178,7 +1178,17 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
     }
 
 
+  },
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeFields("_titleElement", "_bodyElement");
   }
-
-
 });

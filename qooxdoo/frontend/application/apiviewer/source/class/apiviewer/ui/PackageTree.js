@@ -291,10 +291,19 @@ qx.Class.define("apiviewer.ui.PackageTree",
           classTreeNode.loaded = true;
         }
       }, this);
-
-
     }
+  },
+  
+  
+  
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
 
+  destruct : function()
+  {
+    this._disposeFields("_docTree", "_classTreeNodeHash");
   }
-
 });

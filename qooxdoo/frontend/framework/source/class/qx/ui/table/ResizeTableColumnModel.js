@@ -413,5 +413,18 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
   settings :
   {
     "qx.tableResizeDebug" : false
+  },
+  
+
+  
+ /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeFields("_table");
   }
 });

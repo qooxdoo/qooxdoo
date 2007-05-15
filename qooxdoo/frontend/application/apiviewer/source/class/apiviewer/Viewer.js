@@ -342,7 +342,8 @@ qx.Class.define("apiviewer.Viewer",
 
   destruct : function()
   {
-    this._disposeObjects("_tree", "_detailLoader", "_classViewer", "_packageViewer");
     this._disposeFields("_classTreeNodeHash");
+    this._disposeObjects("_tree", "_detailLoader", "_classViewer", "_packageViewer");
+    this._disposeObjectDeep("_subWidgets", 1);
   }
 });
