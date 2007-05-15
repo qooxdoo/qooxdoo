@@ -105,7 +105,7 @@ qx.Class.define("qx.ui.listview.ContentCellImage",
       if (this._initialLayoutDone) {
         return this._updateContent(qx.manager.object.AliasManager.getInstance().resolvePath(vSource == "" ? "static/image/blank.gif" : vSource));
       } else {
-        return this.base(arguments, vSource);
+        return qx.ui.basic.Image.prototype.setSource.call(this, vSource);
       }
     },
 
