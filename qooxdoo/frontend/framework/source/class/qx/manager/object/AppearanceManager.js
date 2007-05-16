@@ -167,8 +167,10 @@ qx.Class.define("qx.manager.object.AppearanceManager",
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (!entry) {
-          throw new Error("Missing appearance entry: " + id);
+        if (!entry)
+        {
+          this.warn("Missing appearance entry: " + id);
+          return null;
         }
       }
 

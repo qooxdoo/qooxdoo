@@ -592,6 +592,8 @@ qx.Class.define("qx.core.Property",
     {
       var classname = obj.constructor.classname;
       var msg = "Error in property " + property + " of class " + classname + " in method " + this.$$method[variant][property] + " with incoming value '" + value + "': ";
+
+      obj.printStackTrace();
       throw new Error(msg + (this.__errors[id] || "Unknown reason: " + id));
     },
 
