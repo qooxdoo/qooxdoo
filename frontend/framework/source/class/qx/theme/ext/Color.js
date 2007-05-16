@@ -29,7 +29,7 @@ qx.Theme.define("qx.theme.ext.Color",
 
   colors :
   {
-    "document-background"               : [ 229, 244, 254 ],
+    "document-background"               : [ 243, 248, 253 ], //[ 229, 244, 254 ],
     "background"                        : [ 229, 244, 254 ],
 
     "border-light"                      : [ 101, 147, 207 ],

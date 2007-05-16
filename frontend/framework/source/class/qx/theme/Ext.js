@@ -32,6 +32,6 @@ qx.Theme.define("qx.theme.Ext",
     font       : qx.theme.ext.font.Default,
     widget     : qx.theme.ext.Widget,
     appearance : qx.theme.ext.Appearance,
-    icon       : qx.theme.icon.CrystalClear
+    icon       : qx.theme.icon.VistaInspirate
   }
 });
