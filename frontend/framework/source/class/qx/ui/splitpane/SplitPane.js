@@ -154,7 +154,8 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
     {
       check : "Boolean",
       init : true,
-      apply : "_modifyShowKnob"
+      apply : "_modifyShowKnob",
+      themeable : true
     },
 
 
@@ -207,7 +208,8 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
     {
       check : "Integer",
       init : 4,
-      apply : "_modifySplitterSize"
+      apply : "_modifySplitterSize",
+      themeable : true
     }
   },
 
