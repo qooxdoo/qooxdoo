@@ -929,7 +929,8 @@ qx.Class.define("testrunner.runner.TestRunner",
     }, //reloadTestSuite
 
 
-    ehIframeOnLoad : function (e) {
+    ehIframeOnLoad : function (e) 
+    {
       var iframe = this.iframe;
 
       this.frameWindow = iframe.getContentWindow();
@@ -950,12 +951,14 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.tests.firstrun = true;
       this.leftReloadTree();
       this.toolbar.setEnabled(true);  // in case it was disabled (for reload)
+      this.reloadswitch.setChecked(false);  // disable for first run
       if (this.tests.run_pending) {   // do we have pending tests to run?
         this.tests.run_pending();
         delete this.tests.run_pending;
       }
       this.widgets["statuspane.systeminfo"].setText("Ready");
-    },
+
+    }, //ehIframeOnLoad
 
 
     // ------------------------------------------------------------------------
