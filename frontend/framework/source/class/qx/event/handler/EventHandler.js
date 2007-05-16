@@ -1128,6 +1128,7 @@ qx.Class.define("qx.event.handler.EventHandler",
         }
 
         // apply new scroll position
+        // TODO check for target overflow here
         vTarget.setScrollTop(vScrollTop - vDelta);
 
         // stop default handling, that works sometimes, too
