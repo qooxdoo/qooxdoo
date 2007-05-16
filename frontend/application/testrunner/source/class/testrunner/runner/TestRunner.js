@@ -258,7 +258,6 @@ qx.Class.define("testrunner.runner.TestRunner",
           this.reloadswitch.setIcon("testrunner/image/yellow_diamond_hollow18.gif");
         }
       },this);
-      this.reloadswitch.setChecked(true);
 
       return toolbar;
     }, //makeToolbar
@@ -536,7 +535,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       var l3 = new qx.ui.basic.Label("");
       statuspane.add(l3);
       l3.set({
-        width : 200
+        width : 150
       });
       this.widgets["statuspane.systeminfo"] = l3;
       this.widgets["statuspane.systeminfo"].setText("Loading...");
@@ -826,7 +825,7 @@ qx.Class.define("testrunner.runner.TestRunner",
        */
       function runtest()
       {
-        that.widgets["statuspane.systeminfo"].setText("Running tests");
+        that.widgets["statuspane.systeminfo"].setText("Running tests...");
         that.toolbar.setEnabled(false); //if we are run as run_pending
         if (tlist.length) {
           var test = tlist[0];
@@ -836,7 +835,15 @@ qx.Class.define("testrunner.runner.TestRunner",
         } else { // no more tests -> re-enable toolbar
           that.toolbar.setEnabled(true);
           //that.tree.setEnabled(true);
-          that.widgets["statuspane.systeminfo"].setText("Ready");
+          if (that.tests.firstrun)
+          {
+            that.reloadswitch.setChecked(true);
+            that.tests.firstrun = false;
+            that.widgets["statuspane.systeminfo"].setText("Enabled auto-reload");
+          } else 
+          {
+            that.widgets["statuspane.systeminfo"].setText("Ready");
+          }
         }
       };
 
@@ -909,7 +916,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       var curr = this.iframe.getSource();
       var neu  = this.testSuiteUrl.getValue();
       this.toolbar.setEnabled(false);
-      this.widgets["statuspane.systeminfo"].setText("Reloading test suite");
+      this.widgets["statuspane.systeminfo"].setText("Reloading test suite...");
       // reset status information
       this.resetGui();
       qx.client.Timer.once(function () {
@@ -940,6 +947,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.loader = this.frameWindow.testrunner.TestLoader.getInstance();
       var testRep = this.loader.getTestDescriptions();
       this.tests.handler = new testrunner.runner.TestHandler(testRep);
+      this.tests.firstrun = true;
       this.leftReloadTree();
       this.toolbar.setEnabled(true);  // in case it was disabled (for reload)
       if (this.tests.run_pending) {   // do we have pending tests to run?
