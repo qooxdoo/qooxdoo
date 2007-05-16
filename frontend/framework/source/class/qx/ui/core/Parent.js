@@ -870,6 +870,10 @@ qx.Class.define("qx.ui.core.Parent",
     {
       var ch = this.getChildren(), chc, i = -1;
 
+      if (! ch) {
+        return;
+      }
+
       while (chc = ch[++i]) {
         vFunc.call(chc, i);
       }
@@ -886,6 +890,10 @@ qx.Class.define("qx.ui.core.Parent",
     forEachVisibleChild : function(vFunc)
     {
       var ch = this.getVisibleChildren(), chc, i = -1;
+
+      if (! ch) {
+        return;
+      }
 
       while (chc = ch[++i]) {
         vFunc.call(chc, i);
