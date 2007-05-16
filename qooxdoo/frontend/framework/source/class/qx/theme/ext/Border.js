@@ -94,6 +94,18 @@ qx.Theme.define("qx.theme.ext.Border",
      {
         width : 1,
         color : "list-view-border"
+     },
+
+     "splitter-vertical" :
+     {
+       width : [ 1, 0, 1, 0 ],
+       color : "general-border"
+     },
+
+     "splitter-horizontal" :
+     {
+       width : [ 0, 1, 0, 1 ],
+       color : "general-border"
      }
   }
 });

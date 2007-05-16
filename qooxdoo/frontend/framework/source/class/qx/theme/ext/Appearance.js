@@ -688,7 +688,8 @@ qx.Theme.define("qx.theme.ext.Appearance",
         return {
           backgroundColor : "menu",
           border          : "general",
-          padding         : 1
+          padding         : 1,
+          backgroundImage : "widget/gradient/menu-background.png"
         };
       }
     },
@@ -978,6 +979,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
           padding         : [ 2, 6 ],
           spacing         : 4,
           backgroundColor : states.over ? "list-view-header-cell-hover" : "undefined",
+          backgroundImage : "widget/gradient/button_gradient.png",
           paddingBottom   : states.over ? 0 : 2,
           border          : states.over ? qx.renderer.border.Border.fromConfig({ bottom : [ 2, "solid", "list-view-header-border-hover" ] }) : "undefined"
         };
@@ -1338,7 +1340,8 @@ qx.Theme.define("qx.theme.ext.Appearance",
           border                : border,
           padding               : padding,
           verticalChildrenAlign : "middle",
-          backgroundColor       : states.abandoned ? "button" : "transparent"
+          backgroundColor       : states.abandoned ? "button" : "table-header-cell",
+          backgroundImage       : "widget/gradient/button_gradient.png"
         };
       }
     },
@@ -1377,7 +1380,8 @@ qx.Theme.define("qx.theme.ext.Appearance",
           iconPosition          : "right",
           verticalChildrenAlign : "middle",
           border                : border,
-          backgroundColor       : backgroundColor
+          backgroundColor       : backgroundColor,
+          backgroundImage       : "widget/gradient/button_gradient.png"
         };
       }
     },
@@ -1388,13 +1392,25 @@ qx.Theme.define("qx.theme.ext.Appearance",
     ---------------------------------------------------------------------------
     */
 
+    "splitpane" :
+    {
+      style : function(states)
+      {
+        return {
+          splitterSize : 8
+        };
+      }
+    },
+
     "splitpane-splitter" :
     {
       style : function(states)
       {
         return {
-          backgroundColor : "document-background",
-          cursor          : states.horizontal ? "col-resize" : "row-resize"
+          backgroundColor : "general-border",
+          cursor          : states.horizontal ? "col-resize" : "row-resize",
+          backgroundImage : states.horizontal ? "widget/gradient/splitter_horizontal_gradient.png" : "widget/gradient/splitter_vertical_gradient.png",
+          border          : states.horizontal ? "splitter-horizontal" : "splitter-vertical"
         };
       }
     },
@@ -1420,27 +1436,28 @@ qx.Theme.define("qx.theme.ext.Appearance",
 
         if (states.horizontal)
         {
-          result.top        = "45%";
-          result.left       = null;
+          result.top        = "50%";
+          result.left       = "50%";
 
-          // center knob image (15x4 Pixel)
-          result.marginLeft = 1;
-          result.marginTop  = 0;
+          // center knob image (63x3 Pixel)
+          result.marginLeft = -1;
+          result.marginTop  = -31;
           result.cursor     = "col-resize";
         }
         else if (states.vertical)
         {
-          result.top        = null;
-          result.left       = "450";
+          result.top        = "50%";
+          result.left       = "50%";
 
           // center knob image (4x15 Pixel)
-          result.marginTop  = 0;
-          result.marginLeft = 1;
+          result.marginTop  = -2;
+          result.marginLeft = -31;
           result.cursor     = "row-resize";
         }
 
         return result;
       }
     }
+
   }
 });
