@@ -186,10 +186,10 @@ qx.Class.define("feedreader.Application",
       });
 
       // create header
-      var header = new qx.ui.embed.HtmlEmbed("<h1><span>qooxdoo</span> reader</h1>");
-      header.setHtmlProperty("className", "header");
-      header.setHeight(50);
-      dockLayout.addTop(header);
+      this._header = new qx.ui.embed.HtmlEmbed("<h1><span>qooxdoo</span> reader</h1>");
+      this._header.setHtmlProperty("className", "header");
+      this._header.setHeight(50);
+      dockLayout.addTop(this._header);
 
       // define commands
       var reload_cmd = new qx.client.Command("Control+R");
@@ -205,6 +205,7 @@ qx.Class.define("feedreader.Application",
 
       about_cmd.addEventListener("execute", function(e) {
         alert(this.tr("qooxdoo feed reader."));
+        //qx.manager.object.ThemeManager.getInstance().setTheme(qx.theme.Ext);
       }, this);
 
       // create toolbar
@@ -217,6 +218,12 @@ qx.Class.define("feedreader.Application",
       reload_btn.setCommand(reload_cmd);
       reload_btn.setToolTip(new qx.ui.popup.ToolTip(this.tr("(%1) Reload the feeds.", reload_cmd.toString())));
       toolBar.add(reload_btn);
+      toolBar.add(new qx.ui.toolbar.Separator());
+
+      var pref_btn = new qx.ui.toolbar.Button(this.tr("Preferences"), "icon/16/apps/preferences.png");
+      pref_btn.addEventListener("execute", this.showPreferences, this);
+      pref_btn.setToolTip(new qx.ui.popup.ToolTip(this.tr("Open preferences window.")));
+      toolBar.add(pref_btn);
 
       toolBar.add(new qx.ui.basic.HorizontalSpacer());
 
@@ -273,12 +280,11 @@ qx.Class.define("feedreader.Application",
       tree.set(
       {
         height : "100%",
-        width  : "100%"
+        width  : "100%",
+        padding : 5
       });
 
       tree.setOverflow("auto");
-      tree.setBorder("inset");
-      tree.setBackgroundColor("#EEEEEE");
 
       var feedDesc = feedreader.Application._feedDesc;
 
@@ -320,7 +326,7 @@ qx.Class.define("feedreader.Application",
       };
 
       var table = new qx.ui.table.Table(this._tableModel, custom);
-      table.setBorder("inset");
+      //table.setBorder("inset");
 
       table.set(
       {
@@ -349,16 +355,6 @@ qx.Class.define("feedreader.Application",
       },
       this);
 
-      // hide row focus
-      var theme = qx.manager.object.AppearanceManager.getInstance().getAppearanceTheme();
-
-      theme.appearances["table-focus-indicator"] =
-      {
-        style : function(states) {
-          return { border : null };
-        }
-      };
-
       this._table = table;
 
       // add blog entry
@@ -370,7 +366,7 @@ qx.Class.define("feedreader.Application",
         width  : "100%"
       });
 
-      this._blogEntry.setBorder("inset");
+      //this._blogEntry.setBorder("inset");
 
       // create splitpane for the right hand content area
       var contentSplitPane = new qx.ui.splitpane.VerticalSplitPane("1*", "2*");
@@ -395,9 +391,99 @@ qx.Class.define("feedreader.Application",
 
       dockLayout.addToDocument();
 
+      qx.manager.object.ThemeManager.getInstance().addEventListener("changeTheme", this.onChangeTheme, this);
+      this.onChangeTheme();
+
       // load and display feed data
       this.setSelectedFeed(feedDesc[0].name);
       this.fetchFeeds();
+    },
+
+
+    onChangeTheme : function()
+    {
+      if (qx.manager.object.ThemeManager.getInstance().getTheme() == qx.theme.Ext)
+      {
+        this._header.setHtmlProperty("className", "header ext");
+        this._blogEntry.setHtmlProperty("className", "blogEntry ext");
+      }
+      else
+      {
+        this._header.setHtmlProperty("className", "header");
+        this._blogEntry.setHtmlProperty("className", "blogEntry");
+      }
+    },
+
+
+    showPreferences : function()
+    {
+      if (!this._prefWindow)
+      {
+        var win = new qx.ui.window.Window(this.tr("Prefernces"), "icon/16/apps/preferences.png");
+        win.set({
+          modal : true,
+          showMinimize: false,
+          showMaximize: false,
+          allowMaximize: false,
+          width: 150
+        });
+        win.addToDocument();
+
+        var winLayout = new qx.ui.layout.VerticalBoxLayout();
+        winLayout.set({
+          width: "100%",
+          height: "auto",
+          spacing: 5,
+          padding: 5
+        });
+        win.add(winLayout);
+
+        var gb = new qx.ui.groupbox.GroupBox("Theme"); //this.tr("Theme"));
+        gb.set({
+          height: "auto",
+          width: "100%"
+        });
+        winLayout.add(gb);
+
+        var vb = new qx.ui.layout.VerticalBoxLayout();
+        gb.add(vb);
+
+        var btn_classic = new qx.ui.form.RadioButton("Classic");
+        btn_classic.setChecked(true);
+        var btn_ext = new qx.ui.form.RadioButton("Ext");
+        var rm = new qx.manager.selection.RadioManager();
+        rm.add(btn_classic, btn_ext);
+        vb.add(btn_classic, btn_ext);
+
+        var hb = new qx.ui.layout.HorizontalBoxLayout();
+        hb.set({
+          width: "100%",
+          horizontalChildrenAlign: "right",
+          spacing: 5,
+          paddingRight: 3
+        });
+
+        var btn_cancel = new qx.ui.form.Button(this.tr("Cancel"));
+        btn_cancel.addEventListener("execute", win.close, win);
+        var btn_ok = new qx.ui.form.Button(this.tr("OK"));
+        btn_ok.addEventListener("execute", function() {
+          if (btn_ext.getChecked()) {
+            qx.manager.object.ThemeManager.getInstance().setTheme(qx.theme.Ext);
+          } else {
+            qx.manager.object.ThemeManager.getInstance().setTheme(qx.theme.ClassicRoyale);
+          }
+          win.close();
+        }, this);
+        hb.add(btn_cancel);
+        hb.add(btn_ok);
+
+        winLayout.add(hb);
+
+        this._prefWindow = win;
+        win.addEventListener("appear", win.centerToBrowser, win);
+      }
+
+      this._prefWindow.open();
     },
 
 
