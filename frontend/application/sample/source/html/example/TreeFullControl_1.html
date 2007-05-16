@@ -234,7 +234,10 @@
       var testButton = new qx.ui.form.Button( "Dispose selected node" );
       testButton.setTop(100);
       testButton.addEventListener( "execute", function( e ) {
-        currentItem.destroy();
+        if (currentItem != null) {
+            currentItem.destroy();
+            currentItem = null;
+        }
       } );
       commandFrame.add( testButton );
 
