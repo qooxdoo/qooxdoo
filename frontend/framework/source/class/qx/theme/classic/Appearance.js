@@ -1798,7 +1798,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          overflow : "hidden"
+          overflow : "hidden",
+          splitterSize : 8
         };
       }
     },
@@ -1809,7 +1810,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           backgroundColor : "background",
-          cursor : states.horizontal ? "col-resize" : "row-resize"
+          cursor : states.horizontal ? "col-resize" : "row-resize",
+          border : states.horizontal ? "splitter-horizontal" : "splitter-vertical"
         };
       }
     },
