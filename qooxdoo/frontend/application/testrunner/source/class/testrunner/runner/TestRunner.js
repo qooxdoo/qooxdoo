@@ -95,7 +95,8 @@ qx.Class.define("testrunner.runner.TestRunner",
 
     var vert = new qx.ui.layout.VerticalBoxLayout();
     vert.set({
-      height : "auto"
+      height : "auto",
+      width  : "100%"
     });
     groupBox.add(vert);
 
@@ -139,6 +140,7 @@ qx.Class.define("testrunner.runner.TestRunner",
 
     // EXPERIMENTAL !
     //var treetest = new testrunner.runner.TreeTest();
+
 
   }, //constructor
 
@@ -241,7 +243,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       var part = new qx.ui.toolbar.Part();
       part.setVerticalChildrenAlign("middle");
       toolbar.add(part);
-       this.reloadswitch = new qx.ui.toolbar.CheckBox("Reload before Test",
+      this.reloadswitch = new qx.ui.toolbar.CheckBox("Reload before Test",
                                                      "testrunner/image/yellow_diamond_hollow18.gif");
       part.add(this.reloadswitch);
       this.reloadswitch.setShow("both");
@@ -510,6 +512,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         height : "auto",
         width : "100%"
       });
+      // Test Info
       statuspane.add(new qx.ui.basic.Label("Selected Test: "));
       var l1 = new qx.ui.basic.Label("");
       statuspane.add(l1);
@@ -524,6 +527,19 @@ qx.Class.define("testrunner.runner.TestRunner",
         backgroundColor : "#C1ECFF"
       });
       this.widgets["statuspane.number"] = l2;
+
+
+      statuspane.add((new qx.ui.basic.HorizontalSpacer).set({width:"1*"}));
+
+      // System Info
+      statuspane.add(new qx.ui.basic.Label("System Status: "));
+      var l3 = new qx.ui.basic.Label("");
+      statuspane.add(l3);
+      l3.set({
+        width : 200
+      });
+      this.widgets["statuspane.systeminfo"] = l3;
+      this.widgets["statuspane.systeminfo"].setText("Loading...");
 
       return statuspane;
     }, //makeStatus
@@ -544,7 +560,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.tests.selected_cnt = this.tests.handler.testCount(modelNode);
       this.widgets["statuspane.number"].setText(this.tests.selected_cnt+"");
       // update toolbar
-      this.widgets["toolbar.runbutton"].setEnabled(true);
+      this.widgets["toolbar.runbutton"].resetEnabled();
       // update selection in other tree
       // -- not working!
       var selButt = this.widgets["treeview"].getBar().getManager().getSelected();
@@ -568,7 +584,9 @@ qx.Class.define("testrunner.runner.TestRunner",
           modelNode.widgetLinkFull.open();
         }
       }
-      //
+
+      this.widgets["statuspane.systeminfo"].setText("Tests selected");
+
     }, //treeGetSelection
 
 
@@ -721,6 +739,7 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       this.toolbar.setEnabled(false);
       //this.tree.setEnabled(false);
+      this.widgets["statuspane.systeminfo"].setText("Preparing...");
 
       this.resetGui();
       var bar = this.widgets["progresspane.progressbar"];
@@ -807,6 +826,8 @@ qx.Class.define("testrunner.runner.TestRunner",
        */
       function runtest()
       {
+        that.widgets["statuspane.systeminfo"].setText("Running tests");
+        that.toolbar.setEnabled(false); //if we are run as run_pending
         if (tlist.length) {
           var test = tlist[0];
           that.loader.runTests(testResult, test[0], test[1]);
@@ -815,6 +836,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         } else { // no more tests -> re-enable toolbar
           that.toolbar.setEnabled(true);
           //that.tree.setEnabled(true);
+          that.widgets["statuspane.systeminfo"].setText("Ready");
         }
       };
 
@@ -852,16 +874,8 @@ qx.Class.define("testrunner.runner.TestRunner",
       if (widgetNode) {
         var modelNode  = widgetNode.getUserData("modelLink");
       } else
-      {
-        /*
-        //if (e.getTarget().getSelectedItems.length() == 0)
-        if (! this.widgets["treeview.full"].isSelected())
-        {
-          alert("There is no selection!");
-        }
-        */
+      { // no selected tree node - this should never happen here!
         alert("Please select a test node from the tree!");
-        this.widgets["toolbar.runbutton"].setEnabled(true);
         return;
       }
       // build list of individual tests to perform
@@ -895,6 +909,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       var curr = this.iframe.getSource();
       var neu  = this.testSuiteUrl.getValue();
       this.toolbar.setEnabled(false);
+      this.widgets["statuspane.systeminfo"].setText("Reloading test suite");
       // reset status information
       this.resetGui();
       qx.client.Timer.once(function () {
@@ -931,6 +946,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         this.tests.run_pending();
         delete this.tests.run_pending;
       }
+      this.widgets["statuspane.systeminfo"].setText("Ready");
     },
 
 
