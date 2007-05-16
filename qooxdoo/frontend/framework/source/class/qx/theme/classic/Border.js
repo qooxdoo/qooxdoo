@@ -138,6 +138,34 @@ qx.Theme.define("qx.theme.classic.Border",
       widthRight : 1,
       colorLeft : "border-light",
       colorRight : "border-dark-shadow"
-    }
+    },
+
+     "splitter-vertical" :
+     {
+       top : [ 1, "solid", "white"],
+       bottom : [ 1, "solid", "border-dark"]
+     },
+
+     "splitter-horizontal" :
+     {
+       left : [ 1, "solid", "white"],
+       right : [ 1, "solid", "border-dark"]
+     }
+
+/*
+     "splitter-vertical" :
+     {
+       width : [ 2, 0, 2, 0 ],
+       color : [ "border-light-shadow", "border-dark", "border-dark", "border-light-shadow" ],
+       innerColor : [ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ]
+     },
+
+     "splitter-horizontal" :
+     {
+       width : [ 0, 2, 0, 2 ],
+       color : [ "border-light-shadow", "border-dark", "border-dark", "border-light-shadow" ],
+       innerColor : [ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ]
+     }
+*/
   }
 });

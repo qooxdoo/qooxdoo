@@ -47,7 +47,8 @@ qx.Class.define("qx.manager.object.ThemeManager",
     {
       check : "Theme",
       nullable : true,
-      apply : "_applyTheme"
+      apply : "_applyTheme",
+      event : "changeTheme"
     },
 
     autoSync :
