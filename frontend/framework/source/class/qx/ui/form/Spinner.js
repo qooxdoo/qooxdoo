@@ -149,7 +149,12 @@ qx.Class.define("qx.ui.form.Spinner",
   */
 
   events: {
-    "change" : "qx.event.type.Event"
+    /**
+     * Fired each time the value of the spinner changes.
+     * The "data" property of the event is set to the new value
+     * of the spinner.
+     */
+    "change" : "qx.event.type.DataEvent"
   },
 
 
@@ -665,9 +670,7 @@ qx.Class.define("qx.ui.form.Spinner",
         this._upbutton.setEnabled(true);
       }
 
-      if (this.hasEventListeners("change")) {
-        this.dispatchEvent(new qx.event.type.Event("change"), true);
-      }
+      this.createDispatchDataEvent("change", vValue);
     },
 
 
