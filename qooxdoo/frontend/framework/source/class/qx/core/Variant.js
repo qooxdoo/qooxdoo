@@ -346,6 +346,7 @@ qx.Class.define("qx.core.Variant",
   {
     statics.define("qx.debug", [ "on", "off" ], "on");
     statics.define("qx.compatibility", [ "on", "off" ], "on");
+    statics.define("qx.eventMonitorNoListeners", [ "on", "off" ], "off");
 
     statics.__init();
   }
