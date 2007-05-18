@@ -27,7 +27,7 @@
  */
 qx.Class.define("qx.ui.core.ScrollBar",
 {
-  extend : qx.ui.layout.BoxLayout,
+  extend : qx.ui.layout.CanvasLayout,
 
 
 
@@ -101,6 +101,19 @@ qx.Class.define("qx.ui.core.ScrollBar",
     }
 
     this.add(this._scrollBar);
+
+    this._blocker = new qx.ui.basic.Terminator();
+    this._blocker.set({
+      backgroundColor : "black",
+      opacity : 0.2,
+      left : 0,
+      top : 0,
+      height : "100%",
+      width : "100%",
+      display : !this.getEnabled()
+    });
+    this.add(this._blocker);
+
 
     this.setMaximum(0);
   },
@@ -188,7 +201,6 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
   members :
   {
-    // property checker
     /**
      * TODOC
      *
@@ -209,7 +221,6 @@ qx.Class.define("qx.ui.core.ScrollBar",
       return Math.max(0, Math.min(this.getMaximum() - innerSize, propValue));
     },
 
-    // property modifier
     /**
      * TODOC
      *
@@ -228,7 +239,6 @@ qx.Class.define("qx.ui.core.ScrollBar",
       return true;
     },
 
-    // property modifier
     /**
      * TODOC
      *
@@ -293,6 +303,13 @@ qx.Class.define("qx.ui.core.ScrollBar",
      */
     _computePreferredInnerHeight : function() {
       return this._horizontal ? this._getScrollBarWidth() : 0;
+    },
+
+
+    _modifyEnabled : function(isEnabled)
+    {
+      this.base(arguments);
+      this._blocker.setDisplay(!this.getEnabled());
     },
 
 
@@ -383,12 +400,9 @@ qx.Class.define("qx.ui.core.ScrollBar",
     _afterAppear : function()
     {
       this.base(arguments);
-
-      // this.debug("Setting to value: " + this.getValue());
       this._positionKnob(this.getValue());
     }
   },
-
 
 
 
