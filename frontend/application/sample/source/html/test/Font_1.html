@@ -19,44 +19,44 @@
   qx.core.Init.getInstance().defineMain(function()
   {
     var f1 = new qx.ui.layout.CanvasLayout;
-   
+
     var a1 = new qx.ui.basic.Atom("Hello World");
-    
+
     var b1 = new qx.ui.form.Button("Serif, 16px");
     var b2 = new qx.ui.form.Button("Serif, 24px");
     var b3 = new qx.ui.form.Button("Sans Serif, 16px");
     var b4 = new qx.ui.form.Button("Sans Serif, 24px");
-    
+
     b1.addEventListener("execute", function() {
-      a1.getLabelObject().setFont("16px serif");
+      a1.getLabelObject().setFont(qx.renderer.font.Font.fromString("16px serif"));
     });
-    
+
     b2.addEventListener("execute", function() {
-      a1.getLabelObject().setFont("24px serif");
+      a1.getLabelObject().setFont(qx.renderer.font.Font.fromString("24px serif"));
     });
 
     b3.addEventListener("execute", function() {
-      a1.getLabelObject().setFont("16px sans-serif");
+      a1.getLabelObject().setFont(qx.renderer.font.Font.fromString("16px sans-serif"));
     });
 
     b4.addEventListener("execute", function() {
-      a1.getLabelObject().setFont("24px sans-serif");
+      a1.getLabelObject().setFont(qx.renderer.font.Font.fromString("24px Tahoma"));
     });
 
     f1.setDimension("auto", "auto");
     f1.setLocation(20, 48);
-    f1.setBorder("1px solid red");
-    
+    f1.setBorder(qx.renderer.border.Border.fromString("1px solid red"));
+
     a1.setLocation(0, 0);
-    a1.getLabelObject().setFont("16px serif");
-    
+    a1.getLabelObject().setFont(qx.renderer.font.Font.fromString("16px serif"));
+
     b1.setLocation(200, 48);
     b2.setLocation(200, 78);
     b3.setLocation(200, 108);
     b4.setLocation(200, 138);
-    
+
     f1.add(a1);
-    qx.ui.core.ClientDocument.getInstance().add(f1, b1, b2, b3, b4);    
+    qx.ui.core.ClientDocument.getInstance().add(f1, b1, b2, b3, b4);
   });
   </script>
 </body>
