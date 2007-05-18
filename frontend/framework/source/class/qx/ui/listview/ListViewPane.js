@@ -258,7 +258,7 @@ qx.Class.define("qx.ui.listview.ListViewPane",
         return;
       }
 
-      var vScrollTop = (this._initialLayoutDone ? this.getView().getScroll().getScrollTop() : 0);
+      var vScrollTop = (this._initialLayoutDone ? this.getView().getScroll().getValue() : 0);
 
       this._updatingRendering = true;
       this._currentScrollTop = vScrollTop;
@@ -482,7 +482,7 @@ qx.Class.define("qx.ui.listview.ListViewPane",
     _onmousewheel : function(e)
     {
       var vScroll = this.getView().getScroll();
-      vScroll.setScrollTop(vScroll.getScrollTop() - (e.getWheelDelta() * 20));
+      vScroll.setValue(vScroll.getValue() - (e.getWheelDelta() * 20) );
     },
 
 
@@ -703,7 +703,7 @@ qx.Class.define("qx.ui.listview.ListViewPane",
       }
 
       if (vNewScrollTop != null) {
-        this.getView().getScroll().setScrollTop(vNewScrollTop);
+        this.getView().getScroll().setValue(vNewScrollTop);
       }
     },
 
@@ -717,7 +717,7 @@ qx.Class.define("qx.ui.listview.ListViewPane",
      */
     setScrollTop : function(vScrollTop)
     {
-      this.getView().getScroll().setScrollTop(vScrollTop);
+      this.getView().getScroll().setValue(vScrollTop);
       this._updateRendering();
     },
 
