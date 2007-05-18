@@ -217,7 +217,20 @@ qx.Class.define("qx.renderer.font.Font",
     },
 
     _applyFamily : function(value, old) {
-      this.__family = value ? '"' + value.join('","') + '"' : null;
+      var family = "";
+      for (var i=0; i<value.length; i++) {
+        if (value[i].indexOf(" ") > 0) {
+          family += '"' + value[i] + '"';
+        } else {
+          // in FireFox 2 and WebKit fonts like 'serif' or 'sans-serif' must
+          // not be quoted!
+          family += value[i];
+        }
+        if (i != value.lenght-1) {
+          family += ",";
+        }
+      }
+      this.__family = family;
     },
 
     _applyBold : function(value, old) {
