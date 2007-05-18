@@ -59,16 +59,6 @@ qx.Class.define("qx.ui.listview.ListView",
     this._columns = vColumns;
 
     // ************************************************************************
-    //   OBJECTS
-    // ************************************************************************
-    this._header = new qx.ui.listview.Header(vColumns);
-    this._frame = new qx.ui.layout.HorizontalBoxLayout;
-    this._pane = new qx.ui.listview.ListViewPane(vData, vColumns);
-    this._scroll = new qx.ui.core.ScrollArea;
-    this._scrollContent = new qx.ui.basic.Terminator;
-    this._resizeLine = new qx.ui.basic.Terminator;
-
-    // ************************************************************************
     //   SUPERCLASS CONSTRUCTOR
     // ************************************************************************
     this.base(arguments);
@@ -76,11 +66,13 @@ qx.Class.define("qx.ui.listview.ListView",
     // ************************************************************************
     //   HEADER
     // ************************************************************************
+    this._header = new qx.ui.listview.Header(vColumns);
     this._header.setParent(this);
 
     // ************************************************************************
     //   FRAME
     // ************************************************************************
+    this._frame = new qx.ui.layout.HorizontalBoxLayout;
     this._frame.setParent(this);
     this._frame.setHeight("1*");
     this._frame.setWidth(null);
@@ -88,25 +80,21 @@ qx.Class.define("qx.ui.listview.ListView",
     // ************************************************************************
     //   PANE
     // ************************************************************************
+    this._pane = new qx.ui.listview.ListViewPane(vData, vColumns);
     this._pane.setParent(this._frame);
 
     // ************************************************************************
     //   SCROLL AREA
     // ************************************************************************
+    this._scroll = new qx.ui.core.ScrollBar(false);
     this._scroll.setWidth("auto");
-    this._scroll.setOverflow("scrollY");
     this._scroll.setParent(this._frame);
-    this._scroll.addEventListener("scroll", this._onscroll, this);
-
-    // ************************************************************************
-    //   SCROLL CONTENT
-    // ************************************************************************
-    this._scrollContent.setWidth(1);
-    this._scrollContent.setParent(this._scroll);
+    this._scroll.addEventListener("changeValue", this._onscroll, this);
 
     // ************************************************************************
     //   RESIZE LINE
     // ************************************************************************
+    this._resizeLine = new qx.ui.basic.Terminator;
     this._resizeLine.setBackgroundColor("#D6D5D9");
     this._resizeLine.setWidth(1);
     this._resizeLine.setParent(this);
@@ -251,17 +239,6 @@ qx.Class.define("qx.ui.listview.ListView",
      * @type member
      * @return {var} TODOC
      */
-    getScrollContent : function() {
-      return this._scrollContent;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
     getResizeLine : function() {
       return this._resizeLine;
     },
@@ -288,22 +265,7 @@ qx.Class.define("qx.ui.listview.ListView",
      */
     updateScrollBar : function()
     {
-      this._scrollContent.setHeight((this._data.length * this._pane._rowHeight) + this._pane._rowHeight);
-
-      /**
-       * Bugfix for gecko 1.8 (the one released with firefox 1.5)
-       * Overflow updates if content gets smaller are problematic
-       * https://bugzilla.mozilla.org/show_bug.cgi?id=320106
-       */
-      if (qx.core.Variant.isSet("qx.client", "gecko"))
-      {
-        if (qx.core.Client.getInstance().getVersion() >= 1.8)
-        {
-          this._scroll.setStyleProperty("height", "0px");
-          this._scroll.setHeight(1);
-          this._scroll.setHeight(null);
-        }
-      }
+      this._scroll.setMaximum((this._data.length * this._pane._rowHeight) + this._pane._rowHeight);
     },
 
 
@@ -479,7 +441,7 @@ qx.Class.define("qx.ui.listview.ListView",
 
   destruct : function()
   {
-    this._disposeObjects("_header", "_frame", "_pane", "_scroll", "_scrollContent", "_resizeLine");
+    this._disposeObjects("_header", "_frame", "_pane", "_scroll", "_resizeLine");
     this._disposeFields("_columns", "_data");
   }
 });
