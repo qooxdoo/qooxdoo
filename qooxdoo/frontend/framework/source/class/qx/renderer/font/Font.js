@@ -218,7 +218,7 @@ qx.Class.define("qx.renderer.font.Font",
 
     _applyFamily : function(value, old) {
       var family = "";
-      for (var i=0; i<value.length; i++) {
+      for (var i=0, l=value.length; i<l; i++) {
         if (value[i].indexOf(" ") > 0) {
           family += '"' + value[i] + '"';
         } else {
@@ -226,7 +226,7 @@ qx.Class.define("qx.renderer.font.Font",
           // not be quoted!
           family += value[i];
         }
-        if (i != value.lenght-1) {
+        if (i != l-1) {
           family += ",";
         }
       }
