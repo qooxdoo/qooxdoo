@@ -153,7 +153,9 @@
       commandFrame.add(tCurrentInput);
 
       t.getManager().addEventListener("changeSelection", function(e) {
-        tCurrentInput.setValue(e.getData()[0].getLabelObject().getText());
+				if (e.getData().lenght > 0) {
+          tCurrentInput.setValue(e.getData()[0].getLabelObject().getText());
+        }
       });
 
 
@@ -171,7 +173,6 @@
 
 
 
-
       var tTreeLines = new qx.ui.form.CheckBox("Use tree lines?");
 
       with(tTreeLines) {
@@ -184,6 +185,19 @@
 
       tTreeLines.addEventListener("changeChecked", function(e) { t.setUseTreeLines(e.getData()); });
 
+
+
+      var testButton = new qx.ui.form.Button( "Dispose selected node" );
+      testButton.setTop(100);
+      testButton.addEventListener( "execute", function( e ) {
+				var currentItem = t.getManager().getSelectedItem();
+        if (currentItem != null) {
+            currentItem.destroy();
+            currentItem = null;
+        }
+      } );
+
+      commandFrame.add( testButton );
 
     });
   </script>
