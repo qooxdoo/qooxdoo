@@ -106,7 +106,7 @@ qx.Class.define("qx.renderer.font.Font",
       }
 
       if (name.length > 0) {
-        font.setName(name.join(" "));
+        font.setFamily(name);
       }
 
       return font;
