@@ -49,10 +49,6 @@ qx.Class.define("qx.ui.treefullcontrol.AbstractTreeElement",
 
   construct : function(treeRowStructure)
   {
-    if (this.classname == qx.ui.treefullcontrol.AbstractTreeElement.ABSTRACT_CLASS) {
-      throw new Error("Please omit the usage of qx.ui.treefullcontrol.AbstractTreeElement directly. Choose between qx.ui.treefullcontrol.TreeFolder, qx.ui.treefullcontrol.TreeFolderSimple, qx.ui.treefullcontrol.TreeFile and qx.ui.treefullcontrol.TreeFileSimple instead!");
-    }
-
     if (treeRowStructure !== qx.ui.treefullcontrol.TreeRowStructure.getInstance()) {
       throw new Error("A qx.ui.treefullcontrol.TreeRowStructure parameter is required.");
     }
@@ -116,17 +112,6 @@ qx.Class.define("qx.ui.treefullcontrol.AbstractTreeElement",
     this.addEventListener("mousedown", this._onmousedown);
     this.addEventListener("mouseup", this._onmouseup);
   },
-
-
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics : { ABSTRACT_CLASS : "qx.ui.treefullcontrol.AbstractTreeElement" },
 
 
 
@@ -749,6 +734,7 @@ qx.Class.define("qx.ui.treefullcontrol.AbstractTreeElement",
   */
 
   destruct : function() {
-    this._disposeObjects("_indentObject", "_iconObject", "_labelObject", "_previousParentFolder");
+    this._disposeObjects("_indentObject", "_iconObject", "_labelObject");
+    this._disposeFields("_previousParentFolder");
   }
 });
