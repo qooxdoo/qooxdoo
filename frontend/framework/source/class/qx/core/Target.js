@@ -67,7 +67,7 @@ qx.Class.define("qx.core.Target",
      * Add a function to be called before an event is dispatched.
      *
      * @param func {Function}
-     *   The function to be called after an event has been dispatched.  The
+     *   The function to be called before an event is dispatched.  The
      *   function will be called with three parameters: the object to which
      *   the event applies, the context object on which the event is being
      *   dispatched, and the event object.  The function should return a
