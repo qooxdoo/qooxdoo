@@ -282,7 +282,9 @@ else if ($_SERVER["REQUEST_METHOD"] == "GET" &&
     $scriptTransportId = $_GET["_ScriptTransport_id"];
     $error->SetScriptTransportId($scriptTransportId);
     $input = $_GET["_ScriptTransport_data"];
-    $jsonInput = $json->decode(stripslashes($input));
+    $jsonInput = $json->decode(get_magic_quotes_gpc()
+                               ? stripslashes($input)
+                               : $input);
 }
 else
 {
