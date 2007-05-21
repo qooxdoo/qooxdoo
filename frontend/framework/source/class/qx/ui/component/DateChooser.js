@@ -335,7 +335,8 @@ qx.Class.define("qx.ui.component.DateChooser",
       init : null,
       nullable : true,
       apply : "_modifyDate",
-      event : "changeDate"
+      event : "changeDate",
+      transform : "_checkDate"
     }
   },
 
@@ -358,7 +359,7 @@ qx.Class.define("qx.ui.component.DateChooser",
      * @param value {var} Current value
      * @return {var} TODOC
      */
-    _checkDate : function(value, propData)
+    _checkDate : function(value)
     {
       // Use a clone of the date internally since date instances may be changed
       return (value == null) ? null : new Date(value.getTime());
