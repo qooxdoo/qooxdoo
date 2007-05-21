@@ -642,7 +642,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      * @param value {var} Current value
      * @return {void}
      */
-    _modifyEditable : function(value) /* , old, propData */
+    _modifyEditable : function(value)
     {
 
       var f = this._field;
@@ -663,7 +663,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      * @param value {var} Current value
      * @return {Boolean} TODOC
      */
-    _modifyValue : function(value/*, old, propData */)
+    _modifyValue : function(value)
     {
       this._fromValue = true;
       try

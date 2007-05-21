@@ -208,7 +208,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
      * @param value {var} Current value
      * @return {var} TODOC
      */
-    _checkValue : function(value, propData)
+    _checkValue : function(value)
     {
       var innerSize = !this.getElement() ? 0 : (this._horizontal ? this.getInnerWidth() : this.getInnerHeight());
 
