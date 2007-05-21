@@ -43,9 +43,9 @@
 ##
 
 
-##                                                                              
+##
 # Some nice short description of Foo
-#                                                                               
+#
 # @param a Number of foos to bar
 class NodeAccessException (Exception):
     def __init__ (self, msg, node):
@@ -545,11 +545,7 @@ def nodeToXmlString(node, prefix = "", childPrefix = "  ", newLine="\n", encodin
         asString += ">"
 
         if hasText:
-            if node.hasChildren():
-                asString += newLine + prefix + childPrefix
-            else:
-                asString += newLine + prefix + childPrefix
-
+            asString += newLine + prefix + childPrefix
             asString += "<text>" + escapeXmlChars(node.attributes["text"], False, encoding) + "</text>" + newLine
 
         if node.hasChildren():
