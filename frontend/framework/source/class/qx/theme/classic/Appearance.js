@@ -1873,30 +1873,30 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       style : function(states)
       {
-        var result = {
-          opacity : states.dragging ? 0.5 : 1.0
-        };
-
         if (states.horizontal)
         {
-          result.top = "50%";
-          result.left = "50%";
-          // center knob image (15x4 Pixel)
-          result.marginLeft = -2;
-          result.marginTop = -7;
-          result.cursor = "col-resize";
+          return {
+            opacity : states.dragging ? 0.5 : 1.0,
+            top : "50%",
+            left : "50%",
+            cursor : "col-resize",
+            source : "widget/splitpane/knob-horizontal.png",
+            marginLeft : -2,
+            marginTop : -7
+          };
         }
-        else if (states.vertical)
+        else
         {
-          result.top = "50%";
-          result.left = "50%";
-          // center knob image (4x15 Pixel)
-          result.marginTop = -2;
-          result.marginLeft = -7;
-          result.cursor = "row-resize";
+          return {
+            opacity : states.dragging ? 0.5 : 1.0,
+            top : "50%",
+            left : "50%",
+            source : "widget/splitpane/knob-vertical.png",
+            marginTop : -2,
+            marginLeft : -7,
+            cursor : "row-resize"
+          }
         }
-
-        return result;
       }
     }
   }
