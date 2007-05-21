@@ -101,8 +101,6 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
       if (vManager) {
         vManager.handleItemChecked(this, value);
       }
-
-      return true;
     },
 
 
@@ -122,8 +120,6 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
       if (value) {
         value.add(this);
       }
-
-      return true;
     },
 
 

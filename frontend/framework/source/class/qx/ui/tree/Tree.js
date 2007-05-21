@@ -312,8 +312,6 @@ qx.Class.define("qx.ui.tree.Tree",
       if (this._initialLayoutDone) {
         this._updateIndent();
       }
-
-      return true;
     },
 
 

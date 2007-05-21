@@ -217,8 +217,6 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
         value.addEventListener("appear", this._onmenuappear, this);
         value.addEventListener("disappear", this._onmenudisappear, this);
       }
-
-      return true;
     },
 
 

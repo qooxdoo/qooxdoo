@@ -384,10 +384,8 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyShowKnob : function(value, old)
-    {
+    _modifyShowKnob : function(value, old) {
       this._knob.setVisibility(value);
-      return true;
     },
 
 
@@ -483,8 +481,6 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
       this._syncFirstSize();
       this._syncSecondSize();
       this._syncSplitterSize();
-
-      return true;
     },
 
 
@@ -495,10 +491,8 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyFirstSize : function(value, old)
-    {
+    _modifyFirstSize : function(value, old) {
       this._syncFirstSize();
-      return true;
     },
 
 
@@ -509,10 +503,8 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifySecondSize : function(value, old)
-    {
+    _modifySecondSize : function(value, old) {
       this._syncSecondSize();
-      return true;
     },
 
 
@@ -523,10 +515,8 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifySplitterSize : function(value, old)
-    {
+    _modifySplitterSize : function(value, old) {
       this._syncSplitterSize();
-      return true;
     },
 
 
