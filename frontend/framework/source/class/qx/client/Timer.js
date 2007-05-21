@@ -175,11 +175,10 @@ qx.Class.define("qx.client.Timer",
      * Apply the interval of the timer.
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
+     * @param value {var} Current value
+     * @param old {var} Previous value
      */
-    _modifyInterval : function(propValue, propOldValue, propData)
+    _modifyInterval : function(value, old)
     {
       if (this.getEnabled()) {
         this.restart();
@@ -191,23 +190,20 @@ qx.Class.define("qx.client.Timer",
      * Apply the enabled state of the timer.
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
+     * @param value {var} Current value
+     * @param old {var} Previous value
      */
-    _modifyEnabled : function(propValue, propOldValue, propData)
+    _modifyEnabled : function(value, old)
     {
-      if (propOldValue)
+      if (old)
       {
         window.clearInterval(this.__intervalHandler);
         this.__intervalHandler = null;
       }
-      else if (propValue)
+      else if (value)
       {
         this.__intervalHandler = window.setInterval(this.__oninterval, this.getInterval());
       }
-
-      return true;
     },
 
 
