@@ -50,11 +50,14 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
     this.__actions = {};
     this.__cursors = {};
 
-    var vCursor;
+    var vCursor, vAction;
+    var vActions = [ "move", "copy", "alias", "nodrop" ];
 
-    for (var vAction in this.__actionNames)
+    for (var i=0, l=vActions.length; i<l; i++)
     {
-      vCursor = this.__cursors[vAction] = new qx.ui.basic.Image(this.__cursorPath + vAction + "." + this.__cursorFormat);
+      vAction = vActions[i];
+      vCursor = this.__cursors[vAction] = new qx.ui.basic.Image;
+      vCursor.setAppearance("cursor-dnd-" + vAction);
       vCursor.setZIndex(1e8);
     }
   },
@@ -125,16 +128,6 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
 
   members :
   {
-    __actionNames :
-    {
-      move   : "move",
-      copy   : "copy",
-      alias  : "alias",
-      nodrop : "nodrop"
-    },
-
-    __cursorPath : "widget/cursors/",
-    __cursorFormat : "gif",
     __lastDestinationEvent : null,
 
 
@@ -805,15 +798,15 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
 
       switch(this.getCurrentAction())
       {
-        case this.__actionNames.move:
+        case "move":
           vNewCursor = this.__cursors.move;
           break;
 
-        case this.__actionNames.copy:
+        case "copy":
           vNewCursor = this.__cursors.copy;
           break;
 
-        case this.__actionNames.alias:
+        case "alias":
           vNewCursor = this.__cursors.alias;
           break;
 
@@ -967,16 +960,16 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
      */
     _evalNewAction : function(vKeyShift, vKeyCtrl, vKeyAlt)
     {
-      if (vKeyShift && vKeyCtrl && this.__actionNames.alias in this.__actions) {
-        return this.__actionNames.alias;
-      } else if (vKeyShift && vKeyAlt && this.__actionNames.copy in this.__actions) {
-        return this.__actionNames.copy;
-      } else if (vKeyShift && this.__actionNames.move in this.__actions) {
-        return this.__actionNames.move;
-      } else if (vKeyAlt && this.__actionNames.alias in this.__actions) {
-        return this.__actionNames.alias;
-      } else if (vKeyCtrl && this.__actionNames.copy in this.__actions) {
-        return this.__actionNames.copy;
+      if (vKeyShift && vKeyCtrl && "alias" in this.__actions) {
+        return "alias";
+      } else if (vKeyShift && vKeyAlt && "copy" in this.__actions) {
+        return "copy";
+      } else if (vKeyShift && "move" in this.__actions) {
+        return "move";
+      } else if (vKeyAlt && "alias" in this.__actions) {
+        return "alias";
+      } else if (vKeyCtrl && "copy" in this.__actions) {
+        return "copy";
       }
       else
       {
@@ -1053,6 +1046,6 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
   {
     this._disposeObjectDeep("__cursors", 1);
     this._disposeObjects("__feedbackWidget");
-    this._disposeFields("__dragCache", "__data", "__actions", "__actionNames", "__lastDestinationEvent");
+    this._disposeFields("__dragCache", "__data", "__actions", "__lastDestinationEvent");
   }
 });

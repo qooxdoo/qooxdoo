@@ -1541,7 +1541,9 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /** Contains the support drop types for drag and drop support */
-    dropDataTypes : {},
+    dropDataTypes : {
+      nullable : true
+    },
 
 
     /** A command called if the widget should be excecuted (a placeholder for buttons, ...) */
