@@ -197,8 +197,6 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
       if (this._labelObject) {
         this._labelObject.setText(value);
       }
-
-      return true;
     },
 
 
@@ -242,8 +240,6 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
       } else if (value && vManager.getSelectedItem() != this) {
         vManager.setSelectedItem(this);
       }
-
-      return true;
     },
 
 
@@ -562,8 +558,6 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
       if (value && !value.isDisplayable() && value.getParent() && value.getParent().isDisplayable()) {
         value.getParent().addToTreeQueue();
       }
-
-      return true;
     },
 
 
