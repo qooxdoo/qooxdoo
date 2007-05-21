@@ -299,10 +299,9 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyHorizontalScrollBarVisible : function(propValue, propOldValue, propData)
+    _modifyHorizontalScrollBarVisible : function(propValue, propOldValue)
     {
       // Workaround: We can't use setDisplay, because the scroll bar needs its
       //       correct height in order to check its value. When using
@@ -331,10 +330,9 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyVerticalScrollBarVisible : function(propValue, propOldValue, propData)
+    _modifyVerticalScrollBarVisible : function(propValue, propOldValue)
     {
       // Workaround: See _modifyHorizontalScrollBarVisible
       if (propValue) {
@@ -359,10 +357,9 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyTablePaneModel : function(propValue, propOldValue, propData)
+    _modifyTablePaneModel : function(propValue, propOldValue)
     {
       if (propOldValue != null) {
         propOldValue.removeEventListener("modelChanged", this._onPaneModelChanged, this);
@@ -380,10 +377,9 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyScrollX : function(propValue, propOldValue, propData)
+    _modifyScrollX : function(propValue, propOldValue)
     {
       this._horScrollBar.setValue(propValue);
       return true;
@@ -396,10 +392,9 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyScrollY : function(propValue, propOldValue, propData)
+    _modifyScrollY : function(propValue, propOldValue)
     {
       this._verScrollBar.setValue(propValue);
       return true;

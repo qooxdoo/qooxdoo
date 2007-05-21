@@ -636,10 +636,9 @@ qx.Class.define("qx.io.remote.Request",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyState : function(propValue, propOldValue, propData)
+    _modifyState : function(propValue, propOldValue)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -658,10 +657,9 @@ qx.Class.define("qx.io.remote.Request",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyProhibitCaching : function(propValue, propOldValue, propData)
+    _modifyProhibitCaching : function(propValue, propOldValue)
     {
       if (propValue)
       {
@@ -693,10 +691,9 @@ qx.Class.define("qx.io.remote.Request",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyMethod : function(propValue, propOldValue, propData)
+    _modifyMethod : function(propValue, propOldValue)
     {
       if (propValue === qx.net.Http.METHOD_POST) {
         this.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -714,10 +711,9 @@ qx.Class.define("qx.io.remote.Request",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyResponseType : function(propValue, propOldValue, propData)
+    _modifyResponseType : function(propValue, propOldValue)
     {
       this.setRequestHeader("X-Qooxdoo-Response-Type", propValue);
       return true;

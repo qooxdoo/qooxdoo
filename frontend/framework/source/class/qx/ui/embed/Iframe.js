@@ -430,10 +430,9 @@ qx.Class.define("qx.ui.embed.Iframe",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyElement : function(propValue, propOldValue, propData)
+    _modifyElement : function(propValue, propOldValue)
     {
       var iframeNode = this.getIframeNode();
 
@@ -462,7 +461,7 @@ qx.Class.define("qx.ui.embed.Iframe",
       propValue.appendChild(blockerNode);
 
       // create basic widget
-      this.base(arguments, propValue, propOldValue, propData);
+      this.base(arguments, propValue, propOldValue);
 
       return true;
     },
@@ -504,10 +503,9 @@ qx.Class.define("qx.ui.embed.Iframe",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifySource : function(propValue, propOldValue, propData)
+    _modifySource : function(propValue, propOldValue)
     {
       if (this.isCreated()) {
         this._applySource();

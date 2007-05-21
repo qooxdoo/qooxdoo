@@ -308,10 +308,9 @@ qx.Class.define("qx.ui.basic.Image",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifySource : function(propValue, propOldValue, propData)
+    _modifySource : function(propValue, propOldValue)
     {
       if (propValue && typeof qx.manager.object.ImageManager.getInstance()._sources[propValue] === "undefined") {
         qx.manager.object.ImageManager.getInstance()._sources[propValue] = 0;
@@ -348,10 +347,9 @@ qx.Class.define("qx.ui.basic.Image",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyPreloader : function(propValue, propOldValue, propData)
+    _modifyPreloader : function(propValue, propOldValue)
     {
       if (propOldValue)
       {
@@ -398,10 +396,9 @@ qx.Class.define("qx.ui.basic.Image",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyLoaded : function(propValue, propOldValue, propData)
+    _modifyLoaded : function(propValue, propOldValue)
     {
       if (propValue && this.isCreated())
       {
@@ -423,10 +420,9 @@ qx.Class.define("qx.ui.basic.Image",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyElement : function(propValue, propOldValue, propData)
+    _modifyElement : function(propValue, propOldValue)
     {
       if (propValue)
       {
@@ -469,7 +465,7 @@ qx.Class.define("qx.ui.basic.Image",
       }
 
       // call widget implmentation
-      this.base(arguments, propValue, propOldValue, propData);
+      this.base(arguments, propValue, propOldValue);
 
       if (propValue)
       {
@@ -527,28 +523,27 @@ qx.Class.define("qx.ui.basic.Image",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {void}
-     * @signature function(propValue, propOldValue, propData)
+     * @signature function(propValue, propOldValue)
      */
     _modifyEnabled : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(propValue, propOldValue, propData)
+      "mshtml" : function(propValue, propOldValue)
       {
         if (this._image) {
           this._applyEnabled();
         }
 
-        return this.base(arguments, propValue, propOldValue, propData);
+        return this.base(arguments, propValue, propOldValue);
       },
 
-      "default" : function(propValue, propOldValue, propData)
+      "default" : function(propValue, propOldValue)
       {
         if (this._image) {
           this._applyEnabled();
         }
 
-        return this.base(arguments, propValue, propOldValue, propData);
+        return this.base(arguments, propValue, propOldValue);
       }
     }),
 

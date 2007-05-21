@@ -574,10 +574,9 @@ qx.Class.define("qx.ui.component.ColorSelector",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyRed : function(propValue, propOldValue, propData)
+    _modifyRed : function(propValue, propOldValue)
     {
       if (this._updateContext === null) {
         this._updateContext = "redModifier";
@@ -615,10 +614,9 @@ qx.Class.define("qx.ui.component.ColorSelector",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyGreen : function(propValue, propOldValue, propData)
+    _modifyGreen : function(propValue, propOldValue)
     {
       if (this._updateContext === null) {
         this._updateContext = "greenModifier";
@@ -656,10 +654,9 @@ qx.Class.define("qx.ui.component.ColorSelector",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyBlue : function(propValue, propOldValue, propData)
+    _modifyBlue : function(propValue, propOldValue)
     {
       if (this._updateContext === null) {
         this._updateContext = "blueModifier";
@@ -705,10 +702,9 @@ qx.Class.define("qx.ui.component.ColorSelector",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyHue : function(propValue, propOldValue, propData)
+    _modifyHue : function(propValue, propOldValue)
     {
       if (this._updateContext === null) {
         this._updateContext = "hueModifier";
@@ -749,10 +745,9 @@ qx.Class.define("qx.ui.component.ColorSelector",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifySaturation : function(propValue, propOldValue, propData)
+    _modifySaturation : function(propValue, propOldValue)
     {
       if (this._updateContext === null) {
         this._updateContext = "saturationModifier";
@@ -793,10 +788,9 @@ qx.Class.define("qx.ui.component.ColorSelector",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyBrightness : function(propValue, propOldValue, propData)
+    _modifyBrightness : function(propValue, propOldValue)
     {
       if (this._updateContext === null) {
         this._updateContext = "brightnessModifier";

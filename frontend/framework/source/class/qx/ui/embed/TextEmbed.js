@@ -152,7 +152,6 @@ qx.Class.define("qx.ui.embed.TextEmbed",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
     _applyFont : function(value, old) {

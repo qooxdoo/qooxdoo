@@ -191,10 +191,9 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyLabel : function(propValue, propOldValue, propData)
+    _modifyLabel : function(propValue, propOldValue)
     {
       if (this._labelObject) {
         this._labelObject.setText(propValue);
@@ -210,10 +209,9 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifySelected : function(propValue, propOldValue, propData)
+    _modifySelected : function(propValue, propOldValue)
     {
       if (propValue)
       {
@@ -550,12 +548,11 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyParent : function(propValue, propOldValue, propData)
+    _modifyParent : function(propValue, propOldValue)
     {
-      this.base(arguments, propValue, propOldValue, propData);
+      this.base(arguments, propValue, propOldValue);
 
       // Be sure to update previous folder also if it is closed currently
       // (plus/minus symbol)

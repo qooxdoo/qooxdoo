@@ -247,10 +247,9 @@ qx.Class.define("qx.manager.selection.RadioManager",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifySelected : function(propValue, propOldValue, propData)
+    _modifySelected : function(propValue, propOldValue)
     {
       if (propOldValue) {
         propOldValue.setChecked(false);
@@ -268,10 +267,9 @@ qx.Class.define("qx.manager.selection.RadioManager",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyName : function(propValue, propOldValue, propData)
+    _modifyName : function(propValue, propOldValue)
     {
       for (var i=0, vItems=this._items, vLength=vItems.length; i<vLength; i++) {
         vItems[i].setName(propValue);

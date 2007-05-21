@@ -167,10 +167,9 @@ qx.Class.define("qx.manager.selection.SelectionManager",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyAnchorItem : function(propValue, propOldValue, propData)
+    _modifyAnchorItem : function(propValue, propOldValue)
     {
       if (propOldValue) {
         this.renderItemAnchorState(propOldValue, false);
@@ -190,10 +189,9 @@ qx.Class.define("qx.manager.selection.SelectionManager",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyLeadItem : function(propValue, propOldValue, propData)
+    _modifyLeadItem : function(propValue, propOldValue)
     {
       if (propOldValue) {
         this.renderItemLeadState(propOldValue, false);
