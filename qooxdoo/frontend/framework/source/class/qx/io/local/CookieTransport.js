@@ -191,7 +191,6 @@ qx.Class.define("qx.io.local.CookieTransport",
      *
      * @type static
      * @param vHash {var} TODOC
-     * @return {Boolean} TODOC
      */
     _setAll : function(vHash)
     {

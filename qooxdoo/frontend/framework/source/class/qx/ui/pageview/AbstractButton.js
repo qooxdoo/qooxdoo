@@ -152,7 +152,6 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyManager : function(value, old)
     {
@@ -194,7 +193,6 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyPage : function(value, old)
     {
@@ -216,7 +214,6 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyChecked : function(value, old)
     {
@@ -245,7 +242,6 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyName : function(value, old)
     {

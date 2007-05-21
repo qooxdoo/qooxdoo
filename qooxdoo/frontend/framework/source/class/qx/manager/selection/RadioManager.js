@@ -247,7 +247,6 @@ qx.Class.define("qx.manager.selection.RadioManager",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifySelected : function(value, old)
     {
@@ -267,7 +266,6 @@ qx.Class.define("qx.manager.selection.RadioManager",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyName : function(value, old)
     {

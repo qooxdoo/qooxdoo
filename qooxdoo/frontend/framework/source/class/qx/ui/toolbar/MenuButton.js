@@ -199,7 +199,6 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyMenu : function(value, old)
     {

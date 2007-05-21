@@ -482,7 +482,6 @@ qx.Class.define("qx.renderer.layout.VerticalBoxLayoutImpl",
      *
      * @type member
      * @param vQueue {var} TODOC
-     * @return {Boolean} TODOC
      */
     updateChildrenOnJobQueueFlush : function(vQueue)
     {

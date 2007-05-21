@@ -383,7 +383,6 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyShowKnob : function(value, old)
     {
@@ -398,7 +397,6 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyOrientation : function(value, old)
     {
@@ -496,7 +494,6 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyFirstSize : function(value, old)
     {
@@ -511,7 +508,6 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifySecondSize : function(value, old)
     {
@@ -526,7 +522,6 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifySplitterSize : function(value, old)
     {

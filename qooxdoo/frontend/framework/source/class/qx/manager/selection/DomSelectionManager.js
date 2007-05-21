@@ -69,7 +69,6 @@ qx.Class.define("qx.manager.selection.DomSelectionManager",
      *
      * @type member
      * @param oItem {Object} TODOC
-     * @return {Boolean} TODOC
      */
     getItemEnabled : function(oItem) {
       return true;
@@ -250,7 +249,6 @@ qx.Class.define("qx.manager.selection.DomSelectionManager",
      * @type member
      * @param vItem1 {var} TODOC
      * @param vItem2 {var} TODOC
-     * @return {Boolean} TODOC
      */
     isBefore : function(vItem1, vItem2)
     {

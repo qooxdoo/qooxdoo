@@ -237,7 +237,6 @@ qx.Class.define("qx.client.NativeWindow",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyPosition : function(value, old)
     {
@@ -267,7 +266,6 @@ qx.Class.define("qx.client.NativeWindow",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyDimension : function(value, old)
     {
@@ -297,7 +295,6 @@ qx.Class.define("qx.client.NativeWindow",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyName : function(value, old)
     {
@@ -313,7 +310,6 @@ qx.Class.define("qx.client.NativeWindow",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyUrl : function(value, old)
     {
@@ -330,7 +326,6 @@ qx.Class.define("qx.client.NativeWindow",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyOpen : function(value, old) {
       value ? this._open() : this._close();

@@ -205,7 +205,6 @@ qx.Class.define("qx.ui.pageview.tabview.Button",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyShowCloseButton : function(value, old)
     {
@@ -235,7 +234,6 @@ qx.Class.define("qx.ui.pageview.tabview.Button",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyCloseButtonImage : function(value, old)
     {

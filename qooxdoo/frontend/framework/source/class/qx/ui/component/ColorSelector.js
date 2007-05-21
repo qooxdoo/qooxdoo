@@ -574,7 +574,6 @@ qx.Class.define("qx.ui.component.ColorSelector",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyRed : function(value, old)
     {
@@ -614,7 +613,6 @@ qx.Class.define("qx.ui.component.ColorSelector",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyGreen : function(value, old)
     {
@@ -654,7 +652,6 @@ qx.Class.define("qx.ui.component.ColorSelector",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyBlue : function(value, old)
     {
@@ -702,7 +699,6 @@ qx.Class.define("qx.ui.component.ColorSelector",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyHue : function(value, old)
     {
@@ -745,7 +741,6 @@ qx.Class.define("qx.ui.component.ColorSelector",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifySaturation : function(value, old)
     {
@@ -788,7 +783,6 @@ qx.Class.define("qx.ui.component.ColorSelector",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyBrightness : function(value, old)
     {

@@ -430,7 +430,6 @@ qx.Class.define("qx.ui.embed.Iframe",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyElement : function(value, old)
     {
@@ -503,7 +502,6 @@ qx.Class.define("qx.ui.embed.Iframe",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifySource : function(value, old)
     {
@@ -542,7 +540,6 @@ qx.Class.define("qx.ui.embed.Iframe",
      * @param old {var} Previous value
      * @param propName {var} TODOC
      * @param uniqModIds {var} TODOC
-     * @return {Boolean} TODOC
      * @throws TODOC
      */
     _modifyFrameName : function(value, old, propName, uniqModIds)

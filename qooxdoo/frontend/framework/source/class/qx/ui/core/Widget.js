@@ -873,7 +873,6 @@ qx.Class.define("qx.ui.core.Widget",
      * @type static
      * @param vIgnoreClasses {var} TODOC
      * @param vInstance {var} TODOC
-     * @return {Boolean} TODOC
      */
     getActiveSiblingHelperIgnore : function(vIgnoreClasses, vInstance)
     {
@@ -2514,7 +2513,6 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @type member
      * @param vHint {var} TODOC
-     * @return {Boolean} TODOC
      */
     _handleDisplayable : function(vHint)
     {
@@ -2847,7 +2845,6 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyVisibility : function(value, old)
     {
@@ -2997,7 +2994,6 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyElement : function(value, old)
     {
@@ -3056,7 +3052,6 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @type member
      * @param p {var} TODOC
-     * @return {Boolean} TODOC
      */
     addToJobQueue : function(p)
     {
@@ -3446,7 +3441,6 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
      */
     _recomputeFlexX : function()
     {
@@ -3468,7 +3462,6 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
      */
     _recomputeFlexY : function()
     {
@@ -3501,7 +3494,6 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
      */
     _recomputePercentX : function()
     {
@@ -3547,7 +3539,6 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
      */
     _recomputePercentY : function()
     {
@@ -5222,7 +5213,6 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyAppearance : function(value, old)
     {
@@ -5316,7 +5306,6 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param propName {var} TODOC
      * @param value {var} Current value
-     * @return {Boolean} TODOC
      */
     setHtmlProperty : function(propName, value)
     {
@@ -5434,7 +5423,6 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param propName {var} TODOC
      * @param value {var} Current value
-     * @return {Boolean} TODOC
      * @deprecated Use {@link #setHtmlProperty} instead
      */
     setHtmlAttribute : function(propName, value)
@@ -5658,7 +5646,6 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyEnabled : function(value, old)
     {
@@ -5711,7 +5698,6 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
      */
     isFocusRoot : function() {
       return false;
@@ -5760,7 +5746,6 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyFocused : function(value, old)
     {
@@ -5821,7 +5806,6 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
      */
     _visualizeBlur : function()
     {
@@ -5844,7 +5828,6 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
      */
     _visualizeFocus : function()
     {
@@ -5905,7 +5888,6 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyCapture : function(value, old)
     {
@@ -6154,7 +6136,6 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      * @signature function(value, old)
      */
     _modifyCursor : function(value, old)
@@ -6375,7 +6356,6 @@ qx.Class.define("qx.ui.core.Widget",
      * @param pv {var} TODOC
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _applyOverflow : function(pn, pv, value, old)
     {
@@ -7056,7 +7036,6 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @type member
      * @param dragCache {var} TODOC
-     * @return {Boolean} TODOC
      */
     supportsDrop : function(dragCache) {
       return true;

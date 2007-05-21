@@ -282,7 +282,6 @@ qx.Class.define("qx.ui.menu.Menu",
      * @param vElement {Object} element to test
      * @param vButtonsOnly {boolean ? false} if true, child elements other than buttons
      *                                         will be ignored
-     * @return {Boolean} TODOC
      */
     isSubElement : function(vElement, vButtonsOnly)
     {
@@ -378,7 +377,6 @@ qx.Class.define("qx.ui.menu.Menu",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyHoverItem : function(value, old)
     {
@@ -400,7 +398,6 @@ qx.Class.define("qx.ui.menu.Menu",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyOpenItem : function(value, old)
     {

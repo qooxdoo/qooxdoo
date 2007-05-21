@@ -157,7 +157,6 @@ qx.Class.define("qx.ui.popup.ToolTip",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyHideInterval : function(value, old)
     {
@@ -172,7 +171,6 @@ qx.Class.define("qx.ui.popup.ToolTip",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyShowInterval : function(value, old)
     {
@@ -187,7 +185,6 @@ qx.Class.define("qx.ui.popup.ToolTip",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyBoundToWidget : function(value, old)
     {
@@ -415,7 +412,6 @@ qx.Class.define("qx.ui.popup.ToolTip",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {Boolean} TODOC
      */
     _onshowtimer : function(e)
     {

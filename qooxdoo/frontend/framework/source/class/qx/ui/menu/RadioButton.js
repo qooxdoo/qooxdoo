@@ -82,7 +82,6 @@ qx.Class.define("qx.ui.menu.RadioButton",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyChecked : function(value, old)
     {
@@ -102,7 +101,6 @@ qx.Class.define("qx.ui.menu.RadioButton",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyManager : function(value, old)
     {
@@ -122,7 +120,6 @@ qx.Class.define("qx.ui.menu.RadioButton",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyName : function(value, old)
     {

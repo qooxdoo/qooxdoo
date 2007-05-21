@@ -372,7 +372,6 @@ qx.Class.define("qx.ui.component.DateChooser",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyDate : function(value, old)
     {

@@ -125,7 +125,6 @@ qx.Class.define("qx.ui.table.TablePane",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyFirstVisibleRow : function(value, old)
     {
@@ -140,7 +139,6 @@ qx.Class.define("qx.ui.table.TablePane",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyVisibleRowCount : function(value, old)
     {

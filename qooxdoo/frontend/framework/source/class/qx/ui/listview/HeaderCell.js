@@ -232,7 +232,6 @@ qx.Class.define("qx.ui.listview.HeaderCell",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifySortOrder : function(value, old)
     {

@@ -299,7 +299,6 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyHorizontalScrollBarVisible : function(value, old)
     {
@@ -330,7 +329,6 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyVerticalScrollBarVisible : function(value, old)
     {
@@ -357,7 +355,6 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyTablePaneModel : function(value, old)
     {
@@ -377,7 +374,6 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyScrollX : function(value, old)
     {
@@ -392,7 +388,6 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyScrollY : function(value, old)
     {

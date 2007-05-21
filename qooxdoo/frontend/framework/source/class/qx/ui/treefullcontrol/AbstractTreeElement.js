@@ -199,15 +199,12 @@ qx.Class.define("qx.ui.treefullcontrol.AbstractTreeElement",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyLabel : function(value, old)
     {
       if (this._labelObject) {
         this._labelObject.setText(value);
       }
-
-      return true;
     },
 
 
@@ -217,7 +214,6 @@ qx.Class.define("qx.ui.treefullcontrol.AbstractTreeElement",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifySelected : function(value, old)
     {
@@ -252,8 +248,6 @@ qx.Class.define("qx.ui.treefullcontrol.AbstractTreeElement",
       } else if (value && vManager.getSelectedItem() != this) {
         vManager.setSelectedItem(this);
       }
-
-      return true;
     },
 
 
@@ -556,7 +550,6 @@ qx.Class.define("qx.ui.treefullcontrol.AbstractTreeElement",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyParent : function(value, old)
     {
@@ -573,8 +566,6 @@ qx.Class.define("qx.ui.treefullcontrol.AbstractTreeElement",
       if (value && !value.isDisplayable() && value.getParent() && value.getParent().isDisplayable()) {
         value.getParent().addToTreeQueue();
       }
-
-      return true;
     },
 
 

@@ -317,7 +317,6 @@ qx.Class.define("qx.ui.component.ColorPopup",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyValue : function(value, old)
     {
