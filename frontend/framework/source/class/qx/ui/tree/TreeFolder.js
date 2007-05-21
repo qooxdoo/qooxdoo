@@ -646,8 +646,6 @@ qx.Class.define("qx.ui.tree.TreeFolder",
       if (this._containerObject) {
         this._containerObject.setDisplay(value);
       }
-
-      return true;
     },
 
 
@@ -658,11 +656,8 @@ qx.Class.define("qx.ui.tree.TreeFolder",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyAlwaysShowPlusMinusSymbol : function(value, old)
-    {
+    _modifyAlwaysShowPlusMinusSymbol : function(value, old) {
       this._updateLastColumn();
-
-      return true;
     },
 
 
