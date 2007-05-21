@@ -230,9 +230,9 @@ def getTokens(fileDb, fileId, options):
         else:
             fileContent = filetool.read(filePath, fileEncoding)
 
-            #TODO: This hack is neccesary becaus the current parser cannot handle comments
-            #      Without a context.
-            if fileId.endswith("__init__"):
+            # TODO: This hack is neccesary because the current parser cannot handle comments
+            #       without a context.
+            if fileDb[fileId]["meta"]:
                 fileContent += "\n(function() {})()"
 
             tokens = tokenizer.parseStream(fileContent, fileId)
@@ -510,6 +510,7 @@ def indexFile(filePath, filePathId, classPath, listIndex, classEncoding, classUr
             "autoDependencies" : False,
             "cached" : False,
             "cachePath" : cachePath,
+            "meta" : fileId.endswith("__init__"),
             "ignoreDeps" : extractIgnore(fileContent, fileId),
             "optionalDeps" : extractOptional(fileContent, fileId),
             "loadtimeDeps" : extractLoadtimeDeps(fileContent, fileId),

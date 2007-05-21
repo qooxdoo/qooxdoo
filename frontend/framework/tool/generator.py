@@ -1093,6 +1093,9 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
         scriptBlocks = ""
         scriptBlocks += '<script type="text/javascript">%s</script>' % "".join(inlineSourceCode)
         for fileId in sortedIncludeList:
+            if fileDb[fileId]["meta"]:
+              continue
+
             if fileDb[fileId]["classUri"] == None:
                 print "  * Missing class URI definition for class path %s." % fileDb[fileId]["classPath"]
                 sys.exit(1)
@@ -1144,6 +1147,9 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
             print "  * Compiling: ",
 
         for fileId in sortedIncludeList:
+            if fileDb[fileId]["meta"]:
+              continue
+
             if options.verbose:
                 print "    - Compiling %s" % fileId
             else:
@@ -1152,6 +1158,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
             if options.prettyPrint:
                 options.prettyPrint = False  # make sure it's disabled
+
             compiledFileContent = compiler.compile(loader.getTree(fileDb, fileId, options), options, options.addNewLines, options.verbose)
 
             if options.addFileIds:
