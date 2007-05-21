@@ -1,0 +1,14 @@
+\b_modifyActive\b=_applyActive
+\b_modifyModal\b=_applyModal
+\b_modifyMode\b=_applyMode
+\b_modifyCaption\b=_applyCaption
+\b_modifyStatus\b=_applyStatus
+\b_modifyShowClose\b=_applyShowClose
+\b_modifyShowMaximize\b=_applyShowMaximize
+\b_modifyShowMinimize\b=_applyShowMinimize
+\b_modifyShowStatusbar\b=_applyShowStatusbar
+\b_modifyAllowClose\b=_applyAllowClose
+\b_modifyAllowMaximize\b=_applyAllowMaximize
+\b_modifyAllowMinimize\b=_applyAllowMinimize
+\b_modifyShowCaption\b=_applyShowCaption
+\b_modifyShowIcon\b=_applyShowIcon
