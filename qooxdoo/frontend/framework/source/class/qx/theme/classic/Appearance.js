@@ -48,9 +48,12 @@
 # Cursor
 #embed(qx.widgettheme/cursors/*)
 
-# Table
+# Table (HeaderCell)
 #embed(qx.widgettheme/table/ascending.png)
 #embed(qx.widgettheme/table/descending.png)
+
+# Splitpane
+#embed(qx.widgettheme/splitpane/*)
 
 ************************************************************************* */
 
