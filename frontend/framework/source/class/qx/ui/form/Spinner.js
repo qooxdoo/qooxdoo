@@ -421,7 +421,6 @@ qx.Class.define("qx.ui.form.Spinner",
       }
       else
       {
-        this.debug(vIdentifier);
         switch(vIdentifier)
         {
           case "Up":
