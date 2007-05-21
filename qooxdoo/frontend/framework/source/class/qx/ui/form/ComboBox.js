@@ -334,8 +334,6 @@ qx.Class.define("qx.ui.form.ComboBox",
 
       // reset hint
       delete this._fromSelected;
-
-      return true;
     },
 
 
@@ -378,8 +376,6 @@ qx.Class.define("qx.ui.form.ComboBox",
 
       // reset hint
       delete this._fromValue;
-
-      return true;
     },
 
 
@@ -397,8 +393,6 @@ qx.Class.define("qx.ui.form.ComboBox",
       f.setReadOnly(!value);
       f.setCursor(value ? null : "default");
       f.setSelectable(value);
-
-      return true;
     },
 
 
@@ -920,7 +914,6 @@ qx.Class.define("qx.ui.form.ComboBox",
       }
 
       this.removeState("focused");
-      return true;
     },
 
 
@@ -949,7 +942,6 @@ qx.Class.define("qx.ui.form.ComboBox",
       }
 
       this.addState("focused");
-      return true;
     }
   },
 

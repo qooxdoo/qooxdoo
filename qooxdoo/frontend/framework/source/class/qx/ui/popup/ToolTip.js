@@ -158,10 +158,8 @@ qx.Class.define("qx.ui.popup.ToolTip",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyHideInterval : function(value, old)
-    {
+    _modifyHideInterval : function(value, old) {
       this._hideTimer.setInterval(value);
-      return true;
     },
 
 
@@ -172,10 +170,8 @@ qx.Class.define("qx.ui.popup.ToolTip",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyShowInterval : function(value, old)
-    {
+    _modifyShowInterval : function(value, old) {
       this._showTimer.setInterval(value);
-      return true;
     },
 
 
@@ -193,8 +189,6 @@ qx.Class.define("qx.ui.popup.ToolTip",
       } else if (old) {
         this.setParent(null);
       }
-
-      return true;
     },
 
 
@@ -424,8 +418,6 @@ qx.Class.define("qx.ui.popup.ToolTip",
       // there is currently no event which does this for us
       // and so show the tooltip.
       qx.ui.core.Widget.flushGlobalQueues();
-
-      return true;
     },
 
 

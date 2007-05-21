@@ -509,8 +509,6 @@ qx.Class.define("qx.ui.table.Table",
       }
 
       value.addEventListener("changeSelection", this._onSelectionChanged, this);
-
-      return true;
     },
 
     // property modifier
@@ -536,8 +534,6 @@ qx.Class.define("qx.ui.table.Table",
 
       // Update the status bar
       this._updateStatusBar();
-
-      return true;
     },
 
     // property modifier
@@ -580,8 +576,6 @@ qx.Class.define("qx.ui.table.Table",
         var paneModel = paneScroller.getTablePaneModel();
         paneModel._tableColumnModel = value;
       }
-
-      return true;
     },
 
     // property modifier
@@ -599,8 +593,6 @@ qx.Class.define("qx.ui.table.Table",
       if (value) {
         this._updateStatusBar();
       }
-
-      return true;
     },
 
     // property modifier
@@ -611,11 +603,8 @@ qx.Class.define("qx.ui.table.Table",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyColumnVisibilityButtonVisible : function(value, old)
-    {
+    _modifyColumnVisibilityButtonVisible : function(value, old) {
       this._columnVisibilityBt.setDisplay(value);
-
-      return true;
     },
 
     // property modifier
@@ -685,8 +674,6 @@ qx.Class.define("qx.ui.table.Table",
 
       this._updateScrollerWidths();
       this._updateScrollBarVisibility();
-
-      return true;
     },
 
     // property modifier
@@ -704,8 +691,6 @@ qx.Class.define("qx.ui.table.Table",
       for (var i=0; i<scrollerArr.length; i++) {
         scrollerArr[i].setFocusCellOnMouseMove(value);
       }
-
-      return true;
     },
 
     // property modifier
@@ -723,8 +708,6 @@ qx.Class.define("qx.ui.table.Table",
       for (var i=0; i<scrollerArr.length; i++) {
         scrollerArr[i]._onKeepFirstVisibleRowCompleteChanged();
       }
-
-      return true;
     },
 
     // property modifier
@@ -742,8 +725,6 @@ qx.Class.define("qx.ui.table.Table",
       for (var i=0; i<scrollerArr.length; i++) {
         scrollerArr[i].getHeader().setHeight(value);
       }
-
-      return true;
     },
 
 
@@ -761,8 +742,6 @@ qx.Class.define("qx.ui.table.Table",
         old.dispose();
         old = null;
       }
-
-      return true;
     },
 
 

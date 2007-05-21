@@ -137,7 +137,6 @@ qx.Class.define("qx.ui.table.TablePaneModel",
     {
       this._columnCount = null;
       this.createDispatchEvent(qx.ui.table.TablePaneModel.EVENT_TYPE_MODEL_CHANGED);
-      return true;
     },
 
     // property modifier
@@ -152,7 +151,6 @@ qx.Class.define("qx.ui.table.TablePaneModel",
     {
       this._columnCount = null;
       this.createDispatchEvent(qx.ui.table.TablePaneModel.EVENT_TYPE_MODEL_CHANGED);
-      return true;
     },
 
 

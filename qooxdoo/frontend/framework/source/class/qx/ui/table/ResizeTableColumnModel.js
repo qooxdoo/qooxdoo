@@ -114,7 +114,6 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
 
       // Tell the new behavior how many columns there are
       this.getBehavior()._setNumColumns(this._columnDataArr.length);
-      return true;
     },
 
 

@@ -1566,7 +1566,6 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       }
 
       this.removeState("focused");
-      return true;
     },
 
 
@@ -1595,7 +1594,6 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       }
 
       this.addState("focused");
-      return true;
     }
   },
 

@@ -118,8 +118,6 @@ qx.Class.define("qx.ui.table.SelectionModel",
       if (selectionMode == qx.ui.table.SelectionModel.NO_SELECTION) {
         this.clearSelection();
       }
-
-      return true;
     },
 
 
