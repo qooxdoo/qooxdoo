@@ -1341,7 +1341,8 @@ qx.Theme.define("qx.theme.ext.Appearance",
           padding               : padding,
           verticalChildrenAlign : "middle",
           backgroundColor       : states.abandoned ? "button" : "table-header-cell",
-          backgroundImage       : "widget/gradient/button_gradient.png"
+          backgroundImage       : "widget/gradient/button_gradient.png",
+          icon                  : "widget/table/selectColumnOrder.png"
         };
       }
     },
@@ -1381,7 +1382,10 @@ qx.Theme.define("qx.theme.ext.Appearance",
           verticalChildrenAlign : "middle",
           border                : border,
           backgroundColor       : backgroundColor,
-          backgroundImage       : "widget/gradient/button_gradient.png"
+          backgroundImage       : "widget/gradient/button_gradient.png",
+          icon                  : states.sorted ?
+            (states.sortedAscending ? "widget/table/ascending.png" : "widget/table/descending.png")
+            : null
         };
       }
     },
