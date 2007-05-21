@@ -656,7 +656,7 @@ qx.Class.define("qx.ui.form.Spinner",
       }
       else
       {
-        this._downbutton.setEnabled(true);
+        this._downbutton.resetEnabled();
       }
 
       if (vValue == this.getMax())
@@ -667,7 +667,7 @@ qx.Class.define("qx.ui.form.Spinner",
       }
       else
       {
-        this._upbutton.setEnabled(true);
+        this._upbutton.resetEnabled();
       }
 
       this.createDispatchDataEvent("change", vValue);
