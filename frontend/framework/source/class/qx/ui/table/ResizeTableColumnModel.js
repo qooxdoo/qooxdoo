@@ -101,16 +101,16 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyBehavior : function(propValue, propOldValue)
+    _modifyBehavior : function(value, old)
     {
-      if (propOldValue != null)
+      if (old != null)
       {
-        propOldValue.dispose();
-        propOldValue = null;
+        old.dispose();
+        old = null;
       }
 
       // Tell the new behavior how many columns there are

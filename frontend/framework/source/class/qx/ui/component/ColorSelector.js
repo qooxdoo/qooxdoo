@@ -572,18 +572,18 @@ qx.Class.define("qx.ui.component.ColorSelector",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyRed : function(propValue, propOldValue)
+    _modifyRed : function(value, old)
     {
       if (this._updateContext === null) {
         this._updateContext = "redModifier";
       }
 
       if (this._updateContext !== "rgbSpinner") {
-        this._rgbSpinRed.setValue(propValue);
+        this._rgbSpinRed.setValue(value);
       }
 
       if (this._updateContext !== "hexField") {
@@ -612,18 +612,18 @@ qx.Class.define("qx.ui.component.ColorSelector",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyGreen : function(propValue, propOldValue)
+    _modifyGreen : function(value, old)
     {
       if (this._updateContext === null) {
         this._updateContext = "greenModifier";
       }
 
       if (this._updateContext !== "rgbSpinner") {
-        this._rgbSpinGreen.setValue(propValue);
+        this._rgbSpinGreen.setValue(value);
       }
 
       if (this._updateContext !== "hexField") {
@@ -652,18 +652,18 @@ qx.Class.define("qx.ui.component.ColorSelector",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyBlue : function(propValue, propOldValue)
+    _modifyBlue : function(value, old)
     {
       if (this._updateContext === null) {
         this._updateContext = "blueModifier";
       }
 
       if (this._updateContext !== "rgbSpinner") {
-        this._rgbSpinBlue.setValue(propValue);
+        this._rgbSpinBlue.setValue(value);
       }
 
       if (this._updateContext !== "hexField") {
@@ -700,26 +700,26 @@ qx.Class.define("qx.ui.component.ColorSelector",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyHue : function(propValue, propOldValue)
+    _modifyHue : function(value, old)
     {
       if (this._updateContext === null) {
         this._updateContext = "hueModifier";
       }
 
       if (this._updateContext !== "hsbSpinner") {
-        this._hsbSpinHue.setValue(propValue);
+        this._hsbSpinHue.setValue(value);
       }
 
       if (this._updateContext !== "hueSaturationField")
       {
         if (this._hueSaturationHandle.isCreated()) {
-          this._hueSaturationHandle._applyRuntimeLeft(Math.round(propValue / 1.40625) + this._hueSaturationPane.getPaddingLeft());
+          this._hueSaturationHandle._applyRuntimeLeft(Math.round(value / 1.40625) + this._hueSaturationPane.getPaddingLeft());
         } else {
-          this._hueSaturationHandle.setLeft(Math.round(propValue / 1.40625));
+          this._hueSaturationHandle.setLeft(Math.round(value / 1.40625));
         }
       }
 
@@ -743,26 +743,26 @@ qx.Class.define("qx.ui.component.ColorSelector",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifySaturation : function(propValue, propOldValue)
+    _modifySaturation : function(value, old)
     {
       if (this._updateContext === null) {
         this._updateContext = "saturationModifier";
       }
 
       if (this._updateContext !== "hsbSpinner") {
-        this._hsbSpinSaturation.setValue(propValue);
+        this._hsbSpinSaturation.setValue(value);
       }
 
       if (this._updateContext !== "hueSaturationField")
       {
         if (this._hueSaturationHandle.isCreated()) {
-          this._hueSaturationHandle._applyRuntimeTop(256 - Math.round(propValue * 2.56) + this._hueSaturationPane.getPaddingTop());
+          this._hueSaturationHandle._applyRuntimeTop(256 - Math.round(value * 2.56) + this._hueSaturationPane.getPaddingTop());
         } else {
-          this._hueSaturationHandle.setTop(256 - Math.round(propValue * 2.56));
+          this._hueSaturationHandle.setTop(256 - Math.round(value * 2.56));
         }
       }
 
@@ -786,23 +786,23 @@ qx.Class.define("qx.ui.component.ColorSelector",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyBrightness : function(propValue, propOldValue)
+    _modifyBrightness : function(value, old)
     {
       if (this._updateContext === null) {
         this._updateContext = "brightnessModifier";
       }
 
       if (this._updateContext !== "hsbSpinner") {
-        this._hsbSpinBrightness.setValue(propValue);
+        this._hsbSpinBrightness.setValue(value);
       }
 
       if (this._updateContext !== "brightnessField")
       {
-        var topValue = 256 - Math.round(propValue * 2.56);
+        var topValue = 256 - Math.round(value * 2.56);
 
         if (this._brightnessHandle.isCreated()) {
           this._brightnessHandle._applyRuntimeTop(topValue + this._brightnessPane.getPaddingTop());

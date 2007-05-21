@@ -155,13 +155,13 @@ qx.Class.define("qx.ui.popup.ToolTip",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyHideInterval : function(propValue, propOldValue)
+    _modifyHideInterval : function(value, old)
     {
-      this._hideTimer.setInterval(propValue);
+      this._hideTimer.setInterval(value);
       return true;
     },
 
@@ -170,13 +170,13 @@ qx.Class.define("qx.ui.popup.ToolTip",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyShowInterval : function(propValue, propOldValue)
+    _modifyShowInterval : function(value, old)
     {
-      this._showTimer.setInterval(propValue);
+      this._showTimer.setInterval(value);
       return true;
     },
 
@@ -185,15 +185,15 @@ qx.Class.define("qx.ui.popup.ToolTip",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyBoundToWidget : function(propValue, propOldValue)
+    _modifyBoundToWidget : function(value, old)
     {
-      if (propValue) {
-        this.setParent(propValue.getTopLevelWidget());
-      } else if (propOldValue) {
+      if (value) {
+        this.setParent(value.getTopLevelWidget());
+      } else if (old) {
         this.setParent(null);
       }
 

@@ -418,20 +418,20 @@ qx.Class.define("qx.io.remote.AbstractRemoteTransport",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _applyState : function(propValue, propOldValue)
+    _applyState : function(value, old)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (qx.core.Setting.get("qx.ioRemoteDebug")) {
-          this.debug("State: " + propValue);
+          this.debug("State: " + value);
         }
       }
 
-      switch(propValue)
+      switch(value)
       {
         case "created":
           this.createDispatchEvent("created");

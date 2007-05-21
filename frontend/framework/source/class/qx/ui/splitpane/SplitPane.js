@@ -381,13 +381,13 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyShowKnob : function(propValue, propOldValue)
+    _modifyShowKnob : function(value, old)
     {
-      this._knob.setVisibility(propValue);
+      this._knob.setVisibility(value);
       return true;
     },
 
@@ -396,16 +396,16 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyOrientation : function(propValue, propOldValue)
+    _modifyOrientation : function(value, old)
     {
       // sync orientation to layout
-      this._box.setOrientation(propValue);
+      this._box.setOrientation(value);
 
-      switch(propOldValue)
+      switch(old)
       {
         case "horizontal":
           // remove old listeners
@@ -448,7 +448,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
           break;
       }
 
-      switch(propValue)
+      switch(value)
       {
         case "horizontal":
           // add new listeners
@@ -494,11 +494,11 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyFirstSize : function(propValue, propOldValue)
+    _modifyFirstSize : function(value, old)
     {
       this._syncFirstSize();
       return true;
@@ -509,11 +509,11 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifySecondSize : function(propValue, propOldValue)
+    _modifySecondSize : function(value, old)
     {
       this._syncSecondSize();
       return true;
@@ -524,11 +524,11 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifySplitterSize : function(propValue, propOldValue)
+    _modifySplitterSize : function(value, old)
     {
       this._syncSplitterSize();
       return true;

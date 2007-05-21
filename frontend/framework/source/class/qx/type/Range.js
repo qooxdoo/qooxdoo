@@ -93,12 +93,12 @@ qx.Class.define("qx.type.Range",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyMax : function(propValue, propOldValue) {
-      this.setValue(Math.min(this.getValue(), propValue));
+    _modifyMax : function(value, old) {
+      this.setValue(Math.min(this.getValue(), value));
     },
 
 
@@ -106,12 +106,12 @@ qx.Class.define("qx.type.Range",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyMin : function(propValue, propOldValue) {
-      this.setValue(Math.max(this.getValue(), propValue));
+    _modifyMin : function(value, old) {
+      this.setValue(Math.max(this.getValue(), value));
     },
 
 

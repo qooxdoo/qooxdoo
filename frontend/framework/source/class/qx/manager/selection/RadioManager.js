@@ -245,18 +245,18 @@ qx.Class.define("qx.manager.selection.RadioManager",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifySelected : function(propValue, propOldValue)
+    _modifySelected : function(value, old)
     {
-      if (propOldValue) {
-        propOldValue.setChecked(false);
+      if (old) {
+        old.setChecked(false);
       }
 
-      if (propValue) {
-        propValue.setChecked(true);
+      if (value) {
+        value.setChecked(true);
       }
     },
 
@@ -265,14 +265,14 @@ qx.Class.define("qx.manager.selection.RadioManager",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyName : function(propValue, propOldValue)
+    _modifyName : function(value, old)
     {
       for (var i=0, vItems=this._items, vLength=vItems.length; i<vLength; i++) {
-        vItems[i].setName(propValue);
+        vItems[i].setName(value);
       }
 
       return true;

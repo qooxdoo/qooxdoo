@@ -294,13 +294,13 @@ qx.Class.define("qx.ui.form.Spinner",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyIncrementAmount : function(propValue, propOldValue)
+    _modifyIncrementAmount : function(value, old)
     {
-      this._computedIncrementAmount = propValue;
+      this._computedIncrementAmount = value;
       return true;
     },
 
@@ -309,15 +309,15 @@ qx.Class.define("qx.ui.form.Spinner",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyEditable : function(propValue, propOldValue)
+    _modifyEditable : function(value, old)
     {
       if (this._textfield)
       {
-        this._textfield.setReadOnly(! propValue);
+        this._textfield.setReadOnly(! value);
       }
       return true;
     },
@@ -327,20 +327,20 @@ qx.Class.define("qx.ui.form.Spinner",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyManager : function(propValue, propOldValue)
+    _modifyManager : function(value, old)
     {
-      if (propOldValue)
+      if (old)
       {
-        propOldValue.removeEventListener("change", this._onchange, this);
+        old.removeEventListener("change", this._onchange, this);
       }
 
-      if (propValue)
+      if (value)
       {
-        propValue.addEventListener("change", this._onchange, this);
+        value.addEventListener("change", this._onchange, this);
       }
 
       // apply initital value
@@ -352,13 +352,13 @@ qx.Class.define("qx.ui.form.Spinner",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyCheckValueFunction : function(propValue, propOldValue)
+    _modifyCheckValueFunction : function(value, old)
     {
-      this._checkValue = propValue;
+      this._checkValue = value;
       return true;
     },
 

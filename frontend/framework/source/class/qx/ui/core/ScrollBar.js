@@ -205,10 +205,10 @@ qx.Class.define("qx.ui.core.ScrollBar",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
+     * @param value {var} Current value
      * @return {var} TODOC
      */
-    _checkValue : function(propValue, propData)
+    _checkValue : function(value, propData)
     {
       var innerSize = !this.getElement() ? 0 : (this._horizontal ? this.getInnerWidth() : this.getInnerHeight());
 
@@ -217,21 +217,21 @@ qx.Class.define("qx.ui.core.ScrollBar",
       //       this negative maximum instead of 0. But we need that the minimum is
       //       stronger than the maximum.
       //       -> We use Math.max and Math.min
-      return Math.max(0, Math.min(this.getMaximum() - innerSize, propValue));
+      return Math.max(0, Math.min(this.getMaximum() - innerSize, value));
     },
 
     /**
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyValue : function(propValue, propOldValue)
+    _modifyValue : function(value, old)
     {
       if (!this._internalValueChange && this._isCreated) {
-        this._positionKnob(propValue);
+        this._positionKnob(value);
       }
 
       return true;
@@ -241,16 +241,16 @@ qx.Class.define("qx.ui.core.ScrollBar",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyMaximum : function(propValue, propOldValue)
+    _modifyMaximum : function(value, old)
     {
       if (this._horizontal) {
-        this._scrollContent.setWidth(propValue);
+        this._scrollContent.setWidth(value);
       } else {
-        this._scrollContent.setHeight(propValue);
+        this._scrollContent.setHeight(value);
       }
 
       // recheck the value
@@ -264,19 +264,19 @@ qx.Class.define("qx.ui.core.ScrollBar",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyVisibility : function(propValue, propOldValue)
+    _modifyVisibility : function(value, old)
     {
-      if (!propValue) {
+      if (!value) {
         this._positionKnob(0);
       } else {
         this._positionKnob(this.getValue());
       }
 
-      return this.base(arguments, propValue, propOldValue);
+      return this.base(arguments, value, old);
     },
 
     // overridden

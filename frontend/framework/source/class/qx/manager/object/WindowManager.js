@@ -82,28 +82,28 @@ qx.Class.define("qx.manager.object.WindowManager",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyActiveWindow : function(propValue, propOldValue)
+    _modifyActiveWindow : function(value, old)
     {
       qx.manager.object.PopupManager.getInstance().update();
 
-      if (propOldValue) {
-        propOldValue.setActive(false);
+      if (old) {
+        old.setActive(false);
       }
 
-      if (propValue) {
-        propValue.setActive(true);
+      if (value) {
+        value.setActive(true);
       }
 
-      if (propOldValue && propOldValue.getModal()) {
-        propOldValue.getTopLevelWidget().release(propOldValue);
+      if (old && old.getModal()) {
+        old.getTopLevelWidget().release(old);
       }
 
-      if (propValue && propValue.getModal()) {
-        propValue.getTopLevelWidget().block(propValue);
+      if (value && value.getModal()) {
+        value.getTopLevelWidget().block(value);
       }
 
       return true;

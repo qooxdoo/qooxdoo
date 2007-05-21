@@ -88,11 +88,11 @@ qx.Class.define("qx.log.RingBufferAppender",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {void}
      */
-    _modifyMaxMessages : function(propValue, propOldValue)
+    _modifyMaxMessages : function(value, old)
     {
       this._history = [];
       this._nextIndexToStoreTo = 0;

@@ -461,11 +461,11 @@ qx.Class.define("qx.ui.core.ClientDocument",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyGlobalCursor : function(propValue, propOldValue)
+    _modifyGlobalCursor : function(value, old)
     {
       if (!this._globalCursorStyleSheet) {
         this._globalCursorStyleSheet = this.createStyleElement();
@@ -475,13 +475,13 @@ qx.Class.define("qx.ui.core.ClientDocument",
       // this.removeCssRule(this._globalCursorStyleSheet, "*");
       this.removeAllCssRules(this._globalCursorStyleSheet);
 
-      if (propValue) {
-        if (propValue == "pointer" && qx.core.Client.getInstance().isMshtml()) {
+      if (value) {
+        if (value == "pointer" && qx.core.Client.getInstance().isMshtml()) {
           var cursor = "hand";
         } else {
-          var cursor = propValue;
+          var cursor = value;
         }
-        this.addCssRule(this._globalCursorStyleSheet, "*", "cursor:" + propValue + " !important");
+        this.addCssRule(this._globalCursorStyleSheet, "*", "cursor:" + value + " !important");
       }
 
       return true;

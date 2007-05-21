@@ -83,29 +83,29 @@ qx.Class.define("qx.manager.object.ToolTipManager",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {void | Boolean} TODOC
      */
-    _modifyCurrentToolTip : function(propValue, propOldValue)
+    _modifyCurrentToolTip : function(value, old)
     {
       // Return if the new tooltip is a child of the old one
-      if (propOldValue && propOldValue.contains(propValue)) {
+      if (old && old.contains(value)) {
         return;
       }
 
       // If old tooltip existing, hide it and clear widget binding
-      if (propOldValue)
+      if (old)
       {
-        propOldValue.hide();
+        old.hide();
 
-        propOldValue._stopShowTimer();
-        propOldValue._stopHideTimer();
+        old._stopShowTimer();
+        old._stopHideTimer();
       }
 
       // If new tooltip is not null, set it up and start the timer
-      if (propValue) {
-        propValue._startShowTimer();
+      if (value) {
+        value._startShowTimer();
       }
 
       return true;

@@ -110,12 +110,12 @@ qx.Class.define("qx.ui.menu.CheckBox",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyChecked : function(propValue, propOldValue) {
-      propValue === true ? this.addState("checked") : this.removeState("checked");
+    _modifyChecked : function(value, old) {
+      value === true ? this.addState("checked") : this.removeState("checked");
     },
 
 

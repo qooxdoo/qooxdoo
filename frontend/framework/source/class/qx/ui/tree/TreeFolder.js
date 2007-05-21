@@ -636,16 +636,16 @@ qx.Class.define("qx.ui.tree.TreeFolder",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyOpen : function(propValue, propOldValue)
+    _modifyOpen : function(value, old)
     {
       this._updateLastColumn();
 
       if (this._containerObject) {
-        this._containerObject.setDisplay(propValue);
+        this._containerObject.setDisplay(value);
       }
 
       return true;
@@ -656,11 +656,11 @@ qx.Class.define("qx.ui.tree.TreeFolder",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyAlwaysShowPlusMinusSymbol : function(propValue, propOldValue)
+    _modifyAlwaysShowPlusMinusSymbol : function(value, old)
     {
       this._updateLastColumn();
 

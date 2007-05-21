@@ -247,15 +247,15 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {void | Boolean} TODOC
      */
-    _modifyFadeSteps : function(propValue, propOldValue)
+    _modifyFadeSteps : function(value, old)
     {
-      if (propValue < 1) return;
-      this.setFadeInterval(parseInt(this.getFadeTime() / propValue));
-      this.setFadeUnit(Math.round(this.getFadeMax() / propValue));
+      if (value < 1) return;
+      this.setFadeInterval(parseInt(this.getFadeTime() / value));
+      this.setFadeUnit(Math.round(this.getFadeMax() / value));
       return true;
     },
 
@@ -264,14 +264,14 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {void | Boolean} TODOC
      */
-    _modifyFadeTime : function(propValue, propOldValue)
+    _modifyFadeTime : function(value, old)
     {
-      if (propValue < 1) return;
-      this.setFadeInterval(parseInt(propValue / this.getFadeSteps()));
+      if (value < 1) return;
+      this.setFadeInterval(parseInt(value / this.getFadeSteps()));
       return true;
     },
 
@@ -280,13 +280,13 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyFadeUnit : function(propValue, propOldValue)
+    _modifyFadeUnit : function(value, old)
     {
-      this.setFadeSteps(Math.round(this.getFadeMax() / propValue));
+      this.setFadeSteps(Math.round(this.getFadeMax() / value));
       return true;
     },
 
@@ -295,13 +295,13 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyFadeMax : function(propValue, propOldValue)
+    _modifyFadeMax : function(value, old)
     {
-      this.setFadeUnit(Math.round(propValue / this.getFadeSteps()));
+      this.setFadeUnit(Math.round(value / this.getFadeSteps()));
       return true;
     },
 

@@ -409,23 +409,23 @@ qx.Class.define("qx.ui.basic.Atom",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyIconPosition : function(propValue, propOldValue)
+    _modifyIconPosition : function(value, old)
     {
-      switch(propValue)
+      switch(value)
       {
         case "top":
         case "bottom":
           this.setOrientation("vertical");
-          this.setReverseChildrenOrder(propValue == "bottom");
+          this.setReverseChildrenOrder(value == "bottom");
           break;
 
         default:
           this.setOrientation("horizontal");
-          this.setReverseChildrenOrder(propValue == "right");
+          this.setReverseChildrenOrder(value == "right");
           break;
       }
 
@@ -437,11 +437,11 @@ qx.Class.define("qx.ui.basic.Atom",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyShow : function(propValue, propOldValue)
+    _modifyShow : function(value, old)
     {
       this._handleIcon();
       this._handleLabel();
@@ -454,14 +454,14 @@ qx.Class.define("qx.ui.basic.Atom",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyLabel : function(propValue, propOldValue)
+    _modifyLabel : function(value, old)
     {
       if (this._labelObject) {
-        this._labelObject.setText(propValue);
+        this._labelObject.setText(value);
       }
 
       this._handleLabel();
@@ -474,11 +474,11 @@ qx.Class.define("qx.ui.basic.Atom",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyIcon : function(propValue, propOldValue)
+    _modifyIcon : function(value, old)
     {
       this._updateIcon();
       this._handleIcon();
@@ -491,11 +491,11 @@ qx.Class.define("qx.ui.basic.Atom",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyDisabledIcon : function(propValue, propOldValue)
+    _modifyDisabledIcon : function(value, old)
     {
       this._updateIcon();
       this._handleIcon();
@@ -508,13 +508,13 @@ qx.Class.define("qx.ui.basic.Atom",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyIconWidth : function(propValue, propOldValue)
+    _modifyIconWidth : function(value, old)
     {
-      this._iconObject.setWidth(propValue);
+      this._iconObject.setWidth(value);
       return true;
     },
 
@@ -523,13 +523,13 @@ qx.Class.define("qx.ui.basic.Atom",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyIconHeight : function(propValue, propOldValue)
+    _modifyIconHeight : function(value, old)
     {
-      this._iconObject.setHeight(propValue);
+      this._iconObject.setHeight(value);
       return true;
     },
 

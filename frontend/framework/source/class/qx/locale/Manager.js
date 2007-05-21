@@ -242,16 +242,16 @@ qx.Class.define("qx.locale.Manager",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyLocale : function(propValue, propOldValue)
+    _modifyLocale : function(value, old)
     {
-      this._locale = propValue;
+      this._locale = value;
 
-      var pos = propValue.indexOf("_");
-      this._language = this._extractLanguage(propValue);
+      var pos = value.indexOf("_");
+      this._language = this._extractLanguage(value);
 
       return true;
     },

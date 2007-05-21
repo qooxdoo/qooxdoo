@@ -123,11 +123,11 @@ qx.Class.define("qx.ui.table.TablePane",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyFirstVisibleRow : function(propValue, propOldValue)
+    _modifyFirstVisibleRow : function(value, old)
     {
       this._updateContent();
       return true;
@@ -138,11 +138,11 @@ qx.Class.define("qx.ui.table.TablePane",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyVisibleRowCount : function(propValue, propOldValue)
+    _modifyVisibleRowCount : function(value, old)
     {
       this._updateContent();
       return true;

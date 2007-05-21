@@ -230,15 +230,15 @@ qx.Class.define("qx.ui.listview.HeaderCell",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifySortOrder : function(propValue, propOldValue)
+    _modifySortOrder : function(value, old)
     {
       var vListView = this.getView();
 
-      switch(propValue)
+      switch(value)
       {
         case qx.ui.listview.HeaderCell.C_SORT_ASCENDING:
           this._arrowup.setDisplay(true);
@@ -263,7 +263,7 @@ qx.Class.define("qx.ui.listview.HeaderCell",
           }
       }
 
-      if (propValue)
+      if (value)
       {
         this.updateSort();
         vListView.update();
