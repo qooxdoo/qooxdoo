@@ -20,8 +20,6 @@
 /* ************************************************************************
 
 #module(ui_table)
-#embed(qx.widgettheme/table/ascending.png)
-#embed(qx.widgettheme/table/descending.png)
 
 ************************************************************************ */
 
