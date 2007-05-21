@@ -121,7 +121,7 @@ qx.Class.define("qx.ui.menu.RadioButton",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyName : function(value, old)
+    _applyName : function(value, old)
     {
       if (this.getManager()) {
         this.getManager().setName(value);

@@ -82,7 +82,7 @@ qx.Class.define("qx.ui.layout.BoxLayout",
     {
       check : [ "horizontal", "vertical" ],
       init : "horizontal",
-      apply : "_modifyOrientation",
+      apply : "_applyOrientation",
       event : "changeOrientation"
     },
 
@@ -298,7 +298,7 @@ qx.Class.define("qx.ui.layout.BoxLayout",
      * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyOrientation : function(value, old)
+    _applyOrientation : function(value, old)
     {
       // update fast access variables
       this._layoutHorizontal = value == "horizontal";

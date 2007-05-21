@@ -72,7 +72,7 @@ qx.Class.define("qx.ui.pageview.tabview.Button",
     {
       check : "Boolean",
       init : false,
-      apply : "_modifyShowCloseButton",
+      apply : "_applyShowCloseButton",
       event : "changeShowCloseButton"
     },
 
@@ -82,7 +82,7 @@ qx.Class.define("qx.ui.pageview.tabview.Button",
     {
       check : "String",
       init : "icon/16/actions/dialog-cancel.png",
-      apply : "_modifyCloseButtonImage"
+      apply : "_applyCloseButtonImage"
     }
   },
 
@@ -206,7 +206,7 @@ qx.Class.define("qx.ui.pageview.tabview.Button",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyShowCloseButton : function(value, old)
+    _applyShowCloseButton : function(value, old)
     {
       // if no image exists, then create one
       if (!this._closeButtonImage) {
@@ -233,7 +233,7 @@ qx.Class.define("qx.ui.pageview.tabview.Button",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyCloseButtonImage : function(value, old)
+    _applyCloseButtonImage : function(value, old)
     {
       if (this._closeButtonImage) {
         this._closeButtonImage.setSource(value);

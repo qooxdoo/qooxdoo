@@ -153,7 +153,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
     {
       check : "Boolean",
       init : true,
-      apply : "_modifyShowKnob",
+      apply : "_applyShowKnob",
       themeable : true
     },
 
@@ -174,7 +174,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
     orientation :
     {
       check : [ "horizontal", "vertical" ],
-      apply : "_modifyOrientation",
+      apply : "_applyOrientation",
       init : "horizontal",
       nullable : true
     },
@@ -185,7 +185,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      */
     firstSize :
     {
-      apply : "_modifyFirstSize",
+      apply : "_applyFirstSize",
       init : "1*"
     },
 
@@ -195,7 +195,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      */
     secondSize :
     {
-      apply : "_modifySecondSize",
+      apply : "_applySecondSize",
       init : "1*"
     },
 
@@ -207,7 +207,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
     {
       check : "Integer",
       init : 4,
-      apply : "_modifySplitterSize",
+      apply : "_applySplitterSize",
       themeable : true
     }
   },
@@ -384,7 +384,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyShowKnob : function(value, old) {
+    _applyShowKnob : function(value, old) {
       this._knob.setVisibility(value);
     },
 
@@ -396,7 +396,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyOrientation : function(value, old)
+    _applyOrientation : function(value, old)
     {
       // sync orientation to layout
       this._box.setOrientation(value);
@@ -491,7 +491,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyFirstSize : function(value, old) {
+    _applyFirstSize : function(value, old) {
       this._syncFirstSize();
     },
 
@@ -503,7 +503,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifySecondSize : function(value, old) {
+    _applySecondSize : function(value, old) {
       this._syncSecondSize();
     },
 
@@ -515,7 +515,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifySplitterSize : function(value, old) {
+    _applySplitterSize : function(value, old) {
       this._syncSplitterSize();
     },
 

@@ -132,7 +132,7 @@ qx.Class.define("qx.client.NativeWindow",
     name :
     {
       check : "String",
-      apply : "_modifyName",
+      apply : "_applyName",
       init : ""
     },
 
@@ -296,7 +296,7 @@ qx.Class.define("qx.client.NativeWindow",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyName : function(value, old)
+    _applyName : function(value, old)
     {
       if (!this.isClosed()) {
         this._window.name = value;

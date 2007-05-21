@@ -73,7 +73,7 @@ qx.Class.define("qx.ui.pageview.buttonview.ButtonView",
     {
       init   : "top",
       check : [ "top", "right", "bottom", "left" ],
-      apply : "_modifyBarPosition",
+      apply : "_applyBarPosition",
       event : "changeBarPosition"
     }
   },
@@ -90,7 +90,7 @@ qx.Class.define("qx.ui.pageview.buttonview.ButtonView",
 
   members :
   {
-    _modifyBarPosition : function(value, old)
+    _applyBarPosition : function(value, old)
     {
       var vBar = this._bar;
       var vPane = this._pane;
