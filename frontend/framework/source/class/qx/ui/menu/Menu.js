@@ -387,8 +387,6 @@ qx.Class.define("qx.ui.menu.Menu",
       if (value) {
         value.addState("over");
       }
-
-      return true;
     },
 
 
@@ -435,8 +433,6 @@ qx.Class.define("qx.ui.menu.Menu",
           qx.ui.core.Widget.flushGlobalQueues();
         }
       }
-
-      return true;
     },
 
 

@@ -297,10 +297,8 @@ qx.Class.define("qx.ui.form.Spinner",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyIncrementAmount : function(value, old)
-    {
+    _modifyIncrementAmount : function(value, old) {
       this._computedIncrementAmount = value;
-      return true;
     },
 
 
@@ -313,11 +311,9 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     _modifyEditable : function(value, old)
     {
-      if (this._textfield)
-      {
+      if (this._textfield) {
         this._textfield.setReadOnly(! value);
       }
-      return true;
     },
 
 
@@ -352,10 +348,8 @@ qx.Class.define("qx.ui.form.Spinner",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyCheckValueFunction : function(value, old)
-    {
+    _modifyCheckValueFunction : function(value, old) {
       this._checkValue = value;
-      return true;
     },
 
 

@@ -938,8 +938,6 @@ qx.Class.define("qx.ui.form.TextField",
         // recover selection (to behave the same gecko does)
         this.setSelectionStart(vStart);
         this.setSelectionLength(vText.length);
-
-        return true;
       },
 
       "default" : function(vText)
@@ -962,8 +960,6 @@ qx.Class.define("qx.ui.form.TextField",
 
         // apply new value to internal cache
         this.setValue(vValue);
-
-        return true;
       }
     }),
 

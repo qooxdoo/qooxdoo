@@ -318,8 +318,6 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
       //     correct values.
       qx.ui.core.Widget.flushGlobalQueues();
       this._updateContent();
-
-      return true;
     },
 
     // property modifier
@@ -344,8 +342,6 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
       var scrollBarWidth = value ? this._verScrollBar.getPreferredBoxWidth() : 0;
       this._horScrollBar.setPaddingRight(scrollBarWidth);
       this._spacer.setWidth(scrollBarWidth);
-
-      return true;
     },
 
     // property modifier
@@ -363,8 +359,6 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
       }
 
       value.addEventListener("modelChanged", this._onPaneModelChanged, this);
-
-      return true;
     },
 
     // property modifier
@@ -375,10 +369,8 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyScrollX : function(value, old)
-    {
+    _modifyScrollX : function(value, old) {
       this._horScrollBar.setValue(value);
-      return true;
     },
 
     // property modifier
@@ -389,10 +381,8 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyScrollY : function(value, old)
-    {
+    _modifyScrollY : function(value, old) {
       this._verScrollBar.setValue(value);
-      return true;
     },
 
 

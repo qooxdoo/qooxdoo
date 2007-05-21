@@ -223,8 +223,6 @@ qx.Class.define("qx.ui.pageview.tabview.Button",
         this.remove(this._closeButtonImage);
         this._closeButtonImage.removeEventListener("click", this._ontabclose);
       }
-
-      return true;
     },
 
 
@@ -240,8 +238,6 @@ qx.Class.define("qx.ui.pageview.tabview.Button",
       if (this._closeButtonImage) {
         this._closeButtonImage.setSource(value);
       }
-
-      return true;
     },
 
 
