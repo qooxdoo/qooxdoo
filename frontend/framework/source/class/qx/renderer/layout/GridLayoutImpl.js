@@ -285,7 +285,7 @@ qx.Class.define("qx.renderer.layout.GridLayoutImpl",
      * @return {void}
      */
     layoutChild_sizeX : function(vChild, vJobs) {
-      vChild._applyRuntimeWidth(vChild.getBoxWidth());
+      vChild._renderRuntimeWidth(vChild.getBoxWidth());
     },
 
 
@@ -298,7 +298,7 @@ qx.Class.define("qx.renderer.layout.GridLayoutImpl",
      * @return {void}
      */
     layoutChild_sizeY : function(vChild, vJobs) {
-      vChild._applyRuntimeHeight(vChild.getBoxHeight());
+      vChild._renderRuntimeHeight(vChild.getBoxHeight());
     },
 
 
@@ -331,7 +331,7 @@ qx.Class.define("qx.renderer.layout.GridLayoutImpl",
           break;
       }
 
-      vChild._applyRuntimeLeft(vLocSumX);
+      vChild._renderRuntimeLeft(vLocSumX);
     },
 
 
@@ -364,7 +364,7 @@ qx.Class.define("qx.renderer.layout.GridLayoutImpl",
           break;
       }
 
-      vChild._applyRuntimeTop(vLocSumY);
+      vChild._renderRuntimeTop(vLocSumY);
     }
   }
 });

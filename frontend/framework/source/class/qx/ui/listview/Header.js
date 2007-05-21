@@ -167,9 +167,9 @@ qx.Class.define("qx.ui.listview.Header",
       var vTop = qx.html.Dimension.getBoxHeight(vParent.getHeader().getElement());
       var vHeight = qx.html.Dimension.getBoxHeight(vParent.getElement()) - vTop;
 
-      vLine._applyRuntimeTop(vTop);
-      vLine._applyRuntimeHeight(vHeight);
-      vLine._applyRuntimeLeft(vLeft);
+      vLine._renderRuntimeTop(vTop);
+      vLine._renderRuntimeHeight(vHeight);
+      vLine._renderRuntimeLeft(vLeft);
 
       vLine.removeStyleProperty("visibility");
     },

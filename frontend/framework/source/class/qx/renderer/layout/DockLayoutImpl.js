@@ -362,8 +362,8 @@ qx.Class.define("qx.renderer.layout.DockLayoutImpl",
      */
     layoutChild_location_top : function(vChild, vJobs)
     {
-      vChild._applyRuntimeTop(this._lastTop);
-      vChild._applyRuntimeLeft(this._lastLeft);
+      vChild._renderRuntimeTop(this._lastTop);
+      vChild._renderRuntimeLeft(this._lastLeft);
 
       this.layoutChild_location_horizontal(vChild);
 
@@ -381,8 +381,8 @@ qx.Class.define("qx.renderer.layout.DockLayoutImpl",
      */
     layoutChild_location_left : function(vChild, vJobs)
     {
-      vChild._applyRuntimeLeft(this._lastLeft);
-      vChild._applyRuntimeTop(this._lastTop);
+      vChild._renderRuntimeLeft(this._lastLeft);
+      vChild._renderRuntimeTop(this._lastTop);
 
       this.layoutChild_location_vertical(vChild);
 
@@ -412,7 +412,7 @@ qx.Class.define("qx.renderer.layout.DockLayoutImpl",
         vChild._recomputeInnerWidth();
 
         // apply calculated width
-        vChild._applyRuntimeWidth(vChild.getBoxWidth());
+        vChild._renderRuntimeWidth(vChild.getBoxWidth());
       },
 
       "default" : function(vChild)
@@ -451,7 +451,7 @@ qx.Class.define("qx.renderer.layout.DockLayoutImpl",
         vChild._recomputeInnerHeight();
 
         // apply calculated height
-        vChild._applyRuntimeHeight(vChild.getBoxHeight());
+        vChild._renderRuntimeHeight(vChild.getBoxHeight());
       },
 
       "default" : function(vChild)
@@ -483,14 +483,14 @@ qx.Class.define("qx.renderer.layout.DockLayoutImpl",
       {
         // We need to respect all dimension properties on the horizontal axis in internet explorer to set the 'width' style
         if (vJobs.initial || vJobs.width || vJobs.minWidth || vJobs.maxWidth) {
-          vChild._computedWidthTypeNull && vChild._computedMinWidthTypeNull && vChild._computedMaxWidthTypeNull ? vChild._resetRuntimeWidth() : vChild._applyRuntimeWidth(vChild.getBoxWidth());
+          vChild._computedWidthTypeNull && vChild._computedMinWidthTypeNull && vChild._computedMaxWidthTypeNull ? vChild._resetRuntimeWidth() : vChild._renderRuntimeWidth(vChild.getBoxWidth());
         }
       },
 
       "default" : function(vChild, vJobs)
       {
         if (vJobs.initial || vJobs.width) {
-          vChild._computedWidthTypeNull ? vChild._resetRuntimeWidth() : vChild._applyRuntimeWidth(vChild.getWidthValue());
+          vChild._computedWidthTypeNull ? vChild._resetRuntimeWidth() : vChild._renderRuntimeWidth(vChild.getWidthValue());
         }
       }
     }),
@@ -511,14 +511,14 @@ qx.Class.define("qx.renderer.layout.DockLayoutImpl",
       {
         // We need to respect all dimension properties on the vertical axis in internet explorer to set the 'height' style
         if (vJobs.initial || vJobs.height || vJobs.minHeight || vJobs.maxHeight) {
-          vChild._computedHeightTypeNull && vChild._computedMinHeightTypeNull && vChild._computedMaxHeightTypeNull ? vChild._resetRuntimeHeight() : vChild._applyRuntimeHeight(vChild.getBoxHeight());
+          vChild._computedHeightTypeNull && vChild._computedMinHeightTypeNull && vChild._computedMaxHeightTypeNull ? vChild._resetRuntimeHeight() : vChild._renderRuntimeHeight(vChild.getBoxHeight());
         }
       },
 
       "default" : function(vChild, vJobs)
       {
         if (vJobs.initial || vJobs.height) {
-          vChild._computedHeightTypeNull ? vChild._resetRuntimeHeight() : vChild._applyRuntimeHeight(vChild.getHeightValue());
+          vChild._computedHeightTypeNull ? vChild._resetRuntimeHeight() : vChild._renderRuntimeHeight(vChild.getHeightValue());
         }
       }
     }),
@@ -541,7 +541,7 @@ qx.Class.define("qx.renderer.layout.DockLayoutImpl",
       "default" : function(vChild)
       {
         this._applyComputedWidth(vChild);
-        vChild._applyRuntimeRight(this._lastRight);
+        vChild._renderRuntimeRight(this._lastRight);
       }
     }),
 
@@ -563,7 +563,7 @@ qx.Class.define("qx.renderer.layout.DockLayoutImpl",
       "default" :  function(vChild)
       {
         this._applyComputedHeight(vChild);
-        vChild._applyRuntimeBottom(this._lastBottom);
+        vChild._renderRuntimeBottom(this._lastBottom);
       }
     }),
 
@@ -581,8 +581,8 @@ qx.Class.define("qx.renderer.layout.DockLayoutImpl",
     {
       "mshtml|opera" : function(vChild, vJobs)
       {
-        vChild._applyRuntimeLeft(this.getWidget().getInnerWidth() - this._lastRight - vChild.getBoxWidth());
-        vChild._applyRuntimeTop(this._lastTop);
+        vChild._renderRuntimeLeft(this.getWidget().getInnerWidth() - this._lastRight - vChild.getBoxWidth());
+        vChild._renderRuntimeTop(this._lastTop);
 
         this.layoutChild_location_vertical(vChild);
 
@@ -591,8 +591,8 @@ qx.Class.define("qx.renderer.layout.DockLayoutImpl",
 
       "default" : function(vChild, vJobs)
       {
-        vChild._applyRuntimeRight(this._lastRight);
-        vChild._applyRuntimeTop(this._lastTop);
+        vChild._renderRuntimeRight(this._lastRight);
+        vChild._renderRuntimeTop(this._lastTop);
 
         this.layoutChild_location_vertical(vChild);
 
@@ -614,8 +614,8 @@ qx.Class.define("qx.renderer.layout.DockLayoutImpl",
     {
       "mshtml|opera" : function(vChild, vJobs)
       {
-        vChild._applyRuntimeTop(this.getWidget().getInnerHeight() - this._lastBottom - vChild.getBoxHeight());
-        vChild._applyRuntimeLeft(this._lastLeft);
+        vChild._renderRuntimeTop(this.getWidget().getInnerHeight() - this._lastBottom - vChild.getBoxHeight());
+        vChild._renderRuntimeLeft(this._lastLeft);
 
         this.layoutChild_location_horizontal(vChild);
 
@@ -624,8 +624,8 @@ qx.Class.define("qx.renderer.layout.DockLayoutImpl",
 
       "default" : function(vChild, vJobs)
       {
-        vChild._applyRuntimeBottom(this._lastBottom);
-        vChild._applyRuntimeLeft(this._lastLeft);
+        vChild._renderRuntimeBottom(this._lastBottom);
+        vChild._renderRuntimeLeft(this._lastLeft);
 
         this.layoutChild_location_horizontal(vChild);
 
@@ -652,8 +652,8 @@ qx.Class.define("qx.renderer.layout.DockLayoutImpl",
         vChild._resetRuntimeRight();
         vChild._resetRuntimeBottom();
 
-        vChild._applyRuntimeTop(this._lastTop);
-        vChild._applyRuntimeLeft(this._lastLeft);
+        vChild._renderRuntimeTop(this._lastTop);
+        vChild._renderRuntimeLeft(this._lastLeft);
 
         this._applyComputedWidth(vChild);
         this._applyComputedHeight(vChild);
@@ -664,10 +664,10 @@ qx.Class.define("qx.renderer.layout.DockLayoutImpl",
         vChild._resetRuntimeWidth();
         vChild._resetRuntimeHeight();
 
-        vChild._applyRuntimeTop(this._lastTop);
-        vChild._applyRuntimeRight(this._lastRight);
-        vChild._applyRuntimeBottom(this._lastBottom);
-        vChild._applyRuntimeLeft(this._lastLeft);
+        vChild._renderRuntimeTop(this._lastTop);
+        vChild._renderRuntimeRight(this._lastRight);
+        vChild._renderRuntimeBottom(this._lastBottom);
+        vChild._renderRuntimeLeft(this._lastLeft);
 
         this._applyComputedWidth(vChild);
         this._applyComputedHeight(vChild);

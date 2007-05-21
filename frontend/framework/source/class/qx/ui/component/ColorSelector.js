@@ -707,7 +707,7 @@ qx.Class.define("qx.ui.component.ColorSelector",
       if (this._updateContext !== "hueSaturationField")
       {
         if (this._hueSaturationHandle.isCreated()) {
-          this._hueSaturationHandle._applyRuntimeLeft(Math.round(value / 1.40625) + this._hueSaturationPane.getPaddingLeft());
+          this._hueSaturationHandle._renderRuntimeLeft(Math.round(value / 1.40625) + this._hueSaturationPane.getPaddingLeft());
         } else {
           this._hueSaturationHandle.setLeft(Math.round(value / 1.40625));
         }
@@ -747,7 +747,7 @@ qx.Class.define("qx.ui.component.ColorSelector",
       if (this._updateContext !== "hueSaturationField")
       {
         if (this._hueSaturationHandle.isCreated()) {
-          this._hueSaturationHandle._applyRuntimeTop(256 - Math.round(value * 2.56) + this._hueSaturationPane.getPaddingTop());
+          this._hueSaturationHandle._renderRuntimeTop(256 - Math.round(value * 2.56) + this._hueSaturationPane.getPaddingTop());
         } else {
           this._hueSaturationHandle.setTop(256 - Math.round(value * 2.56));
         }
@@ -789,7 +789,7 @@ qx.Class.define("qx.ui.component.ColorSelector",
         var topValue = 256 - Math.round(value * 2.56);
 
         if (this._brightnessHandle.isCreated()) {
-          this._brightnessHandle._applyRuntimeTop(topValue + this._brightnessPane.getPaddingTop());
+          this._brightnessHandle._renderRuntimeTop(topValue + this._brightnessPane.getPaddingTop());
         } else {
           this._brightnessHandle.setTop(topValue);
         }
@@ -913,7 +913,7 @@ qx.Class.define("qx.ui.component.ColorSelector",
       this._updateContext = "brightnessField";
 
       if (this._brightnessHandle.isCreated()) {
-        this._brightnessHandle._applyRuntimeTop(value + this._brightnessPane.getPaddingTop());
+        this._brightnessHandle._renderRuntimeTop(value + this._brightnessPane.getPaddingTop());
       } else {
         this._brightnessHandle.setTop(value);
       }
@@ -1054,8 +1054,8 @@ qx.Class.define("qx.ui.component.ColorSelector",
 
       if (this._hueSaturationHandle.isCreated())
       {
-        this._hueSaturationHandle._applyRuntimeTop(vTop + this._hueSaturationPane.getPaddingTop());
-        this._hueSaturationHandle._applyRuntimeLeft(vLeft + this._hueSaturationPane.getPaddingLeft());
+        this._hueSaturationHandle._renderRuntimeTop(vTop + this._hueSaturationPane.getPaddingTop());
+        this._hueSaturationHandle._renderRuntimeLeft(vLeft + this._hueSaturationPane.getPaddingLeft());
       }
       else
       {
