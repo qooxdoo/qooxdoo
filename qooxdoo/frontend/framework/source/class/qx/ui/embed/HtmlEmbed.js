@@ -122,8 +122,6 @@ qx.Class.define("qx.ui.embed.HtmlEmbed",
       if (this._isCreated) {
         this._syncHtml();
       }
-
-      return true;
     },
 
 

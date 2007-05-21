@@ -119,8 +119,6 @@ qx.Class.define("qx.ui.embed.TextEmbed",
       if (this._isCreated) {
         this._syncText();
       }
-
-      return true;
     },
 
 

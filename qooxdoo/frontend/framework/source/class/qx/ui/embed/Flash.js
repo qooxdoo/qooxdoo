@@ -451,10 +451,8 @@ qx.Class.define("qx.ui.embed.Flash",
      * @param old {var} Previous value
      * @param propName {var} TODOC
      */
-    _modifySource : function(value, old, propName)
-    {
+    _modifySource : function(value, old, propName) {
       this._source = qx.util.Validation.isValidString(value) ? qx.manager.object.AliasManager.getInstance().resolvePath(value) : "";
-      return true;
     },
 
 
@@ -476,8 +474,6 @@ qx.Class.define("qx.ui.embed.Flash",
       if (qx.util.Validation.isValidString(value)) {
         this._version = new qx.type.Version(value);
       }
-
-      return true;
     },
 
 
@@ -570,8 +566,6 @@ qx.Class.define("qx.ui.embed.Flash",
       {
         this._resetBackgroundColorProperty();
       }
-
-      return true;
     },
 
 

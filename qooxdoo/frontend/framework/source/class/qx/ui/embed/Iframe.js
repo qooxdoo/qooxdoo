@@ -461,8 +461,6 @@ qx.Class.define("qx.ui.embed.Iframe",
 
       // create basic widget
       this.base(arguments, value, old);
-
-      return true;
     },
 
 
@@ -508,8 +506,6 @@ qx.Class.define("qx.ui.embed.Iframe",
       if (this.isCreated()) {
         this._applySource();
       }
-
-      return true;
     },
 
 
@@ -547,8 +543,6 @@ qx.Class.define("qx.ui.embed.Iframe",
       if (this.isCreated()) {
         throw new Error("Not allowed to set frame name after it has been created");
       }
-
-      return true;
     },
 
 
