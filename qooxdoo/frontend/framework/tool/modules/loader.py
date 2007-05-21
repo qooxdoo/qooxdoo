@@ -551,7 +551,7 @@ def indexFile(filePath, filePathId, classPath, listIndex, classEncoding, classUr
             moduleDb[moduleId] = [fileId]
 
 
-def indexSingleScriptInput(classPath, listIndex, options, fileDb={}, moduleDb={}):
+def indexClassPath(classPath, listIndex, options, fileDb={}, moduleDb={}):
     classPath = filetool.normalize(classPath)
     counter = 0
 
@@ -585,7 +585,7 @@ def indexSingleScriptInput(classPath, listIndex, options, fileDb={}, moduleDb={}
 
         # Searching for files
         for fileName in files:
-            if os.path.splitext(fileName)[1] == config.JSEXT:
+            if os.path.splitext(fileName)[1] == config.JSEXT and not fileName.startsWith("."):
                 filePath = os.path.join(root, fileName)
                 filePathId = filePath.replace(classPath + os.sep, "").replace(config.JSEXT, "").replace(os.sep, ".")
 
@@ -595,7 +595,7 @@ def indexSingleScriptInput(classPath, listIndex, options, fileDb={}, moduleDb={}
     return counter
 
 
-def indexScriptInput(options):
+def indexAll(options):
     if options.cacheDirectory != None:
         filetool.directory(options.cacheDirectory)
 
@@ -607,7 +607,7 @@ def indexScriptInput(options):
 
     for classPath in options.classPath:
         print "    - Indexing: %s" % classPath
-        counter = indexSingleScriptInput(classPath, listIndex, options, fileDb, moduleDb)
+        counter = indexClassPath(classPath, listIndex, options, fileDb, moduleDb)
         print "      - %s classes were found" % counter
         listIndex += 1
 
