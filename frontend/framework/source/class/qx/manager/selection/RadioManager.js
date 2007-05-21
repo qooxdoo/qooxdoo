@@ -272,8 +272,6 @@ qx.Class.define("qx.manager.selection.RadioManager",
       for (var i=0, vItems=this._items, vLength=vItems.length; i<vLength; i++) {
         vItems[i].setName(value);
       }
-
-      return true;
     },
 
 
