@@ -94,7 +94,7 @@ qx.Class.define("qx.manager.selection.RadioManager",
     {
       check : "String",
       nullable : true,
-      apply : "_modifyName"
+      apply : "_applyName"
     }
   },
 
@@ -267,7 +267,7 @@ qx.Class.define("qx.manager.selection.RadioManager",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyName : function(value, old)
+    _applyName : function(value, old)
     {
       for (var i=0, vItems=this._items, vLength=vItems.length; i<vLength; i++) {
         vItems[i].setName(value);

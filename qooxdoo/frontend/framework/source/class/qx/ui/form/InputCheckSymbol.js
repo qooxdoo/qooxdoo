@@ -82,7 +82,7 @@ qx.Class.define("qx.ui.form.InputCheckSymbol",
       check : "String",
       init : null,
       nullable : true,
-      apply : "_modifyName"
+      apply : "_applyName"
     },
 
     value :
@@ -137,7 +137,7 @@ qx.Class.define("qx.ui.form.InputCheckSymbol",
      * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyName : function(value, old) {
+    _applyName : function(value, old) {
       return this.setHtmlProperty("name", value);
     },
 
