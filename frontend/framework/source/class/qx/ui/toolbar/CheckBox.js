@@ -61,7 +61,7 @@ qx.Class.define("qx.ui.toolbar.CheckBox",
     {
       check : "Boolean",
       init : false,
-      apply : "_modifyChecked",
+      apply : "_applyChecked",
       event : "changeChecked"
     }
   },
@@ -90,7 +90,7 @@ qx.Class.define("qx.ui.toolbar.CheckBox",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyChecked : function(value, old) {
+    _applyChecked : function(value, old) {
       value ? this.addState("checked") : this.removeState("checked");
     },
 

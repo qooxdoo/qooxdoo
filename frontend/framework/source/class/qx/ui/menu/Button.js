@@ -149,7 +149,7 @@ qx.Class.define("qx.ui.menu.Button",
     {
       check : "qx.ui.menu.Menu",
       nullable : true,
-      apply : "_modifyMenu"
+      apply : "_applyMenu"
     }
   },
 
@@ -411,7 +411,7 @@ qx.Class.define("qx.ui.menu.Button",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyMenu : function(value, old)
+    _applyMenu : function(value, old)
     {
       if (value)
       {

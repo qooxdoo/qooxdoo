@@ -269,7 +269,7 @@ qx.Class.define("qx.ui.form.Spinner",
     manager :
     {
       check : "qx.type.IRange",
-      apply : "_modifyManager",
+      apply : "_applyManager",
       dispose : true
     },
 
@@ -324,7 +324,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyManager : function(value, old)
+    _applyManager : function(value, old)
     {
       if (old)
       {

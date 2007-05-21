@@ -266,7 +266,7 @@ qx.Class.define("qx.ui.embed.Flash",
     {
       check : "Boolean",
       init : true,
-      apply : "_modifyMenu"
+      apply : "_applyMenu"
     }
   },
 

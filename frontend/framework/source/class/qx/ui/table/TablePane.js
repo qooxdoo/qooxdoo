@@ -95,7 +95,7 @@ qx.Class.define("qx.ui.table.TablePane",
     {
       check : "Number",
       init : 0,
-      apply : "_modifyFirstVisibleRow"
+      apply : "_applyFirstVisibleRow"
     },
 
     /** The number of rows to show. */
@@ -103,7 +103,7 @@ qx.Class.define("qx.ui.table.TablePane",
     {
       check : "Number",
       init : 0,
-      apply : "_modifyVisibleRowCount"
+      apply : "_applyVisibleRowCount"
     }
   },
 
@@ -126,7 +126,7 @@ qx.Class.define("qx.ui.table.TablePane",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyFirstVisibleRow : function(value, old) {
+    _applyFirstVisibleRow : function(value, old) {
       this._updateContent();
     },
 
@@ -138,7 +138,7 @@ qx.Class.define("qx.ui.table.TablePane",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyVisibleRowCount : function(value, old) {
+    _applyVisibleRowCount : function(value, old) {
       this._updateContent();
     },
 

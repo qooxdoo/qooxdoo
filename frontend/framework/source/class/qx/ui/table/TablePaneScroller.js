@@ -205,7 +205,7 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
     {
       check : "Boolean",
       init : true,
-      apply : "_modifyHorizontalScrollBarVisible",
+      apply : "_applyHorizontalScrollBarVisible",
       event : "changeHorizontalScrollBarVisible"
     },
 
@@ -214,7 +214,7 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
     {
       check : "Boolean",
       init : true,
-      apply : "_modifyVerticalScrollBarVisible",
+      apply : "_applyVerticalScrollBarVisible",
       event : "changeVerticalScrollBarVisible"
     },
 
@@ -222,7 +222,7 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
     tablePaneModel :
     {
       check : "qx.ui.table.TablePaneModel",
-      apply : "_modifyTablePaneModel",
+      apply : "_applyTablePaneModel",
       event : "changeTablePaneModel"
     },
 
@@ -231,7 +231,7 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
     {
       check : "Number",
       init : 0,
-      apply : "_modifyScrollX",
+      apply : "_applyScrollX",
       event : "changeScrollX"
     },
 
@@ -240,7 +240,7 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
     {
       check : "Number",
       init : 0,
-      apply : "_modifyScrollY",
+      apply : "_applyScrollY",
       event : "changeScrollY"
     },
 
@@ -300,7 +300,7 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyHorizontalScrollBarVisible : function(value, old)
+    _applyHorizontalScrollBarVisible : function(value, old)
     {
       // Workaround: We can't use setDisplay, because the scroll bar needs its
       //       correct height in order to check its value. When using
@@ -328,9 +328,9 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyVerticalScrollBarVisible : function(value, old)
+    _applyVerticalScrollBarVisible : function(value, old)
     {
-      // Workaround: See _modifyHorizontalScrollBarVisible
+      // Workaround: See _applyHorizontalScrollBarVisible
       if (value) {
         this._verScrollBar.setWidth("auto");
       } else {
@@ -352,7 +352,7 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyTablePaneModel : function(value, old)
+    _applyTablePaneModel : function(value, old)
     {
       if (old != null) {
         old.removeEventListener("modelChanged", this._onPaneModelChanged, this);
@@ -369,7 +369,7 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyScrollX : function(value, old) {
+    _applyScrollX : function(value, old) {
       this._horScrollBar.setValue(value);
     },
 
@@ -381,7 +381,7 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyScrollY : function(value, old) {
+    _applyScrollY : function(value, old) {
       this._verScrollBar.setValue(value);
     },
 
