@@ -268,11 +268,8 @@ qx.Class.define("qx.util.fsm.State",
      * @param actionType {String}
      *   The name of the action being validated (for debug messages)
      *
-     * @param propValue {Object}
+     * @param value {Object}
      *   The property value which is being validated
-     *
-     * @param propData {var}
-     *   Not used
      *
      * @return {var} TODOC
      *
