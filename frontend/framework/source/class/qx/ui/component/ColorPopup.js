@@ -18,12 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-
-
-************************************************************************ */
-
 /** A color popup */
 qx.Class.define("qx.ui.component.ColorPopup",
 {
@@ -336,8 +330,6 @@ qx.Class.define("qx.ui.component.ColorPopup",
 
       this._selectedPreview.setBackgroundColor(value);
       this._rotatePreviousColors();
-
-      return true;
     },
 
 

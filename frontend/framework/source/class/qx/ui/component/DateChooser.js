@@ -409,8 +409,6 @@ qx.Class.define("qx.ui.component.DateChooser",
           }
         }
       }
-
-      return true;
     },
 
 
