@@ -104,8 +104,6 @@ qx.Class.define("qx.manager.object.WindowManager",
       if (value && value.getModal()) {
         value.getTopLevelWidget().block(value);
       }
-
-      return true;
     },
 
 

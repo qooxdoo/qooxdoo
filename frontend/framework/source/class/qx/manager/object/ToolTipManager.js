@@ -107,8 +107,6 @@ qx.Class.define("qx.manager.object.ToolTipManager",
       if (value) {
         value._startShowTimer();
       }
-
-      return true;
     },
 
 
