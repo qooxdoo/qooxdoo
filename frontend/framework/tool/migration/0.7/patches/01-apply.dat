@@ -1,3 +1,6 @@
+######################################
+# qx.ui.window.Window
+######################################
 \b_modifyActive\b=_applyActive
 \b_modifyModal\b=_applyModal
 \b_modifyMode\b=_applyMode
@@ -12,3 +15,16 @@
 \b_modifyAllowMinimize\b=_applyAllowMinimize
 \b_modifyShowCaption\b=_applyShowCaption
 \b_modifyShowIcon\b=_applyShowIcon
+
+######################################
+# qx.ui.treefullcontrol.*
+######################################
+
+\b_modifyLabel\b=_modifyLabel
+\b_modifySelected\b=_modifySelected
+\b_modifyOpen\b=_modifyOpen
+\b_modifyAlwaysShowPlusMinusSymbol\b=_modifyAlwaysShowPlusMinusSymbol
+\b_modifyUseTreeLines\b=_modifyUseTreeLines
+\b_modifyHideNode\b=_modifyHideNode
+\b_modifyRootOpenClose\b=_modifyRootOpenClose
+
