@@ -148,7 +148,7 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
     {
       check : "Boolean",
       init : true,
-      apply : "_modifyUseTreeLines"
+      apply : "_applyUseTreeLines"
     },
 
 
@@ -185,7 +185,7 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
     {
       check : "Boolean",
       init : false,
-      apply : "_modifyHideNode"
+      apply : "_applyHideNode"
     },
 
 
@@ -200,7 +200,7 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
     {
       check : "Boolean",
       init : true,
-      apply : "_modifyRootOpenClose"
+      apply : "_applyRootOpenClose"
     }
   },
 
@@ -372,7 +372,7 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyUseTreeLines : function(value, old)
+    _applyUseTreeLines : function(value, old)
     {
       if (this._initialLayoutDone) {
         this._updateIndent();
@@ -387,7 +387,7 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyHideNode : function(value, old)
+    _applyHideNode : function(value, old)
     {
       if (!value)
       {
@@ -414,7 +414,7 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyRootOpenClose : function(value, old)
+    _applyRootOpenClose : function(value, old)
     {
       if (this._initialLayoutDone) {
         this._updateIndent();

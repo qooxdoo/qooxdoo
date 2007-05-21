@@ -140,7 +140,7 @@ qx.Class.define("qx.ui.menu.Button",
 
     label :
     {
-      apply : "_modifyLabel",
+      apply : "_applyLabel",
       nullable : true,
       dispose : true
     },
@@ -348,7 +348,7 @@ qx.Class.define("qx.ui.menu.Button",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyLabel : function(value, old)
+    _applyLabel : function(value, old)
     {
       this._labelObject.setText(value);
 

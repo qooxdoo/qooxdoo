@@ -25,11 +25,11 @@
 # qx.ui.treefullcontrol.*
 ######################################
 
-\b_modifyLabel\b=_modifyLabel
-\b_modifySelected\b=_modifySelected
-\b_modifyOpen\b=_modifyOpen
-\b_modifyAlwaysShowPlusMinusSymbol\b=_modifyAlwaysShowPlusMinusSymbol
-\b_modifyUseTreeLines\b=_modifyUseTreeLines
-\b_modifyHideNode\b=_modifyHideNode
-\b_modifyRootOpenClose\b=_modifyRootOpenClose
+\b_modifyLabel\b=_applyLabel
+\b_modifySelected\b=_applySelected
+\b_modifyOpen\b=_applyOpen
+\b_modifyAlwaysShowPlusMinusSymbol\b=_applyAlwaysShowPlusMinusSymbol
+\b_modifyUseTreeLines\b=_applyUseTreeLines
+\b_modifyHideNode\b=_applyHideNode
+\b_modifyRootOpenClose\b=_applyRootOpenClose
 
