@@ -645,8 +645,6 @@ qx.Class.define("qx.io.remote.Request",
           this.debug("State: " + value);
         }
       }
-
-      return true;
     },
 
 
@@ -678,8 +676,6 @@ qx.Class.define("qx.io.remote.Request",
         this.removeRequestHeader("Pragma");
         this.removeRequestHeader("Cache-Control");
       }
-
-      return true;
     },
 
 
@@ -697,8 +693,6 @@ qx.Class.define("qx.io.remote.Request",
       } else {
         this.removeRequestHeader("Content-Type");
       }
-
-      return true;
     },
 
 
@@ -709,10 +703,8 @@ qx.Class.define("qx.io.remote.Request",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyResponseType : function(value, old)
-    {
+    _modifyResponseType : function(value, old) {
       this.setRequestHeader("X-Qooxdoo-Response-Type", value);
-      return true;
     },
 
 
