@@ -585,7 +585,7 @@ def indexClassPath(classPath, listIndex, options, fileDb={}, moduleDb={}):
 
         # Searching for files
         for fileName in files:
-            if os.path.splitext(fileName)[1] == config.JSEXT and not fileName.startsWith("."):
+            if os.path.splitext(fileName)[1] == config.JSEXT and not fileName.startswith("."):
                 filePath = os.path.join(root, fileName)
                 filePathId = filePath.replace(classPath + os.sep, "").replace(config.JSEXT, "").replace(os.sep, ".")
 
