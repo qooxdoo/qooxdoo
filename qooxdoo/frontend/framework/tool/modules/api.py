@@ -1643,3 +1643,78 @@ def listHasError(node, listName):
                 return True
 
     return False
+
+
+def packagesToJsonString(node, prefix = "", childPrefix = "  ", newLine="\n", encoding="utf-8"):
+    asString = prefix + '{type:"' + tree.escapeJsonChars(node.type) + '"'
+
+    if node.hasAttributes():
+        asString += ',attributes:{'
+        firstAttribute = True
+        for key in node.attributes:
+            if not firstAttribute:
+                asString += ','
+            asString += '"' + key + '":"' + tree.escapeJsonChars(node.attributes[key]) + '"'
+            firstAttribute = False
+        asString += '}'
+
+    if node.hasChildren() and node.type != "class":
+        asString += ',children:[' + newLine
+
+        firstChild = True
+        prefix = prefix + childPrefix
+        for child in node.children:
+            asString += packagesToJsonString(child, prefix, childPrefix, newLine) + ',' + newLine
+            firstChild = False
+
+        # NOTE We remove the ',\n' of the last child
+        if newLine == "":
+            asString = asString[:-1] + prefix + ']'
+        else:
+            asString = asString[:-2] + newLine + prefix + ']'
+
+    asString += '}'
+
+    return asString
+
+
+def packagesToXmlString(node, prefix = "", childPrefix = "  ", newLine="\n", encoding="utf-8"):
+    hasText = False
+    asString = prefix + "<" + node.type
+    if node.hasAttributes():
+        for key in node.attributes:
+            if key == "text":
+                hasText = True
+            else:
+                asString += " " + key + "=\"" + tree.escapeXmlChars(node.attributes[key], True, encoding) + "\""
+
+    if not node.hasChildren() and not hasText:
+        asString += "/>" + newLine
+    else:
+        asString += ">"
+
+        if hasText:
+            asString += newLine + prefix + childPrefix
+            asString += "<text>" + tree.escapeXmlChars(node.attributes["text"], False, encoding) + "</text>" + newLine
+
+        if node.hasChildren():
+            asString += newLine
+            for child in node.children:
+                asString += packagesToXmlString(child, prefix + childPrefix, childPrefix, newLine, encoding)
+
+        asString += prefix + "</" + node.type + ">" + newLine
+
+    return asString
+
+
+def classNodeIterator(docTree):
+    if docTree.type == "class":
+        yield docTree
+        return
+
+    if docTree.hasChildren():
+        for child in docTree.children:
+            for cls in classNodeIterator(child):
+                yield cls
+
+
