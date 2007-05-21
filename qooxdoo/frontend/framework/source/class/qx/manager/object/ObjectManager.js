@@ -75,7 +75,6 @@ qx.Class.define("qx.manager.object.ObjectManager",
       }
 
       this._objects[vObject.toHashCode()] = vObject;
-      return true;
     },
 
 
@@ -89,11 +88,10 @@ qx.Class.define("qx.manager.object.ObjectManager",
     remove : function(vObject)
     {
       if (this.getDisposed()) {
-        return;
+        return false;
       }
 
       delete this._objects[vObject.toHashCode()];
-      return true;
     },
 
 
