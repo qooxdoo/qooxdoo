@@ -283,7 +283,7 @@ qx.Class.define("qx.ui.window.Window",
     {
       check : "Boolean",
       init : false,
-      apply : "_modifyActive",
+      apply : "_applyActive",
       event : "changeActive"
     },
 
@@ -293,7 +293,7 @@ qx.Class.define("qx.ui.window.Window",
     {
       check : "Boolean",
       init : false,
-      apply : "_modifyModal",
+      apply : "_applyModal",
       event : "changeModal"
     },
 
@@ -304,7 +304,7 @@ qx.Class.define("qx.ui.window.Window",
       check : [ "minimized", "maximized" ],
       init : null,
       nullable: true,
-      apply : "_modifyMode",
+      apply : "_applyMode",
       event : "changeMode"
     },
 
@@ -319,7 +319,7 @@ qx.Class.define("qx.ui.window.Window",
     /** The text of the caption */
     caption :
     {
-      apply : "_modifyCaption",
+      apply : "_applyCaption",
       event : "changeCaption",
       dispose : true
     },
@@ -339,7 +339,7 @@ qx.Class.define("qx.ui.window.Window",
     {
       check : "String",
       init : "Ready",
-      apply : "_modifyStatus",
+      apply : "_applyStatus",
       event :"changeStatus"
     },
 
@@ -349,7 +349,7 @@ qx.Class.define("qx.ui.window.Window",
     {
       check : "Boolean",
       init : true,
-      apply : "_modifyShowClose"
+      apply : "_applyShowClose"
     },
 
 
@@ -358,7 +358,7 @@ qx.Class.define("qx.ui.window.Window",
     {
       check : "Boolean",
       init : true,
-      apply : "_modifyShowMaximize"
+      apply : "_applyShowMaximize"
     },
 
 
@@ -367,7 +367,7 @@ qx.Class.define("qx.ui.window.Window",
     {
       check : "Boolean",
       init : true,
-      apply : "_modifyShowMinimize"
+      apply : "_applyShowMinimize"
     },
 
 
@@ -376,7 +376,7 @@ qx.Class.define("qx.ui.window.Window",
     {
       check : "Boolean",
       init : false,
-      apply : "_modifyShowStatusbar"
+      apply : "_applyShowStatusbar"
     },
 
 
@@ -385,7 +385,7 @@ qx.Class.define("qx.ui.window.Window",
     {
       check : "Boolean",
       init : true,
-      apply : "_modifyAllowClose"
+      apply : "_applyAllowClose"
     },
 
 
@@ -394,7 +394,7 @@ qx.Class.define("qx.ui.window.Window",
     {
       check : "Boolean",
       init : true,
-      apply : "_modifyAllowMaximize"
+      apply : "_applyAllowMaximize"
     },
 
 
@@ -403,7 +403,7 @@ qx.Class.define("qx.ui.window.Window",
     {
       check : "Boolean",
       init : true,
-      apply : "_modifyAllowMinimize"
+      apply : "_applyAllowMinimize"
     },
 
 
@@ -412,7 +412,7 @@ qx.Class.define("qx.ui.window.Window",
     {
       check : "Boolean",
       init : true,
-      apply : "_modifyShowCaption"
+      apply : "_applyShowCaption"
     },
 
 
@@ -421,7 +421,7 @@ qx.Class.define("qx.ui.window.Window",
     {
       check : "Boolean",
       init : true,
-      apply : "_modifyShowIcon"
+      apply : "_applyShowIcon"
     },
 
 
@@ -686,7 +686,7 @@ qx.Class.define("qx.ui.window.Window",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyActive : function(value, old)
+    _applyActive : function(value, old)
     {
       if (old)
       {
@@ -734,7 +734,7 @@ qx.Class.define("qx.ui.window.Window",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyModal : function(value, old)
+    _applyModal : function(value, old)
     {
       // Inform blocker
       if (this._initialLayoutDone && this.getVisibility() && this.getDisplay())
@@ -753,7 +753,7 @@ qx.Class.define("qx.ui.window.Window",
      * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyAllowClose : function(value, old) {
+    _applyAllowClose : function(value, old) {
       this._closeButtonManager();
     },
 
@@ -766,7 +766,7 @@ qx.Class.define("qx.ui.window.Window",
      * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyAllowMaximize : function(value, old) {
+    _applyAllowMaximize : function(value, old) {
       this._maximizeButtonManager();
     },
 
@@ -779,7 +779,7 @@ qx.Class.define("qx.ui.window.Window",
      * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyAllowMinimize : function(value, old) {
+    _applyAllowMinimize : function(value, old) {
       this._minimizeButtonManager();
     },
 
@@ -791,7 +791,7 @@ qx.Class.define("qx.ui.window.Window",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyMode : function(value, old)
+    _applyMode : function(value, old)
     {
       switch(value)
       {
@@ -825,7 +825,7 @@ qx.Class.define("qx.ui.window.Window",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyShowCaption : function(value, old)
+    _applyShowCaption : function(value, old)
     {
       if (value) {
         this._captionBar.addAt(this._captionTitle, this.getShowIcon() ? 1 : 0);
@@ -842,7 +842,7 @@ qx.Class.define("qx.ui.window.Window",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyShowIcon : function(value, old)
+    _applyShowIcon : function(value, old)
     {
       if (value) {
         this._captionBar.addAtBegin(this._captionIcon);
@@ -859,7 +859,7 @@ qx.Class.define("qx.ui.window.Window",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyShowStatusbar : function(value, old)
+    _applyShowStatusbar : function(value, old)
     {
       if (value) {
         this._layout.addAtEnd(this._statusBar);
@@ -876,7 +876,7 @@ qx.Class.define("qx.ui.window.Window",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyShowClose : function(value, old)
+    _applyShowClose : function(value, old)
     {
       if (value) {
         this._captionBar.addAtEnd(this._closeButton);
@@ -893,7 +893,7 @@ qx.Class.define("qx.ui.window.Window",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyShowMaximize : function(value, old)
+    _applyShowMaximize : function(value, old)
     {
       if (value)
       {
@@ -920,7 +920,7 @@ qx.Class.define("qx.ui.window.Window",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyShowMinimize : function(value, old)
+    _applyShowMinimize : function(value, old)
     {
       if (value) {
         this._captionBar.addAfter(this._minimizeButton, this._captionFlex);
@@ -976,7 +976,7 @@ qx.Class.define("qx.ui.window.Window",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyStatus : function(value, old) {
+    _applyStatus : function(value, old) {
       this._statusText.setText(value);
     },
 
@@ -1031,7 +1031,7 @@ qx.Class.define("qx.ui.window.Window",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyCaption : function(value, old) {
+    _applyCaption : function(value, old) {
       this._captionTitle.setText(value);
     },
 
@@ -1355,11 +1355,11 @@ qx.Class.define("qx.ui.window.Window",
             qx.ui.core.Widget.flushGlobalQueues();
           }
 
-          f._applyRuntimeLeft(qx.html.Location.getPageBoxLeft(el) - l);
-          f._applyRuntimeTop(qx.html.Location.getPageBoxTop(el) - t);
+          f._renderRuntimeLeft(qx.html.Location.getPageBoxLeft(el) - l);
+          f._renderRuntimeTop(qx.html.Location.getPageBoxTop(el) - t);
 
-          f._applyRuntimeWidth(qx.html.Dimension.getBoxWidth(el));
-          f._applyRuntimeHeight(qx.html.Dimension.getBoxHeight(el));
+          f._renderRuntimeWidth(qx.html.Dimension.getBoxWidth(el));
+          f._renderRuntimeHeight(qx.html.Dimension.getBoxHeight(el));
 
           f.setZIndex(this.getZIndex() + 1);
 
@@ -1436,8 +1436,8 @@ qx.Class.define("qx.ui.window.Window",
       // use the fast and direct dom methods
       var o = this.getMoveMethod() == "frame" ? this._frame : this;
 
-      o._applyRuntimeLeft(s.lastX = e.getPageX() - s.offsetX);
-      o._applyRuntimeTop(s.lastY = e.getPageY() - s.offsetY);
+      o._renderRuntimeLeft(s.lastX = e.getPageX() - s.offsetX);
+      o._renderRuntimeTop(s.lastY = e.getPageY() - s.offsetY);
     },
 
 

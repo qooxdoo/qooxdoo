@@ -755,7 +755,7 @@ qx.Class.define("qx.renderer.layout.VerticalBoxLayoutImpl",
         if (vJobs.initial || vJobs.width || vJobs.minWidth || vJobs.maxWidth)
         {
           if ((vChild._isWidthEssential() && (!vChild._computedWidthTypeNull || !vChild._computedMinWidthTypeNull || !vChild._computedMaxWidthTypeNull)) || (vChild.getAllowStretchX() && this.getWidget().getStretchChildrenOrthogonalAxis())) {
-            vChild._applyRuntimeWidth(vChild.getBoxWidth());
+            vChild._renderRuntimeWidth(vChild.getBoxWidth());
           } else {
             vChild._resetRuntimeWidth();
           }
@@ -767,7 +767,7 @@ qx.Class.define("qx.renderer.layout.VerticalBoxLayoutImpl",
         if (vJobs.initial || vJobs.width)
         {
           if (vChild._isWidthEssential() && !vChild._computedWidthTypeNull) {
-            vChild._applyRuntimeWidth(vChild.getWidthValue());
+            vChild._renderRuntimeWidth(vChild.getWidthValue());
           } else {
             vChild._resetRuntimeWidth();
           }
@@ -792,7 +792,7 @@ qx.Class.define("qx.renderer.layout.VerticalBoxLayoutImpl",
         if (vJobs.initial || vJobs.height || vJobs.minHeight || vJobs.maxHeight)
         {
           if (vChild._isHeightEssential() && (!vChild._computedHeightTypeNull || !vChild._computedMinHeightTypeNull || !vChild._computedMaxHeightTypeNull)) {
-            vChild._applyRuntimeHeight(vChild.getBoxHeight());
+            vChild._renderRuntimeHeight(vChild.getBoxHeight());
           } else {
             vChild._resetRuntimeHeight();
           }
@@ -804,7 +804,7 @@ qx.Class.define("qx.renderer.layout.VerticalBoxLayoutImpl",
         if (vJobs.initial || vJobs.height)
         {
           if (vChild._isHeightEssential() && !vChild._computedHeightTypeNull) {
-            vChild._applyRuntimeHeight(vChild.getHeightValue());
+            vChild._renderRuntimeHeight(vChild.getHeightValue());
           } else {
             vChild._resetRuntimeHeight();
           }
@@ -875,7 +875,7 @@ qx.Class.define("qx.renderer.layout.VerticalBoxLayoutImpl",
           vPos += !vChild._computedBottomTypeNull ? vChild.getBottomValue() : !vChild._computedTopTypeNull ? -(vChild.getTopValue()) : 0;
 
           vChild._resetRuntimeTop();
-          vChild._applyRuntimeBottom(vPos);
+          vChild._renderRuntimeBottom(vPos);
           break;
 
         default:
@@ -883,7 +883,7 @@ qx.Class.define("qx.renderer.layout.VerticalBoxLayoutImpl",
           vPos += !vChild._computedTopTypeNull ? vChild.getTopValue() : !vChild._computedBottomTypeNull ? -(vChild.getBottomValue()) : 0;
 
           vChild._resetRuntimeBottom();
-          vChild._applyRuntimeTop(vPos);
+          vChild._renderRuntimeTop(vPos);
       }
     },
 
@@ -905,8 +905,8 @@ qx.Class.define("qx.renderer.layout.VerticalBoxLayoutImpl",
       {
         if (vChild.getAllowStretchX() && vWidget.getStretchChildrenOrthogonalAxis() && vChild._computedWidthTypeNull)
         {
-          vChild._applyRuntimeLeft(vWidget.getPaddingLeft() || 0);
-          vChild._applyRuntimeRight(vWidget.getPaddingRight() || 0);
+          vChild._renderRuntimeLeft(vWidget.getPaddingLeft() || 0);
+          vChild._renderRuntimeRight(vWidget.getPaddingRight() || 0);
 
           return;
         }
@@ -934,7 +934,7 @@ qx.Class.define("qx.renderer.layout.VerticalBoxLayoutImpl",
 
         // apply styles
         vChild._resetRuntimeLeft();
-        vChild._applyRuntimeRight(vPos);
+        vChild._renderRuntimeRight(vPos);
       }
       else
       {
@@ -950,7 +950,7 @@ qx.Class.define("qx.renderer.layout.VerticalBoxLayoutImpl",
 
         // apply styles
         vChild._resetRuntimeRight();
-        vChild._applyRuntimeLeft(vPos);
+        vChild._renderRuntimeLeft(vPos);
       }
     }
   }

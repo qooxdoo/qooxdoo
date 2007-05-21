@@ -57,19 +57,19 @@ qx.Class.define("qx.ui.basic.Terminator",
     renderPadding : function(changes)
     {
       if (changes.paddingLeft) {
-        this._applyRuntimePaddingLeft(this.getPaddingLeft());
+        this._renderRuntimePaddingLeft(this.getPaddingLeft());
       }
 
       if (changes.paddingRight) {
-        this._applyRuntimePaddingRight(this.getPaddingRight());
+        this._renderRuntimePaddingRight(this.getPaddingRight());
       }
 
       if (changes.paddingTop) {
-        this._applyRuntimePaddingTop(this.getPaddingTop());
+        this._renderRuntimePaddingTop(this.getPaddingTop());
       }
 
       if (changes.paddingBottom) {
-        this._applyRuntimePaddingBottom(this.getPaddingBottom());
+        this._renderRuntimePaddingBottom(this.getPaddingBottom());
       }
     },
 

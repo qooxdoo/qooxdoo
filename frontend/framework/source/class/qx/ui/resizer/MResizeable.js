@@ -182,11 +182,11 @@ qx.Mixin.define("qx.ui.resizer.MResizeable",
               qx.ui.core.Widget.flushGlobalQueues();
             }
 
-            f._applyRuntimeLeft(qx.html.Location.getPageBoxLeft(el) - l);
-            f._applyRuntimeTop(qx.html.Location.getPageBoxTop(el) - t);
+            f._renderRuntimeLeft(qx.html.Location.getPageBoxLeft(el) - l);
+            f._renderRuntimeTop(qx.html.Location.getPageBoxTop(el) - t);
 
-            f._applyRuntimeWidth(qx.html.Dimension.getBoxWidth(el));
-            f._applyRuntimeHeight(qx.html.Dimension.getBoxHeight(el));
+            f._renderRuntimeWidth(qx.html.Dimension.getBoxWidth(el));
+            f._renderRuntimeHeight(qx.html.Dimension.getBoxHeight(el));
 
             f.setZIndex(this.getZIndex() + 1);
 
@@ -392,19 +392,19 @@ qx.Mixin.define("qx.ui.resizer.MResizeable",
 
             if (this._resizeWest || this._resizeEast)
             {
-              o._applyRuntimeWidth(s.lastWidth);
+              o._renderRuntimeWidth(s.lastWidth);
 
               if (this._resizeWest) {
-                o._applyRuntimeLeft(s.lastLeft);
+                o._renderRuntimeLeft(s.lastLeft);
               }
             }
 
             if (this._resizeNorth || this._resizeSouth)
             {
-              o._applyRuntimeHeight(s.lastHeight);
+              o._renderRuntimeHeight(s.lastHeight);
 
               if (this._resizeNorth) {
-                o._applyRuntimeTop(s.lastTop);
+                o._renderRuntimeTop(s.lastTop);
               }
             }
         }

@@ -271,7 +271,7 @@ qx.Class.define("qx.renderer.layout.CanvasLayoutImpl",
           if (vChild._computedMinWidthTypeNull && vChild._computedWidthTypeNull && vChild._computedMaxWidthTypeNull && !(!vChild._computedLeftTypeNull && !vChild._computedRightTypeNull)) {
             vChild._resetRuntimeWidth();
           } else {
-            vChild._applyRuntimeWidth(vChild.getBoxWidth());
+            vChild._renderRuntimeWidth(vChild.getBoxWidth());
           }
         }
       },
@@ -279,7 +279,7 @@ qx.Class.define("qx.renderer.layout.CanvasLayoutImpl",
       "default" : function(vChild, vJobs)
       {
         if (vJobs.initial || vJobs.width) {
-          vChild._computedWidthTypeNull ? vChild._resetRuntimeWidth() : vChild._applyRuntimeWidth(vChild.getWidthValue());
+          vChild._computedWidthTypeNull ? vChild._resetRuntimeWidth() : vChild._renderRuntimeWidth(vChild.getWidthValue());
         }
       }
     }),
@@ -303,7 +303,7 @@ qx.Class.define("qx.renderer.layout.CanvasLayoutImpl",
           if (vChild._computedMinHeightTypeNull && vChild._computedHeightTypeNull && vChild._computedMaxHeightTypeNull && !(!vChild._computedTopTypeNull && !vChild._computedBottomTypeNull)) {
             vChild._resetRuntimeHeight();
           } else {
-            vChild._applyRuntimeHeight(vChild.getBoxHeight());
+            vChild._renderRuntimeHeight(vChild.getBoxHeight());
           }
         }
       },
@@ -311,7 +311,7 @@ qx.Class.define("qx.renderer.layout.CanvasLayoutImpl",
       "default" : function(vChild, vJobs)
       {
         if (vJobs.initial || vJobs.height) {
-          vChild._computedHeightTypeNull ? vChild._resetRuntimeHeight() : vChild._applyRuntimeHeight(vChild.getHeightValue());
+          vChild._computedHeightTypeNull ? vChild._resetRuntimeHeight() : vChild._renderRuntimeHeight(vChild.getHeightValue());
         }
       }
     }),
@@ -330,11 +330,11 @@ qx.Class.define("qx.renderer.layout.CanvasLayoutImpl",
       var vWidget = this.getWidget();
 
       if (vJobs.initial || vJobs.left || vJobs.parentPaddingLeft) {
-        vChild._computedLeftTypeNull ? vChild._computedRightTypeNull && vWidget.getPaddingLeft() > 0 ? vChild._applyRuntimeLeft(vWidget.getPaddingLeft()) : vChild._resetRuntimeLeft() : vChild._applyRuntimeLeft(vChild.getLeftValue() + vWidget.getPaddingLeft());
+        vChild._computedLeftTypeNull ? vChild._computedRightTypeNull && vWidget.getPaddingLeft() > 0 ? vChild._renderRuntimeLeft(vWidget.getPaddingLeft()) : vChild._resetRuntimeLeft() : vChild._renderRuntimeLeft(vChild.getLeftValue() + vWidget.getPaddingLeft());
       }
 
       if (vJobs.initial || vJobs.right || vJobs.parentPaddingRight) {
-        vChild._computedRightTypeNull ? vChild._computedLeftTypeNull && vWidget.getPaddingRight() > 0 ? vChild._applyRuntimeRight(vWidget.getPaddingRight()) : vChild._resetRuntimeRight() : vChild._applyRuntimeRight(vChild.getRightValue() + vWidget.getPaddingRight());
+        vChild._computedRightTypeNull ? vChild._computedLeftTypeNull && vWidget.getPaddingRight() > 0 ? vChild._renderRuntimeRight(vWidget.getPaddingRight()) : vChild._resetRuntimeRight() : vChild._renderRuntimeRight(vChild.getRightValue() + vWidget.getPaddingRight());
       }
     },
 
@@ -352,11 +352,11 @@ qx.Class.define("qx.renderer.layout.CanvasLayoutImpl",
       var vWidget = this.getWidget();
 
       if (vJobs.initial || vJobs.top || vJobs.parentPaddingTop) {
-        vChild._computedTopTypeNull ? vChild._computedBottomTypeNull && vWidget.getPaddingTop() > 0 ? vChild._applyRuntimeTop(vWidget.getPaddingTop()) : vChild._resetRuntimeTop() : vChild._applyRuntimeTop(vChild.getTopValue() + vWidget.getPaddingTop());
+        vChild._computedTopTypeNull ? vChild._computedBottomTypeNull && vWidget.getPaddingTop() > 0 ? vChild._renderRuntimeTop(vWidget.getPaddingTop()) : vChild._resetRuntimeTop() : vChild._renderRuntimeTop(vChild.getTopValue() + vWidget.getPaddingTop());
       }
 
       if (vJobs.initial || vJobs.bottom || vJobs.parentPaddingBottom) {
-        vChild._computedBottomTypeNull ? vChild._computedTopTypeNull && vWidget.getPaddingBottom() > 0 ? vChild._applyRuntimeBottom(vWidget.getPaddingBottom()) : vChild._resetRuntimeBottom() : vChild._applyRuntimeBottom(vChild.getBottomValue() + vWidget.getPaddingBottom());
+        vChild._computedBottomTypeNull ? vChild._computedTopTypeNull && vWidget.getPaddingBottom() > 0 ? vChild._renderRuntimeBottom(vWidget.getPaddingBottom()) : vChild._resetRuntimeBottom() : vChild._renderRuntimeBottom(vChild.getBottomValue() + vWidget.getPaddingBottom());
       }
     }
   }

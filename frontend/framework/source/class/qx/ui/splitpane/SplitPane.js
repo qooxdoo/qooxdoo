@@ -683,7 +683,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
         return;
       }
 
-      this.isLiveResize() ? this._syncX(e) : this._slider._applyRuntimeLeft(this._normalizeX(e));
+      this.isLiveResize() ? this._syncX(e) : this._slider._renderRuntimeLeft(this._normalizeX(e));
       e.preventDefault();
     },
 
@@ -701,7 +701,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
         return;
       }
 
-      this.isLiveResize() ? this._syncY(e) : this._slider._applyRuntimeTop(this._normalizeY(e));
+      this.isLiveResize() ? this._syncY(e) : this._slider._renderRuntimeTop(this._normalizeY(e));
       e.preventDefault();
     },
 

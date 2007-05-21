@@ -201,7 +201,7 @@ qx.Class.define("qx.renderer.layout.MenuButtonLayoutImpl",
       if (vPos != null)
       {
         vPos += vWidget.getPaddingLeft();
-        vChild._applyRuntimeLeft(vPos);
+        vChild._renderRuntimeLeft(vPos);
       }
     }
   }
