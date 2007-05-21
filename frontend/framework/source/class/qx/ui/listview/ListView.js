@@ -146,7 +146,8 @@ qx.Class.define("qx.ui.listview.ListView",
     sortBy :
     {
       check : "String",
-      apply : "_modifySortBy"
+      apply : "_modifySortBy",
+      nullable : true
     }
   },
 
