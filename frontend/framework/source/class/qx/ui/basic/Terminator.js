@@ -173,7 +173,6 @@ qx.Class.define("qx.ui.basic.Terminator",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
      */
     _isWidthEssential : function()
     {
@@ -205,7 +204,6 @@ qx.Class.define("qx.ui.basic.Terminator",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
      */
     _isHeightEssential : function()
     {

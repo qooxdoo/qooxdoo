@@ -310,7 +310,6 @@ qx.Class.define("qx.ui.form.ComboBox",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifySelected : function(value, old)
     {
@@ -346,7 +345,6 @@ qx.Class.define("qx.ui.form.ComboBox",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyValue : function(value, old)
     {
@@ -391,7 +389,6 @@ qx.Class.define("qx.ui.form.ComboBox",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyEditable : function(value, old)
     {
@@ -885,7 +882,6 @@ qx.Class.define("qx.ui.form.ComboBox",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
      */
     _visualizeBlur : function()
     {
@@ -932,7 +928,6 @@ qx.Class.define("qx.ui.form.ComboBox",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
      */
     _visualizeFocus : function()
     {

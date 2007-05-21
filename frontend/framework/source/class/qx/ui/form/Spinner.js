@@ -296,7 +296,6 @@ qx.Class.define("qx.ui.form.Spinner",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyIncrementAmount : function(value, old)
     {
@@ -311,7 +310,6 @@ qx.Class.define("qx.ui.form.Spinner",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyEditable : function(value, old)
     {
@@ -329,7 +327,6 @@ qx.Class.define("qx.ui.form.Spinner",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyManager : function(value, old)
     {
@@ -354,7 +351,6 @@ qx.Class.define("qx.ui.form.Spinner",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyCheckValueFunction : function(value, old)
     {

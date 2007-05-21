@@ -374,7 +374,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyEnabled : function(value, old)
     {

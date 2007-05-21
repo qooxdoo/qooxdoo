@@ -167,7 +167,6 @@ qx.Class.define("qx.manager.selection.SelectionManager",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyAnchorItem : function(value, old)
     {
@@ -189,7 +188,6 @@ qx.Class.define("qx.manager.selection.SelectionManager",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyLeadItem : function(value, old)
     {
@@ -866,7 +864,6 @@ qx.Class.define("qx.manager.selection.SelectionManager",
      *  to deselect all items.
      *
      * @type member
-     * @return {Boolean} TODOC
      */
     _deselectAll : function()
     {

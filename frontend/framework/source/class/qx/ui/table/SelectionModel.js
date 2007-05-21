@@ -112,7 +112,6 @@ qx.Class.define("qx.ui.table.SelectionModel",
      *
      * @type member
      * @param selectionMode {var} TODOC
-     * @return {Boolean} TODOC
      */
     _modifySelectionMode : function(selectionMode)
     {

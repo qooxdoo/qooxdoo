@@ -84,7 +84,6 @@ qx.Class.define("qx.manager.object.WindowManager",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyActiveWindow : function(value, old)
     {

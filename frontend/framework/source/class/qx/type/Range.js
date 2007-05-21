@@ -95,7 +95,6 @@ qx.Class.define("qx.type.Range",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyMax : function(value, old) {
       this.setValue(Math.min(this.getValue(), value));
@@ -108,7 +107,6 @@ qx.Class.define("qx.type.Range",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyMin : function(value, old) {
       this.setValue(Math.max(this.getValue(), value));

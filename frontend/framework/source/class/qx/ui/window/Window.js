@@ -685,7 +685,6 @@ qx.Class.define("qx.ui.window.Window",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyActive : function(value, old)
     {
@@ -734,7 +733,6 @@ qx.Class.define("qx.ui.window.Window",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyModal : function(value, old)
     {
@@ -792,7 +790,6 @@ qx.Class.define("qx.ui.window.Window",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyMode : function(value, old)
     {
@@ -827,7 +824,6 @@ qx.Class.define("qx.ui.window.Window",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyShowCaption : function(value, old)
     {
@@ -845,7 +841,6 @@ qx.Class.define("qx.ui.window.Window",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyShowIcon : function(value, old)
     {
@@ -863,7 +858,6 @@ qx.Class.define("qx.ui.window.Window",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyShowStatusbar : function(value, old)
     {
@@ -881,7 +875,6 @@ qx.Class.define("qx.ui.window.Window",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyShowClose : function(value, old)
     {
@@ -899,7 +892,6 @@ qx.Class.define("qx.ui.window.Window",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyShowMaximize : function(value, old)
     {
@@ -927,7 +919,6 @@ qx.Class.define("qx.ui.window.Window",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyShowMinimize : function(value, old)
     {
@@ -943,7 +934,6 @@ qx.Class.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
      */
     _minimizeButtonManager : function() {
       this.getAllowMinimize() === false ? this._minimizeButton.setEnabled(false) : this._minimizeButton.resetEnabled();
@@ -954,7 +944,6 @@ qx.Class.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
      */
     _closeButtonManager : function() {
       this.getAllowClose() === false ? this._closeButton.setEnabled(false) : this._closeButton.resetEnabled();
@@ -965,7 +954,6 @@ qx.Class.define("qx.ui.window.Window",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
      */
     _maximizeButtonManager : function()
     {
@@ -987,7 +975,6 @@ qx.Class.define("qx.ui.window.Window",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyStatus : function(value, old) {
       this._statusText.setText(value);
@@ -1043,7 +1030,6 @@ qx.Class.define("qx.ui.window.Window",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyCaption : function(value, old) {
       this._captionTitle.setText(value);

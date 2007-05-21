@@ -308,7 +308,6 @@ qx.Class.define("qx.ui.basic.Image",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifySource : function(value, old)
     {
@@ -347,7 +346,6 @@ qx.Class.define("qx.ui.basic.Image",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyPreloader : function(value, old)
     {
@@ -396,7 +394,6 @@ qx.Class.define("qx.ui.basic.Image",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyLoaded : function(value, old)
     {
@@ -420,7 +417,6 @@ qx.Class.define("qx.ui.basic.Image",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyElement : function(value, old)
     {

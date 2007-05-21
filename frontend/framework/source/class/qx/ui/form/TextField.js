@@ -457,7 +457,6 @@ qx.Class.define("qx.ui.form.TextField",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _applyFont : function(value, old) {
       qx.manager.object.FontManager.getInstance().connect(this._styleFont, this, value);

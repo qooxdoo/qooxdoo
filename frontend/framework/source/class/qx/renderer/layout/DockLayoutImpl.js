@@ -190,7 +190,6 @@ qx.Class.define("qx.renderer.layout.DockLayoutImpl",
      *
      * @type member
      * @param vChild {var} TODOC
-     * @return {Boolean} TODOC
      */
     updateChildOnInnerWidthChange : function(vChild)
     {
@@ -208,7 +207,6 @@ qx.Class.define("qx.renderer.layout.DockLayoutImpl",
      *
      * @type member
      * @param vChild {var} TODOC
-     * @return {Boolean} TODOC
      */
     updateChildOnInnerHeightChange : function(vChild)
     {

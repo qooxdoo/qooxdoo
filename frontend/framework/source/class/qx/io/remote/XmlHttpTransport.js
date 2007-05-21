@@ -777,7 +777,6 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyState : function(value, old)
     {

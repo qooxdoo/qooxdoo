@@ -636,7 +636,6 @@ qx.Class.define("qx.io.remote.Request",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyState : function(value, old)
     {
@@ -657,7 +656,6 @@ qx.Class.define("qx.io.remote.Request",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyProhibitCaching : function(value, old)
     {
@@ -691,7 +689,6 @@ qx.Class.define("qx.io.remote.Request",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyMethod : function(value, old)
     {
@@ -711,7 +708,6 @@ qx.Class.define("qx.io.remote.Request",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyResponseType : function(value, old)
     {

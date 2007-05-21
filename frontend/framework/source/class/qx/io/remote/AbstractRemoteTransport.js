@@ -420,7 +420,6 @@ qx.Class.define("qx.io.remote.AbstractRemoteTransport",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _applyState : function(value, old)
     {

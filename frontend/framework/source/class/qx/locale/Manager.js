@@ -244,7 +244,6 @@ qx.Class.define("qx.locale.Manager",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyLocale : function(value, old)
     {

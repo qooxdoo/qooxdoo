@@ -499,7 +499,6 @@ qx.Class.define("qx.ui.table.Table",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifySelectionModel : function(value, old)
     {
@@ -521,7 +520,6 @@ qx.Class.define("qx.ui.table.Table",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyTableModel : function(value, old)
     {
@@ -549,7 +547,6 @@ qx.Class.define("qx.ui.table.Table",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyTableColumnModel : function(value, old)
     {
@@ -594,7 +591,6 @@ qx.Class.define("qx.ui.table.Table",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyStatusBarVisible : function(value, old)
     {
@@ -614,7 +610,6 @@ qx.Class.define("qx.ui.table.Table",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyColumnVisibilityButtonVisible : function(value, old)
     {
@@ -630,7 +625,6 @@ qx.Class.define("qx.ui.table.Table",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyMetaColumnCounts : function(value, old)
     {
@@ -702,7 +696,6 @@ qx.Class.define("qx.ui.table.Table",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyFocusCellOnMouseMove : function(value, old)
     {
@@ -722,7 +715,6 @@ qx.Class.define("qx.ui.table.Table",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyKeepFirstVisibleRowComplete : function(value, old)
     {
@@ -742,7 +734,6 @@ qx.Class.define("qx.ui.table.Table",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyHeaderCellHeight : function(value, old)
     {
@@ -762,7 +753,6 @@ qx.Class.define("qx.ui.table.Table",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyDataRowRenderer : function(value, old)
     {

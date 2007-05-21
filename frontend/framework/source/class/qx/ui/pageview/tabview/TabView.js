@@ -99,7 +99,6 @@ qx.Class.define("qx.ui.pageview.tabview.TabView",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyAlignTabsToLeft : function(value, old)
     {
@@ -118,7 +117,6 @@ qx.Class.define("qx.ui.pageview.tabview.TabView",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyPlaceBarOnTop : function(value, old)
     {

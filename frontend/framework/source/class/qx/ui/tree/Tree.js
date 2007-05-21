@@ -98,7 +98,6 @@ qx.Class.define("qx.ui.tree.Tree",
      *
      * @type static
      * @param vObject {Object} TODOC
-     * @return {Boolean} TODOC
      */
     isTreeFolder : function(vObject) {
       return vObject && vObject instanceof qx.ui.tree.TreeFolder && !(vObject instanceof qx.ui.tree.Tree);
@@ -110,7 +109,6 @@ qx.Class.define("qx.ui.tree.Tree",
      *
      * @type static
      * @param vObject {Object} TODOC
-     * @return {Boolean} TODOC
      */
     isOpenTreeFolder : function(vObject) {
       return vObject instanceof qx.ui.tree.TreeFolder && vObject.getOpen() && vObject.hasContent();
@@ -308,7 +306,6 @@ qx.Class.define("qx.ui.tree.Tree",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyUseTreeLines : function(value, old)
     {

@@ -411,7 +411,6 @@ qx.Class.define("qx.ui.basic.Atom",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyIconPosition : function(value, old)
     {
@@ -439,7 +438,6 @@ qx.Class.define("qx.ui.basic.Atom",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyShow : function(value, old)
     {
@@ -456,7 +454,6 @@ qx.Class.define("qx.ui.basic.Atom",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyLabel : function(value, old)
     {
@@ -476,7 +473,6 @@ qx.Class.define("qx.ui.basic.Atom",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyIcon : function(value, old)
     {
@@ -493,7 +489,6 @@ qx.Class.define("qx.ui.basic.Atom",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyDisabledIcon : function(value, old)
     {
@@ -510,7 +505,6 @@ qx.Class.define("qx.ui.basic.Atom",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyIconWidth : function(value, old)
     {
@@ -525,7 +519,6 @@ qx.Class.define("qx.ui.basic.Atom",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyIconHeight : function(value, old)
     {

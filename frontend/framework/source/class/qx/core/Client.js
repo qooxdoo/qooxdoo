@@ -371,7 +371,6 @@ qx.Class.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
      */
     isMshtml : function() {
       return this._engineNameMshtml;
@@ -382,7 +381,6 @@ qx.Class.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
      */
     isGecko : function() {
       return this._engineNameGecko;
@@ -393,7 +391,6 @@ qx.Class.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
      */
     isOpera : function() {
       return this._engineNameOpera;
@@ -404,7 +401,6 @@ qx.Class.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
      */
     isKhtml : function() {
       return this._engineNameKhtml;
@@ -415,7 +411,6 @@ qx.Class.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
      */
     isWebkit : function() {
       return this._engineNameWebkit;
@@ -426,7 +421,6 @@ qx.Class.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
      */
     isSafari2 : function() {
       return this._engineNameWebkit && (this._engineVersion < 420);
@@ -437,7 +431,6 @@ qx.Class.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
      */
     isInQuirksMode : function() {
       return this._engineQuirksMode;
@@ -481,7 +474,6 @@ qx.Class.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
      */
     usesDefaultLocale : function() {
       return this._browserLocale === this._defaultLocale;
@@ -547,7 +539,6 @@ qx.Class.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
      */
     supportsVml : function() {
       return this._gfxVml;
@@ -558,7 +549,6 @@ qx.Class.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
      */
     supportsSvg : function() {
       return this._gfxSvg;
@@ -569,7 +559,6 @@ qx.Class.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
      */
     usesSvgBuiltin : function() {
       return this._gfxSvgBuiltin;
@@ -580,7 +569,6 @@ qx.Class.define("qx.core.Client",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
      */
     usesSvgPlugin : function() {
       return this._gfxSvgPlugin;

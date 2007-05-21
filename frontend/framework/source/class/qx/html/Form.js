@@ -45,7 +45,6 @@ qx.Class.define("qx.html.Form",
      *
      * @type static
      * @param vNode {var} TODOC
-     * @return {Boolean} TODOC
      */
     inputFilter : function(vNode)
     {
