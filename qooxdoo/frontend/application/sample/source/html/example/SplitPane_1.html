@@ -23,8 +23,7 @@
     frame.setLocation(20, 48);
     frame.setBottom(48);
     frame.setRight(300);
-    frame.setBackgroundColor("#134275");
-    frame.setPadding(20);
+    frame.setBorder("inset-thin");
     frame.addToDocument();
 
     // the splitpane itself
@@ -39,6 +38,7 @@
     leftWidget.setBackgroundColor("white");
     leftWidget.setWidth("100%");
     leftWidget.setHeight("100%");
+    leftWidget.setBorder(null);
 
     // rightWidget (another splitpane)
     var rightWidget = new qx.ui.splitpane.VerticalSplitPane;
@@ -57,11 +57,13 @@
     topWidget.setBackgroundColor("white");
     topWidget.setHeight("100%");
     topWidget.setWidth("100%");
+    topWidget.setBorder(null);
 
     // right bottom widget
     var bottomWidget = new qx.ui.embed.Iframe("http://www.qooxdoo.org");
     bottomWidget.setHeight("100%");
     bottomWidget.setWidth("100%");
+    bottomWidget.setBorder(null);
 
     // add widgets to right splitpane
     rightWidget.addTop(topWidget);

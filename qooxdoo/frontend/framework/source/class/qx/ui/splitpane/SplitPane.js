@@ -466,9 +466,6 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
           this._splitter.addState("horizontal");
           this._knob.addState("horizontal");
 
-          // apply images
-          this._knob.setSource("widget/splitpane/knob-horizontal.png");
-
           break;
 
         case "vertical":
@@ -483,9 +480,6 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
           // reconfigure states
           this._splitter.addState("vertical");
           this._knob.addState("vertical");
-
-          // apply images
-          this._knob.setSource("widget/splitpane/knob-vertical.png");
 
           break;
       }
