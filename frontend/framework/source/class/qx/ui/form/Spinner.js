@@ -421,6 +421,7 @@ qx.Class.define("qx.ui.form.Spinner",
       }
       else
       {
+        this.debug(vIdentifier);
         switch(vIdentifier)
         {
           case "Up":
@@ -447,7 +448,10 @@ qx.Class.define("qx.ui.form.Spinner",
               return;
             }
 
-            e.preventDefault();
+            // supress all key events without modifier
+            if (e.getModifiers() == 0) {
+              e.preventDefault();
+            }
         }
       }
     },

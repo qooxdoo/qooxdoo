@@ -871,8 +871,8 @@ qx.Class.define("qx.event.handler.EventHandler",
      */
     _onmouseevent_post : function(vDomEvent, vType, vDomTarget)
     {
-      try
-      {
+      //try
+      //{
         var vEventObject, vCaptureTarget, vDispatchTarget, vTarget, vOriginalTarget, vRelatedTarget, vFixClick, vTargetIsEnabled;
 
         // Check for capturing, if enabled the target is the captured widget.
@@ -950,15 +950,15 @@ qx.Class.define("qx.event.handler.EventHandler",
             }
         }
 
-        try
-        {
+        //try
+        //{
           // Create Mouse Event Object
           vEventObject = new qx.event.type.MouseEvent(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget, vRelatedTarget);
-        }
-        catch(ex)
-        {
-          return this.error("Failed to create mouse event", ex);
-        }
+        //}
+        //catch(ex)
+        //{
+        //  return this.error("Failed to create mouse event", ex);
+        //}
 
         // Store last Event in MouseEvent Constructor
         // Needed for Tooltips, ...
@@ -969,18 +969,18 @@ qx.Class.define("qx.event.handler.EventHandler",
           // Dispatch Event through target (eventtarget-)object
           var vEventWasProcessed = false;
 
-          try
-          {
+          //try
+          //{
             vEventWasProcessed = vDispatchTarget ? vDispatchTarget.dispatchEvent(vEventObject) : true;
 
             // Handle Special Post Events
             this._onmouseevent_special_post(vType, vTarget, vOriginalTarget, vDispatchTarget, vEventWasProcessed, vEventObject, vDomEvent);
-          }
-          catch(ex)
-          {
-            this.error("Failed to dispatch mouse event", ex);
-            this.createDispatchDataEvent("error", ex);
-          }
+          //}
+          //catch(ex)
+          //{
+          //  this.error("Failed to dispatch mouse event", ex);
+          //  this.createDispatchDataEvent("error", ex);
+          //}
         }
         else
         {
@@ -1008,11 +1008,11 @@ qx.Class.define("qx.event.handler.EventHandler",
           this._lastMouseDownDomTarget = null;
           this._lastMouseDownDispatchTarget = null;
         }
-      }
-      catch(ex)
-      {
-        return this.error("Failed to handle mouse event", ex);
-      }
+      //}
+      //catch(ex)
+      //{
+      //  return this.error("Failed to handle mouse event", ex);
+      //}
     },
 
 
