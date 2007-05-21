@@ -1864,7 +1864,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           opacity : 0.5,
-          backgroundColor : states.dragging ? "black" : "background"
+          backgroundColor : "background"
         };
       }
     },
