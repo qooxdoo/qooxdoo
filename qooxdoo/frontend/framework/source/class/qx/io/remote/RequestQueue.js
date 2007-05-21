@@ -75,7 +75,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
     {
       init : true,
       check : "Boolean",
-      apply : "_modifyEnabled"
+      apply : "_applyEnabled"
     },
 
     /**
@@ -375,7 +375,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyEnabled : function(value, old)
+    _applyEnabled : function(value, old)
     {
       if (value) {
         this._check();

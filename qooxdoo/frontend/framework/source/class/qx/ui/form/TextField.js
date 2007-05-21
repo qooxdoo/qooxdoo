@@ -254,7 +254,7 @@ qx.Class.define("qx.ui.form.TextField",
     ---------------------------------------------------------------------------
     */
 
-    _modifyElement : function(value, old)
+    _applyElement : function(value, old)
     {
       this.base(arguments, value, old);
 
@@ -337,7 +337,7 @@ qx.Class.define("qx.ui.form.TextField",
     },
 
 
-    _modifyCursor : function(value, old)
+    _applyCursor : function(value, old)
     {
       if (this._inputElement) {
         this._renderCursor();
@@ -382,7 +382,7 @@ qx.Class.define("qx.ui.form.TextField",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyEnabled : function(value, old)
+    _applyEnabled : function(value, old)
     {
       if (this._inputElement) {
         this._inputElement.disabled = value===false;

@@ -262,7 +262,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
      * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyVisibility : function(value, old)
+    _applyVisibility : function(value, old)
     {
       if (!value) {
         this._positionKnob(0);
@@ -296,7 +296,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
     },
 
 
-    _modifyEnabled : function(isEnabled)
+    _applyEnabled : function(isEnabled)
     {
       this.base(arguments);
       this._blocker.setDisplay(!this.getEnabled());
