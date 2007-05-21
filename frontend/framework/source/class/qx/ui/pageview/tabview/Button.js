@@ -192,7 +192,7 @@ qx.Class.define("qx.ui.pageview.tabview.Button",
     ---------------------------------------------------------------------------
     */
 
-    _modifyChecked : function(value, old)
+    _applyChecked : function(value, old)
     {
       this.base(arguments, value, old);
 

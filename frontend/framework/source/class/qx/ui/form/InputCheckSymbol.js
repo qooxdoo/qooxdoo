@@ -103,7 +103,7 @@ qx.Class.define("qx.ui.form.InputCheckSymbol",
     {
       check : "Boolean",
       init : false,
-      apply : "_modifyChecked"
+      apply : "_applyChecked"
     }
   },
 
@@ -176,7 +176,7 @@ qx.Class.define("qx.ui.form.InputCheckSymbol",
      * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyChecked : function(value, old) {
+    _applyChecked : function(value, old) {
       return this.setHtmlProperty("checked", value);
     },
 

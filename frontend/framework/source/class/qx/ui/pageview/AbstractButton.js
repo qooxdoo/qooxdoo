@@ -74,7 +74,7 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
     {
       check :"Boolean",
       init : false,
-      apply : "_modifyChecked",
+      apply : "_applyChecked",
       event : "changeChecked"
     },
 
@@ -93,7 +93,7 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
     {
       check  : "qx.manager.selection.RadioManager",
       nullable : true,
-      apply : "_modifyManager"
+      apply : "_applyManager"
     },
 
 
@@ -153,7 +153,7 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyManager : function(value, old)
+    _applyManager : function(value, old)
     {
       if (old) {
         old.remove(this);
@@ -215,7 +215,7 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyChecked : function(value, old)
+    _applyChecked : function(value, old)
     {
       if (this._hasParent)
       {

@@ -33,3 +33,23 @@
 \b_modifyHideNode\b=_applyHideNode
 \b_modifyRootOpenClose\b=_applyRootOpenClose
 
+######################################
+# qx.ui.toolbar.*
+######################################
+
+\b_modifyChecked\b=_applyChecked
+\b_modifyMenu\b=_applyMenu
+\b_modifyManager\b=_applyManager
+
+######################################
+# qx.ui.table.*
+######################################
+
+\b_modifyFirstVisibleRow\b=_applyFirstVisibleRow
+\b_modifyVisibleRowCount\b=_applyVisibleRowCount
+\b_modifyHorizontalScrollBarVisible\b=_applyHorizontalScrollBarVisible
+\b_modifyVerticalScrollBarVisible\b=_applyVerticalScrollBarVisible
+\b_modifyTablePaneModel\b=_applyTablePaneModel
+\b_modifyScrollX\b=_applyScrollX
+\b_modifyScrollY\b=_applyScrollY
+

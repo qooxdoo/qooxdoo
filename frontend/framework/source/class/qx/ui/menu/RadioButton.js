@@ -55,7 +55,7 @@ qx.Class.define("qx.ui.menu.RadioButton",
     {
       check : "qx.manager.selection.RadioManager",
       nullable : true,
-      apply : "_modifyManager"
+      apply : "_applyManager"
     }
   },
 
@@ -83,7 +83,7 @@ qx.Class.define("qx.ui.menu.RadioButton",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyChecked : function(value, old)
+    _applyChecked : function(value, old)
     {
       this.base(arguments, value, old);
 
@@ -102,7 +102,7 @@ qx.Class.define("qx.ui.menu.RadioButton",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyManager : function(value, old)
+    _applyManager : function(value, old)
     {
       if (old) {
         old.remove(this);

@@ -107,7 +107,7 @@ qx.Class.define("qx.ui.form.CheckBox",
     checked :
     {
       check : "Boolean",
-      apply : "_modifyChecked",
+      apply : "_applyChecked",
       init : false,
       event : "changeChecked"
     }
@@ -166,7 +166,7 @@ qx.Class.define("qx.ui.form.CheckBox",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyChecked : function(value, old)
+    _applyChecked : function(value, old)
     {
       if (this._iconObject) {
         this._iconObject.setChecked(value);
