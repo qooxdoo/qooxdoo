@@ -18,11 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-
-************************************************************************ */
-
 qx.Class.define("qx.client.NativeWindow",
 {
   extend : qx.core.Target,
@@ -337,10 +332,8 @@ qx.Class.define("qx.client.NativeWindow",
      * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyOpen : function(value, old, propData)
-    {
+    _modifyOpen : function(value, old) {
       value ? this._open() : this._close();
-      return true;
     },
 
 
