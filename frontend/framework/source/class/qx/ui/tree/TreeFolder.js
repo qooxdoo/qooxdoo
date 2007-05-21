@@ -97,7 +97,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
     {
       check : "Boolean",
       init : false,
-      apply : "_modifyOpen",
+      apply : "_applyOpen",
       event : "changeOpen"
     },
 
@@ -105,7 +105,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
     {
       check : "Boolean",
       init : false,
-      apply : "_modifyAlwaysShowPlusMinusSymbol"
+      apply : "_applyAlwaysShowPlusMinusSymbol"
     }
   },
 
@@ -639,7 +639,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyOpen : function(value, old)
+    _applyOpen : function(value, old)
     {
       this._updateLastColumn();
 
@@ -656,7 +656,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyAlwaysShowPlusMinusSymbol : function(value, old) {
+    _applyAlwaysShowPlusMinusSymbol : function(value, old) {
       this._updateLastColumn();
     },
 

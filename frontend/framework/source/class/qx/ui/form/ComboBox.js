@@ -204,7 +204,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     {
       check : "qx.ui.form.ListItem",
       nullable : true,
-      apply : "_modifySelected",
+      apply : "_applySelected",
       event : "changeSelected"
     },
 
@@ -311,7 +311,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifySelected : function(value, old)
+    _applySelected : function(value, old)
     {
       this._fromSelected = true;
 

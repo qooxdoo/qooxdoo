@@ -85,7 +85,7 @@ qx.Class.define("qx.manager.selection.RadioManager",
     selected :
     {
       nullable : true,
-      apply : "_modifySelected",
+      apply : "_applySelected",
       event : "changeSelected",
       check : "qx.core.Object"
     },
@@ -248,7 +248,7 @@ qx.Class.define("qx.manager.selection.RadioManager",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifySelected : function(value, old)
+    _applySelected : function(value, old)
     {
       if (old) {
         old.setChecked(false);

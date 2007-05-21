@@ -63,7 +63,7 @@ qx.Class.define("qx.client.NativeWindow",
     {
       check : "Boolean",
       init : false,
-      apply : "_modifyOpen"
+      apply : "_applyOpen"
     },
 
 
@@ -327,7 +327,7 @@ qx.Class.define("qx.client.NativeWindow",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyOpen : function(value, old) {
+    _applyOpen : function(value, old) {
       value ? this._open() : this._close();
     },
 
