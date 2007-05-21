@@ -65,7 +65,7 @@ qx.Class.define("qx.ui.embed.LinkEmbed",
     {
       check : "String",
       init : "#",
-      apply : "_modifyHtml"
+      apply : "_applyHtml"
     },
 
 
@@ -74,7 +74,7 @@ qx.Class.define("qx.ui.embed.LinkEmbed",
     {
       check : "String",
       init : "_blank",
-      apply : "_modifyHtml"
+      apply : "_applyHtml"
     }
   },
 

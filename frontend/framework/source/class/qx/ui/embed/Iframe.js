@@ -213,7 +213,7 @@ qx.Class.define("qx.ui.embed.Iframe",
     {
       check : "String",
       init : "",
-      apply : "_modifySource",
+      apply : "_applySource",
       event : "changeSource"
 
     },
@@ -225,7 +225,7 @@ qx.Class.define("qx.ui.embed.Iframe",
     {
       check : "String",
       init : "",
-      apply : "_modifyFrameName"
+      apply : "_applyFrameName"
     }
   },
 
@@ -501,7 +501,7 @@ qx.Class.define("qx.ui.embed.Iframe",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifySource : function(value, old)
+    _applySource : function(value, old)
     {
       if (this.isCreated()) {
         this._applySource();
@@ -538,7 +538,7 @@ qx.Class.define("qx.ui.embed.Iframe",
      * @param uniqModIds {var} TODOC
      * @throws TODOC
      */
-    _modifyFrameName : function(value, old, propName, uniqModIds)
+    _applyFrameName : function(value, old, propName, uniqModIds)
     {
       if (this.isCreated()) {
         throw new Error("Not allowed to set frame name after it has been created");

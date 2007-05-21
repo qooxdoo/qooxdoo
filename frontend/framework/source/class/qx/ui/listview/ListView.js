@@ -146,7 +146,7 @@ qx.Class.define("qx.ui.listview.ListView",
     sortBy :
     {
       check : "String",
-      apply : "_modifySortBy",
+      apply : "_applySortBy",
       nullable : true
     }
   },
@@ -343,7 +343,7 @@ qx.Class.define("qx.ui.listview.ListView",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifySortBy : function(value, old)
+    _applySortBy : function(value, old)
     {
       if (old)
       {

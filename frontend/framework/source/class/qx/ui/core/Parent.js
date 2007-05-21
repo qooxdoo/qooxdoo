@@ -72,7 +72,7 @@ qx.Class.define("qx.ui.core.Parent",
     focusHandler :
     {
       check : "qx.event.handler.FocusHandler",
-      apply : "_modifyFocusHandler",
+      apply : "_applyFocusHandler",
       nullable : true
     },
 
@@ -88,7 +88,7 @@ qx.Class.define("qx.ui.core.Parent",
     focusedChild :
     {
       check : "qx.ui.core.Widget",
-      apply : "_modifyFocusedChild",
+      apply : "_applyFocusedChild",
       event : "changeFocusedChild",
       nullable : true
     },
@@ -180,7 +180,7 @@ qx.Class.define("qx.ui.core.Parent",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyFocusHandler : function(value, old)
+    _applyFocusHandler : function(value, old)
     {
       if (value)
       {
@@ -220,7 +220,7 @@ qx.Class.define("qx.ui.core.Parent",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyFocusedChild : function(value, old)
+    _applyFocusedChild : function(value, old)
     {
       // this.debug("FocusedChild: " + value);
       var vFocusValid = value != null;

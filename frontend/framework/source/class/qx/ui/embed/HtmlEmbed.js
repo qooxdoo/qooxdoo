@@ -62,7 +62,7 @@ qx.Class.define("qx.ui.embed.HtmlEmbed",
     {
       check : "String",
       init : "",
-      apply : "_modifyHtml",
+      apply : "_applyHtml",
       event : "changeHtml"
     },
 
@@ -117,7 +117,7 @@ qx.Class.define("qx.ui.embed.HtmlEmbed",
      *
      * @type member
      */
-    _modifyHtml : function()
+    _applyHtml : function()
     {
       if (this._isCreated) {
         this._syncHtml();

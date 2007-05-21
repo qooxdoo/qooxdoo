@@ -89,14 +89,14 @@ qx.Class.define("qx.ui.form.InputCheckSymbol",
     {
       init : null,
       nullable : true,
-      apply : "_modifyValue"
+      apply : "_applyValue"
     },
 
     type :
     {
       init : null,
       nullable : true,
-      apply : "_modifyType"
+      apply : "_applyType"
     },
 
     checked :
@@ -150,7 +150,7 @@ qx.Class.define("qx.ui.form.InputCheckSymbol",
      * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyValue : function(value, old) {
+    _applyValue : function(value, old) {
       return this.setHtmlProperty("value", value);
     },
 
@@ -163,7 +163,7 @@ qx.Class.define("qx.ui.form.InputCheckSymbol",
      * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyType : function(value, old) {
+    _applyType : function(value, old) {
       return this.setHtmlProperty("type", value);
     },
 
