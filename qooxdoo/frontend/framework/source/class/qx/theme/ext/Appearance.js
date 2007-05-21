@@ -15,6 +15,7 @@
 
    Authors:
    * Alexander Back (aback)
+   * Fabian Jakobs (fjakobs)
 
 ************************************************************************* */
 
