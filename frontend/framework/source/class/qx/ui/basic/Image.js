@@ -335,8 +335,6 @@ qx.Class.define("qx.ui.basic.Image",
           this.setPreloader(null);
         }
       }
-
-      return true;
     },
 
 
@@ -383,8 +381,6 @@ qx.Class.define("qx.ui.basic.Image",
 
         this.setLoaded(false);
       }
-
-      return true;
     },
 
 
@@ -406,8 +402,6 @@ qx.Class.define("qx.ui.basic.Image",
         this._invalidatePreferredInnerWidth();
         this._invalidatePreferredInnerHeight();
       }
-
-      return true;
     },
 
 
@@ -481,8 +475,6 @@ qx.Class.define("qx.ui.basic.Image",
           this.error("Failed while creating image #2", ex);
         }
       }
-
-      return true;
     },
 
 

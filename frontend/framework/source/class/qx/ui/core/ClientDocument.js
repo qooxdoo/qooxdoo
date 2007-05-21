@@ -480,8 +480,6 @@ qx.Class.define("qx.ui.core.ClientDocument",
         }
         this.addCssRule(this._globalCursorStyleSheet, "*", "cursor:" + value + " !important");
       }
-
-      return true;
     },
 
 
