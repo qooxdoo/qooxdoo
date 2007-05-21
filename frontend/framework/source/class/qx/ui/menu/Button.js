@@ -338,8 +338,6 @@ qx.Class.define("qx.ui.menu.Button",
         this._hasIcon = false;
         this.remove(this._iconObject);
       }
-
-      return true;
     },
 
 
@@ -367,8 +365,6 @@ qx.Class.define("qx.ui.menu.Button",
         this._hasLabel = false;
         this.remove(this._labelObject);
       }
-
-      return true;
     },
 
 
@@ -405,8 +401,6 @@ qx.Class.define("qx.ui.menu.Button",
         this._hasShortcut = false;
         this.remove(this._shortcutObject);
       }
-
-      return true;
     },
 
 
@@ -432,8 +426,6 @@ qx.Class.define("qx.ui.menu.Button",
         this._hasMenu = false;
         this.remove(this._arrowObject);
       }
-
-      return true;
     },
 
 

@@ -126,10 +126,8 @@ qx.Class.define("qx.ui.table.TablePane",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyFirstVisibleRow : function(value, old)
-    {
+    _modifyFirstVisibleRow : function(value, old) {
       this._updateContent();
-      return true;
     },
 
     // property modifier
@@ -140,10 +138,8 @@ qx.Class.define("qx.ui.table.TablePane",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyVisibleRowCount : function(value, old)
-    {
+    _modifyVisibleRowCount : function(value, old) {
       this._updateContent();
-      return true;
     },
 
     // overridden

@@ -267,8 +267,6 @@ qx.Class.define("qx.ui.listview.HeaderCell",
         this.updateSort();
         vListView.update();
       }
-
-      return true;
     },
 
 

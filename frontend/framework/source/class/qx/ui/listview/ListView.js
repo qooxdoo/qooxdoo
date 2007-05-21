@@ -362,8 +362,6 @@ qx.Class.define("qx.ui.listview.ListView",
           vNewCell.setSortOrder(qx.ui.listview.HeaderCell.C_SORT_ASCENDING);
         }
       }
-
-      return true;
     },
 
 
