@@ -638,7 +638,6 @@ qx.Class.define("qx.ui.tree.TreeFolder",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyOpen : function(value, old)
     {
@@ -658,7 +657,6 @@ qx.Class.define("qx.ui.tree.TreeFolder",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyAlwaysShowPlusMinusSymbol : function(value, old)
     {

@@ -379,7 +379,6 @@ qx.Class.define("qx.ui.layout.BoxLayout",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _doLayout : function()
     {

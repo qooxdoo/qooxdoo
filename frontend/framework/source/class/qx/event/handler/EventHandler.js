@@ -390,7 +390,6 @@ qx.Class.define("qx.event.handler.EventHandler",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyCaptureWidget : function(value, old)
     {
@@ -410,7 +409,6 @@ qx.Class.define("qx.event.handler.EventHandler",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyFocusRoot : function(value, old)
     {
@@ -626,7 +624,6 @@ qx.Class.define("qx.event.handler.EventHandler",
      * @param vKeyCode {var} TODOC
      * @param vCharCode {var} TODOC
      * @param vKeyIdentifier {var} TODOC
-     * @return {Boolean} TODOC
      */
     _onkeyevent_post : function(vDomEvent, vType, vKeyCode, vCharCode, vKeyIdentifier)
     {

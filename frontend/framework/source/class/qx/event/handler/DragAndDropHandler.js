@@ -145,7 +145,6 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyDestinationWidget : function(value, old)
     {
@@ -850,7 +849,6 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
      *
      * @type member
      * @param vWidget {var} TODOC
-     * @return {Boolean} TODOC
      */
     supportsDrop : function(vWidget)
     {

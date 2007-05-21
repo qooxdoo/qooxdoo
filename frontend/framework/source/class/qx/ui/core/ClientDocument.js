@@ -250,7 +250,6 @@ qx.Class.define("qx.ui.core.ClientDocument",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
      * @signature function()
      */
     isMaterialized : qx.lang.Function.returnTrue,
@@ -260,7 +259,6 @@ qx.Class.define("qx.ui.core.ClientDocument",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
      * @signature function()
      */
     isSeeable : qx.lang.Function.returnTrue,
@@ -463,7 +461,6 @@ qx.Class.define("qx.ui.core.ClientDocument",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyGlobalCursor : function(value, old)
     {

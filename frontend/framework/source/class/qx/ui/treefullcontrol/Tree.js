@@ -371,15 +371,12 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyUseTreeLines : function(value, old)
     {
       if (this._initialLayoutDone) {
         this._updateIndent();
       }
-
-      return true;
     },
 
 
@@ -389,7 +386,6 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyHideNode : function(value, old)
     {
@@ -408,8 +404,6 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
       if (this._initialLayoutDone) {
         this._updateIndent();
       }
-
-      return true;
     },
 
 
@@ -419,15 +413,12 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyRootOpenClose : function(value, old)
     {
       if (this._initialLayoutDone) {
         this._updateIndent();
       }
-
-      return true;
     },
 
     // Override getter so we can return a clone of the array.  Otherwise, the
@@ -451,15 +442,12 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyExcludeSpecificTreeLines : function(value, old)
     {
       if (this._initialLayoutDone) {
         this._updateIndent();
       }
-
-      return true;
     },
 
 

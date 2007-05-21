@@ -179,7 +179,6 @@ qx.Class.define("qx.ui.core.Parent",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyFocusHandler : function(value, old)
     {
@@ -220,7 +219,6 @@ qx.Class.define("qx.ui.core.Parent",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyFocusedChild : function(value, old)
     {

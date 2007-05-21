@@ -89,7 +89,6 @@ qx.Class.define("qx.ui.toolbar.CheckBox",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyChecked : function(value, old)
     {

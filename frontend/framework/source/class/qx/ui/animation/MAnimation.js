@@ -282,7 +282,6 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyFadeUnit : function(value, old)
     {
@@ -297,7 +296,6 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyFadeMax : function(value, old)
     {

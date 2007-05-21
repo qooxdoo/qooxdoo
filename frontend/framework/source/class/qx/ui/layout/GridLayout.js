@@ -1267,7 +1267,6 @@ qx.Class.define("qx.ui.layout.GridLayout",
      * @param vStartRow {var} TODOC
      * @param vColLength {var} TODOC
      * @param vRowLength {var} TODOC
-     * @return {Boolean} TODOC
      */
     mergeCells : function(vStartCol, vStartRow, vColLength, vRowLength)
     {
@@ -1342,7 +1341,6 @@ qx.Class.define("qx.ui.layout.GridLayout",
      * @type member
      * @param vCol {var} TODOC
      * @param vRow {var} TODOC
-     * @return {Boolean} TODOC
      */
     isSpanStart : function(vCol, vRow)
     {
@@ -1365,7 +1363,6 @@ qx.Class.define("qx.ui.layout.GridLayout",
      * @type member
      * @param vCol {var} TODOC
      * @param vRow {var} TODOC
-     * @return {Boolean} TODOC
      */
     isSpanCell : function(vCol, vRow)
     {
@@ -1388,7 +1385,6 @@ qx.Class.define("qx.ui.layout.GridLayout",
      * @type member
      * @param vCol {var} TODOC
      * @param vRow {var} TODOC
-     * @return {Boolean} TODOC
      */
     isFillCell : function(vCol, vRow)
     {
@@ -1413,7 +1409,6 @@ qx.Class.define("qx.ui.layout.GridLayout",
      * @param vStartRow {var} TODOC
      * @param vEndCol {var} TODOC
      * @param vEndRow {var} TODOC
-     * @return {Boolean} TODOC
      */
     _collidesWithSpans : function(vStartCol, vStartRow, vEndCol, vEndRow)
     {

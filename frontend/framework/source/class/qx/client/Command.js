@@ -166,7 +166,6 @@ qx.Class.define("qx.client.Command",
      *
      * @type member
      * @param vTarget {Object} Object which issued the execute event
-     * @return {Boolean} TODOC
      */
     execute : function(vTarget)
     {
@@ -194,7 +193,6 @@ qx.Class.define("qx.client.Command",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      * @throws TODOC
      */
     _modifyShortcut : function(value, old)

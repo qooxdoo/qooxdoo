@@ -226,7 +226,6 @@ qx.Class.define("qx.ui.core.ScrollBar",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyValue : function(value, old)
     {
@@ -243,7 +242,6 @@ qx.Class.define("qx.ui.core.ScrollBar",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyMaximum : function(value, old)
     {

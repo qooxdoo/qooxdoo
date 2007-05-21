@@ -103,7 +103,6 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyBehavior : function(value, old)
     {

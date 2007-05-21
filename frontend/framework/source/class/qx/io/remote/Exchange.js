@@ -149,7 +149,6 @@ qx.Class.define("qx.io.remote.Exchange",
      * @param vImpl {var} TODOC
      * @param vNeeds {var} TODOC
      * @param vResponseType {var} TODOC
-     * @return {Boolean} TODOC
      */
     canHandle : function(vImpl, vNeeds, vResponseType)
     {
@@ -784,7 +783,6 @@ qx.Class.define("qx.io.remote.Exchange",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyImplementation : function(value, old)
     {
@@ -834,7 +832,6 @@ qx.Class.define("qx.io.remote.Exchange",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyState : function(value, old)
     {

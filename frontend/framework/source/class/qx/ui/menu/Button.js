@@ -320,7 +320,6 @@ qx.Class.define("qx.ui.menu.Button",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyIcon : function(value, old)
     {
@@ -350,7 +349,6 @@ qx.Class.define("qx.ui.menu.Button",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyLabel : function(value, old)
     {
@@ -380,7 +378,6 @@ qx.Class.define("qx.ui.menu.Button",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyCommand : function(value, old)
     {
@@ -419,7 +416,6 @@ qx.Class.define("qx.ui.menu.Button",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyMenu : function(value, old)
     {

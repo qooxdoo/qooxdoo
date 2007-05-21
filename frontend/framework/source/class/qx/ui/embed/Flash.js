@@ -450,7 +450,6 @@ qx.Class.define("qx.ui.embed.Flash",
      * @param value {var} Current value
      * @param old {var} Previous value
      * @param propName {var} TODOC
-     * @return {Boolean} TODOC
      */
     _modifySource : function(value, old, propName)
     {
@@ -465,7 +464,6 @@ qx.Class.define("qx.ui.embed.Flash",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyVersion : function(value, old)
     {
@@ -489,7 +487,6 @@ qx.Class.define("qx.ui.embed.Flash",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyQuality : function(value, old)
     {
@@ -503,7 +500,6 @@ qx.Class.define("qx.ui.embed.Flash",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyScale : function(value, old)
     {
@@ -517,7 +513,6 @@ qx.Class.define("qx.ui.embed.Flash",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyWmode : function(value, old)
     {
@@ -531,7 +526,6 @@ qx.Class.define("qx.ui.embed.Flash",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyPlay : function(value, old)
     {
@@ -545,7 +539,6 @@ qx.Class.define("qx.ui.embed.Flash",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyLoop : function(value, old)
     {
@@ -566,7 +559,6 @@ qx.Class.define("qx.ui.embed.Flash",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _styleBackgroundColor : function(value)
     {

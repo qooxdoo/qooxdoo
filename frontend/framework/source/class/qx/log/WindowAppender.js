@@ -406,7 +406,6 @@ qx.Class.define("qx.log.WindowAppender",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyAutoCloseWithErrors : function(value, old)
     {

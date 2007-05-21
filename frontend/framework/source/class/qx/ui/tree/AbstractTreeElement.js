@@ -191,7 +191,6 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyLabel : function(value, old)
     {
@@ -209,7 +208,6 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifySelected : function(value, old)
     {
@@ -548,7 +546,6 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyParent : function(value, old)
     {

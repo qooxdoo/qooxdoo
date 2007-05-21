@@ -132,7 +132,6 @@ qx.Class.define("qx.ui.table.TablePaneModel",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyFirstColumnX : function(value, old)
     {
@@ -148,7 +147,6 @@ qx.Class.define("qx.ui.table.TablePaneModel",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifyMaxColumnCount : function(value, old)
     {

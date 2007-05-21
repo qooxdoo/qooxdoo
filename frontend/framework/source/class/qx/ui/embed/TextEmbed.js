@@ -113,7 +113,6 @@ qx.Class.define("qx.ui.embed.TextEmbed",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
      */
     _modifyText : function()
     {
@@ -152,7 +151,6 @@ qx.Class.define("qx.ui.embed.TextEmbed",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _applyFont : function(value, old) {
       qx.manager.object.FontManager.getInstance().connect(this._styleFont, this, value);

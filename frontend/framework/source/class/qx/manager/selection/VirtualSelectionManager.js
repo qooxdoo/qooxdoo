@@ -219,7 +219,6 @@ qx.Class.define("qx.manager.selection.VirtualSelectionManager",
      *
      * @type member
      * @param vItem {var} TODOC
-     * @return {Boolean} TODOC
      */
     getItemEnabled : function(vItem) {
       return true;

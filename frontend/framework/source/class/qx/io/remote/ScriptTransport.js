@@ -93,7 +93,6 @@ qx.Class.define("qx.io.remote.ScriptTransport",
      * TODOC
      *
      * @type static
-     * @return {Boolean} TODOC
      */
     isSupported : function() {
       return true;

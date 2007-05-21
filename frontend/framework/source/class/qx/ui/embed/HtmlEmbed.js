@@ -116,7 +116,6 @@ qx.Class.define("qx.ui.embed.HtmlEmbed",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
      */
     _modifyHtml : function()
     {

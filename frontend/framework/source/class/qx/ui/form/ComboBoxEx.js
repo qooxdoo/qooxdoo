@@ -560,7 +560,6 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      *
      * @type member
      * @param propVal {var} TODOC
-     * @return {Boolean} TODOC
      */
     _modifyShowOnTextField : function(propVal)
     {
@@ -661,7 +660,6 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      *
      * @type member
      * @param value {var} Current value
-     * @return {Boolean} TODOC
      */
     _modifyValue : function(value)
     {
@@ -1530,7 +1528,6 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
      */
     _visualizeBlur : function()
     {
@@ -1577,7 +1574,6 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      * TODOC
      *
      * @type member
-     * @return {Boolean} TODOC
      */
     _visualizeFocus : function()
     {

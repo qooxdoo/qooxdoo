@@ -341,7 +341,6 @@ qx.Class.define("qx.ui.listview.ListView",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {Boolean} TODOC
      */
     _modifySortBy : function(value, old)
     {
