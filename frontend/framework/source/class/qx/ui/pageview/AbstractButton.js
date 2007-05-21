@@ -83,7 +83,7 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
     page :
     {
       check : "qx.ui.pageview.AbstractPage",
-      apply : "_modifyPage",
+      apply : "_applyPage",
       nullable : true
     },
 
@@ -104,7 +104,7 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
     name :
     {
       check : "String",
-      apply : "_modifyName"
+      apply : "_applyName"
     }
   },
 
@@ -194,7 +194,7 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyPage : function(value, old)
+    _applyPage : function(value, old)
     {
       if (old) {
         old.setButton(null);
@@ -243,7 +243,7 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyName : function(value, old)
+    _applyName : function(value, old)
     {
       if (this.getManager()) {
         this.getManager().setName(value);

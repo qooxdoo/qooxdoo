@@ -101,7 +101,7 @@ qx.Class.define("qx.ui.pageview.AbstractPage",
     button :
     {
       check : "qx.ui.pageview.AbstractButton",
-      apply : "_modifyButton"
+      apply : "_applyButton"
     }
   },
 
@@ -116,7 +116,7 @@ qx.Class.define("qx.ui.pageview.AbstractPage",
 
   members :
   {
-    _modifyButton : function(value, old)
+    _applyButton : function(value, old)
     {
       if (old) {
         old.setPage(null);

@@ -97,6 +97,38 @@
 \b_modifyMinHeight\b=_applyMinHeight
 \b_modifyMaxHeight\b=_applyMaxHeight
 
+######################################
+# qx.ui.splitpane.SplitPane
+######################################
+
+\b_modifyShowKnob\b=_applyShowKnob
+\b_modifyOrientation\b=_applyOrientation
+\b_modifyFirstSize\b=_applyFirstSize
+\b_modifySecondSize\b=_applySecondSize
+\b_modifySplitterSize\b=_applySplitterSize
+
+######################################
+# qx.ui.popup.ToolTip
+######################################
+
+\b_modifyShowInterval\b=_applyShowInterval
+\b_modifyHideInterval\b=_applyHideInterval
+\b_modifyBoundToWidget\b=_applyBoundToWidget
+
+######################################
+# qx.ui.pageview.*
+######################################
+
+\b_modifyPage\b=_applyPage
+\b_modifyName\b=_applyName
+\b_modifyButton\b=_applyButton
+\b_modifyBarPosition\b=_applyBarPosition
+\b_modifyShowCloseButton\b=_applyShowCloseButton
+\b_modifyCloseButtonImage\b=_applyCloseButtonImage
+\b_modifyAlignTabsToLeft\b=_applyAlignTabsToLeft
+\b_modifyPlaceBarOnTop\b=_applyPlaceBarOnTop
+
+
 
 #\b_modify\b=_apply
 #\b_modify\b=_apply
