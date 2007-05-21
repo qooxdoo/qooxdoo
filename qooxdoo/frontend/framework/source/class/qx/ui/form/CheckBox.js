@@ -175,7 +175,7 @@ qx.Class.define("qx.ui.form.CheckBox",
 
 
     // The user can't control the icon in checkboxes
-    _modifyIcon : null,
+    _applyIcon : null,
     _modifyDisabledIcon : null,
 
 

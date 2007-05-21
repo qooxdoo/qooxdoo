@@ -64,7 +64,7 @@ qx.Class.define("qx.ui.embed.TextEmbed",
     {
       check : "String",
       init : "",
-      apply : "_modifyText",
+      apply : "_applyText",
       event : "changeText"
     },
 
@@ -114,7 +114,7 @@ qx.Class.define("qx.ui.embed.TextEmbed",
      *
      * @type member
      */
-    _modifyText : function()
+    _applyText : function()
     {
       if (this._isCreated) {
         this._syncText();

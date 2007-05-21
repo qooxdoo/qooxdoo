@@ -160,7 +160,7 @@ qx.Class.define("qx.ui.basic.Image",
     source :
     {
       check : "String",
-      apply : "_modifySource",
+      apply : "_applySource",
       event : "changeSource",
       nullable : true,
       themeable : true,
@@ -309,7 +309,7 @@ qx.Class.define("qx.ui.basic.Image",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifySource : function(value, old)
+    _applySource : function(value, old)
     {
       if (value && typeof qx.manager.object.ImageManager.getInstance()._sources[value] === "undefined") {
         qx.manager.object.ImageManager.getInstance()._sources[value] = 0;

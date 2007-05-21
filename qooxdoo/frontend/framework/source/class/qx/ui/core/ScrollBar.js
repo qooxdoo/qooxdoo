@@ -159,7 +159,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
     {
       check : "Number",
       init : 0,
-      apply : "_modifyValue",
+      apply : "_applyValue",
       event : "changeValue",
       transform : "_checkValue"
     },
@@ -174,7 +174,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
     maximum :
     {
       check : "Integer",
-      apply : "_modifyMaximum"
+      apply : "_applyMaximum"
     },
 
 
@@ -227,7 +227,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyValue : function(value, old)
+    _applyValue : function(value, old)
     {
       if (!this._internalValueChange && this._isCreated) {
         this._positionKnob(value);
@@ -241,7 +241,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyMaximum : function(value, old)
+    _applyMaximum : function(value, old)
     {
       if (this._horizontal) {
         this._scrollContent.setWidth(value);

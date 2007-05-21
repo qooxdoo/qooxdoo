@@ -140,7 +140,7 @@ qx.Class.define("qx.ui.listview.HeaderCell",
     {
       check : [ "ascending", "descending" ],
       nullable : true,
-      apply : "_modifySortOrder",
+      apply : "_applySortOrder",
       event : "changeSortOrder"
     }
   },
@@ -233,7 +233,7 @@ qx.Class.define("qx.ui.listview.HeaderCell",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifySortOrder : function(value, old)
+    _applySortOrder : function(value, old)
     {
       var vListView = this.getView();
 

@@ -169,7 +169,7 @@ qx.Class.define("qx.ui.form.TextField",
       init : "",
       nullable : true,
       event : "changeValue",
-      apply : "_modifyValue"
+      apply : "_applyValue"
     },
 
 
@@ -199,7 +199,7 @@ qx.Class.define("qx.ui.form.TextField",
     maxLength :
     {
       check : "Integer",
-      apply : "_modifyMaxLength",
+      apply : "_applyMaxLength",
       nullable : true
     },
 
@@ -207,7 +207,7 @@ qx.Class.define("qx.ui.form.TextField",
     readOnly :
     {
       check : "Integer",
-      apply : "_modifyReadOnly",
+      apply : "_applyReadOnly",
       init : false
     },
 
@@ -399,7 +399,7 @@ qx.Class.define("qx.ui.form.TextField",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyValue : function(value, old)
+    _applyValue : function(value, old)
     {
       this._inValueProperty = true;
 
@@ -418,7 +418,7 @@ qx.Class.define("qx.ui.form.TextField",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyMaxLength : function(value, old)
+    _applyMaxLength : function(value, old)
     {
       if (this._inputElement) {
         this._inputElement.maxLength = value == null ? "" : value;
@@ -433,7 +433,7 @@ qx.Class.define("qx.ui.form.TextField",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyReadOnly : function(value, old)
+    _applyReadOnly : function(value, old)
     {
       if (this._inputElement) {
         this._inputElement.readOnly = value;
