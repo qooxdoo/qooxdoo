@@ -61,7 +61,7 @@ qx.Class.define("qx.ui.pageview.buttonview.Pane",
 
   members :
   {
-    _applyAppearance : function()
+    _renderAppearance : function()
     {
       if (this._hasParent)
       {

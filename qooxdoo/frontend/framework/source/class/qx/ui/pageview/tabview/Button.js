@@ -255,7 +255,7 @@ qx.Class.define("qx.ui.pageview.tabview.Button",
      * @type member
      * @return {void}
      */
-    _applyAppearance : function()
+    _renderAppearance : function()
     {
       if (this.getView())
       {
