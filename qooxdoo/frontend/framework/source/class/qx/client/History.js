@@ -129,6 +129,9 @@ qx.Class.define("qx.client.History",
 
 
 
+
+
+
   /*
   *****************************************************************************
      PROPERTIES
@@ -148,6 +151,9 @@ qx.Class.define("qx.client.History",
       apply : "_modifyTimeoutInterval"
     }
   },
+
+
+
 
 
 
@@ -227,11 +233,8 @@ qx.Class.define("qx.client.History",
      * @type member
      * @param newInterval {Integer} new timeout interval
      */
-    _modifyTimeoutInterval : function(newInterval)
-    {
-      this._timer.setInterval(newInterval);
-
-      return true;
+    _modifyTimeoutInterval : function(value) {
+      this._timer.setInterval(value);
     },
 
 
@@ -362,8 +365,10 @@ qx.Class.define("qx.client.History",
 
       "default" : null
     })
-
   },
+
+
+
 
 
   /*
@@ -375,6 +380,7 @@ qx.Class.define("qx.client.History",
   destruct : function()
   {
     this._timer.stop();
-    this._disposeFields("_iframe", "_titles", "_timer");
+    this._disposeObjects("_timer");
+    this._disposeFields("_iframe", "_titles");
   }
 });

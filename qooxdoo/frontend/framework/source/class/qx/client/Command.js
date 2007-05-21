@@ -192,22 +192,21 @@ qx.Class.define("qx.client.Command",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      * @throws TODOC
      */
-    _modifyShortcut : function(propValue, propOldValue, propData)
+    _modifyShortcut : function(value, old)
     {
-      if (propValue)
+      if (value)
       {
         this.__modifier = {};
         this.__key = null;
 
         // split string to get each key which must be pressed
         // build a hash with active keys
-        var a = propValue.split(/[-+\s]+/);
+        var a = value.split(/[-+\s]+/);
         var al = a.length;
 
         for (var i=0; i<al; i++)
