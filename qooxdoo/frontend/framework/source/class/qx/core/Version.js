@@ -119,7 +119,9 @@ qx.Class.define("qx.core.Version",
   *****************************************************************************
   */
 
-  settings : { "qx.version" : "0.0" },
+  settings : {
+    "qx.version" : "0.0"
+  },
 
 
 
@@ -130,13 +132,6 @@ qx.Class.define("qx.core.Version",
   *****************************************************************************
   */
 
-  /**
-   * TODOC
-   *
-   * @type map
-   * @param statics {var} TODOC
-   * @return {void}
-   */
   defer : function(statics) {
     statics.__init();
   }
