@@ -388,22 +388,19 @@ qx.Class.define("qx.event.handler.EventHandler",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyCaptureWidget : function(propValue, propOldValue, propData)
+    _modifyCaptureWidget : function(value, old)
     {
-      if (propOldValue) {
-        propOldValue.setCapture(false);
+      if (old) {
+        old.setCapture(false);
       }
 
-      if (propValue) {
-        propValue.setCapture(true);
+      if (value) {
+        value.setCapture(true);
       }
-
-      return true;
     },
 
 
@@ -411,26 +408,21 @@ qx.Class.define("qx.event.handler.EventHandler",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyFocusRoot : function(propValue, propOldValue, propData)
+    _modifyFocusRoot : function(value, old)
     {
-      // this.debug("FocusRoot: " + propValue + "(from:" + propOldValue + ")");
-      if (propOldValue) {
-        propOldValue.setFocusedChild(null);
+      // this.debug("FocusRoot: " + value + "(from:" + old + ")");
+
+      if (old) {
+        old.setFocusedChild(null);
       }
 
-      if (propValue)
-      {
-        if (propValue.getFocusedChild() == null) {
-          propValue.setFocusedChild(propValue);
-        }
+      if (value && value.getFocusedChild() == null) {
+        value.setFocusedChild(value);
       }
-
-      return true;
     },
 
 

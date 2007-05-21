@@ -42,12 +42,12 @@ qx.Class.define("qx.event.handler.FocusHandler",
   *****************************************************************************
   */
 
-  construct : function(vWidget)
+  construct : function(widget)
   {
     this.base(arguments);
 
-    if (vWidget != null) {
-      this._attachedWidget = vWidget;
+    if (widget != null) {
+      this._attachedWidget = widget;
     }
   },
 
@@ -96,29 +96,29 @@ qx.Class.define("qx.event.handler.FocusHandler",
      * TODOC
      *
      * @type member
-     * @param vContainer {var} TODOC
-     * @param vEvent {var} TODOC
+     * @param container {var} TODOC
+     * @param ev {Event} TODOC
      * @return {void}
      */
-    _onkeyevent : function(vContainer, vEvent)
+    _onkeyevent : function(container, ev)
     {
-      if (vEvent.getKeyIdentifier() != "Tab") {
+      if (ev.getKeyIdentifier() != "Tab") {
         return;
       }
 
       // Stop all key-events with a TAB keycode
-      vEvent.stopPropagation();
-      vEvent.preventDefault();
+      ev.stopPropagation();
+      ev.preventDefault();
 
       qx.event.handler.FocusHandler.mouseFocus = false;
 
       var vCurrent = this.getAttachedWidget().getFocusedChild();
 
       // Support shift key to reverse widget detection order
-      if (!vEvent.isShiftPressed()) {
-        var vNext = vCurrent ? this.getWidgetAfter(vContainer, vCurrent) : this.getFirstWidget(vContainer);
+      if (!ev.isShiftPressed()) {
+        var vNext = vCurrent ? this.getWidgetAfter(container, vCurrent) : this.getFirstWidget(container);
       } else {
-        var vNext = vCurrent ? this.getWidgetBefore(vContainer, vCurrent) : this.getLastWidget(vContainer);
+        var vNext = vCurrent ? this.getWidgetBefore(container, vCurrent) : this.getLastWidget(container);
       }
 
       // If there was a widget found, focus it
@@ -193,11 +193,11 @@ qx.Class.define("qx.event.handler.FocusHandler",
      * TODOC
      *
      * @type member
-     * @param vParentContainer {var} TODOC
+     * @param parentContainer {var} TODOC
      * @return {var} TODOC
      */
-    getFirstWidget : function(vParentContainer) {
-      return this._getFirst(vParentContainer, null);
+    getFirstWidget : function(parentContainer) {
+      return this._getFirst(parentContainer, null);
     },
 
 
@@ -205,11 +205,11 @@ qx.Class.define("qx.event.handler.FocusHandler",
      * TODOC
      *
      * @type member
-     * @param vParentContainer {var} TODOC
+     * @param parentContainer {var} TODOC
      * @return {var} TODOC
      */
-    getLastWidget : function(vParentContainer) {
-      return this._getLast(vParentContainer, null);
+    getLastWidget : function(parentContainer) {
+      return this._getLast(parentContainer, null);
     },
 
 
@@ -217,31 +217,31 @@ qx.Class.define("qx.event.handler.FocusHandler",
      * TODOC
      *
      * @type member
-     * @param vParentContainer {var} TODOC
-     * @param vWidget {var} TODOC
+     * @param parentContainer {var} TODOC
+     * @param widget {var} TODOC
      * @return {var | Array} TODOC
      */
-    getWidgetAfter : function(vParentContainer, vWidget)
+    getWidgetAfter : function(parentContainer, widget)
     {
-      if (vParentContainer == vWidget) {
-        return this.getFirstWidget(vParentContainer);
+      if (parentContainer == widget) {
+        return this.getFirstWidget(parentContainer);
       }
 
-      if (vWidget.getAnonymous()) {
-        vWidget = vWidget.getParent();
+      if (widget.getAnonymous()) {
+        widget = widget.getParent();
       }
 
-      if (vWidget == null) {
+      if (widget == null) {
         return [];
       }
 
       var vAll = [];
 
-      this._getAllAfter(vParentContainer, vWidget, vAll);
+      this._getAllAfter(parentContainer, widget, vAll);
 
       vAll.sort(this.compareTabOrder);
 
-      return vAll.length > 0 ? vAll[0] : this.getFirstWidget(vParentContainer);
+      return vAll.length > 0 ? vAll[0] : this.getFirstWidget(parentContainer);
     },
 
 
@@ -249,32 +249,32 @@ qx.Class.define("qx.event.handler.FocusHandler",
      * TODOC
      *
      * @type member
-     * @param vParentContainer {var} TODOC
-     * @param vWidget {var} TODOC
+     * @param parentContainer {var} TODOC
+     * @param widget {var} TODOC
      * @return {var | Array} TODOC
      */
-    getWidgetBefore : function(vParentContainer, vWidget)
+    getWidgetBefore : function(parentContainer, widget)
     {
-      if (vParentContainer == vWidget) {
-        return this.getLastWidget(vParentContainer);
+      if (parentContainer == widget) {
+        return this.getLastWidget(parentContainer);
       }
 
-      if (vWidget.getAnonymous()) {
-        vWidget = vWidget.getParent();
+      if (widget.getAnonymous()) {
+        widget = widget.getParent();
       }
 
-      if (vWidget == null) {
+      if (widget == null) {
         return [];
       }
 
       var vAll = [];
 
-      this._getAllBefore(vParentContainer, vWidget, vAll);
+      this._getAllBefore(parentContainer, widget, vAll);
 
       vAll.sort(this.compareTabOrder);
 
-      var vChildrenLength = vAll.length;
-      return vChildrenLength > 0 ? vAll[vChildrenLength - 1] : this.getLastWidget(vParentContainer);
+      var len = vAll.length;
+      return len > 0 ? vAll[len - 1] : this.getLastWidget(parentContainer);
     },
 
 
@@ -282,31 +282,31 @@ qx.Class.define("qx.event.handler.FocusHandler",
      * TODOC
      *
      * @type member
-     * @param vParent {var} TODOC
-     * @param vWidget {var} TODOC
-     * @param vArray {var} TODOC
+     * @param parent {var} TODOC
+     * @param widget {var} TODOC
+     * @param arr {var} TODOC
      * @return {void}
      */
-    _getAllAfter : function(vParent, vWidget, vArray)
+    _getAllAfter : function(parent, widget, arr)
     {
-      var vChildren = vParent.getChildren();
-      var vCurrentChild;
-      var vChildrenLength = vChildren.length;
+      var children = parent.getChildren();
+      var child;
+      var len = children.length;
 
-      for (var i=0; i<vChildrenLength; i++)
+      for (var i=0; i<len; i++)
       {
-        vCurrentChild = vChildren[i];
+        child = children[i];
 
-        if (!(vCurrentChild instanceof qx.ui.core.Parent) && !(vCurrentChild instanceof qx.ui.basic.Terminator)) {
+        if (!(child instanceof qx.ui.core.Parent) && !(child instanceof qx.ui.basic.Terminator)) {
           continue;
         }
 
-        if (vCurrentChild.isFocusable() && vCurrentChild.getTabIndex() > 0 && this.compareTabOrder(vWidget, vCurrentChild) < 0) {
-          vArray.push(vChildren[i]);
+        if (child.isFocusable() && child.getTabIndex() > 0 && this.compareTabOrder(widget, child) < 0) {
+          arr.push(children[i]);
         }
 
-        if (!vCurrentChild.isFocusRoot() && vCurrentChild instanceof qx.ui.core.Parent) {
-          this._getAllAfter(vCurrentChild, vWidget, vArray);
+        if (!child.isFocusRoot() && child instanceof qx.ui.core.Parent) {
+          this._getAllAfter(child, widget, arr);
         }
       }
     },
@@ -316,31 +316,31 @@ qx.Class.define("qx.event.handler.FocusHandler",
      * TODOC
      *
      * @type member
-     * @param vParent {var} TODOC
-     * @param vWidget {var} TODOC
-     * @param vArray {var} TODOC
+     * @param parent {var} TODOC
+     * @param widget {var} TODOC
+     * @param arr {var} TODOC
      * @return {void}
      */
-    _getAllBefore : function(vParent, vWidget, vArray)
+    _getAllBefore : function(parent, widget, arr)
     {
-      var vChildren = vParent.getChildren();
-      var vCurrentChild;
-      var vChildrenLength = vChildren.length;
+      var children = parent.getChildren();
+      var child;
+      var len = children.length;
 
-      for (var i=0; i<vChildrenLength; i++)
+      for (var i=0; i<len; i++)
       {
-        vCurrentChild = vChildren[i];
+        child = children[i];
 
-        if (!(vCurrentChild instanceof qx.ui.core.Parent) && !(vCurrentChild instanceof qx.ui.basic.Terminator)) {
+        if (!(child instanceof qx.ui.core.Parent) && !(child instanceof qx.ui.basic.Terminator)) {
           continue;
         }
 
-        if (vCurrentChild.isFocusable() && vCurrentChild.getTabIndex() > 0 && this.compareTabOrder(vWidget, vCurrentChild) > 0) {
-          vArray.push(vCurrentChild);
+        if (child.isFocusable() && child.getTabIndex() > 0 && this.compareTabOrder(widget, child) > 0) {
+          arr.push(child);
         }
 
-        if (!vCurrentChild.isFocusRoot() && vCurrentChild instanceof qx.ui.core.Parent) {
-          this._getAllBefore(vCurrentChild, vWidget, vArray);
+        if (!child.isFocusRoot() && child instanceof qx.ui.core.Parent) {
+          this._getAllBefore(child, widget, arr);
         }
       }
     },
@@ -350,37 +350,37 @@ qx.Class.define("qx.event.handler.FocusHandler",
      * TODOC
      *
      * @type member
-     * @param vParent {var} TODOC
-     * @param vFirstWidget {var} TODOC
+     * @param parent {var} TODOC
+     * @param firstWidget {var} TODOC
      * @return {var} TODOC
      */
-    _getFirst : function(vParent, vFirstWidget)
+    _getFirst : function(parent, firstWidget)
     {
-      var vChildren = vParent.getChildren();
-      var vCurrentChild;
-      var vChildrenLength = vChildren.length;
+      var children = parent.getChildren();
+      var child;
+      var len = children.length;
 
-      for (var i=0; i<vChildrenLength; i++)
+      for (var i=0; i<len; i++)
       {
-        vCurrentChild = vChildren[i];
+        child = children[i];
 
-        if (!(vCurrentChild instanceof qx.ui.core.Parent) && !(vCurrentChild instanceof qx.ui.basic.Terminator)) {
+        if (!(child instanceof qx.ui.core.Parent) && !(child instanceof qx.ui.basic.Terminator)) {
           continue;
         }
 
-        if (vCurrentChild.isFocusable() && vCurrentChild.getTabIndex() > 0)
+        if (child.isFocusable() && child.getTabIndex() > 0)
         {
-          if (vFirstWidget == null || this.compareTabOrder(vCurrentChild, vFirstWidget) < 0) {
-            vFirstWidget = vCurrentChild;
+          if (firstWidget == null || this.compareTabOrder(child, firstWidget) < 0) {
+            firstWidget = child;
           }
         }
 
-        if (!vCurrentChild.isFocusRoot() && vCurrentChild instanceof qx.ui.core.Parent) {
-          vFirstWidget = this._getFirst(vCurrentChild, vFirstWidget);
+        if (!child.isFocusRoot() && child instanceof qx.ui.core.Parent) {
+          firstWidget = this._getFirst(child, firstWidget);
         }
       }
 
-      return vFirstWidget;
+      return firstWidget;
     },
 
 
@@ -388,37 +388,37 @@ qx.Class.define("qx.event.handler.FocusHandler",
      * TODOC
      *
      * @type member
-     * @param vParent {var} TODOC
-     * @param vLastWidget {var} TODOC
+     * @param parent {var} TODOC
+     * @param lastWidget {var} TODOC
      * @return {var} TODOC
      */
-    _getLast : function(vParent, vLastWidget)
+    _getLast : function(parent, lastWidget)
     {
-      var vChildren = vParent.getChildren();
-      var vCurrentChild;
-      var vChildrenLength = vChildren.length;
+      var children = parent.getChildren();
+      var child;
+      var len = children.length;
 
-      for (var i=0; i<vChildrenLength; i++)
+      for (var i=0; i<len; i++)
       {
-        vCurrentChild = vChildren[i];
+        child = children[i];
 
-        if (!(vCurrentChild instanceof qx.ui.core.Parent) && !(vCurrentChild instanceof qx.ui.basic.Terminator)) {
+        if (!(child instanceof qx.ui.core.Parent) && !(child instanceof qx.ui.basic.Terminator)) {
           continue;
         }
 
-        if (vCurrentChild.isFocusable() && vCurrentChild.getTabIndex() > 0)
+        if (child.isFocusable() && child.getTabIndex() > 0)
         {
-          if (vLastWidget == null || this.compareTabOrder(vCurrentChild, vLastWidget) > 0) {
-            vLastWidget = vCurrentChild;
+          if (lastWidget == null || this.compareTabOrder(child, lastWidget) > 0) {
+            lastWidget = child;
           }
         }
 
-        if (!vCurrentChild.isFocusRoot() && vCurrentChild instanceof qx.ui.core.Parent) {
-          vLastWidget = this._getLast(vCurrentChild, vLastWidget);
+        if (!child.isFocusRoot() && child instanceof qx.ui.core.Parent) {
+          lastWidget = this._getLast(child, lastWidget);
         }
       }
 
-      return vLastWidget;
+      return lastWidget;
     }
   },
 

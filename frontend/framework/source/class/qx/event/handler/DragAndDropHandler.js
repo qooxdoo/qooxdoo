@@ -143,20 +143,17 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyDestinationWidget : function(propValue, propOldValue, propData)
+    _modifyDestinationWidget : function(value, old)
     {
-      if (propValue)
+      if (value)
       {
-        propValue.dispatchEvent(new qx.event.type.DragEvent("dragdrop", this.__lastDestinationEvent, propValue, this.getSourceWidget()));
+        value.dispatchEvent(new qx.event.type.DragEvent("dragdrop", this.__lastDestinationEvent, value, this.getSourceWidget()));
         this.__lastDestinationEvent = null;
       }
-
-      return true;
     },
 
 
