@@ -240,12 +240,11 @@ qx.Class.define("qx.client.NativeWindow",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propName {var} TODOC
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyPosition : function(propValue, propOldValue, propName)
+    _modifyPosition : function(value, old)
     {
       /*
         http://www.microsoft.com/technet/prodtechnol/winxppro/maintain/sp2brows.mspx
@@ -264,8 +263,6 @@ qx.Class.define("qx.client.NativeWindow",
           this.error("Cross-Domain Scripting problem: Could not move window!", ex);
         }
       }
-
-      return true;
     },
 
 
@@ -273,12 +270,11 @@ qx.Class.define("qx.client.NativeWindow",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propName {var} TODOC
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyDimension : function(propValue, propOldValue, propName)
+    _modifyDimension : function(value, old)
     {
       /*
         http://www.microsoft.com/technet/prodtechnol/winxppro/maintain/sp2brows.mspx
@@ -297,8 +293,6 @@ qx.Class.define("qx.client.NativeWindow",
           this.error("Cross-Domain Scripting problem: Could not resize window!", ex);
         }
       }
-
-      return true;
     },
 
 
@@ -306,18 +300,15 @@ qx.Class.define("qx.client.NativeWindow",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propName {var} TODOC
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyName : function(propValue, propOldValue, propName)
+    _modifyName : function(value, old)
     {
       if (!this.isClosed()) {
-        this._window.name = propValue;
+        this._window.name = value;
       }
-
-      return true;
     },
 
 
@@ -325,19 +316,16 @@ qx.Class.define("qx.client.NativeWindow",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propName {var} TODOC
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyUrl : function(propValue, propOldValue, propName)
+    _modifyUrl : function(value, old)
     {
       // String hack needed for old compressor (compile.py)
       if (!this.isClosed()) {
-        this._window.location.replace(propValue != null ? propValue : ("javascript:/" + "/"));
+        this._window.location.replace(value != null ? value : ("javascript:/" + "/"));
       }
-
-      return true;
     },
 
 
@@ -345,14 +333,14 @@ qx.Class.define("qx.client.NativeWindow",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyOpen : function(propValue, propOldValue, propData)
+    _modifyOpen : function(value, old, propData)
     {
-      propValue ? this._open() : this._close();
+      value ? this._open() : this._close();
       return true;
     },
 
