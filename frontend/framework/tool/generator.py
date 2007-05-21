@@ -343,7 +343,7 @@ def load(options):
             print "Try '%s -h' or '%s --help' to show the help message." % (basename, basename)
             sys.exit(1)
 
-    (fileDb, moduleDb) = loader.indexScriptInput(options)
+    (fileDb, moduleDb) = loader.indexAll(options)
 
 
 
