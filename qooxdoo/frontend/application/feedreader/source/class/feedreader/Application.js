@@ -449,8 +449,8 @@ qx.Class.define("feedreader.Application",
         gb.add(vb);
 
         var btn_classic = new qx.ui.form.RadioButton("Classic");
-        btn_classic.setChecked(true);
         var btn_ext = new qx.ui.form.RadioButton("Ext");
+        btn_ext.setChecked(true);
         var rm = new qx.manager.selection.RadioManager();
         rm.add(btn_classic, btn_ext);
         vb.add(btn_classic, btn_ext);
