@@ -63,21 +63,6 @@ qx.Class.define("qx.event.handler.FocusHandler",
   statics :
   {
     mouseFocus   : false,
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      TAB-EVENT HANDLING
-    ---------------------------------------------------------------------------
-    */
-
-    // Check for TAB pressed
-    // * use keydown on mshtml
-    // * use keypress on other (correct) browsers
-    // = same behaviour
-    tabEventType : qx.core.Variant.isSet("qx.client", "mshtml") ? "keydown" : "keypress"
   },
 
 
@@ -125,11 +110,6 @@ qx.Class.define("qx.event.handler.FocusHandler",
       // Stop all key-events with a TAB keycode
       vEvent.stopPropagation();
       vEvent.preventDefault();
-
-      // But only react on the one to use for this browser.
-      if (vEvent.getType() != qx.event.handler.FocusHandler.tabEventType) {
-        return;
-      }
 
       qx.event.handler.FocusHandler.mouseFocus = false;
 
