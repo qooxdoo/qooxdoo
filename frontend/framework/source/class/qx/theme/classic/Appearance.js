@@ -48,6 +48,10 @@
 # Cursor
 #embed(qx.widgettheme/cursors/*)
 
+# Table
+#embed(qx.widgettheme/table/ascending.png)
+#embed(qx.widgettheme/table/descending.png)
+
 ************************************************************************* */
 
 /**
