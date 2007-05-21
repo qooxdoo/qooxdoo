@@ -215,8 +215,16 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
      */
     _modifySelected : function(propValue, propOldValue, propData)
     {
-      propValue ? this.addState("selected") : this.removeState("selected");
-      propValue ? this._labelObject.addState("selected") : this._labelObject.removeState("selected");
+      if (propValue)
+      {
+        this.addState("selected");
+        this._labelObject.addState("selected");
+      }
+      else
+      {
+        this.removeState("selected");
+        this._labelObject.removeState("selected");
+      }
 
       var vTree = this.getTree();
 
@@ -426,6 +434,38 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
     },
 
 
+    /**
+     * Obtain the entire hierarchy of labels from the root down to the current
+     * node.
+     *
+     * @type member
+     * @param vArr {var} -
+     *       When called by the user, arr should typically be an empty array.  Each
+     *       level from the current node upwards will push its label onto the array.
+     * @return {var} TODOC
+     */
+    getHierarchy : function(vArr)
+    {
+      // Add our label to the array
+      if (this._labelObject) {
+        vArr.unshift(this._labelObject.getText());
+      }
+
+      // Get the parent folder
+      var parent = this.getParentFolder();
+
+      // If it exists...
+      if (parent)
+      {
+        // ... then add it and its ancestors' labels to the array.
+        parent.getHierarchy(vArr);
+      }
+
+      // Give 'em what they came for
+      return vArr;
+    },
+
+
 
 
     /*
@@ -517,12 +557,14 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
     {
       this.base(arguments, propValue, propOldValue, propData);
 
-      // Be sure to update previous folder also if it is closed currently (plus/minus symbol)
+      // Be sure to update previous folder also if it is closed currently
+      // (plus/minus symbol)
       if (propOldValue && !propOldValue.isDisplayable() && propOldValue.getParent() && propOldValue.getParent().isDisplayable()) {
         propOldValue.getParent().addToTreeQueue();
       }
 
-      // Be sure to update new folder also if it is closed currently (plus/minus symbol)
+      // Be sure to update new folder also if it is closed currently
+      // (plus/minus symbol)
       if (propValue && !propValue.isDisplayable() && propValue.getParent() && propValue.getParent().isDisplayable()) {
         propValue.getParent().addToTreeQueue();
       }
@@ -621,7 +663,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
      */
     flushTree : function()
     {
-      // store informations for update process
+      // store information for update process
       this._previousParentFolder = this.getParentFolder();
       this._wasLastVisibleChild = this.isLastVisibleChild();
 
