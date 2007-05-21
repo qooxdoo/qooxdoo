@@ -73,15 +73,14 @@ qx.Class.define("qx.ui.basic.Atom",
       this._flashMode = true;
 
       this.setIcon(vFlash);
-
-      // flash needs explicit dimensions!
-      this.setIconWidth(vIconWidth);
-      this.setIconHeight(vIconHeight);
     }
     else if (vIcon != null)
     {
       this.setIcon(vIcon);
+    }
 
+    if (vIcon || vFlash)
+    {
       if (vIconWidth != null) {
         this.setIconWidth(vIconWidth);
       }
@@ -263,7 +262,7 @@ qx.Class.define("qx.ui.basic.Atom",
       check : "Integer",
       themeable : true,
       apply : "_modifyIconWidth",
-      init : 0
+      nullable : true
     },
 
 
@@ -276,7 +275,7 @@ qx.Class.define("qx.ui.basic.Atom",
       check : "Integer",
       themeable : true,
       apply : "_modifyIconHeight",
-      init : 0
+      nullable : true
     }
   },
 

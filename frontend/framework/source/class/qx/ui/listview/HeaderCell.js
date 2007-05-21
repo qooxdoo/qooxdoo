@@ -42,7 +42,7 @@ qx.Class.define("qx.ui.listview.HeaderCell",
 
   construct : function(vConfig, vId)
   {
-    this.base(arguments, vConfig.label, vConfig.icon, vConfig.iconWidth, vConfig.iconHeight, vConfig.flash);
+    this.base(arguments, vConfig.label, vConfig.icon, vConfig.iconWidth || 16, vConfig.iconHeight || 16, vConfig.flash);
 
     // Enable textOverflow
     this.setStyleProperty("textOverflow", "ellipsis");
