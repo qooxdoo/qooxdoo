@@ -383,10 +383,9 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyShowKnob : function(propValue, propOldValue, propData)
+    _modifyShowKnob : function(propValue, propOldValue)
     {
       this._knob.setVisibility(propValue);
       return true;
@@ -399,10 +398,9 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyOrientation : function(propValue, propOldValue, propData)
+    _modifyOrientation : function(propValue, propOldValue)
     {
       // sync orientation to layout
       this._box.setOrientation(propValue);
@@ -498,10 +496,9 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyFirstSize : function(propValue, propOldValue, propData)
+    _modifyFirstSize : function(propValue, propOldValue)
     {
       this._syncFirstSize();
       return true;
@@ -514,10 +511,9 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifySecondSize : function(propValue, propOldValue, propData)
+    _modifySecondSize : function(propValue, propOldValue)
     {
       this._syncSecondSize();
       return true;
@@ -530,10 +526,9 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifySplitterSize : function(propValue, propOldValue, propData)
+    _modifySplitterSize : function(propValue, propOldValue)
     {
       this._syncSplitterSize();
       return true;

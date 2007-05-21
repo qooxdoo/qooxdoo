@@ -249,10 +249,9 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {void | Boolean} TODOC
      */
-    _modifyFadeSteps : function(propValue, propOldValue, propData)
+    _modifyFadeSteps : function(propValue, propOldValue)
     {
       if (propValue < 1) return;
       this.setFadeInterval(parseInt(this.getFadeTime() / propValue));
@@ -267,10 +266,9 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {void | Boolean} TODOC
      */
-    _modifyFadeTime : function(propValue, propOldValue, propData)
+    _modifyFadeTime : function(propValue, propOldValue)
     {
       if (propValue < 1) return;
       this.setFadeInterval(parseInt(propValue / this.getFadeSteps()));
@@ -284,10 +282,9 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyFadeUnit : function(propValue, propOldValue, propData)
+    _modifyFadeUnit : function(propValue, propOldValue)
     {
       this.setFadeSteps(Math.round(this.getFadeMax() / propValue));
       return true;
@@ -300,10 +297,9 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyFadeMax : function(propValue, propOldValue, propData)
+    _modifyFadeMax : function(propValue, propOldValue)
     {
       this.setFadeUnit(Math.round(propValue / this.getFadeSteps()));
       return true;

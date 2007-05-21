@@ -784,10 +784,9 @@ qx.Class.define("qx.io.remote.Exchange",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyImplementation : function(propValue, propOldValue, propData)
+    _modifyImplementation : function(propValue, propOldValue)
     {
       if (propOldValue)
       {
@@ -835,10 +834,9 @@ qx.Class.define("qx.io.remote.Exchange",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyState : function(propValue, propOldValue, propData)
+    _modifyState : function(propValue, propOldValue)
     {
       var vRequest = this.getRequest();
 

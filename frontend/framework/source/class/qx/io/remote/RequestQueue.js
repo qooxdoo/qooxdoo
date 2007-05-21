@@ -374,10 +374,9 @@ qx.Class.define("qx.io.remote.RequestQueue",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyEnabled : function(propValue, propOldValue, propData)
+    _modifyEnabled : function(propValue, propOldValue)
     {
       if (propValue) {
         this._check();

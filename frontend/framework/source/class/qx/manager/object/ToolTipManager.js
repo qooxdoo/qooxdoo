@@ -85,10 +85,9 @@ qx.Class.define("qx.manager.object.ToolTipManager",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {void | Boolean} TODOC
      */
-    _modifyCurrentToolTip : function(propValue, propOldValue, propData)
+    _modifyCurrentToolTip : function(propValue, propOldValue)
     {
       // Return if the new tooltip is a child of the old one
       if (propOldValue && propOldValue.contains(propValue)) {

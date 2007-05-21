@@ -371,10 +371,9 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyUseTreeLines : function(propValue, propOldValue, propData)
+    _modifyUseTreeLines : function(propValue, propOldValue)
     {
       if (this._initialLayoutDone) {
         this._updateIndent();
@@ -390,10 +389,9 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyHideNode : function(propValue, propOldValue, propData)
+    _modifyHideNode : function(propValue, propOldValue)
     {
       if (!propValue)
       {
@@ -421,10 +419,9 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyRootOpenClose : function(propValue, propOldValue, propData)
+    _modifyRootOpenClose : function(propValue, propOldValue)
     {
       if (this._initialLayoutDone) {
         this._updateIndent();
@@ -454,10 +451,9 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyExcludeSpecificTreeLines : function(propValue, propOldValue, propData)
+    _modifyExcludeSpecificTreeLines : function(propValue, propOldValue)
     {
       if (this._initialLayoutDone) {
         this._updateIndent();

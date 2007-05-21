@@ -296,10 +296,9 @@ qx.Class.define("qx.ui.layout.BoxLayout",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {var} TODOC
      */
-    _modifyOrientation : function(propValue, propOldValue, propData)
+    _modifyOrientation : function(propValue, propOldValue)
     {
       // update fast access variables
       this._layoutHorizontal = propValue == "horizontal";
@@ -317,40 +316,40 @@ qx.Class.define("qx.ui.layout.BoxLayout",
       }
 
       // call layout helper
-      this._doLayoutOrder(propValue, propOldValue, propData);
+      this._doLayoutOrder(propValue, propOldValue);
 
       this.addToQueueRuntime("orientation");
     },
 
-    _applySpacing : function(propValue, propOldValue, propData)
+    _applySpacing : function(propValue, propOldValue)
     {
       this._doLayout();
       this.addToQueueRuntime("spacing");
     },
 
-    _applyHorizontalChildrenAlign : function(propValue, propOldValue, propData)
+    _applyHorizontalChildrenAlign : function(propValue, propOldValue)
     {
       this._doLayoutOrder();
       this.addToQueueRuntime("horizontalChildrenAlign");
     },
 
-    _applyVerticalChildrenAlign : function(propValue, propOldValue, propData)
+    _applyVerticalChildrenAlign : function(propValue, propOldValue)
     {
       this._doLayoutOrder();
       this.addToQueueRuntime("verticalChildrenAlign");
     },
 
-    _applyReverseChildrenOrder : function(propValue, propOldValue, propData)
+    _applyReverseChildrenOrder : function(propValue, propOldValue)
     {
       this._doLayoutOrder();
       this.addToQueueRuntime("reverseChildrenOrder");
     },
 
-    _applyStretchChildrenOrthogonalAxis : function(propValue, propOldValue, propData) {
+    _applyStretchChildrenOrthogonalAxis : function(propValue, propOldValue) {
       this.addToQueueRuntime("stretchChildrenOrthogonalAxis");
     },
 
-    _applyUseAdvancedFlexAllocation : function(propValue, propOldValue, propData) {
+    _applyUseAdvancedFlexAllocation : function(propValue, propOldValue) {
       this.addToQueueRuntime("useAdvancedFlexAllocation");
     },
 
@@ -362,7 +361,6 @@ qx.Class.define("qx.ui.layout.BoxLayout",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {var} TODOC
      */
     _doLayoutOrder : function()
@@ -381,7 +379,6 @@ qx.Class.define("qx.ui.layout.BoxLayout",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
     _doLayout : function()

@@ -104,10 +104,9 @@ qx.Class.define("qx.ui.form.RadioButton",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyChecked : function(propValue, propOldValue, propData)
+    _modifyChecked : function(propValue, propOldValue)
     {
       if (this._iconObject) {
         this._iconObject.setChecked(propValue);
@@ -127,10 +126,9 @@ qx.Class.define("qx.ui.form.RadioButton",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyManager : function(propValue, propOldValue, propData)
+    _modifyManager : function(propValue, propOldValue)
     {
       if (propOldValue) {
         propOldValue.remove(this);
@@ -148,10 +146,9 @@ qx.Class.define("qx.ui.form.RadioButton",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyName : function(propValue, propOldValue, propData)
+    _modifyName : function(propValue, propOldValue)
     {
       if (this._iconObject) {
         this._iconObject.setName(propValue);
@@ -169,10 +166,9 @@ qx.Class.define("qx.ui.form.RadioButton",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyValue : function(propValue, propOldValue, propData)
+    _modifyValue : function(propValue, propOldValue)
     {
       if (this.isCreated() && this._iconObject) {
         this._iconObject.setValue(propValue);

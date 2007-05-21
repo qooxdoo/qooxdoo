@@ -320,10 +320,9 @@ qx.Class.define("qx.ui.menu.Button",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyIcon : function(propValue, propOldValue, propData)
+    _modifyIcon : function(propValue, propOldValue)
     {
       this._iconObject.setSource(propValue);
 
@@ -351,10 +350,9 @@ qx.Class.define("qx.ui.menu.Button",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyLabel : function(propValue, propOldValue, propData)
+    _modifyLabel : function(propValue, propOldValue)
     {
       this._labelObject.setText(propValue);
 
@@ -382,10 +380,9 @@ qx.Class.define("qx.ui.menu.Button",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyCommand : function(propValue, propOldValue, propData)
+    _modifyCommand : function(propValue, propOldValue)
     {
       var vHtml = propValue ? propValue.toString() : "";
 
@@ -422,10 +419,9 @@ qx.Class.define("qx.ui.menu.Button",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyMenu : function(propValue, propOldValue, propData)
+    _modifyMenu : function(propValue, propOldValue)
     {
       if (propValue)
       {

@@ -296,10 +296,9 @@ qx.Class.define("qx.ui.form.Spinner",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyIncrementAmount : function(propValue, propOldValue, propData)
+    _modifyIncrementAmount : function(propValue, propOldValue)
     {
       this._computedIncrementAmount = propValue;
       return true;
@@ -312,10 +311,9 @@ qx.Class.define("qx.ui.form.Spinner",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyEditable : function(propValue, propOldValue, propData)
+    _modifyEditable : function(propValue, propOldValue)
     {
       if (this._textfield)
       {
@@ -331,10 +329,9 @@ qx.Class.define("qx.ui.form.Spinner",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyManager : function(propValue, propOldValue, propData)
+    _modifyManager : function(propValue, propOldValue)
     {
       if (propOldValue)
       {
@@ -357,10 +354,9 @@ qx.Class.define("qx.ui.form.Spinner",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyCheckValueFunction : function(propValue, propOldValue, propData)
+    _modifyCheckValueFunction : function(propValue, propOldValue)
     {
       this._checkValue = propValue;
       return true;

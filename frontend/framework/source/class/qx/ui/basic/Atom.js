@@ -411,10 +411,9 @@ qx.Class.define("qx.ui.basic.Atom",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyIconPosition : function(propValue, propOldValue, propData)
+    _modifyIconPosition : function(propValue, propOldValue)
     {
       switch(propValue)
       {
@@ -440,10 +439,9 @@ qx.Class.define("qx.ui.basic.Atom",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyShow : function(propValue, propOldValue, propData)
+    _modifyShow : function(propValue, propOldValue)
     {
       this._handleIcon();
       this._handleLabel();
@@ -458,10 +456,9 @@ qx.Class.define("qx.ui.basic.Atom",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyLabel : function(propValue, propOldValue, propData)
+    _modifyLabel : function(propValue, propOldValue)
     {
       if (this._labelObject) {
         this._labelObject.setText(propValue);
@@ -479,10 +476,9 @@ qx.Class.define("qx.ui.basic.Atom",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyIcon : function(propValue, propOldValue, propData)
+    _modifyIcon : function(propValue, propOldValue)
     {
       this._updateIcon();
       this._handleIcon();
@@ -497,10 +493,9 @@ qx.Class.define("qx.ui.basic.Atom",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyDisabledIcon : function(propValue, propOldValue, propData)
+    _modifyDisabledIcon : function(propValue, propOldValue)
     {
       this._updateIcon();
       this._handleIcon();
@@ -515,10 +510,9 @@ qx.Class.define("qx.ui.basic.Atom",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyIconWidth : function(propValue, propOldValue, propData)
+    _modifyIconWidth : function(propValue, propOldValue)
     {
       this._iconObject.setWidth(propValue);
       return true;
@@ -531,10 +525,9 @@ qx.Class.define("qx.ui.basic.Atom",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyIconHeight : function(propValue, propOldValue, propData)
+    _modifyIconHeight : function(propValue, propOldValue)
     {
       this._iconObject.setHeight(propValue);
       return true;

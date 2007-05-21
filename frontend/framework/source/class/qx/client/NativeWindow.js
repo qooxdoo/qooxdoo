@@ -335,7 +335,6 @@ qx.Class.define("qx.client.NativeWindow",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
     _modifyOpen : function(value, old, propData)

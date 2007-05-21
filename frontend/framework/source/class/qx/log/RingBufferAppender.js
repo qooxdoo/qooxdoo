@@ -90,10 +90,9 @@ qx.Class.define("qx.log.RingBufferAppender",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {void}
      */
-    _modifyMaxMessages : function(propValue, propOldValue, propData)
+    _modifyMaxMessages : function(propValue, propOldValue)
     {
       this._history = [];
       this._nextIndexToStoreTo = 0;

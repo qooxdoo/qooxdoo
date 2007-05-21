@@ -310,10 +310,9 @@ qx.Class.define("qx.ui.form.ComboBox",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifySelected : function(propValue, propOldValue, propData)
+    _modifySelected : function(propValue, propOldValue)
     {
       this._fromSelected = true;
 
@@ -347,10 +346,9 @@ qx.Class.define("qx.ui.form.ComboBox",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyValue : function(propValue, propOldValue, propData)
+    _modifyValue : function(propValue, propOldValue)
     {
       this._fromValue = true;
 
@@ -393,10 +391,9 @@ qx.Class.define("qx.ui.form.ComboBox",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyEditable : function(propValue, propOldValue, propData)
+    _modifyEditable : function(propValue, propOldValue)
     {
       var f = this._field;
 
