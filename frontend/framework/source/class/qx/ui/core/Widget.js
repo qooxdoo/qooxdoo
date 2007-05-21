@@ -6276,7 +6276,7 @@ qx.Class.define("qx.ui.core.Widget",
           }
         }
 
-        this._applyOverflow(pn, pv, value, old);
+        this._renderOverflow(pn, pv, value, old);
         this.addToQueue("overflow");
       },
 
@@ -6300,7 +6300,7 @@ qx.Class.define("qx.ui.core.Widget",
             break;
         }
 
-        this._applyOverflow(pn, pv, value, old);
+        this._renderOverflow(pn, pv, value, old);
         this.addToQueue("overflow");
       },
 
@@ -6321,7 +6321,7 @@ qx.Class.define("qx.ui.core.Widget",
             break;
         }
 
-        this._applyOverflow(pn, pv, value, old);
+        this._renderOverflow(pn, pv, value, old);
         this.addToQueue("overflow");
       }
     }),
@@ -6336,7 +6336,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _applyOverflow : function(pn, pv, value, old)
+    _renderOverflow : function(pn, pv, value, old)
     {
       // Apply Style
       this.setStyleProperty(pn, pv || "");
