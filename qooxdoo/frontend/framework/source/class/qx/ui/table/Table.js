@@ -248,7 +248,7 @@ qx.Class.define("qx.ui.table.Table",
     selectionModel :
     {
       check : "qx.ui.table.SelectionModel",
-      apply : "_modifySelectionModel",
+      apply : "_applySelectionModel",
       event : "changeSelectionModel"
     },
 
@@ -256,7 +256,7 @@ qx.Class.define("qx.ui.table.Table",
     tableModel :
     {
       check : "qx.ui.table.TableModel",
-      apply : "_modifyTableModel",
+      apply : "_applyTableModel",
       event : "changeTableModel",
       nullable : true
     },
@@ -265,7 +265,7 @@ qx.Class.define("qx.ui.table.Table",
     tableColumnModel :
     {
       check : "qx.ui.table.TableColumnModel",
-      apply : "_modifyTableColumnModel",
+      apply : "_applyTableColumnModel",
       event : "changeTableColumnModel"
     },
 
@@ -282,7 +282,7 @@ qx.Class.define("qx.ui.table.Table",
     {
       check : "Boolean",
       init : true,
-      apply : "_modifyStatusBarVisible"
+      apply : "_applyStatusBarVisible"
     },
 
     /** Whether to show the column visibility button */
@@ -290,7 +290,7 @@ qx.Class.define("qx.ui.table.Table",
     {
       check : "Boolean",
       init : true,
-      apply : "_modifyColumnVisibilityButtonVisible"
+      apply : "_applyColumnVisibilityButtonVisible"
     },
 
 
@@ -301,7 +301,7 @@ qx.Class.define("qx.ui.table.Table",
     metaColumnCounts :
     {
       check : "Object",
-      apply : "_modifyMetaColumnCounts"
+      apply : "_applyMetaColumnCounts"
     },
 
 
@@ -313,7 +313,7 @@ qx.Class.define("qx.ui.table.Table",
     {
       check : "Boolean",
       init : false,
-      apply : "_modifyFocusCellOnMouseMove"
+      apply : "_applyFocusCellOnMouseMove"
     },
 
 
@@ -325,7 +325,7 @@ qx.Class.define("qx.ui.table.Table",
     {
       check : "Boolean",
       init : true,
-      apply : "_modifyKeepFirstVisibleRowComplete"
+      apply : "_applyKeepFirstVisibleRowComplete"
     },
 
 
@@ -345,7 +345,7 @@ qx.Class.define("qx.ui.table.Table",
     {
       check : "Integer",
       init : 16,
-      apply : "_modifyHeaderCellHeight",
+      apply : "_applyHeaderCellHeight",
       event : "changeHeaderCellHeight"
     },
 
@@ -355,7 +355,7 @@ qx.Class.define("qx.ui.table.Table",
       check : "qx.ui.table.DataRowRenderer",
       init : null,
       nullable : true,
-      apply : "_modifyDataRowRenderer",
+      apply : "_applyDataRowRenderer",
       event : "changeDataRowRenderer"
     },
 
@@ -500,7 +500,7 @@ qx.Class.define("qx.ui.table.Table",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifySelectionModel : function(value, old)
+    _applySelectionModel : function(value, old)
     {
       this._selectionManager.setSelectionModel(value);
 
@@ -519,7 +519,7 @@ qx.Class.define("qx.ui.table.Table",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyTableModel : function(value, old)
+    _applyTableModel : function(value, old)
     {
       this.getTableColumnModel().init(value.getColumnCount(), this);
 
@@ -544,7 +544,7 @@ qx.Class.define("qx.ui.table.Table",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyTableColumnModel : function(value, old)
+    _applyTableColumnModel : function(value, old)
     {
       if (old != null)
       {
@@ -586,7 +586,7 @@ qx.Class.define("qx.ui.table.Table",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyStatusBarVisible : function(value, old)
+    _applyStatusBarVisible : function(value, old)
     {
       this._statusBar.setDisplay(value);
 
@@ -603,7 +603,7 @@ qx.Class.define("qx.ui.table.Table",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyColumnVisibilityButtonVisible : function(value, old) {
+    _applyColumnVisibilityButtonVisible : function(value, old) {
       this._columnVisibilityBt.setDisplay(value);
     },
 
@@ -615,7 +615,7 @@ qx.Class.define("qx.ui.table.Table",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyMetaColumnCounts : function(value, old)
+    _applyMetaColumnCounts : function(value, old)
     {
       var metaColumnCounts = value;
       var scrollerArr = this._getPaneScrollerArr();
@@ -684,7 +684,7 @@ qx.Class.define("qx.ui.table.Table",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyFocusCellOnMouseMove : function(value, old)
+    _applyFocusCellOnMouseMove : function(value, old)
     {
       var scrollerArr = this._getPaneScrollerArr();
 
@@ -701,7 +701,7 @@ qx.Class.define("qx.ui.table.Table",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyKeepFirstVisibleRowComplete : function(value, old)
+    _applyKeepFirstVisibleRowComplete : function(value, old)
     {
       var scrollerArr = this._getPaneScrollerArr();
 
@@ -718,7 +718,7 @@ qx.Class.define("qx.ui.table.Table",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyHeaderCellHeight : function(value, old)
+    _applyHeaderCellHeight : function(value, old)
     {
       var scrollerArr = this._getPaneScrollerArr();
 
@@ -735,7 +735,7 @@ qx.Class.define("qx.ui.table.Table",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyDataRowRenderer : function(value, old)
+    _applyDataRowRenderer : function(value, old)
     {
       if (old != null)
       {
