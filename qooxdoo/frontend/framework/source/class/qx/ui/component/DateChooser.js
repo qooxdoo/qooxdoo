@@ -356,7 +356,6 @@ qx.Class.define("qx.ui.component.DateChooser",
      *
      * @type member
      * @param propValue {var} Current value
-     * @param propData {var} Property configuration map
      * @return {var} TODOC
      */
     _checkDate : function(propValue, propData)
@@ -372,10 +371,9 @@ qx.Class.define("qx.ui.component.DateChooser",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyDate : function(propValue, propOldValue, propData)
+    _modifyDate : function(propValue, propOldValue)
     {
       var DateChooser = qx.ui.component.DateChooser;
 

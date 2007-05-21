@@ -179,10 +179,9 @@ qx.Class.define("qx.ui.core.Parent",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyFocusHandler : function(propValue, propOldValue, propData)
+    _modifyFocusHandler : function(propValue, propOldValue)
     {
       if (propValue)
       {
@@ -221,10 +220,9 @@ qx.Class.define("qx.ui.core.Parent",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyFocusedChild : function(propValue, propOldValue, propData)
+    _modifyFocusedChild : function(propValue, propOldValue)
     {
       // this.debug("FocusedChild: " + propValue);
       var vFocusValid = propValue != null;

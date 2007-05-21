@@ -99,10 +99,9 @@ qx.Class.define("qx.ui.pageview.tabview.TabView",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyAlignTabsToLeft : function(propValue, propOldValue, propData)
+    _modifyAlignTabsToLeft : function(propValue, propOldValue)
     {
       var vBar = this._bar;
 
@@ -119,10 +118,9 @@ qx.Class.define("qx.ui.pageview.tabview.TabView",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyPlaceBarOnTop : function(propValue, propOldValue, propData)
+    _modifyPlaceBarOnTop : function(propValue, propOldValue)
     {
       // This does not work if we use flexible zones
       // this.setReverseChildrenOrder(!propValue);

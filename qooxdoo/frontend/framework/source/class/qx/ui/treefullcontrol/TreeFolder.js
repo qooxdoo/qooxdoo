@@ -685,10 +685,9 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyOpen : function(propValue, propOldValue, propData)
+    _modifyOpen : function(propValue, propOldValue)
     {
       // we need the whole indent process if certain tree lines are to be excluded
       if (this.getTree().getExcludeSpecificTreeLines().length > 0) {
@@ -711,10 +710,9 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyAlwaysShowPlusMinusSymbol : function(propValue, propOldValue, propData)
+    _modifyAlwaysShowPlusMinusSymbol : function(propValue, propOldValue)
     {
       var t = this.getTree();
 

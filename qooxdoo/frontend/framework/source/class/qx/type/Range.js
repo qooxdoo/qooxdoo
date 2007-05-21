@@ -95,10 +95,9 @@ qx.Class.define("qx.type.Range",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyMax : function(propValue, propOldValue, propData) {
+    _modifyMax : function(propValue, propOldValue) {
       this.setValue(Math.min(this.getValue(), propValue));
     },
 
@@ -109,10 +108,9 @@ qx.Class.define("qx.type.Range",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyMin : function(propValue, propOldValue, propData) {
+    _modifyMin : function(propValue, propOldValue) {
       this.setValue(Math.max(this.getValue(), propValue));
     },
 

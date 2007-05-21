@@ -244,10 +244,9 @@ qx.Class.define("qx.locale.Manager",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyLocale : function(propValue, propOldValue, propData)
+    _modifyLocale : function(propValue, propOldValue)
     {
       this._locale = propValue;
 

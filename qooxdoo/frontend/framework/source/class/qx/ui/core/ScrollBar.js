@@ -206,7 +206,6 @@ qx.Class.define("qx.ui.core.ScrollBar",
      *
      * @type member
      * @param propValue {var} Current value
-     * @param propData {var} Property configuration map
      * @return {var} TODOC
      */
     _checkValue : function(propValue, propData)
@@ -227,10 +226,9 @@ qx.Class.define("qx.ui.core.ScrollBar",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyValue : function(propValue, propOldValue, propData)
+    _modifyValue : function(propValue, propOldValue)
     {
       if (!this._internalValueChange && this._isCreated) {
         this._positionKnob(propValue);
@@ -245,10 +243,9 @@ qx.Class.define("qx.ui.core.ScrollBar",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyMaximum : function(propValue, propOldValue, propData)
+    _modifyMaximum : function(propValue, propOldValue)
     {
       if (this._horizontal) {
         this._scrollContent.setWidth(propValue);
@@ -269,10 +266,9 @@ qx.Class.define("qx.ui.core.ScrollBar",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {var} TODOC
      */
-    _modifyVisibility : function(propValue, propOldValue, propData)
+    _modifyVisibility : function(propValue, propOldValue)
     {
       if (!propValue) {
         this._positionKnob(0);
@@ -280,7 +276,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
         this._positionKnob(this.getValue());
       }
 
-      return this.base(arguments, propValue, propOldValue, propData);
+      return this.base(arguments, propValue, propOldValue);
     },
 
     // overridden

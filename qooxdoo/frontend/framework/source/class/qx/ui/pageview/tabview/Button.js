@@ -205,10 +205,9 @@ qx.Class.define("qx.ui.pageview.tabview.Button",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyShowCloseButton : function(propValue, propOldValue, propData)
+    _modifyShowCloseButton : function(propValue, propOldValue)
     {
       // if no image exists, then create one
       if (!this._closeButtonImage) {
@@ -236,10 +235,9 @@ qx.Class.define("qx.ui.pageview.tabview.Button",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _modifyCloseButtonImage : function(propValue, propOldValue, propData)
+    _modifyCloseButtonImage : function(propValue, propOldValue)
     {
       if (this._closeButtonImage) {
         this._closeButtonImage.setSource(propValue);

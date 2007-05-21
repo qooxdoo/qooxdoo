@@ -144,11 +144,10 @@ qx.Class.define("qx.ui.component.DateChooserButton",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} true if modification succeeded
      * @throws exception if propValue is not instance of qx.ui.core.Widget or does not have setter and getter for property value
      */
-    _modifyTargetWidget : function(propValue, propOldValue, propData)
+    _modifyTargetWidget : function(propValue, propOldValue)
     {
       if (propValue instanceof qx.ui.core.Widget && qx.util.Validation.isValidFunction(propValue.setValue) && qx.util.Validation.isValidFunction(propValue.getValue)) {
         return true;
@@ -164,10 +163,9 @@ qx.Class.define("qx.ui.component.DateChooserButton",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} true if modification succeeded
      */
-    _modifyChooserTitle : function(propValue, propOldValue, propData)
+    _modifyChooserTitle : function(propValue, propOldValue)
     {
       this._chooserWindow.setCaption(propValue);
       return true;
@@ -180,10 +178,9 @@ qx.Class.define("qx.ui.component.DateChooserButton",
      * @type member
      * @param propValue {var} Current value
      * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
      * @return {Boolean} true if modification succeeded
      */
-    _modifyDateFormatSize : function(propValue, propOldValue, propData)
+    _modifyDateFormatSize : function(propValue, propOldValue)
     {
       this._changeLocale(propValue);
       return true;
