@@ -491,7 +491,7 @@ qx.Class.define("qx.ui.core.Widget",
         for (var i=0; i<vLength; i++)
         {
           vWidget = vQueue[i];
-          vWidget._applyAppearance();
+          vWidget._renderAppearance();
 
           delete vWidget._isInGlobalStateQueue;
         }
@@ -1131,7 +1131,7 @@ qx.Class.define("qx.ui.core.Widget",
       init : "inherit",
       check : "Boolean",
       inheritable : true,
-      apply : "_modifyEnabled",
+      apply : "_applyEnabled",
       event : "changeEnabled"
     },
 
@@ -1141,7 +1141,7 @@ qx.Class.define("qx.ui.core.Widget",
       check : "qx.ui.core.Parent",
       nullable : true,
       event : "changeParent",
-      apply : "_modifyParent"
+      apply : "_applyParent"
     },
 
 
@@ -1150,7 +1150,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Element",
       nullable : true,
-      apply : "_modifyElement",
+      apply : "_applyElement",
       event : "changeElement"
     },
 
@@ -1165,7 +1165,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Boolean",
       init : true,
-      apply : "_modifyVisibility",
+      apply : "_applyVisibility",
       event : "changeVisibility"
     },
 
@@ -1180,7 +1180,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Boolean",
       init : true,
-      apply : "_modifyDisplay",
+      apply : "_applyDisplay",
       event : "changeDisplay"
     },
 
@@ -1265,7 +1265,7 @@ qx.Class.define("qx.ui.core.Widget",
     zIndex :
     {
       check : "Number",
-      apply : "_modifyZIndex",
+      apply : "_applyZIndex",
       themeable : true,
       nullable : true,
       init : null
@@ -1329,7 +1329,7 @@ qx.Class.define("qx.ui.core.Widget",
     opacity :
     {
       check : "Number",
-      apply : "_modifyOpacity",
+      apply : "_applyOpacity",
       themeable : true,
       nullable : true,
       init : null
@@ -1364,7 +1364,7 @@ qx.Class.define("qx.ui.core.Widget",
     cursor :
     {
       check : "String",
-      apply : "_modifyCursor",
+      apply : "_applyCursor",
       themeable : true,
       nullable : true,
       init : null
@@ -1380,7 +1380,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "String",
       nullable : true,
-      apply : "_modifyBackgroundImage",
+      apply : "_applyBackgroundImage",
       themeable : true
     },
 
@@ -1401,7 +1401,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : ["hidden", "auto", "scroll" ,"scrollX", "scrollY"],
       nullable : true,
-      apply : "_modifyOverflow",
+      apply : "_applyOverflow",
       themeable : true,
       init : null
     },
@@ -1411,7 +1411,7 @@ qx.Class.define("qx.ui.core.Widget",
     clipLeft :
     {
       check : "Integer",
-      apply : "_modifyClip",
+      apply : "_applyClip",
       themeable : true,
       nullable : true
     },
@@ -1421,7 +1421,7 @@ qx.Class.define("qx.ui.core.Widget",
     clipTop :
     {
       check : "Integer",
-      apply : "_modifyClip",
+      apply : "_applyClip",
       themeable : true,
       nullable : true
     },
@@ -1431,7 +1431,7 @@ qx.Class.define("qx.ui.core.Widget",
     clipWidth :
     {
       check : "Integer",
-      apply : "_modifyClip",
+      apply : "_applyClip",
       themeable : true,
       nullable : true
     },
@@ -1441,7 +1441,7 @@ qx.Class.define("qx.ui.core.Widget",
     clipHeight :
     {
       check : "Integer",
-      apply : "_modifyClip",
+      apply : "_applyClip",
       themeable : true,
       nullable : true
     },
@@ -1467,7 +1467,7 @@ qx.Class.define("qx.ui.core.Widget",
       check : "Integer",
       nullable : true,
       init : null,
-      apply : "_modifyTabIndex"
+      apply : "_applyTabIndex"
     },
 
 
@@ -1476,7 +1476,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Boolean",
       init : false,
-      apply : "_modifyHideFocus"
+      apply : "_applyHideFocus"
     },
 
 
@@ -1500,7 +1500,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Boolean",
       init : false,
-      apply : "_modifyFocused",
+      apply : "_applyFocused",
       event : "changeFocused"
     },
 
@@ -1510,7 +1510,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Boolean",
       init : true,
-      apply : "_modifySelectable"
+      apply : "_applySelectable"
     },
 
 
@@ -1535,7 +1535,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Boolean",
       init : false,
-      apply : "_modifyCapture"
+      apply : "_applyCapture"
     },
 
 
@@ -1558,7 +1558,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "String",
       init : "widget",
-      apply : "_modifyAppearance",
+      apply : "_applyAppearance",
       event : "changeAppearance"
     },
 
@@ -1668,7 +1668,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     left :
     {
-      apply : "_modifyLeft",
+      apply : "_applyLeft",
       event : "changeLeft",
       nullable : true,
       themeable : true,
@@ -1685,7 +1685,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     right :
     {
-      apply : "_modifyRight",
+      apply : "_applyRight",
       event : "changeRight",
       nullable : true,
       themeable : true,
@@ -1702,7 +1702,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     width :
     {
-      apply : "_modifyWidth",
+      apply : "_applyWidth",
       event : "changeWidth",
       nullable : true,
       themeable : true,
@@ -1717,7 +1717,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     minWidth :
     {
-      apply : "_modifyMinWidth",
+      apply : "_applyMinWidth",
       event : "changeMinWidth",
       nullable : true,
       themeable : true,
@@ -1732,7 +1732,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     maxWidth :
     {
-      apply : "_modifyMaxWidth",
+      apply : "_applyMaxWidth",
       event : "changeMaxWidth",
       nullable : true,
       themeable : true,
@@ -1757,7 +1757,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     top :
     {
-      apply : "_modifyTop",
+      apply : "_applyTop",
       event : "changeTop",
       nullable : true,
       themeable : true,
@@ -1774,7 +1774,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     bottom :
     {
-      apply : "_modifyBottom",
+      apply : "_applyBottom",
       event : "changeBottom",
       nullable : true,
       themeable : true,
@@ -1791,7 +1791,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     height :
     {
-      apply : "_modifyHeight",
+      apply : "_applyHeight",
       event : "changeHeight",
       nullable : true,
       themeable : true,
@@ -1806,7 +1806,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     minHeight :
     {
-      apply : "_modifyMinHeight",
+      apply : "_applyMinHeight",
       event : "changeMinHeight",
       nullable : true,
       themeable : true,
@@ -1821,7 +1821,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     maxHeight :
     {
-      apply : "_modifyMaxHeight",
+      apply : "_applyMaxHeight",
       event : "changeMaxHeight",
       nullable : true,
       themeable : true,
@@ -2164,61 +2164,61 @@ qx.Class.define("qx.ui.core.Widget",
     _computedMaxHeightTypeAuto : false,
     _computedMaxHeightTypeFlex : false,
 
-    _modifyLeft : function(value, old)
+    _applyLeft : function(value, old)
     {
       this._unitDetectionPixelPercent("left", value);
       this.addToQueue("left");
     },
 
-    _modifyRight : function(value, old)
+    _applyRight : function(value, old)
     {
       this._unitDetectionPixelPercent("right", value);
       this.addToQueue("right");
     },
 
-    _modifyTop : function(value, old)
+    _applyTop : function(value, old)
     {
       this._unitDetectionPixelPercent("top", value);
       this.addToQueue("top");
     },
 
-    _modifyBottom : function(value, old)
+    _applyBottom : function(value, old)
     {
       this._unitDetectionPixelPercent("bottom", value);
       this.addToQueue("bottom");
     },
 
-    _modifyWidth : function(value, old)
+    _applyWidth : function(value, old)
     {
       this._unitDetectionPixelPercentAutoFlex("width", value);
       this.addToQueue("width");
     },
 
-    _modifyMinWidth : function(value, old)
+    _applyMinWidth : function(value, old)
     {
       this._unitDetectionPixelPercentAuto("minWidth", value);
       this.addToQueue("minWidth");
     },
 
-    _modifyMaxWidth : function(value, old)
+    _applyMaxWidth : function(value, old)
     {
       this._unitDetectionPixelPercentAuto("maxWidth", value);
       this.addToQueue("maxWidth");
     },
 
-    _modifyHeight : function(value, old)
+    _applyHeight : function(value, old)
     {
       this._unitDetectionPixelPercentAutoFlex("height", value);
       this.addToQueue("height");
     },
 
-    _modifyMinHeight : function(value, old)
+    _applyMinHeight : function(value, old)
     {
       this._unitDetectionPixelPercentAuto("minHeight", value);
       this.addToQueue("minHeight");
     },
 
-    _modifyMaxHeight : function(value, old)
+    _applyMaxHeight : function(value, old)
     {
       this._unitDetectionPixelPercentAuto("maxHeight", value);
       this.addToQueue("maxHeight");
@@ -2427,7 +2427,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyParent : function(value, old)
+    _applyParent : function(value, old)
     {
       if (old)
       {
@@ -2495,7 +2495,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyDisplay : function(value, old) {
+    _applyDisplay : function(value, old) {
       return this._handleDisplayable("display");
     },
 
@@ -2846,7 +2846,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyVisibility : function(value, old)
+    _applyVisibility : function(value, old)
     {
       if (value)
       {
@@ -2993,7 +2993,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyElement : function(value, old)
+    _applyElement : function(value, old)
     {
       this._isCreated = value != null;
 
@@ -5076,7 +5076,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @return {void}
      */
-    _applyAppearance : function()
+    _renderAppearance : function()
     {
       if (!this.__states) {
         this.__states = {};
@@ -5210,7 +5210,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyAppearance : function(value, old)
+    _applyAppearance : function(value, old)
     {
       if (!this.__states) {
         this.__states = {};
@@ -5643,7 +5643,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyEnabled : function(value, old)
+    _applyEnabled : function(value, old)
     {
       if (value===false)
       {
@@ -5743,7 +5743,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyFocused : function(value, old)
+    _applyFocused : function(value, old)
     {
       if (!this.isCreated()) {
         return;
@@ -5781,7 +5781,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {void}
      * @signature function(value, old)
      */
-    _modifyHideFocus : qx.core.Variant.select("qx.client",
+    _applyHideFocus : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(value, old)
       {
@@ -5880,7 +5880,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyCapture : function(value, old)
+    _applyCapture : function(value, old)
     {
       var vMgr = qx.event.handler.EventHandler.getInstance();
 
@@ -5911,7 +5911,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyZIndex : function(value, old)
+    _applyZIndex : function(value, old)
     {
       if (value == null) {
         this.removeStyleProperty("zIndex");
@@ -5938,7 +5938,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {void}
      * @signature function(value, old)
      */
-    _modifyTabIndex : qx.core.Variant.select("qx.client",
+    _applyTabIndex : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(value, old)
       {
@@ -5992,7 +5992,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {void}
      * @signature function(value, old)
      */
-    _modifySelectable : qx.core.Variant.select("qx.client",
+    _applySelectable : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(value, old)
       {
@@ -6058,7 +6058,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {void}
      * @signature function(value, old)
      */
-    _modifyOpacity : qx.core.Variant.select("qx.client",
+    _applyOpacity : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(value, old)
       {
@@ -6119,7 +6119,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param old {var} Previous value
      * @signature function(value, old)
      */
-    _modifyCursor : function(value, old)
+    _applyCursor : function(value, old)
     {
       if (value)
       {
@@ -6155,7 +6155,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyBackgroundImage : function(value, old) {
+    _applyBackgroundImage : function(value, old) {
       return qx.util.Validation.isValidString(value) ? this.setStyleProperty("backgroundImage", "url(" + qx.manager.object.AliasManager.getInstance().resolvePath(value) + ")") : this.removeStyleProperty("backgroundImage");
     },
 
@@ -6179,7 +6179,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyClip : function(value, old) {
+    _applyClip : function(value, old) {
       return this._compileClipString();
     },
 
@@ -6244,7 +6244,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {void}
      * @signature function(value, old)
      */
-    _modifyOverflow : qx.core.Variant.select("qx.client",
+    _applyOverflow : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(value, old)
       {

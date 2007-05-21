@@ -133,7 +133,7 @@ qx.Class.define("qx.client.Timer",
     {
       init : true,
       check : "Boolean",
-      apply : "_modifyEnabled"
+      apply : "_applyEnabled"
     },
 
     /**
@@ -193,7 +193,7 @@ qx.Class.define("qx.client.Timer",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyEnabled : function(value, old)
+    _applyEnabled : function(value, old)
     {
       if (old)
       {
