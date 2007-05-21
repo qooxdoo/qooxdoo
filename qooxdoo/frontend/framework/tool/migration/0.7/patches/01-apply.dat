@@ -1,4 +1,9 @@
 ######################################
+# qx.ui.core.Widget
+######################################
+\b_applyRuntime=_renderRuntime
+
+######################################
 # qx.ui.window.Window
 ######################################
 \b_modifyActive\b=_applyActive
