@@ -823,8 +823,6 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
           this.createDispatchEvent("timeout");
           break;
       }
-
-      return true;
     }
   },
 

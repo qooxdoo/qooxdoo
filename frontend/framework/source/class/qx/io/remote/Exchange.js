@@ -821,8 +821,6 @@ qx.Class.define("qx.io.remote.Exchange",
         value.addEventListener("timeout", this._ontimeout, this);
         value.addEventListener("failed", this._onfailed, this);
       }
-
-      return true;
     },
 
 
@@ -933,8 +931,6 @@ qx.Class.define("qx.io.remote.Exchange",
 
           break;
       }
-
-      return true;
     }
   },
 
