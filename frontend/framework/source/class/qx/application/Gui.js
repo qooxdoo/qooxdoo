@@ -70,8 +70,6 @@ qx.Class.define("qx.application.Gui",
      */
     main : function()
     {
-      this.propertyDebug();
-
       // Prepare widget
       qx.ui.core.Widget.initScrollbarWidth();
 
@@ -83,8 +81,6 @@ qx.Class.define("qx.application.Gui",
 
       // Force creation of client document
       qx.ui.core.ClientDocument.getInstance();
-
-      this.propertyDebug();
 
       // Call preloader
       qx.client.Timer.once(this._preload, this, 0);
@@ -133,8 +129,6 @@ qx.Class.define("qx.application.Gui",
       this.__preloader.dispose();
       this.__preloader = null;
 
-      this.propertyDebug();
-
       var start = (new Date).valueOf();
 
       // Show initial widgets
@@ -142,20 +136,11 @@ qx.Class.define("qx.application.Gui",
 
       this.info("render runtime: " + (new Date - start) + "ms");
 
-      this.propertyDebug();
-
       // Finally attach event to make the GUI ready for the user
       qx.event.handler.EventHandler.getInstance().attachEvents();
 
       // Call postloader
       qx.client.Timer.once(this._postload, this, 100);
-    },
-
-    propertyDebug : function()
-    {
-      // Debug property runtime
-      var prop = qx.core.Property;
-      this.info("properties: " + prop.sumNumber + " = " + prop.sumGen + "ms/" + prop.sumUnwrap + "ms");
     },
 
 

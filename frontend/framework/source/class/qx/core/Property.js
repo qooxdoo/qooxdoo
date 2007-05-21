@@ -597,9 +597,6 @@ qx.Class.define("qx.core.Property",
       throw new Error(msg + (this.__errors[id] || "Unknown reason: " + id));
     },
 
-    sumNumber : 0,
-    sumGen : 0,
-    sumUnwrap : 0,
 
     /**
      * Compiles a string builder object to a function, executes the function and
@@ -628,23 +625,17 @@ qx.Class.define("qx.core.Property",
 
         // Overriding temporary wrapper
         try{
-          var s = new Date;
           members[store] = new Function("value", code.join(""));
           // eval("members[store] = function " + instance.classname.replace(/\./g, "_") + "$" + store + "(value) { " + code.join("") + "}");
-          this.sumUnwrap += new Date - s;
         } catch(ex) {
           alert("Malformed generated code to unwrap method: " + this.$$method[variant][name] + "\n" + code.join(""));
         }
       }
       else
       {
-        var s = new Date;
         members[store] = new Function("value", code.join(""));
         // eval("members[store] = function " + instance.classname.replace(/\./g, "_") + "$" + store + "(value) { " + code.join("") + "}");
-        this.sumUnwrap += new Date - s;
       }
-
-      this.sumNumber++;
 
       // Executing new function
       if (args === undefined) {
@@ -671,8 +662,6 @@ qx.Class.define("qx.core.Property",
      */
     executeOptimizedGetter : function(instance, clazz, name, variant)
     {
-      var start = new Date;
-
       var config = clazz.$$properties[name];
       var members = clazz.prototype;
       var code = [];
@@ -703,8 +692,6 @@ qx.Class.define("qx.core.Property",
         code.push('throw new Error("Property ', name, ' of an instance of ', clazz.classname, ' is not (yet) ready!");');
       }
 
-      this.sumGen += new Date - start;
-
       return this.__unwrapFunctionFromCode(instance, members, name, variant, code);
     },
 
@@ -724,8 +711,6 @@ qx.Class.define("qx.core.Property",
      */
     executeOptimizedSetter : function(instance, clazz, name, variant, args)
     {
-      var start = new Date;
-
       var config = clazz.$$properties[name];
       var members = clazz.prototype;
       var value = args ? args[0] : undefined;
@@ -1275,7 +1260,6 @@ qx.Class.define("qx.core.Property",
 
 
 
-      this.sumGen += new Date - start;
       return this.__unwrapFunctionFromCode(instance, members, name, variant, code, args);
     }
   },
