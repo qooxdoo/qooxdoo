@@ -142,7 +142,7 @@ qx.Class.define("qx.ui.tree.Tree",
     {
       check : "Boolean",
       init : true,
-      apply : "_modifyUseTreeLines"
+      apply : "_applyUseTreeLines"
     }
   },
 
@@ -307,7 +307,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyUseTreeLines : function(value, old)
+    _applyUseTreeLines : function(value, old)
     {
       if (this._initialLayoutDone) {
         this._updateIndent();

@@ -194,7 +194,7 @@ qx.Class.define("qx.ui.basic.Atom",
     /** The label/caption/text of the qx.ui.basic.Atom instance */
     label :
     {
-      apply : "_modifyLabel",
+      apply : "_applyLabel",
       nullable : true,
       dispose : true
     },
@@ -450,7 +450,7 @@ qx.Class.define("qx.ui.basic.Atom",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyLabel : function(value, old)
+    _applyLabel : function(value, old)
     {
       if (this._labelObject) {
         this._labelObject.setText(value);

@@ -153,7 +153,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
     /** The label/caption/text of the qx.ui.basic.Atom instance */
     label :
     {
-      apply : "_modifyLabel",
+      apply : "_applyLabel",
       dispose : true
     },
 
@@ -163,7 +163,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
     {
       check : "Boolean",
       init : false,
-      apply : "_modifySelected",
+      apply : "_applySelected",
       event : "changeSelected"
     }
   },
@@ -192,7 +192,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyLabel : function(value, old)
+    _applyLabel : function(value, old)
     {
       if (this._labelObject) {
         this._labelObject.setText(value);
@@ -207,7 +207,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifySelected : function(value, old)
+    _applySelected : function(value, old)
     {
       if (value)
       {
