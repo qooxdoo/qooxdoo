@@ -103,7 +103,7 @@ qx.Class.define("qx.ui.pageview.buttonview.Bar",
      * @type member
      * @return {void}
      */
-    _applyAppearance : function()
+    _renderAppearance : function()
     {
       if (this.getParent())
       {

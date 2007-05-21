@@ -52,7 +52,7 @@ qx.Class.define("qx.ui.listview.Header",
     this.setPaddingRight(qx.ui.core.Widget.SCROLLBAR_SIZE);
 
     // Apply appearance (Hack needed for 0.7.x layout issues)
-    this._applyAppearance();
+    this._renderAppearance();
 
     // Store configuration
     this._columns = vColumns;
