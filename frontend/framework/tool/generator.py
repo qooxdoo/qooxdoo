@@ -82,6 +82,7 @@ def getparser():
     parser.add_option("--compiled-script-file", dest="compiledScriptFile", metavar="FILENAME", help="Name of output file from compiler.")
     parser.add_option("--api-documentation-json-file", dest="apiDocumentationJsonFile", metavar="FILENAME", help="Name of JSON API file.")
     parser.add_option("--api-documentation-xml-file", dest="apiDocumentationXmlFile", metavar="FILENAME", help="Name of XML API file.")
+    parser.add_option("--api-separate-files", action="store_true", dest="apiSeparateFiles", default=False, help="Output each class documentation into a separate file.")
 
     # Encoding
     parser.add_option("--script-output-encoding", dest="scriptOutputEncoding", default="utf-8", metavar="ENCODING", help="Defines the encoding used for script output files.")
@@ -956,30 +957,49 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
             print "  * Finalizing tree..."
             api.postWorkPackage(docTree, docTree)
 
+        if options.addNewLines:
+            childPrefix = "  "
+            newLine = "\n"
+        else:
+            childPrefix = ""
+            newLine = ""
+
+
         if options.apiDocumentationXmlFile != None:
             print "  * Writing XML API file to %s" % options.apiDocumentationXmlFile
 
-            xmlContent = "<?xml version=\"1.0\" encoding=\"" + options.xmlOutputEncoding + "\"?>\n"
+            if options.apiSeparateFiles:
+                packages = api.packagesToXmlString(docTree, "", childPrefix, newLine)
+                filetool.save(options.apiDocumentationXmlFile, packages, options.scriptOutputEncoding)
 
-            if options.addNewLines:
-                xmlContent += "\n" + tree.nodeToXmlString(docTree)
+                for cls in api.classNodeIterator(docTree):
+                    classContent = "<?xml version=\"1.0\" encoding=\"" + options.xmlOutputEncoding + "\"?>\n"
+                    classContent += tree.nodeToXmlString(cls, "", childPrefix, newLine)
+                    fileName = os.path.join(os.path.dirname(options.apiDocumentationXmlFile), cls.get("fullName") + ".xml")
+                    filetool.save(fileName, classContent, options.xmlOutputEncoding)
+
             else:
-                xmlContent += tree.nodeToXmlString(docTree, "", "", "")
+                xmlContent = "<?xml version=\"1.0\" encoding=\"" + options.xmlOutputEncoding + "\"?>\n"
+                xmlContent += tree.nodeToXmlString(docTree, "", childPrefix, newLine)
+                filetool.save(options.apiDocumentationXmlFile, xmlContent, options.xmlOutputEncoding)
 
-            filetool.save(options.apiDocumentationXmlFile, xmlContent, options.xmlOutputEncoding)
+
 
         if options.apiDocumentationJsonFile != None:
             print "  * Writing JSON API file to %s" % options.apiDocumentationJsonFile
 
-            if options.addNewLines:
-                jsonContent = tree.nodeToJsonString(docTree)
+            if options.apiSeparateFiles:
+                packages = api.packagesToJsonString(docTree, "", childPrefix, newLine)
+                filetool.save(options.apiDocumentationJsonFile, packages, options.scriptOutputEncoding)
+
+                for cls in api.classNodeIterator(docTree):
+                    classContent = tree.nodeToJsonString(cls, "", childPrefix, newLine)
+                    fileName = os.path.join(os.path.dirname(options.apiDocumentationJsonFile), cls.get("fullName") + ".js")
+                    filetool.save(fileName, classContent, options.scriptOutputEncoding)
+
             else:
-                jsonContent = tree.nodeToJsonString(docTree, "", "", "")
-
-            filetool.save(options.apiDocumentationJsonFile, jsonContent, options.scriptOutputEncoding)
-
-
-
+                jsonContent = tree.nodeToJsonString(docTree, "", childPrefix, newLine)
+                filetool.save(options.apiDocumentationJsonFile, jsonContent, options.scriptOutputEncoding)
 
 
 
