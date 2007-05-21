@@ -80,7 +80,7 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
       check : "qx.ui.table.AbstractResizeBehavior",
       init : null,
       nullable : true,
-      apply : "_modifyBehavior",
+      apply : "_applyBehavior",
       event : "changeBehavior"
     }
   },
@@ -104,7 +104,7 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyBehavior : function(value, old)
+    _applyBehavior : function(value, old)
     {
       if (old != null)
       {

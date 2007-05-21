@@ -52,4 +52,15 @@
 \b_modifyTablePaneModel\b=_applyTablePaneModel
 \b_modifyScrollX\b=_applyScrollX
 \b_modifyScrollY\b=_applyScrollY
-
+\b_modifyBehavior\b=_applyBehavior
+\b_modifyDataRowRenderer\b=_applyDataRowRenderer
+\b_modifyHeaderCellHeight\b=_applyHeaderCellHeight
+\b_modifyKeepFirstVisibleRowComplete\b=_applyKeepFirstVisibleRowComplete
+\b_modifyFocusCellOnMouseMove\b=_applyFocusCellOnMouseMove
+\b_modifyMetaColumnCounts\b=_applyMetaColumnCounts
+\b_modifyColumnVisibilityButtonVisible\b=_applyColumnVisibilityButtonVisible
+\b_modifyStatusBarVisible\b=_applyStatusBarVisible
+\b_modifyTableColumnModel\b=_applyTableColumnModel
+\b_modifyTableModel\b=_applyTableModel
+\b_modifySelectionModel\b=_applySelectionModel
+\b_modifySelectionMode\b=_applySelectionMode

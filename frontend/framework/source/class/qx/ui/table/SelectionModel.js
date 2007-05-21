@@ -113,7 +113,7 @@ qx.Class.define("qx.ui.table.SelectionModel",
      * @type member
      * @param selectionMode {var} TODOC
      */
-    _modifySelectionMode : function(selectionMode)
+    _applySelectionMode : function(selectionMode)
     {
       if (selectionMode == qx.ui.table.SelectionModel.NO_SELECTION) {
         this.clearSelection();
@@ -584,7 +584,7 @@ qx.Class.define("qx.ui.table.SelectionModel",
     {
       init : statics.SINGLE_SELECTION,
       check : [ statics.NO_SELECTION, statics.SINGLE_SELECTION, statics.SINGLE_INTERVAL_SELECTION, statics.MULTIPLE_INTERVAL_SELECTION ],
-      apply : "_modifySelectionMode"
+      apply : "_applySelectionMode"
     });
   },
 
