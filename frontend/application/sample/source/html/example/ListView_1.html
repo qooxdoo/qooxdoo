@@ -59,6 +59,16 @@
         lv.setLiveResize(e.getData());
       });
 
+      var chk2 = new qx.ui.form.CheckBox("Disable ListView");
+      chk2.setLocation(170, 420);
+      qx.ui.core.ClientDocument.getInstance().add(chk2);
+
+      chk2.addEventListener("changeChecked", function(e) {
+        lv.setEnabled(!e.getData())
+      });
+
+      //lv.setEnabled(false);
+
     });
   </script>
 </body>
