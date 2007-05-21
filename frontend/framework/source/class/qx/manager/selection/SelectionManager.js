@@ -177,8 +177,6 @@ qx.Class.define("qx.manager.selection.SelectionManager",
       if (value) {
         this.renderItemAnchorState(value, true);
       }
-
-      return true;
     },
 
 
@@ -198,8 +196,6 @@ qx.Class.define("qx.manager.selection.SelectionManager",
       if (value) {
         this.renderItemLeadState(value, true);
       }
-
-      return true;
     },
 
 
