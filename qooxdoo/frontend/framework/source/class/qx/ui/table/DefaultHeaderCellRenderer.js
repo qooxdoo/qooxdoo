@@ -38,18 +38,6 @@ qx.Class.define("qx.ui.table.DefaultHeaderCellRenderer",
 
 
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function() {
-    this.base(arguments);
-  },
-
-
-
 
   /*
   *****************************************************************************
@@ -60,13 +48,13 @@ qx.Class.define("qx.ui.table.DefaultHeaderCellRenderer",
   statics :
   {
     /**
-     * (string) The state which will be set for header cells of sorted columns.
+     * {String} The state which will be set for header cells of sorted columns.
      */
     STATE_SORTED           : "sorted",
 
 
     /**
-     * (string) The state which will be set when sorting is ascending.
+     * {String} The state which will be set when sorting is ascending.
      */
     STATE_SORTED_ASCENDING : "sortedAscending"
   },
@@ -115,8 +103,6 @@ qx.Class.define("qx.ui.table.DefaultHeaderCellRenderer",
       var DefaultHeaderCellRenderer = qx.ui.table.DefaultHeaderCellRenderer;
 
       cellWidget.setLabel(cellInfo.name);
-
-      cellWidget.setIcon(cellInfo.sorted ? (cellInfo.sortedAscending ? "widget/table/ascending.png" : "widget/table/descending.png") : null);
 
       cellInfo.sorted ?
         cellWidget.addState(DefaultHeaderCellRenderer.STATE_SORTED) :

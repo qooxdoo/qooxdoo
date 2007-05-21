@@ -1822,7 +1822,10 @@ qx.Theme.define("qx.theme.classic.Appearance",
           iconPosition          : "right",
           verticalChildrenAlign : "middle",
           border                : border,
-          backgroundColor       : backgroundColor
+          backgroundColor       : backgroundColor,
+          icon                  : states.sorted ?
+            (states.sortedAscending ? "widget/table/ascending.png" : "widget/table/descending.png")
+            : null
         };
       }
     },
