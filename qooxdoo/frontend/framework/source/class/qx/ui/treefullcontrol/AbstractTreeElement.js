@@ -70,7 +70,7 @@ qx.Class.define("qx.ui.treefullcontrol.AbstractTreeElement",
     // Simplify label object rendering
     this._labelObject.setMode("text");
 
-    this.base(arguments, "horizontal");
+    this.base(arguments);
 
     if (qx.util.Validation.isValid(treeRowStructure._label)) {
       this.setLabel(treeRowStructure._label);
@@ -124,11 +124,11 @@ qx.Class.define("qx.ui.treefullcontrol.AbstractTreeElement",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
+    orientation:
+    {
+      refine : true,
+      init : "horizontal"
+    },
 
     selectable :
     {
@@ -161,7 +161,8 @@ qx.Class.define("qx.ui.treefullcontrol.AbstractTreeElement",
     /** The label/caption/text of the qx.ui.basic.Atom instance */
     label :
     {
-      apply : "_modifyLabel"
+      apply : "_modifyLabel",
+      dispose : true
     },
 
 
@@ -733,7 +734,8 @@ qx.Class.define("qx.ui.treefullcontrol.AbstractTreeElement",
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct : function()
+  {
     this._disposeObjects("_indentObject", "_iconObject", "_labelObject");
     this._disposeFields("_previousParentFolder");
   }
