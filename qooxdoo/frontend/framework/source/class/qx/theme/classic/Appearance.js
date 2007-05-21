@@ -45,6 +45,8 @@
 #embed(qx.widgettheme/menu/checkbox.gif)
 #embed(qx.widgettheme/arrows/next.gif)
 
+# Cursor
+#embed(qx.widgettheme/cursors/*)
 
 ************************************************************************* */
 
@@ -87,6 +89,46 @@ qx.Theme.define("qx.theme.classic.Appearance",
       BASICS
     ---------------------------------------------------------------------------
     */
+
+    "cursor-dnd-move" :
+    {
+      style : function(states)
+      {
+        return {
+          source : "widget/cursors/move.gif"
+        };
+      }
+    },
+
+    "cursor-dnd-copy" :
+    {
+      style : function(states)
+      {
+        return {
+          source : "widget/cursors/copy.gif"
+        };
+      }
+    },
+
+    "cursor-dnd-alias" :
+    {
+      style : function(states)
+      {
+        return {
+          source : "widget/cursors/alias.gif"
+        };
+      }
+    },
+
+    "cursor-dnd-nodrop" :
+    {
+      style : function(states)
+      {
+        return {
+          source : "widget/cursors/nodrop.gif"
+        };
+      }
+    },
 
     "label" :
     {
