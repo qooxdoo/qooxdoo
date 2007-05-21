@@ -192,29 +192,29 @@ qx.Class.define("qx.ui.pageview.tabview.Button",
     ---------------------------------------------------------------------------
     */
 
-    _modifyChecked : function(propValue, propOldValue)
+    _modifyChecked : function(value, old)
     {
-      this.base(arguments, propValue, propOldValue);
+      this.base(arguments, value, old);
 
-      this.setZIndex(propValue ? 1 : 0);
+      this.setZIndex(value ? 1 : 0);
     },
 
     /**
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyShowCloseButton : function(propValue, propOldValue)
+    _modifyShowCloseButton : function(value, old)
     {
       // if no image exists, then create one
       if (!this._closeButtonImage) {
         this._closeButtonImage = new qx.ui.basic.Image(this.getCloseButtonImage());
       }
 
-      if (propValue)
+      if (value)
       {
         this._closeButtonImage.addEventListener("click", this._ontabclose, this);
         this.add(this._closeButtonImage);
@@ -233,14 +233,14 @@ qx.Class.define("qx.ui.pageview.tabview.Button",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyCloseButtonImage : function(propValue, propOldValue)
+    _modifyCloseButtonImage : function(value, old)
     {
       if (this._closeButtonImage) {
-        this._closeButtonImage.setSource(propValue);
+        this._closeButtonImage.setSource(value);
       }
 
       return true;

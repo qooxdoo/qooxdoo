@@ -782,46 +782,46 @@ qx.Class.define("qx.io.remote.Exchange",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyImplementation : function(propValue, propOldValue)
+    _modifyImplementation : function(value, old)
     {
-      if (propOldValue)
+      if (old)
       {
-        propOldValue.removeEventListener("sending", this._onsending, this);
-        propOldValue.removeEventListener("receiving", this._onreceiving, this);
-        propOldValue.removeEventListener("completed", this._oncompleted, this);
-        propOldValue.removeEventListener("aborted", this._onabort, this);
-        propOldValue.removeEventListener("timeout", this._ontimeout, this);
-        propOldValue.removeEventListener("failed", this._onfailed, this);
+        old.removeEventListener("sending", this._onsending, this);
+        old.removeEventListener("receiving", this._onreceiving, this);
+        old.removeEventListener("completed", this._oncompleted, this);
+        old.removeEventListener("aborted", this._onabort, this);
+        old.removeEventListener("timeout", this._ontimeout, this);
+        old.removeEventListener("failed", this._onfailed, this);
       }
 
-      if (propValue)
+      if (value)
       {
         var vRequest = this.getRequest();
 
-        propValue.setUrl(vRequest.getUrl());
-        propValue.setMethod(vRequest.getMethod());
-        propValue.setAsynchronous(vRequest.getAsynchronous());
+        value.setUrl(vRequest.getUrl());
+        value.setMethod(vRequest.getMethod());
+        value.setAsynchronous(vRequest.getAsynchronous());
 
-        propValue.setUsername(vRequest.getUsername());
-        propValue.setPassword(vRequest.getPassword());
+        value.setUsername(vRequest.getUsername());
+        value.setPassword(vRequest.getPassword());
 
-        propValue.setParameters(vRequest.getParameters());
-        propValue.setFormFields(vRequest.getFormFields());
-        propValue.setRequestHeaders(vRequest.getRequestHeaders());
-        propValue.setData(vRequest.getData());
+        value.setParameters(vRequest.getParameters());
+        value.setFormFields(vRequest.getFormFields());
+        value.setRequestHeaders(vRequest.getRequestHeaders());
+        value.setData(vRequest.getData());
 
-        propValue.setResponseType(vRequest.getResponseType());
+        value.setResponseType(vRequest.getResponseType());
 
-        propValue.addEventListener("sending", this._onsending, this);
-        propValue.addEventListener("receiving", this._onreceiving, this);
-        propValue.addEventListener("completed", this._oncompleted, this);
-        propValue.addEventListener("aborted", this._onabort, this);
-        propValue.addEventListener("timeout", this._ontimeout, this);
-        propValue.addEventListener("failed", this._onfailed, this);
+        value.addEventListener("sending", this._onsending, this);
+        value.addEventListener("receiving", this._onreceiving, this);
+        value.addEventListener("completed", this._oncompleted, this);
+        value.addEventListener("aborted", this._onabort, this);
+        value.addEventListener("timeout", this._ontimeout, this);
+        value.addEventListener("failed", this._onfailed, this);
       }
 
       return true;
@@ -832,22 +832,22 @@ qx.Class.define("qx.io.remote.Exchange",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyState : function(propValue, propOldValue)
+    _modifyState : function(value, old)
     {
       var vRequest = this.getRequest();
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (qx.core.Setting.get("qx.ioRemoteDebug")) {
-          this.debug("State: " + propOldValue + " => " + propValue);
+          this.debug("State: " + old + " => " + value);
         }
       }
 
-      switch(propValue)
+      switch(value)
       {
         case "sending":
           this.createDispatchEvent("sending");
@@ -869,11 +869,11 @@ qx.Class.define("qx.io.remote.Exchange",
             break;
           }
 
-          if (this.hasEventListeners(propValue))
+          if (this.hasEventListeners(value))
           {
-            var vResponse = new qx.io.remote.Response(propValue);
+            var vResponse = new qx.io.remote.Response(value);
 
-            if (propValue == "completed")
+            if (value == "completed")
             {
               var vContent = vImpl.getResponseContent();
               vResponse.setContent(vContent);
@@ -890,11 +890,11 @@ qx.Class.define("qx.io.remote.Exchange",
                 if (qx.core.Variant.isSet("qx.debug", "on"))
                 {
                   if (qx.core.Setting.get("qx.ioRemoteDebug")) {
-                    this.debug("Altered State: " + propValue + " => failed");
+                    this.debug("Altered State: " + value + " => failed");
                   }
                 }
 
-                propValue = "failed";
+                value = "failed";
               }
             }
 
@@ -906,7 +906,7 @@ qx.Class.define("qx.io.remote.Exchange",
             //var vEventType;
 
             /*
-            switch(propValue)
+            switch(value)
             {
               case "completed":
                 vEventType = "completed";

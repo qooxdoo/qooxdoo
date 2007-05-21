@@ -91,13 +91,13 @@ qx.Class.define("qx.ui.form.TextArea",
     ---------------------------------------------------------------------------
     */
 
-    _modifyElement : function(propValue, propOldValue)
+    _modifyElement : function(value, old)
     {
-      this.base(arguments, propValue, propOldValue);
+      this.base(arguments, value, old);
       this._styleWrap();
     },
 
-    _modifyWrap : function(propValue, propOldValue) {
+    _modifyWrap : function(value, old) {
       this._styleWrap();
     },
 

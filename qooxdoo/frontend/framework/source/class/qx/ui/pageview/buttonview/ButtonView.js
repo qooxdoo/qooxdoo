@@ -90,13 +90,13 @@ qx.Class.define("qx.ui.pageview.buttonview.ButtonView",
 
   members :
   {
-    _modifyBarPosition : function(propValue, propOldValue)
+    _modifyBarPosition : function(value, old)
     {
       var vBar = this._bar;
       var vPane = this._pane;
 
       // move bar around and change orientation
-      switch(propValue)
+      switch(value)
       {
         case "top":
           vBar.moveSelfToBegin();

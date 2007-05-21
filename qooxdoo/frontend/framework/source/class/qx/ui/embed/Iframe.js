@@ -428,11 +428,11 @@ qx.Class.define("qx.ui.embed.Iframe",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyElement : function(propValue, propOldValue)
+    _modifyElement : function(value, old)
     {
       var iframeNode = this.getIframeNode();
 
@@ -457,11 +457,11 @@ qx.Class.define("qx.ui.embed.Iframe",
 
       this._applySource();
 
-      propValue.appendChild(iframeNode);
-      propValue.appendChild(blockerNode);
+      value.appendChild(iframeNode);
+      value.appendChild(blockerNode);
 
       // create basic widget
-      this.base(arguments, propValue, propOldValue);
+      this.base(arguments, value, old);
 
       return true;
     },
@@ -501,11 +501,11 @@ qx.Class.define("qx.ui.embed.Iframe",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifySource : function(propValue, propOldValue)
+    _modifySource : function(value, old)
     {
       if (this.isCreated()) {
         this._applySource();
@@ -538,14 +538,14 @@ qx.Class.define("qx.ui.embed.Iframe",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @param propName {var} TODOC
      * @param uniqModIds {var} TODOC
      * @return {Boolean} TODOC
      * @throws TODOC
      */
-    _modifyFrameName : function(propValue, propOldValue, propName, uniqModIds)
+    _modifyFrameName : function(value, old, propName, uniqModIds)
     {
       if (this.isCreated()) {
         throw new Error("Not allowed to set frame name after it has been created");

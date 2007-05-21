@@ -339,24 +339,24 @@ qx.Class.define("qx.ui.listview.ListView",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifySortBy : function(propValue, propOldValue)
+    _modifySortBy : function(value, old)
     {
-      if (propOldValue)
+      if (old)
       {
-        var vOldCell = this._getHeaderCell(propOldValue);
+        var vOldCell = this._getHeaderCell(old);
 
         if (vOldCell) {
           vOldCell.setSortOrder(null);
         }
       }
 
-      if (propValue)
+      if (value)
       {
-        var vNewCell = this._getHeaderCell(propValue);
+        var vNewCell = this._getHeaderCell(value);
 
         if (vNewCell && vNewCell.getSortOrder() == null) {
           vNewCell.setSortOrder(qx.ui.listview.HeaderCell.C_SORT_ASCENDING);

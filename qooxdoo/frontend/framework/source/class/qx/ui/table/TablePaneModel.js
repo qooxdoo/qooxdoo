@@ -130,11 +130,11 @@ qx.Class.define("qx.ui.table.TablePaneModel",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyFirstColumnX : function(propValue, propOldValue)
+    _modifyFirstColumnX : function(value, old)
     {
       this._columnCount = null;
       this.createDispatchEvent(qx.ui.table.TablePaneModel.EVENT_TYPE_MODEL_CHANGED);
@@ -146,11 +146,11 @@ qx.Class.define("qx.ui.table.TablePaneModel",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyMaxColumnCount : function(propValue, propOldValue)
+    _modifyMaxColumnCount : function(value, old)
     {
       this._columnCount = null;
       this.createDispatchEvent(qx.ui.table.TablePaneModel.EVENT_TYPE_MODEL_CHANGED);

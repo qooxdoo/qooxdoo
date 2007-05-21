@@ -315,13 +315,13 @@ qx.Class.define("qx.ui.component.ColorPopup",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyValue : function(propValue, propOldValue)
+    _modifyValue : function(value, old)
     {
-      if (propValue === null)
+      if (value === null)
       {
         this.setRed(null);
         this.setGreen(null);
@@ -329,13 +329,13 @@ qx.Class.define("qx.ui.component.ColorPopup",
       }
       else
       {
-        var rgb = qx.util.ColorUtil.stringToRgb(propValue);
+        var rgb = qx.util.ColorUtil.stringToRgb(value);
         this.setRed(rgb[0]);
         this.setGreen(rgb[1]);
         this.setBlue(rgb[2]);
       }
 
-      this._selectedPreview.setBackgroundColor(propValue);
+      this._selectedPreview.setBackgroundColor(value);
       this._rotatePreviousColors();
 
       return true;

@@ -189,14 +189,14 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyLabel : function(propValue, propOldValue)
+    _modifyLabel : function(value, old)
     {
       if (this._labelObject) {
-        this._labelObject.setText(propValue);
+        this._labelObject.setText(value);
       }
 
       return true;
@@ -207,13 +207,13 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifySelected : function(propValue, propOldValue)
+    _modifySelected : function(value, old)
     {
-      if (propValue)
+      if (value)
       {
         this.addState("selected");
         this._labelObject.addState("selected");
@@ -226,11 +226,11 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
 
       var vTree = this.getTree();
 
-      if (!vTree._fastUpdate || (propOldValue && vTree._oldItem == this))
+      if (!vTree._fastUpdate || (old && vTree._oldItem == this))
       {
         this._iconObject.setSource(this._evalCurrentIcon());
 
-        if (propValue) {
+        if (value) {
           this._iconObject.addState("selected");
         } else {
           this._iconObject.removeState("selected");
@@ -239,9 +239,9 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
 
       var vManager = this.getTree().getManager();
 
-      if (propOldValue && vManager.getSelectedItem() == this) {
+      if (old && vManager.getSelectedItem() == this) {
         vManager.deselectAll();
-      } else if (propValue && vManager.getSelectedItem() != this) {
+      } else if (value && vManager.getSelectedItem() != this) {
         vManager.setSelectedItem(this);
       }
 
@@ -546,24 +546,24 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyParent : function(propValue, propOldValue)
+    _modifyParent : function(value, old)
     {
-      this.base(arguments, propValue, propOldValue);
+      this.base(arguments, value, old);
 
       // Be sure to update previous folder also if it is closed currently
       // (plus/minus symbol)
-      if (propOldValue && !propOldValue.isDisplayable() && propOldValue.getParent() && propOldValue.getParent().isDisplayable()) {
-        propOldValue.getParent().addToTreeQueue();
+      if (old && !old.isDisplayable() && old.getParent() && old.getParent().isDisplayable()) {
+        old.getParent().addToTreeQueue();
       }
 
       // Be sure to update new folder also if it is closed currently
       // (plus/minus symbol)
-      if (propValue && !propValue.isDisplayable() && propValue.getParent() && propValue.getParent().isDisplayable()) {
-        propValue.getParent().addToTreeQueue();
+      if (value && !value.isDisplayable() && value.getParent() && value.getParent().isDisplayable()) {
+        value.getParent().addToTreeQueue();
       }
 
       return true;

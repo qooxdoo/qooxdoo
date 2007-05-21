@@ -306,11 +306,11 @@ qx.Class.define("qx.ui.tree.Tree",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyUseTreeLines : function(propValue, propOldValue)
+    _modifyUseTreeLines : function(value, old)
     {
       if (this._initialLayoutDone) {
         this._updateIndent();

@@ -576,7 +576,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
+     * @param value {var} Current value
      * @return {Boolean}
      */
     _checkIdDescriptionSeparator : function(propVal)
@@ -590,7 +590,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
+     * @param value {var} Current value
      * @return {void}
      */
     _modifyIdDescriptionSeparator : function(propVal)
@@ -607,7 +607,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
+     * @param value {var} Current value
      * @return {void}
      */
     _modifyIdColumnVisible : function(propVal)
@@ -623,7 +623,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      * Post-processing after property showColumnHeaders changes.
      *
      * @type member
-     * @param propValue {var} Current value
+     * @param value {var} Current value
      * @return {void}
      */
     _modifyShowColumnHeaders: function(propVal)
@@ -639,17 +639,17 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      * Post-processing after property editable changes.
      *
      * @type member
-     * @param propValue {var} Current value
+     * @param value {var} Current value
      * @return {void}
      */
-    _modifyEditable : function(propValue) /* , propOldValue, propData */
+    _modifyEditable : function(value) /* , old, propData */
     {
 
       var f = this._field;
-      f.setReadOnly(!propValue);
-      f.setCursor(propValue ? null : "default");
+      f.setReadOnly(!value);
+      f.setCursor(value ? null : "default");
       // When turning off editable, maybe the current value isn't valid
-      /*if (!propValue && this._list)
+      /*if (!value && this._list)
       {
         this.setValue(this.getValue());
       }*/
@@ -660,10 +660,10 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
+     * @param value {var} Current value
      * @return {Boolean} TODOC
      */
-    _modifyValue : function(propValue/*, propOldValue, propData */)
+    _modifyValue : function(value/*, old, propData */)
     {
       this._fromValue = true;
       try
@@ -671,11 +671,11 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
         var values = this.getSelection();
         var i = -1;
 
-        if (propValue != null)
+        if (value != null)
         {
           for (var i=0; i<values.length; i++)
           {
-            if (propValue == values[i][0]) {
+            if (value == values[i][0]) {
               break;
             }
           }
@@ -684,7 +684,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
           }
         }
         if (this.getEditable()) {
-          this._field.setValue(propValue);
+          this._field.setValue(value);
         }
         // only do this if we called setValue separately
         // and not from the property "selected".

@@ -294,15 +294,15 @@ qx.Class.define("qx.ui.layout.BoxLayout",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyOrientation : function(propValue, propOldValue)
+    _modifyOrientation : function(value, old)
     {
       // update fast access variables
-      this._layoutHorizontal = propValue == "horizontal";
-      this._layoutVertical = propValue == "vertical";
+      this._layoutHorizontal = value == "horizontal";
+      this._layoutVertical = value == "vertical";
 
       // Layout Implementation
       if (this._layoutImpl)
@@ -311,45 +311,45 @@ qx.Class.define("qx.ui.layout.BoxLayout",
         this._layoutImpl = null;
       }
 
-      if (propValue) {
+      if (value) {
         this._layoutImpl = this._createLayoutImpl();
       }
 
       // call layout helper
-      this._doLayoutOrder(propValue, propOldValue);
+      this._doLayoutOrder(value, old);
 
       this.addToQueueRuntime("orientation");
     },
 
-    _applySpacing : function(propValue, propOldValue)
+    _applySpacing : function(value, old)
     {
       this._doLayout();
       this.addToQueueRuntime("spacing");
     },
 
-    _applyHorizontalChildrenAlign : function(propValue, propOldValue)
+    _applyHorizontalChildrenAlign : function(value, old)
     {
       this._doLayoutOrder();
       this.addToQueueRuntime("horizontalChildrenAlign");
     },
 
-    _applyVerticalChildrenAlign : function(propValue, propOldValue)
+    _applyVerticalChildrenAlign : function(value, old)
     {
       this._doLayoutOrder();
       this.addToQueueRuntime("verticalChildrenAlign");
     },
 
-    _applyReverseChildrenOrder : function(propValue, propOldValue)
+    _applyReverseChildrenOrder : function(value, old)
     {
       this._doLayoutOrder();
       this.addToQueueRuntime("reverseChildrenOrder");
     },
 
-    _applyStretchChildrenOrthogonalAxis : function(propValue, propOldValue) {
+    _applyStretchChildrenOrthogonalAxis : function(value, old) {
       this.addToQueueRuntime("stretchChildrenOrthogonalAxis");
     },
 
-    _applyUseAdvancedFlexAllocation : function(propValue, propOldValue) {
+    _applyUseAdvancedFlexAllocation : function(value, old) {
       this.addToQueueRuntime("useAdvancedFlexAllocation");
     },
 
@@ -359,8 +359,8 @@ qx.Class.define("qx.ui.layout.BoxLayout",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {var} TODOC
      */
     _doLayoutOrder : function()
@@ -377,8 +377,8 @@ qx.Class.define("qx.ui.layout.BoxLayout",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
     _doLayout : function()

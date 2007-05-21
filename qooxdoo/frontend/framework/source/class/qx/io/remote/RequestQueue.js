@@ -372,17 +372,17 @@ qx.Class.define("qx.io.remote.RequestQueue",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyEnabled : function(propValue, propOldValue)
+    _modifyEnabled : function(value, old)
     {
-      if (propValue) {
+      if (value) {
         this._check();
       }
 
-      this._timer.setEnabled(propValue);
+      this._timer.setEnabled(value);
     },
 
 

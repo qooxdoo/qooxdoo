@@ -116,14 +116,14 @@ qx.Class.define("qx.ui.pageview.AbstractPage",
 
   members :
   {
-    _modifyButton : function(propValue, propOldValue)
+    _modifyButton : function(value, old)
     {
-      if (propOldValue) {
-        propOldValue.setPage(null);
+      if (old) {
+        old.setPage(null);
       }
 
-      if (propValue) {
-        propValue.setPage(this);
+      if (value) {
+        value.setPage(this);
       }
     }
   }

@@ -197,26 +197,26 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyMenu : function(propValue, propOldValue)
+    _modifyMenu : function(value, old)
     {
-      if (propOldValue)
+      if (old)
       {
-        propOldValue.setOpener(null);
+        old.setOpener(null);
 
-        propOldValue.removeEventListener("appear", this._onmenuappear, this);
-        propOldValue.removeEventListener("disappear", this._onmenudisappear, this);
+        old.removeEventListener("appear", this._onmenuappear, this);
+        old.removeEventListener("disappear", this._onmenudisappear, this);
       }
 
-      if (propValue)
+      if (value)
       {
-        propValue.setOpener(this);
+        value.setOpener(this);
 
-        propValue.addEventListener("appear", this._onmenuappear, this);
-        propValue.addEventListener("disappear", this._onmenudisappear, this);
+        value.addEventListener("appear", this._onmenuappear, this);
+        value.addEventListener("disappear", this._onmenudisappear, this);
       }
 
       return true;

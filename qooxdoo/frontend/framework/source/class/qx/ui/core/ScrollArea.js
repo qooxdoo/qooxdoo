@@ -52,17 +52,17 @@ qx.Class.define("qx.ui.core.ScrollArea",
 
   members :
   {
-    _modifyElement : function(propValue, propOldValue)
+    _modifyElement : function(value, old)
     {
-      this.base(arguments, propValue, propOldValue);
+      this.base(arguments, value, old);
 
-      if (propValue)
+      if (value)
       {
         // Register inline event
         if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-          propValue.attachEvent("onscroll", this.__onscroll);
+          value.attachEvent("onscroll", this.__onscroll);
         } else {
-          propValue.addEventListener("scroll", this.__onscroll, false);
+          value.addEventListener("scroll", this.__onscroll, false);
         }
       }
 

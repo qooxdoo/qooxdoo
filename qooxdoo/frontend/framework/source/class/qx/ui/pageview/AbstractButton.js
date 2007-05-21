@@ -150,18 +150,18 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyManager : function(propValue, propOldValue)
+    _modifyManager : function(value, old)
     {
-      if (propOldValue) {
-        propOldValue.remove(this);
+      if (old) {
+        old.remove(this);
       }
 
-      if (propValue) {
-        propValue.add(this);
+      if (value) {
+        value.add(this);
       }
     },
 
@@ -170,20 +170,20 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyParent : function(propValue, propOldValue)
+    _modifyParent : function(value, old)
     {
-      this.base(arguments, propValue, propOldValue);
+      this.base(arguments, value, old);
 
-      if (propOldValue) {
-        propOldValue.getManager().remove(this);
+      if (old) {
+        old.getManager().remove(this);
       }
 
-      if (propValue) {
-        propValue.getManager().add(this);
+      if (value) {
+        value.getManager().add(this);
       }
     },
 
@@ -192,20 +192,20 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyPage : function(propValue, propOldValue)
+    _modifyPage : function(value, old)
     {
-      if (propOldValue) {
-        propOldValue.setButton(null);
+      if (old) {
+        old.setButton(null);
       }
 
-      if (propValue)
+      if (value)
       {
-        propValue.setButton(this);
-        this.getChecked() ? propValue.show() : propValue.hide();
+        value.setButton(this);
+        this.getChecked() ? value.show() : value.hide();
       }
     },
 
@@ -214,22 +214,22 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyChecked : function(propValue, propOldValue)
+    _modifyChecked : function(value, old)
     {
       if (this._hasParent)
       {
         var vManager = this.getManager();
 
         if (vManager) {
-          vManager.handleItemChecked(this, propValue);
+          vManager.handleItemChecked(this, value);
         }
       }
 
-      propValue ? this.addState("checked") : this.removeState("checked");
+      value ? this.addState("checked") : this.removeState("checked");
 
       var vPage = this.getPage();
 
@@ -243,14 +243,14 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyName : function(propValue, propOldValue)
+    _modifyName : function(value, old)
     {
       if (this.getManager()) {
-        this.getManager().setName(propValue);
+        this.getManager().setName(value);
       }
     },
 

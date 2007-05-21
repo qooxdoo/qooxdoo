@@ -142,14 +142,14 @@ qx.Class.define("qx.ui.component.DateChooserButton",
      * Modifier for property targetWidget.
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} true if modification succeeded
-     * @throws exception if propValue is not instance of qx.ui.core.Widget or does not have setter and getter for property value
+     * @throws exception if value is not instance of qx.ui.core.Widget or does not have setter and getter for property value
      */
-    _modifyTargetWidget : function(propValue, propOldValue)
+    _modifyTargetWidget : function(value, old)
     {
-      if (propValue instanceof qx.ui.core.Widget && qx.util.Validation.isValidFunction(propValue.setValue) && qx.util.Validation.isValidFunction(propValue.getValue)) {
+      if (value instanceof qx.ui.core.Widget && qx.util.Validation.isValidFunction(value.setValue) && qx.util.Validation.isValidFunction(value.getValue)) {
         return true;
       } else {
         throw new error("TargetWidget must be an instance of qx.ui.core.Widget and has setValue and getValue methods");
@@ -161,13 +161,13 @@ qx.Class.define("qx.ui.component.DateChooserButton",
      * Modifier for property chooserTitle.
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} true if modification succeeded
      */
-    _modifyChooserTitle : function(propValue, propOldValue)
+    _modifyChooserTitle : function(value, old)
     {
-      this._chooserWindow.setCaption(propValue);
+      this._chooserWindow.setCaption(value);
       return true;
     },
 
@@ -176,13 +176,13 @@ qx.Class.define("qx.ui.component.DateChooserButton",
      * Modifier for property dateFormatSize.
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} true if modification succeeded
      */
-    _modifyDateFormatSize : function(propValue, propOldValue)
+    _modifyDateFormatSize : function(value, old)
     {
-      this._changeLocale(propValue);
+      this._changeLocale(value);
       return true;
     },
 
