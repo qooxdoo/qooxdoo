@@ -1780,7 +1780,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
           border  : border,
           padding : padding,
           verticalChildrenAlign : "middle",
-          backgroundColor       : states.abandoned ? "button-abandoned" : "button"
+          backgroundColor       : states.abandoned ? "button-abandoned" : "button",
+          icon : "widget/table/selectColumnOrder.png"
         };
       }
     },
