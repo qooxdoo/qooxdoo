@@ -72,13 +72,15 @@ qx.Class.define("qx.ui.embed.Iframe",
   *****************************************************************************
   */
 
-  events: {
-
+  events:
+  {
     /**
      * The "load" event is fired after the iframe content has successfully been loaded.
      */
     "load" : "qx.event.type.Event"
   },
+
+
 
 
 
@@ -238,16 +240,6 @@ qx.Class.define("qx.ui.embed.Iframe",
 
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      INTERNAL PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
-    // iframe DOM node
-    _iframeNode : null,
-
-
     /**
      * Get the DOM element of the iframe.
      *
@@ -268,9 +260,6 @@ qx.Class.define("qx.ui.embed.Iframe",
     setIframeNode : function(vIframeNode) {
       return this._iframeNode = vIframeNode;
     },
-
-    // blocker div DOM node
-    _blockerNode : null,
 
 
     /**
@@ -366,8 +355,36 @@ qx.Class.define("qx.ui.embed.Iframe",
      *
      * @type member
      */
-    reload : function() {
-      this._applySource();
+    reload : function()
+    {
+      var href = this.queryCurrentUrl();
+
+      if (href) {
+        this.setSource(href);
+      } else {
+        this._applySource();
+      }
+    },
+
+
+    /**
+     * Returns the current (served) URL inside the iframe
+     *
+     * @return {String} Returns the location href or null (if a query is not possible/allowed)
+     */
+    queryCurrentUrl : function()
+    {
+      var doc = this.getContentDocument();
+
+      try
+      {
+        if (doc && doc.location) {
+          return doc.location.href;
+        }
+      }
+      catch(ex) {};
+
+      return null;
     },
 
 
