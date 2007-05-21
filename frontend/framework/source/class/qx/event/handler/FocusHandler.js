@@ -60,9 +60,8 @@ qx.Class.define("qx.event.handler.FocusHandler",
   *****************************************************************************
   */
 
-  statics :
-  {
-    mouseFocus   : false,
+  statics : {
+    mouseFocus : false
   },
 
 
