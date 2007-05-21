@@ -65,8 +65,6 @@ qx.Class.define("qx.ui.core.ScrollArea",
           value.addEventListener("scroll", this.__onscroll, false);
         }
       }
-
-      return true;
     },
 
     _onscroll : function(e) {

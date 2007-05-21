@@ -2872,8 +2872,6 @@ qx.Class.define("qx.ui.core.Widget",
           this._afterDisappear();
         }
       }
-
-      return true;
     },
 
 
@@ -3032,8 +3030,6 @@ qx.Class.define("qx.ui.core.Widget",
       {
         this._element = this._style = null;
       }
-
-      return true;
     },
 
 
@@ -5750,7 +5746,7 @@ qx.Class.define("qx.ui.core.Widget",
     _modifyFocused : function(value, old)
     {
       if (!this.isCreated()) {
-        return true;
+        return;
       }
 
       var vFocusRoot = this.getFocusRoot();
@@ -5773,8 +5769,6 @@ qx.Class.define("qx.ui.core.Widget",
           this._visualizeBlur();
         }
       }
-
-      return true;
     },
 
 
@@ -5792,7 +5786,6 @@ qx.Class.define("qx.ui.core.Widget",
       "mshtml" : function(value, old)
       {
         this.setHtmlProperty("hideFocus", value);
-        return true;
       },
 
       // Need no implementation for others then mshtml, because
@@ -5820,7 +5813,6 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       this.removeState("focused");
-      return true;
     },
 
 
@@ -5840,7 +5832,6 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       this.addState("focused");
-      return true;
     },
 
 
@@ -5898,8 +5889,6 @@ qx.Class.define("qx.ui.core.Widget",
       } else if (value) {
         vMgr.setCaptureWidget(this);
       }
-
-      return true;
     },
 
 
@@ -6021,8 +6010,6 @@ qx.Class.define("qx.ui.core.Widget",
         } else {
           this.setStyleProperty("MozUserSelect", "none");
         }
-
-        return true;
       },
 
       "opera" : qx.lang.Function.returnTrue,
@@ -6035,8 +6022,6 @@ qx.Class.define("qx.ui.core.Widget",
         } else {
           this.setStyleProperty("KhtmlUserSelect", "none");
         }
-
-        return true;
       },
 
       "default" : function(value, old)
@@ -6082,8 +6067,6 @@ qx.Class.define("qx.ui.core.Widget",
         } else {
           this.setStyleProperty("filter", ("Alpha(Opacity=" + Math.round(value * 100) + ")"));
         }
-
-        return true;
       },
 
       "default" : function(value, old)
@@ -6112,8 +6095,6 @@ qx.Class.define("qx.ui.core.Widget",
 
           this.setStyleProperty("opacity", value);
         }
-
-        return true;
       }
     }),
 
@@ -6152,8 +6133,6 @@ qx.Class.define("qx.ui.core.Widget",
       {
         this.removeStyleProperty("cursor");
       }
-
-      return true;
     },
 
 
@@ -6365,8 +6344,6 @@ qx.Class.define("qx.ui.core.Widget",
       // Invalidate Frame
       this._invalidateFrameWidth();
       this._invalidateFrameHeight();
-
-      return true;
     },
 
 

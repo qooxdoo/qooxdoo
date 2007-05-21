@@ -427,8 +427,6 @@ qx.Class.define("qx.ui.basic.Atom",
           this.setReverseChildrenOrder(value == "right");
           break;
       }
-
-      return true;
     },
 
 
@@ -443,8 +441,6 @@ qx.Class.define("qx.ui.basic.Atom",
     {
       this._handleIcon();
       this._handleLabel();
-
-      return true;
     },
 
 
@@ -462,8 +458,6 @@ qx.Class.define("qx.ui.basic.Atom",
       }
 
       this._handleLabel();
-
-      return true;
     },
 
 
@@ -478,8 +472,6 @@ qx.Class.define("qx.ui.basic.Atom",
     {
       this._updateIcon();
       this._handleIcon();
-
-      return true;
     },
 
 
@@ -494,8 +486,6 @@ qx.Class.define("qx.ui.basic.Atom",
     {
       this._updateIcon();
       this._handleIcon();
-
-      return true;
     },
 
 
@@ -506,10 +496,8 @@ qx.Class.define("qx.ui.basic.Atom",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyIconWidth : function(value, old)
-    {
+    _modifyIconWidth : function(value, old) {
       this._iconObject.setWidth(value);
-      return true;
     },
 
 
@@ -520,10 +508,8 @@ qx.Class.define("qx.ui.basic.Atom",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyIconHeight : function(value, old)
-    {
+    _modifyIconHeight : function(value, old) {
       this._iconObject.setHeight(value);
-      return true;
     },
 
 

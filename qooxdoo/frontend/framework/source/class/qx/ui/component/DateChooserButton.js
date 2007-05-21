@@ -165,10 +165,8 @@ qx.Class.define("qx.ui.component.DateChooserButton",
      * @param old {var} Previous value
      * @return {Boolean} true if modification succeeded
      */
-    _modifyChooserTitle : function(value, old)
-    {
+    _modifyChooserTitle : function(value, old) {
       this._chooserWindow.setCaption(value);
-      return true;
     },
 
 
@@ -180,10 +178,8 @@ qx.Class.define("qx.ui.component.DateChooserButton",
      * @param old {var} Previous value
      * @return {Boolean} true if modification succeeded
      */
-    _modifyDateFormatSize : function(value, old)
-    {
+    _modifyDateFormatSize : function(value, old) {
       this._changeLocale(value);
-      return true;
     },
 
 

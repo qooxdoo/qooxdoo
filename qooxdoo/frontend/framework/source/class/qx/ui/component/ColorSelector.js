@@ -602,8 +602,6 @@ qx.Class.define("qx.ui.component.ColorSelector",
       if (this._updateContext === "redModifier") {
         this._updateContext = null;
       }
-
-      return true;
     },
 
 
@@ -641,8 +639,6 @@ qx.Class.define("qx.ui.component.ColorSelector",
       if (this._updateContext === "greenModifier") {
         this._updateContext = null;
       }
-
-      return true;
     },
 
 
@@ -680,8 +676,6 @@ qx.Class.define("qx.ui.component.ColorSelector",
       if (this._updateContext === "blueModifier") {
         this._updateContext = null;
       }
-
-      return true;
     },
 
 
@@ -730,8 +724,6 @@ qx.Class.define("qx.ui.component.ColorSelector",
       if (this._updateContext === "hueModifier") {
         this._updateContext = null;
       }
-
-      return true;
     },
 
 
@@ -772,8 +764,6 @@ qx.Class.define("qx.ui.component.ColorSelector",
       if (this._updateContext === "saturationModifier") {
         this._updateContext = null;
       }
-
-      return true;
     },
 
 
@@ -816,8 +806,6 @@ qx.Class.define("qx.ui.component.ColorSelector",
       if (this._updateContext === "brightnessModifier") {
         this._updateContext = null;
       }
-
-      return true;
     },
 
 

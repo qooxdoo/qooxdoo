@@ -232,8 +232,6 @@ qx.Class.define("qx.ui.core.ScrollBar",
       if (!this._internalValueChange && this._isCreated) {
         this._positionKnob(value);
       }
-
-      return true;
     },
 
     /**
@@ -253,8 +251,6 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
       // recheck the value
       this.setValue(this._checkValue(this.getValue()));
-
-      return true;
     },
 
     // property modifier
