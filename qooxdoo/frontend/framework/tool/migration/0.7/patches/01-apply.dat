@@ -128,6 +128,40 @@
 \b_modifyAlignTabsToLeft\b=_applyAlignTabsToLeft
 \b_modifyPlaceBarOnTop\b=_applyPlaceBarOnTop
 
+######################################
+# qx.ui.*
+######################################
+
+\b_modifyHoverItem\b=_applyHoverItem
+\b_modifyOpenItem\b=_applyOpenItem
+\b_modifyIcon\b=_applyIcon
+\b_modifySortBy\b=_applySortBy
+\b_modifySortOrder\b=_applySortOrder
+\b_modifyReadOnly\b=_applyReadOnly
+\b_modifyMaxLength\b=_applyMaxLength
+\b_modifyValue\b=_applyValue
+\b_modifyCheckValueFunction\b=_applyCheckValueFunction
+\b_modifyEditable\b=_applyEditable
+\b_modifyIncrementAmound\b=_applyIncrementAmound
+\b_modifyType\b=_applyType
+\b_modifyShowColumnHeaders\b=_applyShowColumnHeaders
+\b_modifyIdDescriptionSeparator\b=_applyIdDescriptionSeparator
+\b_modifyShowOnTextField\b=_applyShowOnTextField
+\b_modifyText\b=_applyText
+\b_modifyHtml\b=_applyHtml
+\b_modifyFrameName\b=_applyFrameName
+\b_modifySource\b=_applySource
+\b_modifyPlay\b=_applyPlay
+\b_modifyLoop\b=_applyLoop
+\b_modifyVersion\b=_applyVersion
+\b_modifyQuality\b=_applyQuality
+\b_modifyScale\b=_applyScale
+\b_modifyWmode\b=_applyWmode
+\b_modifyMaximum\b=_applyMaximum
+\b_modifyFocusedChild\b=_applyFocusedChild
+\b_modifyFocusHandler\b=_applyFocusHandler
+\b_modifyGlobalCursor\b=_applyGlobalCursor
+
 
 
 #\b_modify\b=_apply
