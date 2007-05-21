@@ -23,3 +23,6 @@ qx\.renderer\.border\.BorderPresets\.getThinInset\(\)="inset-thin"
 qx\.renderer\.border\.BorderPresets\.getThinOutset\(\)="outset-thin"
 qx\.renderer\.border\.BorderPresets\.getVerticalDivider\(\)="divider-vertical"
 qx\.renderer\.border\.BorderPresets\.getHorizontalDivider\(\)="divider-horizontal"
+
+
+\.setBorder\([\"\'](.*? .*?)[\"\']\)=.setBorder(qx.renderer.border.Border.fromString("\1"))
