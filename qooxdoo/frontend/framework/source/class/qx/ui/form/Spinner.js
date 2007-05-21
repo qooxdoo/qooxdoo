@@ -945,7 +945,7 @@ qx.Class.define("qx.ui.form.Spinner",
       }
       else
       {
-        value = this.getManager().getValue() +
+        var value = this.getManager().getValue() +
                                    ((this._intervalIncrease ? 1 : -1) *
                                     this._computedIncrementAmount);
 
