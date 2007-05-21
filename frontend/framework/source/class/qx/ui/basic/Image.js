@@ -306,31 +306,31 @@ qx.Class.define("qx.ui.basic.Image",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifySource : function(propValue, propOldValue)
+    _modifySource : function(value, old)
     {
-      if (propValue && typeof qx.manager.object.ImageManager.getInstance()._sources[propValue] === "undefined") {
-        qx.manager.object.ImageManager.getInstance()._sources[propValue] = 0;
+      if (value && typeof qx.manager.object.ImageManager.getInstance()._sources[value] === "undefined") {
+        qx.manager.object.ImageManager.getInstance()._sources[value] = 0;
       }
 
-      if (propOldValue)
+      if (old)
       {
-        if (qx.manager.object.ImageManager.getInstance()._sources[propOldValue] <= 1) {
-          delete qx.manager.object.ImageManager.getInstance()._sources[propOldValue];
+        if (qx.manager.object.ImageManager.getInstance()._sources[old] <= 1) {
+          delete qx.manager.object.ImageManager.getInstance()._sources[old];
         } else {
-          qx.manager.object.ImageManager.getInstance()._sources[propOldValue]--;
+          qx.manager.object.ImageManager.getInstance()._sources[old]--;
         }
       }
 
       if (this.isCreated())
       {
-        if (propValue) {
-          this.setPreloader(qx.manager.object.ImagePreloaderManager.getInstance().create(qx.manager.object.AliasManager.getInstance().resolvePath(propValue)));
+        if (value) {
+          this.setPreloader(qx.manager.object.ImagePreloaderManager.getInstance().create(qx.manager.object.AliasManager.getInstance().resolvePath(value)));
         }
-        else if (propOldValue)
+        else if (old)
         {
           this._resetContent();
           this.setPreloader(null);
@@ -345,20 +345,20 @@ qx.Class.define("qx.ui.basic.Image",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyPreloader : function(propValue, propOldValue)
+    _modifyPreloader : function(value, old)
     {
-      if (propOldValue)
+      if (old)
       {
         // remove event connection
-        propOldValue.removeEventListener("load", this._onload, this);
-        propOldValue.removeEventListener("error", this._onerror, this);
+        old.removeEventListener("load", this._onload, this);
+        old.removeEventListener("error", this._onerror, this);
       }
 
-      if (propValue)
+      if (value)
       {
         // Register to image manager
         qx.manager.object.ImageManager.getInstance().add(this);
@@ -367,15 +367,15 @@ qx.Class.define("qx.ui.basic.Image",
         // will not be executed (prevent recursion)
         this.setLoaded(false);
 
-        if (propValue.isErroneous()) {
+        if (value.isErroneous()) {
           this._onerror();
-        } else if (propValue.isLoaded()) {
+        } else if (value.isLoaded()) {
           this.setLoaded(true);
         }
         else
         {
-          propValue.addEventListener("load", this._onload, this);
-          propValue.addEventListener("error", this._onerror, this);
+          value.addEventListener("load", this._onload, this);
+          value.addEventListener("error", this._onerror, this);
         }
       }
       else
@@ -394,17 +394,17 @@ qx.Class.define("qx.ui.basic.Image",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyLoaded : function(propValue, propOldValue)
+    _modifyLoaded : function(value, old)
     {
-      if (propValue && this.isCreated())
+      if (value && this.isCreated())
       {
         this._renderContent();
       }
-      else if (!propValue)
+      else if (!value)
       {
         this._invalidatePreferredInnerWidth();
         this._invalidatePreferredInnerHeight();
@@ -418,13 +418,13 @@ qx.Class.define("qx.ui.basic.Image",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyElement : function(propValue, propOldValue)
+    _modifyElement : function(value, old)
     {
-      if (propValue)
+      if (value)
       {
         if (!this._image)
         {
@@ -461,13 +461,13 @@ qx.Class.define("qx.ui.basic.Image",
           }
         }
 
-        propValue.appendChild(this._image);
+        value.appendChild(this._image);
       }
 
       // call widget implmentation
-      this.base(arguments, propValue, propOldValue);
+      this.base(arguments, value, old);
 
-      if (propValue)
+      if (value)
       {
         try
         {
@@ -521,29 +521,29 @@ qx.Class.define("qx.ui.basic.Image",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {void}
-     * @signature function(propValue, propOldValue)
+     * @signature function(value, old)
      */
     _modifyEnabled : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(propValue, propOldValue)
+      "mshtml" : function(value, old)
       {
         if (this._image) {
           this._applyEnabled();
         }
 
-        return this.base(arguments, propValue, propOldValue);
+        return this.base(arguments, value, old);
       },
 
-      "default" : function(propValue, propOldValue)
+      "default" : function(value, old)
       {
         if (this._image) {
           this._applyEnabled();
         }
 
-        return this.base(arguments, propValue, propOldValue);
+        return this.base(arguments, value, old);
       }
     }),
 

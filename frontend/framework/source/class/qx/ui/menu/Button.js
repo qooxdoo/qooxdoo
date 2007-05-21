@@ -318,19 +318,19 @@ qx.Class.define("qx.ui.menu.Button",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyIcon : function(propValue, propOldValue)
+    _modifyIcon : function(value, old)
     {
-      this._iconObject.setSource(propValue);
+      this._iconObject.setSource(value);
 
-      if (qx.util.Validation.isValidString(propValue))
+      if (qx.util.Validation.isValidString(value))
       {
         this._hasIcon = true;
 
-        if (qx.util.Validation.isInvalidString(propOldValue)) {
+        if (qx.util.Validation.isInvalidString(old)) {
           this.addAtBegin(this._iconObject);
         }
       }
@@ -348,19 +348,19 @@ qx.Class.define("qx.ui.menu.Button",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyLabel : function(propValue, propOldValue)
+    _modifyLabel : function(value, old)
     {
-      this._labelObject.setText(propValue);
+      this._labelObject.setText(value);
 
-      if ((typeof propValue == "string" && propValue != "") || propValue instanceof qx.locale.LocalizedString)
+      if ((typeof value == "string" && value != "") || value instanceof qx.locale.LocalizedString)
       {
         this._hasLabel = true;
 
-        if (!((typeof propOldValue == "string" && propOldValue != "") || propOldValue instanceof qx.locale.LocalizedString)) {
+        if (!((typeof old == "string" && old != "") || old instanceof qx.locale.LocalizedString)) {
           this.addAt(this._labelObject, this.getFirstChild() == this._iconObject ? 1 : 0);
         }
       }
@@ -378,13 +378,13 @@ qx.Class.define("qx.ui.menu.Button",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyCommand : function(propValue, propOldValue)
+    _modifyCommand : function(value, old)
     {
-      var vHtml = propValue ? propValue.toString() : "";
+      var vHtml = value ? value.toString() : "";
 
       this._shortcutObject.setText(vHtml);
 
@@ -392,7 +392,7 @@ qx.Class.define("qx.ui.menu.Button",
       {
         this._hasShortcut = true;
 
-        var vOldHtml = propOldValue ? propOldValue.getShortcut() : "";
+        var vOldHtml = old ? old.getShortcut() : "";
 
         if (qx.util.Validation.isInvalidString(vOldHtml))
         {
@@ -417,17 +417,17 @@ qx.Class.define("qx.ui.menu.Button",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyMenu : function(propValue, propOldValue)
+    _modifyMenu : function(value, old)
     {
-      if (propValue)
+      if (value)
       {
         this._hasMenu = true;
 
-        if (qx.util.Validation.isInvalidObject(propOldValue)) {
+        if (qx.util.Validation.isInvalidObject(old)) {
           this.addAtEnd(this._arrowObject);
         }
       }

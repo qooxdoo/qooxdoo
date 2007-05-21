@@ -97,15 +97,15 @@ qx.Class.define("qx.ui.pageview.tabview.TabView",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyAlignTabsToLeft : function(propValue, propOldValue)
+    _modifyAlignTabsToLeft : function(value, old)
     {
       var vBar = this._bar;
 
-      vBar.setHorizontalChildrenAlign(propValue ? "left" : "right");
+      vBar.setHorizontalChildrenAlign(value ? "left" : "right");
 
       // force re-apply of states for all tabs
       vBar._addChildrenToStateQueue();
@@ -116,18 +116,18 @@ qx.Class.define("qx.ui.pageview.tabview.TabView",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyPlaceBarOnTop : function(propValue, propOldValue)
+    _modifyPlaceBarOnTop : function(value, old)
     {
       // This does not work if we use flexible zones
-      // this.setReverseChildrenOrder(!propValue);
+      // this.setReverseChildrenOrder(!value);
       var vBar = this._bar;
 
       // move bar around
-      if (propValue) {
+      if (value) {
         vBar.moveSelfToBegin();
       } else {
         vBar.moveSelfToEnd();

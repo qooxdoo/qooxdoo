@@ -376,18 +376,18 @@ qx.Class.define("qx.ui.menu.Menu",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyHoverItem : function(propValue, propOldValue)
+    _modifyHoverItem : function(value, old)
     {
-      if (propOldValue) {
-        propOldValue.removeState("over");
+      if (old) {
+        old.removeState("over");
       }
 
-      if (propValue) {
-        propValue.addState("over");
+      if (value) {
+        value.addState("over");
       }
 
       return true;
@@ -398,17 +398,17 @@ qx.Class.define("qx.ui.menu.Menu",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyOpenItem : function(propValue, propOldValue)
+    _modifyOpenItem : function(value, old)
     {
       var vMakeActive = false;
 
-      if (propOldValue)
+      if (old)
       {
-        var vOldSub = propOldValue.getMenu();
+        var vOldSub = old.getMenu();
 
         if (vOldSub)
         {
@@ -418,16 +418,16 @@ qx.Class.define("qx.ui.menu.Menu",
         }
       }
 
-      if (propValue)
+      if (value)
       {
-        var vSub = propValue.getMenu();
+        var vSub = value.getMenu();
 
         if (vSub)
         {
-          vSub.setOpener(propValue);
+          vSub.setOpener(value);
           vSub.setParentMenu(this);
 
-          var pl = propValue.getElement();
+          var pl = value.getElement();
           var el = this.getElement();
 
           vSub.setTop(qx.html.Location.getPageBoxTop(pl) + this.getSubMenuVerticalOffset());

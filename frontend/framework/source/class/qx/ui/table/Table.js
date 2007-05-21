@@ -497,19 +497,19 @@ qx.Class.define("qx.ui.table.Table",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifySelectionModel : function(propValue, propOldValue)
+    _modifySelectionModel : function(value, old)
     {
-      this._selectionManager.setSelectionModel(propValue);
+      this._selectionManager.setSelectionModel(value);
 
-      if (propOldValue != null) {
-        propOldValue.removeEventListener("changeSelection", this._onSelectionChanged, this);
+      if (old != null) {
+        old.removeEventListener("changeSelection", this._onSelectionChanged, this);
       }
 
-      propValue.addEventListener("changeSelection", this._onSelectionChanged, this);
+      value.addEventListener("changeSelection", this._onSelectionChanged, this);
 
       return true;
     },
@@ -519,22 +519,22 @@ qx.Class.define("qx.ui.table.Table",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyTableModel : function(propValue, propOldValue)
+    _modifyTableModel : function(value, old)
     {
-      this.getTableColumnModel().init(propValue.getColumnCount(), this);
+      this.getTableColumnModel().init(value.getColumnCount(), this);
 
-      if (propOldValue != null)
+      if (old != null)
       {
-        propOldValue.removeEventListener(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
-        propOldValue.removeEventListener(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
+        old.removeEventListener(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
+        old.removeEventListener(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
       }
 
-      propValue.addEventListener(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
-      propValue.addEventListener(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
+      value.addEventListener(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
+      value.addEventListener(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
 
       // Update the status bar
       this._updateStatusBar();
@@ -547,22 +547,22 @@ qx.Class.define("qx.ui.table.Table",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyTableColumnModel : function(propValue, propOldValue)
+    _modifyTableColumnModel : function(value, old)
     {
-      if (propOldValue != null)
+      if (old != null)
       {
-        propOldValue.removeEventListener("visibilityChanged", this._onColVisibilityChanged, this);
-        propOldValue.removeEventListener("widthChanged", this._onColWidthChanged, this);
-        propOldValue.removeEventListener("orderChanged", this._onColOrderChanged, this);
+        old.removeEventListener("visibilityChanged", this._onColVisibilityChanged, this);
+        old.removeEventListener("widthChanged", this._onColWidthChanged, this);
+        old.removeEventListener("orderChanged", this._onColOrderChanged, this);
       }
 
-      propValue.addEventListener("visibilityChanged", this._onColVisibilityChanged, this);
-      propValue.addEventListener("widthChanged", this._onColWidthChanged, this);
-      propValue.addEventListener("orderChanged", this._onColOrderChanged, this);
+      value.addEventListener("visibilityChanged", this._onColVisibilityChanged, this);
+      value.addEventListener("widthChanged", this._onColWidthChanged, this);
+      value.addEventListener("orderChanged", this._onColOrderChanged, this);
 
       // Get the current table model
       var tm = this.getTableModel();
@@ -571,7 +571,7 @@ qx.Class.define("qx.ui.table.Table",
       if (tm)
       {
         // ... then initialize this new table column model now.
-        propValue.init(tm.getColumnCount(), this);
+        value.init(tm.getColumnCount(), this);
       }
 
       // Reset the table column model in each table pane model
@@ -581,7 +581,7 @@ qx.Class.define("qx.ui.table.Table",
       {
         var paneScroller = scrollerArr[i];
         var paneModel = paneScroller.getTablePaneModel();
-        paneModel._tableColumnModel = propValue;
+        paneModel._tableColumnModel = value;
       }
 
       return true;
@@ -592,15 +592,15 @@ qx.Class.define("qx.ui.table.Table",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyStatusBarVisible : function(propValue, propOldValue)
+    _modifyStatusBarVisible : function(value, old)
     {
-      this._statusBar.setDisplay(propValue);
+      this._statusBar.setDisplay(value);
 
-      if (propValue) {
+      if (value) {
         this._updateStatusBar();
       }
 
@@ -612,13 +612,13 @@ qx.Class.define("qx.ui.table.Table",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyColumnVisibilityButtonVisible : function(propValue, propOldValue)
+    _modifyColumnVisibilityButtonVisible : function(value, old)
     {
-      this._columnVisibilityBt.setDisplay(propValue);
+      this._columnVisibilityBt.setDisplay(value);
 
       return true;
     },
@@ -628,13 +628,13 @@ qx.Class.define("qx.ui.table.Table",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyMetaColumnCounts : function(propValue, propOldValue)
+    _modifyMetaColumnCounts : function(value, old)
     {
-      var metaColumnCounts = propValue;
+      var metaColumnCounts = value;
       var scrollerArr = this._getPaneScrollerArr();
 
       // Remove the panes not needed any more
@@ -700,16 +700,16 @@ qx.Class.define("qx.ui.table.Table",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyFocusCellOnMouseMove : function(propValue, propOldValue)
+    _modifyFocusCellOnMouseMove : function(value, old)
     {
       var scrollerArr = this._getPaneScrollerArr();
 
       for (var i=0; i<scrollerArr.length; i++) {
-        scrollerArr[i].setFocusCellOnMouseMove(propValue);
+        scrollerArr[i].setFocusCellOnMouseMove(value);
       }
 
       return true;
@@ -720,11 +720,11 @@ qx.Class.define("qx.ui.table.Table",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyKeepFirstVisibleRowComplete : function(propValue, propOldValue)
+    _modifyKeepFirstVisibleRowComplete : function(value, old)
     {
       var scrollerArr = this._getPaneScrollerArr();
 
@@ -740,16 +740,16 @@ qx.Class.define("qx.ui.table.Table",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyHeaderCellHeight : function(propValue, propOldValue)
+    _modifyHeaderCellHeight : function(value, old)
     {
       var scrollerArr = this._getPaneScrollerArr();
 
       for (var i=0; i<scrollerArr.length; i++) {
-        scrollerArr[i].getHeader().setHeight(propValue);
+        scrollerArr[i].getHeader().setHeight(value);
       }
 
       return true;
@@ -760,16 +760,16 @@ qx.Class.define("qx.ui.table.Table",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyDataRowRenderer : function(propValue, propOldValue)
+    _modifyDataRowRenderer : function(value, old)
     {
-      if (propOldValue != null)
+      if (old != null)
       {
-        propOldValue.dispose();
-        propOldValue = null;
+        old.dispose();
+        old = null;
       }
 
       return true;

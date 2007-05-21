@@ -634,16 +634,16 @@ qx.Class.define("qx.io.remote.Request",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyState : function(propValue, propOldValue)
+    _modifyState : function(value, old)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (qx.core.Setting.get("qx.ioRemoteDebug")) {
-          this.debug("State: " + propValue);
+          this.debug("State: " + value);
         }
       }
 
@@ -655,13 +655,13 @@ qx.Class.define("qx.io.remote.Request",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyProhibitCaching : function(propValue, propOldValue)
+    _modifyProhibitCaching : function(value, old)
     {
-      if (propValue)
+      if (value)
       {
         // This works by making the URL unique on each request.  The actual id,
         // "nocache" is irrelevant; it's the fact that a (usually) different date
@@ -689,13 +689,13 @@ qx.Class.define("qx.io.remote.Request",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyMethod : function(propValue, propOldValue)
+    _modifyMethod : function(value, old)
     {
-      if (propValue === qx.net.Http.METHOD_POST) {
+      if (value === qx.net.Http.METHOD_POST) {
         this.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
       } else {
         this.removeRequestHeader("Content-Type");
@@ -709,13 +709,13 @@ qx.Class.define("qx.io.remote.Request",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyResponseType : function(propValue, propOldValue)
+    _modifyResponseType : function(value, old)
     {
-      this.setRequestHeader("X-Qooxdoo-Response-Type", propValue);
+      this.setRequestHeader("X-Qooxdoo-Response-Type", value);
       return true;
     },
 

@@ -133,12 +133,12 @@ qx.Class.define("qx.ui.form.InputCheckSymbol",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyName : function(propValue, propOldValue) {
-      return this.setHtmlProperty("name", propValue);
+    _modifyName : function(value, old) {
+      return this.setHtmlProperty("name", value);
     },
 
 
@@ -146,12 +146,12 @@ qx.Class.define("qx.ui.form.InputCheckSymbol",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyValue : function(propValue, propOldValue) {
-      return this.setHtmlProperty("value", propValue);
+    _modifyValue : function(value, old) {
+      return this.setHtmlProperty("value", value);
     },
 
 
@@ -159,12 +159,12 @@ qx.Class.define("qx.ui.form.InputCheckSymbol",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyType : function(propValue, propOldValue) {
-      return this.setHtmlProperty("type", propValue);
+    _modifyType : function(value, old) {
+      return this.setHtmlProperty("type", value);
     },
 
 
@@ -172,12 +172,12 @@ qx.Class.define("qx.ui.form.InputCheckSymbol",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyChecked : function(propValue, propOldValue) {
-      return this.setHtmlProperty("checked", propValue);
+    _modifyChecked : function(value, old) {
+      return this.setHtmlProperty("checked", value);
     },
 
 
@@ -232,14 +232,14 @@ qx.Class.define("qx.ui.form.InputCheckSymbol",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyEnabled : function(propValue, propOldValue)
+    _modifyEnabled : function(value, old)
     {
-      propValue===false ? this.setHtmlProperty("disabled", "disabled") : this.removeHtmlProperty("disabled");
-      return this.base(arguments, propValue, propOldValue);
+      value===false ? this.setHtmlProperty("disabled", "disabled") : this.removeHtmlProperty("disabled");
+      return this.base(arguments, value, old);
     }
   },
 

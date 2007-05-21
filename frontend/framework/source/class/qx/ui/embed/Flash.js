@@ -447,14 +447,14 @@ qx.Class.define("qx.ui.embed.Flash",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @param propName {var} TODOC
      * @return {Boolean} TODOC
      */
-    _modifySource : function(propValue, propOldValue, propName)
+    _modifySource : function(value, old, propName)
     {
-      this._source = qx.util.Validation.isValidString(propValue) ? qx.manager.object.AliasManager.getInstance().resolvePath(propValue) : "";
+      this._source = qx.util.Validation.isValidString(value) ? qx.manager.object.AliasManager.getInstance().resolvePath(value) : "";
       return true;
     },
 
@@ -463,11 +463,11 @@ qx.Class.define("qx.ui.embed.Flash",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyVersion : function(propValue, propOldValue)
+    _modifyVersion : function(value, old)
     {
       if (this._version)
       {
@@ -475,8 +475,8 @@ qx.Class.define("qx.ui.embed.Flash",
         this._version = null;
       }
 
-      if (qx.util.Validation.isValidString(propValue)) {
-        this._version = new qx.type.Version(propValue);
+      if (qx.util.Validation.isValidString(value)) {
+        this._version = new qx.type.Version(value);
       }
 
       return true;
@@ -487,13 +487,13 @@ qx.Class.define("qx.ui.embed.Flash",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyQuality : function(propValue, propOldValue)
+    _modifyQuality : function(value, old)
     {
-      this.setParam("quality", propValue.toString());
+      this.setParam("quality", value.toString());
     },
 
 
@@ -501,13 +501,13 @@ qx.Class.define("qx.ui.embed.Flash",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyScale : function(propValue, propOldValue)
+    _modifyScale : function(value, old)
     {
-      this.setParam("scale", propValue.toString());
+      this.setParam("scale", value.toString());
     },
 
 
@@ -515,13 +515,13 @@ qx.Class.define("qx.ui.embed.Flash",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyWmode : function(propValue, propOldValue)
+    _modifyWmode : function(value, old)
     {
-      this.setParam("wmode", propValue.toString());
+      this.setParam("wmode", value.toString());
     },
 
 
@@ -529,13 +529,13 @@ qx.Class.define("qx.ui.embed.Flash",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyPlay : function(propValue, propOldValue)
+    _modifyPlay : function(value, old)
     {
-      this.setParam("play", propValue.toString());
+      this.setParam("play", value.toString());
     },
 
 
@@ -543,13 +543,13 @@ qx.Class.define("qx.ui.embed.Flash",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyLoop : function(propValue, propOldValue)
+    _modifyLoop : function(value, old)
     {
-      this.setParam("loop", propValue.toString());
+      this.setParam("loop", value.toString());
     },
 
 
@@ -564,8 +564,8 @@ qx.Class.define("qx.ui.embed.Flash",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
     _styleBackgroundColor : function(value)

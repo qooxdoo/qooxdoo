@@ -165,18 +165,18 @@ qx.Class.define("qx.manager.selection.SelectionManager",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyAnchorItem : function(propValue, propOldValue)
+    _modifyAnchorItem : function(value, old)
     {
-      if (propOldValue) {
-        this.renderItemAnchorState(propOldValue, false);
+      if (old) {
+        this.renderItemAnchorState(old, false);
       }
 
-      if (propValue) {
-        this.renderItemAnchorState(propValue, true);
+      if (value) {
+        this.renderItemAnchorState(value, true);
       }
 
       return true;
@@ -187,18 +187,18 @@ qx.Class.define("qx.manager.selection.SelectionManager",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyLeadItem : function(propValue, propOldValue)
+    _modifyLeadItem : function(value, old)
     {
-      if (propOldValue) {
-        this.renderItemLeadState(propOldValue, false);
+      if (old) {
+        this.renderItemLeadState(old, false);
       }
 
-      if (propValue) {
-        this.renderItemLeadState(propValue, true);
+      if (value) {
+        this.renderItemLeadState(value, true);
       }
 
       return true;

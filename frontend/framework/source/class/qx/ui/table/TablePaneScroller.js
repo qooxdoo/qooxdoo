@@ -297,22 +297,22 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyHorizontalScrollBarVisible : function(propValue, propOldValue)
+    _modifyHorizontalScrollBarVisible : function(value, old)
     {
       // Workaround: We can't use setDisplay, because the scroll bar needs its
       //       correct height in order to check its value. When using
       //       setDisplay(false) the height isn't relayouted any more
-      if (propValue) {
+      if (value) {
         this._horScrollBar.setHeight("auto");
       } else {
         this._horScrollBar.setHeight(0);
       }
 
-      this._horScrollBar.setVisibility(propValue);
+      this._horScrollBar.setVisibility(value);
 
       // NOTE: We have to flush the queues before updating the content so the new
       //     layout has been applied and _updateContent is able to work with
@@ -328,22 +328,22 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyVerticalScrollBarVisible : function(propValue, propOldValue)
+    _modifyVerticalScrollBarVisible : function(value, old)
     {
       // Workaround: See _modifyHorizontalScrollBarVisible
-      if (propValue) {
+      if (value) {
         this._verScrollBar.setWidth("auto");
       } else {
         this._verScrollBar.setWidth(0);
       }
 
-      this._verScrollBar.setVisibility(propValue);
+      this._verScrollBar.setVisibility(value);
 
-      var scrollBarWidth = propValue ? this._verScrollBar.getPreferredBoxWidth() : 0;
+      var scrollBarWidth = value ? this._verScrollBar.getPreferredBoxWidth() : 0;
       this._horScrollBar.setPaddingRight(scrollBarWidth);
       this._spacer.setWidth(scrollBarWidth);
 
@@ -355,17 +355,17 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyTablePaneModel : function(propValue, propOldValue)
+    _modifyTablePaneModel : function(value, old)
     {
-      if (propOldValue != null) {
-        propOldValue.removeEventListener("modelChanged", this._onPaneModelChanged, this);
+      if (old != null) {
+        old.removeEventListener("modelChanged", this._onPaneModelChanged, this);
       }
 
-      propValue.addEventListener("modelChanged", this._onPaneModelChanged, this);
+      value.addEventListener("modelChanged", this._onPaneModelChanged, this);
 
       return true;
     },
@@ -375,13 +375,13 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyScrollX : function(propValue, propOldValue)
+    _modifyScrollX : function(value, old)
     {
-      this._horScrollBar.setValue(propValue);
+      this._horScrollBar.setValue(value);
       return true;
     },
 
@@ -390,13 +390,13 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyScrollY : function(propValue, propOldValue)
+    _modifyScrollY : function(value, old)
     {
-      this._verScrollBar.setValue(propValue);
+      this._verScrollBar.setValue(value);
       return true;
     },
 

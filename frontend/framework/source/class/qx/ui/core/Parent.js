@@ -177,13 +177,13 @@ qx.Class.define("qx.ui.core.Parent",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyFocusHandler : function(propValue, propOldValue)
+    _modifyFocusHandler : function(value, old)
     {
-      if (propValue)
+      if (value)
       {
         // Add Key Handler
         this.addEventListener("keypress", this._onfocuskeyevent);
@@ -218,73 +218,73 @@ qx.Class.define("qx.ui.core.Parent",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyFocusedChild : function(propValue, propOldValue)
+    _modifyFocusedChild : function(value, old)
     {
-      // this.debug("FocusedChild: " + propValue);
-      var vFocusValid = propValue != null;
-      var vBlurValid = propOldValue != null;
+      // this.debug("FocusedChild: " + value);
+      var vFocusValid = value != null;
+      var vBlurValid = old != null;
 
       if (qx.Class.isDefined("qx.manager.object.PopupManager") && vFocusValid)
       {
         var vMgr = qx.manager.object.PopupManager.getInstance();
 
         if (vMgr) {
-          vMgr.update(propValue);
+          vMgr.update(value);
         }
       }
 
       if (vBlurValid)
       {
         // Dispatch FocusOut
-        if (propOldValue.hasEventListeners("focusout"))
+        if (old.hasEventListeners("focusout"))
         {
-          var vEventObject = new qx.event.type.FocusEvent("focusout", propOldValue);
+          var vEventObject = new qx.event.type.FocusEvent("focusout", old);
 
           if (vFocusValid) {
-            vEventObject.setRelatedTarget(propValue);
+            vEventObject.setRelatedTarget(value);
           }
 
-          propOldValue.dispatchEvent(vEventObject);
+          old.dispatchEvent(vEventObject);
           vEventObject.dispose();
         }
       }
 
       if (vFocusValid)
       {
-        if (propValue.hasEventListeners("focusin"))
+        if (value.hasEventListeners("focusin"))
         {
           // Dispatch FocusIn
-          var vEventObject = new qx.event.type.FocusEvent("focusin", propValue);
+          var vEventObject = new qx.event.type.FocusEvent("focusin", value);
 
           if (vBlurValid) {
-            vEventObject.setRelatedTarget(propOldValue);
+            vEventObject.setRelatedTarget(old);
           }
 
-          propValue.dispatchEvent(vEventObject);
+          value.dispatchEvent(vEventObject);
           vEventObject.dispose();
         }
       }
 
       if (vBlurValid)
       {
-        if (this.getActiveChild() == propOldValue && !vFocusValid) {
+        if (this.getActiveChild() == old && !vFocusValid) {
           this.setActiveChild(null);
         }
 
-        propOldValue.setFocused(false);
+        old.setFocused(false);
 
         // Dispatch Blur
-        var vEventObject = new qx.event.type.FocusEvent("blur", propOldValue);
+        var vEventObject = new qx.event.type.FocusEvent("blur", old);
 
         if (vFocusValid) {
-          vEventObject.setRelatedTarget(propValue);
+          vEventObject.setRelatedTarget(value);
         }
 
-        propOldValue.dispatchEvent(vEventObject);
+        old.dispatchEvent(vEventObject);
 
         if (qx.Class.isDefined("qx.manager.object.ToolTipManager"))
         {
@@ -300,18 +300,18 @@ qx.Class.define("qx.ui.core.Parent",
 
       if (vFocusValid)
       {
-        this.setActiveChild(propValue);
-        propValue.setFocused(true);
+        this.setActiveChild(value);
+        value.setFocused(true);
         qx.event.handler.EventHandler.getInstance().setFocusRoot(this);
 
         // Dispatch Focus
-        var vEventObject = new qx.event.type.FocusEvent("focus", propValue);
+        var vEventObject = new qx.event.type.FocusEvent("focus", value);
 
         if (vBlurValid) {
-          vEventObject.setRelatedTarget(propOldValue);
+          vEventObject.setRelatedTarget(old);
         }
 
-        propValue.dispatchEvent(vEventObject);
+        value.dispatchEvent(vEventObject);
 
         if (qx.Class.isDefined("qx.manager.object.ToolTipManager"))
         {

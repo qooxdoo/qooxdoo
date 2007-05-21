@@ -355,13 +355,13 @@ qx.Class.define("qx.ui.component.DateChooser",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
+     * @param value {var} Current value
      * @return {var} TODOC
      */
-    _checkDate : function(propValue, propData)
+    _checkDate : function(value, propData)
     {
       // Use a clone of the date internally since date instances may be changed
-      return (propValue == null) ? null : new Date(propValue.getTime());
+      return (value == null) ? null : new Date(value.getTime());
     },
 
     // property modifier
@@ -369,23 +369,23 @@ qx.Class.define("qx.ui.component.DateChooser",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyDate : function(propValue, propOldValue)
+    _modifyDate : function(value, old)
     {
       var DateChooser = qx.ui.component.DateChooser;
 
-      if ((propValue != null) && (this.getShownMonth() != propValue.getMonth() || this.getShownYear() != propValue.getFullYear()))
+      if ((value != null) && (this.getShownMonth() != value.getMonth() || this.getShownYear() != value.getFullYear()))
       {
         // The new date is in another month -> Show that month
-        this.showMonth(propValue.getMonth(), propValue.getFullYear());
+        this.showMonth(value.getMonth(), value.getFullYear());
       }
       else
       {
         // The new date is in the current month -> Just change the states
-        var newDay = (propValue == null) ? -1 : propValue.getDate();
+        var newDay = (value == null) ? -1 : value.getDate();
 
         for (var i=0; i<6*7; i++)
         {

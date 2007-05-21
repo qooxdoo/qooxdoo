@@ -308,27 +308,27 @@ qx.Class.define("qx.ui.form.ComboBox",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifySelected : function(propValue, propOldValue)
+    _modifySelected : function(value, old)
     {
       this._fromSelected = true;
 
       // only do this if we called setSelected seperatly
       // and not from the property "value".
       if (!this._fromValue) {
-        this.setValue(propValue ? propValue.getLabel() : "");
+        this.setValue(value ? value.getLabel() : "");
       }
 
       // reset manager cache
-      this._manager.setLeadItem(propValue);
-      this._manager.setAnchorItem(propValue);
+      this._manager.setLeadItem(value);
+      this._manager.setAnchorItem(value);
 
       // sync to manager
-      if (propValue) {
-        this._manager.setSelectedItem(propValue);
+      if (value) {
+        this._manager.setSelectedItem(value);
       } else {
         this._manager.deselectAll();
       }
@@ -344,11 +344,11 @@ qx.Class.define("qx.ui.form.ComboBox",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyValue : function(propValue, propOldValue)
+    _modifyValue : function(value, old)
     {
       this._fromValue = true;
 
@@ -356,11 +356,11 @@ qx.Class.define("qx.ui.form.ComboBox",
       // and not from the event "input".
       if (!this._fromInput)
       {
-        if (this._field.getValue() == propValue) {
+        if (this._field.getValue() == value) {
           this._field.setValue(null);
         }
 
-        this._field.setValue(propValue);
+        this._field.setValue(value);
       }
 
       // only do this if we called setValue seperatly
@@ -368,7 +368,7 @@ qx.Class.define("qx.ui.form.ComboBox",
       if (!this._fromSelected)
       {
         // inform selected property
-        var vSelItem = this._list.findStringExact(propValue);
+        var vSelItem = this._list.findStringExact(value);
 
         // ignore disabled items
         if (vSelItem != null && !vSelItem.getEnabled()) {
@@ -389,17 +389,17 @@ qx.Class.define("qx.ui.form.ComboBox",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyEditable : function(propValue, propOldValue)
+    _modifyEditable : function(value, old)
     {
       var f = this._field;
 
-      f.setReadOnly(!propValue);
-      f.setCursor(propValue ? null : "default");
-      f.setSelectable(propValue);
+      f.setReadOnly(!value);
+      f.setCursor(value ? null : "default");
+      f.setSelectable(value);
 
       return true;
     },

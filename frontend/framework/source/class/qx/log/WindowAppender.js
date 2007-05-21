@@ -404,20 +404,20 @@ qx.Class.define("qx.log.WindowAppender",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyAutoCloseWithErrors : function(propValue, propOldValue)
+    _modifyAutoCloseWithErrors : function(value, old)
     {
-      if (!propValue && propOldValue)
+      if (!value && old)
       {
         this._errorsPreventingAutoCloseCount = 0;
 
         // Show message in log so user can see which errors have been counted
         this._showMessageInLog("Log window message: Starting error recording, any errors below this line will prevent the log window from closing");
       }
-      else if (propValue && !propOldValue)
+      else if (value && !old)
       {
         // Show message in log so user can see which errors have been counted
         this._showMessageInLog("Log window message: Stopping error recording, discarding " + this._errorsPreventingAutoCloseCount + " errors.");

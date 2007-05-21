@@ -254,11 +254,11 @@ qx.Class.define("qx.ui.form.TextField",
     ---------------------------------------------------------------------------
     */
 
-    _modifyElement : function(propValue, propOldValue)
+    _modifyElement : function(value, old)
     {
-      this.base(arguments, propValue, propOldValue);
+      this.base(arguments, value, old);
 
-      if (propValue)
+      if (value)
       {
         var inp = this._inputElement = document.createElement(this._inputTag);
 
@@ -317,7 +317,7 @@ qx.Class.define("qx.ui.form.TextField",
         }
 
         // Append to real element
-        propValue.appendChild(inp);
+        value.appendChild(inp);
       }
     },
 
@@ -337,7 +337,7 @@ qx.Class.define("qx.ui.form.TextField",
     },
 
 
-    _modifyCursor : function(propValue, propOldValue)
+    _modifyCursor : function(value, old)
     {
       if (this._inputElement) {
         this._renderCursor();
@@ -379,16 +379,16 @@ qx.Class.define("qx.ui.form.TextField",
      * Apply the enabled property.
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      */
-    _modifyEnabled : function(propValue, propOldValue)
+    _modifyEnabled : function(value, old)
     {
       if (this._inputElement) {
-        this._inputElement.disabled = propValue===false;
+        this._inputElement.disabled = value===false;
       }
 
-      return this.base(arguments, propValue, propOldValue);
+      return this.base(arguments, value, old);
     },
 
 
@@ -396,15 +396,15 @@ qx.Class.define("qx.ui.form.TextField",
      * Apply the value property
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      */
-    _modifyValue : function(propValue, propOldValue)
+    _modifyValue : function(value, old)
     {
       this._inValueProperty = true;
 
       if (this._inputElement) {
-        this._inputElement.value = propValue === null ? "" : propValue;
+        this._inputElement.value = value === null ? "" : value;
       }
 
       delete this._inValueProperty;
@@ -415,13 +415,13 @@ qx.Class.define("qx.ui.form.TextField",
      * Apply the maxLenght property.
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      */
-    _modifyMaxLength : function(propValue, propOldValue)
+    _modifyMaxLength : function(value, old)
     {
       if (this._inputElement) {
-        this._inputElement.maxLength = propValue == null ? "" : propValue;
+        this._inputElement.maxLength = value == null ? "" : value;
       }
     },
 
@@ -430,13 +430,13 @@ qx.Class.define("qx.ui.form.TextField",
      * Apply the readOnly property.
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      */
-    _modifyReadOnly : function(propValue, propOldValue)
+    _modifyReadOnly : function(value, old)
     {
       if (this._inputElement) {
-        this._inputElement.readOnly = propValue;
+        this._inputElement.readOnly = value;
       }
     },
 
@@ -455,8 +455,8 @@ qx.Class.define("qx.ui.form.TextField",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
     _applyFont : function(value, old) {

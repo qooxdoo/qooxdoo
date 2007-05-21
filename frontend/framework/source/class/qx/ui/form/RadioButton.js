@@ -102,20 +102,20 @@ qx.Class.define("qx.ui.form.RadioButton",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyChecked : function(propValue, propOldValue)
+    _modifyChecked : function(value, old)
     {
       if (this._iconObject) {
-        this._iconObject.setChecked(propValue);
+        this._iconObject.setChecked(value);
       }
 
       var vManager = this.getManager();
 
       if (vManager) {
-        vManager.handleItemChecked(this, propValue);
+        vManager.handleItemChecked(this, value);
       }
     },
 
@@ -124,18 +124,18 @@ qx.Class.define("qx.ui.form.RadioButton",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyManager : function(propValue, propOldValue)
+    _modifyManager : function(value, old)
     {
-      if (propOldValue) {
-        propOldValue.remove(this);
+      if (old) {
+        old.remove(this);
       }
 
-      if (propValue) {
-        propValue.add(this);
+      if (value) {
+        value.add(this);
       }
     },
 
@@ -144,18 +144,18 @@ qx.Class.define("qx.ui.form.RadioButton",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyName : function(propValue, propOldValue)
+    _modifyName : function(value, old)
     {
       if (this._iconObject) {
-        this._iconObject.setName(propValue);
+        this._iconObject.setName(value);
       }
 
       if (this.getManager()) {
-        this.getManager().setName(propValue);
+        this.getManager().setName(value);
       }
     },
 
@@ -164,14 +164,14 @@ qx.Class.define("qx.ui.form.RadioButton",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyValue : function(propValue, propOldValue)
+    _modifyValue : function(value, old)
     {
       if (this.isCreated() && this._iconObject) {
-        this._iconObject.setValue(propValue);
+        this._iconObject.setValue(value);
       }
     },
 

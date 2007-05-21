@@ -89,18 +89,18 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyChecked : function(propValue, propOldValue)
+    _modifyChecked : function(value, old)
     {
-      this.base(arguments, propValue, propOldValue);
+      this.base(arguments, value, old);
 
       var vManager = this.getManager();
 
       if (vManager) {
-        vManager.handleItemChecked(this, propValue);
+        vManager.handleItemChecked(this, value);
       }
 
       return true;
@@ -111,18 +111,18 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
      * TODOC
      *
      * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
+     * @param value {var} Current value
+     * @param old {var} Previous value
      * @return {Boolean} TODOC
      */
-    _modifyManager : function(propValue, propOldValue)
+    _modifyManager : function(value, old)
     {
-      if (propOldValue) {
-        propOldValue.remove(this);
+      if (old) {
+        old.remove(this);
       }
 
-      if (propValue) {
-        propValue.add(this);
+      if (value) {
+        value.add(this);
       }
 
       return true;
