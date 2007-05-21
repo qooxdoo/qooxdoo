@@ -823,8 +823,8 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
       }
 
       // Apply position with runtime style (fastest qooxdoo method)
-      vNewCursor._applyRuntimeLeft(this.__dragCache.pageX + ((this._cursorDeltaX != null) ? this._cursorDeltaX : this.getDefaultCursorDeltaX()));
-      vNewCursor._applyRuntimeTop(this.__dragCache.pageY + ((this._cursorDeltaY != null) ? this._cursorDeltaY : this.getDefaultCursorDeltaY()));
+      vNewCursor._renderRuntimeLeft(this.__dragCache.pageX + ((this._cursorDeltaX != null) ? this._cursorDeltaX : this.getDefaultCursorDeltaX()));
+      vNewCursor._renderRuntimeTop(this.__dragCache.pageY + ((this._cursorDeltaY != null) ? this._cursorDeltaY : this.getDefaultCursorDeltaY()));
 
       // Finally show new cursor
       if (vNewCursor != vOldCursor) {
@@ -1022,8 +1022,8 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
         this.__feedbackWidget.setVisibility(true);
 
         // Apply position with runtime style (fastest qooxdoo method)
-        this.__feedbackWidget._applyRuntimeLeft(this.__dragCache.pageX + this.__feedbackDeltaX);
-        this.__feedbackWidget._applyRuntimeTop(this.__dragCache.pageY + this.__feedbackDeltaY);
+        this.__feedbackWidget._renderRuntimeLeft(this.__dragCache.pageX + this.__feedbackDeltaX);
+        this.__feedbackWidget._renderRuntimeTop(this.__dragCache.pageY + this.__feedbackDeltaY);
       }
     }
   },

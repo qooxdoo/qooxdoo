@@ -102,8 +102,8 @@
               continue;
             };
             
-            treeMarkerLine._applyRuntimeTop(vTop+1);
-            treeMarkerLine._applyRuntimeLeft(QxDom.getComputedPageBoxLeft(vChild.getLabelObject().getElement()) - 20);
+            treeMarkerLine._renderRuntimeTop(vTop+1);
+            treeMarkerLine._renderRuntimeLeft(QxDom.getComputedPageBoxLeft(vChild.getLabelObject().getElement()) - 20);
             
             treeMarkerLine.removeStyleProperty("display");
             

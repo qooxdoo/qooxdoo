@@ -398,14 +398,14 @@ qx.Class.define("qx.renderer.layout.FlowLayoutImpl",
       "mshtml|opera" : function(vChild, vJobs)
       {
         if (vJobs.initial || vJobs.width || vJobs.minWidth || vJobs.maxWidth) {
-          vChild._computedWidthTypeNull && vChild._computedMinWidthTypeNull && vChild._computedMaxWidthTypeNull ? vChild._resetRuntimeWidth() : vChild._applyRuntimeWidth(vChild.getBoxWidth());
+          vChild._computedWidthTypeNull && vChild._computedMinWidthTypeNull && vChild._computedMaxWidthTypeNull ? vChild._resetRuntimeWidth() : vChild._renderRuntimeWidth(vChild.getBoxWidth());
         }
       },
 
       "default" : function(vChild, vJobs)
       {
         if (vJobs.initial || vJobs.width) {
-          vChild._computedWidthTypeNull ? vChild._resetRuntimeWidth() : vChild._applyRuntimeWidth(vChild.getWidthValue());
+          vChild._computedWidthTypeNull ? vChild._resetRuntimeWidth() : vChild._renderRuntimeWidth(vChild.getWidthValue());
         }
       }
     }),
@@ -425,14 +425,14 @@ qx.Class.define("qx.renderer.layout.FlowLayoutImpl",
       "mshtml|opera" : function(vChild, vJobs)
       {
         if (vJobs.initial || vJobs.height || vJobs.minHeight || vJobs.maxHeight) {
-          vChild._computedHeightTypeNull && vChild._computedMinHeightTypeNull && vChild._computedMaxHeightTypeNull ? vChild._resetRuntimeHeight() : vChild._applyRuntimeHeight(vChild.getBoxHeight());
+          vChild._computedHeightTypeNull && vChild._computedMinHeightTypeNull && vChild._computedMaxHeightTypeNull ? vChild._resetRuntimeHeight() : vChild._renderRuntimeHeight(vChild.getBoxHeight());
         }
       },
 
       "default" : function(vChild, vJobs)
       {
         if (vJobs.initial || vJobs.height) {
-          vChild._computedHeightTypeNull ? vChild._resetRuntimeHeight() : vChild._applyRuntimeHeight(vChild.getHeightValue());
+          vChild._computedHeightTypeNull ? vChild._resetRuntimeHeight() : vChild._renderRuntimeHeight(vChild.getHeightValue());
         }
       }
     }),
@@ -487,23 +487,23 @@ qx.Class.define("qx.renderer.layout.FlowLayoutImpl",
       if (vWidget.getHorizontalChildrenAlign() == "right")
       {
         vChild._resetRuntimeLeft();
-        vChild._applyRuntimeRight(vWidget.getPaddingRight() + vChild._cachedLocationHorizontal);
+        vChild._renderRuntimeRight(vWidget.getPaddingRight() + vChild._cachedLocationHorizontal);
       }
       else
       {
         vChild._resetRuntimeRight();
-        vChild._applyRuntimeLeft(vWidget.getPaddingLeft() + vChild._cachedLocationHorizontal);
+        vChild._renderRuntimeLeft(vWidget.getPaddingLeft() + vChild._cachedLocationHorizontal);
       }
 
       if (vWidget.getVerticalChildrenAlign() == "bottom")
       {
         vChild._resetRuntimeTop();
-        vChild._applyRuntimeBottom(vWidget.getPaddingBottom() + vChild._cachedLocationVertical);
+        vChild._renderRuntimeBottom(vWidget.getPaddingBottom() + vChild._cachedLocationVertical);
       }
       else
       {
         vChild._resetRuntimeBottom();
-        vChild._applyRuntimeTop(vWidget.getPaddingTop() + vChild._cachedLocationVertical);
+        vChild._renderRuntimeTop(vWidget.getPaddingTop() + vChild._cachedLocationVertical);
       }
     }
   }

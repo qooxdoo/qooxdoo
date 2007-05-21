@@ -939,7 +939,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     __initApplyMethods : function(members)
     {
-      var applyRuntime = "_applyRuntime";
+      var applyRuntime = "_renderRuntime";
       var resetRuntime = "_resetRuntime";
       var style = "this._style.";
       var cssValue = "=((v==null)?0:v)+'px'";

@@ -475,15 +475,15 @@ qx.Class.define("qx.renderer.layout.LayoutImpl",
       "default" : function(vChild, vJobs)
       {
         if (vJobs.minWidth) {
-          vChild._computedMinWidthTypeNull ? vChild._resetRuntimeMinWidth() : vChild._applyRuntimeMinWidth(vChild.getMinWidthValue());
+          vChild._computedMinWidthTypeNull ? vChild._resetRuntimeMinWidth() : vChild._renderRuntimeMinWidth(vChild.getMinWidthValue());
         } else if (vJobs.initial && !vChild._computedMinWidthTypeNull) {
-          vChild._applyRuntimeMinWidth(vChild.getMinWidthValue());
+          vChild._renderRuntimeMinWidth(vChild.getMinWidthValue());
         }
 
         if (vJobs.maxWidth) {
-          vChild._computedMaxWidthTypeNull ? vChild._resetRuntimeMaxWidth() : vChild._applyRuntimeMaxWidth(vChild.getMaxWidthValue());
+          vChild._computedMaxWidthTypeNull ? vChild._resetRuntimeMaxWidth() : vChild._renderRuntimeMaxWidth(vChild.getMaxWidthValue());
         } else if (vJobs.initial && !vChild._computedMaxWidthTypeNull) {
-          vChild._applyRuntimeMaxWidth(vChild.getMaxWidthValue());
+          vChild._renderRuntimeMaxWidth(vChild.getMaxWidthValue());
         }
       }
     }),
@@ -507,15 +507,15 @@ qx.Class.define("qx.renderer.layout.LayoutImpl",
       "default" : function(vChild, vJobs)
       {
         if (vJobs.minHeight) {
-          vChild._computedMinHeightTypeNull ? vChild._resetRuntimeMinHeight() : vChild._applyRuntimeMinHeight(vChild.getMinHeightValue());
+          vChild._computedMinHeightTypeNull ? vChild._resetRuntimeMinHeight() : vChild._renderRuntimeMinHeight(vChild.getMinHeightValue());
         } else if (vJobs.initial && !vChild._computedMinHeightTypeNull) {
-          vChild._applyRuntimeMinHeight(vChild.getMinHeightValue());
+          vChild._renderRuntimeMinHeight(vChild.getMinHeightValue());
         }
 
         if (vJobs.maxHeight) {
-          vChild._computedMaxHeightTypeNull ? vChild._resetRuntimeMaxHeight() : vChild._applyRuntimeMaxHeight(vChild.getMaxHeightValue());
+          vChild._computedMaxHeightTypeNull ? vChild._resetRuntimeMaxHeight() : vChild._renderRuntimeMaxHeight(vChild.getMaxHeightValue());
         } else if (vJobs.initial && !vChild._computedMaxHeightTypeNull) {
-          vChild._applyRuntimeMaxHeight(vChild.getMaxHeightValue());
+          vChild._renderRuntimeMaxHeight(vChild.getMaxHeightValue());
         }
       }
     }),
@@ -534,13 +534,13 @@ qx.Class.define("qx.renderer.layout.LayoutImpl",
       if (vJobs.marginLeft || vJobs.initial)
       {
         var vValueLeft = vChild.getMarginLeft();
-        vValueLeft != null ? vChild._applyRuntimeMarginLeft(vValueLeft) : vChild._resetRuntimeMarginLeft();
+        vValueLeft != null ? vChild._renderRuntimeMarginLeft(vValueLeft) : vChild._resetRuntimeMarginLeft();
       }
 
       if (vJobs.marginRight || vJobs.initial)
       {
         var vValueRight = vChild.getMarginRight();
-        vValueRight != null ? vChild._applyRuntimeMarginRight(vValueRight) : vChild._resetRuntimeMarginRight();
+        vValueRight != null ? vChild._renderRuntimeMarginRight(vValueRight) : vChild._resetRuntimeMarginRight();
       }
     },
 
@@ -558,13 +558,13 @@ qx.Class.define("qx.renderer.layout.LayoutImpl",
       if (vJobs.marginTop || vJobs.initial)
       {
         var vValueTop = vChild.getMarginTop();
-        vValueTop != null ? vChild._applyRuntimeMarginTop(vValueTop) : vChild._resetRuntimeMarginTop();
+        vValueTop != null ? vChild._renderRuntimeMarginTop(vValueTop) : vChild._resetRuntimeMarginTop();
       }
 
       if (vJobs.marginBottom || vJobs.initial)
       {
         var vValueBottom = vChild.getMarginBottom();
-        vValueBottom != null ? vChild._applyRuntimeMarginBottom(vValueBottom) : vChild._resetRuntimeMarginBottom();
+        vValueBottom != null ? vChild._renderRuntimeMarginBottom(vValueBottom) : vChild._resetRuntimeMarginBottom();
       }
     },
 

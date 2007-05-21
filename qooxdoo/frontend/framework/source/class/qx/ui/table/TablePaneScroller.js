@@ -1166,8 +1166,8 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
         this._resizeLine = resizeLine;
       }
 
-      resizeLine._applyRuntimeLeft(x - 2); // -1 for the width
-      resizeLine._applyRuntimeHeight(this._paneClipper.getBoxHeight() + this._paneClipper.getScrollTop());
+      resizeLine._renderRuntimeLeft(x - 2); // -1 for the width
+      resizeLine._renderRuntimeHeight(this._paneClipper.getBoxHeight() + this._paneClipper.getScrollTop());
 
       this._resizeLine.removeStyleProperty("visibility");
     },
