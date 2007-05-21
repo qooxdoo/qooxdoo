@@ -431,7 +431,7 @@ qx.Class.define("qx.ui.embed.Iframe",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyElement : function(value, old)
+    _applyElement : function(value, old)
     {
       var iframeNode = this.getIframeNode();
 

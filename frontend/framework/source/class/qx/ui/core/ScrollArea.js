@@ -52,7 +52,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
 
   members :
   {
-    _modifyElement : function(value, old)
+    _applyElement : function(value, old)
     {
       this.base(arguments, value, old);
 

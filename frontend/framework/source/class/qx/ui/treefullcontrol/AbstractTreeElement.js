@@ -551,7 +551,7 @@ qx.Class.define("qx.ui.treefullcontrol.AbstractTreeElement",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyParent : function(value, old)
+    _applyParent : function(value, old)
     {
       this.base(arguments, value, old);
 

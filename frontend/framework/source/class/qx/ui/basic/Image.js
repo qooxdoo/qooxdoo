@@ -412,7 +412,7 @@ qx.Class.define("qx.ui.basic.Image",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyElement : function(value, old)
+    _applyElement : function(value, old)
     {
       if (value)
       {
@@ -514,7 +514,7 @@ qx.Class.define("qx.ui.basic.Image",
      * @return {void}
      * @signature function(value, old)
      */
-    _modifyEnabled : qx.core.Variant.select("qx.client",
+    _applyEnabled : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(value, old)
       {

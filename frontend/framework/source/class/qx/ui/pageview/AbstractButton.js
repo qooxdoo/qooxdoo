@@ -173,7 +173,7 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
      * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyParent : function(value, old)
+    _applyParent : function(value, old)
     {
       this.base(arguments, value, old);
 
