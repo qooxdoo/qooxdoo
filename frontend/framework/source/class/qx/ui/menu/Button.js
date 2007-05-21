@@ -133,7 +133,7 @@ qx.Class.define("qx.ui.menu.Button",
     icon :
     {
       check : "String",
-      apply : "_modifyIcon",
+      apply : "_applyIcon",
       nullable : true,
       themeable : true
     },
@@ -321,7 +321,7 @@ qx.Class.define("qx.ui.menu.Button",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyIcon : function(value, old)
+    _applyIcon : function(value, old)
     {
       this._iconObject.setSource(value);
 

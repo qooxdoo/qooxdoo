@@ -195,7 +195,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     editable :
     {
       check : "Boolean",
-      apply : "_modifyEditable",
+      apply : "_applyEditable",
       event : "changeEditable",
       init : false
     },
@@ -212,7 +212,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     {
       check : "String",
       nullable : true,
-      apply : "_modifyValue",
+      apply : "_applyValue",
       event : "changeValue"
     },
 
@@ -344,7 +344,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyValue : function(value, old)
+    _applyValue : function(value, old)
     {
       this._fromValue = true;
 
@@ -386,7 +386,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyEditable : function(value, old)
+    _applyEditable : function(value, old)
     {
       var f = this._field;
 

@@ -187,7 +187,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
     editable :
     {
       check : "Boolean",
-      apply : "_modifyEditable",
+      apply : "_applyEditable",
       event : "changeEditable"
     },
 
@@ -196,7 +196,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
     {
       check : "String",
       nullable : true,
-      apply : "_modifyValue",
+      apply : "_applyValue",
       event : "changeValue"
     },
 
@@ -220,7 +220,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
     {
       init : 'description',
       check : [ 'description', 'idAndDescription', 'id' ],
-      apply : "_modifyShowOnTextField"
+      apply : "_applyShowOnTextField"
     },
 
     /** Only used when editable is false and showOnTextField=='idAndDescription'. */
@@ -228,7 +228,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
     {
       check : "String",
       init : '- ',
-      apply : "_modifyIdDescriptionSeparator"
+      apply : "_applyIdDescriptionSeparator"
     },
 
     /** Ensures that always an item is selected (in case the selection isn't empty). Only used when editable is false. */
@@ -243,7 +243,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
     {
       check : [ "always", "never", "auto" ],
       init: "auto",
-      apply : "_modifyShowColumnHeaders"
+      apply : "_applyShowColumnHeaders"
     },
 
     /** Allow the search dialog when double clicking the combo, or pressing special keys?. */
@@ -460,7 +460,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
           else
           {
             // Checks if the value is in the list, and recalculates the selected index
-            this._modifyValue(this.getValue());
+            this._applyValue(this.getValue());
           }
         }
       }
@@ -561,7 +561,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      * @type member
      * @param propVal {var} TODOC
      */
-    _modifyShowOnTextField : function(propVal)
+    _applyShowOnTextField : function(propVal)
     {
       if (!this.getEditable())
       {
@@ -592,7 +592,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      * @param value {var} Current value
      * @return {void}
      */
-    _modifyIdDescriptionSeparator : function(propVal)
+    _applyIdDescriptionSeparator : function(propVal)
     {
       if (!this.getEditable() && this.getShowOnTextField() == 'idAndDescription')
       {
@@ -625,7 +625,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      * @param value {var} Current value
      * @return {void}
      */
-    _modifyShowColumnHeaders: function(propVal)
+    _applyShowColumnHeaders: function(propVal)
     {
       if (this._list)
       {
@@ -641,7 +641,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      * @param value {var} Current value
      * @return {void}
      */
-    _modifyEditable : function(value)
+    _applyEditable : function(value)
     {
 
       var f = this._field;
@@ -661,7 +661,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      * @type member
      * @param value {var} Current value
      */
-    _modifyValue : function(value)
+    _applyValue : function(value)
     {
       this._fromValue = true;
       try
@@ -876,7 +876,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       // Only assign room for the vertical scrollbar when needed
       width = data.length > maxRows ? (new qx.ui.core.ScrollBar)._getScrollBarWidth() : 0, colModel = this._list.getTableColumnModel();
 
-      this._modifyShowColumnHeaders(this.getShowColumnHeaders());
+      this._applyShowColumnHeaders(this.getShowColumnHeaders());
       var beh = this._list.getTableColumnModel().getBehavior();
 
       // ##Size each column
@@ -885,7 +885,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
         if (colModel.isColumnVisible(col))
         {
           var w = columnWidths[col];
-          // Set by _modifyShowColumnHeaders
+          // Set by _applyShowColumnHeaders
           if (this.hasHeaders)
           {
             w = Math.max(w, this._getTextWidth(cols[col]));

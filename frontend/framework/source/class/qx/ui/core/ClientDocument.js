@@ -168,7 +168,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
       check : "String",
       nullable : true,
       themeable : true,
-      apply : "_modifyGlobalCursor",
+      apply : "_applyGlobalCursor",
       event : "changeGlobalCursor"
     }
   },
@@ -462,7 +462,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyGlobalCursor : function(value, old)
+    _applyGlobalCursor : function(value, old)
     {
       if (!this._globalCursorStyleSheet) {
         this._globalCursorStyleSheet = this.createStyleElement();

@@ -204,7 +204,7 @@ qx.Class.define("qx.ui.basic.Atom",
     icon :
     {
       check : "String",
-      apply : "_modifyIcon",
+      apply : "_applyIcon",
       nullable : true,
       themeable : true
     },
@@ -467,7 +467,7 @@ qx.Class.define("qx.ui.basic.Atom",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyIcon : function(value, old)
+    _applyIcon : function(value, old)
     {
       this._updateIcon();
       this._handleIcon();

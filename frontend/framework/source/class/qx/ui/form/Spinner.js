@@ -263,7 +263,7 @@ qx.Class.define("qx.ui.form.Spinner",
     {
       check : "Boolean",
       init : true,
-      apply : "_modifyEditable"
+      apply : "_applyEditable"
     },
 
     manager :
@@ -275,7 +275,7 @@ qx.Class.define("qx.ui.form.Spinner",
 
     checkValueFunction :
     {
-      apply : "_modifyCheckValueFunction"
+      apply : "_applyCheckValueFunction"
     }
   },
 
@@ -309,7 +309,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyEditable : function(value, old)
+    _applyEditable : function(value, old)
     {
       if (this._textfield) {
         this._textfield.setReadOnly(! value);
@@ -348,7 +348,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyCheckValueFunction : function(value, old) {
+    _applyCheckValueFunction : function(value, old) {
       this._checkValue = value;
     },
 

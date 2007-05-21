@@ -76,7 +76,7 @@ qx.Class.define("qx.ui.embed.IconHtmlEmbed",
     {
       check : "String",
       init : "",
-      apply : "_modifyHtml"
+      apply : "_applyHtml"
     },
 
 
@@ -88,7 +88,7 @@ qx.Class.define("qx.ui.embed.IconHtmlEmbed",
     {
       check : "Number",
       init : 0,
-      apply : "_modifyHtml"
+      apply : "_applyHtml"
     },
 
 
@@ -100,7 +100,7 @@ qx.Class.define("qx.ui.embed.IconHtmlEmbed",
     {
       check : "Integer",
       init : 0,
-      apply : "_modifyHtml"
+      apply : "_applyHtml"
     },
 
 
@@ -109,7 +109,7 @@ qx.Class.define("qx.ui.embed.IconHtmlEmbed",
     {
       check : "Number",
       init : 4,
-      apply : "_modifyHtml"
+      apply : "_applyHtml"
     }
   },
 

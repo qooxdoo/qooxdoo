@@ -146,14 +146,14 @@ qx.Class.define("qx.ui.menu.Menu",
     {
       check : "qx.ui.core.Widget",
       nullable : true,
-      apply : "_modifyHoverItem"
+      apply : "_applyHoverItem"
     },
 
     openItem :
     {
       check : "qx.ui.core.Widget",
       nullable : true,
-      apply : "_modifyOpenItem"
+      apply : "_applyOpenItem"
     },
 
     /** Widget that opened the menu */
@@ -378,7 +378,7 @@ qx.Class.define("qx.ui.menu.Menu",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyHoverItem : function(value, old)
+    _applyHoverItem : function(value, old)
     {
       if (old) {
         old.removeState("over");
@@ -397,7 +397,7 @@ qx.Class.define("qx.ui.menu.Menu",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyOpenItem : function(value, old)
+    _applyOpenItem : function(value, old)
     {
       var vMakeActive = false;
 

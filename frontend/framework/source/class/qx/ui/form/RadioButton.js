@@ -164,7 +164,7 @@ qx.Class.define("qx.ui.form.RadioButton",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyValue : function(value, old)
+    _applyValue : function(value, old)
     {
       if (this.isCreated() && this._iconObject) {
         this._iconObject.setValue(value);

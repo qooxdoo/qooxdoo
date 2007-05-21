@@ -200,11 +200,11 @@ qx.Class.define("qx.ui.embed.Flash",
     {
       check : "String",
       nullable : true,
-      apply : "_modifySource"
+      apply : "_applySource"
     },
 
     version : {
-      apply : "_modifyVersion",
+      apply : "_applyVersion",
       nullable : true
     },
 
@@ -230,21 +230,21 @@ qx.Class.define("qx.ui.embed.Flash",
     {
       init : "high",
       check : [ "low", "autolow", "autohigh", "medium", "high", "best" ],
-      apply : "_modifyQuality"
+      apply : "_applyQuality"
     },
 
     scale :
     {
       init : "showall",
       check : [ "showall", "noborder", "excactfit", "noscale" ],
-      apply : "_modifyScale"
+      apply : "_applyScale"
     },
 
     wmode :
     {
       init : "",
       check : [ "window", "opaque", "transparent", "" ],
-      apply : "_modifyWmode"
+      apply : "_applyWmode"
     },
 
     play :
@@ -252,14 +252,14 @@ qx.Class.define("qx.ui.embed.Flash",
 
       check : "Boolean",
       init : true,
-      apply : "_modifyPlay"
+      apply : "_applyPlay"
     },
 
     loop :
     {
       check : "Boolean",
       init : true,
-      apply : "_modifyLoop"
+      apply : "_applyLoop"
     },
 
     menu :
@@ -451,7 +451,7 @@ qx.Class.define("qx.ui.embed.Flash",
      * @param old {var} Previous value
      * @param propName {var} TODOC
      */
-    _modifySource : function(value, old, propName) {
+    _applySource : function(value, old, propName) {
       this._source = qx.util.Validation.isValidString(value) ? qx.manager.object.AliasManager.getInstance().resolvePath(value) : "";
     },
 
@@ -463,7 +463,7 @@ qx.Class.define("qx.ui.embed.Flash",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyVersion : function(value, old)
+    _applyVersion : function(value, old)
     {
       if (this._version)
       {
@@ -484,7 +484,7 @@ qx.Class.define("qx.ui.embed.Flash",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyQuality : function(value, old)
+    _applyQuality : function(value, old)
     {
       this.setParam("quality", value.toString());
     },
@@ -497,7 +497,7 @@ qx.Class.define("qx.ui.embed.Flash",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyScale : function(value, old)
+    _applyScale : function(value, old)
     {
       this.setParam("scale", value.toString());
     },
@@ -510,7 +510,7 @@ qx.Class.define("qx.ui.embed.Flash",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyWmode : function(value, old)
+    _applyWmode : function(value, old)
     {
       this.setParam("wmode", value.toString());
     },
@@ -523,7 +523,7 @@ qx.Class.define("qx.ui.embed.Flash",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyPlay : function(value, old)
+    _applyPlay : function(value, old)
     {
       this.setParam("play", value.toString());
     },
@@ -536,7 +536,7 @@ qx.Class.define("qx.ui.embed.Flash",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyLoop : function(value, old)
+    _applyLoop : function(value, old)
     {
       this.setParam("loop", value.toString());
     },

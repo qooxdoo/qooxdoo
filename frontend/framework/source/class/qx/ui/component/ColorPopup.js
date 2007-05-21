@@ -82,7 +82,7 @@ qx.Class.define("qx.ui.component.ColorPopup",
     value :
     {
       nullable : true,
-      apply : "_modifyValue",
+      apply : "_applyValue",
       event : "changeValue"
     },
 
@@ -312,7 +312,7 @@ qx.Class.define("qx.ui.component.ColorPopup",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyValue : function(value, old)
+    _applyValue : function(value, old)
     {
       if (value === null)
       {
