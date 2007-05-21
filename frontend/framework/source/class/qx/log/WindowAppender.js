@@ -421,8 +421,6 @@ qx.Class.define("qx.log.WindowAppender",
         // Show message in log so user can see which errors have been counted
         this._showMessageInLog("Log window message: Stopping error recording, discarding " + this._errorsPreventingAutoCloseCount + " errors.");
       }
-
-      return true;
     }
   },
 

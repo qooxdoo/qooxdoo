@@ -251,8 +251,6 @@ qx.Class.define("qx.locale.Manager",
 
       var pos = value.indexOf("_");
       this._language = this._extractLanguage(value);
-
-      return true;
     },
 
 
