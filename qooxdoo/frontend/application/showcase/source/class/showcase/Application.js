@@ -1363,17 +1363,17 @@ qx.Class.define("showcase.Application",
         select.add(new qx.ui.form.ListItem(locales[i]));
       }
 
-      var defaultListItem = select.getList().findStringExact("en");
-
-      if (defaultListItem) {
-        select.setSelected(defaultListItem);
-      }
-
       select.addEventListener("changeSelected", function(e)
       {
         var locale = e.getData().getLabel();
         qx.locale.Manager.getInstance().setLocale(locale);
       });
+
+      var defaultListItem = select.getList().findStringExact("en");
+
+      if (defaultListItem) {
+        select.setSelected(defaultListItem);
+      }
 
       hb2.add(l2, select);
       main.add(hb2);
@@ -1521,7 +1521,7 @@ qx.Class.define("showcase.Application",
       });
       fs.setMargin(4);
 
-      var infoLabel = new qx.ui.basic.Label("", "html");
+      var infoLabel = new qx.ui.basic.Label("", null, "html");
       fs.add(infoLabel);
       w2.add(fs);
 
