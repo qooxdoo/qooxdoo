@@ -127,6 +127,10 @@ qx.Class.define("testrunner.runner.TestRunner",
       this);
     this.widgets["treeview.bsb1"].setChecked(true);
 
+    // Log Appender
+    this.debug("This should go to the dedicated log window ...");
+
+
     // Last but not least:
     // Hidden IFrame for test runs
     var iframe = new qx.ui.embed.Iframe("html/QooxdooTest.html?testclass=testrunner.test");
@@ -306,22 +310,51 @@ qx.Class.define("testrunner.runner.TestRunner",
         width  : "100%"
       });
 
-      this.f2 = new qx.ui.form.TextArea("Session Log, listing test invokations and all outputs");
+      // main output area
+      //this.f2 = new qx.ui.form.TextArea("Session Log, listing test invokations and all outputs");
+      this.f2 = new qx.ui.embed.HtmlEmbed('<div>Session Log</div>');
+      pp2.add(this.f2);
+      this.f2.setHtmlProperty("id","sessionlog");
       this.f2.set({
+        overflow : "auto",
         height : "1*",
         width : "100%"
       });
 
+      // toolbar
       var ff1 = new qx.ui.toolbar.ToolBar;
+      pp2.add(ff1);
+
       var ff1_b1 = new qx.ui.toolbar.Button("Clear");
       ff1.add(ff1_b1);
       ff1_b1.set({
         width : "auto"
       });
       ff1_b1.addEventListener("execute", function (e) {
-        this.f2.setValue("");
+        this.f2.setHtml("");
       }, this);
-      pp2.add(ff1, this.f2);
+
+      var ff1_b2 = new qx.ui.toolbar.Button("Save As");
+      ff1.add(ff1_b2);
+      ff1_b2.set({
+        width : "auto"
+      });
+      ff1_b2.addEventListener("execute", function (e) {
+        var c = (this.f2.getHtml());
+        var w = window.open('','');
+        //var w = new qx.ui.window.Window("Session Log");
+      }, this);
+
+      // log appender
+      //this.logappender = new qx.log.WindowAppender("qooxdoo Test Runner");
+      //this.logappender = new qx.log.DivAppender("sessionlog");
+      this.logappender = new testrunner.runner.TestAppender(this.f2);
+      //this.getLogger().addAppender(this.logappender);
+      this.getLogger().getParentLogger().getParentLogger().addAppender(this.logappender);
+      //testrunner.getLogger().addAppender(this.logappender);
+      //this.getParent().getParent().getLogger().addAppender(this.logappender);
+      //testrunner.runner.prototype.getLogger().addAppender(this.logappender);
+
 
       // Third Page
       // -- Tab Button
@@ -946,6 +979,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       }
 
       this.loader = this.frameWindow.testrunner.TestLoader.getInstance();
+      this.loader.getLogger().getParentLogger().addAppender(this.logappender);
       var testRep = this.loader.getTestDescriptions();
       this.tests.handler = new testrunner.runner.TestHandler(testRep);
       this.tests.firstrun = true;
