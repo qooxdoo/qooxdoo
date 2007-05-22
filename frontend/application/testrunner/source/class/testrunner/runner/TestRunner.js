@@ -320,6 +320,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         height : "1*",
         width : "100%"
       });
+      this.f2.setStyleProperty("fontSize",12);
 
       // toolbar
       var ff1 = new qx.ui.toolbar.ToolBar;
@@ -328,16 +329,18 @@ qx.Class.define("testrunner.runner.TestRunner",
       var ff1_b1 = new qx.ui.toolbar.Button("Clear");
       ff1.add(ff1_b1);
       ff1_b1.set({
-        width : "auto"
+        border : "outset"
+        //width : "auto"
       });
       ff1_b1.addEventListener("execute", function (e) {
         this.f2.setHtml("");
       }, this);
 
       var ff1_b2 = new qx.ui.toolbar.Button("Save As");
-      ff1.add(ff1_b2);
+      //ff1.add(ff1_b2);
       ff1_b2.set({
-        width : "auto"
+        border : "outset"
+        //width : "auto"
       });
       ff1_b2.addEventListener("execute", function (e) {
         var c = (this.f2.getHtml());
@@ -359,7 +362,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       // Third Page
       // -- Tab Button
       var bsb3 = new qx.ui.pageview.tabview.Button("Tabled Results","icon/16/apps/graphics-snapshot.png");
-      buttview.getBar().add(bsb3);
+      //buttview.getBar().add(bsb3);
 
       // -- Tab Pane
       var p3 = new qx.ui.pageview.tabview.Page(bsb3);

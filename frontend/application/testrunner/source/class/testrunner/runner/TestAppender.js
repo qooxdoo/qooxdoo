@@ -86,9 +86,11 @@ qx.Class.define("testrunner.runner.TestAppender",
       if (evt.instanceId != null) {
         text += " (" + evt.instanceId + ")";
       }
+      text += ': ';
 
       //alert("\n" + text + "\n" + this.formatLogEvent(evt));
-      this.target.setHtml(this.target.getHtml()+"<br>"+this.formatLogEvent(evt));
+      this.target.setHtml(this.target.getHtml()+"<br>"+
+                          text+this.formatLogEvent(evt));
     }
   }
 });
