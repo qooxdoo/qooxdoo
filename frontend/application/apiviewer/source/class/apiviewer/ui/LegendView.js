@@ -117,7 +117,7 @@ qx.Class.define("apiviewer.ui.LegendView",
         },
         {
           icon: "ICON_PROPERTY_PROT",
-          desc: "<h3>Pritected Property</h3>"
+          desc: "<h3>Protected Property</h3>"
         },
         {
           icon: "ICON_PROPERTY_PRIV",
