@@ -145,7 +145,7 @@ qx.Class.define("qx.client.Timer",
     {
       check : "Integer",
       init : 1000,
-      apply : "_modifyInterval"
+      apply : "_applyInterval"
     }
   },
 
@@ -178,7 +178,7 @@ qx.Class.define("qx.client.Timer",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyInterval : function(value, old)
+    _applyInterval : function(value, old)
     {
       if (this.getEnabled()) {
         this.restart();
