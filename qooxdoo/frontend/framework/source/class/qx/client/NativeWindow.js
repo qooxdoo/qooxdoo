@@ -177,8 +177,8 @@ qx.Class.define("qx.client.NativeWindow",
     },
 
 
-    /** If the window is resizeable */
-    resizeable :
+    /** If the window is resizable */
+    resizable :
     {
       check : "Boolean",
       init : true
