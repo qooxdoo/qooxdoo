@@ -56,13 +56,12 @@ error:
 ################################################################################
 
 source:
-	$(CMD_GENERATOR) \
+	@$(CMD_GENERATOR) \
 	  --generate-api-documentation \
 	  --api-separate-files \
 	  --add-new-lines \
 	  --api-documentation-json-file $(APPLICATION_SOURCE_PATH)/script/apidata.js \
-	  --class-path $(FRAMEWORK_SOURCE_PATH)/class \
-	  --disable-internal-check \
+	  --class-path $(FRAMEWORK_SOURCE_PATH)/class
 
 build:
 	@$(CMD_GENERATOR) \
@@ -72,6 +71,5 @@ build:
 	  --class-path $(FRAMEWORK_SOURCE_PATH)/class
 
 clean:
-	@$(CMD_REMOVE) source/script/apidata.js
-	@$(CMD_REMOVE) build/script/apidata.js
-
+	@$(CMD_REMOVE) source/script
+	@$(CMD_REMOVE) build/script
