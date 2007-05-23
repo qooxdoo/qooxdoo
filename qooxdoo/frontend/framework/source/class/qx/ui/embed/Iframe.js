@@ -520,7 +520,7 @@ qx.Class.define("qx.ui.embed.Iframe",
       var currentSource = this.getSource();
 
       if (qx.util.Validation.isInvalidString(currentSource)) {
-        currentSource = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
+        currentSource = qx.manager.object.AliasManager.getInstance().resolvePath("static/html/blank.html");
       }
 
       this._isLoaded = false;
