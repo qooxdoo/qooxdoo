@@ -147,7 +147,7 @@ qx.Class.define("qx.io.remote.Request",
     method :
     {
       check : [ qx.net.Http.METHOD_GET, qx.net.Http.METHOD_POST, qx.net.Http.METHOD_PUT, qx.net.Http.METHOD_HEAD, qx.net.Http.METHOD_DELETE ],
-      apply : "_modifyMethod",
+      apply : "_applyMethod",
       init : qx.net.Http.METHOD_GET
     },
 
@@ -201,7 +201,7 @@ qx.Class.define("qx.io.remote.Request",
     {
       check : [ "configured", "queued", "sending", "receiving", "completed", "aborted", "timeout", "failed" ],
       init : "configured",
-      apply : "_modifyState",
+      apply : "_applyState",
       event : "changeState"
     },
 
@@ -219,7 +219,7 @@ qx.Class.define("qx.io.remote.Request",
     {
       check : [ qx.util.Mime.TEXT, qx.util.Mime.JAVASCRIPT, qx.util.Mime.JSON, qx.util.Mime.XML, qx.util.Mime.HTML ],
       init : qx.util.Mime.TEXT,
-      apply : "_modifyResponseType"
+      apply : "_applyResponseType"
     },
 
 
@@ -247,7 +247,7 @@ qx.Class.define("qx.io.remote.Request",
     {
       check : "Boolean",
       init : true,
-      apply : "_modifyProhibitCaching"
+      apply : "_applyProhibitCaching"
     },
 
 
@@ -637,7 +637,7 @@ qx.Class.define("qx.io.remote.Request",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyState : function(value, old)
+    _applyState : function(value, old)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -655,7 +655,7 @@ qx.Class.define("qx.io.remote.Request",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyProhibitCaching : function(value, old)
+    _applyProhibitCaching : function(value, old)
     {
       if (value)
       {
@@ -686,7 +686,7 @@ qx.Class.define("qx.io.remote.Request",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyMethod : function(value, old)
+    _applyMethod : function(value, old)
     {
       if (value === qx.net.Http.METHOD_POST) {
         this.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -703,7 +703,7 @@ qx.Class.define("qx.io.remote.Request",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyResponseType : function(value, old) {
+    _applyResponseType : function(value, old) {
       this.setRequestHeader("X-Qooxdoo-Response-Type", value);
     },
 

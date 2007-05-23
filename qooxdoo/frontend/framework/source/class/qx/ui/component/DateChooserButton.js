@@ -102,14 +102,14 @@ qx.Class.define("qx.ui.component.DateChooserButton",
       check : "qx.ui.core.Widget",
       init : null,
       nullable : true,
-      apply : "_modifyTargetWidget"
+      apply : "_applyTargetWidget"
     },
 
     /** The title of the date chooser window. */
     chooserTitle :
     {
       init : qx.locale.Manager.tr("Choose a date"),
-      apply : "_modifyChooserTitle"
+      apply : "_applyChooserTitle"
     },
 
     /** The date format size according to the size parameter in {@link qx.locale.Date#getDateFormat}. */
@@ -117,7 +117,7 @@ qx.Class.define("qx.ui.component.DateChooserButton",
     {
       check : ["short", "medium", "long", "full"],
       init : "short",
-      apply : "_modifyDateFormatSize"
+      apply : "_applyDateFormatSize"
     }
   },
 
@@ -147,7 +147,7 @@ qx.Class.define("qx.ui.component.DateChooserButton",
      * @return {Boolean} true if modification succeeded
      * @throws exception if value is not instance of qx.ui.core.Widget or does not have setter and getter for property value
      */
-    _modifyTargetWidget : function(value, old)
+    _applyTargetWidget : function(value, old)
     {
       if (value instanceof qx.ui.core.Widget && qx.util.Validation.isValidFunction(value.setValue) && qx.util.Validation.isValidFunction(value.getValue)) {
         return true;
@@ -165,7 +165,7 @@ qx.Class.define("qx.ui.component.DateChooserButton",
      * @param old {var} Previous value
      * @return {Boolean} true if modification succeeded
      */
-    _modifyChooserTitle : function(value, old) {
+    _applyChooserTitle : function(value, old) {
       this._chooserWindow.setCaption(value);
     },
 
@@ -178,7 +178,7 @@ qx.Class.define("qx.ui.component.DateChooserButton",
      * @param old {var} Previous value
      * @return {Boolean} true if modification succeeded
      */
-    _modifyDateFormatSize : function(value, old) {
+    _applyDateFormatSize : function(value, old) {
       this._changeLocale(value);
     },
 

@@ -218,7 +218,7 @@ qx.Class.define("qx.ui.basic.Atom",
     disabledIcon :
     {
       check : "String",
-      apply : "_modifyDisabledIcon",
+      apply : "_applyDisabledIcon",
       nullable : true,
       themeable : true
     },
@@ -235,7 +235,7 @@ qx.Class.define("qx.ui.basic.Atom",
       themeable : true,
       nullable : true,
       inheritable : true,
-      apply : "_modifyShow",
+      apply : "_applyShow",
       event : "changeShow"
     },
 
@@ -249,7 +249,7 @@ qx.Class.define("qx.ui.basic.Atom",
       init   : "left",
       check : [ "top", "right", "bottom", "left" ],
       themeable : true,
-      apply : "_modifyIconPosition"
+      apply : "_applyIconPosition"
     },
 
 
@@ -261,7 +261,7 @@ qx.Class.define("qx.ui.basic.Atom",
     {
       check : "Integer",
       themeable : true,
-      apply : "_modifyIconWidth",
+      apply : "_applyIconWidth",
       nullable : true
     },
 
@@ -274,7 +274,7 @@ qx.Class.define("qx.ui.basic.Atom",
     {
       check : "Integer",
       themeable : true,
-      apply : "_modifyIconHeight",
+      apply : "_applyIconHeight",
       nullable : true
     }
   },
@@ -411,7 +411,7 @@ qx.Class.define("qx.ui.basic.Atom",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyIconPosition : function(value, old)
+    _applyIconPosition : function(value, old)
     {
       switch(value)
       {
@@ -436,7 +436,7 @@ qx.Class.define("qx.ui.basic.Atom",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyShow : function(value, old)
+    _applyShow : function(value, old)
     {
       this._handleIcon();
       this._handleLabel();
@@ -481,7 +481,7 @@ qx.Class.define("qx.ui.basic.Atom",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyDisabledIcon : function(value, old)
+    _applyDisabledIcon : function(value, old)
     {
       this._updateIcon();
       this._handleIcon();
@@ -495,7 +495,7 @@ qx.Class.define("qx.ui.basic.Atom",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyIconWidth : function(value, old) {
+    _applyIconWidth : function(value, old) {
       this._iconObject.setWidth(value);
     },
 
@@ -507,7 +507,7 @@ qx.Class.define("qx.ui.basic.Atom",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyIconHeight : function(value, old) {
+    _applyIconHeight : function(value, old) {
       this._iconObject.setHeight(value);
     },
 

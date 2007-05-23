@@ -200,7 +200,7 @@ qx.Class.define("qx.ui.form.Spinner",
     {
       check : "Integer",
       init : 1,
-      apply : "_modifyIncrementAmount"
+      apply : "_applyIncrementAmount"
     },
 
 
@@ -297,7 +297,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyIncrementAmount : function(value, old) {
+    _applyIncrementAmount : function(value, old) {
       this._computedIncrementAmount = value;
     },
 

@@ -334,7 +334,7 @@ qx.Class.define("qx.ui.component.DateChooser",
       check : "Date",
       init : null,
       nullable : true,
-      apply : "_modifyDate",
+      apply : "_applyDate",
       event : "changeDate",
       transform : "_checkDate"
     }
@@ -373,7 +373,7 @@ qx.Class.define("qx.ui.component.DateChooser",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyDate : function(value, old)
+    _applyDate : function(value, old)
     {
       var DateChooser = qx.ui.component.DateChooser;
 

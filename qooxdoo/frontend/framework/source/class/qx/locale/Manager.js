@@ -148,7 +148,7 @@ qx.Class.define("qx.locale.Manager",
     {
       check : "String",
       nullable : true,
-      apply : "_modifyLocale",
+      apply : "_applyLocale",
       event : "changeLocale"
     }
   },
@@ -245,7 +245,7 @@ qx.Class.define("qx.locale.Manager",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyLocale : function(value, old)
+    _applyLocale : function(value, old)
     {
       this._locale = value;
 
