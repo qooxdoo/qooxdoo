@@ -135,7 +135,7 @@ qx.Class.define("qx.ui.table.TablePaneModel",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyFirstColumnX : function(value, old)
+    _applyFirstColumnX : function(value, old)
     {
       this._columnCount = null;
       this.createDispatchEvent(qx.ui.table.TablePaneModel.EVENT_TYPE_MODEL_CHANGED);
@@ -149,7 +149,7 @@ qx.Class.define("qx.ui.table.TablePaneModel",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyMaxColumnCount : function(value, old)
+    _applyMaxColumnCount : function(value, old)
     {
       this._columnCount = null;
       this.createDispatchEvent(qx.ui.table.TablePaneModel.EVENT_TYPE_MODEL_CHANGED);
