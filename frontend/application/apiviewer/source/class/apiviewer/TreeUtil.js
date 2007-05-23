@@ -191,6 +191,12 @@ qx.Class.define("apiviewer.TreeUtil",
         } else if (node.isAbstract()) {
           constName += "_ABSTRACT";
         }
+
+        if (node.getClass().getType() == "mixin") {
+          constName += "_MIXIN";
+        } else if (node.getClass().getType() == "interface") {
+          constName += "_INTERFACE";
+        }
       }
       else if (node instanceof dao.Constant)
       {

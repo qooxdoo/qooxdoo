@@ -1648,6 +1648,9 @@ def listHasError(node, listName):
 def packagesToJsonString(node, prefix = "", childPrefix = "  ", newLine="\n", encoding="utf-8"):
     asString = prefix + '{type:"' + tree.escapeJsonChars(node.type) + '"'
 
+    if node.type == "class":
+        node.set("externalRef", True)
+
     if node.hasAttributes():
         asString += ',attributes:{'
         firstAttribute = True
@@ -1657,6 +1660,9 @@ def packagesToJsonString(node, prefix = "", childPrefix = "  ", newLine="\n", en
             asString += '"' + key + '":"' + tree.escapeJsonChars(node.attributes[key]) + '"'
             firstAttribute = False
         asString += '}'
+
+    if node.type == "class":
+        node.remove("externalRef")
 
     if node.hasChildren() and node.type != "class":
         asString += ',children:[' + newLine
@@ -1679,6 +1685,10 @@ def packagesToJsonString(node, prefix = "", childPrefix = "  ", newLine="\n", en
 
 
 def packagesToXmlString(node, prefix = "", childPrefix = "  ", newLine="\n", encoding="utf-8"):
+
+    if node.type == "class":
+        node.set("externalRef", True)
+
     hasText = False
     asString = prefix + "<" + node.type
     if node.hasAttributes():
@@ -1687,6 +1697,9 @@ def packagesToXmlString(node, prefix = "", childPrefix = "  ", newLine="\n", enc
                 hasText = True
             else:
                 asString += " " + key + "=\"" + tree.escapeXmlChars(node.attributes[key], True, encoding) + "\""
+
+    if node.type == "class":
+        node.remove("externalRef")
 
     if not node.hasChildren() and not hasText:
         asString += "/>" + newLine

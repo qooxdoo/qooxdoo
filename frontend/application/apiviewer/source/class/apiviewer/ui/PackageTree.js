@@ -48,34 +48,9 @@ qx.Class.define("apiviewer.ui.PackageTree",
       paddingTop      : 3
     });
 
-    this._currentTreeType = apiviewer.ui.PackageTree.PACKAGE_TREE;
-
     // Workaround: Since navigating in qx.ui.tree.Tree doesn't work, we've to
     //             maintain a hash that keeps the tree nodes for class names
     this._classTreeNodeHash = {};
-    this._classTreeNodeHash[apiviewer.ui.PackageTree.PACKAGE_TREE] = {};
-    this._classTreeNodeHash[apiviewer.ui.PackageTree.INHERITENCE_TREE] = {};
-
-    this.getManager().addEventListener("changeSelection", function(e) {
-      var treeNode = e.getData()[0];
-      if (treeNode && treeNode.getUserData("docNode")) {
-        this._currentTreeType = treeNode.treeType;
-      }
-    }, this);
-
-  },
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-    PACKAGE_TREE     : 1,
-    INHERITENCE_TREE : 2
   },
 
 
@@ -98,36 +73,11 @@ qx.Class.define("apiviewer.ui.PackageTree",
     setTreeData : function(docTree)
     {
       this._docTree = docTree;
-      //var inheritenceNode = new qx.ui.tree.TreeFolder("Inheritence hierarchy");
-      //var packagesNode = new qx.ui.tree.TreeFolder("Packages");
-
       this.removeAll();
-      //this.add(inheritenceNode, packagesNode);
-      //this.add(packagesNode);
 
       // Fill the packages tree
-      //this.__fillPackageNode(packagesNode, docTree, 0);
       this.__fillPackageNode(this, docTree, 0);
 
-      /*
-      var start = new Date();
-      // fill the _topLevelClassNodeArr
-      this._topLevelClassNodeArr = apiviewer.dao.Class.getAllTopLevelClasses();
-
-      // Sort the _topLevelClassNodeArr
-      this._topLevelClassNodeArr.sort(function(node1, node2) {
-        return (node1.getFullName() < node2.getFullName()) ? -1 : 1;
-      });
-
-      // Fill the inheritence tree
-      for (var i=0; i<this._topLevelClassNodeArr.length; i++) {
-        this.__createInheritanceNode(inheritenceNode, this._topLevelClassNodeArr[i]);
-      }
-      var end = new Date();
-      this.debug("Time to fill the inheritence tree: " + (end.getTime() - start.getTime()) + "ms");
-      */
-
-      //packagesNode.open();
       this.open();
 
       if (this._wantedClassName)
@@ -159,7 +109,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
       var i = 0;
       do {
         var treeNode =
-          this._classTreeNodeHash[this._currentTreeType || apiviewer.ui.PackageTree.PACKAGE_TREE][packageName];
+          this._classTreeNodeHash[packageName];
 
         if (!treeNode){
           return false;
@@ -218,7 +168,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
         var iconUrl = apiviewer.TreeUtil.getIconUrl(packageDoc);
         var packageTreeNode = new qx.ui.tree.TreeFolder(packageDoc.getName(), iconUrl);
         packageTreeNode.setAlwaysShowPlusMinusSymbol(true);
-        packageTreeNode.setUserData("docNode", packageDoc);
+        packageTreeNode.setUserData("nodeName", packageDoc.getFullName());
         treeNode.add(packageTreeNode);
 
         // defer adding of child nodes
@@ -230,7 +180,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
         }
 
         // Register the tree node
-        this._classTreeNodeHash[PackageTree.PACKAGE_TREE][packageDoc.getFullName()] = packageTreeNode;
+        this._classTreeNodeHash[packageDoc.getFullName()] = packageTreeNode;
       }
 
       var classesDoc = docNode.getClasses();
@@ -239,61 +189,16 @@ qx.Class.define("apiviewer.ui.PackageTree",
         var classDoc = classesDoc[i];
         var iconUrl = apiviewer.TreeUtil.getIconUrl(classDoc);
         var classTreeNode = new qx.ui.tree.TreeFolder(classDoc.getName(), iconUrl);
-        classTreeNode.setUserData("docNode", classDoc);
+        classTreeNode.setUserData("nodeName", classDoc.getFullName());
         classTreeNode.treeType = PackageTree.PACKAGE_TREE;
         treeNode.add(classTreeNode);
 
         // Register the tree node
-        this._classTreeNodeHash[PackageTree.PACKAGE_TREE][classDoc.getFullName()] = classTreeNode;
+        this._classTreeNodeHash[classDoc.getFullName()] = classTreeNode;
       }
-    },
-
-
-    /**
-     * Creates the tree node for a class containing class nodes for all its child
-     * classes.
-     *
-     * @type member
-     * @param parentTreeNode {qx.ui.tree.TreeFolder} the parent tree node of the current sub tree
-     * @param classDocNode {apiviewer.dao.Package} the documentation node of the class.
-     */
-    __createInheritanceNode : function(parentTreeNode, classDocNode)
-    {
-      var PackageTree = apiviewer.ui.PackageTree;
-
-      // Create the tree node
-      var iconUrl = apiviewer.TreeUtil.getIconUrl(classDocNode);
-      var classTreeNode = new qx.ui.tree.TreeFolder(classDocNode.getFullName(), iconUrl);
-      classTreeNode.setUserData("docNode", classDocNode);
-      classTreeNode.treeType = PackageTree.INHERITENCE_TREE;
-      parentTreeNode.add(classTreeNode);
-
-      // Register the tree node
-      this._classTreeNodeHash[PackageTree.INHERITENCE_TREE][classDocNode.getFullName()] = classTreeNode;
-
-      var childClassNameArr = classDocNode.getChildClasses();
-      if (childClassNameArr.length < 0) {
-        return;
-      }
-
-      classTreeNode.setAlwaysShowPlusMinusSymbol(true);
-
-      // defer adding of child nodes
-      classTreeNode.addEventListener("changeOpen", function() {
-        if (!classTreeNode.loaded)
-        {
-          for (var i=0; i<childClassNameArr.length; i++)
-          {
-            var childClassDocNode = apiviewer.dao.Class.getClassByName(childClassNameArr[i]);
-            this.__createInheritanceNode(classTreeNode, childClassDocNode);
-          }
-          classTreeNode.setAlwaysShowPlusMinusSymbol(false);
-          classTreeNode.loaded = true;
-        }
-      }, this);
     }
-  },
 
+  },
 
 
   /*
