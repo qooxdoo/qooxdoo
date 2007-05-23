@@ -876,7 +876,7 @@ qx.Class.define("testrunner.runner.TestRunner",
             that.reloadswitch.setChecked(true);
             that.tests.firstrun = false;
             that.widgets["statuspane.systeminfo"].setText("Enabled auto-reload");
-          } else 
+          } else
           {
             that.widgets["statuspane.systeminfo"].setText("Ready");
           }
@@ -965,7 +965,7 @@ qx.Class.define("testrunner.runner.TestRunner",
     }, //reloadTestSuite
 
 
-    ehIframeOnLoad : function (e) 
+    ehIframeOnLoad : function (e)
     {
       var iframe = this.iframe;
 
