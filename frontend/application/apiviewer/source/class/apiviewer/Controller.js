@@ -53,6 +53,8 @@ qx.Class.define("apiviewer.Controller",
     this._titlePrefix = qx.core.Setting.get("apiviewer.title") + " API Documentation";
     document.title = this._titlePrefix;
 
+    this._classLoader = new apiviewer.ClassLoader("./script");
+
     this._detailLoader = this._widgetRegistry.getWidgetById("detail_loader");
     this._packageViewer = this._widgetRegistry.getWidgetById("package_viewer");
 
@@ -146,10 +148,12 @@ qx.Class.define("apiviewer.Controller",
     {
       this._tree.getManager().addEventListener("changeSelection", function(evt) {
         var treeNode = evt.getData()[0];
-        if (treeNode && treeNode.getUserData("docNode") && !this._ignoreTreeSelection)
+        if (treeNode && treeNode.getUserData("nodeName") && !this._ignoreTreeSelection)
         {
-          this.__updateHistory(treeNode.getUserData("docNode").getFullName());
-          this.__selectClass(treeNode.getUserData("docNode"));
+          var nodeName = treeNode.getUserData("nodeName");
+
+          // the history update will cause __selectClass to be called.
+          this.__updateHistory(nodeName);
         }
       }, this);
 
@@ -232,17 +236,28 @@ qx.Class.define("apiviewer.Controller",
     {
       this._detailLoader.setVisibility(false);
 
+      var doc = qx.ui.core.ClientDocument.getInstance();
+      doc.setGlobalCursor("wait");
+
       if (classNode instanceof apiviewer.dao.Class)
       {
-        this._packageViewer.setVisibility(false);
-        this._classViewer.setDocNode(classNode);
-        this._classViewer.setVisibility(true);
+        this._classLoader.classLoadDependendClasses(classNode, function(cls)
+        {
+          this._packageViewer.setVisibility(false);
+          this._classViewer.setDocNode(cls);
+          this._classViewer.setVisibility(true);
+          doc.resetGlobalCursor();
+        }, this);
       }
       else
       {
-        this._classViewer.setVisibility(false);
-        this._packageViewer.setDocNode(classNode);
-        this._packageViewer.setVisibility(true);
+        this._classLoader.packageLoadDependendClasses(classNode, function()
+        {
+          this._classViewer.setVisibility(false);
+          this._packageViewer.setDocNode(classNode);
+          this._packageViewer.setVisibility(true);
+          doc.resetGlobalCursor();
+        }, this);
       }
     },
 
@@ -283,7 +298,8 @@ qx.Class.define("apiviewer.Controller",
         return;
       }
 
-      this.__selectClass(this._tree.getSelectedElement().getUserData("docNode"));
+      var nodeName = this._tree.getSelectedElement().getUserData("nodeName");
+      this.__selectClass(apiviewer.dao.Class.getClassByName(nodeName));
 
       if (itemName) {
         if (!this._classViewer.showItem(itemName)) {
