@@ -27,6 +27,9 @@
 ************************************************************************ */
 
 /**
+ * Container node of a {@link Tree}, i.e. it can contain other TreeFolder or
+ * {@link TreeFile} objects.
+ *
  * @appearance tree-folder {qx.ui.layout.HorizontalBoxLayout}
  * @appearance tree-folder {qx.ui.layout.HorizontalBoxLayout}
  * @appearance tree-folder-icon {qx.ui.basic.Image}
