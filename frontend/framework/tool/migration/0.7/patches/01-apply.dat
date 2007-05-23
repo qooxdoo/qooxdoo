@@ -210,3 +210,4 @@
 \b_modifyFocusRoot\b=_applyFocusRoot
 
 \b_modifyCommand\b=_applyCommand
+\b_modifyResizeable\b=_applyResizeable
