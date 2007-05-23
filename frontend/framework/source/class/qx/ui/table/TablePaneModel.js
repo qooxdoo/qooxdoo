@@ -99,7 +99,8 @@ qx.Class.define("qx.ui.table.TablePaneModel",
     firstColumnX :
     {
       check : "Integer",
-      init : 0
+      init : 0,
+      apply : "_applyFirstColumnX"
     },
 
 
@@ -110,7 +111,8 @@ qx.Class.define("qx.ui.table.TablePaneModel",
     maxColumnCount :
     {
       check : "Number",
-      init : -1
+      init : -1,
+      apply : "_applyMaxColumnCount"
     }
   },
 
