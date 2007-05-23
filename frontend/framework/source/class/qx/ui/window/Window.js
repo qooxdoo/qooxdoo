@@ -44,7 +44,7 @@
  */
 qx.Class.define("qx.ui.window.Window",
 {
-  extend : qx.ui.resizer.ResizeablePopup,
+  extend : qx.ui.resizer.ResizablePopup,
 
 
 
@@ -957,7 +957,7 @@ qx.Class.define("qx.ui.window.Window",
      */
     _maximizeButtonManager : function()
     {
-      var b = this.getAllowMaximize() && this.getResizeable() && this._computedMaxWidthTypeNull && this._computedMaxHeightTypeNull;
+      var b = this.getAllowMaximize() && this.getResizable() && this._computedMaxWidthTypeNull && this._computedMaxHeightTypeNull;
 
       if (this._maximizeButton) {
         b === false ? this._maximizeButton.setEnabled(false) : this._maximizeButton.resetEnabled();
@@ -1019,7 +1019,7 @@ qx.Class.define("qx.ui.window.Window",
      * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _modifyResizeable : function(value, old) {
+    _applyResizable : function(value, old) {
       this._maximizeButtonManager();
     },
 

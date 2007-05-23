@@ -20,11 +20,11 @@
 /**
  * A popup that can be resized.
  */
-qx.Class.define("qx.ui.resizer.ResizeablePopup",
+qx.Class.define("qx.ui.resizer.ResizablePopup",
 {
   extend   : qx.ui.popup.Popup,
-  include  : qx.ui.resizer.MResizeable,
-  implement: qx.ui.resizer.IResizeable,
+  include  : qx.ui.resizer.MResizable,
+  implement: qx.ui.resizer.IResizable,
 
   construct : function()
   {
@@ -87,7 +87,7 @@ qx.Class.define("qx.ui.resizer.ResizeablePopup",
   {
     /*
     ---------------------------------------------------------------------------
-      IResizeable interface
+      IResizable interface
     ---------------------------------------------------------------------------
     */
 

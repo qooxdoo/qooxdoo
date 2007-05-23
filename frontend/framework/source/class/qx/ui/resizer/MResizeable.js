@@ -21,9 +21,9 @@
 
 /**
  * Provides resizing behavior to any widget.
- * The widget that includes this mixin, must implement the {@link qx.ui.resizer.IResizeable} interface.
+ * The widget that includes this mixin, must implement the {@link qx.ui.resizer.IResizable} interface.
  */
-qx.Mixin.define("qx.ui.resizer.MResizeable",
+qx.Mixin.define("qx.ui.resizer.MResizable",
 {
   /*
   *****************************************************************************
@@ -52,42 +52,46 @@ qx.Mixin.define("qx.ui.resizer.MResizeable",
 
   properties :
   {
-    /** It is resizeable in the left direction. */
-    resizeableWest :
+    /** It is resizable in the left direction. */
+    resizableWest :
     {
       check : "Boolean",
-      init : true
+      init : true,
+      apply : "_applyResizable"
     },
 
 
-    /** It is resizeable in the top direction. */
-    resizeableNorth :
+    /** It is resizable in the top direction. */
+    resizableNorth :
     {
       check : "Boolean",
-      init : true
+      init : true,
+      apply : "_applyResizable"
     },
 
 
-    /** It is resizeable in the right direction. */
-    resizeableEast :
+    /** It is resizable in the right direction. */
+    resizableEast :
     {
       check : "Boolean",
-      init : true
+      init : true,
+      apply : "_applyResizable"
     },
 
 
-    /** It is resizeable in the bottom direction. */
-    resizeableSouth :
+    /** It is resizable in the bottom direction. */
+    resizableSouth :
     {
       check : "Boolean",
-      init : true
+      init : true,
+      apply : "_applyResizable"
     },
 
 
-    /** If the window is resizeable */
-    resizeable :
+    /** If the window is resizable */
+    resizable :
     {
-      group : [ "resizeableNorth", "resizeableEast", "resizeableSouth", "resizeableWest" ],
+      group : [ "resizableNorth", "resizableEast", "resizableSouth", "resizableWest" ],
       mode  : "shorthand"
     },
 
@@ -120,20 +124,26 @@ qx.Mixin.define("qx.ui.resizer.MResizeable",
      * @type member
      * @return {Boolean} TODOC
      */
-    isResizeable : function() {
-      return this.getResizeableWest() || this.getResizeableEast() || this.getResizeableNorth() || this.getResizeableSouth();
+    isResizable : function() {
+      return this.getResizableWest() || this.getResizableEast() || this.getResizableNorth() || this.getResizableSouth();
     },
 
 
     /**
      * Adjust so that it returns a boolean instead of an array.
-     * Wrapper around isResizeable. Please use isResizeable instead.
+     * Wrapper around isResizable. Please use isResizable instead.
      *
      * @type member
      * @return {Boolean} TODOC
      */
-    getResizeable : function() {
-      return this.isResizeable();
+    getResizable : function() {
+      return this.isResizable();
+    },
+
+
+
+    _applyResizable : function(value, old) {
+      // placeholder
     },
 
 
@@ -418,7 +428,7 @@ qx.Mixin.define("qx.ui.resizer.MResizeable",
 
         if (this._near(qx.html.Location.getPageBoxTop(el), e.getPageY()))
         {
-          if (this.getResizeableNorth())
+          if (this.getResizableNorth())
           {
             resizeMode = "n";
             this._resizeNorth = true;
@@ -426,7 +436,7 @@ qx.Mixin.define("qx.ui.resizer.MResizeable",
         }
         else if (this._near(qx.html.Location.getPageBoxBottom(el), e.getPageY()))
         {
-          if (this.getResizeableSouth())
+          if (this.getResizableSouth())
           {
             resizeMode = "s";
             this._resizeSouth = true;
@@ -435,7 +445,7 @@ qx.Mixin.define("qx.ui.resizer.MResizeable",
 
         if (this._near(qx.html.Location.getPageBoxLeft(el), e.getPageX()))
         {
-          if (this.getResizeableWest())
+          if (this.getResizableWest())
           {
             resizeMode += "w";
             this._resizeWest = true;
@@ -443,7 +453,7 @@ qx.Mixin.define("qx.ui.resizer.MResizeable",
         }
         else if (this._near(qx.html.Location.getPageBoxRight(el), e.getPageX()))
         {
-          if (this.getResizeableEast())
+          if (this.getResizableEast())
           {
             resizeMode += "e";
             this._resizeEast = true;
