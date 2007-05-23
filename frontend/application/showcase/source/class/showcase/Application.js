@@ -1651,7 +1651,7 @@ qx.Class.define("showcase.Application",
       chk1.setChecked(true);
 
       chk1.addEventListener("changeChecked", function(e) {
-        win.setResizeable(e.getData());
+        win.setResizable(e.getData());
       });
 
       var chk2 = new qx.ui.form.CheckBox("Show Statusbar");
@@ -1959,7 +1959,7 @@ qx.Class.define("showcase.Application",
       });
 
       chk3.addEventListener("changeChecked", function(e) {
-        w2.setResizeable(e.getData());
+        w2.setResizable(e.getData());
       });
 
       var chk4 = new qx.ui.form.CheckBox("Moveable");

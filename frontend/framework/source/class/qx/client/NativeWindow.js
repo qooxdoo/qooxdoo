@@ -498,7 +498,7 @@ qx.Class.define("qx.client.NativeWindow",
 
       conf.push("resizable");
       conf.push("=");
-      conf.push(this.getResizeable() ? "yes" : "no");
+      conf.push(this.getResizable() ? "yes" : "no");
       conf.push(",");
 
       conf.push("status");

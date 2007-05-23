@@ -283,7 +283,7 @@ qx.Class.define("qx.ui.component.ColorPopup",
       this._colorSelectorWindow = new qx.ui.window.Window(this.tr("Color Selector"));
       this._colorSelectorWindow.setMinWidth(null);
       this._colorSelectorWindow.setMinHeight(null);
-      this._colorSelectorWindow.setResizeable(false);
+      this._colorSelectorWindow.setResizable(false);
       this._colorSelectorWindow.auto();
 
       this._colorSelector = new qx.ui.component.ColorSelector;
