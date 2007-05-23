@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 /**
- * Leaf node of a {@link Tree}.
+ * Use this class for the leaf nodes of a {@link Tree}.
  */
 
 qx.Class.define("qx.ui.tree.TreeFile",
@@ -50,12 +50,13 @@ qx.Class.define("qx.ui.tree.TreeFile",
     */
 
     /**
-     * TODOC
+     * Returns a string indicating the symbol used to indent the current item,
+     * or null.
      *
      * @type member
-     * @param vUseTreeLines {var} TODOC
-     * @param vIsLastColumn {var} TODOC
-     * @return {var | string | null} TODOC
+     * @param vUseTreeLines {Boolean} whether tree lines are used
+     * @param vIsLastColumn {Boolean} whether the item is in the last column
+     * @return {String | null} "end", "cross", "line" or null
      */
     getIndentSymbol : function(vUseTreeLines, vIsLastColumn)
     {
@@ -84,10 +85,10 @@ qx.Class.define("qx.ui.tree.TreeFile",
 
 
     /**
-     * TODOC
+     * Returns itself in an array.
      *
      * @type member
-     * @return {Array} TODOC
+     * @return {Array} array containing itself
      */
     getItems : function() {
       return [ this ];
