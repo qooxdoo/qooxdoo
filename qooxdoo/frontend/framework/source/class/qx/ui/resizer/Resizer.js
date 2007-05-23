@@ -36,8 +36,8 @@
 qx.Class.define("qx.ui.resizer.Resizer",
 {
   extend    : qx.ui.layout.CanvasLayout,
-  include   : qx.ui.resizer.MResizeable,
-  implement : qx.ui.resizer.IResizeable,
+  include   : qx.ui.resizer.MResizable,
+  implement : qx.ui.resizer.IResizable,
 
 
 
@@ -120,7 +120,7 @@ qx.Class.define("qx.ui.resizer.Resizer",
   {
     /*
     ---------------------------------------------------------------------------
-      IResizeable interface
+      IResizable interface
     ---------------------------------------------------------------------------
     */
 
