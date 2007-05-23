@@ -63,7 +63,7 @@ qx.Class.define("qx.type.Range",
     min :
     {
       check : "Number",
-      apply : "_modifyMin",
+      apply : "_applyMin",
       event : "change",
       init : 0
     },
@@ -72,7 +72,7 @@ qx.Class.define("qx.type.Range",
     max :
     {
       check : "Number",
-      apply : "_modifyMax",
+      apply : "_applyMax",
       event : "change",
       init : 100
     }
@@ -96,7 +96,7 @@ qx.Class.define("qx.type.Range",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyMax : function(value, old) {
+    _applyMax : function(value, old) {
       this.setValue(Math.min(this.getValue(), value));
     },
 
@@ -108,7 +108,7 @@ qx.Class.define("qx.type.Range",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyMin : function(value, old) {
+    _applyMin : function(value, old) {
       this.setValue(Math.max(this.getValue(), value));
     },
 

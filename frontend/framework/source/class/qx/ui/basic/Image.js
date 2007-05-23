@@ -172,7 +172,7 @@ qx.Class.define("qx.ui.basic.Image",
     preloader :
     {
       check : "qx.io.image.Preloader",
-      apply : "_modifyPreloader",
+      apply : "_applyPreloader",
       nullable : true
     },
 
@@ -187,7 +187,7 @@ qx.Class.define("qx.ui.basic.Image",
     {
       check : "Boolean",
       init : false,
-      apply : "_modifyLoaded"
+      apply : "_applyLoaded"
     },
 
 
@@ -345,7 +345,7 @@ qx.Class.define("qx.ui.basic.Image",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyPreloader : function(value, old)
+    _applyPreloader : function(value, old)
     {
       if (old)
       {
@@ -391,7 +391,7 @@ qx.Class.define("qx.ui.basic.Image",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyLoaded : function(value, old)
+    _applyLoaded : function(value, old)
     {
       if (value && this.isCreated())
       {

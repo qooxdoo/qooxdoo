@@ -58,7 +58,7 @@ qx.Class.define("qx.manager.object.ToolTipManager",
     {
       check : "qx.ui.popup.ToolTip",
       nullable : true,
-      apply : "_modifyCurrentToolTip"
+      apply : "_applyCurrentToolTip"
     }
   },
 
@@ -87,7 +87,7 @@ qx.Class.define("qx.manager.object.ToolTipManager",
      * @param old {var} Previous value
      * @return {void | Boolean} TODOC
      */
-    _modifyCurrentToolTip : function(value, old)
+    _applyCurrentToolTip : function(value, old)
     {
       // Return if the new tooltip is a child of the old one
       if (old && old.contains(value)) {

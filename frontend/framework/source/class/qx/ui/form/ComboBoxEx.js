@@ -212,7 +212,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
     {
       check : "Boolean",
       init : false,
-      apply : "_recreateList" //"_modifyIdColumnVisible"
+      apply : "_recreateList" //"_applyIdColumnVisible"
     },
 
     /** Only used when editable is false.  It determines what to show in the text field of the combo box. */
@@ -386,7 +386,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
         }
       };
 
-      this._modifyIdColumnVisible(this.getIdColumnVisible());
+      this._applyIdColumnVisible(this.getIdColumnVisible());
       this._manager = l.getSelectionModel();
       this._manager.addEventListener('changeSelection', this._onChangeSelection, this);
 
@@ -609,7 +609,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      * @param value {var} Current value
      * @return {void}
      */
-    _modifyIdColumnVisible : function(propVal)
+    _applyIdColumnVisible : function(propVal)
     {
       if (this._list)
       {

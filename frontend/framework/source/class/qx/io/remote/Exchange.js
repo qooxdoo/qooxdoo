@@ -507,7 +507,7 @@ qx.Class.define("qx.io.remote.Exchange",
     {
       check : "qx.io.remote.AbstractRemoteTransport",
       nullable : true,
-      apply : "_modifyImplementation"
+      apply : "_applyImplementation"
     },
 
     state :
@@ -515,7 +515,7 @@ qx.Class.define("qx.io.remote.Exchange",
       check : [ "configured", "sending", "receiving", "completed", "aborted", "timeout", "failed" ],
       init : "configured",
       event : "changeState",
-      apply : "_modifyState"
+      apply : "_applyState"
     }
   },
 
@@ -784,7 +784,7 @@ qx.Class.define("qx.io.remote.Exchange",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyImplementation : function(value, old)
+    _applyImplementation : function(value, old)
     {
       if (old)
       {
@@ -831,7 +831,7 @@ qx.Class.define("qx.io.remote.Exchange",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyState : function(value, old)
+    _applyState : function(value, old)
     {
       var vRequest = this.getRequest();
 
