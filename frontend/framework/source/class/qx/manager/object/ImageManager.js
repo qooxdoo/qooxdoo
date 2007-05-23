@@ -123,18 +123,14 @@ qx.Class.define("qx.manager.object.ImageManager",
 
     _applyIconTheme : function(value, old)
     {
-      var value = this.getIconTheme();
       var alias = qx.manager.object.AliasManager.getInstance();
-
       value ? alias.add("icon", value.icons.uri) : alias.remove("icon");
     },
 
 
     _applyWidgetTheme : function(value, old)
     {
-      var value = this.getWidgetTheme();
       var alias = qx.manager.object.AliasManager.getInstance();
-
       value ? alias.add("widget", value.widgets.uri) : alias.remove("widget");
     },
 

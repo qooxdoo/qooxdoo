@@ -223,7 +223,9 @@ qx.Class.define("qx.manager.object.AliasManager",
   *****************************************************************************
   */
 
-  settings : { "qx.resourceUri" : "./resource" },
+  settings : {
+    "qx.resourceUri" : "./resource"
+  },
 
 
 
