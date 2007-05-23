@@ -27,6 +27,10 @@
 ************************************************************************ */
 
 /**
+ * The AbstractTreeElement serves as a common superclass for the {@link
+ * TreeFile} and {@link TreeFolder} classes and is an implementation means of
+ * the qooxdoo framework. It has no relevance for application developers.
+ *
  * @appearance tree-element
  * @appearance tree-element-icon {qx.ui.basic.Image}
  * @appearance tree-element-label {qx.ui.basic.Label}
@@ -45,6 +49,12 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
   *****************************************************************************
   */
 
+  /**
+   * @param vLabel {qx.ui.basic.Label} the label to display for the tree element
+   * @param vIcon {qx.ui.basic.Image} the image to display for the tree element
+   * @param vIconSelected {qx.ui.basic.Image} the image to display when the tree
+   * element is selected
+   */
   construct : function(vLabel, vIcon, vIconSelected)
   {
     if (this.classname == qx.ui.tree.AbstractTreeElement.ABSTRACT_CLASS) {
@@ -116,18 +126,27 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
 
   properties :
   {
+    /**
+     * Controls the orientation of the tree element.
+     */
     orientation:
     {
       refine : true,
       init : "horizontal"
     },
 
+    /**
+     * Controls whether the element is selectable.
+     */
     selectable :
     {
       refine : true,
       init : false
     },
 
+    /**
+     * Controls the appearance of the tree element.
+     */
     appearance :
     {
       refine : true,
@@ -135,13 +154,18 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
     },
 
 
-    /** The icons */
+    /**
+     * Controls the default icon for the element.
+     */
     icon :
     {
       check : "String",
       nullable : true
     },
 
+    /**
+     * Controls the icon for the element when it is selected.
+     */
     iconSelected :
     {
       check : "String",
@@ -150,7 +174,9 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
     },
 
 
-    /** The label/caption/text of the qx.ui.basic.Atom instance */
+    /** 
+     * The label/caption/text of the qx.ui.basic.Atom instance 
+     */
     label :
     {
       apply : "_applyLabel",
@@ -158,7 +184,9 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
     },
 
 
-    /** Selected property */
+    /** 
+     * Selected property 
+     */
     selected :
     {
       check : "Boolean",
@@ -268,10 +296,10 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
     */
 
     /**
-     * TODOC
+     * Returns the parent folder of this tree element.
      *
      * @type member
-     * @return {var | null} TODOC
+     * @return {qx.ui.tree.AbstractTreeElement | null} TODOC
      */
     getParentFolder : function()
     {
@@ -284,10 +312,11 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
 
 
     /**
-     * TODOC
+     * Returns the level of the tree element in the tree hierarchy (starting
+     * with 0 at the root element).
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Integer} the level
      */
     getLevel : function()
     {
@@ -297,10 +326,10 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
 
 
     /**
-     * TODOC
+     * Returns the tree from the parent folder of this element.
      *
      * @type member
-     * @return {var} TODOC
+     * @return {qx.ui.tree.AbstractTreeElement} the tree root node
      */
     getTree : function()
     {
@@ -431,10 +460,11 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
      * node.
      *
      * @type member
-     * @param vArr {var} -
-     *       When called by the user, arr should typically be an empty array.  Each
-     *       level from the current node upwards will push its label onto the array.
-     * @return {var} TODOC
+     * @param vArr {[String]}
+     *       When called by the user, arr should typically be an empty array.
+     *       Each level from the current node upwards will push its label onto
+     *       the array.  
+     * @return {[String]} array of label texts
      */
     getHierarchy : function(vArr)
     {
@@ -467,7 +497,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
     */
 
     /**
-     * TODOC
+     * Adds the current element to the tree queue.
      *
      * @type member
      * @return {void}
@@ -483,7 +513,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
 
 
     /**
-     * TODOC
+     * Removes the current element from the tree queue.
      *
      * @type member
      * @return {void}
@@ -499,7 +529,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
 
 
     /**
-     * TODOC
+     * Adds the current item to a custom queue.
      *
      * @type member
      * @param vHint {var} TODOC
@@ -514,7 +544,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
 
 
     /**
-     * TODOC
+     * Removes the current element from the custom queue.
      *
      * @type member
      * @param vHint {var} TODOC
@@ -532,7 +562,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
 
     /*
     ---------------------------------------------------------------------------
-      DISPLAYBLE HANDLING
+      DISPLAYABLE HANDLING
     ---------------------------------------------------------------------------
     */
 
@@ -644,7 +674,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
     */
 
     /**
-     * TODOC
+     * Flush the tree from the current element on.
      *
      * @type member
      * @return {void}

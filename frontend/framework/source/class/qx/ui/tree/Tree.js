@@ -63,9 +63,11 @@ qx.Class.define("qx.ui.tree.Tree",
   */
 
   /**
-   * @param vLabel {qx.ui.basic.Label}
-   * @param vIcon {qx.ui.basic.Image}
-   * @param vIconSelected {qx.ui.basic.Image}
+   * @param vLabel {qx.ui.basic.Label} the label to display for the root node of
+   * the tree
+   * @param vIcon {qx.ui.basic.Image} the image to display for the root node
+   * @param vIconSelected {qx.ui.basic.Image} the image to display when the root
+   * node is selected
    */
   construct : function(vLabel, vIcon, vIconSelected)
   {
@@ -114,10 +116,10 @@ qx.Class.define("qx.ui.tree.Tree",
     */
 
     /**
-     * TODOC
+     * Returns whether the passed object vObject is a TreeFolder.
      *
      * @type static
-     * @param vObject {Object} TODOC
+     * @param vObject {Object} an object
      */
     isTreeFolder : function(vObject) {
       return vObject && vObject instanceof qx.ui.tree.TreeFolder && !(vObject instanceof qx.ui.tree.Tree);
@@ -125,10 +127,11 @@ qx.Class.define("qx.ui.tree.Tree",
 
 
     /**
-     * TODOC
+     * Returns whether vObject is a TreeFolder and is open and
+     * has content.
      *
      * @type static
-     * @param vObject {Object} TODOC
+     * @param vObject {Object} an object
      */
     isOpenTreeFolder : function(vObject) {
       return vObject instanceof qx.ui.tree.TreeFolder && vObject.getOpen() && vObject.hasContent();
@@ -152,12 +155,19 @@ qx.Class.define("qx.ui.tree.Tree",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Controls whether to use double clicks to open folders.
+     */
     useDoubleClick :
     {
       check : "Boolean",
       init : false
     },
 
+    /**
+     * Controls whether to use (usually dotted) lines when a folder is opened,
+     * to indicate the levels of the hierarchy and the indentation.
+     */
     useTreeLines :
     {
       check : "Boolean",
@@ -202,7 +212,9 @@ qx.Class.define("qx.ui.tree.Tree",
     */
 
     /**
-     * TODOC
+     * Returns the selection manager for this tree. The selection manager is
+     * managing the whole tree, not just the root Tree element or some part of
+     * it.
      *
      * @type member
      * @return {qx.manager.selection.TreeSelectionManager} the selection manager of the tree.
@@ -213,10 +225,11 @@ qx.Class.define("qx.ui.tree.Tree",
 
 
     /**
-     * TODOC
+     * Returns the currently selected element within the tree. This is a
+     * descendant of the root tree element.
      *
      * @type member
-     * @return {qx.ui.tree.AbstractTreeElement} TODOC
+     * @return {qx.ui.tree.AbstractTreeElement} the currently selected element
      */
     getSelectedElement : function() {
       return this.getManager().getSelectedItem();
@@ -232,10 +245,10 @@ qx.Class.define("qx.ui.tree.Tree",
     */
 
     /**
-     * TODOC
+     * Adds vChild to the tree queue.
      *
      * @type member
-     * @param vChild {AbstractTreeElement} TODOC
+     * @param vChild {AbstractTreeElement} child to add
      * @return {void}
      */
     addChildToTreeQueue : function(vChild)
@@ -260,10 +273,10 @@ qx.Class.define("qx.ui.tree.Tree",
 
 
     /**
-     * TODOC
+     * Removes vChild from the tree queue.
      *
      * @type member
-     * @param vChild {AbstractTreeElement} TODOC
+     * @param vChild {AbstractTreeElement} child to remove
      * @return {void}
      */
     removeChildFromTreeQueue : function(vChild)
@@ -280,7 +293,7 @@ qx.Class.define("qx.ui.tree.Tree",
 
 
     /**
-     * TODOC
+     * Flushes the tree queue.
      *
      * @type member
      * @return {void}
@@ -291,7 +304,7 @@ qx.Class.define("qx.ui.tree.Tree",
 
 
     /**
-     * TODOC
+     * Flushes the tree queue.
      *
      * @type member
      * @return {void}
@@ -344,10 +357,10 @@ qx.Class.define("qx.ui.tree.Tree",
     */
 
     /**
-     * TODOC
+     * Returns the current tree instance, i.e. itself.
      *
      * @type member
-     * @return {qx.ui.tree.Tree} TODOC
+     * @return {qx.ui.tree.Tree} the current tree instance
      */
     getTree : function() {
       return this;
@@ -355,10 +368,11 @@ qx.Class.define("qx.ui.tree.Tree",
 
 
     /**
-     * TODOC
+     * Always returns null since a Tree instance is always the root of a tree,
+     * and therefore has no parent.
      *
      * @type member
-     * @return {qx.ui.tree.TreeFolder} TODOC
+     * @return {qx.ui.tree.TreeFolder} returns null
      */
     getParentFolder : function() {
       return null;
@@ -366,10 +380,11 @@ qx.Class.define("qx.ui.tree.Tree",
 
 
     /**
-     * TODOC
+     * Always returns 0 since a Tree instance is always the root of a tree, and
+     * therefore is on level 0.
      *
      * @type member
-     * @return {Integer} TODOC
+     * @return {Integer} returns 0
      */
     getLevel : function() {
       return 0;
@@ -540,10 +555,10 @@ qx.Class.define("qx.ui.tree.Tree",
 
 
     /**
-     * TODOC
+     * Returns itself.
      *
      * @type member
-     * @return {AbstractTreeElement} TODOC
+     * @return {AbstractTreeElement} itself
      */
     getFirstTreeChild : function() {
       return this;
@@ -551,10 +566,10 @@ qx.Class.define("qx.ui.tree.Tree",
 
 
     /**
-     * TODOC
+     * Sets the selected element in the tree to vElement.
      *
      * @type member
-     * @param vElement {AbstractTreeElement} TODOC
+     * @param vElement {AbstractTreeElement} the tree element to be selected
      */
     setSelectedElement : function(vElement)
     {
