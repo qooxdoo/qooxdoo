@@ -1,3 +1,4 @@
-\bsetResizable\b=setResizable
-\bgetResizable\b=getResizable
+\bsetResizeable\b=setResizable
+\bgetResizeable\b=getResizable
 \b_applyResizeable\b=_applyResizable
+\bResizeablePopup\b=ResizablePopup

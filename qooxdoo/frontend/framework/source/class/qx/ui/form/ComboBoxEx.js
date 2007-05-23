@@ -718,7 +718,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       var p = this._popup;
       if (!p)
       {
-        var p = this._popup = new qx.ui.resizer.ResizeablePopup;
+        var p = this._popup = new qx.ui.resizer.ResizablePopup;
         p.auto();
         p.setAppearance('combo-box-ex-popup');
         p.addEventListener("appear", this._onpopupappear, this);
