@@ -68,7 +68,8 @@ qx.Class.define("qx.client.Timer",
   *****************************************************************************
   */
 
-  events : {
+  events :
+  {
     /** This event if fired each time the interval time has elapsed */
     "interval" : "qx.event.type.Event"
   },

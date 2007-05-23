@@ -80,9 +80,10 @@ qx.Class.define("qx.io.image.PreloaderSystem",
   *****************************************************************************
   */
 
-  events: {
-   /** Fired after the pre loading of the images is complete */
-   "completed" : "qx.event.type.Event"
+  events:
+  {
+    /** Fired after the pre loading of the images is complete */
+    "completed" : "qx.event.type.Event"
   },
 
 
@@ -188,7 +189,7 @@ qx.Class.define("qx.io.image.PreloaderSystem",
      */
     __oninterval : function(e)
     {
-      this.error("Could not preload: " + qx.lang.Object.getKeysAsString(this._list));
+      this.warn("Cannot preload: " + qx.lang.Object.getKeysAsString(this._list));
 
       this._stopped = true;
       this._timer.stop();
