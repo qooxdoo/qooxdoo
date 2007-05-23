@@ -129,7 +129,7 @@
 \b_modifyPlaceBarOnTop\b=_applyPlaceBarOnTop
 
 ######################################
-# qx.ui.*
+# Remaining
 ######################################
 
 \b_modifyHoverItem\b=_applyHoverItem
@@ -199,10 +199,12 @@
 \b_modifyMethod\b=_applyMethod
 \b_modifyImplementation\b=_applyImplementation
 
-
-
-
-#\b_modify\b=_apply
-#\b_modify\b=_apply
-#\b_modify\b=_apply
-#\b_modify\b=_apply
+\b_modifyShortcut\b=_applyShortcut
+\b_modifyTimeoutInterval\b=_applyTimeoutInterval
+\b_modifyDimension\b=_applyDimension
+\b_modifyPosition\b=_applyPosition
+\b_modifyUrl\b=_applyUrl
+\b_modifyInterval\b=_applyInterval
+\b_modifyDestinationWidget\b=_applyDestinationWidget
+\b_modifyCaptureWidget\b=_applyCaptureWidget
+\b_modifyFocusRoot\b=_applyFocusRoot
