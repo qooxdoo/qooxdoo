@@ -157,7 +157,11 @@ qx.Class.define("qx.core.Setting",
           this.__settings[key].value = qxsettings[key];
         }
 
-        window.qxsettings = null;
+        window.qxsettings = undefined;
+
+        try {
+          delete window.qxsettings;
+        } catch(ex) {};
       }
     }
   },
