@@ -21,7 +21,7 @@
 /**
  * This interface must be implemented when adding mixin MResizer to a class.
  */
-qx.Interface.define("qx.ui.resizer.IResizeable",
+qx.Interface.define("qx.ui.resizer.IResizable",
 {
   /*
   *****************************************************************************
