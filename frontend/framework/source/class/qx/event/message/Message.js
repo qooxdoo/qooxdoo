@@ -36,16 +36,13 @@ qx.Class.define("qx.event.message.Message",
   *****************************************************************************
   */
 
-  construct : function(vName,vData)
+  construct : function(vName, vData)
   {
     this.base(arguments);
 
     this.setName(vName);
     this.setData(vData);
   },
-
-
-
 
 
 
@@ -64,10 +61,7 @@ qx.Class.define("qx.event.message.Message",
       setOnlyOnce : true
     },
 
-    data :
-    {
-      _fast : true
-    },
+    data : { _fast : true },
 
     sender :
     {
@@ -76,7 +70,6 @@ qx.Class.define("qx.event.message.Message",
       check       : "Object"
     }
   },
-
 
 
 
