@@ -214,11 +214,9 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
      * @param panelHashCode {Integer} hash code of the panel object.
      */
     togglePanelVisibility : function(panel)
-    //_onShowInfoPanelBodyClicked : function(panelHashCode)
     {
       try
       {
-        //var panel = this.getPanelFromHashCode(panelHashCode);
         panel.setIsOpen(!panel.getIsOpen());
 
         var imgElem = panel.getTitleElement().getElementsByTagName("img")[0];

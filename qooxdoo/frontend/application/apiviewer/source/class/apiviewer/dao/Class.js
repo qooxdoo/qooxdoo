@@ -119,6 +119,12 @@ qx.Class.define("apiviewer.dao.Class",
     },
 
 
+    isLoaded : function()
+    {
+      return this._docNode.attributes.externalRef != "true";
+    },
+
+
     /**
      * Get the full name of the class, including the package name.
      *
@@ -635,6 +641,57 @@ qx.Class.define("apiviewer.dao.Class",
 
       }
       return classItems;
+    },
+
+
+    /**
+     * Return a list of all classes, mixins and interfaces this class depends on.
+     * This includes all super classes and their mixins/interfaces and the class itself.
+     *
+     * @return {Class[]} array of dependent classes.
+     */
+    getDependendClasses : function()
+    {
+      var findClasses = function(clazz, foundClasses) {
+        foundClasses.push(clazz);
+
+        var superClass = clazz.getSuperClass();
+        if (superClass) {
+          findClasses(superClass, foundClasses);
+        }
+
+        var mixins = clazz.getMixins();
+        for (var i=0; i<mixins.length; i++)
+        {
+          var mixin = apiviewer.dao.Class.getClassByName(mixins[i]);
+          findClasses(mixin, foundClasses);
+        }
+
+        var superMixins = clazz.getSuperMixins();
+        for (var i=0; i<superMixins.length; i++)
+        {
+          var superMixin = apiviewer.dao.Class.getClassByName(superMixins[i]);
+          findClasses(superMixin, foundClasses);
+        }
+
+        var interfaces = clazz.getInterfaces();
+        for (var i=0; i<interfaces.length; i++)
+        {
+          var iface = apiviewer.dao.Class.getClassByName(interfaces[i]);
+          findClasses(iface, foundClasses);
+        }
+
+        var superInterfaces = clazz.getSuperInterfaces();
+        for (var i=0; i<superInterfaces.length; i++)
+        {
+          var superInterface = apiviewer.dao.Class.getClassByName(superInterfaces[i]);
+          findClasses(superInterface, foundClasses);
+        }
+
+        return foundClasses;
+      }
+
+      return findClasses(this, []);
     },
 
 
