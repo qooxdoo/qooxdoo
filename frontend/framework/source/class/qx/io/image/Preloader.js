@@ -28,13 +28,11 @@
  * This class preloads one image and provides information about this image
  * after it is loaded.
  *
- * <p>
  * This class should not be used directly. Better use {@link qx.manager.object.ImagePreloaderManager}:
  *
- * <code><pre>
- *   qx.manager.object.ImagePreloaderManager.getInstance().create(imageUrl)
- * </code></pre>
- * </p>
+ * <pre>
+ * qx.manager.object.ImagePreloaderManager.getInstance().create(imageUrl)
+ * </pre>
  */
 qx.Class.define("qx.io.image.Preloader",
 {
