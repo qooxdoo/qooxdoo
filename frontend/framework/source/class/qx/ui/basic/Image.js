@@ -280,13 +280,14 @@ qx.Class.define("qx.ui.basic.Image",
     _beforeDisappear : function()
     {
       var vSource = this.getSource();
+      var imageMgr = qx.manager.object.ImageManager.getInstance();
 
       if (qx.util.Validation.isValidString(vSource))
       {
-        if (qx.manager.object.ImageManager.getInstance()._sources[vSource] <= 1) {
-          delete qx.manager.object.ImageManager.getInstance()._sources[vSource];
+        if (imageMgr._sources[vSource] <= 1) {
+          delete imageMgr._sources[vSource];
         } else {
-          qx.manager.object.ImageManager.getInstance()._sources[vSource]--;
+          imageMgr._sources[vSource]--;
         }
       }
 
@@ -311,16 +312,18 @@ qx.Class.define("qx.ui.basic.Image",
      */
     _applySource : function(value, old)
     {
-      if (value && typeof qx.manager.object.ImageManager.getInstance()._sources[value] === "undefined") {
-        qx.manager.object.ImageManager.getInstance()._sources[value] = 0;
+      var imageMgr = qx.manager.object.ImageManager.getInstance();
+
+      if (value && typeof imageMgr._sources[value] === "undefined") {
+        imageMgr._sources[value] = 0;
       }
 
       if (old)
       {
-        if (qx.manager.object.ImageManager.getInstance()._sources[old] <= 1) {
-          delete qx.manager.object.ImageManager.getInstance()._sources[old];
+        if (imageMgr._sources[old] <= 1) {
+          delete imageMgr._sources[old];
         } else {
-          qx.manager.object.ImageManager.getInstance()._sources[old]--;
+          imageMgr._sources[old]--;
         }
       }
 
