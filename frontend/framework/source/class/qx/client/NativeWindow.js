@@ -72,7 +72,7 @@ qx.Class.define("qx.client.NativeWindow",
     {
       check : "Integer",
       init : 400,
-      apply : "_modifyDimension"
+      apply : "_applyDimension"
     },
 
 
@@ -81,7 +81,7 @@ qx.Class.define("qx.client.NativeWindow",
     {
       check : "Integer",
       init : 250,
-      apply : "_modifyDimension"
+      apply : "_applyDimension"
     },
 
 
@@ -90,7 +90,7 @@ qx.Class.define("qx.client.NativeWindow",
     {
       check : "Integer",
       init : 100,
-      apply : "_modifyPosition"
+      apply : "_applyPosition"
     },
 
 
@@ -99,7 +99,7 @@ qx.Class.define("qx.client.NativeWindow",
     {
       check : "Integer",
       init : 200,
-      apply : "_modifyPosition"
+      apply : "_applyPosition"
     },
 
 
@@ -123,7 +123,7 @@ qx.Class.define("qx.client.NativeWindow",
     url :
     {
       check : "String",
-      apply : "_modifyUrl",
+      apply : "_applyUrl",
       init : "about:blank"
     },
 
@@ -238,7 +238,7 @@ qx.Class.define("qx.client.NativeWindow",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyPosition : function(value, old)
+    _applyPosition : function(value, old)
     {
       /*
         http://www.microsoft.com/technet/prodtechnol/winxppro/maintain/sp2brows.mspx
@@ -267,7 +267,7 @@ qx.Class.define("qx.client.NativeWindow",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyDimension : function(value, old)
+    _applyDimension : function(value, old)
     {
       /*
         http://www.microsoft.com/technet/prodtechnol/winxppro/maintain/sp2brows.mspx
@@ -311,7 +311,7 @@ qx.Class.define("qx.client.NativeWindow",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyUrl : function(value, old)
+    _applyUrl : function(value, old)
     {
       // String hack needed for old compressor (compile.py)
       if (!this.isClosed()) {

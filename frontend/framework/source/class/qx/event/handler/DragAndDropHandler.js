@@ -83,7 +83,7 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
     {
       check : "qx.ui.core.Widget",
       nullable : true,
-      apply : "_modifyDestinationWidget"
+      apply : "_applyDestinationWidget"
     },
 
     currentAction :
@@ -146,7 +146,7 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyDestinationWidget : function(value, old)
+    _applyDestinationWidget : function(value, old)
     {
       if (value)
       {

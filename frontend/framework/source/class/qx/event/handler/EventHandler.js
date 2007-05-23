@@ -343,14 +343,14 @@ qx.Class.define("qx.event.handler.EventHandler",
     {
       check : "qx.ui.core.Widget",
       nullable : true,
-      apply : "_modifyCaptureWidget"
+      apply : "_applyCaptureWidget"
     },
 
     focusRoot :
     {
       check : "qx.ui.core.Parent",
       nullable : true,
-      apply : "_modifyFocusRoot"
+      apply : "_applyFocusRoot"
     }
   },
 
@@ -391,7 +391,7 @@ qx.Class.define("qx.event.handler.EventHandler",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyCaptureWidget : function(value, old)
+    _applyCaptureWidget : function(value, old)
     {
       if (old) {
         old.setCapture(false);
@@ -410,7 +410,7 @@ qx.Class.define("qx.event.handler.EventHandler",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyFocusRoot : function(value, old)
+    _applyFocusRoot : function(value, old)
     {
       // this.debug("FocusRoot: " + value + "(from:" + old + ")");
 

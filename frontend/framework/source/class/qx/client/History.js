@@ -148,7 +148,7 @@ qx.Class.define("qx.client.History",
     {
       check: "Number",
       init : 100,
-      apply : "_modifyTimeoutInterval"
+      apply : "_applyTimeoutInterval"
     }
   },
 
@@ -233,7 +233,7 @@ qx.Class.define("qx.client.History",
      * @type member
      * @param newInterval {Integer} new timeout interval
      */
-    _modifyTimeoutInterval : function(value) {
+    _applyTimeoutInterval : function(value) {
       this._timer.setInterval(value);
     },
 

@@ -118,7 +118,7 @@ qx.Class.define("qx.client.Command",
     shortcut :
     {
       check : "String",
-      apply : "_modifyShortcut",
+      apply : "_applyShortcut",
       nullable : true
     },
 
@@ -195,7 +195,7 @@ qx.Class.define("qx.client.Command",
      * @param old {var} Previous value
      * @throws TODOC
      */
-    _modifyShortcut : function(value, old)
+    _applyShortcut : function(value, old)
     {
       if (value)
       {
