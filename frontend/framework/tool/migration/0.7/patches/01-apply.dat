@@ -208,3 +208,5 @@
 \b_modifyDestinationWidget\b=_applyDestinationWidget
 \b_modifyCaptureWidget\b=_applyCaptureWidget
 \b_modifyFocusRoot\b=_applyFocusRoot
+
+\b_modifyCommand\b=_applyCommand

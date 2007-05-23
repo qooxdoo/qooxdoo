@@ -1549,7 +1549,8 @@ qx.Class.define("qx.ui.core.Widget",
     command :
     {
       check : "qx.client.Command",
-      nullable : true
+      nullable : true,
+      apply : "_applyCommand"
     },
 
 
@@ -6137,6 +6138,18 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      COMMAND SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    _applyCommand : function(value, old) {
+      // place holder
+    },
 
 
 
