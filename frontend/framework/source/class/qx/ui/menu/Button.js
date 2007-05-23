@@ -77,7 +77,7 @@ qx.Class.define("qx.ui.menu.Button",
       this.setCommand(vCommand);
 
       qx.locale.Manager.getInstance().addEventListener("changeLocale", function(e) {
-        this._modifyCommand(vCommand, vCommand);
+        this._applyCommand(vCommand, vCommand);
       }, this);
     }
 
@@ -375,7 +375,7 @@ qx.Class.define("qx.ui.menu.Button",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyCommand : function(value, old)
+    _applyCommand : function(value, old)
     {
       var vHtml = value ? value.toString() : "";
 
