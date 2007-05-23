@@ -326,7 +326,8 @@ qx.Class.define("qx.ui.basic.Image",
 
       if (this.isCreated())
       {
-        if (value) {
+        if (value)
+        {
           this.setPreloader(qx.manager.object.ImagePreloaderManager.getInstance().create(qx.manager.object.AliasManager.getInstance().resolvePath(value)));
         }
         else if (old)
@@ -443,11 +444,14 @@ qx.Class.define("qx.ui.basic.Image",
             this.error("Failed while creating image #1", ex);
           }
 
-          if (qx.core.Variant.isSet("qx.client", "mshtml")) {}
-
           // empty to help the generator removing this variant
-          else {
-            this._applyEnabled();
+          if (qx.core.Variant.isSet("qx.client", "mshtml"))
+          {
+
+          }
+          else
+          {
+            this._styleEnabled();
           }
         }
 
@@ -519,7 +523,7 @@ qx.Class.define("qx.ui.basic.Image",
       "mshtml" : function(value, old)
       {
         if (this._image) {
-          this._applyEnabled();
+          this._styleEnabled();
         }
 
         return this.base(arguments, value, old);
@@ -528,7 +532,7 @@ qx.Class.define("qx.ui.basic.Image",
       "default" : function(value, old)
       {
         if (this._image) {
-          this._applyEnabled();
+          this._styleEnabled();
         }
 
         return this.base(arguments, value, old);
@@ -599,7 +603,7 @@ qx.Class.define("qx.ui.basic.Image",
      * @return {void}
      * @signature function()
      */
-    _applyEnabled : qx.core.Variant.select("qx.client",
+    _styleEnabled : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function()
       {
