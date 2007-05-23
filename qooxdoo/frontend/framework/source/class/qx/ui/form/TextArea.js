@@ -58,7 +58,8 @@ qx.Class.define("qx.ui.form.TextArea",
     wrap :
     {
       check : "Boolean",
-      init : true
+      init : true,
+      apply : "_applyWrap"
     }
   },
 
@@ -97,7 +98,7 @@ qx.Class.define("qx.ui.form.TextArea",
       this._styleWrap();
     },
 
-    _modifyWrap : function(value, old) {
+    _applyWrap : function(value, old) {
       this._styleWrap();
     },
 
