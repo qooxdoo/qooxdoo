@@ -145,7 +145,7 @@ qx.Class.define("qx.log.WindowAppender",
     {
       check : "Boolean",
       init : true,
-      apply : "_modifyAutoCloseWithErrors"
+      apply : "_applyAutoCloseWithErrors"
     },
 
     windowWidth :
@@ -407,7 +407,7 @@ qx.Class.define("qx.log.WindowAppender",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyAutoCloseWithErrors : function(value, old)
+    _applyAutoCloseWithErrors : function(value, old)
     {
       if (!value && old)
       {

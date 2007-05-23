@@ -60,7 +60,7 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
     {
       check : "Integer",
       init : 10,
-      apply : "_modifyFadeSteps"
+      apply : "_applyFadeSteps"
     },
 
 
@@ -69,7 +69,7 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
     {
       check : "Integer",
       init : 400,
-      apply : "_modifyFadeTime"
+      apply : "_applyFadeTime"
     },
 
 
@@ -94,7 +94,7 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
     {
       check : "Integer",
       init : 10,
-      apply : "_modifyFadeUnit"
+      apply : "_applyFadeUnit"
     },
 
 
@@ -103,7 +103,7 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
     {
       check : "Integer",
       init : 100,
-      apply : "_modifyFadeMax"
+      apply : "_applyFadeMax"
     }
   },
 
@@ -251,7 +251,7 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
      * @param old {var} Previous value
      * @return {void | Boolean} TODOC
      */
-    _modifyFadeSteps : function(value, old)
+    _applyFadeSteps : function(value, old)
     {
       if (value < 1) return;
       this.setFadeInterval(parseInt(this.getFadeTime() / value));
@@ -268,7 +268,7 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
      * @param old {var} Previous value
      * @return {void | Boolean} TODOC
      */
-    _modifyFadeTime : function(value, old)
+    _applyFadeTime : function(value, old)
     {
       if (value < 1) return;
       this.setFadeInterval(parseInt(value / this.getFadeSteps()));
@@ -283,7 +283,7 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyFadeUnit : function(value, old)
+    _applyFadeUnit : function(value, old)
     {
       this.setFadeSteps(Math.round(this.getFadeMax() / value));
       return true;
@@ -297,7 +297,7 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyFadeMax : function(value, old)
+    _applyFadeMax : function(value, old)
     {
       this.setFadeUnit(Math.round(value / this.getFadeSteps()));
       return true;

@@ -121,7 +121,7 @@ qx.Class.define("qx.manager.selection.SelectionManager",
     {
       check : "Object",
       nullable : true,
-      apply : "_modifyAnchorItem",
+      apply : "_applyAnchorItem",
       event : "changeAnchorItem"
     },
 
@@ -131,7 +131,7 @@ qx.Class.define("qx.manager.selection.SelectionManager",
     {
       check : "Object",
       nullable : true,
-      apply : "_modifyLeadItem",
+      apply : "_applyLeadItem",
       event : "changeLeadItem"
     },
 
@@ -168,7 +168,7 @@ qx.Class.define("qx.manager.selection.SelectionManager",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyAnchorItem : function(value, old)
+    _applyAnchorItem : function(value, old)
     {
       if (old) {
         this.renderItemAnchorState(old, false);
@@ -187,7 +187,7 @@ qx.Class.define("qx.manager.selection.SelectionManager",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyLeadItem : function(value, old)
+    _applyLeadItem : function(value, old)
     {
       if (old) {
         this.renderItemLeadState(old, false);

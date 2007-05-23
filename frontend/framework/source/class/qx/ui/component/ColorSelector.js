@@ -130,42 +130,42 @@ qx.Class.define("qx.ui.component.ColorSelector",
     {
       check : "Integer",
       init : 255,
-      apply : "_modifyRed"
+      apply : "_applyRed"
     },
 
     green :
     {
       check : "Integer",
       init : 255,
-      apply : "_modifyGreen"
+      apply : "_applyGreen"
     },
 
     blue :
     {
       check : "Integer",
       init :  255,
-      apply : "_modifyBlue"
+      apply : "_applyBlue"
     },
 
     hue :
     {
       check : "Number",
       init : 0,
-      apply : "_modifyHue"
+      apply : "_applyHue"
     },
 
     saturation :
     {
       check : "Number",
       init : 0,
-      apply : "_modifySaturation"
+      apply : "_applySaturation"
     },
 
     brightness :
     {
       check : "Number",
       init : 100,
-      apply : "_modifyBrightness"
+      apply : "_applyBrightness"
     }
   },
 
@@ -575,7 +575,7 @@ qx.Class.define("qx.ui.component.ColorSelector",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyRed : function(value, old)
+    _applyRed : function(value, old)
     {
       if (this._updateContext === null) {
         this._updateContext = "redModifier";
@@ -612,7 +612,7 @@ qx.Class.define("qx.ui.component.ColorSelector",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyGreen : function(value, old)
+    _applyGreen : function(value, old)
     {
       if (this._updateContext === null) {
         this._updateContext = "greenModifier";
@@ -649,7 +649,7 @@ qx.Class.define("qx.ui.component.ColorSelector",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyBlue : function(value, old)
+    _applyBlue : function(value, old)
     {
       if (this._updateContext === null) {
         this._updateContext = "blueModifier";
@@ -694,7 +694,7 @@ qx.Class.define("qx.ui.component.ColorSelector",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyHue : function(value, old)
+    _applyHue : function(value, old)
     {
       if (this._updateContext === null) {
         this._updateContext = "hueModifier";
@@ -734,7 +734,7 @@ qx.Class.define("qx.ui.component.ColorSelector",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifySaturation : function(value, old)
+    _applySaturation : function(value, old)
     {
       if (this._updateContext === null) {
         this._updateContext = "saturationModifier";
@@ -774,7 +774,7 @@ qx.Class.define("qx.ui.component.ColorSelector",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyBrightness : function(value, old)
+    _applyBrightness : function(value, old)
     {
       if (this._updateContext === null) {
         this._updateContext = "brightnessModifier";

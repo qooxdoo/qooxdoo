@@ -57,7 +57,7 @@ qx.Class.define("qx.manager.object.WindowManager",
     {
       check : "Object",
       nullable : true,
-      apply : "_modifyActiveWindow"
+      apply : "_applyActiveWindow"
     }
   },
 
@@ -85,7 +85,7 @@ qx.Class.define("qx.manager.object.WindowManager",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyActiveWindow : function(value, old)
+    _applyActiveWindow : function(value, old)
     {
       qx.manager.object.PopupManager.getInstance().update();
 

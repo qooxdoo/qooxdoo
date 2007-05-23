@@ -162,6 +162,44 @@
 \b_modifyFocusHandler\b=_applyFocusHandler
 \b_modifyGlobalCursor\b=_applyGlobalCursor
 
+\b_modifyIncrementAmount\b=_applyIncrementAmount
+\b_modifyIdColumnVisible\b=_applyIdColumnVisible
+\b_modifyDateFormatSize\b=_applyDateFormatSize
+\b_modifyChooserTitle\b=_applyChooserTitle
+\b_modifyTargetWidget\b=_applyTargetWidget
+\b_modifyDate\b=_applyDate
+\b_modifyBrightness\b=_applyBrightness
+\b_modifySaturation\b=_applySaturation
+\b_modifyHue\b=_applyHue
+\b_modifyBlue\b=_applyBlue
+\b_modifyGreen\b=_applyGreen
+\b_modifyRed\b=_applyRed
+\b_modifyLoaded\b=_applyLoaded
+\b_modifyPreloader\b=_applyPreloader
+\b_modifyIconWidth\b=_applyIconWidth
+\b_modifyIconHeight\b=_applyIconHeight
+\b_modifyIconPosition\b=_applyIconPosition
+\b_modifyShow\b=_applyShow
+\b_modifyDisabledIcon\b=_applyDisabledIcon
+\b_modifyFadeMax\b=_applyFadeMax
+\b_modifyFadeUnit\b=_applyFadeUnit
+\b_modifyFadeTime\b=_applyFadeTime
+\b_modifyFadeSteps\b=_applyFadeSteps
+\b_modifyMin\b=_applyMin
+\b_modifyMax\b=_applyMax
+\b_modifyLeadItem\b=_applyLeadItem
+\b_modifyAnchorItem\b=_applyAnchorItem
+\b_modifyActiveWindow\b=_applyActiveWindow
+\b_modifyCurrentToolTip\b=_applyCurrentToolTip
+\b_modifyAutoCloseWithErrors\b=_applyAutoCloseWithErrors
+\b_modifyLocale\b=_applyLocale
+\b_modifyProhibitCaching\b=_applyProhibitCaching
+\b_modifyResponseType\b=_applyResponseType
+\b_modifyState\b=_applyState
+\b_modifyMethod\b=_applyMethod
+\b_modifyImplementation\b=_applyImplementation
+
+
 
 
 #\b_modify\b=_apply

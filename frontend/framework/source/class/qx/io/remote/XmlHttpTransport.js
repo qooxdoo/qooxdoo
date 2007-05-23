@@ -778,7 +778,7 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyState : function(value, old)
+    _applyState : function(value, old)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
