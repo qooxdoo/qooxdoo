@@ -195,12 +195,10 @@ qx.Class.define("qx.ui.core.ClientDocument",
      */
     _applyParent : qx.lang.Function.returnTrue,
 
+
     /**
      * @signature function()
      */
-    _modifyVisible : qx.lang.Function.returnTrue,
-
-
     getTopLevelWidget : qx.lang.Function.returnThis,
 
 

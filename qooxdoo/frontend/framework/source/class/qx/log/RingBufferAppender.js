@@ -69,7 +69,8 @@ qx.Class.define("qx.log.RingBufferAppender",
     maxMessages :
     {
       check : "Integer",
-      init : 50
+      init : 50,
+      apply : "_applyMaxMessages"
     }
   },
 
@@ -92,7 +93,7 @@ qx.Class.define("qx.log.RingBufferAppender",
      * @param old {var} Previous value
      * @return {void}
      */
-    _modifyMaxMessages : function(value, old)
+    _applyMaxMessages : function(value, old)
     {
       this._history = [];
       this._nextIndexToStoreTo = 0;
