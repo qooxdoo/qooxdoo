@@ -331,7 +331,10 @@ qx.Class.define("qx.ui.basic.Image",
       {
         if (value)
         {
-          this.setPreloader(qx.manager.object.ImagePreloaderManager.getInstance().create(qx.manager.object.AliasManager.getInstance().resolvePath(value)));
+          var path = qx.manager.object.AliasManager.getInstance().resolvePath(value);
+          var preloader = qx.manager.object.ImagePreloaderManager.getInstance().create(path);
+
+          this.setPreloader(preloader);
         }
         else if (old)
         {
