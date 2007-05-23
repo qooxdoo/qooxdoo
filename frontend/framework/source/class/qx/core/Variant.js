@@ -157,7 +157,11 @@ qx.Class.define("qx.core.Variant",
           this.__variants[key].value = qxvariants[key];
         }
 
-        window.qxvariants = null;
+        window.qxvariants = undefined;
+
+        try {
+          delete window.qxvariants;
+        } catch(ex) {};
       }
     },
 
