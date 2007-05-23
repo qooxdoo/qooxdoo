@@ -1406,12 +1406,19 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
     setup : function() {
       this.bgcolor_selected = new qx.renderer.color.ColorObject("highlight");
       this.color_selected = new qx.renderer.color.ColorObject("highlighttext");
+      this.border_lead = new qx.renderer.border.Border;
+      this.border_lead.setTop(1, "solid", "highlight");
+      this.border_lead.setBottom(1, "solid", "highlight");
     },
 
     state : function(vTheme, vStates) {
       return {
         backgroundColor : vStates.selected ? this.bgcolor_selected : null,
-        color : vStates.selected ? this.color_selected : null
+        color : vStates.selected ? this.color_selected : null,
+        
+        border         : vStates.lead && !vStates.selected ? this.border_lead : null,
+        marginTop      : vStates.lead && !vStates.selected ? 0 : 1,
+        marginBottom   : vStates.lead && !vStates.selected ? 0 : 1
       };
     }
   },

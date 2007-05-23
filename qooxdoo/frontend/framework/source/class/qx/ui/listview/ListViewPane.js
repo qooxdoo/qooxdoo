@@ -228,6 +228,13 @@ qx.Proto._updateRow = function(vRelativeRow)
       } else {
         vChild.removeState("selected");
       }
+      
+      if (vEntry && vEntry._lead) {
+        vChild.addState("lead");
+      } else {
+        vChild.removeState("lead");
+      }
+      
       vChild.set(vEntry
                  ? vEntry[vCol]
                  : vColumns[vCol].empty || vColumns[vCol].contentClass.empty);
