@@ -303,7 +303,13 @@ qx.Class.define("qx.ui.listview.ListViewPane",
           } else {
             vChild.removeState("selected");
           }
-
+          
+          if (vEntry && vEntry._lead) {
+            vChild.addState("lead");
+          } else {
+            vChild.removeState("lead");
+          }
+          
           vChild.set(vEntry ? vEntry[vCol] : vColumns[vCol].empty || vColumns[vCol].contentClass.empty);
         }
       }
