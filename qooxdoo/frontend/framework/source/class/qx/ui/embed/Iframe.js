@@ -362,7 +362,7 @@ qx.Class.define("qx.ui.embed.Iframe",
       if (href) {
         this.setSource(href);
       } else {
-        this.__applySource();
+        this._syncSource();
       }
     },
 
@@ -454,7 +454,7 @@ qx.Class.define("qx.ui.embed.Iframe",
         }
       }
 
-      this.__applySource();
+      this._syncSource();
 
       value.appendChild(iframeNode);
       value.appendChild(blockerNode);
@@ -504,7 +504,7 @@ qx.Class.define("qx.ui.embed.Iframe",
     _applySource : function(value, old)
     {
       if (this.isCreated()) {
-        this.__applySource();
+        this._syncSource();
       }
     },
 
@@ -515,7 +515,7 @@ qx.Class.define("qx.ui.embed.Iframe",
      * @type member
      * @return {void}
      */
-    __applySource : function()
+    _syncSource : function()
     {
       var currentSource = this.getSource();
 
