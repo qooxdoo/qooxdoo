@@ -132,12 +132,6 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
 
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
     useDoubleClick :
     {
       check : "Boolean",
@@ -173,7 +167,8 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
     {
       _legacy      : true,
       type         : "object",
-      defaultValue : []
+      defaultValue : [],
+      apply : "_applyExcludeSpecificTreeLines"
     },
 
 
@@ -443,7 +438,7 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _modifyExcludeSpecificTreeLines : function(value, old)
+    _applyExcludeSpecificTreeLines : function(value, old)
     {
       if (this._initialLayoutDone) {
         this._updateIndent();
