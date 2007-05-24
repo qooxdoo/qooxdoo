@@ -8,11 +8,13 @@
 
 \bqx\.manager\.object\.AliasManager\b=qx.io.Alias
 
-\bqx\.manager\.object\.AppearanceManager\b=qx.ui.manager.Appearance
-\bqx\.manager\.object\.BorderManager\b=qx.ui.manager.Border
-\bqx\.manager\.object\.ColorManager\b=qx.ui.manager.Color
-\bqx\.manager\.object\.FontManager\b=qx.ui.manager.Font
-\bqx\.manager\.object\.ThemeManager\b=qx.ui.manager.Theme
+\bqx\.manager\.object\.AppearanceManager\b=qx.theme.manager.Appearance
+\bqx\.manager\.object\.BorderManager\b=qx.theme.manager.Border
+\bqx\.manager\.object\.ColorManager\b=qx.theme.manager.Color
+\bqx\.manager\.object\.FontManager\b=qx.theme.manager.Font
+\bqx\.manager\.object\.ThemeManager\b=qx.theme.manager.Meta
+\bqx\.manager\.object\.IconManager\b=qx.theme.manager.Icon
+\bqx\.manager\.object\.WidgetManager\b=qx.theme.manager.Widget
 
 \bqx\.manager\.object\.IframeManager\b=qx.ui.embed.IframeManager
 
