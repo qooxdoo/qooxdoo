@@ -109,18 +109,21 @@ qx.Class.define("qx.manager.object.AliasManager",
      */
     add : function(alias, base)
     {
+      // Store new alias value
+      this._aliases[alias] = base;
+
+      // Localify stores
       var dynamics = this._dynamic;
       var reg = this._registry;
       var entry;
 
-      // Store new alias value
-      this._aliases[alias] = base;
+      // Temporary data structure to optimize performance of update
+      var paths = {};
 
       // Update old entries which use this alias
-      var paths = {};
       for (var path in dynamics)
       {
-        if (path.substring(0, path.indexOf("/")) == alias)
+        if (path.substring(0, path.indexOf("/")) === alias)
         {
           dynamics[path] = base + path.substring(alias.length);
           paths[path] = true;
