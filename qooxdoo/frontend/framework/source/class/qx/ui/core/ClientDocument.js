@@ -58,6 +58,11 @@ qx.Class.define("qx.ui.core.ClientDocument",
 
     // Init element
     this.setElement(this._document.body);
+    
+    // Disable IE background image cache
+    try {
+      document.execCommand("BackgroundImageCache", false, true);
+    } catch(err) {};
 
     // Cache current size
     this._cachedInnerWidth = this._document.body.offsetWidth;
