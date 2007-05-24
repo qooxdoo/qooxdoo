@@ -370,49 +370,34 @@ qx.Class.define("qx.ui.basic.Label",
      *
      * @type member
      */
-    _applyText : function()
+    _applyText : function(text)
     {
-      if (this.getText() instanceof qx.locale.LocalizedString)
+      qx.locale.Manager.getInstance().connect( function(text)
       {
-        var text = this.getText().toString();
-
-        if (!this._hasLocaleListener)
+        switch (this.getMode())
         {
-          qx.locale.Manager.getInstance().addEventListener("changeLocale", this._applyText, this);
-          this._hasLocaleListener = true;
+          case "auto":
+            this._htmlMode = qx.util.Validation.isValidString(text) && text.match(/<.*>/) ? true : false;
+            this._htmlContent = text;
+            break;
+
+          case "text":
+            var escapedText = qx.xml.String.escape(text).replace(/(^ | $)/g, "&nbsp;").replace(/  /g, "&nbsp;&nbsp;");
+            this._htmlMode = escapedText !== text;
+            this._htmlContent = escapedText;
+            break;
+
+          case "html":
+            this._htmlMode = true;
+            this._htmlContent = text;
+            break;
         }
-      }
-      else
-      {
-        text = this.getText() || "";
 
-        if (this._hasLocaleListener) {
-          qx.locale.Manager.getInstance().removeEventListener("changeLocale", this._applyText, this);
+        if (this._isCreated) {
+          this._renderContent();
         }
-      }
 
-      switch (this.getMode())
-      {
-        case "auto":
-          this._htmlMode = qx.util.Validation.isValidString(text) && text.match(/<.*>/) ? true : false;
-          this._htmlContent = text;
-          break;
-
-        case "text":
-          var escapedText = qx.xml.String.escape(text).replace(/(^ | $)/g, "&nbsp;").replace(/  /g, "&nbsp;&nbsp;");
-          this._htmlMode = escapedText !== text;
-          this._htmlContent = escapedText;
-          break;
-
-        case "html":
-          this._htmlMode = true;
-          this._htmlContent = text;
-          break;
-      }
-
-      if (this._isCreated) {
-        this._renderContent();
-      }
+      }, this, text);
     },
 
 

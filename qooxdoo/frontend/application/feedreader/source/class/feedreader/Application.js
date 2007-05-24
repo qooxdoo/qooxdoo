@@ -419,7 +419,7 @@ qx.Class.define("feedreader.Application",
     {
       if (!this._prefWindow)
       {
-        var win = new qx.ui.window.Window(this.tr("Prefernces"), "icon/16/apps/preferences.png");
+        var win = new qx.ui.window.Window(this.tr("Preferences"), "icon/16/apps/preferences.png");
         win.set({
           modal : true,
           showMinimize: false,
@@ -438,7 +438,7 @@ qx.Class.define("feedreader.Application",
         });
         win.add(winLayout);
 
-        var gb = new qx.ui.groupbox.GroupBox("Theme"); //this.tr("Theme"));
+        var gb = new qx.ui.groupbox.GroupBox(this.tr("Theme"));
         gb.set({
           height: "auto",
           width: "100%"
