@@ -46,7 +46,7 @@ qx.Class.define("apiviewer.Application",
       qx.manager.object.AliasManager.getInstance().add("api", qx.core.Setting.get("apiviewer.resourceUri"));
 
       // Include CSS file
-      qx.html.StyleSheet.includeFile(qx.manager.object.AliasManager.getInstance().resolvePath("api/css/apiviewer.css"));
+      qx.html.StyleSheet.includeFile(qx.manager.object.AliasManager.getInstance().resolve("api/css/apiviewer.css"));
 
       // preload images
       var preloader = new qx.io.image.PreloaderSystem(apiviewer.TreeUtil.PRELOAD_IMAGES);
