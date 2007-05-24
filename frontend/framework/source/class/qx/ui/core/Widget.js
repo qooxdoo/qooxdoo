@@ -7161,7 +7161,6 @@ qx.Class.define("qx.ui.core.Widget",
       elem.qx_Widget = null;
     }
 
-    this._disposeObjects("_fadeTimer");
     this._disposeFields("_isCreated", "_inlineEvents", "_element", "_style",
       "_borderElement", "_innerStyle", "_oldParent", "_styleProperties",
       "_htmlProperties", "_htmlAttributes", "__states", "_jobQueue",

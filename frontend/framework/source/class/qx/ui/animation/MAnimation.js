@@ -315,6 +315,12 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
       var op = this.getFadeUnit() * this.getFadeCounter() / 100;
       return (op);
     }
+  },
+
+
+  dispose : function()
+  {
+    this._disposeObjects("_fadeTimer");
   }
 
 });
