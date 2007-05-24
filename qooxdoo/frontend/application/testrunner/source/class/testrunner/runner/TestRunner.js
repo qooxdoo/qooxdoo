@@ -202,7 +202,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       header.setStyleProperty(
         "background",
         "#134275 url(" +
-        qx.manager.object.AliasManager.getInstance().resolvePath("testrunner/image/colorstrip.gif") +
+        qx.manager.object.AliasManager.getInstance().resolve("testrunner/image/colorstrip.gif") +
         ") top left repeat-x"
       );
       header.setHeight(70);
