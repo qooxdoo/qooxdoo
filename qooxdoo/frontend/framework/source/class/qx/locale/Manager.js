@@ -25,7 +25,7 @@
 qx.Class.define("qx.locale.Manager",
 {
   type : "singleton",
-  extend : qx.core.Target,
+  extend : qx.manager.object.ValueManager,
 
 
 
@@ -251,6 +251,7 @@ qx.Class.define("qx.locale.Manager",
 
       var pos = value.indexOf("_");
       this._language = this._extractLanguage(value);
+      this._updateObjects();
     },
 
 
@@ -333,7 +334,21 @@ qx.Class.define("qx.locale.Manager",
       }
 
       return txt;
+    },
+
+
+    isDynamic : function(text)
+    {
+      return text instanceof qx.locale.LocalizedString;
+    },
+
+
+    resolveDynamic : function(text)
+    {
+      return text.toString();
     }
+
+
   },
 
 
