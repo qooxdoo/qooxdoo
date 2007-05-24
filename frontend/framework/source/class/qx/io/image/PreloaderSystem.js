@@ -124,7 +124,9 @@ qx.Class.define("qx.io.image.PreloaderSystem",
 
       for (var vSource in this._list)
       {
-        var vPreloader = qx.manager.object.ImagePreloaderManager.getInstance().create(qx.manager.object.AliasManager.getInstance().resolvePath(vSource));
+        this.debug("Register: " + vSource);
+
+        var vPreloader = qx.manager.object.ImagePreloaderManager.getInstance().create(qx.manager.object.AliasManager.getInstance().resolve(vSource));
 
         if (vPreloader.isErroneous() || vPreloader.isLoaded()) {
           delete this._list[vSource];
@@ -189,7 +191,7 @@ qx.Class.define("qx.io.image.PreloaderSystem",
      */
     __oninterval : function(e)
     {
-      // this.warn("Cannot preload: " + qx.lang.Object.getKeysAsString(this._list));
+      this.warn("Cannot preload: " + qx.lang.Object.getKeysAsString(this._list));
 
       this._stopped = true;
       this._timer.stop();

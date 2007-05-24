@@ -32,6 +32,7 @@ qx.Class.define("qx.manager.object.FontManager",
 
 
 
+
   /*
   *****************************************************************************
      PROPERTIES
@@ -53,6 +54,7 @@ qx.Class.define("qx.manager.object.FontManager",
 
 
 
+
   /*
   *****************************************************************************
      MEMBERS
@@ -69,15 +71,14 @@ qx.Class.define("qx.manager.object.FontManager",
      * @param value {var} The original value
      * @return {var} The result value
      */
-    _processStatic : function(value)
+    _preprocess : function(value)
     {
       if (value instanceof qx.renderer.font.Font)
       {
         var key = "f" + value.toHashCode();
 
-        if (!this._static[key]) {
-
-          this._static[key] = value;
+        if (!this._dynamic[key]) {
+          this._dynamic[key] = value;
         }
 
         return key;
@@ -89,15 +90,26 @@ qx.Class.define("qx.manager.object.FontManager",
 
     _applyFontTheme : function(value)
     {
-      var dest = this._dynamic = {};
+      var dest = this._dynamic;
+
+      for (var key in dest)
+      {
+        if (dest[key].themed)
+        {
+          dest[key].dispose();
+          delete dest[key];
+        }
+      }
 
       if (value)
       {
         var source = value.fonts;
         var font = qx.renderer.font.Font;
 
-        for (var key in source) {
+        for (var key in source)
+        {
           dest[key] = (new font).set(source[key]);
+          dest[key].themed = true;
         }
       }
 

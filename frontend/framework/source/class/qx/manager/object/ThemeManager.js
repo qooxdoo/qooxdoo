@@ -117,7 +117,8 @@ qx.Class.define("qx.manager.object.ThemeManager",
       if (value)
       {
         qx.manager.object.AppearanceManager.getInstance().syncAppearanceTheme();
-        qx.manager.object.ImageManager.getInstance().syncThemes();
+        qx.manager.object.ImageManager.getInstance().syncIconTheme();
+        qx.manager.object.ImageManager.getInstance().syncWidgetTheme();
         qx.manager.object.FontManager.getInstance().syncFontTheme();
         qx.manager.object.BorderManager.getInstance().syncBorderTheme();
         qx.manager.object.ColorManager.getInstance().syncColorTheme();

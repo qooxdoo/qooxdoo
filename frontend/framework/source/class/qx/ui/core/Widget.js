@@ -6168,8 +6168,14 @@ qx.Class.define("qx.ui.core.Widget",
      * @param old {var} Previous value
      * @return {var} TODOC
      */
-    _applyBackgroundImage : function(value, old) {
-      return qx.util.Validation.isValidString(value) ? this.setStyleProperty("backgroundImage", "url(" + qx.manager.object.AliasManager.getInstance().resolvePath(value) + ")") : this.removeStyleProperty("backgroundImage");
+    _applyBackgroundImage : function(value, old)
+    {
+      var aliasMgr = qx.manager.object.AliasManager.getInstance();
+      aliasMgr.connect(this._styleBackgroundImage, this, value);
+    },
+
+    _styleBackgroundImage : function(value) {
+      value ? this.setStyleProperty("backgroundImage", "url(" + value + ")") : this.removeStyleProperty("backgroundImage");
     },
 
 

@@ -44,7 +44,7 @@ qx.Class.define("qx.ui.table.IconDataCellRenderer",
   construct : function()
   {
     this.base(arguments);
-    this.IMG_BLANK_URL = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
+    this.IMG_BLANK_URL = qx.manager.object.AliasManager.getInstance().resolve("static/image/blank.gif");
   },
 
 
@@ -164,7 +164,7 @@ qx.Class.define("qx.ui.table.IconDataCellRenderer",
       var html = IconDataCellRenderer.IMG_START;
 
       if (qx.core.Client.getInstance().isMshtml() && /\.png$/i.test(urlAndToolTip.url)) {
-        html += qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif") + '" style="filter:' + "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + urlAndToolTip.url + "',sizingMethod='scale')";
+        html += qx.manager.object.AliasManager.getInstance().resolve("static/image/blank.gif") + '" style="filter:' + "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + urlAndToolTip.url + "',sizingMethod='scale')";
       } else {
         html += urlAndToolTip.url + '" style="';
       }
@@ -202,7 +202,7 @@ qx.Class.define("qx.ui.table.IconDataCellRenderer",
       {
         if (/\.png$/i.test(urlAndToolTip.url))
         {
-          img.src = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
+          img.src = qx.manager.object.AliasManager.getInstance().resolve("static/image/blank.gif");
           img.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + urlAndToolTip.url + "',sizingMethod='scale')";
         }
         else
