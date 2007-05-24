@@ -258,10 +258,9 @@ qx.Class.define("qx.ui.basic.Image",
      */
     _beforeAppear : function()
     {
-      var vSource = this.getSource();
-
-      if (qx.util.Validation.isValidString(vSource)) {
-        qx.manager.object.ImageManager.getInstance()._sources[vSource]++;
+      var source = this.getSource();
+      if (source) {
+        qx.manager.object.ImageManager.getInstance().show(source);
       }
 
       return this.base(arguments);
@@ -276,16 +275,9 @@ qx.Class.define("qx.ui.basic.Image",
      */
     _beforeDisappear : function()
     {
-      var vSource = this.getSource();
-      var imageMgr = qx.manager.object.ImageManager.getInstance();
-
-      if (qx.util.Validation.isValidString(vSource))
-      {
-        if (imageMgr._sources[vSource] <= 1) {
-          delete imageMgr._sources[vSource];
-        } else {
-          imageMgr._sources[vSource]--;
-        }
+      var source = this.getSource();
+      if (source) {
+        qx.manager.object.ImageManager.getInstance().hide(source);
       }
 
       return this.base(arguments);
@@ -311,17 +303,19 @@ qx.Class.define("qx.ui.basic.Image",
     {
       var imageMgr = qx.manager.object.ImageManager.getInstance();
 
-      if (value && typeof imageMgr._sources[value] === "undefined") {
-        imageMgr._sources[value] = 0;
-      }
-
-      if (old)
+      if (this.isSeeable())
       {
-        if (imageMgr._sources[old] <= 1) {
-          delete imageMgr._sources[old];
-        } else {
-          imageMgr._sources[old]--;
+        if (old) {
+          imageMgr.hide(old);
         }
+
+        if (value) {
+          imageMgr.show(value);
+        }
+      }
+      else if (value)
+      {
+        imageMgr.register(value);
       }
 
       if (this.isCreated()) {

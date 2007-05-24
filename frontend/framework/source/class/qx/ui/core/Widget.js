@@ -6170,7 +6170,17 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _applyBackgroundImage : function(value, old)
     {
+      var imageMgr = qx.manager.object.ImageManager.getInstance();
       var aliasMgr = qx.manager.object.AliasManager.getInstance();
+
+      if (old) {
+        imageMgr.hide(old);
+      }
+
+      if (value) {
+        imageMgr.show(value);
+      }
+
       aliasMgr.connect(this._styleBackgroundImage, this, value);
     },
 

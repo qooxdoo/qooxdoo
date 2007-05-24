@@ -124,8 +124,6 @@ qx.Class.define("qx.io.image.PreloaderSystem",
 
       for (var vSource in this._list)
       {
-        this.debug("Register: " + vSource);
-
         var vPreloader = qx.manager.object.ImagePreloaderManager.getInstance().create(qx.manager.object.AliasManager.getInstance().resolve(vSource));
 
         if (vPreloader.isErroneous() || vPreloader.isLoaded()) {
