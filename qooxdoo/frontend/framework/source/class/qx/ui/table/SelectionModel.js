@@ -59,7 +59,8 @@ qx.Class.define("qx.ui.table.SelectionModel",
   */
 
   events: {
-    "changeSelection" : "qx.event.type.Event" /** Fired when the selection has changed. */
+    /** Fired when the selection has changed. */
+    "changeSelection" : "qx.event.type.Event"
   },
 
 
