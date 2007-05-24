@@ -85,6 +85,9 @@ qx.Class.define("qx.manager.object.ImageManager",
     {
       var data = this.__sources;
       data[source] === undefined ? data[source] = 0 : data[source]--;
+      if (data[source]<0) {
+        data[source] = 0;
+      }
     },
 
 
