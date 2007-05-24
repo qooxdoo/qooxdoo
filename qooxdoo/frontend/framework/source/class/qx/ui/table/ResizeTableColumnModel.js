@@ -197,7 +197,7 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
 
       var Am = qx.manager.object.AliasManager;
       var icon =
-        Am.getInstance().resolvePath("icon/16/actions/view-refresh.png");
+        Am.getInstance().resolve("icon/16/actions/view-refresh.png");
 
       // Add a separator between the column names and our reset button
       o = new qx.ui.menu.Separator();

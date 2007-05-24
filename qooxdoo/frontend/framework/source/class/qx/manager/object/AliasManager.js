@@ -24,7 +24,7 @@
 qx.Class.define("qx.manager.object.AliasManager",
 {
   type : "singleton",
-  extend : qx.core.Target,
+  extend : qx.manager.object.ValueManager,
 
 
 
@@ -41,9 +41,6 @@ qx.Class.define("qx.manager.object.AliasManager",
 
     // Contains defined aliases (like icons/, widgets/, application/, ...)
     this._aliases = {};
-
-    // Containes computed paths
-    this._uris = {};
 
     // Define static alias from setting
     this.add("static", qx.core.Setting.get("qx.resourceUri") + "/static");
@@ -64,6 +61,8 @@ qx.Class.define("qx.manager.object.AliasManager",
 
 
 
+
+
   /*
   *****************************************************************************
      MEMBERS
@@ -72,34 +71,70 @@ qx.Class.define("qx.manager.object.AliasManager",
 
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      ALIAS MANAGMENT
-    ---------------------------------------------------------------------------
-    */
+    _preprocess : function(value)
+    {
+      var dynamics = this._dynamic;
+
+      if (dynamics[value] === false)
+      {
+        return value;
+      }
+      else if (dynamics[value] === undefined)
+      {
+        if (value.charAt(0) === "/" || value.charAt(0) === "." || value.indexOf("http://") === 0 || value.indexOf("https://") === "0" || value.indexOf("file://") === 0)
+        {
+          dynamics[value] = false;
+          return value;
+        }
+
+        var alias = value.substring(0, value.indexOf("/"));
+        var resolved = this._aliases[alias];
+
+        if (resolved !== undefined) {
+          dynamics[value] = resolved + value.substring(alias.length);
+        }
+      }
+
+      return value;
+    },
+
 
     /**
      * Define an alias to a resource path
      *
      * @type member
-     * @param vAlias {String} alias name for the resource path/url
-     * @param vUriStart {String} first part of URI for all images which use this alias
+     * @param alias {String} alias name for the resource path/url
+     * @param base {String} first part of URI for all images which use this alias
      * @return {void}
      */
-    add : function(vAlias, vUriStart)
+    add : function(alias, base)
     {
-      this._aliases[vAlias] = vUriStart;
+      var dynamics = this._dynamic;
+      var reg = this._registry;
+      var entry;
 
-      // Cleanup old uris which use this alias
-      for (var vPath in this._uris)
+      // Store new alias value
+      this._aliases[alias] = base;
+
+      // Update old entries which use this alias
+      var paths = {};
+      for (var path in dynamics)
       {
-        if (vPath.substring(0, vPath.indexOf("/")) == vAlias) {
-          this._uris[vPath] = null;
+        if (path.substring(0, path.indexOf("/")) == alias)
+        {
+          dynamics[path] = base + path.substring(alias.length);
+          paths[path] = true;
         }
       }
 
-      // Fire change event (for ImageManager, etc.)
-      this.createDispatchEvent("change");
+      // Update the corresponding objects (which use this alias)
+      for (var key in reg)
+      {
+        entry = reg[key];
+        if (paths[entry.value]) {
+          entry.callback.call(entry.object, dynamics[entry.value]);
+        }
+      }
     },
 
 
@@ -107,110 +142,23 @@ qx.Class.define("qx.manager.object.AliasManager",
      * Remove a previously defined alias
      *
      * @type member
-     * @param vAlias {String} alias name for the resource path/url
+     * @param alias {String} alias name for the resource path/url
      * @return {void}
      */
-    remove : function(vAlias)
-    {
-      delete this._aliases[vAlias];
-
-      // Cleanup old uris which use this alias
-      for (var vPath in this._uris)
-      {
-        if (vPath.substring(0, vPath.indexOf("/")) == vAlias) {
-          this._uris[vPath] = null;
-        }
-      }
-
-      // Fire change event (for ImageManager, etc.)
-      this.createDispatchEvent("change");
+    remove : function(alias) {
+      delete this._aliases[alias];
     },
 
 
     /**
-     * Resolve an alias to the actual resource path/url
+     * Resolves a given path
      *
      * @type member
-     * @param vAlias {String} alias name for the resource path/url
-     * @return {String} resource path/url
+     * @param path {String} input path
+     * @return {String} resulting path (with interpreted aliases)
      */
-    resolve : function(vAlias)
-    {
-      var ret = this._aliases[vAlias];
-
-      if (ret != null) {
-        return ret;
-      }
-
-      this.error("Could not resolve alias: " + vAlias);
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      URI HANDLING
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Resolve a path name to a resource URI taking the defined aliases into account
-     * and cache the result.
-     *
-     * If the first part of the path is a defined alias, the alias is resolved.
-     * Otherwhise the path is returned unmodified.
-     *
-     * @type member
-     * @param vPath {String} path name
-     * @param vForceUpdate {Boolean ? false} whether the cached value should be ignored
-     * @return {String} reolved path/url
-     */
-    resolvePath : function(vPath, vForceUpdate)
-    {
-      var vUri = this._uris[vPath];
-
-      if (vUri == null) {
-        vUri = this._uris[vPath] = this._computePath(vPath);
-      }
-
-      // this.debug("URI: " + vPath + " => " + vUri);
-      return vUri;
-    },
-
-
-    /**
-     * Resolve a path name to a resource URI taking the defined aliases into account.
-     *
-     * If the first part of the path is a defined alias, the alias is resolved.
-     * Otherwhise the path is returned unmodified.
-     *
-     * @type member
-     * @param vPath {String} path name
-     * @return {String} reolved path/url
-     */
-    _computePath : function(vPath)
-    {
-      switch(vPath.charAt(0))
-      {
-        case "/":
-        case ".":
-          return vPath;
-
-        default:
-          if (qx.lang.String.startsWith(vPath, qx.net.Protocol.URI_HTTP) || qx.lang.String.startsWith(vPath, qx.net.Protocol.URI_HTTPS) || qx.lang.String.startsWith(vPath, qx.net.Protocol.URI_FILE)) {
-            return vPath;
-          }
-
-          var vAlias = vPath.substring(0, vPath.indexOf("/"));
-          var vResolved = this._aliases[vAlias];
-
-          if (vResolved != null) {
-            return vResolved + vPath.substring(vAlias.length);
-          }
-
-          return vPath;
-      }
+    resolve : function(path) {
+      return this._preprocess(path);
     }
   },
 
@@ -237,6 +185,6 @@ qx.Class.define("qx.manager.object.AliasManager",
   */
 
   destruct : function() {
-    this._disposeFields("_aliases", "_uris");
+    this._disposeFields("_aliases");
   }
 });

@@ -42,7 +42,7 @@ qx.Class.define("qx.ui.embed.GalleryList",
   {
     this.base(arguments);
 
-    this._blank = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
+    this._blank = qx.manager.object.AliasManager.getInstance().resolve("static/image/blank.gif");
     this._list = galleryList;
     this._listSize = galleryList.length;
     this._processedImages = 0;

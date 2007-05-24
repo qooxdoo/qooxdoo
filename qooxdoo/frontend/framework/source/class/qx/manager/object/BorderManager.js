@@ -69,14 +69,14 @@ qx.Class.define("qx.manager.object.BorderManager",
      * @param value {var} The original value
      * @return {var} The result value
      */
-    _processStatic : function(value)
+    _preprocess : function(value)
     {
       if (value instanceof qx.renderer.border.Border)
       {
         var key = "b" + value.toHashCode();
 
-        if (!this._static[key]) {
-          this._static[key] = value;
+        if (!this._dynamic[key]) {
+          this._dynamic[key] = value;
         }
 
         return key;
@@ -90,22 +90,24 @@ qx.Class.define("qx.manager.object.BorderManager",
     {
       var dest = this._dynamic;
 
-      if (dest)
+      for (var key in dest)
       {
-        for (var key in dest) {
+        if (dest[key].themed)
+        {
           dest[key].dispose();
+          delete dest[key];
         }
       }
-
-      dest = this._dynamic = {};
 
       if (value)
       {
         var source = value.borders;
         var border = qx.renderer.border.Border;
 
-        for (var key in source) {
+        for (var key in source)
+        {
           dest[key] = (new border).set(source[key]);
+          dest[key].themed = true;
         }
       }
 
@@ -137,14 +139,13 @@ qx.Class.define("qx.manager.object.BorderManager",
     {
       var reg = this._registry;
       var dynamics = this._dynamic;
-      var statics = this._static;
       var entry;
 
       for (var key in reg)
       {
         entry = reg[key];
 
-        if ((dynamics[entry.value] || statics[entry.value]) === border) {
+        if (dynamics[entry.value] === border) {
           entry.callback.call(entry.object, border, edge);
         }
       }

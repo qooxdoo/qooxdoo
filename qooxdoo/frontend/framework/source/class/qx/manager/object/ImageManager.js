@@ -49,9 +49,6 @@ qx.Class.define("qx.manager.object.ImageManager",
     // The value is a number which represents the number of image
     // instances which use this source
     this._sources = {};
-
-    // Change event connection to AliasManager
-    qx.manager.object.AliasManager.getInstance().addEventListener("change", this._onaliaschange, this);
   },
 
 
@@ -95,44 +92,38 @@ qx.Class.define("qx.manager.object.ImageManager",
   {
     /*
     ---------------------------------------------------------------------------
-      EVENTS
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
-    _onaliaschange : function()
-    {
-      if (qx.manager.object.ThemeManager.getInstance().getAutoSync()) {
-        this.syncThemes();
-      }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
       MODIFIERS
     ---------------------------------------------------------------------------
     */
 
     _applyIconTheme : function(value, old)
     {
+      if (qx.manager.object.ThemeManager.getInstance().getAutoSync()) {
+        this.syncIconTheme();
+      }
+    },
+
+    syncIconTheme : function()
+    {
+      var value = this.getIconTheme();
       var alias = qx.manager.object.AliasManager.getInstance();
       value ? alias.add("icon", value.icons.uri) : alias.remove("icon");
     },
 
-
     _applyWidgetTheme : function(value, old)
     {
+      if (qx.manager.object.ThemeManager.getInstance().getAutoSync()) {
+        this.syncWidgetTheme();
+      }
+    },
+
+    syncWidgetTheme : function()
+    {
+      var value = this.getWidgetTheme();
       var alias = qx.manager.object.AliasManager.getInstance();
       value ? alias.add("widget", value.widgets.uri) : alias.remove("widget");
     },
+
 
 
 
@@ -186,58 +177,6 @@ qx.Class.define("qx.manager.object.ImageManager",
       }
 
       return vPreload;
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      INTERNAL HELPER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {boolean} TODOC
-     */
-    syncThemes : function()
-    {
-      var vAll = this.getAll();
-      var vPreMgr = qx.manager.object.ImagePreloaderManager.getInstance();
-      var vAliasMgr = qx.manager.object.AliasManager.getInstance();
-      var vObject;
-
-      // Recreate preloader of affected images
-      for (var vHashCode in vAll)
-      {
-        vObject = vAll[vHashCode];
-        vObject.setPreloader(vPreMgr.create(vAliasMgr.resolvePath(vObject.getSource())));
-      }
-
-      return true;
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      UTILITY
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vPath {var} TODOC
-     * @return {void}
-     */
-    preload : function(vPath) {
-      qx.manager.object.ImagePreloaderManager.getInstance().create(qx.manager.object.AliasManager.getInstance().resolvePath(vPath));
     }
   },
 

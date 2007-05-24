@@ -47,9 +47,9 @@ qx.Class.define("qx.ui.table.BooleanDataCellRenderer",
   {
     this.base(arguments);
 
-    this._iconUrlTrue = qx.manager.object.AliasManager.getInstance().resolvePath("widget/table/boolean-true.png");
-    this._iconUrlFalse = qx.manager.object.AliasManager.getInstance().resolvePath("widget/table/boolean-false.png");
-    this._iconUrlNull = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
+    this._iconUrlTrue = qx.manager.object.AliasManager.getInstance().resolve("widget/table/boolean-true.png");
+    this._iconUrlFalse = qx.manager.object.AliasManager.getInstance().resolve("widget/table/boolean-false.png");
+    this._iconUrlNull = qx.manager.object.AliasManager.getInstance().resolve("static/image/blank.gif");
   },
 
 

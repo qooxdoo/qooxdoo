@@ -161,7 +161,7 @@ qx.Class.define("qx.ui.embed.Iframe",
 
       if (qx.core.Variant.isSet("qx.client", "mshtml")) {
         // Setting the backgroundImage causes an "insecure elements" warning under SSL
-        // b.style.backgroundImage = "url(" + qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif") + ")";
+        // b.style.backgroundImage = "url(" + qx.manager.object.AliasManager.getInstance().resolve("static/image/blank.gif") + ")";
 
         b.style.backgroundColor = "white";
         b.style.filter = "Alpha(Opacity=0)";
@@ -520,7 +520,7 @@ qx.Class.define("qx.ui.embed.Iframe",
       var currentSource = this.getSource();
 
       if (qx.util.Validation.isInvalidString(currentSource)) {
-        currentSource = qx.manager.object.AliasManager.getInstance().resolvePath("static/html/blank.html");
+        currentSource = qx.manager.object.AliasManager.getInstance().resolve("static/html/blank.html");
       }
 
       this._isLoaded = false;

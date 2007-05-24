@@ -143,7 +143,7 @@ qx.Class.define("qx.ui.embed.IconHtmlEmbed",
       if (qx.util.Validation.isValidString(this.getIcon()))
       {
         vHtml.push("<img src=\"");
-        vHtml.push(qx.manager.object.AliasManager.getInstance().resolvePath(qx.core.Variant.isSet("qx.client", "mshtml") ? "static/image/blank.gif" : this.getIcon()));
+        vHtml.push(qx.manager.object.AliasManager.getInstance().resolve(qx.core.Variant.isSet("qx.client", "mshtml") ? "static/image/blank.gif" : this.getIcon()));
         vHtml.push("\" style=\"vertical-align:middle;");
 
         if (this.getSpacing() != null)
@@ -171,7 +171,7 @@ qx.Class.define("qx.ui.embed.IconHtmlEmbed",
         {
           vHtml.push("filter:");
           vHtml.push("progid:DXImageTransform.Microsoft.AlphaImageLoader(src='");
-          vHtml.push(qx.manager.object.AliasManager.getInstance().resolvePath(this.getIcon()));
+          vHtml.push(qx.manager.object.AliasManager.getInstance().resolve(this.getIcon()));
           vHtml.push("',sizingMethod='scale')");
           vHtml.push(";");
         }

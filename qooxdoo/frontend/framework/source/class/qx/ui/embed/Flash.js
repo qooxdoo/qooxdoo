@@ -452,7 +452,7 @@ qx.Class.define("qx.ui.embed.Flash",
      * @param propName {var} TODOC
      */
     _applySource : function(value, old, propName) {
-      this._source = qx.util.Validation.isValidString(value) ? qx.manager.object.AliasManager.getInstance().resolvePath(value) : "";
+      this._source = qx.util.Validation.isValidString(value) ? qx.manager.object.AliasManager.getInstance().resolve(value) : "";
     },
 
 
