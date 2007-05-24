@@ -308,7 +308,6 @@ qx.Class.define("qx.ui.popup.ToolTip",
           window.setTimeout(function() {
             self.setLeft(left);
             self.setTop(top);
-            qx.ui.core.Widget.flushGlobalQueues();
           }, 0);
         }
       }
@@ -413,11 +412,6 @@ qx.Class.define("qx.ui.popup.ToolTip",
       this.setTop(qx.event.type.MouseEvent.getPageY() + this.getMousePointerOffsetY());
 
       this.show();
-
-      // we need a manual flushing because it could be that
-      // there is currently no event which does this for us
-      // and so show the tooltip.
-      qx.ui.core.Widget.flushGlobalQueues();
     },
 
 

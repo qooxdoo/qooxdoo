@@ -288,7 +288,6 @@ qx.Class.define("qx.ui.popup.Popup",
           {
             self.setLeft(left);
             self.setTop(top);
-            qx.ui.core.Widget.flushGlobalQueues();
           },
           0);
         }

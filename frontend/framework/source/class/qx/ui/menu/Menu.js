@@ -429,8 +429,6 @@ qx.Class.define("qx.ui.menu.Menu",
           vSub.setLeft(qx.html.Location.getPageBoxLeft(el) + qx.html.Dimension.getBoxWidth(el) + this.getSubMenuHorizontalOffset());
 
           vSub.show();
-
-          qx.ui.core.Widget.flushGlobalQueues();
         }
       }
     },
@@ -1213,6 +1211,7 @@ qx.Class.define("qx.ui.menu.Menu",
   */
 
   destruct : function() {
+    this.hide();
     this._disposeObjects("_openTimer", "_closeTimer", "_layout");
   }
 });

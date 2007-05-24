@@ -97,7 +97,6 @@ qx.Class.define("qx.util.GuiBuilder",
       req.addEventListener("completed", function(e)
       {
         self.build(parent, e.getData().getContent());
-        qx.ui.core.Widget.flushGlobalQueues();
       });
 
       req.send();
