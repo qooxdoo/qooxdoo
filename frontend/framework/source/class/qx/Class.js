@@ -1056,7 +1056,7 @@ qx.Class.define("qx.Class",
         {
           for (var key in events)
           {
-            if (clazz.$$events[key] !== events[key]) {
+            if (clazz.$$events[key] !== undefined && clazz.$$events[key] !== events[key]) {
               throw new Error(clazz.classname + "/" + key + ": the event value/type cannot be changed from " + clazz.$$events[key] + " to " + events[key]);
             }
           }

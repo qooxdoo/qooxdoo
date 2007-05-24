@@ -318,7 +318,7 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
   },
 
 
-  dispose : function()
+  destruct : function()
   {
     this._disposeObjects("_fadeTimer");
   }
