@@ -96,14 +96,15 @@ qx.Class.define("qx.manager.object.ThemeManager",
       var colorMgr = qx.manager.object.ColorManager.getInstance();
       var borderMgr = qx.manager.object.BorderManager.getInstance();
       var fontMgr = qx.manager.object.FontManager.getInstance();
-      var imageMgr = qx.manager.object.ImageManager.getInstance();
+      var iconMgr = qx.manager.object.IconManager.getInstance();
+      var widgetMgr = qx.manager.object.WidgetManager.getInstance();
       var appearanceMgr = qx.manager.object.AppearanceManager.getInstance();
 
       colorMgr.setColorTheme(color);
       borderMgr.setBorderTheme(border);
       fontMgr.setFontTheme(font);
-      imageMgr.setWidgetTheme(widget);
-      imageMgr.setIconTheme(icon);
+      widgetMgr.setWidgetTheme(widget);
+      iconMgr.setIconTheme(icon);
       appearanceMgr.setAppearanceTheme(appearance);
 
       if (old) {
@@ -117,8 +118,8 @@ qx.Class.define("qx.manager.object.ThemeManager",
       if (value)
       {
         qx.manager.object.AppearanceManager.getInstance().syncAppearanceTheme();
-        qx.manager.object.ImageManager.getInstance().syncIconTheme();
-        qx.manager.object.ImageManager.getInstance().syncWidgetTheme();
+        qx.manager.object.IconManager.getInstance().syncIconTheme();
+        qx.manager.object.WidgetManager.getInstance().syncWidgetTheme();
         qx.manager.object.FontManager.getInstance().syncFontTheme();
         qx.manager.object.BorderManager.getInstance().syncBorderTheme();
         qx.manager.object.ColorManager.getInstance().syncColorTheme();
@@ -189,7 +190,7 @@ qx.Class.define("qx.manager.object.ThemeManager",
           throw new Error("The widget theme to use is not available: " + theme);
         }
 
-        qx.manager.object.ImageManager.getInstance().setWidgetTheme(obj);
+        qx.manager.object.WidgetManager.getInstance().setWidgetTheme(obj);
       }
 
       theme = setting.get("qx.iconTheme");
@@ -200,7 +201,7 @@ qx.Class.define("qx.manager.object.ThemeManager",
           throw new Error("The icon theme to use is not available: " + theme);
         }
 
-        qx.manager.object.ImageManager.getInstance().setIconTheme(obj);
+        qx.manager.object.IconManager.getInstance().setIconTheme(obj);
       }
 
       theme = setting.get("qx.appearanceTheme");

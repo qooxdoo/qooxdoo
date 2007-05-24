@@ -137,7 +137,7 @@ qx.Class.define("qx.util.ThemeList",
     {
       var mgr = qx.manager.object.ThemeManager.getInstance();
       return this.__createButtons(parent, x, y, mgr.getWidgetThemes(), "Widget Theme: ", function(e) {
-        qx.manager.object.ImageManager.getInstance().setWidgetTheme(e.getTarget().getUserData("theme"));
+        qx.manager.object.WidgetManager.getInstance().setWidgetTheme(e.getTarget().getUserData("theme"));
       });
     },
 
@@ -154,7 +154,7 @@ qx.Class.define("qx.util.ThemeList",
     {
       var mgr = qx.manager.object.ThemeManager.getInstance();
       return this.__createButtons(parent, x, y, mgr.getIconThemes(), "Icon Theme: ", function(e) {
-        qx.manager.object.ImageManager.getInstance().setIconTheme(e.getTarget().getUserData("theme"));
+        qx.manager.object.IconManager.getInstance().setIconTheme(e.getTarget().getUserData("theme"));
       });
     },
 
