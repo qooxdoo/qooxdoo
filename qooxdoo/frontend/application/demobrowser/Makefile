@@ -1,0 +1,54 @@
+################################################################################
+#
+#  qooxdoo - the new era of web development
+#
+#  http://qooxdoo.org
+#
+#  Copyright:
+#    2007 1&1 Internet AG, Germany, http://www.1and1.org
+#
+#  License:
+#    LGPL: http://www.gnu.org/licenses/lgpl.html
+#    EPL: http://www.eclipse.org/org/documents/epl-v10.php
+#    See the LICENSE file in the project's top-level directory for details.
+#
+#  Authors:
+#    * Thomas Herchenroeder (thron7)
+#
+################################################################################
+
+####################################################################################
+# BASIC SETTINGS
+####################################################################################
+
+QOOXDOO_PATH = ../../..
+
+APPLICATION_NAMESPACE = demobrowser
+APPLICATION_CLASSNAME = Application
+APPLICATION_SCRIPT_FILENAME = demobrowser.js
+
+APPLICATION_MAKE_TITLE = DEMOBROWSER
+APPLICATION_API_TITLE = qooxdoo Demo Browser
+
+APPLICATION_FILES = index.html
+
+APPLICATION_RESOURCE_FILTER = true
+
+APPLICATION_LINEBREAKS_BUILD = true
+APPLICATION_LINEBREAKS_SOURCE = true
+
+APPLICATION_COMPLETE_BUILD = false
+APPLICATION_COMPLETE_SOURCE = false
+
+####################################################################################
+# INCLUDE CORE
+####################################################################################
+
+ifneq ($(QOOXDOO_PATH),PLEASE_DEFINE_QOOXDOO_PATH)
+	include $(QOOXDOO_PATH)/frontend/framework/tool/make/targets.mk
+	include $(QOOXDOO_PATH)/frontend/framework/tool/make/application.mk
+endif
+
+error:
+	@echo "  * Please configure QOOXDOO_PATH"
+
