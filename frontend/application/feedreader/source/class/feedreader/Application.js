@@ -174,7 +174,7 @@ qx.Class.define("feedreader.Application",
       qx.manager.object.AliasManager.getInstance().add("feedreader", qx.core.Setting.get("feedreader.resourceUri"));
 
       // Include CSS file
-      qx.html.StyleSheet.includeFile(qx.manager.object.AliasManager.getInstance().resolvePath("feedreader/css/reader.css"));
+      qx.html.StyleSheet.includeFile(qx.manager.object.AliasManager.getInstance().resolve("feedreader/css/reader.css"));
 
       // create main layout
       var dockLayout = new qx.ui.layout.DockLayout();
@@ -495,7 +495,7 @@ qx.Class.define("feedreader.Application",
      */
     fetchFeedDesc : function()
     {
-      var req = new qx.io.remote.Request(qx.manager.object.AliasManager.getInstance().resolvePath("feedreader/feeds/febo-feeds.opml.xml"), "GET", qx.util.Mime.XML);
+      var req = new qx.io.remote.Request(qx.manager.object.AliasManager.getInstance().resolve("feedreader/feeds/febo-feeds.opml.xml"), "GET", qx.util.Mime.XML);
       feedreader.Application._feedDesc = [];
 
       req.addEventListener("completed", function(e)
@@ -510,7 +510,7 @@ qx.Class.define("feedreader.Application",
           feedreader.Application._feedDesc.push(
           {
             name : eDesc.getAttribute("title"),
-            url  : qx.manager.object.AliasManager.getInstance().resolvePath("feedreader/proxy/proxy.php") + "?proxy=" + encodeURIComponent(eDesc.getAttribute("xmlUrl"))
+            url  : qx.manager.object.AliasManager.getInstance().resolve("feedreader/proxy/proxy.php") + "?proxy=" + encodeURIComponent(eDesc.getAttribute("xmlUrl"))
           });
         }
       },
@@ -544,7 +544,7 @@ qx.Class.define("feedreader.Application",
 
       for (var i=0; i<feedDesc.length; i++)
       {
-        var req = new qx.io.remote.Request(qx.manager.object.AliasManager.getInstance().resolvePath(feedDesc[i].url), "GET", qx.util.Mime.XML);
+        var req = new qx.io.remote.Request(qx.manager.object.AliasManager.getInstance().resolve(feedDesc[i].url), "GET", qx.util.Mime.XML);
         req.addEventListener("completed", getCallback(feedDesc[i].name));
         req.send();
       }
