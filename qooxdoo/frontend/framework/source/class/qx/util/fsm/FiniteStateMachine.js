@@ -1152,9 +1152,6 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
           this._eventQueue.unshift(e);
         }
 
-        // Ensure that all actions have been flushed
-        qx.ui.core.Widget.flushGlobalQueues();
-
         if (debugTransitions)
         {
           this.debug(this.getName() + "#" + prevState + " => " +
