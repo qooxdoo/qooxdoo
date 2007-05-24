@@ -511,9 +511,9 @@ qx.Class.define("qx.ui.basic.Image",
         var i = this._image;
         var pl = this.getPreloader();
 
-        var source = pl.isLoaded() ? pl.getSource() : this._blank;
+        var source = pl && pl.isLoaded() ? pl.getSource() : this._blank;
 
-        if (pl.getIsPng() && this.getEnabled())
+        if (pl && pl.getIsPng() && this.getEnabled())
         {
           i.src = this._blank;
           i.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + source + "',sizingMethod='scale')";
@@ -528,7 +528,7 @@ qx.Class.define("qx.ui.basic.Image",
       "default" : function()
       {
         var pl = this.getPreloader();
-        var source = pl.isLoaded() ? pl.getSource() : this._blank;
+        var source = pl && pl.isLoaded() ? pl.getSource() : this._blank;
 
         this._image.src = source;
       }
