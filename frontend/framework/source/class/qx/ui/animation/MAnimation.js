@@ -238,8 +238,6 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
 
           break;
       }
-
-      //qx.ui.core.Widget.flushGlobalQueues();
     },
 
 

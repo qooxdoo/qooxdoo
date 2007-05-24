@@ -86,8 +86,22 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
   */
 
   events : {
+    /**
+     * Called when a tree folder with content is opened. The data property
+     * contains the opened {@link TreeFolder}.
+     */
     "treeOpenWithContent" : "qx.event.type.DataEvent",
+
+    /**
+     * Called when a tree folder without content is opened. The data property
+     * contains the opened {@link TreeFolder}.
+     */
     "treeOpenWhileEmpty" : "qx.event.type.DataEvent",
+
+    /**
+     * Called when a tree folder is closed. The data property
+     * contains the {@link TreeFolder} being closed.
+     */
     "treeClose" : "qx.event.type.DataEvent"
   },
 

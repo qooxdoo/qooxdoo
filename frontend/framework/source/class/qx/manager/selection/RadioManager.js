@@ -49,7 +49,7 @@ qx.Class.define("qx.manager.selection.RadioManager",
     this._items = [];
 
     // apply name property
-    this.setName(vName != null ? vName : qx.manager.selection.RadioManager.AUTO_NAME_PREFIX + this._hashCode);
+    this.setName(vName != null ? vName : qx.manager.selection.RadioManager.AUTO_NAME_PREFIX + this.toHashCode());
 
     if (vMembers != null)
     {
