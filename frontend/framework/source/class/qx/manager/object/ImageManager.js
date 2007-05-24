@@ -21,12 +21,10 @@
 /* ************************************************************************
 
 #module(ui_core)
-#optional(qx.ui.form.Button)
-#embed(qx.icontheme/16/apps/preferences-desktop-theme.png)
 
 ************************************************************************ */
 
-/** This singleton manage the global image path (prefix) and allowes themed icons. */
+/** This singleton selects the widget theme to use. */
 qx.Class.define("qx.manager.object.ImageManager",
 {
   type : "singleton",
@@ -54,32 +52,6 @@ qx.Class.define("qx.manager.object.ImageManager",
 
 
 
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-    iconTheme :
-    {
-      check : "Theme",
-      nullable : true,
-      apply : "_applyIconTheme",
-      event : "changeIconTheme"
-    },
-
-    widgetTheme :
-    {
-      check : "Theme",
-      nullable : true,
-      apply : "_applyWidgetTheme",
-      event : "changeWidgetTheme"
-    }
-  },
-
-
 
 
   /*
@@ -90,48 +62,6 @@ qx.Class.define("qx.manager.object.ImageManager",
 
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      MODIFIERS
-    ---------------------------------------------------------------------------
-    */
-
-    _applyIconTheme : function(value, old)
-    {
-      if (qx.manager.object.ThemeManager.getInstance().getAutoSync()) {
-        this.syncIconTheme();
-      }
-    },
-
-    syncIconTheme : function()
-    {
-      var value = this.getIconTheme();
-      var alias = qx.manager.object.AliasManager.getInstance();
-      value ? alias.add("icon", value.icons.uri) : alias.remove("icon");
-    },
-
-    _applyWidgetTheme : function(value, old)
-    {
-      if (qx.manager.object.ThemeManager.getInstance().getAutoSync()) {
-        this.syncWidgetTheme();
-      }
-    },
-
-    syncWidgetTheme : function()
-    {
-      var value = this.getWidgetTheme();
-      var alias = qx.manager.object.AliasManager.getInstance();
-      value ? alias.add("widget", value.widgets.uri) : alias.remove("widget");
-    },
-
-
-
-
-
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       PRELOAD API
