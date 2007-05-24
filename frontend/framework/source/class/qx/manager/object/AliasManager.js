@@ -148,8 +148,12 @@ qx.Class.define("qx.manager.object.AliasManager",
      * @param alias {String} alias name for the resource path/url
      * @return {void}
      */
-    remove : function(alias) {
+    remove : function(alias)
+    {
       delete this._aliases[alias];
+
+      // No signal for depending objects here. These
+      // will informed with the new value using add().
     },
 
 
@@ -160,8 +164,13 @@ qx.Class.define("qx.manager.object.AliasManager",
      * @param path {String} input path
      * @return {String} resulting path (with interpreted aliases)
      */
-    resolve : function(path) {
-      return this._preprocess(path);
+    resolve : function(path)
+    {
+      if (path !== null) {
+        path = this._preprocess(path);
+      }
+
+      return this._dynamic[path] || path;
     }
   },
 
