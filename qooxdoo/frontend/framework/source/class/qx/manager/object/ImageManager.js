@@ -24,11 +24,11 @@
 
 ************************************************************************ */
 
-/** This singleton selects the widget theme to use. */
+/** This singleton manage stuff around image handling. */
 qx.Class.define("qx.manager.object.ImageManager",
 {
   type : "singleton",
-  extend : qx.manager.object.ObjectManager,
+  extend : qx.core.Target,
 
 
 

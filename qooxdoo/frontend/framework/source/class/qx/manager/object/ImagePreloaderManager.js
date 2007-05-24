@@ -28,7 +28,7 @@
 qx.Class.define("qx.manager.object.ImagePreloaderManager",
 {
   type : "singleton",
-  extend : qx.manager.object.ObjectManager,
+  extend : qx.core.Object,
 
 
 
@@ -39,8 +39,11 @@ qx.Class.define("qx.manager.object.ImagePreloaderManager",
   *****************************************************************************
   */
 
-  construct : function() {
+  construct : function()
+  {
     this.base(arguments);
+
+    this._objects = {};
   },
 
 
@@ -54,12 +57,6 @@ qx.Class.define("qx.manager.object.ImagePreloaderManager",
 
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      METHODS
-    ---------------------------------------------------------------------------
-    */
-
     /**
      * TODOC
      *
@@ -123,5 +120,18 @@ qx.Class.define("qx.manager.object.ImagePreloaderManager",
 
       return new qx.io.image.Preloader(vSource);
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields("_objects");
   }
 });
