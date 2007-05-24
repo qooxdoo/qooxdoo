@@ -6015,7 +6015,17 @@ qx.Class.define("qx.ui.core.Widget",
 
       "opera" : qx.lang.Function.returnTrue,
 
-      "webkit|khtml" : function(value, old)
+      "webkit" : function(value, old)
+      {
+        // Be forward compatible and use both userSelect and KhtmlUserSelect
+        if (value) {
+          this.removeStyleProperty("-webkit-user-select");
+        } else {
+          this.setStyleProperty("-webkit-user-select", "ignore");
+        }
+      },
+
+      "khtml" : function(value, old)
       {
         // Be forward compatible and use both userSelect and KhtmlUserSelect
         if (value) {
