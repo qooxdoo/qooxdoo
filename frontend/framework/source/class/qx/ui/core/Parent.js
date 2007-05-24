@@ -774,10 +774,10 @@ qx.Class.define("qx.ui.core.Parent",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Widget|null} TODOC
      */
     getFirstChild : function() {
-      return qx.lang.Array.getFirst(this.getChildren());
+      return qx.lang.Array.getFirst(this.getChildren()) || null;
     },
 
 
@@ -785,10 +785,10 @@ qx.Class.define("qx.ui.core.Parent",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Widget|null} TODOC
      */
     getFirstVisibleChild : function() {
-      return qx.lang.Array.getFirst(this.getVisibleChildren());
+      return qx.lang.Array.getFirst(this.getVisibleChildren()) || null;
     },
 
 
@@ -797,10 +797,10 @@ qx.Class.define("qx.ui.core.Parent",
      *
      * @type member
      * @param vIgnoreClasses {var} TODOC
-     * @return {var} TODOC
+     * @return {Widget|null} TODOC
      */
     getFirstActiveChild : function(vIgnoreClasses) {
-      return qx.ui.core.Widget.getActiveSiblingHelper(null, this, 1, vIgnoreClasses, "first");
+      return qx.ui.core.Widget.getActiveSiblingHelper(null, this, 1, vIgnoreClasses, "first") || null;
     },
 
 
@@ -816,10 +816,10 @@ qx.Class.define("qx.ui.core.Parent",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Widget|null} TODOC
      */
     getLastChild : function() {
-      return qx.lang.Array.getLast(this.getChildren());
+      return qx.lang.Array.getLast(this.getChildren()) || null;
     },
 
 
@@ -827,10 +827,10 @@ qx.Class.define("qx.ui.core.Parent",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Widget|null} TODOC
      */
     getLastVisibleChild : function() {
-      return qx.lang.Array.getLast(this.getVisibleChildren());
+      return qx.lang.Array.getLast(this.getVisibleChildren()) || null;
     },
 
 
@@ -839,10 +839,10 @@ qx.Class.define("qx.ui.core.Parent",
      *
      * @type member
      * @param vIgnoreClasses {var} TODOC
-     * @return {var} TODOC
+     * @return {Widget|null} TODOC
      */
     getLastActiveChild : function(vIgnoreClasses) {
-      return qx.ui.core.Widget.getActiveSiblingHelper(null, this, -1, vIgnoreClasses, "last");
+      return qx.ui.core.Widget.getActiveSiblingHelper(null, this, -1, vIgnoreClasses, "last") || null;
     },
 
 
