@@ -31,7 +31,8 @@ qx.Class.define("demobrowser.TreeDataHandler",
   construct : function(testRep)
   {
     this.base(arguments);
-    testRep    = demobrowser.TreeDataHandler.testRep;
+    //testRep    = demobrowser.TreeDataHandler.testRep;
+    //testRep    = this.getDocumentElement()._demoData_;
     this.tmap  = eval(testRep); //[{classname:myClass,tests:['test1','test2']}, {...}]
     this.ttree = this.__readTestRep(testRep);
   },

@@ -66,7 +66,8 @@ qx.Class.define("demobrowser.DemoBrowser",
     this.left = left;
     this.mainsplit.addLeft(left);
     // fill the tree
-    this.tests.handler = new demobrowser.TreeDataHandler("");
+    var testRep = window._demoData_;
+    this.tests.handler = new demobrowser.TreeDataHandler(testRep);
     this.leftReloadTree();
 
     // Right
