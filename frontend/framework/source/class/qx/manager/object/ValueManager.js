@@ -102,7 +102,7 @@ qx.Class.define("qx.manager.object.ValueManager",
       }
 
       // Callback handling
-      if (this._dynamic[value])
+      if (this.isDynamic(value))
       {
         // Store reference for themed values
         reg[key] =
@@ -119,7 +119,7 @@ qx.Class.define("qx.manager.object.ValueManager",
       }
 
       // Finally executing given callback
-      callback.call(obj, this._dynamic[value] || value);
+      callback.call(obj, this.resolveDynamic(value) || value);
     },
 
 
@@ -169,13 +169,12 @@ qx.Class.define("qx.manager.object.ValueManager",
     _updateObjects : function()
     {
       var reg = this._registry;
-      var dynamics = this._dynamic;
       var entry;
 
       for (var key in reg)
       {
         entry = reg[key];
-        entry.callback.call(entry.object, dynamics[entry.value]);
+        entry.callback.call(entry.object, this.resolveDynamic(entry.value));
       }
     }
   },
