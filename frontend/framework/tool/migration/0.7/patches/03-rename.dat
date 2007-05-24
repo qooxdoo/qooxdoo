@@ -26,8 +26,8 @@
 \bqx\.manager\.object\.TooltipManager\b=qx.ui.tooltip.Manager
 \bqx\.manager\.object\.WindowManager\b=qx.ui.window.Manager
 
-\bqx\.manager\.object\.ObjectManager\b=qx.manager.Object
-\bqx\.manager\.object\.ValueManager\b=qx.manager.Value
+\bqx\.manager\.object\.ObjectManager\b=qx.util.manager.Object
+\bqx\.manager\.object\.ValueManager\b=qx.util.manager.Value
 
 \bqx\.manager\.selection\.SelectionManager\b=qx.ui.selection.SelectionManager
 \bqx\.manager\.selection\.DomSelectionManager\b=qx.ui.selection.DomSelectionManager
@@ -43,6 +43,9 @@
 \bqx\.renderer\.layout\b=qx.ui.layout.impl
 \bqx\.ui\.layout\.impl\.MenuButtonLayoutImpl\b=qx.ui.menu.ButtonLayoutImpl
 \bqx\.ui\.layout\.impl\.MenuLayoutImpl\b=qx.ui.menu.MenuLayoutImpl
+
+\bqx\.ui\.core\.ScrollArea\b=qx.ui.basic.ScrollArea
+\bqx\.ui\.core\.ScrollBar\b=qx.ui.basic.ScrollBar
 
 \bqx\.type\.Selection\b=qx.ui.selection.Storage
 \bqx\.type\.Version\b=qx.util.Version
