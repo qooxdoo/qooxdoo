@@ -1352,7 +1352,6 @@ qx.Class.define("qx.ui.window.Window",
           if (f.getParent() != this.getParent())
           {
             f.setParent(this.getParent());
-            qx.ui.core.Widget.flushGlobalQueues();
           }
 
           f._renderRuntimeLeft(qx.html.Location.getPageBoxLeft(el) - l);
