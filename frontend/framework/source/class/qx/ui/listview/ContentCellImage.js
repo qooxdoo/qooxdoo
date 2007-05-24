@@ -103,7 +103,7 @@ qx.Class.define("qx.ui.listview.ContentCellImage",
     setSource : function(vSource)
     {
       if (this._initialLayoutDone) {
-        return this._updateContent(qx.manager.object.AliasManager.getInstance().resolvePath(vSource == "" ? "static/image/blank.gif" : vSource));
+        return this._updateContent(qx.manager.object.AliasManager.getInstance().resolve(vSource == "" ? "static/image/blank.gif" : vSource));
       } else {
         return qx.ui.basic.Image.prototype.setSource.call(this, vSource);
       }

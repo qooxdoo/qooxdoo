@@ -89,9 +89,9 @@ qx.Class.define("qx.ui.table.ImageDataCellRenderer",
       var am = qx.manager.object.AliasManager.getInstance();
 
       if (cellInfo.value == "") {
-        imageHints.url = am.resolvePath("static/image/blank.gif");
+        imageHints.url = am.resolve("static/image/blank.gif");
       } else {
-        imageHints.url = am.resolvePath(cellInfo.value);
+        imageHints.url = am.resolve(cellInfo.value);
       }
 
       return imageHints;

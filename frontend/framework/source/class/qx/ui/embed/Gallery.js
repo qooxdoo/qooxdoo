@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.embed.Gallery",
   {
     this.base(arguments);
 
-    this._blank = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
+    this._blank = qx.manager.object.AliasManager.getInstance().resolve("static/image/blank.gif");
     this._list = vGalleryList;
     this._listSize = vGalleryList.length;
     this._processedImages = 0;

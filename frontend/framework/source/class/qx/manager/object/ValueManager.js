@@ -47,9 +47,6 @@ qx.Class.define("qx.manager.object.ValueManager",
 
     // Create empty dynamic map
     this._dynamic = {};
-
-    // Static, non-changeable values, which should be registered, too
-    this._static = {};
   },
 
 
@@ -71,7 +68,7 @@ qx.Class.define("qx.manager.object.ValueManager",
      * @param obj {Object} Any object
      * @param callback {String} Name of callback function which handles the
      *   apply of the resulting CSS valid value.
-     * @param value {var} Any acceptable value
+     * @param value {var} Any acceptable value, but no booleans and no undefined
      * @return {void}
      */
     connect : function(callback, obj, value)
@@ -85,20 +82,35 @@ qx.Class.define("qx.manager.object.ValueManager",
         if (!obj) {
           throw new Error("Can not connect to invalid object: " + obj);
         }
+
+        if (value === undefined) {
+          throw new Error("Undefined values are not allowed for connect: " + callback + "[" + obj + "]");
+        }
+
+        if (typeof value === "boolean") {
+          throw new Error("Boolean values are not allowed for connect: " + callback + "[" + obj + "]");
+        }
       }
 
       // Store references for dynamic values
       var key = "v" + obj.toHashCode() + "$" + qx.core.Object.toHashCode(callback);
       var reg = this._registry;
 
-      // Detect and process static value
-      value = this._processStatic(value);
+      // Preprocess value
+      if (value !== null) {
+        value = this._preprocess(value);
+      }
 
       // Callback handling
-      if (value && (this._dynamic[value] || this._static[value]))
+      if (this._dynamic[value])
       {
         // Store reference for themed values
-        reg[key] = { callback : callback, object : obj, value : value };
+        reg[key] =
+        {
+          callback : callback,
+          object   : obj,
+          value    : value
+        };
       }
       else if (reg[key])
       {
@@ -107,7 +119,7 @@ qx.Class.define("qx.manager.object.ValueManager",
       }
 
       // Finally executing given callback
-      callback.call(obj, value ? this._dynamic[value] || this._static[value] || value : null);
+      callback.call(obj, this._dynamic[value] || value);
     },
 
 
@@ -124,18 +136,6 @@ qx.Class.define("qx.manager.object.ValueManager",
 
 
     /**
-     * Returns the dynamically interpreted result for the incoming value
-     *
-     * @type member
-     * @param value {String} dynamically interpreted idenfier
-     * @return {var} return the (translated) result of the incoming value
-     */
-    resolveStatic : function(value) {
-      return this._static[value];
-    },
-
-
-    /**
      * Whether a value is interpreted dynamically
      *
      * @type member
@@ -148,19 +148,7 @@ qx.Class.define("qx.manager.object.ValueManager",
 
 
     /**
-     * Whether a value is interpreted dynamically
-     *
-     * @type member
-     * @param value {String} dynamically interpreted idenfier
-     * @return {Boolean} returns true if the value is interpreted dynamically
-     */
-    isStatic : function(value) {
-      return this._static[value] !== undefined;
-    },
-
-
-    /**
-     * Processes static values, placeholder for derived classes.
+     * Processes values, placeholder for derived classes.
      * Can be used to also connect uninterpreted values/instances
      * to dependend objects.
      *
@@ -168,7 +156,7 @@ qx.Class.define("qx.manager.object.ValueManager",
      * @param value {var} The incoming value
      * @return {var} The resulting value
      */
-    _processStatic : function(value) {
+    _preprocess : function(value) {
       return value;
     },
 
@@ -182,13 +170,12 @@ qx.Class.define("qx.manager.object.ValueManager",
     {
       var reg = this._registry;
       var dynamics = this._dynamic;
-      var statics = this._static;
       var entry;
 
       for (var key in reg)
       {
         entry = reg[key];
-        entry.callback.call(entry.object, dynamics[entry.value] || statics[entry.value]);
+        entry.callback.call(entry.object, dynamics[entry.value]);
       }
     }
   },
@@ -203,6 +190,6 @@ qx.Class.define("qx.manager.object.ValueManager",
   */
 
   destruct : function() {
-    this._disposeFields("_registry", "_dynamic", "_static");
+    this._disposeFields("_registry", "_dynamic");
   }
 });

@@ -52,25 +52,21 @@ qx.Class.define("qx.ui.basic.Image",
   {
     this.base(arguments);
 
-    // Force empty alt and title property
-    this.setHtmlProperty("alt", "");
-    this.setHtmlProperty("title", "");
+    this._blank = qx.manager.object.AliasManager.getInstance().resolve("static/image/blank.gif");
 
     // Source
-    if (vSource !== undefined) {
+    if (vSource != null) {
       this.setSource(vSource);
-    } else {
-      this.initSource();
     }
 
     // Dimensions
-    if (vWidth !== undefined) {
+    if (vWidth != null) {
       this.setWidth(vWidth);
     } else {
       this.initWidth();
     }
 
-    if (vHeight !== undefined) {
+    if (vHeight != null) {
       this.setHeight(vHeight);
     } else {
       this.initHeight();
@@ -92,6 +88,8 @@ qx.Class.define("qx.ui.basic.Image",
   events : {
     "error" : "qx.event.type.Event"
   },
+
+
 
 
 
@@ -163,8 +161,7 @@ qx.Class.define("qx.ui.basic.Image",
       apply : "_applySource",
       event : "changeSource",
       nullable : true,
-      themeable : true,
-      init : "static/image/blank.gif"
+      themeable : true
     },
 
 
@@ -327,20 +324,27 @@ qx.Class.define("qx.ui.basic.Image",
         }
       }
 
-      if (this.isCreated())
-      {
-        if (value)
-        {
-          var path = qx.manager.object.AliasManager.getInstance().resolvePath(value);
-          var preloader = qx.manager.object.ImagePreloaderManager.getInstance().create(path);
+      if (this.isCreated()) {
+        this._connect();
+      }
+    },
 
-          this.setPreloader(preloader);
-        }
-        else if (old)
-        {
-          this._resetContent();
-          this.setPreloader(null);
-        }
+    _connect : function()
+    {
+      var aliasMgr = qx.manager.object.AliasManager.getInstance();
+      aliasMgr.connect(this._syncSource, this, this.getSource());
+    },
+
+    _syncSource : function(value)
+    {
+      if (value === null)
+      {
+        this.setPreloader(null);
+      }
+      else
+      {
+        var preloader = qx.manager.object.ImagePreloaderManager.getInstance().create(value);
+        this.setPreloader(preloader);
       }
     },
 
@@ -361,10 +365,12 @@ qx.Class.define("qx.ui.basic.Image",
         old.removeEventListener("error", this._onerror, this);
       }
 
+      var imageMgr = qx.manager.object.ImageManager.getInstance();
+
       if (value)
       {
         // Register to image manager
-        qx.manager.object.ImageManager.getInstance().add(this);
+        imageMgr.add(this);
 
         // Omit  here, otherwise the later setLoaded(true)
         // will not be executed (prevent recursion)
@@ -384,7 +390,7 @@ qx.Class.define("qx.ui.basic.Image",
       else
       {
         // Remove from image manager
-        qx.manager.object.ImageManager.getInstance().remove(this);
+        imageMgr.remove(this);
 
         this.setLoaded(false);
       }
@@ -436,27 +442,16 @@ qx.Class.define("qx.ui.basic.Image",
               this._image = new Image;
             }
 
-            // Possible alternative for MSHTML for PNG images
-            // But it seems not to be faster
-            // this._image = document.createElement("div");
-            // this costs much performance, move setup to blank gif to error handling
-            // is this SSL save?
-            // this._image.src = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
             this._image.style.border = "0 none";
             this._image.style.verticalAlign = "top";
+            this._image.alt = "";
+            this._image.title = "";
           }
-          catch(ex)
-          {
+          catch(ex) {
             this.error("Failed while creating image #1", ex);
           }
 
-          // empty to help the generator removing this variant
-          if (qx.core.Variant.isSet("qx.client", "mshtml"))
-          {
-
-          }
-          else
-          {
+          if (qx.core.Variant.isSet("qx.client", "gecko|opera|webkit")) {
             this._styleEnabled();
           }
         }
@@ -467,23 +462,8 @@ qx.Class.define("qx.ui.basic.Image",
       // call widget implmentation
       this.base(arguments, value, old);
 
-      if (value)
-      {
-        try
-        {
-          // initialisize preloader
-          var vSource = this.getSource();
-
-          if (qx.util.Validation.isValidString(vSource))
-          {
-            // this.debug("Post-Create: " + vSource);
-            this.setPreloader(qx.manager.object.ImagePreloaderManager.getInstance().create(qx.manager.object.AliasManager.getInstance().resolvePath(vSource)));
-          }
-        }
-        catch(ex)
-        {
-          this.error("Failed while creating image #2", ex);
-        }
+      if (value && this.getSource()) {
+        this._connect();
       }
     },
 
@@ -504,12 +484,6 @@ qx.Class.define("qx.ui.basic.Image",
      */
     _postApply : function()
     {
-      if (!this.getLoaded())
-      {
-        this._updateContent(qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif"));
-        return;
-      }
-
       this._postApplyDimensions();
       this._updateContent();
     },
@@ -524,26 +498,14 @@ qx.Class.define("qx.ui.basic.Image",
      * @return {void}
      * @signature function(value, old)
      */
-    _applyEnabled : qx.core.Variant.select("qx.client",
+    _applyEnabled : function(value, old)
     {
-      "mshtml" : function(value, old)
-      {
-        if (this._image) {
-          this._styleEnabled();
-        }
-
-        return this.base(arguments, value, old);
-      },
-
-      "default" : function(value, old)
-      {
-        if (this._image) {
-          this._styleEnabled();
-        }
-
-        return this.base(arguments, value, old);
+      if (this._image) {
+        this._styleEnabled();
       }
-    }),
+
+      return this.base(arguments, value, old);
+    },
 
 
     /**
@@ -556,25 +518,31 @@ qx.Class.define("qx.ui.basic.Image",
      */
     _updateContent : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(vSource)
+      "mshtml" : function()
       {
         var i = this._image;
         var pl = this.getPreloader();
 
+        var source = pl.isLoaded() ? pl.getSource() : this._blank;
+
         if (pl.getIsPng() && this.getEnabled())
         {
-          i.src = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
-          i.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + (vSource || pl.getSource()) + "',sizingMethod='scale')";
+          i.src = this._blank;
+          i.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + source + "',sizingMethod='scale')";
         }
         else
         {
-          i.src = vSource || pl.getSource();
+          i.src = source;
           i.style.filter = this.getEnabled() ? "" : "Gray() Alpha(Opacity=30)";
         }
       },
 
-      "default" : function(vSource) {
-        this._image.src = vSource || this.getPreloader().getSource();
+      "default" : function()
+      {
+        var pl = this.getPreloader();
+        var source = pl.isLoaded() ? pl.getSource() : this._blank;
+
+        this._image.src = source;
       }
     }),
 
@@ -590,14 +558,12 @@ qx.Class.define("qx.ui.basic.Image",
     {
       "mshtml" : function()
       {
-        var i = this._image;
-
-        i.src = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
-        i.style.filter = "";
+        this._image.src = this._blank;
+        this._image.style.filter = "";
       },
 
       "default" : function() {
-        this._image.src = qx.manager.object.AliasManager.getInstance().resolvePath("static/image/blank.gif");
+        this._image.src = this._blank;
       }
     }),
 
@@ -613,7 +579,7 @@ qx.Class.define("qx.ui.basic.Image",
     {
       "mshtml" : function()
       {
-        this._postApply();
+        this._updateContent();
       },
 
       "default" : function()
@@ -645,19 +611,8 @@ qx.Class.define("qx.ui.basic.Image",
      */
     _computePreferredInnerWidth : function()
     {
-      if (this.getLoaded()) {
-        return this.getPreloader().getWidth();
-      }
-      else if (qx.util.Validation.isValidString(this.getSource()))
-      {
-        var vPreloader = qx.manager.object.ImagePreloaderManager.getInstance().get(qx.manager.object.AliasManager.getInstance().resolvePath(this.getSource()));
-
-        if (vPreloader && vPreloader.isLoaded()) {
-          return vPreloader.getWidth();
-        }
-      }
-
-      return 0;
+      var preloader = this.getPreloader();
+      return preloader ? preloader.getWidth() : 0;
     },
 
 
@@ -669,19 +624,8 @@ qx.Class.define("qx.ui.basic.Image",
      */
     _computePreferredInnerHeight : function()
     {
-      if (this.getLoaded()) {
-        return this.getPreloader().getHeight();
-      }
-      else if (qx.util.Validation.isValidString(this.getSource()))
-      {
-        var vPreloader = qx.manager.object.ImagePreloaderManager.getInstance().get(qx.manager.object.AliasManager.getInstance().resolvePath(this.getSource()));
-
-        if (vPreloader && vPreloader.isLoaded()) {
-          return vPreloader.getHeight();
-        }
-      }
-
-      return 0;
+      var preloader = this.getPreloader();
+      return preloader ? preloader.getHeight() : 0;
     },
 
 
