@@ -43,12 +43,8 @@ qx.Class.define("qx.manager.object.ImageManager",
   {
     this.base(arguments);
 
-    // Contains known image sources (all of them, if loaded or not)
-    // The value is a number which represents the number of image
-    // instances which use this source
-    this._sources = {};
+    this.__sources = {};
   },
-
 
 
 
@@ -62,30 +58,51 @@ qx.Class.define("qx.manager.object.ImageManager",
 
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PRELOAD API
-    ---------------------------------------------------------------------------
-    */
-
     /**
-     * TODOC
+     * Register an visible image.
+     * Gives the application the possibility to preload visible images.
      *
      * @type member
-     * @return {var} TODOC
+     * @param source {String} The incoming (unresolved) URL.
+     * @return {void}
      */
-    getPreloadImageList : function()
+    show : function(source)
     {
-      var vPreload = {};
+      var data = this.__sources;
+      data[source] === undefined ? data[source] = 1 : data[source]++;
+    },
 
-      for (var vSource in this._sources)
-      {
-        if (this._sources[vSource]) {
-          vPreload[vSource] = true;
-        }
+
+    /**
+     * Register an image and reduce the visible counter
+     * Warning: Only use after using show() before
+     *
+     * @type member
+     * @param source {String} The incoming (unresolved) URL.
+     * @return {void}
+     */
+    hide : function(source)
+    {
+      var data = this.__sources;
+      data[source] === undefined ? data[source] = 0 : data[source]--;
+    },
+
+
+    /**
+     * Register an visible image (without increasing the visible number)
+     * This is useful to post-load invisible images through the application
+     *
+     * @type member
+     * @param source {String} The incoming (unresolved) URL.
+     * @return {void}
+     */
+    register : function(source)
+    {
+      var data = this.__sources;
+
+      if (data[source] === undefined) {
+        data[source] = 0;
       }
-
-      return vPreload;
     },
 
 
@@ -95,20 +112,44 @@ qx.Class.define("qx.manager.object.ImageManager",
      * @type member
      * @return {var} TODOC
      */
-    getPostPreloadImageList : function()
+    getVisibleImages : function()
     {
-      var vPreload = {};
+      var data = this.__sources;
+      var list = {};
 
-      for (var vSource in this._sources)
+      for (var source in data)
       {
-        if (!this._sources[vSource]) {
-          vPreload[vSource] = true;
+        if (data[source] > 0) {
+          list[source] = true;
         }
       }
 
-      return vPreload;
+      return list;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getHiddenImages : function()
+    {
+      var data = this.__sources;
+      var list = {};
+
+      for (var source in data)
+      {
+        if (data[source] < 1) {
+          list[source] = true;
+        }
+      }
+
+      return list;
     }
   },
+
 
 
 
@@ -120,6 +161,6 @@ qx.Class.define("qx.manager.object.ImageManager",
   */
 
   destruct : function() {
-    this._disposeFields("_sources");
+    this._disposeFields("__sources");
   }
 });
