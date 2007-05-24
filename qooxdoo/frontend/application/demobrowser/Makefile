@@ -13,42 +13,37 @@
 #    See the LICENSE file in the project's top-level directory for details.
 #
 #  Authors:
+#    * Fabian Jakobs (fjakobs)
 #    * Thomas Herchenroeder (thron7)
 #
 ################################################################################
 
-####################################################################################
-# BASIC SETTINGS
-####################################################################################
+.PHONY: source build clean distclean api publish fix
 
-QOOXDOO_PATH = ../../..
+source:
+	@$(MAKE) -s -f Makefile.browser source
+	@$(MAKE) -s -f Makefile.sample source
+      
+build:
+	@$(MAKE) -s -f Makefile.browser build
+	@$(MAKE) -s -f Makefile.sample build
+    
+clean:
+	@$(MAKE) -s -f Makefile.browser clean
+	@$(MAKE) -s -f Makefile.sample clean
+    
+distclean:
+	@$(MAKE) -s -f Makefile.browser distclean
+	@$(MAKE) -s -f Makefile.sample distclean
+	
+api:
+	@$(MAKE) -s -f Makefile.browser api
 
-APPLICATION_NAMESPACE = demobrowser
-APPLICATION_CLASSNAME = Application
-APPLICATION_SCRIPT_FILENAME = demobrowser.js
+publish:
+	@$(MAKE) -s -f Makefile.browser publish
+	@$(MAKE) -s -f Makefile.sample publish
 
-APPLICATION_MAKE_TITLE = DEMOBROWSER
-APPLICATION_API_TITLE = qooxdoo Demo Browser
-
-APPLICATION_FILES = index.html
-
-APPLICATION_RESOURCE_FILTER = true
-
-APPLICATION_LINEBREAKS_BUILD = true
-APPLICATION_LINEBREAKS_SOURCE = true
-
-APPLICATION_COMPLETE_BUILD = false
-APPLICATION_COMPLETE_SOURCE = false
-
-####################################################################################
-# INCLUDE CORE
-####################################################################################
-
-ifneq ($(QOOXDOO_PATH),PLEASE_DEFINE_QOOXDOO_PATH)
-	include $(QOOXDOO_PATH)/frontend/framework/tool/make/targets.mk
-	include $(QOOXDOO_PATH)/frontend/framework/tool/make/application.mk
-endif
-
-error:
-	@echo "  * Please configure QOOXDOO_PATH"
+fix:
+	@$(MAKE) -s -f Makefile.browser fix
+	@$(MAKE) -s -f Makefile.sample fix
 
