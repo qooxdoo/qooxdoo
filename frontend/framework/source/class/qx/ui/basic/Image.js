@@ -232,7 +232,7 @@ qx.Class.define("qx.ui.basic.Image",
      */
     _onerror : function()
     {
-      this.debug("Could not load: " + this.getSource());
+      this.warn("Could not load: " + this.getSource());
 
       this.setLoaded(false);
 
@@ -369,9 +369,6 @@ qx.Class.define("qx.ui.basic.Image",
 
       if (value)
       {
-        // Register to image manager
-        imageMgr.add(this);
-
         // Omit  here, otherwise the later setLoaded(true)
         // will not be executed (prevent recursion)
         this.setLoaded(false);
@@ -389,9 +386,6 @@ qx.Class.define("qx.ui.basic.Image",
       }
       else
       {
-        // Remove from image manager
-        imageMgr.remove(this);
-
         this.setLoaded(false);
       }
     },
@@ -788,9 +782,6 @@ qx.Class.define("qx.ui.basic.Image",
     if (this._image) {
       this._image.style.filter = "";
     }
-
-    // Remove from manager
-    qx.manager.object.ImageManager.getInstance().remove(this);
 
     // Remove fields
     this._disposeFields("_image");
