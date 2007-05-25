@@ -1338,7 +1338,7 @@ qx.Class.define("showcase.Application",
 
       controls.set(
       {
-        top     : 40,
+        top     : 10,
         width   : "auto",
         height  : "auto",
         spacing : 20
@@ -1351,9 +1351,8 @@ qx.Class.define("showcase.Application",
 
       hb2.set(
       {
-        top     : 0,
-        left    : 0,
-        spacing : 3
+        spacing : 3,
+        verticalChildrenAlign : "middle"
       });
 
       var l2 = new qx.ui.basic.Label(this.tr("Choose a locale: "));
@@ -1376,7 +1375,26 @@ qx.Class.define("showcase.Application",
       }
 
       hb2.add(l2, select);
-      main.add(hb2);
+      controls.add(hb2);
+
+
+      var hb3 = new qx.ui.layout.HorizontalBoxLayout();
+
+      hb3.set(
+      {
+        height  : "auto",
+        spacing : 3,
+        verticalChildrenAlign : "middle"
+      });
+
+      var s2 = new qx.ui.form.ComboBox();
+      s2.add(new qx.ui.form.ListItem(this.tr("Cut")));
+      s2.add(new qx.ui.form.ListItem(this.tr("Paste")));
+      s2.add(new qx.ui.form.ListItem(this.tr("Copy")));
+
+      hb3.add(new qx.ui.basic.Label(this.tr("Localized ComboBox:")), s2);
+      controls.add(hb3);
+
 
       // DateChooserButton
       var hb1 = new qx.ui.layout.HorizontalBoxLayout();
@@ -1384,7 +1402,8 @@ qx.Class.define("showcase.Application",
       hb1.set(
       {
         height  : "auto",
-        spacing : 3
+        spacing : 3,
+        verticalChildrenAlign : "middle"
       });
 
       var l1 = new qx.ui.basic.Label(this.tr("A date: "));
