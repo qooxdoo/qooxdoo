@@ -109,6 +109,7 @@ qx.Class.define("demobrowser.TreeDataHandler",
         var tree = arguments[1] || new demobrowser.Tree(struct.classname);
         var node;
         // current test leafs
+        struct.tests.sort();
         for (var j=0; j<struct.tests.length; j++)
         {
           node = new demobrowser.Tree(struct.tests[j]);
