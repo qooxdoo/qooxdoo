@@ -174,8 +174,8 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
     },
 
 
-    /** 
-     * The label/caption/text of the qx.ui.basic.Atom instance 
+    /**
+     * The label/caption/text of the qx.ui.basic.Atom instance
      */
     label :
     {
@@ -184,8 +184,8 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
     },
 
 
-    /** 
-     * Selected property 
+    /**
+     * Selected property
      */
     selected :
     {
@@ -463,7 +463,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
      * @param vArr {[String]}
      *       When called by the user, arr should typically be an empty array.
      *       Each level from the current node upwards will push its label onto
-     *       the array.  
+     *       the array.
      * @return {[String]} array of label texts
      */
     getHierarchy : function(vArr)
