@@ -29,26 +29,26 @@ qx.Theme.define("qx.theme.ext.font.Default",
     "default" :
     {
       size : 11,
-      family : [ "Verdana", "Helvetica", "Tahoma", "sans-serif" ]
+      family : [ "Verdana", "Helvetica", "Tahoma" ]
     },
 
     "bold" :
     {
       size : 11,
-      family : [ "Verdana", "Helvetica", "Tahoma", "sans-serif" ],
+      family : [ "Verdana", "Helvetica", "Tahoma" ],
       bold : true
     },
 
     "large" :
     {
       size : 13,
-      family : [ "Verdana", "Helvetica", "Tahoma", "sans-serif" ]
+      family : [ "Verdana", "Helvetica", "Tahoma" ]
     },
 
     "boldLarge" :
     {
       size : 13,
-      family : [ "Verdana", "Helvetica", "Tahoma", "sans-serif" ],
+      family : [ "Verdana", "Helvetica", "Tahoma" ],
       bold : true
     }
   }
