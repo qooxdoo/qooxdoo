@@ -25,7 +25,7 @@
 #optional(qx.ui.menu.Manager)
 #optional(qx.event.handler.FocusHandler)
 #optional(qx.ui.popup.PopupManager)
-#optional(qx.manager.object.ToolTipManager)
+#optional(qx.ui.popup.TooltipManager)
 
 ************************************************************************ */
 
@@ -976,8 +976,8 @@ qx.Class.define("qx.event.handler.EventHandler",
           // target is disabled -> Pass the event only to the ToolTipManager
           if (vType == "mouseover")
           {
-            if (qx.Class.isDefined("qx.manager.object.ToolTipManager")) {
-              qx.manager.object.ToolTipManager.getInstance().handleMouseOver(vEventObject);
+            if (qx.Class.isDefined("qx.ui.popup.TooltipManager")) {
+              qx.ui.popup.TooltipManager.getInstance().handleMouseOver(vEventObject);
             }
           }
         }
@@ -1050,15 +1050,15 @@ qx.Class.define("qx.event.handler.EventHandler",
           break;
 
         case "mouseover":
-          if (qx.Class.isDefined("qx.manager.object.ToolTipManager")) {
-            qx.manager.object.ToolTipManager.getInstance().handleMouseOver(vEventObject);
+          if (qx.Class.isDefined("qx.ui.popup.TooltipManager")) {
+            qx.ui.popup.TooltipManager.getInstance().handleMouseOver(vEventObject);
           }
 
           break;
 
         case "mouseout":
-          if (qx.Class.isDefined("qx.manager.object.ToolTipManager")) {
-            qx.manager.object.ToolTipManager.getInstance().handleMouseOut(vEventObject);
+          if (qx.Class.isDefined("qx.ui.popup.TooltipManager")) {
+            qx.ui.popup.TooltipManager.getInstance().handleMouseOut(vEventObject);
           }
 
           break;

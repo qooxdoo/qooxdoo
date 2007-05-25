@@ -28,11 +28,11 @@
  * A table column model that automagically resizes columns based on a
  * selected behavior.
  *
- * @see qx.ui.table.columnmodel.TableColumnModel
+ * @see qx.ui.table.columnmodel.Basic
  */
 qx.Class.define("qx.ui.table.columnmodel.Resize",
 {
-  extend : qx.ui.table.columnmodel.TableColumnModel,
+  extend : qx.ui.table.columnmodel.Basic,
 
 
 

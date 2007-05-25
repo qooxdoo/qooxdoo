@@ -26,7 +26,7 @@
 /**
  * The data model of a table.
  */
-qx.Class.define("qx.ui.table.model.TableModel",
+qx.Class.define("qx.ui.table.model.Basic",
 {
   extend : qx.core.Target,
 
