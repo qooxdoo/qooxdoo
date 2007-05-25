@@ -404,13 +404,11 @@ qx.Class.define("feedreader.Application",
     {
       if (qx.theme.manager.Meta.getInstance().getTheme() == qx.theme.Ext)
       {
-        this._header.setHtmlProperty("className", "header ext");
-        this._blogEntry.setHtmlProperty("className", "blogEntry ext");
+        document.body.className = "Ext";
       }
       else
       {
-        this._header.setHtmlProperty("className", "header");
-        this._blogEntry.setHtmlProperty("className", "blogEntry");
+        document.body.className = "Classic";
       }
     },
 
