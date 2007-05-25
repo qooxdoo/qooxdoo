@@ -877,13 +877,12 @@ qx.Theme.define("qx.theme.ext.Appearance",
       style : function(states)
       {
         var border = qx.ui.core.Border.fromConfig({
-           left  : [ 1, "solid", "general-border" ],
            right : [ 1, "solid", "general-border" ]
         });
 
         return {
           backgroundImage : null,
-          backgroundColor : "combo-box-button",
+          backgroundColor : "transparent",
           border          : border,
           padding         : [ 0, 3, 0, 2 ],
           icon            : "widget/arrows/down.gif"
