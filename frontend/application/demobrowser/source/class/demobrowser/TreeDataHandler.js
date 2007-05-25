@@ -31,7 +31,7 @@ qx.Class.define("demobrowser.TreeDataHandler",
   construct : function(testRep)
   {
     this.base(arguments);
-    testRep    = demobrowser.TreeDataHandler.testRep;
+    //testRep    = demobrowser.TreeDataHandler.testRep;
     this.tmap  = eval(testRep); //[{classname:myClass,tests:['test1','test2']}, {...}]
     this.ttree = this.__readTestRep(testRep);
   },
@@ -109,11 +109,16 @@ qx.Class.define("demobrowser.TreeDataHandler",
         var tree = arguments[1] || new demobrowser.Tree(struct.classname);
         var node;
         // current test leafs
-        struct.tests.sort();
+        function mysort(a,b){
+          return (a.name<b.name)?-1:
+                    (a.name>b.name)?1:0;
+        };
+        struct.tests.sort(mysort);
         for (var j=0; j<struct.tests.length; j++)
         {
-          node = new demobrowser.Tree(struct.tests[j]);
+          node = new demobrowser.Tree(struct.tests[j].name);
           node.type = "test";  // tests are leaf nodes
+          node.desc = struct.tests[j].desc;
           tree.add(node);
         }
         // current children
