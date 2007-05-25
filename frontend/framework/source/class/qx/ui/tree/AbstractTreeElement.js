@@ -179,6 +179,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
      */
     label :
     {
+      check : "Label",
       apply : "_applyLabel",
       dispose : true
     },

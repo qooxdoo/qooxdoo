@@ -478,10 +478,6 @@ qx.Class.define("qx.util.GuiBuilder",
       this.registerPropertyEditor('qx.ui.core.Widget', 'clipDimension', commaDelimitedPropertyEditor);
       this.registerPropertyEditor('qx.ui.core.Widget', 'clip', commaDelimitedPropertyEditor);
 
-      this.registerPropertyEditor('qx.ui.core.Widget', 'backgroundColor', evalPropertyEditor);
-      this.registerPropertyEditor('qx.ui.core.Widget', 'color', evalPropertyEditor);
-      this.registerPropertyEditor('qx.ui.core.Widget', 'border', evalPropertyEditor);
-
       this.registerPropertyEditor('qx.ui.menu.Button', 'menu', referencePropertyEditor);
       this.registerPropertyEditor('qx.ui.toolbar.MenuButton', 'menu', referencePropertyEditor);
       this.registerPropertyEditor('qx.ui.form.RadioButton', 'manager', referencePropertyEditor);

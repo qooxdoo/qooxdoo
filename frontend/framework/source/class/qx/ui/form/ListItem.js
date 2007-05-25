@@ -173,7 +173,7 @@ qx.Class.define("qx.ui.form.ListItem",
      * @return {var} TODOC
      */
     matchesString : function(vText) {
-      return vText != "" && this.getLabel().toLowerCase().indexOf(vText.toLowerCase()) == 0;
+      return vText != "" && this.getLabel().toString().toLowerCase().indexOf(vText.toLowerCase()) == 0;
     },
 
 
@@ -185,7 +185,7 @@ qx.Class.define("qx.ui.form.ListItem",
      * @return {var} TODOC
      */
     matchesStringExact : function(vText) {
-      return vText != "" && this.getLabel().toLowerCase() == String(vText).toLowerCase();
+      return vText != "" && this.getLabel().toString().toLowerCase() == String(vText).toLowerCase();
     },
 
 
