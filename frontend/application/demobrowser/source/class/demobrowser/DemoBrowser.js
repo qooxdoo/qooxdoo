@@ -63,14 +63,17 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     // Left -- is done when iframe is loaded
     var left = this.__makeLeft();
-    this.left = left;
+    this.left = left.buttview;
     this.mainsplit.addLeft(left);
     // fill the tree
+    /* done in dataLoader function
     //var testRep = window._demoData_;
     var testRep = "";
     this.tests.handler = new demobrowser.TreeDataHandler(testRep);
     //this.tests.selected = "examples.Atom_1.html";  // pre-set selection
     this.leftReloadTree();
+    */
+    this.dataLoader("script/layout.js");
 
     // Right
     var right = new qx.ui.layout.VerticalBoxLayout();
@@ -216,7 +219,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       header.setStyleProperty(
         "background",
         "#134275 url(" +
-        qx.manager.object.AliasManager.getInstance().resolve("demobrowser/image/colorstrip.gif") +
+        qx.io.Alias.getInstance().resolve("demobrowser/image/colorstrip.gif") +
         ") top left repeat-x"
       );
       header.setHeight(70);
@@ -429,16 +432,35 @@ qx.Class.define("demobrowser.DemoBrowser",
     */
     __makeLeft: function ()
     {
+      /*
+      var leftSide = new qx.ui.layout.VerticalBoxLayout();
+      leftSide.set({
+        height : "80%",
+        width  : "100%"
+      });
+      */
+      var leftSide = new qx.ui.splitpane.VerticalSplitPane("80%","20%");
+      leftSide.set({
+        height : "100%",
+        width  : "100%"
+      });
+
       var buttview = new qx.ui.pageview.buttonview.ButtonView();
+      leftSide.addTop(buttview);
+      leftSide.buttview = buttview;
       buttview.set({
         height : "100%",
         width  : "100%"
       });
+      buttview.setBorder(null);
       buttview.getBar().set({
         backgroundColor : "#E1EEFF",
         height          : 29
       });
       this.widgets["treeview"] = buttview;
+      buttview.getPane().set({
+        overflow: "auto"
+      });
 
       // full view
       var bsb1 = new qx.ui.pageview.buttonview.Button("Full Tree","icon/16/actions/view-pane-tree.png");
@@ -456,7 +478,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       });
       buttview.getPane().add(p1);
 
-      var tree = new qx.ui.tree.Tree("Examples");
+      var tree = new qx.ui.tree.Tree("Samples");
       p1.add(tree);
       this.tree = tree;
       this.widgets["treeview.full"] = tree;
@@ -465,7 +487,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         width : "100%",
         height : "100%",
         //padding : [10],
-        overflow: "auto",
+        //overflow: "auto",
         //border : "inset",
         backgroundColor: "white"
       });
@@ -517,8 +539,20 @@ qx.Class.define("demobrowser.DemoBrowser",
         return elem;
       };
 
+      // Info Pane
+      var infop = new qx.ui.embed.HtmlEmbed("");
+      leftSide.addBottom(infop);
+      infop.set({
+        width    : "100%",
+        height   : "100%",
+        overflow : "auto",
+        backgroundColor : "white"
+      });
+      infop.setStyleProperty("fontSize",12);
+      this.widgets["left.info"] = infop;
 
-      return buttview;
+
+      return leftSide;
     }, //makeLeft
 
 
@@ -695,6 +729,12 @@ qx.Class.define("demobrowser.DemoBrowser",
           } else
           {
             t = new qx.ui.tree.TreeFile(polish(currNode.label),"demobrowser/image/class18.gif");
+            //t.setToolTip(new qx.ui.popup.ToolTip(currNode.desc).setHideInterval(1000000));
+            t.addEventListener("mouseover",function (e) 
+            {
+              var desc = e.getCurrentTarget().getUserData('modelLink').desc;
+              that.widgets["left.info"].setHtml(desc);
+            },this);
           }
           // make connections
           widgetR.add(t);
@@ -735,6 +775,7 @@ qx.Class.define("demobrowser.DemoBrowser",
                 if (children[i].type && children[i].type == "test")
                 {
                   var c = new qx.ui.tree.TreeFile(polish(children[i].label),"demobrowser/image/class18.gif");
+                  c.setToolTip(new qx.ui.popup.ToolTip(children[i].desc));
                   t.add(c);
                   c.setUserData("modelLink", children[i]);
                   children[i].widgetLinkFlat = c;
@@ -1099,6 +1140,46 @@ qx.Class.define("demobrowser.DemoBrowser",
     _applyFailCnt : function (newFail)
     {
       this.widgets["progresspane.fail_cnt"].setText(newFail+"");
+    },
+
+
+    dataLoader : function (url) 
+    {
+      var req = new qx.io.remote.Request(url);
+
+      req.setTimeout(180000);
+
+      req.addEventListener("completed", function(evt)
+      {
+        var loadEnd = new Date();
+        this.debug("Time to load data from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
+
+        var content = evt.getData().getContent();
+
+        var start = new Date();
+
+        // extracting the meat
+        var data  = content.match('_demoData_ = .*\n\n')[0];
+        var treeData = eval(data);
+
+        var end = new Date();
+        this.debug("Time to eval tree data: " + (end.getTime() - start.getTime()) + "ms");
+
+        // give the browser a chance to update its UI before doing more
+        qx.client.Timer.once(function() {
+
+          this.tests.handler = new demobrowser.TreeDataHandler(treeData);
+          this.leftReloadTree();
+
+        }, this, 0);
+      }, this);
+
+      req.addEventListener("failed", function(evt) {
+        this.error("Couldn't load file: " + url);
+      }, this);
+
+      var loadStart = new Date();
+      req.send();
     },
 
 
