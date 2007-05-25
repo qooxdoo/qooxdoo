@@ -14,3 +14,5 @@
 ([\"\'])buttonface([\"\'])=\1button\1
 
 new\s+\qx\.renderer\.color\.Color\(\s*([\"\'].+?[\"\'])\s*\)=\1
+
+\bqx\.renderer\.color\.Color\.fromRandom\(\)=qx.util.ColorUtil.randomColor
