@@ -1007,11 +1007,12 @@ qx.Class.define("qx.ui.form.TextField",
       if (this.getValue() != null)
       {
         this.setSelectionStart(0);
-        this.setSelectionLength(this.getValue().length);
+        this.setSelectionLength(this._inputElement.value.length);
       }
 
       // to be sure we get the element selected
       this._inputElement.select();
+      this._inputElement.focus();
     },
 
 
