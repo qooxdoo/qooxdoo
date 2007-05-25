@@ -294,7 +294,7 @@ exec-framework-translation:
 	  --sort-by-file --add-comments=TRANSLATION -o translation/messages.pot \
 	  `find class -name "*.js"` 2> /dev/null
 
-	@if [ `diff --ignore-matching-lines='"POT-Creation-Date:' -d $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot.bak | wc -l` = 0 ]; then \
+	@if [ `diff -q -I^\"POT-Creation-Date: -I^\"Content-T -I^\"Language-Team: -d $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot.bak | wc -l` = 0 ]; then \
 		cp $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot.bak $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot; \
 	fi;
 	@rm $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot.bak
@@ -302,8 +302,8 @@ exec-framework-translation:
 	@echo "  * Processing translations..."
 	@for LOC in $(COMPUTED_LOCALES); do \
 	  echo "    - Translation: $$LOC"; \
-	  if [ ! -r translation/$$LOC.po ]; then \
-  	    echo "      - Generating initial translation file..."; \
+	  if [ ! -r $(FRAMEWORK_SOURCE_PATH)/translation/$$LOC.po ]; then \
+  	  echo "      - Generating initial translation file..."; \
 	    msginit --locale $$LOC --no-translator -i $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot -o $(FRAMEWORK_SOURCE_PATH)/translation/$$LOC.po > /dev/null 2>&1; \
 	  else \
 	    echo "      - Merging translation file..."; \
