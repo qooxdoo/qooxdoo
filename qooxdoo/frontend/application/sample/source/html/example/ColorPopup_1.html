@@ -30,7 +30,7 @@
     myview.setBorder("inset");
     myview.setLocation(100, 48);
     myview.setPadding(3, 6);
-    myview.setBackgroundImage("core/dotted_white.gif");
+    myview.setBackgroundImage("static/image/dotted_white.gif");
     myview.addToDocument();
 
     var mytables =
@@ -63,7 +63,7 @@
     mypop.addEventListener("changeValue", function(e) {
       this.debug("Value Listener: " + e.getData());
       myview.setBackgroundColor(e.getData());
-      myview.setBackgroundImage(e.getData() ? null : "core/dotted_white.gif");
+      myview.setBackgroundImage(e.getData() ? null : "static/image/dotted_white.gif");
     });
 
     mypop.addEventListener("changeRed", function(e) {
