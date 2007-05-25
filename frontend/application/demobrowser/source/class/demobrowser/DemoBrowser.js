@@ -69,6 +69,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     //var testRep = window._demoData_;
     var testRep = "";
     this.tests.handler = new demobrowser.TreeDataHandler(testRep);
+    //this.tests.selected = "examples.Atom_1.html";  // pre-set selection
     this.leftReloadTree();
 
     // Right
@@ -139,9 +140,10 @@ qx.Class.define("demobrowser.DemoBrowser",
     this.widgets["treeview.bsb1"].setChecked(true);
 
     // Log Appender
-    this.debug("This should go to the dedicated log window ...");
+    //this.debug("This should go to the dedicated log window ...");
 
 
+    /*
     // Last but not least:
     // Hidden IFrame for test runs
     var iframe = new qx.ui.embed.Iframe("html/QooxdooTest.html?testclass=demobrowser.test");
@@ -152,6 +154,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     // Get the TestLoader from the Iframe (in the event handler)
     iframe.addEventListener("load", this.ehIframeOnLoad, this);
+    */
 
     // EXPERIMENTAL !
     //var treetest = new demobrowser.TreeTest();
@@ -229,9 +232,9 @@ qx.Class.define("demobrowser.DemoBrowser",
       toolbar.add(this.runbutton);
       this.widgets["toolbar.runbutton"] = this.runbutton;
       this.runbutton.addEventListener("execute", this.runTest, this);
-      this.runbutton.setToolTip(new qx.ui.popup.ToolTip("Run selected test(s)"));
+      this.runbutton.setToolTip(new qx.ui.popup.ToolTip("Run/reload selected sample"));
 
-      toolbar.add(new qx.ui.toolbar.Separator);
+      //toolbar.add(new qx.ui.toolbar.Separator);
 
       /*
       this.testSuiteUrl = new qx.ui.form.TextField("html/QooxdooTest.html?testclass=demobrowser.test");
@@ -248,6 +251,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       }, this);
       */
 
+      /*
       // -- reload button
       this.reloadbutton = new qx.ui.toolbar.Button("Reload", "icon/16/actions/view-refresh.png");
       toolbar.add(this.reloadbutton);
@@ -255,6 +259,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.reloadbutton.addEventListener("execute", this.reloadTestSuite, this);
 
       toolbar.add((new qx.ui.basic.HorizontalSpacer).set({width:"1*"}));
+      */
 
       /*
       // -- reload switch
@@ -308,7 +313,8 @@ qx.Class.define("demobrowser.DemoBrowser",
       buttview.getPane().add(p1, p2);
 
       // First Page
-      var f1 = new qx.ui.embed.Iframe('html/example/Atom_1.html');
+      //var f1 = new qx.ui.embed.Iframe('html/example/Atom_1.html');
+      var f1 = new qx.ui.embed.Iframe('');
       this.f1 = f1;
       p1.add(f1);
       f1.set({
@@ -320,6 +326,18 @@ qx.Class.define("demobrowser.DemoBrowser",
       f1.addEventListener("load", function(e) 
       {
         this.toolbar.setEnabled(true);  // in case it was disabled (for reload)
+        var fwindow = this.f1.getContentWindow();
+        if ( // wait for iframe to load
+          !fwindow ||
+          !fwindow.qx ||
+          !fwindow.qx.log ||
+          !fwindow.qx.log.Logger)
+        {
+          qx.client.Timer.once(arguments.callee, this, 50);
+          return;
+        }
+        fwindow.qx.log.Logger.ROOT_LOGGER.removeAllAppenders();
+        fwindow.qx.log.Logger.ROOT_LOGGER.addAppender(this.logappender);
       }, this);
 
       // Second Page
@@ -372,8 +390,11 @@ qx.Class.define("demobrowser.DemoBrowser",
       //this.logappender = new qx.log.WindowAppender("qooxdoo Test Runner");
       //this.logappender = new qx.log.DivAppender("sessionlog");
       this.logappender = new demobrowser.LogAppender(this.f2);
+      //this.getLogger().getParentLogger().getParentLogger().addAppender(this.logappender);
+      qx.log.Logger.ROOT_LOGGER.removeAllAppenders();
+      qx.log.Logger.ROOT_LOGGER.addAppender(this.logappender);
+      //this.f1.getContentWindow().getLogger().addAppender(this.logappender);
       //this.getLogger().addAppender(this.logappender);
-      this.getLogger().getParentLogger().getParentLogger().addAppender(this.logappender);
       //demobrowser.getLogger().addAppender(this.logappender);
       //this.getParent().getParent().getLogger().addAppender(this.logappender);
       //demobrowser.prototype.getLogger().addAppender(this.logappender);
@@ -382,7 +403,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       // Third Page
       // -- Tab Button
       var bsb3 = new qx.ui.pageview.tabview.Button("Source Code","icon/16/apps/graphics-snapshot.png");
-      buttview.getBar().add(bsb3);
+      //buttview.getBar().add(bsb3);
 
       // -- Tab Pane
       var p3 = new qx.ui.pageview.tabview.Page(bsb3);
@@ -435,7 +456,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       });
       buttview.getPane().add(p1);
 
-      var tree = new qx.ui.tree.Tree("Tests");
+      var tree = new qx.ui.tree.Tree("Examples");
       p1.add(tree);
       this.tree = tree;
       this.widgets["treeview.full"] = tree;
@@ -452,7 +473,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       // flat view
       var bsb2 = new qx.ui.pageview.buttonview.Button("Flat Tree","icon/16/actions/view-pane-text.png");
-      buttview.getBar().add(bsb2);
+      //buttview.getBar().add(bsb2);
       this.widgets["treeview.bsb2"] = bsb2;
       bsb2.setShow("icon");
       bsb2.setToolTip(new qx.ui.popup.ToolTip("Flat tree view (only one level of containers)"));
@@ -669,11 +690,11 @@ qx.Class.define("demobrowser.DemoBrowser",
           var currNode = children[i];
           if (currNode.hasChildren())
           {
-            t = new qx.ui.tree.TreeFolder(currNode.label,"demobrowser/image/package18.gif");
+            t = new qx.ui.tree.TreeFolder(polish(currNode.label),"demobrowser/image/package18.gif");
             buildSubTree(t,currNode);
           } else
           {
-            t = new qx.ui.tree.TreeFile(currNode.label,"demobrowser/image/class18.gif");
+            t = new qx.ui.tree.TreeFile(polish(currNode.label),"demobrowser/image/class18.gif");
           }
           // make connections
           widgetR.add(t);
@@ -700,7 +721,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           {
             if (handler.hasTests(currNode)) {
               var fullName = handler.getFullName(currNode);
-              var t = new qx.ui.tree.TreeFolder(fullName,"demobrowser/image/package18.gif");
+              var t = new qx.ui.tree.TreeFolder(polish(fullName),"demobrowser/image/package18.gif");
               widgetR.add(t);
               t.setUserData("modelLink", currNode);
               currNode.widgetLinkFlat = t;
@@ -713,7 +734,7 @@ qx.Class.define("demobrowser.DemoBrowser",
               {
                 if (children[i].type && children[i].type == "test")
                 {
-                  var c = new qx.ui.tree.TreeFile(children[i].label,"demobrowser/image/class18.gif");
+                  var c = new qx.ui.tree.TreeFile(polish(children[i].label),"demobrowser/image/class18.gif");
                   t.add(c);
                   c.setUserData("modelLink", children[i]);
                   children[i].widgetLinkFlat = c;
@@ -727,6 +748,14 @@ qx.Class.define("demobrowser.DemoBrowser",
           }
         }
       }; //buildSubTreeFlat
+
+      /**
+       * 'Atom_1.html' -> 'Atom 1'
+       */
+      function polish (str) 
+      {
+        return str.replace(".html","").replace("_"," ");
+      }
 
       // -- Main --------------------------------
 
@@ -966,7 +995,15 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
       */
       var file = this.tests.selected.substring(this.tests.selected.indexOf(".")+1);
-      this.f1.setSource('html/example/'+file);
+      var neu  = 'html/example/'+file;
+      var curr = this.f1.getSource();
+      if (curr == neu) 
+      {
+        this.f1.reload();
+      } else 
+      {
+        this.f1.setSource('html/example/'+file);
+      }
 
     }, //runTest
 
