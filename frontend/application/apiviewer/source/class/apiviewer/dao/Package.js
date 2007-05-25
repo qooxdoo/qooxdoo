@@ -71,6 +71,23 @@ qx.Class.define("apiviewer.dao.Package", {
       return this._package;
     },
 
+    addClass : function(clazz)
+    {
+      var className = clazz.getFullName()
+      var classes = this.getClasses();
+
+      for (var i=0; i<classes.length; i++)
+      {
+        if (classes[i].getFullName() == className) {
+          classes[i] = clazz;
+          return
+        }
+      }
+
+      classes.push(clazz);
+    },
+
+
     /**
      * Get an array of class items matching the given list name. Known list names are:
      * <ul>

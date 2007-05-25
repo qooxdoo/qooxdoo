@@ -28,6 +28,7 @@ qx.Class.define("apiviewer.ClassLoader",
         var pkg = apiviewer.dao.Class.getClassByName(packageName);
 
         cls = new apiviewer.dao.Class(content, pkg);
+        pkg.addClass(cls);
 
         this.__runCallback(cls, callback, self);
       }, this);
