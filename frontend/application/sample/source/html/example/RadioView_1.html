@@ -65,6 +65,20 @@
       p1.add(f1);
       p2.add(f2);
 
+      var r1 = new qx.ui.form.RadioButton("Top", "top", null, true);
+      var r2 = new qx.ui.form.RadioButton("Bottom", "bottom");
+
+      r1.setTop(50);
+      r2.setTop(70);
+
+      p1.add(r1, r2);
+
+      var rm = new qx.manager.selection.RadioManager(null, [r1, r2]);
+
+      rm.addEventListener("changeSelected", function(e) {
+        bs.setBarPosition(e.getData().getValue());
+      });
+
       d.add(bs);
     });
   </script>
