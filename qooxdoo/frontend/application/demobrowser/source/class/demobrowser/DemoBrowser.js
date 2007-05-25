@@ -231,11 +231,25 @@ qx.Class.define("demobrowser.DemoBrowser",
       var toolbar = new qx.ui.toolbar.ToolBar;
 
       // -- run button
-      this.runbutton = new qx.ui.toolbar.Button("Run Test", "icon/16/actions/media-playback-start.png");
+      this.runbutton = new qx.ui.toolbar.Button("Run Sample", "icon/16/actions/media-playback-start.png");
       toolbar.add(this.runbutton);
       this.widgets["toolbar.runbutton"] = this.runbutton;
       this.runbutton.addEventListener("execute", this.runTest, this);
       this.runbutton.setToolTip(new qx.ui.popup.ToolTip("Run/reload selected sample"));
+
+      // -- previous navigation
+      var prevbutt = new qx.ui.toolbar.Button("Previous Sample","icon/16/actions/go-left.png");
+      toolbar.add(prevbutt);
+      this.widgets["toolbar.prevbutt"] = prevbutt;
+      prevbutt.addEventListener("execute", this.ehDummyAlert,this);
+      prevbutt.setToolTip(new qx.ui.popup.ToolTip("Run the previous sample"));
+
+      // -- next navigation
+      var nextbutt = new qx.ui.toolbar.Button("Next Sample","icon/16/actions/go-right.png");
+      toolbar.add(nextbutt);
+      this.widgets["toolbar.nextbutt"] = nextbutt;
+      nextbutt.addEventListener("execute", this.ehDummyAlert,this);
+      nextbutt.setToolTip(new qx.ui.popup.ToolTip("Run the next sample"));
 
       //toolbar.add(new qx.ui.toolbar.Separator);
 
@@ -299,8 +313,8 @@ qx.Class.define("demobrowser.DemoBrowser",
         height : "1*"
       });
 
-      var bsb1 = new qx.ui.pageview.tabview.Button("Demo Page", "icon/16/devices/video-display.png");
-      var bsb2 = new qx.ui.pageview.tabview.Button("Log", "icon/16/apps/graphics-snapshot.png");
+      var bsb1 = new qx.ui.pageview.tabview.Button("Demo Page", "icon/16/actions/system-run.png");
+      var bsb2 = new qx.ui.pageview.tabview.Button("Log", "icon/16/mimetypes/text-ascii.png");
       bsb1.setChecked(true);
       buttview.getBar().add(bsb1, bsb2);
 
@@ -452,7 +466,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         height : "100%",
         width  : "100%"
       });
-      buttview.setBorder(null);
+      //buttview.setBorder(null);
       buttview.getBar().set({
         backgroundColor : "#E1EEFF",
         height          : 29
@@ -546,6 +560,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         width    : "100%",
         height   : "100%",
         overflow : "auto",
+        border   : "dark-shadow",
         backgroundColor : "white"
       });
       infop.setStyleProperty("fontSize",12);
@@ -1182,6 +1197,11 @@ qx.Class.define("demobrowser.DemoBrowser",
       req.send();
     },
 
+
+    ehDummyAlert : function (e) 
+    {
+      alert("Not yet implemented!"); 
+    },
 
     appender : function (str) {
       //this.f1.setValue(this.f1.getValue() + str);
