@@ -28,7 +28,7 @@
  */
 qx.Class.define("qx.ui.treevirtual.SimpleTreeDataRowRenderer",
 {
-  extend : qx.ui.table.DefaultDataRowRenderer,
+  extend : qx.ui.table.rowrenderer.Default,
 
 
 
@@ -84,7 +84,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataRowRenderer",
       }
 
       // Now call our superclass
-      var ddrr = qx.ui.table.DefaultDataRowRenderer;
+      var ddrr = qx.ui.table.rowrenderer.Default;
       ddrr.prototype.updateDataRowElement.call(this, rowInfo, rowElem);
     }
   }

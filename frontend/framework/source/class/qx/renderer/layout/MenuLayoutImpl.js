@@ -24,9 +24,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.renderer.layout.MenuLayoutImpl",
+qx.Class.define("qx.ui.menu.MenuLayoutImpl",
 {
-  extend : qx.renderer.layout.VerticalBoxLayoutImpl,
+  extend : qx.ui.layout.impl.VerticalBoxLayoutImpl,
 
 
 
@@ -42,7 +42,7 @@ qx.Class.define("qx.renderer.layout.MenuLayoutImpl",
     this.base(arguments, vWidget);
 
     // We don't need flex support, should make things a bit faster,
-    // as this omits some additional loops in qx.renderer.layout.HorizontalBoxLayoutImpl.
+    // as this omits some additional loops in qx.ui.layout.impl.HorizontalBoxLayoutImpl.
     this.setEnableFlexSupport(false);
   },
 
@@ -77,7 +77,7 @@ qx.Class.define("qx.renderer.layout.MenuLayoutImpl",
      *  [09] FLUSH LAYOUT QUEUES OF CHILDREN
      *  [10] LAYOUT CHILD
      *
-     *  Inherits from qx.renderer.layout.VerticalBoxLayoutImpl:
+     *  Inherits from qx.ui.layout.impl.VerticalBoxLayoutImpl:
      *  [01] COMPUTE BOX DIMENSIONS FOR AN INDIVIDUAL CHILD
      *  [02] COMPUTE NEEDED DIMENSIONS FOR AN INDIVIDUAL CHILD
      *  [03] COMPUTE NEEDED DIMENSIONS FOR ALL CHILDREN

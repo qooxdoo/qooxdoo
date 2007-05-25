@@ -26,7 +26,7 @@
 /**
  * A selection model.
  */
-qx.Class.define("qx.ui.table.SelectionModel",
+qx.Class.define("qx.ui.table.selection.Model",
 {
   extend : qx.core.Target,
 
@@ -116,7 +116,7 @@ qx.Class.define("qx.ui.table.SelectionModel",
      */
     _applySelectionMode : function(selectionMode)
     {
-      if (selectionMode == qx.ui.table.SelectionModel.NO_SELECTION) {
+      if (selectionMode == qx.ui.table.selection.Model.NO_SELECTION) {
         this.clearSelection();
       }
     },
@@ -331,7 +331,7 @@ qx.Class.define("qx.ui.table.SelectionModel",
      */
     setSelectionInterval : function(fromIndex, toIndex)
     {
-      var SelectionModel = qx.ui.table.SelectionModel;
+      var SelectionModel = qx.ui.table.selection.Model;
 
       switch(this.getSelectionMode())
       {
@@ -360,7 +360,7 @@ qx.Class.define("qx.ui.table.SelectionModel",
      */
     addSelectionInterval : function(fromIndex, toIndex)
     {
-      var SelectionModel = qx.ui.table.SelectionModel;
+      var SelectionModel = qx.ui.table.selection.Model;
 
       switch(this.getSelectionMode())
       {

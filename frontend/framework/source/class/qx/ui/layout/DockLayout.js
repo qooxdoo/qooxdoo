@@ -99,7 +99,7 @@ qx.Class.define("qx.ui.layout.DockLayout",
      * @return {var} TODOC
      */
     _createLayoutImpl : function() {
-      return new qx.renderer.layout.DockLayoutImpl(this);
+      return new qx.ui.layout.impl.DockLayoutImpl(this);
     },
 
 

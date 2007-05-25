@@ -25,10 +25,10 @@
 ************************************************************************ */
 
 /** This singleton manages multiple instances of qx.ui.menu.Menu and their state. */
-qx.Class.define("qx.manager.object.MenuManager",
+qx.Class.define("qx.ui.menu.Manager",
 {
   type : "singleton",
-  extend : qx.manager.object.ObjectManager,
+  extend : qx.util.manager.Object,
 
 
 

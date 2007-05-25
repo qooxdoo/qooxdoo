@@ -31,7 +31,7 @@
  * are problems with widgets or when the widgets are not yet initialized.
  * </p>
  */
-qx.Class.define("qx.log.FireBugAppender",
+qx.Class.define("qx.log.appender.FireBug",
 {
   extend : qx.log.Appender,
 

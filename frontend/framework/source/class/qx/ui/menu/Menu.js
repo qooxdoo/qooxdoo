@@ -323,7 +323,7 @@ qx.Class.define("qx.ui.menu.Menu",
       qx.ui.layout.CanvasLayout.prototype._beforeAppear.call(this);
 
       // register to menu manager as active widget
-      qx.manager.object.MenuManager.getInstance().add(this);
+      qx.ui.menu.Manager.getInstance().add(this);
 
       // zIndex handling
       this.bringToFront();
@@ -344,8 +344,8 @@ qx.Class.define("qx.ui.menu.Menu",
       // Intentionally bypass superclass and call super.super._beforeDisappear
       qx.ui.layout.CanvasLayout.prototype._beforeDisappear.call(this);
 
-      // deregister as opened from qx.manager.object.MenuManager
-      qx.manager.object.MenuManager.getInstance().remove(this);
+      // deregister as opened from qx.ui.menu.Manager
+      qx.ui.menu.Manager.getInstance().remove(this);
 
       // reset global active widget
       this._makeInactive();
@@ -1197,7 +1197,7 @@ qx.Class.define("qx.ui.menu.Menu",
         vHover.execute();
       }
 
-      qx.manager.object.MenuManager.getInstance().update();
+      qx.ui.menu.Manager.getInstance().update();
     }
   },
 

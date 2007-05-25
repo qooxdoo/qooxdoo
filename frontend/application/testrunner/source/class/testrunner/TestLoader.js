@@ -35,7 +35,7 @@ qx.Class.define("testrunner.TestLoader", {
     this.base(arguments);
 
     // Define alias for custom resource path
-    qx.manager.object.AliasManager.getInstance().add("testrunner", qx.core.Setting.get("testrunner.resourceUri"));
+    qx.io.Alias.getInstance().add("testrunner", qx.core.Setting.get("testrunner.resourceUri"));
   },
 
 

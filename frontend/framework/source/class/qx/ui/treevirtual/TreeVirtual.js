@@ -88,7 +88,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
    *       <dd><code><pre>
    *         function(obj)
    *         {
-   *           return new qx.ui.table.ResizeTableColumnModel(obj);
+   *           return new qx.ui.table.columnmodel.Resize(obj);
    *         }
    *       </pre></code></dd>
    *   </dl>
@@ -146,7 +146,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
       custom.tableColumnModel =
         function(obj)
         {
-          return new qx.ui.table.ResizeTableColumnModel(obj);
+          return new qx.ui.table.columnmodel.Resize(obj);
         };
     }
 
@@ -283,10 +283,10 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
     SelectionMode :
     {
-      NONE             : qx.ui.table.SelectionModel.NO_SELECTION,
-      SINGLE           : qx.ui.table.SelectionModel.SINGLE_SELECTION,
-      SINGLE_INTERVAL  : qx.ui.table.SelectionModel.SINGLE_INTERVAL_SELECTION,
-      MULTIPLE_INTERVAL: qx.ui.table.SelectionModel.MULTIPLE_INTERVAL_SELECTION
+      NONE             : qx.ui.table.selection.Model.NO_SELECTION,
+      SINGLE           : qx.ui.table.selection.Model.SINGLE_SELECTION,
+      SINGLE_INTERVAL  : qx.ui.table.selection.Model.SINGLE_INTERVAL_SELECTION,
+      MULTIPLE_INTERVAL: qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION
     }
   },
 

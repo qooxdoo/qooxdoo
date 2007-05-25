@@ -303,7 +303,7 @@ qx.Class.define("qx.ui.menu.Button",
      * @return {var} TODOC
      */
     _createLayoutImpl : function() {
-      return new qx.renderer.layout.MenuButtonLayoutImpl(this);
+      return new qx.ui.menu.ButtonLayoutImpl(this);
     },
 
 

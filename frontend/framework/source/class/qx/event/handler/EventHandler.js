@@ -22,9 +22,9 @@
 
 #module(ui_core)
 #optional(qx.event.handler.DragAndDropHandler)
-#optional(qx.manager.object.MenuManager)
+#optional(qx.ui.menu.Manager)
 #optional(qx.event.handler.FocusHandler)
-#optional(qx.manager.object.PopupManager)
+#optional(qx.ui.popup.Manager)
 #optional(qx.manager.object.ToolTipManager)
 
 ************************************************************************ */
@@ -644,8 +644,8 @@ qx.Class.define("qx.event.handler.EventHandler",
       {
         case "Escape":
         case "Tab":
-          if (qx.Class.isDefined("qx.manager.object.MenuManager")) {
-            qx.manager.object.MenuManager.getInstance().update(vTarget, vType);
+          if (qx.Class.isDefined("qx.ui.menu.Manager")) {
+            qx.ui.menu.Manager.getInstance().update(vTarget, vType);
           }
 
           break;
@@ -1023,28 +1023,28 @@ qx.Class.define("qx.event.handler.EventHandler",
       switch(vType)
       {
         case "mousedown":
-          if (qx.Class.isDefined("qx.manager.object.PopupManager")) {
-            qx.manager.object.PopupManager.getInstance().update(vTarget);
+          if (qx.Class.isDefined("qx.ui.popup.Manager")) {
+            qx.ui.popup.Manager.getInstance().update(vTarget);
           }
 
-          if (qx.Class.isDefined("qx.manager.object.MenuManager")) {
-            qx.manager.object.MenuManager.getInstance().update(vTarget, vType);
+          if (qx.Class.isDefined("qx.ui.menu.Manager")) {
+            qx.ui.menu.Manager.getInstance().update(vTarget, vType);
           }
 
-          if (qx.Class.isDefined("qx.manager.object.IframeManager")) {
-            qx.manager.object.IframeManager.getInstance().handleMouseDown(vEventObject);
+          if (qx.Class.isDefined("qx.ui.embed.IframeManager")) {
+            qx.ui.embed.IframeManager.getInstance().handleMouseDown(vEventObject);
           }
 
           break;
 
         case "mouseup":
           // Mouseup event should always hide, independed of target, so don't send a target
-          if (qx.Class.isDefined("qx.manager.object.MenuManager")) {
-            qx.manager.object.MenuManager.getInstance().update(vTarget, vType);
+          if (qx.Class.isDefined("qx.ui.menu.Manager")) {
+            qx.ui.menu.Manager.getInstance().update(vTarget, vType);
           }
 
-          if (qx.Class.isDefined("qx.manager.object.IframeManager")) {
-            qx.manager.object.IframeManager.getInstance().handleMouseUp(vEventObject);
+          if (qx.Class.isDefined("qx.ui.embed.IframeManager")) {
+            qx.ui.embed.IframeManager.getInstance().handleMouseUp(vEventObject);
           }
 
           break;
@@ -1214,13 +1214,13 @@ qx.Class.define("qx.event.handler.EventHandler",
       this.setCaptureWidget(null);
 
       // Hide Popups, Tooltips, ...
-      if (qx.Class.isDefined("qx.manager.object.PopupManager")) {
-        qx.manager.object.PopupManager.getInstance().update();
+      if (qx.Class.isDefined("qx.ui.popup.Manager")) {
+        qx.ui.popup.Manager.getInstance().update();
       }
 
       // Hide Menus
-      if (qx.Class.isDefined("qx.manager.object.MenuManager")) {
-        qx.manager.object.MenuManager.getInstance().update();
+      if (qx.Class.isDefined("qx.ui.menu.Manager")) {
+        qx.ui.menu.Manager.getInstance().update();
       }
 
       // Cancel Drag Operations

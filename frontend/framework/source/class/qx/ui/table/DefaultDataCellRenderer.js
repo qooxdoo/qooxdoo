@@ -26,9 +26,9 @@
 /**
  * The default data cell renderer.
  */
-qx.Class.define("qx.ui.table.DefaultDataCellRenderer",
+qx.Class.define("qx.ui.table.cellrenderer.Default",
 {
-  extend : qx.ui.table.AbstractDataCellRenderer,
+  extend : qx.ui.table.cellrenderer.Abstract,
 
 
 
@@ -102,19 +102,19 @@ qx.Class.define("qx.ui.table.DefaultDataCellRenderer",
      */
     _getCellStyle : function(cellInfo)
     {
-      var style = qx.ui.table.AbstractDataCellRenderer.prototype._getCellStyle(cellInfo);
+      var style = qx.ui.table.cellrenderer.Abstract.prototype._getCellStyle(cellInfo);
 
       var stylesToApply = this._getStyleFlags(cellInfo);
 
-      if (stylesToApply & qx.ui.table.DefaultDataCellRenderer.STYLEFLAG_ALIGN_RIGHT) {
+      if (stylesToApply & qx.ui.table.cellrenderer.Default.STYLEFLAG_ALIGN_RIGHT) {
         style += ";text-align:right";
       }
 
-      if (stylesToApply & qx.ui.table.DefaultDataCellRenderer.STYLEFLAG_BOLD) {
+      if (stylesToApply & qx.ui.table.cellrenderer.Default.STYLEFLAG_BOLD) {
         style += ";font-weight:bold";
       }
 
-      if (stylesToApply & qx.ui.table.DefaultDataCellRenderer.STYLEFLAG_ITALIC) {
+      if (stylesToApply & qx.ui.table.cellrenderer.Default.STYLEFLAG_ITALIC) {
         style += ";font-style:italic";
       }
 
@@ -134,7 +134,7 @@ qx.Class.define("qx.ui.table.DefaultDataCellRenderer",
       if (this.getUseAutoAlign())
       {
         if (typeof cellInfo.value == "number") {
-          return qx.ui.table.DefaultDataCellRenderer.STYLEFLAG_ALIGN_RIGHT;
+          return qx.ui.table.cellrenderer.Default.STYLEFLAG_ALIGN_RIGHT;
         }
       }
     },
@@ -162,7 +162,7 @@ qx.Class.define("qx.ui.table.DefaultDataCellRenderer",
      */
     updateDataCellElement : function(cellInfo, cellElement)
     {
-      var clazz = qx.ui.table.DefaultDataCellRenderer;
+      var clazz = qx.ui.table.cellrenderer.Default;
       var style = cellElement.style;
 
       var stylesToApply = this._getStyleFlags(cellInfo);
@@ -213,13 +213,13 @@ qx.Class.define("qx.ui.table.DefaultDataCellRenderer",
       }
       else if (typeof value == "number")
       {
-        if (!qx.ui.table.DefaultDataCellRenderer._numberFormat)
+        if (!qx.ui.table.cellrenderer.Default._numberFormat)
         {
-          qx.ui.table.DefaultDataCellRenderer._numberFormat = new qx.util.format.NumberFormat();
-          qx.ui.table.DefaultDataCellRenderer._numberFormat.setMaximumFractionDigits(2);
+          qx.ui.table.cellrenderer.Default._numberFormat = new qx.util.format.NumberFormat();
+          qx.ui.table.cellrenderer.Default._numberFormat.setMaximumFractionDigits(2);
         }
 
-        return qx.ui.table.DefaultDataCellRenderer._numberFormat.format(value);
+        return qx.ui.table.cellrenderer.Default._numberFormat.format(value);
       }
       else if (value instanceof Date)
       {
@@ -242,19 +242,19 @@ qx.Class.define("qx.ui.table.DefaultDataCellRenderer",
      */
     _createCellStyle_array_join : function(cellInfo, htmlArr)
     {
-      qx.ui.table.AbstractDataCellRenderer.prototype._createCellStyle_array_join(cellInfo, htmlArr);
+      qx.ui.table.cellrenderer.Abstract.prototype._createCellStyle_array_join(cellInfo, htmlArr);
 
       var stylesToApply = this._getStyleFlags(cellInfo);
 
-      if (stylesToApply & qx.ui.table.DefaultDataCellRenderer.STYLEFLAG_ALIGN_RIGHT) {
+      if (stylesToApply & qx.ui.table.cellrenderer.Default.STYLEFLAG_ALIGN_RIGHT) {
         htmlArr.push(";text-align:right");
       }
 
-      if (stylesToApply & qx.ui.table.DefaultDataCellRenderer.STYLEFLAG_BOLD) {
+      if (stylesToApply & qx.ui.table.cellrenderer.Default.STYLEFLAG_BOLD) {
         htmlArr.push(";font-weight:bold");
       }
 
-      if (stylesToApply & qx.ui.table.DefaultDataCellRenderer.STYLEFLAG_ITALIC) {
+      if (stylesToApply & qx.ui.table.cellrenderer.Default.STYLEFLAG_ITALIC) {
         htmlArr.push(";font-style:italic");
       }
     },

@@ -25,9 +25,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.renderer.layout.CanvasLayoutImpl",
+qx.Class.define("qx.ui.layout.impl.CanvasLayoutImpl",
 {
-  extend : qx.renderer.layout.LayoutImpl,
+  extend : qx.ui.layout.impl.LayoutImpl,
 
 
 
@@ -73,7 +73,7 @@ qx.Class.define("qx.renderer.layout.CanvasLayoutImpl",
      *  [09] FLUSH LAYOUT QUEUES OF CHILDREN
      *  [10] LAYOUT CHILD
      *
-     *  Inherits from qx.renderer.layout.LayoutImpl:
+     *  Inherits from qx.ui.layout.impl.LayoutImpl:
      *  [03] COMPUTE NEEDED DIMENSIONS FOR ALL CHILDREN
      *  [04] UPDATE LAYOUT WHEN A CHILD CHANGES ITS OUTER DIMENSIONS
      *  [06] UPDATE LAYOUT ON JOB QUEUE FLUSH

@@ -54,7 +54,7 @@
     rowData[15][1] = "<b>A html &amp; entities escaping test</b>";
 
     // table model
-    var tableModel = new qx.ui.table.SimpleTableModel();
+    var tableModel = new qx.ui.table.model.Simple();
     tableModel.setColumns([ "ID", "A number", "A date", "Boolean test" ]);
     tableModel.setData(rowData);
     tableModel.setColumnEditable(1, true);
@@ -67,7 +67,7 @@
         tableColumnModel :
           function(obj)
           {
-            return new qx.ui.table.ResizeTableColumnModel(obj);
+            return new qx.ui.table.columnmodel.Resize(obj);
           }
       };
 
@@ -75,7 +75,7 @@
     var table = new qx.ui.table.Table(tableModel, custom);
     with (table) {
       set({ width:"100%", height:"1*", border:"inset-thin" });
-      getSelectionModel().setSelectionMode(qx.ui.table.SelectionModel.MULTIPLE_INTERVAL_SELECTION);
+      getSelectionModel().setSelectionMode(qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION);
 
       //
       // Specify the resize behavior...  First, get the table column model,
@@ -101,7 +101,7 @@
       resizeBehavior.set(3, { width:100 });
 
       // Display a checkbox in column 3
-      tcm.setDataCellRenderer(3, new qx.ui.table.BooleanDataCellRenderer());
+      tcm.setDataCellRenderer(3, new qx.ui.table.cellrenderer.Boolean());
     };
 
     main.add(table);

@@ -20,7 +20,7 @@
 /**
  * The interface for a range manager
  */
-qx.Interface.define("qx.type.IRange",
+qx.Interface.define("qx.util.range.IRange",
 {
   properties :
   {

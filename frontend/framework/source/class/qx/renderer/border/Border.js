@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 /** Border implementation for qx.ui.core.Widget instances. */
-qx.Class.define("qx.renderer.border.Border",
+qx.Class.define("qx.ui.core.Border",
 {
   extend : qx.core.Object,
 
@@ -83,11 +83,11 @@ qx.Class.define("qx.renderer.border.Border",
      *
      * @type static
      * @param str {String} the CSS string
-     * @return {qx.renderer.border.Border} the created instance
+     * @return {qx.ui.core.Border} the created instance
      */
     fromString : function(str)
     {
-      var border = new qx.renderer.border.Border;
+      var border = new qx.ui.core.Border;
       var parts = str.split(/\s+/);
       var part, temp;
 
@@ -131,11 +131,11 @@ qx.Class.define("qx.renderer.border.Border",
      *
      * @type static
      * @param config {Map} map of property values
-     * @return {qx.renderer.border.Border} the created instance
+     * @return {qx.ui.core.Border} the created instance
      */
     fromConfig : function(config)
     {
-      var border = new qx.renderer.border.Border;
+      var border = new qx.ui.core.Border;
       border.set(config);
       return border;
     },
@@ -555,35 +555,35 @@ qx.Class.define("qx.renderer.border.Border",
     },
 
     _applyColorTop : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().connect(this._changeColorTop, this, value);
+      qx.theme.manager.Color.getInstance().connect(this._changeColorTop, this, value);
     },
 
     _applyColorRight : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().connect(this._changeColorRight, this, value);
+      qx.theme.manager.Color.getInstance().connect(this._changeColorRight, this, value);
     },
 
     _applyColorBottom : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().connect(this._changeColorBottom, this, value);
+      qx.theme.manager.Color.getInstance().connect(this._changeColorBottom, this, value);
     },
 
     _applyColorLeft : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().connect(this._changeColorLeft, this, value);
+      qx.theme.manager.Color.getInstance().connect(this._changeColorLeft, this, value);
     },
 
     _applyColorInnerTop : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().connect(this._changeColorInnerTop, this, value);
+      qx.theme.manager.Color.getInstance().connect(this._changeColorInnerTop, this, value);
     },
 
     _applyColorInnerRight : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().connect(this._changeColorInnerRight, this, value);
+      qx.theme.manager.Color.getInstance().connect(this._changeColorInnerRight, this, value);
     },
 
     _applyColorInnerBottom : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().connect(this._changeColorInnerBottom, this, value);
+      qx.theme.manager.Color.getInstance().connect(this._changeColorInnerBottom, this, value);
     },
 
     _applyColorInnerLeft : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().connect(this._changeColorInnerLeft, this, value);
+      qx.theme.manager.Color.getInstance().connect(this._changeColorInnerLeft, this, value);
     },
 
     _applyStyleTop : function() {
@@ -772,7 +772,7 @@ qx.Class.define("qx.renderer.border.Border",
      * @param edge {String} the edge which was updated
      */
     __informManager : function(edge) {
-      qx.manager.object.BorderManager.getInstance().updateObjectsEdge(this, edge);
+      qx.theme.manager.Border.getInstance().updateObjectsEdge(this, edge);
     },
 
 

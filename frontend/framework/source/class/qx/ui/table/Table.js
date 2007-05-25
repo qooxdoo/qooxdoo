@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.table.Table",
   */
 
   /**
-   * @param tableModel {qx.ui.table.TableModel, null}
+   * @param tableModel {qx.ui.table.model.TableModel, null}
    *   The table model to read the data from.
    *
    * @param custom {Map ? null}
@@ -57,21 +57,21 @@ qx.Class.define("qx.ui.table.Table",
    *       <dd><code><pre>
    *         function(obj)
    *         {
-   *           return new qx.ui.table.SelectionManager(obj);
+   *           return new qx.ui.table.selection.Manager(obj);
    *         }
    *       </pre></code></dd>
    *     <dt>selectionModel</dt>
    *       <dd><code><pre>
    *         function(obj)
    *         {
-   *           return new qx.ui.table.SelectionModel(obj);
+   *           return new qx.ui.table.selection.Model(obj);
    *         }
    *       </pre></code></dd>
    *     <dt>tableColumnModel</dt>
    *       <dd><code><pre>
    *         function(obj)
    *         {
-   *           return new qx.ui.table.TableColumnModel(obj);
+   *           return new qx.ui.table.columnmodel.TableColumnModel(obj);
    *         }
    *       </pre></code></dd>
    *     <dt>tablePaneModel</dt>
@@ -166,7 +166,7 @@ qx.Class.define("qx.ui.table.Table",
     this._columnVisibilityBt.addEventListener("execute", this._onColumnVisibilityBtExecuted, this);
 
     // Allocate a default data row renderer
-    this.setDataRowRenderer(new qx.ui.table.DefaultDataRowRenderer());
+    this.setDataRowRenderer(new qx.ui.table.rowrenderer.Default());
 
     // Create the models
     this._selectionManager = this.getNewSelectionManager()(this);
@@ -247,7 +247,7 @@ qx.Class.define("qx.ui.table.Table",
     /** The selection model. */
     selectionModel :
     {
-      check : "qx.ui.table.SelectionModel",
+      check : "qx.ui.table.selection.Model",
       apply : "_applySelectionModel",
       event : "changeSelectionModel"
     },
@@ -255,7 +255,7 @@ qx.Class.define("qx.ui.table.Table",
     /** The table model. */
     tableModel :
     {
-      check : "qx.ui.table.TableModel",
+      check : "qx.ui.table.model.TableModel",
       apply : "_applyTableModel",
       event : "changeTableModel",
       nullable : true
@@ -264,7 +264,7 @@ qx.Class.define("qx.ui.table.Table",
     /** The table column model. */
     tableColumnModel :
     {
-      check : "qx.ui.table.TableColumnModel",
+      check : "qx.ui.table.columnmodel.TableColumnModel",
       apply : "_applyTableColumnModel",
       event : "changeTableColumnModel"
     },
@@ -352,7 +352,7 @@ qx.Class.define("qx.ui.table.Table",
     /** The renderer to use for styling the rows. */
     dataRowRenderer :
     {
-      check : "qx.ui.table.DataRowRenderer",
+      check : "qx.ui.table.rowrenderer.DataRowRenderer",
       init : null,
       nullable : true,
       apply : "_applyDataRowRenderer",
@@ -392,7 +392,7 @@ qx.Class.define("qx.ui.table.Table",
     {
       check : "Function",
       init : function(obj) {
-        return new qx.ui.table.SelectionManager(obj);
+        return new qx.ui.table.selection.Manager(obj);
       }
     },
 
@@ -406,7 +406,7 @@ qx.Class.define("qx.ui.table.Table",
     {
       check : "Function",
       init : function(obj) {
-        return new qx.ui.table.SelectionModel(obj);
+        return new qx.ui.table.selection.Model(obj);
       }
     },
 
@@ -420,7 +420,7 @@ qx.Class.define("qx.ui.table.Table",
     {
       check : "Function",
       init : function(obj) {
-        return new qx.ui.table.TableColumnModel(obj);
+        return new qx.ui.table.columnmodel.TableColumnModel(obj);
       }
     },
 
@@ -525,12 +525,12 @@ qx.Class.define("qx.ui.table.Table",
 
       if (old != null)
       {
-        old.removeEventListener(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
-        old.removeEventListener(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
+        old.removeEventListener(qx.ui.table.model.TableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
+        old.removeEventListener(qx.ui.table.model.TableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
       }
 
-      value.addEventListener(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
-      value.addEventListener(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
+      value.addEventListener(qx.ui.table.model.TableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
+      value.addEventListener(qx.ui.table.model.TableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
 
       // Update the status bar
       this._updateStatusBar();

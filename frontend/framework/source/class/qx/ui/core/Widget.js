@@ -35,9 +35,9 @@
  * This is the main widget, all visible objects in the application extend this.
  *
  * @appearance widget
- * @state selected Set by {@link qx.manager.selection.SelectionManager#renderItemSelectionState}
- * @state anchor Set by {@link qx.manager.selection.SelectionManager#renderItemAnchorState}
- * @state lead Set by {@link qx.manager.selection.SelectionManager#renderItemLeadState}
+ * @state selected Set by {@link qx.ui.selection.SelectionManager#renderItemSelectionState}
+ * @state anchor Set by {@link qx.ui.selection.SelectionManager#renderItemAnchorState}
+ * @state lead Set by {@link qx.ui.selection.SelectionManager#renderItemLeadState}
  *
  * @state disabled Set by {@link qx.core.Object#enabled}
  * @state focused Set by {@link #focused}
@@ -5093,7 +5093,7 @@ qx.Class.define("qx.ui.core.Widget",
       {
         try
         {
-          var r = qx.manager.object.AppearanceManager.getInstance().styleFrom(vAppearance, this.__states);
+          var r = qx.theme.manager.Appearance.getInstance().styleFrom(vAppearance, this.__states);
 
           if (r) {
             this._styleFromMap(r);
@@ -5121,7 +5121,7 @@ qx.Class.define("qx.ui.core.Widget",
 
       if (vAppearance)
       {
-        var vAppearanceManager = qx.manager.object.AppearanceManager.getInstance();
+        var vAppearanceManager = qx.theme.manager.Appearance.getInstance();
 
         var vOldAppearanceProperties = vAppearanceManager.styleFromTheme(vOldAppearanceTheme, vAppearance, this.__states);
         var vNewAppearanceProperties = vAppearanceManager.styleFromTheme(vNewAppearanceTheme, vAppearance, this.__states);
@@ -5217,7 +5217,7 @@ qx.Class.define("qx.ui.core.Widget",
         this.__states = {};
       }
 
-      var vAppearanceManager = qx.manager.object.AppearanceManager.getInstance();
+      var vAppearanceManager = qx.theme.manager.Appearance.getInstance();
 
       if (value)
       {
@@ -6180,8 +6180,8 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _applyBackgroundImage : function(value, old)
     {
-      var imageMgr = qx.manager.object.ImageManager.getInstance();
-      var aliasMgr = qx.manager.object.AliasManager.getInstance();
+      var imageMgr = qx.io.image.Manager.getInstance();
+      var aliasMgr = qx.io.Alias.getInstance();
 
       if (old) {
         imageMgr.hide(old);
@@ -6425,7 +6425,7 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     _applyBackgroundColor : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().connect(this._styleBackgroundColor, this, value);
+      qx.theme.manager.Color.getInstance().connect(this._styleBackgroundColor, this, value);
     },
 
     _styleBackgroundColor : function(value) {
@@ -6482,7 +6482,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /** apply routine for property {@link #border} */
     _applyBorder : function(value, old) {
-      qx.manager.object.BorderManager.getInstance().connect(this._queueBorder, this, value);
+      qx.theme.manager.Border.getInstance().connect(this._queueBorder, this, value);
     },
 
 
@@ -6499,7 +6499,7 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Callback for border manager connection
      *
-     * @param value {qx.renderer.border.Border} the border object
+     * @param value {qx.ui.core.Border} the border object
      * @param edge {String} top, right, bottom or left
      */
     _queueBorder : function(value, edge)
@@ -6572,7 +6572,7 @@ qx.Class.define("qx.ui.core.Widget",
     renderBorder : function(changes)
     {
       var value = this.__borderObject;
-      var mgr = qx.manager.object.BorderManager.getInstance();
+      var mgr = qx.theme.manager.Border.getInstance();
 
       if (value)
       {
@@ -6594,7 +6594,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
       else
       {
-        var border = qx.renderer.border.Border;
+        var border = qx.ui.core.Border;
 
         if (changes.borderTop) {
           border.resetTop(this);

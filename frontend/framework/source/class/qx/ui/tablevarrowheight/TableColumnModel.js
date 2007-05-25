@@ -27,11 +27,11 @@
  * A model that contains all meta data about columns, such as width, renderers,
  * visibility and order.
  *
- * @see qx.ui.table.TableModel
+ * @see qx.ui.table.model.TableModel
  */
 qx.Class.define("qx.ui.tablevarrowheight.TableColumnModel",
 {
-  extend : qx.ui.table.TableColumnModel,
+  extend : qx.ui.table.columnmodel.TableColumnModel,
 
 
 

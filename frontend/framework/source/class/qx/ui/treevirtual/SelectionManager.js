@@ -32,7 +32,7 @@
  */
 qx.Class.define("qx.ui.treevirtual.SelectionManager",
 {
-  extend : qx.ui.table.SelectionManager,
+  extend : qx.ui.table.selection.Manager,
 
 
 
@@ -187,7 +187,7 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
       if (!bNoSelect)
       {
         // then call the Selection Manager's method to do it.
-        var Sm = qx.ui.table.SelectionManager;
+        var Sm = qx.ui.table.selection.Manager;
         Sm.prototype._handleSelectEvent.call(this, index, evt);
       }
     }

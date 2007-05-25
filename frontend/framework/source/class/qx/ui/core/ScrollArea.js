@@ -23,7 +23,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.core.ScrollArea",
+qx.Class.define("qx.ui.basic.ScrollArea",
 {
   extend : qx.ui.layout.CanvasLayout,
 

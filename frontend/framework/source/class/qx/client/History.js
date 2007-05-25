@@ -86,7 +86,7 @@ qx.Class.define("qx.client.History",
       this._iframe.style.visibility = "hidden";
 
       document.body.appendChild(this._iframe);
-      var src = qx.manager.object.AliasManager.getInstance().resolve("static/history/helper.html");
+      var src = qx.io.Alias.getInstance().resolve("static/history/helper.html");
       this._iframe.src = src;
 
       this._titles = {};

@@ -21,10 +21,10 @@
 /**
  * This manager is used by all objects which needs ranges like qx.ui.form.Spinner, ...
  */
-qx.Class.define("qx.type.Range",
+qx.Class.define("qx.util.range.Range",
 {
   extend : qx.core.Target,
-  implement : [ qx.type.IRange ],
+  implement : [ qx.util.range.IRange ],
 
 
 

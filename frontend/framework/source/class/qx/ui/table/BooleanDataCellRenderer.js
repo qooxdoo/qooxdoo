@@ -30,9 +30,9 @@
 /**
  * A data cell renderer for boolean values.
  */
-qx.Class.define("qx.ui.table.BooleanDataCellRenderer",
+qx.Class.define("qx.ui.table.cellrenderer.Boolean",
 {
-  extend : qx.ui.table.IconDataCellRenderer,
+  extend : qx.ui.table.cellrenderer.Icon,
 
 
 
@@ -47,9 +47,9 @@ qx.Class.define("qx.ui.table.BooleanDataCellRenderer",
   {
     this.base(arguments);
 
-    this._iconUrlTrue = qx.manager.object.AliasManager.getInstance().resolve("widget/table/boolean-true.png");
-    this._iconUrlFalse = qx.manager.object.AliasManager.getInstance().resolve("widget/table/boolean-false.png");
-    this._iconUrlNull = qx.manager.object.AliasManager.getInstance().resolve("static/image/blank.gif");
+    this._iconUrlTrue = qx.io.Alias.getInstance().resolve("widget/table/boolean-true.png");
+    this._iconUrlFalse = qx.io.Alias.getInstance().resolve("widget/table/boolean-false.png");
+    this._iconUrlNull = qx.io.Alias.getInstance().resolve("static/image/blank.gif");
   },
 
 
@@ -73,7 +73,7 @@ qx.Class.define("qx.ui.table.BooleanDataCellRenderer",
      */
     _identifyImage : function(cellInfo)
     {
-      var IconDataCellRenderer = qx.ui.table.IconDataCellRenderer;
+      var IconDataCellRenderer = qx.ui.table.cellrenderer.Icon;
 
       var imageHints =
       {

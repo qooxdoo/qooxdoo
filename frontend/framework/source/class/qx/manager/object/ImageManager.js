@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 /** This singleton manage stuff around image handling. */
-qx.Class.define("qx.manager.object.ImageManager",
+qx.Class.define("qx.io.image.Manager",
 {
   type : "singleton",
   extend : qx.core.Target,

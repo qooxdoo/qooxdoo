@@ -28,11 +28,11 @@
  * A table column model that automagically resizes columns based on a
  * selected behavior.
  *
- * @see qx.ui.table.TableColumnModel
+ * @see qx.ui.table.columnmodel.TableColumnModel
  */
-qx.Class.define("qx.ui.table.ResizeTableColumnModel",
+qx.Class.define("qx.ui.table.columnmodel.Resize",
 {
-  extend : qx.ui.table.TableColumnModel,
+  extend : qx.ui.table.columnmodel.TableColumnModel,
 
 
 
@@ -77,7 +77,7 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
      */
     behavior :
     {
-      check : "qx.ui.table.AbstractResizeBehavior",
+      check : "qx.ui.table.columnmodel.resizebehavior.Abstract",
       init : null,
       nullable : true,
       apply : "_applyBehavior",
@@ -138,7 +138,7 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
       // Set the initial resize behavior
       if (this.getBehavior() == null)
       {
-        this.setBehavior(new qx.ui.table.DefaultResizeBehavior());
+        this.setBehavior(new qx.ui.table.columnmodel.resizebehavior.Default());
       }
 
       // Save the table so we can get at its features, as necessary.
@@ -195,7 +195,7 @@ qx.Class.define("qx.ui.table.ResizeTableColumnModel",
       var menu = data.menu;
       var o;
 
-      var Am = qx.manager.object.AliasManager;
+      var Am = qx.io.Alias;
       var icon =
         Am.getInstance().resolve("icon/16/actions/view-refresh.png");
 

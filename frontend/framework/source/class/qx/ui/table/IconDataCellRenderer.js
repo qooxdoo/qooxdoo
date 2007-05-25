@@ -28,9 +28,9 @@
 /**
  * A data cell renderer for boolean values.
  */
-qx.Class.define("qx.ui.table.IconDataCellRenderer",
+qx.Class.define("qx.ui.table.cellrenderer.Icon",
 {
-  extend : qx.ui.table.AbstractDataCellRenderer,
+  extend : qx.ui.table.cellrenderer.Abstract,
 
 
 
@@ -44,7 +44,7 @@ qx.Class.define("qx.ui.table.IconDataCellRenderer",
   construct : function()
   {
     this.base(arguments);
-    this.IMG_BLANK_URL = qx.manager.object.AliasManager.getInstance().resolve("static/image/blank.gif");
+    this.IMG_BLANK_URL = qx.io.Alias.getInstance().resolve("static/image/blank.gif");
   },
 
 
@@ -143,8 +143,8 @@ qx.Class.define("qx.ui.table.IconDataCellRenderer",
      */
     _getCellStyle : function(cellInfo)
     {
-      var style = qx.ui.table.AbstractDataCellRenderer.prototype._getCellStyle(cellInfo);
-      style += qx.ui.table.IconDataCellRenderer.MAIN_DIV_STYLE;
+      var style = qx.ui.table.cellrenderer.Abstract.prototype._getCellStyle(cellInfo);
+      style += qx.ui.table.cellrenderer.Icon.MAIN_DIV_STYLE;
       return style;
     },
 
@@ -158,13 +158,13 @@ qx.Class.define("qx.ui.table.IconDataCellRenderer",
      */
     _getContentHtml : function(cellInfo)
     {
-      var IconDataCellRenderer = qx.ui.table.IconDataCellRenderer;
+      var IconDataCellRenderer = qx.ui.table.cellrenderer.Icon;
 
       var urlAndToolTip = this._getImageInfos(cellInfo);
       var html = IconDataCellRenderer.IMG_START;
 
       if (qx.core.Client.getInstance().isMshtml() && /\.png$/i.test(urlAndToolTip.url)) {
-        html += qx.manager.object.AliasManager.getInstance().resolve("static/image/blank.gif") + '" style="filter:' + "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + urlAndToolTip.url + "',sizingMethod='scale')";
+        html += qx.io.Alias.getInstance().resolve("static/image/blank.gif") + '" style="filter:' + "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + urlAndToolTip.url + "',sizingMethod='scale')";
       } else {
         html += urlAndToolTip.url + '" style="';
       }
@@ -202,7 +202,7 @@ qx.Class.define("qx.ui.table.IconDataCellRenderer",
       {
         if (/\.png$/i.test(urlAndToolTip.url))
         {
-          img.src = qx.manager.object.AliasManager.getInstance().resolve("static/image/blank.gif");
+          img.src = qx.io.Alias.getInstance().resolve("static/image/blank.gif");
           img.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + urlAndToolTip.url + "',sizingMethod='scale')";
         }
         else
@@ -238,9 +238,9 @@ qx.Class.define("qx.ui.table.IconDataCellRenderer",
      */
     _createCellStyle_array_join : function(cellInfo, htmlArr)
     {
-      qx.ui.table.AbstractDataCellRenderer.prototype._createCellStyle_array_join(cellInfo, htmlArr);
+      qx.ui.table.cellrenderer.Abstract.prototype._createCellStyle_array_join(cellInfo, htmlArr);
 
-      htmlArr.push(qx.ui.table.IconDataCellRenderer.MAIN_DIV_STYLE);
+      htmlArr.push(qx.ui.table.cellrenderer.Icon.MAIN_DIV_STYLE);
     },
 
 
@@ -254,7 +254,7 @@ qx.Class.define("qx.ui.table.IconDataCellRenderer",
      */
     _createContentHtml_array_join : function(cellInfo, htmlArr)
     {
-      var IconDataCellRenderer = qx.ui.table.IconDataCellRenderer;
+      var IconDataCellRenderer = qx.ui.table.cellrenderer.Icon;
 
       if (qx.ui.table.TablePane.USE_TABLE)
       {

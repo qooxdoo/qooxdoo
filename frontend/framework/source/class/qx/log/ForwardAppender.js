@@ -26,7 +26,7 @@
 /**
  * An appender that forwards all log events to a log event processor.
  */
-qx.Class.define("qx.log.ForwardAppender",
+qx.Class.define("qx.log.appender.Forward",
 {
   extend : qx.log.Appender,
 

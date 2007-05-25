@@ -118,7 +118,7 @@ qx.Class.define("qx.renderer.font.Font",
      *
      * @type static
      * @param config {Map} map of property values
-     * @return {qx.renderer.border.Border} the created instance
+     * @return {qx.ui.core.Border} the created instance
      */
     fromConfig : function(config)
     {

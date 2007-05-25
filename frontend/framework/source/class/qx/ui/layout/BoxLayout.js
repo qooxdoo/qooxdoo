@@ -200,7 +200,7 @@ qx.Class.define("qx.ui.layout.BoxLayout",
      * @return {var} TODOC
      */
     _createLayoutImpl : function() {
-      return this.getOrientation() == "vertical" ? new qx.renderer.layout.VerticalBoxLayoutImpl(this) : new qx.renderer.layout.HorizontalBoxLayoutImpl(this);
+      return this.getOrientation() == "vertical" ? new qx.ui.layout.impl.VerticalBoxLayoutImpl(this) : new qx.ui.layout.impl.HorizontalBoxLayoutImpl(this);
     },
 
 

@@ -596,7 +596,7 @@ qx.Class.define("qx.io.remote.IframeTransport",
       // Reset source to a blank image for gecko
       // Otherwise it will switch into a load-without-end behaviour
       if (qx.core.Variant.isSet("qx.client", "gecko")) {
-        this._frame.src = qx.manager.object.AliasManager.getInstance().resolve("static/image/blank.gif");
+        this._frame.src = qx.io.Alias.getInstance().resolve("static/image/blank.gif");
       }
 
       // Finally remove element node
