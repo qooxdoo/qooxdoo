@@ -556,6 +556,21 @@ qx.Class.define("qx.util.ColorUtil",
       }
 
       return rgb;
+    },
+
+
+    /**
+     * Creates a random color.
+     *
+     * @return {String} a valid qooxdoo/CSS rgb color string.
+     */
+    randomColor : function() {
+      var r = Math.round(Math.random() * 255);
+      var g = Math.round(Math.random() * 255);
+      var b = Math.round(Math.random() * 255);
+      return this.rgbToRgbString([r, g, b]);
     }
+
   }
+
 });
