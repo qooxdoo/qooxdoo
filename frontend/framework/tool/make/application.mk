@@ -381,14 +381,14 @@ endif
 # Set the default log appender for the source version
 #
 ifndef APPLICATION_SOURCE_LOG_APPENDER
-  APPLICATION_SOURCE_LOG_APPENDER = qx.log.NativeAppender
+  APPLICATION_SOURCE_LOG_APPENDER = qx.log.appender.Native
 endif
 
 #
 # Set the default log appender for the build version
 #
 ifndef APPLICATION_BUILD_LOG_APPENDER
-  APPLICATION_BUILD_LOG_APPENDER = qx.log.NativeAppender
+  APPLICATION_BUILD_LOG_APPENDER = qx.log.appender.Native
 endif
 
 
