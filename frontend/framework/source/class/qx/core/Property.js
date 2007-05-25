@@ -143,20 +143,21 @@ qx.Class.define("qx.core.Property",
 
       "Function"  : 'value instanceof Function',
       "Date"      : 'value instanceof Date',
-      "Node"      : 'value != null && value.nodeType !== undefined',
-      "Element"   : 'value != null && value.nodeType === 1',
-      "Document"  : 'value != null && value.nodeType === 9',
-      "Window"    : 'value != null && window.document',
-      "Event"     : 'value != null && value.type !== undefined',
+      "Node"      : 'value !== null && value.nodeType !== undefined',
+      "Element"   : 'value !== null && value.nodeType === 1',
+      "Document"  : 'value !== null && value.nodeType === 9',
+      "Window"    : 'value !== null && window.document',
+      "Event"     : 'value !== null && value.type !== undefined',
 
-      "Class"     : 'value != null && value.$$type === "Class"',
-      "Mixin"     : 'value != null && value.$$type === "Mixin"',
-      "Interface" : 'value != null && value.$$type === "Interface"',
-      "Theme"     : 'value != null && value.$$type === "Theme"',
+      "Class"     : 'value !== null && value.$$type === "Class"',
+      "Mixin"     : 'value !== null && value.$$type === "Mixin"',
+      "Interface" : 'value !== null && value.$$type === "Interface"',
+      "Theme"     : 'value !== null && value.$$type === "Theme"',
 
       "Color"     : 'typeof value === "string" && qx.util.ColorUtil.isValid(value)',
-      "Border"    : 'value != null && (qx.manager.object.BorderManager.getInstance().isDynamic(value) || value instanceof qx.renderer.border.Border)',
-      "Font"      : 'value != null && (qx.manager.object.FontManager.getInstance().isDynamic(value) || value instanceof qx.renderer.font.Font)'
+      "Border"    : 'value !== null && qx.manager.object.BorderManager.getInstance().isDynamic(value)',
+      "Font"      : 'value !== null && qx.manager.object.FontManager.getInstance().isDynamic(value)',
+      "Label"     : 'value !== null && (qx.locale.Manager.getInstance().isDynamic(value) || typeof value === "string")',
     },
 
 

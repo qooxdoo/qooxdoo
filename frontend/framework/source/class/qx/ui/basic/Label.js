@@ -179,7 +179,8 @@ qx.Class.define("qx.ui.basic.Label",
       apply : "_applyText",
       init : "",
       dispose : true,
-      event : "changeText"
+      event : "changeText",
+      check : "Label"
     },
 
 
@@ -259,8 +260,8 @@ qx.Class.define("qx.ui.basic.Label",
 
   members :
   {
-    _htmlContent : "",
-    _htmlMode : false,
+    _content : "",
+    _isHtml : false,
 
     /**
      * @deprecated please use {@link #setText} instead.
@@ -365,39 +366,45 @@ qx.Class.define("qx.ui.basic.Label",
     ---------------------------------------------------------------------------
     */
 
+
     /**
-     * Compute the values for "_htmlMode" and "_htmlContent"
+     * TODOC
      *
      * @type member
+     * @param value {var} Current value
+     * @param old {var} Previous value
      */
-    _applyText : function(text)
+    _applyText : function(value, old) {
+      qx.locale.Manager.getInstance().connect(this._syncText, this, this.getText());
+    },
+
+
+    _syncText : function()
     {
-      qx.locale.Manager.getInstance().connect( function(text)
+      var text = this.getText();
+
+      switch (this.getMode())
       {
-        switch (this.getMode())
-        {
-          case "auto":
-            this._htmlMode = qx.util.Validation.isValidString(text) && text.match(/<.*>/) ? true : false;
-            this._htmlContent = text;
-            break;
+        case "auto":
+          this._isHtml = qx.util.Validation.isValidString(text) && text.match(/<.*>/) ? true : false;
+          this._content = text;
+          break;
 
-          case "text":
-            var escapedText = qx.xml.String.escape(text).replace(/(^ | $)/g, "&nbsp;").replace(/  /g, "&nbsp;&nbsp;");
-            this._htmlMode = escapedText !== text;
-            this._htmlContent = escapedText;
-            break;
+        case "text":
+          var escapedText = qx.xml.String.escape(text).replace(/(^ | $)/g, "&nbsp;").replace(/  /g, "&nbsp;&nbsp;");
+          this._isHtml = escapedText !== text;
+          this._content = escapedText;
+          break;
 
-          case "html":
-            this._htmlMode = true;
-            this._htmlContent = text;
-            break;
-        }
+        case "html":
+          this._isHtml = true;
+          this._content = text;
+          break;
+      }
 
-        if (this._isCreated) {
-          this._renderContent();
-        }
-
-      }, this, text);
+      if (this._isCreated) {
+        this._renderContent();
+      }
     },
 
 
@@ -421,12 +428,9 @@ qx.Class.define("qx.ui.basic.Label",
 
 
 
-
-
-
     /*
     ---------------------------------------------------------------------------
-      HELPER FOR PREFERRED DIMENSION
+      PREFERRED DIMENSIONS
     ---------------------------------------------------------------------------
     */
 
@@ -439,42 +443,32 @@ qx.Class.define("qx.ui.basic.Label",
     _computeObjectNeededDimensions : function()
     {
       // get node
-      var node = this.self(arguments)._getMeasureNode();
-      var style = node.style;
-      var source = this._styleProperties;
+      var element = this.self(arguments)._getMeasureNode();
+      var style = element.style;
 
       // sync styles
+      var source = this._styleProperties;
       style.fontFamily = source.fontFamily || "";
       style.fontSize = source.fontSize || "";
       style.fontWeight = source.fontWeight || "";
       style.fontStyle = source.fontStyle || "";
-      style.textAlign = source.textAlign || "";
-      style.whiteSpace = source.whiteSpace || "";
-      style.textDecoration = source.textDecoration || "";
-      style.textTransform = source.textTransform || "";
-      style.letterSpacing = source.letterSpacing || "";
-      style.wordSpacing = source.wordSpacing || "";
-      style.lineHeight = source.lineHeight || "";
 
       // apply html
-      node.innerHTML = this._htmlContent;
+      if (this._isHtml)
+      {
+        element.innerHTML = this._content;
+      }
+      else
+      {
+        element.innerHTML = "";
+        qx.dom.Element.setTextContent(element, this._content);
+      }
 
       // store values
-      this._cachedPreferredInnerWidth = node.scrollWidth;
-      this._cachedPreferredInnerHeight = node.scrollHeight;
+      this._cachedPreferredInnerWidth = element.scrollWidth;
+      this._cachedPreferredInnerHeight = element.scrollHeight;
     },
 
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PREFERRED DIMENSIONS
-    ---------------------------------------------------------------------------
-    */
 
     /**
      * TODOC
@@ -524,7 +518,7 @@ qx.Class.define("qx.ui.basic.Label",
      */
     _postApply : function()
     {
-      var html = this._htmlContent;
+      var html = this._content;
       var element = this._getTargetNode();
 
       if (html == null)
@@ -538,7 +532,7 @@ qx.Class.define("qx.ui.basic.Label",
         if (this._mnemonicTest.test(html))
         {
           html = RegExp.$1 + "<span style=\"text-decoration:underline\">" + RegExp.$7 + "</span>" + RegExp.rightContext;
-          this._htmlMode = true;
+          this._isHtml = true;
         }
         else
         {
@@ -565,7 +559,7 @@ qx.Class.define("qx.ui.basic.Label",
           else
           {
             html = this._patchTextOverflow(html, this.getInnerWidth());
-            this._htmlMode = true;
+            this._isHtml = true;
           }
         }
         else
@@ -583,17 +577,14 @@ qx.Class.define("qx.ui.basic.Label",
         }
       }
 
-      if (this._htmlMode)
+      if (this._isHtml)
       {
         element.innerHTML = html;
       }
       else
       {
-        try {
-          qx.dom.Element.setTextContent(element, html);
-        } catch(ex) {
-          element.innerHTML = html;
-        }
+        element.innerHTML = "";
+        qx.dom.Element.setTextContent(element, html);
       }
     }
   }
