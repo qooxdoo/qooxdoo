@@ -504,8 +504,7 @@ def indexFile(filePath, filePathId, classPath, listIndex, classEncoding, classUr
 
         if fileId != filePathId:
             print "    - ID mismatch: CONTENT=%s != PATH=%s" % (fileContentId, filePathId)
-            fileId = fileContentId
-            #sys.exit(1)
+            sys.exit(1)
 
         fileEntry = {
             "autoDependencies" : False,
