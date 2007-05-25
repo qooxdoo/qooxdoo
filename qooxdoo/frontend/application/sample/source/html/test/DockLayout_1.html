@@ -21,19 +21,19 @@
     var d = qx.ui.core.ClientDocument.getInstance();
 
     var dl1 = new qx.ui.layout.DockLayout;
-    
+
     dl1.setTop(48);
     dl1.setLeft(20);
     dl1.setRight(335);
     dl1.setBottom(48);
-    
-    dl1.setBorder(2, "outset");
+
+    dl1.setBorder("outset");
     dl1.setBackgroundColor("white");
-    
+
     d.add(dl1);
-    
-    
-    
+
+
+
     var t1 = new qx.ui.basic.Terminator;
     t1.setHeight(50);
     t1.setBackgroundColor("red");
@@ -43,7 +43,7 @@
     t2.setWidth(150);
     t2.setBackgroundColor("yellow");
     dl1.addLeft(t2);
-    
+
     var t3 = new qx.ui.basic.Terminator;
     t3.setBackgroundColor("blue");
     dl1.add(t3);

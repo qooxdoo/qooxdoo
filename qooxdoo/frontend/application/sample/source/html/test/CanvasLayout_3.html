@@ -35,7 +35,8 @@
         w.setHeight(12);
         w.setLeft(20+(12*i));
         w.setTop(48+(12*j));
-        w.setBackgroundColor("#000");
+        var gray = Math.round(20+(i*j)/2);
+        w.setBackgroundColor(qx.util.ColorUtil.rgbToRgbString([gray, gray, gray]));
 
         d.add(w);
       };
