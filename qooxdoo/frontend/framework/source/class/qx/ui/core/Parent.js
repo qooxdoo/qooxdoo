@@ -23,7 +23,7 @@
 #module(ui_core)
 #optional(qx.event.handler.FocusHandler)
 #optional(qx.manager.object.ToolTipManager)
-#optional(qx.ui.popup.Manager)
+#optional(qx.ui.popup.PopupManager)
 
 ************************************************************************ */
 
@@ -226,9 +226,9 @@ qx.Class.define("qx.ui.core.Parent",
       var vFocusValid = value != null;
       var vBlurValid = old != null;
 
-      if (qx.Class.isDefined("qx.ui.popup.Manager") && vFocusValid)
+      if (qx.Class.isDefined("qx.ui.popup.PopupManager") && vFocusValid)
       {
-        var vMgr = qx.ui.popup.Manager.getInstance();
+        var vMgr = qx.ui.popup.PopupManager.getInstance();
 
         if (vMgr) {
           vMgr.update(value);

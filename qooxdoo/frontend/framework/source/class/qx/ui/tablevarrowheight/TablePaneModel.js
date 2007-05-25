@@ -30,7 +30,7 @@
  */
 qx.Class.define("qx.ui.tablevarrowheight.TablePaneModel",
 {
-  extend : qx.ui.table.TablePaneModel,
+  extend : qx.ui.table.pane.Model,
 
 
 

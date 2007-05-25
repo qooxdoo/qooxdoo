@@ -28,7 +28,7 @@
  * {@link TableColumnModel} and manages the visual order of the columns shown in
  * a {@link TablePane}.
  */
-qx.Class.define("qx.ui.table.TablePaneModel",
+qx.Class.define("qx.ui.table.pane.Model",
 {
   extend : qx.core.Target,
 
@@ -138,7 +138,7 @@ qx.Class.define("qx.ui.table.TablePaneModel",
     _applyFirstColumnX : function(value, old)
     {
       this._columnCount = null;
-      this.createDispatchEvent(qx.ui.table.TablePaneModel.EVENT_TYPE_MODEL_CHANGED);
+      this.createDispatchEvent(qx.ui.table.pane.Model.EVENT_TYPE_MODEL_CHANGED);
     },
 
     // property modifier
@@ -152,7 +152,7 @@ qx.Class.define("qx.ui.table.TablePaneModel",
     _applyMaxColumnCount : function(value, old)
     {
       this._columnCount = null;
-      this.createDispatchEvent(qx.ui.table.TablePaneModel.EVENT_TYPE_MODEL_CHANGED);
+      this.createDispatchEvent(qx.ui.table.pane.Model.EVENT_TYPE_MODEL_CHANGED);
     },
 
 
@@ -170,7 +170,7 @@ qx.Class.define("qx.ui.table.TablePaneModel",
       // TODO: Check whether the column is in this model (This is a little bit
       //     tricky, because the column could _have been_ in this model, but is
       //     not in it after the change)
-      this.createDispatchEvent(qx.ui.table.TablePaneModel.EVENT_TYPE_MODEL_CHANGED);
+      this.createDispatchEvent(qx.ui.table.pane.Model.EVENT_TYPE_MODEL_CHANGED);
     },
 
 

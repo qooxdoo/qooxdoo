@@ -23,7 +23,7 @@
 #module(ui_core)
 #optional(qx.client.NativeWindow)
 #optional(qx.ui.window.Window)
-#optional(qx.ui.popup.Manager)
+#optional(qx.ui.popup.PopupManager)
 
 ************************************************************************ */
 
@@ -504,8 +504,8 @@ qx.Class.define("qx.ui.core.ClientDocument",
     _onwindowresize : function(e)
     {
       // Hide popups, tooltips, ...
-      if (qx.Class.isDefined("qx.ui.popup.Manager")) {
-        qx.ui.popup.Manager.getInstance().update();
+      if (qx.Class.isDefined("qx.ui.popup.PopupManager")) {
+        qx.ui.popup.PopupManager.getInstance().update();
       }
 
       // Update children

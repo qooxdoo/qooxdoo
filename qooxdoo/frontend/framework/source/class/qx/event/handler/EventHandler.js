@@ -24,7 +24,7 @@
 #optional(qx.event.handler.DragAndDropHandler)
 #optional(qx.ui.menu.Manager)
 #optional(qx.event.handler.FocusHandler)
-#optional(qx.ui.popup.Manager)
+#optional(qx.ui.popup.PopupManager)
 #optional(qx.manager.object.ToolTipManager)
 
 ************************************************************************ */
@@ -1023,8 +1023,8 @@ qx.Class.define("qx.event.handler.EventHandler",
       switch(vType)
       {
         case "mousedown":
-          if (qx.Class.isDefined("qx.ui.popup.Manager")) {
-            qx.ui.popup.Manager.getInstance().update(vTarget);
+          if (qx.Class.isDefined("qx.ui.popup.PopupManager")) {
+            qx.ui.popup.PopupManager.getInstance().update(vTarget);
           }
 
           if (qx.Class.isDefined("qx.ui.menu.Manager")) {
@@ -1214,8 +1214,8 @@ qx.Class.define("qx.event.handler.EventHandler",
       this.setCaptureWidget(null);
 
       // Hide Popups, Tooltips, ...
-      if (qx.Class.isDefined("qx.ui.popup.Manager")) {
-        qx.ui.popup.Manager.getInstance().update();
+      if (qx.Class.isDefined("qx.ui.popup.PopupManager")) {
+        qx.ui.popup.PopupManager.getInstance().update();
       }
 
       // Hide Menus

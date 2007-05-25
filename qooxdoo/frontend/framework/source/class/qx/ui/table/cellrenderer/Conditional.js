@@ -23,7 +23,7 @@
 ************************************************************************ */
 
 
-qx.Class.define("qx.ui.table.ConditionalDataCellRenderer",
+qx.Class.define("qx.ui.table.cellrenderer.Conditional",
 {
   extend : qx.ui.table.cellrenderer.Default,
 
