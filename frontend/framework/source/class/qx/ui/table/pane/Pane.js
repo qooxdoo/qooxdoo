@@ -28,7 +28,7 @@
  * the display of the data part of a table and is therefore the base for virtual
  * scrolling.
  */
-qx.Class.define("qx.ui.table.TablePane",
+qx.Class.define("qx.ui.table.pane.Pane",
 {
   extend : qx.ui.basic.Terminator,
 
@@ -50,7 +50,7 @@ qx.Class.define("qx.ui.table.TablePane",
 
     this._paneScroller = paneScroller;
 
-    // this.debug("USE_ARRAY_JOIN:" + qx.ui.table.TablePane.USE_ARRAY_JOIN + ", USE_TABLE:" + qx.ui.table.TablePane.USE_TABLE);
+    // this.debug("USE_ARRAY_JOIN:" + qx.ui.table.pane.Pane.USE_ARRAY_JOIN + ", USE_TABLE:" + qx.ui.table.pane.Pane.USE_TABLE);
     this._lastColCount = 0;
     this._lastRowCount = 0;
   },
@@ -328,7 +328,7 @@ qx.Class.define("qx.ui.table.TablePane",
         return;
       }
 
-      if (qx.ui.table.TablePane.USE_ARRAY_JOIN) {
+      if (qx.ui.table.pane.Pane.USE_ARRAY_JOIN) {
         this._updateContent_array_join(completeUpdate, onlyRow, onlySelectionOrFocusChanged);
       } else {
         this._updateContent_orig(completeUpdate, onlyRow, onlySelectionOrFocusChanged);
@@ -349,7 +349,7 @@ qx.Class.define("qx.ui.table.TablePane",
      */
     _updateContent_array_join : function(completeUpdate, onlyRow, onlySelectionOrFocusChanged)
     {
-      var TablePane = qx.ui.table.TablePane;
+      var TablePane = qx.ui.table.pane.Pane;
 
       var table = this.getTable();
 
@@ -380,9 +380,9 @@ qx.Class.define("qx.ui.table.TablePane",
       {
         // The table test
         htmlArr.push('<table cellspacing\="0" cellpadding\="0" style\="table-layout:fixed;font-family:');
-        htmlArr.push(qx.ui.table.TablePane.CONTENT_ROW_FONT_FAMILY_TEST);
+        htmlArr.push(qx.ui.table.pane.Pane.CONTENT_ROW_FONT_FAMILY_TEST);
         htmlArr.push(';font-size:');
-        htmlArr.push(qx.ui.table.TablePane.CONTENT_ROW_FONT_SIZE_TEST);
+        htmlArr.push(qx.ui.table.pane.Pane.CONTENT_ROW_FONT_SIZE_TEST);
         htmlArr.push(';width:');
         htmlArr.push(rowWidth);
         htmlArr.push('px"><colgroup>');
@@ -489,7 +489,7 @@ qx.Class.define("qx.ui.table.TablePane",
      */
     _updateContent_orig : function(completeUpdate, onlyRow, onlySelectionOrFocusChanged)
     {
-      var TablePane = qx.ui.table.TablePane;
+      var TablePane = qx.ui.table.pane.Pane;
 
       var table = this.getTable();
 

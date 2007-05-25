@@ -12,7 +12,7 @@
   <script type="text/javascript" src="../../script/layout.js"></script>
 
   <div id="demoDescription">
-    <p>Testing qx.renderer.font.Font object for QxLabels inside QxAtoms.</p>
+    <p>Testing qx.ui.core.Font object for QxLabels inside QxAtoms.</p>
   </div>
 
   <script type="text/javascript">
@@ -28,19 +28,19 @@
     var b4 = new qx.ui.form.Button("Sans Serif, 24px");
 
     b1.addEventListener("execute", function() {
-      a1.getLabelObject().setFont(qx.renderer.font.Font.fromString("16px serif"));
+      a1.getLabelObject().setFont(qx.ui.core.Font.fromString("16px serif"));
     });
 
     b2.addEventListener("execute", function() {
-      a1.getLabelObject().setFont(qx.renderer.font.Font.fromString("24px serif"));
+      a1.getLabelObject().setFont(qx.ui.core.Font.fromString("24px serif"));
     });
 
     b3.addEventListener("execute", function() {
-      a1.getLabelObject().setFont(qx.renderer.font.Font.fromString("16px sans-serif"));
+      a1.getLabelObject().setFont(qx.ui.core.Font.fromString("16px sans-serif"));
     });
 
     b4.addEventListener("execute", function() {
-      a1.getLabelObject().setFont(qx.renderer.font.Font.fromString("24px sans-serif"));
+      a1.getLabelObject().setFont(qx.ui.core.Font.fromString("24px sans-serif"));
     });
 
     f1.setDimension("auto", "auto");
@@ -48,7 +48,7 @@
     f1.setBorder(qx.ui.core.Border.fromString("1px solid red"));
 
     a1.setLocation(0, 0);
-    a1.getLabelObject().setFont(qx.renderer.font.Font.fromString("16px serif"));
+    a1.getLabelObject().setFont(qx.ui.core.Font.fromString("16px serif"));
 
     b1.setLocation(200, 48);
     b2.setLocation(200, 78);

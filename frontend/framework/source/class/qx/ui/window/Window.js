@@ -600,7 +600,7 @@ qx.Class.define("qx.ui.window.Window",
       qx.ui.layout.CanvasLayout.prototype._beforeAppear.call(this);
 
       // Hide popups
-      qx.ui.popup.Manager.getInstance().update();
+      qx.ui.popup.PopupManager.getInstance().update();
 
       // Configure the focus root to be the current opened window
       qx.event.handler.EventHandler.getInstance().setFocusRoot(this);

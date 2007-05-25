@@ -30,7 +30,7 @@
  */
 qx.Class.define("qx.ui.tablevarrowheight.TablePaneScroller",
 {
-  extend : qx.ui.table.TablePaneScroller,
+  extend : qx.ui.table.pane.Scroller,
 
 
 

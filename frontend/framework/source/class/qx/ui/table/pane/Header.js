@@ -26,7 +26,7 @@
 /**
  * Shows the header of a table.
  */
-qx.Class.define("qx.ui.table.TablePaneHeader",
+qx.Class.define("qx.ui.table.pane.Header",
 {
   extend : qx.ui.layout.HorizontalBoxLayout,
 

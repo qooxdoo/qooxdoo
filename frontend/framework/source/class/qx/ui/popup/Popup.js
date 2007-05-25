@@ -211,8 +211,8 @@ qx.Class.define("qx.ui.popup.Popup",
         }
       }
 
-      qx.ui.popup.Manager.getInstance().add(this);
-      qx.ui.popup.Manager.getInstance().update(this);
+      qx.ui.popup.PopupManager.getInstance().add(this);
+      qx.ui.popup.PopupManager.getInstance().update(this);
 
       this._showTimeStamp = (new Date).valueOf();
       this.bringToFront();
@@ -229,7 +229,7 @@ qx.Class.define("qx.ui.popup.Popup",
     {
       this.base(arguments);
 
-      qx.ui.popup.Manager.getInstance().remove(this);
+      qx.ui.popup.PopupManager.getInstance().remove(this);
 
       this._hideTimeStamp = (new Date).valueOf();
     },
@@ -376,7 +376,7 @@ qx.Class.define("qx.ui.popup.Popup",
      */
     _sendTo : function()
     {
-      var vPopups = qx.lang.Object.getValues(qx.ui.popup.Manager.getInstance().getAll());
+      var vPopups = qx.lang.Object.getValues(qx.ui.popup.PopupManager.getInstance().getAll());
 
       if (qx.Class.isDefined("qx.ui.menu.Manager"))
       {

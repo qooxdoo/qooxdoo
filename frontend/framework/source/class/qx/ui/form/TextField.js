@@ -465,7 +465,7 @@ qx.Class.define("qx.ui.form.TextField",
 
     /**
      * @type member
-     * @param value {qx.renderer.font.Font}
+     * @param value {qx.ui.core.Font}
      */
     _styleFont : function(value)
     {
@@ -480,7 +480,7 @@ qx.Class.define("qx.ui.form.TextField",
       if (inp)
       {
         var value = this.__font;
-        value ? value.renderElement(inp) : qx.renderer.font.Font.resetElement(inp);
+        value ? value.renderElement(inp) : qx.ui.core.Font.resetElement(inp);
       }
     },
 

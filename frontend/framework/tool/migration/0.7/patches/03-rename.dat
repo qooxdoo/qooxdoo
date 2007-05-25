@@ -38,7 +38,7 @@
 \bqx\.manager\.selection\.VirtualSelectionManager\b=qx.ui.listview.SelectionManager
 
 \bqx\.renderer\.border\.Border\b=qx.ui.core.Border
-\bqx\.renderer\.border\.Font\b=qx.ui.core.Font
+\bqx\.renderer\.font\.Font\b=qx.ui.core.Font
 
 \bqx\.renderer\.layout\b=qx.ui.layout.impl
 \bqx\.ui\.layout\.impl\.MenuButtonLayoutImpl\b=qx.ui.menu.ButtonLayoutImpl

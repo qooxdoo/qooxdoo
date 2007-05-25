@@ -155,10 +155,10 @@ qx.Class.define("qx.ui.embed.HtmlEmbed",
 
     /**
      * @type member
-     * @param value {qx.renderer.font.Font}
+     * @param value {qx.ui.core.Font}
      */
     _styleFont : function(value) {
-      value ? value.render(this) : qx.renderer.font.Font.reset(this);
+      value ? value.render(this) : qx.ui.core.Font.reset(this);
     },
 
 

@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 /** Font implementation for qx.ui.core.Widget instances. */
-qx.Class.define("qx.renderer.font.Font",
+qx.Class.define("qx.ui.core.Font",
 {
   extend : qx.core.Object,
 
@@ -67,11 +67,11 @@ qx.Class.define("qx.renderer.font.Font",
      *
      * @type static
      * @param str {String} the CSS string
-     * @return {qx.renderer.font.Font} the created instance
+     * @return {qx.ui.core.Font} the created instance
      */
     fromString : function(str)
     {
-      var font = new qx.renderer.font.Font;
+      var font = new qx.ui.core.Font;
       var parts = str.split(/\s+/);
       var name = [];
       var part;
@@ -122,7 +122,7 @@ qx.Class.define("qx.renderer.font.Font",
      */
     fromConfig : function(config)
     {
-      var font = new qx.renderer.font.Font;
+      var font = new qx.ui.core.Font;
       font.set(config);
       return font;
     },

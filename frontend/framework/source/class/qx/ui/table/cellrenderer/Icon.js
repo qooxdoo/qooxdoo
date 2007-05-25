@@ -256,7 +256,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Icon",
     {
       var IconDataCellRenderer = qx.ui.table.cellrenderer.Icon;
 
-      if (qx.ui.table.TablePane.USE_TABLE)
+      if (qx.ui.table.pane.Pane.USE_TABLE)
       {
         htmlArr.push(IconDataCellRenderer.TABLE_DIV);
         htmlArr.push(cellInfo.styleHeight - 2); // -1 for the border, -1 for the padding
@@ -276,7 +276,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Icon",
 
       htmlArr.push(IconDataCellRenderer.IMG_END);
 
-      if (qx.ui.table.TablePane.USE_TABLE) {
+      if (qx.ui.table.pane.Pane.USE_TABLE) {
         htmlArr.push(IconDataCellRenderer.TABLE_DIV_END);
       }
     }
