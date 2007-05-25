@@ -196,7 +196,8 @@ qx.Class.define("qx.ui.basic.Atom",
     {
       apply : "_applyLabel",
       nullable : true,
-      dispose : true
+      dispose : true,
+      check : "Label"
     },
 
 
@@ -336,7 +337,6 @@ qx.Class.define("qx.ui.basic.Atom",
       i.setAnonymous(true);
 
       this._updateIcon();
-
       this.addAt(i, 0);
     },
 
@@ -536,7 +536,7 @@ qx.Class.define("qx.ui.basic.Atom",
       {
         case "label":
         case "both":
-          this._labelIsVisible = qx.util.Validation.isValidString(this.getLabel()) || this.getLabel() instanceof qx.locale.LocalizedString;
+          this._labelIsVisible = !!this.getLabel();
           break;
 
         default:
@@ -563,7 +563,7 @@ qx.Class.define("qx.ui.basic.Atom",
       {
         case "icon":
         case "both":
-          this._iconIsVisible = qx.util.Validation.isValidString(this.getIcon());
+          this._iconIsVisible = !!this.getIcon();
           break;
 
         default:
