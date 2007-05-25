@@ -209,12 +209,12 @@ qx.Class.define("showcase.Application",
       // gl.setColumnHorizontalAlignment(0, "right");
       gl.setColumnVerticalAlignment(0, "middle");
 
-      gl.setRowHeight(0, 20);
-      gl.setRowHeight(1, 20);
-      gl.setRowHeight(2, 20);
-      gl.setRowHeight(3, 20);
+      gl.setRowHeight(0, 22);
+      gl.setRowHeight(1, 22);
+      gl.setRowHeight(2, 22);
+      gl.setRowHeight(3, 22);
       gl.setRowHeight(4, 70);
-      gl.setRowHeight(5, 20);
+      gl.setRowHeight(5, 26);
 
       gl.add(new qx.ui.basic.Label("Name"), 0, 0);
       gl.add(new qx.ui.form.TextField, 1, 0);
