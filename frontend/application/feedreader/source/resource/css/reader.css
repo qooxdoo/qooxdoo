@@ -13,7 +13,7 @@
 	margin: 0px;
 }
 
-.header.ext h1 {
+.Ext .header h1 {
   color: #FDFDFF;
 }
 
@@ -25,7 +25,7 @@
   background: #FBFFEF;
 }
 
-.blogEntry.ext {
+.Ext .blogEntry {
   background: #FDFDFF;
 }
 
