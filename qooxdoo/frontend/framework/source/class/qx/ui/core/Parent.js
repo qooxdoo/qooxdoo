@@ -22,7 +22,7 @@
 
 #module(ui_core)
 #optional(qx.event.handler.FocusHandler)
-#optional(qx.manager.object.ToolTipManager)
+#optional(qx.ui.popup.TooltipManager)
 #optional(qx.ui.popup.PopupManager)
 
 ************************************************************************ */
@@ -284,9 +284,9 @@ qx.Class.define("qx.ui.core.Parent",
 
         old.dispatchEvent(vEventObject);
 
-        if (qx.Class.isDefined("qx.manager.object.ToolTipManager"))
+        if (qx.Class.isDefined("qx.ui.popup.TooltipManager"))
         {
-          var vMgr = qx.manager.object.ToolTipManager.getInstance();
+          var vMgr = qx.ui.popup.TooltipManager.getInstance();
 
           if (vMgr) {
             vMgr.handleBlur(vEventObject);
@@ -311,9 +311,9 @@ qx.Class.define("qx.ui.core.Parent",
 
         value.dispatchEvent(vEventObject);
 
-        if (qx.Class.isDefined("qx.manager.object.ToolTipManager"))
+        if (qx.Class.isDefined("qx.ui.popup.TooltipManager"))
         {
-          var vMgr = qx.manager.object.ToolTipManager.getInstance();
+          var vMgr = qx.ui.popup.TooltipManager.getInstance();
 
           if (vMgr) {
             vMgr.handleFocus(vEventObject);

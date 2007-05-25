@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.tablevarrowheight.TableVarRowHeight",
   */
 
   /**
-   * @param tableModel {qx.ui.table.model.TableModel, null}
+   * @param tableModel {qx.ui.table.model.Basic, null}
    *   The table model to read the data from.
    */
   construct : function(tableModel)

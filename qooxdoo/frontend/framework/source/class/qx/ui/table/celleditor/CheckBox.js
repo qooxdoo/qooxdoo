@@ -28,7 +28,7 @@
  */
 qx.Class.define("qx.ui.table.celleditor.CheckBox",
 {
-  extend : qx.ui.table.celleditor.CellEditorFactory,
+  extend : qx.ui.table.celleditor.Factory,
 
 
 

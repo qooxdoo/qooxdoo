@@ -30,7 +30,7 @@
 qx.Class.define("qx.ui.table.cellrenderer.Abstract",
 {
   type : "abstract",
-  extend : qx.ui.table.cellrenderer.DataCellRenderer,
+  extend : qx.ui.table.cellrenderer.Basic,
 
 
 
