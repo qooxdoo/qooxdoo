@@ -64,5 +64,43 @@ qx.Class.define("qx.ui.pageview.radioview.Bar",
       refine : true,
       init : "vertical"
     }
+  },
+
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      APPEARANCE ADDITIONS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void}
+     */
+    _renderAppearance : function()
+    {
+      if (this.getParent())
+      {
+        var vPos = this.getParent().getBarPosition();
+
+        vPos === "top" ? this.addState("barTop") : this.removeState("barTop");
+        vPos === "bottom" ? this.addState("barBottom") : this.removeState("barBottom");
+      }
+
+      this.base(arguments);
+    }
   }
 });
