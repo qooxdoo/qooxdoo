@@ -33,7 +33,7 @@
  */
 qx.Class.define("qx.log.appender.FireBug",
 {
-  extend : qx.log.Appender,
+  extend : qx.log.appender.Abstract,
 
 
 

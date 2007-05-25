@@ -32,7 +32,7 @@
  */
 qx.Class.define("qx.log.appender.Window",
 {
-  extend : qx.log.Appender,
+  extend : qx.log.appender.Abstract,
 
 
 
