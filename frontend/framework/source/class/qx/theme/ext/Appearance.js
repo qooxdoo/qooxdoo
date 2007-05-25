@@ -474,7 +474,9 @@ qx.Theme.define("qx.theme.ext.Appearance",
         return {
           backgroundColor : "radio-view-bar",
           padding         : 4,
-          border          : qx.renderer.border.Border.fromConfig({ bottom : [ 1, "solid", "radio-view-border" ] })
+          border          : states.barTop ?
+            qx.renderer.border.Border.fromConfig({ bottom : [ 1, "solid", "radio-view-border" ] }) :
+            qx.renderer.border.Border.fromConfig({ top : [ 1, "solid", "radio-view-border" ] })
         };
       }
     },
@@ -1008,8 +1010,8 @@ qx.Theme.define("qx.theme.ext.Appearance",
           cursor          : "default",
           backgroundColor : states.selected ? "list-view-content-cell" : "undefined",
           textColor       : states.selected ? "white" : "undefined",
-          border          : states.lead && !states.selected ? 
-            new qx.renderer.border.Border.fromConfig({top : [ 1, "solid", "effect" ], bottom : [ 1, "solid", "effect" ]  }) : 
+          border          : states.lead && !states.selected ?
+            new qx.renderer.border.Border.fromConfig({top : [ 1, "solid", "effect" ], bottom : [ 1, "solid", "effect" ]  }) :
             "undefined",
           marginTop      : states.lead && !states.selected ? 0 : 1,
           marginBottom   : states.lead && !states.selected ? 0 : 1
