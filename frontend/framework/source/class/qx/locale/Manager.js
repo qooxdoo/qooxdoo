@@ -337,12 +337,26 @@ qx.Class.define("qx.locale.Manager",
     },
 
 
+    /**
+     * Overridden method from {@link qx.manager.object.ValueManager}.
+     *
+     * @internal
+     * @param text {LocalizedString|String} input text
+     * @return {Boolean} whether the string value is dynamic
+     */
     isDynamic : function(text)
     {
       return text instanceof qx.locale.LocalizedString;
     },
 
 
+    /**
+     * Overridden method from {@link qx.manager.object.ValueManager}.
+     *
+     * @internal
+     * @param text {LocalizedString} input text
+     * @return {String} current value of the localized string.
+     */
     resolveDynamic : function(text)
     {
       return text.toString();
