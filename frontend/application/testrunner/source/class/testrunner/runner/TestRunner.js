@@ -350,7 +350,7 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       // log appender
       //this.logappender = new qx.log.appender.Window("qooxdoo Test Runner");
-      //this.logappender = new qx.log.DivAppender("sessionlog");
+      //this.logappender = new qx.log.appender.Div("sessionlog");
       this.logappender = new testrunner.runner.TestAppender(this.f2);
       //this.getLogger().addAppender(this.logappender);
       this.getLogger().getParentLogger().getParentLogger().addAppender(this.logappender);
