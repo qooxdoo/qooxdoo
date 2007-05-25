@@ -65,7 +65,7 @@
 
         for(var i=1; i<=30; i++)
         {
-          item = new qx.ui.form.ListItem("Item No " + i);
+          item = new qx.ui.form.ListItem(c1.tr("Item No %1", i));
           !(i % 10) && (item.setEnabled(false));
           c1.add(item);
         };
