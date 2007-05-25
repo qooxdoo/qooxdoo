@@ -113,6 +113,12 @@ qx.Class.define("qx.ui.form.ComboBox",
     this._popup.addEventListener("appear", this._onpopupappear, this);
     this._field.addEventListener("input", this._oninput, this);
 
+    // force update of value on locale change
+    qx.locale.Manager.getInstance().addEventListener("changeLocale", function(e) {
+      var selected = this.getSelected();
+      this._applySelected(selected, selected);
+    }, this);
+
     var vDoc = qx.ui.core.ClientDocument.getInstance();
     vDoc.addEventListener("windowblur", this._testClosePopup, this);
 
