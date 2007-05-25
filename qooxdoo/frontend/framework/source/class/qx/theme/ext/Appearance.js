@@ -1105,22 +1105,25 @@ qx.Theme.define("qx.theme.ext.Appearance",
       }
     },
 
+    "spinner-text-field" :
+    {
+      include : "text-field",
+
+      style : function(states)
+      {
+        return {
+          padding : [ 2, 3 ]
+        };
+      }
+    },
+
     "spinner-button":
     {
       style : function(states)
       {
-        var border = qx.ui.core.Border.fromConfig({
-           left   : [ 1, "solid", "general-border" ],
-           bottom : [ 1, "solid", "general-border" ],
-           right  : [ 1, "solid", "general-border" ]
-        });
-
         return {
           height          : "1*",
-          width           : "auto",
-          backgroundColor : "spinner-button",
-          padding         : [ 2, 4, 0, 3 ],
-          border          : border
+          width           : "auto"
         };
       }
     },
@@ -1130,9 +1133,17 @@ qx.Theme.define("qx.theme.ext.Appearance",
 
       style : function(states)
       {
-         return {
-           source : "widget/arrows/up_small.gif"
-         }
+        var border = qx.ui.core.Border.fromConfig({
+           left   : [ 1, "solid", "general-border" ],
+           bottom : [ 1, "solid", "general-border" ],
+           right  : [ 1, "solid", "general-border" ]
+        });
+
+        return {
+          padding : [ 3, 4, 2 ],
+          border  : border,
+          source : "widget/arrows/up_small.gif"
+        }
       }
     },
 
@@ -1144,15 +1155,13 @@ qx.Theme.define("qx.theme.ext.Appearance",
       {
         var border = qx.ui.core.Border.fromConfig({
            left  : [ 1, "solid", "general-border" ],
-           top   : [ 1, "solid", "general-border" ],
            right : [ 1, "solid", "general-border" ]
         });
 
         return {
-          paddingTop    : 3,
-          paddingBottom : 0,
-          border        : border,
-          source        : "widget/arrows/down_small.gif"
+          padding : [ 4, 4, 1 ],
+          border  : border,
+          source  : "widget/arrows/down_small.gif"
         };
       }
     },
