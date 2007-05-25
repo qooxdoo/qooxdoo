@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 /** This manages ToolTip instances */
-qx.Class.define("qx.manager.object.ToolTipManager",
+qx.Class.define("qx.ui.popup.TooltipManager",
 {
   type : "singleton",
   extend : qx.util.manager.Object,

@@ -397,7 +397,7 @@ qx.Class.define("qx.ui.embed.GalleryList",
      */
     _onmousemove : function(e)
     {
-      if (!qx.Class.isDefined("qx.manager.object.ToolTipManager")) {
+      if (!qx.Class.isDefined("qx.ui.popup.TooltipManager")) {
         return;
       }
 
@@ -410,7 +410,7 @@ qx.Class.define("qx.ui.embed.GalleryList",
       if (this._lastItem)
       {
         var vEventObject = new qx.event.type.MouseEvent("mouseout", e, false, this._lastItem);
-        qx.manager.object.ToolTipManager.getInstance().handleMouseOut(vEventObject);
+        qx.ui.popup.TooltipManager.getInstance().handleMouseOut(vEventObject);
         vEventObject.dispose();
       }
 
@@ -425,7 +425,7 @@ qx.Class.define("qx.ui.embed.GalleryList",
         }
 
         var vEventObject = new qx.event.type.MouseEvent("mouseout", e, false, vItem);
-        qx.manager.object.ToolTipManager.getInstance().handleMouseOver(vEventObject);
+        qx.ui.popup.TooltipManager.getInstance().handleMouseOver(vEventObject);
         vEventObject.dispose();
 
         this.setToolTip(null);

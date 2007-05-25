@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.table.Table",
   */
 
   /**
-   * @param tableModel {qx.ui.table.model.TableModel, null}
+   * @param tableModel {qx.ui.table.model.Basic, null}
    *   The table model to read the data from.
    *
    * @param custom {Map ? null}
@@ -71,7 +71,7 @@ qx.Class.define("qx.ui.table.Table",
    *       <dd><code><pre>
    *         function(obj)
    *         {
-   *           return new qx.ui.table.columnmodel.TableColumnModel(obj);
+   *           return new qx.ui.table.columnmodel.Basic(obj);
    *         }
    *       </pre></code></dd>
    *     <dt>tablePaneModel</dt>
@@ -255,7 +255,7 @@ qx.Class.define("qx.ui.table.Table",
     /** The table model. */
     tableModel :
     {
-      check : "qx.ui.table.model.TableModel",
+      check : "qx.ui.table.model.Basic",
       apply : "_applyTableModel",
       event : "changeTableModel",
       nullable : true
@@ -264,7 +264,7 @@ qx.Class.define("qx.ui.table.Table",
     /** The table column model. */
     tableColumnModel :
     {
-      check : "qx.ui.table.columnmodel.TableColumnModel",
+      check : "qx.ui.table.columnmodel.Basic",
       apply : "_applyTableColumnModel",
       event : "changeTableColumnModel"
     },
@@ -420,7 +420,7 @@ qx.Class.define("qx.ui.table.Table",
     {
       check : "Function",
       init : function(obj) {
-        return new qx.ui.table.columnmodel.TableColumnModel(obj);
+        return new qx.ui.table.columnmodel.Basic(obj);
       }
     },
 
@@ -525,12 +525,12 @@ qx.Class.define("qx.ui.table.Table",
 
       if (old != null)
       {
-        old.removeEventListener(qx.ui.table.model.TableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
-        old.removeEventListener(qx.ui.table.model.TableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
+        old.removeEventListener(qx.ui.table.model.Basic.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
+        old.removeEventListener(qx.ui.table.model.Basic.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
       }
 
-      value.addEventListener(qx.ui.table.model.TableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
-      value.addEventListener(qx.ui.table.model.TableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
+      value.addEventListener(qx.ui.table.model.Basic.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
+      value.addEventListener(qx.ui.table.model.Basic.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
 
       // Update the status bar
       this._updateStatusBar();
