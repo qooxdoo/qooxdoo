@@ -45,8 +45,11 @@ qx.Class.define("qx.ui.pageview.radioview.RadioView",
   *****************************************************************************
   */
 
-  construct : function() {
+  construct : function()
+  {
     this.base(arguments, qx.ui.pageview.radioview.Bar, qx.ui.pageview.radioview.Pane);
+
+    this.initBarPosition();
   },
 
 
@@ -70,6 +73,49 @@ qx.Class.define("qx.ui.pageview.radioview.RadioView",
     {
       refine : true,
       init : "vertical"
+    },
+
+    barPosition :
+    {
+      init   : "top",
+      check : [ "top", "bottom" ],
+      apply : "_applyBarPosition",
+      event : "changeBarPosition"
+    }
+  },
+
+  members :
+  {
+    _applyBarPosition : function(value, old)
+    {
+      var bar = this._bar;
+      var pane = this._pane;
+
+      bar.setWidth(null);
+      bar.setHeight("auto");
+      bar.setOrientation("vertical");
+      pane.setWidth(null);
+      pane.setHeight("1*");
+
+      // move bar around and change orientation
+      switch(value)
+      {
+        case "top":
+          bar.moveSelfToBegin();
+          this.setOrientation("vertical");
+          break;
+
+        case "bottom":
+          bar.moveSelfToEnd();
+          this.setOrientation("vertical");
+          break;
+      }
+
+      // force re-apply of states for bar and pane
+      this._addChildrenToStateQueue();
+
+      // force re-apply of states for all tabs
+      bar._addChildrenToStateQueue();
     }
   }
 });
