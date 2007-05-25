@@ -40,8 +40,6 @@ qx.Class.define("apiviewer.ClassLoader",
     load : function(className, async, callback, self)
     {
       var url = this._baseUri + "/" + className + ".js";
-      this.debug("Loading " + url);
-
       var req = new qx.io.remote.Request(url);
 
       var cls = null;
