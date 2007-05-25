@@ -76,6 +76,7 @@ qx.Class.define("qx.ui.menu.Button",
     {
       this.setCommand(vCommand);
 
+      // force update of the shortcut string
       qx.locale.Manager.getInstance().addEventListener("changeLocale", function(e) {
         this._applyCommand(vCommand, vCommand);
       }, this);
@@ -385,7 +386,7 @@ qx.Class.define("qx.ui.menu.Button",
       {
         this._hasShortcut = true;
 
-        var vOldHtml = old ? old.getShortcut() : "";
+        var vOldHtml = old ? old.toString() : "";
 
         if (qx.util.Validation.isInvalidString(vOldHtml))
         {

@@ -41,7 +41,7 @@ qx.Class.define("qx.locale.Key",
      *       Possible values: "short", "full"
      * @param keyIdentifier {String} key identifier to translate {@link qx.event.handler.KeyEventHandler}
      * @param locale {String} optional locale to be used
-     * @return {qx.locale.LocalizedString} localized key name
+     * @return {String} localized key name
      * @throws TODOC
      */
     getKeyName : function(size, keyIdentifier, locale)
@@ -56,7 +56,7 @@ qx.Class.define("qx.locale.Key",
       if (localizedKey == key) {
         return qx.locale.Key._keyNames[key] || keyIdentifier;
       } else {
-        return localizedKey;
+        return localizedKey.toString();
       }
     }
   },
