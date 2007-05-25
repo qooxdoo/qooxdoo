@@ -315,12 +315,12 @@ qx.Class.define("qx.ui.basic.Label",
 
     /**
      * @type member
-     * @param value {qx.renderer.font.Font}
+     * @param value {qx.ui.core.Font}
      */
     _styleFont : function(value)
     {
       this._invalidatePreferredInnerDimensions();
-      value ? value.render(this) : qx.renderer.font.Font.reset(this);
+      value ? value.render(this) : qx.ui.core.Font.reset(this);
     },
 
 

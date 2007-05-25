@@ -28,7 +28,7 @@
  */
 qx.Class.define("qx.ui.tablevarrowheight.TablePaneHeader",
 {
-  extend : qx.ui.table.TablePaneHeader,
+  extend : qx.ui.table.pane.Header,
 
 
 

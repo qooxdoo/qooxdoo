@@ -57,7 +57,7 @@
         qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION;
       getSelectionModel().setSelectionMode(selectionMode);
       var newRenderer =
-        new qx.ui.table.ConditionalDataCellRenderer("right", "", "", "");
+        new qx.ui.table.cellrenderer.Conditional("right", "", "", "");
 
       try {
         newRenderer.addNumericCondition(">", 0,   null,
@@ -106,7 +106,7 @@
 
       getTableColumnModel().setDataCellRenderer(2, newRenderer);
 
-      var renderer = new qx.ui.table.ImageDataCellRenderer(19, 16);
+      var renderer = new qx.ui.table.cellrenderer.Image(19, 16);
       getTableColumnModel().setDataCellRenderer(3, renderer);
     };
 

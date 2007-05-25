@@ -30,7 +30,7 @@
  */
 qx.Class.define("qx.ui.tablevarrowheight.TablePane",
 {
-  extend : qx.ui.table.TablePane,
+  extend : qx.ui.table.pane.Pane,
 
 
 
@@ -72,7 +72,7 @@ qx.Class.define("qx.ui.tablevarrowheight.TablePane",
      */
     _updateContent_orig : function(completeUpdate, onlyRow, onlySelectionOrFocusChanged)
     {
-      var TablePane = qx.ui.table.TablePane;
+      var TablePane = qx.ui.table.pane.Pane;
 
       var table = this.getTable();
 

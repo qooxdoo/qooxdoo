@@ -22,7 +22,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.table.ImageDataCellRenderer",
+qx.Class.define("qx.ui.table.cellrenderer.Image",
 {
   extend : qx.ui.table.cellrenderer.Icon,
 

@@ -78,35 +78,35 @@ qx.Class.define("qx.ui.table.Table",
    *       <dd><code><pre>
    *         function(obj)
    *         {
-   *           return new qx.ui.table.TablePaneModel(obj);
+   *           return new qx.ui.table.pane.Model(obj);
    *         }
    *       </pre></code></dd>
    *     <dt>tablePane</dt>
    *       <dd><code><pre>
    *         function(obj)
    *         {
-   *           return new qx.ui.table.TablePane(obj);
+   *           return new qx.ui.table.pane.Pane(obj);
    *         }
    *       </pre></code></dd>
    *     <dt>tablePaneHeader</dt>
    *       <dd><code><pre>
    *         function(obj)
    *         {
-   *           return new qx.ui.table.TablePaneHeader(obj);
+   *           return new qx.ui.table.pane.Header(obj);
    *         }
    *       </pre></code></dd>
    *     <dt>tablePaneScroller</dt>
    *       <dd><code><pre>
    *         function(obj)
    *         {
-   *           return new qx.ui.table.TablePaneScroller(obj);
+   *           return new qx.ui.table.pane.Scroller(obj);
    *         }
    *       </pre></code></dd>
    *     <dt>tablePaneModel</dt>
    *       <dd><code><pre>
    *         function(obj)
    *         {
-   *           return new qx.ui.table.TablePaneModel(obj);
+   *           return new qx.ui.table.pane.Model(obj);
    *         }
    *       </pre></code></dd>
    *   </dl>
@@ -434,7 +434,7 @@ qx.Class.define("qx.ui.table.Table",
     {
       check : "Function",
       init : function(obj) {
-        return new qx.ui.table.TablePane(obj);
+        return new qx.ui.table.pane.Pane(obj);
       }
     },
 
@@ -448,7 +448,7 @@ qx.Class.define("qx.ui.table.Table",
     {
       check : "Function",
       init : function(obj) {
-        return new qx.ui.table.TablePaneHeader(obj);
+        return new qx.ui.table.pane.Header(obj);
       }
     },
 
@@ -462,7 +462,7 @@ qx.Class.define("qx.ui.table.Table",
     {
       check : "Function",
       init : function(obj) {
-        return new qx.ui.table.TablePaneScroller(obj);
+        return new qx.ui.table.pane.Scroller(obj);
       }
     },
 
@@ -476,7 +476,7 @@ qx.Class.define("qx.ui.table.Table",
     {
       check : "Function",
       init : function(columnModel) {
-        return new qx.ui.table.TablePaneModel(columnModel);
+        return new qx.ui.table.pane.Model(columnModel);
       }
     }
   },
@@ -1471,8 +1471,8 @@ qx.Class.define("qx.ui.table.Table",
     {
       if (this.isSeeable())
       {
-        var horBar = qx.ui.table.TablePaneScroller.HORIZONTAL_SCROLLBAR;
-        var verBar = qx.ui.table.TablePaneScroller.VERTICAL_SCROLLBAR;
+        var horBar = qx.ui.table.pane.Scroller.HORIZONTAL_SCROLLBAR;
+        var verBar = qx.ui.table.pane.Scroller.VERTICAL_SCROLLBAR;
         var scrollerArr = this._getPaneScrollerArr();
 
         // Check which scroll bars are needed

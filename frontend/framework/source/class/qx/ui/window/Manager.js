@@ -75,7 +75,7 @@ qx.Class.define("qx.ui.window.Manager",
      */
     _applyActiveWindow : function(value, old)
     {
-      qx.ui.popup.Manager.getInstance().update();
+      qx.ui.popup.PopupManager.getInstance().update();
 
       if (old) {
         old.setActive(false);

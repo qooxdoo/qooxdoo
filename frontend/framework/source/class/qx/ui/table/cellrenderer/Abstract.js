@@ -137,7 +137,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
     {
       var AbstractDataCellRenderer = qx.ui.table.cellrenderer.Abstract;
 
-      if (qx.ui.table.TablePane.USE_TABLE)
+      if (qx.ui.table.pane.Pane.USE_TABLE)
       {
         htmlArr.push(AbstractDataCellRenderer.TABLE_TD);
         htmlArr.push(cellInfo.styleHeight);
@@ -160,7 +160,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
 
       this._createContentHtml_array_join(cellInfo, htmlArr);
 
-      if (qx.ui.table.TablePane.USE_TABLE) {
+      if (qx.ui.table.pane.Pane.USE_TABLE) {
         htmlArr.push(AbstractDataCellRenderer.TABLE_TD_END);
       } else {
         htmlArr.push(AbstractDataCellRenderer.ARRAY_JOIN_MAIN_DIV_END);
