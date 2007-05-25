@@ -23,7 +23,7 @@
 
 \bqx\.manager\.object\.MenuManager\b=qx.ui.menu.Manager
 \bqx\.manager\.object\.PopupManager\b=qx.ui.popup.Manager
-\bqx\.manager\.object\.TooltipManager\b=qx.ui.tooltip.Manager
+\bqx\.manager\.object\.ToolTipManager\b=qx.ui.tooltip.Manager
 \bqx\.manager\.object\.WindowManager\b=qx.ui.window.Manager
 
 \bqx\.manager\.object\.ObjectManager\b=qx.util.manager.Object
@@ -97,3 +97,10 @@
 \bqx\.ui\.table\.TablePane\b=qx.ui.table.pane.Pane
 \bqx\.ui\.table\.TablePaneModel\b=qx.ui.table.pane.Model
 \bqx\.ui\.table\.TablePaneScroller\b=qx.ui.table.pane.Scroller
+
+\bqx\.ui\.table\.celleditor\.CellEditorFactory\b=qx.ui.table.celleditor.Factory
+\bqx\.ui\.table\.cellrenderer\.DataCellRenderer\b=qx.ui.table.cellrenderer.Basic
+\bqx\.ui\.table\.columnmodel\.TableColumnModel\b=qx.ui.table.columnmodel.Basic
+\bqx\.ui\.table\.headerrenderer\.HeaderCellRenderer\b=qx.ui.table.headerrenderer.Basic
+\bqx\.ui\.table\.model\.TableModel\b=qx.ui.table.model.Basic
+\bqx\.ui\.table\.rowrenderer\.CellEditorFactory\b=qx.ui.table.rowrenderer.Generic
