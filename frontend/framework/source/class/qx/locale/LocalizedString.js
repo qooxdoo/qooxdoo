@@ -35,7 +35,7 @@ qx.Class.define("qx.locale.LocalizedString",
   /**
    * @param messageId {String} message id (may contain format strings) {@link qx.lang.String#format}
    * @param args {Object[]} array of objects, which are inserted into the format string.
-   * @param locale {String} optional locale to be used for translation
+   * @param locale {String?null} optional locale to be used for translation
    */
   construct : function(messageId, args, locale)
   {

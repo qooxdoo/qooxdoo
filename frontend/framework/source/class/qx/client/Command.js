@@ -383,7 +383,6 @@ qx.Class.define("qx.client.Command",
      */
     toString : function()
     {
-      // var shortcut = this.getShortcut();
       var keyCode = this.getKeyCode();
       var key = this.__key || this.getKeyIdentifier();
 
@@ -396,12 +395,6 @@ qx.Class.define("qx.client.Command",
       if (key) {
         str.push(qx.locale.Key.getKeyName("short", key));
       }
-
-      /*
-      if (shortcut != null) {
-        str.push(shortcut);
-      }
-      */
 
       if (keyCode != null)
       {
