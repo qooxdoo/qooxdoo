@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import sys, os, optparse, codecs
+import sys, os, optparse, codecs, re
 
 
 
@@ -41,8 +41,10 @@ def main(dist, scan):
       if not firstItem:
         res += ","
 
-      res += '"%s"' % item
+      desc = getDesc(os.path.join(scan, category, item))
+      desc = re.sub('"','\\"',desc)
 
+      res += '{name:"%s",desc:"%s"}' % (item, desc)
       firstItem = False
 
     res += "]"
@@ -62,6 +64,24 @@ def main(dist, scan):
   outputFile.flush()
   outputFile.close()
 
+
+def getDesc(filepath):
+    desc = ""
+    # open file
+    file = open(filepath).read()
+    if file:
+        # scan for div id="demoDescription
+        m = re.search(r'<div\s+id="demoDescription">(.*?)</div>', file, 
+                         re.IGNORECASE|re.DOTALL)
+        if m: 
+            desc = m.group(1)
+            desc = re.sub("\n"," ",desc)
+            desc = desc.strip()
+    else:
+        print "Failed to open filepath: ", filepath
+    # return text
+
+    return desc
 
 
 
