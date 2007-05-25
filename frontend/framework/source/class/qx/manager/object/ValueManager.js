@@ -96,8 +96,8 @@ qx.Class.define("qx.manager.object.ValueManager",
       var key = "v" + obj.toHashCode() + "$" + qx.core.Object.toHashCode(callback);
       var reg = this._registry;
 
-      // Preprocess value
-      if (value !== null) {
+      // Preprocess value (if function is defined)
+      if (value !== null && this._preprocess) {
         value = this._preprocess(value);
       }
 
@@ -144,20 +144,6 @@ qx.Class.define("qx.manager.object.ValueManager",
      */
     isDynamic : function(value) {
       return this._dynamic[value] !== undefined;
-    },
-
-
-    /**
-     * Processes values, placeholder for derived classes.
-     * Can be used to also connect uninterpreted values/instances
-     * to dependend objects.
-     *
-     * @type member
-     * @param value {var} The incoming value
-     * @return {var} The resulting value
-     */
-    _preprocess : function(value) {
-      return value;
     },
 
 
