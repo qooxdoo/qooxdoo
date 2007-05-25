@@ -190,7 +190,7 @@
     */
 
 
-    var w12 = new qx.ui.basic.Image("icon/64/energy.png");
+    var w12 = new qx.ui.basic.Image("icon/64/apps/accessories-alarm.png");
     w11.add(w12);
 
 
@@ -425,7 +425,7 @@
 
 
 
-    var w23_b1 = new qx.renderer.border.BorderObject(5, "solid", "black");
+    var w23_b1 = new qx.ui.core.Border(5, "solid", "black");
 
     var w23 = new qx.ui.layout.CanvasLayout;
 
@@ -442,13 +442,13 @@
 
     w23.addEventListener("mouseover", function(e)
     {
-      w23_b1.setTextColor("blue");
+      w23_b1.setColor("blue");
       w23_b1.setStyle("dotted");
     });
 
     w23.addEventListener("mouseout", function(e)
     {
-      w23_b1.setTextColor("black");
+      w23_b1.setColor("black");
       w23_b1.setStyle("solid");
     });
 

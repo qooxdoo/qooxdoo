@@ -18,28 +18,28 @@
   <script type="text/javascript">
   function selfRemove() {
     this.getParent().remove(this);
-  };  
-  
+  };
+
   qx.core.Init.getInstance().defineMain(function()
   {
     var d = qx.ui.core.ClientDocument.getInstance();
 
     var dl1 = new qx.ui.layout.DockLayout;
-    
+
     dl1.setTop(48);
     dl1.setLeft(20);
     dl1.setRight(335);
     dl1.setBottom(120);
     dl1.setMinWidth(400);
     dl1.setMinHeight(300);
-    
-    dl1.setBorder(2, "outset");
+
+    dl1.setBorder("outset");
     dl1.setBackgroundColor("white");
-    
+
     d.add(dl1);
-    
-    
-    
+
+
+
     var t1 = new qx.ui.basic.Terminator;
     t1.setHeight(50);
     t1.setBackgroundColor("red");
@@ -75,29 +75,29 @@
     t5.setVerticalAlign("bottom");
     t5.setBorder("black");
     t5.addEventListener("click", selfRemove);
-   
+
     var t6 = new qx.ui.basic.Terminator;
     t6.setBackgroundColor("green");
     t6.setBorder("black");
     t6.addEventListener("click", selfRemove);
 
     dl1.add(t1, t2, t3, t4, t5, t6);
-    
-    
-    
-    
-    
-   
-    
-    
-    
+
+
+
+
+
+
+
+
+
     var l1 = new qx.ui.basic.Label("Mode:");
     l1.setWidth(50);
-    
+
     var btn1_1 = new qx.ui.form.Button("Vertical", "icon/16/actions/dialog-ok.png");
     var btn1_2 = new qx.ui.form.Button("Horizontal", "icon/16/actions/dialog-ok.png");
     var btn1_3 = new qx.ui.form.Button("Ordered", "icon/16/actions/dialog-ok.png");
-    
+
     btn1_1.addEventListener("click", function(e) {
       dl1.setMode("vertical");
     });
@@ -109,25 +109,25 @@
     btn1_3.addEventListener("click", function(e) {
       dl1.setMode("ordered");
     });
-    
+
     var h1 = new qx.ui.layout.HorizontalBoxLayout;
     h1.setVerticalChildrenAlign("middle");
     h1.add(l1, btn1_1, btn1_2, btn1_3);
     h1.setBottom(78);
     h1.setLeft(20);
     d.add(h1);
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
     var l2 = new qx.ui.basic.Label("Children:");
     l2.setWidth(50);
-    
+
     var btn2_1 = new qx.ui.form.Button("Remove First", "icon/16/actions/dialog-ok.png");
     var btn2_2 = new qx.ui.form.Button("Remove Last", "icon/16/actions/dialog-ok.png");
     var btn2_3 = new qx.ui.form.Button("Add Top", "icon/16/actions/dialog-ok.png");
@@ -136,88 +136,88 @@
     var btn2_6 = new qx.ui.form.Button("Add Left", "icon/16/actions/dialog-ok.png");
     var btn2_7 = new qx.ui.form.Button("Add Auto", "icon/16/actions/dialog-ok.png");
 
-    btn2_1.addEventListener("execute", function(e) 
+    btn2_1.addEventListener("execute", function(e)
     {
       var c = dl1.getFirstChild();
       if (c) {
         dl1.remove(c);
-      };      
+      };
     });
 
-    btn2_2.addEventListener("execute", function(e) 
+    btn2_2.addEventListener("execute", function(e)
     {
       var c = dl1.getLastChild();
       if (c) {
         dl1.remove(c);
-      };      
+      };
     });
-    
-    btn2_3.addEventListener("execute", function(e) 
+
+    btn2_3.addEventListener("execute", function(e)
     {
       var t = new qx.ui.basic.Terminator();
-      
-      t.setBackgroundColor(qx.renderer.color.Color.fromRandom());
+
+      t.setBackgroundColor(qx.util.ColorUtil.randomColor());
       t.setHeight(2+Math.round(Math.random()*50));
       t.setBorder("black");
       t.addEventListener("click", selfRemove);
-      
+
       dl1.addTop(t);
     });
-    
-    btn2_4.addEventListener("execute", function(e) 
+
+    btn2_4.addEventListener("execute", function(e)
     {
       var t = new qx.ui.basic.Terminator();
-      
-      t.setBackgroundColor(qx.renderer.color.Color.fromRandom());
+
+      t.setBackgroundColor(qx.util.ColorUtil.randomColor());
       t.setWidth(2+Math.round(Math.random()*50));
       t.setBorder("black");
       t.addEventListener("click", selfRemove);
-      
+
       dl1.addRight(t);
     });
-    
-    btn2_5.addEventListener("execute", function(e) 
+
+    btn2_5.addEventListener("execute", function(e)
     {
       var t = new qx.ui.basic.Terminator();
-      
-      t.setBackgroundColor(qx.renderer.color.Color.fromRandom());
+
+      t.setBackgroundColor(qx.util.ColorUtil.randomColor());
       t.setHeight(2+Math.round(Math.random()*50));
       t.setBorder("black");
       t.addEventListener("click", selfRemove);
-      
+
       dl1.addBottom(t);
     });
-    
-    btn2_6.addEventListener("execute", function(e) 
+
+    btn2_6.addEventListener("execute", function(e)
     {
       var t = new qx.ui.basic.Terminator();
-      
-      t.setBackgroundColor(qx.renderer.color.Color.fromRandom());
+
+      t.setBackgroundColor(qx.util.ColorUtil.randomColor());
       t.setWidth(2+Math.round(Math.random()*50));
       t.setBorder("black");
       t.addEventListener("click", selfRemove);
-      
+
       dl1.addLeft(t);
     });
-    
-    btn2_7.addEventListener("execute", function(e) 
+
+    btn2_7.addEventListener("execute", function(e)
     {
       var t = new qx.ui.basic.Terminator();
-      
-      t.setBackgroundColor(qx.renderer.color.Color.fromRandom());
+
+      t.setBackgroundColor(qx.util.ColorUtil.randomColor());
       t.setBorder("black");
       t.addEventListener("click", selfRemove);
-      
-      dl1.add(t);
-    });    
 
-    
+      dl1.add(t);
+    });
+
+
     var h2 = new qx.ui.layout.HorizontalBoxLayout;
     h2.setVerticalChildrenAlign("middle");
     h2.add(l2, btn2_1, btn2_2, btn2_3, btn2_4, btn2_5, btn2_6, btn2_7);
     h2.setBottom(48);
     h2.setLeft(20);
-    d.add(h2);    
+    d.add(h2);
   });
   </script>
 </body>
