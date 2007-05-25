@@ -21,7 +21,7 @@
 /* ************************************************************************
 
 #embed(qx.static/image/blank.gif)
-#optional(qx.ui.popup.TooltipManager)
+#optional(qx.ui.popup.ToolTipManager)
 
 ************************************************************************ */
 
@@ -564,7 +564,7 @@ qx.Class.define("qx.ui.embed.Gallery",
      */
     _onmousemove : function(e)
     {
-      if (!qx.Class.isDefined("qx.ui.popup.TooltipManager")) {
+      if (!qx.Class.isDefined("qx.ui.popup.ToolTipManager")) {
         return;
       }
 
@@ -577,7 +577,7 @@ qx.Class.define("qx.ui.embed.Gallery",
       if (this._lastItem)
       {
         var vEventObject = new qx.event.type.MouseEvent("mouseout", e, false, this._lastItem);
-        qx.ui.popup.TooltipManager.getInstance().handleMouseOut(vEventObject);
+        qx.ui.popup.ToolTipManager.getInstance().handleMouseOut(vEventObject);
         vEventObject.dispose();
       }
 
@@ -592,7 +592,7 @@ qx.Class.define("qx.ui.embed.Gallery",
         }
 
         var vEventObject = new qx.event.type.MouseEvent("mouseout", e, false, vItem);
-        qx.ui.popup.TooltipManager.getInstance().handleMouseOver(vEventObject);
+        qx.ui.popup.ToolTipManager.getInstance().handleMouseOver(vEventObject);
         vEventObject.dispose();
       }
 
