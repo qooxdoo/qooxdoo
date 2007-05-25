@@ -28,10 +28,10 @@
  * This class preloads one image and provides information about this image
  * after it is loaded.
  *
- * This class should not be used directly. Better use {@link qx.manager.object.ImagePreloaderManager}:
+ * This class should not be used directly. Better use {@link qx.io.image.PreloaderManager}:
  *
  * <pre>
- * qx.manager.object.ImagePreloaderManager.getInstance().create(imageUrl)
+ * qx.io.image.PreloaderManager.getInstance().create(imageUrl)
  * </pre>
  */
 qx.Class.define("qx.io.image.Preloader",
@@ -61,12 +61,12 @@ qx.Class.define("qx.io.image.Preloader",
    */
   construct : function(imageUrl)
   {
-    if (qx.manager.object.ImagePreloaderManager.getInstance().has(imageUrl))
+    if (qx.io.image.PreloaderManager.getInstance().has(imageUrl))
     {
       this.debug("Reuse qx.io.image.Preloader in old-style!");
-      this.debug("Please use qx.manager.object.ImagePreloaderManager.getInstance().create(source) instead!");
+      this.debug("Please use qx.io.image.PreloaderManager.getInstance().create(source) instead!");
 
-      return qx.manager.object.ImagePreloaderManager.getInstance().get(imageUrl);
+      return qx.io.image.PreloaderManager.getInstance().get(imageUrl);
     }
 
     this.base(arguments);
@@ -89,7 +89,7 @@ qx.Class.define("qx.io.image.Preloader",
       this._isPng = /\.png$/i.test(this._element.nameProp);
     }
 
-    qx.manager.object.ImagePreloaderManager.getInstance().add(this);
+    qx.io.image.PreloaderManager.getInstance().add(this);
   },
 
 

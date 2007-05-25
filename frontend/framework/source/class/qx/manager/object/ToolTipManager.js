@@ -28,7 +28,7 @@
 qx.Class.define("qx.manager.object.ToolTipManager",
 {
   type : "singleton",
-  extend : qx.manager.object.ObjectManager,
+  extend : qx.util.manager.Object,
 
 
 

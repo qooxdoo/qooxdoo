@@ -83,7 +83,7 @@ qx.Class.define("qx.ui.menu.Layout",
      * @return {var} TODOC
      */
     _createLayoutImpl : function() {
-      return new qx.renderer.layout.MenuLayoutImpl(this);
+      return new qx.ui.menu.MenuLayoutImpl(this);
     }
   }
 });

@@ -241,7 +241,7 @@ qx.Class.define("qx.ui.window.Window",
     getDefaultWindowManager : function()
     {
       if (!qx.ui.window.Window._defaultWindowManager) {
-        qx.ui.window.Window._defaultWindowManager = new qx.manager.object.WindowManager;
+        qx.ui.window.Window._defaultWindowManager = new qx.ui.window.Manager;
       }
 
       return qx.ui.window.Window._defaultWindowManager;
@@ -270,13 +270,13 @@ qx.Class.define("qx.ui.window.Window",
     /** The windowManager to use for. */
     windowManager :
     {
-      check : "qx.manager.object.WindowManager",
+      check : "qx.ui.window.Manager",
       event : "changeWindowManager"
     },
 
 
     /**
-     * If the window is active, only one window in a single qx.manager.object.WindowManager could
+     * If the window is active, only one window in a single qx.ui.window.Manager could
      *  have set this to true at the same time.
      */
     active :
@@ -600,7 +600,7 @@ qx.Class.define("qx.ui.window.Window",
       qx.ui.layout.CanvasLayout.prototype._beforeAppear.call(this);
 
       // Hide popups
-      qx.manager.object.PopupManager.getInstance().update();
+      qx.ui.popup.Manager.getInstance().update();
 
       // Configure the focus root to be the current opened window
       qx.event.handler.EventHandler.getInstance().setFocusRoot(this);

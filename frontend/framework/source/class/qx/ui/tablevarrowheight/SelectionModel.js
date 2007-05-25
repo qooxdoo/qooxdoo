@@ -28,7 +28,7 @@
  */
 qx.Class.define("qx.ui.tablevarrowheight.SelectionModel",
 {
-  extend : qx.ui.table.SelectionModel,
+  extend : qx.ui.table.selection.Model,
 
 
 

@@ -23,9 +23,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.manager.selection.DomSelectionManager",
+qx.Class.define("qx.ui.selection.DomSelectionManager",
 {
-  extend : qx.manager.selection.SelectionManager,
+  extend : qx.ui.selection.SelectionManager,
 
 
 

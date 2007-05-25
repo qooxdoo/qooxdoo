@@ -27,10 +27,10 @@
  * An abstract data cell renderer that does the basic coloring
  * (borders, selected look, ...).
  */
-qx.Class.define("qx.ui.table.AbstractDataCellRenderer",
+qx.Class.define("qx.ui.table.cellrenderer.Abstract",
 {
   type : "abstract",
-  extend : qx.ui.table.DataCellRenderer,
+  extend : qx.ui.table.cellrenderer.DataCellRenderer,
 
 
 
@@ -81,7 +81,7 @@ qx.Class.define("qx.ui.table.AbstractDataCellRenderer",
      */
     createDataCellHtml : function(cellInfo)
     {
-      var AbstractDataCellRenderer = qx.ui.table.AbstractDataCellRenderer;
+      var AbstractDataCellRenderer = qx.ui.table.cellrenderer.Abstract;
       return AbstractDataCellRenderer.MAIN_DIV_START + this._getCellStyle(cellInfo) + AbstractDataCellRenderer.MAIN_DIV_START_END + this._getContentHtml(cellInfo) + AbstractDataCellRenderer.MAIN_DIV_END;
     },
 
@@ -108,7 +108,7 @@ qx.Class.define("qx.ui.table.AbstractDataCellRenderer",
      * @return {var} the CSS styles of the main div.
      */
     _getCellStyle : function(cellInfo) {
-      return cellInfo.style + qx.ui.table.AbstractDataCellRenderer.MAIN_DIV_STYLE;
+      return cellInfo.style + qx.ui.table.cellrenderer.Abstract.MAIN_DIV_STYLE;
     },
 
 
@@ -135,7 +135,7 @@ qx.Class.define("qx.ui.table.AbstractDataCellRenderer",
      */
     createDataCellHtml_array_join : function(cellInfo, htmlArr)
     {
-      var AbstractDataCellRenderer = qx.ui.table.AbstractDataCellRenderer;
+      var AbstractDataCellRenderer = qx.ui.table.cellrenderer.Abstract;
 
       if (qx.ui.table.TablePane.USE_TABLE)
       {
@@ -177,7 +177,7 @@ qx.Class.define("qx.ui.table.AbstractDataCellRenderer",
      * @return {void}
      */
     _createCellStyle_array_join : function(cellInfo, htmlArr) {
-      htmlArr.push(qx.ui.table.AbstractDataCellRenderer.MAIN_DIV_STYLE);
+      htmlArr.push(qx.ui.table.cellrenderer.Abstract.MAIN_DIV_STYLE);
     },
 
 

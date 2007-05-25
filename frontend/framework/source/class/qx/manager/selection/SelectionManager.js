@@ -28,7 +28,7 @@
  * This class represents a selection and manage incoming events for widgets
  * which need selection support.
  */
-qx.Class.define("qx.manager.selection.SelectionManager",
+qx.Class.define("qx.ui.selection.SelectionManager",
 {
   extend : qx.core.Target,
 
@@ -45,7 +45,7 @@ qx.Class.define("qx.manager.selection.SelectionManager",
   {
     this.base(arguments);
 
-    this._selectedItems = new qx.type.Selection(this);
+    this._selectedItems = new qx.ui.selection.Storage(this);
 
     if (vBoundedWidget != null) {
       this.setBoundedWidget(vBoundedWidget);
@@ -1331,7 +1331,7 @@ qx.Class.define("qx.manager.selection.SelectionManager",
      */
     handleKeyDown : function(vDomEvent)
     {
-      this.warn("qx.manager.selection.SelectionManager.handleKeyDown is deprecated! " + "Use keypress insted and bind it to the onkeypress event.");
+      this.warn("qx.ui.selection.SelectionManager.handleKeyDown is deprecated! " + "Use keypress insted and bind it to the onkeypress event.");
       this.handleKeyPress(vDomEvent);
     },
 

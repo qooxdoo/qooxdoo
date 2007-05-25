@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 /** This singleton selects the icon theme to use. */
-qx.Class.define("qx.manager.object.IconManager",
+qx.Class.define("qx.theme.manager.Icon",
 {
   type : "singleton",
   extend : qx.core.Target,
@@ -64,7 +64,7 @@ qx.Class.define("qx.manager.object.IconManager",
   {
     _applyIconTheme : function(value, old)
     {
-      if (qx.manager.object.ThemeManager.getInstance().getAutoSync()) {
+      if (qx.theme.manager.Meta.getInstance().getAutoSync()) {
         this.syncIconTheme();
       }
     },
@@ -72,7 +72,7 @@ qx.Class.define("qx.manager.object.IconManager",
     syncIconTheme : function()
     {
       var value = this.getIconTheme();
-      var alias = qx.manager.object.AliasManager.getInstance();
+      var alias = qx.io.Alias.getInstance();
       value ? alias.add("icon", value.icons.uri) : alias.remove("icon");
     }
   }

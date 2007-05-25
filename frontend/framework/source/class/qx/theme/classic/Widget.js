@@ -20,7 +20,7 @@
 
 /* ************************************************************************
 
-#require(qx.manager.object.AliasManager)
+#require(qx.io.Alias)
 #resource(widgettheme:widget/Windows)
 
 ************************************************************************ */

@@ -59,7 +59,7 @@ qx.Class.define("qx.ui.listview.ListViewPane",
     // ************************************************************************
     //   INITIALIZE MANAGER
     // ************************************************************************
-    this._manager = new qx.manager.selection.VirtualSelectionManager(this);
+    this._manager = new qx.ui.listview.SelectionManager(this);
 
     // ************************************************************************
     //   MOUSE EVENT LISTENER

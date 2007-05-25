@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.manager.object.ValueManager",
+qx.Class.define("qx.util.manager.Value",
 {
   type : "abstract",
   extend : qx.core.Target,

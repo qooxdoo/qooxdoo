@@ -13,7 +13,7 @@
   
   <div id="demoDescription"> 
     <p>Tests for qx.ui.form.RadioButton. qx.ui.form.RadioButton extends qx.ui.basic.Atom and so it inherits all the options and properties defined there.</p>
-    <p>To group multiple QxRadioButtons you must define a instance of qx.manager.selection.RadioManager and add them to this new instance. All QxRadioButtons assigned to the same group make sure that only one of them is checked at the same time.</p>
+    <p>To group multiple QxRadioButtons you must define a instance of qx.ui.selection.RadioManager and add them to this new instance. All QxRadioButtons assigned to the same group make sure that only one of them is checked at the same time.</p>
     <p>
   </div>
   
@@ -86,7 +86,7 @@
     d.add(rb7);     
     
 
-    var rg1 = new qx.manager.selection.RadioManager("mygroup", [rb1, rb2, rb3, rb4, rb5, rb6, rb7]);
+    var rg1 = new qx.ui.selection.RadioManager("mygroup", [rb1, rb2, rb3, rb4, rb5, rb6, rb7]);
 
 
     

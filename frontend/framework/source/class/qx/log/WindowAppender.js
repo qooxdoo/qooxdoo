@@ -30,7 +30,7 @@
  * This class does not depend on qooxdoo widgets, so it also works when there
  * are problems with widgets or when the widgets are not yet initialized.
  */
-qx.Class.define("qx.log.WindowAppender",
+qx.Class.define("qx.log.appender.Window",
 {
   extend : qx.log.Appender,
 
@@ -50,7 +50,7 @@ qx.Class.define("qx.log.WindowAppender",
   {
     this.base(arguments);
 
-    this._id = qx.log.WindowAppender.register(this);
+    this._id = qx.log.appender.Window.register(this);
     this._name = (name == null) ? "qx_log" + (new Date()).getTime() : name;
 
     this._errorsPreventingAutoCloseCount = 0;
@@ -83,7 +83,7 @@ qx.Class.define("qx.log.WindowAppender",
      */
     register : function(appender)
     {
-      var WindowAppender = qx.log.WindowAppender;
+      var WindowAppender = qx.log.appender.Window;
 
       var id = WindowAppender._nextId++;
       WindowAppender._registeredAppenders[id] = appender;
@@ -101,7 +101,7 @@ qx.Class.define("qx.log.WindowAppender",
      *       WindowAppender with this ID is registered.
      */
     getAppender : function(id) {
-      return qx.log.WindowAppender._registeredAppenders[id];
+      return qx.log.appender.Window._registeredAppenders[id];
     }
   },
 
@@ -249,7 +249,7 @@ qx.Class.define("qx.log.WindowAppender",
       //     that is set later using DOM is ignored completely.
       //     (at least in Firefox, but maybe in IE, too)
       logDocument.open();
-      logDocument.write("<html><head><title>" + this._name + "</title></head>" + '<body onload="qx = opener.qx;" onunload="try{qx.log.WindowAppender._registeredAppenders[' + this._id + ']._autoCloseWindow()}catch(e){}">' + '<pre id="log" wrap="wrap" style="font-size:11"></pre></body></html>');
+      logDocument.write("<html><head><title>" + this._name + "</title></head>" + '<body onload="qx = opener.qx;" onunload="try{qx.log.appender.Window._registeredAppenders[' + this._id + ']._autoCloseWindow()}catch(e){}">' + '<pre id="log" wrap="wrap" style="font-size:11"></pre></body></html>');
       logDocument.close();
 
       this._logElem = logDocument.getElementById("log");

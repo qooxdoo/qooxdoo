@@ -24,9 +24,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.renderer.layout.MenuButtonLayoutImpl",
+qx.Class.define("qx.ui.menu.ButtonLayoutImpl",
 {
-  extend : qx.renderer.layout.HorizontalBoxLayoutImpl,
+  extend : qx.ui.layout.impl.HorizontalBoxLayoutImpl,
 
 
 
@@ -42,7 +42,7 @@ qx.Class.define("qx.renderer.layout.MenuButtonLayoutImpl",
     this.base(arguments, vWidget);
 
     // We don't need flex support, should make things a bit faster,
-    // as this omits some additional loops in qx.renderer.layout.HorizontalBoxLayoutImpl.
+    // as this omits some additional loops in qx.ui.layout.impl.HorizontalBoxLayoutImpl.
     this.setEnableFlexSupport(false);
   },
 
@@ -77,7 +77,7 @@ qx.Class.define("qx.renderer.layout.MenuButtonLayoutImpl",
      *  [09] FLUSH LAYOUT QUEUES OF CHILDREN
      *  [10] LAYOUT CHILD
      *
-     *  Inherits from qx.renderer.layout.HorizontalBoxLayoutImpl:
+     *  Inherits from qx.ui.layout.impl.HorizontalBoxLayoutImpl:
      *  [01] COMPUTE BOX DIMENSIONS FOR AN INDIVIDUAL CHILD
      *  [02] COMPUTE NEEDED DIMENSIONS FOR AN INDIVIDUAL CHILD
      *  [05] UPDATE CHILD ON INNER DIMENSION CHANGES OF LAYOUT

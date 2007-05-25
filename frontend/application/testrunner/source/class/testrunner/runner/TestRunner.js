@@ -202,7 +202,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       header.setStyleProperty(
         "background",
         "#134275 url(" +
-        qx.manager.object.AliasManager.getInstance().resolve("testrunner/image/colorstrip.gif") +
+        qx.io.Alias.getInstance().resolve("testrunner/image/colorstrip.gif") +
         ") top left repeat-x"
       );
       header.setHeight(70);
@@ -349,7 +349,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       }, this);
 
       // log appender
-      //this.logappender = new qx.log.WindowAppender("qooxdoo Test Runner");
+      //this.logappender = new qx.log.appender.Window("qooxdoo Test Runner");
       //this.logappender = new qx.log.DivAppender("sessionlog");
       this.logappender = new testrunner.runner.TestAppender(this.f2);
       //this.getLogger().addAppender(this.logappender);

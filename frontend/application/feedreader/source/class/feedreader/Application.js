@@ -171,10 +171,10 @@ qx.Class.define("feedreader.Application",
       this.base(arguments);
 
       // Define alias for custom resource path
-      qx.manager.object.AliasManager.getInstance().add("feedreader", qx.core.Setting.get("feedreader.resourceUri"));
+      qx.io.Alias.getInstance().add("feedreader", qx.core.Setting.get("feedreader.resourceUri"));
 
       // Include CSS file
-      qx.html.StyleSheet.includeFile(qx.manager.object.AliasManager.getInstance().resolve("feedreader/css/reader.css"));
+      qx.html.StyleSheet.includeFile(qx.io.Alias.getInstance().resolve("feedreader/css/reader.css"));
 
       // create main layout
       var dockLayout = new qx.ui.layout.DockLayout();
@@ -205,7 +205,7 @@ qx.Class.define("feedreader.Application",
 
       about_cmd.addEventListener("execute", function(e) {
         alert(this.tr("qooxdoo feed reader."));
-        //qx.manager.object.ThemeManager.getInstance().setTheme(qx.theme.Ext);
+        //qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Ext);
       }, this);
 
       // create toolbar
@@ -243,7 +243,7 @@ qx.Class.define("feedreader.Application",
       var availableLocales = qx.locale.Manager.getInstance().getAvailableLocales();
       var locale = qx.locale.Manager.getInstance().getLocale();
       var lang_menu = new qx.ui.menu.Menu();
-      var radioManager = new qx.manager.selection.RadioManager("lang");
+      var radioManager = new qx.ui.selection.RadioManager("lang");
 
       for (var lang in locales)
       {
@@ -304,7 +304,7 @@ qx.Class.define("feedreader.Application",
       }
 
       // create table model
-      this._tableModel = new qx.ui.table.SimpleTableModel();
+      this._tableModel = new qx.ui.table.model.Simple();
       this._tableModel.setColumnIds([ "title", "author", "date", "id" ]);
 
       this._tableModel.setColumnNamesById(
@@ -321,7 +321,7 @@ qx.Class.define("feedreader.Application",
       // resizes columns.
       var custom = {
         tableColumnModel : function(obj) {
-          return new qx.ui.table.ResizeTableColumnModel(obj);
+          return new qx.ui.table.columnmodel.Resize(obj);
         }
       };
 
@@ -391,7 +391,7 @@ qx.Class.define("feedreader.Application",
 
       dockLayout.addToDocument();
 
-      qx.manager.object.ThemeManager.getInstance().addEventListener("changeTheme", this.onChangeTheme, this);
+      qx.theme.manager.Meta.getInstance().addEventListener("changeTheme", this.onChangeTheme, this);
       this.onChangeTheme();
 
       // load and display feed data
@@ -402,7 +402,7 @@ qx.Class.define("feedreader.Application",
 
     onChangeTheme : function()
     {
-      if (qx.manager.object.ThemeManager.getInstance().getTheme() == qx.theme.Ext)
+      if (qx.theme.manager.Meta.getInstance().getTheme() == qx.theme.Ext)
       {
         this._header.setHtmlProperty("className", "header ext");
         this._blogEntry.setHtmlProperty("className", "blogEntry ext");
@@ -451,7 +451,7 @@ qx.Class.define("feedreader.Application",
         var btn_classic = new qx.ui.form.RadioButton("Classic");
         var btn_ext = new qx.ui.form.RadioButton("Ext");
         btn_ext.setChecked(true);
-        var rm = new qx.manager.selection.RadioManager();
+        var rm = new qx.ui.selection.RadioManager();
         rm.add(btn_classic, btn_ext);
         vb.add(btn_classic, btn_ext);
 
@@ -468,9 +468,9 @@ qx.Class.define("feedreader.Application",
         var btn_ok = new qx.ui.form.Button(this.tr("OK"));
         btn_ok.addEventListener("execute", function() {
           if (btn_ext.getChecked()) {
-            qx.manager.object.ThemeManager.getInstance().setTheme(qx.theme.Ext);
+            qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Ext);
           } else {
-            qx.manager.object.ThemeManager.getInstance().setTheme(qx.theme.ClassicRoyale);
+            qx.theme.manager.Meta.getInstance().setTheme(qx.theme.ClassicRoyale);
           }
           win.close();
         }, this);
@@ -495,7 +495,7 @@ qx.Class.define("feedreader.Application",
      */
     fetchFeedDesc : function()
     {
-      var req = new qx.io.remote.Request(qx.manager.object.AliasManager.getInstance().resolve("feedreader/feeds/febo-feeds.opml.xml"), "GET", qx.util.Mime.XML);
+      var req = new qx.io.remote.Request(qx.io.Alias.getInstance().resolve("feedreader/feeds/febo-feeds.opml.xml"), "GET", qx.util.Mime.XML);
       feedreader.Application._feedDesc = [];
 
       req.addEventListener("completed", function(e)
@@ -510,7 +510,7 @@ qx.Class.define("feedreader.Application",
           feedreader.Application._feedDesc.push(
           {
             name : eDesc.getAttribute("title"),
-            url  : qx.manager.object.AliasManager.getInstance().resolve("feedreader/proxy/proxy.php") + "?proxy=" + encodeURIComponent(eDesc.getAttribute("xmlUrl"))
+            url  : qx.io.Alias.getInstance().resolve("feedreader/proxy/proxy.php") + "?proxy=" + encodeURIComponent(eDesc.getAttribute("xmlUrl"))
           });
         }
       },
@@ -544,7 +544,7 @@ qx.Class.define("feedreader.Application",
 
       for (var i=0; i<feedDesc.length; i++)
       {
-        var req = new qx.io.remote.Request(qx.manager.object.AliasManager.getInstance().resolve(feedDesc[i].url), "GET", qx.util.Mime.XML);
+        var req = new qx.io.remote.Request(qx.io.Alias.getInstance().resolve(feedDesc[i].url), "GET", qx.util.Mime.XML);
         req.addEventListener("completed", getCallback(feedDesc[i].name));
         req.send();
       }

@@ -220,7 +220,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       if (vPrevButton)
       {
         // hide other menus
-        qx.manager.object.MenuManager.getInstance().update();
+        qx.ui.menu.Manager.getInstance().update();
 
         // show previous menu
         vPrevButton._showMenu(true);
@@ -283,7 +283,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       if (vNextButton)
       {
         // hide other menus
-        qx.manager.object.MenuManager.getInstance().update();
+        qx.ui.menu.Manager.getInstance().update();
 
         // show next menu
         vNextButton._showMenu(true);

@@ -21,8 +21,8 @@
 
 #module(core)
 #module(log)
-#require(qx.log.WindowAppender)
-#require(qx.log.FireBugAppender)
+#require(qx.log.appender.Window)
+#require(qx.log.appender.FireBug)
 
 ************************************************************************ */
 
@@ -30,7 +30,7 @@
  * An appender that writes all messages to the best possible target in
  * this client e.g. it uses Firebug in Firefox browsers.
  */
-qx.Class.define("qx.log.NativeAppender",
+qx.Class.define("qx.log.appender.Native",
 {
   extend : qx.log.Appender,
 
@@ -48,9 +48,9 @@ qx.Class.define("qx.log.NativeAppender",
     this.base(arguments);
 
     if (typeof console != 'undefined' && console.debug && !console.emu) {
-      this._appender = new qx.log.FireBugAppender;
+      this._appender = new qx.log.appender.FireBug;
     } else {
-      this._appender = new qx.log.WindowAppender;
+      this._appender = new qx.log.appender.Window;
     }
   },
 

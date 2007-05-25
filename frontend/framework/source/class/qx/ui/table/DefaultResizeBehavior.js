@@ -54,9 +54,9 @@
  * column width upon each of the events: initial appear, window resize, and
  * column resize. *** TO BE FILLED IN ***
  */
-qx.Class.define("qx.ui.table.DefaultResizeBehavior",
+qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
 {
-  extend : qx.ui.table.AbstractResizeBehavior,
+  extend : qx.ui.table.columnmodel.resizebehavior.Abstract,
 
 
 
@@ -105,7 +105,7 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
       check : "Function",
       init : function(obj)
       {
-        return new qx.ui.table.ResizeBehaviorColumnData();
+        return new qx.ui.table.columnmodel.resizebehavior.ColumnData();
       }
     }
   },
@@ -318,7 +318,7 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
      *
      * @type member
      *
-     * @param tableColumnModel {qx.ui.table.ResizeTableColumnModel}
+     * @param tableColumnModel {qx.ui.table.columnmodel.Resize}
      *   The table column model in use.
      *
      * @param event {qx.event.type.Event}
@@ -487,7 +487,7 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
 
             computedFlexibleWidth =
               columnData._computedWidthFlexValue =
-              (qx.ui.table.DefaultResizeBehavior.MIN_WIDTH *
+              (qx.ui.table.columnmodel.resizebehavior.Default.MIN_WIDTH *
                flexibleColumns[i]._computedWidthParsed);
 
             columnData._computedWidthFlexValue =
@@ -508,11 +508,11 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
 
             // If the computed width is less than our hard-coded minimum...
             if (computedFlexibleWidth <
-                qx.ui.table.DefaultResizeBehavior.MIN_WIDTH)
+                qx.ui.table.columnmodel.resizebehavior.Default.MIN_WIDTH)
             {
               // ... then use the hard-coded minimum
               computedFlexibleWidth =
-                qx.ui.table.DefaultResizeBehavior.MIN_WIDTH;
+                qx.ui.table.columnmodel.resizebehavior.Default.MIN_WIDTH;
             }
 
             columnData._computedWidthFlexValue =
@@ -589,7 +589,7 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
      *
      * @type member
      *
-     * @param tableColumnModel {qx.ui.table.ResizeTableColumnModel}
+     * @param tableColumnModel {qx.ui.table.columnmodel.Resize}
      *   The table column model in use.
      *
      * @param event {qx.event.type.DataEvent}
@@ -667,7 +667,7 @@ qx.Class.define("qx.ui.table.DefaultResizeBehavior",
      *
      * @type member
      *
-     * @param tableColumnModel {qx.ui.table.ResizeTableColumnModel}
+     * @param tableColumnModel {qx.ui.table.columnmodel.Resize}
      *   The table column model in use.
      *
      * @param event {qx.event.type.DataEvent}

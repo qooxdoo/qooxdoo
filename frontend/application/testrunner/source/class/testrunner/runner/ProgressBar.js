@@ -133,7 +133,7 @@ qx.Class.define("testrunner.runner.ProgressBar",
 
     showOff: function() {
       this.debug("Entering showOff...");
-      var r = new qx.type.IntRange(0,100,5);
+      var r = new qx.util.range.IntRange(0,100,5);
       var i;
       function delay() {
         for(var i=0;i<10000000;i++){}

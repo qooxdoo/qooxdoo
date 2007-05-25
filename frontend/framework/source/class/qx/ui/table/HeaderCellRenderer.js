@@ -26,7 +26,7 @@
 /**
  * A cell renderer for header cells.
  */
-qx.Class.define("qx.ui.table.HeaderCellRenderer",
+qx.Class.define("qx.ui.table.headerrenderer.HeaderCellRenderer",
 {
   type : "abstract",
 

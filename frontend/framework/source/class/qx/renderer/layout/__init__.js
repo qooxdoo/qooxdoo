@@ -1,3 +1,3 @@
 /**
- * The qx.renderer.layout package.
+ * The qx.ui.layout.impl package.
  */

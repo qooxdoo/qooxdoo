@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.manager.object.ThemeManager",
+qx.Class.define("qx.theme.manager.Meta",
 {
   type : "singleton",
   extend : qx.core.Target,
@@ -93,12 +93,12 @@ qx.Class.define("qx.manager.object.ThemeManager",
         this.setAutoSync(false);
       }
 
-      var colorMgr = qx.manager.object.ColorManager.getInstance();
-      var borderMgr = qx.manager.object.BorderManager.getInstance();
-      var fontMgr = qx.manager.object.FontManager.getInstance();
-      var iconMgr = qx.manager.object.IconManager.getInstance();
-      var widgetMgr = qx.manager.object.WidgetManager.getInstance();
-      var appearanceMgr = qx.manager.object.AppearanceManager.getInstance();
+      var colorMgr = qx.theme.manager.Color.getInstance();
+      var borderMgr = qx.theme.manager.Border.getInstance();
+      var fontMgr = qx.theme.manager.Font.getInstance();
+      var iconMgr = qx.theme.manager.Icon.getInstance();
+      var widgetMgr = qx.theme.manager.Widget.getInstance();
+      var appearanceMgr = qx.theme.manager.Appearance.getInstance();
 
       colorMgr.setColorTheme(color);
       borderMgr.setBorderTheme(border);
@@ -117,12 +117,12 @@ qx.Class.define("qx.manager.object.ThemeManager",
     {
       if (value)
       {
-        qx.manager.object.AppearanceManager.getInstance().syncAppearanceTheme();
-        qx.manager.object.IconManager.getInstance().syncIconTheme();
-        qx.manager.object.WidgetManager.getInstance().syncWidgetTheme();
-        qx.manager.object.FontManager.getInstance().syncFontTheme();
-        qx.manager.object.BorderManager.getInstance().syncBorderTheme();
-        qx.manager.object.ColorManager.getInstance().syncColorTheme();
+        qx.theme.manager.Appearance.getInstance().syncAppearanceTheme();
+        qx.theme.manager.Icon.getInstance().syncIconTheme();
+        qx.theme.manager.Widget.getInstance().syncWidgetTheme();
+        qx.theme.manager.Font.getInstance().syncFontTheme();
+        qx.theme.manager.Border.getInstance().syncBorderTheme();
+        qx.theme.manager.Color.getInstance().syncColorTheme();
       }
     },
 
@@ -157,7 +157,7 @@ qx.Class.define("qx.manager.object.ThemeManager",
           throw new Error("The color theme to use is not available: " + theme);
         }
 
-        qx.manager.object.ColorManager.getInstance().setColorTheme(obj);
+        qx.theme.manager.Color.getInstance().setColorTheme(obj);
       }
 
       theme = setting.get("qx.borderTheme");
@@ -168,7 +168,7 @@ qx.Class.define("qx.manager.object.ThemeManager",
           throw new Error("The border theme to use is not available: " + theme);
         }
 
-        qx.manager.object.BorderManager.getInstance().setBorderTheme(obj);
+        qx.theme.manager.Border.getInstance().setBorderTheme(obj);
       }
 
       theme = setting.get("qx.fontTheme");
@@ -179,7 +179,7 @@ qx.Class.define("qx.manager.object.ThemeManager",
           throw new Error("The font theme to use is not available: " + theme);
         }
 
-        qx.manager.object.FontManager.getInstance().setFontTheme(obj);
+        qx.theme.manager.Font.getInstance().setFontTheme(obj);
       }
 
       theme = setting.get("qx.widgetTheme");
@@ -190,7 +190,7 @@ qx.Class.define("qx.manager.object.ThemeManager",
           throw new Error("The widget theme to use is not available: " + theme);
         }
 
-        qx.manager.object.WidgetManager.getInstance().setWidgetTheme(obj);
+        qx.theme.manager.Widget.getInstance().setWidgetTheme(obj);
       }
 
       theme = setting.get("qx.iconTheme");
@@ -201,7 +201,7 @@ qx.Class.define("qx.manager.object.ThemeManager",
           throw new Error("The icon theme to use is not available: " + theme);
         }
 
-        qx.manager.object.IconManager.getInstance().setIconTheme(obj);
+        qx.theme.manager.Icon.getInstance().setIconTheme(obj);
       }
 
       theme = setting.get("qx.appearanceTheme");
@@ -212,7 +212,7 @@ qx.Class.define("qx.manager.object.ThemeManager",
           throw new Error("The appearance theme to use is not available: " + theme);
         }
 
-        qx.manager.object.AppearanceManager.getInstance().setAppearanceTheme(obj);
+        qx.theme.manager.Appearance.getInstance().setAppearanceTheme(obj);
       }
     },
 

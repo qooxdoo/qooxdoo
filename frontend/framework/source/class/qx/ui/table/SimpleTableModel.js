@@ -26,9 +26,9 @@
 /**
  * A simple table model that provides an API for changing the model data.
  */
-qx.Class.define("qx.ui.table.SimpleTableModel",
+qx.Class.define("qx.ui.table.model.Simple",
 {
-  extend : qx.ui.table.AbstractTableModel,
+  extend : qx.ui.table.model.Abstract,
 
 
   construct : function()
@@ -118,7 +118,7 @@ qx.Class.define("qx.ui.table.SimpleTableModel",
         this._editableColArr[col] = editable;
       }
 
-      this.createDispatchEvent(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED);
+      this.createDispatchEvent(qx.ui.table.model.TableModel.EVENT_TYPE_META_DATA_CHANGED);
     },
 
 
@@ -140,7 +140,7 @@ qx.Class.define("qx.ui.table.SimpleTableModel",
 
         this._editableColArr[columnIndex] = editable;
 
-        this.createDispatchEvent(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED);
+        this.createDispatchEvent(qx.ui.table.model.TableModel.EVENT_TYPE_META_DATA_CHANGED);
       }
     },
 
@@ -194,8 +194,8 @@ qx.Class.define("qx.ui.table.SimpleTableModel",
       {
         comparator =
           (ascending
-           ? qx.ui.table.SimpleTableModel._defaultSortComparatorAscending
-           : qx.ui.table.SimpleTableModel._defaultSortComparatorDescending);
+           ? qx.ui.table.model.Simple._defaultSortComparatorAscending
+           : qx.ui.table.model.Simple._defaultSortComparatorDescending);
       }
 
       comparator.columnIndex = columnIndex;
@@ -204,7 +204,7 @@ qx.Class.define("qx.ui.table.SimpleTableModel",
       this._sortColumnIndex = columnIndex;
       this._sortAscending = ascending;
 
-      this.createDispatchEvent(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED);
+      this.createDispatchEvent(qx.ui.table.model.TableModel.EVENT_TYPE_META_DATA_CHANGED);
     },
 
 
@@ -246,7 +246,7 @@ qx.Class.define("qx.ui.table.SimpleTableModel",
         this._sortColumnIndex = -1;
         this._sortAscending = true;
 
-        this.createDispatchEvent(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED);
+        this.createDispatchEvent(qx.ui.table.model.TableModel.EVENT_TYPE_META_DATA_CHANGED);
       }
     },
 
@@ -319,7 +319,7 @@ qx.Class.define("qx.ui.table.SimpleTableModel",
         this._rowArr[rowIndex][columnIndex] = value;
 
         // Inform the listeners
-        if (this.hasEventListeners(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED))
+        if (this.hasEventListeners(qx.ui.table.model.TableModel.EVENT_TYPE_DATA_CHANGED))
         {
           var data =
           {
@@ -329,7 +329,7 @@ qx.Class.define("qx.ui.table.SimpleTableModel",
             lastColumn  : columnIndex
           };
 
-          this.dispatchEvent(new qx.event.type.DataEvent(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, data), true);
+          this.dispatchEvent(new qx.event.type.DataEvent(qx.ui.table.model.TableModel.EVENT_TYPE_DATA_CHANGED, data), true);
         }
 
         if (columnIndex == this._sortColumnIndex) {
@@ -353,8 +353,8 @@ qx.Class.define("qx.ui.table.SimpleTableModel",
       this._rowArr = rowArr;
 
       // Inform the listeners
-      if (this.hasEventListeners(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED)) {
-        this.createDispatchEvent(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED);
+      if (this.hasEventListeners(qx.ui.table.model.TableModel.EVENT_TYPE_DATA_CHANGED)) {
+        this.createDispatchEvent(qx.ui.table.model.TableModel.EVENT_TYPE_DATA_CHANGED);
       }
 
       this._clearSorting();
@@ -416,7 +416,7 @@ qx.Class.define("qx.ui.table.SimpleTableModel",
       Array.prototype.splice.apply(this._rowArr, rowArr);
 
       // Inform the listeners
-      if (this.hasEventListeners(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED))
+      if (this.hasEventListeners(qx.ui.table.model.TableModel.EVENT_TYPE_DATA_CHANGED))
       {
         var data =
         {
@@ -426,7 +426,7 @@ qx.Class.define("qx.ui.table.SimpleTableModel",
           lastColumn  : this.getColumnCount() - 1
         };
 
-        this.dispatchEvent(new qx.event.type.DataEvent(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, data), true);
+        this.dispatchEvent(new qx.event.type.DataEvent(qx.ui.table.model.TableModel.EVENT_TYPE_DATA_CHANGED, data), true);
       }
 
       this._clearSorting();
@@ -463,7 +463,7 @@ qx.Class.define("qx.ui.table.SimpleTableModel",
       this._rowArr.splice(startIndex, howMany);
 
       // Inform the listeners
-      if (this.hasEventListeners(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED))
+      if (this.hasEventListeners(qx.ui.table.model.TableModel.EVENT_TYPE_DATA_CHANGED))
       {
         var data =
         {
@@ -473,7 +473,7 @@ qx.Class.define("qx.ui.table.SimpleTableModel",
           lastColumn  : this.getColumnCount() - 1
         };
 
-        this.dispatchEvent(new qx.event.type.DataEvent(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, data), true);
+        this.dispatchEvent(new qx.event.type.DataEvent(qx.ui.table.model.TableModel.EVENT_TYPE_DATA_CHANGED, data), true);
       }
 
       this._clearSorting();

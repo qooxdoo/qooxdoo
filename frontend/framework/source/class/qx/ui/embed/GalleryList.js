@@ -42,7 +42,7 @@ qx.Class.define("qx.ui.embed.GalleryList",
   {
     this.base(arguments);
 
-    this._blank = qx.manager.object.AliasManager.getInstance().resolve("static/image/blank.gif");
+    this._blank = qx.io.Alias.getInstance().resolve("static/image/blank.gif");
     this._list = galleryList;
     this._listSize = galleryList.length;
     this._processedImages = 0;
@@ -51,7 +51,7 @@ qx.Class.define("qx.ui.embed.GalleryList",
 
     this.setHtmlProperty("className", "qx_ui_embed_GalleryList");
 
-    this._manager = new qx.manager.selection.DomSelectionManager(this);
+    this._manager = new qx.ui.selection.DomSelectionManager(this);
 
     this.addEventListener("mousedown", this._onmousedown);
     this.addEventListener("mouseup", this._onmouseup);

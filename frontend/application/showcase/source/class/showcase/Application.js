@@ -275,7 +275,7 @@ qx.Class.define("showcase.Application",
       var radio3 = new qx.ui.form.RadioButton("Direct link");
       radio2.setChecked(true);
       bl.add(radio1, radio2, radio3);
-      new qx.manager.selection.RadioManager("network", [ radio1, radio2, radio3 ]);
+      new qx.ui.selection.RadioManager("network", [ radio1, radio2, radio3 ]);
 
       return main;
     },
@@ -432,7 +432,7 @@ qx.Class.define("showcase.Application",
 
       m4_suba.add(mb4_suba_01, mb4_suba_b1, mb4_suba_02, mb4_suba_03, mb4_suba_04, mb4_suba_b2, mb4_suba_05, mb4_suba_06);
 
-      var mb4_manager = new qx.manager.selection.RadioManager("windowMode", [ mb4_suba_02, mb4_suba_03, mb4_suba_04 ]);
+      var mb4_manager = new qx.ui.selection.RadioManager("windowMode", [ mb4_suba_02, mb4_suba_03, mb4_suba_04 ]);
 
       var m5 = new qx.ui.menu.Menu;
       var mb5_01 = new qx.ui.menu.Button("Help", "icon/16/actions/help-about.png");
@@ -501,7 +501,7 @@ qx.Class.define("showcase.Application",
       var radio2 = createButton("Radio2", "view-pane-detailed", qx.ui.toolbar.RadioButton, true);
       var radio3 = createButton("Radio3", "view-pane-icon", qx.ui.toolbar.RadioButton);
       part.add(radio1, radio2, radio3);
-      new qx.manager.selection.RadioManager(null, [ radio1, radio2, radio3 ]);
+      new qx.ui.selection.RadioManager(null, [ radio1, radio2, radio3 ]);
 
       // Toolbar manipulation
       var hor = new qx.ui.layout.HorizontalBoxLayout;
@@ -524,7 +524,7 @@ qx.Class.define("showcase.Application",
       var radio3 = new qx.ui.form.RadioButton("Show Label", "label");
       radio1.setChecked(true);
       vert.add(radio1, radio2, radio3);
-      var rbm = new qx.manager.selection.RadioManager(null, [ radio1, radio2, radio3 ]);
+      var rbm = new qx.ui.selection.RadioManager(null, [ radio1, radio2, radio3 ]);
 
       rbm.addEventListener("changeSelected", function(e) {
         doc.dispatchEvent(new qx.event.type.DataEvent("changeLayout", e.getData().getValue()));
@@ -540,7 +540,7 @@ qx.Class.define("showcase.Application",
       var radio3 = new qx.ui.form.RadioButton("Right Aligned", "right");
       radio1.setChecked(true);
       vert.add(radio1, radio2, radio3);
-      var rbm = new qx.manager.selection.RadioManager(null, [ radio1, radio2, radio3 ]);
+      var rbm = new qx.ui.selection.RadioManager(null, [ radio1, radio2, radio3 ]);
 
       rbm.addEventListener("changeSelected", function(e) {
         tb.setHorizontalChildrenAlign(e.getData().getValue());
@@ -794,7 +794,7 @@ qx.Class.define("showcase.Application",
 
       p1.add(r1, r2, r3, r4);
 
-      var rm = new qx.manager.selection.RadioManager(null, [ r1, r2, r3, r4 ]);
+      var rm = new qx.ui.selection.RadioManager(null, [ r1, r2, r3, r4 ]);
 
       rm.addEventListener("changeSelected", function(e) {
         bs.setBarPosition(e.getData().getValue());
@@ -1073,7 +1073,7 @@ qx.Class.define("showcase.Application",
       var rd3 = new qx.ui.form.RadioButton("Show Both", "both");
       rd3.setChecked(true);
       control.add(rd1, rd2, rd3);
-      var rbm = new qx.manager.selection.RadioManager(name, [ rd1, rd2, rd3 ]);
+      var rbm = new qx.ui.selection.RadioManager(name, [ rd1, rd2, rd3 ]);
 
       rbm.addEventListener("changeSelected", function(e)
       {
@@ -1192,7 +1192,7 @@ qx.Class.define("showcase.Application",
     _createTableDemo : function()
     {
       // table model
-      var tableModel = new qx.ui.table.SimpleTableModel();
+      var tableModel = new qx.ui.table.model.Simple();
       tableModel.setColumns([ "ID", "A number", "A date", "Boolean test" ]);
       var rowData = [];
       var now = new Date().getTime();
@@ -1220,8 +1220,8 @@ qx.Class.define("showcase.Application",
         });
 
         setMetaColumnCounts([ 1, -1 ]);
-        getSelectionModel().setSelectionMode(qx.ui.table.SelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        getTableColumnModel().setDataCellRenderer(3, new qx.ui.table.BooleanDataCellRenderer());
+        getSelectionModel().setSelectionMode(qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION);
+        getTableColumnModel().setDataCellRenderer(3, new qx.ui.table.cellrenderer.Boolean());
       }
 
       return table;
@@ -2066,7 +2066,7 @@ qx.Class.define("showcase.Application",
       var rb3 = new qx.ui.form.RadioButton("Translucent", "translucent");
       rb3.setLocation(0, 160);
 
-      var rbm1 = new qx.manager.selection.RadioManager("move", [ rb1, rb2, rb3 ]);
+      var rbm1 = new qx.ui.selection.RadioManager("move", [ rb1, rb2, rb3 ]);
 
       rbm1.addEventListener("changeSelected", function(e) {
         w2.setMoveMethod(e.getData().getValue());
@@ -2088,7 +2088,7 @@ qx.Class.define("showcase.Application",
       var rb7 = new qx.ui.form.RadioButton("Translucent", "translucent");
       rb7.setLocation(0, 270);
 
-      var rbm2 = new qx.manager.selection.RadioManager("resize", [ rb4, rb5, rb6, rb7 ]);
+      var rbm2 = new qx.ui.selection.RadioManager("resize", [ rb4, rb5, rb6, rb7 ]);
 
       rbm2.addEventListener("changeSelected", function(e) {
         w2.setResizeMethod(e.getData().getValue());

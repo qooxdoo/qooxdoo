@@ -200,7 +200,7 @@ qx.Class.define("qx.ui.layout.GridLayout",
      * @return {var} TODOC
      */
     _createLayoutImpl : function() {
-      return new qx.renderer.layout.GridLayoutImpl(this);
+      return new qx.ui.layout.impl.GridLayoutImpl(this);
     },
 
 

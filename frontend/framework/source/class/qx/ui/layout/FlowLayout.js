@@ -151,7 +151,7 @@ qx.Class.define("qx.ui.layout.FlowLayout",
      * @return {var} TODOC
      */
     _createLayoutImpl : function() {
-      return new qx.renderer.layout.FlowLayoutImpl(this);
+      return new qx.ui.layout.impl.FlowLayoutImpl(this);
     },
 
 

@@ -74,7 +74,7 @@ qx.Class.define("qx.application.Gui",
       qx.ui.core.Widget.initScrollbarWidth();
 
       // Initialize themes
-      qx.manager.object.ThemeManager.getInstance().initialize();
+      qx.theme.manager.Meta.getInstance().initialize();
 
       // Force creation of event handler
       qx.event.handler.EventHandler.getInstance();
@@ -114,7 +114,7 @@ qx.Class.define("qx.application.Gui",
     _preload : function()
     {
       this.debug("preloading visible images...");
-      this.__preloader = new qx.io.image.PreloaderSystem(qx.manager.object.ImageManager.getInstance().getVisibleImages(), this._preloaderDone, this);
+      this.__preloader = new qx.io.image.PreloaderSystem(qx.io.image.Manager.getInstance().getVisibleImages(), this._preloaderDone, this);
       this.__preloader.start();
     },
 
@@ -150,7 +150,7 @@ qx.Class.define("qx.application.Gui",
     _postload : function()
     {
       this.debug("preloading hidden images...");
-      this.__postloader = new qx.io.image.PreloaderSystem(qx.manager.object.ImageManager.getInstance().getHiddenImages(), this._postloaderDone, this);
+      this.__postloader = new qx.io.image.PreloaderSystem(qx.io.image.Manager.getInstance().getHiddenImages(), this._postloaderDone, this);
       this.__postloader.start();
     },
 

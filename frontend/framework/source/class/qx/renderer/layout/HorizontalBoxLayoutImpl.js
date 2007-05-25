@@ -25,9 +25,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.renderer.layout.HorizontalBoxLayoutImpl",
+qx.Class.define("qx.ui.layout.impl.HorizontalBoxLayoutImpl",
 {
-  extend : qx.renderer.layout.LayoutImpl,
+  extend : qx.ui.layout.impl.LayoutImpl,
 
 
 
@@ -77,7 +77,7 @@ qx.Class.define("qx.renderer.layout.HorizontalBoxLayoutImpl",
      *  [09] FLUSH LAYOUT QUEUES OF CHILDREN
      *  [10] LAYOUT CHILD
      *
-     *  Inherits from qx.renderer.layout.LayoutImpl:
+     *  Inherits from qx.ui.layout.impl.LayoutImpl:
      *  [02] COMPUTE NEEDED DIMENSIONS FOR AN INDIVIDUAL CHILD
      *
      * @type member
@@ -362,7 +362,7 @@ qx.Class.define("qx.renderer.layout.HorizontalBoxLayoutImpl",
     computeChildrenNeededWidth : function()
     {
       var w = this.getWidget();
-      return qx.renderer.layout.LayoutImpl.prototype.computeChildrenNeededWidth_sum.call(this) + ((w.getVisibleChildrenLength() - 1) * w.getSpacing());
+      return qx.ui.layout.impl.LayoutImpl.prototype.computeChildrenNeededWidth_sum.call(this) + ((w.getVisibleChildrenLength() - 1) * w.getSpacing());
     },
 
 

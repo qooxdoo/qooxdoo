@@ -28,7 +28,7 @@
  */
 qx.Class.define("qx.ui.tablevarrowheight.TableModel",
 {
-  extend : qx.ui.table.TableModel,
+  extend : qx.ui.table.model.TableModel,
 
 
 

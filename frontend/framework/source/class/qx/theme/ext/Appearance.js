@@ -196,7 +196,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     {
       style : function(states)
       {
-        var border = new qx.renderer.border.Border.fromConfig({
+        var border = new qx.ui.core.Border.fromConfig({
            left : [ 1, "solid", "general-border"]
         });
 
@@ -282,7 +282,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
       {
         var padding = "undefined";
         var border  = "undefined";
-        var clazz   = qx.renderer.border.Border;
+        var clazz   = qx.ui.core.Border;
 
         if (states.barTop)
         {
@@ -318,7 +318,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
       style : function(states)
       {
         var margin, width, height, padding, border;
-        var clazz = qx.renderer.border.Border;
+        var clazz = qx.ui.core.Border;
 
         if (states.checked || states.over)
         {
@@ -397,7 +397,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
         marginBottom = 0;
 
         if (states.barTop) {
-          var border_top_default = qx.renderer.border.Border.fromConfig({
+          var border_top_default = qx.ui.core.Border.fromConfig({
              left  : [ 1, "solid", "tab-view-border"],
              top   : [ 1, "solid", "tab-view-border"],
              right : [ 1, "solid", "tab-view-border"]
@@ -405,7 +405,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
         };
 
         if (!states.barTop) {
-          var border_bottom_default  = qx.renderer.border.Border.fromConfig({
+          var border_bottom_default  = qx.ui.core.Border.fromConfig({
              right  : [ 1, "solid", "tab-view-border"],
              bottom : [ 1, "solid", "tab-view-border"],
              left   : [ 1, "solid", "tab-view-border"]
@@ -475,8 +475,8 @@ qx.Theme.define("qx.theme.ext.Appearance",
           backgroundColor : "radio-view-bar",
           padding         : 4,
           border          : states.barTop ?
-            qx.renderer.border.Border.fromConfig({ bottom : [ 1, "solid", "radio-view-border" ] }) :
-            qx.renderer.border.Border.fromConfig({ top : [ 1, "solid", "radio-view-border" ] })
+            qx.ui.core.Border.fromConfig({ bottom : [ 1, "solid", "radio-view-border" ] }) :
+            qx.ui.core.Border.fromConfig({ top : [ 1, "solid", "radio-view-border" ] })
         };
       }
     },
@@ -489,7 +489,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
 
         if (states.checked || states.over)
         {
-          border = new qx.renderer.border.Border(1, "solid", "radio-view-border");
+          border = new qx.ui.core.Border(1, "solid", "radio-view-border");
           border.setWidthLeft(3);
           padding = [ 2, 6, 2, 4 ];
         }
@@ -618,7 +618,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     {
       style : function(states)
       {
-        var border = qx.renderer.border.Border.fromConfig({
+        var border = qx.ui.core.Border.fromConfig({
            top : [ 1, "solid", "general-border" ]
         });
 
@@ -724,7 +724,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     {
       style : function(states)
       {
-        var border = qx.renderer.border.Border.fromConfig({
+        var border = qx.ui.core.Border.fromConfig({
            top : [ 1, "solid", "general-border" ]
         });
 
@@ -804,7 +804,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     {
       style : function(states)
       {
-        var border = qx.renderer.border.Border.fromConfig({
+        var border = qx.ui.core.Border.fromConfig({
            top    : [ 1, "solid", "general-border"],
            left   : [ 1, "solid", "general-border"],
            bottom : [ 1, "solid", "general-border"]
@@ -839,7 +839,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
 
       style : function(states)
       {
-        var border = qx.renderer.border.Border.fromConfig({
+        var border = qx.ui.core.Border.fromConfig({
            left   : [ 1, "solid", "general-border" ],
            bottom : [ 1, "solid", "general-border" ],
            right  : [ 1, "solid", "general-border" ]
@@ -876,7 +876,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
 
       style : function(states)
       {
-        var border = qx.renderer.border.Border.fromConfig({
+        var border = qx.ui.core.Border.fromConfig({
            left  : [ 1, "solid", "general-border" ],
            right : [ 1, "solid", "general-border" ]
         });
@@ -968,7 +968,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
       style : function(states)
       {
         return {
-          border          : qx.renderer.border.Border.fromConfig({ bottom : [ 1, "solid", "list-view-header-border" ] }),
+          border          : qx.ui.core.Border.fromConfig({ bottom : [ 1, "solid", "list-view-header-border" ] }),
           backgroundColor : "list-view-header"
         };
       }
@@ -984,7 +984,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
           backgroundColor : states.over ? "list-view-header-cell-hover" : "undefined",
           backgroundImage : "widget/gradient/button_gradient.png",
           paddingBottom   : states.over ? 0 : 2,
-          border          : states.over ? qx.renderer.border.Border.fromConfig({ bottom : [ 2, "solid", "list-view-header-border-hover" ] }) : "undefined"
+          border          : states.over ? qx.ui.core.Border.fromConfig({ bottom : [ 2, "solid", "list-view-header-border-hover" ] }) : "undefined"
         };
       }
     },
@@ -1011,7 +1011,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
           backgroundColor : states.selected ? "list-view-content-cell" : "undefined",
           textColor       : states.selected ? "white" : "undefined",
           border          : states.lead && !states.selected ?
-            new qx.renderer.border.Border.fromConfig({top : [ 1, "solid", "effect" ], bottom : [ 1, "solid", "effect" ]  }) :
+            new qx.ui.core.Border.fromConfig({top : [ 1, "solid", "effect" ], bottom : [ 1, "solid", "effect" ]  }) :
             "undefined",
           marginTop      : states.lead && !states.selected ? 0 : 1,
           marginBottom   : states.lead && !states.selected ? 0 : 1
@@ -1093,7 +1093,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     {
       style : function(states)
       {
-        var border = qx.renderer.border.Border.fromConfig({
+        var border = qx.ui.core.Border.fromConfig({
            top    : [ 1, "solid", "general-border" ],
            left   : [ 1, "solid", "general-border" ],
            bottom : [ 1, "solid", "general-border" ]
@@ -1110,7 +1110,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     {
       style : function(states)
       {
-        var border = qx.renderer.border.Border.fromConfig({
+        var border = qx.ui.core.Border.fromConfig({
            left   : [ 1, "solid", "general-border" ],
            bottom : [ 1, "solid", "general-border" ],
            right  : [ 1, "solid", "general-border" ]
@@ -1143,7 +1143,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
 
       style : function(states)
       {
-        var border = qx.renderer.border.Border.fromConfig({
+        var border = qx.ui.core.Border.fromConfig({
            left  : [ 1, "solid", "general-border" ],
            top   : [ 1, "solid", "general-border" ],
            right : [ 1, "solid", "general-border" ]
@@ -1223,7 +1223,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     {
       style : function(states)
       {
-        var border  = new qx.renderer.border.Border.fromConfig({
+        var border  = new qx.ui.core.Border.fromConfig({
            bottom : [ 1, "solid", "general-border" ]
         });
 
@@ -1241,7 +1241,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
     {
       style : function(states)
       {
-        var border_transparent = new qx.renderer.border.Border(1, "solid", "transparent");
+        var border_transparent = new qx.ui.core.Border(1, "solid", "transparent");
 
         return {
           textAlign       : "center",
@@ -1259,14 +1259,14 @@ qx.Theme.define("qx.theme.ext.Appearance",
       {
         if (states.header)
         {
-          var border = qx.renderer.border.Border.fromConfig({
+          var border = qx.ui.core.Border.fromConfig({
             right  : [ 1, "solid", "general-border" ],
             bottom : [ 1, "solid", "general-border" ]
           });
         }
         else
         {
-          var border = qx.renderer.border.Border.fromConfig({
+          var border = qx.ui.core.Border.fromConfig({
             right : [ 1, "solid", "general-border" ]
           });
         }
@@ -1294,7 +1294,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
       style : function(states)
       {
         return {
-          border       : qx.renderer.border.Border.fromConfig({ top : [ 1, "solid", "general-border" ] }),
+          border       : qx.ui.core.Border.fromConfig({ top : [ 1, "solid", "general-border" ] }),
           paddingLeft  : 2,
           paddingRight : 2
         };
@@ -1308,11 +1308,11 @@ qx.Theme.define("qx.theme.ext.Appearance",
         var border;
 
         if (states.editing) {
-          border = new qx.renderer.border.Border(2, "solid", "table-focus-indicator-active");
+          border = new qx.ui.core.Border(2, "solid", "table-focus-indicator-active");
         } else if (states.tableHasFocus) {
-          border = new qx.renderer.border.Border(3, "solid", "table-focus-indicator-active");
+          border = new qx.ui.core.Border(3, "solid", "table-focus-indicator-active");
         } else {
-          border = new qx.renderer.border.Border(3, "solid", "table-focus-indicator");
+          border = new qx.ui.core.Border(3, "solid", "table-focus-indicator");
         }
 
         return {
@@ -1363,7 +1363,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
 
         if (states.mouseover)
         {
-          border = qx.renderer.border.Border.fromConfig(
+          border = qx.ui.core.Border.fromConfig(
           {
             right  : [ 1, "solid", "table-header-border" ],
             bottom : [ 1, "solid", "table-header-border-hover" ]
@@ -1373,7 +1373,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
         }
         else
         {
-          border = qx.renderer.border.Border.fromConfig({
+          border = qx.ui.core.Border.fromConfig({
             right  : [ 1, "solid", "table-header-border" ],
             bottom : [ 1, "solid", "table-header-border" ]
           });

@@ -53,8 +53,8 @@ qx.Class.define("qx.ui.table.TablePaneScroller",
     this._table = table;
 
     // init scrollbars
-    this._verScrollBar = new qx.ui.core.ScrollBar(false);
-    this._horScrollBar = new qx.ui.core.ScrollBar(true);
+    this._verScrollBar = new qx.ui.basic.ScrollBar(false);
+    this._horScrollBar = new qx.ui.basic.ScrollBar(true);
 
     var scrollBarWidth = this._verScrollBar.getPreferredBoxWidth();
 

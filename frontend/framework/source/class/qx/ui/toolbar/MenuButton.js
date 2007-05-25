@@ -295,7 +295,7 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
 
           default:
             // hide other menus
-            qx.manager.object.MenuManager.getInstance().update();
+            qx.ui.menu.Manager.getInstance().update();
 
             // show this menu
             this._showMenu();

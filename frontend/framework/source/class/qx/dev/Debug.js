@@ -50,7 +50,7 @@ qx.Class.define("qx.dev.Debug",
      *   root will be used.  If provided, this should be an instance of an
      *   appender to which the object debug will be sent.  For example, you
      *   might pass, for this parameter, <code>new
-     *   qx.log.WindowAppender()</code>.
+     *   qx.log.appender.Window()</code>.
      *
      * @return {void}
      */

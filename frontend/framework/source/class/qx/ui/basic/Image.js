@@ -52,7 +52,7 @@ qx.Class.define("qx.ui.basic.Image",
   {
     this.base(arguments);
 
-    this._blank = qx.manager.object.AliasManager.getInstance().resolve("static/image/blank.gif");
+    this._blank = qx.io.Alias.getInstance().resolve("static/image/blank.gif");
 
     // Source
     if (vSource != null) {
@@ -260,7 +260,7 @@ qx.Class.define("qx.ui.basic.Image",
     {
       var source = this.getSource();
       if (source) {
-        qx.manager.object.ImageManager.getInstance().show(source);
+        qx.io.image.Manager.getInstance().show(source);
       }
 
       return this.base(arguments);
@@ -277,7 +277,7 @@ qx.Class.define("qx.ui.basic.Image",
     {
       var source = this.getSource();
       if (source) {
-        qx.manager.object.ImageManager.getInstance().hide(source);
+        qx.io.image.Manager.getInstance().hide(source);
       }
 
       return this.base(arguments);
@@ -301,7 +301,7 @@ qx.Class.define("qx.ui.basic.Image",
      */
     _applySource : function(value, old)
     {
-      var imageMgr = qx.manager.object.ImageManager.getInstance();
+      var imageMgr = qx.io.image.Manager.getInstance();
 
       if (this.isSeeable())
       {
@@ -325,7 +325,7 @@ qx.Class.define("qx.ui.basic.Image",
 
     _connect : function()
     {
-      var aliasMgr = qx.manager.object.AliasManager.getInstance();
+      var aliasMgr = qx.io.Alias.getInstance();
       aliasMgr.connect(this._syncSource, this, this.getSource());
     },
 
@@ -337,7 +337,7 @@ qx.Class.define("qx.ui.basic.Image",
       }
       else
       {
-        var preloader = qx.manager.object.ImagePreloaderManager.getInstance().create(value);
+        var preloader = qx.io.image.PreloaderManager.getInstance().create(value);
         this.setPreloader(preloader);
       }
     },
@@ -359,7 +359,7 @@ qx.Class.define("qx.ui.basic.Image",
         old.removeEventListener("error", this._onerror, this);
       }
 
-      var imageMgr = qx.manager.object.ImageManager.getInstance();
+      var imageMgr = qx.io.image.Manager.getInstance();
 
       if (value)
       {

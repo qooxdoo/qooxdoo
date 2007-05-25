@@ -101,7 +101,7 @@ qx.Class.define("qx.ui.form.Spinner",
     // ************************************************************************
     //   MANAGER
     // ************************************************************************
-    this.setManager(new qx.type.Range());
+    this.setManager(new qx.util.range.Range());
 
     // ************************************************************************
     //   EVENTS
@@ -268,7 +268,7 @@ qx.Class.define("qx.ui.form.Spinner",
 
     manager :
     {
-      check : "qx.type.IRange",
+      check : "qx.util.range.IRange",
       apply : "_applyManager",
       dispose : true
     },

@@ -65,7 +65,7 @@
  */
 qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 {
-  extend : qx.ui.table.SimpleTableModel,
+  extend : qx.ui.table.model.Simple,
 
 
 

@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 /** This singleton selects the widget theme to use. */
-qx.Class.define("qx.manager.object.WidgetManager",
+qx.Class.define("qx.theme.manager.Widget",
 {
   type : "singleton",
   extend : qx.core.Target,
@@ -64,7 +64,7 @@ qx.Class.define("qx.manager.object.WidgetManager",
   {
     _applyWidgetTheme : function(value, old)
     {
-      if (qx.manager.object.ThemeManager.getInstance().getAutoSync()) {
+      if (qx.theme.manager.Meta.getInstance().getAutoSync()) {
         this.syncWidgetTheme();
       }
     },
@@ -72,7 +72,7 @@ qx.Class.define("qx.manager.object.WidgetManager",
     syncWidgetTheme : function()
     {
       var value = this.getWidgetTheme();
-      var alias = qx.manager.object.AliasManager.getInstance();
+      var alias = qx.io.Alias.getInstance();
       value ? alias.add("widget", value.widgets.uri) : alias.remove("widget");
     }
   }
