@@ -311,23 +311,23 @@ qx.Class.define("qx.ui.form.ComboBox",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _applySelected : function(value, old)
+    _applySelected : function(listItem, old)
     {
       this._fromSelected = true;
 
       // only do this if we called setSelected seperatly
       // and not from the property "value".
       if (!this._fromValue) {
-        this.setValue(value ? value.getLabel() : "");
+        this.setValue(value ? listItem.getLabel().toString() : "");
       }
 
       // reset manager cache
-      this._manager.setLeadItem(value);
-      this._manager.setAnchorItem(value);
+      this._manager.setLeadItem(listItem);
+      this._manager.setAnchorItem(listItem);
 
       // sync to manager
-      if (value) {
-        this._manager.setSelectedItem(value);
+      if (listItem) {
+        this._manager.setSelectedItem(listItem);
       } else {
         this._manager.deselectAll();
       }
