@@ -28,7 +28,7 @@
  */
 qx.Class.define("qx.ui.table.rowrenderer.Default",
 {
-  extend : qx.ui.table.rowrenderer.DataRowRenderer,
+  extend : qx.ui.table.rowrenderer.Basic,
 
 
 

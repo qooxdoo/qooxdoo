@@ -26,7 +26,7 @@
 /**
  * A cell renderer for data rows.
  */
-qx.Class.define("qx.ui.table.rowrenderer.DataRowRenderer",
+qx.Class.define("qx.ui.table.rowrenderer.Basic",
 {
   extend : qx.core.Object,
 
