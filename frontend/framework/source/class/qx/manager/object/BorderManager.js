@@ -62,58 +62,26 @@ qx.Class.define("qx.manager.object.BorderManager",
   members :
   {
     /**
-     * If the incoming value is a border object it will be stored into the
-     * static map and return the corresponding hashCode.
+     * Returns the dynamically interpreted result for the incoming value
      *
      * @type member
-     * @param value {var} The original value
-     * @return {var} The result value
+     * @param value {String} dynamically interpreted idenfier
+     * @return {var} return the (translated) result of the incoming value
      */
-    _preprocess : function(value)
-    {
-      if (value instanceof qx.renderer.border.Border)
-      {
-        var key = "b" + value.toHashCode();
-
-        if (!this._dynamic[key]) {
-          this._dynamic[key] = value;
-        }
-
-        return key;
-      }
-
-      return value;
+    resolveDynamic : function(value) {
+      return value instanceof qx.renderer.border.Border ? value : this._dynamic[value];
     },
 
 
-    _applyBorderTheme : function(value)
-    {
-      var dest = this._dynamic;
-
-      for (var key in dest)
-      {
-        if (dest[key].themed)
-        {
-          dest[key].dispose();
-          delete dest[key];
-        }
-      }
-
-      if (value)
-      {
-        var source = value.borders;
-        var border = qx.renderer.border.Border;
-
-        for (var key in source)
-        {
-          dest[key] = (new border).set(source[key]);
-          dest[key].themed = true;
-        }
-      }
-
-      if (qx.manager.object.ThemeManager.getInstance().getAutoSync()) {
-        this.syncBorderTheme();
-      }
+    /**
+     * Whether a value is interpreted dynamically
+     *
+     * @type member
+     * @param value {String} dynamically interpreted idenfier
+     * @return {Boolean} returns true if the value is interpreted dynamically
+     */
+    isDynamic : function(value) {
+      return value && (value instanceof qx.renderer.border.Border || this._dynamic[value] !== undefined);
     },
 
 
@@ -145,9 +113,40 @@ qx.Class.define("qx.manager.object.BorderManager",
       {
         entry = reg[key];
 
-        if (dynamics[entry.value] === border) {
+        if (entry.value === border || dynamics[entry.value] === border) {
           entry.callback.call(entry.object, border, edge);
         }
+      }
+    },
+
+
+    _applyBorderTheme : function(value)
+    {
+      var dest = this._dynamic;
+
+      for (var key in dest)
+      {
+        if (dest[key].themed)
+        {
+          dest[key].dispose();
+          delete dest[key];
+        }
+      }
+
+      if (value)
+      {
+        var source = value.borders;
+        var border = qx.renderer.border.Border;
+
+        for (var key in source)
+        {
+          dest[key] = (new border).set(source[key]);
+          dest[key].themed = true;
+        }
+      }
+
+      if (qx.manager.object.ThemeManager.getInstance().getAutoSync()) {
+        this.syncBorderTheme();
       }
     }
   }

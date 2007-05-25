@@ -64,27 +64,37 @@ qx.Class.define("qx.manager.object.FontManager",
   members :
   {
     /**
-     * If the incoming value is a border object it will be stored into the
-     * static map and return the corresponding hashCode.
+     * Returns the dynamically interpreted result for the incoming value
      *
      * @type member
-     * @param value {var} The original value
-     * @return {var} The result value
+     * @param value {String} dynamically interpreted idenfier
+     * @return {var} return the (translated) result of the incoming value
      */
-    _preprocess : function(value)
-    {
-      if (value instanceof qx.renderer.font.Font)
-      {
-        var key = "f" + value.toHashCode();
+    resolveDynamic : function(value) {
+      return value instanceof qx.renderer.font.Font ? value : this._dynamic[value];
+    },
 
-        if (!this._dynamic[key]) {
-          this._dynamic[key] = value;
-        }
 
-        return key;
-      }
+    /**
+     * Whether a value is interpreted dynamically
+     *
+     * @type member
+     * @param value {String} dynamically interpreted idenfier
+     * @return {Boolean} returns true if the value is interpreted dynamically
+     */
+    isDynamic : function(value) {
+      return value && (value instanceof qx.renderer.font.Font || this._dynamic[value] !== undefined);
+    },
 
-      return value;
+
+    /**
+     * Sync dependend objects with internal database
+     *
+     * @type member
+     * @return {void}
+     */
+    syncFontTheme : function() {
+      this._updateObjects();
     },
 
 
@@ -116,17 +126,6 @@ qx.Class.define("qx.manager.object.FontManager",
       if (qx.manager.object.ThemeManager.getInstance().getAutoSync()) {
         this.syncFontTheme();
       }
-    },
-
-
-    /**
-     * Sync dependend objects with internal database
-     *
-     * @type member
-     * @return {void}
-     */
-    syncFontTheme : function() {
-      this._updateObjects();
     }
   }
 });
