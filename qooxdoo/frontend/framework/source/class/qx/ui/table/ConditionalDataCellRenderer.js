@@ -25,7 +25,7 @@
 
 qx.Class.define("qx.ui.table.ConditionalDataCellRenderer",
 {
-  extend : qx.ui.table.DefaultDataCellRenderer,
+  extend : qx.ui.table.cellrenderer.Default,
 
 
 
@@ -237,7 +237,7 @@ qx.Class.define("qx.ui.table.ConditionalDataCellRenderer",
      */
     updateDataCellElement : function(cellInfo, cellElement)
     {
-      var clazz = qx.ui.table.DefaultDataCellRenderer;
+      var clazz = qx.ui.table.cellrenderer.Default;
       var style = cellElement.style;
       var tableModel = cellInfo.table.getTableModel();
       var i;

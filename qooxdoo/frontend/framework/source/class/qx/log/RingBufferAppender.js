@@ -29,7 +29,7 @@
  * arises what actions have caused the error.
  *
  */
-qx.Class.define("qx.log.RingBufferAppender",
+qx.Class.define("qx.log.appender.RingBuffer",
 {
   extend : qx.log.Appender,
 

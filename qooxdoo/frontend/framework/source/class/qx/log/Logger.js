@@ -497,7 +497,7 @@ qx.Class.define("qx.log.Logger",
 
   settings :
   {
-    "qx.logAppender" : "qx.log.NativeAppender",
+    "qx.logAppender" : "qx.log.appender.Native",
     "qx.minLogLevel" : 200 // qx.log.Logger.LEVEL_DEBUG
   },
 

@@ -23,11 +23,11 @@
   <textarea id='widgets' style='display:none'>
     <qx.client.builder.Container>
       <qx.ui.basic.Atom id="linfo" label="Current Value" icon="icon/16/actions/go-next.png" border=""black"" padding="2,4" backgroundColor="white" top="48" left="20"/>
-      <qx.manager.selection.RadioManager id='_rm1' name="mygroup">
+      <qx.ui.selection.RadioManager id='_rm1' name="mygroup">
         <qx.client.builder.EventListener type='changeSelected' args='e'>
           linfo.setLabel("Current Value: \"" + e.getData().getLabel() + "\" (" + e.getData().getValue() + ")");
         </qx.client.builder.EventListener>
-      </qx.manager.selection.RadioManager>
+      </qx.ui.selection.RadioManager>
       <qx.ui.form.RadioButton qxtype="radioButton" label="Option #1" value="rb1" location="20,80"  manager="_rm1"/>
       <qx.ui.form.RadioButton label="Option #2" value="rb2" location="20,110" manager="_rm1" checked="true"/>
       <div qxtype="qx.ui.form.RadioButton" label="Top RadioButton" value="rb3" location="20,160" manager="_rm1" iconPosition="top"/>

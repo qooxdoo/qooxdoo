@@ -30,7 +30,7 @@
  *
  * @param vWidget {qx.ui.core.Parent} reference to the associated widget
  */
-qx.Class.define("qx.renderer.layout.LayoutImpl",
+qx.Class.define("qx.ui.layout.impl.LayoutImpl",
 {
   extend : qx.core.Object,
 

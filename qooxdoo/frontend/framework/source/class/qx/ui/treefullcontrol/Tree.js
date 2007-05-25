@@ -58,7 +58,7 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
     // ************************************************************************
     //   INITILISIZE MANAGER
     // ************************************************************************
-    this._manager = new qx.manager.selection.TreeFullControlSelectionManager(this);
+    this._manager = new qx.ui.treefullcontrol.SelectionManager(this);
 
     this._iconObject.setAppearance("tree-icon");
     this._labelObject.setAppearance("tree-label");

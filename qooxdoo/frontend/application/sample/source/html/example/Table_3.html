@@ -25,7 +25,7 @@
     var d = qx.ui.core.ClientDocument.getInstance();
 
     // table model
-    var tableModel = new qx.ui.table.SimpleTableModel();
+    var tableModel = new qx.ui.table.model.Simple();
     tableModel.setColumns([ "ID", "Number 1", "Number 2", "Image" ]);
 
     var image = [
@@ -54,7 +54,7 @@
           });
       setMetaColumnCounts([1, -1]);
       var selectionMode =
-        qx.ui.table.SelectionModel.MULTIPLE_INTERVAL_SELECTION;
+        qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION;
       getSelectionModel().setSelectionMode(selectionMode);
       var newRenderer =
         new qx.ui.table.ConditionalDataCellRenderer("right", "", "", "");

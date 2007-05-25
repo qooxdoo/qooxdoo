@@ -27,9 +27,9 @@
  * A model that contains all meta data about columns, such as width, renderers,
  * visibility and order.
  *
- * @see qx.ui.table.TableModel
+ * @see qx.ui.table.model.TableModel
  */
-qx.Class.define("qx.ui.table.TableColumnModel",
+qx.Class.define("qx.ui.table.columnmodel.TableColumnModel",
 {
   extend : qx.core.Target,
 
@@ -112,13 +112,13 @@ qx.Class.define("qx.ui.table.TableColumnModel",
     DEFAULT_WIDTH           : 100,
 
     /** {DefaultDataCellRenderer} the default header cell renderer. */
-    DEFAULT_HEADER_RENDERER : new qx.ui.table.DefaultHeaderCellRenderer,
+    DEFAULT_HEADER_RENDERER : new qx.ui.table.headerrenderer.Default,
 
     /** {DefaultDataCellRenderer} the default data cell renderer. */
-    DEFAULT_DATA_RENDERER   : new qx.ui.table.DefaultDataCellRenderer,
+    DEFAULT_DATA_RENDERER   : new qx.ui.table.cellrenderer.Default,
 
     /** {TextFieldCellEditorFactory} the default editor factory. */
-    DEFAULT_EDITOR_FACTORY  : new qx.ui.table.TextFieldCellEditorFactory
+    DEFAULT_EDITOR_FACTORY  : new qx.ui.table.celleditor.TextField
   },
 
 
@@ -143,10 +143,10 @@ qx.Class.define("qx.ui.table.TableColumnModel",
     {
       this._columnDataArr = [];
 
-      var width = qx.ui.table.TableColumnModel.DEFAULT_WIDTH;
-      var headerRenderer = qx.ui.table.TableColumnModel.DEFAULT_HEADER_RENDERER;
-      var dataRenderer = qx.ui.table.TableColumnModel.DEFAULT_DATA_RENDERER;
-      var editorFactory = qx.ui.table.TableColumnModel.DEFAULT_EDITOR_FACTORY;
+      var width = qx.ui.table.columnmodel.TableColumnModel.DEFAULT_WIDTH;
+      var headerRenderer = qx.ui.table.columnmodel.TableColumnModel.DEFAULT_HEADER_RENDERER;
+      var dataRenderer = qx.ui.table.columnmodel.TableColumnModel.DEFAULT_DATA_RENDERER;
+      var editorFactory = qx.ui.table.columnmodel.TableColumnModel.DEFAULT_EDITOR_FACTORY;
       this._overallColumnArr = [];
       this._visibleColumnArr = [];
 

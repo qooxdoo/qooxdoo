@@ -21,7 +21,7 @@
 /* ************************************************************************
 
 #module(ui_popup)
-#optional(qx.manager.object.MenuManager)
+#optional(qx.ui.menu.Manager)
 
 ************************************************************************ */
 
@@ -211,8 +211,8 @@ qx.Class.define("qx.ui.popup.Popup",
         }
       }
 
-      qx.manager.object.PopupManager.getInstance().add(this);
-      qx.manager.object.PopupManager.getInstance().update(this);
+      qx.ui.popup.Manager.getInstance().add(this);
+      qx.ui.popup.Manager.getInstance().update(this);
 
       this._showTimeStamp = (new Date).valueOf();
       this.bringToFront();
@@ -229,7 +229,7 @@ qx.Class.define("qx.ui.popup.Popup",
     {
       this.base(arguments);
 
-      qx.manager.object.PopupManager.getInstance().remove(this);
+      qx.ui.popup.Manager.getInstance().remove(this);
 
       this._hideTimeStamp = (new Date).valueOf();
     },
@@ -376,11 +376,11 @@ qx.Class.define("qx.ui.popup.Popup",
      */
     _sendTo : function()
     {
-      var vPopups = qx.lang.Object.getValues(qx.manager.object.PopupManager.getInstance().getAll());
+      var vPopups = qx.lang.Object.getValues(qx.ui.popup.Manager.getInstance().getAll());
 
-      if (qx.Class.isDefined("qx.manager.object.MenuManager"))
+      if (qx.Class.isDefined("qx.ui.menu.Manager"))
       {
-        var vMenus = qx.lang.Object.getValues(qx.manager.object.MenuManager.getInstance().getAll());
+        var vMenus = qx.lang.Object.getValues(qx.ui.menu.Manager.getInstance().getAll());
         var vAll = vPopups.concat(vMenus).sort(qx.util.Compare.byZIndex);
       }
       else

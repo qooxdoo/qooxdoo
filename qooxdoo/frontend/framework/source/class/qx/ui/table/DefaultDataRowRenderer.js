@@ -26,9 +26,9 @@
 /**
  * The default data row renderer.
  */
-qx.Class.define("qx.ui.table.DefaultDataRowRenderer",
+qx.Class.define("qx.ui.table.rowrenderer.Default",
 {
-  extend : qx.ui.table.DataRowRenderer,
+  extend : qx.ui.table.rowrenderer.DataRowRenderer,
 
 
 
@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.table.DefaultDataRowRenderer",
   {
     this.base(arguments);
 
-    var Ddrr = qx.ui.table.DefaultDataRowRenderer;
+    var Ddrr = qx.ui.table.rowrenderer.Default;
 
     // Initialize to the default colors.
     this._colors =

@@ -25,9 +25,9 @@
 ************************************************************************ */
 
 /** This singleton manages qx.ui.window.Windows */
-qx.Class.define("qx.manager.object.WindowManager",
+qx.Class.define("qx.ui.window.Manager",
 {
-  extend : qx.manager.object.ObjectManager,
+  extend : qx.util.manager.Object,
 
 
 
@@ -75,7 +75,7 @@ qx.Class.define("qx.manager.object.WindowManager",
      */
     _applyActiveWindow : function(value, old)
     {
-      qx.manager.object.PopupManager.getInstance().update();
+      qx.ui.popup.Manager.getInstance().update();
 
       if (old) {
         old.setActive(false);

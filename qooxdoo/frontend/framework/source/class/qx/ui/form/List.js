@@ -44,7 +44,7 @@ qx.Class.define("qx.ui.form.List",
   {
     this.base(arguments);
 
-    this._manager = new qx.manager.selection.SelectionManager(this);
+    this._manager = new qx.ui.selection.SelectionManager(this);
 
     this.addEventListener("mouseover", this._onmouseover);
     this.addEventListener("mousedown", this._onmousedown);
@@ -129,7 +129,7 @@ qx.Class.define("qx.ui.form.List",
      * TODOC
      *
      * @type member
-     * @return {qx.manager.selection.SelectionManager} TODOC
+     * @return {qx.ui.selection.SelectionManager} TODOC
      */
     getManager : function() {
       return this._manager;

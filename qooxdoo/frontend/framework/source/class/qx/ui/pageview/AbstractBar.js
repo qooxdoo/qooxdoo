@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.pageview.AbstractBar",
   {
     this.base(arguments);
 
-    this._manager = new qx.manager.selection.RadioManager;
+    this._manager = new qx.ui.selection.RadioManager;
 
     this.addEventListener("mousewheel", this._onmousewheel);
   },
@@ -61,7 +61,7 @@ qx.Class.define("qx.ui.pageview.AbstractBar",
      * Get the selection manager.
      *
      * @type member
-     * @return {qx.manager.selection.RadioManager} the selection manager of the bar.
+     * @return {qx.ui.selection.RadioManager} the selection manager of the bar.
      */
     getManager : function() {
       return this._manager;

@@ -72,7 +72,7 @@
  *   MIT: http://www.opensource.org/licenses/mit-license.php<br/>
  *   For more info, please see the corresponding source file.
  */
-qx.Class.define("qx.type.Version",
+qx.Class.define("qx.util.Version",
 {
   extend : qx.core.Object,
 
@@ -137,7 +137,7 @@ qx.Class.define("qx.type.Version",
      * Returns true if this version instance has a bigger version number
      *
      * @type member
-     * @param fv {qx.type.Version} Version number to compare with
+     * @param fv {qx.util.Version} Version number to compare with
      * @return {Boolean} whether the version instance has a bigger version numbers.
      */
     versionIsValid : function(fv)

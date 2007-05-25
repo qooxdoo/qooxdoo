@@ -61,10 +61,10 @@ qx.Class.define("qx.ui.form.RadioButton",
       init : "radio-button"
     },
 
-    /** The assigned qx.manager.selection.RadioManager which handles the switching between registered buttons */
+    /** The assigned qx.ui.selection.RadioManager which handles the switching between registered buttons */
     manager :
     {
-      check  : "qx.manager.selection.RadioManager",
+      check  : "qx.ui.selection.RadioManager",
       nullable : true,
       apply : "_applyManager"
     }

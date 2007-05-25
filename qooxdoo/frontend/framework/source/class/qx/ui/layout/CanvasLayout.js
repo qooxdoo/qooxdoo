@@ -66,7 +66,7 @@ qx.Class.define("qx.ui.layout.CanvasLayout",
      * @return {var} TODOC
      */
     _createLayoutImpl : function() {
-      return new qx.renderer.layout.CanvasLayoutImpl(this);
+      return new qx.ui.layout.impl.CanvasLayoutImpl(this);
     }
   }
 });

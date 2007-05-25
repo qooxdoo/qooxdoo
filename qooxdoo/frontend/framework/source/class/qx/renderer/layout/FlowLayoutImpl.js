@@ -24,9 +24,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.renderer.layout.FlowLayoutImpl",
+qx.Class.define("qx.ui.layout.impl.FlowLayoutImpl",
 {
-  extend : qx.renderer.layout.LayoutImpl,
+  extend : qx.ui.layout.impl.LayoutImpl,
 
 
 
@@ -89,7 +89,7 @@ qx.Class.define("qx.renderer.layout.FlowLayoutImpl",
      *  [09] FLUSH LAYOUT QUEUES OF CHILDREN
      *  [10] LAYOUT CHILD
      *
-     *  Inherits from qx.renderer.layout.LayoutImpl:
+     *  Inherits from qx.ui.layout.impl.LayoutImpl:
      *
      *  [01] COMPUTE BOX DIMENSIONS FOR AN INDIVIDUAL CHILD
      *  [02] COMPUTE NEEDED DIMENSIONS FOR AN INDIVIDUAL CHILD
@@ -101,7 +101,7 @@ qx.Class.define("qx.renderer.layout.FlowLayoutImpl",
     computeChildrenNeededWidth : function()
     {
       var w = this.getWidget();
-      return qx.renderer.layout.LayoutImpl.prototype.computeChildrenNeededWidth_sum.call(this) + ((w.getVisibleChildrenLength() - 1) * w.getHorizontalSpacing());
+      return qx.ui.layout.impl.LayoutImpl.prototype.computeChildrenNeededWidth_sum.call(this) + ((w.getVisibleChildrenLength() - 1) * w.getHorizontalSpacing());
     },
 
 
@@ -451,8 +451,8 @@ qx.Class.define("qx.renderer.layout.FlowLayoutImpl",
       var vWidget = this.getWidget();
       var vReverse = vWidget.getReverseChildrenOrder();
 
-      var vMethodBegin = vReverse ? qx.renderer.layout.FlowLayoutImpl.STR_LAST : qx.renderer.layout.FlowLayoutImpl.STR_FIRST;
-      var vMethodContinue = vReverse ? qx.renderer.layout.FlowLayoutImpl.STR_NEXT : qx.renderer.layout.FlowLayoutImpl.STR_PREVIOUS;
+      var vMethodBegin = vReverse ? qx.ui.layout.impl.FlowLayoutImpl.STR_LAST : qx.ui.layout.impl.FlowLayoutImpl.STR_FIRST;
+      var vMethodContinue = vReverse ? qx.ui.layout.impl.FlowLayoutImpl.STR_NEXT : qx.ui.layout.impl.FlowLayoutImpl.STR_PREVIOUS;
 
       if (vChild == vWidget[vMethodBegin]()) {
         vChild._cachedLocationHorizontal = vChild._cachedLocationVertical = vChild._cachedRow = 0;

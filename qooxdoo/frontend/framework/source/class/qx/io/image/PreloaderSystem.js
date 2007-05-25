@@ -124,7 +124,7 @@ qx.Class.define("qx.io.image.PreloaderSystem",
 
       for (var vSource in this._list)
       {
-        var vPreloader = qx.manager.object.ImagePreloaderManager.getInstance().create(qx.manager.object.AliasManager.getInstance().resolve(vSource));
+        var vPreloader = qx.io.image.PreloaderManager.getInstance().create(qx.io.Alias.getInstance().resolve(vSource));
 
         if (vPreloader.isErroneous() || vPreloader.isLoaded()) {
           delete this._list[vSource];

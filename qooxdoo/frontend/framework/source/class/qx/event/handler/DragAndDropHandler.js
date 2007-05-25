@@ -31,7 +31,7 @@
 qx.Class.define("qx.event.handler.DragAndDropHandler",
 {
   type : "singleton",
-  extend : qx.manager.object.ObjectManager,
+  extend : qx.util.manager.Object,
 
 
 

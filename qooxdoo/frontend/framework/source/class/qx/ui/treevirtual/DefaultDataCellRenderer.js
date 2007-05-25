@@ -29,7 +29,7 @@
  */
 qx.Class.define("qx.ui.treevirtual.DefaultDataCellRenderer",
 {
-  extend : qx.ui.table.DefaultDataCellRenderer,
+  extend : qx.ui.table.cellrenderer.Default,
 
 
 

@@ -24,7 +24,7 @@
 
 qx.Class.define("qx.ui.table.ImageDataCellRenderer",
 {
-  extend : qx.ui.table.IconDataCellRenderer,
+  extend : qx.ui.table.cellrenderer.Icon,
 
 
 
@@ -78,7 +78,7 @@ qx.Class.define("qx.ui.table.ImageDataCellRenderer",
      */
     _identifyImage : function(cellInfo)
     {
-      var IconDataCellRenderer = qx.ui.table.IconDataCellRenderer;
+      var IconDataCellRenderer = qx.ui.table.cellrenderer.Icon;
 
       var imageHints =
       {
@@ -86,7 +86,7 @@ qx.Class.define("qx.ui.table.ImageDataCellRenderer",
         imageHeight : this._imageHeight
       };
 
-      var am = qx.manager.object.AliasManager.getInstance();
+      var am = qx.io.Alias.getInstance();
 
       if (cellInfo.value == "") {
         imageHints.url = am.resolve("static/image/blank.gif");

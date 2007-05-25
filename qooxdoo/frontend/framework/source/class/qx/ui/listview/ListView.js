@@ -86,7 +86,7 @@ qx.Class.define("qx.ui.listview.ListView",
     // ************************************************************************
     //   SCROLL AREA
     // ************************************************************************
-    this._scroll = new qx.ui.core.ScrollBar(false);
+    this._scroll = new qx.ui.basic.ScrollBar(false);
     this._scroll.setWidth("auto");
     this._scroll.setParent(this._frame);
     this._scroll.addEventListener("changeValue", this._onscroll, this);

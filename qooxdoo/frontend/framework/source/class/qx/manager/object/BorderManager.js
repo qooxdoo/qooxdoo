@@ -24,10 +24,10 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.manager.object.BorderManager",
+qx.Class.define("qx.theme.manager.Border",
 {
   type : "singleton",
-  extend : qx.manager.object.ValueManager,
+  extend : qx.util.manager.Value,
 
 
 
@@ -69,7 +69,7 @@ qx.Class.define("qx.manager.object.BorderManager",
      * @return {var} return the (translated) result of the incoming value
      */
     resolveDynamic : function(value) {
-      return value instanceof qx.renderer.border.Border ? value : this._dynamic[value];
+      return value instanceof qx.ui.core.Border ? value : this._dynamic[value];
     },
 
 
@@ -81,7 +81,7 @@ qx.Class.define("qx.manager.object.BorderManager",
      * @return {Boolean} returns true if the value is interpreted dynamically
      */
     isDynamic : function(value) {
-      return value && (value instanceof qx.renderer.border.Border || this._dynamic[value] !== undefined);
+      return value && (value instanceof qx.ui.core.Border || this._dynamic[value] !== undefined);
     },
 
 
@@ -100,7 +100,7 @@ qx.Class.define("qx.manager.object.BorderManager",
      * Update all objects which use the given border. Only updates one edge at each call.
      *
      * @type member
-     * @param border {qx.renderer.border.Border} the border which have been modified
+     * @param border {qx.ui.core.Border} the border which have been modified
      * @param edge {String} top, right, bottom or left
      */
     updateObjectsEdge : function(border, edge)
@@ -136,7 +136,7 @@ qx.Class.define("qx.manager.object.BorderManager",
       if (value)
       {
         var source = value.borders;
-        var border = qx.renderer.border.Border;
+        var border = qx.ui.core.Border;
 
         for (var key in source)
         {
@@ -145,7 +145,7 @@ qx.Class.define("qx.manager.object.BorderManager",
         }
       }
 
-      if (qx.manager.object.ThemeManager.getInstance().getAutoSync()) {
+      if (qx.theme.manager.Meta.getInstance().getAutoSync()) {
         this.syncBorderTheme();
       }
     }

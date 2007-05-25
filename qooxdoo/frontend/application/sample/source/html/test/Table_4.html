@@ -24,7 +24,7 @@
     qx.ui.table.TablePane.USE_ARRAY_JOIN = true;
 
     // table model
-    var tableModel = new qx.ui.table.SimpleTableModel();
+    var tableModel = new qx.ui.table.model.Simple();
     tableModel.setColumns([ "ID", "A number", "A date", "Boolean test" ]);
     var rowData = [];
     var now = new Date().getTime();
@@ -42,8 +42,8 @@
     with (table) {
       set({ left:10, top:30, right:300, bottom:30, border:"inset-thin" });
       setMetaColumnCounts([1, -1]);
-      getSelectionModel().setSelectionMode(qx.ui.table.SelectionModel.MULTIPLE_INTERVAL_SELECTION);
-      getTableColumnModel().setDataCellRenderer(3, new qx.ui.table.BooleanDataCellRenderer());
+      getSelectionModel().setSelectionMode(qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION);
+      getTableColumnModel().setDataCellRenderer(3, new qx.ui.table.cellrenderer.Boolean());
     };
 
     d.add(table);

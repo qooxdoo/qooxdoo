@@ -459,7 +459,7 @@ qx.Class.define("qx.ui.form.TextField",
      * @param old {var} Previous value
      */
     _applyFont : function(value, old) {
-      qx.manager.object.FontManager.getInstance().connect(this._styleFont, this, value);
+      qx.theme.manager.Font.getInstance().connect(this._styleFont, this, value);
     },
 
 

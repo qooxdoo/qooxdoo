@@ -309,7 +309,7 @@ qx.Class.define("qx.ui.basic.Label",
     */
 
     _applyFont : function(value, old) {
-      qx.manager.object.FontManager.getInstance().connect(this._styleFont, this, value);
+      qx.theme.manager.Font.getInstance().connect(this._styleFont, this, value);
     },
 
 
@@ -333,7 +333,7 @@ qx.Class.define("qx.ui.basic.Label",
     */
 
     _applyTextColor : function(value, old) {
-      qx.manager.object.ColorManager.getInstance().connect(this._styleTextColor, this, value);
+      qx.theme.manager.Color.getInstance().connect(this._styleTextColor, this, value);
     },
 
     /**

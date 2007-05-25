@@ -23,7 +23,7 @@
 #module(ui_core)
 #optional(qx.event.handler.FocusHandler)
 #optional(qx.manager.object.ToolTipManager)
-#optional(qx.manager.object.PopupManager)
+#optional(qx.ui.popup.Manager)
 
 ************************************************************************ */
 
@@ -226,9 +226,9 @@ qx.Class.define("qx.ui.core.Parent",
       var vFocusValid = value != null;
       var vBlurValid = old != null;
 
-      if (qx.Class.isDefined("qx.manager.object.PopupManager") && vFocusValid)
+      if (qx.Class.isDefined("qx.ui.popup.Manager") && vFocusValid)
       {
-        var vMgr = qx.manager.object.PopupManager.getInstance();
+        var vMgr = qx.ui.popup.Manager.getInstance();
 
         if (vMgr) {
           vMgr.update(value);
@@ -341,7 +341,7 @@ qx.Class.define("qx.ui.core.Parent",
      *
      * This method must be overwritten by all subclasses
      *
-     * return {qx.renderer.layout.LayoutImpl}
+     * return {qx.ui.layout.impl.LayoutImpl}
      *
      * @type member
      * @return {null} TODOC
@@ -354,7 +354,7 @@ qx.Class.define("qx.ui.core.Parent",
     /**
      * Return the layout implementation.
      *
-     * return {qx.renderer.layout.LayoutImpl}
+     * return {qx.ui.layout.impl.LayoutImpl}
      *
      * @type member
      * @return {var} TODOC

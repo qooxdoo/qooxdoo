@@ -139,14 +139,14 @@ qx.Class.define("qx.ui.embed.Flash",
         return qx.ui.embed.Flash.PLAYERVERSION;
       }
 
-      var vPlayerVersion = new qx.type.Version(0, 0, 0);
+      var vPlayerVersion = new qx.util.Version(0, 0, 0);
 
       if (navigator.plugins && navigator.mimeTypes.length)
       {
         var x = navigator.plugins[qx.ui.embed.Flash.PLUGINKEY];
 
         if (x && x.description) {
-          vPlayerVersion = new qx.type.Version(x.description.replace(/([a-zA-Z]|\s)+/, "").replace(/(\s+r|\s+b[0-9]+)/, ".").split("."));
+          vPlayerVersion = new qx.util.Version(x.description.replace(/([a-zA-Z]|\s)+/, "").replace(/(\s+r|\s+b[0-9]+)/, ".").split("."));
         }
       }
       else if (window.ActiveXObject)
@@ -161,7 +161,7 @@ qx.Class.define("qx.ui.embed.Flash",
           try
           {
             var axo = new ActiveXObject(qx.ui.embed.Flash.ACTIVEXKEY + ".6");
-            vPlayerVersion = new qx.type.Version([ 6, 0, 21 ]);
+            vPlayerVersion = new qx.util.Version([ 6, 0, 21 ]);
             axo.AllowScriptAccess = "always"; // throws if player version < 6.0.47 (thanks to Michael Williams @ Adobe for this code)
           }
           catch(e)
@@ -177,7 +177,7 @@ qx.Class.define("qx.ui.embed.Flash",
         }
 
         if (axo != null) {
-          vPlayerVersion = new qx.type.Version(axo.GetVariable("$version").split(" ")[1].split(","));
+          vPlayerVersion = new qx.util.Version(axo.GetVariable("$version").split(" ")[1].split(","));
         }
       }
 
@@ -308,7 +308,7 @@ qx.Class.define("qx.ui.embed.Flash",
       if (this.getEnableExpressInstall())
       {
         // check to see if we need to do an express install
-        var expressInstallReqVer = new qx.type.Version(qx.ui.embed.Flash.EXPRESSINSTALL);
+        var expressInstallReqVer = new qx.util.Version(qx.ui.embed.Flash.EXPRESSINSTALL);
         var installedVer = qx.ui.embed.Flash.getPlayerVersion();
 
         if (installedVer.versionIsValid(expressInstallReqVer) && !installedVer.versionIsValid(this._version)) {
@@ -452,7 +452,7 @@ qx.Class.define("qx.ui.embed.Flash",
      * @param propName {var} TODOC
      */
     _applySource : function(value, old, propName) {
-      this._source = qx.util.Validation.isValidString(value) ? qx.manager.object.AliasManager.getInstance().resolve(value) : "";
+      this._source = qx.util.Validation.isValidString(value) ? qx.io.Alias.getInstance().resolve(value) : "";
     },
 
 
@@ -472,7 +472,7 @@ qx.Class.define("qx.ui.embed.Flash",
       }
 
       if (qx.util.Validation.isValidString(value)) {
-        this._version = new qx.type.Version(value);
+        this._version = new qx.util.Version(value);
       }
     },
 

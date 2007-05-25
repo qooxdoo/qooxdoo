@@ -25,9 +25,9 @@
 ************************************************************************ */
 
 /**
- * Helper for qx.manager.selection.SelectionManager, contains data for selections
+ * Helper for qx.ui.selection.SelectionManager, contains data for selections
  */
-qx.Class.define("qx.type.Selection",
+qx.Class.define("qx.ui.selection.Storage",
 {
   extend : qx.core.Object,
 

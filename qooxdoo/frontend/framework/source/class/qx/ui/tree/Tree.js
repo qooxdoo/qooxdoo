@@ -39,7 +39,7 @@
  *
  * The handling of <b>selections</b> within a tree is somewhat distributed
  * between the root Tree object and the attached {@link
- * qx.manager.selection.TreeSelectionManager TreeSelectionManager}. To get the
+ * qx.ui.tree.SelectionManager TreeSelectionManager}. To get the
  * currently selected element of a tree use the Tree.{@link #getSelectedElement
  * getSelectedElement} method and Tree.{@link #setSelectedElement
  * setSelectedElement} to set it. The TreeSelectionManager handles more
@@ -76,7 +76,7 @@ qx.Class.define("qx.ui.tree.Tree",
     // ************************************************************************
     //   INITILISIZE MANAGER
     // ************************************************************************
-    this._manager = new qx.manager.selection.TreeSelectionManager(this);
+    this._manager = new qx.ui.tree.SelectionManager(this);
 
     this._iconObject.setAppearance("tree-icon");
     this._labelObject.setAppearance("tree-label");
@@ -217,7 +217,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * it.
      *
      * @type member
-     * @return {qx.manager.selection.TreeSelectionManager} the selection manager of the tree.
+     * @return {qx.ui.tree.SelectionManager} the selection manager of the tree.
      */
     getManager : function() {
       return this._manager;

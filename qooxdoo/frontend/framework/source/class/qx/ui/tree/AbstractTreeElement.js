@@ -87,7 +87,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
     this.initSelectable();
 
     // Base URL used for indent images
-    this.BASE_URI = qx.manager.object.AliasManager.getInstance().resolve("widget/tree/");
+    this.BASE_URI = qx.io.Alias.getInstance().resolve("widget/tree/");
 
     // Adding subwidgets
     this.add(this._indentObject, this._iconObject, this._labelObject);

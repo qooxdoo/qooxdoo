@@ -358,13 +358,13 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       {
         return;
       }
-      var model = new qx.ui.table.SimpleTableModel;
+      var model = new qx.ui.table.model.Simple;
 
       // Default column titles
       model.setColumns(this.getColumnHeaders());
       var l = this._list = new qx.ui.table.Table(model, {
         tableColumnModel : function(obj) {
-          return new qx.ui.table.ResizeTableColumnModel(obj);
+          return new qx.ui.table.columnmodel.Resize(obj);
         }
       });
       l.setFocusedCell = function() {};
@@ -392,7 +392,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
 
       // Avoid deselection from user
       this._manager.removeSelectionInterval = function() {};
-      this._manager.setSelectionMode(qx.ui.table.SelectionModel.SINGLE_SELECTION);
+      this._manager.setSelectionMode(qx.ui.table.selection.Model.SINGLE_SELECTION);
       this._popup.add(l);
 
       this._invalidateDimensions();
@@ -874,7 +874,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       var maxRows = this.getMaxVisibleRows(),
 
       // Only assign room for the vertical scrollbar when needed
-      width = data.length > maxRows ? (new qx.ui.core.ScrollBar)._getScrollBarWidth() : 0, colModel = this._list.getTableColumnModel();
+      width = data.length > maxRows ? (new qx.ui.basic.ScrollBar)._getScrollBarWidth() : 0, colModel = this._list.getTableColumnModel();
 
       this._applyShowColumnHeaders(this.getShowColumnHeaders());
       var beh = this._list.getTableColumnModel().getBehavior();
@@ -896,7 +896,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
         }
       }
       // ##Final width and height
-      var borderObj = qx.manager.object.BorderManager.getInstance().resolveDynamic(this._popup.getBorder());
+      var borderObj = qx.theme.manager.Border.getInstance().resolveDynamic(this._popup.getBorder());
       this._popup.set({
           width : borderObj.getWidthLeft()+width+borderObj.getWidthRight(),
           height: this._getPopupHeight(maxRows),
@@ -909,7 +909,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
 
     _getPopupHeight: function(rows)
     {
-      var borderObj = qx.manager.object.BorderManager.getInstance().resolveDynamic(this._popup.getBorder());
+      var borderObj = qx.theme.manager.Border.getInstance().resolveDynamic(this._popup.getBorder());
       return borderObj.getWidthTop()+ this._list.getRowHeight() * Math.min(rows, (this.hasHeaders ? 1 : 0) + this.getSelection().length) +
          2 + (this.hasHeaders ? 2 : 0) + borderObj.getWidthBottom();
     },
