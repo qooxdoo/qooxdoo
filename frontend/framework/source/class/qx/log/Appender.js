@@ -27,7 +27,7 @@
 /**
  * An appender. Does the actual logging.
  */
-qx.Class.define("qx.log.Appender",
+qx.Class.define("qx.log.appender.Abstract",
 {
   extend : qx.log.LogEventProcessor,
   type : "abstract",

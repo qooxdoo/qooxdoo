@@ -28,7 +28,7 @@
  */
 qx.Class.define("qx.log.appender.Forward",
 {
-  extend : qx.log.Appender,
+  extend : qx.log.appender.Abstract,
 
 
 

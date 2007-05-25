@@ -29,9 +29,9 @@
  * This class does not depend on qooxdoo widgets, so it also works when there
  * are problems with widgets or when the widgets are not yet initialized.
  */
-qx.Class.define("qx.log.DivAppender",
+qx.Class.define("qx.log.appender.Div",
 {
-  extend : qx.log.Appender,
+  extend : qx.log.appender.Abstract,
 
 
 
