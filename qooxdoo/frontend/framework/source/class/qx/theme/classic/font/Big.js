@@ -31,20 +31,20 @@ qx.Theme.define("qx.theme.classic.font.Big",
     "default" :
     {
       size : 13,
-      family : [ "Lucida Grande", "Tahoma", "sans-serif" ]
+      family : [ "Lucida Grande", "Tahoma", "Verdana" ]
     },
 
     "bold" :
     {
       size : 13,
-      family : [ "Lucida Grande", "Tahoma", "sans-serif" ],
+      family : [ "Lucida Grande", "Tahoma", "Verdana" ],
       bold : true
     },
 
     "large" :
     {
       size : 16,
-      family : [ "Lucida Grande", "Tahoma", "sans-serif" ]
+      family : [ "Lucida Grande", "Tahoma", "Verdana" ]
     }
   }
 });

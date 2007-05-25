@@ -30,26 +30,26 @@ qx.Theme.define("qx.theme.classic.font.Default",
     "default" :
     {
       size : 11,
-      family : [ "Lucida Grande", "Tahoma", "sans-serif" ]
+      family : [ "Lucida Grande", "Tahoma", "Verdana" ]
     },
 
     "bold" :
     {
       size : 11,
-      family : [ "Lucida Grande", "Tahoma", "sans-serif" ],
+      family : [ "Lucida Grande", "Tahoma", "Verdana" ],
       bold : true
     },
 
     "large" :
     {
       size : 13,
-      family : [ "Lucida Grande", "Tahoma", "sans-serif" ]
+      family : [ "Lucida Grande", "Tahoma", "Verdana" ]
     },
 
     "boldLarge" :
     {
       size : 13,
-      family : [ "Lucida Grande", "Tahoma", "sans-serif" ],
+      family : [ "Lucida Grande", "Tahoma", "Verdana" ],
       bold : true
     }
   }
