@@ -1510,6 +1510,11 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
+    "spinner-text-field" :
+    {
+      include : "text-field"
+    },
+
     "spinner-button":
     {
       style : function(states)
