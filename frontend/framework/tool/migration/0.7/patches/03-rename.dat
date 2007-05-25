@@ -5,6 +5,8 @@
 \bqx\.log\.JsUnitAppender\b=qx.log.appender.JsUnit
 \bqx\.log\.RingBufferAppender\b=qx.log.appender.RingBuffer
 \bqx\.log\.WindowAppender\b=qx.log.appender.Window
+\bqx\.log\.DivAppender\b=qx.log.appender.Div
+\bqx\.log\.Appender\b=qx.log.appender.Abstract
 
 \bqx\.manager\.object\.AliasManager\b=qx.io.Alias
 
