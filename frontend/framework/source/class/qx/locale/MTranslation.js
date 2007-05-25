@@ -53,6 +53,7 @@ qx.Mixin.define("qx.locale.MTranslation",
       throw new Error("To enable localization please include qx.locale.Manager into your build!");
     },
 
+
     /**
      * Translate a plural message
      * Mark the messages for translation.
@@ -75,6 +76,7 @@ qx.Mixin.define("qx.locale.MTranslation",
 
       throw new Error("To enable localization please include qx.locale.Manager into your build!");
     },
+
 
     /**
      * Mark the message for translation but return the original message.

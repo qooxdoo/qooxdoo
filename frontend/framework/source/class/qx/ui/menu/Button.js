@@ -326,11 +326,11 @@ qx.Class.define("qx.ui.menu.Button",
     {
       this._iconObject.setSource(value);
 
-      if (qx.util.Validation.isValidString(value))
+      if (value && value !== "")
       {
         this._hasIcon = true;
 
-        if (qx.util.Validation.isInvalidString(old)) {
+        if (!old || old === "") {
           this.addAtBegin(this._iconObject);
         }
       }
@@ -353,11 +353,11 @@ qx.Class.define("qx.ui.menu.Button",
     {
       this._labelObject.setText(value);
 
-      if ((typeof value == "string" && value != "") || value instanceof qx.locale.LocalizedString)
+      if (value && value !== "")
       {
         this._hasLabel = true;
 
-        if (!((typeof old == "string" && old != "") || old instanceof qx.locale.LocalizedString)) {
+        if (!old || old === "") {
           this.addAt(this._labelObject, this.getFirstChild() == this._iconObject ? 1 : 0);
         }
       }
