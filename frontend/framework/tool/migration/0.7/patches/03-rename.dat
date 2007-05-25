@@ -85,10 +85,11 @@
 
 
 
-# Final touches 1
+# Final touches
 
 \bqx\.ui\.popup\.Manager\b=qx.ui.popup.PopupManager
-\bqx\.ui\.tooltip\.Manager\b=qx.ui.popup.TooltipManager
+\bqx\.ui\.tooltip\.Manager\b=qx.ui.popup.ToolTipManager
+\bqx\.ui\.popup\.TooltipManager\b=qx.ui.popup.ToolTipManager
 
 \bqx\.ui\.table\.ConditionalDataCellRenderer\b=qx.ui.table.cellrenderer.Conditional
 \bqx\.ui\.table\.ImageDataCellRenderer\b=qx.ui.table.cellrenderer.Image
@@ -103,4 +104,4 @@
 \bqx\.ui\.table\.columnmodel\.TableColumnModel\b=qx.ui.table.columnmodel.Basic
 \bqx\.ui\.table\.headerrenderer\.HeaderCellRenderer\b=qx.ui.table.headerrenderer.Basic
 \bqx\.ui\.table\.model\.TableModel\b=qx.ui.table.model.Basic
-\bqx\.ui\.table\.rowrenderer\.CellEditorFactory\b=qx.ui.table.rowrenderer.Generic
+\bqx\.ui\.table\.rowrenderer\.DataRowRenderer\b=qx.ui.table.rowrenderer.Basic
