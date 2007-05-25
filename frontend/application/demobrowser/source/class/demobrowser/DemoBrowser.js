@@ -66,7 +66,8 @@ qx.Class.define("demobrowser.DemoBrowser",
     this.left = left;
     this.mainsplit.addLeft(left);
     // fill the tree
-    var testRep = window._demoData_;
+    //var testRep = window._demoData_;
+    var testRep = "";
     this.tests.handler = new demobrowser.TreeDataHandler(testRep);
     this.leftReloadTree();
 
@@ -212,7 +213,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       header.setStyleProperty(
         "background",
         "#134275 url(" +
-        qx.manager.object.AliasManager.getInstance().resolvePath("demobrowser/image/colorstrip.gif") +
+        qx.manager.object.AliasManager.getInstance().resolve("demobrowser/image/colorstrip.gif") +
         ") top left repeat-x"
       );
       header.setHeight(70);
