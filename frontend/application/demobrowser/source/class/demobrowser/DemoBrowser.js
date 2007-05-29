@@ -314,6 +314,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       });
 
       var bsb1 = new qx.ui.pageview.tabview.Button("Demo Page", "icon/16/actions/system-run.png");
+      this.widgets["outputviews.demopage.button"] = bsb1;
       var bsb2 = new qx.ui.pageview.tabview.Button("Log", "icon/16/mimetypes/text-ascii.png");
       bsb1.setChecked(true);
       buttview.getBar().add(bsb1, bsb2);
@@ -744,11 +745,11 @@ qx.Class.define("demobrowser.DemoBrowser",
           var currNode = children[i];
           if (currNode.hasChildren())
           {
-            t = new qx.ui.tree.TreeFolder(polish(currNode.label),"demobrowser/image/package18.gif");
+            t = new qx.ui.tree.TreeFolder(that.polish(currNode.label),"demobrowser/image/package18.gif");
             buildSubTree(t,currNode);
           } else
           {
-            t = new qx.ui.tree.TreeFile(polish(currNode.label),"demobrowser/image/class18.gif");
+            t = new qx.ui.tree.TreeFile(that.polish(currNode.label),"demobrowser/image/class18.gif");
             //t.setToolTip(new qx.ui.popup.ToolTip(currNode.desc).setHideInterval(1000000));
             t.addEventListener("mouseover",function (e) 
             {
@@ -781,7 +782,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           {
             if (handler.hasTests(currNode)) {
               var fullName = handler.getFullName(currNode);
-              var t = new qx.ui.tree.TreeFolder(polish(fullName),"demobrowser/image/package18.gif");
+              var t = new qx.ui.tree.TreeFolder(that.polish(fullName),"demobrowser/image/package18.gif");
               widgetR.add(t);
               t.setUserData("modelLink", currNode);
               currNode.widgetLinkFlat = t;
@@ -794,7 +795,7 @@ qx.Class.define("demobrowser.DemoBrowser",
               {
                 if (children[i].type && children[i].type == "test")
                 {
-                  var c = new qx.ui.tree.TreeFile(polish(children[i].label),"demobrowser/image/class18.gif");
+                  var c = new qx.ui.tree.TreeFile(that.polish(children[i].label),"demobrowser/image/class18.gif");
                   c.setToolTip(new qx.ui.popup.ToolTip(children[i].desc));
                   t.add(c);
                   c.setUserData("modelLink", children[i]);
@@ -809,14 +810,6 @@ qx.Class.define("demobrowser.DemoBrowser",
           }
         }
       }; //buildSubTreeFlat
-
-      /**
-       * 'Atom_1.html' -> 'Atom 1'
-       */
-      function polish (str) 
-      {
-        return str.replace(".html","").replace("_"," ");
-      }
 
       // -- Main --------------------------------
 
@@ -1065,6 +1058,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       {
         this.f1.setSource('html/example/'+file);
       }
+      this.widgets["outputviews.demopage.button"].setLabel(this.polish(file));
 
     }, //runTest
 
@@ -1207,6 +1201,16 @@ qx.Class.define("demobrowser.DemoBrowser",
     {
       alert("Not yet implemented!"); 
     },
+
+
+    /**
+     * 'Atom_1.html' -> 'Atom 1'
+     */
+    polish : function (str) 
+    {
+      return str.replace(".html","").replace("_"," ");
+    },
+
 
     appender : function (str) {
       //this.f1.setValue(this.f1.getValue() + str);
