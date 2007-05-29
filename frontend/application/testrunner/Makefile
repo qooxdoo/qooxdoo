@@ -22,19 +22,19 @@
 source:
 	@$(MAKE) -s -f Makefile.runner source
 	@$(MAKE) -s -f Makefile.tests source
-      
+
 build:
 	@$(MAKE) -s -f Makefile.runner build
 	@$(MAKE) -s -f Makefile.tests build
-    
+
 clean:
 	@$(MAKE) -s -f Makefile.runner clean
 	@$(MAKE) -s -f Makefile.tests clean
-    
+
 distclean:
 	@$(MAKE) -s -f Makefile.runner distclean
 	@$(MAKE) -s -f Makefile.tests distclean
-	
+
 api:
 	@$(MAKE) -s -f Makefile.runner api
 
@@ -46,3 +46,6 @@ fix:
 	@$(MAKE) -s -f Makefile.runner fix
 	@$(MAKE) -s -f Makefile.tests fix
 
+locales:
+	@$(MAKE) -s -f Makefile.runner locales
+	@$(MAKE) -s -f Makefile.tests locales
