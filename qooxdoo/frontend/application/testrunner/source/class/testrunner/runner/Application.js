@@ -68,6 +68,15 @@ qx.Class.define("testrunner.runner.Application",
 
       // this.viewer = new testrunner.runner.BasicRunner;
       this.viewer.addToDocument();
+
+      // Load iframe file
+      qx.client.Timer.once(this._load, this, 0);
+    },
+
+    _load : function()
+    {
+      // Finally load the data
+      this.viewer.load("script/apidata.js");
     }
   },
 
