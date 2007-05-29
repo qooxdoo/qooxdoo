@@ -75,9 +75,6 @@ qx.Class.define("testrunner.runner.TestRunner",
 
     right.set(
     {
-      // border : "inset",
-      // spacing : 10,
-      // padding : 10,
       height : "100%",
       width  : "100%"
     });
@@ -89,17 +86,21 @@ qx.Class.define("testrunner.runner.TestRunner",
 
     this.toolbar.set(
     {
-      height                : 30,
-      show                  : "icon",
-      verticalChildrenAlign : "middle",
-      padding               : [ 0, 3 ]
+      height : 30,
+      show : "icon"
     });
 
     right.add(this.toolbar);
 
+    var rightSub = new qx.ui.layout.VerticalBoxLayout();
+    rightSub.setPadding(20);
+    rightSub.setHeight("1*");
+    rightSub.setSpacing(20);
+    right.add(rightSub);
+
     var groupBox = new qx.ui.groupbox.GroupBox();
     groupBox.set({ height : "auto" });
-    right.add(groupBox);
+    rightSub.add(groupBox);
 
     var vert = new qx.ui.layout.VerticalBoxLayout();
 
@@ -125,7 +126,7 @@ qx.Class.define("testrunner.runner.TestRunner",
     // right.add(progress);
     // output views
     var buttview = this.__makeOutputViews();
-    right.add(buttview);
+    rightSub.add(buttview);
 
     // add eventhandler now, after objects are created
     this.widgets["treeview"].getBar().getManager().addEventListener("changeSelected", function(e)
@@ -143,7 +144,7 @@ qx.Class.define("testrunner.runner.TestRunner",
 
     // Last but not least:
     // Hidden IFrame for test runs
-    var iframe = new qx.ui.embed.Iframe("html/QooxdooTest.html?testclass=testrunner.test");
+    var iframe = new qx.ui.embed.Iframe;
     iframe.setEdge(0);
     this.iframe = iframe;
     iframe.addToDocument();
@@ -151,10 +152,13 @@ qx.Class.define("testrunner.runner.TestRunner",
 
     // Get the TestLoader from the Iframe (in the event handler)
     iframe.addEventListener("load", this.ehIframeOnLoad, this);
-  },  // constructor
+  },
+
+
 
   // EXPERIMENTAL !
   // var treetest = new testrunner.runner.TreeTest();
+
   /*
   *****************************************************************************
      PROPERTIES
@@ -189,6 +193,11 @@ qx.Class.define("testrunner.runner.TestRunner",
 
   members :
   {
+    load : function() {
+      this.iframe.setSource("html/QooxdooTest.html?testclass=testrunner.test");
+    },
+
+
     // ------------------------------------------------------------------------
     //   CONSTRUCTOR HELPERS
     // ------------------------------------------------------------------------
@@ -625,7 +634,7 @@ qx.Class.define("testrunner.runner.TestRunner",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     treeGetSelection : function(e)
     {
@@ -683,7 +692,7 @@ qx.Class.define("testrunner.runner.TestRunner",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     leftReloadTree : function(e)
     {  // use tree struct
@@ -841,7 +850,7 @@ qx.Class.define("testrunner.runner.TestRunner",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     runTest : function(e)
     {
@@ -1050,7 +1059,7 @@ qx.Class.define("testrunner.runner.TestRunner",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     reloadTestSuite : function(e)
     {
@@ -1079,7 +1088,7 @@ qx.Class.define("testrunner.runner.TestRunner",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     ehIframeOnLoad : function(e)
     {
@@ -1118,7 +1127,7 @@ qx.Class.define("testrunner.runner.TestRunner",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     resetGui : function()
     {
@@ -1131,7 +1140,7 @@ qx.Class.define("testrunner.runner.TestRunner",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     resetProgress : function()
     {
@@ -1147,7 +1156,7 @@ qx.Class.define("testrunner.runner.TestRunner",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     resetTabView : function() {
       this.f1.clear();
@@ -1159,7 +1168,7 @@ qx.Class.define("testrunner.runner.TestRunner",
      *
      * @type member
      * @param newSucc {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _applySuccCnt : function(newSucc) {
       this.widgets["progresspane.succ_cnt"].setText(newSucc + "");
@@ -1171,7 +1180,7 @@ qx.Class.define("testrunner.runner.TestRunner",
      *
      * @type member
      * @param newFail {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _applyFailCnt : function(newFail) {
       this.widgets["progresspane.fail_cnt"].setText(newFail + "");
@@ -1183,7 +1192,7 @@ qx.Class.define("testrunner.runner.TestRunner",
      *
      * @type member
      * @param str {String} TODOC
-     * @return {void} 
+     * @return {void}
      */
     appender : function(str) {
 
