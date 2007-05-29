@@ -76,7 +76,7 @@ qx.Class.define("testrunner.runner.Application",
     _load : function()
     {
       // Finally load the data
-      this.viewer.load("script/apidata.js");
+      this.viewer.load();
     }
   },
 
