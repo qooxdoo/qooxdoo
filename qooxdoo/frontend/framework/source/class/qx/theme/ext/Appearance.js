@@ -1056,7 +1056,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
       style : function(states)
       {
         return {
-          edge            : [ 8, 2, 2 ],
+          edge            : [ 8, 0, 0 ],
           padding         : [ 20, 12, 9 ],
           border          : "general",
           backgroundColor : "white"

@@ -1465,7 +1465,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          edge    : [ 8, 2, 2 ],
+          edge : [ 8, 0, 0 ],
           padding : [ 12, 9 ],
           border  : "groove"
         };
