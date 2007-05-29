@@ -33,13 +33,13 @@
 		var l1 = new qx.ui.basic.Label("A date field: "); l1.set({top:51, left:20});
 		d.add(l1);
 
-    var tf1 = new qx.ui.form.TextField; tf1.set({top:48,left:84,width:70});
+    var tf1 = new qx.ui.form.TextField; tf1.set({top:48,left:90,width:150});
     tf1.addEventListener("changeValue", changeValue);
     d.add(tf1);
 
 
     var dcb1 = new qx.ui.component.DateChooserButton();
-    dcb1.set({top:45,left:232});
+    dcb1.set({top:50,left:250});
     // associate the date chooser button to the textfield tf1:
     dcb1.setTargetWidget(tf1);
     // change the button text
@@ -52,12 +52,12 @@
     var l2 = new qx.ui.basic.Label("Date field 2: "); l2.set({top:91, left:20});
 		d.add(l2);
 
-    var tf2 = new qx.ui.form.TextField; tf2.set({top:88,left:84,width:70});
+    var tf2 = new qx.ui.form.TextField; tf2.set({top:88,left:90,width:150});
     tf2.addEventListener("changeValue", changeValue);
     d.add(tf2);
 
     var dcb2 = new qx.ui.component.DateChooserButton(tf2);
-    dcb2.set({top:85,left:232});
+    dcb2.set({top:90,left:250});
 		d.add(dcb2);
 
 
@@ -65,7 +65,7 @@
 		d.add(l3);
 
 		var c1 = new qx.ui.form.ComboBox;
-    c1.set({top:138,left:160});
+    c1.set({top:138,left:180});
 
     var item;
 
@@ -86,7 +86,7 @@
 		d.add(l4);
 
 		var c2 = new qx.ui.form.ComboBox;
-    c2.set({top:178,left:160});
+    c2.set({top:178,left:180});
 
     var item;
 
