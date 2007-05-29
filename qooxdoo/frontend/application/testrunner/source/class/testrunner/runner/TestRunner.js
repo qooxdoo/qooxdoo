@@ -696,19 +696,60 @@ qx.Class.define("testrunner.runner.TestRunner",
       {
         var children = modelR.getChildren();
         var t;
+        var ico;
+
+        var children = qx.lang.Array.copy(children);
+
+        for (var i=0; i<children.length; i++)
+        {
+          var currNode = children[i];
+          var firstChar = currNode.label.charAt(0);
+
+          if (firstChar.toUpperCase() === firstChar) {
+            currNode.type = 2;
+          } else if (currNode.hasChildren()) {
+            currNode.type = 4;
+          } else {
+            currNode.type = 1;
+          }
+        }
+
+        children.sort(function(a, b)
+        {
+          if (a.type != b.type) {
+            return b.type - a.type;
+          }
+
+          return a.label > b.label ? 1 : -1;
+        });
 
         for (var i=0; i<children.length; i++)
         {
           var currNode = children[i];
 
+          var firstChar = currNode.label.charAt(0);
+
+          if (currNode.type === 2)
+          {
+            ico = "testrunner/image/class18.gif";
+          }
+          else if (currNode.type === 4)
+          {
+            ico = "testrunner/image/package18.gif";
+          }
+          else
+          {
+            ico = "testrunner/image/method_public18.gif";
+          }
+
           if (currNode.hasChildren())
           {
-            t = new qx.ui.tree.TreeFolder(currNode.label, "testrunner/image/package18.gif");
+            t = new qx.ui.tree.TreeFolder(currNode.label, ico);
             buildSubTree(t, currNode);
           }
           else
           {
-            t = new qx.ui.tree.TreeFile(currNode.label, "testrunner/image/class18.gif");
+            t = new qx.ui.tree.TreeFile(currNode.label, ico);
           }
 
           // make connections
