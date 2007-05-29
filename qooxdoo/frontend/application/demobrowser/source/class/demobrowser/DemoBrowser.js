@@ -355,6 +355,11 @@ qx.Class.define("demobrowser.DemoBrowser",
         }
         fwindow.qx.log.Logger.ROOT_LOGGER.removeAllAppenders();
         fwindow.qx.log.Logger.ROOT_LOGGER.addAppender(this.logappender);
+        // delete demo description
+        var div = fwindow.document.getElementById("demoDescription");
+        if (div && div.parentNode) {
+          div.parentNode.removeChild(div);
+        }
       }, this);
 
       // Second Page
