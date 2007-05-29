@@ -116,7 +116,6 @@ qx.Theme.define("qx.theme.classic.Border",
       color : [ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ]
     },
 
-    /*Resizeable in the right/bottom area*/
     "resizer" :
     {
       width : [ 1, 3, 3, 1 ],
@@ -127,30 +126,13 @@ qx.Theme.define("qx.theme.classic.Border",
     "divider-vertical" :
     {
       widthTop : 1,
-      widthBottom : 1,
-      colorTop: "border-dark-shadow",
-      colorBottom : "border-light"
+      colorTop : "border-dark-shadow"
     },
 
     "divider-horizontal" :
     {
       widthLeft : 1,
-      widthRight : 1,
-      colorLeft : "border-light",
-      colorRight : "border-dark-shadow"
-    },
-
-     "splitter-vertical" :
-     {
-       top : [ 1, "solid", "white"],
-       bottom : [ 1, "solid", "border-dark"]
-     },
-
-     "splitter-horizontal" :
-     {
-       left : [ 1, "solid", "white"],
-       right : [ 1, "solid", "border-dark"]
-     }
-
+      colorLeft : "border-dark-shadow"
+    }
   }
 });
