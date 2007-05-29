@@ -343,7 +343,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       });
 
       // main output area
-      this.f2 = new qx.ui.embed.HtmlEmbed('<div>Session Log</div>');
+      this.f2 = new qx.ui.embed.HtmlEmbed('');
       pp2.add(this.f2);
       this.f2.setHtmlProperty("id", "sessionlog");
 
