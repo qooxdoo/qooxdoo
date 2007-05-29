@@ -68,9 +68,19 @@ qx.Class.define("apiviewer.Application",
     }
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     SETTINGS
+  *****************************************************************************
+  */
+
   settings : {
     "apiviewer.resourceUri" : "./resource"
   },
+
 
 
 
@@ -80,8 +90,7 @@ qx.Class.define("apiviewer.Application",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct : function() {
     this._disposeObjects("viewer", "controller");
   }
 });
