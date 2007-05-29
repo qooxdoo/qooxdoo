@@ -32,7 +32,7 @@
  * {
  *   // USER-PROVIDED ATTRIBUTES
  *   // ------------------------
- *   type           : qx.ui.treevirtual.Type.LEAF,
+ *   type           : qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF,
  *   parentNodeId   : 23,    // index in _nodeArr of the parent node
  *   label          : "My Documents",
  *   bSelected      : true,  // true if node is selected; false otherwise

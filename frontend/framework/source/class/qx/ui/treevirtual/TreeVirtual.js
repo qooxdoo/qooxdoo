@@ -503,16 +503,16 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      * @param mode {Integer}
      *   The selection mode to be used.  It may be any of:
      *     <pre>
-     *       qx.ui.treevirtual.SelectionMode.NONE:
+     *       qx.ui.treevirtual.TreeVirtual.SelectionMode.NONE:
      *          Nothing can ever be selected.
      *
-     *       qx.ui.treevirtual.SelectionMode.SINGLE
+     *       qx.ui.treevirtual.TreeVirtual.SelectionMode.SINGLE
      *          Allow only one selected item.
      *
-     *       qx.ui.treevirtual.SelectionMode.SINGLE_INTERVAL
+     *       qx.ui.treevirtual.TreeVirtual.SelectionMode.SINGLE_INTERVAL
      *          Allow one contiguous interval of selected items.
      *
-     *       qx.ui.treevirtual.SelectionMode.MULTIPLE_INTERVAL
+     *       qx.ui.treevirtual.TreeVirtual.SelectionMode.MULTIPLE_INTERVAL
      *          Allow any selected items, whether contiguous or not.
      *     </pre>
      *
