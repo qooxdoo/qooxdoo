@@ -706,18 +706,18 @@ qx.Class.define("testrunner.runner.TestRunner",
           var firstChar = currNode.label.charAt(0);
 
           if (firstChar.toUpperCase() === firstChar) {
-            currNode.type = 2;
+            currNode.__type = 2;
           } else if (currNode.hasChildren()) {
-            currNode.type = 4;
+            currNode.__type = 4;
           } else {
-            currNode.type = 1;
+            currNode.__type = 1;
           }
         }
 
         children.sort(function(a, b)
         {
-          if (a.type != b.type) {
-            return b.type - a.type;
+          if (a.__type != b.__type) {
+            return b.__type - a.__type;
           }
 
           return a.label > b.label ? 1 : -1;
@@ -729,11 +729,11 @@ qx.Class.define("testrunner.runner.TestRunner",
 
           var firstChar = currNode.label.charAt(0);
 
-          if (currNode.type === 2)
+          if (currNode.__type === 2)
           {
             ico = "testrunner/image/class18.gif";
           }
-          else if (currNode.type === 4)
+          else if (currNode.__type === 4)
           {
             ico = "testrunner/image/package18.gif";
           }
