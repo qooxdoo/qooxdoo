@@ -53,6 +53,7 @@ MIGRATION_ORDER = [
     "0.6.6",
     "0.7-beta1",
     "0.7-beta2",
+    "0.7-beta3",
     "0.7"
 ]
 
