@@ -28,6 +28,14 @@ qx.Class.define("testrunner.runner.ProgressBar",
 {
   extend : qx.ui.layout.HorizontalBoxLayout,
 
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   construct : function()
   {
     this.base(arguments);
@@ -83,7 +91,16 @@ qx.Class.define("testrunner.runner.ProgressBar",
     if (!this.isShowPcntStatus()) {
       this.pcntStatus.setDisplay(false);
     }
-  },  // construct
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
 
   properties :
   {
@@ -136,13 +153,22 @@ qx.Class.define("testrunner.runner.ProgressBar",
     }
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
     /**
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     showOff : function()
     {
@@ -170,7 +196,7 @@ qx.Class.define("testrunner.runner.ProgressBar",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     increment : function() {},
 
@@ -179,7 +205,7 @@ qx.Class.define("testrunner.runner.ProgressBar",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     reset : function()
     {
@@ -264,7 +290,7 @@ qx.Class.define("testrunner.runner.ProgressBar",
      *
      * @type member
      * @param newLabel {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _applyLabel : function(newLabel) {
       this.label.setText(newLabel);
@@ -276,7 +302,7 @@ qx.Class.define("testrunner.runner.ProgressBar",
      *
      * @type member
      * @param newWidth {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _applyBarWidth : function(newWidth) {
       this.hull.setWidth(newWidth);
@@ -288,7 +314,7 @@ qx.Class.define("testrunner.runner.ProgressBar",
      *
      * @type member
      * @param newStatus {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _applyShowStepStatus : function(newStatus)
     {
@@ -305,7 +331,7 @@ qx.Class.define("testrunner.runner.ProgressBar",
      *
      * @type member
      * @param newStatus {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _applyStepStatus : function(newStatus)
     {
@@ -320,7 +346,7 @@ qx.Class.define("testrunner.runner.ProgressBar",
      *
      * @type member
      * @param newStatus {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _applyShowPcntStatus : function(newStatus)
     {
@@ -337,7 +363,7 @@ qx.Class.define("testrunner.runner.ProgressBar",
      *
      * @type member
      * @param newStatus {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _applyPcntStatus : function(newStatus)
     {
@@ -352,10 +378,10 @@ qx.Class.define("testrunner.runner.ProgressBar",
      *
      * @type member
      * @param newColor {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _applyBarColor : function(newColor) {
       this.bar.setBackgroundColor(newColor);
     }
-  }  // members
+  }
 });

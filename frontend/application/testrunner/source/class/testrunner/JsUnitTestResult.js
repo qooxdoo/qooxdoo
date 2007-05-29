@@ -21,11 +21,28 @@ qx.Class.define("testrunner.JsUnitTestResult",
 {
   extend : testrunner.TestResult,
 
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   construct : function()
   {
     this.base(arguments);
     this._testFunctionNames = [];
   },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
 
   members :
   {
@@ -35,7 +52,7 @@ qx.Class.define("testrunner.JsUnitTestResult",
      * @type member
      * @param test {var} TODOC
      * @param testFunction {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     run : function(test, testFunction)
     {
@@ -49,7 +66,7 @@ qx.Class.define("testrunner.JsUnitTestResult",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     exportToJsUnit : function()
     {

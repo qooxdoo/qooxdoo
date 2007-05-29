@@ -29,6 +29,14 @@ qx.Class.define("testrunner.runner.TreeTest",
 {
   extend : qx.core.Object,
 
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   construct : function()
   {
     this.base(arguments);
@@ -48,7 +56,5 @@ qx.Class.define("testrunner.runner.TreeTest",
     tree.print();
     var s = three.pwd().concat([ three.label ]).join(".");
     this.debug("Three is exactly :" + s);
-  },
-
-  members : {}
+  }
 });

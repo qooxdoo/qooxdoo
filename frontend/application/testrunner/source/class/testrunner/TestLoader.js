@@ -30,6 +30,14 @@ qx.Class.define("testrunner.TestLoader",
 {
   extend : qx.application.Gui,
 
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   construct : function()
   {
     this.base(arguments);
@@ -38,7 +46,14 @@ qx.Class.define("testrunner.TestLoader",
     qx.io.Alias.getInstance().add("testrunner", qx.core.Setting.get("testrunner.resourceUri"));
   },
 
-  settings : { "testrunner.resourceUri" : "./resource" },
+
+
+
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
 
   statics :
   {
@@ -53,6 +68,15 @@ qx.Class.define("testrunner.TestLoader",
     }
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
   properties :
   {
     suite :
@@ -62,13 +86,21 @@ qx.Class.define("testrunner.TestLoader",
     }
   },
 
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
     /**
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     main : function()
     {
@@ -117,7 +149,7 @@ qx.Class.define("testrunner.TestLoader",
      *
      * @type member
      * @param namespace {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setTestNamespace : function(namespace)
     {
@@ -131,7 +163,7 @@ qx.Class.define("testrunner.TestLoader",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     runJsUnit : function()
     {
@@ -145,7 +177,7 @@ qx.Class.define("testrunner.TestLoader",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     runStandAlone : function()
     {
@@ -208,7 +240,7 @@ qx.Class.define("testrunner.TestLoader",
      * @param testResult {var} TODOC
      * @param className {var} TODOC
      * @param methodName {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     runTests : function(testResult, className, methodName)
     {
@@ -241,7 +273,7 @@ qx.Class.define("testrunner.TestLoader",
      * @type member
      * @param testResult {var} TODOC
      * @param namespaceName {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     runTestsFromNamespace : function(testResult, namespaceName)
     {
@@ -254,5 +286,18 @@ qx.Class.define("testrunner.TestLoader",
         }
       }
     }
-  }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     SETTINGS
+  *****************************************************************************
+  */
+
+  settings : {
+    "testrunner.resourceUri" : "./resource"
+  },
 });
