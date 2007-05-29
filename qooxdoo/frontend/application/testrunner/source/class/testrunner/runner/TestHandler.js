@@ -28,12 +28,29 @@ qx.Class.define("testrunner.runner.TestHandler",
 {
   extend : qx.core.Object,
 
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   construct : function(testRep)
   {
     this.base(arguments);
     this.tmap = eval(testRep);  // [{classname:myClass,tests:['test1','test2']}, {...}]
     this.ttree = this.__readTestRep(testRep);
   },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
 
   members :
   {

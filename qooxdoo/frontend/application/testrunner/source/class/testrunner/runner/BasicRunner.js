@@ -21,6 +21,14 @@ qx.Class.define("testrunner.runner.BasicRunner",
 {
   extend : qx.ui.layout.VerticalBoxLayout,
 
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   construct : function()
   {
     this.base(arguments);

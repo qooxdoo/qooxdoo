@@ -20,6 +20,5 @@
 qx.Class.define("testrunner.TestCase",
 {
   extend  : qx.core.Object,
-  include : testrunner.MAssert,
-  members : {}
+  include : testrunner.MAssert
 });

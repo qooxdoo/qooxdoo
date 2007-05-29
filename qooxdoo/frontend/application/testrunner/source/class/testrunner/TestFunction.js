@@ -22,6 +22,13 @@ qx.Class.define("testrunner.TestFunction",
   extend : qx.core.Object,
 
 
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   /**
    * @param clazz {Class?null}
    * @param methodName {String?null}
@@ -57,6 +64,15 @@ qx.Class.define("testrunner.TestFunction",
     this.setName(methodName);
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
   properties :
   {
     testFunction : { check : "Function" },
@@ -69,6 +85,14 @@ qx.Class.define("testrunner.TestFunction",
     }
   },
 
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
     /**
@@ -76,7 +100,7 @@ qx.Class.define("testrunner.TestFunction",
      *
      * @type member
      * @param testResult {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     run : function(testResult) {
       testResult.run(this, this.getTestFunction());

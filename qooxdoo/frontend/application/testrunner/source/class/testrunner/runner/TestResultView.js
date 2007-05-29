@@ -28,6 +28,14 @@ qx.Class.define("testrunner.runner.TestResultView",
 {
   extend : qx.ui.embed.HtmlEmbed,
 
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   construct : function()
   {
     this.base(arguments);
@@ -37,6 +45,16 @@ qx.Class.define("testrunner.runner.TestResultView",
       this.setHtml(this.__createHtml());
     }, this);
   },
+
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
 
   members :
   {
@@ -92,7 +110,7 @@ qx.Class.define("testrunner.runner.TestResultView",
      *
      * @type member
      * @param testResult {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     addTestResult : function(testResult)
     {
@@ -115,7 +133,7 @@ qx.Class.define("testrunner.runner.TestResultView",
      *
      * @type member
      * @param testResult {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     __onStateChange : function(testResult) {
       this.setHtml(this.__createHtml());
@@ -126,7 +144,7 @@ qx.Class.define("testrunner.runner.TestResultView",
      * Clear all entries of the list.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     clear : function()
     {

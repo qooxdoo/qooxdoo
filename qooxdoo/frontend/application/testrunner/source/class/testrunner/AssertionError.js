@@ -21,6 +21,15 @@ qx.Class.define("testrunner.AssertionError",
 {
   extend : Error,
 
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   construct : function(comment, failMessage)
   {
     Error.call(this, failMessage);
@@ -29,6 +38,16 @@ qx.Class.define("testrunner.AssertionError",
 
     this._trace = qx.dev.StackTrace.getStackTrace();
   },
+
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
 
   properties :
   {
@@ -44,6 +63,15 @@ qx.Class.define("testrunner.AssertionError",
       init  : ""
     }
   },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
 
   members :
   {

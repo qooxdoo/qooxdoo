@@ -22,19 +22,38 @@ qx.Class.define("testrunner.runner.TestLoaderStub",
   extend : qx.core.Object,
   type : "singleton",
 
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   construct : function()
   {
-    this.tests = [
-    {
-      classname : "testrunner.test.Xml",
-      tests     : [ "serializeArray", "testParseSerializeXml", "testCreateDocument", "testXPath" ]
-    },
-
-    {
-      classname : "testrunner.test.Lang",
-      tests     : [ "testString", "testFormat", "testPad", "testAddRemovelistItem", "testAppend" ]
-    } ];
+    this.tests =
+    [
+      {
+        classname : "testrunner.test.Xml",
+        tests     : [ "serializeArray", "testParseSerializeXml", "testCreateDocument", "testXPath" ]
+      },
+      {
+        classname : "testrunner.test.Lang",
+        tests     : [ "testString", "testFormat", "testPad", "testAddRemovelistItem", "testAppend" ]
+      }
+    ];
   },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
 
   members :
   {
@@ -56,7 +75,7 @@ qx.Class.define("testrunner.runner.TestLoaderStub",
      * @param testResult {var} TODOC
      * @param className {var} TODOC
      * @param methodName {var} TODOC
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     runTests : function(testResult, className, methodName)

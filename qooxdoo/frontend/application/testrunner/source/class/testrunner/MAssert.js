@@ -19,13 +19,19 @@
 
 qx.Mixin.define("testrunner.MAssert",
 {
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
     /**
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     assertJsonEquals : function()
     {
@@ -44,7 +50,7 @@ qx.Mixin.define("testrunner.MAssert",
      * @param str {String} TODOC
      * @param re {var} TODOC
      * @param msg {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     assertMatch : function(str, re, msg) {
       this.__assert(str.search(re) >= 0 ? true : false, msg || "", "The String '" + str + "' does not match the regular expression '" + re.toString() + "'!");
@@ -59,7 +65,7 @@ qx.Mixin.define("testrunner.MAssert",
      * @param exception {var} TODOC
      * @param re {var} TODOC
      * @param msg {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     assertException : function(callback, exception, re, msg)
     {
@@ -91,7 +97,7 @@ qx.Mixin.define("testrunner.MAssert",
      * @param condition {var} TODOC
      * @param comment {var} TODOC
      * @param failMsg {var} TODOC
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     __assert : function(condition, comment, failMsg)
@@ -108,7 +114,7 @@ qx.Mixin.define("testrunner.MAssert",
      * @type member
      * @param bool {var} TODOC
      * @param msg {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     assert : function(bool, msg) {
       this.__assert(bool == true, msg || "", "Called assert with 'false'");
@@ -120,7 +126,7 @@ qx.Mixin.define("testrunner.MAssert",
      *
      * @type member
      * @param msg {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     fail : function(msg) {
       this.__assert(false, msg || "", "Called fail().");
@@ -133,7 +139,7 @@ qx.Mixin.define("testrunner.MAssert",
      * @type member
      * @param bool {var} TODOC
      * @param msg {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     assertTrue : function(bool, msg) {
       this.__assert(bool === true, msg || "", "Called assertTrue with 'false'");
@@ -146,7 +152,7 @@ qx.Mixin.define("testrunner.MAssert",
      * @type member
      * @param bool {var} TODOC
      * @param msg {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     assertFalse : function(bool, msg) {
       this.__assert(bool === false, msg || "", "Called assertFalse with 'true'");
@@ -160,7 +166,7 @@ qx.Mixin.define("testrunner.MAssert",
      * @param expected {var} TODOC
      * @param found {var} TODOC
      * @param msg {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     assertEquals : function(expected, found, msg) {
       this.__assert(expected == found, msg || "", "Expected '" + expected + "' but found '" + found + "'!");
@@ -174,7 +180,7 @@ qx.Mixin.define("testrunner.MAssert",
      * @param expected {var} TODOC
      * @param found {var} TODOC
      * @param msg {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     assertIdentical : function(expected, found, msg) {
       this.__assert(expected === found, msg || "", "Expected '" + expected + "' (identical) but found '" + found + "'!");
@@ -187,7 +193,7 @@ qx.Mixin.define("testrunner.MAssert",
      * @type member
      * @param value {var} TODOC
      * @param msg {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     assertNotUndefined : function(value, msg) {
       this.__assert(value !== undefined, msg || "", "Expected value not to be undefined but found " + qx.io.Json.stringify(value) + "!");
@@ -200,7 +206,7 @@ qx.Mixin.define("testrunner.MAssert",
      * @type member
      * @param value {var} TODOC
      * @param msg {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     assertUndefined : function(value, msg) {
       this.__assert(value === undefined, msg || "", "Expected value to be undefined but found " + qx.io.Json.stringify(value) + "!");
@@ -213,7 +219,7 @@ qx.Mixin.define("testrunner.MAssert",
      * @type member
      * @param value {var} TODOC
      * @param msg {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     assertNotNull : function(value, msg) {
       this.__assert(value !== null, msg || "", "Expected value not to be null but found " + qx.io.Json.stringify(value) + "!");
@@ -226,7 +232,7 @@ qx.Mixin.define("testrunner.MAssert",
      * @type member
      * @param value {var} TODOC
      * @param msg {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     assertNull : function(value, msg) {
       this.__assert(value === null, msg || "", "Expected value to be null but found " + qx.io.Json.stringify(value) + "!");
@@ -239,7 +245,7 @@ qx.Mixin.define("testrunner.MAssert",
      * @type member
      * @param value {var} TODOC
      * @param msg {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     assertFunction : function(value, msg) {
       this.__assert(typeof value === "function", msg || "", "Expected value to be typeof function but found " + qx.io.Json.stringify(value) + "!");
@@ -252,7 +258,7 @@ qx.Mixin.define("testrunner.MAssert",
      * @type member
      * @param value {var} TODOC
      * @param msg {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     assertString : function(value, msg) {
       this.__assert(typeof value === "string", msg || "", "Expected value to be typeof string but found " + qx.io.Json.stringify(value) + "!");
@@ -265,7 +271,7 @@ qx.Mixin.define("testrunner.MAssert",
      * @type member
      * @param value {var} TODOC
      * @param msg {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     assertNumber : function(value, msg) {
       this.__assert(typeof value === "number", msg || "", "Expected value to be typeof number but found " + qx.io.Json.stringify(value) + "!");
@@ -278,7 +284,7 @@ qx.Mixin.define("testrunner.MAssert",
      * @type member
      * @param value {var} TODOC
      * @param msg {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     assertObject : function(value, msg) {
       this.__assert(typeof value === "object" && value !== null, msg || "", "Expected value to be typeof object but found " + qx.io.Json.stringify(value) + "!");
@@ -291,7 +297,7 @@ qx.Mixin.define("testrunner.MAssert",
      * @type member
      * @param value {var} TODOC
      * @param msg {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     assertArray : function(value, msg) {
       this.__assert(value instanceof Array, msg || "", "Expected value to be an array but found " + qx.io.Json.stringify(value) + "!");
@@ -304,7 +310,7 @@ qx.Mixin.define("testrunner.MAssert",
      * @type member
      * @param value {var} TODOC
      * @param msg {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     assertMap : function(value, msg) {
       this.__assert(typeof value === "object" && !(value instanceof Array) && !(value instanceof qx.core.Object), msg || "", "Expected value to be a map but found " + qx.io.Json.stringify(value) + "!");
@@ -317,7 +323,7 @@ qx.Mixin.define("testrunner.MAssert",
      * @type member
      * @param value {var} TODOC
      * @param msg {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     assertQxObject : function(value, msg) {
       this.__assert(value instanceof qx.core.Object, msg || "", "Expected value to be a qooxdoo object but found " + qx.io.Json.stringify(value) + "!");
@@ -330,7 +336,7 @@ qx.Mixin.define("testrunner.MAssert",
      * @type member
      * @param value {var} TODOC
      * @param msg {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     assertQxWidget : function(value, msg) {
       this.__assert(value instanceof qx.ui.core.Widget, msg || "", "Expected value to be a qooxdoo widget but found " + qx.io.Json.stringify(value) + "!");
