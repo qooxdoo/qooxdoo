@@ -17,10 +17,12 @@
 
 ************************************************************************ */
 
-qx.Class.define("testrunner.AssertionError", {
-  extend: Error,
+qx.Class.define("testrunner.AssertionError",
+{
+  extend : Error,
 
-  construct: function(comment, failMessage) {
+  construct : function(comment, failMessage)
+  {
     Error.call(this, failMessage);
     this.setComment(comment || "");
     this.setMessage(failMessage || "");
@@ -28,30 +30,42 @@ qx.Class.define("testrunner.AssertionError", {
     this._trace = qx.dev.StackTrace.getStackTrace();
   },
 
-  properties: {
-    comment:
+  properties :
+  {
+    comment :
     {
-      check: "String",
-      init: ""
+      check : "String",
+      init  : ""
     },
 
-    message: {
-      check: "String",
-      init: ""
+    message :
+    {
+      check : "String",
+      init  : ""
     }
-
   },
 
-  members: {
-
-    toString: function() {
+  members :
+  {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    toString : function() {
       return this.getComment() + ": " + this.getMessage();
     },
 
-    getStackTrace : function()
-    {
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getStackTrace : function() {
       return this._trace;
     }
-
   }
 });

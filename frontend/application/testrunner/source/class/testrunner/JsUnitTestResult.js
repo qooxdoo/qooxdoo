@@ -17,8 +17,8 @@
 
 ************************************************************************ */
 
-qx.Class.define("testrunner.JsUnitTestResult", {
-
+qx.Class.define("testrunner.JsUnitTestResult",
+{
   extend : testrunner.TestResult,
 
   construct : function()
@@ -29,6 +29,14 @@ qx.Class.define("testrunner.JsUnitTestResult", {
 
   members :
   {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param test {var} TODOC
+     * @param testFunction {var} TODOC
+     * @return {void} 
+     */
     run : function(test, testFunction)
     {
       var testFunctionName = "$test_" + test.getFullName().replace(/\W/g, "_");
@@ -36,6 +44,13 @@ qx.Class.define("testrunner.JsUnitTestResult", {
       window[testFunctionName] = testFunction;
     },
 
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
     exportToJsUnit : function()
     {
       var self = this;
@@ -43,11 +58,10 @@ qx.Class.define("testrunner.JsUnitTestResult", {
       // global
       window.exposeTestFunctionNames = function() {
         return self._testFunctionNames;
-      }
+      };
 
       // global
       window.isTestPageLoaded = true;
     }
   }
-
 });

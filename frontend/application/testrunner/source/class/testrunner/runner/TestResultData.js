@@ -36,23 +36,16 @@ qx.Class.define("testrunner.runner.TestResultData",
 
   properties :
   {
-    name :
-    {
-      check : "String"
-    },
+    name : { check : "String" },
 
     state :
     {
-      check : ["start", "error", "failure", "success"],
-      init : "start",
+      check : [ "start", "error", "failure", "success" ],
+      init  : "start",
       event : "changeState"
     },
 
-    exception :
-    {
-      nullable : true
-    }
-
+    exception : { nullable : true }
   },
 
   members :
@@ -68,27 +61,39 @@ qx.Class.define("testrunner.runner.TestResultData",
         }
       },
 
-      "opera" : function() {
-        if (this.getException()) {
+      "opera" : function()
+      {
+        if (this.getException())
+        {
           var msg = this.getException().message;
+
           if (msg.indexOf("Backtrace:") < 0) {
             return this.getException().toString();
           } else {
             return qx.lang.String.trim(msg.split("Backtrace:")[0]);
           }
-        } else {
+        }
+        else
+        {
           return "";
         }
       }
     }),
 
 
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
     getStackTrace : function()
     {
       var ex = this.getException();
 
       var trace = [];
-      if (typeof(ex.getStackTrace) == "function") {
+
+      if (typeof (ex.getStackTrace) == "function") {
         trace = ex.getStackTrace();
       } else {
         trace = qx.dev.StackTrace.getStackTraceFromError(ex);
@@ -98,24 +103,15 @@ qx.Class.define("testrunner.runner.TestResultData",
       while (trace.length > 0)
       {
         var first = trace[0];
-        if (
-          first.indexOf("testrunner.AssertionError") == 0 ||
-          first.indexOf("qx.Class") == 0 ||
-          first.indexOf("testrunner.MAssert") == 0 ||
-          first.indexOf("script") == 0
-          )
-        {
+
+        if (first.indexOf("testrunner.AssertionError") == 0 || first.indexOf("qx.Class") == 0 || first.indexOf("testrunner.MAssert") == 0 || first.indexOf("script") == 0) {
           trace.shift();
-        }
-        else
-        {
+        } else {
           break;
         }
       }
 
       return trace.join("<br>");
     }
-
   }
-
 });

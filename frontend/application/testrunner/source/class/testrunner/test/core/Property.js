@@ -17,40 +17,59 @@
 
 ************************************************************************ */
 
-qx.Class.define("testrunner.test.core.Property", {
+qx.Class.define("testrunner.test.core.Property",
+{
+  extend : testrunner.TestCase,
 
-  extend: testrunner.TestCase,
-
-  members: {
-
+  members :
+  {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
     testInherited : function()
     {
-
-      qx.Class.define("testrunner.Node", {
+      qx.Class.define("testrunner.Node",
+      {
         extend : qx.core.Target,
 
         construct : function() {
           this._children = [];
         },
 
-
-        properties : {
-          parent : { apply : "applyParent"},
-          color : { inheritable: true }
+        properties :
+        {
+          parent : { apply : "applyParent" },
+          color  : { inheritable : true }
         },
 
-        members : {
-
+        members :
+        {
+          /**
+           * TODOC
+           *
+           * @type member
+           * @param parent {var} TODOC
+           * @return {void} 
+           */
           applyParent : function(parent)
           {
             parent._children.push(this);
             qx.core.Property.refresh(this);
           },
 
+
+          /**
+           * TODOC
+           *
+           * @type member
+           * @return {var} TODOC
+           */
           getChildren : function() {
             return this._children;
           }
-
         }
       });
 
@@ -66,9 +85,6 @@ qx.Class.define("testrunner.test.core.Property", {
       this.debug("child2: " + child1.getColor());
       this.debug("child1: " + child2.getColor());
       this.debug("root: " + root.getColor());
-
     }
-
   }
-
 });

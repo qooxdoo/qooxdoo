@@ -17,62 +17,88 @@
 
 ************************************************************************ */
 
-qx.Class.define("testrunner.TestResult", {
-
+qx.Class.define("testrunner.TestResult",
+{
   extend : qx.core.Target,
 
   events :
   {
     startTest : "qx.event.type.DataEvent",
-    endTest : "qx.event.type.DataEvent",
-    error : "qx.event.type.DataEvent",
-    failure : "qx.event.type.DataEvent"
+    endTest   : "qx.event.type.DataEvent",
+    error     : "qx.event.type.DataEvent",
+    failure   : "qx.event.type.DataEvent"
   },
 
   members :
   {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param test {var} TODOC
+     * @param testFunction {var} TODOC
+     * @return {void} 
+     */
     run : function(test, testFunction)
     {
       this.createDispatchDataEvent("startTest", test);
-      try
-      {
+
+      try {
         testFunction();
       }
-      catch (e)
+      catch(e)
       {
         var error = true;
+
         if (e.classname == "testrunner.AssertionError") {
           this.__createError("failure", e, test);
-        }
-        else {
+        } else {
           this.__createError("error", e, test);
         }
       }
+
       if (!error) {
         this.createDispatchDataEvent("endTest", test);
       }
     },
 
 
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param eventName {var} TODOC
+     * @param exception {var} TODOC
+     * @param test {var} TODOC
+     * @return {void} 
+     */
     __createError : function(eventName, exception, test)
     {
       // WebKit and Opera
-      var error = {
-        exception: exception,
-        test: test
+      var error =
+      {
+        exception : exception,
+        test      : test
       };
+
       this.createDispatchDataEvent(eventName, error);
       this.createDispatchDataEvent("endTest", test);
     }
-
   },
 
   statics :
   {
-    run : function(testResult, test, testFunction)
-    {
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param testResult {var} TODOC
+     * @param test {var} TODOC
+     * @param testFunction {var} TODOC
+     * @return {void} 
+     */
+    run : function(testResult, test, testFunction) {
       testResult.run(test, testFunction);
     }
   }
-
 });

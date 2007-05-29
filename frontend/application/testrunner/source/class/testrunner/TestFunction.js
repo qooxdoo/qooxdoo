@@ -17,9 +17,10 @@
 
 ************************************************************************ */
 
-qx.Class.define("testrunner.TestFunction", {
-
+qx.Class.define("testrunner.TestFunction",
+{
   extend : qx.core.Object,
+
 
   /**
    * @param clazz {Class?null}
@@ -28,18 +29,22 @@ qx.Class.define("testrunner.TestFunction", {
    */
   construct : function(clazz, methodName, testFunction)
   {
-    if (testFunction)
-    {
+    if (testFunction) {
       this.setTestFunction(testFunction);
     }
-    else {
-      this.setTestFunction( function() {
+    else
+    {
+      this.setTestFunction(function()
+      {
         var cls = new clazz;
-        if (typeof(cls.setUp) == "function") {
+
+        if (typeof (cls.setUp) == "function") {
           cls.setUp();
         }
+
         cls[methodName]();
-        if (typeof(cls.tearDown) == "function") {
+
+        if (typeof (cls.tearDown) == "function") {
           cls.tearDown();
         }
       });
@@ -48,25 +53,44 @@ qx.Class.define("testrunner.TestFunction", {
     if (clazz) {
       this.setClassName(clazz.classname);
     }
+
     this.setName(methodName);
   },
 
-  properties : {
-    testFunction : { check : "Function"},
-    name : { check : "String"},
-    className : { check : "String", init : ""}
+  properties :
+  {
+    testFunction : { check : "Function" },
+    name : { check : "String" },
+
+    className :
+    {
+      check : "String",
+      init  : ""
+    }
   },
 
   members :
   {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param testResult {var} TODOC
+     * @return {void} 
+     */
     run : function(testResult) {
       testResult.run(this, this.getTestFunction());
     },
 
-    getFullName : function()
-    {
-      return [this.getClassName(), this.getName()].join(":");
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getFullName : function() {
+      return [ this.getClassName(), this.getName() ].join(":");
     }
   }
-
 });
