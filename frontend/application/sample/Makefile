@@ -43,6 +43,7 @@ APPLICATION_HTML_TO_ROOT_URI = ../..
 APPLICATION_ADDITIONAL_SOURCE_OPTIONS = --include qx.log.DivAppender
 APPLICATION_ADDITIONAL_BUILD_OPTIONS = $(APPLICATION_ADDITIONAL_SOURCE_OPTIONS)
 
+APPLICATION_LOCALES = de de_DE en en_US es es_ES fr fr_FR
 
 
 ################################################################################
