@@ -488,7 +488,8 @@ qx.Class.define("qx.ui.listview.ListViewPane",
     _onmousewheel : function(e)
     {
       var vScroll = this.getView().getScroll();
-      vScroll.setValue(vScroll.getValue() - (e.getWheelDelta() * 20) );
+      vScroll.setValue(vScroll.getValue() - (e.getWheelDelta() * 20));
+      qx.event.handler.EventHandler.stopDomEvent(e);
     },
 
 
