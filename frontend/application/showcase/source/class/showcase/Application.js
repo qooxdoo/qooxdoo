@@ -940,7 +940,7 @@ qx.Class.define("showcase.Application",
       command.add(tCurrentInput);
 
       t.getManager().addEventListener("changeSelection", function(e) {
-        tCurrentInput.setValue(e.getData()[0]._labelObject.getHtml());
+        tCurrentInput.setValue(e.getData()[0]._labelObject.getText());
       });
 
       var tDoubleClick = new qx.ui.form.CheckBox("Use double click?");
