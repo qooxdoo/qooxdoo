@@ -39,6 +39,12 @@ qx.Class.define("testrunner.runner.Application",
 
   members :
   {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
     main : function()
     {
       this.base(arguments);
@@ -51,12 +57,11 @@ qx.Class.define("testrunner.runner.Application",
 
       // Initialize the viewer
       this.viewer = new testrunner.runner.TestRunner;
-      //this.viewer = new testrunner.runner.BasicRunner;
+
+      // this.viewer = new testrunner.runner.BasicRunner;
       this.viewer.addToDocument();
     }
   },
 
-  settings : {
-    "testrunner.resourceUri" : "./resource"
-  }
+  settings : { "testrunner.resourceUri" : "./resource" }
 });

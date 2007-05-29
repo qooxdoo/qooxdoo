@@ -17,29 +17,34 @@
 
 ************************************************************************ */
 
-qx.Class.define("testrunner.TestClass", {
-
+qx.Class.define("testrunner.TestClass",
+{
   extend : testrunner.TestSuite,
 
   construct : function(clazz)
   {
     this.base(arguments);
 
-    if (!clazz) {
+    if (!clazz)
+    {
       this.addFail("exsitsCheck" + this.__testClassNames.length, "Unkown test class!");
       return;
     }
-    if (!qx.Class.isSubClassOf(clazz, testrunner.TestCase)) {
-      this.addFail("Sub class check.", "The test class '"+ clazz.classname +"'is not a sub class of 'testrunner.TestCase'");
+
+    if (!qx.Class.isSubClassOf(clazz, testrunner.TestCase))
+    {
+      this.addFail("Sub class check.", "The test class '" + clazz.classname + "'is not a sub class of 'testrunner.TestCase'");
       return;
     }
 
     var proto = clazz.prototype;
     var classname = clazz.classname;
 
-    for (var test in proto) {
-      if (proto.hasOwnProperty(test)) {
-        if (typeof(proto[test]) == "function" && test.indexOf("test") == 0) {
+    for (var test in proto)
+    {
+      if (proto.hasOwnProperty(test))
+      {
+        if (typeof (proto[test]) == "function" && test.indexOf("test") == 0) {
           this.addTestMethod(clazz, test);
         }
       }
@@ -48,9 +53,5 @@ qx.Class.define("testrunner.TestClass", {
     this.setName(clazz.classname);
   },
 
-  properties :
-  {
-    name : { check : "String"}
-  }
-
+  properties : { name : { check : "String" } }
 });

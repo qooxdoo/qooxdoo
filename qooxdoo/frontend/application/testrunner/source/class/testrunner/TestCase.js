@@ -17,15 +17,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("testrunner.TestCase", {
-  extend : qx.core.Object,
-
+qx.Class.define("testrunner.TestCase",
+{
+  extend  : qx.core.Object,
   include : testrunner.MAssert,
-
-  members :
-  {
-
-  }
-
+  members : {}
 });
-

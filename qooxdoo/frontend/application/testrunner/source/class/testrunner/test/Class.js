@@ -17,111 +17,199 @@
 
 ************************************************************************ */
 
-qx.Class.define("testrunner.test.Class", {
-  extend: testrunner.TestCase,
+qx.Class.define("testrunner.test.Class",
+{
+  extend : testrunner.TestCase,
 
-  members : {
+  members :
+  {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    testEmptyClass : function()
+    {
+      qx.Class.define("testrunner.Empty",
+      {
+        extend    : Object,
+        construct : function() {}
+      });
 
-    testEmptyClass: function() {
-      qx.Class.define("testrunner.Empty", {
-            extend: Object,
-            construct: function() {}
-        });
-
-        var empty = new testrunner.Empty();
-        this.assertEquals("object", typeof(empty));
+      var empty = new testrunner.Empty();
+      this.assertEquals("object", typeof (empty));
       this.assertTrue(empty instanceof testrunner.Empty);
     },
 
-    testSameNameClasses: function() {
-      qx.Class.define("testrunner.Same", {
-            extend: Object,
-            construct: function() {}
-        });
 
-      this.assertExceptionDebugOn(function() {
-          qx.Class.define("testrunner.Same", {
-              extend: Object,
-              construct: function() {}
-          });
-      }, Error, "An object of the name 'testrunner.Same' aready exists and overwriting is not allowed!");
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    testSameNameClasses : function()
+    {
+      qx.Class.define("testrunner.Same",
+      {
+        extend    : Object,
+        construct : function() {}
+      });
+
+      this.assertExceptionDebugOn(function()
+      {
+        qx.Class.define("testrunner.Same",
+        {
+          extend    : Object,
+          construct : function() {}
+        });
+      },
+      Error, "An object of the name 'testrunner.Same' aready exists and overwriting is not allowed!");
     },
 
-    testSuperClassCall: function() {
-        qx.Class.define("testrunner.Car", {
-            extend: qx.core.Object,
 
-            construct: function (name) {
-                this._name = name;
-            },
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    testSuperClassCall : function()
+    {
+      qx.Class.define("testrunner.Car",
+      {
+        extend : qx.core.Object,
 
-            members: {
-                startEngine: function() {
-                    return "start";
-                },
+        construct : function(name) {
+          this._name = name;
+        },
 
-                stopEngine: function() {
-                    return "stop";
-                },
+        members :
+        {
+          /**
+           * TODOC
+           *
+           * @type member
+           * @return {string} TODOC
+           */
+          startEngine : function() {
+            return "start";
+          },
 
-                getName: function() {
-                    return this._name;
-                }
 
-            }
-        });
+          /**
+           * TODOC
+           *
+           * @type member
+           * @return {string} TODOC
+           */
+          stopEngine : function() {
+            return "stop";
+          },
 
-        var car = new testrunner.Car("Audi");
-        this.assertEquals("start", car.startEngine());
-        this.assertEquals("stop", car.stopEngine());
-        this.assertEquals("Audi", car.getName());
 
-        qx.Class.define("testrunner.Bmw", {
+          /**
+           * TODOC
+           *
+           * @type member
+           * @return {var} TODOC
+           */
+          getName : function() {
+            return this._name;
+          }
+        }
+      });
 
-            extend: testrunner.Car,
+      var car = new testrunner.Car("Audi");
+      this.assertEquals("start", car.startEngine());
+      this.assertEquals("stop", car.stopEngine());
+      this.assertEquals("Audi", car.getName());
 
-            construct: function(name, prize) {
-                this.base(arguments, name);
-            },
+      qx.Class.define("testrunner.Bmw",
+      {
+        extend : testrunner.Car,
 
-            members: {
-                startEngine: function() {
-                    var ret = this.base(arguments);
-                    return "brrr " + ret;
-                },
+        construct : function(name, prize) {
+          this.base(arguments, name);
+        },
 
-                stopEngine: function() {
-                    var ret = arguments.callee.base.call();
-                    return "brrr " + ret;
-                },
-            getWheels: function() {
+        members :
+        {
+          /**
+           * TODOC
+           *
+           * @type member
+           * @return {var} TODOC
+           */
+          startEngine : function()
+          {
+            var ret = this.base(arguments);
+            return "brrr " + ret;
+          },
+
+
+          /**
+           * TODOC
+           *
+           * @type member
+           * @return {var} TODOC
+           */
+          stopEngine : function()
+          {
+            var ret = arguments.callee.base.call();
+            return "brrr " + ret;
+          },
+
+
+          /**
+           * TODOC
+           *
+           * @type member
+           * @return {var} TODOC
+           */
+          getWheels : function() {
             return this.self(arguments).WHEELS;
           }
-            },
+        },
 
-        statics: {
-          WHEELS: 4
-        }
-        });
+        statics : { WHEELS : 4 }
+      });
 
-        var bmw = new testrunner.Bmw("bmw", 44000);
-        this.assertEquals("bmw", bmw.getName());
-        this.assertEquals("brrr start", bmw.startEngine());
-        this.assertEquals("brrr stop", bmw.stopEngine());
+      var bmw = new testrunner.Bmw("bmw", 44000);
+      this.assertEquals("bmw", bmw.getName());
+      this.assertEquals("brrr start", bmw.startEngine());
+      this.assertEquals("brrr stop", bmw.stopEngine());
       this.assertEquals(4, bmw.getWheels());
     },
 
 
-    testAbstract: function() {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    testAbstract : function()
+    {
+      qx.Class.define("testrunner.AbstractCar",
+      {
+        extend : Object,
+        type : "abstract",
 
-      qx.Class.define("testrunner.AbstractCar", {
-        extend: Object,
-        type: "abstract",
-        construct: function(color) {
+        construct : function(color) {
           this._color = color;
         },
-        members: {
-          startEngine: function() {}
+
+        members :
+        {
+          /**
+           * TODOC
+           *
+           * @type member
+           * @return {void} 
+           */
+          startEngine : function() {}
         }
       });
 
@@ -131,9 +219,11 @@ qx.Class.define("testrunner.test.Class", {
       }, Error, new RegExp("The class .* is abstract"));
 
       // check if subclasses of abstract classes work
-      qx.Class.define("testrunner.ConcreteCar", {
-        extend: testrunner.AbstractCar,
-        construct: function(color) {
+      qx.Class.define("testrunner.ConcreteCar",
+      {
+        extend : testrunner.AbstractCar,
+
+        construct : function(color) {
           arguments.callee.base.apply(this, arguments);
         }
       });
@@ -144,89 +234,118 @@ qx.Class.define("testrunner.test.Class", {
     },
 
 
-    testSingleton: function() {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    testSingleton : function()
+    {
+      qx.Class.define("testrunner.Single1",
+      {
+        extend : Object,
+        type : "singleton",
 
-      qx.Class.define("testrunner.Single1", {
-        extend: Object,
-        type: "singleton",
-
-        construct: function (name) {
+        construct : function(name)
+        {
           this._name = name;
           this._date = new Date().toString();
         }
       });
 
-      this.assertEquals(
-        testrunner.Single1.getInstance()._date,
-        testrunner.Single1.getInstance()._date,
-        "getInstance sould always return the same object!"
-      );
+      this.assertEquals(testrunner.Single1.getInstance()._date, testrunner.Single1.getInstance()._date, "getInstance sould always return the same object!");
 
       // direct instanctiation should fail
       this.assertExceptionDebugOn(function() {
         var s = new testrunner.Single1();
       }, Error, new RegExp("The class .* is a singleton"));
-
     },
 
-    testSetting: function() {
-      qx.Class.define("testrunner.Setting1", {
-        settings: {
-          "testrunner.juhu": "kinners"
-        }
-      });
 
-      this.assertEquals(
-        "kinners",
-        qx.core.Setting.get("testrunner.juhu")
-      );
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    testSetting : function()
+    {
+      qx.Class.define("testrunner.Setting1", { settings : { "testrunner.juhu" : "kinners" } });
 
+      this.assertEquals("kinners", qx.core.Setting.get("testrunner.juhu"));
 
       this.assertExceptionDebugOn(function() {
-        qx.Class.define("testrunner.Setting2", {
-          settings: {
-            "foo.juhu": "kinners"
-          }
-        });
+        qx.Class.define("testrunner.Setting2", { settings : { "foo.juhu" : "kinners" } });
       }, Error, "Forbidden setting");
     },
 
-    testVariant: function() {
-      qx.Class.define("testrunner.Variant1", {
-        variants: {
-          "testrunner.juhu": {
-            allowedValues: ["kinners", "juhu"],
-            defaultValue: "kinners"
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    testVariant : function()
+    {
+      qx.Class.define("testrunner.Variant1",
+      {
+        variants :
+        {
+          "testrunner.juhu" :
+          {
+            allowedValues : [ "kinners", "juhu" ],
+            defaultValue  : "kinners"
           }
         }
       });
 
-      this.assertEquals(
-        "kinners",
-        qx.core.Variant.get("testrunner.juhu")
-      );
+      this.assertEquals("kinners", qx.core.Variant.get("testrunner.juhu"));
 
-      this.assertExceptionDebugOn(function() {
-        qx.Class.define("testrunner.Variant2", {
-          variants: {
-            "foo.juhu": {
-              allowedValues: ["kinners", "juhu"],
-              defaultValue: "kinners"
+      this.assertExceptionDebugOn(function()
+      {
+        qx.Class.define("testrunner.Variant2",
+        {
+          variants :
+          {
+            "foo.juhu" :
+            {
+              allowedValues : [ "kinners", "juhu" ],
+              defaultValue  : "kinners"
             }
           }
         });
-      }, Error, "Forbidden variant");
+      },
+      Error, "Forbidden variant");
     },
 
-    testDefer: function() {
-      // this is BAD practice, don't code like this!
-      qx.Class.define("testrunner.Defer", {
-        extend: qx.core.Object,
 
-        defer: function(statics, prot, properties) {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    testDefer : function()
+    {
+      // this is BAD practice, don't code like this!
+      qx.Class.define("testrunner.Defer",
+      {
+        extend : qx.core.Object,
+
+        defer : function(statics, prot, properties)
+        {
           statics.FOO = 12;
-          statics.sayHello = function() { return "Hello"; };
-          prot.sayJuhu = function() { return "Juhu"; };
+
+          statics.sayHello = function() {
+            return "Hello";
+          };
+
+          prot.sayJuhu = function() {
+            return "Juhu";
+          };
+
           properties.add("color", {});
         }
       });
@@ -241,28 +360,77 @@ qx.Class.define("testrunner.test.Class", {
       this.assertEquals("red", defer.getColor());
     },
 
-    __testCaller: function() {
 
-      qx.Class.define("testrunner.CallerSuper", {
-        extend: qx.core.Object,
-        members: {
-          __foo: function() {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    __testCaller : function()
+    {
+      qx.Class.define("testrunner.CallerSuper",
+      {
+        extend : qx.core.Object,
+
+        members :
+        {
+          /**
+           * TODOC
+           *
+           * @type member
+           * @return {void} 
+           */
+          __foo : function() {
             this.debug("foo");
           },
-          _bar: function() {
+
+
+          /**
+           * TODOC
+           *
+           * @type member
+           * @return {void} 
+           */
+          _bar : function()
+          {
             console.log("%o", arguments.callee.context);
             debugger;
             this.__foo();
           },
-          juhu: function() {
+
+
+          /**
+           * TODOC
+           *
+           * @type member
+           * @return {void} 
+           */
+          juhu : function() {
             this._bar();
           }
         },
-        statics: {
-          sayFoo: function() {
+
+        statics :
+        {
+          /**
+           * TODOC
+           *
+           * @type static
+           * @return {void} 
+           */
+          sayFoo : function() {
             this.__staticFoo();
           },
-          __staticFoo: function() {
+
+
+          /**
+           * TODOC
+           *
+           * @type static
+           * @return {void} 
+           */
+          __staticFoo : function() {
             new qx.core.Object().debug("static foo");
           }
         }
@@ -270,13 +438,14 @@ qx.Class.define("testrunner.test.Class", {
 
       // statics
       testrunner.CallerSuper.sayFoo();
+
       this.assertException(function() {
         testrunner.CallerSuper.__staticFoo();
       }, Error, "Private method", "call private static");
 
       var caller = new testrunner.CallerSuper();
-      //caller.juhu();
 
+      // caller.juhu();
       this.assertException(function() {
         caller._bar();
       }, Error, "Protected method", "call protected member");
@@ -286,18 +455,35 @@ qx.Class.define("testrunner.test.Class", {
       }, Error, "Private method", "call private member");
 
       // test protected
-      qx.Class.define("testrunner.CallerChild", {
-        extend: testrunner.CallerSuper,
-        members: {
-          __foo: function() {
+      qx.Class.define("testrunner.CallerChild",
+      {
+        extend : testrunner.CallerSuper,
+
+        members :
+        {
+          /**
+           * TODOC
+           *
+           * @type member
+           * @return {void} 
+           */
+          __foo : function() {
             this.debug("child foo");
           },
+
           /*
           juhu: function() {
             this._bar();
           },
           */
-          kinners: function() {
+
+          /**
+           * TODOC
+           *
+           * @type member
+           * @return {void} 
+           */
+          kinners : function() {
             this.__foo();
           }
         }
@@ -309,27 +495,66 @@ qx.Class.define("testrunner.test.Class", {
       this.assertException(function() {
         caller.kinners();
       }, Error, "Private method", "call private member of super class");
-
     },
 
-    __testWrappedPrivate: function() {
-      qx.Interface.define("testrunner.IWrappedPrivate", {
-        members: {
-          __foo: function() { return true; }
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    __testWrappedPrivate : function()
+    {
+      qx.Interface.define("testrunner.IWrappedPrivate",
+      {
+        members :
+        {
+          /**
+           * TODOC
+           *
+           * @type member
+           * @return {boolean} TODOC
+           */
+          __foo : function() {
+            return true;
+          }
         }
       });
 
       // private/protected should not be part of an interface
-      qx.Class.define("testrunner.WrappedPrivate", {
-        extend: qx.core.Object,
-        implement: [testrunner.IWrappedPrivate],
-        members: {
-          __foo: function() { this.debug("foo"); },
-          sayFoo: function() { this.__foo(); }
+      qx.Class.define("testrunner.WrappedPrivate",
+      {
+        extend : qx.core.Object,
+        implement : [ testrunner.IWrappedPrivate ],
+
+        members :
+        {
+          /**
+           * TODOC
+           *
+           * @type member
+           * @return {void} 
+           */
+          __foo : function() {
+            this.debug("foo");
+          },
+
+
+          /**
+           * TODOC
+           *
+           * @type member
+           * @return {void} 
+           */
+          sayFoo : function() {
+            this.__foo();
+          }
         }
       });
 
       var wp = new testrunner.WrappedPrivate();
+
       this.assertException(function() {
         wp.__foo();
       }, Error, "Private method");
@@ -337,26 +562,59 @@ qx.Class.define("testrunner.test.Class", {
       wp.sayFoo();
     },
 
-    testGetFunctionName: function() {
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    testGetFunctionName : function()
+    {
       var self = this;
 
-      qx.Class.define("testrunner.FuncName", {
-        extend: qx.core.Object,
-        construct: function() {
+      qx.Class.define("testrunner.FuncName",
+      {
+        extend : qx.core.Object,
+
+        construct : function()
+        {
           this.base(arguments);
           self.assertEquals("construct", qx.dev.Debug.getFunctionName(arguments.callee));
         },
 
-        members: {
-          __foo: function() {
+        members :
+        {
+          /**
+           * TODOC
+           *
+           * @type member
+           * @return {void} 
+           */
+          __foo : function() {
             self.assertEqualsDebugOn("__foo", qx.dev.Debug.getFunctionName(arguments.callee));
           },
 
-          _bar: function() {
+
+          /**
+           * TODOC
+           *
+           * @type member
+           * @return {void} 
+           */
+          _bar : function() {
             self.assertEquals("_bar", qx.dev.Debug.getFunctionName(arguments.callee));
           },
 
-          sayFooBar: function() {
+
+          /**
+           * TODOC
+           *
+           * @type member
+           * @return {void} 
+           */
+          sayFooBar : function()
+          {
             self.assertEquals("sayFooBar", qx.dev.Debug.getFunctionName(arguments.callee));
             this.__foo();
             this._bar();
@@ -367,7 +625,6 @@ qx.Class.define("testrunner.test.Class", {
       var funcName = new testrunner.FuncName();
       funcName.sayFooBar();
       this.assertNull(qx.dev.Debug.getFunctionName(function() {}));
-
     }
   }
 });

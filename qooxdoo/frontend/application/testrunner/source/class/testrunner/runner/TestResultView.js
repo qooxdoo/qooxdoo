@@ -34,47 +34,49 @@ qx.Class.define("testrunner.runner.TestResultView",
     this._testResults = [];
 
     this.addEventListener("appear", function() {
-      this.setHtml(this.__createHtml())
+      this.setHtml(this.__createHtml());
     }, this);
   },
 
   members :
   {
-
     /**
+     * TODOC
+     *
+     * @type member
      * @return {String} complete HTML of the list
      */
     __createHtml : function()
     {
       var html = new qx.util.StringBuilder();
+
       for (var i=this._testResults.length-1; i>=0; i--)
       {
         var result = this._testResults[i];
         html.add(this.__createResultHtml(result));
       }
+
       return html.get();
     },
 
 
     /**
+     * TODOC
+     *
+     * @type member
+     * @param testResult {var} TODOC
      * @return {String} HTML fragemnt of a single test
      */
     __createResultHtml : function(testResult)
     {
       var html = new qx.util.StringBuilder();
-      html.add(
-        "<div class='testResult ", testResult.getState(),
-        "' id='testResult", testResult.toHashCode(), "'>"
-      );
+      html.add("<div class='testResult ", testResult.getState(), "' id='testResult", testResult.toHashCode(), "'>");
       html.add("<h3>", testResult.getName(), "</h3>");
 
       if (testResult.getState() == "failure" || testResult.getState() == "error")
       {
-        html.add(
-          "Error message is: <br />",
-          testResult.getMessage(),
-          "<br />"
-        );
+        html.add("Error message is: <br />", testResult.getMessage(), "<br />");
+
         if (testResult.getStackTrace().length > 0) {
           html.add("Stack trace: <div class='trace'>", testResult.getStackTrace(), "</div>");
         }
@@ -86,42 +88,54 @@ qx.Class.define("testrunner.runner.TestResultView",
 
 
     /**
-     * @param {TestResultData} Test result data instance
+     * TODOC
+     *
+     * @type member
+     * @param testResult {var} TODOC
+     * @return {void} 
      */
     addTestResult : function(testResult)
     {
       this._testResults.push(testResult);
-      testResult.addEventListener("changeState", function() { this.__onStateChange(testResult); }, this);
+
+      testResult.addEventListener("changeState", function() {
+        this.__onStateChange(testResult);
+      }, this);
 
       var element = this.getElement();
-      if (element)
-      {
+
+      if (element) {
         element.innerHTML = this.__createResultHtml(testResult) + element.innerHTML;
       }
     },
 
 
     /**
-     * @param {TestResultData} Test result data instance
+     * TODOC
+     *
+     * @type member
+     * @param testResult {var} TODOC
+     * @return {void} 
      */
-    __onStateChange : function(testResult)
-    {
+    __onStateChange : function(testResult) {
       this.setHtml(this.__createHtml());
     },
 
 
     /**
      * Clear all entries of the list.
+     *
+     * @type member
+     * @return {void} 
      */
     clear : function()
     {
-      for (var i=0; i<this._testResults.length; i++)
-      {
+      for (var i=0; i<this._testResults.length; i++) {
         this._testResults[i].dispose();
       }
+
       this._testResults = [];
       this.setHtml("");
     }
-
   }
 });

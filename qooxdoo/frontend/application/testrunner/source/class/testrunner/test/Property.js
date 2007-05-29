@@ -19,10 +19,16 @@
 
 qx.Class.define("testrunner.test.Property",
 {
-  extend: testrunner.TestCase,
+  extend : testrunner.TestCase,
 
   members :
   {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
     testBasic : function()
     {
       this.debug("Exec: testBasic");
@@ -60,6 +66,13 @@ qx.Class.define("testrunner.test.Property",
       this.debug("Done: testBasic");
     },
 
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
     testBuiltinTypes : function()
     {
       this.debug("Exec: testBuiltinTypes");
@@ -113,6 +126,13 @@ qx.Class.define("testrunner.test.Property",
       this.debug("Done: testBuiltinTypes");
     },
 
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
     testInheritance : function()
     {
       this.debug("Exec: testInheritance");
@@ -157,6 +177,13 @@ qx.Class.define("testrunner.test.Property",
       this.debug("Done: testInheritance");
     },
 
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
     testParent : function()
     {
       var pa = new testrunner.test.Layout;
@@ -171,7 +198,7 @@ qx.Class.define("testrunner.test.Property",
 
       ch1.setParent(pa);
 
-      this.assertTrue(pa._setEnabled(true), "a1"); // ch1 gets enabled, too
+      this.assertTrue(pa._setEnabled(true), "a1");  // ch1 gets enabled, too
       this.assertFalse(ch3._setEnabled(false), "a2");
 
       this.assertTrue(pa._getEnabled(), "b1");
@@ -179,8 +206,8 @@ qx.Class.define("testrunner.test.Property",
       this.assertIdentical(ch2._getEnabled(), null, "b3");
       this.assertFalse(ch3._getEnabled(), "b4");
 
-      ch2.setParent(pa); // make ch2 enabled through inheritance
-      ch3.setParent(pa); // keep ch2 disabled, user value has higher priority
+      ch2.setParent(pa);  // make ch2 enabled through inheritance
+      ch3.setParent(pa);  // keep ch2 disabled, user value has higher priority
 
       this.assertTrue(pa._getEnabled(), "c1");
       this.assertTrue(ch1._getEnabled(), "c2");
@@ -188,6 +215,13 @@ qx.Class.define("testrunner.test.Property",
       this.assertFalse(ch3._getEnabled(), "c4");
     },
 
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
     testMultiValues : function()
     {
       this.debug("Exec: testMultiValues");
@@ -237,29 +271,89 @@ qx.Class.define("testrunner.test.PropertyHelper",
   properties :
   {
     // legacy
-    legacyPure      : { _legacy : true },
-    legacyString    : { _legacy : true, type : "string" },
-    legacyArray     : { _legacy : true, type : "object", instance : "Array" },
+    legacyPure : { _legacy : true },
+
+    legacyString :
+    {
+      _legacy : true,
+      type    : "string"
+    },
+
+    legacyArray :
+    {
+      _legacy  : true,
+      type     : "object",
+      instance : "Array"
+    },
 
     // protection
-    publicProp      : { nullable : true },
-    _protectedProp  : { nullable : true },
-    __privateProp   : { nullable : true },
+    publicProp : { nullable : true },
+    _protectedProp : { nullable : true },
+    __privateProp : { nullable : true },
 
     // types
-    stringProp      : { check : "String", nullable : true },
-    booleanProp     : { check : "Boolean", nullable : true },
-    numberProp      : { check : "Number", nullable : true },
-    objectProp      : { check : "Object", nullable : true },
-    arrayProp       : { check : "Array", nullable : true },
-    mapProp         : { check : "Map", nullable : true },
+    stringProp :
+    {
+      check    : "String",
+      nullable : true
+    },
+
+    booleanProp :
+    {
+      check    : "Boolean",
+      nullable : true
+    },
+
+    numberProp :
+    {
+      check    : "Number",
+      nullable : true
+    },
+
+    objectProp :
+    {
+      check    : "Object",
+      nullable : true
+    },
+
+    arrayProp :
+    {
+      check    : "Array",
+      nullable : true
+    },
+
+    mapProp :
+    {
+      check    : "Map",
+      nullable : true
+    },
 
     // multi values
-    noProp          : { check : "String", nullable : true },
-    initProp        : { init : "foo" },
-    nullProp        : { init : "bar", nullable : true },
-    appearanceProp  : { themeable : true, nullable : true },
-    fullProp        : { init : 100, themeable : true }
+    noProp :
+    {
+      check    : "String",
+      nullable : true
+    },
+
+    initProp : { init : "foo" },
+
+    nullProp :
+    {
+      init     : "bar",
+      nullable : true
+    },
+
+    appearanceProp :
+    {
+      themeable : true,
+      nullable  : true
+    },
+
+    fullProp :
+    {
+      init      : 100,
+      themeable : true
+    }
   }
 });
 
@@ -270,9 +364,29 @@ qx.Class.define("testrunner.test.Layout",
   properties :
   {
     _enabled : { inheritable : true },
-    _width : { inheritable : true, themeable : true },
-    _height : { inheritable : true, themeable : true },
-    _left : { inheritable : true, themeable : true },
-    _top : { inheritable : true, themeable : true }
+
+    _width :
+    {
+      inheritable : true,
+      themeable   : true
+    },
+
+    _height :
+    {
+      inheritable : true,
+      themeable   : true
+    },
+
+    _left :
+    {
+      inheritable : true,
+      themeable   : true
+    },
+
+    _top :
+    {
+      inheritable : true,
+      themeable   : true
+    }
   }
 });
