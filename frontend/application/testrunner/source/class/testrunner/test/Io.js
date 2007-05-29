@@ -17,18 +17,31 @@
 
 ************************************************************************ */
 
-qx.Class.define("testrunner.test.Io",{
-  extend: testrunner.TestCase,
+qx.Class.define("testrunner.test.Io",
+{
+  extend : testrunner.TestCase,
 
-  members : {
-
-    testIO: function() {
+  members :
+  {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    testIO : function() {
       this.assertNotUndefined(qx.io);
     },
 
-    testJson: function() {
-      this.assertEquals('{"test":123}', qx.io.Json.stringify({test:123}, false));
-    }
 
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    testJson : function() {
+      this.assertEquals('{"test":123}', qx.io.Json.stringify({ test : 123 }, false));
+    }
   }
 });

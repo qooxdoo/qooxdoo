@@ -40,19 +40,15 @@ qx.Class.define("testrunner.runner.TreeTest",
     first.add(new testrunner.runner.Tree("First.2"));
     tree.add(new testrunner.runner.Tree("Second"));
     var three = new testrunner.runner.Tree("Third");
-    //three.add(new testrunner.runner.Tree("Third.1"));
-    //three.add(new testrunner.runner.Tree("Third.2"));
+
+    // three.add(new testrunner.runner.Tree("Third.1"));
+    // three.add(new testrunner.runner.Tree("Third.2"));
     tree.add(three);
 
     tree.print();
-    var s = three.pwd().concat([three.label]).join(".");
-    this.debug("Three is exactly :"+s);
-
-
+    var s = three.pwd().concat([ three.label ]).join(".");
+    this.debug("Three is exactly :" + s);
   },
 
-  members : {
-
-  }
+  members : {}
 });
-

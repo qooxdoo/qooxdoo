@@ -36,7 +36,8 @@ qx.Class.define("testrunner.runner.TestAppender",
   *****************************************************************************
   */
 
-  construct : function(target) {
+  construct : function(target)
+  {
     this.base(arguments);
     this.target = target;
   },
@@ -55,7 +56,7 @@ qx.Class.define("testrunner.runner.TestAppender",
     useLongFormat :
     {
       refine : true,
-      init : false
+      init   : false
     }
   },
 
@@ -76,7 +77,7 @@ qx.Class.define("testrunner.runner.TestAppender",
      *
      * @type member
      * @param evt {Event} TODOC
-     * @return {void}
+     * @return {void} 
      */
     appendLogEvent : function(evt)
     {
@@ -86,12 +87,11 @@ qx.Class.define("testrunner.runner.TestAppender",
       if (evt.instanceId != null) {
         text += " (" + evt.instanceId + ")";
       }
+
       text += ': ';
 
-      //alert("\n" + text + "\n" + this.formatLogEvent(evt));
-      this.target.setHtml(this.target.getHtml()+"<br>"+
-                          text+this.formatLogEvent(evt));
+      // alert("\n" + text + "\n" + this.formatLogEvent(evt));
+      this.target.setHtml(this.target.getHtml() + "<br>" + text + this.formatLogEvent(evt));
     }
   }
 });
-

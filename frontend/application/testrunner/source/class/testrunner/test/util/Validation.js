@@ -17,15 +17,22 @@
 
 ************************************************************************ */
 
-qx.Class.define("testrunner.test.util.Validation", {
-  extend: testrunner.TestCase,
+qx.Class.define("testrunner.test.util.Validation",
+{
+  extend : testrunner.TestCase,
 
-  members : {
-
-    testUmlauts: function() {
+  members :
+  {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    testUmlauts : function()
+    {
       this.assertEquals("aouAOUs", qx.util.Normalization.umlautsShort("äöüÄÖÜß"));
-        this.assertEquals("aeoeueAeOeUess", qx.util.Normalization.umlautsLong("äöüÄÖÜß"));
+      this.assertEquals("aeoeueAeOeUess", qx.util.Normalization.umlautsLong("äöüÄÖÜß"));
     }
-
   }
 });

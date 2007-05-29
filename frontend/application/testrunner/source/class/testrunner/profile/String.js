@@ -17,17 +17,28 @@
 
 ************************************************************************ */
 
-qx.Class.define("testrunner.profile.String", {
-  extend: testrunner.TestCase,
+qx.Class.define("testrunner.profile.String",
+{
+  extend : testrunner.TestCase,
 
-  members: {
-    testProfileString: function() {
+  members :
+  {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    testProfileString : function()
+    {
       var loops = 1000;
       var fcnArr = [];
       fcnArr.push("function() { var a = 'assdfsd|fhfgh';");
+
       for (var i=0; i<loops; i++) {
-        fcnArr[i+1] = "a.split('|');";
+        fcnArr[i + 1] = "a.split('|');";
       }
+
       fcnArr.push("}");
       var fcn = eval(fcnArr.join("\n"));
 
@@ -35,10 +46,10 @@ qx.Class.define("testrunner.profile.String", {
       fcn();
       this.profileEnd();
 
-
       for (var i=0; i<loops; i++) {
-        fcnArr[i+1] = "a.indexOf('|');";
+        fcnArr[i + 1] = "a.indexOf('|');";
       }
+
       var fcn = eval(fcnArr.join("\n"));
 
       this.profile("string indexOf with match.");
@@ -46,30 +57,32 @@ qx.Class.define("testrunner.profile.String", {
       this.profileEnd();
 
       for (var i=0; i<loops; i++) {
-        fcnArr[i+1] = "if (a.indexOf('|') >= 0) {a.split('|')};";
+        fcnArr[i + 1] = "if (a.indexOf('|') >= 0) {a.split('|')};";
       }
+
       var fcn = eval(fcnArr.join("\n"));
 
       this.profile("string conditional split with match.");
       fcn();
       this.profileEnd();
 
-
       // no match
       fcnArr[0] = "function() { var a = 'assdfsdfhfgh';";
+
       for (var i=0; i<loops; i++) {
-        fcnArr[i+1] = "a.split('|');";
+        fcnArr[i + 1] = "a.split('|');";
       }
+
       var fcn = eval(fcnArr.join("\n"));
 
       this.profile("string split without match.");
       fcn();
       this.profileEnd();
 
-
       for (var i=0; i<loops; i++) {
-        fcnArr[i+1] = "a.indexOf('|');";
+        fcnArr[i + 1] = "a.indexOf('|');";
       }
+
       var fcn = eval(fcnArr.join("\n"));
 
       this.profile("string indexOf without match.");
@@ -77,8 +90,9 @@ qx.Class.define("testrunner.profile.String", {
       this.profileEnd();
 
       for (var i=0; i<loops; i++) {
-        fcnArr[i+1] = "if (a.indexOf('|') >= 0) {a.split('|')};";
+        fcnArr[i + 1] = "if (a.indexOf('|') >= 0) {a.split('|')};";
       }
+
       var fcn = eval(fcnArr.join("\n"));
 
       this.profile("string conditional split without match.");
@@ -86,117 +100,169 @@ qx.Class.define("testrunner.profile.String", {
       this.profileEnd();
     },
 
-    testSplitOptimize: function() {
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    testSplitOptimize : function()
+    {
       var strings = qx.lang.Object.getKeys(qx.Class.__registry);
       var loopCount = 100;
       var splitter = ".";
 
-      function mySplit1(str, splitter) {
+      function mySplit1(str, splitter)
+      {
         var res = [];
         var start = end = 0;
-        while (true) {
+
+        while (true)
+        {
           end = str.indexOf(splitter, start);
 
-          if (end < 0) {
+          if (end < 0)
+          {
             res.push(str.substring(start, str.length));
             break;
           }
+
           res.push(str.substring(start, end));
 
-          start = end+1;
+          start = end + 1;
         }
-        return res;
-      };
 
-      function mySplit2(str, splitter) {
+        return res;
+      }
+
+      function mySplit2(str, splitter)
+      {
         var res = [];
         var start = end = 0;
-        for (var i=0; i<str.length; i++) {
+
+        for (var i=0; i<str.length; i++)
+        {
           var c = str.charAt(i);
-          if (c==splitter) {
+
+          if (c == splitter)
+          {
             res.push(str.substring(start, end));
-            end ++;
+            end++;
             start = end;
-          } else {
-            end ++;
+          }
+          else
+          {
+            end++;
           }
         }
+
         if (start != end) {
           res.push(str.substring(start, end));
         }
-        return res;
-      };
 
-      function mySplit3(str, splitter) {
+        return res;
+      }
+
+      function mySplit3(str, splitter)
+      {
         var res = [];
         var part = [];
-        for (var i=0; i<str.length; i++) {
+
+        for (var i=0; i<str.length; i++)
+        {
           var c = str.charAt(i);
-          if (c==splitter) {
+
+          if (c == splitter)
+          {
             res.push(part.join(""));
             part = [];
-          } else {
+          }
+          else
+          {
             part.push(c);
           }
         }
+
         if (part.length > 0) {
           res.push(part.join(""));
         }
-        return res;
-      };
 
-      for (var i=0; i<strings.length; i++) {
+        return res;
+      }
+
+      for (var i=0; i<strings.length; i++)
+      {
         var s = strings[i];
-          var reference = s.split(splitter);
-          this.assertJsonEquals(reference, mySplit1(s, splitter));
-          this.assertJsonEquals(reference, mySplit2(s, splitter));
-          this.assertJsonEquals(reference, mySplit3(s, splitter));
+        var reference = s.split(splitter);
+        this.assertJsonEquals(reference, mySplit1(s, splitter));
+        this.assertJsonEquals(reference, mySplit2(s, splitter));
+        this.assertJsonEquals(reference, mySplit3(s, splitter));
       }
 
       this.profile("split native");
-      (function() {
-      for (var i=0; i<strings.length; i++) {
-        var s = strings[i];
-        for (var loop=0; loop<loopCount; loop++) {
-          s.split(splitter);
+
+      (function()
+      {
+        for (var i=0; i<strings.length; i++)
+        {
+          var s = strings[i];
+
+          for (var loop=0; loop<loopCount; loop++) {
+            s.split(splitter);
+          }
         }
-      }
       })();
+
       this.profileEnd();
 
       this.profile("split 1");
-      (function() {
-      for (var i=0; i<strings.length; i++) {
-        var s = strings[i];
-        for (var loop=0; loop<loopCount; loop++) {
-          mySplit1(s, splitter);
+
+      (function()
+      {
+        for (var i=0; i<strings.length; i++)
+        {
+          var s = strings[i];
+
+          for (var loop=0; loop<loopCount; loop++) {
+            mySplit1(s, splitter);
+          }
         }
-      }
       })();
+
       this.profileEnd();
 
       this.profile("split 2");
-      (function() {
-      for (var i=0; i<strings.length; i++) {
-        var s = strings[i];
-        for (var loop=0; loop<loopCount; loop++) {
-          mySplit2(s, splitter);
+
+      (function()
+      {
+        for (var i=0; i<strings.length; i++)
+        {
+          var s = strings[i];
+
+          for (var loop=0; loop<loopCount; loop++) {
+            mySplit2(s, splitter);
+          }
         }
-      }
       })();
+
       this.profileEnd();
 
       this.profile("split 3");
-      (function() {
-      for (var i=0; i<strings.length; i++) {
-        var s = strings[i];
-        for (var loop=0; loop<loopCount; loop++) {
-          mySplit3(s, splitter);
-        }
-      }
-      })();
-      this.profileEnd();
 
+      (function()
+      {
+        for (var i=0; i<strings.length; i++)
+        {
+          var s = strings[i];
+
+          for (var loop=0; loop<loopCount; loop++) {
+            mySplit3(s, splitter);
+          }
+        }
+      })();
+
+      this.profileEnd();
     }
   }
-})
+});
