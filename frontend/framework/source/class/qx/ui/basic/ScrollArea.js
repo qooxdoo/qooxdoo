@@ -67,8 +67,10 @@ qx.Class.define("qx.ui.basic.ScrollArea",
       }
     },
 
-    _onscroll : function(e) {
+    _onscroll : function(e)
+    {
       this.createDispatchEvent("scroll");
+      qx.event.handler.EventHandler.stopDomEvent(e);
     }
   },
 
