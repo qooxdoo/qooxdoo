@@ -327,8 +327,10 @@ qx.Class.define("qx.ui.form.TextField",
      * could have paddings and borders which will break. We use the
      * computed inner width/height instead
      */
-    _postApply : function()
+    _layoutPost : function(changes)
     {
+      this.base(arguments, changes);
+
       var istyle = this._inputElement.style;
       istyle.width = this.getInnerWidth() + "px";
 
