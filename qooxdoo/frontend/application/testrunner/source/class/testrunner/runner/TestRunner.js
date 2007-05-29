@@ -326,7 +326,9 @@ qx.Class.define("testrunner.runner.TestRunner",
       {
         overflow : "auto",
         height   : "100%",
-        width    : "100%"
+        width    : "100%",
+        border   : "dark-shadow",
+        padding  : 10
       });
 
       // Second Page
@@ -336,11 +338,11 @@ qx.Class.define("testrunner.runner.TestRunner",
       pp2.set(
       {
         height : "100%",
-        width  : "100%"
+        width  : "100%",
+        spacing : 20
       });
 
       // main output area
-      // this.f2 = new qx.ui.form.TextArea("Session Log, listing test invokations and all outputs");
       this.f2 = new qx.ui.embed.HtmlEmbed('<div>Session Log</div>');
       pp2.add(this.f2);
       this.f2.setHtmlProperty("id", "sessionlog");
@@ -349,38 +351,19 @@ qx.Class.define("testrunner.runner.TestRunner",
       {
         overflow : "auto",
         height   : "1*",
-        width    : "100%"
+        width    : "100%",
+        border   : "dark-shadow",
+        padding  : 10
       });
 
-      this.f2.setStyleProperty("fontSize", 12);
-
       // toolbar
-      var ff1 = new qx.ui.toolbar.ToolBar;
-      pp2.add(ff1);
-
-      var ff1_b1 = new qx.ui.toolbar.Button("Clear");
-      ff1.add(ff1_b1);
-      ff1_b1.set({ border : "outset" });
+      var ff1_b1 = new qx.ui.form.Button("Clear");
+      pp2.add(ff1_b1);
 
       // width : "auto"
       ff1_b1.addEventListener("execute", function(e) {
         this.f2.setHtml("");
       }, this);
-
-      var ff1_b2 = new qx.ui.toolbar.Button("Save As");
-
-      // ff1.add(ff1_b2);
-      ff1_b2.set({ border : "outset" });
-
-      // width : "auto"
-      ff1_b2.addEventListener("execute", function(e)
-      {
-        var c = (this.f2.getHtml());
-        var w = window.open('', '');
-      },
-
-      // var w = new qx.ui.window.Window("Session Log");
-      this);
 
       // log appender
       // this.logappender = new qx.log.appender.Window("qooxdoo Test Runner");
@@ -1222,6 +1205,6 @@ qx.Class.define("testrunner.runner.TestRunner",
      */
     appender : function(str) {
 
-    }  // appender
-  }  // members
+    }
+  }
 });
