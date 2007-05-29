@@ -77,7 +77,7 @@ qx.Class.define("testrunner.runner.TestAppender",
      *
      * @type member
      * @param evt {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     appendLogEvent : function(evt)
     {
@@ -91,7 +91,7 @@ qx.Class.define("testrunner.runner.TestAppender",
       text += ': ';
 
       // alert("\n" + text + "\n" + this.formatLogEvent(evt));
-      this.target.setHtml(this.target.getHtml() + "<br>" + text + this.formatLogEvent(evt));
+      this.target.setHtml(this.target.getHtml() + text + this.formatLogEvent(evt) + "<br/>");
     }
   }
 });
