@@ -167,7 +167,6 @@ qx.Class.define("testrunner.runner.Tree",
 
         return curr;
       }
-        // f()
 
       return f;
     },
