@@ -331,13 +331,6 @@ qx.Class.define("qx.core.Property",
      */
     attach : function(clazz)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
-          console.debug("Generating property wrappers: " + name);
-        }
-      }
-
       var properties = clazz.$$properties;
 
       if (properties)
@@ -363,35 +356,35 @@ qx.Class.define("qx.core.Property",
      */
     attachMethods : function(clazz, name, config)
     {
+      // Filter old properties
+      if (config._legacy || config._fast || config._cached) {
+        return;
+      }
+
+      // Generate property method prefixes and postfixes
       var prefix, postfix;
 
-      // Filter old properties and groups
-      if (!config._legacy && !config._fast && !config._cached)
+      if (name.charAt(0) === "_")
       {
-        if (name.indexOf("__") == 0)
+        if (name.charAt(1) === "_")
         {
           prefix = "__";
           postfix = qx.lang.String.toFirstUp(name.substring(2));
         }
-        else if (name.indexOf("_") == 0)
+        else
         {
           prefix = "_";
           postfix = qx.lang.String.toFirstUp(name.substring(1));
         }
-        else
-        {
-          prefix = "";
-          postfix = qx.lang.String.toFirstUp(name);
-        }
-
-        // Fill dispose value
-        if (config.dispose === undefined && typeof config.check === "string") {
-          config.dispose = this.__dispose[config.check] || qx.Class.isDefined(config.check);
-        }
-
-        // Attach methods
-        config.group ? this.__attachGroupMethods(clazz, config, prefix, postfix) : this.__attachPropertyMethods(clazz, config, prefix, postfix);
       }
+      else
+      {
+        prefix = "";
+        postfix = qx.lang.String.toFirstUp(name);
+      }
+
+      // Attach methods
+      config.group ? this.__attachGroupMethods(clazz, config, prefix, postfix) : this.__attachPropertyMethods(clazz, config, prefix, postfix);
     },
 
 
@@ -503,6 +496,11 @@ qx.Class.define("qx.core.Property",
         if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
           console.debug("Generating property wrappers: " + name);
         }
+      }
+
+      // Fill dispose value
+      if (config.dispose === undefined && typeof config.check === "string") {
+        config.dispose = this.__dispose[config.check] || qx.Class.isDefined(config.check);
       }
 
       var method = this.$$method;
