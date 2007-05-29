@@ -209,7 +209,7 @@
     var rb3 = new qx.ui.form.RadioButton("Translucent", "translucent");
     rb3.setLocation(0, 160);
 
-    var rbm1 = new qx.manager.selection.RadioManager("move", [rb1, rb2, rb3]);
+    var rbm1 = new qx.ui.selection.RadioManager("move", [rb1, rb2, rb3]);
 
     rbm1.addEventListener("changeSelected", function(e) {
       w2.setMoveMethod(e.getData().getValue());
@@ -234,7 +234,7 @@
     var rb7 = new qx.ui.form.RadioButton("Translucent", "translucent");
     rb7.setLocation(0, 270);
 
-    var rbm2 = new qx.manager.selection.RadioManager("resize", [rb4, rb5, rb6, rb7]);
+    var rbm2 = new qx.ui.selection.RadioManager("resize", [rb4, rb5, rb6, rb7]);
 
     rbm2.addEventListener("changeSelected", function(e) {
       w2.setResizeMethod(e.getData().getValue());
