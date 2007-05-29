@@ -46,8 +46,7 @@ qx.Class.define("testrunner.runner.TestRunner",
 
     this.set(
     {
-      height : "100%",
-      width  : "100%"
+      edge : 0
     });
 
     this.widgets = {};
@@ -75,8 +74,11 @@ qx.Class.define("testrunner.runner.TestRunner",
 
     right.set(
     {
-      height : "100%",
-      width  : "100%"
+      edge : 0,
+      border : qx.ui.core.Border.fromConfig({
+        widthLeft : 1,
+        colorLeft : "border-dark-shadow"
+      })
     });
 
     mainsplit.addRight(right);
@@ -86,14 +88,18 @@ qx.Class.define("testrunner.runner.TestRunner",
 
     this.toolbar.set(
     {
-      height : 30,
-      show : "icon"
+      height: 27,
+      show : "icon",
+      border : qx.ui.core.Border.fromConfig({
+        widthBottom : 1,
+        colorBottom : "border-dark-shadow"
+      })
     });
 
     right.add(this.toolbar);
 
     var rightSub = new qx.ui.layout.VerticalBoxLayout();
-    rightSub.setPadding(20);
+    rightSub.setPadding(10);
     rightSub.setHeight("1*");
     rightSub.setSpacing(20);
     right.add(rightSub);
@@ -243,7 +249,8 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.testSuiteUrl.set(
       {
         width       : 300,
-        marginRight : 5
+        marginRight : 5,
+        marginTop : 2
       });
 
       this.testSuiteUrl.addEventListener("keydown", function(e)
@@ -416,17 +423,11 @@ qx.Class.define("testrunner.runner.TestRunner",
     {
       var buttview = new qx.ui.pageview.buttonview.ButtonView();
 
-      buttview.set(
-      {
-        height : "100%",
-        width  : "100%"
-      });
-
-      buttview.getBar().set(
-      {
-        backgroundColor : "#E1EEFF",
-        height          : 29
-      });
+      buttview.setEdge(0);
+      buttview.setBorder(qx.ui.core.Border.fromConfig({
+        widthRight : 1,
+        colorRight : "border-dark-shadow"
+      }));
 
       this.widgets["treeview"] = buttview;
 
@@ -438,16 +439,9 @@ qx.Class.define("testrunner.runner.TestRunner",
       bsb1.setToolTip(new qx.ui.popup.ToolTip("Full tree view"));
 
       var p1 = new qx.ui.pageview.buttonview.Page(bsb1);
-
-      p1.set(
-      {
-        width   : "100%",
-        height  : "100%",
-        padding : [ 0 ]
-      });
-
-      // spacing   : 5
       buttview.getPane().add(p1);
+      buttview.getPane().setPadding(0);
+      buttview.getPane().setBackgroundColor("white");
 
       var tree = new qx.ui.tree.Tree("Tests");
       p1.add(tree);
@@ -457,14 +451,10 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       tree.set(
       {
-        width           : "100%",
-        height          : "100%",
-
-        // padding : [10],
-        overflow        : "auto",
-
-        // border : "inset",
-        backgroundColor : "white"
+        height : null,
+        overflow : "auto",
+        edge : 0,
+        padding: 5
       });
 
       tree.getManager().addEventListener("changeSelection", this.treeGetSelection, this);
@@ -477,7 +467,6 @@ qx.Class.define("testrunner.runner.TestRunner",
       bsb2.setToolTip(new qx.ui.popup.ToolTip("Flat tree view (only one level of containers)"));
 
       var p2 = new qx.ui.pageview.buttonview.Page(bsb2);
-      p2.set({ padding : [ 5 ] });
       buttview.getPane().add(p2);
 
       var tree1 = new qx.ui.tree.Tree("Tests");
@@ -488,14 +477,10 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       tree1.set(
       {
-        width           : "100%",
-        height          : "100%",
-
-        // padding : [10],
-        overflow        : "auto",
-
-        // border : "inset",
-        backgroundColor : "white"
+        height : null,
+        overflow : "auto",
+        edge : 0,
+        padding: 5
       });
 
       tree1.getManager().addEventListener("changeSelection", this.treeGetSelection, this);
