@@ -21,6 +21,15 @@ qx.Class.define("testrunner.TestSuite",
 {
   extend : qx.core.Object,
 
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   construct : function(testClassOrNamespace)
   {
     this.base(arguments);
@@ -33,6 +42,15 @@ qx.Class.define("testrunner.TestSuite",
     }
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
     /**
@@ -40,7 +58,7 @@ qx.Class.define("testrunner.TestSuite",
      *
      * @type member
      * @param testClassOrNamespace {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     add : function(testClassOrNamespace)
     {
@@ -73,7 +91,7 @@ qx.Class.define("testrunner.TestSuite",
      *
      * @type member
      * @param namespace {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     addTestNamespace : function(namespace)
     {
@@ -100,7 +118,7 @@ qx.Class.define("testrunner.TestSuite",
      * @type member
      * @param name {var} TODOC
      * @param fcn {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     addTestFunction : function(name, fcn) {
       this.__tests.push(new testrunner.TestFunction(null, name, fcn));
@@ -113,7 +131,7 @@ qx.Class.define("testrunner.TestSuite",
      * @type member
      * @param clazz {var} TODOC
      * @param functionName {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     addTestMethod : function(clazz, functionName) {
       this.__tests.push(new testrunner.TestFunction(clazz, functionName));
@@ -125,7 +143,7 @@ qx.Class.define("testrunner.TestSuite",
      *
      * @type member
      * @param clazz {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     addTestClass : function(clazz) {
       this.__tests.push(new testrunner.TestClass(clazz));
@@ -138,7 +156,7 @@ qx.Class.define("testrunner.TestSuite",
      * @type member
      * @param functionName {var} TODOC
      * @param message {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     addFail : function(functionName, message)
     {
@@ -153,7 +171,7 @@ qx.Class.define("testrunner.TestSuite",
      *
      * @type member
      * @param testResult {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     run : function(testResult)
     {
@@ -213,7 +231,7 @@ qx.Class.define("testrunner.TestSuite",
      * currently not working
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     addPollutionCheck : function() {},
 
@@ -222,7 +240,7 @@ qx.Class.define("testrunner.TestSuite",
      * currently not working !!!
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     __pollutionCheck : function()
     {

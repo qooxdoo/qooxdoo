@@ -21,13 +21,21 @@ qx.Class.define("testrunner.profile.Profile",
 {
   extend : testrunner.TestCase,
 
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
     /**
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testProfileObjectCreate : function()
     {
@@ -73,7 +81,7 @@ qx.Class.define("testrunner.profile.Profile",
              * TODOC
              *
              * @type static
-             * @return {void} 
+             * @return {void}
              */
             d : function() {}
           },
@@ -89,7 +97,7 @@ qx.Class.define("testrunner.profile.Profile",
              * TODOC
              *
              * @type member
-             * @return {void} 
+             * @return {void}
              */
             d : function() {}
           },
@@ -127,7 +135,7 @@ qx.Class.define("testrunner.profile.Profile",
              * TODOC
              *
              * @type static
-             * @return {void} 
+             * @return {void}
              */
             d : function() {}
           },
@@ -143,7 +151,7 @@ qx.Class.define("testrunner.profile.Profile",
              * TODOC
              *
              * @type member
-             * @return {void} 
+             * @return {void}
              */
             d : function() {}
           }
@@ -158,7 +166,7 @@ qx.Class.define("testrunner.profile.Profile",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testProfileString : function()
     {

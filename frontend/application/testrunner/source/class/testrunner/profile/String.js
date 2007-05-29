@@ -21,13 +21,21 @@ qx.Class.define("testrunner.profile.String",
 {
   extend : testrunner.TestCase,
 
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
     /**
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testProfileString : function()
     {
@@ -105,7 +113,7 @@ qx.Class.define("testrunner.profile.String",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testSplitOptimize : function()
     {

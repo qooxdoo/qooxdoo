@@ -27,6 +27,14 @@ qx.Class.define("testrunner.runner.Tree",
 {
   extend : qx.core.Object,
 
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   construct : function()
   {
     this.base(arguments);
@@ -35,6 +43,15 @@ qx.Class.define("testrunner.runner.Tree",
     this.children = [];
     this.parent = null;
   },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
 
   members :
   {
@@ -82,7 +99,7 @@ qx.Class.define("testrunner.runner.Tree",
      * @type member
      * @param fun {var} TODOC
      * @param args {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     map : function(fun, args)
     {
@@ -102,7 +119,7 @@ qx.Class.define("testrunner.runner.Tree",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     print : function()
     {
@@ -161,7 +178,7 @@ qx.Class.define("testrunner.runner.Tree",
      *
      * @type member
      * @param node {Node} TODOC
-     * @return {void} 
+     * @return {void}
      */
     add : function(node)
     {

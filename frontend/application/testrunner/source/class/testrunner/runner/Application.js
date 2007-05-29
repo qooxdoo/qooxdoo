@@ -37,13 +37,21 @@ qx.Class.define("testrunner.runner.Application",
 {
   extend : qx.application.Gui,
 
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
     /**
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     main : function()
     {
@@ -63,5 +71,15 @@ qx.Class.define("testrunner.runner.Application",
     }
   },
 
-  settings : { "testrunner.resourceUri" : "./resource" }
+
+
+  /*
+  *****************************************************************************
+     SETTINGS
+  *****************************************************************************
+  */
+
+  settings : {
+    "testrunner.resourceUri" : "./resource"
+  }
 });

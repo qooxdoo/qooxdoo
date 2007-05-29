@@ -21,6 +21,14 @@ qx.Class.define("testrunner.TestClass",
 {
   extend : testrunner.TestSuite,
 
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   construct : function(clazz)
   {
     this.base(arguments);
@@ -53,5 +61,18 @@ qx.Class.define("testrunner.TestClass",
     this.setName(clazz.classname);
   },
 
-  properties : { name : { check : "String" } }
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    name : {
+      check : "String"
+    }
+  }
 });
