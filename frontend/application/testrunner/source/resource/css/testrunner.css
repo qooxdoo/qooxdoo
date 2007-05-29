@@ -35,27 +35,32 @@
   padding: 0;
 }
 
-.testResult {
-	font-family: "Trebuchet MS", "Lucida Grande", Verdana, sans-serif;
-	font-size: 12px;
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
-	width: "100%";
-	background-color: yellow;
-	margin : 3px;
-	padding : 3px 7px;
+.testResult{
+  font-family: "Consolas", "Courier New", monospace;
+	font-size: 11px;
+	margin-bottom: 4px;
+	padding: 4px 20px 4px 4px;
 }
 
-.testResult h3 {
-	font-size: 14px;
-	padding: 0px;
-	margin: 0px 2px 3px 3px;
+.testResult h3{
+  font-size: 11px;
+  font-weight: bold;
+  color: #134275;
+	margin: 0;
 }
 
-.error, .failure {
-	background-color: #9d1111;
+.error,
+.failure{
+	background-color: #FEF4F4;
+	border-left: 3px solid #9D1111;
 }
 
-.success {
-	background-color: #36a618;
+.success{
+	background-color: #FAFFED;
+	border-left: 3px solid #DEFF83;
+}
+
+#sessionlog{
+  font-family: "Consolas", "Courier New", monospace;
+	font-size: 11px;
 }
