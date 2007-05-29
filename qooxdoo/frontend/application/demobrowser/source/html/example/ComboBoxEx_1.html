@@ -147,7 +147,7 @@ qx.core.Init.getInstance().defineMain(function() {
   var rb3 = new form.RadioButton('3', '3');
   var rb4 = new form.RadioButton('4', '4');
 
-  var fieldHeaders = new qx.manager.selection.RadioManager('headers', [ rb1, rb2, rb3, rb4 ]);
+  var fieldHeaders = new qx.ui.selection.RadioManager('headers', [ rb1, rb2, rb3, rb4 ]);
   fieldHeaders.addEventListener("changeSelected", function(e) {
     var headers = [], count = Number(e.getData().getValue());
     for (var i = 0; i < count; i++) {
@@ -167,7 +167,7 @@ qx.core.Init.getInstance().defineMain(function() {
     });
 
   var boxShowHeaders = new Box;
-  var fieldShowHeaders = new qx.manager.selection.RadioManager("showHeaders", [
+  var fieldShowHeaders = new qx.ui.selection.RadioManager("showHeaders", [
     new form.RadioButton('Auto', 'auto'),
     new form.RadioButton('Always', 'always'),
     new form.RadioButton('Never', 'never')
@@ -209,7 +209,7 @@ qx.core.Init.getInstance().defineMain(function() {
   rbDesc.setChecked(true);
   var rbIdAndDesc = new form.RadioButton('ID and description', 'idAndDescription');
   var rbId = new form.RadioButton('ID', 'id');
-  var fieldShowOn = new qx.manager.selection.RadioManager("showOnTextField", [ rbDesc, rbIdAndDesc, rbId ]);
+  var fieldShowOn = new qx.ui.selection.RadioManager("showOnTextField", [ rbDesc, rbIdAndDesc, rbId ]);
   fieldShowOn.addEventListener("changeSelected", function(e) {
     combo.setShowOnTextField(e.getData().getValue());
     });
@@ -263,7 +263,7 @@ qx.core.Init.getInstance().defineMain(function() {
    if (window.console && console.debug) {
      with (qx.log.Logger.ROOT_LOGGER) {
        removeAllAppenders();
-       addAppender(new qx.log.FireBugAppender);
+       addAppender(new qx.log.appender.FireBug);
        setMinLevel(qx.log.Logger.LEVEL_WARN);
      }
    }
