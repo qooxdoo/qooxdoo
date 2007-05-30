@@ -83,13 +83,10 @@ qx.Class.define("qx.ui.window.Window",
     // ************************************************************************
     //   CAPTIONICON
     // ************************************************************************
-    if (vIcon != null)
-    {
-      var ci = this._captionIcon = new qx.ui.basic.Image(vIcon);
-      ci.setAppearance("window-captionbar-icon");
-      cb.add(ci);
-    }
-
+    var ci = this._captionIcon = new qx.ui.basic.Image;
+    ci.setAppearance("window-captionbar-icon");
+    cb.add(ci);
+    
     // ************************************************************************
     //   CAPTIONTITLE
     // ************************************************************************
@@ -330,6 +327,7 @@ qx.Class.define("qx.ui.window.Window",
     {
       check : "String",
       nullable : true,
+      apply : "_applyIcon",
       event : "changeIcon"
     },
 
@@ -1033,6 +1031,17 @@ qx.Class.define("qx.ui.window.Window",
      */
     _applyCaption : function(value, old) {
       this._captionTitle.setText(value);
+    },
+    
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param value {var} Current value
+     * @param old {var} Previous value
+     */
+    _applyIcon : function(value, old) {
+      this._captionIcon.setSource(value);
     },
 
 
