@@ -504,7 +504,7 @@ qx.Class.define("feedreader.Application",
 
       req.addEventListener("completed", function(e)
       {
-        var xml = e.getData().getContent();
+        var xml = e.getContent();
         var eItems = xml.getElementsByTagName("outline");
 
         for (var i=0; i<eItems.length; i++)
@@ -542,7 +542,7 @@ qx.Class.define("feedreader.Application",
         return function(e)
         {
           that.debug("loading " + feedName + " complete!");
-          that.parseXmlFeed(feedName, e.getData().getContent());
+          that.parseXmlFeed(feedName, e.getContent());
         };
       };
 
