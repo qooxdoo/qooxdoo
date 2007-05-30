@@ -45,14 +45,15 @@
 
 import sys, string, re, optparse
 import config, tokenizer, filetool, treegenerator, variableoptimizer, comment, tree
+import accessorobfuscator
 
 KEY = re.compile("^[A-Za-z0-9_$]+$")
 
 
-##                                                                              
-# Some nice short description of foo(); this can contain html and 
+##
+# Some nice short description of foo(); this can contain html and
 # {@link #foo Links} to items in the current file.
-#                                                                               
+#
 # @param     a        Describe a positional parameter
 # @keyparam  b        Describe a keyword parameter
 # @def       foo(name)    # overwrites auto-generated function signature
@@ -289,39 +290,39 @@ def commentNode(node):
 
 def getInlineCommentPadding(options, keepColumn):
     global result
-        
+
     padding = ""
     lineLength = -1
-    
+
     # Retaining keepColumn?
     if options.prettypCommentsTrailingKeepColumn:
-        
+
         # Find length of last line
         posReturn = result.rfind("\n")
         if posReturn == -1:
             posReturn = 0
         lineLength = (len(result) - posReturn - 1)
-        
+
         # Work out padding to keep column at same position
         if keepColumn > lineLength:
             padding = " " * (keepColumn - lineLength - 1)
-    
+
     # Check if preferred comment columns are defined
     if not padding and options.prettypCommentsTrailingCommentCols:
-        
+
         # Find length of last line, but only if not already done
         if lineLength == -1:
             posReturn = result.rfind("\n")
             if posReturn == -1:
                 posReturn = 0
             lineLength = (len(result) - posReturn - 1)
-        
+
         # Work out preferred position of text
         for commentCol in options.prettypCommentsTrailingCommentCols:
             if commentCol > (lineLength + 1):   # leave room for a space
                 padding = " " * (commentCol - lineLength - 1)
                 break
-            
+
     # If not retaining keepColumn or comment cols not defined or not far enough across then put in fixed padding
     if not padding and options.prettypCommentsInlinePadding:
         padding = options.prettypCommentsInlinePadding
@@ -1636,6 +1637,7 @@ def main():
     parser.add_option("-e", "--extension", dest="extension", metavar="EXTENSION", help="The EXTENSION to use", default="")
     parser.add_option("-c", "--compress", action="store_true", dest="compress", help="Enable compression", default=False)
     parser.add_option("--optimize-variables", action="store_true", dest="optimizeVariables", default=False, help="Optimize variables. Reducing size.")
+    parser.add_option("--obfuscate-accessors", action="store_true", dest="obfuscateAccessors", default=False, help="Enable accessor obfuscation")
     parser.add_option("--encoding", dest="encoding", default="utf-8", metavar="ENCODING", help="Defines the encoding expected for input files.")
     # Options for pretty printing
     addCommandLineOptions(parser)
@@ -1652,6 +1654,9 @@ def main():
 
         restree = treegenerator.createSyntaxTree(tokenizer.parseFile(fileName, fileName, options.encoding))
 
+        if options.obfuscateAccessors:
+            accessorobfuscator.process(restree)
+
         if options.optimizeVariables:
             variableoptimizer.search(restree, [], 0, 0, "$")
 
@@ -1659,6 +1664,7 @@ def main():
             options.prettyPrint = False  # make sure it's set
         else:
             options.prettyPrint = True
+
         compiledString = compile(restree, options)
         if options.write:
             if compiledString != "" and not compiledString.endswith("\n"):
