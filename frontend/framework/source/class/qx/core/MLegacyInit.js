@@ -2,6 +2,28 @@ qx.Mixin.define("qx.core.MLegacyInit",
 {
   members :
   {
+
+    /**
+     * define the initialize function
+     * Don't use this method directly. Use setApplication instead!
+     *
+     * @type member
+     * @deprecated
+     * @param func {Function} callback function
+     * @return {void}
+     */
+    defineInitialize : function(func)
+    {
+      if (!this.getApplication()) {
+        this.setApplication(new qx.application.Gui);
+      }
+      this.getApplication().initialize = function()
+      {
+        func.call(this);
+      }
+    },
+
+
     /**
      * define the main function
      * Don't use this method directly. Use setApplication instead!
@@ -20,6 +42,33 @@ qx.Mixin.define("qx.core.MLegacyInit",
       this.getApplication().main = function()
       {
         qx.application.Gui.prototype.main();
+        if (this.initialize) {
+          this.initialize();
+        }
+        func.call(this);
+        if (this.finalize) {
+          qx.client.Timer.once(this.finalize, this, 0);
+        }
+      }
+    },
+
+
+    /**
+     * define the finalize function
+     * Don't use this method directly. Use setApplication instead!
+     *
+     * @type member
+     * @deprecated
+     * @param func {Function} callback function
+     * @return {void}
+     */
+    defineFinalize : function(func)
+    {
+      if (!this.getApplication()) {
+        this.setApplication(new qx.application.Gui);
+      }
+      this.getApplication().finalize = function()
+      {
         func.call(this);
       }
     },
