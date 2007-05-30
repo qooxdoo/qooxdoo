@@ -33,7 +33,7 @@ APPLICATION_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VE
 APPLICATION_FILES = index.html
 APPLICATION_TEMPLATE_INPUT = index.xhtml.tmpl
 APPLICATION_TEMPLATE_OUTPUT = index.xhtml
-
+APPLICATION_OBFUSCATE_ACCESSORS = true
 
 
 

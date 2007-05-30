@@ -241,6 +241,13 @@ ifndef APPLICATION_OPTIMIZE_PRIVATE
 endif
 
 #
+# This setting obfuscates the code
+#
+ifndef APPLICATION_OBFUSCATE_ACCESSORS
+  APPLICATION_OBFUSCATE_ACCESSORS = false
+endif
+
+#
 # If enabled optimized builds for each supported browser given in
 # APPLICATION_INDIVIDUAL_BROWSERS and a generic loader script are generated.
 #
