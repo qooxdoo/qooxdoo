@@ -27,7 +27,7 @@ qx.Class.define("testrunner.test.Mixin",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testMixinBasic : function()
     {
@@ -165,7 +165,7 @@ qx.Class.define("testrunner.test.Mixin",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testInclude : function()
     {

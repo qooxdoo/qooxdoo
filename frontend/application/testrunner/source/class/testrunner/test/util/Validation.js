@@ -27,7 +27,7 @@ qx.Class.define("testrunner.test.util.Validation",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testUmlauts : function()
     {

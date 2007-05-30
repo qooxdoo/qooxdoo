@@ -27,7 +27,7 @@ qx.Class.define("testrunner.test.Lang",
      * string tests
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testString : function() {
       this.assertNotUndefined(qx.lang.String);
@@ -38,7 +38,7 @@ qx.Class.define("testrunner.test.Lang",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testFormat : function()
     {
@@ -57,7 +57,7 @@ qx.Class.define("testrunner.test.Lang",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testPad : function()
     {
@@ -80,7 +80,7 @@ qx.Class.define("testrunner.test.Lang",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testAddRemovelistItem : function()
     {
@@ -114,7 +114,7 @@ qx.Class.define("testrunner.test.Lang",
      * Array tests
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testAppend : function()
     {
@@ -140,7 +140,7 @@ qx.Class.define("testrunner.test.Lang",
      * Object tests
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testObject : function() {
       this.assertNotUndefined(qx.lang.Object);
@@ -151,7 +151,7 @@ qx.Class.define("testrunner.test.Lang",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testInvert : function()
     {
@@ -175,7 +175,7 @@ qx.Class.define("testrunner.test.Lang",
      * StringEscape tests
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testEscape : function()
     {
@@ -230,7 +230,7 @@ qx.Class.define("testrunner.test.Lang",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testFunctionWrap : function()
     {

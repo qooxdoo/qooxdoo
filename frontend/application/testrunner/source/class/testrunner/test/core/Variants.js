@@ -33,7 +33,7 @@ qx.Class.define("testrunner.test.core.Variants",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testBrowserAllDefined : function()
     {
@@ -89,7 +89,7 @@ qx.Class.define("testrunner.test.core.Variants",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testBrowserOrDefined : function()
     {
@@ -124,7 +124,7 @@ qx.Class.define("testrunner.test.core.Variants",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testBrowserOneDefined : function()
     {
@@ -159,7 +159,7 @@ qx.Class.define("testrunner.test.core.Variants",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testInlineSwitch : function()
     {
@@ -195,7 +195,7 @@ qx.Class.define("testrunner.test.core.Variants",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testIfWithComment : function()
     {
@@ -258,7 +258,7 @@ qx.Class.define("testrunner.test.core.Variants",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testInlineOr : function()
     {
@@ -280,7 +280,7 @@ qx.Class.define("testrunner.test.core.Variants",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testTernary : function()
     {
@@ -298,7 +298,7 @@ qx.Class.define("testrunner.test.core.Variants",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testScope : function()
     {
@@ -328,7 +328,7 @@ qx.Class.define("testrunner.test.core.Variants",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testVariantInElse : function()
     {

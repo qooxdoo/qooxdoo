@@ -27,7 +27,7 @@ qx.Class.define("testrunner.test.core.Property",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testInherited : function()
     {
@@ -52,7 +52,7 @@ qx.Class.define("testrunner.test.core.Property",
            *
            * @type member
            * @param parent {var} TODOC
-           * @return {void} 
+           * @return {void}
            */
           applyParent : function(parent)
           {

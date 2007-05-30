@@ -27,7 +27,7 @@ qx.Class.define("testrunner.test.renderer.Color",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     __testColor : function()
     {
