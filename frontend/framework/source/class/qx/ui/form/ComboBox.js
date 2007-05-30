@@ -114,10 +114,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     this._field.addEventListener("input", this._oninput, this);
 
     // force update of value on locale change
-    qx.locale.Manager.getInstance().addEventListener("changeLocale", function(e) {
-      var selected = this.getSelected();
-      this._applySelected(selected, selected);
-    }, this);
+    qx.locale.Manager.getInstance().addEventListener("changeLocale", this._onlocalechange, this);
 
     var vDoc = qx.ui.core.ClientDocument.getInstance();
     vDoc.addEventListener("windowblur", this._testClosePopup, this);
@@ -539,6 +536,12 @@ qx.Class.define("qx.ui.form.ComboBox",
      */
     _onbeforedisappear : function(e) {
       this._testClosePopup();
+    },
+
+
+    _onlocalechange : function(e) {
+      var selected = this.getSelected();
+      this._applySelected(selected, selected);
     },
 
 
@@ -970,6 +973,13 @@ qx.Class.define("qx.ui.form.ComboBox",
     if (this._popup && !qx.core.Object.inGlobalDispose()) {
       this._popup.setParent(null);
     }
+
+    // Remove cross-object event listeners
+    var vDoc = qx.ui.core.ClientDocument.getInstance();
+    vDoc.removeEventListener("windowblur", this._testClosePopup, this);
+
+    var vMgr = qx.locale.Manager.getInstance();
+    vMgr.removeEventListener("changeLocale", this._onlocalechange, this);
 
     this._disposeObjects("_popup", "_list", "_manager", "_field", "_button");
   }
