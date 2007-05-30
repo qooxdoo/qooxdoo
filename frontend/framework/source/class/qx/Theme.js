@@ -26,10 +26,10 @@
 ************************************************************************ */
 
 /**
- * Early work on a cleaner way of defining themes that allow the styling of
- * qooxdoo applications. Supports themes for appearance, color, icon, widget.
+ * This class helps to create and manager so-named theme classes.
  *
- * WARNING: Work in progress!
+ * Supported are: color, border, fonts, icons, widgets,
+ * appearances and meta themes.
  */
 qx.Class.define("qx.Theme",
 {
