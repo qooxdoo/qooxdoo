@@ -97,7 +97,7 @@ qx.Class.define("apiviewer.dao.Package", {
     getItem : function(itemName)
     {
       var itemListNames = [
-        "getMembers",
+        "getClasses",
         "getPackages"
       ];
 
@@ -137,11 +137,7 @@ qx.Class.define("apiviewer.dao.Package", {
         "classes" : "getClasses",
         "packages": "getPackages"
       };
-      if (listName == "constructor") {
-        return this.getConstructor() ? [this.getConstructor()] : [];
-      } else {
-        return this[methodMap[listName]]();
-      }
+      return this[methodMap[listName]]();      
     },
 
 
