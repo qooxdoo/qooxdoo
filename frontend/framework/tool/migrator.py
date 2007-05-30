@@ -530,7 +530,7 @@ ERROR: The class path is empty. Please specify the class pass using the
     fileDb = {}
     listIndex = 0
     for path in options.classPath:
-        loader.indexSingleScriptInput(path, listIndex, options, fileDb)
+        loader.indexClassPath(path, listIndex, options, fileDb)
         listIndex += 1
 
 
