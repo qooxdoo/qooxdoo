@@ -115,7 +115,7 @@
 
       t.getManager().addEventListener("changeSelection", function(e) {
         if(e.getData()[0]) {
-          tCurrentInput.setValue(e.getData()[0]._labelObject.getHtml());
+          tCurrentInput.setValue(e.getData()[0]._labelObject.getText());
           this.debug('classname: ' + e.getData()[0].classname);
         }
         else {
