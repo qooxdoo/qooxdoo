@@ -1417,7 +1417,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
       style : function(states)
       {
         return {
-          splitterSize : 8
+          splitterSize : 6
         };
       }
     },
@@ -1429,8 +1429,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
         return {
           backgroundColor : "general-border",
           cursor          : states.horizontal ? "col-resize" : "row-resize",
-          backgroundImage : states.horizontal ? "widget/gradient/splitter_horizontal_gradient.png" : "widget/gradient/splitter_vertical_gradient.png",
-          border          : states.horizontal ? "splitter-horizontal" : "splitter-vertical"
+          backgroundImage : states.horizontal ? "widget/gradient/splitter_horizontal_gradient.png" : "widget/gradient/splitter_vertical_gradient.png"
         };
       }
     },
@@ -1463,6 +1462,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
           result.marginLeft = -1;
           result.marginTop  = -31;
           result.cursor     = "col-resize";
+          result.source = "widget/splitpane/knob-horizontal.png";
         }
         else if (states.vertical)
         {
@@ -1473,6 +1473,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
           result.marginTop  = -2;
           result.marginLeft = -31;
           result.cursor     = "row-resize";
+          result.source = "widget/splitpane/knob-vertical.png";
         }
 
         return result;

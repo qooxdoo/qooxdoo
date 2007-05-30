@@ -123,6 +123,30 @@ qx.Theme.define("qx.theme.classic.Border",
       innerColor : [ "border-light-shadow", "border-dark", "border-dark", "border-light-shadow" ]
     },
 
+    "line-left" :
+    {
+      widthLeft : 1,
+      colorLeft : "border-dark-shadow"
+    },
+
+    "line-right" :
+    {
+      widthRight : 1,
+      colorRight : "border-dark-shadow"
+    },
+
+    "line-top" :
+    {
+      widthTop : 1,
+      colorTop : "border-dark-shadow"
+    },
+
+    "line-bottom" :
+    {
+      widthBottom : 1,
+      colorBottom : "border-dark-shadow"
+    },
+
     "divider-vertical" :
     {
       widthTop : 1,

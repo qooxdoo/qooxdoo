@@ -75,10 +75,7 @@ qx.Class.define("testrunner.runner.TestRunner",
     right.set(
     {
       edge : 0,
-      border : qx.ui.core.Border.fromConfig({
-        widthLeft : 1,
-        colorLeft : "border-dark-shadow"
-      })
+      border : "line-left"
     });
 
     mainsplit.addRight(right);
@@ -90,10 +87,7 @@ qx.Class.define("testrunner.runner.TestRunner",
     {
       height: 27,
       show : "icon",
-      border : qx.ui.core.Border.fromConfig({
-        widthBottom : 1,
-        colorBottom : "border-dark-shadow"
-      })
+      border : "line-bottom"
     });
 
     right.add(this.toolbar);
@@ -407,10 +401,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       var buttview = new qx.ui.pageview.buttonview.ButtonView();
 
       buttview.setEdge(0);
-      buttview.setBorder(qx.ui.core.Border.fromConfig({
-        widthRight : 1,
-        colorRight : "border-dark-shadow"
-      }));
+      buttview.setBorder("line-right");
 
       this.widgets["treeview"] = buttview;
 

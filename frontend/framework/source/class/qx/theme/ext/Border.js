@@ -34,78 +34,90 @@ qx.Theme.define("qx.theme.ext.Border",
 
   borders :
   {
-     "inset-thin" :
-     {
+    "inset-thin" :
+    {
+      width : 1,
+      color : "border-light"
+    },
+
+    "outset" :
+    {
+      width : 2,
+      color : "border-light",
+      innerColor : "border-light"
+    },
+
+    "inset-button" :
+    {
+      width      : 2,
+      color      : "border-dark",
+      innerColor : "border-light-shadow"
+    },
+
+    "outset-thin-button" :
+    {
+      width : 1,
+      color : "border-dark"
+    },
+
+    "tooltip" :
+    {
        width : 1,
-       color : "border-light"
-     },
+       color : "tooltip-border"
+    },
 
-     "outset" :
-     {
-       width : 2,
-       color : "border-light",
-       innerColor : "border-light"
-     },
+    "general" :
+    {
+      width :  1,
+      color : "general-border"
+    },
 
-     "inset-button" :
-     {
-       width      : 2,
-       color      : "border-dark",
-       innerColor : "border-light-shadow"
-     },
-
-     "outset-thin-button" :
-     {
+    "toolbar" :
+    {
        width : 1,
-       color : "border-dark"
-     },
+       color : "toolbar-border"
+    },
 
-     "tooltip" :
-     {
-        width : 1,
-        color : "tooltip-border"
-     },
+    "button-view-button" :
+    {
+       width : 1,
+       color : "button-view-button-border"
+    },
 
-     "general" :
-     {
-       width :  1,
-       color : "general-border"
-     },
+    "tab-view-pane" :
+    {
+       width : 1,
+       color : "tab-view-border"
+    },
 
-     "toolbar" :
-     {
-        width : 1,
-        color : "toolbar-border"
-     },
+    "list-view" :
+    {
+       width : 1,
+       color : "list-view-border"
+    },
 
-     "button-view-button" :
-     {
-        width : 1,
-        color : "button-view-button-border"
-     },
+    "line-left" :
+    {
+      widthLeft : 1,
+      colorLeft : "general-border"
+    },
 
-     "tab-view-pane" :
-     {
-        width : 1,
-        color : "tab-view-border"
-     },
+    "line-right" :
+    {
+      widthRight : 1,
+      colorRight : "general-border"
+    },
 
-     "list-view" :
-     {
-        width : 1,
-        color : "list-view-border"
-     },
+    "line-top" :
+    {
+      widthTop : 1,
+      colorTop : "general-border"
+    },
 
-     "splitter-vertical" :
-     {
-       width : [ 1, 0, 1, 0 ],
-       color : "general-border"
-     },
-
-     "splitter-horizontal" :
-     {
-       width : [ 0, 1, 0, 1 ],
-       color : "general-border"
-     }
+    "line-bottom" :
+    {
+      widthBottom : 1,
+      colorBottom : "general-border"
+    }
   }
 });
