@@ -327,17 +327,30 @@ qx.Class.define("qx.ui.form.TextField",
      * could have paddings and borders which will break. We use the
      * computed inner width/height instead
      */
-    _layoutPost : function(changes)
+    _postApply : function(changes)
     {
-      this.base(arguments, changes);
-
-      var istyle = this._inputElement.style;
-      istyle.width = this.getInnerWidth() + "px";
-
-      // Reduce height by 2 pixels (the manual or mshtml margin)
-      istyle.height = (this.getInnerHeight() - 2) + "px";
+      this._syncFieldWidth();
+      this._syncFieldHeight();
     },
 
+    _changeInnerWidth : function(value, old) {
+      this._syncFieldWidth();
+    },
+
+    _changeInnerHeight : function(value, old) {
+      this._syncFieldHeight();
+    },
+
+    _syncFieldWidth : function()
+    {
+      this._inputElement.style.width = this.getInnerWidth() + "px";
+    },
+
+    _syncFieldHeight : function()
+    {
+      // Reduce height by 2 pixels (the manual or mshtml margin)
+      this._inputElement.style.height = (this.getInnerHeight() - 2) + "px";
+    },
 
     _applyCursor : function(value, old)
     {
