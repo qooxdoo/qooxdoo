@@ -200,7 +200,6 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
                 if (parenPos != -1) {
                   cleanItemName = qx.lang.String.trim(cleanItemName.substring(0, parenPos));
                 }
-
                 itemNode = classNode.getItem(cleanItemName);
               }
               else
