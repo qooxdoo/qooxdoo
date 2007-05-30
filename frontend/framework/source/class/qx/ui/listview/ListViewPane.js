@@ -158,6 +158,22 @@ qx.Class.define("qx.ui.listview.ListViewPane",
 
     _lastRowCount : 0,
 
+    _updateLayout : function(vUpdate)
+    {
+      if (qx.ui.core.Widget._inFlushGlobalQueues)
+      {
+        qx.client.Timer.once(function()
+        {
+          this._updateLayoutReal(vUpdate);
+          this._updateRendering();
+        }, this, 0);
+      }
+      else
+      {
+        this._updateLayoutReal(vUpdate);
+      }
+    },
+
 
     /**
      * TODOC
@@ -166,17 +182,27 @@ qx.Class.define("qx.ui.listview.ListViewPane",
      * @param vUpdate {var} TODOC
      * @return {void}
      */
-    _updateLayout : function(vUpdate)
+    _updateLayoutReal : function(vUpdate)
     {
-      // this.debug("InnerHeight: " + this._computeInnerHeight());
-      // this.debug("BoxHeight: " + this._computeBoxHeight());
-      // return
       var vColumns = this._columns;
-      var vRowCount = Math.ceil(this.getInnerHeight() / this._rowHeight);
+      //var vRowCount = Math.ceil(this.getInnerHeight() / this._rowHeight);
+      //var vRowCount = Math.ceil(qx.html.Dimension.getInnerHeight(this.getElement()) / this._rowHeight);
+      //var vRowCount = Math.ceil((this._computeBoxHeight() - this._computeFrameHeight()) / this._rowHeight);
+
+      if (this._cachedInnerHeight)
+      {
+        var vRowCount = Math.ceil(this._cachedInnerHeight / this._rowHeight);
+      }
+      else
+      {
+        var vRowCount = 0;
+      }
+
+      // this.debug("Rows: " + vRowCount);
+
       var vData = this._data;
       var vCell;
 
-      // this.debug("Row-Count: " + this._lastRowCount + " => " + vRowCount);
       // Sync cells: Add new ones and configure them
       if (vRowCount > this._lastRowCount)
       {
