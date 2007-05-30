@@ -1249,7 +1249,7 @@ qx.Class.define("qx.ui.core.Parent",
     {
       if (!vChild._isDisplayable)
       {
-        this.warn("Want to render an invisible child: " + vChild + " -> omitting!");
+        // this.warn("Want to render an invisible child: " + vChild + " -> omitting!");
         return;
       }
 
