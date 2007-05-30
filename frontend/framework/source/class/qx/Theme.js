@@ -259,6 +259,21 @@ qx.Class.define("qx.Theme",
       "default" : null
     }),
 
+    /** {Map} allowed keys inside a meta theme block */
+    __metaKeys :qx.core.Variant.select("qx.debug",
+    {
+      "on":
+      {
+        "color" : "object",
+        "border" : "object",
+        "font" : "object",
+        "widget" : "object",
+        "icon" : "object",
+        "appearance" : "object"
+      },
+
+      "default" : null
+    }),
 
     /**
      * Validates incoming configuration and checks keys and values
@@ -332,6 +347,15 @@ qx.Class.define("qx.Theme",
           for (var key in config.meta)
           {
             value = config.meta[key];
+
+            if (this.__metaKeys[key] === undefined) {
+              throw new Error('The key "' + key + '" is not allowed inside a meta theme block.');
+            }
+
+            if (typeof value !== this.__metaKeys[key]) {
+              throw new Error('The type of the key "' + key + '" inside the meta block is wrong.');
+            }
+
             if (!(typeof value === "object" && value !== null && value.$$type === "Theme")) {
               throw new Error('The content of a meta theme must reference to other themes. The value for "' + key + '" in theme "' + name + '" is invalid: ' + value);
             }
