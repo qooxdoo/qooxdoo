@@ -262,7 +262,6 @@ qx.Class.define("apiviewer.TreeUtil",
         for(var i=startIndex; i<iconParts.length; i++) {
           var iconPart = apiviewer.TreeUtil["OVERLAY_" + iconParts[i]];
           if (iconPart == null) {
-            debugger;
             throw new Error("Unknown img constant: " + iconParts[i]);
           }
           iconUrl.push(iconPart);
