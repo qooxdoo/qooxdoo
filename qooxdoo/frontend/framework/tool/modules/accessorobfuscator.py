@@ -4,7 +4,7 @@ def process(node, verbose=False):
     return process_loop(node, verbose)
 
 def process_loop(node, verbose):
-    if node.type == "identifier":
+    if node.type == "variable" and node.hasChildren():
         repl = ""
         first = True
 
