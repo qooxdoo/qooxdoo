@@ -146,16 +146,15 @@ def getNeededUpdates(baseVersion):
 
 
 def getNormalizedVersion(version):
-    return version.split("-")[0].strip()
+    if version in MIGRATION_ORDER:
+        return version
+    else:
+        return version.split("-")[0].strip()
 
 
 
 def isValidVersion(version):
-    try:
-        MIGRATION_ORDER.index(getNormalizedVersion(version))
-    except ValueError:
-        return False
-    return True
+    return getNormalizedVersion(version) in MIGRATION_ORDER
 
 
 
@@ -578,7 +577,8 @@ Do you want to start the migration now? [no] : """ % LOGFILE)
 
 
     # patch makefile
-    patchMakefile(options.makefile, MIGRATION_ORDER[-1], options.from_version)
+    if not options.makefile is None:
+      patchMakefile(options.makefile, MIGRATION_ORDER[-1], options.from_version)
 
     print """
 
