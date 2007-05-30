@@ -282,7 +282,7 @@ qx.Class.define("feedreader.Application",
       {
         height : "100%",
         width  : "100%",
-        padding : 5
+        padding : 10
       });
 
       tree.setOverflow("auto");
