@@ -379,17 +379,16 @@ qx.Class.define("qx.ui.basic.Label",
     },
 
 
-    _syncText : function()
+    _syncText : function(text)
     {
-      var text = this.getText();
+      var mode = this.getMode();
 
-      switch (this.getMode())
+      if (mode === "auto") {
+        mode = qx.util.Validation.isValidString(text) && text.match(/<.*>/) ? "html" : "text";
+      }
+
+      switch (mode)
       {
-        case "auto":
-          this._isHtml = qx.util.Validation.isValidString(text) && text.match(/<.*>/) ? true : false;
-          this._content = text;
-          break;
-
         case "text":
           var escapedText = qx.xml.String.escape(text).replace(/(^ | $)/g, "&nbsp;").replace(/  /g, "&nbsp;&nbsp;");
           this._isHtml = escapedText !== text;
