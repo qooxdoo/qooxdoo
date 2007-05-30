@@ -336,6 +336,16 @@ qx.Class.define("qx.ui.basic.Atom",
 
       i.setAnonymous(true);
 
+      var width = this.getIconWidth();
+      if (width !== null) {
+        this._iconObject.setWidth(width);
+      }
+
+      var height = this.getIconWidth();
+      if (height !== null) {
+        this._iconObject.setHeight(height);
+      }
+
       this._updateIcon();
       this.addAt(i, 0);
     },
@@ -496,7 +506,9 @@ qx.Class.define("qx.ui.basic.Atom",
      * @param old {var} Previous value
      */
     _applyIconWidth : function(value, old) {
-      this._iconObject.setWidth(value);
+      if (this._iconObject) {
+        this._iconObject.setWidth(value);
+      }
     },
 
 
@@ -508,7 +520,9 @@ qx.Class.define("qx.ui.basic.Atom",
      * @param old {var} Previous value
      */
     _applyIconHeight : function(value, old) {
-      this._iconObject.setHeight(value);
+      if (this._iconObject) {
+        this._iconObject.setHeight(value);
+      }
     },
 
 
