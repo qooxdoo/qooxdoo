@@ -223,7 +223,8 @@ qx.Class.define("qx.ui.embed.Flash",
     redirectUrl :
     {
       check : "String",
-      nullable : true
+      nullable : true,
+      init : ""
     },
 
     quality :
