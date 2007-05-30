@@ -122,7 +122,6 @@ qx.Class.define("apiviewer.TreeUtil",
      */
     getIconUrl : function(node, inherited)
     {
-      //var node = node.getNode();
       var constName;
       var dao = apiviewer.dao;
 
@@ -194,9 +193,14 @@ qx.Class.define("apiviewer.TreeUtil",
 
         if (node.getClass().getType() == "mixin") {
           constName += "_MIXIN";
-        } else if (node.getClass().getType() == "interface") {
+        }
+
+        // TODO: we don't have an overlay icon for mixins yet.
+        /*
+        else if (node.getClass().getType() == "interface") {
           constName += "_INTERFACE";
         }
+        */
       }
       else if (node instanceof dao.Constant)
       {
@@ -262,7 +266,7 @@ qx.Class.define("apiviewer.TreeUtil",
         for(var i=startIndex; i<iconParts.length; i++) {
           var iconPart = apiviewer.TreeUtil["OVERLAY_" + iconParts[i]];
           if (iconPart == null) {
-            throw new Error("Unknown img constant: " + iconParts[i]);
+            throw new Error("Unknown img constant: OVERLAY_" + iconParts[i]);
           }
           iconUrl.push(iconPart);
         }

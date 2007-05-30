@@ -24,32 +24,35 @@
 
 
     var horiz =  new qx.ui.layout.HorizontalBoxLayout;
-    
+
     horiz.setPadding(10);
     horiz.set({
-        left:20, right:10, height:"100%", spacing:20
+        top:20, left:20,
+        right:300, bottom: 20,
+        spacing:20
     });
 
     var tree = new qx.ui.treevirtual.TreeVirtual(["Objects", "Date", "ID"]);
     with (tree){
-	  setHeight ("100%");
-        setWidth(900);
-        setColumnWidth(0, 400)
-        setColumnWidth(1, 200);
+	      setHeight ("100%");
+        setWidth("100%");
+        setBorder("black");
+        setColumnWidth(0, 300)
+        setColumnWidth(1, 150);
         setColumnWidth(2, 50);
     };
 
     var data_model = tree.getDataModel ();
 
     var object_folder =
-	data_model.addBranch (null, 
-			      "Test", 
+	data_model.addBranch (null,
+			      "Test",
 			      false);
 
-    data_model.addLeaf (object_folder, 
+    data_model.addLeaf (object_folder,
 			"Test") ;
-    
-    data_model.setData();	
+
+    data_model.setData();
 
     if (false)
     {
