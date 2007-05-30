@@ -89,6 +89,32 @@ qx.Class.define("apiviewer.dao.Package", {
 
 
     /**
+     * Return a package item matching the given name.
+     *
+     * @param itemName {String} name of the package item
+     * @return {apiviewer.dao.Class|Package} the package item.
+     */
+    getItem : function(itemName)
+    {
+      var itemListNames = [
+        "getMembers",
+        "getPackages"
+      ];
+
+      for (var i=0; i<itemListNames.length; i++)
+      {
+        var list = this[itemListNames[i]]();
+        for (var j=0; j<list.length; j++)
+        {
+          if (itemName == list[j].getName()) {
+            return list[j];
+          }
+        }
+      }
+    },
+
+
+    /**
      * Get an array of class items matching the given list name. Known list names are:
      * <ul>
      *   <li>classes</li>
