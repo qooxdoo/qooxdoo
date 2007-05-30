@@ -312,7 +312,8 @@ qx.Class.define("feedreader.Application",
       {
         title  : this.tr("Subject"),
         author : this.tr("Sender"),
-        date   : this.tr("Date")
+        date   : this.tr("Date"),
+        id     : this.tr("ID")
       });
 
 
