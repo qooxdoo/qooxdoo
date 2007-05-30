@@ -211,6 +211,7 @@ qx.Class.define("feedreader.Application",
 
       // create toolbar
       var toolBar = new qx.ui.toolbar.ToolBar();
+      toolBar.setBorder("line-bottom");
       toolBar.add(new qx.ui.toolbar.Button(this.trn("Add feed", "Add feeds", 2), "icon/16/actions/dialog-ok.png"));
       toolBar.add(new qx.ui.toolbar.Button(this.tr("Remove feed"), "icon/16/actions/dialog-cancel.png"));
       toolBar.add(new qx.ui.toolbar.Separator());
@@ -282,10 +283,10 @@ qx.Class.define("feedreader.Application",
       {
         height : "100%",
         width  : "100%",
-        padding : 10
+        padding : 10,
+        border : "line-right",
+        overflow : "auto"
       });
-
-      tree.setOverflow("auto");
 
       var feedDesc = feedreader.Application._feedDesc;
 
@@ -333,7 +334,8 @@ qx.Class.define("feedreader.Application",
       table.set(
       {
         height : "100%",
-        width  : "100%"
+        width  : "100%",
+        border : "line-bottom"
       });
 
       table.setStatusBarVisible(false);
@@ -365,7 +367,8 @@ qx.Class.define("feedreader.Application",
       this._blogEntry.set(
       {
         height : "100%",
-        width  : "100%"
+        width  : "100%",
+        border : "line-top"
       });
 
       //this._blogEntry.setBorder("inset");
@@ -376,7 +379,8 @@ qx.Class.define("feedreader.Application",
       contentSplitPane.set(
       {
         height : "100%",
-        width  : "100%"
+        width  : "100%",
+        border : "line-left"
       });
 
       contentSplitPane.setLiveResize(true);
