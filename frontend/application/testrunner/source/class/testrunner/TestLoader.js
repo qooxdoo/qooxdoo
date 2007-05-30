@@ -299,5 +299,5 @@ qx.Class.define("testrunner.TestLoader",
 
   settings : {
     "testrunner.resourceUri" : "./resource"
-  },
+  }
 });
