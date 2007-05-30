@@ -27,7 +27,7 @@ qx.Class.define("testrunner.test.Interface",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testInterface : function()
     {
@@ -174,7 +174,7 @@ qx.Class.define("testrunner.test.Interface",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testAssertions : function()
     {
@@ -236,7 +236,7 @@ qx.Class.define("testrunner.test.Interface",
            *
            * @type member
            * @param a {Array} TODOC
-           * @return {void} 
+           * @return {void}
            */
           add : function(a)
           {
@@ -250,7 +250,7 @@ qx.Class.define("testrunner.test.Interface",
            *
            * @type member
            * @param r {var} TODOC
-           * @return {void} 
+           * @return {void}
            */
           setReal : function(r) {
             this._real = r;
@@ -319,7 +319,7 @@ qx.Class.define("testrunner.test.Interface",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testIncludes : function()
     {
@@ -377,7 +377,7 @@ qx.Class.define("testrunner.test.Interface",
            * TODOC
            *
            * @type member
-           * @return {void} 
+           * @return {void}
            */
           sayJuhu : function() {}
         },

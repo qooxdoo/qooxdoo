@@ -27,7 +27,7 @@ qx.Class.define("testrunner.test.Class",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testEmptyClass : function()
     {
@@ -47,7 +47,7 @@ qx.Class.define("testrunner.test.Class",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testSameNameClasses : function()
     {
@@ -73,7 +73,7 @@ qx.Class.define("testrunner.test.Class",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testSuperClassCall : function()
     {
@@ -188,7 +188,7 @@ qx.Class.define("testrunner.test.Class",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testAbstract : function()
     {
@@ -207,7 +207,7 @@ qx.Class.define("testrunner.test.Class",
            * TODOC
            *
            * @type member
-           * @return {void} 
+           * @return {void}
            */
           startEngine : function() {}
         }
@@ -238,7 +238,7 @@ qx.Class.define("testrunner.test.Class",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testSingleton : function()
     {
@@ -267,7 +267,7 @@ qx.Class.define("testrunner.test.Class",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testSetting : function()
     {
@@ -285,7 +285,7 @@ qx.Class.define("testrunner.test.Class",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testVariant : function()
     {
@@ -325,7 +325,7 @@ qx.Class.define("testrunner.test.Class",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testDefer : function()
     {
@@ -365,7 +365,7 @@ qx.Class.define("testrunner.test.Class",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     __testCaller : function()
     {
@@ -379,7 +379,7 @@ qx.Class.define("testrunner.test.Class",
            * TODOC
            *
            * @type member
-           * @return {void} 
+           * @return {void}
            */
           __foo : function() {
             this.debug("foo");
@@ -390,7 +390,7 @@ qx.Class.define("testrunner.test.Class",
            * TODOC
            *
            * @type member
-           * @return {void} 
+           * @return {void}
            */
           _bar : function()
           {
@@ -404,7 +404,7 @@ qx.Class.define("testrunner.test.Class",
            * TODOC
            *
            * @type member
-           * @return {void} 
+           * @return {void}
            */
           juhu : function() {
             this._bar();
@@ -417,7 +417,7 @@ qx.Class.define("testrunner.test.Class",
            * TODOC
            *
            * @type static
-           * @return {void} 
+           * @return {void}
            */
           sayFoo : function() {
             this.__staticFoo();
@@ -428,7 +428,7 @@ qx.Class.define("testrunner.test.Class",
            * TODOC
            *
            * @type static
-           * @return {void} 
+           * @return {void}
            */
           __staticFoo : function() {
             new qx.core.Object().debug("static foo");
@@ -465,7 +465,7 @@ qx.Class.define("testrunner.test.Class",
            * TODOC
            *
            * @type member
-           * @return {void} 
+           * @return {void}
            */
           __foo : function() {
             this.debug("child foo");
@@ -481,7 +481,7 @@ qx.Class.define("testrunner.test.Class",
            * TODOC
            *
            * @type member
-           * @return {void} 
+           * @return {void}
            */
           kinners : function() {
             this.__foo();
@@ -502,7 +502,7 @@ qx.Class.define("testrunner.test.Class",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     __testWrappedPrivate : function()
     {
@@ -534,7 +534,7 @@ qx.Class.define("testrunner.test.Class",
            * TODOC
            *
            * @type member
-           * @return {void} 
+           * @return {void}
            */
           __foo : function() {
             this.debug("foo");
@@ -545,7 +545,7 @@ qx.Class.define("testrunner.test.Class",
            * TODOC
            *
            * @type member
-           * @return {void} 
+           * @return {void}
            */
           sayFoo : function() {
             this.__foo();
@@ -567,7 +567,7 @@ qx.Class.define("testrunner.test.Class",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testGetFunctionName : function()
     {
@@ -589,7 +589,7 @@ qx.Class.define("testrunner.test.Class",
            * TODOC
            *
            * @type member
-           * @return {void} 
+           * @return {void}
            */
           __foo : function() {
             self.assertEqualsDebugOn("__foo", qx.dev.Debug.getFunctionName(arguments.callee));
@@ -600,7 +600,7 @@ qx.Class.define("testrunner.test.Class",
            * TODOC
            *
            * @type member
-           * @return {void} 
+           * @return {void}
            */
           _bar : function() {
             self.assertEquals("_bar", qx.dev.Debug.getFunctionName(arguments.callee));
@@ -611,7 +611,7 @@ qx.Class.define("testrunner.test.Class",
            * TODOC
            *
            * @type member
-           * @return {void} 
+           * @return {void}
            */
           sayFooBar : function()
           {

@@ -27,7 +27,7 @@ qx.Class.define("testrunner.test.core.Target",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testEvents : function()
     {
