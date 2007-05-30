@@ -81,11 +81,12 @@ qx.Class.define("qx.core.LegacyProperty",
     */
 
     /**
-     * TODOC
+     * Adds a so-named fast property to a prototype.
      *
+     * @deprecated
      * @type static
-     * @param config {var} TODOC
-     * @param proto {var} TODOC
+     * @param config {Map} Configuration structure
+     * @param proto {Object} Prototype where the methods should be attached
      * @return {void}
      */
     addFastProperty : function(config, proto)
@@ -146,11 +147,12 @@ qx.Class.define("qx.core.LegacyProperty",
 
 
     /**
-     * TODOC
+     * Adds a so-named cached property to a prototype
      *
+     * @deprecated
      * @type static
-     * @param config {var} TODOC
-     * @param proto {var} TODOC
+     * @param config {Map} Configuration structure
+     * @param proto {Object} Prototype where the methods should be attached
      * @return {void}
      */
     addCachedProperty : function(config, proto)
@@ -216,11 +218,12 @@ qx.Class.define("qx.core.LegacyProperty",
 
 
     /**
-     * TODOC
+     * Adds a property to a prototype
      *
+     * @deprecated
      * @type static
-     * @param config {var} TODOC
-     * @param proto {var} TODOC
+     * @param config {Map} Configuration structure
+     * @param proto {Object} Prototype where the methods should be attached
      * @return {void}
      * @throws TODOC
      */

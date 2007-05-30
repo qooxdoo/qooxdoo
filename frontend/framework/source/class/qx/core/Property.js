@@ -395,6 +395,8 @@ qx.Class.define("qx.core.Property",
      * @internal
      * @param clazz {Class} Class to attach properties to
      * @param config {Map} Property configuration
+     * @param prefix {String} Prefix of property e.g. "__" or "_" for private or protected properties
+     * @param postfix {String} Camelcase name of property e.g. name=width => postfix=Width
      * @return {void}
      */
     __attachGroupMethods : function(clazz, config, prefix, postfix)
@@ -484,6 +486,8 @@ qx.Class.define("qx.core.Property",
      * @internal
      * @param clazz {Class} Class to attach properties to
      * @param config {Map} Property configuration
+     * @param prefix {String} Prefix of property e.g. "__" or "_" for private or protected properties
+     * @param postfix {String} Camelcase name of property e.g. name=width => postfix=Width
      * @return {void}
      */
     __attachPropertyMethods : function(clazz, config, prefix, postfix)
@@ -607,8 +611,8 @@ qx.Class.define("qx.core.Property",
      * @param members {Object} Prototype members map where the new function should be stored
      * @param name {String} Name of the property
      * @param variant {String} Function variant e.g. get, set, reset, ...
-     * @param code {qx.util.StringBuilder} string builder instance which contains the code
-     * @param value {var ? null} Optional value to call function with
+     * @param code {Array} Array which contains the code
+     * @param args {arguments} Incoming arguments of wrapper method
      * @return {var} Return value of the generated function
      */
     __unwrapFunctionFromCode : function(instance, members, name, variant, code, args)
@@ -705,7 +709,7 @@ qx.Class.define("qx.core.Property",
      * @param clazz {Class} the class which originally defined the property
      * @param name {String} name of the property
      * @param variant {String} Method variant.
-     * @param value {var ? null} Optional value to send to newly created method
+     * @param args {arguments} Incoming arguments of wrapper method
      * @return {var} Execute return value of apply generated function, generally the incoming value
      */
     executeOptimizedSetter : function(instance, clazz, name, variant, args)
