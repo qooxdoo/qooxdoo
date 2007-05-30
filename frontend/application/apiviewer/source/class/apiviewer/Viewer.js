@@ -120,12 +120,16 @@ qx.Class.define("apiviewer.Viewer",
      */
     __createButtonView : function(treeWidget, infoWidget)
     {
-
       var buttonView = new qx.ui.pageview.buttonview.ButtonView();
       buttonView.set({
         width : "100%",
-        height : "100%"
+        height : "100%",
+        border : qx.ui.core.Border.fromConfig({
+          widthRight : 1,
+          colorRight : "border-dark-shadow"
+        })
       });
+
       var treeButton = new qx.ui.pageview.buttonview.Button("Packages", apiviewer.TreeUtil.ICON_PACKAGE);
       treeButton.setShow("icon");
       treeButton.setToolTip( new qx.ui.popup.ToolTip("Packages"));
@@ -181,7 +185,11 @@ qx.Class.define("apiviewer.Viewer",
       toolbar.set({
         horizontalChildrenAlign : "right",
         backgroundColor : "background",
-        height : 30
+        height : 30,
+        border : qx.ui.core.Border.fromConfig({
+          widthBottom : 1,
+          colorBottom : "border-dark-shadow"
+        })
       });
 
       var part = new qx.ui.toolbar.Part;
@@ -264,7 +272,11 @@ qx.Class.define("apiviewer.Viewer",
       var mainFrame = new qx.ui.layout.VerticalBoxLayout();
       mainFrame.set({
         width           : "100%",
-        height          : "100%"
+        height          : "100%",
+        border : qx.ui.core.Border.fromConfig({
+          widthLeft : 1,
+          colorLeft : "border-dark-shadow"
+        })
       });
 
       mainFrame.add(toolbar, detailFrame);
