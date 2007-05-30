@@ -55,7 +55,9 @@ qx.Class.define("webmail.Application",
       var dockLayout = new qx.ui.layout.DockLayout;
 
       dockLayout.setLocation(0, 0);
-      dockLayout.setDimension(800, 600);
+      //dockLayout.setDimension(800, 600);
+      dockLayout.setRight(0);
+      dockLayout.setBottom(0);
       dockLayout.setBackgroundColor("white");
 
       doc.add(dockLayout);
@@ -169,12 +171,8 @@ qx.Class.define("webmail.Application",
       };
 
       var view = new qx.ui.listview.ListView(ld, lc);
-
-      view.setLocation(200, 47);
-      view.setDimension(600, 530);
       view.setBorder("inset");
-
-      doc.add(view);
+      dockLayout.add(view);
     }
   }
 });
