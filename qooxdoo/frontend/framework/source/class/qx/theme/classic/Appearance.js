@@ -1742,6 +1742,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "table-editor-textfield" :
     {
+      include : "text-field",
+
       style : function(states)
       {
         return {
