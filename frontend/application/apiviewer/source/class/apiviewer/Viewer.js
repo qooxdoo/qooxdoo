@@ -185,7 +185,7 @@ qx.Class.define("apiviewer.Viewer",
       toolbar.set({
         horizontalChildrenAlign : "right",
         backgroundColor : "background",
-        height : 30,
+        height : 29,
         border : qx.ui.core.Border.fromConfig({
           widthBottom : 1,
           colorBottom : "border-dark-shadow"
