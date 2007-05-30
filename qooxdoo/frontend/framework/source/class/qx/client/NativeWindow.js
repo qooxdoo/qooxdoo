@@ -18,6 +18,11 @@
 
 ************************************************************************ */
 
+/**
+ * A native window is a new browser window (popup) with a URL.
+ * It wraps the window.open command to a useable cross-browser
+ * compatible API.
+ */
 qx.Class.define("qx.client.NativeWindow",
 {
   extend : qx.core.Target,
@@ -46,6 +51,25 @@ qx.Class.define("qx.client.NativeWindow",
       this.setName(name);
     }
   },
+
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events :
+  {
+    /** Fired when the browser fires the load event of the document */
+    "load" : "qx.event.type.Event",
+
+    /** Fired when the window was closed */
+    "close" : "qx.event.type.Event"
+  },
+
 
 
 
@@ -341,11 +365,12 @@ qx.Class.define("qx.client.NativeWindow",
     */
 
     /**
-     * TODOC
+     * Returns the name of the window
      *
      * @type member
-     * @return {var} TODOC
-     * @throws TODOC
+     * @return {String} the name of the window
+     * @throws an Exception when the internal and public name of the window
+     *   are not identical.
      */
     getName : function()
     {
@@ -379,10 +404,10 @@ qx.Class.define("qx.client.NativeWindow",
     */
 
     /**
-     * TODOC
+     * Whether the window is closed
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Boolean} Returns true when the window is closed
      */
     isClosed : function()
     {
@@ -400,7 +425,7 @@ qx.Class.define("qx.client.NativeWindow",
 
 
     /**
-     * TODOC
+     * Open the window (if not already opened)
      *
      * @type member
      * @return {void}
@@ -411,7 +436,7 @@ qx.Class.define("qx.client.NativeWindow",
 
 
     /**
-     * TODOC
+     * Close the window (if not already closed)
      *
      * @type member
      * @return {void}
@@ -422,10 +447,10 @@ qx.Class.define("qx.client.NativeWindow",
 
 
     /**
-     * TODOC
+     * Whether the content of the window is loaded.
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Boolean} Returns true when the content is loaded.
      */
     isLoaded : function() {
       return this._loaded;
@@ -441,7 +466,10 @@ qx.Class.define("qx.client.NativeWindow",
     */
 
     /**
-     * TODOC
+     * Generates the parameter set for the native window.open() and
+     * opens the window.
+     *
+     * Used by the property {@link #open}.
      *
      * @type member
      * @return {void}
@@ -571,7 +599,7 @@ qx.Class.define("qx.client.NativeWindow",
 
 
     /**
-     * TODOC
+     * Implementation of close logic. Used by the property {@link #open}.
      *
      * @type member
      * @return {void}
@@ -618,44 +646,44 @@ qx.Class.define("qx.client.NativeWindow",
     */
 
     /**
-     * TODOC
+     * Centers the window to the screen
      *
      * @type member
-     * @return {var} TODOC
+     * @return {void}
      */
     centerToScreen : function() {
-      return this._centerHelper((screen.width - this.getWidth()) / 2, (screen.height - this.getHeight()) / 2);
+      this._centerHelper((screen.width - this.getWidth()) / 2, (screen.height - this.getHeight()) / 2);
     },
 
 
     /**
-     * TODOC
+     * Centers the window to the available screen area
      *
      * @type member
-     * @return {var} TODOC
+     * @return {void}
      */
     centerToScreenArea : function() {
-      return this._centerHelper((screen.availWidth - this.getWidth()) / 2, (screen.availHeight - this.getHeight()) / 2);
+      this._centerHelper((screen.availWidth - this.getWidth()) / 2, (screen.availHeight - this.getHeight()) / 2);
     },
 
 
     /**
-     * TODOC
+     * Centers the window to the opener window
      *
      * @type member
-     * @return {var} TODOC
+     * @return {void}
      */
     centerToOpener : function() {
-      return this._centerHelper(((qx.html.Window.getInnerWidth(window) - this.getWidth()) / 2) + qx.html.Location.getScreenBoxLeft(window.document.body), ((qx.html.Window.getInnerHeight(window) - this.getHeight()) / 2) + qx.html.Location.getScreenBoxTop(window.document.body));
+      this._centerHelper(((qx.html.Window.getInnerWidth(window) - this.getWidth()) / 2) + qx.html.Location.getScreenBoxLeft(window.document.body), ((qx.html.Window.getInnerHeight(window) - this.getHeight()) / 2) + qx.html.Location.getScreenBoxTop(window.document.body));
     },
 
 
     /**
-     * TODOC
+     * Internal helper to handle centering of native windows.
      *
      * @type member
-     * @param l {var} TODOC
-     * @param t {var} TODOC
+     * @param l {Integer} left location
+     * @param t {Integer} top location
      * @return {void}
      */
     _centerHelper : function(l, t)
@@ -680,7 +708,7 @@ qx.Class.define("qx.client.NativeWindow",
     */
 
     /**
-     * TODOC
+     * Focus the window (opposite of {@link #blur})
      *
      * @type member
      * @return {void}
@@ -694,7 +722,7 @@ qx.Class.define("qx.client.NativeWindow",
 
 
     /**
-     * TODOC
+     * Blur the window (opposite of {@link #focus})
      *
      * @type member
      * @return {void}
@@ -716,10 +744,13 @@ qx.Class.define("qx.client.NativeWindow",
     */
 
     /**
-     * TODOC
+     * Executed on each timer interval to detect two things:
+     *
+     * * the load status of the document
+     * * if the window was closed
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {Event} DOM Event
      * @return {void}
      */
     _oninterval : function(e)
@@ -744,10 +775,10 @@ qx.Class.define("qx.client.NativeWindow",
 
 
     /**
-     * TODOC
+     * Fires the qooxdoo load event
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {Event} DOM Event
      * @return {void}
      */
     _onload : function(e)
