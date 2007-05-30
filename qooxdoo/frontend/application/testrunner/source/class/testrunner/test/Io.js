@@ -27,7 +27,7 @@ qx.Class.define("testrunner.test.Io",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testIO : function() {
       this.assertNotUndefined(qx.io);
@@ -38,7 +38,7 @@ qx.Class.define("testrunner.test.Io",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testJson : function() {
       this.assertEquals('{"test":123}', qx.io.Json.stringify({ test : 123 }, false));

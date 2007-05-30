@@ -31,7 +31,7 @@ qx.Class.define("testrunner.test.util.NumberFormat",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     testNumberFormat : function()
     {
