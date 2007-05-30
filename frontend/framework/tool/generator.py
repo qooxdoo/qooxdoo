@@ -630,6 +630,44 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
 
 
+
+
+
+
+    ######################################################################
+    #  BASE CALL OPTIMIZATION
+    ######################################################################
+
+    if options.optimizeBaseCall:
+        print
+        print "  BASE CALL OPTIMIZATION:"
+        print "----------------------------------------------------------------------------"
+
+        if options.verbose:
+            print "  * Optimizing this.base calls..."
+        else:
+            print "  * Optimizing this.base calls: ",
+
+        counter = 0
+
+        for fileId in sortedIncludeList:
+            if options.verbose:
+                print "    - %s" % fileId
+            else:
+                sys.stdout.write(".")
+                sys.stdout.flush()
+
+            counter += basecalloptimizer.patch(loader.getTree(fileDb, fileId, options), fileId, options.verbose)
+
+        if not options.verbose:
+            print
+
+        print "  * Optimized %s calls" % counter
+
+
+
+
+
     ######################################################################
     #  ACCESSOR OBFUSCATION
     ######################################################################
@@ -764,39 +802,6 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
 
         print "  * Optimized %s variables" % counter
 
-
-
-
-
-    ######################################################################
-    #  BASE CALL OPTIMIZATION
-    ######################################################################
-
-    if options.optimizeBaseCall:
-        print
-        print "  BASE CALL OPTIMIZATION:"
-        print "----------------------------------------------------------------------------"
-
-        if options.verbose:
-            print "  * Optimizing this.base calls..."
-        else:
-            print "  * Optimizing this.base calls: ",
-
-        counter = 0
-
-        for fileId in sortedIncludeList:
-            if options.verbose:
-                print "    - %s" % fileId
-            else:
-                sys.stdout.write(".")
-                sys.stdout.flush()
-
-            counter += basecalloptimizer.patch(loader.getTree(fileDb, fileId, options), fileId, options.verbose)
-
-        if not options.verbose:
-            print
-
-        print "  * Optimized %s calls" % counter
 
 
 
