@@ -33,7 +33,7 @@
  */
 qx.Class.define("qx.application.Gui",
 {
-  extend : qx.core.Object,
+  extend : qx.core.Target,
   implement : qx.application.IApplication,
 
 
