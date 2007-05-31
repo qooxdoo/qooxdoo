@@ -4,7 +4,6 @@ qx\.core\.Init\.getInstance\(\)\.Init:defineInitialize=This function has benn mo
 qx\.core\.Init\.getInstance\(\)\.Init:defineMain=This function has benn moved to the mixin qx.core.MLegacyInit. Please add the follogin code at the start of your application: qx.Class.include(qx.core.Init, qx.core.MLegacyInit);
 qx\.core\.Init\.getInstance\(\)\.Init:defineTerminate=This function has benn moved to the mixin qx.core.MLegacyInit. Please add the follogin code at the start of your application: qx.Class.include(qx.core.Init, qx.core.MLegacyInit);
 
-extend\s*:\s*qx\.component\.AbstractApplication=Please derive your main application class from qx.application.Gui and make sure to call the super class in overwritten "main", "close" and "terminate" methods.
 \bqx\.component\b=The "qx.component" and "qx.component.init" namespaces have been merged into the namespace "qx.application".
 
 \bclose\s*:\s*function\(=Please make sure to call the overwitten method using "this.base(arguments)".
