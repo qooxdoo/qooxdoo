@@ -811,7 +811,8 @@ def compileNode(node,optns):
             dec_indent()
 
             # force double new lines
-            if not node.getPreviousSibling(True).type == "case":
+            if (node.getPreviousSibling(True) and 
+                not node.getPreviousSibling(True).type == "case"):
                 sep()
 
         write("default")
