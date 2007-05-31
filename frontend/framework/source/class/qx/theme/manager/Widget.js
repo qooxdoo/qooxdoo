@@ -42,6 +42,7 @@ qx.Class.define("qx.theme.manager.Widget",
 
   properties :
   {
+    /** currently used widget theme */
     widgetTheme :
     {
       check : "Theme",
@@ -69,6 +70,11 @@ qx.Class.define("qx.theme.manager.Widget",
       }
     },
 
+    /**
+     * Sync dependend objects with internal database
+     * @type member
+     * @return {void}
+     */
     syncWidgetTheme : function()
     {
       var value = this.getWidgetTheme();

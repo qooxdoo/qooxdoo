@@ -51,6 +51,9 @@ qx.Class.define("qx.theme.manager.Meta",
       event : "changeTheme"
     },
 
+    /**
+     * Controls whether sync is done automatically
+     */
     autoSync :
     {
       check : "Boolean",
