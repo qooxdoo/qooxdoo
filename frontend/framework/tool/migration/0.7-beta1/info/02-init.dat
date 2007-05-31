@@ -1,8 +1,8 @@
 qx\.core\.Init\.getInstance\(\)\.defineClose=This function has benn moved to the mixin qx.core.MLegacyInit. Please add the follogin code at the start of your application: qx.Class.include(qx.core.Init, qx.core.MLegacyInit);
-qx\.core\.Init\.getInstance\(\)\.Init:defineFinalize=This function has benn moved to the mixin qx.core.MLegacyInit. Please add the follogin code at the start of your application: qx.Class.include(qx.core.Init, qx.core.MLegacyInit);
-qx\.core\.Init\.getInstance\(\)\.Init:defineInitialize=This function has benn moved to the mixin qx.core.MLegacyInit. Please add the follogin code at the start of your application: qx.Class.include(qx.core.Init, qx.core.MLegacyInit);
-qx\.core\.Init\.getInstance\(\)\.Init:defineMain=This function has benn moved to the mixin qx.core.MLegacyInit. Please add the follogin code at the start of your application: qx.Class.include(qx.core.Init, qx.core.MLegacyInit);
-qx\.core\.Init\.getInstance\(\)\.Init:defineTerminate=This function has benn moved to the mixin qx.core.MLegacyInit. Please add the follogin code at the start of your application: qx.Class.include(qx.core.Init, qx.core.MLegacyInit);
+qx\.core\.Init\.getInstance\(\)\.defineFinalize=This function has benn moved to the mixin qx.core.MLegacyInit. Please add the follogin code at the start of your application: qx.Class.include(qx.core.Init, qx.core.MLegacyInit);
+qx\.core\.Init\.getInstance\(\)\.defineInitialize=This function has benn moved to the mixin qx.core.MLegacyInit. Please add the follogin code at the start of your application: qx.Class.include(qx.core.Init, qx.core.MLegacyInit);
+qx\.core\.Init\.getInstance\(\)\.defineMain=This function has benn moved to the mixin qx.core.MLegacyInit. Please add the follogin code at the start of your application: qx.Class.include(qx.core.Init, qx.core.MLegacyInit);
+qx\.core\.Init\.getInstance\(\)\.defineTerminate=This function has benn moved to the mixin qx.core.MLegacyInit. Please add the follogin code at the start of your application: qx.Class.include(qx.core.Init, qx.core.MLegacyInit);
 
 \bqx\.component\b=The "qx.component" and "qx.component.init" namespaces have been merged into the namespace "qx.application".
 

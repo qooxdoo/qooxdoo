@@ -889,7 +889,7 @@ qx.Class.define("qx.Class",
           for (var key in config.settings)
           {
             if (key.substr(0, key.indexOf(".")) != name.substr(0, name.indexOf("."))) {
-              throw new Error('Forbidden setting "' + key + '" found in "' + name + '". It is forbidden to define a default setting for an external namespace!');
+              qx.log.Logger.ROOT_LOGGER.error('Forbidden setting "' + key + '" found in "' + name + '". It is forbidden to define a default setting for an external namespace!');
             }
           }
         }
