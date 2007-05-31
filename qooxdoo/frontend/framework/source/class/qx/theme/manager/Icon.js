@@ -42,6 +42,7 @@ qx.Class.define("qx.theme.manager.Icon",
 
   properties :
   {
+    /** currently used icon theme */
     iconTheme :
     {
       check : "Theme",
@@ -69,6 +70,12 @@ qx.Class.define("qx.theme.manager.Icon",
       }
     },
 
+    /**
+     * Sync dependend objects with internal database
+     *
+     * @type member
+     * @return {void}
+     */
     syncIconTheme : function()
     {
       var value = this.getIconTheme();
