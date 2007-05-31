@@ -33,7 +33,7 @@
  */
 qx.Class.define("qx.application.Gui",
 {
-  extend : qx.core.Target,
+  extend : qx.core.Object,
   implement : qx.application.IApplication,
 
 
@@ -45,7 +45,11 @@ qx.Class.define("qx.application.Gui",
 
   properties : {
     /** Whether the user interfacce has already been rendered */
-    uiReady : { init : false }
+    uiReady :
+    {
+      check : "Boolean",
+      init : false
+    }
   },
 
 
@@ -70,6 +74,10 @@ qx.Class.define("qx.application.Gui",
      */
     main : function()
     {
+      // this is needed to verify that the application developer has called the
+      // overridden main method.
+      this._initializedMain = true;
+
       // Prepare widget
       qx.ui.core.Widget.initScrollbarWidth();
 
@@ -88,7 +96,7 @@ qx.Class.define("qx.application.Gui",
 
 
     /**
-     * Called in the document.beforeunload event of the browser. If the method
+     * Called in the document.onbeforeunload event of the browser. If the method
      * returns a string value, the user will be asked by the browser, whether
      * he really wants to leave the page. The return string will be displayed in
      * the message box.

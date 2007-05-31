@@ -1,0 +1,1 @@
+\.setFont\([\"\'](.*? .*?)[\"\']\)=.setFont(qx.renderer.font.Font.fromString("\1"))

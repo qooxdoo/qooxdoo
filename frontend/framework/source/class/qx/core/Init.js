@@ -195,7 +195,41 @@ qx.Class.define("qx.core.Init",
 
       // Send onload
       var start = new Date;
-      this.getApplication().main();
+
+      // This is a common migration error for 0.7
+      // this code may be removed once the main qooxdoo user base
+      // has migrated to 0.7
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        var msg = "The overridden 'main' method has to be called. Please add " +
+            "the following command at beginning of your 'main' method: " +
+            "'this.base(arguments)'. The same is true over overridden " +
+            "'terminate' and 'close' methods."
+        var exception;
+        try {
+          this.getApplication().main();
+        } catch(ex) {
+          exception = ex;
+        }
+
+        if (!this.getApplication()._initializedMain) {
+          if (exception) {
+            this.error(msg)
+          } else {
+            throw new Error(msg);
+          }
+        }
+
+        if (exception) {
+          throw exception;
+        }
+
+      }
+      else
+      {
+        this.getApplication().main();
+      }
+
       this.info("main runtime: " + (new Date - start) + "ms");
     },
 
