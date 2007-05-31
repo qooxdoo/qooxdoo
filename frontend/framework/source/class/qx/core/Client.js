@@ -269,7 +269,7 @@ qx.Class.define("qx.core.Client",
 
 
     /**
-     * TODOC
+     * Returns whether the client runs locally (uses the "file:" protocol)
      *
      * @type member
      * @return {Boolean} if the client runs locally
@@ -280,7 +280,7 @@ qx.Class.define("qx.core.Client",
 
 
     /**
-     * TODOC
+     * Engine identifier
      *
      * @type member
      * @return {String} the engine identifier
@@ -291,10 +291,10 @@ qx.Class.define("qx.core.Client",
 
 
     /**
-     * TODOC
+     * Browser name (e.g. firefox, explorer, webkit, opera etc.)
      *
      * @type member
-     * @return {String} the engine identifier
+     * @return {String} the name of the browser
      */
     getBrowser : function() {
       return this._browserName;
@@ -302,10 +302,10 @@ qx.Class.define("qx.core.Client",
 
 
     /**
-     * TODOC
+     * Full qualified engine version
      *
      * @type member
-     * @return {String} TODOC
+     * @return {String} full qualified engine version
      */
     getVersion : function() {
       return this._engineVersion;
@@ -313,10 +313,10 @@ qx.Class.define("qx.core.Client",
 
 
     /**
-     * TODOC
+     * Major engine version
      *
      * @type member
-     * @return {Number} TODOC
+     * @return {Number} major engine version
      */
     getMajor : function() {
       return this._engineVersionMajor;
@@ -324,10 +324,10 @@ qx.Class.define("qx.core.Client",
 
 
     /**
-     * TODOC
+     * Minor engine version
      *
      * @type member
-     * @return {Number} TODOC
+     * @return {Number} minor engine version
      */
     getMinor : function() {
       return this._engineVersionMinor;
@@ -335,10 +335,10 @@ qx.Class.define("qx.core.Client",
 
 
     /**
-     * TODOC
+     * Revision number of engine version
      *
      * @type member
-     * @return {Number} TODOC
+     * @return {Number} revision number of engine version
      */
     getRevision : function() {
       return this._engineVersionRevision;
@@ -346,10 +346,10 @@ qx.Class.define("qx.core.Client",
 
 
     /**
-     * TODOC
+     * Build number of engine version
      *
      * @type member
-     * @return {Number} TODOC
+     * @return {Number} build number of engine version
      */
     getBuild : function() {
       return this._engineVersionBuild;
@@ -357,10 +357,10 @@ qx.Class.define("qx.core.Client",
 
 
     /**
-     * TODOC
+     * Detects Opera's engine emulation
      *
      * @type member
-     * @return {String} TODOC
+     * @return {String} detects Opera's engine emulation
      */
     getEmulation : function() {
       return this._engineEmulation;
@@ -368,9 +368,10 @@ qx.Class.define("qx.core.Client",
 
 
     /**
-     * TODOC
+     * Returns whether the engine is mshtml
      *
      * @type member
+     * @return {Boolean} if engine is mshtml
      */
     isMshtml : function() {
       return this._engineNameMshtml;
@@ -378,9 +379,10 @@ qx.Class.define("qx.core.Client",
 
 
     /**
-     * TODOC
+     * Returns whether the engine is gecko
      *
      * @type member
+     * @return {Boolean} if engine is gecko
      */
     isGecko : function() {
       return this._engineNameGecko;
@@ -388,9 +390,10 @@ qx.Class.define("qx.core.Client",
 
 
     /**
-     * TODOC
+     * Returns whether the engine is opera
      *
      * @type member
+     * @return {Boolean} if engine is opera
      */
     isOpera : function() {
       return this._engineNameOpera;
@@ -398,9 +401,10 @@ qx.Class.define("qx.core.Client",
 
 
     /**
-     * TODOC
+     * Returns whether the engine is khtml
      *
      * @type member
+     * @return {Boolean} if engine is khtml
      */
     isKhtml : function() {
       return this._engineNameKhtml;
@@ -408,9 +412,10 @@ qx.Class.define("qx.core.Client",
 
 
     /**
-     * TODOC
+     * Returns whether the engine is webkit
      *
      * @type member
+     * @return {Boolean} if engine is webkit
      */
     isWebkit : function() {
       return this._engineNameWebkit;
@@ -418,9 +423,10 @@ qx.Class.define("qx.core.Client",
 
 
     /**
-     * TODOC
+     * Returns whether the engine is a safari version 2
      *
      * @type member
+     * @return {Boolean} if engine is safari version 2
      */
     isSafari2 : function() {
       return this._engineNameWebkit && (this._engineVersion < 420);
@@ -428,9 +434,10 @@ qx.Class.define("qx.core.Client",
 
 
     /**
-     * TODOC
+     * Returns whether the engine is in quirksmode
      *
      * @type member
+     * @return {Boolean} if engine is in quirksmode
      */
     isInQuirksMode : function() {
       return this._engineQuirksMode;
@@ -438,10 +445,10 @@ qx.Class.define("qx.core.Client",
 
 
     /**
-     * TODOC
+     * Returns the locale setting
      *
      * @type member
-     * @return {String} TODOC
+     * @return {String} locale setting
      */
     getLocale : function() {
       return this._browserLocale;
@@ -449,10 +456,10 @@ qx.Class.define("qx.core.Client",
 
 
     /**
-     * TODOC
+     * Returns the locale variant setting
      *
      * @type member
-     * @return {String} TODOC
+     * @return {String} locale variant setting
      */
     getLocaleVariant : function() {
       return this._browserLocaleVariant;
@@ -460,10 +467,10 @@ qx.Class.define("qx.core.Client",
 
 
     /**
-     * TODOC
+     * Returns the default locale of qooxdoo
      *
      * @type member
-     * @return {String} TODOC
+     * @return {String} default locale of qooxdoo
      */
     getDefaultLocale : function() {
       return this._defaultLocale;
@@ -471,9 +478,10 @@ qx.Class.define("qx.core.Client",
 
 
     /**
-     * TODOC
+     * Returns whether the client uses the default locale of qooxdoo
      *
      * @type member
+     * @return {Boolean} if browsers use default locale of qooxdoo
      */
     usesDefaultLocale : function() {
       return this._browserLocale === this._defaultLocale;
@@ -492,10 +500,10 @@ qx.Class.define("qx.core.Client",
 
 
     /**
-     * TODOC
+     * Returns the client platform (e.g. unix, windows, mac etc.)
      *
      * @type member
-     * @return {String} TODOC
+     * @return {String} browser platform
      */
     getPlatform : function() {
       return this._browserPlatform;
@@ -536,9 +544,10 @@ qx.Class.define("qx.core.Client",
 
 
     /**
-     * TODOC
+     * Returns whether the client supports VML (Vector Markup Language)
      *
      * @type member
+     * @return {Boolean} whether the client supports VML
      */
     supportsVml : function() {
       return this._gfxVml;
@@ -546,9 +555,10 @@ qx.Class.define("qx.core.Client",
 
 
     /**
-     * TODOC
+     * Returns whether the client supports SVG (Scalable Vector Graphics)
      *
      * @type member
+     * @return {Boolean} whether the client supports SVG
      */
     supportsSvg : function() {
       return this._gfxSvg;
@@ -556,9 +566,10 @@ qx.Class.define("qx.core.Client",
 
 
     /**
-     * TODOC
+     * Returns whether SVG support is builtin
      *
      * @type member
+     * @return {Boolean} whether SVG support is builtin
      */
     usesSvgBuiltin : function() {
       return this._gfxSvgBuiltin;
@@ -566,9 +577,10 @@ qx.Class.define("qx.core.Client",
 
 
     /**
-     * TODOC
+     * Returns whether the client uses a SVG plugin
      *
      * @type member
+     * @return {Boolean} whether client uses a SVG plugin
      */
     usesSvgPlugin : function() {
       return this._gfxSvgPlugin;

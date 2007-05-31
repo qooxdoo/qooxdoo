@@ -116,8 +116,10 @@ qx.Class.define("qx.core.Log",
 
 
 
-
-    _unsupported: function(){
+    /**
+     * Helper function to mark method which are not supported
+     */
+    _unsupported : function(){
       this.warn("This method is not supported.");
     },
 
@@ -131,6 +133,11 @@ qx.Class.define("qx.core.Log",
 
     _cache : [],
 
+    /**
+     * Writes log message
+     * @param args {Array} Messages to write to the log
+     * @param level {String} Log level
+     */
     _write : function(args, level)
     {
       if (!this._frame) {
@@ -173,6 +180,9 @@ qx.Class.define("qx.core.Log",
       }
     },
 
+    /**
+     * Creates container for log messages
+     */
     _create : function()
     {
       if (!document.body) {
