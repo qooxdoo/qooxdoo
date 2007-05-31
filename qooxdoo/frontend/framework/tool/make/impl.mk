@@ -192,6 +192,7 @@ exec-fix:
 exec-migration:
 	$(SILENCE) $(CMD_PYTHON) $(FRAMEWORK_TOOL_PATH)/migrator.py \
 	  --from-makefile Makefile \
+	  --migrate-html \
 	  --from-version=$(QOOXDOO_VERSION) \
 	  --class-path=$(APPLICATION_SOURCE_PATH)/class,$(APPLICATION_ADDITIONAL_CLASS_PATH) \
 	  $(PRETTY_PRINT_OPTIONS)
