@@ -201,18 +201,34 @@ qx.Class.define("qx.core.Init",
       // has migrated to 0.7
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
+        var app = this.getApplication();
+
+        if (app.initialize) {
+          this.warn(
+            "The 'initialize' method is no longer called automatically! Please call it manually " +
+            "from the end of the constructor or the start of the 'main' method."
+          );
+        }
+
+        if (app.finalize) {
+          this.warn(
+            "The 'finalize' method is no longer called automatically! It is save to call it at the " +
+            "end of the 'main' method."
+          );
+        }
+
         var msg = "The overridden 'main' method has to be called. Please add " +
             "the following command at beginning of your 'main' method: " +
             "'this.base(arguments)'. The same is true over overridden " +
             "'terminate' and 'close' methods."
         var exception;
         try {
-          this.getApplication().main();
+          app.main();
         } catch(ex) {
           exception = ex;
         }
 
-        if (!this.getApplication()._initializedMain) {
+        if (!app._initializedMain) {
           if (exception) {
             this.error(msg)
           } else {
