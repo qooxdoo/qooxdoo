@@ -232,12 +232,14 @@ qx.Class.define("apiviewer.Controller",
      * @type member
      * @param classNode {apiviewer.dao.Class} class node to display
      */
-    __selectClass : function(classNode)
+    __selectClass : function(classNode, callback, self)
     {
       this._detailLoader.setVisibility(false);
 
       var doc = qx.ui.core.ClientDocument.getInstance();
       doc.setGlobalCursor("wait");
+
+      var cb = callback ? qx.lang.Function.bind(callback, self) : function() {};
 
       if (classNode instanceof apiviewer.dao.Class)
       {
@@ -247,6 +249,7 @@ qx.Class.define("apiviewer.Controller",
           this._classViewer.setDocNode(cls);
           this._classViewer.setVisibility(true);
           doc.resetGlobalCursor();
+          cb();
         }, this);
       }
       else
@@ -257,6 +260,7 @@ qx.Class.define("apiviewer.Controller",
           this._packageViewer.setDocNode(classNode);
           this._packageViewer.setVisibility(true);
           doc.resetGlobalCursor();
+          cb();
         }, this);
       }
     },
@@ -299,19 +303,21 @@ qx.Class.define("apiviewer.Controller",
       }
 
       var nodeName = this._tree.getSelectedElement().getUserData("nodeName");
-      this.__selectClass(apiviewer.dao.Class.getClassByName(nodeName));
-
-      if (itemName) {
-        if (!this._classViewer.showItem(itemName)) {
-          this.error("Unknown item of class '"+ className +"': " + itemName);
-          alert("Unknown item of class '"+ className +"': " + itemName);
-          return;
+      this.__selectClass(apiviewer.dao.Class.getClassByName(nodeName), function()
+      {
+        if (itemName) {
+          if (!this._classViewer.showItem(itemName)) {
+            this.error("Unknown item of class '"+ className +"': " + itemName);
+            alert("Unknown item of class '"+ className +"': " + itemName);
+            return;
+          }
+        } else {
+          this._classViewer.setScrollTop(0);
         }
-      } else {
-        this._classViewer.setScrollTop(0);
-      }
+        this.__updateHistory(fullItemName);
 
-      this.__updateHistory(fullItemName);
+      }, this);
+
     },
 
 
