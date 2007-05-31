@@ -417,7 +417,7 @@ exec-api-build:
 	  --class-path $(APIVIEWER_SOURCE_PATH)/class \
 	  --include apiviewer \
 	  --include qx.component.init.Gui \
-	  --add-require qx.log.Logger:qx.log.NativeAppender \
+	  --add-require qx.log.Logger:qx.log.appender.Native \
 	  --use-setting qx.minLogLevel:700 \
 	  --use-variant qx.debug:off \
     --use-setting qx.theme:qx.theme.ClassicRoyale \
