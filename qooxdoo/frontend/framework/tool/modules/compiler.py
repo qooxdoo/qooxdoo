@@ -527,6 +527,9 @@ def compileNode(node,optns):
 
                 else:
                     line()
+                    # the next two: bugzilla#454
+                    #global result
+                    #result += "\n"
 
 
 
@@ -854,6 +857,9 @@ def compileNode(node,optns):
             if not node.getChild("statement").getChild("block").isComplex() and not node.parent.getChild("statement").getChild("block").isComplex():
                 noline()
                 space()
+            # the next two: bugzilla#454
+            if node.getFirstChild().type == "commentsBefore" and not result.endswith("\n"):
+                line()
 
         write("catch")
 
