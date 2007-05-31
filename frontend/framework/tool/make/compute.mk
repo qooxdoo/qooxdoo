@@ -272,13 +272,13 @@ endif
 ifneq ($(APPLICATION_SOURCE_LOG_APPENDER),)
   COMPUTED_SOURCE_DEPENDENCIES += --add-require qx.log.Logger:$(APPLICATION_SOURCE_LOG_APPENDER)
 else
-  COMPUTED_SOURCE_DEPENDENCIES += --add-require qx.log.Logger:qx.log.NativeAppender
+  COMPUTED_SOURCE_DEPENDENCIES += --add-require qx.log.Logger:qx.log.appender.Native
 endif
 
 ifneq ($(APPLICATION_BUILD_LOG_APPENDER),)
   COMPUTED_BUILD_DEPENDENCIES += --add-require qx.log.Logger:$(APPLICATION_BUILD_LOG_APPENDER)
 else
-  COMPUTED_BUILD_DEPENDENCIES += --add-require qx.log.Logger:qx.log.NativeAppender
+  COMPUTED_BUILD_DEPENDENCIES += --add-require qx.log.Logger:qx.log.appender.Native
 endif
 
 
