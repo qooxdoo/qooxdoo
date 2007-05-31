@@ -344,6 +344,8 @@ def migrate(fileList, options, migrationTarget,
     logging.debug("  FILE PROCESSING:")
     logging.debug("----------------------------------------------------------------------------")
 
+    patchedFiles = {}
+
     if len(fileList) > 0:
         logging.info("  * Processing script files:")
         i = 0
@@ -351,15 +353,16 @@ def migrate(fileList, options, migrationTarget,
             migrateFile(filePath, compiledPatches, compiledInfos,
                         importedModule, options=options,
                         encoding=encodings[i])
+            patchedFiles[os.path.abspath(filePath)] = True
             i += 1
-
         logging.info("  * Done")
 
 
     if len(htmlList) > 0:
         logging.info("  * Processing HTML files:")
         for filePath in htmlList:
-            migrateFile(filePath, compiledPatches, compiledInfos)
+            if not patchedFiles.has_key(os.path.abspath(filePath)):
+                migrateFile(filePath, compiledPatches, compiledInfos)
         logging.info("  * Done")
 
 
@@ -429,6 +432,12 @@ def main():
           metavar="VERSION", default="",
           help="qooxdoo version used for the project e.g. '0.6.3'"
     )
+    migrator_options.add_option(
+          "--migrate-html",
+          action="store_true", dest="migrateHtml", default=False,
+          help="Migrates recursively all HTML files. Starting from the current directory."
+    )
+
     migrator_options.add_option(
           "-i", "--input",
           dest="file", metavar="FILE.js",
@@ -568,12 +577,17 @@ Do you want to start the migration now? [no] : """ % LOGFILE)
     fileLogger.setLevel(logging.NOTSET)
     logging.getLogger().addHandler(fileLogger)
 
+    if options.migrateHtml:
+        htmlFiles = "."
+    else:
+        htmlFiles = None
+
     for version in neededUpdates:
         logging.info("")
         logging.info("UPGRADE TO %s" % (version))
         logging.info("----------------------------------------------------------------------------")
 
-        handle(fileDb, options, getNormalizedVersion(version), verbose=options.verbose)
+        handle(fileDb, options, getNormalizedVersion(version), htmlFiles, verbose=options.verbose)
 
 
     # patch makefile
