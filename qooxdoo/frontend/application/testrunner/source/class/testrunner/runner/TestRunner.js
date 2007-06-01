@@ -751,7 +751,7 @@ qx.Class.define("testrunner.runner.TestRunner",
             if (handler.hasTests(currNode))
             {
               var fullName = handler.getFullName(currNode);
-              var t = new qx.ui.tree.TreeFolder(fullName, "testrunner/image/package18.gif");
+              var t = new qx.ui.tree.TreeFolder(fullName, "testrunner/image/class18.gif");
               widgetR.add(t);
               t.setUserData("modelLink", currNode);
               currNode.widgetLinkFlat = t;
@@ -766,7 +766,7 @@ qx.Class.define("testrunner.runner.TestRunner",
               {
                 if (children[i].type && children[i].type == "test")
                 {
-                  var c = new qx.ui.tree.TreeFile(children[i].label, "testrunner/image/class18.gif");
+                  var c = new qx.ui.tree.TreeFile(children[i].label, "testrunner/image/method_public18.gif");
                   t.add(c);
                   c.setUserData("modelLink", children[i]);
                   children[i].widgetLinkFlat = c;
