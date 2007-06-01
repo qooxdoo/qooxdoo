@@ -58,22 +58,23 @@ qx.Class.define("qx.io.image.PreloaderManager",
   members :
   {
     /**
-     * TODOC
+     * Adds a qx.io.image.Preloader instance to the manager
      *
      * @type member
-     * @param vObject {var} TODOC
+     * @param vObject {Preloader} qx.io.image.Preloader instance
      * @return {void}
      */
     add : function(vObject) {
+      this.debug(vObject.getUri());
       this._objects[vObject.getUri()] = vObject;
     },
 
 
     /**
-     * TODOC
+     * Removes a qx.io.image.Preloader instance from the manager
      *
      * @type member
-     * @param vObject {var} TODOC
+     * @param vObject {Preloader} qx.io.image.Preloader instance
      * @return {void}
      */
     remove : function(vObject) {
@@ -82,11 +83,11 @@ qx.Class.define("qx.io.image.PreloaderManager",
 
 
     /**
-     * TODOC
+     * Returns whether an image preloader instance with the given source is registered
      *
      * @type member
-     * @param vSource {var} TODOC
-     * @return {var} TODOC
+     * @param vSource {String} Source of preloader image instance
+     * @return {Boolean} whether an image preloader instance has given source
      */
     has : function(vSource) {
       return this._objects[vSource] != null;
@@ -94,11 +95,11 @@ qx.Class.define("qx.io.image.PreloaderManager",
 
 
     /**
-     * TODOC
+     * Return image preloader instance with given source
      *
      * @type member
-     * @param vSource {var} TODOC
-     * @return {var} TODOC
+     * @param vSource {String} Source of preloader image instance
+     * @return {Preloader} qx.io.image.Preloader instance
      */
     get : function(vSource) {
       return this._objects[vSource];
@@ -106,11 +107,11 @@ qx.Class.define("qx.io.image.PreloaderManager",
 
 
     /**
-     * TODOC
+     * Create new qx.io.image.preloader instance with given source
      *
      * @type member
-     * @param vSource {var} TODOC
-     * @return {var} TODOC
+     * @param vSource {String} Source of preloader image instance
+     * @return {Preloader} new qx.io.image.Preloader instance
      */
     create : function(vSource)
     {

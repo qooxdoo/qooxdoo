@@ -110,10 +110,10 @@ qx.Class.define("qx.io.image.Manager",
 
 
     /**
-     * TODOC
+     * Returns a map with the sources of all visible images
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Map} Map with sources of all visible images
      */
     getVisibleImages : function()
     {
@@ -132,10 +132,10 @@ qx.Class.define("qx.io.image.Manager",
 
 
     /**
-     * TODOC
+     * Returns a map with the sources of all hidden images
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Map} Map with sources of all hidden images
      */
     getHiddenImages : function()
     {
