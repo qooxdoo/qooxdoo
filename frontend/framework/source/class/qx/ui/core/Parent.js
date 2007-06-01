@@ -406,7 +406,7 @@ qx.Class.define("qx.ui.core.Parent",
 
 
     /**
-     * Check if there are any childrens inside
+     * Check if there are any children inside
      *
      * @type member
      * @return {Boolean} whether the number of children is 0
@@ -420,7 +420,7 @@ qx.Class.define("qx.ui.core.Parent",
      * Get the index of a child widget.
      *
      * @type member
-     * @param vChild {qx.ui.core.Widget} TODOC
+     * @param vChild {qx.ui.core.Widget} Child widget to get the index for
      * @return {Integer} index of the child widget
      */
     indexOf : function(vChild) {
@@ -495,10 +495,10 @@ qx.Class.define("qx.ui.core.Parent",
 
 
     /**
-     * Get length of visible children
+     * Get number of visible children
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Integer} number of visible children
      */
     getVisibleChildrenLength : function() {
       return this.getVisibleChildren().length;
@@ -509,7 +509,7 @@ qx.Class.define("qx.ui.core.Parent",
      * Check if the widget has any visible children
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Boolean} whether the widget has any visible children
      */
     hasVisibleChildren : function() {
       return this.getVisibleChildrenLength() > 0;
@@ -517,10 +517,10 @@ qx.Class.define("qx.ui.core.Parent",
 
 
     /**
-     * Check if there are any visible childrens inside
+     * Check whether there are any visible children inside
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Boolean} whether there are any visible children inside
      */
     isVisibleEmpty : function() {
       return this.getVisibleChildrenLength() == 0;
@@ -553,7 +553,6 @@ qx.Class.define("qx.ui.core.Parent",
         vWidget = arguments[i];
 
         if (!(vWidget instanceof qx.ui.core.Parent) && !(vWidget instanceof qx.ui.basic.Terminator)) {
-//if (!(vWidget instanceof qx.ui.core.Widget)) {
           throw new Error("Invalid Widget: " + vWidget);
         } else {
           vWidget.setParent(this);
@@ -565,13 +564,11 @@ qx.Class.define("qx.ui.core.Parent",
 
 
     /**
-     * TODOC
+     * Add a child widget at the specified index
      *
      * @type member
-     * @param vChild {var} TODOC
-     * @param vIndex {var} TODOC
-     * @return {void}
-     * @throws TODOC
+     * @param vChild {widget} widget to add
+     * @param vIndex {Integer} Index, at which the widget will be inserted
      */
     addAt : function(vChild, vIndex)
     {
@@ -608,11 +605,10 @@ qx.Class.define("qx.ui.core.Parent",
 
 
     /**
-     * TODOC
+     * Add a child widget as the first widget
      *
      * @type member
-     * @param vChild {var} TODOC
-     * @return {var} TODOC
+     * @param vChild {widget} widget to add
      */
     addAtBegin : function(vChild) {
       return this.addAt(vChild, 0);
@@ -620,11 +616,10 @@ qx.Class.define("qx.ui.core.Parent",
 
 
     /**
-     * TODOC
+     * Add a child widget as the last widget
      *
      * @type member
-     * @param vChild {var} TODOC
-     * @return {var} TODOC
+     * @param vChild {widget} widget to add
      */
     addAtEnd : function(vChild)
     {
@@ -636,13 +631,11 @@ qx.Class.define("qx.ui.core.Parent",
 
 
     /**
-     * Add a widget before another already inserted child
+     * Add a widget before another already inserted widget
      *
      * @type member
-     * @param vChild {var} TODOC
-     * @param vBefore {var} TODOC
-     * @return {var} TODOC
-     * @throws TODOC
+     * @param vChild {var} widget to add
+     * @param vBefore {var} widget before the new widget will be inserted.
      */
     addBefore : function(vChild, vBefore)
     {
@@ -664,13 +657,11 @@ qx.Class.define("qx.ui.core.Parent",
 
 
     /**
-     * Add a widget after another already inserted child
+     * Add a widget after another already inserted widget
      *
      * @type member
-     * @param vChild {var} TODOC
-     * @param vAfter {var} TODOC
-     * @return {var} TODOC
-     * @throws TODOC
+     * @param vChild {var} widget to add
+     * @param vAfter {var} widgert, after which the new widget will be inserted
      */
     addAfter : function(vChild, vAfter)
     {
@@ -703,10 +694,9 @@ qx.Class.define("qx.ui.core.Parent",
      * Remove one or multiple childrens.
      *
      * @type member
-     * @return {void}
-     * @throws TODOC
+     * @param varargs {qx.core.Widget} variable number of widgets to remove
      */
-    remove : function()
+    remove : function(varargs)
     {
       var vWidget;
 
@@ -724,11 +714,10 @@ qx.Class.define("qx.ui.core.Parent",
 
 
     /**
-     * TODOC
+     * Remove the widget at the specified index.
      *
      * @type member
-     * @param vIndex {var} TODOC
-     * @return {void}
+     * @param vIndex {Integer} Index of the widget to remove.
      */
     removeAt : function(vIndex)
     {
@@ -744,10 +733,9 @@ qx.Class.define("qx.ui.core.Parent",
 
 
     /**
-     * Remove all childrens.
+     * Remove all children.
      *
      * @type member
-     * @return {void}
      */
     removeAll : function()
     {
@@ -771,10 +759,10 @@ qx.Class.define("qx.ui.core.Parent",
     */
 
     /**
-     * TODOC
+     * Get the first child
      *
      * @type member
-     * @return {Widget|null} TODOC
+     * @return {Widget|null} First child widget (null if this widget does not have any children)
      */
     getFirstChild : function() {
       return qx.lang.Array.getFirst(this.getChildren()) || null;
@@ -782,10 +770,11 @@ qx.Class.define("qx.ui.core.Parent",
 
 
     /**
-     * TODOC
+     * Get the first visible child
      *
      * @type member
-     * @return {Widget|null} TODOC
+     * @return {Widget|null} First visible child widget (null if this widget does
+     *     not have any visible children)
      */
     getFirstVisibleChild : function() {
       return qx.lang.Array.getFirst(this.getVisibleChildren()) || null;
@@ -793,11 +782,12 @@ qx.Class.define("qx.ui.core.Parent",
 
 
     /**
-     * TODOC
+     * Get the first active child
      *
      * @type member
-     * @param vIgnoreClasses {var} TODOC
-     * @return {Widget|null} TODOC
+     * @param vIgnoreClasses {Class[]} array of classes which should be ignored
+     * @return {Widget|null} First active child widget (null if this widget does
+     *     not have any active children)
      */
     getFirstActiveChild : function(vIgnoreClasses) {
       return qx.ui.core.Widget.getActiveSiblingHelper(null, this, 1, vIgnoreClasses, "first") || null;
@@ -813,10 +803,11 @@ qx.Class.define("qx.ui.core.Parent",
     */
 
     /**
-     * TODOC
+     * Get the last child
      *
      * @type member
-     * @return {Widget|null} TODOC
+     * @return {Widget|null} Last child widget (null if this widget does
+     *     not have any children)
      */
     getLastChild : function() {
       return qx.lang.Array.getLast(this.getChildren()) || null;
@@ -824,10 +815,11 @@ qx.Class.define("qx.ui.core.Parent",
 
 
     /**
-     * TODOC
+     * Get the last visible child
      *
      * @type member
-     * @return {Widget|null} TODOC
+     * @return {Widget|null} Last visible child widget (null if this widget does
+     *     not have any visible children)
      */
     getLastVisibleChild : function() {
       return qx.lang.Array.getLast(this.getVisibleChildren()) || null;
@@ -835,11 +827,12 @@ qx.Class.define("qx.ui.core.Parent",
 
 
     /**
-     * TODOC
+     * Get the last active child
      *
      * @type member
-     * @param vIgnoreClasses {var} TODOC
-     * @return {Widget|null} TODOC
+     * @param vIgnoreClasses {Class[]} array of classes which should be ignored
+     * @return {Widget|null} Last active child widget (null if this widget does
+     *     not have any active children)
      */
     getLastActiveChild : function(vIgnoreClasses) {
       return qx.ui.core.Widget.getActiveSiblingHelper(null, this, -1, vIgnoreClasses, "last") || null;
@@ -855,11 +848,12 @@ qx.Class.define("qx.ui.core.Parent",
     */
 
     /**
-     * TODOC
+     * Call a callbach function for each child widget. The callback has the following signature:
+     * <code>function(childWidget, widgetIndex)</code>. The first parameter is the child widget
+     * and the second the index of the child widget in its parent.
      *
      * @type member
-     * @param vFunc {var} TODOC
-     * @return {void}
+     * @param vFunc {Function} callback function. Signature: <code>function(childWidget, widgetIndex)</code>
      */
     forEachChild : function(vFunc)
     {
@@ -876,11 +870,12 @@ qx.Class.define("qx.ui.core.Parent",
 
 
     /**
-     * TODOC
+     * Call a callbach function for each visible child widget. The callback has the following signature:
+     * <code>function(childWidget, widgetIndex)</code>. The first parameter is the child widget
+     * and the second the index of the child widget in its parent.
      *
      * @type member
-     * @param vFunc {var} TODOC
-     * @return {void}
+     * @param vFunc {Function} callback function. Signature: <code>function(childWidget, widgetIndex)</code>
      */
     forEachVisibleChild : function(vFunc)
     {
@@ -904,12 +899,7 @@ qx.Class.define("qx.ui.core.Parent",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
+    // overridden
     _beforeAppear : function()
     {
       this.base(arguments);
@@ -923,12 +913,7 @@ qx.Class.define("qx.ui.core.Parent",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
+    // overridden
     _afterAppear : function()
     {
       this.base(arguments);
@@ -942,12 +927,7 @@ qx.Class.define("qx.ui.core.Parent",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
+    // overridden
     _beforeDisappear : function()
     {
       this.base(arguments);
@@ -961,12 +941,7 @@ qx.Class.define("qx.ui.core.Parent",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
+    // overridden
     _afterDisappear : function()
     {
       this.base(arguments);
@@ -988,12 +963,7 @@ qx.Class.define("qx.ui.core.Parent",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
+    // overridden
     _beforeInsertDom : function()
     {
       this.base(arguments);
@@ -1007,12 +977,7 @@ qx.Class.define("qx.ui.core.Parent",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
+    // overridden
     _afterInsertDom : function()
     {
       this.base(arguments);
@@ -1026,12 +991,7 @@ qx.Class.define("qx.ui.core.Parent",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
+    // overridden
     _beforeRemoveDom : function()
     {
       this.base(arguments);
@@ -1045,12 +1005,7 @@ qx.Class.define("qx.ui.core.Parent",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
+    // overridden
     _afterRemoveDom : function()
     {
       this.base(arguments);
@@ -1111,12 +1066,7 @@ qx.Class.define("qx.ui.core.Parent",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
+    // overridden
     recursiveAddToStateQueue : function()
     {
       this.addToStateQueue();
@@ -1127,14 +1077,7 @@ qx.Class.define("qx.ui.core.Parent",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vNewAppearanceTheme {var} TODOC
-     * @param vOldAppearanceTheme {var} TODOC
-     * @return {void}
-     */
+    // overridden
     _recursiveAppearanceThemeUpdate : function(vNewAppearanceTheme, vOldAppearanceTheme)
     {
       this.base(arguments, vNewAppearanceTheme, vOldAppearanceTheme);
