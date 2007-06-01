@@ -65,7 +65,6 @@ qx.Class.define("qx.io.image.PreloaderManager",
      * @return {void}
      */
     add : function(vObject) {
-      this.debug(vObject.getUri());
       this._objects[vObject.getUri()] = vObject;
     },
 
