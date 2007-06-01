@@ -86,11 +86,11 @@ qx.Class.define("qx.ui.basic.Label",
   statics :
   {
     /**
-     * TODOC
+     * Create a DOM element, which can be used to measure the needed width of the label
+     *
      * @internal
      * @type static
-     * @param vId {var} TODOC
-     * @return {Element} TODOC
+     * @return {Element} measure node
      */
     _getMeasureNode : function()
     {
@@ -264,6 +264,10 @@ qx.Class.define("qx.ui.basic.Label",
     _isHtml : false,
 
     /**
+     * Deprecated text setter.
+     *
+     * @param html {String} new value of the label.
+     *
      * @deprecated please use {@link #setText} instead.
      */
     setHtml : function(html)
@@ -275,6 +279,9 @@ qx.Class.define("qx.ui.basic.Label",
 
 
     /**
+     * Deprecated text getter.
+     *
+     * @return {String} current value of the label.
      * @deprecated please use {@link #getText} instead.
      */
     getHtml : function()
@@ -314,13 +321,15 @@ qx.Class.define("qx.ui.basic.Label",
 
 
     /**
+     * Apply the font to the label.
+     *
      * @type member
-     * @param value {qx.ui.core.Font}
+     * @param font {qx.ui.core.Font} new font.
      */
-    _styleFont : function(value)
+    _styleFont : function(font)
     {
       this._invalidatePreferredInnerDimensions();
-      value ? value.render(this) : qx.ui.core.Font.reset(this);
+      font ? font.render(this) : qx.ui.core.Font.reset(this);
     },
 
 
@@ -337,8 +346,10 @@ qx.Class.define("qx.ui.basic.Label",
     },
 
     /**
+     * Apply the text color to the label.
+     *
      * @type member
-     * @param value {var} any acceptable CSS color property
+     * @param value {String} any acceptable CSS color
      */
     _styleTextColor : function(value) {
       value ? this.setStyleProperty("color", value) : this.removeStyleProperty("color");
@@ -379,6 +390,11 @@ qx.Class.define("qx.ui.basic.Label",
     },
 
 
+    /**
+     * Apply a new label text
+     *
+     * @param text {String} new label text
+     */
     _syncText : function(text)
     {
       var mode = this.getMode();
@@ -434,10 +450,9 @@ qx.Class.define("qx.ui.basic.Label",
     */
 
     /**
-     * TODOC
+     * Computes the needed dimension for the current text.
      *
      * @type member
-     * @return {void}
      */
     _computeObjectNeededDimensions : function()
     {
@@ -469,12 +484,7 @@ qx.Class.define("qx.ui.basic.Label",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
+    // overridden
     _computePreferredInnerWidth : function()
     {
       this._computeObjectNeededDimensions();
@@ -482,12 +492,7 @@ qx.Class.define("qx.ui.basic.Label",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
+    // overridden
     _computePreferredInnerHeight : function()
     {
       this._computeObjectNeededDimensions();
@@ -503,18 +508,23 @@ qx.Class.define("qx.ui.basic.Label",
     ---------------------------------------------------------------------------
     */
 
-
-    _patchTextOverflow : function(html, inner) {
-      return "<div style='float:left;width:" + (inner-14) + "px;overflow:hidden;white-space:nowrap'>" + html + "</div><span style='float:left'>&hellip;</span>";
+    /**
+     * Creates an HTML fragment for the overflow symbol
+     *
+     * @param html {String} html string of the label
+     * @param inner {Integer} inner width of the label
+     * @return {String} html Fragment of the label with overflow symbol
+     */
+    __patchTextOverflow : function(html, inner) {
+      return (
+        "<div style='float:left;width:" + (inner-14) +
+        "px;overflow:hidden;white-space:nowrap'>" + html +
+        "</div><span style='float:left'>&hellip;</span>"
+      );
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void | var} TODOC
-     */
+    // overridden
     _postApply : function()
     {
       var html = this._content;
@@ -557,7 +567,7 @@ qx.Class.define("qx.ui.basic.Label",
           }
           else
           {
-            html = this._patchTextOverflow(html, this.getInnerWidth());
+            html = this.__patchTextOverflow(html, this.getInnerWidth());
             this._isHtml = true;
           }
         }
