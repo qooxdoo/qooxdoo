@@ -1126,6 +1126,13 @@ qx.Class.define("qx.Class",
           clazz.prototype["__init$" + name] = config.init;
         }
 
+        // register event name
+        if (config.event !== undefined) {
+          var event = {}
+          event[config.event] = "qx.event.type.ChangeEvent";
+          this.__addEvents(clazz, event, patch);
+        }
+
         // Remember inheritable properties
         if (config.inheritable) {
           qx.core.Property.$$inheritable[name] = true;

@@ -110,6 +110,22 @@ qx.Class.define("qx.ui.form.TextField",
 
   /*
   *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events: {
+    /**
+     * Fired each time the user types in the text field. The data property
+     * of the event contains the value of the text field.
+     */
+    "input" : "qx.event.type.DataEvent"
+  },
+
+
+
+  /*
+  *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
