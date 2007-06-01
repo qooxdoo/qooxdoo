@@ -148,24 +148,28 @@ qx.Class.define("qx.log.appender.Window",
       apply : "_applyAutoCloseWithErrors"
     },
 
+    /** width of the window */
     windowWidth :
     {
       check : "Integer",
       init : 600
     },
 
+    /** height of the window */
     windowHeight :
     {
       check : "Integer",
       init : 350
     },
 
+    /** left screen position of the window */
     windowLeft :
     {
       check : "Integer",
       nullable : true
     },
 
+    /** top screen position of the window */
     windowTop :
     {
       check : "Integer",
@@ -327,13 +331,6 @@ qx.Class.define("qx.log.appender.Window",
     },
 
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param evt {Event} TODOC
-     * @return {void}
-     */
     appendLogEvent : function(evt)
     {
       if (!this._logWindowOpened)
