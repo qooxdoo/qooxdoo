@@ -105,7 +105,10 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
       while ((hit = linkRegex.exec(description)) != null)
       {
         // Add the text before the link
-        html.add(description.substring(lastPos, hit.index) + this.createItemLinkHtml(hit[1], packageBaseClass));
+        html.add(
+          description.substring(lastPos, hit.index) +
+          this.createItemLinkHtml(hit[1], packageBaseClass)
+        );
 
         lastPos = hit.index + hit[0].length;
       }
@@ -170,9 +173,13 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
           {
             // The class name has no package -> Use the same package as the current class
             var name = packageBaseClass.getName();
-            var fullName = packageBaseClass.getFullName();
-            var packageName = fullName.substring(0, fullName.length - name.length);
-            className = packageName + className;
+            if (packageBaseClass instanceof apiviewer.dao.Package) {
+              var packageName = packageBaseClass.getFullName();
+            } else {
+              var fullName = packageBaseClass.getFullName();
+              var packageName = fullName.substring(0, fullName.length - name.length - 1);
+            }
+            className = packageName + "." + className;
           }
 
           // Get the node info
