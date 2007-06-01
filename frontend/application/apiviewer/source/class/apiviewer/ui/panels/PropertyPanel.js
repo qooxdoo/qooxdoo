@@ -216,7 +216,7 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
         // Add default value
         if (!node.isPropertyGroup()) {
           textHtml.add(
-            '<div class="item-detail-headline">', "Default value:", '</div>',
+            '<div class="item-detail-headline">', "Init value:", '</div>',
             '<div class="item-detail-text">',
             '<code>',
             (node.getDefaultValue() ? node.getDefaultValue() : "null"),

@@ -315,7 +315,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
 
 
     /**
-     * Creates the HTML showing whether the item is overwridden
+     * Creates the HTML showing whether the item is overridden
      *
      * @param node {apiviewer.dao.ClassItem} item to get the the information from
      * @return {String} HTML fragment
@@ -326,7 +326,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
       if (node.getOverriddenFrom())
       {
         var html = new qx.util.StringBuilder(
-          '<div class="item-detail-headline">', "Overridden from:", '</div>',
+          '<div class="item-detail-headline">', "Overrides:", '</div>',
           '<div class="item-detail-text">',
           apiviewer.ui.panels.InfoPanel.createItemLinkHtml(node.getOverriddenFrom().getFullName()+"#"+node.getName()),
           '</div>'
