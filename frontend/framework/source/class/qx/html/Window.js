@@ -63,7 +63,7 @@ qx.Class.define("qx.html.Window",
      * Get the inner height of the given browser window
      *
      * @type static
-     * @param window {window} browser window
+     * @param vWindow {window} browser window
      * @return {Integer} the window's inner height
      * @signature function(vWindow)
      */
@@ -90,7 +90,7 @@ qx.Class.define("qx.html.Window",
      * Get the left scroll position of the given browser window
      *
      * @type static
-     * @param window {window} browser window
+     * @param vWindow {window} browser window
      * @return {Integer} the window's left scroll position
      * @signature function(vWindow)
      */
@@ -117,7 +117,7 @@ qx.Class.define("qx.html.Window",
      * Get the top scroll position of the given browser window
      *
      * @type static
-     * @param window {window} browser window
+     * @param vWindow {window} browser window
      * @return {Integer} the window's top scroll position
      * @signature function(vWindow)
      */

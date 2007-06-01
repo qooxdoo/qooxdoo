@@ -57,6 +57,12 @@ qx.Class.define("qx.io.Alias",
 
   members :
   {
+    /**
+     * pre process incoming danymic value
+     *
+     * @param value {String} incoming value
+     * @return {String} pre processed value
+     */
     _preprocess : function(value)
     {
       var dynamics = this._dynamic;

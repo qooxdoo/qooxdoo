@@ -44,7 +44,7 @@ qx.Class.define("qx.html.Style",
      * @param vElement {var} TODOC
      * @param propertyName {var} TODOC
      * @return {void}
-     * @signature function(el, prop)
+     * @signature function(vElement, propertyName)
      */
     getStylePropertySure : qx.lang.Object.select((document.defaultView && document.defaultView.getComputedStyle) ? "hasComputed" : "noComputed",
     {
@@ -90,13 +90,13 @@ qx.Class.define("qx.html.Style",
 
 
     /**
-     * Get the (CSS) style property of a given DOM element
+     * Get the computed (CSS) style property of a given DOM element
      *
      * @type static
      * @param vElement {Element} the DOM element
      * @param propertyName {String} the name of the style property. e.g. "color", "border", ...
      * @return {String} the (CSS) style property
-     * @signature function(el, prop)
+     * @signature function(vElement, propertyName)
      */
     getStyleProperty : qx.lang.Object.select((document.defaultView && document.defaultView.getComputedStyle) ? "hasComputed" : "noComputed",
     {
