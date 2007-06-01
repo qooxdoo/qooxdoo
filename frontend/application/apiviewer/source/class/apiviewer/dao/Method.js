@@ -60,6 +60,36 @@ qx.Class.define("apiviewer.dao.Method",
       return this._docNode.attributes.isCtor || false;
     },
 
+
+   /**
+    * Get whether the method has a warning.
+    *
+    * @return {Boolean} whether the method has a warning.
+    */
+    hasWarning : function()
+    {
+      if (this.getApply()) {
+        return false;
+      } else {
+        return this.base(arguments);
+      }
+    },
+
+
+    /**
+     * Get a list of errors of this method.
+     *
+     * @return {Map[]} errors of this method.
+     */
+    getErrors : function() {
+      if (this.getApply()) {
+        return [];
+      } else {
+        return this.base(arguments);
+      }
+    },
+
+
     getParams : function()
     {
       if (this._params != null) {
@@ -82,15 +112,43 @@ qx.Class.define("apiviewer.dao.Method",
       }
     },
 
+    /*
     getApply : function()
     {
       return this._docNode.attributes.apply;
     },
+    */
 
     getFromProperty : function()
     {
       return this.getClass().getItemByListAndName("properties", this._docNode.attributes.fromProperty);
     },
+
+
+    getApply : function()
+    {
+      if (this.isStatic() || this.isConstructor()) {
+        return false;
+      }
+      if (this._apply === undefined) {
+        var methodName = this.getName();
+        var classes = this.getClass().getDependendClasses();
+        for (var i=0; i<classes.length; i++)
+        {
+          var props = classes[i].getProperties();
+          for (var propIndex=0; propIndex<props.length; propIndex++)
+          {
+            if (props[propIndex].getApplyMethod() == methodName) {
+              this._apply = props[propIndex];
+              return this._apply;
+            }
+          }
+        }
+        this._apply = null;
+      }
+      return this._apply;
+    },
+
 
     _addChildNode : function(node)
     {
