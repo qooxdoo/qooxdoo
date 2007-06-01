@@ -312,6 +312,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       buttview.set({
         height : "1*"
       });
+      this.widgets["outputviews.bar"] = buttview.getBar();
 
       var bsb1 = new qx.ui.pageview.tabview.Button("Demo Page", "icon/16/actions/system-run.png");
       this.widgets["outputviews.demopage.button"] = bsb1;
@@ -506,12 +507,13 @@ qx.Class.define("demobrowser.DemoBrowser",
       tree.set({
         width : "100%",
         height : "100%",
-        //padding : [10],
-        //overflow: "auto",
-        //border : "inset",
         backgroundColor: "white"
       });
       tree.getManager().addEventListener("changeSelection", this.treeGetSelection, this);
+      tree.addEventListener("dblclick", function (e) 
+      {
+        qx.client.Timer.once(this.runTest, this, 50);  // allow treeGetSelection to run first
+      }, this);
 
       // flat view
       var bsb2 = new qx.ui.pageview.buttonview.Button("Flat Tree","icon/16/actions/view-pane-text.png");
@@ -693,7 +695,13 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.widgets["statuspane.number"].setText(this.tests.selected_cnt+"");
       */
       // update toolbar
-      this.widgets["toolbar.runbutton"].resetEnabled();
+      if (treeNode instanceof qx.ui.tree.TreeFolder) 
+      {
+        this.widgets["toolbar.runbutton"].setEnabled(false);
+      } else
+      {
+        this.widgets["toolbar.runbutton"].resetEnabled();
+      }
       // update selection in other tree
       // -- not working!
       var selButt = this.widgets["treeview"].getBar().getManager().getSelected();
@@ -749,7 +757,7 @@ qx.Class.define("demobrowser.DemoBrowser",
             buildSubTree(t,currNode);
           } else
           {
-            t = new qx.ui.tree.TreeFile(that.polish(currNode.label),"demobrowser/image/class18.gif");
+            t = new qx.ui.tree.TreeFile(that.polish(currNode.label),"demobrowser/image/method_public18.gif");
             //t.setToolTip(new qx.ui.popup.ToolTip(currNode.desc).setHideInterval(1000000));
             t.addEventListener("mouseover",function (e) 
             {
@@ -877,26 +885,23 @@ qx.Class.define("demobrowser.DemoBrowser",
     runTest : function (e)
     {
 
-      // -- Vars and Setup -----------------------
+      // -- Feasibility Checks -----------------
+      if (! this.tests.selected)
+      {
+        return;
+      }
+      if (! this.widgets["toolbar.runbutton"].isEnabled())
+      {
+        return;
+      }
 
+      // -- Vars and Setup -----------------------
       this.toolbar.setEnabled(false);
       //this.tree.setEnabled(false);
-      //this.widgets["statuspane.systeminfo"].setText("Preparing...");
-
-      //this.resetGui();
-      //var bar = this.widgets["progresspane.progressbar"];
-      // Make initial entry in output windows (test result, log, ...)
       this.info("Now running: " + this.tests.selected);
-
-      //var tstCnt = this.tests.selected_cnt;
-      //var tstCurr = 1;
-      var testResult;
+      this.widgets["outputviews.bar"].getManager().setSelected(this.widgets["outputviews.demopage.button"]);
 
       // start test
-
-      // Currently, a flat list of individual tests is computed (buildList), and
-      // then processed by a recursive Timer.once-controlled funtion (runtest);
-      // each test is passed to the same iframe object to be run(loader.runTests).
 
       var that    = this;
       var tlist   = [];
@@ -904,92 +909,6 @@ qx.Class.define("demobrowser.DemoBrowser",
       var handler = this.tests.handler;
 
       // -- Helper Functions ---------------------
-
-      // create testResult obj
-      function init_testResult () {
-        var testResult = new that.frameWindow.demobrowser.TestResult();
-
-        // set up event listeners
-        testResult.addEventListener("startTest", function(e)
-        {
-          var test = e.getData();
-          that.currentTestData = new demobrowser.TestResultData(test.getFullName());
-          that.f1.addTestResult(that.currentTestData);
-          that.appender("Test '"+test.getFullName()+"' started.");
-        }, that);
-
-        testResult.addEventListener("failure", function(e)
-        {
-          var ex = e.getData().exception;
-          var test = e.getData().test;
-          that.currentTestData.setException(ex);
-          that.currentTestData.setState("failure");
-          bar.setBarColor("#9d1111");
-          var val = that.getFailCnt();
-          that.setFailCnt(++val);
-          that.appender("Test '"+test.getFullName()+"' failed: " +  ex.getMessage() + " - " + ex.getComment());
-          that.widgets["progresspane.progressbar"].update(String(tstCurr+"/"+tstCnt));
-          tstCurr++;
-        }, that);
-
-        testResult.addEventListener("error", function(e)
-        {
-          var ex = e.getData().exception;
-          that.currentTestData.setException(ex);
-          that.currentTestData.setState("error");
-          bar.setBarColor("#9d1111");
-          var val = that.getFailCnt();
-          that.setFailCnt(++val);
-          that.appender("The test '"+e.getData().test.getFullName()+"' had an error: " + ex, ex);
-          that.widgets["progresspane.progressbar"].update(String(tstCurr+"/"+tstCnt));
-          tstCurr++;
-        }, that);
-
-        testResult.addEventListener("endTest", function(e)
-        {
-          var state = that.currentTestData.getState();
-          if (state == "start") {
-            that.currentTestData.setState("success");
-            //that.widgets["progresspane.succ_cnt"].setText(++that.tests.succ_cnt+"");
-            var val = that.getSuccCnt();
-            that.setSuccCnt(++val);
-            that.widgets["progresspane.progressbar"].update(String(tstCurr+"/"+tstCnt));
-            tstCurr++;
-          }
-        }, that);
-
-        return testResult;
-      }; //init_testResult
-
-      /*
-       * function to process a list of individual tests
-       * because of Timer.once restrictions, using an external var as parameter
-       * (tlist)
-       */
-      function runtest()
-      {
-        that.widgets["statuspane.systeminfo"].setText("Running tests...");
-        that.toolbar.setEnabled(false); //if we are run as run_pending
-        if (tlist.length) {
-          var test = tlist[0];
-          that.loader.runTests(testResult, test[0], test[1]);
-          tlist = tlist.slice(1,tlist.length);  // recurse with rest of list
-          qx.client.Timer.once(runtest,this,100);
-        } else { // no more tests -> re-enable toolbar
-          that.toolbar.setEnabled(true);
-          //that.tree.setEnabled(true);
-          if (that.tests.firstrun)
-          {
-            that.reloadswitch.setChecked(true);
-            that.tests.firstrun = false;
-            that.widgets["statuspane.systeminfo"].setText("Enabled auto-reload");
-          } else
-          {
-            that.widgets["statuspane.systeminfo"].setText("Ready");
-          }
-        }
-      };
-
 
       /**
        * build up a list that will be used by runtest() as input (var tlist)
@@ -1019,46 +938,18 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       // -- Main ---------------------------------
 
-      /*
-      // get model node from selected tree node
-      var widgetNode = this.tree.getSelectedElement();
-      if (widgetNode) {
-        var modelNode  = widgetNode.getUserData("modelLink");
-      } else
-      { // no selected tree node - this should never happen here!
-        alert("Please select a test node from the tree!");
-        return;
-      }
-      // build list of individual tests to perform
-      tlist = buildList(modelNode);
-      if (this.reloadswitch.getChecked()) {
-        // set up pending tests
-        this.tests.run_pending = function ()
-        {
-          testResult = init_testResult();
-          if (!testResult) {
-            that.debug("Alarm: no testResult!");}
-          else {
-            runtest();}
-        };
-        this.reloadTestSuite();
-      } else {
-        // run the tests now
-        testResult = init_testResult();
-        runtest();
-      }
-      */
-      var file = this.tests.selected.substring(this.tests.selected.indexOf(".")+1);
-      var neu  = 'html/example/'+file;
+      var file = this.tests.selected.replace(".","/");
+      var base = file.substring(file.indexOf("/")+1);
+      var neu  = 'html/'+file;
       var curr = this.f1.getSource();
       if (curr == neu) 
       {
         this.f1.reload();
       } else 
       {
-        this.f1.setSource('html/example/'+file);
+        this.f1.setSource(neu);
       }
-      this.widgets["outputviews.demopage.button"].setLabel(this.polish(file));
+      this.widgets["outputviews.demopage.button"].setLabel(this.polish(base));
 
     }, //runTest
 
