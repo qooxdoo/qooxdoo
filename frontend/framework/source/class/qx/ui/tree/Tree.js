@@ -32,7 +32,7 @@
  *
  * Beware though that the <b>tree structure</b> you are building is internally
  * augmented with other widgets to achieve the desired look and feel. So if you
- * are later try to navigate the tree e.g. by using the
+ * later try to navigate the tree e.g. by using the
  * <code>getChildren()</code> method, you get more (and type-wise different)
  * children than you initially added. If this is inconvenient you may want to
  * maintain a tree model alongside the tree widget in your application.
@@ -40,8 +40,8 @@
  * The handling of <b>selections</b> within a tree is somewhat distributed
  * between the root Tree object and the attached {@link
  * qx.ui.tree.SelectionManager TreeSelectionManager}. To get the
- * currently selected element of a tree use the Tree.{@link #getSelectedElement
- * getSelectedElement} method and Tree.{@link #setSelectedElement
+ * currently selected element of a tree use the Tree{@link #getSelectedElement
+ * getSelectedElement} method and Tree{@link #setSelectedElement
  * setSelectedElement} to set it. The TreeSelectionManager handles more
  * coars-grained issues like providing selectAll()/deselectAll() methods.
  *
