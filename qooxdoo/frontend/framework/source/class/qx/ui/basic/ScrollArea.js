@@ -23,6 +23,10 @@
 
 ************************************************************************ */
 
+/**
+ * The CanvasLayout, which fires scroll events. Widgets which need to react on scroll
+ * events should extend thie class.
+ */
 qx.Class.define("qx.ui.basic.ScrollArea",
 {
   extend : qx.ui.layout.CanvasLayout,
@@ -40,6 +44,20 @@ qx.Class.define("qx.ui.basic.ScrollArea",
     this.base(arguments);
 
     this.__onscroll = qx.lang.Function.bindEvent(this._onscroll, this);
+  },
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events :
+  {
+    /** Fired each time the widget gets scrolled. */
+    "scroll" : "qx.event.type.Event"
   },
 
 
@@ -67,6 +85,11 @@ qx.Class.define("qx.ui.basic.ScrollArea",
       }
     },
 
+    /**
+     * Event handler for the scroll event
+     *
+     * @param e {Event} the event object
+     */
     _onscroll : function(e)
     {
       this.createDispatchEvent("scroll");

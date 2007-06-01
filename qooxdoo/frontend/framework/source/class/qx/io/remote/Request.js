@@ -87,13 +87,32 @@ qx.Class.define("qx.io.remote.Request",
   */
 
   events : {
+
+    /** Fired when the Request object changes its state to 'created' */
     "created" : "qx.event.type.Event",
+
+    /** Fired when the Request object changes its state to 'configured' */
     "configured" : "qx.event.type.Event",
+
+    /** Fired when the Request object changes its state to 'sending' */
     "sending" : "qx.event.type.Event",
+
+    /** Fired when the Request object changes its state to 'receiving' */
     "receiving" : "qx.event.type.Event",
+
+    /**
+     * Fired once the request has finished successfully. The event object
+     * can be used to read the transferred data.
+     */
     "completed" : "qqx.io.remote.Response",
+
+    /** Fired when the pending request has been aborted. */
     "aborted" : "qx.io.remote.Response",
+
+    /** Fired when the pending request failes. */
     "failed" : "qx.io.remote.Response",
+
+    /** Fired when the pending request times out. */
     "timeout" : "qx.io.remote.Response"
   },
 

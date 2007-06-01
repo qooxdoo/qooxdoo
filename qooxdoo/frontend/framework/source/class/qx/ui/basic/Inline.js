@@ -24,6 +24,11 @@
 
 ************************************************************************ */
 
+/**
+ * A CanvasLayout, which can be placed inside an arbitrary HTML DOM element.
+ * This widget can be used to embed qooxdoo widgets inside a normal
+ * HTML page.
+ */
 qx.Class.define("qx.ui.basic.Inline",
 {
   extend : qx.ui.layout.CanvasLayout,
@@ -38,7 +43,8 @@ qx.Class.define("qx.ui.basic.Inline",
   */
 
   /**
-   * @param vId {String} id of the DOM element to embed.
+   * @param vId {String} id of the DOM element which should become the
+   *     parent node of this widget.
    */
   construct : function(vId)
   {
@@ -62,6 +68,11 @@ qx.Class.define("qx.ui.basic.Inline",
 
   properties :
   {
+     /**
+      * id of the DOM element which should become the
+      * parent node of this widget. Don't change this property after the widget
+      * is rendered!
+      */
     inlineNodeId :
     {
       check : "String",
