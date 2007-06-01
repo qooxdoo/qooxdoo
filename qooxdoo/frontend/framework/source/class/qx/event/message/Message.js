@@ -21,7 +21,6 @@
 
 /**
  * creates a message to be dispatched on the message bus.
- * still very rudimentary implementation
  */
 qx.Class.define("qx.event.message.Message",
 {
@@ -55,14 +54,25 @@ qx.Class.define("qx.event.message.Message",
 
   properties :
   {
+    /**
+     * Event name of the message. Based on this name the message is dispatched
+     * to the event listeners.
+     */
     name :
     {
       _fast       : true,
-      setOnlyOnce : true
+      setOnlyOnce : true,
+      check       : "String"
     },
 
+    /**
+     * Any data the sender wants to pass with the event.
+     */
     data : { _fast : true },
 
+    /**
+     * A reference to the sending object.
+     */
     sender :
     {
       _fast       : true,

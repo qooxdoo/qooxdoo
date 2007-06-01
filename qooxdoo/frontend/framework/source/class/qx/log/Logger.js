@@ -322,6 +322,7 @@ qx.Class.define("qx.log.Logger",
      *      object dump will be logged.
      * @param instanceId {var ? null} the ID of the instance the log message comes from.
      * @param exc {var ? null} the exception to log.
+     * @param trace {string ? null} optional stack trace string to display
      * @return {void}
      */
     log : function(level, msg, instanceId, exc, trace)

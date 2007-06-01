@@ -77,11 +77,11 @@ qx.Class.define("qx.io.Json",
 
 
     /**
-     * TODOC
+     * Converts the incoming value from Function to String.
      *
      * @type static
-     * @param incoming {var} TODOC
-     * @return {var} TODOC
+     * @param incoming {function} The incoming value
+     * @return {String} value converted to a JSON string
      */
     __convertFunction : function(incoming) {
       return String(incoming);
@@ -89,11 +89,11 @@ qx.Class.define("qx.io.Json",
 
 
     /**
-     * TODOC
+     * Converts the incoming value from Boolean to String.
      *
      * @type static
-     * @param incoming {var} TODOC
-     * @return {var} TODOC
+     * @param incoming {Boolean} The incoming value
+     * @return {String} value converted to a JSON string
      */
     __convertBoolean : function(incoming) {
       return String(incoming);
@@ -101,11 +101,11 @@ qx.Class.define("qx.io.Json",
 
 
     /**
-     * TODOC
+     * Converts the incoming value from Number to String.
      *
      * @type static
-     * @param incoming {var} TODOC
-     * @return {var} TODOC
+     * @param incoming {Number} The incoming value
+     * @return {String} value converted to a JSON string
      */
     __convertNumber : function(incoming) {
       return isFinite(incoming) ? String(incoming) : "null";
@@ -113,11 +113,11 @@ qx.Class.define("qx.io.Json",
 
 
     /**
-     * TODOC
+     * Converts the incoming value from String to JSON String.
      *
      * @type static
-     * @param incoming {var} TODOC
-     * @return {var} TODOC
+     * @param incoming {String} The incoming value
+     * @return {String} value converted to a JSON string
      */
     __convertString : function(incoming)
     {
@@ -145,12 +145,12 @@ qx.Class.define("qx.io.Json",
 
 
     /**
-     * TODOC
+     * callback for JavaScript string escaping
      *
      * @type static
-     * @param a {Array} TODOC
-     * @param b {var} TODOC
-     * @return {var} TODOC
+     * @param a {Array} incoming array
+     * @param b {String} character to convert
+     * @return {String} converted character
      */
     __convertStringHelper : function(a, b)
     {
@@ -166,11 +166,11 @@ qx.Class.define("qx.io.Json",
 
 
     /**
-     * TODOC
+     * Converts the incoming value from Array to String.
      *
      * @type static
-     * @param incoming {var} TODOC
-     * @return {var} TODOC
+     * @param incoming {Array} The incoming value
+     * @return {String} value converted to a JSON string
      */
     __convertArray : function(incoming)
     {
@@ -282,8 +282,8 @@ qx.Class.define("qx.io.Json",
      * sent to it by the client.
      *
      * @type static
-     * @param incoming {var} TODOC
-     * @return {var} TODOC
+     * @param incoming {Date} incoming value
+     * @return {String} value converted to a JSON string
      */
     __convertDate : function(incoming)
     {
@@ -293,11 +293,11 @@ qx.Class.define("qx.io.Json",
 
 
     /**
-     * TODOC
+     * Converts the incoming value from Map to String.
      *
      * @type static
-     * @param incoming {var} TODOC
-     * @return {void}
+     * @param incoming {Map} The incoming value
+     * @return {String} value converted to a JSON string
      */
     __convertMap : function(incoming)
     {
@@ -351,11 +351,11 @@ qx.Class.define("qx.io.Json",
 
 
     /**
-     * TODOC
+     * Converts the incoming value from Object to String.
      *
      * @type static
-     * @param incoming {var} TODOC
-     * @return {var | string} TODOC
+     * @param incoming {Object} The incoming value
+     * @return {String} value converted to a JSON string
      */
     __convertObject : function(incoming)
     {
@@ -379,11 +379,11 @@ qx.Class.define("qx.io.Json",
 
 
     /**
-     * TODOC
+     * Converts the incoming value from undefined to String.
      *
      * @type static
-     * @param incoming {var} TODOC
-     * @return {void | String} TODOC
+     * @param incoming {undefined} The incoming value
+     * @return {String} value converted to a JSON string
      */
     __convertUndefined : function(incoming)
     {
