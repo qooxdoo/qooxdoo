@@ -181,12 +181,13 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel", {
           }
         }
 
-        if (method.getApply()) {
+        var prop = method.getApply();
+        if (prop) {
           textHtml.add(
             '<div class="item-detail-headline">', "Apply method of property:", '</div>',
             '<div class="item-detail-text">',
             apiviewer.ui.panels.InfoPanel.createItemLinkHtml(
-              "#"+method.getApply(), method.getClass(), true, true
+              "#"+ prop.getName(), prop.getClass(), true, true
             ),
             '</div>'
           );
