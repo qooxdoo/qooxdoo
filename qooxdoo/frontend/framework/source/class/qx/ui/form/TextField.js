@@ -520,6 +520,24 @@ qx.Class.define("qx.ui.form.TextField",
     */
 
     /**
+     * Overridden from {@link qx.ui.core.Widget#_visualizeFocus}: set the focus to the inputElement and not
+     * to the parent div. 
+     *
+     * @type member
+     */
+    _visualizeFocus : function()
+    {
+      if (!qx.event.handler.FocusHandler.mouseFocus && this.getEnableElementFocus())
+      {
+        try {
+          this._inputElement.focus();
+        } catch(ex) {}
+      }
+
+      this.base(arguments);
+    },
+
+    /**
      * Return the current value of the text field. The computed values is
      * independent of the value of the {@link #liveUpdate} property.
      *
@@ -1059,6 +1077,7 @@ qx.Class.define("qx.ui.form.TextField",
       }
     })
   },
+
 
 
   /*
