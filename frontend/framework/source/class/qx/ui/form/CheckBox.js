@@ -134,7 +134,7 @@ qx.Class.define("qx.ui.form.CheckBox",
 
 
     /**
-     * TODOC
+     * Creates new qx.ui.form.InputCheckSymbol instance and adds it to the checkox widget.
      *
      * @type member
      * @return {void}
@@ -187,12 +187,6 @@ qx.Class.define("qx.ui.form.CheckBox",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
     _handleIcon : function()
     {
       switch(this.getShow())
@@ -223,10 +217,10 @@ qx.Class.define("qx.ui.form.CheckBox",
     */
 
     /**
-     * TODOC
+     * Listener method for "click" event. Toggles property "checked"
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {Event} Mouse click event
      * @return {void}
      */
     _onclick : function(e) {
@@ -235,10 +229,11 @@ qx.Class.define("qx.ui.form.CheckBox",
 
 
     /**
-     * TODOC
+     * Listener method for "keydown" event. Toggles property "checked"
+     * when "Enter" key and NO "Alt" key are pressed
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {Event} Key event
      * @return {void}
      */
     _onkeydown : function(e)
@@ -250,10 +245,11 @@ qx.Class.define("qx.ui.form.CheckBox",
 
 
     /**
-     * TODOC
+     * Listener method for "keyup" event. Toggles property "checked" when 
+     * "Space" key was pressed.
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {Event} Key event
      * @return {void}
      */
     _onkeyup : function(e)
