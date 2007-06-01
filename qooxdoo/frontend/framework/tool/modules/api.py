@@ -1421,6 +1421,10 @@ def postWorkPackage(docTree, packageNode):
 
 
 def postWorkClass(docTree, classNode):
+
+    # mark property apply methods
+    markPropertyApply(docTree, classNode)
+
     # Sort child classes
     childClasses = classNode.get("childClasses", False)
     if childClasses:
@@ -1485,6 +1489,50 @@ def containsAbstractMethods(methodListNode, visitedMethodNames):
     return False
 
 
+def markPropertyApply(docTree, classNode):
+
+    # Sort the list
+    sortByName(classNode, "methods")
+
+    # Post work all items
+    listNode = classNode.getChild("methods", False)
+    if not listNode:
+        return
+
+    dependendClasses = [cls for cls in dependendClassIterator(docTree, classNode)]
+
+    for itemNode in listNode.children:
+        name = itemNode.get("name")
+        for dep in dependendClasses:
+            props = dep.getChild("properties", False)
+            if not props:
+                continue
+            for prop in props.children:
+                if prop.get("apply", None) == name:
+                    itemNode.set("apply", dep.get("fullName") + "#" + prop.get("name"))
+                    removeErrors(itemNode)
+                    #print name, " is an apply method"
+
+
+def dependendClassIterator(docTree, classNode):
+    yield classNode
+
+    directDependencies = []
+
+    superClassName = classNode.get("superClass", False)
+    if superClassName:
+        directDependencies.append(superClassName)
+
+    for list in ["mixins", "interfaces", "superMixins", "superInterfaces"]:
+        listItems = classNode.get(list, False)
+        if listItems:
+            directDependencies.extend(listItems.split(","))
+
+    for dep in directDependencies:
+        for cls in dependendClassIterator(docTree, getClassNode(docTree, dep)):
+            yield cls
+
+
 def itemHasAnyDocs(node):
     if node.getChild("desc", False) != None:
         return True
@@ -1497,6 +1545,7 @@ def itemHasAnyDocs(node):
             elif child.type != "errors":
                 return True
     return False
+
 
 def postWorkItemList(docTree, classNode, listName, overridable):
     """Does the post work for a list of properties or methods."""
