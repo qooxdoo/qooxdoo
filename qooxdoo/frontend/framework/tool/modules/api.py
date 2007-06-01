@@ -1495,13 +1495,13 @@ def markPropertyApply(docTree, classNode):
     sortByName(classNode, "methods")
 
     # Post work all items
-    listNode = classNode.getChild("methods", False)
-    if not listNode:
+    methods = classNode.getChild("methods", False)
+    if not methods:
         return
 
     dependendClasses = [cls for cls in dependendClassIterator(docTree, classNode)]
 
-    for itemNode in listNode.children:
+    for itemNode in methods.children:
         name = itemNode.get("name")
         for dep in dependendClasses:
             props = dep.getChild("properties", False)
@@ -1627,6 +1627,7 @@ def paramsMatch(methodNode1, methodNode2):
 
 def removeErrors(node):
     errors = node.getChild("errors", False)
+    node.remove("hasWarning")
     if errors:
         node.removeChild(errors)
         node.remove("hasError")
