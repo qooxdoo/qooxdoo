@@ -39,6 +39,11 @@ qx.Class.define("showcase.Application",
   extend : qx.application.Gui,
 
 
+  events :
+  {
+    "changeSize" : "qx.event.type.DataEvent",
+    "changeLayout" : "qx.event.type.DataEvent"
+  },
 
 
   /*
@@ -170,7 +175,7 @@ qx.Class.define("showcase.Application",
         }
 
         page.add(widget);
-      });
+      }, this);
 
       return page;
     },
@@ -463,15 +468,15 @@ qx.Class.define("showcase.Application",
         this.setIcon(this.getIcon().replace(o, v));
       }
 
-      function createButton(text, icon, clazz, checked)
+      function createButton(app, text, icon, clazz, checked)
       {
         if (!clazz) {
           clazz = qx.ui.toolbar.Button;
         }
 
         var button = new clazz(text, "icon/22/actions/" + icon + ".png");
-        doc.addEventListener("changeLayout", changeLayout, button);
-        doc.addEventListener("changeSize", changeSize, button);
+        app.addEventListener("changeLayout", changeLayout, button);
+        app.addEventListener("changeSize", changeSize, button);
 
         if (checked) {
           button.setChecked(true);
@@ -485,21 +490,21 @@ qx.Class.define("showcase.Application",
 
       var part = new qx.ui.toolbar.Part;
       tb.add(part);
-      part.add(createButton("New", "document-new"));
+      part.add(createButton(this, "New", "document-new"));
       part.add(new qx.ui.toolbar.Separator);
-      part.add(createButton("Copy", "edit-copy"));
-      part.add(createButton("Cut", "edit-cut"));
-      part.add(createButton("Paste", "edit-paste"));
+      part.add(createButton(this, "Copy", "edit-copy"));
+      part.add(createButton(this, "Cut", "edit-cut"));
+      part.add(createButton(this, "Paste", "edit-paste"));
 
       var part = new qx.ui.toolbar.Part;
       tb.add(part);
-      part.add(createButton("Check", "edit-add", qx.ui.toolbar.CheckBox, true));
+      part.add(createButton(this, "Check", "edit-add", qx.ui.toolbar.CheckBox, true));
 
       var part = new qx.ui.toolbar.Part;
       tb.add(part);
-      var radio1 = createButton("Radio1", "view-pane-column", qx.ui.toolbar.RadioButton);
-      var radio2 = createButton("Radio2", "view-pane-detailed", qx.ui.toolbar.RadioButton, true);
-      var radio3 = createButton("Radio3", "view-pane-icon", qx.ui.toolbar.RadioButton);
+      var radio1 = createButton(this, "Radio1", "view-pane-column", qx.ui.toolbar.RadioButton);
+      var radio2 = createButton(this, "Radio2", "view-pane-detailed", qx.ui.toolbar.RadioButton, true);
+      var radio3 = createButton(this, "Radio3", "view-pane-icon", qx.ui.toolbar.RadioButton);
       part.add(radio1, radio2, radio3);
       new qx.ui.selection.RadioManager(null, [ radio1, radio2, radio3 ]);
 
@@ -527,8 +532,8 @@ qx.Class.define("showcase.Application",
       var rbm = new qx.ui.selection.RadioManager(null, [ radio1, radio2, radio3 ]);
 
       rbm.addEventListener("changeSelected", function(e) {
-        doc.dispatchEvent(new qx.event.type.DataEvent("changeLayout", e.getData().getValue()));
-      });
+        this.dispatchEvent(new qx.event.type.DataEvent("changeLayout", e.getData().getValue()));
+      }, this);
 
       // Alignment
       var vert = new qx.ui.layout.VerticalBoxLayout;
@@ -555,8 +560,8 @@ qx.Class.define("showcase.Application",
       button.setHorizontalAlign("center");
 
       button.addEventListener("execute", function(e) {
-        doc.dispatchEvent(new qx.event.type.DataEvent("changeSize", 22));
-      });
+        this.dispatchEvent(new qx.event.type.DataEvent("changeSize", 22));
+      }, this);
 
       vert.add(button);
 
@@ -564,8 +569,8 @@ qx.Class.define("showcase.Application",
       button.setHorizontalAlign("center");
 
       button.addEventListener("execute", function(e) {
-        doc.dispatchEvent(new qx.event.type.DataEvent("changeSize", 32));
-      });
+        this.dispatchEvent(new qx.event.type.DataEvent("changeSize", 32));
+      }, this);
 
       vert.add(button);
 
