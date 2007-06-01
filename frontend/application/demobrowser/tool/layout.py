@@ -10,21 +10,21 @@ _demoData_ = [%s];
 
 (function ()
 {
-  if (window.top.demobrowser) {
+  if (parent && parent.demobrowser) {
     var demobrowser = parent.demobrowser;
     var logger = parent.qx.core.Init.getInstance().getApplication().viewer.logappender;
-    if (logger) {
+    if (logger)
+    {
       qx.log.Logger.ROOT_LOGGER.removeAllAppenders();
       qx.log.Logger.ROOT_LOGGER.addAppender(logger);
     } else 
     {
-      alert("Could not attach parent logger");
-      console.log(parent.qx.core.Init.getInstance().getApplication().viewer);
+      alert("Could not attach parent logger (" + parent.qx.core.Init.getInstance().getApplication().viewer + ")");
     }
-  } else
+  } 
+  else
   {
     alert("Cannot set demobrowswer's log appender!");
-    console.log(window.top.demobrowser);
   }
 })();
 
