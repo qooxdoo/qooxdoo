@@ -251,54 +251,62 @@ qx.Class.define("demobrowser.DemoBrowser",
       nextbutt.addEventListener("execute", this.ehDummyAlert,this);
       nextbutt.setToolTip(new qx.ui.popup.ToolTip("Run the next sample"));
 
-      //toolbar.add(new qx.ui.toolbar.Separator);
-
-      /*
-      this.testSuiteUrl = new qx.ui.form.TextField("html/QooxdooTest.html?testclass=demobrowser.test");
-      toolbar.add(this.testSuiteUrl);
-      this.testSuiteUrl.setToolTip(new qx.ui.popup.ToolTip("Test backend application URL"));
-      this.testSuiteUrl.set({
-        width : 300,
-        marginRight : 5
-      });
-      this.testSuiteUrl.addEventListener("keydown", function (e) {
-        if (e.getKeyIdentifier() == "Enter") {
-          this.reloadTestSuite();
-        }
-      }, this);
-      */
-
-      /*
-      // -- reload button
-      this.reloadbutton = new qx.ui.toolbar.Button("Reload", "icon/16/actions/view-refresh.png");
-      toolbar.add(this.reloadbutton);
-      this.reloadbutton.setToolTip(new qx.ui.popup.ToolTip("Reload test backend application"));
-      this.reloadbutton.addEventListener("execute", this.reloadTestSuite, this);
-
       toolbar.add((new qx.ui.basic.HorizontalSpacer).set({width:"1*"}));
-      */
 
-      /*
-      // -- reload switch
-      var part = new qx.ui.toolbar.Part();
-      part.setVerticalChildrenAlign("middle");
-      toolbar.add(part);
-      this.reloadswitch = new qx.ui.toolbar.CheckBox("Reload before Test",
-                                                     "demobrowser/image/yellow_diamond_hollow18.gif");
-      part.add(this.reloadswitch);
-      this.reloadswitch.setShow("both");
-      this.reloadswitch.setToolTip(new qx.ui.popup.ToolTip("Always reload test backend before testing"));
-      this.reloadswitch.addEventListener("changeChecked",function (e)
+      // -- sample: object summary
+      var gb = new qx.ui.toolbar.Part();
+      toolbar.add(gb);
+      this.widgets["toolbar.sampbutts"] = gb;
+      gb.set({height : "100%", width : "auto", border : null});
+      gb.resetBorder();
+      gb.setEnabled(false);
+      
+
+      var sb1 = new qx.ui.toolbar.Button("Object Summary", "icon/16/apps/accessories-magnifier.png");
+      gb.add(sb1);
+      sb1.set({ height : "100%", width : "auto" });
+      sb1.addEventListener("execute", function (e) 
       {
-        if (this.reloadswitch.getChecked())
+        var cw = this.f1.getContentWindow();
+        if (cw && cw.qx) {
+          alert(cw.qx.dev.ObjectSummary.getInfo());
+        } else 
         {
-          this.reloadswitch.setIcon("demobrowser/image/yellow_diamond_full18.gif");
-        } else
-        {
-          this.reloadswitch.setIcon("demobrowser/image/yellow_diamond_hollow18.gif");
+          alert("Unable to access Sample namespace currently.");
         }
       },this);
-      */
+      sb1.setToolTip(new qx.ui.popup.ToolTip("Sample Object Summary"));
+
+      // -- sample: global pollution
+      var sb2 = new qx.ui.toolbar.Button("Global Pollution", "icon/16/places/www.png");
+      gb.add(sb2);
+      sb2.addEventListener("execute", function (e) 
+      {
+        var cw = this.f1.getContentWindow();
+        if (cw && cw.qx) {
+          alert(cw.qx.dev.Pollution.getInfo());
+        } else 
+        {
+          alert("Unable to access Sample namespace currently.");
+        }
+      },this);
+      sb2.setToolTip(new qx.ui.popup.ToolTip("Sample Global Pollution"));
+
+      // -- sample: dispose app
+      var sb3 = new qx.ui.toolbar.Button("Dispose App", "icon/16/places/user-trash.png");
+      gb.add(sb3);
+      sb3.addEventListener("execute", function (e) 
+      {
+        var cw = this.f1.getContentWindow();
+        if (cw && cw.qx) {
+          cw.qx.core.Object.dispose();
+          alert("Done!");
+        } else 
+        {
+          alert("Unable to access Sample namespace currently.");
+        }
+      },this);
+      sb3.setToolTip(new qx.ui.popup.ToolTip("Dispose Sample Application"));
 
       return toolbar;
     }, //makeToolbar
@@ -362,6 +370,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         if (div && div.parentNode) {
           div.parentNode.removeChild(div);
         }
+        this.widgets["toolbar.sampbutts"].resetEnabled(); // in case it was disabled
       }, this);
 
       // Second Page
