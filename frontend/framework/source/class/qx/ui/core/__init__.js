@@ -1,3 +1,3 @@
 /**
- * The qx.ui.core package.
+ * Core classes of the qooxdoo widget system.
  */

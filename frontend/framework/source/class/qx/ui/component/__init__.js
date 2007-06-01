@@ -1,3 +1,3 @@
 /**
- * The qx.ui.component package.
+ * Complex compound widgets.
  */
