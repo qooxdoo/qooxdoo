@@ -96,10 +96,14 @@ qx.Class.define("qx.ui.form.Button",
   members :
   {
     /**
-     * TODOC
+     * Listener method for "mouseover" event
+     * <ul>
+     * <li>Adds state "over"</li>
+     * <li>Removes "abandoned" and adds "pressed" state (if "abandoned" state is set)</li>
+     * </ul>
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {Event} Mouse event
      * @return {void}
      */
     _onmouseover : function(e)
@@ -119,10 +123,14 @@ qx.Class.define("qx.ui.form.Button",
 
 
     /**
-     * TODOC
+     * Listener method for "mouseout" event
+     * <ul>
+     * <li>Removes "over" state</li>
+     * <li>Adds "abandoned" and removes "pressed" state (if "pressed" state is set)</li>
+     * </ul>
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {Event} Mouse event
      * @return {void}
      */
     _onmouseout : function(e)
@@ -146,10 +154,14 @@ qx.Class.define("qx.ui.form.Button",
 
 
     /**
-     * TODOC
+     * Listener method for "mousedown" event
+     * <ul>
+     * <li>Removes "abandoned" state</li>
+     * <li>Adds "pressed" state</li>
+     * </ul>
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {Event} Mouse event
      * @return {void}
      */
     _onmousedown : function(e)
@@ -164,10 +176,14 @@ qx.Class.define("qx.ui.form.Button",
 
 
     /**
-     * TODOC
+     * Listener method for "mouseup" event
+     * <ul>
+     * <li>Removes "pressed" state (if set)</li>
+     * <li>Removes "abandoned" state (if set)</li>
+     * <li>Adds "over" state (if "abandoned" state is not set)</li> 
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {Event} Mouse event
      * @return {void}
      */
     _onmouseup : function(e)
@@ -200,10 +216,12 @@ qx.Class.define("qx.ui.form.Button",
 
 
     /**
-     * TODOC
-     *
+     * Listener method for "keydown" event.<br/>
+     * Removes "abandoned" and adds "pressed" state 
+     * for the keys "Enter" or "Space"
+     * 
      * @type member
-     * @param e {Event} TODOC
+     * @param e {Event} Key event
      * @return {void}
      */
     _onkeydown : function(e)
@@ -219,10 +237,12 @@ qx.Class.define("qx.ui.form.Button",
 
 
     /**
-     * TODOC
+     * Listener method for "keyup" event.<br/>
+     * Removes "abandoned" and "pressed" state (if "pressed" state is set)
+     * for the keys "Enter" or "Space"
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {Event} Key event
      * @return {void}
      */
     _onkeyup : function(e)
