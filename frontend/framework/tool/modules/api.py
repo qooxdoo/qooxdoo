@@ -1429,9 +1429,6 @@ def postWorkClass(docTree, classNode):
         childClasses = ",".join(classArr)
         classNode.set("childClasses", childClasses)
 
-    # Remove the property-modifier-methods
-    removePropertyModifiers(classNode)
-
     # Mark overridden items
     postWorkItemList(docTree, classNode, "properties", True)
     postWorkItemList(docTree, classNode, "events", False)
@@ -1486,40 +1483,6 @@ def containsAbstractMethods(methodListNode, visitedMethodNames):
                     return True
 
     return False
-
-
-
-def removePropertyModifiers(classNode):
-    propertiesList = classNode.getChild("properties", False)
-    methodsList = classNode.getChild("methods", False)
-    if propertiesList and methodsList:
-        for propNode in propertiesList.children:
-
-            # for new properties mark the apply method
-            if propNode.get("oldProperty", False) != True:
-                if propNode.get("apply", False) != None:
-                    applyMethod = methodsList.getChildByAttribute("name", propNode.get("apply"), False)
-                    if applyMethod != None:
-                        applyMethod.set("apply", propNode.get("name"))
-                continue
-
-            name = propNode.get("name")
-            upperName = name[0].upper() + name[1:]
-
-            modifyNode = methodsList.getChildByAttribute("name", "_modify" + upperName, False)
-            if modifyNode:
-                methodsList.removeChild(modifyNode);
-
-            changeNode = methodsList.getChildByAttribute("name", "_change" + upperName, False)
-            if changeNode:
-                methodsList.removeChild(changeNode);
-
-            checkNode = methodsList.getChildByAttribute("name", "_check" + upperName, False)
-            if checkNode:
-                methodsList.removeChild(checkNode);
-
-        if not methodsList.hasChildren():
-            classNode.removeChild(methodsList)
 
 
 def itemHasAnyDocs(node):
