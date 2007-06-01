@@ -383,15 +383,18 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       // main output area
       //this.f2 = new qx.ui.form.TextArea("Session Log, listing test invokations and all outputs");
-      this.f2 = new qx.ui.embed.HtmlEmbed('<div>Session Log</div>');
+//      this.f2 = new qx.ui.embed.HtmlEmbed('<div id="sessionlog">Session Log</div>');
+      this.f2 = new qx.ui.embed.NodeEmbed("qx_divlog");
       pp2.add(this.f2);
-      this.f2.setHtmlProperty("id","sessionlog");
+//      this.f2.setHtmlProperty("id","sessionlog");
       this.f2.set({
         overflow : "auto",
         height : "1*",
         width : "100%"
       });
+/*
       this.f2.setStyleProperty("fontSize",12);
+      this.f2.setStyleProperty("fontFamily",'"Bitstream Vera Sans Mono", "Courier New", "Courier", monospace');
 
       // toolbar
       var ff1 = new qx.ui.toolbar.ToolBar;
@@ -418,11 +421,12 @@ qx.Class.define("demobrowser.DemoBrowser",
         var w = window.open('','');
         //var w = new qx.ui.window.Window("Session Log");
       }, this);
-
+*/
       // log appender
       //this.logappender = new qx.log.WindowAppender("qooxdoo Test Runner");
       //this.logappender = new qx.log.DivAppender("sessionlog");
-      this.logappender = new demobrowser.LogAppender(this.f2);
+      this.logappender = new qx.log.appender.Div("qx_divlog");
+//AE      this.logappender = new demobrowser.LogAppender(this.f2);
       //this.getLogger().getParentLogger().getParentLogger().addAppender(this.logappender);
       qx.log.Logger.ROOT_LOGGER.removeAllAppenders();
       qx.log.Logger.ROOT_LOGGER.addAppender(this.logappender);
@@ -763,6 +767,9 @@ qx.Class.define("demobrowser.DemoBrowser",
           if (currNode.hasChildren())
           {
             t = new qx.ui.tree.TreeFolder(that.polish(currNode.label),"demobrowser/image/package18.gif");
+            if (currNode.label == "example") { // TODO: hard-wired
+              t.setOpen(true);
+            }
             buildSubTree(t,currNode);
           } else
           {
@@ -907,7 +914,11 @@ qx.Class.define("demobrowser.DemoBrowser",
       // -- Vars and Setup -----------------------
       this.toolbar.setEnabled(false);
       //this.tree.setEnabled(false);
-      this.info("Now running: " + this.tests.selected);
+
+      // TODO: do not use appender internals
+      this.logappender._logElem.innerHTML = "";  
+
+//      this.info("Now running: " + this.tests.selected);
       this.widgets["outputviews.bar"].getManager().setSelected(this.widgets["outputviews.demopage.button"]);
 
       // start test
