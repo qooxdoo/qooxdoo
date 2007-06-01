@@ -62,13 +62,6 @@ qx.Class.define("qx.log.appender.Forward",
   members :
   {
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param evt {Event} TODOC
-     * @return {void}
-     */
     appendLogEvent : function(evt) {
       this._targetProcessor.handleLogEvent(evt);
     }

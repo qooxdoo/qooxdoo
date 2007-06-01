@@ -77,13 +77,6 @@ qx.Class.define("qx.log.appender.Abstract",
   members :
   {
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param evt {Event} TODOC
-     * @return {void}
-     */
     handleLogEvent : function(evt)
     {
       if (this.decideLogEvent(evt) != qx.log.Filter.DENY) {

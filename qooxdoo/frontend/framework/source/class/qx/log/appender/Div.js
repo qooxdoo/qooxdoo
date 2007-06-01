@@ -158,14 +158,6 @@ qx.Class.define("qx.log.appender.Div",
     },
 
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param evt {Event} TODOC
-     * @return {void}
-     * @throws TODOC
-     */
     appendLogEvent : function(evt)
     {
       var Logger = qx.log.Logger;
