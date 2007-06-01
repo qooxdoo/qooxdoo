@@ -152,7 +152,7 @@ qx.Class.define("qx.io.image.PreloaderSystem",
     */
 
     /**
-     * TODOC
+     * Load event handler
      *
      * @type member
      * @param e {Event} Event object
