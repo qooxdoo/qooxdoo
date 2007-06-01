@@ -11,8 +11,8 @@ _demoData_ = [%s];
 (function ()
 {
   if (window.top.demobrowser) {
-    var demobrowser = window.top.demobrowser;
-    var logger = window.top.qx.ui.core.ClientDocument.getInstance().getChildren()[0].logappender;
+    var demobrowser = parent.demobrowser;
+    var logger = parent.qx.core.Init.getInstance().getApplication().viewer.logappender;
     if (logger) {
       qx.log.Logger.ROOT_LOGGER.removeAllAppenders();
       qx.log.Logger.ROOT_LOGGER.addAppender(logger);
