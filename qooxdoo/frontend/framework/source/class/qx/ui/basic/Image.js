@@ -86,6 +86,7 @@ qx.Class.define("qx.ui.basic.Image",
   */
 
   events : {
+    /** Fires if an image could not be preloaded  */
     "error" : "qx.event.type.Event"
   },
 
@@ -214,7 +215,7 @@ qx.Class.define("qx.ui.basic.Image",
     */
 
     /**
-     * TODOC
+     * Listener method of the "load" event - sets "loaded" property
      *
      * @type member
      * @return {void}
@@ -225,7 +226,7 @@ qx.Class.define("qx.ui.basic.Image",
 
 
     /**
-     * TODOC
+     * Listener method of the "error" event
      *
      * @type member
      * @return {void}
@@ -251,10 +252,11 @@ qx.Class.define("qx.ui.basic.Image",
     */
 
     /**
-     * TODOC
+     * Registers an image at the image manager (qx.io.image.Manager) and increases the 
+     * visible counter
      *
      * @type member
-     * @return {var} TODOC
+     * @return {void}
      */
     _beforeAppear : function()
     {
@@ -268,10 +270,11 @@ qx.Class.define("qx.ui.basic.Image",
 
 
     /**
-     * TODOC
+     * Registers an image at the image manager (qx.io.image.Manager) and reduces the 
+     * visible counter
      *
      * @type member
-     * @return {var} TODOC
+     * @return {void}
      */
     _beforeDisappear : function()
     {
@@ -323,12 +326,25 @@ qx.Class.define("qx.ui.basic.Image",
       }
     },
 
+    /** 
+     * Connects a callback method to the value manager to ensure 
+     * that changes to the source are handled by the image instance
+     * 
+     * @type member
+     * @return {void}
+     */
     _connect : function()
     {
       var aliasMgr = qx.io.Alias.getInstance();
       aliasMgr.connect(this._syncSource, this, this.getSource());
     },
 
+    /**
+     * Sets the preloader property (with creating a new instance)
+     * 
+     * @param value {String} source of image instance
+     * @return {void}
+     */
     _syncSource : function(value)
     {
       if (value === null)
@@ -465,7 +481,8 @@ qx.Class.define("qx.ui.basic.Image",
     */
 
     /**
-     * TODOC
+     * Internal method (called by the layout engine)
+     * Applies the dimensions and then sets the source of the image instance
      *
      * @type member
      * @return {void}
@@ -497,12 +514,11 @@ qx.Class.define("qx.ui.basic.Image",
 
 
     /**
-     * TODOC
+     * Updates the source of the image instance
      *
      * @type member
-     * @param vSource {var} TODOC
      * @return {void}
-     * @signature function(vSource)
+     * @signature function()
      */
     _updateContent : qx.core.Variant.select("qx.client",
     {
@@ -536,7 +552,7 @@ qx.Class.define("qx.ui.basic.Image",
 
 
     /**
-     * TODOC
+     * Reset the source of the image instance to a blank image
      *
      * @type member
      * @return {void}
@@ -557,7 +573,7 @@ qx.Class.define("qx.ui.basic.Image",
 
 
     /**
-     * TODOC
+     * Sets the style values for the states enabled/disabled
      *
      * @type member
      * @return {void}
@@ -592,10 +608,10 @@ qx.Class.define("qx.ui.basic.Image",
     */
 
     /**
-     * TODOC
+     * Returns width value of preloader or 0 (if preloader is not available)
      *
      * @type member
-     * @return {var | int} TODOC
+     * @return {var | int} Returns width value of preloader or 0 (if preloader is not available)
      */
     _computePreferredInnerWidth : function()
     {
@@ -605,10 +621,10 @@ qx.Class.define("qx.ui.basic.Image",
 
 
     /**
-     * TODOC
+     * Returns height value of preloader or 0 (if preloader is not available)
      *
      * @type member
-     * @return {var | int} TODOC
+     * @return {var | int} Returns height value of preloader or 0 (if preloader is not available)
      */
     _computePreferredInnerHeight : function()
     {
@@ -626,7 +642,8 @@ qx.Class.define("qx.ui.basic.Image",
     */
 
     /**
-     * TODOC
+     * Additionally (in comparison to base method) flushes global queues to 
+     * get an up-to-date view when an image is loaded
      *
      * @type member
      * @return {void}
@@ -642,7 +659,7 @@ qx.Class.define("qx.ui.basic.Image",
 
 
     /**
-     * TODOC
+     * Sets the style attributes for width and height
      *
      * @type member
      * @return {void}
@@ -707,11 +724,11 @@ qx.Class.define("qx.ui.basic.Image",
     */
 
     /**
-     * TODOC
+     * Sets the width style attribute
      *
      * @type member
-     * @param vNew {var} TODOC
-     * @param vOld {var} TODOC
+     * @param vNew {var} new inner width value
+     * @param vOld {var} old inner width value
      * @return {void}
      * @signature function(vNew, vOld)
      */
@@ -734,11 +751,11 @@ qx.Class.define("qx.ui.basic.Image",
 
 
     /**
-     * TODOC
+     * Sets the height style attribute
      *
      * @type member
-     * @param vNew {var} TODOC
-     * @param vOld {var} TODOC
+     * @param vNew {var} new inner height value
+     * @param vOld {var} old inner height value
      * @return {void}
      * @signature function(vNew, vOld)
      */
