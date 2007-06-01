@@ -81,14 +81,8 @@ qx.Class.define("qx.log.appender.Alert",
 
   members :
   {
+
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param evt {Event} TODOC
-     * @return {void}
-     */
     appendLogEvent : function(evt)
     {
       // Append the message

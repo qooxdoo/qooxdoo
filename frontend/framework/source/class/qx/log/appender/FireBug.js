@@ -59,13 +59,8 @@ qx.Class.define("qx.log.appender.FireBug",
 
   members :
   {
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param evt {Event} TODOC
-     * @return {void}
-     */
+
+    // overridden
     appendLogEvent : function(evt)
     {
       if (typeof console != 'undefined')

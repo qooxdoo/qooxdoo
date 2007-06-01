@@ -100,13 +100,6 @@ qx.Class.define("qx.log.appender.RingBuffer",
     },
 
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param evt {Event} TODOC
-     * @return {void}
-     */
     appendLogEvent : function(evt)
     {
       var maxMessages = this.getMaxMessages();

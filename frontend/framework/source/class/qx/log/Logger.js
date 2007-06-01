@@ -271,13 +271,6 @@ qx.Class.define("qx.log.Logger",
     },
 
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param evt {Event} TODOC
-     * @return {void}
-     */
     handleLogEvent : function(evt)
     {
       var Filter = qx.log.Filter;

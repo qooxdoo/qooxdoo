@@ -65,13 +65,8 @@ qx.Class.define("qx.log.appender.Native",
 
   members :
   {
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param evt {Event} TODOC
-     * @return {var} TODOC
-     */
+
+    // overridden
     appendLogEvent : function(evt)
     {
       if (this._appender) {
