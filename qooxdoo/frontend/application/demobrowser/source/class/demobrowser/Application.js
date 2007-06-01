@@ -47,7 +47,8 @@ qx.Class.define("demobrowser.Application",
       //qx.manager.object.AliasManager.getInstance().add("demobrowser", qx.core.Setting.get("demobrowser.resourceUri"));
       qx.io.Alias.getInstance().add("demobrowser", qx.core.Setting.get("demobrowser.resourceUri"));
 
-      // Include CSS file
+      // Include CSS files
+      qx.html.StyleSheet.includeFile(qx.io.Alias.getInstance().resolve("demobrowser/css/log.css"));
       qx.html.StyleSheet.includeFile(qx.io.Alias.getInstance().resolve("demobrowser/css/style.css"));
 
       // Initialize the viewer
