@@ -92,7 +92,10 @@ qx.Class.define("apiviewer.ui.PackageViewer",
       //desc = "TODO: put the package description here...";
       desc = classNode.getDescription();
       if (desc != "") {
-        descHtml.add('<div class="class-description">', apiviewer.ui.panels.InfoPanel.resolveLinkAttributes(desc, classNode), '</div>');
+        descHtml.add(
+          '<div class="class-description">',
+          apiviewer.ui.panels.InfoPanel.resolveLinkAttributes(desc, classNode),
+          '</div>');
       }
       return descHtml.get();
     }
