@@ -19,7 +19,7 @@ _demoData_ = [%s];
     } else 
     {
       alert("Could not attach parent logger");
-      console.log(window.top.qx.ui.core.ClientDocument.getInstance().getChildren()[0]);
+      console.log(parent.qx.core.Init.getInstance().getApplication().viewer);
     }
   } else
   {
