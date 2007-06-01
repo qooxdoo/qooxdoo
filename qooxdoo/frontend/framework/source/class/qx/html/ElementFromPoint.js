@@ -42,7 +42,7 @@ qx.Class.define("qx.html.ElementFromPoint",
      * @return {var} TODOC
      */
     getElementFromPoint : function(x, y) {
-      return qx.html.ElementFromPoint.getElementFromPointHandler(document.body, x, y);
+      return this.getElementFromPointHandler(document.body, x, y);
     },
 
 
@@ -53,38 +53,43 @@ qx.Class.define("qx.html.ElementFromPoint",
      * @param node {Node} TODOC
      * @param x {var} TODOC
      * @param y {var} TODOC
-     * @param recursive {var} TODOC
+     * @param recursive {Boolean ? true} TODOC
      * @return {null | var} TODOC
      */
     getElementFromPointHandler : function(node, x, y, recursive)
     {
       var ch = node.childNodes;
-      var chl = ch.length - 1;
+      var childNodesLength = ch.length - 1;
 
-      if (chl < 0) {
+      if (childNodesLength < 0) {
         return null;
       }
 
-      var chc, subres, ret;
+      var childNode, subres, ret;
 
       do
       {
-        chc = ch[chl];
-        ret = qx.html.ElementFromPoint.getElementFromPointChecker(chc, x, y);
+        childNode = ch[childNodesLength];
+        ret = this.getElementFromPointChecker(childNode, x, y);
 
         if (ret)
         {
           if (typeof recursive === "boolean" && recursive == false) {
-            return chc;
+            return childNode;
           }
           else
           {
-            subres = qx.html.ElementFromPoint.getElementFromPointHandler(chc, x - ret[0] - qx.html.Style.getBorderLeft(chc), y - ret[2] - qx.html.Style.getBorderTop(chc));
-            return subres ? subres : chc;
+            subres = this.getElementFromPointHandler(
+              childNode,
+              x - ret[0] - qx.html.Style.getBorderLeft(childNode),
+              y - ret[2] - qx.html.Style.getBorderTop(childNode),
+              true
+            );
+            return subres ? subres : childNode;
           }
         }
       }
-      while (chl--);
+      while (childNodesLength--);
 
       return null;
     },
@@ -94,32 +99,32 @@ qx.Class.define("qx.html.ElementFromPoint",
      * TODOC
      *
      * @type static
-     * @param chc {var} TODOC
+     * @param element {var} TODOC
      * @param x {var} TODOC
      * @param y {var} TODOC
      * @return {boolean | Array} TODOC
      */
-    getElementFromPointChecker : function(chc, x, y)
+    getElementFromPointChecker : function(element, x, y)
     {
       var xstart, ystart, xstop, ystop;
 
-      if (chc.nodeType != 1) {
+      if (element.nodeType != qx.dom.Node.ELEMENT) {
         return false;
       }
 
-      xstart = qx.html.Offset.getLeft(chc);
+      xstart = qx.html.Offset.getLeft(element);
 
       if (x > xstart)
       {
-        ystart = qx.html.Offset.getTop(chc);
+        ystart = qx.html.Offset.getTop(element);
 
         if (y > ystart)
         {
-          xstop = xstart + chc.offsetWidth;
+          xstop = xstart + element.offsetWidth;
 
           if (x < xstop)
           {
-            ystop = ystart + chc.offsetHeight;
+            ystop = ystart + element.offsetHeight;
 
             if (y < ystop) {
               return [ xstart, xstop, ystart, ystop ];
@@ -136,32 +141,32 @@ qx.Class.define("qx.html.ElementFromPoint",
      * TODOC
      *
      * @type static
-     * @param chc {var} TODOC
+     * @param element {var} TODOC
      * @param x {var} TODOC
      * @param y {var} TODOC
      * @return {boolean | Array} TODOC
      */
-    getElementAbsolutePointChecker : function(chc, x, y)
+    getElementAbsolutePointChecker : function(element, x, y)
     {
       var xstart, ystart, xstop, ystop;
 
-      if (!chc || chc.nodeType != 1) {
+      if (!element || element.nodeType != qx.dom.Node.ELEMENT) {
         return false;
       }
 
-      xstart = qx.html.Location.getPageBoxLeft(chc);
+      xstart = qx.html.Location.getPageBoxLeft(element);
 
       if (x > xstart)
       {
-        ystart = qx.html.Location.getPageBoxTop(chc);
+        ystart = qx.html.Location.getPageBoxTop(element);
 
         if (y > ystart)
         {
-          xstop = xstart + chc.offsetWidth;
+          xstop = xstart + element.offsetWidth;
 
           if (x < xstop)
           {
-            ystop = ystart + chc.offsetHeight;
+            ystop = ystart + element.offsetHeight;
 
             if (y < ystop) {
               return [ xstart, xstop, ystart, ystop ];

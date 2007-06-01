@@ -1,13 +1,10 @@
 /**
- * [This package documentation is preliminary and only a rough draft; read with
- * care].
- * <p>
  * The qx.io.remote package provides classes for remote communiction, i.e.
  * communication of the client with a server. Bear in mind that this usually
  * means communication with the server the client application was loaded from.
  * Cross-domain communication on the other hand has to be treated specially.
  * <p>
- * In the most common cases the {@link qx.io.remote.Request Request} class is the
+ * In the most common cases the {@link Request} class is the
  * class you will be working with. It allows you to set up a request for a
  * remote resource, configure request data and request processing details, and
  * set up event handlers for typical stages of the request processing. A brief
@@ -25,7 +22,7 @@
  * methods to inspect the outcome of your request and retrieve response data.
  * Internally, requests are managed using a {@link qx.io.remote.RequestQueue
  * RequestQueue} class. The RequestQueue is a singleton and there is no need to
- * deal with it in client code directly. 
+ * deal with it in client code directly.
  * <p>
  * The {@link qx.io.remote.Rpc Rpc} class provides you with another high-level
  * interface to server interaction.  You will usually use this class if you have
