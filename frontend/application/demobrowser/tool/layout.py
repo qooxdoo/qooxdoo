@@ -8,6 +8,26 @@ import sys, os, optparse, codecs, re
 basic = u"""
 _demoData_ = [%s];
 
+(function ()
+{
+  if (window.top.demobrowser) {
+    var demobrowser = window.top.demobrowser;
+    var logger = window.top.qx.ui.core.ClientDocument.getInstance().getChildren()[0].logappender;
+    if (logger) {
+      qx.log.Logger.ROOT_LOGGER.removeAllAppenders();
+      qx.log.Logger.ROOT_LOGGER.addAppender(logger);
+    } else 
+    {
+      alert("Could not attach parent logger");
+      console.log(window.top.qx.ui.core.ClientDocument.getInstance().getChildren()[0]);
+    }
+  } else
+  {
+    alert("Cannot set demobrowswer's log appender!");
+    console.log(window.top.demobrowser);
+  }
+})();
+
 qx.Class.include(qx.core.Init, qx.core.MLegacyInit);
 """
 
