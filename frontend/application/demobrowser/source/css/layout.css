@@ -83,6 +83,7 @@ p{
 }
 
 #demoDescription{
+  display : none;
   position: absolute;
   top: 44px;
   height : 120px;

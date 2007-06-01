@@ -17,7 +17,7 @@ def main(dist, scan):
 
   firstCategory = True
   # for category in os.listdir(scan):
-  for category in [ "example", ]:
+  for category in [ "example", "performance", "test",]:
     if category == ".svn":
       continue
 
@@ -25,7 +25,7 @@ def main(dist, scan):
       res += "},"
 
     res += "{"
-    res += "classname:\""+category+"s\",tests:["
+    res += "classname:\""+category+"\",tests:["
 
     firstItem = True
     for item in os.listdir(os.path.join(scan, category)):
