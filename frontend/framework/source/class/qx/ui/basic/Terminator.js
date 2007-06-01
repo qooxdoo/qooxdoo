@@ -24,7 +24,13 @@
 
 ************************************************************************ */
 
-/** This widget is the last widget of the current child chain. */
+/**
+ * The Terminator is the base class for all widgets, which don't have child
+ * widgets.
+ *
+ * If used directly it represents an rectangular area, which can be positioned
+ * and sized using the layout managers.
+ */
 qx.Class.define("qx.ui.basic.Terminator",
 {
   extend : qx.ui.core.Widget,
@@ -150,12 +156,21 @@ qx.Class.define("qx.ui.basic.Terminator",
       return this.getPreferredBoxHeight();
     },
 
+
     /**
+     * Returns the preferred inner width of the widget. This value is used
+     * by the layout managers to calculate the actual size of the widget.
+     *
+     * @return {Integer} the preffered inner width.
      * @signature function()
      */
     _computePreferredInnerWidth : qx.lang.Function.returnZero,
 
     /**
+     * Returns the preferred inner height of the widget. This value is used
+     * by the layout managers to calculate the actual size of the widget.
+     *
+     * @return {Integer} the preffered inner height.
      * @signature function()
      */
     _computePreferredInnerHeight : qx.lang.Function.returnZero,

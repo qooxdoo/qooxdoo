@@ -304,10 +304,9 @@ qx.Class.define("qx.ui.basic.Atom",
 
 
     /**
-     * TODOC
+     * Creates the label object
      *
      * @type member
-     * @return {void}
      */
     _createLabel : function()
     {
@@ -321,10 +320,9 @@ qx.Class.define("qx.ui.basic.Atom",
 
 
     /**
-     * TODOC
+     * Creates the icon object
      *
      * @type member
-     * @return {void}
      */
     _createIcon : function()
     {
@@ -352,10 +350,9 @@ qx.Class.define("qx.ui.basic.Atom",
 
 
     /**
-     * TODOC
+     * updates the icon
      *
      * @type member
-     * @return {void}
      */
     _updateIcon : function()
     {
@@ -415,7 +412,7 @@ qx.Class.define("qx.ui.basic.Atom",
     */
 
     /**
-     * TODOC
+     * Applies the icon position
      *
      * @type member
      * @param value {var} Current value
@@ -539,7 +536,7 @@ qx.Class.define("qx.ui.basic.Atom",
 
 
     /**
-     * TODOC
+     * Handle label
      *
      * @type member
      * @return {void}
@@ -566,7 +563,7 @@ qx.Class.define("qx.ui.basic.Atom",
 
 
     /**
-     * TODOC
+     * handle icon
      *
      * @type member
      * @return {void}

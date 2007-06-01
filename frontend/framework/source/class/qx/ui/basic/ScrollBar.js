@@ -202,11 +202,11 @@ qx.Class.define("qx.ui.basic.ScrollBar",
   members :
   {
     /**
-     * TODOC
+     * Limit the value to the allowed range of the scroll bar.
      *
      * @type member
-     * @param value {var} Current value
-     * @return {var} TODOC
+     * @param value {Number} Current value
+     * @return {Number} Limited value.
      */
     _checkValue : function(value)
     {
@@ -220,13 +220,7 @@ qx.Class.define("qx.ui.basic.ScrollBar",
       return Math.max(0, Math.min(this.getMaximum() - innerSize, value));
     },
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+
     _applyValue : function(value, old)
     {
       if (!this._internalValueChange && this._isCreated) {
@@ -234,13 +228,7 @@ qx.Class.define("qx.ui.basic.ScrollBar",
       }
     },
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+
     _applyMaximum : function(value, old)
     {
       if (this._horizontal) {
@@ -253,15 +241,8 @@ qx.Class.define("qx.ui.basic.ScrollBar",
       this.setValue(this._checkValue(this.getValue()));
     },
 
+
     // property modifier
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     * @return {var} TODOC
-     */
     _applyVisibility : function(value, old)
     {
       if (!value) {
@@ -273,24 +254,14 @@ qx.Class.define("qx.ui.basic.ScrollBar",
       return this.base(arguments, value, old);
     },
 
+
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
     _computePreferredInnerWidth : function() {
       return this._horizontal ? 0 : this._getScrollBarWidth();
     },
 
+
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
     _computePreferredInnerHeight : function() {
       return this._horizontal ? this._getScrollBarWidth() : 0;
     },
@@ -381,12 +352,6 @@ qx.Class.define("qx.ui.basic.ScrollBar",
     },
 
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
     _afterAppear : function()
     {
       this.base(arguments);
