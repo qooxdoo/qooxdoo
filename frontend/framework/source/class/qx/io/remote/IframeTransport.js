@@ -429,7 +429,8 @@ qx.Class.define("qx.io.remote.IframeTransport",
 
       // Mshtml returns the content inside a PRE
       // element if we use plain text
-      if (vBody.firstChild.tagName.toLowerCase() == "pre") {
+      if (vBody.firstChild.tagName &&
+          vBody.firstChild.tagName.toLowerCase() == "pre") {
         return vBody.firstChild.innerHTML;
       } else {
         return vBody.innerHTML;
