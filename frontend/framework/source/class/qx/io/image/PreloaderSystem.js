@@ -159,6 +159,10 @@ qx.Class.define("qx.io.image.PreloaderSystem",
      */
     __onload : function(e)
     {
+      if (this.getDisposed()) {
+        return;
+      }
+
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         //console.debug("Done: " + e.getTarget()._origSource);
       }
@@ -176,6 +180,10 @@ qx.Class.define("qx.io.image.PreloaderSystem",
      */
     __onerror : function(e)
     {
+      if (this.getDisposed()) {
+        return;
+      }
+
       delete this._list[e.getTarget()._origSource];
       this._check();
     },
