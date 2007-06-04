@@ -846,7 +846,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
 
     /**
      * Checks whether a class item has details.
-     * This method is abstract. Sub classes must overwrite it.
+     * This method is abstract. Sub classes must override it.
      *
      * @type member
      * @abstract
