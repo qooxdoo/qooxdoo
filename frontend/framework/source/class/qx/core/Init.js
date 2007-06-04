@@ -260,10 +260,14 @@ qx.Class.define("qx.core.Init",
     _onbeforeunload : function(e)
     {
       this.createDispatchEvent("beforeunload");
-      // Send onbeforeunload event (can be cancelled)
-      var result = this.getApplication().close();
-      if (result != null) {
-        e.returnValue = result;
+
+      if (this.getApplication())
+      {
+        // Send onbeforeunload event (can be cancelled)
+        var result = this.getApplication().close();
+        if (result != null) {
+          e.returnValue = result;
+        }
       }
     },
 
@@ -278,8 +282,12 @@ qx.Class.define("qx.core.Init",
     _onunload : function(e)
     {
       this.createDispatchEvent("unload");
-      // Send onunload event (last event)
-      this.getApplication().terminate();
+
+      if (this.getApplication())
+      {
+        // Send onunload event (last event)
+        this.getApplication().terminate();
+      }
 
       // Dispose all qooxdoo objects
       qx.core.Object.dispose();
