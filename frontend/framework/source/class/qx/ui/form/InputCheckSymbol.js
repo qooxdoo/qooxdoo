@@ -77,6 +77,7 @@ qx.Class.define("qx.ui.form.InputCheckSymbol",
       init : -1
     },
 
+    /**  Represents the HtmlProperty "name" */
     name :
     {
       check : "String",
@@ -85,6 +86,7 @@ qx.Class.define("qx.ui.form.InputCheckSymbol",
       apply : "_applyName"
     },
 
+    /** Represents the HtmlProperty "value" */
     value :
     {
       init : null,
@@ -92,6 +94,7 @@ qx.Class.define("qx.ui.form.InputCheckSymbol",
       apply : "_applyValue"
     },
 
+    /** Represents the HtmlProperty "type" */
     type :
     {
       init : null,
@@ -99,6 +102,7 @@ qx.Class.define("qx.ui.form.InputCheckSymbol",
       apply : "_applyType"
     },
 
+    /** Represents the HtmlProperty "checked" */
     checked :
     {
       check : "Boolean",
@@ -182,10 +186,11 @@ qx.Class.define("qx.ui.form.InputCheckSymbol",
 
 
     /**
-     * TODOC
+     * Returns the box width of the checkbox widget.
+     * Currently this value is 13.
      *
      * @type member
-     * @return {int} TODOC
+     * @return {int} Box width of the checkbox
      */
     getPreferredBoxWidth : function() {
       return 13;
@@ -193,10 +198,11 @@ qx.Class.define("qx.ui.form.InputCheckSymbol",
 
 
     /**
-     * TODOC
+     * Returns the box height of the checkbox widget.
+     * Currently this value is 13.
      *
      * @type member
-     * @return {int} TODOC
+     * @return {int} Box height of the checkbox
      */
     getPreferredBoxHeight : function() {
       return 13;
@@ -204,7 +210,8 @@ qx.Class.define("qx.ui.form.InputCheckSymbol",
 
 
     /**
-     * TODOC
+     * Sets an additional HtmlProperty "disabled" for the IE
+     * if the checkbox widget is not enabled.
      *
      * @type member
      * @return {void}

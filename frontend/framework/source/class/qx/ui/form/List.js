@@ -90,12 +90,14 @@ qx.Class.define("qx.ui.form.List",
       init : 1
     },
 
+    /** Controls whether the inline-find feature is activated or not */
     enableInlineFind :
     {
       check : "Boolean",
       init : true
     },
 
+    /** Controls whether the leading item should be marked especially or not */
     markLeadingItem :
     {
       check : "Boolean",
@@ -126,7 +128,7 @@ qx.Class.define("qx.ui.form.List",
     */
 
     /**
-     * TODOC
+     * Accessor method for the selection manager
      *
      * @type member
      * @return {qx.ui.selection.SelectionManager} TODOC
@@ -137,11 +139,13 @@ qx.Class.define("qx.ui.form.List",
 
 
     /**
-     * TODOC
+     * Traverses the widget tree upwards until a 
+     * corresponding qx.ui.form.ListItem to given vItem
+     * (event target) is found.
      *
      * @type member
-     * @param vItem {var} TODOC
-     * @return {var} TODOC
+     * @param vItem {var} event target
+     * @return {qx.ui.form.ListItem} List item
      */
     getListItemTarget : function(vItem)
     {
@@ -154,10 +158,10 @@ qx.Class.define("qx.ui.form.List",
 
 
     /**
-     * TODOC
+     * Returns the first selected list item.
      *
      * @type member
-     * @return {var} TODOC
+     * @return {qx.ui.form.ListItem|null} Selected item or null
      */
     getSelectedItem : function() {
       return this.getSelectedItems()[0] || null;
@@ -165,10 +169,10 @@ qx.Class.define("qx.ui.form.List",
 
 
     /**
-     * TODOC
+     * Returns all selected list items (uses the selection manager).
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Array} Returns all selected list items.
      */
     getSelectedItems : function() {
       return this._manager.getSelectedItems();
@@ -184,10 +188,11 @@ qx.Class.define("qx.ui.form.List",
     */
 
     /**
-     * TODOC
+     * Delegates the event to the selection manager if a list item could be
+     * resolved out of the event target.
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.MouseEvent} mouseOver event
      * @return {void}
      */
     _onmouseover : function(e)
@@ -201,10 +206,11 @@ qx.Class.define("qx.ui.form.List",
 
 
     /**
-     * TODOC
+     * Delegates the event to the selection manager if a list item could be
+     * resolved out of the event target.
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.event.MouseEvent} mouseDown event
      * @return {void}
      */
     _onmousedown : function(e)
@@ -218,10 +224,11 @@ qx.Class.define("qx.ui.form.List",
 
 
     /**
-     * TODOC
+     * Delegates the event to the selection manager if a list item could be
+     * resolved out of the event target.
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.MouseEvent} mouseUp event
      * @return {void}
      */
     _onmouseup : function(e)
@@ -235,10 +242,11 @@ qx.Class.define("qx.ui.form.List",
 
 
     /**
-     * TODOC
+     * Delegates the event to the selection manager if a list item could be
+     * resolved out of the event target.
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.MouseEvent} click event
      * @return {void}
      */
     _onclick : function(e)
@@ -252,10 +260,11 @@ qx.Class.define("qx.ui.form.List",
 
 
     /**
-     * TODOC
+     * Delegates the event to the selection manager if a list item could be
+     * resolved out of the event target.
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.MouseEvent} double-click event
      * @return {void}
      */
     _ondblclick : function(e)
@@ -277,10 +286,11 @@ qx.Class.define("qx.ui.form.List",
     */
 
     /**
-     * TODOC
+     * Dispatches the "action" event on every selected list item
+     * when the "Enter" key is pressed
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.KeyEvent} keyDown event
      * @return {void}
      */
     _onkeydown : function(e)
@@ -299,10 +309,10 @@ qx.Class.define("qx.ui.form.List",
 
 
     /**
-     * TODOC
+     * Delegates the control of the event to selection manager
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.KeyEvent} keyPress event
      * @return {void}
      */
     _onkeypress : function(e)
@@ -315,10 +325,10 @@ qx.Class.define("qx.ui.form.List",
 
 
     /**
-     * TODOC
+     * Handles the inline find - if enabled
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.KeyEvent} keyInput event
      * @return {void}
      */
     _onkeyinput : function(e)
@@ -381,13 +391,16 @@ qx.Class.define("qx.ui.form.List",
     */
 
     /**
-     * TODOC
+     * Executes different (depending on the given search type) methods
+     * of qx.ui.form.ListItem for searching the given search string. 
+     * Returns a reference to the qx.ui.form.ListItem where the search string
+     * is found first.
      *
      * @type member
-     * @param vUserValue {var} TODOC
-     * @param vStartIndex {var} TODOC
-     * @param vType {var} TODOC
-     * @return {var | null} TODOC
+     * @param vUserValue {String} search string
+     * @param vStartIndex {Number} start index
+     * @param vType {String} type of matching
+     * @return {qx.ui.form.ListItem | null} list item or null
      */
     _findItem : function(vUserValue, vStartIndex, vType)
     {
@@ -426,12 +439,12 @@ qx.Class.define("qx.ui.form.List",
 
 
     /**
-     * TODOC
+     * Perform a search for a string
      *
      * @type member
-     * @param vText {var} TODOC
-     * @param vStartIndex {var} TODOC
-     * @return {var} TODOC
+     * @param vText {String} search string
+     * @param vStartIndex {Number} start index
+     * @return {qx.ui.form.ListItem | null} list item or null
      */
     findString : function(vText, vStartIndex) {
       return this._findItem(vText, vStartIndex || 0, "String");
@@ -439,12 +452,12 @@ qx.Class.define("qx.ui.form.List",
 
 
     /**
-     * TODOC
+     * Perform a exact search for a string
      *
      * @type member
-     * @param vText {var} TODOC
-     * @param vStartIndex {var} TODOC
-     * @return {var} TODOC
+     * @param vText {String} search string
+     * @param vStartIndex {Number} start index
+     * @return {qx.ui.form.ListItem | null} list item or null
      */
     findStringExact : function(vText, vStartIndex) {
       return this._findItem(vText, vStartIndex || 0, "StringExact");
@@ -452,12 +465,12 @@ qx.Class.define("qx.ui.form.List",
 
 
     /**
-     * TODOC
+     * Perform a search for a value
      *
      * @type member
-     * @param vText {var} TODOC
-     * @param vStartIndex {var} TODOC
-     * @return {var} TODOC
+     *@param vText {String} search string
+     * @param vStartIndex {Number} start index
+     * @return {qx.ui.form.ListItem | null} list item or null
      */
     findValue : function(vText, vStartIndex) {
       return this._findItem(vText, vStartIndex || 0, "Value");
@@ -465,12 +478,12 @@ qx.Class.define("qx.ui.form.List",
 
 
     /**
-     * TODOC
+     * Perform a exact search for a value
      *
      * @type member
-     * @param vText {var} TODOC
-     * @param vStartIndex {var} TODOC
-     * @return {var} TODOC
+     * @param vText {String} search string
+     * @param vStartIndex {Number} start index
+     * @return {qx.ui.form.ListItem | null} list item or null
      */
     findValueExact : function(vText, vStartIndex) {
       return this._findItem(vText, vStartIndex || 0, "ValueExact");
@@ -486,12 +499,12 @@ qx.Class.define("qx.ui.form.List",
     */
 
     /**
-     * TODOC
+     * Compare method called by the sort method
      *
      * @type member
-     * @param a {Array} TODOC
-     * @param b {var} TODOC
-     * @return {var} TODOC
+     * @param a {Hash} first hash to compare
+     * @param b {Hash} second hash to compare
+     * @return {Number} Returns -1|0|1 for the sort method to control the order of the items to sort.
      */
     _sortItemsCompare : function(a, b) {
       return a.key < b.key ? -1 : a.key == b.key ? 0 : 1;
@@ -499,10 +512,10 @@ qx.Class.define("qx.ui.form.List",
 
 
     /**
-     * TODOC
+     * Sorts all items by using the string of the label.
      *
      * @type member
-     * @param vReverse {var} TODOC
+     * @param vReverse {Boolean} Whether the items should be sorted reverse or not.
      * @return {void}
      */
     sortItemsByString : function(vReverse)
@@ -532,10 +545,10 @@ qx.Class.define("qx.ui.form.List",
 
 
     /**
-     * TODOC
+     * Sorts all items by using the value.
      *
      * @type member
-     * @param vReverse {var} TODOC
+     * @param vReverse {Boolean} Whether the items should be sorted reverse or not.
      * @return {void}
      */
     sortItemsByValue : function(vReverse)
