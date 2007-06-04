@@ -522,6 +522,10 @@ qx.Class.define("qx.core.Object",
           continue;
         }
 
+        if (!this[name].dispose) {
+          throw new Error(this.classname + " has no own object " + name);
+        }
+
         this[name].dispose();
         this[name] = null;
       }
