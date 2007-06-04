@@ -107,6 +107,16 @@ qx.Class.define("demobrowser.DemoBrowser",
     this);
 
     this.widgets["treeview.bsb1"].setChecked(true);
+
+
+    // back button and bookmark support
+    this._history = qx.client.History.getInstance();
+
+    // listen for state changes
+    this._history.addEventListener("request", function(e) {
+      this.setCurrentSample(e.getData().replace("~", "/"));
+    }, this);
+
   },
 
 
@@ -120,19 +130,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
   properties :
   {
-    succCnt :
-    {
-      check : "Integer",
-      init  : 0,
-      apply : "_applySuccCnt"
-    },
 
-    failCnt :
-    {
-      check : "Integer",
-      init  : 0,
-      apply : "_applyFailCnt"
-    }
   },
 
 
@@ -351,6 +349,12 @@ qx.Class.define("demobrowser.DemoBrowser",
 
         // enable sample buttons
         this.widgets["toolbar.sampbutts"].resetEnabled();  // in case it was disabled
+
+        // update state on example change
+        var path = fwindow.location.pathname.split("/");
+        var sample = path.slice(-2).join('~');
+        this._history.addToHistory(sample, "qooxdoo » Demo Browser » " + this.polish(path.slice(-2).join(' » ')));
+
       },
       this);
 
@@ -506,109 +510,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
-    __makeProgress : function()
-    {
-      var progress = new qx.ui.layout.HorizontalBoxLayout();
-
-      progress.set(
-      {
-        height  : "auto",
-        padding : [ 10 ],
-        spacing : 10,
-        width   : "100%"
-      });
-
-      var progressb = new demobrowser.ProgressBar();
-      progress.add(progressb);
-
-      progressb.set(
-      {
-        showStepStatus : true,
-        showPcntStatus : true,
-        barColor       : "#36a618"
-      });
-
-      this.widgets["progresspane"] = progress;
-      this.widgets["progresspane.progressbar"] = progressb;
-      progress.add(new qx.ui.toolbar.Separator);
-
-      /* Wishlist:
-      var progressb = new qx.ui.component.ProgressBar();
-      progressb.set({
-        scale    : null,   // display no scale
-        startLabel : "0%",
-        endLabel   : "100%",
-        fillLabel : "(0/10)", // status label right of bar
-        fillStatus: "60%"     // fill degree of the progress bar
-      });
-      progressb.update("9/15"); // update progress
-      progressb.update("68%");  // dito
-      */
-
-      progress.add(new qx.ui.basic.Label("Failed: "));
-      var failcnt = new qx.ui.basic.Label("0");
-      progress.add(failcnt);
-      failcnt.set({ backgroundColor : "#C1ECFF" });
-
-      progress.add(new qx.ui.basic.Label("Succeeded: "));
-      var succcnt = new qx.ui.basic.Label("0");
-      progress.add(succcnt);
-      succcnt.set({ backgroundColor : "#C1ECFF" });
-      this.widgets["progresspane.succ_cnt"] = succcnt;
-      this.widgets["progresspane.fail_cnt"] = failcnt;
-
-      return progress;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
-    __makeStatus : function()
-    {
-      var statuspane = new qx.ui.layout.HorizontalBoxLayout();
-
-      statuspane.set(
-      {
-        padding : [ 10 ],
-        spacing : 10,
-        height  : "auto",
-        width   : "100%"
-      });
-
-      // Test Info
-      statuspane.add(new qx.ui.basic.Label("Selected Test: "));
-      var l1 = new qx.ui.basic.Label("");
-      statuspane.add(l1);
-      l1.set({ backgroundColor : "#C1ECFF" });
-      this.widgets["statuspane.current"] = l1;
-      statuspane.add(new qx.ui.basic.Label("Number of Tests: "));
-      var l2 = new qx.ui.basic.Label("");
-      statuspane.add(l2);
-      l2.set({ backgroundColor : "#C1ECFF" });
-      this.widgets["statuspane.number"] = l2;
-
-      statuspane.add((new qx.ui.basic.HorizontalSpacer).set({ width : "1*" }));
-
-      // System Info
-      statuspane.add(new qx.ui.basic.Label("System Status: "));
-      var l3 = new qx.ui.basic.Label("");
-      statuspane.add(l3);
-      l3.set({ width : 150 });
-      this.widgets["statuspane.systeminfo"] = l3;
-      this.widgets["statuspane.systeminfo"].setText("Loading...");
-
-      return statuspane;
-    },
 
     // ------------------------------------------------------------------------
     //   EVENT HANDLER
@@ -698,6 +599,9 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     leftReloadTree : function(e)
     {
+      this._sampleToTreeNodeMap = {};
+      var _sampleToTreeNodeMap = this._sampleToTreeNodeMap;
+
       // use tree struct
       /**
        * create widget tree from model
@@ -731,6 +635,8 @@ qx.Class.define("demobrowser.DemoBrowser",
           else
           {
             t = new qx.ui.tree.TreeFile(that.polish(currNode.label), "demobrowser/image/method_public18.gif");
+            var fullName = currNode.pwd().slice(1).join("/") + "/" + currNode.label
+            _sampleToTreeNodeMap[fullName] = t;
 
             desc = currNode.desc;
 
@@ -896,56 +802,39 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.logappender.target.setHtml("");
       this.widgets["outputviews.bar"].getManager().setSelected(this.widgets["outputviews.demopage.button"]);
 
-      // start test
-      var that = this;
-      var tlist = [];
-      var tlist1 = [];
-      var handler = this.tests.handler;
-
-      // -- Helper Functions ---------------------
-      /**
-       * build up a list that will be used by runtest() as input (var tlist)
-      */
-      function buildList(node)  // node is a modelNode
-      {
-        var tlist = [];
-        var path = handler.getPath(node);
-        var tclass = path.join(".");
-
-        if (node.hasChildren())
-        {
-          var children = node.getChildren();
-
-          for (var i=0; i<children.length; i++)
-          {
-            if (children[i].hasChildren()) {
-              tlist = tlist.concat(buildList(children[i]));
-            } else {
-              tlist.push([ tclass, children[i].label ]);
-            }
-          }
-        }
-        else
-        {
-          tlist.push([ tclass, node.label ]);
-        }
-
-        return tlist;
-      }
-
       // -- Main ---------------------------------
       var file = this.tests.selected.replace(".", "/");
       var base = file.substring(file.indexOf("/") + 1);
-      var neu = 'html/' + file;
-      var curr = this.f1.getSource();
 
-      if (curr == neu) {
-        this.f1.reload();
-      } else {
-        this.f1.setSource(neu);
-      }
+      this.setCurrentSample(file);
 
       this.widgets["outputviews.demopage.button"].setLabel(this.polish(base));
+    },
+
+
+    setCurrentSample : function(value)
+    {
+      if (!value) {
+        return;
+      }
+
+      var treeNode = this._sampleToTreeNodeMap[value];
+      treeNode.setSelected(true);
+
+      var url = 'html/' + value;
+      var curr = this.f1.getSource();
+
+      if (curr == url) {
+        this.f1.reload();
+      } else {
+        //this.f1.setSource(url);
+        if (this.f1.getContentWindow()) {
+          this.f1.getContentWindow().location.replace(url);
+        } else {
+          this.f1.setSource(url);
+        }
+      }
+
     },
 
 
@@ -1062,30 +951,6 @@ qx.Class.define("demobrowser.DemoBrowser",
      * TODOC
      *
      * @type member
-     * @param newSucc {var} TODOC
-     * @return {void}
-     */
-    _applySuccCnt : function(newSucc) {
-      this.widgets["progresspane.succ_cnt"].setText(newSucc + "");
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param newFail {var} TODOC
-     * @return {void}
-     */
-    _applyFailCnt : function(newFail) {
-      this.widgets["progresspane.fail_cnt"].setText(newFail + "");
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
      * @param url {var} TODOC
      * @return {void}
      */
@@ -1116,6 +981,13 @@ qx.Class.define("demobrowser.DemoBrowser",
         {
           this.tests.handler = new demobrowser.TreeDataHandler(treeData);
           this.leftReloadTree();
+
+          // read initial state
+          var state = this._history.getState();
+          if (state) {
+            this.setCurrentSample(state.replace("~", "/"));
+          }
+
         },
         this, 0);
       },
