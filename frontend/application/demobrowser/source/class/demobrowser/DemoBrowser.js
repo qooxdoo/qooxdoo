@@ -70,9 +70,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     this.left = left.buttview;
     this.mainsplit.addLeft(left);
 
-    // fill the tree
-    this.dataLoader("script/layout.js");
-
     // Right
     var right = new qx.ui.layout.VerticalBoxLayout();
 
