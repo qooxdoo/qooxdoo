@@ -102,6 +102,8 @@ qx.Class.define("demobrowser.DemoBrowser",
     {
       if (e.getData().getUserData('tree').getSelectedElement() == null) {
         this.widgets["toolbar.runbutton"].setEnabled(false);
+        this.widgets["toolbar.prevbutt"].setEnabled(false);
+        this.widgets["toolbar.nextbutt"].setEnabled(false);
       }
     },
     this);
@@ -190,14 +192,14 @@ qx.Class.define("demobrowser.DemoBrowser",
       var prevbutt = new qx.ui.toolbar.Button("Previous Sample", "icon/16/actions/go-left.png");
       mb.add(prevbutt);
       this.widgets["toolbar.prevbutt"] = prevbutt;
-      prevbutt.addEventListener("execute", this.ehDummyAlert, this);
+      prevbutt.addEventListener("execute", this.playPrev, this);
       prevbutt.setToolTip(new qx.ui.popup.ToolTip("Run the previous sample"));
 
       // -- next navigation
       var nextbutt = new qx.ui.toolbar.Button("Next Sample", "icon/16/actions/go-right.png");
       mb.add(nextbutt);
       this.widgets["toolbar.nextbutt"] = nextbutt;
-      nextbutt.addEventListener("execute", this.ehDummyAlert, this);
+      nextbutt.addEventListener("execute", this.playNext, this);
       nextbutt.setToolTip(new qx.ui.popup.ToolTip("Run the next sample"));
 
       toolbar.add((new qx.ui.basic.HorizontalSpacer).set({ width : "1*" }));
@@ -541,6 +543,22 @@ qx.Class.define("demobrowser.DemoBrowser",
         this.widgets["toolbar.runbutton"].setEnabled(false);
       } else {
         this.widgets["toolbar.runbutton"].resetEnabled();
+      }
+
+      if (treeNode.getUserData('modelLink').getPrevSibling())
+      {
+        this.widgets["toolbar.prevbutt"].resetEnabled();
+      } else 
+      {
+        this.widgets["toolbar.prevbutt"].setEnabled(false);
+      }
+
+      if (treeNode.getUserData('modelLink').getNextSibling())
+      {
+        this.widgets["toolbar.nextbutt"].resetEnabled();
+      } else 
+      {
+        this.widgets["toolbar.nextbutt"].setEnabled(false);
       }
 
       // update selection in other tree
@@ -1015,6 +1033,40 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     ehDummyAlert : function(e) {
       alert("Not yet implemented!");
+    },
+
+
+    playPrev : function (e) 
+    {
+      var currSamp = this.tree.getSelectedElement(); // widget
+
+      if (currSamp)
+      {
+        var otherSamp = currSamp.getUserData('modelLink').getPrevSibling().widgetLinkFull;
+        console.log(otherSamp);
+        if (otherSamp)
+        {
+          this.widgets["treeview.full"].setSelectedElement(otherSamp);
+          this.runTest();
+        }
+      }
+    },
+
+
+    playNext : function (e) 
+    {
+      var currSamp = this.tree.getSelectedElement(); // widget
+
+      if (currSamp)
+      {
+        var otherSamp = currSamp.getUserData('modelLink').getNextSibling().widgetLinkFull;
+        console.log(currSamp);
+        if (otherSamp)
+        {
+          this.widgets["treeview.full"].setSelectedElement(otherSamp);
+          this.runTest();
+        }
+      }
     },
 
 
