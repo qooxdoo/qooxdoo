@@ -547,6 +547,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         this.widgets["toolbar.runbutton"].setEnabled(false);
         this.widgets["toolbar.prevbutt"].setEnabled(false);
         this.widgets["toolbar.nextbutt"].setEnabled(false);
+        this.setCurrentSample(this.defaultUrl);
       } else {
         this.widgets["toolbar.runbutton"].resetEnabled();
         if (treeNode.getUserData('modelLink').getPrevSibling())
@@ -1019,6 +1020,9 @@ qx.Class.define("demobrowser.DemoBrowser",
           var state = this._history.getState();
           if (state) {
             this.setCurrentSample(state.replace("~", "/"));
+          } else 
+          {
+            this.setCurrentSample(this.defaultUrl);
           }
 
         },
