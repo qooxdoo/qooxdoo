@@ -115,8 +115,12 @@ qx.Class.define("demobrowser.DemoBrowser",
     this._history = qx.client.History.getInstance();
 
     // listen for state changes
-    this._history.addEventListener("request", function(e) {
-      this.setCurrentSample(e.getData().replace("~", "/"));
+    this._history.addEventListener("request", function(e)
+    {
+      var newSample = e.getData().replace("~", "/");
+      if (this._currentSample != newSample) {
+        this.setCurrentSample(newSample);
+      }
     }, this);
 
   },
@@ -383,11 +387,13 @@ qx.Class.define("demobrowser.DemoBrowser",
         font     : new qx.ui.core.Font(11, ["Consolas", "Courier New", "monospace"])
       });
 
+      this.logappender = new qx.log.appender.HtmlElement;
+      this.logger = new qx.log.Logger("Demo Browser");
+      this.logger.addAppender(this.logappender);
+
       this.f2.addEventListener("appear", function(e) {
         this.logappender.setElement(this.f2.getElement());
       }, this);
-
-      this.logappender = new qx.log.appender.HtmlElement;
 
       // Third Page
       // -- Tab Button
@@ -819,9 +825,6 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       // -- Vars and Setup -----------------------
       this.toolbar.setEnabled(false);
-
-      // TODO: do not use appender internals
-      this.logappender.clear();
       this.widgets["outputviews.bar"].getManager().setSelected(this.widgets["outputviews.demopage.button"]);
 
       // -- Main ---------------------------------
@@ -843,13 +846,15 @@ qx.Class.define("demobrowser.DemoBrowser",
       var treeNode = this._sampleToTreeNodeMap[value];
       treeNode.setSelected(true);
 
-      var url = 'html/' + value;
-      var curr = this.f1.getSource();
+      // Clear log
+      this.logappender.clear();
+      this.logger.info("load demo: " + value);
 
-      if (curr == url) {
+      if (this._currentSample == value) {
         this.f1.reload();
       } else {
-        //this.f1.setSource(url);
+        var url = 'html/' + value;
+
         if (this.f1.getContentWindow()) {
           this.f1.getContentWindow().location.replace(url);
         } else {
@@ -857,6 +862,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         }
       }
 
+      this._currentSample = value;
     },
 
 
