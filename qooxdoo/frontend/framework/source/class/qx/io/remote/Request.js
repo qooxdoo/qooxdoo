@@ -109,7 +109,7 @@ qx.Class.define("qx.io.remote.Request",
      * Fired once the request has finished successfully. The event object
      * can be used to read the transferred data.
      */
-    "completed" : "qqx.io.remote.Response",
+    "completed" : "qx.io.remote.Response",
 
     /** Fired when the pending request has been aborted. */
     "aborted" : "qx.io.remote.Response",
