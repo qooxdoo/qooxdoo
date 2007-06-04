@@ -108,18 +108,22 @@ qx.core.Init.getInstance().defineMain(
             }
         }
 
-        /*
-         * Reset the default of always showing the plus/minus symbol.  The
-         * default is 'false'.  We want to always display it for each folder
-         * (and then stop displaying it if we determine upon open that there
-         * are no contents).
-         */
-        var constructor = qx.Class.getByName("qx.ui.treefullcontrol.TreeFolder");
-        qx.Proto = constructor.prototype;
-        qx.OO.changeProperty({
-              name : "alwaysShowPlusMinusSymbol",
-              type : "boolean",
-              defaultValue : true });
+	      /*
+	       * Refine the init value of "always showing the plus/minus symbol".  The
+	       * default is 'false'.  We want to always display it for each folder
+	       * (and then stop displaying it if we determine upon open that there are
+	       * no contents).
+	       *
+	       * We will therefore patch the tree folder class and refine the 
+	       * appropriate property.
+	       */
+				qx.Class.patch( qx.ui.treefullcontrol.TreeFolder, 
+				  qx.Mixin.define("sample.patch.TreeFolder", {
+						properties : {
+							"alwaysShowPlusMinusSymbol" : { refine: true, init: true }
+						}
+					})
+				);
 
         var rpc = new qx.io.remote.Rpc();
         rpc.setTimeout(10000);
