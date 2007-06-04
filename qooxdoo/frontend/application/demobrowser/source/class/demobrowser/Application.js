@@ -39,6 +39,12 @@ qx.Class.define("demobrowser.Application",
 
   members :
   {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
     main : function()
     {
       this.base(arguments);
@@ -56,11 +62,9 @@ qx.Class.define("demobrowser.Application",
     }
   },
 
-  settings : {
-    "demobrowser.resourceUri" : "./resource"
-  },
+  settings : { "demobrowser.resourceUri" : "./resource" },
 
-  destruct : function () {
+  destruct : function() {
     this._disposeObjects("viewer");
   }
 });
