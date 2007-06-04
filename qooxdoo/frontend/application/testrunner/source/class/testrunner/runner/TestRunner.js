@@ -131,7 +131,7 @@ qx.Class.define("testrunner.runner.TestRunner",
     // add eventhandler now, after objects are created
     this.widgets["treeview"].getBar().getManager().addEventListener("changeSelected", function(e)
     {
-      if (e.getData().tree.getSelectedElement() == null) {
+      if (e.getData().getUserData('tree').getSelectedElement() == null) {
         this.widgets["toolbar.runbutton"].setEnabled(false);
       }
     },
@@ -155,9 +155,6 @@ qx.Class.define("testrunner.runner.TestRunner",
   },
 
 
-
-  // EXPERIMENTAL !
-  // var treetest = new testrunner.runner.TreeTest();
 
   /*
   *****************************************************************************
@@ -421,7 +418,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       p1.add(tree);
       this.tree = tree;
       this.widgets["treeview.full"] = tree;
-      bsb1.tree = tree;  // for changeSelected handling
+      bsb1.setUserData('tree', tree);  // for changeSelected handling
 
       tree.set(
       {
@@ -447,7 +444,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       p2.add(tree1);
       this.tree1 = tree1;
       this.widgets["treeview.flat"] = tree1;
-      bsb2.tree = tree1;  // for changeSelected handling
+      bsb2.setUserData('tree', tree1);  // for changeSelected handling
 
       tree1.set(
       {
@@ -1197,5 +1194,33 @@ qx.Class.define("testrunner.runner.TestRunner",
     appender : function(str) {
 
     }
+  },
+
+
+  destruct : function () 
+  {
+    this._disposeFields(
+      "widgets",
+      "tests",
+      "tree",
+      "frameWindow"
+    );
+    this._disposeObjects(
+      "header",
+      "mainsplit",
+      "left",
+      "runbutton",
+      "testSuiteUrl",
+      "reloadbutton",
+      "reloadswitch",
+      "toolbar",
+      "f1",
+      "f2",
+      "logappender",
+      "iframe",
+      "tree1",
+      "loader"
+    );
   }
+
 });

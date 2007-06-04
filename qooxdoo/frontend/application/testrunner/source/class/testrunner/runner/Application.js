@@ -90,5 +90,12 @@ qx.Class.define("testrunner.runner.Application",
 
   settings : {
     "testrunner.resourceUri" : "./resource"
+  },
+
+
+  destruct : function () 
+  {
+    this._disposeObjects("viewer");
   }
+
 });
