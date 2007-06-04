@@ -126,8 +126,6 @@ qx.Class.define("demobrowser.DemoBrowser",
   },
 
 
-
-
   /*
   *****************************************************************************
      PROPERTIES
@@ -547,24 +545,25 @@ qx.Class.define("demobrowser.DemoBrowser",
       // update toolbar
       if (treeNode instanceof qx.ui.tree.TreeFolder) {
         this.widgets["toolbar.runbutton"].setEnabled(false);
+        this.widgets["toolbar.prevbutt"].setEnabled(false);
+        this.widgets["toolbar.nextbutt"].setEnabled(false);
       } else {
         this.widgets["toolbar.runbutton"].resetEnabled();
-      }
+        if (treeNode.getUserData('modelLink').getPrevSibling())
+        {
+          this.widgets["toolbar.prevbutt"].resetEnabled();
+        } else 
+        {
+          this.widgets["toolbar.prevbutt"].setEnabled(false);
+        }
 
-      if (treeNode.getUserData('modelLink').getPrevSibling())
-      {
-        this.widgets["toolbar.prevbutt"].resetEnabled();
-      } else 
-      {
-        this.widgets["toolbar.prevbutt"].setEnabled(false);
-      }
-
-      if (treeNode.getUserData('modelLink').getNextSibling())
-      {
-        this.widgets["toolbar.nextbutt"].resetEnabled();
-      } else 
-      {
-        this.widgets["toolbar.nextbutt"].setEnabled(false);
+        if (treeNode.getUserData('modelLink').getNextSibling())
+        {
+          this.widgets["toolbar.nextbutt"].resetEnabled();
+        } else 
+        {
+          this.widgets["toolbar.nextbutt"].setEnabled(false);
+        }
       }
 
       // update selection in other tree
@@ -843,8 +842,15 @@ qx.Class.define("demobrowser.DemoBrowser",
         return;
       }
 
+      var url;
       var treeNode = this._sampleToTreeNodeMap[value];
-      treeNode.setSelected(true);
+      if (treeNode){
+        treeNode.setSelected(true);
+        url = 'html/' + value;
+      } else
+      {
+        url = this.defaultUrl;
+      }
 
       // Clear log
       this.logappender.clear();
@@ -853,8 +859,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       if (this._currentSample == value) {
         this.f1.reload();
       } else {
-        var url = 'html/' + value;
-
+        //this.f1.setSource(url);
         if (this.f1.getContentWindow()) {
           this.f1.getContentWindow().location.replace(url);
         } else {
@@ -1095,7 +1100,11 @@ qx.Class.define("demobrowser.DemoBrowser",
      * @param str {String} TODOC
      * @return {void}
      */
-    appender : function(str) {}
+    appender : function(str) {},
+
+    
+    defaultUrl : "html/welcome.html"
+
   },
 
 
