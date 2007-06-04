@@ -64,8 +64,13 @@ qx.Class.define("qx.io.remote.Request",
       this.setUrl(vUrl);
     }
 
-    this.setMethod(vMethod || qx.net.Http.METHOD_GET);
-    this.setResponseType(vResponseType || qx.util.Mime.TEXT);
+    if (vMethod !== undefined) {
+      this.setMethod(vMethod);
+    }
+    
+    if (vResponseType !== undefined) {
+      this.setResponseType(vResponseType);
+    }
 
     this.setProhibitCaching(true);
 
