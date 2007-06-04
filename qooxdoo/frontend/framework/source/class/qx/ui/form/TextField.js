@@ -342,31 +342,66 @@ qx.Class.define("qx.ui.form.TextField",
      * We could not use width/height = 100% because the outer elements
      * could have paddings and borders which will break. We use the
      * computed inner width/height instead
+     * 
+     * @return {void}
      */
-    _postApply : function(changes)
+    _postApply : function()
     {
       this._syncFieldWidth();
       this._syncFieldHeight();
     },
-
+   
+    /**
+     * Changes the inner width of the text field. 
+     * Calls the protected method {@link #_syncFieldWidth} to 
+     * sync the inner width.
+     * 
+     * @param value {Number} new value
+     * @param old {Nubmer} old value
+     * @return {void}
+     */
     _changeInnerWidth : function(value, old) {
       this._syncFieldWidth();
     },
 
+    /**
+     * Changes the inner height of the text field. 
+     * Calls the protected method {@link #_syncFieldHeight} to 
+     * sync the inner height.
+     * 
+     * @param value {Number} new value
+     * @param old {Nubmer} old value
+     * @return {void}
+     */
     _changeInnerHeight : function(value, old) {
       this._syncFieldHeight();
     },
+    
 
+    /**
+     * Synchronizes the styleProperty <code>width</code> with 
+     * the current <code>innerWidth</code>
+     * 
+     * @return {void}
+     */
     _syncFieldWidth : function()
     {
       this._inputElement.style.width = this.getInnerWidth() + "px";
     },
+    
 
+    /**
+     * Synchronizes the styleProperty <code>width</code> with 
+     * the current <code>innerWidth</code>
+     * 
+     * @return {void}
+     */
     _syncFieldHeight : function()
     {
       // Reduce height by 2 pixels (the manual or mshtml margin)
       this._inputElement.style.height = (this.getInnerHeight() - 2) + "px";
     },
+    
 
     _applyCursor : function(value, old)
     {
@@ -375,6 +410,10 @@ qx.Class.define("qx.ui.form.TextField",
       }
     },
 
+    
+    /**
+     * Renders the cursor using the styleProperty <code>cursor</code> directly.
+     */
     _renderCursor : function()
     {
       var style = this._inputElement.style;
@@ -401,6 +440,10 @@ qx.Class.define("qx.ui.form.TextField",
       }
     },
 
+    
+    /**
+     * Renders the text align using the styleProperty <code>textAlign</code> directly.
+     */
     _renderTextAlign : function() {
       this._inputElement.style.textAlign = this.getTextAlign() || "";
     },
@@ -443,7 +486,7 @@ qx.Class.define("qx.ui.form.TextField",
 
 
     /**
-     * Apply the maxLenght property.
+     * Apply the maxLength property.
      *
      * @type member
      * @param value {var} Current value
@@ -474,6 +517,9 @@ qx.Class.define("qx.ui.form.TextField",
 
     /**
      * Sync color to embedded input element
+     * 
+     * @param value {String} new color value to render
+     * @return {void}
      */
     _styleTextColor : function(value)
     {
@@ -495,8 +541,12 @@ qx.Class.define("qx.ui.form.TextField",
 
 
     /**
+     * Utility method to render the given font. Calls the
+     * {@link #_renderFont} method.
+     * 
      * @type member
-     * @param value {qx.ui.core.Font}
+     * @param value {qx.ui.core.Font} new font value to render
+     * @return {void}
      */
     _styleFont : function(value)
     {
@@ -504,6 +554,12 @@ qx.Class.define("qx.ui.form.TextField",
       this._renderFont();
     },
 
+
+    /**
+     * Renders the new font
+     * 
+     * @return {void}
+     */
     _renderFont : function()
     {
       var inp = this._inputElement;
@@ -515,6 +571,12 @@ qx.Class.define("qx.ui.form.TextField",
       }
     },
 
+
+    /**
+     * Renders the color using the styleProperty <code>color</code> directly.
+     * 
+     * @return {void}
+     */
     _renderColor : function()
     {
       var inp = this._inputElement;

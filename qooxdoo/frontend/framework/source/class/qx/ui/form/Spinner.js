@@ -257,6 +257,7 @@ qx.Class.define("qx.ui.form.Spinner",
       init : 1.01
     },
 
+    /** Controls whether the textfield of the spinner is editable or not */
     editable :
     {
       check : "Boolean",
@@ -264,6 +265,7 @@ qx.Class.define("qx.ui.form.Spinner",
       apply : "_applyEditable"
     },
 
+    /** Range manager */
     manager :
     {
       check : "qx.util.range.IRange",
@@ -271,6 +273,8 @@ qx.Class.define("qx.ui.form.Spinner",
       dispose : true
     },
 
+    
+    /** Holding a reference to the protected {@link _checkValue} method */
     checkValueFunction :
     {
       apply : "_applyCheckValueFunction"
@@ -340,7 +344,7 @@ qx.Class.define("qx.ui.form.Spinner",
 
 
     /**
-     * TODOC
+     * Applies the method for checking values
      *
      * @type member
      * @param value {var} Current value
@@ -358,10 +362,11 @@ qx.Class.define("qx.ui.form.Spinner",
     */
 
     /**
-     * TODOC
+     * Returns the prefered inner width for the spinner widget. Currently this
+     * method returns 50.
      *
      * @type member
-     * @return {int} TODOC
+     * @return {int} prefered inner width for the spinner widget
      */
     _computePreferredInnerWidth : function() {
       return 50;
@@ -369,10 +374,11 @@ qx.Class.define("qx.ui.form.Spinner",
 
 
     /**
-     * TODOC
+     * Return the prefered inner height for the spinner widget. Currently this
+     * method returns 14
      *
      * @type member
-     * @return {int} TODOC
+     * @return {int} prefered inner height for the spinner widget
      */
     _computePreferredInnerHeight : function() {
       return 14;
@@ -388,10 +394,13 @@ qx.Class.define("qx.ui.form.Spinner",
     */
 
     /**
-     * TODOC
+     * Callback for the "keyPress" event.<br/>
+     * Perform action when "Enter" (without "Alt"), control keys 
+     * and numeric (0-9) keys are pressed. Suppress all key events for
+     * events without modifiers.
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.KeyEvent} keyPress event
      * @return {void}
      */
     _onkeypress : function(e)
@@ -441,10 +450,15 @@ qx.Class.define("qx.ui.form.Spinner",
 
 
     /**
-     * TODOC
+     * Callback for "keyDown" event.<br/>
+     * Controls the interval mode ("single" or "page") 
+     * and the interval increase by detecting "Up"/"Down" 
+     * and "PageUp"/"PageDown" keys.
+     * Starting a timer to control the incrementing of the 
+     * spinner value.
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.KeyEvent} keyDown event
      * @return {void}
      */
     _onkeydown : function(e)
@@ -486,10 +500,14 @@ qx.Class.define("qx.ui.form.Spinner",
 
 
     /**
-     * TODOC
+     * Callback for "keyUp" event.<br/>
+     * Detecting "Up"/"Down" and "PageUp"/"PageDown" keys.
+     * If detected the interval mode and interval increase get resetted
+     * and the timer for the control of the increase of the spinner value
+     * gets stopped.
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.KeyEvent} keyUp event
      * @return {void}
      */
     _onkeyup : function(e)
@@ -520,10 +538,12 @@ qx.Class.define("qx.ui.form.Spinner",
     */
 
     /**
-     * TODOC
+     * Callback method for the "mouseDown" event of the spinner buttons.<br/>
+     * State handling, registering event listeners at the spinner button and 
+     * invoking the increment management (resets increments, setup and start timer etc.).
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.MouseEvent} mouseDown event
      * @return {void}
      */
     _onmousedown : function(e)
@@ -553,10 +573,13 @@ qx.Class.define("qx.ui.form.Spinner",
 
 
     /**
-     * TODOC
+     * Callback method for the "mouseUp" event of the spinner buttons.<br/>
+     * State handling, removing event listeners at the spinner button, focusing
+     * the text field and resetting the interval management (stopping timer, 
+     * resetting interval increase).
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.MouseEvent} mouseUp event
      * @return {void}
      */
     _onmouseup : function(e)
@@ -577,10 +600,12 @@ qx.Class.define("qx.ui.form.Spinner",
 
 
     /**
-     * TODOC
+     * Callback method for the "mouseWheel" event.<br/>
+     * Delegates the in-/decrementing to the manager and
+     * selects the text field.
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.MouseEvent} mouseWheel event
      * @return {void}
      */
     _onmousewheel : function(e)
@@ -611,10 +636,12 @@ qx.Class.define("qx.ui.form.Spinner",
     */
 
     /**
-     * TODOC
+     * Callback method for the "input" event.<br/>
+     * Delegates the further processing to the method
+     * hold by the "checkValue" property.
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.DataEvent} input event
      * @return {void}
      */
     _oninput : function(e) {
@@ -623,10 +650,14 @@ qx.Class.define("qx.ui.form.Spinner",
 
 
     /**
-     * TODOC
+     * Callback method for the "change" event.<br/>
+     * Sets the value of the text field and enables/disables
+     * the up-/down-buttons of the min-/max-value are reached
+     * (additionally stops the timer of the min-/max-boundaries are reached)
+     * Dispatched the "change" event.
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.ChangeEvent} change event
      * @return {void}
      */
     _onchange : function(e)
@@ -662,10 +693,11 @@ qx.Class.define("qx.ui.form.Spinner",
 
 
     /**
-     * TODOC
+     * Callback method for the "blur" event.<br/>
+     * Calls the method of the "checkValueFunction" property
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.FocusEvent} blur event
      * @return {void}
      */
     _onblur : function(e) {
@@ -682,10 +714,10 @@ qx.Class.define("qx.ui.form.Spinner",
     */
 
     /**
-     * TODOC
+     * Mapping to the "setValue" method of the Range manager
      *
      * @type member
-     * @param nValue {Number} TODOC
+     * @param nValue {Number} new value of the spinner
      * @return {void}
      */
     setValue : function(nValue) {
@@ -694,10 +726,10 @@ qx.Class.define("qx.ui.form.Spinner",
 
 
     /**
-     * TODOC
+     * Mapping to the "getValue" method of the Range manager
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Number} Current value of the spinner
      */
     getValue : function()
     {
@@ -707,10 +739,10 @@ qx.Class.define("qx.ui.form.Spinner",
 
 
     /**
-     * TODOC
+     * Mapping to the "resetValue" method of the Range manager
      *
      * @type member
-     * @return {var} TODOC
+     * @return {void}
      */
     resetValue : function() {
       this.getManager().resetValue();
@@ -718,11 +750,11 @@ qx.Class.define("qx.ui.form.Spinner",
 
 
     /**
-     * TODOC
+     * Mapping to the "setMax" method of the Range manager
      *
      * @type member
-     * @param vMax {var} TODOC
-     * @return {var} TODOC
+     * @param vMax {Number} new max value of the spinner
+     * @return {Number} new max value of the spinner
      */
     setMax : function(vMax) {
       return this.getManager().setMax(vMax);
@@ -730,10 +762,10 @@ qx.Class.define("qx.ui.form.Spinner",
 
 
     /**
-     * TODOC
+     * Mapping to the "getMax" method of the Range manager
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Number} current max value of the spinner
      */
     getMax : function() {
       return this.getManager().getMax();
@@ -741,11 +773,11 @@ qx.Class.define("qx.ui.form.Spinner",
 
 
     /**
-     * TODOC
+     * Mapping to the "setMin" method of the Range manager
      *
      * @type member
-     * @param vMin {var} TODOC
-     * @return {var} TODOC
+     * @param vMin {Number} new min value of the spinner
+     * @return {Number} new min value of the spinner
      */
     setMin : function(vMin) {
       return this.getManager().setMin(vMin);
@@ -753,10 +785,10 @@ qx.Class.define("qx.ui.form.Spinner",
 
 
     /**
-     * TODOC
+     * Mapping to the "getMin" method of the Range manager
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Number} current min value of the spinner
      */
     getMin : function() {
       return this.getManager().getMin();
@@ -775,10 +807,13 @@ qx.Class.define("qx.ui.form.Spinner",
 
 
     /**
-     * TODOC
+     * Callback method for the "interval" event.<br/>
+     * Stops the timer and sets a new interval. Executes the increment
+     * of the spinner depending on the intervalMode and restarts the timer with 
+     * the new interval.
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.Event} interval event
      * @return {void}
      */
     _oninterval : function(e)
@@ -825,11 +860,11 @@ qx.Class.define("qx.ui.form.Spinner",
     */
 
     /**
-     * TODOC
+     * Default check value utility method
      *
      * @type member
-     * @param acceptEmpty {var} TODOC
-     * @param acceptEdit {var} TODOC
+     * @param acceptEmpty {Boolean} Whether empty values are allowed or not.
+     * @param acceptEdit {Boolean} Whether editing is accepted or not.
      * @return {void}
      */
     __checkValue : function(acceptEmpty, acceptEdit)
@@ -923,7 +958,7 @@ qx.Class.define("qx.ui.form.Spinner",
 
 
     /**
-     * TODOC
+     * Performs a normal increment
      *
      * @type member
      * @return {void}
@@ -949,7 +984,7 @@ qx.Class.define("qx.ui.form.Spinner",
 
 
     /**
-     * TODOC
+     * Performs a page increment
      *
      * @type member
      * @return {void}
@@ -974,7 +1009,7 @@ qx.Class.define("qx.ui.form.Spinner",
 
 
     /**
-     * TODOC
+     * Reset the increments
      *
      * @type member
      * @return {void}

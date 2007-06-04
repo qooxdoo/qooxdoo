@@ -104,6 +104,7 @@ qx.Class.define("qx.ui.form.ListItem",
       init : true
     },
 
+    /** Fires a "changeValue" (qx.event.type.ChangeEvent) event */
     value : {
       event : "changeValue"
     }
@@ -127,7 +128,8 @@ qx.Class.define("qx.ui.form.ListItem",
     */
 
     /**
-     * TODOC
+     * Sets/removes the styleProperties "MozOutline" and "outline" whether the
+     * item has the state "lead" or not
      *
      * @type member
      * @return {void}
@@ -148,10 +150,10 @@ qx.Class.define("qx.ui.form.ListItem",
 
     // Remove default outline focus border
     /**
-     * TODOC
+     * Remove default outline focus border - currently not implemented
      *
      * @type member
-     * @param vStates {var} TODOC
+     * @param vStates {var} states
      * @return {void}
      */
     _applyStateStyleFocus : function(vStates) {},
@@ -166,11 +168,12 @@ qx.Class.define("qx.ui.form.ListItem",
     */
 
     /**
-     * TODOC
+     * Execute by the "_findItem" method at {@link qx.ui.form.List} to perform 
+     * a string search
      *
      * @type member
-     * @param vText {var} TODOC
-     * @return {var} TODOC
+     * @param vText {String} String which should be matched with the ListItem's label
+     * @return {Boolean} Match found
      */
     matchesString : function(vText) {
       return vText != "" && this.getLabel().toString().toLowerCase().indexOf(vText.toLowerCase()) == 0;
@@ -178,11 +181,12 @@ qx.Class.define("qx.ui.form.ListItem",
 
 
     /**
-     * TODOC
+     * Execute by the "_findItem" method at {@link qx.ui.form.List} to perform 
+     * an exact string search
      *
      * @type member
-     * @param vText {var} TODOC
-     * @return {var} TODOC
+     * @param vText {String} String which should be matched exactly with the ListItem's label
+     * @return {Boolean} Match found
      */
     matchesStringExact : function(vText) {
       return vText != "" && this.getLabel().toString().toLowerCase() == String(vText).toLowerCase();
@@ -190,11 +194,12 @@ qx.Class.define("qx.ui.form.ListItem",
 
 
     /**
-     * TODOC
+     * Execute by the "_findItem" method at {@link qx.ui.form.List} to perform 
+     * a value search
      *
      * @type member
-     * @param vText {var} TODOC
-     * @return {var} TODOC
+     * @param vText {String} String which should be matched with the ListItem's value
+     * @return {Boolean} Match found
      */
     matchesValue : function(vText) {
       return vText != "" && this.getValue().toLowerCase().indexOf(vText.toLowerCase()) == 0;
@@ -202,11 +207,12 @@ qx.Class.define("qx.ui.form.ListItem",
 
 
     /**
-     * TODOC
+     * Execute by the "_findItem" method at {@link qx.ui.form.List} to perform 
+     * an exact value search
      *
      * @type member
-     * @param vText {var} TODOC
-     * @return {var} TODOC
+     * @param vText {String} String which should be matched exactly with the ListItem's value
+     * @return {Boolean} Match found
      */
     matchesValueExact : function(vText) {
       return vText != "" && this.getValue().toLowerCase() == String(vText).toLowerCase();
@@ -222,10 +228,11 @@ qx.Class.define("qx.ui.form.ListItem",
     */
 
     /**
-     * TODOC
+     * Callback method for the double-click event of the ListItem.<br/>
+     * Executes an registered command - if available.
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.Mouse} double-click event
      * @return {void}
      */
     _ondblclick : function(e)
