@@ -383,5 +383,18 @@ qx.Class.define("testrunner.runner.ProgressBar",
     _applyBarColor : function(newColor) {
       this.bar.setBackgroundColor(newColor);
     }
+  },
+
+
+  destruct : function () 
+  {
+    this._disposeObjects(
+      "label",
+      "hull",
+      "bar",
+      "stepStatus",
+      "pcntStatus"
+    );
   }
+
 });

@@ -422,5 +422,13 @@ qx.Class.define("testrunner.runner.TestHandler",
         return num;
       }
     }
+  },
+
+
+  destruct : function () 
+  {
+    this._disposeFields("tmap");
+    this._disposeObjects("ttree");
   }
+
 });

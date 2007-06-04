@@ -155,5 +155,12 @@ qx.Class.define("testrunner.runner.TestResultView",
       this._testResults = [];
       this.setHtml("");
     }
+  },
+
+
+  destruct : function () 
+  {
+    this._disposeFields("_testResults");
   }
+
 });

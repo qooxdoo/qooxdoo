@@ -93,5 +93,12 @@ qx.Class.define("testrunner.runner.TestAppender",
       // alert("\n" + text + "\n" + this.formatLogEvent(evt));
       this.target.setHtml(this.target.getHtml() + text + this.formatLogEvent(evt) + "<br/>");
     }
+  },
+
+
+  destruct : function ()
+  {
+    this._disposeObjects("target");
   }
+
 });
