@@ -59,6 +59,9 @@ qx.Class.define("qx.ui.core.ClientDocument",
     // Init element
     this.setElement(this._document.body);
 
+    // Reset absolute position
+    this._document.body.style.position = "";
+
     // Disable IE background image cache
     try {
       document.execCommand("BackgroundImageCache", false, true);
