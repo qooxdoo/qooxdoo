@@ -59,14 +59,14 @@ qx.Class.define("qx.dev.TimeTracker",
   statics :
   {
     /**
-     * TODOC
+     * Internal comparison method
      *
      * @type static
-     * @param a {Number} TODOC
-     * @param b {Number} TODOC
-     * @return {Number} TODOC
+     * @param a {Number} first number
+     * @param b {Number} second number
+     * @return {Number} Returns the result of a-b
      */
-    compare : function(a, b) {
+    _compare : function(a, b) {
       return a - b;
     }
   },
@@ -89,7 +89,7 @@ qx.Class.define("qx.dev.TimeTracker",
     */
 
     /**
-     * TODOC
+     * Generate the basic button set layout
      *
      * @type member
      * @return {void}
@@ -154,14 +154,14 @@ qx.Class.define("qx.dev.TimeTracker",
 
 
     /**
-     * TODOC
+     * Start the measuring process
      *
      * @type member
-     * @param rounds {var} TODOC
-     * @param vLoops {var} TODOC
+     * @param rounds {Integer} number of rounds
+     * @param loops {Integer} number of loops
      * @return {void}
      */
-    start : function(rounds, vLoops)
+    start : function(rounds, loops)
     {
       var funcs = this._functions;
       var len = funcs.length;
@@ -196,7 +196,7 @@ qx.Class.define("qx.dev.TimeTracker",
         {
           start = (new Date).valueOf();
 
-          funcs[j](vLoops);
+          funcs[j](loops);
 
           localTimes.push((new Date).valueOf() - start);
         }
@@ -241,7 +241,7 @@ qx.Class.define("qx.dev.TimeTracker",
           median.push(allTimes[i][j]);
         }
 
-        median.sort(qx.dev.TimeTracker.compare);
+        median.sort(qx.dev.TimeTracker._compare);
         medianValue = median[Math.floor(rounds / 2)].toString();
 
         medianAll.push(medianValue);
