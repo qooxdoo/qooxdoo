@@ -381,7 +381,11 @@ qx.Class.define("demobrowser.DemoBrowser",
         font     : new qx.ui.core.Font(11, ["Consolas", "Courier New", "monospace"])
       });
 
-      this.logappender = new demobrowser.LogAppender(this.f2);
+      this.f2.addEventListener("appear", function(e) {
+        this.logappender.setElement(this.f2.getElement());
+      }, this);
+
+      this.logappender = new qx.log.appender.HtmlElement;
 
       // Third Page
       // -- Tab Button
@@ -799,7 +803,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.toolbar.setEnabled(false);
 
       // TODO: do not use appender internals
-      this.logappender.target.setHtml("");
+      this.logappender.clear();
       this.widgets["outputviews.bar"].getManager().setSelected(this.widgets["outputviews.demopage.button"]);
 
       // -- Main ---------------------------------
