@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -18,35 +18,36 @@
 ************************************************************************ */
 
 /**
- *<PRE>
- * NAME
- *  IntRange - create a list of successive integers (inspired by Matthias Miller
- *            http://www.outofhanwell.com/blog/index.php?title=javascript_range_function&more=1&c=1&tb=1&pb=1)
+ * Create a list of successive integers.
+ * 
+ * WARNING: Experimental! 
+ *          Most likely to change in the future. May be pimped up by ideas
+ *          from http://www.mochikit.com/doc/html/MochiKit/Iter.html#fn-range
+ *          or consolidated with {@link qx.util.range.Range}
+ * 
+ * The constructor can take a negative step width, or start greater than stop, 
+ * to create decreasing ranges.
  *
- * SYNTAX
- *  var r = new qx.util.range.IntRange(1,20);
+ *<pre>
+ *  var r = new qx.util.range.IntegerRange(1,20);
  *  var i;
  *  while ((i = r.next())!=null) { alert(i) }; // yields 1,2,3,..,20
- *
- *  The constructor can take a negative step width, or start > stop, to create
- *  decreasing ranges.For more information on the arguments, see the
- *  constructor.
- *</PRE>
+ *</pre>
  */
-qx.Class.define("qx.util.range.IntRange",
+qx.Class.define("qx.util.range.IntegerRange",
 {
   extend : qx.core.Object,
 
   /**
    * @param start {Integer ? 0}
    *   inclusive start of range; can be bigger than stop to create decreasing
-   *   ranges (default: 0)
-   * @param stop  {Integer}     inclusive end of range
+   *   ranges
+   * @param stop  {Integer} including end of range
    * @param step  {Integer ? 1}
    *   step width between data points; can be negative to create decreasing
-   *   ranges (default: 1)
+   *   ranges 
    */
-  construct : function(start, stop ,step) // these parms are only for docu
+  construct : function(start, stop ,step) // these parms are needed for documentation
   {
     this.base(arguments);
 
@@ -73,7 +74,7 @@ qx.Class.define("qx.util.range.IntRange",
         if (pstep < 0) {
           this.incr  = pstep;
         } else {
-          this. incr = pstep * (-1);
+          this.incr = -pstep;
         }
         this.start = pstart;
         this.stop  = pstop;
@@ -133,4 +134,3 @@ qx.Class.define("qx.util.range.IntRange",
 
   }
 });
-
