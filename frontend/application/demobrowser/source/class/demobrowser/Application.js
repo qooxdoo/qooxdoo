@@ -37,13 +37,21 @@ qx.Class.define("demobrowser.Application",
 {
   extend : qx.application.Gui,
 
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
     /**
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     main : function()
     {
@@ -62,7 +70,27 @@ qx.Class.define("demobrowser.Application",
     }
   },
 
-  settings : { "demobrowser.resourceUri" : "./resource" },
+
+
+
+  /*
+  *****************************************************************************
+     SETTINGS
+  *****************************************************************************
+  */
+
+  settings : {
+    "demobrowser.resourceUri" : "./resource"
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
 
   destruct : function() {
     this._disposeObjects("viewer");

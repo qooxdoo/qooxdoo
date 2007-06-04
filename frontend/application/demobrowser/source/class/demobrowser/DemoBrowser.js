@@ -380,11 +380,11 @@ qx.Class.define("demobrowser.DemoBrowser",
       /*
             this.f2.setStyleProperty("fontSize",12);
             this.f2.setStyleProperty("fontFamily",'"Bitstream Vera Sans Mono", "Courier New", "Courier", monospace');
-      
+
             // toolbar
             var ff1 = new qx.ui.toolbar.ToolBar;
             pp2.add(ff1);
-      
+
             var ff1_b1 = new qx.ui.toolbar.Button("Clear");
             ff1.add(ff1_b1);
             ff1_b1.set({
@@ -394,7 +394,7 @@ qx.Class.define("demobrowser.DemoBrowser",
             ff1_b1.addEventListener("execute", function (e) {
               this.f2.setHtml("");
             }, this);
-      
+
             var ff1_b2 = new qx.ui.toolbar.Button("Save As");
             //ff1.add(ff1_b2);
             ff1_b2.set({
@@ -691,7 +691,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     treeGetSelection : function(e)
     {
@@ -746,7 +746,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     runNeighbour : function(e)
     {
@@ -767,7 +767,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     leftReloadTree : function(e)
     {
@@ -939,7 +939,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     runTest : function(e)
     {
@@ -1017,7 +1017,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     reloadTestSuite : function(e)
     {
@@ -1046,7 +1046,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     ehIframeOnLoad : function(e)
     {
@@ -1085,7 +1085,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     resetGui : function()
     {
@@ -1098,7 +1098,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     resetProgress : function()
     {
@@ -1114,7 +1114,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     resetTabView : function() {
       this.f1.clear();
@@ -1126,7 +1126,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      *
      * @type member
      * @param newSucc {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _applySuccCnt : function(newSucc) {
       this.widgets["progresspane.succ_cnt"].setText(newSucc + "");
@@ -1138,7 +1138,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      *
      * @type member
      * @param newFail {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     _applyFailCnt : function(newFail) {
       this.widgets["progresspane.fail_cnt"].setText(newFail + "");
@@ -1150,7 +1150,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      *
      * @type member
      * @param url {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     dataLoader : function(url)
     {
@@ -1198,7 +1198,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     ehDummyAlert : function(e) {
       alert("Not yet implemented!");
@@ -1222,7 +1222,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      *
      * @type member
      * @param str {String} TODOC
-     * @return {void} 
+     * @return {void}
      */
     appender : function(str) {}
   },
@@ -1239,7 +1239,6 @@ qx.Class.define("demobrowser.DemoBrowser",
   destruct : function()
   {
     this._disposeFields("widgets", "tests", "tree");
-
     this._disposeObjects("header", "mainsplit", "tree1", "left", "runbutton", "toolbar", "f1", "f2", "logappender");
   }
 });
