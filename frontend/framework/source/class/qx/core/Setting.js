@@ -126,7 +126,11 @@ qx.Class.define("qx.core.Setting",
         throw new Error('Setting "' + key + '" is not supported by API.');
       }
 
-      return this.__settings[key].value || this.__settings[key].defaultValue;
+      if (this.__settings[key].value !== undefined) {
+        return this.__settings[key].value;
+      }
+
+      return this.__settings[key].defaultValue;
     },
 
 
