@@ -37,11 +37,6 @@ qx.Class.define("demobrowser.Application",
 {
   extend : qx.application.Gui,
 
-  destruct : function () 
-  {
-    this._disposeObjects("viewer");
-  },
-
   members :
   {
     main : function()
@@ -49,7 +44,6 @@ qx.Class.define("demobrowser.Application",
       this.base(arguments);
 
       // Define alias for custom resource path
-      //qx.manager.object.AliasManager.getInstance().add("demobrowser", qx.core.Setting.get("demobrowser.resourceUri"));
       qx.io.Alias.getInstance().add("demobrowser", qx.core.Setting.get("demobrowser.resourceUri"));
 
       // Include CSS files
@@ -64,5 +58,9 @@ qx.Class.define("demobrowser.Application",
 
   settings : {
     "demobrowser.resourceUri" : "./resource"
+  },
+
+  destruct : function () {
+    this._disposeObjects("viewer");
   }
 });
