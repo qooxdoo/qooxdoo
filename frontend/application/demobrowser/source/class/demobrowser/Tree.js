@@ -175,6 +175,30 @@ qx.Class.define("demobrowser.Tree",
     },
 
 
+    getPrevSibling : function()
+    {
+      return this.getSibling(-1);
+    },
+
+
+    getNextSibling : function ()
+    {
+      return this.getSibling(1);
+    },
+
+
+    getSibling : function (offset)
+    {
+      var sibs = this.parent.getChildren();
+      var myIndex = this.self(arguments).indexOf(sibs, this);
+      var sibIndex = myIndex + offset;
+      if (sibs[sibIndex])
+      {
+        return sibs[sibIndex];
+      }
+    },
+
+
     /**
      * TODOC
      *
@@ -190,6 +214,21 @@ qx.Class.define("demobrowser.Tree",
   },
 
 
+
+  statics : 
+  {
+    // compute the index of an array element
+    indexOf : function (arr, obj)
+    {
+      for (var i=0; i<arr.length; i++)
+      {
+        if (arr[i] == obj)
+        {
+          return i;
+        }
+      }
+    }
+  },
 
 
   /*
