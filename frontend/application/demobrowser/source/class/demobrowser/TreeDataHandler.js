@@ -37,6 +37,17 @@ qx.Class.define("demobrowser.TreeDataHandler",
   },
 
 
+  destruct : function () 
+  {
+    this._disposeFields(
+      "tmap"
+    );
+    this._disposeObjects(
+      "ttree"
+    );
+  },
+
+
   members : {
 
       __readTestRep : function (testRep)
