@@ -27,22 +27,21 @@
     qx.core.Init.getInstance().defineMain(function()
     {
       /*
-       * Reset the default of always showing the plus/minus symbol.  The
+       * Refine the init value of "always showing the plus/minus symbol".  The
        * default is 'false'.  We want to always display it for each folder
        * (and then stop displaying it if we determine upon open that there are
        * no contents).
        *
-       * The changeProperty() function assumes that it is being called
-       * shortly after defineClass() is called.  We therefore need to kludge
-       * qx.Proto to point to the right place.
-       *
-       * TODO: There should be a mechanism to change a property attribute
-       * without having to jump through these hoops.
+       * We will therefore patch the tree folder class and refine the 
+       * appropriate property.
        */
-      var constructor = qx.Class.getByName("qx.ui.treefullcontrol.TreeFolder");
-      qx.Proto = constructor.prototype;
-      qx.OO.changeProperty({ name : "alwaysShowPlusMinusSymbol", type : "boolean", defaultValue : true });
-
+			qx.Class.patch( qx.ui.treefullcontrol.TreeFolder, 
+			  qx.Mixin.define("sample.patch.TreeFolder", {
+					properties : {
+						"alwaysShowPlusMinusSymbol" : { refine: true, init: true }
+					}
+				})
+			);
 
       var trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Root");
       var t = new qx.ui.treefullcontrol.Tree(trs);
