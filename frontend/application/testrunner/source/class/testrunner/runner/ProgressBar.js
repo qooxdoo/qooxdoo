@@ -165,15 +165,16 @@ qx.Class.define("testrunner.runner.ProgressBar",
   members :
   {
     /**
-     * TODOC
+     * For future testing only.
      *
+     * @internal
      * @type member
      * @return {void}
      */
     showOff : function()
     {
       this.debug("Entering showOff...");
-      var r = new qx.util.range.IntRange(0, 100, 5);
+      var r = new qx.util.range.IntegerRange(0, 100, 5);
       var i;
 
       function delay()
