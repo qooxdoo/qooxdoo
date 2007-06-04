@@ -31,21 +31,16 @@ qx.Class.define("demobrowser.TreeDataHandler",
   construct : function(testRep)
   {
     this.base(arguments);
-    //testRep    = demobrowser.TreeDataHandler.testRep;
-    this.tmap  = eval(testRep); //[{classname:myClass,tests:['test1','test2']}, {...}]
+    this.tmap = eval(testRep);
     this.ttree = this.__readTestRep(testRep);
   },
 
 
-  destruct : function () 
+
+  statics:
   {
-    this._disposeFields(
-      "tmap"
-    );
-    this._disposeObjects(
-      "ttree"
-    );
-  },
+    testRep : [{classname: "examples", tests:["ListView_2.html","Atom_3.html","ColorPopup_1.html","RepeatButton_1.html","ComboBox_1.html","ColorSelector_2.html","Command_2.html","Flash_1.html","Command_1.html","Fsm_1.html","CheckBox_1.html","Window_1.html","ListView_1.html","SplitPane_1.html","GroupBox_1.html","ToolTip_3.html","Gallery_1.html","Inline_1.html","Drag_1.html","GalleryList_1.html","ListView_3.html","TreeVirtual_5.html","TreeVirtual_2.html","Menu_1.html","ToolBar_3.html","ComboBoxEx_1.html","ToolBar_4.html","TreeFullControl_3.html","Atom_1.html","Iframe_1.html","ButtonView_1.html","TreeFullControl_2.html","Table_1.html","ListView_4.html","Atom_2.html","List_1.html","RadioButton_1.html","ButtonView_2.html","GroupBox_3.html","Fields_1.html","RpcTreeFullControl_1.html","NativeWindow_1.html","ToolBar_2.html","TreeVirtual_1.html","Table_2.html","ToolBar_1.html","TreeFullControl_1.html","Table_3.html","Button_1.html","GroupBox_2.html","Spinner_1.html","TabView_2.html","TreeVirtual_3.html","TreeFullControl_4.html","SplitPane_2.html","ToolTip_1.html","DateChooser_1.html","ColorSelector_1.html","RadioView_1.html","Tree_1.html","TabView_1.html","Resizer_1.html","TreeVirtual_4.html"]}]
+  }
 
 
   members : {
@@ -301,10 +296,10 @@ qx.Class.define("demobrowser.TreeDataHandler",
 
   },
 
-  statics: 
+
+  destruct : function ()
   {
-    testRep : [{classname: "examples", tests:["ListView_2.html","Atom_3.html","ColorPopup_1.html","RepeatButton_1.html","ComboBox_1.html","ColorSelector_2.html","Command_2.html","Flash_1.html","Command_1.html","Fsm_1.html","CheckBox_1.html","Window_1.html","ListView_1.html","SplitPane_1.html","GroupBox_1.html","ToolTip_3.html","Gallery_1.html","Inline_1.html","Drag_1.html","GalleryList_1.html","ListView_3.html","TreeVirtual_5.html","TreeVirtual_2.html","Menu_1.html","ToolBar_3.html","ComboBoxEx_1.html","ToolBar_4.html","TreeFullControl_3.html","Atom_1.html","Iframe_1.html","ButtonView_1.html","TreeFullControl_2.html","Table_1.html","ListView_4.html","Atom_2.html","List_1.html","RadioButton_1.html","ButtonView_2.html","GroupBox_3.html","Fields_1.html","RpcTreeFullControl_1.html","NativeWindow_1.html","ToolBar_2.html","TreeVirtual_1.html","Table_2.html","ToolBar_1.html","TreeFullControl_1.html","Table_3.html","Button_1.html","GroupBox_2.html","Spinner_1.html","TabView_2.html","TreeVirtual_3.html","TreeFullControl_4.html","SplitPane_2.html","ToolTip_1.html","DateChooser_1.html","ColorSelector_1.html","RadioView_1.html","Tree_1.html","TabView_1.html","Resizer_1.html","TreeVirtual_4.html"]}]
+    this._disposeFields("tmap");
+    this._disposeObjects("ttree");
   }
-
 });
-

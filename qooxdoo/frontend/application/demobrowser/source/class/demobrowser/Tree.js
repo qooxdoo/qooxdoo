@@ -37,13 +37,6 @@ qx.Class.define("demobrowser.Tree",
   },
 
 
-  destruct : function ()
-  {
-    this._disposeObjects("widgetLinkFull", "widgetLinkFlat", "parent");
-    this._disposeObjectDeep("children",1);
-  },
-
-
   members : {
 
     pwd : function ()  // aka 'dirname'
@@ -135,6 +128,13 @@ qx.Class.define("demobrowser.Tree",
     }
 
 
+  },
+
+
+  destruct : function ()
+  {
+    this._disposeObjects("widgetLinkFull", "widgetLinkFlat", "parent");
+    this._disposeObjectDeep("children",1);
   }
 });
 
