@@ -45,7 +45,7 @@ qx.Class.define("qx.ui.selection.SelectionManager",
   {
     this.base(arguments);
 
-    this._selectedItems = new qx.ui.selection.Storage(this);
+    this._selectedItems = new qx.ui.selection.Selection(this);
 
     if (vBoundedWidget != null) {
       this.setBoundedWidget(vBoundedWidget);
