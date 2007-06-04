@@ -56,6 +56,10 @@ qx.Class.define("qx.ui.form.RepeatButton",
   */
 
   events: {
+    /** 
+     * This event gets dispatched with every interval. The timer gets executed
+     * as long as the user holds down the mouse button.
+     */
     "execute" : "qx.event.type.Event"
   },
 
@@ -69,12 +73,21 @@ qx.Class.define("qx.ui.form.RepeatButton",
 
   properties :
   {
+    /**
+     * Interval used after the first run of the timer. Usually a smaller value
+     * than the "firstInterval" property value to get a faster reaction.
+     */
     interval :
     {
       check : "Integer",
       init : 100
     },
 
+    /**
+     * Interval used for the first run of the timer. Usually a greater value
+     * than the "interval" property value to a little delayed reaction at the first
+     * time.
+     */
     firstInterval :
     {
       check : "Integer",
@@ -100,10 +113,13 @@ qx.Class.define("qx.ui.form.RepeatButton",
     */
 
     /**
-     * TODOC
+     * Callback method for the "mouseDown" method.<br/>
+     * Sets the interval of the timer (value of firstInterval property) and 
+     * starts the timer. Additionally removes the state "abandoned" and adds the
+     * state "pressed".
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.MouseEvent} mouseDown event
      * @return {void}
      */
     _onmousedown : function(e)
@@ -123,10 +139,13 @@ qx.Class.define("qx.ui.form.RepeatButton",
 
 
     /**
-     * TODOC
+     * Callback method for the "mouseUp" event.<br/>
+     * Handles the case that the user is releasing the mouse button
+     * before the timer interval method got executed. This way the 
+     * "execute" method get executed at least one time.
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.MouseEvent} mouseUp event
      * @return {void}
      */
     _onmouseup : function(e)
@@ -150,10 +169,13 @@ qx.Class.define("qx.ui.form.RepeatButton",
 
 
     /**
-     * TODOC
+     * Callback for the interval event.<br/>
+     * Stops the timer and starts it with a new interval
+     * (value of the "interval" property). Dispatches the 
+     * "execute" event.
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.Event} interval event
      * @return {void}
      */
     _oninterval : function(e)
