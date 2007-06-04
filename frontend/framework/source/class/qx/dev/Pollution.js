@@ -50,8 +50,11 @@ qx.Class.define("qx.dev.Pollution",
 
 
     /**
-     * Known properties of the classes to check.
-     * These properties will not be reported as pollution
+     * Known properties of the classes to check. These properties will not be 
+     * reported as pollution.
+     * 
+     * http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Global_Objects
+     * http://developer.mozilla.org/en/docs/Gecko_DOM_Reference
      */
     ignore :
     {
