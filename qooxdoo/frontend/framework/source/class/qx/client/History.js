@@ -84,6 +84,9 @@ qx.Class.define("qx.client.History",
 
       this._iframe = document.createElement("iframe");
       this._iframe.style.visibility = "hidden";
+      this._iframe.style.position = "absolute";
+      this._iframe.style.left = "-1000px";
+      this._iframe.style.top = "-1000px";
 
       document.body.appendChild(this._iframe);
       var src = qx.io.Alias.getInstance().resolve("static/history/helper.html");
