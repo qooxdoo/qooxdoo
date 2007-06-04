@@ -64,8 +64,6 @@ qx.Class.define("qx.ui.embed.Iframe",
   },
 
 
-
-
   /*
   *****************************************************************************
      EVENTS
@@ -609,6 +607,7 @@ qx.Class.define("qx.ui.embed.Iframe",
       this._iframeNode.onload = null;
     }
 
-    this._disposeFields("__onreadystatechange", "__onload", "_iframeNode");
+    this._disposeFields("__onreadystatechange", "__onload", "_iframeNode", 
+      "_blockerNode");
   }
 });

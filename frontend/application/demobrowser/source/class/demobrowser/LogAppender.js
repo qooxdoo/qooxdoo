@@ -42,6 +42,12 @@ qx.Class.define("demobrowser.LogAppender",
   },
 
 
+  destruct : function () 
+  {
+    this._disposeObjects("target");
+  },
+
+
 
 
   /*

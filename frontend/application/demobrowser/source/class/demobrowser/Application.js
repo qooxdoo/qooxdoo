@@ -37,6 +37,11 @@ qx.Class.define("demobrowser.Application",
 {
   extend : qx.application.Gui,
 
+  destruct : function () 
+  {
+    this._disposeObjects("viewer");
+  },
+
   members :
   {
     main : function()

@@ -66,13 +66,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     this.left = left.buttview;
     this.mainsplit.addLeft(left);
     // fill the tree
-    /* done in dataLoader function
-    //var testRep = window._demoData_;
-    var testRep = "";
-    this.tests.handler = new demobrowser.TreeDataHandler(testRep);
-    //this.tests.selected = "examples.Atom_1.html";  // pre-set selection
-    this.leftReloadTree();
-    */
     this.dataLoader("script/layout.js");
 
     // Right
@@ -96,35 +89,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     });
     right.add(this.toolbar);
 
-    /*
-    var groupBox = new qx.ui.groupbox.GroupBox();
-    groupBox.set({
-      height : "auto"
-    });
-    right.add(groupBox);
-
-    var vert = new qx.ui.layout.VerticalBoxLayout();
-    vert.set({
-      height : "auto",
-      width  : "100%"
-    });
-    groupBox.add(vert);
-    */
-
-    /*
-    // status
-    var statuspane = this.__makeStatus();
-    //right.add(statuspane);
-    vert.add(statuspane);
-    this.widgets["statuspane"] = statuspane;
-    */
-
-    /*
-    // progress bar
-    var progress = this.__makeProgress();
-    vert.add(progress);
-    //right.add(progress);
-    */
 
     // output views
     var buttview = this.__makeOutputViews();
@@ -134,7 +98,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     this.widgets["treeview"].getBar().getManager().addEventListener("changeSelected",
       function (e)
       {
-        if (e.getData().tree.getSelectedElement() == null)
+        if (e.getData().getUserData('tree').getSelectedElement() == null)
         {
           this.widgets["toolbar.runbutton"].setEnabled(false);
         }
@@ -142,28 +106,29 @@ qx.Class.define("demobrowser.DemoBrowser",
       this);
     this.widgets["treeview.bsb1"].setChecked(true);
 
-    // Log Appender
-    //this.debug("This should go to the dedicated log window ...");
-
-
-    /*
-    // Last but not least:
-    // Hidden IFrame for test runs
-    var iframe = new qx.ui.embed.Iframe("html/QooxdooTest.html?testclass=demobrowser.test");
-    iframe.setEdge(0);
-    this.iframe = iframe;
-    iframe.addToDocument();
-    this.setZIndex(5);
-
-    // Get the TestLoader from the Iframe (in the event handler)
-    iframe.addEventListener("load", this.ehIframeOnLoad, this);
-    */
-
-    // EXPERIMENTAL !
-    //var treetest = new demobrowser.TreeTest();
-
-
   }, //constructor
+
+
+  destruct : function () 
+  {
+    this._disposeFields(
+      "widgets",
+      "tests",
+      "tree"
+    );
+
+    this._disposeObjects(
+      "header",
+      "mainsplit",
+      "tree1",
+      "left",
+      "runbutton",
+      "toolbar",
+      "f1",
+      "f2",
+      "logappender"
+    );
+  },
 
 
   /*
@@ -479,7 +444,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       var buttview = new qx.ui.pageview.buttonview.ButtonView();
       leftSide.addTop(buttview);
-      leftSide.buttview = buttview;
+      leftSide.setUserData("buttview", buttview);
       buttview.set({
         height : "100%",
         width  : "100%"
@@ -514,7 +479,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       p1.add(tree);
       this.tree = tree;
       this.widgets["treeview.full"] = tree;
-      bsb1.tree = tree;    // for changeSelected handling
+      bsb1.setUserData('tree', tree);    // for changeSelected handling
       tree.set({
         width : "100%",
         height : "100%",
@@ -543,7 +508,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       p2.add(tree1);
       this.tree1 = tree1;
       this.widgets["treeview.flat"] = tree1;
-      bsb2.tree = tree1;    // for changeSelected handling
+      bsb2.setUserData('tree', tree1);    // for changeSelected handling
       tree1.set({
         width : "100%",
         height : "100%",
