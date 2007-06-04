@@ -19,7 +19,7 @@
 #
 ################################################################################
 
-APPLICATIONS = apiviewer feedreader sample showcase webmail quickstart testrunner
+APPLICATIONS = apiviewer demobrowser feedreader quickstart sample showcase testrunner webmail  
 
 source:
 	@for APPLICATION in $(APPLICATIONS); do $(MAKE) -s -C $$APPLICATION source || exit 1; done
