@@ -1489,6 +1489,57 @@ def containsAbstractMethods(methodListNode, visitedMethodNames):
     return False
 
 
+def documentApplyMethod(methodNode, prop):
+    if itemHasAnyDocs(methodNode):
+        return
+
+    try:
+        firstParam = selectNode(methodNode, "params/param[1]/@name")
+    except tree.NodeAccessException:
+        firstParam = "value"
+
+    try:
+        secondParam = selectNode(methodNode, "params/param[2]/@name")
+    except tree.NodeAccessException:
+        secondParam = "old"
+
+    paramType = prop.get("check", False)
+    if paramType is None or paramType == "Custom check function.":
+        paramType = "var"
+
+    functionCode = """/**
+ * Applies changes of the property value of the property <code>%(shortPropName)s</code>.
+ *
+ * For further details take a look at the property definition: {@link #%(propName)s}.
+ *
+ * @param %(firstParamName)s {%(paramType)s} new value of the property
+ * @param %(secondParamName)s {%(paramType)s} previous value of the property (null if it was not yet set).
+ */
+function(%(firstParamName)s, %(secondParamName)s) {}""" % ({
+        "firstParamName": firstParam,
+        "secondParamName": secondParam,
+        "paramType": paramType,
+        "shortPropName": prop.get("name"),
+        "propName": methodNode.get("name")
+    })
+
+    node = compileString(functionCode)
+    commentAttributes = comment.parseNode(node)
+    docNode = handleFunction(node, methodNode.get("name"), commentAttributes, selectNode(methodNode, "../.."))
+
+    oldParams = methodNode.getChild("params", False)
+    if oldParams:
+        methodNode.replaceChild(oldParams, docNode.getChild("params"))
+    else:
+        methodNode.addChild(docNode.getChild("params"))
+
+    oldDesc = methodNode.getChild("desc", False)
+    if oldDesc:
+        methodNode.replaceChild(oldDesc, docNode.getChild("desc"))
+    else:
+        methodNode.addChild(docNode.getChild("desc"))
+
+
 def markPropertyApply(docTree, classNode):
 
     # Sort the list
@@ -1511,7 +1562,7 @@ def markPropertyApply(docTree, classNode):
                 if prop.get("apply", None) == name:
                     itemNode.set("apply", dep.get("fullName") + "#" + prop.get("name"))
                     removeErrors(itemNode)
-                    #print name, " is an apply method"
+                    documentApplyMethod(itemNode, prop)
 
 
 def dependendClassIterator(docTree, classNode):
