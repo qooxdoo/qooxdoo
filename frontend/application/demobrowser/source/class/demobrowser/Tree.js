@@ -27,6 +27,15 @@ qx.Class.define("demobrowser.Tree",
 {
   extend : qx.core.Object,
 
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   construct : function()
   {
     this.base(arguments);
@@ -35,6 +44,16 @@ qx.Class.define("demobrowser.Tree",
     this.children = [];
     this.parent = null;
   },
+
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
 
   members :
   {
@@ -82,7 +101,7 @@ qx.Class.define("demobrowser.Tree",
      * @type member
      * @param fun {var} TODOC
      * @param args {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     map : function(fun, args)
     {
@@ -102,7 +121,7 @@ qx.Class.define("demobrowser.Tree",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     print : function()
     {
@@ -161,7 +180,7 @@ qx.Class.define("demobrowser.Tree",
      *
      * @type member
      * @param node {Node} TODOC
-     * @return {void} 
+     * @return {void}
      */
     add : function(node)
     {
@@ -169,6 +188,15 @@ qx.Class.define("demobrowser.Tree",
       node.parent = this;
     }
   },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
 
   destruct : function()
   {
