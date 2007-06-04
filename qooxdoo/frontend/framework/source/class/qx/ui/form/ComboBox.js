@@ -255,7 +255,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     */
 
     /**
-     * Returns a reference to the selection manager
+     * Accessor method for the selection manager
      *
      * @type member
      * @return {qx.ui.selection.SelectionManager} Reference to the selection manager
@@ -266,7 +266,7 @@ qx.Class.define("qx.ui.form.ComboBox",
 
 
     /**
-     * Returns a reference to the popup widget
+     * Accessor method for the popup widget
      *
      * @type member
      * @return {qx.ui.popup.Popup} Reference to the popup widget
@@ -277,7 +277,7 @@ qx.Class.define("qx.ui.form.ComboBox",
 
 
     /**
-     * Returns a reference to the list widget
+     * Accessor method for the list widget
      *
      * @type member
      * @return {qx.ui.form.List} Reference to the list widget
@@ -288,7 +288,7 @@ qx.Class.define("qx.ui.form.ComboBox",
 
 
     /**
-     * Returns a reference to the text field widget
+     * Accessor method for the text field widget
      *
      * @type member
      * @return {qx.ui.form.TextField} Reference to the text field widget
@@ -299,7 +299,7 @@ qx.Class.define("qx.ui.form.ComboBox",
 
 
     /**
-     * Returns a reference to the button widget
+     * Accessor method for the button widget
      *
      * @type member
      * @return {qx.ui.basic.Atom} Reference to the button widget
