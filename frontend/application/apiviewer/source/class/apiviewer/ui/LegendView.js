@@ -159,7 +159,7 @@ qx.Class.define("apiviewer.ui.LegendView",
         },
         {
           icon: "OVERLAY_OVERRIDDEN",
-          desc: "Method/Property overwrites the Method/Property of the super class"
+          desc: "Method/Property overrides the Method/Property of the super class"
         }
 
       ]
