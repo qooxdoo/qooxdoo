@@ -1,6 +1,11 @@
 /* ************************************************************************
 
-   Simple Message Bus for qooxdoo
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2007 Christian Boulanger
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -19,8 +24,8 @@
 ************************************************************************ */
 
 /**
- * creates a simple message bus singleton
- * the message bus registers subscriptions and notifies subscribers when
+ * A simple message bus singleton.
+ * The message bus registers subscriptions and notifies subscribers when
  * a matching message is dispatched
  */
 qx.Class.define("qx.event.message.Bus",
