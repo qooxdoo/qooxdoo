@@ -382,7 +382,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         height   : "1*",
         width    : "100%",
         border   : "dark-shadow",
-        font     : new qx.ui.core.Font(11, ["Consolas", "Courier New", "monospace"])
+        font     : new qx.ui.core.Font(11, ["Consolas", "Bitstream Vera Sans Mono", "Courier New", "monospace"])
       });
 
       this.logappender = new qx.log.appender.HtmlElement;
