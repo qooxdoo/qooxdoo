@@ -31,54 +31,84 @@ qx.Class.define("demobrowser.Tree",
   {
     this.base(arguments);
 
-    this.label    = arguments[0] || "";
+    this.label = arguments[0] || "";
     this.children = [];
-    this.parent   = null;
+    this.parent = null;
   },
 
-
-  members : {
-
-    pwd : function ()  // aka 'dirname'
+  members :
+  {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {Array | var} TODOC
+     */
+    pwd : function()  // aka 'dirname'
     {
-      if (this.parent == null)
-      {
+      if (this.parent == null) {
         return [];
-      } else
-      {
+      } else {
         return this.parent.pwd().concat(this.parent.label);
       }
     },
 
 
-    hasChildren : function ()
-    {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    hasChildren : function() {
       return this.children.length;
     },
 
 
-    getChildren : function ()
-    {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getChildren : function() {
       return this.children;
     },
 
 
-    map : function (fun, args)
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param fun {var} TODOC
+     * @param args {var} TODOC
+     * @return {void} 
+     */
+    map : function(fun, args)
     {
       var style = "depth";
-      var curr  = this;
+      var curr = this;
+
       // apply to self
       var iter = this.getIterator(style);
-      while (curr = iter())
-      {
-        fun.apply(curr,args);
+
+      while (curr = iter()) {
+        fun.apply(curr, args);
       }
     },
 
 
-    print : function ()
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    print : function()
     {
-      this.map(function () { this.debug(this.label); }, []);
+      this.map(function() {
+        this.debug(this.label);
+      }, []);
     },
 
 
@@ -86,55 +116,63 @@ qx.Class.define("demobrowser.Tree",
      * returns an iterator function for the tree from this.
      * (implemented with Agenda Search)
      *
+     * @type member
      * @param style {String} "depth"|"breadth" - traversal style
-     * @return iterator {Function}
+     * @return {Function} iterator {Function}
      */
-    getIterator : function (style)  // returns an iterator function
+    getIterator : function(style)  // returns an iterator function
     {
-      var agenda     = [this];
+      var agenda = [ this ];
       var depthfirst = style == "depth" ? 1 : 0;
 
-      function f ()
+      function f()
       {
         var curr;
+
         if (agenda.length)
         {
           curr = agenda.shift();
           var children = curr.getChildren();
-          if ( children.length) // expand container
+
+          if (children.length)  // expand container
           {
-            if (depthfirst)
-            {
+            if (depthfirst) {
               agenda = children.concat(agenda);  // depth-first
-            } else
-            {
+            } else {
               agenda = agenda.concat(children);  // breadth-first
             }
           }
-        } else {
+        }
+        else
+        {
           curr = null;
         }
+
         return curr;
-      }; // f()
+      }
+        // f()
 
       return f;
     },
 
 
-    add : function (node)
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param node {Node} TODOC
+     * @return {void} 
+     */
+    add : function(node)
     {
       this.children.push(node);
       node.parent = this;
     }
-
-
   },
 
-
-  destruct : function ()
+  destruct : function()
   {
     this._disposeObjects("widgetLinkFull", "widgetLinkFlat", "parent");
-    this._disposeObjectDeep("children",1);
+    this._disposeObjectDeep("children", 1);
   }
 });
-
