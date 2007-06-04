@@ -139,7 +139,7 @@ qx.Class.define("qx.ui.form.RadioButton",
 
 
     /**
-     * TODOC
+     * Apply method for property "name"
      *
      * @type member
      * @param value {var} Current value
@@ -158,7 +158,7 @@ qx.Class.define("qx.ui.form.RadioButton",
 
 
     /**
-     * TODOC
+     * Apply method for property "value"
      *
      * @type member
      * @param value {var} Current value
@@ -181,10 +181,13 @@ qx.Class.define("qx.ui.form.RadioButton",
     */
 
     /**
-     * TODOC
+     * Callback method for "keyDown" event<br/>
+     * Sets the property "checked" to true if "Enter" key is pressed.
+     * Does only work if the "Enter" key is not pressed in combination with
+     * the "Alt" key.
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.KeyEvent} keyDown event
      * @return {void}
      */
     _onkeydown : function(e)
@@ -196,11 +199,13 @@ qx.Class.define("qx.ui.form.RadioButton",
 
 
     /**
-     * TODOC
+     * Callback method for the "keyPress" event.<br/>
+     * Selects the previous RadioButton when pressing "Left" or "Up" and
+     * selects the next RadioButton when pressing "Right" and "Down"
      *
      * @type member
-     * @param e {Event} TODOC
-     * @return {var} TODOC
+     * @param e {qx.type.event.KeyEvent} keyPress event
+     * @return {null | true} 
      */
     _onkeypress : function(e)
     {
@@ -226,10 +231,11 @@ qx.Class.define("qx.ui.form.RadioButton",
 
 
     /**
-     * TODOC
+     * Callback method for "click" event<br/>
+     * Simply sets the "checked" property to true
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.MouseEvent} click event
      * @return {void}
      */
     _onclick : function(e) {
@@ -238,10 +244,11 @@ qx.Class.define("qx.ui.form.RadioButton",
 
 
     /**
-     * TODOC
+     * Callback method for "keyUp" event<br/>
+     * If "Space" is pressed the property "checked" is set to true
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.KeyEvent} keyUp event
      * @return {void}
      */
     _onkeyup : function(e)
