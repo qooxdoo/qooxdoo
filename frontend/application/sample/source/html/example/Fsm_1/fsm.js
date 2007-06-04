@@ -278,7 +278,7 @@ function initFsm()
   state.addTransition(trans);
 
   // Allocate an RPC object
-  o = new qx.io.remote.Rpc();
+  var o = new qx.io.remote.Rpc();
   o.setTimeout(10000);
   o.addEventListener("completed", fsm.eventListener, fsm);
   o.addEventListener("failed", fsm.eventListener, fsm);
