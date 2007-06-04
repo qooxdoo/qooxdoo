@@ -67,9 +67,6 @@ qx.Class.define("qx.ui.form.Spinner",
     this._textfield.setWidth("1*");
     this._textfield.setVerticalAlign("middle");
     this._textfield.setAppearance("spinner-text-field");
-    // ALPHA: Testing override feature of initial appearance, see Class.js
-    // this._textfield = qx.ui.core.Widget.create(qx.ui.form.TextField, "spinner-field");
-    //this._textfield.setValue(String(this.getManager().getValue()));
     this.add(this._textfield);
 
     // ************************************************************************
@@ -790,7 +787,8 @@ qx.Class.define("qx.ui.form.Spinner",
       this._timer.stop();
       this.setInterval(Math.max(this.getMinTimer(), this.getInterval() - this.getTimerDecrease()));
 
-      if (this._intervalMode == "page") {
+      if (this._intervalMode == "page")
+      {
         this._pageIncrement();
       }
       else
