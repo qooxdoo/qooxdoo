@@ -32,11 +32,15 @@ qx.Class.define("demobrowser.DemoBrowser",
 {
   extend : qx.ui.layout.VerticalBoxLayout,
 
+
+
+
   /*
   *****************************************************************************
      CONSTRUCTOR
   *****************************************************************************
   */
+
   construct : function()
   {
     this.base(arguments);
@@ -89,7 +93,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     });
     right.add(this.toolbar);
 
-
     // output views
     var buttview = this.__makeOutputViews();
     right.add(buttview);
@@ -105,30 +108,9 @@ qx.Class.define("demobrowser.DemoBrowser",
       },
       this);
     this.widgets["treeview.bsb1"].setChecked(true);
-
-  }, //constructor
-
-
-  destruct : function () 
-  {
-    this._disposeFields(
-      "widgets",
-      "tests",
-      "tree"
-    );
-
-    this._disposeObjects(
-      "header",
-      "mainsplit",
-      "tree1",
-      "left",
-      "runbutton",
-      "toolbar",
-      "f1",
-      "f2",
-      "logappender"
-    );
   },
+
+
 
 
   /*
@@ -155,19 +137,21 @@ qx.Class.define("demobrowser.DemoBrowser",
   },
 
 
+
+
+
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
-  members: {
-
+  members:
+  {
     // ------------------------------------------------------------------------
     //   CONSTRUCTOR HELPERS
     // ------------------------------------------------------------------------
 
-
-        /**
+    /**
      * Create the header widget
      *
      * @return {qx.ui.embed.HtmlEmbed} The header widget
@@ -192,7 +176,8 @@ qx.Class.define("demobrowser.DemoBrowser",
     },
 
 
-    __makeToolbar : function () {
+    __makeToolbar : function ()
+    {
       var toolbar = new qx.ui.toolbar.ToolBar;
 
       // -- run button
@@ -225,17 +210,17 @@ qx.Class.define("demobrowser.DemoBrowser",
       gb.set({height : "100%", width : "auto", border : null});
       gb.resetBorder();
       gb.setEnabled(false);
-      
+
 
       var sb1 = new qx.ui.toolbar.Button("Object Summary", "icon/16/apps/accessories-magnifier.png");
       gb.add(sb1);
       sb1.set({ height : "100%", width : "auto" });
-      sb1.addEventListener("execute", function (e) 
+      sb1.addEventListener("execute", function (e)
       {
         var cw = this.f1.getContentWindow();
         if (cw && cw.qx) {
           alert(cw.qx.dev.ObjectSummary.getInfo());
-        } else 
+        } else
         {
           alert("Unable to access Sample namespace currently.");
         }
@@ -245,12 +230,12 @@ qx.Class.define("demobrowser.DemoBrowser",
       // -- sample: global pollution
       var sb2 = new qx.ui.toolbar.Button("Global Pollution", "icon/16/places/www.png");
       gb.add(sb2);
-      sb2.addEventListener("execute", function (e) 
+      sb2.addEventListener("execute", function (e)
       {
         var cw = this.f1.getContentWindow();
         if (cw && cw.qx) {
           alert(cw.qx.dev.Pollution.getInfo());
-        } else 
+        } else
         {
           alert("Unable to access Sample namespace currently.");
         }
@@ -260,13 +245,13 @@ qx.Class.define("demobrowser.DemoBrowser",
       // -- sample: dispose app
       var sb3 = new qx.ui.toolbar.Button("Dispose App", "icon/16/places/user-trash.png");
       gb.add(sb3);
-      sb3.addEventListener("execute", function (e) 
+      sb3.addEventListener("execute", function (e)
       {
         var cw = this.f1.getContentWindow();
         if (cw && cw.qx) {
           cw.qx.core.Object.dispose();
           alert("Done!");
-        } else 
+        } else
         {
           alert("Unable to access Sample namespace currently.");
         }
@@ -274,12 +259,11 @@ qx.Class.define("demobrowser.DemoBrowser",
       sb3.setToolTip(new qx.ui.popup.ToolTip("Dispose Sample Application"));
 
       return toolbar;
-    }, //makeToolbar
+    },
 
 
     __makeOutputViews : function ()
     {
-
       // Main Container
       var buttview = new qx.ui.pageview.tabview.TabView();
       buttview.set({
@@ -315,7 +299,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         width : "100%"
       });
 
-      f1.addEventListener("load", function(e) 
+      f1.addEventListener("load", function(e)
       {
         var fwindow = this.f1.getContentWindow();
         if ( // wait for iframe to load
@@ -349,11 +333,8 @@ qx.Class.define("demobrowser.DemoBrowser",
       });
 
       // main output area
-      //this.f2 = new qx.ui.form.TextArea("Session Log, listing test invokations and all outputs");
-//      this.f2 = new qx.ui.embed.HtmlEmbed('<div id="sessionlog">Session Log</div>');
       this.f2 = new qx.ui.embed.NodeEmbed("qx_divlog");
       pp2.add(this.f2);
-//      this.f2.setHtmlProperty("id","sessionlog");
       this.f2.set({
         overflow : "auto",
         height : "1*",
@@ -418,24 +399,16 @@ qx.Class.define("demobrowser.DemoBrowser",
 
 
       return buttview;
-    }, //makeOutputViews
+    },
 
-    // -------------------------------------------------------------------------
 
     /**
      * Tree View in Left Pane
      * - only make root node; rest will befilled when iframe has loaded (with
      *   leftReloadTree)
-    */
+     */
     __makeLeft: function ()
     {
-      /*
-      var leftSide = new qx.ui.layout.VerticalBoxLayout();
-      leftSide.set({
-        height : "80%",
-        width  : "100%"
-      });
-      */
       var leftSide = new qx.ui.splitpane.VerticalSplitPane("80%","20%");
       leftSide.set({
         height : "100%",
@@ -471,7 +444,6 @@ qx.Class.define("demobrowser.DemoBrowser",
         width   : "100%",
         height  : "100%",
         padding : [0]
-        //spacing   : 5
       });
       buttview.getPane().add(p1);
 
@@ -486,7 +458,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         backgroundColor: "white"
       });
       tree.getManager().addEventListener("changeSelection", this.treeGetSelection, this);
-      tree.addEventListener("dblclick", function (e) 
+      tree.addEventListener("dblclick", function (e)
       {
         qx.client.Timer.once(this.runTest, this, 50);  // allow treeGetSelection to run first
       }, this);
@@ -512,9 +484,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       tree1.set({
         width : "100%",
         height : "100%",
-        //padding : [10],
         overflow: "auto",
-        //border : "inset",
         backgroundColor: "white"
       });
       tree1.getManager().addEventListener("changeSelection", this.treeGetSelection, this);
@@ -552,10 +522,8 @@ qx.Class.define("demobrowser.DemoBrowser",
 
 
       return leftSide;
-    }, //makeLeft
+    },
 
-
-    // -------------------------------------------------------------------------
 
     __makeProgress: function ()
     {
@@ -608,10 +576,8 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.widgets["progresspane.fail_cnt"] = failcnt;
 
       return progress;
-    }, //makeProgress
+    },
 
-
-    // -------------------------------------------------------------------------
 
     __makeStatus: function (){
       var statuspane = new qx.ui.layout.HorizontalBoxLayout();
@@ -651,7 +617,12 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.widgets["statuspane.systeminfo"].setText("Loading...");
 
       return statuspane;
-    }, //makeStatus
+    },
+
+
+
+
+
 
 
     // ------------------------------------------------------------------------
@@ -665,7 +636,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       var modelNode   = treeNode.getUserData("modelLink");
       this.tests.selected = this.tests.handler.getFullName(modelNode);
       // update toolbar
-      if (treeNode instanceof qx.ui.tree.TreeFolder) 
+      if (treeNode instanceof qx.ui.tree.TreeFolder)
       {
         this.widgets["toolbar.runbutton"].setEnabled(false);
       } else
@@ -696,10 +667,10 @@ qx.Class.define("demobrowser.DemoBrowser",
         }
       }
 
-    }, //treeGetSelection
+    },
 
-    
-    runNeighbour : function (e) 
+
+    runNeighbour : function (e)
     {
       if (! this.tree.getSelectedElement()) {// this is a kludge!
         return; }
@@ -707,13 +678,14 @@ qx.Class.define("demobrowser.DemoBrowser",
       var modelNode   = treeNode.getUserData("modelLink");
       var modelNext   = modelNode.getNextSibling();
       this.tests.selected = this.tests.handler.getFullName(modelNode);
-      
+
     }, //runNeighbour
 
 
-    // -------------------------------------------------------------------------
 
-    leftReloadTree : function (e) {  // use tree struct
+    leftReloadTree : function (e)
+    {
+      // use tree struct
 
       /**
        * create widget tree from model
@@ -742,7 +714,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           {
             t = new qx.ui.tree.TreeFile(that.polish(currNode.label),"demobrowser/image/method_public18.gif");
             //t.setToolTip(new qx.ui.popup.ToolTip(currNode.desc).setHideInterval(1000000));
-            t.addEventListener("mouseover",function (e) 
+            t.addEventListener("mouseover",function (e)
             {
               var desc = e.getCurrentTarget().getUserData('modelLink').desc;
               that.widgets["left.info"].setHtml(desc);
@@ -757,8 +729,7 @@ qx.Class.define("demobrowser.DemoBrowser",
             selectedElement = currNode;
           }
         }
-
-      }; //buildSubTree;
+      };
 
 
       function buildSubTreeFlat (widgetR, modelR)
@@ -767,11 +738,11 @@ qx.Class.define("demobrowser.DemoBrowser",
         var currNode;
         while (currNode = iter())
         {
-          if (currNode.type && currNode.type == "test")
-            ;
-          else  // it's a container
+          // it's a container
+          if (!(currNode.type && currNode.type == "test"))
           {
-            if (handler.hasTests(currNode)) {
+            if (handler.hasTests(currNode))
+            {
               var fullName = handler.getFullName(currNode);
               var t = new qx.ui.tree.TreeFolder(that.polish(fullName),"demobrowser/image/package18.gif");
               widgetR.add(t);
@@ -800,7 +771,11 @@ qx.Class.define("demobrowser.DemoBrowser",
             }
           }
         }
-      }; //buildSubTreeFlat
+      };
+
+
+
+
 
       // -- Main --------------------------------
 
@@ -858,16 +833,15 @@ qx.Class.define("demobrowser.DemoBrowser",
         }
       }
 
-    }, //leftReloadTree
+    },
 
 
-    // -------------------------------------------------------------------------
+
     /**
      * event handler for the Run Test button - performs the tests
      */
     runTest : function (e)
     {
-
       // -- Feasibility Checks -----------------
       if (! this.tests.selected)
       {
@@ -880,12 +854,9 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       // -- Vars and Setup -----------------------
       this.toolbar.setEnabled(false);
-      //this.tree.setEnabled(false);
 
       // TODO: do not use appender internals
-      this.logappender._logElem.innerHTML = "";  
-
-//      this.info("Now running: " + this.tests.selected);
+      this.logappender._logElem.innerHTML = "";
       this.widgets["outputviews.bar"].getManager().setSelected(this.widgets["outputviews.demopage.button"]);
 
       // start test
@@ -920,7 +891,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           tlist.push([tclass, node.label]);
         }
         return tlist;
-      }; //buildList
+      };
 
 
       // -- Main ---------------------------------
@@ -929,19 +900,18 @@ qx.Class.define("demobrowser.DemoBrowser",
       var base = file.substring(file.indexOf("/")+1);
       var neu  = 'html/'+file;
       var curr = this.f1.getSource();
-      if (curr == neu) 
+      if (curr == neu)
       {
         this.f1.reload();
-      } else 
+      } else
       {
         this.f1.setSource(neu);
       }
       this.widgets["outputviews.demopage.button"].setLabel(this.polish(base));
 
-    }, //runTest
+    },
 
 
-    // -------------------------------------------------------------------------
     /**
      * reloads iframe's URL
      */
@@ -960,7 +930,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           this.iframe.setSource(neu);
         }
       },this,0);
-    }, //reloadTestSuite
+    },
 
 
     ehIframeOnLoad : function (e)
@@ -993,7 +963,10 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
       this.widgets["statuspane.systeminfo"].setText("Ready");
 
-    }, //ehIframeOnLoad
+    },
+
+
+
 
 
     // ------------------------------------------------------------------------
@@ -1035,7 +1008,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     },
 
 
-    dataLoader : function (url) 
+    dataLoader : function (url)
     {
       var req = new qx.io.remote.Request(url);
 
@@ -1075,29 +1048,52 @@ qx.Class.define("demobrowser.DemoBrowser",
     },
 
 
-    ehDummyAlert : function (e) 
+    ehDummyAlert : function (e)
     {
-      alert("Not yet implemented!"); 
+      alert("Not yet implemented!");
     },
 
 
     /**
      * 'Atom_1.html' -> 'Atom 1'
      */
-    polish : function (str) 
+    polish : function (str)
     {
-      return str.replace(".html","").replace("_"," ");
+      return str.replace(".html", "").replace("_", " ");
     },
 
 
     appender : function (str) {
-      //this.f1.setValue(this.f1.getValue() + str);
-      //this.f1.setHtml(this.f1.getHtml()+"<br>"+str);
-    } //appender
+    }
+  },
 
 
-  } //members
 
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function ()
+  {
+    this._disposeFields(
+      "widgets",
+      "tests",
+      "tree"
+    );
+
+    this._disposeObjects(
+      "header",
+      "mainsplit",
+      "tree1",
+      "left",
+      "runbutton",
+      "toolbar",
+      "f1",
+      "f2",
+      "logappender"
+    );
+  }
 });
-
-

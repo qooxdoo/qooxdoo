@@ -42,10 +42,7 @@ qx.Class.define("demobrowser.LogAppender",
   },
 
 
-  destruct : function () 
-  {
-    this._disposeObjects("target");
-  },
+
 
 
 
@@ -98,6 +95,19 @@ qx.Class.define("demobrowser.LogAppender",
       this.target.setHtml(this.target.getHtml()+"<br>"+
                           text+this.formatLogEvent(evt));
     }
+  },
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function ()
+  {
+    this._disposeObjects("target");
   }
 });
 
