@@ -114,7 +114,6 @@ qx.Class.define("qx.ui.form.Spinner",
     this._textfield.addEventListener("blur", this._onblur, this);
     this._upbutton.addEventListener("mousedown", this._onmousedown, this);
     this._downbutton.addEventListener("mousedown", this._onmousedown, this);
-    this.getManager().addEventListener("change", this._onchange, this);
     this._timer.addEventListener("interval", this._oninterval, this);
 
     // ************************************************************************
@@ -714,7 +713,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * @return {var} TODOC
      */
     resetValue : function() {
-      return this.getManager().resetValue();
+      this.getManager().resetValue();
     },
 
 
@@ -845,9 +844,8 @@ qx.Class.define("qx.ui.form.Spinner",
       {
         if (!acceptEmpty)
         {
-          el.value = this.resetValue();
-          this._textfield.selectAll();
-
+          this.setValue(this.getMax());
+          this.resetValue();
           return;
         }
       }
