@@ -128,7 +128,11 @@ qx.Class.define("qx.core.Variant",
         }
       }
 
-      return data.value || data.defaultValue;
+      if (data.value !== undefined) {
+        return data.value;
+      }
+
+      return data.defaultValue;
     },
 
 
