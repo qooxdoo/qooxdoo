@@ -21,13 +21,15 @@ Framework
 qooxdoo is entirely class-based and tries to leverage the features of 
 object-oriented JavaScript. It is fully based on namespaces and does not 
 modify or extend native JavaScript types. Most modern browsers are 
-supported (e.g. Firefox, Internet Explorer and Opera; Safari soon) and it 
+supported (e.g. Firefox, Internet Explorer, Opera, WebKit/Safari) and it 
 is free of memory leaks. It comes with a comprehensive API reference, that 
 is auto-generated from Javadoc-like comments and from the syntax tree 
 representing the code. The fast and complete JavaScript parser not only 
 allows for doc generation, but is an integral part of the automatic build 
 process that makes optimizing, compressing, linking and deployment of 
-custom applications very user-friendly.
+custom applications very user-friendly. Internationalization and localization 
+of applications for various countries and languages is a core feature and easy 
+to use.
 
 
 GUI Toolkit
@@ -45,8 +47,8 @@ done programmatically in JavaScript for maximum performance.
 
 No HTML has to be used and augmented to define the interface. The qooxdoo 
 user does not even have to know CSS to style the interface. Clean and 
-easy-to-configure themes for appearance, colors or icons allow for a 
-full-fledged styling that even supports runtime switching.
+easy-to-configure themes for appearance, colors, borders, fonts and icons allow 
+for a full-fledged styling that even supports runtime switching.
 
 
 AJAX
