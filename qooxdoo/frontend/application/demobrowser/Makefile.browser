@@ -22,23 +22,18 @@
 ####################################################################################
 
 QOOXDOO_PATH = ../../..
-
 APPLICATION_NAMESPACE = demobrowser
 APPLICATION_CLASSNAME = Application
 APPLICATION_SCRIPT_FILENAME = demobrowser.js
-
 APPLICATION_MAKE_TITLE = DEMO BROWSER
 APPLICATION_API_TITLE = qooxdoo Demo Browser
-
 APPLICATION_FILES = index.html
-
 APPLICATION_RESOURCE_FILTER = true
-
 APPLICATION_LINEBREAKS_BUILD = true
 APPLICATION_LINEBREAKS_SOURCE = true
-
 APPLICATION_COMPLETE_BUILD = false
 APPLICATION_COMPLETE_SOURCE = false
+APPLICATION_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$(APPLICATION_NAMESPACE)
 
 ####################################################################################
 # INCLUDE CORE
