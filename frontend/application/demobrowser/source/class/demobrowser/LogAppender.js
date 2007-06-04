@@ -71,13 +71,25 @@ qx.Class.define("demobrowser.LogAppender",
 
   members :
   {
+    colors :
+    {
+      0 : "white",
+      200 : "white",
+      500 : "#F1FBF3",
+      600 : "#FEF0D2",
+      700 : "#FCE1D8",
+      800 : "#FCE1D8",
+      1000 : "white"
+    },
+
+
     // overridden
     /**
      * TODOC
      *
      * @type member
      * @param evt {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     appendLogEvent : function(evt)
     {
@@ -85,13 +97,14 @@ qx.Class.define("demobrowser.LogAppender",
       var text = evt.logger.getName();
 
       if (evt.instanceId != null) {
-        text += " (" + evt.instanceId + ")";
+        text += "(" + evt.instanceId + ")";
       }
 
       text += ': ';
 
-      // alert("\n" + text + "\n" + this.formatLogEvent(evt));
-      this.target.setHtml(this.target.getHtml() + "<br>" + text + this.formatLogEvent(evt));
+      var html = '<div style="background-color:' + this.colors[evt.level] + '">' + text + this.formatLogEvent(evt) + '</div>';
+
+      this.target.setHtml(this.target.getHtml() + html);
     }
   },
 
