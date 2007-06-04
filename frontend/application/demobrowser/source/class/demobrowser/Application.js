@@ -67,6 +67,16 @@ qx.Class.define("demobrowser.Application",
       // Initialize the viewer
       this.viewer = new demobrowser.DemoBrowser;
       this.viewer.addToDocument();
+
+      // Load data file
+      qx.client.Timer.once(this._load, this, 0);
+    },
+
+
+    _load : function()
+    {
+      // load data
+      this.viewer.dataLoader("script/layout.js");
     }
   },
 
