@@ -420,6 +420,27 @@ qx.Class.define("demobrowser.TreeDataHandler",
     },
 
 
+    getPreviousNode : function (node) // node is tree node 
+    {
+      var prevNode = node.getPrevSibling();
+
+      if (prevNode)
+      {
+        return prevNode;
+      }
+    },
+
+
+    getNextNode : function (node) // node is a tree node 
+    {
+      var nextNode = node.getNextSibling();
+      if (nextNode) 
+      {
+        return nextNode;
+      }
+    },
+
+
     /**
      * TODOC
      *
