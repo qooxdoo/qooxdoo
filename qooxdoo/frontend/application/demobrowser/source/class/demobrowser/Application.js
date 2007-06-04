@@ -73,9 +73,7 @@ qx.Class.define("demobrowser.Application",
     },
 
 
-    _load : function()
-    {
-      // load data
+    _load : function() {
       this.viewer.dataLoader("script/layout.js");
     }
   },
