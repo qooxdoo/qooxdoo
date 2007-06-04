@@ -1,6 +1,11 @@
 /* ************************************************************************
 
-  Message Class
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2007 Christian Boulanger
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -16,11 +21,10 @@
 
 #module(event.message)
 
-
 ************************************************************************ */
 
 /**
- * creates a message to be dispatched on the message bus.
+ * A message to be dispatched on the message bus.
  */
 qx.Class.define("qx.event.message.Message",
 {
