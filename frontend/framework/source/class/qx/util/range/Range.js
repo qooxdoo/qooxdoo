@@ -123,7 +123,7 @@ qx.Class.define("qx.util.range.Range",
         return this.getMax();
       }
 
-      return value;
+      return Math.round(value);
     }
   }
 });

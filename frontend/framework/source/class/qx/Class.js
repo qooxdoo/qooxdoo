@@ -1458,14 +1458,6 @@ qx.Class.define("qx.Class",
       // Attach local properties
       code.push('if(!clazz.$$propertiesAttached)qx.core.Property.attach(clazz);');
 
-      // ALPHA: Testing override feature of initial appearance, see Spinner.js
-      /*
-      code.push('if (clazz._appearance){
-      code.push('console.debug("TEST: " + clazz._appearance);');
-      code.push('this.__init$appearance = clazz._appearance;');
-      code.push('}');
-      */
-
       // Execute default constructor
       code.push('var retval=clazz.$$original.apply(this,arguments);');
 
