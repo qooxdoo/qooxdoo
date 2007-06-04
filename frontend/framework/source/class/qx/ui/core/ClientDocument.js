@@ -573,14 +573,6 @@ qx.Class.define("qx.ui.core.ClientDocument",
     if (qx.core.Setting.get("qx.enableApplicationLayout")) {
       qx.html.StyleSheet.createElement("html,body{width:100%;height:100%;overflow:hidden;}");
     }
-
-    // Fix IE background image cache, see also:
-    // http://misterpixel.blogspot.com/2006/09/forensic-analysis-of-ie6.html
-    /*
-    if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-      document.execCommand("BackgroundImageCache", false, true);
-    }
-    */
   },
 
 
