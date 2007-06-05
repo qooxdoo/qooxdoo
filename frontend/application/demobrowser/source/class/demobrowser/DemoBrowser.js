@@ -301,7 +301,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       buttview.set({ height : "1*", padding : 10 });
       this.widgets["outputviews.bar"] = buttview.getBar();
 
-      var bsb1 = new qx.ui.pageview.tabview.Button("Demo Page", "icon/16/actions/system-run.png");
+      var bsb1 = new qx.ui.pageview.tabview.Button("Start", "icon/16/actions/system-run.png");
       this.widgets["outputviews.demopage.button"] = bsb1;
       var bsb2 = new qx.ui.pageview.tabview.Button("Log", "icon/16/mimetypes/text-ascii.png");
       bsb1.setChecked(true);
