@@ -63,7 +63,11 @@ qx.Class.define("qx.ui.menu.MenuLayoutImpl",
     ---------------------------------------------------------------------------
     */
 
-    /** Updates children on special jobs */
+    /** Updates children on special jobs
+     * @type member
+     * @param vQueue {Hash} job queue
+     * @return {Boolean} true
+     */
     /**
      * Global Structure:
      *  [01] COMPUTE BOX DIMENSIONS FOR AN INDIVIDUAL CHILD
@@ -87,10 +91,6 @@ qx.Class.define("qx.ui.menu.MenuLayoutImpl",
      *  [08] CHILDREN ADD/REMOVE/MOVE HANDLING
      *  [09] FLUSH LAYOUT QUEUES OF CHILDREN
      *  [10] LAYOUT CHILD
-     *
-     * @type member
-     * @param vQueue {var} TODOC
-     * @return {var} TODOC
      */
     updateChildrenOnJobQueueFlush : function(vQueue)
     {

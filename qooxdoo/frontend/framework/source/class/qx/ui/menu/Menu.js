@@ -107,6 +107,7 @@ qx.Class.define("qx.ui.menu.Menu",
       init : "auto"
     },
 
+    /** Gap in pixels between the icon and the content of a menu entry */
     iconContentGap :
     {
       check : "Integer",
@@ -114,6 +115,7 @@ qx.Class.define("qx.ui.menu.Menu",
       init : 4
     },
 
+    /** Gap in pixels between the label and the shortcut (for the command) of a menu entry */
     labelShortcutGap :
     {
       check : "Integer",
@@ -121,6 +123,7 @@ qx.Class.define("qx.ui.menu.Menu",
       init : 10
     },
 
+    /** Gap in pixels between the content and the arrow for a sub menu of a menu entry */
     contentArrowGap :
     {
       check : "Integer",
@@ -128,6 +131,7 @@ qx.Class.define("qx.ui.menu.Menu",
       init : 8
     },
 
+    /** Padding of the content of a menu entry when no icon is used */
     contentNonIconPadding :
     {
       check : "Integer",
@@ -135,6 +139,7 @@ qx.Class.define("qx.ui.menu.Menu",
       init : 20
     },
 
+    /** Padding of the content of a menu entry when no arrow is used */
     contentNonArrowPadding :
     {
       check : "Integer",
@@ -163,19 +168,21 @@ qx.Class.define("qx.ui.menu.Menu",
       nullable : true
     },
 
-    /** reference to the parent menu if the menu is a submenu */
+    /** Reference to the parent menu if the menu is a submenu */
     parentMenu :
     {
       check : "qx.ui.menu.Menu",
       nullable : true
     },
 
+    /** Controls whether the menus getting re-opened fast or not */
     fastReopen :
     {
       check : "Boolean",
       init : false
     },
 
+    /** Interval in ms after the menu should be openend */
     openInterval :
     {
       check : "Integer",
@@ -183,6 +190,7 @@ qx.Class.define("qx.ui.menu.Menu",
       init : 250
     },
 
+    /** Interval in ms after the menu should be closed  */
     closeInterval :
     {
       check : "Integer",
@@ -190,13 +198,15 @@ qx.Class.define("qx.ui.menu.Menu",
       init : 250
     },
 
+    /** Horizontal offset in pixels of the sub menu  */
     subMenuHorizontalOffset :
     {
       check : "Integer",
       themeable : true,
       init : -3
     },
-
+   
+    /** Vertical offset in pixels of the sub menu */
     subMenuVerticalOffset :
     {
       check : "Integer",
@@ -204,6 +214,7 @@ qx.Class.define("qx.ui.menu.Menu",
       init : -2
     },
 
+    /** Controls whether the shortcuts should be indented or not  */
     indentShortcuts :
     {
       check : "Boolean",
