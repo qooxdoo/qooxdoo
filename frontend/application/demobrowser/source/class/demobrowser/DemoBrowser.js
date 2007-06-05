@@ -677,8 +677,6 @@ qx.Class.define("demobrowser.DemoBrowser",
             {  // TODO: hard-wired
               t.setOpen(true);
             }
-
-            //buildSubTree(t, currNode);
           }
           else
           {
@@ -1022,10 +1020,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         var content = evt.getData().getContent();
 
         var start = new Date();
-
-        // extracting the meat
-        var data = content.match('_demoData_ = .*\n\n')[0];
-        var treeData = eval(data);
+        var treeData = eval(content);
 
         var end = new Date();
         this.debug("Time to eval tree data: " + (end.getTime() - start.getTime()) + "ms");
