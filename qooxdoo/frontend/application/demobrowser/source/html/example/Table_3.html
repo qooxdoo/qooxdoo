@@ -46,10 +46,10 @@
     var table = new qx.ui.table.Table(tableModel);
     with (table) {
       set({
-            left:10,
-            top:30,
+            left:20,
+            top:20,
             width:550,
-            height:600,
+            height:400,
             border:"inset-thin"
           });
       setMetaColumnCounts([1, -1]);
@@ -100,7 +100,7 @@
                                         "0099FF", null, null);
         newRenderer.addNumericCondition(">", 950, "center",
                                         "00CCFF", null, "bold");
-      } catch (ex) {	
+      } catch (ex) {
         alert("Error: " + ex);
       }
 
