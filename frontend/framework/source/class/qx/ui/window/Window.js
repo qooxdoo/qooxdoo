@@ -1361,6 +1361,10 @@ qx.Class.define("qx.ui.window.Window",
           if (f.getParent() != this.getParent())
           {
             f.setParent(this.getParent());
+
+            // This flush is required to get the element node, needed by
+            // the code below and the other event handlers
+            qx.ui.core.Widget.flushGlobalQueues();
           }
 
           f._renderRuntimeLeft(qx.html.Location.getPageBoxLeft(el) - l);
