@@ -1,17 +1,17 @@
 # German translation
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo feedreader\n"
-"X-Generator: KBabel 1.11.4\n"
 "Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-06-05 13:35+0200\n"
 "PO-Revision-Date: 2006-12-22 09:59+0100\n"
-"POT-Creation-Date: 2007-05-30 15:19+0200\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"MIME-Version: 1.0\n"
-"Language-Team: <en@li.org>\n"
-"Content-Transfer-Encoding: 8bit\n"
 "Last-Translator: Fabian Jakobs <fabian dot jakobs at 1und1 dot de>\n"
+"Language-Team: <en@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: source/class/feedreader/Application.js:201
@@ -118,4 +118,3 @@ msgstr "OK"
 #: source/class/feedreader/ArticleView.js:139
 msgid "read more ..."
 msgstr "weitere Informationen ..."
-
