@@ -19,13 +19,13 @@
 
 /**
  * Create a list of successive integers.
- * 
- * WARNING: Experimental! 
+ *
+ * WARNING: Experimental!
  *          Most likely to change in the future. May be pimped up by ideas
  *          from http://www.mochikit.com/doc/html/MochiKit/Iter.html#fn-range
  *          or consolidated with {@link qx.util.range.Range}
- * 
- * The constructor can take a negative step width, or start greater than stop, 
+ *
+ * The constructor can take a negative step width, or start greater than stop,
  * to create decreasing ranges.
  *
  *<pre>
@@ -45,7 +45,7 @@ qx.Class.define("qx.util.range.IntegerRange",
    * @param stop  {Integer} including end of range
    * @param step  {Integer ? 1}
    *   step width between data points; can be negative to create decreasing
-   *   ranges 
+   *   ranges
    */
   construct : function(start, stop ,step) // these parms are needed for documentation
   {

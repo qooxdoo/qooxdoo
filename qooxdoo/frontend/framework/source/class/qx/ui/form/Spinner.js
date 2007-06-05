@@ -273,7 +273,7 @@ qx.Class.define("qx.ui.form.Spinner",
       dispose : true
     },
 
-    
+
     /** Holding a reference to the protected {@link _checkValue} method */
     checkValueFunction :
     {
@@ -395,7 +395,7 @@ qx.Class.define("qx.ui.form.Spinner",
 
     /**
      * Callback for the "keyPress" event.<br/>
-     * Perform action when "Enter" (without "Alt"), control keys 
+     * Perform action when "Enter" (without "Alt"), control keys
      * and numeric (0-9) keys are pressed. Suppress all key events for
      * events without modifiers.
      *
@@ -451,10 +451,10 @@ qx.Class.define("qx.ui.form.Spinner",
 
     /**
      * Callback for "keyDown" event.<br/>
-     * Controls the interval mode ("single" or "page") 
-     * and the interval increase by detecting "Up"/"Down" 
+     * Controls the interval mode ("single" or "page")
+     * and the interval increase by detecting "Up"/"Down"
      * and "PageUp"/"PageDown" keys.
-     * Starting a timer to control the incrementing of the 
+     * Starting a timer to control the incrementing of the
      * spinner value.
      *
      * @type member
@@ -539,7 +539,7 @@ qx.Class.define("qx.ui.form.Spinner",
 
     /**
      * Callback method for the "mouseDown" event of the spinner buttons.<br/>
-     * State handling, registering event listeners at the spinner button and 
+     * State handling, registering event listeners at the spinner button and
      * invoking the increment management (resets increments, setup and start timer etc.).
      *
      * @type member
@@ -575,7 +575,7 @@ qx.Class.define("qx.ui.form.Spinner",
     /**
      * Callback method for the "mouseUp" event of the spinner buttons.<br/>
      * State handling, removing event listeners at the spinner button, focusing
-     * the text field and resetting the interval management (stopping timer, 
+     * the text field and resetting the interval management (stopping timer,
      * resetting interval increase).
      *
      * @type member
@@ -809,7 +809,7 @@ qx.Class.define("qx.ui.form.Spinner",
     /**
      * Callback method for the "interval" event.<br/>
      * Stops the timer and sets a new interval. Executes the increment
-     * of the spinner depending on the intervalMode and restarts the timer with 
+     * of the spinner depending on the intervalMode and restarts the timer with
      * the new interval.
      *
      * @type member

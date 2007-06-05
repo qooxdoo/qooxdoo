@@ -425,7 +425,7 @@ qx.Class.define("testrunner.runner.TestHandler",
   },
 
 
-  destruct : function () 
+  destruct : function ()
   {
     this._disposeFields("tmap");
     this._disposeObjects("ttree");

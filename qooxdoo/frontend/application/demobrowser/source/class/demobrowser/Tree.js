@@ -215,7 +215,7 @@ qx.Class.define("demobrowser.Tree",
 
 
 
-  statics : 
+  statics :
   {
     // compute the index of an array element
     indexOf : function (arr, obj)

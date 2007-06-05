@@ -387,7 +387,7 @@ qx.Class.define("testrunner.runner.ProgressBar",
   },
 
 
-  destruct : function () 
+  destruct : function ()
   {
     this._disposeObjects(
       "label",

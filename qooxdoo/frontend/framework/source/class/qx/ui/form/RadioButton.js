@@ -205,7 +205,7 @@ qx.Class.define("qx.ui.form.RadioButton",
      *
      * @type member
      * @param e {qx.type.event.KeyEvent} keyPress event
-     * @return {null | true} 
+     * @return {null | true}
      */
     _onkeypress : function(e)
     {
