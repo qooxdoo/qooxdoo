@@ -12,7 +12,7 @@
   <script type="text/javascript" src="../layout.js"></script>
 
   <div id="demoDescription">
-    <p>An example showing global shortcut commands in action. The commands are linked with menu-items, but 
+    <p>An example showing global shortcut commands in action. The commands are linked with menu-items, but
     could also be executed with the corresponding shortcut.</p>
   </div>
 
@@ -20,35 +20,35 @@
   qx.core.Init.getInstance().defineMain(function()
   {
     var d = qx.ui.core.ClientDocument.getInstance();
-    
+
     /* comamnds */
     var undo_cmd         = new qx.client.Command("Ctrl+Z");
     undo_cmd.addEventListener("execute", function(){ this.debug("undo Command executed"); }, this);
-    
+
     var redo_cmd         = new qx.client.Command("Ctrl+Y");
     redo_cmd.addEventListener("execute", function(){ this.debug("redo Command executed"); }, this);
 
     var cut_cmd          = new qx.client.Command("Ctrl+X");
     cut_cmd.addEventListener("execute", function(){ this.debug("cut Command executed"); }, this);
-    
+
     var copy_cmd         = new qx.client.Command("Ctrl+C");
     copy_cmd.addEventListener("execute", function(){ this.debug("copy Command executed"); }, this);
-    
+
     var paste_cmd        = new qx.client.Command("Ctrl+V");
     paste_cmd.addEventListener("execute", function(){ this.debug("paste Command executed"); }, this);
-    
+
     var delete_cmd       = new qx.client.Command("Del");
     delete_cmd.addEventListener("execute", function(){ this.debug("delete Command executed"); }, this);
-    
+
     var select_all_cmd   = new qx.client.Command("Ctrl+A");
     select_all_cmd.addEventListener("execute", function(){ this.debug("select all Command executed"); }, this);
-    
+
     var search_cmd       = new qx.client.Command("Ctrl+F");
     search_cmd.addEventListener("execute", function(){ this.debug("search Command executed"); }, this);
-    
+
     var search_again_cmd = new qx.client.Command("F3");
     search_again_cmd.addEventListener("execute", function(){ this.debug("search again Command executed"); }, this);
-    
+
     /* building the menu */
     var m2 = new qx.ui.menu.Menu;
 
@@ -106,7 +106,7 @@
 
     var w1 = new qx.ui.form.Button("Open");
 
-    w1.setTop(48);
+    w1.setTop(20);
     w1.setLeft(20);
 
     w1.addEventListener("click", function(e)
@@ -134,7 +134,7 @@
     });
 
 
-    d.add(w1);    
+    d.add(w1);
   });
   </script>
 </body>
