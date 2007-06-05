@@ -274,10 +274,6 @@ qx.Class.define("testrunner.test.Class",
       qx.Class.define("testrunner.Setting1", { settings : { "testrunner.juhu" : "kinners" } });
 
       this.assertEquals("kinners", qx.core.Setting.get("testrunner.juhu"));
-
-      this.assertExceptionDebugOn(function() {
-        qx.Class.define("testrunner.Setting2", { settings : { "foo.juhu" : "kinners" } });
-      }, Error, "Forbidden setting");
     },
 
 
