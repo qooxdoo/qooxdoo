@@ -45,7 +45,7 @@ qx.Theme.define("qx.theme.ext.font.Default",
       family : [ "Verdana", "Helvetica", "Tahoma" ]
     },
 
-    "boldLarge" :
+    "bold-large" :
     {
       size : 13,
       family : [ "Verdana", "Helvetica", "Tahoma" ],
