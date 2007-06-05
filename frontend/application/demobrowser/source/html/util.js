@@ -19,7 +19,7 @@
     pagename = pagename.charAt(0).toUpperCase() + pagename.substring(1);
     var div = String.fromCharCode(187);
 
-    document.title = "qooxdoo " + div + " Demo Browser " + div + " Sample " + div + " " + category + " " + div + " " + pagename;
+    document.title = "qooxdoo " + div + " Demo Browser " + div + " " + category + " " + div + " " + pagename;
   }
 })();
 
