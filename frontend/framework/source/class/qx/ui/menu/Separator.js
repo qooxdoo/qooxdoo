@@ -103,31 +103,44 @@ qx.Class.define("qx.ui.menu.Separator",
   {
 
     /**
+     * Returns <code>false</code> to clarify that the Separator widget has no icon
+     *  
      * @signature function()
+     * @return {Boolean} false
      */
     hasIcon : qx.lang.Function.returnFalse,
 
     /**
+     * Returns <code>false</code> to clarify that the Separator widget has no label
+     * 
      * @signature function()
+     * @return {Boolean} false
      */
     hasLabel : qx.lang.Function.returnFalse,
 
     /**
+     * Returns <code>false</code> to clarify that the Separator widget has no shortcut
+     * 
      * @signature function()
+     * @return {Boolean} false
      */
     hasShortcut : qx.lang.Function.returnFalse,
 
     /**
+     * Returns <code>false</code> to clarify that the Separator widget has no sub menu
+     * 
      * @signature function()
+     * @return {Boolean} false
      */
     hasMenu : qx.lang.Function.returnFalse,
 
 
     /**
-     * TODOC
+     * Callback method for the "mouseDown" event<br/>
+     * Simply stops the propagation of the event
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.MouseEvent} mouseDown event
      * @return {void}
      */
     _onmousedown : function(e) {

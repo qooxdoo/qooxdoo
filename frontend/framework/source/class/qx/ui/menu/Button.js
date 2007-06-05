@@ -131,6 +131,7 @@ qx.Class.define("qx.ui.menu.Button",
       init : "auto"
     },
 
+    /** Icon of the menu button */
     icon :
     {
       check : "String",
@@ -139,6 +140,7 @@ qx.Class.define("qx.ui.menu.Button",
       themeable : true
     },
 
+    /** Label of the menu button */
     label :
     {
       apply : "_applyLabel",
@@ -146,6 +148,7 @@ qx.Class.define("qx.ui.menu.Button",
       dispose : true
     },
 
+    /** Associated sub menu */
     menu :
     {
       check : "qx.ui.menu.Menu",
@@ -178,10 +181,10 @@ qx.Class.define("qx.ui.menu.Button",
 
 
     /**
-     * TODOC
+     * Returns <code>true</code> if the button instance has an icon
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Boolean} icon available
      */
     hasIcon : function() {
       return this._hasIcon;
@@ -189,10 +192,10 @@ qx.Class.define("qx.ui.menu.Button",
 
 
     /**
-     * TODOC
+     * Returns <code>true</code> if the button instance has a label
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Boolean} label available
      */
     hasLabel : function() {
       return this._hasLabel;
@@ -200,10 +203,10 @@ qx.Class.define("qx.ui.menu.Button",
 
 
     /**
-     * TODOC
+     * Returns <code>true</code> if the button instance has a shortcut
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Boolean} shortcut available
      */
     hasShortcut : function() {
       return this._hasShortcut;
@@ -211,10 +214,10 @@ qx.Class.define("qx.ui.menu.Button",
 
 
     /**
-     * TODOC
+     * Returns <code>true</code> if the button instance has a submenu
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Boolean} sub menu available
      */
     hasMenu : function() {
       return this._hasMenu;
@@ -222,10 +225,10 @@ qx.Class.define("qx.ui.menu.Button",
 
 
     /**
-     * TODOC
+     * Accessor method for the button icon
      *
      * @type member
-     * @return {var} TODOC
+     * @return {qx.ui.basic.Image} button icon
      */
     getIconObject : function() {
       return this._iconObject;
@@ -233,10 +236,10 @@ qx.Class.define("qx.ui.menu.Button",
 
 
     /**
-     * TODOC
+     * Accessor method for the button label
      *
      * @type member
-     * @return {var} TODOC
+     * @return {qx.ui.basic.Label} button label
      */
     getLabelObject : function() {
       return this._labelObject;
@@ -244,10 +247,10 @@ qx.Class.define("qx.ui.menu.Button",
 
 
     /**
-     * TODOC
+     * Accessor method for the button shortcut
      *
      * @type member
-     * @return {var} TODOC
+     * @return {qx.ui.basic.Label} button shortcut
      */
     getShortcutObject : function() {
       return this._shortcutObject;
@@ -255,10 +258,10 @@ qx.Class.define("qx.ui.menu.Button",
 
 
     /**
-     * TODOC
+     * Accessor method for the button arrow
      *
      * @type member
-     * @return {var} TODOC
+     * @return {qx.ui.basic.Image} button arrow
      */
     getArrowObject : function() {
       return this._arrowObject;
@@ -266,10 +269,10 @@ qx.Class.define("qx.ui.menu.Button",
 
 
     /**
-     * TODOC
+     * Accessor method for the parent menu (if available)
      *
      * @type member
-     * @return {var | null} TODOC
+     * @return {qx.ui.menu.Menu | null} Returns the parent menu (if available)
      */
     getParentMenu : function()
     {
@@ -300,7 +303,7 @@ qx.Class.define("qx.ui.menu.Button",
      * This creates an new instance of the layout impl this widget uses
      *
      * @type member
-     * @return {var} TODOC
+     * @return {qx.ui.menu.ButtonLayoutImpl} instance of a button layout implementation
      */
     _createLayoutImpl : function() {
       return new qx.ui.menu.ButtonLayoutImpl(this);
@@ -439,10 +442,11 @@ qx.Class.define("qx.ui.menu.Button",
     */
 
     /**
-     * TODOC
+     * Callback method for "mouseUp" event<br/>
+     * Simply calls the {@link #execute} method
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.MouseEvent} mouseUp event
      * @return {void}
      */
     _onmouseup : function(e) {

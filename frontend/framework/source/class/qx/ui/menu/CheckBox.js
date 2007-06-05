@@ -70,17 +70,20 @@ qx.Class.define("qx.ui.menu.CheckBox",
       init : "menu-check-box"
     },
 
+    /** Name of the checkbox instance */
     name :
     {
       check : "String"
     },
 
+    /** Value of the checkbox instance */
     value :
     {
       check : "String",
       event : "changeValue"
     },
 
+    /** Whether the checkbox is checked or not */
     checked :
     {
       check : "Boolean",
@@ -127,7 +130,8 @@ qx.Class.define("qx.ui.menu.CheckBox",
     */
 
     /**
-     * TODOC
+     * Calls the protected method {@link #_processExecute} to process 
+     * the execute action.
      *
      * @type member
      * @return {void}
@@ -138,6 +142,12 @@ qx.Class.define("qx.ui.menu.CheckBox",
       this.base(arguments);
     },
 
+    /**
+     * Processes the execute action in calling the {@link #toggleChecked} method
+     * 
+     * @type member
+     * @return {void}
+     */
     _processExecute : function() {
       this.toggleChecked();
     }

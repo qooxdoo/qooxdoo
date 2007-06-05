@@ -115,7 +115,8 @@ qx.Class.define("qx.ui.menu.RadioButton",
 
 
     /**
-     * TODOC
+     * Applies the name by delegating it to the
+     * manager instance (if available)
      *
      * @type member
      * @param value {var} Current value
@@ -138,7 +139,7 @@ qx.Class.define("qx.ui.menu.RadioButton",
     */
 
     /**
-     * TODOC
+     * Processes the execute action in calling the {@link #setChecked} method
      *
      * @type member
      * @return {void}
