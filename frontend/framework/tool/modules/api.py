@@ -633,18 +633,29 @@ def handleProperties(item, classNode):
         #print propName, propDefinition
 
         # handle old style properties
-        if propDefinition.has_key("_legacy") or propDefinition.has_key("_fast") or propDefinition.has_key("_cached"):
-            handlePropertyDefinitionOldCommon(keyvalue, classNode, propName, value)
+        if propDefinition.has_key("_legacy") or propDefinition.has_key("_cached"):
+            node = handlePropertyDefinitionOldCommon(keyvalue, classNode, propName, value)
+            if propDefinition.has_key("_legacy"):
+                node.set("propertyType", "legacy")
+            else:
+                node.set("propertyType", "cached")
             continue
 
+        if propDefinition.has_key("_fast"):
+            node = handlePropertyDefinitionOldCommon(keyvalue, classNode, propName, value)
+            generatePropertyMethods(propName, classNode, ["get"])
+            node.set("propertyType", "fast")
+            continue
 
         if propDefinition.has_key("group"):
             node = handlePropertyGroup(propName, propDefinition, classNode)
+            node.set("propertyType", "group")
             groupMembers = [member[1:-1] for member in node.get("group").split(",")]
             generateGroupPropertyMethod(propName, groupMembers, node.get("mode", False), classNode)
             generatePropertyMethods(propName, classNode, ["reset"])
         else:
             node = handlePropertyDefinitionNew(propName, propDefinition, classNode)
+            node.set("propertyType", "new")
             if node.get("refine", False) != "true":
                 generatePropertyMethods(propName, classNode, ["set", "get", "init", "reset"])
                 if node.get("check", False) == "Boolean":
@@ -970,7 +981,7 @@ def handlePropertyDefinitionOld(item, classNode):
     paramsMap = item.getChild("params").getChild("map")
     propertyName = paramsMap.getChildByAttribute("key", "name").getChild("value").getChild("constant").get("value")
 
-    handlePropertyDefinitionOldCommon(item, classNode, propertyName, paramsMap)
+    return handlePropertyDefinitionOldCommon(item, classNode, propertyName, paramsMap)
 
 
 def handlePropertyDefinitionOldCommon(item, classNode, propertyName, paramsMap):
@@ -1031,6 +1042,7 @@ def handlePropertyDefinitionOldCommon(item, classNode, propertyName, paramsMap):
     handleAccess(node, commentAttributes)
 
     classNode.addListChild("properties", node)
+    return node
 
 
 def handleMethodDefinitionOld(item, isStatic, classNode):
