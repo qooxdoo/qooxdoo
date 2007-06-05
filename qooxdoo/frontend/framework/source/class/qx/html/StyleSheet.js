@@ -60,7 +60,7 @@ qx.Class.define("qx.html.StyleSheet",
      *
      * @type static
      * @param vCssText {String} optional string of css rules
-     * @return {void}
+     * @return {Stylesheet} stylesheet object
      * @signature function(vCssText)
      */
     createElement : qx.lang.Object.select(document.createStyleSheet ? "ie4+" : "other",
