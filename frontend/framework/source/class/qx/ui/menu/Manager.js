@@ -61,11 +61,11 @@ qx.Class.define("qx.ui.menu.Manager",
     */
 
     /**
-     * TODOC
+     * Updates all registered menus
      *
      * @type member
-     * @param vTarget {var} TODOC
-     * @param vEventName {var} TODOC
+     * @param vTarget {Object} target of the processed event
+     * @param vEventName {String} processed event as string
      * @return {void}
      */
     update : function(vTarget, vEventName)
