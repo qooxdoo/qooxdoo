@@ -59,7 +59,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     // Main Pane
     // split
-    var mainsplit = new qx.ui.splitpane.HorizontalSplitPane(250, "1*");
+    var mainsplit = new qx.ui.splitpane.HorizontalSplitPane(200, "1*");
     this.add(mainsplit);
     this.mainsplit = mainsplit;
     mainsplit.setLiveResize(true);
