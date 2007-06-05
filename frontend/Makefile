@@ -48,7 +48,7 @@ RELEASE_BUILD_DOS = release/temp/build/dos/qooxdoo-$(FRAMEWORK_VERSION)-build
 RELEASE_SDK_UNIX = release/temp/sdk/unix/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 RELEASE_SDK_DOS = release/temp/sdk/dos/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
-APPLICATIONS = apiviewer feedreader sample showcase webmail quickstart testrunner
+APPLICATIONS = apiviewer demobrowser feedreader quickstart showcase testrunner webmail
 SDK_COPY = Makefile application/Makefile application/index.html
 
 
@@ -160,7 +160,7 @@ checkout-migration:
 	@echo "  MIGRATE CHECKOUT"
 	@echo "****************************************************************************"
 	@if [ 1 ]; then \
-	  migrate_options="--class-path framework/source/class --migration-input application/sample/source/html/"; \
+	  migrate_options="--class-path framework/source/class --migration-input application/demobrowser/source/html/"; \
 	  for APPLICATION in $(APPLICATIONS); do \
 	    if [ -d application/$$APPLICATION/source/class ]; then \
 	      migrate_options="$${migrate_options} --class-path application/$$APPLICATION/source/class"; \
