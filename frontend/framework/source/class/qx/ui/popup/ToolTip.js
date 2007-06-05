@@ -202,7 +202,7 @@ qx.Class.define("qx.ui.popup.ToolTip",
 
     /**
      * Callback method for the "beforeAppear" event.<br/>
-     * Does two things: stops the timer for the show interval and 
+     * Does two things: stops the timer for the show interval and
      * starts the timer for the hide interval.
      *
      * @type member
@@ -235,7 +235,7 @@ qx.Class.define("qx.ui.popup.ToolTip",
     /**
      * Callback method for the "afterAppear" event.<br/>
      * If the property {@link #restrictToPageOnOpen} is set to <code>true</code>
-     * the tooltip gets repositioned to ensure it is displayed within the 
+     * the tooltip gets repositioned to ensure it is displayed within the
      * boundaries of the {@link qx.ui.core.ClientDocument}.
      *
      * @type member
@@ -413,7 +413,7 @@ qx.Class.define("qx.ui.popup.ToolTip",
 
     /**
      * Callback method for the "interval" event of the show timer.<br/>
-     * Positions the tooltip (sets left and top) and calls the 
+     * Positions the tooltip (sets left and top) and calls the
      * {@link #show} method.
      *
      * @type member

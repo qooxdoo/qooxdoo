@@ -138,14 +138,14 @@ qx.Class.define("qx.ui.window.Manager",
 
     /**
      * Compares two windows (used as sort method in {@link #remove}).
-     * Sorts the windows by checking which of the given windows is active. 
+     * Sorts the windows by checking which of the given windows is active.
      * If none of those two are active the zIndex are subtracted from each
      * other to determine the sort order.
      *
      * @type member
      * @param w1 {qx.ui.window.Window} first window to compare
      * @param w2 {qx.ui.window.Window} second window to compare
-     * @return {int | var} 1 for first window active, -1 for second window active 
+     * @return {int | var} 1 for first window active, -1 for second window active
      * and the subtraction of the zIndex if none of the two are active.
      */
     compareWindows : function(w1, w2)
