@@ -532,24 +532,28 @@ qx.Class.define("qx.ui.core.Border",
 
     _applyWidthTop : function(value, old)
     {
+      this.__widthTop = value == null ? "0px" : value + "px";
       this.__computeComplexTop();
       this.__informManager("top");
     },
 
     _applyWidthRight : function(value, old)
     {
+      this.__widthRight = value == null ? "0px" : value + "px";
       this.__computeComplexRight();
       this.__informManager("right");
     },
 
     _applyWidthBottom : function(value, old)
     {
+      this.__widthBottom = value == null ? "0px" : value + "px";
       this.__computeComplexBottom();
       this.__informManager("bottom");
     },
 
     _applyWidthLeft : function(value, old)
     {
+      this.__widthLeft = value == null ? "0px" : value + "px";
       this.__computeComplexLeft();
       this.__informManager("left");
     },
@@ -803,7 +807,7 @@ qx.Class.define("qx.ui.core.Border",
         var style = obj._style;
 
         // Simple width & color update
-        style.borderTopWidth = this.getWidthTop() || "0px";
+        style.borderTopWidth = this.__widthTop || "0px";
         style.borderTopColor = this.__colorTop || "";
 
         // Complex border handling
@@ -855,7 +859,7 @@ qx.Class.define("qx.ui.core.Border",
         else
         {
           // Simple CSS value update
-          outer.borderTopWidth = this.getWidthTop() || "0px";
+          outer.borderTopWidth = this.__widthTop || "0px";
           outer.borderTopStyle = this.getStyleTop() || "none";
           outer.borderTopColor = this.__colorTop || "";
 
@@ -883,7 +887,7 @@ qx.Class.define("qx.ui.core.Border",
         var style = obj._style;
 
         // Simple width & color update
-        style.borderRightWidth = this.getWidthRight() || "0px";
+        style.borderRightWidth = this.__widthRight || "0px";
         style.borderRightColor = this.__colorRight || "";
 
         // Complex border handling
@@ -935,7 +939,7 @@ qx.Class.define("qx.ui.core.Border",
         else
         {
           // Simple CSS value update
-          outer.borderRightWidth = this.getWidthRight() || "0px";
+          outer.borderRightWidth = this.__widthRight || "0px";
           outer.borderRightStyle = this.getStyleRight() || "none";
           outer.borderRightColor = this.__colorRight || "";
 
@@ -963,7 +967,7 @@ qx.Class.define("qx.ui.core.Border",
         var style = obj._style;
 
         // Simple width & color update
-        style.borderBottomWidth = this.getWidthBottom() || "0px";
+        style.borderBottomWidth = this.__widthBottom || "0px";
         style.borderBottomColor = this.__colorBottom || "";
 
         // Complex border handling
@@ -1015,7 +1019,7 @@ qx.Class.define("qx.ui.core.Border",
         else
         {
           // Simple CSS value update
-          outer.borderBottomWidth = this.getWidthBottom() || "0px";
+          outer.borderBottomWidth = this.__widthBottom || "0px";
           outer.borderBottomStyle = this.getStyleBottom() || "none";
           outer.borderBottomColor = this.__colorBottom || "";
 
@@ -1043,7 +1047,7 @@ qx.Class.define("qx.ui.core.Border",
         var style = obj._style;
 
         // Simple width & color update
-        style.borderLeftWidth = this.getWidthLeft() || "0px";
+        style.borderLeftWidth = this.__widthLeft || "0px";
         style.borderLeftColor = this.__colorLeft || "";
 
         // Complex border handling
@@ -1095,7 +1099,7 @@ qx.Class.define("qx.ui.core.Border",
         else
         {
           // Simple CSS value update
-          outer.borderLeftWidth = this.getWidthLeft() || "0px";
+          outer.borderLeftWidth = this.__widthLeft || "0px";
           outer.borderLeftStyle = this.getStyleLeft() || "none";
           outer.borderLeftColor = this.__colorLeft || "";
 
