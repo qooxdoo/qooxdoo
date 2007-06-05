@@ -205,7 +205,7 @@ qx.Class.define("qx.ui.menu.Menu",
       themeable : true,
       init : -3
     },
-   
+
     /** Vertical offset in pixels of the sub menu */
     subMenuVerticalOffset :
     {

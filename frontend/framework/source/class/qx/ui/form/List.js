@@ -139,7 +139,7 @@ qx.Class.define("qx.ui.form.List",
 
 
     /**
-     * Traverses the widget tree upwards until a 
+     * Traverses the widget tree upwards until a
      * corresponding qx.ui.form.ListItem to given vItem
      * (event target) is found.
      *
@@ -392,7 +392,7 @@ qx.Class.define("qx.ui.form.List",
 
     /**
      * Executes different (depending on the given search type) methods
-     * of qx.ui.form.ListItem for searching the given search string. 
+     * of qx.ui.form.ListItem for searching the given search string.
      * Returns a reference to the qx.ui.form.ListItem where the search string
      * is found first.
      *

@@ -86,7 +86,7 @@ qx.Class.define("qx.ui.window.Window",
     var ci = this._captionIcon = new qx.ui.basic.Image;
     ci.setAppearance("window-captionbar-icon");
     cb.add(ci);
-    
+
     // ************************************************************************
     //   CAPTIONTITLE
     // ************************************************************************
@@ -1032,7 +1032,7 @@ qx.Class.define("qx.ui.window.Window",
     _applyCaption : function(value, old) {
       this._captionTitle.setText(value);
     },
-    
+
     /**
      * TODOC
      *

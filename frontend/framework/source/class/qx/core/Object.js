@@ -129,7 +129,7 @@ qx.Class.define("qx.core.Object",
     /**
      * Destructor. This method is called by qooxdoo on object destruction.
      *
-     * Any class that holds resources like links to DOM nodes must override 
+     * Any class that holds resources like links to DOM nodes must override
      * this method and free these resources.
      *
      * @type static

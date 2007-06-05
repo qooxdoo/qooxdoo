@@ -104,7 +104,7 @@ qx.Class.define("qx.ui.menu.Separator",
 
     /**
      * Returns <code>false</code> to clarify that the Separator widget has no icon
-     *  
+     *
      * @signature function()
      * @return {Boolean} false
      */
@@ -112,7 +112,7 @@ qx.Class.define("qx.ui.menu.Separator",
 
     /**
      * Returns <code>false</code> to clarify that the Separator widget has no label
-     * 
+     *
      * @signature function()
      * @return {Boolean} false
      */
@@ -120,7 +120,7 @@ qx.Class.define("qx.ui.menu.Separator",
 
     /**
      * Returns <code>false</code> to clarify that the Separator widget has no shortcut
-     * 
+     *
      * @signature function()
      * @return {Boolean} false
      */
@@ -128,7 +128,7 @@ qx.Class.define("qx.ui.menu.Separator",
 
     /**
      * Returns <code>false</code> to clarify that the Separator widget has no sub menu
-     * 
+     *
      * @signature function()
      * @return {Boolean} false
      */

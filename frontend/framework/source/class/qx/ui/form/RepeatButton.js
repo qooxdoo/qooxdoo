@@ -56,7 +56,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
   */
 
   events: {
-    /** 
+    /**
      * This event gets dispatched with every interval. The timer gets executed
      * as long as the user holds down the mouse button.
      */
@@ -114,7 +114,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
 
     /**
      * Callback method for the "mouseDown" method.<br/>
-     * Sets the interval of the timer (value of firstInterval property) and 
+     * Sets the interval of the timer (value of firstInterval property) and
      * starts the timer. Additionally removes the state "abandoned" and adds the
      * state "pressed".
      *
@@ -141,7 +141,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
     /**
      * Callback method for the "mouseUp" event.<br/>
      * Handles the case that the user is releasing the mouse button
-     * before the timer interval method got executed. This way the 
+     * before the timer interval method got executed. This way the
      * "execute" method get executed at least one time.
      *
      * @type member
@@ -171,7 +171,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
     /**
      * Callback for the interval event.<br/>
      * Stops the timer and starts it with a new interval
-     * (value of the "interval" property). Dispatches the 
+     * (value of the "interval" property). Dispatches the
      * "execute" event.
      *
      * @type member

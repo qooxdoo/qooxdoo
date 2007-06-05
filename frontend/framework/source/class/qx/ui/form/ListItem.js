@@ -168,7 +168,7 @@ qx.Class.define("qx.ui.form.ListItem",
     */
 
     /**
-     * Execute by the "_findItem" method at {@link qx.ui.form.List} to perform 
+     * Execute by the "_findItem" method at {@link qx.ui.form.List} to perform
      * a string search
      *
      * @type member
@@ -181,7 +181,7 @@ qx.Class.define("qx.ui.form.ListItem",
 
 
     /**
-     * Execute by the "_findItem" method at {@link qx.ui.form.List} to perform 
+     * Execute by the "_findItem" method at {@link qx.ui.form.List} to perform
      * an exact string search
      *
      * @type member
@@ -194,7 +194,7 @@ qx.Class.define("qx.ui.form.ListItem",
 
 
     /**
-     * Execute by the "_findItem" method at {@link qx.ui.form.List} to perform 
+     * Execute by the "_findItem" method at {@link qx.ui.form.List} to perform
      * a value search
      *
      * @type member
@@ -207,7 +207,7 @@ qx.Class.define("qx.ui.form.ListItem",
 
 
     /**
-     * Execute by the "_findItem" method at {@link qx.ui.form.List} to perform 
+     * Execute by the "_findItem" method at {@link qx.ui.form.List} to perform
      * an exact value search
      *
      * @type member
