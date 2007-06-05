@@ -42,9 +42,9 @@ distclean:
 api:
 	@$(MAKE) -s -f Makefile.demobrowser api
 
-publish:
+publish: build
 	@echo "  * Syncing files..."
-	@$(SILENCE) $(CMD_SYNC_ONLINE) build root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/demobrowser
+	@$(SILENCE) $(CMD_SYNC_ONLINE) build/* root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/demobrowser
 
 fix:
 	@$(MAKE) -s -f Makefile.demobrowser fix
