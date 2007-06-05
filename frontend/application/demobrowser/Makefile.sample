@@ -58,19 +58,19 @@ error:
 
 source:
 	@echo
-	@echo "  GENERATION OF SAMPLE LAYOUT"
+	@echo "  GENERATION OF DEMO BROWSER DATA"
 	@$(CMD_LINE)
-	@echo "  * Generating source/script/layout.js..."
-	@$(CMD_PYTHON) tool/layout.py source/script/layout.js source/html
+	@echo "  * Generating source/script/demodata.js..."
+	@$(CMD_PYTHON) tool/gendata.py source/script/demodata.js source/html
 
 build:
 	@echo
-	@echo "  GENERATION OF SAMPLE LAYOUT"
+	@echo "  GENERATION OF DEMO BROWSER DATA"
 	@$(CMD_LINE)
-	@echo "  * Generating build/script/layout.js..."
-	@$(CMD_PYTHON) tool/layout.py build/script/layout.js build/html
+	@echo "  * Generating build/script/demodata.js..."
+	@$(CMD_PYTHON) tool/gendata.py build/script/demodata.js build/html
 
 clean:
-	@$(CMD_REMOVE) source/script/layout.js
-	@$(CMD_REMOVE) build/script/layout.js
+	@$(CMD_REMOVE) source/script/demodata.js
+	@$(CMD_REMOVE) build/script/demodata.js
 

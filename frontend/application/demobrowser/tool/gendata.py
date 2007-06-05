@@ -5,35 +5,13 @@ import sys, os, optparse, codecs, re
 
 
 
-basic = u"""
-_demoData_ = [%s];
+basic = u"""[%s]"""
 
-(function ()
-{
-  if (parent && parent.demobrowser) {
-    var demobrowser = parent.demobrowser;
-    var logger = parent.qx.core.Init.getInstance().getApplication().viewer.logappender;
-    if (logger)
-    {
-      qx.log.Logger.ROOT_LOGGER.removeAllAppenders();
-      qx.log.Logger.ROOT_LOGGER.addAppender(logger);
-    } else 
-    {
-      alert("Could not attach parent logger (" + parent.qx.core.Init.getInstance().getApplication().viewer + ")");
-    }
-  } 
-  else
-  {
-    alert("Cannot set demobrowswer's log appender!");
-  }
-})();
-
-qx.Class.include(qx.core.Init, qx.core.MLegacyInit);
-"""
 
 
 def main(dist, scan):
   res = ""
+  structurize = False
 
   firstCategory = True
   # for category in os.listdir(scan):
@@ -45,9 +23,11 @@ def main(dist, scan):
       res += "},"
 
     res += "{"
-    res += "classname:\""+category+"\",tests:["
+    res += "classname:\""+category+"\",tests:[\n"
 
     firstItem = True
+    lastbasename = None
+
     for item in os.listdir(os.path.join(scan, category)):
       if item == ".svn":
         continue
@@ -58,16 +38,42 @@ def main(dist, scan):
       if item == "index.html":
         continue
 
-      if not firstItem:
-        res += ","
-
       desc = getDesc(os.path.join(scan, category, item))
       desc = re.sub('"','\\"',desc)
 
-      res += '{name:"%s",desc:"%s"}' % (item, desc)
+      title = item[:item.find(".")]
+
+      if "_" in title:
+        nr = title[title.find("_")+1:]
+        basename = title[:title.find("_")]
+      else:
+        nr = 0
+        basename = title
+
+      title = title.replace("_", " ")
+
+      if structurize:
+        if lastbasename != basename:
+          firstItem = True
+
+          if lastbasename != None:
+            res += "\n]},\n"
+
+          res += "{"
+          res += "classname:\""+basename+"\",desc:\"Folder %s\",tests:[\n" % basename
+
+      if not firstItem:
+        res += ",\n"
+
+      res += '{nr:"%s",title:"%s",name:"%s",desc:"%s"}' % (nr, title, item, desc)
+      lastbasename = basename
       firstItem = False
 
-    res += "]"
+    if structurize:
+      if lastbasename != None:
+        res += "\n]}\n"
+
+    res += "\n]\n"
     firstCategory = False
 
   res += "}"
@@ -91,9 +97,9 @@ def getDesc(filepath):
     file = open(filepath).read()
     if file:
         # scan for div id="demoDescription
-        m = re.search(r'<div\s+id="demoDescription">(.*?)</div>', file, 
+        m = re.search(r'<div\s+id="demoDescription">(.*?)</div>', file,
                          re.IGNORECASE|re.DOTALL)
-        if m: 
+        if m:
             desc = m.group(1)
             desc = re.sub("\n"," ",desc)
             desc = desc.strip()
