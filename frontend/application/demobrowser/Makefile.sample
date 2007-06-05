@@ -33,8 +33,8 @@ APPLICATION_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VE
 APPLICATION_COMPLETE_BUILD = true
 APPLICATION_HTML_TO_ROOT_URI = ../..
 APPLICATION_LOCALES = de de_DE en en_US es es_ES fr fr_FR
-APPLICATION_ADDITIONAL_SOURCE_OPTIONS = --use-setting qx.enableApplicationLayout:false
-APPLICATION_ADDITIONAL_BUILD_OPTIONS = --use-setting qx.enableApplicationLayout:false
+#APPLICATION_ADDITIONAL_SOURCE_OPTIONS = --use-setting qx.enableApplicationLayout:false
+#APPLICATION_ADDITIONAL_BUILD_OPTIONS = --use-setting qx.enableApplicationLayout:false
 
 ################################################################################
 # INCLUDE CORE
