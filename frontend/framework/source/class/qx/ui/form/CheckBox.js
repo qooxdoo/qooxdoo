@@ -245,7 +245,7 @@ qx.Class.define("qx.ui.form.CheckBox",
 
 
     /**
-     * Listener method for "keyup" event. Toggles property "checked" when 
+     * Listener method for "keyup" event. Toggles property "checked" when
      * "Space" key was pressed.
      *
      * @type member

@@ -55,7 +55,7 @@ qx.Class.define("qx.ui.form.TextArea",
       init : true
     },
 
-    /** 
+    /**
      * Controls whether text wrap is activated or not.
      * This property uses the style property "wrap" (IE) respectively "whiteSpace"
      */

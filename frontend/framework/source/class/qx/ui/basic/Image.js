@@ -252,7 +252,7 @@ qx.Class.define("qx.ui.basic.Image",
     */
 
     /**
-     * Registers an image at the image manager (qx.io.image.Manager) and increases the 
+     * Registers an image at the image manager (qx.io.image.Manager) and increases the
      * visible counter
      *
      * @type member
@@ -270,7 +270,7 @@ qx.Class.define("qx.ui.basic.Image",
 
 
     /**
-     * Registers an image at the image manager (qx.io.image.Manager) and reduces the 
+     * Registers an image at the image manager (qx.io.image.Manager) and reduces the
      * visible counter
      *
      * @type member
@@ -326,10 +326,10 @@ qx.Class.define("qx.ui.basic.Image",
       }
     },
 
-    /** 
-     * Connects a callback method to the value manager to ensure 
+    /**
+     * Connects a callback method to the value manager to ensure
      * that changes to the source are handled by the image instance
-     * 
+     *
      * @type member
      * @return {void}
      */
@@ -341,7 +341,7 @@ qx.Class.define("qx.ui.basic.Image",
 
     /**
      * Sets the preloader property (with creating a new instance)
-     * 
+     *
      * @param value {String} source of image instance
      * @return {void}
      */
@@ -642,7 +642,7 @@ qx.Class.define("qx.ui.basic.Image",
     */
 
     /**
-     * Additionally (in comparison to base method) flushes global queues to 
+     * Additionally (in comparison to base method) flushes global queues to
      * get an up-to-date view when an image is loaded
      *
      * @type member

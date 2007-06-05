@@ -1197,7 +1197,7 @@ qx.Class.define("testrunner.runner.TestRunner",
   },
 
 
-  destruct : function () 
+  destruct : function ()
   {
     this._disposeFields(
       "widgets",

@@ -93,7 +93,7 @@ qx.Class.define("testrunner.runner.Application",
   },
 
 
-  destruct : function () 
+  destruct : function ()
   {
     this._disposeObjects("viewer");
   }

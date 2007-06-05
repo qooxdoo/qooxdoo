@@ -130,7 +130,7 @@ qx.Class.define("qx.ui.menu.CheckBox",
     */
 
     /**
-     * Calls the protected method {@link #_processExecute} to process 
+     * Calls the protected method {@link #_processExecute} to process
      * the execute action.
      *
      * @type member
@@ -144,7 +144,7 @@ qx.Class.define("qx.ui.menu.CheckBox",
 
     /**
      * Processes the execute action in calling the {@link #toggleChecked} method
-     * 
+     *
      * @type member
      * @return {void}
      */

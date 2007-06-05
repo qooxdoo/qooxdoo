@@ -67,7 +67,7 @@ qx.Class.define("qx.io.remote.Request",
     if (vMethod !== undefined) {
       this.setMethod(vMethod);
     }
-    
+
     if (vResponseType !== undefined) {
       this.setResponseType(vResponseType);
     }

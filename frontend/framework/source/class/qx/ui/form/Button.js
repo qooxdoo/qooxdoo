@@ -180,7 +180,7 @@ qx.Class.define("qx.ui.form.Button",
      * <ul>
      * <li>Removes "pressed" state (if set)</li>
      * <li>Removes "abandoned" state (if set)</li>
-     * <li>Adds "over" state (if "abandoned" state is not set)</li> 
+     * <li>Adds "over" state (if "abandoned" state is not set)</li>
      *
      * @type member
      * @param e {Event} Mouse event
@@ -217,9 +217,9 @@ qx.Class.define("qx.ui.form.Button",
 
     /**
      * Listener method for "keydown" event.<br/>
-     * Removes "abandoned" and adds "pressed" state 
+     * Removes "abandoned" and adds "pressed" state
      * for the keys "Enter" or "Space"
-     * 
+     *
      * @type member
      * @param e {Event} Key event
      * @return {void}
