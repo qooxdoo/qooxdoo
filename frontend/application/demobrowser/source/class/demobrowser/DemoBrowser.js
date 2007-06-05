@@ -467,10 +467,14 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       tree.getManager().addEventListener("changeSelection", this.treeGetSelection, this);
 
-      tree.addEventListener("dblclick", function(e) {
-        if (e.getTarget() instanceof qx.ui.tree.TreeFile) {
-          qx.client.Timer.once(this.runTest, this, 50);  // allow treeGetSelection to run first
-        } else 
+      tree.addEventListener("dblclick", function(e)
+      {
+        if (e.getTarget() instanceof qx.ui.tree.TreeFile)
+        {
+          // allow treeGetSelection to run first
+          qx.client.Timer.once(this.runTest, this, 50);
+        }
+        else
         {
           this.setCurrentSample(this.defaultUrl);
         }
@@ -780,7 +784,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       // buildSubTree* functions to a model node
       // Build the widget trees
       buildSubTree(this.widgets["treeview.full"], ttree);
-      buildSubTreeFlat(this.widgets["treeview.flat"], ttree);
+      //buildSubTreeFlat(this.widgets["treeview.flat"], ttree);
 
       // Re-enable and Re-select
       this.widgets["treeview"].setEnabled(true);
