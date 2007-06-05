@@ -60,10 +60,10 @@ qx.Class.define("qx.ui.popup.PopupAtom",
 
 
     /**
-     * TODOC
+     * Accessor method to get the atom sub widget
      *
      * @type member
-     * @return {var} TODOC
+     * @return {qx.ui.basic.Atom} atom sub widget
      */
     getAtom : function() {
       return this._atom;
