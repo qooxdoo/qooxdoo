@@ -33,7 +33,7 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
   members : {
 
     __createGeneratedMethodsHtml : function(node, currentClassDocNode) {
-        if (node.isOldProperty() || node.isRefined()) {
+        if (node.getPropertyType() == "legacy" || node.getPropertyType() == "cached" || node.isRefined()) {
           return "";
         }
 
@@ -51,19 +51,26 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
 
         var generatedMethods = [];
 
-        generatedMethods.push("{@link #" + access + "set" + name + "}</td><td> Set the property value.");
-
-        if (!node.isPropertyGroup())
+        if (node.getPropertyType() == "fast")
         {
           generatedMethods.push("{@link #" + access + "get" + name + "}</td><td> Get the property value.");
-          generatedMethods.push("{@link #" + access + "init" + name + "}</td><td> Call apply method with the init value.");
         }
+        else
+        {
+          generatedMethods.push("{@link #" + access + "set" + name + "}</td><td> Set the property value.");
 
-        generatedMethods.push("{@link #" + access + "reset" + name + "}</td><td> Reset the property value.");
+          if (!node.isPropertyGroup())
+          {
+            generatedMethods.push("{@link #" + access + "get" + name + "}</td><td> Get the property value.");
+            generatedMethods.push("{@link #" + access + "init" + name + "}</td><td> Call apply method with the init value.");
+          }
 
-        if (node.getType() == "Boolean") {
-          generatedMethods.push("{@link #" + access + "toggle" + name + "}</td><td> Toggle the property value.");
-          generatedMethods.push("{@link #" + access + "is" + name + "}</td><td> Check whether the property equals <code>true</code>.");
+          generatedMethods.push("{@link #" + access + "reset" + name + "}</td><td> Reset the property value.");
+
+          if (node.getType() == "Boolean") {
+            generatedMethods.push("{@link #" + access + "toggle" + name + "}</td><td> Toggle the property value.");
+            generatedMethods.push("{@link #" + access + "is" + name + "}</td><td> Check whether the property equals <code>true</code>.");
+          }
         }
 
         var ClassViewer = apiviewer.ui.ClassViewer;
