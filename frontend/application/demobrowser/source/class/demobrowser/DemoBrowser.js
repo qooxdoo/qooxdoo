@@ -104,6 +104,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         this.widgets["toolbar.runbutton"].setEnabled(false);
         this.widgets["toolbar.prevbutt"].setEnabled(false);
         this.widgets["toolbar.nextbutt"].setEnabled(false);
+        this.widgets["toolbar.sobutt"].setEnabled(false);
       }
     },
     this);
@@ -203,6 +204,21 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.widgets["toolbar.nextbutt"] = nextbutt;
       nextbutt.addEventListener("execute", this.playNext, this);
       nextbutt.setToolTip(new qx.ui.popup.ToolTip("Run the next sample"));
+
+      // -- spin-out sample
+      var sobutt = new qx.ui.toolbar.Button("Spin out Sample","icon/16/actions/edit-redo.png");
+      mb.add(sobutt);
+      this.widgets["toolbar.sobutt"] = sobutt;
+      sobutt.setToolTip(new qx.ui.popup.ToolTip("Open Sample in Own Window"));
+      sobutt.addEventListener("execute", function(e)
+      {
+        var sampUrl = 'html/'+this._currentSample;
+        var nw = new qx.client.NativeWindow(sampUrl, "Sample");
+        this.widgets["nativewindow"] = nw;
+        nw.setDimension(700, 550);
+        nw.open();
+        return;
+      }, this);
 
       toolbar.add((new qx.ui.basic.HorizontalSpacer).set({ width : "1*" }));
 
@@ -331,7 +347,6 @@ qx.Class.define("demobrowser.DemoBrowser",
       {
         var fwindow = this.f1.getContentWindow();
 
-         /*
         // wait for iframe to load
         if (!fwindow || !fwindow.qx || !fwindow.qx.log || !fwindow.qx.log.Logger)
         {
@@ -339,7 +354,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           return;
         }
 
-        this.toolbar.resetEnabled();
+        this.toolbar.resetEnabled();  // in case it was disabled (for reload)
 
         // set logger
         fwindow.qx.log.Logger.ROOT_LOGGER.removeAllAppenders();
@@ -351,10 +366,9 @@ qx.Class.define("demobrowser.DemoBrowser",
         if (div && div.parentNode) {
           div.parentNode.removeChild(div);
         }
-        */
 
-        // in case it was disabled (for reload)
-        this.toolbar.resetEnabled();  // in case it was disabled (for reload)
+        // enable toolbar buttons
+        this.widgets["toolbar.sobutt"].resetEnabled();
 
         // enable sample buttons
         this.widgets["toolbar.sampbutts"].resetEnabled();  // in case it was disabled
@@ -578,6 +592,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         this.widgets["toolbar.runbutton"].setEnabled(false);
         this.widgets["toolbar.prevbutt"].setEnabled(false);
         this.widgets["toolbar.nextbutt"].setEnabled(false);
+        this.widgets["toolbar.sobutt"].setEnabled(false);
       } else {
         this.widgets["toolbar.runbutton"].resetEnabled();
         if (treeNode.getUserData('modelLink').getPrevSibling())
