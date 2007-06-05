@@ -41,6 +41,7 @@ qx.Class.define("qx.ui.window.Manager",
 
   properties :
   {
+    /** This property holds the current active window */
     activeWindow :
     {
       check : "Object",
@@ -104,13 +105,12 @@ qx.Class.define("qx.ui.window.Manager",
     */
 
     /**
-     * TODOC
+     * Updates all registered window instances
      *
      * @type member
-     * @param oTarget {Object} TODOC
      * @return {void}
      */
-    update : function(oTarget)
+    update : function()
     {
       var vWindow, vHashCode;
       var vAll = this.getAll();
@@ -137,12 +137,16 @@ qx.Class.define("qx.ui.window.Manager",
     */
 
     /**
-     * TODOC
+     * Compares two windows (used as sort method in {@link #remove}).
+     * Sorts the windows by checking which of the given windows is active. 
+     * If none of those two are active the zIndex are subtracted from each
+     * other to determine the sort order.
      *
      * @type member
-     * @param w1 {var} TODOC
-     * @param w2 {var} TODOC
-     * @return {int | var} TODOC
+     * @param w1 {qx.ui.window.Window} first window to compare
+     * @param w2 {qx.ui.window.Window} second window to compare
+     * @return {int | var} 1 for first window active, -1 for second window active 
+     * and the subtraction of the zIndex if none of the two are active.
      */
     compareWindows : function(w1, w2)
     {
@@ -160,10 +164,11 @@ qx.Class.define("qx.ui.window.Manager",
 
 
     /**
-     * TODOC
+     * Adds a {@link qx.ui.window.Window} instance to the manager and
+     * sets it as active window.
      *
      * @type member
-     * @param vWindow {var} TODOC
+     * @param vWindow {qx.ui.window.Window} window instance to add
      * @return {void}
      */
     add : function(vWindow)
@@ -176,10 +181,13 @@ qx.Class.define("qx.ui.window.Manager",
 
 
     /**
-     * TODOC
+     * Removes a {@link qx.ui.window.Window} instance from the manager.
+     * If the current active window is the one which should be removed the
+     * existing windows are compared to determine the new active window
+     * (using the {@link #compareWindows} method).
      *
      * @type member
-     * @param vWindow {var} TODOC
+     * @param vWindow {qx.ui.window.Window} window instance
      * @return {void}
      */
     remove : function(vWindow)
