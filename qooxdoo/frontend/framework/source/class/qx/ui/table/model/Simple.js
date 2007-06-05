@@ -515,6 +515,6 @@ qx.Class.define("qx.ui.table.model.Simple",
 
 
   destruct : function() {
-    this._disposeFields("_rowArr", "_editableColArr");
+    this._disposeFields("_rowArr", "_editableColArr", "_sortMethods");
   }
 });

@@ -714,6 +714,6 @@ qx.Class.define("feedreader.Application",
   */
 
   destruct : function() {
-    this._disposeObjects("_blogEntry", "_table", "_tableModel");
+    this._disposeObjects("_blogEntry", "_table", "_tableModel", "_header");
   }
 });
