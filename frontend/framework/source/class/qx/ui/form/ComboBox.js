@@ -140,8 +140,8 @@ qx.Class.define("qx.ui.form.ComboBox",
   */
 
   events: {
-    /** 
-     * This event is dispatched right before the popup of the combo box 
+    /**
+     * This event is dispatched right before the popup of the combo box
      * is opened the first time (the popup object is not rendered at that time).
      */
     "beforeInitialOpen" : "qx.event.type.Event"
@@ -554,7 +554,7 @@ qx.Class.define("qx.ui.form.ComboBox",
 
     /**
      * Listener method for the "changeLocale" event of the locale manager
-     * 
+     *
      * @type member
      * @param e {qx.event.type.ChangeEvent} ChangeLocale event
      * @return {void}
@@ -585,6 +585,11 @@ qx.Class.define("qx.ui.form.ComboBox",
      */
     _onmousedown : function(e)
     {
+      // only react on left mouse button
+      if (! e.isLeftButtonPressed()) {
+        return;
+      }
+
       var vTarget = e.getTarget();
 
       switch(vTarget)
@@ -790,7 +795,7 @@ qx.Class.define("qx.ui.form.ComboBox",
 
     /**
      * Listener method for the "keyPress" event of the combo box.<br/>
-     * Handles especially hitting "PageUp" and "PageDown". If the user 
+     * Handles especially hitting "PageUp" and "PageDown". If the user
      * hits other keys a match is searched and (if found) selected.
      *
      * @type member

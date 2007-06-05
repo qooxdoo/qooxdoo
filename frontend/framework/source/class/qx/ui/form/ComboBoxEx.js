@@ -1313,6 +1313,11 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      */
     _onmousedown : function(e)
     {
+      // only react on left mouse button
+      if (! e.isLeftButtonPressed()) {
+        return;
+      }
+
       switch(e.getTarget())
       {
         case this._field:
