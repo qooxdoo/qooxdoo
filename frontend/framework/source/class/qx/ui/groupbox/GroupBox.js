@@ -97,7 +97,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
     */
 
     /**
-     * TODOC
+     * Creates the legend sub widget
      *
      * @type member
      * @return {void}
@@ -112,7 +112,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
 
 
     /**
-     * TODOC
+     * Creates the frame sub widget
      *
      * @type member
      * @return {void}
@@ -135,10 +135,10 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
     */
 
     /**
-     * TODOC
+     * Accessor method for the frame sub widget
      *
      * @type member
-     * @return {var} TODOC
+     * @return {qx.ui.layout.CanvasLayout} frame sub widget
      */
     getFrameObject : function() {
       return this._frameObject;
@@ -146,10 +146,10 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
 
 
     /**
-     * TODOC
+     * Accessor method for the legend sub widget
      *
      * @type member
-     * @return {var} TODOC
+     * @return {qx.ui.basic.Atom} legend sub widget
      */
     getLegendObject : function() {
       return this._legendObject;
@@ -165,10 +165,11 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
     */
 
     /**
-     * TODOC
+     * Sets the label of the legend sub widget if the given string is
+     * valid. Otherwise the legend sub widget get not displayed.
      *
      * @type member
-     * @param vLegend {var} TODOC
+     * @param vLegend {String} new label of the legend sub widget
      * @return {void}
      */
     setLegend : function(vLegend) {
@@ -182,10 +183,10 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
 
 
     /**
-     * TODOC
+     * Accessor method for the label of the legend sub widget
      *
      * @type member
-     * @return {var} TODOC
+     * @return {String} Label of the legend sub widget
      */
     getLegend : function() {
       return this._legendObject.getLabel();
@@ -193,10 +194,10 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
 
 
     /**
-     * TODOC
+     * Sets the icon of the legend sub widget.
      *
      * @type member
-     * @param vIcon {var} TODOC
+     * @param vIcon {String} source of the new icon of the legend sub widget
      * @return {void}
      */
     setIcon : function(vIcon) {
@@ -205,10 +206,10 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
 
 
     /**
-     * TODOC
+     * Accessor method for the icon of the legend sub widget
      *
      * @type member
-     * @return {void}
+     * @return {String} source of the new icon of the legend sub widget
      */
     getIcon : function() {
       this._legendObject.getIcon();
