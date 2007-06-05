@@ -40,7 +40,7 @@ qx.Class.define("demobrowser.TreeDataHandler",
   construct : function(testRep)
   {
     this.base(arguments);
-    this.tmap = eval(testRep);
+    this.tmap = testRep;
     this.ttree = this.__readTestRep(testRep);
   },
 
@@ -83,7 +83,7 @@ qx.Class.define("demobrowser.TreeDataHandler",
      */
     __readTestRep : function(testRep)
     {
-      var tmap = eval(testRep);  // Json -> JS
+      var tmap = testRep;
 
       function insert(root, el)
       {
@@ -420,7 +420,7 @@ qx.Class.define("demobrowser.TreeDataHandler",
     },
 
 
-    getPreviousNode : function (node) // node is tree node 
+    getPreviousNode : function (node) // node is tree node
     {
       var prevNode = node.getPrevSibling();
 
@@ -431,10 +431,10 @@ qx.Class.define("demobrowser.TreeDataHandler",
     },
 
 
-    getNextNode : function (node) // node is a tree node 
+    getNextNode : function (node) // node is a tree node
     {
       var nextNode = node.getNextSibling();
-      if (nextNode) 
+      if (nextNode)
       {
         return nextNode;
       }
