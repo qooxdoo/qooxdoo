@@ -557,7 +557,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         if (treeNode.getUserData('modelLink').getPrevSibling())
         {
           this.widgets["toolbar.prevbutt"].resetEnabled();
-        } else 
+        } else
         {
           this.widgets["toolbar.prevbutt"].setEnabled(false);
         }
@@ -565,7 +565,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         if (treeNode.getUserData('modelLink').getNextSibling())
         {
           this.widgets["toolbar.nextbutt"].resetEnabled();
-        } else 
+        } else
         {
           this.widgets["toolbar.nextbutt"].setEnabled(false);
         }
@@ -1018,13 +1018,17 @@ qx.Class.define("demobrowser.DemoBrowser",
         qx.client.Timer.once(function()
         {
           this.tests.handler = new demobrowser.TreeDataHandler(treeData);
+
+          var start = new Date();
           this.leftReloadTree();
+          var end = new Date();
+          this.debug("Time to build/display tree: " + (end.getTime() - start.getTime()) + "ms");
 
           // read initial state
           var state = this._history.getState();
           if (state) {
             this.setCurrentSample(state.replace("~", "/"));
-          } else 
+          } else
           {
             this.setCurrentSample(this.defaultUrl);
           }
@@ -1055,7 +1059,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     },
 
 
-    playPrev : function (e) 
+    playPrev : function (e)
     {
       var currSamp = this.tree.getSelectedElement(); // widget
 
@@ -1071,7 +1075,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     },
 
 
-    playNext : function (e) 
+    playNext : function (e)
     {
       var currSamp = this.tree.getSelectedElement(); // widget
 
@@ -1108,7 +1112,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     appender : function(str) {},
 
-    
+
     defaultUrl : "html/welcome.html"
 
   },
