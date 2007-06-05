@@ -459,10 +459,10 @@ qx.Class.define("qx.ui.window.Window",
     */
 
     /**
-     * TODOC
+     * Accessor method for the pane sub widget
      *
      * @type member
-     * @return {var} TODOC
+     * @return {qx.ui.layout.CanvasLayout} pane sub widget
      */
     getPane : function() {
       return this._pane;
@@ -470,10 +470,10 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * TODOC
+     * Accessor method for the captionbar sub widget
      *
      * @type member
-     * @return {var} TODOC
+     * @return {qx.ui.layout.HorizontalBoxLayout} captionbar sub widget
      */
     getCaptionBar : function() {
       return this._captionBar;
@@ -481,10 +481,10 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * TODOC
+     * Accessor method for the statusbar sub widget
      *
      * @type member
-     * @return {var} TODOC
+     * @return {qx.ui.layout.HorizontalBoxLayout} statusbar sub widget
      */
     getStatusBar : function() {
       return this._statusBar;
@@ -492,7 +492,8 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * TODOC
+     * Closes the current window instance. 
+     * Technically calls the {@link qx.ui.core.Widget#hide} method.
      *
      * @type member
      * @return {void}
@@ -503,10 +504,12 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * TODOC
+     * Opens the window.<br/>
+     * Sets the opener property (if available) and centers
+     * the window if the property {@link #centered} is enabled.
      *
      * @type member
-     * @param vOpener {var} TODOC
+     * @param vOpener {Object} Opener widget
      * @return {void}
      */
     open : function(vOpener)
@@ -524,7 +527,8 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * TODOC
+     * Set the focus on the window.<br/>
+     * Setting the {@link #active} property to <code>true</code>
      *
      * @type member
      * @return {void}
@@ -535,7 +539,8 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * TODOC
+     * Release the focus on the window.<br/>
+     * Setting the {@link #active} property to <code>false</code>
      *
      * @type member
      * @return {void}
@@ -546,7 +551,7 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * TODOC
+     * Maximize the window by setting the property {@link mode} to <code>maximized</code>
      *
      * @type member
      * @return {void}
@@ -557,7 +562,7 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * TODOC
+     * Maximize the window by setting the property {@link mode} to <code>minimized</code>
      *
      * @type member
      * @return {void}
@@ -568,7 +573,7 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * TODOC
+     * Maximize the window by setting the property {@link mode} to <code>null</code>
      *
      * @type member
      * @return {void}
@@ -587,7 +592,9 @@ qx.Class.define("qx.ui.window.Window",
     */
 
     /**
-     * TODOC
+     * Executes routines to ensure the window is displayed correctly and gains control.<br/>
+     * Hides all open popups, sets the focus root to the current window, adds
+     * the current window to the window manager and calls {@link qx.ui.popup.Popup#_makeActive}.
      *
      * @type member
      * @return {void}
@@ -609,7 +616,9 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * TODOC
+     * Executes routines to ensure the window releases all control.<br/>
+     * Resets the focus root, release the capturing on any contained widget, 
+     * deregisters from the window manager and calls {@link qx.ui.popup.Popup#_makeInactive}.
      *
      * @type member
      * @return {void}
@@ -652,7 +661,8 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * TODOC
+     * Gets all registered window instances (sorted by the zIndex) and resets
+     * the zIndex on all instances.
      *
      * @type member
      * @return {void}
@@ -929,7 +939,7 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * TODOC
+     * Enables/disables the minimize button in order of the {@link #allowMinimize} property
      *
      * @type member
      */
@@ -939,7 +949,7 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * TODOC
+     * Enables/disables the close button in order of the {@link #allowClose} property
      *
      * @type member
      */
@@ -949,7 +959,8 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * TODOC
+     * Disables the maximize and restore buttons when the window instance is already maximized, 
+     * otherwise the {@link #enabled} property of both buttons get resetted.
      *
      * @type member
      */
@@ -1054,7 +1065,8 @@ qx.Class.define("qx.ui.window.Window",
     */
 
     /**
-     * TODOC
+     * Minimizes the window. Technically this methods calls the {@link qx.ui.core.Widget#blur}
+     * and the {@link qx.ui.core.Widget#hide} methods.
      *
      * @type member
      * @return {void}
@@ -1067,7 +1079,10 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * TODOC
+     * Restores the window from maximized mode.<br/>
+     * Restores the previous dimension and location, removes the 
+     * state <code>maximized</code> and replaces the restore button 
+     * with the maximize button.
      *
      * @type member
      * @return {void}
@@ -1102,7 +1117,10 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * TODOC
+     * Restores the window from minimized mode.<br/>
+     * Reset the window mode to maximized if the window
+     * has the state maximized and call {@link qx.ui.core.Widget#show} and
+     * {@link qx.ui.core.Widget#focus}
      *
      * @type member
      * @return {void}
