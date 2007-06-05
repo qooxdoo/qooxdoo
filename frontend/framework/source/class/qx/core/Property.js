@@ -272,7 +272,7 @@ qx.Class.define("qx.core.Property",
      *
      * @type static
      * @internal
-     * @param widget {qx.core.ui.Widget} the widget
+     * @param widget {qx.ui.core.Widget} the widget
      * @return {void}
      */
     refresh : function(widget)
