@@ -331,6 +331,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       {
         var fwindow = this.f1.getContentWindow();
 
+         /*
         // wait for iframe to load
         if (!fwindow || !fwindow.qx || !fwindow.qx.log || !fwindow.qx.log.Logger)
         {
@@ -338,7 +339,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           return;
         }
 
-        this.toolbar.resetEnabled();  // in case it was disabled (for reload)
+        this.toolbar.resetEnabled();
 
         // set logger
         fwindow.qx.log.Logger.ROOT_LOGGER.removeAllAppenders();
@@ -350,15 +351,36 @@ qx.Class.define("demobrowser.DemoBrowser",
         if (div && div.parentNode) {
           div.parentNode.removeChild(div);
         }
+        */
+
+        // in case it was disabled (for reload)
+        this.toolbar.resetEnabled();  // in case it was disabled (for reload)
 
         // enable sample buttons
         this.widgets["toolbar.sampbutts"].resetEnabled();  // in case it was disabled
 
+
+        var url = fwindow.location.href;
+        var pos = url.indexOf("/html/")+6;
+        var split = url.substring(pos).split("/");
+        var div = String.fromCharCode(187);
+        if (split.length == 2)
+        {
+          var category = split[0];
+          category = category.charAt(0).toUpperCase() + category.substring(1);
+          var pagename = split[1].replace(".html", "").replace(/_/g, " ");
+          pagename = pagename.charAt(0).toUpperCase() + pagename.substring(1);
+          var title = "qooxdoo " + div + " Demo Browser " + div + " " + category + " " + div + " " + pagename;
+        }
+        else
+        {
+          var title = "qooxdoo " + div + " Demo Browser " + div + " Welcome";
+        }
+
         // update state on example change
         var path = fwindow.location.pathname.split("/");
         var sample = path.slice(-2).join('~');
-        this._history.addToHistory(sample, "qooxdoo » Demo Browser » " + this.polish(path.slice(-2).join(' » ')));
-
+        this._history.addToHistory(sample, title);
       },
       this);
 
@@ -861,12 +883,18 @@ qx.Class.define("demobrowser.DemoBrowser",
         return;
       }
 
+      if (!this._sampleToTreeNodeMap) {
+        return;
+      }
+
       var url;
       var treeNode = this._sampleToTreeNodeMap[value];
-      if (treeNode){
+      if (treeNode)
+      {
         treeNode.setSelected(true);
         url = 'html/' + value;
-      } else
+      }
+      else
       {
         url = this.defaultUrl;
       }
@@ -1140,20 +1168,20 @@ qx.Class.define("demobrowser.DemoBrowser",
   destruct : function()
   {
     this._disposeFields(
-      "widgets", 
-      "tests", 
+      "widgets",
+      "tests",
       "_sampleToTreeNodeMap",
       "tree"
     );
     this._disposeObjects(
-      "header", 
-      "mainsplit", 
-      "tree1", 
-      "left", 
-      "runbutton", 
-      "toolbar", 
-      "f1", 
-      "f2", 
+      "header",
+      "mainsplit",
+      "tree1",
+      "left",
+      "runbutton",
+      "toolbar",
+      "f1",
+      "f2",
       "logger",
       "_history",
       "logappender"
