@@ -173,7 +173,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      * @return {void}
      */
     setLegend : function(vLegend) {
-      if (qx.util.Validation.isValidString(vLegend)) {
+      if (vLegend !== "" && vLegend !== null) {
         this._legendObject.setLabel(vLegend);
         this._legendObject.setDisplay(true);
       } else {
