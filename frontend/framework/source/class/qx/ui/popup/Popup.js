@@ -183,7 +183,12 @@ qx.Class.define("qx.ui.popup.Popup",
     */
 
     /**
-     * TODOC
+     * Callback for "beforeAppear" event.<br/>
+     * Moves the popup out of the visible area to ensure the popup widget is
+     * displayed in the boundaries of the document. This mechnism jumps in when
+     * {@link #restrictToPageOnOpen} is set to <code>true</code> (default).<br/>
+     * Additionally the popup widget is registered at the popup manager and the 
+     * method {@link #bringToFront} is called.
      *
      * @type member
      * @return {void}
@@ -220,7 +225,8 @@ qx.Class.define("qx.ui.popup.Popup",
 
 
     /**
-     * TODOC
+     * Callback method for the "beforeDisappear" event.<br/>
+     * The popup widget gets deregistered from the popup manager.
      *
      * @type member
      * @return {void}
@@ -236,7 +242,10 @@ qx.Class.define("qx.ui.popup.Popup",
 
 
     /**
-     * TODOC
+     * Callback method for the "afterAppear" event.<br/>
+     * If the property {@link #restrictToPageOnOpen} is set to <code>true</code>
+     * the popup gets repositioned to get displayed within the boundaries of the
+     * client document.
      *
      * @type member
      * @return {void}
@@ -304,7 +313,7 @@ qx.Class.define("qx.ui.popup.Popup",
     */
 
     /**
-     * TODOC
+     * Sets the popup widget as active child
      *
      * @type member
      * @return {void}
@@ -315,7 +324,7 @@ qx.Class.define("qx.ui.popup.Popup",
 
 
     /**
-     * TODOC
+     * Give back the focus control to the focus root.
      *
      * @type member
      * @return {void}
@@ -343,7 +352,8 @@ qx.Class.define("qx.ui.popup.Popup",
 
 
     /**
-     * TODOC
+     * Sets the {@link #zIndex} to Infinity and calls the 
+     * method {@link #_sendTo}
      *
      * @type member
      * @return {void}
@@ -356,7 +366,8 @@ qx.Class.define("qx.ui.popup.Popup",
 
 
     /**
-     * TODOC
+     * Sets the {@link #zIndex} to -Infinity and calls the 
+     * method {@link #_sendTo}
      *
      * @type member
      * @return {void}
@@ -369,7 +380,9 @@ qx.Class.define("qx.ui.popup.Popup",
 
 
     /**
-     * TODOC
+     * Resets the zIndex of all registered popups and menus
+     * (getting the instances via the {@link qx.ui.popup.PopupManager} and
+     * the {@link qx.ui.menu.Manager}) one higher than the defined minimum zIndex.
      *
      * @type member
      * @return {void}
@@ -406,10 +419,10 @@ qx.Class.define("qx.ui.popup.Popup",
     */
 
     /**
-     * TODOC
+     * Utility method to get the current showTimeStamp
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Number} Timestamp
      */
     getShowTimeStamp : function() {
       return this._showTimeStamp;
@@ -417,10 +430,10 @@ qx.Class.define("qx.ui.popup.Popup",
 
 
     /**
-     * TODOC
+     * Utility method to get the current showTimeStamp
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Number} Timestamp
      */
     getHideTimeStamp : function() {
       return this._hideTimeStamp;
@@ -468,7 +481,7 @@ qx.Class.define("qx.ui.popup.Popup",
 
 
     /**
-     * TODOC
+     * Centers the popup using the coordinates of the {@link qx.ui.core.ClientDocument}
      *
      * @type member
      * @return {void}

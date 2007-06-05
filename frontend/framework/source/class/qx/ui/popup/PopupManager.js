@@ -62,10 +62,10 @@ qx.Class.define("qx.ui.popup.PopupManager",
     */
 
     /**
-     * TODOC
+     * Updates all registered popups
      *
      * @type member
-     * @param vTarget {var} TODOC
+     * @param vTarget {qx.ui.popup.Popup | qx.ui.popup.ToolTip} current widget
      * @return {void}
      */
     update : function(vTarget)

@@ -42,6 +42,7 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
 
   properties :
   {
+    /** Holds the current ToolTip instance */
     currentToolTip :
     {
       check : "qx.ui.popup.ToolTip",
@@ -107,10 +108,12 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
     */
 
     /**
-     * TODOC
+     * Searches for the tooltip of the target widget. If any tooltip instance
+     * is found this instance is bound to the target widget and the tooltip is
+     * set as {@link #currentToolTip}
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.MouseEvent} mouseOver event
      * @return {void}
      */
     handleMouseOver : function(e)
@@ -139,10 +142,11 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
 
 
     /**
-     * TODOC
+     * Resets the property {@link #currentToolTip} if there was a
+     * tooltip and no new one is created.
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.MouseEvent} mouseOut event
      * @return {void}
      */
     handleMouseOut : function(e)
@@ -181,10 +185,11 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
     */
 
     /**
-     * TODOC
+     * If a widget with a tooltip get focused, bind the tooltip 
+     * to the target widget and set the {@link #currentToolTip} property.
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.FocusEvent} focus event
      * @return {void}
      */
     handleFocus : function(e)
@@ -206,10 +211,11 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
 
 
     /**
-     * TODOC
+     * Reset the property {@link #currentToolTip} if the 
+     * current tooltip is the tooltip of the target widget.
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.FocusEvent} blur event
      * @return {void}
      */
     handleBlur : function(e)

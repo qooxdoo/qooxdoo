@@ -84,24 +84,28 @@ qx.Class.define("qx.ui.popup.ToolTip",
       init : "tool-tip"
     },
 
+    /** Controls whether the tooltip is hidden when hovered across */
     hideOnHover :
     {
       check : "Boolean",
       init : true
     },
 
+    /** Horizontal offset of the mouse pointer (in pixel) */
     mousePointerOffsetX :
     {
       check : "Integer",
       init : 1
     },
 
+    /** Vertical offset of the mouse pointer (in pixel) */
     mousePointerOffsetY :
     {
       check : "Integer",
       init : 20
     },
 
+    /** Interval after the tooltip is shown (in milliseconds) */
     showInterval :
     {
       check : "Integer",
@@ -109,6 +113,7 @@ qx.Class.define("qx.ui.popup.ToolTip",
       apply : "_applyShowInterval"
     },
 
+    /** Interval after the tooltip is hidden (in milliseconds) */
     hideInterval :
     {
       check : "Integer",
@@ -116,6 +121,7 @@ qx.Class.define("qx.ui.popup.ToolTip",
       apply : "_applyHideInterval"
     },
 
+    /** Widget to which the tooltip is bound to */
     boundToWidget :
     {
       check : "qx.ui.core.Widget",
@@ -195,7 +201,9 @@ qx.Class.define("qx.ui.popup.ToolTip",
     */
 
     /**
-     * TODOC
+     * Callback method for the "beforeAppear" event.<br/>
+     * Does two things: stops the timer for the show interval and 
+     * starts the timer for the hide interval.
      *
      * @type member
      * @return {void}
@@ -210,7 +218,8 @@ qx.Class.define("qx.ui.popup.ToolTip",
 
 
     /**
-     * TODOC
+     * Callback method for the "beforeDisappear" event.<br/>
+     * Stops the timer for the hide interval.
      *
      * @type member
      * @return {void}
@@ -224,7 +233,10 @@ qx.Class.define("qx.ui.popup.ToolTip",
 
 
     /**
-     * TODOC
+     * Callback method for the "afterAppear" event.<br/>
+     * If the property {@link #restrictToPageOnOpen} is set to <code>true</code>
+     * the tooltip gets repositioned to ensure it is displayed within the 
+     * boundaries of the {@link qx.ui.core.ClientDocument}.
      *
      * @type member
      * @return {void}
@@ -316,7 +328,8 @@ qx.Class.define("qx.ui.popup.ToolTip",
     */
 
     /**
-     * TODOC
+     * Utility method to start the timer for the show interval
+     * (if the timer is disabled)
      *
      * @type member
      * @return {void}
@@ -330,7 +343,8 @@ qx.Class.define("qx.ui.popup.ToolTip",
 
 
     /**
-     * TODOC
+     * Utility method to start the timer for the hide interval
+     * (if the timer is disabled)
      *
      * @type member
      * @return {void}
@@ -344,7 +358,8 @@ qx.Class.define("qx.ui.popup.ToolTip",
 
 
     /**
-     * TODOC
+     * Utility method to stop the timer for the show interval
+     * (if the timer is enabled)
      *
      * @type member
      * @return {void}
@@ -358,7 +373,8 @@ qx.Class.define("qx.ui.popup.ToolTip",
 
 
     /**
-     * TODOC
+     * Utility method to stop the timer for the hide interval
+     * (if the timer is enabled)
      *
      * @type member
      * @return {void}
@@ -380,10 +396,11 @@ qx.Class.define("qx.ui.popup.ToolTip",
     */
 
     /**
-     * TODOC
+     * Callback method for the "mouseOver" event.<br/>
+     * If property {@link #hideOnOver} is enabled the tooltip gets hidden
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.MouseEvent} mouseOver event
      * @return {void}
      */
     _onmouseover : function(e)
@@ -395,10 +412,12 @@ qx.Class.define("qx.ui.popup.ToolTip",
 
 
     /**
-     * TODOC
+     * Callback method for the "interval" event of the show timer.<br/>
+     * Positions the tooltip (sets left and top) and calls the 
+     * {@link #show} method.
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.Event} interval event
      */
     _onshowtimer : function(e)
     {
@@ -410,10 +429,11 @@ qx.Class.define("qx.ui.popup.ToolTip",
 
 
     /**
-     * TODOC
+     * Callback method for the "interval" event of the hide timer.<br/>
+     * Hides the tooltip by calling the corresponding {@link #hide} method.
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.Event} interval event
      * @return {var} TODOC
      */
     _onhidetimer : function(e) {
