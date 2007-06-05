@@ -12,7 +12,7 @@
   <script type="text/javascript" src="../layout.js"></script>
 
   <div id="demoDescription">
-    <p>An example showing global shortcut commands in action. The commands are linked with menu-items, but 
+    <p>An example showing global shortcut commands in action. The commands are linked with menu-items, but
     could also be executed with the corresponding shortcut.</p>
     <p>An objectmanager is used to disable/enable a specific command (del-Key) to make available for text-editing
     in the textfield of the window. When the window is closed the command gets re-enabled.</p>
@@ -22,41 +22,41 @@
   qx.core.Init.getInstance().defineMain(function()
   {
     var d = qx.ui.core.ClientDocument.getInstance();
-    
+
     /* comamnds */
     var undo_cmd         = new qx.client.Command("Ctrl+Z");
     undo_cmd.addEventListener("execute", function(){ this.debug("undo Command executed"); }, this);
-    
+
     var redo_cmd         = new qx.client.Command("Ctrl+Y");
     redo_cmd.addEventListener("execute", function(){ this.debug("redo Command executed"); }, this);
 
     var cut_cmd          = new qx.client.Command("Ctrl+X");
     cut_cmd.addEventListener("execute", function(){ this.debug("cut Command executed"); }, this);
-    
+
     var copy_cmd         = new qx.client.Command("Ctrl+C");
     copy_cmd.addEventListener("execute", function(){ this.debug("copy Command executed"); }, this);
-    
+
     var paste_cmd        = new qx.client.Command("Ctrl+V");
     paste_cmd.addEventListener("execute", function(){ this.debug("paste Command executed"); }, this);
-    
+
     var delete_cmd       = new qx.client.Command("Del");
     delete_cmd.addEventListener("execute", function(){ this.debug("delete Command executed"); }, this);
-    
+
     var select_all_cmd   = new qx.client.Command("Ctrl+A");
     select_all_cmd.addEventListener("execute", function(){ this.debug("select all Command executed"); }, this);
-    
+
     var search_cmd       = new qx.client.Command("Ctrl+F");
     search_cmd.addEventListener("execute", function(){ this.debug("search Command executed"); }, this);
-    
+
     var search_again_cmd = new qx.client.Command("F3");
     search_again_cmd.addEventListener("execute", function(){ this.debug("search again Command executed"); }, this);
-    
+
 
     /* objectmanager for all commands which should be disabled when opening the window */
     var cmd_manager = new qx.util.manager.Object;
     cmd_manager.add(delete_cmd);
-    
-    
+
+
     /* building the menu */
     var m2 = new qx.ui.menu.Menu;
 
@@ -115,7 +115,7 @@
     /* button to open menu */
     var w1 = new qx.ui.form.Button("Open");
 
-    w1.setTop(48);
+    w1.setTop(20);
     w1.setLeft(20);
 
     w1.addEventListener("click", function(e)
@@ -141,45 +141,45 @@
     {
       e.setPropagationStopped(true);
     });
-    
-    
+
+
     /* window */
     var window1 = new qx.ui.window.Window("Test");
     window1.set({ top: 100, left: 100, width: 300, height: 200, allowMaximize: false, allowMinimize: false });
-    
+
     window1.addEventListener("beforeAppear", function(e){
       textField.setValue("");
     });
-    
+
     window1.addEventListener("beforeDisappear", function(e){
       cmd_manager.enableAll();
     });
-    
+
     /* label */
     var label1 = new qx.ui.basic.Label("Please enter your Name");
     label1.setTop(20);
     label1.setLeft(8);
-    
+
     /* textfield */
     var textField = new qx.ui.form.TextField;
     textField.setTop(20);
     textField.setLeft(140);
-    
+
     window1.add(label1, textField);
-    
-    
+
+
     /* button to open window */
     var w2 = new qx.ui.form.Button("Open Window");
     w2.setTop(48);
     w2.setLeft(100);
-    
+
     w2.addEventListener("execute", function(e){
       cmd_manager.disableAll();
       window1.open();
     });
-    
 
-    d.add(w1, window1, w2);    
+
+    d.add(w1, window1, w2);
   });
   </script>
 </body>

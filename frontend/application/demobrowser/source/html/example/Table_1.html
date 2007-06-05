@@ -33,7 +33,7 @@
     var d = qx.ui.core.ClientDocument.getInstance();
 
     var main = new qx.ui.layout.VerticalBoxLayout();
-    main.set({ left:10, top:30, right:300, bottom:30, spacing:5 });
+    main.set({ left:20, top:20, right:20, bottom:20, spacing:5 });
 
     var nextId = 0;
     var createRandomRows = function(rowCount) {
@@ -155,7 +155,7 @@
     buttonBar.add(checkBox);
 
     var tcm = table.getTableColumnModel();
-    
+
     var checkBox =
       new qx.ui.form.CheckBox("Sort ID column even/odd",
                               null, null,

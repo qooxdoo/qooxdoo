@@ -19,7 +19,7 @@
   qx.core.Init.getInstance().defineMain(function()
   {
     var mybtn = new qx.ui.form.Button("Open Popup");
-    mybtn.setLocation(20, 48);
+    mybtn.setLocation(20, 20);
     mybtn.addEventListener("execute", function() {
       mypop.setTop(qx.html.Location.getPageBoxBottom(this.getElement()));
       mypop.setLeft(qx.html.Location.getPageBoxLeft(this.getElement()));
@@ -28,7 +28,7 @@
 
     var myview = new qx.ui.basic.Label("Selected Color");
     myview.setBorder("inset");
-    myview.setLocation(100, 48);
+    myview.setLocation(100, 20);
     myview.setPadding(3, 6);
     myview.setBackgroundImage("static/image/dotted_white.gif");
     myview.addToDocument();
