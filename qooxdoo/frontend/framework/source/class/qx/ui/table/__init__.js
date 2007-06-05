@@ -7,7 +7,7 @@
  * **column headers**. Column headers contain the title of the column and
  * allow to change its width, position (by drag and drop) and sorting.
  *
- * <h3>Meta-columns</h3>
+ * *Meta-columns*
  *
  * A **meta-column** combines one or more columns that should be
  * horizontally scrolled together. This way you can define for example
@@ -21,12 +21,12 @@
  * because the left column is one meta-column and the other columns are in
  * another.
  *
- * <h3>Model</h3>
+ * *Model*
  *
  * The model represents the data of the grid.  It is implemented by a subclass
  * of {@link qx.ui.table.model.Abstract}.
  *
- * <h3>Selection</h3>
+ * *Selection*
  *
  * The selection of a table is managed by a {@link qx.ui.table.selection.Manager}.
  */
