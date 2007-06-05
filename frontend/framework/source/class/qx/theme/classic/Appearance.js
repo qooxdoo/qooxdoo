@@ -1649,7 +1649,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
         return {
           border          : border,
-          font            : "boldLarge",
+          font            : "bold-large",
           textAlign       : "center",
           textColor       : states.weekend ? "date-chooser-title" : "date-chooser",
           backgroundColor : states.weekend ? "date-chooser" : "date-chooser-title"

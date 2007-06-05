@@ -46,11 +46,17 @@ qx.Theme.define("qx.theme.classic.font.Default",
       family : [ "Lucida Grande", "Tahoma", "Verdana" ]
     },
 
-    "boldLarge" :
+    "bold-large" :
     {
       size : 13,
       family : [ "Lucida Grande", "Tahoma", "Verdana" ],
       bold : true
+    },
+
+    "monospace" :
+    {
+      size : 11,
+      family : ["Consolas", "Bitstream Vera Sans Mono", "Courier New", "monospace"]
     }
   }
 });
