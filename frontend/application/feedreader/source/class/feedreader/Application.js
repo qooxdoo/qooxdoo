@@ -206,7 +206,6 @@ qx.Class.define("feedreader.Application",
 
       about_cmd.addEventListener("execute", function(e) {
         alert(this.tr("qooxdoo feed reader."));
-        //qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Ext);
       }, this);
 
       // create toolbar
