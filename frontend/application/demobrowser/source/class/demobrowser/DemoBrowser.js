@@ -468,7 +468,12 @@ qx.Class.define("demobrowser.DemoBrowser",
       tree.getManager().addEventListener("changeSelection", this.treeGetSelection, this);
 
       tree.addEventListener("dblclick", function(e) {
-        qx.client.Timer.once(this.runTest, this, 50);  // allow treeGetSelection to run first
+        if (e.getTarget() instanceof qx.ui.tree.TreeFile) {
+          qx.client.Timer.once(this.runTest, this, 50);  // allow treeGetSelection to run first
+        } else 
+        {
+          this.setCurrentSample(this.defaultUrl);
+        }
       }, this);
 
       // flat view
@@ -547,7 +552,6 @@ qx.Class.define("demobrowser.DemoBrowser",
         this.widgets["toolbar.runbutton"].setEnabled(false);
         this.widgets["toolbar.prevbutt"].setEnabled(false);
         this.widgets["toolbar.nextbutt"].setEnabled(false);
-        this.setCurrentSample(this.defaultUrl);
       } else {
         this.widgets["toolbar.runbutton"].resetEnabled();
         if (treeNode.getUserData('modelLink').getPrevSibling())
@@ -1058,7 +1062,6 @@ qx.Class.define("demobrowser.DemoBrowser",
       if (currSamp)
       {
         var otherSamp = currSamp.getUserData('modelLink').getPrevSibling().widgetLinkFull;
-        console.log(otherSamp);
         if (otherSamp)
         {
           this.widgets["treeview.full"].setSelectedElement(otherSamp);
@@ -1075,7 +1078,6 @@ qx.Class.define("demobrowser.DemoBrowser",
       if (currSamp)
       {
         var otherSamp = currSamp.getUserData('modelLink').getNextSibling().widgetLinkFull;
-        console.log(currSamp);
         if (otherSamp)
         {
           this.widgets["treeview.full"].setSelectedElement(otherSamp);
