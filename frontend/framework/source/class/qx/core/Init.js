@@ -203,14 +203,16 @@ qx.Class.define("qx.core.Init",
       {
         var app = this.getApplication();
 
-        if (app.initialize) {
+        if (app.initialize)
+        {
           this.warn(
             "The 'initialize' method is no longer called automatically! Please call it manually " +
             "from the end of the constructor or the start of the 'main' method."
           );
         }
 
-        if (app.finalize) {
+        if (app.finalize)
+        {
           this.warn(
             "The 'finalize' method is no longer called automatically! It is save to call it at the " +
             "end of the 'main' method."
@@ -222,13 +224,15 @@ qx.Class.define("qx.core.Init",
             "'this.base(arguments)'. The same is true over overridden " +
             "'terminate' and 'close' methods."
         var exception;
+
         try {
           app.main();
         } catch(ex) {
           exception = ex;
         }
 
-        if (!app._initializedMain) {
+        if (!app._initializedMain)
+        {
           if (exception) {
             this.error(msg)
           } else {
@@ -239,7 +243,6 @@ qx.Class.define("qx.core.Init",
         if (exception) {
           throw exception;
         }
-
       }
       else
       {
@@ -303,7 +306,8 @@ qx.Class.define("qx.core.Init",
   *****************************************************************************
   */
 
-  settings : {
+  settings :
+  {
     "qx.application" : "qx.application.Gui",
     "qx.isSource" : true
   },
