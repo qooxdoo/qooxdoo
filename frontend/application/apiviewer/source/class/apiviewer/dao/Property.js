@@ -136,6 +136,12 @@ qx.Class.define("apiviewer.dao.Property", {
     },
 
 
+    getPropertyType : function()
+    {
+      return this.getDocNode()._docNode.attributes.propertyType || "new";
+    },
+
+
     getEvent : function()
     {
       return this.getDocNode()._docNode.attributes.event;
@@ -184,7 +190,7 @@ qx.Class.define("apiviewer.dao.Property", {
 
     isOldProperty : function()
     {
-      return this._docNode.attributes.oldProperty || false;
+      return this.getPropertyType() !== "new";
     }
 
   }
