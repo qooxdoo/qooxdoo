@@ -32,6 +32,7 @@ APPLICATION_LINEBREAKS_BUILD = true
 APPLICATION_LINEBREAKS_SOURCE = true
 APPLICATION_COMPLETE_BUILD = false
 APPLICATION_COMPLETE_SOURCE = false
+APPLICATION_BUILD_LOG_LEVEL = error
 
 ####################################################################################
 # INCLUDE CORE
