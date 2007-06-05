@@ -48,11 +48,7 @@ qx.Class.define("apiviewer.ui.panels.PackagePanel",
     {
       if (showDetails)
       {
-        return (
-          '<div class="class-description">' +
-          apiviewer.ui.panels.InfoPanel.resolveLinkAttributes(node.getDescription(), node) +
-          '</div>'
-        );
+        return apiviewer.ui.panels.InfoPanel.resolveLinkAttributes(node.getDescription(), node);
       } else {
         return apiviewer.ui.panels.InfoPanel.createDescriptionHtml(node, node.getPackage(), showDetails);
       }
