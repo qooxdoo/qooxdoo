@@ -185,7 +185,7 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
     */
 
     /**
-     * If a widget with a tooltip get focused, bind the tooltip 
+     * If a widget with a tooltip get focused, bind the tooltip
      * to the target widget and set the {@link #currentToolTip} property.
      *
      * @type member
@@ -211,7 +211,7 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
 
 
     /**
-     * Reset the property {@link #currentToolTip} if the 
+     * Reset the property {@link #currentToolTip} if the
      * current tooltip is the tooltip of the target widget.
      *
      * @type member

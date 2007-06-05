@@ -187,7 +187,7 @@ qx.Class.define("qx.ui.popup.Popup",
      * Moves the popup out of the visible area to ensure the popup widget is
      * displayed in the boundaries of the document. This mechnism jumps in when
      * {@link #restrictToPageOnOpen} is set to <code>true</code> (default).<br/>
-     * Additionally the popup widget is registered at the popup manager and the 
+     * Additionally the popup widget is registered at the popup manager and the
      * method {@link #bringToFront} is called.
      *
      * @type member
@@ -352,7 +352,7 @@ qx.Class.define("qx.ui.popup.Popup",
 
 
     /**
-     * Sets the {@link #zIndex} to Infinity and calls the 
+     * Sets the {@link #zIndex} to Infinity and calls the
      * method {@link #_sendTo}
      *
      * @type member
@@ -366,7 +366,7 @@ qx.Class.define("qx.ui.popup.Popup",
 
 
     /**
-     * Sets the {@link #zIndex} to -Infinity and calls the 
+     * Sets the {@link #zIndex} to -Infinity and calls the
      * method {@link #_sendTo}
      *
      * @type member
