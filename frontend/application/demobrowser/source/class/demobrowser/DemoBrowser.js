@@ -660,13 +660,25 @@ qx.Class.define("demobrowser.DemoBrowser",
           if (currNode.hasChildren())
           {
             t = new qx.ui.tree.TreeFolder(that.polish(currNode.label), "demobrowser/image/package18.gif");
+            t.setUserData("filled", false);
+            t.setUserData("node", currNode);
+            t.setAlwaysShowPlusMinusSymbol(true);
+
+            t.addEventListener("changeOpen", function(e)
+            {
+              if (!this.getUserData("filled"))
+              {
+                buildSubTree(this, this.getUserData("node"));
+                this.setUserData("filled", true);
+              }
+            });
 
             if (currNode.label == "example")
             {  // TODO: hard-wired
               t.setOpen(true);
             }
 
-            buildSubTree(t, currNode);
+            //buildSubTree(t, currNode);
           }
           else
           {
