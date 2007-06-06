@@ -30,5 +30,5 @@
 
 qx.Class.define("qx.ui.tree.TreeFile",
 {
-  extend : qx.ui.treefullcontrol.AbstractTreeElement
+  extend : qx.ui.treefullcontrol.TreeFile
 });
