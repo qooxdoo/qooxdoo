@@ -263,8 +263,13 @@ qx.Class.define("qx.ui.treefullcontrol.TreeRowStructure",
 
       /* Track the two icon names */
 
-      this._icons.unselected = vIcon;
-      this._icons.selected = vIconSelected;
+      if (vIcon) {
+        this._icons.unselected = vIcon;
+      }
+
+      if (vIconSelected) {
+        this._icons.selected = vIconSelected;
+      }
 
       /* Add the icon to the structure */
 

@@ -65,7 +65,6 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
   construct : function(labelOrTreeRowStructure, icon, iconSelected)
   {
     var treeRowStructure = this._getRowStructure(labelOrTreeRowStructure, icon, iconSelected);
-
     this.base(arguments, treeRowStructure);
 
     // Save the tree row field order. We'll need it to create children structure.
@@ -726,7 +725,8 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
     _applyOpen : function(value, old)
     {
       // we need the whole indent process if certain tree lines are to be excluded
-      if (this.getTree().getExcludeSpecificTreeLines().length > 0) {
+      var tree = this.getTree();
+      if (tree && tree.getExcludeSpecificTreeLines().length > 0) {
         this._updateIndent();
       } else {
         this._updateLastColumn();
