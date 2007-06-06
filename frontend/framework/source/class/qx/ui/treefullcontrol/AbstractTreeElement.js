@@ -157,7 +157,8 @@ qx.Class.define("qx.ui.treefullcontrol.AbstractTreeElement",
     icon :
     {
       check : "String",
-      nullable : true
+      nullable : true,
+      init : null
     },
 
     /**
@@ -167,7 +168,8 @@ qx.Class.define("qx.ui.treefullcontrol.AbstractTreeElement",
     {
       check : "String",
       event : "iconSelected",
-      nullable : true
+      nullable : true,
+      init : null
     },
 
 
