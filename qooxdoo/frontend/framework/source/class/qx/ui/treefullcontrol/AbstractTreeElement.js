@@ -292,7 +292,7 @@ qx.Class.define("qx.ui.treefullcontrol.AbstractTreeElement",
       if (labelOrTreeRowStructure instanceof qx.ui.treefullcontrol.TreeRowStructure) {
         return labelOrTreeRowStructure;
       } else {
-        return qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard(labelOrTreeRowStructure, icon, icon);
+        return qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard(labelOrTreeRowStructure, icon, iconSelected);
       }
     },
 
