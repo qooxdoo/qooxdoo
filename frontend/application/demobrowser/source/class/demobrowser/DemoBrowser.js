@@ -432,6 +432,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       // Third Page
       // -- Tab Button
       var bsb3 = new qx.ui.pageview.tabview.Button("Source Code", "icon/16/apps/graphics-snapshot.png");
+      //buttview.getBar().add(bsb3);
 
       // -- Tab Pane
       var p3 = new qx.ui.pageview.tabview.Page(bsb3);
