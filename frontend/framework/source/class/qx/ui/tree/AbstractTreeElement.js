@@ -57,10 +57,6 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
    */
   construct : function(vLabel, vIcon, vIconSelected)
   {
-    if (this.classname == qx.ui.tree.AbstractTreeElement.ABSTRACT_CLASS) {
-      throw new Error("Please omit the usage of qx.ui.tree.AbstractTreeElement directly. Choose between qx.ui.tree.TreeFolder and qx.ui.tree.TreeFile instead!");
-    }
-
     // Precreate subwidgets
     this._indentObject = new qx.ui.embed.HtmlEmbed;
     this._iconObject = new qx.ui.basic.Image;
@@ -300,7 +296,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
      * Returns the parent folder of this tree element.
      *
      * @type member
-     * @return {qx.ui.tree.AbstractTreeElement | null} TODOC
+     * @return {AbstractTreeElement | null} TODOC
      */
     getParentFolder : function()
     {
@@ -330,7 +326,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
      * Returns the tree from the parent folder of this element.
      *
      * @type member
-     * @return {qx.ui.tree.AbstractTreeElement} the tree root node
+     * @return {AbstractTreeElement} the tree root node
      */
     getTree : function()
     {
