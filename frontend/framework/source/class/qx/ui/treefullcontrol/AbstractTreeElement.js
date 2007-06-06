@@ -702,7 +702,7 @@ qx.Class.define("qx.ui.treefullcontrol.AbstractTreeElement",
       }
 
       // If we're not displaying the root node (creating virtual roots)...
-      if (vTree.hideNode())
+      if (vTree.getHideNode())
       {
         // ... then start one level higher
         vMinLevel = 1;
