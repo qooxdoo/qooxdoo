@@ -336,7 +336,7 @@ qx.Class.define("qx.core.Object",
           if (!this[setter[data]])
           {
             this.warn("No such property: " + data);
-            continue;
+            return;
           }
         }
 
@@ -380,7 +380,7 @@ qx.Class.define("qx.core.Object",
         if (!this[getter[prop]])
         {
           this.warn("No such property: " + prop);
-          continue;
+          return;
         }
       }
 
@@ -404,7 +404,7 @@ qx.Class.define("qx.core.Object",
         if (!this[resetter[prop]])
         {
           this.warn("No such property: " + prop);
-          continue;
+          return;
         }
       }
 
