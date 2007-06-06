@@ -70,14 +70,13 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFile",
     */
 
     /**
-     * TODOC
+     * Returns a string indicating the symbol used to indent the current item,
+     * or null.
      *
      * @type member
-     * @param vUseTreeLines {var} TODOC
-     * @param vColumn {var} TODOC
-     * @param vFirstColumn {var} TODOC
-     * @param vLastColumn {var} TODOC
-     * @return {var | string | null} TODOC
+     * @param vUseTreeLines {Boolean} whether tree lines are used
+     * @param vIsLastColumn {Boolean} whether the item is in the last column
+     * @return {String | null} "end", "cross", "line" or null
      */
     getIndentSymbol : function(vUseTreeLines, vColumn, vFirstColumn, vLastColumn)
     {
@@ -110,10 +109,10 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFile",
 
 
     /**
-     * TODOC
+     * Returns itself in an array.
      *
      * @type member
-     * @return {Array} TODOC
+     * @return {Array} array containing itself
      */
     getItems : function() {
       return [ this ];
