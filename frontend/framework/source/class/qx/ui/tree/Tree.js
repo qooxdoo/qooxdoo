@@ -54,28 +54,6 @@ qx.Class.define("qx.ui.tree.Tree",
   extend : qx.ui.treefullcontrol.Tree,
 
 
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  /**
-   * @param vLabel {String} the label to display for the tree
-   * @param vIcon {String} the image URL to display for the tree
-   * @param vIconSelected {String} the image URL to display when the tree
-   *     is selected
-   */
-  construct : function(vLabel, vIcon, vIconSelected)
-  {
-    this.base(arguments, qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard(vLabel, vIcon, vIconSelected));
-  },
-
-
-
-
   /*
   *****************************************************************************
      STATICS
@@ -111,25 +89,6 @@ qx.Class.define("qx.ui.tree.Tree",
     isOpenTreeFolder : function(vObject) {
       return (vObject instanceof qx.ui.treefullcontrol.TreeFolder && vObject.getOpen() && vObject.hasContent());
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-
-    rootOpenClose :
-    {
-      refine : true,
-      init : false
-    }
-
   }
+
 });

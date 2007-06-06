@@ -32,26 +32,5 @@
  */
 qx.Class.define("qx.ui.tree.TreeFolder",
 {
-  extend : qx.ui.treefullcontrol.TreeFolder,
-
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  /**
-   * @param vLabel {String} the label to display for the tree folder
-   * @param vIcon {String} the image URL to display for the tree folder
-   * @param vIconSelected {String} the image URL to display when the folder
-   *     element is selected
-   */
-  construct : function(vLabel, vIcon, vIconSelected)
-  {
-    this.base(arguments, qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard(vLabel, vIcon, vIconSelected));
-  }
-
+  extend : qx.ui.treefullcontrol.TreeFolder
 });

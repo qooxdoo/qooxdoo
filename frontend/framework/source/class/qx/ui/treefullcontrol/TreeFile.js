@@ -44,12 +44,21 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFile",
   */
 
   /**
-   * @param treeRowStructure {qx.ui.treefullcontrol.TreeRowStructure} An instance
-   *    of qx.ui.treefullcontrol.TreeRowStructure, defining the
-   *    structure of this tree row.
+   * The TreeFile constructor understands two signatures. One compatible with the
+   * original qooxdoo tree and one compatible with the treefullcontrol widget.
+   * If the first parameter if of type {@link TreeRowStructure} the tree
+   * file is rendered using this structure. Otherwhise the all three
+   * arguments are evaluated.
+   *
+   * @param labelOrTreeRowStructure {String|TreeRowStructure} Either the structure
+   *     defining a tree row or the label text to display for the tree file.
+   * @param icon {String?null} the image URL to display for the tree file
+   * @param iconSelected {String?null} the image URL to display when the tree file
+   *     is selected
    */
-  construct : function(treeRowStructure) {
-    this.base(arguments, treeRowStructure);
+  construct : function(labelOrTreeRowStructure, icon, iconSelected)
+  {
+    this.base(arguments, this._getRowStructure(labelOrTreeRowStructure, icon, iconSelected));
   },
 
 

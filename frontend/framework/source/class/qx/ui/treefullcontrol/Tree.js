@@ -27,8 +27,25 @@
 ************************************************************************ */
 
 /**
- * qx.ui.treefullcontrol.Tree objects are tree root nodes but act like
- * TreeFolder.
+ * The Tree class implements a tree widget, with collapsable and expandable
+ * container nodes and terminal leaf nodes. You instantiate a Tree object as the
+ * root of the tree, then add {@link TreeFolder} (node) and {@link TreeFile}
+ * (leaf) objects as needed, using the (inherited) <code>add()</code> method.
+ *
+ * Beware though that the <b>tree structure</b> you are building is internally
+ * augmented with other widgets to achieve the desired look and feel. So if you
+ * later try to navigate the tree e.g. by using the
+ * <code>getChildren()</code> method, you get more (and type-wise different)
+ * children than you initially added. If this is inconvenient you may want to
+ * maintain a tree model alongside the tree widget in your application.
+ *
+ * The handling of <b>selections</b> within a tree is somewhat distributed
+ * between the root Tree object and the attached {@link
+ * qx.ui.tree.SelectionManager TreeSelectionManager}. To get the
+ * currently selected element of a tree use the Tree{@link #getSelectedElement
+ * getSelectedElement} method and Tree{@link #setSelectedElement
+ * setSelectedElement} to set it. The TreeSelectionManager handles more
+ * coars-grained issues like providing selectAll()/deselectAll() methods.
  *
  * @appearance tree {qx.ui.layout.HorizontalBoxLayout}
  * @appearance tree-icon {qx.ui.basic.Image}
@@ -47,13 +64,23 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
   *****************************************************************************
   */
 
+
   /**
-   * @param treeRowStructure An instance of qx.ui.treefullcontrol.TreeRowStructure,
-   *    defining the structure of this tree row.
+   * The tree constructor understands two signatures. One compatible with the
+   * original qooxdoo tree and one compatible with the treefullcontrol widget.
+   * If the first parameter if of type {@link TreeRowStructure} the tree
+   * element is rendered using this structure. Otherwhise the all three
+   * arguments are evaluated.
+   *
+   * @param labelOrTreeRowStructure {String|TreeRowStructure} Either the structure
+   *     defining a tree row or the label text to display for the tree.
+   * @param icon {String} the image URL to display for the tree
+   * @param iconSelected {String} the image URL to display when the tree
+   *     is selected
    */
-  construct : function(treeRowStructure)
+  construct : function(labelOrTreeRowStructure, icon, iconSelected)
   {
-    this.base(arguments, treeRowStructure);
+    this.base(arguments, this._getRowStructure(labelOrTreeRowStructure, icon, iconSelected));
 
     // ************************************************************************
     //   INITILISIZE MANAGER
@@ -98,11 +125,10 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
     */
 
     /**
-     * TODOC
+     * Returns whether the passed object vObject is a TreeFolder.
      *
      * @type static
-     * @param vObject {var} TODOC
-     * @return {var} TODOC
+     * @param vObject {Object} an object
      */
     isTreeFolder : function(vObject) {
       return (vObject && vObject instanceof qx.ui.treefullcontrol.TreeFolder && !(vObject instanceof qx.ui.treefullcontrol.Tree));
@@ -110,11 +136,11 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
 
 
     /**
-     * TODOC
+     * Returns whether vObject is a TreeFolder and is open and
+     * has content.
      *
      * @type static
-     * @param vObject {var} TODOC
-     * @return {var} TODOC
+     * @param vObject {Object} an object
      */
     isOpenTreeFolder : function(vObject) {
       return (vObject instanceof qx.ui.treefullcontrol.TreeFolder && vObject.getOpen() && vObject.hasContent());
@@ -132,12 +158,25 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
 
   properties :
   {
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Controls whether to use double clicks to open folders.
+     */
     useDoubleClick :
     {
       check : "Boolean",
       init : false
     },
 
+    /**
+     * Controls whether to use (usually dotted) lines when a folder is opened,
+     * to indicate the levels of the hierarchy and the indentation.
+     */
     useTreeLines :
     {
       check : "Boolean",
@@ -194,9 +233,10 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
     rootOpenClose :
     {
       check : "Boolean",
-      init : true,
+      init : false,
       apply : "_applyRootOpenClose"
     }
+
   },
 
 
@@ -242,10 +282,12 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
     */
 
     /**
-     * TODOC
+     * Returns the selection manager for this tree. The selection manager is
+     * managing the whole tree, not just the root Tree element or some part of
+     * it.
      *
      * @type member
-     * @return {var} TODOC
+     * @return {SelectionManager} the selection manager of the tree.
      */
     getManager : function() {
       return this._manager;
@@ -253,10 +295,11 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
 
 
     /**
-     * TODOC
+     * Returns the currently selected element within the tree. This is a
+     * descendant of the root tree element.
      *
      * @type member
-     * @return {var} TODOC
+     * @return {AbstractTreeElement} the currently selected element
      */
     getSelectedElement : function() {
       return this.getManager().getSelectedItems()[0];
@@ -272,10 +315,10 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
     */
 
     /**
-     * TODOC
+     * Adds vChild to the tree queue.
      *
      * @type member
-     * @param vChild {var} TODOC
+     * @param vChild {AbstractTreeElement} child to add
      * @return {void}
      */
     addChildToTreeQueue : function(vChild)
@@ -300,10 +343,10 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
 
 
     /**
-     * TODOC
+     * Removes vChild from the tree queue.
      *
      * @type member
-     * @param vChild {var} TODOC
+     * @param vChild {AbstractTreeElement} child to remove
      * @return {void}
      */
     removeChildFromTreeQueue : function(vChild)
@@ -320,7 +363,7 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
 
 
     /**
-     * TODOC
+     * Flushes the tree queue.
      *
      * @type member
      * @return {void}
@@ -331,7 +374,7 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
 
 
     /**
-     * TODOC
+     * Flushes the tree queue.
      *
      * @type member
      * @return {void}
@@ -446,8 +489,6 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
     },
 
 
-
-
     /*
     ---------------------------------------------------------------------------
       UTILITIES
@@ -455,10 +496,10 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
     */
 
     /**
-     * TODOC
+     * Returns the current tree instance, i.e. itself.
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Tree} the current tree instance
      */
     getTree : function() {
       return this;
@@ -466,10 +507,11 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
 
 
     /**
-     * TODOC
+     * Always returns null since a Tree instance is always the root of a tree,
+     * and therefore has no parent.
      *
      * @type member
-     * @return {null} TODOC
+     * @return {qx.ui.tree.TreeFolder} returns null
      */
     getParentFolder : function() {
       return null;
@@ -477,10 +519,11 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
 
 
     /**
-     * TODOC
+     * Always returns 0 since a Tree instance is always the root of a tree, and
+     * therefore is on level 0.
      *
      * @type member
-     * @return {int} TODOC
+     * @return {Integer} returns 0
      */
     getLevel : function() {
       return 0;
@@ -635,7 +678,7 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
      * TODOC
      *
      * @type member
-     * @return {var | null} TODOC
+     * @return {AbstractTreeElement | null} TODOC
      */
     getLastTreeChild : function()
     {
@@ -655,10 +698,10 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
 
 
     /**
-     * TODOC
+     * Returns itself.
      *
      * @type member
-     * @return {var} TODOC
+     * @return {AbstractTreeElement} itself
      */
     getFirstTreeChild : function() {
       return this;
@@ -666,11 +709,10 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
 
 
     /**
-     * TODOC
+     * Sets the selected element in the tree to vElement.
      *
      * @type member
-     * @param vElement {var} TODOC
-     * @return {void}
+     * @param vElement {AbstractTreeElement} the tree element to be selected
      */
     setSelectedElement : function(vElement)
     {

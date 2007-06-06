@@ -30,17 +30,5 @@
 
 qx.Class.define("qx.ui.tree.TreeFile",
 {
-  extend : qx.ui.treefullcontrol.AbstractTreeElement,
-
-  /**
-   * @param vLabel {String} the label to display for the tree file
-   * @param vIcon {String} the image URL to display for the tree file
-   * @param vIconSelected {String} the image URL to display when the file
-   *     element is selected
-   */
-  construct : function(vLabel, vIcon, vIconSelected)
-  {
-    this.base(arguments, qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard(vLabel, vIcon, vIconSelected));
-  }
-
+  extend : qx.ui.treefullcontrol.AbstractTreeElement
 });
