@@ -188,7 +188,10 @@ qx.Class.define("apiviewer.Controller",
     __bindHistory : function()
     {
       this._history.addEventListener("request", function(evt) {
-        this.__selectItem(this.__decodeState(evt.getData()));
+        var item = this.__decodeState(evt.getData());
+        if (item) {
+          this.__selectItem(item);
+        }
       }, this);
     },
 
