@@ -30,68 +30,17 @@
 
 qx.Class.define("qx.ui.tree.TreeFile",
 {
-  extend : qx.ui.tree.AbstractTreeElement,
+  extend : qx.ui.treefullcontrol.AbstractTreeElement,
 
-
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
-  members :
+  /**
+   * @param vLabel {String} the label to display for the tree file
+   * @param vIcon {String} the image URL to display for the tree file
+   * @param vIconSelected {String} the image URL to display when the file
+   *     element is selected
+   */
+  construct : function(vLabel, vIcon, vIconSelected)
   {
-    /*
-    ---------------------------------------------------------------------------
-      INDENT HELPER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Returns a string indicating the symbol used to indent the current item,
-     * or null.
-     *
-     * @type member
-     * @param vUseTreeLines {Boolean} whether tree lines are used
-     * @param vIsLastColumn {Boolean} whether the item is in the last column
-     * @return {String | null} "end", "cross", "line" or null
-     */
-    getIndentSymbol : function(vUseTreeLines, vIsLastColumn)
-    {
-      if (vUseTreeLines)
-      {
-        if (vIsLastColumn) {
-          return this.isLastChild() ? "end" : "cross";
-        } else {
-          return "line";
-        }
-      }
-
-      return null;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
-    _updateIndent : function() {
-      this.addToTreeQueue();
-    },
-
-
-    /**
-     * Returns itself in an array.
-     *
-     * @type member
-     * @return {Array} array containing itself
-     */
-    getItems : function() {
-      return [ this ];
-    }
+    this.base(arguments, qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard(vLabel, vIcon, vIconSelected));
   }
+
 });
