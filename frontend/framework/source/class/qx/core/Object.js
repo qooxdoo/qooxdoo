@@ -307,40 +307,110 @@ qx.Class.define("qx.core.Object",
     },
 
 
+
+
     /*
     ---------------------------------------------------------------------------
-      COMMON SETTER SUPPORT
+      COMMON SETTER/GETTER/RESETTER SUPPORT
     ---------------------------------------------------------------------------
     */
 
     /**
-     * Sets multiple properties at once by using a property list
+     * Sets multiple properties at once by using a property list or
+     * sets one property and its value by the first and second argument.
      *
      * @type member
-     * @param data {Map} a map of property values. The key is the name of the property.
+     * @param data {Map | String} a map of property values. The key is the name of the property.
+     * @param value {var?} the value, only used when <code>data</code> is a string.
      * @return {Object} this instance.
-     * @throws an error if the incoming data field is not a map.
+     * @throws an Exception if a property defined does not exist
      */
-    set : function(data)
+    set : function(data, value)
     {
       var setter = qx.core.Property.$$method.set;
 
-      for (var prop in data)
+      if (typeof data === "string")
       {
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          if (!this[setter[prop]])
+          if (!this[setter[data]])
           {
-            this.warn("No such property: " + prop);
+            this.warn("No such property: " + data);
             continue;
           }
         }
 
-        this[setter[prop]](data[prop]);
+        return this[setter[data]](value);
+      }
+      else
+      {
+        for (var prop in data)
+        {
+          if (qx.core.Variant.isSet("qx.debug", "on"))
+          {
+            if (!this[setter[prop]])
+            {
+              this.warn("No such property: " + prop);
+              continue;
+            }
+          }
+
+          this[setter[prop]](data[prop]);
+        }
+
+        return this;
+      }
+    },
+
+
+    /**
+     * Returns the value of the given property.
+     *
+     * @type member
+     * @param prop {String} Name of the property.
+     * @return {var} The value of the value
+     * @throws an Exception if a property defined does not exist
+     */
+    get : function(prop)
+    {
+      var getter = qx.core.Property.$$method.get;
+
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (!this[getter[prop]])
+        {
+          this.warn("No such property: " + prop);
+          continue;
+        }
       }
 
-      return this;
+      return this[getter[prop]]();
     },
+
+
+    /**
+     * Resets the value of the given property.
+     *
+     * @type member
+     * @param prop {String} Name of the property.
+     * @throws an Exception if a property defined does not exist
+     */
+    reset : function(prop)
+    {
+      var resetter = qx.core.Property.$$method.reset;
+
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (!this[resetter[prop]])
+        {
+          this.warn("No such property: " + prop);
+          continue;
+        }
+      }
+
+      this[resetter[prop]]();
+    },
+
 
 
 
