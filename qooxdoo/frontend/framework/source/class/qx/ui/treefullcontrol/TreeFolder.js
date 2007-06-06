@@ -67,7 +67,7 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
     this.addEventListener("dblclick", this._ondblclick);
 
     // Remapping of add/remove methods
-    // Not done in defer because this.base needs the original methods.
+    // not done in defer because this.base needs the original methods.
     this.add = this.addToFolder;
     this.addBefore = this.addBeforeToFolder;
     this.addAfter = this.addAfterToFolder;
@@ -128,6 +128,9 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
       init : "tree-folder"
     },
 
+    /**
+     * Controls whether the folder is open.
+     */
     open :
     {
       check : "Boolean",
@@ -136,6 +139,10 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
       event : "changeOpen"
     },
 
+    /**
+     * Controls whether always to display the open status of the folder with a
+     * plus or minus symbol.
+     */
     alwaysShowPlusMinusSymbol :
     {
       check : "Boolean",
@@ -162,10 +169,10 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
     */
 
     /**
-     * TODOC
+     * Returns whether the folder has content, i.e. child folder or files.
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Boolean} true if the folder has content
      */
     hasContent : function() {
       return (this._containerObject && this._containerObject.getChildrenLength() > 0);
@@ -173,7 +180,7 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
 
 
     /**
-     * TODOC
+     * Opens the current folder.
      *
      * @type member
      * @return {void}
@@ -211,7 +218,7 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
 
 
     /**
-     * TODOC
+     * Closes the current folder.
      *
      * @type member
      * @return {void}
@@ -230,7 +237,7 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
 
 
     /**
-     * TODOC
+     * Toggles between open and closed status of the folder.
      *
      * @type member
      * @return {void}
@@ -363,12 +370,12 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
 
 
     /**
-     * TODOC
+     * Adds the passed tree elements to the current folder.
      *
      * @type member
-     * @return {var} TODOC
+     * @param varargs {AbstractTreeElement} variable number of tree nodes to add
      */
-    addToFolder : function()
+    addToFolder : function(varargs)
     {
       this._createChildrenStructure();
 
@@ -379,12 +386,12 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
 
 
     /**
-     * TODOC
+     * Adds the new tree element vChild to the current folder, before the
+     * existing child vBefore.
      *
      * @type member
-     * @param vChild {var} TODOC
-     * @param vBefore {var} TODOC
-     * @return {var} TODOC
+     * @param vChild {AbstractTreeElement} new tree element to insert
+     * @param vBefore {AbstractTreeElement} existing child of folder
      */
     addBeforeToFolder : function(vChild, vBefore)
     {
@@ -399,12 +406,12 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
 
 
     /**
-     * TODOC
+     * Adds the new tree element vChild to the current folder, after the
+     * existing child vAfter.
      *
      * @type member
-     * @param vChild {var} TODOC
-     * @param vAfter {var} TODOC
-     * @return {var} TODOC
+     * @param vChild {AbstractTreeElement} new tree element to insert
+     * @param vAfter {AbstractTreeElement} existing child of folder
      */
     addAfterToFolder : function(vChild, vAfter)
     {
@@ -419,12 +426,12 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
 
 
     /**
-     * TODOC
+     * Adds the new tree element vChild to the current folder, at position
+     * vIndex.
      *
      * @type member
-     * @param vChild {var} TODOC
-     * @param vIndex {var} TODOC
-     * @return {var} TODOC
+     * @param vChild {AbstractTreeElement} new tree element to insert
+     * @param vIndex {Integer} position to insert into
      */
     addAtToFolder : function(vChild, vIndex)
     {
@@ -439,11 +446,10 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
 
 
     /**
-     * TODOC
+     * Adds the new tree element vChild at the beginning of the current folder.
      *
      * @type member
-     * @param vChild {var} TODOC
-     * @return {var} TODOC
+     * @param vChild {AbstractTreeElement} new tree element to insert
      */
     addAtBeginToFolder : function(vChild) {
       return this.addAtToFolder(vChild, 0);
@@ -451,11 +457,10 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
 
 
     /**
-     * TODOC
+     * Adds the new tree element vChild at the end of the current folder.
      *
      * @type member
-     * @param vChild {var} TODOC
-     * @return {var} TODOC
+     * @param vChild {AbstractTreeElement} new tree element to insert
      */
     addAtEndToFolder : function(vChild)
     {
@@ -489,10 +494,10 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
     */
 
     /**
-     * TODOC
+     * Returns the container of the current tree element.
      *
      * @type member
-     * @return {var} TODOC
+     * @return {qx.ui.layout.VerticalBoxLayout} the widget container
      */
     getContainerObject : function() {
       return this._containerObject;
@@ -500,10 +505,10 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
 
 
     /**
-     * TODOC
+     * Returns the HorizontalBoxLayout of the folder.
      *
      * @type member
-     * @return {var} TODOC
+     * @return {qx.ui.layout.HorizontalBoxLayout} the horizontal layout widget
      */
     getHorizontalLayout : function() {
       return this._horizontalLayout;
@@ -511,10 +516,10 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
 
 
     /**
-     * TODOC
+     * Returns the first visible child of the folder.
      *
      * @type member
-     * @return {var} TODOC
+     * @return {AbstractTreeElement} the first visible child element
      */
     getFirstVisibleChildOfFolder : function()
     {
@@ -525,10 +530,10 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
 
 
     /**
-     * TODOC
+     * Returns the last visible child of the folder.
      *
      * @type member
-     * @return {var} TODOC
+     * @return {AbstractTreeElement} the last visible child element
      */
     getLastVisibleChildOfFolder : function()
     {
@@ -539,21 +544,30 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
 
 
     /**
-     * TODOC
+     * Returns all children of the folder.
      *
      * @type member
-     * @return {Array} TODOC
+     * @param recursive {Boolean ? false} whether children of subfolder should be
+     * included
+     * @param invisible {Boolean ? true} whether invisible children should be included
+     * @return {AbstractTreeElement[]} list of children
      */
-    getItems : function()
+    getItems : function(recursive, invisible)
     {
       var a = [ this ];
 
       if (this._containerObject)
       {
-        var ch = this._containerObject.getVisibleChildren();
+        var ch = invisible == true ? this._containerObject.getChildren() : this._containerObject.getVisibleChildren();
 
-        for (var i=0, chl=ch.length; i<chl; i++) {
-          a = a.concat(ch[i].getItems());
+        if (recursive == false) {
+          a = a.concat(ch);
+        }
+        else
+        {
+          for (var i=0, chl=ch.length; i<chl; i++) {
+            a = a.concat(ch[i].getItems(recursive, invisible));
+          }
         }
       }
 
@@ -564,7 +578,7 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
     /**
      *
      * deselects, disconnects, removes and disposes the
-     * content of the folder and its subfolders.
+     *    content of the folder and its subfolders.
      *
      *
      * the current items subitems (and the subitems of each
@@ -573,7 +587,6 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
      *
      *
      * @type member
-     * @return {void}
      */
     destroyContent : function()
     {
@@ -752,7 +765,7 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
         var vElement = this._indentObject.getElement();
 
         if (vElement && vElement.firstChild) {
-          vElement.firstChild.src = (this.BASE_URI + this.getIndentSymbol(this.getTree().getUseTreeLines(), 0, 0, 0) + ".gif");
+          vElement.firstChild.src = this.BASE_URI + this.getIndentSymbol(this.getTree().getUseTreeLines(), 0, 0, 0) + ".gif";
         }
       }
     },
@@ -859,14 +872,13 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
     */
 
     /**
-     * TODOC
+     * Returns a string indicating the symbol used to indent the current item,
+     * or null.
      *
      * @type member
-     * @param vUseTreeLines {var} TODOC
-     * @param vColumn {var} TODOC
-     * @param vFirstColumn {var} TODOC
-     * @param vLastColumn {var} TODOC
-     * @return {var | null | string} TODOC
+     * @param vUseTreeLines {Boolean} whether tree lines are used
+     * @param vIsLastColumn {Boolean} whether the item is in the last column
+     * @return {String | null} "end", "cross", "line" or null
      */
     getIndentSymbol : function(vUseTreeLines, vColumn, vFirstColumn, vLastColumn)
     {
