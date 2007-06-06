@@ -230,10 +230,11 @@ qx.Class.define("qx.ui.window.Window",
     */
 
     /**
-     * TODOC
+     * Returns the default window manager. If no exists a new instance of 
+     * the manager is created.
      *
      * @type static
-     * @return {var} TODOC
+     * @return {qx.ui.window.Manager} window manager instance
      */
     getDefaultWindowManager : function()
     {
@@ -1137,7 +1138,10 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * TODOC
+     * Maximizes the window.<br/>
+     * Stores the current dimension and location and setups up
+     * the new ones. Adds the state <code>maximized</code> and toggles
+     * the buttons in the caption bar.
      *
      * @type member
      * @return {void}
@@ -1192,10 +1196,10 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * TODOC
+     * Stops every mouse click on the window by calling {@link qx.event.type.Event#stopPropagation}
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.MouseEvent} mouse click event
      * @return {void}
      */
     _onwindowclick : function(e)
@@ -1206,10 +1210,10 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * TODOC
+     * Focuses the window instance.
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.type.event.MouseEvent} mouse down event
      * @return {void}
      */
     _onwindowmousedown : function(e) {
@@ -1225,10 +1229,11 @@ qx.Class.define("qx.ui.window.Window",
     */
 
     /**
-     * TODOC
+     * Stops every mouse down event on each button in the captionbar 
+     * by calling {@link qx.event.type.Event#stopPropagation}
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.MouseEvent} mouse down event
      * @return {void}
      */
     _onbuttonmousedown : function(e) {
@@ -1237,10 +1242,11 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * TODOC
+     * Minmizes the window, removes all states from the minimize button and
+     * stops the further propagation of the event (calling {@link qx.event.type.Event#stopPropagation}).
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.MouseEvent} mouse click event
      * @return {void}
      */
     _onminimizebuttonclick : function(e)
@@ -1258,10 +1264,11 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * TODOC
+     * Restores the window, removes all states from the restore button and
+     * stops the further propagation of the event (calling {@link qx.event.type.Event#stopPropagation}).
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.MouseEvent} mouse click event
      * @return {void}
      */
     _onrestorebuttonclick : function(e)
@@ -1279,10 +1286,11 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * TODOC
+     * Maximizes the window, removes all states from the maximize button and
+     * stops the further propagation of the event (calling {@link qx.event.type.Event#stopPropagation}).
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.MouseEvent} mouse click event
      * @return {void}
      */
     _onmaximizebuttonclick : function(e)
@@ -1300,10 +1308,11 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * TODOC
+     * Closes the window, removes all states from the close button and
+     * stops the further propagation of the event (calling {@link qx.event.type.Event#stopPropagation}).
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.MouseEvent} mouse click event
      * @return {void}
      */
     _onclosebuttonclick : function(e)
@@ -1329,10 +1338,11 @@ qx.Class.define("qx.ui.window.Window",
     */
 
     /**
-     * TODOC
+     * Enables the capturing of the caption bar and prepares the drag session and the
+     * appearance (translucent, frame or opaque) for the moving of the window.
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.MouseEvent} mouse down event
      * @return {void}
      */
     _oncaptionmousedown : function(e)
@@ -1399,10 +1409,12 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * TODOC
+     * Disables the capturing of the caption bar and moves the window 
+     * to the last position of the drag session. Also restores the appearance 
+     * of the window.
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.MouseEvent} mouse up event
      * @return {void}
      */
     _oncaptionmouseup : function(e)
@@ -1443,10 +1455,11 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * TODOC
+     * Does the moving of the window by rendering the position 
+     * of the window (or frame) at runtime using direct dom methods.
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.Event} mouse move event
      * @return {void}
      */
     _oncaptionmousemove : function(e)
@@ -1472,12 +1485,14 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * TODOC
+     * Maximizes the window or restores it if it is already
+     * maximized.
      *
      * @type member
-     * @return {void | var} TODOC
+     * @param e {qx.event.type.MouseEvent} double click event
+     * @return {void}
      */
-    _oncaptiondblblick : function()
+    _oncaptiondblblick : function(e)
     {
       if (!this._maximizeButton.getEnabled()) {
         return;
