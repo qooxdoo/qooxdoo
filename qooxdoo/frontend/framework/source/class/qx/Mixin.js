@@ -29,8 +29,7 @@
  * This class is used to define mixins (similar to mixins in Ruby).
  *
  * Mixins are collections of code and variables, which can be merged into
- * other classes. They are similar to classes but don't support inheritance
- * and don't have a constructor.
+ * other classes. They are similar to classes but don't support inheritance.
  *
  * See the description of the {@link #define} method how a mixin is defined.
  */
@@ -71,6 +70,9 @@ qx.Class.define("qx.Mixin",
      * @param config {Map ? null} Mixin definition structure. The configuration map has the following keys:
      *   <table>
      *     <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+     *     <tr><th>construct</th><td>Function</td><td>An optional mixin constructor. It is called on instantiation each
+     *         class including this mixin. The constructor takes no parameters.</td></tr>
+     *     <tr><th>destruct</th><td>Function</td><td>An optional mixin destructor.</td></tr>
      *     <tr><th>include</th><td>Mixin[]</td><td>Array of mixins, which will be merged into the mixin.</td></tr>
      *     <tr><th>statics</th><td>Map</td><td>
      *         Map of statics of the mixin. The statics will not get copied into the target class. They remain

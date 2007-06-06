@@ -58,8 +58,7 @@ qx.Class.define("qx.Interface",
      *
      *   statics:
      *   {
-     *     PI : 3.14,
-     *     staticMethod: function(z) { return typeof z == "string"; }
+     *     PI : 3.14
      *   },
      *
      *   properties: {"color": {}, "name": {} },
@@ -68,7 +67,7 @@ qx.Class.define("qx.Interface",
      *   {
      *     meth1: function() { return true; },
      *     meth2: function(a, b) { return arguments.length == 2; },
-     *     meth3: function(c) { return qx.Interface.hasInterface(c, qx.some.IInterface); }
+     *     meth3: function(c) { return qx.Class.hasInterface(c.constructor, qx.some.IInterface); }
      *   },
      *
      *   events :
