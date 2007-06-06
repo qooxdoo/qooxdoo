@@ -35,7 +35,7 @@ qx.Class.define("apiviewer.ui.panels.PackagePanel",
   {
     getItemTypeHtml : function(node)
     {
-      return apiviewer.ui.panels.InfoPanel.createItemLinkHtml(node.getName(), node, false, true);
+      return apiviewer.ui.panels.InfoPanel.createItemLinkHtml(node.getFullName(), null, false, true);
     },
 
     getItemTitleHtml : function(node)
