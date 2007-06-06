@@ -20,13 +20,14 @@
 
 /* ************************************************************************
 
-#module(ui_treefullcontrol)
+#module(ui_tree)
 
 ************************************************************************ */
 
 qx.Class.define("qx.ui.treefullcontrol.SelectionManager",
 {
-  extend : qx.ui.tree.SelectionManager,
+  extend : qx.ui.selection.SelectionManager,
+
 
 
 
@@ -38,6 +39,32 @@ qx.Class.define("qx.ui.treefullcontrol.SelectionManager",
 
   construct : function(vBoundedWidget) {
     this.base(arguments, vBoundedWidget);
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    /** Should multiple selection be allowed? */
+    multiSelection :
+    {
+      refine : true,
+      init : false
+    },
+
+    /** Enable drag selection? */
+    dragSelection :
+    {
+      refine : true,
+      init : false
+    }
   },
 
 
@@ -57,6 +84,38 @@ qx.Class.define("qx.ui.treefullcontrol.SelectionManager",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    _getFirst : function() {
+      return qx.lang.Array.getFirst(this.getItems());
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    _getLast : function() {
+      return qx.lang.Array.getLast(this.getItems());
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getItems : function() {
+      return this.getBoundedWidget().getItems();
+    },
+
 
     /**
      * TODOC
@@ -69,7 +128,7 @@ qx.Class.define("qx.ui.treefullcontrol.SelectionManager",
     {
       if (vItem)
       {
-        if (qx.ui.treefullcontrol.Tree.isOpenTreeFolder(vItem)) {
+        if (qx.ui.tree.Tree.isOpenTreeFolder(vItem)) {
           return vItem.getFirstVisibleChildOfFolder();
         }
         else if (vItem.isLastVisibleChild())
@@ -80,7 +139,7 @@ qx.Class.define("qx.ui.treefullcontrol.SelectionManager",
             vCurrent = vCurrent.getParentFolder();
           }
 
-          if (vCurrent && vCurrent instanceof qx.ui.treefullcontrol.AbstractTreeElement && vCurrent.getNextVisibleSibling() && vCurrent.getNextVisibleSibling() instanceof qx.ui.treefullcontrol.AbstractTreeElement) {
+          if (vCurrent && vCurrent instanceof qx.ui.tree.AbstractTreeElement && vCurrent.getNextVisibleSibling() && vCurrent.getNextVisibleSibling() instanceof qx.ui.tree.AbstractTreeElement) {
             return vCurrent.getNextVisibleSibling();
           }
         }
@@ -112,7 +171,7 @@ qx.Class.define("qx.ui.treefullcontrol.SelectionManager",
         }
         else if (vItem.isFirstVisibleChild())
         {
-          if (vItem.getParentFolder() instanceof qx.ui.treefullcontrol.TreeFolder) {
+          if (vItem.getParentFolder() instanceof qx.ui.tree.TreeFolder) {
             return vItem.getParentFolder();
           }
         }
@@ -120,15 +179,12 @@ qx.Class.define("qx.ui.treefullcontrol.SelectionManager",
         {
           var vPrev = vItem.getPreviousVisibleSibling();
 
-          if (vPrev instanceof qx.ui.treefullcontrol.AbstractTreeElement)
+          while (vPrev instanceof qx.ui.tree.AbstractTreeElement)
           {
-            while (vPrev instanceof qx.ui.treefullcontrol.AbstractTreeElement)
-            {
-              if (qx.ui.treefullcontrol.Tree.isOpenTreeFolder(vPrev)) {
-                vPrev = vPrev.getLastVisibleChildOfFolder();
-              } else {
-                break;
-              }
+            if (qx.ui.tree.Tree.isOpenTreeFolder(vPrev)) {
+              vPrev = vPrev.getLastVisibleChildOfFolder();
+            } else {
+              break;
             }
           }
 
@@ -143,11 +199,36 @@ qx.Class.define("qx.ui.treefullcontrol.SelectionManager",
 
 
 
+
     /*
     ---------------------------------------------------------------------------
       MAPPING TO ITEM DIMENSIONS
     ---------------------------------------------------------------------------
     */
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param vItem {var} TODOC
+     * @return {var} TODOC
+     */
+    getItemTop : function(vItem)
+    {
+      // Alternate method:
+      // return qx.html.Location.getPageBoxTop(vItem.getElement()) - qx.html.Location.getPageInnerTop(this.getBoundedWidget().getElement());
+      var vBoundedWidget = this.getBoundedWidget();
+      var vElement = vItem.getElement();
+      var vOffset = 0;
+
+      while (vElement && vElement.qx_Widget != vBoundedWidget)
+      {
+        vOffset += vElement.offsetTop;
+        vElement = vElement.parentNode;
+      }
+
+      return vOffset;
+    },
 
 
     /**
@@ -176,12 +257,69 @@ qx.Class.define("qx.ui.treefullcontrol.SelectionManager",
      */
     scrollItemIntoView : function(vItem)
     {
-      if (vItem instanceof qx.ui.treefullcontrol.TreeFolder && vItem._horizontalLayout) {
+      if (vItem instanceof qx.ui.tree.TreeFolder && vItem._horizontalLayout) {
         return vItem._horizontalLayout.scrollIntoView();
       } else {
         return vItem.scrollIntoView();
       }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      ITEM STATE MANAGMENT
+    ---------------------------------------------------------------------------
+    */
+
+
+    /**
+     * Renders the selection state of a tree node. If the node is selected this
+     * method makes sure it is visible.
+     *
+     * @param treeNode {qx.ui.tree.AbstractTreeElement} The tree node to select
+     * @param vIsSelected {Boolean} whether the tree node is selected
+     */
+    renderItemSelectionState : function(treeNode, isSelected)
+    {
+      if (isSelected && !treeNode.isSeeable())
+      {
+
+        var treeFolder = treeNode;
+        var parentFolders = [];
+
+        // Find all parent folders
+        while (treeFolder)
+        {
+          treeFolder = treeFolder.getParentFolder();
+          parentFolders.push(treeFolder);
+        };
+
+        // Now open all folders, starting at the top
+        parentFolders.pop();
+        while (parentFolders.length)
+        {
+           // get last one, and open it.
+          parentFolders.pop().open();
+        }
+      }
+
+      if (isSelected) {
+        // scrool it into view
+        if (treeNode.isCreated()) {
+           this.scrollItemIntoView(treeNode);
+        } else {
+          treeNode.addEventListener("appear", function(e) {
+            this.scrollItemIntoView(treeNode);
+          }, this);
+        }
+      }
+
+      // select it
+      treeNode.setSelected(isSelected);
     }
+
 
   }
 });

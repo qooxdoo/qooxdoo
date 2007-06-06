@@ -50,12 +50,22 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
   */
 
   /**
-   * @param treeRowStructure {qx.ui.treefullcontrol.TreeRowStructure} An instance
-   *    of qx.ui.treefullcontrol.TreeRowStructure, defining the
-   *    structure of this tree row.
+   * The TreeFolder constructor understands two signatures. One compatible with the
+   * original qooxdoo tree and one compatible with the treefullcontrol widget.
+   * If the first parameter if of type {@link TreeRowStructure} the tree
+   * folder is rendered using this structure. Otherwhise the all three
+   * arguments are evaluated.
+   *
+   * @param labelOrTreeRowStructure {String|TreeRowStructure} Either the structure
+   *     defining a tree row or the label text to display for the tree folder.
+   * @param icon {String?null} the image URL to display for the tree folder
+   * @param iconSelected {String?null} the image URL to display when the tree folder
+   *     is selected
    */
-  construct : function(treeRowStructure)
+  construct : function(labelOrTreeRowStructure, icon, iconSelected)
   {
+    var treeRowStructure = this._getRowStructure(labelOrTreeRowStructure, icon, iconSelected);
+
     this.base(arguments, treeRowStructure);
 
     // Save the tree row field order. We'll need it to create children structure.
@@ -175,7 +185,7 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
      * @return {Boolean} true if the folder has content
      */
     hasContent : function() {
-      return (this._containerObject && this._containerObject.getChildrenLength() > 0);
+      return this._containerObject && this._containerObject.getChildrenLength() > 0;
     },
 
 

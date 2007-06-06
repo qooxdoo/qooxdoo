@@ -272,6 +272,32 @@ qx.Class.define("qx.ui.treefullcontrol.AbstractTreeElement",
 
 
     /**
+     * The tree constructor understands two signatures. One compatible with the
+     * original qooxdoo tree and one compatible with the treefullcontrol widget.
+     * If the first parameter if of type {@link TreeRowStructure} the tree
+     * element is rendered using this structure. Otherwhise the all three
+     * arguments are evaluated.
+     *
+     * This function evaluates the constructor arguments and returns a
+     * {@link TreeRowStructure} for the tree element.
+     *
+     * @param labelOrTreeRowStructure {String|TreeRowStructure} Either the structure
+     *     defining a tree row or the label text to display for the tree.
+     * @param icon {String} the image URL to display for the tree
+     * @param iconSelected {String} the image URL to display when the tree
+     *     is selected
+     */
+   _getRowStructure : function(labelOrTreeRowStructure, icon, iconSelected)
+   {
+      if (labelOrTreeRowStructure instanceof qx.ui.treefullcontrol.TreeRowStructure) {
+        return labelOrTreeRowStructure;
+      } else {
+        return qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard(labelOrTreeRowStructure, icon, icon);
+      }
+    },
+
+
+    /**
      * TODOC
      *
      * @type member
