@@ -1,7 +1,7 @@
 qx.core.Init.getInstance().defineMain(function()
 {
   // Initialize the finite state machine
-  fsm = initFsm();
+  var fsm = initFsm();
 
   // Initialize the GUI
   initGui(fsm);
