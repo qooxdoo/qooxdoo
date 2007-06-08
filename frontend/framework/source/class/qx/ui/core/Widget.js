@@ -1291,7 +1291,7 @@ qx.Class.define("qx.ui.core.Widget",
     textColor :
     {
       nullable : true,
-      init : null,
+      init : "inherit",
       check : "Color",
       apply : "_applyTextColor",
       themeable : true,
@@ -1316,7 +1316,7 @@ qx.Class.define("qx.ui.core.Widget",
     font :
     {
       nullable : true,
-      init : null,
+      init : "inherit",
       apply : "_applyFont",
       check : "Font",
       themeable : true,
