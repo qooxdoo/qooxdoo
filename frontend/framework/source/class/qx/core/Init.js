@@ -187,7 +187,13 @@ qx.Class.define("qx.core.Init",
       if (!this.getApplication())
       {
         var clazz = qx.Class.getByName(qx.core.Setting.get("qx.application"));
-        this.setApplication(new clazz(this));
+        if (clazz) {
+          this.setApplication(new clazz(this));
+        }
+      }
+
+      if (!this.getApplication()) {
+        return;
       }
 
       // Debug info
