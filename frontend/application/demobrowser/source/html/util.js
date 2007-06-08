@@ -26,7 +26,7 @@
   qx.Class.include(qx.core.Init, qx.core.MLegacyInit);
 
   // Include Google Analytics in online version
-  if (location.hostname === "qooxdoo.org" || location.hostname === "demo.qooxdoo.org") {
+  if (location.hostname === "demo.qooxdoo.org") {
     document.write('<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script><script type="text/javascript">_uacct = "UA-415440-1"; urchinTracker();</script>');
   }
 })();
