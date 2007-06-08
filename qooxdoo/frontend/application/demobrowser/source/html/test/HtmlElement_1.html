@@ -31,8 +31,8 @@
     el3a.attrib("id", "el3a");
     el3b.attrib("id", "el3b");
 
-    el1.add(el2a, el2b);
-    el2a.add(el3a, el3b);
+    el1.addList(el2a, el2b);
+    el2a.addList(el3a, el3b);
     doc.add(el1);
 
     el1.pixel("width", 100).pixel("height", 100);
