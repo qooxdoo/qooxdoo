@@ -58,6 +58,8 @@ qx.Class.define("qx.html2.Element",
       }
       else
       {
+        console.debug("Add to queue element[" + item.toHashCode() + "]");
+
         this.__queue.push(item)
         item.__queued = job;
       }
@@ -67,8 +69,10 @@ qx.Class.define("qx.html2.Element",
     {
       if (item.__queued)
       {
+        console.debug("Remove from element[" + item.toHashCode() + "]");
+
         qx.lang.Array.remove(this.__queue, item);
-        item.__queued = undefined;
+        delete item.__queued;
       }
     },
 
@@ -91,7 +95,14 @@ qx.Class.define("qx.html2.Element",
 
       var parents = {};
 
-      // create item
+
+
+      console.debug("Flush: " + queue.length + " items...");
+
+
+
+      // == CREATE ==
+      // create elements
       while(queue.length > i)
       {
         for (l=queue.length; i<l; i++)
@@ -103,8 +114,6 @@ qx.Class.define("qx.html2.Element",
           {
             if (!item.__created) {
               item.__create();
-            } else {
-              item.__sync();
             }
 
             parents[parent.toHashCode()] = parent;
@@ -115,6 +124,9 @@ qx.Class.define("qx.html2.Element",
       var parent;
       var child;
 
+
+
+      // == HIDDEN INSERT ==
       // insert children of not inserted parents
       for (var hc in parents)
       {
@@ -124,39 +136,64 @@ qx.Class.define("qx.html2.Element",
           continue;
         }
 
-        console.debug("Process not inserted parent: #" + parent.toHashCode());
+        console.debug("Process not inserted parent[" + parent.toHashCode() + "]");
 
         var children = parent.__children;
         var parentElement = parent.element();
 
         for (var i=0, l=children.length; i<l; i++)
         {
-          console.log("Append: #" + children[i].toHashCode() + " to #" + parent.toHashCode());
-          parentElement.appendChild(children[i].element());
+          child = children[i];
+
+          if (true||child.__queued)
+          {
+            console.log("Append No: " + i + "[" + child.toHashCode() + "]");
+            parentElement.appendChild(child.element());
+          }
+          else
+          {
+            console.log("Leave No: " + i + "[" + child.toHashCode() + "]");
+          }
         }
 
         delete parents[hc];
       }
 
+
+
+
+      // == VISIBLE INSERT ==
       // insert children of inserted parents (nearly identical to above loop)
       for (var hc in parents)
       {
         parent = parents[hc];
 
-        console.debug("Process inserted parent: #" + parent.toHashCode());
+        console.debug("Process inserted parent[" + parent.toHashCode() + "]");
 
         var children = parent.__children;
         var parentElement = parent.element();
 
         for (var i=0, l=children.length; i<l; i++)
         {
-          console.log("Append: #" + children[i].toHashCode() + " to #" + parent.toHashCode());
-          parentElement.appendChild(children[i].element());
+          child = children[i];
+
+          if (true||child.__queued)
+          {
+            console.log("Append No: " + i + "[" + child.toHashCode() + "]");
+            parentElement.appendChild(child.element());
+          }
+          else
+          {
+            console.log("Leave No: " + i + "[" + child.toHashCode() + "]");
+          }
         }
 
         delete parents[hc];
       }
 
+
+      // == CLEANUP ==
+      // cleanup queue and run-flag
       for (var i=0, l=queue.length; i<l; i++)
       {
         item = queue[i];
@@ -185,7 +222,7 @@ qx.Class.define("qx.html2.Element",
 
     __create : function()
     {
-      console.debug("Create: #" + this.toHashCode());
+      console.debug("Create element[" + this.toHashCode() + "]");
 
       var el = this.__element = document.createElement(this.__nodeName)
       var style = this.__style = el.style;
@@ -227,7 +264,7 @@ qx.Class.define("qx.html2.Element",
         {
           child = children[i];
           if (!child.__created) {
-            children[i].__addToQueue();
+            children[i].__addToQueue("add");
           }
         }
       }
@@ -309,7 +346,7 @@ qx.Class.define("qx.html2.Element",
       }
     },
 
-    insertAfter : function()
+    insertAfter : function(child, rel)
     {
       this.__addChild(child);
       return qx.lang.Array.insertAfter(this.__children, child, rel);
@@ -357,14 +394,45 @@ qx.Class.define("qx.html2.Element",
 
 
 
+    moveTo : function(child, index)
+    {
+      this.__moveChild(child);
+
+      var oldIndex = this.__children.indexOf(child);
+
+      if (oldIndex === index) {
+        throw new Error("Could not move to same index!");
+      }
+
+      if (oldIndex < index) {
+        index++;
+      }
+
+      qx.lang.Array.removeAt(this.__children, oldIndex);
+      qx.lang.Array.insertAt(this.__children, index);
+    },
+
+    moveBefore : function(child, rel) {
+      this.moveTo(child, this.__children.indexOf(rel));
+    },
+
+    moveAfter : function(child, rel) {
+      this.moveTo(child, this.__children.indexOf(rel)+1);
+    },
+
+
+
 
 
     element : function()
     {
       if (!this.__created)
       {
-        this.__addToQueue();
-        this.self(arguments).flush();
+        if (!this.__queued) {
+          this.__addToQueue("create");
+        }
+
+        this.self(arguments).flushQueue();
       }
 
       return this.__element;
