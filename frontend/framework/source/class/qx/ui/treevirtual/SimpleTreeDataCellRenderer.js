@@ -54,46 +54,29 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
     this.WIDGET_TREE_URI = Am.getInstance().resolve("widget/tree/");
     this.STATIC_IMAGE_URI = Am.getInstance().resolve("static/image/");
 
-    if (qx.core.Variant.isSet(
-          "qx.ui.treevirtual.SimpleTreeDataCellRenderer.preloadImages", "on"))
-    {
-      this.debug("Forcing treevirtual default images to be preloaded");
-      
-      // Pre-load the tree widgets (once) so they always show up quickly
-      var images = qx.ui.treevirtual.SimpleTreeDataCellRenderer.__images;
-      if (images.length == 0)
-      {
-        // Preload the tree widgets
-        var uri = this.WIDGET_TREE_URI;
-        images.push(new qx.ui.basic.Image(uri + "line.gif"));
-        images.push(new qx.ui.basic.Image(uri + "minus.gif"));
-        images.push(new qx.ui.basic.Image(uri + "plus.gif"));
-        images.push(new qx.ui.basic.Image(uri + "only_minus.gif"));
-        images.push(new qx.ui.basic.Image(uri + "only_plus.gif"));
-        images.push(new qx.ui.basic.Image(uri + "start_minus.gif"));
-        images.push(new qx.ui.basic.Image(uri + "start_plus.gif"));
-        images.push(new qx.ui.basic.Image(uri + "end_minus.gif"));
-        images.push(new qx.ui.basic.Image(uri + "end_plus.gif"));
-        images.push(new qx.ui.basic.Image(uri + "cross_minus.gif"));
-        images.push(new qx.ui.basic.Image(uri + "cross_plus.gif"));
-        images.push(new qx.ui.basic.Image(uri + "end.gif"));
-        images.push(new qx.ui.basic.Image(uri + "cross.gif"));
-        images.push(new qx.ui.basic.Image(uri + "line.gif"));
+    // Get the preloader manager singleton
+    var preloader = qx.io.image.PreloaderManager.getInstance();
 
-        // We also use a blank image, so preload it as well.
-        uri = this.STATIC_IMAGE_URI;
-        images.push(new qx.ui.basic.Image(uri + "blank.gif"));
+    // Pre-load the tree widgets so they always show up quickly
+    var uri = this.WIDGET_TREE_URI;
+    preloader.create(uri + "line.gif");
+    preloader.create(uri + "minus.gif");
+    preloader.create(uri + "plus.gif");
+    preloader.create(uri + "only_minus.gif");
+    preloader.create(uri + "only_plus.gif");
+    preloader.create(uri + "start_minus.gif");
+    preloader.create(uri + "start_plus.gif");
+    preloader.create(uri + "end_minus.gif");
+    preloader.create(uri + "end_plus.gif");
+    preloader.create(uri + "cross_minus.gif");
+    preloader.create(uri + "cross_plus.gif");
+    preloader.create(uri + "end.gif");
+    preloader.create(uri + "cross.gif");
+    preloader.create(uri + "line.gif");
 
-        // Add each image to the document so it gets loaded, but move it
-        // offscreen so it's not visible.
-        for (var i = 0; i < images.length; i++)
-        {
-          var image = images[i];
-          image.addToDocument();
-          image.setLeft(-1000);
-        }
-      }
-    }
+    // We also use a blank image, so preload it as well.
+    uri = this.STATIC_IMAGE_URI;
+    preloader.create(uri + "blank.gif");
   },
 
 
@@ -116,10 +99,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
 
     IMG_START       : '<img src="',
     IMG_END         : '"/>',
-    IMG_TITLE_START : '" title="',
-
-    // cached images
-    __images        : [ ]
+    IMG_TITLE_START : '" title="'
   },
 
 
@@ -459,14 +439,5 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
 
       return this.STATIC_IMAGE_URI + "blank.gif";
     }
-  },
-
-  defer : function(statics, members, properties)
-  {
-    qx.core.Variant.define(
-      "qx.ui.treevirtual.SimpleTreeDataCellRenderer.preloadImages",
-      [ "on", "off" ],
-      "off");
   }
-
 });
