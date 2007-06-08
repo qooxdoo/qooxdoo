@@ -1,5 +1,5 @@
 /**
- * High performance DOM element creation and flush
+ * High performance DOM Element creation
  *
  *
  */
@@ -7,15 +7,35 @@ qx.Class.define("qx.html2.Element",
 {
   extend : qx.core.Object,
 
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   construct : function(el)
   {
     this.base(arguments);
 
-    this.__element = el || null;
-    this.__nodeName = el ? el.tagName.toLowerCase() : "div";
-    this.__created = !!el;
-    this.__inserted = !!el; // not 100% correct (bubble up?)
+    if (el)
+    {
+      this.__element = el;
+      this.__nodeName = el.tagName.toLowerCase();
+      this.__created = true;
+      this.__inserted = true; // not 100% correct (bubble up?)
+    }
   },
+
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
 
   statics :
   {
@@ -66,6 +86,8 @@ qx.Class.define("qx.html2.Element",
           {
             if (!item.__created) {
               item.__create();
+            } else {
+              item.__sync();
             }
 
             parents[parent.toHashCode()] = parent;
@@ -128,8 +150,22 @@ qx.Class.define("qx.html2.Element",
     }
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
+    __nodeName : "div",
+    __element : null,
+    __created : false,
+    __inserted : false,
+
     __create : function()
     {
       console.debug("Create: " + this.toHashCode());
@@ -188,6 +224,11 @@ qx.Class.define("qx.html2.Element",
       this.__created = true;
     },
 
+    __sync : function()
+    {
+
+    },
+
     __addToQueue : function() {
       this.self(arguments).addToQueue(this);
     },
@@ -195,6 +236,12 @@ qx.Class.define("qx.html2.Element",
     __removeFromQueue : function() {
       this.self(arguments).removeFromQueue(this);
     },
+
+
+
+
+
+
 
 
 
