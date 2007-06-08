@@ -1168,16 +1168,23 @@ qx.Class.define("qx.Class",
       {
         var has = this.hasProperty(clazz, name);
         var compat = config._legacy || config._fast || config._cached;
-        if (has) {
+
+        if (has)
+        {
           var existingProperty = this.getPropertyDefinition(clazz, name);
           var existingCompat = existingProperty._legacy || existingProperty._fast || existingProperty._cached;
+
           if (compat != existingCompat) {
-            throw new Error("Could not redefine existing property '"+name+"' of class '"+clazz.classname+"'.");
+            throw new Error("Could not redefine existing property '" + name + "' of class '" + clazz.classname + "'.");
+          }
+
+          if (config.refine && existingProperty.init === undefined) {
+            throw new Error("Could not refine a init value if there was previously no init value defined. Property '" + name + "' of class '" + clazz.classname + "'.");
           }
         }
 
         if (!has && config.refine) {
-          throw new Error("Could not refine non-existend property: " + name + "!");
+          throw new Error("Could not refine non-existent property: " + name + "!");
         }
 
         if (has && !patch) {
