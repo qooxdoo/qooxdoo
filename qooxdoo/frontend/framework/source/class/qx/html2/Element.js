@@ -48,12 +48,18 @@ qx.Class.define("qx.html2.Element",
 
 
 
-    addToQueue : function(item)
+    addToQueue : function(item, job)
     {
-      if (!item.__queued)
+      if (item.__queued)
+      {
+        if (item.__queued !== job) {
+          throw new Error("Could not change job from " + item.__queued + " to " + job);
+        }
+      }
+      else
       {
         this.__queue.push(item)
-        item.__queued = true;
+        item.__queued = job;
       }
     },
 
@@ -118,14 +124,14 @@ qx.Class.define("qx.html2.Element",
           continue;
         }
 
-        console.debug("Process not inserted parent: " + parent.element());
+        console.debug("Process not inserted parent: #" + parent.toHashCode());
 
         var children = parent.__children;
         var parentElement = parent.element();
 
         for (var i=0, l=children.length; i<l; i++)
         {
-          console.log("Append: " + children[i].element() + " to " + parentElement);
+          console.log("Append: #" + children[i].toHashCode() + " to #" + parent.toHashCode());
           parentElement.appendChild(children[i].element());
         }
 
@@ -137,14 +143,14 @@ qx.Class.define("qx.html2.Element",
       {
         parent = parents[hc];
 
-        console.debug("Process inserted parent: " + parent.element());
+        console.debug("Process inserted parent: #" + parent.toHashCode());
 
         var children = parent.__children;
         var parentElement = parent.element();
 
         for (var i=0, l=children.length; i<l; i++)
         {
-          console.log("Append: " + children[i].element() + " to " + parentElement);
+          console.log("Append: #" + children[i].toHashCode() + " to #" + parent.toHashCode());
           parentElement.appendChild(children[i].element());
         }
 
@@ -179,7 +185,7 @@ qx.Class.define("qx.html2.Element",
 
     __create : function()
     {
-      console.debug("Create: " + this.toHashCode());
+      console.debug("Create: #" + this.toHashCode());
 
       var el = this.__element = document.createElement(this.__nodeName)
       var style = this.__style = el.style;
@@ -229,13 +235,14 @@ qx.Class.define("qx.html2.Element",
       this.__created = true;
     },
 
-    __addToQueue : function() {
-      this.self(arguments).addToQueue(this);
+    __addToQueue : function(job) {
+      this.self(arguments).addToQueue(this, job);
     },
 
-    __removeFromQueue : function() {
-      this.self(arguments).removeFromQueue(this);
+    __removeFromQueue : function(job) {
+      this.self(arguments).removeFromQueue(this, job);
     },
+
 
 
 
@@ -252,7 +259,7 @@ qx.Class.define("qx.html2.Element",
       child.__parent = this;
 
       if (this.__created && !child.__created) {
-        child.__addToQueue();
+        child.__addToQueue("add");
       }
     },
 
@@ -266,7 +273,18 @@ qx.Class.define("qx.html2.Element",
 
       if (!child.__created) {
         child.__removeFromQueue();
+      } else {
+        child.__addToQueue("remove");
       }
+    },
+
+    __moveChild : function(child)
+    {
+      if (child.__parent !== this) {
+        throw new Error("Has no child: " + child);
+      }
+
+      child.__addToQueue("move");
     },
 
 
