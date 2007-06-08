@@ -280,6 +280,8 @@ qx.Class.define("qx.html2.Element",
     {
       this.__addChild(child);
       this.__children.push(child);
+
+      return child;
     },
 
     addList : function(varargs)
@@ -291,27 +293,33 @@ qx.Class.define("qx.html2.Element",
 
     insertAfter : function()
     {
-
-
+      this.__addChild(child);
       return qx.lang.Array.insertAfter(this.__children, child, rel);
     },
 
     insertBefore : function(child, rel)
     {
-
+      this.__addChild(child);
       return qx.lang.Array.insertBefore(this.__children, child, rel);
     },
 
     insertAt : function(child, index)
     {
-
+      this.__addChild(child);
       return qx.lang.Array.insertAt(this.__children, child, index);
     },
+
+
+
+
+
 
     remove : function(child)
     {
       this.__removeChild(child);
-      qx.lang.Array.remove(this.__children, item);
+      qx.lang.Array.remove(this.__children, child);
+
+      return child;
     },
 
     removeAt : function(index)
@@ -326,6 +334,7 @@ qx.Class.define("qx.html2.Element",
         this.remove(arguments[i]);
       }
     },
+
 
 
 
