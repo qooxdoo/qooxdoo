@@ -3,5 +3,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>qooxdoo &raquo; Demo &raquo; Feed Reader</title>
     <script type="text/javascript" src="script/feedreader.js"></script>
+    <script type="text/javascript">
+      // Include Google Analytics in online version
+      if (location.hostname === "qooxdoo.org" || location.hostname === "demo.qooxdoo.org") {
+        document.write('<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script><script type="text/javascript">_uacct = "UA-415440-1"; urchinTracker();</script>');
+      }
+    </script>
   </head>
 </html>
