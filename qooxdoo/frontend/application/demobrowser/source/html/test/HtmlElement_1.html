@@ -14,10 +14,17 @@
   <div id="demoDescription">
   </div>
 
+  <div id="test">
+
+  </div>
+
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var doc = new qx.html2.Element(document.body);
+    var doc = new qx.html2.Element(document.getElementById("test"));
+
+
+    // Testing structure
 
     var el1 = new qx.html2.Element;
     var el2a = new qx.html2.Element;
@@ -35,9 +42,27 @@
     el2a.addList(el3a, el3b);
     doc.add(el1);
 
+    el3a.html("<b>hello</b>");
+
     el1.pixel("width", 100).pixel("height", 100);
 
     qx.html2.Element.flushQueue();
+
+
+
+
+    // Testing before/after
+
+    var before1 = new qx.html2.Element;
+    before1.attrib("id", "before1");
+    doc.insertBefore(before1, el1);
+
+    var after1 = new qx.html2.Element;
+    after1.attrib("id", "after1");
+    doc.insertAfter(after1, el1);
+
+    qx.html2.Element.flushQueue();
+
   });
   </script>
 </body>
