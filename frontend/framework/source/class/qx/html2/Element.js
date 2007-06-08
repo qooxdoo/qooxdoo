@@ -19,6 +19,10 @@ qx.Class.define("qx.html2.Element",
   {
     this.base(arguments);
 
+    this.__children = [];
+    this.__attribCache = {};
+    this.__styleCache = {};
+
     if (el)
     {
       this.__element = el;
@@ -187,32 +191,16 @@ qx.Class.define("qx.html2.Element",
       var cache;
 
       cache = this.__attribCache;
-      if (cache)
-      {
-        for (key in cache) {
-          el[key] = cache[key];
-        }
+      for (key in cache) {
+        el[key] = cache[key];
       }
 
       cache = this.__styleCache;
-      if (cache)
-      {
-        for (key in cache) {
-          style[key] = cache[key];
-        }
+      for (key in cache) {
+        style[key] = cache[key];
       }
 
-      if (children)
-      {
-        for (var i=0, l=children.length; i<l; i++)
-        {
-          child = children[i];
-          if (!child.__created) {
-            children[i].__addToQueue();
-          }
-        }
-      }
-      else if (html)
+      if (html)
       {
         el.innerHTML = html;
       }
@@ -227,13 +215,18 @@ qx.Class.define("qx.html2.Element",
           el.innerText = text;
         }
       }
+      else
+      {
+        for (var i=0, l=children.length; i<l; i++)
+        {
+          child = children[i];
+          if (!child.__created) {
+            children[i].__addToQueue();
+          }
+        }
+      }
 
       this.__created = true;
-    },
-
-    __sync : function()
-    {
-
     },
 
     __addToQueue : function() {
@@ -250,56 +243,94 @@ qx.Class.define("qx.html2.Element",
 
 
 
-
-    add : function()
+    __addChild : function(child)
     {
-      if (!this.__children) {
-        this.__children = [];
+      if (child.__parent === this) {
+        throw new Error("Already in: " + child);
       }
 
-      var child;
+      child.__parent = this;
 
-      for (var i=0, l=arguments.length; i<l; i++)
-      {
-        child = arguments[i];
-
-        if (child.__parent === this) {
-          continue;
-        }
-
-        this.__children.push(child);
-        child.__parent = this;
-
-        if (this.__created && !child.__created) {
-          child.__addToQueue();
-        }
+      if (this.__created && !child.__created) {
+        child.__addToQueue();
       }
     },
 
-    remove : function()
+    __removeChild : function(child)
     {
-      if (!this.__children) {
-        return;
+      if (child.__parent !== this) {
+        throw new Error("Has no child: " + child);
       }
 
-      var child;
+      delete child.__parent;
 
-      for (var i=0, l=arguments.length; i<l; i++)
-      {
-        child = arguments[i];
-
-        if (child.__parent !== this) {
-          continue;
-        }
-
-        qx.lang.Array.remove(this.__children, item);
-        delete child.__parent;
-
-        if (!child.__created) {
-          child.__removeFromQueue();
-        }
+      if (!child.__created) {
+        child.__removeFromQueue();
       }
     },
+
+
+
+
+
+
+
+
+    add : function(child)
+    {
+      this.__addChild(child);
+      this.__children.push(child);
+    },
+
+    addList : function(varargs)
+    {
+      for (var i=0, l=arguments.length; i<l; i++) {
+        this.add(arguments[i]);
+      }
+    },
+
+    insertAfter : function()
+    {
+
+
+      return qx.lang.Array.insertAfter(this.__children, child, rel);
+    },
+
+    insertBefore : function(child, rel)
+    {
+
+      return qx.lang.Array.insertBefore(this.__children, child, rel);
+    },
+
+    insertAt : function(child, index)
+    {
+
+      return qx.lang.Array.insertAt(this.__children, child, index);
+    },
+
+    remove : function(child)
+    {
+      this.__removeChild(child);
+      qx.lang.Array.remove(this.__children, item);
+    },
+
+    removeAt : function(index)
+    {
+      this.__removeChild(child);
+      return qx.lang.Array.removeAt(this.__children, index);
+    },
+
+    removeList : function(varargs)
+    {
+      for (var i=0, l=arguments.length; i<l; i++) {
+        this.remove(arguments[i]);
+      }
+    },
+
+
+
+
+
 
     element : function()
     {
@@ -312,20 +343,10 @@ qx.Class.define("qx.html2.Element",
       return this.__element;
     },
 
-    style : function(key, value)
-    {
-      if (!this.__styleCache) {
-        this.__styleCache = {};
-      }
 
-      this.__styleCache[key] = value;
 
-      if (this.__created) {
-        this.__style[key] = value;
-      }
 
-      return this;
-    },
+
 
     __mshtmlPixels :
     {
@@ -358,12 +379,23 @@ qx.Class.define("qx.html2.Element",
       return this.style(key, value);
     },
 
-    attrib : function(key, value)
+
+
+
+
+    style : function(key, value)
     {
-      if (!this.__attribCache) {
-        this.__attribCache = {};
+      this.__styleCache[key] = value;
+
+      if (this.__created) {
+        this.__style[key] = value;
       }
 
+      return this;
+    },
+
+    attrib : function(key, value)
+    {
       this.__attribCache[key] = value;
 
       if (this.__created) {
