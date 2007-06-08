@@ -41,6 +41,9 @@ qx.Class.define("qx.html2.Element",
   {
     __queue : [],
 
+
+
+
     addToQueue : function(item)
     {
       if (!item.__queued)
@@ -58,6 +61,10 @@ qx.Class.define("qx.html2.Element",
         item.__queued = undefined;
       }
     },
+
+
+
+
 
     flushQueue : function()
     {
@@ -244,10 +251,6 @@ qx.Class.define("qx.html2.Element",
 
 
 
-
-
-
-
     add : function()
     {
       if (!this.__children) {
@@ -324,9 +327,35 @@ qx.Class.define("qx.html2.Element",
       return this;
     },
 
+    __mshtmlPixels :
+    {
+      "width" : "pixelWidth",
+      "height" : "pixelHeight",
+      "left" : "pixelLeft",
+      "top" : "pixelTop",
+      "right" : "pixelRight",
+      "bottom" : "pixelBottom"
+    },
+
     pixel : function(key, value)
     {
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        if (this.__mshtmlPixels[key])
+        {
+          key = this.__mshtmlPixels[key];
+        }
+        else
+        {
+          value += "px";
+        }
+      }
+      else
+      {
+        value += "px";
+      }
 
+      return this.style(key, value);
     },
 
     attrib : function(key, value)

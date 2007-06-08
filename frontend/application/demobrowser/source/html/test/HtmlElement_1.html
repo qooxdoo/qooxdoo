@@ -18,23 +18,25 @@
   qx.core.Init.getInstance().defineMain(function()
   {
     var doc = new qx.html2.Element(document.body);
-    
+
     var el1 = new qx.html2.Element;
     var el2a = new qx.html2.Element;
     var el2b = new qx.html2.Element;
     var el3a = new qx.html2.Element;
     var el3b = new qx.html2.Element;
-  
+
     el1.attrib("id", "el1");
     el2a.attrib("id", "el2a");
     el2b.attrib("id", "el2b");
     el3a.attrib("id", "el3a");
     el3b.attrib("id", "el3b");
-  
+
     el1.add(el2a, el2b);
     el2a.add(el3a, el3b);
     doc.add(el1);
-    
+
+    el1.pixel("width", 100).pixel("height", 100);
+
     qx.html2.Element.flushQueue();
   });
   </script>
