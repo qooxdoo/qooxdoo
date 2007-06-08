@@ -1278,6 +1278,7 @@ qx.Class.define("qx.ui.core.Widget",
     backgroundColor :
     {
       nullable : true,
+      init : null,
       check : "Color",
       apply : "_applyBackgroundColor",
       themeable : true
@@ -1290,6 +1291,7 @@ qx.Class.define("qx.ui.core.Widget",
     textColor :
     {
       nullable : true,
+      init : null,
       check : "Color",
       apply : "_applyTextColor",
       themeable : true,
@@ -1303,6 +1305,7 @@ qx.Class.define("qx.ui.core.Widget",
     border :
     {
       nullable : true,
+      init : null,
       apply : "_applyBorder",
       check : "Border",
       themeable : true
@@ -1313,6 +1316,7 @@ qx.Class.define("qx.ui.core.Widget",
     font :
     {
       nullable : true,
+      init : null,
       apply : "_applyFont",
       check : "Font",
       themeable : true,
