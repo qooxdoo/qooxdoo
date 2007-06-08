@@ -98,7 +98,12 @@ qx.Class.define("qx.core.Log",
     /**
      * Open console
      */
-    open : function() {
+    open : function()
+    {
+      if (!this._frame) {
+        this._create();
+      }
+
       this._frame.style.display = "";
     },
 
@@ -106,7 +111,12 @@ qx.Class.define("qx.core.Log",
     /**
      * Close console
      */
-    close : function() {
+    close : function()
+    {
+      if (!this._frame) {
+        this._create();
+      }
+
       this._frame.style.display = "none";
     },
 
