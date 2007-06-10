@@ -47,12 +47,6 @@ qx.Class.define("qx.html2.Element",
   {
     __queue : [],
 
-    __patterns :
-    {
-      HYPHEN   : /(-[a-z])/i,  // to normalize get/setStyle
-      ROOT_TAG : /body|html/i  // body for quirks mode, html for standards
-    },
-
 
     /**
      * TODOC
@@ -235,12 +229,6 @@ qx.Class.define("qx.html2.Element",
     __element : null,
     __created : false,
     __inserted : false,
-
-    __styleAliases :
-    {
-      "float" : qx.core.Client.isMshtml() ? "styleFloat" : "cssFloat",
-      "class" : "className"
-    },
 
 
     /**
