@@ -32,7 +32,23 @@ qx.Class.define("qx.lang.Function",
 {
   statics :
   {
-
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param data {var} TODOC
+     * @return {void} 
+     */
+    globalEval : function(data)
+    {
+      if (window.execScript) {
+        window.execScript(data);
+      } else {
+        eval.call(window, data);
+      }
+    },
+    
+    
     /**
      * Simply return true.
      *
