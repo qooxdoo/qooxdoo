@@ -24,7 +24,7 @@ qx.Class.define("qx.html2.Coordinate",
 
       return {
         left : valueL, 
-        top valueT
+        top : valueT
       };
     },
     
