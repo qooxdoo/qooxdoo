@@ -48,28 +48,18 @@ qx.Class.define("qx.lang.String",
      * Example:
      * <pre>qx.lang.String.toCamelCase("to-camel-case") == "toCamelCase"</pre>
      *
+     * Adapted from PrototypeJS
+     *
      * @type static
      * @param str {String} string seperated by '-'
      * @return {String} camel case string
      */
-    toCamelCase : function(str)
+    toCamelCase : function(string)
     {
-      var vArr = str.split("-"), vLength = vArr.length;
-
-      if (vLength == 1) {
-        return vArr[0];
-      }
-
-      var vNew = str.indexOf("-") == 0 ? vArr[0].charAt(0).toUpperCase() + vArr[0].substring(1) : vArr[0];
-
-      for (var vPart, i=1; i<vLength; i++)
-      {
-        vPart = vArr[i];
-        vNew += vPart.charAt(0).toUpperCase() + vPart.substring(1);
-      }
-
-      return vNew;
-    },
+      return string.replace(/\-([a-z])/g, function(match, chr) {
+        return chr.toUpperCase();
+      });
+    },    
 
 
     /**
