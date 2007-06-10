@@ -384,6 +384,6 @@ qx.Class.define("qx.html2.ElementUtil",
       }
       
       return node;
-    },                
+    }              
   }
 });
