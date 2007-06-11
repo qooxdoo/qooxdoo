@@ -343,60 +343,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         border : "dark-shadow"
       });
 
-      f1.addEventListener("load", function(e)
-      {
-        var fwindow = this.f1.getContentWindow();
-
-        // wait for iframe to load
-        if (!fwindow || !fwindow.qx || !fwindow.qx.log || !fwindow.qx.log.Logger)
-        {
-          qx.client.Timer.once(arguments.callee, this, 50);
-          return;
-        }
-
-        this.toolbar.resetEnabled();  // in case it was disabled (for reload)
-
-        // set logger
-        fwindow.qx.log.Logger.ROOT_LOGGER.removeAllAppenders();
-        fwindow.qx.log.Logger.ROOT_LOGGER.addAppender(this.logappender);
-
-        // delete demo description
-        var div = fwindow.document.getElementById("demoDescription");
-
-        if (div && div.parentNode) {
-          div.parentNode.removeChild(div);
-        }
-
-        // enable toolbar buttons
-        this.widgets["toolbar.sobutt"].resetEnabled();
-
-        // enable sample buttons
-        this.widgets["toolbar.sampbutts"].resetEnabled();  // in case it was disabled
-
-
-        var url = fwindow.location.href;
-        var pos = url.indexOf("/html/")+6;
-        var split = url.substring(pos).split("/");
-        var div = String.fromCharCode(187);
-        if (split.length == 2)
-        {
-          var category = split[0];
-          category = category.charAt(0).toUpperCase() + category.substring(1);
-          var pagename = split[1].replace(".html", "").replace(/_/g, " ");
-          pagename = pagename.charAt(0).toUpperCase() + pagename.substring(1);
-          var title = "qooxdoo " + div + " Demo Browser " + div + " " + category + " " + div + " " + pagename;
-        }
-        else
-        {
-          var title = "qooxdoo " + div + " Demo Browser " + div + " Welcome";
-        }
-
-        // update state on example change
-        var path = fwindow.location.pathname.split("/");
-        var sample = path.slice(-2).join('~');
-        this._history.addToHistory(sample, title);
-      },
-      this);
+      f1.addEventListener("load", this.__ehSampleLoaded, this);
 
       // Second Page
       var pp2 = new qx.ui.layout.VerticalBoxLayout();
@@ -432,16 +379,24 @@ qx.Class.define("demobrowser.DemoBrowser",
       // Third Page
       // -- Tab Button
       var bsb3 = new qx.ui.pageview.tabview.Button("Source Code", "icon/16/apps/graphics-snapshot.png");
-      //buttview.getBar().add(bsb3);
+      buttview.getBar().add(bsb3);
 
       // -- Tab Pane
       var p3 = new qx.ui.pageview.tabview.Page(bsb3);
-      p3.set({ padding : [ 5 ] });
+      p3.set({ 
+        padding : [ 5 ] 
+      });
       buttview.getPane().add(p3);
 
       // -- Pane Content
-      var f3 = new qx.ui.embed.HtmlEmbed("The sample source code should go here.");
+      var f3 = new qx.ui.form.TextArea("The sample source code should go here.");
       p3.add(f3);
+      f3.set({ 
+        overflow: "auto",
+        width   : "100%",
+        height  : "100%"
+      });
+      this.widgets["outputviews.sourcepage.page"] = f3;
 
       return buttview;
     },
@@ -999,6 +954,68 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       this.widgets["statuspane.systeminfo"].setText("Ready");
     },
+
+
+    __ehSampleLoaded :  function(e)
+    {
+      var fwindow = this.f1.getContentWindow();
+
+      // wait for iframe to load
+      if (!fwindow || !fwindow.qx || !fwindow.qx.log || !fwindow.qx.log.Logger)
+      {
+        qx.client.Timer.once(arguments.callee, this, 50);
+        return;
+      }
+
+      this.toolbar.resetEnabled();  // in case it was disabled (for reload)
+
+      // set logger
+      fwindow.qx.log.Logger.ROOT_LOGGER.removeAllAppenders();
+      fwindow.qx.log.Logger.ROOT_LOGGER.addAppender(this.logappender);
+
+      // delete demo description
+      var div = fwindow.document.getElementById("demoDescription");
+
+      if (div && div.parentNode) {
+        div.parentNode.removeChild(div);
+      }
+
+      // enable toolbar buttons
+      this.widgets["toolbar.sobutt"].resetEnabled();
+
+      // enable sample buttons
+      this.widgets["toolbar.sampbutts"].resetEnabled();  // in case it was disabled
+
+
+      var url = fwindow.location.href;
+      var pos = url.indexOf("/html/")+6;
+      var split = url.substring(pos).split("/");
+      var div = String.fromCharCode(187);
+      if (split.length == 2)
+      {
+        var category = split[0];
+        category = category.charAt(0).toUpperCase() + category.substring(1);
+        var pagename = split[1].replace(".html", "").replace(/_/g, " ");
+        pagename = pagename.charAt(0).toUpperCase() + pagename.substring(1);
+        var title = "qooxdoo " + div + " Demo Browser " + div + " " + category + " " + div + " " + pagename;
+      }
+      else
+      {
+        var title = "qooxdoo " + div + " Demo Browser " + div + " Welcome";
+      }
+
+      // update state on example change
+      var path = fwindow.location.pathname.split("/");
+      var sample = path.slice(-2).join('~');
+      this._history.addToHistory(sample, title);
+
+      // load sample source code
+      var src = fwindow.document.body.innerHTML;
+      if (src) {
+        this.widgets["outputviews.sourcepage.page"].setValue(src);
+      }
+    },
+    // __ehSampelLoaded
 
     // ------------------------------------------------------------------------
     //   MISC HELPERS
