@@ -159,15 +159,8 @@ qx.Class.define("qx.html2.Element",
         {
           child = children[i];
 
-          if (true || child.__queued)
-          {
-            console.log("Append No: " + i + "[" + child.toHashCode() + "]");
-            parentElement.appendChild(child.element());
-          }
-          else
-          {
-            console.log("Leave No: " + i + "[" + child.toHashCode() + "]");
-          }
+          console.log("Append No: " + i + "[" + child.toHashCode() + "]");
+          parentElement.appendChild(child.element());
         }
 
         delete parents[hc];
@@ -188,15 +181,8 @@ qx.Class.define("qx.html2.Element",
         {
           child = children[i];
 
-          if (true || child.__queued)
-          {
-            console.log("Append No: " + i + "[" + child.toHashCode() + "]");
-            parentElement.appendChild(child.element());
-          }
-          else
-          {
-            console.log("Leave No: " + i + "[" + child.toHashCode() + "]");
-          }
+          console.log("Append No: " + i + "[" + child.toHashCode() + "]");
+          parentElement.appendChild(child.element());
         }
 
         delete parents[hc];
@@ -205,7 +191,7 @@ qx.Class.define("qx.html2.Element",
       // == CLEANUP ==
       // cleanup queue and run-flag
       for (var i=0, l=queue.length; i<l; i++) {
-        delete item.__queued;
+        delete queue[i].__queued;
       }
 
       queue.length = 0;
@@ -262,7 +248,8 @@ qx.Class.define("qx.html2.Element",
         style[key] = cache[key];
       }
 
-      if (html) {
+      if (html)
+      {
         el.innerHTML = html;
       }
       else if (text)
@@ -321,10 +308,14 @@ qx.Class.define("qx.html2.Element",
      * @return {void}
      * @throws TODOC
      */
-    __addChild : function(child)
+    __addChildHelper : function(child)
     {
       if (child.__parent === this) {
         throw new Error("Already in: " + child);
+      }
+
+      if (child.__parent) {
+        child.__parent.__children.remove(child);
       }
 
       child.__parent = this;
@@ -343,7 +334,7 @@ qx.Class.define("qx.html2.Element",
      * @return {void}
      * @throws TODOC
      */
-    __removeChild : function(child)
+    __removeChildHelper : function(child)
     {
       if (child.__parent !== this) {
         throw new Error("Has no child: " + child);
@@ -364,29 +355,11 @@ qx.Class.define("qx.html2.Element",
      *
      * @type member
      * @param child {var} TODOC
-     * @return {void}
-     * @throws TODOC
-     */
-    __moveChild : function(child)
-    {
-      if (child.__parent !== this) {
-        throw new Error("Has no child: " + child);
-      }
-
-      child.__addToQueue("move");
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param child {var} TODOC
      * @return {var} TODOC
      */
     add : function(child)
     {
-      this.__addChild(child);
+      this.__addChildHelper(child);
       this.__children.push(child);
 
       return child;
@@ -418,7 +391,7 @@ qx.Class.define("qx.html2.Element",
      */
     insertAfter : function(child, rel)
     {
-      this.__addChild(child);
+      this.__addChildHelper(child);
       return qx.lang.Array.insertAfter(this.__children, child, rel);
     },
 
@@ -433,7 +406,7 @@ qx.Class.define("qx.html2.Element",
      */
     insertBefore : function(child, rel)
     {
-      this.__addChild(child);
+      this.__addChildHelper(child);
       return qx.lang.Array.insertBefore(this.__children, child, rel);
     },
 
@@ -448,7 +421,7 @@ qx.Class.define("qx.html2.Element",
      */
     insertAt : function(child, index)
     {
-      this.__addChild(child);
+      this.__addChildHelper(child);
       return qx.lang.Array.insertAt(this.__children, child, index);
     },
 
@@ -462,7 +435,7 @@ qx.Class.define("qx.html2.Element",
      */
     remove : function(child)
     {
-      this.__removeChild(child);
+      this.__removeChildHelper(child);
       qx.lang.Array.remove(this.__children, child);
 
       return child;
@@ -478,7 +451,7 @@ qx.Class.define("qx.html2.Element",
      */
     removeAt : function(index)
     {
-      this.__removeChild(child);
+      this.__removeChildHelper(child);
       return qx.lang.Array.removeAt(this.__children, index);
     },
 
@@ -509,7 +482,11 @@ qx.Class.define("qx.html2.Element",
      */
     moveTo : function(child, index)
     {
-      this.__moveChild(child);
+      if (child.__parent !== this) {
+        throw new Error("Has no child: " + child);
+      }
+
+      child.__addToQueue("move");
 
       var oldIndex = this.__children.indexOf(child);
 
@@ -518,11 +495,11 @@ qx.Class.define("qx.html2.Element",
       }
 
       if (oldIndex < index) {
-        index++;
+        index--;
       }
 
       qx.lang.Array.removeAt(this.__children, oldIndex);
-      qx.lang.Array.insertAt(this.__children, index);
+      qx.lang.Array.insertAt(this.__children, child, index);
     },
 
 
@@ -549,6 +526,14 @@ qx.Class.define("qx.html2.Element",
      */
     moveAfter : function(child, rel) {
       this.moveTo(child, this.__children.indexOf(rel) + 1);
+    },
+
+
+    __printChildren : function()
+    {
+      for (var i=0, a=this.__children, l=a.length; i<l; i++) {
+        console.log("Child[" + i + "]: " + a[i].toHashCode());
+      }
     },
 
 
