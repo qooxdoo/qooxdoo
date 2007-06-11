@@ -48,7 +48,7 @@ qx.Class.define("apiviewer.Controller",
    */
   construct : function(widgetRegistry)
   {
-    this._widgetRegistry = widgetRegistry;
+    this._widgetRegistry = apiviewer.MWidgetRegistry;
 
     this._titlePrefix = qx.core.Setting.get("apiviewer.title") + " API Documentation";
     document.title = this._titlePrefix;

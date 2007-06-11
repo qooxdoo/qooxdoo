@@ -51,11 +51,9 @@ qx.Class.define("apiviewer.Viewer",
     qx.ui.layout.DockLayout.call(this);
     this.setEdge(0);
 
-    this._subWidgets = {};
-
     this.addTop(this.__createHeader());
     var tree = new apiviewer.ui.PackageTree();
-    this.__registerWidget(tree, "tree");
+    tree.setId("tree");
 
     var buttonView = this.__createButtonView(
       tree,
@@ -174,7 +172,7 @@ qx.Class.define("apiviewer.Viewer",
           button.setToolTip( new qx.ui.popup.ToolTip(tooltip));
         }
 
-        self.__registerWidget(button, id);
+        button.setId(id);
         return button;
       }
 
@@ -239,16 +237,16 @@ qx.Class.define("apiviewer.Viewer",
       this._detailLoader.setHtmlProperty("id", "SplashScreen");
       this._detailLoader.setMarginLeft(20);
       this._detailLoader.setMarginTop(20);
+      this._detailLoader.setId("detail_loader");
       detailFrame.add(this._detailLoader);
-      this.__registerWidget(this._detailLoader, "detail_loader");
 
       this._classViewer = new apiviewer.ui.ClassViewer;
+      this._classViewer.setId("class_viewer");
       detailFrame.add(this._classViewer);
-      this.__registerWidget(this._classViewer, "class_viewer");
 
       this._packageViewer = new apiviewer.ui.PackageViewer;
+      this._packageViewer.setId("package_viewer");
       detailFrame.add(this._packageViewer);
-      this.__registerWidget(this._packageViewer, "package_viewer");
 
       return detailFrame;
     },
@@ -289,31 +287,6 @@ qx.Class.define("apiviewer.Viewer",
       mainSplitPane.addLeft(leftWidget);
       mainSplitPane.addRight(rightWidget);
       return mainSplitPane;
-    },
-
-
-    /**
-     * Registers a widget under the given widget id to be used with
-     * {@link #getWidgetById}.
-     *
-     * @param widget {qx.ui.core.Widget} the widget to register
-     * @param id {String} the id of the widget.
-     */
-    __registerWidget : function(widget, id)
-    {
-      this._subWidgets[id] = widget;
-    },
-
-
-    /**
-     * Returns the widget registered under the given id by {@link #__registerWidget}
-     *
-     * @param id {String} the id of the widget
-     * @return {qx.ui.core.Widget} the widget.
-     */
-    getWidgetById : function(id)
-    {
-      return this._subWidgets[id];
     }
 
   },
@@ -346,6 +319,5 @@ qx.Class.define("apiviewer.Viewer",
   {
     this._disposeFields("_classTreeNodeHash");
     this._disposeObjects("_tree", "_detailLoader", "_classViewer", "_packageViewer");
-    this._disposeObjectDeep("_subWidgets", 1);
   }
 });
