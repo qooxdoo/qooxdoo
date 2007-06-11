@@ -332,6 +332,29 @@ qx.Class.define("testrunner.test.Element",
       this.assertTrue(doc.getElement().childNodes[4] === el1.getElement());
 
 
+
+
+
+
+
+      // ROTATION
+
+      doc.moveAfter(before1, before2);
+
+      this.assertTrue(doc.getChildren()[0] === after2);
+      this.assertTrue(doc.getChildren()[1] === before2);
+      this.assertTrue(doc.getChildren()[2] === before1);
+      this.assertTrue(doc.getChildren()[3] === after1);
+      this.assertTrue(doc.getChildren()[4] === el1);
+
+      qx.html2.Element.flushQueue();
+
+      this.assertTrue(doc.getElement().childNodes[0] === after2.getElement());
+      this.assertTrue(doc.getElement().childNodes[1] === before2.getElement());
+      this.assertTrue(doc.getElement().childNodes[2] === before1.getElement());
+      this.assertTrue(doc.getElement().childNodes[3] === after1.getElement());
+      this.assertTrue(doc.getElement().childNodes[4] === el1.getElement());
+
     }
   }
 });
