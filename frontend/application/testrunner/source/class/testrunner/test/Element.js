@@ -304,6 +304,34 @@ qx.Class.define("testrunner.test.Element",
       before2        after2         after2         before1
       after2                                       after2
       */
+
+
+
+
+
+
+      // SORT
+
+      var a = doc.getChildren();
+      for (var i=1, l=a.length; i<l; i++) {
+        doc.moveTo(a[i], 0);
+      }
+
+      this.assertTrue(doc.getChildren()[0] === after2);
+      this.assertTrue(doc.getChildren()[1] === before1);
+      this.assertTrue(doc.getChildren()[2] === before2);
+      this.assertTrue(doc.getChildren()[3] === after1);
+      this.assertTrue(doc.getChildren()[4] === el1);
+
+      qx.html2.Element.flushQueue();
+
+      this.assertTrue(doc.getElement().childNodes[0] === after2.getElement());
+      this.assertTrue(doc.getElement().childNodes[1] === before1.getElement());
+      this.assertTrue(doc.getElement().childNodes[2] === before2.getElement());
+      this.assertTrue(doc.getElement().childNodes[3] === after1.getElement());
+      this.assertTrue(doc.getElement().childNodes[4] === el1.getElement());
+
+
     }
   }
 });
