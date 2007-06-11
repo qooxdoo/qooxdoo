@@ -167,7 +167,7 @@ checkout-migration:
 	    fi; \
 	  done; \
 	  $(CMD_GENERATOR) \
-	    --migrate-source --migration-target `echo $(FRAMEWORK_VERSION) | cut -d'-' -f1` \
+	    --migrate-source --migration-target `echo $(FRAMEWORK_VERSION)` \
 	    $${migrate_options}; \
 	 fi;
 
