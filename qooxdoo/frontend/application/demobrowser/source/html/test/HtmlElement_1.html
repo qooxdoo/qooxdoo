@@ -147,6 +147,22 @@
 
 
 
+    // SORT COMPLETELY
+
+    var a = doc.getChildren();
+    for (var i=1, l=a.length; i<l; i++) {
+      doc.moveTo(a[i], 0);
+    }
+
+    qx.html2.Element.flushQueue();
+
+    // AFTER: after2, before1, before2, after1, el1
+
+
+
+
+
+
   });
   </script>
 </body>
