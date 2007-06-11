@@ -32,5 +32,5 @@
  */
 qx.Class.define("qx.ui.tree.TreeFolder",
 {
-  extend : qx.ui.treefullcontrol.TreeFolder
+  extend : qx.ui.tree.TreeFolder
 });

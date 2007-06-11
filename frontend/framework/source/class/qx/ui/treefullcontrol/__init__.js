@@ -1,3 +1,3 @@
 /**
- * The qx.ui.treefullcontrol package.
+ * The qx.ui.tree package.
  */

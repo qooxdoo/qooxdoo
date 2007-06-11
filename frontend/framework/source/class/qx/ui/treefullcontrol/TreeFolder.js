@@ -29,16 +29,16 @@
 ************************************************************************ */
 
 /**
- * qx.ui.treefullcontrol.TreeFolder objects are tree rows which may contain
+ * qx.ui.tree.TreeFolder objects are tree rows which may contain
  * sub-trees
  *
  * @appearance tree-folder {qx.ui.layout.HorizontalBoxLayout}
  * @appearance tree-folder-icon {qx.ui.basic.Image}
  * @appearance tree-folder-label {qx.ui.basic.Label}
  */
-qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
+qx.Class.define("qx.ui.tree.TreeFolder",
 {
-  extend : qx.ui.treefullcontrol.AbstractTreeElement,
+  extend : qx.ui.tree.AbstractTreeElement,
 
 
 
@@ -286,7 +286,7 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
      */
     _createChildrenStructure : function()
     {
-      if (!(this instanceof qx.ui.treefullcontrol.Tree)) {
+      if (!(this instanceof qx.ui.tree.Tree)) {
         this.setHeight("auto");
       }
 
@@ -301,7 +301,7 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
         this._horizontalLayout.setWidth(null);
         this._horizontalLayout.setParent(this);
         this._horizontalLayout.setAnonymous(true);
-        this._horizontalLayout.setAppearance(this instanceof qx.ui.treefullcontrol.Tree ? "tree" : "tree-folder");
+        this._horizontalLayout.setAppearance(this instanceof qx.ui.tree.Tree ? "tree" : "tree-folder");
 
         // Move the row fields into the horizontal layout
         for (var i=0; i<this._treeRowStructureFields.length; i++) {
@@ -962,7 +962,7 @@ qx.Class.define("qx.ui.treefullcontrol.TreeFolder",
     _updateIndent : function()
     {
       // Intentionally bypass superclass; the _updateIndent we want is in TreeFile
-      qx.ui.treefullcontrol.TreeFile.prototype._updateIndent.call(this);
+      qx.ui.tree.TreeFile.prototype._updateIndent.call(this);
 
       if (!this._containerObject) {
         return;

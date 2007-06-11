@@ -51,9 +51,9 @@
  * @appearance tree-icon {qx.ui.basic.Image}
  * @appearance tree-label {qx.ui.basic.Label}
  */
-qx.Class.define("qx.ui.treefullcontrol.Tree",
+qx.Class.define("qx.ui.tree.Tree",
 {
-  extend : qx.ui.treefullcontrol.TreeFolder,
+  extend : qx.ui.tree.TreeFolder,
 
 
 
@@ -85,7 +85,7 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
     // ************************************************************************
     //   INITILISIZE MANAGER
     // ************************************************************************
-    this._manager = new qx.ui.treefullcontrol.SelectionManager(this);
+    this._manager = new qx.ui.tree.SelectionManager(this);
 
     this._iconObject.setAppearance("tree-icon");
     this._labelObject.setAppearance("tree-label");
@@ -131,7 +131,7 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
      * @param vObject {Object} an object
      */
     isTreeFolder : function(vObject) {
-      return (vObject && vObject instanceof qx.ui.treefullcontrol.TreeFolder && !(vObject instanceof qx.ui.treefullcontrol.Tree));
+      return (vObject && vObject instanceof qx.ui.tree.TreeFolder && !(vObject instanceof qx.ui.tree.Tree));
     },
 
 
@@ -143,7 +143,7 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
      * @param vObject {Object} an object
      */
     isOpenTreeFolder : function(vObject) {
-      return (vObject instanceof qx.ui.treefullcontrol.TreeFolder && vObject.getOpen() && vObject.hasContent());
+      return (vObject instanceof qx.ui.tree.TreeFolder && vObject.getOpen() && vObject.hasContent());
     }
   },
 
@@ -554,7 +554,7 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
       {
         e.preventDefault();
 
-        if (qx.ui.treefullcontrol.Tree.isTreeFolder(vSelectedItem)) {
+        if (qx.ui.tree.Tree.isTreeFolder(vSelectedItem)) {
           return vSelectedItem.toggle();
         }
       }
@@ -578,15 +578,15 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
         case "Left":
           e.preventDefault();
 
-          if (qx.ui.treefullcontrol.Tree.isTreeFolder(vSelectedItem))
+          if (qx.ui.tree.Tree.isTreeFolder(vSelectedItem))
           {
             if (!vSelectedItem.getOpen())
             {
               var vParent = vSelectedItem.getParentFolder();
 
-              if (vParent instanceof qx.ui.treefullcontrol.TreeFolder)
+              if (vParent instanceof qx.ui.tree.TreeFolder)
               {
-                if (!(vParent instanceof qx.ui.treefullcontrol.Tree)) {
+                if (!(vParent instanceof qx.ui.tree.Tree)) {
                   vParent.close();
                 }
 
@@ -598,13 +598,13 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
               return vSelectedItem.close();
             }
           }
-          else if (vSelectedItem instanceof qx.ui.treefullcontrol.TreeFile)
+          else if (vSelectedItem instanceof qx.ui.tree.TreeFile)
           {
             var vParent = vSelectedItem.getParentFolder();
 
-            if (vParent instanceof qx.ui.treefullcontrol.TreeFolder)
+            if (vParent instanceof qx.ui.tree.TreeFolder)
             {
-              if (!(vParent instanceof qx.ui.treefullcontrol.Tree)) {
+              if (!(vParent instanceof qx.ui.tree.Tree)) {
                 vParent.close();
               }
 
@@ -617,7 +617,7 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
         case "Right":
           e.preventDefault();
 
-          if (qx.ui.treefullcontrol.Tree.isTreeFolder(vSelectedItem))
+          if (qx.ui.tree.Tree.isTreeFolder(vSelectedItem))
           {
             if (!vSelectedItem.getOpen()) {
               return vSelectedItem.open();
@@ -684,9 +684,9 @@ qx.Class.define("qx.ui.treefullcontrol.Tree",
     {
       var vLast = this;
 
-      while (vLast instanceof qx.ui.treefullcontrol.AbstractTreeElement)
+      while (vLast instanceof qx.ui.tree.AbstractTreeElement)
       {
-        if (!(vLast instanceof qx.ui.treefullcontrol.TreeFolder) || !vLast.getOpen()) {
+        if (!(vLast instanceof qx.ui.tree.TreeFolder) || !vLast.getOpen()) {
           return vLast;
         }
 
