@@ -222,7 +222,7 @@ qx.Class.define("qx.ui.form.TextField",
     /** Whether the field is read only */
     readOnly :
     {
-      check : "Integer",
+      check : "Boolean",
       apply : "_applyReadOnly",
       init : false
     },
