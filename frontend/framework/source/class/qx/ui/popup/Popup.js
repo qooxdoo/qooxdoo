@@ -360,7 +360,7 @@ qx.Class.define("qx.ui.popup.Popup",
      */
     bringToFront : function()
     {
-      this.setZIndex(Infinity);
+      this.setZIndex(this._minZIndex+1000000);
       this._sendTo();
     },
 
@@ -374,7 +374,7 @@ qx.Class.define("qx.ui.popup.Popup",
      */
     sendToBack : function()
     {
-      this.setZIndex(-Infinity);
+      this.setZIndex(this._minZIndex+1);
       this._sendTo();
     },
 
