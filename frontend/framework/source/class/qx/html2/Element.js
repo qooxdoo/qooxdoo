@@ -53,9 +53,7 @@ qx.Class.define("qx.html2.Element",
      *
      * @type static
      * @param item {var} TODOC
-     * @param job {var} TODOC
-     * @return {void}
-     * @throws TODOC
+     * @return {void} 
      */
     addToQueue : function(item)
     {
@@ -74,7 +72,7 @@ qx.Class.define("qx.html2.Element",
      *
      * @type static
      * @param item {var} TODOC
-     * @return {void}
+     * @return {void} 
      */
     removeFromQueue : function(item)
     {
@@ -92,7 +90,7 @@ qx.Class.define("qx.html2.Element",
      * TODOC
      *
      * @type static
-     * @return {void}
+     * @return {void} 
      */
     flushQueue : function()
     {
@@ -106,23 +104,15 @@ qx.Class.define("qx.html2.Element",
 
       console.debug("Flush: " + queue.length + " items...");
 
-
-
-
       var i, l;
       var item;
       var child;
       var parent;
       var parents = {};
 
-
-
-
       // == CREATE & REMOVE ==
-
       // create elements
-
-      i=0;
+      i = 0;
 
       while (queue.length > i)
       {
@@ -147,14 +137,7 @@ qx.Class.define("qx.html2.Element",
         }
       }
 
-
-
-
-
-
-
       // == HIDDEN INSERT ==
-
       // insert children of not inserted parents
       for (var hc in parents)
       {
@@ -180,12 +163,7 @@ qx.Class.define("qx.html2.Element",
         delete parents[hc];
       }
 
-
-
-
-
       // == VISIBLE INSERT ==
-
       // insert children of inserted parents (nearly identical to above loop)
       for (var hc in parents)
       {
@@ -207,11 +185,7 @@ qx.Class.define("qx.html2.Element",
         delete parents[hc];
       }
 
-
-
-
       // == CLEANUP ==
-
       // cleanup queue and run-flag
       for (var i=0, l=queue.length; i<l; i++) {
         delete queue[i].__queued;
@@ -244,7 +218,7 @@ qx.Class.define("qx.html2.Element",
      * TODOC
      *
      * @type member
-     * @return {void}
+     * @return {void} 
      */
     __create : function()
     {
@@ -271,8 +245,7 @@ qx.Class.define("qx.html2.Element",
         style[key] = cache[key];
       }
 
-      if (html)
-      {
+      if (html) {
         el.innerHTML = html;
       }
       else if (text)
@@ -304,7 +277,7 @@ qx.Class.define("qx.html2.Element",
      *
      * @type member
      * @param job {var} TODOC
-     * @return {void}
+     * @return {void} 
      */
     __addToQueue : function(job) {
       this.self(arguments).addToQueue(this);
@@ -316,7 +289,7 @@ qx.Class.define("qx.html2.Element",
      *
      * @type member
      * @param job {var} TODOC
-     * @return {void}
+     * @return {void} 
      */
     __removeFromQueue : function(job) {
       this.self(arguments).removeFromQueue(this);
@@ -328,7 +301,7 @@ qx.Class.define("qx.html2.Element",
      *
      * @type member
      * @param child {var} TODOC
-     * @return {void}
+     * @return {void} 
      * @throws TODOC
      */
     __addChildHelper : function(child)
@@ -354,7 +327,7 @@ qx.Class.define("qx.html2.Element",
      *
      * @type member
      * @param child {var} TODOC
-     * @return {void}
+     * @return {void} 
      * @throws TODOC
      */
     __removeChildHelper : function(child)
@@ -377,6 +350,12 @@ qx.Class.define("qx.html2.Element",
     },
 
 
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
     getChildren : function()
     {
       // protect structure using a copy
@@ -384,6 +363,13 @@ qx.Class.define("qx.html2.Element",
     },
 
 
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param child {var} TODOC
+     * @return {var} TODOC
+     */
     indexOf : function(child) {
       return this.__children.indexOf(child);
     },
@@ -410,7 +396,7 @@ qx.Class.define("qx.html2.Element",
      *
      * @type member
      * @param varargs {var} TODOC
-     * @return {void}
+     * @return {void} 
      */
     addList : function(varargs)
     {
@@ -500,7 +486,7 @@ qx.Class.define("qx.html2.Element",
      *
      * @type member
      * @param varargs {var} TODOC
-     * @return {void}
+     * @return {void} 
      */
     removeList : function(varargs)
     {
@@ -516,7 +502,7 @@ qx.Class.define("qx.html2.Element",
      * @type member
      * @param child {var} TODOC
      * @param index {var} TODOC
-     * @return {void}
+     * @return {void} 
      * @throws TODOC
      */
     moveTo : function(child, index)
@@ -548,7 +534,7 @@ qx.Class.define("qx.html2.Element",
      * @type member
      * @param child {var} TODOC
      * @param rel {var} TODOC
-     * @return {void}
+     * @return {void} 
      */
     moveBefore : function(child, rel) {
       this.moveTo(child, this.__children.indexOf(rel));
@@ -561,13 +547,19 @@ qx.Class.define("qx.html2.Element",
      * @type member
      * @param child {var} TODOC
      * @param rel {var} TODOC
-     * @return {void}
+     * @return {void} 
      */
     moveAfter : function(child, rel) {
       this.moveTo(child, this.__children.indexOf(rel) + 1);
     },
 
 
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
     __printChildren : function()
     {
       for (var i=0, a=this.__children, l=a.length; i<l; i++) {
@@ -595,7 +587,6 @@ qx.Class.define("qx.html2.Element",
 
       return this.__element;
     },
-
 
     __mshtmlPixels :
     {
@@ -635,6 +626,13 @@ qx.Class.define("qx.html2.Element",
     },
 
 
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param key {var} TODOC
+     * @return {var} TODOC
+     */
     getPixelStyle : function(key)
     {
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
@@ -669,6 +667,13 @@ qx.Class.define("qx.html2.Element",
     },
 
 
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param key {var} TODOC
+     * @return {var} TODOC
+     */
     getStyle : function(key) {
       return this.__styleCache[key];
     },
@@ -694,6 +699,13 @@ qx.Class.define("qx.html2.Element",
     },
 
 
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param key {var} TODOC
+     * @return {var} TODOC
+     */
     getAttribute : function(key) {
       return this.__attribCache[key];
     },
@@ -713,6 +725,12 @@ qx.Class.define("qx.html2.Element",
     },
 
 
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
     getHtml : function() {
       return this.__html;
     },
@@ -732,6 +750,13 @@ qx.Class.define("qx.html2.Element",
     },
 
 
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param text {var} TODOC
+     * @return {var} TODOC
+     */
     getText : function(text) {
       return this.__text;
     }
