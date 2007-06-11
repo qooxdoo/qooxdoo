@@ -40,12 +40,12 @@ qx.OO.defineClass("qx.dom.String");
  * @param charcodeToEntities {Map} entity to charcode map
  */
 qx.Clazz.escapeEntities = function(str, charcodeToEntities) {
-  var result = [];
+  var entity, result = [];
   for (var i=0; i<str.length; i++) {
     var chr = str.charAt(i);
-    var code = chr.charCodeAt(0)
+    var code = chr.charCodeAt(0);
     if (charcodeToEntities[code]) {
-        var entity = "&" + charcodeToEntities[code] + ";";
+        entity = "&" + charcodeToEntities[code] + ";";
     } else {
       if (code > 0x7F) {
         entity = "&#" + code + ";";
