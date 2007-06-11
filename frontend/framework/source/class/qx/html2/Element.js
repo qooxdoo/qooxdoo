@@ -57,7 +57,7 @@ qx.Class.define("qx.html2.Element",
      * @return {void}
      * @throws TODOC
      */
-    addToQueue : function(item, job)
+    addToQueue : function(item)
     {
       if (item.__queued)
       {
@@ -70,7 +70,7 @@ qx.Class.define("qx.html2.Element",
         console.debug("Add to queue element[" + item.toHashCode() + "]");
 
         this.__queue.push(item);
-        item.__queued = job;
+        item.__queued = true;
       }
     },
 
@@ -135,21 +135,20 @@ qx.Class.define("qx.html2.Element",
         for (l=queue.length; i<l; i++)
         {
           item = queue[i];
-          parent = item.__parent;
 
-          if (item.__queued === "remove")
+          if (item.__oldParent)
           {
             item.__oldParent.getElement().removeChild(item.getElement());
             delete item.__oldParent;
           }
 
-          if (parent)
+          if (item.__parent)
           {
             if (!item.__created) {
               item.__create();
             }
 
-            parents[parent.toHashCode()] = parent;
+            parents[item.__parent.toHashCode()] = item.__parent;
           }
         }
       }
@@ -297,7 +296,7 @@ qx.Class.define("qx.html2.Element",
           child = children[i];
 
           if (!child.__created) {
-            children[i].__addToQueue("add");
+            children[i].__addToQueue();
           }
         }
       }
@@ -314,7 +313,7 @@ qx.Class.define("qx.html2.Element",
      * @return {void}
      */
     __addToQueue : function(job) {
-      this.self(arguments).addToQueue(this, job);
+      this.self(arguments).addToQueue(this);
     },
 
 
@@ -326,7 +325,7 @@ qx.Class.define("qx.html2.Element",
      * @return {void}
      */
     __removeFromQueue : function(job) {
-      this.self(arguments).removeFromQueue(this, job);
+      this.self(arguments).removeFromQueue(this);
     },
 
 
@@ -351,7 +350,7 @@ qx.Class.define("qx.html2.Element",
       child.__parent = this;
 
       if (this.__created && !child.__created) {
-        child.__addToQueue("add");
+        child.__addToQueue();
       }
     },
 
@@ -370,14 +369,17 @@ qx.Class.define("qx.html2.Element",
         throw new Error("Has no child: " + child);
       }
 
-      child.__oldParent = child.__parent;
-      delete child.__parent;
-
-      if (!child.__created) {
-        child.__removeFromQueue();
-      } else {
-        child.__addToQueue("remove");
+      if (child.__created)
+      {
+        child.__oldParent = child.__parent;
+        child.__addToQueue();
       }
+      else
+      {
+        child.__removeFromQueue();
+      }
+
+      delete child.__parent;
     },
 
 
@@ -529,7 +531,7 @@ qx.Class.define("qx.html2.Element",
         throw new Error("Has no child: " + child);
       }
 
-      child.__addToQueue("move");
+      child.__addToQueue();
 
       var oldIndex = this.__children.indexOf(child);
 
@@ -591,7 +593,7 @@ qx.Class.define("qx.html2.Element",
       if (!this.__created)
       {
         if (!this.__queued) {
-          this.__addToQueue("create");
+          this.__addToQueue();
         }
 
         this.self(arguments).flushQueue();
