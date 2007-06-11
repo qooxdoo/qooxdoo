@@ -109,22 +109,39 @@ qx.Class.define("qx.html2.Element",
       this.__inFlushQueue = true;
 
       var queue = this.__queue;
-      var item;
-      var parent;
-      var i = 0;
-
-      var parents = {};
 
       console.debug("Flush: " + queue.length + " items...");
 
-      // == CREATE ==
+
+
+
+      var i, l;
+      var item;
+      var child;
+      var parent;
+      var parents = {};
+
+
+
+
+      // == CREATE & REMOVE ==
+
       // create elements
+
+      i=0;
+
       while (queue.length > i)
       {
         for (l=queue.length; i<l; i++)
         {
           item = queue[i];
           parent = item.__parent;
+
+          if (item.__queued === "remove")
+          {
+            item.__oldParent.getElement().removeChild(item.getElement());
+            delete item.__oldParent;
+          }
 
           if (parent)
           {
@@ -137,10 +154,14 @@ qx.Class.define("qx.html2.Element",
         }
       }
 
-      var parent;
-      var child;
+
+
+
+
+
 
       // == HIDDEN INSERT ==
+
       // insert children of not inserted parents
       for (var hc in parents)
       {
@@ -166,7 +187,12 @@ qx.Class.define("qx.html2.Element",
         delete parents[hc];
       }
 
+
+
+
+
       // == VISIBLE INSERT ==
+
       // insert children of inserted parents (nearly identical to above loop)
       for (var hc in parents)
       {
@@ -188,7 +214,11 @@ qx.Class.define("qx.html2.Element",
         delete parents[hc];
       }
 
+
+
+
       // == CLEANUP ==
+
       // cleanup queue and run-flag
       for (var i=0, l=queue.length; i<l; i++) {
         delete queue[i].__queued;
@@ -340,6 +370,7 @@ qx.Class.define("qx.html2.Element",
         throw new Error("Has no child: " + child);
       }
 
+      child.__oldParent = child.__parent;
       delete child.__parent;
 
       if (!child.__created) {
