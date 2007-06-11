@@ -173,6 +173,57 @@ qx.Class.define("testrunner.test.Element",
       this.assertTrue(doc.getElement().childNodes[2] === el1.getElement());
       this.assertTrue(doc.getElement().childNodes[3] === after2.getElement());
       this.assertTrue(doc.getElement().childNodes[4] === after1.getElement());
+
+
+
+
+      //
+      // SWITCH
+      //
+
+      var in1 = doc.indexOf(before2);
+      var in2 = doc.indexOf(after2);
+
+      this.assertIdentical(in1, 1);
+      this.assertIdentical(in2, 3);
+
+      doc.moveTo(before2, in2);
+      doc.moveTo(after2, in1);
+
+      this.assertTrue(doc.getChildren()[0] === before1);
+      this.assertTrue(doc.getChildren()[1] === after2);
+      this.assertTrue(doc.getChildren()[2] === el1);
+      this.assertTrue(doc.getChildren()[3] === before2);
+      this.assertTrue(doc.getChildren()[4] === after1);
+
+      qx.html2.Element.flushQueue();
+
+      this.assertTrue(doc.getElement().childNodes[0] === before1.getElement());
+      this.assertTrue(doc.getElement().childNodes[1] === after2.getElement());
+      this.assertTrue(doc.getElement().childNodes[2] === el1.getElement());
+      this.assertTrue(doc.getElement().childNodes[3] === before2.getElement());
+      this.assertTrue(doc.getElement().childNodes[4] === after1.getElement());
+
+
+
+
+
+      //
+      // REMOVE
+      //
+
+      doc.remove(before2);
+      doc.remove(after2);
+
+      this.assertTrue(doc.getChildren()[0] === before1);
+      this.assertTrue(doc.getChildren()[1] === el1);
+      this.assertTrue(doc.getChildren()[2] === after1);
+
+      qx.html2.Element.flushQueue();
+
+      this.assertTrue(doc.getElement().childNodes[0] === before1.getElement());
+      this.assertTrue(doc.getElement().childNodes[1] === el1.getElement());
+      this.assertTrue(doc.getElement().childNodes[2] === after1.getElement());
     }
   }
 });

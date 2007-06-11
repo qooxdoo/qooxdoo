@@ -357,6 +357,11 @@ qx.Class.define("qx.html2.Element",
     },
 
 
+    indexOf : function(child) {
+      return this.__children.indexOf(child);
+    },
+
+
     /**
      * TODOC
      *
