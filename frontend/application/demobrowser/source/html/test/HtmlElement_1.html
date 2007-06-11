@@ -95,6 +95,55 @@
 
 
 
+    // Remove
+
+    doc.remove(before2);
+    doc.remove(after2);
+
+    qx.html2.Element.flushQueue();
+
+
+
+    // Re-add
+
+    doc.addList(before2, after2);
+
+    qx.html2.Element.flushQueue();
+
+
+
+    // Remove and Add and Remove and Add
+
+    doc.removeList(before2, after2);
+    doc.addList(before2, after2);
+    doc.removeList(before2, after2);
+    doc.addList(before2, after2);
+
+    qx.html2.Element.flushQueue();
+
+
+
+
+    // Move, remove & add
+
+    doc.remove(before2);
+    doc.moveAfter(before1, after1);
+    doc.insertBefore(before2, before1);
+
+    qx.html2.Element.flushQueue();
+
+    /*
+    BEFORE:        AFTER1:        AFTER2:        AFTER3:
+
+    before1        before1        el1            el1
+    el1            el1            after1         after1
+    after1         after1         before1        before2
+    before2        after2         after2         before1
+    after2                                       after2
+    */
+
+
+
 
 
 
