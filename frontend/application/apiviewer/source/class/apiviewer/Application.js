@@ -41,6 +41,8 @@ qx.Class.define("apiviewer.Application",
     main : function()
     {
       this.base(arguments);
+      
+      qx.Class.include(qx.ui.core.Widget, apiviewer.MWidgetRegistry);
 
       // Define alias for custom resource path
       qx.io.Alias.getInstance().add("api", qx.core.Setting.get("apiviewer.resourceUri"));
@@ -54,7 +56,7 @@ qx.Class.define("apiviewer.Application",
 
       // Initialize the viewer
       this.viewer = new apiviewer.Viewer;
-      this.controller = new apiviewer.Controller(this.viewer);
+      this.controller = new apiviewer.Controller();
       this.viewer.addToDocument();
 
       // Load data file
