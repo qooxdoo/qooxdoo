@@ -24,7 +24,9 @@
     var doc = new qx.html2.Element(document.getElementById("test"));
 
 
-    // Testing basics
+
+
+    // Basics
 
     var el1 = new qx.html2.Element;
     var el2a = new qx.html2.Element;
@@ -52,7 +54,7 @@
 
 
 
-    // Testing before/after
+    // Positioned Insert #2
 
     var before1 = new qx.html2.Element;
     before1.setAttribute("id", "before1");
@@ -62,10 +64,12 @@
     after1.setAttribute("id", "after1");
     doc.insertAfter(after1, el1);
 
-    console.info("== LEVEL 1 ==");
-    doc.__printChildren();
-
     qx.html2.Element.flushQueue();
+
+
+
+
+    // Positioned Insert #1
 
     var before2 = new qx.html2.Element;
     before2.setAttribute("id", "before2");
@@ -75,24 +79,24 @@
     after2.setAttribute("id", "after2");
     doc.insertAt(after2, 10);
 
-    console.info("== LEVEL 2 ==");
-    doc.__printChildren();
-
     qx.html2.Element.flushQueue();
 
+
+
+
+    // Move
+
     doc.moveAfter(before2, before1);
-
-    console.info("== LEVEL 3 ==");
-    doc.__printChildren();
-
     qx.html2.Element.flushQueue();
 
     doc.moveBefore(after2, after1);
-
-    console.info("== LEVEL 4 ==");
-    doc.__printChildren();
-
     qx.html2.Element.flushQueue();
+
+
+
+
+
+
 
   });
   </script>
