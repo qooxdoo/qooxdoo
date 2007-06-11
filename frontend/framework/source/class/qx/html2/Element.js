@@ -54,7 +54,7 @@ qx.Class.define("qx.html2.Element",
      * @type static
      * @param item {var} TODOC
      * @param job {var} TODOC
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     addToQueue : function(item, job)
@@ -80,7 +80,7 @@ qx.Class.define("qx.html2.Element",
      *
      * @type static
      * @param item {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     removeFromQueue : function(item)
     {
@@ -98,7 +98,7 @@ qx.Class.define("qx.html2.Element",
      * TODOC
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
     flushQueue : function()
     {
@@ -204,11 +204,11 @@ qx.Class.define("qx.html2.Element",
 
       // == CLEANUP ==
       // cleanup queue and run-flag
-      for (var i=0, l=queue.length; i<l; i++)
-      {
-        item = queue[i];
+      for (var i=0, l=queue.length; i<l; i++) {
         delete item.__queued;
       }
+
+      queue.length = 0;
 
       delete this.__inFlushQueue;
     }
@@ -235,7 +235,7 @@ qx.Class.define("qx.html2.Element",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     __create : function()
     {
@@ -294,7 +294,7 @@ qx.Class.define("qx.html2.Element",
      *
      * @type member
      * @param job {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     __addToQueue : function(job) {
       this.self(arguments).addToQueue(this, job);
@@ -306,7 +306,7 @@ qx.Class.define("qx.html2.Element",
      *
      * @type member
      * @param job {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     __removeFromQueue : function(job) {
       this.self(arguments).removeFromQueue(this, job);
@@ -318,7 +318,7 @@ qx.Class.define("qx.html2.Element",
      *
      * @type member
      * @param child {var} TODOC
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     __addChild : function(child)
@@ -340,7 +340,7 @@ qx.Class.define("qx.html2.Element",
      *
      * @type member
      * @param child {var} TODOC
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     __removeChild : function(child)
@@ -364,7 +364,7 @@ qx.Class.define("qx.html2.Element",
      *
      * @type member
      * @param child {var} TODOC
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     __moveChild : function(child)
@@ -398,7 +398,7 @@ qx.Class.define("qx.html2.Element",
      *
      * @type member
      * @param varargs {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     addList : function(varargs)
     {
@@ -488,7 +488,7 @@ qx.Class.define("qx.html2.Element",
      *
      * @type member
      * @param varargs {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     removeList : function(varargs)
     {
@@ -504,7 +504,7 @@ qx.Class.define("qx.html2.Element",
      * @type member
      * @param child {var} TODOC
      * @param index {var} TODOC
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     moveTo : function(child, index)
@@ -532,7 +532,7 @@ qx.Class.define("qx.html2.Element",
      * @type member
      * @param child {var} TODOC
      * @param rel {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     moveBefore : function(child, rel) {
       this.moveTo(child, this.__children.indexOf(rel));
@@ -545,7 +545,7 @@ qx.Class.define("qx.html2.Element",
      * @type member
      * @param child {var} TODOC
      * @param rel {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     moveAfter : function(child, rel) {
       this.moveTo(child, this.__children.indexOf(rel) + 1);
