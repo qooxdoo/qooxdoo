@@ -58,7 +58,7 @@ qx.Class.define("qx.io.Alias",
   members :
   {
     /**
-     * pre process incoming danymic value
+     * pre process incoming dynamic value
      *
      * @param value {String} incoming value
      * @return {String} pre processed value
