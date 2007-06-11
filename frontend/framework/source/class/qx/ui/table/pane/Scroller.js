@@ -1467,16 +1467,14 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
           // Workaround: Calling focus() directly has no effect
           qx.client.Timer.once(function()
-                               {
-                                 if (this.getDisposed())
-                                 {
-                                   return;
-                                 }
+          {
+            if (this.getDisposed())
+            {
+              return;
+            }
 
-                                 this._cellEditor.focus();
-                               },
-                               this,
-                               0);
+            this._cellEditor.focus();
+          }, this, 0);
         }
 
         return true;
@@ -1957,11 +1955,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           this._focusIndicator.setLeft(paneModel.getColumnLeft(this._focusedCol) - 2);
 
           this._focusIndicator.show();
-
-          // Force redisplay of the focus indicator right away.  Without this, it
-          // waits until the mouse stops moving for a while before updating, and
-          // appears as if it is slow to respond.
-          qx.ui.core.Widget.flushGlobalQueues();
         }
       }
     }
