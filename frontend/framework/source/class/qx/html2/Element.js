@@ -525,15 +525,15 @@ qx.Class.define("qx.html2.Element",
         throw new Error("Has no child: " + child);
       }
 
-      child.__addToQueue();
+      if (child.__created) {
+        child.__addToQueue();
+      }
 
       var oldIndex = this.__children.indexOf(child);
 
       if (oldIndex === index) {
         throw new Error("Could not move to same index!");
-      }
-
-      if (oldIndex < index) {
+      } else if (oldIndex < index) {
         index--;
       }
 
