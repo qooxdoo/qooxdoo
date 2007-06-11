@@ -29,14 +29,14 @@
  * This is a singleton class.  The constructor is not accessed by users;
  * instead, to obtain the one and only TreeRowStructure object, call either
  *
- * <pre>qx.ui.treefullcontrol.TreeRowStructure.newRow()</pre>
+ * <pre>qx.ui.tree.TreeRowStructure.newRow()</pre>
  *
  * or
  *
- * <pre>qx.ui.treefullcontrol.TreeRowStructure.standard().</pre>
+ * <pre>qx.ui.tree.TreeRowStructure.standard().</pre>
  *
  * The structure of a tree row is provided by a
- * qx.ui.treefullcontrol.TreeRowStructure.  The order of elements added to
+ * qx.ui.tree.TreeRowStructure.  The order of elements added to
  * this object is the order in which they will be presented in a tree row.
  *
  * The three standard parts of a tree: the indentation (and its associated
@@ -57,13 +57,13 @@
  * A "standard" (traditional) tree row would be generated like this:
  *
  * <pre>
- * treeRowStructure = qx.ui.treefullcontrol.TreeRowStructure.standard("Trash");
+ * treeRowStructure = qx.ui.tree.TreeRowStructure.standard("Trash");
  * </pre>
  *
  * which equates to issuing these commands:
  *
  * <pre>
- * treeRowStructure = qx.ui.treefullcontrol.TreeRowStructure.newRow();
+ * treeRowStructure = qx.ui.tree.TreeRowStructure.newRow();
  *
  * //treeRowStructure.addIndent()  // defaults to here; no need to call
  * treeRowStructure.addIcon();
@@ -75,7 +75,7 @@
  * An example of a more sophisticated structure:
  *
  * <pre>
- * treeRowStructure = qx.ui.treefullcontrol.TreeRowStructure.newRow();
+ * treeRowStructure = qx.ui.tree.TreeRowStructure.newRow();
  *
  * // A left-justified icon
  * obj = new qx.ui.basic.Image("icon/16/apps/accessories-alarm.png");
@@ -111,7 +111,7 @@
  * treeRowStructure.addObject(obj, true);
  * </pre>
  */
-qx.Class.define("qx.ui.treefullcontrol.TreeRowStructure",
+qx.Class.define("qx.ui.tree.TreeRowStructure",
 {
   type : "singleton",
   extend : qx.core.Object,

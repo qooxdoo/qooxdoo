@@ -51,7 +51,7 @@
  */
 qx.Class.define("qx.ui.tree.Tree",
 {
-  extend : qx.ui.treefullcontrol.Tree,
+  extend : qx.ui.tree.Tree,
 
 
   /*
@@ -75,7 +75,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * @param vObject {Object} an object
      */
     isTreeFolder : function(vObject) {
-      return (vObject && vObject instanceof qx.ui.treefullcontrol.TreeFolder && !(vObject instanceof qx.ui.treefullcontrol.Tree));
+      return (vObject && vObject instanceof qx.ui.tree.TreeFolder && !(vObject instanceof qx.ui.tree.Tree));
     },
 
 
@@ -87,7 +87,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * @param vObject {Object} an object
      */
     isOpenTreeFolder : function(vObject) {
-      return (vObject instanceof qx.ui.treefullcontrol.TreeFolder && vObject.getOpen() && vObject.hasContent());
+      return (vObject instanceof qx.ui.tree.TreeFolder && vObject.getOpen() && vObject.hasContent());
     }
   }
 

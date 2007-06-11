@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.treefullcontrol.SelectionManager",
+qx.Class.define("qx.ui.tree.SelectionManager",
 {
   extend : qx.ui.selection.SelectionManager,
 
@@ -240,7 +240,7 @@ qx.Class.define("qx.ui.treefullcontrol.SelectionManager",
      */
     getItemHeight : function(vItem)
     {
-      if (vItem instanceof qx.ui.treefullcontrol.TreeFolder && vItem._horizontalLayout) {
+      if (vItem instanceof qx.ui.tree.TreeFolder && vItem._horizontalLayout) {
         return vItem._horizontalLayout.getOffsetHeight();
       } else {
         return vItem.getOffsetHeight();
