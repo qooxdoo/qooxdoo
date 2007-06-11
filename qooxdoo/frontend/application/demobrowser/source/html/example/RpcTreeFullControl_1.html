@@ -42,7 +42,7 @@ qx.core.Init.getInstance().defineMain(
             {
                 child = children[i];
 
-                trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().newRow();
+                trs = qx.ui.tree.TreeRowStructure.getInstance().newRow();
 
                 // Here's our indentation and tree-lines
                 trs.addIndent();
@@ -98,11 +98,11 @@ qx.core.Init.getInstance().defineMain(
 
                 if (bIsDirectory)
                 {
-                    t = new qx.ui.treefullcontrol.TreeFolder(trs);
+                    t = new qx.ui.tree.TreeFolder(trs);
                 }
                 else
                 {
-                    t = new qx.ui.treefullcontrol.TreeFile(trs);
+                    t = new qx.ui.tree.TreeFile(trs);
                 }
                 parent.add(t);
             }
@@ -117,7 +117,7 @@ qx.core.Init.getInstance().defineMain(
 	       * We will therefore patch the tree folder class and refine the 
 	       * appropriate property.
 	       */
-				qx.Class.patch( qx.ui.treefullcontrol.TreeFolder, 
+				qx.Class.patch( qx.ui.tree.TreeFolder, 
 				  qx.Mixin.define("sample.patch.TreeFolder", {
 						properties : {
 							"alwaysShowPlusMinusSymbol" : { refine: true, init: true }
@@ -133,8 +133,8 @@ qx.core.Init.getInstance().defineMain(
 
         var mycall = null;
 
-        var trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Root");
-        var t = new qx.ui.treefullcontrol.Tree(trs);
+        var trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Root");
+        var t = new qx.ui.tree.Tree(trs);
 
         with(t)
         {
@@ -187,8 +187,8 @@ qx.core.Init.getInstance().defineMain(
 
         qx.ui.core.ClientDocument.getInstance().add(t);
 
-        var trs = qx.ui.treefullcontrol.TreeRowStructure.getInstance().standard("Sandbox");
-        var tf = new qx.ui.treefullcontrol.TreeFolder(trs);
+        var trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Sandbox");
+        var tf = new qx.ui.tree.TreeFolder(trs);
         t.add(tf);
     });
 /*
