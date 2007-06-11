@@ -153,14 +153,14 @@ qx.Class.define("qx.html2.Element",
         console.debug("Process not inserted parent[" + parent.toHashCode() + "]");
 
         var children = parent.__children;
-        var parentElement = parent.element();
+        var parentElement = parent.getElement();
 
         for (var i=0, l=children.length; i<l; i++)
         {
           child = children[i];
 
           console.log("Append No: " + i + "[" + child.toHashCode() + "]");
-          parentElement.appendChild(child.element());
+          parentElement.appendChild(child.getElement());
         }
 
         delete parents[hc];
@@ -175,14 +175,14 @@ qx.Class.define("qx.html2.Element",
         console.debug("Process inserted parent[" + parent.toHashCode() + "]");
 
         var children = parent.__children;
-        var parentElement = parent.element();
+        var parentElement = parent.getElement();
 
         for (var i=0, l=children.length; i<l; i++)
         {
           child = children[i];
 
           console.log("Append No: " + i + "[" + child.toHashCode() + "]");
-          parentElement.appendChild(child.element());
+          parentElement.appendChild(child.getElement());
         }
 
         delete parents[hc];
@@ -347,6 +347,13 @@ qx.Class.define("qx.html2.Element",
       } else {
         child.__addToQueue("remove");
       }
+    },
+
+
+    getChildren : function()
+    {
+      // protect structure using a copy
+      return qx.lang.Array.copy(this.__children);
     },
 
 
@@ -543,7 +550,7 @@ qx.Class.define("qx.html2.Element",
      * @type member
      * @return {var} TODOC
      */
-    element : function()
+    getElement : function()
     {
       if (!this.__created)
       {
@@ -556,6 +563,7 @@ qx.Class.define("qx.html2.Element",
 
       return this.__element;
     },
+
 
     __mshtmlPixels :
     {
@@ -576,7 +584,7 @@ qx.Class.define("qx.html2.Element",
      * @param value {var} TODOC
      * @return {var} TODOC
      */
-    pixel : function(key, value)
+    setPixelStyle : function(key, value)
     {
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
@@ -591,7 +599,21 @@ qx.Class.define("qx.html2.Element",
         value += "px";
       }
 
-      return this.style(key, value);
+      return this.setStyle(key, value);
+    },
+
+
+    getPixelStyle : function(key)
+    {
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        if (this.__mshtmlPixels[key]) {
+          key = this.__mshtmlPixels[key];
+        }
+      }
+
+      var value = this.getStyle(key);
+      return value !== undefined ? parseInt(value) : null;
     },
 
 
@@ -603,7 +625,7 @@ qx.Class.define("qx.html2.Element",
      * @param value {var} TODOC
      * @return {var} TODOC
      */
-    style : function(key, value)
+    setStyle : function(key, value)
     {
       this.__styleCache[key] = value;
 
@@ -615,6 +637,11 @@ qx.Class.define("qx.html2.Element",
     },
 
 
+    getStyle : function(key) {
+      return this.__styleCache[key];
+    },
+
+
     /**
      * TODOC
      *
@@ -623,7 +650,7 @@ qx.Class.define("qx.html2.Element",
      * @param value {var} TODOC
      * @return {var} TODOC
      */
-    attrib : function(key, value)
+    setAttribute : function(key, value)
     {
       this.__attribCache[key] = value;
 
@@ -635,6 +662,11 @@ qx.Class.define("qx.html2.Element",
     },
 
 
+    getAttribute : function(key) {
+      return this.__attribCache[key];
+    },
+
+
     /**
      * TODOC
      *
@@ -642,10 +674,15 @@ qx.Class.define("qx.html2.Element",
      * @param html {var} TODOC
      * @return {var} TODOC
      */
-    html : function(html)
+    setHtml : function(html)
     {
       this.__html = html;
       return this;
+    },
+
+
+    getHtml : function() {
+      return this.__html;
     },
 
 
@@ -656,10 +693,15 @@ qx.Class.define("qx.html2.Element",
      * @param text {var} TODOC
      * @return {var} TODOC
      */
-    text : function(text)
+    setText : function(text)
     {
       this.__text = text;
       return this;
+    },
+
+
+    getText : function(text) {
+      return this.__text;
     }
   }
 });

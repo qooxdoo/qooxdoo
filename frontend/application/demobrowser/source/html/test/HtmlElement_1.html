@@ -24,7 +24,7 @@
     var doc = new qx.html2.Element(document.getElementById("test"));
 
 
-    // Testing structure
+    // Testing basics
 
     var el1 = new qx.html2.Element;
     var el2a = new qx.html2.Element;
@@ -32,19 +32,20 @@
     var el3a = new qx.html2.Element;
     var el3b = new qx.html2.Element;
 
-    el1.attrib("id", "el1");
-    el2a.attrib("id", "el2a");
-    el2b.attrib("id", "el2b");
-    el3a.attrib("id", "el3a");
-    el3b.attrib("id", "el3b");
+    el1.setAttribute("id", "el1");
+    el2a.setAttribute("id", "el2a");
+    el2b.setAttribute("id", "el2b");
+    el3a.setAttribute("id", "el3a");
+    el3b.setAttribute("id", "el3b");
 
     el1.addList(el2a, el2b);
     el2a.addList(el3a, el3b);
     doc.add(el1);
 
-    el3a.html("<b>hello</b>");
+    el3a.setHtml("<b>hello</b>");
 
-    el1.pixel("width", 100).pixel("height", 100);
+    el1.setStyle("color", "blue");
+    el1.setPixelStyle("width", 100).setPixelStyle("height", 100);
 
     qx.html2.Element.flushQueue();
 
@@ -54,11 +55,11 @@
     // Testing before/after
 
     var before1 = new qx.html2.Element;
-    before1.attrib("id", "before1");
+    before1.setAttribute("id", "before1");
     doc.insertBefore(before1, el1);
 
     var after1 = new qx.html2.Element;
-    after1.attrib("id", "after1");
+    after1.setAttribute("id", "after1");
     doc.insertAfter(after1, el1);
 
     console.info("== LEVEL 1 ==");
@@ -67,11 +68,11 @@
     qx.html2.Element.flushQueue();
 
     var before2 = new qx.html2.Element;
-    before2.attrib("id", "before2");
+    before2.setAttribute("id", "before2");
     doc.insertAt(before2, 0);
 
     var after2 = new qx.html2.Element;
-    after2.attrib("id", "after2");
+    after2.setAttribute("id", "after2");
     doc.insertAt(after2, 10);
 
     console.info("== LEVEL 2 ==");
