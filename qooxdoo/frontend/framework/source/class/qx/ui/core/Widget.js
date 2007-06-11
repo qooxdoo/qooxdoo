@@ -1471,7 +1471,8 @@ qx.Class.define("qx.ui.core.Widget",
       check : "Integer",
       nullable : true,
       init : null,
-      apply : "_applyTabIndex"
+      apply : "_applyTabIndex",
+      event : "changeTabIndex"
     },
 
 
