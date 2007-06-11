@@ -59,13 +59,7 @@ qx.Class.define("qx.html2.Element",
      */
     addToQueue : function(item)
     {
-      if (item.__queued)
-      {
-        if (item.__queued !== job) {
-          throw new Error("Could not change job from " + item.__queued + " to " + job);
-        }
-      }
-      else
+      if (!item.__queued)
       {
         console.debug("Add to queue element[" + item.toHashCode() + "]");
 
@@ -349,7 +343,7 @@ qx.Class.define("qx.html2.Element",
 
       child.__parent = this;
 
-      if (this.__created && !child.__created) {
+      if (this.__created) {
         child.__addToQueue();
       }
     },
