@@ -45,7 +45,7 @@
  *
  * Each method may access static members of the same class by using
  * <code>this.self(arguments)</code> ({@link qx.core.Object#self}):
- * <pre><code>
+ * <pre class='javascript'>
  * statics : { FOO : "bar" },
  * members: {
  *   baz: function(x) {
@@ -53,19 +53,19 @@
  *     ...
  *   }
  * }
- * </code></pre>
+ * </pre>
  *
  * Each overriding method may call the overridden method by using
  * <code>this.base(arguments [, ...])</code> ({@link qx.core.Object#base}). This is also true for calling
  * the constructor of the superclass.
- * <pre><code>
+ * <pre class='javascript'>
  * members: {
  *   foo: function(x) {
  *     this.base(arguments, x);
  *     ...
  *   }
  * }
- * </code></pre>
+ * </pre>
  */
 qx.Class.define("qx.Class",
 {
@@ -82,7 +82,7 @@ qx.Class.define("qx.Class",
      * namespace for the class and generates the class from the definition map.
      *
      * Example:
-     * <pre><code>
+     * <pre class='javascript'>
      * qx.Class.define("name",
      * {
      *   extend : Object, // superclass
@@ -116,7 +116,7 @@ qx.Class.define("qx.Class",
      *     __privateMethod: function() {}
      *   }
      * });
-     * </code></pre>
+     * </pre>
      *
      * @type static
      * @param name {String} Name of the class

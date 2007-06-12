@@ -154,7 +154,7 @@ qx.Class.define("qx.util.StringBuilder",
   {
     /**
      * Resets the contents of the Stringbuilder
-     * equivalent to <pre>str = ""; </pre>
+     * equivalent to <pre class='javascript'>str = ""; </pre>
      *
      * @type member
      * @return {void}
@@ -212,7 +212,7 @@ qx.Class.define("qx.util.StringBuilder",
 
     /**
      * Initializes the contents of the Stringbuilder
-     * equivalent to <pre>str = ""; </pre>
+     * equivalent to <pre class='javascript'>str = ""; </pre>
      *
      * @type member
      * @return {void}

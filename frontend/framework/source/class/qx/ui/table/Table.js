@@ -54,61 +54,61 @@ qx.Class.define("qx.ui.table.Table",
    *
    *   <dl>
    *     <dt>selectionManager</dt>
-   *       <dd><code><pre>
+   *       <dd><pre class='javascript'>
    *         function(obj)
    *         {
    *           return new qx.ui.table.selection.Manager(obj);
    *         }
-   *       </pre></code></dd>
+   *       </pre></dd>
    *     <dt>selectionModel</dt>
-   *       <dd><code><pre>
+   *       <dd><pre class='javascript'>
    *         function(obj)
    *         {
    *           return new qx.ui.table.selection.Model(obj);
    *         }
-   *       </pre></code></dd>
+   *       </pre></dd>
    *     <dt>tableColumnModel</dt>
-   *       <dd><code><pre>
+   *       <dd><pre class='javascript'>
    *         function(obj)
    *         {
    *           return new qx.ui.table.columnmodel.Basic(obj);
    *         }
-   *       </pre></code></dd>
+   *       </pre></dd>
    *     <dt>tablePaneModel</dt>
-   *       <dd><code><pre>
+   *       <dd><pre class='javascript'>
    *         function(obj)
    *         {
    *           return new qx.ui.table.pane.Model(obj);
    *         }
-   *       </pre></code></dd>
+   *       </pre></dd>
    *     <dt>tablePane</dt>
-   *       <dd><code><pre>
+   *       <dd><pre class='javascript'>
    *         function(obj)
    *         {
    *           return new qx.ui.table.pane.Pane(obj);
    *         }
-   *       </pre></code></dd>
+   *       </pre></dd>
    *     <dt>tablePaneHeader</dt>
-   *       <dd><code><pre>
+   *       <dd><pre class='javascript'>
    *         function(obj)
    *         {
    *           return new qx.ui.table.pane.Header(obj);
    *         }
-   *       </pre></code></dd>
+   *       </pre></dd>
    *     <dt>tablePaneScroller</dt>
-   *       <dd><code><pre>
+   *       <dd><pre class='javascript'>
    *         function(obj)
    *         {
    *           return new qx.ui.table.pane.Scroller(obj);
    *         }
-   *       </pre></code></dd>
+   *       </pre></dd>
    *     <dt>tablePaneModel</dt>
-   *       <dd><code><pre>
+   *       <dd><pre class='javascript'>
    *         function(obj)
    *         {
    *           return new qx.ui.table.pane.Model(obj);
    *         }
-   *       </pre></code></dd>
+   *       </pre></dd>
    *   </dl>
    */
   construct : function(tableModel, custom)

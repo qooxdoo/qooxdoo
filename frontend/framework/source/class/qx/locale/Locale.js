@@ -32,13 +32,13 @@ qx.Class.define("qx.locale.Locale",
      * Locale config
      *
      * Example:
-     * <pre><code>
+     * <pre class='javascript'>
      * qx.locale.Locale.define("name",
      * {
      *   "msgId": "msgText",
      *   ...
      * });
-     * </code></pre>
+     * </pre>
      *
      * @type static
      * @param name {String} name of the mixin

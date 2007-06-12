@@ -47,7 +47,7 @@ qx.Class.define("qx.Mixin",
      * Define a new mixin.
      *
      * Example:
-     * <pre><code>
+     * <pre class='javascript'>
      * qx.Mixin.define("name",
      * {
      *   "includes": [SuperMixins],

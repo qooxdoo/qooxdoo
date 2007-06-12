@@ -233,7 +233,7 @@ qx.Class.define("qx.util.fsm.State",
      *
      * Auto-action property values passed to us look akin to:
      *
-     *     <pre>
+     *     <pre class='javascript'>
      *     {
      *       // The name of a function.
      *       "setEnabled" :

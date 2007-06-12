@@ -51,7 +51,7 @@ qx.Class.define("qx.Interface",
      * can be empty maps.
      *
      * Example:
-     * <pre>
+     * <pre class='javascript'>
      * qx.Interface.define("name",
      * {
      *   extend: [SuperInterfaces],

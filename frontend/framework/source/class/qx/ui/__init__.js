@@ -1,6 +1,6 @@
 /**
  * *GUI Widgets and Facilities*
- * 
+ *
  * The *qx.ui* namespace contains classes to construct graphical user
  * interfaces. This is a rich and diverse namespace containing packages and
  * classes on varying levels of granularity, from component-like date chooser
@@ -14,7 +14,8 @@
  * *qx.ui.layout* managers, and then add functional widgets to them. This helps
  * you to visually organize your application.
  * A minimal example for creating a user interface might look like this:
- * <pre>
+ *
+ * <pre class='javascript'>
  * var h = new qx.ui.layout.HorizontalBoxLayout();
  * var b = new qx.ui.form.Button("Push me!");
  * h.add(b);
@@ -37,30 +38,30 @@
  *   * <b>Organising what's on the screen:</b>
  *     {@link qx.ui.pageview} (e.g. for tabs); {@link qx.ui.splitpane} (dividing the screen);
  *     {@link qx.ui.groupbox}, {@link qx.ui.embed}
- * 
+ *
  *   * <b>Typical user interaction widgets:</b>
  *     {@link qx.ui.basic.Label}, {@link qx.ui.form.Button}, {@link qx.ui.form.TextField}
  *
  *   * <b>Highly specialised interaction widgets:</b>
- *     The classes of the <b>qx.ui.tree*</b> packages (like 
+ *     The classes of the <b>qx.ui.tree*</b> packages (like
  *     {@link qx.ui.tree.Tree}); {@link qx.ui.table}
  *
  *   * <b>Components:</b>
  *     {@link qx.ui.component}
  *
  *   * <b>Effects:</b>
- *     {@link qx.ui.animation}; {@link qx.ui.popup} (containing {@link qx.ui.popup.ToolTip ToolTips}); 
+ *     {@link qx.ui.animation}; {@link qx.ui.popup} (containing {@link qx.ui.popup.ToolTip ToolTips});
  *
- *   * <b>Making it all work:</b> 
+ *   * <b>Making it all work:</b>
  *     Look at <b>*Manager</b> classes (like {@link qx.ui.tree.SelectionManager}) in the
  *     various *qx.ui* packages, which are important for event handling; in
  *     order to make your application work, you will also have to concern
- *     yourself with qooxdoo classes outside the *qx.ui* namespace, like 
+ *     yourself with qooxdoo classes outside the *qx.ui* namespace, like
  *     {@link qx.event};
  *
  *   * <b>The icing:</b> Here are some packages that are relevant for advanced
  *     features of your GUI app:
- *     {@link qx.theme}; 
+ *     {@link qx.theme};
  *
  * Following is a complete list of the available *qx.ui* packages:
  *

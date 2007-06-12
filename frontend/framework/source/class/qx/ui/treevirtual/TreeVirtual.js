@@ -78,19 +78,19 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
    *     <dt>dataRowRenderer</dt>
    *       <dd>new qx.ui.treevirtual.SimpleTreeDataRowRenderer()</dd>
    *     <dt>selectionManager</dt>
-   *       <dd><code><pre>
+   *       <dd><pre class='javascript'>
    *         function(obj)
    *         {
    *           return new qx.ui.treevirtual.SelectionManager(obj);
    *         }
-   *       </pre></code></dd>
+   *       </pre></dd>
    *     <dt>tableColumnModel</dt>
-   *       <dd><code><pre>
+   *       <dd><pre class='javascript'>
    *         function(obj)
    *         {
    *           return new qx.ui.table.columnmodel.Resize(obj);
    *         }
-   *       </pre></code></dd>
+   *       </pre></dd>
    *   </dl>
    */
   construct : function(headings, custom)
