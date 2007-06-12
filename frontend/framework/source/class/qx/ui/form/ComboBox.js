@@ -632,7 +632,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * Listener method for the mouseUp event of the combo box.
      *
      * @type member
-     * @param e {qx.type.event.MouseEvent} MouseUp event
+     * @param e {qx.event.type.MouseEvent} MouseUp event
      * @return {void}
      */
     _onmouseup : function(e)
@@ -658,7 +658,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * Delegates the control the selection manager if target is a listitem widget.
      *
      * @type member
-     * @param e {qx.typ.event.MouseEvent} MouseOver event
+     * @param e {qx.event.type.MouseEvent} MouseOver event
      * @return {void}
      */
     _onmouseover : function(e)
@@ -684,7 +684,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * Only works if the popup is not seeable.
      *
      * @type member
-     * @param e {qx.type.event.MouseEvent} MouseWheel event
+     * @param e {qx.event.type.MouseEvent} MouseWheel event
      * @return {void}
      */
     _onmousewheel : function(e)
@@ -736,7 +736,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * Handles hitting "Enter", "Escape" and "Alt+Down".
      *
      * @type member
-     * @param e {qx.type.event.KeyEvent} KeyDown event
+     * @param e {qx.event.type.KeyEvent} KeyDown event
      * @return {void}
      */
     _onkeydown : function(e)
@@ -885,7 +885,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * Listener method for the "keyInput" event of combo box.
      *
      * @type member
-     * @param e {qx.type.event.KeyEvent} KeyInput event
+     * @param e {qx.event.type.KeyEvent} KeyInput event
      * @return {void}
      */
     _onkeyinput : function(e)

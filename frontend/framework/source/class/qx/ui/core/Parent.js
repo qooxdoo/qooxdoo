@@ -540,7 +540,7 @@ qx.Class.define("qx.ui.core.Parent",
      *  one, a parameter could be a widget.
      *
      * @type member
-     * @param varargs {qx.core.Widget} variable number of widgets to add
+     * @param varargs {qx.ui.core.Widget} variable number of widgets to add
      * @return {Parent} This widget.
      * @throws TODOC
      */
@@ -694,7 +694,7 @@ qx.Class.define("qx.ui.core.Parent",
      * Remove one or multiple childrens.
      *
      * @type member
-     * @param varargs {qx.core.Widget} variable number of widgets to remove
+     * @param varargs {qx.ui.core.Widget} variable number of widgets to remove
      */
     remove : function(varargs)
     {

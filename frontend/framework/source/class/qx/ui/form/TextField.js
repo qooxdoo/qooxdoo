@@ -357,7 +357,7 @@ qx.Class.define("qx.ui.form.TextField",
      * sync the inner width.
      *
      * @param value {Number} new value
-     * @param old {Nubmer} old value
+     * @param old {Number} old value
      * @return {void}
      */
     _changeInnerWidth : function(value, old) {
@@ -370,7 +370,7 @@ qx.Class.define("qx.ui.form.TextField",
      * sync the inner height.
      *
      * @param value {Number} new value
-     * @param old {Nubmer} old value
+     * @param old {Number} old value
      * @return {void}
      */
     _changeInnerHeight : function(value, old) {
