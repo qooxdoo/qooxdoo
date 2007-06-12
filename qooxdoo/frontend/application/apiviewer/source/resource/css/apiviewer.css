@@ -191,6 +191,33 @@
   font-weight: normal;
 }
 
+.keyword {
+	color : #134275;
+	font-weight: bold;
+}
+
+.atom {
+	color: orange;
+	font-weight: bold;
+}
+
+.qxkey {
+	font-weight: bold;
+}
+
+.ident {
+	/* font-weight: bold; */
+}
+
+.comment {
+	color: darkgray;
+}
+
+.string {
+	color: green;
+}
+
+
 #content code{
   padding: 1px 3px;
 }

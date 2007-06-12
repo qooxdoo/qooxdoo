@@ -76,6 +76,20 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
           a[i].target = "_blank";
         }
       }
+    },
+
+
+    highlightCode : function(el)
+    {
+      var pres = el.getElementsByTagName("pre");
+
+      for (var i=0; i<pres.length; i++) {
+        var element = pres[i];
+        if (element.className !== "javascript") {
+          continue;
+        }
+        element.innerHTML = qx.dev.Tokenizer.javaScriptToHtml(element.innerHTML);
+      }
     }
 
   },
@@ -131,7 +145,6 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
       // Set the html
       this.getElement().innerHTML = html.get();
       apiviewer.ui.AbstractViewer.fixLinks(this.getElement());
-
 
       // Extract the main elements
       var divArr = this.getElement().childNodes;
@@ -198,6 +211,7 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
       this._titleElem.innerHTML = this._getTitleHtml(classNode);
       this._classDescElem.innerHTML = this._getDescriptionHtml(classNode);
       apiviewer.ui.AbstractViewer.fixLinks(this._classDescElem);
+      apiviewer.ui.AbstractViewer.highlightCode(this._classDescElem);
 
       // Refresh the info viewers
       this._updatePanels();

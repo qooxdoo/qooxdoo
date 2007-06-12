@@ -1,0 +1,178 @@
+// Public Domain code by Christopher Diggins
+// http://www.cdiggins.com
+// Last Modified 2005-10-28
+//http://www.cdiggins.com/tokenizer.html
+
+qx.Class.define("qx.dev.Tokenizer",
+{
+  extend : qx.core.Object,
+
+  statics :
+  {
+    tokenizeJavaScript : function(javaScriptText)
+    {
+      keywords = {
+        "break" : 1,
+        "case" : 1,
+        "catch" : 1,
+        "continue" : 1,
+        "default" : 1,
+        "delete" : 1,
+        "do" : 1,
+        "else" : 1,
+        "finally" : 1,
+        "for" : 1,
+        "function" : 1,
+        "if" : 1,
+        "in" : 1,
+        "instanceof" : 1,
+        "new" : 1,
+        "return" : 1,
+        "switch" : 1,
+        "throw" : 1,
+        "try" : 1,
+        "typeof" : 1,
+        "var" : 1,
+        "while" : 1,
+        "with" : 1
+      };
+
+      var atoms = {
+        "void" : 1,
+        "null" : 1,
+        "true" : 1,
+        "false" : 1,
+        "NaN" : 1,
+        "Infinity" : 1,
+        "this" : 1,
+      };
+
+      var qxkeys = {
+        "statics" : 1,
+        "members" : 1,
+        "construct" : 1,
+        "destruct" : 1,
+        "events" : 1,
+        "properties" : 1,
+        "extend" : 1,
+        "implement" : 1
+      }
+
+      var re_line_comment = /\/\/.*[\n\r$]/
+      var re_full_comment = /\/\*(?:.|[\n\r])*?\*\//
+      var re_ident = /[a-zA-Z_][a-zA-Z0-9_]*\b/
+      var re_integer = /[+-]?\d+/
+      var re_float = /[+-]?\d+(([.]\d+)*([eE][+-]?\d+))?/
+      var re_doublequote = /["][^"]*["]/
+      var re_singlequote = /['][^']*[']/
+      var re_tab = /\t/
+      var re_nl = /\r|\n/
+      var re_space = /\s/
+      var re_symbol = /\S/
+      var re_token = /\/\/.*?[\n\r$]|\/\*(?:.|\n|\r)*?\*\/|\w+\b|[+-]?\d+(([.]\d+)*([eE][+-]?\d+))?|["][^"]*["]|['][^']*[']|\n|\r|./g
+
+      var tokens = [];
+
+      var a = javaScriptText.match(re_token);
+
+      for (i = 0; i < a.length; i++)
+      {
+        var token = a[i];
+        if (token.match(re_line_comment)) {
+          tokens.push({type: "linecomment", value: token});
+        }
+        else if (token.match(re_full_comment)) {
+          tokens.push({type: "fullcomment", value: token});
+        }
+        else if (token.match(re_singlequote)) {
+          tokens.push({type: "qstr", value: token});
+        }
+        else if (token.match(re_doublequote)) {
+          tokens.push({type: "qqstr", value: token});
+        }
+        else if(keywords[token]) {
+          tokens.push({type: "keyword", value: token});
+        }
+        else if(atoms[token]) {
+          tokens.push({type: "atom", value: token});
+        }
+        else if(qxkeys[token]) {
+          tokens.push({type: "qxkey", value: token});
+        }
+        else if (token.match(re_ident)) {
+          tokens.push({type: "ident", value: token});
+        }
+        else if (token.match(re_float)) {
+          tokens.push({type: "real", value: token});
+        }
+        else if (token.match(re_integer)) {
+          tokens.push({type: "int", value: token});
+        }
+        else if (token.match(re_nl)) {
+          tokens.push({type: "nl", value: token});
+        }
+        else if (token.match(re_space)) {
+          tokens.push({type: "ws", value: token});
+        }
+        else if (token.match(re_tab)) {
+          tokens.push({type: "tab", value: token});
+        }
+        else if (token == ">") {
+          tokens.push({type: "sym", value: ">"});
+        }
+        else if (token == "<") {
+          tokens.push({type: "sym", value: "<"});
+        }
+        else  if (token == "&") {
+          tokens.push({type: "sym", value: "&"});
+        }
+        else {
+          tokens.push({type: "sym", value: token});
+        }
+      }
+
+      return tokens;
+    },
+
+
+    javaScriptToHtml : function(javaScriptText)
+    {
+			var tokens = qx.dev.Tokenizer.tokenizeJavaScript(javaScriptText);
+			var js = new qx.util.StringBuilder();
+			for (var i=0; i<tokens.length; i++) {
+				var token = tokens[i];
+				switch(token.type) {
+					case "ident":
+						js.add("<span class='ident'>", token.value, "</span>");
+						break;
+
+					case "linecomment":
+					case "fullcomment":
+						js.add("<span class='comment'>", token.value, "</span>");
+						break;
+
+					case "qstr":
+					case "qqstr":
+						js.add("<span class='string'>", token.value, "</span>");
+						break;
+
+					case "keyword":
+					case "atom":
+					case "qxkey":
+						js.add("<span class='", token.type, "'>", token.value, "</span>");
+						break;
+
+					case "nl":
+						js.add("<br>");
+						break;
+
+					default:
+						js.add(token.value);
+				}
+			}
+			return js.get();
+    }
+
+  }
+
+});
