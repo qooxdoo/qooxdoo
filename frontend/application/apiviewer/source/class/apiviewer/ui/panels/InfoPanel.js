@@ -1059,6 +1059,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
 
         this.getBodyElement().innerHTML = html.get();
         apiviewer.ui.AbstractViewer.fixLinks(this.getBodyElement());
+        apiviewer.ui.AbstractViewer.highlightCode(this.getBodyElement());
         this.getBodyElement().style.display = !this.getIsOpen() ? "none" : "";
         this.getElement().style.display = "";
       }
@@ -1176,6 +1177,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
         // Update content
         textDiv.innerHTML = this.getItemTextHtml(node, this.getDocNode(), showDetails);
         apiviewer.ui.AbstractViewer.fixLinks(textDiv);
+        apiviewer.ui.AbstractViewer.highlightCode(textDiv);
       }
       catch(exc)
       {
