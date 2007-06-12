@@ -39,6 +39,7 @@ qx.Class.define("demobrowser.Application",
 
 
 
+
   /*
   *****************************************************************************
      MEMBERS
@@ -51,7 +52,7 @@ qx.Class.define("demobrowser.Application",
      * TODOC
      *
      * @type member
-     * @return {void}
+     * @return {void} 
      */
     main : function()
     {
@@ -73,6 +74,12 @@ qx.Class.define("demobrowser.Application",
     },
 
 
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
     _load : function() {
       this.viewer.dataLoader("script/demodata.js");
     }
@@ -87,9 +94,7 @@ qx.Class.define("demobrowser.Application",
   *****************************************************************************
   */
 
-  settings : {
-    "demobrowser.resourceUri" : "./resource"
-  },
+  settings : { "demobrowser.resourceUri" : "./resource" },
 
 
 

@@ -65,6 +65,7 @@ qx.Class.define("demobrowser.TreeDataHandler",
 
 
 
+
   /*
   *****************************************************************************
      MEMBERS
@@ -132,7 +133,6 @@ qx.Class.define("demobrowser.TreeDataHandler",
             target = createPath(nextRoot, pathrest);
             return target;
           }
-
         }
 
         var target = createPath(root, path);
@@ -142,7 +142,6 @@ qx.Class.define("demobrowser.TreeDataHandler",
         }
 
         that.readTree(el, target);
-
       }
 
       var root = new demobrowser.Tree("All");
@@ -420,22 +419,35 @@ qx.Class.define("demobrowser.TreeDataHandler",
     },
 
 
-    getPreviousNode : function (node) // node is tree node
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param node {Node} TODOC
+     * @return {var} TODOC
+     */
+    getPreviousNode : function(node)  // node is tree node
     {
       var prevNode = node.getPrevSibling();
 
-      if (prevNode)
-      {
+      if (prevNode) {
         return prevNode;
       }
     },
 
 
-    getNextNode : function (node) // node is a tree node
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param node {Node} TODOC
+     * @return {var} TODOC
+     */
+    getNextNode : function(node)  // node is a tree node
     {
       var nextNode = node.getNextSibling();
-      if (nextNode)
-      {
+
+      if (nextNode) {
         return nextNode;
       }
     },

@@ -48,7 +48,6 @@ qx.Class.define("demobrowser.Tree",
 
 
 
-
   /*
   *****************************************************************************
      MEMBERS
@@ -101,7 +100,7 @@ qx.Class.define("demobrowser.Tree",
      * @type member
      * @param fun {var} TODOC
      * @param args {var} TODOC
-     * @return {void}
+     * @return {void} 
      */
     map : function(fun, args)
     {
@@ -121,7 +120,7 @@ qx.Class.define("demobrowser.Tree",
      * TODOC
      *
      * @type member
-     * @return {void}
+     * @return {void} 
      */
     print : function()
     {
@@ -169,31 +168,48 @@ qx.Class.define("demobrowser.Tree",
 
         return curr;
       }
-        // f()
 
+      // f()
       return f;
     },
 
 
-    getPrevSibling : function()
-    {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getPrevSibling : function() {
       return this.getSibling(-1);
     },
 
 
-    getNextSibling : function ()
-    {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getNextSibling : function() {
       return this.getSibling(1);
     },
 
 
-    getSibling : function (offset)
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param offset {var} TODOC
+     * @return {var} TODOC
+     */
+    getSibling : function(offset)
     {
       var sibs = this.parent.getChildren();
       var myIndex = this.self(arguments).indexOf(sibs, this);
       var sibIndex = myIndex + offset;
-      if (sibs[sibIndex])
-      {
+
+      if (sibs[sibIndex]) {
         return sibs[sibIndex];
       }
     },
@@ -204,7 +220,7 @@ qx.Class.define("demobrowser.Tree",
      *
      * @type member
      * @param node {Node} TODOC
-     * @return {void}
+     * @return {void} 
      */
     add : function(node)
     {
@@ -213,22 +229,29 @@ qx.Class.define("demobrowser.Tree",
     }
   },
 
-
-
   statics :
   {
     // compute the index of an array element
-    indexOf : function (arr, obj)
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param arr {Array} TODOC
+     * @param obj {Object} TODOC
+     * @return {var} TODOC
+     */
+    indexOf : function(arr, obj)
     {
       for (var i=0; i<arr.length; i++)
       {
-        if (arr[i] == obj)
-        {
+        if (arr[i] == obj) {
           return i;
         }
       }
     }
   },
+
+
 
 
   /*
