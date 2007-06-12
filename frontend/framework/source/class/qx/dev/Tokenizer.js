@@ -1,14 +1,48 @@
-// Public Domain code by Christopher Diggins
-// http://www.cdiggins.com
-// Last Modified 2005-10-28
-//http://www.cdiggins.com/tokenizer.html
+/* ************************************************************************
 
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+     Based on Public Domain code by Christopher Diggins
+     http://www.cdiggins.com/tokenizer.html
+
+   Authors:
+     * Fabian Jakobs (fjakobs)
+     * Christopher Diggins (original tokenizer code)
+
+************************************************************************ */
+
+/**
+ * Simple JavaScript tokenizer used to print syntax highlighted
+ * JavaScript code.
+ *
+ * Public Domain code by Christopher Diggins
+ * http://www.cdiggins.com/tokenizer.html
+ */
 qx.Class.define("qx.dev.Tokenizer",
 {
   extend : qx.core.Object,
 
   statics :
   {
+
+    /**
+     * Tokenizes a string of JavaScript code.
+     *
+     * @param javaScriptText {String} String of JavaScript code to tokenize
+     * @return {Map[]} Array of tokens. A token is a map with the fields
+     *   <code>type</code> containing the token type and <code>value</code>,
+     *   which contains the string value of the token from the input string.
+     */
     tokenizeJavaScript : function(javaScriptText)
     {
       keywords = {
@@ -135,6 +169,16 @@ qx.Class.define("qx.dev.Tokenizer",
     },
 
 
+    /**
+     * Create a colored HTML string for a string of JavaScript code.
+     * The colored elements are placed in <code>span</code> elements
+     * with class names correponding to the token types. The returned code
+     * should be placed into <code>pre</code> tags to preserve the
+     * indentation.
+     *
+     * @param javaScriptText {String} String of JavaScript code to tokenize
+     * @return {String} HTML fragment with the colored JavaScript code.
+     */
     javaScriptToHtml : function(javaScriptText)
     {
 			var tokens = qx.dev.Tokenizer.tokenizeJavaScript(javaScriptText);
