@@ -885,7 +885,8 @@ qx.Class.define("demobrowser.DemoBrowser",
         }
       }
 
-      this._currentSample = value;
+      this._currentSample    = value;
+      this._currentSampleUrl = url;
     },
 
 
@@ -961,7 +962,8 @@ qx.Class.define("demobrowser.DemoBrowser",
       var fwindow = this.f1.getContentWindow();
 
       // wait for iframe to load
-      if (!fwindow || !fwindow.qx || !fwindow.qx.log || !fwindow.qx.log.Logger)
+      if (!fwindow || !fwindow.qx || !fwindow.qx.log || !fwindow.qx.log.Logger ||
+          !fwindow.document || !fwindow.document.body)
       {
         qx.client.Timer.once(arguments.callee, this, 50);
         return;
@@ -1010,9 +1012,10 @@ qx.Class.define("demobrowser.DemoBrowser",
       this._history.addToHistory(sample, title);
 
       // load sample source code
-      var src = fwindow.document.body.innerHTML;
-      if (src) {
-        this.widgets["outputviews.sourcepage.page"].setValue(src);
+      if (this._currentSampleUrl != this.defaultUrl)
+      {
+        //var src = fwindow.document.body.innerHTML;
+        this.__getPageSource(this._currentSampleUrl);
       }
     },
     // __ehSampelLoaded
@@ -1030,6 +1033,39 @@ qx.Class.define("demobrowser.DemoBrowser",
     {
       this.resetProgress();
       this.resetTabView();
+    },
+
+
+    /**
+     * Get the page source via Http and return as string.
+     *
+     * @type member
+     * @return {String}
+     */
+    __getPageSource : function (url) 
+    {
+      var req = new qx.io.remote.Request(url);
+
+      req.setTimeout(180000);
+
+      req.addEventListener("completed", function(evt)
+      {
+        var loadEnd = new Date();
+        this.debug("Time to load data from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
+
+        var content = evt.getData().getContent();
+        if (content) {
+          this.widgets["outputviews.sourcepage.page"].setValue(content);
+        }
+
+      }, this);
+
+      req.addEventListener("failed", function(evt) {
+        this.error("Couldn't load file: " + url);
+      }, this);
+
+      var loadStart = new Date();
+      req.send();
     },
 
 
