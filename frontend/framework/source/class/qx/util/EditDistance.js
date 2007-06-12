@@ -77,6 +77,27 @@ qx.Class.define("qx.util.EditDistance",
       var posA = dataA.length;
       var posB = dataB.length;
 
+      if (posA===0)
+      {
+        // insert from begin to end
+        // reverted order than in all other cases for optimal performance
+        for (var i=0; i<posB; i++) {
+          jobs.push({ action : "insert", pos : i, old : null, value : dataB[i] });
+        }
+
+        return jobs;
+      }
+
+      if (posB===0)
+      {
+        // remove from end to begin
+        for (var i=posA-1; i>=0; i--) {
+          jobs.push({ action : "delete", pos : i, old : dataA[i], value : null });
+        }
+
+        return jobs;
+      }
+
       while(posA !== 0 && posB !== 0)
       {
         if (posA != 0 && distance[posA][posB] == distance[posA-1][posB] + 1)
@@ -113,6 +134,9 @@ qx.Class.define("qx.util.EditDistance",
     getEditOperations : function(dataA, dataB)
     {
       var distance = this.computeLevenshteinDistance(dataA, dataB);
+
+      console.log("DISTANCE: ", distance);
+
       var oper = this.computeEditOperations(distance, dataA, dataB);
 
       return oper;
