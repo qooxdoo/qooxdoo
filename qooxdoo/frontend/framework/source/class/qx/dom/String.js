@@ -119,7 +119,7 @@ qx.Class.define("qx.dom.String",
     /**
      * Remove HTML/XML tags from a string
      * Example:
-     * <pre>qx.dom.String.stripTags("&lt;h1>Hello&lt;/h1>") == "Hello"</pre>
+     * <pre class='javascript'>qx.dom.String.stripTags("&lt;h1>Hello&lt;/h1>") == "Hello"</pre>
      *
      * @type static
      * @param str {String} string containing tags

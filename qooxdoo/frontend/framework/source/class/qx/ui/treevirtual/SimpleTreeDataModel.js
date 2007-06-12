@@ -28,7 +28,7 @@
  *
  * The object structure of a single node of the tree is:
  *
- * <pre>
+ * <pre class='javascript'>
  * {
  *   // USER-PROVIDED ATTRIBUTES
  *   // ------------------------

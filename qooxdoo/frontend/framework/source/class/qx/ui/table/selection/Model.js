@@ -296,7 +296,7 @@ qx.Class.define("qx.ui.table.selection.Model",
      * Calls a iterator function for each selected index.
      *
      * Usage Example:
-     * <pre>
+     * <pre class='javascript'>
      * var selectedRowData = [];
      * mySelectionModel.iterateSelection(function(index) {
      *   selectedRowData.push(myTableModel.getRowData(index));

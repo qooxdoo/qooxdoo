@@ -45,7 +45,7 @@ qx.Class.define("qx.Theme",
      * Theme config
      *
      * Example:
-     * <pre><code>
+     * <pre class='javascript'>
      * qx.Theme.define("name",
      * {
      *   title : "MyThemeTitle",
@@ -58,7 +58,7 @@ qx.Class.define("qx.Theme",
      *   appearances : {},
      *   meta : {}
      * });
-     * </code></pre>
+     * </pre>
      *
      * @type static
      * @param name {String} name of the mixin

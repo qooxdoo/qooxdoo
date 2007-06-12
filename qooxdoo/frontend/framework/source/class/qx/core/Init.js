@@ -34,7 +34,7 @@
  * and initializes the application. The initializations starts automatically.
  *
  * Make sure you set the application to your application before the load event is fired:
- * <pre>qx.core.Init.getInstance().setApplication(new YourApplication)</pre>. This can
+ * <pre class='javascript'>qx.core.Init.getInstance().setApplication(new YourApplication)</pre>. This can
  * also be defined using the setting <code>qx.application</code>.
  */
 qx.Class.define("qx.core.Init",
