@@ -2164,7 +2164,7 @@ qx.Class.define("showcase.Application",
 
       // Fill modal window 2
       var icon1 = new qx.ui.basic.Image("icon/32/status/dialog-error.png");
-      var warn1 = new qx.ui.basic.Label("Do you want to delete<br/>all your personal data?");
+      var warn1 = new qx.ui.basic.Label("Do you want to fly to Rio?");
 
       icon1.setTop(10);
       icon1.setLeft(10);
