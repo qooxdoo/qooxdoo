@@ -65,7 +65,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     mainsplit.setLiveResize(true);
     mainsplit.set({ height : "1*" });
 
-    // Left -- is done when iframe is loaded
+    // Left
     var left = this.__makeLeft();
     this.left = left.buttview;
     this.mainsplit.addLeft(left);
@@ -98,16 +98,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     right.add(buttview);
 
     // add eventhandler now, after objects are created
-    this.widgets["treeview"].getBar().getManager().addEventListener("changeSelected", function(e)
-    {
-      if (e.getData().getUserData('tree').getSelectedElement() == null) {
-        this.widgets["toolbar.runbutton"].setEnabled(false);
-        this.widgets["toolbar.prevbutt"].setEnabled(false);
-        this.widgets["toolbar.nextbutt"].setEnabled(false);
-        this.widgets["toolbar.sobutt"].setEnabled(false);
-      }
-    },
-    this);
+    this.widgets["treeview"].getBar().getManager().addEventListener("changeSelected", this.__ehTreeSelection, this);
 
     this.widgets["treeview.bsb1"].setChecked(true);
 
@@ -301,7 +292,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       sb3.setToolTip(new qx.ui.popup.ToolTip("Dispose Sample Application"));
 
       return toolbar;
-    },
+    }, //__makeToolbar()
 
 
     /**
@@ -418,7 +409,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.widgets["outputviews.sourcepage.page"] = f3;
 
       return buttview;
-    },
+    }, //__makeOutputViews()
 
 
     /**
@@ -624,27 +615,6 @@ qx.Class.define("demobrowser.DemoBrowser",
      * @param e {Event} TODOC
      * @return {void}
      */
-    runNeighbour : function(e)
-    {
-      if (!this.tree.getSelectedElement())
-      {  // this is a kludge!
-        return;
-      }
-
-      var treeNode = this.tree.getSelectedElement();
-      var modelNode = treeNode.getUserData("modelLink");
-      var modelNext = modelNode.getNextSibling();
-      this.tests.selected = this.tests.handler.getFullName(modelNode);
-    },  // runNeighbour
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
-     */
     leftReloadTree : function(e)
     {
       this._sampleToTreeNodeMap = {};
@@ -832,7 +802,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           }
         }
       }
-    },
+    }, //leftReloadTree
 
 
     /**
@@ -873,7 +843,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       this.setCurrentSample(file);
 
-    },
+    }, //runTest()
 
 
     setCurrentSample : function(value)
@@ -915,74 +885,8 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       this._currentSample    = value;
       this._currentSampleUrl = url;
-    },
+    }, // setCurrentSample
 
-
-    /**
-     * reloads iframe's URL
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
-     */
-    reloadTestSuite : function(e)
-    {
-      var curr = this.iframe.getSource();
-      var neu = this.testSuiteUrl.getValue();
-      this.toolbar.setEnabled(false);
-      this.widgets["statuspane.systeminfo"].setText("Reloading test suite...");
-
-      // reset status information
-      this.resetGui();
-
-      qx.client.Timer.once(function()
-      {
-        if (curr == neu) {
-          this.iframe.reload();
-        } else {
-          this.iframe.setSource(neu);
-        }
-      },
-      this, 0);
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
-     */
-    ehIframeOnLoad : function(e)
-    {
-      var iframe = this.iframe;
-
-      this.frameWindow = iframe.getContentWindow();
-
-      if (!this.frameWindow || !this.frameWindow.demobrowser || !this.frameWindow.demobrowser.TestLoader || !this.frameWindow.demobrowser.TestLoader.getInstance())
-      {  // wait for the iframe to load
-        qx.client.Timer.once(arguments.callee, this, 50);
-        return;
-      }
-
-      this.loader = this.frameWindow.demobrowser.TestLoader.getInstance();
-      this.loader.getLogger().getParentLogger().addAppender(this.logappender);
-      var testRep = this.loader.getTestDescriptions();
-      this.tests.handler = new demobrowser.TreeDataHandler(testRep);
-      this.tests.firstrun = true;
-      this.leftReloadTree();
-      this.toolbar.setEnabled(true);  // in case it was disabled (for reload)
-      this.reloadswitch.setChecked(false);  // disable for first run
-
-      if (this.tests.run_pending)
-      {  // do we have pending tests to run?
-        this.tests.run_pending();
-        delete this.tests.run_pending;
-      }
-
-      this.widgets["statuspane.systeminfo"].setText("Ready");
-    },
 
 
     __ehSampleLoaded :  function(e)
@@ -1057,24 +961,25 @@ qx.Class.define("demobrowser.DemoBrowser",
     },
     // __ehSampelLoaded
 
-    // ------------------------------------------------------------------------
-    //   MISC HELPERS
-    // ------------------------------------------------------------------------
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
-    resetGui : function()
+
+    __ehTreeSelection :  function(e)
     {
-      this.resetProgress();
-      this.resetTabView();
+      if (e.getData().getUserData('tree').getSelectedElement() == null) {
+        this.widgets["toolbar.runbutton"].setEnabled(false);
+        this.widgets["toolbar.prevbutt"].setEnabled(false);
+        this.widgets["toolbar.nextbutt"].setEnabled(false);
+        this.widgets["toolbar.sobutt"].setEnabled(false);
+      }
     },
 
 
+    // ------------------------------------------------------------------------
+    //   MISC HELPERS
+    // ------------------------------------------------------------------------
+
+
     /**
-     * Get the page source via Http and return as string.
+     * TODOC
      *
      * @type member
      * @return {String}
@@ -1103,33 +1008,6 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       var loadStart = new Date();
       req.send();
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
-    resetProgress : function()
-    {
-      var bar = this.widgets["progresspane.progressbar"];
-      bar.reset();
-      bar.setBarColor("#36a618");
-      this.setSuccCnt(0);
-      this.setFailCnt(0);
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
-    resetTabView : function() {
-      this.f1.clear();
     },
 
 
@@ -1199,11 +1077,6 @@ qx.Class.define("demobrowser.DemoBrowser",
      * @param e {Event} TODOC
      * @return {void}
      */
-    ehDummyAlert : function(e) {
-      alert("Not yet implemented!");
-    },
-
-
     playPrev : function (e)
     {
       var currSamp = this.tree.getSelectedElement(); // widget
@@ -1246,16 +1119,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     polish : function(str) {
       return str.replace(".html", "").replace("_", " ");
     },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param str {String} TODOC
-     * @return {void}
-     */
-    appender : function(str) {},
 
 
     defaultUrl : "html/welcome.html"
