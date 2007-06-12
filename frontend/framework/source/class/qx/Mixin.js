@@ -50,20 +50,20 @@ qx.Class.define("qx.Mixin",
      * <pre class='javascript'>
      * qx.Mixin.define("name",
      * {
-     *   "includes": [SuperMixins],
+     *   includes: [SuperMixins],
      *
-     *   "properties": {
-     *     "tabIndex": {type: "number", init: -1}
+     *   properties: {
+     *     tabIndex: {type: "number", init: -1}
      *   },
      *
-     *   "members":
+     *   members:
      *   {
      *     prop1: "foo",
      *     meth1: function() {},
      *     meth2: function() {}
      *   }
      * });
-     * </code></pre>
+     * </pre>
      *
      * @type static
      * @param name {String} name of the mixin
