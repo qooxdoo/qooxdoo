@@ -1,3 +1,32 @@
+
+
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+     * Fabian Jakobs (fjakobs)
+
+************************************************************************ */
+
+/**
+ * Class to implement different edit distance ideas.
+ *
+ * {@link http://en.wikipedia.org/wiki/Edit_distance}
+ * {@link http://en.wikipedia.org/wiki/Levenshtein_distance}
+ * {@link http://ad.informatik.uni-freiburg.de/lehre/ws9900/algorithmentheorie/vorlesung/folien/dynamische-programmierung-2/dynamische-programmierung-2.pdf}
+ */
 qx.Class.define("qx.util.EditDistance",
 {
   statics :
