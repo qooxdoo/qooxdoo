@@ -31,38 +31,38 @@ qx.Class.define("qx.util.EditDistance",
 {
   statics :
   {
-    levenshteinDistance : function(data1, data2)
+    computeLevenshteinDistance : function(dataA, dataB)
     {
-      // distance is data1 table with data1.length+1 rows and data2.length+1 columns
+      // distance is dataA table with dataA.length+1 rows and dataB.length+1 columns
       var distance = [];
 
-      // pos1 and pos2 are used to iterate over str1 and str2
-      var pos1, pos2, cost;
+      // posA and posB are used to iterate over str1 and str2
+      var posA, posB, cost;
 
-      for (pos1=0; pos1<=data1.length; pos1++)
+      for (posA=0; posA<=dataA.length; posA++)
       {
-        distance[pos1] = [];
-        distance[pos1][0] = pos1;
+        distance[posA] = [];
+        distance[posA][0] = posA;
       }
 
-      for (pos2=1; pos2<=data2.length; pos2++) {
-        distance[0][pos2] = pos2;
+      for (posB=1; posB<=dataB.length; posB++) {
+        distance[0][posB] = posB;
       }
 
-      for (pos1=1; pos1<=data1.length; pos1++)
+      for (posA=1; posA<=dataA.length; posA++)
       {
-        for (pos2=1; pos2<=data2.length; pos2++)
+        for (posB=1; posB<=dataB.length; posB++)
         {
-          cost = data1[pos1-1] === data2[pos2-1] ? 0 : 1;
+          cost = dataA[posA-1] === dataB[posB-1] ? 0 : 1;
 
-          if (distance[pos1] === undefined) {
-            distance[pos1] = [];
+          if (distance[posA] === undefined) {
+            distance[posA] = [];
           }
 
-          distance[pos1][pos2] = Math.min(
-            distance[pos1-1][pos2  ] + 1,     // deletion
-            distance[pos1  ][pos2-1] + 1,     // insertion
-            distance[pos1-1][pos2-1] + cost   // substitution
+          distance[posA][posB] = Math.min(
+            distance[posA-1][posB  ] + 1,     // deletion
+            distance[posA  ][posB-1] + 1,     // insertion
+            distance[posA-1][posB-1] + cost   // substitution
           );
         }
       }
@@ -71,24 +71,51 @@ qx.Class.define("qx.util.EditDistance",
     },
 
 
-    computeEditOperations : function(distance, data1, data2, pos1, pos2)
+    computeEditOperations : function(distance, dataA, dataB)
     {
-      if (pos1 == 0 && pos2 == 0) {
-        return;
+      var jobs = [];
+      var posA = dataA.length;
+      var posB = dataB.length;
+
+      while(posA !== 0 && posB !== 0)
+      {
+        if (posA != 0 && distance[posA][posB] == distance[posA-1][posB] + 1)
+        {
+          // console.log("delete " + dataA[posA-1] + ": " + (posA-1));
+          jobs.push({ action : "delete", pos : posA-1, old : dataA[posA-1], value : null });
+
+          posA-=1;
+        }
+        else if (posB != 0 && distance[posA][posB] == distance[posA][posB-1] + 1)
+        {
+          // console.log("insert " + dataB[posB-1] + " ein, in: " + (posA));
+          jobs.push({ action : "insert", pos : posA-1, old : null, value : dataB[posB-1] });
+
+          posB-=1;
+        }
+        else
+        {
+          if (dataA[posA-1]!==dataB[posB-1])
+          {
+            // console.log("replace " + dataA[posA-1] + " durch " + dataB[posB-1] + ".");
+            jobs.push({ action : "replace", pos : posA-1, old : dataA[posA-1], value : dataB[posB-1] });
+          }
+
+          posA-=1;
+          posB-=1;
+        }
       }
 
-      if (pos1 != 0 && distance[pos1][pos2] == distance[pos1-1][pos2] + 1) {
-        console.log("loesche " + data1[pos1-1] + ": " + (pos1-1));
-        editOperations(distance, data1, data2, pos1-1, pos2);
-      } else if (pos2 != 0 && distance[pos1][pos2] == distance[pos1][pos2-1] + 1) {
-        console.log("fuege " + data2[pos2-1] + " ein, in: " + (pos1));
-        editOperations(distance, data1, data2, pos1, pos2-1);
-      } else if (data1[pos1-1]!==data2[pos2-1]) {
-        console.log("ersetze " + data1[pos1-1] + " durch " + data2[pos2-1] + ".");
-        editOperations(distance, data1, data2, pos1-1, pos2-1)
-      } else {
-        editOperations(distance, data1, data2, pos1-1, pos2-1)
-      }
+      return jobs;
+    },
+
+
+    getEditOperations : function(dataA, dataB)
+    {
+      var distance = this.computeLevenshteinDistance(dataA, dataB);
+      var oper = this.computeEditOperations(distance, dataA, dataB);
+
+      return oper;
     }
   }
 });
