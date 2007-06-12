@@ -49,10 +49,10 @@ qx.Class.define("qx.util.EditDistance",
       }
 
       if (pos1 != 0 && distance[pos1][pos2] == distance[pos1-1][pos2] + 1) {
-        console.log("lösche " + data1[pos1-1] + ": " + (pos1-1));
+        console.log("loesche " + data1[pos1-1] + ": " + (pos1-1));
         editOperations(distance, data1, data2, pos1-1, pos2);
       } else if (pos2 != 0 && distance[pos1][pos2] == distance[pos1][pos2-1] + 1) {
-        console.log("füge " + data2[pos2-1] + " ein, in: " + (pos1));
+        console.log("fuege " + data2[pos2-1] + " ein, in: " + (pos1));
         editOperations(distance, data1, data2, pos1, pos2-1);
       } else if (data1[pos1-1]!==data2[pos2-1]) {
         console.log("ersetze " + data1[pos1-1] + " durch " + data2[pos2-1] + ".");
