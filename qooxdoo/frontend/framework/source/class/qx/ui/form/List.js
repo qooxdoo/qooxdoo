@@ -210,7 +210,7 @@ qx.Class.define("qx.ui.form.List",
      * resolved out of the event target.
      *
      * @type member
-     * @param e {qx.event.type.event.MouseEvent} mouseDown event
+     * @param e {qx.event.type.MouseEvent} mouseDown event
      * @return {void}
      */
     _onmousedown : function(e)

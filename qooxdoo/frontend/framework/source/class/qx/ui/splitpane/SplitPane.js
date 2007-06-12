@@ -595,7 +595,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * Initializes drag session in case of a mousedown event on splitter in a horizontal splitpane.
      *
      * @type member
-     * @param e {qx.event.MouseEvent} The event itself.
+     * @param e {qx.event.type.MouseEvent} The event itself.
      * @return {void}
      */
     _onSplitterMouseDownX : function(e)
@@ -622,7 +622,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * Initializes drag session in case of a mousedown event on splitter in a vertical splitpane.
      *
      * @type member
-     * @param e {qx.event.MouseEvent} The event itself.
+     * @param e {qx.event.type.MouseEvent} The event itself.
      * @return {void}
      */
     _onSplitterMouseDownY : function(e)
@@ -674,7 +674,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * Move the splitter in case of a mousemove event on splitter in a horizontal splitpane.
      *
      * @type member
-     * @param e {qx.event.MouseEvent} The event itself.
+     * @param e {qx.event.type.MouseEvent} The event itself.
      * @return {void}
      */
     _onSplitterMouseMoveX : function(e)
@@ -692,7 +692,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * Move the splitter in case of a mousemove event on splitter in a vertical splitpane.
      *
      * @type member
-     * @param e {qx.event.MouseEvent} The event itself.
+     * @param e {qx.event.type.MouseEvent} The event itself.
      * @return {void}
      */
     _onSplitterMouseMoveY : function(e)
@@ -710,7 +710,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * Ends the drag session and computes the new dimensions of panes in case of a mouseup event on splitter in a horizontal splitpane.
      *
      * @type member
-     * @param e {qx.event.MouseEvent} The event itself.
+     * @param e {qx.event.type.MouseEvent} The event itself.
      * @return {void}
      */
     _onSplitterMouseUpX : function(e)
@@ -731,7 +731,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * Ends the drag session and computes the new dimensions of panes in case of a mouseup event on splitter in a vertical splitpane.
      *
      * @type member
-     * @param e {qx.event.MouseEvent} The event itself.
+     * @param e {qx.event.type.MouseEvent} The event itself.
      * @return {void}
      */
     _onSplitterMouseUpY : function(e)

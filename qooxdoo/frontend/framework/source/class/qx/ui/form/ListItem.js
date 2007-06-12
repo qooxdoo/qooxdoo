@@ -232,7 +232,7 @@ qx.Class.define("qx.ui.form.ListItem",
      * Executes an registered command - if available.
      *
      * @type member
-     * @param e {qx.event.type.Mouse} double-click event
+     * @param e {qx.event.type.MouseEvent} double-click event
      * @return {void}
      */
     _ondblclick : function(e)

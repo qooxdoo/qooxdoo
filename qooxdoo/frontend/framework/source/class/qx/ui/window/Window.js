@@ -1213,7 +1213,7 @@ qx.Class.define("qx.ui.window.Window",
      * Focuses the window instance.
      *
      * @type member
-     * @param e {qx.type.event.MouseEvent} mouse down event
+     * @param e {qx.event.type.MouseEvent} mouse down event
      * @return {void}
      */
     _onwindowmousedown : function(e) {
