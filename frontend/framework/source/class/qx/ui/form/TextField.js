@@ -819,10 +819,7 @@ qx.Class.define("qx.ui.form.TextField",
       }
 
       var vValue = this.getComputedValue().toString();
-
-      if (this._textOnFocus != vValue) {
-        this.setValue(vValue);
-      }
+      this.setValue(vValue);
     },
 
 
