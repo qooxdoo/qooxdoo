@@ -149,9 +149,48 @@ qx.Class.define("qx.html2.Element",
 
         console.debug("Process not inserted parent[" + parent.toHashCode() + "]");
 
-        var children = parent.__children;
-        var parentElement = parent.getElement();
+        var target = [];
+        for (var i=0, a=parent.__children, l=a.length; i<l; i++) {
+          target.push(a[i].getElement());
+        }
 
+        var parentElement = parent.getElement();
+        var source = qx.lang.Array.fromCollection(parentElement.childNodes);
+        var operations = qx.util.EditDistance.getEditOperations(source, target);
+        var job;
+
+        console.log("Source: ", source);
+        console.log("Target: ", target);
+        console.log("Operations: ", operations);
+
+        for (var i=0, l=operations.length; i<l; i++)
+        {
+          job = operations[i];
+
+          if (job.action === "delete")
+          {
+            console.log("Remove: ", job.old);
+            parentElement.removeChild(job.old);
+          }
+          else if (job.action === "insert")
+          {
+            if (job.old) {
+              console.log("Insert: ", job.value, " before: ", job.old);
+              parentElement.insertBefore(job.value, job.old);
+            } else {
+              console.log("Append: ", job.value);
+              parentElement.appendChild(job.value);
+            }
+          }
+          else if (job.action === "replace")
+          {
+            console.log("Replace: ", job.old, " with ", job.value);
+            parentElement.replaceChild(job.value, job.old);
+          }
+        }
+
+
+        /*
         for (var i=0, l=children.length; i<l; i++)
         {
           child = children[i];
@@ -159,6 +198,7 @@ qx.Class.define("qx.html2.Element",
           console.log("Append No: " + i + "[" + child.toHashCode() + "]");
           parentElement.appendChild(child.getElement());
         }
+        */
 
         delete parents[hc];
       }
@@ -171,6 +211,47 @@ qx.Class.define("qx.html2.Element",
 
         console.debug("Process inserted parent[" + parent.toHashCode() + "]");
 
+        var target = [];
+        for (var i=0, a=parent.__children, l=a.length; i<l; i++) {
+          target.push(a[i].getElement());
+        }
+
+        var parentElement = parent.getElement();
+        var source = qx.lang.Array.fromCollection(parentElement.childNodes);
+        var operations = qx.util.EditDistance.getEditOperations(source, target);
+        var job;
+
+        console.log("Source: ", source);
+        console.log("Target: ", target);
+        console.log("Operations: ", operations);
+
+        for (var i=0, l=operations.length; i<l; i++)
+        {
+          job = operations[i];
+
+          if (job.action === "delete")
+          {
+            console.log("Remove: ", job.old);
+            parentElement.removeChild(job.old);
+          }
+          else if (job.action === "insert")
+          {
+            if (job.old) {
+              console.log("Insert: ", job.value, " before: ", job.old);
+              parentElement.insertBefore(job.value, job.old);
+            } else {
+              console.log("Append: ", job.value);
+              parentElement.appendChild(job.value);
+            }
+          }
+          else if (job.action === "replace")
+          {
+            console.log("Replace: ", job.old, " with ", job.value);
+            parentElement.replaceChild(job.value, job.old);
+          }
+        }
+
+        /*
         var children = parent.__children;
         var parentElement = parent.getElement();
 
@@ -181,6 +262,7 @@ qx.Class.define("qx.html2.Element",
           console.log("Append No: " + i + "[" + child.toHashCode() + "]");
           parentElement.appendChild(child.getElement());
         }
+        */
 
         delete parents[hc];
       }
