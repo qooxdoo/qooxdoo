@@ -315,25 +315,23 @@ qx.Class.define("demobrowser.DemoBrowser",
       // Main Container
       var buttview = new qx.ui.pageview.tabview.TabView();
       buttview.set({ height : "1*", padding : 10 });
+      this.widgets["outputviews"] = buttview;
       this.widgets["outputviews.bar"] = buttview.getBar();
 
+      // First Page
       var bsb1 = new qx.ui.pageview.tabview.Button("Start", "icon/16/actions/system-run.png");
       this.widgets["outputviews.demopage.button"] = bsb1;
-      var bsb2 = new qx.ui.pageview.tabview.Button("Log", "icon/16/mimetypes/text-ascii.png");
       bsb1.setChecked(true);
-      buttview.getBar().add(bsb1, bsb2);
+      buttview.getBar().add(bsb1);
 
       var p1 = new qx.ui.pageview.tabview.Page(bsb1);
       p1.set({ padding : [ 5 ] });
+      buttview.getPane().add(p1);
 
-      var p2 = new qx.ui.pageview.tabview.Page(bsb2);
-      p2.set({ padding : [ 5 ] });
-      buttview.getPane().add(p1, p2);
-
-      // First Page
       var f1 = new qx.ui.embed.Iframe;
       this.f1 = f1;
       p1.add(f1);
+      this.widgets["outputviews.demopage.page"] = f1;
 
       f1.set(
       {
@@ -344,8 +342,29 @@ qx.Class.define("demobrowser.DemoBrowser",
       });
 
       f1.addEventListener("load", this.__ehSampleLoaded, this);
+      f1.setZIndex(5);
+
+      /*
+      var f1_1 = new qx.ui.layout.CanvasLayout();
+      p1.add(f1_1);
+      this.widgets["outputviews.demopage.canvas"] = f1_1;
+      f1_1.set(
+      {
+        height : "100%",
+        width  : "100%"
+      });
+      f1_1.setZIndex(0);
+      */
+
 
       // Second Page
+      var bsb2 = new qx.ui.pageview.tabview.Button("Log", "icon/16/mimetypes/text-ascii.png");
+      buttview.getBar().add(bsb2);
+
+      var p2 = new qx.ui.pageview.tabview.Page(bsb2);
+      p2.set({ padding : [ 5 ] });
+      buttview.getPane().add(p2);
+
       var pp2 = new qx.ui.layout.VerticalBoxLayout();
       p2.add(pp2);
 
@@ -837,6 +856,16 @@ qx.Class.define("demobrowser.DemoBrowser",
       // -- Vars and Setup -----------------------
       this.toolbar.setEnabled(false);
       this.widgets["outputviews.bar"].getManager().setSelected(this.widgets["outputviews.demopage.button"]);
+      this.widgets["outputviews.demopage.page"].setEnabled(false);
+      /*
+      this.widgets["outputviews.demopage.page"].block();
+      this.widgets["outputviews.demopage.page"].getBlockerNode().style.opacity = 0.5;
+      this.widgets["outputviews.demopage.canvas"].setZIndex(10);
+      this.widgets["outputviews.demopage.page"].hide();
+      */
+      this.widgets["outputviews.demopage.page"].getContentDocument().body.innerHTML = "";
+      this.widgets["outputviews.bar"].setEnabled(false);
+      this.widgets["outputviews"].setEnabled(false);
 
       // -- Main ---------------------------------
       var file = this.tests.selected.replace(".", "/");
@@ -844,7 +873,6 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       this.setCurrentSample(file);
 
-      this.widgets["outputviews.demopage.button"].setLabel(this.polish(base));
     },
 
 
@@ -969,8 +997,6 @@ qx.Class.define("demobrowser.DemoBrowser",
         return;
       }
 
-      this.toolbar.resetEnabled();  // in case it was disabled (for reload)
-
       // set logger
       fwindow.qx.log.Logger.ROOT_LOGGER.removeAllAppenders();
       fwindow.qx.log.Logger.ROOT_LOGGER.addAppender(this.logappender);
@@ -981,13 +1007,6 @@ qx.Class.define("demobrowser.DemoBrowser",
       if (div && div.parentNode) {
         div.parentNode.removeChild(div);
       }
-
-      // enable toolbar buttons
-      this.widgets["toolbar.sobutt"].resetEnabled();
-
-      // enable sample buttons
-      this.widgets["toolbar.sampbutts"].resetEnabled();  // in case it was disabled
-
 
       var url = fwindow.location.href;
       var pos = url.indexOf("/html/")+6;
@@ -1017,6 +1036,24 @@ qx.Class.define("demobrowser.DemoBrowser",
         //var src = fwindow.document.body.innerHTML;
         this.__getPageSource(this._currentSampleUrl);
       }
+
+      // enabling widgets
+      this.toolbar.resetEnabled();  // in case it was disabled (for reload)
+      this.widgets["outputviews.bar"].resetEnabled();
+      this.widgets["outputviews.demopage.page"].resetEnabled();
+      /*
+      this.widgets["outputviews.demopage.page"].getBlockerNode().style.opacity = null;
+      this.widgets["outputviews.demopage.page"].release();
+      this.widgets["outputviews.demopage.canvas"].setZIndex(0);
+      this.widgets["outputviews.demopage.page"].show();
+      */
+      this.widgets["outputviews"].resetEnabled();
+      this.widgets["toolbar.sobutt"].resetEnabled();
+      this.widgets["toolbar.sampbutts"].resetEnabled();  // in case it was disabled
+
+      this.widgets["outputviews.demopage.button"].setLabel(this.polish(path[path.length-1]));
+
+
     },
     // __ehSampelLoaded
 
