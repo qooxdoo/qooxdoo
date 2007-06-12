@@ -102,7 +102,6 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     this.widgets["treeview.bsb1"].setChecked(true);
 
-
     // back button and bookmark support
     this._history = qx.client.History.getInstance();
 
@@ -110,12 +109,15 @@ qx.Class.define("demobrowser.DemoBrowser",
     this._history.addEventListener("request", function(e)
     {
       var newSample = e.getData().replace("~", "/");
+
       if (this._currentSample != newSample) {
         this.setCurrentSample(newSample);
       }
-    }, this);
+    },
+    this);
+  }, // construct()
 
-  },
+
 
 
   /*
@@ -124,10 +126,7 @@ qx.Class.define("demobrowser.DemoBrowser",
   *****************************************************************************
   */
 
-  properties :
-  {
-
-  },
+  properties : {},
 
 
 
@@ -197,19 +196,21 @@ qx.Class.define("demobrowser.DemoBrowser",
       nextbutt.setToolTip(new qx.ui.popup.ToolTip("Run the next sample"));
 
       // -- spin-out sample
-      var sobutt = new qx.ui.toolbar.Button("Spin out Sample","icon/16/actions/edit-redo.png");
+      var sobutt = new qx.ui.toolbar.Button("Spin out Sample", "icon/16/actions/edit-redo.png");
       mb.add(sobutt);
       this.widgets["toolbar.sobutt"] = sobutt;
       sobutt.setToolTip(new qx.ui.popup.ToolTip("Open Sample in Own Window"));
+
       sobutt.addEventListener("execute", function(e)
       {
-        var sampUrl = 'html/'+this._currentSample;
+        var sampUrl = 'html/' + this._currentSample;
         var nw = new qx.client.NativeWindow(sampUrl, "Sample");
         this.widgets["nativewindow"] = nw;
         nw.setDimension(700, 550);
         nw.open();
         return;
-      }, this);
+      },
+      this);
 
       toolbar.add((new qx.ui.basic.HorizontalSpacer).set({ width : "1*" }));
 
@@ -292,7 +293,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       sb3.setToolTip(new qx.ui.popup.ToolTip("Dispose Sample Application"));
 
       return toolbar;
-    }, //__makeToolbar()
+    },  // __makeToolbar()
 
 
     /**
@@ -305,7 +306,13 @@ qx.Class.define("demobrowser.DemoBrowser",
     {
       // Main Container
       var buttview = new qx.ui.pageview.tabview.TabView();
-      buttview.set({ height : "1*", padding : 10 });
+
+      buttview.set(
+      {
+        height  : "1*",
+        padding : 10
+      });
+
       this.widgets["outputviews"] = buttview;
       this.widgets["outputviews.bar"] = buttview.getBar();
 
@@ -329,7 +336,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         overflow : "auto",
         height   : "100%",
         width    : "100%",
-        border : "dark-shadow"
+        border   : "dark-shadow"
       });
 
       f1.addEventListener("load", this.__ehSampleLoaded, this);
@@ -346,7 +353,6 @@ qx.Class.define("demobrowser.DemoBrowser",
       });
       f1_1.setZIndex(0);
       */
-
 
       // Second Page
       var bsb2 = new qx.ui.pageview.tabview.Button("Log", "icon/16/mimetypes/text-ascii.png");
@@ -393,23 +399,24 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       // -- Tab Pane
       var p3 = new qx.ui.pageview.tabview.Page(bsb3);
-      p3.set({ 
-        padding : [ 5 ] 
-      });
+      p3.set({ padding : [ 5 ] });
       buttview.getPane().add(p3);
 
       // -- Pane Content
       var f3 = new qx.ui.form.TextArea("The sample source code should go here.");
       p3.add(f3);
-      f3.set({ 
-        overflow: "auto",
-        width   : "100%",
-        height  : "100%"
+
+      f3.set(
+      {
+        overflow : "auto",
+        width    : "100%",
+        height   : "100%"
       });
+
       this.widgets["outputviews.sourcepage.page"] = f3;
 
       return buttview;
-    }, //__makeOutputViews()
+    },  // __makeOutputViews()
 
 
     /**
@@ -446,8 +453,8 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       p1.set(
       {
-        width   : "100%",
-        height  : "100%",
+        width           : "100%",
+        height          : "100%",
         backgroundColor : "white"
       });
 
@@ -461,9 +468,9 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       tree.set(
       {
-        width   : "100%",
-        height  : "100%",
-        padding : 5,
+        width    : "100%",
+        height   : "100%",
+        padding  : 5,
         overflow : "auto"
       });
 
@@ -480,7 +487,8 @@ qx.Class.define("demobrowser.DemoBrowser",
         {
           this.setCurrentSample(this.defaultUrl);
         }
-      }, this);
+      },
+      this);
 
       // flat view
       var bsb2 = new qx.ui.pageview.buttonview.Button("Flat Tree", "icon/16/actions/view-pane-text.png");
@@ -501,9 +509,9 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       tree1.set(
       {
-        width   : "100%",
-        height  : "100%",
-        padding : 5,
+        width    : "100%",
+        height   : "100%",
+        padding  : 5,
         overflow : "auto"
       });
 
@@ -530,8 +538,6 @@ qx.Class.define("demobrowser.DemoBrowser",
       return buttview;
     },
 
-
-
     // ------------------------------------------------------------------------
     //   EVENT HANDLER
     // ------------------------------------------------------------------------
@@ -540,7 +546,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void}
+     * @return {void} 
      */
     treeGetSelection : function(e)
     {
@@ -554,26 +560,26 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.tests.selected = this.tests.handler.getFullName(modelNode);
 
       // update toolbar
-      if (treeNode instanceof qx.ui.tree.TreeFolder) {
+      if (treeNode instanceof qx.ui.tree.TreeFolder)
+      {
         this.widgets["toolbar.runbutton"].setEnabled(false);
         this.widgets["toolbar.prevbutt"].setEnabled(false);
         this.widgets["toolbar.nextbutt"].setEnabled(false);
         this.widgets["toolbar.sobutt"].setEnabled(false);
-      } else {
+      }
+      else
+      {
         this.widgets["toolbar.runbutton"].resetEnabled();
-        if (treeNode.getUserData('modelLink').getPrevSibling())
-        {
+
+        if (treeNode.getUserData('modelLink').getPrevSibling()) {
           this.widgets["toolbar.prevbutt"].resetEnabled();
-        } else
-        {
+        } else {
           this.widgets["toolbar.prevbutt"].setEnabled(false);
         }
 
-        if (treeNode.getUserData('modelLink').getNextSibling())
-        {
+        if (treeNode.getUserData('modelLink').getNextSibling()) {
           this.widgets["toolbar.nextbutt"].resetEnabled();
-        } else
-        {
+        } else {
           this.widgets["toolbar.nextbutt"].setEnabled(false);
         }
       }
@@ -613,7 +619,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void}
+     * @return {void} 
      */
     leftReloadTree : function(e)
     {
@@ -663,7 +669,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           else
           {
             t = new qx.ui.tree.TreeFile(that.polish(currNode.label), "demobrowser/image/method_public18.gif");
-            var fullName = currNode.pwd().slice(1).join("/") + "/" + currNode.label
+            var fullName = currNode.pwd().slice(1).join("/") + "/" + currNode.label;
             _sampleToTreeNodeMap[fullName] = t;
 
             desc = currNode.desc;
@@ -776,8 +782,8 @@ qx.Class.define("demobrowser.DemoBrowser",
       // buildSubTree* functions to a model node
       // Build the widget trees
       buildSubTree(this.widgets["treeview.full"], ttree);
-      //buildSubTreeFlat(this.widgets["treeview.flat"], ttree);
 
+      // buildSubTreeFlat(this.widgets["treeview.flat"], ttree);
       // Re-enable and Re-select
       this.widgets["treeview"].setEnabled(true);
 
@@ -802,7 +808,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           }
         }
       }
-    }, //leftReloadTree
+    },  // leftReloadTree
 
 
     /**
@@ -810,7 +816,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void}
+     * @return {void} 
      */
     runTest : function(e)
     {
@@ -823,29 +829,19 @@ qx.Class.define("demobrowser.DemoBrowser",
         return;
       }
 
-      // -- Vars and Setup -----------------------
-      this.toolbar.setEnabled(false);
-      this.widgets["outputviews.bar"].getManager().setSelected(this.widgets["outputviews.demopage.button"]);
-      this.widgets["outputviews.demopage.page"].setEnabled(false);
-      /*
-      this.widgets["outputviews.demopage.page"].block();
-      this.widgets["outputviews.demopage.page"].getBlockerNode().style.opacity = 0.5;
-      this.widgets["outputviews.demopage.canvas"].setZIndex(10);
-      this.widgets["outputviews.demopage.page"].hide();
-      */
-      this.widgets["outputviews.demopage.page"].getContentDocument().body.innerHTML = "";
-      this.widgets["outputviews.bar"].setEnabled(false);
-      this.widgets["outputviews"].setEnabled(false);
-
-      // -- Main ---------------------------------
       var file = this.tests.selected.replace(".", "/");
-      var base = file.substring(file.indexOf("/") + 1);
 
       this.setCurrentSample(file);
+    },  // runTest()
 
-    }, //runTest()
 
-
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param value {var} TODOC
+     * @return {void} 
+     */
     setCurrentSample : function(value)
     {
       if (!value) {
@@ -856,8 +852,29 @@ qx.Class.define("demobrowser.DemoBrowser",
         return;
       }
 
+      // -- Vars and Setup -----------------------
+      this.toolbar.setEnabled(false);
+      this.widgets["outputviews.bar"].getManager().setSelected(this.widgets["outputviews.demopage.button"]);
+      this.widgets["outputviews.demopage.page"].setEnabled(false);
+
+      /*
+      this.widgets["outputviews.demopage.page"].block();
+      this.widgets["outputviews.demopage.page"].getBlockerNode().style.opacity = 0.5;
+      this.widgets["outputviews.demopage.canvas"].setZIndex(10);
+      this.widgets["outputviews.demopage.page"].hide();
+      */
+
+      var iDoc = this.widgets["outputviews.demopage.page"].getContentDocument();
+      if (iDoc) 
+      {
+        iDoc.body.innerHTML = "";
+      }
+      this.widgets["outputviews.bar"].setEnabled(false);
+      this.widgets["outputviews"].setEnabled(false);
+
       var url;
       var treeNode = this._sampleToTreeNodeMap[value];
+
       if (treeNode)
       {
         treeNode.setSelected(true);
@@ -874,8 +891,10 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       if (this._currentSample == value) {
         this.f1.reload();
-      } else {
-        //this.f1.setSource(url);
+      }
+      else
+      {
+        // this.f1.setSource(url);
         if (this.f1.getContentWindow()) {
           this.f1.getContentWindow().location.replace(url);
         } else {
@@ -883,19 +902,24 @@ qx.Class.define("demobrowser.DemoBrowser",
         }
       }
 
-      this._currentSample    = value;
+      this._currentSample = value;
       this._currentSampleUrl = url;
-    }, // setCurrentSample
+    },  // setCurrentSample
 
 
-
-    __ehSampleLoaded :  function(e)
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void} 
+     */
+    __ehSampleLoaded : function(e)
     {
       var fwindow = this.f1.getContentWindow();
 
       // wait for iframe to load
-      if (!fwindow || !fwindow.qx || !fwindow.qx.log || !fwindow.qx.log.Logger ||
-          !fwindow.document || !fwindow.document.body)
+      if (!fwindow || !fwindow.qx || !fwindow.qx.log || !fwindow.qx.log.Logger || !fwindow.document || !fwindow.document.body)
       {
         qx.client.Timer.once(arguments.callee, this, 50);
         return;
@@ -913,9 +937,10 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
 
       var url = fwindow.location.href;
-      var pos = url.indexOf("/html/")+6;
+      var pos = url.indexOf("/html/") + 6;
       var split = url.substring(pos).split("/");
       var div = String.fromCharCode(187);
+
       if (split.length == 2)
       {
         var category = split[0];
@@ -937,7 +962,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       // load sample source code
       if (this._currentSampleUrl != this.defaultUrl)
       {
-        //var src = fwindow.document.body.innerHTML;
+        // var src = fwindow.document.body.innerHTML;
         this.__getPageSource(this._currentSampleUrl);
       }
 
@@ -945,26 +970,33 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.toolbar.resetEnabled();  // in case it was disabled (for reload)
       this.widgets["outputviews.bar"].resetEnabled();
       this.widgets["outputviews.demopage.page"].resetEnabled();
+
       /*
       this.widgets["outputviews.demopage.page"].getBlockerNode().style.opacity = null;
       this.widgets["outputviews.demopage.page"].release();
       this.widgets["outputviews.demopage.canvas"].setZIndex(0);
       this.widgets["outputviews.demopage.page"].show();
       */
+
       this.widgets["outputviews"].resetEnabled();
       this.widgets["toolbar.sobutt"].resetEnabled();
       this.widgets["toolbar.sampbutts"].resetEnabled();  // in case it was disabled
 
-      this.widgets["outputviews.demopage.button"].setLabel(this.polish(path[path.length-1]));
-
-
+      this.widgets["outputviews.demopage.button"].setLabel(this.polish(path[path.length - 1]));
     },
+
     // __ehSampelLoaded
-
-
-    __ehTreeSelection :  function(e)
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void} 
+     */
+    __ehTreeSelection : function(e)
     {
-      if (e.getData().getUserData('tree').getSelectedElement() == null) {
+      if (e.getData().getUserData('tree').getSelectedElement() == null)
+      {
         this.widgets["toolbar.runbutton"].setEnabled(false);
         this.widgets["toolbar.prevbutt"].setEnabled(false);
         this.widgets["toolbar.nextbutt"].setEnabled(false);
@@ -972,19 +1004,17 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
     },
 
-
     // ------------------------------------------------------------------------
     //   MISC HELPERS
     // ------------------------------------------------------------------------
-
-
     /**
      * TODOC
      *
      * @type member
-     * @return {String}
+     * @param url {var} TODOC
+     * @return {String} TODOC
      */
-    __getPageSource : function (url) 
+    __getPageSource : function(url)
     {
       var req = new qx.io.remote.Request(url);
 
@@ -996,11 +1026,12 @@ qx.Class.define("demobrowser.DemoBrowser",
         this.debug("Time to load data from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
 
         var content = evt.getData().getContent();
+
         if (content) {
           this.widgets["outputviews.sourcepage.page"].setValue(content);
         }
-
-      }, this);
+      },
+      this);
 
       req.addEventListener("failed", function(evt) {
         this.error("Couldn't load file: " + url);
@@ -1016,7 +1047,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      *
      * @type member
      * @param url {var} TODOC
-     * @return {void}
+     * @return {void} 
      */
     dataLoader : function(url)
     {
@@ -1049,13 +1080,12 @@ qx.Class.define("demobrowser.DemoBrowser",
 
           // read initial state
           var state = this._history.getState();
+
           if (state) {
             this.setCurrentSample(state.replace("~", "/"));
-          } else
-          {
+          } else {
             this.setCurrentSample(this.defaultUrl);
           }
-
         },
         this, 0);
       },
@@ -1075,15 +1105,16 @@ qx.Class.define("demobrowser.DemoBrowser",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void}
+     * @return {void} 
      */
-    playPrev : function (e)
+    playPrev : function(e)
     {
-      var currSamp = this.tree.getSelectedElement(); // widget
+      var currSamp = this.tree.getSelectedElement();  // widget
 
       if (currSamp)
       {
         var otherSamp = currSamp.getUserData('modelLink').getPrevSibling().widgetLinkFull;
+
         if (otherSamp)
         {
           this.widgets["treeview.full"].setSelectedElement(otherSamp);
@@ -1093,13 +1124,21 @@ qx.Class.define("demobrowser.DemoBrowser",
     },
 
 
-    playNext : function (e)
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void} 
+     */
+    playNext : function(e)
     {
-      var currSamp = this.tree.getSelectedElement(); // widget
+      var currSamp = this.tree.getSelectedElement();  // widget
 
       if (currSamp)
       {
         var otherSamp = currSamp.getUserData('modelLink').getNextSibling().widgetLinkFull;
+
         if (otherSamp)
         {
           this.widgets["treeview.full"].setSelectedElement(otherSamp);
@@ -1120,9 +1159,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       return str.replace(".html", "").replace("_", " ");
     },
 
-
     defaultUrl : "html/welcome.html"
-
   },
 
 
@@ -1136,24 +1173,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
   destruct : function()
   {
-    this._disposeFields(
-      "widgets",
-      "tests",
-      "_sampleToTreeNodeMap",
-      "tree"
-    );
-    this._disposeObjects(
-      "header",
-      "mainsplit",
-      "tree1",
-      "left",
-      "runbutton",
-      "toolbar",
-      "f1",
-      "f2",
-      "logger",
-      "_history",
-      "logappender"
-    );
+    this._disposeFields("widgets", "tests", "_sampleToTreeNodeMap", "tree");
+    this._disposeObjects("header", "mainsplit", "tree1", "left", "runbutton", "toolbar", "f1", "f2", "logger", "_history", "logappender");
   }
 });
