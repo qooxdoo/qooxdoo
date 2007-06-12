@@ -28,7 +28,7 @@
  * The constructor can take a negative step width, or start greater than stop,
  * to create decreasing ranges.
  *
- *<pre>
+ *<pre class='javascript'>
  *  var r = new qx.util.range.IntegerRange(1,20);
  *  var i;
  *  while ((i = r.next())!=null) { alert(i) }; // yields 1,2,3,..,20

@@ -30,7 +30,7 @@
  *
  * This class should not be used directly. Better use {@link qx.io.image.PreloaderManager}:
  *
- * <pre>
+ * <pre class='javascript'>
  * qx.io.image.PreloaderManager.getInstance().create(imageUrl)
  * </pre>
  */

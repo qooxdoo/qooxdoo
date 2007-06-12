@@ -46,7 +46,7 @@ qx.Class.define("qx.lang.String",
     /**
      * converts a string seperated by '-' to camel case.
      * Example:
-     * <pre>qx.lang.String.toCamelCase("to-camel-case") == "toCamelCase"</pre>
+     * <pre class='javascript'>qx.lang.String.toCamelCase("to-camel-case") == "toCamelCase"</pre>
      *
      * Adapted from PrototypeJS
      *
@@ -59,7 +59,7 @@ qx.Class.define("qx.lang.String",
       return string.replace(/\-([a-z])/g, function(match, chr) {
         return chr.toUpperCase();
       });
-    },    
+    },
 
 
     /**
@@ -176,7 +176,7 @@ qx.Class.define("qx.lang.String",
     /**
      * Add a list item to a serialized list string
      * Example:
-     * <pre>qx.lang.String.addListItem("red, yellow, green", "blue", ", ") == "red, yellow, green, blue"</pre>
+     * <pre class='javascript'>qx.lang.String.addListItem("red, yellow, green", "blue", ", ") == "red, yellow, green, blue"</pre>
      *
      * @type static
      * @param str {String} serialized list. The items are seperated by "sep"
@@ -211,7 +211,7 @@ qx.Class.define("qx.lang.String",
     /**
      * Remove a list item from a serialized list string
      * Example:
-     * <pre>qx.lang.String.removeListItem("red, yellow, green", "yellow", ", ") == "red, green, blue"</pre>
+     * <pre class='javascript'>qx.lang.String.removeListItem("red, yellow, green", "yellow", ", ") == "red, green, blue"</pre>
      *
      * @type static
      * @param str {String} serialized list. The items are seperated by "sep"
@@ -263,7 +263,7 @@ qx.Class.define("qx.lang.String",
      * Print a list of arguments using a format string
      * In the format string occurences of %n are replaced by the n'th element of the args list.
      * Example:
-     * <pre>qx.lang.String.format("Hello %1, my name is %2", ["Egon", "Franz"]) == "Hello Egon, my name is Franz"</pre>
+     * <pre class='javascript'>qx.lang.String.format("Hello %1, my name is %2", ["Egon", "Franz"]) == "Hello Egon, my name is Franz"</pre>
      *
      * @type static
      * @param pattern {String} format string

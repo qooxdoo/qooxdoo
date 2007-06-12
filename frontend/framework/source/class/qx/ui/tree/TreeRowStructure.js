@@ -29,11 +29,11 @@
  * This is a singleton class.  The constructor is not accessed by users;
  * instead, to obtain the one and only TreeRowStructure object, call either
  *
- * <pre>qx.ui.tree.TreeRowStructure.newRow()</pre>
+ * <pre class='javascript'>qx.ui.tree.TreeRowStructure.newRow()</pre>
  *
  * or
  *
- * <pre>qx.ui.tree.TreeRowStructure.standard().</pre>
+ * <pre class='javascript'>qx.ui.tree.TreeRowStructure.standard().</pre>
  *
  * The structure of a tree row is provided by a
  * qx.ui.tree.TreeRowStructure.  The order of elements added to
@@ -56,13 +56,13 @@
  *
  * A "standard" (traditional) tree row would be generated like this:
  *
- * <pre>
+ * <pre class='javascript'>
  * treeRowStructure = qx.ui.tree.TreeRowStructure.standard("Trash");
  * </pre>
  *
  * which equates to issuing these commands:
  *
- * <pre>
+ * <pre class='javascript'>
  * treeRowStructure = qx.ui.tree.TreeRowStructure.newRow();
  *
  * //treeRowStructure.addIndent()  // defaults to here; no need to call
@@ -74,7 +74,7 @@
  *
  * An example of a more sophisticated structure:
  *
- * <pre>
+ * <pre class='javascript'>
  * treeRowStructure = qx.ui.tree.TreeRowStructure.newRow();
  *
  * // A left-justified icon

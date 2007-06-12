@@ -23,7 +23,7 @@
  * pageview.getBar()) and pages to the pane (using pageview.getPane()), which
  * take a button as a constructor argument. A brief example:
  *
- * <pre>
+ * <pre class='javascript'>
  * var pv = new qx.ui.pageview.buttonview.ButtonView();
  * var b1 = new qx.ui.pageview.buttonview.Button("A");
  * var p1 = new qx.ui.pageview.buttonview.Page(b1);

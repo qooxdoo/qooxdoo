@@ -27,9 +27,9 @@
  * sub class of {@link qx.ui.core.Widget}. To enable this feature for all widgets
  * use:
  *
- * <code><pre>
+ * <pre class='javascript'>
  *   qx.Class.include(qx.ui.core.Widget, qx.ui.animation.MAnimation);
- * </code></pre>
+ * </pre>
  */
 qx.Mixin.define("qx.ui.animation.MAnimation", {
 

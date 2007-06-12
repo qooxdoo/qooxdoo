@@ -9,7 +9,7 @@
  * remote resource, configure request data and request processing details, and
  * set up event handlers for typical stages of the request processing. A brief
  * example:
- * <pre>
+ * <pre class='javascript'>
  * var req = new qx.io.remote.Request("/my/resource/url.txt");
  * req.addEventListener("completed", function (e) {
  *   alert(e.getContent());

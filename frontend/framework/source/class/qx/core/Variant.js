@@ -175,7 +175,7 @@ qx.Class.define("qx.core.Variant",
      *
      * Example:
      *
-     * <pre>
+     * <pre class='javascript'>
      * var f = qx.Variant.select("qx.client", {
      *   "gecko": fucntion() { ... },
      *   "mshtml|opera": function() { ... },
@@ -238,7 +238,7 @@ qx.Class.define("qx.core.Variant",
      *
      * Example:
      *
-     * <pre>
+     * <pre class='javascript'>
      * if (qx.core.Variant.isSet("qx.client", "mshtml")) {
      *   // some Internet Explorer specific code
      * } else if(qx.core.Variant.isSet("qx.client", "opera")){
