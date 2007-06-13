@@ -1505,19 +1505,19 @@ def documentApplyMethod(methodNode, prop):
     if itemHasAnyDocs(methodNode):
         return
 
-    try:
-        firstParam = selectNode(methodNode, "params/param[1]/@name")
-    except tree.NodeAccessException:
+    firstParam = selectNode(methodNode, "params/param[1]/@name")
+    if firstParam is None:
         firstParam = "value"
 
-    try:
-        secondParam = selectNode(methodNode, "params/param[2]/@name")
-    except tree.NodeAccessException:
+    secondParam = selectNode(methodNode, "params/param[2]/@name")
+    if secondParam is None:
         secondParam = "old"
 
     paramType = prop.get("check", False)
     if paramType is None or paramType == "Custom check function.":
         paramType = "var"
+
+    print firstParam, secondParam, paramType
 
     functionCode = """/**
  * Applies changes of the property value of the property <code>%(shortPropName)s</code>.
