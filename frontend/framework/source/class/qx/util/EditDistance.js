@@ -31,6 +31,10 @@ qx.Class.define("qx.util.EditDistance",
 {
   statics :
   {
+    OPERATION_DELETE : 1,
+    OPERATION_INSERT : 2,
+    OPERATION_REPLACE : 3,
+
     computeLevenshteinDistance : function(dataA, dataB)
     {
       // distance is dataA table with dataA.length+1 rows and dataB.length+1 columns
@@ -82,7 +86,7 @@ qx.Class.define("qx.util.EditDistance",
         // insert from begin to end
         // reverted order than in all other cases for optimal performance
         for (var i=0; i<posB; i++) {
-          jobs.push({ action : "insert", pos : i, old : null, value : dataB[i] });
+          jobs.push({ operation : this.OPERATION_INSERT, pos : i, old : null, value : dataB[i] });
         }
 
         return jobs;
@@ -92,7 +96,7 @@ qx.Class.define("qx.util.EditDistance",
       {
         // remove from end to begin
         for (var i=posA-1; i>=0; i--) {
-          jobs.push({ action : "delete", pos : i, old : dataA[i], value : null });
+          jobs.push({ operation : this.OPERATION_DELETE, pos : i, old : dataA[i], value : null });
         }
 
         return jobs;
@@ -103,14 +107,14 @@ qx.Class.define("qx.util.EditDistance",
         if (posA != 0 && distance[posA][posB] == distance[posA-1][posB] + 1)
         {
           // console.log("delete " + dataA[posA-1] + ": " + (posA-1));
-          jobs.push({ action : "delete", pos : posA-1, old : dataA[posA-1], value : null });
+          jobs.push({ operation : this.OPERATION_DELETE, pos : posA-1, old : dataA[posA-1], value : null });
 
           posA-=1;
         }
         else if (posB != 0 && distance[posA][posB] == distance[posA][posB-1] + 1)
         {
           // console.log("insert " + dataB[posB-1] + " ein, in: " + (posA));
-          jobs.push({ action : "insert", pos : posA, old : null, value : dataB[posB-1] });
+          jobs.push({ operation : this.OPERATION_INSERT, pos : posA, old : null, value : dataB[posB-1] });
 
           posB-=1;
         }
@@ -119,7 +123,7 @@ qx.Class.define("qx.util.EditDistance",
           if (dataA[posA-1]!==dataB[posB-1])
           {
             // console.log("replace " + dataA[posA-1] + " durch " + dataB[posB-1] + ".");
-            jobs.push({ action : "replace", pos : posA-1, old : dataA[posA-1], value : dataB[posB-1] });
+            jobs.push({ operation : this.OPERATION_REPLACE, pos : posA-1, old : dataA[posA-1], value : dataB[posB-1] });
           }
 
           posA-=1;
@@ -150,17 +154,19 @@ qx.Class.define("qx.util.EditDistance",
       {
         job = oper[i];
 
-        if (job.action === "delete")
+        switch(job.operation)
         {
-          qx.lang.Array.removeAt(arr, job.pos);
-        }
-        else if (job.action === "replace")
-        {
-          arr[job.pos] = job.value;
-        }
-        else if (job.action === "insert")
-        {
-          qx.lang.Array.insertAt(arr, job.value, job.pos);
+          case this.OPERATION_DELETE:
+            qx.lang.Array.removeAt(arr, job.pos);
+            break;
+
+          case this.OPERATION_REPLACE:
+            arr[job.pos] = job.value;
+            break;
+
+          case this.OPERATION_INSERT:
+            qx.lang.Array.insertAt(arr, job.value, job.pos);
+            break;
         }
       }
 
