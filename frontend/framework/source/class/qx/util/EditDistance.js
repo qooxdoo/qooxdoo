@@ -98,7 +98,7 @@ qx.Class.define("qx.util.EditDistance",
         return jobs;
       }
 
-      while(posA !== 0 && posB !== 0)
+      while(posA !== 0 || posB !== 0)
       {
         if (posA != 0 && distance[posA][posB] == distance[posA-1][posB] + 1)
         {
@@ -110,7 +110,7 @@ qx.Class.define("qx.util.EditDistance",
         else if (posB != 0 && distance[posA][posB] == distance[posA][posB-1] + 1)
         {
           // console.log("insert " + dataB[posB-1] + " ein, in: " + (posA));
-          jobs.push({ action : "insert", pos : posA-1, old : null, value : dataB[posB-1] });
+          jobs.push({ action : "insert", pos : posA, old : null, value : dataB[posB-1] });
 
           posB-=1;
         }
@@ -134,12 +134,43 @@ qx.Class.define("qx.util.EditDistance",
     getEditOperations : function(dataA, dataB)
     {
       var distance = this.computeLevenshteinDistance(dataA, dataB);
-
-      console.log("DISTANCE: ", distance);
-
       var oper = this.computeEditOperations(distance, dataA, dataB);
 
       return oper;
+    },
+
+
+    testString : function(strA, strB)
+    {
+      var oper = this.getEditOperations(strA, strB);
+
+      arr = qx.lang.String.splitCharacters(strA);
+
+      for (var i=0; i<oper.length; i++)
+      {
+        job = oper[i];
+
+        if (job.action === "delete")
+        {
+          qx.lang.Array.removeAt(arr, job.pos);
+        }
+        else if (job.action === "replace")
+        {
+          arr[job.pos] = job.value;
+        }
+        else if (job.action === "insert")
+        {
+          qx.lang.Array.insertAt(arr, job.value, job.pos);
+        }
+      }
+
+      result = arr.join("");
+
+      if (result !== strB) {
+        return console.error("Implementation could not transform: " + strA + " to " + strB + "! Result was: " + result);
+      }
+
+      console.debug("Successfully transformed: " + strA + " to " + strB + ".");
     }
   }
 });
