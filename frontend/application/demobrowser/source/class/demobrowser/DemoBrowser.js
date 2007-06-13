@@ -341,34 +341,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       });
 
       f1.addEventListener("load", this.__ehIframeLoaded, this);
-      f1.addEventListener("beforeAppear", function (e) 
-      {
-        console.log("Got focused!");
-        if (this.__sourceViewChanged) 
-        {
-          this.__applyModifiedSample();
-          this.__sourceViewChanged = 0;  // reset for next change
-          //var func = qx.lang.Function.bind(this.__cleanupSample, this, fdocument);
-          qx.client.Timer.once(function () 
-          {
-            var fdocument = this.f1.getContentDocument();
-            this.__cleanupSample(fdocument);
-          }, this, 500);
-        }
-      }, this);
 
-      /*
-      f1.setZIndex(5);
-      var f1_1 = new qx.ui.layout.CanvasLayout();
-      p1.add(f1_1);
-      this.widgets["outputviews.demopage.canvas"] = f1_1;
-      f1_1.set(
-      {
-        height : "100%",
-        width  : "100%"
-      });
-      f1_1.setZIndex(0);
-      */
 
       // Second Page
       var bsb2 = new qx.ui.pageview.tabview.Button("Log", "icon/16/mimetypes/text-ascii.png");
@@ -419,32 +392,20 @@ qx.Class.define("demobrowser.DemoBrowser",
       buttview.getPane().add(p3);
 
       // -- Pane Content
-      var f3 = new qx.ui.form.TextArea("The sample source will be displayed here.");
+      //var f3 = new qx.ui.form.TextArea("The sample source will be displayed here.");
+      var f3 = new qx.ui.embed.HtmlEmbed("The sample source will be displayed here.");
       p3.add(f3);
       this.widgets["outputviews.sourcepage.page"] = f3;
 
       f3.set(
       {
-        readOnly : true,
         overflow : "auto",
         width    : "100%",
         height   : "100%"
       });
 
-      f3.addEventListener("changeValue", function (e) 
-      {
-        if (this.__sourceViewLoaded == 1) // ignore change after loading
-        {
-          this.__sourceViewLoaded = 0;
-          this.__sourceViewChanged = 0;
-        } else 
-        {
-          this.__sourceViewChanged = 1;
-        }
-      }, this);
-
-
       return buttview;
+
     },  // __makeOutputViews()
 
 
@@ -999,7 +960,6 @@ qx.Class.define("demobrowser.DemoBrowser",
         {
           // var src = fwindow.document.body.innerHTML;
           this.__getPageSource(this._currentSampleUrl);
-          this.__sourceViewLoaded = 1;
         }
       }
 
@@ -1082,7 +1042,9 @@ qx.Class.define("demobrowser.DemoBrowser",
         var content = evt.getData().getContent();
 
         if (content) {
-          this.widgets["outputviews.sourcepage.page"].setValue(content);
+          //this.widgets["outputviews.sourcepage.page"].setValue(content);
+          //this.widgets["outputviews.sourcepage.page"].setHtml(this.__beautySource(content));
+          this.widgets["outputviews.sourcepage.page"].setHtml('<pre>'+qx.html.String.escape(content)+'</pre>');
           this.__sourceCodeLoaded = 1;
         }
       },
@@ -1208,21 +1170,79 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       if (doc) 
       {
-        this.debug("trying to delete demodescription");
         // delete demo description
         var div = doc.getElementById("demoDescription");
 
         if (div && div.parentNode) {
           var remc = div.parentNode.removeChild(div);
-          this.debug("found and removed demodescription");
-          console.log(remc);
+          this.debug("Found and removed demo description");
         } else 
         {
-          this.debug("no valid div to remove found");
+          this.debug("No valid demo description found to remove");
         
         }
       }
-    },
+    }, // cleanupSample()
+
+
+    __beautySource : function (src) 
+    {
+      var bsrc = "";
+      var reg  = /(.*<script\b[^>]*?(?!\bsrc\s*=)[^>]*?>)(.*?)(?=<\/script>)/gm;
+      var linep = /^.*$/gm; // matches a line
+      var result;
+      var eof = false;
+      var line = "";
+      var currBlock = ""
+      var PScriptStart = /^\s*<script\b[^>]*?(?!\bsrc\s*=)[^>]*?>\s*$/i;
+      var PScriptEnd = /^\s*<\/script>\s*$/i;
+
+      while (! eof) 
+      {
+        result = linep.exec(src);
+
+        if (result == null) 
+        {
+          eof = true;
+        } else if (result[0] == "")  // fix bug in firefox 2!!
+        {
+          linep.lastIndex++;
+        } else 
+        {
+          line = result[0];
+           
+          if (PScriptStart.exec(line)) 
+          {
+            // add this line to 'normal' code
+            bsrc += '<pre>'+qx.html.String.escape(currBlock + line)+'</pre>';
+            currBlock = "";  // start new block
+          } else if (PScriptEnd.exec(line)) 
+          {
+            // pass script block to tokenizer
+            bsrc += qx.dev.Tokenizer.javaScriptToHtml(currBlock)
+            currBlock = line;  // start new block
+          } else // no border line 
+          {
+            currBlock += line;
+          }
+        }
+      }
+      
+      /*
+      while ((result = reg.exec(src)) != null)
+      {
+        if (result[1].length) {
+          bsrc += '<pre>'+qx.html.String.escape(result[1])+'</pre>';
+        }
+        if (result[2].length) {
+          bsrc += qx.dev.Tokenizer.javaScriptToHtml(result[2]);
+        }
+      }
+      */
+
+      return bsrc;
+      
+    }, // beautySource()
 
 
     /**
@@ -1236,9 +1256,8 @@ qx.Class.define("demobrowser.DemoBrowser",
       return str.replace(".html", "").replace("_", " ");
     },
 
-    defaultUrl : "html/welcome.html",
+    defaultUrl : "html/welcome.html"
 
-    __sourceViewChanged : 0
   },
 
 
