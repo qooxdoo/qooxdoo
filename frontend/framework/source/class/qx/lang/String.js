@@ -291,6 +291,19 @@ qx.Class.define("qx.lang.String",
      */
     escapeRegexpChars : function(str) {
       return str.replace(/([\\\.\(\)\[\]\{\}\^\$\?\+\*])/g, "\\$1");
+    },
+
+
+    /**
+     * Converts a string to an array of characters.
+     * <pre>"hello" => [ "h", "e", "l", "l", "o" ];</pre>
+     *
+     * @type static
+     * @param str {String} the string which should be splitted
+     * @return {Array} the result array of characters
+     */
+    splitCharacters : function(str) {
+      return str.split(/\B|\b/g);
     }
   }
 });
