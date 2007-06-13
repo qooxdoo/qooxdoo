@@ -203,7 +203,8 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       sobutt.addEventListener("execute", function(e)
       {
-        var sampUrl = 'html/' + this._currentSample;
+        //var sampUrl = 'html/' + this._currentSample;
+        var sampUrl = this.f1.getContentWindow().location.href;
         var nw = new qx.client.NativeWindow(sampUrl, "Sample");
         this.widgets["nativewindow"] = nw;
         nw.setDimension(700, 550);
@@ -339,16 +340,20 @@ qx.Class.define("demobrowser.DemoBrowser",
         border   : "dark-shadow"
       });
 
-      f1.addEventListener("load", this.__ehSampleLoaded, this);
+      f1.addEventListener("load", this.__ehIframeLoaded, this);
       f1.addEventListener("beforeAppear", function (e) 
       {
         console.log("Got focused!");
         if (this.__sourceViewChanged) 
         {
           this.__applyModifiedSample();
-          var fdocument = this.f1.getContentDocument();
-          this.__cleanupSample(fdocument);
           this.__sourceViewChanged = 0;  // reset for next change
+          //var func = qx.lang.Function.bind(this.__cleanupSample, this, fdocument);
+          qx.client.Timer.once(function () 
+          {
+            var fdocument = this.f1.getContentDocument();
+            this.__cleanupSample(fdocument);
+          }, this, 500);
         }
       }, this);
 
@@ -940,52 +945,57 @@ qx.Class.define("demobrowser.DemoBrowser",
      * @param e {Event} TODOC
      * @return {void} 
      */
-    __ehSampleLoaded : function(e)
+    __ehIframeLoaded : function(e)
     {
       var fwindow = this.f1.getContentWindow();
-
-      // wait for iframe to load
-      if (!fwindow || !fwindow.qx || !fwindow.qx.log || !fwindow.qx.log.Logger || !fwindow.document || !fwindow.document.body)
-      {
-        qx.client.Timer.once(arguments.callee, this, 50);
-        return;
-      }
-
-      // set logger
-      fwindow.qx.log.Logger.ROOT_LOGGER.removeAllAppenders();
-      fwindow.qx.log.Logger.ROOT_LOGGER.addAppender(this.logappender);
-
-      // delete demo description
-      this.__cleanupSample(fwindow.document);
-
-      var url = fwindow.location.href;
-      var pos = url.indexOf("/html/") + 6;
-      var split = url.substring(pos).split("/");
-      var div = String.fromCharCode(187);
-
-      if (split.length == 2)
-      {
-        var category = split[0];
-        category = category.charAt(0).toUpperCase() + category.substring(1);
-        var pagename = split[1].replace(".html", "").replace(/_/g, " ");
-        pagename = pagename.charAt(0).toUpperCase() + pagename.substring(1);
-        var title = "qooxdoo " + div + " Demo Browser " + div + " " + category + " " + div + " " + pagename;
-      }
-      else
-      {
-        var title = "qooxdoo " + div + " Demo Browser " + div + " Welcome";
-      }
-
-      // update state on example change
+      var fpath   = fwindow.location.pathname;
       var path = fwindow.location.pathname.split("/");
-      var sample = path.slice(-2).join('~');
-      this._history.addToHistory(sample, title);
 
-      // load sample source code
-      if (this._currentSampleUrl != this.defaultUrl)
-      {
-        // var src = fwindow.document.body.innerHTML;
-        this.__getPageSource(this._currentSampleUrl);
+      //if (this._currentSampleUrl != this.defaultUrl)
+      if (!fpath.match(this.defaultUrl))
+      { // things to do only if a sample was loaded
+        // wait for iframe to load
+        if (!fwindow || !fwindow.qx || !fwindow.qx.log || !fwindow.qx.log.Logger || !fwindow.document || !fwindow.document.body)
+        {
+          qx.client.Timer.once(arguments.callee, this, 50);
+          return;
+        }
+
+        // set logger
+        fwindow.qx.log.Logger.ROOT_LOGGER.removeAllAppenders();
+        fwindow.qx.log.Logger.ROOT_LOGGER.addAppender(this.logappender);
+
+        // delete demo description
+        this.__cleanupSample(fwindow.document);
+
+        var url = fwindow.location.href;
+        var pos = url.indexOf("/html/") + 6;
+        var split = url.substring(pos).split("/");
+        var div = String.fromCharCode(187);
+
+        if (split.length == 2)
+        {
+          var category = split[0];
+          category = category.charAt(0).toUpperCase() + category.substring(1);
+          var pagename = split[1].replace(".html", "").replace(/_/g, " ");
+          pagename = pagename.charAt(0).toUpperCase() + pagename.substring(1);
+          var title = "qooxdoo " + div + " Demo Browser " + div + " " + category + " " + div + " " + pagename;
+        }
+        else
+        {
+          var title = "qooxdoo " + div + " Demo Browser " + div + " Welcome";
+        }
+
+        // update state on example change
+        var sample = path.slice(-2).join('~');
+        this._history.addToHistory(sample, title);
+
+        // load sample source code
+        if (this._currentSampleUrl != this.defaultUrl)
+        {
+          // var src = fwindow.document.body.innerHTML;
+          this.__getPageSource(this._currentSampleUrl);
+        }
       }
 
       // enabling widgets
@@ -1006,14 +1016,14 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       this.widgets["outputviews.demopage.button"].setLabel(this.polish(path[path.length - 1]));
       this.__sourceViewLoaded = 1;
-    }, // __ehSampelLoaded
+
+    }, // __ehIframeLoaded
 
 
     __applyModifiedSample : function () 
     {
       // get source code
       var src = this.widgets["outputviews.sourcepage.page"].getValue();
-      console.log(src);
 
       // inject into iframe document
       var iDoc = this.widgets["outputviews.demopage.page"].getContentDocument();
@@ -1192,12 +1202,20 @@ qx.Class.define("demobrowser.DemoBrowser",
     __cleanupSample : function (doc) 
     {
 
-      if (doc) {
+      if (doc) 
+      {
+        this.debug("trying to delete demodescription");
         // delete demo description
         var div = doc.getElementById("demoDescription");
 
         if (div && div.parentNode) {
-          div.parentNode.removeChild(div);
+          var remc = div.parentNode.removeChild(div);
+          this.debug("found and removed demodescription");
+          console.log(remc);
+        } else 
+        {
+          this.debug("no valid div to remove found");
+        
         }
       }
     },
