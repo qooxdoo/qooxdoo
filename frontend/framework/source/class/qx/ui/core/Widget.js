@@ -3599,7 +3599,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _recomputeRangeX : qx.core.Variant.select("qx.client",
     {
-      "mshtml|opera" : function()
+      "mshtml|opera|webkit" : function()
       {
         if (this._computedLeftTypeNull || this._computedRightTypeNull) {
           return false;
@@ -3624,7 +3624,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _recomputeRangeY : qx.core.Variant.select("qx.client",
     {
-      "mshtml|opera" : function()
+      "mshtml|opera|webkit" : function()
       {
         if (this._computedTopTypeNull || this._computedBottomTypeNull) {
           return false;
@@ -3658,7 +3658,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _recomputeStretchingX : qx.core.Variant.select("qx.client",
     {
-      "mshtml|opera" : function()
+      "mshtml|opera|webkit" : function()
       {
         if (this.getAllowStretchX() && this._computedWidthTypeNull)
         {
@@ -3691,7 +3691,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _recomputeStretchingY : qx.core.Variant.select("qx.client",
     {
-      "mshtml|opera" : function()
+      "mshtml|opera|webkit" : function()
       {
         if (this.getAllowStretchY() && this._computedHeightTypeNull)
         {
