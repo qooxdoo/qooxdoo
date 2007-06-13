@@ -78,7 +78,7 @@ qx.Class.define("qx.dev.Tokenizer",
         "false" : 1,
         "NaN" : 1,
         "Infinity" : 1,
-        "this" : 1,
+        "this" : 1
       };
 
       var qxkeys = {
