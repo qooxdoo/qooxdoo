@@ -143,23 +143,29 @@ qx.Class.define("qx.core.Client",
         vEngineVersionBuild = vVersionHelper[3] || 0;
       }
 
+      var vEngineBoxSizingAttr = [];
       switch (vEngine)
       {
         case "gecko":
-          var vEngineBoxSizingAttr = "-moz-box-sizing";
+          vEngineBoxSizingAttr.push("-moz-box-sizing");
+          break;
+
+        case "khtml":
+          vEngineBoxSizingAttr.push("-khtml-box-sizing");
           break;
 
         case "webkit":
-          var vEngineBoxSizingAttr = "-webkit-box-sizing";
+          vEngineBoxSizingAttr.push("-khtml-box-sizing");
+          vEngineBoxSizingAttr.push("-webkit-box-sizing");
           break;
 
         case "mshtml":
-          var vEngineBoxSizingAttr = null;
           break;
 
         default:
-          var vEngineBoxSizingAttr = "box-sizing";
+          break;
       }
+      vEngineBoxSizingAttr.push("box-sizing");
 
       var vEngineQuirksMode = document.compatMode !== "CSS1Compat";
 
@@ -237,7 +243,7 @@ qx.Class.define("qx.core.Client",
       this._engineVersionBuild = parseInt(vEngineVersionBuild);
 
       this._engineQuirksMode = vEngineQuirksMode;
-      this._engineBoxSizingAttribute = vEngineBoxSizingAttr;
+      this._engineBoxSizingAttributes = vEngineBoxSizingAttr;
       this._engineEmulation = vEngineEmulation;
 
       this._browserName = vBrowser;
@@ -489,13 +495,13 @@ qx.Class.define("qx.core.Client",
 
 
     /**
-     * Returns the CSS attribute name for box-sizing if supported.
+     * Returns the CSS attribute names for box-sizing if supported.
      *
      * @type member
-     * @return {String} the attribute name.
+     * @return {String[]} the attribute names.
      */
-    getEngineBoxSizingAttribute : function() {
-      return this._engineBoxSizingAttribute;
+    getEngineBoxSizingAttributes : function() {
+      return this._engineBoxSizingAttributes;
     },
 
 
