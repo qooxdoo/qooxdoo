@@ -304,6 +304,7 @@ qx.Class.define("qx.ui.form.TextField",
         istyle.background = "transparent";
         istyle.overflow = this._inputOverflow;
         istyle.outline = "none";
+        istyle.resize = "none";
 
         // Disable browser appearance
         istyle.WebkitAppearance = "none";
