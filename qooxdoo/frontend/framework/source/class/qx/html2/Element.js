@@ -86,6 +86,54 @@ qx.Class.define("qx.html2.Element",
     },
 
 
+    flushParent : function(parent)
+    {
+      console.debug("Flush parent[" + parent.toHashCode() + "]");
+
+      var target = [];
+      for (var i=0, a=parent.__children, l=a.length; i<l; i++) {
+        target.push(a[i].getElement());
+      }
+
+      var parentElement = parent.getElement();
+      var source = qx.lang.Array.fromCollection(parentElement.childNodes);
+      var operations = qx.util.EditDistance.getEditOperations(source, target);
+      var job;
+
+      console.log("Source: ", source.length + ": ", source);
+      console.log("Target: ", target.length + ": ", target);
+      console.log("Operations: ", operations);
+
+      for (var i=0, l=operations.length; i<l; i++)
+      {
+        job = operations[i];
+
+        if (job.action === "delete")
+        {
+          console.log("Remove: ", job.old);
+          parentElement.removeChild(job.old);
+        }
+        else if (job.action === "insert")
+        {
+          before = parentElement.childNodes[job.pos];
+
+          if (before) {
+            console.log("Insert: ", job.value, " at: ", job.pos);
+            parentElement.insertBefore(job.value, before);
+          } else {
+            console.log("Append: ", job.value);
+            parentElement.appendChild(job.value);
+          }
+        }
+        else if (job.action === "replace")
+        {
+          console.log("Replace: ", job.old, " with ", job.value);
+          parentElement.replaceChild(job.value, job.old);
+        }
+      }
+    },
+
+
     /**
      * TODOC
      *
@@ -137,115 +185,31 @@ qx.Class.define("qx.html2.Element",
         }
       }
 
-      // == HIDDEN INSERT ==
-      // insert children of not inserted parents
+
+
+
+      // == APPLY DOM STRUCTURE ==
+
       for (var hc in parents)
       {
         parent = parents[hc];
 
-        if (parent.__inserted) {
-          continue;
-        }
-
-        console.debug("Process not inserted parent[" + parent.toHashCode() + "]");
-
-        var target = [];
-        for (var i=0, a=parent.__children, l=a.length; i<l; i++) {
-          target.push(a[i].getElement());
-        }
-
-        var parentElement = parent.getElement();
-        var source = qx.lang.Array.fromCollection(parentElement.childNodes);
-        var operations = qx.util.EditDistance.getEditOperations(source, target);
-        var job;
-
-        console.log("Source: ", source.length + ": ", source);
-        console.log("Target: ", target.length + ": ", target);
-        console.log("Operations: ", operations);
-
-        for (var i=0, l=operations.length; i<l; i++)
+        if (!parent.__inserted)
         {
-          job = operations[i];
-
-          if (job.action === "delete")
-          {
-            console.log("Remove: ", job.old);
-            parentElement.removeChild(job.old);
-          }
-          else if (job.action === "insert")
-          {
-            before = parentElement.childNodes[job.pos];
-
-            if (before) {
-              console.log("Insert: ", job.value, " at: ", job.pos);
-              parentElement.insertBefore(job.value, before);
-            } else {
-              console.log("Append: ", job.value);
-              parentElement.appendChild(job.value);
-            }
-          }
-          else if (job.action === "replace")
-          {
-            console.log("Replace: ", job.old, " with ", job.value);
-            parentElement.replaceChild(job.value, job.old);
-          }
+          this.flushParent(parent);
+          delete parents[hc];
         }
-
-        delete parents[hc];
       }
 
-      // == VISIBLE INSERT ==
-      // insert children of inserted parents (nearly identical to above loop)
       for (var hc in parents)
       {
         parent = parents[hc];
 
-        console.debug("Process inserted parent[" + parent.toHashCode() + "]");
-
-        var target = [];
-        for (var i=0, a=parent.__children, l=a.length; i<l; i++) {
-          target.push(a[i].getElement());
-        }
-
-        var parentElement = parent.getElement();
-        var source = qx.lang.Array.fromCollection(parentElement.childNodes);
-        var operations = qx.util.EditDistance.getEditOperations(source, target);
-        var job;
-
-        console.log("Source: ", source.length + ": ", source);
-        console.log("Target: ", target.length + ": ", target);
-        console.log("Operations: ", operations);
-
-        for (var i=0, l=operations.length; i<l; i++)
-        {
-          job = operations[i];
-
-          if (job.action === "delete")
-          {
-            console.log("Remove: ", job.old);
-            parentElement.removeChild(job.old);
-          }
-          else if (job.action === "insert")
-          {
-            before = parentElement.childNodes[job.pos];
-
-            if (before) {
-              console.log("Insert: ", job.value, " at: ", job.pos);
-              parentElement.insertBefore(job.value, before);
-            } else {
-              console.log("Append: ", job.value);
-              parentElement.appendChild(job.value);
-            }
-          }
-          else if (job.action === "replace")
-          {
-            console.log("Replace: ", job.old, " with ", job.value);
-            parentElement.replaceChild(job.value, job.old);
-          }
-        }
-
+        this.flushParent(parent);
         delete parents[hc];
       }
+
+
 
       // == CLEANUP ==
       // cleanup queue and run-flag
