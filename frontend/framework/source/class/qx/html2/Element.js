@@ -159,8 +159,8 @@ qx.Class.define("qx.html2.Element",
         var operations = qx.util.EditDistance.getEditOperations(source, target);
         var job;
 
-        console.log("Source: ", source);
-        console.log("Target: ", target);
+        console.log("Source: ", source.length + ": ", source);
+        console.log("Target: ", target.length + ": ", target);
         console.log("Operations: ", operations);
 
         for (var i=0, l=operations.length; i<l; i++)
@@ -174,9 +174,11 @@ qx.Class.define("qx.html2.Element",
           }
           else if (job.action === "insert")
           {
-            if (job.old) {
-              console.log("Insert: ", job.value, " before: ", job.old);
-              parentElement.insertBefore(job.value, job.old);
+            before = parentElement.childNodes[job.pos];
+
+            if (before) {
+              console.log("Insert: ", job.value, " at: ", job.pos);
+              parentElement.insertBefore(job.value, before);
             } else {
               console.log("Append: ", job.value);
               parentElement.appendChild(job.value);
@@ -188,17 +190,6 @@ qx.Class.define("qx.html2.Element",
             parentElement.replaceChild(job.value, job.old);
           }
         }
-
-
-        /*
-        for (var i=0, l=children.length; i<l; i++)
-        {
-          child = children[i];
-
-          console.log("Append No: " + i + "[" + child.toHashCode() + "]");
-          parentElement.appendChild(child.getElement());
-        }
-        */
 
         delete parents[hc];
       }
@@ -221,8 +212,8 @@ qx.Class.define("qx.html2.Element",
         var operations = qx.util.EditDistance.getEditOperations(source, target);
         var job;
 
-        console.log("Source: ", source);
-        console.log("Target: ", target);
+        console.log("Source: ", source.length + ": ", source);
+        console.log("Target: ", target.length + ": ", target);
         console.log("Operations: ", operations);
 
         for (var i=0, l=operations.length; i<l; i++)
@@ -236,9 +227,11 @@ qx.Class.define("qx.html2.Element",
           }
           else if (job.action === "insert")
           {
-            if (job.old) {
-              console.log("Insert: ", job.value, " before: ", job.old);
-              parentElement.insertBefore(job.value, job.old);
+            before = parentElement.childNodes[job.pos];
+
+            if (before) {
+              console.log("Insert: ", job.value, " at: ", job.pos);
+              parentElement.insertBefore(job.value, before);
             } else {
               console.log("Append: ", job.value);
               parentElement.appendChild(job.value);
@@ -250,19 +243,6 @@ qx.Class.define("qx.html2.Element",
             parentElement.replaceChild(job.value, job.old);
           }
         }
-
-        /*
-        var children = parent.__children;
-        var parentElement = parent.getElement();
-
-        for (var i=0, l=children.length; i<l; i++)
-        {
-          child = children[i];
-
-          console.log("Append No: " + i + "[" + child.toHashCode() + "]");
-          parentElement.appendChild(child.getElement());
-        }
-        */
 
         delete parents[hc];
       }
