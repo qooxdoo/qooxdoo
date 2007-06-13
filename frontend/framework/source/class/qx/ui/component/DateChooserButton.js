@@ -386,6 +386,10 @@ qx.Class.define("qx.ui.component.DateChooserButton",
   */
 
   destruct : function() {
+    var chooserWindowParent = this._chooserWindow.getParent();
+    if (chooserWindowParent)
+      chooserWindowParent.remove(this._chooserWindow);
+
     this._disposeObjects("_dateFormat", "_chooser", "_chooserWindow");
   }
 });
