@@ -86,9 +86,16 @@ qx.Class.define("qx.html2.Element",
     },
 
 
+
+
+
+
+
     flushParent : function(parent)
     {
       console.debug("Flush parent[" + parent.toHashCode() + "]");
+
+      var offsets = [];
 
       var target = [];
       for (var i=0, a=parent.__children, l=a.length; i<l; i++) {
@@ -108,30 +115,100 @@ qx.Class.define("qx.html2.Element",
       {
         job = operations[i];
 
+        if (offsets[job.pos] !== undefined)
+        {
+          console.log("Original Pos: " + job.pos);
+          job.pos -= offsets[job.pos];
+          if (job.pos < 0) job.pos = 0;
+          console.log("Corrected Pos: " + job.pos);
+        }
+
         if (job.action === "delete")
         {
-          console.log("Remove: ", job.old);
-          parentElement.removeChild(job.old);
-        }
-        else if (job.action === "insert")
-        {
-          before = parentElement.childNodes[job.pos];
-
-          if (before) {
-            console.log("Insert: ", job.value, " at: ", job.pos);
-            parentElement.insertBefore(job.value, before);
-          } else {
-            console.log("Append: ", job.value);
-            parentElement.appendChild(job.value);
+          if (parentElement.childNodes[job.pos] === job.old)
+          {
+            console.log("Remove: ", job.old);
+            parentElement.removeChild(job.old);
+          }
+          else
+          {
+            console.log("Ignore removal: ", job.old);
           }
         }
-        else if (job.action === "replace")
+        else
         {
-          console.log("Replace: ", job.old, " with ", job.value);
-          parentElement.replaceChild(job.value, job.old);
+          // Element will be moved around
+          if (job.value.parentNode === parentElement)
+          {
+            oldPos = -1;
+            oldPosHelper = job.value; // not yet inserted into new position, find distance from left
+            do
+            {
+              oldPos++;
+              oldPosHelper = oldPosHelper.previousSibling;
+            } while (oldPosHelper);
+
+            console.debug("Offset: " + oldPos);
+            console.debug("Node needs to be moved from " + oldPos + " to " + job.pos);
+
+            console.debug("OLD ID: " + parentElement.childNodes[oldPos].id);
+
+            for (var j=oldPos+1; j<=job.pos; j++)
+            {
+              if (offsets[j] === undefined) {
+                offsets[j] = 1;
+              } else {
+                offsets[j]++;
+              }
+            }
+
+            console.log("Offsets: ", offsets);
+          }
+
+
+
+
+          if (job.action === "replace")
+          {
+            if (parentElement.childNodes[job.pos] === job.old)
+            {
+              console.log("Replace: ", job.old, " with ", job.value);
+              parentElement.replaceChild(job.value, job.old);
+            }
+            else
+            {
+              //console.log("Pseudo.Replace: ", job.old, " with ", job.value);
+              job.action = "insert";
+            }
+          }
+
+          if (job.action === "insert")
+          {
+            var before = parentElement.childNodes[job.pos];
+
+            if (before) {
+              console.log("Insert: ", job.value, " at: ", job.pos);
+              parentElement.insertBefore(job.value, before);
+            } else {
+              console.log("Append: ", job.value);
+              parentElement.appendChild(job.value);
+            }
+          }
+
+
+
+
+
         }
+
+
+        console.log("STATUS: ", parentElement.childNodes);
       }
     },
+
+
+
+
 
 
     /**
