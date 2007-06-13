@@ -419,12 +419,13 @@ qx.Class.define("demobrowser.DemoBrowser",
       buttview.getPane().add(p3);
 
       // -- Pane Content
-      var f3 = new qx.ui.form.TextArea("The sample source code should go here.");
+      var f3 = new qx.ui.form.TextArea("The sample source will be displayed here.");
       p3.add(f3);
       this.widgets["outputviews.sourcepage.page"] = f3;
 
       f3.set(
       {
+        readOnly : true,
         overflow : "auto",
         width    : "100%",
         height   : "100%"
@@ -925,11 +926,14 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
       else
       {
-        // this.f1.setSource(url);
-        if (this.f1.getContentWindow()) {
-          this.f1.getContentWindow().location.replace(url);
+        // the guru says ...
+        // it is better to use 'replace' than 'setSource', since 'replace' does not interfer
+        // with the history (which is taken care of by the history manager), but there
+        // has to be a loaded document
+        if (this.f1.getContentWindow()) {  // loaded document?
+          this.f1.getContentWindow().location.replace(url);  // use 'replace'
         } else {
-          this.f1.setSource(url);
+          this.f1.setSource(url);  // otherwise use 'setSource'
         }
       }
 
@@ -949,7 +953,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     {
       var fwindow = this.f1.getContentWindow();
       var fpath   = fwindow.location.pathname;
-      var path = fwindow.location.pathname.split("/");
+      var path    = fwindow.location.pathname.split("/");
 
       //if (this._currentSampleUrl != this.defaultUrl)
       if (!fpath.match(this.defaultUrl))
@@ -995,6 +999,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         {
           // var src = fwindow.document.body.innerHTML;
           this.__getPageSource(this._currentSampleUrl);
+          this.__sourceViewLoaded = 1;
         }
       }
 
@@ -1015,7 +1020,6 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.widgets["toolbar.sampbutts"].resetEnabled();  // in case it was disabled
 
       this.widgets["outputviews.demopage.button"].setLabel(this.polish(path[path.length - 1]));
-      this.__sourceViewLoaded = 1;
 
     }, // __ehIframeLoaded
 
