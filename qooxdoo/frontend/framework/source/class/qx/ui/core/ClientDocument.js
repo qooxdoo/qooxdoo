@@ -570,7 +570,16 @@ qx.Class.define("qx.ui.core.ClientDocument",
   {
     // CSS fix
     if (qx.core.Setting.get("qx.boxModelCorrection")) {
-      qx.html.StyleSheet.createElement("html,body{margin:0;border:0;padding:0;}" + " html{border:0 none;} *{" + qx.core.Client.getInstance().getEngineBoxSizingAttribute() + ":border-box;} img{" + qx.core.Client.getInstance().getEngineBoxSizingAttribute() + ":content-box;}");
+      boxSizingAttr = qx.core.Client.getInstance().getEngineBoxSizingAttributes();
+      var borderBoxCss = boxSizingAttr.join(":border-box;") + ":border-box;";
+      var contentBoxCss = boxSizingAttr.join(":content-box;") + ":content-box;";
+
+      qx.html.StyleSheet.createElement(
+        "html,body { margin:0;border:0;padding:0; } " +
+        "html { border:0 none; } " +
+        "*{" + borderBoxCss +"} " +
+        "img{" + contentBoxCss + "}"
+      );
     }
 
     if (qx.core.Setting.get("qx.enableApplicationLayout")) {
