@@ -154,16 +154,13 @@ qx.Class.define("qx.html2.Element",
           }
         }
 
-        if (job.action === "delete")
+        if (job.operation === qx.util.EditDistance.OPERATION_DELETE)
         {
+          // Ignore elements which are not placed at their original position anymore.
           if (parentElement.childNodes[job.pos] === job.old)
           {
             // console.log("Remove: ", job.old);
             parentElement.removeChild(job.old);
-          }
-          else
-          {
-            // console.log("Ignore removal: ", job.old);
           }
         }
         else
@@ -219,7 +216,7 @@ qx.Class.define("qx.html2.Element",
           // The real DOM work
           // ******************************************************************
 
-          if (job.action === "replace")
+          if (job.operation === qx.util.EditDistance.OPERATION_REPLACE)
           {
             if (parentElement.childNodes[job.pos] === job.old)
             {
@@ -230,11 +227,11 @@ qx.Class.define("qx.html2.Element",
             else
             {
               // console.log("Pseudo replace: ", job.old, " with ", job.value);
-              job.action = "insert";
+              job.operation = qx.util.EditDistance.OPERATION_INSERT;
             }
           }
 
-          if (job.action === "insert")
+          if (job.operation === qx.util.EditDistance.OPERATION_INSERT)
           {
             var before = parentElement.childNodes[job.pos];
 
