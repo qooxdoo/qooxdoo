@@ -82,16 +82,16 @@ qx.Class.define("testrunner.test.Element",
       var ch4 = document.getElementById("el3b");
 
       this.assertFalse(ch1===ch2);
-      this.assertTrue(ch1.parentNode===pa);
-      this.assertTrue(ch2.parentNode===pa);
-      this.assertTrue(ch3.parentNode===ch1);
-      this.assertTrue(ch4.parentNode===ch1);
+      this.assertIdentical(ch1.parentNode, pa);
+      this.assertIdentical(ch2.parentNode, pa);
+      this.assertIdentical(ch3.parentNode, ch1);
+      this.assertIdentical(ch4.parentNode, ch1);
 
       // Internal Structure Tests
-      this.assertTrue(el1.getChildren()[0] === el2a);
-      this.assertTrue(el1.getChildren()[1] === el2b);
-      this.assertTrue(el2a.getChildren()[0] === el3a);
-      this.assertTrue(el2a.getChildren()[1] === el3b);
+      this.assertIdentical(el1.getChildren()[0], el2a);
+      this.assertIdentical(el1.getChildren()[1], el2b);
+      this.assertIdentical(el2a.getChildren()[0], el3a);
+      this.assertIdentical(el2a.getChildren()[1], el3b);
 
 
 
@@ -101,7 +101,7 @@ qx.Class.define("testrunner.test.Element",
       // POSITIONED INSERT #1
       //
 
-      this.assertTrue(doc.getChildren()[0] === el1);
+      this.assertIdentical(doc.getChildren()[0], el1);
 
       var before1 = new qx.html2.Element;
       before1.setAttribute("id", "before1");
@@ -111,15 +111,15 @@ qx.Class.define("testrunner.test.Element",
       after1.setAttribute("id", "after1");
       doc.insertAfter(after1, el1);
 
-      this.assertTrue(doc.getChildren()[0] === before1);
-      this.assertTrue(doc.getChildren()[1] === el1);
-      this.assertTrue(doc.getChildren()[2] === after1);
+      this.assertIdentical(doc.getChildren()[0], before1);
+      this.assertIdentical(doc.getChildren()[1], el1);
+      this.assertIdentical(doc.getChildren()[2], after1);
 
       qx.html2.Element.flushQueue();
 
-      this.assertTrue(doc.getElement().childNodes[0] === before1.getElement());
-      this.assertTrue(doc.getElement().childNodes[1] === el1.getElement());
-      this.assertTrue(doc.getElement().childNodes[2] === after1.getElement());
+      this.assertIdentical(doc.getElement().childNodes[0], before1.getElement());
+      this.assertIdentical(doc.getElement().childNodes[1], el1.getElement());
+      this.assertIdentical(doc.getElement().childNodes[2], after1.getElement());
 
 
 
@@ -136,19 +136,19 @@ qx.Class.define("testrunner.test.Element",
       after2.setAttribute("id", "after2");
       doc.insertAt(after2, 10);
 
-      this.assertTrue(doc.getChildren()[0] === before2);
-      this.assertTrue(doc.getChildren()[1] === before1);
-      this.assertTrue(doc.getChildren()[2] === el1);
-      this.assertTrue(doc.getChildren()[3] === after1);
-      this.assertTrue(doc.getChildren()[4] === after2);
+      this.assertIdentical(doc.getChildren()[0], before2);
+      this.assertIdentical(doc.getChildren()[1], before1);
+      this.assertIdentical(doc.getChildren()[2], el1);
+      this.assertIdentical(doc.getChildren()[3], after1);
+      this.assertIdentical(doc.getChildren()[4], after2);
 
       qx.html2.Element.flushQueue();
 
-      this.assertTrue(doc.getElement().childNodes[0] === before2.getElement());
-      this.assertTrue(doc.getElement().childNodes[1] === before1.getElement());
-      this.assertTrue(doc.getElement().childNodes[2] === el1.getElement());
-      this.assertTrue(doc.getElement().childNodes[3] === after1.getElement());
-      this.assertTrue(doc.getElement().childNodes[4] === after2.getElement());
+      this.assertIdentical(doc.getElement().childNodes[0], before2.getElement());
+      this.assertIdentical(doc.getElement().childNodes[1], before1.getElement());
+      this.assertIdentical(doc.getElement().childNodes[2], el1.getElement());
+      this.assertIdentical(doc.getElement().childNodes[3], after1.getElement());
+      this.assertIdentical(doc.getElement().childNodes[4], after2.getElement());
 
 
 
@@ -160,19 +160,19 @@ qx.Class.define("testrunner.test.Element",
       doc.moveAfter(before2, before1);
       doc.moveBefore(after2, after1);
 
-      this.assertTrue(doc.getChildren()[0] === before1);
-      this.assertTrue(doc.getChildren()[1] === before2);
-      this.assertTrue(doc.getChildren()[2] === el1);
-      this.assertTrue(doc.getChildren()[3] === after2);
-      this.assertTrue(doc.getChildren()[4] === after1);
+      this.assertIdentical(doc.getChildren()[0], before1);
+      this.assertIdentical(doc.getChildren()[1], before2);
+      this.assertIdentical(doc.getChildren()[2], el1);
+      this.assertIdentical(doc.getChildren()[3], after2);
+      this.assertIdentical(doc.getChildren()[4], after1);
 
       qx.html2.Element.flushQueue();
 
-      this.assertTrue(doc.getElement().childNodes[0] === before1.getElement());
-      this.assertTrue(doc.getElement().childNodes[1] === before2.getElement());
-      this.assertTrue(doc.getElement().childNodes[2] === el1.getElement());
-      this.assertTrue(doc.getElement().childNodes[3] === after2.getElement());
-      this.assertTrue(doc.getElement().childNodes[4] === after1.getElement());
+      this.assertIdentical(doc.getElement().childNodes[0], before1.getElement());
+      this.assertIdentical(doc.getElement().childNodes[1], before2.getElement());
+      this.assertIdentical(doc.getElement().childNodes[2], el1.getElement());
+      this.assertIdentical(doc.getElement().childNodes[3], after2.getElement());
+      this.assertIdentical(doc.getElement().childNodes[4], after1.getElement());
 
 
 
@@ -190,19 +190,19 @@ qx.Class.define("testrunner.test.Element",
       doc.moveTo(before2, in2);
       doc.moveTo(after2, in1);
 
-      this.assertTrue(doc.getChildren()[0] === before1);
-      this.assertTrue(doc.getChildren()[1] === after2);
-      this.assertTrue(doc.getChildren()[2] === el1);
-      this.assertTrue(doc.getChildren()[3] === before2);
-      this.assertTrue(doc.getChildren()[4] === after1);
+      this.assertIdentical(doc.getChildren()[0], before1);
+      this.assertIdentical(doc.getChildren()[1], after2);
+      this.assertIdentical(doc.getChildren()[2], el1);
+      this.assertIdentical(doc.getChildren()[3], before2);
+      this.assertIdentical(doc.getChildren()[4], after1);
 
       qx.html2.Element.flushQueue();
 
-      this.assertTrue(doc.getElement().childNodes[0] === before1.getElement());
-      this.assertTrue(doc.getElement().childNodes[1] === after2.getElement());
-      this.assertTrue(doc.getElement().childNodes[2] === el1.getElement());
-      this.assertTrue(doc.getElement().childNodes[3] === before2.getElement());
-      this.assertTrue(doc.getElement().childNodes[4] === after1.getElement());
+      this.assertIdentical(doc.getElement().childNodes[0], before1.getElement());
+      this.assertIdentical(doc.getElement().childNodes[1], after2.getElement());
+      this.assertIdentical(doc.getElement().childNodes[2], el1.getElement());
+      this.assertIdentical(doc.getElement().childNodes[3], before2.getElement());
+      this.assertIdentical(doc.getElement().childNodes[4], after1.getElement());
 
 
 
@@ -215,15 +215,15 @@ qx.Class.define("testrunner.test.Element",
       doc.remove(before2);
       doc.remove(after2);
 
-      this.assertTrue(doc.getChildren()[0] === before1);
-      this.assertTrue(doc.getChildren()[1] === el1);
-      this.assertTrue(doc.getChildren()[2] === after1);
+      this.assertIdentical(doc.getChildren()[0], before1);
+      this.assertIdentical(doc.getChildren()[1], el1);
+      this.assertIdentical(doc.getChildren()[2], after1);
 
       qx.html2.Element.flushQueue();
 
-      this.assertTrue(doc.getElement().childNodes[0] === before1.getElement());
-      this.assertTrue(doc.getElement().childNodes[1] === el1.getElement());
-      this.assertTrue(doc.getElement().childNodes[2] === after1.getElement());
+      this.assertIdentical(doc.getElement().childNodes[0], before1.getElement());
+      this.assertIdentical(doc.getElement().childNodes[1], el1.getElement());
+      this.assertIdentical(doc.getElement().childNodes[2], after1.getElement());
 
 
 
@@ -232,19 +232,19 @@ qx.Class.define("testrunner.test.Element",
 
       doc.addList(before2, after2);
 
-      this.assertTrue(doc.getChildren()[0] === before1);
-      this.assertTrue(doc.getChildren()[1] === el1);
-      this.assertTrue(doc.getChildren()[2] === after1);
-      this.assertTrue(doc.getChildren()[3] === before2);
-      this.assertTrue(doc.getChildren()[4] === after2);
+      this.assertIdentical(doc.getChildren()[0], before1);
+      this.assertIdentical(doc.getChildren()[1], el1);
+      this.assertIdentical(doc.getChildren()[2], after1);
+      this.assertIdentical(doc.getChildren()[3], before2);
+      this.assertIdentical(doc.getChildren()[4], after2);
 
       qx.html2.Element.flushQueue();
 
-      this.assertTrue(doc.getElement().childNodes[0] === before1.getElement());
-      this.assertTrue(doc.getElement().childNodes[1] === el1.getElement());
-      this.assertTrue(doc.getElement().childNodes[2] === after1.getElement());
-      this.assertTrue(doc.getElement().childNodes[3] === before2.getElement());
-      this.assertTrue(doc.getElement().childNodes[4] === after2.getElement());
+      this.assertIdentical(doc.getElement().childNodes[0], before1.getElement());
+      this.assertIdentical(doc.getElement().childNodes[1], el1.getElement());
+      this.assertIdentical(doc.getElement().childNodes[2], after1.getElement());
+      this.assertIdentical(doc.getElement().childNodes[3], before2.getElement());
+      this.assertIdentical(doc.getElement().childNodes[4], after2.getElement());
 
 
 
@@ -257,19 +257,19 @@ qx.Class.define("testrunner.test.Element",
       doc.removeList(before2, after2);
       doc.addList(before2, after2);
 
-      this.assertTrue(doc.getChildren()[0] === before1);
-      this.assertTrue(doc.getChildren()[1] === el1);
-      this.assertTrue(doc.getChildren()[2] === after1);
-      this.assertTrue(doc.getChildren()[3] === before2);
-      this.assertTrue(doc.getChildren()[4] === after2);
+      this.assertIdentical(doc.getChildren()[0], before1);
+      this.assertIdentical(doc.getChildren()[1], el1);
+      this.assertIdentical(doc.getChildren()[2], after1);
+      this.assertIdentical(doc.getChildren()[3], before2);
+      this.assertIdentical(doc.getChildren()[4], after2);
 
       qx.html2.Element.flushQueue();
 
-      this.assertTrue(doc.getElement().childNodes[0] === before1.getElement());
-      this.assertTrue(doc.getElement().childNodes[1] === el1.getElement());
-      this.assertTrue(doc.getElement().childNodes[2] === after1.getElement());
-      this.assertTrue(doc.getElement().childNodes[3] === before2.getElement());
-      this.assertTrue(doc.getElement().childNodes[4] === after2.getElement());
+      this.assertIdentical(doc.getElement().childNodes[0], before1.getElement());
+      this.assertIdentical(doc.getElement().childNodes[1], el1.getElement());
+      this.assertIdentical(doc.getElement().childNodes[2], after1.getElement());
+      this.assertIdentical(doc.getElement().childNodes[3], before2.getElement());
+      this.assertIdentical(doc.getElement().childNodes[4], after2.getElement());
 
 
 
@@ -281,19 +281,19 @@ qx.Class.define("testrunner.test.Element",
       doc.moveAfter(before1, after1);
       doc.insertBefore(before2, before1);
 
-      this.assertTrue(doc.getChildren()[0] === el1);
-      this.assertTrue(doc.getChildren()[1] === after1);
-      this.assertTrue(doc.getChildren()[2] === before2);
-      this.assertTrue(doc.getChildren()[3] === before1);
-      this.assertTrue(doc.getChildren()[4] === after2);
+      this.assertIdentical(doc.getChildren()[0], el1);
+      this.assertIdentical(doc.getChildren()[1], after1);
+      this.assertIdentical(doc.getChildren()[2], before2);
+      this.assertIdentical(doc.getChildren()[3], before1);
+      this.assertIdentical(doc.getChildren()[4], after2);
 
       qx.html2.Element.flushQueue();
 
-      this.assertTrue(doc.getElement().childNodes[0] === el1.getElement());
-      this.assertTrue(doc.getElement().childNodes[1] === after1.getElement());
-      this.assertTrue(doc.getElement().childNodes[2] === before2.getElement());
-      this.assertTrue(doc.getElement().childNodes[3] === before1.getElement());
-      this.assertTrue(doc.getElement().childNodes[4] === after2.getElement());
+      this.assertIdentical(doc.getElement().childNodes[0], el1.getElement());
+      this.assertIdentical(doc.getElement().childNodes[1], after1.getElement());
+      this.assertIdentical(doc.getElement().childNodes[2], before2.getElement());
+      this.assertIdentical(doc.getElement().childNodes[3], before1.getElement());
+      this.assertIdentical(doc.getElement().childNodes[4], after2.getElement());
 
       /*
       BEFORE:        AFTER1:        AFTER2:        AFTER3:
@@ -317,19 +317,19 @@ qx.Class.define("testrunner.test.Element",
         doc.moveTo(a[i], 0);
       }
 
-      this.assertTrue(doc.getChildren()[0] === after2);
-      this.assertTrue(doc.getChildren()[1] === before1);
-      this.assertTrue(doc.getChildren()[2] === before2);
-      this.assertTrue(doc.getChildren()[3] === after1);
-      this.assertTrue(doc.getChildren()[4] === el1);
+      this.assertIdentical(doc.getChildren()[0], after2);
+      this.assertIdentical(doc.getChildren()[1], before1);
+      this.assertIdentical(doc.getChildren()[2], before2);
+      this.assertIdentical(doc.getChildren()[3], after1);
+      this.assertIdentical(doc.getChildren()[4], el1);
 
       qx.html2.Element.flushQueue();
 
-      this.assertTrue(doc.getElement().childNodes[0] === after2.getElement());
-      this.assertTrue(doc.getElement().childNodes[1] === before1.getElement());
-      this.assertTrue(doc.getElement().childNodes[2] === before2.getElement());
-      this.assertTrue(doc.getElement().childNodes[3] === after1.getElement());
-      this.assertTrue(doc.getElement().childNodes[4] === el1.getElement());
+      this.assertIdentical(doc.getElement().childNodes[0], after2.getElement());
+      this.assertIdentical(doc.getElement().childNodes[1], before1.getElement());
+      this.assertIdentical(doc.getElement().childNodes[2], before2.getElement());
+      this.assertIdentical(doc.getElement().childNodes[3], after1.getElement());
+      this.assertIdentical(doc.getElement().childNodes[4], el1.getElement());
 
 
 
@@ -341,19 +341,19 @@ qx.Class.define("testrunner.test.Element",
 
       doc.moveAfter(before1, before2);
 
-      this.assertTrue(doc.getChildren()[0] === after2);
-      this.assertTrue(doc.getChildren()[1] === before2);
-      this.assertTrue(doc.getChildren()[2] === before1);
-      this.assertTrue(doc.getChildren()[3] === after1);
-      this.assertTrue(doc.getChildren()[4] === el1);
+      this.assertIdentical(doc.getChildren()[0], after2);
+      this.assertIdentical(doc.getChildren()[1], before2);
+      this.assertIdentical(doc.getChildren()[2], before1);
+      this.assertIdentical(doc.getChildren()[3], after1);
+      this.assertIdentical(doc.getChildren()[4], el1);
 
       qx.html2.Element.flushQueue();
 
-      this.assertTrue(doc.getElement().childNodes[0] === after2.getElement());
-      this.assertTrue(doc.getElement().childNodes[1] === before2.getElement());
-      this.assertTrue(doc.getElement().childNodes[2] === before1.getElement());
-      this.assertTrue(doc.getElement().childNodes[3] === after1.getElement());
-      this.assertTrue(doc.getElement().childNodes[4] === el1.getElement());
+      this.assertIdentical(doc.getElement().childNodes[0], after2.getElement());
+      this.assertIdentical(doc.getElement().childNodes[1], before2.getElement());
+      this.assertIdentical(doc.getElement().childNodes[2], before1.getElement());
+      this.assertIdentical(doc.getElement().childNodes[3], after1.getElement());
+      this.assertIdentical(doc.getElement().childNodes[4], el1.getElement());
 
     }
   }
