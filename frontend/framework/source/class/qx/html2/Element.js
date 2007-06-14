@@ -351,6 +351,8 @@ qx.Class.define("qx.html2.Element",
           }
         }
       }
+
+      console.debug("      - " + domOperations + " DOM operations made");
     },
 
 
