@@ -74,7 +74,7 @@ qx.Class.define("qx.html2.Element",
     {
       if (!element.__queued)
       {
-        console.debug("Add to queue object[" + element.toHashCode() + "]");
+        // console.debug("Add to queue object[" + element.toHashCode() + "]");
 
         this.__queue.push(element);
         element.__queued = true;
@@ -93,7 +93,7 @@ qx.Class.define("qx.html2.Element",
     {
       if (element.__queued)
       {
-        console.debug("Remove from queue object[" + element.toHashCode() + "]");
+        // console.debug("Remove from queue object[" + element.toHashCode() + "]");
 
         this.__queue.remove(element);
         delete element.__queued;
@@ -381,7 +381,7 @@ qx.Class.define("qx.html2.Element",
       var entry, child, a, i, l;
 
 
-      console.info("Process: " + queue.length + " entries...");
+      console.debug("Process: " + queue.length + " entries...");
 
 
 
@@ -426,7 +426,7 @@ qx.Class.define("qx.html2.Element",
 
       l = queue.length;
 
-      console.info("Flush: " + l + " entries...");
+      console.debug("  - Flush: " + l + " entries...");
 
       for (i=0; i<l; i++)
       {
@@ -435,7 +435,7 @@ qx.Class.define("qx.html2.Element",
         // the invisible items
         if (!entry.isVisible())
         {
-          console.debug("  - invisible: " + entry.toHashCode());
+          console.debug("    - invisible: " + entry.toHashCode());
 
           this.__flushContent(entry);
           delete entry.__queued;
@@ -449,7 +449,7 @@ qx.Class.define("qx.html2.Element",
         // the remaining items
         if (entry.__queued)
         {
-          console.debug("  - visible: " + entry.toHashCode());
+          console.debug("    - visible: " + entry.toHashCode());
 
           this.__flushContent(entry);
           delete entry.__queued;
