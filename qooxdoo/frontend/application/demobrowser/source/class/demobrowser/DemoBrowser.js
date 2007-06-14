@@ -403,6 +403,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         width    : "100%",
         height   : "100%"
       });
+      f3.setHtmlProperty("id", "qx_srcview");
 
       return buttview;
 
@@ -1220,10 +1221,10 @@ qx.Class.define("demobrowser.DemoBrowser",
           } else if (PScriptEnd.exec(line)) 
           {
             // inject style info
-            bsrc += this.__sourceViewStyle();
+            //bsrc += this.__sourceViewStyle();
             // pass script block to tokenizer
             var s1 = qx.dev.Tokenizer.javaScriptToHtml(currBlock);
-            bsrc += '<pre>'+s1+'</pre>';
+            bsrc += '<div class="script"><pre>'+s1+'</pre></div>';
             currBlock = line+'\n';  // start new block
           } else // no border line 
           {
@@ -1258,8 +1259,13 @@ qx.Class.define("demobrowser.DemoBrowser",
       var s = '\
   <style type="text/css">\
 \
-		#output {\
+		* {\
+		    font-size  : small;\
+		}\
+\
+		#script{\
 		    font-family: monospace;\
+		    font-size  : medium;\
 		}\
 \
 		.keyword {\
