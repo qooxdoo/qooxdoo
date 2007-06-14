@@ -186,7 +186,7 @@ qx.Class.define("qx.html2.Element",
       var target = [];
       for (var i=0, a=entry.__children, l=a.length; i<l; i++)
       {
-        if (!a[i].__created) {
+        if (!a[i].__element) {
           a[i].__create();
         }
 
@@ -398,7 +398,7 @@ qx.Class.define("qx.html2.Element",
         {
           entry = queue[i];
 
-          if(!entry.__created) {
+          if(!entry.__element) {
             entry.__create();
           }
 
@@ -481,7 +481,6 @@ qx.Class.define("qx.html2.Element",
   {
     __nodeName : "div",
     __element : null,
-    __created : false,
     __inserted : false,
 
 
@@ -519,12 +518,10 @@ qx.Class.define("qx.html2.Element",
       {
         child = children[i];
 
-        if (!child.__created) {
+        if (!child.__element) {
           child.__create();
         }
       }
-
-      this.__created = true;
     },
 
 
@@ -550,7 +547,7 @@ qx.Class.define("qx.html2.Element",
       child.__parent = this;
 
       // If this element is created
-      if (this.__created) {
+      if (this.__element) {
         this.self(arguments).addToQueue(this);
       }
     },
@@ -571,7 +568,7 @@ qx.Class.define("qx.html2.Element",
         throw new Error("Has no child: " + child);
       }
 
-      if (this.__created && child.__created)
+      if (this.__element && child.__element)
       {
         // If the DOM element is really inserted, we need to remove it
         if (child.__element.parentNode === this.__element) {
@@ -775,7 +772,7 @@ qx.Class.define("qx.html2.Element",
         throw new Error("Has no child: " + child);
       }
 
-      if (this.__created) {
+      if (this.__element) {
         this.self(arguments).addToQueue(this);
       }
 
@@ -834,18 +831,20 @@ qx.Class.define("qx.html2.Element",
      */
     setElement : function(el)
     {
-      if (this.__created) {
+      if (this.__element) {
         throw new Error("Elements could not be replaced!");
       }
 
+      // Initialize based on given element
       this.__element = el;
       this.__nodeName = el.tagName.toLowerCase();
-      this.__created = true;
       this.__inserted = true;
 
-      if (this.__created) {
-        this.self(arguments).addToQueue(this);
-      }
+      // Cleanup the element
+      el.innerHTML = "";
+
+      // Finally add it to the queue
+      this.self(arguments).addToQueue(this);
     },
 
 
@@ -859,7 +858,7 @@ qx.Class.define("qx.html2.Element",
      */
     getElement : function()
     {
-      if (!this.__created) {
+      if (!this.__element) {
         throw new Error("Element is not yet created!");
       }
 
@@ -879,7 +878,7 @@ qx.Class.define("qx.html2.Element",
     {
       this.__styleCache[key] = value;
 
-      if (this.__created) {
+      if (this.__element) {
         this.__style[key] = value;
       }
 
@@ -911,7 +910,7 @@ qx.Class.define("qx.html2.Element",
     {
       this.__attribCache[key] = value;
 
-      if (this.__created) {
+      if (this.__element) {
         this.__element[key] = value;
       }
 
@@ -945,7 +944,7 @@ qx.Class.define("qx.html2.Element",
     {
       this.__html = html;
 
-      if (this.__created) {
+      if (this.__element) {
         this.self(arguments).addToQueue(this);
       }
 
@@ -978,7 +977,7 @@ qx.Class.define("qx.html2.Element",
     {
       this.__text = text;
 
-      if (this.__created) {
+      if (this.__element) {
         this.self(arguments).addToQueue(this);
       }
 
