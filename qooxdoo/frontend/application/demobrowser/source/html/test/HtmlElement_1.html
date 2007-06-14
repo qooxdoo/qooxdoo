@@ -23,8 +23,9 @@
 
 
 
-
     // Basics
+
+    this.info("Basics");
 
     var el1 = new qx.html2.Element;
     var el2a = new qx.html2.Element;
@@ -53,8 +54,9 @@
 
 
 
+    // Positioned Insert #1
 
-    // Positioned Insert #2
+    this.info("Positioned Insert #1");
 
     var before1 = new qx.html2.Element;
     before1.setAttribute("id", "before1");
@@ -72,6 +74,8 @@
 
     // Positioned Insert #1
 
+    this.info("Positioned Insert #2");
+
     var before2 = new qx.html2.Element;
     before2.setAttribute("id", "before2");
     doc.insertAt(before2, 0);
@@ -87,6 +91,8 @@
 
     // Move
 
+    this.info("Move");
+
     doc.moveAfter(before2, before1);
     qx.html2.Element.flushQueue();
 
@@ -98,7 +104,7 @@
 
     // Switch
 
-    console.info("Switch");
+    this.info("Switch");
 
     var in1 = doc.indexOf(before2);
     var in2 = doc.indexOf(after2);
@@ -114,7 +120,7 @@
 
     // Remove
 
-    console.info("Remove");
+    this.info("Remove");
 
     doc.remove(before2);
     doc.remove(after2);
@@ -125,7 +131,7 @@
 
     // Re-add
 
-    console.info("Re-add");
+    this.info("Re-add");
 
     doc.addList(before2, after2);
 
@@ -135,7 +141,7 @@
 
     // Remove and Add and Remove and Add
 
-    console.info("Remove and Add and Remove and Add");
+    this.info("Remove and Add and Remove and Add");
 
     doc.removeList(before2, after2);
     doc.addList(before2, after2);
@@ -149,7 +155,7 @@
 
     // Move, remove & add
 
-    console.info("Move, remove & add");
+    this.info("Move, remove & add");
 
     doc.remove(before2);
     doc.moveAfter(before1, after1);
@@ -176,7 +182,7 @@
 
     // Sort completely
 
-    console.info("Sort completely");
+    this.info("Sort completely");
 
     var a = doc.getChildren();
     for (var i=1, l=a.length; i<l; i++) {
@@ -194,7 +200,7 @@
 
     // Rotation
 
-    console.info("Rotation");
+    this.info("Rotation");
 
     doc.moveAfter(before1, before2);
 
