@@ -25,7 +25,7 @@
  * Simple JavaScript tokenizer used to print syntax highlighted
  * JavaScript code.
  *
- * Public Domain code by Christopher Diggins
+ * Based on Public Domain code by Christopher Diggins
  * http://www.cdiggins.com/tokenizer.html
  */
 qx.Class.define("qx.dev.Tokenizer",

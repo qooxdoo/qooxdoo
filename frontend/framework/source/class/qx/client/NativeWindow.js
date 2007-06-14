@@ -357,46 +357,6 @@ qx.Class.define("qx.client.NativeWindow",
 
 
 
-
-    /*
-    ---------------------------------------------------------------------------
-      NAME
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Returns the name of the window
-     *
-     * @type member
-     * @return {String} the name of the window
-     * @throws an Exception when the internal and public name of the window
-     *   are not identical.
-     */
-    getName : function()
-    {
-      if (!this.isClosed())
-      {
-        try {
-          var name = this._window.name;
-        } catch(ex) {
-          return this._valueName;
-        }
-
-        if (name == this._valueName) {
-          return name;
-        } else {
-          throw new Error("window name and name property are not identical");
-        }
-      }
-      else
-      {
-        return this._valueName;
-      }
-    },
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       UTILITY
