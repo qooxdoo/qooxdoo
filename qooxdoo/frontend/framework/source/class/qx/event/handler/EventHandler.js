@@ -169,11 +169,12 @@ qx.Class.define("qx.event.handler.EventHandler",
     // If your Mozilla was built with an option `--enable-default-toolkit=gtk2',
     // it can not return the correct event target for DOMMouseScroll.
     /**
-     * TODOC
+     * Search for the container qooxdoo widget of a DOM node by searching the DOM tree
+     * from the given DOM node up to the root element.
      *
      * @type static
-     * @param vNode {var} TODOC
-     * @return {var} TODOC
+     * @param vNode {Element} DOM Element to get the the container qooxdoo widget of
+     * @return {qx.ui.core.Widget} qooxdoo widget containing the DOM node.
      */
     getOriginalTargetObject : function(vNode)
     {
@@ -199,12 +200,12 @@ qx.Class.define("qx.event.handler.EventHandler",
 
 
     /**
-     * TODOC
+     * Get the target widget of a DOM event.
      *
      * @type static
-     * @param vDomEvent {var} TODOC
-     * @param vWindow {var} TODOC
-     * @return {var} TODOC
+     * @param vDomEvent {Event} DOM event.
+     * @param vWindow {Window} TODOC
+     * @return {qx.ui.core.Widget} target qooxdoo widget of the event.
      */
     getOriginalTargetObjectFromEvent : function(vDomEvent, vWindow)
     {
@@ -233,18 +234,26 @@ qx.Class.define("qx.event.handler.EventHandler",
      * @return {var} TODOC
      */
     getRelatedOriginalTargetObjectFromEvent : function(vDomEvent) {
-      return qx.event.handler.EventHandler.getOriginalTargetObject(vDomEvent.relatedTarget || (vDomEvent.type == "mouseover" ? vDomEvent.fromElement : vDomEvent.toElement));
+      return qx.event.handler.EventHandler.getOriginalTargetObject(
+        vDomEvent.relatedTarget ||
+        (vDomEvent.type == "mouseover" ? vDomEvent.fromElement : vDomEvent.toElement)
+      );
     },
 
 
     /**
-     * TODOC
+     * Searches for the first non disabled and non anonymous qooxdoo
+     * widget containing the DOM node.
+     *
+     * If allowDisabled is set to <code>false</code>, the search is stopped
+     * if a disabled widget is found and the <code>null</null> will be returned.
      *
      * @type static
-     * @param vNode {var} TODOC
-     * @param vObject {var} TODOC
-     * @param allowDisabled {var} TODOC
-     * @return {null | var} TODOC
+     * @param vNode {Element} DOM node to search the target widget for.
+     * @param vObject {qx.ui.core.Widget ? null} optional qooxdoo widget to start the search from.
+     * @param allowDisabled {Boolean?false} whether disabled widgets should be returned. If set
+     *   to true, <code>null</code> will be returned if a disabled widget is found.
+     * @return {null | qx.ui.core.Widget} The target container widget.
      */
     getTargetObject : function(vNode, vObject, allowDisabled)
     {
@@ -281,11 +290,12 @@ qx.Class.define("qx.event.handler.EventHandler",
 
 
     /**
-     * TODOC
+     * Get the target widget the DOM event will be dispatched on.
      *
      * @type static
-     * @param vDomEvent {var} TODOC
-     * @return {var} TODOC
+     * @param vDomEvent {Event} DOM event to get the target widget from.
+     * @return {qx.ui.core.Widget|null} The widget the event should be dispatched on (<code>null</code>
+     *   if no widget is found). 
      */
     getTargetObjectFromEvent : function(vDomEvent) {
       return qx.event.handler.EventHandler.getTargetObject(qx.event.handler.EventHandler.getDomTarget(vDomEvent));
