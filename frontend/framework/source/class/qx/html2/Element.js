@@ -740,82 +740,13 @@ qx.Class.define("qx.html2.Element",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
     getElement : function()
     {
-      if (!this.__created)
-      {
-        if (!this.__queued) {
-          this.__addToQueue();
-        }
-
-        this.self(arguments).flushQueue();
+      if (!this.__created) {
+        throw new Error("Element is not yet created!");
       }
 
       return this.__element;
-    },
-
-    __mshtmlPixels :
-    {
-      "width"  : "pixelWidth",
-      "height" : "pixelHeight",
-      "left"   : "pixelLeft",
-      "top"    : "pixelTop",
-      "right"  : "pixelRight",
-      "bottom" : "pixelBottom"
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param key {var} TODOC
-     * @param value {var} TODOC
-     * @return {var} TODOC
-     */
-    setPixelStyle : function(key, value)
-    {
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
-        if (this.__mshtmlPixels[key]) {
-          key = this.__mshtmlPixels[key];
-        } else {
-          value += "px";
-        }
-      }
-      else
-      {
-        value += "px";
-      }
-
-      return this.setStyle(key, value);
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param key {var} TODOC
-     * @return {var} TODOC
-     */
-    getPixelStyle : function(key)
-    {
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
-        if (this.__mshtmlPixels[key]) {
-          key = this.__mshtmlPixels[key];
-        }
-      }
-
-      var value = this.getStyle(key);
-      return value !== undefined ? parseInt(value) : null;
     },
 
 

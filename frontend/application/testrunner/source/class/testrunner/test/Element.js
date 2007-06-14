@@ -66,11 +66,11 @@ qx.Class.define("testrunner.test.Element",
       this.assertIdentical(el3a.getHtml(), "<b>hello</b>");
 
       el1.setStyle("color", "blue");
-      el1.setPixelStyle("width", 100).setPixelStyle("height", 100);
+      el1.setStyle("width", "100px").setStyle("height", "100px");
 
       this.assertIdentical(el1.getStyle("color"), "blue");
-      this.assertIdentical(el1.getPixelStyle("width"), 100);
-      this.assertIdentical(el1.getPixelStyle("height"), 100);
+      this.assertIdentical(el1.getStyle("width"), "100px");
+      this.assertIdentical(el1.getStyle("height"), "100px");
 
       qx.html2.Element.flushQueue();
 
