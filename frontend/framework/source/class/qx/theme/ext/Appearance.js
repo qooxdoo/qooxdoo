@@ -903,10 +903,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
 
     "combo-box-ex" :
     {
-      style : function(states)
-      {
-        include : "combo-box"
-      }
+      include : "combo-box"
     },
 
     "combo-box-ex-list" :
