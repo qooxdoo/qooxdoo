@@ -38,7 +38,7 @@ qx.Class.define("qx.html2.Element",
 
   /*
   *****************************************************************************
-     CONSTRUCTOR
+     STATICS
   *****************************************************************************
   */
 
@@ -77,183 +77,185 @@ qx.Class.define("qx.html2.Element",
 
     /*
     ---------------------------------------------------------------------------
-      PARENT FLUSH
+      CONTENT FLUSH
     ---------------------------------------------------------------------------
     */
 
-    __flushContent : function(parent)
+    __flushContent : function(entry)
     {
-      /*
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        console.debug("Flush content of item[" + parent.toHashCode() + "]");
+      if (entry.__text) {
+        this.__flushText(entry);
+      } else if (entry.__html) {
+        this.__flushHtml(entry);
+      } else {
+        this.__flushChildren(entry);
       }
-      */
+    },
 
-      if (parent.__html)
+    __flushText : function(entry)
+    {
+      if (entry.__element.textContent !== undefined)
       {
-        parent.__element.innerHTML = parent.__html;
-      }
-      else if (parent.__text)
-      {
-        if (parent.__element.textContent !== undefined)
-        {
-          parent.__element.textContent = parent.__text;
-        }
-        else
-        {
-          parent.__element.innerText = parent.__text;
-        }
+        entry.__element.textContent = entry.__text;
       }
       else
       {
-        // Store offsets which are a result of element moves
-        var offsets = [];
+        entry.__element.innerText = entry.__text;
+      }
+    },
 
-        // Collect all element nodes of the children data
-        var target = [];
-        for (var i=0, a=parent.__children, l=a.length; i<l; i++)
+    __flushHtml : function(entry)
+    {
+      entry.__element.innerHTML = entry.__html;
+    },
+
+    __flushChildren : function(entry)
+    {
+      // Store offsets which are a result of element moves
+      var offsets = [];
+
+      // Collect all element nodes of the children data
+      var target = [];
+      for (var i=0, a=entry.__children, l=a.length; i<l; i++)
+      {
+        if (!a[i].__created) {
+          a[i].__create();
+        }
+
+        target.push(a[i].__element);
+      }
+
+      var parentElement = entry.__element;
+      var source = parentElement.childNodes;
+      var operations = qx.util.EditDistance.getEditOperations(source, target);
+
+      /*
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        // We need to convert the collection to an array otherwise
+        // FireBug sometimes will display a live view of the DOM and not the
+        // the snapshot at this moment.
+        source = qx.lang.Array.fromCollection(source);
+
+        console.log("Source: ", source.length + ": ", source);
+        console.log("Target: ", target.length + ": ", target);
+        console.log("Operations: ", operations);
+      }
+      */
+
+      var job;
+      var domOperations = 0;
+
+      for (var i=0, l=operations.length; i<l; i++)
+      {
+        job = operations[i];
+
+        if (offsets[job.pos] !== undefined)
         {
-          if (!a[i].__created) {
-            a[i].__create();
+          job.pos -= offsets[job.pos];
+
+          // We need to be sure that we don't get negative indexes.
+          // This will otherwise break array/collection index access.
+          if (job.pos < 0) {
+            job.pos = 0;
           }
-
-          target.push(a[i].__element);
         }
 
-        var parentElement = parent.__element;
-        var source = parentElement.childNodes;
-        var operations = qx.util.EditDistance.getEditOperations(source, target);
-
-        /*
-        if (qx.core.Variant.isSet("qx.debug", "on"))
+        if (job.operation === qx.util.EditDistance.OPERATION_DELETE)
         {
-          // We need to convert the collection to an array otherwise
-          // FireBug sometimes will display a live view of the DOM and not the
-          // the snapshot at this moment.
-          source = qx.lang.Array.fromCollection(source);
-
-          console.log("Source: ", source.length + ": ", source);
-          console.log("Target: ", target.length + ": ", target);
-          console.log("Operations: ", operations);
-        }
-        */
-
-        var job;
-        var domOperations = 0;
-
-        for (var i=0, l=operations.length; i<l; i++)
-        {
-          job = operations[i];
-
-          if (offsets[job.pos] !== undefined)
+          // Ignore elements which are not placed at their original position anymore.
+          if (parentElement.childNodes[job.pos] === job.old)
           {
-            job.pos -= offsets[job.pos];
+            // console.log("Remove: ", job.old);
+            parentElement.removeChild(job.old);
+          }
+        }
+        else
+        {
+          // Operations: insert and replace
 
-            // We need to be sure that we don't get negative indexes.
-            // This will otherwise break array/collection index access.
-            if (job.pos < 0) {
-              job.pos = 0;
+          // ******************************************************************
+          // Offset calculation
+          // ******************************************************************
+
+          // Element will be moved around in the same parent
+          // We use the element on its old position and scan
+          // to the begin. A counter will increment on each
+          // step.
+          //
+          // This way we get the index of the element
+          // from the beginning.
+          //
+          // After this we increment the offset of all affected
+          // children (the following ones) until we reached the
+          // current position in our operation queue. The reason
+          // we stop at this point is that the following
+          // childrens should already be placed correctly through
+          // the operation method from the end to begin of the
+          // edit distance algorithm.
+          if (job.value.parentNode === parentElement)
+          {
+            // find the position/index where the element is stored currently
+            previousIndex = -1;
+            iterator = job.value;
+
+            do
+            {
+              previousIndex++;
+              iterator = iterator.previousSibling;
+            }
+            while (iterator);
+
+            // increment all affected offsets
+            for (var j=previousIndex+1; j<=job.pos; j++)
+            {
+              if (offsets[j] === undefined) {
+                offsets[j] = 1;
+              } else {
+                offsets[j]++;
+              }
             }
           }
 
-          if (job.operation === qx.util.EditDistance.OPERATION_DELETE)
+
+
+          // ******************************************************************
+          // The real DOM work
+          // ******************************************************************
+
+          if (job.operation === qx.util.EditDistance.OPERATION_REPLACE)
           {
-            // Ignore elements which are not placed at their original position anymore.
             if (parentElement.childNodes[job.pos] === job.old)
             {
-              // console.log("Remove: ", job.old);
-              parentElement.removeChild(job.old);
+              // console.log("Replace: ", job.old, " with ", job.value);
+              domOperations++;
+              parentElement.replaceChild(job.value, job.old);
+            }
+            else
+            {
+              // console.log("Pseudo replace: ", job.old, " with ", job.value);
+              job.operation = qx.util.EditDistance.OPERATION_INSERT;
             }
           }
-          else
+
+          if (job.operation === qx.util.EditDistance.OPERATION_INSERT)
           {
-            // Operations: insert and replace
+            var before = parentElement.childNodes[job.pos];
 
-            // ******************************************************************
-            // Offset calculation
-            // ******************************************************************
-
-            // Element will be moved around in the same parent
-            // We use the element on its old position and scan
-            // to the begin. A counter will increment on each
-            // step.
-            //
-            // This way we get the index of the element
-            // from the beginning.
-            //
-            // After this we increment the offset of all affected
-            // children (the following ones) until we reached the
-            // current position in our operation queue. The reason
-            // we stop at this point is that the following
-            // childrens should already be placed correctly through
-            // the operation method from the end to begin of the
-            // edit distance algorithm.
-            if (job.value.parentNode === parentElement)
+            if (before)
             {
-              // find the position/index where the element is stored currently
-              previousIndex = -1;
-              iterator = job.value;
-
-              do
-              {
-                previousIndex++;
-                iterator = iterator.previousSibling;
-              }
-              while (iterator);
-
-              // increment all affected offsets
-              for (var j=previousIndex+1; j<=job.pos; j++)
-              {
-                if (offsets[j] === undefined) {
-                  offsets[j] = 1;
-                } else {
-                  offsets[j]++;
-                }
-              }
+              // console.log("Insert: ", job.value, " at: ", job.pos);
+              parentElement.insertBefore(job.value, before);
+              domOperations++;
             }
-
-
-
-            // ******************************************************************
-            // The real DOM work
-            // ******************************************************************
-
-            if (job.operation === qx.util.EditDistance.OPERATION_REPLACE)
+            else
             {
-              if (parentElement.childNodes[job.pos] === job.old)
-              {
-                // console.log("Replace: ", job.old, " with ", job.value);
-                domOperations++;
-                parentElement.replaceChild(job.value, job.old);
-              }
-              else
-              {
-                // console.log("Pseudo replace: ", job.old, " with ", job.value);
-                job.operation = qx.util.EditDistance.OPERATION_INSERT;
-              }
-            }
-
-            if (job.operation === qx.util.EditDistance.OPERATION_INSERT)
-            {
-              var before = parentElement.childNodes[job.pos];
-
-              if (before)
-              {
-                // console.log("Insert: ", job.value, " at: ", job.pos);
-                parentElement.insertBefore(job.value, before);
-                domOperations++;
-              }
-              else
-              {
-                // console.log("Append: ", job.value);
-                parentElement.appendChild(job.value);
-                domOperations++;
-              }
+              // console.log("Append: ", job.value);
+              parentElement.appendChild(job.value);
+              domOperations++;
             }
           }
         }
-
-        // console.info("Done: " + domOperations + " operations");
       }
     },
 
@@ -436,18 +438,6 @@ qx.Class.define("qx.html2.Element",
      * TODOC
      *
      * @type member
-     * @param job {var} TODOC
-     * @return {void}
-     */
-    __addToQueue : function(job) {
-      this.self(arguments).addToQueue(this);
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
      * @param child {var} TODOC
      * @return {void}
      * @throws TODOC
@@ -466,7 +456,7 @@ qx.Class.define("qx.html2.Element",
 
       // If this element is created
       if (this.__created) {
-        this.__addToQueue();
+        this.self(arguments).addToQueue(this);
       }
     },
 
@@ -489,7 +479,7 @@ qx.Class.define("qx.html2.Element",
       {
         // If the DOM element is really inserted, we need to remove it
         if (child.__element.parentNode === this.__element) {
-          this.__addToQueue();
+          this.self(arguments).addToQueue(this);
         }
       }
 
@@ -659,7 +649,7 @@ qx.Class.define("qx.html2.Element",
       }
 
       if (this.__created) {
-        this.__addToQueue();
+        this.self(arguments).addToQueue(this);
       }
 
       var oldIndex = this.__children.indexOf(child);
@@ -715,6 +705,14 @@ qx.Class.define("qx.html2.Element",
     },
 
 
+    /**
+     * Returns the DOM element (if created). Please don't use this.
+     * Better to use the alternatives like setText, setHtml and all
+     * the children functions.
+     *
+     * @throws an error if the element was not yet created
+     * @return {Element} the DOM element node
+     */
     getElement : function()
     {
       if (!this.__created) {
