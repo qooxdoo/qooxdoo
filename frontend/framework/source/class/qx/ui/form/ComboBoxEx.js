@@ -77,7 +77,10 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
 
     // Textfield
     var f = this._field = new qx.ui.form.TextField;
-    f.setAppearance('combo-box-ex-text-field');
+    f.set({
+      tabIndex: -1,
+      appearance : 'combo-box-ex-text-field'
+    });
     f.addEventListener("input", this._oninput, this);
     this.add(f);
     this.setEditable(false);
@@ -177,8 +180,6 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       refine : true,
       init : 1
     },
-
-
 
     /**
      * Is the text field component editable or the user can only select
