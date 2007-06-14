@@ -913,7 +913,8 @@ qx.Theme.define("qx.theme.ext.Appearance",
       style : function(states)
       {
         return {
-          maxHeight : 150
+          maxHeight : 150,
+          overflow  : 'hidden'
         };
       }
     },
