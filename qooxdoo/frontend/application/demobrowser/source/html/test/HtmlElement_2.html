@@ -22,47 +22,6 @@
     var doc = new qx.html2.Element(document.getElementById("test"));
 
 
-    var e0 = new qx.html2.Element;
-    var e1 = new qx.html2.Element;
-    var e2 = new qx.html2.Element;
-    var e3 = new qx.html2.Element;
-    var e4 = new qx.html2.Element;
-    var e5 = new qx.html2.Element;
-
-    e0.setAttribute("id", "el0");
-    e1.setAttribute("id", "el1");
-    e2.setAttribute("id", "el2");
-    e3.setAttribute("id", "el3");
-    e4.setAttribute("id", "el4");
-    e5.setAttribute("id", "el5");
-
-    doc.addList(e0, e1, e2, e3, e4, e5);
-
-    qx.html2.Element.flushQueue();
-
-
-    // move to front
-
-    doc.moveTo(e4, 1);
-
-    qx.html2.Element.flushQueue();
-
-
-
-    // back again
-
-    doc.moveTo(e4, 5);
-    doc.moveTo(e2, 4);
-
-    qx.html2.Element.flushQueue();
-
-
-
-
-
-    return;
-
-
     var large = new qx.html2.Element;
     doc.add(large);
 
