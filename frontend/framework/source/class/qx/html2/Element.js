@@ -1,7 +1,12 @@
 /**
- * High performance DOM Element creation
+ * High performance DOM element creation
  *
+ * Includes support for HTML and style attributes. Allows to
+ * add children or to apply text or HTML content.
  *
+ * Processes DOM insertion and modification based on the concept
+ * of edit distance in an optimal way. This means that operations
+ * on visible DOM nodes will be reduced at all needs.
  */
 qx.Class.define("qx.html2.Element",
 {
@@ -23,6 +28,9 @@ qx.Class.define("qx.html2.Element",
     this.__children = [];
     this.__attribCache = {};
     this.__styleCache = {};
+
+    this.__attribJobs = [];
+    this.__styleJobs = [];
 
     if (el)
     {
@@ -64,12 +72,32 @@ qx.Class.define("qx.html2.Element",
     {
       if (!item.__queued)
       {
-        console.debug("Add to queue element[" + item.toHashCode() + "]");
+        console.debug("Add to queue object[" + item.toHashCode() + "]");
 
         this.__queue.push(item);
         item.__queued = true;
       }
     },
+
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param item {var} TODOC
+     * @return {void}
+     */
+    removeFromQueue : function(item)
+    {
+      if (item.__queued)
+      {
+        console.debug("Remove from queue object[" + item.toHashCode() + "]");
+
+        this.__queue.remove(item);
+        delete item.__queued;
+      }
+    },
+
+
 
 
 
@@ -94,6 +122,8 @@ qx.Class.define("qx.html2.Element",
 
     __flushText : function(entry)
     {
+      // MSHTML does not support textContent (DOM3), but the
+      // properitary innerText attribute
       if (entry.__element.textContent !== undefined)
       {
         entry.__element.textContent = entry.__text;
@@ -111,8 +141,9 @@ qx.Class.define("qx.html2.Element",
 
     __flushChildren : function(entry)
     {
-      // Store offsets which are a result of element moves
-      var offsets = [];
+      // **********************************************************************
+      //   Compute needed operations
+      // **********************************************************************
 
       // Collect all element nodes of the children data
       var target = [];
@@ -127,6 +158,8 @@ qx.Class.define("qx.html2.Element",
 
       var parentElement = entry.__element;
       var source = parentElement.childNodes;
+
+      // Compute edit operations
       var operations = qx.util.EditDistance.getEditOperations(source, target);
 
       /*
@@ -143,12 +176,27 @@ qx.Class.define("qx.html2.Element",
       }
       */
 
+
+
+
+
+      // **********************************************************************
+      //   Process operations
+      // **********************************************************************
+
       var job;
       var domOperations = 0;
+
+      // Store offsets which are a result of element moves
+      var offsets = [];
 
       for (var i=0, l=operations.length; i<l; i++)
       {
         job = operations[i];
+
+        // ********************************************************************
+        //   Apply offset
+        // ********************************************************************
 
         if (offsets[job.pos] !== undefined)
         {
@@ -160,6 +208,11 @@ qx.Class.define("qx.html2.Element",
             job.pos = 0;
           }
         }
+
+
+        // ********************************************************************
+        //   Process DOM
+        // ********************************************************************
 
         if (job.operation === qx.util.EditDistance.OPERATION_DELETE)
         {
@@ -175,7 +228,7 @@ qx.Class.define("qx.html2.Element",
           // Operations: insert and replace
 
           // ******************************************************************
-          // Offset calculation
+          //   Offset calculation
           // ******************************************************************
 
           // Element will be moved around in the same parent
@@ -220,7 +273,7 @@ qx.Class.define("qx.html2.Element",
 
 
           // ******************************************************************
-          // The real DOM work
+          //   The real DOM work
           // ******************************************************************
 
           if (job.operation === qx.util.EditDistance.OPERATION_REPLACE)
@@ -291,8 +344,9 @@ qx.Class.define("qx.html2.Element",
 
 
 
+
       // **********************************************************************
-      // Create DOM elements
+      //   Create DOM elements
       // **********************************************************************
 
       // Creating DOM nodes could modify the queue again
@@ -325,16 +379,19 @@ qx.Class.define("qx.html2.Element",
       }
 
 
-      console.info("Flush: " + queue.length + " entries...");
 
 
 
 
       // **********************************************************************
-      // Apply DOM structure
+      //   Apply content
       // **********************************************************************
 
-      for (i=0, l=queue.length; i<l; i++)
+      l = queue.length;
+
+      console.info("Flush: " + l + " entries...");
+
+      for (i=0; i<l; i++)
       {
         entry = queue[i];
 
@@ -346,7 +403,7 @@ qx.Class.define("qx.html2.Element",
         }
       }
 
-      for (i=0, l=queue.length; i<l; i++)
+      for (i=0; i<l; i++)
       {
         entry = queue[i];
 
@@ -361,8 +418,9 @@ qx.Class.define("qx.html2.Element",
 
 
 
+
       // **********************************************************************
-      // Cleanup
+      //   Cleanup
       // **********************************************************************
 
       queue.length = 0;
@@ -692,20 +750,6 @@ qx.Class.define("qx.html2.Element",
 
 
     /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
-    __printChildren : function()
-    {
-      for (var i=0, a=this.__children, l=a.length; i<l; i++) {
-        console.log("Child[" + i + "]: " + a[i].toHashCode());
-      }
-    },
-
-
-    /**
      * Returns the DOM element (if created). Please don't use this.
      * Better to use the alternatives like setText, setHtml and all
      * the children functions.
@@ -799,7 +843,7 @@ qx.Class.define("qx.html2.Element",
       this.__html = html;
 
       if (this.__created) {
-        this.addToQueue();
+        this.self(arguments).addToQueue(this);
       }
 
       return this;
@@ -829,7 +873,7 @@ qx.Class.define("qx.html2.Element",
       this.__text = text;
 
       if (this.__created) {
-        this.addToQueue();
+        this.self(arguments).addToQueue(this);
       }
 
       return this;
