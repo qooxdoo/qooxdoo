@@ -21,6 +21,11 @@ qx.Class.define("qx.html2.Element",
   *****************************************************************************
   */
 
+  /**
+   * Creates a new Element
+   *
+   * @param el {DOMElement?} an existing and visible DOM element
+   */
   construct : function(el)
   {
     this.base(arguments);
@@ -33,12 +38,8 @@ qx.Class.define("qx.html2.Element",
     this.__attribJobs = [];
     this.__styleJobs = [];
 
-    if (el)
-    {
-      this.__element = el;
-      this.__nodeName = el.tagName.toLowerCase();
-      this.__created = true;
-      this.__inserted = true;  // not 100% correct (bubble up?)
+    if (el != null) {
+      this.setElement(el);
     }
   },
 
@@ -824,12 +825,37 @@ qx.Class.define("qx.html2.Element",
 
 
     /**
+     * Sets the element to an already existing node. It will be
+     * assumed that this DOM element is already visible e.g.
+     * like a normal displayed element in the document's body.
+     *
+     * @param el {DOMElement} the dom element to set
+     * @return {void}
+     */
+    setElement : function(el)
+    {
+      if (this.__created) {
+        throw new Error("Elements could not be replaced!");
+      }
+
+      this.__element = el;
+      this.__nodeName = el.tagName.toLowerCase();
+      this.__created = true;
+      this.__inserted = true;
+
+      if (this.__created) {
+        this.self(arguments).addToQueue(this);
+      }
+    },
+
+
+    /**
      * Returns the DOM element (if created). Please don't use this.
      * Better to use the alternatives like setText, setHtml and all
      * the children functions.
      *
      * @throws an error if the element was not yet created
-     * @return {Element} the DOM element node
+     * @return {DOMElement} the DOM element node
      */
     getElement : function()
     {
