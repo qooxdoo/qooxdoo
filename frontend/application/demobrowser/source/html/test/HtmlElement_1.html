@@ -14,9 +14,7 @@
   <div id="demoDescription">
   </div>
 
-  <div id="test">
-
-  </div>
+  <div id="test"></div>
 
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
@@ -54,6 +52,8 @@
 
 
 
+
+
     // Positioned Insert #2
 
     var before1 = new qx.html2.Element;
@@ -65,6 +65,7 @@
     doc.insertAfter(after1, el1);
 
     qx.html2.Element.flushQueue();
+
 
 
 
@@ -95,7 +96,25 @@
 
 
 
+    // Switch
+
+    console.info("Switch");
+
+    var in1 = doc.indexOf(before2);
+    var in2 = doc.indexOf(after2);
+
+    doc.moveTo(before2, in2);
+    doc.moveTo(after2, in1);
+
+    qx.html2.Element.flushQueue();
+
+
+
+
+
     // Remove
+
+    console.info("Remove");
 
     doc.remove(before2);
     doc.remove(after2);
@@ -106,6 +125,8 @@
 
     // Re-add
 
+    console.info("Re-add");
+
     doc.addList(before2, after2);
 
     qx.html2.Element.flushQueue();
@@ -113,6 +134,8 @@
 
 
     // Remove and Add and Remove and Add
+
+    console.info("Remove and Add and Remove and Add");
 
     doc.removeList(before2, after2);
     doc.addList(before2, after2);
@@ -125,6 +148,8 @@
 
 
     // Move, remove & add
+
+    console.info("Move, remove & add");
 
     doc.remove(before2);
     doc.moveAfter(before1, after1);
@@ -147,7 +172,11 @@
 
 
 
-    // SORT COMPLETELY
+
+
+    // Sort completely
+
+    console.info("Sort completely");
 
     var a = doc.getChildren();
     for (var i=1, l=a.length; i<l; i++) {
@@ -163,7 +192,9 @@
 
 
 
-    // ROTATION
+    // Rotation
+
+    console.info("Rotation");
 
     doc.moveAfter(before1, before2);
 
