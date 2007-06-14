@@ -224,7 +224,7 @@ qx.Class.define("qx.lang.Array",
      * @return {var} The removed element.
      */
     removeAt : function(arr, i) {
-      return arr.splice(i, 1);
+      return arr.splice(i, 1)[0];
     },
 
 
@@ -247,7 +247,7 @@ qx.Class.define("qx.lang.Array",
      * @param arr {Array} the array
      * @param a {Array} the elements of this array will be appended to the array
      * @return {Array} The modified array.
-     * @throws TODOC
+     * @throws an exception if the second argument is not an array
      */
     append : function(arr, a)
     {
@@ -272,14 +272,16 @@ qx.Class.define("qx.lang.Array",
      * @type static
      * @param arr {Array} the array
      * @param obj {var} element to be removed from the array
-     * @return {Array} array with the element removed
+     * @return {Array} the removed element
      */
     remove : function(arr, obj)
     {
       var i = arr.indexOf(obj);
 
-      if (i != -1) {
-        return arr.splice(i, 1);
+      if (i != -1)
+      {
+        arr.splice(i, 1);
+        return obj;
       }
     },
 
