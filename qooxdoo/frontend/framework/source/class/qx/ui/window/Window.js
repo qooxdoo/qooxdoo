@@ -296,7 +296,10 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
-    /** Should be window be modal (this disables minimize and maximize buttons) */
+    /** The current mode (minimized or maximized) of the window instance
+     * <b>Attention:</b> if the window instance is neither maximized nor minimized this
+     * property will return <code>null</code>
+     */
     mode :
     {
       check : [ "minimized", "maximized" ],
