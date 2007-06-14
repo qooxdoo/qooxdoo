@@ -569,8 +569,9 @@ qx.Class.define("qx.ui.core.ClientDocument",
   defer : function()
   {
     // CSS fix
-    if (qx.core.Setting.get("qx.boxModelCorrection")) {
-      boxSizingAttr = qx.core.Client.getInstance().getEngineBoxSizingAttributes();
+    if (qx.core.Setting.get("qx.boxModelCorrection"))
+    {
+      var boxSizingAttr = qx.core.Client.getInstance().getEngineBoxSizingAttributes();
       var borderBoxCss = boxSizingAttr.join(":border-box;") + ":border-box;";
       var contentBoxCss = boxSizingAttr.join(":content-box;") + ":content-box;";
 
