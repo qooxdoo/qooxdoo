@@ -123,6 +123,10 @@ qx.Class.define("qx.html2.Element",
      */
     __flushContent : function(entry)
     {
+      if (!entry.__element) {
+        entry.__create();
+      }
+
       if (entry.__text) {
         this.__flushText(entry);
       } else if (entry.__html) {
@@ -193,8 +197,8 @@ qx.Class.define("qx.html2.Element",
         target.push(a[i].__element);
       }
 
-      var parentElement = entry.__element;
-      var source = parentElement.childNodes;
+      var domElement = entry.__element;
+      var source = domElement.childNodes;
 
       // Compute edit operations
       var operations = qx.util.EditDistance.getEditOperations(source, target);
@@ -254,10 +258,10 @@ qx.Class.define("qx.html2.Element",
         if (job.operation === qx.util.EditDistance.OPERATION_DELETE)
         {
           // Ignore elements which are not placed at their original position anymore.
-          if (parentElement.childNodes[job.pos] === job.old)
+          if (domElement.childNodes[job.pos] === job.old)
           {
             // console.log("Remove: ", job.old);
-            parentElement.removeChild(job.old);
+            domElement.removeChild(job.old);
           }
         }
         else
@@ -283,7 +287,7 @@ qx.Class.define("qx.html2.Element",
           // childrens should already be placed correctly through
           // the operation method from the end to begin of the
           // edit distance algorithm.
-          if (job.value.parentNode === parentElement)
+          if (job.value.parentNode === domElement)
           {
             // find the position/index where the element is stored currently
             previousIndex = -1;
@@ -315,11 +319,11 @@ qx.Class.define("qx.html2.Element",
 
           if (job.operation === qx.util.EditDistance.OPERATION_REPLACE)
           {
-            if (parentElement.childNodes[job.pos] === job.old)
+            if (domElement.childNodes[job.pos] === job.old)
             {
               // console.log("Replace: ", job.old, " with ", job.value);
               domOperations++;
-              parentElement.replaceChild(job.value, job.old);
+              domElement.replaceChild(job.value, job.old);
             }
             else
             {
@@ -330,18 +334,18 @@ qx.Class.define("qx.html2.Element",
 
           if (job.operation === qx.util.EditDistance.OPERATION_INSERT)
           {
-            var before = parentElement.childNodes[job.pos];
+            var before = domElement.childNodes[job.pos];
 
             if (before)
             {
               // console.log("Insert: ", job.value, " at: ", job.pos);
-              parentElement.insertBefore(job.value, before);
+              domElement.insertBefore(job.value, before);
               domOperations++;
             }
             else
             {
               // console.log("Append: ", job.value);
-              parentElement.appendChild(job.value);
+              domElement.appendChild(job.value);
               domOperations++;
             }
           }
@@ -398,10 +402,6 @@ qx.Class.define("qx.html2.Element",
         {
           entry = queue[i];
 
-          if(!entry.__element) {
-            entry.__create();
-          }
-
           for (var j=0, a=entry.__children, lj=a.length; j<lj; j++)
           {
             child = a[j];
@@ -433,8 +433,10 @@ qx.Class.define("qx.html2.Element",
         entry = queue[i];
 
         // the invisible items
-        if (!entry.__inserted)
+        if (!entry.isVisible())
         {
+          console.debug("  - invisible: " + entry.toHashCode());
+
           this.__flushContent(entry);
           delete entry.__queued;
         }
@@ -447,6 +449,8 @@ qx.Class.define("qx.html2.Element",
         // the remaining items
         if (entry.__queued)
         {
+          console.debug("  - visible: " + entry.toHashCode());
+
           this.__flushContent(entry);
           delete entry.__queued;
         }
@@ -481,7 +485,7 @@ qx.Class.define("qx.html2.Element",
   {
     __nodeName : "div",
     __element : null,
-    __inserted : false,
+    __top : false,
 
 
     /**
@@ -492,7 +496,7 @@ qx.Class.define("qx.html2.Element",
      */
     __create : function()
     {
-      console.debug("Create element[" + this.toHashCode() + "]");
+      // console.debug("Create element[" + this.toHashCode() + "]");
 
       var el = this.__element = document.createElement(this.__nodeName);
       var style = this.__style = el.style;
@@ -509,18 +513,6 @@ qx.Class.define("qx.html2.Element",
 
       for (key in cache) {
         style[key] = cache[key];
-      }
-
-      var children = this.__children;
-      var child;
-
-      for (var i=0, l=children.length; i<l; i++)
-      {
-        child = children[i];
-
-        if (!child.__element) {
-          child.__create();
-        }
       }
     },
 
@@ -577,6 +569,45 @@ qx.Class.define("qx.html2.Element",
       }
 
       delete child.__parent;
+    },
+
+
+    /**
+     * Whether the element is a top level element.
+     *
+     * @type member
+     * @return {Boolean} whether the element is a top level element.
+     */
+    isTop : function() {
+      return this.__top;
+    },
+
+
+    /**
+     * Whether the element is visible / rendered.
+     *
+     * @type member
+     * @return {Boolean} whether the element is visible / rendered.
+     */
+    isVisible : function()
+    {
+      var elem = this;
+
+      do
+      {
+        if (elem.__top) {
+          return true;
+        }
+
+        if (!elem.__element || !elem.__element.parentNode) {
+          return false;
+        }
+
+        elem = elem.__parent;
+      }
+      while(elem);
+
+      return false;
     },
 
 
@@ -838,7 +869,7 @@ qx.Class.define("qx.html2.Element",
       // Initialize based on given element
       this.__element = el;
       this.__nodeName = el.tagName.toLowerCase();
-      this.__inserted = true;
+      this.__top = true;
 
       // Cleanup the element
       el.innerHTML = "";
