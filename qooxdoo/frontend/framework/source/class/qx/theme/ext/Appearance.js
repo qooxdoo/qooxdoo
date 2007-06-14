@@ -812,7 +812,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
 
         return {
           border          : border,
-          backgroundColor : "white"
+          backgroundColor : states.focused ? "field" : "white"
         };
       }
     },
