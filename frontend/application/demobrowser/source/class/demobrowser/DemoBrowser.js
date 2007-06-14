@@ -1043,8 +1043,8 @@ qx.Class.define("demobrowser.DemoBrowser",
 
         if (content) {
           //this.widgets["outputviews.sourcepage.page"].setValue(content);
-          //this.widgets["outputviews.sourcepage.page"].setHtml(this.__beautySource(content));
-          this.widgets["outputviews.sourcepage.page"].setHtml('<pre>'+qx.html.String.escape(content)+'</pre>');
+          this.widgets["outputviews.sourcepage.page"].setHtml(this.__beautySource(content));
+          //this.widgets["outputviews.sourcepage.page"].setHtml('<pre>'+qx.html.String.escape(content)+'</pre>');
           this.__sourceCodeLoaded = 1;
         }
       },
@@ -1204,12 +1204,13 @@ qx.Class.define("demobrowser.DemoBrowser",
         if (result == null) 
         {
           eof = true;
-        } else if (result[0] == "")  // fix bug in firefox 2!!
-        {
-          linep.lastIndex++;
         } else 
         {
           line = result[0];
+          if (line == "")  // fix bug in firefox 2!!
+          {
+            linep.lastIndex++;
+          }
            
           if (PScriptStart.exec(line)) 
           {
@@ -1218,15 +1219,22 @@ qx.Class.define("demobrowser.DemoBrowser",
             currBlock = "";  // start new block
           } else if (PScriptEnd.exec(line)) 
           {
+            // inject style info
+            bsrc += this.__sourceViewStyle();
             // pass script block to tokenizer
-            bsrc += qx.dev.Tokenizer.javaScriptToHtml(currBlock)
-            currBlock = line;  // start new block
+            var s1 = qx.dev.Tokenizer.javaScriptToHtml(currBlock);
+            bsrc += '<pre>'+s1+'</pre>';
+            currBlock = line+'\n';  // start new block
           } else // no border line 
           {
-            currBlock += line;
+            currBlock += line+'\n';
           }
         }
       }
+
+      // collect rest of page
+      bsrc += '<pre>'+qx.html.String.escape(currBlock)+'</pre>';
+
       
       /*
       while ((result = reg.exec(src)) != null)
@@ -1243,6 +1251,43 @@ qx.Class.define("demobrowser.DemoBrowser",
       return bsrc;
       
     }, // beautySource()
+
+
+    __sourceViewStyle : function () 
+    {
+      var s = '\
+  <style type="text/css">\
+\
+		#output {\
+		    font-family: monospace;\
+		}\
+\
+		.keyword {\
+			color : blue;\
+		}\
+\
+		.atom {\
+			color: orange;\
+		}\
+\
+		.ident {\
+			font-weight: bold;\
+		}\
+\
+		.comment {\
+			color: darkgray;\
+		}\
+\
+		.string {\
+			color: green;\
+		}\
+\
+  </style>';
+
+
+
+      return s;
+    },
 
 
     /**
