@@ -1,0 +1,28 @@
+#qx_srcview {
+  font-size  : small;
+}
+
+#qx_srcview .script{
+  font-family: monospace;
+}
+
+#qx_srcview .keyword {
+  color : blue;
+}
+
+#qx_srcview .atom {
+  color: orange;
+}
+
+#qx_srcview .ident {
+  font-weight: bold;
+}
+
+#qx_srcview .comment {
+  color: darkgray;
+}
+
+#qx_srcview .string {
+  color: green;
+}
+

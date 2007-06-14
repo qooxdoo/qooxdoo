@@ -64,6 +64,7 @@ qx.Class.define("demobrowser.Application",
       // Include CSS files
       qx.html.StyleSheet.includeFile(qx.io.Alias.getInstance().resolve("demobrowser/css/log.css"));
       qx.html.StyleSheet.includeFile(qx.io.Alias.getInstance().resolve("demobrowser/css/style.css"));
+      qx.html.StyleSheet.includeFile(qx.io.Alias.getInstance().resolve("demobrowser/css/sourceview.css"));
 
       // Initialize the viewer
       this.viewer = new demobrowser.DemoBrowser;
