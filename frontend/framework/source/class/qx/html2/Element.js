@@ -1,4 +1,3 @@
-
 /**
  * High performance DOM Element creation
  *

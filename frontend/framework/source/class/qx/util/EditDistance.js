@@ -35,7 +35,18 @@ qx.Class.define("qx.util.EditDistance",
     OPERATION_INSERT : 2,
     OPERATION_REPLACE : 3,
 
-    computeLevenshteinDistance : function(dataA, dataB)
+
+    /**
+     * Returns a distant matrix following a concept
+     * named Levenshtein distance for two data structures
+     * (lists, strings, ...)
+     *
+     * @type static
+     * @param dataA {Array|String} incoming source data
+     * @param dataA {Array|String} incoming target data
+     * @return {Integer[][]} outgoing matrix
+     */
+    __computeLevenshteinDistance : function(dataA, dataB)
     {
       // distance is dataA table with dataA.length+1 rows and dataB.length+1 columns
       var distance = [];
@@ -75,9 +86,18 @@ qx.Class.define("qx.util.EditDistance",
     },
 
 
-    computeEditOperations : function(distance, dataA, dataB)
+    /**
+     * Computes the operations needed to transform dataA to dataB.
+     *
+     * @type static
+     * @param distance {Integer[][]} Precomputed matrix for the data fields
+     * @param dataA {Array|String} incoming source data
+     * @param dataA {Array|String} incoming target data
+     * @return {Map[]} Array of maps describing the operations needed
+     */
+    __computeEditOperations : function(distance, dataA, dataB)
     {
-      var jobs = [];
+      var operations = [];
       var posA = dataA.length;
       var posB = dataB.length;
 
@@ -86,20 +106,20 @@ qx.Class.define("qx.util.EditDistance",
         // insert from begin to end
         // reverted order than in all other cases for optimal performance
         for (var i=0; i<posB; i++) {
-          jobs.push({ operation : this.OPERATION_INSERT, pos : i, old : null, value : dataB[i] });
+          operations.push({ operation : this.OPERATION_INSERT, pos : i, old : null, value : dataB[i] });
         }
 
-        return jobs;
+        return operations;
       }
 
       if (posB===0)
       {
         // remove from end to begin
         for (var i=posA-1; i>=0; i--) {
-          jobs.push({ operation : this.OPERATION_DELETE, pos : i, old : dataA[i], value : null });
+          operations.push({ operation : this.OPERATION_DELETE, pos : i, old : dataA[i], value : null });
         }
 
-        return jobs;
+        return operations;
       }
 
       while(posA !== 0 || posB !== 0)
@@ -107,14 +127,14 @@ qx.Class.define("qx.util.EditDistance",
         if (posA != 0 && distance[posA][posB] == distance[posA-1][posB] + 1)
         {
           // console.log("delete " + dataA[posA-1] + ": " + (posA-1));
-          jobs.push({ operation : this.OPERATION_DELETE, pos : posA-1, old : dataA[posA-1], value : null });
+          operations.push({ operation : this.OPERATION_DELETE, pos : posA-1, old : dataA[posA-1], value : null });
 
           posA-=1;
         }
         else if (posB != 0 && distance[posA][posB] == distance[posA][posB-1] + 1)
         {
           // console.log("insert " + dataB[posB-1] + " ein, in: " + (posA));
-          jobs.push({ operation : this.OPERATION_INSERT, pos : posA, old : null, value : dataB[posB-1] });
+          operations.push({ operation : this.OPERATION_INSERT, pos : posA, old : null, value : dataB[posB-1] });
 
           posB-=1;
         }
@@ -123,7 +143,7 @@ qx.Class.define("qx.util.EditDistance",
           if (dataA[posA-1]!==dataB[posB-1])
           {
             // console.log("replace " + dataA[posA-1] + " durch " + dataB[posB-1] + ".");
-            jobs.push({ operation : this.OPERATION_REPLACE, pos : posA-1, old : dataA[posA-1], value : dataB[posB-1] });
+            operations.push({ operation : this.OPERATION_REPLACE, pos : posA-1, old : dataA[posA-1], value : dataB[posB-1] });
           }
 
           posA-=1;
@@ -131,52 +151,24 @@ qx.Class.define("qx.util.EditDistance",
         }
       }
 
-      return jobs;
+      return operations;
     },
 
 
+    /**
+     * Returns the operations needed to transform dataA to dataB.
+     *
+     * @type static
+     * @param dataA {Array|String} incoming source data
+     * @param dataA {Array|String} incoming target data
+     * @return {Map[]} Array of maps describing the operations needed
+     */
     getEditOperations : function(dataA, dataB)
     {
-      var distance = this.computeLevenshteinDistance(dataA, dataB);
-      var oper = this.computeEditOperations(distance, dataA, dataB);
+      var distance = this.__computeLevenshteinDistance(dataA, dataB);
+      var operations = this.__computeEditOperations(distance, dataA, dataB);
 
-      return oper;
-    },
-
-
-    testString : function(strA, strB)
-    {
-      var oper = this.getEditOperations(strA, strB);
-
-      arr = qx.lang.String.splitCharacters(strA);
-
-      for (var i=0; i<oper.length; i++)
-      {
-        job = oper[i];
-
-        switch(job.operation)
-        {
-          case this.OPERATION_DELETE:
-            qx.lang.Array.removeAt(arr, job.pos);
-            break;
-
-          case this.OPERATION_REPLACE:
-            arr[job.pos] = job.value;
-            break;
-
-          case this.OPERATION_INSERT:
-            qx.lang.Array.insertAt(arr, job.value, job.pos);
-            break;
-        }
-      }
-
-      result = arr.join("");
-
-      if (result !== strB) {
-        return console.error("Implementation could not transform: " + strA + " to " + strB + "! Result was: " + result);
-      }
-
-      console.debug("Successfully transformed: " + strA + " to " + strB + ".");
+      return operations;
     }
   }
 });
