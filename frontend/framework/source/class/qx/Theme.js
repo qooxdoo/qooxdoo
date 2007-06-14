@@ -50,6 +50,7 @@ qx.Class.define("qx.Theme",
      * {
      *   title : "MyThemeTitle",
      *   extend : otherTheme,
+     *   include : [MMixinTheme],
      *   colors : {},
      *   borders : {},
      *   fonts : {},
@@ -96,6 +97,17 @@ qx.Class.define("qx.Theme",
 
       // Store class reference in global class registry
       this.__registry[name] = theme;
+
+      // include mixin themes
+      if (config.include) {
+        if (!(config.include instanceof Array)) {
+          config.include = [config.include];
+        }
+        for (var i=0; i<config.include.length; i++) {
+          this.include(theme, config.include[i]);
+        }
+      }
+
     },
 
 
@@ -253,7 +265,8 @@ qx.Class.define("qx.Theme",
         "icons"       : "object", // Map
         "widgets"     : "object", // Map
         "appearances" : "object", // Map
-        "meta"        : "object"
+        "meta"        : "object",
+        "include"     : "object" // Array
       },
 
       "default" : null
@@ -292,15 +305,15 @@ qx.Class.define("qx.Theme",
         for (var key in config)
         {
           if (allowed[key] === undefined) {
-            throw new Error('The configuration key "' + key + '" in class "' + name + '" is not allowed!');
+            throw new Error('The configuration key "' + key + '" in theme "' + name + '" is not allowed!');
           }
 
           if (config[key] == null) {
-            throw new Error('Invalid key "' + key + '" in class "' + name + '"! The value is undefined/null!');
+            throw new Error('Invalid key "' + key + '" in theme "' + name + '"! The value is undefined/null!');
           }
 
           if (allowed[key] !== null && typeof config[key] !== allowed[key]) {
-            throw new Error('Invalid type of key "' + key + '" in class "' + name + '"! The type of the key must be "' + allowed[key] + '"!');
+            throw new Error('Invalid type of key "' + key + '" in theme "' + name + '"! The type of the key must be "' + allowed[key] + '"!');
           }
         }
 
@@ -369,6 +382,57 @@ qx.Class.define("qx.Theme",
       },
 
       "default" : function() {}
-    })
+    }),
+
+
+    /**
+     * Include all keys of the given mixin theme into the theme. The mixin may
+     * include keys which are already defined in the target theme. Existing
+     * features of equal name will be overwritten.
+     *
+     * @type static
+     * @param theme {Theme} An existing theme which should be modified by including the mixin theme.
+     * @param mixinTheme {Theme} The theme to be included.
+     */
+    patch : function(theme, mixinTheme)
+    {
+      var keyCurrent = this.__extractInheritableKey(mixinTheme);
+      if (keyCurrent !== this.__extractInheritableKey(mixinTheme)) {
+        throw new Error("The mixins '"+theme.name+"' are not compatible '"+mixinTheme.name+"'!");
+      }
+      var source = mixinTheme[keyCurrent];
+      var target = theme[keyCurrent];
+      for (var key in source) {
+        target[key] = source[key];
+      }
+    },
+
+
+    /**
+     * Include all keys of the given mixin theme into the theme. The mixin must
+     * not include any keys that are already available in the
+     * class. This would only be possible using the {@link #patch} method.
+     *
+     * @type static
+     * @param theme {Theme} An existing theme which should be modified by including the mixin theme.
+     * @param mixinTheme {Theme} The theme to be included.
+     */
+    include : function(theme, mixinTheme)
+    {
+      var keyCurrent = this.__extractInheritableKey(mixinTheme);
+      if (keyCurrent !== this.__extractInheritableKey(mixinTheme)) {
+        throw new Error("The mixins '"+theme.name+"' are not compatible '"+mixinTheme.name+"'!");
+      }
+      var source = mixinTheme[keyCurrent];
+      var target = theme[keyCurrent];
+      for (var key in source) {
+        if (target[key] !== undefined) {
+          throw new Error("It is not allowed to overwrite the key '"+key+"' of theme '"+theme.name+"' by mixin theme '"+mixinTheme.name+"'.");
+        }
+        target[key] = source[key];
+      }
+    }
+
+
   }
 });
