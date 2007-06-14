@@ -166,7 +166,7 @@ qx.Class.define("qx.Class",
       }
 
       // Normalize type
-      if (!config.extend) {
+      if (!config.hasOwnProperty("extend") && !config.type) {
         config.type = "static";
       }
 
