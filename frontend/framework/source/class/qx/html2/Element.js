@@ -406,7 +406,7 @@ qx.Class.define("qx.html2.Element",
           {
             child = a[j];
 
-            if(!child.__queued)
+            if(!child.__element && !child.__queued)
             {
               queue.push(child);
               child.__queued = true;
