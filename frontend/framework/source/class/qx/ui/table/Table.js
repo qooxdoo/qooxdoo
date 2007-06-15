@@ -760,7 +760,7 @@ qx.Class.define("qx.ui.table.Table",
      * Returns an array containing all TablePaneScrollers in this table.
      *
      * @type member
-     * @return {TablePaneScroller[]} all TablePaneScrollers in this table.
+     * @return {qx.ui.table.pane.Scroller[]} all TablePaneScrollers in this table.
      */
     _getPaneScrollerArr : function() {
       return this._scrollerParent.getChildren();
@@ -772,7 +772,7 @@ qx.Class.define("qx.ui.table.Table",
      *
      * @type member
      * @param metaColumn {Integer} the meta column to get the TablePaneScroller for.
-     * @return {TablePaneScroller} the TablePaneScroller.
+     * @return {qx.ui.table.pane.Scroller} the qx.ui.table.pane.Scroller.
      */
     getPaneScroller : function(metaColumn) {
       return this._getPaneScrollerArr()[metaColumn];
@@ -1175,7 +1175,7 @@ qx.Class.define("qx.ui.table.Table",
      *
      * @type member
      * @param pageX {Integer} the position in the page to check (in pixels).
-     * @return {TablePaneScroller} the TablePaneScroller or null.
+     * @return {qx.ui.table.pane.Scroller} the TablePaneScroller or null.
      * @see TablePaneScrollerPool
      */
     getTablePaneScrollerAtPageX : function(pageX)
