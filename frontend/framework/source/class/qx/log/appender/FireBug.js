@@ -100,7 +100,7 @@ qx.Class.define("qx.log.appender.FireBug",
         }
 
         // Force a stack dump, for helping locating the error
-        if (evt.level > log.LEVEL_WARN && (!evt.throwable || !evt.throwable.stack) && console.trace) {
+        if (evt.level >= log.LEVEL_WARN && (!evt.throwable || !evt.throwable.stack) && console.trace) {
           console.trace();
         }
       }
