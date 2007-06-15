@@ -86,6 +86,7 @@ qx.Class.define("apiviewer.Controller",
       var req = new qx.io.remote.Request(url);
 
       req.setTimeout(180000);
+      req.setProhibitCaching(false);
 
       req.addEventListener("completed", function(evt)
       {
