@@ -37,34 +37,70 @@ qx.Class.define("qx.dom.String",
      * @type static
      * @param str {String} string to escape
      * @param charCodeToEntities {Map} entity to charcode map
-     * @return {var} TODOC
+     * @return {String} escaped string
+     * @signature function(str, charCodeToEntities)
      */
-    escapeEntities : function(str, charCodeToEntities)
+    escapeEntities : qx.core.Variant.select("qx.client", 
     {
-      var entity, result = [];
-
-      for (var i=0, l=str.length; i<l; i++)
+      // IE and Opera:
+      //  - use [] to access string elements (much faster in IE and Opera)
+      //  - use [].join() to build strings      
+      "mshtml|opera": function(str, charCodeToEntities)
       {
-        var chr = str.charAt(i);
-        var code = chr.charCodeAt(0);
+        var entity, result = [];
 
-        if (charCodeToEntities[code]) {
-          entity = "&" + charCodeToEntities[code] + ";";
-        }
-        else
+        for (var i=0, l=str.length; i<l; i++)
         {
-          if (code > 0x7F) {
-            entity = "&#" + code + ";";
-          } else {
-            entity = chr;
+          var chr = str[i];
+          var code = chr.charCodeAt(0);
+
+          if (charCodeToEntities[code]) {
+            entity = "&" + charCodeToEntities[code] + ";";
           }
+          else
+          {
+            if (code > 0x7F) {
+              entity = "&#" + code + ";";
+            } else {
+              entity = chr;
+            }
+          }
+
+          result[result.length] = entity;
         }
 
-        result.push(entity);
-      }
+        return result.join("");
+      },
+      
+      // IE and Opera:
+      //  - use "".charAt to access string elements (much faster in FF)
+      //  - use += to build strings            
+      "default": function(str, charCodeToEntities)
+      {
+        var entity, result = "";
 
-      return result.join("");
-    },
+        for (var i=0, l=str.length; i<l; i++)
+        {
+          var chr = str.charAt(i);
+          var code = chr.charCodeAt(0);
+
+          if (charCodeToEntities[code]) {
+            entity = "&" + charCodeToEntities[code] + ";";
+          }
+          else
+          {
+            if (code > 0x7F) {
+              entity = "&#" + code + ";";
+            } else {
+              entity = chr;
+            }
+          }
+
+          result += entity;
+        }
+
+        return result;
+      },
 
 
     /**
