@@ -68,7 +68,7 @@ qx.Class.define("qx.html2.Element",
      * Adds the given element to the queue.
      *
      * @type static
-     * @param element {qx.html2.Element} TODOC
+     * @param element {qx.html2.Element} Add the element to the global queue
      * @return {void}
      */
     addToQueue : function(element)
@@ -87,7 +87,7 @@ qx.Class.define("qx.html2.Element",
      * Removes the given element from the queue.
      *
      * @type static
-     * @param element {qx.html2.Element} TODOC
+     * @param element {qx.html2.Element} Remove the element from the global queue
      * @return {void}
      */
     removeFromQueue : function(element)
