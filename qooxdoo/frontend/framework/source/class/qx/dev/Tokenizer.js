@@ -185,25 +185,26 @@ qx.Class.define("qx.dev.Tokenizer",
 			var js = new qx.util.StringBuilder();
 			for (var i=0; i<tokens.length; i++) {
 				var token = tokens[i];
+				var htmlValue = qx.html.String.escape(token.value);
 				switch(token.type) {
 					case "ident":
-						js.add("<span class='ident'>", token.value, "</span>");
+						js.add("<span class='ident'>", htmlValue, "</span>");
 						break;
 
 					case "linecomment":
 					case "fullcomment":
-						js.add("<span class='comment'>", token.value, "</span>");
+						js.add("<span class='comment'>", htmlValue, "</span>");
 						break;
 
 					case "qstr":
 					case "qqstr":
-						js.add("<span class='string'>", token.value, "</span>");
+						js.add("<span class='string'>", htmlValue, "</span>");
 						break;
 
 					case "keyword":
 					case "atom":
 					case "qxkey":
-						js.add("<span class='", token.type, "'>", token.value, "</span>");
+						js.add("<span class='", token.type, "'>", htmlValue, "</span>");
 						break;
 
 					case "nl":
@@ -211,7 +212,7 @@ qx.Class.define("qx.dev.Tokenizer",
 						break;
 
 					default:
-						js.add(token.value);
+						js.add(htmlValue);
 				}
 			}
 			return js.get();
