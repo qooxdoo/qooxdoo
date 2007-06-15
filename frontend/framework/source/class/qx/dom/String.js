@@ -100,7 +100,8 @@ qx.Class.define("qx.dom.String",
         }
 
         return result;
-      },
+      }
+    }),
 
 
     /**
@@ -148,8 +149,8 @@ qx.Class.define("qx.dom.String",
         }
 
         return chr;
-      };
-    }),
+      });
+    },
 
 
     /**
