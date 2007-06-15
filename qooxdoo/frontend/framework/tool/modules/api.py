@@ -1517,8 +1517,6 @@ def documentApplyMethod(methodNode, prop):
     if paramType is None or paramType == "Custom check function.":
         paramType = "var"
 
-    print firstParam, secondParam, paramType
-
     functionCode = """/**
  * Applies changes of the property value of the property <code>%(shortPropName)s</code>.
  *
