@@ -1285,10 +1285,9 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       } //matchfunc()
 
-      //res = res.replace(/(&lt;\/?)([a-zA-Z]+)((?:\s+[^=]+?=\S+)*)\s*(\/?)&gt;/g, matchfunc);
-      res = res.replace(/(&lt;\/?)([a-zA-Z]+)(.*?)(\/?)&gt;/g, matchfunc);
+      //res = res.replace(/(&lt;\/?)([a-zA-Z]+)\b/g, matchfunc);  // only tag start
+      res = res.replace(/(&lt;\/?)([a-zA-Z]+)(.*?)(\/?)&gt;/g, matchfunc); // whole tag
 
-      //res = res.replace(/(&lt;\/?)([a-zA-Z]+)\b/g, matchfunc);
       return res;
     },
 
