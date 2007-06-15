@@ -1256,33 +1256,39 @@ qx.Class.define("demobrowser.DemoBrowser",
         var pair, curr;
         var endT = false;
 
-        /*
-        for (var i=3; i<arguments.length-2; i++)  // handle rest of submatches
-        {
-          curr = arguments[i];
-          if (curr == "/") 
+        // handle rest of submatches
+        if (arguments.length -2 > 3) {
+          for (var i=3; i<arguments.length-2; i++)
           {
-            endT = true;
-            break;
+            curr = arguments[i];
+            if (curr == "/") 
+            {
+              endT = true;
+              break;
+            }
+            else // handle tag attributes
+            {
+              var m = /\s*([^=]+?)\s*=\s*((?!&quot;)\S+|&quot;.*?&quot;)\s*/g;
+              var r;
+
+              while ((r = m.exec(curr)) != null) {
+                s += ' <span class="keyword">'+r[1]+'</span>=<span class="string">'+
+                      r[2].replace(/\s*$/,"")+'</span>';
+              }
+            }
           }
-          if ((curr.indexOf('=')) > 0) 
-          {
-            pair = arguments[i].split('=',2);
-            s   += ' <span class=".keyword">'+pair[0]+'</span>=<span class=".string">'+
-                    pair[1].replace(/\s*$/,"")+'</span>';
-          }
+          s += (endT?"/":"");
         }
-        s += (endT?"/":"")+'&gt;';
-        */
+        s += '&gt;';
 
         return s;
 
       } //matchfunc()
 
-      //res = res.replace(/(&lt;\/?)([a-zA-Z]+)\b/g,'$1<span class="html-tag-name">$2</span>');
-      //res = res.replace(/(&lt;\/?)([a-zA-Z]+)(\s+\S+=\S+\s*)*(\/?)&gt;/g, matchfunc);
-      res = res.replace(/(&lt;\/?)([a-zA-Z]+)\b/g, matchfunc);
+      //res = res.replace(/(&lt;\/?)([a-zA-Z]+)((?:\s+[^=]+?=\S+)*)\s*(\/?)&gt;/g, matchfunc);
+      res = res.replace(/(&lt;\/?)([a-zA-Z]+)(.*?)(\/?)&gt;/g, matchfunc);
 
+      //res = res.replace(/(&lt;\/?)([a-zA-Z]+)\b/g, matchfunc);
       return res;
     },
 
