@@ -1218,12 +1218,10 @@ qx.Class.define("demobrowser.DemoBrowser",
           {
             // add this line to 'normal' code
             //bsrc += '<pre>'+qx.html.String.escape(currBlock + line)+'</pre>';
-            bsrc += qx.html.String.escape(currBlock + line);
+            bsrc += this.__beautyHtml(qx.html.String.escape(currBlock + line));
             currBlock = "";  // start new block
           } else if (PScriptEnd.exec(line)) 
           {
-            // inject style info
-            //bsrc += this.__sourceViewStyle();
             // pass script block to tokenizer
             var s1 = qx.dev.Tokenizer.javaScriptToHtml(currBlock);
             //bsrc += '<div class="script"><pre>'+s1+'</pre></div>';
@@ -1237,65 +1235,55 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
 
       // collect rest of page
-      bsrc += qx.html.String.escape(currBlock)+'</pre>';
+      bsrc += this.__beautyHtml(qx.html.String.escape(currBlock))+'</pre>';
 
       
-      /*
-      while ((result = reg.exec(src)) != null)
-      {
-        if (result[1].length) {
-          bsrc += '<pre>'+qx.html.String.escape(result[1])+'</pre>';
-        }
-        if (result[2].length) {
-          bsrc += qx.dev.Tokenizer.javaScriptToHtml(result[2]);
-        }
-      }
-      */
-
       return bsrc;
       
     }, // beautySource()
 
 
-    __sourceViewStyle : function () 
+    __beautyHtml : function (str) 
     {
-      var s = '\
-  <style type="text/css">\
-\
-		* {\
-		    font-size  : small;\
-		}\
-\
-		#script{\
-		    font-family: monospace;\
-		    font-size  : medium;\
-		}\
-\
-		.keyword {\
-			color : blue;\
-		}\
-\
-		.atom {\
-			color: orange;\
-		}\
-\
-		.ident {\
-			font-weight: bold;\
-		}\
-\
-		.comment {\
-			color: darkgray;\
-		}\
-\
-		.string {\
-			color: green;\
-		}\
-\
-  </style>';
+      var res = str;
+      var PTagStart = '&lt;\/?'
 
+      // This match function might be a bit of overkill right now, but provides
+      // for later extensions (cf. Flanagan(5th), 703)
+      function matchfunc (vargs) 
+      {
+        var s = arguments[1]+'<span class="html-tag-name">'+arguments[2]+'</span>';
+        var pair, curr;
+        var endT = false;
 
+        /*
+        for (var i=3; i<arguments.length-2; i++)  // handle rest of submatches
+        {
+          curr = arguments[i];
+          if (curr == "/") 
+          {
+            endT = true;
+            break;
+          }
+          if ((curr.indexOf('=')) > 0) 
+          {
+            pair = arguments[i].split('=',2);
+            s   += ' <span class=".keyword">'+pair[0]+'</span>=<span class=".string">'+
+                    pair[1].replace(/\s*$/,"")+'</span>';
+          }
+        }
+        s += (endT?"/":"")+'&gt;';
+        */
 
-      return s;
+        return s;
+
+      } //matchfunc()
+
+      //res = res.replace(/(&lt;\/?)([a-zA-Z]+)\b/g,'$1<span class="html-tag-name">$2</span>');
+      //res = res.replace(/(&lt;\/?)([a-zA-Z]+)(\s+\S+=\S+\s*)*(\/?)&gt;/g, matchfunc);
+      res = res.replace(/(&lt;\/?)([a-zA-Z]+)\b/g, matchfunc);
+
+      return res;
     },
 
 
