@@ -19,36 +19,36 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var doc = new qx.html2.Element(document.getElementById("test"));
-
-
-    var large = new qx.html2.Element;
-    doc.add(large);
-
-
-    var child;
-
-    for (var i=0; i<10; i++)
+    var btn = new qx.ui.form.Button("Run test");
+    btn.setLocation(100, 100);
+    btn.addToDocument();
+    btn.addEventListener("execute", function(e)
     {
-      child = new qx.html2.Element;
-      child.setAttribute("id", "#" + i);
+      var doc = new qx.html2.Element(document.getElementById("test"));
 
-      large.add(child);
-    };
+      var large = new qx.html2.Element;
+      doc.add(large);
 
+      var parent, child;
 
-    var s = new Date;
-    qx.html2.Element.flushQueue();
-    this.debug("Time to create 10 elements: " + (new Date - s) + "ms");
+      for (var i=0; i<10; i++)
+      {
+        parent = new qx.html2.Element;
+        parent.setAttribute("id", "#" + i);
+        large.add(parent);
 
+        for (var j=0; j<100; j++)
+        {
+          child = new qx.html2.Element;
+          child.setAttribute("id", "#" + i + "_" + j);
+          parent.add(child);
+        }
+      };
 
-
-    // Switch #5 and #6 element
-    var children = large.getChildren();
-
-    large.moveAfter(children[5], children[6]);
-
-    qx.html2.Element.flushQueue();
+      var s = new Date;
+      qx.html2.Element.flushQueue();
+      this.debug("Time to create 1000 elements: " + (new Date - s) + "ms");
+    });
   });
   </script>
 </body>
