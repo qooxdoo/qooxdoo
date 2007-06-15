@@ -1188,7 +1188,8 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     __beautySource : function (src) 
     {
-      var bsrc = "";
+      //var bsrc = "";
+      var bsrc = "<pre>";
       var reg  = /(.*<script\b[^>]*?(?!\bsrc\s*=)[^>]*?>)(.*?)(?=<\/script>)/gm;
       var linep = /^.*$/gm; // matches a line
       var result;
@@ -1216,7 +1217,8 @@ qx.Class.define("demobrowser.DemoBrowser",
           if (PScriptStart.exec(line)) 
           {
             // add this line to 'normal' code
-            bsrc += '<pre>'+qx.html.String.escape(currBlock + line)+'</pre>';
+            //bsrc += '<pre>'+qx.html.String.escape(currBlock + line)+'</pre>';
+            bsrc += qx.html.String.escape(currBlock + line);
             currBlock = "";  // start new block
           } else if (PScriptEnd.exec(line)) 
           {
@@ -1224,7 +1226,8 @@ qx.Class.define("demobrowser.DemoBrowser",
             //bsrc += this.__sourceViewStyle();
             // pass script block to tokenizer
             var s1 = qx.dev.Tokenizer.javaScriptToHtml(currBlock);
-            bsrc += '<div class="script"><pre>'+s1+'</pre></div>';
+            //bsrc += '<div class="script"><pre>'+s1+'</pre></div>';
+            bsrc += '<div class="script">'+s1+'</div>';
             currBlock = line+'\n';  // start new block
           } else // no border line 
           {
@@ -1234,7 +1237,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
 
       // collect rest of page
-      bsrc += '<pre>'+qx.html.String.escape(currBlock)+'</pre>';
+      bsrc += qx.html.String.escape(currBlock)+'</pre>';
 
       
       /*
