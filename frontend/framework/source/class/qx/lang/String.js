@@ -109,6 +109,10 @@ qx.Class.define("qx.lang.String",
     startsWith : function(fullstr, substr) {
       return !fullstr.indexOf(substr);
     },
+    
+    startsWithAlternate : function(fullstr, substr) {
+      return fullstr.substring(0, substr.length) === substr;
+    },
 
 
     /**
@@ -121,6 +125,10 @@ qx.Class.define("qx.lang.String",
      */
     endsWith : function(fullstr, substr) {
       return fullstr.lastIndexOf(substr) === fullstr.length - substr.length;
+    },
+    
+    endsWithAlternate : function(fullstr, substr) {
+      return fullstr.substring(fullstr.length - substr.length, fullstr.length) === substr;
     },
 
 
