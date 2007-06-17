@@ -27,7 +27,7 @@ qx.Class.define("testrunner.test.EditDistance",
     {
       var operations = qx.util.EditDistance.getEditOperations(strA, strB);
 
-      arr = qx.lang.String.splitCharacters(strA);
+      arr = qx.lang.String.toArray(strA);
 
       for (var i=0, l=operations.length; i<l; i++)
       {
