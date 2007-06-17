@@ -302,7 +302,7 @@ qx.Class.define("qx.lang.String",
      * @param str {String} the string which should be splitted
      * @return {Array} the result array of characters
      */
-    splitCharacters : function(str) {
+    toArray : function(str) {
       return str.split(/\B|\b/g);
     }
   }
