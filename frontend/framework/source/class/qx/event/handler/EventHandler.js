@@ -295,7 +295,7 @@ qx.Class.define("qx.event.handler.EventHandler",
      * @type static
      * @param vDomEvent {Event} DOM event to get the target widget from.
      * @return {qx.ui.core.Widget|null} The widget the event should be dispatched on (<code>null</code>
-     *   if no widget is found). 
+     *   if no widget is found).
      */
     getTargetObjectFromEvent : function(vDomEvent) {
       return qx.event.handler.EventHandler.getTargetObject(qx.event.handler.EventHandler.getDomTarget(vDomEvent));
@@ -920,8 +920,6 @@ qx.Class.define("qx.event.handler.EventHandler",
           {
             this.setFocusRoot(vRoot);
 
-            vRoot.setActiveChild(vTarget);
-
             // Active focus on element (if possible, else search up the parent tree)
             var vFocusTarget = vTarget;
 
@@ -930,6 +928,11 @@ qx.Class.define("qx.event.handler.EventHandler",
             }
 
             vRoot.setFocusedChild(vFocusTarget);
+
+            // We need to focus first and active afterwards.
+            // Otherwise the focus will activate another widget if the
+            // active one is not tabable.
+            vRoot.setActiveChild(vTarget);
           }
         }
 
