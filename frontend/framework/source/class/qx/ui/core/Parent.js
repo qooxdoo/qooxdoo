@@ -80,6 +80,7 @@ qx.Class.define("qx.ui.core.Parent",
     activeChild :
     {
       check : "qx.ui.core.Widget",
+      apply : "_applyActiveChild",
       event : "changeActiveChild",
       nullable : true
     },
@@ -210,6 +211,18 @@ qx.Class.define("qx.ui.core.Parent",
         // Don't hide focus outline
         this.setHideFocus(false);
       }
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param value {var} Current value
+     * @param old {var} Previous value
+     */
+    _applyActiveChild : function(value, old) {
+      // this.debug("ActiveChild: " + value);
     },
 
 
