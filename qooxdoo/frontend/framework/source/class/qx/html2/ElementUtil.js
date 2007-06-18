@@ -10,7 +10,8 @@ qx.Class.define("qx.html2.ElementUtil",
       {
         "class" : "className",
         "for" : "htmlFor",
-        "html" : "innerHTML",
+        html : "innerHTML",
+        text : qx.core.Client.getInstance().isMshtml() ? "innerText" : "textContent",        
         colspan : "colSpan",
         rowspan : "rowSpan",
         valign : "vAlign",
@@ -20,8 +21,7 @@ qx.Class.define("qx.html2.ElementUtil",
         enctype : "encType",
         maxlength : "maxLength",
         readonly : "readOnly",
-        longdesc : "longDesc",
-        textContent : qx.core.Client.getInstance().isMshtml() ? "innerText" : "textContent"
+        longdesc : "longDesc"
       },
 
       property :
