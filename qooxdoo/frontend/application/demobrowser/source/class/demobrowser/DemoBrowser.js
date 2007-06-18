@@ -1198,10 +1198,11 @@ qx.Class.define("demobrowser.DemoBrowser",
       var currBlock = ""
       var PScriptStart = /^\s*<script\b[^>]*?(?!\bsrc\s*=)[^>]*?>\s*$/i;
       var PScriptEnd = /^\s*<\/script>\s*$/i;
+      var oldIndex = 0;
 
       while (! eof) 
       {
-        result = linep.exec(src);
+        result   = linep.exec(src);
 
         if (result == null) 
         {
@@ -1209,10 +1210,13 @@ qx.Class.define("demobrowser.DemoBrowser",
         } else 
         {
           line = result[0];
-          if (line == "")  // fix bug in firefox 2!!
+          if (line == "")
           {
-            linep.lastIndex++;
+            if (oldIndex == linep.lastIndex) {  // fix bug in non-IE browser
+              linep.lastIndex++;
+            }
           }
+          oldIndex = linep.lastIndex;
            
           if (PScriptStart.exec(line)) 
           {
