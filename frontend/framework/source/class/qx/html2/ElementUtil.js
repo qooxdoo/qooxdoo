@@ -81,10 +81,10 @@ qx.Class.define("qx.html2.ElementUtil",
       // apply attribute
       if (hints.property[name]) {
         el[name] = value;
-      } else if (value === false || value === null) {
-        el.removeAttribute(name);
       } else if (value === true) {
         el.setAttribute(name, name);
+      } else if (value === false || value === null) {
+        el.removeAttribute(name);
       } else {
         el.setAttribute(name, value);
       }
@@ -114,6 +114,55 @@ qx.Class.define("qx.html2.ElementUtil",
       "default" : function(el) {
         return el.getAttribute("style");
       }
-    })
+    }),
+
+
+    __styleHints :
+    {
+      names :
+      {
+        "float" : qx.core.Client.getInstance().isMshtml() ? "styleFloat" : "cssFloat"
+
+        // TODO: CamelCase names?
+      }
+    },
+
+
+    setStyle : function(el, name, value)
+    {
+      var hints = this.__styleHints;
+
+      // normalize name
+      name = hints.names[name] || name;
+
+      // apply style
+      el.style[name] = value;
+
+      return el;
+    },
+
+
+    getStyle : function(el, name)
+    {
+      var hints = this.__styleHints;
+
+      // normalize name
+      name = hints.names[name] || name;
+
+      // read out style
+      var value = el.style[name];
+
+      // otherwise try computed value
+      if (!value)
+      {
+        var computed = document.defaultView.getComputedStyle(el, null);
+        if (computed) {
+          value = computed[name];
+        }
+      }
+
+      // auto should be interpreted as null
+      return value === "auto" ? null : value;
+    }
   }
 });
