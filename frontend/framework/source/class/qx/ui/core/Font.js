@@ -146,6 +146,15 @@ qx.Class.define("qx.ui.core.Font",
       style.fontWeight = "";
       style.fontStyle = "";
       style.textDecoration = "";
+    },
+
+    resetStyle : function(element)
+    {
+      style.fontFamily = "";
+      style.fontSize = "";
+      style.fontWeight = "";
+      style.fontStyle = "";
+      style.textDecoration = "";
     }
   },
 
@@ -254,6 +263,15 @@ qx.Class.define("qx.ui.core.Font",
       widget.setStyleProperty("textDecoration", this.__decoration);
     },
 
+    renderStyle : function(style)
+    {
+      style.fontFamily = this.__family || "";
+      style.fontSize = this.__size || "";
+      style.fontWeight = this.__bold || "";
+      style.fontStyle =  this.__italic || "";
+      style.textDecoration = this.getDecoration() || "";
+    },
+    
     renderElement : function(element)
     {
       var style = element.style;
