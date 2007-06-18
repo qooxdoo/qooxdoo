@@ -850,6 +850,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.toolbar.setEnabled(false);
       this.widgets["outputviews.bar"].getManager().setSelected(this.widgets["outputviews.demopage.button"]);
       this.widgets["outputviews.demopage.page"].setEnabled(false);
+      this.widgets["treeview"].setEnabled(false);
 
       /*
       this.widgets["outputviews.demopage.page"].block();
@@ -979,6 +980,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.widgets["outputviews"].resetEnabled();
       this.widgets["toolbar.sobutt"].resetEnabled();
       this.widgets["toolbar.sampbutts"].resetEnabled();  // in case it was disabled
+      this.widgets["treeview"].resetEnabled();
 
       this.widgets["outputviews.demopage.button"].setLabel(this.polish(path[path.length - 1]));
 
