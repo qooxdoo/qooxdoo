@@ -43,15 +43,14 @@ qx.Class.define("qx.dom.String",
     escapeEntities : qx.core.Variant.select("qx.client", 
     {
       // IE and Opera:
-      //  - use [] to access string elements (much faster in IE and Opera)
       //  - use [].join() to build strings      
-      "mshtml|opera": function(str, charCodeToEntities)
+      "mshtml": function(str, charCodeToEntities)
       {
         var entity, result = [];
 
         for (var i=0, l=str.length; i<l; i++)
         {
-          var chr = str[i];
+          var chr = str.charAt(i);
           var code = chr.charCodeAt(0);
 
           if (charCodeToEntities[code]) {
@@ -73,7 +72,6 @@ qx.Class.define("qx.dom.String",
       },
       
       // other browsers:
-      //  - use "".charAt to access string elements (much faster in FF)
       //  - use += to build strings            
       "default": function(str, charCodeToEntities)
       {
