@@ -24,7 +24,7 @@ qx.Class.define("qx.html2.Element",
   /**
    * Creates a new Element
    *
-   * @param el {DOMElement?} an existing and visible DOM element
+   * @param el {Element?} an existing and visible DOM element
    */
   construct : function(el)
   {
