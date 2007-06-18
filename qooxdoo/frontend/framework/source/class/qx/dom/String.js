@@ -72,7 +72,7 @@ qx.Class.define("qx.dom.String",
         return result.join("");
       },
       
-      // IE and Opera:
+      // other browsers:
       //  - use "".charAt to access string elements (much faster in FF)
       //  - use += to build strings            
       "default": function(str, charCodeToEntities)
