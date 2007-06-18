@@ -148,7 +148,14 @@ qx.Class.define("qx.ui.core.Font",
       style.textDecoration = "";
     },
 
-    resetStyle : function(element)
+    /**
+     * Reset a style map by setting the font attributes to empty.
+     *
+     * @param style {Map}
+     * @type static
+     * @return {void}
+     */
+    resetStyle : function(style)
     {
       style.fontFamily = "";
       style.fontSize = "";
@@ -263,6 +270,13 @@ qx.Class.define("qx.ui.core.Font",
       widget.setStyleProperty("textDecoration", this.__decoration);
     },
 
+    /**
+     * Generate a style map with the current font attributes.
+     *
+     * @param style {Map}
+     * @type member
+     * @return {void}
+     */
     renderStyle : function(style)
     {
       style.fontFamily = this.__family || "";
@@ -280,6 +294,20 @@ qx.Class.define("qx.ui.core.Font",
       style.fontWeight = this.__bold || "";
       style.fontStyle =  this.__italic || "";
       style.textDecoration = this.getDecoration() || "";
+    },
+    
+    /**
+     * Generate a style string with the current font attributes.
+     *
+     * @type member
+     * @return {String}
+     */
+    generateStyle : function() {
+      return this.__family ? "font-family:" + this.__family.replace(/\"/g, "'") + ";" : "" + 
+             this.__size ? "font-size:" + this.__size + ";" : "" +
+             this.__weight ? "font-weight:" + this.__weight + ";" : "" +
+             this.__style ? "font-style:" + this.__style + ";" : "" +
+             this.getDecoration() ? "text-decoration:" + this.getDecoration() + ";" : "";
     }
   }
 });
