@@ -96,11 +96,11 @@ qx.Class.define("qx.html2.ElementUtil",
     setCss : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(el, value) {
-        element.style.cssText = value;
+        el.style.cssText = value;
       },
 
       "default" : function(el, value) {
-        return element.setAttribute("style", value);
+        return el.setAttribute("style", value);
       }
     }),
 
@@ -108,11 +108,11 @@ qx.Class.define("qx.html2.ElementUtil",
     getCss : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(el) {
-        return element.style.cssText.toLowerCase();
+        return el.style.cssText.toLowerCase();
       },
 
       "default" : function(el) {
-        return element.getAttribute("style");
+        return el.getAttribute("style");
       }
     })
   }
