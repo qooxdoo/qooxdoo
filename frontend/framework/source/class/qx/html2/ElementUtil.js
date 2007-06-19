@@ -11,7 +11,7 @@ qx.Class.define("qx.html2.ElementUtil",
         "class" : "className",
         "for" : "htmlFor",
         html : "innerHTML",
-        text : qx.core.Client.getInstance().isMshtml() ? "innerText" : "textContent",        
+        text : qx.core.Client.getInstance().isMshtml() ? "innerText" : "textContent",
         colspan : "colSpan",
         rowspan : "rowSpan",
         valign : "vAlign",
@@ -34,7 +34,7 @@ qx.Class.define("qx.html2.ElementUtil",
         value : true,
         maxLength : true,
         className : true,
-        innerHtml : true,
+        innerHTML : true,
         innerText : true,
         textContent : true,
         htmlFor : true
@@ -142,27 +142,45 @@ qx.Class.define("qx.html2.ElementUtil",
     },
 
 
-    getStyle : function(el, name)
+    getStyle : qx.core.Variant.select("qx.client",
     {
-      var hints = this.__styleHints;
-
-      // normalize name
-      name = hints.names[name] || name;
-
-      // read out style
-      var value = el.style[name];
-
-      // otherwise try computed value
-      if (!value)
+      "mshtml" : function(el, name)
       {
-        var computed = document.defaultView.getComputedStyle(el, null);
-        if (computed) {
-          value = computed[name];
-        }
-      }
+        var hints = this.__styleHints;
 
-      // auto should be interpreted as null
-      return value === "auto" ? null : value;
-    }
+        // normalize name
+        name = hints.names[name] || name;
+
+        // read out computed style
+        var value = el.currentStyle[name];
+
+        // auto should be interpreted as null
+        return value === "auto" ? null : value;
+      },
+
+      "default" : function(el, name)
+      {
+        var hints = this.__styleHints;
+
+        // normalize name
+        name = hints.names[name] || name;
+
+        // read out explicit style:
+        // faster than the method call later
+        var value = el.style[name];
+
+        // otherwise try computed value
+        if (!value)
+        {
+          var computed = document.defaultView.getComputedStyle(el, null);
+          if (computed) {
+            value = computed[name];
+          }
+        }
+
+        // auto should be interpreted as null
+        return value === "auto" ? null : value;
+      }
+    })
   }
 });

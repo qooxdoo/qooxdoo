@@ -16,7 +16,7 @@
     <input id="test3" type="checkbox" checked="true" name="foo3" value="bar"/>
     <input id="test4" type="text" disabled="disabled"/>
     <input id="test5" type="text" disabled="false" READONLY="true"/>
-    <a id="test6" style="color:red;background:blue" href="../foo.html">Foo-Link</a>
+    <a id="test6" style="color:red;background:blue" href="../foo.html"><b>Foo</b>-Link</a>
   </div>
 
   <div id="demoDescription">
@@ -62,6 +62,8 @@
     this.debug("bg: " + util.getStyle(document.getElementById("test6"), "backgroundColor"));
     this.debug("font: " + util.getStyle(document.getElementById("test6"), "font"));
     this.debug("family: " + util.getStyle(document.getElementById("test6"), "fontFamily"));
+    this.debug("text: " + util.getAttribute(document.getElementById("test6"), "text"));
+    this.debug("html: " + util.getAttribute(document.getElementById("test6"), "html"));
   });
   </script>
 </body>
