@@ -143,6 +143,20 @@ qx.Theme.define("qx.theme.ext.Appearance",
       }
     },
 
+    "client-document-blocker" :
+    {
+      style : function(states)
+      {
+        // You could also use: "static/image/dotted_white.gif" for example as backgroundImage here
+        // (Visible) background tiles could be dramatically slow down mshtml!
+        // A background image or color is always needed for mshtml to block the events successfully.
+        return {
+          cursor : "default",
+          backgroundImage : "static/image/blank.gif"
+        };
+      }
+    },    
+
     "tool-tip" :
     {
       include : "popup",
@@ -238,6 +252,19 @@ qx.Theme.define("qx.theme.ext.Appearance",
       }
     },
 
+    "toolbar-part" : {
+    },
+
+    "toolbar-part-handle" :
+    {
+      style : function(states)
+      {
+        return {
+          width : 10
+        };
+      }
+    },
+    
     "toolbar-part-handle-line" :
     {
       style : function(states)
@@ -252,6 +279,16 @@ qx.Theme.define("qx.theme.ext.Appearance",
       }
     },
 
+    "toolbar-separator" :
+    {
+      style : function(states)
+      {
+        return {
+          width : 8
+        };
+      }
+    },
+    
     "toolbar-separator-line" :
     {
       style : function(states)
@@ -425,6 +462,19 @@ qx.Theme.define("qx.theme.ext.Appearance",
     ---------------------------------------------------------------------------
     */
 
+    "tab-view" :
+    {
+      style : function(states)
+      {
+        return {
+          spacing : -1
+        };
+      }
+    },
+
+    "tab-view-bar" : {
+    },
+    
     "tab-view-pane" :
     {
       style : function(states)
@@ -811,6 +861,53 @@ qx.Theme.define("qx.theme.ext.Appearance",
       }
     },
 
+    "menu-button-arrow" :
+    {
+      style : function(states)
+      {
+        return {
+          source : "widget/arrows/next.gif"
+        };
+      }
+    },
+
+    "menu-check-box" :
+    {
+      include : "menu-button",
+
+      style : function(states)
+      {
+        return {
+          icon : states.checked ? "widget/menu/checkbox.gif" : "static/image/blank.gif"
+        };
+      }
+    },
+
+    "menu-radio-button" :
+    {
+      include : "menu-button",
+
+      style : function(states)
+      {
+        return {
+          icon : states.checked ? "widget/menu/radiobutton.gif" : "static/image/blank.gif"
+        };
+      }
+    },
+
+    "menu-separator" :
+    {
+      style : function(states)
+      {
+        return {
+          marginTop    : 3,
+          marginBottom : 2,
+          paddingLeft  : 3,
+          paddingRight : 3
+        };
+      }
+    },
+
     "menu-separator-line" :
     {
       style : function(states)
@@ -884,6 +981,9 @@ qx.Theme.define("qx.theme.ext.Appearance",
       }
     },
 
+    "text-area" : {
+      include : "text-field"
+    },
 
     /*
     ---------------------------------------------------------------------------
@@ -1031,6 +1131,92 @@ qx.Theme.define("qx.theme.ext.Appearance",
     "combo-box-ex-button" : {
       include : "combo-box-button"
     },
+    
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      TREE VIRTUAL
+    ---------------------------------------------------------------------------
+    */
+
+    "treevirtual-focus-indicator" : {
+      include : "empty"
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      TREE
+    ---------------------------------------------------------------------------
+    */
+
+    "tree-element" :
+    {
+      style : function(states)
+      {
+        return {
+          height                : 16,
+          verticalChildrenAlign : "middle"
+        };
+      }
+    },
+
+    "tree-element-icon" :
+    {
+      style : function(states)
+      {
+        return {
+          width  : 16,
+          height : 16
+        };
+      }
+    },
+
+    "tree-element-label" :
+    {
+      include : "label",
+
+      style : function(states)
+      {
+        return {
+          marginLeft      : 3,
+          height          : 15,
+          padding         : 2,
+          backgroundColor : states.selected ? "selected" : "undefined",
+          textColor       : states.selected ? "text-selected" : "undefined"
+        };
+      }
+    },
+
+    "tree-folder" : {
+      include : "tree-element"
+    },
+
+    "tree-folder-icon" : {
+      include : "tree-element-icon"
+    },
+
+    "tree-folder-label" : {
+      include : "tree-element-label"
+    },
+
+    "tree" : {
+      include : "tree-folder"
+    },
+
+    "tree-icon" : {
+      include : "tree-folder-icon"
+    },
+
+    "tree-label" : {
+      include : "tree-folder-label"
+    },
+
 
 
 
@@ -1050,6 +1236,16 @@ qx.Theme.define("qx.theme.ext.Appearance",
         }
       }
     },
+    
+    "list-view-pane" :
+    {
+      style : function(states)
+      {
+        return {
+          horizontalSpacing : 1
+        };
+      }
+    },    
 
     "list-view-header" :
     {
@@ -1073,6 +1269,26 @@ qx.Theme.define("qx.theme.ext.Appearance",
           backgroundImage : "widget/gradient/button_gradient.png",
           paddingBottom   : states.over ? 0 : 2,
           border          : states.over ? qx.ui.core.Border.fromConfig({ bottom : [ 2, "solid", "list-view-header-border-hover" ] }) : "undefined"
+        };
+      }
+    },
+
+    "list-view-header-cell-arrow-up" :
+    {
+      style : function(states)
+      {
+        return {
+          source : "widget/arrows/up.gif"
+        };
+      }
+    },
+
+    "list-view-header-cell-arrow-down" :
+    {
+      style : function(states)
+      {
+        return {
+          source : "widget/arrows/down.gif"
         };
       }
     },
@@ -1107,6 +1323,44 @@ qx.Theme.define("qx.theme.ext.Appearance",
       }
     },
 
+    "list-view-content-cell-image" :
+    {
+      include : "list-view-content-cell",
+
+      style : function(states)
+      {
+        return {
+          paddingLeft  : 6,
+          paddingRight : 6
+        };
+      }
+    },
+
+    "list-view-content-cell-text" :
+    {
+      include : "list-view-content-cell",
+
+      style : function(states)
+      {
+        return {
+          overflow     : "hidden",
+          paddingLeft  : 6,
+          paddingRight : 6
+        };
+      }
+    },
+
+    "list-view-content-cell-html" : {
+      include : "list-view-content-cell-text"
+    },
+
+    "list-view-content-cell-icon-html" : {
+      include : "list-view-content-cell-text"
+    },
+
+    "list-view-content-cell-link" : {
+      include : "list-view-content-cell-text"
+    },
 
 
 
