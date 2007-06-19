@@ -737,11 +737,15 @@ qx.Class.define("qx.ui.table.Table",
      */
     _applyDataRowRenderer : function(value, old)
     {
-      if (old != null)
+      if (this._dataRowRenderer != null)
       {
-        old.dispose();
-        old = null;
+        this._dataRowRenderer.setParent(null);
+        this._dataRowRenderer.dispose();
+        this._dataRowRenderer = null;
       }
+      
+      value.setParent(this);
+      this._dataRowRenderer = value;
     },
 
 
@@ -1769,6 +1773,6 @@ qx.Class.define("qx.ui.table.Table",
   destruct : function()
   {
     this._cleanUpMetaColumns(0);
-    this._disposeObjects("_selectionManager", "_columnVisibilityMenu", "_tableModel", "_columnVisibilityBt", "_scrollerParent", "_statusBar");
+    this._disposeObjects("_selectionManager", "_columnVisibilityMenu", "_tableModel", "_columnVisibilityBt", "_scrollerParent", "_statusBar", "_dataRowRenderer");
   }
 });
