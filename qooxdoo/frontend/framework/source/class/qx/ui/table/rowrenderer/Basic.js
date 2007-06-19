@@ -28,7 +28,7 @@
  */
 qx.Class.define("qx.ui.table.rowrenderer.Basic",
 {
-  extend : qx.core.Object,
+  extend : qx.ui.basic.Terminator,
 
 
 

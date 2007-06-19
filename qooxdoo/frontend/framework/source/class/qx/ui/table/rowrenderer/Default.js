@@ -6,6 +6,7 @@
 
    Copyright:
      2006 STZ-IDA, Germany, http://www.stz-ida.de
+     2007 Visionet Gmbh, http://www.visionet.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -13,7 +14,8 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Til Schneider (til132)
+     * Til Schneider (til132) STZ-IDA
+     * Dietrich Streifert (level420) Visionet
 
 ************************************************************************ */
 
@@ -25,6 +27,8 @@
 
 /**
  * The default data row renderer.
+ * 
+ * @appearance table-row
  */
 qx.Class.define("qx.ui.table.rowrenderer.Default",
 {
@@ -43,45 +47,10 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
   {
     this.base(arguments);
 
-    var Ddrr = qx.ui.table.rowrenderer.Default;
-
-    // Initialize to the default colors.
-    this._colors =
-    {
-      bgcolFocusedSelected     : Ddrr.BGCOL_FOCUSED_SELECTED,
-      bgcolFocusedSelectedBlur : Ddrr.BGCOL_FOCUSED_SELECTED_BLUR,
-      bgcolFocused             : Ddrr.BGCOL_FOCUSED,
-      bgcolFocusedBlur         : Ddrr.BGCOL_FOCUSED_BLUR,
-      bgcolSelected            : Ddrr.BGCOL_SELECTED,
-      bgcolSelectedBlur        : Ddrr.BGCOL_SELECTED_BLUR,
-      bgcolEven                : Ddrr.BGCOL_EVEN,
-      bgcolOdd                 : Ddrr.BGCOL_ODD,
-      colSelected              : Ddrr.COL_SELECTED,
-      colNormal                : Ddrr.COL_NORMAL
-    };
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-    BGCOL_FOCUSED_SELECTED      : "#5a8ad3",
-    BGCOL_FOCUSED_SELECTED_BLUR : "#b3bac6",
-    BGCOL_FOCUSED               : "#ddeeff",
-    BGCOL_FOCUSED_BLUR          : "#dae0e7",
-    BGCOL_SELECTED              : "#335ea8",
-    BGCOL_SELECTED_BLUR         : "#989ea8",
-    BGCOL_EVEN                  : "#faf8f3",
-    BGCOL_ODD                   : "white",
-    COL_SELECTED                : "white",
-    COL_NORMAL                  : "black"
+    this._fontStyle = {};
+    this._fontStyleString = "";
+    
+    this._colors = {};
   },
 
 
@@ -113,21 +82,57 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
       init : true
     },
 
-    /** The font family used for the data row */
-    fontFamily :
+    /**
+     * Refine the appearance of the data row renderer.
+     * 
+     * TODO: create an appearance in the themes. For test purposes
+     * the client-document appearance is used because it contains
+     * a font definition. 
+     * 
+     */
+    appearance :
     {
-      check : "String",
-      init : "'Segoe UI', Corbel, Calibri, Tahoma, 'Lucida Sans Unicode', sans-serif"
+      refine : true,
+      init   : "table-row"
     },
-
-    /** The font size used for the data row */
-    fontSize :
+    
+    /**
+     * The value of each property in the map is a string containing either a
+     * number (e.g. "#518ad3") or color name ("white") representing the color
+     * for that type of display.  The map may contain any or all of the
+     * following properties:
+     * <ul>
+     *   <li>bgcolFocusedSelected</li>
+     *   <li>bgcolFocusedSelectedBlur</li>
+     *   <li>bgcolFocused</li>
+     *   <li>bgcolFocusedBlur</li>
+     *   <li>bgcolSelected</li>
+     *   <li>bgcolSelectedBlur</li>
+     *   <li>bgcolEven</li>
+     *   <li>bgcolOdd</li>
+     *   <li>colSelected</li>
+     *   <li>colNormal</li>
+     * </ul>
+     */
+    rowColors :
     {
-      check : "String",
-      init : "11px"
+      check     : "Map",
+      apply     : "_applyRowColors",
+      themeable : true,
+      init      : {
+        bgcolFocusedSelected     : "table-row-background-focused-selected",
+        bgcolFocusedSelectedBlur : "table-row-background-focused-selected-blur",
+        bgcolFocused             : "table-row-background-focused",
+        bgcolFocusedBlur         : "table-row-background-focused-blur",
+        bgcolSelected            : "table-row-background-selected",
+        bgcolSelectedBlur        : "table-row-background-selected-blur",
+        bgcolEven                : "table-row-background-even",
+        bgcolOdd                 : "table-row-background-odd",
+        colSelected              : "table-row-selected",
+        colNormal                : "table-row"
+      }
     }
   },
-
 
 
 
@@ -139,6 +144,58 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
 
   members :
   {
+    /**
+     * Font property applyer.
+     *
+     * @type member
+     * @param value {var} Current value
+     * @param old {var} Previous value
+     */
+    _applyFont : function(value, old) {
+      qx.theme.manager.Font.getInstance().connect(this._styleFont, this, value);
+    },
+
+
+    /**
+     * Utility method to render the given font. Calls the
+     * {@link #_renderFont} method.
+     *
+     * @type member
+     * @param value {qx.ui.core.Font} new font value to render
+     * @return {void}
+     */
+    _styleFont : function(value) {
+      this.__font = value;
+      this._renderFont();
+    },
+
+
+    /**
+     * Render the new font and update the table pane content
+     * to reflect the font change.
+     *
+     * @return {void}
+     */
+    _renderFont : function() {
+      var value = this.__font;
+      if(value) {
+        value.renderStyle(this._fontStyle);
+        this._fontStyleString = value.generateStyle();
+      }
+      else {
+        qx.ui.core.Font.resetStyle(this._fontStyle);
+        this._fontStyleString = "";
+      }
+
+      var table = this.getParent();
+      if(table) {
+        var scrollerArr = table._getPaneScrollerArr();
+        for (var i=0; i<scrollerArr.length; i++) {
+          scrollerArr[i]._tablePane._updateContent();
+        }
+      }
+    },
+
     // overridden
     /**
      * TODOC
@@ -150,15 +207,21 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
      */
     updateDataRowElement : function(rowInfo, rowElem)
     {
-      rowElem.style.fontFamily = this.getFontFamily();
-      rowElem.style.fontSize = this.getFontSize();
+      var fontStyle = this._fontStyle;
+      var style = rowElem.style;
+      
+      style.fontFamily     = fontStyle.fontFamily;
+      style.fontSize       = fontStyle.fontSize;
+      style.fontWeight     = fontStyle.fontWeight;
+      style.fontStyle      = fontStyle.fontStyle;
+      style.textDecoration = fontStyle.textDecoration;
 
       if (rowInfo.focusedRow && this.getHighlightFocusRow())
       {
         if (rowInfo.table.getFocused() || !this.getVisualizeFocusedState()) {
-          rowElem.style.backgroundColor = rowInfo.selected ? this._colors.bgcolFocusedSelected : this._colors.bgcolFocused;
+          style.backgroundColor = rowInfo.selected ? this._colors.bgcolFocusedSelected : this._colors.bgcolFocused;
         } else {
-          rowElem.style.backgroundColor = rowInfo.selected ? this._colors.bgcolFocusedSelectedBlur : this._colors.bgcolFocusedBlur;
+          style.backgroundColor = rowInfo.selected ? this._colors.bgcolFocusedSelectedBlur : this._colors.bgcolFocusedBlur;
         }
       }
       else
@@ -166,18 +229,18 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
         if (rowInfo.selected)
         {
           if (rowInfo.table.getFocused() || !this.getVisualizeFocusedState()) {
-            rowElem.style.backgroundColor = this._colors.bgcolSelected;
+            style.backgroundColor = this._colors.bgcolSelected;
           } else {
-            rowElem.style.backgroundColor = this._colors.bgcolSelectedBlur;
+            style.backgroundColor = this._colors.bgcolSelectedBlur;
           }
         }
         else
         {
-          rowElem.style.backgroundColor = (rowInfo.row % 2 == 0) ? this._colors.bgcolEven : this._colors.bgcolOdd;
+          style.backgroundColor = (rowInfo.row % 2 == 0) ? this._colors.bgcolEven : this._colors.bgcolOdd;
         }
       }
 
-      rowElem.style.color = rowInfo.selected ? this._colors.colSelected : this._colors.colNormal;
+      style.color = rowInfo.selected ? this._colors.colSelected : this._colors.colNormal;
     },
 
     // Array join test
@@ -191,12 +254,9 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
      */
     _createRowStyle_array_join : function(rowInfo, htmlArr)
     {
-      htmlArr.push(";font-family:");
-      htmlArr.push(this.getFontFamily());
-      htmlArr.push(";font-size:");
-      htmlArr.push(this.getFontSize());
-
-      htmlArr.push(";background-color:");
+      htmlArr.push(";");
+      htmlArr.push(this._fontStyleString);
+      htmlArr.push("background-color:");
 
       if (rowInfo.focusedRow && this.getHighlightFocusRow())
       {
@@ -226,33 +286,22 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
       htmlArr.push(rowInfo.selected ? this._colors.colSelected : this._colors.colNormal);
     },
 
-
     /**
-     * Allow setting the table row colors.
+     * rowColors property applyer.
      *
      * @type member
-     * @param colors {Map} The value of each property in the map is a string containing either a
-     *      number (e.g. "#518ad3") or color name ("white") representing the color
-     *      for that type of display.  The map may contain any or all of the
-     *      following properties:
-     *      <ul>
-     *        <li>bgcolFocusedSelected</li>
-     *        <li>bgcolFocusedSelectedBlur</li>
-     *        <li>bgcolFocused</li>
-     *        <li>bgcolFocusedBlur</li>
-     *        <li>bgcolSelected</li>
-     *        <li>bgcolSelectedBlur</li>
-     *        <li>bgcolEven</li>
-     *        <li>bgcolOdd</li>
-     *        <li>colSelected</li>
-     *        <li>colNormal</li>
-     *      </ul>
-     * @return {void}
+     * @param colors {var} Current value
+     * @param oldColors {var} Previous value
      */
-    setRowColors : function(colors)
-    {
+    _applyRowColors : function(colors, oldColors) {
+      this._styleRowColors(colors);
+    },
+
+    _styleRowColors : function(colors) {
+      var cm = qx.theme.manager.Color.getInstance();
+      
       for (var color in colors) {
-        this._colors[color] = colors[color];
+        this._colors[color] = cm.isDynamic(colors[color]) ? cm.resolveDynamic(colors[color]) : colors[color];
       }
     }
   },
@@ -267,6 +316,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
   */
 
   destruct : function() {
-    this._disposeFields("_colors");
+    this._fontStyle = null;
+    this._colors = null;
   }
 });
