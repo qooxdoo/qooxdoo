@@ -152,6 +152,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
+     * @return {void}
      */
     _applyFont : function(value, old) {
       qx.theme.manager.Font.getInstance().connect(this._styleFont, this, value);
@@ -176,6 +177,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
      * Render the new font and update the table pane content
      * to reflect the font change.
      *
+     * @type member
      * @return {void}
      */
     _renderFont : function() {
@@ -189,13 +191,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
         this._fontStyleString = "";
       }
 
-      var table = this.getParent();
-      if(table) {
-        var scrollerArr = table._getPaneScrollerArr();
-        for (var i=0; i<scrollerArr.length; i++) {
-          scrollerArr[i]._tablePane._updateContent();
-        }
-      }
+      this._updateTableContent();
     },
 
     // overridden
@@ -294,18 +290,45 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
      * @type member
      * @param colors {var} Current value
      * @param oldColors {var} Previous value
+     * @return {void}
      */
     _applyRowColors : function(colors, oldColors) {
       this._styleRowColors(colors);
     },
 
+    /**
+     * rowColors property styler. Used be the theme system to set new color values.
+     *
+     * @type member
+     * @param colors {var} Current value
+     * @param oldColors {var} Previous value
+     * @return {void}
+     */
     _styleRowColors : function(colors) {
       var cm = qx.theme.manager.Color.getInstance();
       
       for (var color in colors) {
         this._colors[color] = cm.isDynamic(colors[color]) ? cm.resolveDynamic(colors[color]) : colors[color];
       }
-    }
+
+      this._updateTableContent();
+    },
+    
+    /**
+     * Update the table pane content to reflect visual changes.
+     *
+     * @type member
+     * @return {void}
+     */
+    _updateTableContent : function() {
+      var table = this.getParent();
+      if(table) {
+        var scrollerArr = table._getPaneScrollerArr();
+        for (var i=0; i<scrollerArr.length; i++) {
+          scrollerArr[i]._tablePane._updateContent();
+        }
+      }
+    }   
   },
 
 
