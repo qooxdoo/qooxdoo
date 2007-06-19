@@ -1465,6 +1465,8 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * Widgets with the same tabIndex are handled through there position
      * in the document.
+     *
+     * Setting the tabIndex to -1 deactivate focus handling for the widget.
      */
     tabIndex :
     {
