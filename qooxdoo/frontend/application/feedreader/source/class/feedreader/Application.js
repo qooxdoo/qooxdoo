@@ -349,7 +349,7 @@ qx.Class.define("feedreader.Application",
       {
         var selectedEntry = table.getSelectionModel().getAnchorSelectionIndex();
         var feedName = this.getSelectedFeed()
-        if (selectedEntry > 0) {
+        if (selectedEntry >= 0) {
           var itemId = this._tableModel.getRowData(selectedEntry)[3];
           this.getFeeds()[feedName].selected = itemId;
           item = this.getFeeds()[feedName].items[itemId];
