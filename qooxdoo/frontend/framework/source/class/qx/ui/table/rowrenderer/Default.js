@@ -51,6 +51,16 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
     this._fontStyleString = "";
     
     this._colors = {};
+    
+    /* use the appearance style to initialize the colors
+     * otherwise setting an incomplete color map with
+     * setRowColors inhibits the initial styling
+     * through appearances
+     */
+    var style = qx.theme.manager.Appearance.getInstance().styleFrom(this.getAppearance());
+    if(style && style.rowColors) {
+      this.styleRowColors(style.rowColors);
+    }
   },
 
 
@@ -120,19 +130,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
     {
       check     : "Map",
       apply     : "_applyRowColors",
-      themeable : true,
-      init      : {
-        bgcolFocusedSelected     : "table-row-background-focused-selected",
-        bgcolFocusedSelectedBlur : "table-row-background-focused-selected-blur",
-        bgcolFocused             : "table-row-background-focused",
-        bgcolFocusedBlur         : "table-row-background-focused-blur",
-        bgcolSelected            : "table-row-background-selected",
-        bgcolSelectedBlur        : "table-row-background-selected-blur",
-        bgcolEven                : "table-row-background-even",
-        bgcolOdd                 : "table-row-background-odd",
-        colSelected              : "table-row-selected",
-        colNormal                : "table-row"
-      }
+      themeable : true
     }
   },
 
