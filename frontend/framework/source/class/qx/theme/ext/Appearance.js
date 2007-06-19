@@ -689,8 +689,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
         return {
           backgroundColor : "menu",
           border          : "general",
-          padding         : 1,
-          backgroundImage : "widget/gradient/menu-background.png"
+          padding         : 1
         };
       }
     },
