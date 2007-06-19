@@ -59,10 +59,72 @@ qx.Theme.define("qx.theme.ext.Appearance",
   {
     /*
     ---------------------------------------------------------------------------
-      BASICS
+      CORE
     ---------------------------------------------------------------------------
     */
 
+    "empty" : {
+    },
+
+    "widget" : {
+    },
+
+    "image" : {
+    },
+
+    "atom" : {
+    },
+
+    "popup" : {
+    },
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      BASICS
+    ---------------------------------------------------------------------------
+    */
+    
+    "cursor-dnd-move" :
+    {
+      style : function(states)
+      {
+        return {
+          source : "widget/cursors/move.gif"
+        };
+      }
+    },
+
+    "cursor-dnd-copy" :
+    {
+      style : function(states)
+      {
+        return {
+          source : "widget/cursors/copy.gif"
+        };
+      }
+    },
+
+    "cursor-dnd-alias" :
+    {
+      style : function(states)
+      {
+        return {
+          source : "widget/cursors/alias.gif"
+        };
+      }
+    },
+
+    "cursor-dnd-nodrop" :
+    {
+      style : function(states)
+      {
+        return {
+          source : "widget/cursors/nodrop.gif"
+        };
+      }
+    },
+    
     "label" : {
       style : function(states) {
         return {
@@ -555,6 +617,28 @@ qx.Theme.define("qx.theme.ext.Appearance",
         };
       }
     },
+    
+    "window-captionbar-icon" :
+    {
+      style : function(states)
+      {
+        return {
+          marginRight : 2
+        };
+      }
+    },
+    
+    "window-captionbar-title" :
+    {
+      style : function(states)
+      {
+        return {
+          cursor : "default",
+          font : "bold",
+          marginRight : 2
+        };
+      }
+    },    
 
     "window-captionbar-button" :
     {
@@ -625,6 +709,16 @@ qx.Theme.define("qx.theme.ext.Appearance",
         };
       }
     },
+
+    "window-statusbar-text" :
+    {
+      style : function(states)
+      {
+        return {
+          padding : [ 1, 4 ]
+        };
+      }
+    },    
 
 
 
@@ -1324,6 +1418,27 @@ qx.Theme.define("qx.theme.ext.Appearance",
       }
     },
 
+    "table-pane":
+    {
+      style : function(states)
+      {
+        return {
+          backgroundColor : "table-pane"
+        };
+      }
+    },
+
+    "table-header":
+    {
+      style : function(states)
+      {
+        return {
+          border : qx.ui.core.Border.fromConfig({ bottom : [ 1, "solid", "table-header-border" ] }),
+          backgroundColor : "table-header"
+        };
+      }
+    },
+    
     "table-menubar-button" :
     {
       style : function(states)
