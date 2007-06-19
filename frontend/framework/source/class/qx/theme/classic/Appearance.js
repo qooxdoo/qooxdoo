@@ -1851,6 +1851,27 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
+    "table-row" :
+    {
+      style : function(states)
+      {
+        return {
+          font      : "default",
+          rowColors : {
+            bgcolFocusedSelected     : "table-row-background-focused-selected",
+            bgcolFocusedSelectedBlur : "table-row-background-focused-selected-blur",
+            bgcolFocused             : "table-row-background-focused",
+            bgcolFocusedBlur         : "table-row-background-focused-blur",
+            bgcolSelected            : "table-row-background-selected",
+            bgcolSelectedBlur        : "table-row-background-selected-blur",
+            bgcolEven                : "table-row-background-even",
+            bgcolOdd                 : "table-row-background-odd",
+            colSelected              : "table-row-selected",
+            colNormal                : "table-row"
+          }
+        };
+      }
+    },
 
 
 
