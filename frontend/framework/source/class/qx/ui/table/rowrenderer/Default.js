@@ -84,11 +84,6 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
 
     /**
      * Refine the appearance of the data row renderer.
-     * 
-     * TODO: create an appearance in the themes. For test purposes
-     * the client-document appearance is used because it contains
-     * a font definition. 
-     * 
      */
     appearance :
     {
@@ -98,8 +93,9 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
     
     /**
      * The value of each property in the map is a string containing either a
-     * number (e.g. "#518ad3") or color name ("white") representing the color
-     * for that type of display.  The map may contain any or all of the
+     * number (e.g. "#518ad3") or color name ("white") or a theme color
+     * representing the color for that type of display.  
+     * The map may contain any or all of the
      * following properties:
      * <ul>
      *   <li>bgcolFocusedSelected</li>
@@ -113,6 +109,12 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
      *   <li>colSelected</li>
      *   <li>colNormal</li>
      * </ul>
+     * 
+     * Please don't reuse the property by modifying the retreived value from
+     * getRowColors.
+     * 
+     * Use a fresh created map because otherwise the property system does not
+     * detect the value change.
      */
     rowColors :
     {
