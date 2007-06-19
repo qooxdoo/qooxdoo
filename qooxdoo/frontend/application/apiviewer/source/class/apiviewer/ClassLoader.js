@@ -45,6 +45,9 @@ qx.Class.define("apiviewer.ClassLoader",
       var cls = null;
 
       req.setAsynchronous(async);
+      req.setTimeout(30000); // 30 sec
+      req.setProhibitCaching(false);
+      
       req.addEventListener("completed", function(evt)
       {
         var content = eval("(" + evt.getData().getContent() + ")");
