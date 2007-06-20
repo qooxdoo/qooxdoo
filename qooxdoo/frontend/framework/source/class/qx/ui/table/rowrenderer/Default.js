@@ -6,7 +6,7 @@
 
    Copyright:
      2006 STZ-IDA, Germany, http://www.stz-ida.de
-     2007 Visionet Gmbh, http://www.visionet.de
+     2007 Visionet GmbH, http://www.visionet.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -187,7 +187,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
       nullable  : true,
       themeable : true,
       init      : "table-row-selected",
-      apply     : "_applyColSelected",
+      apply     : "_applyColSelected"
     },
     
     /**
