@@ -52,7 +52,7 @@
  * Ext-Clone appearance theme.
  */
 qx.Theme.define("qx.theme.ext.Appearance",
-{  
+{
   title : "Ext",
 
   appearances :
@@ -77,14 +77,14 @@ qx.Theme.define("qx.theme.ext.Appearance",
 
     "popup" : {
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       BASICS
     ---------------------------------------------------------------------------
     */
-    
+
     "cursor-dnd-move" :
     {
       style : function(states)
@@ -124,7 +124,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
         };
       }
     },
-    
+
     "label" : {
       style : function(states) {
         return {
@@ -155,7 +155,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
           backgroundImage : "static/image/blank.gif"
         };
       }
-    },    
+    },
 
     "tool-tip" :
     {
@@ -264,7 +264,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
         };
       }
     },
-    
+
     "toolbar-part-handle-line" :
     {
       style : function(states)
@@ -288,7 +288,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
         };
       }
     },
-    
+
     "toolbar-separator-line" :
     {
       style : function(states)
@@ -474,7 +474,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
 
     "tab-view-bar" : {
     },
-    
+
     "tab-view-pane" :
     {
       style : function(states)
@@ -667,7 +667,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
         };
       }
     },
-    
+
     "window-captionbar-icon" :
     {
       style : function(states)
@@ -677,7 +677,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
         };
       }
     },
-    
+
     "window-captionbar-title" :
     {
       style : function(states)
@@ -688,7 +688,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
           marginRight : 2
         };
       }
-    },    
+    },
 
     "window-captionbar-button" :
     {
@@ -768,7 +768,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
           padding : [ 1, 4 ]
         };
       }
-    },    
+    },
 
 
 
@@ -1099,13 +1099,14 @@ qx.Theme.define("qx.theme.ext.Appearance",
 
     "combo-box-ex-list" :
     {
-      include : "combo-box-list",
-
       style : function(states)
       {
         return {
-          maxHeight : 150,
-          overflow  : 'hidden'
+          backgroundColor : "white",
+          textColor       : "text",
+          border          : "undefined",
+          edge            : 0,
+          overflow        : "hidden"
         };
       }
     },
@@ -1125,16 +1126,23 @@ qx.Theme.define("qx.theme.ext.Appearance",
 
     "combo-box-ex-popup" :
     {
-      include : "combo-box-popup"
+      style : function(states)
+      {
+        return {
+          border          : "resizer",
+          overflow        : "hidden",
+          backgroundColor : "list"
+        };
+      }
     },
 
     "combo-box-ex-button" : {
       include : "combo-box-button"
     },
-    
-    
-    
-    
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       TREE VIRTUAL
@@ -1236,7 +1244,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
         }
       }
     },
-    
+
     "list-view-pane" :
     {
       style : function(states)
@@ -1245,7 +1253,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
           horizontalSpacing : 1
         };
       }
-    },    
+    },
 
     "list-view-header" :
     {
@@ -1692,7 +1700,7 @@ qx.Theme.define("qx.theme.ext.Appearance",
         };
       }
     },
-    
+
     "table-menubar-button" :
     {
       style : function(states)
