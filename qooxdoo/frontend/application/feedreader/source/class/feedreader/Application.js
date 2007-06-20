@@ -64,7 +64,7 @@ qx.Class.define("feedreader.Application",
 
   /*
   *****************************************************************************
-     CONSTRUCTOR
+     STATICS
   *****************************************************************************
   */
 
@@ -350,9 +350,10 @@ qx.Class.define("feedreader.Application",
         var selectedEntry = table.getSelectionModel().getAnchorSelectionIndex();
         var feedName = this.getSelectedFeed()
         if (selectedEntry >= 0) {
+          var feeds = this.getFeeds();
           var itemId = this._tableModel.getRowData(selectedEntry)[3];
-          this.getFeeds()[feedName].selected = itemId;
-          item = this.getFeeds()[feedName].items[itemId];
+          feeds[feedName].selected = itemId;
+          var item = feeds[feedName].items[itemId];
           this.displayArticle(item);
         }
       },
