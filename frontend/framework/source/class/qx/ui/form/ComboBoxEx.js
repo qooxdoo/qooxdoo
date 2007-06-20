@@ -82,6 +82,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       appearance : 'combo-box-ex-text-field'
     });
     f.addEventListener("input", this._oninput, this);
+    f.addEventListener("contextmenu", this._onContextMenu, this);
     this.add(f);
     this.setEditable(false);
 
@@ -239,7 +240,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       init : true
     },
 
-  /** Show column headers in the popup list?.  Default value is "Auto" and means to show headers if there is more than one visible column.*/
+    /** Show column headers in the popup list?.  Default value is "Auto" and means to show headers if there is more than one visible column.*/
     showColumnHeaders :
     {
       check : [ "always", "never", "auto" ],
@@ -943,6 +944,18 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       SEARCHING
     ---------------------------------------------------------------------------
     */
+
+    _onContextMenu: function(ev) {
+      if (this.getAllowSearch()) {
+        var menu = new qx.ui.menu.Menu;
+        var cmd = new qx.client.Command();
+        cmd.addEventListener('execute', this.openSearchDialog, this);
+        menu.add(new qx.ui.menu.Button(this.tr("Search"), 'icon/16/actions/edit-find.png', cmd));
+        menu.addToDocument();
+        menu.setLocation(ev.getPageX(), ev.getPageY());
+        menu.show();
+      }
+    },
 
     /**
      * Does this combo have the searched dialog open?
