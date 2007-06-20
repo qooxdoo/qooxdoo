@@ -370,7 +370,6 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       });
       l.setFocusedCell = function() {};
       l.setAppearance('combo-box-ex-list');
-      l.setLocation(0, 0);
       l.setStatusBarVisible(false);
       l.setColumnVisibilityButtonVisible(false);
       //l.setKeepFirstVisibleRowComplete(false);
