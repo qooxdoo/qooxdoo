@@ -1153,8 +1153,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           border    : "undefined",
-          width     : "100%",
-          height    : "100%"
+          edge      : 0
         };
       }
     },
