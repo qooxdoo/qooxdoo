@@ -1415,7 +1415,7 @@ qx.Proto._appearances = qx.lang.Object.carefullyMergeWith( {
       return {
         backgroundColor : vStates.selected ? this.bgcolor_selected : null,
         color : vStates.selected ? this.color_selected : null,
-        
+
         border         : vStates.lead && !vStates.selected ? this.border_lead : null,
         marginTop      : vStates.lead && !vStates.selected ? 0 : 1,
         marginBottom   : vStates.lead && !vStates.selected ? 0 : 1

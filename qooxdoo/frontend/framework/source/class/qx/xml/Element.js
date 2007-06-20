@@ -160,23 +160,23 @@ qx.xml.Element.getText = function(element) {
     return null;
   }
 
-	switch(element.nodeType) {
-	  case 1: // NODE_ELEMENT
+  switch(element.nodeType) {
+    case 1: // NODE_ELEMENT
         var i, a=[], nodes = element.childNodes, length = nodes.length;
         for (i=0; i<length; i++) {
           a[i] = this.getText(nodes[i]);
         };
         return a.join("");
-			  break;
+        break;
 
-	  case 2: // NODE_ATTRIBUTE
+    case 2: // NODE_ATTRIBUTE
         return element.nodeValue;
-			  break;
+        break;
 
-	  case 3: // NODE_TEXT
+    case 3: // NODE_TEXT
         return element.nodeValue;
-			  break;
-	}
+        break;
+  }
 
   return null;
 }

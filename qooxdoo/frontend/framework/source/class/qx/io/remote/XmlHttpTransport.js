@@ -347,11 +347,11 @@ qx.Proto._onreadystatechange = function(e)
 
    http://bugzilla.qooxdoo.org/show_bug.cgi?id=190
 
-   The following workaround calls the handler code with a zero timeout in order 
+   The following workaround calls the handler code with a zero timeout in order
    to avoid those problems, because onreadystatechange can then return instantly.
 */
 if (qx.core.Client.getInstance().isMshtml()) {
-  
+
   qx.Clazz.__originalOnreadystatechange = qx.Proto._onreadystatechange;
 
   qx.Proto._onreadystatechange = function() {
