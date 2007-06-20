@@ -68,7 +68,7 @@ qx.Class.define("qx.dom.Element",
     getTextContent : qx.lang.Object.select(qx.core.Client.getInstance().supportsTextContent() ? "textContent" : qx.core.Client.getInstance().supportsInnerText() ? "innerText" : "default",
     {
       innerText : function(el) {
-        return el.innerText;
+        return el.innerText || el.text;
       },
 
       textContent : function(el) {
