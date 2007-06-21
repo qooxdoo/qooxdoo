@@ -36,10 +36,8 @@ qx.Class.define("custom.Application",
      * TODOC
      *
      * @type member
-     * @param e {Event} TODOC
-     * @return {void}
      */
-    main : function(e)
+    main : function()
     {
       this.base(arguments);
 
