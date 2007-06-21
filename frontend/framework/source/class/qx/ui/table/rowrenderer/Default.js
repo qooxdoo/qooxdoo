@@ -27,7 +27,7 @@
 
 /**
  * The default data row renderer.
- * 
+ *
  * @appearance table-row
  */
 qx.Class.define("qx.ui.table.rowrenderer.Default",
@@ -49,7 +49,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
 
     this._fontStyle = {};
     this._fontStyleString = "";
-    
+
     this._colors = {};
   },
 
@@ -90,7 +90,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
       refine : true,
       init   : "table-row"
     },
-        
+
     /**
      * Sets the row background for state focused, selected
      */
@@ -101,7 +101,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
       init      : "table-row-background-focused-selected",
       apply     : "_applyBgcolFocusedSelected"
     },
-    
+
     /**
      * Sets the row background for state focused, selected, blurred
      */
@@ -112,7 +112,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
       init      : "table-row-background-focused-selected-blur",
       apply     : "_applyBgcolFocusedSelectedBlur"
     },
-    
+
     /**
      * Sets the row background for state focused
      */
@@ -123,7 +123,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
       init      : "table-row-background-focused",
       apply     : "_applyBgcolFocused"
     },
-    
+
     /**
      * Sets the row background for state focused, blurred
      */
@@ -134,7 +134,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
       init      : "table-row-background-focused-blur",
       apply     : "_applyBgcolFocusedBlur"
     },
-    
+
     /**
      * Sets the row background for state selected
      */
@@ -145,7 +145,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
       init      : "table-row-background-selected",
       apply     : "_applyBgcolSelected"
     },
-    
+
     /**
      * Sets the row background for state selected, blurred
      */
@@ -156,7 +156,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
       init      : "table-row-background-selected-blur",
       apply     : "_applyBgcolSelectedBlur"
     },
-    
+
     /**
      * Sets the row background for even row number
      */
@@ -167,7 +167,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
       init      : "table-row-background-even",
       apply     : "_applyBgcolEven"
     },
-    
+
     /**
      * Sets the row background for odd row number
      */
@@ -178,7 +178,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
       init      : "table-row-background-odd",
       apply     : "_applyBgcolOdd"
     },
-    
+
     /**
      * Sets the row background for state selected
      */
@@ -189,7 +189,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
       init      : "table-row-selected",
       apply     : "_applyColSelected"
     },
-    
+
     /**
      * Sets the row background for state normal
      */
@@ -220,43 +220,43 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
     _applyBgcolFocusedSelected : function(value, old) {
       qx.theme.manager.Color.getInstance().connect(this._styleBgcolFocusedSelected, this, value);
     },
-       
+
     _applyBgcolFocusedSelectedBlur : function(value, old) {
       qx.theme.manager.Color.getInstance().connect(this._styleBgcolFocusedSelectedBlur, this, value);
-    },   
-    
+    },
+
     _applyBgcolFocused : function(value, old) {
       qx.theme.manager.Color.getInstance().connect(this._styleBgcolFocused, this, value);
     },
-    
+
     _applyBgcolFocusedBlur : function(value, old) {
       qx.theme.manager.Color.getInstance().connect(this._styleBgcolFocusedBlur, this, value);
-    },      
+    },
 
     _applyBgcolSelected : function(value, old) {
       qx.theme.manager.Color.getInstance().connect(this._styleBgcolSelected, this, value);
-    },      
+    },
 
     _applyBgcolSelectedBlur : function(value, old) {
       qx.theme.manager.Color.getInstance().connect(this._styleBgcolSelectedBlur, this, value);
     },
-       
+
     _applyBgcolEven : function(value, old) {
       qx.theme.manager.Color.getInstance().connect(this._styleBgcolEven, this, value);
-    },      
+    },
 
     _applyBgcolOdd : function(value, old) {
       qx.theme.manager.Color.getInstance().connect(this._styleBgcolOdd, this, value);
-    },       
+    },
 
     _applyColSelected : function(value, old) {
       qx.theme.manager.Color.getInstance().connect(this._styleColSelected, this, value);
     },
-       
+
     _applyColNormal : function(value, old) {
       qx.theme.manager.Color.getInstance().connect(this._styleColNormal, this, value);
     },
-       
+
 
     /*
     *****************************************************************************
@@ -267,57 +267,57 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
       this._colors.bgcolFocusedSelected = value;
       this._postponedUpdateTableContent();
     },
-       
+
     _styleBgcolFocusedSelectedBlur : function(value, old) {
       this._colors.bgcolFocusedSelectedBlur = value;
       this._postponedUpdateTableContent();
-    },   
-    
+    },
+
     _styleBgcolFocused             : function(value, old) {
       this._colors.bgcolFocused = value;
       this._postponedUpdateTableContent();
     },
-    
+
     _styleBgcolFocusedBlur         : function(value, old) {
       this._colors.bgcolFocusedBlur = value;
       this._postponedUpdateTableContent();
-    },      
+    },
 
     _styleBgcolSelected            : function(value, old) {
       this._colors.bgcolSelected = value;
       this._postponedUpdateTableContent();
-    },      
+    },
 
     _styleBgcolSelectedBlur        : function(value, old) {
       this._colors.bgcolSelectedBlur = value;
       this._postponedUpdateTableContent();
     },
-       
+
     _styleBgcolEven                : function(value, old) {
       this._colors.bgcolEven = value;
       this._postponedUpdateTableContent();
-    },      
+    },
 
     _styleBgcolOdd                 : function(value, old) {
       this._colors.bgcolOdd = value;
       this._postponedUpdateTableContent();
-    },       
+    },
 
     _styleColSelected              : function(value, old) {
       this._colors.colSelected = value;
       this._postponedUpdateTableContent();
     },
-       
+
     _styleColNormal                : function(value, old) {
       this._colors.colNormal = value;
       this._postponedUpdateTableContent();
     },
-    
-    
+
+
     /**
      * Set colors from a given color map and updates
      * the content of the table.
-     * 
+     *
      * The map may contain any or all of the
      * following properties:
      * <ul>
@@ -341,19 +341,19 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
       // stop continuous table updates while setting
       // multipe colors
       this._noTableContentUpdate = true;
-      
+
       this.set(colors);
-      
+
       // re-enable table updates
       delete this._noTableContentUpdate;
-      
+
       this._postponedUpdateTableContent();
     },
 
-    
+
     /**
      * Get a map with the row colors.
-     * 
+     *
      * The map contains the following properties:
      * <ul>
      *   <li>bgcolFocusedSelected</li>
@@ -384,8 +384,8 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
         colSelected              : this.getColSelected(),
         colNormal                : this.getColNormal()
       };
-    },     
-    
+    },
+
     /**
      * Font property applyer.
      *
@@ -447,7 +447,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
     {
       var fontStyle = this._fontStyle;
       var style = rowElem.style;
-      
+
       style.fontFamily     = fontStyle.fontFamily;
       style.fontSize       = fontStyle.fontSize;
       style.fontWeight     = fontStyle.fontWeight;
@@ -536,7 +536,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
       if(this._noTableContentUpdate) {
         return;
       }
-      
+
       if (!this._updateContentPlanned)
       {
         var self = this;
@@ -556,7 +556,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
         this._updateContentPlanned = true;
       }
     },
-    
+
     /**
      * Update the table pane content to reflect visual changes.
      *

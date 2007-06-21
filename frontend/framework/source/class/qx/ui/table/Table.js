@@ -743,7 +743,7 @@ qx.Class.define("qx.ui.table.Table",
         this._dataRowRenderer.dispose();
         this._dataRowRenderer = null;
       }
-      
+
       value.setParent(this);
       this._dataRowRenderer = value;
     },

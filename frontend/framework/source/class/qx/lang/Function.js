@@ -37,7 +37,7 @@ qx.Class.define("qx.lang.Function",
      *
      * @type static
      * @param data {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     globalEval : function(data)
     {
@@ -47,8 +47,8 @@ qx.Class.define("qx.lang.Function",
         eval.call(window, data);
       }
     },
-    
-    
+
+
     /**
      * Simply return true.
      *

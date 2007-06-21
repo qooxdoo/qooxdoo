@@ -181,41 +181,41 @@ qx.Class.define("qx.dev.Tokenizer",
      */
     javaScriptToHtml : function(javaScriptText)
     {
-			var tokens = qx.dev.Tokenizer.tokenizeJavaScript(javaScriptText);
-			var js = new qx.util.StringBuilder();
-			for (var i=0; i<tokens.length; i++) {
-				var token = tokens[i];
-				var htmlValue = qx.html.String.escape(token.value);
-				switch(token.type) {
-					case "ident":
-						js.add("<span class='ident'>", htmlValue, "</span>");
-						break;
+      var tokens = qx.dev.Tokenizer.tokenizeJavaScript(javaScriptText);
+      var js = new qx.util.StringBuilder();
+      for (var i=0; i<tokens.length; i++) {
+        var token = tokens[i];
+        var htmlValue = qx.html.String.escape(token.value);
+        switch(token.type) {
+          case "ident":
+            js.add("<span class='ident'>", htmlValue, "</span>");
+            break;
 
-					case "linecomment":
-					case "fullcomment":
-						js.add("<span class='comment'>", htmlValue, "</span>");
-						break;
+          case "linecomment":
+          case "fullcomment":
+            js.add("<span class='comment'>", htmlValue, "</span>");
+            break;
 
-					case "qstr":
-					case "qqstr":
-						js.add("<span class='string'>", htmlValue, "</span>");
-						break;
+          case "qstr":
+          case "qqstr":
+            js.add("<span class='string'>", htmlValue, "</span>");
+            break;
 
-					case "keyword":
-					case "atom":
-					case "qxkey":
-						js.add("<span class='", token.type, "'>", htmlValue, "</span>");
-						break;
+          case "keyword":
+          case "atom":
+          case "qxkey":
+            js.add("<span class='", token.type, "'>", htmlValue, "</span>");
+            break;
 
-					case "nl":
-						js.add("<br>");
-						break;
+          case "nl":
+            js.add("<br>");
+            break;
 
-					default:
-						js.add(htmlValue);
-				}
-			}
-			return js.get();
+          default:
+            js.add(htmlValue);
+        }
+      }
+      return js.get();
     }
 
   }
