@@ -65,22 +65,22 @@ def loadContribDb(contribPath):
 
 
 def getClassUriFlags(contrib):
-	flags = "../%s/source/class," % contrib["path"]
+	flags = "../%s/source/class," % contrib["path"].replace(" ", "\ ")
 	return flags
 
 		
 def getClassPathFlags(contrib):
-	flags = "%s/source/class," % contrib["path"]
+	flags = "%s/source/class," % contrib["path"].replace(" ", "\ ")
 	return flags
 
 
 def getResourceFlags(contrib):
 	sourceFlags = "--use-setting %s:../$(APPLICATION_HTML_TO_ROOT_URI)/%s/source/resource " % (
-		contrib["resource-uri-setting"], contrib["path"]
+		contrib["resource-uri-setting"], contrib["path"].replace(" ", "\ ")
 	)
 
 	buildFlags = "--copy-resources "
-	buildFlags += "--resource-input %s/source/resource " % contrib["path"]
+	buildFlags += "--resource-input %s/source/resource " % contrib["path"].replace(" ", "\ ")
 	buildFlags += "--resource-output $(APPLICATION_BUILD_PATH)/resource/%s " % contrib["namespace"]
 	
 	buildFlags += "--use-setting %s:$(APPLICATION_HTML_TO_ROOT_URI)/resource/%s " % (
