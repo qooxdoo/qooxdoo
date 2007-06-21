@@ -180,7 +180,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
       }
 
       if (stylesToApply & clazz.STYLEFLAG_ITALIC) {
-        style.fontStyle = "ital";
+        style.fontStyle = "italic";
       } else {
         style.fontStyle = "";
       }
@@ -211,7 +211,22 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
       if (value == null) {
         return "";
       }
-      else if (typeof value == "number")
+	  
+	  if (typeof value == "string") {
+	  	return value;
+	  }
+	  
+      if (!this._cellCache) {
+  	    this._cellCache = {};
+      }
+  
+      var res = this._cellCache[value];
+
+      if (res) 
+	  {
+        return res;	  
+	  }
+	  else if (typeof value == "number")
       {
         if (!qx.ui.table.cellrenderer.Default._numberFormat)
         {
@@ -219,16 +234,20 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
           qx.ui.table.cellrenderer.Default._numberFormat.setMaximumFractionDigits(2);
         }
 
-        return qx.ui.table.cellrenderer.Default._numberFormat.format(value);
+        res = qx.ui.table.cellrenderer.Default._numberFormat.format(value);
       }
       else if (value instanceof Date)
       {
-        return qx.util.format.DateFormat.getDateInstance().format(value);
+        res = qx.util.format.DateFormat.getDateInstance().format(value);
       }
       else
       {
-        return value;
+        res = value;
       }
+	  
+      this._cellCache[value] = res;
+  
+      return res;	  
     },
 
 
