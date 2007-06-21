@@ -110,7 +110,7 @@ qx.Proto._loadRowCount = function() {
  */
 qx.Proto._onRowCountLoaded = function(rowCount) {
   // this.debug("row count loaded: " + rowCount);
-  if (rowCount == null) {
+  if (rowCount == null || rowCount < 0) {
     rowCount = 0;
   }
   this._rowCount = rowCount;
@@ -130,7 +130,15 @@ qx.Proto.reloadData = function() {
   // If there is currently a request on its way, then this request will bring
   // obsolete data -> Ignore it
   if (this._firstLoadingBlock != -1) {
-    this._ignoreCurrentRequest = true;
+    var cancelingSuceed = this._cancelCurrentRequest();
+    if (cancelingSuceed) {
+      // The request was cancelled -> We're not loading any blocks any more
+      this._firstLoadingBlock = -1;
+      this._ignoreCurrentRequest = false;
+    } else {
+      // The request was not cancelled -> Ignore it
+      this._ignoreCurrentRequest = true;
+    }
   }
 
   // Forget a possibly outstanding request
@@ -149,6 +157,19 @@ qx.Proto.reloadData = function() {
 qx.Proto.clearCache = function() {
   this._rowBlockCache = {};
   this._rowBlockCount = 0;
+};
+
+
+/**
+ * Cancels the current request if possible.
+ * <p>
+ * Should be overridden by subclasses if they are able to cancel requests. This
+ * allows sending a new request directly after a call of {@link #reloadData}.
+ *
+ * @return {Boolean} whether the request was cancelled.
+ */
+qx.Proto._cancelCurrentRequest = function() {
+  return false;
 };
 
 

@@ -736,7 +736,7 @@ qx.Proto._onkeydown = function(evt) {
           var oldFocusedRow = this._focusedRow;
           this.moveFocusedCell(0, 1);
           if (this._focusedRow != oldFocusedRow) {
-            this.startEditing();
+            consumed = this.startEditing();
           }
           break;
         case "Escape":
@@ -772,7 +772,7 @@ qx.Proto._onkeydown = function(evt) {
       switch (identifier) {
         case "F2":
         case "Enter":
-          this.startEditing();
+          consumed = this.startEditing();
           break;
         default:
           consumed = false;
