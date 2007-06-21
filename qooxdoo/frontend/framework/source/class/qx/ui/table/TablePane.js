@@ -36,6 +36,8 @@ function(paneScroller) {
 
   this._paneScroller = paneScroller;
 
+  // this.debug("USE_ARRAY_JOIN:" + qx.ui.table.TablePane.USE_ARRAY_JOIN + ", USE_TABLE:" + qx.ui.table.TablePane.USE_TABLE);
+
   this._lastColCount = 0;
   this._lastRowCount = 0;
 });
@@ -197,8 +199,9 @@ qx.Proto._onTableModelMetaDataChanged = function(evt) {
   this._updateContent();
 }
 
+
 /**
- * Updates the content of the pane (implemented using array joins).
+ * Updates the content of the pane.
  *
  * @param completeUpdate {Boolean ? false} if true a complete update is performed.
  *    On a complete update all cell widgets are recreated.
@@ -213,7 +216,27 @@ qx.Proto._updateContent = function(completeUpdate, onlyRow,
     this._updateWantedWhileInvisible = true;
     return;
   }
-	
+
+  if (qx.ui.table.TablePane.USE_ARRAY_JOIN) {
+    this._updateContent_array_join(completeUpdate, onlyRow, onlySelectionOrFocusChanged);
+  } else {
+    this._updateContent_orig(completeUpdate, onlyRow, onlySelectionOrFocusChanged);
+  }
+}
+
+
+/**
+ * Updates the content of the pane (implemented using array joins).
+ *
+ * @param completeUpdate {Boolean ? false} if true a complete update is performed.
+ *    On a complete update all cell widgets are recreated.
+ * @param onlyRow {Integer ? null} if set only the specified row will be updated.
+ * @param onlySelectionOrFocusChanged {Boolean ? false} if true, cell values won't
+ *        be updated. Only the row background will.
+ */
+qx.Proto._updateContent_array_join = function(completeUpdate, onlyRow,
+  onlySelectionOrFocusChanged)
+{
   var TablePane = qx.ui.table.TablePane;
 
   var table = this.getTable();
@@ -240,6 +263,27 @@ qx.Proto._updateContent = function(completeUpdate, onlyRow,
   var htmlArr = [];
   var rowWidth = paneModel.getTotalWidth();
 
+  if (TablePane.USE_TABLE) {
+    // The table test
+    htmlArr.push('<table cellspacing\="0" cellpadding\="0" style\="table-layout:fixed;font-family:');
+    htmlArr.push(qx.ui.table.TablePane.CONTENT_ROW_FONT_FAMILY_TEST);
+    htmlArr.push(';font-size:');
+    htmlArr.push(qx.ui.table.TablePane.CONTENT_ROW_FONT_SIZE_TEST);
+    htmlArr.push(';width:');
+    htmlArr.push(rowWidth);
+    htmlArr.push('px"><colgroup>');
+
+    for (var x = 0; x < colCount; x++) {
+      var col = paneModel.getColumnAtX(x);
+
+      htmlArr.push('<col width="');
+      htmlArr.push(columnModel.getColumnWidth(col));
+      htmlArr.push('"/>');
+    }
+
+    htmlArr.push('</colgroup><tbody>');
+  }
+
   tableModel.prefetchRows(firstRow, firstRow + rowCount - 1);
   for (var y = 0; y < rowCount; y++) {
     var row = firstRow + y;
@@ -250,13 +294,18 @@ qx.Proto._updateContent = function(completeUpdate, onlyRow,
     cellInfo.rowData = tableModel.getRowData(row);
 
     // Update this row
-    htmlArr.push('<div style\="position:absolute;left:0px;top:');
-    htmlArr.push(y * rowHeight);
-    htmlArr.push('px;width:');
-    htmlArr.push(rowWidth);
-    htmlArr.push('px;height:');
-    htmlArr.push(rowHeight);
-    htmlArr.push('px');
+    if (TablePane.USE_TABLE) {
+      htmlArr.push('<tr style\="height:');
+      htmlArr.push(rowHeight);
+    } else {
+      htmlArr.push('<div style\="position:absolute;left:0px;top:');
+      htmlArr.push(y * rowHeight);
+      htmlArr.push('px;width:');
+      htmlArr.push(rowWidth);
+      htmlArr.push('px;height:');
+      htmlArr.push(rowHeight);
+      htmlArr.push('px');
+    }
 
     rowRenderer._createRowStyle_array_join(cellInfo, htmlArr);
 
@@ -281,7 +330,15 @@ qx.Proto._updateContent = function(completeUpdate, onlyRow,
       left += cellWidth;
     }
 
-    htmlArr.push('</div>');
+    if (TablePane.USE_TABLE) {
+      htmlArr.push('</tr>');
+    } else {
+      htmlArr.push('</div>');
+    }
+  }
+
+  if (TablePane.USE_TABLE) {
+    htmlArr.push('</tbody></table>');
   }
 
   var elem = this.getElement();
@@ -294,6 +351,124 @@ qx.Proto._updateContent = function(completeUpdate, onlyRow,
   this._lastRowCount = rowCount;
 }
 
+
+/**
+ * Updates the content of the pane (old implementation).
+ *
+ * @param completeUpdate {Boolean ? false} if true a complete update is performed.
+ *    On a complete update all cell widgets are recreated.
+ * @param onlyRow {Integer ? null} if set only the specified row will be updated.
+ * @param onlySelectionOrFocusChanged {Boolean ? false} if true, cell values won't
+ *        be updated. Only the row background will.
+ */
+qx.Proto._updateContent_orig = function(completeUpdate, onlyRow,
+  onlySelectionOrFocusChanged)
+{
+  var TablePane = qx.ui.table.TablePane;
+
+  var table = this.getTable();
+
+  var alwaysUpdateCells = table.getAlwaysUpdateCells();
+
+  var selectionModel = table.getSelectionModel();
+  var tableModel = table.getTableModel();
+  var columnModel = table.getTableColumnModel();
+  var paneModel = this.getPaneScroller().getTablePaneModel();
+  var rowRenderer = table.getDataRowRenderer();
+
+  var colCount = paneModel.getColumnCount();
+  var rowHeight = table.getRowHeight();
+
+  var firstRow = this.getFirstVisibleRow();
+  var rowCount = this.getVisibleRowCount();
+  var modelRowCount = tableModel.getRowCount();
+  if (firstRow + rowCount > modelRowCount) {
+    rowCount = Math.max(0, modelRowCount - firstRow);
+  }
+
+  // Remove the rows that are not needed any more
+  if (completeUpdate || this._lastRowCount > rowCount) {
+    var firstRowToRemove = completeUpdate ? 0 : rowCount;
+    this._cleanUpRows(firstRowToRemove);
+  }
+
+  if (TablePane.USE_TABLE) {
+    throw new Error("Combination of USE_TABLE==true and USE_ARRAY_JOIN==false is not yet implemented");
+  }
+
+  var elem = this.getElement();
+  var childNodes = elem.childNodes;
+  var cellInfo = { table:table };
+  tableModel.prefetchRows(firstRow, firstRow + rowCount - 1);
+  for (var y = 0; y < rowCount; y++) {
+    var row = firstRow + y;
+    if ((onlyRow != null) && (row != onlyRow)) {
+      continue;
+    }
+
+    cellInfo.row = row;
+    cellInfo.selected = selectionModel.isSelectedIndex(row);
+    cellInfo.focusedRow = (this._focusedRow == row);
+    cellInfo.rowData = tableModel.getRowData(row);
+
+    // Update this row
+    var rowElem;
+    var recyleRowElem;
+    if (y < childNodes.length) {
+      rowElem = childNodes[y];
+      recyleRowElem = true
+    } else {
+      var rowElem = document.createElement("div");
+
+      //rowElem.style.position = "relative";
+      rowElem.style.position = "absolute";
+      rowElem.style.left = "0px";
+      rowElem.style.top = (y * rowHeight) + "px";
+
+      rowElem.style.height = rowHeight + "px";
+      elem.appendChild(rowElem);
+      recyleRowElem = false;
+    }
+
+    rowRenderer.updateDataRowElement(cellInfo, rowElem);
+
+    if (alwaysUpdateCells || !recyleRowElem || !onlySelectionOrFocusChanged) {
+      var html = "";
+      var left = 0;
+      for (var x = 0; x < colCount; x++) {
+        var col = paneModel.getColumnAtX(x);
+        cellInfo.xPos = x;
+        cellInfo.col = col;
+        cellInfo.editable = tableModel.isColumnEditable(col);
+        cellInfo.focusedCol = (this._focusedCol == col);
+        cellInfo.value = tableModel.getValue(col, row);
+        var width = columnModel.getColumnWidth(col);
+        cellInfo.style = 'position:absolute;left:' + left
+          + 'px;top:0px;width:' + width
+          + 'px; height:' + rowHeight + "px";
+
+        var cellRenderer = columnModel.getDataCellRenderer(col);
+        if (recyleRowElem) {
+          var cellElem = rowElem.childNodes[x];
+          cellRenderer.updateDataCellElement(cellInfo, cellElem);
+        } else {
+          html += cellRenderer.createDataCellHtml(cellInfo);
+        }
+
+        left += width;
+      }
+      if (! recyleRowElem) {
+        rowElem.style.width = left + "px";
+        rowElem.innerHTML = html;
+      }
+    }
+  }
+
+  this.setHeight(rowCount * rowHeight);
+
+  this._lastColCount = colCount;
+  this._lastRowCount = rowCount;
+}
 
 
 /**
@@ -328,6 +503,8 @@ qx.Proto.dispose = function() {
 }
 
 
+qx.Clazz.USE_ARRAY_JOIN = false;
+qx.Clazz.USE_TABLE = false;
 
 
 qx.Clazz.CONTENT_ROW_FONT_FAMILY_TEST = "'Segoe UI', Corbel, Calibri, Tahoma, 'Lucida Sans Unicode', sans-serif";
