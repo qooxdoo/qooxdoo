@@ -56,7 +56,7 @@ function(name) {
   this._errorsPreventingAutoCloseCount = 0;
 
   this._logWindowOpened = false;
-  
+
   this._divDataSets = [];
   this._filterTextWords = [];
   this._filterText = "";
@@ -149,7 +149,7 @@ qx.Proto.openWindow = function() {
   this._markerBtn = logDocument.getElementById("marker");
   this._filterInput = logDocument.getElementById("filter");
   this._logLinesDiv = logDocument.getElementById("lines");
-  
+
   var self = this;
   this._markerBtn.onclick = function() {
     self._showMessageInLog("\n-----------------------------------------------------\n\n");
@@ -225,7 +225,7 @@ qx.Proto.appendLogEvent = function(evt) {
     // -> Put the event in the queue
     this._logEventQueue.push(evt);
   } else {
-    var divElem = this._logWindow.document.createElement("div");    
+    var divElem = this._logWindow.document.createElement("div");
     if (evt.level >= qx.log.Logger.LEVEL_ERROR) {
       divElem.style.backgroundColor = "#FFEEEE";
       if (!this.getAutoCloseWithErrors()){
@@ -269,9 +269,9 @@ qx.Proto.appendLogEvent = function(evt) {
 }
 
 /**
- * Sets the filter text to use. Only log events containing all words of the 
+ * Sets the filter text to use. Only log events containing all words of the
  * given text will be shown
- * 
+ *
  * @param text {String}  filter text
  */
 qx.Proto.setFilterText = function(text){
@@ -281,11 +281,11 @@ qx.Proto.setFilterText = function(text){
   this._filterText = text;
   text = text.toUpperCase();
   this._filterTextWords = text.split(" ");
-  
+
   for(var divIdx=0; divIdx < this._divDataSets.length; divIdx++) {
-    this._setDivVisibility(this._divDataSets[divIdx]);    
+    this._setDivVisibility(this._divDataSets[divIdx]);
   }
-  
+
 };
 
 qx.Proto._modifyAutoCloseWithErrors = function(propValue, propOldValue, propData){
