@@ -82,7 +82,6 @@ exec-script-source:
 	  --generate-source-script \
 	  --source-script-file $(COMPUTED_SOURCE_SCRIPT_NAME) \
 	)
-	
 	$(SILENCE) $(CMD_GENERATOR) $(ARGS) 
 		
 
@@ -99,14 +98,13 @@ exec-script-build:
 	  --compiled-script-file $(COMPUTED_BUILD_SCRIPT_NAME) \
 	  $(APPLICATION_ADDITIONAL_SCRIPT_BUILD_OPTIONS) \
 	)
-		
 	$(SILENCE) $(CMD_GENERATOR) $(ARGS)
 
 exec-script-build-split:
 	# generate base profile
 	$(SILENCE) $(CMD_GENERATOR) \
 	  $(COMPUTED_CLASS_PATH) \
-    $(COMPUTED_CLASS_URI) \
+      $(COMPUTED_CLASS_URI) \
 	  $(COMPUTED_BUILD_RESOURCE) \
 	  $(COMPUTED_BUILD_SETTING) \
 	  $(COMPUTED_BUILD_VARIANT) \
@@ -417,6 +415,7 @@ exec-files-api:
 exec-api-data:
 	$(SILENCE) $(CMD_GENERATOR) \
 	  --generate-api-documentation \
+	  --api-separate-files \
 	  --api-documentation-json-file $(APPLICATION_API_PATH)/script/apidata.js \
 	  $(COMPUTED_CLASS_PATH) \
 	  $(COMPUTED_API_INCLUDE)
