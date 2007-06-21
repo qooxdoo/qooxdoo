@@ -196,9 +196,15 @@ qx.Class.define("qx.ui.table.cellrenderer.Icon",
     {
       // Set image and tooltip text
       var urlAndToolTip = this._getImageInfos(cellInfo);
-      var img = cellElement.firstChild;
 
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      if (this.__oldSource == urlAndToolTip.url) {
+        return;
+      }
+     
+	  this.__oldSource = urlAndToolTip.url;
+
+      var img = cellElement.firstChild;
+	  if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
         if (/\.png$/i.test(urlAndToolTip.url))
         {
