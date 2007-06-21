@@ -70,6 +70,7 @@ exec-distclean:
 #
 
 exec-script-source:
+    # expand Makefile variables in the arguments
 	$(eval ARGS = \
 	  $(COMPUTED_CLASS_PATH) \
 	  $(COMPUTED_CLASS_URI) \
@@ -79,13 +80,14 @@ exec-script-source:
 	  $(COMPUTED_SOURCE_OPTIONS) \
 	  $(COMPUTED_TEMPLATE) \
 	  --generate-source-script \
-	  --source-script-file $(COMPUTED_SOURCE_SCRIPT_NAME) \
-	) # expand Makefile variables in the arguments
+	  --source-script-file $(COMPUTED_SOURCE_SCRIPT_NAME)\
+	)
 	
 	$(SILENCE) $(CMD_GENERATOR) $(ARGS) 
 		
 
 exec-script-build:
+    # expand Makefile variables in the arguments
 	$(eval ARGS = \
 	  $(COMPUTED_CLASS_PATH) \
 	  $(COMPUTED_BUILD_RESOURCE) \
@@ -96,7 +98,7 @@ exec-script-build:
 	  --generate-compiled-script \
 	  --compiled-script-file $(COMPUTED_BUILD_SCRIPT_NAME) \
 	  $(APPLICATION_ADDITIONAL_SCRIPT_BUILD_OPTIONS) \
-	) # expand Makefile variables in the arguments
+	) 
 	
 	$(SILENCE) $(CMD_GENERATOR) $(ARGS)
 
