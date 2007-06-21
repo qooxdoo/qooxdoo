@@ -929,7 +929,7 @@ qx.Class.define("qx.ui.table.Table",
               this.moveFocusedCell(0, 1);
 
               if (this._focusedRow != oldFocusedRow) {
-                this.startEditing();
+                consumed = this.startEditing();
               }
 
               break;
@@ -976,7 +976,7 @@ qx.Class.define("qx.ui.table.Table",
           {
             case "F2":
             case "Enter":
-              this.startEditing();
+              consumed = this.startEditing();
               break;
 
             default:
