@@ -1,7 +1,7 @@
-CONTRIB_UTIL = python $(QOOXDOO_CONTRIB_PATH)/tool/contrib.py
+CONTRIB_UTIL = $(CMD_PYTHON) $(FRAMEWORK_TOOL_PATH)/contrib.py
 
-ifneq ($(CONTRIBS),)
-	MANIFESTS = $(patsubst %, --manifest %/Manifest.js , $(CONTRIBS))	
+ifneq ($(APPLICATION_INCLUDES),)
+	MANIFESTS = $(patsubst %, --manifest %/Manifest.js , $(APPLICATION_INCLUDES))	
 	
 	APPLICATION_ADDITIONAL_CLASS_PATH += $(shell $(CONTRIB_UTIL) $(MANIFESTS) --class-path)
 	APPLICATION_ADDITIONAL_CLASS_URI += $(shell $(CONTRIB_UTIL) $(MANIFESTS) --class-uri)
