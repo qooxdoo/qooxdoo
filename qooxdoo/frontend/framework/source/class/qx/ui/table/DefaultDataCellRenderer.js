@@ -101,7 +101,7 @@ qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
   }
 
   if (stylesToApply & clazz.STYLEFLAG_ITALIC){
-    style.fontStyle = "ital";
+    style.fontStyle = "italic";
   } else {
     style.fontStyle = "";
   }
@@ -125,16 +125,37 @@ qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
  */
 qx.Proto._formatValue = function(cellInfo) {
   var value = cellInfo.value;
+  
   if (value == null) {
-    return "";
-  } else if (typeof value == "number") {
-    return qx.ui.table.DefaultDataCellRenderer._numberFormat.format(value);
-  } else if (value instanceof Date) {
-    return qx.util.format.DateFormat.getDateInstance().format(value);
-  } else {
-    return value;
+  	return "";
   }
+  
+  if (typeof value === "string") {
+  	return value;
+  }
+  
+  if (!this._cellCache) {
+  	this._cellCache = {};
+  }
+  
+  var res = this._cellCache[value];
+  
+  if (res) {
+  	return res;
+  } else if (typeof value == "number") {
+    res = qx.ui.table.DefaultDataCellRenderer._numberFormat.format(value);
+  } else if (value instanceof Date) {
+    res = qx.util.format.DateFormat.getDateInstance().format(value);
+  } else {
+    res = value;
+  }
+  
+  this._cellCache[value] = res;
+  
+  return res;
 }
+
+
 
 
 qx.Proto._createCellStyle_array_join = function(cellInfo, htmlArr) {

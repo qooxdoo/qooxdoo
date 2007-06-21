@@ -117,9 +117,17 @@ qx.Proto._getContentHtml = function(cellInfo) {
 
 
 // overridden
-qx.Proto.updateDataCellElement = function(cellInfo, cellElement) {
+qx.Proto.updateDataCellElement = function(cellInfo, cellElement) 
+{
   // Set image and tooltip text
   var urlAndToolTip = this._getImageInfos(cellInfo);
+  
+  if (this.__oldSource == urlAndToolTip.url) {
+  	return;
+  }
+  
+  this.__oldSource = urlAndToolTip.url;
+  
   var img = cellElement.firstChild;
   if (qx.core.Client.getInstance().isMshtml()) {
     if (/\.png$/i.test(urlAndToolTip.url)) {
