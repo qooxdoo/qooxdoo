@@ -526,8 +526,8 @@ qx.Class.define("qx.ui.form.TextField",
     _applyTextColor : function(value, old) {
       qx.theme.manager.Color.getInstance().connect(this._styleTextColor, this, value);
     },
-    
-    
+
+
     /**
      * Sync color to embedded input element
      *
@@ -539,7 +539,7 @@ qx.Class.define("qx.ui.form.TextField",
       this.__textColor = value;
       this._renderTextColor();
     },
-    
+
 
     /**
     * Renders the color using the styleProperty <code>color</code> directly.
@@ -549,11 +549,11 @@ qx.Class.define("qx.ui.form.TextField",
     _renderTextColor : function()
     {
       var inp = this._inputElement;
-    
+
       if (inp) {
         inp.style.color = this.__textColor || "";
       }
-    },    
+    },
 
 
     /**

@@ -40,10 +40,10 @@ qx.Class.define("qx.dom.String",
      * @return {String} escaped string
      * @signature function(str, charCodeToEntities)
      */
-    escapeEntities : qx.core.Variant.select("qx.client", 
+    escapeEntities : qx.core.Variant.select("qx.client",
     {
       // IE and Opera:
-      //  - use [].join() to build strings      
+      //  - use [].join() to build strings
       "mshtml": function(str, charCodeToEntities)
       {
         var entity, result = [];
@@ -70,9 +70,9 @@ qx.Class.define("qx.dom.String",
 
         return result.join("");
       },
-      
+
       // other browsers:
-      //  - use += to build strings            
+      //  - use += to build strings
       "default": function(str, charCodeToEntities)
       {
         var entity, result = "";
