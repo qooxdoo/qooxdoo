@@ -322,7 +322,7 @@ qx.Class.define("qx.ui.form.TextField",
 
         // Sync font, color, textAlign and cursor
         this._renderFont();
-        this._renderColor();
+        this._renderTextColor();
         this._renderTextAlign();
         this._renderCursor();
 
@@ -517,6 +517,18 @@ qx.Class.define("qx.ui.form.TextField",
 
 
     /**
+    * TODOC
+    *
+    * @type member
+    * @param value {var} Current value
+    * @param old {var} Previous value
+    */
+    _applyTextColor : function(value, old) {
+      qx.theme.manager.Color.getInstance().connect(this._styleTextColor, this, value);
+    },
+    
+    
+    /**
      * Sync color to embedded input element
      *
      * @param value {String} new color value to render
@@ -524,9 +536,24 @@ qx.Class.define("qx.ui.form.TextField",
      */
     _styleTextColor : function(value)
     {
-      this.__color = value;
-      this._renderColor();
+      this.__textColor = value;
+      this._renderTextColor();
     },
+    
+
+    /**
+    * Renders the color using the styleProperty <code>color</code> directly.
+    *
+    * @return {void}
+    */
+    _renderTextColor : function()
+    {
+      var inp = this._inputElement;
+    
+      if (inp) {
+        inp.style.color = this.__textColor || "";
+      }
+    },    
 
 
     /**
@@ -573,19 +600,6 @@ qx.Class.define("qx.ui.form.TextField",
     },
 
 
-    /**
-     * Renders the color using the styleProperty <code>color</code> directly.
-     *
-     * @return {void}
-     */
-    _renderColor : function()
-    {
-      var inp = this._inputElement;
-
-      if (inp) {
-        inp.style.color = this.__color || "";
-      }
-    },
 
 
 
