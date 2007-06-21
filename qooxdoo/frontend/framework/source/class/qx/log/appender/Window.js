@@ -56,10 +56,10 @@ qx.Class.define("qx.log.appender.Window",
     this._errorsPreventingAutoCloseCount = 0;
 
     this._logWindowOpened = false;
-	
+
     this._divDataSets = [];
     this._filterTextWords = [];
-    this._filterText = "";	
+    this._filterText = "";
   },
 
 
@@ -265,21 +265,21 @@ qx.Class.define("qx.log.appender.Window",
         + '  <div id="lines" style="height:92%; width:100%; overflow:auto">'
         + '    <pre id="log" wrap="wrap" style="font-size:11px"></pre>'
         + '  </div>'
-        + '</body></html>');	  
+        + '</body></html>');
       logDocument.close();
 
       this._logElem = logDocument.getElementById("log");
-	  this._markerBtn = logDocument.getElementById("marker");
-	  this._filterInput = logDocument.getElementById("filter");
-	  this._logLinesDiv = logDocument.getElementById("lines");
-	  
-	  var self = this;
-	  this._markerBtn.onclick = function() {
-	    self._showMessageInLog("\n-----------------------------------------------------\n\n");
-	  };
-	  this._filterInput.onkeyup = function(){
-	    self.setFilterText(self._filterInput.value);
-	  }	  
+    this._markerBtn = logDocument.getElementById("marker");
+    this._filterInput = logDocument.getElementById("filter");
+    this._logLinesDiv = logDocument.getElementById("lines");
+
+    var self = this;
+    this._markerBtn.onclick = function() {
+      self._showMessageInLog("\n-----------------------------------------------------\n\n");
+    };
+    this._filterInput.onkeyup = function(){
+      self.setFilterText(self._filterInput.value);
+    }
 
       // Log the events from the queue
       if (this._logEventQueue != null)
@@ -397,12 +397,12 @@ qx.Class.define("qx.log.appender.Window",
         } else {
           txt = qx.html.String.fromText(this.formatLogEvent(evt));
         }
-		divElem.innerHTML = txt;
+    divElem.innerHTML = txt;
 
         this._logElem.appendChild(divElem);
-	    var divDataSet = {txt:txt.toUpperCase(), elem:divElem};
-	    this._divDataSets.push(divDataSet);
-	    this._setDivVisibility(divDataSet);		
+      var divDataSet = {txt:txt.toUpperCase(), elem:divElem};
+      this._divDataSets.push(divDataSet);
+      this._setDivVisibility(divDataSet);
 
         while (this._logElem.childNodes.length > this.getMaxMessages())
         {
@@ -425,37 +425,37 @@ qx.Class.define("qx.log.appender.Window",
     },
 
 
-	/**
-	 * Sets the filter text to use. Only log events containing all words of the 
-	 * given text will be shown
-	 * 
-	 * @param text {String} filter text
-	 */
-	setFilterText : function(text)
-	{
-	  if (text == null){
-	    text = "";
-	  }
-	  this._filterText = text;
-	  text = text.toUpperCase();
-	  this._filterTextWords = text.split(" ");
-	  
-	  for(var divIdx=0; divIdx < this._divDataSets.length; divIdx++) {
-	    this._setDivVisibility(this._divDataSets[divIdx]);    
-	  }
-	},
-	
-	
-	_setDivVisibility : function(divDataSet)
-	{
-	  var visible = true;
-	  
-	  for(var txtIndex=0; visible && (txtIndex < this._filterTextWords.length); txtIndex++) {
-	    visible = divDataSet.txt.indexOf(this._filterTextWords[txtIndex]) >= 0;
-	  }
-	  
-	  divDataSet.elem.style["display"] = (visible ? "" : "none");
-	},
+  /**
+   * Sets the filter text to use. Only log events containing all words of the
+   * given text will be shown
+   *
+   * @param text {String} filter text
+   */
+  setFilterText : function(text)
+  {
+    if (text == null){
+      text = "";
+    }
+    this._filterText = text;
+    text = text.toUpperCase();
+    this._filterTextWords = text.split(" ");
+
+    for(var divIdx=0; divIdx < this._divDataSets.length; divIdx++) {
+      this._setDivVisibility(this._divDataSets[divIdx]);
+    }
+  },
+
+
+  _setDivVisibility : function(divDataSet)
+  {
+    var visible = true;
+
+    for(var txtIndex=0; visible && (txtIndex < this._filterTextWords.length); txtIndex++) {
+      visible = divDataSet.txt.indexOf(this._filterTextWords[txtIndex]) >= 0;
+    }
+
+    divDataSet.elem.style["display"] = (visible ? "" : "none");
+  },
 
 
     /**

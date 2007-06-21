@@ -285,7 +285,7 @@ qx.Class.define("qx.ui.core.Font",
       style.fontStyle =  this.__italic || "";
       style.textDecoration = this.getDecoration() || "";
     },
-    
+
     renderElement : function(element)
     {
       var style = element.style;
@@ -295,7 +295,7 @@ qx.Class.define("qx.ui.core.Font",
       style.fontStyle =  this.__italic || "";
       style.textDecoration = this.getDecoration() || "";
     },
-    
+
     /**
      * Generate a style string with the current font attributes.
      *
@@ -303,7 +303,7 @@ qx.Class.define("qx.ui.core.Font",
      * @return {String}
      */
     generateStyle : function() {
-      return this.__family ? "font-family:" + this.__family.replace(/\"/g, "'") + ";" : "" + 
+      return this.__family ? "font-family:" + this.__family.replace(/\"/g, "'") + ";" : "" +
              this.__size ? "font-size:" + this.__size + ";" : "" +
              this.__weight ? "font-weight:" + this.__weight + ";" : "" +
              this.__style ? "font-style:" + this.__style + ";" : "" +

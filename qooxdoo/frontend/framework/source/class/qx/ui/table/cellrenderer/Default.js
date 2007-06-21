@@ -211,22 +211,22 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
       if (value == null) {
         return "";
       }
-	  
-	  if (typeof value == "string") {
-	  	return value;
-	  }
-	  
+
+    if (typeof value == "string") {
+      return value;
+    }
+
       if (!this._cellCache) {
-  	    this._cellCache = {};
+        this._cellCache = {};
       }
-  
+
       var res = this._cellCache[value];
 
-      if (res) 
-	  {
-        return res;	  
-	  }
-	  else if (typeof value == "number")
+      if (res)
+    {
+        return res;
+    }
+    else if (typeof value == "number")
       {
         if (!qx.ui.table.cellrenderer.Default._numberFormat)
         {
@@ -244,10 +244,10 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
       {
         res = value;
       }
-	  
+
       this._cellCache[value] = res;
-  
-      return res;	  
+
+      return res;
     },
 
 

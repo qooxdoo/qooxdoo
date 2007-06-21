@@ -95,6 +95,6 @@ qx.Theme.define("qx.theme.classic.color.Windows",
     "table-row-background-odd" : [ 255, 255, 255 ],
     "table-row-selected" : [ 255, 255, 255 ],
     "table-row" : [ 0, 0, 0]
-    
+
   }
 });

@@ -230,7 +230,7 @@ qx.Class.define("qx.ui.window.Window",
     */
 
     /**
-     * Returns the default window manager. If no exists a new instance of 
+     * Returns the default window manager. If no exists a new instance of
      * the manager is created.
      *
      * @type static
@@ -496,7 +496,7 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * Closes the current window instance. 
+     * Closes the current window instance.
      * Technically calls the {@link qx.ui.core.Widget#hide} method.
      *
      * @type member
@@ -621,7 +621,7 @@ qx.Class.define("qx.ui.window.Window",
 
     /**
      * Executes routines to ensure the window releases all control.<br/>
-     * Resets the focus root, release the capturing on any contained widget, 
+     * Resets the focus root, release the capturing on any contained widget,
      * deregisters from the window manager and calls {@link qx.ui.popup.Popup#_makeInactive}.
      *
      * @type member
@@ -963,7 +963,7 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * Disables the maximize and restore buttons when the window instance is already maximized, 
+     * Disables the maximize and restore buttons when the window instance is already maximized,
      * otherwise the {@link #enabled} property of both buttons get resetted.
      *
      * @type member
@@ -1084,8 +1084,8 @@ qx.Class.define("qx.ui.window.Window",
 
     /**
      * Restores the window from maximized mode.<br/>
-     * Restores the previous dimension and location, removes the 
-     * state <code>maximized</code> and replaces the restore button 
+     * Restores the previous dimension and location, removes the
+     * state <code>maximized</code> and replaces the restore button
      * with the maximize button.
      *
      * @type member
@@ -1232,7 +1232,7 @@ qx.Class.define("qx.ui.window.Window",
     */
 
     /**
-     * Stops every mouse down event on each button in the captionbar 
+     * Stops every mouse down event on each button in the captionbar
      * by calling {@link qx.event.type.Event#stopPropagation}
      *
      * @type member
@@ -1412,8 +1412,8 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * Disables the capturing of the caption bar and moves the window 
-     * to the last position of the drag session. Also restores the appearance 
+     * Disables the capturing of the caption bar and moves the window
+     * to the last position of the drag session. Also restores the appearance
      * of the window.
      *
      * @type member
@@ -1458,7 +1458,7 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * Does the moving of the window by rendering the position 
+     * Does the moving of the window by rendering the position
      * of the window (or frame) at runtime using direct dom methods.
      *
      * @type member
