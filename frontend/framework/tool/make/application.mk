@@ -306,7 +306,13 @@ ifndef APPLICATION_RESOURCE_FILTER
 endif
 
 
-
+#
+# List of directories containing contributions or external projects
+# to include code from.
+#
+ifndef APPLICATION_INCLUDES
+  APPLICATION_INCLUDES = false
+endif
 
 
 
