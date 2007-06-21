@@ -78,7 +78,12 @@ qx.Class.define("qx.ui.table.model.Simple",
      * @return {Array} Array containing a value for each column.
      */
     getRowData : function(rowIndex) {
-      return this._rowArr[rowIndex];
+	  var rowData = this._rowArr[rowIndex];
+	  if (rowData == null || rowData.originalData == null) {
+	    return rowData;
+	  } else {
+	    return rowData.originalData;
+	  }
     },
 
 
@@ -156,6 +161,27 @@ qx.Class.define("qx.ui.table.model.Simple",
       return this._editableColArr ? (this._editableColArr[columnIndex] == true) : false;
     },
 
+
+	/**
+	 * Sets whether a column is sortable.
+	 *
+	 * @param columnIndex {Integer} the column of which to set the sortable state.
+	 * @param sortable {Boolean} whether the column should be sortable.
+	 */
+	setColumnSortable : function(columnIndex, sortable) 
+	{
+	  if (sortable != this.isColumnSortable(columnIndex)) 
+	  {
+	    if (this._sortableColArr == null) {
+	      this._sortableColArr = [];
+	    }
+		
+	    this._sortableColArr[columnIndex] = sortable;	
+	    this.createDispatchEvent(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED);
+	  }
+	},
+	
+
     // overridden
     /**
      * TODOC
@@ -164,7 +190,7 @@ qx.Class.define("qx.ui.table.model.Simple",
      * @param columnIndex {var} TODOC
      */
     isColumnSortable : function(columnIndex) {
-      return true;
+      return this._sortableColArr ? (this._sortableColArr[columnIndex] == true) : true;
     },
 
     // overridden
@@ -346,9 +372,10 @@ qx.Class.define("qx.ui.table.model.Simple",
      * @param rowArr {var[][]} An array containing an array for each row. Each
      *          row-array contains the values in that row in the order of the columns
      *          in this model.
+     * @param clearSorting {Boolean ? true} Whether to clear the sort state.
      * @return {void}
      */
-    setData : function(rowArr)
+    setData : function(rowArr, clearSorting)
     {
       this._rowArr = rowArr;
 
@@ -357,7 +384,9 @@ qx.Class.define("qx.ui.table.model.Simple",
         this.createDispatchEvent(qx.ui.table.model.Basic.EVENT_TYPE_DATA_CHANGED);
       }
 
-      this._clearSorting();
+	  if (clearSorting) {
+	    this._clearSorting();
+	  }
     },
 
 
@@ -377,17 +406,18 @@ qx.Class.define("qx.ui.table.model.Simple",
     },
 
 
-    /**
-     * Sets the whole data in a bulk.
-     *
-     * @type member
-     * @param mapArr {Map[]} An array containing a map for each row. Each
-     *          row-map contains the column IDs as key and the cell values as value.
-     * @return {void}
-     */
-    setDataAsMapArray : function(mapArr) {
-      this.setData(this._mapArray2RowArr(mapArr));
-    },
+	/**
+	 * Sets the whole data in a bulk.
+	 *
+	 * @param mapArr {Map[]} An array containing a map for each row. Each
+	 *        row-map contains the column IDs as key and the cell values as value.
+	 * @param rememberMaps {Boolean ? false} Whether to remember the original maps.
+	 *        If true {@link #getRowData} will return the original map.
+	 * @param clearSorting {Boolean ? true} Whether to clear the sort state.
+	 */
+	setDataAsMapArray : function(mapArr, rememberMaps, clearSorting) {
+	  this.setData(this._mapArray2RowArr(mapArr, rememberMaps), clearSorting);
+	},
 
 
     /**
@@ -433,21 +463,21 @@ qx.Class.define("qx.ui.table.model.Simple",
     },
 
 
-    /**
-     * Adds some rows to the model.
-     *
-     * Warning: The given array (mapArr) will be altered!
-     *
-     * @type member
-     * @param mapArr {Map[]} An array containing a map for each row. Each
-     *          row-map contains the column IDs as key and the cell values as value.
-     * @param startIndex {Integer ? null} The index where to insert the new rows. If null,
-     *          the rows are appended to the end.
-     * @return {void}
-     */
-    addRowsAsMapArray : function(mapArr, startIndex) {
-      this.addRows(this._mapArray2RowArr(mapArr), startIndex);
-    },
+	/**
+	 * Adds some rows to the model.
+	 * 
+	 * Warning: The given array (mapArr) will be altered!
+	 *
+	 * @param mapArr {Map[]} An array containing a map for each row. Each
+	 *        row-map contains the column IDs as key and the cell values as value.
+	 * @param startIndex {Integer ? null} The index where to insert the new rows. If null,
+	 *        the rows are appended to the end.
+	 * @param rememberMaps {Boolean ? false} Whether to remember the original maps.
+	 *        If true {@link #getRowData} will return the original map.
+	 */
+	addRowsAsMapArray : function(mapArr, startIndex, rememberMaps) {
+	  this.addRows(this._mapArray2RowArr(mapArr, rememberMaps), startIndex);
+	},
 
 
     /**
@@ -486,11 +516,13 @@ qx.Class.define("qx.ui.table.model.Simple",
      * @type member
      * @param mapArr {Map[]} An array containing a map for each row. Each
      *          row-map contains the column IDs as key and the cell values as value.
+	 * @param rememberMaps {Boolean ? false} Whether to remember the original maps.
+	 *        If true {@link #getRowData} will return the original map.
      * @return {var[][]} An array containing an array for each row. Each
      *           row-array contains the values in that row in the order of the columns
      *           in this model.
      */
-    _mapArray2RowArr : function(mapArr)
+    _mapArray2RowArr : function(mapArr, rememberMaps)
     {
       var rowCount = mapArr.length;
       var columnCount = this.getColumnCount();
@@ -500,8 +532,11 @@ qx.Class.define("qx.ui.table.model.Simple",
 
       for (var i=0; i<rowCount; ++i)
       {
-        columnArr = new Array(columnCount);
-
+	    columnArr = [];
+	    if (rememberMaps) {
+	      columnArr.originalData = mapArr[i];
+	    }
+		
         for (var j=0; j<columnCount; ++j) {
           columnArr[j] = mapArr[i][this.getColumnId(j)];
         }
