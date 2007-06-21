@@ -195,7 +195,7 @@ qx.core.Init.getInstance().defineMain(function() {
   boxRow3.add(boxHeaders);
 
   var fieldMaxRows = new form.Spinner(2, combo.getMaxVisibleRows(), 20);
-  fieldMaxRows.getManager().addEventListener('changeValue', function() {
+  fieldMaxRows.getManager().addEventListener('change', function() {
     combo.setMaxVisibleRows(fieldMaxRows.getValue());
   });
   var boxMaxRows = new GroupBox('Max. number of visible rows');
@@ -246,15 +246,19 @@ qx.core.Init.getInstance().defineMain(function() {
   var boxVal = new GroupBox('Test value property');
   boxVal.add(boxVal2);
 
+  var boxThemes = new GroupBox('Theme');
+  qx.util.ThemeList.createMetaButtons(boxThemes, 0, 0);
+ 
   //###Main box
   var vbox = new Box('vertical');
   with (vbox) {
     setSpacing(10);
     setTop(50);
     setLeft(30);
-    add(boxCombo, boxProp, boxRow3, boxRow4, boxShowOn, boxVal);
+    add(boxCombo, boxProp, boxRow3, boxRow4, boxShowOn, boxVal, boxThemes);
     addToDocument();
-  }
+  } 
+  
   combo.focus();
 });
   </script>
@@ -266,7 +270,7 @@ qx.core.Init.getInstance().defineMain(function() {
        addAppender(new qx.log.appender.FireBug);
        setMinLevel(qx.log.Logger.LEVEL_WARN);
      }
-   }
+   }   
   </script>
   <div id="demoDescription">
     <p>ComboBoxEx is an enhanced version of ComboBox</p>
