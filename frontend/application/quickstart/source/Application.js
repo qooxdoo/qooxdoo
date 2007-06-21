@@ -17,7 +17,7 @@ qx.Class.define("Application",
 
   members :
   {
-    main : function(e)
+    main : function()
     {
       // Call super class
       this.base(arguments);
