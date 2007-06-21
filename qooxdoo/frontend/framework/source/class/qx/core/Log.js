@@ -241,7 +241,7 @@ qx.Class.define("qx.core.Log",
     // Firebug emulation
     if (!window.console) {
       window.console = statics;
-    } else if (window.console && !console.firebug) {
+    } else if (window.console && !console.debug && !console.trace && !console.group) {
       // WebKit defines its own logger
       // TODO: find a better way to support logging in webkit.
       window.console = statics;
