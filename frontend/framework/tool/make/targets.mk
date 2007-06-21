@@ -29,10 +29,10 @@
 
 .PHONY: source build api all locales pretty fix help clean distclean publish debug
 
-source: info-source exec-localization exec-translation exec-script-source
-build: info-build exec-localization exec-translation exec-script-build exec-script-build-opt exec-files-build
-build-split: info-build exec-localization exec-translation exec-script-build-split exec-files-build
-api: info-api exec-localization exec-translation exec-api-build exec-api-data exec-files-api
+source: info-source exec-download-contribs exec-localization exec-translation exec-script-source
+build: info-build exec-download-contribs exec-localization exec-translation exec-script-build exec-script-build-opt exec-files-build
+build-split: info-build exec-download-contribs exec-localization exec-translation exec-script-build-split exec-files-build
+api: info-api exec-download-contribs exec-localization exec-translation exec-api-build exec-api-data exec-files-api
 all: source build api
 
 locales: exec-localization exec-translation
