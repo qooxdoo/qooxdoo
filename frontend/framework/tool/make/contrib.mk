@@ -18,9 +18,8 @@ endif
 
 
 exec-download-contribs:
-ifneq ($(APPLICATION_INCLUDES),)
-	$(SILENCE) $(CMD_PYTHON) $(FRAMEWORK_TOOL_PATH)/make/download-contrib.py \
-		$(patsubst qooxdoo-contrib://%, --contrib %, $(DOWNLOAD_CONTRIBS)) \
-		--contrib-cache "$(QOOXDOO_CONTRIB_CACHE)"
-endif
-
+  ifneq ($(APPLICATION_INCLUDES),)
+	  $(SILENCE) $(CMD_PYTHON) $(FRAMEWORK_TOOL_PATH)/make/download-contrib.py \
+		  $(patsubst qooxdoo-contrib://%, --contrib %, $(DOWNLOAD_CONTRIBS)) \
+		  --contrib-cache "$(QOOXDOO_CONTRIB_CACHE)"
+  endif
