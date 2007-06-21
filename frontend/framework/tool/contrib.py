@@ -3,6 +3,9 @@ import sys
 import optparse
 from types import *
 
+# reconfigure path to import own modules from modules subfolder
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "modules"))
+
 import simplejson
 import optparseext
 
@@ -88,8 +91,8 @@ def getResourceFlags(contrib):
 
 
 def getGeneratorFlags(contrib):
-	flags = getClassPathFlags(contrib)
-	flags += getClassUriFlags(contrib)
+	flags = "--class-path " + getClassPathFlags(contrib)
+	flags += "--class-uri " + getClassUriFlags(contrib)
 	(sourceFlags, buildFlags) = getResourceFlags(contrib)
 	return (sourceFlags+flags, buildFlags+flags)
 
