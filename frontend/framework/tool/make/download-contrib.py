@@ -66,6 +66,9 @@ def main():
 
 	(options, args) = parser.parse_args()
 	
+	if len(options.contribs == 0):
+		return
+	
 	if (options.contrib_cache == ""):
 		print >> sys.stdout, "qooxdoo-contrib cache directory must be specified."
 		return
