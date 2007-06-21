@@ -20,6 +20,9 @@ def getRevision(contrib):
 
 
 def download_contribs(contribs, contrib_cache):
+
+	header = False
+
 	for contrib in contribs:
 		externalRevision = ""
 		try:
@@ -37,8 +40,16 @@ def download_contribs(contribs, contrib_cache):
 			shutil.rmtree(os.path.dirname(revisionFile));
 		
 		url = "https://qooxdoo-contrib.svn.sourceforge.net/svnroot/qooxdoo-contrib/trunk/qooxdoo-contrib/contribution/%s/" % contrib
+
+		if header == False:
+			header = True
+			print
+			print "  DOWNLOADING CONTRIBUTIONS:"
+			print "----------------------------------------------------------------------------"
+
+		print "  * %s" % url
 		os.system(
-			"wget --recursive --relative --no-parent --level=20 --no-verbose --execute robots=off --no-host-directories --cut-dirs=4 " +
+			"wget --recursive --relative --no-parent --level=20 --quiet --execute robots=off --no-host-directories --cut-dirs=4 " +
 			"--directory-prefix=%s --no-check-certificate %s" % (contrib_cache, url)
 		)
 		open(revisionFile, "w").write(externalRevision)
