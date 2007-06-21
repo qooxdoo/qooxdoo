@@ -66,7 +66,7 @@ def main():
 
 	(options, args) = parser.parse_args()
 	
-	if len(options.contribs == 0):
+	if len(options.contribs) == 0:
 		return
 	
 	if (options.contrib_cache == ""):
