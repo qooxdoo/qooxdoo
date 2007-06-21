@@ -52,6 +52,8 @@ qx.Proto._modifyMaxMessages = function(propValue, propOldValue, propData){
 
 // overridden
 qx.Proto.appendLogEvent = function(evt) {
+  evt.time = new Date().getTime() - qx._LOADSTART;
+
   var maxMessages = this.getMaxMessages();
   if (this._history.length < maxMessages){
     this._history.push(evt);

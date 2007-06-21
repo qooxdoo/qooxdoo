@@ -37,11 +37,29 @@ function(name) {
   qx.log.Appender.call(this);
 
   this._id = qx.log.WindowAppender.register(this);
-  this._name = (name == null) ? "qx_log" : name;
+
+  this._name = name;
+  if (this._name == null) {
+    // No name was provided -> Use a name that includes a hash of the URL, so
+    // every running application gets its own log window.
+    // NOTE: We use a hash, because IE doesn't like when a whole URL is included
+    //       in the name
+    var url = window.location.href;
+    var hash = 0;
+    for (var i = 0; i < url.length; i++) {
+      hash = (hash + url.charCodeAt(i)) % 10000000;
+    }
+
+    this._name = "qx_log_" + hash;
+  }
 
   this._errorsPreventingAutoCloseCount = 0;
 
   this._logWindowOpened = false;
+  
+  this._divDataSets = [];
+  this._filterTextWords = [];
+  this._filterText = "";
 });
 
 
@@ -117,10 +135,28 @@ qx.Proto.openWindow = function() {
   logDocument.open();
   logDocument.write("<html><head><title>" + this._name + "</title></head>"
     + '<body onload="qx = opener.qx;" onunload="try{qx.log.WindowAppender._registeredAppenders[' + this._id + ']._autoCloseWindow()}catch(e){}">'
-    + '<pre id="log" wrap="wrap" style="font-size:11"></pre></body></html>');
+    + '  <div style="height:7%; font-size:11; font-family:Arial,sans-serif">'
+    + '<input id="marker" type="button" value="Set mark"></input> &nbsp; &nbsp; Filter: <input name="filter" id="filter" type="text" value="'+ this._filterText +'" size="70" maxlength="100">'
+    + '  </div>'
+    + '  <div id="lines" style="height:92%; width:100%; overflow:auto">'
+    + '    <pre id="log" wrap="wrap" style="font-size:11"></pre>'
+    + '  </div>'
+    + '</body></html>');
+
   logDocument.close();
 
   this._logElem = logDocument.getElementById("log");
+  this._markerBtn = logDocument.getElementById("marker");
+  this._filterInput = logDocument.getElementById("filter");
+  this._logLinesDiv = logDocument.getElementById("lines");
+  
+  var self = this;
+  this._markerBtn.onclick = function() {
+    self._showMessageInLog("\n-----------------------------------------------------\n\n");
+  };
+  this._filterInput.onkeyup = function(){
+    self.setFilterText(self._filterInput.value);
+  }
 
   // Log the events from the queue
   if (this._logEventQueue != null) {
@@ -189,7 +225,7 @@ qx.Proto.appendLogEvent = function(evt) {
     // -> Put the event in the queue
     this._logEventQueue.push(evt);
   } else {
-    var divElem = this._logWindow.document.createElement("div");
+    var divElem = this._logWindow.document.createElement("div");    
     if (evt.level >= qx.log.Logger.LEVEL_ERROR) {
       divElem.style.backgroundColor = "#FFEEEE";
       if (!this.getAutoCloseWithErrors()){
@@ -198,12 +234,19 @@ qx.Proto.appendLogEvent = function(evt) {
     } else if (evt.level == qx.log.Logger.LEVEL_DEBUG) {
       divElem.style.color = "gray";
     }
+
+    var txt;
     if (evt.isDummyEventForMessage){
-      divElem.innerHTML = evt.message;
+      txt = evt.message;
     } else {
-      divElem.innerHTML = qx.html.String.fromText(this.formatLogEvent(evt));
+      txt = qx.html.String.fromText(this.formatLogEvent(evt));
     }
+    divElem.innerHTML = txt;
+
     this._logElem.appendChild(divElem);
+    var divDataSet = {txt:txt.toUpperCase(), elem:divElem};
+    this._divDataSets.push(divDataSet);
+    this._setDivVisibility(divDataSet);
 
     while (this._logElem.childNodes.length > this.getMaxMessages()) {
       this._logElem.removeChild(this._logElem.firstChild);
@@ -221,9 +264,29 @@ qx.Proto.appendLogEvent = function(evt) {
     }
 
     // Scroll to bottom
-    this._logWindow.scrollTo(0, this._logElem.offsetHeight);
+    this._logLinesDiv.scrollTop = this._logElem.offsetHeight;
   }
 }
+
+/**
+ * Sets the filter text to use. Only log events containing all words of the 
+ * given text will be shown
+ * 
+ * @param text {String}  filter text
+ */
+qx.Proto.setFilterText = function(text){
+  if (text == null){
+    text = "";
+  }
+  this._filterText = text;
+  text = text.toUpperCase();
+  this._filterTextWords = text.split(" ");
+  
+  for(var divIdx=0; divIdx < this._divDataSets.length; divIdx++) {
+    this._setDivVisibility(this._divDataSets[divIdx]);    
+  }
+  
+};
 
 qx.Proto._modifyAutoCloseWithErrors = function(propValue, propOldValue, propData){
   if (!propValue && propOldValue){
@@ -239,7 +302,13 @@ qx.Proto._modifyAutoCloseWithErrors = function(propValue, propOldValue, propData
   return true;
 }
 
-
+qx.Proto._setDivVisibility = function(divDataSet){
+  var visible = true;
+  for(var txtIndex=0; visible && (txtIndex < this._filterTextWords.length); txtIndex++) {
+    visible = divDataSet.txt.indexOf(this._filterTextWords[txtIndex]) >= 0;
+  }
+  divDataSet.elem.style["display"] = (visible ? "" : "none");
+}
 
 // overridden
 qx.Proto.dispose = function() {
@@ -275,7 +344,7 @@ qx.Clazz.register = function(appender) {
 
 
 /**
- * Returns a prviously registered WindowAppender.
+ * Returns a previously registered WindowAppender.
  *
  * @param id {Integer} the ID of the wanted WindowAppender.
  * @return {WindowAppender} the WindowAppender or null if no
