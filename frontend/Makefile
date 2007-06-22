@@ -668,9 +668,9 @@ release-skeleton-dos:
 
 check:
 	@BASE_REQUIREMENTS="python rsync"; \
-	I18N_REQUIREMENTS="gettext xgettext msginit msgmerge"; \
+	I18N_REQUIREMENTS="gettext xgettext msginit msgmerge diff"; \
 	EXT_REQUIREMENTS="tar gzip zip unzip"; \
-	OPTIONALS="wget curl"; \
+	OPTIONALS="wget curl svn"; \
 	FAILED_BASE=; \
 	FAILED_I18N=; \
 	FAILED_EXT=; \
