@@ -393,7 +393,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       // -- Pane Content
       //var f3 = new qx.ui.form.TextArea("The sample source will be displayed here.");
-      var f3 = new qx.ui.embed.HtmlEmbed("The sample source will be displayed here.");
+      var f3 = new qx.ui.embed.HtmlEmbed("<div class='script'>The sample source will be displayed here.</div>");
       p3.add(f3);
       this.widgets["outputviews.sourcepage.page"] = f3;
 
