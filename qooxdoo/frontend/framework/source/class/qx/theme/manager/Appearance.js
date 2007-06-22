@@ -200,32 +200,65 @@ qx.Class.define("qx.theme.manager.Appearance",
 
       // Using cache if available
       var cache = this.__cache[theme.name];
-      if (cache[unique] !== undefined) {
+      if (cache && cache[unique] !== undefined) {
         return cache[unique];
       }
 
       var result;
 
       // Otherwise "compile" the appearance
-      // If a include is defined, too, we need to merge the entries
-      if (entry.include)
+      // If a include or base is defined, too, we need to merge the entries
+      if (entry.include || entry.base)
       {
         // This process tries to insert the original data first, and
         // append the new data later, to higher priorise the local
-        // data above the included data. This is especially needed
+        // data above the included/inherited data. This is especially needed
         // for property groups or properties which includences other
         // properties when modified.
-        var incl = this.styleFromTheme(theme, entry.include, states);
         var local = entry.style(states);
+
+        // Gather included data
+        var incl;
+        if (entry.include) {
+          incl = this.styleFromTheme(theme, entry.include, states);
+        }
 
         // Create new map
         result = {};
+        
+        // Copy base data, but exclude overwritten local and included stuff
+        if (entry.base && theme.supertheme) 
+        {
+          var base = this.styleFromTheme(theme.supertheme, id, states);
+          
+          if (entry.include)
+          {
+            for (var key in base)
+            {
+              if (incl[key] === undefined && local[key] === undefined) {
+                result[key] = base[key];
+              }
+            }
+          }
+          else
+          {
+            for (var key in base)
+            {
+              if (local[key] === undefined) {
+                result[key] = base[key];
+              }
+            }
+          }
+        }        
 
         // Copy include data, but exclude overwritten local stuff
-        for (var key in incl)
+        if (entry.include)
         {
-          if (local[key] === undefined) {
-            result[key] = incl[key]
+          for (var key in incl)
+          {
+            if (local[key] === undefined) {
+              result[key] = incl[key];
+            }
           }
         }
 
@@ -240,7 +273,11 @@ qx.Class.define("qx.theme.manager.Appearance",
       }
 
       // Cache new entry and return
-      return cache[unique] = (result || null);
+      if (cache) {
+        cache[unique] = result || null;
+      }
+      
+      return result || null;
     }
   },
 
