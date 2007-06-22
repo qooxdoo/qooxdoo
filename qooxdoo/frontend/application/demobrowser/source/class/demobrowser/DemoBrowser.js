@@ -1192,57 +1192,35 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     __beautySource : function (src) 
     {
-      src = src.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
-      
-      //var bsrc = "";
       var bsrc = "<pre>";
-      var reg  = /(.*<script\b[^>]*?(?!\bsrc\s*=)[^>]*?>)(.*?)(?=<\/script>)/gm;
-      var linep = /^.*$/gm; // matches a line
-      var result;
-      var eof = false;
-      var line = "";
+      var lines = [];
       var currBlock = ""
       var PScriptStart = /^\s*<script\b[^>]*?(?!\bsrc\s*=)[^>]*?>\s*$/i;
       var PScriptEnd = /^\s*<\/script>\s*$/i;
-      var oldIndex = 0;
 
-      while (! eof) 
+
+      src = src.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+      var lines = src.split('\n');
+
+      for (var i=0; i<lines.length; i++)
       {
-        result   = linep.exec(src);
-        
-        if (result == null) 
-        {
-          eof = true;
-        } else 
-        {
-          line = result[0];
-          if (line == "")
-          {
-            if (oldIndex == linep.lastIndex) {  // fix bug in non-IE browser
-              linep.lastIndex++;
-            }
-          }
-          oldIndex = linep.lastIndex;
-           
-          if (PScriptStart.exec(line)) 
+          if (PScriptStart.exec(lines[i])) // start of inline script
           {
             // add this line to 'normal' code
-            //bsrc += '<pre>'+qx.html.String.escape(currBlock + line)+'</pre>';
-            bsrc += this.__beautyHtml(qx.html.String.escape(currBlock + line));
+            bsrc += this.__beautyHtml(qx.html.String.escape(currBlock + lines[i]));
             currBlock = "";  // start new block
-          } else if (PScriptEnd.exec(line)) 
+          } else if (PScriptEnd.exec(lines[i])) // end of inline script
           {
             // pass script block to tokenizer
             var s1 = qx.dev.Tokenizer.javaScriptToHtml(currBlock);
-            //bsrc += '<div class="script"><pre>'+s1+'</pre></div>';
             bsrc += '<div class="script">'+s1+'</div>';
-            currBlock = line+'\n';  // start new block
+            currBlock = lines[i]+'\n';  // start new block
           } else // no border line 
           {
-            currBlock += line+'\n';
+            currBlock += lines[i]+'\n';
           }
-        }
       }
+
 
       // collect rest of page
       bsrc += this.__beautyHtml(qx.html.String.escape(currBlock))+'</pre>';
