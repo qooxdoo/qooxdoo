@@ -71,6 +71,10 @@ qx.Class.define("qx.Theme",
       if (!config) {
         var config = {};
       }
+      
+      if (config.include && !(config.include instanceof Array)) {
+        config.include = [config.include];
+      }      
 
       // Validate incoming data
       if (qx.core.Variant.isSet("qx.debug", "on")) {
@@ -88,6 +92,11 @@ qx.Class.define("qx.Theme",
         // Attach toString
         toString : this.genericToString
       };
+      
+      // Remember extend
+      if (config.extend) {
+        theme.supertheme = config.extend;
+      }
 
       // Assign to namespace
       theme.basename = qx.Class.createNamespace(name, theme);
@@ -98,16 +107,13 @@ qx.Class.define("qx.Theme",
       // Store class reference in global class registry
       this.__registry[name] = theme;
 
-      // include mixin themes
-      if (config.include) {
-        if (!(config.include instanceof Array)) {
-          config.include = [config.include];
-        }
-        for (var i=0; i<config.include.length; i++) {
-          this.include(theme, config.include[i]);
+      // Include mixin themes
+      if (config.include) 
+      {
+        for (var i=0, a=config.include, l=a.length; i<l; i++) {
+          this.include(theme, a[i]);
         }
       }
-
     },
 
 
@@ -265,8 +271,8 @@ qx.Class.define("qx.Theme",
         "icons"       : "object", // Map
         "widgets"     : "object", // Map
         "appearances" : "object", // Map
-        "meta"        : "object",
-        "include"     : "object" // Array
+        "meta"        : "object", // Map
+        "include"     : "object"  // Array
       },
 
       "default" : null
@@ -398,10 +404,12 @@ qx.Class.define("qx.Theme",
     {
       var keyCurrent = this.__extractInheritableKey(mixinTheme);
       if (keyCurrent !== this.__extractInheritableKey(mixinTheme)) {
-        throw new Error("The mixins '"+theme.name+"' are not compatible '"+mixinTheme.name+"'!");
+        throw new Error("The mixins '" + theme.name + "' are not compatible '" + mixinTheme.name + "'!");
       }
+      
       var source = mixinTheme[keyCurrent];
       var target = theme[keyCurrent];
+      
       for (var key in source) {
         target[key] = source[key];
       }
@@ -421,18 +429,20 @@ qx.Class.define("qx.Theme",
     {
       var keyCurrent = this.__extractInheritableKey(mixinTheme);
       if (keyCurrent !== this.__extractInheritableKey(mixinTheme)) {
-        throw new Error("The mixins '"+theme.name+"' are not compatible '"+mixinTheme.name+"'!");
+        throw new Error("The mixins '" + theme.name + "' are not compatible '" + mixinTheme.name + "'!");
       }
+      
       var source = mixinTheme[keyCurrent];
       var target = theme[keyCurrent];
-      for (var key in source) {
+      
+      for (var key in source) 
+      {
         if (target[key] !== undefined) {
-          throw new Error("It is not allowed to overwrite the key '"+key+"' of theme '"+theme.name+"' by mixin theme '"+mixinTheme.name+"'.");
+          throw new Error("It is not allowed to overwrite the key '" + key + "' of theme '" + theme.name + "' by mixin theme '"+mixinTheme.name+"'.");
         }
+        
         target[key] = source[key];
       }
     }
-
-
   }
 });
