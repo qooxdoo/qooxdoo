@@ -50,11 +50,13 @@ qx.Class.define("qx.ui.table.cellrenderer.Image",
       this._imageWidth = 16;
     }
 
-    if (width) {
+    if (height) {
       this._imageHeight = height;
     } else {
       this._imageHeight = 16;
     }
+    
+    this._am = qx.io.Alias.getInstance();
   },
 
 
@@ -78,20 +80,16 @@ qx.Class.define("qx.ui.table.cellrenderer.Image",
      */
     _identifyImage : function(cellInfo)
     {
-      var IconDataCellRenderer = qx.ui.table.cellrenderer.Icon;
-
       var imageHints =
       {
         imageWidth  : this._imageWidth,
         imageHeight : this._imageHeight
       };
 
-      var am = qx.io.Alias.getInstance();
-
       if (cellInfo.value == "") {
-        imageHints.url = am.resolve("static/image/blank.gif");
+        imageHints.url = this.IMG_BLANK_URL;
       } else {
-        imageHints.url = am.resolve(cellInfo.value);
+        imageHints.url = this._am.resolve(cellInfo.value);
       }
 
       return imageHints;
