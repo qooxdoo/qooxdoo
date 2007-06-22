@@ -94,7 +94,7 @@ def main(dist, scan):
 def getDesc(filepath):
     desc = ""
     # open file
-    file = open(filepath).read()
+    file = open(filepath,'rU').read()
     if file:
         # scan for div id="demoDescription
         m = re.search(r'<div\s+id="demoDescription">(.*?)</div>', file,
