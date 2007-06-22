@@ -1,5 +1,6 @@
 import os
 import sys
+import codecs
 import optparse
 from types import *
 
@@ -32,7 +33,7 @@ def filerByKeyword(contribIterator, keyword):
 def loadContrib(manifestPath):
 	""" load a contribution description from a manifest file """
 	try:
-		manifestData = simplejson.load(open(manifestPath))
+		manifestData = simplejson.load(codecs.open(manifestPath, "r", "UTF-8"))
 	except Exception, e:
 		print >> sys.stderr, "Could not parse Manifest: '%s'." % manifestPath
 		print >> sys.stderr, e
@@ -102,6 +103,31 @@ def getGeneratorSourceFlags(contrib):
 
 def getGeneratorBuildFlags(contrib):
 	return getGeneratorFlags(contrib)[1]
+	
+def generateProjectListing(contrib):
+	str = """==== %(name)s %(version)s ====
+
+%(summary)s
+
+""" % contrib
+	if contrib.has_key("description"):
+		str += contrib["description"] + "\n\n"
+		
+	authors = []
+	for author in contrib["authors"]:
+		if author.has_key("mail"):
+			authors.append("%(name)s <%(mail)s> " % author)
+		else:
+			authors.append(author["name"])
+	str += "|Authors|%s|\n" % ", ".join(authors)
+	
+	if contrib.has_key("homepage"):
+		str += "|Homepage|[[%(homepage)s]]|\n" & contrib
+		
+	str += "|License|%(license)s|\n" % contrib
+	str += "|qooxdoo version|%s|\n" % ", ".join(contrib["qooxdoo-versions"])
+
+	return str
 	
 
 def main():
@@ -178,6 +204,12 @@ def main():
 		(key, value) = filter.strip().split(":")
 		contribIterator = filterKey(contribIterator, key, value)
 		
+		
+	#for contrib in contribIterator:
+	#	print generateProjectListing(contrib)
+	#	
+	#return
+	
 	if options.key:
 		print "\n".join([contrib[options.key] for contrib in contribIterator])
 	
