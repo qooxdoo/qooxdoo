@@ -1,22 +1,23 @@
 #!/usr/bin/env python
-################################################################################
-#
-#  qooxdoo - the new era of web development
-#
-#  http://qooxdoo.org
-#
-#  Copyright:
-#    2007 1&1 Internet AG, Germany, http://www.1and1.org
-#
-#  License:
-#    LGPL: http://www.gnu.org/licenses/lgpl.html
-#    EPL: http://www.eclipse.org/org/documents/epl-v10.php
-#    See the LICENSE file in the project's top-level directory for details.
-#
-#  Authors:
-#    * Fabian Jakobs (fjakobs)
-#
-################################################################################
+# encoding: utf-8
+"""
+download-contrib.py
+
+qooxdoo - the new era of web development
+
+http://qooxdoo.org
+
+Copyright:
+  2007 1&1 Internet AG, Germany, http://www.1and1.org
+
+License:
+  LGPL: http://www.gnu.org/licenses/lgpl.html
+  EPL: http://www.eclipse.org/org/documents/epl-v10.php
+  See the LICENSE file in the project's top-level directory for details.
+
+Authors:
+  * Fabian Jakobs (fjakobs)
+"""
 
 import os
 import re
@@ -25,10 +26,8 @@ import urllib
 import shutil
 import optparse
 
-# reconfigure path to import own modules from modules subfolder
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "..", "modules"))
-
 import optparseext
+
 
 def getRevision(contrib):
 	rev_url = "http://qooxdoo-contrib.svn.sourceforge.net/viewvc/qooxdoo-contrib/trunk/qooxdoo-contrib/contribution/%s/" % contrib
@@ -74,14 +73,16 @@ def download_contribs(contribs, contrib_cache):
 		)
 		open(revisionFile, "w").write(externalRevision)
 		
-def cleanUpIndexHtml(contribCache):
-	pass
-	#os.system("""find %s -print0 -name 'index.html' | xargs -0 grep  '<hr noshade><em>Powered by <a href="http://subversion.tigris.org/">Subversion</a>' --files-with-matches --null | xargs -0 rm""" % contribCache)
 
-
-def main():
+def main(argv=None):
+	if argv is None:
+		argv = sys.argv
+				
 	parser = optparse.OptionParser(
-		"usage: %prog [options] [Contris]",
+		"""usage: %prog [options] [Contris]
+
+Download contributions from the qooxdoo-contrib svn repository.
+""",
 		option_class=optparseext.ExtendAction
 	)
 
@@ -95,7 +96,7 @@ def main():
 		help="Path to the qooxdoo-contrib cache directory."
 	)
 
-	(options, args) = parser.parse_args()
+	(options, args) = parser.parse_args(args=argv[1:])
 	
 	if len(options.contribs) == 0:
 		return
@@ -105,7 +106,6 @@ def main():
 		return
 	
 	download_contribs(options.contribs, options.contrib_cache)
-	cleanUpIndexHtml(options.contrib_cache)
 
 if __name__ == '__main__':
-	main()
+	sys.exit(main())
