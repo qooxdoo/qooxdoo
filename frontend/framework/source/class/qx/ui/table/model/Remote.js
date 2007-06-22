@@ -242,17 +242,69 @@ qx.Class.define("qx.ui.table.model.Remote",
     },
 
 
-  /**
-   * Cancels the current request if possible.
-   *
-   * Should be overridden by subclasses if they are able to cancel requests. This
-   * allows sending a new request directly after a call of {@link #reloadData}.
-   *
-   * @return {Boolean} whether the request was cancelled.
-   */
-  _cancelCurrentRequest : function() {
-    return false;
-  },
+    /**
+     * Returns the current state of the cache.
+     * <p>
+     * Do not change anything in the returned data. This breaks the model state.
+     * Use this method only together with {@link #restoreCacheContent} for backing
+     * up state for a later restore.
+     *
+     * @return {Map} the current cache state.
+     */
+    getCacheContent : function() {
+      return {
+        sortColumnIndex : this._sortColumnIndex,
+        sortAscending   : this._sortAscending,
+        rowCount        : this._rowCount,
+        lruCounter      : this._lruCounter,
+        rowBlockCache   : this._rowBlockCache,
+        rowBlockCount   : this._rowBlockCount
+      };
+    },
+
+
+    /**
+     * Restores a cache state created by {@link #getCacheContent}.
+     *
+     * @param cacheContent {Map} An old cache state.
+     */
+    restoreCacheContent : function(cacheContent) {
+      // Try to cancel the current request
+      var cancelingSuceed = this._cancelCurrentRequest();
+      if (cancelingSuceed) {
+        // The request was cancelled -> We're not loading any blocks any more
+        this._firstLoadingBlock = -1;
+        this._ignoreCurrentRequest = false;
+      } else {
+        // The request was not cancelled -> Ignore it
+        this._ignoreCurrentRequest = true;
+      }
+
+      // Restore the cache content
+      this._sortColumnIndex = cacheContent.sortColumnIndex;
+      this._sortAscending   = cacheContent.sortAscending;
+      this._rowCount        = cacheContent.rowCount;
+      this._lruCounter      = cacheContent.lruCounter;
+      this._rowBlockCache   = cacheContent.rowBlockCache;
+      this._rowBlockCount   = cacheContent.rowBlockCount;
+
+      // Inform the listeners
+      var data = { firstRow:0, lastRow:this._rowCount - 1, firstColumn:0, lastColumn:this.getColumnCount() - 1 };
+      this.dispatchEvent(new qx.event.type.DataEvent(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, data), true);
+    },
+
+
+    /**
+     * Cancels the current request if possible.
+     *
+     * Should be overridden by subclasses if they are able to cancel requests. This
+     * allows sending a new request directly after a call of {@link #reloadData}.
+     *
+     * @return {Boolean} whether the request was cancelled.
+     */
+    _cancelCurrentRequest : function() {
+      return false;
+    },
 
 
     /**
