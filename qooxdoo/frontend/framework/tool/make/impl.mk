@@ -288,6 +288,7 @@ exec-framework-translation:
 	@which xgettext > /dev/null 2>&1 || (echo "    - Please install gettext tools (xgettext)" && exit 1)
 	@which msginit > /dev/null 2>&1 || (echo "    - Please install gettext tools (msginit)" && exit 1)
 	@which msgmerge > /dev/null 2>&1 || (echo "    - Please install gettext tools (msgmerge)" && exit 1)
+	@which diff > /dev/null 2>&1 || (echo "    - Please install diffutils (diff)" && exit 1)
 
 	@mkdir -p $(FRAMEWORK_SOURCE_PATH)/translation
 	@mkdir -p $(FRAMEWORK_SOURCE_PATH)/class/$(FRAMEWORK_NAMESPACE_PATH)/locale/translation
