@@ -547,6 +547,7 @@ qx.Class.define("qx.ui.basic.Atom",
       {
         case "label":
         case "both":
+        case "inherit":
           this._labelIsVisible = !!this.getLabel();
           break;
 
@@ -574,6 +575,7 @@ qx.Class.define("qx.ui.basic.Atom",
       {
         case "icon":
         case "both":
+        case "inherit":
           this._iconIsVisible = !!this.getIcon();
           break;
 
