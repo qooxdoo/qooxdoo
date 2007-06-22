@@ -125,7 +125,7 @@ exec-script-build-split:
 	  --print-includes-file includes.dat
 
   # combine base profile and include list
-	@$(CMD_PYTHON) $(FRAMEWORK_TOOL_PATH)/make/create-profile.py _qx.dat includes.dat > qx.dat
+	@$(CMD_PYTHON) $(FRAMEWORK_TOOL_PATH)/modules/create-profile.py _qx.dat includes.dat > qx.dat
 	@rm _qx.dat includes.dat
 	@$(CMD_DIR) build/script
 	@mv qx.dat build/script
