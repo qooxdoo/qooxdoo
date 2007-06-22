@@ -1192,6 +1192,8 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     __beautySource : function (src) 
     {
+      src = src.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+      
       //var bsrc = "";
       var bsrc = "<pre>";
       var reg  = /(.*<script\b[^>]*?(?!\bsrc\s*=)[^>]*?>)(.*?)(?=<\/script>)/gm;
@@ -1207,7 +1209,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       while (! eof) 
       {
         result   = linep.exec(src);
-
+        
         if (result == null) 
         {
           eof = true;
