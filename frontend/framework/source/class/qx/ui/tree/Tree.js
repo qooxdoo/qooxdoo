@@ -204,10 +204,9 @@ qx.Class.define("qx.ui.tree.Tree",
      */
     excludeSpecificTreeLines :
     {
-      _legacy      : true,
-      type         : "object",
-      defaultValue : [],
-      apply : "_applyExcludeSpecificTreeLines"
+      check  : "Array",
+      init   : [],
+      apply  : "_applyExcludeSpecificTreeLines"
     },
 
 
