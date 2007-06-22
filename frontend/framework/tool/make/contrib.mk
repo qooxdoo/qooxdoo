@@ -19,7 +19,7 @@
 
 ifneq ($(APPLICATION_INCLUDES),)
 	
-	QOOXDOO_CONTRIB_CACHE = $(FRAMEWORK_PATH)/.contribs
+	QOOXDOO_CONTRIB_CACHE = $(FRAMEWORK_PATH)/.includes
 
 	DOWNLOAD_CONTRIBS = $(filter qooxdoo-contrib://%, $(APPLICATION_INCLUDES))
 	LOCAL_CONTRIBS = $(filter-out qooxdoo-contrib://%, $(APPLICATION_INCLUDES))
@@ -36,7 +36,7 @@ endif
 
 
 exec-download-contribs:
-  ifneq ($(APPLICATION_INCLUDES),)
+  ifneq ($(DOWNLOAD_CONTRIBS),)
 		$(SILENCE) $(CMD_DOWNLOAD_CONTRIB) \
 			$(patsubst qooxdoo-contrib://%, --contrib %, $(DOWNLOAD_CONTRIBS)) \
 			--contrib-cache "$(QOOXDOO_CONTRIB_CACHE)"
