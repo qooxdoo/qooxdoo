@@ -26,7 +26,7 @@ def filterKey(contribIterator, key, value):
 def filterByQooxdooVersion(contribIterator, qooxdooVersion):
 	return filterKey(contribIterator, "qooxdoo-versions", qooxdooVersion)
 
-def filerByKeyword(contribIterator, keyword):
+def filterByKeyword(contribIterator, keyword):
 	return filterKey(contribIterator, "keyword", keyword)		
 
 
