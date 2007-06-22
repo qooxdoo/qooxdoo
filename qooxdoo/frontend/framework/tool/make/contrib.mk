@@ -21,10 +21,10 @@ ifneq ($(APPLICATION_INCLUDES),)
 	
 	QOOXDOO_CONTRIB_CACHE = $(FRAMEWORK_PATH)/.includes
 
-	DOWNLOAD_CONTRIBS = $(filter qooxdoo-contrib://%, $(APPLICATION_INCLUDES))
-	LOCAL_CONTRIBS = $(filter-out qooxdoo-contrib://%, $(APPLICATION_INCLUDES))
+	DOWNLOAD_CONTRIBS = $(filter contrib://%, $(APPLICATION_INCLUDES))
+	LOCAL_CONTRIBS = $(filter-out contrib://%, $(APPLICATION_INCLUDES))
 
-	MANIFESTS = $(patsubst qooxdoo-contrib://%, --manifest $(QOOXDOO_CONTRIB_CACHE)/contribution/%/Manifest.js , $(DOWNLOAD_CONTRIBS))
+	MANIFESTS = $(patsubst contrib://%, --manifest $(QOOXDOO_CONTRIB_CACHE)/contribution/%/Manifest.js , $(DOWNLOAD_CONTRIBS))
 	MANIFESTS += $(patsubst %, --manifest %/Manifest.js , $(LOCAL_CONTRIBS))		
 	
 	APPLICATION_ADDITIONAL_CLASS_PATH += $(shell $(CMD_CONTRIB) $(MANIFESTS) --class-path)
@@ -38,6 +38,6 @@ endif
 exec-download-contribs:
   ifneq ($(DOWNLOAD_CONTRIBS),)
 		$(SILENCE) $(CMD_DOWNLOAD_CONTRIB) \
-			$(patsubst qooxdoo-contrib://%, --contrib %, $(DOWNLOAD_CONTRIBS)) \
+			$(patsubst contrib://%, --contrib %, $(DOWNLOAD_CONTRIBS)) \
 			--contrib-cache "$(QOOXDOO_CONTRIB_CACHE)"
   endif
