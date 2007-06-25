@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.45.1"
+   sodipodi:docbase="/Users/fabianpb/Desktop"
+   sodipodi:docname="knob.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <defs
+     id="defs4">
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4235"
+       id="radialGradient5289"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,-7.0032375e-8,7.293669e-8,1.0343969,-3.2664168e-2,-7.713362)"
+       cx="298.5986"
+       cy="224.23218"
+       fx="298.5986"
+       fy="224.23218"
+       r="2.7094297" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4235"
+       id="radialGradient5287"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,-7.0032375e-8,7.293669e-8,1.0343969,-3.2664168e-2,-7.713362)"
+       cx="298.5986"
+       cy="224.23218"
+       fx="298.5986"
+       fy="224.23218"
+       r="2.7094297" />
+    <linearGradient
+       id="linearGradient4235">
+      <stop
+         style="stop-color:#ebe9ed;stop-opacity:1;"
+         offset="0"
+         id="stop4237" />
+      <stop
+         style="stop-color:#a7a6aa;stop-opacity:1;"
+         offset="1"
+         id="stop4239" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient4211">
+      <stop
+         style="stop-color:#ebe9ed;stop-opacity:1;"
+         offset="0"
+         id="stop4213" />
+      <stop
+         style="stop-color:#a7a6aa;stop-opacity:1;"
+         offset="1"
+         id="stop4215" />
+    </linearGradient>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4235"
+       id="radialGradient4249"
+       cx="298.5986"
+       cy="224.23218"
+       fx="298.5986"
+       fy="224.23218"
+       r="2.7094297"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,-7.0032375e-8,7.293669e-8,1.0343969,-3.2664168e-2,-7.713362)" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4235"
+       id="radialGradient4255"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,-7.0032375e-8,7.293669e-8,1.0343969,-3.2664168e-2,-7.713362)"
+       cx="298.5986"
+       cy="224.23218"
+       fx="298.5986"
+       fy="224.23218"
+       r="2.7094297" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4235"
+       id="radialGradient4263"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,-7.0032375e-8,7.293669e-8,1.0343969,-3.2664168e-2,-7.713362)"
+       cx="298.5986"
+       cy="224.23218"
+       fx="298.5986"
+       fy="224.23218"
+       r="2.7094297" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4235"
+       id="radialGradient5373"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,-7.0032375e-8,7.293669e-8,1.0343969,-3.2664168e-2,-7.713362)"
+       cx="298.5986"
+       cy="224.23218"
+       fx="298.5986"
+       fy="224.23218"
+       r="2.7094297" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="27.783009"
+     inkscape:cx="300.64913"
+     inkscape:cy="826.64017"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     inkscape:window-width="1397"
+     inkscape:window-height="886"
+     inkscape:window-x="1694"
+     inkscape:window-y="189"
+     showguides="true"
+     inkscape:guide-bbox="true" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       sodipodi:type="arc"
+       style="fill:url(#radialGradient4249);fill-opacity:1;stroke:none;stroke-width:1.0438596;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path3238"
+       sodipodi:cx="297.63394"
+       sodipodi:cy="223.29968"
+       sodipodi:rx="2.1875"
+       sodipodi:ry="2.1875"
+       d="M 299.82144 223.29968 A 2.1875 2.1875 0 1 1  295.44644,223.29968 A 2.1875 2.1875 0 1 1  299.82144 223.29968 z"
+       transform="matrix(0.9142857,0,0,0.9142857,28.433389,18.619839)"
+       inkscape:export-filename="/Users/fabianpb/Desktop/knob-vertical.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       inkscape:tile-w="4.0751049"
+       inkscape:tile-h="4.0751049"
+       inkscape:tile-cx="300.2009"
+       inkscape:tile-cy="223.1345" />
+    <use
+       x="0"
+       y="0"
+       inkscape:tiled-clone-of="#path3238"
+       xlink:href="#path3238"
+       id="use5387"
+       transform="translate(6.3134598e-2,-4.0406101)"
+       width="744.09448"
+       height="1052.3622"
+       inkscape:export-filename="/Users/fabianpb/Desktop/knob-vertical.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <use
+       x="0"
+       y="0"
+       inkscape:tiled-clone-of="#path3238"
+       xlink:href="#path3238"
+       transform="translate(5.5559025,-4.0406101)"
+       id="use5389"
+       width="744.09448"
+       height="1052.3622"
+       inkscape:export-filename="/Users/fabianpb/Desktop/knob-vertical.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <use
+       x="0"
+       y="0"
+       inkscape:tiled-clone-of="#path3238"
+       xlink:href="#path3238"
+       transform="translate(11.04867,-4.0406101)"
+       id="use5391"
+       width="744.09448"
+       height="1052.3622"
+       inkscape:export-filename="/Users/fabianpb/Desktop/knob-vertical.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <use
+       height="1052.3622"
+       width="744.09448"
+       id="use7352"
+       transform="translate(21.686839,-4.0046538)"
+       xlink:href="#path3238"
+       inkscape:tiled-clone-of="#path3238"
+       y="0"
+       x="0"
+       inkscape:export-filename="/Users/fabianpb/Desktop/knob-horizontal.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <use
+       x="0"
+       y="0"
+       inkscape:tiled-clone-of="#path3238"
+       xlink:href="#path3238"
+       transform="translate(21.68684,6.9462613)"
+       id="use7354"
+       width="744.09448"
+       height="1052.3622"
+       inkscape:export-filename="/Users/fabianpb/Desktop/knob-horizontal.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <use
+       x="0"
+       y="0"
+       inkscape:tiled-clone-of="#path3238"
+       xlink:href="#path3238"
+       transform="translate(21.686839,1.4707904)"
+       id="use7360"
+       width="744.09448"
+       height="1052.3622"
+       inkscape:export-filename="/Users/fabianpb/Desktop/knob-horizontal.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="276.71866"
+       y="233.45705"
+       id="text8339"><tspan
+         sodipodi:role="line"
+         id="tspan8341"
+         x="276.71866"
+         y="233.45705"
+         style="font-size:6px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Bitstream Vera Sans">Original</tspan></text>
+    <g
+       id="g8362"
+       transform="translate(6.3134534e-2,-2.9673231)">
+      <path
+         id="path8358"
+         d="M 288.27228,231.42384 C 288.35646,231.42384 288.35646,231.42384 288.27228,231.42384 C 287.88379,231.42384 290.58744,230.6857 293.19678,228.77219 C 294.20635,228.03183 295.76904,227.49588 296.60604,226.75188"
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <path
+         id="path8360"
+         d="M 294.64887,226.62561 C 295.43247,226.05097 296.64321,226.53696 297.55306,226.87815 C 298.15236,227.10289 296.61127,227.75507 296.22723,228.26711 C 296.15401,228.36474 295.97704,228.46726 295.91156,228.51965"
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    </g>
+  </g>
+</svg>

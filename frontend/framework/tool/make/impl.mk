@@ -60,7 +60,8 @@ exec-distclean:
 	@$(CMD_REMOVE) $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot
 	@$(CMD_REMOVE) $(FRAMEWORK_SOURCE_PATH)/class/$(FRAMEWORK_NAMESPACE_PATH)/locale/data
 	@$(CMD_REMOVE) $(FRAMEWORK_SOURCE_PATH)/class/$(FRAMEWORK_NAMESPACE_PATH)/locale/translation
-
+	@$(CMD_REMOVE) $(FRAMEWORK_CACHE_PATH)
+	@$(CMD_REMOVE) $(QOOXDOO_CONTRIB_CACHE)
 
 
 
@@ -70,8 +71,8 @@ exec-distclean:
 #
 
 exec-script-source:
-    # expand Makefile variables in the arguments
-	$(eval ARGS = \
+	
+	$(SILENCE) $(CMD_GENERATOR) \
 	  $(COMPUTED_CLASS_PATH) \
 	  $(COMPUTED_CLASS_URI) \
 	  $(COMPUTED_SOURCE_SETTING) \
@@ -80,11 +81,8 @@ exec-script-source:
 	  $(COMPUTED_SOURCE_OPTIONS) \
 	  $(COMPUTED_TEMPLATE) \
 	  --generate-source-script \
-	  --source-script-file $(COMPUTED_SOURCE_SCRIPT_NAME)\
-	)
+	  --source-script-file $(COMPUTED_SOURCE_SCRIPT_NAME)
 	
-	$(SILENCE) $(CMD_GENERATOR) $(ARGS) 
-		
 
 exec-script-build:
     # expand Makefile variables in the arguments
