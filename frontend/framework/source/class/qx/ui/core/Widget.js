@@ -2247,7 +2247,7 @@ qx.Class.define("qx.ui.core.Widget",
      * If the widget is visible and rendered on the screen.
      *
      * @type member
-     * @return {var} TODOC
+     * @return {boolean} TODOC
      */
     isMaterialized : function()
     {
@@ -2301,6 +2301,7 @@ qx.Class.define("qx.ui.core.Widget",
      * Get an array of the current children
      *
      * @signature function()
+     * @return {Widget}
      */
     getChildren : qx.lang.Function.returnNull,
 
@@ -2309,6 +2310,7 @@ qx.Class.define("qx.ui.core.Widget",
      * Get the number of children
      *
      * @signature function()
+     * @return {Integer}
      */
     getChildrenLength : qx.lang.Function.returnZero,
 
@@ -2317,6 +2319,7 @@ qx.Class.define("qx.ui.core.Widget",
      * Get if the widget has any children
      *
      * @signature function()
+     * @return {boolean}
      */
     hasChildren : qx.lang.Function.returnFalse,
 
@@ -2325,6 +2328,7 @@ qx.Class.define("qx.ui.core.Widget",
      * Get if the widget has no children
      *
      * @signature function()
+     * @return {boolean}
      */
     isEmpty : qx.lang.Function.returnTrue,
 
@@ -2333,6 +2337,7 @@ qx.Class.define("qx.ui.core.Widget",
      * Return the position of the child inside
      *
      * @signature function()
+     * @return {Integer}
      */
     indexOf : qx.lang.Function.returnNegativeIndex,
 
@@ -2357,6 +2362,7 @@ qx.Class.define("qx.ui.core.Widget",
      * Get an array of the current visible children
      *
      * @signature function()
+     * @return {Widget}
      */
     getVisibleChildren : qx.lang.Function.returnNull,
 
@@ -2365,6 +2371,7 @@ qx.Class.define("qx.ui.core.Widget",
      * Get the number of children
      *
      * @signature function()
+     * @return {Integer}
      */
     getVisibleChildrenLength : qx.lang.Function.returnZero,
 
@@ -2373,6 +2380,7 @@ qx.Class.define("qx.ui.core.Widget",
      * If this widget has visible children
      *
      * @signature function()
+     * @return {boolean}
      */
     hasVisibleChildren : qx.lang.Function.returnFalse,
 
@@ -2381,6 +2389,7 @@ qx.Class.define("qx.ui.core.Widget",
      * Check if there are any visible children inside
      *
      * @signature function()
+     * @return {boolean}
      */
     isVisibleEmpty : qx.lang.Function.returnTrue,
 
@@ -2761,7 +2770,7 @@ qx.Class.define("qx.ui.core.Widget",
      * * display is true
      *
      * @type member
-     * @return {var} TODOC
+     * @return {boolean} TODOC
      */
     isSeeable : function() {
       return this._isSeeable;
@@ -3316,7 +3325,7 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {int} TODOC
+     * @return {Integer} TODOC
      */
     _computeBoxWidthFallback : function() {
       return 0;
@@ -3327,7 +3336,7 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @return {int} TODOC
+     * @return {Integer} TODOC
      */
     _computeBoxHeightFallback : function() {
       return 0;
@@ -5702,6 +5711,7 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
+     * @return {boolean}
      */
     isFocusRoot : function() {
       return false;

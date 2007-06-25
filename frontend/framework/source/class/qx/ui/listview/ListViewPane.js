@@ -368,7 +368,7 @@ qx.Class.define("qx.ui.listview.ListViewPane",
      * @type member
      * @param vNew {var} TODOC
      * @param vOld {var} TODOC
-     * @return {var} TODOC
+     * @return {void} TODOC
      */
     _changeInnerHeight : function(vNew, vOld)
     {
@@ -781,7 +781,7 @@ qx.Class.define("qx.ui.listview.ListViewPane",
      * TODOC
      *
      * @type member
-     * @return {int} TODOC
+     * @return {Integer} TODOC
      */
     getScrollLeft : function() {
       return 0;

@@ -303,7 +303,7 @@ qx.Class.define("qx.ui.menu.Button",
      * This creates an new instance of the layout impl this widget uses
      *
      * @type member
-     * @return {qx.ui.menu.ButtonLayoutImpl} instance of a button layout implementation
+     * @return {qx.ui.layout.BoxLayout} instance of a button layout implementation
      */
     _createLayoutImpl : function() {
       return new qx.ui.menu.ButtonLayoutImpl(this);

@@ -154,7 +154,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Icon",
      *
      * @type member
      * @param cellInfo {var} TODOC
-     * @return {var} TODOC
+     * @return {String} TODOC
      */
     _getContentHtml : function(cellInfo)
     {

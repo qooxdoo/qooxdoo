@@ -89,6 +89,9 @@ qx.Class.define("qx.log.DefaultFilter",
   members :
   {
     // overridden
+    /**
+     * @return {Integer} TODOC
+     */
     decide : function(evt)
     {
       var Filter = qx.log.Filter;

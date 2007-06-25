@@ -301,7 +301,7 @@ qx.Class.define("qx.ui.layout.impl.LayoutImpl",
      *
      * @type member
      * @param vChild {qx.ui.core.Widget} changed child widget
-     * @return {void}
+     * @return {boolean}
      */
     updateChildOnInnerWidthChange : function(vChild) {},
 
@@ -356,7 +356,7 @@ qx.Class.define("qx.ui.layout.impl.LayoutImpl",
      *
      * @type member
      * @param vJobQueue {Object} TODOC
-     * @return {void}
+     * @return {boolean}
      */
     updateChildrenOnJobQueueFlush : function(vJobQueue) {},
 

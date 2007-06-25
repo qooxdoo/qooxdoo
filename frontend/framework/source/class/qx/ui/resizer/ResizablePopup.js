@@ -99,10 +99,16 @@ qx.Class.define("qx.ui.resizer.ResizablePopup",
       this.setHeight(value);
     },
 
+    /**
+     * @return {Widget}
+     */
     _getResizeParent: function() {
       return this.getParent();
     },
 
+    /**
+     * @return {Widget}
+     */
     _getMinSizeReference: function() {
       return this;
     }

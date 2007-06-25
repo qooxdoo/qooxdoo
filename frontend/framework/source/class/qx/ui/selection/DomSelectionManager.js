@@ -69,6 +69,7 @@ qx.Class.define("qx.ui.selection.DomSelectionManager",
      *
      * @type member
      * @param oItem {Object} TODOC
+     * @return {Object}
      */
     getItemEnabled : function(oItem) {
       return true;
@@ -249,6 +250,7 @@ qx.Class.define("qx.ui.selection.DomSelectionManager",
      * @type member
      * @param vItem1 {var} TODOC
      * @param vItem2 {var} TODOC
+     * @return {boolean}
      */
     isBefore : function(vItem1, vItem2)
     {

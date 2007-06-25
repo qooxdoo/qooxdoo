@@ -206,6 +206,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
 
     /**
      * @signature function()
+     * @return {Object}
      */
     getTopLevelWidget : qx.lang.Function.returnThis,
 
@@ -257,6 +258,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
      *
      * @type member
      * @signature function()
+     * @return {boolean}
      */
     isMaterialized : qx.lang.Function.returnTrue,
 
@@ -266,6 +268,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
      *
      * @type member
      * @signature function()
+     * @return {boolean}
      */
     isSeeable : qx.lang.Function.returnTrue,
 

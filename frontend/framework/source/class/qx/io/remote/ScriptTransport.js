@@ -302,7 +302,7 @@ qx.Class.define("qx.io.remote.ScriptTransport",
      *
      * @type member
      * @param vLabel {var} TODOC
-     * @return {null} TODOC
+     * @return {Object} TODOC
      */
     getResponseHeader : function(vLabel) {
       return null;
@@ -332,7 +332,7 @@ qx.Class.define("qx.io.remote.ScriptTransport",
      * Returns the current status code of the request if available or -1 if not.
      *
      * @type member
-     * @return {int} TODOC
+     * @return {Integer} TODOC
      */
     getStatusCode : function() {
       return 200;
@@ -362,7 +362,7 @@ qx.Class.define("qx.io.remote.ScriptTransport",
      * Returns the length of the content as fetched thus far
      *
      * @type member
-     * @return {int} TODOC
+     * @return {Integer} TODOC
      */
     getFetchedLength : function() {
       return 0;

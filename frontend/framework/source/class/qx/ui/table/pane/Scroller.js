@@ -44,7 +44,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
   */
 
   /**
-   * @param table {Table} the table the scroller belongs to.
+   * @param table {qx.ui.table.Table} the table the scroller belongs to.
    */
   construct : function(table)
   {
@@ -390,7 +390,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * Returns the table this scroller belongs to.
      *
      * @type member
-     * @return {Table} the table.
+     * @return {qx.ui.table.Table} the table.
      */
     getTable : function() {
       return this._table;
@@ -592,7 +592,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * @type member
      * @param newValue {var} TODOC
      * @param oldValue {var} TODOC
-     * @return {var} TODOC
+     * @return {void} TODOC
      */
     _changeInnerHeight : function(newValue, oldValue)
     {
@@ -1746,7 +1746,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * Returns the header.
      *
      * @type member
-     * @return {TablePaneHeader} the header.
+     * @return {qx.ui.table.pane.Header} the header.
      */
     getHeader : function() {
       return this._header;
@@ -1757,7 +1757,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * Returns the table pane.
      *
      * @type member
-     * @return {TablePane} the table pane.
+     * @return {qx.ui.table.pane.Pane} the table pane.
      */
     getTablePane : function() {
       return this._tablePane;

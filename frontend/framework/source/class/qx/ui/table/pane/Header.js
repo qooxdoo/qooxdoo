@@ -83,7 +83,7 @@ qx.Class.define("qx.ui.table.pane.Header",
      * Returns the TablePaneScroller this header belongs to.
      *
      * @type member
-     * @return {TablePaneScroller} the TablePaneScroller.
+     * @return {qx.ui.table.pane.Scroller} the TablePaneScroller.
      */
     getPaneScroller : function() {
       return this._paneScroller;
@@ -94,7 +94,7 @@ qx.Class.define("qx.ui.table.pane.Header",
      * Returns the table this header belongs to.
      *
      * @type member
-     * @return {Table} the table.
+     * @return {qx.ui.table.Table} the table.
      */
     getTable : function() {
       return this._paneScroller.getTable();
