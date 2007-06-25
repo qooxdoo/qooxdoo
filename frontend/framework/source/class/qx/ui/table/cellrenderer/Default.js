@@ -41,6 +41,10 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
 
   construct : function() {
     this.base(arguments);
+    
+    // add an event listener which invalidates the
+    // cell cache on locale change
+    qx.locale.Manager.getInstance().addEventListener("changeLocale", this._onChangeLocale, this);
   },
 
 
@@ -212,9 +216,9 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
         return "";
       }
 
-    if (typeof value == "string") {
-      return value;
-    }
+      if (typeof value == "string") {
+        return value;
+      }
 
       if (!this._cellCache) {
         this._cellCache = {};
@@ -223,10 +227,10 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
       var res = this._cellCache[value];
 
       if (res)
-    {
+      {
         return res;
-    }
-    else if (typeof value == "number")
+      }
+      else if (typeof value == "number")
       {
         if (!qx.ui.table.cellrenderer.Default._numberFormat)
         {
@@ -289,6 +293,26 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
      */
     _createContentHtml_array_join : function(cellInfo, htmlArr) {
       htmlArr.push(qx.html.String.escape(this._formatValue(cellInfo)));
+    },
+
+
+    
+    /*
+    ---------------------------------------------------------------------------
+      EVENT HANDLER
+    ---------------------------------------------------------------------------
+    */
+    
+    /**
+     * Invalidate the cell cache on locale change.
+     *
+     * @type member
+     * @param e {Event} change value event data
+     * @return {void}
+     */
+    _onChangeLocale : function(e) {
+      delete this._cellCache;
     }
+    
   }
 });
