@@ -405,7 +405,7 @@ qx.Class.define("qx.ui.layout.impl.VerticalBoxLayoutImpl",
      *
      * @type member
      * @param vChild {var} TODOC
-     * @return {var} TODOC
+     * @return {boolean} TODOC
      */
     updateChildOnInnerWidthChange : function(vChild)
     {
@@ -429,7 +429,7 @@ qx.Class.define("qx.ui.layout.impl.VerticalBoxLayoutImpl",
      *
      * @type member
      * @param vChild {var} TODOC
-     * @return {var} TODOC
+     * @return {boolean} TODOC
      */
     updateChildOnInnerHeightChange : function(vChild)
     {
@@ -482,6 +482,7 @@ qx.Class.define("qx.ui.layout.impl.VerticalBoxLayoutImpl",
      *
      * @type member
      * @param vQueue {var} TODOC
+     * @return {boolean}
      */
     updateChildrenOnJobQueueFlush : function(vQueue)
     {

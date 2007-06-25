@@ -366,7 +366,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * method returns 50.
      *
      * @type member
-     * @return {int} prefered inner width for the spinner widget
+     * @return {Integer} prefered inner width for the spinner widget
      */
     _computePreferredInnerWidth : function() {
       return 50;
@@ -378,7 +378,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * method returns 14
      *
      * @type member
-     * @return {int} prefered inner height for the spinner widget
+     * @return {Integer} prefered inner height for the spinner widget
      */
     _computePreferredInnerHeight : function() {
       return 14;

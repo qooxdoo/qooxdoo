@@ -96,7 +96,7 @@ qx.Class.define("qx.ui.layout.DockLayout",
      * This creates an new instance of the layout impl this widget uses
      *
      * @type member
-     * @return {var} TODOC
+     * @return {qx.ui.layout.BoxLayout} TODOC
      */
     _createLayoutImpl : function() {
       return new qx.ui.layout.impl.DockLayoutImpl(this);

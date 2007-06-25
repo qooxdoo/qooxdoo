@@ -219,6 +219,7 @@ qx.Class.define("qx.ui.listview.SelectionManager",
      *
      * @type member
      * @param vItem {var} TODOC
+     * @return {Object}
      */
     getItemEnabled : function(vItem) {
       return true;

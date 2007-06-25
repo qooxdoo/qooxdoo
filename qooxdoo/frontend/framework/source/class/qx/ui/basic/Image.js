@@ -611,7 +611,7 @@ qx.Class.define("qx.ui.basic.Image",
      * Returns width value of preloader or 0 (if preloader is not available)
      *
      * @type member
-     * @return {var | int} Returns width value of preloader or 0 (if preloader is not available)
+     * @return {Integer} Returns width value of preloader or 0 (if preloader is not available)
      */
     _computePreferredInnerWidth : function()
     {
@@ -624,7 +624,7 @@ qx.Class.define("qx.ui.basic.Image",
      * Returns height value of preloader or 0 (if preloader is not available)
      *
      * @type member
-     * @return {var | int} Returns height value of preloader or 0 (if preloader is not available)
+     * @return {Integer} Returns height value of preloader or 0 (if preloader is not available)
      */
     _computePreferredInnerHeight : function()
     {

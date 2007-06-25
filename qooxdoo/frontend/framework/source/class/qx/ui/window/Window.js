@@ -1000,7 +1000,7 @@ qx.Class.define("qx.ui.window.Window",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {var} TODOC
+     * @return {void} TODOC
      */
     _applyMaxWidth : function(value, old)
     {
@@ -1015,7 +1015,7 @@ qx.Class.define("qx.ui.window.Window",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {var} TODOC
+     * @return {void} TODOC
      */
     _applyMaxHeight : function(value, old)
     {

@@ -357,7 +357,7 @@ qx.Class.define("qx.ui.selection.SelectionManager",
      * @type member
      * @param vItem1 {var} TODOC
      * @param vItem2 {var} TODOC
-     * @return {var} TODOC
+     * @return {boolean} TODOC
      */
     isBefore : function(vItem1, vItem2)
     {

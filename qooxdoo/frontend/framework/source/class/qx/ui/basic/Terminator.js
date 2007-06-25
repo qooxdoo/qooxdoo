@@ -148,10 +148,16 @@ qx.Class.define("qx.ui.basic.Terminator",
     ---------------------------------------------------------------------------
     */
 
+    /** 
+     * @return {Integer} 
+     */
     _computeBoxWidthFallback : function() {
       return this.getPreferredBoxWidth();
     },
 
+    /** 
+     * @return {Integer} 
+     */
     _computeBoxHeightFallback : function() {
       return this.getPreferredBoxHeight();
     },

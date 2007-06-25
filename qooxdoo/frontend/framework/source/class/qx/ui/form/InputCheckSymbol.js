@@ -241,7 +241,7 @@ qx.Class.define("qx.ui.form.InputCheckSymbol",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {var} TODOC
+     * @return {void} TODOC
      */
     _applyEnabled : function(value, old)
     {
