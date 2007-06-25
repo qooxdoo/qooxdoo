@@ -539,19 +539,17 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
 
       if (!this._updateContentPlanned)
       {
-        var self = this;
-
-        window.setTimeout(function()
+        qx.client.Timer.once(function()
         {
-          if (self.getDisposed()) {
+          if (this.getDisposed()) {
             return;
           }
 
-          self._updateTableContent();
-          self._updateContentPlanned = false;
+          this._updateTableContent();
+          this._updateContentPlanned = false;
           qx.ui.core.Widget.flushGlobalQueues();
         },
-        0);
+        this, 0);
 
         this._updateContentPlanned = true;
       }
@@ -570,10 +568,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
 
       var table = this.getParent();
       if(table) {
-        var scrollerArr = table._getPaneScrollerArr();
-        for (var i=0; i<scrollerArr.length; i++) {
-          scrollerArr[i]._tablePane._updateContent();
-        }
+        table.updateContent();
       }
     }
   },

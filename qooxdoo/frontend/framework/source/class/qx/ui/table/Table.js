@@ -191,6 +191,9 @@ qx.Class.define("qx.ui.table.Table",
 
     this._focusedCol = 0;
     this._focusedRow = 0;
+
+    // add an event listener which updates the table content on locale change
+    qx.locale.Manager.getInstance().addEventListener("changeLocale", this._onChangeLocale, this);
   },
 
 
@@ -807,6 +810,20 @@ qx.Class.define("qx.ui.table.Table",
 
 
     /**
+     * Event handler. Called when the locale has changed.
+     *
+     * @type member
+     * @param evt {Event} the event.
+     * @return {void}
+     */
+    _onChangeLocale : function(evt)
+    {
+      this.postponedUpdateContent();
+      this._updateStatusBar();
+    },
+    
+    
+    /**
      * Event handler. Called when the selection has changed.
      *
      * @type member
@@ -1362,6 +1379,48 @@ qx.Class.define("qx.ui.table.Table",
         var x = this.getTableColumnModel().getVisibleX(this._focusedCol);
         var metaColumn = this._getMetaColumnAtColumnX(x);
         this.getPaneScroller(metaColumn).cancelEditing();
+      }
+    },
+
+
+    /**
+     * Does a postponed update of the table content.
+     *
+     * @type member
+     * @return {void}
+     * @see #updateContent
+     */
+    postponedUpdateContent : function()
+    {
+      if (!this._updateContentPlanned)
+      {
+        qx.client.Timer.once(function()
+        {
+          if (this.getDisposed()) {
+            return;
+          }
+
+          this.updateContent();
+          this._updateContentPlanned = false;
+          qx.ui.core.Widget.flushGlobalQueues();
+        },
+        this, 0);
+
+        this._updateContentPlanned = true;
+      }
+    },
+
+
+    /**
+     * Update the table content of every attached table pane.
+     *
+     * @type member
+     * @return {void}
+     */
+    updateContent : function() {
+      var scrollerArr = this._getPaneScrollerArr();
+      for (var i=0; i<scrollerArr.length; i++) {
+        scrollerArr[i]._tablePane._updateContent();
       }
     },
 
