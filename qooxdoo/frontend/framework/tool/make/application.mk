@@ -449,7 +449,7 @@ ifndef APPLICATION_SOURCE_PATH
 endif
 
 #
-# The build folder of your application from the directory which contains the
+# The build folder of your application relative to the directory, which contains the
 # Makefile (if defined relatively). This is the folder where the application
 # self-contained build is generated to. The default is ./build.
 #

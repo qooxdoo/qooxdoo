@@ -66,42 +66,42 @@ def loadContribDb(contribPath):
 
 
 def getClassUriFlags(contrib):
-	flags = "../%s/source/class," % contrib["path"].replace(" ", "\ ")
+	flags = "../%s/source/class," % contrib["path"]
 	return flags
 
 		
 def getClassPathFlags(contrib):
-	flags = "%s/source/class," % contrib["path"].replace(" ", "\ ")
+	flags = "%s/source/class," % contrib["path"]
 	return flags
 
 
-def getResourceFlags(contrib):
-	sourceFlags = "--use-setting %s:../$(APPLICATION_HTML_TO_ROOT_URI)/%s/source/resource " % (
-		contrib["resource-uri-setting"], contrib["path"].replace(" ", "\ ")
+def getResourceFlags(contrib, application_build_path, application_to_root_uri="."):
+	sourceFlags = '--use-setting %s:../%s/%s/source/resource ' % (
+		contrib["resource-uri-setting"], application_to_root_uri, contrib["path"].replace(" ", "\ ")
 	)
 
 	buildFlags = "--copy-resources "
-	buildFlags += "--resource-input %s/source/resource " % contrib["path"].replace(" ", "\ ")
-	buildFlags += "--resource-output $(APPLICATION_BUILD_PATH)/resource/%s " % contrib["namespace"]
+	buildFlags += '--resource-input %s/source/resource ' % contrib["path"]
+	buildFlags += "--resource-output %s/resource/%s " % (application_build_path, contrib["namespace"])
 	
-	buildFlags += "--use-setting %s:$(APPLICATION_HTML_TO_ROOT_URI)/resource/%s " % (
-		contrib["resource-uri-setting"], contrib["namespace"]
+	buildFlags += "--use-setting %s:%s/resource/%s " % (
+		contrib["resource-uri-setting"], application_to_root_uri, contrib["namespace"]
 	)
 	
 	return (sourceFlags, buildFlags)
 
 
-def getGeneratorFlags(contrib):
+def getGeneratorFlags(contrib, application_build_path, application_to_root_uri="."):
 	flags = "--class-path " + getClassPathFlags(contrib)
 	flags += "--class-uri " + getClassUriFlags(contrib)
-	(sourceFlags, buildFlags) = getResourceFlags(contrib)
+	(sourceFlags, buildFlags) = getResourceFlags(contrib, application_build_path, application_to_root_uri)
 	return (sourceFlags+flags, buildFlags+flags)
 
 
-def getGeneratorSourceFlags(contrib):
-	return getGeneratorFlags(contrib)[0]
+def getGeneratorSourceFlags(contrib, application_build_path, application_to_root_uri="."):
+	return getGeneratorFlags(contrib, application_build_path, application_to_root_uri)[0]
 
-def getGeneratorBuildFlags(contrib):
+def getGeneratorBuildFlags(contrib, application_build_path, application_to_root_uri):
 	return getGeneratorFlags(contrib)[1]
 	
 def generateProjectListing(contrib):
@@ -115,14 +115,14 @@ def generateProjectListing(contrib):
 		
 	authors = []
 	for author in contrib["authors"]:
-		if author.has_key("mail"):
-			authors.append("%(name)s <%(mail)s> " % author)
+		if author.has_key("email"):
+			authors.append("%(name)s <%(email)s> " % author)
 		else:
 			authors.append(author["name"])
 	str += "|Authors|%s|\n" % ", ".join(authors)
 	
 	if contrib.has_key("homepage"):
-		str += "|Homepage|[[%(homepage)s]]|\n" & contrib
+		str += "|Homepage|[[%(homepage)s]]|\n" % contrib
 		
 	str += "|License|%(license)s|\n" % contrib
 	str += "|qooxdoo version|%s|\n" % ", ".join(contrib["qooxdoo-versions"])
@@ -130,7 +130,10 @@ def generateProjectListing(contrib):
 	return str
 	
 
-def main():
+def main(argv=None):
+	if argv is None:
+		argv = sys.argv
+		
 	parser = optparse.OptionParser(
 		"usage: %prog [options] [ContribNames]",
 		option_class=optparseext.ExtendAction
@@ -177,6 +180,24 @@ def main():
 	)	
 
 	parser.add_option(
+		"--print-wiki-list", action="store_true", default=False, dest="print_wiki_list",
+		help=""
+	)
+	
+	parser.add_option(
+		"--application-build-path", default="./build", type="string", dest="application_build_path",
+		help="The build folder of your application relative to the directory, which contains the " +
+		"Makefile (if defined relatively). This is the folder where the application self-contained " +
+		"build is generated to. The default is %default."
+	)	
+
+	parser.add_option(
+		"--application-to-root-uri", default=".", type="string", dest="application_to_root_uri",
+		help="Defines the position of the HTML/PHP etc. file used to include your application " +
+		"JavaScript code in relation to root directory. The default is %default."
+	)
+
+	parser.add_option(
 		"-k", "--key", default="", type="string", dest="key",
 		help="Get the value of the given key from all selected contrributions."
 	)	
@@ -186,7 +207,7 @@ def main():
 		help="Only use contributions with the given key value pair."
 	)
 	
-	(options, args) = parser.parse_args()
+	(options, args) = parser.parse_args(args=argv[1:])
 	
 	# load contributions
 	contribs = []
@@ -219,18 +240,22 @@ def main():
 	if options.class_uri:
 		print "".join([getClassUriFlags(contrib) for contrib in contribIterator])
 
+	if options.print_wiki_list:
+		for contrib in contribIterator:
+			print generateProjectListing(contrib).encode("UTF-8")
+
 	if options.resource_flags_source:
-		print "".join([getResourceFlags(contrib)[0] for contrib in contribIterator])
+		print "".join([getResourceFlags(contrib, options.application_build_path, options.application_to_root_uri)[0] for contrib in contribIterator])
 
 	if options.resource_flags_build:
-		print "".join([getResourceFlags(contrib)[1] for contrib in contribIterator])
+		print "".join([getResourceFlags(contrib, options.application_build_path, options.application_to_root_uri)[1] for contrib in contribIterator])
 			
 	if options.build_flags:
-		print "".join([getGeneratorBuildFlags(contrib) for contrib in contribIterator])
+		print "".join([getGeneratorBuildFlags(contrib, options.application_build_path, options.application_to_root_uri) for contrib in contribIterator])
 
 	if options.source_flags:
-		print "".join([getGeneratorSourceFlags(contrib) for contrib in contribIterator])
+		print "".join([getGeneratorSourceFlags(contrib, options.application_build_path, options.application_to_root_uri) for contrib in contribIterator])
 	
 
 if __name__ == '__main__':
-	main()
+	sys.exit(main())
