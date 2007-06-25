@@ -481,6 +481,7 @@ qx.Class.define("qx.ui.layout.impl.HorizontalBoxLayoutImpl",
      *
      * @type member
      * @param vQueue {var} TODOC
+     * @return {boolean}
      */
     updateChildrenOnJobQueueFlush : function(vQueue)
     {

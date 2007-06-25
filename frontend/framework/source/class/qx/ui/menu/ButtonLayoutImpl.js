@@ -63,7 +63,7 @@ qx.Class.define("qx.ui.menu.ButtonLayoutImpl",
     ---------------------------------------------------------------------------
     */
 
-    /** Compute and return the width needed by all children of this widget */
+    // Compute and return the width needed by all children of this widget
     /**
      * Global Structure:
      *  [01] COMPUTE BOX DIMENSIONS FOR AN INDIVIDUAL CHILD
@@ -87,7 +87,7 @@ qx.Class.define("qx.ui.menu.ButtonLayoutImpl",
      *  [09] FLUSH LAYOUT QUEUES OF CHILDREN
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Integer} TODOC
      */
     computeChildrenNeededWidth : function()
     {
@@ -116,7 +116,7 @@ qx.Class.define("qx.ui.menu.ButtonLayoutImpl",
      *
      * @type member
      * @param vChild {var} TODOC
-     * @return {var} TODOC
+     * @return {void} TODOC
      */
     updateSelfOnChildOuterWidthChange : function(vChild)
     {

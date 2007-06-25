@@ -598,6 +598,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
+     * @return {Object}
      */
     _applyParent : function(value, old)
     {

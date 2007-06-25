@@ -354,10 +354,10 @@ qx.Class.define("qx.ui.core.Parent",
      *
      * This method must be overwritten by all subclasses
      *
-     * return {qx.ui.layout.impl.LayoutImpl}
+     * return 
      *
      * @type member
-     * @return {null} TODOC
+     * @return {qx.ui.layout.BoxLayout} TODOC
      */
     _createLayoutImpl : function() {
       return null;

@@ -136,10 +136,16 @@ qx.Class.define("qx.ui.resizer.Resizer",
       child && child.setHeight(value);
     },
 
+    /**
+     * @return {Widget}
+     */
     _getResizeParent: function() {
       return this.getTopLevelWidget();
     },
 
+    /**
+     * @return {Widget}
+     */
     _getMinSizeReference: function() {
       return this._child;
     }

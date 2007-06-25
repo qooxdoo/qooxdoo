@@ -696,11 +696,17 @@ qx.Class.define("qx.ui.form.TextField",
     ---------------------------------------------------------------------------
     */
 
+	/** 
+	 * @return {Integer}
+	 */
     _computePreferredInnerWidth : function() {
       return 120;
     },
 
 
+	/** 
+	 * @return {Integer}
+	 */
     _computePreferredInnerHeight : function() {
       return 16;
     },

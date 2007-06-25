@@ -749,11 +749,13 @@ qx.Class.define("qx.ui.embed.Flash",
 
     /**
      * @signature function()
+     * @return {Integer}
      */
     _computePreferredInnerWidth : qx.lang.Function.returnZero,
 
     /**
      * @signature function()
+     * @return {Integer}
      */
     _computePreferredInnerHeight : qx.lang.Function.returnZero
   },

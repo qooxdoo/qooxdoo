@@ -300,7 +300,7 @@ qx.Class.define("qx.io.remote.AbstractRemoteTransport",
      * @type member
      * @abstract
      * @param vLabel {var} TODOC
-     * @return {void}
+     * @return {Object}
      * @throws the abstract function warning.
      */
     getResponseHeader : function(vLabel) {
@@ -313,7 +313,7 @@ qx.Class.define("qx.io.remote.AbstractRemoteTransport",
      *
      * @type member
      * @abstract
-     * @return {void}
+     * @return {Object}
      * @throws the abstract function warning.
      */
     getResponseHeaders : function() {
@@ -334,7 +334,7 @@ qx.Class.define("qx.io.remote.AbstractRemoteTransport",
      *
      * @type member
      * @abstract
-     * @return {void}
+     * @return {Integer}
      * @throws the abstract function warning.
      */
     getStatusCode : function() {
@@ -347,7 +347,7 @@ qx.Class.define("qx.io.remote.AbstractRemoteTransport",
      *
      * @type member
      * @abstract
-     * @return {void}
+     * @return {String}
      * @throws the abstract function warning.
      */
     getStatusText : function() {
@@ -370,7 +370,7 @@ qx.Class.define("qx.io.remote.AbstractRemoteTransport",
      *
      * @type member
      * @abstract
-     * @return {void}
+     * @return {String}
      * @throws the abstract function warning.
      */
     getResponseText : function() {
@@ -385,7 +385,7 @@ qx.Class.define("qx.io.remote.AbstractRemoteTransport",
      *
      * @type member
      * @abstract
-     * @return {void}
+     * @return {Object}
      * @throws the abstract function warning.
      */
     getResponseXml : function() {
@@ -398,7 +398,7 @@ qx.Class.define("qx.io.remote.AbstractRemoteTransport",
      *
      * @type member
      * @abstract
-     * @return {void}
+     * @return {Integer}
      * @throws the abstract function warning.
      */
     getFetchedLength : function() {

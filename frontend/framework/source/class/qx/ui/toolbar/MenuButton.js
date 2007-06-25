@@ -277,7 +277,7 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {var} TODOC
+     * @return {void} TODOC
      */
     _onmouseover : function(e)
     {

@@ -161,6 +161,9 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
     },
 
     // overridden
+    /**
+     * @return {Object} 
+     */
     _getCellStyle : function(cellInfo)
     {
       var node = cellInfo.value;
@@ -224,6 +227,9 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
 
 
     // overridden
+    /**
+     * @return {String} 
+     */
     _getContentHtml : function(cellInfo)
     {
       var html = "";

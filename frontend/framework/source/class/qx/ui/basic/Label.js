@@ -484,7 +484,10 @@ qx.Class.define("qx.ui.basic.Label",
     },
 
 
-    // overridden
+    /** 
+     * overridden
+     * @return {Integer} 
+     */
     _computePreferredInnerWidth : function()
     {
       this._computeObjectNeededDimensions();
@@ -492,7 +495,10 @@ qx.Class.define("qx.ui.basic.Label",
     },
 
 
-    // overridden
+    /** 
+     * overridden
+     * @return {Integer} 
+     */
     _computePreferredInnerHeight : function()
     {
       this._computeObjectNeededDimensions();

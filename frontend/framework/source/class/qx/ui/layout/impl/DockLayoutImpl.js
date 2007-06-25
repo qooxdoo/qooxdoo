@@ -248,7 +248,7 @@ qx.Class.define("qx.ui.layout.impl.DockLayoutImpl",
      *
      * @type member
      * @param vQueue {var} TODOC
-     * @return {void}
+     * @return {boolean}
      */
     updateChildrenOnJobQueueFlush : function(vQueue)
     {

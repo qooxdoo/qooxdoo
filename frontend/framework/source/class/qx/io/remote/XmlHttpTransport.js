@@ -523,7 +523,7 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
      * Returns the current status code of the request if available or -1 if not.
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Integer} TODOC
      */
     getStatusCode : function()
     {
@@ -542,7 +542,7 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
      *  otherwise.
      *
      * @type member
-     * @return {var} TODOC
+     * @return {String} TODOC
      */
     getStatusText : function()
     {
@@ -570,7 +570,7 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
      *  incomplete data will be made available to the caller.
      *
      * @type member
-     * @return {var} TODOC
+     * @return {String} TODOC
      */
     getResponseText : function()
     {
@@ -649,7 +649,7 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
      * Returns the length of the content as fetched thus far
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Integer} TODOC
      */
     getFetchedLength : function()
     {

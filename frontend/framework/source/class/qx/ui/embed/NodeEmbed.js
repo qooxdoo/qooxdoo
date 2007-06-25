@@ -79,7 +79,7 @@ qx.Class.define("qx.ui.embed.NodeEmbed",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {void} TODOC
      * @throws TODOC
      */
     _createElementImpl : function()

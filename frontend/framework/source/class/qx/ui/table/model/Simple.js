@@ -281,7 +281,7 @@ qx.Class.define("qx.ui.table.model.Simple",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Integer} TODOC
      */
     getSortColumnIndex : function() {
       return this._sortColumnIndex;
@@ -292,7 +292,7 @@ qx.Class.define("qx.ui.table.model.Simple",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {boolean} TODOC
      */
     isSortAscending : function() {
       return this._sortAscending;
