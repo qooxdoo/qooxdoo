@@ -12,6 +12,10 @@
 
 #resource(image:image)
 
+// List all static resources that should be copied into the build version, 
+// if the resource filter option is enabled (default: disabled)
+#embed(qx.icontheme/32/status/dialog-information.png)
+
 ************************************************************************ */
 
 /**
@@ -68,15 +72,13 @@ qx.Class.define("custom.Application",
      * TODOC
      *
      * @type member
-     * @param e {Event} TODOC
-     * @return {void}
      */
-    close : function(e)
+    close : function()
     {
       this.base(arguments);
 
       // Prompt user
-      // return "qooxdoo application: Do you really want to close the application?";
+      // return "Do you really want to close the application?";
     },
 
 
@@ -84,10 +86,8 @@ qx.Class.define("custom.Application",
      * TODOC
      *
      * @type member
-     * @param e {Event} TODOC
-     * @return {void}
      */
-    terminate : function(e) {
+    terminate : function() {
       this.base(arguments);
     }
   },
