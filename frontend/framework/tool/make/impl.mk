@@ -449,6 +449,13 @@ exec-api-build:
 
 
 
+#
+# qooxdoo-contrib targets
+#
+exec-download-contribs:
+	$(SILENCE) $(CMD_DOWNLOAD_CONTRIB) \
+		$(patsubst contrib://%, --contrib %, $(DOWNLOAD_CONTRIBS)) \
+		--contrib-cache "$(QOOXDOO_INCLUDE_CACHE)"
 
 
 
