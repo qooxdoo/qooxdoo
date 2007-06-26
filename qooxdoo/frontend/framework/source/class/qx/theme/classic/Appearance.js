@@ -1940,6 +1940,18 @@ qx.Theme.define("qx.theme.classic.Appearance",
           }
         }
       }
+    },
+    
+    "scrollbar-blocker" : 
+    {
+      style : function( states ) 
+      {
+        return { 
+          backgroundColor : "black", 
+          opacity : 0.2 
+        };
+      }
     }
+    
   }
 });
