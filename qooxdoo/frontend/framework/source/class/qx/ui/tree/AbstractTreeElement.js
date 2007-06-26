@@ -390,7 +390,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {qx.ui.basic.Label} TODOC
      */
     getLabelObject : function() {
       return this._labelObject;
