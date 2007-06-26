@@ -256,9 +256,9 @@ qx.Class.define("qx.Class",
      * Creates a namespace and assigns the given object to it.
      *
      * @type static
-     * @param name {String} The complete namespace including the last (class) name
+     * @param name {String} The complete namespace to create. Typically, the last part is the class name itself
      * @param object {Object} The object to attach to the namespace
-     * @return {Object} last part of the namespace (i.e. classname)
+     * @return {Object} last part of the namespace (typically the class name)
      * @throws TODOC
      */
     createNamespace : function(name, object)
