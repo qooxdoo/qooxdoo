@@ -149,7 +149,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
      *
      * @type member
      * @param cellInfo {var} TODOC
-     * @return {var} TODOC
+     * @return {String} TODOC
      */
     _getContentHtml : function(cellInfo) {
       return qx.html.String.escape(this._formatValue(cellInfo));
