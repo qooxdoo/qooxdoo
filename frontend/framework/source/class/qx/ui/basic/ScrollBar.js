@@ -22,6 +22,12 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#module(ui_basic)
+
+************************************************************************ */
+
 /**
  * A scroll bar.
  */
@@ -104,14 +110,13 @@ qx.Class.define("qx.ui.basic.ScrollBar",
 
     this._blocker = new qx.ui.basic.Terminator();
     this._blocker.set({
-      backgroundColor : "black",
-      opacity : 0.2,
       left : 0,
       top : 0,
       height : "100%",
       width : "100%",
       display : !this.getEnabled()
     });
+    this._blocker.setAppearance( "scrollbar-blocker" );
     this.add(this._blocker);
 
 
