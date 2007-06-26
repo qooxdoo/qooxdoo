@@ -30,7 +30,7 @@ import optparseext
 
 
 def getRevision(contrib):
-	rev_url = "http://qooxdoo-contrib.svn.sourceforge.net/viewvc/qooxdoo-contrib/trunk/qooxdoo-contrib/contribution/%s/" % contrib
+	rev_url = "http://qooxdoo-contrib.svn.sourceforge.net/viewvc/qooxdoo-contrib/trunk/qooxdoo-contrib/%s/" % contrib
 	data = urllib.urlopen(rev_url)
 	for line in data:
 		match = re.compile("\/viewvc\/qooxdoo-contrib\?view\=rev\&amp;revision\=([0-9]+)").search(line)
@@ -49,16 +49,16 @@ def download_contribs(contribs, contrib_cache):
 		except IOError:
 			print >> sys.stderr, "Could not conncet to the internet. Will use cached contributions."
 			return
-				
-		revisionFile = os.path.join(contrib_cache.replace("\ ", " "), "contribution", contrib, "REVISION.txt")
+
+		revisionFile = os.path.join(contrib_cache.replace("\ ", " "), contrib, "REVISION.txt")
 		if os.path.exists(revisionFile):
 			rev = open(revisionFile).readline()
 			if rev == externalRevision:
 				return
-				
+
 			shutil.rmtree(os.path.dirname(revisionFile));
-		
-		url = "https://qooxdoo-contrib.svn.sourceforge.net/svnroot/qooxdoo-contrib/trunk/qooxdoo-contrib/contribution/%s/" % contrib
+
+		url = "https://qooxdoo-contrib.svn.sourceforge.net/svnroot/qooxdoo-contrib/trunk/qooxdoo-contrib/%s/" % contrib
 
 		if header == False:
 			header = True
@@ -68,16 +68,16 @@ def download_contribs(contribs, contrib_cache):
 
 		print "  * %s" % url
 		os.system(
-			"wget --recursive --relative --no-parent --level=20 --quiet --execute robots=off --no-host-directories --cut-dirs=4 " +
+			"wget --recursive --relative --no-parent --level=20 --quiet -execute robots=off --no-host-directories --cut-dirs=4 " +
 			"--directory-prefix=%s --no-check-certificate %s" % (contrib_cache, url)
 		)
 		open(revisionFile, "w").write(externalRevision)
-		
+
 
 def main(argv=None):
 	if argv is None:
 		argv = sys.argv
-				
+
 	parser = optparse.OptionParser(
 		"""usage: %prog [options] [Contris]
 
@@ -97,14 +97,14 @@ Download contributions from the qooxdoo-contrib svn repository.
 	)
 
 	(options, args) = parser.parse_args(args=argv[1:])
-	
+
 	if len(options.contribs) == 0:
 		return
-	
+
 	if (options.contrib_cache == ""):
 		print >> sys.stdout, "qooxdoo-contrib cache directory must be specified."
 		return
-	
+
 	download_contribs(options.contribs, options.contrib_cache)
 
 if __name__ == '__main__':

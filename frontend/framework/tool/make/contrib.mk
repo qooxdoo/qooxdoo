@@ -24,7 +24,7 @@ ifneq ($(APPLICATION_INCLUDES),)
 	DOWNLOAD_CONTRIBS = $(filter contrib://%, $(APPLICATION_INCLUDES))
 	LOCAL_CONTRIBS = $(filter-out contrib://%, $(APPLICATION_INCLUDES))
 
-	MANIFESTS = $(patsubst contrib://%, --manifest $(QOOXDOO_CONTRIB_CACHE)/contribution/%/Manifest.js , $(DOWNLOAD_CONTRIBS))
+	MANIFESTS = $(patsubst contrib://%, --manifest $(QOOXDOO_CONTRIB_CACHE)/%/Manifest.js , $(DOWNLOAD_CONTRIBS))
 	MANIFESTS += $(patsubst %, --manifest %/Manifest.js , $(LOCAL_CONTRIBS))		
 
 	CONTRIB_ARGS = \
