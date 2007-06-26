@@ -25,8 +25,6 @@
 
 include $(QOOXDOO_PATH)/frontend/framework/tool/make/framework.mk
 include $(QOOXDOO_PATH)/frontend/framework/tool/make/apiviewer.mk
-include $(QOOXDOO_PATH)/frontend/framework/tool/make/contrib.mk
-
 
 
 
@@ -308,7 +306,9 @@ endif
 
 #
 # List of directories containing contributions or external projects
-# to include code from.
+# to include code from. Additionally qooxdoo-contrib includes can be 
+# used by using the following URL scheme:
+# contrib://ProgressBar/0.1
 #
 ifndef APPLICATION_INCLUDES
   APPLICATION_INCLUDES = false
