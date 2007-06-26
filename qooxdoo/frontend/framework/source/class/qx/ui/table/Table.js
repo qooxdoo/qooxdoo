@@ -756,7 +756,7 @@ qx.Class.define("qx.ui.table.Table",
      * Returns the selection manager.
      *
      * @type member
-     * @return {SelectionManager} the selection manager.
+     * @return {qx.ui.table.selection.Manager} the selection manager.
      */
     _getSelectionManager : function() {
       return this._selectionManager;
@@ -1756,7 +1756,7 @@ qx.Class.define("qx.ui.table.Table",
      * @type member
      * @param newValue {var} TODOC
      * @param oldValue {var} TODOC
-     * @return {var} TODOC
+     * @return {void} TODOC
      */
     _changeInnerWidth : function(newValue, oldValue)
     {
@@ -1785,7 +1785,7 @@ qx.Class.define("qx.ui.table.Table",
      * @type member
      * @param newValue {var} TODOC
      * @param oldValue {var} TODOC
-     * @return {var} TODOC
+     * @return {void} TODOC
      */
     _changeInnerHeight : function(newValue, oldValue)
     {
