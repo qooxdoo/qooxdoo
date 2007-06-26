@@ -85,6 +85,8 @@ qx.Theme.define("qx.theme.ext.Appearance",
     ---------------------------------------------------------------------------
     */
 
+    // TODO [rh] copyied cursor-*" entries from qx source to eliminate
+    //      warnings. No idea what they are useful for as they aren't referenced
     "cursor-dnd-move" :
     {
       style : function(states)
@@ -1870,6 +1872,17 @@ qx.Theme.define("qx.theme.ext.Appearance",
         }
 
         return result;
+      }
+    },
+    
+    "scrollbar-blocker" : 
+    {
+      style : function( states ) 
+      {
+        return { 
+          backgroundColor : "black", 
+          opacity : 0.2 
+        };
       }
     }
 
