@@ -19,28 +19,28 @@
 
 ifneq ($(APPLICATION_INCLUDES),)
 	
-	QOOXDOO_CONTRIB_CACHE = $(FRAMEWORK_PATH)/.includes
+	QOOXDOO_INCLUDE_CACHE = $(FRAMEWORK_PATH)/.includes
 
 	DOWNLOAD_CONTRIBS = $(filter contrib://%, $(APPLICATION_INCLUDES))
-	LOCAL_CONTRIBS = $(filter-out contrib://%, $(APPLICATION_INCLUDES))
+	LOCAL_INCLUDES = $(filter-out contrib://%, $(APPLICATION_INCLUDES))
 
-	MANIFESTS = $(patsubst contrib://%, --manifest $(QOOXDOO_CONTRIB_CACHE)/%/Manifest.js , $(DOWNLOAD_CONTRIBS))
-	MANIFESTS += $(patsubst %, --manifest %/Manifest.js , $(LOCAL_CONTRIBS))		
+	MANIFESTS = $(patsubst contrib://%, --manifest $(QOOXDOO_INCLUDE_CACHE)/%/Manifest.js , $(DOWNLOAD_CONTRIBS))
+	MANIFESTS += $(patsubst %, --manifest %/Manifest.js , $(LOCAL_INCLUDES))		
 
-	CONTRIB_ARGS = \
+	MANIFEST_ARGS = \
 	  --application-build-path $(APPLICATION_BUILD_PATH) \
 	  --application-to-root-uri $(APPLICATION_HTML_TO_ROOT_URI) \
 	  $(MANIFESTS)
 
-	APPLICATION_ADDITIONAL_CLASS_PATH += `$(CMD_CONTRIB) $(CONTRIB_ARGS) --class-path`
-	APPLICATION_ADDITIONAL_CLASS_URI += `$(CMD_CONTRIB) $(CONTRIB_ARGS) --class-uri`
+	APPLICATION_ADDITIONAL_CLASS_PATH += `$(CMD_CONTRIB) $(MANIFEST_ARGS) --class-path`
+	APPLICATION_ADDITIONAL_CLASS_URI += `$(CMD_CONTRIB) $(MANIFEST_ARGS) --class-uri`
 	
-	APPLICATION_ADDITIONAL_BUILD_OPTIONS += `$(CMD_CONTRIB) $(CONTRIB_ARGS) --resource-flags-build`
-	APPLICATION_ADDITIONAL_SOURCE_OPTIONS += `$(CMD_CONTRIB) $(CONTRIB_ARGS) --resource-flags-source`
+	APPLICATION_ADDITIONAL_BUILD_OPTIONS += `$(CMD_CONTRIB) $(MANIFEST_ARGS) --resource-flags-build`
+	APPLICATION_ADDITIONAL_SOURCE_OPTIONS += `$(CMD_CONTRIB) $(MANIFEST_ARGS) --resource-flags-source`
 endif
 
 
 exec-download-contribs:
 	$(SILENCE) $(CMD_DOWNLOAD_CONTRIB) \
 		$(patsubst contrib://%, --contrib %, $(DOWNLOAD_CONTRIBS)) \
-		--contrib-cache "$(QOOXDOO_CONTRIB_CACHE)"
+		--contrib-cache "$(QOOXDOO_INCLUDE_CACHE)"
