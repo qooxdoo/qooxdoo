@@ -43,8 +43,8 @@ qx.Class.define("qx.Interface",
 
     /**
      * Define a new interface. Interface definitions look much like class definitions. The
-     * main difference is that the function body of functions defined in <code>members</code>
-     * and <code>statics</code> are treated as preconditions the the methods
+     * main difference is that the bodies of functions defined in <code>members</code>
+     * and <code>statics</code> are treated as preconditions for the methods
      * implementing the interface. These are typically used for parameter checks.
      *
      * For properties only the names are required so the value of the properties
@@ -82,7 +82,7 @@ qx.Class.define("qx.Interface",
      * @param config {Map ? null} Interface definition structure. The configuration map has the following keys:
      *   <table>
      *     <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-     *     <tr><th>extend</th><td>Class</td><td>The interfaces this interface inherits from.</td></tr>
+     *     <tr><th>extend</th><td>Interface |<br>Interface[]</td><td>Single interface or array of interfaces this interface inherits from.</td></tr>
      *     <tr><th>members</th><td>Map</td><td>Map of members of the interface.</td></tr>
      *     <tr><th>statics</th><td>Map</td><td>
      *         Map of statics of the interface. The statics will not get copied into the target class.
