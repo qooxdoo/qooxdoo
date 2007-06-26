@@ -68,7 +68,7 @@ def download_contribs(contribs, contrib_cache):
 
 		print "  * %s" % url
 		os.system(
-			"wget --recursive --relative --no-parent --level=20 --quiet -execute robots=off --no-host-directories --cut-dirs=4 " +
+			"wget --recursive --relative --no-parent --level=20 --quiet --execute robots=off --no-host-directories --cut-dirs=4 " +
 			"--directory-prefix=%s --no-check-certificate %s" % (contrib_cache, url)
 		)
 		open(revisionFile, "w").write(externalRevision)
