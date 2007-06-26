@@ -85,6 +85,8 @@ qx.Class.define("qx.ui.form.ComboBox",
     f.setAppearance("combo-box-text-field");
     f.setTabIndex(-1);
     f.setWidth("1*");
+    f.setAllowStretchY(true);
+    f.setHeight(null);
     this.add(f);
 
     // Button
