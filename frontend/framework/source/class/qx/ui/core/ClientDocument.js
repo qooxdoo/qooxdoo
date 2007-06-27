@@ -471,9 +471,22 @@ qx.Class.define("qx.ui.core.ClientDocument",
      * @param value {var} Current value
      * @param old {var} Previous value
      */
-    _applyGlobalCursor : function(value, old)
+    _applyGlobalCursor : qx.core.Variant.select("qx.client",
     {
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      // MSHTML uses special code here. The default code works, too in MSHTML
+      // but is really really slow. To change style sheets or class names
+      // in documents with a deep structure is nearly impossible in MSHTML. It
+      // runs multiple seconds to minutes just for adding a new rule to a global
+      // style sheet. For the highly interactive use cases of this method, this
+      // is not practicable. The alternative implementation directly patches 
+      // all DOM elements with a manual cursor setting (to work-around the
+      // inheritance blocking nature of these local values). This solution does
+      // not work as perfect as the style sheet modification in other browsers.
+      // While a global cursor is applied the normal cursor property would overwrite
+      // the forced global cursor value. This site effect was decided to be less
+      // important than the expensive performance issue of the better working code.
+      // See also bug: http://bugzilla.qooxdoo.org/show_bug.cgi?id=487
+      "mshtml" : function(value, old)
       {
         if (value == "pointer") {
           value = "hand";
@@ -482,11 +495,8 @@ qx.Class.define("qx.ui.core.ClientDocument",
         if (old == "pointer") {
           old = "hand";
         }
-      }
-      
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
-        var elem, old;
+
+        var elem, current;
         
         var list = this._cursorElements;
         if (list)
@@ -513,7 +523,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
             elem = all[i];
             current = elem.style.cursor;
             
-            if (current != "auto" && current != null && current != "") 
+            if (current != null && current != "" && current != "auto") 
             {
               elem._oldCursor = current;
               elem.style.cursor = value;
@@ -529,22 +539,21 @@ qx.Class.define("qx.ui.core.ClientDocument",
           // Reset from body element
           document.body.style.cursor = ""; 
         }
-      }
-      else
+      },
+      
+      "default" : function(value, old)
       {
         if (!this._globalCursorStyleSheet) {
           this._globalCursorStyleSheet = this.createStyleElement();
         }
   
-        // Selector based remove does not work with the "*" selector in mshtml
-        // this.removeCssRule(this._globalCursorStyleSheet, "*");
-        this.removeAllCssRules(this._globalCursorStyleSheet);
+        this.removeCssRule(this._globalCursorStyleSheet, "*");
   
         if (value) {
           this.addCssRule(this._globalCursorStyleSheet, "*", "cursor:" + value + " !important");
         }
       }
-    },
+    }),
 
 
 
