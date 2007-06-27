@@ -992,30 +992,18 @@ qx.Class.define("qx.ui.core.Widget",
          Now I've switched back to the conventional method
         to reset the value. This seems to work again.
       */
-
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      for (var i=0; i<properties.length; i++)
       {
-        for (var i=0; i<6; i++)
-        {
-          // to debug the values which will be applied use this instead of the
-          // first line:
-          // members[applyRuntime+propertiesUpper[i]] = new Function(parameter, "this.debug('v: ' + v); " + style + "pos" + propertiesUpper[i] + "=v");
-          members[applyRuntime + propertiesUpper[i]] = new Function(parameter, style + "pos" + propertiesUpper[i] + "=v");
-          members[resetRuntime + propertiesUpper[i]] = new Function(style + properties[i] + "=''");
-        }
-      }
-      else
-      {
-        for (var i=0; i<10; i++)
-        {
-          // to debug the values which will be applied use this instead of the
-          // first line:
-          // members[applyRuntime+propertiesUpper[i]] = new Function(parameter, "this.debug('v: ' + v); " + style + properties[i] + cssValue);
-          members[applyRuntime + propertiesUpper[i]] = new Function(parameter, style + properties[i] + cssValue);
-          members[resetRuntime + propertiesUpper[i]] = new Function(style + properties[i] + "=''");
-        }
+        // to debug the values which will be applied use this instead of the
+        // first line:
+        // members[applyRuntime+propertiesUpper[i]] = new Function(parameter, "this.debug('v: ' + v); " + style + properties[i] + cssValue);
+        members[applyRuntime + propertiesUpper[i]] = new Function(parameter, style + properties[i] + cssValue);
+        members[resetRuntime + propertiesUpper[i]] = new Function(style + properties[i] + "=''");
       }
     },
+    
+    
+   
 
 
 
@@ -5557,7 +5545,9 @@ qx.Class.define("qx.ui.core.Widget",
       The zIndex and filter properties should always be
       applied on the "real" element node.
     */
-    __outerElementStyleProperties : {
+    __outerElementStyleProperties : 
+    {
+      cursor : true,
       zIndex : true,
       filter : true,
       display : true,
@@ -6656,7 +6646,15 @@ qx.Class.define("qx.ui.core.Widget",
         var es = elem.style;
         var cs = this._innerStyle = cl.style;
 
-        cs.width = cs.height = "100%";
+        // MSHTML syncs dimensions to the inner element when using
+        // renderRuntime* methods. This is because percent definitions
+        // slow down the rendering process and especially badly 
+        // influence the dynamic updates to style sheets.
+        if (qx.core.Variant.isSet("qx.client", "mshtml")) {}
+        else {
+          cs.width = cs.height = "100%";
+        }
+        
         cs.position = "absolute";
 
         for (var i in this._styleProperties)
@@ -7107,6 +7105,28 @@ qx.Class.define("qx.ui.core.Widget",
   defer : function(statics, members)
   {
     statics.__initApplyMethods(members);
+    
+    if (qx.core.Variant.isSet("qx.client", "mshtml"))
+    {
+      members._renderRuntimeWidth = function(v)
+      {
+        this._style.pixelWidth = (v==null)?0:v;
+        
+        if (this._innerStyle) {
+          this._innerStyle.pixelWidth = (v==null)?0:v-2;
+        }
+      };
+      
+      members._renderRuntimeHeight = function(v)
+      {
+        this._style.pixelHeight = (v==null)?0:v;
+        
+        if (this._innerStyle) {
+          this._innerStyle.pixelHeight = (v==null)?0:v-2;
+        }      
+      };
+    }    
+    
     statics.__initLayoutProperties(statics);
 
     // TODO there must be a better way to define this
