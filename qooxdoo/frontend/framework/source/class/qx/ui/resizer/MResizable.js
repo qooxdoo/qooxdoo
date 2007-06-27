@@ -463,7 +463,7 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
         if (this._resizeNorth || this._resizeSouth || this._resizeWest || this._resizeEast) {
           this.setCursor(resizeMode + "-resize");
         } else {
-          this.setCursor(null);
+          this.resetCursor();
         }
       }
 
