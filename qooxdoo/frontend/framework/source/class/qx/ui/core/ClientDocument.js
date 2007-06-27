@@ -473,21 +473,76 @@ qx.Class.define("qx.ui.core.ClientDocument",
      */
     _applyGlobalCursor : function(value, old)
     {
-      if (!this._globalCursorStyleSheet) {
-        this._globalCursorStyleSheet = this.createStyleElement();
-      }
-
-      // Selector based remove does not work with the "*" selector in mshtml
-      // this.removeCssRule(this._globalCursorStyleSheet, "*");
-      this.removeAllCssRules(this._globalCursorStyleSheet);
-
-      if (value) {
-        if (value == "pointer" && qx.core.Client.getInstance().isMshtml()) {
-          var cursor = "hand";
-        } else {
-          var cursor = value;
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        if (value == "pointer") {
+          value = "hand";
         }
-        this.addCssRule(this._globalCursorStyleSheet, "*", "cursor:" + value + " !important");
+
+        if (old == "pointer") {
+          old = "hand";
+        }
+      }
+      
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        var elem, old;
+        
+        var list = this._cursorElements;
+        if (list)
+        {
+          for (var i=0, l=list.length; i<l; i++) 
+          {
+            elem = list[i];
+            
+            if (elem.style.cursor == old) 
+            {
+              elem.style.cursor = elem._oldCursor; 
+              elem._oldCursor = null;
+            }
+          }
+        }
+        
+        var all = document.all;
+        var list = this._cursorElements = [];
+        
+        if (value != null && value != "" && value != "auto")
+        {
+          for (var i=0, l=all.length; i<l; i++) 
+          {
+            elem = all[i];
+            current = elem.style.cursor;
+            
+            if (current != "auto" && current != null && current != "") 
+            {
+              elem._oldCursor = current;
+              elem.style.cursor = value;
+              list.push(elem);
+            }
+          }
+          
+          // Also apply to body element
+          document.body.style.cursor = value;
+        }
+        else
+        {
+          // Reset from body element
+          document.body.style.cursor = ""; 
+        }
+      }
+      else
+      {
+        if (!this._globalCursorStyleSheet) {
+          this._globalCursorStyleSheet = this.createStyleElement();
+        }
+  
+        // Selector based remove does not work with the "*" selector in mshtml
+        // this.removeCssRule(this._globalCursorStyleSheet, "*");
+        this.removeAllCssRules(this._globalCursorStyleSheet);
+  
+        if (value) {
+          this.addCssRule(this._globalCursorStyleSheet, "*", "cursor:" + value + " !important");
+        }
       }
     },
 
