@@ -1,9 +1,10 @@
-#qx_srcview {
-  font-size  : small;
-}
-
-#qx_srcview .script{
-  font-family: monospace;
+#qx_srcview pre{
+  margin: 0;
+  padding: 0;
+  
+  /* repeat it, needed to fix display in MSHTML */
+  font-family: Consolas, "Bitstream Vera Sans Mono", "Courier New", monospace !important;
+  font-size: 11px !important;
 }
 
 #qx_srcview .keyword {
@@ -20,7 +21,7 @@
 }
 
 #qx_srcview .ident {
-	/* font-weight: bold; */
+	
 }
 
 #qx_srcview .comment {
