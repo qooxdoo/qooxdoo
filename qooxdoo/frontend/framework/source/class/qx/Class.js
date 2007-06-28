@@ -926,20 +926,25 @@ qx.Class.define("qx.Class",
     {
       var clazz;
 
-      if (!extend)
+      if (!extend && qx.core.Variant.isSet("qx.aspects", "off"))
       {
         // Create empty/non-empty class
         clazz = statics || {};
       }
       else
       {
-        // Create default constructor
-        if (!construct) {
-          construct = this.__createDefaultConstructor();
-        }
+        clazz = {};
 
-        // Wrap constructor to handle mixin constructors and property initialization
-        clazz = this.__wrapConstructor(construct, name, type);
+        if (extend)
+        {
+          // Create default constructor
+          if (!construct) {
+            construct = this.__createDefaultConstructor();
+          }
+
+          // Wrap constructor to handle mixin constructors and property initialization
+          clazz = this.__wrapConstructor(construct, name, type);
+        }
 
         // Copy statics
         if (statics)
@@ -949,9 +954,20 @@ qx.Class.define("qx.Class",
           for (var i=0, a=qx.lang.Object.getKeys(statics), l=a.length; i<l; i++)
           {
             key = a[i];
-            clazz[key] = statics[key];
+            var staticValue = statics[key];
+
+            if (qx.core.Variant.isSet("qx.aspects", "on"))
+            {
+              if (staticValue instanceof Function) {
+                staticValue = qx.core.Aspect.wrap(name + "." + key, "static", statics[key]);
+              }
+            }
+
+            clazz[key] = staticValue;
+
           }
         }
+
       }
 
       // Create namespace
@@ -1288,6 +1304,11 @@ qx.Class.define("qx.Class",
           }
 
           member.self = clazz;
+
+          if (qx.core.Variant.isSet("qx.aspects", "on")) {
+            member = qx.core.Aspect.wrap(clazz.classname + "." + key, "member", member);
+          }
+
         }
 
         // Attach member
@@ -1447,7 +1468,7 @@ qx.Class.define("qx.Class",
       var code = [];
 
       // We can access the class/statics using arguments.callee
-      code.push('var clazz=arguments.callee;');
+      code.push('var clazz=arguments.callee.constructor;');
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -1482,6 +1503,13 @@ qx.Class.define("qx.Class",
       // Parse code as function
       var wrapper = new Function(code.join(""));
 
+      if (qx.core.Variant.isSet("qx.aspects", "on")) {
+        aspectWrapper = qx.core.Aspect.wrap(name + ".construct", "construct", wrapper);
+        wrapper.$$original = construct;
+        wrapper.constructor = aspectWrapper;
+        wrapper = aspectWrapper;
+      }
+
       // Add singleton getInstance()
       if (type === "singleton") {
         wrapper.getInstance = this.getInstance;
@@ -1496,5 +1524,19 @@ qx.Class.define("qx.Class",
       // Return generated wrapper
       return wrapper;
     }
+  },
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function(statics, members, properties)
+  {
+    qx.core.Variant.define("qx.aspects", [ "on", "off" ], "off");
   }
+
 });
