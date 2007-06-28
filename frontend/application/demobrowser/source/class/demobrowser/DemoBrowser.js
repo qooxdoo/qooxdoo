@@ -115,7 +115,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
     },
     this);
-  }, // construct()
+  },
 
 
 
@@ -477,7 +477,9 @@ qx.Class.define("demobrowser.DemoBrowser",
       {
         overflow : "auto",
         width    : "100%",
-        height   : "100%"
+        height   : "100%",
+        border   : "dark-shadow",
+        font     : "monospace"   
       });
       f3.setHtmlProperty("id", "qx_srcview");
 
@@ -1010,9 +1012,6 @@ qx.Class.define("demobrowser.DemoBrowser",
         fwindow.qx.log.Logger.ROOT_LOGGER.removeAllAppenders();
         fwindow.qx.log.Logger.ROOT_LOGGER.addAppender(this.logappender);
 
-        // delete demo description
-        this.__cleanupSample(fwindow.document);
-
         var url = fwindow.location.href;
         var pos = url.indexOf("/html/") + 6;
         var split = url.substring(pos).split("/");
@@ -1126,7 +1125,6 @@ qx.Class.define("demobrowser.DemoBrowser",
         if (content) {
           //this.widgets["outputviews.sourcepage.page"].setValue(content);
           this.widgets["outputviews.sourcepage.page"].setHtml(this.__beautySource(content));
-          //this.widgets["outputviews.sourcepage.page"].setHtml('<pre>'+qx.html.String.escape(content)+'</pre>');
           this.__sourceCodeLoaded = 1;
         }
       },
@@ -1249,26 +1247,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     },
 
 
-    __cleanupSample : function (doc)
-    {
-
-      if (doc)
-      {
-        // delete demo description
-        var div = doc.getElementById("demoDescription");
-
-        if (div && div.parentNode) {
-          var remc = div.parentNode.removeChild(div);
-          this.debug("Found and removed demo description");
-        } else
-        {
-          this.debug("No valid demo description found to remove");
-
-        }
-      }
-    }, // cleanupSample()
-
-
     __beautySource : function (src)
     {
       var bsrc = "<pre>";
@@ -1288,13 +1266,15 @@ qx.Class.define("demobrowser.DemoBrowser",
             // add this line to 'normal' code
             bsrc += this.__beautyHtml(qx.html.String.escape(currBlock + lines[i]));
             currBlock = "";  // start new block
-          } else if (PScriptEnd.exec(lines[i])) // end of inline script
+          } 
+          else if (PScriptEnd.exec(lines[i])) // end of inline script
           {
             // pass script block to tokenizer
             var s1 = qx.dev.Tokenizer.javaScriptToHtml(currBlock);
             bsrc += '<div class="script">'+s1+'</div>';
             currBlock = lines[i]+'\n';  // start new block
-          } else // no border line
+          } 
+          else // no border line 
           {
             currBlock += lines[i]+'\n';
           }
@@ -1302,8 +1282,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
 
       // collect rest of page
-      bsrc += this.__beautyHtml(qx.html.String.escape(currBlock))+'</pre>';
-
+      bsrc += this.__beautyHtml(qx.html.String.escape(currBlock)) + "</pre>";
 
       return bsrc;
 
