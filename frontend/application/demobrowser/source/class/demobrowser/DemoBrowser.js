@@ -850,7 +850,6 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.toolbar.setEnabled(false);
       this.widgets["outputviews.bar"].getManager().setSelected(this.widgets["outputviews.demopage.button"]);
       this.widgets["outputviews.demopage.page"].setEnabled(false);
-      this.widgets["treeview"].setEnabled(false);
 
       /*
       this.widgets["outputviews.demopage.page"].block();
@@ -872,13 +871,16 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       if (treeNode)
       {
-        treeNode.setSelected(true);
+        //treeNode.setSelected(true);
+        this.widgets["treeview.full"].setSelectedElement(treeNode);
         url = 'html/' + value;
       }
       else
       {
         url = this.defaultUrl;
       }
+
+      this.widgets["treeview"].setEnabled(false); // disable tree *after* setSelectedElement
 
       // Clear log
       this.logappender.clear();
@@ -1105,6 +1107,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
           if (state) {
             this.setCurrentSample(state.replace("~", "/"));
+            //this.widgets["treevi"].setSelectedElement()//TODO: this is a kludge!
           } else {
             this.setCurrentSample(this.defaultUrl);
           }
