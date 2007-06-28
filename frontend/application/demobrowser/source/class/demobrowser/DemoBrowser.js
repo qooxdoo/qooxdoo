@@ -230,6 +230,26 @@ qx.Class.define("demobrowser.DemoBrowser",
       gb.resetBorder();
       gb.setEnabled(false);
 
+      // object summary
+      var sb0 = new qx.ui.toolbar.CheckBox("Profile", "icon/16/apps/accessories-alarm.png", true);
+      gb.add(sb0);
+
+      sb0.addEventListener("execute", function(e)
+      {
+        var wasChecked = sb0.getChecked();
+        var cw = this.f1.getContentWindow();
+        if (cw && cw.qx) {
+          if (wasChecked) {
+            cw.qx.dev.Profile.start();
+          } else {
+            cw.qx.dev.Profile.end();
+            cw.qx.dev.Profile.normalizeProfileData();
+            this.showProfile(cw.qx.dev.Profile.__profileData);
+          }
+        }
+      }, this);
+
+      // object summary
       var sb1 = new qx.ui.toolbar.Button("Object Summary", "icon/16/apps/accessories-magnifier.png");
       gb.add(sb1);
 
@@ -295,6 +315,62 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       return toolbar;
     },  // __makeToolbar()
+
+
+    showProfile : function(profData)
+    {
+      if (!this._profWindow)
+      {
+        var win = new qx.ui.window.Window("Profiling Data");
+        win.set({
+          space: [50, 50, 600, 500],
+          minWidth : 400,
+          minHeight : 300,
+          showMinimize : false,
+          modal : true
+        });
+        win.addToDocument();
+        this._profWindow = win;
+
+        var tableModel = new qx.ui.table.model.Simple();
+        tableModel.setColumns([ "Function", "Own Time", "Call Count" ]);
+        tableModel.setData([]);
+        this._profTableModel = tableModel;
+
+        var custom = {
+          tableColumnModel : function(obj) {
+            return new qx.ui.table.columnmodel.Resize(obj);
+          }
+        };
+
+        var table = new qx.ui.table.Table(tableModel, custom);
+        table.set({
+          height: "100%",
+          width: "100%"
+        });
+
+        var tcm = table.getTableColumnModel();
+        var resizeBehavior = tcm.getBehavior();
+        resizeBehavior.set(0, { width:"2*", minWidth:50 });
+        resizeBehavior.setMaxWidth(1, 100);
+        resizeBehavior.setMaxWidth(2, 100);
+
+        win.add(table);
+      }
+
+      var rowData = [];
+      for (var key in profData) {
+        var data = profData[key];
+        if (data.name == "qx.core.Aspect.__calibrateHelper") {
+          continue;
+        }
+        rowData.push([data.name, data.calibratedOwnTime, data.callCount]);
+      }
+      this._profTableModel.setData(rowData);
+      this._profTableModel.sortByColumn(1);
+
+      this._profWindow.open();
+    },
 
 
     /**
@@ -537,7 +613,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     treeGetSelection : function(e)
     {
@@ -610,7 +686,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     leftReloadTree : function(e)
     {
@@ -807,7 +883,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     runTest : function(e)
     {
@@ -834,7 +910,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      *
      * @type member
      * @param value {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     setCurrentSample : function(value)
     {
@@ -859,7 +935,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       */
 
       var iDoc = this.widgets["outputviews.demopage.page"].getContentDocument();
-      if (iDoc) 
+      if (iDoc)
       {
         iDoc.body.innerHTML = "";
       }
@@ -912,7 +988,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     __ehIframeLoaded : function(e)
     {
@@ -989,7 +1065,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     }, // __ehIframeLoaded
 
 
-    __applyModifiedSample : function () 
+    __applyModifiedSample : function ()
     {
       // get source code
       var src = this.widgets["outputviews.sourcepage.page"].getValue();
@@ -1010,7 +1086,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     __ehTreeSelection : function(e)
     {
@@ -1070,7 +1146,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      *
      * @type member
      * @param url {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     dataLoader : function(url)
     {
@@ -1130,7 +1206,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     playPrev : function(e)
     {
@@ -1154,7 +1230,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      *
      * @type member
      * @param e {Event} TODOC
-     * @return {void} 
+     * @return {void}
      */
     playNext : function(e)
     {
@@ -1173,10 +1249,10 @@ qx.Class.define("demobrowser.DemoBrowser",
     },
 
 
-    __cleanupSample : function (doc) 
+    __cleanupSample : function (doc)
     {
 
-      if (doc) 
+      if (doc)
       {
         // delete demo description
         var div = doc.getElementById("demoDescription");
@@ -1184,16 +1260,16 @@ qx.Class.define("demobrowser.DemoBrowser",
         if (div && div.parentNode) {
           var remc = div.parentNode.removeChild(div);
           this.debug("Found and removed demo description");
-        } else 
+        } else
         {
           this.debug("No valid demo description found to remove");
-        
+
         }
       }
     }, // cleanupSample()
 
 
-    __beautySource : function (src) 
+    __beautySource : function (src)
     {
       var bsrc = "<pre>";
       var lines = [];
@@ -1218,7 +1294,7 @@ qx.Class.define("demobrowser.DemoBrowser",
             var s1 = qx.dev.Tokenizer.javaScriptToHtml(currBlock);
             bsrc += '<div class="script">'+s1+'</div>';
             currBlock = lines[i]+'\n';  // start new block
-          } else // no border line 
+          } else // no border line
           {
             currBlock += lines[i]+'\n';
           }
@@ -1228,20 +1304,20 @@ qx.Class.define("demobrowser.DemoBrowser",
       // collect rest of page
       bsrc += this.__beautyHtml(qx.html.String.escape(currBlock))+'</pre>';
 
-      
+
       return bsrc;
-      
+
     }, // beautySource()
 
 
-    __beautyHtml : function (str) 
+    __beautyHtml : function (str)
     {
       var res = str;
       var PTagStart = '&lt;\/?'
 
       // This match function might be a bit of overkill right now, but provides
       // for later extensions (cf. Flanagan(5th), 703)
-      function matchfunc (vargs) 
+      function matchfunc (vargs)
       {
         var s = arguments[1]+'<span class="html-tag-name">'+arguments[2]+'</span>';
         var pair, curr;
@@ -1252,7 +1328,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           for (var i=3; i<arguments.length-2; i++)
           {
             curr = arguments[i];
-            if (curr == "/") 
+            if (curr == "/")
             {
               endT = true;
               break;
