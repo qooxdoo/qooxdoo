@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: feedreader\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-06-05 15:27+0200\n"
+"POT-Creation-Date: 2007-06-27 19:36+0200\n"
 "PO-Revision-Date: 2007-01-24 20:54+0100\n"
 "Last-Translator: Carsten Rammoser <carsten@rammoser.com>\n"
 "Language-Team:  <camilo.aguilar@gmail.com>\n"
@@ -41,7 +41,7 @@ msgid "(%1) Reload the feeds."
 msgstr "(%1) Actualizar los feeds."
 
 #: source/class/feedreader/Application.js:224
-#: source/class/feedreader/Application.js:425
+#: source/class/feedreader/Application.js:426
 msgid "Preferences"
 msgstr ""
 
@@ -102,15 +102,15 @@ msgstr "Fecha"
 msgid "ID"
 msgstr ""
 
-#: source/class/feedreader/Application.js:444
+#: source/class/feedreader/Application.js:445
 msgid "Theme"
 msgstr ""
 
-#: source/class/feedreader/Application.js:469
+#: source/class/feedreader/Application.js:470
 msgid "Cancel"
 msgstr ""
 
-#: source/class/feedreader/Application.js:471
+#: source/class/feedreader/Application.js:472
 msgid "OK"
 msgstr ""
 
