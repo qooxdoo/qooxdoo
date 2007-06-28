@@ -165,12 +165,6 @@ qx.Class.define("qx.dev.Tokenizer",
         }
       }
       
-      var debug = "";
-      for (var i=0; i<tokens.length; i++) {
-        debug += tokens[i].type + ": " + tokens[i].value + "\n";
-      }
-      alert(debug);
-
       return tokens;
     },
 
