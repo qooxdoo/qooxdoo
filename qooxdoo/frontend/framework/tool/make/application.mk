@@ -489,9 +489,6 @@ endif
 
 
 
-
-
-
 ################################################################################
 # OUTPUT OPTIONS
 ################################################################################
@@ -501,6 +498,30 @@ endif
 #
 ifndef APPLICATION_SCRIPT_FILENAME
   APPLICATION_SCRIPT_FILENAME = $(APPLICATION_NAMESPACE).js
+endif
+
+
+
+
+
+
+################################################################################
+# PROFILER OPTIONS
+################################################################################
+
+#
+# Whether to enable the profiler (source version)
+#
+ifndef APPLICATION_PROFILE_SOURCE
+  APPLICATION_PROFILE_SOURCE = false
+endif
+
+
+#
+# Whether to enable the profiler (build version)
+#
+ifndef APPLICATION_PROFILE_BUILD
+  APPLICATION_PROFILE_BUILD = false
 endif
 
 
