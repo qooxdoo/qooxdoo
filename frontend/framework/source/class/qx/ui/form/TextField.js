@@ -513,6 +513,12 @@ qx.Class.define("qx.ui.form.TextField",
       if (this._inputElement) {
         this._inputElement.readOnly = value;
       }
+
+      if (value) {
+        this.addState("readonly");
+      } else {
+        this.removeState("readonly");
+      }      
     },
 
 
