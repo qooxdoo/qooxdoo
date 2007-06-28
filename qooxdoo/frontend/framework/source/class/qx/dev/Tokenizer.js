@@ -100,7 +100,7 @@ qx.Class.define("qx.dev.Tokenizer",
       var re_doublequote = /["][^"]*["]/
       var re_singlequote = /['][^']*[']/
       var re_tab = /\t/
-      var re_nl = /\r|\n/
+      var re_nl = /\r\n|\r|\n/
       var re_space = /\s/
       var re_symbol = /\S/
       var re_token = /\/\/.*?[\n\r$]|\/\*(?:.|\n|\r)*?\*\/|\w+\b|[+-]?\d+(([.]\d+)*([eE][+-]?\d+))?|["][^"]*["]|['][^']*[']|\n|\r|./g
@@ -164,6 +164,12 @@ qx.Class.define("qx.dev.Tokenizer",
           tokens.push({type: "sym", value: token});
         }
       }
+      
+      var debug = "";
+      for (var i=0; i<tokens.length; i++) {
+        debug += tokens[i].type + ": " + tokens[i].value + "\n";
+      }
+      alert(debug);
 
       return tokens;
     },
@@ -208,7 +214,7 @@ qx.Class.define("qx.dev.Tokenizer",
             break;
 
           case "nl":
-            js.add("<br>");
+            js.add("\n");
             break;
 
           default:
@@ -217,7 +223,5 @@ qx.Class.define("qx.dev.Tokenizer",
       }
       return js.get();
     }
-
   }
-
 });
