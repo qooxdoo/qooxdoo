@@ -947,8 +947,8 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       if (treeNode)
       {
-        //treeNode.setSelected(true);
-        this.widgets["treeview.full"].setSelectedElement(treeNode);
+        treeNode.setSelected(true);
+        //this.widgets["treeview.full"].setSelectedElement(treeNode);
         url = 'html/' + value;
       }
       else
