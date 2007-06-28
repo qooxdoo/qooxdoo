@@ -593,7 +593,7 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
     #  SUPPORT FOR VARIANTS
     ######################################################################
 
-    if len(options.useVariant) > 0:
+    if len(options.useVariant) > 0 and not options.generateSourceScript:
         print
         print "  VARIANT OPTIMIZATION:"
         print "----------------------------------------------------------------------------"
