@@ -3,16 +3,14 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>qooxdoo &raquo; Demo Browser</title>
   <script type="text/javascript" src="../../script/demo.js"></script>
-</head>
-<body>
   <script type="text/javascript" src="../util.js"></script>
-
-  <script type="text/javascript">
+</head>
+<body>  <script type="text/javascript">
     qx.core.Init.getInstance().defineMain(function() {
       new qx.util.GuiBuilder().buildFromUrl(qx.ui.core.ClientDocument.getInstance(), 'Builder_2.xml');
     });
   </script>
-  <div id="demoDescription">
+  <div style="display:none">
     <p>qx.util.GuiBuilder demo.</p>
     <p>Build your web apps using qooxdooml.</p>
     <p>XmlHttp Example</p>
