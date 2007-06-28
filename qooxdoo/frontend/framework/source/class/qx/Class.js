@@ -1013,6 +1013,9 @@ qx.Class.define("qx.Class",
 
         // Store destruct onto class
         if (destruct) {
+          if (qx.core.Variant.isSet("qx.aspects", "on")) {
+            destruct = qx.core.Aspect.wrap(name + ".destruct", "destruct", destruct);
+          }
           clazz.$$destructor = destruct;
         }
       }
@@ -1523,17 +1526,6 @@ qx.Class.define("qx.Class",
       // Return generated wrapper
       return wrapper;
     }
-  },
-
-
-
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
-
-  defer : function(statics, members, properties) {
-    qx.core.Variant.define("qx.aspects", [ "on", "off" ], "off");
   }
+
 });

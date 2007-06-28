@@ -48,9 +48,9 @@
  *
  * One example for a qooxdoo aspect if profiling ({@link qx.dev.Profile}).
  */
-qx.Class.define("qx.core.Aspect", 
+qx.Class.define("qx.core.Aspect",
 {
-  statics : 
+  statics :
   {
     __registry : [],
 
@@ -66,12 +66,12 @@ qx.Class.define("qx.core.Aspect",
     {
       var pre = [];
       var post = [];
-      
+
       for (var i=0; i<this.__registry.length; i++)
       {
         var aspect = this.__registry[i];
-        
-        if (fullName.match(aspect.re) && (type == aspect.type || aspect.type == "*")) 
+
+        if (fullName.match(aspect.re) && (type == aspect.type || aspect.type == "*"))
         {
           var pos = aspect.pos;
 
@@ -87,27 +87,27 @@ qx.Class.define("qx.core.Aspect",
         return fcn;
       }
 
-      var wrapper = function() 
+      var wrapper = function()
       {
         for (var i=0; i<pre.length; i++) {
           pre[i].call(this, fullName, fcn, arguments);
         }
-        
+
         var ret = fcn.apply(this, arguments);
-        
+
         for (var i=0; i<post.length; i++) {
           post[i].call(this, fullName, fcn, arguments, ret);
         }
-        
+
         return ret;
       }
-      
+
       if (type != "static")
       {
         wrapper.self = fcn.self;
         wrapper.base = fcn.base;
       }
-      
+
       fcn.wrapper = wrapper;
       return wrapper;
     },
@@ -135,7 +135,7 @@ qx.Class.define("qx.core.Aspect",
       if (position != "pre" && position != "post") {
         throw new Error("Unkown positions: '"+pos+"'");
       }
-      
+
       this.__registry.push({
         pos: position,
         type: type,

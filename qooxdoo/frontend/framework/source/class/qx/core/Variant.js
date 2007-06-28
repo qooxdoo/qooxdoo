@@ -23,6 +23,7 @@
 
 #module(core)
 #require(qx.core.Bootstrap)
+#require(qx.core.Setting)
 #require(qx.lang.Array)
 #ignore(auto-require)
 #ignore(auto-use)
@@ -166,6 +167,34 @@ qx.Class.define("qx.core.Variant",
         try {
           delete window.qxvariants;
         } catch(ex) {};
+
+        this.__loadUrlVariants(this.__variants);
+      }
+    },
+
+
+    /**
+     * Load variants from URL parameters if the setting <code>"qx.allowUrlSettings"</code>
+     * is set to true.
+     */
+    __loadUrlVariants : function()
+    {
+      if (qx.core.Setting.get("qx.allowUrlSettings") != true) {
+        return
+      }
+
+      var urlVariants = document.location.search.slice(1).split("&");
+      for (var i=0; i<urlVariants.length; i++)
+      {
+        var variant = urlVariants[i].split(":");
+        if (variant.length != 3 || variant[0] != "qxvariant") {
+          continue;
+        }
+        var key = variant[1];
+        if (!this.__variants[key]) {
+          this.__variants[key] = {};
+        }
+        this.__variants[key].value = decodeURIComponent(variant[2]);
       }
     },
 
@@ -355,7 +384,7 @@ qx.Class.define("qx.core.Variant",
     statics.define("qx.debug", [ "on", "off" ], "on");
     statics.define("qx.compatibility", [ "on", "off" ], "on");
     statics.define("qx.eventMonitorNoListeners", [ "on", "off" ], "off");
-
+    statics.define("qx.aspects", [ "on", "off" ], "off");
     statics.__init();
   }
 });
