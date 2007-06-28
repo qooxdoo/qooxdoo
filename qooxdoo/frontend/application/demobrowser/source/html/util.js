@@ -24,6 +24,9 @@
 
   // Enable legacy init process
   qx.Class.include(qx.core.Init, qx.core.MLegacyInit);
+  
+  // Hide description
+  document.write("<style type='text/css'>#description{display:none}</style>");
 
   // Include Google Analytics in online version
   if (location.hostname === "demo.qooxdoo.org") document.write('<script src="http://resources.qooxdoo.org/script/analytics.js" type="text/javascript"></script>');

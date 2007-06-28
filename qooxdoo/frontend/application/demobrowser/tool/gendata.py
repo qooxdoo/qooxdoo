@@ -96,8 +96,8 @@ def getDesc(filepath):
     # open file
     file = open(filepath,'rU').read()
     if file:
-        # scan for div id="demoDescription
-        m = re.search(r'<div\s+id="demoDescription">(.*?)</div>', file,
+        # scan for div id="description
+        m = re.search(r'<div\s+id="description">(.*?)</div>', file,
                          re.IGNORECASE|re.DOTALL)
         if m:
             desc = m.group(1)
