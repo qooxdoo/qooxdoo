@@ -147,11 +147,8 @@ qx.Class.define("qx.core.Setting",
       {
         for (var key in qxsettings)
         {
-          if (qx.core.Variant.compilerIsSet("qx.debug", "on"))
-          {
-            if ((key.split(".")).length !== 2) {
-              throw new Error('Malformed settings key "' + key + '". Must be following the schema "namespace.key".');
-            }
+          if ((key.split(".")).length !== 2) {
+            throw new Error('Malformed settings key "' + key + '". Must be following the schema "namespace.key".');
           }
 
           if (!this.__settings[key]) {
@@ -166,8 +163,37 @@ qx.Class.define("qx.core.Setting",
         try {
           delete window.qxsettings;
         } catch(ex) {};
+
+        this.__loadUrlSettings();
+      }
+    },
+
+
+    /**
+     * Load settings from URL parameters if the setting <code>"qx.allowUrlSettings"</code>
+     * is set to true.
+     */
+    __loadUrlSettings : function()
+    {
+      if (this.__settings["qx.allowUrlSettings"] != true) {
+        return
+      }
+
+      var urlSettings = document.location.search.slice(1).split("&");
+      for (var i=0; i<urlSettings.length; i++)
+      {
+        var setting = urlSettings[i].split(":");
+        if (setting.length != 3 || setting[0] != "qxsetting") {
+          continue;
+        }
+        var key = setting[1];
+        if (!this.__settings[key]) {
+          this.__settings[key] = {};
+        }
+        this.__settings[key].value = decodeURIComponent(setting[2]);
       }
     }
+
   },
 
 
@@ -180,6 +206,7 @@ qx.Class.define("qx.core.Setting",
   */
 
   defer : function(statics) {
+    statics.define("qx.allowUrlSettings", true);
     statics.__init();
   }
 });
