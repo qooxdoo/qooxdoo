@@ -75,7 +75,7 @@ qx.Class.define("qx.dev.Profile", {
      */
     openProfileWindow : function(maxLength)
     {
-      this.__normalizeProfileData();
+      this.normalizeProfileData();
       this.end();
       var data = qx.lang.Object.getValues(this.__profileData);
       data = data.sort(function(a,b) { return a.calibratedOwnTime<b.calibratedOwnTime ? 1: -1});
@@ -154,14 +154,14 @@ qx.Class.define("qx.dev.Profile", {
      * Normalize profiling data by substracting the overhead of wrapping from the
      * function's own time.
      */
-    __normalizeProfileData : function()
+    normalizeProfileData : function()
     {
       if (this.__callOverhead == undefined) {
         this.__callOverhead = this.__calibrate(4000);
       }
       for (var key in this.__profileData) {
         var profileData = this.__profileData[key];
-        profileData.calibratedOwnTime = profileData.ownTime - (profileData.subRoutineCalls * this.__callOverhead);
+        profileData.calibratedOwnTime = Math.max(profileData.ownTime - (profileData.subRoutineCalls * this.__callOverhead), 0);
         profileData.calibratedAvgTime = profileData.calibratedOwnTime / profileData.callCount;
       }
     },
