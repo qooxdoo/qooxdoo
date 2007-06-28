@@ -307,7 +307,14 @@ else
   COMPUTED_BUILD_DEPENDENCIES += --add-require qx.log.Logger:qx.log.appender.Native
 endif
 
+# profiler requires
+ifeq ($(APPLICATION_PROFILE_SOURCE),true)
+	COMPUTED_SOURCE_DEPENDENCIES += --add-require qx.Class:qx.dev.Profile
+endif
 
+ifeq ($(APPLICATION_PROFILE_BUILD),true)
+	COMPUTED_BUILD_DEPENDENCIES += --add-require qx.Class:qx.dev.Profile
+endif
 
 
 
@@ -331,7 +338,16 @@ else
   COMPUTED_BUILD_VARIANT += --use-variant qx.compatibility:on
 endif
 
+# profiler variants
+ifeq ($(APPLICATION_PROFILE_SOURCE),true)
+	COMPUTED_SOURCE_VARIANT += --use-variant qx.aspects:on
+endif
 
+ifeq ($(APPLICATION_PROFILE_BUILD),true)
+	COMPUTED_BUILD_VARIANT += --use-variant qx.aspects:on
+else
+  COMPUTED_BUILD_VARIANT += --use-variant qx.aspects:off
+endif
 
 
 

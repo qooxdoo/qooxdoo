@@ -38,18 +38,8 @@ APPLICATION_THEME=qx.theme.Ext
 APPLICATION_LOCALES = de es en
 
 
-PROFILE_SOURCE = true
-PROFILE_BUILD = true
-
-ifeq ($(PROFILE_SOURCE),true)
-	APPLICATION_ADDITIONAL_SOURCE_OPTIONS = --add-require qx.Class:qx.dev.Profile --use-variant qx.aspects:on
-endif
-
-ifeq ($(PROFILE_BUILD),true)
-	APPLICATION_ADDITIONAL_BUILD_OPTIONS = --add-require qx.Class:qx.dev.Profile --use-variant qx.aspects:on
-else
-  APPLICATION_ADDITIONAL_BUILD_OPTIONS = --use-variant qx.aspects:off
-endif
+APPLICATION_PROFILE_SOURCE = true
+APPLICATION_PROFILE_BUILD = true
 
 
 
