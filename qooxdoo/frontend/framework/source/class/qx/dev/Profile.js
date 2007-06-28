@@ -116,24 +116,24 @@ qx.Class.define("qx.dev.Profile", {
      * @return {Number} Overhead of a wrapped function call in milliseconds.
      */
     __calibrate : function(count) {
-      var code = ["function(){ var fcn=qx.dev.Profile.__calibrateHelper;"];
+      var code = ["var fcn = function(){ var fcn=qx.dev.Profile.__calibrateHelper;"];
       for (var i=0; i<count; i++) {
         code.push("fcn();");
       }
       code.push("};");
-      fcn = eval(code.join(""));
+      eval(code.join(""));
       var start = new Date();
       fcn();
       var end = new Date();
       var profTime = end - start;
 
       var plainFunc = function() {};
-      var code = ["function(){ var fcn=plainFunc;"];
+      var code = ["var fcn = function(){ var fcn=plainFunc;"];
       for (var i=0; i<count; i++) {
         code.push("fcn();");
       }
       code.push("};");
-      fcn = eval(code.join(""));
+      eval(code.join(""));
 
       var start = new Date();
       fcn();
