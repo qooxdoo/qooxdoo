@@ -21,7 +21,6 @@
 
 #module(core)
 #require(qx.core.Bootstrap)
-#require(qx.core.Variant)
 #ignore(auto-require)
 #ignore(auto-use)
 
@@ -37,8 +36,8 @@
  * in the header comment using the following code:
  *
  * <pre>
- * #require(qx.core.Aspect)
- * #ignore(auto-require)
+ * &#35;require(qx.core.Aspect)
+ * &#35;ignore(auto-require)
  * </pre>
  *
  * To enable profiling the class must be loaded <b>before</b> <code>qx.Class</code> is
@@ -138,4 +137,4 @@ qx.Class.define("qx.core.Aspect", {
 
   }
 
-})
+});
