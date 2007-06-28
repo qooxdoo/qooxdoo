@@ -967,7 +967,6 @@ qx.Class.define("qx.Class",
 
           }
         }
-
       }
 
       // Create namespace
@@ -1534,9 +1533,7 @@ qx.Class.define("qx.Class",
   *****************************************************************************
   */
 
-  defer : function(statics, members, properties)
-  {
+  defer : function(statics, members, properties) {
     qx.core.Variant.define("qx.aspects", [ "on", "off" ], "off");
   }
-
 });
