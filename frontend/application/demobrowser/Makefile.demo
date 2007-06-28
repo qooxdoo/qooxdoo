@@ -31,6 +31,9 @@ APPLICATION_COMPLETE_BUILD = true
 APPLICATION_HTML_TO_ROOT_URI = ../..
 APPLICATION_LOCALES = de de_DE en en_US es es_ES fr fr_FR
 
+APPLICATION_PROFILE_SOURCE = true
+APPLICATION_PROFILE_BUILD = true
+
 ################################################################################
 # INCLUDE CORE
 ################################################################################
