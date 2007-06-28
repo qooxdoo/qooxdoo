@@ -78,7 +78,7 @@ def generate(variantsList, newLines):
         if not (variantValue == "false" or variantValue == "true" or variantValue == "null" or typeNumber.match(variantValue)):
             variantValue = '"%s"' % variantValue.replace("\"", "\\\"")
 
-        variantsStr += 'qxvariants["%s"]=%s;%s' % (variantKey, variantValue, lineBreak)
+        variantsStr += 'if(qxvariants["%s"]==undefined)qxvariants["%s"]=%s;%s' % (variantKey, variantKey, variantValue, lineBreak)
 
     return variantsStr
 
