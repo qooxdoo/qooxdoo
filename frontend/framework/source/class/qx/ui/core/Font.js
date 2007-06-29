@@ -207,7 +207,8 @@ qx.Class.define("qx.ui.core.Font",
     decoration :
     {
       check : [ "underline", "line-through", "overline" ],
-      nullable : true
+      nullable : true,
+      apply : "_applyDecoration"
     }
   },
 
@@ -232,7 +233,8 @@ qx.Class.define("qx.ui.core.Font",
       this.__size = value === null ? null : value + "px";
     },
 
-    _applyFamily : function(value, old) {
+    _applyFamily : function(value, old) 
+    {
       var family = "";
       for (var i=0, l=value.length; i<l; i++) {
         if (value[i].indexOf(" ") > 0) {
@@ -258,7 +260,7 @@ qx.Class.define("qx.ui.core.Font",
     },
 
     _applyDecoration : function(value, old) {
-      this.__decoration = value || null;
+      this.__decoration = value === null ? null : value;
     },
 
     render : function(widget)
@@ -283,7 +285,7 @@ qx.Class.define("qx.ui.core.Font",
       style.fontSize = this.__size || "";
       style.fontWeight = this.__bold || "";
       style.fontStyle =  this.__italic || "";
-      style.textDecoration = this.getDecoration() || "";
+      style.textDecoration = this.__decoration || "";
     },
 
     renderElement : function(element)
@@ -293,7 +295,7 @@ qx.Class.define("qx.ui.core.Font",
       style.fontSize = this.__size || "";
       style.fontWeight = this.__bold || "";
       style.fontStyle =  this.__italic || "";
-      style.textDecoration = this.getDecoration() || "";
+      style.textDecoration = this.__decoration || "";
     },
 
     /**
@@ -307,7 +309,7 @@ qx.Class.define("qx.ui.core.Font",
              this.__size ? "font-size:" + this.__size + ";" : "" +
              this.__weight ? "font-weight:" + this.__weight + ";" : "" +
              this.__style ? "font-style:" + this.__style + ";" : "" +
-             this.getDecoration() ? "text-decoration:" + this.getDecoration() + ";" : "";
+             this.__decoration ? "text-decoration:" + this.__decoration + ";" : "";
     }
   }
 });
