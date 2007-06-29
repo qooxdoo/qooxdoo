@@ -964,21 +964,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.logappender.clear();
       this.logger.info("load demo: " + value);
 
-      if (this._currentSample == value) {
-        this.f1.reload();
-      }
-      else
-      {
-        // the guru says ...
-        // it is better to use 'replace' than 'setSource', since 'replace' does not interfer
-        // with the history (which is taken care of by the history manager), but there
-        // has to be a loaded document
-        if (this.f1.getContentWindow()) {  // loaded document?
-          this.f1.getContentWindow().location.replace(url);  // use 'replace'
-        } else {
-          this.f1.setSource(url);  // otherwise use 'setSource'
-        }
-      }
+      this._currentSample == value ? this.f1.reload() : this.f1.setSource(url);
 
       this._currentSample = value;
       this._currentSampleUrl = url;
@@ -994,20 +980,15 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     __ehIframeLoaded : function(e)
     {
+      this.debug("Demo loaded...");
+      
       var fwindow = this.f1.getContentWindow();
       var fpath   = fwindow.location.pathname;
       var path    = fwindow.location.pathname.split("/");
 
       //if (this._currentSampleUrl != this.defaultUrl)
-      if (!fpath.match(this.defaultUrl))
-      { // things to do only if a sample was loaded
-        // wait for iframe to load
-        if (!fwindow || !fwindow.qx || !fwindow.qx.log || !fwindow.qx.log.Logger || !fwindow.document || !fwindow.document.body)
-        {
-          qx.client.Timer.once(arguments.callee, this, 50);
-          return;
-        }
-
+      if (this.f1.getSource() != "" && this.f1.getSource() != this.defaultUrl)
+      { 
         // set logger
         fwindow.qx.log.Logger.ROOT_LOGGER.removeAllAppenders();
         fwindow.qx.log.Logger.ROOT_LOGGER.addAppender(this.logappender);
@@ -1062,22 +1043,6 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.widgets["outputviews.demopage.button"].setLabel(this.polish(path[path.length - 1]));
 
     }, // __ehIframeLoaded
-
-
-    __applyModifiedSample : function ()
-    {
-      // get source code
-      var src = this.widgets["outputviews.sourcepage.page"].getValue();
-
-      // inject into iframe document
-      var iDoc = this.widgets["outputviews.demopage.page"].getContentDocument();
-      if (iDoc)
-      {
-        iDoc.open();
-        iDoc.write(src);
-        iDoc.close();
-      }
-    },
 
 
     /**
@@ -1350,7 +1315,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     },
 
     defaultUrl : "html/welcome.html"
-
   },
 
 
