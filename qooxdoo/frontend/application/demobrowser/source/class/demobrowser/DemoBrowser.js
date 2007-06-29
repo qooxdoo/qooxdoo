@@ -215,7 +215,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       toolbar.add((new qx.ui.basic.HorizontalSpacer).set({ width : "1*" }));
 
-      // -- sample: object summary
+      // -- Sample Features
       var gb = new qx.ui.toolbar.Part();
       toolbar.add(gb);
       this.widgets["toolbar.sampbutts"] = gb;
@@ -230,7 +230,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       gb.resetBorder();
       gb.setEnabled(false);
 
-      // object summary
+      // profiling
       var sb0 = new qx.ui.toolbar.CheckBox("Profile", "icon/16/apps/accessories-alarm.png", true);
       gb.add(sb0);
 
@@ -248,6 +248,8 @@ qx.Class.define("demobrowser.DemoBrowser",
           }
         }
       }, this);
+
+      sb0.setToolTip(new qx.ui.popup.ToolTip("Profile Running Sample"));
 
       // object summary
       var sb1 = new qx.ui.toolbar.Button("Object Summary", "icon/16/apps/accessories-magnifier.png");
