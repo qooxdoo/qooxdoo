@@ -55,9 +55,6 @@ qx.Class.define("qx.ui.embed.Iframe",
     this.initSelectable();
     this.initTabIndex();
 
-    this.__onreadystatechange = qx.lang.Function.bind(this._onreadystatechange, this);
-    this.__onload = qx.lang.Function.bind(this._onload, this);
-
     if (vSource != undefined) {
       this.setSource(vSource);
     }
@@ -90,88 +87,19 @@ qx.Class.define("qx.ui.embed.Iframe",
 
   statics :
   {
-    /*
-    ---------------------------------------------------------------------------
-      INIT
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Creates an template iframe element and sets all required html and style properties.
-     *
-     * @type static
-     * @param vFrameName {String} Name of the iframe.
-     */
-    __initIframe : function(vFrameName)
+    load : function(obj)
     {
-      if (qx.ui.embed.Iframe._element && !vFrameName) {
-        return;
+      // Non-MSHTML browsers will input an DOM event here
+      if (obj.currentTarget) {
+        obj = obj.currentTarget;
       }
-
-      if (vFrameName && qx.core.Client.getInstance().isMshtml()) {
-        var f = qx.ui.embed.Iframe._element = document.createElement('<iframe name="' + vFrameName + '"></iframe>');
-      }
-      else
-      {
-        var f = qx.ui.embed.Iframe._element = document.createElement("iframe");
-
-        if (vFrameName) {
-          f.name = vFrameName;
-        }
-      }
-
-      f.frameBorder = "0";
-      f.frameSpacing = "0";
-
-      f.marginWidth = "0";
-      f.marginHeight = "0";
-
-      f.width = "100%";
-      f.height = "100%";
-
-      f.hspace = "0";
-      f.vspace = "0";
-
-      f.border = "0";
-      f.scrolling = "auto";
-      f.unselectable = "on";
-      f.allowTransparency = "true";
-
-      f.style.position = "absolute";
-      f.style.top = 0;
-      f.style.left = 0;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type static
-     * @return {void}
-     */
-    __initBlocker : function()
-    {
-      if (qx.ui.embed.Iframe._blocker) {
-        return;
-      }
-
-      var b = qx.ui.embed.Iframe._blocker = document.createElement("div");
-
-      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-        // Setting the backgroundImage causes an "insecure elements" warning under SSL
-        // b.style.backgroundImage = "url(" + qx.io.Alias.getInstance().resolve("static/image/blank.gif") + ")";
-
-        b.style.backgroundColor = "white";
-        b.style.filter = "Alpha(Opacity=0)";
-      }
-
-      b.style.position = "absolute";
-      b.style.top = 0;
-      b.style.left = 0;
-      b.style.width = "100%";
-      b.style.height = "100%";
-      b.style.zIndex = 1;
-      b.style.display = "none";
+      
+      if (obj && obj._QxIframe) {
+        obj._QxIframe._onload();
+      } else {
+        qx.ui.core.ClientDocument.getInstance().debug(obj, this);
+        throw new Error("Could not find iframe which was loaded!"); 
+      }      
     }
   },
 
@@ -416,12 +344,106 @@ qx.Class.define("qx.ui.embed.Iframe",
 
 
 
+
+    /*
+    ---------------------------------------------------------------------------
+      ELEMENT HELPER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Creates an template iframe element and sets all required html and style properties.
+     *
+     * @type static
+     * @param vFrameName {String} Name of the iframe.
+     */
+    _generateIframeElement : function(vFrameName)
+    {
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        var nameStr = vFrameName ? 'name="' + vFrameName + '"' : '';
+        var frameEl = qx.ui.embed.Iframe._element = document.createElement('<iframe onload="parent.qx.ui.embed.Iframe.load(this)"' + nameStr + '></iframe>');
+      }
+      else
+      {
+        var frameEl = qx.ui.embed.Iframe._element = document.createElement("iframe");
+        
+        frameEl.onload = qx.ui.embed.Iframe.load;
+
+        if (vFrameName) {
+          frameEl.name = vFrameName;
+        }
+      }
+      
+      frameEl._QxIframe = this;
+
+      frameEl.frameBorder = "0";
+      frameEl.frameSpacing = "0";
+
+      frameEl.marginWidth = "0";
+      frameEl.marginHeight = "0";
+
+      frameEl.width = "100%";
+      frameEl.height = "100%";
+
+      frameEl.hspace = "0";
+      frameEl.vspace = "0";
+
+      frameEl.border = "0";
+      frameEl.scrolling = "auto";
+      frameEl.unselectable = "on";
+      frameEl.allowTransparency = "true";
+
+      frameEl.style.position = "absolute";
+      frameEl.style.top = 0;
+      frameEl.style.left = 0;
+      
+      return frameEl;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type static
+     * @return {void}
+     */
+    _generateBlockerElement : function()
+    {
+      var blockerEl = qx.ui.embed.Iframe._blocker = document.createElement("div");
+      var blockerStyle = blockerEl.style;
+
+      if (qx.core.Variant.isSet("qx.client", "mshtml")) 
+      {
+        // Setting the backgroundImage causes an "insecure elements" warning under SSL
+        // blockerStyle.backgroundImage = "url(" + qx.io.Alias.getInstance().resolve("static/image/blank.gif") + ")";
+
+        blockerStyle.backgroundColor = "white";
+        blockerStyle.filter = "Alpha(Opacity=0)";
+      }
+
+      blockerStyle.position = "absolute";
+      blockerStyle.top = 0;
+      blockerStyle.left = 0;
+      blockerStyle.width = "100%";
+      blockerStyle.height = "100%";
+      blockerStyle.zIndex = 1;
+      blockerStyle.display = "none";
+      
+      return blockerEl;
+    },
+    
+    
+    
+    
+    
+    
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
-
+    
     /**
      * TODOC
      *
@@ -431,33 +453,14 @@ qx.Class.define("qx.ui.embed.Iframe",
      */
     _applyElement : function(value, old)
     {
-      var iframeNode = this.getIframeNode();
-
-      if (!iframeNode)
-      {
-        qx.ui.embed.Iframe.__initIframe(this.getFrameName());
-
-        // clone proto element and assign iframe
-        iframeNode = this.setIframeNode(qx.ui.embed.Iframe._element.cloneNode(true));
-
-        qx.ui.embed.Iframe.__initBlocker();
-
-        // clone proto blocker
-        var blockerNode = this.setBlockerNode(qx.ui.embed.Iframe._blocker.cloneNode(true));
-
-        if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-          iframeNode.onreadystatechange = this.__onreadystatechange;
-        } else {
-          iframeNode.onload = this.__onload;
-        }
-      }
+      var iframeNode = this.setIframeNode(this._generateIframeElement());
+      var blockerNode = this.setBlockerNode(this._generateBlockerElement());
 
       this._syncSource();
 
       value.appendChild(iframeNode);
       value.appendChild(blockerNode);
 
-      // create basic widget
       this.base(arguments, value, old);
     },
 
@@ -522,7 +525,16 @@ qx.Class.define("qx.ui.embed.Iframe",
       }
 
       this._isLoaded = false;
-      this.getIframeNode().src = currentSource;
+      
+      // the guru says ...
+      // it is better to use 'replace' than 'src'-attribute, since 'replace' does not interfer
+      // with the history (which is taken care of by the history manager), but there
+      // has to be a loaded document
+      if (this.getContentWindow()) {
+        this.getContentWindow().location.replace(currentSource);
+      } else {
+        this.getIframeNode().src = currentSource;
+      }
     },
 
 
@@ -558,24 +570,13 @@ qx.Class.define("qx.ui.embed.Iframe",
      * @type member
      * @return {void}
      */
-    _onreadystatechange : function()
-    {
-      if (this.getIframeNode().readyState == "complete") {
-        this.dispatchEvent(new qx.event.type.Event("load"), true);
-      }
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
     _onload : function()
     {
-      this._isLoaded = true;
-      this.dispatchEvent(new qx.event.type.Event("load"), true);
+      if (!this._inLoaded) 
+      {
+        this._isLoaded = true;
+        this.createDispatchEvent("load");
+      }
     },
 
 
@@ -603,11 +604,10 @@ qx.Class.define("qx.ui.embed.Iframe",
   {
     if (this._iframeNode)
     {
-      this._iframeNode.onreadystatechange = null;
+      this._iframeNode._QxIframe = null;
       this._iframeNode.onload = null;
     }
 
-    this._disposeFields("__onreadystatechange", "__onload", "_iframeNode",
-      "_blockerNode");
+    this._disposeFields("__onload", "_iframeNode", "_blockerNode");
   }
 });
