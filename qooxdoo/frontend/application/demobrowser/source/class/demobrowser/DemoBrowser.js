@@ -178,7 +178,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.runbutton = new qx.ui.toolbar.Button("Run Sample", "icon/16/actions/media-playback-start.png");
       mb.add(this.runbutton);
       this.widgets["toolbar.runbutton"] = this.runbutton;
-      this.runbutton.addEventListener("execute", this.runTest, this);
+      this.runbutton.addEventListener("execute", this.runSample, this);
       this.runbutton.setToolTip(new qx.ui.popup.ToolTip("Run/reload selected sample"));
 
       // -- previous navigation
@@ -552,7 +552,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         if (e.getTarget() instanceof qx.ui.tree.TreeFile)
         {
           // allow treeGetSelection to run first
-          qx.client.Timer.once(this.runTest, this, 50);
+          qx.client.Timer.once(this.runSample, this, 50);
         }
         else
         {
@@ -889,7 +889,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      * @param e {Event} TODOC
      * @return {void}
      */
-    runTest : function(e)
+    runSample : function(e)
     {
       // -- Feasibility Checks -----------------
       if (!this.tests.selected) {
@@ -906,7 +906,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
         this.setCurrentSample(file);
       }
-    },  // runTest()
+    },  // runSample()
 
 
     /**
@@ -1184,7 +1184,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         if (otherSamp)
         {
           this.widgets["treeview.full"].setSelectedElement(otherSamp);
-          this.runTest();
+          this.runSample();
         }
       }
     },
@@ -1208,7 +1208,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         if (otherSamp)
         {
           this.widgets["treeview.full"].setSelectedElement(otherSamp);
-          this.runTest();
+          this.runSample();
         }
       }
     },
