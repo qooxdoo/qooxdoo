@@ -1085,7 +1085,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       req.addEventListener("completed", function(evt)
       {
         var loadEnd = new Date();
-        this.debug("Time to load data from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
+        this.debug("Time to load page source from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
 
         var content = evt.getData().getContent();
 
