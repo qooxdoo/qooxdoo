@@ -15,6 +15,23 @@
    Authors:
      * Sebastian Werner (wpbasti)
 
+
+   This class contains code based on the following work:
+
+     Base2:
+       http://code.google.com/p/base2/
+       Version 0.9
+
+     Copyright:
+       (c) 2006-2007, Dean Edwards
+
+     License:
+       MIT: http://www.opensource.org/licenses/mit-license.php
+
+     Authors:
+       * Dean Edwards
+
+
 ************************************************************************ */
 
 /* ************************************************************************
@@ -25,12 +42,290 @@
 
 /**
  * High performance DOM element interaction.
- * Supports cross-browser attribute, style and CSS handling
  */
 qx.Class.define("qx.html2.ElementUtil",
 {
   statics :
   {
+    /*
+    ---------------------------------------------------------------------------
+      NODE CREATION & TYPES
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Creates an DOM element
+     *
+     * @type static
+     * @param name {String} Tag name of the element
+     * @param xhtml {Boolean?false} Enable XHTML
+     * @return {Element} the created element node
+     */
+    createElement : function(name, xhtml)
+    {
+      if (xhtml) {
+        return document.createElementNS("http://www.w3.org/1999/xhtml", name);
+      } else {
+        return document.createElement(name);
+      }
+    },
+
+
+    /**
+     * Whether the given node is a DOM element
+     *
+     * @type static
+     * @param node {Node} the node which should be tested
+     * @return {Boolean} true if the node is a DOM element
+     */
+    isElement : function(node) {
+      return !!(node && node.nodeType === qx.dom.Node.ELEMENT);
+    },
+
+
+    /**
+     * Whether the given node is a document
+     *
+     * @type static
+     * @param node {Node} the node which should be tested
+     * @return {Boolean} true when the node is a document
+     */
+    isDocument : function(node) {
+      return !!(node && node.nodeType === qx.dom.Node.DOCUMENT);
+    },
+
+
+
+
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      NODE STRUCTURE
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Returns the owner document of the given node
+     *
+     * @type static
+     * @param node {Node} the node which should be tested
+     * @return {Document|null} The document of the given DOM node
+     */
+    getDocument : function(node) {
+      return node.ownerDocument || node.document || null;
+    },
+
+
+    /**
+     * Returns the DOM2 "defaultView" which represents the window
+     * of a DOM node
+     *
+     * @type static
+     * @param node {Node} TODOC
+     * @return {var} TODOC
+     */
+    getDefaultView : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(node) {
+        return this.getDocument(node).parentWindow;
+      },
+
+      "default" : function(node) {
+        return this.getDocument(node).defaultView;
+      }
+    }),
+
+
+    /**
+     * Whether the first element contains the second one
+     *
+     * @type static
+     * @param el {Element} Parent element
+     * @param target {Node} Child node
+     * @return {Boolean}
+     */
+    contains : function(el, target)
+    {
+      if (el.contains)
+      {
+        return this.isDocument(el) ?
+          el === this.getOwnerDocument(target) :
+          el !== target && el.contains(target);
+      }
+      else
+      {
+        while (target && (target = target.parentNode) && el != target) {
+          continue;
+        }
+
+        return !!target;
+      }
+    },
+
+
+    /**
+     * Whether the given element is empty
+     *
+     * @type static
+     * @param el {Element} The element to check
+     * @return {Boolean} true when the element is empty
+     */
+    isEmpty : function(el)
+    {
+      el = el.firstChild;
+
+      while (el)
+      {
+        if (el.nodeType === qx.dom.Node.ELEMENT || el.nodeType === qx.dom.Node.TEXT) {
+          return false;
+        }
+
+        el = el.nextSibling;
+      }
+
+      return true;
+    },
+
+
+    /**
+     * Returns the DOM index of the given node
+     *
+     * @type static
+     * @param node {Node} TODOC
+     * @return {Integer} The DOM index
+     */
+    getNodeIndex : function(node)
+    {
+      var index = 0;
+
+      while (node && (node = node.previousSibling)) {
+        index++;
+      }
+
+      return index;
+    },
+
+
+    /**
+     * Return the next element to the supplied element
+     *
+     * "nextSibling" is not good enough as it might return a text or comment el
+     *
+     * @type static
+     * @param el {Element} TODOC
+     * @return {Element|null} TODOC
+     */
+    getNextElementSibling : function(el)
+    {
+      while (el && (el = el.nextSibling) && !this.isElement(el)) {
+        continue;
+      }
+
+      return el || null;
+    },
+
+
+    /**
+     * Return the previous element to the supplied element
+     *
+     * "previousSibling" is not good enough as it might return a text or comment el
+     *
+     * @type static
+     * @param el {Element} TODOC
+     * @return {Element|null} TODOC
+     */
+    getPreviousElementSibling : function(el)
+    {
+      while (el && (el = el.previousSibling) && !this.isElement(el)) {
+        continue;
+      }
+
+      return el || null;
+    },
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      ELEMENT CLASS NAME
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Adds a className to the given element
+     * If successfully added the given className will be returned
+     *
+     * Inspired by Dean Edwards' Base2
+     *
+     * @type static
+     * @param element {Element} The element to modify
+     * @param className {String} The new class name
+     * @return {String} The added classname (if so)
+     */
+    addClass : function(element, className)
+    {
+      if (!this.hasClass(element, className))
+      {
+        element.className += (element.className ? " " : "") + className;
+        return className;
+      }
+    },
+
+
+    /**
+     * Whether the given element has the given className.
+     *
+     * Inspired by Dean Edwards' Base2
+     *
+     * @type static
+     * @param element {Element} The DOM element to check
+     * @param className {String} The class name to check for
+     * @return {var} TODOC
+     */
+    hasClass : function(element, className)
+    {
+      var regexp = new RegExp("(^|\\s)" + className + "(\\s|$)");
+      return regexp.test(element.className);
+    },
+
+
+    /**
+     * Removes a className from the given element
+     *
+     * Inspired by Dean Edwards' Base2
+     *
+     * @type static
+     * @param element {Element} The DOM element to modify
+     * @param className {String} The class name to remove
+     * @return {String} The removed class name
+     */
+    removeClass : function(element, className)
+    {
+      var regexp = new RegExp("(^|\\s)" + className + "(\\s|$)");
+      element.className = element.className.replace(regexp, "$2");
+
+      return className;
+    },
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      ELEMENT ATTRIBUTES
+    ---------------------------------------------------------------------------
+    */
+
     /** Internal map of attribute convertions */
     __attributeHints :
     {
@@ -91,41 +386,41 @@ qx.Class.define("qx.html2.ElementUtil",
       "mshtml" : function(el, name)
       {
         var hints = this.__attributeHints;
-  
+
         // normalize name
         name = hints.names[name] || name;
-  
+
         // respect properties
         if (hints.property[name]) {
           return el[name];
         }
-  
+
         // respect original values
         // http://msdn2.microsoft.com/en-us/library/ms536429.aspx
         if (hints.mshtmlOriginal[name]) {
           return el.getAttribute(name, 2);
         }
-  
+
         return el.getAttribute(name);
       },
-      
+
       "default" : function(el, name)
       {
         var hints = this.__attributeHints;
-  
+
         // normalize name
         name = hints.names[name] || name;
-  
+
         // respect properties
         if (hints.property[name]) {
           return el[name];
         }
-  
-        return el.getAttribute(name);        
+
+        return el.getAttribute(name);
       }
     }),
 
-    
+
     /**
      * Sets a HTML attribute on an DOM element
      *
@@ -159,9 +454,19 @@ qx.Class.define("qx.html2.ElementUtil",
     },
 
 
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      ELEMENT CSS
+    ---------------------------------------------------------------------------
+    */
+
     /**
      * Set the full CSS content of the style attribute
-     * 
+     *
      * @type static
      * @param el {Element} The DOM element to modify
      * @param value {String} The full CSS string
@@ -200,6 +505,17 @@ qx.Class.define("qx.html2.ElementUtil",
     }),
 
 
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      ELEMENT STYLE
+    ---------------------------------------------------------------------------
+    */
+
     /** Internal map of style property convertions */
     __styleHints :
     {
@@ -208,28 +524,28 @@ qx.Class.define("qx.html2.ElementUtil",
         "float" : qx.core.Client.getInstance().isMshtml() ? "styleFloat" : "cssFloat"
       }
     },
-    
-    
+
+
     /**
      * Converts a script style property name to the CSS variant e.g. marginTop => margin-top
      *
      * @type static
-     * @param name {String} Name of the style attribute (CSS variant e.g. marginTop, wordSpacing)    
+     * @param name {String} Name of the style attribute (CSS variant e.g. marginTop, wordSpacing)
      * @return {String} the CSS style name e.g. margin-top, word-spacing
      */
     toCssStyle : function(name) {
       return name.replace(/([A-Z])/g, '-$1').toLowerCase();
     },
-    
-    
+
+
     /**
      * Converts a CSS style property name to the script variant e.g. margin-top => marginTop
      *
      * @type static
-     * @param name {String} Name of the style attribute (CSS variant e.g. margin-top, word-spacing)    
+     * @param name {String} Name of the style attribute (CSS variant e.g. margin-top, word-spacing)
      * @return {String} the script style name e.g. marginTop, wordSpacing
      */
-    toScriptStyle : function(name) 
+    toScriptStyle : function(name)
     {
   		return name.replace(/\-([a-z])/g, function(match, chr) {
   			return chr.toUpperCase();
@@ -242,7 +558,7 @@ qx.Class.define("qx.html2.ElementUtil",
      *
      * @type static
      * @param el {Element} The DOM element to modify
-     * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)    
+     * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)
      * @param value {var} the value for the given style
      * @return {void}
      */
@@ -257,13 +573,13 @@ qx.Class.define("qx.html2.ElementUtil",
       el.style[name] = value || "";
     },
 
-    
+
     /**
      * Returns the computed value of a style property
      *
      * @type static
      * @param el {Element} The DOM element to query
-     * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)    
+     * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)
      * @signature function(el, name)
      * @return {var} the value of the given style
      */
@@ -286,14 +602,14 @@ qx.Class.define("qx.html2.ElementUtil",
         // auto should be interpreted as null
         return value === "auto" ? null : value;
       },
-     
+
       // Support for the DOM2 getComputedStyle method
       //
-      // Safari >= 3 & Gecko > 1.4 expose all properties to the returned 
-      // CSSStyleDeclaration object. In older browsers the function 
+      // Safari >= 3 & Gecko > 1.4 expose all properties to the returned
+      // CSSStyleDeclaration object. In older browsers the function
       // "getPropertyValue" is needed to access the values.
       //
-      // On a computed style object all properties are read-only which is 
+      // On a computed style object all properties are read-only which is
       // identical to the behavior of MSHTML's "currentStyle".
       "default" : function(el, name)
       {
@@ -312,7 +628,7 @@ qx.Class.define("qx.html2.ElementUtil",
           // Opera, Mozilla and Safari 3+ also have a global getComputedStyle which is identical
           // to the one found under document.defaultView.
           var computed = getComputedStyle(el, null);
-          
+
           // All relevant browsers expose the configured style properties to the CSSStyleDeclaration
           // objects
           if (computed) {
