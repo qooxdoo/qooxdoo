@@ -20,6 +20,7 @@
 
 /**
  * Crossbrowser operations on DOM Elements
+ * @deprecated
  */
 qx.Class.define("qx.dom.Element",
 {
