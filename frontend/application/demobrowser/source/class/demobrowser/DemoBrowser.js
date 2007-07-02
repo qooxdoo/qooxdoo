@@ -94,8 +94,8 @@ qx.Class.define("demobrowser.DemoBrowser",
     right.add(this.toolbar);
 
     // output views
-    var rightCont = this.__makeOutputViews();
-    right.add(rightCont);
+    var buttview = this.__makeOutputViews();
+    right.add(buttview);
 
     // add eventhandler now, after objects are created
     this.widgets["treeview"].getBar().getManager().addEventListener("changeSelected", this.__ehTreeSelection, this);
@@ -383,53 +383,43 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     __makeOutputViews : function()
     {
-      // Vertical Split
-      var vertsplit = new qx.ui.splitpane.VerticalSplitPane("60%","1*");
-      vertsplit.setLiveResize(true);
-      vertsplit.set({ 
-        height : "100%",
-        width : "100%" 
-      });
-
-
-      // Demo Page
-      //this.widgets["outputviews.demopage.button"] = bsb1;
-      var f1 = new qx.ui.embed.Iframe;
-      vertsplit.addTop(f1);
-      this.f1 = f1;
-      this.widgets["outputviews.demopage.page"] = f1;
-
-      f1.set(
-      {
-        edge     : 0,
-        overflow : "auto",
-        height   : "100%",
-        width    : "100%",
-        border   : "line-bottom"
-      });
-
-      f1.addEventListener("load", this.__ehIframeLoaded, this);
-
-
-      // Tabview Container
+      // Main Container
       var buttview = new qx.ui.pageview.tabview.TabView();
-      vertsplit.addBottom(buttview);
 
       buttview.set(
       {
-        //height  : "1*",
-        //overflow: "auto",
-        border  : "line-top",
-        edge    : 0,
+        height  : "1*",
         padding : 10
       });
 
       this.widgets["outputviews"] = buttview;
       this.widgets["outputviews.bar"] = buttview.getBar();
-      buttview.getPane().set({
+
+      // First Page
+      var bsb1 = new qx.ui.pageview.tabview.Button("Start", "icon/16/actions/system-run.png");
+      this.widgets["outputviews.demopage.button"] = bsb1;
+      bsb1.setChecked(true);
+      buttview.getBar().add(bsb1);
+
+      var p1 = new qx.ui.pageview.tabview.Page(bsb1);
+      p1.set({ padding : [ 5 ] });
+      buttview.getPane().add(p1);
+
+      var f1 = new qx.ui.embed.Iframe;
+      this.f1 = f1;
+      p1.add(f1);
+      this.widgets["outputviews.demopage.page"] = f1;
+
+      f1.set(
+      {
+        overflow : "auto",
         height   : "100%",
-        overflow : "auto"
+        width    : "100%",
+        border   : "dark-shadow"
       });
+
+      f1.addEventListener("load", this.__ehIframeLoaded, this);
+
 
       // Second Page
       var bsb2 = new qx.ui.pageview.tabview.Button("Log", "icon/16/mimetypes/text-ascii.png");
@@ -444,8 +434,8 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       pp2.set(
       {
-        //height : "100%",
-        //width  : "100%"
+        height : "100%",
+        width  : "100%"
       });
 
       // main output area
@@ -454,9 +444,9 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       this.f2.set(
       {
-        //overflow : "auto",
-        //height   : "1*",
-        //width    : "100%",
+        overflow : "auto",
+        height   : "1*",
+        width    : "100%",
         border   : "dark-shadow",
         font     : "monospace"
       });
@@ -487,15 +477,15 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       f3.set(
       {
-        //overflow : "auto",
-        //width    : "100%",
-        //height   : "100%",
+        overflow : "auto",
+        width    : "100%",
+        height   : "100%",
         border   : "dark-shadow",
         font     : "monospace"   
       });
       f3.setHtmlProperty("id", "qx_srcview");
 
-      return vertsplit;
+      return buttview;
 
     },  // __makeOutputViews()
 
@@ -938,7 +928,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       // -- Vars and Setup -----------------------
       this.toolbar.setEnabled(false);
-      //this.widgets["outputviews.bar"].getManager().setSelected(this.widgets["outputviews.demopage.button"]);
+      this.widgets["outputviews.bar"].getManager().setSelected(this.widgets["outputviews.demopage.button"]);
       this.widgets["outputviews.demopage.page"].setEnabled(false);
 
       /*
@@ -1052,7 +1042,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.widgets["toolbar.sampbutts"].resetEnabled();  // in case it was disabled
       this.widgets["treeview"].resetEnabled();
 
-      //this.widgets["outputviews.demopage.button"].setLabel(this.polish(path[path.length - 1]));
+      this.widgets["outputviews.demopage.button"].setLabel(this.polish(path[path.length - 1]));
 
     }, // __ehIframeLoaded
 
