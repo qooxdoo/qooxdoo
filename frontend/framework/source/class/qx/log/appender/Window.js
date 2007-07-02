@@ -220,7 +220,7 @@ qx.Class.define("qx.log.appender.Window",
       {
         winTop = window.screen.height - winHeight;
       }
-      var params = "toolbar=no,scrollbars=yes,resizable=yes," + "width=" + winWidth + ",height=" + winHeight + ",left=" + winLeft + ",top=" + winTop;
+      var params = "toolbar=no,scrollbars=no,resizable=yes," + "width=" + winWidth + ",height=" + winHeight + ",left=" + winLeft + ",top=" + winTop;
 
       // NOTE: In window.open the browser will process the event queue.
       //     Which means that other log events may arrive during this time.
@@ -259,27 +259,37 @@ qx.Class.define("qx.log.appender.Window",
       logDocument.open();
       logDocument.write("<html><head><title>" + this._name + "</title></head>"
         + '<body onload="qx = opener.qx;" onunload="try{qx.log.WindowAppender._registeredAppenders[' + this._id + ']._autoCloseWindow()}catch(e){}">'
-        + '  <div style="height:7%; font-size:11; font-family:Arial,sans-serif">'
-        + '<input id="marker" type="button" value="Set mark"></input> &nbsp; &nbsp; Filter: <input name="filter" id="filter" type="text" value="'+ this._filterText +'" size="70" maxlength="100">'
+        + '  <style type="text/css">'
+        + '    html, body, input, pre{ font-size: 11px; font-family: Tahoma, sans-serif; line-height : 1 }'
+        + '    html, body{ padding: 0; margin: 0; border : 0 none; }'
+        + '    * { box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box }'
+        + '    #lines{ top: 30px; left: 0; right: 0; bottom: 0; position: absolute; overflow: auto; }'
+        + '    #control { top: 0; left: 0; right: 0; padding: 4px 8px; background: #eee; border-bottom: 1px solid #ccc; height: 30px }'
+        + '    pre { margin: 0; padding: 4px 8px; font-family: Consolas, "Bitstream Vera Sans Mono", monospace; }'
+        + '    hr { border: 0 none; border-bottom: 1px solid #ccc; margin: 8px 0; padding: 0; height: 1px }'
+        + '    #lines { width: 100%; height: expression((document.body.offsetHeight - 30) + "px"); }'
+        + '  </style>'
+        + '  <div id="control">'
+        + '    <input id="marker" type="button" value="Add divider"/> &#160; &#160; Filter: <input name="filter" id="filter" type="text" value="'+ this._filterText +'">'
         + '  </div>'
-        + '  <div id="lines" style="height:92%; width:100%; overflow:auto">'
-        + '    <pre id="log" wrap="wrap" style="font-size:11px"></pre>'
+        + '  <div id="lines">'
+        + '    <pre id="log" wrap="wrap"></pre>'
         + '  </div>'
         + '</body></html>');
       logDocument.close();
 
       this._logElem = logDocument.getElementById("log");
-    this._markerBtn = logDocument.getElementById("marker");
-    this._filterInput = logDocument.getElementById("filter");
-    this._logLinesDiv = logDocument.getElementById("lines");
-
-    var self = this;
-    this._markerBtn.onclick = function() {
-      self._showMessageInLog("\n-----------------------------------------------------\n\n");
-    };
-    this._filterInput.onkeyup = function(){
-      self.setFilterText(self._filterInput.value);
-    }
+      this._markerBtn = logDocument.getElementById("marker");
+      this._filterInput = logDocument.getElementById("filter");
+      this._logLinesDiv = logDocument.getElementById("lines");
+  
+      var self = this;
+      this._markerBtn.onclick = function() {
+        self._showMessageInLog("<hr/>");
+      };
+      this._filterInput.onkeyup = function(){
+        self.setFilterText(self._filterInput.value);
+      }
 
       // Log the events from the queue
       if (this._logEventQueue != null)
@@ -397,12 +407,13 @@ qx.Class.define("qx.log.appender.Window",
         } else {
           txt = qx.html.String.fromText(this.formatLogEvent(evt));
         }
-    divElem.innerHTML = txt;
+        
+        divElem.innerHTML = txt;
 
         this._logElem.appendChild(divElem);
-      var divDataSet = {txt:txt.toUpperCase(), elem:divElem};
-      this._divDataSets.push(divDataSet);
-      this._setDivVisibility(divDataSet);
+        var divDataSet = {txt:txt.toUpperCase(), elem:divElem};
+        this._divDataSets.push(divDataSet);
+        this._setDivVisibility(divDataSet);
 
         while (this._logElem.childNodes.length > this.getMaxMessages())
         {
@@ -425,37 +436,37 @@ qx.Class.define("qx.log.appender.Window",
     },
 
 
-  /**
-   * Sets the filter text to use. Only log events containing all words of the
-   * given text will be shown
-   *
-   * @param text {String} filter text
-   */
-  setFilterText : function(text)
-  {
-    if (text == null){
-      text = "";
-    }
-    this._filterText = text;
-    text = text.toUpperCase();
-    this._filterTextWords = text.split(" ");
-
-    for(var divIdx=0; divIdx < this._divDataSets.length; divIdx++) {
-      this._setDivVisibility(this._divDataSets[divIdx]);
-    }
-  },
-
-
-  _setDivVisibility : function(divDataSet)
-  {
-    var visible = true;
-
-    for(var txtIndex=0; visible && (txtIndex < this._filterTextWords.length); txtIndex++) {
-      visible = divDataSet.txt.indexOf(this._filterTextWords[txtIndex]) >= 0;
-    }
-
-    divDataSet.elem.style["display"] = (visible ? "" : "none");
-  },
+    /**
+     * Sets the filter text to use. Only log events containing all words of the
+     * given text will be shown
+     *
+     * @param text {String} filter text
+     */
+    setFilterText : function(text)
+    {
+      if (text == null){
+        text = "";
+      }
+      this._filterText = text;
+      text = text.toUpperCase();
+      this._filterTextWords = text.split(" ");
+  
+      for(var divIdx=0; divIdx < this._divDataSets.length; divIdx++) {
+        this._setDivVisibility(this._divDataSets[divIdx]);
+      }
+    },
+  
+  
+    _setDivVisibility : function(divDataSet)
+    {
+      var visible = true;
+  
+      for(var txtIndex=0; visible && (txtIndex < this._filterTextWords.length); txtIndex++) {
+        visible = divDataSet.txt.indexOf(this._filterTextWords[txtIndex]) >= 0;
+      }
+  
+      divDataSet.elem.style["display"] = (visible ? "" : "none");
+    },
 
 
     /**
@@ -491,7 +502,16 @@ qx.Class.define("qx.log.appender.Window",
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct : function() 
+  {
     this._autoCloseWindow();
+    
+    if (this._markerBtn) {
+      this._markerBtn.onclick = null;
+    }
+
+    if (this._filterInput) {
+      this._filterInput.onkeyup = null;
+    }
   }
 });
