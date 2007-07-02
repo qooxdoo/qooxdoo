@@ -25,9 +25,10 @@ qx.Class.define("testrunner.test.EditDistance",
   {
     assertTransform : function(strA, strB)
     {
-      var operations = qx.util.EditDistance.getEditOperations(strA, strB);
+      arrA = qx.lang.String.toArray(strA);
+      arrB = qx.lang.String.toArray(strB);
 
-      arr = qx.lang.String.toArray(strA);
+      var operations = qx.util.EditDistance.getEditOperations(arrA, arrB);
 
       for (var i=0, l=operations.length; i<l; i++)
       {
@@ -36,15 +37,15 @@ qx.Class.define("testrunner.test.EditDistance",
         switch(job.operation)
         {
           case qx.util.EditDistance.OPERATION_DELETE:
-            qx.lang.Array.removeAt(arr, job.pos);
+            qx.lang.Array.removeAt(arrA, job.pos);
             break;
 
           case qx.util.EditDistance.OPERATION_REPLACE:
-            arr[job.pos] = job.value;
+            arrA[job.pos] = job.value;
             break;
 
           case qx.util.EditDistance.OPERATION_INSERT:
-            qx.lang.Array.insertAt(arr, job.value, job.pos);
+            qx.lang.Array.insertAt(arrA, job.value, job.pos);
             break;
 
           default:
@@ -52,7 +53,7 @@ qx.Class.define("testrunner.test.EditDistance",
         }
       }
 
-      result = arr.join("");
+      result = arrA.join("");
 
       if (result !== strB) {
         throw new Error("Implementation could not transform: " + strA + " to " + strB + "! Result was: " + result);
