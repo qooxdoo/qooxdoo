@@ -619,22 +619,46 @@ qx.Class.define("qx.ui.form.TextField",
     */
 
     /**
-     * Overridden from {@link qx.ui.core.Widget#_visualizeFocus}: set the focus to the inputElement and not
-     * to the parent div.
+     * Overridden from {@link qx.ui.core.Widget#_visualizeFocus}: set the focus to the inputElement 
+     * and not to the parent div.
      *
      * @type member
      */
     _visualizeFocus : function()
     {
+      this.base(arguments);
+      
       if (!qx.event.handler.FocusHandler.mouseFocus && this.getEnableElementFocus())
       {
         try {
           this._inputElement.focus();
         } catch(ex) {}
       }
-
-      this.base(arguments);
     },
+    
+
+    /**
+     * Overridden from {@link qx.ui.core.Widget#_visualizeFocus}: set the focus to the inputElement 
+     * and not to the parent div.
+     *
+     * @type member
+     */
+    _visualizeBlur : function()
+    {
+      this.base(arguments);
+      
+      // Blur always, not only when element focussing is enabled.
+      // We need to remove the caret in all cases.
+      // This sometimes does not work in IE (caret keeps blinking)
+      // but key events are not handled by the text field anymore.
+      if (!qx.event.handler.FocusHandler.mouseFocus)
+      {
+        try {
+          this._inputElement.blur();    
+        } catch(ex) {}
+      }      
+    },
+    
 
     /**
      * Return the current value of the text field. The computed values is
