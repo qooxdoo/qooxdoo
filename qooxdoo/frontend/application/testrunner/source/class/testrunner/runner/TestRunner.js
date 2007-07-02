@@ -1093,12 +1093,6 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       this.frameWindow = iframe.getContentWindow();
 
-      if (!this.frameWindow || !this.frameWindow.testrunner || !this.frameWindow.testrunner.TestLoader || !this.frameWindow.testrunner.TestLoader.getInstance())
-      {  // wait for the iframe to load
-        qx.client.Timer.once(arguments.callee, this, 50);
-        return;
-      }
-
       this.loader = this.frameWindow.testrunner.TestLoader.getInstance();
       this.loader.getLogger().getParentLogger().addAppender(this.logappender);
       var testRep = this.loader.getTestDescriptions();
