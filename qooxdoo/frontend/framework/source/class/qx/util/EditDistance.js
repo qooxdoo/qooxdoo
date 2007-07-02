@@ -68,7 +68,7 @@ qx.Class.define("qx.util.EditDistance",
       {
         for (posB=1; posB<=dataB.length; posB++)
         {
-          cost = dataA[posA-1] === dataB[posB-1] ? 0 : 1;
+          cost = dataA.charAt(posA-1) === dataB.charAt(posB-1) ? 0 : 1;
 
           if (distance[posA] === undefined) {
             distance[posA] = [];
@@ -106,7 +106,7 @@ qx.Class.define("qx.util.EditDistance",
         // insert from begin to end
         // reverted order than in all other cases for optimal performance
         for (var i=0; i<posB; i++) {
-          operations.push({ operation : this.OPERATION_INSERT, pos : i, old : null, value : dataB[i] });
+          operations.push({ operation : this.OPERATION_INSERT, pos : i, old : null, value : dataB.charAt(i) });
         }
 
         return operations;
@@ -116,7 +116,7 @@ qx.Class.define("qx.util.EditDistance",
       {
         // remove from end to begin
         for (var i=posA-1; i>=0; i--) {
-          operations.push({ operation : this.OPERATION_DELETE, pos : i, old : dataA[i], value : null });
+          operations.push({ operation : this.OPERATION_DELETE, pos : i, old : dataA.charAt(i), value : null });
         }
 
         return operations;
@@ -126,24 +126,24 @@ qx.Class.define("qx.util.EditDistance",
       {
         if (posA != 0 && distance[posA][posB] == distance[posA-1][posB] + 1)
         {
-          // console.log("delete " + dataA[posA-1] + ": " + (posA-1));
-          operations.push({ operation : this.OPERATION_DELETE, pos : posA-1, old : dataA[posA-1], value : null });
+          // console.log("delete " + dataA.charAt(posA-1) + ": " + (posA-1));
+          operations.push({ operation : this.OPERATION_DELETE, pos : posA-1, old : dataA.charAt(posA-1), value : null });
 
           posA-=1;
         }
         else if (posB != 0 && distance[posA][posB] == distance[posA][posB-1] + 1)
         {
-          // console.log("insert " + dataB[posB-1] + " ein, in: " + (posA));
-          operations.push({ operation : this.OPERATION_INSERT, pos : posA, old : null, value : dataB[posB-1] });
+          // console.log("insert " + dataB.charAt(posB-1) + " ein, in: " + (posA));
+          operations.push({ operation : this.OPERATION_INSERT, pos : posA, old : null, value : dataB.charAt(posB-1) });
 
           posB-=1;
         }
         else
         {
-          if (dataA[posA-1]!==dataB[posB-1])
+          if (dataA.charAt(posA-1)!==dataB.charAt(posB-1))
           {
-            // console.log("replace " + dataA[posA-1] + " durch " + dataB[posB-1] + ".");
-            operations.push({ operation : this.OPERATION_REPLACE, pos : posA-1, old : dataA[posA-1], value : dataB[posB-1] });
+            // console.log("replace " + dataA.charAt(posA-1) + " durch " + dataB.charAt(posB-1) + ".");
+            operations.push({ operation : this.OPERATION_REPLACE, pos : posA-1, old : dataA.charAt(posA-1), value : dataB.charAt(posB-1) });
           }
 
           posA-=1;
