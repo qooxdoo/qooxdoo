@@ -1,3 +1,32 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#module(html2)
+
+************************************************************************ */
+
+/**
+ * High performance DOM element interaction.
+ * Supports cross-browser attribute, style and CSS handling
+ */
 qx.Class.define("qx.html2.ElementUtil",
 {
   statics :
@@ -99,6 +128,11 @@ qx.Class.define("qx.html2.ElementUtil",
     
     /**
      * Sets a HTML attribute on an DOM element
+     *
+     * Correctly supports HTML "for" attribute
+     * Can handle both name variants lowercase & camelcase
+     * Supports for "text" property to define innerText/textContent
+     * Supports for "html" property to define innerHTML content
      *
      * @param el {Element} The DOM element to modify
      * @param name {String} Name of the attribute
