@@ -1553,40 +1553,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      */
     _visualizeBlur : function()
     {
-      // Force blur, even if mouseFocus is not active because we
-      // need to be sure that the previous focus rect gets removed.
-      // But this only needs to be done, if there is no new focused element.
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
-        if (this.getEnableElementFocus() && !this.getFocusRoot().getFocusedChild())
-        {
-          try
-          {
-            if (this.getEditable()) {
-              this.getField().getElement().blur();
-            } else {
-              this.getElement().blur();
-            }
-          }
-          catch(ex) {}
-        }
-      }
-      else
-      {
-        if (this.getEnableElementFocus())
-        {
-          try
-          {
-            if (this.getEditable()) {
-              this.getField().getElement().blur();
-            } else if (!this.getFocusRoot().getFocusedChild()) {
-              this.getElement().blur();
-            }
-          }
-          catch(ex) {}
-        }
-      }
-
+      this.getField()._visualizeBlur();
       this.removeState("focused");
     },
 
@@ -1598,23 +1565,8 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
      */
     _visualizeFocus : function()
     {
-      if (!qx.event.handler.FocusHandler.mouseFocus && this.getEnableElementFocus())
-      {
-        try
-        {
-          if (this.getEditable())
-          {
-            this.getField().getElement().focus();
-            this.getField()._ontabfocus();
-          }
-          else
-          {
-            this.getElement().focus();
-          }
-        }
-        catch(ex) {}
-      }
-
+      this.getField()._visualizeFocus();
+      this.getField().selectAll();
       this.addState("focused");
     }
   },
