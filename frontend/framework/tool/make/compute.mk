@@ -198,7 +198,14 @@ endif
 COMPUTED_SOURCE_SETTING += --use-setting qx.application:$(APPLICATION_NAMESPACE).$(APPLICATION_CLASSNAME)
 COMPUTED_BUILD_SETTING += --use-setting qx.application:$(APPLICATION_NAMESPACE).$(APPLICATION_CLASSNAME)
 
+# profiler settings
+ifeq ($(APPLICATION_PROFILE_SOURCE),true)
+	COMPUTED_SOURCE_SETTING += --use-setting qx.enableAspect:true
+endif
 
+ifeq ($(APPLICATION_PROFILE_BUILD),true)
+	COMPUTED_BUILD_SETTING += --use-setting qx.enableAspect:true
+endif
 
 
 
@@ -338,15 +345,15 @@ else
   COMPUTED_BUILD_VARIANT += --use-variant qx.compatibility:on
 endif
 
-# profiler variants
 ifeq ($(APPLICATION_PROFILE_SOURCE),true)
-	COMPUTED_SOURCE_VARIANT += --use-variant qx.aspects:on
+  COMPUTED_SOURCE_VARIANT += --use-variant qx.aspects:on
 endif
 
-ifeq ($(APPLICATION_PROFILE_BUILD),true)
-	COMPUTED_BUILD_VARIANT += --use-variant qx.aspects:on
-else
-  COMPUTED_BUILD_VARIANT += --use-variant qx.aspects:off
+# profiler variants
+ifeq ($(APPLICATION_OPTIMIZE_REMOVE_ASPECTS),true)
+	ifneq ($(APPLICATION_PROFILE_BUILD),true)
+	  COMPUTED_BUILD_VARIANT += --use-variant qx.aspects:off
+	endif
 endif
 
 

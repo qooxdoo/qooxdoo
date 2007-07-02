@@ -176,6 +176,8 @@ qx.Class.define("qx.core.Variant",
     /**
      * Load variants from URL parameters if the setting <code>"qx.allowUrlSettings"</code>
      * is set to true.
+     *
+     * The url scheme for variants is: <code>qxvariant:VARIANT_NAME:VARIANT_VALUE</code>.
      */
     __loadUrlVariants : function()
     {
