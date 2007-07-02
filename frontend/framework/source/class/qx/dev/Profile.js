@@ -127,8 +127,10 @@ qx.Class.define("qx.dev.Profile", {
       var end = new Date();
       var profTime = end - start;
 
-      var plainFunc = function() {};
-      var code = ["var fcn = function(){ var fcn=plainFunc;"];
+      var code = [
+        "var plainFunc = function() {};",
+        "var fcn = function(){ var fcn=plainFunc;"
+      ];
       for (var i=0; i<count; i++) {
         code.push("fcn();");
       }
