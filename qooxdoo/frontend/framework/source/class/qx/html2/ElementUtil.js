@@ -196,7 +196,7 @@ qx.Class.define("qx.html2.ElementUtil",
      * Returns the DOM index of the given node
      *
      * @type static
-     * @param node {Node} TODOC
+     * @param node {Node} Node to look for
      * @return {Integer} The DOM index
      */
     getNodeIndex : function(node)
@@ -217,8 +217,8 @@ qx.Class.define("qx.html2.ElementUtil",
      * "nextSibling" is not good enough as it might return a text or comment el
      *
      * @type static
-     * @param el {Element} TODOC
-     * @return {Element|null} TODOC
+     * @param el {Element} Starting element node
+     * @return {Element|null} Next element node
      */
     getNextElementSibling : function(el)
     {
@@ -236,8 +236,8 @@ qx.Class.define("qx.html2.ElementUtil",
      * "previousSibling" is not good enough as it might return a text or comment el
      *
      * @type static
-     * @param el {Element} TODOC
-     * @return {Element|null} TODOC
+     * @param el {Element} Starting element node
+     * @return {Element|null} Previous element node
      */
     getPreviousElementSibling : function(el)
     {
