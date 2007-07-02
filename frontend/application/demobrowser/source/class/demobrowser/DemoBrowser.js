@@ -253,6 +253,18 @@ qx.Class.define("demobrowser.DemoBrowser",
         this._cmdDisposeSample.setEnabled(false);
       }, this);
 
+      this._cmdNamespacePollution = new qx.client.Command();
+      this._cmdNamespacePollution.addEventListener("execute", function(e)
+      {
+        var cw = this.f1.getContentWindow();
+
+        if (cw && cw.qx) {
+          alert(cw.qx.dev.Pollution.getInfo());
+        } else {
+          alert("Unable to access Sample namespace currently.");
+        }
+      }, this);
+
     },
 
 
@@ -266,6 +278,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this._cmdProfile.setEnabled(false);
       this._cmdShowLastProfile.setEnabled(false);
       this._cmdDisposeSample.setEnabled(false);
+      this._cmdNamespacePollution.setEnabled(false);
       this.widgets["menu.appearance"].setEnabled(false);
     },
 
@@ -288,6 +301,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       this._cmdShowLastProfile.setEnabled(false);
       this._cmdDisposeSample.setEnabled(true);
+      this._cmdNamespacePollution.setEnabled(true);
 
       this.__fillAppearanceMenu();
     },
@@ -392,7 +406,8 @@ qx.Class.define("demobrowser.DemoBrowser",
               command : this._cmdObjectSummary
             },
             {
-              label : "Global Namespace Pollution"
+              label : "Global Namespace Pollution",
+              command : this._cmdNamespacePollution
             },
             { type : "Separator" },
             {
@@ -556,24 +571,13 @@ qx.Class.define("demobrowser.DemoBrowser",
         command: this._cmdObjectSummary
       });
 
-
+      this.__bindCommand(sb1, this._cmdObjectSummary)
       sb1.setToolTip(new qx.ui.popup.ToolTip("Sample Object Summary"));
 
       // -- sample: global pollution
       var sb2 = new qx.ui.toolbar.Button("Global Pollution", "icon/16/places/www.png");
       gb.add(sb2);
-
-      sb2.addEventListener("execute", function(e)
-      {
-        var cw = this.f1.getContentWindow();
-
-        if (cw && cw.qx) {
-          alert(cw.qx.dev.Pollution.getInfo());
-        } else {
-          alert("Unable to access Sample namespace currently.");
-        }
-      },
-      this);
+      this.__bindCommand(sb2, this._cmdNamespacePollution)
 
       sb2.setToolTip(new qx.ui.popup.ToolTip("Sample Global Pollution"));
 
@@ -895,25 +899,25 @@ qx.Class.define("demobrowser.DemoBrowser",
       // update toolbar
       if (treeNode instanceof qx.ui.tree.TreeFolder)
       {
-        this.widgets["toolbar.runbutton"].setEnabled(false);
-        this.widgets["toolbar.prevbutt"].setEnabled(false);
-        this.widgets["toolbar.nextbutt"].setEnabled(false);
-        this.widgets["toolbar.sobutt"].setEnabled(false);
+        this._cmdRunSample.setEnabled(false);
+        this._cmdPrevSample.setEnabled(false);
+        this._cmdNextSample.setEnabled(false);
+        this._cmdSampleInOwnWindow.setEnabled(false);
       }
       else
       {
-        this.widgets["toolbar.runbutton"].resetEnabled();
+        this._cmdRunSample.setEnabled(true);
 
         if (treeNode.getUserData('modelLink').getPrevSibling()) {
-          this.widgets["toolbar.prevbutt"].resetEnabled();
+          this._cmdPrevSample.setEnabled(true);
         } else {
-          this.widgets["toolbar.prevbutt"].setEnabled(false);
+          this._cmdPrevSample.setEnabled(false);
         }
 
         if (treeNode.getUserData('modelLink').getNextSibling()) {
-          this.widgets["toolbar.nextbutt"].resetEnabled();
+          this._cmdNextSample.setEnabled(true);
         } else {
-          this.widgets["toolbar.nextbutt"].setEnabled(false);
+          this._cmdNextSample.setEnabled(false);
         }
       }
 
@@ -1189,7 +1193,6 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
 
       // -- Vars and Setup -----------------------
-      this.toolbar.setEnabled(false);
       this.widgets["outputviews.bar"].getManager().setSelected(this.widgets["outputviews.demopage.button"]);
       this.widgets["outputviews.demopage.page"].setEnabled(false);
 
@@ -1289,30 +1292,18 @@ qx.Class.define("demobrowser.DemoBrowser",
         // load sample source code
         if (this._currentSampleUrl != this.defaultUrl)
         {
-          // var src = fwindow.document.body.innerHTML;
+          this.__setStateLoaded();
           this.__getPageSource(this._currentSampleUrl);
+        } else {
+          this.__setStateInitialized();
         }
       }
 
-      this.__setStateLoaded();
-
       // enabling widgets
-      this.toolbar.resetEnabled();  // in case it was disabled (for reload)
       this.widgets["outputviews.bar"].resetEnabled();
       this.widgets["outputviews.demopage.page"].resetEnabled();
-
-      /*
-      this.widgets["outputviews.demopage.page"].getBlockerNode().style.opacity = null;
-      this.widgets["outputviews.demopage.page"].release();
-      this.widgets["outputviews.demopage.canvas"].setZIndex(0);
-      this.widgets["outputviews.demopage.page"].show();
-      */
-
       this.widgets["outputviews"].resetEnabled();
-      this.widgets["toolbar.sobutt"].resetEnabled();
-      this.widgets["toolbar.sampbutts"].resetEnabled();  // in case it was disabled
       this.widgets["treeview"].resetEnabled();
-
       this.widgets["outputviews.demopage.button"].setLabel(this.polish(path[path.length - 1]));
 
     }, // __ehIframeLoaded
