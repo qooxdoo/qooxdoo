@@ -1506,7 +1506,7 @@ qx.Class.define("qx.Class",
       var wrapper = new Function(code.join(""));
 
       if (qx.core.Variant.isSet("qx.aspects", "on")) {
-        aspectWrapper = qx.core.Aspect.wrap(name + ".construct", "construct", wrapper);
+        var aspectWrapper = qx.core.Aspect.wrap(name + ".construct", "construct", wrapper);
         wrapper.$$original = construct;
         wrapper.constructor = aspectWrapper;
         wrapper = aspectWrapper;

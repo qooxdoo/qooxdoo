@@ -284,6 +284,13 @@ ifndef APPLICATION_OPTIMIZE_REMOVE_COMPATIBILITY
 endif
 
 #
+# Remove AOP support
+#
+ifndef APPLICATION_OPTIMIZE_REMOVE_ASPECTS
+  APPLICATION_OPTIMIZE_REMOVE_ASPECTS = true
+endif
+
+#
 # Configure if support for widgets should be included
 #
 # If enabled qooxdoo initializes the whole widget and event stack.

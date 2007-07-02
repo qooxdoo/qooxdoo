@@ -21,6 +21,7 @@
 
 #module(core)
 #require(qx.core.Bootstrap)
+#require(qx.core.Setting)
 #ignore(auto-require)
 #ignore(auto-use)
 
@@ -64,6 +65,10 @@ qx.Class.define("qx.core.Aspect",
      */
     wrap : function(fullName, type, fcn)
     {
+      if (!qx.core.Setting.get("qx.enableAspect")) {
+        fcn;
+      }
+
       var pre = [];
       var post = [];
 
@@ -143,5 +148,10 @@ qx.Class.define("qx.core.Aspect",
         fcn: fcn
       });
     }
+  },
+
+  defer : function() {
+    qx.core.Setting.define("qx.enableAspect", false);
   }
+
 });
