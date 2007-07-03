@@ -320,6 +320,13 @@ def createSyntaxTree (tokenArr):
     while not stream.finished():
         rootBlock.addChild(readStatement(stream))
 
+    # collect prob. pending comments
+    try:
+        for c in stream.commentsBefore:  # stream.commentsBefore might not be defined
+            rootBlock.addChild(c)
+    except:
+        pass
+
     return rootBlock
 
 
