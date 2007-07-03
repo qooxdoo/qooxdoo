@@ -187,7 +187,6 @@ qx.Class.define("qx.core.Init",
       if (!this.getApplication())
       {
         var clazz = qx.Class.getByName(qx.core.Setting.get("qx.application"));
-        this.debug("Loading main application class: '" + qx.core.Setting.get("qx.application") + "'");
         if (clazz) {
           this.setApplication(new clazz(this));
         }
