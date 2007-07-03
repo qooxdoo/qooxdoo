@@ -33,7 +33,10 @@ qx.Class.define("qx.html2.client.Locale",
 
   statics :
   {
-    LOCALE : "en",
+    /** {String} The name of the system locale e.g. "de" when the full locale is "de_AT" */
+    LOCALE : "",
+
+    /** {String} The name of the variant for the system locale e.g. "at" when the full locale is "de_AT" */
     VARIANT : "",
 
 
