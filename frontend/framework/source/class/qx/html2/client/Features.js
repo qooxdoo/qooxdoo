@@ -20,6 +20,7 @@
 /* ************************************************************************
 
 #module(client)
+#require(qx.html2.client.Engine)
 
 ************************************************************************ */
 
@@ -33,6 +34,12 @@ qx.Class.define("qx.html2.client.Features",
 
   statics :
   {
+    /** {Boolean} Flag to detect if the current document is rendered in standard mode */
+    STANDARD_MODE : false,
+
+    /** {Boolean} Flag to detect if the current document is rendered in quirks mode */
+    QUIRKS_MODE : false,
+
     /** {Boolean} Flag to detect if the client uses the W3C box model */
     W3C_BOX : false,
 
@@ -57,7 +64,10 @@ qx.Class.define("qx.html2.client.Features",
      */
     __init : function()
     {
-      this.W3C_BOX = !!(!qx.html2.client.Engine.MSHTML || document.compatMode == "CSS1Compat");
+      this.STANDARD_MODE = document.compatMode == "CSS1Compat";
+      this.QUIRKS_MODE = !this.STANDARD_MODE;
+
+      this.W3C_BOX = !!(!qx.html2.client.Engine.MSHTML || this.STANDARD_MODE);
       this.IE_BOX = !this.W3C_BOX;
 
       this.SVG = document.implementation && document.implementation.hasFeature && document.implementation.hasFeature("org.w3c.dom.svg", "1.0");
