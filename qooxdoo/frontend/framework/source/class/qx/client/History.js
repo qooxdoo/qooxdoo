@@ -17,21 +17,19 @@
      * Andreas Ecker (ecker)
      * Fabian Jakobs (fjakobs)
 
+   ======================================================================
 
    This class contains code based on the following work:
 
-     YUI Browser History Manager:
-       http://developer.yahoo.com/yui/history
-       Version 2.2.0
+   * Yahoo! UI Library
+     http://developer.yahoo.com/yui
+     Version 2.2.0
 
      Copyright:
        (c) 2007, Yahoo! Inc.
 
      License:
        BSD: http://developer.yahoo.com/yui/license.txt
-
-     Authors:
-       * Julien Lecomte
 
 
 ************************************************************************ */

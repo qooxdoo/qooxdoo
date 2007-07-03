@@ -15,12 +15,13 @@
    Authors:
      * Sebastian Werner (wpbasti)
 
+   ======================================================================
 
    This class contains code based on the following work:
 
-     Base2:
-       http://code.google.com/p/base2/
-       Version 0.9
+   * Base2
+     http://code.google.com/p/base2/
+     Version 0.9
 
      Copyright:
        (c) 2006-2007, Dean Edwards
@@ -32,12 +33,9 @@
        * Dean Edwards
 
 
-     ---
-
-
-     Prototype JS:
-       http://www.prototypejs.org/
-       Version 1.5
+   * Prototype JS
+     http://www.prototypejs.org/
+     Version 1.5
 
      Copyright:
        (c) 2006-2007, Prototype Core Team
@@ -739,6 +737,17 @@ qx.Class.define("qx.html2.ElementUtil",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      ELEMENT DIMENSION
+    ---------------------------------------------------------------------------
+    */
+
+
+
+
+
+
 
 
     /*
@@ -835,7 +844,7 @@ qx.Class.define("qx.html2.ElementUtil",
 
       "gecko" : function(el)
       {
-        var opacity = this.getStyle(el, qx.html2.client.Engine.VERSION < 1.7 "MozOpacity" : "opacity");
+        var opacity = this.getStyle(el, qx.html2.client.Engine.VERSION < 1.7 ? "MozOpacity" : "opacity");
 
         if (opacity == 0.999999) {
           opacity = 1.0;
