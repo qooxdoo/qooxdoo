@@ -118,19 +118,21 @@ qx.Class.define("qx.core.Setting",
      */
     get : function(key)
     {
-      if (this.__settings[key] === undefined) {
+      var cache = this.__settings[key];
+      
+      if (cache === undefined) {
         throw new Error('Setting "' + key + '" is not defined.');
       }
 
-      if (this.__settings[key].defaultValue === undefined) {
+      if (cache.defaultValue === undefined) {
         throw new Error('Setting "' + key + '" is not supported by API.');
       }
 
-      if (this.__settings[key].value !== undefined) {
-        return this.__settings[key].value;
+      if (cache.value !== undefined) {
+        return cache.value;
       }
 
-      return this.__settings[key].defaultValue;
+      return cache.defaultValue;
     },
 
 
