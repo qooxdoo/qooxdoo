@@ -672,6 +672,77 @@ qx.Class.define("qx.html2.ElementUtil",
 
     /*
     ---------------------------------------------------------------------------
+      ELEMENT VISIBILITY
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Shows the given element
+     *
+     * @type static
+     * @param el {Element} DOM element to show
+     * @return {void}
+     */
+    show : function(el) {
+      el.style.visibility = "visible";
+    },
+
+
+    /**
+     * Hides the given element
+     *
+     * @type static
+     * @param el {Element} DOM element to show
+     * @return {void}
+     */
+    hide : function(el) {
+      el.style.visibility = "hidden";
+    },
+
+
+    /**
+     * Toggle the visibility of the given element
+     *
+     * @type static
+     * @param el {Element} DOM element to show
+     * @return {void}
+     */
+    toggle : function(el) {
+      el.style.visibility = this.isHidden(el) ? "visible" : "hidden";
+    },
+
+
+    /**
+     * Whether the given element is visible
+     *
+     * @type static
+     * @param el {Element} DOM element to query
+     * @return {Boolean} true when the element is visible
+     */
+    isVisible : function(el) {
+      return this.getStyle(el, "visibility") !== "hidden";
+    },
+
+
+    /**
+     * Whether the given element is visible
+     *
+     * @type static
+     * @param el {Element} DOM element to query
+     * @return {Boolean} true when the element is visible
+     */
+    isHidden : function(el) {
+      return this.getStyle(el, "visibility") === "hidden";
+    },
+
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
       ELEMENT OPACITY
     ---------------------------------------------------------------------------
     */
