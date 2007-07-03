@@ -708,28 +708,19 @@ qx.Class.define("qx.html2.ElementUtil",
           "alpha(opacity=" + opacity * 100 + ")";;
       },
 
-      "gecko" : qx.lang.Object.select(qx.html2.client.Engine.VERSION < 1.7 ? "<1.7" : ">=1.7",
+      "gecko" : function(el, opacity)
       {
-        "<1.7" : function(el, opacity)
-        {
-          // Animations look better when not using 1.0 in gecko
-          if (opacity == 1) {
-            opacity = 0.999999;
-          }
+        // Animations look better when not using 1.0 in gecko
+        if (opacity == 1) {
+          opacity = 0.999999;
+        }
 
+        if (qx.html2.client.Engine.VERSION < 1.7) {
           el.style.MozOpacity = opacity;
-        },
-
-        ">=1.7" : function(el, opacity)
-        {
-          // Animations look better when not using 1.0 in gecko
-          if (opacity == 1) {
-            opacity = 0.999999;
-          }
-
+        } else {
           el.style.opacity = opacity;
         }
-      }),
+      },
 
       "default" : function(el, opacity) {
         el.style.opacity = opacity;
@@ -764,38 +755,20 @@ qx.Class.define("qx.html2.ElementUtil",
         return 1.0;
       },
 
-      "gecko" : qx.lang.Object.select(qx.html2.client.Engine.VERSION < 1.7 ? "<1.7" : ">=1.7",
+      "gecko" : function(el)
       {
-        "<1.7" : function(el)
-        {
-          var opacity = this.getStyle(el, "MozOpacity");
+        var opacity = this.getStyle(el, qx.html2.client.Engine.VERSION < 1.7 "MozOpacity" : "opacity");
 
-          if (opacity == 0.999999) {
-            opacity = 1.0;
-          }
-
-          if (opacity != null) {
-            return parseFloat(opacity);
-          }
-
-          return 1.0;
-        },
-
-        ">=1.7" : function(el)
-        {
-          var opacity = this.getStyle(el, "opacity");
-
-          if (opacity == 0.999999) {
-            opacity = 1.0;
-          }
-
-          if (opacity != null) {
-            return parseFloat(opacity);
-          }
-
-          return 1.0;
+        if (opacity == 0.999999) {
+          opacity = 1.0;
         }
-      }),
+
+        if (opacity != null) {
+          return parseFloat(opacity);
+        }
+
+        return 1.0;
+      },
 
       "default" : function(el)
       {
