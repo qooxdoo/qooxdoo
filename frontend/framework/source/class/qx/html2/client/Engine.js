@@ -61,7 +61,7 @@ qx.Class.define("qx.html2.client.Engine",
     __init : function()
     {
       var engine = "unknown";
-      var version = 0.0;
+      var version = "0.0";
       var agent = navigator.userAgent;
 
       if (window.opera)
@@ -71,6 +71,8 @@ qx.Class.define("qx.html2.client.Engine",
 
         if (/Opera[\s\/]([0-9\.]*)/.test(agent)) {
           version = RegExp.$1.substring(0, 3) + "." + RegExp.$1.substring(3);
+        } else {
+          throw new Error("Could not detect Opera version: " + agent + "!");
         }
       }
       else if (navigator.vendor === "KDE")
@@ -80,6 +82,8 @@ qx.Class.define("qx.html2.client.Engine",
 
         if (/KHTML\/([0-9-\.]*)/.test(agent)) {
           version = RegExp.$1;
+        } else {
+          throw new Error("Could not detect KHTML version: " + agent + "!");
         }
       }
       else if (agent.indexOf("AppleWebKit") != -1)
@@ -91,11 +95,15 @@ qx.Class.define("qx.html2.client.Engine",
         {
           version = RegExp.$1;
 
-          var nightly = vEngineVersion.indexOf("+") != -1;
+          var nightly = version.indexOf("+") != -1;
           var invalidCharacter = RegExp("[^\\.0-9]").exec(version);
           if (invalidCharacter) {
             version = version.slice(0, invalidCharacter.index);
           }
+        }
+        else
+        {
+          throw new Error("Could not detect Webkit version: " + agent + "!");
         }
       }
       else if (window.controllers && navigator.product === "Gecko")
@@ -105,6 +113,8 @@ qx.Class.define("qx.html2.client.Engine",
 
         if (/rv\:([^\);]+)(\)|;)/.test(agent)) {
           version = RegExp.$1;
+        } else {
+          throw new Error("Could not detect Gecko version: " + agent + "!");
         }
       }
       else if (/MSIE\s+([^\);]+)(\)|;)/.test(agent))
@@ -116,11 +126,12 @@ qx.Class.define("qx.html2.client.Engine",
       }
       else
       {
-        throw new Error("Unsupported client!");
+        throw new Error("Unsupported client: " + agent + "!");
       }
 
-      this.VERSION = version;
       this.ENGINE = engine;
+      this.FULLVERSION = version;
+      this.VERSION = parseFloat(version);
     }
   },
 
