@@ -32,6 +32,23 @@
        * Dean Edwards
 
 
+     ---
+
+
+     Prototype JS:
+       http://www.prototypejs.org/
+       Version 1.5
+
+     Copyright:
+       (c) 2006-2007, Prototype Core Team
+
+     License:
+       MIT: http://www.opensource.org/licenses/mit-license.php
+
+     Authors:
+       * Prototype Core Team
+
+
 ************************************************************************ */
 
 /* ************************************************************************
@@ -681,10 +698,8 @@ qx.Class.define("qx.html2.ElementUtil",
         var filter = this.getStyle(el, "filter");
 
         // Remove old alpha filter and add new one
-        filter = filter.replace(/alpha\([^\)]*\)/gi, "") +
-          "alpha(opacity=" + opacity * 100 + ")";
-
-        this.setStyle(el, "filter", filter);
+        el.style.filter = filter.replace(/alpha\([^\)]*\)/gi, "") +
+          "alpha(opacity=" + opacity * 100 + ")";;
       },
 
       "gecko" : function(el, opacity)
@@ -694,11 +709,11 @@ qx.Class.define("qx.html2.ElementUtil",
           opacity = 0.999999;
         }
 
-        this.setStyle(el, "opacity", opacity);
+        el.style.opacity = opacity;
       },
 
       "default" : function(el, opacity) {
-        this.setStyle(el, "opacity", opacity);
+        el.style.opacity = opacity;
       }
     }),
 
