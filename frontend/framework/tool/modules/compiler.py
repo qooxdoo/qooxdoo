@@ -496,7 +496,12 @@ def compileNode(node,optns):
                     if docComment:
                         doc()
                     else:
-                        sep()
+                        if child.get("text") in ("//", "/*"):
+                             nosep() # the blank comment provides a blank line, so don't put a separator in
+                             line()  # make sure there is a new line after whatever has gone before
+                        else:
+                             sep()
+ 
 
                 elif inOperation:
                     sep()
