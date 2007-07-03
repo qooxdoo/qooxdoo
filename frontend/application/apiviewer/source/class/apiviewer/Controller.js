@@ -346,7 +346,7 @@ qx.Class.define("apiviewer.Controller",
 
   destruct : function()
   {
-    this._disposeObjects("_widgetRegistry", "_detailLoader", "_packageViewer",
+    this._disposeObjects("_detailLoader", "_packageViewer",
       "_classViewer", "_classLoader", "_tree", "_history");
   }
 });
