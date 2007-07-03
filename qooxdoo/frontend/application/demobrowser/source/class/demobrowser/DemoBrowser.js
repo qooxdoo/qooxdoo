@@ -215,7 +215,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           if (checked) {
             cw.qx.dev.Profile.start();
           } else {
-            cw.qx.dev.Profile.end();
+            cw.qx.dev.Profile.stop();
             cw.qx.dev.Profile.normalizeProfileData();
             this.showProfile(cw.qx.dev.Profile.__profileData);
             this._cmdShowLastProfile.setEnabled(true);
@@ -591,7 +591,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       {
         var win = new qx.ui.window.Window("Profiling Data");
         win.set({
-          space: [50, 50, 600, 500],
+          space: [20, 800, 20, 600],
           minWidth : 400,
           minHeight : 300,
           showMinimize : false,
@@ -601,7 +601,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         this._profWindow = win;
 
         var tableModel = new qx.ui.table.model.Simple();
-        tableModel.setColumns([ "Function", "Own Time", "Call Count" ]);
+        tableModel.setColumns([ "Function", "Type", "Own Time", "Avg Time", "Call Count" ]);
         tableModel.setData([]);
         this._profTableModel = tableModel;
 
@@ -620,8 +620,10 @@ qx.Class.define("demobrowser.DemoBrowser",
         var tcm = table.getTableColumnModel();
         var resizeBehavior = tcm.getBehavior();
         resizeBehavior.set(0, { width:"2*", minWidth:50 });
-        resizeBehavior.setMaxWidth(1, 100);
-        resizeBehavior.setMaxWidth(2, 100);
+        resizeBehavior.setMaxWidth(1, 80);
+        resizeBehavior.setMaxWidth(2, 80);
+        resizeBehavior.setMaxWidth(3, 80);
+        resizeBehavior.setMaxWidth(4, 80);
 
         win.add(table);
       }
@@ -632,10 +634,10 @@ qx.Class.define("demobrowser.DemoBrowser",
         if (data.name == "qx.core.Aspect.__calibrateHelper") {
           continue;
         }
-        rowData.push([data.name, data.calibratedOwnTime, data.callCount]);
+        rowData.push([data.name+"()", data.type, data.calibratedOwnTime, data.calibratedOwnTime/data.callCount, data.callCount]);
       }
       this._profTableModel.setData(rowData);
-      this._profTableModel.sortByColumn(1);
+      this._profTableModel.sortByColumn(2);
 
       this._profWindow.open();
     },

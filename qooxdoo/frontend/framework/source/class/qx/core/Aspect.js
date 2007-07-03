@@ -14,6 +14,7 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
+     * Andreas Ecker (ecker)
 
 ************************************************************************ */
 
@@ -47,7 +48,7 @@
  * applications. Further more the variant <code>qx.aspect</code> must be set to
  * <code>on</code>.
  *
- * One example for a qooxdoo aspect if profiling ({@link qx.dev.Profile}).
+ * One example for a qooxdoo aspect is profiling ({@link qx.dev.Profile}).
  */
 qx.Class.define("qx.core.Aspect",
 {
@@ -60,17 +61,20 @@ qx.Class.define("qx.core.Aspect",
      * constructors.
      *
      * @param fullName {String} Full name of the function including the class name.
-     * @param type {String} Type of the wrapped function. One of "member", "static" or "constructor".
-     * @param fcn {Function} wrapped function.
+     * @param type {String} Type of the wrapped function. One of "member", "static", 
+     *          "constructor", "destructor" or "property".
+     * @param fcn {Function} function to wrap.
+     * 
+     * @return {Function} wrapped function
      */
-    wrap : function(fullName, type, fcn)
+    wrap : function(fullName, fcn, type)
     {
       if (!qx.core.Setting.get("qx.enableAspect")) {
-        fcn;
+        return fcn;
       }
 
-      var pre = [];
-      var post = [];
+      var before = [];
+      var after = [];
 
       for (var i=0; i<this.__registry.length; i++)
       {
@@ -80,28 +84,28 @@ qx.Class.define("qx.core.Aspect",
         {
           var pos = aspect.pos;
 
-          if (pos == "pre") {
-            pre.push(aspect.fcn);
+          if (pos == "before") {
+            before.push(aspect.fcn);
           } else {
-            post.push(aspect.fcn);
+            after.push(aspect.fcn);
           }
         }
       }
 
-      if (pre.length == 0 && post.length == 0) {
+      if (before.length == 0 && after.length == 0) {
         return fcn;
       }
 
       var wrapper = function()
       {
-        for (var i=0; i<pre.length; i++) {
-          pre[i].call(this, fullName, fcn, arguments);
+        for (var i=0; i<before.length; i++) {
+          before[i].call(this, fullName, fcn, type, arguments);
         }
 
         var ret = fcn.apply(this, arguments);
 
-        for (var i=0; i<post.length; i++) {
-          post[i].call(this, fullName, fcn, arguments, ret);
+        for (var i=0; i<after.length; i++) {
+          after[i].call(this, fullName, fcn, type, arguments, ret);
         }
 
         return ret;
@@ -122,23 +126,23 @@ qx.Class.define("qx.core.Aspect",
      * Register a function to be called just before or after each time
      * one of the selected functions is called.
      *
-     * @param position {String} One of "pre" or "post". Whether the function
+     * @param position {String} One of "before" or "after". Whether the function
      *     should be called before or after the wrapped function.
      * @param type {String} Type of the wrapped function. One of "member",
-     *     "static", "constructor" or "*".
+     *     "static", "constructor", "destructor", "property" or "*".
      * @param nameRegExp {String|RegExp} Each function, with a full name matching
      *     this pattern (using <code>fullName.match(nameRegExp)</code>) will be
      *     wrapped.
      * @param fcn {Function} Function to be called just before or after any of the
-     *     selected functions is called. If position is "pre" the functions
-     *     supports the same signature as {@link qx.dev.Profile#profilePre}. If
-     *     position is "post" it supports the same signature as
-     *     {@link qx.dev.Profile#profilePost}.
+     *     selected functions is called. If position is "before" the functions
+     *     supports the same signature as {@link qx.dev.Profile#profileBefore}. If
+     *     position is "after" it supports the same signature as
+     *     {@link qx.dev.Profile#profileAfter}.
      */
-    register : function(position, type, nameRegExp, fcn)
+    addAdvice : function(position, type, nameRegExp, fcn)
     {
-      if (position != "pre" && position != "post") {
-        throw new Error("Unkown positions: '"+pos+"'");
+      if (position != "before" && position != "after") {
+        throw new Error("Unknown position: '"+position+"'");
       }
 
       this.__registry.push({
