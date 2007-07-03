@@ -45,10 +45,11 @@ qx.Class.define("qx.dev.Profile", {
     __callStack : [],
     __doProfile : true,
     __callOverhead : undefined,
+    __calibrateCount : 4000,
 
 
     /**
-     * Clear profiling data and enable profiling.
+     * Clear profiling data and start profiling.
      */
     start : function()
     {
@@ -61,9 +62,9 @@ qx.Class.define("qx.dev.Profile", {
     /**
      * Stop profiling.
      */
-    end : function()
+    stop : function()
     {
-      this.__doProfile = true;
+      this.__doProfile = false;
     },
 
 
@@ -76,21 +77,25 @@ qx.Class.define("qx.dev.Profile", {
     openProfileWindow : function(maxLength)
     {
       this.normalizeProfileData();
-      this.end();
+      this.stop();
       var data = qx.lang.Object.getValues(this.__profileData);
       data = data.sort(function(a,b) { return a.calibratedOwnTime<b.calibratedOwnTime ? 1: -1});
       data = data.slice(0,maxLength || 20);
 
-      var str = ["<table><tr><th>Name</th><th>Own time</th><th>calls</th></tr>"];
+      var str = ["<table><tr><th>Name</th><th>Type</th><th>Own time</th><th>Avg time</th><th>calls</th></tr>"];
       for (var i=0; i<data.length; i++) {
         var profData = data[i];
         if (profData.name == "qx.core.Aspect.__calibrateHelper") {
           continue;
         }
-        str.push("<tr><td>")
-        str.push(profData.name);
+        str.push("<tr><td>");
+        str.push(profData.name+"()");
+        str.push("</td><td>");
+        str.push(profData.type);
         str.push("</td><td>");
         str.push(profData.calibratedOwnTime.toPrecision(3));
+        str.push("ms</td><td>");
+        str.push((profData.calibratedOwnTime/profData.callCount).toPrecision(3));
         str.push("ms</td><td>");
         str.push(profData.callCount);
         str.push("</td></tr>");
@@ -159,7 +164,7 @@ qx.Class.define("qx.dev.Profile", {
     normalizeProfileData : function()
     {
       if (this.__callOverhead == undefined) {
-        this.__callOverhead = this.__calibrate(4000);
+        this.__callOverhead = this.__calibrate(this.__calibrateCount);
       }
       for (var key in this.__profileData) {
         var profileData = this.__profileData[key];
@@ -176,15 +181,14 @@ qx.Class.define("qx.dev.Profile", {
      * @param fcn {Function} Function to time.
      * @param args {Arguments} The arguments passed to the wrapped function
      */
-    profilePre : function(fullName, fcn, args) {
+    profileBefore : function(fullName, fcn, type, args) {
       var me = qx.dev.Profile;
       if (!me.__doProfile) {
         return;
       }
       var callData = {
         subRoutineTime : 0,
-        subRoutineCalls : 0,
-        name : fullName
+        subRoutineCalls : 0
       };
       me.__callStack.push(callData);
       callData.startTime = new Date();
@@ -192,14 +196,14 @@ qx.Class.define("qx.dev.Profile", {
 
 
     /**
-     * This function will be called after each function call. (End timing)
+     * This function will be called after each function call. (Stop timing)
      *
      * @param fullname {String} Full name of the function including the class name.
      * @param fcn {Function} Function to time.
      * @param args {Arguments} The arguments passed to the wrapped function
      * @param returnValue {var} return value of the wrapped function.
      */
-    profilePost : function(fullName, fcn, args, returnValue) {
+    profileAfter : function(fullName, fcn, type, args, returnValue) {
       var me = qx.dev.Profile;
       if (!me.__doProfile) {
         return;
@@ -215,16 +219,18 @@ qx.Class.define("qx.dev.Profile", {
         lastCall.subRoutineCalls += 1;
       }
 
-      if(me.__profileData[fullName] === undefined) {
-        me.__profileData[fullName] = {
+      var fcnKey = fullName + " (" + type + ")"; 
+      if(me.__profileData[fcnKey] === undefined) {
+        me.__profileData[fcnKey] = {
           totalTime: 0,
           ownTime: 0,
           callCount: 0,
           subRoutineCalls: 0,
-          name: fullName
+          name: fullName,
+          type : type
         }
       }
-      var functionData = me.__profileData[fullName];
+      var functionData = me.__profileData[fcnKey];
       functionData.totalTime += totalTime;
       functionData.ownTime += ownTime;
       functionData.callCount += 1;
@@ -236,9 +242,23 @@ qx.Class.define("qx.dev.Profile", {
 
   defer : function(statics)
   {
-    qx.core.Aspect.register("pre", "*", "", statics.profilePre);
-    qx.core.Aspect.register("post", "*", "", statics.profilePost);
-    statics.__calibrateHelper = qx.core.Aspect.wrap("qx.core.Aspect.__calibrateHelper", "static", statics.__calibrateHelper);
+    // profile
+    qx.core.Aspect.addAdvice("before", "*", "", statics.profileBefore);
+    qx.core.Aspect.addAdvice("after", "*", "", statics.profileAfter);
+    
+    statics.__calibrateHelper = qx.core.Aspect.wrap("qx.dev.Profile.__calibrateHelper", statics.__calibrateHelper, "static");
+    qx.core.Aspect.wrap = qx.core.Aspect.wrap("qx.core.Aspect.wrap", qx.core.Aspect.wrap, "static");
+
+    for (var classname in qx.core.Bootstrap.__registry)
+    {
+      var statics = qx.core.Bootstrap.__registry[classname];
+      for (var key in statics) {
+        // only functions, no regexps
+        if (statics[key] instanceof Function) {
+          statics[key] = qx.core.Aspect.wrap(classname + "." + key, statics[key], "static");
+        }
+      }
+    }
   }
 
 });

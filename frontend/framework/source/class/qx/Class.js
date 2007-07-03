@@ -280,7 +280,7 @@ qx.Class.define("qx.Class",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (parent[part] !== undefined) {
-          throw new Error("An object of the name '" + name + "' aready exists and overwriting is not allowed!");
+          throw new Error("An object of the name '" + name + "' already exists and overwriting is not allowed!");
         }
       }
 
@@ -748,7 +748,7 @@ qx.Class.define("qx.Class",
 
 
     /** Stores all defined classes */
-    __registry : {},
+    __registry : qx.core.Bootstrap.__registry,
 
 
     /** {Map} allowed keys in non-static class definition */
@@ -954,17 +954,19 @@ qx.Class.define("qx.Class",
           for (var i=0, a=qx.lang.Object.getKeys(statics), l=a.length; i<l; i++)
           {
             key = a[i];
-            var staticValue = statics[key];
 
             if (qx.core.Variant.isSet("qx.aspects", "on"))
             {
+              var staticValue = statics[key];
               if (staticValue instanceof Function) {
-                staticValue = qx.core.Aspect.wrap(name + "." + key, "static", statics[key]);
+                staticValue = qx.core.Aspect.wrap(name + "." + key, staticValue, "static");
               }
+              clazz[key] = staticValue;
+            } 
+            else 
+            {
+              clazz[key] = statics[key];
             }
-
-            clazz[key] = staticValue;
-
           }
         }
       }
@@ -1014,7 +1016,7 @@ qx.Class.define("qx.Class",
         // Store destruct onto class
         if (destruct) {
           if (qx.core.Variant.isSet("qx.aspects", "on")) {
-            destruct = qx.core.Aspect.wrap(name + ".destruct", "destruct", destruct);
+            destruct = qx.core.Aspect.wrap(name, destruct, "destructor");
           }
           clazz.$$destructor = destruct;
         }
@@ -1308,7 +1310,7 @@ qx.Class.define("qx.Class",
           member.self = clazz;
 
           if (qx.core.Variant.isSet("qx.aspects", "on")) {
-            member = qx.core.Aspect.wrap(clazz.classname + "." + key, "member", member);
+            member = qx.core.Aspect.wrap(clazz.classname + "." + key, member, "member");
           }
 
         }
@@ -1506,7 +1508,7 @@ qx.Class.define("qx.Class",
       var wrapper = new Function(code.join(""));
 
       if (qx.core.Variant.isSet("qx.aspects", "on")) {
-        var aspectWrapper = qx.core.Aspect.wrap(name + ".construct", "construct", wrapper);
+        var aspectWrapper = qx.core.Aspect.wrap(name, wrapper, "constructor");
         wrapper.$$original = construct;
         wrapper.constructor = aspectWrapper;
         wrapper = aspectWrapper;
@@ -1525,6 +1527,19 @@ qx.Class.define("qx.Class",
 
       // Return generated wrapper
       return wrapper;
+    }
+  },
+  
+  defer : function(statics)
+  {
+    // profiling
+    if (qx.core.Variant.isSet("qx.aspects", "on")) {
+      for (var key in statics) {
+        // only functions, no regexps
+        if (statics[key] instanceof Function) {
+          statics[key] = qx.core.Aspect.wrap("qx.Class." + key, statics[key], "static");
+        }
+      }
     }
   }
 

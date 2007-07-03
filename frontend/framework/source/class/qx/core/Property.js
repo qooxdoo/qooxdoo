@@ -640,6 +640,11 @@ qx.Class.define("qx.core.Property",
         // eval("members[store] = function " + instance.classname.replace(/\./g, "_") + "$" + store + "(value) { " + code.join("") + "}");
       }
 
+      // profiling
+      if (qx.core.Variant.isSet("qx.aspects", "on")) {
+        members[store] = qx.core.Aspect.wrap(instance.classname + "." + store, members[store], "property");
+      }
+
       // Executing new function
       if (args === undefined) {
         return instance[store]();

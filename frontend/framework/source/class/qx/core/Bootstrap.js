@@ -46,7 +46,8 @@ qx =
   Class :
   {
     /**
-     * TODOC
+     * Create namespace.
+     * Replaced after bootstrapping phase by {@link qx.Class#createNamespace}.
      *
      * @type map
      * @param name {var} TODOC
@@ -59,15 +60,16 @@ qx =
       var parent = window;
       var part = splits[0];
 
-      for (var i=0, len=splits.length - 1; i<len; i++, part=splits[i])
+      for (var i=0, len=splits.length-1; i<len; i++, part=splits[i])
       {
         if (!parent[part]) {
-          parent[part] = {};
+          parent = parent[part] = {};
+        } else {
+          parent = parent[part];
         }
-
-        parent = parent[part];
       }
 
+      // store object
       parent[part] = object;
 
       // return last part name (e.g. classname)
@@ -76,7 +78,8 @@ qx =
 
 
     /**
-     * TODOC
+     * Define class.
+     * Replaced after bootstrapping phase by {@link qx.Class#define}.
      *
      * @type map
      * @param name {var} TODOC
@@ -94,6 +97,9 @@ qx =
       if (config.defer) {
         config.defer(config.statics);
       }
+      
+      // Store class reference in global class registry
+      qx.core.Bootstrap.__registry[name] = config.statics;
     }
   }
 };
@@ -111,6 +117,9 @@ qx.Class.define("qx.core.Bootstrap",
   statics :
   {
     /** Timestamp of qooxdoo based application startup */
-    LOADSTART : new Date
+    LOADSTART : new Date,
+
+    /** Stores all defined classes */
+    __registry : {}
   }
 });
