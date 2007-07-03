@@ -266,10 +266,10 @@ ifndef APPLICATION_INDIVIDUAL_BROWSERS
 endif
 
 #
-# Remove debug statements.
+# Remove debug code.
 #
-# This will set the variant qx.debug to "off" and removes all code paths for qx.debug "on".
-# Production code shouls set this always to true bacause qooxdoo uses extensive runtime
+# This sets the variant qx.debug to "off" and removes all code paths for qx.debug "on".
+# Production code should set this always to true, because qooxdoo uses extensive runtime
 # checks, which will be disabled by this setting.
 #
 ifndef APPLICATION_OPTIMIZE_REMOVE_DEBUG
