@@ -33,25 +33,25 @@ qx.Class.define("qx.html2.client.Engine",
 
   statics :
   {
-    /** Name of the client's HTML/JS engine e.g. mshtml, gecko, webkit, opera, khtml */
-    ENGINE : "unknown",
+    /** {String} Name of the client's HTML/JS engine e.g. mshtml, gecko, webkit, opera, khtml */
+    ENGINE : "",
 
-    /** Version of the client's HTML/JS engine e.g. 1.0, 1.7, 1.9 */
+    /** {Float} Version of the client's HTML/JS engine e.g. 1.0, 1.7, 1.9 */
     VERSION : 0.0,
 
-    /** Flag to detect if the client is based on the Opera HTML/JS engine */
+    /** {Boolean} Flag to detect if the client is based on the Opera HTML/JS engine */
     OPERA : false,
 
-    /** Flag to detect if the client is based on the KHTML HTML/JS engine */
+    /** {Boolean} Flag to detect if the client is based on the KHTML HTML/JS engine */
     KHTML : false,
 
-    /** Flag to detect if the client is based on the Webkit HTML/JS engine */
+    /** {Boolean} Flag to detect if the client is based on the Webkit HTML/JS engine */
     WEBKIT : false,
 
-    /** Flag to detect if the client is based on the Gecko HTML/JS engine */
+    /** {Boolean} Flag to detect if the client is based on the Gecko HTML/JS engine */
     GECKO : false,
 
-    /** Flag to detect if the client is based on the Internet Explorer HTML/JS engine */
+    /** {Boolean} Flag to detect if the client is based on the Internet Explorer HTML/JS engine */
     MSHTML : false,
 
 

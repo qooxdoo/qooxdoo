@@ -33,22 +33,22 @@ qx.Class.define("qx.html2.client.Features",
 
   statics :
   {
-    /** Flag to detect if the client uses the W3C box model */
+    /** {Boolean} Flag to detect if the client uses the W3C box model */
     W3C_BOX : false,
 
-    /** Flag to detect if the client uses the IE box model */
+    /** {Boolean} Flag to detect if the client uses the IE box model */
     IE_BOX : false,
 
-    /** Flag to detect if the client supports SVG graphics */
+    /** {Boolean} Flag to detect if the client supports SVG graphics */
     SVG : false,
 
-    /** Flag to detect if the client supports Canvas graphics */
+    /** {Boolean} Flag to detect if the client supports Canvas graphics */
     CANVAS : false,
 
-    /** Flag to detect if the client supports VML graphics */
+    /** {Boolean} Flag to detect if the client supports VML graphics */
     VML : false,
 
-    /** Flag to detect if the client supports XPATH queries */
+    /** {Boolean} Flag to detect if the client supports XPATH queries */
     XPATH : false,
 
 

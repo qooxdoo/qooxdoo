@@ -33,10 +33,16 @@ qx.Class.define("qx.html2.client.Platform",
 
   statics :
   {
+    /** {String} The name of the platform. One of: "win", "mac", "unix" */
     PLATFORM : "",
 
+    /** {Boolean} Flag to detect if the client system is running Windows */
     WIN : false,
+
+    /** {Boolean} Flag to detect if the client system is running Mac OS */
     MAC : false,
+
+    /** {Boolean} Flag to detect if the client system is running Unix/Linux/BSD */
     UNIX : false,
 
 
