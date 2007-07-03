@@ -708,7 +708,7 @@ qx.Class.define("qx.html2.ElementUtil",
           "alpha(opacity=" + opacity * 100 + ")";;
       },
 
-      "gecko" : qx.lang.Object.select(qx.html2.Engine.VERSION < 1.7 ? "<1.7" : ">=1.7",
+      "gecko" : qx.lang.Object.select(qx.html2.client.Engine.VERSION < 1.7 ? "<1.7" : ">=1.7",
       {
         "<1.7" : function(el, opacity)
         {
@@ -764,7 +764,7 @@ qx.Class.define("qx.html2.ElementUtil",
         return 1.0;
       },
 
-      "gecko" : qx.lang.Object.select(qx.html2.Engine.VERSION < 1.7 ? "<1.7" : ">=1.7",
+      "gecko" : qx.lang.Object.select(qx.html2.client.Engine.VERSION < 1.7 ? "<1.7" : ">=1.7",
       {
         "<1.7" : function(el)
         {
