@@ -52,8 +52,8 @@ qx.Class.define("qx.html2.client.Locale",
       var index = locale.indexOf("-");
       if (index != -1)
       {
-        variant = vBrowserLocale.substr(index + 1);
-        locale = vBrowserLocale.substr(0, index);
+        variant = locale.substr(index + 1);
+        locale = locale.substr(0, index);
       }
 
       this.LOCALE = locale;
