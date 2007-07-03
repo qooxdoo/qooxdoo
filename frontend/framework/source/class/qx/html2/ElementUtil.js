@@ -761,6 +761,16 @@ qx.Class.define("qx.html2.ElementUtil",
     {
       "mshtml" : function(el, opacity)
       {
+        // Read in computed filter
+        var filter = this.getStyle(el, "filter");
+
+        // Remove opacity filter
+        if (opacity >= 1)
+        {
+          el.style.filter = filter.replace(/alpha\([^\)]*\)/gi, "");
+          return;
+        }
+
         if (opacity < 0.00001) {
           opacity = 0;
         }
@@ -770,9 +780,6 @@ qx.Class.define("qx.html2.ElementUtil",
 				if (!el.currentStyle.hasLayout) {
           this.setStyle(el, "zoom", 1);
         }
-
-        // Read in computed filter
-        var filter = this.getStyle(el, "filter");
 
         // Remove old alpha filter and add new one
         el.style.filter = filter.replace(/alpha\([^\)]*\)/gi, "") +
