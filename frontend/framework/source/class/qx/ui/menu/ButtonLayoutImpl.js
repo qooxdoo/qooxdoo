@@ -55,17 +55,8 @@ qx.Class.define("qx.ui.menu.ButtonLayoutImpl",
   *****************************************************************************
   */
 
-  members :
-  {
-    /*
-    ---------------------------------------------------------------------------
-      [03] COMPUTE NEEDED DIMENSIONS FOR ALL CHILDREN
-    ---------------------------------------------------------------------------
-    */
-
-    // Compute and return the width needed by all children of this widget
-    /**
-     * Global Structure:
+  /*
+     * Global List of Methods:
      *  [01] COMPUTE BOX DIMENSIONS FOR AN INDIVIDUAL CHILD
      *  [02] COMPUTE NEEDED DIMENSIONS FOR AN INDIVIDUAL CHILD
      *  [03] COMPUTE NEEDED DIMENSIONS FOR ALL CHILDREN
@@ -85,6 +76,18 @@ qx.Class.define("qx.ui.menu.ButtonLayoutImpl",
      *  [07] UPDATE CHILDREN ON JOB QUEUE FLUSH
      *  [08] CHILDREN ADD/REMOVE/MOVE HANDLING
      *  [09] FLUSH LAYOUT QUEUES OF CHILDREN
+     *
+  */
+
+  members :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      [03] COMPUTE NEEDED DIMENSIONS FOR ALL CHILDREN
+    ---------------------------------------------------------------------------
+    */
+
+    /** Compute and return the width needed by all children of this widget
      *
      * @type member
      * @return {Integer} TODOC
