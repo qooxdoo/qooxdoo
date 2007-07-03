@@ -256,6 +256,8 @@ qx.Class.define("qx.log.appender.Window",
       // NOTE: We have to use a static onunload handler, because an onunload
       //     that is set later using DOM is ignored completely.
       //     (at least in Firefox, but maybe in IE, too)
+      var logFix = qx.core.Variant.isSet("qx.client", "mshtml") ? '#lines { width: 100%; height: expression((document.body.offsetHeight - 30) + "px"); }' : '';
+
       logDocument.open();
       logDocument.write("<html><head><title>" + this._name + "</title></head>"
         + '<body onload="qx = opener.qx;" onunload="try{qx.log.WindowAppender._registeredAppenders[' + this._id + ']._autoCloseWindow()}catch(e){}">'
@@ -267,7 +269,7 @@ qx.Class.define("qx.log.appender.Window",
         + '    #control { top: 0; left: 0; right: 0; padding: 4px 8px; background: #eee; border-bottom: 1px solid #ccc; height: 30px }'
         + '    pre { margin: 0; padding: 4px 8px; font-family: Consolas, "Bitstream Vera Sans Mono", monospace; }'
         + '    hr { border: 0 none; border-bottom: 1px solid #ccc; margin: 8px 0; padding: 0; height: 1px }'
-        + '    #lines { width: 100%; height: expression((document.body.offsetHeight - 30) + "px"); }'
+        + logFix
         + '  </style>'
         + '  <div id="control">'
         + '    <input id="marker" type="button" value="Add divider"/> &#160; &#160; Filter: <input name="filter" id="filter" type="text" value="'+ this._filterText +'">'
@@ -282,7 +284,7 @@ qx.Class.define("qx.log.appender.Window",
       this._markerBtn = logDocument.getElementById("marker");
       this._filterInput = logDocument.getElementById("filter");
       this._logLinesDiv = logDocument.getElementById("lines");
-  
+
       var self = this;
       this._markerBtn.onclick = function() {
         self._showMessageInLog("<hr/>");
@@ -407,7 +409,7 @@ qx.Class.define("qx.log.appender.Window",
         } else {
           txt = qx.html.String.fromText(this.formatLogEvent(evt));
         }
-        
+
         divElem.innerHTML = txt;
 
         this._logElem.appendChild(divElem);
@@ -450,21 +452,21 @@ qx.Class.define("qx.log.appender.Window",
       this._filterText = text;
       text = text.toUpperCase();
       this._filterTextWords = text.split(" ");
-  
+
       for(var divIdx=0; divIdx < this._divDataSets.length; divIdx++) {
         this._setDivVisibility(this._divDataSets[divIdx]);
       }
     },
-  
-  
+
+
     _setDivVisibility : function(divDataSet)
     {
       var visible = true;
-  
+
       for(var txtIndex=0; visible && (txtIndex < this._filterTextWords.length); txtIndex++) {
         visible = divDataSet.txt.indexOf(this._filterTextWords[txtIndex]) >= 0;
       }
-  
+
       divDataSet.elem.style["display"] = (visible ? "" : "none");
     },
 
@@ -502,10 +504,10 @@ qx.Class.define("qx.log.appender.Window",
   *****************************************************************************
   */
 
-  destruct : function() 
+  destruct : function()
   {
     this._autoCloseWindow();
-    
+
     if (this._markerBtn) {
       this._markerBtn.onclick = null;
     }
