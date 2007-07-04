@@ -34,10 +34,8 @@ APPLICATION_LOCALES = de de_DE en en_US es es_ES fr fr_FR
 APPLICATION_PROFILE_SOURCE = true
 APPLICATION_PROFILE_BUILD = true
 
-#APPLICATION_OPTIMIZE_REMOVE_ASPECTS = false
-
-APPLICATION_ADDITIONAL_SOURCE_OPTIONS = --use-setting qx.allowUrlSettings:true
-APPLICATION_ADDITIONAL_BUILD_OPTIONS = --use-setting qx.allowUrlSettings:true 
+APPLICATION_ADDITIONAL_SOURCE_OPTIONS = --use-setting qx.allowUrlSettings:true --use-setting qx.enableAspect:false
+APPLICATION_ADDITIONAL_BUILD_OPTIONS = --use-setting qx.allowUrlSettings:true --use-setting qx.enableAspect:false
 
 ################################################################################
 # INCLUDE CORE
