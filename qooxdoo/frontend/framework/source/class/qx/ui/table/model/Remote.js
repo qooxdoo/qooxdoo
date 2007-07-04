@@ -149,10 +149,9 @@ qx.Class.define("qx.ui.table.model.Remote",
 
 
     /**
-     * Loads the row count from the server.
-     *
-     * Implementing classes have to call {@link _onRowDataLoaded()} when the server
-     * response arrived. That method has to be called! Even when there was an error.
+     * Implementing classes have to call {@link _onRowCountLoaded()} when the
+     * server response arrived. That method has to be called! Even when there 
+     * was an error.
      *
      * @type member
      * @abstract
