@@ -144,7 +144,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
     icon :
     {
       refine : true,
-      init : "icon/16/places/folder.png",
+      init : "icon/16/places/folder.png"
     },
 
 
