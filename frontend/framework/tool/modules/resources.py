@@ -189,7 +189,7 @@ def copy(options, sortedIncludeList, fileDb):
                             os.makedirs(itemDestDir)
 
                         # Copy file
-                        #if options.verbose:
-                        print "        - Copying file: %s" % itemRelPath
+                        if options.verbose:
+                            print "        - Copying file: %s" % itemRelPath
 
                         shutil.copyfile(itemSourcePath, itemDestPath)
