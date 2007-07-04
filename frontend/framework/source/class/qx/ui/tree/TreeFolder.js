@@ -569,7 +569,8 @@ qx.Class.define("qx.ui.tree.TreeFolder",
       {
         var ch = invisible == true ? this._containerObject.getChildren() : this._containerObject.getVisibleChildren();
 
-        if (recursive == false) {
+        if (recursive == false)
+        {
           a = a.concat(ch);
         }
         else
