@@ -73,8 +73,6 @@ qx.Class.define("qx.ui.table.cellrenderer.Boolean",
      */
     _identifyImage : function(cellInfo)
     {
-      var IconDataCellRenderer = qx.ui.table.cellrenderer.Icon;
-
       var imageHints =
       {
         imageWidth  : 11,
