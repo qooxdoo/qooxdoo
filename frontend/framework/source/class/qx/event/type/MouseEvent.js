@@ -277,7 +277,7 @@ qx.Class.define("qx.event.type.MouseEvent",
         return this.getDomEvent().pageY;
       },
 
-     "default": function() {
+      "default": function() {
         return this.getDomEvent().clientY;
       }
     }),
