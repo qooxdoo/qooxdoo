@@ -164,7 +164,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Icon",
       var html = IconDataCellRenderer.IMG_START;
 
       if (qx.core.Client.getInstance().isMshtml() && /\.png$/i.test(urlAndToolTip.url)) {
-        html += qx.io.Alias.getInstance().resolve("static/image/blank.gif") + '" style="filter:' + "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + urlAndToolTip.url + "',sizingMethod='scale')";
+        html += this.IMG_BLANK_URL + '" style="filter:' + "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + urlAndToolTip.url + "',sizingMethod='scale')";
       } else {
         html += urlAndToolTip.url + '" style="';
       }
@@ -197,18 +197,12 @@ qx.Class.define("qx.ui.table.cellrenderer.Icon",
       // Set image and tooltip text
       var urlAndToolTip = this._getImageInfos(cellInfo);
 
-      if (this.__oldSource == urlAndToolTip.url) {
-        return;
-      }
-
-    this.__oldSource = urlAndToolTip.url;
-
       var img = cellElement.firstChild;
-    if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
         if (/\.png$/i.test(urlAndToolTip.url))
         {
-          img.src = qx.io.Alias.getInstance().resolve("static/image/blank.gif");
+          img.src = this.IMG_BLANK_URL;
           img.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + urlAndToolTip.url + "',sizingMethod='scale')";
         }
         else
