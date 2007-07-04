@@ -43,7 +43,8 @@ qx.Class.define("qx.io.image.Manager",
   {
     this.base(arguments);
 
-    this.__sources = {};
+    this.__visible = {};
+    this.__all = {};
   },
 
 
@@ -59,6 +60,52 @@ qx.Class.define("qx.io.image.Manager",
   members :
   {
     /**
+     * Register an image.
+     * Gives the application the possibility to preload images.
+     *
+     * @type member
+     * @param source {String} The incoming (unresolved) URL.
+     * @return {void}
+     */
+    add : function(source)
+    {
+      // this.debug("ADD: " + source);
+
+      var data = this.__all;
+
+      if (data[source] === undefined) {
+        data[source] = 1;
+      } else {
+        data[source]++;
+      }
+    },
+
+
+    /**
+     * Register an image.
+     * Gives the application the possibility to preload images.
+     *
+     * @type member
+     * @param source {String} The incoming (unresolved) URL.
+     * @return {void}
+     */
+    remove : function(source)
+    {
+      // this.debug("REMOVE: " + source);
+
+      var data = this.__all;
+
+      if (data[source] !== undefined) {
+        data[source]--;
+      }
+
+      if (data[source] <= 0) {
+        delete data[source];
+      }
+    },
+
+
+    /**
      * Register an visible image.
      * Gives the application the possibility to preload visible images.
      *
@@ -68,8 +115,14 @@ qx.Class.define("qx.io.image.Manager",
      */
     show : function(source)
     {
-      var data = this.__sources;
-      data[source] === undefined ? data[source] = 1 : data[source]++;
+      // this.debug("SHOW: " + source);
+
+      var data = this.__visible;
+      if (data[source] === undefined) {
+        data[source] = 1;
+      } else {
+        data[source]++;
+      }
     },
 
 
@@ -83,28 +136,16 @@ qx.Class.define("qx.io.image.Manager",
      */
     hide : function(source)
     {
-      var data = this.__sources;
-      data[source] === undefined ? data[source] = 0 : data[source]--;
-      if (data[source]<0) {
-        data[source] = 0;
+      // this.debug("HIDE: " + source);
+
+      var data = this.__visible;
+
+      if (data[source] !== undefined) {
+        data[source]--;
       }
-    },
 
-
-    /**
-     * Register an visible image (without increasing the visible number)
-     * This is useful to post-load invisible images through the application
-     *
-     * @type member
-     * @param source {String} The incoming (unresolved) URL.
-     * @return {void}
-     */
-    register : function(source)
-    {
-      var data = this.__sources;
-
-      if (data[source] === undefined) {
-        data[source] = 0;
+      if (data[source]<=0) {
+        delete data[source];
       }
     },
 
@@ -117,12 +158,12 @@ qx.Class.define("qx.io.image.Manager",
      */
     getVisibleImages : function()
     {
-      var data = this.__sources;
+      var visible = this.__visible;
       var list = {};
 
-      for (var source in data)
+      for (var source in visible)
       {
-        if (data[source] > 0) {
+        if (visible[source] > 0) {
           list[source] = true;
         }
       }
@@ -139,12 +180,13 @@ qx.Class.define("qx.io.image.Manager",
      */
     getHiddenImages : function()
     {
-      var data = this.__sources;
+      var visible = this.__visible;
+      var all = this.__all;
       var list = {};
 
-      for (var source in data)
+      for (var source in all)
       {
-        if (data[source] < 1) {
+        if (visible[source] === undefined) {
           list[source] = true;
         }
       }
@@ -164,6 +206,6 @@ qx.Class.define("qx.io.image.Manager",
   */
 
   destruct : function() {
-    this._disposeFields("__sources");
+    this._disposeFields("__all", "__visible");
   }
 });
