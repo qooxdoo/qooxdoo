@@ -1511,7 +1511,14 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "spinner-text-field" :
     {
-      include : "text-field"
+      include : "text-field",
+
+      style : function(states)
+      {
+        return {
+          backgroundColor : "transparent"
+        };
+      }
     },
 
     "spinner-button":
@@ -1941,17 +1948,17 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
       }
     },
-    
-    "scrollbar-blocker" : 
+
+    "scrollbar-blocker" :
     {
-      style : function( states ) 
+      style : function( states )
       {
-        return { 
-          backgroundColor : "black", 
-          opacity : 0.2 
+        return {
+          backgroundColor : "black",
+          opacity : 0.2
         };
       }
     }
-    
+
   }
 });
