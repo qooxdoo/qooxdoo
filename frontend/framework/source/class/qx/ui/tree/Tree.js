@@ -184,6 +184,11 @@ qx.Class.define("qx.ui.tree.Tree",
       apply : "_applyUseTreeLines"
     },
 
+    tabIndex :
+    {
+      refine : true,
+      init : 1
+    },
 
     /**
      * In specific applications, it is desirable to omit tree lines for only

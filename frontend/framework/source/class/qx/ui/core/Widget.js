@@ -1001,9 +1001,9 @@ qx.Class.define("qx.ui.core.Widget",
         members[resetRuntime + propertiesUpper[i]] = new Function(style + properties[i] + "=''");
       }
     },
-    
-    
-   
+
+
+
 
 
 
@@ -5545,7 +5545,7 @@ qx.Class.define("qx.ui.core.Widget",
       The zIndex and filter properties should always be
       applied on the "real" element node.
     */
-    __outerElementStyleProperties : 
+    __outerElementStyleProperties :
     {
       cursor : true,
       zIndex : true,
@@ -5698,7 +5698,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {var} TODOC
      */
     isFocusable : function() {
-      return this.getEnabled() && this.isSeeable() && this.getTabIndex() >= 0;
+      return this.getEnabled() && this.isSeeable() && this.getTabIndex() >= 0 && this.getTabIndex() != null;
     },
 
 
@@ -6648,13 +6648,13 @@ qx.Class.define("qx.ui.core.Widget",
 
         // MSHTML syncs dimensions to the inner element when using
         // renderRuntime* methods. This is because percent definitions
-        // slow down the rendering process and especially badly 
+        // slow down the rendering process and especially badly
         // influence the dynamic updates to style sheets.
         if (qx.core.Variant.isSet("qx.client", "mshtml")) {}
         else {
           cs.width = cs.height = "100%";
         }
-        
+
         cs.position = "absolute";
 
         for (var i in this._styleProperties)
@@ -7105,21 +7105,21 @@ qx.Class.define("qx.ui.core.Widget",
   defer : function(statics, members)
   {
     statics.__initApplyMethods(members);
-    
+
     // In MSHTML we rewrite these runtime setters to improve the
     // performance when using enhanced borders (2px complex borders)
     // The problem are percentage width used by other browsers, too, to
     // allow these complex borders to be rendered. IE performs worst
-    // when using percent. Because of this we add a lot overhead to 
+    // when using percent. Because of this we add a lot overhead to
     // calculate the inner size in IE. This is faster than the old
     // much simpler solution with applying 100% width and height
     // See also bug http://bugzilla.qooxdoo.org/show_bug.cgi?id=487
-    
+
     // See also: global cursor handling in ClientDocument
 
     // Regarding innerStyle:
-    // Enhanced border are always 2px width, we need 
-    // to substract the two border pixels assigned to 
+    // Enhanced border are always 2px width, we need
+    // to substract the two border pixels assigned to
     // the outer element from the outer width to get
     // the inner width
     if (qx.core.Variant.isSet("qx.client", "mshtml"))
@@ -7127,40 +7127,40 @@ qx.Class.define("qx.ui.core.Widget",
       members._renderRuntimeWidth = function(v)
       {
         this._style.pixelWidth = (v==null)?0:v;
-        
+
         if (this._innerStyle) {
           this._innerStyle.pixelWidth = (v==null)?0:v-2;
         }
       };
-      
+
       members._renderRuntimeHeight = function(v)
       {
         this._style.pixelHeight = (v==null)?0:v;
-        
+
         if (this._innerStyle) {
           this._innerStyle.pixelHeight = (v==null)?0:v-2;
-        }      
+        }
       };
-      
+
       members._resetRuntimeWidth = function()
       {
         this._style.pixelWidth = "";
-        
+
         if (this._innerStyle) {
           this._innerStyle.pixelWidth = "";
         }
       };
-      
+
       members._resetRuntimeHeight = function()
       {
         this._style.pixelHeight = "";
-        
+
         if (this._innerStyle) {
           this._innerStyle.pixelHeight = "";
-        }      
-      };      
-    }    
-    
+        }
+      };
+    }
+
     statics.__initLayoutProperties(statics);
 
     // TODO there must be a better way to define this
