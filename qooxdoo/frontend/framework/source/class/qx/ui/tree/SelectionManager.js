@@ -128,7 +128,8 @@ qx.Class.define("qx.ui.tree.SelectionManager",
     {
       if (vItem)
       {
-        if (qx.ui.tree.Tree.isOpenTreeFolder(vItem)) {
+        if (qx.ui.tree.Tree.isOpenTreeFolder(vItem))
+        {
           return vItem.getFirstVisibleChildOfFolder();
         }
         else if (vItem.isLastVisibleChild())
@@ -166,12 +167,19 @@ qx.Class.define("qx.ui.tree.SelectionManager",
     {
       if (vItem)
       {
-        if (vItem == this.getBoundedWidget()) {
+        if (vItem == this.getBoundedWidget())
+        {
           return;
         }
         else if (vItem.isFirstVisibleChild())
         {
-          if (vItem.getParentFolder() instanceof qx.ui.tree.TreeFolder) {
+          if (vItem.getParentFolder() instanceof qx.ui.tree.TreeFolder)
+          {
+            // The first node (if hidden) should be ignored for selection
+            if (vItem.getParentFolder() instanceof qx.ui.tree.Tree && vItem.getParentFolder().getHideNode()) {
+              return vItem;
+            }
+
             return vItem.getParentFolder();
           }
         }
@@ -305,11 +313,15 @@ qx.Class.define("qx.ui.tree.SelectionManager",
         }
       }
 
-      if (isSelected) {
+      if (isSelected)
+      {
         // scrool it into view
-        if (treeNode.isCreated()) {
-           this.scrollItemIntoView(treeNode);
-        } else {
+        if (treeNode.isCreated())
+        {
+          this.scrollItemIntoView(treeNode);
+        }
+        else
+        {
           treeNode.addEventListener("appear", function(e) {
             this.scrollItemIntoView(treeNode);
           }, this);
@@ -319,7 +331,5 @@ qx.Class.define("qx.ui.tree.SelectionManager",
       // select it
       treeNode.setSelected(isSelected);
     }
-
-
   }
 });

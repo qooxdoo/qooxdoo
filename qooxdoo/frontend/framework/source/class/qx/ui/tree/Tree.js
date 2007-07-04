@@ -235,7 +235,6 @@ qx.Class.define("qx.ui.tree.Tree",
       init : false,
       apply : "_applyRootOpenClose"
     }
-
   },
 
 
@@ -302,6 +301,43 @@ qx.Class.define("qx.ui.tree.Tree",
      */
     getSelectedElement : function() {
       return this.getManager().getSelectedItems()[0];
+    },
+
+
+    /**
+     * Returns all children of the folder.
+     *
+     * @type member
+     * @param recursive {Boolean ? false} whether children of subfolder should be
+     * included
+     * @param invisible {Boolean ? true} whether invisible children should be included
+     * @return {AbstractTreeElement[]} list of children
+     */
+    getItems : function(recursive, invisible)
+    {
+      var a = [];
+
+      if (!this.getHideNode()) {
+        a.push(this);
+      }
+
+      if (this._containerObject)
+      {
+        var ch = invisible == true ? this._containerObject.getChildren() : this._containerObject.getVisibleChildren();
+
+        if (recursive == false)
+        {
+          a = a.concat(ch);
+        }
+        else
+        {
+          for (var i=0, chl=ch.length; i<chl; i++) {
+            a = a.concat(ch[i].getItems(recursive, invisible));
+          }
+        }
+      }
+
+      return a;
     },
 
 
