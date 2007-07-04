@@ -68,12 +68,12 @@
       posteingang = te2;
 
       trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Presets");
+      var te2_1 = new qx.ui.tree.TreeFolder(trs);
 
       trs = qx.ui.tree.TreeRowStructure.getInstance().newRow();
       trs.addLabel("Sent (no icon)");
       var te2_2 = new qx.ui.tree.TreeFolder(trs);
 
-      var te2_2 = new qx.ui.tree.TreeFolder(trs);
       trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Trash", "icon/16/places/user-trash.png");
       var te2_3 = new qx.ui.tree.TreeFolder(trs);
       trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Data");
