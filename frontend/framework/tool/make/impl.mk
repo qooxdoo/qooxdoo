@@ -85,9 +85,8 @@ exec-script-source:
 	
 
 exec-script-build:
-	# expand Makefile variables in the arguments
-	$(eval ARGS = \
-	  $(COMPUTED_CLASS_PATH) \
+	$(SILENCE) $(CMD_GENERATOR) \
+    $(COMPUTED_CLASS_PATH) \
 	  $(COMPUTED_BUILD_RESOURCE) \
 	  $(COMPUTED_BUILD_SETTING) \
 	  $(COMPUTED_BUILD_VARIANT) \
@@ -95,10 +94,8 @@ exec-script-build:
 	  $(COMPUTED_BUILD_OPTIONS) \
 	  --generate-compiled-script \
 	  --compiled-script-file $(COMPUTED_BUILD_SCRIPT_NAME) \
-	  $(APPLICATION_ADDITIONAL_SCRIPT_BUILD_OPTIONS) \
-	) 
-	
-	$(SILENCE) $(CMD_GENERATOR) $(ARGS)
+	  $(APPLICATION_ADDITIONAL_SCRIPT_BUILD_OPTIONS)
+		
 
 exec-script-build-split:
 	# generate base profile
