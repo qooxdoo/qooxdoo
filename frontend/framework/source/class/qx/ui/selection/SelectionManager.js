@@ -1038,7 +1038,7 @@ qx.Class.define("qx.ui.selection.SelectionManager",
 
       // Shift Key
       //   or
-      // Click on an unseleted item (without Strg)
+      // Click on an unseleted item (without Ctrl)
       if (e.isShiftPressed() || this.getDragSelection() || (!this.getItemSelected(vItem) && !e.isCtrlPressed()))
       {
         // Handle event
@@ -1469,7 +1469,7 @@ qx.Class.define("qx.ui.selection.SelectionManager",
         return null;
       }
 
-      // Handle event by keycode
+      // Handle event by key identifier
       switch(vKeyboardEvent.getKeyIdentifier())
       {
         case "Home":
