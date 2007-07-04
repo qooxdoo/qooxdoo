@@ -682,8 +682,12 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
      */
     _onmousedown : function(e)
     {
+      if (e._treeProcessed) {
+        return;
+      }
+
       this.getTree().getManager().handleMouseDown(this, e);
-      e.stopPropagation();
+      e._treeProcessed = true;
     },
 
     /**

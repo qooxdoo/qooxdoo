@@ -799,6 +799,10 @@ qx.Class.define("qx.ui.tree.TreeFolder",
      */
     _onmousedown : function(e)
     {
+      if (e._treeProcessed) {
+        return;
+      }
+
       var vOriginalTarget = e.getOriginalTarget();
 
       switch(vOriginalTarget)
@@ -826,7 +830,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
           this.getTree().getManager().handleMouseDown(this, e);
       }
 
-      e.stopPropagation();
+      e._treeProcessed = true;
     },
 
 
