@@ -261,8 +261,10 @@ qx.Class.define("qx.ui.basic.Image",
     _beforeAppear : function()
     {
       var source = this.getSource();
-      if (source) {
+      if (source)
+      {
         qx.io.image.Manager.getInstance().show(source);
+        this._registeredAsVisible = true;
       }
 
       return this.base(arguments);
@@ -279,8 +281,10 @@ qx.Class.define("qx.ui.basic.Image",
     _beforeDisappear : function()
     {
       var source = this.getSource();
-      if (source) {
+      if (source && this._registeredAsVisible)
+      {
         qx.io.image.Manager.getInstance().hide(source);
+        delete this._registeredAsVisible;
       }
 
       return this.base(arguments);
@@ -306,19 +310,26 @@ qx.Class.define("qx.ui.basic.Image",
     {
       var imageMgr = qx.io.image.Manager.getInstance();
 
-      if (this.isSeeable())
+      if (old)
       {
-        if (old) {
-          imageMgr.hide(old);
-        }
+        imageMgr.remove(old);
 
-        if (value) {
-          imageMgr.show(value);
+        if (this._registeredAsVisible)
+        {
+          imageMgr.hide(old);
+          delete this._registeredAsVisible;
         }
       }
-      else if (value)
+
+      if (value)
       {
-        imageMgr.register(value);
+        imageMgr.add(value);
+
+        if (this.isSeeable())
+        {
+          this._registeredAsVisible = true;
+          imageMgr.show(value);
+        }
       }
 
       if (this.isCreated()) {
