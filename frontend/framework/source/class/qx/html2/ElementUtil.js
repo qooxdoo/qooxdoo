@@ -270,6 +270,28 @@ qx.Class.define("qx.html2.ElementUtil",
     },
 
 
+    /**
+     * Removes whitespace-only text node children
+     *
+     * @type static
+     * @param el {Element} Element to cleanup
+     * @return {void}
+     */
+    cleanWhitespace: function(el)
+    {
+      var node = el.firstChild;
+
+      while (node)
+      {
+        var nextNode = node.nextSibling;
+
+        if (node.nodeType == 3 && !/\S/.test(node.nodeValue)) {
+          el.removeChild(node);
+        }
+
+        node = nextNode;
+      }
+    },
 
 
 
@@ -742,6 +764,22 @@ qx.Class.define("qx.html2.ElementUtil",
       ELEMENT DIMENSION
     ---------------------------------------------------------------------------
     */
+
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      ELEMENT LOCATION
+    ---------------------------------------------------------------------------
+    */
+
+
+
+
 
 
 
