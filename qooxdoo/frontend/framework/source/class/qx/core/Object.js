@@ -167,7 +167,14 @@ qx.Class.define("qx.core.Object",
           }
           catch(ex)
           {
-            console.warn("Could not dispose: " + vObject + ": " + ex);
+            try
+            {
+              console.warn("Could not dispose: " + vObject + ": " + ex);
+            }
+            catch(exc)
+            {
+              throw new Error("Could not dispose: " + vObject + ": " + ex);
+            }
           }
         }
       }
