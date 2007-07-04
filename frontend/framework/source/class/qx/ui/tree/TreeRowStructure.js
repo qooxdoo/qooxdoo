@@ -333,6 +333,15 @@ qx.Class.define("qx.ui.tree.TreeRowStructure",
       /* Add this user-specified object to the structure */
 
       this._fields.push(vObj);
+    },
+
+
+    getLabelObject : function() {
+      return this._labelObject;
+    },
+
+    getIconObject : function() {
+      return this._iconObject;
     }
   },
 
