@@ -163,10 +163,6 @@ qx.Class.define("qx.io.image.PreloaderSystem",
         return;
       }
 
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        console.debug("Done: " + e.getTarget()._origSource);
-      }
-
       delete this._list[e.getTarget()._origSource];
       this._check();
     },
