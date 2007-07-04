@@ -184,7 +184,7 @@ def extractResources(data, fileId=""):
     res = []
 
     for item in config.QXHEAD["resource"].findall(data):
-        res.append({ "namespace" : fileId[0:fileId.find(".")], "id" : item[0], "entry" : item[1] })
+        res.append({ "namespace" : item[0], "id" : item[1], "entry" : item[2] })
 
     return res
 

@@ -48,10 +48,10 @@ import config, textutil
 
 
 
-##                                                                              
-# Some nice short description of foo(); this can contain html and 
+##
+# Some nice short description of foo(); this can contain html and
 # {@link #foo Links} to items in the current file.
-#                                                                               
+#
 # @param     a        Describe a positional parameter
 # @keyparam  b        Describe a keyword parameter
 # @def       foo(name)    # overwrites auto-generated function signature
@@ -189,7 +189,7 @@ def copy(options, sortedIncludeList, fileDb):
                             os.makedirs(itemDestDir)
 
                         # Copy file
-                        if options.verbose:
-                            print "        - Copying file: %s" % itemRelPath
+                        #if options.verbose:
+                        print "        - Copying file: %s" % itemRelPath
 
                         shutil.copyfile(itemSourcePath, itemDestPath)

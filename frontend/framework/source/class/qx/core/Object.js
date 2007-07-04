@@ -25,7 +25,7 @@
 #use(qx.core.Init)
 #require(qx.core.LegacyProperty)
 #require(qx.core.Property)
-#resource(static:static)
+#resource(qx.static:static)
 
 ************************************************************************ */
 

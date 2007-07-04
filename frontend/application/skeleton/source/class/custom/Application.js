@@ -10,11 +10,12 @@
 
 /* ************************************************************************
 
-#resource(image:image)
+#resource(custom.image:image)
 
-// List all static resources that should be copied into the build version, 
+// List all static resources that should be copied into the build version,
 // if the resource filter option is enabled (default: disabled)
 #embed(qx.icontheme/32/status/dialog-information.png)
+#embed(custom.image/test.png)
 
 ************************************************************************ */
 

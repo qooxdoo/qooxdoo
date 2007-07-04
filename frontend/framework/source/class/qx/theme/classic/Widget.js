@@ -21,7 +21,7 @@
 /* ************************************************************************
 
 #require(qx.io.Alias)
-#resource(widgettheme:widget/Windows)
+#resource(qx.widgettheme:widget/Windows)
 
 ************************************************************************ */
 
