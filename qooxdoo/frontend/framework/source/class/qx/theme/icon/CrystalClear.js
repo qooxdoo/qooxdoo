@@ -21,7 +21,7 @@
 /* ************************************************************************
 
 #require(qx.io.Alias)
-#resource(icontheme:icon/CrystalClear)
+#resource(qx.icontheme:icon/CrystalClear)
 
 ************************************************************************ */
 

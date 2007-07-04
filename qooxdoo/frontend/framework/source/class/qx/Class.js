@@ -22,7 +22,6 @@
 
 #module(core)
 #module(oo)
-#require(qx.core.Bootstrap)
 #require(qx.core.Setting)
 
 ************************************************************************ */
@@ -962,8 +961,8 @@ qx.Class.define("qx.Class",
                 staticValue = qx.core.Aspect.wrap(name + "." + key, staticValue, "static");
               }
               clazz[key] = staticValue;
-            } 
-            else 
+            }
+            else
             {
               clazz[key] = statics[key];
             }
@@ -1529,7 +1528,7 @@ qx.Class.define("qx.Class",
       return wrapper;
     }
   },
-  
+
   defer : function(statics)
   {
     // profiling
