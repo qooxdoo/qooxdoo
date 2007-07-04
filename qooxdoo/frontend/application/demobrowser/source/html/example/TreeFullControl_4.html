@@ -5,7 +5,7 @@
   <script type="text/javascript" src="../../script/demo.js"></script>
   <script type="text/javascript" src="../util.js"></script>
 </head>
-<body>  
+<body>
   <div id="description">
     <p>Shows a tree and allows playing with the settings of the Tree
     properties <i>hideNode</i> and <i>rootOpenClose</i>.  Also demonstrates
@@ -68,8 +68,11 @@
       posteingang = te2;
 
       trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Presets");
-      var te2_1 = new qx.ui.tree.TreeFolder(trs);
-      trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Sent");
+
+      trs = qx.ui.tree.TreeRowStructure.getInstance().newRow();
+      trs.addLabel("Sent (no icon)");
+      var te2_2 = new qx.ui.tree.TreeFolder(trs);
+
       var te2_2 = new qx.ui.tree.TreeFolder(trs);
       trs = qx.ui.tree.TreeRowStructure.getInstance().standard("Trash", "icon/16/places/user-trash.png");
       var te2_3 = new qx.ui.tree.TreeFolder(trs);
@@ -371,7 +374,25 @@
                   delete(excl[4]);
               }
               t.setExcludeSpecificTreeLines(excl);
-          });
+          }
+      );
+
+      var btnHideIcon = new qx.ui.form.Button("Toggle root icon");
+      btnHideIcon.set({
+        top: 250,
+        left: 0
+      });
+      var iconFlag = true;
+      btnHideIcon.addEventListener("execute", function(e) {
+        if (iconFlag) {
+          t.setIcon("icon/16/devices/drive-harddisk.png");
+        } else {
+          t.resetIcon();
+        }
+        iconFlag = !iconFlag;
+      });
+
+      commandFrame.add(btnHideIcon);
 
     });
   </script>
