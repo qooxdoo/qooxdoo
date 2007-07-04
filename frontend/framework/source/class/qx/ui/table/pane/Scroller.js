@@ -96,6 +96,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       height : "auto"
     });
 
+    this._showCellFocusIndicator = this.getShowCellFocusIndicator();
+    
     this._focusIndicator = new qx.ui.layout.HorizontalBoxLayout;
     this._focusIndicator.setAppearance("table-focus-indicator");
     this._focusIndicator.hide();
@@ -278,6 +280,17 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       check : "Boolean",
       init : false
+    },
+    
+    
+    /**
+     * Whether the cell focus indicator should be shown
+     */
+    showCellFocusIndicator :
+    {
+      check : "Boolean",
+      init : true,
+      apply : "_applyShowCellFocusIndicator"
     }
   },
 
@@ -383,6 +396,28 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _applyScrollY : function(value, old) {
       this._verScrollBar.setValue(value);
+    },
+
+
+    // property modifier
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param value {var} Current value
+     * @param old {var} Previous value
+     */
+    _applyShowCellFocusIndicator : function(value, old) {
+      this._showCellFocusIndicator = value;
+
+      if(value) {
+        this._updateFocusIndicator();
+      }
+      else {
+        if(this._focusIndicator) {
+          this._focusIndicator.hide();
+        }
+      }
     },
 
 
@@ -1925,6 +1960,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _updateFocusIndicator : function()
     {
+      if(!this._showCellFocusIndicator) {
+        return;
+      }
+      
       var table = this.getTable();
 
       if (!table.getEnabled()) {

@@ -319,6 +319,15 @@ qx.Class.define("qx.ui.table.Table",
       apply : "_applyFocusCellOnMouseMove"
     },
 
+    /**
+     * Whether the cell focus indicator should be shown
+     */
+    showCellFocusIndicator :
+    {
+      check : "Boolean",
+      init : true,
+      apply : "_applyShowCellFocusIndicator"
+    },
 
     /**
      * Whether the table should keep the first visible row complete. If set to false,
@@ -695,6 +704,24 @@ qx.Class.define("qx.ui.table.Table",
         scrollerArr[i].setFocusCellOnMouseMove(value);
       }
     },
+
+    // property modifier
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param value {var} Current value
+     * @param old {var} Previous value
+     */
+    _applyShowCellFocusIndicator : function(value, old)
+    {
+      var scrollerArr = this._getPaneScrollerArr();
+
+      for (var i=0; i<scrollerArr.length; i++) {
+        scrollerArr[i].setShowCellFocusIndicator(value);
+      }
+    },
+
 
     // property modifier
     /**
