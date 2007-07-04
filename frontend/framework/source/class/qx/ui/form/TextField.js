@@ -478,8 +478,15 @@ qx.Class.define("qx.ui.form.TextField",
     {
       this._inValueProperty = true;
 
-      if (this._inputElement) {
-        this._inputElement.value = value === null ? "" : value;
+      if (this._inputElement)
+      {
+        if (value === null) {
+          value = "";
+        }
+
+        if (this._inputElement.value !== value) {
+          this._inputElement.value = value;
+        }
       }
 
       delete this._inValueProperty;
@@ -518,7 +525,7 @@ qx.Class.define("qx.ui.form.TextField",
         this.addState("readonly");
       } else {
         this.removeState("readonly");
-      }      
+      }
     },
 
 
@@ -619,7 +626,7 @@ qx.Class.define("qx.ui.form.TextField",
     */
 
     /**
-     * Overridden from {@link qx.ui.core.Widget#_visualizeFocus}: set the focus to the inputElement 
+     * Overridden from {@link qx.ui.core.Widget#_visualizeFocus}: set the focus to the inputElement
      * and not to the parent div.
      *
      * @type member
@@ -627,7 +634,7 @@ qx.Class.define("qx.ui.form.TextField",
     _visualizeFocus : function()
     {
       this.base(arguments);
-      
+
       if (!qx.event.handler.FocusHandler.mouseFocus && this.getEnableElementFocus())
       {
         try {
@@ -635,10 +642,10 @@ qx.Class.define("qx.ui.form.TextField",
         } catch(ex) {}
       }
     },
-    
+
 
     /**
-     * Overridden from {@link qx.ui.core.Widget#_visualizeFocus}: set the focus to the inputElement 
+     * Overridden from {@link qx.ui.core.Widget#_visualizeFocus}: set the focus to the inputElement
      * and not to the parent div.
      *
      * @type member
@@ -646,7 +653,7 @@ qx.Class.define("qx.ui.form.TextField",
     _visualizeBlur : function()
     {
       this.base(arguments);
-      
+
       // Blur always, not only when element focussing is enabled.
       // We need to remove the caret in all cases.
       // This sometimes does not work in IE (caret keeps blinking)
@@ -654,11 +661,11 @@ qx.Class.define("qx.ui.form.TextField",
       if (!qx.event.handler.FocusHandler.mouseFocus)
       {
         try {
-          this._inputElement.blur();    
+          this._inputElement.blur();
         } catch(ex) {}
-      }      
+      }
     },
-    
+
 
     /**
      * Return the current value of the text field. The computed values is
@@ -726,7 +733,7 @@ qx.Class.define("qx.ui.form.TextField",
     ---------------------------------------------------------------------------
     */
 
-	/** 
+	/**
 	 * @return {Integer}
 	 */
     _computePreferredInnerWidth : function() {
@@ -734,7 +741,7 @@ qx.Class.define("qx.ui.form.TextField",
     },
 
 
-	/** 
+	/**
 	 * @return {Integer}
 	 */
     _computePreferredInnerHeight : function() {
