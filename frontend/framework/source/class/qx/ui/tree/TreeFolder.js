@@ -137,6 +137,27 @@ qx.Class.define("qx.ui.tree.TreeFolder",
       init : "tree-folder"
     },
 
+
+    /**
+     * Controls the default icon for the element.
+     */
+    icon :
+    {
+      refine : true,
+      init : "icon/16/places/folder.png",
+    },
+
+
+    /**
+     * Controls the icon for the element when it is selected.
+     */
+    iconSelected :
+    {
+      refine : true,
+      init : "icon/16/status/folder-open.png"
+    },
+
+
     /**
      * Controls whether the folder is open.
      */
@@ -699,22 +720,6 @@ qx.Class.define("qx.ui.tree.TreeFolder",
       APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
-    _evalCurrentIcon : function()
-    {
-      if (this.getSelected()) {
-        return this.getIconSelected() || "icon/16/status/folder-open.png";
-      } else {
-        return this.getIcon() || "icon/16/places/folder.png";
-      }
-    },
-
 
     /**
      * TODOC

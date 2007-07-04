@@ -95,13 +95,17 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
       this.setIcon(treeRowStructure._icons.unselected);
       this.setIconSelected(treeRowStructure._icons.unselected);
     }
+    else
+    {
+      this.initIcon();
+      this.initIconSelected();
+    }
 
     if ((treeRowStructure._icons.selected != null) && (qx.util.Validation.isValidString(treeRowStructure._icons.selected))) {
       this.setIconSelected(treeRowStructure._icons.selected);
+    } else {
+      this.initIconSelected();
     }
-
-    // Setup initial icon
-    this._iconObject.setSource(this._evalCurrentIcon());
 
     // Set Appearance
     this._iconObject.setAppearance("tree-element-icon");
@@ -158,8 +162,10 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
     {
       check : "String",
       nullable : true,
-      init : null
+      init : "icon/16/actions/document-new.png",
+      apply : "_applyIcon"
     },
+
 
     /**
      * Controls the icon for the element when it is selected.
@@ -169,7 +175,8 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
       check : "String",
       event : "iconSelected",
       nullable : true,
-      init : null
+      init : null,
+      apply : "_applyIcon"
     },
 
 
@@ -224,6 +231,16 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
     {
       if (this._labelObject) {
         this._labelObject.setText(value);
+      }
+    },
+
+
+    _applyIcon : function(value, old)
+    {
+      if (this.getIconObject())
+      {
+        this.getIconObject().setSource(this._evalCurrentIcon());
+        this.addToTreeQueue();
       }
     },
 
@@ -308,7 +325,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
       if (this.getSelected() && this.getIconSelected()) {
         return this.getIconSelected();
       } else {
-        return this.getIcon() || "icon/16/actions/document-new.png";
+        return this.getIcon();
       }
     },
 
