@@ -21,8 +21,8 @@
 /* ************************************************************************
 
 #module(demobrowser)
-#resource(css:css)
-#resource(image:image)
+#resource(demobrowser.css:css)
+#resource(demobrowser.image:image)
 
 #embed(qx.icontheme/16/*)
 #embed(demobrowser.image/*)
@@ -52,7 +52,7 @@ qx.Class.define("demobrowser.Application",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     main : function()
     {
@@ -78,7 +78,7 @@ qx.Class.define("demobrowser.Application",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _load : function() {
       this.viewer.dataLoader("script/demodata.js");

@@ -21,8 +21,8 @@
 /* ************************************************************************
 
 #module(testrunner)
-#resource(css:css)
-#resource(image:image)
+#resource(testrunner.css:css)
+#resource(testrunner.image:image)
 
 #embed(qx.icontheme/16/*)
 #embed(testrunner.image/*)

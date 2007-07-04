@@ -19,10 +19,10 @@
 
 /* ************************************************************************
 
-#resource(feeds:feeds)
-#resource(css:css)
-#resource(proxy:proxy)
-#resource(images:images)
+#resource(feedreader.feeds:feeds)
+#resource(feedreader.css:css)
+#resource(feedreader.proxy:proxy)
+#resource(feedreader.images:images)
 #embed(feedreader.proxy/*)
 #embed(feedreader.feeds/*)
 #embed(feedreader.css/*)

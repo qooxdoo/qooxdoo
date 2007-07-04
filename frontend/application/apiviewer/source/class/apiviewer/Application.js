@@ -23,8 +23,8 @@
 /* ************************************************************************
 
 #module(apiviewer)
-#resource(css:css)
-#resource(image:image)
+#resource(apiviewer.css:css)
+#resource(apiviewer.image:image)
 #embed(apiviewer.css/*)
 
 ************************************************************************ */
@@ -41,7 +41,7 @@ qx.Class.define("apiviewer.Application",
     main : function()
     {
       this.base(arguments);
-      
+
       qx.Class.include(qx.ui.core.Widget, apiviewer.MWidgetRegistry);
 
       // Define alias for custom resource path

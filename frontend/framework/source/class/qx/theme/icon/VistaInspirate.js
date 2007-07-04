@@ -21,7 +21,7 @@
 /* ************************************************************************
 
 #require(qx.io.Alias)
-#resource(icontheme:icon/VistaInspirate)
+#resource(qx.icontheme:icon/VistaInspirate)
 
 ************************************************************************ */
 

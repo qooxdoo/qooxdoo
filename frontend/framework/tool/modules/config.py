@@ -79,7 +79,7 @@ QXHEAD = {
     "ignore" : re.compile("#ignore\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
 
     # Resource hints
-    "resource" : re.compile("#resource\(\s*(.*?):(.*?)\s*\)", re.M),
+    "resource" : re.compile("#resource\(\s*([a-zA-Z0-9]+?)\.([a-zA-Z0-9]+?):(.*?)\s*\)", re.M),
     "embed" : re.compile("#embed\(\s*([a-zA-Z0-9]+?)\.([a-zA-Z0-9]+?)/(.+?)\s*\)", re.M)
 }
 
