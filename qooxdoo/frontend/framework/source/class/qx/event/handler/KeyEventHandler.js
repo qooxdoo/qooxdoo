@@ -233,7 +233,7 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
     {
       "mshtml" : function(domEvent)
       {
-        domEvent = window.event || domEvent;
+        var domEvent = window.event || domEvent;
 
         if (this._charCode2KeyCode[domEvent.keyCode]) {
           this._idealKeyHandler(this._charCode2KeyCode[domEvent.keyCode], 0, domEvent.type, domEvent);

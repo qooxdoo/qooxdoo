@@ -46,7 +46,7 @@ qx.Class.define("qx.event.type.KeyEvent",
   {
     this.base(arguments, vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget);
 
-    this.setKeyCode(vKeyCode);
+    this._keyCode = vKeyCode;
     this.setCharCode(vCharCode);
     this.setKeyIdentifier(vKeyIdentifier);
   },
@@ -133,17 +133,6 @@ qx.Class.define("qx.event.type.KeyEvent",
 
   properties :
   {
-    /**
-     * Legacy keycode
-     * @deprecated Will be removed with qooxdoo 0.7
-     */
-    keyCode :
-    {
-      _fast       : true,
-      setOnlyOnce : true,
-      noCompute   : true
-    },
-
 
     /**
      * Unicode number of the pressed character.
@@ -212,6 +201,28 @@ qx.Class.define("qx.event.type.KeyEvent",
       _fast       : true,
       setOnlyOnce : true,
       noCompute   : true
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /**
+     * Legacy keycode
+     * @deprecated Will be removed with qooxdoo 0.7
+     */
+    getKeyCode : function() {
+      this.warn("Deprecated: please use getKeyIdentifier() instead.");
+      this.printStackTrace();
+      return this._keyCode;
     }
   },
 
