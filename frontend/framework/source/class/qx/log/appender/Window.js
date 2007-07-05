@@ -55,8 +55,6 @@ qx.Class.define("qx.log.appender.Window",
 
     this._errorsPreventingAutoCloseCount = 0;
 
-    this._logWindowOpened = false;
-
     this._divDataSets = [];
     this._filterTextWords = [];
     this._filterText = "";
@@ -201,10 +199,10 @@ qx.Class.define("qx.log.appender.Window",
      */
     openWindow : function()
     {
-      if (this._logWindowOpened)
+      if (this._logWindow && !this._logWindow.closed)
       {
         // The window is already open -> Nothing to do
-        return ;
+        return;
       }
 
       // Open the logger window
@@ -231,19 +229,17 @@ qx.Class.define("qx.log.appender.Window",
 
       if (!this._logWindow || this._logWindow.closed)
       {
-        if (!this._popupBlockerWarning) {
-          alert("Couldn't open debug window. Please disable your popup blocker!");
+        if (this._popupBlockerWarning) {
+          return; 
         }
-
+        
+        alert("Could not open log window. Please disable your popup blocker!");
         this._popupBlockerWarning = true;
         return;
       }
 
       // Seems to be OK now.
       this._popupBlockerWarning = false;
-
-      // Store that window is open
-      this._logWindowOpened = true;
 
       if (this.getPopUnder())
       {
@@ -300,7 +296,7 @@ qx.Class.define("qx.log.appender.Window",
           this.appendLogEvent(this._logEventQueue[i]);
         }
 
-        this._logEventQueue = null;
+        this._logEventQueue.length = 0;
       }
     },
 
@@ -318,7 +314,6 @@ qx.Class.define("qx.log.appender.Window",
         this._logWindow.close();
         this._logWindow = null;
         this._logElem = null;
-        this._logWindowOpened = false;
       }
     },
 
@@ -368,17 +363,14 @@ qx.Class.define("qx.log.appender.Window",
     // overridden
     appendLogEvent : function(evt)
     {
-      if (!this._logWindowOpened)
+      if (!this._logWindow || this._logWindow.closed)
       {
-        this._logEventQueue = [];
-        this._logEventQueue.push(evt);
-
-        this.openWindow();
-
-        // Popup-Blocker was active!
-        if (!this._logWindowOpened) {
-          return;
+        if (!this._logWindow || !this._logEventQueue) {
+          this._logEventQueue = [];
         }
+
+        this._logEventQueue.push(evt);
+        this.openWindow();
       }
       else if (this._logElem == null)
       {
@@ -506,14 +498,18 @@ qx.Class.define("qx.log.appender.Window",
 
   destruct : function()
   {
+    try
+    {
+      if (this._markerBtn) {
+        this._markerBtn.onclick = null;
+      }
+  
+      if (this._filterInput) {
+        this._filterInput.onkeyup = null;
+      }
+    }
+    catch(ex) {};
+
     this._autoCloseWindow();
-
-    if (this._markerBtn) {
-      this._markerBtn.onclick = null;
-    }
-
-    if (this._filterInput) {
-      this._filterInput.onkeyup = null;
-    }
   }
 });
