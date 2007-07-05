@@ -83,6 +83,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
 
     // Initialize Properties
     this.initHideFocus();
+    this.initSelectable();
 
     // Register as current focus root
     qx.event.handler.EventHandler.getInstance().setFocusRoot(this);
@@ -138,7 +139,13 @@ qx.Class.define("qx.ui.core.ClientDocument",
     {
       refine : true,
       init : true
-    },
+    },    
+
+    selectable :
+    {
+      refine : true,
+      init : false
+    },    
 
     hideFocus :
     {

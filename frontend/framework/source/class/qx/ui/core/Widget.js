@@ -1509,7 +1509,8 @@ qx.Class.define("qx.ui.core.Widget",
     selectable :
     {
       check : "Boolean",
-      init : true,
+      init : null,
+      nullable : true,
       apply : "_applySelectable"
     },
 
@@ -6007,13 +6008,27 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _applySelectable : qx.core.Variant.select("qx.client",
     {
+      // "unselectable" works locally and does not affect children
+      // "user-select" is not inherited, but it does affect children 
+      // in the same way that display: none does, it limits it.
+      // Normally "unselectable" must be applied recursively because
+      // of this restriction. We use the "selectstart" event instead
+      // and apply a preventDefault() on this event in the EventHandler
+      // class. This event works at least in MSHTML and Webkit.
+      // Opera has no support for any of these options yet. No "selectstart"
+      // event no user-select property.
+      
       "mshtml" : function(value, old)
       {
+        return;
+        
+        /*
         if (value) {
           return this.removeHtmlProperty("unselectable");
         } else {
           return this.setHtmlProperty("unselectable", "on");
         }
+        */
       },
 
       "gecko" : function(value, old)
@@ -6025,27 +6040,25 @@ qx.Class.define("qx.ui.core.Widget",
         }
       },
 
-      "opera" : qx.lang.Function.returnTrue,
-
       "webkit" : function(value, old)
       {
-        // Be forward compatible and use both userSelect and KhtmlUserSelect
         if (value) {
-          this.removeStyleProperty("-webkit-user-select");
+          this.removeStyleProperty("WebkitUserSelect");
         } else {
-          this.setStyleProperty("-webkit-user-select", "ignore");
+          this.setStyleProperty("WebkitUserSelect", "none");
         }
       },
 
       "khtml" : function(value, old)
       {
-        // Be forward compatible and use both userSelect and KhtmlUserSelect
         if (value) {
           this.removeStyleProperty("KhtmlUserSelect");
         } else {
           this.setStyleProperty("KhtmlUserSelect", "none");
         }
       },
+
+      // Opera currently has no support to prohibit user selection
 
       "default" : function(value, old)
       {

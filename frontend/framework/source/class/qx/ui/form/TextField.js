@@ -173,6 +173,12 @@ qx.Class.define("qx.ui.form.TextField",
       refine : true,
       init : "auto"
     },
+    
+    selectable : 
+    {
+      refine : true,
+      init : true
+    },
 
     /**
      * The value of the text field.
