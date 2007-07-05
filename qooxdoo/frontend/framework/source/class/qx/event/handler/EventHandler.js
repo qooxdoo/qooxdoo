@@ -1186,11 +1186,25 @@ qx.Class.define("qx.event.handler.EventHandler",
       if (!e) {
         e = window.event;
       }
-
-      var vTarget = qx.event.handler.EventHandler.getOriginalTargetObjectFromEvent(e);
-
-      if (vTarget && !vTarget.getSelectable()) {
-        qx.event.handler.EventHandler.stopDomEvent(e);
+      
+      var target = qx.event.handler.EventHandler.getOriginalTargetObjectFromEvent(e);
+      
+      // this.debug("Onselect...: " + e.type + " :: " + target + " :: " + target.getSelectable());
+      
+      while (target) 
+      {
+        if (target.getSelectable() != null) 
+        {
+          if (!target.getSelectable()) 
+          {
+            // this.debug("Stopping: " + e.type);
+            qx.event.handler.EventHandler.stopDomEvent(e);
+          }
+          
+          break; 
+        }  
+        
+        target = target.getParent(); 
       }
     },
 
