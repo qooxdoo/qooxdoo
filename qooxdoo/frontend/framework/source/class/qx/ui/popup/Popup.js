@@ -126,7 +126,52 @@ qx.Class.define("qx.ui.popup.Popup",
     {
       check : "Boolean",
       init : true
+    },
+
+
+    /**
+     * The minimum offset to the left of the page too keep when
+     * {@link #restrictToPageOnOpen} is true (in pixels).
+     */
+    restrictToPageLeft :
+    {
+      check : "Integer",
+      init : 0
+    },
+
+
+    /**
+     * The minimum offset to the right of the page too keep when
+     * {@link #restrictToPageOnOpen} is true (in pixels).
+     */
+    restrictToPageRight :
+    {
+      check : "Integer",
+      init : 0
+    },
+
+
+    /**
+     * The minimum offset to the top of the page too keep when
+     * {@link #restrictToPageOnOpen} is true (in pixels).
+     */
+    restrictToPageTop :
+    {
+      check : "Integer",
+      init : 0
+    },
+
+
+    /**
+     * The minimum offset to the bottom of the page too keep when
+     * {@link #restrictToPageOnOpen} is true (in pixels).
+     */
+    restrictToPageBottom :
+    {
+      check : "Integer",
+      init : 0
     }
+
   },
 
 
@@ -144,37 +189,6 @@ qx.Class.define("qx.ui.popup.Popup",
 
     _showTimeStamp : (new Date(0)).valueOf(),
     _hideTimeStamp : (new Date(0)).valueOf(),
-
-
-    /**
-     * The minimum offset to the left of the page too keep when
-     * {@link #restrictToPageOnOpen} is true (in pixels).
-     */
-    _restrictToPageLeft : 0,
-
-
-    /**
-     * The minimum offset to the right of the page too keep when
-     * {@link #restrictToPageOnOpen} is true (in pixels).
-     */
-    _restrictToPageRight : 0,
-
-
-    /**
-     * The minimum offset to the top of the page too keep when
-     * {@link #restrictToPageOnOpen} is true (in pixels).
-     */
-    _restrictToPageTop : 0,
-
-
-    /**
-     * The minimum offset to the bottom of the page too keep when
-     * {@link #restrictToPageOnOpen} is true (in pixels).
-     */
-    _restrictToPageBottom : 0,
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -259,10 +273,10 @@ qx.Class.define("qx.ui.popup.Popup",
         var doc = qx.ui.core.ClientDocument.getInstance();
         var docWidth = doc.getClientWidth();
         var docHeight = doc.getClientHeight();
-        var restrictToPageLeft = this._restrictToPageLeft;
-        var restrictToPageRight = this._restrictToPageRight;
-        var restrictToPageTop = this._restrictToPageTop;
-        var restrictToPageBottom = this._restrictToPageBottom;
+        var restrictToPageLeft = this.getRestrictToPageLeft();
+        var restrictToPageRight = this.getRestrictToPageRight();
+        var restrictToPageTop = this.getRestrictToPageTop();
+        var restrictToPageBottom = this.getRestrictToPageBottom();
         var left = (this._wantedLeft == null) ? this.getLeft() : this._wantedLeft;
         var top = this.getTop();
         var width = this.getBoxWidth();
