@@ -1255,7 +1255,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       var fwindow = this.f1.getContentWindow();
       var fpath = fwindow.location.pathname + "";
       var splitIndex = fpath.indexOf("?");
-      if (splitIndex == -1) {
+      if (splitIndex != -1) {
         fpath = fpath.substring(0, splitIndex + 1);
       }
       var path = fpath.split("/");
