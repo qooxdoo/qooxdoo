@@ -994,6 +994,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
   */
 
   destruct : function() {
+    this._disposeFields('_treeRowStructureFields');
     this._disposeObjects("_horizontalLayout", "_containerObject");
   }
 });
