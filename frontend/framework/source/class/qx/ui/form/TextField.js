@@ -61,6 +61,7 @@ qx.Class.define("qx.ui.form.TextField",
     this.initWidth();
     this.initHeight();
     this.initTabIndex();
+    this.initSpellCheck();
 
     // Inline event wrapper
     this.__oninput = qx.lang.Function.bindEvent(this._oninputDom, this);
@@ -194,7 +195,6 @@ qx.Class.define("qx.ui.form.TextField",
       apply : "_applyValue"
     },
 
-
     /**
      * The alignment of the text inside the box
      */
@@ -206,6 +206,18 @@ qx.Class.define("qx.ui.form.TextField",
       apply : "_applyTextAlign"
     },
 
+    /**
+     * Whether the browser's build in spell check should be enabled
+     * for this input field. Currently affets only FireFox >= 2.
+     *
+     * Documented at http://developer.mozilla.org/en/docs/Controlling_spell_checking_in_HTML_forms
+     */
+    spellCheck :
+    {
+      check : "Boolean",
+      init : false,
+      apply : "_applySpellCheck"
+    },
 
     /**
      * Whether the property {@link #value} should be updated "live" on each key
@@ -331,6 +343,7 @@ qx.Class.define("qx.ui.form.TextField",
         this._renderTextColor();
         this._renderTextAlign();
         this._renderCursor();
+        this._renderSpellCheck();
 
         // Register inline event
         if (qx.core.Variant.isSet("qx.client", "mshtml")) {
@@ -453,6 +466,21 @@ qx.Class.define("qx.ui.form.TextField",
      */
     _renderTextAlign : function() {
       this._inputElement.style.textAlign = this.getTextAlign() || "";
+    },
+
+
+    _applySpellCheck : function(value, old)
+    {
+      if (this._inputElement) {
+        this._renderSpellCheck();
+      }
+    },
+
+    /**
+     * Applies the spell check to the DOM element.
+     */
+    _renderSpellCheck : function() {
+      this._inputElement.spellcheck = this.getSpellCheck();
     },
 
 
