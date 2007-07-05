@@ -93,7 +93,6 @@ qx.Class.define("qx.ui.basic.Atom",
     // Property init
     this.initWidth();
     this.initHeight();
-    this.initSelectable();
   },
 
 
@@ -118,12 +117,6 @@ qx.Class.define("qx.ui.basic.Atom",
     {
       refine : true,
       init : "horizontal"
-    },
-
-    selectable :
-    {
-      refine : true,
-      init : false
     },
 
     allowStretchX :
