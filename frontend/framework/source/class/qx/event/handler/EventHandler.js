@@ -1076,6 +1076,7 @@ qx.Class.define("qx.event.handler.EventHandler",
 
           break;
 
+        /*
         case "mousewheel":
           if (qx.core.Variant.isSet("qx.client", "gecko"))
           {
@@ -1084,6 +1085,7 @@ qx.Class.define("qx.event.handler.EventHandler",
           }
 
           break;
+        */
       }
 
       this._ignoreWindowBlur = vType === "mousedown";
@@ -1097,10 +1099,12 @@ qx.Class.define("qx.event.handler.EventHandler",
     /**
      * @signature function(vTarget, vEvent)
      */
+    /*
     _onmousewheel : qx.core.Variant.select("qx.client",
     {
       "gecko" : function(vTarget, vEvent)
       {
+        return;
         if (vTarget == null) {
           return;
         }
@@ -1139,6 +1143,7 @@ qx.Class.define("qx.event.handler.EventHandler",
 
       "default" : null
     }),
+    */
 
 
     /*
