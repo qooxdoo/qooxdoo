@@ -1335,27 +1335,26 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Mapping to native style property cursor.
      *
-     *  The name of the cursor to show when the mouse pointer is over the widget.
-     *  This is any valid CSS2 cursor name defined by W3C.
+     * The name of the cursor to show when the mouse pointer is over the widget.
+     * This is any valid CSS2 cursor name defined by W3C.
      *
-     *  The following values are possible:
-     *  <ul><li>default</li>
-     *  <li>crosshair</li>
-     *  <li>pointer (hand is the ie name and will mapped to pointer in non-ie).</li>
-     *  <li>move</li>
-     *  <li>n-resize</li>
-     *  <li>ne-resize</li>
-     *  <li>e-resize</li>
-     *  <li>se-resize</li>
-     *  <li>s-resize</li>
-     *  <li>sw-resize</li>
-     *  <li>w-resize</li>
-     *  <li>nw-resize</li>
-     *  <li>text</li>
-     *  <li>wait</li>
-     *  <li>help </li>
-     *  <li>url([file]) = self defined cursor, file should be an ANI- or CUR-type</li>
-     *  </ul>
+     * The following values are possible crossbrowser:
+     * <ul><li>default</li>
+     * <li>crosshair</li>
+     * <li>pointer</li>
+     * <li>move</li>
+     * <li>n-resize</li>
+     * <li>ne-resize</li>
+     * <li>e-resize</li>
+     * <li>se-resize</li>
+     * <li>s-resize</li>
+     * <li>sw-resize</li>
+     * <li>w-resize</li>
+     * <li>nw-resize</li>
+     * <li>text</li>
+     * <li>wait</li>
+     * <li>help </li>
+     * </ul>
      */
     cursor :
     {
