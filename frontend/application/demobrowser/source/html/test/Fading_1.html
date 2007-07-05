@@ -5,7 +5,7 @@
   <script type="text/javascript" src="../../script/demo.js"></script>
   <script type="text/javascript" src="../util.js"></script>
 </head>
-<body>  
+<body>
   <div id="description">
     <p></p>
   </div>
@@ -16,7 +16,7 @@
     var d = qx.ui.core.ClientDocument.getInstance();
 
 	  qx.Class.include(qx.ui.core.Widget, qx.ui.animation.MAnimation);
-	  
+
     /*
     ----------------------------------------------
     TEST LEVEL I
@@ -44,33 +44,33 @@
 				action = qx.ui.animation.MAnimation.FADE_OUT;
 				btn1.setLabel("Fade out")
 			}
-			btn1.setEnabled(true);			
+			btn1.setEnabled(true);
 		});
 
 		var btn1 = new qx.ui.form.Button("fade out");
 		btn1.set({
 			top : 48,
 			left: 150
-		});		
+		});
 		btn1.addEventListener("execute", function(e) {
 			var time = duration.getValue();
 			var step = steps.getValue();
-			if (action == qx.ui.animation.MAnimation.FADE_IN) { 
+			if (action == qx.ui.animation.MAnimation.FADE_IN) {
 				la1.fadeIn(step, time);
 			} else {
-				la1.fadeOut(step, time);			
+				la1.fadeOut(step, time);
 			}
 			btn1.setEnabled(false);
 		});
 		d.add(btn1);
-		
+
 		var durLabel = new qx.ui.basic.Label("Duration (ms):");
 		durLabel.set({
 			left: 20,
 			top: 100
 	  });
 	  d.add(durLabel);
-	  
+
 		var duration = new qx.ui.form.Spinner(0, 400, 10000);
 		duration.set({
 			left: 120,
@@ -85,7 +85,7 @@
 			top: 140
 	  });
 	  d.add(stepsLabel);
-	  
+
 		var steps = new qx.ui.form.Spinner(0, 10, 400);
 		steps.set({
 			left: 120,
