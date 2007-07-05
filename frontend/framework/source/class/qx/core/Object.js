@@ -100,16 +100,16 @@ qx.Class.define("qx.core.Object",
      * does not yet exist, create it.
      *
      * @type static
-     * @param o {Object} the Object to get the hashcode for
+     * @param obj {Object} the Object to get the hashcode for
      * @return {Integer} unique identifier for the given object
      */
-    toHashCode : function(o)
+    toHashCode : function(obj)
     {
-      if (o._hashCode != null) {
-        return o._hashCode;
+      if (obj._hashCode != null) {
+        return obj._hashCode;
       }
 
-      return o._hashCode = qx.core.Object.__availableHashCode++;
+      return obj._hashCode = this.__availableHashCode++;
     },
 
 
@@ -153,11 +153,11 @@ qx.Class.define("qx.core.Object",
       }
 
       // var vStart = (new Date).valueOf();
-      var vObject;
+      var vObject, vObjectDb = this.__db;
 
-      for (var i=qx.core.Object.__db.length - 1; i>=0; i--)
+      for (var i=vObjectDb.length - 1; i>=0; i--)
       {
-        vObject = qx.core.Object.__db[i];
+        vObject = vObjectDb[i];
 
         if (vObject && vObject.__disposed === false)
         {
@@ -230,7 +230,7 @@ qx.Class.define("qx.core.Object",
      * @return {Boolean} whether a global dispose is taking place.
      */
     inGlobalDispose : function() {
-      return qx.core.Object.__disposed;
+      return this.__disposed;
     }
   },
 
