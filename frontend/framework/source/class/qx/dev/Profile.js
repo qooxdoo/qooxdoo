@@ -177,8 +177,10 @@ qx.Class.define("qx.dev.Profile", {
     /**
      * This function will be called before each function call. (Start timing)
      *
-     * @param fullname {String} Full name of the function including the class name.
+     * @param fullName {String} Full name of the function including the class name.
      * @param fcn {Function} Function to time.
+     * @param type {String} Function type as in parameter with same name to 
+     *                      {@link qx.core.Aspect#addAdvice}
      * @param args {Arguments} The arguments passed to the wrapped function
      */
     profileBefore : function(fullName, fcn, type, args) {
@@ -198,8 +200,10 @@ qx.Class.define("qx.dev.Profile", {
     /**
      * This function will be called after each function call. (Stop timing)
      *
-     * @param fullname {String} Full name of the function including the class name.
+     * @param fullName {String} Full name of the function including the class name.
      * @param fcn {Function} Function to time.
+     * @param type {String} Function type as in parameter with same name to 
+     *                      {@link qx.core.Aspect#addAdvice}
      * @param args {Arguments} The arguments passed to the wrapped function
      * @param returnValue {var} return value of the wrapped function.
      */
