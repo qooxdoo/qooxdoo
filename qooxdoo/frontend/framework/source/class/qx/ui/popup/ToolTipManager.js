@@ -84,7 +84,7 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
       }
 
       // If old tooltip existing, hide it and clear widget binding
-      if (old)
+      if (old && !old.isDisposed())
       {
         old.hide();
 
