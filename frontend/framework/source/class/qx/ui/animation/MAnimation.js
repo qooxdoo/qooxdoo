@@ -129,6 +129,7 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
       if (vSteps) this.setFadeSteps(vSteps);
       if (vTime) this.setFadeTime(vTime);
       this._fadeMode = qx.ui.animation.MAnimation.FADE_IN;
+      this.setFadeCounter(0);
       var timer = this.getFadeTimer();
       timer.addEventListener("interval", this._onInterval, this);
       timer.start();
