@@ -76,6 +76,8 @@ qx.Class.define("qx.ui.form.ComboBox",
     // Popup
     var p = this._popup = new qx.ui.popup.Popup;
     p.setAppearance("combo-box-popup");
+    p.setRestrictToPageLeft(-100000);
+    p.setRestrictToPageRight(-100000);
     p.setAutoHide(false);
     p.setHeight("auto");
     p.add(l);
