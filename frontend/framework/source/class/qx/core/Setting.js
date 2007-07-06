@@ -119,7 +119,7 @@ qx.Class.define("qx.core.Setting",
     get : function(key)
     {
       var cache = this.__settings[key];
-      
+
       if (cache === undefined) {
         throw new Error('Setting "' + key + '" is not defined.');
       }
@@ -177,10 +177,10 @@ qx.Class.define("qx.core.Setting",
      */
     __loadUrlSettings : function()
     {
-      if (this.__settings["qx.allowUrlSettings"] != true) {
+      debugger;
+      if (this.get("qx.allowUrlSettings") != true) {
         return
       }
-
       var urlSettings = document.location.search.slice(1).split("&");
       for (var i=0; i<urlSettings.length; i++)
       {
