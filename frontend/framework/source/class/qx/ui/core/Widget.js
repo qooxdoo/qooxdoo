@@ -6316,7 +6316,7 @@ qx.Class.define("qx.ui.core.Widget",
         var pv = value;
         var pn = "overflow";
 
-        switch(pv)
+        switch(value)
         {
           case "scrollX":
             pn = "overflowX";
@@ -6337,6 +6337,17 @@ qx.Class.define("qx.ui.core.Widget",
           if (a[i] != pn) {
             this.removeStyleProperty(a[i]);
           }
+        }
+
+        switch(value)
+        {
+          case "scrollX":
+            this.setStyleProperty("overflowY", "hidden");
+            break;
+
+          case "scrollY":
+            this.setStyleProperty("overflowX", "hidden");
+            break;
         }
 
         this._renderOverflow(pn, pv, value, old);
