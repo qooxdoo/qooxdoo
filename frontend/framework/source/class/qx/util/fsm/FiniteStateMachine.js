@@ -621,7 +621,9 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      * transition can then provide, as its nextState value, the class
      * constant:
      *
+     *   <code>
      *   qx.util.fsm.FiniteStateMachine.StateChange.POP_STATE_STACK
+     *   </code>
      *
      * which will cause the next state to be whatever is at the top of the
      * saved-state stack, and remove that top element from the saved-state

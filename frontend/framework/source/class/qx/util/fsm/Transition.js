@@ -44,6 +44,7 @@ qx.Class.define("qx.util.fsm.Transition",
    *   The name of this transition, used in debug messages.
    *
    * @param transitionInfo {Object}
+   *   <pre>
    *   An object optionally containing any of the following properties:
    *
    *     predicate -
@@ -136,6 +137,7 @@ qx.Class.define("qx.util.fsm.Transition",
    *     used by the finite state machine, but will be available via
    *     this.getUserData("<propertyName>") during the transition's predicate
    *     and ontransition functions.
+   *   </pre>
    */
   construct : function(transitionName, transitionInfo)
   {
