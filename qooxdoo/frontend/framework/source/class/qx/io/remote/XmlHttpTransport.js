@@ -232,6 +232,33 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
         return output;
       };
 
+      /*
+         XmlHttpTransport makes IE crash when a HTTP response with a statusCode != 200
+         arrives. The problem is propably some manipulation on the XmlHttpRequest object
+         during the handling of onreadystatechange. This problem needs further
+         investigation.
+
+         http://bugzilla.qooxdoo.org/show_bug.cgi?id=190
+
+         The following workaround calls the handler code with a zero timeout in order
+         to avoid those problems, because onreadystatechange can then return instantly.
+      */
+      var onreadyStateChangeCallback = qx.lang.Function.bind(this._onreadystatechange, this);
+      if (qx.core.Variant.isSet("qx.client", "mshtml") && this.getAsynchronous())
+      {
+        vRequest.onreadystatechange = function(e)
+        {
+          var self = this;
+          window.setTimeout(function(e) {
+            onreadyStateChangeCallback(e);
+          }, 0);
+        };
+      }
+      else
+      {
+        vRequest.onreadystatechange = onreadyStateChangeCallback
+      }
+
       // --------------------------------------
       //   Opening connection
       // --------------------------------------
@@ -839,29 +866,6 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
     // basic registration to qx.io.remote.Exchange
     // the real availability check (activeX stuff and so on) follows at the first real request
     qx.io.remote.Exchange.registerType(qx.io.remote.XmlHttpTransport, "qx.io.remote.XmlHttpTransport");
-
-    /*
-       XmlHttpTransport makes IE crash when a HTTP response with a statusCode != 200
-       arrives. The problem is propably some manipulation on the XmlHttpRequest object
-       during the handling of onreadystatechange. This problem needs further
-       investigation.
-
-       http://bugzilla.qooxdoo.org/show_bug.cgi?id=190
-
-       The following workaround calls the handler code with a zero timeout in order
-       to avoid those problems, because onreadystatechange can then return instantly.
-    */
-    if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-
-      statics.__originalOnreadystatechange = members._onreadystatechange;
-
-      members._onreadystatechange = function() {
-        var self = this;
-        window.setTimeout(function() {
-          statics.__originalOnreadystatechange.call(self);
-        }, 0);
-      };
-    }
   },
 
 
