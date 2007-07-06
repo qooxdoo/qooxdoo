@@ -26,8 +26,8 @@
 /**
  * A finite state machine.
  *
- * See {@link qx.util.finitestatemacine.State} for details on creating States,
- * and {@link qx.util.finitestatemacine.Transitions} for details on creating
+ * See {@link qx.util.fsm.State} for details on creating States,
+ * and {@link qx.util.fsm.Transitions} for details on creating
  * transitions between states.
  */
 qx.Class.define("qx.util.fsm.FiniteStateMachine",
@@ -238,11 +238,13 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      * Set the debug flags from the application by or-ing together bits, akin
      * to this:
      *
+     * <pre><code>
      * var FSM = qx.util.fsm.FiniteStateMachine;
      * fsm.setDebugFlags(FSM.DebugFlags.EVENTS |
      *                   FSM.DebugFlags.TRANSITIONS |
      *                   FSM.DebugFlags.FUNCTION_DETAIL |
      *                   FSM.DebugFlags.OBJECT_NOT_FOUND);
+     * </code></pre>
      */
     debugFlags :
     {
