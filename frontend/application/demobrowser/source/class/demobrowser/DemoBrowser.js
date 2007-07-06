@@ -217,7 +217,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           } else {
             cw.qx.dev.Profile.stop();
             cw.qx.dev.Profile.normalizeProfileData();
-            this.showProfile(cw.qx.dev.Profile.__profileData);
+            this.showProfile(cw.qx.dev.Profile.getProfileData());
             this._cmdShowLastProfile.setEnabled(true);
           }
         }
@@ -233,7 +233,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         var cw = this.f1.getContentWindow();
         if (cw && cw.qx) {
           cw.qx.dev.Profile.normalizeProfileData();
-          this.showProfile(cw.qx.dev.Profile.__profileData);
+          this.showProfile(cw.qx.dev.Profile.getProfileData());
         }
       }, this);
 
