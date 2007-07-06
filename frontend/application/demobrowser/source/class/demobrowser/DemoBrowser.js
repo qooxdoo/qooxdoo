@@ -103,9 +103,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     var buttview = this.__makeOutputViews();
     right.add(buttview);
 
-    // add eventhandler now, after objects are created
-    this.widgets["treeview"].getBar().getManager().addEventListener("changeSelected", this.__ehTreeSelection, this);
-
     this.widgets["treeview.bsb1"].setChecked(true);
 
     this.__setStateInitialized();
@@ -1353,25 +1350,6 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
 
     }, // __ehIframeLoaded
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
-     */
-    __ehTreeSelection : function(e)
-    {
-      if (e.getData().getUserData('tree').getSelectedElement() == null)
-      {
-        this.widgets["toolbar.runbutton"].setEnabled(false);
-        this.widgets["toolbar.prevbutt"].setEnabled(false);
-        this.widgets["toolbar.nextbutt"].setEnabled(false);
-        this.widgets["toolbar.sobutt"].setEnabled(false);
-      }
-    },
 
 
     /**
