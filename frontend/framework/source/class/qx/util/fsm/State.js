@@ -46,6 +46,7 @@ qx.Class.define("qx.util.fsm.State",
    *   the the transition's predicate means transition to this state.
    *
    * @param stateInfo {Map}
+   *   <pre>
    *   An object containing any of the following properties:
    *
    *     onentry -
@@ -149,6 +150,7 @@ qx.Class.define("qx.util.fsm.State",
    *     used by the finite state machine, but will be available via
    *     this.getUserData("<propertyName>") during the state's onentry and
    *     onexit functions.
+   *   </pre>
    */
   construct : function(stateName, stateInfo)
   {
@@ -509,6 +511,7 @@ qx.Class.define("qx.util.fsm.State",
      * The value passed to setAutoActionsBeforeOnentry() should like something
      * akin to:
      *
+     *     <pre class='javascript'>
      *     "autoActionsBeforeOnentry" :
      *     {
      *       // The name of a function.  This would become "setEnabled("
@@ -528,6 +531,7 @@ qx.Class.define("qx.util.fsm.State",
      *         }
      *       ];
      *     };
+     *     </pre>
      */
     autoActionsBeforeOnentry :
     {
@@ -544,6 +548,7 @@ qx.Class.define("qx.util.fsm.State",
      * The value passed to setAutoActionsAfterOnentry() should like something
      * akin to:
      *
+     *     <pre class='javascript'>
      *     "autoActionsAfterOnentry" :
      *     {
      *       // The name of a function.  This would become "setEnabled("
@@ -563,6 +568,7 @@ qx.Class.define("qx.util.fsm.State",
      *         }
      *       ];
      *     };
+     *     </pre>
      */
     autoActionsAfterOnentry :
     {
@@ -578,6 +584,7 @@ qx.Class.define("qx.util.fsm.State",
      * The value passed to setAutoActionsBeforeOnexit() should like something
      * akin to:
      *
+     *     <pre class='javascript'>
      *     "autoActionsBeforeOnexit" :
      *     {
      *       // The name of a function.  This would become "setEnabled("
@@ -597,6 +604,7 @@ qx.Class.define("qx.util.fsm.State",
      *         }
      *       ];
      *     };
+     *     </pre>
      */
     autoActionsBeforeOnexit :
     {
@@ -613,6 +621,7 @@ qx.Class.define("qx.util.fsm.State",
      * The value passed to setAutoActionsAfterOnexit() should like something
      * akin to:
      *
+     *     <pre class='javascript'>
      *     "autoActionsBeforeOnexit" :
      *     {
      *       // The name of a function.  This would become "setEnabled("
@@ -632,6 +641,7 @@ qx.Class.define("qx.util.fsm.State",
      *         }
      *       ];
      *     };
+     *     </pre>
      */
     autoActionsAfterOnexit :
     {
