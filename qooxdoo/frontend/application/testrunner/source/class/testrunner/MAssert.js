@@ -49,7 +49,7 @@ qx.Mixin.define("testrunner.MAssert",
      * @type member
      * @param str {String} TODOC
      * @param re {var} TODOC
-     * @param msg {var} TODOC
+     * @param msg {String} Message to be shown if the assertion failes.
      * @return {void}
      */
     assertMatch : function(str, re, msg) {
@@ -58,14 +58,16 @@ qx.Mixin.define("testrunner.MAssert",
 
 
     /**
-     * TODOC
+     * Asserts that the callback raises a matching exception.
      *
      * @type member
-     * @param callback {var} TODOC
-     * @param exception {var} TODOC
-     * @param re {var} TODOC
-     * @param msg {var} TODOC
-     * @return {void}
+     * @param callback {Function} function to check
+     * @param exception {Error?Error} Required constructor of the exception.
+     *   The assertion fails if the raised exception is not an instance of the
+     *   parameter.
+     * @param re {String|RegExp} The assertion fails if the error message does
+     *   not match this parameter
+     * @param msg {String} Message to be shown if the assertion failes.
      */
     assertException : function(callback, exception, re, msg)
     {
@@ -113,7 +115,7 @@ qx.Mixin.define("testrunner.MAssert",
      *
      * @type member
      * @param bool {var} TODOC
-     * @param msg {var} TODOC
+     * @param msg {String} Message to be shown if the assertion failes.
      * @return {void}
      */
     assert : function(bool, msg) {
@@ -125,7 +127,7 @@ qx.Mixin.define("testrunner.MAssert",
      * TODOC
      *
      * @type member
-     * @param msg {var} TODOC
+     * @param msg {String} Message to be shown if the assertion failes.
      * @return {void}
      */
     fail : function(msg) {
@@ -138,7 +140,7 @@ qx.Mixin.define("testrunner.MAssert",
      *
      * @type member
      * @param bool {var} TODOC
-     * @param msg {var} TODOC
+     * @param msg {String} Message to be shown if the assertion failes.
      * @return {void}
      */
     assertTrue : function(bool, msg) {
@@ -151,7 +153,7 @@ qx.Mixin.define("testrunner.MAssert",
      *
      * @type member
      * @param bool {var} TODOC
-     * @param msg {var} TODOC
+     * @param msg {String} Message to be shown if the assertion failes.
      * @return {void}
      */
     assertFalse : function(bool, msg) {
@@ -165,7 +167,7 @@ qx.Mixin.define("testrunner.MAssert",
      * @type member
      * @param expected {var} TODOC
      * @param found {var} TODOC
-     * @param msg {var} TODOC
+     * @param msg {String} Message to be shown if the assertion failes.
      * @return {void}
      */
     assertEquals : function(expected, found, msg) {
@@ -179,7 +181,7 @@ qx.Mixin.define("testrunner.MAssert",
      * @type member
      * @param expected {var} TODOC
      * @param found {var} TODOC
-     * @param msg {var} TODOC
+     * @param msg {String} Message to be shown if the assertion failes.
      * @return {void}
      */
     assertIdentical : function(expected, found, msg) {
@@ -192,7 +194,7 @@ qx.Mixin.define("testrunner.MAssert",
      *
      * @type member
      * @param value {var} TODOC
-     * @param msg {var} TODOC
+     * @param msg {String} Message to be shown if the assertion failes.
      * @return {void}
      */
     assertNotUndefined : function(value, msg) {
@@ -205,7 +207,7 @@ qx.Mixin.define("testrunner.MAssert",
      *
      * @type member
      * @param value {var} TODOC
-     * @param msg {var} TODOC
+     * @param msg {String} Message to be shown if the assertion failes.
      * @return {void}
      */
     assertUndefined : function(value, msg) {
@@ -218,7 +220,7 @@ qx.Mixin.define("testrunner.MAssert",
      *
      * @type member
      * @param value {var} TODOC
-     * @param msg {var} TODOC
+     * @param msg {String} Message to be shown if the assertion failes.
      * @return {void}
      */
     assertNotNull : function(value, msg) {
@@ -231,7 +233,7 @@ qx.Mixin.define("testrunner.MAssert",
      *
      * @type member
      * @param value {var} TODOC
-     * @param msg {var} TODOC
+     * @param msg {String} Message to be shown if the assertion failes.
      * @return {void}
      */
     assertNull : function(value, msg) {
@@ -244,7 +246,7 @@ qx.Mixin.define("testrunner.MAssert",
      *
      * @type member
      * @param value {var} TODOC
-     * @param msg {var} TODOC
+     * @param msg {String} Message to be shown if the assertion failes.
      * @return {void}
      */
     assertFunction : function(value, msg) {
@@ -257,7 +259,7 @@ qx.Mixin.define("testrunner.MAssert",
      *
      * @type member
      * @param value {var} TODOC
-     * @param msg {var} TODOC
+     * @param msg {String} Message to be shown if the assertion failes.
      * @return {void}
      */
     assertString : function(value, msg) {
@@ -270,7 +272,7 @@ qx.Mixin.define("testrunner.MAssert",
      *
      * @type member
      * @param value {var} TODOC
-     * @param msg {var} TODOC
+     * @param msg {String} Message to be shown if the assertion failes.
      * @return {void}
      */
     assertNumber : function(value, msg) {
@@ -283,7 +285,7 @@ qx.Mixin.define("testrunner.MAssert",
      *
      * @type member
      * @param value {var} TODOC
-     * @param msg {var} TODOC
+     * @param msg {String} Message to be shown if the assertion failes.
      * @return {void}
      */
     assertObject : function(value, msg) {
@@ -296,7 +298,7 @@ qx.Mixin.define("testrunner.MAssert",
      *
      * @type member
      * @param value {var} TODOC
-     * @param msg {var} TODOC
+     * @param msg {String} Message to be shown if the assertion failes.
      * @return {void}
      */
     assertArray : function(value, msg) {
@@ -309,7 +311,7 @@ qx.Mixin.define("testrunner.MAssert",
      *
      * @type member
      * @param value {var} TODOC
-     * @param msg {var} TODOC
+     * @param msg {String} Message to be shown if the assertion failes.
      * @return {void}
      */
     assertMap : function(value, msg) {
@@ -322,7 +324,7 @@ qx.Mixin.define("testrunner.MAssert",
      *
      * @type member
      * @param value {var} TODOC
-     * @param msg {var} TODOC
+     * @param msg {String} Message to be shown if the assertion failes.
      * @return {void}
      */
     assertQxObject : function(value, msg) {
@@ -335,14 +337,19 @@ qx.Mixin.define("testrunner.MAssert",
      *
      * @type member
      * @param value {var} TODOC
-     * @param msg {var} TODOC
+     * @param msg {String} Message to be shown if the assertion failes.
      * @return {void}
      */
     assertQxWidget : function(value, msg) {
       this.__assert(value instanceof qx.ui.core.Widget, msg || "", "Expected value to be a qooxdoo widget but found " + qx.io.Json.stringify(value) + "!");
     },
 
-    // assertions which are only evaluated if "qx.debug" if "on"
+
+    /**
+     *
+     * This assertion is only evaluated if "qx.debug" if "on"
+     * @signature function()
+     */
     assertJsonEqualsDebugOn : qx.core.Variant.select("qx.debug",
     {
       "on" : function() {
@@ -352,6 +359,12 @@ qx.Mixin.define("testrunner.MAssert",
       "off" : function() {}
     }),
 
+
+    /**
+     *
+     * This assertion is only evaluated if "qx.debug" if "on"
+     * @signature function()
+     */
     assertMatchDebugOn : qx.core.Variant.select("qx.debug",
     {
       "on" : function() {
@@ -361,6 +374,12 @@ qx.Mixin.define("testrunner.MAssert",
       "off" : function() {}
     }),
 
+
+    /**
+     *
+     * This assertion is only evaluated if "qx.debug" if "on"
+     * @signature function()
+     */
     assertExceptionDebugOn : qx.core.Variant.select("qx.debug",
     {
       "on" : function() {
@@ -370,6 +389,12 @@ qx.Mixin.define("testrunner.MAssert",
       "off" : function() {}
     }),
 
+
+    /**
+     *
+     * This assertion is only evaluated if "qx.debug" if "on"
+     * @signature function()
+     */
     assertDebugOn : qx.core.Variant.select("qx.debug",
     {
       "on" : function() {
@@ -379,6 +404,12 @@ qx.Mixin.define("testrunner.MAssert",
       "off" : function() {}
     }),
 
+
+    /**
+     *
+     * This assertion is only evaluated if "qx.debug" if "on"
+     * @signature function()
+     */
     assertTrueDebugOn : qx.core.Variant.select("qx.debug",
     {
       "on" : function() {
@@ -388,6 +419,12 @@ qx.Mixin.define("testrunner.MAssert",
       "off" : function() {}
     }),
 
+
+    /**
+     *
+     * This assertion is only evaluated if "qx.debug" if "on"
+     * @signature function()
+     */
     assertEqualsDebugOn : qx.core.Variant.select("qx.debug",
     {
       "on" : function() {
@@ -397,6 +434,12 @@ qx.Mixin.define("testrunner.MAssert",
       "off" : function() {}
     }),
 
+
+    /**
+     *
+     * This assertion is only evaluated if "qx.debug" if "on"
+     * @signature function()
+     */
     assertNotUndefinedDebugOn : qx.core.Variant.select("qx.debug",
     {
       "on" : function() {
@@ -406,6 +449,12 @@ qx.Mixin.define("testrunner.MAssert",
       "off" : function() {}
     }),
 
+
+    /**
+     *
+     * This assertion is only evaluated if "qx.debug" if "on"
+     * @signature function()
+     */
     assertUndefinedDebugOn : qx.core.Variant.select("qx.debug",
     {
       "on" : function() {
@@ -415,6 +464,12 @@ qx.Mixin.define("testrunner.MAssert",
       "off" : function() {}
     }),
 
+
+    /**
+     *
+     * This assertion is only evaluated if "qx.debug" if "on"
+     * @signature function()
+     */
     assertNotNullDebugOn : qx.core.Variant.select("qx.debug",
     {
       "on" : function() {
@@ -424,6 +479,12 @@ qx.Mixin.define("testrunner.MAssert",
       "off" : function() {}
     }),
 
+
+    /**
+     *
+     * This assertion is only evaluated if "qx.debug" if "on"
+     * @signature function()
+     */
     assertNullDebugOn : qx.core.Variant.select("qx.debug",
     {
       "on" : function() {
