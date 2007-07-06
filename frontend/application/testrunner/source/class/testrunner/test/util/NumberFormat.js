@@ -58,6 +58,17 @@ qx.Class.define("testrunner.test.util.NumberFormat",
 
       var nan = Math.sqrt(-1);
       this.assertEquals("NaN", nf.format(nan));
+      
+      var badNumberStr = "2hastalavista";
+      this.debug("testing if parsing fails on string '" + badNumberStr + "'")
+      var hadParseError = false;
+      try {
+        var parsedNumberStr = nf.format(nf.parse(badNumberStr));
+      }
+      catch(ex) {
+        hadParseError = true;
+      }
+      this.assertEquals(true, hadParseError);      
     }
   }
 });
