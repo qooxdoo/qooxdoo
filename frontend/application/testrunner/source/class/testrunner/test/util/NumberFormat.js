@@ -60,7 +60,7 @@ qx.Class.define("testrunner.test.util.NumberFormat",
       this.assertEquals("NaN", nf.format(nan));
       
       var badNumberStr = "2hastalavista";
-      this.debug("testing if parsing fails on string '" + badNumberStr + "'")
+      this.debug("testing if parsing fails on string '" + badNumberStr + "'");
       var hadParseError = false;
       try {
         var parsedNumberStr = nf.format(nf.parse(badNumberStr));
