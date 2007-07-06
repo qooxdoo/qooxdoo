@@ -120,7 +120,10 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
     },
     this);
-  },
+  
+    this.__isStateLoading = false;
+
+  }, //construct
 
 
   /*
@@ -281,7 +284,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         }
       }, this);
 
-    },
+    }, //makeCommands
 
 
     __setStateInitialized : function()
@@ -296,16 +299,32 @@ qx.Class.define("demobrowser.DemoBrowser",
       this._cmdDisposeSample.setEnabled(false);
       this._cmdNamespacePollution.setEnabled(false);
       this.widgets["menu.appearance"].setEnabled(false);
-      this.widgets["toolbar.playall"].setEnabled(false);
+      this.widgets["toolbar.playall"].setEnabled(true);
     },
 
 
     __setStateLoading : function() {
+      this.__isStateLoading = true;
       this.__setStateInitialized();
+      if (!this.isPlayAll()) {
+        this.widgets["toolbar.playall"].setEnabled(false);
+      }
     },
 
 
-    __setStateLoaded : function() {
+    __setStateLoaded : function () 
+    {
+      this.__isStateLoading = false;
+      this.widgets["toolbar.playall"].setEnabled(true);
+      this.widgets["outputviews.bar"].resetEnabled();
+      this.widgets["outputviews.demopage.page"].resetEnabled();
+      this.widgets["outputviews"].resetEnabled();
+      this.widgets["treeview"].resetEnabled();
+    },
+
+
+    __setStateSampleLoaded : function() 
+    {
       this._cmdObjectSummary.setEnabled(true);
       this._cmdRunSample.setEnabled(true);
       this._cmdPrevSample.setEnabled(true);
@@ -359,7 +378,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           menu.add(item);
         }
       }
-    },
+    }, //fillAppearanceMenu
 
 
     __makeMenuBar : function()
@@ -498,7 +517,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         bar.add(btn);
       }
       return bar;
-    },
+    }, //makeMenuBar
 
 
     __bindCommand: function(widget, command) {
@@ -948,35 +967,6 @@ qx.Class.define("demobrowser.DemoBrowser",
         }
       }
 
-      // update selection in other tree
-      // -- not working!
-      /*
-      var selButt = this.widgets["treeview"].getBar().getManager().getSelected();
-
-      if (selButt.getLabel() == "Full Tree")
-      {
-        if (modelNode.widgetLinkFlat)
-        {
-          this.widgets["treeview.flat"].setSelectedElement(modelNode.widgetLinkFlat);
-
-          if (modelNode.widgetLinkFlat instanceof qx.ui.tree.TreeFolder) {
-            modelNode.widgetLinkFlat.open();
-          }
-        }
-        else
-        {
-          this.widgets["treeview.flat"].getManager().deselectAll();
-        }
-      }
-      else
-      {
-        this.widgets["treeview.full"].setSelectedElement(modelNode.widgetLinkFull);
-
-        if (modelNode.widgetLinkFull instanceof qx.ui.tree.TreeFolder) {
-          modelNode.widgetLinkFull.open();
-        }
-      }
-      */
     },
 
 
@@ -1319,20 +1309,15 @@ qx.Class.define("demobrowser.DemoBrowser",
         // load sample source code
         if (this._currentSampleUrl != this.defaultUrl)
         {
-          this.__setStateLoaded();
+          this.__setStateSampleLoaded();
           this.__getPageSource(this._currentSampleUrl);
         } else {
           this.__setStateInitialized();
         }
       }
 
-      // enabling widgets
-      this.widgets["outputviews.bar"].resetEnabled();
-      this.widgets["outputviews.demopage.page"].resetEnabled();
-      this.widgets["outputviews"].resetEnabled();
-      this.widgets["treeview"].resetEnabled();
+      this.__setStateLoaded();
       this.widgets["outputviews.demopage.button"].setLabel(this.polish(path[path.length - 1]));
-
       this.debug("Demo loaded...");
 
       if (this.isPlayAll())
@@ -1369,11 +1354,14 @@ qx.Class.define("demobrowser.DemoBrowser",
         this.widgets["treeview.full"].setSelectedElement(first);
         // set button to cancel
         this.widgets["toolbar.playall"].setIcon(demobrowser.DemoBrowser.Img_PlayAll_Stop);
-        //this.widgets["toolbar.playall"].setEnabled(true);
         // run sample
         this.widgets["toolbar.runbutton"].execute();
       } else                  // end playing all
       {
+        if (this.__isStateLoading)
+        {
+          this.widgets["toolbar.playall"].setEnabled(false);
+        }
         this.setPlayAll(false);
       }
     },
@@ -1664,7 +1652,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
   destruct : function()
   {
-    this._disposeFields("widgets", "tests", "_sampleToTreeNodeMap", "tree");
+    this._disposeFields("widgets", "tests", "_sampleToTreeNodeMap", "tree", "__isStateLoading");
     this._disposeObjects("header", "mainsplit", "tree1", "left", "runbutton", "toolbar", "f1", "f2", "logger", "_history", "logappender", '_cmdObjectSummary', '_cmdRunSample', '_cmdPrevSample', '_cmdNextSample', '_cmdSampleInOwnWindow', '_cmdLoadProfile', '_cmdProfile', '_cmdShowLastProfile', '_cmdDisposeSample', '_cmdNamespacePollution');
   }
 });
