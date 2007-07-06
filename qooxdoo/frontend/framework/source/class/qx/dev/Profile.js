@@ -69,8 +69,49 @@ qx.Class.define("qx.dev.Profile", {
 
 
     /**
-     * Show profiling results in a popup window. The results are sorted by the function's
-     * own time.
+     * Return the profiling data as JSON data structure.
+     *
+     * Example:
+     *   <pre class="javascript">
+     * {
+     *   "qx.core.Object.toHashCode (static)":{
+     *     *     "totalTime":3,
+     *     "ownTime":3,
+     *     "callCount":218,
+     *     "subRoutineCalls":0,
+     *     "name":"qx.core.Object.toHashCode",
+     *     "type":"static"
+     *   },
+     *   "qx.core.Target.addEventListener (member)":{
+     *     "totalTime":19,
+     *     "ownTime":12,
+     *     "callCount":59,
+     *     "subRoutineCalls":251,
+     *     "name":"qx.core.Target.addEventListener",
+     *     "type":"member"
+     *   },
+     *   "qx.ui.table.cellrenderer.Default (constructor)":{
+     *     "totalTime":2,
+     *     "ownTime":1,
+     *     "callCount":1,
+     *     "subRoutineCalls":4,
+     *     "name":"qx.ui.table.cellrenderer.Default",
+     *     "type":"constructor"
+     *   }
+     * }
+     * </pre>
+     *
+     * @return {Map} The current profiling data.
+     */
+    getProfileData : function()
+    {
+      return this.__profileData;
+    },
+
+
+    /**
+     * Show profiling results in a popup window. The results are sorted by the
+     * function's own time.
      *
      * @param maxLength {Integer} maximum number of entries to display.
      */
@@ -179,7 +220,7 @@ qx.Class.define("qx.dev.Profile", {
      *
      * @param fullName {String} Full name of the function including the class name.
      * @param fcn {Function} Function to time.
-     * @param type {String} Function type as in parameter with same name to 
+     * @param type {String} Function type as in parameter with same name to
      *                      {@link qx.core.Aspect#addAdvice}
      * @param args {Arguments} The arguments passed to the wrapped function
      */
@@ -202,7 +243,7 @@ qx.Class.define("qx.dev.Profile", {
      *
      * @param fullName {String} Full name of the function including the class name.
      * @param fcn {Function} Function to time.
-     * @param type {String} Function type as in parameter with same name to 
+     * @param type {String} Function type as in parameter with same name to
      *                      {@link qx.core.Aspect#addAdvice}
      * @param args {Arguments} The arguments passed to the wrapped function
      * @param returnValue {var} return value of the wrapped function.
@@ -223,7 +264,7 @@ qx.Class.define("qx.dev.Profile", {
         lastCall.subRoutineCalls += 1;
       }
 
-      var fcnKey = fullName + " (" + type + ")"; 
+      var fcnKey = fullName + " (" + type + ")";
       if(me.__profileData[fcnKey] === undefined) {
         me.__profileData[fcnKey] = {
           totalTime: 0,
@@ -249,7 +290,7 @@ qx.Class.define("qx.dev.Profile", {
     // profile
     qx.core.Aspect.addAdvice("before", "*", "", statics.profileBefore);
     qx.core.Aspect.addAdvice("after", "*", "", statics.profileAfter);
-    
+
     statics.__calibrateHelper = qx.core.Aspect.wrap("qx.dev.Profile.__calibrateHelper", statics.__calibrateHelper, "static");
     qx.core.Aspect.wrap = qx.core.Aspect.wrap("qx.core.Aspect.wrap", qx.core.Aspect.wrap, "static");
 
