@@ -45,6 +45,8 @@ qx.Class.define("testrunner.test.util.NumberFormat",
       this.assertEquals("1.000.000", nf.format(1000000));
 
       this.assertEquals("-1.000.000", nf.format(-1000000));
+      this.assertEquals("-1.000.000", nf.format(-1000000));
+
       this.assertEquals("0", nf.format(0));
       this.assertEquals("0", nf.format(-0));
 
@@ -58,17 +60,46 @@ qx.Class.define("testrunner.test.util.NumberFormat",
 
       var nan = Math.sqrt(-1);
       this.assertEquals("NaN", nf.format(nan));
-      
-      var badNumberStr = "2hastalavista";
-      this.debug("testing if parsing fails on string '" + badNumberStr + "'");
-      var hadParseError = false;
-      try {
-        var parsedNumberStr = nf.format(nf.parse(badNumberStr));
+    },
+
+    testNumberParse : function()
+    {
+      // german number parsing
+      qx.locale.Manager.getInstance().setLocale("de_DE");
+
+      var nf = qx.util.format.NumberFormat.getInstance();
+
+      var goodNumbers = {
+        "1000" : 1000,
+        "-1.000.000" : -1000000,
+        "+1.000,12" : 1000.12
       }
-      catch(ex) {
-        hadParseError = true;
+      for (var number in goodNumbers) {
+        this.assertEquals(nf.parse(number), goodNumbers[number]);
       }
-      this.assertEquals(true, hadParseError);      
+
+      var badNumberStrings = [
+        "2hastalavista",
+        "2.3.4.5.6",
+        "12.10,10",
+        "10,1,12"
+      ];
+
+      for (var i=0; i<badNumberStrings.length; i++)
+      {
+        badNumberStr = badNumberStrings[i];
+
+        this.assertException(
+          function() {
+            nf.format(nf.parse(badNumberStr));
+          },
+          Error,
+          "does not match the number format",
+          "testing if parsing fails on string '" + badNumberStr + "'"
+        );
+      }
+
     }
+
   }
 });

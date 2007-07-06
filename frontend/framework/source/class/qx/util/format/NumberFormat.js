@@ -28,7 +28,6 @@
 qx.Class.define("qx.util.format.NumberFormat",
 {
   extend : qx.util.format.Format,
-  //type : "singleton",
 
 
 
@@ -293,7 +292,15 @@ qx.Class.define("qx.util.format.NumberFormat",
       var groupSepEsc = qx.lang.String.escapeRegexpChars(qx.locale.Number.getGroupSeparator(this._locale) + "");
       var decimalSepEsc = qx.lang.String.escapeRegexpChars(qx.locale.Number.getDecimalSeparator(this._locale) + "");
 
-      var regex = new RegExp(qx.lang.String.escapeRegexpChars(this.getPrefix()) + '(-)?([0-9' + groupSepEsc + ']+)' + '(' + decimalSepEsc + '\\d+)?' + qx.lang.String.escapeRegexpChars(this.getPostfix()));
+      var regex = new RegExp(
+        "^" +
+        qx.lang.String.escapeRegexpChars(this.getPrefix()) +
+        '([-+]){0,1}'+
+        '([0-9]{1,3}(?:'+ groupSepEsc + '{0,1}[0-9]{3}){0,})' +
+        '(' + decimalSepEsc + '\\d+){0,1}' +
+        qx.lang.String.escapeRegexpChars(this.getPostfix()) +
+        "$"
+      );
 
       var hit = regex.exec(str);
 
@@ -306,7 +313,7 @@ qx.Class.define("qx.util.format.NumberFormat",
       var fractionStr = hit[3];
 
       // Remove the thousand groupings
-      integerStr = integerStr.replace(new RegExp(groupSepEsc), "");
+      integerStr = integerStr.replace(new RegExp(groupSepEsc, "g"), "");
 
       var asStr = (negative ? "-" : "") + integerStr;
 
