@@ -1322,16 +1322,17 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       if (this.isPlayAll())
       {
-        // give some time before proceeding
-        qx.client.Timer.once(function () 
+        if (this.widgets["toolbar.nextbutt"].isEnabled()) 
         {
-          if (this.widgets["toolbar.nextbutt"].isEnabled()) {
-            this.widgets["toolbar.nextbutt"].execute();
-          } else 
+          // give some time before proceeding
+          qx.client.Timer.once(function () 
           {
-            this.setPlayAll(false);
-          }
-        }, this, 1000);
+            this.widgets["toolbar.nextbutt"].execute();
+          }, this, 1000);
+        } else 
+        {
+          this.setPlayAll(false);
+        }
       }
 
     }, // __ehIframeLoaded
@@ -1350,10 +1351,10 @@ qx.Class.define("demobrowser.DemoBrowser",
       {
         this.setPlayAll(true);  // turn on global flag
         // select first example
+        /*
         var first = this._sampleToTreeNodeMap['example/Atom_1.html'];
         this.widgets["treeview.full"].setSelectedElement(first);
-        // set button to cancel
-        this.widgets["toolbar.playall"].setIcon(demobrowser.DemoBrowser.Img_PlayAll_Stop);
+        */
         // run sample
         this.widgets["toolbar.runbutton"].execute();
       } else                  // end playing all
@@ -1381,7 +1382,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     {
       if (value == true )
       {
-        ;
+        this.widgets["toolbar.playall"].setIcon(demobrowser.DemoBrowser.Img_PlayAll_Stop);
       } else 
       {
         this.widgets["toolbar.playall"].setIcon(demobrowser.DemoBrowser.Img_PlayAll_Default);
