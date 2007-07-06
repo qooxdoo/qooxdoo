@@ -338,22 +338,24 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
     {
       8  : "Backspace", // The Backspace (Back) key.
       9  : "Tab", // The Horizontal Tabulation (Tab) key.
+
+      //   Note: This key identifier is also used for the
+      //   Return (Macintosh numpad) key.
+      13  : "Enter", // The Enter key.
+
+      27  : "Escape", // The Escape (Esc) key.
       32 : "Space" // The Space (Spacebar) key.
+
     },
 
     /** maps the keycodes of non printable keys to key identifiers */
     _keyCodeToIdentifierMap :
     {
-      13  : "Enter", // The Enter key.
-
-      //   Note: This key identifier is also used for the
-      //   Return (Macintosh numpad) key.
       16  : "Shift", // The Shift key.
       17  : "Control", // The Control (Ctrl) key.
       18  : "Alt", // The Alt (Menu) key.
       20  : "CapsLock", // The CapsLock key
       224 : "Meta", // The Meta key. (Apple Meta and Windows key)
-      27  : "Escape", // The Escape (Esc) key.
       37  : "Left", // The Left Arrow key.
       38  : "Up", // The Up Arrow key.
       39  : "Right", // The Right Arrow key.
