@@ -126,6 +126,18 @@ qx.Class.define("demobrowser.DemoBrowser",
   },
 
 
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics : 
+  {
+    Img_PlayAll_Default : "icon/16/actions/media-seek-forward.png",
+    Img_PlayAll_Stop    : "icon/16/actions/media-playback-stop.png"
+  },
+
 
 
   /*
@@ -134,7 +146,14 @@ qx.Class.define("demobrowser.DemoBrowser",
   *****************************************************************************
   */
 
-  properties : {},
+  properties : {
+    playAll : 
+    {
+      check : "Boolean",
+      apply : "__applyPlayAll",
+      init  : false
+    }
+  },
 
 
 
@@ -280,6 +299,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this._cmdDisposeSample.setEnabled(false);
       this._cmdNamespacePollution.setEnabled(false);
       this.widgets["menu.appearance"].setEnabled(false);
+      this.widgets["toolbar.playall"].setEnabled(false);
     },
 
 
@@ -294,6 +314,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this._cmdPrevSample.setEnabled(true);
       this._cmdNextSample.setEnabled(true);
       this._cmdSampleInOwnWindow.setEnabled(true);
+      this.widgets["toolbar.playall"].setEnabled(true);
 
       this.widgets["toolbar.profile"].setChecked(true)
       this.widgets["menu.profile"].setChecked(true);
@@ -513,6 +534,13 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.widgets["toolbar.runbutton"] = this.runbutton;
       this.__bindCommand(this.runbutton, this._cmdRunSample);
       this.runbutton.setToolTip(new qx.ui.popup.ToolTip("Run/reload selected sample"));
+
+      // -- playall button
+      var playallb = new qx.ui.toolbar.Button("Play All", demobrowser.DemoBrowser.Img_PlayAll_Default);
+      this.widgets["toolbar.playall"] = playallb;
+      mb.add(playallb);
+      playallb.addEventListener("execute", this.__ehPlayAll, this);
+      playallb.setToolTip(new qx.ui.popup.ToolTip("Run all examples"));
 
       // -- previous navigation
       var prevbutt = new qx.ui.toolbar.Button("Previous Sample", "icon/16/actions/go-left.png");
@@ -925,6 +953,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       // update selection in other tree
       // -- not working!
+      /*
       var selButt = this.widgets["treeview"].getBar().getManager().getSelected();
 
       if (selButt.getLabel() == "Full Tree")
@@ -950,6 +979,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           modelNode.widgetLinkFull.open();
         }
       }
+      */
     },
 
 
@@ -1250,8 +1280,6 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     __ehIframeLoaded : function(e)
     {
-      this.debug("Demo loaded...");
-
       var fwindow = this.f1.getContentWindow();
       var fpath = fwindow.location.pathname + "";
       var splitIndex = fpath.indexOf("?");
@@ -1308,6 +1336,22 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.widgets["treeview"].resetEnabled();
       this.widgets["outputviews.demopage.button"].setLabel(this.polish(path[path.length - 1]));
 
+      this.debug("Demo loaded...");
+
+      if (this.isPlayAll())
+      {
+        // give some time before proceeding
+        qx.client.Timer.once(function () 
+        {
+          if (this.widgets["toolbar.nextbutt"].isEnabled()) {
+            this.widgets["toolbar.nextbutt"].execute();
+          } else 
+          {
+            this.setPlayAll(false);
+          }
+        }, this, 1000);
+      }
+
     }, // __ehIframeLoaded
 
 
@@ -1329,9 +1373,57 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
     },
 
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param e {Event} TODOC
+     * @return {void}
+     */
+    __ehPlayAll : function(e)
+    {
+      if (! this.isPlayAll())  // start playing all
+      {
+        this.setPlayAll(true);  // turn on global flag
+        // select first example
+        var first = this._sampleToTreeNodeMap['example/Atom_1.html'];
+        this.widgets["treeview.full"].setSelectedElement(first);
+        // set button to cancel
+        this.widgets["toolbar.playall"].setIcon(demobrowser.DemoBrowser.Img_PlayAll_Stop);
+        //this.widgets["toolbar.playall"].setEnabled(true);
+        // run sample
+        this.widgets["toolbar.runbutton"].execute();
+      } else                  // end playing all
+      {
+        this.setPlayAll(false);
+      }
+    },
+
+
     // ------------------------------------------------------------------------
     //   MISC HELPERS
     // ------------------------------------------------------------------------
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param url {var} TODOC
+     * @return {String} TODOC
+     */
+    __applyPlayAll : function(value, old)
+    {
+      if (value == true )
+      {
+        ;
+      } else 
+      {
+        this.widgets["toolbar.playall"].setIcon(demobrowser.DemoBrowser.Img_PlayAll_Default);
+        //this.widgets["toolbar.playall"].resetEnabled();
+      }
+    },
+
+
     /**
      * TODOC
      *
