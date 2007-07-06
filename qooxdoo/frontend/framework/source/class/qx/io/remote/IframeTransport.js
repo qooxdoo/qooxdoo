@@ -222,6 +222,7 @@ qx.Class.define("qx.io.remote.IframeTransport",
       // --------------------------------------
       this._data.appendChild(document.createTextNode(this.getData()));
       this._form.submit();
+      this.setState("sending");
     },
 
 
