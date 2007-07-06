@@ -177,7 +177,6 @@ qx.Class.define("qx.core.Setting",
      */
     __loadUrlSettings : function()
     {
-      debugger;
       if (this.get("qx.allowUrlSettings") != true) {
         return
       }
