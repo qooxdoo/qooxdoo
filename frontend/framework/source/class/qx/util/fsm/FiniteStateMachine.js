@@ -238,13 +238,13 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      * Set the debug flags from the application by or-ing together bits, akin
      * to this:
      *
-     * <pre><code>
+     * <pre class='javascript'>
      * var FSM = qx.util.fsm.FiniteStateMachine;
      * fsm.setDebugFlags(FSM.DebugFlags.EVENTS |
      *                   FSM.DebugFlags.TRANSITIONS |
      *                   FSM.DebugFlags.FUNCTION_DETAIL |
      *                   FSM.DebugFlags.OBJECT_NOT_FOUND);
-     * </code></pre>
+     * </pre>
      */
     debugFlags :
     {
