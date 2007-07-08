@@ -118,7 +118,27 @@ qx.Class.define("qx.core.Bootstrap",
   {
     /** Timestamp of qooxdoo based application startup */
     LOADSTART : new Date,
-
+    
+    /**
+     * Returns the current timestamp
+     *
+     * @type static
+     * @return {Integer} Current timestamp (milliseconds)
+     */
+    time : function() {
+      return new Date().getTime();
+    },
+    
+    /**
+     * Returns the time since initialisation
+     *
+     * @type static
+     * @return {Integer} milliseconds since load
+     */
+    since : function() {
+      return this.time() - this.LOADSTART;
+    },
+    
     /** Stores all defined classes */
     __registry : {}
   }
