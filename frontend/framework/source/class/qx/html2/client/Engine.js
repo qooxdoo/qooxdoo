@@ -47,12 +47,24 @@ qx.Class.define("qx.html2.client.Engine",
 
     /** {Boolean} Flag to detect if the client is based on the Webkit HTML/JS engine */
     WEBKIT : false,
+    
+    /** {Boolean} Flag to detect if the client is based on the Webkit HTML/JS engine of Safari 2 */
+    WEBKIT419 : false,
+
+    /** {Boolean} Flag to detect if the client is based on the Webkit HTML/JS engine of Safari 3 */
+    WEBKIT420 : false,
 
     /** {Boolean} Flag to detect if the client is based on the Gecko HTML/JS engine */
     GECKO : false,
 
     /** {Boolean} Flag to detect if the client is based on the Internet Explorer HTML/JS engine */
     MSHTML : false,
+
+    /** {Boolean} Flag to detect if the client is based on the Internet Explorer HTML/JS engine of IE6 */
+    MSHTML6 : false,
+
+    /** {Boolean} Flag to detect if the client is based on the Internet Explorer HTML/JS engine of IE7 */
+    MSHTML7 : false,
 
 
     /**
@@ -90,7 +102,7 @@ qx.Class.define("qx.html2.client.Engine",
       {
         engine = "webkit";
         this.WEBKIT = true;
-
+        
         if (/AppleWebKit\/([^ ]+)/.test(agent))
         {
           version = RegExp.$1;
@@ -132,6 +144,25 @@ qx.Class.define("qx.html2.client.Engine",
       this.ENGINE = engine;
       this.FULLVERSION = version;
       this.VERSION = parseFloat(version);
+      
+      if (this.MSHTML)
+      {
+        if (this.VERSION < 7) {
+          this.MSHTML6 = true;
+        } else {
+          this.MSHTML7 = true;
+        }
+      }
+      else if (this.WEBKIT)
+      {
+        if (this.VERSION < 420) {
+          this.WEBKIT419 = true;
+        } else {
+          this.WEBKIT420 = true;
+        }
+      }
+      
+      // TODO: Gecko + Opera
     }
   },
 
