@@ -54,8 +54,12 @@ qx.Class.define("qx.html2.Viewport",
      */
     getWidth : qx.core.Variant.select("qx.client",
     {
-      "webkit" : function() {
+      "webkit419" : function() { // TODO: Nonexisting key
         return self.innerWidth;
+      },
+
+      "opera" : function() {
+        return document.body.clientWidth;
       },
 
       "default" : qx.lang.Object.select(qx.html2.client.Features.STANDARD_MODE ? "standard" : "quirks",
@@ -79,9 +83,13 @@ qx.Class.define("qx.html2.Viewport",
      */
     getHeight : qx.core.Variant.select("qx.client",
     {
-      "opera|webkit" : function() {
+      "webkit419" : function() { // TODO: Nonexisting key
         return self.innerHeight;
       },
+      
+      "opera" : function() {
+        return document.body.clientHeight;
+      }      
 
       "default" : qx.lang.Object.select(qx.html2.client.Features.STANDARD_MODE ? "standard" : "quirks",
       {

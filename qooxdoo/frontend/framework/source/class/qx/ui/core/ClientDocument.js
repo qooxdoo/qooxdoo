@@ -63,6 +63,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
     this._document.body.style.position = "";
 
     // Disable IE background image cache
+    // TODO: Optimize this => Only needed in IE6
     try {
       document.execCommand("BackgroundImageCache", false, true);
     } catch(err) {};
