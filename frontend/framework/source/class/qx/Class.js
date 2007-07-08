@@ -1541,5 +1541,4 @@ qx.Class.define("qx.Class",
       }
     }
   }
-
 });
