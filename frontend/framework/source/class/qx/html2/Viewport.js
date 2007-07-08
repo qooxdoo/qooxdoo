@@ -101,6 +101,16 @@ qx.Class.define("qx.html2.Viewport",
           return document.body.clientHeight;
         }
       })
-    })
+    }),
+    
+  	getScrollLeft: function(){
+  	  // TODO: quirks mode
+  		return window.pageXOffset || document.documentElement.scrollLeft;
+  	},
+
+  	getScrollTop: function(){
+  	  // TODO: quirks mode
+  		return window.pageYOffset || document.documentElement.scrollTop;
+  	}
   }
 });
