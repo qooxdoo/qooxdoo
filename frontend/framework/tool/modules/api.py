@@ -104,7 +104,7 @@ def createDoc(syntaxTree, docTree = None):
             # try old style class definition of no new style class could be found
             docTree = createDocOld(syntaxTree, docTree)
 
-    except DocException:
+    except Exception, exc:
         exc = sys.exc_info()[1]
         msg = ""
 
