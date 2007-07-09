@@ -107,11 +107,11 @@ qx.Class.define("qx.ui.core.ClientDocumentBlocker",
       refine : true,
       init : false
     },
-    
-    enabled : 
+
+    enabled :
     {
       refine : true,
-      init : false 
+      init : false
     }
   }
 });

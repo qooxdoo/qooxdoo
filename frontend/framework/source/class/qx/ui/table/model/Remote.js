@@ -150,7 +150,7 @@ qx.Class.define("qx.ui.table.model.Remote",
 
     /**
      * Implementing classes have to call {@link _onRowCountLoaded()} when the
-     * server response arrived. That method has to be called! Even when there 
+     * server response arrived. That method has to be called! Even when there
      * was an error.
      *
      * @type member

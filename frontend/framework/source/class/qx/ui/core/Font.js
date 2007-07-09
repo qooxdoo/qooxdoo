@@ -233,7 +233,7 @@ qx.Class.define("qx.ui.core.Font",
       this.__size = value === null ? null : value + "px";
     },
 
-    _applyFamily : function(value, old) 
+    _applyFamily : function(value, old)
     {
       var family = "";
       for (var i=0, l=value.length; i<l; i++) {

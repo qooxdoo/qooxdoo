@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
 
   construct : function() {
     this.base(arguments);
-    
+
     // add an event listener which invalidates the
     // cell cache on locale change
     qx.locale.Manager.getInstance().addEventListener("changeLocale", this._onChangeLocale, this);
@@ -296,13 +296,13 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
     },
 
 
-    
+
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Invalidate the cell cache on locale change.
      *
@@ -313,6 +313,6 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
     _onChangeLocale : function(e) {
       delete this._cellCache;
     }
-    
+
   }
 });

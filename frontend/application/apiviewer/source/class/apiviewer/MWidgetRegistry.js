@@ -1,7 +1,7 @@
 
 qx.Mixin.define("apiviewer.MWidgetRegistry",
 {
-  
+
   properties :
   {
     id : {
@@ -24,12 +24,12 @@ qx.Mixin.define("apiviewer.MWidgetRegistry",
         statics.register(this, id);
       }
     },
-    
+
     getWidgetById : function(id)
     {
       return apiviewer.MWidgetRegistry.getWidgetById(id);
     }
-        
+
   },
 
   statics :
@@ -55,21 +55,21 @@ qx.Mixin.define("apiviewer.MWidgetRegistry",
      * @param id {String} the id of the widget.
      */
     register : function(object, id)
-    {    
+    {
       if (this.__objectDb[id]) {
         throw new Error("An object with the id '"+id+"' already exists.");
       }
       this.__objectDb[id] = object;
     },
-    
+
     unregister : function(object, id)
-    {    
+    {
       if (this.__objectDb[id] !== object) {
         throw new Error("The object is not registered with the id '"+id+"'.");
       }
       delete(this.__objectDb[id]);
     }
-        
+
   }
 
 });

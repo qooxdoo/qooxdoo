@@ -140,13 +140,13 @@ qx.Class.define("qx.ui.core.ClientDocument",
     {
       refine : true,
       init : true
-    },    
+    },
 
     selectable :
     {
       refine : true,
       init : false
-    },    
+    },
 
     hideFocus :
     {
@@ -486,7 +486,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
       // in documents with a deep structure is nearly impossible in MSHTML. It
       // runs multiple seconds to minutes just for adding a new rule to a global
       // style sheet. For the highly interactive use cases of this method, this
-      // is not practicable. The alternative implementation directly patches 
+      // is not practicable. The alternative implementation directly patches
       // all DOM elements with a manual cursor setting (to work-around the
       // inheritance blocking nature of these local values). This solution does
       // not work as perfect as the style sheet modification in other browsers.
@@ -505,58 +505,58 @@ qx.Class.define("qx.ui.core.ClientDocument",
         }
 
         var elem, current;
-        
+
         var list = this._cursorElements;
         if (list)
         {
-          for (var i=0, l=list.length; i<l; i++) 
+          for (var i=0, l=list.length; i<l; i++)
           {
             elem = list[i];
-            
-            if (elem.style.cursor == old) 
+
+            if (elem.style.cursor == old)
             {
-              elem.style.cursor = elem._oldCursor; 
+              elem.style.cursor = elem._oldCursor;
               elem._oldCursor = null;
             }
           }
         }
-        
+
         var all = document.all;
         var list = this._cursorElements = [];
-        
+
         if (value != null && value != "" && value != "auto")
         {
-          for (var i=0, l=all.length; i<l; i++) 
+          for (var i=0, l=all.length; i<l; i++)
           {
             elem = all[i];
             current = elem.style.cursor;
-            
-            if (current != null && current != "" && current != "auto") 
+
+            if (current != null && current != "" && current != "auto")
             {
               elem._oldCursor = current;
               elem.style.cursor = value;
               list.push(elem);
             }
           }
-          
+
           // Also apply to body element
           document.body.style.cursor = value;
         }
         else
         {
           // Reset from body element
-          document.body.style.cursor = ""; 
+          document.body.style.cursor = "";
         }
       },
-      
+
       "default" : function(value, old)
       {
         if (!this._globalCursorStyleSheet) {
           this._globalCursorStyleSheet = this.createStyleElement();
         }
-  
+
         this.removeCssRule(this._globalCursorStyleSheet, "*");
-  
+
         if (value) {
           this.addCssRule(this._globalCursorStyleSheet, "*", "cursor:" + value + " !important");
         }

@@ -138,9 +138,9 @@ qx.Class.define("qx.ui.form.TextArea",
     ---------------------------------------------------------------------------
     */
 
-	/**
-	 * @return {Integer}
-	 */
+  /**
+   * @return {Integer}
+   */
     _computePreferredInnerHeight : function() {
       return 60;
     }

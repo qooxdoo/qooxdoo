@@ -848,8 +848,8 @@ qx.Class.define("qx.ui.table.Table",
       this.postponedUpdateContent();
       this._updateStatusBar();
     },
-    
-    
+
+
     /**
      * Event handler. Called when the selection has changed.
      *

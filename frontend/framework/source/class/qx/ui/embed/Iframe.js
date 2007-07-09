@@ -90,20 +90,20 @@ qx.Class.define("qx.ui.embed.Iframe",
     load : function(obj)
     {
       if (!obj) {
-        throw new Error("Could not find iframe which was loaded [A]!"); 
+        throw new Error("Could not find iframe which was loaded [A]!");
       }
-      
+
       // Non-MSHTML browsers will input an DOM event here
       if (obj.currentTarget) {
         obj = obj.currentTarget;
       }
-      
+
       // Find iframe instance and call onload
       if (obj._QxIframe) {
         obj._QxIframe._onload();
       } else {
-        throw new Error("Could not find iframe which was loaded [B]!"); 
-      }      
+        throw new Error("Could not find iframe which was loaded [B]!");
+      }
     }
   },
 
@@ -371,14 +371,14 @@ qx.Class.define("qx.ui.embed.Iframe",
       else
       {
         var frameEl = qx.ui.embed.Iframe._element = document.createElement("iframe");
-        
+
         frameEl.onload = qx.ui.embed.Iframe.load;
 
         if (vFrameName) {
           frameEl.name = vFrameName;
         }
       }
-      
+
       frameEl._QxIframe = this;
 
       frameEl.frameBorder = "0";
@@ -401,7 +401,7 @@ qx.Class.define("qx.ui.embed.Iframe",
       frameEl.style.position = "absolute";
       frameEl.style.top = 0;
       frameEl.style.left = 0;
-      
+
       return frameEl;
     },
 
@@ -417,7 +417,7 @@ qx.Class.define("qx.ui.embed.Iframe",
       var blockerEl = qx.ui.embed.Iframe._blocker = document.createElement("div");
       var blockerStyle = blockerEl.style;
 
-      if (qx.core.Variant.isSet("qx.client", "mshtml")) 
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
         // Setting the backgroundImage causes an "insecure elements" warning under SSL
         // blockerStyle.backgroundImage = "url(" + qx.io.Alias.getInstance().resolve("static/image/blank.gif") + ")";
@@ -433,21 +433,21 @@ qx.Class.define("qx.ui.embed.Iframe",
       blockerStyle.height = "100%";
       blockerStyle.zIndex = 1;
       blockerStyle.display = "none";
-      
+
       return blockerEl;
     },
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * TODOC
      *
@@ -529,7 +529,7 @@ qx.Class.define("qx.ui.embed.Iframe",
       }
 
       this._isLoaded = false;
-      
+
       // the guru says ...
       // it is better to use 'replace' than 'src'-attribute, since 'replace' does not interfer
       // with the history (which is taken care of by the history manager), but there
@@ -576,7 +576,7 @@ qx.Class.define("qx.ui.embed.Iframe",
      */
     _onload : function()
     {
-      if (!this._inLoaded) 
+      if (!this._inLoaded)
       {
         this._isLoaded = true;
         this.createDispatchEvent("load");

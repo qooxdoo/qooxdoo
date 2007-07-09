@@ -71,10 +71,10 @@ qx.Class.define("qx.Theme",
       if (!config) {
         var config = {};
       }
-      
+
       if (config.include && !(config.include instanceof Array)) {
         config.include = [config.include];
-      }      
+      }
 
       // Validate incoming data
       if (qx.core.Variant.isSet("qx.debug", "on")) {
@@ -92,7 +92,7 @@ qx.Class.define("qx.Theme",
         // Attach toString
         toString : this.genericToString
       };
-      
+
       // Remember extend
       if (config.extend) {
         theme.supertheme = config.extend;
@@ -108,7 +108,7 @@ qx.Class.define("qx.Theme",
       this.__registry[name] = theme;
 
       // Include mixin themes
-      if (config.include) 
+      if (config.include)
       {
         for (var i=0, a=config.include, l=a.length; i<l; i++) {
           this.include(theme, a[i]);
@@ -406,10 +406,10 @@ qx.Class.define("qx.Theme",
       if (keyCurrent !== this.__extractInheritableKey(mixinTheme)) {
         throw new Error("The mixins '" + theme.name + "' are not compatible '" + mixinTheme.name + "'!");
       }
-      
+
       var source = mixinTheme[keyCurrent];
       var target = theme[keyCurrent];
-      
+
       for (var key in source) {
         target[key] = source[key];
       }
@@ -431,16 +431,16 @@ qx.Class.define("qx.Theme",
       if (keyCurrent !== this.__extractInheritableKey(mixinTheme)) {
         throw new Error("The mixins '" + theme.name + "' are not compatible '" + mixinTheme.name + "'!");
       }
-      
+
       var source = mixinTheme[keyCurrent];
       var target = theme[keyCurrent];
-      
-      for (var key in source) 
+
+      for (var key in source)
       {
         if (target[key] !== undefined) {
           throw new Error("It is not allowed to overwrite the key '" + key + "' of theme '" + theme.name + "' by mixin theme '"+mixinTheme.name+"'.");
         }
-        
+
         target[key] = source[key];
       }
     }

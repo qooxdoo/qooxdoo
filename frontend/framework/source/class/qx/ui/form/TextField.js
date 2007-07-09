@@ -174,8 +174,8 @@ qx.Class.define("qx.ui.form.TextField",
       refine : true,
       init : "auto"
     },
-    
-    selectable : 
+
+    selectable :
     {
       refine : true,
       init : true
@@ -767,17 +767,17 @@ qx.Class.define("qx.ui.form.TextField",
     ---------------------------------------------------------------------------
     */
 
-	/**
-	 * @return {Integer}
-	 */
+  /**
+   * @return {Integer}
+   */
     _computePreferredInnerWidth : function() {
       return 120;
     },
 
 
-	/**
-	 * @return {Integer}
-	 */
+  /**
+   * @return {Integer}
+   */
     _computePreferredInnerHeight : function() {
       return 16;
     },

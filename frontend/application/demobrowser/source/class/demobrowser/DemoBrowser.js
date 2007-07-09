@@ -120,7 +120,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
     },
     this);
-  
+
     this.__isStateLoading = false;
 
   }, //construct
@@ -132,7 +132,7 @@ qx.Class.define("demobrowser.DemoBrowser",
   *****************************************************************************
   */
 
-  statics : 
+  statics :
   {
     Img_PlayAll_Default : "icon/16/actions/media-seek-forward.png",
     Img_PlayAll_Stop    : "icon/16/actions/media-playback-stop.png"
@@ -147,7 +147,7 @@ qx.Class.define("demobrowser.DemoBrowser",
   */
 
   properties : {
-    playAll : 
+    playAll :
     {
       check : "Boolean",
       apply : "__applyPlayAll",
@@ -312,7 +312,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     },
 
 
-    __setStateLoaded : function () 
+    __setStateLoaded : function ()
     {
       this.__isStateLoading = false;
       this.widgets["toolbar.playall"].setEnabled(true);
@@ -323,7 +323,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     },
 
 
-    __setStateSampleLoaded : function() 
+    __setStateSampleLoaded : function()
     {
       this._cmdObjectSummary.setEnabled(true);
       this._cmdRunSample.setEnabled(true);
@@ -1322,14 +1322,14 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       if (this.isPlayAll())
       {
-        if (this.widgets["toolbar.nextbutt"].isEnabled()) 
+        if (this.widgets["toolbar.nextbutt"].isEnabled())
         {
           // give some time before proceeding
-          qx.client.Timer.once(function () 
+          qx.client.Timer.once(function ()
           {
             this.widgets["toolbar.nextbutt"].execute();
           }, this, 1000);
-        } else 
+        } else
         {
           this.setPlayAll(false);
         }
@@ -1383,7 +1383,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       if (value == true )
       {
         this.widgets["toolbar.playall"].setIcon(demobrowser.DemoBrowser.Img_PlayAll_Stop);
-      } else 
+      } else
       {
         this.widgets["toolbar.playall"].setIcon(demobrowser.DemoBrowser.Img_PlayAll_Default);
         //this.widgets["toolbar.playall"].resetEnabled();

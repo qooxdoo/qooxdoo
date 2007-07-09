@@ -100,7 +100,7 @@ qx.Class.define("demobrowser.Tree",
      * @type member
      * @param fun {var} TODOC
      * @param args {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     map : function(fun, args)
     {
@@ -120,7 +120,7 @@ qx.Class.define("demobrowser.Tree",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     print : function()
     {
@@ -220,7 +220,7 @@ qx.Class.define("demobrowser.Tree",
      *
      * @type member
      * @param node {Node} TODOC
-     * @return {void} 
+     * @return {void}
      */
     add : function(node)
     {
