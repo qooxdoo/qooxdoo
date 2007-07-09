@@ -230,9 +230,9 @@ qx.Class.define("qx.log.appender.Window",
       if (!this._logWindow || this._logWindow.closed)
       {
         if (this._popupBlockerWarning) {
-          return; 
+          return;
         }
-        
+
         alert("Could not open log window. Please disable your popup blocker!");
         this._popupBlockerWarning = true;
         return;
@@ -503,7 +503,7 @@ qx.Class.define("qx.log.appender.Window",
       if (this._markerBtn) {
         this._markerBtn.onclick = null;
       }
-  
+
       if (this._filterInput) {
         this._filterInput.onkeyup = null;
       }

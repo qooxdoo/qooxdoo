@@ -249,18 +249,18 @@ qx.Class.define("qx.ui.basic.ScrollBar",
     },
 
 
-    /** 
+    /**
      * overridden
-     * @return {Integer} 
+     * @return {Integer}
      */
     _computePreferredInnerWidth : function() {
       return this._horizontal ? 0 : this._getScrollBarWidth();
     },
 
 
-    /** 
+    /**
      * overridden
-     * @return {Integer} 
+     * @return {Integer}
      */
     _computePreferredInnerHeight : function() {
       return this._horizontal ? this._getScrollBarWidth() : 0;

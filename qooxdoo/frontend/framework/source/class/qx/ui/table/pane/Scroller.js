@@ -97,7 +97,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     });
 
     this._showCellFocusIndicator = this.getShowCellFocusIndicator();
-    
+
     this._focusIndicator = new qx.ui.layout.HorizontalBoxLayout;
     this._focusIndicator.setAppearance("table-focus-indicator");
     this._focusIndicator.hide();
@@ -281,8 +281,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       check : "Boolean",
       init : false
     },
-    
-    
+
+
     /**
      * Whether the cell focus indicator should be shown
      */
@@ -1963,7 +1963,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       if(!this._showCellFocusIndicator) {
         return;
       }
-      
+
       var table = this.getTable();
 
       if (!table.getEnabled()) {

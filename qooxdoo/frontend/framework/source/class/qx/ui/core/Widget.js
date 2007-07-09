@@ -6008,7 +6008,7 @@ qx.Class.define("qx.ui.core.Widget",
     _applySelectable : qx.core.Variant.select("qx.client",
     {
       // "unselectable" works locally and does not affect children
-      // "user-select" is not inherited, but it does affect children 
+      // "user-select" is not inherited, but it does affect children
       // in the same way that display: none does, it limits it.
       // Normally "unselectable" must be applied recursively because
       // of this restriction. We use the "selectstart" event instead
@@ -6016,11 +6016,11 @@ qx.Class.define("qx.ui.core.Widget",
       // class. This event works at least in MSHTML and Webkit.
       // Opera has no support for any of these options yet. No "selectstart"
       // event no user-select property.
-      
+
       "mshtml" : function(value, old)
       {
         return;
-        
+
         /*
         if (value) {
           return this.removeHtmlProperty("unselectable");

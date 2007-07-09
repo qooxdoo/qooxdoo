@@ -86,10 +86,10 @@ qx.Class.define("qx.html2.Viewport",
       "webkit419" : function() { // TODO: Nonexisting key
         return self.innerHeight;
       },
-      
+
       "opera" : function() {
         return document.body.clientHeight;
-      },      
+      },
 
       "default" : qx.lang.Object.select(qx.html2.client.Features.STANDARD_MODE ? "standard" : "quirks",
       {
@@ -102,15 +102,15 @@ qx.Class.define("qx.html2.Viewport",
         }
       })
     }),
-    
-  	getScrollLeft: function(){
-  	  // TODO: quirks mode
-  		return window.pageXOffset || document.documentElement.scrollLeft;
-  	},
 
-  	getScrollTop: function(){
-  	  // TODO: quirks mode
-  		return window.pageYOffset || document.documentElement.scrollTop;
-  	}
+    getScrollLeft: function(){
+      // TODO: quirks mode
+      return window.pageXOffset || document.documentElement.scrollLeft;
+    },
+
+    getScrollTop: function(){
+      // TODO: quirks mode
+      return window.pageYOffset || document.documentElement.scrollTop;
+    }
   }
 });

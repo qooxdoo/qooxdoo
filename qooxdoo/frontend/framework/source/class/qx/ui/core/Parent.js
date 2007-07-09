@@ -354,7 +354,7 @@ qx.Class.define("qx.ui.core.Parent",
      *
      * This method must be overwritten by all subclasses
      *
-     * return 
+     * return
      *
      * @type member
      * @return {qx.ui.layout.BoxLayout} TODOC

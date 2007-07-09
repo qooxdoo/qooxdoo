@@ -61,10 +61,10 @@ qx.Class.define("qx.core.Aspect",
      * constructors.
      *
      * @param fullName {String} Full name of the function including the class name.
-     * @param type {String} Type of the wrapped function. One of "member", "static", 
+     * @param type {String} Type of the wrapped function. One of "member", "static",
      *          "constructor", "destructor" or "property".
      * @param fcn {Function} function to wrap.
-     * 
+     *
      * @return {Function} wrapped function
      */
     wrap : function(fullName, fcn, type)

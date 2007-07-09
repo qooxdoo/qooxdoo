@@ -164,7 +164,7 @@ qx.Class.define("qx.dev.Tokenizer",
           tokens.push({type: "sym", value: token});
         }
       }
-      
+
       return tokens;
     },
 

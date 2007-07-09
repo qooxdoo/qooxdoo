@@ -55,7 +55,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Image",
     } else {
       this._imageHeight = 16;
     }
-    
+
     this._am = qx.io.Alias.getInstance();
   },
 

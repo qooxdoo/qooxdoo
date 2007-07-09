@@ -1874,14 +1874,14 @@ qx.Theme.define("qx.theme.ext.Appearance",
         return result;
       }
     },
-    
-    "scrollbar-blocker" : 
+
+    "scrollbar-blocker" :
     {
-      style : function( states ) 
+      style : function( states )
       {
-        return { 
-          backgroundColor : "black", 
-          opacity : 0.2 
+        return {
+          backgroundColor : "black",
+          opacity : 0.2
         };
       }
     }
