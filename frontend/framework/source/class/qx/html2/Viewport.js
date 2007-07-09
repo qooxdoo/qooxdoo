@@ -89,7 +89,7 @@ qx.Class.define("qx.html2.Viewport",
       
       "opera" : function() {
         return document.body.clientHeight;
-      }      
+      },      
 
       "default" : qx.lang.Object.select(qx.html2.client.Features.STANDARD_MODE ? "standard" : "quirks",
       {
