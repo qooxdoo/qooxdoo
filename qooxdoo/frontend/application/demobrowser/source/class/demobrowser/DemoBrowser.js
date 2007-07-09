@@ -53,6 +53,11 @@ qx.Class.define("demobrowser.DemoBrowser",
     this.widgets = {};
     this.tests = {};
     this._useProfile = false;
+    this.__states = {};
+    this.__states.transientStack = [];
+    this.__states.isLoading = false;
+    this.__states.isFirstSample = false;
+    this.__states.isLastSample  = false;
 
     this.__makeCommands();
 
@@ -121,10 +126,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     },
     this);
 
-    this.__states = {};
-    this.__states.isLoading = false;
-    this.__states.isFirstSample = false;
-    this.__states.isLastSample  = false;
 
   }, //construct
 
@@ -290,8 +291,40 @@ qx.Class.define("demobrowser.DemoBrowser",
     }, //makeCommands
 
 
+    /** call setEnabledM for a list of items and keep array of old values for later restore
+     */
+    __setEnabledA : function (target_list)
+    {
+      var transient_state = []; // will be: [[widget1, false],[widget2, true],...[widgetN, false]]
+      for (var i=0; i< target_list.length; i++)
+      {
+        this.__setEnabledM(target_list[i][0], target_list[i][1], transient_state);
+      }
+      this.__states.transientStack.push(transient_state);
+      /*
+      // to restore, use:
+      var oldstates = this.__states.transientStack.pop();
+      for (var i=0; i<oldstates.length; i++)
+      {
+        oldstates[i][0].setEnabled(oldstates[i][1]);
+      }
+      */
+    },
+
+
+    /** call setEnabled and memorize old value
+     */
+    __setEnabledM : function (widget, target, list)
+    {
+      var oldstate = widget.getEnabled(); //!this doesn't quite produce the expected result
+      widget.setEnabled(target);
+      list.push([widget, oldstate]);
+    },
+
+
     __setStateInitialized : function()
     {
+      /*
       this._cmdObjectSummary.setEnabled(false);
       this._cmdRunSample.setEnabled(false);
       this._cmdPrevSample.setEnabled(false);
@@ -303,6 +336,22 @@ qx.Class.define("demobrowser.DemoBrowser",
       this._cmdNamespacePollution.setEnabled(false);
       this.widgets["menu.appearance"].setEnabled(false);
       this.widgets["toolbar.playall"].setEnabled(true);
+      */
+
+      // this is just to test the state memoizing infrastructure
+      this.__setEnabledA([
+        [this._cmdObjectSummary, false],
+        [this._cmdRunSample, false],
+        [this._cmdPrevSample, false],
+        [this._cmdNextSample, false],
+        [this._cmdSampleInOwnWindow, false],
+        [this._cmdProfile, false],
+        [this._cmdShowLastProfile, false],
+        [this._cmdDisposeSample, false],
+        [this._cmdNamespacePollution, false],
+        [this.widgets["menu.appearance"], false],
+        [this.widgets["toolbar.playall"], true],
+      ]);
     },
 
 
