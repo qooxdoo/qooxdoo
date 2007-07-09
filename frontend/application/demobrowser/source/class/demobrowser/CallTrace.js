@@ -36,9 +36,9 @@ qx.Class.define("demobrowser.CallTrace", {
      * @param fcn {Function} Function to time.
      * @param args {Arguments} The arguments passed to the wrapped function
      */
-    callTraceEnter: function(fullName, fcn, type, args) 
+    callTraceEnter: function(fullName, fcn, type, args)
     {
-      // time stamp                                                               
+      // time stamp
       // code from qx.log.appender.Abstract
       var time = new String(new Date().getTime() - qx.core.Bootstrap.LOADSTART);
       while (time.length < 6) {
@@ -54,7 +54,7 @@ qx.Class.define("demobrowser.CallTrace", {
   {
     qx.core.Aspect.addAdvice("before", "*", "demobrowser\.(?!(DemoBrowser\.(init|get|set)|Application))", statics.callTraceEnter);
     //qx.core.Aspect.addAdvice("before", "*", "(?!qx.event.*)", statics.callTraceEnter);
-    
+
   }
 
 });

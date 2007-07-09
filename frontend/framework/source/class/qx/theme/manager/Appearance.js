@@ -225,12 +225,12 @@ qx.Class.define("qx.theme.manager.Appearance",
 
         // Create new map
         result = {};
-        
+
         // Copy base data, but exclude overwritten local and included stuff
-        if (entry.base && theme.supertheme) 
+        if (entry.base && theme.supertheme)
         {
           var base = this.styleFromTheme(theme.supertheme, id, states);
-          
+
           if (entry.include)
           {
             for (var key in base)
@@ -249,7 +249,7 @@ qx.Class.define("qx.theme.manager.Appearance",
               }
             }
           }
-        }        
+        }
 
         // Copy include data, but exclude overwritten local stuff
         if (entry.include)
@@ -276,7 +276,7 @@ qx.Class.define("qx.theme.manager.Appearance",
       if (cache) {
         cache[unique] = result || null;
       }
-      
+
       return result || null;
     }
   },

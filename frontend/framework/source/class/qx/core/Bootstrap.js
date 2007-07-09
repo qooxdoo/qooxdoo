@@ -97,7 +97,7 @@ qx =
       if (config.defer) {
         config.defer(config.statics);
       }
-      
+
       // Store class reference in global class registry
       qx.core.Bootstrap.__registry[name] = config.statics;
     }
@@ -118,7 +118,7 @@ qx.Class.define("qx.core.Bootstrap",
   {
     /** Timestamp of qooxdoo based application startup */
     LOADSTART : new Date,
-    
+
     /**
      * Returns the current timestamp
      *
@@ -128,7 +128,7 @@ qx.Class.define("qx.core.Bootstrap",
     time : function() {
       return new Date().getTime();
     },
-    
+
     /**
      * Returns the time since initialisation
      *
@@ -138,7 +138,7 @@ qx.Class.define("qx.core.Bootstrap",
     since : function() {
       return this.time() - this.LOADSTART;
     },
-    
+
     /** Stores all defined classes */
     __registry : {}
   }

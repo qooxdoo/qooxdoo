@@ -302,17 +302,17 @@ qx.Class.define("qx.html2.ElementUtil",
       SCROLL HANDLING
     ---------------------------------------------------------------------------
     */
-    
+
     scrollToX : function(el, x) {
-  		el.scrollLeft = x;
+      el.scrollLeft = x;
     },
 
     scrollToY : function(el, y) {
-  		el.scrollTop = y;      
+      el.scrollTop = y;
     },
-    
-    
-    
+
+
+
 
     /*
     ---------------------------------------------------------------------------
@@ -608,9 +608,9 @@ qx.Class.define("qx.html2.ElementUtil",
      */
     toScriptStyle : function(name)
     {
-  		return name.replace(/\-([a-z])/g, function(match, chr) {
-  			return chr.toUpperCase();
-  		});
+      return name.replace(/\-([a-z])/g, function(match, chr) {
+        return chr.toUpperCase();
+      });
     },
 
 
@@ -840,9 +840,9 @@ qx.Class.define("qx.html2.ElementUtil",
           opacity = 0;
         }
 
-				// IE has trouble with opacity if it does not have layout (hasLayout)
-				// Force it by setting the zoom level
-				if (!el.currentStyle.hasLayout) {
+        // IE has trouble with opacity if it does not have layout (hasLayout)
+        // Force it by setting the zoom level
+        if (!el.currentStyle.hasLayout) {
           this.setStyle(el, "zoom", 1);
         }
 

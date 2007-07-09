@@ -209,8 +209,8 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     },
 
     // overridden
-    /** 
-     * @return {Integer} 
+    /**
+     * @return {Integer}
      */
     getRowCount : function()
     {
@@ -225,7 +225,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 
     // overridden
     /**
-     * @return {Object} 
+     * @return {Object}
      */
     getValue : function(columnIndex, rowIndex)
     {
