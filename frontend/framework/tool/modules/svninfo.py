@@ -89,7 +89,7 @@ def query(path):
 
                         return revision, folder
                         #return revision
-            except e:
+            except Exception, e:
                 pass
 
             # new (svn 1.4) file format
