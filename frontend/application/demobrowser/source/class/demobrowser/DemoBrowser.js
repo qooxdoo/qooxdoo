@@ -350,7 +350,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         [this._cmdDisposeSample, false],
         [this._cmdNamespacePollution, false],
         [this.widgets["menu.appearance"], false],
-        [this.widgets["toolbar.playall"], true],
+        [this.widgets["toolbar.playall"], true]
       ]);
     },
 
