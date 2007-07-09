@@ -94,7 +94,7 @@ qx.Class.define("qx.client.NativeWindow",
     /** The outer width of the window. */
     width :
     {
-      check : "Integer",
+      check : "Number",
       init : 400,
       apply : "_applyDimension"
     },
@@ -103,7 +103,7 @@ qx.Class.define("qx.client.NativeWindow",
     /** The outer height of the window. */
     height :
     {
-      check : "Integer",
+      check : "Number",
       init : 250,
       apply : "_applyDimension"
     },
@@ -112,7 +112,7 @@ qx.Class.define("qx.client.NativeWindow",
     /** The left screen coordinate of the window. */
     left :
     {
-      check : "Integer",
+      check : "Number",
       init : 100,
       apply : "_applyPosition"
     },
@@ -121,7 +121,7 @@ qx.Class.define("qx.client.NativeWindow",
     /** The top screen coordinate of the window. */
     top :
     {
-      check : "Integer",
+      check : "Number",
       init : 200,
       apply : "_applyPosition"
     },
