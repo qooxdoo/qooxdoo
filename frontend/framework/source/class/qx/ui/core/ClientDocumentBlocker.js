@@ -108,22 +108,22 @@ qx.Class.define("qx.ui.core.ClientDocumentBlocker",
       init : false
     }
   },
-  
-  
-  
-  
+
+
+
+
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
-  */  
-  
+  */
+
   members :
   {
     // We must omit that the focus root is changed to the client document
     // when processing a mouse down event on this widget.
     getFocusRoot : function() {
-      return null; 
-    } 
+      return null;
+    }
   }
 });
