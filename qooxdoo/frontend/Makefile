@@ -790,6 +790,10 @@ check:
 		echo ; \
 		echo "    YOU MIGHT WANT TO INSTALL THE FOLLOWING OPTIONAL PACKAGES:"; \
 		echo "      * wget or curl (for downloading additional locale information)"; \
+		echo "      * svn (for automatic downloading of contributions from qooxdoo-contrib)"; \
+		echo ; \
+		echo "    PACKAGES WHICH ARE NOT AVAILABLE CURRENTLY:"; \
+		echo "      *$$FAILED_OPTS"; \
 		echo ; \
 	fi; \
 	\
