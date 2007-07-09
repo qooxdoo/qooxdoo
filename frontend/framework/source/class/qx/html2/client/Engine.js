@@ -30,7 +30,7 @@ qx.Class.define("qx.html2.client.Engine",
      STATICS
   *****************************************************************************
   */
-  
+
   // General: http://en.wikipedia.org/wiki/Browser_timeline
   // Webkit: http://developer.apple.com/internet/safari/uamatrix.html
   // Firefox: http://en.wikipedia.org/wiki/History_of_Mozilla_Firefox
@@ -72,7 +72,7 @@ qx.Class.define("qx.html2.client.Engine",
 
     /** {Boolean} Flag to detect if the client is based on the Gecko HTML/JS engine */
     GECKO : false,
-    
+
     /** {Boolean} Flag to detect if the client is based on the Gecko HTML/JS engine of Firefox 1.0 (November 2004) */
     GECKO17 : false,
 
