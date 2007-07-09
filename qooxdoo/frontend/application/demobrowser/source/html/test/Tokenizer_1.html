@@ -3,6 +3,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>qooxdoo &raquo; Demo Browser</title>
   <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
 
   <style type="text/css">
 
@@ -33,7 +34,7 @@
   </style>
 
 </head>
-<body>  
+<body>
   <div id="description">
     <p>Test qx.dev.Tokenizer.</p>
   </div>
@@ -94,7 +95,7 @@ function tokenizeDemo() {
 
 
 		var toHtml = function() {
-			output.innerHTML = qx.dev.Tokenizer.javaScriptToHtml(input.value);
+			output.innerHTML = "<pre>" + qx.dev.Tokenizer.javaScriptToHtml(input.value) + "</pre>";
 		}
 		document.getElementById("html").onclick = toHtml;
 
