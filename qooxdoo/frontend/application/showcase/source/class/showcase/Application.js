@@ -94,7 +94,7 @@ qx.Class.define("showcase.Application",
 
       // listen for state changes
       this._history.addEventListener("request", function(e) {
-        var stateData = this._states[e.getData()];
+        var stateData = this._states[e.getData() || "Form"];
         stateData.widget.setChecked(true);
       }, this);
 
