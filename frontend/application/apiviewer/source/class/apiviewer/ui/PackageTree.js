@@ -115,7 +115,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
           return false;
         }
 
-        if (!treeNode.loaded && i < nameParts.length-1) {
+        if (!treeNode.loaded) {
           treeNode.setOpen(true);
         }
         i++;
