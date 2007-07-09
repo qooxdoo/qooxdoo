@@ -30,6 +30,10 @@ qx.Class.define("qx.html2.client.Engine",
      STATICS
   *****************************************************************************
   */
+  
+  // General: http://en.wikipedia.org/wiki/Browser_timeline
+  // Webkit: http://developer.apple.com/internet/safari/uamatrix.html
+  // Firefox: http://en.wikipedia.org/wiki/History_of_Mozilla_Firefox
 
   statics :
   {
@@ -42,20 +46,44 @@ qx.Class.define("qx.html2.client.Engine",
     /** {Boolean} Flag to detect if the client is based on the Opera HTML/JS engine */
     OPERA : false,
 
+    /** {Boolean} Flag to detect if the client is based on the Opera HTML/JS engine */
+    OPERA8 : false,
+
+    /** {Boolean} Flag to detect if the client is based on the Opera HTML/JS engine */
+    OPERA85 : false,
+
+    /** {Boolean} Flag to detect if the client is based on the Opera HTML/JS engine */
+    OPERA9 : false,
+
+    /** {Boolean} Flag to detect if the client is based on the Opera HTML/JS engine */
+    OPERA95 : false,
+
     /** {Boolean} Flag to detect if the client is based on the KHTML HTML/JS engine */
     KHTML : false,
 
     /** {Boolean} Flag to detect if the client is based on the Webkit HTML/JS engine */
     WEBKIT : false,
 
-    /** {Boolean} Flag to detect if the client is based on the Webkit HTML/JS engine of Safari 2 */
+    /** {Boolean} Flag to detect if the client is based on the Webkit HTML/JS engine of Safari 2 (April 2005) */
     WEBKIT419 : false,
 
-    /** {Boolean} Flag to detect if the client is based on the Webkit HTML/JS engine of Safari 3 */
+    /** {Boolean} Flag to detect if the client is based on the Webkit HTML/JS engine of Safari 3 (~November 2007) */
     WEBKIT420 : false,
 
     /** {Boolean} Flag to detect if the client is based on the Gecko HTML/JS engine */
     GECKO : false,
+    
+    /** {Boolean} Flag to detect if the client is based on the Gecko HTML/JS engine of Firefox 1.0 (November 2004) */
+    GECKO17 : false,
+
+    /** {Boolean} Flag to detect if the client is based on the Gecko HTML/JS engine of Firefox 1.5 (November 2005) */
+    GECKO18 : false,
+
+    /** {Boolean} Flag to detect if the client is based on the Gecko HTML/JS engine of Firefox 2.0 (October 2006) */
+    GECKO181 : false,
+
+    /** {Boolean} Flag to detect if the client is based on the Gecko HTML/JS engine of Firefox 3.0 (~November 2007) */
+    GECKO19 : false,
 
     /** {Boolean} Flag to detect if the client is based on the Internet Explorer HTML/JS engine */
     MSHTML : false,
