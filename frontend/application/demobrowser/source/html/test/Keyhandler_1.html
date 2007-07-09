@@ -3,6 +3,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>qooxdoo &raquo; Demo Browser</title>
   <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
 
 	<style type="text/css">
 	#keylogger {
@@ -18,27 +19,27 @@
 		overflow: scroll;
 		/* display:none; */
 	}
-	
+
 	table {
 		width: 100%;
 	}
-	
+
 	td {
 		text-align: center;
 	}
 	</style>
-	
+
 </head>
-<body>  
+<body>
   <div id="description">
     <p>Keyhandler Test</p>
 		<p>Displays qoooxdoo's normalized key events.</p>
   </div>
 
-  
+
 	<div id="keylogger">
 	</div>
-	
+
 	<script type="text/javascript">
 
 	qx.core.Init.getInstance().defineMain(function()
@@ -47,12 +48,12 @@
 		var keyEvents = [];
 		var maxLogSize = 50;
 		var logDiv = document.getElementById("keylogger");
-		
+
 		function initializeLogger() {
 			logDiv.innerHTML = tableHead + "</table>";
 			keyEvents = [];
 		}
-		
+
 		function logKeyEvent(keyEvent) {
 			var eventCopy = {
 				type: keyEvent.getType(),
@@ -61,7 +62,7 @@
 				charCode: keyEvent.getCharCode(),
 				shift: keyEvent.getDomEvent().shiftKey,
 				alt: keyEvent.getDomEvent().altKey,
-				ctrl: keyEvent.getDomEvent().ctrlKey				
+				ctrl: keyEvent.getDomEvent().ctrlKey
 			}
 			keyEvents.unshift(eventCopy);
 			keyEvents = keyEvents.slice(0, maxLogSize);
@@ -88,15 +89,15 @@
 			logDiv.innerHTML = str.join("");
 			logDiv.scrollTop = 0;
 		}
-		
+
 		initializeLogger();
-		
+
 		var d = qx.ui.core.ClientDocument.getInstance();
 		d.addEventListener("keydown", logKeyEvent);
 		d.addEventListener("keypress", logKeyEvent);
 		d.addEventListener("keyinput", logKeyEvent);
 		d.addEventListener("keyup", logKeyEvent);
-		
+
 		var button = new qx.ui.form.Button("clear");
 		button.set({
 			left: 550,
@@ -104,7 +105,7 @@
 		});
 		button.addEventListener("execute", initializeLogger);
 		button.addToDocument();
-		 
+
   });
 		</script>
 </body>
