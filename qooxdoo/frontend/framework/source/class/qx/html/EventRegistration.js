@@ -64,7 +64,6 @@ qx.Class.define("qx.html.EventRegistration",
      * @param vElement {Element} DOM Element
      * @param vType {String} Name of the event
      * @param vFunction {Function} The pointer to the function to assign
-     * @return {void}
      * @signature function(vElement, vType, vFunction)
      */
     removeEventListener : qx.core.Variant.select("qx.client",
