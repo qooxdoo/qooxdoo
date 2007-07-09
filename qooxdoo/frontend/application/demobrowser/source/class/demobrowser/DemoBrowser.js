@@ -121,7 +121,10 @@ qx.Class.define("demobrowser.DemoBrowser",
     },
     this);
 
-    this.__isStateLoading = false;
+    this.__states = {};
+    this.__states.isLoading = false;
+    this.__states.isFirstSample = false;
+    this.__states.isLastSample  = false;
 
   }, //construct
 
@@ -304,7 +307,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
 
     __setStateLoading : function() {
-      this.__isStateLoading = true;
+      this.__states.isLoading = true;
       this.__setStateInitialized();
       if (!this.isPlayAll()) {
         this.widgets["toolbar.playall"].setEnabled(false);
@@ -314,7 +317,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     __setStateLoaded : function ()
     {
-      this.__isStateLoading = false;
+      this.__states.isLoading = false;
       this.widgets["toolbar.playall"].setEnabled(true);
       this.widgets["outputviews.bar"].resetEnabled();
       this.widgets["outputviews.demopage.page"].resetEnabled();
@@ -327,8 +330,12 @@ qx.Class.define("demobrowser.DemoBrowser",
     {
       this._cmdObjectSummary.setEnabled(true);
       this._cmdRunSample.setEnabled(true);
-      this._cmdPrevSample.setEnabled(true);
-      this._cmdNextSample.setEnabled(true);
+      if (!this.__states.isFirstSample) {
+        this._cmdPrevSample.setEnabled(true);
+      }
+      if (!this.__states.isLastSample) {
+        this._cmdNextSample.resetEnabled();
+      }
       this._cmdSampleInOwnWindow.setEnabled(true);
       this.widgets["toolbar.playall"].setEnabled(true);
 
@@ -956,14 +963,18 @@ qx.Class.define("demobrowser.DemoBrowser",
 
         if (treeNode.getUserData('modelLink').getPrevSibling()) {
           this._cmdPrevSample.setEnabled(true);
+          this.__states.isFirstSample=false;
         } else {
           this._cmdPrevSample.setEnabled(false);
+          this.__states.isFirstSample=true;
         }
 
         if (treeNode.getUserData('modelLink').getNextSibling()) {
           this._cmdNextSample.setEnabled(true);
+          this.__states.isLastSample=false;
         } else {
           this._cmdNextSample.setEnabled(false);
+          this.__states.isLastSample=true;
         }
       }
 
@@ -1328,7 +1339,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           qx.client.Timer.once(function ()
           {
             this.widgets["toolbar.nextbutt"].execute();
-          }, this, 1000);
+          }, this, 1500);
         } else
         {
           this.setPlayAll(false);
@@ -1351,15 +1362,13 @@ qx.Class.define("demobrowser.DemoBrowser",
       {
         this.setPlayAll(true);  // turn on global flag
         // select first example
-        /*
         var first = this._sampleToTreeNodeMap['example/Atom_1.html'];
         this.widgets["treeview.full"].setSelectedElement(first);
-        */
         // run sample
         this.widgets["toolbar.runbutton"].execute();
       } else                  // end playing all
       {
-        if (this.__isStateLoading)
+        if (this.__states.isLoading)
         {
           this.widgets["toolbar.playall"].setEnabled(false);
         }
@@ -1653,7 +1662,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
   destruct : function()
   {
-    this._disposeFields("widgets", "tests", "_sampleToTreeNodeMap", "tree", "__isStateLoading");
+    this._disposeFields("widgets", "tests", "_sampleToTreeNodeMap", "tree", "__states");
     this._disposeObjects("header", "mainsplit", "tree1", "left", "runbutton", "toolbar", "f1", "f2", "logger", "_history", "logappender", '_cmdObjectSummary', '_cmdRunSample', '_cmdPrevSample', '_cmdNextSample', '_cmdSampleInOwnWindow', '_cmdLoadProfile', '_cmdProfile', '_cmdShowLastProfile', '_cmdDisposeSample', '_cmdNamespacePollution');
   }
 });
