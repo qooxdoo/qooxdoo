@@ -287,12 +287,8 @@ qx.Class.define("qx.ui.embed.Iframe",
      */
     reload : function()
     {
-      var href = this.queryCurrentUrl();
-
-      if (href) {
-        this.setSource(href);
-      } else {
-        this._syncSource();
+      if (this.isCreated() && this.getContentWindow()) {
+        this.getContentWindow().location.replace(this.getContentWindow().location.href);
       }
     },
 
