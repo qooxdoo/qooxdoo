@@ -65,7 +65,7 @@ qx.Class.define("testrunner.test.Class",
           construct : function() {}
         });
       },
-      Error, "An object of the name 'testrunner.Same' aready exists and overwriting is not allowed!");
+      Error, "An object of the name 'testrunner.Same' already exists and overwriting is not allowed!");
     },
 
 
