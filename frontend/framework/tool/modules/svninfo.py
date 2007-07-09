@@ -42,7 +42,12 @@
 #</pre>
 ##
 
-import os, sys, re, optparse
+import os
+import sys
+import re
+import optparse
+from elementtree import ElementTree
+
 import filetool
 
 
@@ -51,10 +56,10 @@ DIRINFO = re.compile("dir\n([0-9]+)\nhttps://.*/svnroot/qooxdoo/([a-zA-Z0-9_-]+)
 
 
 
-##                                                                              
-# Some nice short description of foo(); this can contain html and 
+##
+# Some nice short description of foo(); this can contain html and
 # {@link #foo Links} to items in the current file.
-#                                                                               
+#
 # @param     a        Describe a positional parameter
 # @keyparam  b        Describe a keyword parameter
 # @def       foo(name)    # overwrites auto-generated function signature
@@ -68,6 +73,26 @@ def query(path):
         entries = os.path.join(path, ".svn", "entries")
 
         if os.path.exists(entries):
+
+            # old (svn 1.3) XML style format
+            try:
+                tree = ElementTree.parse(entries)
+                for entry in tree.findall("{svn:}entry"):
+                    revision = entry.get("revision")
+                    url = entry.get("url")
+                    if revision != None and url != None:
+                        url = url.split("/")
+
+                        folder = url[5]
+                        if folder in ["tags", "branches"]:
+                            folder = url[6]
+
+                        return revision, folder
+                        #return revision
+            except e:
+                pass
+
+            # new (svn 1.4) file format
             content = filetool.read(entries)
 
             mtch = DIRINFO.search(content)
