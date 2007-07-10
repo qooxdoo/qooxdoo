@@ -69,7 +69,7 @@ qx.Class.define("qx.html2.EventRegistration", {
     {
       var keyHandler = qx.lang.Function.bind(this.__keyEventHandler, this);
       this.__keyEventHandler = new qx.html2.KeyEventHandler(keyHandler);
-      this.__customHandler = {
+      this.__keyHandler = {
         "keydown": qx.lang.Function.bind(
           this.__keyEventHandler.onKeyUpDown,
           this.__keyEventHandler
@@ -82,6 +82,34 @@ qx.Class.define("qx.html2.EventRegistration", {
           this.__keyEventHandler.onKeyPress,
           this.__keyEventHandler
         )
+      }
+    },
+
+
+    __keyEventListenerCount : 0,
+
+    __attachKeyHandler : function()
+    {
+      for (var type in this.__keyHandler)
+      {
+        this._nativeAddEventListener(
+          window.document.documentElement,
+          type,
+          this.__keyHandler[type]
+        );
+      }
+    },
+
+
+    __detachKeyHandler : function()
+    {
+      for (var type in this.__keyHandler)
+      {
+        this._nativeRemoveEventListener(
+          window.document.documentElement,
+          type,
+          this.__keyHandler[type]
+        );
       }
     },
 
@@ -177,12 +205,25 @@ qx.Class.define("qx.html2.EventRegistration", {
       var reg = this.__registry;
       if (!reg[type]) {
         reg[type] = {};
-        var eventHandler = this.__customHandler[type] || this.__documentEventHandler;
-        this._nativeAddEventListener(
-          window.document.documentElement,
-          type,
-          eventHandler
-        );
+
+        if (this.__keyHandler[type])
+        {
+          // handle key events
+          this.__keyEventListenerCount += 1;
+          if (this.__keyEventListenerCount == 1) {
+            this.__attachKeyHandler();
+          }
+        }
+        else
+        {
+          // all other events
+          this._nativeAddEventListener(
+            window.document.documentElement,
+            type,
+            this.__documentEventHandler
+          );
+        }
+
       }
 
       var elementId = qx.core.Object.toHashCode(element);
@@ -241,6 +282,9 @@ qx.Class.define("qx.html2.EventRegistration", {
       var node = target;
 
       var reg = qx.html2.EventRegistration.__registry[event.getType()];
+      if (reg == undefined) {
+        return;
+      }
 
       var bubbleList = [];
       var bubbleTargets = [];
@@ -248,7 +292,7 @@ qx.Class.define("qx.html2.EventRegistration", {
       var captureList = [];
       var captureTargets = [];
 
-      // Walk up the tree and search for an qx.ui.core.Widget
+      // Walk up the tree and look for event listeners
       while (node != null)
       {
         var elementId = qx.core.Object.toHashCode(node);
@@ -433,7 +477,16 @@ qx.Class.define("qx.html2.EventRegistration", {
         ) {
           delete(elementData[type]);
         }
+        if (this.__keyHandler[type])
+        {
+          // handle key events
+          this.__keyEventListenerCount -= 1;
+          if (this.__keyEventListenerCount == 0) {
+            this.__detachKeyHandler();
+          }
+        }
       }
+
       if (qx.lang.Object.isEmpty(this.__registry[type])) {
         this._nativeRemoveEventListener(
           window.document.documentElement,
