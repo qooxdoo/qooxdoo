@@ -58,16 +58,12 @@ qx.Class.define("qx.html2.Viewport",
         return self.innerWidth;
       },
 
-      "opera,(win|mac)" : function() {
+      "quirks_mode|opera" : function() {
         return document.body.clientWidth;
       },
 
       "standard_mode" : function() {
         return document.documentElement.clientWidth;
-      },
-
-      "quirks_mode" : function() {
-        return document.body.clientWidth;
       }
     }),
 
@@ -80,20 +76,16 @@ qx.Class.define("qx.html2.Viewport",
      */
     getHeight : qx.html2.client.Select.select(
     {
-      "webkit419" : function() { // TODO: Nonexisting key
+      "webkit419" : function() {
         return self.innerHeight;
       },
 
-      "opera" : function() {
+      "quirks_mode|opera" : function() {
         return document.body.clientHeight;
       },
-
+      
       "standard_mode" : function() {
         return document.documentElement.clientHeight;
-      },
-
-      "quirks_mode" : function() {
-        return document.body.clientHeight;
       }
     }),
 
