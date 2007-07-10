@@ -19,20 +19,6 @@
 
    This class contains code based on the following work:
 
-   * Base2
-     http://code.google.com/p/base2/
-     Version 0.9
-
-     Copyright:
-       (c) 2006-2007, Dean Edwards
-
-     License:
-       MIT: http://www.opensource.org/licenses/mit-license.php
-
-     Authors:
-       * Dean Edwards
-
-
    * Prototype JS
      http://www.prototypejs.org/
      Version 1.5
