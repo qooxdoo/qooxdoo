@@ -34,7 +34,7 @@ qx.Class.define("qx.html2.client.Platform",
   statics :
   {
     /** {String} The name of the platform. One of: "win", "mac", "unix" */
-    PLATFORM : "",
+    NAME : "",
 
     /** {Boolean} Flag to detect if the client system is running Windows */
     WIN : false,
@@ -56,17 +56,17 @@ qx.Class.define("qx.html2.client.Platform",
       if (input.indexOf("Windows") != -1 || input.indexOf("Win32") != -1 || input.indexOf("Win64") != -1)
       {
         this.WIN = true;
-        this.PLATFORM = "win";
+        this.NAME = "win";
       }
       else if (input.indexOf("Macintosh") != -1 || input.indexOf("MacPPC") != -1 || input.indexOf("MacIntel") != -1)
       {
         this.MAC = true;
-        this.PLATFORM = "mac";
+        this.NAME = "mac";
       }
       else if (input.indexOf("X11") != -1 || input.indexOf("Linux") != -1 || input.indexOf("BSD") != -1)
       {
         this.UNIX = true;
-        this.PLATFORM = "unix";
+        this.NAME = "unix";
       }
       else
       {
