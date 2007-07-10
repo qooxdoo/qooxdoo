@@ -46,18 +46,6 @@ qx.Class.define("qx.html2.client.Engine",
     /** {Boolean} Flag to detect if the client is based on the Opera HTML/JS engine */
     OPERA : false,
 
-    /** {Boolean} Flag to detect if the client is based on the Opera HTML/JS engine */
-    OPERA8 : false,
-
-    /** {Boolean} Flag to detect if the client is based on the Opera HTML/JS engine */
-    OPERA85 : false,
-
-    /** {Boolean} Flag to detect if the client is based on the Opera HTML/JS engine */
-    OPERA9 : false,
-
-    /** {Boolean} Flag to detect if the client is based on the Opera HTML/JS engine */
-    OPERA95 : false,
-
     /** {Boolean} Flag to detect if the client is based on the KHTML HTML/JS engine */
     KHTML : false,
 
