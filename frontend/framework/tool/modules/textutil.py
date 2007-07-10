@@ -42,7 +42,7 @@
 #</pre>
 ##
 
-import sys, string, re, optparse
+import sys, string, re, optparse, codecs
 import config, filetool, comment
 
 
@@ -160,7 +160,7 @@ def main():
 
     parser.add_option("-q", "--quiet", action="store_false", dest="verbose", default=False, help="Quiet output mode.")
     parser.add_option("-v", "--verbose", action="store_true", dest="verbose", help="Verbose output mode.")
-    parser.add_option("-c", "--command", dest="command", default="normalize", help="Normalize a file")
+    parser.add_option("-c", "--command", dest="command", help="Normalize a file")
     parser.add_option("--encoding", dest="encoding", default="utf-8", metavar="ENCODING", help="Defines the encoding expected for input files.")
 
     (options, args) = parser.parse_args()
@@ -177,10 +177,16 @@ def main():
         if options.verbose:
             print "  * Running %s on: %s" % (options.command, fileName)
         
-        origFileContent = filetool.read(fileName, options.encoding)
+        ref = codecs.open(fileName, encoding=options.encoding, mode="r")
+        origFileContent = ref.read()
+        ref.close()        
+
         patchedFileContent = eval(options.command + "(origFileContent)")
         
         if patchedFileContent != origFileContent:
+            if options.verbose:
+                print "  * Store modifications..."
+                
             filetool.save(fileName, patchedFileContent, options.encoding)
 
 

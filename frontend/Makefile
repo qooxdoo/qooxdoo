@@ -541,6 +541,9 @@ release-sdk-unix-collect:
 	@for ITEM in $(SDK_COPY); do \
 	  cp -f $$ITEM $(RELEASE_SDK_UNIX)/frontend/$$ITEM; \
 	done
+	
+	@echo "  * Switching to Unix line endings..."
+	@$(CMD_FIND) $(RELEASE_SDK_UNIX) $(FILES_TEXT) $(CMD_ANY2UNIX)	
 
 release-sdk-unix-archive:
 	@echo "  * Synchronizing quickstart & skeleton..."
@@ -580,6 +583,9 @@ release-sdk-dos-collect:
 	@for ITEM in $(SDK_COPY); do \
 	  cp -f $$ITEM $(RELEASE_SDK_DOS)/frontend/$$ITEM; \
 	done
+
+	@echo "  * Switching to DOS line endings..."
+	@$(CMD_FIND) $(RELEASE_SDK_DOS) $(FILES_TEXT) $(CMD_ANY2DOS)
 
 release-sdk-dos-archive:
 	@echo "  * Synchronizing quickstart & skeleton..."
