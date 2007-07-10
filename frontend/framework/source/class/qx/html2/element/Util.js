@@ -58,7 +58,7 @@
 /**
  * High performance DOM element interaction.
  */
-qx.Class.define("qx.html2.ElementUtil",
+qx.Class.define("qx.html2.element.Util",
 {
   /*
   *****************************************************************************
