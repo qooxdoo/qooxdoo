@@ -40,14 +40,32 @@ qx.Class.define("qx.html2.client.Select",
           return map[key]; 
         }
         
-        if (/^[a-z0-9_\(\),\|]+$/.exec(key) == null) {
-          throw new Error("Could not parse key: " + key); 
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {        
+          if (/^[a-z0-9_\(\),\|]+$/.exec(key) == null) {
+            throw new Error("Could not parse key: " + key); 
+          }
         }
         
         code = key.replace(",", "&&").replace("|", "||").replace(/\b([a-z0-9_]+)\b/g, "this.__active.$1");
         
-        if (this.__cache[key] = !!eval(code)) {
-          return map[key];   
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {        
+          try
+          {
+            if (this.__cache[key] = !!eval(code)) {
+              return map[key];   
+            }
+          }
+          catch(ex) {
+            throw new Error("Could not evaluate key: " + key); 
+          }
+        }
+        else
+        {
+          if (this.__cache[key] = !!eval(code)) {
+            return map[key];   
+          }          
         }
       }
       
