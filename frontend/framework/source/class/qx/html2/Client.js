@@ -44,7 +44,7 @@ qx.Class.define("qx.html2.Client",
      * @throws an error if the key could not be parsed or evaluated
      * @return {Boolean} The evaluated value of the given key
      */
-    isSet : function(key)
+    match : function(key)
     {
       var cache = this.__cache;
       
@@ -112,7 +112,7 @@ qx.Class.define("qx.html2.Client",
     {
       for (var key in map)
       {
-        if (this.isSet(key)) {
+        if (this.match(key)) {
           return map[key]; 
         }
       }
@@ -135,8 +135,12 @@ qx.Class.define("qx.html2.Client",
     /** Internal data structures with all flags or numeric value which should be available in expressions */
     __keys : 
     {
-      Engine : [ "OPERA", "KHTML", "WEBKIT", "WEBKIT419", "WEBKIT420", "GECKO",
-        "GECKO17", "GECKO18", "GECKO181", "GECKO19", "MSHTML", "MSHTML6", "MSHTML7", "VERSION" ],
+      Engine : [ "KHTML", 
+        "OPERA", "OPERA8", "OPERA85", "OPERA9", "OPERA95",
+        "WEBKIT", "WEBKIT419", "WEBKIT420", 
+        "GECKO", "GECKO17", "GECKO18", "GECKO181", "GECKO19", 
+        "MSHTML", "MSHTML6", "MSHTML7", 
+        "VERSION" ],
       Features : [ "STANDARD_MODE", "QUIRKS_MODE", "CONTENT_BOX", "BORDER_BOX", "SVG", "CANVAS", "VML", "XPATH" ],
       Platform : [ "WIN", "MAC", "UNIX" ]
     },
