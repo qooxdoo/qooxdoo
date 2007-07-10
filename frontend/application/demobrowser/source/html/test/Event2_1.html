@@ -97,8 +97,11 @@ qx.Class.define("BasicSample",
       qx.html2.EventRegistration.addEventListener(this._juhu, "click", this._onclick1, this);
       qx.html2.EventRegistration.addEventListener(this._juhu, "click", this._onclick2, this);
 
-      qx.html2.EventRegistration.addEventListener(document.getElementById("input"), "keydown", this._onkeydown, this);
-
+      qx.html2.EventRegistration.addEventListener(
+        document.getElementById("input"),
+        "keydown",
+        this._onkeydown, this
+      );
 
       for (var i=1; i<10; i++) {
         var div = document.getElementById("div"+i);
@@ -109,14 +112,25 @@ qx.Class.define("BasicSample",
       qx.html2.EventRegistration.addEventListener(
         document.getElementById("scroll"),
         "scroll",
-        this._scroll,
+        this.throttle(150, this._scroll, this),
         this
       );
     },
 
+    throttle : function(minIntervalTime, fcn, self)
+    {
+      var timeoutId = 0;
+
+      return function() {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(function() {
+          self ? fcn.call(self) : fcn();
+        }, minIntervalTime);
+      }
+    },
+
     _onkeydown: function(e) {
       this.debug("keydown: " + e.getKeyIdentifier());
-      console.log(e);
     },
 
     _scroll: function(e) {
