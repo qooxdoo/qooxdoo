@@ -52,26 +52,23 @@ qx.Class.define("qx.html2.Viewport",
      * @type static
      * @return {Integer} The width of the viewable area of the page (excludes scrollbars).
      */
-    getWidth : qx.core.Variant.select("qx.client",
+    getWidth : qx.html2.client.Select.select(
     {
-      "webkit419" : function() { // TODO: Nonexisting key
+      "webkit419" : function() {
         return self.innerWidth;
       },
 
-      "opera" : function() {
+      "opera,(win|mac)" : function() {
         return document.body.clientWidth;
       },
 
-      "default" : qx.lang.Object.select(qx.html2.client.Features.STANDARD_MODE ? "standard" : "quirks",
-      {
-        "standard" : function() {
-          return document.documentElement.clientWidth;
-        },
+      "standard_mode" : function() {
+        return document.documentElement.clientWidth;
+      },
 
-        "quirks" : function() {
-          return document.body.clientWidth;
-        }
-      })
+      "quirks_mode" : function() {
+        return document.body.clientWidth;
+      }
     }),
 
 
@@ -81,7 +78,7 @@ qx.Class.define("qx.html2.Viewport",
      * @type static
      * @return {Integer} The height of the viewable area of the page (excludes scrollbars).
      */
-    getHeight : qx.core.Variant.select("qx.client",
+    getHeight : qx.html2.client.Select.select(
     {
       "webkit419" : function() { // TODO: Nonexisting key
         return self.innerHeight;
@@ -91,16 +88,13 @@ qx.Class.define("qx.html2.Viewport",
         return document.body.clientHeight;
       },
 
-      "default" : qx.lang.Object.select(qx.html2.client.Features.STANDARD_MODE ? "standard" : "quirks",
-      {
-        "standard" : function() {
-          return document.documentElement.clientHeight;
-        },
+      "standard_mode" : function() {
+        return document.documentElement.clientHeight;
+      },
 
-        "quirks" : function() {
-          return document.body.clientHeight;
-        }
-      })
+      "quirks_mode" : function() {
+        return document.body.clientHeight;
+      }
     }),
 
     getScrollLeft: function(){
