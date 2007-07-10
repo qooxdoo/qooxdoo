@@ -65,6 +65,8 @@
     </div>
   </div>
 
+  <input type="text" id="input"></input>
+
   <div id="scroll">
   Juhu Kinners Juhu Kinners Juhu Kinners Juhu Kinners Juhu Kinners Juhu Kinners
   Juhu Kinners Juhu Kinners Juhu Kinners Juhu Kinners Juhu Kinners Juhu Kinners
@@ -95,6 +97,8 @@ qx.Class.define("BasicSample",
       qx.html2.EventRegistration.addEventListener(this._juhu, "click", this._onclick1, this);
       qx.html2.EventRegistration.addEventListener(this._juhu, "click", this._onclick2, this);
 
+      qx.html2.EventRegistration.addEventListener(document.getElementById("input"), "keydown", this._onkeydown, this);
+
 
       for (var i=1; i<10; i++) {
         var div = document.getElementById("div"+i);
@@ -108,6 +112,11 @@ qx.Class.define("BasicSample",
         this._scroll,
         this
       );
+    },
+
+    _onkeydown: function(e) {
+      this.debug("keydown: " + e.getKeyIdentifier());
+      console.log(e);
     },
 
     _scroll: function(e) {
