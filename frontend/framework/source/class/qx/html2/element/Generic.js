@@ -117,7 +117,7 @@ qx.Class.define("qx.html2.element.Generic",
       var name, hints, data;
       
       // Process attributes
-      hints = this.__attributeHints.names;
+      hints = qx.html2.element.Attribute.__hints.names;
       source = generic.attributes;
       target = map.attributes;
       for (var i=0, l=source.length; i<l; i++)
@@ -130,7 +130,7 @@ qx.Class.define("qx.html2.element.Generic",
       }
       
       // Process styles
-      hints = this.__styleHints.names;
+      hints = qx.html2.element.Style.__hints.names;
       source = generic.styles;
       target = map.styles;
       for (var i=0, l=source.length; i<l; i++)

@@ -33,14 +33,8 @@ qx.Class.define("qx.html2.element.Attribute",
   
   statics :
   {
-    /*
-    ---------------------------------------------------------------------------
-      ELEMENT ATTRIBUTES
-    ---------------------------------------------------------------------------
-    */
-
     /** Internal map of attribute convertions */
-    __attributeHints :
+    __hints :
     {
       names :
       {
@@ -94,11 +88,11 @@ qx.Class.define("qx.html2.element.Attribute",
      * @return {var} New value of the attribute
      * @signature function(el, name)
      */
-    getAttribute : qx.core.Variant.select("qx.client",
+    get : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(el, name)
       {
-        var hints = this.__attributeHints;
+        var hints = this.__hints;
 
         // normalize name
         name = hints.names[name] || name;
@@ -119,7 +113,7 @@ qx.Class.define("qx.html2.element.Attribute",
 
       "default" : function(el, name)
       {
-        var hints = this.__attributeHints;
+        var hints = this.__hints;
 
         // normalize name
         name = hints.names[name] || name;
@@ -147,9 +141,9 @@ qx.Class.define("qx.html2.element.Attribute",
      * @param value {var} New value of the attribute
      * @return {void}
      */
-    setAttribute : function(el, name, value)
+    set : function(el, name, value)
     {
-      var hints = this.__attributeHints;
+      var hints = this.__hints;
 
       // normalize name
       name = hints.names[name] || name;
