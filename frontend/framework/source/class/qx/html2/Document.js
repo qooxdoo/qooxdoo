@@ -52,13 +52,13 @@ qx.Class.define("qx.html2.Document",
      * @type static
      * @return {Integer} The width of the actual document (which includes the body and its margin).
      */
-    getWidth : qx.lang.Object.select(qx.html2.client.Features.STANDARD_MODE ? "standard" : "quirks",
+    getWidth : qx.html2.Client.select(
     {
-      "standard" : function() {
+      "standard_mode" : function() {
         return Math.max(document.documentElement.scrollWidth, qx.html2.Viewport.getWidth());
       },
 
-      "quirks" : function() {
+      "quirks_mode" : function() {
         return Math.max(document.body.scrollWidth, qx.html2.Viewport.getWidth());
       }
     }),
@@ -70,13 +70,13 @@ qx.Class.define("qx.html2.Document",
      * @type static
      * @return {Integer} The height of the actual document (which includes the body and its margin).
      */
-    getHeight : qx.lang.Object.select(qx.html2.client.Features.STANDARD_MODE ? "standard" : "quirks",
+    getHeight : qx.html2.Client.select(
     {
-      "standard" : function() {
+      "standard_mode" : function() {
         return Math.max(document.documentElement.scrollHeight, qx.html2.Viewport.getHeight());
       },
 
-      "quirks" : function() {
+      "quirks_mode" : function() {
         return Math.max(document.body.scrollHeight, qx.html2.Viewport.getHeight());
       }
     })
