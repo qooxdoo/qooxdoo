@@ -1,0 +1,135 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+  <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
+  <style type="text/css">
+
+    #juhu {
+      width: 400px;
+      margin: 10px;
+      background-color: orange;
+    }
+
+    #inner, #juhu {
+      border: 1px solid black;
+      padding: 10px;
+    }
+
+    #div1 {
+      width: 500px;
+      margin: 10px;
+    }
+
+    .cascade {
+      border: 1px solid black;
+      padding: 10px;
+    }
+
+  </style>
+</head>
+<body>
+  <div id="description">
+    <p>Test of new event handler code.</p>
+  </div>
+
+  <div id="juhu">Juhu Kinners
+
+  <div id="inner">Inner Div</div>
+  </div>
+
+
+  <div class="cascade" id="div1">1
+    <div class="cascade" id="div2">2
+      <div class="cascade" id="div3">3
+        <div class="cascade" id="div4">4
+          <div class="cascade" id="div5">5
+            <div class="cascade" id="div6">6
+              <div class="cascade" id="div7">7
+                <div class="cascade" id="div8">8
+                  <div class="cascade" id="div9">9
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script type="text/javascript">
+
+qx.Class.define("BasicSample",
+{
+  extend : qx.application.Basic,
+
+  members :
+  {
+    main : function()
+    {
+      this.base(arguments);
+
+      this._juhu = document.getElementById("juhu");
+      this._inner = document.getElementById("inner");
+
+      qx.html2.EventRegistration.addEventListener(this._juhu, "contextmenu", this._preventDefault, this);
+      qx.html2.EventRegistration.addEventListener(this._inner, "click", this._stopPropagation, this);
+      qx.html2.EventRegistration.addEventListener(this._juhu, "click", this._onclick1, this);
+      qx.html2.EventRegistration.addEventListener(this._juhu, "click", this._onclick2, this);
+
+
+      for (var i=1; i<10; i++) {
+        var div = document.getElementById("div"+i);
+        //qx.html2.EventRegistration.addEventListener(div, "click", this._cascadeCapture, this, true);
+        qx.html2.EventRegistration.addEventListener(div, "click", this._cascadeBubble, this, false);
+      }
+    },
+
+    _cascadeCapture : function(e) {
+      var elem = e.getCurrentTarget();
+      this.debug("capture", elem.id);
+    },
+
+    _cascadeBubble : function(e) {
+      var elem = e.getCurrentTarget();
+      if (!e._event.timeStamp) {
+        e._event.timeStamp = (new Date()).getTime();
+      }
+      this.debug("bubble: " + elem.id + " " + e._event.timeStamp+ " " + qx.core.Object.toHashCode(e._event));
+    },
+
+    _preventDefault : function(e)
+    {
+      this.debug(e.getType() + ": ", e);
+      e.preventDefault();
+    },
+
+    _stopPropagation : function(e)
+    {
+      this.debug(e.getType() + " (inner): ", e);
+      e.stopPropagation();
+    },
+
+
+    _onclick1 : function(e)
+    {
+      this.debug(e.getType() + " 1:", e);
+      qx.html2.EventRegistration.removeEventListener(this._juhu, "click", this._onclick1);
+    },
+
+    _onclick2 : function(e)
+    {
+      alert("juhu");
+      this.debug(e.getType() + " 2: ", e);
+    }
+  }
+});
+
+qx.core.Init.getInstance().setApplication(new BasicSample);
+
+  </script>
+</body>
+</html>
