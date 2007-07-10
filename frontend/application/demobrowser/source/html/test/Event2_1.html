@@ -27,6 +27,12 @@
       padding: 10px;
     }
 
+    #scroll {
+      overflow: scroll;
+      height: 100px;
+      width: 100px;
+    }
+
   </style>
 </head>
 <body>
@@ -59,6 +65,15 @@
     </div>
   </div>
 
+  <div id="scroll">
+  Juhu Kinners Juhu Kinners Juhu Kinners Juhu Kinners Juhu Kinners Juhu Kinners
+  Juhu Kinners Juhu Kinners Juhu Kinners Juhu Kinners Juhu Kinners Juhu Kinners
+  Juhu Kinners Juhu Kinners Juhu Kinners Juhu Kinners Juhu Kinners Juhu Kinners
+  Juhu Kinners Juhu Kinners Juhu Kinners Juhu Kinners Juhu Kinners Juhu Kinners
+  Juhu Kinners Juhu Kinners Juhu Kinners Juhu Kinners Juhu Kinners Juhu Kinners
+  Juhu Kinners Juhu Kinners Juhu Kinners Juhu Kinners Juhu Kinners Juhu Kinners
+  Juhu Kinners Juhu Kinners Juhu Kinners Juhu Kinners Juhu Kinners Juhu Kinners
+  </div>
 
   <script type="text/javascript">
 
@@ -83,47 +98,54 @@ qx.Class.define("BasicSample",
 
       for (var i=1; i<10; i++) {
         var div = document.getElementById("div"+i);
-        //qx.html2.EventRegistration.addEventListener(div, "click", this._cascadeCapture, this, true);
+        qx.html2.EventRegistration.addEventListener(div, "click", this._cascadeCapture, this, true);
         qx.html2.EventRegistration.addEventListener(div, "click", this._cascadeBubble, this, false);
       }
+
+      qx.html2.EventRegistration.addEventListener(
+        document.getElementById("scroll"),
+        "scroll",
+        this._scroll,
+        this
+      );
+    },
+
+    _scroll: function(e) {
+      this.debug("scroll");
     },
 
     _cascadeCapture : function(e) {
       var elem = e.getCurrentTarget();
-      this.debug("capture", elem.id);
+      this.debug("capture: " + elem.id + " " + e.getEventPhase());
     },
 
     _cascadeBubble : function(e) {
       var elem = e.getCurrentTarget();
-      if (!e._event.timeStamp) {
-        e._event.timeStamp = (new Date()).getTime();
-      }
-      this.debug("bubble: " + elem.id + " " + e._event.timeStamp+ " " + qx.core.Object.toHashCode(e._event));
+      this.debug("bubble: " + elem.id + " " + e.getEventPhase());
     },
 
     _preventDefault : function(e)
     {
-      this.debug(e.getType() + ": ", e);
+      this.debug(e.getType() + ": " + e);
       e.preventDefault();
     },
 
     _stopPropagation : function(e)
     {
-      this.debug(e.getType() + " (inner): ", e);
+      this.debug(e.getType() + " (inner): " + e);
       e.stopPropagation();
     },
 
 
     _onclick1 : function(e)
     {
-      this.debug(e.getType() + " 1:", e);
+      this.debug(e.getType() + " 1: " +  e);
       qx.html2.EventRegistration.removeEventListener(this._juhu, "click", this._onclick1);
     },
 
     _onclick2 : function(e)
     {
-      alert("juhu");
-      this.debug(e.getType() + " 2: ", e);
+      this.debug(e.getType() + " 2: " + e);
     }
   }
 });
