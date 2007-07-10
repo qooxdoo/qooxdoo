@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.html2.client.Select",
+qx.Class.define("qx.html2.Client",
 {
   /*
   *****************************************************************************
@@ -54,13 +54,27 @@ qx.Class.define("qx.html2.client.Select",
       
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {        
-        if (/^[a-z0-9_\(\),\|<>=\.]+$/.exec(key) == null) {
+        // Accept lowercase letter, numbers, underlines, pipes, commas, equal sign, dots and parenthesis
+        // To evaluate the expression pipes and commas are translated to their JS equivalents later.
+        if (/^[a-z0-9_\(\),\|<>=\.\!]+$/.exec(key) == null) {
           throw new Error("Could not parse key: " + key); 
+        }
+        
+        // Check if the keys used in the expression are valid (defined through __keys)
+        var lower = this.__lower;
+        for (var i=1, a=key.split(/\b([a-z][a-z0-9_]+)\b/g), l=a.length; i<l; i+=2)
+        {
+          if (lower[a[i]]===undefined) {
+            throw new Error('The key "' + key + '" contains an invalid property "' + a[i] + '"!'); 
+          }
         }
       }
       
+      // Translate expression to JavaScript
+      // Replace all identifiers with the full qualified name
       var code = key.replace(/,/g, "&&").replace(/\|/g, "||").replace(/\b([a-z][a-z0-9_]+)\b/g, "this.__active.$1");
       
+      // In debug mode we evaluate inside a try-catch block to detect script errors
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {        
         try
@@ -96,8 +110,6 @@ qx.Class.define("qx.html2.client.Select",
      */
     select : function(map)
     {
-      var code;
-      
       for (var key in map)
       {
         if (this.isSet(key)) {
@@ -105,13 +117,10 @@ qx.Class.define("qx.html2.client.Select",
         }
       }
       
-      if (map["default"] !== undefined) {
-        return map["default"];
-      }
-      
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        throw new Error('No match for selection in map [' + qx.lang.Object.getKeysAsString(map) +
+        throw new Error('No match for selection in map [' + 
+          qx.lang.Object.getKeysAsString(map) +
           '] found, and no default ("default") given');
       }
     },
@@ -119,7 +128,7 @@ qx.Class.define("qx.html2.client.Select",
     
     /** Internal map which stores the evaluated value for each already evaluated key */
     __cache : {
-      "default" : false  
+      "default" : true // the default value will always be accepted  
     },
     
     
@@ -137,20 +146,48 @@ qx.Class.define("qx.html2.client.Select",
     __active : {},
     
     
+    /** Internal data structure to have a flagable map of all properties in __keys */
+    __lower : {},
+    
+    
     /** Automatically fills the __active map from the information of the __keys map */
     __init : function()
     {
       var keys = this.__keys;
+      var lower = this.__lower;
+      var ns = qx.html2.client;
       var prop;
       var value;
       
+      // "main" is the name of the Class
       for (var main in keys)
       {
+        // Cache current class
+        clazz = ns[main];
+        
+        // Generate lower case equivalent map. Used to validate keys used
+        // in expression at user side
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        { 
+          for (var i=0, a=keys[main], l=a.length; i<l; i++) 
+          {
+            prop = a[i].toLowerCase();
+            
+            if (lower[prop]!==undefined) {
+              throw new Error("Double definition of property: " + prop);
+            }
+            
+            this.__lower[prop] = true;
+          }        
+        }
+        
+        // Interate through all constants defined for this class (@see __keys)
         for (var i=0, a=keys[main], l=a.length; i<l; i++) 
         {
           prop = a[i];
-          value = qx.html2.client[main][prop];
+          value = clazz[prop];
           
+          // Some additional check in debug version
           if (qx.core.Variant.isSet("qx.debug", "on"))
           {
             if (value === undefined) {
@@ -162,6 +199,7 @@ qx.Class.define("qx.html2.client.Select",
             }
           }
           
+          // Only store "true" or numeric values (ignore falsy)
           if (value !== false) {
             this.__active[prop.toLowerCase()] = value; 
           }
