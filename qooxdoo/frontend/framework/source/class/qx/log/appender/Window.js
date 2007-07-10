@@ -268,7 +268,9 @@ qx.Class.define("qx.log.appender.Window",
         + logFix
         + '  </style>'
         + '  <div id="control">'
-        + '    <input id="marker" type="button" value="Add divider"/> &#160; &#160; Filter: <input name="filter" id="filter" type="text" value="'+ this._filterText +'">'
+        + '    <input id="marker" type="button" value="Add divider"/>'
+        + '    <input id="clear" type="button" value="clear"/>'
+        + '    &#160; &#160; Filter: <input name="filter" id="filter" type="text" value="'+ this._filterText +'">'
         + '  </div>'
         + '  <div id="lines">'
         + '    <pre id="log" wrap="wrap"></pre>'
@@ -278,6 +280,7 @@ qx.Class.define("qx.log.appender.Window",
 
       this._logElem = logDocument.getElementById("log");
       this._markerBtn = logDocument.getElementById("marker");
+      this._clearBtn = logDocument.getElementById("clear");
       this._filterInput = logDocument.getElementById("filter");
       this._logLinesDiv = logDocument.getElementById("lines");
 
@@ -285,6 +288,10 @@ qx.Class.define("qx.log.appender.Window",
       this._markerBtn.onclick = function() {
         self._showMessageInLog("<hr/>");
       };
+      this._clearBtn.onclick = function() {
+        self._logElem.innerHTML = "";
+      };
+
       this._filterInput.onkeyup = function(){
         self.setFilterText(self._filterInput.value);
       }
