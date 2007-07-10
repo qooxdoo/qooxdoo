@@ -89,6 +89,11 @@ qx.Class.define("qx.html2.element.Generic",
       throw new Error("Generic set() has no informations about: " + key);
     },
     
+    
+    /**
+     *
+     *
+     */
     get : function(el, key)
     {
       var gen = this.__generic;
@@ -104,6 +109,11 @@ qx.Class.define("qx.html2.element.Generic",
       throw new Error("Generic get() has no informations about: " + key);      
     },
     
+    
+    /**
+     *
+     *
+     */
     __init : function(statics)
     {
       var generic = this.__generic;

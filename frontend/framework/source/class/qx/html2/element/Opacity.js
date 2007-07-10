@@ -15,6 +15,24 @@
    Authors:
      * Sebastian Werner (wpbasti)
 
+   ======================================================================
+
+   This class contains code based on the following work:
+
+   * Prototype JS
+     http://www.prototypejs.org/
+     Version 1.5
+
+     Copyright:
+       (c) 2006-2007, Prototype Core Team
+
+     License:
+       MIT: http://www.opensource.org/licenses/mit-license.php
+
+     Authors:
+       * Prototype Core Team
+       
+       
 ************************************************************************ */
 
 /* ************************************************************************
