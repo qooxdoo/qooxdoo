@@ -52,7 +52,7 @@ qx.Class.define("qx.html2.Viewport",
      * @type static
      * @return {Integer} The width of the viewable area of the page (excludes scrollbars).
      */
-    getWidth : qx.html2.client.Select.select(
+    getWidth : qx.html2.Client.select(
     {
       "webkit419" : function() {
         return self.innerWidth;
@@ -74,7 +74,7 @@ qx.Class.define("qx.html2.Viewport",
      * @type static
      * @return {Integer} The height of the viewable area of the page (excludes scrollbars).
      */
-    getHeight : qx.html2.client.Select.select(
+    getHeight : qx.html2.Client.select(
     {
       "webkit419" : function() {
         return self.innerHeight;
