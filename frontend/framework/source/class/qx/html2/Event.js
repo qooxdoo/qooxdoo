@@ -1,4 +1,3 @@
-
 /**
  * Wrapper for DOM events.
  *
@@ -8,6 +7,37 @@
 qx.Class.define("qx.html2.Event",
 {
   extend : qx.core.Object,
+
+  statics :
+  {
+    /** The current event phase is the capturing phase. */
+    CAPTURING_PHASE : 1,
+
+    /** The event is currently being evaluated at the target */
+    AT_TARGET : 2,
+
+    /** The current event phase is the bubbling phase. */
+    BUBBLING_PHASE : 3,
+
+
+    /**
+     * Initialize a singleton instance with the given browser event object.
+     *
+     * @param elementHash {Integer} The hash value of the DOM element, the
+     *     event is currently dispatched on.
+     * @param domEvent {Event} DOM event
+     * @return {qx.html2.Event} an initialized Event instance
+     * @internal
+     */
+    getInstance : function(elementHash, domEvent) {
+      if (this.__instance == undefined) {
+        this.__instance = new this();
+      }
+      this.__instance.__initEvent(elementHash, domEvent);
+      return this.__instance;
+    }
+  },
+
 
   members : {
 
@@ -42,12 +72,24 @@ qx.Class.define("qx.html2.Event",
       // MSDN doccumantation http://msdn2.microsoft.com/en-us/library/ms533545.aspx
       "mshtml" : function() {
         this._event.cancelBubble = true;
+        this._stopPropagation = true;
       },
 
       "default" : function() {
         this._event.stopPropagation();
+        this._stopPropagation = true;
       }
     }),
+
+
+    /**
+     * Should only be called by the EventHandler.
+     * @return {Boolean} Whether further propagation should be stopped.
+     * @internal
+     */
+    getStopPropagation : function() {
+      return this._stopPropagation;
+    },
 
 
     /**
@@ -61,12 +103,33 @@ qx.Class.define("qx.html2.Event",
 
 
     /**
+     * Used to indicate which phase of event flow is currently being evaluated.
+     *
+     * @return {Integer} The current event phase. Possible values are
+     *     {@link #CAPTURING_PHASE}, {@link #AT_TARGET} and {@link #BUBBLING_PHASE}.
+     */
+    getEventPhase : function() {
+      return qx.html2.EventRegistration.EVENT_PHASE;
+    },
+
+
+    /**
+     * The time (in milliseconds relative to the epoch) at which the event was created.
+     *
+     * @return {Integer} the timestamp the event was created.
+     */
+    getTimeStamp : function() {
+      return this._timeStamp;
+    },
+
+
+    /**
      * Indicates the DOM event target to which the event was originally
      * dispatched.
      *
      * @return {Element} DOM element to which the event was originally
      *     dispatched.
-     * @signature function(vDomEvent)
+     * @signature function()
      */
     getTarget : qx.core.Variant.select("qx.client",
     {
@@ -99,10 +162,16 @@ qx.Class.define("qx.html2.Event",
      *
      * @return {Element} The DOM element the event listener is currently
      *     dispatched on.
+     *
+     * @signature function()
      */
     getCurrentTarget : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function() {
+        if (this._elementHash == -1) {
+          return qx.html2.EventRegistration.CURRENT_TARGET;
+        }
+
         var node = this.getTarget();
 
         // Walk up the tree and search for the current target
@@ -121,28 +190,30 @@ qx.Class.define("qx.html2.Event",
       },
 
       "default" : function() {
+        if (this._elementHash == -1) {
+          return qx.html2.EventRegistration.CURRENT_TARGET;
+        }
+
         return this._event.currentTarget;
       }
     }),
 
 
-    __initEvent : function(elementHash, DOMEvent)
+    /**
+     * Initialize the fileds of the event.
+     *
+     * @param elementHash {Integer} The hash value of the DOM element, the
+     *     event is currently dispatched on.
+     * @param domEvent {Event} DOM event
+     */
+    __initEvent : function(elementHash, domEvent)
     {
-      this._event = DOMEvent;
+      this._event = domEvent;
       this._elementHash = elementHash;
+      this._stopPropagation = false;
+      this._timeStamp = domEvent.timeStamp || (new Date()).getTime();
     }
 
-  },
-
-  statics :
-  {
-    getInstance : function(elementHash, domEvent) {
-      if (this.__instance == undefined) {
-        this.__instance = new this();
-      }
-      this.__instance.__initEvent(elementHash, domEvent);
-      return this.__instance;
-    }
   }
 
 });
