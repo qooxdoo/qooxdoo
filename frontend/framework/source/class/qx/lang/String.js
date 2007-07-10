@@ -107,10 +107,6 @@ qx.Class.define("qx.lang.String",
      * @return {Boolean} whether the string starts with the given substring
      */
     startsWith : function(fullstr, substr) {
-      return !fullstr.indexOf(substr);
-    },
-
-    startsWithAlternate : function(fullstr, substr) {
       return fullstr.substring(0, substr.length) === substr;
     },
 
@@ -124,10 +120,6 @@ qx.Class.define("qx.lang.String",
      * @return {Boolean} whether the string ends with the given substring
      */
     endsWith : function(fullstr, substr) {
-      return fullstr.lastIndexOf(substr) === fullstr.length - substr.length;
-    },
-
-    endsWithAlternate : function(fullstr, substr) {
       return fullstr.substring(fullstr.length - substr.length, fullstr.length) === substr;
     },
 
