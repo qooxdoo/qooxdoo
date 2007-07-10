@@ -41,10 +41,10 @@ qx.Class.define("qx.html2.client.Features",
     QUIRKS_MODE : false,
 
     /** {Boolean} Flag to detect if the client uses the W3C box model */
-    W3C_BOX : false,
+    CONTENT_BOX : false,
 
     /** {Boolean} Flag to detect if the client uses the IE box model */
-    IE_BOX : false,
+    BORDER_BOX : false,
 
     /** {Boolean} Flag to detect if the client supports SVG graphics */
     SVG : false,
@@ -67,8 +67,8 @@ qx.Class.define("qx.html2.client.Features",
       this.STANDARD_MODE = document.compatMode == "CSS1Compat";
       this.QUIRKS_MODE = !this.STANDARD_MODE;
 
-      this.W3C_BOX = !!(!qx.html2.client.Engine.MSHTML || this.STANDARD_MODE);
-      this.IE_BOX = !this.W3C_BOX;
+      this.CONTENT_BOX = !!(!qx.html2.client.Engine.MSHTML || this.STANDARD_MODE);
+      this.BORDER_BOX = !this.CONTENT_BOX;
 
       this.SVG = document.implementation && document.implementation.hasFeature && document.implementation.hasFeature("org.w3c.dom.svg", "1.0");
       this.CANVAS = !!window.CanvasRenderingContext2D;
