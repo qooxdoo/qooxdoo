@@ -46,6 +46,18 @@ qx.Class.define("qx.html2.client.Engine",
     /** {Boolean} Flag to detect if the client is based on the Opera HTML/JS engine */
     OPERA : false,
 
+    /** {Boolean} Flag to detect if the client is based on the Opera HTML/JS engine of Opera 8 (April 2005) */
+    OPERA8 : false,
+
+    /** {Boolean} Flag to detect if the client is based on the Opera HTML/JS engine of Opera 8.5 (September 2005) */
+    OPERA85 : false,
+
+    /** {Boolean} Flag to detect if the client is based on the Opera HTML/JS engine of Opera 9 (June 2006) */
+    OPERA9 : false,
+
+    /** {Boolean} Flag to detect if the client is based on the Opera HTML/JS engine of Opera 9.5 (~November 2007) */
+    OPERA95 : false,
+
     /** {Boolean} Flag to detect if the client is based on the KHTML HTML/JS engine */
     KHTML : false,
 
@@ -76,10 +88,10 @@ qx.Class.define("qx.html2.client.Engine",
     /** {Boolean} Flag to detect if the client is based on the Internet Explorer HTML/JS engine */
     MSHTML : false,
 
-    /** {Boolean} Flag to detect if the client is based on the Internet Explorer HTML/JS engine of IE6 */
+    /** {Boolean} Flag to detect if the client is based on the Internet Explorer HTML/JS engine of IE 6 (October 2001) */
     MSHTML6 : false,
 
-    /** {Boolean} Flag to detect if the client is based on the Internet Explorer HTML/JS engine of IE7 */
+    /** {Boolean} Flag to detect if the client is based on the Internet Explorer HTML/JS engine of IE 7 (October 2006) */
     MSHTML7 : false,
 
 
@@ -97,6 +109,9 @@ qx.Class.define("qx.html2.client.Engine",
         engine = "opera";
         this.OPERA = true;
 
+        // Opera has a special versioning scheme, where the second part is combined
+        // e.g. 8.54 which should be handled like 8.5.4 to be compatible to the 
+        // common versioning system used by other browsers
         if (/Opera[\s\/]([0-9\.]*)/.test(agent)) {
           version = RegExp.$1.substring(0, 3) + "." + RegExp.$1.substring(3);
         } else {
@@ -123,7 +138,10 @@ qx.Class.define("qx.html2.client.Engine",
         {
           version = RegExp.$1;
 
+          // Webkit adds a plus sign in nightly builds
           var nightly = version.indexOf("+") != -1;
+          
+          // We need to filter these invalid characters
           var invalidCharacter = RegExp("[^\\.0-9]").exec(version);
           if (invalidCharacter) {
             version = version.slice(0, invalidCharacter.index);
@@ -139,6 +157,7 @@ qx.Class.define("qx.html2.client.Engine",
         engine = "gecko";
         this.GECKO = true;
 
+        // Parse "rv" section in user agent string
         if (/rv\:([^\);]+)(\)|;)/.test(agent)) {
           version = RegExp.$1;
         } else {
@@ -163,7 +182,9 @@ qx.Class.define("qx.html2.client.Engine",
 
       if (this.MSHTML)
       {
-        if (this.VERSION < 7) {
+        if (this.VERSION < 6) {
+          this.MSHTML5 = true;
+        } else if (this.VERSION < 7) {
           this.MSHTML6 = true;
         } else {
           this.MSHTML7 = true;
@@ -177,8 +198,30 @@ qx.Class.define("qx.html2.client.Engine",
           this.WEBKIT420 = true;
         }
       }
-
-      // TODO: Gecko + Opera
+      else if (this.GECKO)
+      {
+        if (this.VERSION < 1.8) {
+          this.GECKO17 = true;
+        } else if (this.FULLVERSION === "1.8") {
+          this.GECKO18 = true;
+        } else if (this.VERSION < 1.9) {
+          this.GECKO181 = true;
+        } else {
+          this.GECKO19 = true;
+        }
+      }
+      else if (this.OPERA)
+      {
+        if (this.VERSION < 8.5) {
+          this.OPERA8 = true; 
+        } else if (this.VERSION < 9) {
+          this.OPERA85 = true; 
+        } else if (this.VERSION < 9.5) {
+          this.OPERA9 = true; 
+        } else if (this.VERSION < 10) {
+          this.OPERA95 = true; 
+        }
+      }
     }
   },
 
