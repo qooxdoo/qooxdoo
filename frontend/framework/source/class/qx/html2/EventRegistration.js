@@ -1,3 +1,9 @@
+/* ************************************************************************
+
+#require(qx.html2.KeyEventHandler)
+
+************************************************************************ */
+
 /**
  * Wrapper for browser DOM event handling.
  *
@@ -57,6 +63,27 @@ qx.Class.define("qx.html2.EventRegistration", {
 
     // registry for inline events
     __inlineRegistry : {},
+
+
+    __init : function()
+    {
+      var keyHandler = qx.lang.Function.bind(this.__keyEventHandler, this);
+      this.__keyEventHandler = new qx.html2.KeyEventHandler(keyHandler);
+      this.__customHandler = {
+        "keydown": qx.lang.Function.bind(
+          this.__keyEventHandler.onKeyUpDown,
+          this.__keyEventHandler
+        ),
+        "keyup": qx.lang.Function.bind(
+          this.__keyEventHandler.onKeyUpDown,
+          this.__keyEventHandler
+        ),
+        "keypress":  qx.lang.Function.bind(
+          this.__keyEventHandler.onKeyPress,
+          this.__keyEventHandler
+        )
+      }
+    },
 
 
     /**
@@ -150,10 +177,11 @@ qx.Class.define("qx.html2.EventRegistration", {
       var reg = this.__registry;
       if (!reg[type]) {
         reg[type] = {};
+        var eventHandler = this.__customHandler[type] || this.__documentEventHandler;
         this._nativeAddEventListener(
           window.document.documentElement,
           type,
-          this.__documentEventHandler
+          eventHandler
         );
       }
 
@@ -181,16 +209,34 @@ qx.Class.define("qx.html2.EventRegistration", {
     },
 
 
+    __keyEventHandler : function(domEvent, eventType, keyCode, charCode, keyIdentifier)
+    {
+      var event = new qx.html2.KeyEvent.getInstance(
+        -1, domEvent, eventType, keyCode, charCode, keyIdentifier
+      );
+      this.__dispatchDocumentEvent(event);
+    },
+
+
     /**
-     * Central event handler for all bubbling events. This function dispatches
-     * the event to the event handlers and emulates the capturing and
-     * bubbling phase.
+     * Central event handler for all bubbling events.
      *
      * @param domEvent {Event} DOM event passed by the browser.
      */
-    __documentEventHandler : function(domEvent)
-    {
+    __documentEventHandler : function(domEvent) {
       var event = qx.html2.Event.getInstance(-1, window.event || domEvent);
+      qx.html2.EventRegistration.__dispatchDocumentEvent(event);
+    },
+
+
+    /**
+     * This function dispatches the event to the event handlers and emulates
+     * the capturing and bubbling phase.
+     *
+     * @param event {qx.html2.Event} event object to dispatch
+     */
+    __dispatchDocumentEvent : function(event)
+    {
       var target = event.getTarget();
       var node = target;
 
@@ -441,6 +487,10 @@ qx.Class.define("qx.html2.EventRegistration", {
 
     }
 
+  },
+
+  defer : function(statics) {
+    statics.__init();
   }
 
 });
