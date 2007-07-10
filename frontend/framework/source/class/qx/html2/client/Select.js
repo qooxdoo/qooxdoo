@@ -37,8 +37,12 @@ qx.Class.define("qx.html2.client.Select",
   statics :
   {
     /** 
+     * Whether the given key evaluates to <code>true</code>
      * 
-     *
+     * @type static
+     * @param key {String} A valid expression
+     * @throws an error if the key could not be parsed or evaluated
+     * @return {Boolean} The evaluated value of the given key
      */
     isSet : function(key)
     {
@@ -80,6 +84,16 @@ qx.Class.define("qx.html2.client.Select",
       return false;      
     },
     
+    
+    /**
+     * Selects from a map of keys the first which evaluates to <code>true</code>. It works
+     * like a long <code>OR</code> expression, the first enabled entry wins.
+     *
+     * @type static
+     * @param map {Map} A map where the key is an expression.
+     * @return {var} The first key which evaluates to <code>true</code>
+     * @throws an exception if none of the given keys evaluates to <code>true</code>
+     */
     select : function(map)
     {
       var code;
@@ -102,10 +116,14 @@ qx.Class.define("qx.html2.client.Select",
       }
     },
     
+    
+    /** Internal map which stores the evaluated value for each already evaluated key */
     __cache : {
       "default" : false  
     },
     
+    
+    /** Internal data structures with all flags or numeric value which should be available in expressions */
     __keys : 
     {
       Engine : [ "OPERA", "KHTML", "WEBKIT", "WEBKIT419", "WEBKIT420", "GECKO",
@@ -114,8 +132,12 @@ qx.Class.define("qx.html2.client.Select",
       Platform : [ "WIN", "MAC", "UNIX" ]
     },
     
+
+    /** Internal data strucure which contains all enabled flags and numeric values of the __keys structure */
     __active : {},
     
+    
+    /** Automatically fills the __active map from the information of the __keys map */
     __init : function()
     {
       var keys = this.__keys;
