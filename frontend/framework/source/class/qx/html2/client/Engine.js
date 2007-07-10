@@ -38,7 +38,7 @@ qx.Class.define("qx.html2.client.Engine",
   statics :
   {
     /** {String} Name of the client's HTML/JS engine e.g. mshtml, gecko, webkit, opera, khtml */
-    ENGINE : "",
+    NAME : "",
 
     /** {Float} Version of the client's HTML/JS engine e.g. 1.0, 1.7, 1.9 */
     VERSION : 0.0,
@@ -157,7 +157,7 @@ qx.Class.define("qx.html2.client.Engine",
         throw new Error("Unsupported client: " + agent + "!");
       }
 
-      this.ENGINE = engine;
+      this.NAME = engine;
       this.FULLVERSION = version;
       this.VERSION = parseFloat(version);
 

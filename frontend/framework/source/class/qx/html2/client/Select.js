@@ -28,44 +28,66 @@
 
 qx.Class.define("qx.html2.client.Select",
 {
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */  
+  
   statics :
   {
+    /** 
+     * 
+     *
+     */
+    isSet : function(key)
+    {
+      var cache = this.__cache;
+      
+      if (cache[key]!==undefined) {
+        return cache[key]; 
+      }
+      
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {        
+        if (/^[a-z0-9_\(\),\|<>=\.]+$/.exec(key) == null) {
+          throw new Error("Could not parse key: " + key); 
+        }
+      }
+      
+      var code = key.replace(/,/g, "&&").replace(/\|/g, "||").replace(/\b([a-z][a-z0-9_]+)\b/g, "this.__active.$1");
+      
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {        
+        try
+        {
+          if (cache[key] = !!eval(code)) {
+            return true;   
+          }
+        }
+        catch(ex) 
+        {
+          throw new Error('Could not evaluate key: "' + key + '" (' + code + ')'); 
+        }
+      }
+      else
+      {
+        if (cache[key] = !!eval(code)) {
+          return true;   
+        }          
+      }
+      
+      return false;      
+    },
+    
     select : function(map)
     {
       var code;
       
       for (var key in map)
       {
-        if (this.__cache[key]) {
+        if (this.isSet(key)) {
           return map[key]; 
-        }
-        
-        if (qx.core.Variant.isSet("qx.debug", "on"))
-        {        
-          if (/^[a-z0-9_\(\),\|]+$/.exec(key) == null) {
-            throw new Error("Could not parse key: " + key); 
-          }
-        }
-        
-        code = key.replace(",", "&&").replace("|", "||").replace(/\b([a-z0-9_]+)\b/g, "this.__active.$1");
-        
-        if (qx.core.Variant.isSet("qx.debug", "on"))
-        {        
-          try
-          {
-            if (this.__cache[key] = !!eval(code)) {
-              return map[key];   
-            }
-          }
-          catch(ex) {
-            throw new Error("Could not evaluate key: " + key); 
-          }
-        }
-        else
-        {
-          if (this.__cache[key] = !!eval(code)) {
-            return map[key];   
-          }          
         }
       }
       
@@ -80,15 +102,14 @@ qx.Class.define("qx.html2.client.Select",
       }
     },
     
-    __cache : 
-    {
+    __cache : {
       "default" : false  
     },
     
     __keys : 
     {
       Engine : [ "OPERA", "KHTML", "WEBKIT", "WEBKIT419", "WEBKIT420", "GECKO",
-        "GECKO17", "GECKO18", "GECKO181", "GECKO19", "MSHTML", "MSHTML6", "MSHTML7" ],
+        "GECKO17", "GECKO18", "GECKO181", "GECKO19", "MSHTML", "MSHTML6", "MSHTML7", "VERSION" ],
       Features : [ "STANDARD_MODE", "QUIRKS_MODE", "CONTENT_BOX", "BORDER_BOX", "SVG", "CANVAS", "VML", "XPATH" ],
       Platform : [ "WIN", "MAC", "UNIX" ]
     },
@@ -98,18 +119,42 @@ qx.Class.define("qx.html2.client.Select",
     __init : function()
     {
       var keys = this.__keys;
+      var prop;
+      var value;
       
       for (var main in keys)
       {
         for (var i=0, a=keys[main], l=a.length; i<l; i++) 
         {
-          if (qx.html2.client[main][a[i]]) {
-            this.__active[a[i].toLowerCase()] = true; 
+          prop = a[i];
+          value = qx.html2.client[main][prop];
+          
+          if (qx.core.Variant.isSet("qx.debug", "on"))
+          {
+            if (value === undefined) {
+              throw new Error("Unknown property: " + prop); 
+            }
+            
+            if (!(typeof value === "boolean" || typeof value === "number")) {
+              throw new Error("Invalid value in property: " + prop + "! Must be boolean or number!");
+            }
+          }
+          
+          if (value !== false) {
+            this.__active[prop.toLowerCase()] = value; 
           }
         }
       }
     }
   },
+  
+  
+  
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */  
   
   defer : function(statics) {
     statics.__init(); 
