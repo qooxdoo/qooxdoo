@@ -33,6 +33,10 @@ qx.Class.define("qx.html2.element.Opacity",
   
   statics :
   {
+    /** shorthand to style class */
+    __style : qx.html2.element.Style, 
+    
+    
     /**
      * Sets opacity of given element. Accepts numbers between zero and one
      * where "0" means transparent, "1" means opaque.
@@ -43,12 +47,12 @@ qx.Class.define("qx.html2.element.Opacity",
      * @return {void}
      * @signature function(el, opacity)
      */
-    setOpacity : qx.core.Variant.select("qx.client",
+    set : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(el, opacity)
       {
         // Read in computed filter
-        var filter = this.getStyle(el, "filter");
+        var filter = this.__style.get(el, "filter");
 
         // Remove opacity filter
         if (opacity >= 1)
@@ -64,7 +68,7 @@ qx.Class.define("qx.html2.element.Opacity",
         // IE has trouble with opacity if it does not have layout (hasLayout)
         // Force it by setting the zoom level
         if (!el.currentStyle.hasLayout) {
-          this.setStyle(el, "zoom", 1);
+          el.style.zoom = 1;
         }
 
         // Remove old alpha filter and add new one
@@ -106,11 +110,11 @@ qx.Class.define("qx.html2.element.Opacity",
      * @return {Float} A float number between 0 and 1
      * @signature function(el)
      */
-    getOpacity : qx.core.Variant.select("qx.client",
+    get : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(el)
       {
-        var filter = this.getStyle(el, "filter");
+        var filter = this.__style.get(el, "filter");
 
         if (filter)
         {
@@ -126,7 +130,7 @@ qx.Class.define("qx.html2.element.Opacity",
 
       "gecko" : function(el)
       {
-        var opacity = this.getStyle(el, qx.html2.client.Engine.VERSION < 1.7 ? "MozOpacity" : "opacity");
+        var opacity = this.__style.get(el, qx.html2.client.Engine.VERSION < 1.7 ? "MozOpacity" : "opacity");
 
         if (opacity == 0.999999) {
           opacity = 1.0;
@@ -141,7 +145,7 @@ qx.Class.define("qx.html2.element.Opacity",
 
       "default" : function(el)
       {
-        var opacity = this.getStyle(el, "opacity");
+        var opacity = this.__style.get(el, "opacity");
 
         if (opacity != null) {
           return parseFloat(opacity);

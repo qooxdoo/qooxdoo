@@ -23,7 +23,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.html2.element.ClassName",
+qx.Class.define("qx.html2.element.Class",
 {
   /*
   *****************************************************************************
@@ -33,12 +33,6 @@ qx.Class.define("qx.html2.element.ClassName",
   
   statics :
   {
-    /*
-    ---------------------------------------------------------------------------
-      ELEMENT CLASS NAME
-    ---------------------------------------------------------------------------
-    */
-
     /**
      * Adds a className to the given element
      * If successfully added the given className will be returned
@@ -50,9 +44,9 @@ qx.Class.define("qx.html2.element.ClassName",
      * @param className {String} The new class name
      * @return {String} The added classname (if so)
      */
-    addClass : function(element, className)
+    add : function(element, className)
     {
-      if (!this.hasClass(element, className))
+      if (!this.has(element, className))
       {
         element.className += (element.className ? " " : "") + className;
         return className;
@@ -70,7 +64,7 @@ qx.Class.define("qx.html2.element.ClassName",
      * @param className {String} The class name to check for
      * @return {var} TODOC
      */
-    hasClass : function(element, className)
+    has : function(element, className)
     {
       var regexp = new RegExp("(^|\\s)" + className + "(\\s|$)");
       return regexp.test(element.className);
@@ -87,7 +81,7 @@ qx.Class.define("qx.html2.element.ClassName",
      * @param className {String} The class name to remove
      * @return {String} The removed class name
      */
-    removeClass : function(element, className)
+    remove : function(element, className)
     {
       var regexp = new RegExp("(^|\\s)" + className + "(\\s|$)");
       element.className = element.className.replace(regexp, "$2");
