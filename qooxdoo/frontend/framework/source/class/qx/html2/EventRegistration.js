@@ -54,7 +54,6 @@ qx.Class.define("qx.html2.EventRegistration",
       mouseenter                  : 1,  // IE
       mouseleave                  : 1,  // IE
       mousewheel                  : 1,  // IE
-      move                        : 1,  // Navigator 4 only
       propertychange              : 1,  // IE
       readystatechange            : 1,
       reset                       : 1,
@@ -155,7 +154,7 @@ qx.Class.define("qx.html2.EventRegistration",
       if (this.__inlineEvents[type])
       {
         if (useCapture) {
-          throw new Error("The event '" + type + "' does not bubble, so capturing is not supported!");
+          throw new Error("The event '" + type + "' does not bubble, so capturing is also not supported!");
         }
 
         return this.__addEventListenerInline(element, type, listener, self);

@@ -354,8 +354,6 @@ qx.Class.define("qx.html2.element.Tree",
      * Replaces <code>el</code> by the content of the <code>html</code> argument
      * and returns the removed <code>el</code>.
      *
-     * Mimics Prototype's <code>dom.replace()</code>
-     *
      * @type static
      * @param el {Element} element to replace
      * @param html {String} HTML string
@@ -379,8 +377,6 @@ qx.Class.define("qx.html2.element.Tree",
 
     /**
      * Whether the given element is empty
-     *
-     * Mimics Prototype's <code>dom.empty()</code>
      * Inspired by Base2 (Dean Edwards)
      *
      * @type static
@@ -406,8 +402,6 @@ qx.Class.define("qx.html2.element.Tree",
 
     /**
      * Removes all of element's text nodes which contain only whitespace
-     *
-     * Mimics Prototype's <code>dom.cleanWhitespace</code>
      *
      * @type static
      * @param el {Element} Element to cleanup
