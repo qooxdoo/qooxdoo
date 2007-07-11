@@ -24,7 +24,7 @@
 ************************************************************************ */
 
 /**
- * High performance DOM element creation
+ * High performance high level DOM element creation and managment.
  *
  * Includes support for HTML and style attributes. Allows to
  * add children or to apply text or HTML content.
