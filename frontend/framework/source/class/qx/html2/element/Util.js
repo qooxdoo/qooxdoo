@@ -194,7 +194,7 @@ qx.Class.define("qx.html2.element.Util",
      * @type static
      * @param el {Element} TODOC
      * @param x {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     scrollToX : function(el, x) {
       el.scrollLeft = x;
@@ -207,7 +207,7 @@ qx.Class.define("qx.html2.element.Util",
      * @type static
      * @param el {Element} TODOC
      * @param y {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     scrollToY : function(el, y) {
       el.scrollTop = y;
@@ -227,7 +227,7 @@ qx.Class.define("qx.html2.element.Util",
      *
      * @type static
      * @param el {Element} DOM element to show
-     * @return {void} 
+     * @return {void}
      */
     show : function(el) {
       el.style.visibility = "visible";
@@ -239,7 +239,7 @@ qx.Class.define("qx.html2.element.Util",
      *
      * @type static
      * @param el {Element} DOM element to show
-     * @return {void} 
+     * @return {void}
      */
     hide : function(el) {
       el.style.visibility = "hidden";
@@ -251,7 +251,7 @@ qx.Class.define("qx.html2.element.Util",
      *
      * @type static
      * @param el {Element} DOM element to show
-     * @return {void} 
+     * @return {void}
      */
     toggle : function(el) {
       el.style.visibility = this.isHidden(el) ? "visible" : "hidden";

@@ -99,7 +99,7 @@ qx.Class.define("qx.html2.client.Engine",
      * Internal initialize helper
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     __init : function()

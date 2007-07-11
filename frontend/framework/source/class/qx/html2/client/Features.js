@@ -64,7 +64,7 @@ qx.Class.define("qx.html2.client.Features",
      * Internal initialize helper
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
     __init : function()
     {
