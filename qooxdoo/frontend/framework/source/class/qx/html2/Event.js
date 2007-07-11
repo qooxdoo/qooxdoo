@@ -1,3 +1,4 @@
+
 /**
  * Wrapper for DOM events.
  *
@@ -10,6 +11,7 @@ qx.Class.define("qx.html2.Event",
 
   statics :
   {
+
     /** The current event phase is the capturing phase. */
     CAPTURING_PHASE : 1,
 
@@ -23,24 +25,25 @@ qx.Class.define("qx.html2.Event",
     /**
      * Initialize a singleton instance with the given browser event object.
      *
+     * @type static
      * @param elementHash {Integer} The hash value of the DOM element, the
-     *     event is currently dispatched on.
+     *       event is currently dispatched on.
      * @param domEvent {Event} DOM event
      * @return {qx.html2.Event} an initialized Event instance
-     * @internal
      */
-    getInstance : function(elementHash, domEvent) {
+    getInstance : function(elementHash, domEvent)
+    {
       if (this.__instance == undefined) {
         this.__instance = new this();
       }
+
       this.__instance.__initEvent(elementHash, domEvent);
       return this.__instance;
     }
   },
 
-
-  members : {
-
+  members :
+  {
     /**
      * Prevent browser default behaviour, e.g. opening the context menu, ...
      * @signature function()
@@ -70,12 +73,14 @@ qx.Class.define("qx.html2.Event",
     stopPropagation : qx.core.Variant.select("qx.client",
     {
       // MSDN doccumantation http://msdn2.microsoft.com/en-us/library/ms533545.aspx
-      "mshtml" : function() {
+      "mshtml" : function()
+      {
         this._event.cancelBubble = true;
         this._stopPropagation = true;
       },
 
-      "default" : function() {
+      "default" : function()
+      {
         this._event.stopPropagation();
         this._stopPropagation = true;
       }
@@ -84,8 +89,9 @@ qx.Class.define("qx.html2.Event",
 
     /**
      * Should only be called by the EventHandler.
+     *
+     * @type member
      * @return {Boolean} Whether further propagation should be stopped.
-     * @internal
      */
     getStopPropagation : function() {
       return this._stopPropagation;
@@ -94,10 +100,11 @@ qx.Class.define("qx.html2.Event",
 
     /**
      * The name of the event
+     *
+     * @type member
      * @return {String} name of the event
      */
-    getType : function()
-    {
+    getType : function() {
       return this._event.type;
     },
 
@@ -105,8 +112,9 @@ qx.Class.define("qx.html2.Event",
     /**
      * Used to indicate which phase of event flow is currently being evaluated.
      *
+     * @type member
      * @return {Integer} The current event phase. Possible values are
-     *     {@link #CAPTURING_PHASE}, {@link #AT_TARGET} and {@link #BUBBLING_PHASE}.
+     *       {@link #CAPTURING_PHASE}, {@link #AT_TARGET} and {@link #BUBBLING_PHASE}.
      */
     getEventPhase : function() {
       return qx.html2.EventRegistration.EVENT_PHASE;
@@ -116,6 +124,7 @@ qx.Class.define("qx.html2.Event",
     /**
      * The time (in milliseconds relative to the epoch) at which the event was created.
      *
+     * @type member
      * @return {Integer} the timestamp the event was created.
      */
     getTimeStamp : function() {
@@ -167,7 +176,8 @@ qx.Class.define("qx.html2.Event",
      */
     getCurrentTarget : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function() {
+      "mshtml" : function()
+      {
         if (this._elementHash == -1) {
           return qx.html2.EventRegistration.CURRENT_TARGET;
         }
@@ -178,18 +188,21 @@ qx.Class.define("qx.html2.Event",
         while (node != null)
         {
           if (qx.core.Object.toHashCode(node) == this._elementHash) {
-            return node
+            return node;
           }
+
           try {
             node = node.parentNode;
           } catch(vDomEvent) {
             node = null;
           }
         }
+
         return null;
       },
 
-      "default" : function() {
+      "default" : function()
+      {
         if (this._elementHash == -1) {
           return qx.html2.EventRegistration.CURRENT_TARGET;
         }
@@ -202,9 +215,11 @@ qx.Class.define("qx.html2.Event",
     /**
      * Initialize the fileds of the event.
      *
+     * @type member
      * @param elementHash {Integer} The hash value of the DOM element, the
-     *     event is currently dispatched on.
+     *       event is currently dispatched on.
      * @param domEvent {Event} DOM event
+     * @return {void} 
      */
     __initEvent : function(elementHash, domEvent)
     {
@@ -213,7 +228,5 @@ qx.Class.define("qx.html2.Event",
       this._stopPropagation = false;
       this._timeStamp = domEvent.timeStamp || (new Date()).getTime();
     }
-
   }
-
 });

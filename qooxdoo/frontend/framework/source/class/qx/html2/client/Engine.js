@@ -34,9 +34,9 @@ qx.Class.define("qx.html2.client.Engine",
   // General: http://en.wikipedia.org/wiki/Browser_timeline
   // Webkit: http://developer.apple.com/internet/safari/uamatrix.html
   // Firefox: http://en.wikipedia.org/wiki/History_of_Mozilla_Firefox
-
   statics :
   {
+
     /** {String} Name of the client's HTML/JS engine e.g. mshtml, gecko, webkit, opera, khtml */
     NAME : "",
 
@@ -97,6 +97,10 @@ qx.Class.define("qx.html2.client.Engine",
 
     /**
      * Internal initialize helper
+     *
+     * @type static
+     * @return {void} 
+     * @throws TODOC
      */
     __init : function()
     {
@@ -143,6 +147,7 @@ qx.Class.define("qx.html2.client.Engine",
 
           // We need to filter these invalid characters
           var invalidCharacter = RegExp("[^\\.0-9]").exec(version);
+
           if (invalidCharacter) {
             version = version.slice(0, invalidCharacter.index);
           }
@@ -227,13 +232,14 @@ qx.Class.define("qx.html2.client.Engine",
 
 
 
+
   /*
   *****************************************************************************
      DEFER
   *****************************************************************************
   */
 
-  defer : function(statics){
+  defer : function(statics) {
     statics.__init();
   }
 });

@@ -94,14 +94,13 @@ qx.Class.define("qx.html2.Element",
      *
      * @type static
      * @param element {qx.html2.Element} Add the element to the global queue
-     * @return {void}
+     * @return {void} 
      */
     addToQueue : function(element)
     {
       if (!element.__queued)
       {
         // console.debug("Add to queue object[" + element.toHashCode() + "]");
-
         this.__queue.push(element);
         element.__queued = true;
       }
@@ -113,21 +112,17 @@ qx.Class.define("qx.html2.Element",
      *
      * @type static
      * @param element {qx.html2.Element} Remove the element from the global queue
-     * @return {void}
+     * @return {void} 
      */
     removeFromQueue : function(element)
     {
       if (element.__queued)
       {
         // console.debug("Remove from queue object[" + element.toHashCode() + "]");
-
         this.__queue.remove(element);
         delete element.__queued;
       }
     },
-
-
-
 
 
 
@@ -138,14 +133,13 @@ qx.Class.define("qx.html2.Element",
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Internal helper to apply the DOM structure of the
      * defined children.
      *
      * @type static
      * @param entry {qx.html2.Element} the element to flush
-     * @return {void}
+     * @return {void} 
      */
     __flushContent : function(entry)
     {
@@ -168,18 +162,15 @@ qx.Class.define("qx.html2.Element",
      *
      * @type static
      * @param entry {qx.html2.Element} the element to flush
-     * @return {void}
+     * @return {void} 
      */
     __flushText : function(entry)
     {
       // MSHTML does not support textContent (DOM3), but the
       // properitary innerText attribute
-      if (entry.__element.textContent !== undefined)
-      {
+      if (entry.__element.textContent !== undefined) {
         entry.__element.textContent = entry.__text;
-      }
-      else
-      {
+      } else {
         entry.__element.innerText = entry.__text;
       }
     },
@@ -190,10 +181,9 @@ qx.Class.define("qx.html2.Element",
      *
      * @type static
      * @param entry {qx.html2.Element} the element to flush
-     * @return {void}
+     * @return {void} 
      */
-    __flushHtml : function(entry)
-    {
+    __flushHtml : function(entry) {
       entry.__element.innerHTML = entry.__html;
     },
 
@@ -204,16 +194,16 @@ qx.Class.define("qx.html2.Element",
      *
      * @type static
      * @param entry {qx.html2.Element} the element to flush
-     * @return {void}
+     * @return {void} 
      */
     __flushChildren : function(entry)
     {
       // **********************************************************************
       //   Compute needed operations
       // **********************************************************************
-
       // Collect all element nodes of the children data
       var target = [];
+
       for (var i=0, a=entry.__children, l=a.length; i<l; i++)
       {
         if (!a[i].__element) {
@@ -236,21 +226,15 @@ qx.Class.define("qx.html2.Element",
         // FireBug sometimes will display a live view of the DOM and not the
         // the snapshot at this moment.
         source = qx.lang.Array.fromCollection(source);
-
-        console.log("Source: ", source.length + ": ", source);
+         console.log("Source: ", source.length + ": ", source);
         console.log("Target: ", target.length + ": ", target);
         console.log("Operations: ", operations);
       }
       */
 
-
-
-
-
       // **********************************************************************
       //   Process operations
       // **********************************************************************
-
       var job;
       var domOperations = 0;
 
@@ -264,7 +248,6 @@ qx.Class.define("qx.html2.Element",
         // ********************************************************************
         //   Apply offset
         // ********************************************************************
-
         if (offsets[job.pos] !== undefined)
         {
           job.pos -= offsets[job.pos];
@@ -276,11 +259,9 @@ qx.Class.define("qx.html2.Element",
           }
         }
 
-
         // ********************************************************************
         //   Process DOM
         // ********************************************************************
-
         if (job.operation === qx.util.EditDistance.OPERATION_DELETE)
         {
           // Ignore elements which are not placed at their original position anymore.
@@ -293,11 +274,9 @@ qx.Class.define("qx.html2.Element",
         else
         {
           // Operations: insert and replace
-
           // ******************************************************************
           //   Offset calculation
           // ******************************************************************
-
           // Element will be moved around in the same parent
           // We use the element on its old position and scan
           // to the begin. A counter will increment on each
@@ -337,18 +316,17 @@ qx.Class.define("qx.html2.Element",
             }
           }
 
-
-
           // ******************************************************************
           //   The real DOM work
           // ******************************************************************
-
           if (job.operation === qx.util.EditDistance.OPERATION_REPLACE)
           {
             if (domElement.childNodes[job.pos] === job.old)
             {
+
               // console.log("Replace: ", job.old, " with ", job.value);
               domOperations++;
+
               domElement.replaceChild(job.value, job.old);
             }
             else
@@ -389,7 +367,6 @@ qx.Class.define("qx.html2.Element",
 
 
 
-
     /*
     ---------------------------------------------------------------------------
       QUEUE FLUSH
@@ -400,7 +377,7 @@ qx.Class.define("qx.html2.Element",
      * Flush the global queue for all existing element needs
      *
      * @type static
-     * @return {void}
+     * @return {void} 
      */
     flushQueue : function()
     {
@@ -413,7 +390,6 @@ qx.Class.define("qx.html2.Element",
       var queue = this.__queue;
       var entry, child, a, i, l;
 
-
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (this.__debug) {
@@ -421,20 +397,15 @@ qx.Class.define("qx.html2.Element",
         }
       }
 
-
-
-
       // **********************************************************************
       //   Create DOM elements
       // **********************************************************************
-
       // Creating DOM nodes could modify the queue again
       // because the generated children will also be added
       // to the queue
+      i = 0;
 
-      i=0;
-
-      while(queue.length > i)
+      while (queue.length > i)
       {
         for (l=queue.length; i<l; i++)
         {
@@ -444,7 +415,7 @@ qx.Class.define("qx.html2.Element",
           {
             child = a[j];
 
-            if(!child.__element && !child.__queued)
+            if (!child.__element && !child.__queued)
             {
               queue.push(child);
               child.__queued = true;
@@ -453,15 +424,9 @@ qx.Class.define("qx.html2.Element",
         }
       }
 
-
-
-
-
-
       // **********************************************************************
       //   Apply content
       // **********************************************************************
-
       l = queue.length;
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -509,21 +474,13 @@ qx.Class.define("qx.html2.Element",
         }
       }
 
-
-
-
-
       // **********************************************************************
       //   Cleanup
       // **********************************************************************
-
       queue.length = 0;
       delete this.__inFlushQueue;
     }
   },
-
-
-
 
 
 
@@ -545,12 +502,11 @@ qx.Class.define("qx.html2.Element",
      * Internal helper to generate the DOM element
      *
      * @type member
-     * @return {void}
+     * @return {void} 
      */
     __create : function()
     {
       // console.debug("Create element[" + this.toHashCode() + "]");
-
       var el = this.__element = document.createElement(this.__nodeName);
       var style = this.__style = el.style;
 
@@ -575,9 +531,9 @@ qx.Class.define("qx.html2.Element",
      *
      * @type member
      * @param child {var} the element to add
-     * @return {void}
+     * @return {void} 
      * @throws an exception if the given element is already a child
-     *   of this element
+     *     of this element
      */
     __addChildHelper : function(child)
     {
@@ -603,9 +559,9 @@ qx.Class.define("qx.html2.Element",
      *
      * @type member
      * @param child {qx.html2.Element} the removed element
-     * @return {void}
+     * @return {void} 
      * @throws an exception if the given element is not a child
-     *   of this element
+     *     of this element
      */
     __removeChildHelper : function(child)
     {
@@ -658,7 +614,7 @@ qx.Class.define("qx.html2.Element",
 
         elem = elem.__parent;
       }
-      while(elem);
+      while (elem);
 
       return false;
     },
@@ -683,7 +639,7 @@ qx.Class.define("qx.html2.Element",
      * @type member
      * @param child {qx.html2.Element} the child
      * @return {Integer} returns the position. If the element
-     *   is not a child <code>-1</code> will be returned.
+     *     is not a child <code>-1</code> will be returned.
      */
     indexOf : function(child) {
       return this.__children.indexOf(child);
@@ -696,8 +652,6 @@ qx.Class.define("qx.html2.Element",
      * @type member
      * @param child {qx.html2.Element} the element to insert
      * @return {qx.html2.Element} this object (for chaining support)
-     * @throws an exception when the given element
-     *   is already a child of this element
      */
     add : function(child)
     {
@@ -714,8 +668,6 @@ qx.Class.define("qx.html2.Element",
      * @type member
      * @param varargs {arguments} the elements
      * @return {qx.html2.Element} this object (for chaining support)
-     * @throws an exception when one given element
-     *   is already a child of this element
      */
     addList : function(varargs)
     {
@@ -734,8 +686,6 @@ qx.Class.define("qx.html2.Element",
      * @param child {qx.html2.Element} the element to insert
      * @param rel {qx.html2.Element} the related child
      * @return {qx.html2.Element} this object (for chaining support)
-     * @throws an exception when the given element
-     *   is already a child of this element
      */
     insertAfter : function(child, rel)
     {
@@ -753,8 +703,6 @@ qx.Class.define("qx.html2.Element",
      * @param child {qx.html2.Element} the element to insert
      * @param rel {qx.html2.Element} the related child
      * @return {qx.html2.Element} this object (for chaining support)
-     * @throws an exception when the given element
-     *   is already a child of this element
      */
     insertBefore : function(child, rel)
     {
@@ -771,11 +719,9 @@ qx.Class.define("qx.html2.Element",
      * @type member
      * @param child {qx.html2.Element} the element to insert
      * @param index {Integer} the index (starts at 0 for the
-     *   first child) to insert (the index of the following
-     *   children will be increased by one)
+     *     first child) to insert (the index of the following
+     *     children will be increased by one)
      * @return {qx.html2.Element} this object (for chaining support)
-     * @throws an exception when the given element
-     *   is already a child of this element
      */
     insertAt : function(child, index)
     {
@@ -792,8 +738,6 @@ qx.Class.define("qx.html2.Element",
      * @type member
      * @param child {qx.html2.Element} The child to remove
      * @return {qx.html2.Element} the removed element
-     * @throws an exception when the given element
-     *   is not a child of this element
      */
     remove : function(child)
     {
@@ -807,10 +751,8 @@ qx.Class.define("qx.html2.Element",
      *
      * @type member
      * @param index {Integer} the position of the
-     *   child (starts at 0 for the first child)
+     *     child (starts at 0 for the first child)
      * @return {qx.html2.Element} the removed element
-     * @throws an exception when the given element
-     *   is not a child of this element
      */
     removeAt : function(index)
     {
@@ -825,8 +767,6 @@ qx.Class.define("qx.html2.Element",
      * @type member
      * @param varargs {arguments} the elements
      * @return {qx.html2.Element} this object (for chaining support)
-     * @throws an exception when one given element
-     *   is not a child of this element
      */
     removeList : function(varargs)
     {
@@ -848,7 +788,7 @@ qx.Class.define("qx.html2.Element",
      * @param index {Integer} the index (starts at 0 for the first child)
      * @return {qx.html2.Element} this object (for chaining support)
      * @throws an exception when the given element is not child
-     *    of this element.
+     *      of this element.
      */
     moveTo : function(child, index)
     {
@@ -882,8 +822,6 @@ qx.Class.define("qx.html2.Element",
      * @param child {qx.html2.Element} the child to move
      * @param rel {qx.html2.Element} the related child
      * @return {qx.html2.Element} this object (for chaining support)
-     * @throws an exception when the given element is not child
-     *   of this element.
      */
     moveBefore : function(child, rel) {
       return this.moveTo(child, this.__children.indexOf(rel));
@@ -897,8 +835,6 @@ qx.Class.define("qx.html2.Element",
      * @param child {qx.html2.Element} the child to move
      * @param rel {qx.html2.Element} the related child
      * @return {qx.html2.Element} this object (for chaining support)
-     * @throws an exception when the given element is not child
-     *   of this element.
      */
     moveAfter : function(child, rel) {
       return this.moveTo(child, this.__children.indexOf(rel) + 1);
@@ -910,8 +846,10 @@ qx.Class.define("qx.html2.Element",
      * assumed that this DOM element is already visible e.g.
      * like a normal displayed element in the document's body.
      *
+     * @type member
      * @param el {Element} the dom element to set
-     * @return {void}
+     * @return {void} 
+     * @throws TODOC
      */
     setElement : function(el)
     {
@@ -937,8 +875,9 @@ qx.Class.define("qx.html2.Element",
      * Better to use the alternatives like setText, setHtml and all
      * the children functions.
      *
-     * @throws an error if the element was not yet created
+     * @type member
      * @return {Element} the DOM element node
+     * @throws an error if the element was not yet created
      */
     getElement : function()
     {
@@ -1016,7 +955,7 @@ qx.Class.define("qx.html2.Element",
 
     /**
      * Set up the HTML content of this element
-     *
+     * 
      * Please note that you can only use one content type:
      * children, HTML or text
      *
@@ -1040,7 +979,7 @@ qx.Class.define("qx.html2.Element",
      * Returns the configured HTML content
      *
      * @type member
-     * @return {String|null} the HTML
+     * @return {String | null} the HTML
      */
     getHtml : function() {
       return this.__html || null;
@@ -1049,7 +988,7 @@ qx.Class.define("qx.html2.Element",
 
     /**
      * Set up the text content of this element
-     *
+     * 
      * Please note that you can only use one content type:
      * children, HTML or text
      *
@@ -1073,7 +1012,7 @@ qx.Class.define("qx.html2.Element",
      * Returns the configured text content
      *
      * @type member
-     * @return {String|null} the text
+     * @return {String | null} the text
      */
     getText : function() {
       return this.__text || null;

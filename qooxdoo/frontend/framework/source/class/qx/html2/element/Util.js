@@ -59,7 +59,7 @@ qx.Class.define("qx.html2.element.Util",
      *
      * @type static
      * @param name {String} Tag name of the element
-     * @param xhtml {Boolean?false} Enable XHTML
+     * @param xhtml {Boolean ? false} Enable XHTML
      * @return {Element} the created element node
      */
     createElement : function(name, xhtml)
@@ -98,10 +98,6 @@ qx.Class.define("qx.html2.element.Util",
 
 
 
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       STRING HELPERS
@@ -133,7 +129,6 @@ qx.Class.define("qx.html2.element.Util",
         return chr.toUpperCase();
       });
     },
-
 
 
 
@@ -193,10 +188,27 @@ qx.Class.define("qx.html2.element.Util",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param el {Element} TODOC
+     * @param x {var} TODOC
+     * @return {void} 
+     */
     scrollToX : function(el, x) {
       el.scrollLeft = x;
     },
 
+
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param el {Element} TODOC
+     * @param y {var} TODOC
+     * @return {void} 
+     */
     scrollToY : function(el, y) {
       el.scrollTop = y;
     },
@@ -215,7 +227,7 @@ qx.Class.define("qx.html2.element.Util",
      *
      * @type static
      * @param el {Element} DOM element to show
-     * @return {void}
+     * @return {void} 
      */
     show : function(el) {
       el.style.visibility = "visible";
@@ -227,7 +239,7 @@ qx.Class.define("qx.html2.element.Util",
      *
      * @type static
      * @param el {Element} DOM element to show
-     * @return {void}
+     * @return {void} 
      */
     hide : function(el) {
       el.style.visibility = "hidden";
@@ -239,7 +251,7 @@ qx.Class.define("qx.html2.element.Util",
      *
      * @type static
      * @param el {Element} DOM element to show
-     * @return {void}
+     * @return {void} 
      */
     toggle : function(el) {
       el.style.visibility = this.isHidden(el) ? "visible" : "hidden";

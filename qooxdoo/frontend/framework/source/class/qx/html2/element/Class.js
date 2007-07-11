@@ -57,7 +57,7 @@ qx.Class.define("qx.html2.element.Class",
      *
      * @type static
      * @param element {Element} The element to modify
-     * @param className {String} The new class name
+     * @param name {var} TODOC
      * @return {String} The added classname (if so)
      */
     add : function(element, name)
@@ -105,6 +105,7 @@ qx.Class.define("qx.html2.element.Class",
     /**
      * Replaces the first given class name with the second one
      *
+     * @type static
      * @param element {Element} The DOM element to modify
      * @param oldName {String} The class name to remove
      * @param newName {String} The class name to add

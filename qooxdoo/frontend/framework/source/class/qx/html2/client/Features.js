@@ -34,6 +34,7 @@ qx.Class.define("qx.html2.client.Features",
 
   statics :
   {
+
     /** {Boolean} Flag to detect if the current document is rendered in standard mode */
     STANDARD_MODE : false,
 
@@ -61,6 +62,9 @@ qx.Class.define("qx.html2.client.Features",
 
     /**
      * Internal initialize helper
+     *
+     * @type static
+     * @return {void} 
      */
     __init : function()
     {
@@ -77,6 +81,7 @@ qx.Class.define("qx.html2.client.Features",
       this.XPATH = !!document.evaluate;
     }
   },
+
 
 
 
