@@ -41,14 +41,14 @@ qx.Class.define("qx.html2.Client",
      *
      * @type static
      * @param key {String} A valid expression
-     * @throws an error if the key could not be parsed or evaluated
      * @return {Boolean} The evaluated value of the given key
+     * @throws an error if the key could not be parsed or evaluated
      */
     match : function(key)
     {
       var cache = this.__cache;
 
-      if (cache[key]!==undefined) {
+      if (cache[key] !== undefined) {
         return cache[key];
       }
 
@@ -62,9 +62,10 @@ qx.Class.define("qx.html2.Client",
 
         // Check if the keys used in the expression are valid (defined through __keys)
         var lower = this.__lower;
+
         for (var i=1, a=key.split(/\b([a-z][a-z0-9_]+)\b/g), l=a.length; i<l; i+=2)
         {
-          if (lower[a[i]]===undefined) {
+          if (lower[a[i]] === undefined) {
             throw new Error('The key "' + key + '" contains an invalid property "' + a[i] + '"!');
           }
         }
@@ -117,44 +118,39 @@ qx.Class.define("qx.html2.Client",
         }
       }
 
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        throw new Error('No match for selection in map [' +
-          qx.lang.Object.getKeysAsString(map) +
-          '] found, and no default ("default") given');
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        throw new Error('No match for selection in map [' + qx.lang.Object.getKeysAsString(map) + '] found, and no default ("default") given');
       }
     },
 
-
     /** Internal map which stores the evaluated value for each already evaluated key */
-    __cache : {
-      "default" : true // the default value will always be accepted
+    __cache : { "default" : true  // the default value will always be accepted
     },
-
 
     /** Internal data structures with all flags or numeric value which should be available in expressions */
     __keys :
     {
-      Engine : [ "KHTML",
-        "OPERA", "OPERA8", "OPERA85", "OPERA9", "OPERA95",
-        "WEBKIT", "WEBKIT419", "WEBKIT420",
-        "GECKO", "GECKO17", "GECKO18", "GECKO181", "GECKO19",
-        "MSHTML", "MSHTML6", "MSHTML7",
-        "VERSION" ],
+      Engine : [ "KHTML", "OPERA", "OPERA8", "OPERA85", "OPERA9", "OPERA95", "WEBKIT", "WEBKIT419", "WEBKIT420", "GECKO", "GECKO17", "GECKO18", "GECKO181", "GECKO19", "MSHTML", "MSHTML6", "MSHTML7", "VERSION" ],
+
       Features : [ "STANDARD_MODE", "QUIRKS_MODE", "CONTENT_BOX", "BORDER_BOX", "SVG", "CANVAS", "VML", "XPATH" ],
+
       Platform : [ "WIN", "MAC", "UNIX" ]
     },
 
-
     /** Internal data strucure which contains all enabled flags and numeric values of the __keys structure */
     __active : {},
-
 
     /** Internal data structure to have a flagable map of all properties in __keys */
     __lower : {},
 
 
-    /** Automatically fills the __active map from the information of the __keys map */
+    /**
+     * Automatically fills the __active map from the information of the __keys map
+     *
+     * @type static
+     * @return {void} 
+     * @throws TODOC
+     */
     __init : function()
     {
       var keys = this.__keys;
@@ -177,7 +173,7 @@ qx.Class.define("qx.html2.Client",
           {
             prop = a[i].toLowerCase();
 
-            if (lower[prop]!==undefined) {
+            if (lower[prop] !== undefined) {
               throw new Error("Double definition of property: " + prop);
             }
 
@@ -211,6 +207,7 @@ qx.Class.define("qx.html2.Client",
       }
     }
   },
+
 
 
 

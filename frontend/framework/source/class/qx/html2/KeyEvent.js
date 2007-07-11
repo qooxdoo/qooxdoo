@@ -1,3 +1,4 @@
+
 /**
  * Keyboard event object.
  *
@@ -10,11 +11,24 @@ qx.Class.define("qx.html2.KeyEvent",
 
   statics :
   {
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param elementHash {var} TODOC
+     * @param domEvent {var} TODOC
+     * @param eventType {var} TODOC
+     * @param keyCode {var} TODOC
+     * @param charCode {var} TODOC
+     * @param keyIdentifier {var} TODOC
+     * @return {var} TODOC
+     */
     getInstance : function(elementHash, domEvent, eventType, keyCode, charCode, keyIdentifier)
     {
       if (this.__instance == undefined) {
         this.__instance = new qx.html2.KeyEvent();
       }
+
       this.__instance.__initEvent(elementHash, domEvent, eventType, keyCode, charCode, keyIdentifier);
       return this.__instance;
     }
@@ -22,6 +36,18 @@ qx.Class.define("qx.html2.KeyEvent",
 
   members :
   {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param elementHash {var} TODOC
+     * @param domEvent {var} TODOC
+     * @param eventType {var} TODOC
+     * @param keyCode {var} TODOC
+     * @param charCode {var} TODOC
+     * @param keyIdentifier {var} TODOC
+     * @return {void} 
+     */
     __initEvent : function(elementHash, domEvent, eventType, keyCode, charCode, keyIdentifier)
     {
       this.base(arguments, elementHash, domEvent);
@@ -31,8 +57,13 @@ qx.Class.define("qx.html2.KeyEvent",
       this._keyIdentifier = keyIdentifier;
     },
 
-
     // overridden
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
     getType : function() {
       return this._type;
     },
@@ -41,6 +72,9 @@ qx.Class.define("qx.html2.KeyEvent",
     /**
      * Unicode number of the pressed character.
      * Only valid in "keyinput" events
+     *
+     * @type member
+     * @return {var} TODOC
      */
     getCharCode : function() {
       return this._charCode;
@@ -50,12 +84,12 @@ qx.Class.define("qx.html2.KeyEvent",
     /**
      * Identifier of the pressed key. This property is modeled after the <em>KeyboardEvent.keyIdentifier</em> property
      * of the W3C DOM 3 event specification (http://www.w3.org/TR/2003/NOTE-DOM-Level-3-Events-20031107/events.html#Events-KeyboardEvent-keyIdentifier).
-     *
+     * 
      * It is not valid in "keyinput" events"
-     *
+     * 
      * Printable keys are represented by a unicode string, non-printable keys have one of the following
      * values:
-     * <br>
+     * 
      * <table>
      * <tr><th>Backspace</th><td>The Backspace (Back) key.</td></tr>
      * <tr><th>Tab</th><td>The Horizontal Tabulation (Tab) key.</td></tr>
@@ -96,6 +130,9 @@ qx.Class.define("qx.html2.KeyEvent",
      * <tr><th>Win</th><td>The Windows Logo key</td></tr>
      * <tr><th>Apps</th><td>The Application key (Windows Context Menu)</td></tr>
      * </table>
+     *
+     * @type member
+     * @return {var} TODOC
      */
     getKeyIdentifier : function() {
       return this._keyIdentifier;
@@ -151,7 +188,7 @@ qx.Class.define("qx.html2.KeyEvent",
      *
      * @type member
      * @return {Boolean} <code>true</code> if the command key is pressed on the Mac
-     *           or the ctrl key is pressed on another system.
+     *             or the ctrl key is pressed on another system.
      */
     isCtrlOrCommandPressed : function()
     {
@@ -161,7 +198,5 @@ qx.Class.define("qx.html2.KeyEvent",
         return this._event.ctrlKey;
       }
     }
-
   }
-
 });

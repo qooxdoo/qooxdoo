@@ -23,12 +23,12 @@ qx.Class.define("qx.html2.element.Tree",
 
     /**
      * Return the next element to the supplied element
-     *
+     * 
      * "nextSibling" is not good enough as it might return a text or comment el
      *
      * @type static
      * @param el {Element} Starting element node
-     * @return {Element|null} Next element node
+     * @return {Element | null} Next element node
      */
     getNextElementSibling : function(el)
     {
@@ -42,12 +42,12 @@ qx.Class.define("qx.html2.element.Tree",
 
     /**
      * Return the previous element to the supplied element
-     *
+     * 
      * "previousSibling" is not good enough as it might return a text or comment el
      *
      * @type static
      * @param el {Element} Starting element node
-     * @return {Element|null} Previous element node
+     * @return {Element | null} Previous element node
      */
     getPreviousElementSibling : function(el)
     {
@@ -64,7 +64,7 @@ qx.Class.define("qx.html2.element.Tree",
      *
      * @type static
      * @param node {Node} the node which should be tested
-     * @return {Document|null} The document of the given DOM node
+     * @return {Document | null} The document of the given DOM node
      */
     getDocument : function(node) {
       return node.ownerDocument || node.document || null;
@@ -103,11 +103,8 @@ qx.Class.define("qx.html2.element.Tree",
      */
     contains : qx.core.Variant.select("qx.client",
     {
-      "mshtml|opera" : function(el, target)
-      {
-        return this.isDocument(el) ?
-          el === this.getOwnerDocument(target) :
-          el !== target && el.contains(target);
+      "mshtml|opera" : function(el, target) {
+        return this.isDocument(el) ? el === this.getOwnerDocument(target) : el !== target && el.contains(target);
       },
 
       "default" : function(el, target)
@@ -124,8 +121,10 @@ qx.Class.define("qx.html2.element.Tree",
     /**
      * Checks if <code>element</code> is a descendant of <code>ancestor</code>.
      *
+     * @type static
      * @param el {Element} first element
      * @param ancestor {Element} second element
+     * @return {var} TODOC
      */
     descendantOf : function(el, ancestor) {
       return this.contains(ancestor, el);
@@ -151,7 +150,7 @@ qx.Class.define("qx.html2.element.Tree",
           return el1;
         }
 
-        while(el1)
+        while (el1)
         {
           if (el1.contains(el2)) {
             return el1;
@@ -173,7 +172,7 @@ qx.Class.define("qx.html2.element.Tree",
         var obj = qx.core.Object;
         var h1, h2;
 
-        while(el1 || el2)
+        while (el1 || el2)
         {
           if (el1)
           {
@@ -207,8 +206,12 @@ qx.Class.define("qx.html2.element.Tree",
 
     /**
      * Completely removes element from the document and returns it.
+     *
+     * @type static
+     * @param element {var} TODOC
+     * @return {var} TODOC
      */
-    remove: function(element)
+    remove : function(element)
     {
       element.parentNode.removeChild(element);
       return element;
@@ -217,16 +220,24 @@ qx.Class.define("qx.html2.element.Tree",
 
     /**
      * Collects all of element's ancestors and returns them as an array elements.
+     *
+     * @type static
+     * @param element {var} TODOC
+     * @return {var} TODOC
      */
-    ancestors: function(element) {
+    ancestors : function(element) {
       return element.recursivelyCollect("parentNode");
     },
 
 
     /**
      * Returns element's children.
+     *
+     * @type static
+     * @param element {var} TODOC
+     * @return {Array | var} TODOC
      */
-    childElements: function(element)
+    childElements : function(element)
     {
       element = element.firstChild;
 
@@ -239,7 +250,7 @@ qx.Class.define("qx.html2.element.Tree",
       }
 
       if (element) {
-        return [element].concat(element.nextSiblings());
+        return [ element ].concat(element.nextSiblings());
       }
 
       return [];
@@ -248,8 +259,12 @@ qx.Class.define("qx.html2.element.Tree",
 
     /**
      * Collects all of element's descendants and returns them as an array elements.
+     *
+     * @type static
+     * @param element {var} TODOC
+     * @return {var} TODOC
      */
-    descendants: function(element) {
+    descendants : function(element) {
       return qx.lang.Array.fromCollection(element.getElementsByTagName("*"));
     },
 
@@ -257,8 +272,12 @@ qx.Class.define("qx.html2.element.Tree",
     /**
      * Returns the first child that is an element. This is opposed to firstChild DOM
      * property which will return any node (whitespace in most usual cases).
+     *
+     * @type static
+     * @param element {var} TODOC
+     * @return {var} TODOC
      */
-    firstDescendant: function(element)
+    firstDescendant : function(element)
     {
       element = element.firstChild;
 
@@ -272,16 +291,24 @@ qx.Class.define("qx.html2.element.Tree",
 
     /**
      * Collects all of element's previous siblings and returns them as an array elements.
+     *
+     * @type static
+     * @param element {var} TODOC
+     * @return {var} TODOC
      */
-    previousSiblings: function(element) {
+    previousSiblings : function(element) {
       return this.recursivelyCollect(element, "previousSibling");
     },
 
 
     /**
      * Collects all of element's next siblings and returns them as an array elements.
+     *
+     * @type static
+     * @param element {var} TODOC
+     * @return {var} TODOC
      */
-    nextSiblings: function(element) {
+    nextSiblings : function(element) {
       return this.recursivelyCollect(element, "nextSibling");
     },
 
@@ -290,8 +317,13 @@ qx.Class.define("qx.html2.element.Tree",
      * Recursively collects elements whose relationship is specified by property.
      * <code>property</code> has to be a property (a method won't do!) of element
      * that points to a single DOM node. Returns an array elements.
+     *
+     * @type static
+     * @param element {var} TODOC
+     * @param property {var} TODOC
+     * @return {var} TODOC
      */
-    recursivelyCollect: function(element, property)
+    recursivelyCollect : function(element, property)
     {
       var list = [];
 
@@ -308,32 +340,30 @@ qx.Class.define("qx.html2.element.Tree",
 
     /**
      * Collects all of element's siblings and returns them as an array of elements.
+     *
+     * @type static
+     * @param element {var} TODOC
+     * @return {var} TODOC
      */
-    siblings: function(element) {
+    siblings : function(element) {
       return this.previousSiblings(element).reverse().concat(this.nextSiblings(element));
     },
-
-
-
-
-
-
-
 
 
     /**
      * Replaces <code>el</code> by the content of the <code>html</code> argument
      * and returns the removed <code>el</code>.
-     *
+     * 
      * Mimics Prototype's <code>dom.replace()</code>
      *
+     * @type static
      * @param el {Element} element to replace
      * @param html {String} HTML string
+     * @return {Element} TODOC
      */
     replaceWithHTML : function(el, html)
     {
-      if (el.outerHTML)
-      {
+      if (el.outerHTML) {
         el.outerHTML = html;
       }
       else
@@ -349,7 +379,7 @@ qx.Class.define("qx.html2.element.Tree",
 
     /**
      * Whether the given element is empty
-     *
+     * 
      * Mimics Prototype's <code>dom.empty()</code>
      * Inspired by Base2 (Dean Edwards)
      *
@@ -376,12 +406,12 @@ qx.Class.define("qx.html2.element.Tree",
 
     /**
      * Removes all of element's text nodes which contain only whitespace
-     *
+     * 
      * Mimics Prototype's <code>dom.cleanWhitespace</code>
      *
      * @type static
      * @param el {Element} Element to cleanup
-     * @return {void}
+     * @return {void} 
      */
     cleanWhitespace : function(el)
     {

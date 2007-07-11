@@ -33,46 +33,27 @@ qx.Class.define("qx.html2.element.Generic",
 
   statics :
   {
+
     /** This internal data will be automatically translated to a full blown map structure in __init */
     __generic :
     {
-      attributes :
-      [
-        "class", "text", "html", "name", "id", "href", "src", "type", "for",
-        "colspan", "rowspan", "valign", "datetime", "accesskey", "tabindex",
-        "enctype", "maxlength", "readonly", "longdesc", "disabled", "checked",
-        "multiple", "selected", "value"
-      ],
+      attributes : [ "class", "text", "html", "name", "id", "href", "src", "type", "for", "colspan", "rowspan", "valign", "datetime", "accesskey", "tabindex", "enctype", "maxlength", "readonly", "longdesc", "disabled", "checked", "multiple", "selected", "value" ],
 
-      styles :
-      [
-        "minWidth", "width", "maxWidth",
-        "minHeight", "height", "maxHeight",
-        "top", "right", "bottom", "left",
-        "border",
-        "borderTop", "borderRight", "borderBottom", "borderLeft",
-        "margin",
-        "marginTop", "marginRight", "marginBottom", "marginLeft",
-        "padding",
-        "paddingTop", "paddingRight", "paddingBottom", "paddingLeft",
-        "float", "clear",
-        "color", "backgroundColor"
-      ],
+      styles : [ "minWidth", "width", "maxWidth", "minHeight", "height", "maxHeight", "top", "right", "bottom", "left", "border", "borderTop", "borderRight", "borderBottom", "borderLeft", "margin", "marginTop", "marginRight", "marginBottom", "marginLeft", "padding", "paddingTop", "paddingRight", "paddingBottom", "paddingLeft", "float", "clear", "color", "backgroundColor" ],
 
-      custom :
-      [
-        "opacity"
-      ]
+      custom : [ "opacity" ]
     },
 
 
     /**
      * Applies the given attribute or style to the element
      *
-     * @type
+     * @type static
      * @param el {Element} DOM element to modify
      * @param key {String} Name of attribute or style
      * @param value {var} Any acceptable value for the given attribute or style
+     * @return {var} TODOC
+     * @throws TODOC
      */
     set : function(el, key, value)
     {
@@ -91,8 +72,13 @@ qx.Class.define("qx.html2.element.Generic",
 
 
     /**
+     * TODOC
      *
-     *
+     * @type static
+     * @param el {Element} TODOC
+     * @param key {var} TODOC
+     * @return {var} TODOC
+     * @throws TODOC
      */
     get : function(el, key)
     {
@@ -111,17 +97,21 @@ qx.Class.define("qx.html2.element.Generic",
 
 
     /**
+     * TODOC
      *
-     *
+     * @type static
+     * @param statics {var} TODOC
+     * @return {void} 
      */
     __init : function(statics)
     {
       var generic = this.__generic;
+
       var map =
       {
         attributes : {},
-        styles : {},
-        custom : {}
+        styles     : {},
+        custom     : {}
       };
 
       var name, hints, data;
@@ -130,10 +120,12 @@ qx.Class.define("qx.html2.element.Generic",
       hints = qx.html2.element.Attribute.__hints.names;
       source = generic.attributes;
       target = map.attributes;
+
       for (var i=0, l=source.length; i<l; i++)
       {
         name = source[i];
         target[name] = true;
+
         if (hints[name]) {
           target[hints[name]] = true;
         }
@@ -143,10 +135,12 @@ qx.Class.define("qx.html2.element.Generic",
       hints = qx.html2.element.Style.__hints.names;
       source = generic.styles;
       target = map.styles;
+
       for (var i=0, l=source.length; i<l; i++)
       {
         name = source[i];
         target[name] = true;
+
         if (hints[name]) {
           target[hints[name]] = true;
         }
@@ -157,11 +151,17 @@ qx.Class.define("qx.html2.element.Generic",
       target = map.custom;
       var str = qx.lang.String;
       var up;
+
       for (var i=0, l=source.length; i<l; i++)
       {
         name = source[i];
         up = str.toFirstUp(name);
-        target[name] = { set : "set" + up, get : "get" + up };
+
+        target[name] =
+        {
+          set : "set" + up,
+          get : "get" + up
+        };
       }
 
       // Replace old array with new map

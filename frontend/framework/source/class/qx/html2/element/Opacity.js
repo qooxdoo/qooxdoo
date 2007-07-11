@@ -51,6 +51,7 @@ qx.Class.define("qx.html2.element.Opacity",
 
   statics :
   {
+
     /** shorthand to style class */
     __style : qx.html2.element.Style,
 
@@ -90,8 +91,7 @@ qx.Class.define("qx.html2.element.Opacity",
         }
 
         // Remove old alpha filter and add new one
-        el.style.filter = filter.replace(/alpha\([^\)]*\)/gi, "") +
-          "alpha(opacity=" + opacity * 100 + ")";;
+        el.style.filter = filter.replace(/alpha\([^\)]*\)/gi, "") + "alpha(opacity=" + opacity * 100 + ")";
       },
 
       "gecko" : function(el, opacity)
