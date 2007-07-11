@@ -22,6 +22,9 @@
 
 ************************************************************************ */
 
+/**
+ * @deprecated: Use qx.html2.Viewport instead
+ */
 qx.Class.define("qx.html.Window",
 {
   /*
