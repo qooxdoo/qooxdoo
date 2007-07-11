@@ -257,6 +257,77 @@ qx.Class.define("qx.html2.element.Util",
         return !!target;
       }
     },
+    
+
+    /**
+     * Get the common parent element of two given elements. Returns 
+     * <code>null</code> when no common element has been found.
+     *
+     * @type static
+     * @param el1 {Element} First element
+     * @param el1 {Element} Second element
+     * @return {Element|null} Common parent
+     */
+    getCommonParent : qx.core.Variant.select(
+    {
+      "mshtml|opera" : function(el1, el2)
+      { 
+        if (el1 === el2) {
+          return el1;  
+        }
+        
+        while(el1)
+        {
+          if (el1.contains(el2)) {
+            return el1; 
+          }
+          
+          el1 = el1.parentNode;
+        }
+        
+        return null;
+      },
+            
+      "default" : function(el1, el2)
+      {
+        if (el1 === el2) {
+          return el1;  
+        }
+
+        var known = {};
+        var obj = qx.core.Object;
+        var h1, h2;
+        
+        while(el1 || el2)
+        {
+          if (el1) 
+          {
+            h1 = obj.toHashCode(el1);
+            
+            if (known[h1]) {
+              return known[h1];
+            }
+            
+            known[h1] = el1;
+            el1 = el1.parentNode;
+          }
+          
+          if (el2) 
+          {
+            h2 = obj.toHashCode(el2);
+            
+            if (known[h2]) {
+              return known[h2];
+            }
+            
+            known[h2] = el2;
+            el2 = el2.parentNode; 
+          }
+        }
+        
+        return null;
+      }
+    }),
 
 
     /**
@@ -362,6 +433,15 @@ qx.Class.define("qx.html2.element.Util",
         node = nextNode;
       }
     },
+    
+    
+    /**
+     * 
+     *
+     */
+    empty: function(element) {
+      return el.innerHTML = "";
+    },    
 
 
 
@@ -380,6 +460,8 @@ qx.Class.define("qx.html2.element.Util",
     scrollToY : function(el, y) {
       el.scrollTop = y;
     },
+
+
 
 
 
