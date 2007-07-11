@@ -54,50 +54,6 @@ qx.Class.define("qx.html2.element.Util",
 
   statics :
   {
-    /**
-     * Creates an DOM element
-     *
-     * @type static
-     * @param name {String} Tag name of the element
-     * @param xhtml {Boolean ? false} Enable XHTML
-     * @return {Element} the created element node
-     */
-    createElement : function(name, xhtml)
-    {
-      if (xhtml) {
-        return document.createElementNS("http://www.w3.org/1999/xhtml", name);
-      } else {
-        return document.createElement(name);
-      }
-    },
-
-
-    /**
-     * Whether the given node is a DOM element
-     *
-     * @type static
-     * @param node {Node} the node which should be tested
-     * @return {Boolean} true if the node is a DOM element
-     */
-    isElement : function(node) {
-      return !!(node && node.nodeType === qx.dom.Node.ELEMENT);
-    },
-
-
-    /**
-     * Whether the given node is a document
-     *
-     * @type static
-     * @param node {Node} the node which should be tested
-     * @return {Boolean} true when the node is a document
-     */
-    isDocument : function(node) {
-      return !!(node && node.nodeType === qx.dom.Node.DOCUMENT);
-    },
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       STRING HELPERS
@@ -143,19 +99,19 @@ qx.Class.define("qx.html2.element.Util",
      * Set the full CSS content of the style attribute
      *
      * @type static
-     * @param el {Element} The DOM element to modify
+     * @param element {Element} The DOM element to modify
      * @param value {String} The full CSS string
-     * @signature function(el, value)
+     * @signature function(element, value)
      * @return {void}
      */
     setCss : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(el, value) {
-        el.style.cssText = value;
+      "mshtml" : function(element, value) {
+        element.style.cssText = value;
       },
 
-      "default" : function(el, value) {
-        el.setAttribute("style", value);
+      "default" : function(element, value) {
+        element.setAttribute("style", value);
       }
     }),
 
@@ -164,18 +120,18 @@ qx.Class.define("qx.html2.element.Util",
      * Returns the full content of the style attribute.
      *
      * @type static
-     * @param el {Element} The DOM element to query
+     * @param element {Element} The DOM element to query
      * @return {String} the full CSS string
-     * @signature function(el)
+     * @signature function(element)
      */
     getCss : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(el) {
-        return el.style.cssText.toLowerCase();
+      "mshtml" : function(element) {
+        return element.style.cssText.toLowerCase();
       },
 
-      "default" : function(el) {
-        return el.getAttribute("style");
+      "default" : function(element) {
+        return element.getAttribute("style");
       }
     }),
 
@@ -189,15 +145,15 @@ qx.Class.define("qx.html2.element.Util",
     */
 
     /**
-     * TODOC
+     * 
      *
      * @type static
-     * @param el {Element} TODOC
+     * @param element {Element} TODOC
      * @param x {var} TODOC
      * @return {void}
      */
-    scrollToX : function(el, x) {
-      el.scrollLeft = x;
+    scrollToX : function(element, x) {
+      element.scrollLeft = x;
     },
 
 
@@ -205,12 +161,12 @@ qx.Class.define("qx.html2.element.Util",
      * TODOC
      *
      * @type static
-     * @param el {Element} TODOC
+     * @param element {Element} TODOC
      * @param y {var} TODOC
      * @return {void}
      */
-    scrollToY : function(el, y) {
-      el.scrollTop = y;
+    scrollToY : function(element, y) {
+      element.scrollTop = y;
     },
 
 
@@ -226,11 +182,11 @@ qx.Class.define("qx.html2.element.Util",
      * Shows the given element
      *
      * @type static
-     * @param el {Element} DOM element to show
+     * @param element {Element} DOM element to show
      * @return {void}
      */
-    show : function(el) {
-      el.style.visibility = "visible";
+    show : function(element) {
+      element.style.visibility = "visible";
     },
 
 
@@ -238,11 +194,11 @@ qx.Class.define("qx.html2.element.Util",
      * Hides the given element
      *
      * @type static
-     * @param el {Element} DOM element to show
+     * @param element {Element} DOM element to show
      * @return {void}
      */
-    hide : function(el) {
-      el.style.visibility = "hidden";
+    hide : function(element) {
+      element.style.visibility = "hidden";
     },
 
 
@@ -250,11 +206,11 @@ qx.Class.define("qx.html2.element.Util",
      * Toggle the visibility of the given element
      *
      * @type static
-     * @param el {Element} DOM element to show
+     * @param element {Element} DOM element to show
      * @return {void}
      */
-    toggle : function(el) {
-      el.style.visibility = this.isHidden(el) ? "visible" : "hidden";
+    toggle : function(element) {
+      element.style.visibility = this.isHidden(element) ? "visible" : "hidden";
     },
 
 
@@ -262,23 +218,23 @@ qx.Class.define("qx.html2.element.Util",
      * Whether the given element is visible
      *
      * @type static
-     * @param el {Element} DOM element to query
+     * @param element {Element} DOM element to query
      * @return {Boolean} true when the element is visible
      */
-    isVisible : function(el) {
-      return this.getStyle(el, "visibility") !== "hidden";
+    isVisible : function(element) {
+      return !this.isHidden(element);
     },
 
 
     /**
-     * Whether the given element is visible
+     * Whether the given element is hidden
      *
      * @type static
-     * @param el {Element} DOM element to query
-     * @return {Boolean} true when the element is visible
+     * @param element {Element} DOM element to query
+     * @return {Boolean} true when the element is hidden
      */
-    isHidden : function(el) {
-      return this.getStyle(el, "visibility") === "hidden";
+    isHidden : function(element) {
+      return qx.html2.element.Style.get(element, "visibility") === "hidden";
     }
   }
 });
