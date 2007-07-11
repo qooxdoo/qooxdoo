@@ -42,7 +42,7 @@ qx.Class.define("qx.html2.MouseEvent",
      * @param domEvent {var} TODOC
      * @param eventType {var} TODOC
      * @param target {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     __initEvent : function(elementHash, domEvent, eventType, target)
     {

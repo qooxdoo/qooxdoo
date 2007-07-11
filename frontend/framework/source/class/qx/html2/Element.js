@@ -94,7 +94,7 @@ qx.Class.define("qx.html2.Element",
      *
      * @type static
      * @param element {qx.html2.Element} Add the element to the global queue
-     * @return {void} 
+     * @return {void}
      */
     addToQueue : function(element)
     {
@@ -112,7 +112,7 @@ qx.Class.define("qx.html2.Element",
      *
      * @type static
      * @param element {qx.html2.Element} Remove the element from the global queue
-     * @return {void} 
+     * @return {void}
      */
     removeFromQueue : function(element)
     {
@@ -139,7 +139,7 @@ qx.Class.define("qx.html2.Element",
      *
      * @type static
      * @param entry {qx.html2.Element} the element to flush
-     * @return {void} 
+     * @return {void}
      */
     __flushContent : function(entry)
     {
@@ -162,7 +162,7 @@ qx.Class.define("qx.html2.Element",
      *
      * @type static
      * @param entry {qx.html2.Element} the element to flush
-     * @return {void} 
+     * @return {void}
      */
     __flushText : function(entry)
     {
@@ -181,7 +181,7 @@ qx.Class.define("qx.html2.Element",
      *
      * @type static
      * @param entry {qx.html2.Element} the element to flush
-     * @return {void} 
+     * @return {void}
      */
     __flushHtml : function(entry) {
       entry.__element.innerHTML = entry.__html;
@@ -194,7 +194,7 @@ qx.Class.define("qx.html2.Element",
      *
      * @type static
      * @param entry {qx.html2.Element} the element to flush
-     * @return {void} 
+     * @return {void}
      */
     __flushChildren : function(entry)
     {
@@ -377,7 +377,7 @@ qx.Class.define("qx.html2.Element",
      * Flush the global queue for all existing element needs
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
     flushQueue : function()
     {
@@ -502,7 +502,7 @@ qx.Class.define("qx.html2.Element",
      * Internal helper to generate the DOM element
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     __create : function()
     {
@@ -531,7 +531,7 @@ qx.Class.define("qx.html2.Element",
      *
      * @type member
      * @param child {var} the element to add
-     * @return {void} 
+     * @return {void}
      * @throws an exception if the given element is already a child
      *     of this element
      */
@@ -559,7 +559,7 @@ qx.Class.define("qx.html2.Element",
      *
      * @type member
      * @param child {qx.html2.Element} the removed element
-     * @return {void} 
+     * @return {void}
      * @throws an exception if the given element is not a child
      *     of this element
      */
@@ -848,7 +848,7 @@ qx.Class.define("qx.html2.Element",
      *
      * @type member
      * @param el {Element} the dom element to set
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     setElement : function(el)
@@ -955,7 +955,7 @@ qx.Class.define("qx.html2.Element",
 
     /**
      * Set up the HTML content of this element
-     * 
+     *
      * Please note that you can only use one content type:
      * children, HTML or text
      *
@@ -988,7 +988,7 @@ qx.Class.define("qx.html2.Element",
 
     /**
      * Set up the text content of this element
-     * 
+     *
      * Please note that you can only use one content type:
      * children, HTML or text
      *

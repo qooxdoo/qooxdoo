@@ -528,7 +528,7 @@ qx.Class.define("qx.html2.KeyEventHandler",
      * @param charCode {String} character code
      * @param eventType {String} type of the event (keydown, keypress, keyup)
      * @param domEvent {Element} DomEvent
-     * @return {void} 
+     * @return {void}
      */
     _idealKeyHandler : function(keyCode, charCode, eventType, domEvent)
     {

@@ -219,7 +219,7 @@ qx.Class.define("qx.html2.Event",
      * @param elementHash {Integer} The hash value of the DOM element, the
      *       event is currently dispatched on.
      * @param domEvent {Event} DOM event
-     * @return {void} 
+     * @return {void}
      */
     __initEvent : function(elementHash, domEvent)
     {

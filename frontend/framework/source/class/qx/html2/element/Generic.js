@@ -101,7 +101,7 @@ qx.Class.define("qx.html2.element.Generic",
      *
      * @type static
      * @param statics {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     __init : function(statics)
     {
