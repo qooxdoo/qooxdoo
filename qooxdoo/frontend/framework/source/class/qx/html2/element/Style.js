@@ -60,12 +60,12 @@ qx.Class.define("qx.html2.element.Style",
      * Sets the value of a style property
      *
      * @type static
-     * @param el {Element} The DOM element to modify
+     * @param element {Element} The DOM element to modify
      * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)
      * @param value {var} the value for the given style
      * @return {void}
      */
-    set : function(el, name, value)
+    set : function(element, name, value)
     {
       var hints = this.__hints;
 
@@ -73,7 +73,7 @@ qx.Class.define("qx.html2.element.Style",
       name = hints.names[name] || name;
 
       // apply style
-      el.style[name] = value || "";
+      element.style[name] = value || "";
     },
 
 
@@ -81,9 +81,9 @@ qx.Class.define("qx.html2.element.Style",
      * Returns the computed value of a style property
      *
      * @type static
-     * @param el {Element} The DOM element to query
+     * @param element {Element} The DOM element to query
      * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)
-     * @signature function(el, name)
+     * @signature function(element, name)
      * @return {var} the value of the given style
      */
     get : qx.core.Variant.select("qx.client",
@@ -92,7 +92,7 @@ qx.Class.define("qx.html2.element.Style",
       // This is a propertiery property on mshtml.
       // Opera supports currentStyle, too, which is also faster
       // than evaluating using style+getComputedStyle
-      "mshtml|opera" : function(el, name)
+      "mshtml|opera" : function(element, name)
       {
         var hints = this.__hints;
 
@@ -100,7 +100,7 @@ qx.Class.define("qx.html2.element.Style",
         name = hints.names[name] || name;
 
         // read out computed style
-        var value = el.currentStyle[name];
+        var value = element.currentStyle[name];
 
         // auto should be interpreted as null
         return value === "auto" ? null : value;
@@ -114,7 +114,7 @@ qx.Class.define("qx.html2.element.Style",
       //
       // On a computed style object all properties are read-only which is
       // identical to the behavior of MSHTML's "currentStyle".
-      "default" : function(el, name)
+      "default" : function(element, name)
       {
         var hints = this.__hints;
 
@@ -123,14 +123,14 @@ qx.Class.define("qx.html2.element.Style",
 
         // read out explicit style:
         // faster than the method call later
-        var value = el.style[name];
+        var value = element.style[name];
 
         // otherwise try computed value
         if (!value)
         {
           // Opera, Mozilla and Safari 3+ also have a global getComputedStyle which is identical
           // to the one found under document.defaultView.
-          var computed = getComputedStyle(el, null);
+          var computed = getComputedStyle(element, null);
 
           // All relevant browsers expose the configured style properties to the CSSStyleDeclaration
           // objects

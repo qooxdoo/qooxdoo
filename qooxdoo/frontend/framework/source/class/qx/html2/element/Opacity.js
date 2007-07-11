@@ -61,22 +61,22 @@ qx.Class.define("qx.html2.element.Opacity",
      * where "0" means transparent, "1" means opaque.
      *
      * @type static
-     * @param el {Element} DOM element to modify
+     * @param element {Element} DOM element to modify
      * @param opacity {Float} A float number between 0 and 1
      * @return {void}
-     * @signature function(el, opacity)
+     * @signature function(element, opacity)
      */
     set : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(el, opacity)
+      "mshtml" : function(element, opacity)
       {
         // Read in computed filter
-        var filter = this.__style.get(el, "filter");
+        var filter = this.__style.get(element, "filter");
 
         // Remove opacity filter
         if (opacity >= 1)
         {
-          el.style.filter = filter.replace(/alpha\([^\)]*\)/gi, "");
+          element.style.filter = filter.replace(/alpha\([^\)]*\)/gi, "");
           return;
         }
 
@@ -86,15 +86,15 @@ qx.Class.define("qx.html2.element.Opacity",
 
         // IE has trouble with opacity if it does not have layout (hasLayout)
         // Force it by setting the zoom level
-        if (!el.currentStyle.hasLayout) {
-          el.style.zoom = 1;
+        if (!element.currentStyle.hasLayout) {
+          element.style.zoom = 1;
         }
 
         // Remove old alpha filter and add new one
-        el.style.filter = filter.replace(/alpha\([^\)]*\)/gi, "") + "alpha(opacity=" + opacity * 100 + ")";
+        element.style.filter = filter.replace(/alpha\([^\)]*\)/gi, "") + "alpha(opacity=" + opacity * 100 + ")";
       },
 
-      "gecko" : function(el, opacity)
+      "gecko" : function(element, opacity)
       {
         // Animations look better when not using 1.0 in gecko
         if (opacity == 1) {
@@ -102,19 +102,19 @@ qx.Class.define("qx.html2.element.Opacity",
         }
 
         if (qx.html2.client.Engine.VERSION < 1.7) {
-          el.style.MozOpacity = opacity;
+          element.style.MozOpacity = opacity;
         } else {
-          el.style.opacity = opacity;
+          element.style.opacity = opacity;
         }
       },
 
-      "default" : function(el, opacity)
+      "default" : function(element, opacity)
       {
         if (opacity == 1) {
           opacity = "";
         }
 
-        el.style.opacity = opacity;
+        element.style.opacity = opacity;
       }
     }),
 
@@ -124,15 +124,15 @@ qx.Class.define("qx.html2.element.Opacity",
      * where "0" means transparent, "1" means opaque.
      *
      * @type static
-     * @param el {Element} DOM element to modify
+     * @param element {Element} DOM element to modify
      * @return {Float} A float number between 0 and 1
-     * @signature function(el)
+     * @signature function(element)
      */
     get : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(el)
+      "mshtml" : function(element)
       {
-        var filter = this.__style.get(el, "filter");
+        var filter = this.__style.get(element, "filter");
 
         if (filter)
         {
@@ -146,9 +146,9 @@ qx.Class.define("qx.html2.element.Opacity",
         return 1.0;
       },
 
-      "gecko" : function(el)
+      "gecko" : function(element)
       {
-        var opacity = this.__style.get(el, qx.html2.client.Engine.VERSION < 1.7 ? "MozOpacity" : "opacity");
+        var opacity = this.__style.get(element, qx.html2.client.Engine.VERSION < 1.7 ? "MozOpacity" : "opacity");
 
         if (opacity == 0.999999) {
           opacity = 1.0;
@@ -161,9 +161,9 @@ qx.Class.define("qx.html2.element.Opacity",
         return 1.0;
       },
 
-      "default" : function(el)
+      "default" : function(element)
       {
-        var opacity = this.__style.get(el, "opacity");
+        var opacity = this.__style.get(element, "opacity");
 
         if (opacity != null) {
           return parseFloat(opacity);

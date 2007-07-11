@@ -24,38 +24,38 @@ qx.Class.define("qx.html2.element.Tree",
     /**
      * Return the next element to the supplied element
      *
-     * "nextSibling" is not good enough as it might return a text or comment el
+     * "nextSibling" is not good enough as it might return a text or comment element
      *
      * @type static
-     * @param el {Element} Starting element node
+     * @param element {Element} Starting element node
      * @return {Element | null} Next element node
      */
-    getNextElementSibling : function(el)
+    getNextElementSibling : function(element)
     {
-      while (el && (el = el.nextSibling) && !this.isElement(el)) {
+      while (element && (element = element.nextSibling) && !this.isElement(element)) {
         continue;
       }
 
-      return el || null;
+      return element || null;
     },
 
 
     /**
      * Return the previous element to the supplied element
      *
-     * "previousSibling" is not good enough as it might return a text or comment el
+     * "previousSibling" is not good enough as it might return a text or comment element
      *
      * @type static
-     * @param el {Element} Starting element node
+     * @param element {Element} Starting element node
      * @return {Element | null} Previous element node
      */
-    getPreviousElementSibling : function(el)
+    getPreviousElementSibling : function(element)
     {
-      while (el && (el = el.previousSibling) && !this.isElement(el)) {
+      while (element && (element = element.previousSibling) && !this.isElement(element)) {
         continue;
       }
 
-      return el || null;
+      return element || null;
     },
 
 
@@ -97,19 +97,19 @@ qx.Class.define("qx.html2.element.Tree",
      * Uses native non-standard contains() in Opera and Internet Explorer
      *
      * @type static
-     * @param el {Element} Parent element
+     * @param element {Element} Parent element
      * @param target {Node} Child node
      * @return {Boolean}
      */
     contains : qx.core.Variant.select("qx.client",
     {
-      "mshtml|opera" : function(el, target) {
-        return this.isDocument(el) ? el === this.getOwnerDocument(target) : el !== target && el.contains(target);
+      "mshtml|opera" : function(element, target) {
+        return this.isDocument(element) ? element === this.getOwnerDocument(target) : element !== target && element.contains(target);
       },
 
-      "default" : function(el, target)
+      "default" : function(element, target)
       {
-        while (target && (target = target.parentNode) && el != target) {
+        while (target && (target = target.parentNode) && element != target) {
           continue;
         }
 
@@ -122,12 +122,12 @@ qx.Class.define("qx.html2.element.Tree",
      * Checks if <code>element</code> is a descendant of <code>ancestor</code>.
      *
      * @type static
-     * @param el {Element} first element
+     * @param element {Element} first element
      * @param ancestor {Element} second element
      * @return {var} TODOC
      */
-    descendantOf : function(el, ancestor) {
-      return this.contains(ancestor, el);
+    descendantOf : function(element, ancestor) {
+      return this.contains(ancestor, element);
     },
 
 
@@ -138,64 +138,64 @@ qx.Class.define("qx.html2.element.Tree",
      * Uses native non-standard contains() in Opera and Internet Explorer
      *
      * @type static
-     * @param el1 {Element} First element
-     * @param el1 {Element} Second element
+     * @param element1 {Element} First element
+     * @param element1 {Element} Second element
      * @return {Element|null} Common parent
      */
     getCommonParent : qx.core.Variant.select("qx.client",
     {
-      "mshtml|opera" : function(el1, el2)
+      "mshtml|opera" : function(element1, element2)
       {
-        if (el1 === el2) {
-          return el1;
+        if (element1 === element2) {
+          return element1;
         }
 
-        while (el1)
+        while (element1)
         {
-          if (el1.contains(el2)) {
-            return el1;
+          if (element1.contains(element2)) {
+            return element1;
           }
 
-          el1 = el1.parentNode;
+          element1 = element1.parentNode;
         }
 
         return null;
       },
 
-      "default" : function(el1, el2)
+      "default" : function(element1, element2)
       {
-        if (el1 === el2) {
-          return el1;
+        if (element1 === element2) {
+          return element1;
         }
 
         var known = {};
         var obj = qx.core.Object;
         var h1, h2;
 
-        while (el1 || el2)
+        while (element1 || element2)
         {
-          if (el1)
+          if (element1)
           {
-            h1 = obj.toHashCode(el1);
+            h1 = obj.toHashCode(element1);
 
             if (known[h1]) {
               return known[h1];
             }
 
-            known[h1] = el1;
-            el1 = el1.parentNode;
+            known[h1] = element1;
+            element1 = element1.parentNode;
           }
 
-          if (el2)
+          if (element2)
           {
-            h2 = obj.toHashCode(el2);
+            h2 = obj.toHashCode(element2);
 
             if (known[h2]) {
               return known[h2];
             }
 
-            known[h2] = el2;
-            el2 = el2.parentNode;
+            known[h2] = element2;
+            element2 = element2.parentNode;
           }
         }
 
@@ -351,27 +351,27 @@ qx.Class.define("qx.html2.element.Tree",
 
 
     /**
-     * Replaces <code>el</code> by the content of the <code>html</code> argument
-     * and returns the removed <code>el</code>.
+     * Replaces <code>element</code> by the content of the <code>html</code> argument
+     * and returns the removed <code>element</code>.
      *
      * @type static
-     * @param el {Element} element to replace
+     * @param element {Element} element to replace
      * @param html {String} HTML string
      * @return {Element} TODOC
      */
-    replaceWithHTML : function(el, html)
+    replaceWithHTML : function(element, html)
     {
-      if (el.outerHTML) {
-        el.outerHTML = html;
+      if (element.outerHTML) {
+        element.outerHTML = html;
       }
       else
       {
-        var range = el.ownerDocument.createRange();
-        range.selectNode(el);
-        el.parentNode.replaceChild(range.createContextualFragment(html), el);
+        var range = element.ownerDocument.createRange();
+        range.selectNode(element);
+        element.parentNode.replaceChild(range.createContextualFragment(html), element);
       }
 
-      return el;
+      return element;
     },
 
 
@@ -380,20 +380,20 @@ qx.Class.define("qx.html2.element.Tree",
      * Inspired by Base2 (Dean Edwards)
      *
      * @type static
-     * @param el {Element} The element to check
+     * @param element {Element} The element to check
      * @return {Boolean} true when the element is empty
      */
-    isEmpty : function(el)
+    isEmpty : function(element)
     {
-      el = el.firstChild;
+      element = element.firstChild;
 
-      while (el)
+      while (element)
       {
-        if (el.nodeType === qx.dom.Node.ELEMENT || el.nodeType === qx.dom.Node.TEXT) {
+        if (element.nodeType === qx.dom.Node.ELEMENT || element.nodeType === qx.dom.Node.TEXT) {
           return false;
         }
 
-        el = el.nextSibling;
+        element = element.nextSibling;
       }
 
       return true;
@@ -404,19 +404,19 @@ qx.Class.define("qx.html2.element.Tree",
      * Removes all of element's text nodes which contain only whitespace
      *
      * @type static
-     * @param el {Element} Element to cleanup
+     * @param element {Element} Element to cleanup
      * @return {void}
      */
-    cleanWhitespace : function(el)
+    cleanWhitespace : function(element)
     {
-      var node = el.firstChild;
+      var node = element.firstChild;
 
       while (node)
       {
         var nextNode = node.nextSibling;
 
         if (node.nodeType == 3 && !/\S/.test(node.nodeValue)) {
-          el.removeChild(node);
+          element.removeChild(node);
         }
 
         node = nextNode;
@@ -428,11 +428,11 @@ qx.Class.define("qx.html2.element.Tree",
      * Removes all content from the given element
      *
      * @type static
-     * @param el {Element} element to clean
+     * @param element {Element} element to clean
      * @return {String} empty string (new HTML content)
      */
-    makeEmpty : function(el) {
-      return el.innerHTML = "";
+    makeEmpty : function(element) {
+      return element.innerHTML = "";
     }
   }
 });
