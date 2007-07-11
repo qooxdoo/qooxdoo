@@ -55,19 +55,17 @@ qx.Class.define("qx.html2.element.Class",
      * Adds a className to the given element
      * If successfully added the given className will be returned
      *
-     * Inspired by Dean Edwards' Base2
-     *
      * @type static
      * @param element {Element} The element to modify
      * @param className {String} The new class name
      * @return {String} The added classname (if so)
      */
-    add : function(element, className)
+    add : function(element, name)
     {
-      if (!this.has(element, className))
+      if (!this.has(element, name))
       {
-        element.className += (element.className ? " " : "") + className;
-        return className;
+        element.className += (element.className ? " " : "") + name;
+        return name;
       }
     },
 
@@ -75,16 +73,14 @@ qx.Class.define("qx.html2.element.Class",
     /**
      * Whether the given element has the given className.
      *
-     * Inspired by Dean Edwards' Base2
-     *
      * @type static
      * @param element {Element} The DOM element to check
-     * @param className {String} The class name to check for
-     * @return {var} TODOC
+     * @param name {String} The class name to check for
+     * @return {Boolean} true when the element has the given classname
      */
-    has : function(element, className)
+    has : function(element, name)
     {
-      var regexp = new RegExp("(^|\\s)" + className + "(\\s|$)");
+      var regexp = new RegExp("(^|\\s)" + name + "(\\s|$)");
       return regexp.test(element.className);
     },
 
@@ -92,19 +88,32 @@ qx.Class.define("qx.html2.element.Class",
     /**
      * Removes a className from the given element
      *
-     * Inspired by Dean Edwards' Base2
-     *
      * @type static
      * @param element {Element} The DOM element to modify
-     * @param className {String} The class name to remove
+     * @param name {String} The class name to remove
      * @return {String} The removed class name
      */
-    remove : function(element, className)
+    remove : function(element, name)
     {
-      var regexp = new RegExp("(^|\\s)" + className + "(\\s|$)");
+      var regexp = new RegExp("(^|\\s)" + name + "(\\s|$)");
       element.className = element.className.replace(regexp, "$2");
 
-      return className;
+      return name;
+    },
+    
+    
+    /**
+     * Replaces the first given class name with the second one
+     *
+     * @param element {Element} The DOM element to modify
+     * @param oldName {String} The class name to remove
+     * @param newName {String} The class name to add
+     * @return {String} The added class name
+     */
+    replace : function(element, oldName, newName)
+    {
+      this.remove(element, oldName);
+      return this.add(element, newName);
     }
   }
 });
