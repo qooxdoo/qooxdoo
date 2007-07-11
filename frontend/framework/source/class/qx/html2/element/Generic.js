@@ -49,22 +49,22 @@ qx.Class.define("qx.html2.element.Generic",
      * Applies the given attribute or style to the element
      *
      * @type static
-     * @param el {Element} DOM element to modify
+     * @param element {Element} DOM element to modify
      * @param key {String} Name of attribute or style
      * @param value {var} Any acceptable value for the given attribute or style
      * @return {var} TODOC
      * @throws TODOC
      */
-    set : function(el, key, value)
+    set : function(element, key, value)
     {
       var gen = this.__generic;
 
       if (gen.attributesMap[key]) {
-        return this.setAttribute(el, key, value);
+        return this.setAttribute(element, key, value);
       } else if (gen.stylesMap[key]) {
-        return this.setStyle(el, key, value);
+        return this.setStyle(element, key, value);
       } else if (gen.customMap[key]) {
-        return this[gen.customMap[key].set](el, key, value);
+        return this[gen.customMap[key].set](element, key, value);
       }
 
       throw new Error("Generic set() has no informations about: " + key);
@@ -75,21 +75,21 @@ qx.Class.define("qx.html2.element.Generic",
      * TODOC
      *
      * @type static
-     * @param el {Element} TODOC
+     * @param element {Element} TODOC
      * @param key {var} TODOC
      * @return {var} TODOC
      * @throws TODOC
      */
-    get : function(el, key)
+    get : function(element, key)
     {
       var gen = this.__generic;
 
       if (gen.attributesMap[key]) {
-        return this.getAttribute(el, key);
+        return this.getAttribute(element, key);
       } else if (gen.stylesMap[key]) {
-        return this.getStyle(el, key);
+        return this.getStyle(element, key);
       } else if (gen.customMap[key]) {
-        return this[gen.customMap[key].get](el, key);
+        return this[gen.customMap[key].get](element, key);
       }
 
       throw new Error("Generic get() has no informations about: " + key);
