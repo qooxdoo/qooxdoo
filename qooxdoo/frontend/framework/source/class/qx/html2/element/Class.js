@@ -62,11 +62,11 @@ qx.Class.define("qx.html2.element.Class",
      */
     add : function(element, name)
     {
-      if (!this.has(element, name))
-      {
+      if (!this.has(element, name)) {
         element.className += (element.className ? " " : "") + name;
-        return name;
       }
+      
+      return name;
     },
 
 
