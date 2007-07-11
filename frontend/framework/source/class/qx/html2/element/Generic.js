@@ -30,21 +30,21 @@ qx.Class.define("qx.html2.element.Generic",
      STATICS
   *****************************************************************************
   */
-  
+
   statics :
   {
     /** This internal data will be automatically translated to a full blown map structure in __init */
     __generic :
     {
-      attributes : 
+      attributes :
       [
         "class", "text", "html", "name", "id", "href", "src", "type", "for",
-        "colspan", "rowspan", "valign", "datetime", "accesskey", "tabindex", 
-        "enctype", "maxlength", "readonly", "longdesc", "disabled", "checked", 
+        "colspan", "rowspan", "valign", "datetime", "accesskey", "tabindex",
+        "enctype", "maxlength", "readonly", "longdesc", "disabled", "checked",
         "multiple", "selected", "value"
       ],
-      
-      styles : 
+
+      styles :
       [
         "minWidth", "width", "maxWidth",
         "minHeight", "height", "maxHeight",
@@ -58,18 +58,18 @@ qx.Class.define("qx.html2.element.Generic",
         "float", "clear",
         "color", "backgroundColor"
       ],
-      
-      custom : 
+
+      custom :
       [
         "opacity"
-      ] 
+      ]
     },
-    
-    
+
+
     /**
      * Applies the given attribute or style to the element
      *
-     * @type 
+     * @type
      * @param el {Element} DOM element to modify
      * @param key {String} Name of attribute or style
      * @param value {var} Any acceptable value for the given attribute or style
@@ -77,7 +77,7 @@ qx.Class.define("qx.html2.element.Generic",
     set : function(el, key, value)
     {
       var gen = this.__generic;
-      
+
       if (gen.attributesMap[key]) {
         return this.setAttribute(el, key, value);
       } else if (gen.stylesMap[key]) {
@@ -85,11 +85,11 @@ qx.Class.define("qx.html2.element.Generic",
       } else if (gen.customMap[key]) {
         return this[gen.customMap[key].set](el, key, value);
       }
-      
+
       throw new Error("Generic set() has no informations about: " + key);
     },
-    
-    
+
+
     /**
      *
      *
@@ -97,7 +97,7 @@ qx.Class.define("qx.html2.element.Generic",
     get : function(el, key)
     {
       var gen = this.__generic;
-      
+
       if (gen.attributesMap[key]) {
         return this.getAttribute(el, key);
       } else if (gen.stylesMap[key]) {
@@ -105,11 +105,11 @@ qx.Class.define("qx.html2.element.Generic",
       } else if (gen.customMap[key]) {
         return this[gen.customMap[key].get](el, key);
       }
-      
-      throw new Error("Generic get() has no informations about: " + key);      
+
+      throw new Error("Generic get() has no informations about: " + key);
     },
-    
-    
+
+
     /**
      *
      *
@@ -117,15 +117,15 @@ qx.Class.define("qx.html2.element.Generic",
     __init : function(statics)
     {
       var generic = this.__generic;
-      var map = 
+      var map =
       {
-        attributes : {},  
+        attributes : {},
         styles : {},
         custom : {}
       };
-      
+
       var name, hints, data;
-      
+
       // Process attributes
       hints = qx.html2.element.Attribute.__hints.names;
       source = generic.attributes;
@@ -135,10 +135,10 @@ qx.Class.define("qx.html2.element.Generic",
         name = source[i];
         target[name] = true;
         if (hints[name]) {
-          target[hints[name]] = true; 
+          target[hints[name]] = true;
         }
       }
-      
+
       // Process styles
       hints = qx.html2.element.Style.__hints.names;
       source = generic.styles;
@@ -148,10 +148,10 @@ qx.Class.define("qx.html2.element.Generic",
         name = source[i];
         target[name] = true;
         if (hints[name]) {
-          target[hints[name]] = true; 
+          target[hints[name]] = true;
         }
-      }      
-      
+      }
+
       // Process custom
       source = generic.custom;
       target = map.custom;
@@ -162,14 +162,14 @@ qx.Class.define("qx.html2.element.Generic",
         name = source[i];
         up = str.toFirstUp(name);
         target[name] = { set : "set" + up, get : "get" + up };
-      }       
-      
+      }
+
       // Replace old array with new map
       this.__generic = map;
     }
   },
-  
-  
+
+
 
 
   /*

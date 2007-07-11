@@ -93,21 +93,21 @@ qx.Class.define("qx.html2.element.Util",
      */
     isDocument : function(node) {
       return !!(node && node.nodeType === qx.dom.Node.DOCUMENT);
-    },    
-    
-    
-    
-    
-    
-    
-    
-    
+    },
+
+
+
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       STRING HELPERS
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Converts a script style property name to the CSS variant e.g. marginTop => margin-top
      *
@@ -133,8 +133,8 @@ qx.Class.define("qx.html2.element.Util",
         return chr.toUpperCase();
       });
     },
-    
-    
+
+
 
 
 
@@ -143,7 +143,7 @@ qx.Class.define("qx.html2.element.Util",
       ELEMENT CSS
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Set the full CSS content of the style attribute
      *

@@ -57,8 +57,8 @@ qx.Class.define("qx.html2.element.Tree",
 
       return el || null;
     },
-    
-    
+
+
     /**
      * Returns the owner document of the given node
      *
@@ -109,7 +109,7 @@ qx.Class.define("qx.html2.element.Tree",
           el === this.getOwnerDocument(target) :
           el !== target && el.contains(target);
       },
-      
+
       "default" : function(el, target)
       {
         while (target && (target = target.parentNode) && el != target) {
@@ -118,22 +118,22 @@ qx.Class.define("qx.html2.element.Tree",
 
         return !!target;
       }
-    }),      
-    
-    
+    }),
+
+
     /**
      * Checks if <code>element</code> is a descendant of <code>ancestor</code>.
      *
      * @param el {Element} first element
      * @param ancestor {Element} second element
-     */    
+     */
     descendantOf : function(el, ancestor) {
       return this.contains(ancestor, el);
-    },     
-    
+    },
+
 
     /**
-     * Get the common parent element of two given elements. Returns 
+     * Get the common parent element of two given elements. Returns
      * <code>null</code> when no common element has been found.
      *
      * Uses native non-standard contains() in Opera and Internet Explorer
@@ -146,175 +146,175 @@ qx.Class.define("qx.html2.element.Tree",
     getCommonParent : qx.core.Variant.select("qx.client",
     {
       "mshtml|opera" : function(el1, el2)
-      { 
+      {
         if (el1 === el2) {
-          return el1;  
+          return el1;
         }
-        
+
         while(el1)
         {
           if (el1.contains(el2)) {
-            return el1; 
+            return el1;
           }
-          
+
           el1 = el1.parentNode;
         }
-        
+
         return null;
       },
-            
+
       "default" : function(el1, el2)
       {
         if (el1 === el2) {
-          return el1;  
+          return el1;
         }
 
         var known = {};
         var obj = qx.core.Object;
         var h1, h2;
-        
+
         while(el1 || el2)
         {
-          if (el1) 
+          if (el1)
           {
             h1 = obj.toHashCode(el1);
-            
+
             if (known[h1]) {
               return known[h1];
             }
-            
+
             known[h1] = el1;
             el1 = el1.parentNode;
           }
-          
-          if (el2) 
+
+          if (el2)
           {
             h2 = obj.toHashCode(el2);
-            
+
             if (known[h2]) {
               return known[h2];
             }
-            
+
             known[h2] = el2;
-            el2 = el2.parentNode; 
+            el2 = el2.parentNode;
           }
         }
-        
+
         return null;
       }
     }),
 
-    
+
     /**
      * Completely removes element from the document and returns it.
-     */    
-    remove: function(element) 
+     */
+    remove: function(element)
     {
       element.parentNode.removeChild(element);
       return element;
     },
-        
-        
+
+
     /**
      * Collects all of element's ancestors and returns them as an array elements.
-     */    
+     */
     ancestors: function(element) {
       return element.recursivelyCollect("parentNode");
     },
-    
-    
+
+
     /**
      * Returns element's children.
-     */  
-    childElements: function(element) 
+     */
+    childElements: function(element)
     {
       element = element.firstChild;
-      
+
       if (!element) {
         return [];
       }
-      
+
       while (element && element.nodeType != 1) {
         element = element.nextSibling;
       }
-      
+
       if (element) {
         return [element].concat(element.nextSiblings());
       }
-      
+
       return [];
-    }, 
-    
-    
+    },
+
+
     /**
      * Collects all of element's descendants and returns them as an array elements.
-     */  
+     */
     descendants: function(element) {
       return qx.lang.Array.fromCollection(element.getElementsByTagName("*"));
     },
-    
-    
+
+
     /**
-     * Returns the first child that is an element. This is opposed to firstChild DOM 
+     * Returns the first child that is an element. This is opposed to firstChild DOM
      * property which will return any node (whitespace in most usual cases).
-     */  
-    firstDescendant: function(element) 
+     */
+    firstDescendant: function(element)
     {
       element = element.firstChild;
-      
+
       while (element && element.nodeType != 1) {
         element = element.nextSibling;
       }
-      
+
       return element;
     },
-    
-    
+
+
     /**
      * Collects all of element's previous siblings and returns them as an array elements.
-     */  
+     */
     previousSiblings: function(element) {
       return this.recursivelyCollect(element, "previousSibling");
     },
-    
-    
+
+
     /**
      * Collects all of element's next siblings and returns them as an array elements.
-     */  
+     */
     nextSiblings: function(element) {
       return this.recursivelyCollect(element, "nextSibling");
     },
-    
-    
+
+
     /**
-     * Recursively collects elements whose relationship is specified by property. 
-     * <code>property</code> has to be a property (a method won't do!) of element 
+     * Recursively collects elements whose relationship is specified by property.
+     * <code>property</code> has to be a property (a method won't do!) of element
      * that points to a single DOM node. Returns an array elements.
      */
-    recursivelyCollect: function(element, property) 
+    recursivelyCollect: function(element, property)
     {
       var list = [];
-      
+
       while (element = element[property])
       {
         if (element.nodeType == 1) {
           list.push(element);
         }
       }
-          
+
       return list;
     },
-    
-  
+
+
     /**
      * Collects all of element's siblings and returns them as an array of elements.
      */
     siblings: function(element) {
       return this.previousSiblings(element).reverse().concat(this.nextSiblings(element));
-    },                  
-    
-    
-    
+    },
+
+
+
 
 
 
@@ -322,7 +322,7 @@ qx.Class.define("qx.html2.element.Tree",
 
 
     /**
-     * Replaces <code>el</code> by the content of the <code>html</code> argument 
+     * Replaces <code>el</code> by the content of the <code>html</code> argument
      * and returns the removed <code>el</code>.
      *
      * Mimics Prototype's <code>dom.replace()</code>
@@ -330,23 +330,23 @@ qx.Class.define("qx.html2.element.Tree",
      * @param el {Element} element to replace
      * @param html {String} HTML string
      */
-    replaceWithHTML : function(el, html) 
+    replaceWithHTML : function(el, html)
     {
-      if (el.outerHTML) 
+      if (el.outerHTML)
       {
         el.outerHTML = html;
-      } 
-      else 
+      }
+      else
       {
         var range = el.ownerDocument.createRange();
         range.selectNode(el);
         el.parentNode.replaceChild(range.createContextualFragment(html), el);
       }
-      
+
       return el;
     },
-    
-    
+
+
     /**
      * Whether the given element is empty
      *
@@ -398,8 +398,8 @@ qx.Class.define("qx.html2.element.Tree",
         node = nextNode;
       }
     },
-    
-    
+
+
     /**
      * Removes all content from the given element
      *
@@ -409,6 +409,6 @@ qx.Class.define("qx.html2.element.Tree",
      */
     makeEmpty : function(el) {
       return el.innerHTML = "";
-    }    
-  }  
+    }
+  }
 });
