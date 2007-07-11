@@ -23,6 +23,22 @@
 
 ************************************************************************ */
 
+/**
+ * The intention of this class is to bring more convenience to the attribute
+ * and style features implemented by the other classes. It wraps the features
+ * multiple classes in one unique interface.
+ * 
+ * There is a automatic detection if the given name should be interpreted
+ * as HTML property, attribute or style. It even supports complex 
+ * setter/getter pairs like opacity. All these features are usable through
+ * the same interface by just using the name of the attribute/style etc. to
+ * modify/query.
+ *
+ * This class is optimized for performance, but is not as optimal in performance
+ * aspects than the more native implementations. For all highly performance
+ * crititcal areas like animations it would be the best to directly use the
+ * classes which contains the implementations.
+ */
 qx.Class.define("qx.html2.element.Generic",
 {
   /*
@@ -33,20 +49,48 @@ qx.Class.define("qx.html2.element.Generic",
 
   statics :
   {
-
-    /** This internal data will be automatically translated to a full blown map structure in __init */
+    /** 
+     * This internal data will be automatically translated to a full blown 
+     * map structure in __init()
+     */
     __generic :
     {
-      attributes : [ "class", "text", "html", "name", "id", "href", "src", "type", "for", "colspan", "rowspan", "valign", "datetime", "accesskey", "tabindex", "enctype", "maxlength", "readonly", "longdesc", "disabled", "checked", "multiple", "selected", "value" ],
-
-      styles : [ "minWidth", "width", "maxWidth", "minHeight", "height", "maxHeight", "top", "right", "bottom", "left", "border", "borderTop", "borderRight", "borderBottom", "borderLeft", "margin", "marginTop", "marginRight", "marginBottom", "marginLeft", "padding", "paddingTop", "paddingRight", "paddingBottom", "paddingLeft", "float", "clear", "color", "backgroundColor" ],
-
-      custom : [ "opacity" ]
+      attributes : 
+      [ 
+        "class", "text", "html", "name", "id", 
+        "href", "src", "type", "for", 
+        "colspan", "rowspan", "valign", "datetime", "accesskey", 
+        "tabindex", "enctype", "maxlength", "readonly", "longdesc", 
+        "disabled", "checked", "multiple", "selected", "value" 
+      ],
+      
+      styles : 
+      [ 
+        "minWidth", "width", "maxWidth", 
+        "minHeight", "height", "maxHeight", 
+        "top", "right", "bottom", "left", 
+        "border", 
+        "borderTop", "borderRight", "borderBottom", "borderLeft", 
+        "margin", 
+        "marginTop", "marginRight", "marginBottom", "marginLeft", 
+        "padding", 
+        "paddingTop", "paddingRight", "paddingBottom", "paddingLeft", 
+        "float", "clear", 
+        "color", "backgroundColor" 
+      ],
+      
+      custom : 
+      [ 
+        "opacity" 
+      ]
     },
 
 
     /**
-     * Applies the given attribute or style to the element
+     * Applies the given attribute or style to the element.
+     * Automatically determines if the given key should be
+     * interpreted as a style property, attribute name, or
+     * custom setter.
      *
      * @type static
      * @param element {Element} DOM element to modify
@@ -72,7 +116,10 @@ qx.Class.define("qx.html2.element.Generic",
 
 
     /**
-     * TODOC
+     * Returns the given attribute or style of the element.
+     * Automatically determines if the given key should be
+     * interpreted as a style property, attribute name, or
+     * custom setter.
      *
      * @type static
      * @param element {Element} TODOC
@@ -97,7 +144,9 @@ qx.Class.define("qx.html2.element.Generic",
 
 
     /**
-     * TODOC
+     * Preprocesses and translates <code>__generic</code> data
+     * structure and creates a larger but faster accessible table
+     * for later usage.
      *
      * @type static
      * @param statics {var} TODOC
