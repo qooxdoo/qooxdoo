@@ -55,7 +55,7 @@ qx.Class.define("qx.html2.Viewport",
     getWidth : qx.html2.Client.select(
     {
       "webkit419" : function() {
-        return self.innerWidth;
+        return window.innerWidth;
       },
 
       "quirks_mode|opera" : function() {
@@ -77,7 +77,7 @@ qx.Class.define("qx.html2.Viewport",
     getHeight : qx.html2.Client.select(
     {
       "webkit419" : function() {
-        return self.innerHeight;
+        return window.innerHeight;
       },
 
       "quirks_mode|opera" : function() {
@@ -89,14 +89,48 @@ qx.Class.define("qx.html2.Viewport",
       }
     }),
 
-    getScrollLeft: function(){
-      // TODO: quirks mode
-      return window.pageXOffset || document.documentElement.scrollLeft;
-    },
 
-    getScrollTop: function(){
-      // TODO: quirks mode
-      return window.pageYOffset || document.documentElement.scrollTop;
-    }
+    /**
+     * Returns the scroll position of the viewport
+     *
+     * @type static
+     * @return {Integer} Scroll position from left edge, always a positive integer
+     */
+    getScrollLeft : qx.html2.Client.select(
+    {
+      "gecko" : function() {
+        return window.pageXOffset;
+      },
+      
+      "standard_mode" : function() {
+        return document.documentElement.scrollLeft;
+      },
+      
+      "quirks_mode" : function() {
+        return document.body.scrollLeft;
+      }
+    }),
+
+
+    /**
+     * Returns the scroll position of the viewport
+     *
+     * @type static
+     * @return {Integer} Scroll position from left edge, always a positive integer
+     */
+    getScrollTop : qx.html2.Client.select(
+    {
+      "gecko" : function() {
+        return window.pageYOffset;
+      },
+      
+      "standard_mode" : function() {
+        return document.documentElement.scrollTop;
+      },
+      
+      "quirks_mode" : function() {
+        return document.body.scrollTop;
+      }
+    })
   }
 });
