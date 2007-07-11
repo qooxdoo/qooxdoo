@@ -49,12 +49,16 @@ qx.Class.define("qx.html2.Viewport",
     /**
      * Returns the current width of the viewport.
      *
+     * Opera always implements the quirks mode handler.
+     * Webkit, even as of Safari 3 beta, have no working 
+     *   clientWidth property - but innerWidth does the job
+     *
      * @type static
      * @return {Integer} The width of the viewable area of the page (excludes scrollbars).
      */
     getWidth : qx.html2.Client.select(
     {
-      "webkit419" : function() {
+      "webkit" : function() {
         return window.innerWidth;
       },
 
@@ -71,12 +75,16 @@ qx.Class.define("qx.html2.Viewport",
     /**
      * Returns the current height of the viewport.
      *
+     * Opera always implements the quirks mode handler.
+     * Webkit, even as of Safari 3 beta, have no working 
+     *   clientHeight property - but innerWidth does the job
+     *
      * @type static
      * @return {Integer} The height of the viewable area of the page (excludes scrollbars).
      */
     getHeight : qx.html2.Client.select(
     {
-      "webkit419" : function() {
+      "webkit" : function() {
         return window.innerHeight;
       },
 
