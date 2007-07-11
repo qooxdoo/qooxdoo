@@ -40,7 +40,7 @@
 <body>
   <div id="description">
     <p>Keyhandler Test</p>
-		<p>Keyhandler test converted to use the low level event API.</p>
+		<p>This test uses the native bowser keyevents without any normalization.</p>
   </div>
 
 
@@ -68,22 +68,29 @@ qx.Class.define("BasicSample",
 
   		this.initializeLogger();
 
-      var events = ["keydown", "keypress", "keyup"];
-      for (var i=0; i<events.length; i++)
-      {
-        qx.html2.EventRegistration.addEventListener(
-          document.documentElement,
-          events[i],
-          this.logKeyEvent,
-          this
-        )
-      }
+      var keyHandler = qx.lang.Function.bind(this.logKeyEvent, this);
 
-      qx.html2.EventRegistration.addEventListener(
+      qx.html.EventRegistration.addEventListener(
+        document.documentElement,
+        "keydown",
+        keyHandler
+      );
+      qx.html.EventRegistration.addEventListener(
+        document.documentElement,
+        "keypress",
+        keyHandler
+      );
+      qx.html.EventRegistration.addEventListener(
+        document.documentElement,
+        "keyup",
+        keyHandler
+      );
+
+
+      qx.html.EventRegistration.addEventListener(
         document.getElementById("btnClear"),
         "click",
-        this.initializeLogger,
-        this
+        qx.lang.Function.bind(this.initializeLogger, this)
       );
 
     },
@@ -96,15 +103,15 @@ qx.Class.define("BasicSample",
 
     logKeyEvent: function(keyEvent)
     {
-      var eventCopy = {
-				type: keyEvent.getType(),
-				iden: keyEvent.getKeyIdentifier(),
-				keyCode: keyEvent._keyCode,
-				charCode: keyEvent.getCharCode(),
-				shift: keyEvent.isShiftPressed(),
-				alt: keyEvent.isAltPressed(),
-				ctrl: keyEvent.isCtrlPressed()
+			var eventCopy = {
+				type: keyEvent.type,
+				keyCode: keyEvent.keyCode,
+				charCode: keyEvent.charCode,
+				shift: keyEvent.shiftKey,
+				alt: keyEvent.altKey,
+				ctrl: keyEvent.ctrlKey
 			}
+
 			this.keyEvents.unshift(eventCopy);
 			this.keyEvents = this.keyEvents.slice(0, this.maxLogSize);
 			str = [this.tableHead];
