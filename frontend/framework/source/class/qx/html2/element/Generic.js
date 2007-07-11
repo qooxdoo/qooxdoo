@@ -96,8 +96,8 @@ qx.Class.define("qx.html2.element.Generic",
      * @param element {Element} DOM element to modify
      * @param key {String} Name of attribute or style
      * @param value {var} Any acceptable value for the given attribute or style
-     * @return {var} TODOC
-     * @throws TODOC
+     * @return {var} the new value
+     * @throws an exception if the given key couldn't be processed
      */
     set : function(element, key, value)
     {
@@ -122,10 +122,10 @@ qx.Class.define("qx.html2.element.Generic",
      * custom setter.
      *
      * @type static
-     * @param element {Element} TODOC
-     * @param key {var} TODOC
-     * @return {var} TODOC
-     * @throws TODOC
+     * @param element {Element} DOM element to modify
+     * @param key {String} Name of attribute or style
+     * @return {var} the resulting value
+     * @throws an exception if the given key couldn't be processed
      */
     get : function(element, key)
     {
@@ -149,10 +149,9 @@ qx.Class.define("qx.html2.element.Generic",
      * for later usage.
      *
      * @type static
-     * @param statics {var} TODOC
      * @return {void}
      */
-    __init : function(statics)
+    __init : function()
     {
       var generic = this.__generic;
 

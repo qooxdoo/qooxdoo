@@ -140,34 +140,60 @@ qx.Class.define("qx.html2.element.Util",
 
     /*
     ---------------------------------------------------------------------------
-      SCROLL HANDLING
+      SCROLL POSITION
     ---------------------------------------------------------------------------
     */
 
     /**
-     * 
+     * Scrolls the given element to the given X-position (distance from left edge)
      *
      * @type static
-     * @param element {Element} TODOC
-     * @param x {var} TODOC
+     * @param element {Element} The element which should be modified
+     * @param x {var} New X-position
      * @return {void}
      */
-    scrollToX : function(element, x) {
+    setScrollX : function(element, x) {
       element.scrollLeft = x;
     },
 
 
     /**
-     * TODOC
+     * Scrolls the given element to the given Y-position (distance from top edge)
      *
      * @type static
-     * @param element {Element} TODOC
-     * @param y {var} TODOC
+     * @param element {Element} The element which should be modified
+     * @param y {var} New Y-position
      * @return {void}
      */
-    scrollToY : function(element, y) {
+    setScrollY : function(element, y) {
       element.scrollTop = y;
     },
+    
+    
+    /**
+     * Returns the scroll position of the X-axis of the given element.
+     *
+     * @type static
+     * @param element {Element} The element which should be queried
+     * @return {Integer} current X-position (distance from left edge)
+     */
+    getScrollX : function(element) {
+      return parseInt(element.scrollLeft);
+    },
+
+
+    /**
+     * Returns the scroll position of the Y-axis of the given element.
+     *
+     * @type static
+     * @param element {Element} The element which should be queried
+     * @return {Integer} current Y-position (distance from top edge)
+     */
+    getScrollY : function(element) {
+      return parseInt(element.scrollTop);
+    },    
+    
+    
 
 
 
