@@ -33,6 +33,7 @@ qx.Class.define("qx.html2.client.Platform",
 
   statics :
   {
+
     /** {String} The name of the platform. One of: "win", "mac", "unix" */
     NAME : "",
 
@@ -48,6 +49,10 @@ qx.Class.define("qx.html2.client.Platform",
 
     /**
      * Internal initialize helper
+     *
+     * @type static
+     * @return {void} 
+     * @throws TODOC
      */
     __init : function()
     {
@@ -74,6 +79,7 @@ qx.Class.define("qx.html2.client.Platform",
       }
     }
   },
+
 
 
 

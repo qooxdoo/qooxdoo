@@ -34,6 +34,7 @@ qx.Class.define("qx.html2.client.Locale",
 
   statics :
   {
+
     /** {String} The name of the system locale e.g. "de" when the full locale is "de_AT" */
     LOCALE : "",
 
@@ -43,6 +44,9 @@ qx.Class.define("qx.html2.client.Locale",
 
     /**
      * Internal initialize helper
+     *
+     * @type static
+     * @return {void} 
      */
     __init : function()
     {
@@ -50,6 +54,7 @@ qx.Class.define("qx.html2.client.Locale",
       var variant = "";
 
       var index = locale.indexOf("-");
+
       if (index != -1)
       {
         variant = locale.substr(index + 1);
@@ -60,6 +65,7 @@ qx.Class.define("qx.html2.client.Locale",
       this.VARIANT = variant;
     }
   },
+
 
 
 

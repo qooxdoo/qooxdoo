@@ -51,14 +51,9 @@ qx.Class.define("qx.html2.element.Style",
 
   statics :
   {
+
     /** Internal map of style property convertions */
-    __hints :
-    {
-      names :
-      {
-        "float" : qx.core.Client.getInstance().isMshtml() ? "styleFloat" : "cssFloat"
-      }
-    },
+    __hints : { names : { "float" : qx.core.Client.getInstance().isMshtml() ? "styleFloat" : "cssFloat" } },
 
 
     /**
@@ -68,7 +63,7 @@ qx.Class.define("qx.html2.element.Style",
      * @param el {Element} The DOM element to modify
      * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)
      * @param value {var} the value for the given style
-     * @return {void}
+     * @return {void} 
      */
     set : function(el, name, value)
     {

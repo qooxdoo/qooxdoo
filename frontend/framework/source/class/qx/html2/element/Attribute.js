@@ -51,47 +51,48 @@ qx.Class.define("qx.html2.element.Attribute",
 
   statics :
   {
+
     /** Internal map of attribute convertions */
     __hints :
     {
       names :
       {
-        "class" : "className",
-        "for" : "htmlFor",
-        html : "innerHTML",
-        text : qx.core.Variant.isSet("qx.client", "mshtml") ? "innerText" : "textContent",
-        colspan : "colSpan",
-        rowspan : "rowSpan",
-        valign : "vAlign",
-        datetime : "dateTime",
+        "class"   : "className",
+        "for"     : "htmlFor",
+        html      : "innerHTML",
+        text      : qx.core.Variant.isSet("qx.client", "mshtml") ? "innerText" : "textContent",
+        colspan   : "colSpan",
+        rowspan   : "rowSpan",
+        valign    : "vAlign",
+        datetime  : "dateTime",
         accesskey : "accessKey",
-        tabindex : "tabIndex",
-        enctype : "encType",
+        tabindex  : "tabIndex",
+        enctype   : "encType",
         maxlength : "maxLength",
-        readonly : "readOnly",
-        longdesc : "longDesc"
+        readonly  : "readOnly",
+        longdesc  : "longDesc"
       },
 
       property :
       {
-        disabled : true,
-        checked : true,
-        readOnly : true,
-        multiple : true,
-        selected : true,
-        value : true,
-        maxLength : true,
-        className : true,
-        innerHTML : true,
-        innerText : true,
+        disabled    : true,
+        checked     : true,
+        readOnly    : true,
+        multiple    : true,
+        selected    : true,
+        value       : true,
+        maxLength   : true,
+        className   : true,
+        innerHTML   : true,
+        innerText   : true,
         textContent : true,
-        htmlFor : true
+        htmlFor     : true
       },
 
       mshtmlOriginal :
       {
         href : true,
-        src : true,
+        src  : true,
         type : true
       }
     },
@@ -148,16 +149,17 @@ qx.Class.define("qx.html2.element.Attribute",
 
     /**
      * Sets a HTML attribute on an DOM element
-     *
+     * 
      * Correctly supports HTML "for" attribute
      * Can handle both name variants lowercase & camelcase
      * Supports for "text" property to define innerText/textContent
      * Supports for "html" property to define innerHTML content
      *
+     * @type static
      * @param el {Element} The DOM element to modify
      * @param name {String} Name of the attribute
      * @param value {var} New value of the attribute
-     * @return {void}
+     * @return {void} 
      */
     set : function(el, name, value)
     {

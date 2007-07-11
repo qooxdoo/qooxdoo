@@ -1,3 +1,4 @@
+
 /**
  * Mouse event object.
  *
@@ -10,11 +11,22 @@ qx.Class.define("qx.html2.MouseEvent",
 
   statics :
   {
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param elementHash {var} TODOC
+     * @param domEvent {var} TODOC
+     * @param eventType {var} TODOC
+     * @param target {var} TODOC
+     * @return {var} TODOC
+     */
     getInstance : function(elementHash, domEvent, eventType, target)
     {
       if (this.__instance == undefined) {
         this.__instance = new qx.html2.MouseEvent();
       }
+
       this.__instance.__initEvent(elementHash, domEvent, eventType, target);
       return this.__instance;
     }
@@ -22,6 +34,16 @@ qx.Class.define("qx.html2.MouseEvent",
 
   members :
   {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param elementHash {var} TODOC
+     * @param domEvent {var} TODOC
+     * @param eventType {var} TODOC
+     * @param target {var} TODOC
+     * @return {void} 
+     */
     __initEvent : function(elementHash, domEvent, eventType, target)
     {
       this.base(arguments, elementHash, domEvent);
@@ -29,13 +51,24 @@ qx.Class.define("qx.html2.MouseEvent",
       this._target = target;
     },
 
-
     // overridden
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
     getType : function() {
       return this._type;
     },
 
     // overridden
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
     getTarget : function() {
       return this._target || this.base(arguments);
     }
