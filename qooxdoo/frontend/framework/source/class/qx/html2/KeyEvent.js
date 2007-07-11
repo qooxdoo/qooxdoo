@@ -46,7 +46,7 @@ qx.Class.define("qx.html2.KeyEvent",
      * @param keyCode {var} TODOC
      * @param charCode {var} TODOC
      * @param keyIdentifier {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     __initEvent : function(elementHash, domEvent, eventType, keyCode, charCode, keyIdentifier)
     {
@@ -84,12 +84,12 @@ qx.Class.define("qx.html2.KeyEvent",
     /**
      * Identifier of the pressed key. This property is modeled after the <em>KeyboardEvent.keyIdentifier</em> property
      * of the W3C DOM 3 event specification (http://www.w3.org/TR/2003/NOTE-DOM-Level-3-Events-20031107/events.html#Events-KeyboardEvent-keyIdentifier).
-     * 
+     *
      * It is not valid in "keyinput" events"
-     * 
+     *
      * Printable keys are represented by a unicode string, non-printable keys have one of the following
      * values:
-     * 
+     *
      * <table>
      * <tr><th>Backspace</th><td>The Backspace (Back) key.</td></tr>
      * <tr><th>Tab</th><td>The Horizontal Tabulation (Tab) key.</td></tr>

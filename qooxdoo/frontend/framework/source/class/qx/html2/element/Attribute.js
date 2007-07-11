@@ -149,7 +149,7 @@ qx.Class.define("qx.html2.element.Attribute",
 
     /**
      * Sets a HTML attribute on an DOM element
-     * 
+     *
      * Correctly supports HTML "for" attribute
      * Can handle both name variants lowercase & camelcase
      * Supports for "text" property to define innerText/textContent
@@ -159,7 +159,7 @@ qx.Class.define("qx.html2.element.Attribute",
      * @param el {Element} The DOM element to modify
      * @param name {String} Name of the attribute
      * @param value {var} New value of the attribute
-     * @return {void} 
+     * @return {void}
      */
     set : function(el, name, value)
     {

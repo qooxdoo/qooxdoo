@@ -94,7 +94,7 @@ qx.Class.define("qx.html2.MouseEventHandler",
      *
      * @type member
      * @param type {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     unregisterEvent : function(type)
     {
@@ -115,7 +115,7 @@ qx.Class.define("qx.html2.MouseEventHandler",
      *
      * @type member
      * @param domEvent {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     onMouseButtonEvent : function(domEvent)
     {
@@ -129,7 +129,7 @@ qx.Class.define("qx.html2.MouseEventHandler",
      *
      * @type member
      * @param event {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     onMouseEvent : function(event) {}
   }

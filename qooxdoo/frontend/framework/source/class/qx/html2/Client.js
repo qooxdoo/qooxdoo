@@ -148,7 +148,7 @@ qx.Class.define("qx.html2.Client",
      * Automatically fills the __active map from the information of the __keys map
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     __init : function()

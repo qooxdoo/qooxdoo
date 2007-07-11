@@ -78,7 +78,7 @@ qx.Class.define("qx.html2.EventRegistration",
      * TODOC
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
     __init : function()
     {
@@ -180,7 +180,7 @@ qx.Class.define("qx.html2.EventRegistration",
      * @param useCapture {Boolean ? false} Whether to attach the event to the
      *       capturing phase of the bubbling phase of the event. The default is
      *       to attach the event handler to the bubbling phase.
-     * @return {void} 
+     * @return {void}
      */
     __addEventListenerDocument : function(element, type, listener, self, useCapture)
     {
@@ -228,7 +228,7 @@ qx.Class.define("qx.html2.EventRegistration",
      *
      * @type static
      * @param domEvent {Event} DOM event passed by the browser.
-     * @return {void} 
+     * @return {void}
      */
     __documentEventHandler : function(domEvent)
     {
@@ -243,7 +243,7 @@ qx.Class.define("qx.html2.EventRegistration",
      *
      * @type static
      * @param event {qx.html2.Event} event object to dispatch
-     * @return {void} 
+     * @return {void}
      */
     __dispatchDocumentEvent : function(event)
     {
@@ -338,7 +338,7 @@ qx.Class.define("qx.html2.EventRegistration",
      * @param listener {Function} Event listener function
      * @param self {Object ? window} Reference to the 'this' variable inside
      *       the event listener.
-     * @return {void} 
+     * @return {void}
      */
     __addEventListenerInline : function(element, type, listener, self)
     {
@@ -386,7 +386,7 @@ qx.Class.define("qx.html2.EventRegistration",
      * @type static
      * @param elementId {Number} hash value of the current target DOM element
      * @param domEvent {Event} DOM event passed by the browser.
-     * @return {void} 
+     * @return {void}
      */
     __inlineEventHandler : function(elementId, domEvent)
     {
@@ -431,7 +431,7 @@ qx.Class.define("qx.html2.EventRegistration",
      * @param listener {Function} The pointer to the event listener
      * @param useCapture {Boolean ? false} Whether to remove the event listener of
      *       the bubbling or of the capturing phase.
-     * @return {void} 
+     * @return {void}
      */
     __removeEventListenerDocument : function(element, type, listener, useCapture)
     {
@@ -486,7 +486,7 @@ qx.Class.define("qx.html2.EventRegistration",
      * @param listener {Function} The pointer to the event listener
      * @param useCapture {Boolean ? false} Whether to remove the event listener of
      *       the bubbling or of the capturing phase.
-     * @return {void} 
+     * @return {void}
      */
     __removeEventListenerInline : function(element, type, listener, useCapture)
     {
@@ -531,7 +531,7 @@ qx.Class.define("qx.html2.EventRegistration",
      * @type static
      * @param element {Element} TODOC
      * @param eventMap {Map} TODOC
-     * @return {void} 
+     * @return {void}
      */
     attachEvents : function(element, eventMap)
     {
@@ -547,7 +547,7 @@ qx.Class.define("qx.html2.EventRegistration",
      * @type static
      * @param element {Element} TODOC
      * @param eventMap {Map} TODOC
-     * @return {void} 
+     * @return {void}
      */
     detachEvents : function(element, eventMap)
     {
@@ -575,7 +575,7 @@ qx.Class.define("qx.html2.EventRegistration",
      * TODOC
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
     __initKeyHandler : function()
     {
@@ -603,7 +603,7 @@ qx.Class.define("qx.html2.EventRegistration",
      * @param keyCode {var} TODOC
      * @param charCode {var} TODOC
      * @param keyIdentifier {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     __keyEventHandler : function(domEvent, eventType, keyCode, charCode, keyIdentifier)
     {
@@ -644,7 +644,7 @@ qx.Class.define("qx.html2.EventRegistration",
      *
      * @type static
      * @param type {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     __unregisterKeyEvent : function(type)
     {
