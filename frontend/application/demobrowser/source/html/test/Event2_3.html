@@ -11,7 +11,7 @@
 		width: 500px;
 		height: 500px;
 		left: 30px;
-		top: 40px;
+		top: 100px;
 		color: black;
 		background-color: #EEE;
 		padding: 5px;
@@ -31,7 +31,21 @@
   #btnClear {
     position: absolute;
     left: 550px;
-    top: 40px;
+    top: 100px;
+  }
+
+  #mouse {
+    position: absolute;
+    left: 30px;
+    top: 10px;
+    height: 80px;
+    width: 500;
+    background-color: orange;
+    border: 1px inset;
+  }
+
+  #innerMouse1, #innerMouse2 {
+    border: 1px solid black;
   }
 
 	</style>
@@ -39,12 +53,20 @@
 </head>
 <body>
   <div id="description">
-    <p>Keyhandler Test</p>
-		<p>Keyhandler test converted to use the low level event API.</p>
+    <p>Mouse handler Test</p>
+		<p>Native mouse events</p>
   </div>
 
 
-	<div id="keylogger">
+	<div id="mouse">
+  Click here (mouse)
+  <div id="frame">
+  <div id="innerMouse1">(innerMouse1)</div>
+  <div id="innerMouse2">(innerMouse2)</div>
+  </div>
+  </div>
+
+  <div id="keylogger">
 	</div>
 
   <input type="button" id="btnClear" value="clear">
@@ -61,23 +83,32 @@ qx.Class.define("BasicSample",
     {
       this.base(arguments);
 
-      this.tableHead = "<table><tr><th>Event</th><th>key identifier</th><th>key code</th><th>char code</th><th>Shift</th><th>Ctrl</th><th>Alt</th></tr>";
+      this.tableHead = "<table><tr><th>Target</th><th>Event</th><th>button</th><th>which</th><th>screenX</th><th>screenY</th><th>clientX</th><th>clientY</th><th>relatedTarget</th></tr>";
   		this.keyEvents = [];
   		this.maxLogSize = 50;
   		this.logDiv = document.getElementById("keylogger");
 
   		this.initializeLogger();
 
-      var events = ["keydown", "keypress", "keyup"];
+      var mouseDiv = document.getElementById("mouse");
+
+      var events = ["mousedown", "mouseup", "click", "dblclick", "contextmenu"];
       for (var i=0; i<events.length; i++)
       {
         qx.html2.EventRegistration.addEventListener(
-          document.documentElement,
+          mouseDiv,
           events[i],
-          this.logKeyEvent,
+          this.logMouseEvent,
           this
         )
       }
+
+      qx.html2.EventRegistration.addEventListener(
+        document.body,
+        "selectstart",
+        function(e) { e.preventDefault(); },
+        this
+      )
 
       qx.html2.EventRegistration.addEventListener(
         document.getElementById("btnClear"),
@@ -94,16 +125,21 @@ qx.Class.define("BasicSample",
 			this.keyEvents = [];
 		},
 
-    logKeyEvent: function(keyEvent)
+    logMouseEvent: function(mouseEvent)
     {
+      console.log(mouseEvent);
+
+      mouseEvent.preventDefault();
       var eventCopy = {
-				type: keyEvent.getType(),
-				iden: keyEvent.getKeyIdentifier(),
-				keyCode: keyEvent._keyCode,
-				charCode: keyEvent.getCharCode(),
-				shift: keyEvent.isShiftPressed(),
-				alt: keyEvent.isAltPressed(),
-				ctrl: keyEvent.isCtrlPressed()
+        target: mouseEvent.getTarget().id,
+				type: mouseEvent.getType(),
+				button: mouseEvent._event.button,
+				which: mouseEvent._event.which,
+        screenX: mouseEvent._event.screenX,
+        screenY: mouseEvent._event.screenY,
+        clientX: mouseEvent._event.clientX,
+        clientY: mouseEvent._event.clientY,
+        relatedTarget: mouseEvent._event.relatedTarget
 			}
 			this.keyEvents.unshift(eventCopy);
 			this.keyEvents = this.keyEvents.slice(0, this.maxLogSize);
@@ -111,19 +147,23 @@ qx.Class.define("BasicSample",
 			for (var i=0; i<this.keyEvents.length; i++) {
 				var e = this.keyEvents[i];
 				str.push("<tr><td>");
+				str.push(e.target);
+				str.push("</td><td>");
 				str.push(e.type);
 				str.push("</td><td>");
-				str.push(e.iden);
+				str.push(e.button);
 				str.push("</td><td>");
-				str.push(e.keyCode);
+				str.push(e.which);
 				str.push("</td><td>");
-				str.push(e.charCode);
+				str.push(e.screenX);
 				str.push("</td><td>");
-				str.push(e.shift);
+				str.push(e.screenY);
 				str.push("</td><td>");
-				str.push(e.ctrl);
+				str.push(e.clientX);
 				str.push("</td><td>");
-				str.push(e.alt);
+				str.push(e.clientY);
+				str.push("</td><td>");
+				str.push(e.relatedTarget);
 				str.push("</td></tr>");
 			}
 			str.push("</table>");
