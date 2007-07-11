@@ -31,8 +31,8 @@
 
      Authors:
        * Dean Edwards
-       
-       
+
+
 ************************************************************************ */
 
 /* ************************************************************************
@@ -48,7 +48,7 @@ qx.Class.define("qx.html2.element.Class",
      STATICS
   *****************************************************************************
   */
-  
+
   statics :
   {
     /**
@@ -65,7 +65,7 @@ qx.Class.define("qx.html2.element.Class",
       if (!this.has(element, name)) {
         element.className += (element.className ? " " : "") + name;
       }
-      
+
       return name;
     },
 
@@ -100,8 +100,8 @@ qx.Class.define("qx.html2.element.Class",
 
       return name;
     },
-    
-    
+
+
     /**
      * Replaces the first given class name with the second one
      *
@@ -115,8 +115,8 @@ qx.Class.define("qx.html2.element.Class",
       this.remove(element, oldName);
       return this.add(element, newName);
     },
-    
-    
+
+
     /**
      * Toggles a className of the given element
      *
@@ -124,10 +124,10 @@ qx.Class.define("qx.html2.element.Class",
      * @param element {Element} The DOM element to modify
      * @param name {String} The class name to toggle
      * @return {String} The class name
-     */    
-    toggle : function(element, name) 
+     */
+    toggle : function(element, name)
     {
-      this.has(element, name) ? this.remove(element, name) : this.add(element, name); 
+      this.has(element, name) ? this.remove(element, name) : this.add(element, name);
       return name;
     }
   }
