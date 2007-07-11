@@ -83,7 +83,7 @@ qx.Class.define("qx.html2.Viewport",
       "quirks_mode|opera" : function() {
         return document.body.clientHeight;
       },
-      
+
       "standard_mode" : function() {
         return document.documentElement.clientHeight;
       }
@@ -101,11 +101,11 @@ qx.Class.define("qx.html2.Viewport",
       "gecko" : function() {
         return window.pageXOffset;
       },
-      
+
       "standard_mode" : function() {
         return document.documentElement.scrollLeft;
       },
-      
+
       "quirks_mode" : function() {
         return document.body.scrollLeft;
       }
@@ -123,11 +123,11 @@ qx.Class.define("qx.html2.Viewport",
       "gecko" : function() {
         return window.pageYOffset;
       },
-      
+
       "standard_mode" : function() {
         return document.documentElement.scrollTop;
       },
-      
+
       "quirks_mode" : function() {
         return document.body.scrollTop;
       }

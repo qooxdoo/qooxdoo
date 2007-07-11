@@ -31,8 +31,8 @@
 
      Authors:
        * Prototype Core Team
-       
-       
+
+
 ************************************************************************ */
 
 /* ************************************************************************
@@ -48,13 +48,13 @@ qx.Class.define("qx.html2.element.Opacity",
      STATICS
   *****************************************************************************
   */
-  
+
   statics :
   {
     /** shorthand to style class */
-    __style : qx.html2.element.Style, 
-    
-    
+    __style : qx.html2.element.Style,
+
+
     /**
      * Sets opacity of given element. Accepts numbers between zero and one
      * where "0" means transparent, "1" means opaque.
@@ -107,7 +107,7 @@ qx.Class.define("qx.html2.element.Opacity",
           el.style.opacity = opacity;
         }
       },
-      
+
       "default" : function(el, opacity)
       {
         if (opacity == 1) {

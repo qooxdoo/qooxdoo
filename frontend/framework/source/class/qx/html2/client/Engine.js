@@ -110,7 +110,7 @@ qx.Class.define("qx.html2.client.Engine",
         this.OPERA = true;
 
         // Opera has a special versioning scheme, where the second part is combined
-        // e.g. 8.54 which should be handled like 8.5.4 to be compatible to the 
+        // e.g. 8.54 which should be handled like 8.5.4 to be compatible to the
         // common versioning system used by other browsers
         if (/Opera[\s\/]([0-9\.]*)/.test(agent)) {
           version = RegExp.$1.substring(0, 3) + "." + RegExp.$1.substring(3);
@@ -140,7 +140,7 @@ qx.Class.define("qx.html2.client.Engine",
 
           // Webkit adds a plus sign in nightly builds
           var nightly = version.indexOf("+") != -1;
-          
+
           // We need to filter these invalid characters
           var invalidCharacter = RegExp("[^\\.0-9]").exec(version);
           if (invalidCharacter) {
@@ -213,13 +213,13 @@ qx.Class.define("qx.html2.client.Engine",
       else if (this.OPERA)
       {
         if (this.VERSION < 8.5) {
-          this.OPERA8 = true; 
+          this.OPERA8 = true;
         } else if (this.VERSION < 9) {
-          this.OPERA85 = true; 
+          this.OPERA85 = true;
         } else if (this.VERSION < 9.5) {
-          this.OPERA9 = true; 
+          this.OPERA9 = true;
         } else if (this.VERSION < 10) {
-          this.OPERA95 = true; 
+          this.OPERA95 = true;
         }
       }
     }
