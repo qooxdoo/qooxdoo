@@ -54,6 +54,54 @@ qx.Class.define("qx.html2.element.Util",
 
   statics :
   {
+    /**
+     * Creates an DOM element
+     *
+     * @type static
+     * @param name {String} Tag name of the element
+     * @param xhtml {Boolean?false} Enable XHTML
+     * @return {Element} the created element node
+     */
+    createElement : function(name, xhtml)
+    {
+      if (xhtml) {
+        return document.createElementNS("http://www.w3.org/1999/xhtml", name);
+      } else {
+        return document.createElement(name);
+      }
+    },
+
+
+    /**
+     * Whether the given node is a DOM element
+     *
+     * @type static
+     * @param node {Node} the node which should be tested
+     * @return {Boolean} true if the node is a DOM element
+     */
+    isElement : function(node) {
+      return !!(node && node.nodeType === qx.dom.Node.ELEMENT);
+    },
+
+
+    /**
+     * Whether the given node is a document
+     *
+     * @type static
+     * @param node {Node} the node which should be tested
+     * @return {Boolean} true when the node is a document
+     */
+    isDocument : function(node) {
+      return !!(node && node.nodeType === qx.dom.Node.DOCUMENT);
+    },    
+    
+    
+    
+    
+    
+    
+    
+    
     /*
     ---------------------------------------------------------------------------
       STRING HELPERS

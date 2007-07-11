@@ -114,6 +114,21 @@ qx.Class.define("qx.html2.element.Class",
     {
       this.remove(element, oldName);
       return this.add(element, newName);
+    },
+    
+    
+    /**
+     * Toggles a className of the given element
+     *
+     * @type static
+     * @param element {Element} The DOM element to modify
+     * @param name {String} The class name to toggle
+     * @return {String} The class name
+     */    
+    toggle : function(element, name) 
+    {
+      this.has(element, name) ? this.remove(element, name) : this.add(element, name); 
+      return name;
     }
   }
 });
