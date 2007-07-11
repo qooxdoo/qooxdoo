@@ -102,14 +102,14 @@ qx.Class.define("qx.html2.element.Attribute",
      * Returns the value of the given HTML attribute
      *
      * @type static
-     * @param el {Element} The DOM element to query
+     * @param element {Element} The DOM element to query
      * @param name {String} Name of the attribute
      * @return {var} New value of the attribute
-     * @signature function(el, name)
+     * @signature function(element, name)
      */
     get : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(el, name)
+      "mshtml" : function(element, name)
       {
         var hints = this.__hints;
 
@@ -118,19 +118,19 @@ qx.Class.define("qx.html2.element.Attribute",
 
         // respect properties
         if (hints.property[name]) {
-          return el[name];
+          return element[name];
         }
 
         // respect original values
         // http://msdn2.microsoft.com/en-us/library/ms536429.aspx
         if (hints.mshtmlOriginal[name]) {
-          return el.getAttribute(name, 2);
+          return element.getAttribute(name, 2);
         }
 
-        return el.getAttribute(name);
+        return element.getAttribute(name);
       },
 
-      "default" : function(el, name)
+      "default" : function(element, name)
       {
         var hints = this.__hints;
 
@@ -139,10 +139,10 @@ qx.Class.define("qx.html2.element.Attribute",
 
         // respect properties
         if (hints.property[name]) {
-          return el[name];
+          return element[name];
         }
 
-        return el.getAttribute(name);
+        return element.getAttribute(name);
       }
     }),
 
@@ -156,12 +156,12 @@ qx.Class.define("qx.html2.element.Attribute",
      * Supports for "html" property to define innerHTML content
      *
      * @type static
-     * @param el {Element} The DOM element to modify
+     * @param element {Element} The DOM element to modify
      * @param name {String} Name of the attribute
      * @param value {var} New value of the attribute
      * @return {void}
      */
-    set : function(el, name, value)
+    set : function(element, name, value)
     {
       var hints = this.__hints;
 
@@ -170,13 +170,13 @@ qx.Class.define("qx.html2.element.Attribute",
 
       // apply attribute
       if (hints.property[name]) {
-        el[name] = value;
+        element[name] = value;
       } else if (value === true) {
-        el.setAttribute(name, name);
+        element.setAttribute(name, name);
       } else if (value === false || value === null) {
-        el.removeAttribute(name);
+        element.removeAttribute(name);
       } else {
-        el.setAttribute(name, value);
+        element.setAttribute(name, value);
       }
     }
   }
