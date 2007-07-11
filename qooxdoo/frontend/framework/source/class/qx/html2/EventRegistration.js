@@ -1,6 +1,7 @@
 /* ************************************************************************
 
 #require(qx.html2.KeyEventHandler)
+#require(qx.html2.MouseEventHandler)
 
 ************************************************************************ */
 
@@ -16,6 +17,15 @@
  *   </li>
  *   <li>Support for the event <i>bubbling</i> and <i>capturing</i> phase even
  *       in the Internet Explorer
+ *   </li>
+ * </ul>
+ *
+ * Available Events
+ * <ul>
+ *   <li>Internet Explorer events:
+ *       http://msdn2.microsoft.com/en-us/library/ms533051.aspx</li>
+ *   <li>Mozilla element events:
+ *       http://developer.mozilla.org/en/docs/DOM:element#Event_Handlers
  *   </li>
  * </ul>
  */
@@ -67,50 +77,8 @@ qx.Class.define("qx.html2.EventRegistration", {
 
     __init : function()
     {
-      var keyHandler = qx.lang.Function.bind(this.__keyEventHandler, this);
-      this.__keyEventHandler = new qx.html2.KeyEventHandler(keyHandler);
-      this.__keyHandler = {
-        "keydown": qx.lang.Function.bind(
-          this.__keyEventHandler.onKeyUpDown,
-          this.__keyEventHandler
-        ),
-        "keyup": qx.lang.Function.bind(
-          this.__keyEventHandler.onKeyUpDown,
-          this.__keyEventHandler
-        ),
-        "keypress":  qx.lang.Function.bind(
-          this.__keyEventHandler.onKeyPress,
-          this.__keyEventHandler
-        )
-      }
-    },
-
-
-    __keyEventListenerCount : 0,
-
-    __attachKeyHandler : function()
-    {
-      for (var type in this.__keyHandler)
-      {
-        this._nativeAddEventListener(
-          window.document.documentElement,
-          type,
-          this.__keyHandler[type]
-        );
-      }
-    },
-
-
-    __detachKeyHandler : function()
-    {
-      for (var type in this.__keyHandler)
-      {
-        this._nativeRemoveEventListener(
-          window.document.documentElement,
-          type,
-          this.__keyHandler[type]
-        );
-      }
+      this.__initKeyHandler();
+      this.__mouseHandler = new qx.html2.MouseEventHandler(this.__dispatchDocumentEvent);
     },
 
 
@@ -206,15 +174,7 @@ qx.Class.define("qx.html2.EventRegistration", {
       if (!reg[type]) {
         reg[type] = {};
 
-        if (this.__keyHandler[type])
-        {
-          // handle key events
-          this.__keyEventListenerCount += 1;
-          if (this.__keyEventListenerCount == 1) {
-            this.__attachKeyHandler();
-          }
-        }
-        else
+        if (!this.__registerKeyEvent(type) && !this.__mouseHandler.registerEvent(type))
         {
           // all other events
           this._nativeAddEventListener(
@@ -247,15 +207,6 @@ qx.Class.define("qx.html2.EventRegistration", {
       var eventData = typeEvents[elementId];
       var listenerList = useCapture ? "captureListeners" : "bubbleListeners";
       eventData[listenerList].push(callback);
-    },
-
-
-    __keyEventHandler : function(domEvent, eventType, keyCode, charCode, keyIdentifier)
-    {
-      var event = new qx.html2.KeyEvent.getInstance(
-        -1, domEvent, eventType, keyCode, charCode, keyIdentifier
-      );
-      this.__dispatchDocumentEvent(event);
     },
 
 
@@ -477,14 +428,8 @@ qx.Class.define("qx.html2.EventRegistration", {
         ) {
           delete(elementData[type]);
         }
-        if (this.__keyHandler[type])
-        {
-          // handle key events
-          this.__keyEventListenerCount -= 1;
-          if (this.__keyEventListenerCount == 0) {
-            this.__detachKeyHandler();
-          }
-        }
+        this.__unregisterKeyEvent(type);
+        this.__mouseHandler.unregisterEvent(type);
       }
 
       if (qx.lang.Object.isEmpty(this.__registry[type])) {
@@ -538,6 +483,121 @@ qx.Class.define("qx.html2.EventRegistration", {
         }
       }
 
+    },
+
+
+    /**
+     * @internal
+     * @param element {Element}
+     * @param eventMap {Map}
+     */
+    attachEvents : function(element, eventMap)
+    {
+      for (var type in eventMap)
+      {
+        this._nativeAddEventListener(
+          element,
+          type,
+          eventMap[type]
+        );
+      }
+    },
+
+
+    /**
+     * @internal
+     * @param element {Element}
+     * @param eventMap {Map}
+     */
+    detachEvents : function(element, eventMap)
+    {
+      for (var type in this.__keyHandler)
+      {
+        this._nativeRemoveEventListener(
+          element,
+          type,
+          eventMap[type]
+        );
+      }
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      MOUSE EVENTS
+    ---------------------------------------------------------------------------
+    */
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      KEY EVENTS
+    ---------------------------------------------------------------------------
+    */
+
+    __initKeyHandler : function()
+    {
+      this.__keyEventListenerCount = 0;
+
+      this.__keyEventHandler = new qx.html2.KeyEventHandler(this.__keyEventHandler);
+
+      var keyUpDownHandler = qx.lang.Function.bind(
+        this.__keyEventHandler.onKeyUpDown,
+        this.__keyEventHandler
+      );
+
+      this.__keyHandler = {
+        "keydown": keyUpDownHandler,
+        "keyup": keyUpDownHandler,
+        "keypress": keyUpDownHandler
+      }
+    },
+
+
+    __keyEventHandler : function(domEvent, eventType, keyCode, charCode, keyIdentifier)
+    {
+      var event = new qx.html2.KeyEvent.getInstance(
+        -1, domEvent, eventType, keyCode, charCode, keyIdentifier
+      );
+      qx.html2.EventRegistration.__dispatchDocumentEvent(event);
+    },
+
+
+    __registerKeyEvent : function(type)
+    {
+      if (this.__keyHandler[type])
+      {
+        // handle key events
+        this.__keyEventListenerCount += 1;
+        if (this.__keyEventListenerCount == 1) {
+          this.attachEvents(
+            window.document.documentElement,
+            this.__keyHandler
+          );
+        }
+        return true;
+      }
+      else {
+        return false;
+      }
+    },
+
+
+    __unregisterKeyEvent : function(type)
+    {
+      if (this.__keyHandler[type])
+      {
+        // handle key events
+        this.__keyEventListenerCount -= 1;
+        if (this.__keyEventListenerCount == 0) {
+          this.detachEvents(
+            window.document.documentElement,
+            this.__keyHandler
+          );
+        }
+      }
     }
 
   },
