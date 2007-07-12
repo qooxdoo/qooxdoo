@@ -57,8 +57,15 @@
  *  
  * * win, mac, unix 
  *
- * <code>version</code> is a floating point number. All others 
+ * Types: <code>version</code> is a floating point number. All others 
  * are <code>boolean</code>.
+ *
+ * Combinations: You can combine these keys to full-fledged expressions:
+ * <code>,</code> means AND while <code>|</code> means OR. You can also
+ * use parenthesis to structure your expression.
+ * 
+ * Valid expressions are for example: <code>gecko</code>, <code>gecko|opera</code>, 
+ * <code>gecko,version>1.6</code>, <code>opera|(gecko,border_box)</code>
  */
 qx.Class.define("qx.html2.Client",
 {
