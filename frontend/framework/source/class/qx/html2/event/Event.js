@@ -26,18 +26,16 @@ qx.Class.define("qx.html2.event.Event",
      * Initialize a singleton instance with the given browser event object.
      *
      * @type static
-     * @param elementHash {Integer} The hash value of the DOM element, the
-     *       event is currently dispatched on.
      * @param domEvent {Event} DOM event
      * @return {qx.html2.event.Event} an initialized Event instance
      */
-    getInstance : function(elementHash, domEvent)
+    getInstance : function(domEvent)
     {
       if (this.__instance == undefined) {
         this.__instance = new this();
       }
 
-      this.__instance.__initEvent(elementHash, domEvent);
+      this.__instance.__initEvent(domEvent);
       return this.__instance;
     }
   },
@@ -105,7 +103,15 @@ qx.Class.define("qx.html2.event.Event",
      * @return {String} name of the event
      */
     getType : function() {
-      return this._event.type;
+      return this._type || this._event.type;
+    },
+
+
+    /**
+     * @internal
+     */
+    setType : function(type) {
+      this._type = type;
     },
 
 
@@ -151,11 +157,15 @@ qx.Class.define("qx.html2.event.Event",
     getTarget : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function() {
-        return this._event.srcElement;
+        return this._target || this._event.srcElement;
       },
 
       "webkit" : function()
       {
+        if (this._target) {
+          return this._target;
+        }
+
         var vNode = this._event.target;
 
         // Safari takes text nodes as targets for events
@@ -167,9 +177,17 @@ qx.Class.define("qx.html2.event.Event",
       },
 
       "default" : function() {
-        return this._event.target;
+        return this._target || this._event.target;
       }
     }),
+
+
+    /**
+     * @internal
+     */
+    setTarget : function(target) {
+      this._target = target;
+    },
 
 
     /**
@@ -199,15 +217,14 @@ qx.Class.define("qx.html2.event.Event",
      * Initialize the fileds of the event.
      *
      * @type member
-     * @param elementHash {Integer} The hash value of the DOM element, the
-     *       event is currently dispatched on.
      * @param domEvent {Event} DOM event
      * @return {void}
      */
-    __initEvent : function(elementHash, domEvent)
+    __initEvent : function(domEvent)
     {
+      this._type = null;
+      this._target = null;
       this._event = domEvent;
-      this._elementHash = elementHash;
       this._stopPropagation = false;
       this._timeStamp = domEvent.timeStamp || (new Date()).getTime();
     }

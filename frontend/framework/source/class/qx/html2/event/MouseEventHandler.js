@@ -58,6 +58,8 @@ qx.Class.define("qx.html2.event.MouseEventHandler",
       "dblclick"    : buttonHandler,
       "contextmenu" : buttonHandler
     };
+
+    this._lastMouseDownTarget = null;
   },
 
   members :
@@ -115,6 +117,14 @@ qx.Class.define("qx.html2.event.MouseEventHandler",
     },
 
 
+    __fireEvent : function(domEvent, type, target) {
+      var event = qx.html2.event.MouseEvent.getInstance(domEvent);
+      event.setType(type);
+      event.setTarget(target);
+      this._callback(event);
+    },
+
+
     /**
      * TODOC
      *
@@ -124,9 +134,143 @@ qx.Class.define("qx.html2.event.MouseEventHandler",
      */
     onMouseButtonEvent : function(domEvent)
     {
-      var event = qx.html2.event.MouseEvent.getInstance(-1, domEvent, domEvent.type);
-      this._callback(event);
+      var event = qx.html2.event.MouseEvent.getInstance(domEvent, domEvent.type);
+      var type = event.getType();
+      var target = event.getTarget();
+
+      this.__rightClickFixPre(domEvent, type, target);
+      this.__doubleClickFixPre(domEvent, type, target);
+
+      this.__fireEvent(domEvent, type, target);
+
+      this.__rightClickFixPost(domEvent, type, target);
+      this.__differentTargetClickFixPost(domEvent, type, target);
+
+      this._lastEventType = type;
     },
+
+
+    /**
+     * Normalizes the click sequence of right click events in Webkit and Opera.
+     * The normalized sequence is:
+     *
+     *  1. mousedown  <- not fired by Webkit
+     *  2. mouseup  <- not fired by Webkit
+     *  3. contextmenu <- not fired by Opera
+     *
+     * @param domEvent {Event} original DOM event
+     * @param type {String} event type
+     * @param target {Elment} event target of the DOM event.
+     *
+     * @signature function(domEvent, type, target)
+     */
+    __rightClickFixPre : qx.core.Variant.select("qx.client",
+    {
+      "webkit" : function(domEvent, type, target) {
+        if (type == "contextmenu") {
+          this.__fireEvent(domEvent, "mousedown", target);
+          this.__fireEvent(domEvent, "mouseup", target);
+        }
+      },
+
+      "default" : function(domEvent, type, target) {
+      }
+    }),
+
+
+    /**
+     * Normalizes the click sequence of right click events in Webkit and Opera.
+     * The normalized sequence is:
+     *
+     *  1. mousedown  <- not fired by Webkit
+     *  2. mouseup  <- not fired by Webkit
+     *  3. contextmenu <- not fired by Opera
+     *
+     * @param domEvent {Event} original DOM event
+     * @param type {String} event type
+     * @param target {Elment} event target of the DOM event.
+     *
+     * @signature function(domEvent, type, target)
+     */
+    __rightClickFixPost : qx.core.Variant.select("qx.client",
+    {
+      "opera" : function(domEvent, type, target) {
+        if (type =="mouseup" && domEvent.button == 2) {
+          this.__fireEvent(domEvent, "contextmenu", target);
+        }
+      },
+
+      "default" : function(domEvent, type, target) {
+      }
+    }),
+
+
+    /**
+     * Normalizes the click sequence of double click event in the Internet
+     * Explorer. The normalized sequence is:
+     *
+     *  1. mousedown
+     *  2. mouseup
+     *  3. click
+     *  4. mousedown  <- not fired by IE
+     *  5. mouseup
+     *  6. click  <- not fired by IE
+     *  7. dblclick
+     *
+     * @param domEvent {Event} original DOM event
+     * @param type {String} event type
+     * @param target {Elment} event target of the DOM event.
+     *
+     * @signature function(domEvent, type, target)
+     */
+    __doubleClickFixPre : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(domEvent, type, target) {
+        //this.debug(type + " " + )
+        if (type == "mouseup" && this._lastEventType == "click") {
+          this.__fireEvent(domEvent, "mousedown", target);
+        } else if (type == "dblclick") {
+          this.__fireEvent(domEvent, "click", target);
+        }
+      },
+
+      "default" : function(domEvent, type, target) {}
+    }),
+
+
+    /**
+     * If the mousup event happens on a different target than the corresponding
+     * mousedown event the internet explorer dispatches a click event on the
+     * first common ancestor of both targets. The presence of this click event
+     * is essential for the qooxdoo widget system. All other browsers don't fire
+     * the click event so it must be emulated.
+     *
+     * @param domEvent {Event} original DOM event
+     * @param type {String} event type
+     * @param target {Elment} event target of the DOM event.
+     *
+     * @signature function(domEvent, type, target)
+     */
+    __differentTargetClickFixPost : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(domEvent, type, target) {},
+
+      "default" : function(domEvent, type, target)
+      {
+        switch (type)
+        {
+          case "mousedown":
+            this._lastMouseDownTarget = target;
+            break;
+
+          case "mouseup":
+            if (target !== this._lastMouseDownTarget) {
+              commonParent = qx.html2.element.Tree.getCommonParent(target, this._lastMouseDownTarget);
+              this.__fireEvent(domEvent, "click", commonParent);
+            }
+        }
+      }
+    }),
 
 
     /**
