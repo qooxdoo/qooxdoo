@@ -41,6 +41,13 @@
 
 ************************************************************************ */
 
+/**
+ * Full blown cross-browser opacity support.
+ *
+ * Optimized for animations (contains workarounds for typical flickering
+ * in some browsers). Reduced class dependencies for optimal size and
+ * performance.
+ */
 qx.Class.define("qx.html2.element.Opacity",
 {
   /*

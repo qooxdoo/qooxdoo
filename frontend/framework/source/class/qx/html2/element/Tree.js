@@ -1,3 +1,52 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+
+   ======================================================================
+
+   This class contains code based on the following work:
+
+   * Prototype JS
+     http://www.prototypejs.org/
+     Version 1.5
+
+     Copyright:
+       (c) 2006-2007, Prototype Core Team
+
+     License:
+       MIT: http://www.opensource.org/licenses/mit-license.php
+
+     Authors:
+       * Prototype Core Team
+
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#module(html2)
+
+************************************************************************ */
+
+/**
+ * Methods to operate on nodes and elements on a DOM tree. This contains
+ * special getters to query for child nodes, siblings, etc. This class also
+ * supports to operate on one element and reorganize the content with 
+ * the insertion of new HTML or nodes.
+ */
 qx.Class.define("qx.html2.element.Tree",
 {
   statics :
@@ -208,8 +257,8 @@ qx.Class.define("qx.html2.element.Tree",
      * Completely removes element from the document and returns it.
      *
      * @type static
-     * @param element {var} TODOC
-     * @return {var} TODOC
+     * @param element {Element} DOM element to remove from parent
+     * @return {Element} the removed DOM element
      */
     remove : function(element)
     {
@@ -222,8 +271,8 @@ qx.Class.define("qx.html2.element.Tree",
      * Collects all of element's ancestors and returns them as an array elements.
      *
      * @type static
-     * @param element {var} TODOC
-     * @return {var} TODOC
+     * @param element {Element} DOM element to query for ancestors
+     * @return {Array} list of all parents
      */
     ancestors : function(element) {
       return element.recursivelyCollect("parentNode");
@@ -234,8 +283,8 @@ qx.Class.define("qx.html2.element.Tree",
      * Returns element's children.
      *
      * @type static
-     * @param element {var} TODOC
-     * @return {Array | var} TODOC
+     * @param element {Element} DOM element to query for child elements
+     * @return {Array} list of all child elements
      */
     childElements : function(element)
     {
@@ -261,8 +310,8 @@ qx.Class.define("qx.html2.element.Tree",
      * Collects all of element's descendants and returns them as an array elements.
      *
      * @type static
-     * @param element {var} TODOC
-     * @return {var} TODOC
+     * @param element {Element} DOM element to query for child elements
+     * @return {Array} list of all found elements
      */
     descendants : function(element) {
       return qx.lang.Array.fromCollection(element.getElementsByTagName("*"));
@@ -274,8 +323,8 @@ qx.Class.define("qx.html2.element.Tree",
      * property which will return any node (whitespace in most usual cases).
      *
      * @type static
-     * @param element {var} TODOC
-     * @return {var} TODOC
+     * @param element {Element} DOM element to query for first descendant
+     * @return {Element} the first descendant
      */
     firstDescendant : function(element)
     {
@@ -293,8 +342,8 @@ qx.Class.define("qx.html2.element.Tree",
      * Collects all of element's previous siblings and returns them as an array elements.
      *
      * @type static
-     * @param element {var} TODOC
-     * @return {var} TODOC
+     * @param element {Element} DOM element to query for previous siblings
+     * @return {Array} list of found DOM elements
      */
     previousSiblings : function(element) {
       return this.recursivelyCollect(element, "previousSibling");
@@ -305,8 +354,8 @@ qx.Class.define("qx.html2.element.Tree",
      * Collects all of element's next siblings and returns them as an array elements.
      *
      * @type static
-     * @param element {var} TODOC
-     * @return {var} TODOC
+     * @param element {Element} DOM element to query for next siblings
+     * @return {Array} list of found DOM elements
      */
     nextSiblings : function(element) {
       return this.recursivelyCollect(element, "nextSibling");
@@ -319,9 +368,9 @@ qx.Class.define("qx.html2.element.Tree",
      * that points to a single DOM node. Returns an array elements.
      *
      * @type static
-     * @param element {var} TODOC
-     * @param property {var} TODOC
-     * @return {var} TODOC
+     * @param element {Element} DOM element to start with
+     * @param property {String} property to look for
+     * @return {Array} result list
      */
     recursivelyCollect : function(element, property)
     {
@@ -342,8 +391,8 @@ qx.Class.define("qx.html2.element.Tree",
      * Collects all of element's siblings and returns them as an array of elements.
      *
      * @type static
-     * @param element {var} TODOC
-     * @return {var} TODOC
+     * @param element {var} DOM element to start with
+     * @return {Array} list of all found siblings
      */
     siblings : function(element) {
       return this.previousSiblings(element).reverse().concat(this.nextSiblings(element));
