@@ -357,7 +357,7 @@ qx.Class.define("qx.core.Property",
     attachMethods : function(clazz, name, config)
     {
       // Filter old properties
-      if (config._legacy || config._fast || config._cached) {
+      if (config._fast || config._cached) {
         return;
       }
 
