@@ -241,7 +241,9 @@
   color: #535256;
 }
 
-#content p{
+#content p,
+#content ul,
+#content ol{
   margin-top: 3px;
   margin-bottom: 5px;
 }
@@ -279,7 +281,9 @@
   padding: 2px 20px;
 }
 
-#ClassViewer div.class-description p{
+#ClassViewer div.class-description p,
+#ClassViewer div.class-description ul,
+#ClassViewer div.class-description ol{
   margin-top: 14px;
   margin-bottom: 14px;
 }
