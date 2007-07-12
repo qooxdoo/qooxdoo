@@ -125,6 +125,7 @@ qx.Class.define("qx.html2.element.Tree",
      * of a DOM node
      *
      * @type static
+     * @signature function(node)
      * @param node {Node} TODOC
      * @return {var} TODOC
      */
@@ -146,6 +147,7 @@ qx.Class.define("qx.html2.element.Tree",
      * Uses native non-standard contains() in Opera and Internet Explorer
      *
      * @type static
+     * @signature function(element, target)
      * @param element {Element} Parent element
      * @param target {Node} Child node
      * @return {Boolean}
@@ -187,6 +189,7 @@ qx.Class.define("qx.html2.element.Tree",
      * Uses native non-standard contains() in Opera and Internet Explorer
      *
      * @type static
+     * @signature function(element1, element2)
      * @param element1 {Element} First element
      * @param element1 {Element} Second element
      * @return {Element|null} Common parent

@@ -49,6 +49,7 @@ qx.Class.define("qx.html2.Document",
      * Returns the width of the document.
      *
      * @type static
+     * @signature function()
      * @return {Integer} The width of the actual document (which includes the body and its margin).
      */
     getWidth : qx.html2.Client.select(
@@ -67,6 +68,7 @@ qx.Class.define("qx.html2.Document",
      * Returns the height of the document.
      *
      * @type static
+     * @signature function()
      * @return {Integer} The height of the actual document (which includes the body and its margin).
      */
     getHeight : qx.html2.Client.select(
