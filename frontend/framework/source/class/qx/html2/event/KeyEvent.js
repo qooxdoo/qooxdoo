@@ -7,7 +7,7 @@
  */
 qx.Class.define("qx.html2.KeyEvent",
 {
-  extend : qx.html2.Event,
+  extend : qx.html2.event.Event,
 
   statics :
   {
