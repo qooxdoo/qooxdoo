@@ -26,7 +26,7 @@
 /**
  * The intention of this class is to bring more convenience to the attribute
  * and style features implemented by the other classes. It wraps the features
- * multiple classes in one unique interface.
+ * of multiple classes in one unique interface.
  * 
  * There is a automatic detection if the given name should be interpreted
  * as HTML property, attribute or style. It even supports complex 
@@ -37,7 +37,7 @@
  * This class is optimized for performance, but is not as optimal in performance
  * aspects than the more native implementations. For all highly performance
  * crititcal areas like animations it would be the best to directly use the
- * classes which contains the implementations.
+ * classes which contain the implementations.
  */
 qx.Class.define("qx.html2.element.Generic",
 {
