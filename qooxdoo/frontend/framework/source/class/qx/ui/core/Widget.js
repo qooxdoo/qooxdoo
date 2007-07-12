@@ -6019,15 +6019,17 @@ qx.Class.define("qx.ui.core.Widget",
 
       "mshtml" : function(value, old)
       {
-        return;
-
-        /*
+        // IMPORTANT
+        // to ensure that widgets using the execCommand method work
+        // properly it is necessary to keep these lines. Otherwise
+        // the widget e.g. the HtmlArea will loose its selection of text
+        // and the execCommand would target an empty selection at the 
+        // beginning of the editable document.
         if (value) {
           return this.removeHtmlProperty("unselectable");
         } else {
           return this.setHtmlProperty("unselectable", "on");
         }
-        */
       },
 
       "gecko" : function(value, old)
