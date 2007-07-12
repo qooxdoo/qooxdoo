@@ -117,7 +117,15 @@ qx.Class.define("qx.html2.Event",
      *       {@link #CAPTURING_PHASE}, {@link #AT_TARGET} and {@link #BUBBLING_PHASE}.
      */
     getEventPhase : function() {
-      return qx.html2.EventRegistration.EVENT_PHASE;
+      return this._eventPhase;
+    },
+
+
+    /**
+     * @internal
+     */
+    setEventPhase : function(eventPhase) {
+      this._eventPhase = eventPhase;
     },
 
 
@@ -174,42 +182,17 @@ qx.Class.define("qx.html2.Event",
      *
      * @signature function()
      */
-    getCurrentTarget : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function()
-      {
-        if (this._elementHash == -1) {
-          return qx.html2.EventRegistration.CURRENT_TARGET;
-        }
+    getCurrentTarget : function() {
+      return this._currentTarget;
+    },
 
-        var node = this.getTarget();
 
-        // Walk up the tree and search for the current target
-        while (node != null)
-        {
-          if (qx.core.Object.toHashCode(node) == this._elementHash) {
-            return node;
-          }
-
-          try {
-            node = node.parentNode;
-          } catch(vDomEvent) {
-            node = null;
-          }
-        }
-
-        return null;
-      },
-
-      "default" : function()
-      {
-        if (this._elementHash == -1) {
-          return qx.html2.EventRegistration.CURRENT_TARGET;
-        }
-
-        return this._event.currentTarget;
-      }
-    }),
+    /**
+     * @internal
+     */
+    setCurrentTarget : function(currentTarget) {
+      this._currentTarget = currentTarget;
+    },
 
 
     /**
