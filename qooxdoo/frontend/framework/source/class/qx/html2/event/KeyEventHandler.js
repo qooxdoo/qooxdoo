@@ -91,7 +91,7 @@ qx.Class.define("qx.html2.event.KeyEventHandler",
         this.__keyEventListenerCount += 1;
         if (this.__keyEventListenerCount == 1) {
           this.attachEvents(
-            window.document.documentElement,
+            this._documentElement,
             this.__keyHandler
           );
         }
@@ -107,7 +107,7 @@ qx.Class.define("qx.html2.event.KeyEventHandler",
         this.__keyEventListenerCount -= 1;
         if (this.__keyEventListenerCount == 0) {
           this.detachEvents(
-            window.document.documentElement,
+            this._documentElement,
             this.__keyHandler
           );
         }
@@ -699,6 +699,13 @@ qx.Class.define("qx.html2.event.KeyEventHandler",
   */
 
   destruct : function() {
-    this._disposeFields("_lastUpDownType");
+
+    this.detachEvents(
+      this._documentElement,
+      this.__keyHandler
+    );
+
+    this._disposeFields("_lastUpDownType", "_documentElement", "__keyHandler");
   }
+  
 });

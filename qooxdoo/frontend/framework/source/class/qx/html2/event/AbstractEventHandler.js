@@ -4,10 +4,14 @@ qx.Class.define("qx.html2.event.AbstractEventHandler",
 
   type : "abstract",
 
-  construct : function(eventCallBack)
+  construct : function(eventCallBack, domDocument)
   {
     this.base(arguments);
     this._callback = eventCallBack;
+
+    this._documentElement = domDocument ?
+      domDocument.documentElement :
+      window.document.documentElement;
   },
 
   members :
