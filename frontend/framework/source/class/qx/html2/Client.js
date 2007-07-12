@@ -32,7 +32,7 @@
  * informations in one nice looking map and compact declaration.
  *
  * This class allows a lot more combinations than possible with the
- * <code>qx.client</code> variant ({@see qx.core.Variant}). However
+ * <code>qx.client</code> variant ({@link qx.core.Variant}). However
  * compared to the variants there is no possibity to optimize the
  * code inside the generation of the "build" script. It could be seen
  * as a more flexible competing implementation of the <code>qx.client</code>
@@ -40,6 +40,25 @@
  * implementation to use. Variants are optimal when the wrapped code is 
  * quite large and this way the code which can be saved through the compile
  * time optimization will be also large.
+ *
+ * Currently supports the following keys:
+ *
+ * * khtml
+ * * opera, opera8, opera85, opera9, opera95
+ * * webkit, webkit419, webkit420
+ * * gecko, gecko17, gecko18, gecko181, gecko19
+ * * mshtml, mshtml6, mshtml7
+ * * version
+ * 
+ * * standard_mode, quirks_mode
+ * * content_box, border_box
+ * * svg, canvas, vml
+ * * xpath
+ *  
+ * * win, mac, unix 
+ *
+ * <code>version</code> is a floating point number. All others 
+ * are <code>boolean</code>.
  */
 qx.Class.define("qx.html2.Client",
 {
@@ -144,17 +163,35 @@ qx.Class.define("qx.html2.Client",
     },
 
     /** Internal map which stores the evaluated value for each already evaluated key */
-    __cache : { "default" : true  // the default value will always be accepted
+    __cache : { 
+      "default" : true  // the default value will always be accepted
     },
 
     /** Internal data structures with all flags or numeric value which should be available in expressions */
     __keys :
     {
-      Engine : [ "KHTML", "OPERA", "OPERA8", "OPERA85", "OPERA9", "OPERA95", "WEBKIT", "WEBKIT419", "WEBKIT420", "GECKO", "GECKO17", "GECKO18", "GECKO181", "GECKO19", "MSHTML", "MSHTML6", "MSHTML7", "VERSION" ],
-
-      Features : [ "STANDARD_MODE", "QUIRKS_MODE", "CONTENT_BOX", "BORDER_BOX", "SVG", "CANVAS", "VML", "XPATH" ],
-
-      Platform : [ "WIN", "MAC", "UNIX" ]
+      Engine : 
+      [ 
+        "KHTML", 
+        "OPERA", "OPERA8", "OPERA85", "OPERA9", "OPERA95", 
+        "WEBKIT", "WEBKIT419", "WEBKIT420", 
+        "GECKO", "GECKO17", "GECKO18", "GECKO181", "GECKO19", 
+        "MSHTML", "MSHTML6", "MSHTML7", 
+        "VERSION" 
+      ],
+      
+      Features : 
+      [ 
+        "STANDARD_MODE", "QUIRKS_MODE", 
+        "CONTENT_BOX", "BORDER_BOX", 
+        "SVG", "CANVAS", "VML", 
+        "XPATH" 
+      ],
+      
+      Platform : 
+      [ 
+        "WIN", "MAC", "UNIX" 
+      ]
     },
 
     /** Internal data strucure which contains all enabled flags and numeric values of the __keys structure */
