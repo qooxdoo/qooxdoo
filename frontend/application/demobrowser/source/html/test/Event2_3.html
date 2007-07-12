@@ -46,6 +46,20 @@
 
   #innerMouse1, #innerMouse2 {
     border: 1px solid black;
+    margin: 2px;
+  }
+
+  #frame {
+    border: 1px solid red;
+    width: 200px;
+    margin-left: 150px;
+  }
+
+  #form {
+    position: absolute;
+    top: 150px;
+    left: 550px;
+    width: 200px;
   }
 
 	</style>
@@ -59,16 +73,22 @@
 
 
 	<div id="mouse">
-  Click here (mouse)
-  <div id="frame">
-  <div id="innerMouse1">(innerMouse1)</div>
-  <div id="innerMouse2">(innerMouse2)</div>
-  </div>
+    Click here (mouse)
+    <div id="frame">
+      (frame)
+      <div id="innerMouse1">(innerMouse1)</div>
+      <div id="innerMouse2">(innerMouse2)</div>
+    </div>
   </div>
 
   <div id="keylogger">
 	</div>
 
+  <div id="form">
+    <table>
+      <tr><td><input type="checkbox"></td><td>Move events</td></tr>
+    </table>
+  </div>
   <input type="button" id="btnClear" value="clear">
 
 	<script type="text/javascript">
@@ -92,7 +112,7 @@ qx.Class.define("BasicSample",
 
       var mouseDiv = document.getElementById("mouse");
 
-      var events = ["mousedown", "mouseup", "click", "dblclick", "contextmenu"];
+      var events = ["mousedown", "mouseup", "click", "dblclick", "contextmenu", "singleclick"];
       for (var i=0; i<events.length; i++)
       {
         qx.html2.Event.addEventListener(
@@ -127,8 +147,6 @@ qx.Class.define("BasicSample",
 
     logMouseEvent: function(mouseEvent)
     {
-      console.log(mouseEvent);
-
       mouseEvent.preventDefault();
       var eventCopy = {
         target: mouseEvent.getTarget().id,

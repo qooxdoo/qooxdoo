@@ -47,9 +47,7 @@ qx.Class.define("qx.html2.event.MouseEventHandler",
     this.base(arguments, eventCallBack);
 
     this.__mouseButtonListenerCount = 0;
-
     var buttonHandler = qx.lang.Function.bind(this.onMouseButtonEvent, this);
-
     this.__mouseButtonHandler =
     {
       "mousedown"   : buttonHandler,
@@ -58,6 +56,13 @@ qx.Class.define("qx.html2.event.MouseEventHandler",
       "dblclick"    : buttonHandler,
       "contextmenu" : buttonHandler
     };
+
+    var moveHandler = qx.lang.Function.bind(this.__fireEvent, this);
+    this.__mouseMoveHandler = {
+      "mousemove" : moveHandler,
+      "mouseover" : moveHandler,
+      "mouseout" : moveHandler
+    }
 
     this._lastMouseDownTarget = null;
   },
@@ -85,7 +90,7 @@ qx.Class.define("qx.html2.event.MouseEventHandler",
 
         if (this.__mouseButtonListenerCount == 1) {
           this.attachEvents(
-            window.document.documentElement,
+            this._documentElement,
             this.__mouseButtonHandler
           );
         }
@@ -109,7 +114,7 @@ qx.Class.define("qx.html2.event.MouseEventHandler",
 
         if (this.__mouseButtonListenerCount == 0) {
           this.detachEvents(
-            window.document.documentElement,
+            this._documentElement,
             this.__mouseButtonHandler
           );
         }
@@ -270,16 +275,29 @@ qx.Class.define("qx.html2.event.MouseEventHandler",
             }
         }
       }
-    }),
+    })
+  },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param event {var} TODOC
-     * @return {void}
-     */
-    onMouseEvent : function(event) {}
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+
+    this.detachEvents(
+      this._documentElement,
+      this.__mouseButtonHandler
+    );
+
+    this._disposeFields(
+      "_documentElement",
+      "__mouseMoveHandler",
+      "_lastMouseDownTarget"
+    );
   }
 });
