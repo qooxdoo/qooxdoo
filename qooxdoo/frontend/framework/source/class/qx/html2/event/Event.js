@@ -1,3 +1,23 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+     * Andreas Ecker (ecker)
+     * Fabian Jakobs (fjakobs)
+
+************************************************************************ */
 
 /**
  * Wrapper for DOM events.
@@ -8,6 +28,14 @@
 qx.Class.define("qx.html2.event.Event",
 {
   extend : qx.core.Object,
+
+
+
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
 
   statics :
   {
@@ -40,8 +68,33 @@ qx.Class.define("qx.html2.event.Event",
     }
   },
 
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
+
+    /**
+     * Initialize the fileds of the event.
+     *
+     * @type member
+     * @param domEvent {Event} DOM event
+     */
+    __initEvent : function(domEvent)
+    {
+      this._type = null;
+      this._target = null;
+      this._event = domEvent;
+      this._stopPropagation = false;
+      this._timeStamp = domEvent.timeStamp || (new Date()).getTime();
+    },
+
+
     /**
      * Prevent browser default behaviour, e.g. opening the context menu, ...
      * @signature function()
@@ -108,6 +161,9 @@ qx.Class.define("qx.html2.event.Event",
 
 
     /**
+     * Override the event type
+     *
+     * @param type {String} new event type
      * @internal
      */
     setType : function(type) {
@@ -128,6 +184,9 @@ qx.Class.define("qx.html2.event.Event",
 
 
     /**
+     * Override the event phase
+     *
+     * @param eventPhase {Integer} new event phase
      * @internal
      */
     setEventPhase : function(eventPhase) {
@@ -183,6 +242,9 @@ qx.Class.define("qx.html2.event.Event",
 
 
     /**
+     * Override event target.
+     *
+     * @param target {Element} new event target
      * @internal
      */
     setTarget : function(target) {
@@ -206,6 +268,9 @@ qx.Class.define("qx.html2.event.Event",
 
 
     /**
+     * Override current target.
+     *
+     * @param currentTarget {Element} new current target
      * @internal
      */
     setCurrentTarget : function(currentTarget) {
@@ -214,19 +279,63 @@ qx.Class.define("qx.html2.event.Event",
 
 
     /**
-     * Initialize the fileds of the event.
+     * Returns whether the the ctrl key is pressed.
      *
      * @type member
-     * @param domEvent {Event} DOM event
-     * @return {void}
+     * @return {Boolean} whether the the ctrl key is pressed.
      */
-    __initEvent : function(domEvent)
+    isCtrlPressed : function() {
+      return this._event.ctrlKey;
+    },
+
+
+    /**
+     * Returns whether the the shift key is pressed.
+     *
+     * @type member
+     * @return {Boolean} whether the the shift key is pressed.
+     */
+    isShiftPressed : function() {
+      return this._event.shiftKey;
+    },
+
+
+    /**
+     * Returns whether the the alt key is pressed.
+     *
+     * @type member
+     * @return {Boolean} whether the the alt key is pressed.
+     */
+    isAltPressed : function() {
+      return this._event.altKey;
+    },
+
+
+    /**
+     * Returns whether the the meta key is pressed.
+     *
+     * @type member
+     * @return {Boolean} whether the the meta key is pressed.
+     */
+    isMetaPressed : function() {
+      return this._event.metaKey;
+    },
+
+
+    /**
+     * Returns whether the ctrl key or (on the Mac) the command key is pressed.
+     *
+     * @type member
+     * @return {Boolean} <code>true</code> if the command key is pressed on the Mac
+     *             or the ctrl key is pressed on another system.
+     */
+    isCtrlOrCommandPressed : function()
     {
-      this._type = null;
-      this._target = null;
-      this._event = domEvent;
-      this._stopPropagation = false;
-      this._timeStamp = domEvent.timeStamp || (new Date()).getTime();
+      if (qx.core.Client.getInstance().runsOnMacintosh()) {
+        return this._event.metaKey;
+      } else {
+        return this._event.ctrlKey;
+      }
     }
   }
 });

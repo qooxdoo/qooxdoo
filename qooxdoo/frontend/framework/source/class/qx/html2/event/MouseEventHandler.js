@@ -59,9 +59,18 @@ qx.Class.define("qx.html2.event.MouseEventHandler",
 
     var moveHandler = qx.lang.Function.bind(this.__fireEvent, this);
     this.__mouseMoveHandler = {
-      "mousemove" : moveHandler,
-      "mouseover" : moveHandler,
-      "mouseout" : moveHandler
+      "mousemove" : {
+        count: 0,
+        handler: moveHandler
+      },
+      "mouseover" : {
+        count: 0,
+        handler: moveHandler
+      },
+      "mouseout" : {
+        count: 0,
+        handler: moveHandler
+      }
     }
 
     this._lastMouseDownTarget = null;
@@ -69,15 +78,9 @@ qx.Class.define("qx.html2.event.MouseEventHandler",
 
   members :
   {
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param type {var} TODOC
-     * @return {boolean} TODOC
-     */
+
     canHandleEvent : function(type) {
-      return this.__mouseButtonHandler[type];
+      return this.__mouseButtonHandler[type] || this.__mouseMoveHandler[type];
     },
 
 
@@ -89,22 +92,27 @@ qx.Class.define("qx.html2.event.MouseEventHandler",
         this.__mouseButtonListenerCount += 1;
 
         if (this.__mouseButtonListenerCount == 1) {
-          this.attachEvents(
+          this._attachEvents(
             this._documentElement,
             this.__mouseButtonHandler
+          );
+        }
+      }
+      else if (this.__mouseMoveHandler[type])
+      {
+        this.__mouseMoveHandler[type].count += 1;
+        if (this.__mouseMoveHandler[type].count == 1)
+        {
+          qx.html2.Event.nativeAddEventListener(
+            this._documentElement,
+            type,
+            this.__mouseMoveHandler[type].handler
           );
         }
       }
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param type {var} TODOC
-     * @return {void}
-     */
     unregisterEvent : function(type)
     {
       if (this.__mouseButtonHandler[type])
@@ -113,15 +121,34 @@ qx.Class.define("qx.html2.event.MouseEventHandler",
         this.__mouseButtonListenerCount -= 1;
 
         if (this.__mouseButtonListenerCount == 0) {
-          this.detachEvents(
+          this._detachEvents(
             this._documentElement,
             this.__mouseButtonHandler
+          );
+        }
+      }
+      else if (this.__mouseMoveHandler[type])
+      {
+        this.__mouseMoveHandler[type].handler -= 1;
+        if (this.__mouseMoveHandler[type].count == 0)
+        {
+          qx.html2.Event.nativeAddEventListener(
+            this._documentElement,
+            type,
+            this.__mouseMoveHandler[type].handler
           );
         }
       }
     },
 
 
+    /**
+     * Fire a mouse event with the given parameters
+     *
+     * @param domEvent {Event} DOM event
+     * @param type {String} type og the event
+     * @param target {Element} event target
+     */
     __fireEvent : function(domEvent, type, target) {
       var event = qx.html2.event.MouseEvent.getInstance(domEvent);
       event.setType(type);
@@ -131,11 +158,11 @@ qx.Class.define("qx.html2.event.MouseEventHandler",
 
 
     /**
-     * TODOC
+     * Global handler for all mouse button relates events like "mouseup",
+     * "mousedown", "click", "dblclick" and "contextmenu".
      *
      * @type member
-     * @param domEvent {var} TODOC
-     * @return {void}
+     * @param domEvent {Event} DOM event
      */
     onMouseButtonEvent : function(domEvent)
     {
@@ -289,7 +316,7 @@ qx.Class.define("qx.html2.event.MouseEventHandler",
 
   destruct : function() {
 
-    this.detachEvents(
+    this._detachEvents(
       this._documentElement,
       this.__mouseButtonHandler
     );
