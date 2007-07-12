@@ -39,8 +39,7 @@
 ************************************************************************ */
 
 /**
- * Includes library functions to work with the client's document.
- *
+ * Includes library functions to work with the current document.
  */
 qx.Class.define("qx.html2.Document",
 {

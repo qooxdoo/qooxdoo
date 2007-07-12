@@ -24,6 +24,14 @@
 
 ************************************************************************ */
 
+/**
+ * This class comes with all relevant informations regarding 
+ * the client's implemented features.
+ *
+ * The listed constants are automatically filled on the initialization 
+ * phase of the class. The defaults listed in the API viewer need not 
+ * to be identical to the values at runtime.
+ */
 qx.Class.define("qx.html2.client.Features",
 {
   /*
@@ -34,7 +42,6 @@ qx.Class.define("qx.html2.client.Features",
 
   statics :
   {
-
     /** {Boolean} Flag to detect if the current document is rendered in standard mode */
     STANDARD_MODE : false,
 

@@ -41,6 +41,17 @@
 
 ************************************************************************ */
 
+/** 
+ * Attribute/Property handling for HTML elements. 
+ *
+ * Also includes support for HTML properties like <code>checked</code> 
+ * or <code>value</code>. This feature set is supported cross-browser 
+ * through one common interface without knowing the differences between 
+ * the multiple implementations.
+ * 
+ * Supports to apply text and HTML content using the attribute names
+ * <code>text</code> and <code>html</code>.
+ */
 qx.Class.define("qx.html2.element.Attribute",
 {
   /*

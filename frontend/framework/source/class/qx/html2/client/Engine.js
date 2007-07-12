@@ -23,6 +23,14 @@
 
 ************************************************************************ */
 
+/**
+ * This class comes with all relevant informations regarding 
+ * the client's engine.
+ *
+ * The listed constants are automatically filled on the initialization 
+ * phase of the class. The defaults listed in the API viewer need not 
+ * to be identical to the values at runtime.
+ */
 qx.Class.define("qx.html2.client.Engine",
 {
   /*
@@ -36,7 +44,6 @@ qx.Class.define("qx.html2.client.Engine",
   // Firefox: http://en.wikipedia.org/wiki/History_of_Mozilla_Firefox
   statics :
   {
-
     /** {String} Name of the client's HTML/JS engine e.g. mshtml, gecko, webkit, opera, khtml */
     NAME : "",
 
