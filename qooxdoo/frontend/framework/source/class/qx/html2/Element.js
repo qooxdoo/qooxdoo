@@ -666,10 +666,10 @@ qx.Class.define("qx.html2.Element",
      * Add all given children to this element
      *
      * @type member
-     * @param children {qx.html2.Element[]} the elements to add
+     * @param varargs {arguments} the elements to add
      * @return {qx.html2.Element} this object (for chaining support)
      */
-    addList : function(children)
+    addList : function(varargs)
     {
       for (var i=0, l=arguments.length; i<l; i++) {
         this.add(arguments[i]);
