@@ -45,9 +45,9 @@
  * Style querying and modification of HTML elements.
  *
  * Automatically normalizes cross-browser differences. Optimized for
- * performance. This class does not contains cross-browser support
+ * performance. This class does not contain cross-browser support
  * for special things like <code>opacity</code> which otherwise will
- * result into a much bigger implementation. For special things like
+ * result in a much bigger implementation. For special things like
  * these please use the appropriate classes in this namespace.
  */
 qx.Class.define("qx.html2.element.Style",
