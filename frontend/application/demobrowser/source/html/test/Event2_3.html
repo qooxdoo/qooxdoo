@@ -65,7 +65,7 @@
 	</style>
 
 </head>
-<body>
+<body id="body">
   <div id="description">
     <p>Mouse handler Test</p>
 		<p>Native mouse events</p>
@@ -86,7 +86,14 @@
 
   <div id="form">
     <table>
-      <tr><td><input type="checkbox"></td><td>Move events</td></tr>
+      <tr><td><input type="checkbox" id="check_mousedown" checked="checked"></td><td>mousedown</td></tr>
+      <tr><td><input type="checkbox" id="check_mouseup" checked="checked"></td><td>mouseup</td></tr>
+      <tr><td><input type="checkbox" id="check_click" checked="checked"></td><td>click</td></tr>
+      <tr><td><input type="checkbox" id="check_dblclick" checked="checked"></td><td>dblclick</td></tr>
+      <tr><td><input type="checkbox" id="check_contextmenu" checked="checked"></td><td>contextmenu</td></tr>
+      <tr><td><input type="checkbox" id="check_mousemove"></td><td>mousemove</td></tr>
+      <tr><td><input type="checkbox" id="check_mouseover"></td><td>mouseover</td></tr>
+      <tr><td><input type="checkbox" id="check_mouseout"></td><td>mouseout</td></tr>
     </table>
   </div>
   <input type="button" id="btnClear" value="clear">
@@ -103,7 +110,7 @@ qx.Class.define("BasicSample",
     {
       this.base(arguments);
 
-      this.tableHead = "<table><tr><th>Target</th><th>Event</th><th>button</th><th>which</th><th>screenX</th><th>screenY</th><th>clientX</th><th>clientY</th><th>relatedTarget</th></tr>";
+      this.tableHead = "<table><tr><th>Target</th><th>Event</th><th>button</th><th>screenX</th><th>screenY</th><th>clientX</th><th>clientY</th><th>relatedTarget</th></tr>";
   		this.keyEvents = [];
   		this.maxLogSize = 50;
   		this.logDiv = document.getElementById("keylogger");
@@ -112,15 +119,19 @@ qx.Class.define("BasicSample",
 
       var mouseDiv = document.getElementById("mouse");
 
-      var events = ["mousedown", "mouseup", "click", "dblclick", "contextmenu", "singleclick"];
+      var events = ["mousedown", "mouseup", "click", "dblclick", "contextmenu", "mousemove", "mouseover", "mouseout"];
       for (var i=0; i<events.length; i++)
       {
-        qx.html2.Event.addEventListener(
-          mouseDiv,
-          events[i],
-          this.logMouseEvent,
-          this
-        )
+        var elem = document.getElementById("check_" + events[i])
+        if (elem.checked) {
+          qx.html2.Event.addEventListener(
+            mouseDiv,
+            events[i],
+            this.logMouseEvent,
+            this
+          )
+        }
+        qx.html2.Event.addEventListener(elem, "change", this.__changeCheckbox, this);
       }
 
       qx.html2.Event.addEventListener(
@@ -139,11 +150,38 @@ qx.Class.define("BasicSample",
 
     },
 
+
+    __changeCheckbox : function(e) {
+      var type = e.getTarget().id.split("_")[1];
+      var checked = e.getTarget().checked;
+      var mouseDiv = document.getElementById("mouse");
+
+      if (checked) {
+        qx.html2.Event.addEventListener(
+          mouseDiv,
+          type,
+          this.logMouseEvent,
+          this
+        )
+      }
+      else
+      {
+        qx.html2.Event.removeEventListener(
+          mouseDiv,
+          type,
+          this.logMouseEvent
+        )
+
+      }
+    },
+
+
     initializeLogger: function()
     {
 			this.logDiv.innerHTML = this.tableHead + "</table>";
 			this.keyEvents = [];
 		},
+
 
     logMouseEvent: function(mouseEvent)
     {
@@ -151,13 +189,12 @@ qx.Class.define("BasicSample",
       var eventCopy = {
         target: mouseEvent.getTarget().id,
 				type: mouseEvent.getType(),
-				button: mouseEvent._event.button,
-				which: mouseEvent._event.which,
-        screenX: mouseEvent._event.screenX,
+				button: mouseEvent.getButton(),
+				screenX: mouseEvent._event.screenX,
         screenY: mouseEvent._event.screenY,
-        clientX: mouseEvent._event.clientX,
-        clientY: mouseEvent._event.clientY,
-        relatedTarget: mouseEvent._event.relatedTarget
+        clientX: mouseEvent.getClientX(),
+        clientY: mouseEvent.getClientY(),
+        relatedTarget: mouseEvent.getRelatedTarget() ? mouseEvent.getRelatedTarget().id : ""
 			}
 			this.keyEvents.unshift(eventCopy);
 			this.keyEvents = this.keyEvents.slice(0, this.maxLogSize);
@@ -170,8 +207,6 @@ qx.Class.define("BasicSample",
 				str.push(e.type);
 				str.push("</td><td>");
 				str.push(e.button);
-				str.push("</td><td>");
-				str.push(e.which);
 				str.push("</td><td>");
 				str.push(e.screenX);
 				str.push("</td><td>");

@@ -25,7 +25,9 @@
 
 /**
  * This class provides unified key event handler for Internet Explorer,
- * Firefox, Opera and Safari
+ * Firefox, Opera and Safari.
+ *
+ * @internal
  */
 qx.Class.define("qx.html2.event.KeyEventHandler",
 {
@@ -40,9 +42,14 @@ qx.Class.define("qx.html2.event.KeyEventHandler",
   *****************************************************************************
   */
 
-  construct : function(callback)
+  /**
+   * @param eventCallBack {Function} general event handler for all events
+   *   handled by this event handler
+   * @param domDocument {Document} DOm document the events should be attached to
+   */
+  construct : function(eventCallBack, domDocument)
   {
-    this.base(arguments, callback);
+    this.base(arguments, eventCallBack, domDocument);
 
     this.__keyEventListenerCount = 0;
 
@@ -68,6 +75,15 @@ qx.Class.define("qx.html2.event.KeyEventHandler",
   members :
   {
 
+    /**
+     * Fire a key event with the given parameters
+     *
+     * @param domEvent {Event} DOM event
+     * @param eventType {String} type og the event
+     * @param keyCode {Integer} key code
+     * @param charCode {Integer} character code
+     * @param keyIdentifier {String} key identifier
+     */
     __fireEvent : function(domEvent, eventType, keyCode, charCode, keyIdentifier)
     {
       var event = new qx.html2.event.KeyEvent.getInstance(
@@ -90,7 +106,7 @@ qx.Class.define("qx.html2.event.KeyEventHandler",
         // handle key events
         this.__keyEventListenerCount += 1;
         if (this.__keyEventListenerCount == 1) {
-          this.attachEvents(
+          this._attachEvents(
             this._documentElement,
             this.__keyHandler
           );
@@ -106,7 +122,7 @@ qx.Class.define("qx.html2.event.KeyEventHandler",
         // handle key events
         this.__keyEventListenerCount -= 1;
         if (this.__keyEventListenerCount == 0) {
-          this.detachEvents(
+          this._detachEvents(
             this._documentElement,
             this.__keyHandler
           );
@@ -700,12 +716,12 @@ qx.Class.define("qx.html2.event.KeyEventHandler",
 
   destruct : function() {
 
-    this.detachEvents(
+    this._detachEvents(
       this._documentElement,
       this.__keyHandler
     );
 
     this._disposeFields("_lastUpDownType", "_documentElement", "__keyHandler");
   }
-  
+
 });
