@@ -101,18 +101,14 @@ qx.Class.define("qx.html2.Client",
           throw new Error("Could not parse key: " + key);
         }
 
-        // Webkit does not correctly implements the split() command used beyond
-        if (qx.core.Variant.isSet("qx.client", "webkit")) {}
-        else
+        // Check if the keys used in the expression are valid (defined through __keys)
+        var lower = this.__lower;
+        var reg = /\b([a-z][a-z0-9_]+)\b/g;
+        
+        for (var i=1, a=qx.util.StringSplit.split(key, reg), l=a.length; i<l; i+=2)
         {
-          // Check if the keys used in the expression are valid (defined through __keys)
-          var lower = this.__lower;
-          
-          for (var i=1, a=key.split(/\b([a-z][a-z0-9_]+)\b/g), l=a.length; i<l; i+=2)
-          {
-            if (lower[a[i]] === undefined) {
-              throw new Error('The key "' + key + '" contains an invalid property "' + a[i] + '"!');
-            }
+          if (lower[a[i]] === undefined) {
+            throw new Error('The key "' + key + '" contains an invalid property "' + a[i] + '"!');
           }
         }
       }
