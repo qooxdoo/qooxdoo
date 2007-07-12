@@ -74,7 +74,12 @@ qx.Class.define("qx.xml.Element",
             this.__xpe = new XPathEvaluator();
           }
           var xpe = this.__xpe;
-          return xpe.evaluate(query, element, xpe.createNSResolver(element), XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+          try {
+            return xpe.evaluate(query, element, xpe.createNSResolver(element), XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+          }
+          catch(err) {
+            throw new Error("selectSingleNode: query: " + query + ", element: " + element + ", error: " + err);
+          }  
         },
 
         "noXPath": function() {
@@ -107,7 +112,12 @@ qx.Class.define("qx.xml.Element",
             this.__xpe = new XPathEvaluator();
           }
           var xpe = this.__xpe;
-          var result = xpe.evaluate(query, element, xpe.createNSResolver(element), XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+          try {
+            var result = xpe.evaluate(query, element, xpe.createNSResolver(element), XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+          }
+          catch(err) {
+            throw new Error("selectNodes: query: " + query + ", element: " + element + ", error: " + err);
+          }
           var nodes = [];
 
           for (var i=0; i<result.snapshotLength; i++) {
