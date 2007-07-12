@@ -15,7 +15,6 @@ qx.Class.define("qx.html2.event.KeyEvent",
      * TODOC
      *
      * @type static
-     * @param elementHash {var} TODOC
      * @param domEvent {var} TODOC
      * @param eventType {var} TODOC
      * @param keyCode {var} TODOC
@@ -23,13 +22,13 @@ qx.Class.define("qx.html2.event.KeyEvent",
      * @param keyIdentifier {var} TODOC
      * @return {var} TODOC
      */
-    getInstance : function(elementHash, domEvent, eventType, keyCode, charCode, keyIdentifier)
+    getInstance : function(domEvent, eventType, keyCode, charCode, keyIdentifier)
     {
       if (this.__instance == undefined) {
         this.__instance = new qx.html2.event.KeyEvent();
       }
 
-      this.__instance.__initEvent(elementHash, domEvent, eventType, keyCode, charCode, keyIdentifier);
+      this.__instance.__initEvent(domEvent, eventType, keyCode, charCode, keyIdentifier);
       return this.__instance;
     }
   },
@@ -40,7 +39,6 @@ qx.Class.define("qx.html2.event.KeyEvent",
      * TODOC
      *
      * @type member
-     * @param elementHash {var} TODOC
      * @param domEvent {var} TODOC
      * @param eventType {var} TODOC
      * @param keyCode {var} TODOC
@@ -48,9 +46,9 @@ qx.Class.define("qx.html2.event.KeyEvent",
      * @param keyIdentifier {var} TODOC
      * @return {void}
      */
-    __initEvent : function(elementHash, domEvent, eventType, keyCode, charCode, keyIdentifier)
+    __initEvent : function(domEvent, eventType, keyCode, charCode, keyIdentifier)
     {
-      this.base(arguments, elementHash, domEvent);
+      this.base(arguments, domEvent);
       this._type = eventType;
       this._keyCode = keyCode;
       this._charCode = charCode;
