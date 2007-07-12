@@ -2,7 +2,6 @@
 
 #require(qx.html2.event.KeyEventHandler)
 #require(qx.html2.event.MouseEventHandler)
-#require(qx.html2.DefaultEventHandler)
 
 ************************************************************************ */
 
@@ -446,7 +445,7 @@ qx.Class.define("qx.html2.Event",
      */
     __inlineEventHandler : function(elementId, domEvent)
     {
-      var event = qx.html2.event.Event.getInstance(elementId, window.event || domEvent);
+      var event = qx.html2.event.Event.getInstance(window.event || domEvent);
       event.setEventPhase(qx.html2.event.Event.AT_TARGET);
       event.setCurrentTarget(event.getTarget());
 
@@ -623,7 +622,7 @@ qx.Class.define("qx.html2.Event",
 
 
     __handleEvent : function(domEvent) {
-      var event = qx.html2.event.Event.getInstance(-1, domEvent);
+      var event = qx.html2.event.Event.getInstance(domEvent);
       this.__dispatchEventWrapper(event);
     }
 

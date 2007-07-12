@@ -71,8 +71,9 @@ qx.Class.define("qx.html2.event.KeyEventHandler",
     __fireEvent : function(domEvent, eventType, keyCode, charCode, keyIdentifier)
     {
       var event = new qx.html2.event.KeyEvent.getInstance(
-        -1, domEvent, eventType, keyCode, charCode, keyIdentifier
+        domEvent, keyCode, charCode, keyIdentifier
       );
+      event.setType(eventType);
       this._callback(event);
     },
 
