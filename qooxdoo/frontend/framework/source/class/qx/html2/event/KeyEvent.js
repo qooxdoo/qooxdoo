@@ -5,7 +5,7 @@
  * the interface of this class is based on the DOM Level 3 keyboard event
  * interface: http://www.w3.org/TR/DOM-Level-3-Events/events.html#Events-KeyboardEvent
  */
-qx.Class.define("qx.html2.KeyEvent",
+qx.Class.define("qx.html2.event.KeyEvent",
 {
   extend : qx.html2.event.Event,
 
@@ -26,7 +26,7 @@ qx.Class.define("qx.html2.KeyEvent",
     getInstance : function(elementHash, domEvent, eventType, keyCode, charCode, keyIdentifier)
     {
       if (this.__instance == undefined) {
-        this.__instance = new qx.html2.KeyEvent();
+        this.__instance = new qx.html2.event.KeyEvent();
       }
 
       this.__instance.__initEvent(elementHash, domEvent, eventType, keyCode, charCode, keyIdentifier);

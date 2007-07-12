@@ -27,7 +27,7 @@
  * This class provides unified key event handler for Internet Explorer,
  * Firefox, Opera and Safari
  */
-qx.Class.define("qx.html2.KeyEventHandler",
+qx.Class.define("qx.html2.event.KeyEventHandler",
 {
   extend : qx.html2.event.AbstractEventHandler,
 
@@ -70,7 +70,7 @@ qx.Class.define("qx.html2.KeyEventHandler",
 
     __fireEvent : function(domEvent, eventType, keyCode, charCode, keyIdentifier)
     {
-      var event = new qx.html2.KeyEvent.getInstance(
+      var event = new qx.html2.event.KeyEvent.getInstance(
         -1, domEvent, eventType, keyCode, charCode, keyIdentifier
       );
       this._callback(event);
