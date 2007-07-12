@@ -29,9 +29,9 @@
  */
 qx.Class.define("qx.html2.KeyEventHandler",
 {
-  extend : qx.html2.AbstractEventHandler,
+  extend : qx.html2.event.AbstractEventHandler,
 
-  implement : qx.html2.IEventHandler,
+  implement : qx.html2.event.IEventHandler,
 
 
   /*

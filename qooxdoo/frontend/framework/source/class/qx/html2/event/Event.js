@@ -5,7 +5,7 @@
  * The interface is modeled after the DOM level 2 event interface:
  * http://www.w3.org/TR/DOM-Level-2-Events/events.html#Events-interface
  */
-qx.Class.define("qx.html2.Event",
+qx.Class.define("qx.html2.event.Event",
 {
   extend : qx.core.Object,
 
@@ -29,7 +29,7 @@ qx.Class.define("qx.html2.Event",
      * @param elementHash {Integer} The hash value of the DOM element, the
      *       event is currently dispatched on.
      * @param domEvent {Event} DOM event
-     * @return {qx.html2.Event} an initialized Event instance
+     * @return {qx.html2.event.Event} an initialized Event instance
      */
     getInstance : function(elementHash, domEvent)
     {

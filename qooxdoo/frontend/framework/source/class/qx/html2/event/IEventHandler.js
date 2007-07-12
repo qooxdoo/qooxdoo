@@ -1,4 +1,4 @@
-qx.Interface.define("qx.html2.IEventHandler",
+qx.Interface.define("qx.html2.event.IEventHandler",
 {
   members :
   {

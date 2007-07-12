@@ -1,4 +1,4 @@
-qx.Class.define("qx.html2.AbstractEventHandler",
+qx.Class.define("qx.html2.event.AbstractEventHandler",
 {
   extend : qx.core.Object,
 
@@ -20,7 +20,7 @@ qx.Class.define("qx.html2.AbstractEventHandler",
      */
     attachEvents : function(element, eventMap)
     {
-      var addEvent = qx.html2.EventRegistration.nativeAddEventListener;
+      var addEvent = qx.html2.Event.nativeAddEventListener;
       for (var type in eventMap)
       {
         addEvent(
@@ -39,7 +39,7 @@ qx.Class.define("qx.html2.AbstractEventHandler",
      */
     detachEvents : function(element, eventMap)
     {
-      var removeEvent = qx.html2.EventRegistration.nativeRemoveEventListener
+      var removeEvent = qx.html2.Event.nativeRemoveEventListener
       for (var type in this.__keyHandler)
       {
         removeEvent(

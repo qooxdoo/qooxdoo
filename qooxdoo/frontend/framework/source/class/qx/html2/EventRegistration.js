@@ -1,7 +1,7 @@
 /* ************************************************************************
 
 #require(qx.html2.KeyEventHandler)
-#require(qx.html2.MouseEventHandler)
+#require(qx.html2.event.MouseEventHandler)
 #require(qx.html2.DefaultEventHandler)
 
 ************************************************************************ */
@@ -30,12 +30,12 @@
  *   </li>
  * </ul>
  */
-qx.Class.define("qx.html2.EventRegistration",
+qx.Class.define("qx.html2.event.EventRegistration",
 {
 
   extend : qx.core.Object,
 
-  implement : qx.html2.IEventHandler,
+  implement : qx.html2.event.IEventHandler,
 
   construct : function(domDocument)
   {
@@ -49,7 +49,7 @@ qx.Class.define("qx.html2.EventRegistration",
 
     this.__eventHandlers = [
       new qx.html2.KeyEventHandler(this.__dispatchEventWrapper),
-      new qx.html2.MouseEventHandler(this.__dispatchEventWrapper),
+      new qx.html2.event.MouseEventHandler(this.__dispatchEventWrapper),
       this // must be last
     ],
 
@@ -293,7 +293,7 @@ qx.Class.define("qx.html2.EventRegistration",
      * the capturing and bubbling phase.
      *
      * @type static
-     * @param event {qx.html2.Event} event object to dispatch
+     * @param event {qx.html2.event.Event} event object to dispatch
      * @return {void}
      */
     __dispatchDocumentEvent : function(event)
@@ -342,7 +342,7 @@ qx.Class.define("qx.html2.EventRegistration",
       }
 
       // capturing phase
-      event.setEventPhase(qx.html2.Event.CAPTURING_PHASE);
+      event.setEventPhase(qx.html2.event.Event.CAPTURING_PHASE);
 
       for (var i=(captureList.length-1); i>=0; i--)
       {
@@ -363,9 +363,9 @@ qx.Class.define("qx.html2.EventRegistration",
         event.setCurrentTarget(bubbleTargets[i]);
 
         if (bubbleTargets[i] == target) {
-          event.setEventPhase(qx.html2.Event.AT_TARGET);
+          event.setEventPhase(qx.html2.event.Event.AT_TARGET);
         } else {
-          event.setEventPhase(qx.html2.Event.BUBBLING_PHASE);
+          event.setEventPhase(qx.html2.event.Event.BUBBLING_PHASE);
         }
 
         for (var j=0; j<bubbleList[i].length; j++) {
@@ -416,7 +416,7 @@ qx.Class.define("qx.html2.EventRegistration",
 
       if (elementEvents[type].listeners.length == 0)
       {
-        qx.html2.EventRegistration.nativeAddEventListener(
+        qx.html2.event.EventRegistration.nativeAddEventListener(
           element,
           type,
           elementEvents[type].handler
@@ -446,8 +446,8 @@ qx.Class.define("qx.html2.EventRegistration",
      */
     __inlineEventHandler : function(elementId, domEvent)
     {
-      var event = qx.html2.Event.getInstance(elementId, window.event || domEvent);
-      event.setEventPhase(qx.html2.Event.AT_TARGET);
+      var event = qx.html2.event.Event.getInstance(elementId, window.event || domEvent);
+      event.setEventPhase(qx.html2.event.Event.AT_TARGET);
       event.setCurrentTarget(event.getTarget());
 
       var listeners = qx.lang.Array.copy(this.__inlineRegistry[elementId][domEvent.type].listeners);
@@ -571,7 +571,7 @@ qx.Class.define("qx.html2.EventRegistration",
 
         if (eventData.listeners.length == 0)
         {
-          qx.html2.EventRegistration.nativeRemoveEventListener(element, type, eventData.handler);
+          qx.html2.event.EventRegistration.nativeRemoveEventListener(element, type, eventData.handler);
           delete (elementData[type]);
         }
       }
@@ -601,7 +601,7 @@ qx.Class.define("qx.html2.EventRegistration",
 
     registerEvent : function(type)
     {
-      qx.html2.EventRegistration.nativeAddEventListener(
+      qx.html2.event.EventRegistration.nativeAddEventListener(
         this._documentElement,
         type,
         this.__handleEvent
@@ -613,7 +613,7 @@ qx.Class.define("qx.html2.EventRegistration",
     unregisterEvent : function(type)
     {
       if (this.__getDocumentListenerCount() == 0) {
-        qx.html2.EventRegistration.nativeRemoveEventListener(
+        qx.html2.event.EventRegistration.nativeRemoveEventListener(
           this._documentElement,
           type,
           this.__documentEventHandler
@@ -623,7 +623,7 @@ qx.Class.define("qx.html2.EventRegistration",
 
 
     __handleEvent : function(domEvent) {
-      var event = qx.html2.Event.getInstance(-1, domEvent);
+      var event = qx.html2.event.Event.getInstance(-1, domEvent);
       this.__dispatchEventWrapper(event);
     }
 
