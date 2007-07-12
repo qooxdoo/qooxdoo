@@ -257,7 +257,8 @@ qx.Class.define("qx.html2.element.Tree",
 
 
     /**
-     * Collects all of element's ancestors and returns them as an array elements.
+     * Collects all of element's ancestors and returns them as an array of
+     * elements.
      *
      * @type static
      * @param element {Element} DOM element to query for ancestors
@@ -296,7 +297,8 @@ qx.Class.define("qx.html2.element.Tree",
 
 
     /**
-     * Collects all of element's descendants and returns them as an array elements.
+     * Collects all of element's descendants (deep) and returns them as an array
+     * of elements.
      *
      * @type static
      * @param element {Element} DOM element to query for child elements
@@ -328,7 +330,7 @@ qx.Class.define("qx.html2.element.Tree",
 
 
     /**
-     * Collects all of element's previous siblings and returns them as an array elements.
+     * Collects all of element's previous siblings and returns them as an array of elements.
      *
      * @type static
      * @param element {Element} DOM element to query for previous siblings
@@ -340,7 +342,8 @@ qx.Class.define("qx.html2.element.Tree",
 
 
     /**
-     * Collects all of element's next siblings and returns them as an array elements.
+     * Collects all of element's next siblings and returns them as an array of
+     * elements.
      *
      * @type static
      * @param element {Element} DOM element to query for next siblings
@@ -352,9 +355,10 @@ qx.Class.define("qx.html2.element.Tree",
 
 
     /**
-     * Recursively collects elements whose relationship is specified by property.
-     * <code>property</code> has to be a property (a method won't do!) of element
-     * that points to a single DOM node. Returns an array elements.
+     * Recursively collects elements whose relationship is specified by
+     * property.  <code>property</code> has to be a property (a method won't
+     * do!) of element that points to a single DOM node. Returns an array of
+     * elements.
      *
      * @type static
      * @param element {Element} DOM element to start with
@@ -389,7 +393,7 @@ qx.Class.define("qx.html2.element.Tree",
 
 
     /**
-     * Whether the given element is empty
+     * Whether the given element is empty.
      * Inspired by Base2 (Dean Edwards)
      *
      * @type static
