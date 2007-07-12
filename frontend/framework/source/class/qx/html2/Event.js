@@ -200,7 +200,7 @@ qx.Class.define("qx.html2.Event",
      * instance of {@link Event} containing all relevant information
      * about the event as parameter.
      *
-     * @type static
+     * @type member
      * @param element {Element} DOM element to attach the event on.
      * @param type {String} Name of the event e.g. "click", "keydown", ...
      * @param listener {Function} Event listener function
@@ -233,7 +233,7 @@ qx.Class.define("qx.html2.Event",
      * Handles adding of event listeners of bubbling events by attaching the
      * event handler to the <code>documentElement</code>.
      *
-     * @type static
+     * @type member
      * @param element {Element} DOM element to attach the event on.
      * @param type {String} Name of the event e.g. "click", "keydown", ...
      * @param listener {Function} Event listener function
@@ -292,7 +292,7 @@ qx.Class.define("qx.html2.Event",
      * This function dispatches the event to the event handlers and emulates
      * the capturing and bubbling phase.
      *
-     * @type static
+     * @type member
      * @param event {qx.html2.event.Event} event object to dispatch
      * @return {void}
      */
@@ -383,7 +383,7 @@ qx.Class.define("qx.html2.Event",
      * Handles adding of event listeners of non bubbling events by attaching the
      * event handler directly to the element.
      *
-     * @type static
+     * @type member
      * @param element {Element} DOM element to attach the event on.
      * @param type {String} Name of the event e.g. "click", "keydown", ...
      * @param listener {Function} Event listener function
@@ -439,7 +439,7 @@ qx.Class.define("qx.html2.Event",
      * Central event handler for all non bubbling events. This function dispatches
      * the event to the event handlers.
      *
-     * @type static
+     * @type member
      * @param elementId {Number} hash value of the current target DOM element
      * @param domEvent {Event} DOM event passed by the browser.
      * @return {void}
@@ -461,7 +461,7 @@ qx.Class.define("qx.html2.Event",
     /**
      * Remove an event listener from a from DOM node.
      *
-     * @type static
+     * @type member
      * @param element {Element} DOM Element
      * @param type {String} Name of the event
      * @param listener {Function} The pointer to the event listener
@@ -482,7 +482,7 @@ qx.Class.define("qx.html2.Event",
     /**
      * Handles removal of bubbling events.
      *
-     * @type static
+     * @type member
      * @param element {Element} DOM Element
      * @param type {String} Name of the event
      * @param listener {Function} The pointer to the event listener
@@ -533,7 +533,7 @@ qx.Class.define("qx.html2.Event",
     /**
      * Handles removal of non bubbling events.
      *
-     * @type static
+     * @type member
      * @param element {Element} DOM Element
      * @param type {String} Name of the event
      * @param listener {Function} The pointer to the event listener
@@ -627,10 +627,9 @@ qx.Class.define("qx.html2.Event",
       this.__dispatchEventWrapper(event);
     }
 
-  }, // members
+  },
 
   destruct : function() {
 
   }
-
 });
