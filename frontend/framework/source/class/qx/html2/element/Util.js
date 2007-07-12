@@ -42,7 +42,7 @@
 ************************************************************************ */
 
 /**
- * Contains misc utilities to operate with HTML elements.
+ * Contains miscellaneous utilities to operate on HTML elements.
  */
 qx.Class.define("qx.html2.element.Util",
 {
@@ -220,7 +220,7 @@ qx.Class.define("qx.html2.element.Util",
      * Hides the given element
      *
      * @type static
-     * @param element {Element} DOM element to show
+     * @param element {Element} DOM element to hide
      * @return {void}
      */
     hide : function(element) {
