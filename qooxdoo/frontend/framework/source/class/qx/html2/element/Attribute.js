@@ -42,14 +42,14 @@
 ************************************************************************ */
 
 /** 
- * Attribute/Property handling for HTML elements. 
+ * Attribute/Property handling for DOM HTML elements. 
  *
  * Also includes support for HTML properties like <code>checked</code> 
  * or <code>value</code>. This feature set is supported cross-browser 
- * through one common interface without knowing the differences between 
+ * through one common interface and is independent of the differences between 
  * the multiple implementations.
  * 
- * Supports to apply text and HTML content using the attribute names
+ * Supports applying text and HTML content using the attribute names
  * <code>text</code> and <code>html</code>.
  */
 qx.Class.define("qx.html2.element.Attribute",
@@ -161,10 +161,10 @@ qx.Class.define("qx.html2.element.Attribute",
     /**
      * Sets a HTML attribute on an DOM element
      *
-     * Correctly supports HTML "for" attribute
-     * Can handle both name variants lowercase & camelcase
-     * Supports for "text" property to define innerText/textContent
-     * Supports for "html" property to define innerHTML content
+     * Correctly supports HTML "for" attribute.
+     * Can handle both name variants lowercase & camelcase.
+     * Supports "text" property to define innerText/textContent.
+     * Supports "html" property to define innerHTML content.
      *
      * @type static
      * @param element {Element} The DOM element to modify
