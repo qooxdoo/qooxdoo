@@ -29,11 +29,11 @@
  *
  * @internal
  */
-qx.Class.define("qx.html2.MouseEventHandler",
+qx.Class.define("qx.html2.event.MouseEventHandler",
 {
-  extend : qx.html2.AbstractEventHandler,
+  extend : qx.html2.event.AbstractEventHandler,
 
-  implement : qx.html2.IEventHandler,
+  implement : qx.html2.event.IEventHandler,
 
 
   /*
@@ -124,7 +124,7 @@ qx.Class.define("qx.html2.MouseEventHandler",
      */
     onMouseButtonEvent : function(domEvent)
     {
-      var event = qx.html2.MouseEvent.getInstance(-1, domEvent, domEvent.type);
+      var event = qx.html2.event.MouseEvent.getInstance(-1, domEvent, domEvent.type);
       this._callback(event);
     },
 
