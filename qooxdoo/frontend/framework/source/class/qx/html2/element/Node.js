@@ -280,7 +280,7 @@ qx.Class.define("qx.html2.element.Node",
      * @type static
      * @param node {Node} Node to remove
      * @return {Boolean} <code>true</code> when node was successfully removed, 
-     *   otherwise <code>false<code>
+     *   otherwise <code>false</code>
      */
     remove : function(node) 
     {
@@ -300,7 +300,7 @@ qx.Class.define("qx.html2.element.Node",
      * @param node {Node} Node to remove
      * @param parent {Element} parent element which contains the <code>node</code>
      * @return {Boolean} <code>true</code> when node was successfully removed, 
-     *   otherwise <code>false<code>
+     *   otherwise <code>false</code>
      */
     removeChild : function(node, parent)
     {
@@ -318,9 +318,10 @@ qx.Class.define("qx.html2.element.Node",
      * from the <code>parent</code>.
      *
      * @type static
-     * @param node {Node} Node to remove
+     * @param index {Integer} position of the node which should be removed
+     * @param parent {Element} parent DOM element
      * @return {Boolean} <code>true</code> when node was successfully removed, 
-     *   otherwise <code>false<code>
+     *   otherwise <code>false</code>
      */    
     removeChildAt : function(index, parent)
     {

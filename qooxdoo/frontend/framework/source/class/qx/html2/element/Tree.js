@@ -121,13 +121,13 @@ qx.Class.define("qx.html2.element.Tree",
 
 
     /**
-     * Returns the DOM2 "defaultView" which represents the window
+     * Returns the DOM2 <code>defaultView</code> which represents the window
      * of a DOM node
      *
      * @type static
      * @signature function(node)
-     * @param node {Node} TODOC
-     * @return {var} TODOC
+     * @param node {Node} node to inspect
+     * @return {Window} the <code>defaultView</code> of the given node
      */
     getDefaultView : qx.core.Variant.select("qx.client",
     {
@@ -191,8 +191,8 @@ qx.Class.define("qx.html2.element.Tree",
      * @type static
      * @signature function(element1, element2)
      * @param element1 {Element} First element
-     * @param element1 {Element} Second element
-     * @return {Element|null} Common parent
+     * @param element2 {Element} Second element
+     * @return {Element} the found parent, if none was found <code>null</code>
      */
     getCommonParent : qx.core.Variant.select("qx.client",
     {
