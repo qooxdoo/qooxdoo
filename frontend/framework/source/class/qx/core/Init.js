@@ -150,11 +150,6 @@ qx.Class.define("qx.core.Init",
 
       this.debug("qooxdoo " + qx.core.Version.toString());
 
-      // Print out class information
-      if (qx.core.Variant.isSet("qx.compatibility", "on")) {
-        this.debug("loaded " + qx.lang.Object.getLength(qx.OO.classes) + " old classes");
-      }
-
       this.debug("loaded " + qx.Class.getTotalNumber() + " classes");
       this.debug("loaded " + qx.Interface.getTotalNumber() + " interfaces");
       this.debug("loaded " + qx.Mixin.getTotalNumber() + " mixins");
