@@ -24,7 +24,7 @@
 ************************************************************************ */
 
 /**
- * High performance high level DOM element creation and managment.
+ * High-performance, high-level DOM element creation and managment.
  *
  * Includes support for HTML and style attributes. Allows to
  * add children or to apply text or HTML content.
@@ -647,7 +647,7 @@ qx.Class.define("qx.html2.Element",
 
 
     /**
-     * Append the given children at the end of this element.
+     * Append the given child at the end of this element's children.
      *
      * @type member
      * @param child {qx.html2.Element} the element to insert
@@ -663,13 +663,13 @@ qx.Class.define("qx.html2.Element",
 
 
     /**
-     * Add all given children from this element
+     * Add all given children to this element
      *
      * @type member
-     * @param varargs {arguments} the elements
+     * @param children {qx.html2.Element[]} the elements to add
      * @return {qx.html2.Element} this object (for chaining support)
      */
-    addList : function(varargs)
+    addList : function(children)
     {
       for (var i=0, l=arguments.length; i<l; i++) {
         this.add(arguments[i]);
@@ -872,8 +872,9 @@ qx.Class.define("qx.html2.Element",
 
     /**
      * Returns the DOM element (if created). Please don't use this.
-     * Better to use the alternatives like setText, setHtml and all
-     * the children functions.
+     * It is better to make all changes to the framework object itself (using
+     * {@link #setText}, {@link #setHtml}, or manipulating the children), rather
+     * than to the underying DOM element.
      *
      * @type member
      * @return {Element} the DOM element node
