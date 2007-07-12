@@ -2,6 +2,7 @@
 
 #require(qx.html2.KeyEventHandler)
 #require(qx.html2.MouseEventHandler)
+#require(qx.html2.DefaultEventHandler)
 
 ************************************************************************ */
 
@@ -31,8 +32,135 @@
  */
 qx.Class.define("qx.html2.EventRegistration",
 {
+
+  extend : qx.core.Object,
+
+  implement : qx.html2.IEventHandler,
+
+  construct : function(domDocument)
+  {
+    this._documentElement = domDocument ?
+      domDocument.documentElement :
+      window.document.documentElement;
+
+    this.__dispatchEventWrapper = qx.lang.Function.bind(
+      this.__dispatchDocumentEvent, this
+    )
+
+    this.__eventHandlers = [
+      new qx.html2.KeyEventHandler(this.__dispatchEventWrapper),
+      new qx.html2.MouseEventHandler(this.__dispatchEventWrapper),
+      this // must be last
+    ],
+
+    // registry for 'normal' bubbling events
+    this.__registry = {};
+
+    // registry for inline events
+    this.__inlineRegistry = {};
+
+  },
+
+
   statics :
   {
+
+    getInstance : function() {
+      if (this.__instance == undefined) {
+        this.__instance = new this();
+      }
+      return this.__instance;
+    },
+
+
+    /**
+     * Add an event listener to a DOM element. The event listener is passed an
+     * instance of {@link Event} containing all relevant information
+     * about the event as parameter.
+     *
+     * @type static
+     * @param element {Element} DOM element to attach the event on.
+     * @param type {String} Name of the event e.g. "click", "keydown", ...
+     * @param listener {Function} Event listener function
+     * @param self {Object ? window} Reference to the 'this' variable inside
+     *       the event listener.
+     * @param useCapture {Boolean ? false} Whether to attach the event to the
+     *       capturing phase of the bubbling phase of the event. The default is
+     *       to attach the event handler to the bubbling phase.
+     * @return {var} TODOC
+     * @throws TODOC
+     */
+    addEventListener : function(element, type, listener, self, useCapture) {
+      return this.getInstance().addEventListener(element, type, listener, self, useCapture);
+    },
+
+
+    /**
+     * Remove an event listener from a from DOM node.
+     *
+     * @type static
+     * @param element {Element} DOM Element
+     * @param type {String} Name of the event
+     * @param listener {Function} The pointer to the event listener
+     * @param useCapture {Boolean ? false} Whether to remove the event listener of
+     *       the bubbling or of the capturing phase.
+     * @return {var} TODOC
+     */
+    removeEventListener : function(element, type, listener, useCapture) {
+      return this.getInstance().removeEventListener(element, type, listener, useCapture);
+    },
+
+
+    /**
+     * Use the low level browser functionality to attach event listeners
+     * to DOM nodes. Uses <code>attachEvent</code> in IE and
+     * <code>addEventListener</code> in all oother browsers.
+     *
+     * @type static
+     * @param vElement {Element} DOM Element
+     * @param vType {String} Name of the event
+     * @param vFunction {Function} The pointer to the function to assign
+     * @signature function(vElement, vType, vFunction)
+     */
+    nativeAddEventListener : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(vElement, vType, vFunction) {
+        vElement.attachEvent("on" + vType, vFunction);
+      },
+
+      "default" : function(vElement, vType, vFunction) {
+        vElement.addEventListener(vType, vFunction, false);
+      }
+    }),
+
+
+    /**
+     * Use the low level browser functionality to remove event listeners
+     * from DOM nodes. Uses <code>detachEvent</code> in IE and
+     * <code>removeEventListener</code> in all oother browsers.
+     *
+     * @type static
+     * @param vElement {Element} DOM Element
+     * @param vType {String} Name of the event
+     * @param vFunction {Function} The pointer to the function to assign
+     * @signature function(vElement, vType, vFunction)
+     */
+    nativeRemoveEventListener : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(vElement, vType, vFunction) {
+        vElement.detachEvent("on" + vType, vFunction);
+      },
+
+      "default" : function(vElement, vType, vFunction) {
+        vElement.removeEventListener(vType, vFunction, false);
+      }
+    })
+
+  },
+
+  members :
+  {
+
     // Events, which don't bubble
     __inlineEvents :
     {
@@ -65,71 +193,6 @@ qx.Class.define("qx.html2.EventRegistration",
       submit                      : 1,
       unload                      : 1
     },
-
-    // registry for 'normal' bubbling events
-    __registry : {},
-
-    // registry for inline events
-    __inlineRegistry : {},
-
-
-    /**
-     * TODOC
-     *
-     * @type static
-     * @return {void}
-     */
-    __init : function()
-    {
-      this.__initKeyHandler();
-      this.__mouseHandler = new qx.html2.MouseEventHandler(this.__dispatchDocumentEvent);
-    },
-
-
-    /**
-     * Use the low level browser functionality to attach event listeners
-     * to DOM nodes. Uses <code>attachEvent</code> in IE and
-     * <code>addEventListener</code> in all oother browsers.
-     *
-     * @type static
-     * @param vElement {Element} DOM Element
-     * @param vType {String} Name of the event
-     * @param vFunction {Function} The pointer to the function to assign
-     * @signature function(vElement, vType, vFunction)
-     */
-    _nativeAddEventListener : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function(vElement, vType, vFunction) {
-        vElement.attachEvent("on" + vType, vFunction);
-      },
-
-      "default" : function(vElement, vType, vFunction) {
-        vElement.addEventListener(vType, vFunction, false);
-      }
-    }),
-
-
-    /**
-     * Use the low level browser functionality to remove event listeners
-     * from DOM nodes. Uses <code>detachEvent</code> in IE and
-     * <code>removeEventListener</code> in all oother browsers.
-     *
-     * @type static
-     * @param vElement {Element} DOM Element
-     * @param vType {String} Name of the event
-     * @param vFunction {Function} The pointer to the function to assign
-     * @signature function(vElement, vType, vFunction)
-     */
-    _nativeRemoveEventListener : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function(vElement, vType, vFunction) {
-        vElement.detachEvent("on" + vType, vFunction);
-      },
-
-      "default" : function(vElement, vType, vFunction) {
-        vElement.removeEventListener(vType, vFunction, false);
-      }
-    }),
 
 
     /**
@@ -189,10 +252,13 @@ qx.Class.define("qx.html2.EventRegistration",
       {
         reg[type] = {};
 
-        if (!this.__registerKeyEvent(type) && !this.__mouseHandler.registerEvent(type))
-        {
-          // all other events
-          this._nativeAddEventListener(window.document.documentElement, type, this.__documentEventHandler);
+        // iterate over all event handlers and check whether they are responsible
+        // for this event type
+        for (var i=0; i<this.__eventHandlers.length; i++) {
+          if (this.__eventHandlers[i].canHandleEvent(type)) {
+            this.__eventHandlers[i].registerEvent(type);
+            break;
+          }
         }
       }
 
@@ -223,20 +289,6 @@ qx.Class.define("qx.html2.EventRegistration",
 
 
     /**
-     * Central event handler for all bubbling events.
-     *
-     * @type static
-     * @param domEvent {Event} DOM event passed by the browser.
-     * @return {void}
-     */
-    __documentEventHandler : function(domEvent)
-    {
-      var event = qx.html2.Event.getInstance(-1, window.event || domEvent);
-      qx.html2.EventRegistration.__dispatchDocumentEvent(event);
-    },
-
-
-    /**
      * This function dispatches the event to the event handlers and emulates
      * the capturing and bubbling phase.
      *
@@ -249,7 +301,7 @@ qx.Class.define("qx.html2.EventRegistration",
       var target = event.getTarget();
       var node = target;
 
-      var reg = qx.html2.EventRegistration.__registry[event.getType()];
+      var reg = this.__registry[event.getType()];
 
       if (reg == undefined) {
         return;
@@ -290,11 +342,11 @@ qx.Class.define("qx.html2.EventRegistration",
       }
 
       // capturing phase
-      qx.html2.EventRegistration.EVENT_PHASE = qx.html2.Event.CAPTURING_PHASE;
+      event.setEventPhase(qx.html2.Event.CAPTURING_PHASE);
 
       for (var i=(captureList.length-1); i>=0; i--)
       {
-        qx.html2.EventRegistration.CURRENT_TARGET = captureTargets[i];
+        event.setCurrentTarget(captureTargets[i]);
 
         for (var j=0; j<captureList[i].length; j++) {
           captureList[i][j](event);
@@ -308,12 +360,12 @@ qx.Class.define("qx.html2.EventRegistration",
       // bubbling phase
       for (var i=0; i<bubbleList.length; i++)
       {
-        qx.html2.EventRegistration.CURRENT_TARGET = bubbleTargets[i];
+        event.setCurrentTarget(bubbleTargets[i]);
 
         if (bubbleTargets[i] == target) {
-          qx.html2.EventRegistration.EVENT_PHASE = qx.html2.Event.AT_TARGET;
+          event.setEventPhase(qx.html2.Event.AT_TARGET);
         } else {
-          qx.html2.EventRegistration.EVENT_PHASE = qx.html2.Event.BUBBLING_PHASE;
+          event.setEventPhase(qx.html2.Event.BUBBLING_PHASE);
         }
 
         for (var j=0; j<bubbleList[i].length; j++) {
@@ -362,8 +414,13 @@ qx.Class.define("qx.html2.EventRegistration",
         };
       }
 
-      if (elementEvents[type].listeners.length == 0) {
-        this._nativeAddEventListener(element, type, elementEvents[type].handler);
+      if (elementEvents[type].listeners.length == 0)
+      {
+        qx.html2.EventRegistration.nativeAddEventListener(
+          element,
+          type,
+          elementEvents[type].handler
+        );
       }
 
       // bind the listener to the object
@@ -389,8 +446,9 @@ qx.Class.define("qx.html2.EventRegistration",
      */
     __inlineEventHandler : function(elementId, domEvent)
     {
-      qx.html2.EventRegistration.EVENT_PHASE = qx.html2.Event.AT_TARGET;
       var event = qx.html2.Event.getInstance(elementId, window.event || domEvent);
+      event.setEventPhase(qx.html2.Event.AT_TARGET);
+      event.setCurrentTarget(event.getTarget());
 
       var listeners = qx.lang.Array.copy(this.__inlineRegistry[elementId][domEvent.type].listeners);
 
@@ -464,14 +522,10 @@ qx.Class.define("qx.html2.EventRegistration",
 
         if (eventData.captureListeners.length == 0 && eventData.bubbleListeners.length == 0) {
           delete (elementData[type]);
+          for (var i=0; i<this.__eventHandlers.length; i++) {
+            this.__eventHandlers[i].unregisterEvent(type);
+          }
         }
-
-        this.__unregisterKeyEvent(type);
-        this.__mouseHandler.unregisterEvent(type);
-      }
-
-      if (qx.lang.Object.isEmpty(this.__registry[type])) {
-        this._nativeRemoveEventListener(window.document.documentElement, type, this.__documentEventHandler);
       }
     },
 
@@ -517,149 +571,66 @@ qx.Class.define("qx.html2.EventRegistration",
 
         if (eventData.listeners.length == 0)
         {
-          this._nativeRemoveEventListener(element, type, eventData.handler);
+          qx.html2.EventRegistration.nativeRemoveEventListener(element, type, eventData.handler);
           delete (elementData[type]);
         }
       }
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type static
-     * @param element {Element} TODOC
-     * @param eventMap {Map} TODOC
-     * @return {void}
-     */
-    attachEvents : function(element, eventMap)
-    {
-      for (var type in eventMap) {
-        this._nativeAddEventListener(element, type, eventMap[type]);
-      }
+    /*
+    ---------------------------------------------------------------------------
+      HELPER METHODS
+    ---------------------------------------------------------------------------
+    */
+
+    __getDocumentListenerCount: function(type) {
+      return qx.lang.Object.isEmpty(this.__registry[type]);
     },
-
-
-    /**
-     * TODOC
-     *
-     * @type static
-     * @param element {Element} TODOC
-     * @param eventMap {Map} TODOC
-     * @return {void}
-     */
-    detachEvents : function(element, eventMap)
-    {
-      for (var type in this.__keyHandler) {
-        this._nativeRemoveEventListener(element, type, eventMap[type]);
-      }
-    },
-
-
 
 
     /*
     ---------------------------------------------------------------------------
-      MOUSE EVENTS
+      EVENT HANDLER INTERFACE
     ---------------------------------------------------------------------------
     */
 
-    /*
-    ---------------------------------------------------------------------------
-      KEY EVENTS
-    ---------------------------------------------------------------------------
-    */
+    canHandleEvent : function(type) {
+      return true;
+    },
 
-    /**
-     * TODOC
-     *
-     * @type static
-     * @return {void}
-     */
-    __initKeyHandler : function()
+    registerEvent : function(type)
     {
-      this.__keyEventListenerCount = 0;
-
-      this.__keyEventHandler = new qx.html2.KeyEventHandler(this.__keyEventHandler);
-
-      var keyUpDownHandler = qx.lang.Function.bind(this.__keyEventHandler.onKeyUpDown, this.__keyEventHandler);
-
-      this.__keyHandler =
-      {
-        "keydown"  : keyUpDownHandler,
-        "keyup"    : keyUpDownHandler,
-        "keypress" : keyUpDownHandler
-      };
+      qx.html2.EventRegistration.nativeAddEventListener(
+        this._documentElement,
+        type,
+        this.__handleEvent
+      );
+      return;
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type static
-     * @param domEvent {var} TODOC
-     * @param eventType {var} TODOC
-     * @param keyCode {var} TODOC
-     * @param charCode {var} TODOC
-     * @param keyIdentifier {var} TODOC
-     * @return {void}
-     */
-    __keyEventHandler : function(domEvent, eventType, keyCode, charCode, keyIdentifier)
+    unregisterEvent : function(type)
     {
-      var event = new qx.html2.KeyEvent.getInstance(-1, domEvent, eventType, keyCode, charCode, keyIdentifier);
-      qx.html2.EventRegistration.__dispatchDocumentEvent(event);
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type static
-     * @param type {var} TODOC
-     * @return {boolean} TODOC
-     */
-    __registerKeyEvent : function(type)
-    {
-      if (this.__keyHandler[type])
-      {
-        // handle key events
-        this.__keyEventListenerCount += 1;
-
-        if (this.__keyEventListenerCount == 1) {
-          this.attachEvents(window.document.documentElement, this.__keyHandler);
-        }
-
-        return true;
-      }
-      else
-      {
-        return false;
+      if (this.__getDocumentListenerCount() == 0) {
+        qx.html2.EventRegistration.nativeRemoveEventListener(
+          this._documentElement,
+          type,
+          this.__documentEventHandler
+        );
       }
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type static
-     * @param type {var} TODOC
-     * @return {void}
-     */
-    __unregisterKeyEvent : function(type)
-    {
-      if (this.__keyHandler[type])
-      {
-        // handle key events
-        this.__keyEventListenerCount -= 1;
-
-        if (this.__keyEventListenerCount == 0) {
-          this.detachEvents(window.document.documentElement, this.__keyHandler);
-        }
-      }
+    __handleEvent : function(domEvent) {
+      var event = qx.html2.Event.getInstance(-1, domEvent);
+      this.__dispatchEventWrapper(event);
     }
-  },
 
-  defer : function(statics) {
-    statics.__init();
+  }, // members
+
+  destruct : function() {
+
   }
+
 });

@@ -31,9 +31,9 @@
  */
 qx.Class.define("qx.html2.MouseEventHandler",
 {
-  extend : qx.core.Target,
+  extend : qx.html2.AbstractEventHandler,
 
-
+  implement : qx.html2.IEventHandler,
 
 
   /*
@@ -42,9 +42,9 @@ qx.Class.define("qx.html2.MouseEventHandler",
   *****************************************************************************
   */
 
-  construct : function(mouseHandler)
+  construct : function(eventCallBack)
   {
-    this._mouseHandler = mouseHandler;
+    this.base(arguments, eventCallBack);
 
     this.__mouseButtonListenerCount = 0;
 
@@ -69,6 +69,11 @@ qx.Class.define("qx.html2.MouseEventHandler",
      * @param type {var} TODOC
      * @return {boolean} TODOC
      */
+    canHandleEvent : function(type) {
+      return this.__mouseButtonHandler[type];
+    },
+
+
     registerEvent : function(type)
     {
       if (this.__mouseButtonHandler[type])
@@ -77,14 +82,11 @@ qx.Class.define("qx.html2.MouseEventHandler",
         this.__mouseButtonListenerCount += 1;
 
         if (this.__mouseButtonListenerCount == 1) {
-          qx.html2.EventRegistration.attachEvents(window.document.documentElement, this.__mouseButtonHandler);
+          this.attachEvents(
+            window.document.documentElement,
+            this.__mouseButtonHandler
+          );
         }
-
-        return true;
-      }
-      else
-      {
-        return false;
       }
     },
 
@@ -98,13 +100,16 @@ qx.Class.define("qx.html2.MouseEventHandler",
      */
     unregisterEvent : function(type)
     {
-      if (this.__keyHandler[type])
+      if (this.__mouseButtonHandler[type])
       {
         // handle key events
         this.__mouseButtonListenerCount -= 1;
 
         if (this.__mouseButtonListenerCount == 0) {
-          qx.html2.EventRegistration.detachEvents(window.document.documentElement, this.__mouseButtonHandler);
+          this.detachEvents(
+            window.document.documentElement,
+            this.__mouseButtonHandler
+          );
         }
       }
     },
@@ -120,7 +125,7 @@ qx.Class.define("qx.html2.MouseEventHandler",
     onMouseButtonEvent : function(domEvent)
     {
       var event = qx.html2.MouseEvent.getInstance(-1, domEvent, domEvent.type);
-      this._mouseHandler(event);
+      this._callback(event);
     },
 
 
