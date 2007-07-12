@@ -26,6 +26,21 @@
 
 ************************************************************************ */
 
+/** 
+ * A high-level cross-browser wrapper which makes it possible
+ * to use queries (even combinations) to engine, feature and platform 
+ * informations in one nice looking map and compact declaration.
+ *
+ * This class allows a lot more combinations than possible with the
+ * <code>qx.client</code> variant ({@see qx.core.Variant}). However
+ * compared to the variants there is no possibity to optimize the
+ * code inside the generation of the "build" script. It could be seen
+ * as a more flexible competing implementation of the <code>qx.client</code>
+ * variant. The developer should decide from case to case which
+ * implementation to use. Variants are optimal when the wrapped code is 
+ * quite large and this way the code which can be saved through the compile
+ * time optimization will be also large.
+ */
 qx.Class.define("qx.html2.Client",
 {
   /*

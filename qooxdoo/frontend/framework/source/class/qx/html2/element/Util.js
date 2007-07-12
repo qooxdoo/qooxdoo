@@ -42,7 +42,7 @@
 ************************************************************************ */
 
 /**
- * High performance DOM element interaction.
+ * Contains misc utilities to operate with HTML elements.
  */
 qx.Class.define("qx.html2.element.Util",
 {
