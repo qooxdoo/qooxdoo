@@ -1,3 +1,23 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+     * Andreas Ecker (ecker)
+     * Fabian Jakobs (fjakobs)
+
+************************************************************************ */
 
 /**
  * Keyboard event object.
@@ -9,61 +29,62 @@ qx.Class.define("qx.html2.event.KeyEvent",
 {
   extend : qx.html2.event.Event,
 
+
+
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
   statics :
   {
     /**
-     * TODOC
+     * Initialize a singleton instance with the given browser event object.
      *
      * @type static
-     * @param domEvent {var} TODOC
-     * @param eventType {var} TODOC
-     * @param keyCode {var} TODOC
-     * @param charCode {var} TODOC
-     * @param keyIdentifier {var} TODOC
-     * @return {var} TODOC
+     * @param domEvent {Event} DOM event
+     * @param keyCode {Integer} the key code
+     * @param charCode {Integer} the character code
+     * @param keyIdentifier {String} Key identifier
+     * @return {qx.html2.event.KeyEvent} an initialized Event instance
      */
-    getInstance : function(domEvent, eventType, keyCode, charCode, keyIdentifier)
+    getInstance : function(domEvent, keyCode, charCode, keyIdentifier)
     {
       if (this.__instance == undefined) {
         this.__instance = new qx.html2.event.KeyEvent();
       }
 
-      this.__instance.__initEvent(domEvent, eventType, keyCode, charCode, keyIdentifier);
+      this.__instance.__initEvent(domEvent, keyCode, charCode, keyIdentifier);
       return this.__instance;
     }
   },
 
+
+
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
   members :
   {
     /**
-     * TODOC
+     * Initialize the fileds of the event.
      *
      * @type member
-     * @param domEvent {var} TODOC
-     * @param eventType {var} TODOC
-     * @param keyCode {var} TODOC
-     * @param charCode {var} TODOC
-     * @param keyIdentifier {var} TODOC
-     * @return {void}
+     * @param domEvent {Event} DOM event
+     * @param keyCode {Integer} the key code
+     * @param charCode {Integer} the character code
+     * @param keyIdentifier {String} Key identifier
      */
-    __initEvent : function(domEvent, eventType, keyCode, charCode, keyIdentifier)
+    __initEvent : function(domEvent, keyCode, charCode, keyIdentifier)
     {
       this.base(arguments, domEvent);
-      this._type = eventType;
       this._keyCode = keyCode;
       this._charCode = charCode;
       this._keyIdentifier = keyIdentifier;
-    },
-
-    // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
-    getType : function() {
-      return this._type;
     },
 
 
@@ -72,7 +93,7 @@ qx.Class.define("qx.html2.event.KeyEvent",
      * Only valid in "keyinput" events
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Integer} Unicode number of the pressed character
      */
     getCharCode : function() {
       return this._charCode;
@@ -130,71 +151,11 @@ qx.Class.define("qx.html2.event.KeyEvent",
      * </table>
      *
      * @type member
-     * @return {var} TODOC
+     * @return {String} The key identifier
      */
     getKeyIdentifier : function() {
       return this._keyIdentifier;
-    },
-
-
-    /**
-     * Returns whether the the ctrl key is pressed.
-     *
-     * @type member
-     * @return {Boolean} whether the the ctrl key is pressed.
-     */
-    isCtrlPressed : function() {
-      return this._event.ctrlKey;
-    },
-
-
-    /**
-     * Returns whether the the shift key is pressed.
-     *
-     * @type member
-     * @return {Boolean} whether the the shift key is pressed.
-     */
-    isShiftPressed : function() {
-      return this._event.shiftKey;
-    },
-
-
-    /**
-     * Returns whether the the alt key is pressed.
-     *
-     * @type member
-     * @return {Boolean} whether the the alt key is pressed.
-     */
-    isAltPressed : function() {
-      return this._event.altKey;
-    },
-
-
-    /**
-     * Returns whether the the meta key is pressed.
-     *
-     * @type member
-     * @return {Boolean} whether the the meta key is pressed.
-     */
-    isMetaPressed : function() {
-      return this._event.metaKey;
-    },
-
-
-    /**
-     * Returns whether the ctrl key or (on the Mac) the command key is pressed.
-     *
-     * @type member
-     * @return {Boolean} <code>true</code> if the command key is pressed on the Mac
-     *             or the ctrl key is pressed on another system.
-     */
-    isCtrlOrCommandPressed : function()
-    {
-      if (qx.core.Client.getInstance().runsOnMacintosh()) {
-        return this._event.metaKey;
-      } else {
-        return this._event.ctrlKey;
-      }
     }
+
   }
 });

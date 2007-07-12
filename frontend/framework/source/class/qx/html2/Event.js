@@ -1,5 +1,24 @@
 /* ************************************************************************
 
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Fabian Jakobs (fjakobs)
+
+************************************************************************ */
+
+/* ************************************************************************
+
 #require(qx.html2.event.KeyEventHandler)
 #require(qx.html2.event.MouseEventHandler)
 
@@ -36,6 +55,21 @@ qx.Class.define("qx.html2.Event",
 
   implement : qx.html2.event.IEventHandler,
 
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  /**
+   * Creates a new instance of the event handler. Each document e.g. an IFrame
+   * needs its own instance of the event handler. The default event handler
+   * can be retrieved using the singleton getter.
+   *
+   * @param domDocument {Document?window.document} DOM document for the event handler.
+   */
   construct : function(domDocument)
   {
     this._documentElement = domDocument ?
@@ -63,9 +97,19 @@ qx.Class.define("qx.html2.Event",
   },
 
 
+
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
   statics :
   {
 
+    /**
+     * Returns an instance of the event handler for the current document.
+     */
     getInstance : function() {
       if (this.__instance == undefined) {
         this.__instance = new this();
@@ -88,11 +132,9 @@ qx.Class.define("qx.html2.Event",
      * @param useCapture {Boolean ? false} Whether to attach the event to the
      *       capturing phase of the bubbling phase of the event. The default is
      *       to attach the event handler to the bubbling phase.
-     * @return {var} TODOC
-     * @throws TODOC
      */
     addEventListener : function(element, type, listener, self, useCapture) {
-      return this.getInstance().addEventListener(element, type, listener, self, useCapture);
+      this.getInstance().addEventListener(element, type, listener, self, useCapture);
     },
 
 
@@ -105,10 +147,9 @@ qx.Class.define("qx.html2.Event",
      * @param listener {Function} The pointer to the event listener
      * @param useCapture {Boolean ? false} Whether to remove the event listener of
      *       the bubbling or of the capturing phase.
-     * @return {var} TODOC
      */
     removeEventListener : function(element, type, listener, useCapture) {
-      return this.getInstance().removeEventListener(element, type, listener, useCapture);
+      this.getInstance().removeEventListener(element, type, listener, useCapture);
     },
 
 
@@ -159,6 +200,14 @@ qx.Class.define("qx.html2.Event",
 
   },
 
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
 
@@ -196,6 +245,12 @@ qx.Class.define("qx.html2.Event",
     },
 
 
+    /*
+    ---------------------------------------------------------------------------
+      ADD EVENT LISTENER
+    ---------------------------------------------------------------------------
+    */
+
     /**
      * Add an event listener to a DOM element. The event listener is passed an
      * instance of {@link Event} containing all relevant information
@@ -210,8 +265,6 @@ qx.Class.define("qx.html2.Event",
      * @param useCapture {Boolean ? false} Whether to attach the event to the
      *       capturing phase of the bubbling phase of the event. The default is
      *       to attach the event handler to the bubbling phase.
-     * @return {var} TODOC
-     * @throws TODOC
      */
     addEventListener : function(element, type, listener, self, useCapture)
     {
@@ -221,11 +274,11 @@ qx.Class.define("qx.html2.Event",
           throw new Error("The event '" + type + "' does not bubble, so capturing is also not supported!");
         }
 
-        return this.__addEventListenerInline(element, type, listener, self);
+        this.__addEventListenerInline(element, type, listener, self);
       }
       else
       {
-        return this.__addEventListenerDocument(element, type, listener, self, useCapture);
+        this.__addEventListenerDocument(element, type, listener, self, useCapture);
       }
     },
 
@@ -243,7 +296,6 @@ qx.Class.define("qx.html2.Event",
      * @param useCapture {Boolean ? false} Whether to attach the event to the
      *       capturing phase of the bubbling phase of the event. The default is
      *       to attach the event handler to the bubbling phase.
-     * @return {void}
      */
     __addEventListenerDocument : function(element, type, listener, self, useCapture)
     {
@@ -295,7 +347,6 @@ qx.Class.define("qx.html2.Event",
      *
      * @type member
      * @param event {qx.html2.event.Event} event object to dispatch
-     * @return {void}
      */
     __dispatchDocumentEvent : function(event)
     {
@@ -460,6 +511,12 @@ qx.Class.define("qx.html2.Event",
     },
 
 
+    /*
+    ---------------------------------------------------------------------------
+      REMOVE EVENT LISTENER
+    ---------------------------------------------------------------------------
+    */
+
     /**
      * Remove an event listener from a from DOM node.
      *
@@ -586,6 +643,14 @@ qx.Class.define("qx.html2.Event",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Check whether event listeners are registered at the document element
+     * for the given type.
+     *
+     * @param type {String} The type to check
+     * @return {Boolean} Whether event listeners are registered at the document
+     *     element for the given type.
+     */
     __getDocumentHasListeners: function(type) {
       return qx.lang.Object.isEmpty(this.__registry[type]);
     },
@@ -597,11 +662,26 @@ qx.Class.define("qx.html2.Event",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Whether the event handler can handle events of the given type.
+     *
+     * @param type {String} event type
+     * @return {Boolean} Whether the event handler can handle events of the
+     *     given type.
+     *
+     * @internal
+     */
     canHandleEvent : function(type) {
       return true;
     },
 
 
+    /**
+     * Increase the event count for this event type.
+     *
+     * @param type {String} event type
+     * @internal
+     */
     registerEvent : function(type)
     {
       qx.html2.Event.nativeAddEventListener(
@@ -609,10 +689,15 @@ qx.Class.define("qx.html2.Event",
         type,
         this.__documentEventHandler
       );
-      return;
     },
 
 
+    /**
+     * Decrease the event count for this event type.
+     *
+     * @param type {String} event type
+     * @internal
+     */
     unregisterEvent : function(type)
     {
       if (!this.__getDocumentHasListeners()) {
@@ -625,6 +710,11 @@ qx.Class.define("qx.html2.Event",
     },
 
 
+    /**
+     * Default event handler.
+     *
+     * @param domEvent {Event} DOM event
+     */
     __handleEvent : function(domEvent) {
       var event = qx.html2.event.Event.getInstance(domEvent);
       this.__dispatchDocumentEvent(event);

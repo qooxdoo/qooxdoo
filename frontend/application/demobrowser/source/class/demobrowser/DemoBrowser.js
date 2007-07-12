@@ -126,8 +126,8 @@ qx.Class.define("demobrowser.DemoBrowser",
     },
     this);
 
-
-  }, //construct
+    //construct
+  },
 
 
   /*
@@ -1429,13 +1429,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     // ------------------------------------------------------------------------
     //   MISC HELPERS
     // ------------------------------------------------------------------------
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param url {var} TODOC
-     * @return {String} TODOC
-     */
     __applyPlayAll : function(value, old)
     {
       if (value == true )
