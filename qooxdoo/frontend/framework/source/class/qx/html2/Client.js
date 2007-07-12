@@ -143,12 +143,13 @@ qx.Class.define("qx.html2.Client",
 
 
     /**
-     * Selects from a map of keys the first which evaluates to <code>true</code>. It works
-     * like a long <code>OR</code> expression, the first enabled entry wins.
+     * Selects from a map of keys the first which evaluates to <code>true</code>
+     * using the {@link #match} method. It works like a long <code>OR</code>
+     * expression, the first enabled entry wins.
      *
      * @type static
      * @param map {Map} A map where the key is an expression.
-     * @return {var} The first key which evaluates to <code>true</code>
+     * @return {var} The map value of the first key which evaluates to <code>true</code>
      * @throws an exception if none of the given keys evaluates to <code>true</code>
      */
     select : function(map)
