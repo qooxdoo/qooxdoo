@@ -1,6 +1,6 @@
 /* ************************************************************************
 
-#require(qx.html2.KeyEventHandler)
+#require(qx.html2.event.KeyEventHandler)
 #require(qx.html2.event.MouseEventHandler)
 #require(qx.html2.DefaultEventHandler)
 
@@ -30,7 +30,7 @@
  *   </li>
  * </ul>
  */
-qx.Class.define("qx.html2.event.EventRegistration",
+qx.Class.define("qx.html2.Event",
 {
 
   extend : qx.core.Object,
@@ -48,7 +48,7 @@ qx.Class.define("qx.html2.event.EventRegistration",
     )
 
     this.__eventHandlers = [
-      new qx.html2.KeyEventHandler(this.__dispatchEventWrapper),
+      new qx.html2.event.KeyEventHandler(this.__dispatchEventWrapper),
       new qx.html2.event.MouseEventHandler(this.__dispatchEventWrapper),
       this // must be last
     ],
@@ -416,7 +416,7 @@ qx.Class.define("qx.html2.event.EventRegistration",
 
       if (elementEvents[type].listeners.length == 0)
       {
-        qx.html2.event.EventRegistration.nativeAddEventListener(
+        qx.html2.Event.nativeAddEventListener(
           element,
           type,
           elementEvents[type].handler
@@ -571,7 +571,7 @@ qx.Class.define("qx.html2.event.EventRegistration",
 
         if (eventData.listeners.length == 0)
         {
-          qx.html2.event.EventRegistration.nativeRemoveEventListener(element, type, eventData.handler);
+          qx.html2.Event.nativeRemoveEventListener(element, type, eventData.handler);
           delete (elementData[type]);
         }
       }
@@ -601,7 +601,7 @@ qx.Class.define("qx.html2.event.EventRegistration",
 
     registerEvent : function(type)
     {
-      qx.html2.event.EventRegistration.nativeAddEventListener(
+      qx.html2.Event.nativeAddEventListener(
         this._documentElement,
         type,
         this.__handleEvent
@@ -613,7 +613,7 @@ qx.Class.define("qx.html2.event.EventRegistration",
     unregisterEvent : function(type)
     {
       if (this.__getDocumentListenerCount() == 0) {
-        qx.html2.event.EventRegistration.nativeRemoveEventListener(
+        qx.html2.Event.nativeRemoveEventListener(
           this._documentElement,
           type,
           this.__documentEventHandler
