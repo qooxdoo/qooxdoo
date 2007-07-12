@@ -99,7 +99,6 @@ qx.Class.define("qx.Class",
      *
      *   properties:
      *   {
-     *     "tabIndexOld": { type: "number", defaultValue : -1, _legacy : true }
      *     "tabIndex": { check: "Number", init : -1 }
      *   },
      *
@@ -1168,8 +1167,6 @@ qx.Class.define("qx.Class",
           qx.core.LegacyProperty.addFastProperty(config, clazz.prototype);
         } else if (config._cached) {
           qx.core.LegacyProperty.addCachedProperty(config, clazz.prototype);
-        } else if (config._legacy) {
-          qx.core.LegacyProperty.addProperty(config, clazz.prototype);
         }
       }
     },
@@ -1186,12 +1183,12 @@ qx.Class.define("qx.Class",
       "on": function(clazz, name, config, patch)
       {
         var has = this.hasProperty(clazz, name);
-        var compat = config._legacy || config._fast || config._cached;
+        var compat = config._fast || config._cached;
 
         if (has)
         {
           var existingProperty = this.getPropertyDefinition(clazz, name);
-          var existingCompat = existingProperty._legacy || existingProperty._fast || existingProperty._cached;
+          var existingCompat = existingProperty._fast || existingProperty._cached;
 
           if (compat != existingCompat) {
             throw new Error("Could not redefine existing property '" + name + "' of class '" + clazz.classname + "'.");

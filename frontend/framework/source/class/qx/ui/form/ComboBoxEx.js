@@ -1101,8 +1101,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
 
       for (var prop in newListSettings)
       {
-        // TODO: Access to private member (bad style) - please correct
-        oldListSettings[prop] = this._list[qx.core.LegacyProperty.getGetterName(prop)]();
+        oldListSettings[prop] = this._list.get(prop);
       }
 
       this._list.set(newListSettings);
