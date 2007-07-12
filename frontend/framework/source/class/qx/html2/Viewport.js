@@ -53,6 +53,7 @@ qx.Class.define("qx.html2.Viewport",
      *   clientWidth property - but innerWidth does the job
      *
      * @type static
+     * @signature function()
      * @return {Integer} The width of the viewable area of the page (excludes scrollbars).
      */
     getWidth : qx.html2.Client.select(
@@ -79,6 +80,7 @@ qx.Class.define("qx.html2.Viewport",
      *   clientHeight property - but innerWidth does the job
      *
      * @type static
+     * @signature function()
      * @return {Integer} The height of the viewable area of the page (excludes scrollbars).
      */
     getHeight : qx.html2.Client.select(
@@ -101,6 +103,7 @@ qx.Class.define("qx.html2.Viewport",
      * Returns the scroll position of the viewport
      *
      * @type static
+     * @signature function()
      * @return {Integer} Scroll position from left edge, always a positive integer
      */
     getScrollLeft : qx.html2.Client.select(
@@ -123,6 +126,7 @@ qx.Class.define("qx.html2.Viewport",
      * Returns the scroll position of the viewport
      *
      * @type static
+     * @signature function()
      * @return {Integer} Scroll position from left edge, always a positive integer
      */
     getScrollTop : qx.html2.Client.select(
