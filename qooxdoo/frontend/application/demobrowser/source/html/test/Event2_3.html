@@ -95,7 +95,7 @@ qx.Class.define("BasicSample",
       var events = ["mousedown", "mouseup", "click", "dblclick", "contextmenu"];
       for (var i=0; i<events.length; i++)
       {
-        qx.html2.EventRegistration.addEventListener(
+        qx.html2.Event.addEventListener(
           mouseDiv,
           events[i],
           this.logMouseEvent,
@@ -103,14 +103,14 @@ qx.Class.define("BasicSample",
         )
       }
 
-      qx.html2.EventRegistration.addEventListener(
+      qx.html2.Event.addEventListener(
         document.body,
         "selectstart",
         function(e) { e.preventDefault(); },
         this
       )
 
-      qx.html2.EventRegistration.addEventListener(
+      qx.html2.Event.addEventListener(
         document.getElementById("btnClear"),
         "click",
         this.initializeLogger,
