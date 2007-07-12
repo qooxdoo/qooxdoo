@@ -42,14 +42,16 @@ qx.Class.define("qx.html2.Event",
       domDocument.documentElement :
       window.document.documentElement;
 
+    this.__documentEventHandler = qx.lang.Function.bind(this.__handleEvent, this);
+
     this.__dispatchEventWrapper = qx.lang.Function.bind(
       this.__dispatchDocumentEvent, this
     )
 
     this.__eventHandlers = [
-      new qx.html2.event.KeyEventHandler(this.__dispatchEventWrapper),
-      new qx.html2.event.MouseEventHandler(this.__dispatchEventWrapper),
-      this // must be last
+      new qx.html2.event.KeyEventHandler(this.__dispatchEventWrapper, this._documentElement),
+      new qx.html2.event.MouseEventHandler(this.__dispatchEventWrapper, this._documentElement),
+      this // must be the last because it can handle all events
     ],
 
     // registry for 'normal' bubbling events
@@ -403,6 +405,7 @@ qx.Class.define("qx.html2.Event",
 
       // create entry for the event type and attach event handler if needed
       var elementEvents = reg[elementId];
+      elementEvents.element = element;
 
       if (!elementEvents[type])
       {
@@ -583,7 +586,7 @@ qx.Class.define("qx.html2.Event",
     ---------------------------------------------------------------------------
     */
 
-    __getDocumentListenerCount: function(type) {
+    __getDocumentHasListeners: function(type) {
       return qx.lang.Object.isEmpty(this.__registry[type]);
     },
 
@@ -598,12 +601,13 @@ qx.Class.define("qx.html2.Event",
       return true;
     },
 
+
     registerEvent : function(type)
     {
       qx.html2.Event.nativeAddEventListener(
         this._documentElement,
         type,
-        this.__handleEvent
+        this.__documentEventHandler
       );
       return;
     },
@@ -611,7 +615,7 @@ qx.Class.define("qx.html2.Event",
 
     unregisterEvent : function(type)
     {
-      if (this.__getDocumentListenerCount() == 0) {
+      if (!this.__getDocumentHasListeners()) {
         qx.html2.Event.nativeRemoveEventListener(
           this._documentElement,
           type,
@@ -623,12 +627,59 @@ qx.Class.define("qx.html2.Event",
 
     __handleEvent : function(domEvent) {
       var event = qx.html2.event.Event.getInstance(domEvent);
-      this.__dispatchEventWrapper(event);
+      this.__dispatchDocumentEvent(event);
     }
 
   },
 
-  destruct : function() {
 
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    for (var i=0; i<this.__eventHandlers.length-1; i++) {
+      this.__eventHandlers[i].dispose();
+    }
+
+    // remove document event listeners
+    for (var type in this.__registry)
+    {
+      qx.html2.Event.nativeRemoveEventListener(
+        this._documentElement,
+        type,
+        this.__documentEventHandler
+      );
+    }
+
+    // remove inline event listeners
+    for (var elementId in this.__inlineRegistry)
+    {
+      var element = this.__inlineRegistry[elementId].element;
+      delete(this.__inlineRegistry[elementId].element);
+
+      for (var type in this.__inlineRegistry[elementId])
+      {
+        var eventData = this.__inlineRegistry[elementId][type];
+        qx.html2.Event.nativeRemoveEventListener(
+          element,
+          type,
+          eventData.handler
+        );
+      }
+    }
+
+    this.disposeFields(
+      "_documentElement",
+      "__documentEventHandler",
+      "__dispatchEventWrapper",
+      "__eventHandlers",
+      "__registry",
+      "__inlineRegistry"
+    );
   }
 });
