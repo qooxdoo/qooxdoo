@@ -257,20 +257,6 @@ qx.Class.define("qx.html2.element.Tree",
 
 
     /**
-     * Completely removes element from the document and returns it.
-     *
-     * @type static
-     * @param element {Element} DOM element to remove from parent
-     * @return {Element} the removed DOM element
-     */
-    remove : function(element)
-    {
-      element.parentNode.removeChild(element);
-      return element;
-    },
-
-
-    /**
      * Collects all of element's ancestors and returns them as an array elements.
      *
      * @type static
@@ -399,31 +385,6 @@ qx.Class.define("qx.html2.element.Tree",
      */
     siblings : function(element) {
       return this.previousSiblings(element).reverse().concat(this.nextSiblings(element));
-    },
-
-
-    /**
-     * Replaces <code>element</code> by the content of the <code>html</code> argument
-     * and returns the removed <code>element</code>.
-     *
-     * @type static
-     * @param element {Element} element to replace
-     * @param html {String} HTML string
-     * @return {Element} TODOC
-     */
-    replaceWithHTML : function(element, html)
-    {
-      if (element.outerHTML) {
-        element.outerHTML = html;
-      }
-      else
-      {
-        var range = element.ownerDocument.createRange();
-        range.selectNode(element);
-        element.parentNode.replaceChild(range.createContextualFragment(html), element);
-      }
-
-      return element;
     },
 
 
