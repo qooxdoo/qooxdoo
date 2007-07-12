@@ -29,9 +29,9 @@
  */
 qx.Class.define("qx.html2.KeyEventHandler",
 {
-  extend : qx.core.Target,
+  extend : qx.html2.AbstractEventHandler,
 
-
+  implement : qx.html2.IEventHandler,
 
 
   /*
@@ -40,10 +40,20 @@ qx.Class.define("qx.html2.KeyEventHandler",
   *****************************************************************************
   */
 
-  construct : function(keyHandler)
+  construct : function(callback)
   {
-    this.base(arguments);
-    this._keyHandler = keyHandler;
+    this.base(arguments, callback);
+
+    this.__keyEventListenerCount = 0;
+
+    var keyUpDownHandler = qx.lang.Function.bind(this.onKeyUpDown, this);
+
+    this.__keyHandler = {
+      "keydown": keyUpDownHandler,
+      "keyup": keyUpDownHandler,
+      "keypress": keyUpDownHandler
+    }
+
   },
 
 
@@ -57,6 +67,53 @@ qx.Class.define("qx.html2.KeyEventHandler",
 
   members :
   {
+
+    __fireEvent : function(domEvent, eventType, keyCode, charCode, keyIdentifier)
+    {
+      var event = new qx.html2.KeyEvent.getInstance(
+        -1, domEvent, eventType, keyCode, charCode, keyIdentifier
+      );
+      this._callback(event);
+    },
+
+
+    canHandleEvent : function(type) {
+      return this.__keyHandler[type];
+    },
+
+
+    registerEvent : function(type)
+    {
+      if (this.__keyHandler[type])
+      {
+        // handle key events
+        this.__keyEventListenerCount += 1;
+        if (this.__keyEventListenerCount == 1) {
+          this.attachEvents(
+            window.document.documentElement,
+            this.__keyHandler
+          );
+        }
+      }
+    },
+
+
+    unregisterEvent : function(type)
+    {
+      if (this.__keyHandler[type])
+      {
+        // handle key events
+        this.__keyEventListenerCount -= 1;
+        if (this.__keyEventListenerCount == 0) {
+          this.detachEvents(
+            window.document.documentElement,
+            this.__keyHandler
+          );
+        }
+      }
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       EVENT-HANDLER
@@ -542,15 +599,15 @@ qx.Class.define("qx.html2.KeyEventHandler",
       if (keyCode)
       {
         keyIdentifier = this._keyCodeToIdentifier(keyCode);
-        this._keyHandler(domEvent, eventType, keyCode, charCode, keyIdentifier);
+        this.__fireEvent(domEvent, eventType, keyCode, charCode, keyIdentifier);
       }
 
       // Use: charCode
       else
       {
         keyIdentifier = this._charCodeToIdentifier(charCode);
-        this._keyHandler(domEvent, "keypress", keyCode, charCode, keyIdentifier);
-        this._keyHandler(domEvent, "keyinput", keyCode, charCode, keyIdentifier);
+        this.__fireEvent(domEvent, "keypress", keyCode, charCode, keyIdentifier);
+        this.__fireEvent(domEvent, "keyinput", keyCode, charCode, keyIdentifier);
       }
     }
   },
