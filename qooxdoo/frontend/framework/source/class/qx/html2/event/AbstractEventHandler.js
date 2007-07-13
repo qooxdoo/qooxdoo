@@ -38,16 +38,11 @@ qx.Class.define("qx.html2.event.AbstractEventHandler",
   /**
    * @param eventCallBack {Function} general event handler for all events
    *   handled by this event handler
-   * @param domDocument {Document} DOm document the events should be attached to
    */
-  construct : function(eventCallBack, domDocument)
+  construct : function(eventCallBack)
   {
     this.base(arguments);
     this._callback = eventCallBack;
-
-    this._documentElement = domDocument ?
-      domDocument.documentElement :
-      window.document.documentElement;
   },
 
 
@@ -67,23 +62,25 @@ qx.Class.define("qx.html2.event.AbstractEventHandler",
      * @return {Boolean} Whether the event handler can handle events of the
      *     given type.
      */
-    canHandleEvent : function(type) { return true; },
+    canHandleEvent : function(type) { return false; },
 
 
     /**
      * Increase the event count for this event type.
      *
+     * @param element {Element} DOM element to register an additional event for
      * @param type {String} event type
      */
-    registerEvent : function(type) { return true },
+    registerEvent : function(element, type) { },
 
 
     /**
      * Decrease the event count for this event type.
      *
+     * @param element {Element} DOM element to register an additional event for
      * @param type {String} event type
      */
-    unregisterEvent : function(type) { return true; },
+    unregisterEvent : function(element, type) { },
 
 
     /**
