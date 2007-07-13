@@ -50,6 +50,7 @@
  */
 qx.Class.define("qx.html2.Event",
 {
+  type : "singleton",
 
   extend : qx.core.Object,
 
@@ -64,18 +65,10 @@ qx.Class.define("qx.html2.Event",
   */
 
   /**
-   * Creates a new instance of the event handler. Each document e.g. an IFrame
-   * needs its own instance of the event handler. The default event handler
-   * can be retrieved using the singleton getter.
-   *
-   * @param domDocument {Document?window.document} DOM document for the event handler.
+   * Creates a new instance of the event handler.
    */
-  construct : function(domDocument)
+  construct : function()
   {
-    this._documentElement = domDocument ?
-      domDocument.documentElement :
-      window.document.documentElement;
-
     this.__documentEventHandler = qx.lang.Function.bind(this.__handleEvent, this);
 
     this.__dispatchEventWrapper = qx.lang.Function.bind(
@@ -83,15 +76,17 @@ qx.Class.define("qx.html2.Event",
     );
 
     this.__eventHandlers = [
-      new qx.html2.event.KeyEventHandler(this.__dispatchEventWrapper, domDocument),
-      new qx.html2.event.MouseEventHandler(this.__dispatchEventWrapper, domDocument),
+      new qx.html2.event.KeyEventHandler(this.__dispatchEventWrapper),
+      new qx.html2.event.MouseEventHandler(this.__dispatchEventWrapper),
       this // must be the last because it can handle all events
     ],
 
     // registry for 'normal' bubbling events
+    // structure: documentId -> eventType -> elementId
     this.__registry = {};
 
     // registry for inline events
+    // structure: elementId -> documentId
     this.__inlineRegistry = {};
 
   },
@@ -106,17 +101,6 @@ qx.Class.define("qx.html2.Event",
 
   statics :
   {
-
-    /**
-     * Returns an instance of the event handler for the current document.
-     */
-    getInstance : function() {
-      if (this.__instance == undefined) {
-        this.__instance = new this();
-      }
-      return this.__instance;
-    },
-
 
     /**
      * Add an event listener to a DOM element. The event listener is passed an
@@ -300,23 +284,33 @@ qx.Class.define("qx.html2.Event",
     __addEventListenerDocument : function(element, type, listener, self, useCapture)
     {
       var reg = this.__registry;
+      var documentElement = qx.html2.element.Tree.getDocument(element).documentElement;
+      var documentId = qx.core.Object.toHashCode(documentElement);
 
-      if (!reg[type])
+      // create registry for this document
+      if (!reg[documentId]) {
+        reg[documentId] = {};
+        reg[documentId].element = documentElement;
+      }
+      var docData = reg[documentId];
+
+      // create registry for this event type
+      if (!docData[type])
       {
-        reg[type] = {};
+        docData[type] = {};
 
         // iterate over all event handlers and check whether they are responsible
         // for this event type
         for (var i=0; i<this.__eventHandlers.length; i++) {
           if (this.__eventHandlers[i].canHandleEvent(type)) {
-            this.__eventHandlers[i].registerEvent(type);
+            this.__eventHandlers[i].registerEvent(documentElement, type);
             break;
           }
         }
       }
 
       var elementId = qx.core.Object.toHashCode(element);
-      var typeEvents = reg[type];
+      var typeEvents = docData[type];
 
       if (!typeEvents[elementId])
       {
@@ -329,7 +323,9 @@ qx.Class.define("qx.html2.Event",
 
       // bind the listener to the object
       if (self) {
-        callback = qx.lang.Function.bind(listener, self);
+        var callback = qx.lang.Function.bind(listener, self);
+      } else {
+        callback = listener;
       }
 
       callback.$$original = listener;
@@ -353,7 +349,10 @@ qx.Class.define("qx.html2.Event",
       var target = event.getTarget();
       var node = target;
 
-      var reg = this.__registry[event.getType()];
+      var documentElement = qx.html2.element.Tree.getDocument(node).documentElement;
+      var documentId = qx.core.Object.toHashCode(documentElement);
+
+      var reg = this.__registry[documentId][event.getType()];
 
       if (reg == undefined) {
         return;
@@ -553,7 +552,14 @@ qx.Class.define("qx.html2.Event",
     {
       var elementId = qx.core.Object.toHashCode(element);
 
-      var elementData = this.__registry[type];
+      var documentElement = qx.html2.element.Tree.getDocument(element).documentElement;
+      var documentId = qx.core.Object.toHashCode(documentElement);
+
+      if (!this.__registry[documentId]) {
+        return;
+      }
+
+      var elementData = this.__registry[documentId][type];
 
       if (!elementData || !elementData[elementId]) {
         return;
@@ -582,7 +588,7 @@ qx.Class.define("qx.html2.Event",
         if (eventData.captureListeners.length == 0 && eventData.bubbleListeners.length == 0) {
           delete (elementData[type]);
           for (var i=0; i<this.__eventHandlers.length; i++) {
-            this.__eventHandlers[i].unregisterEvent(type);
+            this.__eventHandlers[i].unregisterEvent(documentElement, type);
           }
         }
       }
@@ -651,8 +657,8 @@ qx.Class.define("qx.html2.Event",
      * @return {Boolean} Whether event listeners are registered at the document
      *     element for the given type.
      */
-    __getDocumentHasListeners: function(type) {
-      return qx.lang.Object.isEmpty(this.__registry[type]);
+    __getDocumentHasListeners: function(documentId, type) {
+      return qx.lang.Object.isEmpty(this.__registry[documentId][type]);
     },
 
 
@@ -682,10 +688,10 @@ qx.Class.define("qx.html2.Event",
      * @param type {String} event type
      * @internal
      */
-    registerEvent : function(type)
+    registerEvent : function(element, type)
     {
       qx.html2.Event.nativeAddEventListener(
-        this._documentElement,
+        element,
         type,
         this.__documentEventHandler
       );
@@ -698,11 +704,12 @@ qx.Class.define("qx.html2.Event",
      * @param type {String} event type
      * @internal
      */
-    unregisterEvent : function(type)
+    unregisterEvent : function(element, type)
     {
-      if (!this.__getDocumentHasListeners()) {
+      var documentId = qx.core.Object.toHashCode(element);
+      if (!this.__getDocumentHasListeners(documentId)) {
         qx.html2.Event.nativeRemoveEventListener(
-          this._documentElement,
+          element,
           type,
           this.__documentEventHandler
         );
@@ -737,13 +744,23 @@ qx.Class.define("qx.html2.Event",
     }
 
     // remove document event listeners
-    for (var type in this.__registry)
+    for (var documentId in this.__registry)
     {
-      qx.html2.Event.nativeRemoveEventListener(
-        this._documentElement,
-        type,
-        this.__documentEventHandler
-      );
+      var documentElement = this.__registry.element;
+      delete(this.__registry.element);
+
+      if (documentId == "element") {
+        continue;
+      }
+
+      for (var type in this.__registry[documentId])
+      {
+        qx.html2.Event.nativeRemoveEventListener(
+          documentElement,
+          type,
+          this.__documentEventHandler
+        );
+      }
     }
 
     // remove inline event listeners
@@ -751,6 +768,10 @@ qx.Class.define("qx.html2.Event",
     {
       var element = this.__inlineRegistry[elementId].element;
       delete(this.__inlineRegistry[elementId].element);
+
+      if (elementId == "element") {
+        continue;
+      }
 
       for (var type in this.__inlineRegistry[elementId])
       {
@@ -764,7 +785,6 @@ qx.Class.define("qx.html2.Event",
     }
 
     this.disposeFields(
-      "_documentElement",
       "__documentEventHandler",
       "__dispatchEventWrapper",
       "__eventHandlers",

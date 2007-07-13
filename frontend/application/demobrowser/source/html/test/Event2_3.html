@@ -11,7 +11,7 @@
 		width: 500px;
 		height: 500px;
 		left: 30px;
-		top: 100px;
+		top: 200px;
 		color: black;
 		background-color: #EEE;
 		padding: 5px;
@@ -31,14 +31,14 @@
   #btnClear {
     position: absolute;
     left: 550px;
-    top: 100px;
+    top: 200px;
   }
 
   #mouse {
     position: absolute;
     left: 30px;
     top: 10px;
-    height: 80px;
+    height: 180px;
     width: 500;
     background-color: orange;
     border: 1px inset;
@@ -57,7 +57,7 @@
 
   #form {
     position: absolute;
-    top: 150px;
+    top: 250px;
     left: 550px;
     width: 200px;
   }
@@ -86,14 +86,31 @@
 
   <div id="form">
     <table>
-      <tr><td><input type="checkbox" id="check_mousedown" checked="checked"></td><td>mousedown</td></tr>
-      <tr><td><input type="checkbox" id="check_mouseup" checked="checked"></td><td>mouseup</td></tr>
-      <tr><td><input type="checkbox" id="check_click" checked="checked"></td><td>click</td></tr>
-      <tr><td><input type="checkbox" id="check_dblclick" checked="checked"></td><td>dblclick</td></tr>
-      <tr><td><input type="checkbox" id="check_contextmenu" checked="checked"></td><td>contextmenu</td></tr>
-      <tr><td><input type="checkbox" id="check_mousemove"></td><td>mousemove</td></tr>
-      <tr><td><input type="checkbox" id="check_mouseover"></td><td>mouseover</td></tr>
-      <tr><td><input type="checkbox" id="check_mouseout"></td><td>mouseout</td></tr>
+      <tr>
+        <td><input type="checkbox" id="check_mousedown" checked="checked"></td>
+        <td><label for="check_mousedown">mousedown</label></td>
+      </tr><tr>
+        <td><input type="checkbox" id="check_mouseup" checked="checked"></td>
+        <td><label for="check_mouseup">mouseup</label></td>
+      </tr><tr>
+        <td><input type="checkbox" id="check_click" checked="checked"></td>
+        <td><label for="check_click">click</label></td>
+      </tr><tr>
+        <td><input type="checkbox" id="check_dblclick" checked="checked"></td>
+        <td><label for="check_dblclick">dblclick</label></td>
+      </tr><tr>
+        <td><input type="checkbox" id="check_contextmenu" checked="checked"></td>
+        <td><label for="check_contextmenu">contextmenu</label></td>
+      </tr><tr>
+        <td><input type="checkbox" id="check_mousemove"></td>
+        <td><label for="check_mousemove">mousemove</label></td>
+      </tr><tr>
+        <td><input type="checkbox" id="check_mouseover"></td>
+        <td><label for="check_mouseover">mouseover</label></td>
+      </tr><tr>
+        <td><input type="checkbox" id="check_mouseout"></td>
+        <td><label for="check_mouseout">mouseout</label></td>
+      </tr>
     </table>
   </div>
   <input type="button" id="btnClear" value="clear">
