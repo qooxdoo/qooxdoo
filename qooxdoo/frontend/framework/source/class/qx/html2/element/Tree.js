@@ -109,39 +109,6 @@ qx.Class.define("qx.html2.element.Tree",
 
 
     /**
-     * Returns the owner document of the given node
-     *
-     * @type static
-     * @param node {Node} the node which should be tested
-     * @return {Document | null} The document of the given DOM node
-     */
-    getDocument : function(node) {
-      return node.ownerDocument || node.document || null;
-    },
-
-
-    /**
-     * Returns the DOM2 <code>defaultView</code> which represents the window
-     * of a DOM node
-     *
-     * @type static
-     * @signature function(node)
-     * @param node {Node} node to inspect
-     * @return {Window} the <code>defaultView</code> of the given node
-     */
-    getDefaultView : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function(node) {
-        return this.getDocument(node).parentWindow;
-      },
-
-      "default" : function(node) {
-        return this.getDocument(node).defaultView;
-      }
-    }),
-
-
-    /**
      * Whether the first element contains the second one
      *
      * Uses native non-standard contains() in Opera and Internet Explorer
@@ -154,8 +121,10 @@ qx.Class.define("qx.html2.element.Tree",
      */
     contains : qx.core.Variant.select("qx.client",
     {
-      "mshtml|opera" : function(element, target) {
-        return this.isDocument(element) ? element === this.getOwnerDocument(target) : element !== target && element.contains(target);
+      "mshtml|opera" : function(element, target) 
+      {
+        var clazz = qx.html2.element.Node;
+        return clazz.isDocumentNode(element) ? element === clazz.getDocument(target) : element !== target && element.contains(target);
       },
 
       "default" : function(element, target)
