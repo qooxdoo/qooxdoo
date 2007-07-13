@@ -237,7 +237,6 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
      */
     updateDataCellElement : function(cellInfo, cellElement)
     {
-      var clazz = qx.ui.table.cellrenderer.Default;
       var style = cellElement.style;
       var tableModel = cellInfo.table.getTableModel();
       var i;
@@ -354,7 +353,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
       if (textNode != null) {
         textNode.nodeValue = this._formatValue(cellInfo);
       } else {
-        cellElement.innerHTML = clazz.escapeHtml(this._formatValue(cellInfo));
+        cellElement.innerHTML = qx.html.String.escape(this._formatValue(cellInfo));
       }
     }
   }
