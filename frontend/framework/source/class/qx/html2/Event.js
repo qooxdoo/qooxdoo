@@ -117,8 +117,8 @@ qx.Class.define("qx.html2.Event",
      *       capturing phase of the bubbling phase of the event. The default is
      *       to attach the event handler to the bubbling phase.
      */
-    addEventListener : function(element, type, listener, self, useCapture) {
-      this.getInstance().addEventListener(element, type, listener, self, useCapture);
+    addListener : function(element, type, listener, self, useCapture) {
+      this.getInstance().addListener(element, type, listener, self, useCapture);
     },
 
 
@@ -132,8 +132,8 @@ qx.Class.define("qx.html2.Event",
      * @param useCapture {Boolean ? false} Whether to remove the event listener of
      *       the bubbling or of the capturing phase.
      */
-    removeEventListener : function(element, type, listener, useCapture) {
-      this.getInstance().removeEventListener(element, type, listener, useCapture);
+    removeListener : function(element, type, listener, useCapture) {
+      this.getInstance().removeListener(element, type, listener, useCapture);
     },
 
 
@@ -250,7 +250,7 @@ qx.Class.define("qx.html2.Event",
      *       capturing phase of the bubbling phase of the event. The default is
      *       to attach the event handler to the bubbling phase.
      */
-    addEventListener : function(element, type, listener, self, useCapture)
+    addListener : function(element, type, listener, self, useCapture)
     {
       if (this.__inlineEvents[type])
       {
@@ -527,7 +527,7 @@ qx.Class.define("qx.html2.Event",
      *       the bubbling or of the capturing phase.
      * @return {var} TODOC
      */
-    removeEventListener : function(element, type, listener, useCapture)
+    removeListener : function(element, type, listener, useCapture)
     {
       if (this.__inlineEvents[type]) {
         return this.__removeEventListenerInline(element, type, listener);
