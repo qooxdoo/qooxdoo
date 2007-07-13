@@ -45,13 +45,13 @@ qx.Class.define("qx.html2.event.KeyEventHandler",
   /**
    * @param eventCallBack {Function} general event handler for all events
    *   handled by this event handler
-   * @param domDocument {Document} DOm document the events should be attached to
    */
-  construct : function(eventCallBack, domDocument)
+  construct : function(eventCallBack)
   {
-    this.base(arguments, eventCallBack, domDocument);
+    this.base(arguments, eventCallBack);
 
-    this.__keyEventListenerCount = 0;
+    this.__keyEventListenerCount = {};
+    this.__elementRegistry = {};
 
     var keyUpDownHandler = qx.lang.Function.bind(this.onKeyUpDown, this);
 
@@ -99,15 +99,22 @@ qx.Class.define("qx.html2.event.KeyEventHandler",
     },
 
 
-    registerEvent : function(type)
+    registerEvent : function(element, type)
     {
       if (this.__keyHandler[type])
       {
+        var elementId = qx.core.Object.toHashCode(element);
+
+        if (!this.__keyEventListenerCount[elementId]) {
+          this.__keyEventListenerCount[elementId] = 0;
+          this.__elementRegistry[elementId] = element;
+        }
+
         // handle key events
-        this.__keyEventListenerCount += 1;
-        if (this.__keyEventListenerCount == 1) {
+        this.__keyEventListenerCount[elementId] += 1;
+        if (this.__keyEventListenerCount[elementId] == 1) {
           this._attachEvents(
-            this._documentElement,
+            element,
             this.__keyHandler
           );
         }
@@ -115,15 +122,22 @@ qx.Class.define("qx.html2.event.KeyEventHandler",
     },
 
 
-    unregisterEvent : function(type)
+    unregisterEvent : function(element, type)
     {
       if (this.__keyHandler[type])
       {
+        var elementId = qx.core.Object.toHashCode(element);
+
+        if (!this.__keyEventListenerCount[elementId]) {
+          this.__keyEventListenerCount[elementId] = 0;
+          this.__elementRegistry[elementId] = element;
+        }
+
         // handle key events
-        this.__keyEventListenerCount -= 1;
-        if (this.__keyEventListenerCount == 0) {
+        this.__keyEventListenerCount[elementId] -= 1;
+        if (this.__keyEventListenerCount[elementId] == 0) {
           this._detachEvents(
-            this._documentElement,
+            element,
             this.__keyHandler
           );
         }
@@ -716,12 +730,16 @@ qx.Class.define("qx.html2.event.KeyEventHandler",
 
   destruct : function() {
 
-    this._detachEvents(
-      this._documentElement,
-      this.__keyHandler
-    );
+    for (var documentId in this.__keyEventListenerCount)
+    {
+      var documentElement = this.__elementRegistry[documentId];
+      this._detachEvents(
+        documentElement,
+        this.__keyHandler
+      );
+    }
 
-    this._disposeFields("_lastUpDownType", "_documentElement", "__keyHandler");
+    this._disposeFields("_lastUpDownType", "__keyHandler", "__keyEventListenerCount");
   }
 
 });

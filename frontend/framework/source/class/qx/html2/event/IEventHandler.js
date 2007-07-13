@@ -39,16 +39,18 @@ qx.Interface.define("qx.html2.event.IEventHandler",
     /**
      * Increase the event count for this event type.
      *
+     * @param element {Element} DOM element to register an additional event for
      * @param type {String} event type
      */
-    registerEvent : function(type) { return true },
+    registerEvent : function(element, type) { return arguments.length == 2; },
 
     /**
      * Decrease the event count for this event type.
      *
+     * @param element {Element} DOM element to register an additional event for
      * @param type {String} event type
      */
-    unregisterEvent : function(type) { return true; }
+    unregisterEvent : function(element, type) { return arguments.length == 2; }
 
   }
 });
