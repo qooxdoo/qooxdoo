@@ -689,6 +689,12 @@ qx.Class.define("qx.core.Property",
         code.push('else if(this.', this.$$store.theme[name], '!==undefined)');
         code.push('return this.', this.$$store.theme[name], ';');
       }
+      
+      if (config.deferredInit && config.init === undefined) 
+      {
+        code.push('else if(this.', this.$$store.init[name], '!==undefined)');
+        code.push('return this.', this.$$store.init[name], ';');        
+      }      
 
       code.push('else ');
 
