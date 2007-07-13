@@ -162,7 +162,7 @@ qx.Class.define("qx.html2.element.Generic",
         custom     : {}
       };
 
-      var name, hints, data;
+      var name, hints, source, target;
 
       // Process attributes
       hints = qx.html2.element.Attribute.__hints.names;
