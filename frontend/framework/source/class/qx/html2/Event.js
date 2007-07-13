@@ -80,11 +80,11 @@ qx.Class.define("qx.html2.Event",
 
     this.__dispatchEventWrapper = qx.lang.Function.bind(
       this.__dispatchDocumentEvent, this
-    )
+    );
 
     this.__eventHandlers = [
-      new qx.html2.event.KeyEventHandler(this.__dispatchEventWrapper, this._documentElement),
-      new qx.html2.event.MouseEventHandler(this.__dispatchEventWrapper, this._documentElement),
+      new qx.html2.event.KeyEventHandler(this.__dispatchEventWrapper, domDocument),
+      new qx.html2.event.MouseEventHandler(this.__dispatchEventWrapper, domDocument),
       this // must be the last because it can handle all events
     ],
 
