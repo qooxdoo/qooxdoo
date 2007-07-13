@@ -344,10 +344,13 @@ qx.Class.define("qx.ui.basic.ScrollBar",
      */
     _positionKnob : function(value)
     {
-      if (this._horizontal) {
-        this._scrollBar.setScrollLeft(value);
-      } else {
-        this._scrollBar.setScrollTop(value);
+      if (this.isCreated())
+      {
+        if (this._horizontal) {
+          this._scrollBar.setScrollLeft(value);
+        } else {
+          this._scrollBar.setScrollTop(value);
+        }
       }
     },
 
