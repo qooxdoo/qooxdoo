@@ -6850,7 +6850,7 @@ qx.Class.define("qx.ui.core.Widget",
     _visualPropertyCheck : function()
     {
       if (!this.isCreated()) {
-        throw new Error("Element must be created previously!");
+        throw new Error(this.classname + ": Element must be created previously!");
       }
     },
 
