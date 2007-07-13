@@ -166,6 +166,17 @@ qx.Class.define("qx.html2.Client",
       }
     },
 
+    /**
+     * Returns a copy of the current map of active flags and features.
+     *
+     * @type static
+     * @return {Map} The map of active flags
+     */
+    info : function()
+    {
+			return qx.lang.Object.copy(this.__active);
+    },
+
     /** Internal map which stores the evaluated value for each already evaluated key */
     __cache : { 
       "default" : true  // the default value will always be accepted
