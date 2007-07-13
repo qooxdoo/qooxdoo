@@ -1,0 +1,138 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+  <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
+  <style type="text/css">
+
+    #iframe {
+      position: absolute;
+      left: 10px;
+      top; 10px;
+      height: 600px;
+      width: 800px;
+      overflow: auto;
+      border: 2px inset;
+    }
+
+  </style>
+</head>
+<body>
+  <div id="description">
+    <p>Demonstrate that the new event handler works for iframes as well.</p>
+  </div>
+
+  <script type="text/javascript">
+
+qx.Class.define("BasicSample",
+{
+  extend : qx.application.Basic,
+
+  members :
+  {
+    main : function()
+    {
+      this.base(arguments);
+    },
+
+    bindIFrameEvents : function()
+    {
+      var iframe = window.document.getElementById("iframe");
+      var document = qx.html.Iframe.getDocument(iframe);
+
+      this._juhu = document.getElementById("juhu");
+      this._inner = document.getElementById("inner");
+
+      qx.html2.Event.addListener(this._juhu, "contextmenu", this._preventDefault, this);
+      qx.html2.Event.addListener(this._inner, "click", this._stopPropagation, this);
+      qx.html2.Event.addListener(this._juhu, "click", this._onclick1, this);
+      qx.html2.Event.addListener(this._juhu, "click", this._onclick2, this);
+
+      qx.html2.Event.addListener(
+        document.getElementById("input"),
+        "keydown",
+        this._onkeydown, this
+      );
+
+      for (var i=1; i<10; i++) {
+        var div = document.getElementById("div"+i);
+        qx.html2.Event.addListener(div, "click", this._cascadeCapture, this, true);
+        qx.html2.Event.addListener(div, "click", this._cascadeBubble, this, false);
+      }
+
+      qx.html2.Event.addListener(
+        document.getElementById("scroll"),
+        "scroll",
+        this.throttle(150, this._scroll, this),
+        this
+      );
+    },
+
+
+    throttle : function(minIntervalTime, fcn, self)
+    {
+      var timeoutId = 0;
+
+      return function() {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(function() {
+          self ? fcn.call(self) : fcn();
+        }, minIntervalTime);
+      }
+    },
+
+    _onkeydown: function(e) {
+      this.debug("keydown: " + e.getKeyIdentifier());
+    },
+
+    _scroll: function(e) {
+      this.debug("scroll");
+    },
+
+    _cascadeCapture : function(e) {
+      var elem = e.getCurrentTarget();
+      this.debug("capture: " + elem.id + " " + e.getEventPhase());
+    },
+
+    _cascadeBubble : function(e) {
+      var elem = e.getCurrentTarget();
+      this.debug("bubble: " + elem.id + " " + e.getEventPhase());
+    },
+
+    _preventDefault : function(e)
+    {
+      this.debug(e.getType() + ": " + e);
+      e.preventDefault();
+    },
+
+    _stopPropagation : function(e)
+    {
+      this.debug(e.getType() + " (inner): " + e);
+      e.stopPropagation();
+    },
+
+
+    _onclick1 : function(e)
+    {
+      this.debug(e.getType() + " 1: " +  e);
+      qx.html2.Event.removeListener(this._juhu, "click", this._onclick1);
+    },
+
+    _onclick2 : function(e)
+    {
+      this.debug(e.getType() + " 2: " + e);
+    }
+  }
+});
+
+var APP = new BasicSample;
+qx.core.Init.getInstance().setApplication(APP);
+
+  </script>
+
+  <iframe src="data/iframe.html" id="iframe" onload="APP.bindIFrameEvents()">
+  </iframe>
+
+</body>
+</html>
