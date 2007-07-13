@@ -141,24 +141,24 @@ qx.Class.define("BasicSample",
       {
         var elem = document.getElementById("check_" + events[i])
         if (elem.checked) {
-          qx.html2.Event.addEventListener(
+          qx.html2.Event.addListener(
             mouseDiv,
             events[i],
             this.logMouseEvent,
             this
           )
         }
-        qx.html2.Event.addEventListener(elem, "change", this.__changeCheckbox, this);
+        qx.html2.Event.addListener(elem, "change", this.__changeCheckbox, this);
       }
 
-      qx.html2.Event.addEventListener(
+      qx.html2.Event.addListener(
         document.body,
         "selectstart",
         function(e) { e.preventDefault(); },
         this
       )
 
-      qx.html2.Event.addEventListener(
+      qx.html2.Event.addListener(
         document.getElementById("btnClear"),
         "click",
         this.initializeLogger,
@@ -174,7 +174,7 @@ qx.Class.define("BasicSample",
       var mouseDiv = document.getElementById("mouse");
 
       if (checked) {
-        qx.html2.Event.addEventListener(
+        qx.html2.Event.addListener(
           mouseDiv,
           type,
           this.logMouseEvent,
@@ -183,7 +183,7 @@ qx.Class.define("BasicSample",
       }
       else
       {
-        qx.html2.Event.removeEventListener(
+        qx.html2.Event.removeListener(
           mouseDiv,
           type,
           this.logMouseEvent
