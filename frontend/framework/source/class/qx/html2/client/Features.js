@@ -48,10 +48,10 @@ qx.Class.define("qx.html2.client.Features",
     /** {Boolean} Flag to detect if the current document is rendered in quirks mode */
     QUIRKS_MODE : false,
 
-    /** {Boolean} Flag to detect if the client uses the W3C box model */
+    /** {Boolean} Flag to detect if the client uses the W3C box model to render the current document */
     CONTENT_BOX : false,
 
-    /** {Boolean} Flag to detect if the client uses the IE box model */
+    /** {Boolean} Flag to detect if the client uses the IE box model to render the current document */
     BORDER_BOX : false,
 
     /** {Boolean} Flag to detect if the client supports SVG graphics */
