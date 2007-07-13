@@ -49,17 +49,18 @@ qx.Class.define("qx.html2.Document",
      * Returns the width of the document.
      *
      * @type static
-     * @signature function()
+     * @signature function(win)
+     * @param win {Window?window} The window to work with
      * @return {Integer} The width of the actual document (which includes the body and its margin).
      */
     getWidth : qx.html2.Client.select(
     {
-      "standard_mode" : function() {
-        return Math.max(document.documentElement.scrollWidth, qx.html2.Viewport.getWidth());
+      "standard_mode" : function(win) {
+        return Math.max((win||window).document.documentElement.scrollWidth, qx.html2.Viewport.getWidth(win));
       },
 
-      "quirks_mode" : function() {
-        return Math.max(document.body.scrollWidth, qx.html2.Viewport.getWidth());
+      "quirks_mode" : function(win) {
+        return Math.max((win||window).document.body.scrollWidth, qx.html2.Viewport.getWidth(win));
       }
     }),
 
@@ -68,17 +69,18 @@ qx.Class.define("qx.html2.Document",
      * Returns the height of the document.
      *
      * @type static
-     * @signature function()
+     * @signature function(win)
+     * @param win {Window?window} The window to work with
      * @return {Integer} The height of the actual document (which includes the body and its margin).
      */
     getHeight : qx.html2.Client.select(
     {
-      "standard_mode" : function() {
-        return Math.max(document.documentElement.scrollHeight, qx.html2.Viewport.getHeight());
+      "standard_mode" : function(win) {
+        return Math.max((win||window).document.documentElement.scrollHeight, qx.html2.Viewport.getHeight(win));
       },
 
-      "quirks_mode" : function() {
-        return Math.max(document.body.scrollHeight, qx.html2.Viewport.getHeight());
+      "quirks_mode" : function(win) {
+        return Math.max((win||window).document.body.scrollHeight, qx.html2.Viewport.getHeight(win));
       }
     })
   }

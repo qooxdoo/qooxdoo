@@ -53,21 +53,22 @@ qx.Class.define("qx.html2.Viewport",
      *   clientWidth property - but innerWidth does the job
      *
      * @type static
-     * @signature function()
+     * @signature function(win)
+     * @param win {Window?window} The window to work with
      * @return {Integer} The width of the viewable area of the page (excludes scrollbars).
      */
     getWidth : qx.html2.Client.select(
     {
-      "webkit" : function() {
-        return window.innerWidth;
+      "webkit" : function(win) {
+        return (win||window).innerWidth;
       },
 
-      "quirks_mode|opera" : function() {
-        return document.body.clientWidth;
+      "quirks_mode|opera" : function(win) {
+        return (win||window).document.body.clientWidth;
       },
 
-      "standard_mode" : function() {
-        return document.documentElement.clientWidth;
+      "standard_mode" : function(win) {
+        return (win||window).document.documentElement.clientWidth;
       }
     }),
 
@@ -80,21 +81,22 @@ qx.Class.define("qx.html2.Viewport",
      *   clientHeight property - but innerWidth does the job
      *
      * @type static
-     * @signature function()
+     * @signature function(win)
+     * @param win {Window?window} The window to work with
      * @return {Integer} The height of the viewable area of the page (excludes scrollbars).
      */
     getHeight : qx.html2.Client.select(
     {
-      "webkit" : function() {
-        return window.innerHeight;
+      "webkit" : function(win) {
+        return (win||window).innerHeight;
       },
 
-      "quirks_mode|opera" : function() {
-        return document.body.clientHeight;
+      "quirks_mode|opera" : function(win) {
+        return (win||window).document.body.clientHeight;
       },
 
-      "standard_mode" : function() {
-        return document.documentElement.clientHeight;
+      "standard_mode" : function(win) {
+        return (win||window).document.documentElement.clientHeight;
       }
     }),
 
@@ -103,21 +105,22 @@ qx.Class.define("qx.html2.Viewport",
      * Returns the scroll position of the viewport
      *
      * @type static
-     * @signature function()
+     * @signature function(win)
+     * @param win {Window?window} The window to work with
      * @return {Integer} Scroll position from left edge, always a positive integer
      */
     getScrollLeft : qx.html2.Client.select(
     {
-      "gecko" : function() {
-        return window.pageXOffset;
+      "gecko" : function(win) {
+        return (win||window).pageXOffset;
       },
 
-      "standard_mode" : function() {
-        return document.documentElement.scrollLeft;
+      "standard_mode" : function(win) {
+        return (win||window).document.documentElement.scrollLeft;
       },
 
-      "quirks_mode" : function() {
-        return document.body.scrollLeft;
+      "quirks_mode" : function(win) {
+        return (win||window).document.body.scrollLeft;
       }
     }),
 
@@ -126,21 +129,22 @@ qx.Class.define("qx.html2.Viewport",
      * Returns the scroll position of the viewport
      *
      * @type static
-     * @signature function()
+     * @signature function(win)
+     * @param win {Window?window} The window to work with
      * @return {Integer} Scroll position from left edge, always a positive integer
      */
     getScrollTop : qx.html2.Client.select(
     {
-      "gecko" : function() {
-        return window.pageYOffset;
+      "gecko" : function(win) {
+        return (win||window).pageYOffset;
       },
 
-      "standard_mode" : function() {
-        return document.documentElement.scrollTop;
+      "standard_mode" : function(win) {
+        return (win||window).document.documentElement.scrollTop;
       },
 
-      "quirks_mode" : function() {
-        return document.body.scrollTop;
+      "quirks_mode" : function(win) {
+        return (win||window).document.body.scrollTop;
       }
     })
   }
