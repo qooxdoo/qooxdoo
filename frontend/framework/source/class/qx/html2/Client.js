@@ -174,7 +174,7 @@ qx.Class.define("qx.html2.Client",
      */
     info : function()
     {
-			return qx.lang.Object.copy(this.__active);
+      return qx.lang.Object.copy(this.__active);
     },
 
     /** Internal map which stores the evaluated value for each already evaluated key */
