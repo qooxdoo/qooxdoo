@@ -70,6 +70,48 @@ qx.Class.define("qx.html2.element.Node",
 
     /*
     ---------------------------------------------------------------------------
+      DOCUMENT DETECTION
+    ---------------------------------------------------------------------------
+    */
+    
+    /**
+     * Returns the owner document of the given node
+     *
+     * @type static
+     * @param node {Node} the node which should be tested
+     * @return {Document | null} The document of the given DOM node
+     */
+    getDocument : function(node) {
+      return node.ownerDocument || node.document || null;
+    },
+
+
+    /**
+     * Returns the DOM2 <code>defaultView</code> which represents the window
+     * of a DOM node
+     *
+     * @type static
+     * @signature function(node)
+     * @param node {Node} node to inspect
+     * @return {Window} the <code>defaultView</code> of the given node
+     */
+    getDefaultView : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(node) {
+        return this.getDocument(node).parentWindow;
+      },
+
+      "default" : function(node) {
+        return this.getDocument(node).defaultView;
+      }
+    }),
+    
+    
+    
+
+
+    /*
+    ---------------------------------------------------------------------------
       TYPE TESTS
     ---------------------------------------------------------------------------
     */
