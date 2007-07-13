@@ -690,8 +690,14 @@ qx.Class.define("qx.core.Property",
         code.push('return this.', this.$$store.theme[name], ';');
       }
 
-      code.push('else ');
+      if (config.deferredInit && config.init === undefined) 
+      {
+        code.push('else if(this.', this.$$store.init[name], '!==undefined)');
+        code.push('return this.', this.$$store.init[name], ';');        
+      } 
 
+      code.push('else ');
+      
       if (config.init !== undefined) {
         code.push('return this.', this.$$store.init[name], ';');
       } else if (config.inheritable || config.nullable) {
