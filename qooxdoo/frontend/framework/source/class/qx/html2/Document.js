@@ -76,27 +76,27 @@ qx.Class.define("qx.html2.Document",
      * on the <code>documentElement</code>, but in quirks mode on the body element. All
      * other known browsers simply store the correct value on the <code>documentElement</code>.
      *
-     * Note: If the viewport is wider than the document the viewport width is returned.
+     * If the viewport is wider than the document the viewport width is returned.
      *
+     * As the html element has no visual appearance it also can not scroll. This 
+     * means that we must use the body <code>scrollWidth</code> in all non mshtml clients.
+     *
+     * Verified to correctly work with:
+     * * Mozilla Firefox 2.0.0.4
+     * * Opera 9.2.1
+     * * Safari 3.0 beta (3.0.2)
+     * * Internet Explorer TODO
+     *     
      * @type static
      * @param win {Window?window} The window to query
      * @return {Integer} The width of the actual document (which includes the body and its margin).
      */
-    getWidth : qx.core.Variant.select("qx.client",
+    getWidth : function(win)
     {
-      "mshtml" : function(win)
-      {
-        var doc = (win||window).document;
-        var view = qx.html2.Viewport.getWidth(win);
-        return Math.max(doc.documentElement.scrollWidth||doc.body.scrollWidth), view);
-      },
-      
-      "default" : function(win)
-      {
-        var doc = (win||window).document;
-        var view = qx.html2.Viewport.getWidth(win);
-        return Math.max(doc.documentElement.scrollWidth, view);
-      }
+      var doc = (win||window).document;
+      var view = qx.html2.Viewport.getWidth(win);
+      var scroll = doc.compatMode === "CSS1Compat" ? doc.documentElement.scrollWidth : doc.body.scrollWidth;
+      return Math.max(scroll, view);
     },
 
 
@@ -107,27 +107,27 @@ qx.Class.define("qx.html2.Document",
      * on the <code>documentElement</code>, but in quirks mode on the body element. All
      * other known browsers simply store the correct value on the <code>documentElement</code>.
      *
-     * Note: If the viewport is higher than the document the viewport height is returned.
+     * If the viewport is higher than the document the viewport height is returned.
      *     
+     * As the html element has no visual appearance it also can not scroll. This 
+     * means that we must use the body <code>scrollHeight</code> in all non mshtml clients.
+     *
+     * Verified to correctly work with:
+     * * Mozilla Firefox 2.0.0.4
+     * * Opera 9.2.1
+     * * Safari 3.0 beta (3.0.2)
+     * * Internet Explorer TODO
+     *
      * @type static
      * @param win {Window?window} The window to query
      * @return {Integer} The height of the actual document (which includes the body and its margin).
      */
-    getHeight :  qx.core.Variant.select("qx.client",
+    getHeight : function(win)
     {
-      "mshtml" : function(win)
-      {
-        var doc = (win||window).document;
-        var view = qx.html2.Viewport.getHeight(win);
-        return Math.max(doc.documentElement.scrollHeight||doc.body.scrollHeight), view);
-      },
-      
-      "default" : function(win)
-      {
-        var doc = (win||window).document;
-        var view = qx.html2.Viewport.getHeight(win);
-        return Math.max(doc.documentElement.scrollHeight, view);
-      }
-    }      
+      var doc = (win||window).document;
+      var view = qx.html2.Viewport.getHeight(win);
+      var scroll = doc.compatMode === "CSS1Compat" ? doc.documentElement.scrollHeight : doc.body.scrollHeight;
+      return Math.max(scroll, view);
+    }     
   }
 });
