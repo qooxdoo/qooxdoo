@@ -82,10 +82,12 @@ qx.Class.define("qx.html2.Document",
         win = window; 
       }
       
+      var view = qx.html2.Viewport.getWidth(win);
+      
       if (this.isStandardMode(win)) {
-        return Math.max(win.document.documentElement.scrollWidth, qx.html2.Viewport.getWidth(win));
+        return Math.max(win.document.documentElement.scrollWidth, view);
       } else {
-        return Math.max(win.document.body.scrollWidth, qx.html2.Viewport.getWidth(win));
+        return Math.max(win.document.body.scrollWidth, view);
       }
     },
 
@@ -103,10 +105,12 @@ qx.Class.define("qx.html2.Document",
         win = window; 
       }
       
+      var view = qx.html2.Viewport.getHeight(win);
+      
       if (this.isStandardMode(win)) {
-        return Math.max(win.document.documentElement.scrollHeight, qx.html2.Viewport.getHeight(win));
+        return Math.max(win.document.documentElement.scrollHeight, view);
       } else {
-        return Math.max(win.document.body.scrollHeight, qx.html2.Viewport.getHeight(win));
+        return Math.max(win.document.body.scrollHeight, view);
       }
     }
   }

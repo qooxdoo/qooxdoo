@@ -46,10 +46,16 @@ qx.Class.define("qx.html2.Viewport",
   statics :
   {
     /**
-     * Returns the current width of the viewport.
+     * Returns the current width of the viewport (excluding a eventually visible scrollbar).
      *
      * Webkit, even as of Safari 3 beta, have no working 
-     * clientWidth property - but innerWidth does the job
+     * <code>clientWidth</code> property - but <code>innerWidth</code> does the job
+     *
+     * Mozilla and Opera include the scrollbar width in <code>innerWidth</code>. As this is
+     * not the indented behavior of this method we correcting this property. TODO
+     *
+     * <code>clientWidth</code> is the inner width of an element in pixels. It includes padding 
+     * but not the vertical scrollbar (if present, if rendered), border or margin.
      *
      * @type static
      * @signature function(win)
@@ -65,9 +71,9 @@ qx.Class.define("qx.html2.Viewport",
         }
               
         if (qx.html2.Document.isStandardMode(win)) {
-          return Math.max(win.document.documentElement.scrollWidth, qx.html2.Viewport.getWidth(win));
+          return win.document.documentElement.clientWidth;
         } else {
-          return Math.max(win.document.body.scrollWidth, qx.html2.Viewport.getWidth(win));
+          return win.document.body.clientWidth;
         }        
       },
       
@@ -78,11 +84,17 @@ qx.Class.define("qx.html2.Viewport",
     
 
     /**
-     * Returns the current height of the viewport.
+     * Returns the current height of the viewport (excluding a eventually visible scrollbar).
      *
      * Webkit, even as of Safari 3 beta, have no working 
-     * clientHeight property - but innerWidth does the job
+     * <code>clientHeight</code> property - but <code>innerWidth</code> does the job
      *
+     * Mozilla and Opera include the scrollbar width in <code>innerWidth</code>. As this is
+     * not the indented behavior of this method we correcting this property. TODO
+     *
+     * <code>clientHeight</code> is the inner height of an element in pixels. It includes padding 
+     * but not the horizontal scrollbar (if present, if rendered), border or margin.
+     *     
      * @type static
      * @signature function(win)
      * @param win {Window?window} The window to query
@@ -97,9 +109,9 @@ qx.Class.define("qx.html2.Viewport",
         }
               
         if (qx.html2.Document.isStandardMode(win)) {
-          return Math.max(win.document.documentElement.scrollHeight, qx.html2.Viewport.getHeight(win));
+          return win.document.documentElement.clientHeight;
         } else {
-          return Math.max(win.document.body.scrollHeight, qx.html2.Viewport.getHeight(win));
+          return win.document.body.clientHeight;
         }        
       },
       
