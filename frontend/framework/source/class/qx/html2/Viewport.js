@@ -48,9 +48,8 @@ qx.Class.define("qx.html2.Viewport",
     /**
      * Returns the current width of the viewport.
      *
-     * Opera always implements the quirks mode handler.
      * Webkit, even as of Safari 3 beta, have no working 
-     *   clientWidth property - but innerWidth does the job
+     * clientWidth property - but innerWidth does the job
      *
      * @type static
      * @signature function(win)
@@ -59,15 +58,7 @@ qx.Class.define("qx.html2.Viewport",
      */
     getWidth : qx.core.Variant.select("qx.client", 
     {
-      "webkit" : function(win) {
-        return (win||window).innerWidth;
-      },
-      
-      "opera" : function(win) {
-        return (win||window).document.body.clientWidth;
-      },
-      
-      "default" : function(win) 
+      "mshtml" : function(win) 
       {
         if (!win) {
           win = window; 
@@ -78,6 +69,10 @@ qx.Class.define("qx.html2.Viewport",
         } else {
           return Math.max(win.document.body.scrollWidth, qx.html2.Viewport.getWidth(win));
         }        
+      },
+      
+      "default" : function(win) {
+        return (win||window).innerWidth;
       }
     }),
     
@@ -85,9 +80,8 @@ qx.Class.define("qx.html2.Viewport",
     /**
      * Returns the current height of the viewport.
      *
-     * Opera always implements the quirks mode handler.
      * Webkit, even as of Safari 3 beta, have no working 
-     *   clientHeight property - but innerWidth does the job
+     * clientHeight property - but innerWidth does the job
      *
      * @type static
      * @signature function(win)
@@ -96,15 +90,7 @@ qx.Class.define("qx.html2.Viewport",
      */
     getHeight : qx.core.Variant.select("qx.client", 
     {
-      "webkit" : function(win) {
-        return (win||window).innerHeight;
-      },
-      
-      "opera" : function(win) {
-        return (win||window).document.body.clientHeight;
-      },
-      
-      "default" : function(win) 
+      "mshtml" : function(win) 
       {
         if (!win) {
           win = window; 
@@ -115,6 +101,10 @@ qx.Class.define("qx.html2.Viewport",
         } else {
           return Math.max(win.document.body.scrollHeight, qx.html2.Viewport.getHeight(win));
         }        
+      },
+      
+      "default" : function(win) {
+        return (win||window).innerHeight;
       }
     }),
 
@@ -122,18 +112,21 @@ qx.Class.define("qx.html2.Viewport",
     /**
      * Returns the scroll position of the viewport
      *
+     * All clients except MSHTML supports the non-standard property <code>pageXOffset</code>.
+     * As this is easier to evaluate we prefer this property over <code>scrollLeft</code>.
+     *
+     * For MSHTML the access method differs between standard and quirks mode;
+     * as this can differ from document to document this test must be made on
+     * each query.
+     *
      * @type static
      * @signature function(win)
      * @param win {Window?window} The window to query
      * @return {Integer} Scroll position from left edge, always a positive integer
      */
-    getScrollLeft : qx.html2.Client.select("qx.client", 
+    getScrollLeft : qx.core.Variant.select("qx.client", 
     {
-      "gecko" : function(win) {
-        return (win||window).pageXOffset;
-      },
-      
-      "default" : function(win) 
+      "mshtml" : function(win) 
       {
         if (!win) {
           win = window; 
@@ -144,6 +137,10 @@ qx.Class.define("qx.html2.Viewport",
         } else {
           return win.document.body.scrollLeft;
         }  
+      },
+      
+      "default" : function(win) {
+        return (win||window).pageXOffset;
       }
     }),
 
@@ -151,18 +148,21 @@ qx.Class.define("qx.html2.Viewport",
     /**
      * Returns the scroll position of the viewport
      *
+     * All clients except MSHTML supports the non-standard property <code>pageYOffset</code>.
+     * As this is easier to evaluate we prefer this property over <code>scrollTop</code>.
+     *
+     * For MSHTML the access method differs between standard and quirks mode;
+     * as this can differ from document to document this test must be made on
+     * each query.
+     *
      * @type static
      * @signature function(win)
      * @param win {Window?window} The window to query
      * @return {Integer} Scroll position from left edge, always a positive integer
      */
-    getScrollTop : qx.html2.Client.select("qx.client", 
+    getScrollTop : qx.core.Variant.select("qx.client", 
     {
-      "gecko" : function(win) {
-        return (win||window).pageYOffset;
-      },
-      
-      "default" : function(win) 
+      "mshtml" : function(win) 
       {
         if (!win) {
           win = window; 
@@ -173,7 +173,11 @@ qx.Class.define("qx.html2.Viewport",
         } else {
           return win.document.body.scrollTop;
         }        
-      }      
+      },      
+
+      "default" : function(win) {
+        return (win||window).pageYOffset;
+      }
     })
   }
 });
