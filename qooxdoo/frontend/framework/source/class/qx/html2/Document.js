@@ -108,6 +108,6 @@ qx.Class.define("qx.html2.Document",
       } else {
         return Math.max(win.document.body.scrollHeight, qx.html2.Viewport.getHeight(win));
       }
-    },
+    }
   }
 });
