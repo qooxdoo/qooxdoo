@@ -55,11 +55,19 @@ qx.Class.define("qx.html2.Viewport",
      * which is not the indented behavior of this method. We can decrement the size by the scrollbar
      * size but there are easier possibilities to work around this.
      *
-     * Safari 2 do not correctly implement clientWidth on documentElement, but innerWidth works 
-     * there. Interesting is that in this version, webkit do not correctly implement 
+     * Safari 2 and 3 beta (3.0.2) do not correctly implement <code>clientWidth</code> on documentElement/body, 
+     * but <code>innerWidth</code> works there. Interesting is that webkit do not correctly implement 
      * <code>innerWidth</code>, too. It calculates the size excluding the scroll bars and this 
-     * differs from the behavior of Opera & Mozilla - but this is exactly what we want to have
+     * differs from the behavior of all other browsers - but this is exactly what we want to have
      * in this case.
+     *
+     * Opera as of 9.21 only works well using <code>body.clientWidth</code>.
+     *
+     * Verified to correctly work with:
+     * * Mozilla Firefox 2.0.0.4
+     * * Opera 9.2.1
+     * * Safari 3.0 beta (3.0.2)
+     * * Internet Explorer TODO     
      *
      * @type static
      * @signature function(win)
@@ -68,28 +76,18 @@ qx.Class.define("qx.html2.Viewport",
      */
     getWidth : qx.core.Variant.select("qx.client", 
     {
-      // clientWidth on documentElement seems to be buggy in Opera, at least width 9.2x
       "opera" : function(win) {
         return (win||window).document.body.clientWidth;
       },
       
-      // Older webkits do not implement clientWidth, fallback to innerWidth there
-      "webkit" : function(win) 
-      {
-        win = win||window; 
-        return win.document.documentElement.clientWidth || win.innerWidth;
-      },
+      "webkit" : function(win) {
+        return (win||window).innerWidth;
+      },      
       
-      // MSHTML stores the property on documentElement in standardmode, otherwise on the body
-      "mshtml" : function(win) 
+      "default" : function(win) 
       {
         var doc = (win||window).document;
-        return doc.documentElement.clientWidth || doc.body.clientWidth;
-      },
-      
-      // Ideal implementation. Currently only supported by gecko based clients
-      "default" : function(win) {
-        return (win||window).document.documentElement.clientWidth;
+        return doc.compatMode === "CSS1Compat" ? doc.documentElement.clientWidth : doc.body.clientWidth;
       }
     }),
     
@@ -104,12 +102,20 @@ qx.Class.define("qx.html2.Viewport",
      * which is not the indented behavior of this method. We can decrement the size by the scrollbar
      * size but there are easier possibilities to work around this.
      *
-     * Safari 2 do not correctly implement clientHeight on documentElement, but innerHeight works 
-     * there. Interesting is that in this version, webkit do not correctly implement 
+     * Safari 2 and 3 beta (3.0.2) do not correctly implement <code>clientHeight</code> on documentElement/body, 
+     * but <code>innerHeight</code> works there. Interesting is that webkit do not correctly implement 
      * <code>innerHeight</code>, too. It calculates the size excluding the scroll bars and this 
-     * differs from the behavior of Opera & Mozilla - but this is exactly what we want to have
+     * differs from the behavior of all other browsers - but this is exactly what we want to have
      * in this case.
      *
+     * Opera as of 9.21 only works well using <code>body.clientHeight</code>.
+     *
+     * Verified to correctly work with:
+     * * Mozilla Firefox 2.0.0.4
+     * * Opera 9.2.1
+     * * Safari 3.0 beta (3.0.2)
+     * * Internet Explorer TODO
+     *     
      * @type static
      * @signature function(win)
      * @param win {Window?window} The window to query
@@ -117,28 +123,18 @@ qx.Class.define("qx.html2.Viewport",
      */
     getHeight : qx.core.Variant.select("qx.client", 
     {
-      // clientHeight on documentElement seems to be buggy in Opera, at least Height 9.2x
       "opera" : function(win) {
         return (win||window).document.body.clientHeight;
       },
-
-      // Older webkits do not implement clientHeight, fallback to innerHeight there
-      "webkit" : function(win) 
-      {
-        win = win||window;
-        return win.document.documentElement.clientHeight || win.innerHeight;
+      
+      "webkit" : function(win) {
+        return (win||window).innerHeight;
       },
 
-      // MSHTML stores the property on documentElement in standardmode, otherwise on the body
-      "mshtml" : function(win) 
+      "default" : function(win) 
       {
         var doc = (win||window).document;
-        return doc.documentElement.clientHeight || doc.body.clientHeight;
-      },
-
-      // Ideal implementation. Currently only supported by gecko based clients
-      "default" : function(win) {
-        return (win||window).document.documentElement.clientHeight;
+        return doc.compatMode === "CSS1Compat" ? doc.documentElement.clientHeight : doc.body.clientHeight;
       }
     }),
 
@@ -152,6 +148,12 @@ qx.Class.define("qx.html2.Viewport",
      * For MSHTML the access method differs between standard and quirks mode;
      * as this can differ from document to document this test must be made on
      * each query.
+     *
+     * Verified to correctly work with:
+     * * Mozilla Firefox 2.0.0.4
+     * * Opera 9.2.1
+     * * Safari 3.0 beta (3.0.2)
+     * * Internet Explorer TODO
      *
      * @type static
      * @signature function(win)
@@ -181,6 +183,12 @@ qx.Class.define("qx.html2.Viewport",
      * For MSHTML the access method differs between standard and quirks mode;
      * as this can differ from document to document this test must be made on
      * each query.
+     *
+     * Verified to correctly work with:
+     * * Mozilla Firefox 2.0.0.4
+     * * Opera 9.2.1
+     * * Safari 3.0 beta (3.0.2)
+     * * Internet Explorer TODO
      *
      * @type static
      * @signature function(win)
