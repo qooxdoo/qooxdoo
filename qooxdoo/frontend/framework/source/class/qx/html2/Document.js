@@ -72,22 +72,30 @@ qx.Class.define("qx.html2.Document",
     /**
      * Returns the width of the document.
      *
+     * MSHTML in standard mode stores the properitary <code>scrollWidth</code> property
+     * on the <code>documentElement</code>, but in quirks mode on the body element. All
+     * other known browsers simply store the correct value on the <code>documentElement</code>.
+     *
+     * Note: If the viewport is wider than the document the viewport width is returned.
+     *
      * @type static
      * @param win {Window?window} The window to query
      * @return {Integer} The width of the actual document (which includes the body and its margin).
      */
-    getWidth : function(win)
+    getWidth : qx.core.Variant.select("qx.client",
     {
-      if (!win) {
-        win = window; 
-      }
+      "mshtml" : function(win)
+      {
+        var doc = (win||window).document;
+        var view = qx.html2.Viewport.getWidth(win);
+        return Math.max(doc.documentElement.scrollWidth||doc.body.scrollWidth), view);
+      },
       
-      var view = qx.html2.Viewport.getWidth(win);
-      
-      if (this.isStandardMode(win)) {
-        return Math.max(win.document.documentElement.scrollWidth, view);
-      } else {
-        return Math.max(win.document.body.scrollWidth, view);
+      "default" : function(win)
+      {
+        var doc = (win||window).document;
+        var view = qx.html2.Viewport.getWidth(win);
+        return Math.max(doc.documentElement.scrollWidth, view);
       }
     },
 
@@ -95,23 +103,31 @@ qx.Class.define("qx.html2.Document",
     /**
      * Returns the height of the document.
      *
+     * MSHTML in standard mode stores the properitary <code>scrollHeight</code> property
+     * on the <code>documentElement</code>, but in quirks mode on the body element. All
+     * other known browsers simply store the correct value on the <code>documentElement</code>.
+     *
+     * Note: If the viewport is higher than the document the viewport height is returned.
+     *     
      * @type static
      * @param win {Window?window} The window to query
      * @return {Integer} The height of the actual document (which includes the body and its margin).
      */
-    getHeight : function(win)
+    getHeight :  qx.core.Variant.select("qx.client",
     {
-      if (!win) {
-        win = window; 
-      }
+      "mshtml" : function(win)
+      {
+        var doc = (win||window).document;
+        var view = qx.html2.Viewport.getHeight(win);
+        return Math.max(doc.documentElement.scrollHeight||doc.body.scrollHeight), view);
+      },
       
-      var view = qx.html2.Viewport.getHeight(win);
-      
-      if (this.isStandardMode(win)) {
-        return Math.max(win.document.documentElement.scrollHeight, view);
-      } else {
-        return Math.max(win.document.body.scrollHeight, view);
+      "default" : function(win)
+      {
+        var doc = (win||window).document;
+        var view = qx.html2.Viewport.getHeight(win);
+        return Math.max(doc.documentElement.scrollHeight, view);
       }
-    }
+    }      
   }
 });
