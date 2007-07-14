@@ -87,8 +87,11 @@ qx.Class.define("qx.html2.element.Node",
 
 
     /**
-     * Returns the DOM2 <code>defaultView</code> which represents the window
-     * of a DOM node
+     * Returns the DOM2 <code>defaultView</code>.
+     *     
+     * This is a convenience attribute that allows direct access to the child 
+     * node that is the root element of the document. For HTML documents, 
+     * this is the element with the tagName "HTML".     
      *
      * @type static
      * @signature function(node)
