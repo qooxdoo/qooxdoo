@@ -51,7 +51,7 @@ qx.Class.define("qx.html2.Viewport",
      * <code>clientWidth</code> is the inner width of an element in pixels. It includes padding 
      * but not the vertical scrollbar (if present, if rendered), border or margin.
      *
-     * <code>innerWidth</code> is not useable as defined by the standard as it includes the scrollbars
+     * The property <code>innerWidth</code> is not useable as defined by the standard as it includes the scrollbars
      * which is not the indented behavior of this method. We can decrement the size by the scrollbar
      * size but there are easier possibilities to work around this.
      *
@@ -64,6 +64,7 @@ qx.Class.define("qx.html2.Viewport",
      * Opera as of 9.21 only works well using <code>body.clientWidth</code>.
      *
      * Verified to correctly work with:
+     *
      * * Mozilla Firefox 2.0.0.4
      * * Opera 9.2.1
      * * Safari 3.0 beta (3.0.2)
@@ -98,7 +99,7 @@ qx.Class.define("qx.html2.Viewport",
      * <code>clientHeight</code> is the inner height of an element in pixels. It includes padding 
      * but not the vertical scrollbar (if present, if rendered), border or margin.
      *
-     * <code>innerHeight</code> is not useable as defined by the standard as it includes the scrollbars
+     * The property <code>innerHeight</code> is not useable as defined by the standard as it includes the scrollbars
      * which is not the indented behavior of this method. We can decrement the size by the scrollbar
      * size but there are easier possibilities to work around this.
      *
@@ -111,6 +112,7 @@ qx.Class.define("qx.html2.Viewport",
      * Opera as of 9.21 only works well using <code>body.clientHeight</code>.
      *
      * Verified to correctly work with:
+     *
      * * Mozilla Firefox 2.0.0.4
      * * Opera 9.2.1
      * * Safari 3.0 beta (3.0.2)
@@ -150,6 +152,7 @@ qx.Class.define("qx.html2.Viewport",
      * each query.
      *
      * Verified to correctly work with:
+     *
      * * Mozilla Firefox 2.0.0.4
      * * Opera 9.2.1
      * * Safari 3.0 beta (3.0.2)
@@ -185,6 +188,7 @@ qx.Class.define("qx.html2.Viewport",
      * each query.
      *
      * Verified to correctly work with:
+     *
      * * Mozilla Firefox 2.0.0.4
      * * Opera 9.2.1
      * * Safari 3.0 beta (3.0.2)

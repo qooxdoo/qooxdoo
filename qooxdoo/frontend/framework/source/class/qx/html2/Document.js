@@ -72,7 +72,7 @@ qx.Class.define("qx.html2.Document",
     /**
      * Returns the width of the document.
      *
-     * MSHTML in standard mode stores the properitary <code>scrollWidth</code> property
+     * Internet Explorer in standard mode stores the properitary <code>scrollWidth</code> property
      * on the <code>documentElement</code>, but in quirks mode on the body element. All
      * other known browsers simply store the correct value on the <code>documentElement</code>.
      *
@@ -82,6 +82,7 @@ qx.Class.define("qx.html2.Document",
      * means that we must use the body <code>scrollWidth</code> in all non mshtml clients.
      *
      * Verified to correctly work with:
+     *
      * * Mozilla Firefox 2.0.0.4
      * * Opera 9.2.1
      * * Safari 3.0 beta (3.0.2)
@@ -103,7 +104,7 @@ qx.Class.define("qx.html2.Document",
     /**
      * Returns the height of the document.
      *
-     * MSHTML in standard mode stores the properitary <code>scrollHeight</code> property
+     * Internet Explorer in standard mode stores the properitary <code>scrollHeight</code> property
      * on the <code>documentElement</code>, but in quirks mode on the body element. All
      * other known browsers simply store the correct value on the <code>documentElement</code>.
      *
@@ -113,6 +114,7 @@ qx.Class.define("qx.html2.Document",
      * means that we must use the body <code>scrollHeight</code> in all non mshtml clients.
      *
      * Verified to correctly work with:
+     *
      * * Mozilla Firefox 2.0.0.4
      * * Opera 9.2.1
      * * Safari 3.0 beta (3.0.2)
