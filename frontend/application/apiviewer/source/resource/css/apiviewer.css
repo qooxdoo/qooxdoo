@@ -244,8 +244,13 @@
 #content p,
 #content ul,
 #content ol{
-  margin-top: 3px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+#content p:last-child,
+#content ul:last-child,
+#content ol:last-child{
+  margin-bottom: 4px;
 }
 
 #content ul{
