@@ -114,7 +114,7 @@ qx.Class.define("qx.html2.Location",
         var scrollLeft = 0, scrollTop = 0;
         
         var parent = elem;
-        var op;
+        var offsetParent;
         var elemPos = this.__style(elem, "position");        
         var relparent = false;
         var stdMode = qx.html2.element.Node.getDocument(elem).compatMode === "CSS1Compat";
@@ -134,7 +134,7 @@ qx.Class.define("qx.html2.Location",
             relparent = true;
           }
   
-          op = parent.offsetParent;
+          offsetParent = parent.offsetParent;
   
           if (options.scroll)
           {
@@ -146,10 +146,10 @@ qx.Class.define("qx.html2.Location",
   
               parent = parent.parentNode;
             }
-            while (parent != op);
+            while (parent != offsetParent);
           }
   
-          parent = op;
+          parent = offsetParent;
   
           // Exit the loop if we are at the relativeTo option but not if it is the body or html tag
           if (parent == options.relativeTo && !(parent.tagName == "BODY" || parent.tagName == "HTML")) {
@@ -195,7 +195,7 @@ qx.Class.define("qx.html2.Location",
         
         var parent = elem;
         
-        var op;
+        var offsetParent;
         var parPos;
         var elemPos = this.__style(elem, "position");
         
@@ -219,7 +219,7 @@ qx.Class.define("qx.html2.Location",
             absparent = true;
           }
   
-          op = parent.offsetParent;
+          offsetParent = parent.offsetParent;
   
           do
           {
@@ -240,9 +240,9 @@ qx.Class.define("qx.html2.Location",
 
             parent = parent.parentNode;
           }
-          while (parent != op);
+          while (parent != offsetParent);
   
-          parent = op;
+          parent = offsetParent;
   
           // Exit the loop if we are at the relativeTo option but not 
           // if it is the body or html tag
@@ -290,7 +290,7 @@ qx.Class.define("qx.html2.Location",
         
         var parent = elem;
         
-        var op;
+        var offsetParent;
         var parPos;
         var elemPos = this.__style(elem, "position");
         
@@ -301,7 +301,7 @@ qx.Class.define("qx.html2.Location",
           left += parent.offsetLeft;
           top += parent.offsetTop;
   
-          op = parent.offsetParent;
+          offsetParent = parent.offsetParent;
   
           if (options.scroll)
           {
@@ -313,19 +313,19 @@ qx.Class.define("qx.html2.Location",
   
               parent = parent.parentNode;
             }
-            while (parent != op);
+            while (parent != offsetParent);
           }
   
-          parent = op;
+          parent = offsetParent;
   
           // Exit the loop if we are at the relativeTo option but not if it is the body or html tag
           if (parent == options.relativeTo && !(parent.tagName == "BODY" || parent.tagName == "HTML"))
           {
             // Opera includes border on positioned parents
-            if (this.__style(op, "position") != "static")
+            if (this.__style(offsetParent, "position") != "static")
             {
-              left -= this.__num(op, "borderLeftWidth");
-              top -= this.__num(op, "borderTopWidth");
+              left -= this.__num(offsetParent, "borderLeftWidth");
+              top -= this.__num(offsetParent, "borderTopWidth");
             }
   
             break;
@@ -353,7 +353,7 @@ qx.Class.define("qx.html2.Location",
         
         var parent = elem;
         
-        var op;
+        var offsetParent;
         var parPos;
         var elemPos = this.__style(elem, "position");
         
@@ -364,7 +364,7 @@ qx.Class.define("qx.html2.Location",
           left += parent.offsetLeft;
           top += parent.offsetTop;
   
-          op = parent.offsetParent;
+          offsetParent = parent.offsetParent;
   
           if (options.scroll)
           {
@@ -376,19 +376,19 @@ qx.Class.define("qx.html2.Location",
   
               parent = parent.parentNode;
             }
-            while (parent != op);
+            while (parent != offsetParent);
           }
   
-          parent = op;
+          parent = offsetParent;
   
           // Exit the loop if we are at the relativeTo option but not if it is the body or html tag
           if (parent == options.relativeTo && !(parent.tagName == "BODY" || parent.tagName == "HTML"))
           {
             // Safari includes border on positioned parents
-            if (this.__style(op, "position") != "static")
+            if (this.__style(offsetParent, "position") != "static")
             {
-              left -= this.__num(op, "borderLeftWidth");
-              top -= this.__num(op, "borderTopWidth");
+              left -= this.__num(offsetParent, "borderLeftWidth");
+              top -= this.__num(offsetParent, "borderTopWidth");
             }
   
             break;
@@ -415,7 +415,55 @@ qx.Class.define("qx.html2.Location",
           scrollLeft : scrollLeft,
           scrollTop : scrollTop 
         };        
-      }
+      },
+      
+      // Ideal handler
+      "default" : function(elem, options)
+      {
+        var left = 0, top = 0;
+        var scrollLeft = 0, scrollTop = 0;
+        var parent = elem;
+        var offsetParent;
+        
+        do
+        {
+          left += parent.offsetLeft;
+          top += parent.offsetTop;
+  
+          offsetParent = parent.offsetParent;
+  
+          // offsetParent can jump over elements in node hierarchy, but
+          // for scrolling support we must respect every node, even if 
+          // it do not affect the offsets
+          if (options.scroll)
+          {
+            do
+            {
+              // Get scroll offsets
+              scrollLeft += parent.scrollLeft;
+              scrollTop += parent.scrollTop;
+  
+              parent = parent.parentNode;
+            }
+            while (parent != offsetParent);
+          }
+  
+          parent = offsetParent;
+  
+          // Exit the loop
+          if (parent == options.relativeTo || parent.tagName == "BODY" || parent.tagName == "HTML") {
+            break; 
+          }
+        }
+        while (parent);
+        
+        return {
+          left : left,
+          top : top,
+          scrollLeft : scrollLeft,
+          scrollTop : scrollTop 
+        };   
+      },      
     }),
     
 
