@@ -68,7 +68,7 @@ qx.Class.define("qx.html2.Viewport",
      * * Mozilla Firefox 2.0.0.4
      * * Opera 9.2.1
      * * Safari 3.0 beta (3.0.2)
-     * * Internet Explorer TODO     
+     * * Internet Explorer 7.0
      *
      * @type static
      * @signature function(win)
@@ -116,7 +116,7 @@ qx.Class.define("qx.html2.Viewport",
      * * Mozilla Firefox 2.0.0.4
      * * Opera 9.2.1
      * * Safari 3.0 beta (3.0.2)
-     * * Internet Explorer TODO
+     * * Internet Explorer 7.0
      *     
      * @type static
      * @signature function(win)
@@ -156,7 +156,7 @@ qx.Class.define("qx.html2.Viewport",
      * * Mozilla Firefox 2.0.0.4
      * * Opera 9.2.1
      * * Safari 3.0 beta (3.0.2)
-     * * Internet Explorer TODO
+     * * Internet Explorer 7.0
      *
      * @type static
      * @signature function(win)
@@ -192,7 +192,7 @@ qx.Class.define("qx.html2.Viewport",
      * * Mozilla Firefox 2.0.0.4
      * * Opera 9.2.1
      * * Safari 3.0 beta (3.0.2)
-     * * Internet Explorer TODO
+     * * Internet Explorer 7.0
      *
      * @type static
      * @signature function(win)
