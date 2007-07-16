@@ -1475,7 +1475,8 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Boolean",
       init : false,
-      apply : "_applyHideFocus"
+      apply : "_applyHideFocus",
+      themeable : true
     },
 
 
@@ -6023,7 +6024,7 @@ qx.Class.define("qx.ui.core.Widget",
         // to ensure that widgets using the execCommand method work
         // properly it is necessary to keep these lines. Otherwise
         // the widget e.g. the HtmlArea will loose its selection of text
-        // and the execCommand would target an empty selection at the 
+        // and the execCommand would target an empty selection at the
         // beginning of the editable document.
         if (value) {
           return this.removeHtmlProperty("unselectable");
