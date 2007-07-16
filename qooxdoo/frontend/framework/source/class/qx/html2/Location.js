@@ -108,6 +108,20 @@ qx.Class.define("qx.html2.Location",
     
     __processElement : qx.core.Variant.select("qx.client",
     {
+      "--gecko|--mshtml" : function(elem, options)
+      {
+        rect = elem.getBoundingClientRect();
+        
+        //alert("RECT: " + rect.left + "x" + rect.top)
+        
+        return {
+          left : Math.round(rect.left),
+          top : Math.round(rect.top),
+          scrollLeft : 0,
+          scrollTop : 0
+        };        
+      },      
+      
       "mshtml|webkit" : function(elem, options)
       {
         var left = 0, top = 0;

@@ -34,15 +34,15 @@
 			};
 			
 			var elem = document.getElementById(id);
-			var offset = qx.html2.Location.get(elem, options);
+			var location = qx.html2.Location.get(elem, options);
 			
-			document.getElementById("moveable").style.left = offset.left + "px";
-			document.getElementById("moveable").style.top = offset.top + "px";
+			document.getElementById("moveable").style.left = location.left + "px";
+			document.getElementById("moveable").style.top = location.top + "px";
 
-			var props = '';
-			for (prop in offset)
-				props += prop + ': ' + offset[prop] + '\n';
-			console.log(props);
+			for (prop in location) {
+				qx.core.Init.getInstance().debug("SET: " + prop + ': ' + location[prop]);;
+			}
+			
 
 
       event.returnValue = false;
