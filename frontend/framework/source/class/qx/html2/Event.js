@@ -284,7 +284,7 @@ qx.Class.define("qx.html2.Event",
     __addEventListenerDocument : function(element, type, listener, self, useCapture)
     {
       var reg = this.__registry;
-      var documentElement = qx.html2.element.Tree.getDocument(element).documentElement;
+      var documentElement = qx.html2.element.Node.getDocument(element).documentElement;
       var documentId = qx.core.Object.toHashCode(documentElement);
 
       // create registry for this document
@@ -349,7 +349,7 @@ qx.Class.define("qx.html2.Event",
       var target = event.getTarget();
       var node = target;
 
-      var documentElement = qx.html2.element.Tree.getDocument(node).documentElement;
+      var documentElement = qx.html2.element.Node.getDocument(node).documentElement;
       var documentId = qx.core.Object.toHashCode(documentElement);
 
       var reg = this.__registry[documentId][event.getType()];
@@ -552,7 +552,7 @@ qx.Class.define("qx.html2.Event",
     {
       var elementId = qx.core.Object.toHashCode(element);
 
-      var documentElement = qx.html2.element.Tree.getDocument(element).documentElement;
+      var documentElement = qx.html2.element.Node.getDocument(element).documentElement;
       var documentId = qx.core.Object.toHashCode(documentElement);
 
       if (!this.__registry[documentId]) {
