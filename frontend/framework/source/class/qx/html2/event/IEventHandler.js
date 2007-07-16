@@ -50,7 +50,16 @@ qx.Interface.define("qx.html2.event.IEventHandler",
      * @param element {Element} DOM element to register an additional event for
      * @param type {String} event type
      */
-    unregisterEvent : function(element, type) { return arguments.length == 2; }
+    unregisterEvent : function(element, type) { return arguments.length == 2; },
+
+    /**
+     * Removes all event handlers handles by the class from the DOM of the given
+     * DOM document. This function is called onunload of the the document.
+     *
+     * @param documentElement {Element} The DOM documentelement of the document
+     *     to remove the listeners from.
+     */
+    removeAllListenersFromDocument : function(documentElement) { return arguments.length == 1; }
 
   }
 });

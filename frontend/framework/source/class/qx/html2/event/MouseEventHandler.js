@@ -82,6 +82,12 @@ qx.Class.define("qx.html2.event.MouseEventHandler",
   members :
   {
 
+    /*
+    ---------------------------------------------------------------------------
+      EVENT HANDLER INTERFACE
+    ---------------------------------------------------------------------------
+    */
+
     canHandleEvent : function(type) {
       return this.__mouseButtonHandler[type] || this.__mouseMoveHandler[type];
     },
@@ -173,6 +179,34 @@ qx.Class.define("qx.html2.event.MouseEventHandler",
       }
     },
 
+
+    removeAllListenersFromDocument : function(documentElement)
+    {
+      this._detachEvents(
+        documentElement,
+        this.__mouseButtonHandler
+      );
+
+      var documentId = qx.core.Object.toHashCode(documentElement);
+      if (!this.__mouseMoveListenerCount || !this.__mouseMoveListenerCount[documentId]) {
+        return;
+      }
+      for (var type in this.__mouseMoveListenerCount[documentId]) {
+        qx.html2.Event.nativeAddEventListener(
+          documentElement,
+          type,
+          this.__mouseMoveHandler[type].handler
+        );
+      }
+      delete(this.__mouseMoveListenerCount[documentId]);
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENT-HANDLER
+    ---------------------------------------------------------------------------
+    */
 
     /**
      * Fire a mouse event with the given parameters
@@ -351,25 +385,13 @@ qx.Class.define("qx.html2.event.MouseEventHandler",
     for (var documentId in this.__mouseButtonListenerCount)
     {
       var documentElement = this.__elementRegistry[documentId];
-      this._detachEvents(
-        documentElement,
-        this.__mouseButtonHandler
-      );
+      this.removeAllListenersFromDocument(documentElement);
     }
 
     for (var documentId in this.__mouseMoveListenerCount)
     {
       var documentElement = this.__elementRegistry[documentId];
-
-      for (var type in this.__mouseMoveListenerCount[documentId])
-      {
-        qx.html2.Event.nativeAddEventListener(
-          documentElement,
-          type,
-          this.__mouseMoveHandler[type].handler
-        );
-      }
-
+      this.removeAllListenersFromDocument(documentElement);
     }
 
     this._disposeFields(
