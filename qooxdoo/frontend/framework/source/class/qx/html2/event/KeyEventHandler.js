@@ -145,6 +145,15 @@ qx.Class.define("qx.html2.event.KeyEventHandler",
     },
 
 
+    removeAllListenersFromDocument : function(documentElement)
+    {
+      this._detachEvents(
+        documentElement,
+        this.__keyHandler
+      );
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       EVENT-HANDLER
@@ -733,10 +742,7 @@ qx.Class.define("qx.html2.event.KeyEventHandler",
     for (var documentId in this.__keyEventListenerCount)
     {
       var documentElement = this.__elementRegistry[documentId];
-      this._detachEvents(
-        documentElement,
-        this.__keyHandler
-      );
+      this.removeAllListenersFromDocument(documentElement);
     }
 
     this._disposeFields("_lastUpDownType", "__keyHandler", "__keyEventListenerCount");
