@@ -131,7 +131,10 @@ def patch(id, node):
 
     while node.hasChildren() and pos < len(node.children):
         child = node.children[pos]
-        breakBefore = child.get("breakBefore")
+        breakBefore = child.get("breakBefore", False)
+        if breakBefore == None:
+            breakBefore = False
+
         pos += 1
 
         # Add instance and static methods
