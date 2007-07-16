@@ -40,9 +40,9 @@
     <p>Test of new event handler code.</p>
   </div>
 
-  <div id="juhu">Juhu Kinners
-
-  <div id="inner">Inner Div</div>
+  <div id="juhu" tabindex="1">
+    Juhu Kinners
+    <div id="inner">Inner Div</div>
   </div>
 
 
@@ -96,6 +96,7 @@ qx.Class.define("BasicSample",
       qx.html2.Event.addListener(this._inner, "click", this._stopPropagation, this);
       qx.html2.Event.addListener(this._juhu, "click", this._onclick1, this);
       qx.html2.Event.addListener(this._juhu, "click", this._onclick2, this);
+      qx.html2.Event.addListener(this._juhu, "keydown", this._onclick2, this);
 
       qx.html2.Event.addListener(
         document.getElementById("input"),

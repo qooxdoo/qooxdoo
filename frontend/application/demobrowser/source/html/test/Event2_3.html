@@ -110,6 +110,11 @@
       </tr><tr>
         <td><input type="checkbox" id="check_mouseout"></td>
         <td><label for="check_mouseout">mouseout</label></td>
+      </tr><tr>
+        <td colspan="2"><hr /></td>
+      </tr><tr>
+        <td><input type="checkbox" id="capture"></td>
+        <td><label for="capture">enable event capturing for #mouse</label></td>
       </tr>
     </table>
   </div>
@@ -150,6 +155,24 @@ qx.Class.define("BasicSample",
         }
         qx.html2.Event.addListener(elem, "change", this.__changeCheckbox, this);
       }
+
+      var captureDiv = document.getElementById("capture");
+      captureDiv.checked = false;
+      qx.html2.Event.addListener(captureDiv, "change", function(e) {
+        var checked = e.getTarget().checked;
+        if (checked) {
+          qx.html2.Event.getInstance().setCapture(mouseDiv);
+        } else {
+          qx.html2.Event.getInstance().releaseCapture();
+        }
+      }, this);
+
+      qx.html2.Event.addListener(
+        mouseDiv,
+        "losecapture",
+        function(e) { captureDiv.checked = false; },
+        this
+      );
 
       qx.html2.Event.addListener(
         document.body,

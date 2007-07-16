@@ -19,9 +19,6 @@
 
 /* ************************************************************************
 
-#require(qx.html2.event.KeyEventHandler)
-#require(qx.html2.event.MouseEventHandler)
-
 ************************************************************************ */
 
 /**
@@ -36,6 +33,9 @@
  *   </li>
  *   <li>Support for the event <i>bubbling</i> and <i>capturing</i> phase even
  *       in the Internet Explorer
+ *   </li>
+ *   <li>Support for mouse event capturing
+ *      http://msdn2.microsoft.com/en-us/library/ms537630.aspx
  *   </li>
  * </ul>
  *
@@ -89,6 +89,13 @@ qx.Class.define("qx.html2.Event",
     // structure: elementId -> documentId
     this.__inlineRegistry = {};
 
+    // maps elementIDs to DOM elements
+    this.__elementMap = {};
+
+    // map of all known windows with event listeners
+    this.__knownWindows = {};
+
+    this.__mouseCapture = {};
   },
 
 
@@ -225,7 +232,15 @@ qx.Class.define("qx.html2.Event",
       selectstart                 : 1,  // IE
       stop                        : 1,  // IE
       submit                      : 1,
-      unload                      : 1
+      unload                      : 1,
+      losecapture                 : 1   // emulated
+    },
+
+    // Normalization of event names
+    __eventNames :
+    {
+      "mousewheel": qx.core.Variant.isSet("qx.client", "mshtml") ? "mousewheel" : "DOMMouseScroll",
+      "DOMMouseScroll": qx.core.Variant.isSet("qx.client", "mshtml") ? "mousewheel" : "DOMMouseScroll"
     },
 
 
@@ -252,17 +267,45 @@ qx.Class.define("qx.html2.Event",
      */
     addListener : function(element, type, listener, self, useCapture)
     {
-      if (this.__inlineEvents[type])
-      {
+      if (this.__inlineEvents[type]) {
         if (useCapture) {
           throw new Error("The event '" + type + "' does not bubble, so capturing is also not supported!");
         }
-
         this.__addEventListenerInline(element, type, listener, self);
-      }
-      else
-      {
+      } else {
         this.__addEventListenerDocument(element, type, listener, self, useCapture);
+      }
+
+      var win = qx.html2.element.Node.getDefaultView(element);
+      var winId = this.__registerElement(win);
+
+      // attach unload listener for automatic deregistration of event listeners
+      if (!this.__knownWindows[winId])
+      {
+        this.__knownWindows[winId] = win;
+        qx.html2.Event.nativeAddEventListener(
+          win,
+          "unload",
+          qx.lang.Function.bind(this.__onunload, this, winId)
+        );
+        var documentId = qx.core.Object.toHashCode(win.document.documentElement);
+        this.__mouseCapture[documentId] = new qx.html2.event.MouseCaptureHandler(win);
+      }
+    },
+
+
+    /**
+     * Unload handler for each window with event listeners attached. Removes
+     * all event listeners from the unloading window.
+     *
+     * @param winId {var} hash code of the unloading window
+     * @param e {Event} DOM event object
+     */
+    __onunload : function(winId, e)
+    {
+      var doc = this.__getElementByHash(winId).document;
+      for (var i=0; i<this.__eventHandlers.length; i++) {
+        this.__eventHandlers[i].removeAllListenersFromDocument(doc);
       }
     },
 
@@ -290,7 +333,7 @@ qx.Class.define("qx.html2.Event",
       // create registry for this document
       if (!reg[documentId]) {
         reg[documentId] = {};
-        reg[documentId].element = documentElement;
+        this.__registerElement(documentElement);
       }
       var docData = reg[documentId];
 
@@ -338,6 +381,231 @@ qx.Class.define("qx.html2.Event",
 
 
     /**
+     * Handles adding of event listeners of non bubbling events by attaching the
+     * event handler directly to the element.
+     *
+     * @type member
+     * @param element {Element} DOM element to attach the event on.
+     * @param type {String} Name of the event e.g. "click", "keydown", ...
+     * @param listener {Function} Event listener function
+     * @param self {Object ? window} Reference to the 'this' variable inside
+     *       the event listener.
+     * @return {void}
+     */
+    __addEventListenerInline : function(element, type, listener, self)
+    {
+      var elementId = this.__registerElement(element);
+
+      // create event listener entry for the element if needed.
+      var reg = this.__inlineRegistry;
+
+      if (!reg[elementId]) {
+        reg[elementId] = {};
+      }
+
+      // create entry for the event type
+      var elementEvents = reg[elementId];
+
+      if (!elementEvents[type])
+      {
+        elementEvents[type] =
+        {
+          listeners : [],
+          handler   : qx.lang.Function.bind(this.__inlineEventHandler, this, elementId)
+        };
+      }
+
+      // attach event handler if needed
+      if (elementEvents[type].listeners.length == 0)
+      {
+        qx.html2.Event.nativeAddEventListener(
+          element,
+          type,
+          elementEvents[type].handler
+        );
+      }
+
+      // bind the listener to the object
+      if (self) {
+        var callback = qx.lang.Function.bind(listener, self);
+      } else {
+        callback = listener;
+      }
+
+      callback.$$original = listener;
+
+      // store event listener
+      elementEvents[type].listeners.push(callback);
+    },
+
+
+    /**
+     * Central event handler for all non bubbling events.
+     *
+     * @type member
+     * @param elementId {Number} hash value of the current target DOM element
+     * @param domEvent {Event} DOM event passed by the browser.
+     */
+    __inlineEventHandler : function(elementId, domEvent)
+    {
+      var event = qx.html2.event.Event.getInstance(window.event || domEvent);
+      event.setTarget(this.__getElementByHash(elementId));
+      this.__dispatchInlineEvent(event);
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      REMOVE EVENT LISTENER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Remove an event listener from a from DOM node.
+     *
+     * @type member
+     * @param element {Element} DOM Element
+     * @param type {String} Name of the event
+     * @param listener {Function} The pointer to the event listener
+     * @param useCapture {Boolean ? false} Whether to remove the event listener of
+     *       the bubbling or of the capturing phase.
+     * @return {var} TODOC
+     */
+    removeListener : function(element, type, listener, useCapture)
+    {
+      if (this.__inlineEvents[type]) {
+        return this.__removeEventListenerInline(element, type, listener);
+      } else {
+        return this.__removeEventListenerDocument(element, type, listener, useCapture);
+      }
+    },
+
+
+    /**
+     * Handles removal of bubbling events.
+     *
+     * @type member
+     * @param element {Element} DOM Element
+     * @param type {String} Name of the event
+     * @param listener {Function} The pointer to the event listener
+     * @param useCapture {Boolean ? false} Whether to remove the event listener of
+     *       the bubbling or of the capturing phase.
+     * @return {void}
+     */
+    __removeEventListenerDocument : function(element, type, listener, useCapture)
+    {
+      var documentElement = qx.html2.element.Node.getDocument(element).documentElement;
+
+      // get data for this event type
+      var typeData = this.getDocumentTypeData(element, type);
+
+      // get registry entry for this element
+      var elementId = qx.core.Object.toHashCode(element);
+      if (!typeData || !typeData[elementId]) {
+        return;
+      }
+      var eventData = typeData[elementId];
+
+      var listenerList = useCapture ? "captureListeners" : "bubbleListeners";
+      var listeners = eventData[listenerList];
+
+      var removeIndex = -1;
+
+      for (var i=0; i<listeners.length; i++)
+      {
+        if (listeners[i].$$original == listener)
+        {
+          removeIndex = i;
+          break;
+        }
+      }
+
+      if (removeIndex != -1)
+      {
+        qx.lang.Array.removeAt(listeners, removeIndex);
+
+        if (eventData.captureListeners.length == 0 && eventData.bubbleListeners.length == 0) {
+          delete (typeData[type]);
+          for (var i=0; i<this.__eventHandlers.length; i++) {
+            this.__eventHandlers[i].unregisterEvent(documentElement, type);
+          }
+        }
+      }
+    },
+
+
+    /**
+     * Handles removal of non bubbling events.
+     *
+     * @type member
+     * @param element {Element} DOM Element
+     * @param type {String} Name of the event
+     * @param listener {Function} The pointer to the event listener
+     * @param useCapture {Boolean ? false} Whether to remove the event listener of
+     *       the bubbling or of the capturing phase.
+     * @return {void}
+     */
+    __removeEventListenerInline : function(element, type, listener, useCapture)
+    {
+      var elementId = qx.core.Object.toHashCode(element);
+
+      var elementData = this.__inlineRegistry[elementId];
+
+      if (!elementData || !elementData[type]) {
+        return;
+      }
+
+      var eventData = elementData[type];
+      var listeners = eventData.listeners;
+
+      var removeIndex = -1;
+
+      for (var i=0; i<listeners.length; i++)
+      {
+        if (listeners[i].$$original == listener)
+        {
+          removeIndex = i;
+          break;
+        }
+      }
+
+      if (removeIndex != -1)
+      {
+        qx.lang.Array.removeAt(listeners, removeIndex);
+
+        if (eventData.listeners.length == 0)
+        {
+          qx.html2.Event.nativeRemoveEventListener(element, type, eventData.handler);
+          delete (elementData[type]);
+        }
+      }
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENT DISPATCH
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Dispatches an event object using the qooxdoo event handler system. The
+     * event will only be visible in event listeners attached using
+     * {@link #addListener}.
+     *
+     * @param event {qx.html2.event.Event} qooxdoo event object
+     */
+    dispatchEvent : function(event)
+    {
+      if (this.__inlineEvents[event.getType()]) {
+        return this.__dispatchInlineEvent(event);
+      } else {
+        return this.__dispatchDocumentEvent(event);
+      }
+    },
+
+
+    /**
      * This function dispatches the event to the event handlers and emulates
      * the capturing and bubbling phase.
      *
@@ -349,11 +617,13 @@ qx.Class.define("qx.html2.Event",
       var target = event.getTarget();
       var node = target;
 
-      var documentElement = qx.html2.element.Node.getDocument(node).documentElement;
-      var documentId = qx.core.Object.toHashCode(documentElement);
+      var mouseCapture = this.__getCaptureHandler(node);
+      if (mouseCapture.shouldCaptureEvent(event)) {
+        mouseCapture.doCaptureEvent(event);
+        return;
+      }
 
-      var reg = this.__registry[documentId][event.getType()];
-
+      var reg = this.getDocumentTypeData(node, event.getType());
       if (reg == undefined) {
         return;
       }
@@ -365,6 +635,7 @@ qx.Class.define("qx.html2.Event",
       var captureTargets = [];
 
       // Walk up the tree and look for event listeners
+
       while (node != null)
       {
         var elementId = qx.core.Object.toHashCode(node);
@@ -431,214 +702,27 @@ qx.Class.define("qx.html2.Event",
 
 
     /**
-     * Handles adding of event listeners of non bubbling events by attaching the
-     * event handler directly to the element.
+     * This function dispatches an  inline event to the event handlers.
      *
      * @type member
-     * @param element {Element} DOM element to attach the event on.
-     * @param type {String} Name of the event e.g. "click", "keydown", ...
-     * @param listener {Function} Event listener function
-     * @param self {Object ? window} Reference to the 'this' variable inside
-     *       the event listener.
-     * @return {void}
+     * @param event {qx.html2.event.Event} event object to dispatch
      */
-    __addEventListenerInline : function(element, type, listener, self)
+    __dispatchInlineEvent : function(event)
     {
-      var elementId = qx.core.Object.toHashCode(element);
+      var elementId = qx.core.Object.toHashCode(event.getTarget());
 
-      // create event listener entry for the element if needed.
-      var reg = this.__inlineRegistry;
-
-      if (!reg[elementId]) {
-        reg[elementId] = {};
+      var elementData = this.__inlineRegistry[elementId];
+      if (!elementData || !elementData[event.getType()]) {
+        return;
       }
 
-      // create entry for the event type and attach event handler if needed
-      var elementEvents = reg[elementId];
-      elementEvents.element = element;
-
-      if (!elementEvents[type])
-      {
-        elementEvents[type] =
-        {
-          listeners : [],
-          handler   : qx.lang.Function.bind(this.__inlineEventHandler, this, elementId)
-        };
-      }
-
-      if (elementEvents[type].listeners.length == 0)
-      {
-        qx.html2.Event.nativeAddEventListener(
-          element,
-          type,
-          elementEvents[type].handler
-        );
-      }
-
-      // bind the listener to the object
-      if (self) {
-        callback = qx.lang.Function.bind(listener, self);
-      }
-
-      callback.$$original = listener;
-
-      // store event listener
-      elementEvents[type].listeners.push(callback);
-    },
-
-
-    /**
-     * Central event handler for all non bubbling events. This function dispatches
-     * the event to the event handlers.
-     *
-     * @type member
-     * @param elementId {Number} hash value of the current target DOM element
-     * @param domEvent {Event} DOM event passed by the browser.
-     * @return {void}
-     */
-    __inlineEventHandler : function(elementId, domEvent)
-    {
-      var event = qx.html2.event.Event.getInstance(window.event || domEvent);
       event.setEventPhase(qx.html2.event.Event.AT_TARGET);
       event.setCurrentTarget(event.getTarget());
 
-      var listeners = qx.lang.Array.copy(this.__inlineRegistry[elementId][domEvent.type].listeners);
+      var listeners = qx.lang.Array.copy(this.__inlineRegistry[elementId][event.getType()].listeners);
 
       for (var i=0; i<listeners.length; i++) {
         listeners[i](event);
-      }
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      REMOVE EVENT LISTENER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Remove an event listener from a from DOM node.
-     *
-     * @type member
-     * @param element {Element} DOM Element
-     * @param type {String} Name of the event
-     * @param listener {Function} The pointer to the event listener
-     * @param useCapture {Boolean ? false} Whether to remove the event listener of
-     *       the bubbling or of the capturing phase.
-     * @return {var} TODOC
-     */
-    removeListener : function(element, type, listener, useCapture)
-    {
-      if (this.__inlineEvents[type]) {
-        return this.__removeEventListenerInline(element, type, listener);
-      } else {
-        return this.__removeEventListenerDocument(element, type, listener, useCapture);
-      }
-    },
-
-
-    /**
-     * Handles removal of bubbling events.
-     *
-     * @type member
-     * @param element {Element} DOM Element
-     * @param type {String} Name of the event
-     * @param listener {Function} The pointer to the event listener
-     * @param useCapture {Boolean ? false} Whether to remove the event listener of
-     *       the bubbling or of the capturing phase.
-     * @return {void}
-     */
-    __removeEventListenerDocument : function(element, type, listener, useCapture)
-    {
-      var elementId = qx.core.Object.toHashCode(element);
-
-      var documentElement = qx.html2.element.Node.getDocument(element).documentElement;
-      var documentId = qx.core.Object.toHashCode(documentElement);
-
-      if (!this.__registry[documentId]) {
-        return;
-      }
-
-      var elementData = this.__registry[documentId][type];
-
-      if (!elementData || !elementData[elementId]) {
-        return;
-      }
-
-      var eventData = elementData[elementId];
-
-      var listenerList = useCapture ? "captureListeners" : "bubbleListeners";
-      var listeners = eventData[listenerList];
-
-      var removeIndex = -1;
-
-      for (var i=0; i<listeners.length; i++)
-      {
-        if (listeners[i].$$original == listener)
-        {
-          removeIndex = i;
-          break;
-        }
-      }
-
-      if (removeIndex != -1)
-      {
-        qx.lang.Array.removeAt(listeners, removeIndex);
-
-        if (eventData.captureListeners.length == 0 && eventData.bubbleListeners.length == 0) {
-          delete (elementData[type]);
-          for (var i=0; i<this.__eventHandlers.length; i++) {
-            this.__eventHandlers[i].unregisterEvent(documentElement, type);
-          }
-        }
-      }
-    },
-
-
-    /**
-     * Handles removal of non bubbling events.
-     *
-     * @type member
-     * @param element {Element} DOM Element
-     * @param type {String} Name of the event
-     * @param listener {Function} The pointer to the event listener
-     * @param useCapture {Boolean ? false} Whether to remove the event listener of
-     *       the bubbling or of the capturing phase.
-     * @return {void}
-     */
-    __removeEventListenerInline : function(element, type, listener, useCapture)
-    {
-      var elementId = qx.core.Object.toHashCode(element);
-
-      var elementData = this.__inlineRegistry[elementId];
-
-      if (!elementData || !elementData[type]) {
-        return;
-      }
-
-      var eventData = elementData[type];
-      var listeners = eventData.listeners;
-
-      var removeIndex = -1;
-
-      for (var i=0; i<listeners.length; i++)
-      {
-        if (listeners[i].$$original == listener)
-        {
-          removeIndex = i;
-          break;
-        }
-      }
-
-      if (removeIndex != -1)
-      {
-        qx.lang.Array.removeAt(listeners, removeIndex);
-
-        if (eventData.listeners.length == 0)
-        {
-          qx.html2.Event.nativeRemoveEventListener(element, type, eventData.handler);
-          delete (elementData[type]);
-        }
       }
     },
 
@@ -657,8 +741,117 @@ qx.Class.define("qx.html2.Event",
      * @return {Boolean} Whether event listeners are registered at the document
      *     element for the given type.
      */
-    __getDocumentHasListeners: function(documentId, type) {
+    __getDocumentHasListeners : function(documentId, type) {
       return qx.lang.Object.isEmpty(this.__registry[documentId][type]);
+    },
+
+
+    /**
+     * @Internal
+     */
+    getDocumentTypeData : function(element, type)
+    {
+      var documentElement = qx.html2.element.Node.getDocument(element).documentElement;
+      var documentId = qx.core.Object.toHashCode(documentElement);
+
+      var reg = this.__registry[documentId][type];
+
+      if (reg == undefined) {
+        return null;
+      } else {
+        return reg;
+      }
+    },
+
+
+    /**
+     * @internal
+     */
+    getDocumentElementData : function(element, type)
+    {
+      var typeData = this.getDocumentTypeData(element, type);
+      if (typeData) {
+        return typeData[qx.core.Object.toHashCode(element)]
+      } else {
+        return null;
+      }
+    },
+
+
+    /**
+     * Get an element by its qooxdoo hash value. The lement must be registered
+     * before using {@link #__registerElement}.
+     *
+     * @param hash {Integer} qooxdoo hash value of the DOM element
+     */
+    __getElementByHash : function(hash) {
+      return this.__elementMap[hash];
+    },
+
+
+    /**
+     * Register a DOM node
+     *
+     * @param element {eelement} DOM element
+     * @return {Integer} Hash code of the DOM element
+     */
+    __registerElement: function(element) {
+      var hash = qx.core.Object.toHashCode(element);
+      this.__elementMap[hash] = element;
+      return hash;
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      MOUSE CAPTURE
+    ---------------------------------------------------------------------------
+    */
+
+
+    /**
+     * Get the capture handler for the element.
+     *
+     * @param element {Element} DOM element
+     * @return {qx.html2.event.MouseCaptureHandler} the mouse capture handler
+     *     reponsible for the given element.
+     */
+    __getCaptureHandler : function(element)
+    {
+      var documentElement = qx.html2.element.Node.getDocument(element).documentElement;
+      var documentId = qx.core.Object.toHashCode(documentElement);
+      return this.__mouseCapture[documentId];
+    },
+
+
+    /**
+     * Set the mouse capture to the given DOM element. While capturing is active
+     * all mouse event will be dispatched on this element. This is e.g. useful for
+     * drag and drop. Capturing will be stopped if one of the following actions
+     * occur:
+     *
+     * <ul>
+     *   <li>{@link #relaseCapture} is called</li>
+     *   <li>the browser window looses focus</li>
+     *   <li>any click event</li>
+     * <ul>
+     * When the element loses the capture the event <code>losecapture</code>
+     * will be dispatched on the element.
+     * @param element {Element} DOM element to set for capturing
+     */
+    setCapture : function(element) {
+      this.__getCaptureHandler(element).setCapture(element);
+    },
+
+
+    /**
+     * Stop event capturing on the given DOM document. By default the current
+     * document is used.
+     *
+     * @param doc {Document?window.document} DOM document
+     */
+    releaseCapture : function(doc) {
+      this.__getCaptureHandler((doc || document).documentElement).releaseCapture();
     },
 
 
@@ -718,6 +911,30 @@ qx.Class.define("qx.html2.Event",
 
 
     /**
+     * Removes all event handlers handles by the class from the DOM of the given
+     * DOM document. This function is called onunload of the the document.
+     *
+     * @param documentElement {Element} The DOM documentelement of the document
+     *     to remove the listeners from.
+     * @internal
+     */
+    removeAllListenersFromDocument : function(documentElement)
+    {
+      var documentId = qx.core.Object.toHashCode(documentElement);
+
+      for (var type in this.__registry[documentId])
+      {
+        qx.html2.Event.nativeRemoveEventListener(
+          documentElement,
+          type,
+          this.__documentEventHandler
+        );
+      }
+      delete(this.__registry[documentId]);
+    },
+
+
+    /**
      * Default event handler.
      *
      * @param domEvent {Event} DOM event
@@ -746,32 +963,14 @@ qx.Class.define("qx.html2.Event",
     // remove document event listeners
     for (var documentId in this.__registry)
     {
-      var documentElement = this.__registry.element;
-      delete(this.__registry.element);
-
-      if (documentId == "element") {
-        continue;
-      }
-
-      for (var type in this.__registry[documentId])
-      {
-        qx.html2.Event.nativeRemoveEventListener(
-          documentElement,
-          type,
-          this.__documentEventHandler
-        );
-      }
+      var documentElement = this.__getElementByHash(documentId);
+      this.remnoveAllListenersFromDocument(documentElement);
     }
 
     // remove inline event listeners
     for (var elementId in this.__inlineRegistry)
     {
-      var element = this.__inlineRegistry[elementId].element;
-      delete(this.__inlineRegistry[elementId].element);
-
-      if (elementId == "element") {
-        continue;
-      }
+      var element = this.getElementByHash(elementId);
 
       for (var type in this.__inlineRegistry[elementId])
       {
@@ -787,9 +986,11 @@ qx.Class.define("qx.html2.Event",
     this.disposeFields(
       "__documentEventHandler",
       "__dispatchEventWrapper",
+      "__elementMap",
       "__eventHandlers",
       "__registry",
-      "__inlineRegistry"
+      "__inlineRegistry",
+      "__mouseCapture"
     );
   }
 });

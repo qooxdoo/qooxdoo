@@ -75,12 +75,20 @@ qx.Class.define("qx.html2.event.AbstractEventHandler",
 
 
     /**
-     * Decrease the event count for this event type.
-     *
-     * @param element {Element} DOM element to register an additional event for
-     * @param type {String} event type
+     * Removes all event handlers handles by the class from the DOM of the given
+     * DOM document. This function is called onunload othe the document.
      */
-    unregisterEvent : function(element, type) { },
+    remnoveAllListenersFromDocument : function(domDocument) { },
+
+
+    /**
+     * Removes all event handlers handles by the class from the DOM of the given
+     * DOM document. This function is called onunload of the the document.
+     *
+     * @param documentElement {Element} The DOM documentelement of the document
+     *     to remove the listeners from.
+     */
+    removeAllListenersFromDocument : function(documentElement) { },
 
 
     /**
