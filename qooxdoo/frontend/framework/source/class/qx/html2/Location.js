@@ -108,7 +108,7 @@ qx.Class.define("qx.html2.Location",
     
     __processElement : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(elem, options)
+      "mshtml|webkit" : function(elem, options)
       {
         var left = 0, top = 0;
         var scrollLeft = 0, scrollTop = 0;
@@ -353,77 +353,6 @@ qx.Class.define("qx.html2.Location",
         };   
       },
       
-      "webkit" : function(elem, options)
-      {
-        var left = 0, top = 0;
-        var scrollLeft = 0, scrollTop = 0;
-        
-        var parent = elem;
-        
-        var offsetParent;
-        var parPos;
-        var elemPos = this.__style(elem, "position");
-        
-        do
-        {
-          parPos = this.__style(parent, "position");
-  
-          left += parent.offsetLeft;
-          top += parent.offsetTop;
-  
-          offsetParent = parent.offsetParent;
-  
-          if (options.scroll)
-          {
-            do
-            {
-              // get scroll offsets
-              scrollLeft += parent.scrollLeft;
-              scrollTop += parent.scrollTop;
-  
-              parent = parent.parentNode;
-            }
-            while (parent != offsetParent);
-          }
-  
-          parent = offsetParent;
-  
-          // Exit the loop if we are at the relativeTo option but not if it is the body or html tag
-          if (parent == options.relativeTo && !(parent.tagName == "BODY" || parent.tagName == "HTML"))
-          {
-            // Safari includes border on positioned parents
-            if (this.__style(offsetParent, "position") != "static")
-            {
-              left -= this.__num(offsetParent, "borderLeftWidth");
-              top -= this.__num(offsetParent, "borderTopWidth");
-            }
-  
-            break;
-          }
-  
-          if (parent.tagName == "BODY" || parent.tagName == "HTML")
-          {
-            // Safari doesn't add the body margin for elments positioned with static or relative
-            if (elemPos != "absolute" && elemPos != "fixed")
-            {
-              left += this.__num(parent, "marginLeft");
-              top += this.__num(parent, "marginTop");
-            }
-  
-            // Exit the loop
-            break;
-          }
-        }
-        while (parent);
-        
-        return {
-          left : left,
-          top : top,
-          scrollLeft : scrollLeft,
-          scrollTop : scrollTop 
-        };        
-      },
-      
       // Ideal handler
       "default" : function(elem, options)
       {
@@ -518,7 +447,6 @@ qx.Class.define("qx.html2.Location",
     __finalize : function(elem, coord, options)
     {
       var isGecko = qx.html2.client.Engine.GECKO;
-      var isWebkit = qx.html2.client.Engine.WEBKIT;
       var isOpera = qx.html2.client.Engine.OPERA;
       
       var left = coord.left;
@@ -533,12 +461,12 @@ qx.Class.define("qx.html2.Location",
       }
 
       // Safari and Opera do not add the border for the element
-      if (options.border && (isWebkit || isOpera))
+      if (options.border && isOpera)
       {
         left += this.__num(elem, "borderLeftWidth");
         top += this.__num(elem, "borderTopWidth");
       }
-      else if (!options.border && !(isWebkit || isOpera))
+      else if (!options.border && !isOpera)
       {
         left -= this.__num(elem, "borderLeftWidth");
         top -= this.__num(elem, "borderTopWidth");
