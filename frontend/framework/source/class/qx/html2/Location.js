@@ -36,11 +36,6 @@
 
 ************************************************************************ */
 
-isGecko = qx.html2.client.Engine.GECKO;
-isMshtml = qx.html2.client.Engine.MSHTML;
-isWebkit = qx.html2.client.Engine.WEBKIT;
-isOpera = qx.html2.client.Engine.OPERA;
-
 qx.Class.define("qx.html2.Location",
 {
   statics :
@@ -401,7 +396,7 @@ qx.Class.define("qx.html2.Location",
           if (parent.tagName == "BODY" || parent.tagName == "HTML")
           {
             // Safari doesn't add the body margin for elments positioned with static or relative
-            if (isWebkit && elemPos != "absolute" && elemPos != "fixed")
+            if (elemPos != "absolute" && elemPos != "fixed")
             {
               x += this.num(parent, "marginLeft");
               y += this.num(parent, "marginTop");
@@ -465,6 +460,9 @@ qx.Class.define("qx.html2.Location",
      */
     handleOffsetReturn : function(elem, coord, options)
     {
+      var isWebkit = qx.html2.client.Engine.WEBKIT;
+      var isOpera = qx.html2.client.Engine.OPERA;
+      
       var x = coord.left;
       var y = coord.top;
       var sl = coord.scrollLeft;
