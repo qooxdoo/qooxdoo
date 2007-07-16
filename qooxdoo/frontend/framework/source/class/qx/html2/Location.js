@@ -208,10 +208,17 @@ qx.Class.define("qx.html2.Location",
           left += parent.offsetLeft;
           top += parent.offsetTop;
   
-          // Mozilla do not add the border
-          // add borders to offset
-          left += this.__num(parent, "borderLeftWidth");
-          top += this.__num(parent, "borderTopWidth");
+          if (this.__style(elem, "MozBoxSizing") === "border-box" || this.__style(elem, "boxSizing") === "border-box") 
+          {
+          
+          }
+          else
+          {
+            // Mozilla do not add the border
+            // add borders to offset
+            left += this.__num(parent, "borderLeftWidth");
+            top += this.__num(parent, "borderTopWidth");
+          }
 
           // Mozilla does not include the border on body if an element 
           // isn't positioned absolute and is without an absolute parent
@@ -463,7 +470,7 @@ qx.Class.define("qx.html2.Location",
           scrollLeft : scrollLeft,
           scrollTop : scrollTop 
         };   
-      },      
+      }   
     }),
     
 
@@ -510,6 +517,7 @@ qx.Class.define("qx.html2.Location",
      */
     __finalize : function(elem, coord, options)
     {
+      var isGecko = qx.html2.client.Engine.GECKO;
       var isWebkit = qx.html2.client.Engine.WEBKIT;
       var isOpera = qx.html2.client.Engine.OPERA;
       
@@ -534,6 +542,13 @@ qx.Class.define("qx.html2.Location",
       {
         left -= this.__num(elem, "borderLeftWidth");
         top -= this.__num(elem, "borderTopWidth");
+      }
+      
+      if (isGecko && (this.__style(elem, "MozBoxSizing") === "border-box" || this.__style(elem, "boxSizing") === "border-box"))
+      {
+        // Gecko content-box
+        left += this.__num(elem, "borderLeftWidth");
+        top += this.__num(elem, "borderTopWidth");      
       }
 
       if (options.padding)
