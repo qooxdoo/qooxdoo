@@ -200,9 +200,6 @@ qx.Class.define("qx.html2.Location",
         var elemPos = this.__style(elem, "position");
         
         var absparent = false; 
-        var relparent = false;
-        
-        var stdMode = qx.html2.element.Node.getDocument(elem).compatMode === "CSS1Compat";
         
         do
         {
@@ -218,7 +215,9 @@ qx.Class.define("qx.html2.Location",
 
           // Mozilla does not include the border on body if an element 
           // isn't positioned absolute and is without an absolute parent
-          if (parPos == "absolute") absparent = true;
+          if (parPos == "absolute") {
+            absparent = true;
+          }
   
           op = parent.offsetParent;
   
@@ -295,11 +294,6 @@ qx.Class.define("qx.html2.Location",
         var parPos;
         var elemPos = this.__style(elem, "position");
         
-        var absparent = false; 
-        var relparent = false;
-        
-        var stdMode = qx.html2.element.Node.getDocument(elem).compatMode === "CSS1Compat";
-        
         do
         {
           parPos = this.__style(parent, "position");
@@ -362,11 +356,6 @@ qx.Class.define("qx.html2.Location",
         var op;
         var parPos;
         var elemPos = this.__style(elem, "position");
-        
-        var absparent = false; 
-        var relparent = false;
-        
-        var stdMode = qx.html2.element.Node.getDocument(elem).compatMode === "CSS1Compat";
         
         do
         {
