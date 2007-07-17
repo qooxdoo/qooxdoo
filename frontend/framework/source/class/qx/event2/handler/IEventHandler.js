@@ -23,7 +23,7 @@
  *
  * @internal
  */
-qx.Interface.define("qx.html2.event.IEventHandler",
+qx.Interface.define("qx.event2.handler.IEventHandler",
 {
   members :
   {

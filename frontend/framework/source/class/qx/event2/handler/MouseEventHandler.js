@@ -29,11 +29,11 @@
  *
  * @internal
  */
-qx.Class.define("qx.html2.event.MouseEventHandler",
+qx.Class.define("qx.event2.handler.MouseEventHandler",
 {
-  extend : qx.html2.event.AbstractEventHandler,
+  extend : qx.event2.handler.AbstractEventHandler,
 
-  implement : qx.html2.event.IEventHandler,
+  implement : qx.event2.handler.IEventHandler,
 
 
   /*
@@ -127,7 +127,7 @@ qx.Class.define("qx.html2.event.MouseEventHandler",
         this.__mouseMoveListenerCount[elementId][type] += 1;
         if (this.__mouseMoveListenerCount[elementId][type] == 1)
         {
-          qx.html2.Event.nativeAddEventListener(
+          qx.event2.Manager.nativeAddEventListener(
             element,
             type,
             this.__mouseMoveHandler[type].handler
@@ -170,7 +170,7 @@ qx.Class.define("qx.html2.event.MouseEventHandler",
         this.__mouseMoveListenerCount[elementId][type] -= 1;
         if (this.__mouseMoveListenerCount[elementId][type] == 0)
         {
-          qx.html2.Event.nativeAddEventListener(
+          qx.event2.Manager.nativeAddEventListener(
             element,
             type,
             this.__mouseMoveHandler[type].handler
@@ -192,7 +192,7 @@ qx.Class.define("qx.html2.event.MouseEventHandler",
         return;
       }
       for (var type in this.__mouseMoveListenerCount[documentId]) {
-        qx.html2.Event.nativeAddEventListener(
+        qx.event2.Manager.nativeAddEventListener(
           documentElement,
           type,
           this.__mouseMoveHandler[type].handler
@@ -216,7 +216,7 @@ qx.Class.define("qx.html2.event.MouseEventHandler",
      * @param target {Element} event target
      */
     __fireEvent : function(domEvent, type, target) {
-      var event = qx.html2.event.MouseEvent.getInstance(domEvent);
+      var event = qx.event2.type.MouseEvent.getInstance(domEvent);
       event.setType(type);
       event.setTarget(target);
       this._callback(event);
@@ -232,7 +232,7 @@ qx.Class.define("qx.html2.event.MouseEventHandler",
      */
     onMouseButtonEvent : function(domEvent)
     {
-      var event = qx.html2.event.MouseEvent.getInstance(domEvent, domEvent.type);
+      var event = qx.event2.type.MouseEvent.getInstance(domEvent, domEvent.type);
       var type = event.getType();
       var target = event.getTarget();
 
