@@ -272,6 +272,7 @@ qx.Class.define("qx.event2.Manager",
       // normalize event name
       var type = this.__eventNames[type] || type;
 
+      // attach event listener
       if (this.__inlineEvents[type]) {
         if (useCapture) {
           throw new Error("The event '" + type + "' does not bubble, so capturing is also not supported!");
@@ -281,7 +282,12 @@ qx.Class.define("qx.event2.Manager",
         this.__addEventListenerDocument(element, type, listener, self, useCapture);
       }
 
-      var win = qx.html2.element.Node.getDefaultView(element);
+      // get the corresponding default view (window)
+      if (qx.html2.element.Node.isWindow(element)) {
+        var win = element;
+      } else {
+        var win = qx.html2.element.Node.getDefaultView(element);
+      }
       var winId = this.__registerElement(win);
 
       // attach unload listener for automatic deregistration of event listeners
@@ -293,6 +299,8 @@ qx.Class.define("qx.event2.Manager",
           "unload",
           qx.lang.Function.bind(this.__onunload, this, winId)
         );
+
+        // create mouse capture handler for this window
         var documentId = qx.core.Object.toHashCode(win.document.documentElement);
         this.__mouseCapture[documentId] = new qx.event2.handler.MouseCaptureHandler(win);
       }
