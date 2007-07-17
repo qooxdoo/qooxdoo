@@ -572,7 +572,7 @@ qx.Class.define("qx.ui.embed.Iframe",
      */
     _onload : function()
     {
-      if (!this._inLoaded)
+      if (!this._isLoaded)
       {
         this._isLoaded = true;
         this.createDispatchEvent("load");
