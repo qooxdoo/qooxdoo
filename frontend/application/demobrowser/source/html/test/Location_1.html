@@ -6,7 +6,7 @@
   <script type="text/javascript">
   qxsettings = { 
     "qx.enableApplicationLayout" : false,
-    "qx.boxModelCorrection" : true
+    "qx.boxModelCorrection" : false
   };
   </script>    
   
@@ -25,25 +25,15 @@
 			var href = this.href;
 			var id = href.substr(href.indexOf('#')+1);
 			
-			var options = 
-			{
-				margin: parseInt(document.getElementById("margin").value),
-				border: parseInt(document.getElementById("border").value),
-				padding: parseInt(document.getElementById("padding").value),
-				scroll: parseInt(document.getElementById("scroll").value)
-			};
-			
 			var elem = document.getElementById(id);
-			var location = qx.html2.Location.get(elem, options);
+			var location = qx.html2.Location.get(elem, document.getElementById("mode").value);
 			
 			document.getElementById("moveable").style.left = location.left + "px";
 			document.getElementById("moveable").style.top = location.top + "px";
 
-      /*
 			for (prop in location) {
 				qx.core.Init.getInstance().debug("SET: " + prop + ': ' + location[prop]);;
 			}
-			*/
 			
 
 
@@ -94,7 +84,7 @@
 		#fixed { position: fixed; top: 0; right: 0; margin: 10px; border: 2px solid #000; padding: 3px; width: 100px; height: 100px; background-color: #980; }
 	</style>
 </head>
-<body>  
+<body style="border:20px solid red; margin: 10px">  
   <script type="text/javascript">
 qx.Class.define("BasicSample",
 {
@@ -114,14 +104,14 @@ qx.Class.define("BasicSample",
 qx.core.Init.getInstance().setApplication(new BasicSample);
   </script>
   
-	<p>Select a div to move the grey box too.</p>
-	<fieldset>
-		<legend>Select Options: <small><em>(Include which properties in the calculations?)</em></small></legend>
-		margin: <select name="margin" id="margin"><option value="0">false</option><option value="1" selected="selected">true</option></select>
-		border: <select name="border" id="border"><option value="0" selected="selected">false</option><option value="1">true</option></select>
-		padding: <select name="padding" id="padding"><option value="0" selected="selected">false</option><option value="1">true</option></select>
-		scroll: <select name="scroll" id="scroll"><option value="0">false</option><option value="1" selected="selected">true</option></select>
-	</fieldset>
+	<p>Select a div to move the grey box too. (Quirks-Mode; Box-Model-Correction:off)</p>
+	<select id="mode">
+	  <option value="margin">margin</option>
+	  <option value="box" selected="selected">box</option>
+	  <option value="border">border</option>
+	  <option value="content">content</option>
+	</select>
+	
 	<ul>
 		<li><a href="#static">Move to static 1</a></li>
 		<li><a href="#staticChild1">Move to static child 1</a></li>
@@ -139,8 +129,6 @@ qx.core.Init.getInstance().setApplication(new BasicSample);
 		<li><a href="#absolute3">Move to absolute 3</a></li>
 		<li><a href="#static3">Move to static 3</a></li>
 		<li><a href="#inline">Move to inline 1</a></li>
-		<!-- 			<li><a href="#fixed">Move to fixed 1</a></li>
-					<li><a href="#inline2">Move to inline 2</a></li> -->
 	</ul>	
 	
 	<div id="static"> Static 1
@@ -175,12 +163,7 @@ qx.core.Init.getInstance().setApplication(new BasicSample);
 		</div>
 	</div>
 	
-	<!-- <div id="fixed"> Fixed 1
-		<div id="inline2">Inline 2</div>
-	</div> -->
-	
 	<div id="moveable"></div>
-	
 	<div id="forceScroll"></div>	
 </body>
 </html>
