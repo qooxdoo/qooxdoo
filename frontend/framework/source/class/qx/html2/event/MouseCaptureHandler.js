@@ -81,10 +81,13 @@
 
 
     /**
-     * Set the given element as target for event 
+     * Set the given element as target for event
      */
     setCapture : function(element)
     {
+      if (this._captureElement != element) {
+        this.releaseCapture();
+      }
       this._captureElement = element;
     },
 
