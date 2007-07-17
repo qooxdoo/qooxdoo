@@ -48,13 +48,13 @@
  *   </li>
  * </ul>
  */
-qx.Class.define("qx.html2.Event",
+qx.Class.define("qx.event2.Manager",
 {
   type : "singleton",
 
   extend : qx.core.Object,
 
-  implement : qx.html2.event.IEventHandler,
+  implement : qx.event2.handler.IEventHandler,
 
 
 
@@ -76,8 +76,8 @@ qx.Class.define("qx.html2.Event",
     );
 
     this.__eventHandlers = [
-      new qx.html2.event.KeyEventHandler(this.__dispatchEventWrapper),
-      new qx.html2.event.MouseEventHandler(this.__dispatchEventWrapper),
+      new qx.event2.handler.KeyEventHandler(this.__dispatchEventWrapper),
+      new qx.event2.handler.MouseEventHandler(this.__dispatchEventWrapper),
       this // must be the last because it can handle all events
     ],
 
@@ -288,13 +288,13 @@ qx.Class.define("qx.html2.Event",
       if (!this.__knownWindows[winId])
       {
         this.__knownWindows[winId] = win;
-        qx.html2.Event.nativeAddEventListener(
+        qx.event2.Manager.nativeAddEventListener(
           win,
           "unload",
           qx.lang.Function.bind(this.__onunload, this, winId)
         );
         var documentId = qx.core.Object.toHashCode(win.document.documentElement);
-        this.__mouseCapture[documentId] = new qx.html2.event.MouseCaptureHandler(win);
+        this.__mouseCapture[documentId] = new qx.event2.handler.MouseCaptureHandler(win);
       }
 
     },
@@ -424,7 +424,7 @@ qx.Class.define("qx.html2.Event",
       // attach event handler if needed
       if (elementEvents[type].listeners.length == 0)
       {
-        qx.html2.Event.nativeAddEventListener(
+        qx.event2.Manager.nativeAddEventListener(
           element,
           type,
           elementEvents[type].handler
@@ -454,7 +454,7 @@ qx.Class.define("qx.html2.Event",
      */
     __inlineEventHandler : function(elementId, domEvent)
     {
-      var event = qx.html2.event.Event.getInstance(window.event || domEvent);
+      var event = qx.event2.type.Event.getInstance(window.event || domEvent);
       event.setTarget(this.__getElementByHash(elementId));
       this.__dispatchInlineEvent(event);
     },
@@ -582,7 +582,7 @@ qx.Class.define("qx.html2.Event",
 
         if (eventData.listeners.length == 0)
         {
-          qx.html2.Event.nativeRemoveEventListener(element, type, eventData.handler);
+          qx.event2.Manager.nativeRemoveEventListener(element, type, eventData.handler);
           delete (elementData[type]);
         }
       }
@@ -600,7 +600,7 @@ qx.Class.define("qx.html2.Event",
      * event will only be visible in event listeners attached using
      * {@link #addListener}.
      *
-     * @param event {qx.html2.event.Event} qooxdoo event object
+     * @param event {qx.event2.type.Event} qooxdoo event object
      */
     dispatchEvent : function(event)
     {
@@ -617,7 +617,7 @@ qx.Class.define("qx.html2.Event",
      * the capturing and bubbling phase.
      *
      * @type member
-     * @param event {qx.html2.event.Event} event object to dispatch
+     * @param event {qx.event2.type.Event} event object to dispatch
      */
     __dispatchDocumentEvent : function(event)
     {
@@ -672,7 +672,7 @@ qx.Class.define("qx.html2.Event",
       }
 
       // capturing phase
-      event.setEventPhase(qx.html2.event.Event.CAPTURING_PHASE);
+      event.setEventPhase(qx.event2.type.Event.CAPTURING_PHASE);
 
       for (var i=(captureList.length-1); i>=0; i--)
       {
@@ -693,9 +693,9 @@ qx.Class.define("qx.html2.Event",
         event.setCurrentTarget(bubbleTargets[i]);
 
         if (bubbleTargets[i] == target) {
-          event.setEventPhase(qx.html2.event.Event.AT_TARGET);
+          event.setEventPhase(qx.event2.type.Event.AT_TARGET);
         } else {
-          event.setEventPhase(qx.html2.event.Event.BUBBLING_PHASE);
+          event.setEventPhase(qx.event2.type.Event.BUBBLING_PHASE);
         }
 
         for (var j=0; j<bubbleList[i].length; j++) {
@@ -713,7 +713,7 @@ qx.Class.define("qx.html2.Event",
      * This function dispatches an  inline event to the event handlers.
      *
      * @type member
-     * @param event {qx.html2.event.Event} event object to dispatch
+     * @param event {qx.event2.type.Event} event object to dispatch
      */
     __dispatchInlineEvent : function(event)
     {
@@ -724,7 +724,7 @@ qx.Class.define("qx.html2.Event",
         return;
       }
 
-      event.setEventPhase(qx.html2.event.Event.AT_TARGET);
+      event.setEventPhase(qx.event2.type.Event.AT_TARGET);
       event.setCurrentTarget(event.getTarget());
 
       var listeners = qx.lang.Array.copy(this.__inlineRegistry[elementId][event.getType()].listeners);
@@ -821,7 +821,7 @@ qx.Class.define("qx.html2.Event",
      * Get the capture handler for the element.
      *
      * @param element {Element} DOM element
-     * @return {qx.html2.event.MouseCaptureHandler} the mouse capture handler
+     * @return {qx.event2.handler.MouseCaptureHandler} the mouse capture handler
      *     reponsible for the given element.
      */
     __getCaptureHandler : function(element)
@@ -891,7 +891,7 @@ qx.Class.define("qx.html2.Event",
      */
     registerEvent : function(element, type)
     {
-      qx.html2.Event.nativeAddEventListener(
+      qx.event2.Manager.nativeAddEventListener(
         element,
         type,
         this.__documentEventHandler
@@ -909,7 +909,7 @@ qx.Class.define("qx.html2.Event",
     {
       var documentId = qx.core.Object.toHashCode(element);
       if (!this.__getDocumentHasListeners(documentId)) {
-        qx.html2.Event.nativeRemoveEventListener(
+        qx.event2.Manager.nativeRemoveEventListener(
           element,
           type,
           this.__documentEventHandler
@@ -932,7 +932,7 @@ qx.Class.define("qx.html2.Event",
 
       for (var type in this.__registry[documentId])
       {
-        qx.html2.Event.nativeRemoveEventListener(
+        qx.event2.Manager.nativeRemoveEventListener(
           documentElement,
           type,
           this.__documentEventHandler
@@ -948,7 +948,7 @@ qx.Class.define("qx.html2.Event",
      * @param domEvent {Event} DOM event
      */
     __handleEvent : function(domEvent) {
-      var event = qx.html2.event.Event.getInstance(domEvent);
+      var event = qx.event2.type.Event.getInstance(domEvent);
       this.__dispatchDocumentEvent(event);
     }
 
@@ -983,7 +983,7 @@ qx.Class.define("qx.html2.Event",
       for (var type in this.__inlineRegistry[elementId])
       {
         var eventData = this.__inlineRegistry[elementId][type];
-        qx.html2.Event.nativeRemoveEventListener(
+        qx.event2.Manager.nativeRemoveEventListener(
           element,
           type,
           eventData.handler

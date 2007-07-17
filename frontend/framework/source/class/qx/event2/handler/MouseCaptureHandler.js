@@ -1,11 +1,30 @@
+ /* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2007 1&1 Internet AG, Germany, http://www.1and1.org
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Fabian Jakobs (fjakobs)
+
+************************************************************************ */
+
  /**
   * Implementation of the Internet Explorer specific event capturing mode for
   * mouse events http://msdn2.microsoft.com/en-us/library/ms536742.aspx.
   *
-  * This class is used internally by {@link qx.html2.Event} to do mouse event
+  * This class is used internally by {@link qx.event2.Manager} to do mouse event
   * capturing.
   */
- qx.Class.define("qx.html2.event.MouseCaptureHandler",
+ qx.Class.define("qx.event2.handler.MouseCaptureHandler",
  {
 
   extend : qx.core.Object,
@@ -18,9 +37,9 @@
   {
     this.base(arguments);
     this._captureElement = null;
-    qx.html2.Event.addListener(win, "blur", this.releaseCapture, this);
-    qx.html2.Event.addListener(win, "focus", this.releaseCapture, this);
-    qx.html2.Event.addListener(win, "scroll", this.releaseCapture, this);
+    qx.event2.Manager.addListener(win, "blur", this.releaseCapture, this);
+    qx.event2.Manager.addListener(win, "focus", this.releaseCapture, this);
+    qx.event2.Manager.addListener(win, "scroll", this.releaseCapture, this);
   },
 
 
@@ -41,7 +60,7 @@
     /**
      * Whether the event should be captured.
      *
-     * @param event {qx.html2.event.Event} Event
+     * @param event {qx.event2.type.Event} Event
      * @return {Boolean} whether the event should be captured.
      */
     shouldCaptureEvent : function(event)
@@ -56,15 +75,15 @@
     /**
      * Dispatch the event on the capturing node
      *
-     * @param event {qx.html2.event.Event} Event
+     * @param event {qx.event2.type.Event} Event
      */
     doCaptureEvent : function(event)
     {
-      var elementData = qx.html2.Event.getInstance().getDocumentElementData(this._captureElement, event.getType());
+      var elementData = qx.event2.Manager.getInstance().getDocumentElementData(this._captureElement, event.getType());
       if (elementData)
       {
         event.setCurrentTarget(this._captureElement);
-        event.setEventPhase(qx.html2.event.Event.AT_TARGET);
+        event.setEventPhase(qx.event2.type.Event.AT_TARGET);
 
         var listeners = elementData.bubbleListeners;
         for (var i=0; i<listeners.length; i++) {
@@ -99,11 +118,11 @@
       }
 
       // create synthetic losecapture event
-      var event = qx.html2.event.Event.getInstance({});
+      var event = qx.event2.type.Event.getInstance({});
       event.setType("losecapture");
       event.setTarget(this._captureElement);
 
-      qx.html2.Event.getInstance().dispatchEvent(event);
+      qx.event2.Manager.getInstance().dispatchEvent(event);
       this._captureElement = null;
     }
 
