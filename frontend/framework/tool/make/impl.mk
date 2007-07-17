@@ -343,6 +343,7 @@ exec-application-translation:
 	@for file in `find $(APPLICATION_SOURCE_PATH)/class -name "*.js"`; do \
 	  LC_ALL=C xgettext --language=Java --from-code=UTF-8 \
 	  -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 \
+	  -kself.trc -kself.tr -kself.marktr -kself.trn:1,2 \
 	  -kManager.trc -kManager.tr -kManager.marktr -kManager.trn:1,2 \
 	  --sort-by-file --add-comments=TRANSLATION \
 	  -o $(APPLICATION_SOURCE_PATH)/translation/messages.pot \
