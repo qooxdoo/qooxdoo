@@ -25,9 +25,9 @@
  * the interface of this class is based on the DOM Level 2 mouse event
  * interface: http://www.w3.org/TR/DOM-Level-2-Events/events.html#Events-eventgroupings-mouseevents
  */
-qx.Class.define("qx.html2.event.MouseEvent",
+qx.Class.define("qx.event2.type.MouseEvent",
 {
-  extend : qx.html2.event.Event,
+  extend : qx.event2.type.Event,
 
 
 
@@ -63,12 +63,12 @@ qx.Class.define("qx.html2.event.MouseEvent",
      *
      * @type static
      * @param domEvent {Event} DOM event
-     * @return {qx.html2.event.MouseEvent} an initialized Event instance
+     * @return {qx.event2.type.MouseEvent} an initialized Event instance
      */
     getInstance : function(domEvent)
     {
       if (this.__instance == undefined) {
-        this.__instance = new qx.html2.event.MouseEvent();
+        this.__instance = new qx.event2.type.MouseEvent();
       }
 
       this.__instance.__initEvent(domEvent);

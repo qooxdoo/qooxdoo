@@ -29,11 +29,11 @@
  *
  * @internal
  */
-qx.Class.define("qx.html2.event.KeyEventHandler",
+qx.Class.define("qx.event2.handler.KeyEventHandler",
 {
-  extend : qx.html2.event.AbstractEventHandler,
+  extend : qx.event2.handler.AbstractEventHandler,
 
-  implement : qx.html2.event.IEventHandler,
+  implement : qx.event2.handler.IEventHandler,
 
 
   /*
@@ -86,7 +86,7 @@ qx.Class.define("qx.html2.event.KeyEventHandler",
      */
     __fireEvent : function(domEvent, eventType, keyCode, charCode, keyIdentifier)
     {
-      var event = new qx.html2.event.KeyEvent.getInstance(
+      var event = new qx.event2.type.KeyEvent.getInstance(
         domEvent, keyCode, charCode, keyIdentifier
       );
       event.setType(eventType);

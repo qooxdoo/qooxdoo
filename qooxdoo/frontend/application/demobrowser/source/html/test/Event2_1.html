@@ -92,13 +92,13 @@ qx.Class.define("BasicSample",
       this._juhu = document.getElementById("juhu");
       this._inner = document.getElementById("inner");
 
-      qx.html2.Event.addListener(this._juhu, "contextmenu", this._preventDefault, this);
-      qx.html2.Event.addListener(this._inner, "click", this._stopPropagation, this);
-      qx.html2.Event.addListener(this._juhu, "click", this._onclick1, this);
-      qx.html2.Event.addListener(this._juhu, "click", this._onclick2, this);
-      qx.html2.Event.addListener(this._juhu, "keydown", this._onclick2, this);
+      qx.event2.Manager.addListener(this._juhu, "contextmenu", this._preventDefault, this);
+      qx.event2.Manager.addListener(this._inner, "click", this._stopPropagation, this);
+      qx.event2.Manager.addListener(this._juhu, "click", this._onclick1, this);
+      qx.event2.Manager.addListener(this._juhu, "click", this._onclick2, this);
+      qx.event2.Manager.addListener(this._juhu, "keydown", this._onclick2, this);
 
-      qx.html2.Event.addListener(
+      qx.event2.Manager.addListener(
         document.getElementById("input"),
         "keydown",
         this._onkeydown, this
@@ -106,11 +106,11 @@ qx.Class.define("BasicSample",
 
       for (var i=1; i<10; i++) {
         var div = document.getElementById("div"+i);
-        qx.html2.Event.addListener(div, "click", this._cascadeCapture, this, true);
-        qx.html2.Event.addListener(div, "click", this._cascadeBubble, this, false);
+        qx.event2.Manager.addListener(div, "click", this._cascadeCapture, this, true);
+        qx.event2.Manager.addListener(div, "click", this._cascadeBubble, this, false);
       }
 
-      qx.html2.Event.addListener(
+      qx.event2.Manager.addListener(
         document.getElementById("scroll"),
         "scroll",
         this.throttle(150, this._scroll, this),
@@ -164,7 +164,7 @@ qx.Class.define("BasicSample",
     _onclick1 : function(e)
     {
       this.debug(e.getType() + " 1: " +  e);
-      qx.html2.Event.removeListener(this._juhu, "click", this._onclick1);
+      qx.event2.Manager.removeListener(this._juhu, "click", this._onclick1);
     },
 
     _onclick2 : function(e)

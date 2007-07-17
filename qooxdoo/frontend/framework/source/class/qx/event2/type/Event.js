@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -25,7 +25,7 @@
  * The interface is modeled after the DOM level 2 event interface:
  * http://www.w3.org/TR/DOM-Level-2-Events/events.html#Events-interface
  */
-qx.Class.define("qx.html2.event.Event",
+qx.Class.define("qx.event2.type.Event",
 {
   extend : qx.core.Object,
 
@@ -55,7 +55,7 @@ qx.Class.define("qx.html2.event.Event",
      *
      * @type static
      * @param domEvent {Event} DOM event
-     * @return {qx.html2.event.Event} an initialized Event instance
+     * @return {qx.event2.type.Event} an initialized Event instance
      */
     getInstance : function(domEvent)
     {
