@@ -137,11 +137,11 @@ qx.Class.define("qx.html2.Location",
           left += parent.offsetLeft;
           top += parent.offsetTop;
   
-          // IE does not add the border, fix it
+          // IE & Webkit do not add the border, fix it
           left += this.__num(parent, "borderLeftWidth");
           top += this.__num(parent, "borderTopWidth");
   
-          // IE does not include the border on the body if an 
+          // IE & Webkit do not include the border on the body if an 
           // element is position static and without an absolute or relative parent
           if (this.__style(parent, "position") == "relative") {
             relparent = true;
@@ -149,11 +149,11 @@ qx.Class.define("qx.html2.Location",
   
           offsetParent = parent.offsetParent;
   
+          // Get scroll offsets
           if (options.scroll)
           {
             do
             {
-              // get scroll offsets
               scrollLeft += parent.scrollLeft;
               scrollTop += parent.scrollTop;
   
@@ -171,7 +171,7 @@ qx.Class.define("qx.html2.Location",
   
           if (parent.tagName == "BODY" || parent.tagName == "HTML")
           {
-            // IE Standards Mode doesn't add the body margin 
+            // IE and Webkit in Standards Mode do not add the body margin 
             // for elments positioned with static or relative
             if (stdMode && elemPos != "absolute" && elemPos != "fixed")
             {
@@ -179,7 +179,7 @@ qx.Class.define("qx.html2.Location",
               top += this.__num(parent, "marginTop");
             }
   
-            // IE does not include the border on the body if an element 
+            // IE and webkit do not include the border on the body if an element 
             // is positioned static and without an absolute or relative parent
             if (elemPos == "static" && !relparent)
             {
@@ -432,7 +432,7 @@ qx.Class.define("qx.html2.Location",
         relativeTo : document.body        
       }, options);
       
-      console.debug("Options: Margin=" + options.margin + ", Border=" + options.border + ", Padding=" + options.padding + ", Scroll=" + options.scroll);
+      // console.debug("Options: Margin=" + options.margin + ", Border=" + options.border + ", Padding=" + options.padding + ", Scroll=" + options.scroll);
       
       var coord = elem.tagName == "BODY" ? 
         this.__processBody(elem, options) : 
