@@ -92,8 +92,7 @@ qx.Class.define("qx.html2.Location",
         };
       },
       
-      // Safari is the only one to get offsetLeft and offsetTop properties of the body "correct"
-      // Except they all mess up when the body is positioned absolute or relative
+      // Ideal implementation. Currently only supported by Safari>=3
       "default" : function(elem, options)
       {
         var left = elem.offsetLeft;
@@ -222,14 +221,11 @@ qx.Class.define("qx.html2.Location",
           left += parent.offsetLeft;
           top += parent.offsetTop;
   
-          if (this.__style(elem, "MozBoxSizing") === "border-box" || this.__style(elem, "boxSizing") === "border-box") 
+          // Mozilla do not add the border
+          // add borders to offset when using
+          // box-sizing=content-box
+          if (qx.html2.element.Util.getBoxSizing(parent) !== "border-box") 
           {
-          
-          }
-          else
-          {
-            // Mozilla do not add the border
-            // add borders to offset
             left += this.__num(parent, "borderLeftWidth");
             top += this.__num(parent, "borderTopWidth");
           }
@@ -474,7 +470,7 @@ qx.Class.define("qx.html2.Location",
         top -= this.__num(elem, "marginTop");
       }
 
-      // Safari and Opera do not add the border for the element
+      // Opera do not add the border for the element
       if (options.border && isOpera)
       {
         left += this.__num(elem, "borderLeftWidth");
@@ -486,9 +482,9 @@ qx.Class.define("qx.html2.Location",
         top -= this.__num(elem, "borderTopWidth");
       }
       
-      if (isGecko && (this.__style(elem, "MozBoxSizing") === "border-box" || this.__style(elem, "boxSizing") === "border-box"))
+      // Gecko content-box
+      if (isGecko && (qx.html2.element.Util.getBoxSizing(elem) === "border-box"))
       {
-        // Gecko content-box
         left += this.__num(elem, "borderLeftWidth");
         top += this.__num(elem, "borderTopWidth");      
       }
@@ -499,7 +495,7 @@ qx.Class.define("qx.html2.Location",
         top += this.__num(elem, "paddingTop");
       }
 
-      // do not include scroll offset on the element
+      // Do not include scroll offset on the element
       if (options.scroll)
       {
         scrollLeft -= elem.scrollLeft;
