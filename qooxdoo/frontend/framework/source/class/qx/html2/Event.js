@@ -236,11 +236,13 @@ qx.Class.define("qx.html2.Event",
       losecapture                 : 1   // emulated
     },
 
+
     // Normalization of event names
     __eventNames :
     {
       "mousewheel": qx.core.Variant.isSet("qx.client", "mshtml") ? "mousewheel" : "DOMMouseScroll",
-      "DOMMouseScroll": qx.core.Variant.isSet("qx.client", "mshtml") ? "mousewheel" : "DOMMouseScroll"
+      "focusin": qx.core.Variant.isSet("qx.client", "mshtml") ? "focusin" : "DOMFocusIn",
+      "focusout": qx.core.Variant.isSet("qx.client", "mshtml") ? "focusout" : "DOMFocusOut"
     },
 
 
@@ -267,6 +269,9 @@ qx.Class.define("qx.html2.Event",
      */
     addListener : function(element, type, listener, self, useCapture)
     {
+      // normalize event name
+      var type = this.__eventNames[type] || type;
+
       if (this.__inlineEvents[type]) {
         if (useCapture) {
           throw new Error("The event '" + type + "' does not bubble, so capturing is also not supported!");
@@ -291,6 +296,7 @@ qx.Class.define("qx.html2.Event",
         var documentId = qx.core.Object.toHashCode(win.document.documentElement);
         this.__mouseCapture[documentId] = new qx.html2.event.MouseCaptureHandler(win);
       }
+
     },
 
 
@@ -473,6 +479,7 @@ qx.Class.define("qx.html2.Event",
      */
     removeListener : function(element, type, listener, useCapture)
     {
+      var type = this.__eventNames[type] || type;
       if (this.__inlineEvents[type]) {
         return this.__removeEventListenerInline(element, type, listener);
       } else {
@@ -614,6 +621,7 @@ qx.Class.define("qx.html2.Event",
      */
     __dispatchDocumentEvent : function(event)
     {
+
       var target = event.getTarget();
       var node = target;
 
