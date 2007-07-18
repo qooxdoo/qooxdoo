@@ -60,7 +60,7 @@ qx.Class.define("qx.event2.type.Event",
     getInstance : function(domEvent)
     {
       if (this.__instance == undefined) {
-        this.__instance = new this();
+        this.__instance = new qx.event2.type.Event();
       }
 
       this.__instance.__initEvent(domEvent);

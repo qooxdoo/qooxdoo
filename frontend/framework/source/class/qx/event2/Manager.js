@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+     2007 1&1 Internet AG, Germany, http://www.1and1.org
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -37,6 +37,9 @@
  *   <li>Support for mouse event capturing
  *      http://msdn2.microsoft.com/en-us/library/ms537630.aspx
  *   </li>
+ *   <li>Support for document.activeElement like functionality (IE's focus model)
+ *       http://msdn2.microsoft.com/en-us/library/ms533065.aspx
+ *   </li>
  * </ul>
  *
  * Available Events
@@ -54,6 +57,8 @@ qx.Class.define("qx.event2.Manager",
 
   extend : qx.core.Object,
 
+  include : qx.event2.handler.MActiveElementHandler,
+
   implement : qx.event2.handler.IEventHandler,
 
 
@@ -69,6 +74,9 @@ qx.Class.define("qx.event2.Manager",
    */
   construct : function()
   {
+    // set the singelton pointer as early as possible to avoid infinite recursion
+    qx.event2.Manager.$$instance = this;
+
     this.__documentEventHandler = qx.lang.Function.bind(this.__handleEvent, this);
 
     this.__dispatchEventWrapper = qx.lang.Function.bind(
@@ -95,6 +103,7 @@ qx.Class.define("qx.event2.Manager",
     // map of all known windows with event listeners
     this.__knownWindows = {};
 
+    // mouse capture handler per window
     this.__mouseCapture = {};
   },
 
@@ -187,7 +196,20 @@ qx.Class.define("qx.event2.Manager",
       "default" : function(vElement, vType, vFunction) {
         vElement.removeEventListener(vType, vFunction, false);
       }
-    })
+    }),
+
+
+    /**
+     * Get the DOM element which currently has the focus. Keyborad events are
+     * dispatched on this element by the browser. This function does only return
+     * the active element of the current document. It will not return the active
+     * element inside a sub documents (i.g. an IFrame).
+     *
+     * @return {Element} The current active element.
+     */
+    getActiveElement : function() {
+      return this.getInstance().getActiveElement();
+    }
 
   },
 
@@ -753,6 +775,7 @@ qx.Class.define("qx.event2.Manager",
      * Check whether event listeners are registered at the document element
      * for the given type.
      *
+     * @param documentId {Integer} qooxdoo hash value of the document to check
      * @param type {String} The type to check
      * @return {Boolean} Whether event listeners are registered at the document
      *     element for the given type.
@@ -763,7 +786,12 @@ qx.Class.define("qx.event2.Manager",
 
 
     /**
-     * @Internal
+     * Get data about registered document event handlers for the given type.
+     *
+     * @param element {Element} an element inside the document to search
+     * @param type {String} event type
+     * @return {Map} type data
+     * @internal
      */
     getDocumentTypeData : function(element, type)
     {
@@ -781,6 +809,12 @@ qx.Class.define("qx.event2.Manager",
 
 
     /**
+     * Get data about registered document event handlers for the given element
+     * with the given type.
+     *
+     * @param element {Element} an element inside the document to search
+     * @param type {String} event type
+     * @return {Map} element data
      * @internal
      */
     getDocumentElementData : function(element, type)
@@ -808,7 +842,7 @@ qx.Class.define("qx.event2.Manager",
     /**
      * Register a DOM node
      *
-     * @param element {eelement} DOM element
+     * @param element {Element} DOM element
      * @return {Integer} Hash code of the DOM element
      */
     __registerElement: function(element) {
@@ -894,6 +928,7 @@ qx.Class.define("qx.event2.Manager",
     /**
      * Increase the event count for this event type.
      *
+     * @param element {Element} to register
      * @param type {String} event type
      * @internal
      */
@@ -910,6 +945,7 @@ qx.Class.define("qx.event2.Manager",
     /**
      * Decrease the event count for this event type.
      *
+     * @param element {Element} to unregister
      * @param type {String} event type
      * @internal
      */
@@ -961,7 +997,6 @@ qx.Class.define("qx.event2.Manager",
     }
 
   },
-
 
 
 
