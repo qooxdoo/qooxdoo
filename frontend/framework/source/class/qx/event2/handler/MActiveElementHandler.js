@@ -42,7 +42,7 @@ qx.Mixin.define("qx.event2.handler.MActiveElementHandler",
   {
     this._activeElement = document.body;
 
-    this.addListener(document.documentElement, "click", __onClick, this);
+    this.addListener(document.documentElement, "click", this.__onClick, this);
     this.addListener(document.documentElement, "keyup", this.__onKeyUp, this);
   },
 

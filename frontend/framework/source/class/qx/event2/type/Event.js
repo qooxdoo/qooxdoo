@@ -87,7 +87,7 @@ qx.Class.define("qx.event2.type.Event",
     {
       this._type = null;
       this._target = null;
-      this._event = domEvent;
+      this._dom = domEvent;
       this._stopPropagation = false;
       this._timeStamp = domEvent.timeStamp || (new Date()).getTime();
     },
@@ -100,13 +100,13 @@ qx.Class.define("qx.event2.type.Event",
     preventDefault : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function() {
-        this._event.returnValue = false;
+        this._dom.returnValue = false;
       },
 
       "default" : function()
       {
-        this._event.preventDefault();
-        this._event.returnValue = false;
+        this._dom.preventDefault();
+        this._dom.returnValue = false;
       }
     }),
 
@@ -124,13 +124,13 @@ qx.Class.define("qx.event2.type.Event",
       // MSDN doccumantation http://msdn2.microsoft.com/en-us/library/ms533545.aspx
       "mshtml" : function()
       {
-        this._event.cancelBubble = true;
+        this._dom.cancelBubble = true;
         this._stopPropagation = true;
       },
 
       "default" : function()
       {
-        this._event.stopPropagation();
+        this._dom.stopPropagation();
         this._stopPropagation = true;
       }
     }),
@@ -154,7 +154,7 @@ qx.Class.define("qx.event2.type.Event",
      * @return {String} name of the event
      */
     getType : function() {
-      return this._type || this._event.type;
+      return this._type || this._dom.type;
     },
 
 
@@ -214,7 +214,7 @@ qx.Class.define("qx.event2.type.Event",
     getTarget : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function() {
-        return this._target || this._event.target || this._event.srcElement;
+        return this._target || this._dom.target || this._dom.srcElement;
       },
 
       "webkit" : function()
@@ -223,7 +223,7 @@ qx.Class.define("qx.event2.type.Event",
           return this._target;
         }
 
-        var node = this._event.target;
+        var node = this._dom.target;
 
         // Safari takes text nodes as targets for events
         if (node && (node.nodeType == qx.dom.Node.TEXT)) {
@@ -234,7 +234,7 @@ qx.Class.define("qx.event2.type.Event",
       },
 
       "default" : function() {
-        return this._target || this._event.target;
+        return this._target || this._dom.target;
       }
     }),
 
@@ -283,7 +283,7 @@ qx.Class.define("qx.event2.type.Event",
      * @return {Boolean} whether the the ctrl key is pressed.
      */
     isCtrlPressed : function() {
-      return this._event.ctrlKey;
+      return this._dom.ctrlKey;
     },
 
 
@@ -294,7 +294,7 @@ qx.Class.define("qx.event2.type.Event",
      * @return {Boolean} whether the the shift key is pressed.
      */
     isShiftPressed : function() {
-      return this._event.shiftKey;
+      return this._dom.shiftKey;
     },
 
 
@@ -305,7 +305,7 @@ qx.Class.define("qx.event2.type.Event",
      * @return {Boolean} whether the the alt key is pressed.
      */
     isAltPressed : function() {
-      return this._event.altKey;
+      return this._dom.altKey;
     },
 
 
@@ -316,7 +316,7 @@ qx.Class.define("qx.event2.type.Event",
      * @return {Boolean} whether the the meta key is pressed.
      */
     isMetaPressed : function() {
-      return this._event.metaKey;
+      return this._dom.metaKey;
     },
 
 
@@ -330,9 +330,9 @@ qx.Class.define("qx.event2.type.Event",
     isCtrlOrCommandPressed : function()
     {
       if (qx.core.Client.getInstance().runsOnMacintosh()) {
-        return this._event.metaKey;
+        return this._dom.metaKey;
       } else {
-        return this._event.ctrlKey;
+        return this._dom.ctrlKey;
       }
     }
   }

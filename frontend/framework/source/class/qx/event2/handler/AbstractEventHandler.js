@@ -66,7 +66,9 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
      * @return {Boolean} Whether the event handler can handle events of the
      *     given type.
      */
-    canHandleEvent : function(type) { return false; },
+    canHandleEvent : function(type) { 
+      return false; 
+    },
 
 
     /**
@@ -75,7 +77,8 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
      * @param element {Element} DOM element to register an additional event for
      * @param type {String} event type
      */
-    registerEvent : function(element, type) { },
+    registerEvent : function(element, type) { 
+    },
 
 
     /**
@@ -84,7 +87,8 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
      * @param element {Element} DOM element to register an additional event for
      * @param type {String} event type
      */
-    unregisterEvent : function(element, type) { },
+    unregisterEvent : function(element, type) {
+    },
 
 
     /**
@@ -94,7 +98,8 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
      * @param documentElement {Element} The DOM documentelement of the document
      *     to remove the listeners from.
      */
-    removeAllListenersFromDocument : function(documentElement) { },
+    removeAllListenersFromDocument : function(documentElement) {
+    },
 
 
     /**
@@ -107,13 +112,9 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
     _attachEvents : function(element, eventMap)
     {
       var addEvent = qx.event2.Manager.addNativeListener;
-      for (var type in eventMap)
-      {
-        addEvent(
-          element,
-          type,
-          eventMap[type]
-        );
+      
+      for (var type in eventMap) {
+        addEvent(element, type, eventMap[type]);
       }
     },
 
@@ -128,13 +129,9 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
     _detachEvents : function(element, eventMap)
     {
       var removeEvent = qx.event2.Manager.removeNativeListener
-      for (var type in this.__keyHandler)
-      {
-        removeEvent(
-          element,
-          type,
-          eventMap[type]
-        );
+      
+      for (var type in this.__keyHandler) {
+        removeEvent(element, type, eventMap[type]);
       }
     }
   }

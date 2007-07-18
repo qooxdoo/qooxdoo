@@ -106,7 +106,7 @@ qx.Class.define("qx.event2.type.MouseEvent",
           return "right";
 
         default:
-          return this.__buttons[this._event.button] || "none";
+          return this.__buttons[this._dom.button] || "none";
       }
     },
     
@@ -153,11 +153,11 @@ qx.Class.define("qx.event2.type.MouseEvent",
     getRelatedTarget : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function() {
-        return this._event.fromElement;
+        return this._dom.fromElement;
       },
 
       "default" : function() {
-        return this._event.relatedTarget;
+        return this._dom.relatedTarget;
       }
     }),
 
@@ -172,13 +172,13 @@ qx.Class.define("qx.event2.type.MouseEvent",
     getViewportLeft : qx.core.Variant.select("qx.client",
     {
       "mshtml|gecko" : function() {
-        return this._event.clientX;
+        return this._dom.clientX;
       },
 
       "default" : function() 
       {
         var doc = qx.html2.element.Node.getDocument(this.getTarget());
-        return this._event.clientX + qx.html2.Viewport.getScrollLeft(doc);  
+        return this._dom.clientX + qx.html2.Viewport.getScrollLeft(doc);  
       }
     }),
 
@@ -193,13 +193,13 @@ qx.Class.define("qx.event2.type.MouseEvent",
     getViewportTop : qx.core.Variant.select("qx.client",
     {
       "mshtml|gecko" : function() {
-        return this._event.clientY;
+        return this._dom.clientY;
       },
 
       "default" : function() 
       {
         var doc = qx.html2.element.Node.getDocument(this.getTarget());
-        return this._event.clientY + qx.html2.Viewport.getScrollTop(doc);
+        return this._dom.clientY + qx.html2.Viewport.getScrollTop(doc);
       }
     }),
 
@@ -216,15 +216,15 @@ qx.Class.define("qx.event2.type.MouseEvent",
       "mshtml" : function()
       {
         var doc = qx.html2.element.Node.getDocument(this.getTarget());
-        return this._event.clientX + qx.html2.Viewport.getScrollLeft(doc);  
+        return this._dom.clientX + qx.html2.Viewport.getScrollLeft(doc);  
       },
 
       "gecko" : function() {
-        return this._event.pageX;
+        return this._dom.pageX;
       },
 
      "default": function() {
-        return this._event.clientX;
+        return this._dom.clientX;
       }
     }),
 
@@ -241,15 +241,15 @@ qx.Class.define("qx.event2.type.MouseEvent",
       "mshtml" : function()
       {
         var doc = qx.html2.element.Node.getDocument(this.getTarget());
-        return this._event.clientY + qx.html2.Viewport.getScrollTop(doc);  
+        return this._dom.clientY + qx.html2.Viewport.getScrollTop(doc);  
       },
       
       "gecko" : function() {
-        return this._event.pageY;
+        return this._dom.pageY;
       },
 
       "default": function() {
-        return this._event.clientY;
+        return this._dom.clientY;
       }
     }),
     
@@ -261,7 +261,7 @@ qx.Class.define("qx.event2.type.MouseEvent",
      * @return {Integer} The horizontal mouse position
      */
     getScreenLeft : function() {
-      return this._event.screenX;
+      return this._dom.screenX;
     },
 
 
@@ -272,7 +272,7 @@ qx.Class.define("qx.event2.type.MouseEvent",
      * @return {Integer} The vertical mouse position
      */
     getScreenTop : function() {
-      return this._event.screenY;
+      return this._dom.screenY;
     },
     
     
@@ -284,11 +284,11 @@ qx.Class.define("qx.event2.type.MouseEvent",
     getWheelDelta : qx.core.Variant.select("qx.client",
     {
       "mshtml|opera" : function() {
-        return this._event.wheelDelta / 120;
+        return this._dom.wheelDelta / 120;
       },
 
       "default" : function() {
-        return -(this._event.detail / 3);
+        return -(this._dom.detail / 3);
       }
     })
   }
