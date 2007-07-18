@@ -33,8 +33,6 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
 {
   extend : qx.event2.handler.AbstractEventHandler,
 
-  implement : qx.event2.handler.IEventHandler,
-
 
   /*
   *****************************************************************************
