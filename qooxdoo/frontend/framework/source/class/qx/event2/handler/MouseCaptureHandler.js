@@ -26,7 +26,6 @@
   */
  qx.Class.define("qx.event2.handler.MouseCaptureHandler",
  {
-
   extend : qx.core.Object,
 
 
@@ -43,7 +42,9 @@
   construct : function(win)
   {
     this.base(arguments);
+    
     this._captureElement = null;
+    
     qx.event2.Manager.addListener(win, "blur", this.releaseCapture, this);
     qx.event2.Manager.addListener(win, "focus", this.releaseCapture, this);
     qx.event2.Manager.addListener(win, "scroll", this.releaseCapture, this);
@@ -59,8 +60,8 @@
 
   members:
   {
-
-    __captureEvents : {
+    __captureEvents : 
+    {
       "mouseup": 1,
       "mousedown": 1,
       "click": 1,
@@ -68,6 +69,8 @@
       "mousemove": 1,
       "mouseout": 1,
       "mouseover": 1
+      
+      // TODO: mousewheel?
     },
 
 
@@ -77,12 +80,8 @@
      * @param event {qx.event2.type.Event} Event
      * @return {Boolean} whether the event should be captured.
      */
-    shouldCaptureEvent : function(event)
-    {
-      return (
-        this._captureElement &&
-        this.__captureEvents[event.getType()]
-      )
+    shouldCaptureEvent : function(event) {
+      return this._captureElement && this.__captureEvents[event.getType()];
     },
 
 
@@ -94,20 +93,24 @@
     doCaptureEvent : function(event)
     {
       var elementData = qx.event2.Manager.getInstance().getDocumentElementData(this._captureElement, event.getType());
+      
       if (elementData)
       {
         event.setCurrentTarget(this._captureElement);
         event.setEventPhase(qx.event2.type.Event.AT_TARGET);
 
         var listeners = elementData.bubbleListeners;
+        
         for (var i=0; i<listeners.length; i++) {
           listeners[i](event);
         }
       }
 
-      if (event.getType() == "click") {
+      if (event.getType() == "click") 
+      {
         event.preventDefault();
         event.stopPropagation();
+        
         this.releaseCapture();
       }
     },
@@ -123,6 +126,9 @@
       if (this._captureElement != element) {
         this.releaseCapture();
       }
+      
+      // TODO: capture event?
+      
       this._captureElement = element;
     },
 
@@ -158,5 +164,4 @@
   destruct : function() {
     this.disposeFields("_captureElement");
   }
-
  });

@@ -677,7 +677,6 @@ qx.Class.define("qx.event2.Manager",
      */
     __dispatchDocumentEvent : function(event)
     {
-
       var target = event.getTarget();
       var node = target;
 
@@ -699,7 +698,6 @@ qx.Class.define("qx.event2.Manager",
       var captureTargets = [];
 
       // Walk up the tree and look for event listeners
-
       while (node != null)
       {
         var elementId = qx.core.Object.toHashCode(node);
