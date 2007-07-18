@@ -77,17 +77,6 @@ qx.Class.define("qx.ui.table.headerrenderer.Icon",
     {
       check : "String",
       init : ""
-    },
-
-
-    /**
-     * ToolTip to show if the mouse hovers of the icon
-     */
-    toolTip :
-    {
-      check : "String",
-      init : null,
-      nullable : true
     }
   },
 
@@ -126,23 +115,6 @@ qx.Class.define("qx.ui.table.headerrenderer.Icon",
       }
 
       img.setSource(this.getIconUrl());
-
-      // Set image tooltip if given
-      var widgetToolTip = cellWidget.getToolTip();
-
-      if (this.getToolTip() != null)
-      {
-        // Create tooltip if necessary
-        if (true || widgetToolTip == null)
-        {
-          widgetToolTip = new qx.ui.popup.ToolTip(this.getToolTip());
-          cellWidget.setToolTip(widgetToolTip);
-        }
-
-        // this.debug("Creating tooltip");
-        // Set tooltip text
-        widgetToolTip.getAtom().setLabel(this.getToolTip());
-      }
     }
   }
 });
