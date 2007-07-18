@@ -32,39 +32,22 @@
  */
 qx.Mixin.define("qx.event2.handler.MActiveElementHandler",
 {
-
-
   /*
   *****************************************************************************
      CONSTRUCTOR
   *****************************************************************************
   */
 
-  construct : function() {
-
+  construct : function() 
+  {
     this.__setActiveElement(document.body);
 
-    this.addListener(document.documentElement, "click", function(e) {
-      var node = e.getTarget();
-      // find first node with a valid tabindex
-      while (node) {
-        if (node.tabIndex !== undefined && node.tabIndex >= 0) {
-          this.__setActiveElement(node);
-          return;
-        }
-        node = node.parentNode;
-      }
-      this.__setActiveElement(document.body);
-    }, this);
+    this.addListener(document.documentElement, "click", __onClick, this);
 
-    // in the keyup phase of the keyevent the new focus has already been
-    // set by the browser
-    this.addListener(document.documentElement, "keyup", function(e) {
-      if (e.getKeyIdentifier() == "Tab") {
-        this.__setActiveElement(e.getTarget());
-      }
-    }, this);
+    this.addListener(document.documentElement, "keyup", this.__onKeyUp, this);
   },
+
+
 
 
 
@@ -76,7 +59,45 @@ qx.Mixin.define("qx.event2.handler.MActiveElementHandler",
 
   members:
   {
-
+    /**
+     * onclick handler
+     *
+     * @type member
+     * @param e {Event}
+     */
+    __onClick : function(e) 
+    {
+      var node = e.getTarget();
+      // find first node with a valid tabindex
+      while (node) {
+        if (node.tabIndex !== undefined && node.tabIndex >= 0) {
+          this.__setActiveElement(node);
+          return;
+        }
+        node = node.parentNode;
+      }
+      
+      this.__setActiveElement(document.body);
+    },
+    
+    
+    /**
+     * onkeyup handler
+     * 
+     * in the keyup phase of the keyevent the new focus has already been
+     * set by the browser
+     *
+     * @type member
+     * @param e {Event}
+     */
+    __onKeyUp : function(e)
+    {
+      if (e.getKeyIdentifier() == "Tab") {
+        this.__setActiveElement(e.getTarget());
+      }      
+    },
+    
+    
     /**
      * Get the DOM element which currently has the focus. Keyborad events are
      * dispatched on this element by the browser. This function does only return
@@ -100,9 +121,9 @@ qx.Mixin.define("qx.event2.handler.MActiveElementHandler",
       if (this._activeElement == element) {
         return;
       }
+      
       this._activeElement = element;
     }
-
   },
 
 
@@ -116,5 +137,4 @@ qx.Mixin.define("qx.event2.handler.MActiveElementHandler",
   destruct : function() {
     this.disposeFields("_activeElement");
   }
-
 });
