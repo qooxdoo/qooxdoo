@@ -17,17 +17,19 @@
 
   <div id="output">?</div>
 
-  <hr>
-
   <p>Try <strong>clicking in</strong> or <em>selecting portions of</em> this styled paragraph.</p>
 
   <p>Try focusing various form elements:</p>
 
-  <textarea id="area" tabindex="0"></textarea>
+  <textarea></textarea>
   <input>
   <input type="checkbox">
   <input type="button" value="button">
   <button>button</button>
+  <br>
+  <br>
+
+  <p>Bogus text</p>
 
 	<script type="text/javascript">
 
@@ -40,41 +42,8 @@ qx.Class.define("BasicSample",
     main : function()
     {
       this.base(arguments);
-
-      this.setActiveElement(document.body);
-
-      qx.event2.Manager.addListener(document.documentElement, "click", function(e) {
-        //console.log(e.getTarget(), e.getType());
-        var node = e.getTarget();
-        while (node) {
-          if (node.tabIndex !== undefined && node.tabIndex >= 0) {
-            this.setActiveElement(node);
-            return;
-          }
-          node = node.parentNode;
-        }
-        this.setActiveElement(document.body);
-      }, this);
-
-      qx.event2.Manager.addListener(document.documentElement, "keyup", function(e) {
-        if (e.getKeyIdentifier() == "Tab") {
-          this.setActiveElement(e.getTarget());
-        }
-      }, this);
-
-    },
-
-
-    setActiveElement : function(el)
-    {
-      if (this._activeElement == el) {
-        return;
-      }
-      this._activeElement = el;
-      document.activeElement = el;
-      console.log("active element:", el);
+      //var em = new qx.event2.Manager.getInstance();
     }
-
   }
 });
 
@@ -101,7 +70,7 @@ function getActiveElement()
 {
   var rv;
 
-  var el = document.activeElement;
+  var el = qx.event2.Manager.getInstance().getActiveElement();
   if (!el) {
     rv = "none";
     return rv;
@@ -152,6 +121,7 @@ function getActiveElement()
 }
 
 		</script>
+
 </body>
 
 
