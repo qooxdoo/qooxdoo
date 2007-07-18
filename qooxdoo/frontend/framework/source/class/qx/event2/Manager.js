@@ -59,9 +59,6 @@ qx.Class.define("qx.event2.Manager",
 
   include : qx.event2.handler.MActiveElementHandler,
 
-  implement : qx.event2.handler.IEventHandler,
-
-
 
   /*
   *****************************************************************************
@@ -77,8 +74,6 @@ qx.Class.define("qx.event2.Manager",
     // set the singelton pointer as early as possible to avoid infinite recursion
     qx.event2.Manager.$$instance = this;
 
-    this.__documentEventHandler = qx.lang.Function.bind(this.__handleEvent, this);
-
     this.__dispatchEventWrapper = qx.lang.Function.bind(
       this.__dispatchDocumentEvent, this
     );
@@ -86,7 +81,7 @@ qx.Class.define("qx.event2.Manager",
     this.__eventHandlers = [
       new qx.event2.handler.KeyEventHandler(this.__dispatchEventWrapper),
       new qx.event2.handler.MouseEventHandler(this.__dispatchEventWrapper),
-      this // must be the last because it can handle all events
+      new qx.event2.handler.DefaultEventHandler(this.__dispatchEventWrapper, this) // must be the last because it can handle all events
     ],
 
     // registry for 'normal' bubbling events
@@ -875,13 +870,16 @@ qx.Class.define("qx.event2.Manager",
      * @param element {Element} DOM element
      * @return {Integer} Hash code of the DOM element
      */
-    __registerElement: function(element) {
+    __registerElement : function(element) {
       var hash = qx.core.Object.toHashCode(element);
       this.__elementMap[hash] = element;
       return hash;
     },
 
 
+    getDocumentRegistry : function() {
+      return this.__documentRegistry;
+    },
 
 
 
@@ -935,105 +933,9 @@ qx.Class.define("qx.event2.Manager",
      */
     releaseCapture : function(doc) {
       this.__getCaptureHandler((doc || document).documentElement).releaseCapture();
-    },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      EVENT HANDLER INTERFACE
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Whether the event handler can handle events of the given type.
-     *
-     * @param type {String} event type
-     * @return {Boolean} Whether the event handler can handle events of the
-     *     given type.
-     *
-     * @internal
-     */
-    canHandleEvent : function(type) {
-      return true;
-    },
-
-
-    /**
-     * Increase the event count for this event type.
-     *
-     * @param element {Element} to register
-     * @param type {String} event type
-     * @internal
-     */
-    registerEvent : function(element, type)
-    {
-      qx.event2.Manager.nativeAddEventListener(
-        element,
-        type,
-        this.__documentEventHandler
-      );
-    },
-
-
-    /**
-     * Decrease the event count for this event type.
-     *
-     * @param element {Element} to unregister
-     * @param type {String} event type
-     * @internal
-     */
-    unregisterEvent : function(element, type)
-    {
-      var documentId = qx.core.Object.toHashCode(element);
-      if (!this.__getDocumentHasListeners(documentId)) {
-        qx.event2.Manager.nativeRemoveEventListener(
-          element,
-          type,
-          this.__documentEventHandler
-        );
-      }
-    },
-
-
-    /**
-     * Removes all event handlers handles by the class from the DOM of the given
-     * DOM document. This function is called onunload of the the document.
-     *
-     * @param documentElement {Element} The DOM documentelement of the document
-     *     to remove the listeners from.
-     * @internal
-     */
-    removeAllListenersFromDocument : function(documentElement)
-    {
-      var documentId = qx.core.Object.toHashCode(documentElement);
-
-      for (var type in this.__documentRegistry[documentId])
-      {
-        qx.event2.Manager.nativeRemoveEventListener(
-          documentElement,
-          type,
-          this.__documentEventHandler
-        );
-      }
-      delete(this.__documentRegistry[documentId]);
-    },
-
-
-    /**
-     * Default event handler.
-     *
-     * @param domEvent {Event} DOM event
-     */
-    __handleEvent : function(domEvent) {
-      var event = qx.event2.type.Event.getInstance(domEvent);
-      this.__dispatchDocumentEvent(event);
     }
+
   },
-
-
 
 
 
@@ -1071,7 +973,6 @@ qx.Class.define("qx.event2.Manager",
     }
 
     this.disposeFields(
-      "__documentEventHandler",
       "__dispatchEventWrapper",
       "__elementMap",
       "__eventHandlers",

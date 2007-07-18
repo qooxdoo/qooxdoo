@@ -32,8 +32,6 @@
 qx.Class.define("qx.event2.handler.KeyEventHandler",
 {
   extend : qx.event2.handler.AbstractEventHandler,
-  implement : qx.event2.handler.IEventHandler,
-
 
 
 
