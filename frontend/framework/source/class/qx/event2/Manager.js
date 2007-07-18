@@ -91,7 +91,7 @@ qx.Class.define("qx.event2.Manager",
 
     // registry for 'normal' bubbling events
     // structure: documentId -> eventType -> elementId
-    this.__registry = {};
+    this.__documentRegistry = {};
 
     // registry for inline events
     // structure: elementId -> documentId
@@ -210,9 +210,10 @@ qx.Class.define("qx.event2.Manager",
     getActiveElement : function() {
       return this.getInstance().getActiveElement();
     }
-
   },
-
+  
+  
+  
 
 
   /*
@@ -223,7 +224,6 @@ qx.Class.define("qx.event2.Manager",
 
   members :
   {
-
     // Events, which don't bubble
     __inlineEvents :
     {
@@ -262,10 +262,14 @@ qx.Class.define("qx.event2.Manager",
     // Normalization of event names
     __eventNames :
     {
-      "mousewheel": qx.core.Variant.isSet("qx.client", "mshtml") ? "mousewheel" : "DOMMouseScroll",
-      "focusin": qx.core.Variant.isSet("qx.client", "mshtml") ? "focusin" : "DOMFocusIn",
-      "focusout": qx.core.Variant.isSet("qx.client", "mshtml") ? "focusout" : "DOMFocusOut"
+      // TODO: More event names?
+      "mousewheel" : qx.core.Variant.isSet("qx.client", "mshtml") ? "mousewheel" : "DOMMouseScroll",
+      "focusin" : qx.core.Variant.isSet("qx.client", "mshtml") ? "focusin" : "DOMFocusIn",
+      "focusout" : qx.core.Variant.isSet("qx.client", "mshtml") ? "focusout" : "DOMFocusOut"
     },
+
+
+
 
 
     /*
@@ -295,10 +299,12 @@ qx.Class.define("qx.event2.Manager",
       var type = this.__eventNames[type] || type;
 
       // attach event listener
-      if (this.__inlineEvents[type]) {
+      if (this.__inlineEvents[type]) 
+      {
         if (useCapture) {
           throw new Error("The event '" + type + "' does not bubble, so capturing is also not supported!");
         }
+        
         this.__addEventListenerInline(element, type, listener, self);
       } else {
         this.__addEventListenerDocument(element, type, listener, self, useCapture);
@@ -310,15 +316,14 @@ qx.Class.define("qx.event2.Manager",
       } else {
         var win = qx.html2.element.Node.getDefaultView(element);
       }
+      
       var winId = this.__registerElement(win);
 
       // attach unload listener for automatic deregistration of event listeners
       if (!this.__knownWindows[winId])
       {
         this.__knownWindows[winId] = win;
-        qx.event2.Manager.nativeAddEventListener(
-          win,
-          "unload",
+        qx.event2.Manager.nativeAddEventListener(win, "unload",
           qx.lang.Function.bind(this.__onunload, this, winId)
         );
 
@@ -326,7 +331,6 @@ qx.Class.define("qx.event2.Manager",
         var documentId = qx.core.Object.toHashCode(win.document.documentElement);
         this.__mouseCapture[documentId] = new qx.event2.handler.MouseCaptureHandler(win);
       }
-
     },
 
 
@@ -362,7 +366,7 @@ qx.Class.define("qx.event2.Manager",
      */
     __addEventListenerDocument : function(element, type, listener, self, useCapture)
     {
-      var reg = this.__registry;
+      var reg = this.__documentRegistry;
       var documentElement = qx.html2.element.Node.getDocument(element).documentElement;
       var documentId = qx.core.Object.toHashCode(documentElement);
 
@@ -781,7 +785,7 @@ qx.Class.define("qx.event2.Manager",
      *     element for the given type.
      */
     __getDocumentHasListeners : function(documentId, type) {
-      return qx.lang.Object.isEmpty(this.__registry[documentId][type]);
+      return qx.lang.Object.isEmpty(this.__documentRegistry[documentId][type]);
     },
 
 
@@ -798,7 +802,7 @@ qx.Class.define("qx.event2.Manager",
       var documentElement = qx.html2.element.Node.getDocument(element).documentElement;
       var documentId = qx.core.Object.toHashCode(documentElement);
 
-      var reg = this.__registry[documentId][type];
+      var reg = this.__documentRegistry[documentId][type];
 
       if (reg == undefined) {
         return null;
@@ -974,7 +978,7 @@ qx.Class.define("qx.event2.Manager",
     {
       var documentId = qx.core.Object.toHashCode(documentElement);
 
-      for (var type in this.__registry[documentId])
+      for (var type in this.__documentRegistry[documentId])
       {
         qx.event2.Manager.nativeRemoveEventListener(
           documentElement,
@@ -982,7 +986,7 @@ qx.Class.define("qx.event2.Manager",
           this.__documentEventHandler
         );
       }
-      delete(this.__registry[documentId]);
+      delete(this.__documentRegistry[documentId]);
     },
 
 
@@ -1012,7 +1016,7 @@ qx.Class.define("qx.event2.Manager",
     }
 
     // remove document event listeners
-    for (var documentId in this.__registry)
+    for (var documentId in this.__documentRegistry)
     {
       var documentElement = this.__getElementByHash(documentId);
       this.remnoveAllListenersFromDocument(documentElement);
@@ -1039,7 +1043,7 @@ qx.Class.define("qx.event2.Manager",
       "__dispatchEventWrapper",
       "__elementMap",
       "__eventHandlers",
-      "__registry",
+      "__documentRegistry",
       "__inlineRegistry",
       "__mouseCapture"
     );
