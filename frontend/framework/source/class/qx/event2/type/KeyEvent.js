@@ -82,6 +82,7 @@ qx.Class.define("qx.event2.type.KeyEvent",
     __initEvent : function(domEvent, keyCode, charCode, keyIdentifier)
     {
       this.base(arguments, domEvent);
+      
       this._keyCode = keyCode;
       this._charCode = charCode;
       this._keyIdentifier = keyIdentifier;
@@ -156,6 +157,5 @@ qx.Class.define("qx.event2.type.KeyEvent",
     getKeyIdentifier : function() {
       return this._keyIdentifier;
     }
-
   }
 });

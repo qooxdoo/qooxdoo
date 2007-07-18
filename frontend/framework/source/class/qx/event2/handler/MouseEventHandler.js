@@ -125,7 +125,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
         this.__mouseMoveListenerCount[elementId][type] += 1;
         if (this.__mouseMoveListenerCount[elementId][type] == 1)
         {
-          qx.event2.Manager.nativeAddEventListener(
+          qx.event2.Manager.addNativeListener(
             element,
             type,
             this.__mouseMoveHandler[type].handler
@@ -168,7 +168,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
         this.__mouseMoveListenerCount[elementId][type] -= 1;
         if (this.__mouseMoveListenerCount[elementId][type] == 0)
         {
-          qx.event2.Manager.nativeAddEventListener(
+          qx.event2.Manager.addNativeListener(
             element,
             type,
             this.__mouseMoveHandler[type].handler
@@ -190,7 +190,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
         return;
       }
       for (var type in this.__mouseMoveListenerCount[documentId]) {
-        qx.event2.Manager.nativeAddEventListener(
+        qx.event2.Manager.addNativeListener(
           documentElement,
           type,
           this.__mouseMoveHandler[type].handler
