@@ -30,6 +30,13 @@
   extend : qx.core.Object,
 
 
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   /**
    * @param win {Window} DOM window the capture handler will be responsible for.
    */
@@ -42,6 +49,13 @@
     qx.event2.Manager.addListener(win, "scroll", this.releaseCapture, this);
   },
 
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
 
   members:
   {
@@ -101,6 +115,8 @@
 
     /**
      * Set the given element as target for event
+     *
+     * @param element {Element} The element which should capture the mouse evnets.
      */
     setCapture : function(element)
     {
@@ -111,6 +127,9 @@
     },
 
 
+    /**
+     * Stop capturing of mouse events.
+     */
     releaseCapture : function()
     {
       if (this._captureElement == null) {
@@ -126,5 +145,18 @@
       this._captureElement = null;
     }
 
+  },
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this.disposeFields("_captureElement");
   }
+
  });
