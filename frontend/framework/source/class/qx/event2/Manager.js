@@ -109,6 +109,9 @@ qx.Class.define("qx.event2.Manager",
 
 
 
+
+
+
   /*
   *****************************************************************************
      STATICS
@@ -214,6 +217,8 @@ qx.Class.define("qx.event2.Manager",
   
   
   
+  
+  
 
 
   /*
@@ -306,7 +311,9 @@ qx.Class.define("qx.event2.Manager",
         }
         
         this.__addEventListenerInline(element, type, listener, self);
-      } else {
+      }
+      else
+      {
         this.__addEventListenerDocument(element, type, listener, self, useCapture);
       }
 
@@ -323,6 +330,7 @@ qx.Class.define("qx.event2.Manager",
       if (!this.__knownWindows[winId])
       {
         this.__knownWindows[winId] = win;
+        
         qx.event2.Manager.nativeAddEventListener(win, "unload",
           qx.lang.Function.bind(this.__onunload, this, winId)
         );
@@ -344,6 +352,7 @@ qx.Class.define("qx.event2.Manager",
     __onunload : function(winId, e)
     {
       var doc = this.__getElementByHash(winId).document;
+      
       for (var i=0; i<this.__eventHandlers.length; i++) {
         this.__eventHandlers[i].removeAllListenersFromDocument(doc);
       }
@@ -384,8 +393,10 @@ qx.Class.define("qx.event2.Manager",
 
         // iterate over all event handlers and check whether they are responsible
         // for this event type
-        for (var i=0; i<this.__eventHandlers.length; i++) {
-          if (this.__eventHandlers[i].canHandleEvent(type)) {
+        for (var i=0; i<this.__eventHandlers.length; i++) 
+        {
+          if (this.__eventHandlers[i].canHandleEvent(type)) 
+          {
             this.__eventHandlers[i].registerEvent(documentElement, type);
             break;
           }
@@ -492,6 +503,9 @@ qx.Class.define("qx.event2.Manager",
       event.setTarget(this.__getElementByHash(elementId));
       this.__dispatchInlineEvent(event);
     },
+
+
+
 
 
     /*
@@ -621,6 +635,9 @@ qx.Class.define("qx.event2.Manager",
         }
       }
     },
+
+
+
 
 
     /*
@@ -769,6 +786,9 @@ qx.Class.define("qx.event2.Manager",
     },
 
 
+
+
+
     /*
     ---------------------------------------------------------------------------
       HELPER METHODS
@@ -856,12 +876,14 @@ qx.Class.define("qx.event2.Manager",
     },
 
 
+
+
+
     /*
     ---------------------------------------------------------------------------
       MOUSE CAPTURE
     ---------------------------------------------------------------------------
     */
-
 
     /**
      * Get the capture handler for the element.
@@ -874,6 +896,7 @@ qx.Class.define("qx.event2.Manager",
     {
       var documentElement = qx.html2.element.Node.getDocument(element).documentElement;
       var documentId = qx.core.Object.toHashCode(documentElement);
+      
       return this.__mouseCapture[documentId];
     },
 
@@ -907,6 +930,9 @@ qx.Class.define("qx.event2.Manager",
     releaseCapture : function(doc) {
       this.__getCaptureHandler((doc || document).documentElement).releaseCapture();
     },
+
+
+
 
 
     /*
@@ -999,8 +1025,9 @@ qx.Class.define("qx.event2.Manager",
       var event = qx.event2.type.Event.getInstance(domEvent);
       this.__dispatchDocumentEvent(event);
     }
-
   },
+
+
 
 
 
@@ -1010,32 +1037,31 @@ qx.Class.define("qx.event2.Manager",
   *****************************************************************************
   */
 
-  destruct : function() {
-    for (var i=0; i<this.__eventHandlers.length-1; i++) {
+  destruct : function() 
+  {
+    for (var i=0, a=this.__eventHandlers, l=a.length-1; i<l; i++) {
       this.__eventHandlers[i].dispose();
     }
 
-    // remove document event listeners
-    for (var documentId in this.__documentRegistry)
-    {
-      var documentElement = this.__getElementByHash(documentId);
-      this.remnoveAllListenersFromDocument(documentElement);
-    }
-
     // remove inline event listeners
-    for (var elementId in this.__inlineRegistry)
+    var inlineReg = this.__inlineRegistry;
+    for (var elementId in inlineReg)
     {
       var element = this.getElementByHash(elementId);
 
-      for (var type in this.__inlineRegistry[elementId])
+      for (var type in inlineReg[elementId]) 
       {
-        var eventData = this.__inlineRegistry[elementId][type];
-        qx.event2.Manager.nativeRemoveEventListener(
-          element,
-          type,
-          eventData.handler
-        );
+        qx.event2.Manager.nativeRemoveEventListener(element, 
+          type, inlineReg[elementId][type].handler);
       }
+    }
+
+    // remove document event listeners
+    var documentReg = this.__documentRegistry;
+    for (var documentId in documentReg)
+    {
+      var documentElement = this.__getElementByHash(documentId);
+      this.remnoveAllListenersFromDocument(documentElement);
     }
 
     this.disposeFields(
