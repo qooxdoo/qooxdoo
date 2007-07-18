@@ -91,7 +91,7 @@
         {
           this.base(arguments);
           
-      		var links = document.getElementsByTagName("a");
+      		var links = document.getElementById("list").getElementsByTagName("a");
       	  for (var i=0, l=links.length; i<l; i++) {
             links[i].onclick = jump;
       	  }
@@ -102,8 +102,8 @@
     qx.core.Init.getInstance().setApplication(new BasicSample);
   </script>
   
-	<p>
-	  Select a div to move the grey box too. (Quirks-Mode; Box-Model-Correction:off)
+	<p id="list">
+	  Select a div to move the grey box too. (Standard-Mode; Box-Model-Correction:on)
   	<select id="mode">
   	  <option value="margin">margin</option>
   	  <option value="box" selected="selected">box</option>
