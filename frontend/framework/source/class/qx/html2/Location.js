@@ -36,23 +36,52 @@
 
 ************************************************************************ */
 
+/**
+ * Query the location of an arbitrary DOM element in relation to its top
+ * level body element. Works in all major browsers:
+ *
+ * * Mozilla 1.5 + 2.0
+ * * Internet Explorer 6.0 + 7.0 (both standard & quirks mode)
+ * * Opera 9.2
+ * * Safari 3.0 beta
+ */
 qx.Class.define("qx.html2.Location",
 {
   statics :
   {
+    /**
+     * Queries a style property for the given element
+     *
+     * @type static
+     * @param elem {Element} DOM element to query
+     * @param style {String} Style property
+     * @return {String} Value of given style property
+     */
     __style : function(elem, style) {
       return qx.html2.element.Style.get(elem, style);
     },
-    
+
+
+    /**
+     * Queries a style property for the given element and parses it to a integer value
+     *
+     * @type static
+     * @param elem {Element} DOM element to query
+     * @param style {String} Style property
+     * @return {Integer} Value of given style property
+     */
     __num : function(elem, style) {
       return parseInt(qx.html2.element.Style.get(elem, style)) || 0;
     },
     
-    
-    
-    
 
-
+    /**
+     * Computes the <code>body</code> offset of the top level node of the given element.
+     * 
+     * @type static
+     * @param elem {Element} DOM element to query
+     * @return {Map} Map which contains the <code>left</code> and <code>top</code> scroll offsets
+     */
     __computeScroll : function(elem)
     {
       var left = 0;
@@ -81,10 +110,14 @@ qx.Class.define("qx.html2.Location",
       };    
     },
     
-        
     
-    
-    
+    /**
+     * Computes the <code>body</code> offset of the top level node of the given element.
+     * 
+     * @type static
+     * @param elem {Element} DOM element to query
+     * @return {Map} Map which contains the <code>left</code> and <code>top</code> offsets
+     */
     __computeBody : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(elem)
@@ -152,10 +185,30 @@ qx.Class.define("qx.html2.Location",
                       
           // For some unknown reason we must add the border two times
           // when there is no absolute positioned element in the DOM tree
-          if (!this.__hasAbsolute(elem))
+          // Seems to be fixed in gecko >= 1.9 (Tested with Firefox 3.0 alpha 6)
+          // This only need to be respected together with the <code>getBoundingClientRect</code>
+          // implementation. When using the alternative offset calculation gecko 1.9 must
+          // use this code block, too
+          if (qx.html2.client.Engine.VERSION < 1.9)
           {
-            left += this.__num(body, "borderLeftWidth");
-            top += this.__num(body, "borderTopWidth");          
+            var hasAbs;
+
+            while (elem)
+            {
+              if (qx.html2.element.Style.get(elem, "position") === "absolute" || qx.html2.element.Style.get(elem, "position") === "fixed") 
+              {
+                hasAbs = true;
+                break;
+              } 
+             
+              elem = elem.offsetParent; 
+            }
+        
+            if (!hasAbs)
+            {
+              left += this.__num(body, "borderLeftWidth");
+              top += this.__num(body, "borderTopWidth");          
+            }
           }
         }
         
@@ -183,144 +236,178 @@ qx.Class.define("qx.html2.Location",
       }      
     }),
     
-    
-    
-    
-    
-    __hasAbsolute : qx.core.Variant.select("qx.client",
+
+    /**
+     * Computes the sum of all offsets of the given element node.
+     *
+     * Traditionally this is a loop which goes up the whole parent tree
+     * and sums up all found offsets.
+     *
+     * But both <code>mshtml</code> and <code>gecko >= 1.9</code> support 
+     * <code>getBoundingClientRect</code> which allows a
+     * much faster access to the offset position. 
+     *
+     * Please note: When gecko 1.9 does not use the <code>getBoundingClientRect</code> 
+     * implementation, and therefor use the tranditional offset calculation
+     * the gecko 1.9 fix in <code>__computeBody</code> must not be applied.
+     *
+     * @type static
+     * @signature function(elem)
+     * @param elem {Element} DOM element to query
+     * @return {Map} Map which contains the <code>left</code> and <code>top</code> offsets
+     */
+    __computeOffset : qx.html2.Client.select(
     {
-      "gecko" : function(elem)
+      "mshtml" : function(elem)
       {
-        while (elem)
-        {
-          if (qx.html2.element.Style.get(elem, "position") === "absolute" || qx.html2.element.Style.get(elem, "position") === "fixed") {
-            return true; 
-          } 
-         
-          elem = elem.offsetParent; 
-        }
+        var rect = elem.getBoundingClientRect();
         
-        return false;
-      },
-      
-      "default" : null
-    }),
-    
-    
-    
-    
-    __computeOffset : qx.core.Variant.select("qx.client",
-    {
-      "mshtml|webkit" : function(elem)
-      {
-        var left = elem.offsetLeft;
-        var top = elem.offsetTop;
+        var left = rect.left;
+        var top = rect.top;
         
-        elem = elem.offsetParent;
-        
-        while (elem && elem.nodeType === 1)
-        {
-          // Add node offsets
-          left += elem.offsetLeft;
-          top += elem.offsetTop;
-          
-          // Fix missing border
-          left += this.__num(elem, "borderLeftWidth");
-          top += this.__num(elem, "borderTopWidth");
-          
-          // One level up (offset hierarchy)
-          elem = elem.offsetParent;
-        }
-        
-        return {
-          left : left,
-          top : top 
-        }
-      },
-      
-      "gecko" : function(elem)
-      {
-        var left = 0;
-        var top = 0;
-        
-        if (qx.html2.element.Util.getBoxSizing(elem) !== "border-box") 
-        { 
+        // Internet Explorer (at least 7) adds the border when running in standard mode
+        if (qx.html2.element.Node.getDocument(elem).compatMode === "CSS1Compat")
+        {        
           left -= this.__num(elem, "borderLeftWidth");
           top -= this.__num(elem, "borderTopWidth");
         }
         
-        while (elem && elem.nodeType === 1)
-        {
-          // Add node offsets
-          left += elem.offsetLeft;
-          top += elem.offsetTop;
-          
-          // Mozilla do not add the border add borders to offset 
-          // when using box-sizing=content-box
-          if (qx.html2.element.Util.getBoxSizing(elem) !== "border-box") 
-          {          
-            left += this.__num(elem, "borderLeftWidth");
-            top += this.__num(elem, "borderTopWidth");
-          }
-          
-          // Mozilla does not add the border for a parent that has 
-          // overflow set to anything but visible
-          if (elem.parentNode && this.__style(elem.parentNode, "overflow") != "visible")
-          {
-            left += this.__num(elem.parentNode, "borderLeftWidth");
-            top += this.__num(elem.parentNode, "borderTopWidth");
-          }          
-          
-          // One level up (offset hierarchy)
-          elem = elem.offsetParent;
-        }
-        
         return {
           left : left,
-          top : top 
-        }
+          top : top
+        };        
+      },
+      
+      "gecko,version>=1.9" : function(elem)
+      {
+        var rect = elem.getBoundingClientRect();
+        
+        // Firefox 3.0 alpha 6 (gecko 1.9) returns floating point numbers
+        // use Math.round() to round them to style compatible numbers
+        // MSHTML returns integer numbers, maybe gecko will fix this in 
+        // the future, too
+        return {
+          left : Math.round(rect.left),
+          top : Math.round(rect.top)
+        };        
       },      
       
-      // At the moment only correctly supported by Opera
-      "default" : function(elem)
+      "default" : qx.core.Variant.select("qx.client",
       {
-        var left = 0;
-        var top = 0;
-        
-        // Add all offsets of parent hierarchy, do not include
-        // body element. This element is processed separately by
-        // __computeBody()
-        while (elem  && elem.nodeType === 1)
+        "mshtml|webkit" : function(elem)
         {
-          // Add node offsets
-          left += elem.offsetLeft;
-          top += elem.offsetTop;
+          var left = elem.offsetLeft;
+          var top = elem.offsetTop;
           
-          // One level up (offset hierarchy)
-          elem = elem.offsetParent;          
-        }
+          elem = elem.offsetParent;
+          
+          while (elem && elem.nodeType === 1)
+          {
+            // Add node offsets
+            left += elem.offsetLeft;
+            top += elem.offsetTop;
+            
+            // Fix missing border
+            left += this.__num(elem, "borderLeftWidth");
+            top += this.__num(elem, "borderTopWidth");
+            
+            // One level up (offset hierarchy)
+            elem = elem.offsetParent;
+          }
+          
+          return {
+            left : left,
+            top : top 
+          }
+        },
         
-        return {
-          left : left,
-          top : top 
-        }        
-      }
+        "gecko" : function(elem)
+        {
+          var left = 0;
+          var top = 0;
+          
+          if (qx.html2.element.Util.getBoxSizing(elem) !== "border-box") 
+          { 
+            left -= this.__num(elem, "borderLeftWidth");
+            top -= this.__num(elem, "borderTopWidth");
+          }
+          
+          while (elem && elem.nodeType === 1)
+          {
+            // Add node offsets
+            left += elem.offsetLeft;
+            top += elem.offsetTop;
+            
+            // Mozilla do not add the border add borders to offset 
+            // when using box-sizing=content-box
+            if (qx.html2.element.Util.getBoxSizing(elem) !== "border-box") 
+            {          
+              left += this.__num(elem, "borderLeftWidth");
+              top += this.__num(elem, "borderTopWidth");
+            }
+            
+            // Mozilla does not add the border for a parent that has 
+            // overflow set to anything but visible
+            if (elem.parentNode && this.__style(elem.parentNode, "overflow") != "visible")
+            {
+              left += this.__num(elem.parentNode, "borderLeftWidth");
+              top += this.__num(elem.parentNode, "borderTopWidth");
+            }          
+            
+            // One level up (offset hierarchy)
+            elem = elem.offsetParent;
+          }
+          
+          return {
+            left : left,
+            top : top 
+          }
+        },      
+        
+        // At the moment only correctly supported by Opera
+        "default" : function(elem)
+        {
+          var left = 0;
+          var top = 0;
+          
+          // Add all offsets of parent hierarchy, do not include
+          // body element. This element is processed separately by
+          // __computeBody()
+          while (elem && elem.nodeType === 1)
+          {
+            // Add node offsets
+            left += elem.offsetLeft;
+            top += elem.offsetTop;
+            
+            // One level up (offset hierarchy)
+            elem = elem.offsetParent;          
+          }
+          
+          return {
+            left : left,
+            top : top 
+          }        
+        }
+      })
     }),
-    
-    
-    
-    
-    
-
     
 
     /**
-     * TODOC
+     * Computes the location of the given element in context of 
+     * the document dimenions.
+     *
+     * Supported modes:
+     *
+     * * <code>margin</code>: Align to the margin of the given element (incl. padding, border and margin)
+     * * <code>box</code> (default): Align to the box of the given element (incl. padding and border)
+     * * <code>border</code>: Align to the border of the given element (incl. padding)
+     * * <code>content</code>: Align to the content of the given element (does not contain border, padding or margin)
      *
      * @type static
-     * @param options {var} TODOC
-     * @param returnObject {var} TODOC
-     * @return {var} TODOC
+     * @param elem {Element} DOM element to query
+     * @param mode {String} A supported option. See comment above.
+     * @return {Map} Returns a map with <code>left</code> and <code>top</code> which contains
+     *   the coordinates
      */
     get : function(elem, mode)
     {
