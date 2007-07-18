@@ -7182,19 +7182,19 @@ qx.Class.define("qx.ui.core.Widget",
 
       members._resetRuntimeWidth = function()
       {
-        this._style.pixelWidth = "";
+        this._style.width = "";
 
         if (this._innerStyle) {
-          this._innerStyle.pixelWidth = "";
+          this._innerStyle.width = "";
         }
       };
 
       members._resetRuntimeHeight = function()
       {
-        this._style.pixelHeight = "";
+        this._style.height = "";
 
         if (this._innerStyle) {
-          this._innerStyle.pixelHeight = "";
+          this._innerStyle.height = "";
         }
       };
     }
