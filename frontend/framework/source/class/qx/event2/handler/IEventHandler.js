@@ -34,7 +34,10 @@ qx.Interface.define("qx.event2.handler.IEventHandler",
      * @return {Boolean} Whether the event handler can handle events of the
      *     given type.
      */
-    canHandleEvent : function(type) { return true; },
+    canHandleEvent : function(type) { 
+      return true; 
+    },
+    
 
     /**
      * Increase the event count for this event type.
@@ -42,7 +45,10 @@ qx.Interface.define("qx.event2.handler.IEventHandler",
      * @param element {Element} DOM element to register an additional event for
      * @param type {String} event type
      */
-    registerEvent : function(element, type) { return arguments.length == 2; },
+    registerEvent : function(element, type) { 
+      return arguments.length == 2; 
+    },
+    
 
     /**
      * Decrease the event count for this event type.
@@ -50,7 +56,10 @@ qx.Interface.define("qx.event2.handler.IEventHandler",
      * @param element {Element} DOM element to register an additional event for
      * @param type {String} event type
      */
-    unregisterEvent : function(element, type) { return arguments.length == 2; },
+    unregisterEvent : function(element, type) { 
+      return arguments.length == 2; 
+    },
+
 
     /**
      * Removes all event handlers handles by the class from the DOM of the given
@@ -59,7 +68,8 @@ qx.Interface.define("qx.event2.handler.IEventHandler",
      * @param documentElement {Element} The DOM documentelement of the document
      *     to remove the listeners from.
      */
-    removeAllListenersFromDocument : function(documentElement) { return arguments.length == 1; }
-
+    removeAllListenersFromDocument : function(documentElement) { 
+      return arguments.length == 1;
+    }
   }
 });

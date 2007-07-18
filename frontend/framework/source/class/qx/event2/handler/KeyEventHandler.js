@@ -32,8 +32,9 @@
 qx.Class.define("qx.event2.handler.KeyEventHandler",
 {
   extend : qx.event2.handler.AbstractEventHandler,
-
   implement : qx.event2.handler.IEventHandler,
+
+
 
 
   /*
@@ -55,13 +56,14 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
 
     var keyUpDownHandler = qx.lang.Function.bind(this.onKeyUpDown, this);
 
-    this.__keyHandler = {
+    this.__keyHandler = 
+    {
       "keydown": keyUpDownHandler,
       "keyup": keyUpDownHandler,
       "keypress": keyUpDownHandler
-    }
-
+    };
   },
+  
 
 
 
@@ -74,7 +76,6 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
 
   members :
   {
-
     /**
      * Fire a key event with the given parameters
      *
@@ -105,18 +106,17 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
       {
         var elementId = qx.core.Object.toHashCode(element);
 
-        if (!this.__keyEventListenerCount[elementId]) {
+        if (!this.__keyEventListenerCount[elementId]) 
+        {
           this.__keyEventListenerCount[elementId] = 0;
           this.__elementRegistry[elementId] = element;
         }
 
         // handle key events
         this.__keyEventListenerCount[elementId] += 1;
+        
         if (this.__keyEventListenerCount[elementId] == 1) {
-          this._attachEvents(
-            element,
-            this.__keyHandler
-          );
+          this._attachEvents(element, this.__keyHandler);
         }
       }
     },
@@ -135,23 +135,20 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
 
         // handle key events
         this.__keyEventListenerCount[elementId] -= 1;
+        
         if (this.__keyEventListenerCount[elementId] == 0) {
-          this._detachEvents(
-            element,
-            this.__keyHandler
-          );
+          this._detachEvents(element, this.__keyHandler);
         }
       }
     },
 
 
-    removeAllListenersFromDocument : function(documentElement)
-    {
-      this._detachEvents(
-        documentElement,
-        this.__keyHandler
-      );
+    removeAllListenersFromDocument : function(documentElement) {
+      this._detachEvents(documentElement, this.__keyHandler);
     },
+    
+    
+    
 
 
     /*
@@ -184,11 +181,8 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
         // On non print-able character be sure to add a keypress event
         if (type == "keydown")
         {
-          if (this._isNonPrintableKeyCode(keyCode) ||
-          keyCode ==
-          8 ||   // backspace
-          keyCode == 9  // tab
-          ) {
+          // non-printable, backspace or tab
+          if (this._isNonPrintableKeyCode(keyCode) || keyCode == 8 || keyCode == 9) {
             this._idealKeyHandler(keyCode, charcode, "keypress", domEvent);
           }
         }
@@ -229,27 +223,8 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
         var charCode = 0;
         var type = domEvent.type;
 
-        // prevent Safari from sending key signals twice
-        // This bug is fixed in recent Webkit builds so we need a revision check
-        // see http://trac.mochikit.com/ticket/182 for details
-        if (qx.core.Client.getInstance().getVersion() < 420)
+        if (type == "keyup" || type == "keydown") 
         {
-          if (!this._lastCharCodeForType) {
-            this._lastCharCodeForType = {};
-          }
-
-          var isSafariSpecialKey = this._lastCharCodeForType[type] > 63000;
-
-          if (isSafariSpecialKey)
-          {
-            this._lastCharCodeForType[type] = null;
-            return;
-          }
-
-          this._lastCharCodeForType[type] = domEvent.charCode;
-        }
-
-        if (type == "keyup" || type == "keydown") {
           keyCode = this._charCode2KeyCode[domEvent.charCode] || domEvent.keyCode;
         }
         else
@@ -266,10 +241,6 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
 
       "opera" : function(domEvent) {
         this._idealKeyHandler(domEvent.keyCode, 0, domEvent.type, domEvent);
-      },
-
-      "default" : function() {
-        throw new Error("Unsupported browser for key event handler!");
       }
     }),
 
@@ -325,27 +296,8 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
         var charCode = 0;
         var type = domEvent.type;
 
-        // prevent Safari from sending key signals twice
-        // This bug is fixed in recent Webkit builds so we need a revision check
-        // see http://trac.mochikit.com/ticket/182 for details
-        if (qx.core.Client.getInstance().getVersion() < 420)
+        if (type == "keyup" || type == "keydown") 
         {
-          if (!this._lastCharCodeForType) {
-            this._lastCharCodeForType = {};
-          }
-
-          var isSafariSpecialKey = this._lastCharCodeForType[type] > 63000;
-
-          if (isSafariSpecialKey)
-          {
-            this._lastCharCodeForType[type] = null;
-            return;
-          }
-
-          this._lastCharCodeForType[type] = domEvent.charCode;
-        }
-
-        if (type == "keyup" || type == "keydown") {
           keyCode = this._charCode2KeyCode[domEvent.charCode] || domEvent.keyCode;
         }
         else
@@ -367,10 +319,6 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
         } else {
           this._idealKeyHandler(0, domEvent.keyCode, domEvent.type, domEvent);
         }
-      },
-
-      "default" : function() {
-        throw new Error("Unsupported browser for key event handler!");
       }
     }),
 
@@ -386,61 +334,67 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
     /** maps the charcodes of special printable keys to key identifiers */
     _specialCharCodeMap :
     {
-      8  : "Backspace",  // The Backspace (Back) key.
-      9  : "Tab",  // The Horizontal Tabulation (Tab) key.
+      8  : "Backspace",   // The Backspace (Back) key.
+      9  : "Tab",         // The Horizontal Tabulation (Tab) key.
 
       //   Note: This key identifier is also used for the
       //   Return (Macintosh numpad) key.
-      13 : "Enter",  // The Enter key.
-      27 : "Escape",  // The Escape (Esc) key.
-      32 : "Space"  // The Space (Spacebar) key.
+      13 : "Enter",       // The Enter key.
+      27 : "Escape",      // The Escape (Esc) key.
+      32 : "Space"        // The Space (Spacebar) key.
     },
 
     /** maps the keycodes of non printable keys to key identifiers */
     _keyCodeToIdentifierMap :
     {
-      16  : "Shift",  // The Shift key.
-      17  : "Control",  // The Control (Ctrl) key.
-      18  : "Alt",  // The Alt (Menu) key.
-      20  : "CapsLock",  // The CapsLock key
-      224 : "Meta",  // The Meta key. (Apple Meta and Windows key)
-      37  : "Left",  // The Left Arrow key.
-      38  : "Up",  // The Up Arrow key.
-      39  : "Right",  // The Right Arrow key.
-      40  : "Down",  // The Down Arrow key.
-      33  : "PageUp",  // The Page Up key.
-      34  : "PageDown",  // The Page Down (Next) key.
-      35  : "End",  // The End key.
-      36  : "Home",  // The Home key.
-      45  : "Insert",  // The Insert (Ins) key. (Does not fire in Opera/Win)
-      46  : "Delete",  // The Delete (Del) Key.
-      112 : "F1",  // The F1 key.
-      113 : "F2",  // The F2 key.
-      114 : "F3",  // The F3 key.
-      115 : "F4",  // The F4 key.
-      116 : "F5",  // The F5 key.
-      117 : "F6",  // The F6 key.
-      118 : "F7",  // The F7 key.
-      119 : "F8",  // The F8 key.
-      120 : "F9",  // The F9 key.
-      121 : "F10",  // The F10 key.
-      122 : "F11",  // The F11 key.
-      123 : "F12",  // The F12 key.
-      144 : "NumLock",  // The Num Lock key.
-      44  : "PrintScreen",  // The Print Screen (PrintScrn, SnapShot) key.
-      145 : "Scroll",  // The scroll lock key
-      19  : "Pause",  // The pause/break key
-      91  : "Win",  // The Windows Logo key
-      93  : "Apps"  // The Application key (Windows Context Menu)
+       16 : "Shift",        // The Shift key.
+       17 : "Control",      // The Control (Ctrl) key.
+       18 : "Alt",          // The Alt (Menu) key.
+       20 : "CapsLock",     // The CapsLock key
+      224 : "Meta",         // The Meta key. (Apple Meta and Windows key)
+      
+       37 : "Left",         // The Left Arrow key.
+       38 : "Up",           // The Up Arrow key.
+       39 : "Right",        // The Right Arrow key.
+       40 : "Down",         // The Down Arrow key.
+      
+       33 : "PageUp",       // The Page Up key.
+       34 : "PageDown",     // The Page Down (Next) key.
+      
+       35 : "End",          // The End key.
+       36 : "Home",         // The Home key.
+      
+       45 : "Insert",       // The Insert (Ins) key. (Does not fire in Opera/Win)
+       46 : "Delete",       // The Delete (Del) Key.
+      
+      112 : "F1",           // The F1 key.
+      113 : "F2",           // The F2 key.
+      114 : "F3",           // The F3 key.
+      115 : "F4",           // The F4 key.
+      116 : "F5",           // The F5 key.
+      117 : "F6",           // The F6 key.
+      118 : "F7",           // The F7 key.
+      119 : "F8",           // The F8 key.
+      120 : "F9",           // The F9 key.
+      121 : "F10",          // The F10 key.
+      122 : "F11",          // The F11 key.
+      123 : "F12",          // The F12 key.
+      
+      144 : "NumLock",      // The Num Lock key.
+       44 : "PrintScreen",  // The Print Screen (PrintScrn, SnapShot) key.
+      145 : "Scroll",       // The scroll lock key
+       19 : "Pause",        // The pause/break key
+       91 : "Win",          // The Windows Logo key
+       93 : "Apps"          // The Application key (Windows Context Menu)
     },
 
     /** maps the keycodes of the numpad keys to the right charcodes */
     _numpadToCharCode :
     {
-      96  : "0".charCodeAt(0),
-      97  : "1".charCodeAt(0),
-      98  : "2".charCodeAt(0),
-      99  : "3".charCodeAt(0),
+       96 : "0".charCodeAt(0),
+       97 : "1".charCodeAt(0),
+       98 : "2".charCodeAt(0),
+       99 : "3".charCodeAt(0),
       100 : "4".charCodeAt(0),
       101 : "5".charCodeAt(0),
       102 : "6".charCodeAt(0),
@@ -690,7 +644,9 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
     else if (qx.core.Variant.isSet("qx.client", "gecko"))
     {
       members._lastUpDownType = {};
-      members._keyCodeFix = { 12 : members._identifierToKeyCode("NumLock") };
+      members._keyCodeFix = { 
+        12 : members._identifierToKeyCode("NumLock") 
+      };
     }
     else if (qx.core.Variant.isSet("qx.client", "webkit"))
     {
@@ -747,5 +703,4 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
 
     this._disposeFields("_lastUpDownType", "__keyHandler", "__keyEventListenerCount");
   }
-
 });
