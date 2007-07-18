@@ -54,10 +54,10 @@
 qx.Class.define("qx.event2.Manager",
 {
   type : "singleton",
-
   extend : qx.core.Object,
-
   include : qx.event2.handler.MActiveElementHandler,
+
+
 
 
   /*
@@ -115,7 +115,6 @@ qx.Class.define("qx.event2.Manager",
 
   statics :
   {
-
     /**
      * Add an event listener to a DOM element. The event listener is passed an
      * instance of {@link Event} containing all relevant information
@@ -162,7 +161,7 @@ qx.Class.define("qx.event2.Manager",
      * @param vFunction {Function} The pointer to the function to assign
      * @signature function(vElement, vType, vFunction)
      */
-    nativeAddEventListener : qx.core.Variant.select("qx.client",
+    addNativeListener : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(vElement, vType, vFunction) {
         vElement.attachEvent("on" + vType, vFunction);
@@ -185,7 +184,7 @@ qx.Class.define("qx.event2.Manager",
      * @param vFunction {Function} The pointer to the function to assign
      * @signature function(vElement, vType, vFunction)
      */
-    nativeRemoveEventListener : qx.core.Variant.select("qx.client",
+    removeNativeListener : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(vElement, vType, vFunction) {
         vElement.detachEvent("on" + vType, vFunction);
@@ -328,7 +327,8 @@ qx.Class.define("qx.event2.Manager",
           window : win,
           listener : qx.lang.Function.bind(this.__onunload, this, winId)
         };
-        qx.event2.Manager.nativeAddEventListener(
+        
+        qx.event2.Manager.addNativeListener(
           win, "unload", this.__knownWindows[winId].listener
         );
 
@@ -353,9 +353,11 @@ qx.Class.define("qx.event2.Manager",
       for (var i=0; i<this.__eventHandlers.length; i++) {
         this.__eventHandlers[i].removeAllListenersFromDocument(doc);
       }
-      qx.event2.Manager.nativeRemoveEventListener(
+      
+      qx.event2.Manager.removeNativeListener(
         win, "unload", this.__knownWindows[winId].handler
       );
+      
       delete(this.__knownWindows[winId]);
     },
 
@@ -470,7 +472,7 @@ qx.Class.define("qx.event2.Manager",
       // attach event handler if needed
       if (elementEvents[type].listeners.length == 0)
       {
-        qx.event2.Manager.nativeAddEventListener(
+        qx.event2.Manager.addNativeListener(
           element,
           type,
           elementEvents[type].handler
@@ -580,8 +582,10 @@ qx.Class.define("qx.event2.Manager",
       {
         qx.lang.Array.removeAt(listeners, removeIndex);
 
-        if (eventData.captureListeners.length == 0 && eventData.bubbleListeners.length == 0) {
+        if (eventData.captureListeners.length == 0 && eventData.bubbleListeners.length == 0) 
+        {
           delete (typeData[type]);
+          
           for (var i=0; i<this.__eventHandlers.length; i++) {
             this.__eventHandlers[i].unregisterEvent(documentElement, type);
           }
@@ -631,7 +635,7 @@ qx.Class.define("qx.event2.Manager",
 
         if (eventData.listeners.length == 0)
         {
-          qx.event2.Manager.nativeRemoveEventListener(element, type, eventData.handler);
+          qx.event2.Manager.removeNativeListener(element, type, eventData.handler);
           delete (elementData[type]);
         }
       }
@@ -959,8 +963,8 @@ qx.Class.define("qx.event2.Manager",
 
       for (var type in inlineReg[elementId])
       {
-        qx.event2.Manager.nativeRemoveEventListener(element,
-          type, inlineReg[elementId][type].handler);
+        qx.event2.Manager.removeNativeListener(
+          element, type, inlineReg[elementId][type].handler);
       }
     }
 

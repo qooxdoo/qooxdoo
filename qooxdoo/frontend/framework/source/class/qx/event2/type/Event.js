@@ -39,7 +39,6 @@ qx.Class.define("qx.event2.type.Event",
 
   statics :
   {
-
     /** The current event phase is the capturing phase. */
     CAPTURING_PHASE : 1,
 
@@ -78,7 +77,6 @@ qx.Class.define("qx.event2.type.Event",
 
   members :
   {
-
     /**
      * Initialize the fileds of the event.
      *
@@ -216,7 +214,7 @@ qx.Class.define("qx.event2.type.Event",
     getTarget : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function() {
-        return this._target || this._event.srcElement;
+        return this._target || this._event.target || this._event.srcElement;
       },
 
       "webkit" : function()
@@ -225,14 +223,14 @@ qx.Class.define("qx.event2.type.Event",
           return this._target;
         }
 
-        var vNode = this._event.target;
+        var node = this._event.target;
 
         // Safari takes text nodes as targets for events
-        if (vNode && (vNode.nodeType == qx.dom.Node.TEXT)) {
-          vNode = vNode.parentNode;
+        if (node && (node.nodeType == qx.dom.Node.TEXT)) {
+          node = node.parentNode;
         }
 
-        return vNode;
+        return node;
       },
 
       "default" : function() {

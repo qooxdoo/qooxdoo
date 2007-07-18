@@ -31,18 +31,6 @@ qx.Class.define("qx.event2.type.MouseEvent",
 
 
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function(domEvent)
-  {
-    this.base(arguments, domEvent);
-  },
-
-
 
   /*
   *****************************************************************************
@@ -52,12 +40,6 @@ qx.Class.define("qx.event2.type.MouseEvent",
 
   statics :
   {
-    C_BUTTON_LEFT : "left",
-    C_BUTTON_MIDDLE : "middle",
-    C_BUTTON_RIGHT : "right",
-    C_BUTTON_NONE : "none",
-
-
     /**
      * Initialize a singleton instance with the given browser event object.
      *
@@ -74,8 +56,9 @@ qx.Class.define("qx.event2.type.MouseEvent",
       this.__instance.__initEvent(domEvent);
       return this.__instance;
     }
-
   },
+
+
 
 
 
@@ -87,16 +70,17 @@ qx.Class.define("qx.event2.type.MouseEvent",
 
   members :
   {
-
     __buttons : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : {
+      "mshtml" : 
+      {
         1: "left",
         2: "right",
         4: "middle"
       },
 
-      "default" : {
+      "default" : 
+      {
         0: "left",
         2: "right",
         1: "middle"
@@ -108,9 +92,10 @@ qx.Class.define("qx.event2.type.MouseEvent",
      * During mouse events caused by the depression or release of a mouse button,
      * this method can be used to check which mouse button changed state.
      *
-     * @return {String} One of "left", "right" or "middle"
+     * @return {String} One of "left", "right", "middle" or "none"
      */
-    getButton : function() {
+    getButton : function() 
+    {
       switch (this.getType())
       {
         case "click":
@@ -121,8 +106,38 @@ qx.Class.define("qx.event2.type.MouseEvent",
           return "right";
 
         default:
-          return this.__buttons[this._event.button];
+          return this.__buttons[this._event.button] || "none";
       }
+    },
+    
+    
+    /**
+     * Whether the left button is pressed
+     *
+     * @return {Boolean} true when the left button is pressed
+     */
+    isLeftButtonPressed : function() {
+      return this.getButton() === "left";
+    },
+
+
+    /**
+     * Whether the middle button is pressed
+     *
+     * @return {Boolean} true when the middle button is pressed
+     */
+    isMiddleButtonPressed : function() {
+      return this.getButton() === "middle";
+    },
+
+
+    /**
+     * Whether the right button is pressed
+     *
+     * @return {Boolean} true when the right button is pressed
+     */
+    isRightButtonPressed : function() {
+      return this.getButton() === "right";
     },
 
 
@@ -149,49 +164,103 @@ qx.Class.define("qx.event2.type.MouseEvent",
 
     /**
      * Get the he horizontal coordinate at which the event occurred relative
-     * to the DOM implementation's client area.
+     * viewport of the browser.
      *
-     * @return {Integer} The horizontal mouse position in the client area.
+     * @return {Integer} The horizontal mouse position
      * @signature function()
      */
-    getClientX : qx.core.Variant.select("qx.client",
+    getViewportLeft : qx.core.Variant.select("qx.client",
     {
       "mshtml|gecko" : function() {
         return this._event.clientX;
       },
 
-      "default" : function() {
-        return this._event.clientX + (document.body && document.body.scrollLeft != null ? document.body.scrollLeft : 0);
+      "default" : function() 
+      {
+        var doc = qx.html2.element.Node.getDocument(this.getTarget());
+        return this._event.clientX + qx.html2.Viewport.getScrollLeft(doc);  
       }
     }),
 
 
     /**
      * Get the vertical coordinate at which the event occurred relative to the
-     * DOM implementation's client area.
+     * viewport of the browser.
      *
-     * @return {Integer} The vertical mouse position in the client area.
+     * @return {Integer} The vertical mouse position
      * @signature function()
      */
-    getClientY : qx.core.Variant.select("qx.client",
+    getViewportTop : qx.core.Variant.select("qx.client",
     {
       "mshtml|gecko" : function() {
         return this._event.clientY;
       },
 
-      "default" : function() {
-        return this._event.clientY + (document.body && document.body.scrollTop != null ? document.body.scrollTop : 0);
+      "default" : function() 
+      {
+        var doc = qx.html2.element.Node.getDocument(this.getTarget());
+        return this._event.clientY + qx.html2.Viewport.getScrollTop(doc);
       }
     }),
 
 
     /**
+     * Get the he horizontal coordinate at which the event occurred relative
+     * current document.
+     *
+     * @return {Integer} The horizontal mouse position
+     * @signature function()
+     */
+    getDocumentLeft : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function()
+      {
+        var doc = qx.html2.element.Node.getDocument(this.getTarget());
+        return this._event.clientX + qx.html2.Viewport.getScrollLeft(doc);  
+      },
+
+      "gecko" : function() {
+        return this._event.pageX;
+      },
+
+     "default": function() {
+        return this._event.clientX;
+      }
+    }),
+
+
+    /**
+     * Get the vertical coordinate at which the event occurred relative to the
+     * current document.
+     *
+     * @return {Integer} The vertical mouse position
+     * @signature function()
+     */
+    getDocumentTop : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function()
+      {
+        var doc = qx.html2.element.Node.getDocument(this.getTarget());
+        return this._event.clientY + qx.html2.Viewport.getScrollTop(doc);  
+      },
+      
+      "gecko" : function() {
+        return this._event.pageY;
+      },
+
+      "default": function() {
+        return this._event.clientY;
+      }
+    }),
+    
+
+    /**
      * Get the horizontal coordinate at which the event occurred relative to
      * the origin of the screen coordinate system.
      *
-     * @return {Integer} The horizontal mouse position on the screen.
+     * @return {Integer} The horizontal mouse position
      */
-    getScreenX : function() {
+    getScreenLeft : function() {
       return this._event.screenX;
     },
 
@@ -200,11 +269,27 @@ qx.Class.define("qx.event2.type.MouseEvent",
      * Get the vertical coordinate at which the event occurred relative to
      * the origin of the screen coordinate system.
      *
-     * @return {Integer} The vertical mouse position on the screen.
+     * @return {Integer} The vertical mouse position
      */
-    getScreenY : function() {
+    getScreenTop : function() {
       return this._event.screenY;
-    }
+    },
+    
+    
+    /**
+     * Get the amount the wheel has been scrolled
+     *
+     * @return {Integer} Scroll wheel movement
+     */
+    getWheelDelta : qx.core.Variant.select("qx.client",
+    {
+      "mshtml|opera" : function() {
+        return this._event.wheelDelta / 120;
+      },
 
+      "default" : function() {
+        return -(this._event.detail / 3);
+      }
+    })
   }
 });

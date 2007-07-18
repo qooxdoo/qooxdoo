@@ -30,6 +30,9 @@ qx.Class.define("qx.event2.handler.DefaultEventHandler",
 {
   extend : qx.event2.handler.AbstractEventHandler,
 
+
+
+
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -39,13 +42,22 @@ qx.Class.define("qx.event2.handler.DefaultEventHandler",
   construct : function(eventCallBack, manager)
   {
     this.base(arguments, eventCallBack);
+    
     this._eventHandler = qx.lang.Function.bind(this.__handleEvent, this);
     this._manager = manager;
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+  
   members :
   {
-
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER INTERFACE
@@ -56,46 +68,34 @@ qx.Class.define("qx.event2.handler.DefaultEventHandler",
       return true;
     },
 
-
-    registerEvent : function(element, type)
-    {
-      qx.event2.Manager.nativeAddEventListener(
-        element,
-        type,
-        this._eventHandler
-      );
+    registerEvent : function(element, type) {
+      qx.event2.Manager.addNativeListener(element, type, this._eventHandler);
     },
-
 
     unregisterEvent : function(element, type)
     {
       var documentId = qx.core.Object.toHashCode(element);
+      
       if (!this._manager.__getDocumentHasListeners(documentId)) {
-        qx.event2.Manager.nativeRemoveEventListener(
-          element,
-          type,
-          this._eventHandler
-        );
+        qx.event2.Manager.removeNativeListener(element, type, this._eventHandler);
       }
     },
-
 
     removeAllListenersFromDocument : function(documentElement)
     {
       var documentId = qx.core.Object.toHashCode(documentElement);
-
       var reg = this._manager.getDocumentRegistry();
 
-      for (var type in reg[documentId])
-      {
-        qx.event2.Manager.nativeRemoveEventListener(
-          documentElement,
-          type,
-          this._eventHandler
-        );
+      for (var type in reg[documentId]) {
+        qx.event2.Manager.removeNativeListener(documentElement, type, this._eventHandler);
       }
+      
       delete(reg[documentId]);
     },
+
+
+
+
 
 
     /*
@@ -109,11 +109,11 @@ qx.Class.define("qx.event2.handler.DefaultEventHandler",
      *
      * @param domEvent {Event} DOM event
      */
-    __handleEvent : function(domEvent) {
+    __handleEvent : function(domEvent) 
+    {
       var event = qx.event2.type.Event.getInstance(domEvent);
       this._callback(event);
     }
-
   },
 
 
@@ -126,8 +126,6 @@ qx.Class.define("qx.event2.handler.DefaultEventHandler",
   */
 
   destruct : function() {
-    this.disposeFields(
-      "__documentEventHandler"
-    );
+    this.disposeFields("__documentEventHandler");
   }
 });
