@@ -106,7 +106,7 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
      */
     _attachEvents : function(element, eventMap)
     {
-      var addEvent = qx.event2.Manager.nativeAddEventListener;
+      var addEvent = qx.event2.Manager.addNativeListener;
       for (var type in eventMap)
       {
         addEvent(
@@ -127,7 +127,7 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
      */
     _detachEvents : function(element, eventMap)
     {
-      var removeEvent = qx.event2.Manager.nativeRemoveEventListener
+      var removeEvent = qx.event2.Manager.removeNativeListener
       for (var type in this.__keyHandler)
       {
         removeEvent(
