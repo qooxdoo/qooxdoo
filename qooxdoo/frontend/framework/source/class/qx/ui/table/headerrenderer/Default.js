@@ -62,6 +62,28 @@ qx.Class.define("qx.ui.table.headerrenderer.Default",
 
   /*
   *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    /**
+     * ToolTip to show if the mouse hovers of the icon
+     */
+    toolTip :
+    {
+      check : "String",
+      init : null,
+      nullable : true
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
@@ -101,6 +123,19 @@ qx.Class.define("qx.ui.table.headerrenderer.Default",
       var DefaultHeaderCellRenderer = qx.ui.table.headerrenderer.Default;
 
       cellWidget.setLabel(cellInfo.name);
+
+      // Set image tooltip if given
+      var widgetToolTip = cellWidget.getToolTip();
+      if (this.getToolTip() != null) {
+        if (widgetToolTip == null) {
+          // We have no tooltip yet -> Create one
+          widgetToolTip = new qx.ui.popup.ToolTip(this.getToolTip());
+          cellWidget.setToolTip(widgetToolTip);
+        } else {
+          // Update tooltip text
+          widgetToolTip.getAtom().setLabel(this.getToolTip());
+        }
+      }
 
       cellInfo.sorted ?
         cellWidget.addState(DefaultHeaderCellRenderer.STATE_SORTED) :
