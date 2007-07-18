@@ -34,6 +34,8 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
   extend : qx.event2.handler.AbstractEventHandler,
 
 
+
+
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -49,6 +51,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
     this.__elementRegistry = {};
 
     var buttonHandler = qx.lang.Function.bind(this.onMouseButtonEvent, this);
+    
     this.__mouseButtonHandler =
     {
       "mousedown"   : buttonHandler,
@@ -59,7 +62,8 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
     };
 
     var moveHandler = qx.lang.Function.bind(this.__fireEvent, this);
-    this.__mouseMoveHandler = {
+    this.__mouseMoveHandler = 
+    {
       "mousemove" : {
         count: 0,
         handler: moveHandler
@@ -74,8 +78,17 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
       }
     }
 
-    this._lastMouseDownTarget = null;
+    this.__lastMouseDownTarget = null;
   },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
 
   members :
   {
@@ -132,7 +145,6 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
           );
         }
       }
-
     },
 
 
@@ -150,10 +162,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
         this.__mouseButtonListenerCount[elementId] -= 1;
 
         if (this.__mouseButtonListenerCount[elementId] == 0) {
-          this._detachEvents(
-            element,
-            this.__mouseButtonHandler
-          );
+          this._detachEvents(element, this.__mouseButtonHandler);
         }
       }
       else if (this.__mouseMoveHandler[type])
@@ -161,17 +170,17 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
         if (!this.__mouseMoveListenerCount[elementId]) {
           this.__mouseMoveListenerCount[elementId] = {};
         }
+        
         if (!this.__mouseMoveListenerCount[elementId][type]) {
           this.__mouseMoveListenerCount[elementId][type] = 0;
         }
 
         this.__mouseMoveListenerCount[elementId][type] -= 1;
+        
         if (this.__mouseMoveListenerCount[elementId][type] == 0)
         {
           qx.event2.Manager.addNativeListener(
-            element,
-            type,
-            this.__mouseMoveHandler[type].handler
+            element, type, this.__mouseMoveHandler[type].handler
           );
         }
       }
@@ -186,18 +195,21 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
       );
 
       var documentId = qx.core.Object.toHashCode(documentElement);
+      
       if (!this.__mouseMoveListenerCount || !this.__mouseMoveListenerCount[documentId]) {
         return;
       }
-      for (var type in this.__mouseMoveListenerCount[documentId]) {
+      
+      for (var type in this.__mouseMoveListenerCount[documentId]) 
+      {
         qx.event2.Manager.addNativeListener(
-          documentElement,
-          type,
-          this.__mouseMoveHandler[type].handler
+          documentElement, type, this.__mouseMoveHandler[type].handler
         );
       }
       delete(this.__mouseMoveListenerCount[documentId]);
     },
+
+
 
 
     /*
@@ -213,10 +225,13 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
      * @param type {String} type og the event
      * @param target {Element} event target
      */
-    __fireEvent : function(domEvent, type, target) {
+    __fireEvent : function(domEvent, type, target) 
+    {
       var event = qx.event2.type.MouseEvent.getInstance(domEvent);
+      
       event.setType(type);
       event.setTarget(target);
+      
       this._callback(event);
     },
 
@@ -230,20 +245,32 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
      */
     onMouseButtonEvent : function(domEvent)
     {
+      // TODO: MouseEvent.getInstance() has only one parameter
       var event = qx.event2.type.MouseEvent.getInstance(domEvent, domEvent.type);
       var type = event.getType();
       var target = event.getTarget();
 
-      this.__rightClickFixPre(domEvent, type, target);
-      this.__doubleClickFixPre(domEvent, type, target);
+      if (this.__rightClickFixPre) {
+        this.__rightClickFixPre(domEvent, type, target);
+      }
+      
+      if (this.__doubleClickFixPre) {
+        this.__doubleClickFixPre(domEvent, type, target);
+      }
 
       this.__fireEvent(domEvent, type, target);
 
-      this.__rightClickFixPost(domEvent, type, target);
-      this.__differentTargetClickFixPost(domEvent, type, target);
+      if (this.__rightClickFixPost) {
+        this.__rightClickFixPost(domEvent, type, target);
+      }
+      
+      if (this.__differentTargetClickFixPost) {
+        this.__differentTargetClickFixPost(domEvent, type, target);
+      }
 
       this._lastEventType = type;
     },
+
 
 
     /**
@@ -262,15 +289,16 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
      */
     __rightClickFixPre : qx.core.Variant.select("qx.client",
     {
-      "webkit" : function(domEvent, type, target) {
-        if (type == "contextmenu") {
+      "webkit" : function(domEvent, type, target) 
+      {
+        if (type == "contextmenu") 
+        {
           this.__fireEvent(domEvent, "mousedown", target);
           this.__fireEvent(domEvent, "mouseup", target);
         }
       },
 
-      "default" : function(domEvent, type, target) {
-      }
+      "default" : null
     }),
 
 
@@ -290,14 +318,14 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
      */
     __rightClickFixPost : qx.core.Variant.select("qx.client",
     {
-      "opera" : function(domEvent, type, target) {
+      "opera" : function(domEvent, type, target) 
+      {
         if (type =="mouseup" && domEvent.button == 2) {
           this.__fireEvent(domEvent, "contextmenu", target);
         }
       },
 
-      "default" : function(domEvent, type, target) {
-      }
+      "default" : null
     }),
 
 
@@ -321,8 +349,8 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
      */
     __doubleClickFixPre : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(domEvent, type, target) {
-        //this.debug(type + " " + )
+      "mshtml" : function(domEvent, type, target) 
+      {
         if (type == "mouseup" && this._lastEventType == "click") {
           this.__fireEvent(domEvent, "mousedown", target);
         } else if (type == "dblclick") {
@@ -330,7 +358,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
         }
       },
 
-      "default" : function(domEvent, type, target) {}
+      "default" : null
     }),
 
 
@@ -349,19 +377,20 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
      */
     __differentTargetClickFixPost : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(domEvent, type, target) {},
+      "mshtml" : null,
 
       "default" : function(domEvent, type, target)
       {
         switch (type)
         {
           case "mousedown":
-            this._lastMouseDownTarget = target;
+            this.__lastMouseDownTarget = target;
             break;
 
           case "mouseup":
-            if (target !== this._lastMouseDownTarget) {
-              commonParent = qx.html2.element.Tree.getCommonParent(target, this._lastMouseDownTarget);
+            if (target !== this.__lastMouseDownTarget)
+            {
+              commonParent = qx.html2.element.Tree.getCommonParent(target, this.__lastMouseDownTarget);
               this.__fireEvent(domEvent, "click", commonParent);
             }
         }
@@ -394,7 +423,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
 
     this._disposeFields(
       "__mouseMoveHandler",
-      "_lastMouseDownTarget",
+      "__lastMouseDownTarget",
       "__mouseButtonListenerCount",
       "__mouseMoveListenerCount",
       "__elementRegistry"
