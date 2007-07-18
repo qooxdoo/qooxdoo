@@ -14,50 +14,8 @@
   <script type="text/javascript" src="../../script/demo.js"></script>
   <script type="text/javascript" src="../util.js"></script>
 
-  <script type="text/javascript">
-  function start() 
-  {
-		function jump(event) 
-		{
-		  if (!event) {
-		    event = window.event; 
-		  }
-		  
-			var href = this.href;
-			var id = href.substr(href.indexOf('#')+1);
-			
-			var elem = document.getElementById(id);
-			var location = qx.html2.Location.get(elem, document.getElementById("mode").value);
-			
-			document.getElementById("moveable").style.left = location.left + "px";
-			document.getElementById("moveable").style.top = location.top + "px";
-
-			for (prop in location) {
-				qx.core.Init.getInstance().debug("SET: " + prop + ': ' + location[prop]);;
-			}
-			
-
-
-      event.returnValue = false;
-      
-      if (event.preventDefault) {
-        event.preventDefault();
-      }
-
-			return false;
-		}
-		
-		var links = document.getElementsByTagName("a");
-	  for (var i=0, l=links.length; i<l; i++) {
-      links[i].onclick = jump;
-	  }
-	};
-  </script>
-
 	<style>
-		p, fieldset { margin-left: 20px; }
-		fieldset { width: 540px; }
-		#moveable{ position: absolute; top: 110px; left: 250px; width: 30px; height: 30px; border: 2px solid #000; background-color: #ccc; }
+		#moveable{ position: absolute; top: 110px; left: 250px; width: 30px; height: 30px; border: 2px dashed red; background-color: white; opacity : 0.5; -moz-opacity: 0.5 }
 		
 		#forceScroll { height: 500px; }
 		
@@ -81,37 +39,79 @@
 		#static3 { position: static; margin: 10px; border: 2px solid #000; padding: 3px; width: 250px; height: 250px; background-color: #980; }
 		
 		#inline, #inline2 { display: inline; border: 2px solid #000; }
-		
-		#fixed { position: fixed; top: 0; right: 0; margin: 10px; border: 2px solid #000; padding: 3px; width: 100px; height: 100px; background-color: #980; }
 	</style>
 </head>
 <body style="border:20px solid red; margin: 10px">  
   <script type="text/javascript">
-qx.Class.define("BasicSample",
-{
-  extend : qx.application.Basic,
-
-  members :
-  {
-    main : function()
+    function jump(event) 
     {
-      this.base(arguments);
+      if (!event) {
+        event = window.event; 
+      }
       
-      start();
+      event.returnValue = false;
+      
+      if (event.preventDefault) {
+        event.preventDefault();
+      }      
+      
+    	var href = this.href;
+    	var id = href.substr(href.indexOf('#')+1);
+    	
+    	var elem = document.getElementById(id);
+    	var location = qx.html2.Location.get(elem, document.getElementById("mode").value);
+    	
+    	document.getElementById("moveable").style.left = location.left + "px";
+    	document.getElementById("moveable").style.top = location.top + "px";
+    
+    	return false;
     }
-  }
-});
-
-qx.core.Init.getInstance().setApplication(new BasicSample);
+    	
+    function randomize()
+    {
+      var divs = document.body.getElementsByTagName("div"); 
+      for (var i=0, l=divs.length; i<l; i++)
+      {
+        if (divs[i].id && divs[i].id != "moveable")
+        {
+          divs[i].style.margin = Math.round(Math.random()*10) + "px"; 
+          divs[i].style.padding = Math.round(Math.random()*10) + "px"; 
+          divs[i].style.borderWidth = Math.round(Math.random()*10) + "px";
+        }
+      }
+    }
+      
+    qx.Class.define("BasicSample",
+    {
+      extend : qx.application.Basic,
+    
+      members :
+      {
+        main : function()
+        {
+          this.base(arguments);
+          
+      		var links = document.getElementsByTagName("a");
+      	  for (var i=0, l=links.length; i<l; i++) {
+            links[i].onclick = jump;
+      	  }
+        }
+      }
+    });
+    
+    qx.core.Init.getInstance().setApplication(new BasicSample);
   </script>
   
-	<p>Select a div to move the grey box too. (Standard-Mode; Box-Model-Correction:off)</p>
-	<select id="mode">
-	  <option value="margin">margin</option>
-	  <option value="box" selected="selected">box</option>
-	  <option value="border">border</option>
-	  <option value="content">content</option>
-	</select>
+	<p>
+	  Select a div to move the grey box too. (Quirks-Mode; Box-Model-Correction:off)
+  	<select id="mode">
+  	  <option value="margin">margin</option>
+  	  <option value="box" selected="selected">box</option>
+  	  <option value="border">border</option>
+  	  <option value="content">content</option>
+  	</select>
+  	<a href="javascript:randomize()">Randomize</a>
+	</p>
 	
 	<ul>
 		<li><a href="#static">Move to static 1</a></li>
