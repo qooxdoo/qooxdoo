@@ -204,10 +204,9 @@ qx.Class.define("qx.html2.Location",
                       
           // For some unknown reason we must add the border two times
           // when there is no absolute positioned element in the DOM tree
-          // Seems to be fixed in gecko >= 1.9 (Tested with Firefox 3.0 alpha 6)
           // This only need to be respected together with the <code>getBoundingClientRect</code>
-          // implementation. When using the alternative offset calculation gecko 1.9 must
-          // use this code block, too
+          // implementation. When using the alternative offset calculation gecko 1.9 must also
+          // use this code block.
           if (!elem.getBoundingClientRect)
           {
             var hasAbs;
