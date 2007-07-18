@@ -40,10 +40,9 @@ qx.Mixin.define("qx.event2.handler.MActiveElementHandler",
 
   construct : function() 
   {
-    this.__setActiveElement(document.body);
+    this._activeElement = document.body;
 
     this.addListener(document.documentElement, "click", __onClick, this);
-
     this.addListener(document.documentElement, "keyup", this.__onKeyUp, this);
   },
 
@@ -68,16 +67,19 @@ qx.Mixin.define("qx.event2.handler.MActiveElementHandler",
     __onClick : function(e) 
     {
       var node = e.getTarget();
+      
       // find first node with a valid tabindex
-      while (node) {
-        if (node.tabIndex !== undefined && node.tabIndex >= 0) {
-          this.__setActiveElement(node);
+      while (node) 
+      {
+        if (node.tabIndex !== undefined && node.tabIndex >= 0) 
+        {
+          this._activeElement = node;
           return;
         }
         node = node.parentNode;
       }
       
-      this.__setActiveElement(document.body);
+      this._activeElement = document.body;
     },
     
     
@@ -93,7 +95,7 @@ qx.Mixin.define("qx.event2.handler.MActiveElementHandler",
     __onKeyUp : function(e)
     {
       if (e.getKeyIdentifier() == "Tab") {
-        this.__setActiveElement(e.getTarget());
+        this._activeElement = e.getTarget();
       }      
     },
     
@@ -108,21 +110,6 @@ qx.Mixin.define("qx.event2.handler.MActiveElementHandler",
      */
     getActiveElement: function() {
       return this._activeElement;
-    },
-
-
-    /**
-     * Set the active Element
-     *
-     * @param element {Element} the new active element.
-     */
-    __setActiveElement : function(element)
-    {
-      if (this._activeElement == element) {
-        return;
-      }
-      
-      this._activeElement = element;
     }
   },
 
