@@ -25,8 +25,10 @@
 qx.Class.define("qx.event2.handler.AbstractEventHandler",
 {
   extend : qx.core.Object,
-
   type : "abstract",
+
+
+
 
 
   /*
@@ -46,6 +48,9 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
   },
 
 
+
+
+
   /*
   *****************************************************************************
      MEMBERS
@@ -54,7 +59,6 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
 
   members :
   {
-
     /**
      * Whether the event handler can handle events of the given type.
      *
@@ -133,7 +137,5 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
         );
       }
     }
-
-
   }
 });
