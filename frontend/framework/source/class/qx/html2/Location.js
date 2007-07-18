@@ -28,7 +28,7 @@
 
      License:
        MIT: http://www.opensource.org/licenses/mit-license.php
-       
+
      Authors:
        Paul Bakaus
        Brandon Aaron
@@ -73,11 +73,12 @@ qx.Class.define("qx.html2.Location",
     __num : function(elem, style) {
       return parseInt(qx.html2.element.Style.get(elem, style)) || 0;
     },
-    
+
 
     /**
-     * Computes the <code>body</code> offset of the top level node of the given element.
-     * 
+     * Computes the scroll offset of the given element relative to the document
+     * <code>body</code>.
+     *
      * @type static
      * @param elem {Element} DOM element to query
      * @return {Map} Map which contains the <code>left</code> and <code>top</code> scroll offsets
@@ -86,53 +87,54 @@ qx.Class.define("qx.html2.Location",
     {
       var left = 0;
       var top = 0;
-      
+
       // Use faster getBoundingClientRect() if available
-      // Hint: The viewport workaround here only needs to be applied for 
-      // MSHTML currently. Gecko needs to always use the bottom code block - 
+      // Hint: The viewport workaround here only needs to be applied for
+      // MSHTML currently. Gecko must always use the bottom code block -
       // independently from the availbility of getBoundingClientRect()
       if (qx.html2.client.Engine.MSHTML && elem.getBoundingClientRect)
       {
         // Find window
         var win = qx.html2.element.Node.getDefaultView(elem);
-        
-        // Reduce by viewport scrolling. 
-        // Hint: getBoundingClientRect returns the location of the 
-        // element in relation to the viewport which this way includes
+
+        // Reduce by viewport scrolling.
+        // Hint: getBoundingClientRect returns the location of the
+        // element in relation to the viewport which includes
         // the scrolling
-        left -= qx.html2.Viewport.getScrollLeft(win); 
-        top -= qx.html2.Viewport.getScrollTop(win); 
+        left -= qx.html2.Viewport.getScrollLeft(win);
+        top -= qx.html2.Viewport.getScrollTop(win);
       }
       else
       {
         // Find body element
         var body = qx.html2.element.Node.getDocument(elem).body;
-  
+
         // Only the parents are influencing the scroll position
         elem = elem.parentNode;
-        
-        // Get scroll offsets 
+
+        // Get scroll offsets
         // (stop at the body => the body scroll position is irrelevant)
         while (elem && elem != body)
         {
           left += elem.scrollLeft;
           top += elem.scrollTop;
-  
+
           // One level up (children hierarchy)
           elem = elem.parentNode;
         }
       }
-      
+
       return {
         left : left,
         top : top
-      };    
+      };
     },
-    
-    
+
+
     /**
-     * Computes the <code>body</code> offset of the top level node of the given element.
-     * 
+     * Computes the offset of the given element relative to the document
+     * <code>body</code>.
+     *
      * @type static
      * @param elem {Element} DOM element to query
      * @return {Map} Map which contains the <code>left</code> and <code>top</code> offsets
@@ -142,101 +144,103 @@ qx.Class.define("qx.html2.Location",
       "mshtml" : function(elem)
       {
         // Find body element
-        var body = qx.html2.element.Node.getDocument(elem).body;
-        
+        var doc = qx.html2.element.Node.getDocument(elem);
+        var body = doc.body;
+
         // Start with the offset
         var left = body.offsetLeft;
-        var top = body.offsetTop;   
-        
-        // Substract the body border        
+        var top = body.offsetTop;
+
+        // Substract the body border
         left -= this.__num(body, "borderLeftWidth");
         top -= this.__num(body, "borderTopWidth");
-                  
+
         // Add the margin when running in standard mode
-        if (qx.html2.element.Node.getDocument(elem).compatMode === "CSS1Compat")
+        if (doc.compatMode === "CSS1Compat")
         {
           left += this.__num(body, "marginLeft");
-          top += this.__num(body, "marginTop");                  
+          top += this.__num(body, "marginTop");
         }
-        
-        return { 
-          left : left, 
-          top : top 
+
+        return {
+          left : left,
+          top : top
         };
       },
-      
+
       "webkit" : function(elem)
       {
         // Find body element
-        var body = qx.html2.element.Node.getDocument(elem).body;
-        
+        var doc = qx.html2.element.Node.getDocument(elem);
+        var body = doc.body;
+
         // Start with the offset
         var left = body.offsetLeft;
-        var top = body.offsetTop;   
-        
+        var top = body.offsetTop;
+
         // Add the margin when running in standard mode
-        if (qx.html2.element.Node.getDocument(elem).compatMode === "CSS1Compat")
+        if (doc.compatMode === "CSS1Compat")
         {
           left += this.__num(body, "marginLeft");
-          top += this.__num(body, "marginTop");                  
+          top += this.__num(body, "marginTop");
         }
-        
-        return { 
-          left : left, 
-          top : top 
+
+        return {
+          left : left,
+          top : top
         };
-      },    
-      
+      },
+
       "gecko" : function(elem)
       {
         // Find body element
         var body = qx.html2.element.Node.getDocument(elem).body;
-              
+
         // Start with the offset
         var left = body.offsetLeft;
         var top = body.offsetTop;
-        
+
         // Correct substracted border (only in content-box mode)
-        if (qx.html2.element.Util.getBoxSizing(body) !== "border-box") 
-        {          
+        if (qx.html2.element.Util.getBoxSizing(body) !== "border-box")
+        {
           left += this.__num(body, "borderLeftWidth");
-          top += this.__num(body, "borderTopWidth"); 
-                      
+          top += this.__num(body, "borderTopWidth");
+
           // For some unknown reason we must add the border two times
           // when there is no absolute positioned element in the DOM tree
-          // This only need to be respected together with the <code>getBoundingClientRect</code>
-          // implementation. When using the alternative offset calculation gecko 1.9 must also
-          // use this code block.
+
+          // This is not neededd if the offset is computed using
+          // <code>getBoundingClientRect</code>
           if (!elem.getBoundingClientRect)
           {
             var hasAbs;
 
             while (elem)
             {
-              if (qx.html2.element.Style.get(elem, "position") === "absolute" || qx.html2.element.Style.get(elem, "position") === "fixed") 
+              if (qx.html2.element.Style.get(elem, "position") === "absolute" || qx.html2.element.Style.get(elem, "position") === "fixed")
               {
                 hasAbs = true;
                 break;
-              } 
-             
-              elem = elem.offsetParent; 
+              }
+
+              elem = elem.offsetParent;
             }
-        
+
             if (!hasAbs)
             {
               left += this.__num(body, "borderLeftWidth");
-              top += this.__num(body, "borderTopWidth");          
+              top += this.__num(body, "borderTopWidth");
             }
           }
         }
-        
-        return { 
-          left : left, 
-          top : top 
+
+        return {
+          left : left,
+          top : top
         };
       },
-      
-              
+
+
       // At the moment only correctly supported by Opera
       "default" : function(elem)
       {
@@ -246,14 +250,14 @@ qx.Class.define("qx.html2.Location",
         // Start with the offset
         var left = body.offsetLeft;
         var top = body.offsetTop;
-        
-        return { 
-          left : left, 
-          top : top 
+
+        return {
+          left : left,
+          top : top
         };
-      }      
+      }
     }),
-    
+
 
     /**
      * Computes the sum of all offsets of the given element node.
@@ -261,11 +265,11 @@ qx.Class.define("qx.html2.Location",
      * Traditionally this is a loop which goes up the whole parent tree
      * and sums up all found offsets.
      *
-     * But both <code>mshtml</code> and <code>gecko >= 1.9</code> support 
+     * But both <code>mshtml</code> and <code>gecko >= 1.9</code> support
      * <code>getBoundingClientRect</code> which allows a
-     * much faster access to the offset position. 
+     * much faster access to the offset position.
      *
-     * Please note: When gecko 1.9 does not use the <code>getBoundingClientRect</code> 
+     * Please note: When gecko 1.9 does not use the <code>getBoundingClientRect</code>
      * implementation, and therefor use the tranditional offset calculation
      * the gecko 1.9 fix in <code>__computeBody</code> must not be applied.
      *
@@ -283,13 +287,13 @@ qx.Class.define("qx.html2.Location",
         if (elem.getBoundingClientRect)
         {
           var rect = elem.getBoundingClientRect();
-          
+
           var left = rect.left;
           var top = rect.top;
-          
+
           // Internet Explorer (at least 7) adds the border when running in standard mode
           if (qx.html2.element.Node.getDocument(elem).compatMode === "CSS1Compat")
-          {        
+          {
             left -= this.__num(elem, "borderLeftWidth");
             top -= this.__num(elem, "borderTopWidth");
           }
@@ -298,40 +302,40 @@ qx.Class.define("qx.html2.Location",
         {
           var left = elem.offsetLeft;
           var top = elem.offsetTop;
-          
+
           elem = elem.offsetParent;
-          
-          while (elem && elem.nodeType === 1)
+
+          while (elem && elem.nodeType === qx.dom.Node.ELEMENT)
           {
             // Add node offsets
             left += elem.offsetLeft;
             top += elem.offsetTop;
-            
+
             // Fix missing border
             left += this.__num(elem, "borderLeftWidth");
             top += this.__num(elem, "borderTopWidth");
-            
+
             // One level up (offset hierarchy)
             elem = elem.offsetParent;
-          }            
+          }
         }
-        
+
         return {
           left : left,
-          top : top 
-        }          
+          top : top
+        }
       },
-      
+
       "gecko" : function(elem)
       {
         // Use faster getBoundingClientRect() if available (gecko >= 1.9)
         if (elem.getBoundingClientRect)
         {
           var rect = elem.getBoundingClientRect();
-          
+
           // Firefox 3.0 alpha 6 (gecko 1.9) returns floating point numbers
           // use Math.round() to round them to style compatible numbers
-          // MSHTML returns integer numbers, maybe gecko will fix this in 
+          // MSHTML returns integer numbers, maybe gecko will fix this in
           // the future, too
           var left = Math.round(rect.left);
           var top = Math.round(rect.top);
@@ -340,75 +344,75 @@ qx.Class.define("qx.html2.Location",
         {
           var left = 0;
           var top = 0;
-          
-          if (qx.html2.element.Util.getBoxSizing(elem) !== "border-box") 
-          { 
+
+          if (qx.html2.element.Util.getBoxSizing(elem) !== "border-box")
+          {
             left -= this.__num(elem, "borderLeftWidth");
             top -= this.__num(elem, "borderTopWidth");
           }
-          
-          while (elem && elem.nodeType === 1)
+
+          while (elem && elem.nodeType === qx.dom.Node.ELEMENT)
           {
             // Add node offsets
             left += elem.offsetLeft;
             top += elem.offsetTop;
-            
-            // Mozilla do not add the border add borders to offset 
+
+            // Mozilla does not add the borders to the offset
             // when using box-sizing=content-box
-            if (qx.html2.element.Util.getBoxSizing(elem) !== "border-box") 
-            {          
+            if (qx.html2.element.Util.getBoxSizing(elem) !== "border-box")
+            {
               left += this.__num(elem, "borderLeftWidth");
               top += this.__num(elem, "borderTopWidth");
             }
-            
-            // Mozilla does not add the border for a parent that has 
+
+            // Mozilla does not add the border for a parent that has
             // overflow set to anything but visible
             if (elem.parentNode && this.__style(elem.parentNode, "overflow") != "visible")
             {
               left += this.__num(elem.parentNode, "borderLeftWidth");
               top += this.__num(elem.parentNode, "borderTopWidth");
-            }          
-            
+            }
+
             // One level up (offset hierarchy)
             elem = elem.offsetParent;
           }
         }
-        
+
         return {
           left : left,
-          top : top 
+          top : top
         }
-      },      
-      
+      },
+
       // At the moment only correctly supported by Opera
       "default" : function(elem)
       {
         var left = 0;
         var top = 0;
-        
+
         // Add all offsets of parent hierarchy, do not include
         // body element. This element is processed separately by
         // __computeBody()
-        while (elem && elem.nodeType === 1)
+        while (elem && elem.nodeType === qx.dom.Node.ELEMENT)
         {
           // Add node offsets
           left += elem.offsetLeft;
           top += elem.offsetTop;
-          
+
           // One level up (offset hierarchy)
-          elem = elem.offsetParent;          
+          elem = elem.offsetParent;
         }
-        
+
         return {
           left : left,
-          top : top 
-        }        
+          top : top
+        }
       }
     }),
-    
+
 
     /**
-     * Computes the location of the given element in context of 
+     * Computes the location of the given element in context of
      * the document dimenions.
      *
      * Supported modes:
@@ -429,13 +433,13 @@ qx.Class.define("qx.html2.Location",
       var offset = this.__computeOffset(elem);
       var body = this.__computeBody(elem);
       var scroll = this.__computeScroll(elem);
-      
+
       // qx.core.Init.getInstance().debug("Details left: " + offset.left + " | " + body.left + " | " + scroll.left);
       // qx.core.Init.getInstance().debug("Details top: " + offset.top + " | " + body.top + " | " + scroll.top);
-      
+
       var left = offset.left + body.left - scroll.left;
       var top = offset.top + body.top - scroll.top;
-      
+
       if (mode)
       {
         switch(mode)
@@ -447,16 +451,16 @@ qx.Class.define("qx.html2.Location",
 
           case "content":
             left += this.__num(elem, "paddingLeft");
-            top += this.__num(elem, "paddingTop");            
+            top += this.__num(elem, "paddingTop");
             // no break here
-          
+
           case "border":
             left += this.__num(elem, "borderLeftWidth");
-            top += this.__num(elem, "borderTopWidth");            
+            top += this.__num(elem, "borderTopWidth");
             break;
         }
       }
-      
+
       return {
         left : left,
         top : top
