@@ -144,7 +144,12 @@ qx.Class.define("qx.html2.element.Style",
         {
           // Opera, Mozilla and Safari 3+ also have a global getComputedStyle which is identical
           // to the one found under document.defaultView.
-          var computed = getComputedStyle(element, null);
+          
+          // The problem with this is however that this does not work correctly
+          // when working with frames and access an element of another frame.
+          // Then we must use the <code>getComputedStyle</code> of the document
+          // where the element is defined.
+          var computed = qx.html2.element.Node.getDocument(element).defaultView.getComputedStyle(element, null);
 
           // All relevant browsers expose the configured style properties to the CSSStyleDeclaration
           // objects
