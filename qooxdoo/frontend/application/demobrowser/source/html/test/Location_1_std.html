@@ -91,7 +91,7 @@
         {
           this.base(arguments);
           
-      		var links = document.getElementsByTagName("a");
+      		var links = document.getElementById("list").getElementsByTagName("a");
       	  for (var i=0, l=links.length; i<l; i++) {
             links[i].onclick = jump;
       	  }
@@ -103,7 +103,7 @@
   </script>
   
 	<p>
-	  Select a div to move the grey box too. (Quirks-Mode; Box-Model-Correction:off)
+	  Select a div to move the grey box too. (Standard-Mode; Box-Model-Correction:off)
   	<select id="mode">
   	  <option value="margin">margin</option>
   	  <option value="box" selected="selected">box</option>
@@ -113,7 +113,7 @@
   	<a href="javascript:randomize()">Randomize</a>
 	</p>
 	
-	<ul>
+	<ul id="list">
 		<li><a href="#static">Move to static 1</a></li>
 		<li><a href="#staticChild1">Move to static child 1</a></li>
 		<li><a href="#staticChild2">Move to static child 2</a></li>
