@@ -214,11 +214,11 @@ qx.Class.define("qx.event2.Manager",
       return this.getInstance().getActiveElement();
     }
   },
-  
-  
-  
-  
-  
+
+
+
+
+
 
 
   /*
@@ -304,12 +304,12 @@ qx.Class.define("qx.event2.Manager",
       var type = this.__eventNames[type] || type;
 
       // attach event listener
-      if (this.__inlineEvents[type]) 
+      if (this.__inlineEvents[type])
       {
         if (useCapture) {
           throw new Error("The event '" + type + "' does not bubble, so capturing is also not supported!");
         }
-        
+
         this.__addEventListenerInline(element, type, listener, self);
       }
       else
@@ -323,16 +323,18 @@ qx.Class.define("qx.event2.Manager",
       } else {
         var win = qx.html2.element.Node.getDefaultView(element);
       }
-      
+
       var winId = this.__registerElement(win);
 
       // attach unload listener for automatic deregistration of event listeners
       if (!this.__knownWindows[winId])
       {
-        this.__knownWindows[winId] = win;
-        
-        qx.event2.Manager.nativeAddEventListener(win, "unload",
-          qx.lang.Function.bind(this.__onunload, this, winId)
+        this.__knownWindows[winId] = {
+          window : win,
+          listener : qx.lang.Function.bind(this.__onunload, this, winId)
+        };
+        qx.event2.Manager.nativeAddEventListener(
+          win, "unload", this.__knownWindows[winId].listener
         );
 
         // create mouse capture handler for this window
@@ -352,10 +354,14 @@ qx.Class.define("qx.event2.Manager",
     __onunload : function(winId, e)
     {
       var doc = this.__getElementByHash(winId).document;
-      
+
       for (var i=0; i<this.__eventHandlers.length; i++) {
         this.__eventHandlers[i].removeAllListenersFromDocument(doc);
       }
+      qx.event2.Manager.nativeRemoveEventListener(
+        win, "unload", this.__knownWindows[winId].handler
+      );
+      delete(this.__knownWindows[winId]);
     },
 
 
@@ -393,9 +399,9 @@ qx.Class.define("qx.event2.Manager",
 
         // iterate over all event handlers and check whether they are responsible
         // for this event type
-        for (var i=0; i<this.__eventHandlers.length; i++) 
+        for (var i=0; i<this.__eventHandlers.length; i++)
         {
-          if (this.__eventHandlers[i].canHandleEvent(type)) 
+          if (this.__eventHandlers[i].canHandleEvent(type))
           {
             this.__eventHandlers[i].registerEvent(documentElement, type);
             break;
@@ -896,7 +902,7 @@ qx.Class.define("qx.event2.Manager",
     {
       var documentElement = qx.html2.element.Node.getDocument(element).documentElement;
       var documentId = qx.core.Object.toHashCode(documentElement);
-      
+
       return this.__mouseCapture[documentId];
     },
 
@@ -1037,7 +1043,7 @@ qx.Class.define("qx.event2.Manager",
   *****************************************************************************
   */
 
-  destruct : function() 
+  destruct : function()
   {
     for (var i=0, a=this.__eventHandlers, l=a.length-1; i<l; i++) {
       this.__eventHandlers[i].dispose();
@@ -1049,9 +1055,9 @@ qx.Class.define("qx.event2.Manager",
     {
       var element = this.getElementByHash(elementId);
 
-      for (var type in inlineReg[elementId]) 
+      for (var type in inlineReg[elementId])
       {
-        qx.event2.Manager.nativeRemoveEventListener(element, 
+        qx.event2.Manager.nativeRemoveEventListener(element,
           type, inlineReg[elementId][type].handler);
       }
     }
