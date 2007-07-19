@@ -139,19 +139,11 @@ qx.Class.define("BasicSample",
       qx.event2.Manager.addListener(
         document.getElementById("scroll"),
         "scroll",
-        this.throttle(150, this._scroll, this),
+        this._scroll,
         this
       );
 
-      qx.event2.Manager.addListener(
-        document.documentElement,
-        "click",
-        this._positionDiv,
-        this
-      );
-
-      qx.event2.Manager.addListener(window, "blur", this.__onBlurFocus, this);
-      qx.event2.Manager.addListener(window, "focus", this.__onBlurFocus, this);
+      qx.event2.Manager.addListener(document.documentElement, "click", this._positionDiv, this);
 
     },
 
@@ -172,7 +164,7 @@ qx.Class.define("BasicSample",
     },
 
     _scroll: function(e) {
-      this.debug("scroll");
+      this.debug("scroll:" + e.getTarget());
     },
 
     _cascadeCapture : function(e) {
@@ -214,10 +206,6 @@ qx.Class.define("BasicSample",
       var div = document.getElementById("moveable");
       div.style.left = (e.getDocumentLeft() - 16) + "px";
       div.style.top = (e.getDocumentTop() -16) + "px";
-    },
-
-    __onBlurFocus : function(e) {
-      console.log(e.getType(), e.getTarget(), e._dom.target);
     }
 
   }
