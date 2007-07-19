@@ -12,7 +12,7 @@
 </head>
 <body>
   <style type="text/css">
-    body, div, span {
+    body, div, span, h1, input, textarea, iframe {
       border : 2px solid black;
     }
     body, div { 
@@ -36,14 +36,15 @@
   </div>
   
   <h1>Fields</h1>
-<input type="text" value="text field"></input>
+  <input type="text" value="text field"></input>
   <textarea>hello</textarea>
+  <input type="checkbox" id="chk1"/><label for="chk1">Check 1</label>
+  <input type="radio" id="rd1"/><label for="rd1">Radio 1</label>
+  <input type="radio" id="rd2"/><label for="rd2">Radio 2</label>
 
   <h1>Iframe</h1>
-  <iframe src="bigFont.css" style="width:200px;height:100px;border:1px solid black">
-    Leider kein iframe support
+  <iframe src="empty.html" style="width:200px;height:100px">
   </iframe>
-
 
   <script type="text/javascript">
 qx.Class.define("Gui2Test",
@@ -63,7 +64,7 @@ qx.Class.define("Gui2Test",
     
     _changeActive : function(e)
     {
-      //this.debug("Active: " + e.getValue());
+      this.debug("Active: " + e.getValue());
       
       if (e.getOldValue()) {
         e.getOldValue().style.borderColor = "black";
@@ -76,7 +77,7 @@ qx.Class.define("Gui2Test",
     
     _changeFocus : function(e)
     {
-      // this.debug("Focus: " + e.getValue());
+      this.debug("Focus: " + e.getValue());
       
       if (e.getOldValue()) {
         e.getOldValue().style.background = "";
