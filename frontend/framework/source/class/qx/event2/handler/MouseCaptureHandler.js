@@ -149,7 +149,8 @@
         var listeners = elementData.bubbleListeners;
 
         for (var i=0; i<listeners.length; i++) {
-          listeners[i](event);
+          var context = listeners[i].context || event.getCurrentTarget();
+          listeners[i].handler.call(context, event);
         }
       }
 

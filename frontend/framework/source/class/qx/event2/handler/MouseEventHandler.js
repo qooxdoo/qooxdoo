@@ -118,6 +118,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
       }
       else if (this.__mouseMoveEvents[type])
       {
+        console.log(type);
         qx.event2.Manager.addNativeListener(element, type, this.__mouseMoveHandler);
       }
     },
@@ -186,8 +187,12 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
     {
       var event = qx.event2.type.MouseEvent.getInstance().init(domEvent);
 
-      event.setType(type);
-      event.setTarget(target);
+      if (type) {
+        event.setType(type);
+      }
+      if (target) {
+        event.setTarget(target);
+      }
 
       this._callback.call(this._manager, event);
     },
