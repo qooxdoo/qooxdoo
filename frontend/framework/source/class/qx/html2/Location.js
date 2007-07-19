@@ -282,6 +282,8 @@ qx.Class.define("qx.html2.Location",
     {
       "mshtml|webkit" : function(elem)
       {
+        var doc = qx.html2.element.Node.getDocument(elem);
+        
         // Use faster getBoundingClientRect() if available
         // Note: This is not yet supported by Webkit.
         if (elem.getBoundingClientRect)
@@ -291,8 +293,9 @@ qx.Class.define("qx.html2.Location",
           var left = rect.left;
           var top = rect.top;
 
-          // Internet Explorer (at least 7) adds the border when running in standard mode
-          if (qx.html2.element.Node.getDocument(elem).compatMode === "CSS1Compat")
+          // Internet Explorer (at least version 7.0) adds the border 
+          // when running in standard mode
+          if (doc.compatMode === "CSS1Compat")
           {
             left -= this.__num(elem, "borderLeftWidth");
             top -= this.__num(elem, "borderTopWidth");
@@ -300,12 +303,19 @@ qx.Class.define("qx.html2.Location",
         }
         else
         {
+          // Offset of the incoming element
           var left = elem.offsetLeft;
           var top = elem.offsetTop;
-
+          
+          // Start with the first offset parent
           elem = elem.offsetParent;
 
-          while (elem && elem.nodeType === qx.dom.Node.ELEMENT)
+          // Stop at the body          
+          var body = doc.body;
+
+          // Border correction is only needed for each parent
+          // not for the incoming element itself
+          while (elem && elem != body)
           {
             // Add node offsets
             left += elem.offsetLeft;
@@ -344,14 +354,19 @@ qx.Class.define("qx.html2.Location",
         {
           var left = 0;
           var top = 0;
+          
+          var util = qx.html2.element.Util;
 
-          if (qx.html2.element.Util.getBoxSizing(elem) !== "border-box")
+          if (util.getBoxSizing(elem) !== "border-box")
           {
             left -= this.__num(elem, "borderLeftWidth");
             top -= this.__num(elem, "borderTopWidth");
           }
+          
+          // Stop at the body
+          var body = qx.html2.element.Node.getDocument(elem).body;
 
-          while (elem && elem.nodeType === qx.dom.Node.ELEMENT)
+          while (elem && elem !== body)
           {
             // Add node offsets
             left += elem.offsetLeft;
@@ -359,7 +374,7 @@ qx.Class.define("qx.html2.Location",
 
             // Mozilla does not add the borders to the offset
             // when using box-sizing=content-box
-            if (qx.html2.element.Util.getBoxSizing(elem) !== "border-box")
+            if (util.getBoxSizing(elem) !== "border-box")
             {
               left += this.__num(elem, "borderLeftWidth");
               top += this.__num(elem, "borderTopWidth");
@@ -389,11 +404,13 @@ qx.Class.define("qx.html2.Location",
       {
         var left = 0;
         var top = 0;
+        
+        // Stop at the body
+        var body = qx.html2.element.Node.getDocument(elem).body;        
 
         // Add all offsets of parent hierarchy, do not include
-        // body element. This element is processed separately by
-        // __computeBody()
-        while (elem && elem.nodeType === qx.dom.Node.ELEMENT)
+        // body element.
+        while (elem && elem !== body)
         {
           // Add node offsets
           left += elem.offsetLeft;
