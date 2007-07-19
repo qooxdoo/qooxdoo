@@ -5,12 +5,14 @@
 import os, sys, platform
 import optparse
 
+# some defaults
 buildconf = {
    'svn_base_url' : 'https://qooxdoo.svn.sourceforge.net/svnroot/qooxdoo',
    'stage_dir'    : '/tmp/qx/staging',
    'logfile'      : 'bat_build.log',
    'target'       : 'trunk',
    'download_dir' : '/srv/www/htdocs/downloads',
+   'doCleanup'    : False,
    #'disk_space' : '2G',
    #'cpu_consume' : '20%',
    #'time_limit' : '30m',
@@ -21,27 +23,27 @@ def get_computed_conf():
 
     parser.add_option(
         "-w", "--work-dir", dest="stagedir", default=None, type="string",
-        help="Directory for dowloading, unpacking and running the work pack"
+        help="Directory for checking out and making the target"
     )
 
     parser.add_option(
-        "-p", "--build-packet", dest="target", default=buildconf['target'], type="string",
+        "-t", "--build-target", dest="target", default=buildconf['target'], type="string",
         help="Target to build (e.g. \"trunk\")"
     )
 
     parser.add_option(
-        "-c", "--clean-up", dest="cleanup", default=doCleanup, action="store_true",
-        help="Remove all files after test run"
+        "-r", "--build-release", dest="release", default=None, type="string",
+        help="Release version (SVN) of target to build (e.g. \"9077\")"
+    )
+
+    parser.add_option(
+        "-c", "--clean-up", dest="cleanup", default=buildconf['doCleanup'], action="store_true",
+        help="Remove all created files in staging dir after building and copying"
     )
 
     parser.add_option(
         "-l", "--log-file", dest="logfile", default=buildconf['logfile'], type="string",
         help="Name of log file"
-    )
-
-    parser.add_option(
-        "-t", "--bat-host", dest="bathost", default=buildconf['bathost'], type="string",
-        help="The BAT host to connect to"
     )
 
     (options, args) = parser.parse_args()
@@ -78,11 +80,12 @@ def make(target):
     return rc
 
 def copy_archives(target):
-    #import shutil
-    #for p in buildconf['archives']:
-    #    copy(os.path.join(),buildconf['download_dir'])
+    # assert: cwd = ".../frontend"
     rc = invoke_external("cp %s* %s" % ('release/qooxdoo-',buildconf['download_dir']))
     return rc
+
+def cleanup(target):
+    return
 
 def build_packet(target,revision):
     cleanup(target)
@@ -98,8 +101,14 @@ def main():
     (options,args) = get_computed_conf()
     goto_workdir(options.stagedir)
     prepare_output(options.logfile)
-    rc = build_packet('trunk')
-    copy_archives()
+    target = options.target
+    release = options.release
+    #rc = build_packet('tags/release_0_7',0)
+    #rc = build_packet('brances/legacy_0_7_x',0)
+    rc = build_packet(target, release)
+    copy_archives(target)
+    if (options.cleanup):
+        cleanup(target)
     return rc
 
 
