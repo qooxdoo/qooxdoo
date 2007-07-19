@@ -150,6 +150,9 @@ qx.Class.define("BasicSample",
         this
       );
 
+      qx.event2.Manager.addListener(window, "blur", this.__onBlurFocus, this);
+      qx.event2.Manager.addListener(window, "focus", this.__onBlurFocus, this);
+
     },
 
     throttle : function(minIntervalTime, fcn, self)
@@ -211,6 +214,10 @@ qx.Class.define("BasicSample",
       var div = document.getElementById("moveable");
       div.style.left = (e.getDocumentLeft() - 16) + "px";
       div.style.top = (e.getDocumentTop() -16) + "px";
+    },
+
+    __onBlurFocus : function(e) {
+      console.log(e.getType(), e, e.getTarget(), e._dom.target);
     }
 
   }

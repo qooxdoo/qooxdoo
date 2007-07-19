@@ -203,7 +203,7 @@ qx.Class.define("qx.event2.InlineEventManager",
      */
     dispatchEvent : function(event)
     {
-      var elementId = qx.core.Object.toHashCode(event.getTarget());
+      var elementId = qx.core.Object.toHashCode(event.getCurrentTarget());
 
       var elementData = this.__inlineRegistry[elementId];
       if (!elementData || !elementData[event.getType()]) {
