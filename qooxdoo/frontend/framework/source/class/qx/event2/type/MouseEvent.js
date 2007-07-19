@@ -164,8 +164,7 @@ qx.Class.define("qx.event2.type.MouseEvent",
 
     /**
      * Get the he horizontal coordinate at which the event occurred relative
-     * to the DOM implementation's client area (viewport). This method does not take
-     * the scroll position of the document into account.
+     * to the viewport.
      *
      * @return {Integer} The horizontal mouse position
      * @signature function()
@@ -185,9 +184,8 @@ qx.Class.define("qx.event2.type.MouseEvent",
 
 
     /**
-     * Get the vertical coordinate at which the event occurred relative to the
-     * DOM implementation's client area (viewport). This method does not take
-     * the scroll position of the document into account.
+     * Get the vertical coordinate at which the event occurred relative 
+     * to the viewport.
      *
      * @return {Integer} The vertical mouse position
      * @signature function()
@@ -208,7 +206,7 @@ qx.Class.define("qx.event2.type.MouseEvent",
 
     /**
      * Get the horizontal position at which the event occured relative to the
-     * left of the document independend of the scroll position.
+     * left of the document.
      *
      * @type member
      * @return {Integer} The horizontal mouse position in the document.
@@ -226,7 +224,7 @@ qx.Class.define("qx.event2.type.MouseEvent",
         return this._dom.pageX;
       },
 
-     "default": function() {
+      "default": function() {
         return this._dom.clientX;
       }
     }),
@@ -234,7 +232,7 @@ qx.Class.define("qx.event2.type.MouseEvent",
 
     /**
      * Get the vertical position at which the event occured relative to the
-     * top of the document independend of the scroll position.
+     * top of the document.
      *
      * @type member
      * @return {Integer} The vertical mouse position in the document.
@@ -300,6 +298,5 @@ qx.Class.define("qx.event2.type.MouseEvent",
         return -(this._dom.detail / 3);
       }
     })
-
   }
 });
