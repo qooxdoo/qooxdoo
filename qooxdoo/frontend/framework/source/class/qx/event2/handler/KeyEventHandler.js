@@ -45,6 +45,8 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
   {
     this.base(arguments, eventCallBack, manager);
 
+    // maps element ids to the number of registered key events for the
+    // elements
     this.__keyEventListenerCount = {};
 
     var keyUpDownHandler = qx.lang.Function.bind(this.onKeyUpDown, this);
@@ -686,14 +688,8 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
   *****************************************************************************
   */
 
-  destruct : function() {
-
-    for (var documentId in this.__keyEventListenerCount)
-    {
-      var documentElement = this._elementRegistry.getByHash(documentId);
-      this.removeAllListenersFromDocument(documentElement);
-    }
-
+  destruct : function()
+  {
     this._disposeFields("_lastUpDownType", "__keyHandler", "__keyEventListenerCount");
     this._disposeObjects("_elementRegistry");
   }

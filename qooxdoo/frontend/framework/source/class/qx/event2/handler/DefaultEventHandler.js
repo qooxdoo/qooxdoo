@@ -74,7 +74,7 @@ qx.Class.define("qx.event2.handler.DefaultEventHandler",
     unregisterEvent : function(element, type)
     {
       var documentId = qx.core.Object.toHashCode(element);
-      if (!this._manager.getHasListeners(documentId)) {
+      if (!this._manager.hasListeners(documentId)) {
         qx.event2.Manager.removeNativeListener(element, type, this._eventHandler);
       }
     },
