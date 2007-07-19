@@ -42,16 +42,15 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
   *****************************************************************************
   */
 
-  construct : function(eventCallBack)
+  construct : function(eventCallBack, manager)
   {
-    this.base(arguments, eventCallBack);
+    this.base(arguments, eventCallBack, manager);
 
     this.__mouseButtonListenerCount = {};
     this.__mouseMoveListenerCount = {};
-    this.__elementRegistry = {};
 
     var buttonHandler = qx.lang.Function.bind(this.onMouseButtonEvent, this);
-    
+
     this.__mouseButtonHandler =
     {
       "mousedown"   : buttonHandler,
@@ -62,7 +61,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
     };
 
     var moveHandler = qx.lang.Function.bind(this.__fireEvent, this);
-    this.__mouseMoveHandler = 
+    this.__mouseMoveHandler =
     {
       "mousemove" : {
         count: 0,
@@ -112,7 +111,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
       {
         if (!this.__mouseButtonListenerCount[elementId]) {
           this.__mouseButtonListenerCount[elementId] = 0;
-          this.__elementRegistry[elementId] = element;
+          this._elementRegistry.register(element);
         }
 
         // handle key events
@@ -129,7 +128,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
       {
         if (!this.__mouseMoveListenerCount[elementId]) {
           this.__mouseMoveListenerCount[elementId] = {};
-          this.__elementRegistry[elementId] = element;
+          this._elementRegistry.register(element);
         }
         if (!this.__mouseMoveListenerCount[elementId][type]) {
           this.__mouseMoveListenerCount[elementId][type] = 0;
@@ -170,13 +169,13 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
         if (!this.__mouseMoveListenerCount[elementId]) {
           this.__mouseMoveListenerCount[elementId] = {};
         }
-        
+
         if (!this.__mouseMoveListenerCount[elementId][type]) {
           this.__mouseMoveListenerCount[elementId][type] = 0;
         }
 
         this.__mouseMoveListenerCount[elementId][type] -= 1;
-        
+
         if (this.__mouseMoveListenerCount[elementId][type] == 0)
         {
           qx.event2.Manager.addNativeListener(
@@ -195,12 +194,12 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
       );
 
       var documentId = qx.core.Object.toHashCode(documentElement);
-      
+
       if (!this.__mouseMoveListenerCount || !this.__mouseMoveListenerCount[documentId]) {
         return;
       }
-      
-      for (var type in this.__mouseMoveListenerCount[documentId]) 
+
+      for (var type in this.__mouseMoveListenerCount[documentId])
       {
         qx.event2.Manager.addNativeListener(
           documentElement, type, this.__mouseMoveHandler[type].handler
@@ -225,14 +224,14 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
      * @param type {String} type og the event
      * @param target {Element} event target
      */
-    __fireEvent : function(domEvent, type, target) 
+    __fireEvent : function(domEvent, type, target)
     {
       var event = qx.event2.type.MouseEvent.getInstance(domEvent);
-      
+
       event.setType(type);
       event.setTarget(target);
-      
-      this._callback(event);
+
+      this._callback.call(this._manager, event);
     },
 
 
@@ -253,7 +252,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
       if (this.__rightClickFixPre) {
         this.__rightClickFixPre(domEvent, type, target);
       }
-      
+
       if (this.__doubleClickFixPre) {
         this.__doubleClickFixPre(domEvent, type, target);
       }
@@ -263,7 +262,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
       if (this.__rightClickFixPost) {
         this.__rightClickFixPost(domEvent, type, target);
       }
-      
+
       if (this.__differentTargetClickFixPost) {
         this.__differentTargetClickFixPost(domEvent, type, target);
       }
@@ -289,9 +288,9 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
      */
     __rightClickFixPre : qx.core.Variant.select("qx.client",
     {
-      "webkit" : function(domEvent, type, target) 
+      "webkit" : function(domEvent, type, target)
       {
-        if (type == "contextmenu") 
+        if (type == "contextmenu")
         {
           this.__fireEvent(domEvent, "mousedown", target);
           this.__fireEvent(domEvent, "mouseup", target);
@@ -318,7 +317,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
      */
     __rightClickFixPost : qx.core.Variant.select("qx.client",
     {
-      "opera" : function(domEvent, type, target) 
+      "opera" : function(domEvent, type, target)
       {
         if (type =="mouseup" && domEvent.button == 2) {
           this.__fireEvent(domEvent, "contextmenu", target);
@@ -349,7 +348,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
      */
     __doubleClickFixPre : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(domEvent, type, target) 
+      "mshtml" : function(domEvent, type, target)
       {
         if (type == "mouseup" && this._lastEventType == "click") {
           this.__fireEvent(domEvent, "mousedown", target);
@@ -411,13 +410,13 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
 
     for (var documentId in this.__mouseButtonListenerCount)
     {
-      var documentElement = this.__elementRegistry[documentId];
+      var documentElement = this._elementRegistry.getByHash(documentId);
       this.removeAllListenersFromDocument(documentElement);
     }
 
     for (var documentId in this.__mouseMoveListenerCount)
     {
-      var documentElement = this.__elementRegistry[documentId];
+      var documentElement = this._elementRegistry.getByHash(documentId);
       this.removeAllListenersFromDocument(documentElement);
     }
 
@@ -425,8 +424,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
       "__mouseMoveHandler",
       "__lastMouseDownTarget",
       "__mouseButtonListenerCount",
-      "__mouseMoveListenerCount",
-      "__elementRegistry"
+      "__mouseMoveListenerCount"
     );
   }
 });
