@@ -43,7 +43,8 @@ qx.Class.define("qx.application.Gui",
   *****************************************************************************
   */
 
-  properties : {
+  properties : 
+  {
     /** Whether the user interfacce has already been rendered */
     uiReady :
     {
@@ -65,7 +66,6 @@ qx.Class.define("qx.application.Gui",
 
   members :
   {
-
     /**
      * Called in the document.onload event of the browser. This method should
      * be overridden to implement the GUI setup code of the application.
