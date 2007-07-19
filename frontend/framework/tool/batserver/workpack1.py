@@ -27,8 +27,9 @@ def qx_download(packname):
     httpServ.request('GET', packurl)
     resp = httpServ.getresponse()
     if resp.status != httplib.OK:
-        raise "Unable to download package at " + packurl + " (HTTP: " \
-              + resp.status + ")"
+        raise RuntimeError, "Unable to download package at http://" \
+              + options.bathost + packurl + " (HTTP: " + repr(resp.status) \
+              + " " + repr(resp.reason) + ")"
     else:
         file = open(packname + options.packarch, 'wb')
         file.write(resp.read())

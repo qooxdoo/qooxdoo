@@ -45,11 +45,23 @@ def get_computed_conf():
     )
 
     parser.add_option(
-        "-t", "--bat-host", dest="bathost", default=clientconf['bathost'], type="string",
+        "-s", "--bat-host", dest="bathost", default=clientconf['bathost'], type="string",
         help="The BAT host to connect to"
     )
 
+    parser.add_option(
+        "-t", "--target", dest="target", default=None, type="string",
+        help="The target to test (e.g. \"qooxdoo-0.7.1-sdk\")"
+    )
+
     (options, args) = parser.parse_args()
+
+    # propagate options back to clientconf (needed for register_client)
+    clientconf['work_dir'] = options.workdir
+    clientconf['batport']  = options.batport
+    clientconf['logfile']  = options.logfile
+    clientconf['bathost']  = options.bathost
+    clientconf['target']   = options.target
 
     return (options, args)
 
