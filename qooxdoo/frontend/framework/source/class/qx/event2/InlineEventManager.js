@@ -123,9 +123,11 @@ qx.Class.define("qx.event2.InlineEventManager",
      */
     __eventHandler : function(elementId, domEvent)
     {
-      var event = qx.event2.type.Event.getInstance().init(domEvent || window.event);
+      // TODO: Pooling
+      var event = new qx.event2.type.Event(domEvent || window.event);
       event.setCurrentTarget(this.__elementRegistry.getByHash(elementId));
       this.dispatchEvent(event);
+      event.dispose();
     },
 
 
