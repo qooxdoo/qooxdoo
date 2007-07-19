@@ -16,6 +16,9 @@ qx.Class.define("qx.event2.FocusManager",
     
     qx.event2.Manager.addListener(window, "blur", this.__onWindowBlur, this);
     qx.event2.Manager.addListener(window, "focus", this.__onWindowFocus, this);
+
+    qx.event2.Manager.addListener(window, "focusin", this.__onFocusIn, this);
+    qx.event2.Manager.addListener(window, "focusout", this.__onFocusOut, this);
   },
   
   properties :
@@ -39,26 +42,39 @@ qx.Class.define("qx.event2.FocusManager",
   {
     __onWindowBlur : function(e)
     {
-      this.debug("Blur in...");
+      this.debug("Window Blur...");
       
       if (this._winFocused)
       {
-        this.debug("Win BLUR: " + (e._dom.target == e.getTarget()) + ", " + e.getTarget());
+        this.debug("...DO: " + e._dom.target + " == " + e.getTarget());
         this._winFocused = false;
       }
     },
     
     __onWindowFocus : function(e)
     {
-      this.debug("Focus in...");
+      this.debug("Window Focus...");
       
       if (!this._winFocused)
       {
-        this.debug("Win FOCUS: " + (e._dom.target == e.getTarget()) + ", " + e.getTarget());
+        this.debug("...DO: " + e._dom.target + " == " + e.getTarget());
         this._winFocused = true;
       }
     },
     
+    __onFocusIn : function(e)
+    {
+      this.debug("FocusIn...: " + e._dom.target + " :: " + e._dom.relatedTarget);
+      
+      
+    },
+    
+    __onFocusOut : function(e)
+    {
+      this.debug("FocusOut...: " + e._dom.target + " :: " + e._dom.relatedTarget);
+      
+      
+    },
     
     
     
