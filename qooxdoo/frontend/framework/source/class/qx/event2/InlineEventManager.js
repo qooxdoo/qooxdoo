@@ -75,6 +75,8 @@ qx.Class.define("qx.event2.InlineEventManager",
      */
     addListener : function(element, type, listener, self)
     {
+      alert("addListener: " + type + " :: " + element);
+      
       var elementId = this.__elementRegistry.add(element);
 
       // create event listener entry for the element if needed.

@@ -1,0 +1,84 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+  
+  <script type="text/javascript">
+    qxsettings = { "qx.enableApplicationLayout" : false };
+  </script>
+  
+  <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
+</head>
+<body>
+  <style type="text/css">
+    body, div, span {
+      border : 2px solid black;
+    }
+    body, div { 
+      padding : 10px; margin: 5px 
+    }
+  </style>
+  
+  <div id="hello" tabIndex="0">
+    <div id="bar">
+      <div id="foo" tabIndex="0">
+        text0
+      </div>
+    </div>
+    <div id="world" tabIndex="0">
+      <span>text1</span>
+    </div>
+    <div id="world" tabIndex="0">
+      <span>text1</span>
+    </div>    
+  </div>
+  
+  <script type="text/javascript">
+qx.Class.define("Gui2Test",
+{
+  extend : qx.application.Gui2,
+
+  members :
+  {
+    main : function()
+    {
+      this.base(arguments);
+      
+      // Connect to FocusManager
+      this._focusManager.addEventListener("changeActive", this._changeActive, this);
+      this._focusManager.addEventListener("changeFocus", this._changeFocus, this);
+    },
+    
+    _changeActive : function(e)
+    {
+      //this.debug("Active: " + e.getValue());
+      
+      if (e.getOldValue()) {
+        e.getOldValue().style.borderColor = "black";
+      }
+      
+      if (e.getValue()) {
+        e.getValue().style.borderColor = "red";
+      }
+    },
+    
+    _changeFocus : function(e)
+    {
+      // this.debug("Focus: " + e.getValue());
+      
+      if (e.getOldValue()) {
+        e.getOldValue().style.background = "";
+      }
+      
+      if (e.getValue()) {
+        e.getValue().style.background = "#eaeaea";
+      }
+    }
+  }
+});
+
+qx.core.Init.getInstance().setApplication(new Gui2Test);
+  </script>
+</body>
+</html>

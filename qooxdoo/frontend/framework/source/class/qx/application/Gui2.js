@@ -56,8 +56,11 @@ qx.Class.define("qx.application.Gui2",
      */
     main : function() 
     {
+      // Initialize focus manager
       this._focusManager = new qx.event2.FocusManager(window);
-      
+
+      // Focus the body
+      document.body.focus();
     },
 
 
