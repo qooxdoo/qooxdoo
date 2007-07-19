@@ -129,8 +129,7 @@ qx.Class.define("qx.event2.InlineEventManager",
      */
     __eventHandler : function(elementId, domEvent)
     {
-      var event = qx.event2.type.Event.getInstance().init(window.event || domEvent);
-      event.setCurrentTarget(this.__elementRegistry.getByHash(elementId));
+      var event = qx.event2.type.Event.getInstance().init(domEvent || window.event);
       this.dispatchEvent(event);
     },
 
@@ -203,7 +202,7 @@ qx.Class.define("qx.event2.InlineEventManager",
      */
     dispatchEvent : function(event)
     {
-      var elementId = qx.core.Object.toHashCode(event.getCurrentTarget());
+      var elementId = qx.core.Object.toHashCode(event.getTarget());
 
       var elementData = this.__inlineRegistry[elementId];
       if (!elementData || !elementData[event.getType()]) {
