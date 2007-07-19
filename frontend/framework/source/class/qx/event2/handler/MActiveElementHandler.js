@@ -38,7 +38,7 @@ qx.Mixin.define("qx.event2.handler.MActiveElementHandler",
   *****************************************************************************
   */
 
-  construct : function() 
+  construct : function()
   {
     this._activeElement = document.body;
 
@@ -64,28 +64,28 @@ qx.Mixin.define("qx.event2.handler.MActiveElementHandler",
      * @type member
      * @param e {Event}
      */
-    __onClick : function(e) 
+    __onClick : function(e)
     {
       var node = e.getTarget();
-      
+
       // find first node with a valid tabindex
-      while (node) 
+      while (node)
       {
-        if (node.tabIndex !== undefined && node.tabIndex >= 0) 
+        if (node.tabIndex !== undefined && node.tabIndex >= 0)
         {
           this._activeElement = node;
           return;
         }
         node = node.parentNode;
       }
-      
+
       this._activeElement = document.body;
     },
-    
-    
+
+
     /**
      * onkeyup handler
-     * 
+     *
      * in the keyup phase of the keyevent the new focus has already been
      * set by the browser
      *
@@ -96,10 +96,10 @@ qx.Mixin.define("qx.event2.handler.MActiveElementHandler",
     {
       if (e.getKeyIdentifier() == "Tab") {
         this._activeElement = e.getTarget();
-      }      
+      }
     },
-    
-    
+
+
     /**
      * Get the DOM element which currently has the focus. Keyborad events are
      * dispatched on this element by the browser. This function does only return
@@ -122,6 +122,6 @@ qx.Mixin.define("qx.event2.handler.MActiveElementHandler",
   */
 
   destruct : function() {
-    this.disposeFields("_activeElement");
+    this._disposeFields("_activeElement");
   }
 });

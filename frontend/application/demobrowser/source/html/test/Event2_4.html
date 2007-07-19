@@ -7,7 +7,6 @@
   <style type="text/css">
 
     #iframe {
-      position: absolute;
       left: 10px;
       top; 10px;
       height: 600px;
@@ -16,12 +15,27 @@
       border: 2px inset;
     }
 
+    #moveable {
+      position: absolute;
+      top: 110px;
+      left: 250px;
+      width: 30px;
+      height: 30px;
+      border: 2px dashed red;
+      background-color: white;
+      opacity : 0.5;
+      -moz-opacity: 0.5;
+      z-index: 50;
+    }
+
   </style>
 </head>
 <body>
   <div id="description">
     <p>Demonstrate that the new event handler works for iframes as well.</p>
   </div>
+
+  <div id="moveable"></div>
 
   <script type="text/javascript">
 
@@ -65,6 +79,13 @@ qx.Class.define("BasicSample",
         document.getElementById("scroll"),
         "scroll",
         this.throttle(150, this._scroll, this),
+        this
+      );
+
+      qx.event2.Manager.addListener(
+        document.documentElement,
+        "click",
+        this._positionDiv,
         this
       );
     },
@@ -122,6 +143,13 @@ qx.Class.define("BasicSample",
     _onclick2 : function(e)
     {
       this.debug(e.getType() + " 2: " + e);
+    },
+
+    _positionDiv : function(e) {
+      console.log(e);
+      var div = document.getElementById("moveable");
+      div.style.left = e.getClientX() + "px";
+      div.style.top = e.getClientY() + "px";
     }
   }
 });

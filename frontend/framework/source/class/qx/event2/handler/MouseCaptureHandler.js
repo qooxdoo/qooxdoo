@@ -39,15 +39,64 @@
   /**
    * @param win {Window} DOM window the capture handler will be responsible for.
    */
-  construct : function(win)
+  construct : function(win, manager)
   {
     this.base(arguments);
 
+    this._manager = manager;
     this._captureElement = null;
 
     qx.event2.Manager.addListener(win, "blur", this.releaseCapture, this);
     qx.event2.Manager.addListener(win, "focus", this.releaseCapture, this);
     qx.event2.Manager.addListener(win, "scroll", this.releaseCapture, this);
+  },
+
+
+
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics :
+  {
+    // maps documentIDs to the corresponding capture handlers
+    __captureHandler : {},
+
+
+    /**
+     * Create an mouse capture handler for the given window.
+     *
+     * @param win {Window} The window object the capture handler will be
+     *     responsible for.
+     * @return {qx.event2.handler.MouseCaptureHandler} the newly created
+     *     capture handler.
+     */
+    createCaptureHandler : function(win, manager)
+    {
+      var id = qx.core.Object.toHashCode(win.document.documentElement);
+      if (!this.__captureHandler[id]) {
+        this.__captureHandler[id] = new qx.event2.handler.MouseCaptureHandler(win, manager);
+      }
+      return this.__captureHandler[id];
+    },
+
+
+    /**
+     * Get the capture handler for the element.
+     *
+     * @param element {Element} DOM element
+     * @return {qx.event2.handler.MouseCaptureHandler|undefined} the mouse capture handler
+     *     reponsible for the given element. Returns undefined if none is registered.
+     */
+    getCaptureHandler : function(element)
+    {
+      var documentElement = qx.html2.element.Node.getDocument(element).documentElement;
+      var documentId = qx.core.Object.toHashCode(documentElement);
+
+      return this.__captureHandler[documentId];
+    }
   },
 
 
@@ -69,8 +118,6 @@
       "mousemove": 1,
       "mouseout": 1,
       "mouseover": 1
-
-      // TODO: mousewheel?
     },
 
 
@@ -92,7 +139,7 @@
      */
     doCaptureEvent : function(event)
     {
-      var elementData = qx.event2.Manager.getInstance().getDocumentElementData(this._captureElement, event.getType());
+      var elementData = this._manager.getElementData(this._captureElement, event.getType());
 
       if (elementData)
       {
@@ -162,6 +209,6 @@
   */
 
   destruct : function() {
-    this.disposeFields("_captureElement");
+    this._disposeFields("_captureElement", "_manager");
   }
  });

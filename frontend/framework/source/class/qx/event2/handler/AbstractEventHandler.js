@@ -150,7 +150,8 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
   */
 
   destruct : function() {
-    this._disposeFields("_callback", "_elementRegistry", "_manager");
+    this._disposeFields("_callback", "_manager");
+    this._disposeObjects("_elementRegistry");
   }
 
 });
