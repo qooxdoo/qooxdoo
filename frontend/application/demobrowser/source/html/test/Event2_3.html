@@ -230,10 +230,10 @@ qx.Class.define("BasicSample",
         target: mouseEvent.getTarget().id,
 				type: mouseEvent.getType(),
 				button: mouseEvent.getButton(),
-				screenX: mouseEvent.getScreenX(),
-        screenY: mouseEvent.getScreenY(),
-        clientX: mouseEvent.getClientX(),
-        clientY: mouseEvent.getClientY(),
+				screenX: mouseEvent.getScreenLeft(),
+        screenY: mouseEvent.getScreenTop(),
+        clientX: mouseEvent.getViewportLeft(),
+        clientY: mouseEvent.getViewportTop(),
         relatedTarget: mouseEvent.getRelatedTarget() ? mouseEvent.getRelatedTarget().id : ""
 			}
 			this.keyEvents.unshift(eventCopy);
