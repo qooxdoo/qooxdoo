@@ -106,11 +106,6 @@ qx.Class.define("qx.lang.Function",
         this._instance = new this;
       }
 
-      /*
-      if (this._instance.debug) {
-        this._instance.debug("Created...");
-      } */
-
       return this._instance;
     },
 

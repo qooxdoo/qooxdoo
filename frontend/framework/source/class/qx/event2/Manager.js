@@ -89,7 +89,7 @@ qx.Class.define("qx.event2.Manager",
     this.__inlineRegistry = {};
 
     // maps elementIDs to DOM elements
-    this.__elementRegistry = new qx.event2.ObjectRegistry();
+    this.__elementRegistry = new qx.util.manager.Object();
 
     // map of all known windows with event listeners
     this.__knownWindows = {};
@@ -314,19 +314,14 @@ qx.Class.define("qx.event2.Manager",
         var win = qx.html2.element.Node.getDefaultView(element);
       }
 
-      var winId = this.__elementRegistry.register(win);
+      var winId = this.__elementRegistry.add(win);
 
       // attach unload listener for automatic deregistration of event listeners
       if (!this.__knownWindows[winId])
       {
-        this.__knownWindows[winId] = {
-          window : win,
-          listener : qx.lang.Function.bind(this.__onunload, this, winId)
-        };
-        
-        qx.event2.Manager.addNativeListener(
-          win, "unload", this.__knownWindows[winId].listener
-        );
+        this.__knownWindows[winId] = win;
+
+        this.addListener(win, "unload", this.__onunload, this);
 
         // create mouse capture handler for this window
         var documentId = qx.core.Object.toHashCode(win.document.documentElement);
@@ -349,13 +344,9 @@ qx.Class.define("qx.event2.Manager",
       for (var i=0; i<this.__eventHandlers.length; i++) {
         this.__eventHandlers[i].removeAllListenersFromDocument(doc);
       }
-      
-      qx.event2.Manager.removeNativeListener(
-        this.__knownWindows[winId].window,
-        "unload",
-        this.__knownWindows[winId].handler
-      );
-      
+
+      this.removeListener(domEvent.getCurrentTarget(), "unload", arguments.callee);
+
       delete(this.__knownWindows[winId]);
     },
 
@@ -383,7 +374,7 @@ qx.Class.define("qx.event2.Manager",
       // create registry for this document
       if (!reg[documentId]) {
         reg[documentId] = {};
-        this.__elementRegistry.register(documentElement);
+        this.__elementRegistry.add(documentElement);
       }
       var docData = reg[documentId];
 
@@ -446,7 +437,7 @@ qx.Class.define("qx.event2.Manager",
      */
     __addEventListenerInline : function(element, type, listener, self)
     {
-      var elementId = this.__elementRegistry.register(element);
+      var elementId = this.__elementRegistry.add(element);
 
       // create event listener entry for the element if needed.
       var reg = this.__inlineRegistry;
@@ -500,7 +491,7 @@ qx.Class.define("qx.event2.Manager",
      */
     __inlineEventHandler : function(elementId, domEvent)
     {
-      var event = qx.event2.type.Event.getInstance(window.event || domEvent);
+      var event = qx.event2.type.Event.getInstance().init(window.event || domEvent);
       event.setTarget(this.__elementRegistry.getByHash(elementId));
       this.__dispatchInlineEvent(event);
     },
@@ -580,10 +571,10 @@ qx.Class.define("qx.event2.Manager",
       {
         qx.lang.Array.removeAt(listeners, removeIndex);
 
-        if (eventData.captureListeners.length == 0 && eventData.bubbleListeners.length == 0) 
+        if (eventData.captureListeners.length == 0 && eventData.bubbleListeners.length == 0)
         {
           delete (typeData[type]);
-          
+
           for (var i=0; i<this.__eventHandlers.length; i++) {
             this.__eventHandlers[i].unregisterEvent(documentElement, type);
           }

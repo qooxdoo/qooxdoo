@@ -53,7 +53,7 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
     {
       "keydown": keyUpDownHandler,
       "keyup": keyUpDownHandler,
-      "keypress": keyUpDownHandler
+      "keypress": qx.lang.Function.bind(this.onKeyPress, this)
     };
   },
 
@@ -80,7 +80,7 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
      */
     __fireEvent : function(domEvent, eventType, keyCode, charCode, keyIdentifier)
     {
-      var event = new qx.event2.type.KeyEvent.getInstance(
+      var event = qx.event2.type.KeyEvent.getInstance().init(
         domEvent, keyCode, charCode, keyIdentifier
       );
       event.setType(eventType);
@@ -102,7 +102,7 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
         if (!this.__keyEventListenerCount[elementId])
         {
           this.__keyEventListenerCount[elementId] = 0;
-          this._elementRegistry.register(element);
+          this._elementRegistry.add(element);
         }
 
         // handle key events
@@ -123,7 +123,7 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
 
         if (!this.__keyEventListenerCount[elementId]) {
           this.__keyEventListenerCount[elementId] = 0;
-          this._elementRegistry.register(element);
+          this._elementRegistry.add(element);
         }
 
         // handle key events
