@@ -74,14 +74,10 @@ qx.Class.define("qx.event2.Manager",
     // set the singelton pointer as early as possible to avoid infinite recursion
     qx.event2.Manager.$$instance = this;
 
-    this.__dispatchEventWrapper = qx.lang.Function.bind(
-      this.__dispatchDocumentEvent, this
-    );
-
     this.__eventHandlers = [
-      new qx.event2.handler.KeyEventHandler(this.__dispatchEventWrapper),
-      new qx.event2.handler.MouseEventHandler(this.__dispatchEventWrapper),
-      new qx.event2.handler.DefaultEventHandler(this.__dispatchEventWrapper, this) // must be the last because it can handle all events
+      new qx.event2.handler.KeyEventHandler(this.__dispatchDocumentEvent, this),
+      new qx.event2.handler.MouseEventHandler(this.__dispatchDocumentEvent, this),
+      new qx.event2.handler.DefaultEventHandler(this.__dispatchDocumentEvent, this) // must be the last because it can handle all events
     ],
 
     // registry for 'normal' bubbling events
@@ -93,7 +89,7 @@ qx.Class.define("qx.event2.Manager",
     this.__inlineRegistry = {};
 
     // maps elementIDs to DOM elements
-    this.__elementMap = {};
+    this.__elementRegistry = new qx.event2.ObjectRegistry();
 
     // map of all known windows with event listeners
     this.__knownWindows = {};
@@ -318,7 +314,7 @@ qx.Class.define("qx.event2.Manager",
         var win = qx.html2.element.Node.getDefaultView(element);
       }
 
-      var winId = this.__registerElement(win);
+      var winId = this.__elementRegistry.register(win);
 
       // attach unload listener for automatic deregistration of event listeners
       if (!this.__knownWindows[winId])
@@ -344,18 +340,20 @@ qx.Class.define("qx.event2.Manager",
      * all event listeners from the unloading window.
      *
      * @param winId {var} hash code of the unloading window
-     * @param e {Event} DOM event object
+     * @param domEvent {Event} DOM event object
      */
-    __onunload : function(winId, e)
+    __onunload : function(winId, domEvent)
     {
-      var doc = this.__getElementByHash(winId).document;
+      var doc = this.__elementRegistry.getByHash(winId).document;
 
       for (var i=0; i<this.__eventHandlers.length; i++) {
         this.__eventHandlers[i].removeAllListenersFromDocument(doc);
       }
       
       qx.event2.Manager.removeNativeListener(
-        win, "unload", this.__knownWindows[winId].handler
+        this.__knownWindows[winId].window,
+        "unload",
+        this.__knownWindows[winId].handler
       );
       
       delete(this.__knownWindows[winId]);
@@ -385,7 +383,7 @@ qx.Class.define("qx.event2.Manager",
       // create registry for this document
       if (!reg[documentId]) {
         reg[documentId] = {};
-        this.__registerElement(documentElement);
+        this.__elementRegistry.register(documentElement);
       }
       var docData = reg[documentId];
 
@@ -448,7 +446,7 @@ qx.Class.define("qx.event2.Manager",
      */
     __addEventListenerInline : function(element, type, listener, self)
     {
-      var elementId = this.__registerElement(element);
+      var elementId = this.__elementRegistry.register(element);
 
       // create event listener entry for the element if needed.
       var reg = this.__inlineRegistry;
@@ -503,7 +501,7 @@ qx.Class.define("qx.event2.Manager",
     __inlineEventHandler : function(elementId, domEvent)
     {
       var event = qx.event2.type.Event.getInstance(window.event || domEvent);
-      event.setTarget(this.__getElementByHash(elementId));
+      event.setTarget(this.__elementRegistry.getByHash(elementId));
       this.__dispatchInlineEvent(event);
     },
 
@@ -798,19 +796,6 @@ qx.Class.define("qx.event2.Manager",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * Check whether event listeners are registered at the document element
-     * for the given type.
-     *
-     * @param documentId {Integer} qooxdoo hash value of the document to check
-     * @param type {String} The type to check
-     * @return {Boolean} Whether event listeners are registered at the document
-     *     element for the given type.
-     */
-    __getDocumentHasListeners : function(documentId, type) {
-      return qx.lang.Object.isEmpty(this.__documentRegistry[documentId][type]);
-    },
-
 
     /**
      * Get data about registered document event handlers for the given type.
@@ -856,29 +841,11 @@ qx.Class.define("qx.event2.Manager",
 
 
     /**
-     * Get an element by its qooxdoo hash value. The lement must be registered
-     * before using {@link #__registerElement}.
+     * Get the internal registry for all event listeners of bubbling events.
      *
-     * @param hash {Integer} qooxdoo hash value of the DOM element
+     * @return {Map} the registry. Structure: documentId -> eventType -> elementId
+     * @internal
      */
-    __getElementByHash : function(hash) {
-      return this.__elementMap[hash];
-    },
-
-
-    /**
-     * Register a DOM node
-     *
-     * @param element {Element} DOM element
-     * @return {Integer} Hash code of the DOM element
-     */
-    __registerElement : function(element) {
-      var hash = qx.core.Object.toHashCode(element);
-      this.__elementMap[hash] = element;
-      return hash;
-    },
-
-
     getDocumentRegistry : function() {
       return this.__documentRegistry;
     },
@@ -957,7 +924,7 @@ qx.Class.define("qx.event2.Manager",
     var inlineReg = this.__inlineRegistry;
     for (var elementId in inlineReg)
     {
-      var element = this.getElementByHash(elementId);
+      var element = this.__elementRegistry.getByHash(elementId);
 
       for (var type in inlineReg[elementId])
       {
@@ -970,13 +937,12 @@ qx.Class.define("qx.event2.Manager",
     var documentReg = this.__documentRegistry;
     for (var documentId in documentReg)
     {
-      var documentElement = this.__getElementByHash(documentId);
+      var documentElement = this.__elementRegistry.getByHash(documentId);
       this.remnoveAllListenersFromDocument(documentElement);
     }
 
     this.disposeFields(
-      "__dispatchEventWrapper",
-      "__elementMap",
+      "__elementRegistry",
       "__eventHandlers",
       "__documentRegistry",
       "__inlineRegistry",

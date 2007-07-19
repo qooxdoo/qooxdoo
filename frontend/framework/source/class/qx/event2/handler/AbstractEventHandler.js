@@ -40,11 +40,16 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
   /**
    * @param eventCallBack {Function} general event handler for all events
    *   handled by this event handler
+   * @param manager {qx.event2.Manager} Reference to the event manager instance,
+   *   which uses this EventHandler. The callback will be dispatched on this
+   *   manager.
    */
-  construct : function(eventCallBack)
+  construct : function(eventCallBack, manager)
   {
     this.base(arguments);
     this._callback = eventCallBack;
+    this._manager = manager;
+    this._elementRegistry = new qx.event2.ObjectRegistry();
   },
 
 
@@ -134,5 +139,18 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
         removeEvent(element, type, eventMap[type]);
       }
     }
+  },
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields("_callback", "_elementRegistry", "_manager");
   }
+
 });
