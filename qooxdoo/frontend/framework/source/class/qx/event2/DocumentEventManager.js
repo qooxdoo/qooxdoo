@@ -399,7 +399,21 @@ qx.Class.define("qx.event2.DocumentEventManager", {
      */
     getRegistry : function() {
       return this.__documentRegistry;
-    }
+    },
+
+
+    /**
+     * Check whether event listeners are registered at the document element
+     * for the given type.
+     *
+     * @param documentId {Integer} qooxdoo hash value of the document to check
+     * @param type {String} The type to check
+     * @return {Boolean} Whether event listeners are registered at the document
+     *     element for the given type.
+     */
+    hasListeners : function(documentId, type) {
+      return qx.lang.Object.isEmpty(this.__documentRegistry[documentId][type]);
+    },
 
   },
 
