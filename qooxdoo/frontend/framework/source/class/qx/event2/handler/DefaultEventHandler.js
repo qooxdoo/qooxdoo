@@ -74,7 +74,7 @@ qx.Class.define("qx.event2.handler.DefaultEventHandler",
     unregisterEvent : function(element, type)
     {
       var documentId = qx.core.Object.toHashCode(element);
-      if (!this._manager.getDocumentHasListeners(documentId)) {
+      if (!this._manager.getHasListeners(documentId)) {
         qx.event2.Manager.removeNativeListener(element, type, this._eventHandler);
       }
     },
@@ -82,7 +82,7 @@ qx.Class.define("qx.event2.handler.DefaultEventHandler",
     removeAllListenersFromDocument : function(documentElement)
     {
       var documentId = qx.core.Object.toHashCode(documentElement);
-      var reg = this._manager.getDocumentRegistry();
+      var reg = this._manager.getRegistry();
 
       for (var type in reg[documentId]) {
         qx.event2.Manager.removeNativeListener(documentElement, type, this._eventHandler);
@@ -132,7 +132,7 @@ qx.Class.define("qx.event2.handler.DefaultEventHandler",
      */
     __getDocumentHasListeners : function(documentId, type)
     {
-      var reg = this._manager.getDocumentRegistry();
+      var reg = this._manager.getRegistry();
       return qx.lang.Object.isEmpty(reg[documentId][type]);
     }
   },
@@ -147,7 +147,7 @@ qx.Class.define("qx.event2.handler.DefaultEventHandler",
   */
 
   destruct : function() {
-    this.disposeFields("_eventHandler");
+    this._disposeFields("_eventHandler");
   }
 
 });

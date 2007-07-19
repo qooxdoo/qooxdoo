@@ -57,7 +57,8 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
       "mouseup"     : buttonHandler,
       "click"       : buttonHandler,
       "dblclick"    : buttonHandler,
-      "contextmenu" : buttonHandler
+      "contextmenu" : buttonHandler,
+      "mousewheel"  : buttonHandler
     };
 
     var moveHandler = qx.lang.Function.bind(this.__fireEvent, this);
@@ -405,8 +406,8 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
   *****************************************************************************
   */
 
-  destruct : function() {
-
+  destruct : function()
+  {
     for (var documentId in this.__mouseButtonListenerCount)
     {
       var documentElement = this._elementRegistry.getByHash(documentId);
