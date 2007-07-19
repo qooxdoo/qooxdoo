@@ -49,7 +49,6 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
     this.__mouseButtonListenerCount = {};
 
     var buttonHandler = qx.lang.Function.bind(this.onMouseButtonEvent, this);
-
     this.__mouseButtonHandler =
     {
       "mousedown"   : buttonHandler,
@@ -59,7 +58,6 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
       "contextmenu" : buttonHandler
     };
 
-    //var moveHandler = qx.lang.Function.bind(this.__fireEvent, this);
     this.__mouseMoveHandler = qx.lang.Function.bind(this.__fireEvent, this);
 
     this.__lastMouseDownTarget = null;
