@@ -29,37 +29,7 @@ qx.Class.define("qx.event2.type.MouseEvent",
 {
   extend : qx.event2.type.Event,
 
-
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-    /**
-     * Initialize a singleton instance with the given browser event object.
-     *
-     * @type static
-     * @param domEvent {Event} DOM event
-     * @return {qx.event2.type.MouseEvent} an initialized Event instance
-     */
-    getInstance : function(domEvent)
-    {
-      if (this.__instance == undefined) {
-        this.__instance = new qx.event2.type.MouseEvent();
-      }
-
-      this.__instance.__initEvent(domEvent);
-      return this.__instance;
-    }
-  },
-
-
-
+  type : "singleton",
 
 
   /*

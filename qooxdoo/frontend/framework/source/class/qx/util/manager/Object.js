@@ -23,7 +23,13 @@
 
 ************************************************************************ */
 
-/** This class allows basic managment of assigned objects. */
+/**
+ * Generic object registry.
+ *
+ * Stores a collection of generic JavaScript objects into a registry.
+ * The registered objects can be retrieved by their qooxdoo hash code
+ * returned by {@link qx.core.Object.toHashCode}.
+ */
 qx.Class.define("qx.util.manager.Object",
 {
   extend : qx.core.Target,
@@ -62,28 +68,26 @@ qx.Class.define("qx.util.manager.Object",
     */
 
     /**
-     * TODOC
+     * Add an object node
      *
-     * @type member
-     * @param vObject {var} TODOC
-     * @return {void | Boolean} TODOC
+     * @param obj {Element} Object to add
+     * @return {Integer} Hash code of the object
      */
     add : function(vObject)
     {
       if (this.getDisposed()) {
         return;
       }
-
-      this._objects[vObject.toHashCode()] = vObject;
+      var hash = qx.core.Object.toHashCode(vObject);
+      this._objects[hash] = vObject;
+      return hash;
     },
 
 
     /**
-     * TODOC
+     * Remove the object from the registry
      *
-     * @type member
-     * @param vObject {var} TODOC
-     * @return {void | Boolean} TODOC
+     * @param obj {Object} Object to remove
      */
     remove : function(vObject)
     {
@@ -91,19 +95,19 @@ qx.Class.define("qx.util.manager.Object",
         return false;
       }
 
-      delete this._objects[vObject.toHashCode()];
+      var hash = qx.core.Object.toHashCode(vObject);
+      delete this._objects[hash];
     },
 
 
     /**
-     * TODOC
+     * Whether the given object is in the registry.
      *
-     * @type member
-     * @param vObject {var} TODOC
-     * @return {var} TODOC
+     * @param obj {Object} Object to check
      */
     has : function(vObject) {
-      return this._objects[vObject.toHashCode()] != null;
+      var hash = qx.core.Object.toHashCode(vObject);
+      return this._objects[hash] !== undefined;
     },
 
 
@@ -115,7 +119,21 @@ qx.Class.define("qx.util.manager.Object",
      * @return {var} TODOC
      */
     get : function(vObject) {
-      return this._objects[vObject.toHashCode()];
+      var hash = qx.core.Object.toHashCode(vObject);
+      return this._objects[hash];
+    },
+
+
+    /**
+     * Get an object by its qooxdoo hash value. The object must be added
+     * before using {@link #add}.
+     *
+     * @param hash {Integer} qooxdoo hash value of the object
+     * @return {Object|undefined} The registered object or undefined if the
+     *   object is not registered.
+     */
+    getByHash : function(hash) {
+      return this._objects[hash];
     },
 
 

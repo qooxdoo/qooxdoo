@@ -111,7 +111,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
       {
         if (!this.__mouseButtonListenerCount[elementId]) {
           this.__mouseButtonListenerCount[elementId] = 0;
-          this._elementRegistry.register(element);
+          this._elementRegistry.add(element);
         }
 
         // handle key events
@@ -128,7 +128,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
       {
         if (!this.__mouseMoveListenerCount[elementId]) {
           this.__mouseMoveListenerCount[elementId] = {};
-          this._elementRegistry.register(element);
+          this._elementRegistry.add(element);
         }
         if (!this.__mouseMoveListenerCount[elementId][type]) {
           this.__mouseMoveListenerCount[elementId][type] = 0;
@@ -226,7 +226,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
      */
     __fireEvent : function(domEvent, type, target)
     {
-      var event = qx.event2.type.MouseEvent.getInstance(domEvent);
+      var event = qx.event2.type.MouseEvent.getInstance().init(domEvent);
 
       event.setType(type);
       event.setTarget(target);
@@ -244,8 +244,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
      */
     onMouseButtonEvent : function(domEvent)
     {
-      // TODO: MouseEvent.getInstance() has only one parameter
-      var event = qx.event2.type.MouseEvent.getInstance(domEvent, domEvent.type);
+      var event = qx.event2.type.MouseEvent.getInstance().init(domEvent);
       var type = event.getType();
       var target = event.getTarget();
 

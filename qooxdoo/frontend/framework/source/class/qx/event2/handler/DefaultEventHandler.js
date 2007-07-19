@@ -109,7 +109,7 @@ qx.Class.define("qx.event2.handler.DefaultEventHandler",
      */
     __handleEvent : function(domEvent)
     {
-      var event = qx.event2.type.Event.getInstance(domEvent);
+      var event = qx.event2.type.Event.getInstance().init(domEvent);
       this._callback.call(this._manager, event);
     },
 

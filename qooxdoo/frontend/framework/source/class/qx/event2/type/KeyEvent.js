@@ -29,36 +29,7 @@ qx.Class.define("qx.event2.type.KeyEvent",
 {
   extend : qx.event2.type.Event,
 
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-    /**
-     * Initialize a singleton instance with the given browser event object.
-     *
-     * @type static
-     * @param domEvent {Event} DOM event
-     * @param keyCode {Integer} the key code
-     * @param charCode {Integer} the character code
-     * @param keyIdentifier {String} Key identifier
-     * @return {qx.event2.type.KeyEvent} an initialized Event instance
-     */
-    getInstance : function(domEvent, keyCode, charCode, keyIdentifier)
-    {
-      if (this.__instance == undefined) {
-        this.__instance = new qx.event2.type.KeyEvent();
-      }
-
-      this.__instance.__initEvent(domEvent, keyCode, charCode, keyIdentifier);
-      return this.__instance;
-    }
-  },
+  type : "singleton",
 
 
 
@@ -78,14 +49,16 @@ qx.Class.define("qx.event2.type.KeyEvent",
      * @param keyCode {Integer} the key code
      * @param charCode {Integer} the character code
      * @param keyIdentifier {String} Key identifier
+     * @return {qx.event2.type.KeyEvent} The initialized key event instance
      */
-    __initEvent : function(domEvent, keyCode, charCode, keyIdentifier)
+    init : function(domEvent, keyCode, charCode, keyIdentifier)
     {
       this.base(arguments, domEvent);
-      
+
       this._keyCode = keyCode;
       this._charCode = charCode;
       this._keyIdentifier = keyIdentifier;
+      return this;
     },
 
 
