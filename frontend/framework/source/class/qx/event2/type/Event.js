@@ -28,6 +28,17 @@
 qx.Class.define("qx.event2.type.Event",
 {
   extend : qx.core.Object,
+  
+  construct : function(domEvent)
+  {
+    this.base(arguments);
+    
+    if (domEvent) {
+      this.init(domEvent); 
+    }
+  },
+
+
 
 
 
@@ -46,10 +57,7 @@ qx.Class.define("qx.event2.type.Event",
     AT_TARGET : 2,
 
     /** The current event phase is the bubbling phase. */
-    BUBBLING_PHASE : 3,
-
-
-    getInstance : qx.lang.Function.returnInstance
+    BUBBLING_PHASE : 3
   },
 
 
@@ -71,11 +79,16 @@ qx.Class.define("qx.event2.type.Event",
      */
     init : function(domEvent)
     {
-      this._type = domEvent.type;
-      this._target = null;
+      if (!domEvent) {
+        domEvent = {}; 
+      }
+      
       this._dom = domEvent;
+      this._type = domEvent.type;
+      this._target = domEvent.target || domEvent.srcElement;
       this._stopPropagation = false;
       this._timeStamp = domEvent.timeStamp || (new Date()).getTime();
+      
       return this;
     },
 

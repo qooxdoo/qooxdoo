@@ -5,21 +5,26 @@ qx.Class.define("qx.event2.FocusManager",
   construct : function(win)
   {
     this.base(arguments);
+
+
+    // Shorthands    
+    this._window = win;
+    this._document = win.document;
+    this._root = win.document.documentElement;
+
+
+    // Native listeners
+    this.__onNativeWindowFocus = qx.lang.Function.bind(this._onNativeWindowFocus, this);
+    this.__onNativeWindowBlur = qx.lang.Function.bind(this._onNativeWindowBlur, this);
+
+    qx.event2.Manager.addNativeListener(window, "focus", this.__onNativeWindowFocus);
+    qx.event2.Manager.addNativeListener(window, "blur", this.__onNativeWindowBlur);
     
-    this._winFocused = false;
     
-    this._element = win.document.documentElement;
-    this._root = this._element;
-    
-    qx.event2.Manager.addListener(this._element, "mousedown", this.__onMouseDown, this);
-    qx.event2.Manager.addListener(this._element, "keyup", this.__onKeyUp, this);
-    
-    qx.event2.Manager.addListener(this._element, "blur", this.__onWindowBlur, this);
-    qx.event2.Manager.addListener(this._element, "focus", this.__onWindowFocus, this);
-    
-    
-    //qx.event2.Manager.addListener(window, "focusin", this.__onFocusIn, this);
-    //qx.event2.Manager.addListener(window, "focusout", this.__onFocusOut, this);
+    // Normalized Listeners
+    qx.event2.Manager.addListener(this._root, "mousedown", this._onMouseDown, this);
+    qx.event2.Manager.addListener(win, "focus", this._onWindowFocus, this);
+    qx.event2.Manager.addListener(win, "blur", this._onWindowBlur, this);
   },
   
   properties :
@@ -28,68 +33,89 @@ qx.Class.define("qx.event2.FocusManager",
     {
       check : "Element",
       event : "changeActive",
-      apply : "_applyActive"
+      apply : "_applyActive",
+      nullable : true
     },
     
     focus : 
     {
       check : "Element",
       event : "changeFocus",
-      apply : "_applyFocus"
+      apply : "_applyFocus",
+      nullable : true
     }
   },
   
   members : 
   {
-    __onWindowBlur : function(e)
+    _windowFocussed : false,
+    
+    _onNativeWindowBlur : function(e)
     {
-      this.debug("TYPE: " + e.getType());
-      this.debug("Window Blur: " + e._dom.target + " :: " + e._dom.relatedTarget);
-      
-      
+      var target = e.target || window.event.srcElement;
+
+      switch(target)
+      {
+        case this._window:
+        case this._document:
+          // Omit doubled blur events
+          // which is a common behavior at least for gecko based clients
+          if (this._windowFocussed)
+          {
+            this._windowFocussed = false;
+            this.__fireCustom(this._window, "blur");
+          }
+
+          break;
+      }
     },
     
-    __onWindowFocus : function(e)
+    _onNativeWindowFocus : function(e)
     {
-      this.debug("TYPE: " + e.getType());
-      this.debug("Window Focus: " + e._dom.target + " :: " + e._dom.relatedTarget);
+      var target = e.target || window.event.srcElement;
       
-      
+      switch(target)
+      {
+        case this._window:
+        case this._document:
+          // Omit doubled focus events
+          // which is a common behavior at least for gecko based clients
+          if (!this._windowFocussed)
+          {
+            this._windowFocussed = true;
+            this.__fireCustom(this._window, "focus");
+          }
+
+          break;
+          
+        default:
+          // If focus is already correct, don't configure both
+          // This is the case for all mousedown events normally
+          if (this.getFocus() !== target)
+          {
+            this.setActive(target);
+            this.setFocus(target);
+          }
+      }     
     },
     
-    __onFocusIn : function(e)
+    _onWindowBlur : function(e)
     {
-      this.debug("FocusIn...: " + e._dom.target + " :: " + e._dom.relatedTarget);
+      this.debug("Window blurred");
       
-      
+      this.resetActive();
+      this.resetFocus();
     },
     
-    __onFocusOut : function(e)
+    _onWindowFocus : function(e)
     {
-      this.debug("FocusOut...: " + e._dom.target + " :: " + e._dom.relatedTarget);
-      
-      
+      this.debug("Window focussed");
     },
     
-    
-    
-    /**
-     * onkeyup handler
-     * 
-     * in the keyup phase of the keyevent the new focus has already been
-     * set by the browser
-     *
-     * @type member
-     * @param e {Event}
-     */
-    __onKeyUp : function(e)
-    {
-      this.debug("KeyUp: " + e._dom.target);
-      
-      if (e.getKeyIdentifier() == "Tab") {
-        this.focus(e.getTarget());
-      }      
-    },
+
+
+
+
     
     
     /**
@@ -98,12 +124,10 @@ qx.Class.define("qx.event2.FocusManager",
      * @type member
      * @param e {Event}
      */
-    __onMouseDown : function(e) 
+    _onMouseDown : function(e) 
     {
       var node = e.getTarget();
-      
-      this.debug("MouseDown");
-      
+
       this.setActive(node);
       
       // find first node with a valid tabindex
@@ -125,19 +149,19 @@ qx.Class.define("qx.event2.FocusManager",
     _applyActive : function(value, old)
     {
       if (old) {
-        this.__fire(old, "beforedeactivate");
+        this.__fireCustom(old, "beforedeactivate");
       }
       
       if (value) {
-        this.__fire(value, "beforeactivate");
+        this.__fireCustom(value, "beforeactivate");
       }      
       
       if (old) {
-        this.__fire(old, "deactivate");
+        this.__fireCustom(old, "deactivate");
       }
 
       if (value) {
-        this.__fire(value, "activate");
+        this.__fireCustom(value, "activate");
       }
     },
     
@@ -145,19 +169,19 @@ qx.Class.define("qx.event2.FocusManager",
     _applyFocus : function(value, old)
     {
       if (old) {
-        this.__fire(old, "focusout");
+        this.__fireCustom(old, "focusout");
       }
       
       if (value) {
-        this.__fire(value, "focusin"); 
+        this.__fireCustom(value, "focusin"); 
       }
       
       if (old) {
-        this.__fire(old, "blur");
+        this.__fireCustom(old, "blur");
       }
       
       if (value) {
-        this.__fire(value, "focus"); 
+        this.__fireCustom(value, "focus"); 
       }
     },
     
@@ -171,15 +195,22 @@ qx.Class.define("qx.event2.FocusManager",
       this.setActive(el);      
     },
     
-    __fire : function(el, type)
+    
+    
+    
+    
+    __fireCustom : function(target, type)
     {
-      //var id = el.id ? "'" + el.id + "'" : "'#" + qx.core.Object.toHashCode(el) + "'";
-      //this.debug("Fire " + id + ": " + type);
-
       // TODO Use new central pooling here
-      var event = new qx.event2.type.Event;
-      event.setTarget(el);
-      event.setType(type);
+      var event = new qx.event2.type.Event();
+      
+      if (target) {
+        event.setTarget(target);
+      }
+      
+      if (type) {
+        event.setType(type);
+      }
       
       qx.event2.Manager.getInstance().dispatchEvent(event);      
       event.dispose();
