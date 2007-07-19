@@ -163,20 +163,7 @@ qx.Class.define("qx.core.Init",
       }
 
       // Print browser information
-      var cl = qx.core.Client.getInstance();
-      this.debug("client: " + cl.getEngine() + "-" + cl.getMajor() + "." + cl.getMinor() + "/" + cl.getPlatform() + "/" + cl.getLocale());
-      this.debug("browser: " + cl.getBrowser() + "/" + (cl.supportsSvg() ? "svg" : cl.supportsVml() ? "vml" : "none"));
-
-      // Box model warning
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (qx.core.Variant.isSet("qx.client", "mshtml"))
-        {
-          if (!cl.isInQuirksMode()) {
-            this.warn("Wrong box sizing: Please modify the document's DOCTYPE!");
-          }
-        }
-      }
+      this.debug("client: " + qx.html2.client.Engine.NAME + "-" + qx.html2.client.Engine.VERSION);
 
       // Init application from settings
       if (!this.getApplication())
@@ -197,58 +184,7 @@ qx.Class.define("qx.core.Init",
       // Send onload
       var start = new Date;
 
-      // This is a common migration error for 0.7
-      // this code may be removed once the main qooxdoo user base
-      // has migrated to 0.7
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        var app = this.getApplication();
-
-        if (app.initialize)
-        {
-          this.warn(
-            "The 'initialize' method is no longer called automatically! Please call it manually " +
-            "from the end of the constructor or the start of the 'main' method."
-          );
-        }
-
-        if (app.finalize)
-        {
-          this.warn(
-            "The 'finalize' method is no longer called automatically! It is save to call it at the " +
-            "end of the 'main' method."
-          );
-        }
-
-        var msg = "The overridden 'main' method has to be called. Please add " +
-            "the following command at beginning of your 'main' method: " +
-            "'this.base(arguments)'. The same is true over overridden " +
-            "'terminate' and 'close' methods."
-        var exception;
-
-        try {
-          app.main();
-        } catch(ex) {
-          exception = ex;
-        }
-
-        if (!app._initializedMain)
-        {
-          if (exception) {
-            this.error(msg)
-          } else {
-            throw new Error(msg);
-          }
-        }
-
-        if (exception) {
-          throw exception;
-        }
-      }
-      else
-      {
-        this.getApplication().main();
-      }
+      this.getApplication().main();
 
       this.info("main runtime: " + (new Date - start) + "ms");
     },

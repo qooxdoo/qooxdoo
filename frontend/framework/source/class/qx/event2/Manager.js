@@ -55,7 +55,6 @@ qx.Class.define("qx.event2.Manager",
 {
   type : "singleton",
   extend : qx.core.Object,
-  include : qx.event2.handler.MActiveElementHandler,
 
 
 
