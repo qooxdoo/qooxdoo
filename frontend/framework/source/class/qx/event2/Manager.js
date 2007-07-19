@@ -372,6 +372,7 @@ qx.Class.define("qx.event2.Manager",
      */
     dispatchEvent : function(event)
     {
+      var type = this.__eventNames[type] || type;
       if (this.__inlineEvents[event.getType()]) {
         return this.__inlineEventManager.dispatchEvent(event);
       } else {

@@ -29,7 +29,6 @@ qx.Class.define("qx.event2.type.Event",
 {
   extend : qx.core.Object,
 
-  //type : "singleton",
 
 
   /*
@@ -72,7 +71,7 @@ qx.Class.define("qx.event2.type.Event",
      */
     init : function(domEvent)
     {
-      this._type = null;
+      this._type = domEvent.type;
       this._target = null;
       this._dom = domEvent;
       this._stopPropagation = false;
@@ -142,7 +141,7 @@ qx.Class.define("qx.event2.type.Event",
      * @return {String} name of the event
      */
     getType : function() {
-      return this._type || this._dom.type;
+      return this._type;
     },
 
 

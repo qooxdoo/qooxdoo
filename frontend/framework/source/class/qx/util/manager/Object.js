@@ -186,6 +186,6 @@ qx.Class.define("qx.util.manager.Object",
   */
 
   destruct : function() {
-    this._disposeObjectDeep("_objects");
+     this._disposeObjectDeep("_objects");
   }
 });
