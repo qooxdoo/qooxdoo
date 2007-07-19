@@ -106,17 +106,11 @@ qx.Class.define("qx.event2.InlineEventManager",
         );
       }
 
-      // bind the listener to the object
-      if (self) {
-        var callback = qx.lang.Function.bind(listener, self);
-      } else {
-        callback = listener;
-      }
-
-      callback.$$original = listener;
-
       // store event listener
-      elementEvents[type].listeners.push(callback);
+      elementEvents[type].listeners.push({
+        handler: listener,
+        context: self
+      });
     },
 
 
@@ -130,6 +124,7 @@ qx.Class.define("qx.event2.InlineEventManager",
     __eventHandler : function(elementId, domEvent)
     {
       var event = qx.event2.type.Event.getInstance().init(domEvent || window.event);
+      event.setCurrentTarget(this.__elementRegistry.getByHash(elementId));
       this.dispatchEvent(event);
     },
 
@@ -210,12 +205,12 @@ qx.Class.define("qx.event2.InlineEventManager",
       }
 
       event.setEventPhase(qx.event2.type.Event.AT_TARGET);
-      event.setCurrentTarget(event.getTarget());
 
       var listeners = qx.lang.Array.copy(this.__inlineRegistry[elementId][event.getType()].listeners);
 
       for (var i=0; i<listeners.length; i++) {
-        listeners[i](event);
+        var context = listeners[i].context || event.getCurrentTarget();
+        listeners[i].handler.call(context, event);
       }
     }
 
