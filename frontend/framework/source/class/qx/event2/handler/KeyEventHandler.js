@@ -41,27 +41,22 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
   *****************************************************************************
   */
 
-  /**
-   * @param eventCallBack {Function} general event handler for all events
-   *   handled by this event handler
-   */
-  construct : function(eventCallBack)
+  construct : function(eventCallBack, manager)
   {
-    this.base(arguments, eventCallBack);
+    this.base(arguments, eventCallBack, manager);
 
     this.__keyEventListenerCount = {};
-    this.__elementRegistry = {};
 
     var keyUpDownHandler = qx.lang.Function.bind(this.onKeyUpDown, this);
 
-    this.__keyHandler = 
+    this.__keyHandler =
     {
       "keydown": keyUpDownHandler,
       "keyup": keyUpDownHandler,
       "keypress": keyUpDownHandler
     };
   },
-  
+
 
 
 
@@ -89,7 +84,7 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
         domEvent, keyCode, charCode, keyIdentifier
       );
       event.setType(eventType);
-      this._callback(event);
+      this._callback.call(this._manager, event);
     },
 
 
@@ -104,15 +99,15 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
       {
         var elementId = qx.core.Object.toHashCode(element);
 
-        if (!this.__keyEventListenerCount[elementId]) 
+        if (!this.__keyEventListenerCount[elementId])
         {
           this.__keyEventListenerCount[elementId] = 0;
-          this.__elementRegistry[elementId] = element;
+          this._elementRegistry.register(element);
         }
 
         // handle key events
         this.__keyEventListenerCount[elementId] += 1;
-        
+
         if (this.__keyEventListenerCount[elementId] == 1) {
           this._attachEvents(element, this.__keyHandler);
         }
@@ -128,12 +123,12 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
 
         if (!this.__keyEventListenerCount[elementId]) {
           this.__keyEventListenerCount[elementId] = 0;
-          this.__elementRegistry[elementId] = element;
+          this._elementRegistry.register(element);
         }
 
         // handle key events
         this.__keyEventListenerCount[elementId] -= 1;
-        
+
         if (this.__keyEventListenerCount[elementId] == 0) {
           this._detachEvents(element, this.__keyHandler);
         }
@@ -144,9 +139,9 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
     removeAllListenersFromDocument : function(documentElement) {
       this._detachEvents(documentElement, this.__keyHandler);
     },
-    
-    
-    
+
+
+
 
 
     /*
@@ -221,7 +216,7 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
         var charCode = 0;
         var type = domEvent.type;
 
-        if (type == "keyup" || type == "keydown") 
+        if (type == "keyup" || type == "keydown")
         {
           keyCode = this._charCode2KeyCode[domEvent.charCode] || domEvent.keyCode;
         }
@@ -294,7 +289,7 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
         var charCode = 0;
         var type = domEvent.type;
 
-        if (type == "keyup" || type == "keydown") 
+        if (type == "keyup" || type == "keydown")
         {
           keyCode = this._charCode2KeyCode[domEvent.charCode] || domEvent.keyCode;
         }
@@ -350,21 +345,21 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
        18 : "Alt",          // The Alt (Menu) key.
        20 : "CapsLock",     // The CapsLock key
       224 : "Meta",         // The Meta key. (Apple Meta and Windows key)
-      
+
        37 : "Left",         // The Left Arrow key.
        38 : "Up",           // The Up Arrow key.
        39 : "Right",        // The Right Arrow key.
        40 : "Down",         // The Down Arrow key.
-      
+
        33 : "PageUp",       // The Page Up key.
        34 : "PageDown",     // The Page Down (Next) key.
-      
+
        35 : "End",          // The End key.
        36 : "Home",         // The Home key.
-      
+
        45 : "Insert",       // The Insert (Ins) key. (Does not fire in Opera/Win)
        46 : "Delete",       // The Delete (Del) Key.
-      
+
       112 : "F1",           // The F1 key.
       113 : "F2",           // The F2 key.
       114 : "F3",           // The F3 key.
@@ -377,7 +372,7 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
       121 : "F10",          // The F10 key.
       122 : "F11",          // The F11 key.
       123 : "F12",          // The F12 key.
-      
+
       144 : "NumLock",      // The Num Lock key.
        44 : "PrintScreen",  // The Print Screen (PrintScrn, SnapShot) key.
       145 : "Scroll",       // The scroll lock key
@@ -642,8 +637,8 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
     else if (qx.core.Variant.isSet("qx.client", "gecko"))
     {
       members._lastUpDownType = {};
-      members._keyCodeFix = { 
-        12 : members._identifierToKeyCode("NumLock") 
+      members._keyCodeFix = {
+        12 : members._identifierToKeyCode("NumLock")
       };
     }
     else if (qx.core.Variant.isSet("qx.client", "webkit"))
@@ -695,7 +690,7 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
 
     for (var documentId in this.__keyEventListenerCount)
     {
-      var documentElement = this.__elementRegistry[documentId];
+      var documentElement = this._elementRegistry.getByHash(documentId);
       this.removeAllListenersFromDocument(documentElement);
     }
 

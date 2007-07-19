@@ -41,10 +41,9 @@ qx.Class.define("qx.event2.handler.DefaultEventHandler",
 
   construct : function(eventCallBack, manager)
   {
-    this.base(arguments, eventCallBack);
-    
+    this.base(arguments, eventCallBack, manager);
+
     this._eventHandler = qx.lang.Function.bind(this.__handleEvent, this);
-    this._manager = manager;
   },
 
 
@@ -55,7 +54,7 @@ qx.Class.define("qx.event2.handler.DefaultEventHandler",
      MEMBERS
   *****************************************************************************
   */
-  
+
   members :
   {
     /*
@@ -75,8 +74,7 @@ qx.Class.define("qx.event2.handler.DefaultEventHandler",
     unregisterEvent : function(element, type)
     {
       var documentId = qx.core.Object.toHashCode(element);
-      
-      if (!this._manager.__getDocumentHasListeners(documentId)) {
+      if (!this._manager.getDocumentHasListeners(documentId)) {
         qx.event2.Manager.removeNativeListener(element, type, this._eventHandler);
       }
     },
@@ -89,7 +87,7 @@ qx.Class.define("qx.event2.handler.DefaultEventHandler",
       for (var type in reg[documentId]) {
         qx.event2.Manager.removeNativeListener(documentElement, type, this._eventHandler);
       }
-      
+
       delete(reg[documentId]);
     },
 
@@ -109,10 +107,33 @@ qx.Class.define("qx.event2.handler.DefaultEventHandler",
      *
      * @param domEvent {Event} DOM event
      */
-    __handleEvent : function(domEvent) 
+    __handleEvent : function(domEvent)
     {
       var event = qx.event2.type.Event.getInstance(domEvent);
-      this._callback(event);
+      this._callback.call(this._manager, event);
+    },
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      HELPER METHODS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Check whether event listeners are registered at the document element
+     * for the given type.
+     *
+     * @param documentId {Integer} qooxdoo hash value of the document to check
+     * @param type {String} The type to check
+     * @return {Boolean} Whether event listeners are registered at the document
+     *     element for the given type.
+     */
+    __getDocumentHasListeners : function(documentId, type)
+    {
+      var reg = this._manager.getDocumentRegistry();
+      return qx.lang.Object.isEmpty(reg[documentId][type]);
     }
   },
 
@@ -126,6 +147,7 @@ qx.Class.define("qx.event2.handler.DefaultEventHandler",
   */
 
   destruct : function() {
-    this.disposeFields("__documentEventHandler");
+    this.disposeFields("_eventHandler");
   }
+
 });
