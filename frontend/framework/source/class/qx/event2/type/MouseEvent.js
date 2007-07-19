@@ -170,7 +170,7 @@ qx.Class.define("qx.event2.type.MouseEvent",
      * @return {Integer} The horizontal mouse position
      * @signature function()
      */
-    getClientX : qx.core.Variant.select("qx.client",
+    getViewportLeft : qx.core.Variant.select("qx.client",
     {
       "mshtml|gecko" : function() {
         return this._dom.clientX;
@@ -192,7 +192,7 @@ qx.Class.define("qx.event2.type.MouseEvent",
      * @return {Integer} The vertical mouse position
      * @signature function()
      */
-    getClientY : qx.core.Variant.select("qx.client",
+    getViewportTop : qx.core.Variant.select("qx.client",
     {
       "mshtml|gecko" : function() {
         return this._dom.clientY;
@@ -214,7 +214,7 @@ qx.Class.define("qx.event2.type.MouseEvent",
      * @return {Integer} The horizontal mouse position in the document.
      * @signature function()
      */
-    getPageX : qx.core.Variant.select("qx.client",
+    getDocumentLeft : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function()
       {
@@ -240,7 +240,7 @@ qx.Class.define("qx.event2.type.MouseEvent",
      * @return {Integer} The vertical mouse position in the document.
      * @signature function()
      */
-    getPageY : qx.core.Variant.select("qx.client",
+    getDocumentTop : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function()
       {
@@ -267,7 +267,7 @@ qx.Class.define("qx.event2.type.MouseEvent",
      *
      * @return {Integer} The horizontal mouse position on the screen.
      */
-    getScreenX : function() {
+    getScreenLeft : function() {
       return this._dom.screenX;
     },
 
@@ -281,7 +281,7 @@ qx.Class.define("qx.event2.type.MouseEvent",
      *
      * @return {Integer} The vertical mouse position on the screen.
      */
-    getScreenY : function() {
+    getScreenTop : function() {
       return this._dom.screenY;
     },
 
