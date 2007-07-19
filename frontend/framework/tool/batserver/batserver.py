@@ -2,15 +2,17 @@
 
 # BAT Server - qooxdoo Build And Test server
 
-import sys
+import sys, os, platform
 import SimpleXMLRPCServer
+import re
 
 servconf = {
     'bathost'  : '172.17.12.117',
     'batport'  : 8000,
     'downloadhost'  : '172.17.12.117',
     'downloadport'  : 80,
-    'reportfile'    : "bat_client_reports.log"
+    'reportfile'    : "bat_client_reports.log",
+    'defaultTarget' : 'qooxdoo-0.8-pre-sdk',
 }
 
 workpackopts = [
@@ -27,16 +29,36 @@ class ServFunctions(object):
         import time
         print >>rfile,'Registering Client with ClientConf:'
         for m in clientconf:
-            print >>rfile, m + " : " + repr(clientconf[m])
+            print >>rfile, "\t" + m + " : " + repr(clientconf[m])
+        rfile.flush()
         jobid = time.time()
-        return (jobid, "http://" + servconf['downloadhost'] + "/downloads/workpack1.py", workpackopts)
+        wpopts = list(workpackopts)  # init workpackoptions with global
+        selectTarget(clientconf,wpopts)
+        selectArchFormat(clientconf,wpopts)
+        return (jobid, "http://" + servconf['downloadhost'] + "/downloads/workpack1.py", wpopts)
     
     def receive_report(self,jobid,clientreport):
-        #rfile = open(servconf['reportfile'], 'a')
         rfile.write(repr(jobid)+": ")
         rfile.write(clientreport)
-        #rfile.close()
-        return 1
+        rfile.write(os.linesep)
+        rfile.flush()
+        return 0
+
+def selectTarget(clientconf,wpopts):
+    wpopts.append('--package-name')
+    if clientconf['target'] != None:
+        wpopts.append(clientconf['target']) # maybe override?
+    else:
+        wpopts.append(serverconf['defaultTarget']) # here we could use more elab. selection, e.g. the newest archive
+    return
+
+def selectArchFormat(clientconf,wpopts):
+    wpopts.append('--archive-format')
+    if re.search('win',clientconf['platform'],re.I):
+        wpopts.append('.zip')
+    else:
+        wpopts.append('.tar.gz')
+    return
 
 def main():
     global rfile
