@@ -1,3 +1,12 @@
+/**
+ *
+ * Notes:
+ * 
+ * Webkit does not support tabIndex for all elements:
+ * http://bugs.webkit.org/show_bug.cgi?id=7138
+ *
+ *
+ */
 qx.Class.define("qx.event2.FocusManager",
 {
   extend : qx.core.Target,
@@ -19,6 +28,13 @@ qx.Class.define("qx.event2.FocusManager",
 
     qx.event2.Manager.addNativeListener(window, "focus", this.__onNativeWindowFocus);
     qx.event2.Manager.addNativeListener(window, "blur", this.__onNativeWindowBlur);
+    
+    // Needed for gecko to correctly handle focus of input and textarea fields
+    if (window.addEventListener)
+    {
+      window.addEventListener("focus", this.__onNativeWindowFocus, true);
+      window.addEventListener("blur", this.__onNativeWindowBlur, true);
+    }
     
     
     // Normalized Listeners
