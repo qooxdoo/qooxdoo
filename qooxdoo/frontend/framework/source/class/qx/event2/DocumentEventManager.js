@@ -413,7 +413,7 @@ qx.Class.define("qx.event2.DocumentEventManager", {
      */
     hasListeners : function(documentId, type) {
       return qx.lang.Object.isEmpty(this.__documentRegistry[documentId][type]);
-    },
+    }
 
   },
 
