@@ -127,19 +127,13 @@ qx.Class.define("qx.event2.DocumentEventManager", {
         };
       }
 
-      // bind the listener to the object
-      if (self) {
-        var callback = qx.lang.Function.bind(listener, self);
-      } else {
-        callback = listener;
-      }
-
-      callback.$$original = listener;
-
       // store event listener
       var eventData = typeEvents[elementId];
       var listenerList = useCapture ? "captureListeners" : "bubbleListeners";
-      eventData[listenerList].push(callback);
+      eventData[listenerList].push({
+        handler: listener,
+        context: self
+      });
     },
 
 
@@ -181,7 +175,7 @@ qx.Class.define("qx.event2.DocumentEventManager", {
 
       for (var i=0; i<listeners.length; i++)
       {
-        if (listeners[i].$$original == listener)
+        if (listeners[i].handler == listener)
         {
           removeIndex = i;
           break;
@@ -222,14 +216,16 @@ qx.Class.define("qx.event2.DocumentEventManager", {
       var target = event.getTarget();
       var node = target;
 
-      var mouseCapture = qx.event2.handler.MouseCaptureHandler.getCaptureHandler(node);
-      if (mouseCapture.shouldCaptureEvent(event)) {
-        mouseCapture.doCaptureEvent(event);
+      // return if no listeners are attached to this event type
+      var reg = this.getTypeData(node, event.getType());
+      if (reg == undefined) {
         return;
       }
 
-      var reg = this.getTypeData(node, event.getType());
-      if (reg == undefined) {
+      // handle mouse capturing
+      var mouseCapture = qx.event2.handler.MouseCaptureHandler.getCaptureHandler(node);
+      if (mouseCapture.shouldCaptureEvent(event)) {
+        mouseCapture.doCaptureEvent(event);
         return;
       }
 
@@ -240,6 +236,7 @@ qx.Class.define("qx.event2.DocumentEventManager", {
       var captureTargets = [];
 
       // Walk up the tree and look for event listeners
+      var arrayCopy = qx.lang.Array.copy;
       while (node != null)
       {
         var elementId = qx.core.Object.toHashCode(node);
@@ -249,13 +246,13 @@ qx.Class.define("qx.event2.DocumentEventManager", {
         {
           if (eventData.captureListeners && node !== target)
           {
-            captureList.push(qx.lang.Array.copy(eventData.captureListeners));
+            captureList.push((eventData.captureListeners));
             captureTargets.push(node);
           }
 
           if (eventData.bubbleListeners)
           {
-            bubbleList.push(qx.lang.Array.copy(eventData.bubbleListeners));
+            bubbleList.push(arrayCopy(eventData.bubbleListeners));
             bubbleTargets.push(node);
           }
         }
@@ -272,10 +269,15 @@ qx.Class.define("qx.event2.DocumentEventManager", {
 
       for (var i=(captureList.length-1); i>=0; i--)
       {
-        event.setCurrentTarget(captureTargets[i]);
+        var currentTarget = captureTargets[i]
+        event.setCurrentTarget(currentTarget);
 
-        for (var j=0; j<captureList[i].length; j++) {
-          captureList[i][j](event);
+        var captureListLength = captureList[i].length;
+        for (var j=0; j<captureListLength; j++)
+        {
+          var callbackData = captureList[i][j];
+          var context = callbackData.context || currentTarget;
+          callbackData.handler.call(context, event);
         }
 
         if (event.getStopPropagation()) {
@@ -283,19 +285,28 @@ qx.Class.define("qx.event2.DocumentEventManager", {
         }
       }
 
+
       // bubbling phase
-      for (var i=0; i<bubbleList.length; i++)
+      var BUBBLE_PHASE = qx.event2.type.Event.BUBBLING_PHASE;
+      var AT_TARGET = qx.event2.type.Event.AT_TARGET;
+
+      for (var i=0, l=bubbleList.length; i<l; i++)
       {
-        event.setCurrentTarget(bubbleTargets[i]);
+        var currentTarget = bubbleTargets[i];
+        event.setCurrentTarget(currentTarget);
 
         if (bubbleTargets[i] == target) {
-          event.setEventPhase(qx.event2.type.Event.AT_TARGET);
+          event.setEventPhase(AT_TARGET);
         } else {
-          event.setEventPhase(qx.event2.type.Event.BUBBLING_PHASE);
+          event.setEventPhase(BUBBLE_PHASE);
         }
 
-        for (var j=0; j<bubbleList[i].length; j++) {
-          bubbleList[i][j](event);
+        var bubbleListLength = bubbleList[i].length;
+        for (var j=0; j<bubbleListLength; j++)
+        {
+          var callbackData = bubbleList[i][j];
+          var context = callbackData.context || currentTarget;
+          callbackData.handler.call(context, event);
         }
 
         if (event.getStopPropagation()) {
