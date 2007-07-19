@@ -47,7 +47,6 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
     this.base(arguments, eventCallBack, manager);
 
     this.__mouseButtonListenerCount = {};
-    this.__mouseMoveListenerCount = {};
 
     var buttonHandler = qx.lang.Function.bind(this.onMouseButtonEvent, this);
 
@@ -57,26 +56,11 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
       "mouseup"     : buttonHandler,
       "click"       : buttonHandler,
       "dblclick"    : buttonHandler,
-      "contextmenu" : buttonHandler,
-      "mousewheel"  : buttonHandler
+      "contextmenu" : buttonHandler
     };
 
-    var moveHandler = qx.lang.Function.bind(this.__fireEvent, this);
-    this.__mouseMoveHandler =
-    {
-      "mousemove" : {
-        count: 0,
-        handler: moveHandler
-      },
-      "mouseover" : {
-        count: 0,
-        handler: moveHandler
-      },
-      "mouseout" : {
-        count: 0,
-        handler: moveHandler
-      }
-    }
+    //var moveHandler = qx.lang.Function.bind(this.__fireEvent, this);
+    this.__mouseMoveHandler = qx.lang.Function.bind(this.__fireEvent, this);
 
     this.__lastMouseDownTarget = null;
   },
@@ -93,6 +77,15 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
   members :
   {
 
+    __mouseMoveEvents :
+    {
+      "mousemove" : 1,
+      "mouseover" : 1,
+      "mouseout" : 1,
+      "mousewheel" : 1
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER INTERFACE
@@ -100,7 +93,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
     */
 
     canHandleEvent : function(type) {
-      return this.__mouseButtonHandler[type] || this.__mouseMoveHandler[type];
+      return this.__mouseButtonHandler[type] || this.__mouseMoveEvents[type];
     },
 
 
@@ -125,25 +118,9 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
           );
         }
       }
-      else if (this.__mouseMoveHandler[type])
+      else if (this.__mouseMoveEvents[type])
       {
-        if (!this.__mouseMoveListenerCount[elementId]) {
-          this.__mouseMoveListenerCount[elementId] = {};
-          this._elementRegistry.add(element);
-        }
-        if (!this.__mouseMoveListenerCount[elementId][type]) {
-          this.__mouseMoveListenerCount[elementId][type] = 0;
-        }
-
-        this.__mouseMoveListenerCount[elementId][type] += 1;
-        if (this.__mouseMoveListenerCount[elementId][type] == 1)
-        {
-          qx.event2.Manager.addNativeListener(
-            element,
-            type,
-            this.__mouseMoveHandler[type].handler
-          );
-        }
+        qx.event2.Manager.addNativeListener(element, type, this.__mouseMoveHandler);
       }
     },
 
@@ -165,23 +142,10 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
           this._detachEvents(element, this.__mouseButtonHandler);
         }
       }
-      else if (this.__mouseMoveHandler[type])
+      else if (this.__mouseMoveEvents[type])
       {
-        if (!this.__mouseMoveListenerCount[elementId]) {
-          this.__mouseMoveListenerCount[elementId] = {};
-        }
-
-        if (!this.__mouseMoveListenerCount[elementId][type]) {
-          this.__mouseMoveListenerCount[elementId][type] = 0;
-        }
-
-        this.__mouseMoveListenerCount[elementId][type] -= 1;
-
-        if (this.__mouseMoveListenerCount[elementId][type] == 0)
-        {
-          qx.event2.Manager.addNativeListener(
-            element, type, this.__mouseMoveHandler[type].handler
-          );
+        if (!this._manager.hasListeners(elementId)) {
+          qx.event2.Manager.removeNativeListener(element, type, this.__mouseMoveHandler);
         }
       }
     },
@@ -195,18 +159,13 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
       );
 
       var documentId = qx.core.Object.toHashCode(documentElement);
+      var reg = this._manager.getRegistry();
 
-      if (!this.__mouseMoveListenerCount || !this.__mouseMoveListenerCount[documentId]) {
-        return;
+      for (var type in reg[documentId]) {
+        qx.event2.Manager.removeNativeListener(documentElement, type, this.__mouseMoveHandler);
       }
 
-      for (var type in this.__mouseMoveListenerCount[documentId])
-      {
-        qx.event2.Manager.addNativeListener(
-          documentElement, type, this.__mouseMoveHandler[type].handler
-        );
-      }
-      delete(this.__mouseMoveListenerCount[documentId]);
+      delete(reg[documentId]);
     },
 
 
@@ -408,23 +367,10 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
 
   destruct : function()
   {
-    for (var documentId in this.__mouseButtonListenerCount)
-    {
-      var documentElement = this._elementRegistry.getByHash(documentId);
-      this.removeAllListenersFromDocument(documentElement);
-    }
-
-    for (var documentId in this.__mouseMoveListenerCount)
-    {
-      var documentElement = this._elementRegistry.getByHash(documentId);
-      this.removeAllListenersFromDocument(documentElement);
-    }
-
     this._disposeFields(
       "__mouseMoveHandler",
       "__lastMouseDownTarget",
-      "__mouseButtonListenerCount",
-      "__mouseMoveListenerCount"
+      "__mouseButtonListenerCount"
     );
   }
 });

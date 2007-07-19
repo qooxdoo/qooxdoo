@@ -445,7 +445,6 @@ qx.Class.define("qx.event2.Manager",
 
   destruct : function()
   {
-    debugger;
     this._disposeObjects(
       "__documentEventManager",
       "__inlineEventManager",
