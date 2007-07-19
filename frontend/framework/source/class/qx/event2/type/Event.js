@@ -29,6 +29,7 @@ qx.Class.define("qx.event2.type.Event",
 {
   extend : qx.core.Object,
 
+  //type : "singleton",
 
 
   /*
@@ -49,22 +50,7 @@ qx.Class.define("qx.event2.type.Event",
     BUBBLING_PHASE : 3,
 
 
-    /**
-     * Initialize a singleton instance with the given browser event object.
-     *
-     * @type static
-     * @param domEvent {Event} DOM event
-     * @return {qx.event2.type.Event} an initialized Event instance
-     */
-    getInstance : function(domEvent)
-    {
-      if (this.__instance == undefined) {
-        this.__instance = new qx.event2.type.Event();
-      }
-
-      this.__instance.__initEvent(domEvent);
-      return this.__instance;
-    }
+    getInstance : qx.lang.Function.returnInstance
   },
 
 
@@ -82,14 +68,16 @@ qx.Class.define("qx.event2.type.Event",
      *
      * @type member
      * @param domEvent {Event} DOM event
+     * @return {qx.event2.type.Event} The initialized event instance
      */
-    __initEvent : function(domEvent)
+    init : function(domEvent)
     {
       this._type = null;
       this._target = null;
       this._dom = domEvent;
       this._stopPropagation = false;
       this._timeStamp = domEvent.timeStamp || (new Date()).getTime();
+      return this;
     },
 
 
