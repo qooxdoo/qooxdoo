@@ -39,64 +39,20 @@
   /**
    * @param win {Window} DOM window the capture handler will be responsible for.
    */
-  construct : function(win, manager)
+  construct : function(manager, documentManager)
   {
     this.base(arguments);
 
+    this._docManager = documentManager;
     this._manager = manager;
+
     this._captureElement = null;
 
-    qx.event2.Manager.addListener(win, "blur", this.releaseCapture, this);
-    qx.event2.Manager.addListener(win, "focus", this.releaseCapture, this);
-    qx.event2.Manager.addListener(win, "scroll", this.releaseCapture, this);
-  },
+    var win = manager.getWindow();
 
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-    // maps documentIDs to the corresponding capture handlers
-    __captureHandler : {},
-
-
-    /**
-     * Create an mouse capture handler for the given window.
-     *
-     * @param win {Window} The window object the capture handler will be
-     *     responsible for.
-     * @return {qx.event2.handler.MouseCaptureHandler} the newly created
-     *     capture handler.
-     */
-    createCaptureHandler : function(win, manager)
-    {
-      var id = qx.core.Object.toHashCode(win.document.documentElement);
-      if (!this.__captureHandler[id]) {
-        this.__captureHandler[id] = new qx.event2.handler.MouseCaptureHandler(win, manager);
-      }
-      return this.__captureHandler[id];
-    },
-
-
-    /**
-     * Get the capture handler for the element.
-     *
-     * @param element {Element} DOM element
-     * @return {qx.event2.handler.MouseCaptureHandler|undefined} the mouse capture handler
-     *     reponsible for the given element. Returns undefined if none is registered.
-     */
-    getCaptureHandler : function(element)
-    {
-      var documentElement = qx.html2.element.Node.getDocument(element).documentElement;
-      var documentId = qx.core.Object.toHashCode(documentElement);
-
-      return this.__captureHandler[documentId];
-    }
+    manager.addListener(win, "blur", this.releaseCapture, this);
+    manager.addListener(win, "focus", this.releaseCapture, this);
+    manager.addListener(win, "scroll", this.releaseCapture, this);
   },
 
 
@@ -139,7 +95,7 @@
      */
     doCaptureEvent : function(event)
     {
-      var elementData = this._manager.getElementData(this._captureElement, event.getType());
+      var elementData = this._docManager.getElementData(this._captureElement, event.getType());
 
       if (elementData)
       {
@@ -195,7 +151,7 @@
       event.setType("losecapture");
       event.setTarget(this._captureElement);
 
-      qx.event2.Manager.getInstance().dispatchEvent(event);
+      this._manager.dispatchEvent(event);
       this._captureElement = null;
     }
 
@@ -210,6 +166,6 @@
   */
 
   destruct : function() {
-    this._disposeFields("_captureElement", "_manager");
+    this._disposeFields("_captureElement", "_docManager");
   }
  });

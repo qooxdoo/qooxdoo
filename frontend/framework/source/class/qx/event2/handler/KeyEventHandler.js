@@ -45,9 +45,7 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
   {
     this.base(arguments, eventCallBack, manager);
 
-    // maps element ids to the number of registered key events for the
-    // elements
-    this.__keyEventListenerCount = {};
+    this.__keyEventListenerCount = 0;
 
     var keyUpDownHandler = qx.lang.Function.bind(this.onKeyUpDown, this);
 
@@ -95,51 +93,26 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
     },
 
 
-    registerEvent : function(element, type)
+    registerEvent : function(type)
     {
-      if (this.__keyHandler[type])
-      {
-        var elementId = qx.core.Object.toHashCode(element);
-
-        if (!this.__keyEventListenerCount[elementId])
-        {
-          this.__keyEventListenerCount[elementId] = 0;
-          this._elementRegistry.add(element);
-        }
-
-        // handle key events
-        this.__keyEventListenerCount[elementId] += 1;
-
-        if (this.__keyEventListenerCount[elementId] == 1) {
-          this._attachEvents(element, this.__keyHandler);
-        }
+      this.__keyEventListenerCount += 1;
+      if (this.__keyEventListenerCount == 1) {
+        this._attachEvents(this._documentElement, this.__keyHandler);
       }
     },
 
 
-    unregisterEvent : function(element, type)
+    unregisterEvent : function(type)
     {
-      if (this.__keyHandler[type])
-      {
-        var elementId = qx.core.Object.toHashCode(element);
-
-        if (!this.__keyEventListenerCount[elementId]) {
-          this.__keyEventListenerCount[elementId] = 0;
-          this._elementRegistry.add(element);
-        }
-
-        // handle key events
-        this.__keyEventListenerCount[elementId] -= 1;
-
-        if (this.__keyEventListenerCount[elementId] == 0) {
-          this._detachEvents(element, this.__keyHandler);
-        }
+      this.__keyEventListenerCount -= 1;
+      if (this.__keyEventListenerCount == 0) {
+        this._detachEvents(this._documentElement, this.__keyHandler);
       }
     },
 
 
-    removeAllListenersFromDocument : function(documentElement) {
-      this._detachEvents(documentElement, this.__keyHandler);
+    removeAllListeners : function() {
+      this._detachEvents(this._documentElement, this.__keyHandler);
     },
 
 
