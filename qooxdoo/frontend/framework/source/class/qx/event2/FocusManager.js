@@ -247,7 +247,7 @@ qx.Class.define("qx.event2.FocusManager",
             break;
             
           default:
-            this._doElementFocus(target);
+            this._doElementFocus(e.target);
         }
       },
       
