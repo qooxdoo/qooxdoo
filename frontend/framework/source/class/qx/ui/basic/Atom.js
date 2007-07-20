@@ -349,6 +349,8 @@ qx.Class.define("qx.ui.basic.Atom",
      */
     _updateIcon : function()
     {
+      var icon = this.getIcon();
+      
       // NOTE: We have to check whether the properties "icon" and "disabledIcon"
       //       exist, because some child classes remove them.
       if (this._iconObject && this.getIcon && this.getDisabledIcon)
@@ -358,16 +360,16 @@ qx.Class.define("qx.ui.basic.Atom",
         if (disabledIcon)
         {
           if (this.getEnabled()) {
-            this._iconObject.setSource(this.getIcon());
+            icon ? this._iconObject.setSource(icon) : this._iconObject.resetSource();
           } else {
-            this._iconObject.setSource(disabledIcon);
+            disabledIcon ? this._iconObject.setSource(disabledIcon) : this._iconObject.resetSource();
           }
 
           this._iconObject.setEnabled(true);
         }
         else
         {
-          this._iconObject.setSource(this.getIcon());
+          icon ? this._iconObject.setSource(icon) : this._iconObject.resetSource();
           this._iconObject.resetEnabled();
         }
       }
@@ -453,7 +455,7 @@ qx.Class.define("qx.ui.basic.Atom",
     _applyLabel : function(value, old)
     {
       if (this._labelObject) {
-        this._labelObject.setText(value);
+        value ? this._labelObject.setText(value) : this._labelObject.resetText();
       }
 
       this._handleLabel();
