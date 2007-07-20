@@ -7,8 +7,8 @@ import SimpleXMLRPCServer
 import re
 
 servconf = {
-    'bathost'  : '172.17.12.117',
-    'batport'  : 8000,
+    'bathost'       : '172.17.12.117',
+    'batport'       : 8000,
     'downloadhost'  : '172.17.12.117',
     'downloadport'  : 80,
     'reportfile'    : "bat_client_reports.log",
@@ -16,7 +16,7 @@ servconf = {
 }
 
 workpackopts = [
-    '--unpack-only'
+    #'--unpack-only'
 ]
 
 
@@ -33,8 +33,7 @@ class ServFunctions(object):
         rfile.flush()
         jobid = time.time()
         wpopts = list(workpackopts)  # init workpackoptions with global
-        selectTarget(clientconf,wpopts)
-        selectArchFormat(clientconf,wpopts)
+        selectWorkOpts(clientconf,wpopts)
         return (jobid, "http://" + servconf['downloadhost'] + "/downloads/workpack1.py", wpopts)
     
     def receive_report(self,jobid,clientreport):
@@ -44,20 +43,33 @@ class ServFunctions(object):
         rfile.flush()
         return 0
 
-def selectTarget(clientconf,wpopts):
+def selectWorkOpts(clientconf,wpopts):
+    # select package
     wpopts.append('--package-name')
-    if clientconf['target'] != None:
+    if ('target' in clientconf) and (clientconf['target'] != None):
         wpopts.append(clientconf['target']) # maybe override?
     else:
-        wpopts.append(serverconf['defaultTarget']) # here we could use more elab. selection, e.g. the newest archive
-    return
+        wpopts.append(servconf['defaultTarget']) # here we could use more elab. selection, e.g. the newest archive
 
-def selectArchFormat(clientconf,wpopts):
+    # select archive format
     wpopts.append('--archive-format')
-    if re.search('win',clientconf['platform'],re.I):
-        wpopts.append('.zip')
+    if clientconf['packarch'] != None:
+        wpopts.append(clientconf['packarch'])
     else:
-        wpopts.append('.tar.gz')
+        if re.search('win',clientconf['platform'],re.I):
+            wpopts.append('.zip')
+        else:
+            wpopts.append('.tar.gz')
+
+    # select work dir
+    if 'work_dir' in clientconf:
+        wpopts.append('--work-dir')
+        wpopts.append(clientconf['work_dir'])
+
+    # select amount of work
+    if clientconf['unpack_only']:
+        wpopts.append('--unpack-only')
+
     return
 
 def main():
