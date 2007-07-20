@@ -26,14 +26,17 @@ qx.Class.define("qx.event2.FocusManager",
     this.__onNativeWindowFocus = qx.lang.Function.bind(this._onNativeWindowFocus, this);
     this.__onNativeWindowBlur = qx.lang.Function.bind(this._onNativeWindowBlur, this);
 
-    qx.event2.Manager.addNativeListener(window, "focus", this.__onNativeWindowFocus);
-    qx.event2.Manager.addNativeListener(window, "blur", this.__onNativeWindowBlur);
-    
-    // Needed for gecko to correctly handle focus of input and textarea fields
+
+    // Capturing is needed for gecko to correctly handle focus of input and textarea fields
     if (window.addEventListener)
     {
       window.addEventListener("focus", this.__onNativeWindowFocus, true);
       window.addEventListener("blur", this.__onNativeWindowBlur, true);
+    }
+    else
+    {
+      qx.event2.Manager.addNativeListener(window, "focus", this.__onNativeWindowFocus);
+      qx.event2.Manager.addNativeListener(window, "blur", this.__onNativeWindowBlur);
     }
     
     
