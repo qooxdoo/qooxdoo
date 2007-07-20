@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import os, sys, platform
-import optparse
+import optparse, re
 
 workdir = "/tmp/qx"
 #logfile = "bat_workpack.log"
@@ -37,7 +37,11 @@ def qx_download(packname):
 
 # unzip
 def qx_unzip(packname):
-    rc = invoke_external("tar xvzf " + packname + options.packarch)
+    if re.search(r'(tar.gz|tgz)',options.packarch, re.I):
+        zcmd = "tar xvzf "
+    else:
+        zcmd = "unzip -o "
+    rc = invoke_external(zcmd + packname + options.packarch)
     return rc
 
 # run make
