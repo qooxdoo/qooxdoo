@@ -42,12 +42,7 @@ qx.Class.define("qx.event2.DocumentEventManager", {
   {
     this._manager = manager;
     this._window = manager.getWindow();
-
-    this.__eventHandlers = [
-      new qx.event2.handler.KeyEventHandler(this.dispatchEvent, this),
-      new qx.event2.handler.MouseEventHandler(this.dispatchEvent, this),
-      new qx.event2.handler.DefaultEventHandler(this.dispatchEvent, this) // must be the last because it can handle all events
-    ],
+    this._documentElement = this._window.document.documentElement;
 
     // registry for 'normal' bubbling events
     // structure: eventType -> elementId
@@ -97,16 +92,9 @@ qx.Class.define("qx.event2.DocumentEventManager", {
       {
         reg[type] = {};
 
-        // iterate over all event handlers and check whether they are responsible
-        // for this event type
-        for (var i=0; i<this.__eventHandlers.length; i++)
-        {
-          if (this.__eventHandlers[i].canHandleEvent(type))
-          {
-            this.__eventHandlers[i].registerEvent(type);
-            break;
-          }
-        }
+        // inform the event handler about the new event
+        // they perform the event registration at DOM level
+        this._manager.registerEventAtHandler(this._documentElement, type);
       }
 
       var elementId = qx.core.Object.toHashCode(element);
@@ -180,10 +168,12 @@ qx.Class.define("qx.event2.DocumentEventManager", {
 
         if (eventData.captureListeners.length == 0 && eventData.bubbleListeners.length == 0)
         {
-          delete (typeData[type]);
+          delete (typeData[elementId]);
 
-          for (var i=0; i<this.__eventHandlers.length; i++) {
-            this.__eventHandlers[i].unregisterEvent(type);
+          if (!this.hasListeners(type))
+          {
+            delete(this.__documentRegistry[type]);
+            this._manager.unregisterEventAtHandler(this._documentElement, type);
           }
         }
       }
@@ -308,23 +298,6 @@ qx.Class.define("qx.event2.DocumentEventManager", {
     },
 
 
-    /*
-    ---------------------------------------------------------------------------
-      CLEANUP
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Removes all event handlers handles by the class from the DOM. This
-     * function is called onunload of the the document.
-     */
-    removeAllListeners : function(doc)
-    {
-      for (var i=0; i<this.__eventHandlers.length; i++) {
-        this.__eventHandlers[i].removeAllListeners();
-      }
-    },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -410,22 +383,10 @@ qx.Class.define("qx.event2.DocumentEventManager", {
   *****************************************************************************
   */
 
-  destruct : function() {
-    for (var i=0, a=this.__eventHandlers, l=a.length-1; i<l; i++) {
-      this.__eventHandlers[i].dispose();
-    }
-
-    // remove document event listeners
-    var documentReg = this.__documentRegistry;
-    for (var documentId in documentReg)
-    {
-      var documentElement = this.__elementRegistry.getByHash(documentId);
-      this.removeAllListenersFromDocument(documentElement);
-    }
-
+  destruct : function()
+  {
     this._disposeFields("__documentRegistry");
     this._disposeObjects("__elementRegistry");
-
   }
 
 });

@@ -66,30 +66,14 @@ qx.Class.define("qx.event2.handler.DefaultEventHandler",
       return true;
     },
 
-    registerEvent : function(type) {
-      qx.event2.Manager.addNativeListener(this._documentElement, type, this._eventHandler);
+    registerEvent : function(element, type) {
+      this._managedAddNativeListener(element, type, this._eventHandler);
     },
 
-    unregisterEvent : function(type)
+    unregisterEvent : function(element, type)
     {
-      if (!this._manager.hasListeners(type)) {
-        qx.event2.Manager.removeNativeListener(this._documentElement, type, this._eventHandler);
-      }
+      this._managedRemoveNativeListener(element, type, this._eventHandler);
     },
-
-    removeAllListeners : function()
-    {
-      var reg = this._manager.getRegistry();
-
-      for (var type in reg) {
-        qx.event2.Manager.removeNativeListener(this._documentElement, type, this._eventHandler);
-      }
-
-      reg = {};
-    },
-
-
-
 
 
 
@@ -107,31 +91,9 @@ qx.Class.define("qx.event2.handler.DefaultEventHandler",
     __handleEvent : function(domEvent)
     {
       var event = qx.event2.type.Event.getInstance().init(domEvent);
-      this._callback.call(this._manager, event);
-    },
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      HELPER METHODS
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Check whether event listeners are registered at the document element
-     * for the given type.
-     *
-     * @param documentId {Integer} qooxdoo hash value of the document to check
-     * @param type {String} The type to check
-     * @return {Boolean} Whether event listeners are registered at the document
-     *     element for the given type.
-     */
-    __getDocumentHasListeners : function(documentId, type)
-    {
-      var reg = this._manager.getRegistry();
-      return qx.lang.Object.isEmpty(reg[documentId][type]);
+      this._callback.call(this._context, event);
     }
+
   },
 
 

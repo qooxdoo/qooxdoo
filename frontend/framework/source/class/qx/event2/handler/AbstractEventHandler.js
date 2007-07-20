@@ -44,14 +44,13 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
    *   which uses this EventHandler. The callback will be dispatched on this
    *   manager.
    */
-  construct : function(eventCallBack, manager)
+  construct : function(eventCallBack, context)
   {
     this.base(arguments);
     this._callback = eventCallBack;
-    this._manager = manager;
-    this._window = manager.getWindow();
-    this._documentElement = this._window.document.documentElement;
+    this._context = context;
     this._elementRegistry = new qx.util.manager.Object();
+    this.__registeredEvents = {};
   },
 
 
@@ -84,25 +83,37 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
      *
      * @param type {String} event type
      */
-    registerEvent : function(type) {
+    registerEvent : function(element, type) {
     },
 
 
     /**
      * This method is called each time the an event listener for one of the
-     * supported events is removed using {qx.event2.Manager#removeListener}.
+     * supported events is removed by using {qx.event2.Manager#removeListener}
+     * and no other event listener is listening on this type.
      *
      * @param type {String} event type
      */
-    unregisterEvent : function(type) {
+    unregisterEvent : function(element, type) {
     },
 
 
     /**
      * Removes all event handlers handles by the class from the DOM. This
-     * function is called onunload of the the document.
+     * function is called on unload of the the document.
      */
-    removeAllListeners : function() {
+    removeAllListeners : function()
+    {
+      for (var id in this.__registeredEvents)
+      {
+        var eventData = this.__registeredEvents[id];
+        qx.event2.Manager.removeNativeListener(
+          eventData.element,
+          eventData.type,
+          eventData.listener
+        );
+      }
+      this.__registeredEvents = {};
     },
 
 
@@ -115,10 +126,8 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
      */
     _attachEvents : function(element, eventMap)
     {
-      var addEvent = qx.event2.Manager.addNativeListener;
-
       for (var type in eventMap) {
-        addEvent(element, type, eventMap[type]);
+        this._managedAddNativeListener(element, type, eventMap[type]);
       }
     },
 
@@ -132,12 +141,34 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
      */
     _detachEvents : function(element, eventMap)
     {
-      var removeEvent = qx.event2.Manager.removeNativeListener
-
       for (var type in this.__keyHandler) {
-        removeEvent(element, type, eventMap[type]);
+        this._managedRemoveNativeListener(element, type, eventMap[type]);
       }
+    },
+
+
+    _managedAddNativeListener : function(element, type, listener)
+    {
+      qx.event2.Manager.addNativeListener(element, type, listener);
+      var toHash = qx.core.Object.toHashCode;
+      var id = toHash(element) + type + toHash(listener);
+      this.__registeredEvents[id] =
+      {
+        element : element,
+        type : type,
+        listener : listener
+      };
+    },
+
+
+    _managedRemoveNativeListener : function(element, type, listener)
+    {
+      qx.event2.Manager.removeNativeListener(element, type, listener);
+      var toHash = qx.core.Object.toHashCode;
+      var id = toHash(element) + type + toHash(listener);
+      delete(this.__registeredEvents[id]);
     }
+
   },
 
 
@@ -149,7 +180,7 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
   */
 
   destruct : function() {
-    this._disposeFields("_callback", "_manager");
+    this._disposeFields("_callback", "_context", "__registeredEvents");
     this._disposeObjects("_elementRegistry");
   }
 
