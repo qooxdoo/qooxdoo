@@ -95,58 +95,38 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
     },
 
 
-    registerEvent : function(type)
+    registerEvent : function(element, type)
     {
       if (this.__mouseButtonHandler[type])
       {
         this.__mouseButtonListenerCount += 1;
 
         if (this.__mouseButtonListenerCount == 1) {
-          this._attachEvents(this._documentElement, this.__mouseButtonHandler);
+          this._attachEvents(element, this.__mouseButtonHandler);
         }
       }
       else if (this.__mouseMoveEvents[type])
       {
-        qx.event2.Manager.addNativeListener(this._documentElement, type, this.__mouseMoveHandler);
+        this._managedAddNativeListener(element, type, this.__mouseMoveHandler);
       }
     },
 
 
-    unregisterEvent : function(type)
+    unregisterEvent : function(element, type)
     {
       if (this.__mouseButtonHandler[type])
       {
         this.__mouseButtonListenerCount -= 1;
 
         if (this.__mouseButtonListenerCount == 0) {
-          this._detachEvents(this._documentElement, this.__mouseButtonHandler);
+          this._detachEvents(element, this.__mouseButtonHandler);
         }
       }
       else if (this.__mouseMoveEvents[type])
       {
-        if (!this._manager.hasListeners()) {
-          qx.event2.Manager.removeNativeListener(this._documentElement, type, this.__mouseMoveHandler);
-        }
+        this._managedRemoveNativeListener(element, type, this.__mouseMoveHandler);
       }
     },
-
-
-    removeAllListeners : function()
-    {
-      this._detachEvents(
-        this._documentElement,
-        this.__mouseButtonHandler
-      );
-
-      var reg = this._manager.getRegistry();
-
-      for (var type in reg) {
-        qx.event2.Manager.removeNativeListener(this._documentElement, type, this.__mouseMoveHandler);
-      }
-
-      reg = null;
-    },
-
 
 
 
@@ -174,7 +154,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
         event.setTarget(target);
       }
 
-      this._callback.call(this._manager, event);
+      this._callback.call(this._context, event);
     },
 
 
