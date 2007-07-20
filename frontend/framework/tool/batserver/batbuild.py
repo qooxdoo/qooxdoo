@@ -71,6 +71,12 @@ def invoke_external(cmd):
                          stderr=sys.stderr)
     return p.wait()
 
+def svn_check(target,revision):
+    "See in svn repos whether target has been changed (in respect to revision)"
+    # %svninfo <rootdir> # yields local 'overall' version
+    # %svn status --show-updates  <rootdir> # compares local tree against repos
+    pass
+
 def svn_checkout(target,revision):
     rc = invoke_external("svn co %s/%s %s" % (buildconf['svn_base_url'],target,target))
     return rc
