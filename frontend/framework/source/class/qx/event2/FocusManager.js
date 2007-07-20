@@ -295,6 +295,37 @@ qx.Class.define("qx.event2.FocusManager",
         return this._body;        
       },
       
+      "opera" : function(node)
+      {
+        var index;
+        while (node && node.getAttribute) 
+        {
+          // Manually added tabIndexes to elements which
+          // do not support this are stored a way to allow
+          // access to them only through getAttribute().
+          // Naturally behavior like tabIndexes (like 0)
+          // for input fields are only accessible using
+          // the tabIndex property and are not available
+          // using the getAttribute() call.
+          index = node.getAttribute("tabIndex");
+          
+          if (index == null) {
+            index = node.tabIndex; 
+          }
+          
+          if (index >= 0) {
+            return node; 
+          }
+
+          node = node.parentNode;
+        }
+        
+        // This should be identical to the one which is selected when
+        // clicking into an empty page area. In mshtml this must be
+        // the body of the document.
+        return this._body;        
+      },
+      
       "default" : function(node)
       {
         while (node) 
