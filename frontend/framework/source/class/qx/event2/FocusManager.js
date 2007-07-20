@@ -23,26 +23,53 @@ qx.Class.define("qx.event2.FocusManager",
     this._body = this._document.body;
 
 
-    // Native listeners
-    this.__onNativeFocus = qx.lang.Function.bind(this._onNativeFocus, this);
-    this.__onNativeBlur = qx.lang.Function.bind(this._onNativeBlur, this);
-    this.__onNativeFocusIn = qx.lang.Function.bind(this._onNativeFocusIn, this);
-    this.__onNativeFocusOut = qx.lang.Function.bind(this._onNativeFocusOut, this);
+    // Common native listeners
     this.__onNativeMouseDown = qx.lang.Function.bind(this._onNativeMouseDown, this);
-
-
     this._document.onmousedown = this.__onNativeMouseDown;
 
-    // Capturing is needed for gecko to correctly handle focus of input and textarea fields
-    if (this._window.addEventListener)
+
+    // Cross browser listeners
+    if (qx.core.Variant.isSet("qx.client", "gecko"))
     {
+      // Bind methods
+      this.__onNativeFocus = qx.lang.Function.bind(this._onNativeFocus, this);
+      this.__onNativeBlur = qx.lang.Function.bind(this._onNativeBlur, this);
+      
+      // Capturing is needed for gecko to correctly 
+      // handle focus of input and textarea fields
       this._window.addEventListener("focus", this.__onNativeFocus, true);
       this._window.addEventListener("blur", this.__onNativeBlur, true);
-    }
-    else
+    } 
+    else if (qx.core.Variant.isSet("qx.client", "mshtml"))
     {
+      // Bind methods
+      this.__onNativeFocusIn = qx.lang.Function.bind(this._onNativeFocusIn, this);
+      this.__onNativeFocusOut = qx.lang.Function.bind(this._onNativeFocusOut, this);
+      
+      // MSHTML supports their own focusin and focusout events
+      // To detect which elements get focus the target is useful
+      // The window blur can detected using focusout and look 
+      // for the relatedTarget which is empty in this case.
       qx.event2.Manager.addNativeListener(this._document, "focusin", this.__onNativeFocusIn);
       qx.event2.Manager.addNativeListener(this._document, "focusout", this.__onNativeFocusOut);
+    }
+    else if (qx.core.Variant.isSet("qx.client", "opera"))
+    {
+      // Bind methods
+      this.__onNativeFocus = qx.lang.Function.bind(this._onNativeFocus, this);
+      this.__onNativeBlur = qx.lang.Function.bind(this._onNativeBlur, this);
+      this.__onNativeFocusIn = qx.lang.Function.bind(this._onNativeFocusIn, this);
+      
+      // Opera 9.2 ignores the event when capturing is enabled
+      this._window.addEventListener("focus", this.__onNativeFocus, false);
+      this._window.addEventListener("blur", this.__onNativeBlur, false);
+
+      // Opera 9.x supports DOMFocusOut which is needed to detect the element focus
+      qx.event2.Manager.addNativeListener(this._document, "DOMFocusIn", this.__onNativeFocusIn);
+    }
+    else if (qx.core.Variant.isSet("qx.client", "webkit"))
+    {
+      
     }
   },
   
@@ -67,7 +94,7 @@ qx.Class.define("qx.event2.FocusManager",
   
   members : 
   {
-    _windowFocussed : false,
+    _windowFocussed : true,
     
     _doWindowBlur : function()
     {
@@ -100,6 +127,10 @@ qx.Class.define("qx.event2.FocusManager",
     
     _doElementFocus : function(element)
     {
+      if (element === this._document) {
+        element = this._root; 
+      }
+      
       // If focus is already correct, don't configure both
       // This is the case for all mousedown events normally
       if (element && this.getFocus() !== element)
@@ -122,82 +153,121 @@ qx.Class.define("qx.event2.FocusManager",
     
     
     
-    _onNativeFocusOut : function(e)
+    _onNativeFocusOut : qx.core.Variant.select("qx.client",
     {
-      if (!e) {
-        e = window.event; 
-      }
-      
-      // this.debug("FocusOut");
-      
-      var target = e.target || e.srcElement;
-      var related = e.relatedTarget || e.toElement;
-      
-      if (!related) {
-        this._doWindowBlur();
-      }
-    },    
-    
-    _onNativeFocusIn : function(e)
-    {
-      if (!e) {
-        e = window.event; 
-      }
-      
-      // this.debug("FocusIn");
-      
-      var target = e.target || e.srcElement;
-      var related = e.relatedTarget || e.toElement;
-      
-      if (!related) {     
-        this._doWindowFocus();
-      }
-
-      this._doElementFocus(target);
-    },
-        
-    _onNativeBlur : function(e)
-    {
-      if (!e) {
-        e = window.event; 
-      }
-      
-      var target = e.target || e.srcElement;
-
-      if (target)
+      "mshtml" : function(e)
       {
-        switch(target)
-        {
-          case this._window:
-          case this._document:
-            this._doWindowBlur();
-            break;
+        if (!e) {
+          e = window.event; 
         }
-      }
-    },
+        
+        var target = e.target || e.srcElement;
+        var related = e.relatedTarget || e.toElement;
+        
+        // this.debug("FocusOut: " + target);
+        
+        if (!related) {
+          this._doWindowBlur();
+        }
+      },
+      
+      "default" : null
+    }),    
     
-    _onNativeFocus : function(e)
+    _onNativeFocusIn : qx.core.Variant.select("qx.client",
     {
-      if (!e) {
-        e = window.event; 
-      }
-      
-      var target = e.target || e.srcElement;
-      
-      if (target)
-      {      
-        switch(target)
-        {
-          case this._window:
-          case this._document:
-            this._doWindowFocus();
-            break;
-            
-          default:
-            this._doElementFocus(target);
+      "mshtml" : function(e)
+      {
+        if (!e) {
+          e = window.event; 
         }
-      }
-    },
+        
+        var target = e.target || e.srcElement;
+        var related = e.relatedTarget || e.toElement;
+  
+        // this.debug("FocusIn: " + target);
+        
+        if (!related) {     
+          this._doWindowFocus();
+        }
+  
+        this._doElementFocus(target);
+      },
+      
+      "opera" : function(e)
+      {
+        if (!e) {
+          e = window.event; 
+        }
+        
+        // this.debug("FocusIn: " + e.target);
+        
+        this._doElementFocus(e.target);
+      },
+      
+      "default" : null
+    }),
+    
+    
+    
+    
+        
+    _onNativeBlur : qx.core.Variant.select("qx.client",
+    {
+      "gecko|opera" : function(e)
+      {
+        if (!e) {
+          e = window.event; 
+        }
+        
+        var target = e.target || e.srcElement;
+  
+        if (target)
+        {
+          switch(target)
+          {
+            case this._window:
+            case this._document:
+            case this._body:
+            case this._root:
+              this._doWindowBlur();
+              break;
+          }
+        }
+      },
+      
+      "default" : null
+    }),
+    
+    _onNativeFocus : qx.core.Variant.select("qx.client",
+    {
+      "gecko|opera" : function(e)
+      {
+        if (!e) {
+          e = window.event; 
+        }
+        
+        var target = e.target || e.srcElement;
+        
+        if (target)
+        {      
+          switch(target)
+          {
+            case this._window:
+            case this._document:
+            case this._body:
+            case this._root:
+              this._doWindowFocus();
+              break;
+              
+            default:
+              this._doElementFocus(target);
+          }
+        }
+      },
+      
+      "default" : null
+    }),
 
     
 
