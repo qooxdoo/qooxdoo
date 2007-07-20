@@ -15,10 +15,24 @@
     body, div, span, h1, input, textarea, iframe {
       border : 2px solid black;
     }
+    
     body, div { 
       padding : 10px; margin: 5px 
     }
+    
+    #log{
+      font-size: 10px;
+    }
+    
+    #log div{
+      border: 0 none;
+      padding: 2px;
+      margin: 0;
+    }
   </style>
+  
+  <div id="log" style="height:200px;overflow:auto">
+  </div>
   
   <h1>TabIndex</h1>
   <div id="hello" tabIndex="0">
@@ -45,8 +59,14 @@
   <h1>Iframe</h1>
   <iframe src="empty.html" style="width:200px;height:100px">
   </iframe>
-
+  
   <script type="text/javascript">
+appender = new qx.log.appender.HtmlElement;
+appender.setElement(document.getElementById("log"));
+    
+qx.log.Logger.ROOT_LOGGER.removeAllAppenders();    
+qx.log.Logger.ROOT_LOGGER.addAppender(appender);
+   
 qx.Class.define("Gui2Test",
 {
   extend : qx.application.Gui2,
@@ -64,7 +84,7 @@ qx.Class.define("Gui2Test",
     
     _changeActive : function(e)
     {
-      this.debug("Active: " + e.getValue());
+      // this.debug("Active: " + e.getValue());
       
       if (e.getOldValue()) {
         e.getOldValue().style.borderColor = "black";
@@ -77,7 +97,7 @@ qx.Class.define("Gui2Test",
     
     _changeFocus : function(e)
     {
-      this.debug("Focus: " + e.getValue());
+      // this.debug("Focus: " + e.getValue());
       
       if (e.getOldValue()) {
         e.getOldValue().style.background = "";

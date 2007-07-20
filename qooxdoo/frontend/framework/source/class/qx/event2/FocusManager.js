@@ -19,31 +19,31 @@ qx.Class.define("qx.event2.FocusManager",
     // Shorthands    
     this._window = win;
     this._document = win.document;
-    this._root = win.document.documentElement;
+    this._root = this._document.documentElement;
+    this._body = this._document.body;
 
 
     // Native listeners
-    this.__onNativeWindowFocus = qx.lang.Function.bind(this._onNativeWindowFocus, this);
-    this.__onNativeWindowBlur = qx.lang.Function.bind(this._onNativeWindowBlur, this);
+    this.__onNativeFocus = qx.lang.Function.bind(this._onNativeFocus, this);
+    this.__onNativeBlur = qx.lang.Function.bind(this._onNativeBlur, this);
+    this.__onNativeFocusIn = qx.lang.Function.bind(this._onNativeFocusIn, this);
+    this.__onNativeFocusOut = qx.lang.Function.bind(this._onNativeFocusOut, this);
+    this.__onNativeMouseDown = qx.lang.Function.bind(this._onNativeMouseDown, this);
 
+
+    this._document.onmousedown = this.__onNativeMouseDown;
 
     // Capturing is needed for gecko to correctly handle focus of input and textarea fields
-    if (window.addEventListener)
+    if (this._window.addEventListener)
     {
-      window.addEventListener("focus", this.__onNativeWindowFocus, true);
-      window.addEventListener("blur", this.__onNativeWindowBlur, true);
+      this._window.addEventListener("focus", this.__onNativeFocus, true);
+      this._window.addEventListener("blur", this.__onNativeBlur, true);
     }
     else
     {
-      qx.event2.Manager.addNativeListener(window, "focus", this.__onNativeWindowFocus);
-      qx.event2.Manager.addNativeListener(window, "blur", this.__onNativeWindowBlur);
+      qx.event2.Manager.addNativeListener(this._document, "focusin", this.__onNativeFocusIn);
+      qx.event2.Manager.addNativeListener(this._document, "focusout", this.__onNativeFocusOut);
     }
-    
-    
-    // Normalized Listeners
-    qx.event2.Manager.addListener(this._root, "mousedown", this._onMouseDown, this);
-    qx.event2.Manager.addListener(win, "focus", this._onWindowFocus, this);
-    qx.event2.Manager.addListener(win, "blur", this._onWindowBlur, this);
   },
   
   properties :
@@ -69,72 +69,179 @@ qx.Class.define("qx.event2.FocusManager",
   {
     _windowFocussed : false,
     
-    _onNativeWindowBlur : function(e)
+    _doWindowBlur : function()
     {
-      var target = e.target || window.event.srcElement;
-
-      switch(target)
+      // Omit doubled blur events
+      // which is a common behavior at least for gecko based clients
+      if (this._windowFocussed)
       {
-        case this._window:
-        case this._document:
-          // Omit doubled blur events
-          // which is a common behavior at least for gecko based clients
-          if (this._windowFocussed)
-          {
-            this._windowFocussed = false;
-            this.__fireCustom(this._window, "blur");
-          }
+        this._windowFocussed = false;
 
-          break;
+        this.resetActive();
+        this.resetFocus();
+        
+        this.debug("Window blurred");
+        this.__fireCustom(this._window, "blur");
+      }        
+    },
+    
+    _doWindowFocus : function()
+    {
+      // Omit doubled focus events
+      // which is a common behavior at least for gecko based clients
+      if (!this._windowFocussed)
+      {
+        this._windowFocussed = true;
+        
+        this.debug("Window focussed");
+        this.__fireCustom(this._window, "focus");
+      }    
+    },
+    
+    _doElementFocus : function(element)
+    {
+      // If focus is already correct, don't configure both
+      // This is the case for all mousedown events normally
+      if (element && this.getFocus() !== element)
+      {
+        /*
+        var oldActive = this.getActive() ? this.getActive().tagName : "none";
+        var oldFocus = this.getFocus() ? this.getFocus().tagName : "none";
+        
+        this.debug("Focus: " + element.tagName);
+        this.debug("OLD: " + oldActive + " :: " + oldFocus);
+        */
+        
+        this.setActive(element);
+        this.setFocus(element);
+      }    
+    },
+    
+    
+    
+    
+    
+    
+    _onNativeFocusOut : function(e)
+    {
+      if (!e) {
+        e = window.event; 
+      }
+      
+      // this.debug("FocusOut");
+      
+      var target = e.target || e.srcElement;
+      var related = e.relatedTarget || e.toElement;
+      
+      if (!related) {
+        this._doWindowBlur();
+      }
+    },    
+    
+    _onNativeFocusIn : function(e)
+    {
+      if (!e) {
+        e = window.event; 
+      }
+      
+      // this.debug("FocusIn");
+      
+      var target = e.target || e.srcElement;
+      var related = e.relatedTarget || e.toElement;
+      
+      if (!related) {     
+        this._doWindowFocus();
+      }
+
+      this._doElementFocus(target);
+    },
+        
+    _onNativeBlur : function(e)
+    {
+      if (!e) {
+        e = window.event; 
+      }
+      
+      var target = e.target || e.srcElement;
+
+      if (target)
+      {
+        switch(target)
+        {
+          case this._window:
+          case this._document:
+            this._doWindowBlur();
+            break;
+        }
       }
     },
     
-    _onNativeWindowFocus : function(e)
+    _onNativeFocus : function(e)
     {
-      var target = e.target || window.event.srcElement;
+      if (!e) {
+        e = window.event; 
+      }
       
-      switch(target)
+      var target = e.target || e.srcElement;
+      
+      if (target)
+      {      
+        switch(target)
+        {
+          case this._window:
+          case this._document:
+            this._doWindowFocus();
+            break;
+            
+          default:
+            this._doElementFocus(target);
+        }
+      }
+    },
+
+    
+
+
+
+    __findFocusNode : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(node)
       {
-        case this._window:
-        case this._document:
-          // Omit doubled focus events
-          // which is a common behavior at least for gecko based clients
-          if (!this._windowFocussed)
-          {
-            this._windowFocussed = true;
-            this.__fireCustom(this._window, "focus");
+        while (node) 
+        {
+          // The last one is needed for MSHTML, where every node
+          // in document normally returns tabIndex=0 even if not set up
+          // this way. The unmodified value return 32768 for unconfigured nodes
+          if (node.tabIndex !== undefined && node.tabIndex >= 0 && node.getAttribute("tabIndex", 2) !== 32768) {
+            return node;
           }
-
-          break;
           
-        default:
-          // If focus is already correct, don't configure both
-          // This is the case for all mousedown events normally
-          if (this.getFocus() !== target)
-          {
-            this.setActive(target);
-            this.setFocus(target);
-          }
-      }     
-    },
-    
-    _onWindowBlur : function(e)
-    {
-      this.debug("Window blurred");
+          node = node.parentNode;
+        }
+        
+        // This should be identical to the one which is selected when
+        // clicking into an empty page area. In mshtml this must be
+        // the body of the document.
+        return this._body;        
+      },
       
-      this.resetActive();
-      this.resetFocus();
-    },
-    
-    _onWindowFocus : function(e)
-    {
-      this.debug("Window focussed");
-    },
-    
-
-
-
-
+      "default" : function(node)
+      {
+        while (node) 
+        {
+          if (node.tabIndex !== undefined && node.tabIndex >= 0) {
+            return node;
+          }
+          
+          node = node.parentNode;
+        }
+        
+        // This should be identical to the one which is selected when
+        // clicking into an empty page area. In mshtml this must be
+        // the body of the document.
+        return this._body;
+      }
+    }),
     
     
     /**
@@ -143,25 +250,18 @@ qx.Class.define("qx.event2.FocusManager",
      * @type member
      * @param e {Event}
      */
-    _onMouseDown : function(e) 
+    _onNativeMouseDown : function(e) 
     {
-      var node = e.getTarget();
-
-      this.setActive(node);
-      
-      // find first node with a valid tabindex
-      while (node) 
-      {
-        if (node.tabIndex !== undefined && node.tabIndex >= 0) 
-        {
-          this.setFocus(node);
-          return;
-        }
-        
-        node = node.parentNode;
+      if (!e) {
+        e = window.event; 
       }
       
-      this.setFocus(this._root);
+      var target = e.target || e.srcElement;      
+      
+      // this.debug("MouseDown: " + target.tagName);
+
+      this.setActive(target);
+      this.setFocus(this.__findFocusNode(target));
     },    
 
     
