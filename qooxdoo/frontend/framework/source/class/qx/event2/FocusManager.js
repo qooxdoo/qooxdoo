@@ -53,7 +53,7 @@ qx.Class.define("qx.event2.FocusManager",
       qx.event2.Manager.addNativeListener(this._document, "focusin", this.__onNativeFocusIn);
       qx.event2.Manager.addNativeListener(this._document, "focusout", this.__onNativeFocusOut);
     }
-    else if (qx.core.Variant.isSet("qx.client", "opera"))
+    else if (qx.core.Variant.isSet("qx.client", "opera|webkit"))
     {
       // Bind methods
       this.__onNativeFocus = qx.lang.Function.bind(this._onNativeFocus, this);
@@ -66,10 +66,6 @@ qx.Class.define("qx.event2.FocusManager",
 
       // Opera 9.x supports DOMFocusOut which is needed to detect the element focus
       qx.event2.Manager.addNativeListener(this._document, "DOMFocusIn", this.__onNativeFocusIn);
-    }
-    else if (qx.core.Variant.isSet("qx.client", "webkit"))
-    {
-      
     }
   },
   
@@ -161,10 +157,9 @@ qx.Class.define("qx.event2.FocusManager",
           e = window.event; 
         }
         
-        var target = e.target || e.srcElement;
         var related = e.relatedTarget || e.toElement;
         
-        // this.debug("FocusOut: " + target);
+        // this.debug("FocusOut: " + target + " :: " + related);
         
         if (!related) {
           this._doWindowBlur();
@@ -185,7 +180,7 @@ qx.Class.define("qx.event2.FocusManager",
         var target = e.target || e.srcElement;
         var related = e.relatedTarget || e.toElement;
   
-        // this.debug("FocusIn: " + target);
+        // this.debug("FocusIn: " + target + " :: " + related);
         
         if (!related) {     
           this._doWindowFocus();
@@ -194,7 +189,7 @@ qx.Class.define("qx.event2.FocusManager",
         this._doElementFocus(target);
       },
       
-      "opera" : function(e)
+      "opera|webkit" : function(e)
       {
         if (!e) {
           e = window.event; 
@@ -214,25 +209,20 @@ qx.Class.define("qx.event2.FocusManager",
         
     _onNativeBlur : qx.core.Variant.select("qx.client",
     {
-      "gecko|opera" : function(e)
+      "gecko|opera|webkit" : function(e)
       {
-        if (!e) {
-          e = window.event; 
-        }
-        
-        var target = e.target || e.srcElement;
-  
-        if (target)
+        switch(e.target)
         {
-          switch(target)
-          {
-            case this._window:
-            case this._document:
-            case this._body:
-            case this._root:
-              this._doWindowBlur();
-              break;
-          }
+          case null:
+          case undefined:
+            return;
+                      
+          case this._window:
+          case this._document:
+          case this._body:
+          case this._root:
+            this._doWindowBlur();
+            break;
         }
       },
       
@@ -241,28 +231,23 @@ qx.Class.define("qx.event2.FocusManager",
     
     _onNativeFocus : qx.core.Variant.select("qx.client",
     {
-      "gecko|opera" : function(e)
+      "gecko|opera|webkit" : function(e)
       {
-        if (!e) {
-          e = window.event; 
-        }
-        
-        var target = e.target || e.srcElement;
-        
-        if (target)
-        {      
-          switch(target)
-          {
-            case this._window:
-            case this._document:
-            case this._body:
-            case this._root:
-              this._doWindowFocus();
-              break;
-              
-            default:
-              this._doElementFocus(target);
-          }
+        switch(e.target)
+        {
+          case null:
+          case undefined:
+            return;
+            
+          case this._window:
+          case this._document:
+          case this._body:
+          case this._root:
+            this._doWindowFocus();
+            break;
+            
+          default:
+            this._doElementFocus(target);
         }
       },
       
@@ -295,7 +280,7 @@ qx.Class.define("qx.event2.FocusManager",
         return this._body;        
       },
       
-      "opera" : function(node)
+      "opera|webkit" : function(node)
       {
         var index;
         while (node && node.getAttribute) 
@@ -303,7 +288,8 @@ qx.Class.define("qx.event2.FocusManager",
           // Manually added tabIndexes to elements which
           // do not support this are stored a way to allow
           // access to them only through getAttribute().
-          // Naturally behavior like tabIndexes (like 0)
+          //
+          // Naturally behavior like default tabIndexes (like 0)
           // for input fields are only accessible using
           // the tabIndex property and are not available
           // using the getAttribute() call.
