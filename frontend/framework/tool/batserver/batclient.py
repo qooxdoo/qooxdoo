@@ -7,13 +7,13 @@ import optparse
 import xmlrpclib
 
 clientconf = {
-   'bathost'   : '172.17.12.117',
-   'batport'   : 8000,
-   'platform'  : 'unix',
-   'pack_type' : 'sdk',
-   'make_build': False,
-   'work_dir'  : '/tmp/qx',
-   'logfile'   : 'bat_client.log',
+   'bathost'    : '172.17.12.117',
+   'batport'    : 8000,
+   'platform'   : None,
+   'packarch'   : None,
+   'unpack_only': False,
+   'work_dir'   : '/tmp/qx',
+   'logfile'    : 'bat_client.log',
    #'disk_space' : '2G',
    #'cpu_consume' : '20%',
    #'time_limit' : '30m',
@@ -21,7 +21,7 @@ clientconf = {
 doCleanup = False
 
 
-def get_computed_conf():
+def get_computed_opts():
     parser = optparse.OptionParser()
 
     parser.add_option(
@@ -54,14 +54,28 @@ def get_computed_conf():
         help="The target to test (e.g. \"qooxdoo-0.7.1-sdk\")"
     )
 
+    parser.add_option(
+        "-u", "--unpack-only", dest="unpack_only",
+        default=clientconf['unpack_only'], action="store_true",
+        help="The target to test (e.g. \"qooxdoo-0.7.1-sdk\")"
+    )
+
+    parser.add_option(
+        "-a", "--archive-format", dest="packarch", default=clientconf['packarch'],
+        type="string",
+        help="Package archive format (e.g. \".tar.gz\" or \".zip\")"
+    )
+
     (options, args) = parser.parse_args()
 
     # propagate options back to clientconf (needed for register_client)
-    clientconf['work_dir'] = options.workdir
-    clientconf['batport']  = options.batport
-    clientconf['logfile']  = options.logfile
-    clientconf['bathost']  = options.bathost
-    clientconf['target']   = options.target
+    clientconf['work_dir']   = options.workdir
+    clientconf['batport']    = options.batport
+    clientconf['logfile']    = options.logfile
+    clientconf['bathost']    = options.bathost
+    clientconf['target']     = options.target
+    clientconf['packarch']   = options.packarch
+    clientconf['unpack_only']   = options.unpack_only
 
     return (options, args)
 
@@ -73,7 +87,13 @@ def register_client():
 def retreive_workpack(wp_url):
     import httplib, urlparse
     urlparts = urlparse.urlsplit(wp_url)
-    httpServ = httplib.HTTPConnection(urlparts.hostname, urlparts.port)
+    #httpServ = httplib.HTTPConnection(urlparts.hostname, urlparts.port)
+    netparts = urlparts[1].split(':')
+    if len(netparts)>1:
+        port = netparts[1]
+    else:
+        port = None
+    httpServ = httplib.HTTPConnection(netparts[0], port)
     httpServ.connect()
 
     httpServ.request('GET',urlparse.urlunsplit(('','')+urlparts[2:])) # wp_url - 'http://...:8000'
@@ -94,7 +114,10 @@ def goto_workdir(workdir):
     os.chdir(workdir)
 
 def run_workpack(wp,wo):
-    rc = invoke_external("python %s" % reduce(lambda a,b: a+" "+b,[wp]+wo))
+    cmd = "python %s" % reduce(lambda a,b: a+" "+b,[wp]+wo)
+    print "Invoking external command: %s" % cmd
+    sys.stdout.flush()
+    rc = invoke_external(cmd)
     return rc
 
 def prepare_output(logfile):
@@ -120,10 +143,21 @@ def report_outcomes(jobid,ret,logfile):
     rc = server.receive_report(jobid,repr(ret)+logcont)
     return rc
 
+def get_setup():
+    "Auto-detect platform etc., check existing config file"
+
+    # platform
+    if sys.platform[:3] == "win":
+        clientconf['platform'] = 'win'
+    else:
+        clientconf['platform'] = 'unix'
+    return 
+
 def main():
     global server, options, args
 
-    (options,args) = get_computed_conf()
+    (options,args) = get_computed_opts()
+    get_setup()
     goto_workdir(options.workdir)
     prepare_output(options.logfile)
     server = xmlrpclib.ServerProxy(uri='http://'+options.bathost+':'+repr(options.batport),allow_none=True)
