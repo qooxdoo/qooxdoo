@@ -42,7 +42,6 @@ qx.Class.define("qx.event2.handler.DefaultEventHandler",
   construct : function(eventCallBack, manager)
   {
     this.base(arguments, eventCallBack, manager);
-
     this._eventHandler = qx.lang.Function.bind(this.__handleEvent, this);
   },
 
@@ -67,28 +66,26 @@ qx.Class.define("qx.event2.handler.DefaultEventHandler",
       return true;
     },
 
-    registerEvent : function(element, type) {
-      qx.event2.Manager.addNativeListener(element, type, this._eventHandler);
+    registerEvent : function(type) {
+      qx.event2.Manager.addNativeListener(this._documentElement, type, this._eventHandler);
     },
 
-    unregisterEvent : function(element, type)
+    unregisterEvent : function(type)
     {
-      var documentId = qx.core.Object.toHashCode(element);
-      if (!this._manager.hasListeners(documentId)) {
-        qx.event2.Manager.removeNativeListener(element, type, this._eventHandler);
+      if (!this._manager.hasListeners(type)) {
+        qx.event2.Manager.removeNativeListener(this._documentElement, type, this._eventHandler);
       }
     },
 
-    removeAllListenersFromDocument : function(documentElement)
+    removeAllListeners : function()
     {
-      var documentId = qx.core.Object.toHashCode(documentElement);
       var reg = this._manager.getRegistry();
 
-      for (var type in reg[documentId]) {
-        qx.event2.Manager.removeNativeListener(documentElement, type, this._eventHandler);
+      for (var type in reg) {
+        qx.event2.Manager.removeNativeListener(this._documentElement, type, this._eventHandler);
       }
 
-      delete(reg[documentId]);
+      reg = {};
     },
 
 

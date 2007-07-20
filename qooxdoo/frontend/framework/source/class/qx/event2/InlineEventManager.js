@@ -34,7 +34,7 @@ qx.Class.define("qx.event2.InlineEventManager",
   *****************************************************************************
   */
 
-  construct : function()
+  construct : function(manager)
   {
     // registry for inline events
     // structure: elementId -> type

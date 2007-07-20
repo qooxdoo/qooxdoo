@@ -49,6 +49,8 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
     this.base(arguments);
     this._callback = eventCallBack;
     this._manager = manager;
+    this._window = manager.getWindow();
+    this._documentElement = this._window.document.documentElement;
     this._elementRegistry = new qx.util.manager.Object();
   },
 
@@ -77,33 +79,30 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
 
 
     /**
-     * Increase the event count for this event type.
+     * This method is called each time the an event listener for one of the
+     * supported events is added using {qx.event2.Manager#addListener}.
      *
-     * @param element {Element} DOM element to register an additional event for
      * @param type {String} event type
      */
-    registerEvent : function(element, type) {
+    registerEvent : function(type) {
     },
 
 
     /**
-     * Decrease the event count for this event type.
+     * This method is called each time the an event listener for one of the
+     * supported events is removed using {qx.event2.Manager#removeListener}.
      *
-     * @param element {Element} DOM element to register an additional event for
      * @param type {String} event type
      */
-    unregisterEvent : function(element, type) {
+    unregisterEvent : function(type) {
     },
 
 
     /**
-     * Removes all event handlers handles by the class from the DOM of the given
-     * DOM document. This function is called onunload of the the document.
-     *
-     * @param documentElement {Element} The DOM documentelement of the document
-     *     to remove the listeners from.
+     * Removes all event handlers handles by the class from the DOM. This
+     * function is called onunload of the the document.
      */
-    removeAllListenersFromDocument : function(documentElement) {
+    removeAllListeners : function() {
     },
 
 

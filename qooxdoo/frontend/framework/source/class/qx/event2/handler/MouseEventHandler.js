@@ -46,7 +46,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
   {
     this.base(arguments, eventCallBack, manager);
 
-    this.__mouseButtonListenerCount = {};
+    this.__mouseButtonListenerCount = 0;
 
     var buttonHandler = qx.lang.Function.bind(this.onMouseButtonEvent, this);
     this.__mouseButtonHandler =
@@ -95,76 +95,56 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
     },
 
 
-    registerEvent : function(element, type)
+    registerEvent : function(type)
     {
-      var elementId = qx.core.Object.toHashCode(element);
-
       if (this.__mouseButtonHandler[type])
       {
-        if (!this.__mouseButtonListenerCount[elementId]) {
-          this.__mouseButtonListenerCount[elementId] = 0;
-          this._elementRegistry.add(element);
-        }
+        this.__mouseButtonListenerCount += 1;
 
-        // handle key events
-        this.__mouseButtonListenerCount[elementId] += 1;
-
-        if (this.__mouseButtonListenerCount[elementId] == 1) {
-          this._attachEvents(
-            element,
-            this.__mouseButtonHandler
-          );
+        if (this.__mouseButtonListenerCount == 1) {
+          this._attachEvents(this._documentElement, this.__mouseButtonHandler);
         }
       }
       else if (this.__mouseMoveEvents[type])
       {
-        console.log(type);
-        qx.event2.Manager.addNativeListener(element, type, this.__mouseMoveHandler);
+        qx.event2.Manager.addNativeListener(this._documentElement, type, this.__mouseMoveHandler);
       }
     },
 
 
-    unregisterEvent : function(element, type)
+    unregisterEvent : function(type)
     {
-      var elementId = qx.core.Object.toHashCode(element);
-
-      if (!this.__mouseButtonListenerCount[elementId]) {
-        this.__mouseButtonListenerCount[elementId] = 0;
-      }
-
       if (this.__mouseButtonHandler[type])
       {
-        // handle key events
-        this.__mouseButtonListenerCount[elementId] -= 1;
+        this.__mouseButtonListenerCount -= 1;
 
-        if (this.__mouseButtonListenerCount[elementId] == 0) {
-          this._detachEvents(element, this.__mouseButtonHandler);
+        if (this.__mouseButtonListenerCount == 0) {
+          this._detachEvents(this._documentElement, this.__mouseButtonHandler);
         }
       }
       else if (this.__mouseMoveEvents[type])
       {
-        if (!this._manager.hasListeners(elementId)) {
-          qx.event2.Manager.removeNativeListener(element, type, this.__mouseMoveHandler);
+        if (!this._manager.hasListeners()) {
+          qx.event2.Manager.removeNativeListener(this._documentElement, type, this.__mouseMoveHandler);
         }
       }
     },
 
 
-    removeAllListenersFromDocument : function(documentElement)
+    removeAllListeners : function()
     {
       this._detachEvents(
-        documentElement,
+        this._documentElement,
         this.__mouseButtonHandler
       );
 
-      var documentId = qx.core.Object.toHashCode(documentElement);
       var reg = this._manager.getRegistry();
 
-      for (var type in reg[documentId]) {
-        qx.event2.Manager.removeNativeListener(documentElement, type, this.__mouseMoveHandler);
+      for (var type in reg) {
+        qx.event2.Manager.removeNativeListener(this._documentElement, type, this.__mouseMoveHandler);
       }
 
-      delete(reg[documentId]);
+      reg = null;
     },
 
 

@@ -38,8 +38,11 @@ qx.Class.define("qx.event2.DocumentEventManager", {
   /**
    * Creates a new instance of the event handler.
    */
-  construct : function()
+  construct : function(manager)
   {
+    this._manager = manager;
+    this._window = manager.getWindow();
+
     this.__eventHandlers = [
       new qx.event2.handler.KeyEventHandler(this.dispatchEvent, this),
       new qx.event2.handler.MouseEventHandler(this.dispatchEvent, this),
@@ -47,7 +50,7 @@ qx.Class.define("qx.event2.DocumentEventManager", {
     ],
 
     // registry for 'normal' bubbling events
-    // structure: documentId -> eventType -> elementId
+    // structure: eventType -> elementId
     this.__documentRegistry = {};
 
     // maps elementIDs to DOM elements
@@ -88,20 +91,11 @@ qx.Class.define("qx.event2.DocumentEventManager", {
     addListener : function(element, type, listener, self, useCapture)
     {
       var reg = this.__documentRegistry;
-      var documentElement = qx.html2.element.Node.getDocument(element).documentElement;
-      var documentId = qx.core.Object.toHashCode(documentElement);
-
-      // create registry for this document
-      if (!reg[documentId]) {
-        reg[documentId] = {};
-        this.__elementRegistry.add(documentElement);
-      }
-      var docData = reg[documentId];
 
       // create registry for this event type
-      if (!docData[type])
+      if (!reg[type])
       {
-        docData[type] = {};
+        reg[type] = {};
 
         // iterate over all event handlers and check whether they are responsible
         // for this event type
@@ -109,14 +103,14 @@ qx.Class.define("qx.event2.DocumentEventManager", {
         {
           if (this.__eventHandlers[i].canHandleEvent(type))
           {
-            this.__eventHandlers[i].registerEvent(documentElement, type);
+            this.__eventHandlers[i].registerEvent(type);
             break;
           }
         }
       }
 
       var elementId = qx.core.Object.toHashCode(element);
-      var typeEvents = docData[type];
+      var typeEvents = reg[type];
 
       if (!typeEvents[elementId])
       {
@@ -156,10 +150,8 @@ qx.Class.define("qx.event2.DocumentEventManager", {
      */
     removeListener : function(element, type, listener, useCapture)
     {
-      var documentElement = qx.html2.element.Node.getDocument(element).documentElement;
-
       // get data for this event type
-      var typeData = this.getTypeData(element, type);
+      var typeData = this.getTypeData(type);
 
       // get registry entry for this element
       var elementId = qx.core.Object.toHashCode(element);
@@ -191,7 +183,7 @@ qx.Class.define("qx.event2.DocumentEventManager", {
           delete (typeData[type]);
 
           for (var i=0; i<this.__eventHandlers.length; i++) {
-            this.__eventHandlers[i].unregisterEvent(documentElement, type);
+            this.__eventHandlers[i].unregisterEvent(type);
           }
         }
       }
@@ -217,15 +209,15 @@ qx.Class.define("qx.event2.DocumentEventManager", {
       var node = target;
 
       // return if no listeners are attached to this event type
-      var reg = this.getTypeData(node, event.getType());
+      var reg = this.getTypeData(event.getType());
       if (reg == undefined) {
         return;
       }
 
       // handle mouse capturing
-      var mouseCapture = qx.event2.handler.MouseCaptureHandler.getCaptureHandler(node);
-      if (mouseCapture.shouldCaptureEvent(event)) {
-        mouseCapture.doCaptureEvent(event);
+      var captureHandler = this._manager.getCaptureHandler();
+      if (captureHandler.shouldCaptureEvent(event)) {
+        captureHandler.doCaptureEvent(event);
         return;
       }
 
@@ -323,16 +315,13 @@ qx.Class.define("qx.event2.DocumentEventManager", {
     */
 
     /**
-     * Removes all event handlers handles by the class from the DOM of the given
-     * DOM document. This function is called onunload of the the document.
-     *
-     * @param documentElement {Element} The DOM documentelement of the document
-     *     to remove the listeners from.
+     * Removes all event handlers handles by the class from the DOM. This
+     * function is called onunload of the the document.
      */
-    removeAllListenersFromDocument : function(doc)
+    removeAllListeners : function(doc)
     {
       for (var i=0; i<this.__eventHandlers.length; i++) {
-        this.__eventHandlers[i].removeAllListenersFromDocument(doc);
+        this.__eventHandlers[i].removeAllListeners();
       }
     },
 
@@ -347,21 +336,13 @@ qx.Class.define("qx.event2.DocumentEventManager", {
     /**
      * Get data about registered document event handlers for the given type.
      *
-     * @param element {Element} an element inside the document to search
      * @param type {String} event type
      * @return {Map} type data
      * @internal
      */
-    getTypeData : function(element, type)
+    getTypeData : function(type)
     {
-      var documentElement = qx.html2.element.Node.getDocument(element).documentElement;
-      var documentId = qx.core.Object.toHashCode(documentElement);
-
-      if (!this.__documentRegistry[documentId]) {
-        return null;
-      }
-
-      var reg = this.__documentRegistry[documentId][type];
+      var reg = this.__documentRegistry[type];
 
       if (reg == undefined) {
         return null;
@@ -382,7 +363,7 @@ qx.Class.define("qx.event2.DocumentEventManager", {
      */
     getElementData : function(element, type)
     {
-      var typeData = this.getTypeData(element, type);
+      var typeData = this.getTypeData(type);
       if (typeData) {
         return typeData[qx.core.Object.toHashCode(element)]
       } else {
@@ -394,7 +375,7 @@ qx.Class.define("qx.event2.DocumentEventManager", {
     /**
      * Get the internal registry for all event listeners of bubbling events.
      *
-     * @return {Map} the registry. Structure: documentId -> eventType -> elementId
+     * @return {Map} the registry. Structure: eventType -> elementId
      * @internal
      */
     getRegistry : function() {
@@ -406,13 +387,17 @@ qx.Class.define("qx.event2.DocumentEventManager", {
      * Check whether event listeners are registered at the document element
      * for the given type.
      *
-     * @param documentId {Integer} qooxdoo hash value of the document to check
      * @param type {String} The type to check
      * @return {Boolean} Whether event listeners are registered at the document
      *     element for the given type.
      */
-    hasListeners : function(documentId, type) {
-      return qx.lang.Object.isEmpty(this.__documentRegistry[documentId][type]);
+    hasListeners : function(type) {
+      return qx.lang.Object.isEmpty(this.__documentRegistry[type]);
+    },
+
+
+    getWindow : function() {
+      return this._window;
     }
 
   },

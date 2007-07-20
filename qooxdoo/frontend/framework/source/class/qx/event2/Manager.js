@@ -53,9 +53,7 @@
  */
 qx.Class.define("qx.event2.Manager",
 {
-  type : "singleton",
   extend : qx.core.Object,
-
 
 
 
@@ -67,20 +65,23 @@ qx.Class.define("qx.event2.Manager",
 
   /**
    * Creates a new instance of the event handler.
+   *
+   * @param win {Window} The DOM window this manager handles the events for
    */
-  construct : function()
+  construct : function(win)
   {
-    // set the singelton pointer as early as possible to avoid infinite recursion
-    qx.event2.Manager.$$instance = this;
-
-    // event manager for bubbling events
-    this.__documentEventManager = new qx.event2.DocumentEventManager();
+    this._window = win;
 
     // event manager for inline events
-    this.__inlineEventManager = new qx.event2.InlineEventManager();
+    this.__inlineEventManager = new qx.event2.InlineEventManager(this);
 
-    // set of all known windows
-    this.__knownWindows = new qx.util.manager.Object();
+    // event manager for bubbling events
+    this.__documentEventManager = new qx.event2.DocumentEventManager(this);
+
+    this.addListener(win, "unload", this.__onunload, this);
+
+    // create mouse capture handler for this window
+    this._captureHandler = new qx.event2.handler.MouseCaptureHandler(this, this.__documentEventManager);
   },
 
 
@@ -96,6 +97,29 @@ qx.Class.define("qx.event2.Manager",
 
   statics :
   {
+
+    __managers : {},
+
+    getManager : function(element)
+    {
+      // get the corresponding default view (window)
+      if (qx.html2.element.Node.isWindow(element)) {
+        var win = element;
+      } else {
+        var win = qx.html2.element.Node.getDefaultView(element);
+      }
+      var id = qx.core.Object.toHashCode(win);
+
+      var manager = this.__managers[id];
+      if (!manager)
+      {
+        manager = new qx.event2.Manager(win);
+        this.__managers[id] = manager;
+      }
+      return manager;
+    },
+
+
     /**
      * Add an event listener to a DOM element. The event listener is passed an
      * instance of {@link Event} containing all relevant information
@@ -112,7 +136,7 @@ qx.Class.define("qx.event2.Manager",
      *       to attach the event handler to the bubbling phase.
      */
     addListener : function(element, type, listener, self, useCapture) {
-      this.getInstance().addListener(element, type, listener, self, useCapture);
+      this.getManager(element).addListener(element, type, listener, self, useCapture);
     },
 
 
@@ -127,7 +151,7 @@ qx.Class.define("qx.event2.Manager",
      *       the bubbling or of the capturing phase.
      */
     removeListener : function(element, type, listener, useCapture) {
-      this.getInstance().removeListener(element, type, listener, useCapture);
+      this.getManager(element).removeListener(element, type, listener, useCapture);
     },
 
 
@@ -186,7 +210,7 @@ qx.Class.define("qx.event2.Manager",
      * @return {Element} The current active element.
      */
     getActiveElement : function() {
-      return this.getInstance().getActiveElement();
+      return this.getManager(window).getActiveElement();
     }
   },
 
@@ -288,23 +312,6 @@ qx.Class.define("qx.event2.Manager",
       {
         this.__documentEventManager.addListener(element, type, listener, self, useCapture);
       }
-
-      // get the corresponding default view (window)
-      if (qx.html2.element.Node.isWindow(element)) {
-        var win = element;
-      } else {
-        var win = qx.html2.element.Node.getDefaultView(element);
-      }
-
-      // attach unload listener for automatic deregistration of event listeners
-      if (!this.__knownWindows.has(win))
-      {
-        this.__knownWindows.add(win);
-        this.addListener(win, "unload", this.__onunload, this);
-
-        // create mouse capture handler for this window
-        qx.event2.handler.MouseCaptureHandler.createCaptureHandler(win, this.__documentEventManager);
-      }
     },
 
 
@@ -317,14 +324,11 @@ qx.Class.define("qx.event2.Manager",
      */
     __onunload : function(domEvent)
     {
-      var win = domEvent.getCurrentTarget();
-      var doc = win.document;
-
       // TODO: this.__inlineEventManager.removeAllListenersFromDocument(doc);
-      this.__documentEventManager.removeAllListenersFromDocument(doc);
+      this.__documentEventManager.removeAllListeners();
 
+      var doc = domEvent.getCurrentTarget().document;
       this.removeListener(win, "unload", arguments.callee);
-      this.__knownWindows.remove(win);
     },
 
 
@@ -395,12 +399,9 @@ qx.Class.define("qx.event2.Manager",
      * @return {qx.event2.handler.MouseCaptureHandler} the mouse capture handler
      *     reponsible for the given element.
      */
-    __getCaptureHandler : function(element)
+    getCaptureHandler : function()
     {
-      var documentElement = qx.html2.element.Node.getDocument(element).documentElement;
-      var documentId = qx.core.Object.toHashCode(documentElement);
-
-      return this.__mouseCapture[documentId];
+      return this._captureHandler;
     },
 
 
@@ -420,7 +421,7 @@ qx.Class.define("qx.event2.Manager",
      * @param element {Element} DOM element to set for capturing
      */
     setCapture : function(element) {
-      qx.event2.handler.MouseCaptureHandler.getCaptureHandler(element).setCapture(element);
+      this.getCaptureHandler().setCapture(element);
     },
 
 
@@ -431,7 +432,12 @@ qx.Class.define("qx.event2.Manager",
      * @param doc {Document?window.document} DOM document
      */
     releaseCapture : function(doc) {
-      qx.event2.handler.MouseCaptureHandler.getCaptureHandler((doc || document).documentElement).releaseCapture();
+      this.getCaptureHandler().releaseCapture();
+    },
+
+
+    getWindow : function() {
+      return this._window;
     }
 
   },
@@ -448,8 +454,7 @@ qx.Class.define("qx.event2.Manager",
   {
     this._disposeObjects(
       "__documentEventManager",
-      "__inlineEventManager",
-      "__knownWindows"
+      "__inlineEventManager"
     );
   }
 
