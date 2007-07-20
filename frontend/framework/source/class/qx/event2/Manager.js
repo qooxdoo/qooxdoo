@@ -72,6 +72,12 @@ qx.Class.define("qx.event2.Manager",
   {
     this._window = win;
 
+    this.__eventHandlers = [
+      new qx.event2.handler.KeyEventHandler(this.dispatchEvent, this),
+      new qx.event2.handler.MouseEventHandler(this.dispatchEvent, this),
+      new qx.event2.handler.DefaultEventHandler(this.dispatchEvent, this) // must be the last because it can handle all events
+    ];
+
     // event manager for inline events
     this.__inlineEventManager = new qx.event2.InlineEventManager(this);
 
@@ -315,23 +321,6 @@ qx.Class.define("qx.event2.Manager",
     },
 
 
-    /**
-     * Unload handler for each window with event listeners attached. Removes
-     * all event listeners from the unloading window.
-     *
-     * @param winId {var} hash code of the unloading window
-     * @param domEvent {Event} DOM event object
-     */
-    __onunload : function(domEvent)
-    {
-      // TODO: this.__inlineEventManager.removeAllListenersFromDocument(doc);
-      this.__documentEventManager.removeAllListeners();
-
-      var doc = domEvent.getCurrentTarget().document;
-      this.removeListener(win, "unload", arguments.callee);
-    },
-
-
     /*
     ---------------------------------------------------------------------------
       REMOVE EVENT LISTENER
@@ -438,7 +427,66 @@ qx.Class.define("qx.event2.Manager",
 
     getWindow : function() {
       return this._window;
-    }
+    },
+
+
+    /**
+     * This method is called each time the an event listener for one of the
+     * supported events is added using {qx.event2.Manager#addListener}.
+     *
+     * @param type {String} event type
+     */
+    registerEventAtHandler : function(element, type) {
+      // iterate over all event handlers and check whether they are responsible
+      // for this event type
+      for (var i=0; i<this.__eventHandlers.length; i++)
+      {
+        if (this.__eventHandlers[i].canHandleEvent(type))
+        {
+          this.__eventHandlers[i].registerEvent(element, type);
+          break;
+        }
+      }
+    },
+
+
+    /**
+     * This method is called each time the an event listener for one of the
+     * supported events is removed by using {qx.event2.Manager#removeListener}
+     * and no other event listener is listening on this type.
+     *
+     * @param type {String} event type
+     */
+    unregisterEventAtHandler : function(element, type)
+    {
+      for (var i=0; i<this.__eventHandlers.length; i++) {
+        this.__eventHandlers[i].unregisterEvent(this._documentElement, type);
+      }
+    },
+
+
+    /**
+     * Removes all event handlers handles by the class from the DOM. This
+     * function is called onunload of the the document.
+     */
+    removeAllListeners : function(doc)
+    {
+      for (var i=0; i<this.__eventHandlers.length; i++) {
+        this.__eventHandlers[i].removeAllListeners();
+      }
+    },
+
+
+    /**
+     * Unload handler for each window with event listeners attached. Removes
+     * all event listeners from the unloading window.
+     *
+     * @param winId {var} hash code of the unloading window
+     * @param domEvent {Event} DOM event object
+     */
+    __onunload : function(domEvent) {
+      this.removeAllListeners();
+    },
 
   },
 
@@ -452,6 +500,12 @@ qx.Class.define("qx.event2.Manager",
 
   destruct : function()
   {
+    this.removeAllListeners();
+
+    for (var i=0, a=this.__eventHandlers, l=a.length; i<l; i++) {
+      this.__eventHandlers[i].dispose();
+    }
+
     this._disposeObjects(
       "__documentEventManager",
       "__inlineEventManager"

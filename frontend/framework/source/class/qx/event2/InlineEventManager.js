@@ -36,6 +36,8 @@ qx.Class.define("qx.event2.InlineEventManager",
 
   construct : function(manager)
   {
+    this._manager = manager;
+
     // registry for inline events
     // structure: elementId -> type
     this.__inlineRegistry = {};
@@ -87,48 +89,25 @@ qx.Class.define("qx.event2.InlineEventManager",
       // create entry for the event type
       var elementEvents = reg[elementId];
 
-      if (!elementEvents[type])
-      {
-        elementEvents[type] =
-        {
-          listeners : [],
-          handler   : qx.lang.Function.bind(this.__eventHandler, this, elementId)
-        };
+      if (!elementEvents[type]) {
+        elementEvents[type] = [];
       }
 
       // attach event handler if needed
-      if (elementEvents[type].listeners.length == 0)
+      if (elementEvents[type].length == 0)
       {
-        qx.event2.Manager.addNativeListener(
-          element,
-          type,
-          elementEvents[type].handler
-        );
+        // inform the event handler about the new event
+        // they perform the event registration at DOM level
+        this._manager.registerEventAtHandler(element, type);
       }
 
       // store event listener
-      elementEvents[type].listeners.push({
+      elementEvents[type].push({
         handler: listener,
         context: self
       });
     },
 
-
-    /**
-     * Central event handler for all non bubbling events.
-     *
-     * @type member
-     * @param elementId {Number} hash value of the current target DOM element
-     * @param domEvent {Event} DOM event passed by the browser.
-     */
-    __eventHandler : function(elementId, domEvent)
-    {
-      // TODO: Pooling
-      var event = new qx.event2.type.Event(domEvent || window.event);
-      event.setCurrentTarget(this.__elementRegistry.getByHash(elementId));
-      this.dispatchEvent(event);
-      event.dispose();
-    },
 
 
     /*
@@ -158,8 +137,7 @@ qx.Class.define("qx.event2.InlineEventManager",
         return;
       }
 
-      var eventData = elementData[type];
-      var listeners = eventData.listeners;
+      var listeners = elementData[type];
 
       var removeIndex = -1;
 
@@ -176,9 +154,9 @@ qx.Class.define("qx.event2.InlineEventManager",
       {
         qx.lang.Array.removeAt(listeners, removeIndex);
 
-        if (eventData.listeners.length == 0)
+        if (listeners.length == 0)
         {
-          qx.event2.Manager.removeNativeListener(element, type, eventData.handler);
+          this._manager.unregisterEventAtHandler(element, type);
           delete (elementData[type]);
         }
       }
@@ -199,7 +177,8 @@ qx.Class.define("qx.event2.InlineEventManager",
      */
     dispatchEvent : function(event)
     {
-      var elementId = qx.core.Object.toHashCode(event.getTarget());
+      var target = event.getTarget();
+      var elementId = qx.core.Object.toHashCode(target);
 
       var elementData = this.__inlineRegistry[elementId];
       if (!elementData || !elementData[event.getType()]) {
@@ -207,8 +186,9 @@ qx.Class.define("qx.event2.InlineEventManager",
       }
 
       event.setEventPhase(qx.event2.type.Event.AT_TARGET);
+      event.setCurrentTarget(target);
 
-      var listeners = qx.lang.Array.copy(this.__inlineRegistry[elementId][event.getType()].listeners);
+      var listeners = qx.lang.Array.copy(this.__inlineRegistry[elementId][event.getType()]);
 
       for (var i=0; i<listeners.length; i++) {
         var context = listeners[i].context || event.getCurrentTarget();
@@ -225,20 +205,8 @@ qx.Class.define("qx.event2.InlineEventManager",
   *****************************************************************************
   */
 
-  destruct : function() {
-    // remove inline event listeners
-    var inlineReg = this.__inlineRegistry;
-    for (var elementId in inlineReg)
-    {
-      var element = this.__elementRegistry.getByHash(elementId);
-
-      for (var type in inlineReg[elementId])
-      {
-        qx.event2.Manager.removeNativeListener(
-          element, type, inlineReg[elementId][type].handler);
-      }
-    }
-
+  destruct : function()
+  {
     this._disposeFields("__inlineRegistry");
     this._disposeObjects("__elementRegistry");
   }

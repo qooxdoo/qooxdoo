@@ -84,7 +84,7 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
         domEvent, keyCode, charCode, keyIdentifier
       );
       event.setType(eventType);
-      this._callback.call(this._manager, event);
+      this._callback.call(this._context, event);
     },
 
 
@@ -93,29 +93,22 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
     },
 
 
-    registerEvent : function(type)
+    registerEvent : function(element, type)
     {
       this.__keyEventListenerCount += 1;
       if (this.__keyEventListenerCount == 1) {
-        this._attachEvents(this._documentElement, this.__keyHandler);
+        this._attachEvents(element, this.__keyHandler);
       }
     },
 
 
-    unregisterEvent : function(type)
+    unregisterEvent : function(element, type)
     {
       this.__keyEventListenerCount -= 1;
       if (this.__keyEventListenerCount == 0) {
-        this._detachEvents(this._documentElement, this.__keyHandler);
+        this._detachEvents(element, this.__keyHandler);
       }
     },
-
-
-    removeAllListeners : function() {
-      this._detachEvents(this._documentElement, this.__keyHandler);
-    },
-
-
 
 
 
