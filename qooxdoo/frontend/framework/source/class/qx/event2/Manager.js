@@ -168,7 +168,15 @@ qx.Class.define("qx.event2.Manager",
      *       capturing phase of the bubbling phase of the event. The default is
      *       to attach the event handler to the bubbling phase.
      */
-    addListener : function(element, type, listener, self, useCapture) {
+    addListener : function(element, type, listener, self, useCapture)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (typeof(listener) != "function") {
+          throw new Error("The parameter listener bust be of type Function");
+        }
+      }
+
       this.getManager(element).addListener(element, type, listener, self, useCapture);
     },
 
@@ -184,6 +192,13 @@ qx.Class.define("qx.event2.Manager",
      *       the bubbling or of the capturing phase.
      */
     removeListener : function(element, type, listener, useCapture) {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (typeof(listener) != "function") {
+          throw new Error("The parameter listener bust be of type Function");
+        }
+      }
+
       this.getManager(element).removeListener(element, type, listener, useCapture);
     },
 
