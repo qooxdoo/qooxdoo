@@ -145,8 +145,8 @@ qx.Class.define("BasicSample",
       this.debug(e.getType() + " 2: " + e);
     },
 
-    _positionDiv : function(e) {
-      console.log(e);
+    _positionDiv : function(e)
+    {
       var div = document.getElementById("moveable");
       div.style.left = e.getViewportLeft() + "px";
       div.style.top = e.getViewportTop() + "px";
