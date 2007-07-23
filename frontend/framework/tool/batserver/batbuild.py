@@ -107,33 +107,13 @@ def svn_check(target,revision):
     # %svn status --show-updates  <rootdir> # compares local tree against repos
     #targetdir = options.stagedir+target
     targetdir = os.path.join(buildconf['stage_dir'],target)
-    # get current version
-    ret,out,err = invoke_piped('svnversion '+targetdir)
-    if ret or len(err):
-        raise RuntimeError, "Unable to get svnversion of "+targetdir+": "+err
-    currver = re.search(r'(\d+)',out).group(0)
-    currver = int(currver)
-
-    # get repository version
     ret,out,err = invoke_piped('svn status --show-updates '+targetdir)
     if ret or len(err):
         raise RuntimeError, "Unable to get svn status of "+targetdir+": "+err
     # just check for modified files in repository
-    #if len(filter(lambda s: s[6:9]==' * ', outt)) > 0:
     #if len(outt) > 2:  # you always get 'Status against revision:   XXXX\n'
     outt = out.split('\n')
-    def grep(s):
-        m=re.search('Status against revision:\s+(\d+)',s)
-        if m:
-            return m.group(0),
-        else:
-            return False
-    hits = filter(grep, outt)
-    if len(hits) < 1:
-        raise RuntimeError, "Unable to get current repos revision: "+err
-    repver = re.search('Status against revision:\s+(\d+)',hits[0]).group(1)
-    repver = int(repver)
-    if currver < repver:
+    if len(filter(lambda s: s[6:9]==' * ', outt)) > 0:
         return True
     else:
         return False
@@ -163,9 +143,11 @@ def build_packet(target,revision):
     goto_workdir(os.path.join(target,"qooxdoo","frontend"))
     #make('source')
     #make('build')
-    make('release')
+    #make('release')
+    return 0
 
 def build_targets(targList):
+    rc = 0
     for target in targList:
         if svn_check(target,0):
             goto_workdir(options.stagedir)
