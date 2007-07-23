@@ -657,6 +657,5 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
   destruct : function()
   {
     this._disposeFields("_lastUpDownType", "__keyHandler", "__keyEventListenerCount");
-    this._disposeObjects("_elementRegistry");
   }
 });

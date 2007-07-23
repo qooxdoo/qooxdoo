@@ -25,7 +25,7 @@
  */
 qx.Class.define("qx.event2.DocumentEventManager", {
 
-  extend : qx.core.Object,
+  extend : qx.event2.AbstractEventManager,
 
 
 
@@ -40,9 +40,17 @@ qx.Class.define("qx.event2.DocumentEventManager", {
    */
   construct : function(manager)
   {
+    this.base(arguments);
+
     this._manager = manager;
     this._window = manager.getWindow();
     this._documentElement = this._window.document.documentElement;
+
+    this.addEventHandler(new qx.event2.handler.KeyEventHandler(this.dispatchEvent, this));
+    this.addEventHandler(new qx.event2.handler.MouseEventHandler(this.dispatchEvent, this));
+
+    // must be the last because it can handle all events
+    this.addEventHandler(new qx.event2.handler.DocumentEventHandler(this.dispatchEvent, this));
 
     // registry for 'normal' bubbling events
     // structure: eventType -> elementId
@@ -94,7 +102,7 @@ qx.Class.define("qx.event2.DocumentEventManager", {
 
         // inform the event handler about the new event
         // they perform the event registration at DOM level
-        this._manager.registerEventAtHandler(this._documentElement, type);
+        this._registerEventAtHandler(this._documentElement, type);
       }
 
       var elementId = qx.core.Object.toHashCode(element);
@@ -173,7 +181,7 @@ qx.Class.define("qx.event2.DocumentEventManager", {
           if (!this.hasListeners(type))
           {
             delete(this.__documentRegistry[type]);
-            this._manager.unregisterEventAtHandler(this._documentElement, type);
+            this._unregisterEventAtHandler(this._documentElement, type);
           }
         }
       }

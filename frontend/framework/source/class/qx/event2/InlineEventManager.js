@@ -24,7 +24,7 @@
  */
 qx.Class.define("qx.event2.InlineEventManager",
 {
-  extend : qx.core.Object,
+  extend : qx.event2.AbstractEventManager,
 
 
 
@@ -36,14 +36,15 @@ qx.Class.define("qx.event2.InlineEventManager",
 
   construct : function(manager)
   {
+    this.base(arguments);
+
     this._manager = manager;
+
+    this.addEventHandler(new qx.event2.handler.InlineEventHandler(this.dispatchEvent, this));
 
     // registry for inline events
     // structure: elementId -> type
     this.__inlineRegistry = {};
-
-    // maps elementIDs to DOM elements
-    this.__elementRegistry = new qx.util.manager.Object();
   },
 
 
@@ -77,10 +78,10 @@ qx.Class.define("qx.event2.InlineEventManager",
      */
     addListener : function(element, type, listener, self)
     {
-      var elementId = this.__elementRegistry.add(element);
-
       // create event listener entry for the element if needed.
       var reg = this.__inlineRegistry;
+
+      var elementId = qx.core.Object.toHashCode(element);
 
       if (!reg[elementId]) {
         reg[elementId] = {};
@@ -98,7 +99,7 @@ qx.Class.define("qx.event2.InlineEventManager",
       {
         // inform the event handler about the new event
         // they perform the event registration at DOM level
-        this._manager.registerEventAtHandler(element, type);
+        this._registerEventAtHandler(element, type);
       }
 
       // store event listener
@@ -156,7 +157,7 @@ qx.Class.define("qx.event2.InlineEventManager",
 
         if (listeners.length == 0)
         {
-          this._manager.unregisterEventAtHandler(element, type);
+          this._unregisterEventAtHandler(element, type);
           delete (elementData[type]);
         }
       }
@@ -178,20 +179,21 @@ qx.Class.define("qx.event2.InlineEventManager",
     dispatchEvent : function(event)
     {
       var target = event.getTarget();
-      var elementId = qx.core.Object.toHashCode(target);
 
+      event.setEventPhase(qx.event2.type.Event.AT_TARGET);
+      var currentTarget = event.getCurrentTarget();
+
+      var elementId = qx.core.Object.toHashCode(currentTarget);
       var elementData = this.__inlineRegistry[elementId];
       if (!elementData || !elementData[event.getType()]) {
         return;
       }
 
-      event.setEventPhase(qx.event2.type.Event.AT_TARGET);
-      event.setCurrentTarget(target);
-
       var listeners = qx.lang.Array.copy(this.__inlineRegistry[elementId][event.getType()]);
 
-      for (var i=0; i<listeners.length; i++) {
-        var context = listeners[i].context || event.getCurrentTarget();
+      for (var i=0; i<listeners.length; i++)
+      {
+        var context = listeners[i].context || currentTarget;
         listeners[i].handler.call(context, event);
       }
     }
@@ -205,10 +207,8 @@ qx.Class.define("qx.event2.InlineEventManager",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    this._disposeFields("__inlineRegistry");
-    this._disposeObjects("__elementRegistry");
+  destruct : function() {
+    //this._disposeFields("__inlineRegistry");
   }
 
 })
