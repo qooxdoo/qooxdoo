@@ -3,16 +3,18 @@
 # BAT Build - creating local qooxdoo builds (sdk, quickstart, ...)
 
 import os, sys, platform
-import optparse
+import optparse, time, re
 
 # some defaults
 buildconf = {
    'svn_base_url' : 'https://qooxdoo.svn.sourceforge.net/svnroot/qooxdoo',
-   'stage_dir'    : '/tmp/qx/staging',
+   'stage_dir'    : '/tmp/qx',
    'logfile'      : 'bat_build.log',
-   'target'       : 'trunk',
+   # change the next entry, to e.g. include a release candidate 'tags/release_0_8'
+   'targets'       : ['trunk','branches/legacy_0_7_x'],
    'download_dir' : '/srv/www/htdocs/downloads',
    'doCleanup'    : False,
+   'checkInterval': 10, # 10min - beware of time it takes for a build before re-check
    #'disk_space' : '2G',
    #'cpu_consume' : '20%',
    #'time_limit' : '30m',
@@ -22,12 +24,12 @@ def get_computed_conf():
     parser = optparse.OptionParser()
 
     parser.add_option(
-        "-w", "--work-dir", dest="stagedir", default=None, type="string",
+        "-w", "--work-dir", dest="stagedir", default=buildconf['stage_dir'], type="string",
         help="Directory for checking out and making the target"
     )
 
     parser.add_option(
-        "-t", "--build-target", dest="target", default=buildconf['target'], type="string",
+        "-t", "--build-target", dest="target", default=buildconf['targets'][0], type="string",
         help="Target to build (e.g. \"trunk\")"
     )
 
@@ -46,7 +48,20 @@ def get_computed_conf():
         help="Name of log file"
     )
 
+    parser.add_option(
+        "-d", "--demon-mode", dest="demonMode", default=False, action="store_true",
+        help="Run as demon"
+    )
+
+    parser.add_option(
+        "-z", "--zap-output", dest="zapOut", default=False, action="store_true",
+        help="All output to terminal"
+    )
+
     (options, args) = parser.parse_args()
+
+    if options.zapOut:
+        options.logfile = None
 
     return (options, args)
 
@@ -71,11 +86,57 @@ def invoke_external(cmd):
                          stderr=sys.stderr)
     return p.wait()
 
+def invoke_piped(cmd):
+    import subprocess
+    p = subprocess.Popen(cmd, shell=True,
+                         stdout=subprocess.PIPE,
+                         stderr=subprocess.PIPE,
+                         universal_newlines=True)
+    output, errout = p.communicate()
+    rcode = p.returncode
+
+    return (rcode, output, errout)
+
 def svn_check(target,revision):
-    "See in svn repos whether target has been changed (in respect to revision)"
+    """ See in svn repos whether target has been changed (in respect to revision).
+        For this check to work, target has to be checked out into stagedir once
+        by hand.
+        'True' means SVN_is_newer.
+    """
     # %svninfo <rootdir> # yields local 'overall' version
     # %svn status --show-updates  <rootdir> # compares local tree against repos
-    pass
+    #targetdir = options.stagedir+target
+    targetdir = os.path.join(buildconf['stage_dir'],target)
+    # get current version
+    ret,out,err = invoke_piped('svnversion '+targetdir)
+    if ret or len(err):
+        raise RuntimeError, "Unable to get svnversion of "+targetdir+": "+err
+    currver = re.search(r'(\d+)',out).group(0)
+    currver = int(currver)
+
+    # get repository version
+    ret,out,err = invoke_piped('svn status --show-updates '+targetdir)
+    if ret or len(err):
+        raise RuntimeError, "Unable to get svn status of "+targetdir+": "+err
+    # just check for modified files in repository
+    #if len(filter(lambda s: s[6:9]==' * ', outt)) > 0:
+    #if len(outt) > 2:  # you always get 'Status against revision:   XXXX\n'
+    outt = out.split('\n')
+    def grep(s):
+        m=re.search('Status against revision:\s+(\d+)',s)
+        if m:
+            return m.group(0),
+        else:
+            return False
+    hits = filter(grep, outt)
+    if len(hits) < 1:
+        raise RuntimeError, "Unable to get current repos revision: "+err
+    repver = re.search('Status against revision:\s+(\d+)',hits[0]).group(1)
+    repver = int(repver)
+    if currver < repver:
+        return True
+    else:
+        return False
 
 def svn_checkout(target,revision):
     rc = invoke_external("svn co %s/%s %s" % (buildconf['svn_base_url'],target,target))
@@ -93,6 +154,9 @@ def copy_archives(target):
 def cleanup(target):
     return
 
+#rc = build_packet('tags/release_0_7',0)
+#rc = build_packet('branches/legacy_0_7_x',0)
+#rc = build_packet('trunc',0)
 def build_packet(target,revision):
     cleanup(target)
     svn_checkout(target,revision)
@@ -101,20 +165,31 @@ def build_packet(target,revision):
     #make('build')
     make('release')
 
+def build_targets(targList):
+    for target in targList:
+        if svn_check(target,0):
+            goto_workdir(options.stagedir)
+            print "Making "+target
+            rc = build_packet(target,0)
+            copy_archives(target)
+            if (options.cleanup):
+                cleanup(target)
+    return rc
+
 def main():
     global options, args
 
     (options,args) = get_computed_conf()
-    goto_workdir(options.stagedir)
     prepare_output(options.logfile)
     target = options.target
     release = options.release
-    #rc = build_packet('tags/release_0_7',0)
-    #rc = build_packet('brances/legacy_0_7_x',0)
-    rc = build_packet(target, release)
-    copy_archives(target)
-    if (options.cleanup):
-        cleanup(target)
+    if (options.demonMode):
+        while (1):
+            rc = build_targets(buildconf['targets'])
+            time.sleep(buildconf['checkInterval']*60)
+    else:
+        rc = build_targets([target])
+
     return rc
 
 
