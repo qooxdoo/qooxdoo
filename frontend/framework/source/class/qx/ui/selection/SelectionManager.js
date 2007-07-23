@@ -1322,19 +1322,6 @@ qx.Class.define("qx.ui.selection.SelectionManager",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param vDomEvent {var} TODOC
-     * @return {void}
-     */
-    handleKeyDown : function(vDomEvent)
-    {
-      this.warn("qx.ui.selection.SelectionManager.handleKeyDown is deprecated! " + "Use keypress insted and bind it to the onkeypress event.");
-      this.handleKeyPress(vDomEvent);
-    },
-
 
     /**
      * Handles key event to perform selection and navigation
