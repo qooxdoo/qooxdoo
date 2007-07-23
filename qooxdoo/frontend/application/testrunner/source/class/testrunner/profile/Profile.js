@@ -104,10 +104,10 @@ qx.Class.define("testrunner.profile.Profile",
 
           properties :
           {
-            prop1 : { _legacy : true },
-            prop2 : { _legacy : true },
-            prop3 : { _legacy : true },
-            prop4 : { _legacy : true }
+            prop1 : { },
+            prop2 : { },
+            prop3 : { },
+            prop4 : { }
           }
         });
       }

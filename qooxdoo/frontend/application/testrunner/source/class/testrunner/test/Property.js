@@ -270,21 +270,6 @@ qx.Class.define("testrunner.test.PropertyHelper",
 
   properties :
   {
-    // legacy
-    legacyPure : { _legacy : true },
-
-    legacyString :
-    {
-      _legacy : true,
-      type    : "string"
-    },
-
-    legacyArray :
-    {
-      _legacy  : true,
-      type     : "object",
-      instance : "Array"
-    },
 
     // protection
     publicProp : { nullable : true },
