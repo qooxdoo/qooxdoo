@@ -59,7 +59,7 @@ qx.Class.define("testrunner.test.Mixin",
           }
         },
 
-        properties : { color : { _legacy : true } }
+        properties : { color : { } }
       });
 
       qx.Mixin.define("testrunner.MMix2",
@@ -154,7 +154,7 @@ qx.Class.define("testrunner.test.Mixin",
           extend     : Object,
           include    : testrunner.MMix1,
           construct  : function() {},
-          properties : { color : { _legacy : true } }
+          properties : { color : { } }
         });
       },
       Error, "already has a property", "t3");
