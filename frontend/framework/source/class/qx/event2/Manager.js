@@ -184,6 +184,10 @@ qx.Class.define("qx.event2.Manager",
     /**
      * Remove an event listener from a from DOM node.
      *
+     * Note: All registered event listeners will automatically be removed from
+     *   the DOM at page unload so it is not necessary to detach events in the
+     *   destructor.
+     *
      * @type static
      * @param element {Element} DOM Element
      * @param type {String} Name of the event
