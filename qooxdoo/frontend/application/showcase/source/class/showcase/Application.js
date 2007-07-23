@@ -815,15 +815,66 @@ qx.Class.define("showcase.Application",
      */
     _createTreeDemo : function()
     {
+      var treeRowStructure;
+
+      function stuff(vLabel, vIcon, vIconSelected)
+      {
+        treeRowStructure = qx.ui.tree.TreeRowStructure.getInstance().newRow();
+
+        // A left-justified icon
+        if (Math.floor(Math.random() * 4) == 0)
+          {
+            obj = new qx.ui.basic.Image("icon/16/apps/accessories-alarm.png",
+                                        16);
+          }
+        else
+          {
+            obj = new qx.ui.basic.Image(null, 16);
+          }
+        treeRowStructure.addObject(obj, true);
+
+        // Here's our indentation and tree-lines
+        treeRowStructure.addIndent();
+
+        // The standard tree icon follows
+        treeRowStructure.addIcon((arguments.length >= 2
+                                  ? vIcon
+                                  : "icon/16/places/user-desktop.png"),
+                                 (arguments.length >= 3
+                                  ? vIconSelected
+                                  : "icon/16/apps/accessories-dictionary.png"));
+
+        // The label
+        treeRowStructure.addLabel(vLabel);
+
+        // All else should be right justified
+        obj = new qx.ui.basic.HorizontalSpacer;
+        treeRowStructure.addObject(obj, true);
+
+        // Add a file size, date and mode
+        obj = new qx.ui.basic.Label(Math.round(Math.random() * 100) + "kb");
+        obj.setWidth(50);
+        treeRowStructure.addObject(obj, true);
+        obj = new qx.ui.basic.Label("May " +
+                                    Math.round(Math.random() * 30 + 1) +
+                                    " 2005");
+        obj.setWidth(150);
+        treeRowStructure.addObject(obj, true);
+        obj = new qx.ui.basic.Label("-rw-r--r--");
+        obj.setWidth(80);
+        treeRowStructure.addObject(obj, true);
+
+        return treeRowStructure;
+      }
+
       var main = new qx.ui.layout.HorizontalBoxLayout;
       main.setPadding(10);
 
-      main.set(
-      {
-        width   : "auto",
-        height  : "100%",
-        spacing : 10
-      });
+      main.set({
+                 width   : "auto",
+                 height  : "100%",
+                 spacing : 10
+               });
 
       // Workaround: qx.ui.tree.Tree causes an exception when added to a qx.ui.core.Parent that
       //       has no qx.ui.core.Parent. -> So we give the parent a pseudo parent
@@ -832,100 +883,99 @@ qx.Class.define("showcase.Application",
 
       var t = new qx.ui.tree.Tree("Root");
 
-      t.set(
-      {
-        backgroundColor : "white",
-        border          : "inset-thin",
-        overflow        : "scrollY",
-        height          : "100%",
-        width           : 200,
-        paddingLeft     : 4,
-        paddingTop      : 4
-      });
+      t.set({
+              backgroundColor : "white",
+              border          : "inset-thin",
+              overflow        : "scrollY",
+              height          : 400,
+              width           : 500,
+              paddingLeft     : 4,
+              paddingTop      : 4
+            });
 
       main.add(t);
 
-      var te1 = new qx.ui.tree.TreeFolder("Desktop", "icon/16/actions/go-home.png", "icon/16/actions/go-home.png");
+      var te1 = new qx.ui.tree.TreeFolder(stuff("Desktop",
+                                                "icon/16/actions/go-home.png",
+                                                "icon/16/actions/go-home.png"));
       t.add(te1);
 
-      var te1_1 = new qx.ui.tree.TreeFolder("Files");
-      var te1_2 = new qx.ui.tree.TreeFolder("Workspace");
-      var te1_3 = new qx.ui.tree.TreeFolder("Network");
-      var te1_4 = new qx.ui.tree.TreeFolder("Trash");
+      var te1_1 = new qx.ui.tree.TreeFolder(stuff("Files"));
+      var te1_2 = new qx.ui.tree.TreeFolder(stuff("Workspace"));
+      var te1_3 = new qx.ui.tree.TreeFolder(stuff("Network"));
+      var te1_4 = new qx.ui.tree.TreeFolder(stuff("Trash"));
       te1.add(te1_1, te1_2, te1_3, te1_4);
-      var te1_2_1 = new qx.ui.tree.TreeFile("Windows (C:)", "icon/16/devices/drive-harddisk.png");
-      var te1_2_2 = new qx.ui.tree.TreeFile("Documents (D:)", "icon/16/devices/drive-harddisk.png");
+      var te1_2_1 = new qx.ui.tree.TreeFile(stuff("Windows (C:)", "icon/16/devices/drive-harddisk.png"));
+      var te1_2_2 = new qx.ui.tree.TreeFile(stuff("Documents (D:)", "icon/16/devices/drive-harddisk.png"));
       te1_2.add(te1_2_1, te1_2_2);
 
-      var te2 = new qx.ui.tree.TreeFolder("Inbox");
+      var te2 = new qx.ui.tree.TreeFolder(stuff("Inbox"));
       t.add(te2);
 
-      var te2_1 = new qx.ui.tree.TreeFolder("Presets");
-      var te2_2 = new qx.ui.tree.TreeFolder("Sent");
-      var te2_3 = new qx.ui.tree.TreeFolder("Trash", "icon/16/places/user-trash.png", "icon/16/places/user-trash.png");
-      var te2_4 = new qx.ui.tree.TreeFolder("Data");
-      var te2_5 = new qx.ui.tree.TreeFolder("Edit");
+      var te2_1 = new qx.ui.tree.TreeFolder(stuff("Presets"));
+      var te2_2 = new qx.ui.tree.TreeFolder(stuff("Sent"));
+      var te2_3 = new qx.ui.tree.TreeFolder(stuff("Trash", "icon/16/places/user-trash.png", "icon/16/places/user-trash.png"));
+      var te2_4 = new qx.ui.tree.TreeFolder(stuff("Data"));
+      var te2_5 = new qx.ui.tree.TreeFolder(stuff("Edit"));
 
-      var te2_5_1 = new qx.ui.tree.TreeFolder("Chat");
-      var te2_5_2 = new qx.ui.tree.TreeFolder("Pustefix");
-      var te2_5_3 = new qx.ui.tree.TreeFolder("TINC");
+      var te2_5_1 = new qx.ui.tree.TreeFolder(stuff("Chat"));
+      var te2_5_2 = new qx.ui.tree.TreeFolder(stuff("Pustefix"));
+      var te2_5_3 = new qx.ui.tree.TreeFolder(stuff("TINC"));
       te2_5.add(te2_5_1, te2_5_2, te2_5_3);
 
-      var te2_5_3_1 = new qx.ui.tree.TreeFolder("Announce");
-      var te2_5_3_2 = new qx.ui.tree.TreeFolder("Devel");
+      var te2_5_3_1 = new qx.ui.tree.TreeFolder(stuff("Announce"));
+      var te2_5_3_2 = new qx.ui.tree.TreeFolder(stuff("Devel"));
       te2_5_3.add(te2_5_3_1, te2_5_3_2);
 
-      var te2_6 = new qx.ui.tree.TreeFolder("Lists");
+      var te2_6 = new qx.ui.tree.TreeFolder(stuff("Lists"));
 
-      var te2_6_1 = new qx.ui.tree.TreeFolder("Relations");
-      var te2_6_2 = new qx.ui.tree.TreeFolder("Company");
-      var te2_6_3 = new qx.ui.tree.TreeFolder("Questions");
-      var te2_6_4 = new qx.ui.tree.TreeFolder("Internal");
-      var te2_6_5 = new qx.ui.tree.TreeFolder("Products");
-      var te2_6_6 = new qx.ui.tree.TreeFolder("Press");
-      var te2_6_7 = new qx.ui.tree.TreeFolder("Development");
-      var te2_6_8 = new qx.ui.tree.TreeFolder("Competition");
+      var te2_6_1 = new qx.ui.tree.TreeFolder(stuff("Relations"));
+      var te2_6_2 = new qx.ui.tree.TreeFolder(stuff("Company"));
+      var te2_6_3 = new qx.ui.tree.TreeFolder(stuff("Questions"));
+      var te2_6_4 = new qx.ui.tree.TreeFolder(stuff("Internal"));
+      var te2_6_5 = new qx.ui.tree.TreeFolder(stuff("Products"));
+      var te2_6_6 = new qx.ui.tree.TreeFolder(stuff("Press"));
+      var te2_6_7 = new qx.ui.tree.TreeFolder(stuff("Development"));
+      var te2_6_8 = new qx.ui.tree.TreeFolder(stuff("Competition"));
 
       te2_6.add(te2_6_1, te2_6_2, te2_6_3, te2_6_4, te2_6_5, te2_6_6, te2_6_7, te2_6_8);
 
-      var te2_7 = new qx.ui.tree.TreeFolder("Personal");
+      var te2_7 = new qx.ui.tree.TreeFolder(stuff("Personal"));
 
-      var te2_7_1 = new qx.ui.tree.TreeFolder("Bugs");
-      var te2_7_2 = new qx.ui.tree.TreeFolder("Family");
-      var te2_7_3 = new qx.ui.tree.TreeFolder("Projects");
-      var te2_7_4 = new qx.ui.tree.TreeFolder("Holiday");
+      var te2_7_1 = new qx.ui.tree.TreeFolder(stuff("Bugs"));
+      var te2_7_2 = new qx.ui.tree.TreeFolder(stuff("Family"));
+      var te2_7_3 = new qx.ui.tree.TreeFolder(stuff("Projects"));
+      var te2_7_4 = new qx.ui.tree.TreeFolder(stuff("Holiday"));
 
       te2_7.add(te2_7_1, te2_7_2, te2_7_3, te2_7_4);
 
-      var te2_8 = new qx.ui.tree.TreeFolder("Big");
+      var te2_8 = new qx.ui.tree.TreeFolder(stuff("Big"));
 
       for (var i=0; i<50; i++) {
-        te2_8.add(new qx.ui.tree.TreeFolder("Item " + i));
+        te2_8.add(new qx.ui.tree.TreeFolder(stuff("Item " + i)));
       }
 
-      var te2_9 = new qx.ui.tree.TreeFolder("Spam");
+      var te2_9 = new qx.ui.tree.TreeFolder(stuff("Spam"));
 
       te2.add(te2_1, te2_2, te2_3, te2_4, te2_5, te2_6, te2_7, te2_8, te2_9);
 
       // Command frame
       var commandFrame = new qx.ui.groupbox.GroupBox("Control");
 
-      commandFrame.set(
-      {
-        width  : "auto",
-        height : "auto"
-      });
+      commandFrame.set({
+                         width  : "auto",
+                         height : "auto"
+                       });
 
       main.add(commandFrame);
 
       var command = new qx.ui.layout.VerticalBoxLayout;
 
-      command.set(
-      {
-        width        : "auto",
-        height       : "auto",
-        paddingRight : 12
-      });
+      command.set({
+                    width        : "auto",
+                    height       : "auto",
+                    paddingRight : 12
+                  });
 
       commandFrame.add(command);
 
@@ -934,23 +984,22 @@ qx.Class.define("showcase.Application",
 
       var tCurrentInput = new qx.ui.form.TextField;
 
-      tCurrentInput.set(
-      {
-        readOnly     : true,
-        marginBottom : 20
-      });
+      tCurrentInput.set({
+                          readOnly     : true,
+                          marginBottom : 20
+                        });
 
       command.add(tCurrentInput);
 
       t.getManager().addEventListener("changeSelection", function(e) {
-        tCurrentInput.setValue(e.getData()[0]._labelObject.getText());
-      });
+                                        tCurrentInput.setValue(e.getData()[0]._labelObject.getText());
+                                      });
 
       var tDoubleClick = new qx.ui.form.CheckBox("Use double click?");
 
       tDoubleClick.addEventListener("changeChecked", function(e) {
-        t.setUseDoubleClick(e.getData());
-      });
+                                      t.setUseDoubleClick(e.getData());
+                                    });
 
       command.add(tDoubleClick);
 
@@ -958,8 +1007,8 @@ qx.Class.define("showcase.Application",
       tTreeLines.setChecked(true);
 
       tTreeLines.addEventListener("changeChecked", function(e) {
-        t.setUseTreeLines(e.getData());
-      });
+                                    t.setUseTreeLines(e.getData());
+                                  });
 
       command.add(tTreeLines);
 
