@@ -23,7 +23,7 @@
 #module(core)
 #optional(qx.Theme)
 #optional(qx.locale.Manager)
-#require(qx.html.EventRegistration)
+#require(qx.event2.Manager)
 
 ************************************************************************ */
 
@@ -56,9 +56,9 @@ qx.Class.define("qx.core.Init",
     this.base(arguments);
 
     // Attach DOM events
-    qx.html.EventRegistration.addEventListener(window, "load", qx.lang.Function.bind(this._onload, this));
-    qx.html.EventRegistration.addEventListener(window, "beforeunload", qx.lang.Function.bind(this._onbeforeunload, this));
-    qx.html.EventRegistration.addEventListener(window, "unload", qx.lang.Function.bind(this._onunload, this));
+    qx.event2.Manager.addListener(window, "load", this._onload, this);
+    qx.event2.Manager.addListener(window, "beforeunload", this._onbeforeunload, this);
+    qx.event2.Manager.addListener(window, "unload", this._unload, this);
   },
 
 
