@@ -47,9 +47,9 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
   construct : function(eventCallBack, context)
   {
     this.base(arguments);
+
     this._callback = eventCallBack;
     this._context = context;
-    this._elementRegistry = new qx.util.manager.Object();
     this.__registeredEvents = {};
   },
 
@@ -180,7 +180,7 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
   */
 
   destruct : function() {
-    this._disposeFields("_callback", "_context", "__registeredEvents");
+    this._disposeFields("__registeredEvents");
     this._disposeObjects("_elementRegistry");
   }
 

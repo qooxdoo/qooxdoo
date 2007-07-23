@@ -26,7 +26,7 @@
  *
  * @internal
  */
-qx.Class.define("qx.event2.handler.DefaultEventHandler",
+qx.Class.define("qx.event2.handler.DocumentEventHandler",
 {
   extend : qx.event2.handler.AbstractEventHandler,
 
