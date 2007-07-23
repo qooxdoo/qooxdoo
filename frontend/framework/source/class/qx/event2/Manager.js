@@ -37,9 +37,6 @@
  *   <li>Support for mouse event capturing
  *      http://msdn2.microsoft.com/en-us/library/ms537630.aspx
  *   </li>
- *   <li>Support for document.activeElement like functionality (IE's focus model)
- *       http://msdn2.microsoft.com/en-us/library/ms533065.aspx
- *   </li>
  * </ul>
  *
  * Available Events
@@ -50,6 +47,8 @@
  *       http://developer.mozilla.org/en/docs/DOM:element#Event_Handlers
  *   </li>
  * </ul>
+ *
+ * <img src="http://qooxdoo.org/_media/documentation/general/eventmanager-uml.jpg">
  */
 qx.Class.define("qx.event2.Manager",
 {
@@ -83,11 +82,31 @@ qx.Class.define("qx.event2.Manager",
     this.addListener(win, "unload", this.__onunload, this);
 
     // create mouse capture handler for this window
-    this._captureHandler = new qx.event2.handler.MouseCaptureHandler(this, this.__documentEventManager);
+    this.__captureHandler = new qx.event2.handler.MouseCaptureHandler(this, this.__documentEventManager);
   },
 
 
 
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    var winId = qx.core.Object.toHashCode(this.getWindow());
+    delete(qx.event2.Manager.__managers[winId]);
+
+    this._disposeObjects(
+      "__documentEventManager",
+      "__inlineEventManager",
+      "__captureHandler"
+    );
+
+    this._disposeFields("_window");
+  },
 
 
 
@@ -100,8 +119,20 @@ qx.Class.define("qx.event2.Manager",
   statics :
   {
 
+    /**
+     * Static list of all instantiated event managers. The key is the qooxdoo
+     * hash value of the corresponding window
+     */
     __managers : {},
 
+
+    /**
+     * Get an instance of the event manager, which can handle events for the
+     * given element.
+     *
+     * @param element {Element} DOM element
+     * @return {qx.event2.Manager} The event manger for the element.
+     */
     getManager : function(element)
     {
       // get the corresponding default view (window)
@@ -324,7 +355,7 @@ qx.Class.define("qx.event2.Manager",
     */
 
     /**
-     * Remove an event listener from a from DOM node.
+     * Remove an event listener from a DOM node.
      *
      * @type member
      * @param element {Element} DOM Element
@@ -332,7 +363,6 @@ qx.Class.define("qx.event2.Manager",
      * @param listener {Function} The pointer to the event listener
      * @param useCapture {Boolean ? false} Whether to remove the event listener of
      *       the bubbling or of the capturing phase.
-     * @return {var} TODOC
      */
     removeListener : function(element, type, listener, useCapture)
     {
@@ -380,13 +410,12 @@ qx.Class.define("qx.event2.Manager",
     /**
      * Get the capture handler for the element.
      *
-     * @param element {Element} DOM element
      * @return {qx.event2.handler.MouseCaptureHandler} the mouse capture handler
      *     reponsible for the given element.
      */
     getCaptureHandler : function()
     {
-      return this._captureHandler;
+      return this.__captureHandler;
     },
 
 
@@ -421,6 +450,11 @@ qx.Class.define("qx.event2.Manager",
     },
 
 
+    /**
+     * Get the window instance the event manager is reponsible for
+     *
+     * @return {Window} DOM window instance
+     */
     getWindow : function() {
       return this._window;
     },
@@ -430,33 +464,12 @@ qx.Class.define("qx.event2.Manager",
      * Unload handler for each window with event listeners attached. Removes
      * all event listeners from the unloading window.
      *
-     * @param winId {var} hash code of the unloading window
      * @param domEvent {Event} DOM event object
      */
-    __onunload : function(domEvent)
-    {
-      var winId = qx.core.Object.toHashCode(this.getWindow());
-      delete(qx.event2.Manager.__managers[winId]);
-
+    __onunload : function(domEvent) {
       this.dispose();
     }
 
-  },
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function()
-  {
-    this._disposeObjects(
-      "__documentEventManager",
-      "__inlineEventManager"
-    );
   }
 
 });

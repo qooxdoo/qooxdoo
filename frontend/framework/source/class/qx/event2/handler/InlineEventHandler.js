@@ -47,6 +47,19 @@ qx.Class.define("qx.event2.handler.InlineEventHandler",
 
 
 
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this.removeAllListeners();
+    this._disposeFields("__registeredEvents");
+  },
+
+
 
   /*
   *****************************************************************************
@@ -62,20 +75,22 @@ qx.Class.define("qx.event2.handler.InlineEventHandler",
     ---------------------------------------------------------------------------
     */
 
+    // overridden
     canHandleEvent : function(type) {
       return true;
     },
 
+
+    // overridden
     registerEvent : function(element, type)
     {
-      var toHash = qx.core.Object.toHashCode;
-
-      var elementId = toHash(element);
+      var elementId = qx.core.Object.toHashCode(element);
       var listener = qx.lang.Function.bind(this.__handleEvent, this, elementId);
 
       qx.event2.Manager.addNativeListener(element, type, listener);
 
-      var id = toHash(element) + type;
+      var id = elementId + type;
+
       this.__registeredEvents[id] =
       {
         element : element,
@@ -85,10 +100,10 @@ qx.Class.define("qx.event2.handler.InlineEventHandler",
     },
 
 
+    // overridden
     unregisterEvent : function(element, type)
     {
-      var toHash = qx.core.Object.toHashCode;
-      var id = toHash(element) + type;
+      var id = qx.core.Object.toHashCode(element) + type;
 
       var eventData = this.__registeredEvents[id];
       qx.event2.Manager.removeNativeListener(element, type, eventData.listener);
@@ -96,6 +111,21 @@ qx.Class.define("qx.event2.handler.InlineEventHandler",
       delete(this.__registeredEvents[id]);
     },
 
+
+    // overridden
+    removeAllListeners : function()
+    {
+      for (var id in this.__registeredEvents)
+      {
+        var eventData = this.__registeredEvents[id];
+        qx.event2.Manager.removeNativeListener(
+          eventData.element,
+          eventData.type,
+          eventData.listener
+        );
+      }
+      this.__registeredEvents = {};
+    },
 
 
     /*
@@ -107,6 +137,7 @@ qx.Class.define("qx.event2.handler.InlineEventHandler",
     /**
      * Default event handler.
      *
+     * @param elementId {Integer} element id of the current target
      * @param domEvent {Event} DOM event
      */
     __handleEvent : function(elementId, domEvent)
@@ -120,19 +151,6 @@ qx.Class.define("qx.event2.handler.InlineEventHandler",
       this._callback.call(this._context, event);
     }
 
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this._disposeFields("__registeredEvents");
   }
 
 });

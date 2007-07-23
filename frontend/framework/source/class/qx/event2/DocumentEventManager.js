@@ -36,7 +36,8 @@ qx.Class.define("qx.event2.DocumentEventManager", {
   */
 
   /**
-   * Creates a new instance of the event handler.
+   * @param manager {qx.event2.Manager} reference to the event manager using
+   *     this class.
    */
   construct : function(manager)
   {
@@ -55,9 +56,23 @@ qx.Class.define("qx.event2.DocumentEventManager", {
     // registry for 'normal' bubbling events
     // structure: eventType -> elementId
     this.__documentRegistry = {};
+  },
 
-    // maps elementIDs to DOM elements
-    this.__elementRegistry = new qx.util.manager.Object();
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields(
+      "__documentRegistry",
+      "_manager",
+      "_window",
+      "_documentElement"
+    );
   },
 
 
@@ -178,7 +193,7 @@ qx.Class.define("qx.event2.DocumentEventManager", {
         {
           delete (typeData[elementId]);
 
-          if (!this.hasListeners(type))
+          if (!this.__hasListeners(type))
           {
             delete(this.__documentRegistry[type]);
             this._unregisterEventAtHandler(this._documentElement, type);
@@ -354,17 +369,6 @@ qx.Class.define("qx.event2.DocumentEventManager", {
 
 
     /**
-     * Get the internal registry for all event listeners of bubbling events.
-     *
-     * @return {Map} the registry. Structure: eventType -> elementId
-     * @internal
-     */
-    getRegistry : function() {
-      return this.__documentRegistry;
-    },
-
-
-    /**
      * Check whether event listeners are registered at the document element
      * for the given type.
      *
@@ -372,29 +376,20 @@ qx.Class.define("qx.event2.DocumentEventManager", {
      * @return {Boolean} Whether event listeners are registered at the document
      *     element for the given type.
      */
-    hasListeners : function(type) {
+    __hasListeners : function(type) {
       return qx.lang.Object.isEmpty(this.__documentRegistry[type]);
     },
 
 
+    /**
+     * Get the window instance the event manager is reponsible for
+     *
+     * @return {Window} DOM window instance
+     */
     getWindow : function() {
       return this._window;
     }
 
-  },
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function()
-  {
-    this._disposeFields("__documentRegistry");
-    this._disposeObjects("__elementRegistry");
   }
 
 });
