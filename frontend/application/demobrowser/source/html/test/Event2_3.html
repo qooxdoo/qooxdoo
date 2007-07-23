@@ -164,9 +164,9 @@ qx.Class.define("BasicSample",
       qx.event2.Manager.addListener(captureDiv, "change", function(e) {
         var checked = e.getTarget().checked;
         if (checked) {
-          qx.event2.Manager.getInstance().setCapture(mouseDiv);
+          qx.event2.Manager.getManager(mouseDiv).setCapture(mouseDiv);
         } else {
-          qx.event2.Manager.getInstance().releaseCapture();
+          qx.event2.Manager.getManager(mouseDiv).releaseCapture();
         }
       }, this);
 
