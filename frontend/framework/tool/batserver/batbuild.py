@@ -143,7 +143,7 @@ def build_packet(target,revision):
     goto_workdir(os.path.join(target,"qooxdoo","frontend"))
     #make('source')
     #make('build')
-    #make('release')
+    make('release')
     return 0
 
 def build_targets(targList):
