@@ -165,13 +165,12 @@ qx.Class.define("qx.theme.manager.Appearance",
     {
       var entry = theme.appearances[id];
 
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if (!entry)
       {
-        if (!entry)
-        {
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
           this.warn("Missing appearance entry: " + id);
-          return null;
         }
+        return null;
       }
 
       // Fast fallback to super entry
