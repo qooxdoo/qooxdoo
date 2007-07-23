@@ -55,6 +55,23 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
 
 
 
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this.removeAllListeners();
+
+    this._disposeFields(
+      "_callback",
+      "_context",
+      "__registeredEvents"
+    );
+  },
+
 
 
   /*
@@ -81,6 +98,8 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
      * This method is called each time the an event listener for one of the
      * supported events is added using {qx.event2.Manager#addListener}.
      *
+     * @param element {Element} DOM element to, which the event handler should
+     *     be attached
      * @param type {String} event type
      */
     registerEvent : function(element, type) {
@@ -92,6 +111,8 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
      * supported events is removed by using {qx.event2.Manager#removeListener}
      * and no other event listener is listening on this type.
      *
+     * @param element {Element} DOM element from, which the event handler should
+     *     be removed
      * @param type {String} event type
      */
     unregisterEvent : function(element, type) {
@@ -99,7 +120,7 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
 
 
     /**
-     * Removes all event handlers handles by the class from the DOM. This
+     * Removes all event handlers handled by the class from the DOM. This
      * function is called on unload of the the document.
      */
     removeAllListeners : function()
@@ -147,11 +168,24 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
     },
 
 
+    /**
+     * Add an event listener from a DOM node a keep track of all events registered
+     * using this class. This makes it easy to later cleanly remove all event
+     * listeners. Derived classes should use this method in favour of
+     * {@link qx.event2.Manager#addNativeListener}.
+     *
+     * @type member
+     * @param element {Element} DOM Element
+     * @param type {String} Name of the event
+     * @param listener {Function} The pointer to the event listener
+     * @param useCapture {Boolean ? false} Whether to remove the event listener of
+     *       the bubbling or of the capturing phase.
+     */
     _managedAddNativeListener : function(element, type, listener)
     {
       qx.event2.Manager.addNativeListener(element, type, listener);
-      var toHash = qx.core.Object.toHashCode;
-      var id = toHash(element) + type + toHash(listener);
+      var obj = qx.core.Object;
+      var id = obj.toHashCode(element) + type + obj.toHashCode(listener);
       this.__registeredEvents[id] =
       {
         element : element,
@@ -161,27 +195,27 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
     },
 
 
+    /**
+     * Remove an event listener from a DOM node a keep track of all events registered
+     * using this class. This makes it easy to later cleanly remove all event
+     * listeners. Derived classes should use this method in favour of
+     * {@link qx.event2.Manager#removeNativeListener}.
+     *
+     * @type member
+     * @param element {Element} DOM Element
+     * @param type {String} Name of the event
+     * @param listener {Function} The pointer to the event listener
+     * @param useCapture {Boolean ? false} Whether to remove the event listener of
+     *       the bubbling or of the capturing phase.
+     */
     _managedRemoveNativeListener : function(element, type, listener)
     {
       qx.event2.Manager.removeNativeListener(element, type, listener);
-      var toHash = qx.core.Object.toHashCode;
-      var id = toHash(element) + type + toHash(listener);
+      var obj = qx.core.Object;
+      var id = obj.toHashCode(element) + type + obj.toHashCode(listener);
       delete(this.__registeredEvents[id]);
     }
 
-  },
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this._disposeFields("__registeredEvents");
-    this._disposeObjects("_elementRegistry");
   }
 
 });
