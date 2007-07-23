@@ -589,15 +589,6 @@ qx.Class.define("qx.ui.tree.Tree",
     {
       var vManager = this.getManager();
       var vSelectedItem = vManager.getSelectedItem();
-
-      if (e.getKeyIdentifier() == "Enter")
-      {
-        e.preventDefault();
-
-        if (qx.ui.tree.Tree.isTreeFolder(vSelectedItem)) {
-          return vSelectedItem.toggle();
-        }
-      }
     },
 
 
@@ -615,6 +606,14 @@ qx.Class.define("qx.ui.tree.Tree",
 
       switch(e.getKeyIdentifier())
       {
+        case "Enter":
+          e.preventDefault();
+
+          if (qx.ui.tree.Tree.isTreeFolder(vSelectedItem)) {
+            return vSelectedItem.toggle();
+          }
+          break;
+
         case "Left":
           e.preventDefault();
 
