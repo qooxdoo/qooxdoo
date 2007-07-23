@@ -34,17 +34,31 @@ qx.Class.define("qx.event2.InlineEventManager",
   *****************************************************************************
   */
 
+  /**
+   * @param manager {qx.event2.Manager} reference to the event manager using
+   *     this class.
+   */
   construct : function(manager)
   {
     this.base(arguments);
-
-    this._manager = manager;
 
     this.addEventHandler(new qx.event2.handler.InlineEventHandler(this.dispatchEvent, this));
 
     // registry for inline events
     // structure: elementId -> type
     this.__inlineRegistry = {};
+  },
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields("__inlineRegistry");
   },
 
 
@@ -79,23 +93,10 @@ qx.Class.define("qx.event2.InlineEventManager",
     addListener : function(element, type, listener, self)
     {
       // create event listener entry for the element if needed.
-      var reg = this.__inlineRegistry;
+      var eventListeners = this.__getEventListeners(element, type, true);
 
-      var elementId = qx.core.Object.toHashCode(element);
-
-      if (!reg[elementId]) {
-        reg[elementId] = {};
-      }
-
-      // create entry for the event type
-      var elementEvents = reg[elementId];
-
-      if (!elementEvents[type]) {
-        elementEvents[type] = [];
-      }
-
-      // attach event handler if needed
-      if (elementEvents[type].length == 0)
+      // this is the first event handler for this type and element
+      if (eventListeners.length == 0)
       {
         // inform the event handler about the new event
         // they perform the event registration at DOM level
@@ -103,12 +104,11 @@ qx.Class.define("qx.event2.InlineEventManager",
       }
 
       // store event listener
-      elementEvents[type].push({
+      eventListeners.push({
         handler: listener,
         context: self
       });
     },
-
 
 
     /*
@@ -130,27 +130,24 @@ qx.Class.define("qx.event2.InlineEventManager",
      */
     removeListener : function(element, type, listener, useCapture)
     {
-      var elementId = qx.core.Object.toHashCode(element);
-
-      var elementData = this.__inlineRegistry[elementId];
-
-      if (!elementData || !elementData[type]) {
+      // get event listeners
+      var listeners = this.__getEventListeners(element, type, false);
+      if (!listeners) {
         return;
       }
 
-      var listeners = elementData[type];
-
+      // find listener
       var removeIndex = -1;
-
       for (var i=0; i<listeners.length; i++)
       {
-        if (listeners[i].$$original == listener)
+        if (listeners[i].handler == listener)
         {
           removeIndex = i;
           break;
         }
       }
 
+      // remove listener if found
       if (removeIndex != -1)
       {
         qx.lang.Array.removeAt(listeners, removeIndex);
@@ -158,7 +155,7 @@ qx.Class.define("qx.event2.InlineEventManager",
         if (listeners.length == 0)
         {
           this._unregisterEventAtHandler(element, type);
-          delete (elementData[type]);
+          this.__registryRemoveType(element, type);
         }
       }
     },
@@ -178,37 +175,90 @@ qx.Class.define("qx.event2.InlineEventManager",
      */
     dispatchEvent : function(event)
     {
-      var target = event.getTarget();
-
       event.setEventPhase(qx.event2.type.Event.AT_TARGET);
       var currentTarget = event.getCurrentTarget();
 
-      var elementId = qx.core.Object.toHashCode(currentTarget);
-      var elementData = this.__inlineRegistry[elementId];
-      if (!elementData || !elementData[event.getType()]) {
+      var listeners = qx.lang.Array.copy(this.__getEventListeners(currentTarget, event.getType(), false));
+      if (!listeners) {
         return;
       }
-
-      var listeners = qx.lang.Array.copy(this.__inlineRegistry[elementId][event.getType()]);
 
       for (var i=0; i<listeners.length; i++)
       {
         var context = listeners[i].context || currentTarget;
         listeners[i].handler.call(context, event);
       }
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      REGISTRY HELPER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Get all event listeners for the given element and event type. If no
+     * registray data is available for this element and type and the
+     * third parameter <code>buildRegistry</code> is true the registry is build
+     * up and an empty array is returned.
+     *
+     * @param element {Element} DOM element.
+     * @param type {String} DOM event type
+     * @param buildRegistry {Boolean?false} Whether to build up the registry if
+     *     no entry is found
+     * @return {Function[]|null} Array of registered event handlers for this event
+     *     and type. Will return null if <code>buildRegistry</code> and no entry
+     *     is found.
+     */
+    __getEventListeners : function(element, type, buildRegistry)
+    {
+      var elementId = qx.core.Object.toHashCode(element);
+      var reg = this.__inlineRegistry;
+
+      if (!reg[elementId])
+      {
+        if (buildRegistry) {
+          reg[elementId] = {};
+        } else {
+          return null;
+        }
+      }
+
+      // create entry for the event type
+      var elementEvents = reg[elementId];
+
+      if (!elementEvents[type]) {
+        if (buildRegistry) {
+          elementEvents[type] = [];
+        } else {
+          return null;
+        }
+      }
+
+      return elementEvents[type];
+    },
+
+
+    /**
+     * Remove the registry entry for the given event type from the event data of
+     * the given element.
+     *
+     * @param element {Element} DOM element
+     * @param type {String} DOM event type
+     */
+    __registryRemoveType : function(element, type)
+    {
+      var elementId = qx.core.Object.toHashCode(element);
+      var reg = this.__inlineRegistry;
+
+      if (!reg[elementId]) {
+        return;
+      }
+
+      delete (reg[type]);
     }
 
-  },
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    //this._disposeFields("__inlineRegistry");
   }
 
 })
