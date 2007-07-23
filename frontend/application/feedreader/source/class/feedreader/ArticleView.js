@@ -38,7 +38,7 @@ qx.Class.define("feedreader.ArticleView",
   {
     qx.ui.basic.Terminator.call(this);
     this.setHtmlProperty("className", "blogEntry");
-    this.setArticle(article);
+    this.setArticle(article || null);
   },
 
 
@@ -50,8 +50,13 @@ qx.Class.define("feedreader.ArticleView",
   *****************************************************************************
   */
 
-  properties : {
-    article : { _legacy : true }
+  properties :
+  {
+    article :
+    {
+      apply : "_applyArticle",
+      nullable : true
+    }
   },
 
 
@@ -65,16 +70,8 @@ qx.Class.define("feedreader.ArticleView",
 
   members :
   {
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
-     */
-    _modifyArticle : function(propValue, propOldValue, propData)
+
+    _applyArticle : function(propValue, propOldValue, propData)
     {
       if (this._isCreated) {
         this._applyElementData();

@@ -125,8 +125,8 @@ qx.Class.define("feedreader.Application",
 
   properties :
   {
-    feeds        : { _legacy : true },
-    selectedFeed : { _legacy : true }
+    feeds        : { },
+    selectedFeed : { }
   },
 
 
