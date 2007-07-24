@@ -28,12 +28,13 @@
 qx.Class.define("qx.event2.type.KeyEvent",
 {
   extend : qx.event2.type.Event,
+  include : qx.event2.type.MModifierKeys,
 
 
 
   /*
   *****************************************************************************
-     STATICS
+     MEMBERS
   *****************************************************************************
   */
 

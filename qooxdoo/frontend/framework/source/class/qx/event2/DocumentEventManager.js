@@ -117,7 +117,7 @@ qx.Class.define("qx.event2.DocumentEventManager", {
 
         // inform the event handler about the new event
         // they perform the event registration at DOM level
-        this._registerEventAtHandler(this._documentElement, type);
+        this._registerEventAtHandler(element, type);
       }
 
       var elementId = qx.core.Object.toHashCode(element);
@@ -196,7 +196,7 @@ qx.Class.define("qx.event2.DocumentEventManager", {
           if (!this.__hasListeners(type))
           {
             delete(this.__documentRegistry[type]);
-            this._unregisterEventAtHandler(this._documentElement, type);
+            this._unregisterEventAtHandler(element, type);
           }
         }
       }

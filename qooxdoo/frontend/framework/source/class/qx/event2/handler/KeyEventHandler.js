@@ -45,8 +45,9 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
   {
     this.base(arguments, eventCallBack, manager);
 
-    this.__keyEventListenerCount = 0;
+    this._documentElement = manager.getWindow().document.documentElement;
 
+    this.__keyEventListenerCount = 0;
     var keyUpDownHandler = qx.lang.Function.bind(this.onKeyUpDown, this);
 
     this.__keyHandler =
@@ -58,6 +59,22 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
   },
 
 
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeFields(
+      "_documentElement",
+      "_lastUpDownType",
+      "__keyHandler",
+      "__keyEventListenerCount"
+    );
+  },
 
 
 
@@ -89,7 +106,7 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
     },
 
 
-    canHandleEvent : function(type) {
+    canHandleEvent : function(element, type) {
       return this.__keyHandler[type];
     },
 
@@ -98,7 +115,7 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
     {
       this.__keyEventListenerCount += 1;
       if (this.__keyEventListenerCount == 1) {
-        this._attachEvents(element, this.__keyHandler);
+        this._attachEvents(this._documentElement, this.__keyHandler);
       }
     },
 
@@ -107,7 +124,7 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
     {
       this.__keyEventListenerCount -= 1;
       if (this.__keyEventListenerCount == 0) {
-        this._detachEvents(element, this.__keyHandler);
+        this._detachEvents(this._documentElement, this.__keyHandler);
       }
     },
 
@@ -644,19 +661,6 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
         13    : members._identifierToKeyCode("Enter")
       };
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function()
-  {
-    this._disposeFields("_lastUpDownType", "__keyHandler", "__keyEventListenerCount");
   }
+
 });

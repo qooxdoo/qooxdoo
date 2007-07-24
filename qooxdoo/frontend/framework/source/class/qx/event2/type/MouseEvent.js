@@ -28,6 +28,7 @@
 qx.Class.define("qx.event2.type.MouseEvent",
 {
   extend : qx.event2.type.Event,
+  include : qx.event2.type.MModifierKeys,
 
 
 
