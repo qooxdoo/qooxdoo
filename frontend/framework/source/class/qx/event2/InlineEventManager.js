@@ -42,6 +42,7 @@ qx.Class.define("qx.event2.InlineEventManager",
   {
     this.base(arguments);
 
+    this.addEventHandler(new qx.event2.handler.ObjectEventHandler(this.dispatchEvent, this));
     this.addEventHandler(new qx.event2.handler.InlineEventHandler(this.dispatchEvent, this));
 
     // registry for inline events
@@ -176,12 +177,18 @@ qx.Class.define("qx.event2.InlineEventManager",
     dispatchEvent : function(event)
     {
       event.setEventPhase(qx.event2.type.Event.AT_TARGET);
+      event.setBubbles(false);
+
       var currentTarget = event.getCurrentTarget();
 
-      var listeners = qx.lang.Array.copy(this.__getEventListeners(currentTarget, event.getType(), false));
+      var listeners = this.__getEventListeners(currentTarget, event.getType(), false);
       if (!listeners) {
         return;
       }
+
+      // work on a copy of the event listener array to allow calls to removeListener
+      // in custom event handlers.
+      listeners = qx.lang.Array.copy(listeners);
 
       for (var i=0; i<listeners.length; i++)
       {
