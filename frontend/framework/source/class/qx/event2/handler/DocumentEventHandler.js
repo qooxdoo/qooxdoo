@@ -90,8 +90,9 @@ qx.Class.define("qx.event2.handler.DocumentEventHandler",
      */
     __handleEvent : function(domEvent)
     {
-      var event = qx.event2.type.Event.getInstance().init(domEvent);
+      var event = this._eventPool.getEventInstance("qx.event2.type.Event").init(domEvent);
       this._callback.call(this._context, event);
+      this._eventPool.release(event);
     }
 
   },

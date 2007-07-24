@@ -51,6 +51,7 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
     this._callback = eventCallBack;
     this._context = context;
     this.__registeredEvents = {};
+    this._eventPool = qx.event2.type.EventPool.getInstance();
   },
 
 
@@ -70,6 +71,8 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
       "_context",
       "__registeredEvents"
     );
+
+    this._disposeObjects("_eventPool");
   },
 
 

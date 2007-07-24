@@ -29,7 +29,6 @@ qx.Class.define("qx.event2.type.MouseEvent",
 {
   extend : qx.event2.type.Event,
 
-  type : "singleton",
 
 
   /*
@@ -154,7 +153,7 @@ qx.Class.define("qx.event2.type.MouseEvent",
 
 
     /**
-     * Get the vertical coordinate at which the event occurred relative 
+     * Get the vertical coordinate at which the event occurred relative
      * to the viewport.
      *
      * @return {Integer} The vertical mouse position

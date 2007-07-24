@@ -142,13 +142,19 @@ qx.Class.define("qx.event2.handler.InlineEventHandler",
      */
     __handleEvent : function(elementId, domEvent)
     {
-      var event = qx.event2.type.Event.getInstance().init(domEvent);
+      var event = this._eventPool.getEventInstance("qx.event2.type.Event").init(domEvent);
 
       var eventData = this.__registeredEvents[elementId + event.getType()];
       var element = eventData ? eventData.element : event.getTarget();
       event.setCurrentTarget(element);
 
       this._callback.call(this._context, event);
+
+      // this point can be reached after the unload handler has taken place
+      // and disposed the event pool.
+      if (!this.getDisposed()) {
+        this._eventPool.release(event);
+      }
     }
 
   }
