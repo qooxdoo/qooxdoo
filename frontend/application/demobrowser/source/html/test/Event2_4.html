@@ -26,6 +26,7 @@
       opacity : 0.5;
       -moz-opacity: 0.5;
       z-index: 50;
+      display: none;
     }
 
   </style>
@@ -82,12 +83,14 @@ qx.Class.define("BasicSample",
         this
       );
 
+      /*
       qx.event2.Manager.addListener(
         document.documentElement,
         "click",
         this._positionDiv,
         this
       );
+      */
     },
 
 

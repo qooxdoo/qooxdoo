@@ -111,8 +111,12 @@ qx.Class.define("qx.event2.AbstractEventManager",
      */
     _unregisterEventAtHandler : function(element, type)
     {
-      for (var i=0; i<this.__eventHandlers.length; i++) {
-        this.__eventHandlers[i].unregisterEvent(element, type);
+      for (var i=0; i<this.__eventHandlers.length; i++)
+      {
+        if (this.__eventHandlers[i].canHandleEvent(element, type)) {
+          this.__eventHandlers[i].unregisterEvent(element, type);
+          break;
+        }
       }
     }
 
