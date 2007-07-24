@@ -467,7 +467,7 @@ endif
 #
 # The API folder of your application from the directory which contains the
 # Makefile (if defined relatively). This is the destination target where the
-# self-contained API viewer should resist after a "make api".
+# self-contained API viewer should reside after a "make api".
 # The default is ./api.
 #
 ifndef APPLICATION_API_PATH
