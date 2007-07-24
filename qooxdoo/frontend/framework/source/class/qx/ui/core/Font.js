@@ -305,11 +305,11 @@ qx.Class.define("qx.ui.core.Font",
      * @return {String}
      */
     generateStyle : function() {
-      return this.__family ? "font-family:" + this.__family.replace(/\"/g, "'") + ";" : "" +
-             this.__size ? "font-size:" + this.__size + ";" : "" +
-             this.__weight ? "font-weight:" + this.__weight + ";" : "" +
-             this.__style ? "font-style:" + this.__style + ";" : "" +
-             this.__decoration ? "text-decoration:" + this.__decoration + ";" : "";
+      return ( this.__family ? "font-family:" + this.__family.replace(/\"/g, "'") + ";" : "" ) +
+             ( this.__size ? "font-size:" + this.__size + ";" : "" ) +
+             ( this.__weight ? "font-weight:" + this.__weight + ";" : "" ) +
+             ( this.__style ? "font-style:" + this.__style + ";" : "" ) +
+             ( this.__decoration ? "text-decoration:" + this.__decoration + ";" : "" );
     }
   }
 });
