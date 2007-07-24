@@ -25,6 +25,7 @@
       opacity : 0.5;
       -moz-opacity: 0.5;
       z-index: 50;
+      display: none;
     }
 
     #juhu {
@@ -143,20 +144,25 @@ qx.Class.define("BasicSample",
         this
       );
 
-      qx.event2.Manager.addListener(document.documentElement, "click", this._positionDiv, this);
+      //qx.event2.Manager.addListener(document.documentElement, "click", this._positionDiv, this);
+
+      qx.event2.Manager.addListener(this._juhu, "click", function() {
+        var e = qx.event2.type.EventPool.getInstance().getEventInstance("qx.event2.type.Event").init({});
+        e.setType("juhu");
+        e.setCurrentTarget(this);
+        e.setTarget(this);
+        qx.event2.Manager.getManager(this).dispatchEvent(e);
+        qx.event2.type.EventPool.getInstance().release(e);
+      }, this);
+
+      qx.event2.Manager.addListener(this, "juhu", this._onJuhu, this);
+
 
     },
 
-    throttle : function(minIntervalTime, fcn, self)
-    {
-      var timeoutId = 0;
 
-      return function() {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(function() {
-          self ? fcn.call(self) : fcn();
-        }, minIntervalTime);
-      }
+    _onJuhu : function(e) {
+      this.debug("Juhu:" + e);
     },
 
     _onkeydown: function(e) {
