@@ -138,8 +138,10 @@ qx.Class.define("qx.event2.Manager",
       // get the corresponding default view (window)
       if (qx.html2.element.Node.isWindow(element)) {
         var win = element;
-      } else {
+      } else if (qx.html2.element.Node.isElementNode(element)) {
         var win = qx.html2.element.Node.getDefaultView(element);
+      } else {
+        var win = window;
       }
       var id = qx.core.Object.toHashCode(win);
 
@@ -352,17 +354,17 @@ qx.Class.define("qx.event2.Manager",
       var type = this.__eventNames[type] || type;
 
       // attach event listener
-      if (this.__inlineEvents[type])
+      if (this.__doesEventBubble(element, type))
+      {
+        this.__documentEventManager.addListener(element, type, listener, self, useCapture);
+      }
+      else
       {
         if (useCapture) {
           throw new Error("The event '" + type + "' does not bubble, so capturing is also not supported!");
         }
 
         this.__inlineEventManager.addListener(element, type, listener, self);
-      }
-      else
-      {
-        this.__documentEventManager.addListener(element, type, listener, self, useCapture);
       }
     },
 
@@ -386,10 +388,10 @@ qx.Class.define("qx.event2.Manager",
     removeListener : function(element, type, listener, useCapture)
     {
       var type = this.__eventNames[type] || type;
-      if (this.__inlineEvents[type]) {
-        return this.__inlineEventManager.removeListener(element, type, listener);
-      } else {
+      if (this.__doesEventBubble(element, type)) {
         return this.__documentEventManager.removeListener(element, type, listener, useCapture);
+      } else {
+        return this.__inlineEventManager.removeListener(element, type, listener);
       }
     },
 
@@ -410,11 +412,10 @@ qx.Class.define("qx.event2.Manager",
      */
     dispatchEvent : function(event)
     {
-      var type = this.__eventNames[type] || type;
-      if (this.__inlineEvents[event.getType()]) {
-        return this.__inlineEventManager.dispatchEvent(event);
-      } else {
+      if (this.__doesEventBubble(event.getTarget(), event.getType())) {
         return this.__documentEventManager.dispatchEvent(event);
+      } else {
+        return this.__inlineEventManager.dispatchEvent(event);
       }
     },
 
@@ -476,6 +477,11 @@ qx.Class.define("qx.event2.Manager",
      */
     getWindow : function() {
       return this._window;
+    },
+
+
+    __doesEventBubble : function(element, type) {
+      return !(element instanceof qx.core.Object) && !this.__inlineEvents[type];
     },
 
 

@@ -91,7 +91,7 @@ qx.Class.define("qx.event2.AbstractEventManager",
       // for this event type
       for (var i=0; i<this.__eventHandlers.length; i++)
       {
-        if (this.__eventHandlers[i].canHandleEvent(type))
+        if (this.__eventHandlers[i].canHandleEvent(element, type))
         {
           this.__eventHandlers[i].registerEvent(element, type);
           break;
@@ -112,7 +112,7 @@ qx.Class.define("qx.event2.AbstractEventManager",
     _unregisterEventAtHandler : function(element, type)
     {
       for (var i=0; i<this.__eventHandlers.length; i++) {
-        this.__eventHandlers[i].unregisterEvent(this._documentElement, type);
+        this.__eventHandlers[i].unregisterEvent(element, type);
       }
     }
 

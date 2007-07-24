@@ -46,8 +46,9 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
   {
     this.base(arguments, eventCallBack, manager);
 
-    this.__mouseButtonListenerCount = 0;
+    this._documentElement = manager.getWindow().document.documentElement;
 
+    this.__mouseButtonListenerCount = 0;
     var buttonHandler = qx.lang.Function.bind(this.onMouseButtonEvent, this);
     this.__mouseButtonHandler =
     {
@@ -63,6 +64,22 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
     this.__lastMouseDownTarget = null;
   },
 
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeFields(
+      "__mouseMoveHandler",
+      "__lastMouseDownTarget",
+      "__mouseButtonListenerCount"
+    );
+  },
 
 
 
@@ -90,7 +107,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
     ---------------------------------------------------------------------------
     */
 
-    canHandleEvent : function(type) {
+    canHandleEvent : function(element, type) {
       return this.__mouseButtonHandler[type] || this.__mouseMoveEvents[type];
     },
 
@@ -102,12 +119,12 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
         this.__mouseButtonListenerCount += 1;
 
         if (this.__mouseButtonListenerCount == 1) {
-          this._attachEvents(element, this.__mouseButtonHandler);
+          this._attachEvents(this._documentElement, this.__mouseButtonHandler);
         }
       }
       else if (this.__mouseMoveEvents[type])
       {
-        this._managedAddNativeListener(element, type, this.__mouseMoveHandler);
+        this._managedAddNativeListener(this._documentElement, type, this.__mouseMoveHandler);
       }
     },
 
@@ -119,12 +136,12 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
         this.__mouseButtonListenerCount -= 1;
 
         if (this.__mouseButtonListenerCount == 0) {
-          this._detachEvents(element, this.__mouseButtonHandler);
+          this._detachEvents(this._documentElement, this.__mouseButtonHandler);
         }
       }
       else if (this.__mouseMoveEvents[type])
       {
-        this._managedRemoveNativeListener(element, type, this.__mouseMoveHandler);
+        this._managedRemoveNativeListener(this._documentElement, type, this.__mouseMoveHandler);
       }
     },
 
@@ -287,7 +304,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
 
 
     /**
-     * If the mousup event happens on a different target than the corresponding
+     * If the mouseup event happens on a different target than the corresponding
      * mousedown event the internet explorer dispatches a click event on the
      * first common ancestor of both targets. The presence of this click event
      * is essential for the qooxdoo widget system. All other browsers don't fire
@@ -320,23 +337,6 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
         }
       }
     })
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function()
-  {
-    this._disposeFields(
-      "__mouseMoveHandler",
-      "__lastMouseDownTarget",
-      "__mouseButtonListenerCount"
-    );
   }
+
 });

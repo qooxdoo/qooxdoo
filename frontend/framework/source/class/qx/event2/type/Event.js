@@ -90,7 +90,9 @@ qx.Class.define("qx.event2.type.Event",
       this._dom = domEvent;
       this._type = domEvent.type;
       this._target = domEvent.target || domEvent.srcElement;
+      this._currentTarget = null;
       this._stopPropagation = false;
+      this._bubbles = true;
       this._timeStamp = domEvent.timeStamp || (new Date()).getTime();
 
       return this;
@@ -265,7 +267,7 @@ qx.Class.define("qx.event2.type.Event",
      * @signature function()
      */
     getCurrentTarget : function() {
-      return this._currentTarget;
+      return this._currentTarget || this._target;
     },
 
 
@@ -281,63 +283,25 @@ qx.Class.define("qx.event2.type.Event",
 
 
     /**
-     * Returns whether the the ctrl key is pressed.
+     * Check whether or not the event is a bubbling event. If the event can
+     * bubble the value is true, else the value is false.
      *
-     * @type member
-     * @return {Boolean} whether the the ctrl key is pressed.
+     * @return {Boolean} Whether the event bubbles
      */
-    isCtrlPressed : function() {
-      return this._dom.ctrlKey;
+    getBubbles : function() {
+      return this._bubbles;
     },
 
 
     /**
-     * Returns whether the the shift key is pressed.
+     * Set whether the event bubbles.
      *
-     * @type member
-     * @return {Boolean} whether the the shift key is pressed.
+     * @param bubbles {Booblean} Whether the event bubbles
+     * @internal
      */
-    isShiftPressed : function() {
-      return this._dom.shiftKey;
-    },
-
-
-    /**
-     * Returns whether the the alt key is pressed.
-     *
-     * @type member
-     * @return {Boolean} whether the the alt key is pressed.
-     */
-    isAltPressed : function() {
-      return this._dom.altKey;
-    },
-
-
-    /**
-     * Returns whether the the meta key is pressed.
-     *
-     * @type member
-     * @return {Boolean} whether the the meta key is pressed.
-     */
-    isMetaPressed : function() {
-      return this._dom.metaKey;
-    },
-
-
-    /**
-     * Returns whether the ctrl key or (on the Mac) the command key is pressed.
-     *
-     * @type member
-     * @return {Boolean} <code>true</code> if the command key is pressed on the Mac
-     *             or the ctrl key is pressed on another system.
-     */
-    isCtrlOrCommandPressed : function()
-    {
-      if (qx.core.Client.getInstance().runsOnMacintosh()) {
-        return this._dom.metaKey;
-      } else {
-        return this._dom.ctrlKey;
-      }
+    setBubbles : function(bubbles) {
+      this._bubbles = bubbles;
     }
+
   }
 });

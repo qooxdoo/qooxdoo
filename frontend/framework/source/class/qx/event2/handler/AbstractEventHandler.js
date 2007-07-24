@@ -92,7 +92,7 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
      * @return {Boolean} Whether the event handler can handle events of the
      *     given type.
      */
-    canHandleEvent : function(type) {
+    canHandleEvent : function(element, type) {
       return false;
     },
 

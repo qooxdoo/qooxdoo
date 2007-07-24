@@ -32,7 +32,6 @@ qx.Class.define("qx.event2.handler.DocumentEventHandler",
 
 
 
-
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -43,8 +42,20 @@ qx.Class.define("qx.event2.handler.DocumentEventHandler",
   {
     this.base(arguments, eventCallBack, manager);
     this._eventHandler = qx.lang.Function.bind(this.__handleEvent, this);
+    this._documentElement = manager.getWindow().document.documentElement;
   },
 
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields("_eventHandler", "_documentElement");
+  },
 
 
 
@@ -56,23 +67,24 @@ qx.Class.define("qx.event2.handler.DocumentEventHandler",
 
   members :
   {
+
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER INTERFACE
     ---------------------------------------------------------------------------
     */
 
-    canHandleEvent : function(type) {
+    canHandleEvent : function(element, type) {
       return true;
     },
 
     registerEvent : function(element, type) {
-      this._managedAddNativeListener(element, type, this._eventHandler);
+      this._managedAddNativeListener(this._documentElement, type, this._eventHandler);
     },
 
     unregisterEvent : function(element, type)
     {
-      this._managedRemoveNativeListener(element, type, this._eventHandler);
+      this._managedRemoveNativeListener(this._documentElement, type, this._eventHandler);
     },
 
 
@@ -95,19 +107,6 @@ qx.Class.define("qx.event2.handler.DocumentEventHandler",
       this._eventPool.release(event);
     }
 
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this._disposeFields("_eventHandler");
   }
 
 });

@@ -76,7 +76,7 @@ qx.Class.define("qx.event2.handler.InlineEventHandler",
     */
 
     // overridden
-    canHandleEvent : function(type) {
+    canHandleEvent : function(element, type) {
       return true;
     },
 
