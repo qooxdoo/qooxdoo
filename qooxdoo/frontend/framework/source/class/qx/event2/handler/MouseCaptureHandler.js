@@ -147,12 +147,14 @@
       }
 
       // create synthetic losecapture event
-      var event = qx.event2.type.Event.getInstance().init({});
+      var event = this._eventPool.getEventInstance("qx.event2.type.Event").init({});
       event.setType("losecapture");
       event.setTarget(this._captureElement);
 
       this._manager.dispatchEvent(event);
       this._captureElement = null;
+
+      this._eventPool.release(event);
     }
 
   },

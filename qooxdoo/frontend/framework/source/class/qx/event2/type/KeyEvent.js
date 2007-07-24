@@ -29,8 +29,6 @@ qx.Class.define("qx.event2.type.KeyEvent",
 {
   extend : qx.event2.type.Event,
 
-  type : "singleton",
-
 
 
   /*

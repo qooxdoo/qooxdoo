@@ -80,11 +80,12 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
      */
     __fireEvent : function(domEvent, eventType, keyCode, charCode, keyIdentifier)
     {
-      var event = qx.event2.type.KeyEvent.getInstance().init(
+      var event = this._eventPool.getEventInstance("qx.event2.type.KeyEvent").init(
         domEvent, keyCode, charCode, keyIdentifier
       );
       event.setType(eventType);
       this._callback.call(this._context, event);
+      this._eventPool.release(event);
     },
 
 

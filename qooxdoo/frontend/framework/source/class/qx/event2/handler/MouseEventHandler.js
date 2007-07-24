@@ -145,7 +145,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
      */
     __fireEvent : function(domEvent, type, target)
     {
-      var event = qx.event2.type.MouseEvent.getInstance().init(domEvent);
+      var event = this._eventPool.getEventInstance("qx.event2.type.MouseEvent").init(domEvent);
 
       if (type) {
         event.setType(type);
@@ -155,6 +155,8 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
       }
 
       this._callback.call(this._context, event);
+
+      this._eventPool.release(event);
     },
 
 
@@ -167,7 +169,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
      */
     onMouseButtonEvent : function(domEvent)
     {
-      var event = qx.event2.type.MouseEvent.getInstance().init(domEvent);
+      var event = this._eventPool.getEventInstance("qx.event2.type.MouseEvent").init(domEvent);
       var type = event.getType();
       var target = event.getTarget();
 
@@ -180,6 +182,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
       }
 
       this.__fireEvent(domEvent, type, target);
+      this._eventPool.release(event);
 
       if (this.__rightClickFixPost) {
         this.__rightClickFixPost(domEvent, type, target);
