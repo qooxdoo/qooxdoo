@@ -30,8 +30,8 @@
     // #2: Enable Redirect URL: Jump to an installer page
     // fo1.setRedirectUrl("http://www.google.de");
 
-    fo1.setVariable("flashVarText", "this is passed in via FlashVars");
-    fo1.setScale("noscale");
+    fo1.getFlashObject().setVariable("flashVarText", "this is passed in via FlashVars");
+    fo1.getFlashObject().setScale("noscale");
 
     fo1.setEdge(20);
 
