@@ -27,12 +27,13 @@
 # Target definitions
 #
 
-.PHONY: source build api all locales pretty fix help clean distclean publish debug
+.PHONY: source build api all locales pretty fix help clean distclean publish debug test
 
 source: info-source exec-download-contribs exec-localization exec-translation exec-script-source
 build: info-build exec-download-contribs exec-localization exec-translation exec-script-build exec-script-build-opt exec-files-build
 build-split: info-build exec-download-contribs exec-localization exec-translation exec-script-build-split exec-files-build
 api: info-api exec-download-contribs exec-localization exec-translation exec-api-build exec-api-data exec-files-api
+test: info-test exec-localization exec-translation exec-testrunner-build exec-tests-build
 all: source build api
 
 locales: exec-localization exec-translation
