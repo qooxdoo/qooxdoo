@@ -247,7 +247,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       if (!vWidget._isInGlobalWidgetQueue && vWidget._isDisplayable)
       {
-        this.__autoFlush.call();
+        this.__autoFlush.schedule();
         qx.ui.core.Widget._globalWidgetQueue.push(vWidget);
         vWidget._isInGlobalWidgetQueue = true;
       }
@@ -320,7 +320,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       if (!vWidget._isInGlobalElementQueue && vWidget._isDisplayable)
       {
-        this.__autoFlush.call();
+        this.__autoFlush.schedule();
         qx.ui.core.Widget._globalElementQueue.push(vWidget);
         vWidget._isInGlobalElementQueue = true;
       }
@@ -393,7 +393,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       if (!vWidget._isInGlobalStateQueue && vWidget._isDisplayable)
       {
-        this.__autoFlush.call();
+        this.__autoFlush.schedule();
 
         qx.ui.core.Widget._globalStateQueue.push(vWidget);
         vWidget._isInGlobalStateQueue = true;
@@ -467,7 +467,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       if (!vWidget._isInGlobalJobQueue && vWidget._isDisplayable)
       {
-        this.__autoFlush.call();
+        this.__autoFlush.schedule();
 
         qx.ui.core.Widget._globalJobQueue.push(vWidget);
         vWidget._isInGlobalJobQueue = true;
@@ -541,7 +541,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       if (!vParent._isInGlobalLayoutQueue && vParent._isDisplayable)
       {
-        this.__autoFlush.call();
+        this.__autoFlush.schedule();
 
         qx.ui.core.Widget._globalLayoutQueue.push(vParent);
         vParent._isInGlobalLayoutQueue = true;
@@ -616,7 +616,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       if (!vWidget._isInGlobalDisplayQueue && vWidget._isDisplayable)
       {
-        this.__autoFlush.call();
+        this.__autoFlush.schedule();
 
         var vParent = vWidget.getParent();
 
@@ -7218,7 +7218,6 @@ qx.Class.define("qx.ui.core.Widget",
     }
 
     statics.__autoFlush = new qx.util.DeferredCall(qx.ui.core.Widget.flushGlobalQueues, qx.ui.core.Widget);
-
   },
 
 

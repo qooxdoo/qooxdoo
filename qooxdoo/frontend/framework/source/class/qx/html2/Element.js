@@ -105,7 +105,7 @@ qx.Class.define("qx.html2.Element",
         // console.debug("Add to queue object[" + element.toHashCode() + "]");
         this.__queue.push(element);
         element.__queued = true;
-        this.__autoFlush.call();
+        this.__autoFlush.schedule();
       }
     },
 
@@ -205,7 +205,7 @@ qx.Class.define("qx.html2.Element",
           eventData.type,
           eventData.listener,
           eventData.self,
-          eventData.useCapture
+          eventData.capture
         );
       }
       entry.__addEventJobs = [];
@@ -231,7 +231,7 @@ qx.Class.define("qx.html2.Element",
           element,
           eventData.type,
           eventData.listener,
-          eventData.useCapture
+          eventData.capture
         );
       }
       entry.__removeEventJobs = [];
@@ -1011,25 +1011,25 @@ qx.Class.define("qx.html2.Element",
 
 
     /**
-     * Add an event listener to the element using {@link qx.event2.Maanger#addListener}.
+     * Add an event listener to the element using {@link qx.event2.Manager#addListener}.
      *
      * @type static
      * @param type {String} Name of the event e.g. "click", "keydown", ...
      * @param listener {Function} Event listener function
      * @param self {Object ? window} Reference to the 'this' variable inside
      *       the event listener.
-     * @param useCapture {Boolean ? false} Whether to attach the event to the
+     * @param capture {Boolean ? false} Whether to attach the event to the
      *       capturing phase of the bubbling phase of the event. The default is
      *       to attach the event handler to the bubbling phase.
      * @return {qx.html2.Element} this object (for chaining support)
      */
-    addEventListener : function(type, listener, self, useCapture)
+    addEventListener : function(type, listener, self, capture)
     {
       this.__addEventJobs.push({
         type: type,
         listener: listener,
         self: self,
-        useCapture: useCapture
+        capture: capture
       });
 
       if (this.__element) {
@@ -1041,22 +1041,25 @@ qx.Class.define("qx.html2.Element",
 
 
     /**
-     * Remove an event listener from the element using {@link qx.event2.Maanger#removeListener}.
+     * Remove an event listener from the element using {@link qx.event2.Manager#removeListener}.
      *
      * @type static
      * @param type {String} Name of the event e.g. "click", "keydown", ...
      * @param listener {Function} Event listener function
-     * @param useCapture {Boolean ? false} Whether to attach the event to the
+     * @param self {Object ? window} Reference to the 'this' variable inside
+     *       the event listener.     
+     * @param capture {Boolean ? false} Whether to attach the event to the
      *       capturing phase of the bubbling phase of the event. The default is
      *       to attach the event handler to the bubbling phase.
      * @return {qx.html2.Element} this object (for chaining support)
      */
-    removeEventListener : function(type, listener, useCapture)
+    removeEventListener : function(type, listener, self, capture)
     {
       this.__removeEventJobs.push({
         type: type,
         listener: listener,
-        useCapture: useCapture
+        self : self,
+        capture: capture
       });
 
       if (this.__element) {
@@ -1133,8 +1136,17 @@ qx.Class.define("qx.html2.Element",
     }
   },
 
+
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+  
   defer : function(statics, members) {
     statics.__autoFlush = new qx.util.DeferredCall(qx.html2.Element.flushQueue, qx.html2.Element);
   }
-
 });
