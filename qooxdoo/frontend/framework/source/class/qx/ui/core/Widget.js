@@ -1284,6 +1284,7 @@ qx.Class.define("qx.ui.core.Widget",
       init : "inherit",
       check : "Color",
       apply : "_applyTextColor",
+      event : "changeTextColor",
       themeable : true,
       inheritable : true
     },
@@ -6026,10 +6027,10 @@ qx.Class.define("qx.ui.core.Widget",
         // the widget e.g. the HtmlArea will loose its selection of text
         // and the execCommand would target an empty selection at the
         // beginning of the editable document.
-        
+
         // AGAIN: This makes more problems when enabled, because
         // it interrupts the normal focus flow. We definitely need
-        // to find a solution which works without the unselectable 
+        // to find a solution which works without the unselectable
         // property. The problem is that other clients than
         // Firefox or Opera do not allow multiple selections.
         // Interesting read is the WHATWG text selection suggestion.
