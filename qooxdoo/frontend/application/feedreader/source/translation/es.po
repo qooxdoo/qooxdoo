@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: feedreader\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-08 21:17+0200\n"
+"POT-Creation-Date: 2007-07-24 22:04+0200\n"
 "PO-Revision-Date: 2007-01-24 20:54+0100\n"
 "Last-Translator: Carsten Rammoser <carsten@rammoser.com>\n"
 "Language-Team:  <camilo.aguilar@gmail.com>\n"
@@ -114,6 +114,6 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
-#: source/class/feedreader/ArticleView.js:139
+#: source/class/feedreader/ArticleView.js:136
 msgid "read more ..."
 msgstr "leer más ..."
