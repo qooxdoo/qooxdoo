@@ -27,9 +27,9 @@
  * The intention of this class is to bring more convenience to the attribute
  * and style features implemented by the other classes. It wraps the features
  * of multiple classes in one unique interface.
- * 
+ *
  * There is a automatic detection if the given name should be interpreted
- * as HTML property, attribute or style. It even supports complex 
+ * as HTML property, attribute or style. It even supports complex
  * setter/getter pairs like opacity. All these features are usable through
  * the same interface by just using the name of the attribute/style etc. to
  * modify/query.
@@ -49,40 +49,42 @@ qx.Class.define("qx.html2.element.Generic",
 
   statics :
   {
-    /** 
-     * This internal data will be automatically translated to a full blown 
+    /**
+     * This internal data will be automatically translated to a full blown
      * map structure in __init()
      */
     __generic :
     {
-      attributes : 
-      [ 
-        "class", "text", "html", "name", "id", 
-        "href", "src", "type", "for", 
-        "colspan", "rowspan", "valign", "datetime", "accesskey", 
-        "tabindex", "enctype", "maxlength", "readonly", "longdesc", 
-        "disabled", "checked", "multiple", "selected", "value" 
+      attributes :
+      [
+        "class", "text", "html", "name", "id",
+        "href", "src", "type", "for",
+        "colspan", "rowspan", "valign", "datetime", "accesskey",
+        "tabindex", "enctype", "maxlength", "readonly", "longdesc",
+        "disabled", "checked", "multiple", "selected", "value",
+        "title"
       ],
-      
-      styles : 
-      [ 
-        "minWidth", "width", "maxWidth", 
-        "minHeight", "height", "maxHeight", 
-        "top", "right", "bottom", "left", 
-        "border", 
-        "borderTop", "borderRight", "borderBottom", "borderLeft", 
-        "margin", 
-        "marginTop", "marginRight", "marginBottom", "marginLeft", 
-        "padding", 
-        "paddingTop", "paddingRight", "paddingBottom", "paddingLeft", 
-        "float", "clear", 
-        "color", "backgroundColor" 
+
+      styles :
+      [
+        "minWidth", "width", "maxWidth",
+        "minHeight", "height", "maxHeight",
+        "top", "right", "bottom", "left",
+        "border",
+        "borderTop", "borderRight", "borderBottom", "borderLeft",
+        "margin",
+        "marginTop", "marginRight", "marginBottom", "marginLeft",
+        "padding",
+        "paddingTop", "paddingRight", "paddingBottom", "paddingLeft",
+        "float", "clear",
+        "color", "backgroundColor",
+        "font", "fontFamily"
       ],
-      
-      custom : 
-      [ 
-        "opacity" 
-      ]
+
+      custom :
+      {
+        "opacity" : qx.html2.element.Opacity
+      }
     },
 
 
@@ -103,12 +105,12 @@ qx.Class.define("qx.html2.element.Generic",
     {
       var gen = this.__generic;
 
-      if (gen.attributesMap[key]) {
-        return this.setAttribute(element, key, value);
-      } else if (gen.stylesMap[key]) {
-        return this.setStyle(element, key, value);
-      } else if (gen.customMap[key]) {
-        return this[gen.customMap[key].set](element, key, value);
+      if (gen.attributes[key]) {
+        return qx.html2.element.Attribute.set(element, key, value);
+      } else if (gen.styles[key]) {
+        return qx.html2.element.Style.set(element, key, value);
+      } else if (gen.custom[key]) {
+        return gen.custom[key].set(element, value);
       }
 
       throw new Error("Generic set() has no informations about: " + key);
@@ -131,12 +133,12 @@ qx.Class.define("qx.html2.element.Generic",
     {
       var gen = this.__generic;
 
-      if (gen.attributesMap[key]) {
-        return this.getAttribute(element, key);
-      } else if (gen.stylesMap[key]) {
-        return this.getStyle(element, key);
-      } else if (gen.customMap[key]) {
-        return this[gen.customMap[key].get](element, key);
+      if (gen.attributes[key]) {
+        return qx.html2.element.Attribute.get(element, key);
+      } else if (gen.styles[key]) {
+        return qx.html2.element.Style.get(element, key);
+      } else if (gen.custom[key]) {
+        return gen.custom[key].get(element);
       }
 
       throw new Error("Generic get() has no informations about: " + key);
@@ -194,25 +196,9 @@ qx.Class.define("qx.html2.element.Generic",
         }
       }
 
-      // Process custom
-      source = generic.custom;
-      target = map.custom;
-      var str = qx.lang.String;
-      var up;
+      // custom attributes
+      map.custom = generic.custom;
 
-      for (var i=0, l=source.length; i<l; i++)
-      {
-        name = source[i];
-        up = str.toFirstUp(name);
-
-        target[name] =
-        {
-          set : "set" + up,
-          get : "get" + up
-        };
-      }
-
-      // Replace old array with new map
       this.__generic = map;
     }
   },
