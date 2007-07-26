@@ -28,35 +28,49 @@
  * has been given back to the browser, independent of the number of {@link #call}
  * calls.
  */
-qx.Class.define("qx.util.DeferredCall", {
-
+qx.Class.define("qx.util.DeferredCall", 
+{
   extend : qx.core.Object,
 
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+  
   /**
    * @param callback {Function} The callback
    * @param context {Object?window} the context in which the function will be called.
    */
   construct : function(callback, context)
   {
-    this._callback = callback;
-    this._context = context || window;
-
-    this._timeoutId = null;
-    this._callHelper = qx.lang.Function.bind(this.__call, this);
+    this.base(arguments);
+    
+    this.__callback = context ? qx.lang.Function.bind(callback, context) : callback;
+    this.__timeoutHelper = qx.lang.Function.bind(this.__timeout, this);
   },
-
+  
+  
+  
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+  
   members :
   {
-
     /**
      * Prevent the callback from being called.
      */
     cancel : function()
     {
-      if (this._timeoutId != null)
+      if (this.__timeoutId != null)
       {
-        window.clearTimeout(this._timeoutId);
-        this._timeoutId = null;
+        window.clearTimeout(this.__timeoutId);
+        this.__timeoutId = null;
       }
     },
 
@@ -64,10 +78,10 @@ qx.Class.define("qx.util.DeferredCall", {
     /**
      * Issue a deferred call of the callback.
      */
-    call : function()
+    schedule : function()
     {
-      if (this._timeoutId == null) {
-        this._timeoutId = window.setTimeout(this._callHelper, 0);
+      if (this.__timeoutId == null) {
+        this.__timeoutId = window.setTimeout(this.__timeoutWrapper, 0);
       }
     },
 
@@ -78,11 +92,24 @@ qx.Class.define("qx.util.DeferredCall", {
      * @type static
      * @return {void}
      */
-    __call : function()
+    __timeout : function()
     {
-      this._timeoutId = null;
-      this._callback.call(this._context);
+      this.__timeoutId = null;
+      this.__callback();
     }
+  },
+  
+  
 
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function(callback, context)
+  {
+    this.cancel(); 
+    this._disposeFields("__timeoutId", "__timeoutWrapper", "__callback");
   }
 });
