@@ -1147,6 +1147,6 @@ qx.Class.define("qx.html2.Element",
   */
   
   defer : function(statics, members) {
-    statics.__autoFlush = new qx.util.DeferredCall(qx.html2.Element.flushQueue, qx.html2.Element);
+    statics.__autoFlush = new qx.util.DeferredCall(statics.flushQueue, statics);
   }
 });

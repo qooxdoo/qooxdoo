@@ -151,10 +151,10 @@ qx.Class.define("qx.lang.Function",
           throw new Error("First parameter to bind() needs to be of type function!");
         }
 
-        if (typeof self !== "object") 
+        if (typeof self !== "object" && typeof self !== "function") 
         {
           qx.log.Logger.ROOT_LOGGER.printStackTrace();
-          throw new Error("Second parameter to bind() needs to be of type object!");
+          throw new Error("Second parameter to bind() needs to be of type object or function!");
         }
       }
 
