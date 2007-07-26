@@ -1,7 +1,7 @@
 /**
  *
  * Notes:
- * 
+ *
  * Webkit does not support tabIndex for all elements:
  * http://bugs.webkit.org/show_bug.cgi?id=7138
  *
@@ -10,18 +10,20 @@
 qx.Class.define("qx.event2.FocusManager",
 {
   extend : qx.core.Target,
-  
+
   construct : function(win)
   {
     this.base(arguments);
 
 
-    // Shorthands    
+    // Shorthands
     this._window = win;
     this._document = win.document;
     this._root = this._document.documentElement;
     this._body = this._document.body;
 
+    // Event pool
+    this._eventPool = qx.event2.type.EventPool.getInstance();
 
     // Common native listeners
     this.__onNativeMouseDown = qx.lang.Function.bind(this._onNativeMouseDown, this);
@@ -34,21 +36,21 @@ qx.Class.define("qx.event2.FocusManager",
       // Bind methods
       this.__onNativeFocus = qx.lang.Function.bind(this._onNativeFocus, this);
       this.__onNativeBlur = qx.lang.Function.bind(this._onNativeBlur, this);
-      
-      // Capturing is needed for gecko to correctly 
+
+      // Capturing is needed for gecko to correctly
       // handle focus of input and textarea fields
       this._window.addEventListener("focus", this.__onNativeFocus, true);
       this._window.addEventListener("blur", this.__onNativeBlur, true);
-    } 
+    }
     else if (qx.core.Variant.isSet("qx.client", "mshtml"))
     {
       // Bind methods
       this.__onNativeFocusIn = qx.lang.Function.bind(this._onNativeFocusIn, this);
       this.__onNativeFocusOut = qx.lang.Function.bind(this._onNativeFocusOut, this);
-      
+
       // MSHTML supports their own focusin and focusout events
       // To detect which elements get focus the target is useful
-      // The window blur can detected using focusout and look 
+      // The window blur can detected using focusout and look
       // for the relatedTarget which is empty in this case.
       qx.event2.Manager.addNativeListener(this._document, "focusin", this.__onNativeFocusIn);
       qx.event2.Manager.addNativeListener(this._document, "focusout", this.__onNativeFocusOut);
@@ -59,7 +61,7 @@ qx.Class.define("qx.event2.FocusManager",
       this.__onNativeFocus = qx.lang.Function.bind(this._onNativeFocus, this);
       this.__onNativeBlur = qx.lang.Function.bind(this._onNativeBlur, this);
       this.__onNativeFocusIn = qx.lang.Function.bind(this._onNativeFocusIn, this);
-      
+
       // Opera 9.2 ignores the event when capturing is enabled
       this._window.addEventListener("focus", this.__onNativeFocus, false);
       this._window.addEventListener("blur", this.__onNativeBlur, false);
@@ -68,18 +70,18 @@ qx.Class.define("qx.event2.FocusManager",
       qx.event2.Manager.addNativeListener(this._document, "DOMFocusIn", this.__onNativeFocusIn);
     }
   },
-  
+
   properties :
   {
-    active : 
+    active :
     {
       check : "Element",
       event : "changeActive",
       apply : "_applyActive",
       nullable : true
     },
-    
-    focus : 
+
+    focus :
     {
       check : "Element",
       event : "changeFocus",
@@ -87,11 +89,11 @@ qx.Class.define("qx.event2.FocusManager",
       nullable : true
     }
   },
-  
-  members : 
+
+  members :
   {
     _windowFocussed : true,
-    
+
     _doWindowBlur : function()
     {
       // Omit doubled blur events
@@ -102,12 +104,12 @@ qx.Class.define("qx.event2.FocusManager",
 
         this.resetActive();
         this.resetFocus();
-        
+
         this.debug("Window blurred");
         this.__fireCustom(this._window, "blur");
-      }        
+      }
     },
-    
+
     _doWindowFocus : function()
     {
       // Omit doubled focus events
@@ -115,18 +117,18 @@ qx.Class.define("qx.event2.FocusManager",
       if (!this._windowFocussed)
       {
         this._windowFocussed = true;
-        
+
         this.debug("Window focussed");
         this.__fireCustom(this._window, "focus");
-      }    
+      }
     },
-    
+
     _doElementFocus : function(element)
     {
       if (element === this._document) {
-        element = this._root; 
+        element = this._root;
       }
-      
+
       // If focus is already correct, don't configure both
       // This is the case for all mousedown events normally
       if (element && this.getFocus() !== element)
@@ -134,79 +136,79 @@ qx.Class.define("qx.event2.FocusManager",
         /*
         var oldActive = this.getActive() ? this.getActive().tagName : "none";
         var oldFocus = this.getFocus() ? this.getFocus().tagName : "none";
-        
+
         this.debug("Focus: " + element.tagName);
         this.debug("OLD: " + oldActive + " :: " + oldFocus);
         */
-        
+
         this.setActive(element);
         this.setFocus(element);
-      }    
+      }
     },
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
     _onNativeFocusOut : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(e)
       {
         if (!e) {
-          e = window.event; 
+          e = window.event;
         }
-        
+
         var related = e.relatedTarget || e.toElement;
-        
+
         // this.debug("FocusOut: " + target + " :: " + related);
-        
+
         if (!related) {
           this._doWindowBlur();
         }
       },
-      
+
       "default" : null
-    }),    
-    
+    }),
+
     _onNativeFocusIn : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(e)
       {
         if (!e) {
-          e = window.event; 
+          e = window.event;
         }
-        
+
         var target = e.target || e.srcElement;
         var related = e.relatedTarget || e.toElement;
-  
+
         // this.debug("FocusIn: " + target + " :: " + related);
-        
-        if (!related) {     
+
+        if (!related) {
           this._doWindowFocus();
         }
-  
+
         this._doElementFocus(target);
       },
-      
+
       "opera|webkit" : function(e)
       {
         if (!e) {
-          e = window.event; 
+          e = window.event;
         }
-        
+
         // this.debug("FocusIn: " + e.target);
-        
+
         this._doElementFocus(e.target);
       },
-      
+
       "default" : null
     }),
-    
-    
-    
-    
-        
+
+
+
+
+
     _onNativeBlur : qx.core.Variant.select("qx.client",
     {
       "gecko|opera|webkit" : function(e)
@@ -216,7 +218,7 @@ qx.Class.define("qx.event2.FocusManager",
           case null:
           case undefined:
             return;
-                      
+
           case this._window:
           case this._document:
           case this._body:
@@ -225,10 +227,10 @@ qx.Class.define("qx.event2.FocusManager",
             break;
         }
       },
-      
+
       "default" : null
     }),
-    
+
     _onNativeFocus : qx.core.Variant.select("qx.client",
     {
       "gecko|opera|webkit" : function(e)
@@ -238,23 +240,23 @@ qx.Class.define("qx.event2.FocusManager",
           case null:
           case undefined:
             return;
-            
+
           case this._window:
           case this._document:
           case this._body:
           case this._root:
             this._doWindowFocus();
             break;
-            
+
           default:
             this._doElementFocus(e.target);
         }
       },
-      
+
       "default" : null
     }),
 
-    
+
 
 
 
@@ -262,7 +264,7 @@ qx.Class.define("qx.event2.FocusManager",
     {
       "mshtml" : function(node)
       {
-        while (node) 
+        while (node)
         {
           // The last one is needed for MSHTML, where every node
           // in document normally returns tabIndex=0 even if not set up
@@ -270,20 +272,20 @@ qx.Class.define("qx.event2.FocusManager",
           if (node.tabIndex !== undefined && node.tabIndex >= 0 && node.getAttribute("tabIndex", 2) !== 32768) {
             return node;
           }
-          
+
           node = node.parentNode;
         }
-        
+
         // This should be identical to the one which is selected when
         // clicking into an empty page area. In mshtml this must be
         // the body of the document.
-        return this._body;        
+        return this._body;
       },
-      
+
       "opera|webkit" : function(node)
       {
         var index;
-        while (node && node.getAttribute) 
+        while (node && node.getAttribute)
         {
           // Manually added tabIndexes to elements which
           // do not support this are stored a way to allow
@@ -294,74 +296,74 @@ qx.Class.define("qx.event2.FocusManager",
           // the tabIndex property and are not available
           // using the getAttribute() call.
           index = node.getAttribute("tabIndex");
-          
+
           if (index == null) {
-            index = node.tabIndex; 
+            index = node.tabIndex;
           }
-          
+
           if (index >= 0) {
-            return node; 
+            return node;
           }
 
           node = node.parentNode;
         }
-        
+
         // This should be identical to the one which is selected when
         // clicking into an empty page area. In mshtml this must be
         // the body of the document.
-        return this._body;        
+        return this._body;
       },
-      
+
       "default" : function(node)
       {
-        while (node) 
+        while (node)
         {
           if (node.tabIndex !== undefined && node.tabIndex >= 0) {
             return node;
           }
-          
+
           node = node.parentNode;
         }
-        
+
         // This should be identical to the one which is selected when
         // clicking into an empty page area. In mshtml this must be
         // the body of the document.
         return this._body;
       }
     }),
-    
-    
+
+
     /**
      * onclick handler
      *
      * @type member
      * @param e {Event}
      */
-    _onNativeMouseDown : function(e) 
+    _onNativeMouseDown : function(e)
     {
       if (!e) {
-        e = window.event; 
+        e = window.event;
       }
-      
-      var target = e.target || e.srcElement;      
-      
+
+      var target = e.target || e.srcElement;
+
       // this.debug("MouseDown: " + target.tagName);
 
       this.setActive(target);
       this.setFocus(this.__findFocusNode(target));
-    },    
+    },
 
-    
+
     _applyActive : function(value, old)
     {
       if (old) {
         this.__fireCustom(old, "beforedeactivate");
       }
-      
+
       if (value) {
         this.__fireCustom(value, "beforeactivate");
-      }      
-      
+      }
+
       if (old) {
         this.__fireCustom(old, "deactivate");
       }
@@ -370,56 +372,55 @@ qx.Class.define("qx.event2.FocusManager",
         this.__fireCustom(value, "activate");
       }
     },
-    
-    
+
+
     _applyFocus : function(value, old)
     {
       if (old) {
         this.__fireCustom(old, "focusout");
       }
-      
+
       if (value) {
-        this.__fireCustom(value, "focusin"); 
+        this.__fireCustom(value, "focusin");
       }
-      
+
       if (old) {
         this.__fireCustom(old, "blur");
       }
-      
+
       if (value) {
-        this.__fireCustom(value, "focus"); 
+        this.__fireCustom(value, "focus");
       }
     },
-    
-    focus : function(el) 
+
+    focus : function(el)
     {
       this.setActive(el);
       this.setFocus(el);
     },
-    
+
     activate : function(el) {
-      this.setActive(el);      
+      this.setActive(el);
     },
-    
-    
-    
-    
-    
+
+
+
+
+
     __fireCustom : function(target, type)
     {
-      // TODO Use new central pooling here
-      var event = new qx.event2.type.Event();
-      
+      var event = this._eventPool.getEventInstance("qx.event2.type.Event").init({});
+
       if (target) {
         event.setTarget(target);
       }
-      
+
       if (type) {
         event.setType(type);
       }
-      
-      qx.event2.Manager.getInstance().dispatchEvent(event);      
-      event.dispose();
+
+      qx.event2.Manager.getManager(target).dispatchEvent(event);
+      this._eventPool.release(event);
     }
-  } 
+  }
 });
