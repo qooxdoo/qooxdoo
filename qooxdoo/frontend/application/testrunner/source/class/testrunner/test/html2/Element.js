@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("testrunner.test.Element",
+qx.Class.define("testrunner.test.html2.Element",
 {
   extend : testrunner.TestCase,
 
