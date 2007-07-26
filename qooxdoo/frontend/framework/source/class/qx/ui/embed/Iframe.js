@@ -288,6 +288,7 @@ qx.Class.define("qx.ui.embed.Iframe",
     reload : function()
     {
       if (this.isCreated() && this.getContentWindow()) {
+        this._isLoaded = false;
         this.getContentWindow().location.replace(this.getContentWindow().location.href);
       }
     },
