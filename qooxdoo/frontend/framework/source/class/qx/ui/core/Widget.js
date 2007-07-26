@@ -1284,6 +1284,7 @@ qx.Class.define("qx.ui.core.Widget",
       init : "inherit",
       check : "Color",
       apply : "_applyTextColor",
+      event : "changeTextColor",
       themeable : true,
       inheritable : true
     },
