@@ -28,6 +28,7 @@
 #optional(qx.ui.popup.ToolTip)
 #optional(qx.ui.menu.Menu)
 #optional(qx.ui.basic.Inline)
+#require(qx.util.DeferredCall)
 
 ************************************************************************ */
 
@@ -190,57 +191,6 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    _autoFlushTimeout : null,
-
-
-    /**
-     * Creates an auto-flush timeout.
-     *
-     * @type static
-     * @return {void}
-     */
-    _initAutoFlush : function()
-    {
-      if (qx.ui.core.Widget._autoFlushTimeout == null) {
-        qx.ui.core.Widget._autoFlushTimeout = window.setTimeout(qx.ui.core.Widget._autoFlushHelper, 0);
-      }
-    },
-
-
-    /**
-     * Removes an auto-flush timeout.
-     *
-     * @type static
-     * @return {void}
-     */
-    _removeAutoFlush : function()
-    {
-      if (qx.ui.core.Widget._autoFlushTimeout != null)
-      {
-        window.clearTimeout(qx.ui.core.Widget._autoFlushTimeout);
-        qx.ui.core.Widget._autoFlushTimeout = null;
-      }
-    },
-
-
-    /**
-     * Helper function for auto flush.
-     *
-     * @type static
-     * @return {void}
-     */
-    _autoFlushHelper : function()
-    {
-      qx.ui.core.Widget._autoFlushTimeout = null;
-
-      if (!qx.core.Object.inGlobalDispose())
-      {
-        // make sure we only flush the queues if the framework is not currently
-        // being disposed
-        qx.ui.core.Widget.flushGlobalQueues();
-      }
-    },
-
 
     /**
      * Flush all global queues
@@ -250,8 +200,8 @@ qx.Class.define("qx.ui.core.Widget",
      */
     flushGlobalQueues : function()
     {
-      if (qx.ui.core.Widget._autoFlushTimeout != null) {
-        qx.ui.core.Widget._removeAutoFlush();
+      if (qx.core.Object.inGlobalDispose()) {
+        return;
       }
 
       if (qx.ui.core.Widget._inFlushGlobalQueues || !qx.core.Init.getInstance().getApplication().getUiReady()) {
@@ -297,10 +247,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       if (!vWidget._isInGlobalWidgetQueue && vWidget._isDisplayable)
       {
-        if (qx.ui.core.Widget._autoFlushTimeout == null) {
-          qx.ui.core.Widget._initAutoFlush();
-        }
-
+        this.__autoFlush.call();
         qx.ui.core.Widget._globalWidgetQueue.push(vWidget);
         vWidget._isInGlobalWidgetQueue = true;
       }
@@ -373,10 +320,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       if (!vWidget._isInGlobalElementQueue && vWidget._isDisplayable)
       {
-        if (qx.ui.core.Widget._autoFlushTimeout == null) {
-          qx.ui.core.Widget._initAutoFlush();
-        }
-
+        this.__autoFlush.call();
         qx.ui.core.Widget._globalElementQueue.push(vWidget);
         vWidget._isInGlobalElementQueue = true;
       }
@@ -449,9 +393,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       if (!vWidget._isInGlobalStateQueue && vWidget._isDisplayable)
       {
-        if (qx.ui.core.Widget._autoFlushTimeout == null) {
-          qx.ui.core.Widget._initAutoFlush();
-        }
+        this.__autoFlush.call();
 
         qx.ui.core.Widget._globalStateQueue.push(vWidget);
         vWidget._isInGlobalStateQueue = true;
@@ -525,9 +467,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       if (!vWidget._isInGlobalJobQueue && vWidget._isDisplayable)
       {
-        if (qx.ui.core.Widget._autoFlushTimeout == null) {
-          qx.ui.core.Widget._initAutoFlush();
-        }
+        this.__autoFlush.call();
 
         qx.ui.core.Widget._globalJobQueue.push(vWidget);
         vWidget._isInGlobalJobQueue = true;
@@ -601,9 +541,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       if (!vParent._isInGlobalLayoutQueue && vParent._isDisplayable)
       {
-        if (qx.ui.core.Widget._autoFlushTimeout == null) {
-          qx.ui.core.Widget._initAutoFlush();
-        }
+        this.__autoFlush.call();
 
         qx.ui.core.Widget._globalLayoutQueue.push(vParent);
         vParent._isInGlobalLayoutQueue = true;
@@ -678,9 +616,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       if (!vWidget._isInGlobalDisplayQueue && vWidget._isDisplayable)
       {
-        if (qx.ui.core.Widget._autoFlushTimeout == null) {
-          qx.ui.core.Widget._initAutoFlush();
-        }
+        this.__autoFlush.call();
 
         var vParent = vWidget.getParent();
 
@@ -7280,6 +7216,9 @@ qx.Class.define("qx.ui.core.Widget",
         };
       }
     }
+
+    statics.__autoFlush = new qx.util.DeferredCall(qx.ui.core.Widget.flushGlobalQueues, qx.ui.core.Widget);
+
   },
 
 

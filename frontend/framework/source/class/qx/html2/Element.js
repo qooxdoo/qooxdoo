@@ -20,6 +20,7 @@
 /* ************************************************************************
 
 #module(html2)
+#require(qx.util.DeferredCall)
 
 ************************************************************************ */
 
@@ -62,6 +63,8 @@ qx.Class.define("qx.html2.Element",
     this.__contentJobs = [];
     this.__attribJobs = [];
     this.__styleJobs = [];
+    this.__addEventJobs = [];
+    this.__removeEventJobs = [];
 
     if (el != null) {
       this.setElement(el);
@@ -94,7 +97,6 @@ qx.Class.define("qx.html2.Element",
      *
      * @type static
      * @param element {qx.html2.Element} Add the element to the global queue
-     * @return {void}
      */
     addToQueue : function(element)
     {
@@ -103,6 +105,7 @@ qx.Class.define("qx.html2.Element",
         // console.debug("Add to queue object[" + element.toHashCode() + "]");
         this.__queue.push(element);
         element.__queued = true;
+        this.__autoFlush.call();
       }
     },
 
@@ -112,7 +115,6 @@ qx.Class.define("qx.html2.Element",
      *
      * @type static
      * @param element {qx.html2.Element} Remove the element from the global queue
-     * @return {void}
      */
     removeFromQueue : function(element)
     {
@@ -121,6 +123,7 @@ qx.Class.define("qx.html2.Element",
         // console.debug("Remove from queue object[" + element.toHashCode() + "]");
         this.__queue.remove(element);
         delete element.__queued;
+        this.__autoFlush.call();
       }
     },
 
@@ -139,12 +142,19 @@ qx.Class.define("qx.html2.Element",
      *
      * @type static
      * @param entry {qx.html2.Element} the element to flush
-     * @return {void}
      */
     __flushContent : function(entry)
     {
       if (!entry.__element) {
         entry.__create();
+      }
+
+      if (entry.__addEventJobs.length > 0) {
+        this.__flushAddEvents(entry);
+      }
+
+      if (entry.__removeEventJobs.length > 0) {
+        this.__flushRemoveEvents(entry);
       }
 
       if (entry.__text) {
@@ -162,7 +172,6 @@ qx.Class.define("qx.html2.Element",
      *
      * @type static
      * @param entry {qx.html2.Element} the element to flush
-     * @return {void}
      */
     __flushText : function(entry)
     {
@@ -177,11 +186,63 @@ qx.Class.define("qx.html2.Element",
 
 
     /**
+     * Internal helper to apply the added event listeners to the DOM element.
+     *
+     * @type static
+     * @param entry {qx.html2.Element} the element to flush
+     */
+    __flushAddEvents : function(entry)
+    {
+      var element = entry.__element;
+      var eventManager = qx.event2.Manager.getManager(element);
+
+      var addEventJobs = entry.__addEventJobs;
+      for (var i=0, l=addEventJobs.length; i<l; i++)
+      {
+        var eventData = addEventJobs[i];
+        eventManager.addListener(
+          element,
+          eventData.type,
+          eventData.listener,
+          eventData.self,
+          eventData.useCapture
+        );
+      }
+      entry.__addEventJobs = [];
+    },
+
+
+    /**
+     * Internal helper to apply the removed event listeners  to the DOM element.
+     *
+     * @type static
+     * @param entry {qx.html2.Element} the element to flush
+     */
+    __flushRemoveEvents : function(entry)
+    {
+      var element = entry.__element;
+      var eventManager = qx.event2.Manager.getManager(element);
+
+      var removeEventJobs = entry.__removeEventJobs;
+      for (var i=0, l=removeEventJobs.length; i<l; i++)
+      {
+        var eventData = removeEventJobs[i];
+        eventManager.removeListener(
+          element,
+          eventData.type,
+          eventData.listener,
+          eventData.useCapture
+        );
+      }
+      entry.__removeEventJobs = [];
+    },
+
+
+    /**
      * Internal helper to apply the defined HTML to the DOM element.
      *
      * @type static
      * @param entry {qx.html2.Element} the element to flush
-     * @return {void}
      */
     __flushHtml : function(entry) {
       entry.__element.innerHTML = entry.__html;
@@ -194,7 +255,6 @@ qx.Class.define("qx.html2.Element",
      *
      * @type static
      * @param entry {qx.html2.Element} the element to flush
-     * @return {void}
      */
     __flushChildren : function(entry)
     {
@@ -377,7 +437,6 @@ qx.Class.define("qx.html2.Element",
      * Flush the global queue for all existing element needs
      *
      * @type static
-     * @return {void}
      */
     flushQueue : function()
     {
@@ -502,7 +561,6 @@ qx.Class.define("qx.html2.Element",
      * Internal helper to generate the DOM element
      *
      * @type member
-     * @return {void}
      */
     __create : function()
     {
@@ -531,7 +589,6 @@ qx.Class.define("qx.html2.Element",
      *
      * @type member
      * @param child {var} the element to add
-     * @return {void}
      * @throws an exception if the given element is already a child
      *     of this element
      */
@@ -559,7 +616,6 @@ qx.Class.define("qx.html2.Element",
      *
      * @type member
      * @param child {qx.html2.Element} the removed element
-     * @return {void}
      * @throws an exception if the given element is not a child
      *     of this element
      */
@@ -955,6 +1011,63 @@ qx.Class.define("qx.html2.Element",
 
 
     /**
+     * Add an event listener to the element using {@link qx.event2.Maanger#addListener}.
+     *
+     * @type static
+     * @param type {String} Name of the event e.g. "click", "keydown", ...
+     * @param listener {Function} Event listener function
+     * @param self {Object ? window} Reference to the 'this' variable inside
+     *       the event listener.
+     * @param useCapture {Boolean ? false} Whether to attach the event to the
+     *       capturing phase of the bubbling phase of the event. The default is
+     *       to attach the event handler to the bubbling phase.
+     * @return {qx.html2.Element} this object (for chaining support)
+     */
+    addEventListener : function(type, listener, self, useCapture)
+    {
+      this.__addEventJobs.push({
+        type: type,
+        listener: listener,
+        self: self,
+        useCapture: useCapture
+      });
+
+      if (this.__element) {
+        this.self(arguments).addToQueue(this);
+      }
+
+      return this;
+    },
+
+
+    /**
+     * Remove an event listener from the element using {@link qx.event2.Maanger#removeListener}.
+     *
+     * @type static
+     * @param type {String} Name of the event e.g. "click", "keydown", ...
+     * @param listener {Function} Event listener function
+     * @param useCapture {Boolean ? false} Whether to attach the event to the
+     *       capturing phase of the bubbling phase of the event. The default is
+     *       to attach the event handler to the bubbling phase.
+     * @return {qx.html2.Element} this object (for chaining support)
+     */
+    removeEventListener : function(type, listener, useCapture)
+    {
+      this.__removeEventJobs.push({
+        type: type,
+        listener: listener,
+        useCapture: useCapture
+      });
+
+      if (this.__element) {
+        this.self(arguments).addToQueue(this);
+      }
+
+      return this;
+    },
+
+
+    /**
      * Set up the HTML content of this element
      *
      * Please note that you can only use one content type:
@@ -1018,5 +1131,10 @@ qx.Class.define("qx.html2.Element",
     getText : function() {
       return this.__text || null;
     }
+  },
+
+  defer : function(statics, members) {
+    statics.__autoFlush = new qx.util.DeferredCall(qx.html2.Element.flushQueue, qx.html2.Element);
   }
+
 });
