@@ -90,21 +90,17 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
     }
 
     // Set Icons
-    if ((treeRowStructure._icons.unselected != null) && (qx.util.Validation.isValidString(treeRowStructure._icons.unselected)))
+    this.initIcon();
+    this.initIconSelected();
+
+    if (treeRowStructure._icons.unselected !== undefined)
     {
       this.setIcon(treeRowStructure._icons.unselected);
       this.setIconSelected(treeRowStructure._icons.unselected);
     }
-    else
-    {
-      this.initIcon();
-      this.initIconSelected();
-    }
 
-    if ((treeRowStructure._icons.selected != null) && (qx.util.Validation.isValidString(treeRowStructure._icons.selected))) {
+    if (treeRowStructure._icons.selected !== undefined) {
       this.setIconSelected(treeRowStructure._icons.selected);
-    } else {
-      this.initIconSelected();
     }
 
     // Set Appearance
@@ -237,9 +233,17 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
 
     _applyIcon : function(value, old)
     {
-      if (this.getIconObject())
+      var iconObject = this.getIconObject();
+      if (iconObject)
       {
-        this.getIconObject().setSource(this._evalCurrentIcon());
+        var source = this._evalCurrentIcon();
+        if (!source) {
+          iconObject.setDisplay(false);
+        } else {
+          iconObject.setDisplay(true);
+          iconObject.setSource(source);
+        }
+
         this.addToTreeQueue();
       }
     },
