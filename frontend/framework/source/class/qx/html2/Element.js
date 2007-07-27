@@ -63,6 +63,7 @@ qx.Class.define("qx.html2.Element",
     this.__contentJobs = [];
     this.__attribJobs = [];
     this.__styleJobs = [];
+    
     this.__addEventJobs = [];
     this.__removeEventJobs = [];
 
