@@ -6027,10 +6027,10 @@ qx.Class.define("qx.ui.core.Widget",
         // the widget e.g. the HtmlArea will loose its selection of text
         // and the execCommand would target an empty selection at the
         // beginning of the editable document.
-        
+
         // AGAIN: This makes more problems when enabled, because
         // it interrupts the normal focus flow. We definitely need
-        // to find a solution which works without the unselectable 
+        // to find a solution which works without the unselectable
         // property. The problem is that other clients than
         // Firefox or Opera do not allow multiple selections.
         // Interesting read is the WHATWG text selection suggestion.
@@ -6162,26 +6162,35 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     * @signature function(value, old)
-     */
+    // TODO: maybe we could use cursor:url() for not suppoted cursors.
+    __cursorMap : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" :
+      {
+        "cursor" : "hand",
+        "ew-resize" : "e-resize",
+        "ns-resize" : "n-resize",
+        "nesw-resize" : "ne-resize",
+        "nwse-resize" : "nw-resize"
+      },
+      "opera" :
+      {
+        "col-resize" : "e-resize",
+        "row-resize" : "n-resize",
+        "ew-resize" : "e-resize",
+        "ns-resize" : "n-resize",
+        "nesw-resize" : "ne-resize",
+        "nwse-resize" : "nw-resize"
+      },
+      "default" : {}
+    }),
+
+
     _applyCursor : function(value, old)
     {
-      if (value)
-      {
-        if (value == "pointer" && qx.core.Client.getInstance().isMshtml()) {
-          this.setStyleProperty("cursor", "hand");
-        } else {
-          this.setStyleProperty("cursor", value);
-        }
-      }
-      else
-      {
+      if (value) {
+        this.setStyleProperty("cursor", this.__cursorMap[value] || value);
+      } else {
         this.removeStyleProperty("cursor");
       }
     },
