@@ -29,9 +29,13 @@
 
 .PHONY: source build api all locales pretty fix help clean distclean publish debug test
 
-source: info-source exec-download-contribs exec-localization exec-translation exec-script-source
-build: info-build exec-download-contribs exec-localization exec-translation exec-script-build exec-script-build-opt exec-files-build
-build-split: info-build exec-download-contribs exec-localization exec-translation exec-script-build-split exec-files-build
+source-addon: exec-none
+build-addon: exec-none
+
+source: info-source exec-download-contribs exec-localization exec-translation exec-script-source source-addon
+build: info-build exec-download-contribs exec-localization exec-translation exec-script-build exec-script-build-opt exec-files-build build-addon
+air: info-build exec-download-contribs exec-localization exec-translation exec-script-air exec-files-build build-addon exec-air
+build-split: info-build exec-download-contribs exec-localization exec-translation exec-script-build-split exec-files-build build-addon
 api: info-api exec-download-contribs exec-localization exec-translation exec-api-build exec-api-data exec-files-api
 test: info-test exec-localization exec-translation exec-testrunner-build exec-tests-build
 all: source build api

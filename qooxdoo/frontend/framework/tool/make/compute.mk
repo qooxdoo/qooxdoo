@@ -428,3 +428,16 @@ ifneq ($(APPLICATION_TEMPLATE_INPUT),)
     COMPUTED_TEMPLATE += --source-template-replace "$(APPLICATION_TEMPLATE_REPLACE)"
   endif
 endif
+
+
+
+
+# ==============================================================================
+# Adobe AIR support
+# ==============================================================================
+
+ifneq ($(APPLICATION_AIR_PATH),)
+	COMPUTED_CMD_AIR_ADT = $(APPLICATION_AIR_PATH)/bin/adt
+else
+	COMPUTED_CMD_AIR_ADT = /usr/bin/env adt
+endif

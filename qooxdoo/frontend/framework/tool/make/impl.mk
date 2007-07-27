@@ -71,7 +71,6 @@ exec-distclean:
 #
 
 exec-script-source:
-	
 	$(SILENCE) $(CMD_GENERATOR) \
 	  $(COMPUTED_CLASS_PATH) \
 	  $(COMPUTED_CLASS_URI) \
@@ -96,7 +95,21 @@ exec-script-build:
 	  --compiled-script-file $(COMPUTED_BUILD_SCRIPT_NAME) \
 	  $(APPLICATION_ADDITIONAL_SCRIPT_BUILD_OPTIONS)
 		
-
+		
+exec-script-air:
+	$(SILENCE) $(CMD_GENERATOR) \
+    $(COMPUTED_CLASS_PATH) \
+	  $(COMPUTED_BUILD_RESOURCE) \
+	  $(COMPUTED_BUILD_SETTING) \
+	  $(COMPUTED_BUILD_VARIANT) \
+	  $(COMPUTED_BUILD_INCLUDE) \
+	  $(COMPUTED_BUILD_OPTIONS) \
+	  --use-variant qx.client:webkit \
+	  --generate-compiled-script \
+	  --compiled-script-file $(COMPUTED_BUILD_SCRIPT_NAME) \
+	  $(APPLICATION_ADDITIONAL_SCRIPT_BUILD_OPTIONS)
+    	  
+    	  		
 exec-script-build-split:
 	# generate base profile
 	$(SILENCE) $(CMD_GENERATOR) \
@@ -511,8 +524,20 @@ exec-publish:
 
 
 
-
-
+#
+# Adobe AIR support
+#
+exec-air:
+	@echo
+	@echo "  GENERATING AIR PACKAGE"
+	@$(CMD_LINE)
+	@echo "  * Sending content to AIR compiler..."
+	@echo '<?xml version="1.0" encoding="UTF-8"?>' > $(APPLICATION_BUILD_PATH)/.air
+	@echo '<application xmlns="http://ns.adobe.com/air/application/1.0.M4" appId="$(APPLICATION_NAMESPACE)" version="$(APPLICATION_VERSION)">' >> $(APPLICATION_BUILD_PATH)/.air
+	@echo '  <name>$(APPLICATION_AIR_TITLE)</name>' >> $(APPLICATION_BUILD_PATH)/.air
+	@echo '  <rootContent systemChrome="standard" visible="true">index.html</rootContent>' >> $(APPLICATION_BUILD_PATH)/.air
+	@echo '</application>' >> $(APPLICATION_BUILD_PATH)/.air
+	$(SILENCE) cd $(APPLICATION_BUILD_PATH); $(COMPUTED_CMD_AIR_ADT) -package $(APPLICATION_AIR_FILENAME).air .air $(APPLICATION_FILES) resource script; rm -f .air
 
 
 #
