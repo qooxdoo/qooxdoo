@@ -25,7 +25,8 @@
 
 QOOXDOO_PATH = ../../..
 APPLICATION_NAMESPACE = webmail
-APPLICATION_API_TITLE = WebMail
+APPLICATION_API_TITLE = Webmail
+APPLICATION_AIR_TITLE = Webmail
 APPLICATION_THEME_ICON = qx.theme.icon.CrystalClear
 APPLICATION_RESOURCE_FILTER = true
 APPLICATION_COMPLETE_SOURCE = false
@@ -34,8 +35,6 @@ APPLICATION_FILES = index.html
 APPLICATION_TEMPLATE_INPUT = index.xhtml.tmpl
 APPLICATION_TEMPLATE_OUTPUT = index.xhtml
 APPLICATION_OBFUSCATE_ACCESSORS = true
-
-
 
 
 ################################################################################
