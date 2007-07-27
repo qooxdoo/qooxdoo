@@ -149,11 +149,11 @@ qx.Class.define("qx.util.ColorUtil",
      */
     stringToRgb : function(str)
     {
-      if (this.isThemedColor(str))
-      {
-        return qx.theme.manager.Color.getInstance().resolveDynamic(str);
+      if (this.isThemedColor(str)) {
+        var str = qx.theme.manager.Color.getInstance().resolveDynamic(str);
       }
-      else if (this.isNamedColor(str))
+
+      if (this.isNamedColor(str))
       {
         return this.NAMED[str];
       }
