@@ -103,6 +103,7 @@ qx.Class.define("qx.ui.form.Spinner",
     //   MANAGER
     // ************************************************************************
     this.setManager(new qx.util.range.Range());
+    this.initWrap();
 
     // ************************************************************************
     //   EVENTS
@@ -259,6 +260,16 @@ qx.Class.define("qx.ui.form.Spinner",
       init : 1.01
     },
 
+
+    /** whether the value should wrap around */
+    wrap :
+    {
+      check : "Boolean",
+      init : false,
+      apply : "_applyWrap"
+    },
+
+
     /** Controls whether the textfield of the spinner is editable or not */
     editable :
     {
@@ -266,6 +277,7 @@ qx.Class.define("qx.ui.form.Spinner",
       init : true,
       apply : "_applyEditable"
     },
+
 
     /** Range manager */
     manager :
@@ -294,25 +306,12 @@ qx.Class.define("qx.ui.form.Spinner",
 
   members :
   {
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+
     _applyIncrementAmount : function(value, old) {
       this._computedIncrementAmount = value;
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
     _applyEditable : function(value, old)
     {
       if (this._textfield) {
@@ -321,13 +320,13 @@ qx.Class.define("qx.ui.form.Spinner",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+    _applyWrap : function(value, old)
+    {
+      this.getManager().setWrap(value);
+      this._onchange();
+    },
+
+
     _applyManager : function(value, old)
     {
       if (old)
@@ -345,13 +344,6 @@ qx.Class.define("qx.ui.form.Spinner",
     },
 
 
-    /**
-     * Applies the method for checking values
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
     _applyCheckValueFunction : function(value, old) {
       this._checkValue = value;
     },
@@ -668,7 +660,7 @@ qx.Class.define("qx.ui.form.Spinner",
 
       this._textfield.setValue(String(vValue));
 
-      if (vValue == this.getMin())
+      if (vValue == this.getMin() && !this.getWrap())
       {
         this._downbutton.removeState("pressed");
         this._downbutton.setEnabled(false);
@@ -679,7 +671,7 @@ qx.Class.define("qx.ui.form.Spinner",
         this._downbutton.resetEnabled();
       }
 
-      if (vValue == this.getMax())
+      if (vValue == this.getMax() && !this.getWrap())
       {
         this._upbutton.removeState("pressed");
         this._upbutton.setEnabled(false);
@@ -797,8 +789,6 @@ qx.Class.define("qx.ui.form.Spinner",
     },
 
 
-
-
     /*
     ---------------------------------------------------------------------------
       INTERVAL HANDLING
@@ -836,15 +826,17 @@ qx.Class.define("qx.ui.form.Spinner",
         this._increment();
       }
 
+      var wrap = this.getManager().getWrap();
+
       switch(this._intervalIncrease)
       {
         case true:
-          if (this.getValue() == this.getMax()) {
+          if (this.getValue() == this.getMax() && !wrap) {
             return;
           }
 
         case false:
-          if (this.getValue() == this.getMin()) {
+          if (this.getValue() == this.getMin() && !wrap) {
             return;
           }
       }

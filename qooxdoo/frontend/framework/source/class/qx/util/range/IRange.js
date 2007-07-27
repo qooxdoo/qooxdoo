@@ -31,7 +31,10 @@ qx.Interface.define("qx.util.range.IRange",
     min : { },
 
     /** maximal value of the Range object */
-    max : { }
+    max : { },
+
+    /** whether the value should wrap around */
+    wrap : {}
   },
 
 
