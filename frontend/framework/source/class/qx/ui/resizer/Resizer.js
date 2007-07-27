@@ -62,6 +62,8 @@ qx.Class.define("qx.ui.resizer.Resizer",
       child.setBorder(null);
       this.add(this._child = child);
     }
+    this.setResizableNorth(false);
+    this.setResizableWest(false);
   },
 
 
@@ -75,6 +77,18 @@ qx.Class.define("qx.ui.resizer.Resizer",
 
   properties:
   {
+    /*resizableWest :
+    {
+      refine : true,
+      init : false
+    },
+
+    resizableNorth :
+    {
+      refine : true,
+      init : false
+    },*/
+
     appearance :
     {
       refine : true,
