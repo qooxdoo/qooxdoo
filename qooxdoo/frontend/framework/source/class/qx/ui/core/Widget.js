@@ -6098,26 +6098,35 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     * @signature function(value, old)
-     */
+    // TODO: maybe we could use cursor:url() for not suppoted cursors.
+    __cursorMap : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" :
+      {
+        "cursor" : "hand",
+        "ew-resize" : "e-resize",
+        "ns-resize" : "n-resize",
+        "nesw-resize" : "ne-resize",
+        "nwse-resize" : "nw-resize"
+      },
+      "opera" :
+      {
+        "col-resize" : "e-resize",
+        "row-resize" : "n-resize",
+        "ew-resize" : "e-resize",
+        "ns-resize" : "n-resize",
+        "nesw-resize" : "ne-resize",
+        "nwse-resize" : "nw-resize"
+      },
+      "default" : {}
+    }),
+
+
     _applyCursor : function(value, old)
     {
-      if (value)
-      {
-        if (value == "pointer" && qx.core.Client.getInstance().isMshtml()) {
-          this.setStyleProperty("cursor", "hand");
-        } else {
-          this.setStyleProperty("cursor", value);
-        }
-      }
-      else
-      {
+      if (value) {
+        this.setStyleProperty("cursor", this.__cursorMap[value] || value);
+      } else {
         this.removeStyleProperty("cursor");
       }
     },
