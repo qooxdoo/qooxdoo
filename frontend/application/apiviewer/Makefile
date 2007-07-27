@@ -56,7 +56,7 @@ error:
 # EXTENSIONS
 ################################################################################
 
-source:
+source-data:
 	@$(CMD_GENERATOR) \
 	  --generate-api-documentation \
 	  --api-separate-files \
@@ -64,12 +64,15 @@ source:
 	  --api-documentation-json-file $(APPLICATION_SOURCE_PATH)/script/apidata.js \
 	  --class-path $(FRAMEWORK_SOURCE_PATH)/class
 
-build:
+build-data:
 	@$(CMD_GENERATOR) \
 	  --generate-api-documentation \
 	  --api-separate-files \
 	  --api-documentation-json-file $(APPLICATION_BUILD_PATH)/script/apidata.js \
 	  --class-path $(FRAMEWORK_SOURCE_PATH)/class
+
+build-addon: build-data
+source-addon: source-data
 
 clean:
 	@$(CMD_REMOVE) source/script

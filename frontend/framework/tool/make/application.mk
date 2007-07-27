@@ -58,7 +58,12 @@ ifndef APPLICATION_NAMESPACE
   APPLICATION_NAMESPACE = custom
 endif
 
-
+#
+# Version of your application e.g. 0.1
+#
+ifndef APPLICATION_VERSION
+  APPLICATION_VERSION = 0.1
+endif
 
 
 
@@ -111,6 +116,22 @@ endif
 #
 ifndef APPLICATION_API_TITLE
   APPLICATION_API_TITLE := $(APPLICATION_NAMESPACE)
+endif
+
+#
+# Title used in your compiled Adobe AIR application
+# Default is identical to your custom namespace.
+#
+ifndef APPLICATION_AIR_TITLE
+  APPLICATION_AIR_TITLE := $(APPLICATION_NAMESPACE)
+endif
+
+#
+# Filename used for your compiled Adobe AIR application
+# Default is identical to your custom namespace.
+#
+ifndef APPLICATION_AIR_FILENAME
+  APPLICATION_AIR_FILENAME := $(APPLICATION_NAMESPACE)
 endif
 
 #
