@@ -132,7 +132,9 @@ def copy_archives(target):
     return rc
 
 def cleanup(target):
-    return
+    # make sure we don't get conflicts
+    rc = invoke_external("svn revert %s" % target)
+    return rc
 
 #rc = build_packet('tags/release_0_7',0)
 #rc = build_packet('branches/legacy_0_7_x',0)
