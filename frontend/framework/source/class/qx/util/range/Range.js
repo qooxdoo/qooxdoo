@@ -75,6 +75,13 @@ qx.Class.define("qx.util.range.Range",
       apply : "_applyMax",
       event : "change",
       init : 100
+    },
+
+    /** whether the value should wrap around */
+    wrap :
+    {
+      check : "Boolean",
+      init : false
     }
   },
 
@@ -115,6 +122,17 @@ qx.Class.define("qx.util.range.Range",
 
     limit : function(value)
     {
+      if (this.getWrap()) {
+        var value = Math.round(value);
+
+        if (value < this.getMin()) {
+          return (this.getMax() - (this.getMin() - value)) + 1;
+        }
+        if (value > this.getMax()) {
+          return (this.getMin() + (value - this.getMax())) - 1;
+        }
+      }
+
       if (value < this.getMin()) {
         return this.getMin();
       }
