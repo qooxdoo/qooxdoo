@@ -36,9 +36,9 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
      * @type member
      *
      * @param nodeReference {Object | Integer}
-     *   The node to have its opened/closed state toggled.  The node can be
-     *   represented either by the node object, or the node id (as would have
-     *   been returned by addBranch(), addLeaf(), etc.).
+     *   The node to get.  The node can be represented either by the node
+     *   object, or the node id (as would have been returned by addBranch(),
+     *   addLeaf(), etc.).
      *
      * @return {Object}
      *   If the nodeReference is a node object itself, that same node object
