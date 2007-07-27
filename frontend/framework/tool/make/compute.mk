@@ -437,7 +437,7 @@ endif
 # ==============================================================================
 
 ifneq ($(APPLICATION_AIR_PATH),)
-	COMPUTED_CMD_AIR_ADT = $(APPLICATION_AIR_PATH)/bin/adt
+	COMPUTED_CMD_AIR_ADT = java -jar $(APPLICATION_AIR_PATH)/lib/adt.jar
 else
-	COMPUTED_CMD_AIR_ADT = /usr/bin/env adt
+	COMPUTED_CMD_AIR_ADT = java -jar `which adl | sed s:/bin/adl:/lib/adt.jar:g`
 endif
