@@ -79,6 +79,7 @@ qx.Class.define("qx.event2.Manager",
     // event manager for bubbling events
     this.__documentEventManager = new qx.event2.DocumentEventManager(this);
 
+    // add unload listener to prevent memory leaks
     this.addListener(win, "unload", this.__onunload, this);
 
     // create mouse capture handler for this window
@@ -90,35 +91,12 @@ qx.Class.define("qx.event2.Manager",
 
   /*
   *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function()
-  {
-    var winId = qx.core.Object.toHashCode(this.getWindow());
-    delete(qx.event2.Manager.__managers[winId]);
-
-    this._disposeObjects(
-      "__documentEventManager",
-      "__inlineEventManager",
-      "__captureHandler"
-    );
-
-    this._disposeFields("_window");
-  },
-
-
-
-  /*
-  *****************************************************************************
      STATICS
   *****************************************************************************
   */
 
   statics :
   {
-
     /**
      * Static list of all instantiated event managers. The key is the qooxdoo
      * hash value of the corresponding window
@@ -151,6 +129,7 @@ qx.Class.define("qx.event2.Manager",
         manager = new qx.event2.Manager(win);
         this.__managers[id] = manager;
       }
+      
       return manager;
     },
 
@@ -197,7 +176,8 @@ qx.Class.define("qx.event2.Manager",
      * @param useCapture {Boolean ? false} Whether to remove the event listener of
      *       the bubbling or of the capturing phase.
      */
-    removeListener : function(element, type, listener, useCapture) {
+    removeListener : function(element, type, listener, useCapture) 
+    {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (typeof(listener) != "function") {
@@ -433,8 +413,7 @@ qx.Class.define("qx.event2.Manager",
      * @return {qx.event2.handler.MouseCaptureHandler} the mouse capture handler
      *     reponsible for the given element.
      */
-    getCaptureHandler : function()
-    {
+    getCaptureHandler : function() {
       return this.__captureHandler;
     },
 
@@ -494,7 +473,30 @@ qx.Class.define("qx.event2.Manager",
     __onunload : function(domEvent) {
       this.dispose();
     }
+  },
+  
+  
 
-  }
 
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    var winId = qx.core.Object.toHashCode(this.getWindow());
+    delete(qx.event2.Manager.__managers[winId]);
+
+    this._disposeObjects(
+      "__documentEventManager",
+      "__inlineEventManager",
+      "__captureHandler"
+    );
+
+    this._disposeFields("_window");
+  }  
 });
