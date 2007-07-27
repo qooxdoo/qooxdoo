@@ -1288,45 +1288,21 @@ qx.Class.define("showcase.Application",
      */
      _createSplitPaneDemo : function()
      {
-       var main = new qx.ui.layout.CanvasLayout();
-
-       main.set(
-       {
-         width         : "auto",
-         height        : "auto",
-         paddingLeft   : 10,
-         paddingTop    : 10,
-         paddingBottom : 10,
-         paddingRight  : 10
-       });
-
        /* setup the splitpane */
        var splitpane = new qx.ui.splitpane.HorizontalSplitPane(150, "1*");
        splitpane.set(
        {
-          top           : 0,
-          left          : 0,
-          paddingTop    : 4,
-          paddingLeft   : 4,
-          paddingRight  : 4,
-          paddingBottom : 4,
-          width         : "100%",
-          height        : "100%",
-          border        : "inset-thin",
-          showKnob      : true
+          edge : 0,
+          showKnob : true
        });
-       splitpane.getLeftArea().setPaddingRight(4);
-       main.add(splitpane);
 
 
        /* setup the list of urls - left widget */
        var list = new qx.ui.form.List();
        list.set(
        {
-          top          : 0,
-          left         : 0,
-          width        : "100%",
-          height       : "auto"
+          edge : 0,
+          border : "line-right"
        });
 
        list.getManager().addEventListener("changeSelection", function(e){
@@ -1353,16 +1329,14 @@ qx.Class.define("showcase.Application",
        /* setup the iframe - right widget */
        var iframe = new qx.ui.embed.Iframe(listItems[0].value);
        iframe.set({
-          top         : 0,
-          left        : 0,
-          width       : "100%",
-          height      : "100%"
+          edge: 0,
+          border      : "line-left"
        });
 
        splitpane.addLeft(list);
        splitpane.addRight(iframe);
 
-       return main;
+       return splitpane;
      },
 
 
