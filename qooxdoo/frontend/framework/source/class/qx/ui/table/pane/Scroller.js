@@ -1899,6 +1899,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _updateContent : function()
     {
+      if (!this.isSeeable()) {
+        return;
+      }
+
       var paneHeight = this._paneClipper.getInnerHeight();
       var scrollX = this._horScrollBar.getValue();
       var scrollY = this._verScrollBar.getValue();
