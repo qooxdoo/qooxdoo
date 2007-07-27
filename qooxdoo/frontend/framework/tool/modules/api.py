@@ -1134,10 +1134,6 @@ def handleFunction(funcItem, name, commentAttributes, classNode):
     bodyBlockItem = funcItem.getChild("body").getFirstChild();
     if bodyBlockItem.type == "block" and bodyBlockItem.hasChildren():
         firstStatement = bodyBlockItem.children[0];
-        if firstStatement.type == "throw":
-            # The first statement of the function is a throw statement
-            # -> The function is abstract
-            node.set("isAbstract", True)
 
     handleAccess(node, commentAttributes)
 
