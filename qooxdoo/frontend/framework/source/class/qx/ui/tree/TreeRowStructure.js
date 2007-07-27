@@ -252,7 +252,6 @@ qx.Class.define("qx.ui.tree.TreeRowStructure",
      */
     addIcon : function(vIcon, vIconSelected)
     {
-
       /* Ensure only one standard icon is added */
 
       if (!this._iconAdded) {
@@ -263,11 +262,11 @@ qx.Class.define("qx.ui.tree.TreeRowStructure",
 
       /* Track the two icon names */
 
-      if (vIcon) {
+      if (vIcon !== undefined) {
         this._icons.unselected = vIcon;
       }
 
-      if (vIconSelected) {
+      if (vIconSelected !== undefined) {
         this._icons.selected = vIconSelected;
       }
 
