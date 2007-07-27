@@ -325,11 +325,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       }
 
       this._horScrollBar.setVisibility(value);
-
-      // NOTE: We have to flush the queues before updating the content so the new
-      //     layout has been applied and _updateContent is able to work with
-      //     correct values.
-      qx.ui.core.Widget.flushGlobalQueues();
       this._updateContent();
     },
 
@@ -1899,6 +1894,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _updateContent : function()
     {
+      if (!this.isSeeable()) {
+        return;
+      }
+
       var paneHeight = this._paneClipper.getInnerHeight();
       var scrollX = this._horScrollBar.getValue();
       var scrollY = this._verScrollBar.getValue();
