@@ -48,6 +48,9 @@ exec-distclean:
 
 	@echo "  * Deleting debug..."
 	@$(CMD_REMOVE) $(APPLICATION_DEBUG_PATH)
+	
+	@echo "  * Deleting AIR application..."
+	@$(CMD_REMOVE) $(APPLICATION_ID).air 
 
 	@echo "  * Cleaning up source..."
 	@$(CMD_REMOVE) $(APPLICATION_SOURCE_PATH)/script
@@ -531,13 +534,39 @@ exec-air:
 	@echo
 	@echo "  GENERATING AIR PACKAGE"
 	@$(CMD_LINE)
-	@echo "  * Sending content to AIR compiler..."
+	
+	@echo "  * Copying application icons..."
+	$(SILENCE) $(CMD_DIR) $(APPLICATION_BUILD_PATH)/appicon/16 
+	$(SILENCE) $(CMD_DIR) $(APPLICATION_BUILD_PATH)/appicon/32 
+	$(SILENCE) $(CMD_DIR) $(APPLICATION_BUILD_PATH)/appicon/48 
+	$(SILENCE) $(CMD_DIR) $(APPLICATION_BUILD_PATH)/appicon/128
+	
+	$(SILENCE) $(CMD_COPY) $(APPLICATION_ICON_PATH)/16/$(APPLICATION_ICON) $(APPLICATION_BUILD_PATH)/appicon/16
+	$(SILENCE) $(CMD_COPY) $(APPLICATION_ICON_PATH)/32/$(APPLICATION_ICON) $(APPLICATION_BUILD_PATH)/appicon/32
+	$(SILENCE) $(CMD_COPY) $(APPLICATION_ICON_PATH)/48/$(APPLICATION_ICON) $(APPLICATION_BUILD_PATH)/appicon/48
+	$(SILENCE) $(CMD_COPY) $(APPLICATION_ICON_PATH)/128/$(APPLICATION_ICON) $(APPLICATION_BUILD_PATH)/appicon/128
+	
+	@echo "  * Preparing description file for AIR compiler..."
 	@echo '<?xml version="1.0" encoding="UTF-8"?>' > $(APPLICATION_BUILD_PATH)/.air
 	@echo '<application xmlns="http://ns.adobe.com/air/application/1.0.M4" appId="$(APPLICATION_NAMESPACE)" version="$(APPLICATION_VERSION)">' >> $(APPLICATION_BUILD_PATH)/.air
-	@echo '  <name>$(APPLICATION_AIR_TITLE)</name>' >> $(APPLICATION_BUILD_PATH)/.air
-	@echo '  <rootContent systemChrome="standard" visible="true">index.html</rootContent>' >> $(APPLICATION_BUILD_PATH)/.air
+	
+	@echo '  <name>$(APPLICATION_TITLE)</name>' >> $(APPLICATION_BUILD_PATH)/.air
+	@echo '  <title>$(APPLICATION_TITLE) Installer</title>' >> $(APPLICATION_BUILD_PATH)/.air
+	@echo '  <description>$(APPLICATION_DESCRIPTION)</description>' >> $(APPLICATION_BUILD_PATH)/.air
+	@echo '  <copyright>$(APPLICATION_COPYRIGHT)</copyright>' >> $(APPLICATION_BUILD_PATH)/.air
+	
+	@echo '  <rootContent systemChrome="standard" visible="true" width="$(APPLICATION_WIDTH)" height="$(APPLICATION_HEIGHT)">index.html</rootContent>' >> $(APPLICATION_BUILD_PATH)/.air
+	
+	@echo '  <icon>' >> $(APPLICATION_BUILD_PATH)/.air
+	@echo "    <image16x16>appicon/16/`basename $(APPLICATION_ICON)`</image16x16>" >> $(APPLICATION_BUILD_PATH)/.air
+	@echo "    <image32x32>appicon/32/`basename $(APPLICATION_ICON)`</image32x32>" >> $(APPLICATION_BUILD_PATH)/.air
+	@echo "    <image48x48>appicon/48/`basename $(APPLICATION_ICON)`</image48x48>" >> $(APPLICATION_BUILD_PATH)/.air
+	@echo "    <image128x128>appicon/128/`basename $(APPLICATION_ICON)`</image128x128>" >> $(APPLICATION_BUILD_PATH)/.air
+	@echo '  </icon>' >> $(APPLICATION_BUILD_PATH)/.air
+	
 	@echo '</application>' >> $(APPLICATION_BUILD_PATH)/.air
-	$(SILENCE) cd $(APPLICATION_BUILD_PATH); $(COMPUTED_CMD_AIR_ADT) -package $(APPLICATION_AIR_FILENAME).air .air $(APPLICATION_FILES) resource script; rm -f .air
+	@echo "  * Building AIR application..."
+	$(SILENCE) ORIG=`pwd`; cd $(APPLICATION_BUILD_PATH); $(COMPUTED_CMD_AIR_ADT) -package $$ORIG/$(APPLICATION_ID).air .air $(APPLICATION_FILES) resource script appicon; rm -f .air_
 
 
 #
