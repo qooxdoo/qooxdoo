@@ -29,7 +29,6 @@
 # ==============================================================================
 
 ifneq ($(APPLICATION_INCLUDES),false)
-	
 	QOOXDOO_INCLUDE_CACHE = $(FRAMEWORK_PATH)/.includes
 
 	DOWNLOAD_CONTRIBS = $(filter contrib://%, $(APPLICATION_INCLUDES))
@@ -209,6 +208,10 @@ endif
 
 
 
+
+
+
+
 # ==============================================================================
 # Compute locales
 # ==============================================================================
@@ -326,6 +329,10 @@ endif
 
 
 
+
+
+
+
 # ==============================================================================
 # Compute variant configuration
 # ==============================================================================
@@ -355,6 +362,9 @@ ifeq ($(APPLICATION_OPTIMIZE_REMOVE_ASPECTS),true)
 	  COMPUTED_BUILD_VARIANT += --use-variant qx.aspects:off
 	endif
 endif
+
+
+
 
 
 
@@ -415,6 +425,7 @@ endif
 
 
 
+
 # ==============================================================================
 # Compute template configuration
 # ==============================================================================
@@ -432,10 +443,15 @@ endif
 
 
 
+
+
+
 # ==============================================================================
 # Adobe AIR support
 # ==============================================================================
 
+# Auto detected by looking for binary "adl", the "adt" in "bin" is just a shell 
+# script or batch file which does not work via which under cygwin
 ifneq ($(APPLICATION_AIR_PATH),)
 	COMPUTED_CMD_AIR_ADT = java -jar $(APPLICATION_AIR_PATH)/lib/adt.jar
 else

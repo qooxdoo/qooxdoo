@@ -58,12 +58,6 @@ ifndef APPLICATION_NAMESPACE
   APPLICATION_NAMESPACE = custom
 endif
 
-#
-# Version of your application e.g. 0.1
-#
-ifndef APPLICATION_VERSION
-  APPLICATION_VERSION = 0.1
-endif
 
 
 
@@ -103,35 +97,77 @@ ifndef APPLICATION_NAMESPACE_PATH
 endif
 
 #
+# ID of your application. Should be one word (just characters and numbers)
+# Also used for the filename of your compiled Adobe AIR application
+# Default is identical to your custom namespace.
+#
+ifndef APPLICATION_ID
+  APPLICATION_ID := $(APPLICATION_NAMESPACE)
+endif
+
+#
+# Title used in your API viewer or AIR application
+# Default is identical to your application ID.
+#
+ifndef APPLICATION_TITLE
+  APPLICATION_TITLE := $(APPLICATION_ID)
+endif
+
+#
 # Title used during the make process.
-# Default is the uppercase variant of your custom namespace.
+# Default is the uppercase variant of your normal title.
 #
 ifndef APPLICATION_MAKE_TITLE
-  APPLICATION_MAKE_TITLE := $(shell echo $(APPLICATION_NAMESPACE) | tr "[:lower:]" "[:upper:]")
+  APPLICATION_MAKE_TITLE := $(shell echo $(APPLICATION_TITLE) | tr "[:lower:]" "[:upper:]")
 endif
 
 #
-# Title used in your API viewer
-# Default is identical to your custom namespace.
+# Version of your application e.g. 0.1
 #
-ifndef APPLICATION_API_TITLE
-  APPLICATION_API_TITLE := $(APPLICATION_NAMESPACE)
+ifndef APPLICATION_VERSION
+  APPLICATION_VERSION = 1.0
 endif
 
 #
-# Title used in your compiled Adobe AIR application
-# Default is identical to your custom namespace.
+# Description of your application
 #
-ifndef APPLICATION_AIR_TITLE
-  APPLICATION_AIR_TITLE := $(APPLICATION_NAMESPACE)
+ifndef APPLICATION_DESCRIPTION
+  APPLICATION_DESCRIPTION = qooxdoo (http://qooxdoo.org) powered $(APPLICATION_TITLE) application
 endif
 
 #
-# Filename used for your compiled Adobe AIR application
-# Default is identical to your custom namespace.
+# Copyright of your application
 #
-ifndef APPLICATION_AIR_FILENAME
-  APPLICATION_AIR_FILENAME := $(APPLICATION_NAMESPACE)
+ifndef APPLICATION_COPYRIGHT
+  APPLICATION_COPYRIGHT = 
+endif
+
+#
+# Width of your application window (using Adobe AIR)
+#
+ifndef APPLICATION_WIDTH
+  APPLICATION_WIDTH = 950
+endif
+
+#
+# Height of your application window (using Adobe AIR)
+#
+ifndef APPLICATION_HEIGHT
+  APPLICATION_HEIGHT = 600
+endif
+
+#
+# Icon path where icons of sizes 16, 32, 48 and 128 stored (each in a folder of the size)
+#
+ifndef APPLICATION_ICON_PATH
+  APPLICATION_ICON_PATH = $(FRAMEWORK_SOURCE_PATH)/resource/icon/Nuvola
+endif
+
+#
+# Icon to use for the application. Relative to icon path defined, too.
+#
+ifndef APPLICATION_ICON
+  APPLICATION_ICON = apps/office-organizer.png
 endif
 
 #
