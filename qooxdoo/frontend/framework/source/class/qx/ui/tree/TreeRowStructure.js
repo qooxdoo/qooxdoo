@@ -29,11 +29,11 @@
  * This is a singleton class.  The constructor is not accessed by users;
  * instead, to obtain the one and only TreeRowStructure object, call either
  *
- * <pre class='javascript'>qx.ui.tree.TreeRowStructure.newRow()</pre>
+ * <pre class='javascript'>qx.ui.tree.TreeRowStructure.getInstance().newRow()</pre>
  *
  * or
  *
- * <pre class='javascript'>qx.ui.tree.TreeRowStructure.standard().</pre>
+ * <pre class='javascript'>qx.ui.tree.TreeRowStructure.getInstance().standard().</pre>
  *
  * The structure of a tree row is provided by a
  * qx.ui.tree.TreeRowStructure.  The order of elements added to
@@ -57,13 +57,13 @@
  * A "standard" (traditional) tree row would be generated like this:
  *
  * <pre class='javascript'>
- * treeRowStructure = qx.ui.tree.TreeRowStructure.standard("Trash");
+ * treeRowStructure = qx.ui.tree.TreeRowStructure.getInstance().standard("Trash");
  * </pre>
  *
  * which equates to issuing these commands:
  *
  * <pre class='javascript'>
- * treeRowStructure = qx.ui.tree.TreeRowStructure.newRow();
+ * treeRowStructure = qx.ui.tree.TreeRowStructure.getInstance().newRow();
  *
  * //treeRowStructure.addIndent()  // defaults to here; no need to call
  * treeRowStructure.addIcon();
@@ -75,7 +75,7 @@
  * An example of a more sophisticated structure:
  *
  * <pre class='javascript'>
- * treeRowStructure = qx.ui.tree.TreeRowStructure.newRow();
+ * treeRowStructure = qx.ui.tree.TreeRowStructure.getInstance().newRow();
  *
  * // A left-justified icon
  * obj = new qx.ui.basic.Image("icon/16/apps/accessories-alarm.png");
