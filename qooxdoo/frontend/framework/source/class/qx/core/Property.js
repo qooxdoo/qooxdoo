@@ -689,12 +689,12 @@ qx.Class.define("qx.core.Property",
         code.push('else if(this.', this.$$store.theme[name], '!==undefined)');
         code.push('return this.', this.$$store.theme[name], ';');
       }
-      
-      if (config.deferredInit && config.init === undefined) 
+
+      if (config.deferredInit && config.init === undefined)
       {
         code.push('else if(this.', this.$$store.init[name], '!==undefined)');
-        code.push('return this.', this.$$store.init[name], ';');        
-      }      
+        code.push('return this.', this.$$store.init[name], ';');
+      }
 
       code.push('else ');
 
@@ -1220,11 +1220,11 @@ qx.Class.define("qx.core.Property",
           code.push('if(computed===undefined)computed=null;');
         }
 
-        // Normalize old value
-        code.push('if(old===undefined)old=null;');
-
         // Compare old/new computed value
         code.push('if(old===computed)return value;');
+
+        // Normalize old value
+        code.push('if(old===undefined)old=null;');
       }
 
 
