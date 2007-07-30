@@ -53,6 +53,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
     var Am = qx.io.Alias;
     this.WIDGET_TREE_URI = Am.getInstance().resolve("widget/tree/");
     this.STATIC_IMAGE_URI = Am.getInstance().resolve("static/image/");
+    this.CHECKBOX_URI = 'url('+Am.getInstance().resolve('widget/menu/checkbox.gif')+')';
 
     // Get the preloader manager singleton
     var preloader = qx.io.image.PreloaderManager.getInstance();
@@ -140,6 +141,16 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
     {
       check : "Boolean",
       init : false
+    },
+
+    /**
+     * Show a checkbox to the left of the icon?.
+     * In this way it is emphasized graphically that multiple selection is possible.
+     */
+    showCheckBox :
+    {
+      check: "Boolean",
+      init: false
     }
   },
 
@@ -175,6 +186,16 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         qx.ui.treevirtual.SimpleTreeDataCellRenderer.MAIN_DIV_STYLE +
         (node.cellStyle ? node.cellStyle + ";" : "");
       return html;
+    },
+
+    // Overriden
+    updateDataCellElement : function(cellInfo, cellElement) {
+      arguments.callee.base.apply(this, arguments);
+      if (this.getShowCheckBox())
+      {
+        var node = cellInfo.value;
+      cellElement.childNodes[node.level].style.backgroundImage = cellInfo.selected ? this.CHECKBOX_URI:'';
+      }
     },
 
     __addImage : function(urlAndToolTip)
@@ -243,6 +264,9 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       var bExcludeFirstLevelTreeLines = this.getExcludeFirstLevelTreeLines();
       var bAlwaysShowOpenCloseSymbol = this.getAlwaysShowOpenCloseSymbol();
 
+      // Horizontal position
+      var pos = 0;
+
       for (var i=0; i<node.level; i++)
       {
         imageUrl = this._getIndentSymbol(i, node, bUseTreeLines,
@@ -255,6 +279,14 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
           imageWidth  : 19,
           imageHeight : 16
         });
+        pos += 19;
+      }
+
+      // Add the checkbox
+      if (this.getShowCheckBox())
+      {
+        pos += 2+12+2;
+        html += '<img src="'+this.STATIC_IMAGE_URI+'blank.gif" style="height:12px;width:12px;border:1px solid #000;margin:0 1px;padding:0;background:'+(cellInfo.selected ? this.CHECKBOX_URI:'')+' center no-repeat"/>';
       }
 
       // Add the node's icon
@@ -284,6 +316,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         imageWidth  : 16,
         imageHeight : 16
       });
+      pos += 16;
 
       // Add the node's label.  We calculate the "left" property with: each
       // tree line (indentation) icon is 19 pixels wide; the folder icon is 16
@@ -292,7 +325,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       html +=
         '<div style="position:absolute;' +
         'left:' +
-        ((node.level * 19) + 16 + 2 + 2) +
+        (2 + 2 + pos) +
         ';' +
         'top:0' +
         (node.labelStyle ? ";" + node.labelStyle : "") +
