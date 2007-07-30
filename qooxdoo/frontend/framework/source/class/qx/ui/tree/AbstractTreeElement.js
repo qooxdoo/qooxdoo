@@ -90,17 +90,18 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
     }
 
     // Set Icons
-    this.initIcon();
-    this.initIconSelected();
-
     if (treeRowStructure._icons.unselected !== undefined)
     {
       this.setIcon(treeRowStructure._icons.unselected);
       this.setIconSelected(treeRowStructure._icons.unselected);
+    } else {
+      this.initIcon();
     }
 
     if (treeRowStructure._icons.selected !== undefined) {
       this.setIconSelected(treeRowStructure._icons.selected);
+    } else {
+      this.initIconSelected();
     }
 
     // Set Appearance
