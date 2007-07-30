@@ -260,13 +260,64 @@ qx.Class.define("testrunner.test.Property",
       this.assertIdentical(inst.getNoProp(), null, "c1");
 
       this.debug("Done: testMultiValues");
+    },
+
+    testInitApply : function()
+    {
+      var inst = new testrunner.test.PropertyHelper;
+      this.assertNotUndefined(inst, "instance");
+
+      this.assertUndefined(inst.lastApply);
+      inst.setInitApplyProp1("juhu"); //set to init value
+      this.assertJsonEquals(["juhu", null], inst.lastApply);
+      inst.lastApply = undefined;
+
+      inst.setInitApplyProp1("juhu"); // set to same value
+      this.assertUndefined(inst.lastApply); // apply must not be called
+      inst.lastApply = undefined;
+
+      inst.setInitApplyProp1("kinners"); // set to new value
+      this.assertJsonEquals(["kinners", "juhu"], inst.lastApply);
+      inst.lastApply = undefined;
+
+      this.assertUndefined(inst.lastApply);
+      inst.setInitApplyProp2(null); //set to init value
+      this.assertJsonEquals([null, null], inst.lastApply);
+      inst.lastApply = undefined;
+    },
+
+    testInit : function()
+    {
+      // now test the init functions
+      var self = this;
+      var inst = new testrunner.test.PropertyHelper(function(inst) {
+
+        inst.initInitApplyProp1();
+        self.assertJsonEquals(["juhu", null], inst.lastApply);
+        inst.lastApply = undefined;
+
+        // TODO: This test fails!!
+        inst.initInitApplyProp2();
+        self.assertJsonEquals([null, null], inst.lastApply);
+        inst.lastApply = undefined;
+      });
+      this.assertNotUndefined(inst, "instance");
     }
+
   }
 });
 
 qx.Class.define("testrunner.test.PropertyHelper",
 {
   extend : qx.core.Target,
+
+  construct : function(delegate) {
+    this.base(arguments);
+
+    if (delegate) {
+      delegate(this);
+    }
+  },
 
   properties :
   {
@@ -322,6 +373,21 @@ qx.Class.define("testrunner.test.PropertyHelper",
 
     initProp : { init : "foo" },
 
+    initApplyProp1 :
+    {
+      check : "String",
+      init : "juhu",
+      apply : "_applyInitApplyProp"
+    },
+
+    initApplyProp2 :
+    {
+      check : "String",
+      init : null,
+      nullable : true,
+      apply : "_applyInitApplyProp"
+    },
+
     nullProp :
     {
       init     : "bar",
@@ -338,6 +404,13 @@ qx.Class.define("testrunner.test.PropertyHelper",
     {
       init      : 100,
       themeable : true
+    }
+  },
+
+  members :
+  {
+    _applyInitApplyProp : function(value, old) {
+      this.lastApply = [value, old];
     }
   }
 });
