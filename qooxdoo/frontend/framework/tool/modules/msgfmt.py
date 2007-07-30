@@ -84,10 +84,10 @@ __version__ = "1.1"
 MESSAGES = {}
 
 
-##                                                                              
-# Some nice short description of foo(); this can contain html and 
+##
+# Some nice short description of foo(); this can contain html and
 # {@link #foo Links} to items in the current file.
-#                                                                               
+#
 # @param     a        Describe a positional parameter
 # @keyparam  b        Describe a keyword parameter
 # @def       foo(name)    # overwrites auto-generated function signature
@@ -118,6 +118,13 @@ def add (msgid, transtr, fuzzy):
 def escapeJS(str):
     str = str.replace('"', '\\"')
     str = str.replace("'", "\\'")
+    str = str.replace("\0", "\\0")
+    str = str.replace("\b", "\\b")
+    str = str.replace("\t", "\\t")
+    str = str.replace("\n", "\\n")
+    str = str.replace("\v", "\\v")
+    str = str.replace("\f", "\\f")
+    str = str.replace("\r", "\\r")
     return str
 
 
@@ -176,7 +183,7 @@ qx.locale.Locale.define("%s%s",
 
     for msg in normalizedMessages:
     	if msg == "": continue
-    	translations.append('  "%s": "%s"' % (msg, escapeJS(normalizedMessages[msg])))
+    	translations.append('  "%s": "%s"' % (escapeJS(msg), escapeJS(normalizedMessages[msg])))
     output += (",\n").join(translations)
     output += "\n});"
     #print output
