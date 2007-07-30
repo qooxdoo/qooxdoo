@@ -296,10 +296,6 @@ qx.Class.define("testrunner.test.Property",
         self.assertJsonEquals(["juhu", null], inst.lastApply);
         inst.lastApply = undefined;
 
-        // TODO: This test fails!!
-        try {inst.initInitApplyProp2 && inst.initInitApplyProp2();} catch(ex) {}
-        self.debug(inst.initInitApplyProp2.toString());
-
         inst.initInitApplyProp2();
         self.assertJsonEquals([null, null], inst.lastApply);
         inst.lastApply = undefined;
