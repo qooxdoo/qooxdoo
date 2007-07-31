@@ -41,8 +41,8 @@ qx.Class.define("qx.event2.handler.DocumentEventHandler",
   construct : function(eventCallBack, manager)
   {
     this.base(arguments, eventCallBack, manager);
-    this._eventHandler = qx.lang.Function.bind(this.__handleEvent, this);
-    this._documentElement = manager.getWindow().document.documentElement;
+    this.__handleEventWrapper = qx.lang.Function.bind(this.__handleEvent, this);
+    this.__documentElement = manager.getWindow().document.documentElement;
   },
 
 
@@ -54,7 +54,7 @@ qx.Class.define("qx.event2.handler.DocumentEventHandler",
   */
 
   destruct : function() {
-    this._disposeFields("_eventHandler", "_documentElement");
+    this._disposeFields("_eventHandler", "__documentElement");
   },
 
 
@@ -79,12 +79,11 @@ qx.Class.define("qx.event2.handler.DocumentEventHandler",
     },
 
     registerEvent : function(element, type) {
-      this._managedAddNativeListener(this._documentElement, type, this._eventHandler);
+      this._managedAddNativeListener(this.__documentElement, type, this.__handleEventWrapper);
     },
 
-    unregisterEvent : function(element, type)
-    {
-      this._managedRemoveNativeListener(this._documentElement, type, this._eventHandler);
+    unregisterEvent : function(element, type) {
+      this._managedRemoveNativeListener(this.__documentElement, type, this.__handleEventWrapper);
     },
 
 
@@ -106,7 +105,5 @@ qx.Class.define("qx.event2.handler.DocumentEventHandler",
       this._callback.call(this._context, event);
       this._eventPool.release(event);
     }
-
   }
-
 });
