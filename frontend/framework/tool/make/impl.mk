@@ -530,7 +530,7 @@ exec-publish:
 #
 # Adobe AIR support
 #
-exec-air:
+exec-air-prep:
 	@echo
 	@echo "  GENERATING AIR PACKAGE"
 	@$(CMD_LINE)
@@ -563,10 +563,20 @@ exec-air:
 	@echo "    <image48x48>appicon/48/`basename $(APPLICATION_ICON)`</image48x48>" >> $(APPLICATION_BUILD_PATH)/.air
 	@echo "    <image128x128>appicon/128/`basename $(APPLICATION_ICON)`</image128x128>" >> $(APPLICATION_BUILD_PATH)/.air
 	@echo '  </icon>' >> $(APPLICATION_BUILD_PATH)/.air
-	
 	@echo '</application>' >> $(APPLICATION_BUILD_PATH)/.air
+
+IS_WINDOWS = $(shell python -c "import sys; print (sys.platform[:3]=='win' or sys.platform[:6]=='cygwin')")
+
+ifeq ($(IS_WINDOWS), True)	
+exec-air: exec-air-prep
 	@echo "  * Building AIR application..."
-	$(SILENCE) ORIG=`pwd`; cd $(APPLICATION_BUILD_PATH); $(COMPUTED_CMD_AIR_ADT) -package $$ORIG/$(APPLICATION_ID).air .air $(APPLICATION_FILES) resource script appicon; rm -f .air_
+	@ADT=`echo $(COMPUTED_CMD_AIR_ADT) | sed s:'/cygdrive/c':'C\:':g | sed s:'^/':'C\:/cygwin/':g`; cd $(APPLICATION_BUILD_PATH); java -jar "$$ADT" -package ../$(APPLICATION_ID).air .air $(APPLICATION_FILES) resource script appicon; rm -f .air_	
+else
+exec-air: exec-air-prep
+	@echo "  * Building AIR application..."
+	@cd $(APPLICATION_BUILD_PATH); java -jar $(COMPUTED_CMD_AIR_ADT) -package ../$(APPLICATION_ID).air .air $(APPLICATION_FILES) resource script appicon; rm -f .air_
+endif
+
 
 
 #
