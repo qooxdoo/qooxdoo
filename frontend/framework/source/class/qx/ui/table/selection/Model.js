@@ -14,6 +14,7 @@
 
    Authors:
      * Til Schneider (til132)
+     * David Perez Carmona (david-perez)
 
 ************************************************************************ */
 
@@ -92,7 +93,16 @@ qx.Class.define("qx.ui.table.selection.Model",
      * (int) The selection mode "multiple interval". This mode only allows any
      * selection.
      */
-    MULTIPLE_INTERVAL_SELECTION : 4
+    MULTIPLE_INTERVAL_SELECTION : 4,
+
+
+    /**
+     * (int) The selection mode "multiple interval". This mode only allows any
+     * selection.  The difference with the previous one, is that multiple selection is eased.
+     * A click on an item, toggles its selection state.  On the other hand, MULTIPLE_INTERVAL_SELECTION
+     * does this behavior only when Ctrl-clicking an item.
+     */
+    MULTIPLE_INTERVAL_SELECTION_TOGGLE : 5
   },
 
 
@@ -331,16 +341,39 @@ qx.Class.define("qx.ui.table.selection.Model",
      */
     setSelectionInterval : function(fromIndex, toIndex)
     {
-      var SelectionModel = qx.ui.table.selection.Model;
+      var me = this.self(arguments);
 
       switch(this.getSelectionMode())
       {
-        case SelectionModel.NO_SELECTION:
+        case me.NO_SELECTION:
           return;
 
-        case SelectionModel.SINGLE_SELECTION:
+        case me.SINGLE_SELECTION:
           fromIndex = toIndex;
           break;
+
+        case me.MULTIPLE_INTERVAL_SELECTION_TOGGLE:
+          this.setBatchMode(true);
+          try
+          {
+            for (var i = fromIndex; i <= toIndex; i++)
+            {
+              if (!this.isSelectedIndex(i))
+              {
+                this._addSelectionInterval(i, i);
+              }
+              else
+              {
+                this.removeSelectionInterval(i, i);
+              }
+            }
+          }
+          finally
+          {
+            this.setBatchMode(false);
+          }
+          this._fireChangeSelection();
+          return;
       }
 
       this._clearSelection();
@@ -368,6 +401,7 @@ qx.Class.define("qx.ui.table.selection.Model",
           return;
 
         case SelectionModel.MULTIPLE_INTERVAL_SELECTION:
+        case SelectionModel.MULTIPLE_INTERVAL_SELECTION_TOGGLE:
           this._addSelectionInterval(fromIndex, toIndex);
           this._fireChangeSelection();
           break;
@@ -584,7 +618,7 @@ qx.Class.define("qx.ui.table.selection.Model",
     properties.add("selectionMode",
     {
       init : statics.SINGLE_SELECTION,
-      check : [ statics.NO_SELECTION, statics.SINGLE_SELECTION, statics.SINGLE_INTERVAL_SELECTION, statics.MULTIPLE_INTERVAL_SELECTION ],
+      check : [ statics.NO_SELECTION, statics.SINGLE_SELECTION, statics.SINGLE_INTERVAL_SELECTION, statics.MULTIPLE_INTERVAL_SELECTION, statics.MULTIPLE_INTERVAL_SELECTION_TOGGLE ],
       apply : "_applySelectionMode"
     });
   },
