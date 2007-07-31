@@ -14,6 +14,7 @@
 
    Authors:
      * Derrell Lipman (derrell)
+     * David Perez Carmona (david-perez)
 
 ************************************************************************ */
 
@@ -151,6 +152,25 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
     {
       check: "Boolean",
       init: false
+    },
+
+    /**
+     * Checkbox width in pixels.
+     * Its height can be customized by using the {@link #checkBoxStyle} property.
+     */
+    checkBoxWidth:
+    {
+      check: "Integer",
+      init: 12
+    },
+
+    /**
+     * Advanced property to customize the appearance of the checkbox.
+     */
+    checkBoxStyle:
+    {
+      check: "String",
+      init: "height:12px;border:1px solid #000;margin:0 1px;padding:0"
     }
   },
 
@@ -285,8 +305,8 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       // Add the checkbox
       if (this.getShowCheckBox())
       {
-        pos += 2+12+2;
-        html += '<img src="'+this.STATIC_IMAGE_URI+'blank.gif" style="height:12px;width:12px;border:1px solid #000;margin:0 1px;padding:0;background:'+(cellInfo.selected ? this.CHECKBOX_URI:'')+' center no-repeat"/>';
+        pos += 2+this.getCheckBoxWidth()+2;
+        html += '<img src="'+this.STATIC_IMAGE_URI+'blank.gif" style="'+this.getCheckBoxStyle()+';width:'+this.getCheckBoxWidth()+'px;background:'+(cellInfo.selected ? this.CHECKBOX_URI:'')+' center no-repeat"/>';
       }
 
       // Add the node's icon
