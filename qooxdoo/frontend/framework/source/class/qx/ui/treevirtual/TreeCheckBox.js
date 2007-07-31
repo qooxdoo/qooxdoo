@@ -76,6 +76,6 @@ qx.Class.define("qx.ui.treevirtual.TreeCheckBox",
     }
 
     this.base(arguments, headings, custom);
-    this.setSelectionMode(qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION);
+    this.setSelectionMode(qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION_TOGGLE);
   }
 });
