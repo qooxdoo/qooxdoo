@@ -77,7 +77,7 @@ qx.Class.define("qx.event2.handler.InlineEventHandler",
 
     // overridden
     canHandleEvent : function(element, type) {
-      return true;
+      return qx.event2.Manager.INLINE_EVENTS[type];
     },
 
 
@@ -143,6 +143,7 @@ qx.Class.define("qx.event2.handler.InlineEventHandler",
     __handleEvent : function(elementId, domEvent)
     {
       var event = this._eventPool.getEventInstance("qx.event2.type.Event").init(domEvent);
+      event.setBubbles(false);
 
       var eventData = this.__registeredEvents[elementId + event.getType()];
       var element = eventData ? eventData.element : event.getTarget();

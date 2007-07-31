@@ -43,6 +43,8 @@ qx.Class.define("qx.event2.handler.DocumentEventHandler",
     this.base(arguments, eventCallBack, manager);
     this.__handleEventWrapper = qx.lang.Function.bind(this.__handleEvent, this);
     this.__documentElement = manager.getWindow().document.documentElement;
+
+    this.__typeListenerCount = {};
   },
 
 
@@ -78,12 +80,32 @@ qx.Class.define("qx.event2.handler.DocumentEventHandler",
       return true;
     },
 
+
     registerEvent : function(element, type) {
-      this._managedAddNativeListener(this.__documentElement, type, this.__handleEventWrapper);
+      if (!this.__typeListenerCount[type])
+      {
+        this.__typeListenerCount[type] = 1;
+        this._managedAddNativeListener(this._documentElement, type, this._eventHandler);
+      }
+      else
+      {
+        this.__typeListenerCount += 1;
+      }
     },
 
-    unregisterEvent : function(element, type) {
-      this._managedRemoveNativeListener(this.__documentElement, type, this.__handleEventWrapper);
+
+    unregisterEvent : function(element, type)
+    {
+      if (!this.__typeListenerCount[type]) {
+        return;
+      }
+
+      this.__typeListenerCount[type] -= 1;
+      if (this.__typeListenerCount[type] == 0)
+      {
+        this._managedRemoveNativeListener(this._documentElement, type, this._eventHandler);
+        delete(this.__typeListenerCount[type]);
+      }
     },
 
 
