@@ -529,7 +529,8 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
         this.prune(this._nodeArr[nodeId].children[i], true);
       }
 
-      if (bSelfAlso)
+      // Now remove ourself, if requested. (Don't try to remove the root node)
+      if (bSelfAlso && nodeId != 0)
       {
         // Delete ourself from our parent's children list
         var node = this._nodeArr[nodeId];
