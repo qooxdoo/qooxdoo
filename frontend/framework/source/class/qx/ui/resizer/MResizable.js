@@ -314,11 +314,6 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
         }
 
         // cleanup session
-        delete this._resizeNorth;
-        delete this._resizeEast;
-        delete this._resizeSouth;
-        delete this._resizeWest;
-
         delete this._resizeSession;
       }
 
