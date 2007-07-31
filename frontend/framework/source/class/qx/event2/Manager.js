@@ -72,12 +72,30 @@ qx.Class.define("qx.event2.Manager",
     this.base(arguments);
 
     this._window = win;
+    this._documentElement = this._window.document.documentElement;
+
+    this.__eventHandlers = [];
+    this.__eventHandlers.push(new qx.event2.handler.KeyEventHandler(this.dispatchEvent, this));
+    this.__eventHandlers.push(new qx.event2.handler.MouseEventHandler(this.dispatchEvent, this));
+    this.__eventHandlers.push(new qx.event2.handler.ObjectEventHandler(this.dispatchEvent, this));
+    this.__eventHandlers.push(new qx.event2.handler.InlineEventHandler(this.dispatchEvent, this));
+
+    // must be the last because it can handle all events
+    this.__eventHandlers.push(new qx.event2.handler.DocumentEventHandler(this.dispatchEvent, this));
+
+    this.__dispatchHandlers = [];
+    this.__dispatchHandlers.push(new qx.event2.dispatch.BubblingDispatch(this));
+    this.__dispatchHandlers.push(new qx.event2.dispatch.InlineDispatch(this));
+
+    // registry for inline events
+    // structure: elementId -> type
+    this.__registry = {};
 
     // event manager for inline events
-    this.__inlineEventManager = new qx.event2.InlineEventManager(this);
+    //this.__inlineEventManager = new qx.event2.InlineEventManager(this);
 
     // event manager for bubbling events
-    this.__documentEventManager = new qx.event2.DocumentEventManager(this);
+    //this.__documentEventManager = new qx.event2.DocumentEventManager(this);
 
     // add unload listener to prevent memory leaks
     this.addListener(win, "unload", this.__onunload, this);
@@ -86,6 +104,30 @@ qx.Class.define("qx.event2.Manager",
     this.__captureHandler = new qx.event2.handler.MouseCaptureHandler(this, this.__documentEventManager);
   },
 
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    var winId = qx.core.Object.toHashCode(this.getWindow());
+    delete(qx.event2.Manager.__managers[winId]);
+
+    this._disposeObjects(
+      "__registry",
+      "_window",
+      "_documentElement",
+      "__documentEventManager",
+      "__inlineEventManager",
+      "__captureHandler"
+    );
+
+    this._disposeFields("_window");
+  },
 
 
 
@@ -129,7 +171,7 @@ qx.Class.define("qx.event2.Manager",
         manager = new qx.event2.Manager(win);
         this.__managers[id] = manager;
       }
-      
+
       return manager;
     },
 
@@ -176,7 +218,7 @@ qx.Class.define("qx.event2.Manager",
      * @param useCapture {Boolean ? false} Whether to remove the event listener of
      *       the bubbling or of the capturing phase.
      */
-    removeListener : function(element, type, listener, useCapture) 
+    removeListener : function(element, type, listener, useCapture)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -245,25 +287,11 @@ qx.Class.define("qx.event2.Manager",
      */
     getActiveElement : function() {
       return this.getManager(window).getActiveElement();
-    }
-  },
+    },
 
 
-
-
-
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
-  members :
-  {
     // Events, which don't bubble
-    __inlineEvents :
+    INLINE_EVENTS :
     {
       abort                       : 1,
       afterprint                  : 1,  // IE
@@ -294,9 +322,24 @@ qx.Class.define("qx.event2.Manager",
       submit                      : 1,
       unload                      : 1,
       losecapture                 : 1   // emulated
-    },
+    }
+
+  },
 
 
+
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
     // Normalization of event names
     __eventNames :
     {
@@ -333,18 +376,42 @@ qx.Class.define("qx.event2.Manager",
       // normalize event name
       var type = this.__eventNames[type] || type;
 
-      // attach event listener
-      if (this.__doesEventBubble(element, type))
-      {
-        this.__documentEventManager.addListener(element, type, listener, self, useCapture);
-      }
-      else
-      {
-        if (useCapture) {
-          throw new Error("The event '" + type + "' does not bubble, so capturing is also not supported!");
-        }
+      var eventListeners = this.registryGetListeners(element, type, useCapture, true);
 
-        this.__inlineEventManager.addListener(element, type, listener, self);
+      // this is the first event handler for this type and element
+      if (eventListeners.length == 0)
+      {
+        // inform the event handler about the new event
+        // they perform the event registration at DOM level
+        this._registerEventAtHandler(element, type);
+      }
+
+      // store event listener
+      eventListeners.push({
+        handler: listener,
+        context: self
+      });
+    },
+
+
+    /**
+     * This method is called each time the an event listener for one of the
+     * supported events is added using {qx.event2.Manager#addListener}.
+     *
+     * @param element {Element} DOM element to, which the event handler should
+     *     be attached
+     * @param type {String} event type
+     */
+    _registerEventAtHandler : function(element, type) {
+      // iterate over all event handlers and check whether they are responsible
+      // for this event type
+      for (var i=0; i<this.__eventHandlers.length; i++)
+      {
+        if (this.__eventHandlers[i].canHandleEvent(element, type))
+        {
+          this.__eventHandlers[i].registerEvent(element, type);
+          break;
+        }
       }
     },
 
@@ -368,13 +435,57 @@ qx.Class.define("qx.event2.Manager",
     removeListener : function(element, type, listener, useCapture)
     {
       var type = this.__eventNames[type] || type;
-      if (this.__doesEventBubble(element, type)) {
-        return this.__documentEventManager.removeListener(element, type, listener, useCapture);
-      } else {
-        return this.__inlineEventManager.removeListener(element, type, listener);
+
+      // get event listeners
+      var listeners = this.registryGetListeners(element, type, false, false);
+      if (!listeners) {
+        return;
+      }
+
+      // find listener
+      var removeIndex = -1;
+      for (var i=0; i<listeners.length; i++)
+      {
+        if (listeners[i].handler == listener)
+        {
+          removeIndex = i;
+          break;
+        }
+      }
+
+      // remove listener if found
+      if (removeIndex != -1)
+      {
+        qx.lang.Array.removeAt(listeners, removeIndex);
+
+        if (listeners.length == 0)
+        {
+          this._unregisterEventAtHandler(element, type);
+          this.registryRemoveListeners(element, type);
+        }
       }
     },
 
+
+    /**
+     * This method is called each time the an event listener for one of the
+     * supported events is removed by using {qx.event2.Manager#removeListener}
+     * and no other event listener is listening on this type.
+     *
+     * @param element {Element} DOM element from, which the event handler should
+     *     be removed
+     * @param type {String} event type
+     */
+    _unregisterEventAtHandler : function(element, type)
+    {
+      for (var i=0; i<this.__eventHandlers.length; i++)
+      {
+        if (this.__eventHandlers[i].canHandleEvent(element, type)) {
+          this.__eventHandlers[i].unregisterEvent(element, type);
+          break;
+        }
+      }
+    },
 
 
     /*
@@ -392,10 +503,13 @@ qx.Class.define("qx.event2.Manager",
      */
     dispatchEvent : function(event)
     {
-      if (this.__doesEventBubble(event.getTarget(), event.getType())) {
-        return this.__documentEventManager.dispatchEvent(event);
-      } else {
-        return this.__inlineEventManager.dispatchEvent(event);
+      for (var i=0; i<this.__dispatchHandlers.length; i++)
+      {
+        var dispatchHandler = this.__dispatchHandlers[i];
+        if (dispatchHandler.canDispatchEvent(event)) {
+          dispatchHandler.dispatchEvent(event);
+          break;
+        }
       }
     },
 
@@ -459,11 +573,6 @@ qx.Class.define("qx.event2.Manager",
     },
 
 
-    __doesEventBubble : function(element, type) {
-      return !(element instanceof qx.core.Object) && !this.__inlineEvents[type];
-    },
-
-
     /**
      * Unload handler for each window with event listeners attached. Removes
      * all event listeners from the unloading window.
@@ -472,31 +581,81 @@ qx.Class.define("qx.event2.Manager",
      */
     __onunload : function(domEvent) {
       this.dispose();
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      REGISTRY HELPER
+    ---------------------------------------------------------------------------
+    */
+
+
+    /**
+     * Remove the registry entry for the given event type from the event data of
+     * the given element.
+     *
+     * @param element {Element} DOM element
+     * @param type {String} DOM event type
+     */
+    registryRemoveListeners : function(element, type)
+    {
+      var elementId = qx.core.Object.toHashCode(element);
+      var reg = this.__registry;
+
+      if (!reg[elementId]) {
+        return;
+      }
+
+      delete (reg[type]);
+    },
+
+
+    /**
+     * Get all event listeners for the given element and event type. If no
+     * registray data is available for this element and type and the
+     * third parameter <code>buildRegistry</code> is true the registry is build
+     * up and an empty array is returned.
+     *
+     * @param element {Element} DOM element.
+     * @param type {String} DOM event type
+     * @param buildRegistry {Boolean?false} Whether to build up the registry if
+     *     no entry is found
+     * @return {Function[]|null} Array of registered event handlers for this event
+     *     and type. Will return null if <code>buildRegistry</code> and no entry
+     *     is found.
+     */
+    registryGetListeners : function(element, type, useCapture, buildRegistry)
+    {
+      var elementId = qx.core.Object.toHashCode(element);
+      var listenerList = useCapture ? "captureListeners" : "bubbleListeners";
+      var reg = this.__registry;
+
+      if (!buildRegistry)
+      try {
+        return reg[elementId][type][listenerList]
+      } catch (e) {
+        return null;
+      }
+
+      if (!reg[elementId]) {
+        reg[elementId] = {};
+      }
+
+      // create entry for the event type
+      var elementEvents = reg[elementId];
+
+      if (!elementEvents[type]) {
+        elementEvents[type] = {};
+      }
+
+      var typeEvents = elementEvents[type];
+      if (!typeEvents[listenerList]) {
+        typeEvents[listenerList] = []
+      }
+      return typeEvents[listenerList];
     }
-  },
-  
-  
 
+  }
 
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function()
-  {
-    var winId = qx.core.Object.toHashCode(this.getWindow());
-    delete(qx.event2.Manager.__managers[winId]);
-
-    this._disposeObjects(
-      "__documentEventManager",
-      "__inlineEventManager",
-      "__captureHandler"
-    );
-
-    this._disposeFields("_window");
-  }  
 });
