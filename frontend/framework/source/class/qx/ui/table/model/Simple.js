@@ -177,7 +177,7 @@ qx.Class.define("qx.ui.table.model.Simple",
       }
 
       this._sortableColArr[columnIndex] = sortable;
-      this.createDispatchEvent(qx.ui.table.TableModel.EVENT_TYPE_META_DATA_CHANGED);
+      this.createDispatchEvent(qx.ui.table.model.Basic.EVENT_TYPE_META_DATA_CHANGED);
     }
   },
 
