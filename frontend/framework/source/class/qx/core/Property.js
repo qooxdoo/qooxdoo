@@ -1209,8 +1209,8 @@ qx.Class.define("qx.core.Property",
         code.push('var backup=computed;');
 
         // After storage finally normalize computed and old value
-        code.push('if(computed===undefined)computed=null;');
         code.push('if(old===undefined)old=null;');
+        code.push('if(computed===undefined)computed=null;');
       }
       else if (hasCallback)
       {
