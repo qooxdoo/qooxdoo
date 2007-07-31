@@ -279,14 +279,18 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      *
      *   MULTIPLE_INTERVAL
      *     Allow any set of selected items, whether contiguous or not.
+     *
+     *   MULTIPLE_INTERVAL_TOGGLE
+     *     Like MULTIPLE_INTERVAL, but clicking on an item toggles its selection state.
      */
 
     SelectionMode :
     {
-      NONE             : qx.ui.table.selection.Model.NO_SELECTION,
-      SINGLE           : qx.ui.table.selection.Model.SINGLE_SELECTION,
-      SINGLE_INTERVAL  : qx.ui.table.selection.Model.SINGLE_INTERVAL_SELECTION,
-      MULTIPLE_INTERVAL: qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION
+      NONE                    : qx.ui.table.selection.Model.NO_SELECTION,
+      SINGLE                  : qx.ui.table.selection.Model.SINGLE_SELECTION,
+      SINGLE_INTERVAL         : qx.ui.table.selection.Model.SINGLE_INTERVAL_SELECTION,
+      MULTIPLE_INTERVAL       : qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION,
+      MULTIPLE_INTERVAL_TOGGLE: qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION_TOGGLE
     }
   },
 
