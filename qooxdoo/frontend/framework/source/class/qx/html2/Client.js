@@ -209,7 +209,7 @@ qx.Class.define("qx.html2.Client",
         "WIN", "MAC", "UNIX" 
       ],
       
-      SYSTEM :
+      System :
       [
         "SP1", "SP2", "WIN95", "WIN98", "WINME", "WINNT4", "WIN2000", "WINXP",
         "WIN2003", "WINVISTA", "WINCE", "LINUX", "SUNOS", "FREEBSD", "NETBSD",
