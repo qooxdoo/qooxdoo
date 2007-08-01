@@ -20,6 +20,7 @@
 /* ************************************************************************
 
 #module(client)
+#require(qx.html2.client.Platform)
 
 ************************************************************************ */
 
@@ -35,7 +36,7 @@
  * phase of the class. The defaults listed in the API viewer need not 
  * to be identical to the values at runtime.
  */
-qx.Class.define("qx.html2.client.Os",
+qx.Class.define("qx.html2.client.System",
 {
    /*
   *****************************************************************************
@@ -102,13 +103,13 @@ qx.Class.define("qx.html2.client.Os",
      /** {Boolean} Flag to detect if the client system is NetBSD */
      NETBSD : false,
 
-    /** {Boolean} Flag to detect if the client system is Mac OS X */
+    /** {Boolean} Flag to detect if the client system is Mac System X */
      MACOSX : false,
      
-     /** {Boolean} Flag to detect if the client system is Mac OS X on a Intel processor */
+     /** {Boolean} Flag to detect if the client system is Mac System X on a Intel processor */
      MACINTEL : false,
      
-     /** {Boolean} Flag to detect if the client system is Mac OS X on a PowerPC */
+     /** {Boolean} Flag to detect if the client system is Mac System X on a PowerPC */
      PPCMAC : false,
      
      /** {Boolean} Flag to detect if the client system is Symbian */
@@ -130,6 +131,11 @@ qx.Class.define("qx.html2.client.Os",
       */
      __init : function()
      {
+      
+      
+      
+      
+      
         var input = navigator.userAgent;
         
         if (input.indexOf("Windows NT 6.0") != -1)
@@ -186,7 +192,7 @@ qx.Class.define("qx.html2.client.Os",
            }
         }
         
-        else if (input.indexOf("Mac OS X") != -1)
+        else if (input.indexOf("Mac System X") != -1)
         {
            this.NAME   = "macOSX";
            this.MACOSX = true;
@@ -235,9 +241,9 @@ qx.Class.define("qx.html2.client.Os",
            this.WINCE = true;
         }
         
-        else if (input.indexOf("Symbian OS") != -1) // used by Opera on mobile phones
+        else if (input.indexOf("Symbian System") != -1) // used by Opera on mobile phones
         {
-           this.NAME    = "symbian OS";
+           this.NAME    = "symbian System";
            this.SYMBIAN = true;
         }
         
@@ -273,7 +279,7 @@ qx.Class.define("qx.html2.client.Os",
         
         else
         {
-          throw new Error("Unable to detect os: " + input);
+          throw new Error("Unable to detect System: " + input);
         }
         
         
@@ -292,13 +298,16 @@ qx.Class.define("qx.html2.client.Os",
   },
   
   
+  
+  
+  
   /*
-   *****************************************************************************
-      DEFER
-   *****************************************************************************
-   */
-  defer : function(statics)
-  {
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+  
+  defer : function(statics) {
     statics.__init();
   }
 });
