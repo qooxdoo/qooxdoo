@@ -570,11 +570,11 @@ IS_WINDOWS = $(shell python -c "import sys; print (sys.platform[:3]=='win' or sy
 ifeq ($(IS_WINDOWS), True)	
 exec-air: exec-air-prep
 	@echo "  * Building AIR application..."
-	@ADT=`echo $(COMPUTED_CMD_AIR_ADT) | sed s:'/cygdrive/c':'C\:':g | sed s:'^/':'C\:/cygwin/':g`; cd $(APPLICATION_BUILD_PATH); java -jar "$$ADT" -package ../$(APPLICATION_ID).air .air $(APPLICATION_FILES) resource script appicon; rm -f .air_	
+	@ADT=`echo $(COMPUTED_CMD_AIR_ADT) | sed s:'/cygdrive/c':'C\:':g | sed s:'^/':'C\:/cygwin/':g`; cd $(APPLICATION_BUILD_PATH); java -jar "$$ADT" -package ../$(APPLICATION_ID).air .air $(APPLICATION_FILES) resource script appicon; rm -f .air	
 else
 exec-air: exec-air-prep
 	@echo "  * Building AIR application..."
-	@cd $(APPLICATION_BUILD_PATH); java -jar $(COMPUTED_CMD_AIR_ADT) -package ../$(APPLICATION_ID).air .air $(APPLICATION_FILES) resource script appicon; rm -f .air_
+	@cd $(APPLICATION_BUILD_PATH); java -jar $(COMPUTED_CMD_AIR_ADT) -package ../$(APPLICATION_ID).air .air $(APPLICATION_FILES) resource script appicon; rm -f .air
 endif
 
 
