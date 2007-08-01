@@ -283,7 +283,7 @@ qx.Class.define("qx.html2.Location",
       "mshtml|webkit" : function(elem)
       {
         var doc = qx.html2.element.Node.getDocument(elem);
-        
+
         // Use faster getBoundingClientRect() if available
         // Note: This is not yet supported by Webkit.
         if (elem.getBoundingClientRect)
@@ -293,7 +293,7 @@ qx.Class.define("qx.html2.Location",
           var left = rect.left;
           var top = rect.top;
 
-          // Internet Explorer (at least version 7.0) adds the border 
+          // Internet Explorer (at least version 7.0) adds the border
           // when running in standard mode
           if (doc.compatMode === "CSS1Compat")
           {
@@ -306,11 +306,11 @@ qx.Class.define("qx.html2.Location",
           // Offset of the incoming element
           var left = elem.offsetLeft;
           var top = elem.offsetTop;
-          
+
           // Start with the first offset parent
           elem = elem.offsetParent;
 
-          // Stop at the body          
+          // Stop at the body
           var body = doc.body;
 
           // Border correction is only needed for each parent
@@ -354,7 +354,7 @@ qx.Class.define("qx.html2.Location",
         {
           var left = 0;
           var top = 0;
-          
+
           var util = qx.html2.element.Util;
 
           if (util.getBoxSizing(elem) !== "border-box")
@@ -362,7 +362,7 @@ qx.Class.define("qx.html2.Location",
             left -= this.__num(elem, "borderLeftWidth");
             top -= this.__num(elem, "borderTopWidth");
           }
-          
+
           // Stop at the body
           var body = qx.html2.element.Node.getDocument(elem).body;
 
@@ -404,9 +404,9 @@ qx.Class.define("qx.html2.Location",
       {
         var left = 0;
         var top = 0;
-        
+
         // Stop at the body
-        var body = qx.html2.element.Node.getDocument(elem).body;        
+        var body = qx.html2.element.Node.getDocument(elem).body;
 
         // Add all offsets of parent hierarchy, do not include
         // body element.
@@ -442,20 +442,31 @@ qx.Class.define("qx.html2.Location",
      * @type static
      * @param elem {Element} DOM element to query
      * @param mode {String} A supported option. See comment above.
-     * @return {Map} Returns a map with <code>left</code> and <code>top</code> which contains
-     *   the coordinates
+     * @return {Map} Returns a map with <code>left</code>, <code>top</code>,
+     *   <code>right</code> and <code>bottom</code> which contains the offsets
+     *   of the element's borders relative to the current page.
      */
     get : function(elem, mode)
     {
-      var offset = this.__computeOffset(elem);
       var body = this.__computeBody(elem);
-      var scroll = this.__computeScroll(elem);
+
+      if (elem.tagName == "BODY")
+      {
+        var left = body.left;
+        var top = body.top;
+      }
+      else
+      {
+        var offset = this.__computeOffset(elem);
+        var scroll = this.__computeScroll(elem);
+        var left = offset.left + body.left - scroll.left;
+        var top = offset.top + body.top - scroll.top;
+      }
+
 
       // qx.core.Init.getInstance().debug("Details left: " + offset.left + " | " + body.left + " | " + scroll.left);
       // qx.core.Init.getInstance().debug("Details top: " + offset.top + " | " + body.top + " | " + scroll.top);
 
-      var left = offset.left + body.left - scroll.left;
-      var top = offset.top + body.top - scroll.top;
 
       if (mode)
       {
@@ -480,7 +491,9 @@ qx.Class.define("qx.html2.Location",
 
       return {
         left : left,
-        top : top
+        top : top,
+        right : left + elem.offsetWidth,
+        bottom : top + elem.offsetHeight
       };
     }
   }

@@ -171,10 +171,8 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
         var pa = this._getResizeParent();
         var pl = pa.getElement();
 
-        var l = qx.html.Location.getPageAreaLeft(pl);
-        var t = qx.html.Location.getPageAreaTop(pl);
-        var r = qx.html.Location.getPageAreaRight(pl);
-        var b = qx.html.Location.getPageAreaBottom(pl);
+        var parentLocation = qx.html2.Location.get(pl);
+        var elementLocation = qx.html2.Location.get(el);
 
         // handle frame and translucently
         switch(this.getResizeMethod())
@@ -192,8 +190,8 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
               qx.ui.core.Widget.flushGlobalQueues();
             }
 
-            f._renderRuntimeLeft(qx.html.Location.getPageBoxLeft(el) - l);
-            f._renderRuntimeTop(qx.html.Location.getPageBoxTop(el) - t);
+            f._renderRuntimeLeft(elementLocation.left - parentLocation.left);
+            f._renderRuntimeTop(elementLocation.top - parentLocation.top);
 
             f._renderRuntimeWidth(qx.html.Dimension.getBoxWidth(el));
             f._renderRuntimeHeight(qx.html.Dimension.getBoxHeight(el));
@@ -210,15 +208,15 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
         if (this._resizeWest)
         {
           s.boxWidth = qx.html.Dimension.getBoxWidth(el);
-          s.boxRight = qx.html.Location.getPageBoxRight(el);
+          s.boxRight = elementLocation.right;
         }
 
         if (this._resizeWest || this._resizeEast)
         {
-          s.boxLeft = qx.html.Location.getPageBoxLeft(el);
+          s.boxLeft = elementLocation.left;
 
-          s.parentAreaOffsetLeft = l;
-          s.parentAreaOffsetRight = r;
+          s.parentAreaOffsetLeft = parentLocation.left;
+          s.parentAreaOffsetRight = parentLocation.right;
 
           s.minWidth = minRef.getMinWidthValue();
           s.maxWidth = minRef.getMaxWidthValue();
@@ -227,15 +225,15 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
         if (this._resizeNorth)
         {
           s.boxHeight = qx.html.Dimension.getBoxHeight(el);
-          s.boxBottom = qx.html.Location.getPageBoxBottom(el);
+          s.boxBottom = elementLocation.bottom;
         }
 
         if (this._resizeNorth || this._resizeSouth)
         {
-          s.boxTop = qx.html.Location.getPageBoxTop(el);
+          s.boxTop = elementLocation.top;
 
-          s.parentAreaOffsetTop = t;
-          s.parentAreaOffsetBottom = b;
+          s.parentAreaOffsetTop = parentLocation.top;
+          s.parentAreaOffsetBottom = parentLocation.bottom;
 
           s.minHeight = minRef.getMinHeightValue();
           s.maxHeight = minRef.getMaxHeightValue();
@@ -421,7 +419,7 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
 
         this._resizeNorth = this._resizeSouth = this._resizeWest = this._resizeEast = false;
 
-        if (this._near(qx.html.Location.getPageBoxTop(el), e.getPageY()))
+        if (this._near(qx.html2.Location.get(el).top, e.getPageY()))
         {
           if (this.getResizableNorth())
           {
@@ -429,7 +427,7 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
             this._resizeNorth = true;
           }
         }
-        else if (this._near(qx.html.Location.getPageBoxBottom(el), e.getPageY()))
+        else if (this._near(qx.html2.Location.get(el).bottom, e.getPageY()))
         {
           if (this.getResizableSouth())
           {
@@ -438,7 +436,7 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
           }
         }
 
-        if (this._near(qx.html.Location.getPageBoxLeft(el), e.getPageX()))
+        if (this._near(qx.html2.Location.get(el).left, e.getPageX()))
         {
           if (this.getResizableWest())
           {
@@ -446,7 +444,7 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
             this._resizeWest = true;
           }
         }
-        else if (this._near(qx.html.Location.getPageBoxRight(el), e.getPageX()))
+        else if (this._near(qx.html2.Location.get(el).right, e.getPageX()))
         {
           if (this.getResizableEast())
           {
