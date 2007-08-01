@@ -87,15 +87,9 @@ qx.Class.define("qx.event2.Manager",
     this.__dispatchHandlers.push(new qx.event2.dispatch.BubblingDispatch(this));
     this.__dispatchHandlers.push(new qx.event2.dispatch.InlineDispatch(this));
 
-    // registry for inline events
+    // registry for events
     // structure: elementId -> type
     this.__registry = {};
-
-    // event manager for inline events
-    //this.__inlineEventManager = new qx.event2.InlineEventManager(this);
-
-    // event manager for bubbling events
-    //this.__documentEventManager = new qx.event2.DocumentEventManager(this);
 
     // add unload listener to prevent memory leaks
     this.addListener(win, "unload", this.__onunload, this);
@@ -117,16 +111,15 @@ qx.Class.define("qx.event2.Manager",
     var winId = qx.core.Object.toHashCode(this.getWindow());
     delete(qx.event2.Manager.__managers[winId]);
 
-    this._disposeObjects(
+    this._disposeObjects("__captureHandler");
+
+    this._disposeFields(
       "__registry",
       "_window",
       "_documentElement",
-      "__documentEventManager",
-      "__inlineEventManager",
-      "__captureHandler"
+      "__eventHandlers",
+      "__dispatchHandlers"
     );
-
-    this._disposeFields("_window");
   },
 
 
@@ -383,7 +376,7 @@ qx.Class.define("qx.event2.Manager",
       {
         // inform the event handler about the new event
         // they perform the event registration at DOM level
-        this._registerEventAtHandler(element, type);
+        this.__registerEventAtHandler(element, type);
       }
 
       // store event listener
@@ -402,7 +395,7 @@ qx.Class.define("qx.event2.Manager",
      *     be attached
      * @param type {String} event type
      */
-    _registerEventAtHandler : function(element, type) {
+    __registerEventAtHandler : function(element, type) {
       // iterate over all event handlers and check whether they are responsible
       // for this event type
       for (var i=0; i<this.__eventHandlers.length; i++)
@@ -460,8 +453,8 @@ qx.Class.define("qx.event2.Manager",
 
         if (listeners.length == 0)
         {
-          this._unregisterEventAtHandler(element, type);
-          this.registryRemoveListeners(element, type);
+          this.__unregisterEventAtHandler(element, type);
+          this.__registryRemoveListeners(element, type);
         }
       }
     },
@@ -476,7 +469,7 @@ qx.Class.define("qx.event2.Manager",
      *     be removed
      * @param type {String} event type
      */
-    _unregisterEventAtHandler : function(element, type)
+    __unregisterEventAtHandler : function(element, type)
     {
       for (var i=0; i<this.__eventHandlers.length; i++)
       {
@@ -598,7 +591,7 @@ qx.Class.define("qx.event2.Manager",
      * @param element {Element} DOM element
      * @param type {String} DOM event type
      */
-    registryRemoveListeners : function(element, type)
+    __registryRemoveListeners : function(element, type)
     {
       var elementId = qx.core.Object.toHashCode(element);
       var reg = this.__registry;
