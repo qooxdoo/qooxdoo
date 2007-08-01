@@ -455,5 +455,5 @@ endif
 ifneq ($(APPLICATION_AIR_PATH),)
 	COMPUTED_CMD_AIR_ADT := $(APPLICATION_AIR_PATH)/lib/adt.jar
 else
-	COMPUTED_CMD_AIR_ADT := $(shell which adl | sed s:/bin/adl:/lib/adt.jar:g)
+	COMPUTED_CMD_AIR_ADT := $(shell which adl 2> /dev/null | sed s:/bin/adl:/lib/adt.jar:g)
 endif
