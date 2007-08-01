@@ -21,6 +21,7 @@
 
 #module(client)
 #require(qx.html2.client.Platform)
+#require(qx.html2.client.Engine)
 
 ************************************************************************ */
 

@@ -163,7 +163,8 @@ qx.Class.define("qx.core.Init",
       }
 
       // Print browser information
-      this.debug("client: " + qx.html2.client.Engine.NAME + "-" + qx.html2.client.Engine.VERSION);
+      this.debug("engine: " + qx.html2.client.Engine.NAME + "-" + qx.html2.client.Engine.VERSION);
+      this.debug("system: " + qx.html2.client.Platform.NAME + " | " + qx.html2.client.System.NAME);
 
       // Init application from settings
       if (!this.getApplication())
