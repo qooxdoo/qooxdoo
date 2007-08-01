@@ -23,6 +23,7 @@
 #require(qx.html2.client.Engine)
 #require(qx.html2.client.Features)
 #require(qx.html2.client.Platform)
+#require(qx.html2.client.System)
 
 ************************************************************************ */
 
