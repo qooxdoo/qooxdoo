@@ -63,9 +63,41 @@ qx.Class.define("qx.html2.element.Style",
     /** Internal map of style property convertions */
     __hints : 
     { 
+      // Style property name correction
       names : 
       { 
         "float" : qx.core.Client.getInstance().isMshtml() ? "styleFloat" : "cssFloat" 
+      },
+      
+      // Mshtml has propertiery pixel* properties for locations and dimensions
+      // which return the pixel value. Used by getComputed() in mshtml variant.
+      mshtmlPixel :
+      {
+        width : "pixelWidth",
+        height : "pixelHeight",
+        left : "pixelLeft",
+        right : "pixelRight",
+        top : "pixelTop",
+        bottom : "pixelBottom"
+      },
+      
+      // Shorthand properties must be blocked for cascaded/computed values
+      shorthand : 
+      {
+        background : true,
+        listStyle : true,
+        font : true,
+        margin : true,
+        padding : true,
+        border : true,
+        borderTop : true,
+        borderRight : true,
+        borderBottom : true,
+        borderLeft : true,
+        outlineTop : true,
+        outlineRight : true,
+        outlineBottom : true,
+        outlineLeft : true
       }
     },
 
@@ -89,36 +121,136 @@ qx.Class.define("qx.html2.element.Style",
       // apply style
       element.style[name] = value || "";
     },
-
-
+    
+    
     /**
-     * Returns the computed value of a style property
+     * Gets the local value of a style property. 
+     * Ignores inheritance cascade. Does not interpret values.
+     *
+     * @type static
+     * @param element {Element} The DOM element to modify
+     * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)
+     * @return {String|null} value of the property
+     */
+    get : function(element, name)
+    {
+      var hints = this.__hints;
+
+      // normalize name
+      name = hints.names[name] || name;
+
+      // query style
+      return element.style[name] || "";
+    },    
+    
+    
+    /**
+     * Returns the cascaded value of a style property.
      *
      * @type static
      * @param element {Element} The DOM element to query
      * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)
      * @signature function(element, name)
-     * @return {var} the value of the given style
-     */
-    get : qx.core.Variant.select("qx.client",
+     * @return {var} the cascaded value of the given style
+     */    
+    getCascaded : qx.core.Variant.select("qx.client",
     {
-      // Mshtml uses currentStyle to query the computed style.
-      // This is a propertiery property on mshtml.
-      // Opera supports currentStyle, too, which is also faster
-      // than evaluating using style+getComputedStyle
+      // Mshtml uses currentStyle to query the cascaded style.
+      // This is a propertiery property of mshtml.
+      // Opera supports currentStyle, too
       "mshtml|opera" : function(element, name)
       {
         var hints = this.__hints;
 
-        // normalize name
+        // Normalize name
         name = hints.names[name] || name;
 
-        // read out computed style
-        var value = element.currentStyle[name];
+        // Block shorthands        
+        if (hints.shorthand[name]) {
+          throw new Error("Shorthand properties are not supported to be evaluated by cascade: " + name); 
+        }
 
-        // auto should be interpreted as null
-        return value === "auto" ? null : value;
+        // return currentStyle of element
+        return element.currentStyle[name];        
       },
+      
+      "default" : function(element, name) 
+      {
+        var hints = this.__hints;
+
+        // Block shorthands        
+        if (hints.shorthand[name]) {
+          throw new Error("Shorthand properties are not supported to be evaluated by cascade: " + name); 
+        }
+        
+        throw new Error("Cascaded styles are not supported on this client");
+      }
+    }),
+
+
+    /**
+     * Returns the computed value of a style property. Compared to the cascaded style,
+     * this one also interprets the values e.g. translates <code>em</code> units to
+     * <code>px</code>.
+     *
+     * @type static
+     * @param element {Element} The DOM element to query
+     * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)
+     * @signature function(element, name)
+     * @return {var} the computed value of the given style
+     */
+    getComputed : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(element, name)
+      {
+        var hints = this.__hints;
+
+        // Normalize name
+        name = hints.names[name] || name;
+        
+        // Block shorthands        
+        if (hints.shorthand[name]) {
+          throw new Error("Shorthand properties are not supported to be evaluated by cascade: " + name); 
+        }        
+        
+        // Read cascaded style
+        var currentStyle = element.currentStyle[name];
+        
+        // Pixel values are always OK
+        if (/^-?[\.\d]+(px)?$/i.test(currentStyle)) {
+          return currentStyle;
+        }
+
+        // Try to convert non-pixel values
+        var pixel = hints.mshtmlPixel[name];        
+        if (pixel)
+        {
+          // Backup local and runtime style
+          var localStyle = element.style[name];
+          
+          // Overwrite local value with cascaded value 
+          // This is needed to have the pixel value setupped
+          element.style[name] = currentStyle || 0;
+          
+          // Read pixel value and add "px"
+          var value = element.style[pixel] + "px";
+          
+          // Recover old local value
+          element.style[name] = localStyle;
+
+          // Return value
+          return value;        
+        }
+        
+        // Non-Pixel values may be problematic
+        if (/^-?[\.\d]+(em|pt|%)?$/i.test(currentStyle)) {
+          throw new Error("Untranslated computed property value: " + name + ". Only pixel values work well across different clients.");
+        }        
+        
+        // Just the current style
+        return currentStyle;
+      },
+
 
       // Support for the DOM2 getComputedStyle method
       //
@@ -132,34 +264,27 @@ qx.Class.define("qx.html2.element.Style",
       {
         var hints = this.__hints;
 
-        // normalize name
+        // Normalize name
         name = hints.names[name] || name;
+        
+        // Block shorthands        
+        if (hints.shorthand[name]) {
+          throw new Error("Shorthand properties are not supported to be evaluated by cascade: " + name); 
+        }        
 
-        // read out explicit style:
-        // faster than the method call later
-        var value = element.style[name];
-
-        // otherwise try computed value
-        if (!value)
-        {
-          // Opera, Mozilla and Safari 3+ also have a global getComputedStyle which is identical
-          // to the one found under document.defaultView.
-          
-          // The problem with this is however that this does not work correctly
-          // when working with frames and access an element of another frame.
-          // Then we must use the <code>getComputedStyle</code> of the document
-          // where the element is defined.
-          var computed = qx.html2.element.Node.getDocument(element).defaultView.getComputedStyle(element, null);
-
-          // All relevant browsers expose the configured style properties to the CSSStyleDeclaration
-          // objects
-          if (computed) {
-            value = computed[name];
-          }
-        }
-
-        // auto should be interpreted as null
-        return value === "auto" ? null : value;
+        // Opera, Mozilla and Safari 3+ also have a global getComputedStyle which is identical
+        // to the one found under document.defaultView.
+        
+        // The problem with this is however that this does not work correctly
+        // when working with frames and access an element of another frame.
+        // Then we must use the <code>getComputedStyle</code> of the document
+        // where the element is defined.
+        var doc = qx.html2.element.Node.getDocument(element);
+        var computed = doc.defaultView.getComputedStyle(element, null);
+        
+        // All relevant browsers expose the configured style properties to 
+        // the CSSStyleDeclaration objects
+        return computed ? computed[name] : null;
       }
     })
   }

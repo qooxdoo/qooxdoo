@@ -58,7 +58,7 @@ qx.Class.define("qx.html2.Location",
      * @return {String} Value of given style property
      */
     __style : function(elem, style) {
-      return qx.html2.element.Style.get(elem, style);
+      return qx.html2.element.Style.getComputed(elem, style);
     },
 
 
@@ -71,7 +71,7 @@ qx.Class.define("qx.html2.Location",
      * @return {Integer} Value of given style property
      */
     __num : function(elem, style) {
-      return parseInt(qx.html2.element.Style.get(elem, style)) || 0;
+      return parseInt(qx.html2.element.Style.getComputed(elem, style)) || 0;
     },
 
 
