@@ -78,7 +78,7 @@ qx.Class.define("qx.html2.element.Opacity",
       "mshtml" : function(element, opacity)
       {
         // Read in computed filter
-        var filter = this.__style.get(element, "filter");
+        var filter = this.__style.getComputed(element, "filter");
 
         // Remove opacity filter
         if (opacity >= 1)
@@ -127,7 +127,7 @@ qx.Class.define("qx.html2.element.Opacity",
 
 
     /**
-     * Gets opacity of given element. Accepts numbers between zero and one
+     * Gets (computed) opacity of given element. Accepts numbers between zero and one
      * where "0" means transparent, "1" means opaque.
      *
      * @type static
@@ -139,7 +139,7 @@ qx.Class.define("qx.html2.element.Opacity",
     {
       "mshtml" : function(element)
       {
-        var filter = this.__style.get(element, "filter");
+        var filter = this.__style.getComputed(element, "filter");
 
         if (filter)
         {
@@ -155,7 +155,7 @@ qx.Class.define("qx.html2.element.Opacity",
 
       "gecko" : function(element)
       {
-        var opacity = this.__style.get(element, qx.html2.client.Engine.VERSION < 1.7 ? "MozOpacity" : "opacity");
+        var opacity = this.__style.getComputed(element, qx.html2.client.Engine.VERSION < 1.7 ? "MozOpacity" : "opacity");
 
         if (opacity == 0.999999) {
           opacity = 1.0;
@@ -170,7 +170,7 @@ qx.Class.define("qx.html2.element.Opacity",
 
       "default" : function(element)
       {
-        var opacity = this.__style.get(element, "opacity");
+        var opacity = this.__style.getComputed(element, "opacity");
 
         if (opacity != null) {
           return parseFloat(opacity);

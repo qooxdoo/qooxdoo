@@ -66,6 +66,7 @@ qx.Class.define("qx.html2.element.Attribute",
     /** Internal map of attribute convertions */
     __hints :
     {
+      // Name translation table
       names :
       {
         "class"   : "className",
@@ -84,6 +85,7 @@ qx.Class.define("qx.html2.element.Attribute",
         longdesc  : "longDesc"
       },
 
+      // Interpreted as property: element.property
       property :
       {
         disabled    : true,
@@ -99,7 +101,17 @@ qx.Class.define("qx.html2.element.Attribute",
         textContent : true,
         htmlFor     : true
       },
+      
+      // Interpreted as property and attribute
+      // sometimes needed when locally non-allowed attributes are used
+      // e.g. tabIndex on all elements which are no input fields in Safari 3 and Opera
+      dual : 
+      {
+        tabIndex : true
+      },
 
+      // Use getAttribute(name, 2) for these to query for the real value, not
+      // the interpreted one.
       mshtmlOriginal :
       {
         href : true,
