@@ -206,6 +206,13 @@ qx.Class.define("qx.html2.Client",
       Platform : 
       [ 
         "WIN", "MAC", "UNIX" 
+      ],
+      
+      SYSTEM :
+      [
+        "SP1", "SP2", "WIN95", "WIN98", "WINME", "WINNT4", "WIN2000", "WINXP",
+        "WIN2003", "WINVISTA", "WINCE", "LINUX", "SUNOS", "FREEBSD", "NETBSD",
+        "OSX", "OS9", "SYMBIAN", "PSP", "NINTENDODS"
       ]
     },
 
