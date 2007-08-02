@@ -71,8 +71,12 @@ qx.Class.define("qx.event2.Manager",
   {
     this.base(arguments);
 
-    this._window = win;
-    this._documentElement = this._window.document.documentElement;
+    this.__window = win;
+    this._documentElement = this.__window.document.documentElement;
+
+    // registry for events
+    // structure: elementId -> type
+    this.__registry = {};
 
     this.__eventHandlers = [];
     this.__eventHandlers.push(new qx.event2.handler.KeyEventHandler(this.dispatchEvent, this));
@@ -83,19 +87,20 @@ qx.Class.define("qx.event2.Manager",
     // must be the last because it can handle all events
     this.__eventHandlers.push(new qx.event2.handler.DocumentEventHandler(this.dispatchEvent, this));
 
+
     this.__dispatchHandlers = [];
+
+    // create mouse capture handler for this window
+    this.__captureHandler = new qx.event2.dispatch.MouseCaptureDispatcher(this, this.__documentEventManager);
+    this.__dispatchHandlers.push(this.__captureHandler);
+
     this.__dispatchHandlers.push(new qx.event2.dispatch.BubblingDispatch(this));
     this.__dispatchHandlers.push(new qx.event2.dispatch.InlineDispatch(this));
 
-    // registry for events
-    // structure: elementId -> type
-    this.__registry = {};
 
     // add unload listener to prevent memory leaks
     this.addListener(win, "unload", this.__onunload, this);
 
-    // create mouse capture handler for this window
-    this.__captureHandler = new qx.event2.handler.MouseCaptureHandler(this, this.__documentEventManager);
   },
 
 
@@ -115,7 +120,7 @@ qx.Class.define("qx.event2.Manager",
 
     this._disposeFields(
       "__registry",
-      "_window",
+      "__window",
       "_documentElement",
       "__eventHandlers",
       "__dispatchHandlers"
@@ -526,43 +531,12 @@ qx.Class.define("qx.event2.Manager",
 
 
     /**
-     * Set the mouse capture to the given DOM element. While capturing is active
-     * all mouse event will be dispatched on this element. This is e.g. useful for
-     * drag and drop. Capturing will be stopped if one of the following actions
-     * occur:
-     *
-     * <ul>
-     *   <li>{@link #relaseCapture} is called</li>
-     *   <li>the browser window looses focus</li>
-     *   <li>any click event</li>
-     * <ul>
-     * When the element loses the capture the event <code>losecapture</code>
-     * will be dispatched on the element.
-     * @param element {Element} DOM element to set for capturing
-     */
-    setCapture : function(element) {
-      this.getCaptureHandler().setCapture(element);
-    },
-
-
-    /**
-     * Stop event capturing on the given DOM document. By default the current
-     * document is used.
-     *
-     * @param doc {Document?window.document} DOM document
-     */
-    releaseCapture : function(doc) {
-      this.getCaptureHandler().releaseCapture();
-    },
-
-
-    /**
      * Get the window instance the event manager is reponsible for
      *
      * @return {Window} DOM window instance
      */
     getWindow : function() {
-      return this._window;
+      return this.__window;
     },
 
 
