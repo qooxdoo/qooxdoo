@@ -102,6 +102,98 @@ qx.Class.define("qx.html2.element.Style",
     },
 
 
+    /*
+    ---------------------------------------------------------------------------
+      STRING HELPERS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Converts a script style property name to the CSS variant e.g. marginTop => margin-top
+     *
+     * @type static
+     * @param name {String} Name of the style attribute (CSS variant e.g. marginTop, wordSpacing)
+     * @return {String} the CSS style name e.g. margin-top, word-spacing
+     */
+    toCssStyle : function(name) {
+      return name.replace(/([A-Z])/g, '-$1').toLowerCase();
+    },
+
+
+    /**
+     * Converts a CSS style property name to the script variant e.g. margin-top => marginTop
+     *
+     * @type static
+     * @param name {String} Name of the style attribute (CSS variant e.g. margin-top, word-spacing)
+     * @return {String} the script style name e.g. marginTop, wordSpacing
+     */
+    toScriptStyle : function(name)
+    {
+      return name.replace(/\-([a-z])/g, function(match, chr) {
+        return chr.toUpperCase();
+      });
+    },
+    
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      CSS TEXT SUPPORT
+    ---------------------------------------------------------------------------
+    */
+    
+    /**
+     * Set the full CSS content of the style attribute
+     *
+     * @type static
+     * @param element {Element} The DOM element to modify
+     * @param value {String} The full CSS string
+     * @signature function(element, value)
+     * @return {void}
+     */
+    setCss : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(element, value) {
+        element.style.cssText = value;
+      },
+
+      "default" : function(element, value) {
+        element.setAttribute("style", value);
+      }
+    }),
+
+
+    /**
+     * Returns the full content of the style attribute.
+     *
+     * @type static
+     * @param element {Element} The DOM element to query
+     * @return {String} the full CSS string
+     * @signature function(element)
+     */
+    getCss : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(element) {
+        return element.style.cssText.toLowerCase();
+      },
+
+      "default" : function(element) {
+        return element.getAttribute("style");
+      }
+    }),
+    
+    
+    
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LOCAL
+    ---------------------------------------------------------------------------
+    */
+    
     /**
      * Sets the value of a style property
      *
@@ -143,6 +235,14 @@ qx.Class.define("qx.html2.element.Style",
       return element.style[name] || "";
     },    
     
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      CASCADED
+    ---------------------------------------------------------------------------
+    */    
     
     /**
      * Returns the cascaded value of a style property.
@@ -188,6 +288,14 @@ qx.Class.define("qx.html2.element.Style",
     }),
 
 
+
+
+    /*
+    ---------------------------------------------------------------------------
+      COMPUTED
+    ---------------------------------------------------------------------------
+    */
+    
     /**
      * Returns the computed value of a style property. Compared to the cascaded style,
      * this one also interprets the values e.g. translates <code>em</code> units to
