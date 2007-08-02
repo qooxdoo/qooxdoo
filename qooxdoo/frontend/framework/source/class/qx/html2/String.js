@@ -19,6 +19,7 @@
 
 /* ************************************************************************
 
+#module(html2)
 
 ************************************************************************ */
 
@@ -52,7 +53,7 @@ qx.Class.define("qx.html2.String",
      * @see #unescape
      */
     escape : function(str) {
-      return qx.dom.String.escapeEntities(str, qx.html.Entity.FROM_CHARCODE);
+      return qx.dom.String.escapeEntities(str, qx.html2.Entity.FROM_CHARCODE);
     },
 
 
@@ -74,7 +75,7 @@ qx.Class.define("qx.html2.String",
      * @see #escape
      */
     unescape : function(str) {
-      return qx.dom.String.unescapeEntities(str, qx.html.Entity.TO_CHARCODE);
+      return qx.dom.String.unescapeEntities(str, qx.html2.Entity.TO_CHARCODE);
     },
 
 
@@ -90,7 +91,7 @@ qx.Class.define("qx.html2.String",
      */
     fromText : function(str)
     {
-      return qx.html.String.escape(str).replace(/(  |\n)/g, function(chr)
+      return qx.html2.String.escape(str).replace(/(  |\n)/g, function(chr)
       {
         var map =
         {
@@ -116,7 +117,7 @@ qx.Class.define("qx.html2.String",
      */
     toText : function(str)
     {
-      return qx.html.String.unescape(str.replace(/\s+|<([^>])+>/gi, function(chr)
+      return qx.html2.String.unescape(str.replace(/\s+|<([^>])+>/gi, function(chr)
       {
         if (/\s+/.test(chr)) {
           return " ";
