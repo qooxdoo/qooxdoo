@@ -39,9 +39,9 @@ qx.Class.define("qx.event2.handler.InlineEventHandler",
   *****************************************************************************
   */
 
-  construct : function(eventCallBack, manager)
+  construct : function(manager)
   {
-    this.base(arguments, eventCallBack, manager);
+    this.base(arguments, manager);
     this.__registeredEvents = [];
   },
 
@@ -194,7 +194,7 @@ qx.Class.define("qx.event2.handler.InlineEventHandler",
       var element = eventData ? eventData.element : event.getTarget();
       event.setCurrentTarget(element);
 
-      this._callback.call(this._context, event);
+      this._manager.dispatchEvent(event);
 
       // this point can be reached after the unload handler has taken place
       // and disposed the event pool.
@@ -203,20 +203,6 @@ qx.Class.define("qx.event2.handler.InlineEventHandler",
       }
     }
 
-  },
-
-
-
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
-
-  defer : function(statics)
-  {
-    var manager = qx.event2.Manager;
-    manager.registerEventHandler(statics, manager.PRIORITY_FIRST);
   }
 
 });

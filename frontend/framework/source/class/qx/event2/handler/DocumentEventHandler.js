@@ -38,9 +38,9 @@ qx.Class.define("qx.event2.handler.DocumentEventHandler",
   *****************************************************************************
   */
 
-  construct : function(eventCallBack, manager)
+  construct : function(manager)
   {
-    this.base(arguments, eventCallBack, manager);
+    this.base(arguments, manager);
     this.__handleEventWrapper = qx.lang.Function.bind(this.__handleEvent, this);
     this.__documentElement = manager.getWindow().document.documentElement;
 
@@ -124,7 +124,7 @@ qx.Class.define("qx.event2.handler.DocumentEventHandler",
     __handleEvent : function(domEvent)
     {
       var event = this._eventPool.getEventInstance("qx.event2.type.Event").init(domEvent);
-      this._callback.call(this._context, event);
+      this._manager.dispatchEvent(event);
       this._eventPool.release(event);
     }
   },

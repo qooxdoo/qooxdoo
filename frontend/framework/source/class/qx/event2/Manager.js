@@ -47,8 +47,6 @@
  *       http://developer.mozilla.org/en/docs/DOM:element#Event_Handlers
  *   </li>
  * </ul>
- *
- * <img src="http://qooxdoo.org/_media/documentation/general/eventmanager-uml.jpg">
  */
 qx.Class.define("qx.event2.Manager",
 {
@@ -82,7 +80,7 @@ qx.Class.define("qx.event2.Manager",
     this.__eventHandlers = [];
     var registeredHandler = this.self(arguments).getRegisteredEventHandler();
     for (var i=0, l=registeredHandler.length; i<l; i++) {
-      this.__eventHandlers.push(new registeredHandler[i].handler(this.dispatchEvent, this));
+      this.__eventHandlers.push(new registeredHandler[i].handler(this));
     }
 
     // get event dispatcher
@@ -385,7 +383,7 @@ qx.Class.define("qx.event2.Manager",
 
 
     /**
-     * This method is called each time the an event listener for one of the
+     * This method is called each time an event listener for one of the
      * supported events is added using {qx.event2.Manager#addListener}.
      *
      * @param element {Element} DOM element to, which the event handler should
@@ -549,7 +547,6 @@ qx.Class.define("qx.event2.Manager",
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Remove the registry entry for the given event type from the event data of
      * the given element.
@@ -615,6 +612,19 @@ qx.Class.define("qx.event2.Manager",
       return typeEvents[listenerList];
     }
 
+  },
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function(statics) {
+    statics.registerEventHandler(qx.event2.handler.InlineEventHandler, statics.PRIORITY_FIRST);
+    statics.registerEventDispatcher(qx.event2.dispatch.InlineDispatch, statics.PRIORITY_NORMAL);
   }
 
 });
