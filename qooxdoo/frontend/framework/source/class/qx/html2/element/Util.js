@@ -88,36 +88,17 @@ qx.Class.define("qx.html2.element.Util",
 
 
 
-
+    
+    
+    
+    
     /*
     ---------------------------------------------------------------------------
-      ELEMENT OVERFLOW
+      ELEMENT CLIP
     ---------------------------------------------------------------------------
     */
     
-    getOverflowX : function(element)
-    {
-      
-      
-    },
-    
-    setOverflowX : function(element, value)
-    {
-      
-    },
-    
-    
-    getOverflowY : function(element)
-    {
-      
-      
-    },
-    
-    setOverflowY : function(element, value)
-    {
-      
-    },    
-    
+        
     
     
     
