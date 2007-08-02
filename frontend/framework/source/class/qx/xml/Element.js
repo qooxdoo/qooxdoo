@@ -73,11 +73,12 @@ qx.Class.define("qx.xml.Element",
           if(!this.__xpe) {
             this.__xpe = new XPathEvaluator();
           }
+          
           var xpe = this.__xpe;
+          
           try {
             return xpe.evaluate(query, element, xpe.createNSResolver(element), XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-          }
-          catch(err) {
+          } catch(err) {
             throw new Error("selectSingleNode: query: " + query + ", element: " + element + ", error: " + err);
           }  
         },
@@ -111,15 +112,16 @@ qx.Class.define("qx.xml.Element",
           if(!this.__xpe) {
             this.__xpe = new XPathEvaluator();
           }
+          
           var xpe = this.__xpe;
+          
           try {
             var result = xpe.evaluate(query, element, xpe.createNSResolver(element), XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
-          }
-          catch(err) {
+          } catch(err) {
             throw new Error("selectNodes: query: " + query + ", element: " + element + ", error: " + err);
           }
+          
           var nodes = [];
-
           for (var i=0; i<result.snapshotLength; i++) {
             nodes[i] = result.snapshotItem(i);
           }
@@ -154,8 +156,7 @@ qx.Class.define("qx.xml.Element",
     {
       "default": qx.lang.Object.select(document.getElementsByTagNameNS ? "hasGetByNs" : "noGetByNs",
       {
-        "hasGetByNs": function(element, namespaceURI, tagname)
-        {
+        "hasGetByNs": function(element, namespaceURI, tagname) {
           return element.getElementsByTagNameNS(namespaceURI, tagname);
         },
 
@@ -167,8 +168,10 @@ qx.Class.define("qx.xml.Element",
       "mshtml": function(element, namespaceURI, tagname)
       {
         var doc = element.ownerDocument || element;
+        
         doc.setProperty("SelectionLanguage", "XPath");
         doc.setProperty("SelectionNamespaces", "xmlns:ns='" + namespaceURI + "'");
+        
         return qx.xml.Element.selectNodes(element, '//ns:' + tagname);
       }
     }),
@@ -182,27 +185,29 @@ qx.Class.define("qx.xml.Element",
      * @return {String} the joined text content of the given element or null if not appropriate.
      * @signature function(element)
      */
-    getText : function(element) {
+    getText : function(element) 
+    {
       if(!element || !element.nodeType) {
         return null;
       }
 
-      switch(element.nodeType) {
+      switch(element.nodeType) 
+      {
         case 1: // NODE_ELEMENT
-            var i, a=[], nodes = element.childNodes, length = nodes.length;
-            for (i=0; i<length; i++) {
-              a[i] = this.getText(nodes[i]);
-            };
-            return a.join("");
-            break;
+          var i, a=[], nodes = element.childNodes, length = nodes.length;
+          for (i=0; i<length; i++) {
+            a[i] = this.getText(nodes[i]);
+          };
+          
+          return a.join("");
 
         case 2: // NODE_ATTRIBUTE
-            return element.nodeValue;
-            break;
+          return element.nodeValue;
+          break;
 
         case 3: // NODE_TEXT
-            return element.nodeValue;
-            break;
+          return element.nodeValue;
+          break;
       }
 
       return null;
