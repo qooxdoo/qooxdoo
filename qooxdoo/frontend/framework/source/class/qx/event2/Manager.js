@@ -79,12 +79,12 @@ qx.Class.define("qx.event2.Manager",
     // get event handler
     this.__eventHandlers = [];
     this.__knownHandler = {};
-    this.updateHandler();
+    this.__updateHandler();
 
     // get event dispatcher
     this.__dispatchHandlers = [];
     this.__knownDispatcher = {};
-    this.updateDispatcher();
+    this.__updateDispatcher();
 
     // add unload listener to prevent memory leaks
     this.addListener(win, "unload", this.__onunload, this);
@@ -272,6 +272,11 @@ qx.Class.define("qx.event2.Manager",
     PRIORITY_NORMAL : 0,
     PRIORITY_LAST : 32000,
 
+    /**
+     * Soer the event handler/dispatcher list
+     *
+     * @param handlerList {} handlerList
+     */
     __sortHandlerList : function(handlerList)
     {
       return handlerList.sort(function(a,b) {
@@ -288,7 +293,7 @@ qx.Class.define("qx.event2.Manager",
     {
       this.__eventHandler.push({handler: handler, priority: priority});
       for (var winId in this.__managers) {
-        this.__managers[winId].updateHandler();
+        this.__managers[winId].__updateHandler();
       }
     },
 
@@ -300,9 +305,16 @@ qx.Class.define("qx.event2.Manager",
 
     registerEventDispatcher : function(handler, priority)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (!qx.Class.hasInterface(handler, qx.event2.dispatch.IEventDispatcher)) {
+          throw new Error("The dispatch handler does not implement the interface qx.event2.dispatch.IEventDispatcher!");
+        }
+      }
+
       this.__eventDispatcher.push({handler: handler, priority: priority});
       for (var winId in this.__managers) {
-        this.__managers[winId].updateDispatcher();
+        this.__managers[winId].__updateDispatcher();
       }
     },
 
@@ -322,15 +334,6 @@ qx.Class.define("qx.event2.Manager",
 
   members :
   {
-    // Normalization of event names
-    __eventNames :
-    {
-      // TODO: More event names?
-      "mousewheel" : qx.core.Variant.isSet("qx.client", "mshtml") ? "mousewheel" : "DOMMouseScroll",
-      "focusin" : qx.core.Variant.isSet("qx.client", "mshtml") ? "focusin" : "DOMFocusIn",
-      "focusout" : qx.core.Variant.isSet("qx.client", "mshtml") ? "focusout" : "DOMFocusOut"
-    },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -355,9 +358,6 @@ qx.Class.define("qx.event2.Manager",
      */
     addListener : function(element, type, listener, self, useCapture)
     {
-      // normalize event name
-      var type = this.__eventNames[type] || type;
-
       var eventListeners = this.registryGetListeners(element, type, useCapture, true);
 
       // this is the first event handler for this type and element
@@ -416,8 +416,6 @@ qx.Class.define("qx.event2.Manager",
      */
     removeListener : function(element, type, listener, useCapture)
     {
-      var type = this.__eventNames[type] || type;
-
       // get event listeners
       var listeners = this.registryGetListeners(element, type, false, false);
       if (!listeners) {
@@ -607,7 +605,7 @@ qx.Class.define("qx.event2.Manager",
     },
 
 
-    updateHandler : function()
+    __updateHandler : function()
     {
       // get event handler
       var oldHandlers = this.__eventHandlers;
@@ -631,7 +629,7 @@ qx.Class.define("qx.event2.Manager",
     },
 
 
-    updateDispatcher : function()
+    __updateDispatcher : function()
     {
       // get event handler
       var oldHandlers = this.__dispatchHandlers;
@@ -666,7 +664,7 @@ qx.Class.define("qx.event2.Manager",
 
   defer : function(statics)
   {
-    statics.registerEventHandler(qx.event2.handler.InlineEventHandler, statics.PRIORITY_FIRST);
+    statics.registerEventHandler(qx.event2.handler.InlineEventHandler, statics.PRIORITY_NORMAL);
 
     statics.registerEventDispatcher(qx.event2.dispatch.InlineDispatch, statics.PRIORITY_NORMAL);
     statics.registerEventDispatcher(qx.event2.dispatch.BubblingDispatch, statics.PRIORITY_NORMAL);
