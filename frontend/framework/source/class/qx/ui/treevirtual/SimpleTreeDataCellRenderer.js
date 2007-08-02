@@ -214,7 +214,10 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       if (this.getShowCheckBox())
       {
         var node = cellInfo.value;
-      cellElement.childNodes[node.level].style.backgroundImage = cellInfo.selected ? this.CHECKBOX_URI:'';
+        var st = cellElement.childNodes[node.level].style;
+        st.backgroundImage = node.bSelected ? this.CHECKBOX_URI:'';
+        // Children partially selected
+        st.backgroundColor = node.bSelected == 'p' ? '#DDD':'';
       }
     },
 
@@ -243,22 +246,22 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         }
 
       if (urlAndToolTip.imageWidth && urlAndToolTip.imageHeight)
-        {
-          html +=
-            ';width:' +
-            urlAndToolTip.imageWidth +
-            'px' +
-            ';height:' +
-            urlAndToolTip.imageHeight +
-            'px';
-        }
+      {
+        html +=
+          ';width:' +
+          urlAndToolTip.imageWidth +
+          'px' +
+          ';height:' +
+          urlAndToolTip.imageHeight +
+          'px';
+      }
 
       var tooltip = urlAndToolTip.tooltip;
 
       if (tooltip != null)
-        {
-          html += Stdcr.IMG_TITLE_START + tooltip;
-        }
+      {
+        html += Stdcr.IMG_TITLE_START + tooltip;
+      }
 
       html += Stdcr.IMG_END;
 
@@ -306,7 +309,10 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       if (this.getShowCheckBox())
       {
         pos += 2+this.getCheckBoxWidth()+2;
-        html += '<img src="'+this.STATIC_IMAGE_URI+'blank.gif" style="'+this.getCheckBoxStyle()+';width:'+this.getCheckBoxWidth()+'px;background:'+(cellInfo.selected ? this.CHECKBOX_URI:'')+' center no-repeat"/>';
+        html += '<img src="'+this.STATIC_IMAGE_URI+'blank.gif" style="'+this.getCheckBoxStyle()+';width:'+
+          this.getCheckBoxWidth()+'px;background:'+
+          (node.bSelected=='p' ? '#DDD ':'')+
+          (node.bSelected ? this.CHECKBOX_URI:'')+' center no-repeat"/>';
       }
 
       // Add the node's icon
