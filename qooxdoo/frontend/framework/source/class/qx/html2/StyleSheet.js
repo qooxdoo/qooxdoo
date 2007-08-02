@@ -40,172 +40,117 @@ qx.Class.define("qx.html2.StyleSheet",
      * Include a CSS file
      *
      * @type static
-     * @param vHref {String} Href value
+     * @param href {String} Href value
+     * @param doc? {Document} Document to modify
      * @return {void}
      */
-    includeFile : function(vHref)
+    includeFile : function(href, doc)
     {
-      var el = document.createElement("link");
+      if (!doc) {
+        doc = document; 
+      }
+      
+      var el = doc.createElement("link");
       el.type = "text/css";
       el.rel = "stylesheet";
-      el.href = vHref;
+      el.href = href;
 
-      var head = document.getElementsByTagName("head")[0];
+      var head = doc.getElementsByTagName("head")[0];
       head.appendChild(el);
     },
 
 
     /**
-     * create a new Stylesheet node and append it to the document
+     * Create a new Stylesheet node and append it to the document
      *
      * @type static
-     * @param vCssText {String} optional string of css rules
+     * @param text {String} optional string of css rules
      * @return {Stylesheet} stylesheet object
-     * @signature function(vCssText)
+     * @signature function(text)
      */
-    createElement : qx.lang.Object.select(document.createStyleSheet ? "ie4+" : "other",
+    createElement : qx.core.Variant.select("qx.client",
     {
-      "ie4+" : function(vCssText)
+      "mshtml" : function(text)
       {
-        var vSheet = document.createStyleSheet();
+        var sheet = document.createStyleSheet();
 
-        if (vCssText) {
-          vSheet.cssText = vCssText;
+        if (text) {
+          sheet.cssText = text;
         }
 
-        return vSheet;
+        return sheet;
       },
 
-      "other" : function(vCssText)
+      "default" : function(text)
       {
-        var vElement = document.createElement("style");
-        vElement.type = "text/css";
+        var elem = document.createElement("style");
+        elem.type = "text/css";
 
-        // Safari 2.0 doesn't like empty stylesheets
-        vElement.appendChild(document.createTextNode(vCssText || "body {}"));
-
-        document.getElementsByTagName("head")[0].appendChild(vElement);
-
-        if (vElement.sheet) {
-          return vElement.sheet;
-        }
-        else
-        {
-          // Safari 2.0 doesn't support element.sheet so we neet a workaround
-          var styles = document.styleSheets;
-
-          for (var i=styles.length-1; i>=0; i--)
-          {
-            if (styles[i].ownerNode == vElement) {
-              return styles[i];
-            }
-          }
+        if (text) {
+          elem.appendChild(document.createTextNode(text));
         }
 
-        throw "Error: Could not get a reference to the sheet object";
+        document.getElementsByTagName("head")[0].appendChild(elem);
+        return elem.sheet;
       }
     }),
 
 
     /**
-     * insert a new CSS rule into a given Stylesheet
+     * Insert a new CSS rule into a given Stylesheet
      *
      * @type static
-     * @param vSheet {Object} the target Stylesheet object
-     * @param vSelector {String} the selector
-     * @param vStyle {String} style rule
+     * @param sheet {Object} the target Stylesheet object
+     * @param selector {String} the selector
+     * @param entry {String} style rule
      * @return {void}
-     * @signature function(vSheet, vSelector, vStyle)
+     * @signature function(sheet, selector, entry)
      */
-    addRule : qx.lang.Object.select(document.createStyleSheet ? "ie4+" : "other",
+    addRule : qx.core.Variant.select("qx.client",
     {
-      "ie4+" : function(vSheet, vSelector, vStyle) {
-        vSheet.addRule(vSelector, vStyle);
+      "mshtml" : function(sheet, selector, entry) {
+        sheet.addRule(selector, entry);
       },
 
-      "other" : qx.lang.Object.select(qx.core.Client.getInstance().isSafari2() ? "safari2" : "other",
-      {
-        "safari2+" : function(vSheet, vSelector, vStyle)
-        {
-          // insertRule in Safari 2 doesn't work
-          if (!vSheet._qxRules) {
-            vSheet._qxRules = {};
-          }
-
-          if (!vSheet._qxRules[vSelector])
-          {
-            var ruleNode = document.createTextNode(vSelector + "{" + vStyle + "}");
-            vSheet.ownerNode.appendChild(ruleNode);
-            vSheet._qxRules[vSelector] = ruleNode;
-          }
-        },
-
-        "other" : function(vSheet, vSelector, vStyle) {
-          vSheet.insertRule(vSelector + "{" + vStyle + "}", vSheet.cssRules.length);
-        }
-      })
+      "default" : function(sheet, selector, entry) {
+        sheet.insertRule(selector + "{" + entry + "}", sheet.cssRules.length);
+      }
     }),
 
 
     /**
-     * remove a CSS rule from a stylesheet
+     * Remove a CSS rule from a stylesheet
      *
      * @type static
-     * @param vSheet {Object} the Stylesheet
-     * @param vSelector {String} the Selector of the rule to remove
+     * @param sheet {Object} the Stylesheet
+     * @param selector {String} the Selector of the rule to remove
      * @return {void}
-     * @signature function(vSheet, vSelector)
+     * @signature function(sheet, selector)
      */
-    removeRule : qx.lang.Object.select(document.createStyleSheet ? "ie4+" : "other",
+    removeRule : qx.core.Variant.select("qx.client",
     {
-      "ie4+" : function(vSheet, vSelector)
+      "mshtml" : function(sheet, selector)
       {
-        var vRules = vSheet.rules;
-        var vLength = vRules.length;
+        var rules = sheet.rules;
+        var len = rules.length;
 
-        for (var i=vLength-1; i>=0; i--)
+        for (var i=len-1; i>=0; i--)
         {
-          if (vRules[i].selectorText == vSelector) {
-            vSheet.removeRule(i);
+          if (rules[i].selectorText == selector) {
+            sheet.removeRule(i);
           }
         }
       },
 
-      "other" : qx.lang.Object.select(qx.core.Client.getInstance().isSafari2() ? "safari2" : "other",
+      "default" : function(sheet, selector)
       {
-        "safari2+" : function(vSheet, vSelector)
+        var rules = sheet.cssRules;
+        var len = rules.length;
+
+        for (var i=len-1; i>=0; i--)
         {
-          var warn = function() {
-            qx.log.Logger.ROOT_LOGGER.warn("In Safari/Webkit you can only remove rules that are created using qx.html.StyleSheet.addRule");
-          };
-
-          if (!vSheet._qxRules) {
-            warn();
-          }
-
-          var ruleNode = vSheet._qxRules[vSelector];
-
-          if (ruleNode)
-          {
-            vSheet.ownerNode.removeChild(ruleNode);
-            vSheet._qxRules[vSelector] = null;
-          }
-          else
-          {
-            warn();
-          }
-        },
-
-        "other" : function(vSheet, vSelector)
-        {
-          var vRules = vSheet.cssRules;
-          var vLength = vRules.length;
-
-          for (var i=vLength-1; i>=0; i--)
-          {
-            if (vRules[i].selectorText == vSelector) {
-              vSheet.deleteRule(i);
-            }
+          if (rules[i].selectorText == selector) {
+            sheet.deleteRule(i);
           }
         }
       })
@@ -213,113 +158,91 @@ qx.Class.define("qx.html2.StyleSheet",
 
 
     /**
-     * remove all CSS rules from a stylesheet
+     * Remove all CSS rules from a stylesheet
      *
      * @type static
-     * @param vSheet {Object} the stylesheet object
+     * @param sheet {Object} the stylesheet object
      * @return {void}
-     * @signature function(vSheet)
+     * @signature function(sheet)
      */
-    removeAllRules : qx.lang.Object.select(document.createStyleSheet ? "ie4+" : "other",
+    removeAllRules : qx.core.Variant.select("qx.client",
     {
-      "ie4+" : function(vSheet)
+      "mshtml" : function(sheet)
       {
-        var vRules = vSheet.rules;
-        var vLength = vRules.length;
+        var rules = sheet.rules;
+        var len = rules.length;
 
-        for (var i=vLength-1; i>=0; i--) {
-          vSheet.removeRule(i);
+        for (var i=len-1; i>=0; i--) {
+          sheet.removeRule(i);
         }
       },
 
-      "other" : qx.lang.Object.select(qx.core.Client.getInstance().isSafari2() ? "safari2" : "other",
+      "default" : function(sheet)
       {
-        "safari2+" : function(vSheet)
-        {
-          var node = vSheet.ownerNode;
-          var rules = node.childNodes;
+        var rules = sheet.cssRules;
+        var len = rules.length;
 
-          while (rules.length > 0) {
-            node.removeChild(rules[0]);
-          }
-        },
-
-        "other" : function(vSheet)
-        {
-          var vRules = vSheet.cssRules;
-          var vLength = vRules.length;
-
-          for (var i=vLength-1; i>=0; i--) {
-            vSheet.deleteRule(i);
-          }
-        }
-      })
-    }),
-
-
-    // TODO import functions are not working crossbrowser (Safari) !!
-    // see CSS_1.html test
-    /**
-     * add an import of an external CSS file to a stylesheet
-     *
-     * @type static
-     * @param vSheet {Object} the stylesheet object
-     * @param vUrl {String} URL of the external stylesheet file
-     * @return {void}
-     * @signature function(vSheet, vUrl)
-     */
-    addImport : qx.lang.Object.select(document.createStyleSheet ? "ie4+" : "other",
-    {
-      "ie4+" : function(vSheet, vUrl) {
-        vSheet.addImport(vUrl);
-      },
-
-      "other" : qx.lang.Object.select(qx.core.Client.getInstance().isSafari2() ? "safari2" : "other",
-      {
-        "safari2+" : function(vSheet, vUrl) {
-          vSheet.ownerNode.appendChild(document.createTextNode('@import "' + vUrl + '";'));
-        },
-
-        "other" : function(vSheet, vUrl) {
-          vSheet.insertRule('@import "' + vUrl + '";', vSheet.cssRules.length);
+        for (var i=len-1; i>=0; i--) {
+          sheet.deleteRule(i);
         }
       })
     }),
 
 
     /**
-     * removes an import from a stylesheet
+     * Add an import of an external CSS file to a stylesheet
      *
      * @type static
-     * @param vSheet {Object} the stylesheet object
-     * @param vUrl {String} URL of the importet CSS file
+     * @param sheet {Object} the stylesheet object
+     * @param url {String} URL of the external stylesheet file
      * @return {void}
-     * @signature function(vSheet, vUrl)
+     * @signature function(sheet, url)
      */
-    removeImport : qx.lang.Object.select(document.createStyleSheet ? "ie4+" : "other",
+    addImport : qx.core.Variant.select("qx.client",
     {
-      "ie4+" : function(vSheet, vUrl)
-      {
-        var vImports = vSheet.imports;
-        var vLength = vImports.length;
+      "mshtml" : function(sheet, url) {
+        sheet.addImport(url);
+      },
 
-        for (var i=vLength-1; i>=0; i--)
+      "default" : function(sheet, url) {
+        sheet.insertRule('@import "' + url + '";', sheet.cssRules.length);
+      })
+    }),
+
+
+    /**
+     * Removes an import from a stylesheet
+     *
+     * @type static
+     * @param sheet {Object} the stylesheet object
+     * @param url {String} URL of the importet CSS file
+     * @return {void}
+     * @signature function(sheet, url)
+     */
+    removeImport : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(sheet, url)
+      {
+        var imports = sheet.imports;
+        var len = imports.length;
+
+        for (var i=len-1; i>=0; i--)
         {
-          if (vImports[i].href == vUrl) {
-            vSheet.removeImport(i);
+          if (imports[i].href == url) {
+            sheet.removeImport(i);
           }
         }
       },
 
-      "other" : function(vSheet, vUrl)
+      "default" : function(sheet, url)
       {
-        var vRules = vSheet.cssRules;
-        var vLength = vRules.length;
+        var rules = sheet.cssRules;
+        var len = rules.length;
 
-        for (var i=vLength-1; i>=0; i--)
+        for (var i=len-1; i>=0; i--)
         {
-          if (vRules[i].href == vUrl) {
-            vSheet.deleteRule(i);
+          if (rules[i].href == url) {
+            sheet.deleteRule(i);
           }
         }
       }
@@ -327,34 +250,34 @@ qx.Class.define("qx.html2.StyleSheet",
 
 
     /**
-     * remove all imports from a stylesheet
+     * Remove all imports from a stylesheet
      *
      * @type static
-     * @param vSheet {Object} the stylesheet object
+     * @param sheet {Object} the stylesheet object
      * @return {void}
-     * @signature function(vSheet)
+     * @signature function(sheet)
      */
-    removeAllImports : qx.lang.Object.select(document.createStyleSheet ? "ie4+" : "other",
+    removeAllImports : qx.core.Variant.select("qx.client",
     {
-      "ie4+" : function(vSheet)
+      "mshtml" : function(sheet)
       {
-        var vImports = vSheet.imports;
-        var vLength = vImports.length;
+        var imports = sheet.imports;
+        var len = imports.length;
 
-        for (var i=vLength-1; i>=0; i--) {
-          vSheet.removeImport(i);
+        for (var i=len-1; i>=0; i--) {
+          sheet.removeImport(i);
         }
       },
 
-      "other" : function(vSheet)
+      "default" : function(sheet)
       {
-        var vRules = vSheet.cssRules;
-        var vLength = vRules.length;
+        var rules = sheet.cssRules;
+        var len = rules.length;
 
-        for (var i=vLength-1; i>=0; i--)
+        for (var i=len-1; i>=0; i--)
         {
-          if (vRules[i].type == vRules[i].IMPORT_RULE) {
-            vSheet.deleteRule(i);
+          if (rules[i].type == rules[i].IMPORT_RULE) {
+            sheet.deleteRule(i);
           }
         }
       }

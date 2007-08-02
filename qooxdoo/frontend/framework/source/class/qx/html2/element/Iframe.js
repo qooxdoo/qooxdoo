@@ -41,27 +41,27 @@ qx.Class.define("qx.html2.element.Iframe",
      * Get the DOM window object of an iframe.
      *
      * @type static
-     * @param vIframe {Element} DOM element of the iframe.
-     * @return {DOMWindow} The DOM window object of the iframe.
-     * @signature function(vIframe)
+     * @param iframe {Element} DOM element of the iframe.
+     * @return {Window} The DOM window object of the iframe.
+     * @signature function(iframe)
      */
     getWindow : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(vIframe)
+      "mshtml" : function(iframe)
       {
         try {
-          return vIframe.contentWindow;
+          return iframe.contentWindow;
         } catch(ex) {
           return null;
         }
       },
 
-      "default" : function(vIframe)
+      "default" : function(iframe)
       {
         try
         {
-          var vDoc = qx.html.Iframe.getDocument(vIframe);
-          return vDoc ? vDoc.defaultView : null;
+          var doc = qx.html.Iframe.getDocument(iframe);
+          return doc ? doc.defaultView : null;
         }
         catch(ex)
         {
@@ -75,18 +75,18 @@ qx.Class.define("qx.html2.element.Iframe",
      * Get the DOM document object of an iframe.
      *
      * @type static
-     * @param vIframe {Element} DOM element of the iframe.
-     * @return {DOMDocument} The DOM document object of the iframe.
-     * @signature function(vIframe)
+     * @param iframe {Element} DOM element of the iframe.
+     * @return {Document} The DOM document object of the iframe.
+     * @signature function(iframe)
      */
     getDocument : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(vIframe)
+      "mshtml" : function(iframe)
       {
         try
         {
-          var vWin = qx.html.Iframe.getWindow(vIframe);
-          return vWin ? vWin.document : null;
+          var win = qx.html.Iframe.getWindow(iframe);
+          return win ? win.document : null;
         }
         catch(ex)
         {
@@ -94,10 +94,10 @@ qx.Class.define("qx.html2.element.Iframe",
         }
       },
 
-      "default" : function(vIframe)
+      "default" : function(iframe)
       {
         try {
-          return vIframe.contentDocument;
+          return iframe.contentDocument;
         } catch(ex) {
           return null;
         }
@@ -109,13 +109,13 @@ qx.Class.define("qx.html2.element.Iframe",
      * Get the HTML body element of the iframe.
      *
      * @type static
-     * @param vIframe {Element} DOM element of the iframe.
+     * @param iframe {Element} DOM element of the iframe.
      * @return {Element} The DOM node of the <code>body</code> element of the iframe.
      */
-    getBody : function(vIframe)
+    getBody : function(iframe)
     {
-      var vDoc = qx.html.Iframe.getDocument(vIframe);
-      return vDoc ? vDoc.getElementsByTagName("body")[0] : null;
+      var doc = qx.html.Iframe.getDocument(iframe);
+      return doc ? doc.getElementsByTagName("body")[0] : null;
     }
   }
 });
