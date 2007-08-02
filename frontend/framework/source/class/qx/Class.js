@@ -222,6 +222,14 @@ qx.Class.define("qx.Class",
         }
       }
 
+      // Interface support for non-static classes
+      if (config.implement)
+      {
+        for (var i=0, l=config.implement.length; i<l; i++) {
+          this.__addInterface(clazz, config.implement[i]);
+        }
+      }
+
       // Process defer
       if (config.defer)
       {
@@ -240,13 +248,6 @@ qx.Class.define("qx.Class",
         });
       }
 
-      // Interface support for non-static classes
-      if (config.implement)
-      {
-        for (var i=0, l=config.implement.length; i<l; i++) {
-          this.__addInterface(clazz, config.implement[i]);
-        }
-      }
     },
 
 
