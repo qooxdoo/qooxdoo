@@ -78,23 +78,13 @@ qx.Class.define("qx.event2.Manager",
 
     // get event handler
     this.__eventHandlers = [];
-    var registeredHandler = this.self(arguments).getRegisteredEventHandler();
-    for (var i=0, l=registeredHandler.length; i<l; i++) {
-      this.__eventHandlers.push(new registeredHandler[i].handler(this));
-    }
+    this.__knownHandler = {};
+    this.updateHandler();
 
     // get event dispatcher
     this.__dispatchHandlers = [];
-    var registeredDispatcher = this.self(arguments).getRegisteredEventDispatcher();
-    for (var i=0, l=registeredDispatcher.length; i<l; i++)
-    {
-      var handler = new (registeredDispatcher[i].handler)(this);
-      this.__dispatchHandlers.push(handler);
-
-      if (handler instanceof qx.event2.dispatch.MouseCaptureDispatcher) {
-        this.__captureHandler = handler;
-      }
-    }
+    this.__knownDispatcher = {};
+    this.updateDispatcher();
 
     // add unload listener to prevent memory leaks
     this.addListener(win, "unload", this.__onunload, this);
@@ -278,9 +268,9 @@ qx.Class.define("qx.event2.Manager",
     ---------------------------------------------------------------------------
     */
 
-    PRIORITY_FIRST : Math.MIN_VALUE,
+    PRIORITY_FIRST : -32000,
     PRIORITY_NORMAL : 0,
-    PRIORITY_LAST : Math.MAX_VALUE,
+    PRIORITY_LAST : 32000,
 
     __sortHandlerList : function(handlerList)
     {
@@ -294,8 +284,12 @@ qx.Class.define("qx.event2.Manager",
 
     __eventHandler : [],
 
-    registerEventHandler : function(handler, priority) {
+    registerEventHandler : function(handler, priority)
+    {
       this.__eventHandler.push({handler: handler, priority: priority});
+      for (var winId in this.__managers) {
+        this.__managers[winId].updateHandler();
+      }
     },
 
     getRegisteredEventHandler : function() {
@@ -304,8 +298,12 @@ qx.Class.define("qx.event2.Manager",
 
     __eventDispatcher : [],
 
-    registerEventDispatcher : function(handler, priority) {
+    registerEventDispatcher : function(handler, priority)
+    {
       this.__eventDispatcher.push({handler: handler, priority: priority});
+      for (var winId in this.__managers) {
+        this.__managers[winId].updateDispatcher();
+      }
     },
 
     getRegisteredEventDispatcher : function() {
@@ -313,10 +311,6 @@ qx.Class.define("qx.event2.Manager",
     }
 
   },
-
-
-
-
 
 
 
@@ -491,7 +485,7 @@ qx.Class.define("qx.event2.Manager",
      */
     dispatchEvent : function(event)
     {
-      for (var i=0; i<this.__dispatchHandlers.length; i++)
+      for (var i=0,l=this.__dispatchHandlers.length; i<l; i++)
       {
         var dispatchHandler = this.__dispatchHandlers[i];
         if (dispatchHandler.canDispatchEvent(event)) {
@@ -610,6 +604,54 @@ qx.Class.define("qx.event2.Manager",
         typeEvents[listenerList] = []
       }
       return typeEvents[listenerList];
+    },
+
+
+    updateHandler : function()
+    {
+      // get event handler
+      var oldHandlers = this.__eventHandlers;
+      this.__eventHandlers = [];
+
+      var registeredHandler = this.self(arguments).getRegisteredEventHandler();
+
+      for (var i=0, l=registeredHandler.length; i<l; i++)
+      {
+        var handler = registeredHandler[i].handler;
+        var handlerId = qx.core.Object.toHashCode(handler);
+
+        if (this.__knownHandler[handlerId] !== undefined) {
+          this.__eventHandlers[i] = oldHandlers[this.__knownHandler[handlerId]];
+        } else {
+          this.__eventHandlers[i] = new handler(this);
+        }
+
+        this.__knownHandler[handlerId] = i;
+      }
+    },
+
+
+    updateDispatcher : function()
+    {
+      // get event handler
+      var oldHandlers = this.__dispatchHandlers;
+      this.__dispatchHandlers = [];
+
+      var registeredHandler = this.self(arguments).getRegisteredEventDispatcher();
+
+      for (var i=0, l=registeredHandler.length; i<l; i++)
+      {
+        var handler = registeredHandler[i].handler;
+        var handlerId = qx.core.Object.toHashCode(handler);
+
+        if (this.__knownDispatcher[handlerId] !== undefined) {
+          this.__dispatchHandlers[i] = oldHandlers[this.__knownDispatcher[handlerId]];
+        } else {
+          this.__dispatchHandlers[i] = new handler(this);
+        }
+
+        this.__knownDispatcher[handlerId] = i;
+      }
     }
 
   },
@@ -622,9 +664,12 @@ qx.Class.define("qx.event2.Manager",
   *****************************************************************************
   */
 
-  defer : function(statics) {
+  defer : function(statics)
+  {
     statics.registerEventHandler(qx.event2.handler.InlineEventHandler, statics.PRIORITY_FIRST);
+
     statics.registerEventDispatcher(qx.event2.dispatch.InlineDispatch, statics.PRIORITY_NORMAL);
+    statics.registerEventDispatcher(qx.event2.dispatch.BubblingDispatch, statics.PRIORITY_NORMAL);
   }
 
 });

@@ -171,7 +171,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
         event.setTarget(target);
       }
 
-      this._manager.dispatchEvent(this._context, event);
+      this._manager.dispatchEvent(event);
 
       this._eventPool.release(event);
     },
