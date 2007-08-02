@@ -24,7 +24,6 @@ qx.Class.define("qx.xml.Entity",
 {
   statics :
   {
-
     /** Mapping of XML entity names to the corresponding char code */
     TO_CHARCODE :
     {
