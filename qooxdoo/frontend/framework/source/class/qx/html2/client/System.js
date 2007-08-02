@@ -151,7 +151,13 @@ qx.Class.define("qx.html2.client.System",
     __init : function()
     {
       var agent = navigator.userAgent;
-      var reg = /(Windows NT 6\.0|Windows NT 5\.1|Windows NT 5\.01|Windows NT 5\.0|Windows 2000|Windows NT 5\.2|Windows NT 4\.0|WinNT3\.51|Win 9x 4\.90|Windows CE|Windows 98|Win98|Windows 95|Win95|Linux|FreeBSD|NetBSD|SunOS|Symbian System|Nitro|PSP|Mac OS X|Mac OS 9)/g;
+      
+      var str = [];
+      for (var key in this.__ids) {
+        str.push(key);
+      }
+      
+      reg = new RegExp("(" + str.join("|").replace(/\./g, "\.") + ")", "g");
       
       if (!reg.test(agent)) {
         throw new Error("Could not detect system: " + agent);
