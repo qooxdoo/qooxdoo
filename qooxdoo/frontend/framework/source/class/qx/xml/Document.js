@@ -45,13 +45,11 @@ qx.Class.define("qx.xml.Document",
     {
       "default": qx.lang.Object.select((document.implementation && document.implementation.createDocument) ? "hasDom2" : "noDom2",
       {
-        "hasDom2": function(namespaceUri, qualifiedName)
-        {
+        "hasDom2": function(namespaceUri, qualifiedName) {
           return document.implementation.createDocument(namespaceUri || "", qualifiedName || "", null);
         },
 
-        "noDom2": function(namespaceUri, qualifiedName)
-        {
+        "noDom2": function(namespaceUri, qualifiedName) {
           throw new Error("This browser does not support xml dom creation.");
         }
       }),
