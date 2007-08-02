@@ -157,7 +157,7 @@ qx.Class.define("qx.html2.client.System",
         str.push(key);
       }
       
-      reg = new RegExp("(" + str.join("|").replace(/\./g, "\.") + ")", "g");
+      var reg = new RegExp("(" + str.join("|").replace(/\./g, "\.") + ")", "g");
       
       if (!reg.test(agent)) {
         throw new Error("Could not detect system: " + agent);
