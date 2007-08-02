@@ -17,6 +17,12 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#module(event2)
+
+************************************************************************ */
+
 /**
  * All event dispatcher must implement this interface. Event dispatcher must
  * register themselves at the event Manager using
