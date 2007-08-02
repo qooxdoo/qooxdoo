@@ -7,28 +7,24 @@
  *
  *
  */
-qx.Class.define("qx.event2.FocusManager",
+qx.Class.define("qx.event2.handler.FocusHandler",
 {
-  extend : qx.core.Target,
+  extend : qx.event2.handler.AbstractEventHandler,
 
-  construct : function(win)
+  construct : function(manager)
   {
-    this.base(arguments);
+    this.base(arguments, manager);
 
 
     // Shorthands
-    this._window = win;
-    this._document = win.document;
+    this._window = manager.getWindow();
+    this._document = this._window.document;
     this._root = this._document.documentElement;
     this._body = this._document.body;
-
-    // Event pool
-    this._eventPool = qx.event2.type.EventPool.getInstance();
 
     // Common native listeners
     this.__onNativeMouseDown = qx.lang.Function.bind(this._onNativeMouseDown, this);
     this._document.onmousedown = this.__onNativeMouseDown;
-
 
     // Cross browser listeners
     if (qx.core.Variant.isSet("qx.client", "gecko"))
@@ -76,7 +72,7 @@ qx.Class.define("qx.event2.FocusManager",
     active :
     {
       check : "Element",
-      event : "changeActive",
+      //event : "changeActive",
       apply : "_applyActive",
       nullable : true
     },
@@ -84,7 +80,7 @@ qx.Class.define("qx.event2.FocusManager",
     focus :
     {
       check : "Element",
-      event : "changeFocus",
+      //event : "changeFocus",
       apply : "_applyFocus",
       nullable : true
     }
@@ -92,6 +88,26 @@ qx.Class.define("qx.event2.FocusManager",
 
   members :
   {
+
+    __focusTypes : {
+      "focus" : 1,
+      "blur" : 1,
+      "DOMFocusIn" : 1,
+      "DOMFocusOut" : 1,
+      "focusin" : 1,
+      "focusout" : 1,
+      "beforedeactivate" : 1,
+      "beforeactivate" : 1,
+      "activate" : 1,
+      "deactivate" : 1
+    },
+
+
+    canHandleEvent : function(element, type) {
+      return this.__focusTypes[type];
+    },
+
+
     _windowFocussed : true,
 
     _doWindowBlur : function()
@@ -133,14 +149,6 @@ qx.Class.define("qx.event2.FocusManager",
       // This is the case for all mousedown events normally
       if (element && this.getFocus() !== element)
       {
-        /*
-        var oldActive = this.getActive() ? this.getActive().tagName : "none";
-        var oldFocus = this.getFocus() ? this.getFocus().tagName : "none";
-
-        this.debug("Focus: " + element.tagName);
-        this.debug("OLD: " + oldActive + " :: " + oldFocus);
-        */
-
         this.setActive(element);
         this.setFocus(element);
       }
@@ -419,8 +427,22 @@ qx.Class.define("qx.event2.FocusManager",
         event.setType(type);
       }
 
-      qx.event2.Manager.getManager(target).dispatchEvent(event);
+      this._manager.dispatchEvent(event);
       this._eventPool.release(event);
     }
+  },
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function(statics)
+  {
+    var manager = qx.event2.Manager;
+    manager.registerEventHandler(statics, manager.PRIORITY_FIRST);
   }
 });
