@@ -26,6 +26,7 @@ qx.Class.define("qx.event2.dispatch.InlineDispatch",
 {
 
   extend : qx.core.Object,
+  implement : qx.event2.dispatch.IEventDispatcher,
 
 
 

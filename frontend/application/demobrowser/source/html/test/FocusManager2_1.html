@@ -2,11 +2,11 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>qooxdoo &raquo; Demo Browser</title>
-  
+
   <script type="text/javascript">
     qxsettings = { "qx.enableApplicationLayout" : false };
   </script>
-  
+
   <script type="text/javascript" src="../../script/demo.js"></script>
   <script type="text/javascript" src="../util.js"></script>
 </head>
@@ -15,29 +15,29 @@
     html, body{
       background: white;
     }
-    
+
     body, div, span, h1, input, textarea, iframe {
       border : 2px solid black;
     }
-    
-    body, div { 
-      padding : 10px; margin: 5px 
+
+    body, div {
+      padding : 10px; margin: 5px
     }
-    
+
     #log{
       font-size: 10px;
     }
-    
+
     #log div{
       border: 0 none;
       padding: 2px;
       margin: 0;
     }
   </style>
-  
+
   <div id="log" style="height:200px;overflow:auto">
   </div>
-  
+
   <h1>TabIndex</h1>
   <div id="hello" tabIndex="0">
     <div id="bar">
@@ -50,9 +50,9 @@
     </div>
     <div id="world" tabIndex="0">
       <span>text1</span>
-    </div>    
+    </div>
   </div>
-  
+
   <h1>Fields</h1>
   <input type="text" value="text field"></input>
   <textarea>hello</textarea>
@@ -63,54 +63,52 @@
   <h1>Iframe</h1>
   <iframe src="empty.html" style="width:200px;height:100px">
   </iframe>
-  
+
   <script type="text/javascript">
 appender = new qx.log.appender.HtmlElement;
 appender.setElement(document.getElementById("log"));
-    
-qx.log.Logger.ROOT_LOGGER.removeAllAppenders();    
+
+qx.log.Logger.ROOT_LOGGER.removeAllAppenders();
 qx.log.Logger.ROOT_LOGGER.addAppender(appender);
-   
+
 qx.Class.define("Gui2Test",
 {
-  extend : qx.application.Gui2,
+  extend : qx.application.Gui,
 
   members :
   {
     main : function()
     {
       this.base(arguments);
-      
-      // Connect to FocusManager
-      this._focusManager.addEventListener("changeActive", this._changeActive, this);
-      this._focusManager.addEventListener("changeFocus", this._changeFocus, this);
+
+      document.body.focus();
+      this.oldFocus = document.body;
+
+      qx.event2.Manager.addListener(document.documentElement, "activate", this._changeActive, this, true);
+      qx.event2.Manager.addListener(document.documentElement, "deactivate", this._changeActive, this, true);
+      qx.event2.Manager.addListener(document.documentElement, "focusin", this._changeFocus, this);
     },
-    
+
     _changeActive : function(e)
     {
-      // this.debug("Active: " + e.getValue());
-      
-      if (e.getOldValue()) {
-        e.getOldValue().style.borderColor = "black";
-      }
-      
-      if (e.getValue()) {
-        e.getValue().style.borderColor = "red";
+      switch(e.getType()) {
+        case "deactivate":
+          e.getTarget().style.borderColor = "black";
+          break;
+
+        case "activate":
+          e.getTarget().style.borderColor = "red";
+          break;
       }
     },
-    
+
     _changeFocus : function(e)
     {
-      // this.debug("Focus: " + e.getValue());
-      
-      if (e.getOldValue()) {
-        e.getOldValue().style.background = "";
-      }
-      
-      if (e.getValue()) {
-        e.getValue().style.background = "#eaeaea";
-      }
+      this.oldFocus.style.backgroundColor = "";
+      e.getTarget().style.backgroundColor = "#aeaeae";
+      this.oldFocus = e.getTarget();
     }
+
   }
 });
 
