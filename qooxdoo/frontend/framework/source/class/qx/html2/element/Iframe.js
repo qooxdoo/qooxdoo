@@ -27,7 +27,7 @@
 /**
  * Cross browser abstractions to work with iframes.
  */
-qx.Class.define("qx.html.Iframe",
+qx.Class.define("qx.html2.element.Iframe",
 {
   /*
   *****************************************************************************
