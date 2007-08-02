@@ -337,6 +337,20 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
         }
       }
     })
+  },
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function(statics)
+  {
+    var manager = qx.event2.Manager;
+    manager.registerEventHandler(statics, manager.PRIORITY_NORMAL);
   }
 
 });

@@ -63,6 +63,51 @@ qx.Class.define("qx.event2.handler.InlineEventHandler",
 
   /*
   *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+   statics :
+   {
+    // Events, which don't bubble
+    INLINE_EVENTS :
+    {
+      abort                       : 1,
+      afterprint                  : 1,  // IE
+      beforeprint                 : 1,  // IE
+      beforeunload                : 1,
+      blur                        : 1,
+      change                      : 1,
+      dragdrop                    : 1,
+      DOMNodeInsertedIntoDocument : 1,  // DOM2
+      DOMNodeRemovedFromDocument  : 1,  // DOM2
+      error                       : 1,
+      focus                       : 1,
+      formchange                  : 1,  // Opera (Webforms 2)
+      forminput                   : 1,  // Opera (Webforms 2)
+      load                        : 1,
+      losecapture                 : 1,  // IE
+      mouseenter                  : 1,  // IE
+      mouseleave                  : 1,  // IE
+      mousewheel                  : 1,  // IE
+      propertychange              : 1,  // IE
+      readystatechange            : 1,
+      reset                       : 1,
+      scroll                      : 1,
+      select                      : 1,
+      selectionchange             : 1,  // IE
+      selectstart                 : 1,  // IE
+      stop                        : 1,  // IE
+      submit                      : 1,
+      unload                      : 1,
+      losecapture                 : 1   // emulated
+    }
+  },
+
+
+
+  /*
+  *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
@@ -77,7 +122,7 @@ qx.Class.define("qx.event2.handler.InlineEventHandler",
 
     // overridden
     canHandleEvent : function(element, type) {
-      return qx.event2.Manager.INLINE_EVENTS[type];
+      return qx.event2.handler.InlineEventHandler.INLINE_EVENTS[type];
     },
 
 
@@ -158,6 +203,20 @@ qx.Class.define("qx.event2.handler.InlineEventHandler",
       }
     }
 
+  },
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function(statics)
+  {
+    var manager = qx.event2.Manager;
+    manager.registerEventHandler(statics, manager.PRIORITY_FIRST);
   }
 
 });
