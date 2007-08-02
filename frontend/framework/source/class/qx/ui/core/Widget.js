@@ -28,7 +28,6 @@
 #optional(qx.ui.popup.ToolTip)
 #optional(qx.ui.menu.Menu)
 #optional(qx.ui.basic.Inline)
-#require(qx.util.DeferredCall)
 
 ************************************************************************ */
 
