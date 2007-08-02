@@ -147,7 +147,7 @@ qx.Class.define("qx.event2.type.MouseEvent",
 
       "default" : function()
       {
-        var doc = qx.html2.element.Node.getDocument(this.getTarget());
+        var doc = qx.html2.node.Util.getDocument(this.getTarget());
         return this._dom.clientX + qx.html2.Viewport.getScrollLeft(doc);
       }
     }),
@@ -168,7 +168,7 @@ qx.Class.define("qx.event2.type.MouseEvent",
 
       "default" : function()
       {
-        var doc = qx.html2.element.Node.getDocument(this.getTarget());
+        var doc = qx.html2.node.Util.getDocument(this.getTarget());
         return this._dom.clientY + qx.html2.Viewport.getScrollTop(doc);
       }
     }),
@@ -186,7 +186,7 @@ qx.Class.define("qx.event2.type.MouseEvent",
     {
       "mshtml" : function()
       {
-        var doc = qx.html2.element.Node.getDocument(this.getTarget());
+        var doc = qx.html2.node.Util.getDocument(this.getTarget());
         return this._dom.clientX + qx.html2.Viewport.getScrollLeft(doc);
       },
 
@@ -212,7 +212,7 @@ qx.Class.define("qx.event2.type.MouseEvent",
     {
       "mshtml" : function()
       {
-        var doc = qx.html2.element.Node.getDocument(this.getTarget());
+        var doc = qx.html2.node.Util.getDocument(this.getTarget());
         return this._dom.clientY + qx.html2.Viewport.getScrollTop(doc);
       },
 

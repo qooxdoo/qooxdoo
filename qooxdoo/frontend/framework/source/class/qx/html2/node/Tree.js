@@ -47,7 +47,7 @@
  * supports to operate on one element and reorganize the content with 
  * the insertion of new HTML or nodes.
  */
-qx.Class.define("qx.html2.element.Tree",
+qx.Class.define("qx.html2.node.Tree",
 {
   statics :
   {
@@ -123,7 +123,7 @@ qx.Class.define("qx.html2.element.Tree",
     {
       "mshtml|opera" : function(element, target) 
       {
-        var clazz = qx.html2.element.Node;
+        var clazz = qx.html2.node.Util;
         return clazz.isDocumentNode(element) ? element === clazz.getDocument(target) : element !== target && element.contains(target);
       },
 
