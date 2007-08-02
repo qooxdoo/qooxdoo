@@ -202,7 +202,7 @@ qx.Class.define("qx.html2.element.Util",
       // Not directly supported in MSHTML, using render mode
       "mshtml" : function(element) 
       {
-        if (qx.html2.Document.isStandardMode(qx.html2.element.Node.getDocument(element)))
+        if (qx.html2.Document.isStandardMode(qx.html2.node.Util.getDocument(element)))
         {
           if (!this.__usesNativeBorderBox(element)) {
             return "content-box";    

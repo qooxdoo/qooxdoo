@@ -83,7 +83,10 @@ qx.Class.define("qx.html2.element.Generic",
 
       custom :
       {
-        "opacity" : qx.html2.element.Opacity
+        "opacity" : qx.html2.element.Opacity,
+        "cursor" : qx.html2.element.Cursor,
+        "clip" : qx.html2.element.Clip,
+        "overflow" : qx.html2.element.Overflow
       }
     },
 
