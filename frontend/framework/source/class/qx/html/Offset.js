@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 /**
- * @deprecated: Not needed anymore. qx.html2.Location is often the better choice
+ * @deprecated: Not needed anymore. qx.html2.element.Location is often the better choice
  *
  */
 qx.Class.define("qx.html.Offset",
