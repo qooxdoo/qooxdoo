@@ -268,14 +268,19 @@ qx.Class.define("qx.event2.Manager",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Position at which the handler should be inserted into the handler list.
+     */
     PRIORITY_FIRST : -32000,
     PRIORITY_NORMAL : 0,
     PRIORITY_LAST : 32000,
 
+
     /**
-     * Soer the event handler/dispatcher list
+     * Sort the event handler/dispatcher list by priority.
      *
-     * @param handlerList {} handlerList
+     * @param handlerList {qx.event.handler.AbstractEventHandler[]} handler list
+     * @return {qx.event.handler.AbstractEventHandler[]} sorted handler list
      */
     __sortHandlerList : function(handlerList)
     {
@@ -289,6 +294,13 @@ qx.Class.define("qx.event2.Manager",
 
     __eventHandler : [],
 
+    /**
+     * Register an event handler.
+     *
+     * @param handler {qx.event.handler.AbstractEventHandler} Event handler to add
+     * @param priority {Integer} One of {@link #PRIORITY_FIRST}, {@link PRIORITY_NORMAL}
+     *     or {@link #PRIORITY_LAST}.
+     */
     registerEventHandler : function(handler, priority)
     {
       this.__eventHandler.push({handler: handler, priority: priority});
@@ -297,12 +309,26 @@ qx.Class.define("qx.event2.Manager",
       }
     },
 
+
+    /**
+     * Get a sorted list of registered event handlers.
+     *
+     * @return {qx.event.handler.AbstractEventHandler[]} registered event handlers
+     */
     getRegisteredEventHandler : function() {
       return this.__sortHandlerList(this.__eventHandler);
     },
 
+
     __eventDispatcher : [],
 
+    /**
+     * Register an event dispatcher.
+     *
+     * @param handler {qx.event.dispatch.IEventDispatch} Event dispatcher to add
+     * @param priority {Integer} One of {@link #PRIORITY_FIRST}, {@link PRIORITY_NORMAL}
+     *     or {@link #PRIORITY_LAST}.
+     */
     registerEventDispatcher : function(handler, priority)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -318,6 +344,12 @@ qx.Class.define("qx.event2.Manager",
       }
     },
 
+
+    /**
+     * Get a sorted list of registered event dispatcher.
+     *
+     * @return {qx.event.dispatch.IEventDispatch[]} all registered event dispatcher
+     */
     getRegisteredEventDispatcher : function() {
       return this.__sortHandlerList(this.__eventDispatcher);
     }
@@ -494,7 +526,6 @@ qx.Class.define("qx.event2.Manager",
     },
 
 
-
     /*
     ---------------------------------------------------------------------------
       MOUSE CAPTURE
@@ -567,6 +598,8 @@ qx.Class.define("qx.event2.Manager",
      *
      * @param element {Element} DOM element.
      * @param type {String} DOM event type
+     * @param useCapture {Boolean ? false} Whether to attach the event to the
+     *       capturing phase of the bubbling phase of the event.
      * @param buildRegistry {Boolean?false} Whether to build up the registry if
      *     no entry is found
      * @return {Function[]|null} Array of registered event handlers for this event
@@ -605,6 +638,10 @@ qx.Class.define("qx.event2.Manager",
     },
 
 
+    /**
+     * Synchronizes the internal event handler list with the event handlers
+     * registered using {@link #registerEventHandler}.
+     */
     __updateHandler : function()
     {
       // get event handler
@@ -629,6 +666,10 @@ qx.Class.define("qx.event2.Manager",
     },
 
 
+    /**
+     * Synchronizes the internal event dispatcher list with the event dispatcher
+     * registered using {@link #registerEventDispatcher}.
+     */
     __updateDispatcher : function()
     {
       // get event handler

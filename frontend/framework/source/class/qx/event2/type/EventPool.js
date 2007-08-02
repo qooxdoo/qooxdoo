@@ -52,6 +52,15 @@ qx.Class.define("qx.event2.type.EventPool",
   members :
   {
 
+    /**
+     * This method finds and returns an instance of a requested type in the pool,
+     * if there is one.  Note that the pool determines which instance (if any) to
+     * return to the client.  The client cannot get a specific instance from the
+     * pool.
+     *
+     * @param classname {String} The name of the Object type to return.
+     * @return {Object} An instance of the requested type
+     */
     getEventInstance : function(classname)
     {
       var event = this._pool.getObjectOfType(classname);
@@ -62,7 +71,18 @@ qx.Class.define("qx.event2.type.EventPool",
     },
 
 
-    release : function(event)
+    /**
+     * This method places an Event in the pool.  Note that
+     * once an instance has been pooled, there is no means to get that exact
+     * instance back. The instance may be discarded for garbage collection if
+     * the pool of its type is already full.
+     *
+     * It is assumed that no other references exist to this Object, and that it will
+     * not be used at all while it is pooled.
+     *
+     * @param event {qx.html2.type.Event} An Event instance to pool.
+     */
+    poolEvent : function(event)
     {
       this._pool.poolObject(event);
     }

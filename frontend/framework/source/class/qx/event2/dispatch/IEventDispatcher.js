@@ -28,7 +28,7 @@ qx.Interface.define("qx.event2.dispatch.IEventDispatcher",
   {
 
     /**
-     * Whether the dispatcher is responsible for the given event.
+     * Whether the dispatcher is responsible for the this event.
      *
      * @param event {qx.event2.type.Event} The event object
      */
