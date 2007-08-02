@@ -95,6 +95,28 @@ qx.Class.define("qx.html2.element.Util",
     ---------------------------------------------------------------------------
     */
     
+    getOverflowX : function(element)
+    {
+      
+      
+    },
+    
+    setOverflowX : function(element, value)
+    {
+      
+    },
+    
+    
+    getOverflowY : function(element)
+    {
+      
+      
+    },
+    
+    setOverflowY : function(element, value)
+    {
+      
+    },    
     
     
     
@@ -105,7 +127,41 @@ qx.Class.define("qx.html2.element.Util",
     ---------------------------------------------------------------------------
     */    
     
+    __cursorMap : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" :
+      {
+        "cursor" : "hand",
+        "ew-resize" : "e-resize",
+        "ns-resize" : "n-resize",
+        "nesw-resize" : "ne-resize",
+        "nwse-resize" : "nw-resize"
+      },
+      
+      "opera" :
+      {
+        "col-resize" : "e-resize",
+        "row-resize" : "n-resize",
+        "ew-resize" : "e-resize",
+        "ns-resize" : "n-resize",
+        "nesw-resize" : "ne-resize",
+        "nwse-resize" : "nw-resize"
+      },
+      
+      "default" : {}
+    }),    
     
+    getCursor : function(element) {
+      return qx.html2.element.Style.getComputed(element, "cursor");
+    },
+    
+    setCursor : function(element, value) 
+    {
+      qx.html2.element.Style.set(element, this.__cursorMap[value] || value);
+      return value;
+    },
+    
+
 
 
 
@@ -280,7 +336,7 @@ qx.Class.define("qx.html2.element.Util",
      * @return {Boolean} true when the element is hidden
      */
     isHidden : function(element) {
-      return qx.html2.element.Style.get(element, "visibility") === "hidden";
+      return qx.html2.element.Style.getComputed(element, "visibility") === "hidden";
     },
     
     
@@ -378,7 +434,7 @@ qx.Class.define("qx.html2.element.Util",
     {
       // Gecko properitary
       "gecko" : function(element) {
-        return qx.html2.element.Style.get(element, "MozBoxSizing");
+        return qx.html2.element.Style.getComputed(element, "MozBoxSizing");
       },
 
       // Not directly supported in MSHTML, using render mode
@@ -396,7 +452,7 @@ qx.Class.define("qx.html2.element.Util",
 
       // Webkit & Opera
       "default" : function(element) {
-        return qx.html2.element.Style.get(element, "boxSizing");
+        return qx.html2.element.Style.getComputed(element, "boxSizing");
       }      
     })    
   }
