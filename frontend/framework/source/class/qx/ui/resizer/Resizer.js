@@ -77,18 +77,6 @@ qx.Class.define("qx.ui.resizer.Resizer",
 
   properties:
   {
-    /*resizableWest :
-    {
-      refine : true,
-      init : false
-    },
-
-    resizableNorth :
-    {
-      refine : true,
-      init : false
-    },*/
-
     appearance :
     {
       refine : true,
