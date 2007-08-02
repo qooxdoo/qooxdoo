@@ -83,7 +83,7 @@ qx.Class.define("BasicSample",
       this.info("test6");
       this.debug("href: " + attrib.get(document.getElementById("test6"), "href"));
       this.debug("style: " + attrib.get(document.getElementById("test6"), "style"));
-      this.debug("css: " + util.getCss(document.getElementById("test6")));
+      this.debug("css: " + style.getCss(document.getElementById("test6")));
       this.debug("color: " + style.getComputed(document.getElementById("test6"), "color"));
       this.debug("bg: " + style.getComputed(document.getElementById("test6"), "backgroundColor"));
       
