@@ -92,18 +92,6 @@ qx.Class.define("qx.event2.dispatch.InlineDispatch",
       }
     }
 
-  },
-
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
-
-  defer : function(statics)
-  {
-    var manager = qx.event2.Manager;
-    manager.registerEventDispatcher(statics, manager.PRIORITY_NORMAL);
   }
 
 });
