@@ -63,14 +63,15 @@ qx.Class.define("qx.event2.handler.InlineEventHandler",
 
   /*
   *****************************************************************************
-     STATICS
+     MEMBERS
   *****************************************************************************
   */
 
-   statics :
-   {
+  members :
+  {
+
     // Events, which don't bubble
-    INLINE_EVENTS :
+    __inlineEvent :
     {
       abort                       : 1,
       afterprint                  : 1,  // IE
@@ -99,21 +100,10 @@ qx.Class.define("qx.event2.handler.InlineEventHandler",
       selectstart                 : 1,  // IE
       stop                        : 1,  // IE
       submit                      : 1,
-      unload                      : 1,
-      losecapture                 : 1   // emulated
-    }
-  },
+      unload                      : 1
+    },
 
 
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
-  members :
-  {
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER INTERFACE
@@ -122,7 +112,7 @@ qx.Class.define("qx.event2.handler.InlineEventHandler",
 
     // overridden
     canHandleEvent : function(element, type) {
-      return qx.event2.handler.InlineEventHandler.INLINE_EVENTS[type];
+      return this.__inlineEvent[type];
     },
 
 
@@ -199,7 +189,7 @@ qx.Class.define("qx.event2.handler.InlineEventHandler",
       // this point can be reached after the unload handler has taken place
       // and disposed the event pool.
       if (!this.getDisposed()) {
-        this._eventPool.release(event);
+        this._eventPool.poolEvent(event);
       }
     }
 

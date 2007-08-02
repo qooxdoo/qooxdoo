@@ -428,7 +428,7 @@ qx.Class.define("qx.event2.handler.FocusHandler",
       }
 
       this._manager.dispatchEvent(event);
-      this._eventPool.release(event);
+      this._eventPool.poolEvent(event);
     }
   },
 

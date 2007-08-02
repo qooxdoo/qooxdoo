@@ -167,7 +167,7 @@
       this.__manager.dispatchEvent(event);
       this.__captureElement = null;
 
-      this.__eventPool.release(event);
+      this.__eventPool.poolEvent(event);
     }
 
   },

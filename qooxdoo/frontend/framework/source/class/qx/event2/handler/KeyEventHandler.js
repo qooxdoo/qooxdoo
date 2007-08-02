@@ -102,7 +102,7 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
       );
       event.setType(eventType);
       this._manager.dispatchEvent(event);
-      this._eventPool.release(event);
+      this._eventPool.poolEvent(event);
     },
 
 

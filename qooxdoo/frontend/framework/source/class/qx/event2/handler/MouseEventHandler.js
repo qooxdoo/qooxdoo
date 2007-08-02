@@ -173,7 +173,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
 
       this._manager.dispatchEvent(event);
 
-      this._eventPool.release(event);
+      this._eventPool.poolEvent(event);
     },
 
 
@@ -199,7 +199,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
       }
 
       this.__fireEvent(domEvent, type, target);
-      this._eventPool.release(event);
+      this._eventPool.poolEvent(event);
 
       if (this.__rightClickFixPost) {
         this.__rightClickFixPost(domEvent, type, target);
