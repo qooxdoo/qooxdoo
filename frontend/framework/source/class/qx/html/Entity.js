@@ -23,6 +23,7 @@
 
 /**
  * A Collection of utility functions to escape and unescape strings.
+ * @deprecated: Use qx.html2.Entity instead
  */
 qx.Class.define("qx.html.Entity",
 {

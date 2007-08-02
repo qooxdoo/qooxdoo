@@ -26,7 +26,7 @@
 ************************************************************************ */
 
 /**
- * @deprecated
+ * @deprecated: Use qx.event2.Manager instead
  *
  */
 qx.Class.define("qx.html.EventRegistration",

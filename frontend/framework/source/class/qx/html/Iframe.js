@@ -26,6 +26,8 @@
 
 /**
  * Cross browser abstractions to work with iframes.
+ *
+ * @deprecated: Use qx.html2.element.Iframe instead
  */
 qx.Class.define("qx.html.Iframe",
 {
