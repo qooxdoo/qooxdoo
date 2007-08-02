@@ -77,15 +77,6 @@ qx.Class.define("qx.event2.dispatch.BubblingDispatch",
       var node = target;
       var type = event.getType();
 
-      // handle mouse capturing
-      /*
-      var captureHandler = this._manager.getCaptureHandler();
-      if (captureHandler.shouldCaptureEvent(event)) {
-        captureHandler.doCaptureEvent(event);
-        return;
-      }
-      */
-
       var bubbleList = [];
       var bubbleTargets = [];
 
@@ -172,7 +163,19 @@ qx.Class.define("qx.event2.dispatch.BubblingDispatch",
       }
     }
 
+  },
 
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function(statics)
+  {
+    var manager = qx.event2.Manager;
+    manager.registerEventDispatcher(statics, manager.PRIORITY_NORMAL);
   }
 
 });

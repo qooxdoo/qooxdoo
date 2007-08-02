@@ -127,5 +127,20 @@ qx.Class.define("qx.event2.handler.DocumentEventHandler",
       this._callback.call(this._context, event);
       this._eventPool.release(event);
     }
+  },
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function(statics)
+  {
+    var manager = qx.event2.Manager;
+    manager.registerEventHandler(statics, manager.PRIORITY_LAST);
   }
+
 });
