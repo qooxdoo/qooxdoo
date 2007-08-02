@@ -56,7 +56,7 @@ qx.Class.define("qx.event2.handler.DocumentEventHandler",
   */
 
   destruct : function() {
-    this._disposeFields("_eventHandler", "__documentElement");
+    this._disposeFields("_eventHandler", "___documentElement");
   },
 
 
@@ -85,7 +85,7 @@ qx.Class.define("qx.event2.handler.DocumentEventHandler",
       if (!this.__typeListenerCount[type])
       {
         this.__typeListenerCount[type] = 1;
-        this._managedAddNativeListener(this._documentElement, type, this._eventHandler);
+        this._managedAddNativeListener(this.__documentElement, type, this.__handleEventWrapper);
       }
       else
       {
@@ -103,7 +103,7 @@ qx.Class.define("qx.event2.handler.DocumentEventHandler",
       this.__typeListenerCount[type] -= 1;
       if (this.__typeListenerCount[type] == 0)
       {
-        this._managedRemoveNativeListener(this._documentElement, type, this._eventHandler);
+        this._managedRemoveNativeListener(this.__documentElement, type, this.__handleEventWrapper);
         delete(this.__typeListenerCount[type]);
       }
     },
