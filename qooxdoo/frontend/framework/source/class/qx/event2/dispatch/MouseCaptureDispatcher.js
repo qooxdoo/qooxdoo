@@ -24,7 +24,7 @@
   * This class is used internally by {@link qx.event2.Manager} to do mouse event
   * capturing.
   */
- qx.Class.define("qx.event2.handler.MouseCaptureHandler",
+ qx.Class.define("qx.event2.dispatch.MouseCaptureDispatcher",
  {
   extend : qx.core.Object,
 
@@ -39,20 +39,33 @@
   /**
    * @param win {Window} DOM window the capture handler will be responsible for.
    */
-  construct : function(manager, documentManager)
+  construct : function(manager)
   {
     this.base(arguments);
 
-    this._docManager = documentManager;
-    this._manager = manager;
-
-    this._captureElement = null;
-
+    this.__manager = manager;
+    this.__captureElement = null;
     var win = manager.getWindow();
+
+    this.__eventPool = qx.event2.type.EventPool.getInstance();
 
     manager.addListener(win, "blur", this.releaseCapture, this);
     manager.addListener(win, "focus", this.releaseCapture, this);
     manager.addListener(win, "scroll", this.releaseCapture, this);
+  },
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeFields("__captureElement", "__manager");
+    this._disposeObjects("_eventPool");
   },
 
 
@@ -83,8 +96,8 @@
      * @param event {qx.event2.type.Event} Event
      * @return {Boolean} whether the event should be captured.
      */
-    shouldCaptureEvent : function(event) {
-      return this._captureElement && this.__captureEvents[event.getType()];
+    canDispatchEvent : function(event) {
+      return this.__captureElement && this.__captureEvents[event.getType()];
     },
 
 
@@ -93,16 +106,14 @@
      *
      * @param event {qx.event2.type.Event} Event
      */
-    doCaptureEvent : function(event)
+    dispatchEvent : function(event)
     {
-      var elementData = this._docManager.getElementData(this._captureElement, event.getType());
+      var listeners = this.__manager.registryGetListeners(this.__captureElement, event.getType(), false, false);
 
-      if (elementData)
+      if (listeners)
       {
-        event.setCurrentTarget(this._captureElement);
+        event.setCurrentTarget(this.__captureElement);
         event.setEventPhase(qx.event2.type.Event.AT_TARGET);
-
-        var listeners = elementData.bubbleListeners;
 
         for (var i=0; i<listeners.length; i++) {
           var context = listeners[i].context || event.getCurrentTarget();
@@ -127,13 +138,13 @@
      */
     setCapture : function(element)
     {
-      if (this._captureElement != element) {
+      if (this.__captureElement != element) {
         this.releaseCapture();
       }
 
       // TODO: capture event?
 
-      this._captureElement = element;
+      this.__captureElement = element;
     },
 
 
@@ -142,32 +153,21 @@
      */
     releaseCapture : function()
     {
-      if (this._captureElement == null) {
+      if (this.__captureElement == null) {
         return;
       }
 
       // create synthetic losecapture event
-      var event = this._eventPool.getEventInstance("qx.event2.type.Event").init({});
+      var event = this.__eventPool.getEventInstance("qx.event2.type.Event").init({});
       event.setType("losecapture");
-      event.setTarget(this._captureElement);
+      event.setTarget(this.__captureElement);
 
-      this._manager.dispatchEvent(event);
-      this._captureElement = null;
+      this.__manager.dispatchEvent(event);
+      this.__captureElement = null;
 
-      this._eventPool.release(event);
+      this.__eventPool.release(event);
     }
 
-  },
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this._disposeFields("_captureElement", "_docManager");
   }
+
  });
