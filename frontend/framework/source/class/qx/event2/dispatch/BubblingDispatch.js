@@ -77,6 +77,8 @@ qx.Class.define("qx.event2.dispatch.BubblingDispatch",
       var node = target;
       var type = event.getType();
 
+      var manager = this._manager;
+
       var bubbleList = [];
       var bubbleTargets = [];
 
@@ -89,19 +91,21 @@ qx.Class.define("qx.event2.dispatch.BubblingDispatch",
       {
         if (node !== target)
         {
-          var captureListeners = this._manager.registryGetListeners(node, type, true, false);
+          var captureListeners = manager.registryGetListeners(node, type, true, false);
 
           if (captureListeners)
           {
-            captureList.push((captureListeners));
+            captureList.push(arrayCopy(captureListeners));
+            //captureList.push((captureListeners));
             captureTargets.push(node);
           }
         }
 
-        var bubbleListeners = this._manager.registryGetListeners(node, type, false, false);
+        var bubbleListeners = manager.registryGetListeners(node, type, false, false);
         if (bubbleListeners)
         {
           bubbleList.push(arrayCopy(bubbleListeners));
+          //bubbleList.push((bubbleListeners));
           bubbleTargets.push(node);
         }
 
@@ -163,19 +167,6 @@ qx.Class.define("qx.event2.dispatch.BubblingDispatch",
       }
     }
 
-  },
-
-
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
-
-  defer : function(statics)
-  {
-    var manager = qx.event2.Manager;
-    manager.registerEventDispatcher(statics, manager.PRIORITY_NORMAL);
   }
 
 });
