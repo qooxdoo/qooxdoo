@@ -127,7 +127,7 @@ qx.Class.define("qx.html2.element.Opacity",
 
 
     /**
-     * Gets (computed) opacity of given element. Accepts numbers between zero and one
+     * Gets computed opacity of given element. Accepts numbers between zero and one
      * where "0" means transparent, "1" means opaque.
      *
      * @type static
