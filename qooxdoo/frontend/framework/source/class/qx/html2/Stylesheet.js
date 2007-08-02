@@ -153,7 +153,7 @@ qx.Class.define("qx.html2.Stylesheet",
             sheet.deleteRule(i);
           }
         }
-      })
+      }
     }),
 
 
@@ -185,7 +185,7 @@ qx.Class.define("qx.html2.Stylesheet",
         for (var i=len-1; i>=0; i--) {
           sheet.deleteRule(i);
         }
-      })
+      }
     }),
 
 
@@ -206,7 +206,7 @@ qx.Class.define("qx.html2.Stylesheet",
 
       "default" : function(sheet, url) {
         sheet.insertRule('@import "' + url + '";', sheet.cssRules.length);
-      })
+      }
     }),
 
 
