@@ -495,10 +495,11 @@ qx.Class.define("qx.ui.popup.Popup",
 
 
     /**
-     * Centers the popup using the coordinates of the {@link qx.ui.core.ClientDocument}
+     * Centers the popup using the coordinates of the {@link qx.ui.core.ClientDocument}.
+     * This method does only work if the Popup has already been rendered, so it
+     * is best to call it in the {@link qx.ui.core.Widget#appear} event.
      *
      * @type member
-     * @return {void}
      */
     centerToBrowser : function()
     {
