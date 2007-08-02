@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 /**
- * @deprecated: Unconvenient feature. Could be easily replace with qx.html2.Location
+ * @deprecated: Unconvenient feature. Could be easily replace with qx.html2.element.Location
  *
  */
 qx.Class.define("qx.html.Scroll",

@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 /**
- * @deprecated: Use qx.html2.Location instead
+ * @deprecated: Use qx.html2.element.Location instead
  *
  */
 qx.Class.define("qx.html.Location",
