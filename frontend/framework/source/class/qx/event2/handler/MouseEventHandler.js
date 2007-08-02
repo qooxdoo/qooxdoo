@@ -331,7 +331,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
           case "mouseup":
             if (target !== this.__lastMouseDownTarget)
             {
-              commonParent = qx.html2.element.Tree.getCommonParent(target, this.__lastMouseDownTarget);
+              commonParent = qx.html2.node.Tree.getCommonParent(target, this.__lastMouseDownTarget);
               this.__fireEvent(domEvent, "click", commonParent);
             }
         }

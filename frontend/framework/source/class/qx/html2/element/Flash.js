@@ -266,11 +266,11 @@ qx.Class.define("qx.html2.element.Flash",
      * Returns a DOM node for embedding the flash file
      *
      * @type member
-     * @return {qx.html2.element.Node} the DOM node containing the html code for embedding
+     * @return {qx.html2.node.Util} the DOM node containing the html code for embedding
      */
     getDOMNode : function()
     {
-       var node = qx.html2.element.Node.createElement("div");
+       var node = qx.html2.node.Util.createElement("div");
        node.innerHTML = this.getHtml();
        
        return node;
