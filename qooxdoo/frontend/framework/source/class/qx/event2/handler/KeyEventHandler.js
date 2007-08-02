@@ -41,9 +41,9 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
   *****************************************************************************
   */
 
-  construct : function(eventCallBack, manager)
+  construct : function(manager)
   {
-    this.base(arguments, eventCallBack, manager);
+    this.base(arguments, manager);
 
     this._documentElement = manager.getWindow().document.documentElement;
 
@@ -101,7 +101,7 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
         domEvent, keyCode, charCode, keyIdentifier
       );
       event.setType(eventType);
-      this._callback.call(this._context, event);
+      this._manager.dispatchEvent(event);
       this._eventPool.release(event);
     },
 
