@@ -64,8 +64,8 @@ qx.Class.define("qx.html2.StyleSheet",
      * Create a new Stylesheet node and append it to the document
      *
      * @type static
-     * @param text {String} optional string of css rules
-     * @return {Stylesheet} stylesheet object
+     * @param text? {String} optional string of css rules
+     * @return {Stylesheet} the generates stylesheet element
      * @signature function(text)
      */
     createElement : qx.core.Variant.select("qx.client",
@@ -134,7 +134,7 @@ qx.Class.define("qx.html2.StyleSheet",
         var rules = sheet.rules;
         var len = rules.length;
 
-        for (var i=len-1; i>=0; i--)
+        for (var i=len-1; i>=0; --i)
         {
           if (rules[i].selectorText == selector) {
             sheet.removeRule(i);
@@ -147,7 +147,7 @@ qx.Class.define("qx.html2.StyleSheet",
         var rules = sheet.cssRules;
         var len = rules.length;
 
-        for (var i=len-1; i>=0; i--)
+        for (var i=len-1; i>=0; --i)
         {
           if (rules[i].selectorText == selector) {
             sheet.deleteRule(i);
