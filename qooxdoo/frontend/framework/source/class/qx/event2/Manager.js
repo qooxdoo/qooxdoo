@@ -78,29 +78,28 @@ qx.Class.define("qx.event2.Manager",
     // structure: elementId -> type
     this.__registry = {};
 
+    // get event handler
     this.__eventHandlers = [];
-    this.__eventHandlers.push(new qx.event2.handler.KeyEventHandler(this.dispatchEvent, this));
-    this.__eventHandlers.push(new qx.event2.handler.MouseEventHandler(this.dispatchEvent, this));
-    this.__eventHandlers.push(new qx.event2.handler.ObjectEventHandler(this.dispatchEvent, this));
-    this.__eventHandlers.push(new qx.event2.handler.InlineEventHandler(this.dispatchEvent, this));
+    var registeredHandler = this.self(arguments).getRegisteredEventHandler();
+    for (var i=0, l=registeredHandler.length; i<l; i++) {
+      this.__eventHandlers.push(new registeredHandler[i].handler(this.dispatchEvent, this));
+    }
 
-    // must be the last because it can handle all events
-    this.__eventHandlers.push(new qx.event2.handler.DocumentEventHandler(this.dispatchEvent, this));
-
-
+    // get event dispatcher
     this.__dispatchHandlers = [];
+    var registeredDispatcher = this.self(arguments).getRegisteredEventDispatcher();
+    for (var i=0, l=registeredDispatcher.length; i<l; i++)
+    {
+      var handler = new (registeredDispatcher[i].handler)(this);
+      this.__dispatchHandlers.push(handler);
 
-    // create mouse capture handler for this window
-    this.__captureHandler = new qx.event2.dispatch.MouseCaptureDispatcher(this, this.__documentEventManager);
-    this.__dispatchHandlers.push(this.__captureHandler);
-
-    this.__dispatchHandlers.push(new qx.event2.dispatch.BubblingDispatch(this));
-    this.__dispatchHandlers.push(new qx.event2.dispatch.InlineDispatch(this));
-
+      if (handler instanceof qx.event2.dispatch.MouseCaptureDispatcher) {
+        this.__captureHandler = handler;
+      }
+    }
 
     // add unload listener to prevent memory leaks
     this.addListener(win, "unload", this.__onunload, this);
-
   },
 
 
@@ -275,51 +274,44 @@ qx.Class.define("qx.event2.Manager",
     }),
 
 
-    /**
-     * Get the DOM element which currently has the focus. Keyborad events are
-     * dispatched on this element by the browser. This function does only return
-     * the active element of the current document. It will not return the active
-     * element inside a sub documents (i.g. an IFrame).
-     *
-     * @return {Element} The current active element.
-     */
-    getActiveElement : function() {
-      return this.getManager(window).getActiveElement();
+    /*
+    ---------------------------------------------------------------------------
+      EVENT HANDLER/DISPATCHER REGISTRATION
+    ---------------------------------------------------------------------------
+    */
+
+    PRIORITY_FIRST : Math.MIN_VALUE,
+    PRIORITY_NORMAL : 0,
+    PRIORITY_LAST : Math.MAX_VALUE,
+
+    __sortHandlerList : function(handlerList)
+    {
+      return handlerList.sort(function(a,b) {
+        if (a.priority == b.priority) {
+          return 0;
+        }
+        return a.priority < b.priority ? -1 : 1;
+      });
     },
 
+    __eventHandler : [],
 
-    // Events, which don't bubble
-    INLINE_EVENTS :
-    {
-      abort                       : 1,
-      afterprint                  : 1,  // IE
-      beforeprint                 : 1,  // IE
-      beforeunload                : 1,
-      blur                        : 1,
-      change                      : 1,
-      dragdrop                    : 1,
-      DOMNodeInsertedIntoDocument : 1,  // DOM2
-      DOMNodeRemovedFromDocument  : 1,  // DOM2
-      error                       : 1,
-      focus                       : 1,
-      formchange                  : 1,  // Opera (Webforms 2)
-      forminput                   : 1,  // Opera (Webforms 2)
-      load                        : 1,
-      losecapture                 : 1,  // IE
-      mouseenter                  : 1,  // IE
-      mouseleave                  : 1,  // IE
-      mousewheel                  : 1,  // IE
-      propertychange              : 1,  // IE
-      readystatechange            : 1,
-      reset                       : 1,
-      scroll                      : 1,
-      select                      : 1,
-      selectionchange             : 1,  // IE
-      selectstart                 : 1,  // IE
-      stop                        : 1,  // IE
-      submit                      : 1,
-      unload                      : 1,
-      losecapture                 : 1   // emulated
+    registerEventHandler : function(handler, priority) {
+      this.__eventHandler.push({handler: handler, priority: priority});
+    },
+
+    getRegisteredEventHandler : function() {
+      return this.__sortHandlerList(this.__eventHandler);
+    },
+
+    __eventDispatcher : [],
+
+    registerEventDispatcher : function(handler, priority) {
+      this.__eventDispatcher.push({handler: handler, priority: priority});
+    },
+
+    getRegisteredEventDispatcher : function() {
+      return this.__sortHandlerList(this.__eventDispatcher);
     }
 
   },

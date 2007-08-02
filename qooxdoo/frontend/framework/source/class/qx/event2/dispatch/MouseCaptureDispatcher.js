@@ -168,6 +168,20 @@
       this.__eventPool.release(event);
     }
 
+  },
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function(statics)
+  {
+    var manager = qx.event2.Manager;
+    manager.registerEventDispatcher(statics, manager.PRIORITY_FIRST);
   }
 
  });

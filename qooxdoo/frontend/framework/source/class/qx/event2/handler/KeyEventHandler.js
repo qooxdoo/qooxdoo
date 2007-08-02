@@ -596,6 +596,11 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
 
   defer : function(statics, members, properties)
   {
+    // register at the event handler
+    var manager = qx.event2.Manager;
+    manager.registerEventHandler(statics, manager.PRIORITY_NORMAL);
+
+
     // construct invers of keyCodeToIdentifierMap
     if (!members._identifierToKeyCodeMap)
     {
