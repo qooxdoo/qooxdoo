@@ -25,6 +25,7 @@
 
 /**
  * Optimized version of SuperTextile
+ * @deprecated
  */
 qx.Class.define("qx.html.Textile",
 {

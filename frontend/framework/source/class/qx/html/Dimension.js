@@ -41,6 +41,10 @@
  * </pre>
  */
 
+/**
+ * @deprecated
+ *
+ */
 qx.Class.define("qx.html.Dimension",
 {
   /*
