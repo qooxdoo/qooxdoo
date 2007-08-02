@@ -24,8 +24,6 @@
 
 /**
  * A Collection of utility functions to escape and unescape strings.
- *
- * @deprecated: Use qx.html2.String instead
  */
 qx.Class.define("qx.html.String",
 {

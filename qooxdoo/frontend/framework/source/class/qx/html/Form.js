@@ -25,7 +25,8 @@
 ************************************************************************ */
 
 /**
- * @deprecated
+ * @deprecated: Should be re-created using stuff which looks good
+ *   in prototype or Base2 etc.
  *
  */
 qx.Class.define("qx.html.Form",
