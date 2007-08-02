@@ -83,6 +83,8 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
     /**
      * Whether the event handler can handle events of the given type.
      *
+     * @param element {Element} DOM element to, which the event handler should
+     *     be attached
      * @param type {String} event type
      * @return {Boolean} Whether the event handler can handle events of the
      *     given type.
@@ -176,8 +178,6 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
      * @param element {Element} DOM Element
      * @param type {String} Name of the event
      * @param listener {Function} The pointer to the event listener
-     * @param useCapture {Boolean ? false} Whether to remove the event listener of
-     *       the bubbling or of the capturing phase.
      */
     _managedAddNativeListener : function(element, type, listener)
     {
@@ -203,8 +203,6 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
      * @param element {Element} DOM Element
      * @param type {String} Name of the event
      * @param listener {Function} The pointer to the event listener
-     * @param useCapture {Boolean ? false} Whether to remove the event listener of
-     *       the bubbling or of the capturing phase.
      */
     _managedRemoveNativeListener : function(element, type, listener)
     {
