@@ -42,7 +42,7 @@
  */
 
 /**
- * @deprecated
+ * @deprecated: Use qx.html2.element.Dimension instead
  *
  */
 qx.Class.define("qx.html.Dimension",

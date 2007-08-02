@@ -26,6 +26,10 @@
 
 ************************************************************************ */
 
+/**
+ * @deprecated: Should be replaced by qx.html2.StyleSheet
+ *
+ */
 qx.Class.define("qx.html.StyleSheet",
 {
   /*
