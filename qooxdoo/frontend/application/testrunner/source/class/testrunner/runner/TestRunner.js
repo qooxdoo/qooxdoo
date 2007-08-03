@@ -1029,7 +1029,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       }
 
       // build list of individual tests to perform
-      tlist = buildList(modelNode);
+      var tlist = buildList(modelNode);
 
       if (this.reloadswitch.getChecked())
       {
@@ -1223,7 +1223,7 @@ qx.Class.define("testrunner.runner.TestRunner",
   },
 
 
-  defer : function() 
+  defer : function()
   {
     qx.core.Setting.define("qx.testPageUri",   "html/QooxdooTest.html");
     qx.core.Setting.define("qx.testNameSpace", "testrunner.test");
