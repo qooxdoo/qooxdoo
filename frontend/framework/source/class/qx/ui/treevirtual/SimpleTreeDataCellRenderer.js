@@ -54,7 +54,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
     var Am = qx.io.Alias;
     this.WIDGET_TREE_URI = Am.getInstance().resolve("widget/tree/");
     this.STATIC_IMAGE_URI = Am.getInstance().resolve("static/image/");
-    this.CHECKBOX_URI = 'url('+Am.getInstance().resolve('widget/menu/checkbox.gif')+')';
 
     // Get the preloader manager singleton
     var preloader = qx.io.image.PreloaderManager.getInstance();
@@ -142,35 +141,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
     {
       check : "Boolean",
       init : false
-    },
-
-    /**
-     * Show a checkbox to the left of the icon?.
-     * In this way it is emphasized graphically that multiple selection is possible.
-     */
-    showCheckBox :
-    {
-      check: "Boolean",
-      init: false
-    },
-
-    /**
-     * Checkbox width in pixels.
-     * Its height can be customized by using the {@link #checkBoxStyle} property.
-     */
-    checkBoxWidth:
-    {
-      check: "Integer",
-      init: 12
-    },
-
-    /**
-     * Advanced property to customize the appearance of the checkbox.
-     */
-    checkBoxStyle:
-    {
-      check: "String",
-      init: "height:12px;border:1px solid #000;margin:0 1px;padding:0"
     }
   },
 
@@ -206,19 +176,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         qx.ui.treevirtual.SimpleTreeDataCellRenderer.MAIN_DIV_STYLE +
         (node.cellStyle ? node.cellStyle + ";" : "");
       return html;
-    },
-
-    // Overriden
-    updateDataCellElement : function(cellInfo, cellElement) {
-      arguments.callee.base.apply(this, arguments);
-      if (this.getShowCheckBox())
-      {
-        var node = cellInfo.value;
-        var st = cellElement.childNodes[node.level].style;
-        st.backgroundImage = node.bSelected ? this.CHECKBOX_URI:'';
-        // Children partially selected
-        st.backgroundColor = node.bSelected == 'p' ? '#DDD':'';
-      }
     },
 
     __addImage : function(urlAndToolTip)
@@ -269,6 +226,16 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
     },
 
 
+    /**
+     * Adds extra content just before the icon.
+     * @param cellInfo {Map} The information about the cell.
+     *          See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
+     * @return {Map} with the HTML and width in pixels of the rendered content.
+     */
+    _addExtraContentBeforeIcon : function(cellInfo)
+    {
+      return { html: '', width: 0 };
+    },
 
     // overridden
     /**
@@ -305,15 +272,9 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         pos += 19;
       }
 
-      // Add the checkbox
-      if (this.getShowCheckBox())
-      {
-        pos += 2+this.getCheckBoxWidth()+2;
-        html += '<img src="'+this.STATIC_IMAGE_URI+'blank.gif" style="'+this.getCheckBoxStyle()+';width:'+
-          this.getCheckBoxWidth()+'px;background:'+
-          (node.bSelected=='p' ? '#DDD ':'')+
-          (node.bSelected ? this.CHECKBOX_URI:'')+' center no-repeat"/>';
-      }
+      var extra = this._addExtraContentBeforeIcon(cellInfo);
+      html += extra.html;
+      pos += extra.width;
 
       // Add the node's icon
       imageUrl = (node.bSelected ? node.iconSelected : node.icon);
