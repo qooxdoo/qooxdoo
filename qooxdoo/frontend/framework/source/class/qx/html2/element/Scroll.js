@@ -117,8 +117,6 @@ qx.Class.define("qx.html2.element.Scroll",
         var topOffset = elementTop - parentTop - topBorder;
         var bottomOffset = elementBottom - parentBottom + topBorder;
         
-        console.debug("Offset: " + topOffset + " :: " + bottomOffset);
-        
         var alignTop = align == "top";
         var alignBottom = align == "bottom";
         
