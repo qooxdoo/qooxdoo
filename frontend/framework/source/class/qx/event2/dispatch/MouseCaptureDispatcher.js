@@ -102,10 +102,11 @@
      * Whether the event should be captured.
      *
      * @param event {qx.event2.type.Event} Event
+     * @param type {String} the event type
      * @return {Boolean} whether the event should be captured.
      */
-    canDispatchEvent : function(event) {
-      return this.__captureElement && this.__captureEvents[event.getType()];
+    canDispatchEvent : function(event, type) {
+      return this.__captureElement && this.__captureEvents[type];
     },
 
 
@@ -113,10 +114,11 @@
      * Dispatch the event on the capturing node
      *
      * @param event {qx.event2.type.Event} Event
+     * @param type {String} the event type
      */
-    dispatchEvent : function(event)
+    dispatchEvent : function(event, type)
     {
-      var listeners = this.__manager.registryGetListeners(this.__captureElement, event.getType(), false, false);
+      var listeners = this.__manager.registryGetListeners(this.__captureElement, type, false, false);
 
       if (listeners)
       {
@@ -129,7 +131,7 @@
         }
       }
 
-      if (event.getType() == "click")
+      if (type == "click")
       {
         event.preventDefault();
         event.stopPropagation();
