@@ -44,7 +44,7 @@
 /**
  * Methods to operate on nodes and elements on a DOM tree. This contains
  * special getters to query for child nodes, siblings, etc. This class also
- * supports to operate on one element and reorganize the content with 
+ * supports to operate on one element and reorganize the content with
  * the insertion of new HTML or nodes.
  */
 qx.Class.define("qx.html2.node.Tree",
@@ -121,7 +121,7 @@ qx.Class.define("qx.html2.node.Tree",
      */
     contains : qx.core.Variant.select("qx.client",
     {
-      "mshtml|opera" : function(element, target) 
+      "mshtml|opera" : function(element, target)
       {
         var clazz = qx.html2.node.Util;
         return clazz.isDocumentNode(element) ? element === clazz.getDocument(target) : element !== target && element.contains(target);

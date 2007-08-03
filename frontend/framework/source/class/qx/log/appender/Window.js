@@ -200,9 +200,9 @@ qx.Class.define("qx.log.appender.Window",
     openWindow : function()
     {
       if (!qx.core.Init.getInstance().LOADED) {
-        return; 
+        return;
       }
-      
+
       if (this._logWindow && !this._logWindow.closed)
       {
         // The window is already open -> Nothing to do

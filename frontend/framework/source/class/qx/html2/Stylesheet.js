@@ -47,9 +47,9 @@ qx.Class.define("qx.html2.Stylesheet",
     includeFile : function(href, doc)
     {
       if (!doc) {
-        doc = document; 
+        doc = document;
       }
-      
+
       var el = doc.createElement("link");
       el.type = "text/css";
       el.rel = "stylesheet";

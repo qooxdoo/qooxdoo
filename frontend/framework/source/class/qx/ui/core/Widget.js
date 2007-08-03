@@ -6108,7 +6108,7 @@ qx.Class.define("qx.ui.core.Widget",
         "nesw-resize" : "ne-resize",
         "nwse-resize" : "nw-resize"
       },
-      
+
       "opera" :
       {
         "col-resize" : "e-resize",
@@ -6118,7 +6118,7 @@ qx.Class.define("qx.ui.core.Widget",
         "nesw-resize" : "ne-resize",
         "nwse-resize" : "nw-resize"
       },
-      
+
       "default" : {}
     }),
 

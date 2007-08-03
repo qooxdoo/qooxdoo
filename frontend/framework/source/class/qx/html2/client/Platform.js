@@ -24,11 +24,11 @@
 ************************************************************************ */
 
 /**
- * This class comes with all relevant informations regarding 
+ * This class comes with all relevant informations regarding
  * the client's platform.
  *
- * The listed constants are automatically filled on the initialization 
- * phase of the class. The defaults listed in the API viewer need not 
+ * The listed constants are automatically filled on the initialization
+ * phase of the class. The defaults listed in the API viewer need not
  * to be identical to the values at runtime.
  */
 qx.Class.define("qx.html2.client.Platform",

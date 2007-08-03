@@ -25,11 +25,11 @@
 ************************************************************************ */
 
 /**
- *  
- * If you create a new menu using {@link qx.ui.menu.Menu}, do not forget 
+ *
+ * If you create a new menu using {@link qx.ui.menu.Menu}, do not forget
  * to add it to the client document using its <i>addToDocument()</i> method,
  * or the menu will not be positioned correctly in the application.
- * 
+ *
  * @appearance menu
  */
 qx.Class.define("qx.ui.menu.Menu",

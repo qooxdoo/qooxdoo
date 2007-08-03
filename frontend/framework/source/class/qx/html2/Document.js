@@ -55,7 +55,7 @@ qx.Class.define("qx.html2.Document",
     isQuirksMode : function(win) {
       return (win||window).document.compatMode !== "CSS1Compat";
     },
-    
+
 
     /**
      * Whether the document is in quirks mode (e.g. non XHTML, HTML4 Strict or missing doctype)
@@ -67,8 +67,8 @@ qx.Class.define("qx.html2.Document",
     isStandardMode : function(win) {
       return (win||window).document.compatMode === "CSS1Compat";
     },
-    
-    
+
+
     /**
      * Returns the width of the document.
      *
@@ -78,7 +78,7 @@ qx.Class.define("qx.html2.Document",
      *
      * If the viewport is wider than the document the viewport width is returned.
      *
-     * As the html element has no visual appearance it also can not scroll. This 
+     * As the html element has no visual appearance it also can not scroll. This
      * means that we must use the body <code>scrollWidth</code> in all non mshtml clients.
      *
      * Verified to correctly work with:
@@ -87,7 +87,7 @@ qx.Class.define("qx.html2.Document",
      * * Opera 9.2.1
      * * Safari 3.0 beta (3.0.2)
      * * Internet Explorer 7.0
-     *     
+     *
      * @type static
      * @param win {Window?window} The window to query
      * @return {Integer} The width of the actual document (which includes the body and its margin).
@@ -109,8 +109,8 @@ qx.Class.define("qx.html2.Document",
      * other known browsers simply store the correct value on the <code>documentElement</code>.
      *
      * If the viewport is higher than the document the viewport height is returned.
-     *     
-     * As the html element has no visual appearance it also can not scroll. This 
+     *
+     * As the html element has no visual appearance it also can not scroll. This
      * means that we must use the body <code>scrollHeight</code> in all non mshtml clients.
      *
      * Verified to correctly work with:
@@ -130,6 +130,6 @@ qx.Class.define("qx.html2.Document",
       var view = qx.html2.Viewport.getHeight(win);
       var scroll = doc.compatMode === "CSS1Compat" ? doc.documentElement.scrollHeight : doc.body.scrollHeight;
       return Math.max(scroll, view);
-    }     
+    }
   }
 });
