@@ -33,6 +33,7 @@ APPLICATION_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VE
 APPLICATION_BUILD_LOG_LEVEL = error
 
 APPLICATION_THEME=qx.theme.Ext
+APPLICATION_THEME_ICON=qx.theme.icon.VistaInspirate
 
 APPLICATION_LOCALES = en de tr it es sv ru fr
 #APPLICATION_LOCALES = de es en
