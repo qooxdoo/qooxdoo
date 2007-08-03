@@ -36,8 +36,8 @@
     	var doc2 = qx.html.Iframe.getDocument(frame2);
     	var elem2 = doc2.getElementById(id);
 
-    	var location1 = qx.html2.Location.get(elem1, document.getElementById("mode").value);
-    	var location2 = qx.html2.Location.get(elem2, document.getElementById("mode").value);
+    	var location1 = qx.html2.element.Location.get(elem1, document.getElementById("mode").value);
+    	var location2 = qx.html2.element.Location.get(elem2, document.getElementById("mode").value);
 
     	//console.log("Location 1: " + location1.left + "x" + location1.top);
     	//console.log("Location 2: " + location2.left + "x" + location2.top);
