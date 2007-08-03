@@ -14,7 +14,7 @@
 
    Authors:
      * Sebastian Werner (wpbasti)
-     * Fabian Jakobs (fjakobs)     
+     * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
 
@@ -115,11 +115,10 @@ qx.Class.define("qx.event2.handler.FocusHandler",
   members :
   {
 
-    __focusTypes : {
+    __focusTypes :
+    {
       "focus" : 1,
       "blur" : 1,
-      "DOMFocusIn" : 1,
-      "DOMFocusOut" : 1,
       "focusin" : 1,
       "focusout" : 1,
       "beforedeactivate" : 1,
@@ -129,7 +128,17 @@ qx.Class.define("qx.event2.handler.FocusHandler",
     },
 
 
+    __invalidTypes :
+    {
+      "DOMFocusIn" : "focusin",
+      "DOMFocusOut" : "focusout"
+    },
+
+
     canHandleEvent : function(element, type) {
+      if (this.__invalidTypes[type]) {
+        throw new Error("The event '"+type+"' is not supported. Please use '"+this.__invalidTypes[type]+"' instead!");
+      }
       return this.__focusTypes[type];
     },
 
