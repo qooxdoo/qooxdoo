@@ -145,13 +145,13 @@ qx.Class.define("qx.lang.Function",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (typeof fcn !== "function") 
+        if (typeof fcn !== "function")
         {
           qx.log.Logger.ROOT_LOGGER.printStackTrace();
           throw new Error("First parameter to bind() needs to be of type function!");
         }
 
-        if (typeof self !== "object" && typeof self !== "function") 
+        if (typeof self !== "object" && typeof self !== "function")
         {
           qx.log.Logger.ROOT_LOGGER.printStackTrace();
           throw new Error("Second parameter to bind() needs to be of type object or function!");

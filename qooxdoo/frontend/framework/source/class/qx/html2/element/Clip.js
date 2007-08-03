@@ -39,15 +39,15 @@ qx.Class.define("qx.html2.element.Clip",
     get : function(element)
     {
       var clip = qx.html2.element.Style.getComputed(element, "clip");
-      
+
       var left = "auto";
       var top = "auto";
       var width = "auto";
       var height = "auto";
-      
+
       var right, bottom;
-      
-      if (typeof clip === "string" && clip !== "auto") 
+
+      if (typeof clip === "string" && clip !== "auto")
       {
         clip = qx.lang.String.trim(clip);
 
@@ -56,12 +56,12 @@ qx.Class.define("qx.html2.element.Clip",
         if (/\((.*)\)/.test(clip))
         {
           var split = RegExp.$1.split(",");
-          
+
           top = qx.lang.String.trim(split[0]);
           right = qx.lang.String.trim(split[1]);
           bottom = qx.lang.String.trim(split[2]);
           left = qx.lang.String.trim(split[3]);
-          
+
           if (top != "auto") {
             top = parseInt(top);
           }
@@ -69,37 +69,37 @@ qx.Class.define("qx.html2.element.Clip",
           if (right != "auto") {
             right = parseInt(right);
           }
-          
+
           if (bottom != "auto") {
             bottom = parseInt(bottom);
           }
-          
+
           if (left != "auto") {
             left = parseInt(left);
           }
-          
+
           if (right != "auto" && left != "auto") {
             width = right - left;
           }
-          
+
           if (bottom != "auto" && top != "auto") {
             height = bottom - top;
           }
         }
         else
         {
-          throw new Error("Could not parse clip string: " + clip); 
+          throw new Error("Could not parse clip string: " + clip);
         }
       }
-        
+
       return {
         left : left,
         top : top,
         width : width,
-        height : height 
-      };      
+        height : height
+      };
     },
-    
+
     set : function(element, left, top, width, height)
     {
       var right, bottom;
@@ -127,11 +127,10 @@ qx.Class.define("qx.html2.element.Clip",
       }
 
       return qx.html2.element.Style.set(element, "clip", "rect(" + top + "," + right + "," + bottom + "," + left + ")");
-    },      
-    
+    },
+
     reset : function(element) {
       qx.html2.element.Style.set(element, "clip", "auto");
     }
   }
-});    
-    
+});

@@ -350,7 +350,7 @@ qx.Class.define("qx.ui.basic.Atom",
     _updateIcon : function()
     {
       var icon = this.getIcon();
-      
+
       // NOTE: We have to check whether the properties "icon" and "disabledIcon"
       //       exist, because some child classes remove them.
       if (this._iconObject && this.getIcon && this.getDisabledIcon)

@@ -73,14 +73,14 @@ qx.Class.define("qx.event.type.MouseEvent",
 
     buttons : qx.core.Variant.select("qx.client",
     {
-      "mshtml" :   
+      "mshtml" :
       {
         left   : 1,
         right  : 2,
         middle : 4
       },
 
-      "default" : 
+      "default" :
       {
         left   : 0,
         right  : 2,

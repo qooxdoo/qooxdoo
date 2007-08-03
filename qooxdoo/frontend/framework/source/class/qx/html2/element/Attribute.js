@@ -41,14 +41,14 @@
 
 ************************************************************************ */
 
-/** 
- * Attribute/Property handling for DOM HTML elements. 
+/**
+ * Attribute/Property handling for DOM HTML elements.
  *
- * Also includes support for HTML properties like <code>checked</code> 
- * or <code>value</code>. This feature set is supported cross-browser 
- * through one common interface and is independent of the differences between 
+ * Also includes support for HTML properties like <code>checked</code>
+ * or <code>value</code>. This feature set is supported cross-browser
+ * through one common interface and is independent of the differences between
  * the multiple implementations.
- * 
+ *
  * Supports applying text and HTML content using the attribute names
  * <code>text</code> and <code>html</code>.
  */
@@ -101,11 +101,11 @@ qx.Class.define("qx.html2.element.Attribute",
         textContent : true,
         htmlFor     : true
       },
-      
+
       // Interpreted as property and attribute
       // sometimes needed when locally non-allowed attributes are used
       // e.g. tabIndex on all elements which are no input fields in Safari 3 and Opera
-      dual : 
+      dual :
       {
         tabIndex : true
       },

@@ -100,41 +100,41 @@ qx.Class.define("qx.html2.element.Util",
     isHidden : function(element) {
       return qx.html2.element.Style.getComputed(element, "visibility") === "hidden";
     },
-    
-    
-    
-    
-    
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       ELEMENT BOX SIZING
     ---------------------------------------------------------------------------
     */
-    
+
     /** Internal data structure for __usesNativeBorderBox() */
-    __nativeBorderBox : 
+    __nativeBorderBox :
     {
       tags :
       {
         button : true,
         select : true
       },
-      
-      types : 
+
+      types :
       {
         search : true,
         button : true,
         submit : true,
         reset : true,
         checkbox : true,
-        radio : true 
+        radio : true
       }
     },
-    
-    
+
+
     /**
      * Whether the given elements defaults to the "border-box" Microsoft model in all cases.
-     * 
+     *
      * @param element {Element} DOM element to query
      * @return {Boolean} true when the element uses "border-box" independently from the doctype
      */
@@ -142,11 +142,11 @@ qx.Class.define("qx.html2.element.Util",
     {
       var map = this.__nativeBorderBox;
       return map.tags[element.tagName.toLowerCase()] || map.types[element.type];
-    },  
-    
-    
+    },
+
+
     /**
-     * Modifies the box sizing of the given element. Please note that this 
+     * Modifies the box sizing of the given element. Please note that this
      * is not possible in MSHTML. There is no exception or warning in this case.
      *
      * Allowed values:
@@ -158,7 +158,7 @@ qx.Class.define("qx.html2.element.Util",
      * @param element {Element} DOM element to modify
      * @param sizing {String} "content-box" or "border-box"
      * @return {void}
-     */    
+     */
     setBoxSizing : qx.core.Variant.select("qx.client",
     {
       // Gecko properitary
@@ -166,7 +166,7 @@ qx.Class.define("qx.html2.element.Util",
         element.style.MozBoxSizing = sizing || "";
       },
 
-      // Not supported in MSHTML 
+      // Not supported in MSHTML
       "mshtml" : function(element, sizing) {
       },
 
@@ -175,8 +175,8 @@ qx.Class.define("qx.html2.element.Util",
         element.style.boxSizing = sizing || "";
       }
     }),
-    
-    
+
+
     /**
      * Query the used box sizing of the given element. Please note that
      * this is not dynamically modifyable at element level in MSHTML.
@@ -191,7 +191,7 @@ qx.Class.define("qx.html2.element.Util",
      * @param element {Element} DOM element to modify
      * @param sizing {String} "content-box" or "border-box"
      * @return {void}
-     */      
+     */
     getBoxSizing : qx.core.Variant.select("qx.client",
     {
       // Gecko properitary
@@ -200,22 +200,22 @@ qx.Class.define("qx.html2.element.Util",
       },
 
       // Not directly supported in MSHTML, using render mode
-      "mshtml" : function(element) 
+      "mshtml" : function(element)
       {
         if (qx.html2.Document.isStandardMode(qx.html2.node.Util.getDocument(element)))
         {
           if (!this.__usesNativeBorderBox(element)) {
-            return "content-box";    
+            return "content-box";
           }
         }
-        
+
         return "border-box";
       },
 
       // Webkit & Opera
       "default" : function(element) {
         return qx.html2.element.Style.getComputed(element, "boxSizing");
-      }      
-    })    
+      }
+    })
   }
 });

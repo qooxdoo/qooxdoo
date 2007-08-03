@@ -27,9 +27,9 @@
 
 ************************************************************************ */
 
-/** 
+/**
  * A high-level cross-browser wrapper which makes it possible
- * to use queries (even combinations) to engine, feature and platform 
+ * to use queries (even combinations) to engine, feature and platform
  * informations in one nice looking map and compact declaration.
  *
  * This class allows a lot more combinations than possible with the
@@ -38,7 +38,7 @@
  * code inside the generation of the "build" script. It could be seen
  * as a more flexible competing implementation of the <code>qx.client</code>
  * variant. The developer should decide from case to case which
- * implementation to use. Variants are optimal when the wrapped code is 
+ * implementation to use. Variants are optimal when the wrapped code is
  * quite large and this way the code which can be saved through the compile
  * time optimization will be also large.
  *
@@ -50,22 +50,22 @@
  * * gecko, gecko17, gecko18, gecko181, gecko19
  * * mshtml, mshtml6, mshtml7
  * * version
- * 
+ *
  * * standard_mode, quirks_mode
  * * content_box, border_box
  * * svg, canvas, vml
  * * xpath
- *  
- * * win, mac, unix 
  *
- * Types: <code>version</code> is a floating point number. All others 
+ * * win, mac, unix
+ *
+ * Types: <code>version</code> is a floating point number. All others
  * are <code>boolean</code>.
  *
  * Combinations: You can combine these keys to full-fledged expressions:
  * <code>,</code> means AND while <code>|</code> means OR. You can also
  * use parenthesis to structure your expression.
- * 
- * Valid expressions are for example: <code>gecko</code>, <code>gecko|opera</code>, 
+ *
+ * Valid expressions are for example: <code>gecko</code>, <code>gecko|opera</code>,
  * <code>gecko,version>1.6</code>, <code>opera|(gecko,border_box)</code>
  */
 qx.Class.define("qx.html2.Client",
@@ -105,7 +105,7 @@ qx.Class.define("qx.html2.Client",
         // Check if the keys used in the expression are valid (defined through __keys)
         var lower = this.__lower;
         var reg = /\b([a-z][a-z0-9_]+)\b/g;
-        
+
         for (var i=1, a=qx.util.StringSplit.split(key, reg), l=a.length; i<l; i+=2)
         {
           if (lower[a[i]] === undefined) {
@@ -179,36 +179,36 @@ qx.Class.define("qx.html2.Client",
     },
 
     /** Internal map which stores the evaluated value for each already evaluated key */
-    __cache : { 
+    __cache : {
       "default" : true  // the default value will always be accepted
     },
 
     /** Internal data structures with all flags or numeric value which should be available in expressions */
     __keys :
     {
-      Engine : 
-      [ 
-        "KHTML", 
-        "OPERA", "OPERA8", "OPERA85", "OPERA9", "OPERA95", 
-        "WEBKIT", "WEBKIT419", "WEBKIT420", 
-        "GECKO", "GECKO17", "GECKO18", "GECKO181", "GECKO19", 
-        "MSHTML", "MSHTML6", "MSHTML7", 
-        "VERSION" 
+      Engine :
+      [
+        "KHTML",
+        "OPERA", "OPERA8", "OPERA85", "OPERA9", "OPERA95",
+        "WEBKIT", "WEBKIT419", "WEBKIT420",
+        "GECKO", "GECKO17", "GECKO18", "GECKO181", "GECKO19",
+        "MSHTML", "MSHTML6", "MSHTML7",
+        "VERSION"
       ],
-      
-      Features : 
-      [ 
-        "STANDARD_MODE", "QUIRKS_MODE", 
-        "CONTENT_BOX", "BORDER_BOX", 
-        "SVG", "CANVAS", "VML", 
-        "XPATH" 
+
+      Features :
+      [
+        "STANDARD_MODE", "QUIRKS_MODE",
+        "CONTENT_BOX", "BORDER_BOX",
+        "SVG", "CANVAS", "VML",
+        "XPATH"
       ],
-      
-      Platform : 
-      [ 
-        "WIN", "MAC", "UNIX" 
+
+      Platform :
+      [
+        "WIN", "MAC", "UNIX"
       ],
-      
+
       System :
       [
         "SP1", "SP2", "WIN95", "WIN98", "WINME", "WINNT4", "WIN2000", "WINXP",

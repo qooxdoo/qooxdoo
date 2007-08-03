@@ -42,19 +42,19 @@
 ************************************************************************ */
 
 /**
- * Implements an ECMA-compliant, uniform cross-browser split method 
+ * Implements an ECMA-compliant, uniform cross-browser split method
  */
 qx.Class.define("qx.util.StringSplit",
 {
   statics :
   {
     /**
-     * ECMA-compliant, uniform cross-browser split method 
+     * ECMA-compliant, uniform cross-browser split method
      *
      * @type static
      * @param string {String} Incoming string to split
-     * @param separator {RegExp} Specifies the character to use for separating the string. 
-     *   The separator is treated as a string or a  regular expression. If separator is 
+     * @param separator {RegExp} Specifies the character to use for separating the string.
+     *   The separator is treated as a string or a  regular expression. If separator is
      *   omitted, the array returned contains one element consisting of the entire string.
      * @param limit {Integer?} Integer specifying a limit on the number of splits to be found.
      * @return {String[]} splitted string
@@ -68,7 +68,7 @@ qx.Class.define("qx.util.StringSplit",
       - A regexp or string: Use it
       - Anything else: Convert it to a string, then use it */
 
-      if (separator === undefined) 
+      if (separator === undefined)
       {
         return [ string.toString() ];  // toString is used because the typeof string is object
       }
@@ -97,7 +97,7 @@ qx.Class.define("qx.util.StringSplit",
       - A type/value which can be converted to a number: Convert, then use the above rules
       - A type/value which cannot be converted to a number: Return an empty array */
 
-      if (limit === undefined || +limit < 0) 
+      if (limit === undefined || +limit < 0)
       {
         limit = false;
       }
@@ -147,8 +147,8 @@ qx.Class.define("qx.util.StringSplit",
         }
       }
 
-      return (lastLastIndex === string.length) ? 
-        (separator.test("") ? output : output.concat("")) : 
+      return (lastLastIndex === string.length) ?
+        (separator.test("") ? output : output.concat("")) :
         (limit ? output : output.concat(string.substring(lastLastIndex)));
     }
   }

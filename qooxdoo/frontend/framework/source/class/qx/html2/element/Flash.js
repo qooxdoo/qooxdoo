@@ -95,7 +95,7 @@ qx.Class.define("qx.html2.element.Flash",
     this._params = {};
     this._variables = {};
 
-    
+
     if (vSource != null) {
       this.setSource(vSource);
     }
@@ -116,14 +116,14 @@ qx.Class.define("qx.html2.element.Flash",
   {
     /** Version number for express install */
     EXPRESSINSTALL : [ 6, 0, 65 ],
-    
+
     MINREQUIRED : "1",
-    
+
     /** Detected player version (using {@link qx.html2.client.Flash} class) */
     PLAYERVERSION : qx.html2.client.Flash.PLAYERVERSION,
-    
+
     PLUGINKEY : "Shockwave Flash",
-    
+
     ACTIVEXKEY : "ShockwaveFlash.ShockwaveFlash"
   },
 
@@ -245,7 +245,7 @@ qx.Class.define("qx.html2.element.Flash",
     _html : null,
     _generated : false,
 
-    
+
     /**
      * Lazy generation of the html code for embedding the flash file
      *
@@ -260,8 +260,8 @@ qx.Class.define("qx.html2.element.Flash",
       }
       return this._html;
     },
-    
-    
+
+
     /**
      * Returns a DOM node for embedding the flash file
      *
@@ -272,13 +272,13 @@ qx.Class.define("qx.html2.element.Flash",
     {
        var node = qx.html2.node.Util.createElement("div");
        node.innerHTML = this.getHtml();
-       
+
        return node;
     },
-    
+
 
     /**
-     * Checks if the flash player of the client is capable and then 
+     * Checks if the flash player of the client is capable and then
      * starts the generation of the html code.
      *
      * @type member
@@ -328,7 +328,7 @@ qx.Class.define("qx.html2.element.Flash",
 
     /**
      * Does the generation of the html code.
-     * 
+     *
      * @signature function()
      */
     __generateHTML : qx.lang.Object.select(navigator.plugins && navigator.mimeTypes && navigator.mimeTypes.length ? "plugin" : "activeX",
@@ -357,7 +357,7 @@ qx.Class.define("qx.html2.element.Flash",
         for (var key in params)
         {
           this.debug(key + " " + params[key]);
-          
+
           html.push(" ");
           html.push(key);
           html.push("=");
@@ -585,7 +585,7 @@ qx.Class.define("qx.html2.element.Flash",
     */
 
     /**
-     * Set a variable. These variables are passed to flash player using 
+     * Set a variable. These variables are passed to flash player using
      * the <b>flashVars</b> attribute of the embed/object element.
      *
      * @type member
@@ -630,7 +630,7 @@ qx.Class.define("qx.html2.element.Flash",
     */
 
     /**
-     * Generate the param tags. This is used for embedding 
+     * Generate the param tags. This is used for embedding
      * an flash file with the object element. The param tags are
      * used to pass parameter to the flash player.
      *
@@ -656,7 +656,7 @@ qx.Class.define("qx.html2.element.Flash",
 
 
     /**
-     * Generate the variable pairs to use them for 
+     * Generate the variable pairs to use them for
      * the embed/object element (for passing the variables
      * and their values to the flash player).
      *
