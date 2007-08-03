@@ -52,9 +52,8 @@ qx.Class.define("qx.ui.treevirtual.TreeCheckBox",
     }
     if (! custom.treeDataCellRenderer)
     {
-      var r = custom.treeDataCellRenderer =
-        new qx.ui.treevirtual.SimpleTreeDataCellRenderer();
-      r.setShowCheckBox(true);
+      custom.treeDataCellRenderer =
+        new qx.ui.treevirtual.CheckBoxDataCellRenderer();
     }
     if (! custom.dataRowRenderer)
     {
