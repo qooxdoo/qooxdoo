@@ -152,7 +152,7 @@ qx.Class.define("BasicSample",
         e.setCurrentTarget(this);
         e.setTarget(this);
         qx.event2.Manager.getManager(this).dispatchEvent(e);
-        qx.event2.type.EventPool.getInstance().release(e);
+        qx.event2.type.EventPool.getInstance().poolEvent(e);
       }, this);
 
       qx.event2.Manager.addListener(this, "juhu", this._onJuhu, this);
