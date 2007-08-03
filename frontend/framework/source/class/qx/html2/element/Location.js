@@ -88,19 +88,15 @@ qx.Class.define("qx.html2.element.Location",
      * @param elem {Element} DOM element to query
      * @return {Map} Map which contains the <code>left</code> and <code>top</code> scroll offsets
      */
-    __computeScroll : function(elem, rel)
+    __computeScroll : function(elem)
     {
       var left = 0, top = 0;
-
-      // Find body element
-      var body = qx.html2.node.Util.getDocument(elem).body;
 
       // Use faster getBoundingClientRect() if available
       // Hint: The viewport workaround here only needs to be applied for
       // MSHTML currently. Gecko must always use the bottom code block -
       // independently from the availbility of getBoundingClientRect()
-      // Don't use getBoundingClientRect when relation is given (see also __computeOffset)
-      if (qx.html2.client.Engine.MSHTML && elem.getBoundingClientRect && !rel)
+      if (qx.html2.client.Engine.MSHTML && elem.getBoundingClientRect)
       {
         // Find window
         var win = qx.html2.node.Util.getDefaultView(elem);
@@ -114,18 +110,16 @@ qx.Class.define("qx.html2.element.Location",
       }
       else
       {
-        // Default relation is the body
-        if (!rel) {
-          rel = body;
-        }
-        
+        // Find body element
+        var body = qx.html2.node.Util.getDocument(elem).body;
+
         // Only the parents are influencing the scroll position
         elem = elem.parentNode;
 
         // Get scroll offsets
         // stop at the relative node given or
         // stop at the body => the body scroll position is irrelevant
-        while (elem && elem != rel)
+        while (elem && elem != body)
         {
           left += elem.scrollLeft;
           top += elem.scrollTop;
@@ -152,31 +146,25 @@ qx.Class.define("qx.html2.element.Location",
      */
     __computeBody : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(elem, rel)
+      "mshtml" : function(elem)
       {
-        var left = 0, top = 0;
-
         // Find body element
         var doc = qx.html2.node.Util.getDocument(elem);
         var body = doc.body;
         
-        // When not relative to body, simply return 0
-        if (!rel || rel != body)
+        // Start with the offset
+        var left = body.offsetLeft;
+        var top = body.offsetTop;
+
+        // Substract the body border
+        left -= this.__num(body, "borderLeftWidth");
+        top -= this.__num(body, "borderTopWidth");
+
+        // Add the margin when running in standard mode
+        if (doc.compatMode === "CSS1Compat")
         {
-          // Start with the offset
-          left += body.offsetLeft;
-          top += body.offsetTop;
-  
-          // Substract the body border
-          left -= this.__num(body, "borderLeftWidth");
-          top -= this.__num(body, "borderTopWidth");
-  
-          // Add the margin when running in standard mode
-          if (doc.compatMode === "CSS1Compat")
-          {
-            left += this.__num(body, "marginLeft");
-            top += this.__num(body, "marginTop");
-          }
+          left += this.__num(body, "marginLeft");
+          top += this.__num(body, "marginTop");
         }
 
         return {
@@ -185,31 +173,25 @@ qx.Class.define("qx.html2.element.Location",
         };
       },
 
-      "webkit" : function(elem, rel)
+      "webkit" : function(elem)
       {
-        var left = 0, top = 0;
-
         // Find body element
         var doc = qx.html2.node.Util.getDocument(elem);
         var body = doc.body;
         
-        // When not relative to body, simply return 0
-        if (!rel || rel != body)
+        // Start with the offset
+        var left = body.offsetLeft;
+        var top = body.offsetTop;
+        
+        // Correct substracted border
+        left += this.__num(body, "borderLeftWidth");
+        top += this.__num(body, "borderTopWidth");          
+
+        // Add the margin when running in standard mode
+        if (doc.compatMode === "CSS1Compat")
         {
-          // Start with the offset
-          left += body.offsetLeft;
-          top += body.offsetTop;
-          
-          // Correct substracted border
-          left += this.__num(body, "borderLeftWidth");
-          top += this.__num(body, "borderTopWidth");          
-  
-          // Add the margin when running in standard mode
-          if (doc.compatMode === "CSS1Compat")
-          {
-            left += this.__num(body, "marginLeft");
-            top += this.__num(body, "marginTop");
-          }
+          left += this.__num(body, "marginLeft");
+          top += this.__num(body, "marginTop");
         }
 
         return {
@@ -218,51 +200,45 @@ qx.Class.define("qx.html2.element.Location",
         };
       },
 
-      "gecko" : function(elem, rel)
+      "gecko" : function(elem)
       {
-        var left = 0, top = 0;
-
         // Find body element
         var body = qx.html2.node.Util.getDocument(elem).body;
 
-        // When not relative to body, simply return 0
-        if (!rel || rel != body)
+        // Start with the offset
+        var left = body.offsetLeft;
+        var top = body.offsetTop;
+
+        // Correct substracted border (only in content-box mode)
+        if (qx.html2.element.Util.getBoxSizing(body) !== "border-box")
         {
-          // Start with the offset
-          left += body.offsetLeft;
-          top += body.offsetTop;
-  
-          // Correct substracted border (only in content-box mode)
-          if (qx.html2.element.Util.getBoxSizing(body) !== "border-box")
+          left += this.__num(body, "borderLeftWidth");
+          top += this.__num(body, "borderTopWidth");
+
+          // For some unknown reason we must add the border two times
+          // when there is no absolute positioned element in the DOM tree
+
+          // This is not neededd if the offset is computed using
+          // <code>getBoundingClientRect</code>
+          if (!elem.getBoundingClientRect)
           {
-            left += this.__num(body, "borderLeftWidth");
-            top += this.__num(body, "borderTopWidth");
-  
-            // For some unknown reason we must add the border two times
-            // when there is no absolute positioned element in the DOM tree
-  
-            // This is not neededd if the offset is computed using
-            // <code>getBoundingClientRect</code>
-            if (!elem.getBoundingClientRect)
+            var hasAbs;
+
+            while (elem)
             {
-              var hasAbs;
-  
-              while (elem)
+              if (this.__style(elem, "position") === "absolute" || this.__style(elem, "position") === "fixed")
               {
-                if (this.__style(elem, "position") === "absolute" || this.__style(elem, "position") === "fixed")
-                {
-                  hasAbs = true;
-                  break;
-                }
-  
-                elem = elem.offsetParent;
+                hasAbs = true;
+                break;
               }
-  
-              if (!hasAbs)
-              {
-                left += this.__num(body, "borderLeftWidth");
-                top += this.__num(body, "borderTopWidth");
-              }
+
+              elem = elem.offsetParent;
+            }
+
+            if (!hasAbs)
+            {
+              left += this.__num(body, "borderLeftWidth");
+              top += this.__num(body, "borderTopWidth");
             }
           }
         }
@@ -275,20 +251,14 @@ qx.Class.define("qx.html2.element.Location",
 
 
       // At the moment only correctly supported by Opera
-      "default" : function(elem, rel)
+      "default" : function(elem)
       {
-        var left = 0, top = 0;
-
         // Find body element
         var body = qx.html2.node.Util.getDocument(elem).body;
 
-        // When not relative to body, simply return 0
-        if (!rel || rel != body)
-        {
-          // Start with the offset
-          left += body.offsetLeft;
-          top += body.offsetTop;
-        }
+        // Start with the offset
+        var left = body.offsetLeft;
+        var top = body.offsetTop;
 
         return {
           left : left,
@@ -319,16 +289,13 @@ qx.Class.define("qx.html2.element.Location",
      */
     __computeOffset : qx.core.Variant.select("qx.client",
     {
-      "mshtml|webkit" : function(elem, rel)
+      "mshtml|webkit" : function(elem)
       {
         var doc = qx.html2.node.Util.getDocument(elem);
 
         // Use faster getBoundingClientRect() if available
         // Note: This is not yet supported by Webkit.
-        // Note: Do not use when relation is given because 
-        //   getBoundingClientRect always work in relation 
-        //   to the body.
-        if (elem.getBoundingClientRect && !rel)
+        if (elem.getBoundingClientRect)
         {
           var rect = elem.getBoundingClientRect();
 
@@ -352,17 +319,12 @@ qx.Class.define("qx.html2.element.Location",
           // Start with the first offset parent
           elem = elem.offsetParent;
 
-          // Stop at least at the body
+          // Stop at the body
           var body = doc.body;
-          
-          // Default relation is the body
-          if (!rel) {
-            rel = body; 
-          }
           
           // Border correction is only needed for each parent
           // not for the incoming element itself
-          while (elem && elem != rel)
+          while (elem && elem != body)
           {
             // Add node offsets
             left += elem.offsetLeft;
@@ -383,13 +345,10 @@ qx.Class.define("qx.html2.element.Location",
         }
       },
 
-      "gecko" : function(elem, rel)
+      "gecko" : function(elem)
       {
         // Use faster getBoundingClientRect() if available (gecko >= 1.9)
-        // Note: Do not use when relation is given because 
-        //   getBoundingClientRect always work in relation 
-        //   to the body.
-        if (elem.getBoundingClientRect && !rel)
+        if (elem.getBoundingClientRect)
         {
           var rect = elem.getBoundingClientRect();
 
@@ -405,14 +364,8 @@ qx.Class.define("qx.html2.element.Location",
           var left = 0;
           var top = 0;
           
-          // Stop at least at the body
+          // Stop at the body
           var body = qx.html2.node.Util.getDocument(elem).body;          
-
-          // Default relation is the body
-          if (!rel) {
-            rel = body; 
-          }
-          
           var util = qx.html2.element.Util;
 
           if (util.getBoxSizing(elem) !== "border-box")
@@ -421,7 +374,7 @@ qx.Class.define("qx.html2.element.Location",
             top -= this.__num(elem, "borderTopWidth");
           }
 
-          while (elem && elem !== rel)
+          while (elem && elem !== body)
           {
             // Add node offsets
             left += elem.offsetLeft;
@@ -442,7 +395,7 @@ qx.Class.define("qx.html2.element.Location",
               left += this.__num(elem.parentNode, "borderLeftWidth");
               top += this.__num(elem.parentNode, "borderTopWidth");
             }
-
+            
             // One level up (offset hierarchy)
             elem = elem.offsetParent;
           }
@@ -455,22 +408,17 @@ qx.Class.define("qx.html2.element.Location",
       },
 
       // At the moment only correctly supported by Opera
-      "default" : function(elem, rel)
+      "default" : function(elem)
       {
         var left = 0;
         var top = 0;
 
-        // Stop at least at the body
+        // Stop at the body
         var body = qx.html2.node.Util.getDocument(elem).body;
         
-        // Default relation is the body
-        if (!rel) {
-          rel = body; 
-        }        
-
         // Add all offsets of parent hierarchy, do not include
         // body element.
-        while (elem && elem !== rel)
+        while (elem && elem !== body)
         {
           // Add node offsets
           left += elem.offsetLeft;
@@ -502,14 +450,13 @@ qx.Class.define("qx.html2.element.Location",
      * @type static
      * @param elem {Element} DOM element to query
      * @param mode {String} A supported option. See comment above.
-     * @param rel {Element} Relative to the given parent node (document.body by default)
      * @return {Map} Returns a map with <code>left</code>, <code>top</code>,
-     *   <code>right</code> and <code>bottom</code> which contains the offsets
-     *   of the element's borders relative to the current page.
+     *   <code>right</code> and <code>bottom</code> which contains the distance
+     *   of the element relative to the document.
      */
-    get : function(elem, mode, rel)
+    get : function(elem, mode)
     {
-      var body = this.__computeBody(elem, rel);
+      var body = this.__computeBody(elem);
 
       if (elem.tagName == "BODY")
       {
@@ -518,17 +465,15 @@ qx.Class.define("qx.html2.element.Location",
       }
       else
       {
-        var offset = this.__computeOffset(elem, rel);
-        var scroll = this.__computeScroll(elem, rel);
+        var offset = this.__computeOffset(elem);
+        var scroll = this.__computeScroll(elem);
 
         var left = offset.left + body.left - scroll.left;
         var top = offset.top + body.top - scroll.top;
       }
 
-
       // qx.core.Init.getInstance().debug("Details left: " + offset.left + " | " + body.left + " | " + scroll.left);
       // qx.core.Init.getInstance().debug("Details top: " + offset.top + " | " + body.top + " | " + scroll.top);
-
 
       if (mode)
       {
@@ -556,6 +501,27 @@ qx.Class.define("qx.html2.element.Location",
         top : top,
         right : left + elem.offsetWidth,
         bottom : top + elem.offsetHeight
+      };
+    },
+    
+    
+    /**
+     * Returns the distance between two DOM elements
+     *
+     * @type static
+     * @param elem1 {Element} First element
+     * @param elem2 {Element} Second element
+     * @return {Map} Returns a map with <code>left</code> and <code>top</code>
+     *   which contains the distance of the elements from each other.
+     */
+    getRelative : function(elem1, elem2)
+    {
+      var loc1 = this.get(elem1);
+      var loc2 = this.get(elem2);
+      
+      return {
+        left : loc1.left - loc2.left,
+        top : loc1.top - loc2.top
       };
     }
   }
