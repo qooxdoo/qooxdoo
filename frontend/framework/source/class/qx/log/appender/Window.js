@@ -199,6 +199,10 @@ qx.Class.define("qx.log.appender.Window",
      */
     openWindow : function()
     {
+      if (!qx.core.Init.getInstance().LOADED) {
+        return; 
+      }
+      
       if (this._logWindow && !this._logWindow.closed)
       {
         // The window is already open -> Nothing to do
@@ -225,7 +229,11 @@ qx.Class.define("qx.log.appender.Window",
       //     The log window is then in an inconsistent state, because the
       //     this._logElem is not created yet. These events will be added to the
       //     this._logEventQueue and logged after this._logElem is created.
-      this._logWindow = window.open("", this._name, params);
+      try {
+        this._logWindow = window.open("", this._name, params);
+      } catch(ex) {
+        return;
+      };
 
       if (!this._logWindow || this._logWindow.closed)
       {
