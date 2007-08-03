@@ -48,7 +48,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
   {
     this.base(arguments, manager);
 
-    this._documentElement = manager.getWindow().document.documentElement;
+    this.__documentElement = manager.getWindow().document.documentElement;
 
     this.__mouseButtonListenerCount = 0;
     var buttonHandler = qx.lang.Function.bind(this.onMouseButtonEvent, this);
@@ -77,6 +77,8 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
   destruct : function()
   {
     this._disposeFields(
+      "__documentElement",
+      "__mouseButtonHandler",
       "__mouseMoveHandler",
       "__lastMouseDownTarget",
       "__mouseButtonListenerCount"
@@ -121,12 +123,12 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
         this.__mouseButtonListenerCount += 1;
 
         if (this.__mouseButtonListenerCount == 1) {
-          this._attachEvents(this._documentElement, this.__mouseButtonHandler);
+          this._attachEvents(this.__documentElement, this.__mouseButtonHandler);
         }
       }
       else if (this.__mouseMoveEvents[type])
       {
-        this._managedAddNativeListener(this._documentElement, type, this.__mouseMoveHandler);
+        this._managedAddNativeListener(this.__documentElement, type, this.__mouseMoveHandler);
       }
     },
 
@@ -138,12 +140,12 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
         this.__mouseButtonListenerCount -= 1;
 
         if (this.__mouseButtonListenerCount == 0) {
-          this._detachEvents(this._documentElement, this.__mouseButtonHandler);
+          this._detachEvents(this.__documentElement, this.__mouseButtonHandler);
         }
       }
       else if (this.__mouseMoveEvents[type])
       {
-        this._managedRemoveNativeListener(this._documentElement, type, this.__mouseMoveHandler);
+        this._managedRemoveNativeListener(this.__documentElement, type, this.__mouseMoveHandler);
       }
     },
 

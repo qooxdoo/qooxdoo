@@ -57,8 +57,13 @@ qx.Class.define("qx.event2.handler.DocumentEventHandler",
   *****************************************************************************
   */
 
-  destruct : function() {
-    this._disposeFields("_eventHandler", "___documentElement");
+  destruct : function()
+  {
+    this._disposeFields(
+      "_eventHandler",
+      "__documentElement",
+      "__typeListenerCount"
+    );
   },
 
 

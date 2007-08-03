@@ -615,7 +615,7 @@ qx.Class.define("qx.core.Object",
      *
      * @type member
      * @param name {String} field name to dispose
-     * @param deep {Number} how deep to following sub objects. Deep=0 means
+     * @param deep {Number?0} how deep to following sub objects. Deep=0 means
      *   just the object and all its keys. Deep=1 also dispose deletes the
      *   objects object content.
      */
