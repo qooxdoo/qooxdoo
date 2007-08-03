@@ -58,7 +58,7 @@
     	var id = href.substr(href.indexOf('#')+1);
     	
     	var elem = document.getElementById(id);
-    	var location = qx.html2.Location.get(elem, document.getElementById("mode").value);
+    	var location = qx.html2.element.Location.get(elem, document.getElementById("mode").value);
     	
     	document.getElementById("moveable").style.left = location.left + "px";
     	document.getElementById("moveable").style.top = location.top + "px";
