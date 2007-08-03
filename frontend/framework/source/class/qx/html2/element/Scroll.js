@@ -98,8 +98,12 @@ qx.Class.define("qx.html2.element.Scroll",
     intoViewY : function(element, align)
     {
       var parent = element.parentNode;
+      var body = qx.html2.node.Util.getDocument(element).body;
       
-      while(parent)
+      var alignTop = align == "top";
+      var alignBottom = align == "bottom";
+              
+      while(parent && parent !== body)
       {
         var parentLocation = qx.html2.element.Location.get(parent);
         var parentTop = parentLocation.top;
@@ -116,9 +120,6 @@ qx.Class.define("qx.html2.element.Scroll",
         
         var topOffset = elementTop - parentTop - topBorder;
         var bottomOffset = elementBottom - parentBottom + topBorder;
-        
-        var alignTop = align == "top";
-        var alignBottom = align == "bottom";
         
         var scrollDiff = 0;
         
