@@ -35,7 +35,9 @@
  *   type           : qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF,
  *   parentNodeId   : 23,    // index in _nodeArr of the parent node
  *   label          : "My Documents",
- *   bSelected      : true,  // true if node is selected; false otherwise
+ *   bSelected      : true,  // true if node is selected; false otherwise. 
+ *                           // If the RecursiveSelectionModel is in use, a third value is also possible: 'p'; 
+ *                           // it denotes partial children selection
  *   bOpened        : true,  // true (-), false (+)
  *   bHideOpenClose : false, // whether to hide the open/close button
  *   icon           : "images/folder.gif",
