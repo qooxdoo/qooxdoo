@@ -424,6 +424,8 @@ qx.Class.define("qx.event2.Manager",
         handler: listener,
         context: self
       });
+
+      this.__incrementListenerCountOfType(type);
     },
 
 
@@ -505,6 +507,8 @@ qx.Class.define("qx.event2.Manager",
           this.__registryRemoveListeners(element, type);
         }
       }
+
+      this.__decrementListenerCountOfType(type);
     },
 
 
@@ -544,6 +548,12 @@ qx.Class.define("qx.event2.Manager",
      */
     dispatchEvent : function(event)
     {
+      // only dispatch if listeners are registered
+      if (!this.getListenerCountOfType(event.getType())) {
+        return;
+      }
+
+      // dispatch event
       this.__inEventDispatch = true;
       for (var i=0,l=this.__dispatchHandlers.length; i<l; i++)
       {
@@ -555,6 +565,7 @@ qx.Class.define("qx.event2.Manager",
       }
       this.__inEventDispatch = false;
 
+      // flush job queue
       if (this.__jobQueue.length > 0)
       {
         for (var i=0, l=this.__jobQueue.length; i<l; i++)
@@ -683,6 +694,34 @@ qx.Class.define("qx.event2.Manager",
         typeEvents[listenerList] = []
       }
       return typeEvents[listenerList];
+    },
+
+
+    __incrementListenerCountOfType : function(type)
+    {
+      // increase the event type count
+      if (!this.__listenerCountOfType[type]) {
+        this.__listenerCountOfType[type] = 0;
+      }
+      this.__listenerCountOfType[type] += 1;
+    },
+
+
+    __decrementListenerCountOfType : function(type)
+    {
+      if (this.__listenerCountOfType[type] == undefined) {
+        return;
+      }
+
+      this.__listenerCountOfType[type] -= 1;
+      if (this.__listenerCountOfType[type] <= 0) {
+        delete(this.__listenerCountOfType[type]);
+      }
+    },
+
+
+    getListenerCountOfType : function(type) {
+      return this.__listenerCountOfType[type] || 0;
     },
 
 
