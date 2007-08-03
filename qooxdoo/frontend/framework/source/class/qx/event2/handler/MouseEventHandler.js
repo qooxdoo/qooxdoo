@@ -98,10 +98,10 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
 
     __mouseMoveEvents :
     {
-      "mousemove" : 1,
-      "mouseover" : 1,
-      "mouseout" : 1,
-      "mousewheel" : 1
+      "mousemove" : "mousemove",
+      "mouseover" : "mouseover",
+      "mouseout" : "mouseout",
+      "mousewheel" : qx.core.Variant.isSet("qx.client", "mshtml") ? "mousewheel" : "DOMMouseScroll"
     },
 
 
@@ -111,11 +111,16 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
     ---------------------------------------------------------------------------
     */
 
+    // overridden
     canHandleEvent : function(element, type) {
+      if (type == "DOMMouseScroll") {
+        throw new Error("'DOMMouseScroll' is not supported, please use 'mousewheel' instead.");
+      }
       return this.__mouseButtonHandler[type] || this.__mouseMoveEvents[type];
     },
 
 
+    // overridden
     registerEvent : function(element, type)
     {
       if (this.__mouseButtonHandler[type])
@@ -128,11 +133,12 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
       }
       else if (this.__mouseMoveEvents[type])
       {
-        this._managedAddNativeListener(this.__documentElement, type, this.__mouseMoveHandler);
+        this._managedAddNativeListener(this.__documentElement, this.__mouseMoveEvents[type], this.__mouseMoveHandler);
       }
     },
 
 
+    // overridden
     unregisterEvent : function(element, type)
     {
       if (this.__mouseButtonHandler[type])
@@ -145,7 +151,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
       }
       else if (this.__mouseMoveEvents[type])
       {
-        this._managedRemoveNativeListener(this.__documentElement, type, this.__mouseMoveHandler);
+        this._managedRemoveNativeListener(this.__documentElement, this.__mouseMoveEvents[type], this.__mouseMoveHandler);
       }
     },
 
