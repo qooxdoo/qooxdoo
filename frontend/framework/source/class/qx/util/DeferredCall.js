@@ -28,7 +28,7 @@
  * has been given back to the browser, independent of the number of {@link #call}
  * calls.
  */
-qx.Class.define("qx.util.DeferredCall", 
+qx.Class.define("qx.util.DeferredCall",
 {
   extend : qx.core.Object,
 
@@ -39,7 +39,7 @@ qx.Class.define("qx.util.DeferredCall",
      CONSTRUCTOR
   *****************************************************************************
   */
-  
+
   /**
    * @param callback {Function} The callback
    * @param context {Object?window} the context in which the function will be called.
@@ -51,15 +51,15 @@ qx.Class.define("qx.util.DeferredCall",
     this.__callback = context != null ? qx.lang.Function.bind(callback, context) : callback;
     this.__timeoutWrapper = qx.lang.Function.bind(this.__timeout, this);
   },
-  
-  
-  
+
+
+
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
-  
+
   members :
   {
     /**
@@ -98,8 +98,8 @@ qx.Class.define("qx.util.DeferredCall",
       this.__callback();
     }
   },
-  
-  
+
+
 
   /*
   *****************************************************************************
@@ -109,7 +109,7 @@ qx.Class.define("qx.util.DeferredCall",
 
   destruct : function(callback, context)
   {
-    this.cancel(); 
+    this.cancel();
     this._disposeFields("__timeoutId", "__timeoutWrapper", "__callback");
   }
 });

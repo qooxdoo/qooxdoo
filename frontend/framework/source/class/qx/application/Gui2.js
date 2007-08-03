@@ -54,7 +54,7 @@ qx.Class.define("qx.application.Gui2",
      *
      * @type member
      */
-    main : function() 
+    main : function()
     {
       // Focus the body
       document.body.focus();

@@ -166,9 +166,9 @@ qx.Class.define("qx.log.appender.HtmlElement",
         this._frame.firstChild.className = "";
         this._frame.firstChild.innerHTML = "(" + this._removedMessageCount + " messages removed)";
       }
-      
+
       if (this.getElement()) {
-        this.getElement().scrollTop = this.getElement().scrollHeight; 
+        this.getElement().scrollTop = this.getElement().scrollHeight;
       }
     }
   },

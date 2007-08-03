@@ -43,7 +43,7 @@ qx.Class.define("qx.application.Gui",
   *****************************************************************************
   */
 
-  properties : 
+  properties :
   {
     /** Whether the user interfacce has already been rendered */
     uiReady :

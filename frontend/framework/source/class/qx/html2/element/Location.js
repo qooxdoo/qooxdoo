@@ -151,7 +151,7 @@ qx.Class.define("qx.html2.element.Location",
         // Find body element
         var doc = qx.html2.node.Util.getDocument(elem);
         var body = doc.body;
-        
+
         // Start with the offset
         var left = body.offsetLeft;
         var top = body.offsetTop;
@@ -178,14 +178,14 @@ qx.Class.define("qx.html2.element.Location",
         // Find body element
         var doc = qx.html2.node.Util.getDocument(elem);
         var body = doc.body;
-        
+
         // Start with the offset
         var left = body.offsetLeft;
         var top = body.offsetTop;
-        
+
         // Correct substracted border
         left += this.__num(body, "borderLeftWidth");
-        top += this.__num(body, "borderTopWidth");          
+        top += this.__num(body, "borderTopWidth");
 
         // Add the margin when running in standard mode
         if (doc.compatMode === "CSS1Compat")
@@ -321,7 +321,7 @@ qx.Class.define("qx.html2.element.Location",
 
           // Stop at the body
           var body = doc.body;
-          
+
           // Border correction is only needed for each parent
           // not for the incoming element itself
           while (elem && elem != body)
@@ -363,9 +363,9 @@ qx.Class.define("qx.html2.element.Location",
         {
           var left = 0;
           var top = 0;
-          
+
           // Stop at the body
-          var body = qx.html2.node.Util.getDocument(elem).body;          
+          var body = qx.html2.node.Util.getDocument(elem).body;
           var util = qx.html2.element.Util;
 
           if (util.getBoxSizing(elem) !== "border-box")
@@ -395,7 +395,7 @@ qx.Class.define("qx.html2.element.Location",
               left += this.__num(elem.parentNode, "borderLeftWidth");
               top += this.__num(elem.parentNode, "borderTopWidth");
             }
-            
+
             // One level up (offset hierarchy)
             elem = elem.offsetParent;
           }
@@ -415,7 +415,7 @@ qx.Class.define("qx.html2.element.Location",
 
         // Stop at the body
         var body = qx.html2.node.Util.getDocument(elem).body;
-        
+
         // Add all offsets of parent hierarchy, do not include
         // body element.
         while (elem && elem !== body)
@@ -503,8 +503,8 @@ qx.Class.define("qx.html2.element.Location",
         bottom : top + elem.offsetHeight
       };
     },
-    
-    
+
+
     /**
      * Returns the distance between two DOM elements
      *
@@ -518,7 +518,7 @@ qx.Class.define("qx.html2.element.Location",
     {
       var loc1 = this.get(elem1);
       var loc2 = this.get(elem2);
-      
+
       return {
         left : loc1.left - loc2.left,
         top : loc1.top - loc2.top

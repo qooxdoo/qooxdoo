@@ -316,15 +316,15 @@ qx.Class.define("qx.html2.node.Util",
      */
     insertAfter : function(node, ref)
     {
-  		var parent = ref.parentNode;
+      var parent = ref.parentNode;
 
-  		if (ref == parent.lastChild) {
-  			parent.appendChild(node);
-  		} else {
-  			return this.insertBefore(node, ref.nextSibling);
-  		}
+      if (ref == parent.lastChild) {
+        parent.appendChild(node);
+      } else {
+        return this.insertBefore(node, ref.nextSibling);
+      }
 
-  		return true;
+      return true;
     },
 
 

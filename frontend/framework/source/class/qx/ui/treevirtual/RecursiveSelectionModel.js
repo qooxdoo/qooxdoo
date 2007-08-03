@@ -31,7 +31,7 @@
  * <li>One a node is deselected, its child nodes are also deselected.
  * <li>It is flaged visually when the child nodes are partially selected (<tt>node.bSelected=='p'</tt>).
  * </ul>
- * <p><b>Implementation note</b>: it is derived from {@link qx.ui.table.selection.Model} 
+ * <p><b>Implementation note</b>: it is derived from {@link qx.ui.table.selection.Model}
  * although no functionality of this class is needed, as several Table and TreeVirtual properties
  * require a selection model be derived from this class.
  * </p>
@@ -81,7 +81,7 @@ qx.Class.define("qx.ui.treevirtual.RecursiveSelectionModel",
      * Ignore updating parent selection?.
      */
     _ignoreParent: 0,
-    
+
     /**
      * Has the selection changed?.
      */
@@ -179,7 +179,7 @@ qx.Class.define("qx.ui.treevirtual.RecursiveSelectionModel",
     {
       this._iterateSelection(this._tree.getDataModel().getData(), 0, iterator, object);
     },
-    
+
     _iterateSelection: function(data, nodeId, iterator, object)
     {
       var node = data[nodeId];
@@ -280,7 +280,7 @@ qx.Class.define("qx.ui.treevirtual.RecursiveSelectionModel",
     _addSelectionInterval : function(fromIndex, toIndex)
     {
     },
-    
+
     /**
      * Updates the selection state of parent nodes.
      * @type member

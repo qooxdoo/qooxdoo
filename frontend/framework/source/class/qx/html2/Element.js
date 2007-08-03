@@ -62,7 +62,7 @@ qx.Class.define("qx.html2.Element",
     this.__contentJobs = [];
     this.__attribJobs = [];
     this.__styleJobs = [];
-    
+
     this.__addEventJobs = [];
     this.__removeEventJobs = [];
 
@@ -1047,7 +1047,7 @@ qx.Class.define("qx.html2.Element",
      * @param type {String} Name of the event e.g. "click", "keydown", ...
      * @param listener {Function} Event listener function
      * @param self {Object ? window} Reference to the 'this' variable inside
-     *       the event listener.     
+     *       the event listener.
      * @param capture {Boolean ? false} Whether to attach the event to the
      *       capturing phase of the bubbling phase of the event. The default is
      *       to attach the event handler to the bubbling phase.
@@ -1145,7 +1145,7 @@ qx.Class.define("qx.html2.Element",
      DEFER
   *****************************************************************************
   */
-  
+
   defer : function(statics, members) {
     statics.__autoFlush = new qx.util.DeferredCall(statics.flushQueue, statics);
   }

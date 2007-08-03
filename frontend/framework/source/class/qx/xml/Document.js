@@ -65,9 +65,9 @@ qx.Class.define("qx.xml.Document",
       */
       "mshtml": function(namespaceUri, qualifiedName)
        {
-        var vServers = 
-        [ 
-          "MSXML2.DOMDocument.3.0", "MSXML2.DOMDocument.6.0", "MSXML2.DOMDocument.4.0", 
+        var vServers =
+        [
+          "MSXML2.DOMDocument.3.0", "MSXML2.DOMDocument.6.0", "MSXML2.DOMDocument.4.0",
           "MSXML2.DOMDocument", // v3.0
           "MSXML.DOMDocument", // v2.x
           "Microsoft.XMLDOM" // v2.x

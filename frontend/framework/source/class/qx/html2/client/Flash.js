@@ -72,18 +72,18 @@
  */
 qx.Class.define("qx.html2.client.Flash",
 {
-   
+
    /*
     *****************************************************************************
        STATICS
     *****************************************************************************
     */
-   
+
    statics :
    {
       /** {qx.util.Version} Version information about the installed flash player */
       PLAYERVERSION : null,
-      
+
      /**
       * Internal initialize helper
       *
@@ -94,11 +94,11 @@ qx.Class.define("qx.html2.client.Flash",
       __init : function()
       {
          this.PLAYERVERSION = new qx.util.Version(0, 0, 0);
-        
+
          if(navigator.plugins && navigator.mimeTypes.length)
          {
             var x = navigator.plugins["Shockwave Flash"];
-          
+
             if(x && x.description)
             {
                this.PLAYERVERSION = new qx.util.Version(x.description.replace(/([a-zA-Z]|\s)+/, "").replace(/(\s+r|\s+b[0-9]+)/, ".").split("."));
@@ -108,19 +108,19 @@ qx.Class.define("qx.html2.client.Flash",
          {
             var axo = 1;
             var counter = 3;
-        
+
             while(axo) {
               try
               {
                  counter++;
                  axo = new ActiveXObject("ShockwaveFlash.ShockwaveFlash."+ counter);
                  this.PLAYERVERSION = new qx.util.Version(counter, 0, 0);
-              } 
+              }
               catch (e) {
                  axo = null;
               }
             }
-         } 
+         }
          else // Win IE (non mobile)
          {
             // do minor version lookup in IE, but avoid fp6 crashing issues
@@ -135,16 +135,16 @@ qx.Class.define("qx.html2.client.Flash",
                {
                   var axo = new ActiveXObject("ShockwaveFlash.ShockwaveFlash.6");
                   this.PLAYERVERSION = new qx.util.Version(6, 0, 21);
-               } 
+               }
                catch(e) {}
-              
+
                try
                {
                   axo = new ActiveXObject("ShockwaveFlash.ShockwaveFlash");
-               } 
+               }
                catch(e) {}
             }
-           
+
             if (axo != null)
             {
                this.PLAYERVERSION = new qx.util.Version(axo.GetVariable("$version").split(" ")[1].split(","));
@@ -152,7 +152,7 @@ qx.Class.define("qx.html2.client.Flash",
          }
       }
    },
-   
+
    /*
     *****************************************************************************
        DEFER

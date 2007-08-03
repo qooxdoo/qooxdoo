@@ -46,7 +46,7 @@ qx.Class.define("qx.html2.element.Cursor",
         "nesw-resize" : "ne-resize",
         "nwse-resize" : "nw-resize"
       },
-      
+
       "opera" :
       {
         "col-resize" : "e-resize",
@@ -56,17 +56,16 @@ qx.Class.define("qx.html2.element.Cursor",
         "nesw-resize" : "ne-resize",
         "nwse-resize" : "nw-resize"
       },
-      
+
       "default" : {}
-    }),    
-    
+    }),
+
     get : function(element) {
       return qx.html2.element.Style.getComputed(element, "cursor");
     },
-    
+
     set : function(element, value) {
       return qx.html2.element.Style.set(element, this.__map[value] || value);
     }
   }
-});    
-    
+});

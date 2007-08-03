@@ -100,8 +100,8 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
 
     if (treeRowStructure._icons.selected !== undefined) {
       this.setIconSelected(treeRowStructure._icons.selected);
-    } 
-    
+    }
+
     if (
       (treeRowStructure._icons.selected === undefined) &&
       (treeRowStructure._icons.unselected !== undefined)

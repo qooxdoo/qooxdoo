@@ -66,8 +66,8 @@ qx.Class.define("qx.html2.element.Scroll",
     setY : function(element, y) {
       element.scrollTop = y;
     },
-    
-    
+
+
     /**
      * Returns the scroll position of the X-axis of the given element.
      *
@@ -89,7 +89,6 @@ qx.Class.define("qx.html2.element.Scroll",
      */
     getY : function(element) {
       return parseInt(element.scrollTop);
-    }    
+    }
   }
-});    
-    
+});
