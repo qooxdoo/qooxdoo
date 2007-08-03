@@ -89,6 +89,73 @@ qx.Class.define("qx.html2.element.Scroll",
      */
     getY : function(element) {
       return parseInt(element.scrollTop);
+    },
+    
+    
+    
+    
+    
+    intoViewY : function(element, align)
+    {
+      var parent = element.parentNode;
+      
+      var parentLocation = qx.html2.element.Location.get(parent, "content");
+      var parentTop = parentLocation.top;
+      var parentBottom = parentLocation.bottom;
+      var parentHeight = parent.offsetHeight;
+      var parentFrameHeight = parent.offsetHeight - parent.clientHeight;
+      
+      var elementLocation = qx.html2.element.Location.get(element);
+      var elementTop = elementLocation.top;
+      var elementBottom = elementLocation.bottom;
+      var elementHeight = element.offsetHeight;
+      
+      var topOffset = elementTop - parentTop;
+      var bottomOffset = elementBottom - parentBottom;
+      
+      var alignTop = align == "top";
+      var alignBottom = align == "bottom";
+      
+      var scrollDiff = 0;
+      
+      
+      
+      
+      // the bottom variants needs to add the horizontal scrollbar to the scrollDiff
+      
+      // be sure that element is on top edge
+      if (alignTop)
+      {
+        console.debug("Align top...");
+        scrollDiff = topOffset;
+      }
+      
+      // be sure that element is on bottom edge
+      else if (alignBottom)
+      {
+        console.debug("Align bottom...");
+        scrollDiff = bottomOffset + parentFrameHeight;
+      }
+      
+      // element must go down
+      // * when current top offset is smaller than 0
+      // * when height is bigger than the inner height of the parent
+      else if (topOffset < 0 || element.offsetHeight > parent.clientHeight)
+      {
+        console.debug("Go Down...");
+        scrollDiff = topOffset;
+      }
+      
+      // element must go up
+      // * when current bottom offset is bigger than 0
+      else if (bottomOffset > 0)
+      {
+        console.debug("Go Up...");
+        scrollDiff = bottomOffset + parentFrameHeight;
+      }
+      
+      console.log("Scroll by: " + scrollDiff);
+      parent.scrollTop += scrollDiff;
     }
   }
 });
