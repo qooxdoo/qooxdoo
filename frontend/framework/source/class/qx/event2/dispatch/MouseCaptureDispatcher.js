@@ -73,7 +73,7 @@
   destruct : function()
   {
     this._disposeFields("__captureElement", "__manager");
-    this._disposeObjects("_eventPool");
+    this._disposeObjects("__eventPool");
   },
 
 

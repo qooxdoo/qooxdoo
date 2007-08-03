@@ -112,7 +112,10 @@ qx.Class.define("qx.event2.Manager",
       "__window",
       "_documentElement",
       "__eventHandlers",
-      "__dispatchHandlers"
+      "__dispatchHandlers",
+      "__knownHandler",
+      "__dispatchHandlers",
+      "__knownDispatcher"
     );
   },
 
