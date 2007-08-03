@@ -98,9 +98,7 @@ qx.Class.define("testrunner.TestResult",
         }
       }
 
-      if (!error) {
-        this.createDispatchDataEvent("endTest", test);
-      }
+      this.createDispatchDataEvent("endTest", test);
     },
 
 
@@ -121,9 +119,7 @@ qx.Class.define("testrunner.TestResult",
         exception : exception,
         test      : test
       };
-
       this.createDispatchDataEvent(eventName, error);
-      this.createDispatchDataEvent("endTest", test);
     }
   }
 });
