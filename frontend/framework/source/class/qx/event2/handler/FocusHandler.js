@@ -147,7 +147,7 @@ qx.Class.define("qx.event2.handler.FocusHandler",
         this.resetActive();
         this.resetFocus();
 
-        this.debug("Window blurred");
+        // this.debug("Window blurred");
         this.__fireCustom(this._window, "blur");
       }
     },
@@ -160,7 +160,7 @@ qx.Class.define("qx.event2.handler.FocusHandler",
       {
         this._windowFocussed = true;
 
-        this.debug("Window focussed");
+        // this.debug("Window focussed");
         this.__fireCustom(this._window, "focus");
       }
     },
