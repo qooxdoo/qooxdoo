@@ -20,7 +20,7 @@
 
 /**
  * Crossbrowser operations on DOM Elements
- * @deprecated
+ * @deprecated: Use qx.html2.* instead
  */
 qx.Class.define("qx.dom.Element",
 {
