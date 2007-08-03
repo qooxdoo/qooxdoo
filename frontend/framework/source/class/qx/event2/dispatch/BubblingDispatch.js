@@ -97,7 +97,6 @@ qx.Class.define("qx.event2.dispatch.BubblingDispatch",
       var captureTargets = [];
 
       // Walk up the tree and look for event listeners
-      var arrayCopy = qx.lang.Array.copy;
       while (node != null)
       {
         if (node !== target)
@@ -106,8 +105,7 @@ qx.Class.define("qx.event2.dispatch.BubblingDispatch",
 
           if (captureListeners)
           {
-            captureList.push(arrayCopy(captureListeners));
-            //captureList.push((captureListeners));
+            captureList.push(captureListeners);
             captureTargets.push(node);
           }
         }
@@ -115,8 +113,7 @@ qx.Class.define("qx.event2.dispatch.BubblingDispatch",
         var bubbleListeners = manager.registryGetListeners(node, type, false, false);
         if (bubbleListeners)
         {
-          bubbleList.push(arrayCopy(bubbleListeners));
-          //bubbleList.push((bubbleListeners));
+          bubbleList.push(bubbleListeners);
           bubbleTargets.push(node);
         }
 

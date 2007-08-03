@@ -93,10 +93,6 @@ qx.Class.define("qx.event2.dispatch.InlineDispatch",
         return;
       }
 
-      // work on a copy of the event listener array to allow calls to removeListener
-      // in custom event handlers.
-      listeners = qx.lang.Array.copy(listeners);
-
       for (var i=0; i<listeners.length; i++)
       {
         var context = listeners[i].context || currentTarget;

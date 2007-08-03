@@ -78,6 +78,9 @@ qx.Class.define("qx.event2.Manager",
     // structure: elementId -> type
     this.__registry = {};
 
+    this.__inEventDispatch = false;
+    this.__jobQueue = [];
+
     // get event handler
     this.__eventHandlers = [];
     this.__knownHandler = {};
@@ -109,6 +112,7 @@ qx.Class.define("qx.event2.Manager",
 
     this._disposeFields(
       "__registry",
+      "__jobQueue",
       "__window",
       "_documentElement",
       "__eventHandlers",
@@ -395,6 +399,16 @@ qx.Class.define("qx.event2.Manager",
      */
     addListener : function(element, type, listener, self, useCapture)
     {
+      // if we are currently dispatching an event, defer this call after the
+      // dispatcher. It is critical to not modify the listener registry while
+      // dispatching.
+      if (this.__inEventDispatch) {
+        this.__jobQueue.push({
+          method : "addListener",
+          arguments : arguments
+        });
+      }
+
       var eventListeners = this.registryGetListeners(element, type, useCapture, true);
 
       // this is the first event handler for this type and element
@@ -453,6 +467,16 @@ qx.Class.define("qx.event2.Manager",
      */
     removeListener : function(element, type, listener, useCapture)
     {
+      // if we are currently dispatching an event, defer this call after the
+      // dispatcher. It is critical to not modify the listener registry while
+      // dispatching.
+      if (this.__inEventDispatch) {
+        this.__jobQueue.push({
+          method : "removeListener",
+          arguments : arguments
+        });
+      }
+
       // get event listeners
       var listeners = this.registryGetListeners(element, type, false, false);
       if (!listeners) {
@@ -520,6 +544,7 @@ qx.Class.define("qx.event2.Manager",
      */
     dispatchEvent : function(event)
     {
+      this.__inEventDispatch = true;
       for (var i=0,l=this.__dispatchHandlers.length; i<l; i++)
       {
         var dispatchHandler = this.__dispatchHandlers[i];
@@ -527,6 +552,18 @@ qx.Class.define("qx.event2.Manager",
           dispatchHandler.dispatchEvent(event);
           break;
         }
+      }
+      this.__inEventDispatch = false;
+
+      if (this.__jobQueue.length > 0)
+      {
+        for (var i=0, l=this.__jobQueue.length; i<l; i++)
+        {
+          var job = this.__jobQueue[i];
+          console.log(job);
+          this[job.method].apply(this, job.arguments);
+        }
+        this.__jobQueue = [];
       }
     },
 
@@ -547,6 +584,12 @@ qx.Class.define("qx.event2.Manager",
       return this.__captureHandler;
     },
 
+
+    /*
+    ---------------------------------------------------------------------------
+      HELPER
+    ---------------------------------------------------------------------------
+    */
 
     /**
      * Get the window instance the event manager is reponsible for
