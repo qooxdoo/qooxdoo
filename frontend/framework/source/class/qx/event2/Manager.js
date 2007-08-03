@@ -80,6 +80,7 @@ qx.Class.define("qx.event2.Manager",
 
     this.__inEventDispatch = false;
     this.__jobQueue = [];
+    this.__listenerCountOfType = {};
 
     // get event handler
     this.__eventHandlers = [];
@@ -113,6 +114,7 @@ qx.Class.define("qx.event2.Manager",
     this._disposeFields(
       "__registry",
       "__jobQueue",
+      "__listenerCountOfType",
       "__window",
       "_documentElement",
       "__eventHandlers",
@@ -407,6 +409,7 @@ qx.Class.define("qx.event2.Manager",
           method : "addListener",
           arguments : arguments
         });
+        return;
       }
 
       var eventListeners = this.registryGetListeners(element, type, useCapture, true);
@@ -425,7 +428,11 @@ qx.Class.define("qx.event2.Manager",
         context: self
       });
 
-      this.__incrementListenerCountOfType(type);
+      // increase the event type count
+      if (!this.__listenerCountOfType[type]) {
+        this.__listenerCountOfType[type] = 0;
+      }
+      this.__listenerCountOfType[type] += 1;
     },
 
 
@@ -477,6 +484,7 @@ qx.Class.define("qx.event2.Manager",
           method : "removeListener",
           arguments : arguments
         });
+        return;
       }
 
       // get event listeners
@@ -508,7 +516,15 @@ qx.Class.define("qx.event2.Manager",
         }
       }
 
-      this.__decrementListenerCountOfType(type);
+      // decrement listener count of type
+      if (this.__listenerCountOfType[type] == undefined) {
+        return;
+      }
+
+      this.__listenerCountOfType[type] -= 1;
+      if (this.__listenerCountOfType[type] <= 0) {
+        delete(this.__listenerCountOfType[type]);
+      }
     },
 
 
@@ -549,7 +565,7 @@ qx.Class.define("qx.event2.Manager",
     dispatchEvent : function(event)
     {
       // only dispatch if listeners are registered
-      if (!this.getListenerCountOfType(event.getType())) {
+      if (!this.__listenerCountOfType[event.getType()]) {
         return;
       }
 
@@ -566,12 +582,11 @@ qx.Class.define("qx.event2.Manager",
       this.__inEventDispatch = false;
 
       // flush job queue
-      if (this.__jobQueue.length > 0)
+      if (this.__jobQueue && this.__jobQueue.length > 0)
       {
         for (var i=0, l=this.__jobQueue.length; i<l; i++)
         {
           var job = this.__jobQueue[i];
-          console.log(job);
           this[job.method].apply(this, job.arguments);
         }
         this.__jobQueue = [];
@@ -694,34 +709,6 @@ qx.Class.define("qx.event2.Manager",
         typeEvents[listenerList] = []
       }
       return typeEvents[listenerList];
-    },
-
-
-    __incrementListenerCountOfType : function(type)
-    {
-      // increase the event type count
-      if (!this.__listenerCountOfType[type]) {
-        this.__listenerCountOfType[type] = 0;
-      }
-      this.__listenerCountOfType[type] += 1;
-    },
-
-
-    __decrementListenerCountOfType : function(type)
-    {
-      if (this.__listenerCountOfType[type] == undefined) {
-        return;
-      }
-
-      this.__listenerCountOfType[type] -= 1;
-      if (this.__listenerCountOfType[type] <= 0) {
-        delete(this.__listenerCountOfType[type]);
-      }
-    },
-
-
-    getListenerCountOfType : function(type) {
-      return this.__listenerCountOfType[type] || 0;
     },
 
 
