@@ -565,7 +565,8 @@ qx.Class.define("qx.event2.Manager",
     dispatchEvent : function(event)
     {
       // only dispatch if listeners are registered
-      if (!this.__listenerCountOfType[event.getType()]) {
+      var type = event.getType();
+      if (!this.__listenerCountOfType[type]) {
         return;
       }
 
@@ -574,8 +575,8 @@ qx.Class.define("qx.event2.Manager",
       for (var i=0,l=this.__dispatchHandlers.length; i<l; i++)
       {
         var dispatchHandler = this.__dispatchHandlers[i];
-        if (dispatchHandler.canDispatchEvent(event)) {
-          dispatchHandler.dispatchEvent(event);
+        if (dispatchHandler.canDispatchEvent(event, type)) {
+          dispatchHandler.dispatchEvent(event, type);
           break;
         }
       }
