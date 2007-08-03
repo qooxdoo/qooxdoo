@@ -146,6 +146,8 @@ qx.Class.define("qx.core.Init",
      */
     _onload : function(e)
     {
+      this.LOADED = true;
+      
       this.createDispatchEvent("load");
 
       this.debug("qooxdoo " + qx.core.Version.toString());
