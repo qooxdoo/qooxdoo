@@ -103,67 +103,132 @@ qx.Class.define("qx.html2.element.Scroll",
       var alignTop = align == "top";
       var alignBottom = align == "bottom";
               
-      while(parent && parent !== body)
+      // Go up until body element was found
+      while (parent)
       {
-        var parentLocation = qx.html2.element.Location.get(parent);
-        var parentTop = parentLocation.top;
-        var parentBottom = parentLocation.bottom;
-        var parentHeight = parent.offsetHeight;
-        var parentFrameHeight = parent.offsetHeight - parent.clientHeight;
+        console.debug("Heights: " + parent.offsetHeight + ", " + parent.clientHeight + ", " + parent.scrollHeight);
         
-        var elementLocation = qx.html2.element.Location.get(element);
-        var elementTop = elementLocation.top;
-        var elementBottom = elementLocation.bottom;
-        var elementHeight = element.offsetHeight;
+        var process = false;
         
-        var topBorder = parseInt(qx.html2.element.Style.getComputed(parent, "borderTopWidth")) || 0;
+        if (parent === body) {
+          process = true;
+        } else if (parent.scrollHeight > parent.offsetHeight) {
+          process = true;
+        }
+
+/*
+Gecko 1.8:
+Example:
+
+with scrollbars
+offsetHeight = 100, 
+clientHeight = 65 (15px scrollbar bottom, 10px border at top and bottom)
+scrollHeight = 620 (large content)
+
+when overflow is hidden
+clientHeight = 80 (15 scrollbar removed)
+
+content removed
+clientHeight = 80
+scrollHeight = 80
+
+reenabled scrollbars
+clientHeight = 65
+scrollHeight = 65
+*/
+
+// Try to optimize performance by ignoring parent which cannot scroll or have not enough content to scroll (even when forced)
         
-        var topOffset = elementTop - parentTop - topBorder;
-        var bottomOffset = elementBottom - parentBottom + topBorder;
-        
-        var scrollDiff = 0;
-        
-        
-        
-        
-        
-        
-        // the bottom variants needs to add the horizontal scrollbar to the scrollDiff
-        
-        // be sure that element is on top edge
-        if (alignTop)
+        if (process) 
         {
-          console.debug("Align top...");
-          scrollDiff = topOffset;
+          console.debug("Process...")
+          
+          // Calculate parent data
+          // Special handling for body element
+          if (parent === body)
+          {
+            var parentTop = parent.scrollTop;
+            var parentBottom = parentTop + qx.html2.Viewport.getHeight();
+            var parentOuterHeight = qx.html2.Viewport.getHeight();
+            var parentClientHeight = parent.clientHeight;
+            var parentScrollHeight = parent.scrollHeight;          
+            var parentTopBorder = 0;
+            var parentBottomBorder = 0;
+            var parentScrollBarHeight = 0;
+          }
+          else
+          {
+            var parentLocation = qx.html2.element.Location.get(parent);
+            var parentTop = parentLocation.top;
+            var parentBottom = parentLocation.bottom;
+            var parentOuterHeight = parent.offsetHeight;
+            var parentClientHeight = parent.clientHeight;
+            var parentScrollHeight = parent.scrollHeight;
+            var parentTopBorder = parseInt(qx.html2.element.Style.getComputed(parent, "borderTopWidth")) || 0;
+            var parentBottomBorder = parseInt(qx.html2.element.Style.getComputed(parent, "borderBottomWidth")) || 0;
+            var parentScrollBarHeight = parentOuterHeight - parentClientHeight - parentTopBorder - parentBottomBorder;
+          }
+        
+          // Calculate element data
+          var elementLocation = qx.html2.element.Location.get(element);
+          var elementTop = elementLocation.top;
+          var elementBottom = elementLocation.bottom;
+          var elementHeight = element.offsetHeight;
+
+          // Relative position from each other        
+          var topOffset = elementTop - parentTop - parentTopBorder;
+          var bottomOffset = elementBottom - parentBottom + parentBottomBorder;
+        
+          // Scroll position rearrangment
+          var scrollDiff = 0;
+        
+        
+        
+
+        
+        
+          // be sure that element is on top edge
+          if (alignTop)
+          {
+            console.debug("Align top...");
+            scrollDiff = topOffset;
+          }
+        
+          // be sure that element is on bottom edge
+          else if (alignBottom)
+          {
+            console.debug("Align bottom...");
+            scrollDiff = bottomOffset + parentScrollBarHeight;
+          }
+        
+          // element must go down
+          // * when current top offset is smaller than 0
+          // * when height is bigger than the inner height of the parent
+          else if (topOffset < 0 || elementHeight > parentClientHeight)
+          {
+            console.debug("Go Down...");
+            scrollDiff = topOffset;
+          }
+        
+          // element must go up
+          // * when current bottom offset is bigger than 0
+          else if (bottomOffset > 0)
+          {
+            console.debug("Go Up...");
+            scrollDiff = bottomOffset + parentScrollBarHeight;
+          }
+        
+        
+        
+        
+          console.log("Scroll by: " + scrollDiff);
+          parent.scrollTop += scrollDiff;
         }
         
-        // be sure that element is on bottom edge
-        else if (alignBottom)
-        {
-          console.debug("Align bottom...");
-          scrollDiff = bottomOffset + parentFrameHeight;
+        if (parent === body) {
+          break;
         }
-        
-        // element must go down
-        // * when current top offset is smaller than 0
-        // * when height is bigger than the inner height of the parent
-        else if (topOffset < 0 || element.offsetHeight > parent.clientHeight)
-        {
-          console.debug("Go Down...");
-          scrollDiff = topOffset;
-        }
-        
-        // element must go up
-        // * when current bottom offset is bigger than 0
-        else if (bottomOffset > 0)
-        {
-          console.debug("Go Up...");
-          scrollDiff = bottomOffset + parentFrameHeight;
-        }
-        
-        console.log("Scroll by: " + scrollDiff);
-        parent.scrollTop += scrollDiff;
-        
+
         parent = parent.parentNode;
       }
     }
