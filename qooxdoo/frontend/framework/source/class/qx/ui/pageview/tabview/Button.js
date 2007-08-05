@@ -114,6 +114,7 @@ qx.Proto._onkeypress = function(e)
 
 qx.Proto._ontabclose = function(e){
   this.createDispatchDataEvent("closetab", this);
+  e.stopPropagation();
 }
 
 
