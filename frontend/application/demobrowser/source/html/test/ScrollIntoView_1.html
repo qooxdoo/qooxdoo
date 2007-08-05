@@ -55,13 +55,42 @@
       
     </div>    
   </div>
+
+  <script type="text/javascript">
+function test()
+{
+	var ids = [ "z1", "z2", "z3", "z4", "z5", "z6", "z7", "z8" ];
+
+  for (var i=0, l=ids.length; i<l; i++) 
+  {
+	  var el = document.getElementById(ids[i]);
+	  console.log("Width: " + ids[i] + ": offset=" + el.offsetWidth + ", scroll=" + el.scrollWidth + ", client=" + el.clientWidth);
+    console.log("Height: " + ids[i] + ": offset=" + el.offsetHeight + ", scroll=" + el.scrollHeight + ", client=" + el.clientHeight);
+  }
+}
+  </script>
+
+  <a style="position:absolute;top:280px;left:20px" href="javascript:test()">Dimension test</a>
   
-  <div id="c1" style="position:absolute;background:yellow;top:40px;left:500px;width:200px;height:200px;overflow:scroll">
-    <div id="c2" style="position:absolute;left:20px;top:200px;width:200px;height:100px;background:red;overflow:scroll">
-      <div id="c3" style="position:absolute;left:20px;top:140px;width:100px;height:40px;background:orange;overflow:scroll">
-        
-      </div>
-    </div>
-  </div> 
+  <div id="z1" style="background:red;width:100px;height:100px;overflow:visible;position:absolute;left:20px;top:300px">
+	</div>
+  <div id="z2" style="background:orange;width:100px;height:100px;overflow:scroll;position:absolute;left:20px;top:420px">
+	</div>
+  <div id="z3" style="background:blue;width:100px;height:100px;overflow:auto;position:absolute;left:20px;top:540px">
+	</div>
+  <div id="z4" style="background:green;width:100px;height:100px;overflow:auto;position:absolute;left:20px;top:660px">
+	</div>
+  <div id="z5" style="background:red;width:100px;height:100px;overflow:visible;position:absolute;left:200px;top:300px">
+	  <div style="height:300px">&#160;</div>
+	</div>
+  <div id="z6" style="background:orange;width:100px;height:100px;overflow:scroll;position:absolute;left:200px;top:420px">
+	  <div style="height:300px">&#160;</div>
+	</div>
+  <div id="z7" style="background:blue;width:100px;height:100px;overflow:auto;position:absolute;left:200px;top:540px">
+	  <div style="height:300px">&#160;</div>
+	</div>
+  <div id="z8" style="background:green;width:100px;height:100px;overflow:hidden;position:absolute;left:200px;top:660px">
+	  <div style="height:300px">&#160;</div>
+	</div>
 </body>
 </html>
