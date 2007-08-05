@@ -1,12 +1,12 @@
 # translation of it.po to Italiano
 # Italian
-#
+# 
 # Alessandro Sala <alessandro.sala@mclink.net>, 2007.
 msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo framework\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-31 13:13+0200\n"
+"POT-Creation-Date: 2007-08-03 18:36+0200\n"
 "PO-Revision-Date: 2007-01-06 13:26+0100\n"
 "Last-Translator: Alessandro Sala <alessandro.sala@mclink.net>\n"
 "Language-Team: Italiano <it@li.org>\n"

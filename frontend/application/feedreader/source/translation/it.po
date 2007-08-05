@@ -1,10 +1,10 @@
 # Italian translation
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo feedreader\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-31 13:14+0200\n"
+"POT-Creation-Date: 2007-08-03 18:36+0200\n"
 "PO-Revision-Date: 2006-12-21 22:55+0100\n"
 "Last-Translator: Alessandro Sala <alessandro.sala@mclink.net>\n"
 "Language-Team: Italiano <it@li.org>\n"
