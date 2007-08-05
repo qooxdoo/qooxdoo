@@ -117,7 +117,6 @@ qx.Class.define("qx.html2.element.Location",
         elem = elem.parentNode;
 
         // Get scroll offsets
-        // stop at the relative node given or
         // stop at the body => the body scroll position is irrelevant
         while (elem && elem != body)
         {
