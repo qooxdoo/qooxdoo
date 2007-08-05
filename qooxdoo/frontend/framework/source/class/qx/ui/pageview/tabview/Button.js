@@ -181,6 +181,7 @@ qx.Class.define("qx.ui.pageview.tabview.Button",
      */
     _ontabclose : function(e) {
       this.createDispatchDataEvent("closetab", this);
+      e.stopPropagation();
     },
 
 
