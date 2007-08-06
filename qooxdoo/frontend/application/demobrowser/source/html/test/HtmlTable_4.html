@@ -19,12 +19,12 @@
   {
     var layout = 
     {
-      attachment : { width : 20, type : "image" },
-      subject : { width : 180, type : "text" },
-      read : { width : 20, type : "image" },
-      sender : { width : 120, type : "text" },
-      spam : { width : 20, type : "image" },
-      date : { width : 100, type : "text" }
+      attachment : { width : 30, type : "image", caption : "" },
+      subject : { width : 180, type : "text", caption : "Subject" },
+      read : { width : 30, type : "image", caption : "" },
+      sender : { width : 120, type : "text", caption : "Sender" },
+      spam : { width : 30, type : "image", caption : "" },
+      date : { width : 100, type : "text", caption : "Date" }
     };
     
     // generate data
@@ -34,11 +34,11 @@
       data.push({
         attachment : i%20==0,
         subject : "Subject of mail " + i,
-        read : i % 4 != 0,
+        read : i>50||i%3==0,
         sender : "Sender " + i, 
         spam : i % 16 == 0,
         date : new Date(2007, 1+Math.round(Math.random()*11), 1+Math.round(Math.random()*30), 12, 0, 0),
-        selected : i % 13 == 0 || i % 13 == 1 || i % 13 == 2
+        selected : i>2&&i<12
       });
     }
     
