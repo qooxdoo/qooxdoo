@@ -13,7 +13,11 @@ qx.Class.define("qx.html2.Table",
     this._rowHeight = 16;
     this._rowCache = [];
     
+    this._scrollbarWidth = 18;
+    
     this._scrollTimeout = 50;
+    this._borderWidthX = 2;
+    this._borderWidthY = 2;
     
     this._height = 400;
     this._width = 600;
@@ -56,20 +60,27 @@ qx.Class.define("qx.html2.Table",
     
     _configure : function()
     {
+      // Configure root
+      this._root.style.border = "1px solid black";
+      this._root.style.background = "white";
+      this._root.style.width = this._width + "px";
+      this._root.style.height = this._height + "px";
+      
       // Configure table frame
       this._frame.style.left = "0px";
       this._frame.style.top = "0px";
-      this._frame.style.width = this._width + "px";
-      this._frame.style.height = this._height + "px";
-      this._frame.style.border = "2px solid black";
+      this._frame.style.width = (this._width - this._scrollbarWidth - this._borderWidthX) + "px";
+      this._frame.style.height = (this._height - this._borderWidthY) + "px";
+      this._frame.style.position = "absolute";
+      this._frame.style.MozUserSelect = "none";
       
       // Configure scrollarea
       this._scrollarea.style.overflowY = "scroll";
       this._scrollarea.style.position = "absolute";
-      this._scrollarea.style.left = this._width + "px";
+      this._scrollarea.style.left = (this._width - this._scrollbarWidth - this._borderWidthX) + "px";
       this._scrollarea.style.top = "0px";
-      this._scrollarea.style.height = this._height + "px";
-      this._scrollarea.style.width = "20px";
+      this._scrollarea.style.height = (this._height - this._borderWidthY) + "px";
+      this._scrollarea.style.width = this._scrollbarWidth + "px";
       
       // Configure scrollhelper
       this._scrollhelper.style.height = (this._rowHeight * this._data.length) + "px";
@@ -77,32 +88,56 @@ qx.Class.define("qx.html2.Table",
       this._scrollhelper.style.visibility = "hidden";
     },
     
+    _renderRow : function(row)
+    {
+      var html = [];
+      var layout = this._layout;
+      var data = this._data;
+      var rowdata = data[row];
+      
+      html.push("<tr style='");
+      
+      if (rowdata.selected) {
+        html.push('background:lightblue;');
+      }
+      else if (row%2) {
+        html.push('background:#f4f4f4;');
+      }
+      
+      
+      html.push("'>");
+      
+      for (var key in layout)
+      {
+        html.push("<td>", rowdata[key], "</td>");
+      }
+      
+      html.push("</tr>");
+
+      var str = html.join("");
+      this._rowCache[row] = str; 
+
+      return str;
+    },
+    
     _render : function()
     {
+      var start = new Date;
       var html = [];
       
       var pos = this._rowPosition;
       var nr = this._rowNumber;
       
-      var layout = this._layout;
-      var data = this._data;
+      html.push("<table style='cursor:default;font:11px Tahoma,sans-serif;width:100%;height:100%' cellSpacing='0' cellPadding='0'><tbody");
       
-      html.push("<table style='width:100%;height:100%' cellSpacing='0' cellPadding='0'><tbody");
-      
-      for (var i=pos, l=pos+nr; i<l; i++)
-      {
-        html.push("<tr>");
-        
-        for (var key in layout)
-        {
-          html.push("<td>", data[i][key], "</td>");
-        }
-        
-        html.push("</tr>");
+      for (var i=pos, l=pos+nr; i<l; i++) {
+        html.push(this._rowCache[i] || this._renderRow(i));
       }
       
       html.push("</tbody></table>");
       this._frame.innerHTML = html.join("");
+      
+      console.log("Runtime: " + (new Date - start) + "ms");
     },
     
     _sync : function()
