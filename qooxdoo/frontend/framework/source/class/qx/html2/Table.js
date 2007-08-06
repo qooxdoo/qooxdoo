@@ -4,6 +4,8 @@ qx.Class.define("qx.html2.Table",
   
   construct : function(layout, data)
   {
+    this.base(arguments);
+    
     this._layout = layout;
     this._data = data;
     
@@ -21,6 +23,9 @@ qx.Class.define("qx.html2.Table",
     
     this._height = 400;
     this._width = 600;
+    
+    this._dateFormat = new qx.util.format.DateFormat("dd.MM.yy HH:mm");
+    this._checkImage = "<img src='" + qx.io.Alias.getInstance().resolve("widget/menu/checkbox.gif") + "'/>";
     
     this._onscrollWrapper = qx.lang.Function.bind(this._onscroll, this);
     this._onintervalWrapper = qx.lang.Function.bind(this._oninterval, this);
@@ -95,29 +100,54 @@ qx.Class.define("qx.html2.Table",
       var data = this._data;
       var rowdata = data[row];
       
+      
+      
+      // Generate row and styles
       html.push("<tr style='");
       
-      if (rowdata.selected) {
-        html.push('background:lightblue;');
+      if (false&&rowdata.selected) {
+        html.push('background:blue;color:white;');
       }
       else if (row%2) {
-        html.push('background:#f4f4f4;');
+        html.push('background:#eee;');
       }
       
+      if (!rowdata.read) {
+        html.push('font-weight:bold;');
+      }
       
       html.push("'>");
-      
+
+
+
+      // Process column content      
       for (var key in layout)
       {
-        html.push("<td>", rowdata[key], "</td>");
+        content = rowdata[key];
+        
+        if (typeof content === "boolean") {
+          content = content ? this._checkImage : "";
+        }
+        else if (content instanceof Date) {
+          content = this._dateFormat.format(content);
+        } 
+        
+        // padding:1px 4px;text-overflow:hidden;overflow:hidden;
+        html.push("<td>", content, "</td>");
       }
+      
+      
+      
+      // Insert helper column
+      // to address the available space
+      html.push('<td>&#160;</td>');
       
       html.push("</tr>");
 
-      var str = html.join("");
-      this._rowCache[row] = str; 
 
-      return str;
+
+      // Cache and return
+      return this._rowCache[row] = html.join("");
     },
     
     _render : function()
@@ -128,16 +158,32 @@ qx.Class.define("qx.html2.Table",
       var pos = this._rowPosition;
       var nr = this._rowNumber;
       
-      html.push("<table style='cursor:default;font:11px Tahoma,sans-serif;width:100%;height:100%' cellSpacing='0' cellPadding='0'><tbody");
+      // Table start
+      html.push("<table style='font:11px Tahoma,sans-serif;table-layout:fixed;cursor:default;width:100%;height:100%' cellSpacing='0' cellPadding='0'>");
+
+      // Column configuration
+      html.push("<colgroup>");
+      var layout = this._layout;
+      for (var key in layout) {
+        html.push("<col width='" + layout[key].width + "'/>"); 
+      }
+      html.push("</colgroup>");
+
+      // Table body start      
+      html.push("<tbody>");
       
       for (var i=pos, l=pos+nr; i<l; i++) {
         html.push(this._rowCache[i] || this._renderRow(i));
       }
       
+      // Close table
       html.push("</tbody></table>");
-      this._frame.innerHTML = html.join("");
+      console.log("Generate: " + (new Date - start) + "ms");
       
-      console.log("Runtime: " + (new Date - start) + "ms");
+      // Apply
+      var start = new Date;
+      this._frame.innerHTML = html.join("");
+      console.log("Render: " + (new Date - start) + "ms");
     },
     
     _sync : function()
