@@ -453,11 +453,17 @@ qx.Class.define("qx.core.Log",
       consoleFrame.setAttribute("frameBorder", "0");
       consoleFrame.style.visibility = (this.frameVisible ? "visible" : "hidden");
       consoleFrame.style.zIndex = 1e6;
-      consoleFrame.style.position = "absolute";
+      consoleFrame.style.position = "fixed";
       consoleFrame.style.width = "100%";
       consoleFrame.style.left = "0px";
       consoleFrame.style.bottom = "0px";
       consoleFrame.style.height = "200px";
+      
+      if (qx.html2.client.Engine.MSHTML) 
+      {
+        consoleFrame.style.setExpression("top", "(qx.html2.Viewport.getHeight()+qx.html2.Viewport.getScrollTop()-200) + 'px'");
+        consoleFrame.style.position = "absolute";
+      }
 
       qx.core.Log.consoleFrame = consoleFrame;
       document.body.appendChild(consoleFrame);
