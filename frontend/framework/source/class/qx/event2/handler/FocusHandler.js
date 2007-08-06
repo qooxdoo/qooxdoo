@@ -50,7 +50,7 @@ qx.Class.define("qx.event2.handler.FocusHandler",
 
     // Common native listeners
     this.__onNativeMouseDown = qx.lang.Function.bind(this._onNativeMouseDown, this);
-    this._document.onmousedown = this.__onNativeMouseDown;
+    qx.event2.Manager.addNativeListener(this._document, "mousedown", this.__onNativeMouseDown);
 
     // Cross browser listeners
     if (qx.core.Variant.isSet("qx.client", "gecko"))
@@ -464,7 +464,34 @@ qx.Class.define("qx.event2.handler.FocusHandler",
 
       this._manager.dispatchEvent(event);
       this._eventPool.poolEvent(event);
-    }
+    },
+
+
+    removeAllListeners : qx.core.Variant.select("qx.client",
+    {
+      "gecko" : function()
+      {
+        qx.event2.Manager.removeNativeListener(this._document, "mousedown", this.__onNativeMouseDown);
+        this._window.removeEventListener("focus", this.__onNativeFocus, true);
+        this._window.removeEventListener("blur", this.__onNativeBlur, true);
+      },
+
+      "mshtml" : function()
+      {
+        qx.event2.Manager.removeNativeListener(this._document, "mousedown", this.__onNativeMouseDown);
+        qx.event2.Manager.removeNativeListener(this._document, "focusin", this.__onNativeFocusIn);
+        qx.event2.Manager.removeNativeListener(this._document, "focusout", this.__onNativeFocusOut);
+      },
+
+      "webkit|opera" : function()
+      {
+        qx.event2.Manager.removeNativeListener(this._document, "mousedown", this.__onNativeMouseDown);
+        this._window.removeEventListener("focus", this.__onNativeFocus, false);
+        this._window.removeEventListener("blur", this.__onNativeBlur, false);
+        qx.event2.Manager.removeNativeListener(this._document, "DOMFocusIn", this.__onNativeFocusIn);
+      }
+    })
+
   },
 
 
