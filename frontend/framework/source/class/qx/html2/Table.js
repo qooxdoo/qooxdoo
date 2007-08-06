@@ -22,9 +22,8 @@ qx.Class.define("qx.html2.Table",
     this._borderWidthX = 2;
     this._borderWidthY = 2;
     
-    // auto = 
+    // auto... from rowCount
     this._height = (this._rowHeight * this._rowNumber) + this._headerHeight + this._borderWidthY;
-    this._height += 20;
     this._width = 600;
     
     this._dateFormat = new qx.util.format.DateFormat("dd.MM.yy HH:mm");
@@ -262,15 +261,9 @@ qx.Class.define("qx.html2.Table",
 
     _sync : function()
     {
-      var now = new Date;
-      
-      if (now - this._scrollTimeout < this._lastScroll) {
-        return;
-      }
-      
-      this._lastScroll = now;
+      this._lastScroll = new Date;
       this._appliedRowPosition = this._rowPosition;
-      this._render();      
+      this._render();
     },
     
     _onscroll : function(e)
