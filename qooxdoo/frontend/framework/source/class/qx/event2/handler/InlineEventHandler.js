@@ -44,7 +44,7 @@ qx.Class.define("qx.event2.handler.InlineEventHandler",
   construct : function(manager)
   {
     this.base(arguments, manager);
-    this.__registeredEvents = [];
+    this.__registeredEvents = {};
   },
 
 
