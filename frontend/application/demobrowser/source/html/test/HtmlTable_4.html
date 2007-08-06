@@ -34,9 +34,9 @@
     {
       data.push({
         attachment : null,
-        subject : "Subject of mail: " + i,
+        subject : "Subject of mail " + i,
         read : i % 4 == 0,
-        sender : "Sender" + i, 
+        sender : "Sender " + i, 
         spam : i % 16 == 0,
         date : "August/" + (i%31) + "/2007"
       });
@@ -44,8 +44,6 @@
     
     var table = new qx.html2.Table(layout, data);
     document.getElementById("container").appendChild(table.getElement());
-        
-    
   });
   </script>
 </body>
