@@ -1864,9 +1864,9 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
      */
     _postponedUpdateContent : function()
     {
-      this._updateContent();
-      return;
-
+      //this._updateContent();
+      //return;
+      /*
       if (!this._updateContentPlanned)
       {
         var self = this;
@@ -1880,10 +1880,36 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
           self._updateContent();
           self._updateContentPlanned = false;
         },
-        0);
+        20);
 
         this._updateContentPlanned = true;
-      }
+      }*/
+     if (!this._lazyUpdate) {
+       this._updateContent();
+       return;
+     }
+
+     if (this._updateId) {
+       window.clearTimeout(this._updateId);
+       this._updateId = null;
+     }
+
+     if (!this._updateId)
+     {
+       var self = this;
+       this._updateId = window.setTimeout(function()
+       {
+          if (self.getDisposed()) {
+            return;
+          }
+
+          var start = new Date();
+          self._updateContent();
+          self.debug("render time: " + (new Date() - start) + "ms");
+
+          self._updateId = null;
+       }, 70);
+     }
     },
 
 
