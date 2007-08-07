@@ -1884,10 +1884,12 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
 
         this._updateContentPlanned = true;
       }*/
+     /*
      if (!this._lazyUpdate) {
        this._updateContent();
        return;
      }
+     */
 
      if (this._updateId) {
        window.clearTimeout(this._updateId);
