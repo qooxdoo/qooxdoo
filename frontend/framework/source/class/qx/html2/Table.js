@@ -9,11 +9,8 @@ qx.Class.define("qx.html2.Table",
     this._layout = layout;
     this._data = data;
 
-    this._appliedRowPosition = 0;
-    this._rowPosition = 0;
-    this._rowNumber = 25;
-    this._rowHeight = 18;
-    this._rowCache = [];
+    this._height = 612;
+    this._width = 700;
 
     this._scrollbarWidth = 18;
     this._headerHeight = 24;
@@ -22,16 +19,19 @@ qx.Class.define("qx.html2.Table",
     this._borderWidthX = 2;
     this._borderWidthY = 2;
 
-    // auto... from rowCount
-    this._height = (this._rowHeight * this._rowNumber) + this._headerHeight + this._borderWidthY;
-    this._width = 600;
-
+    this._rowHeight = 18;
+    this._rowNumber = Math.ceil((this._height - this._headerHeight - this._borderWidthY) / this._rowHeight);
+    this._appliedRowPosition = 0;
+    this._rowPosition = 0;
+    this._rowCache = [];
+    
     this._dateFormat = new qx.util.format.DateFormat("dd.MM.yy HH:mm");
     this._checkImage = "<img src='" + qx.io.Alias.getInstance().resolve("widget/menu/checkbox.gif") + "'/>";
 
     this._onscrollWrapper = qx.lang.Function.bind(this._onscroll, this);
     this._onintervalWrapper = qx.lang.Function.bind(this._oninterval, this);
-    //this._helperInterval = window.setInterval(this._onintervalWrapper, this._scrollTimeout);
+    
+    this._updateInterval = window.setInterval(this._onintervalWrapper, 50);
 
     this._init();
     this._configure();
@@ -169,6 +169,7 @@ qx.Class.define("qx.html2.Table",
       this._frame.style.width = (this._width - this._scrollbarWidth - this._borderWidthX) + "px";
       this._frame.style.height = (this._height - this._borderWidthY - this._headerHeight) + "px";
       this._frame.style.position = "absolute";
+      this._frame.style.overflow = "hidden";
       this._frame.style.MozUserSelect = "none";
 
       // Configure scrollarea
@@ -202,6 +203,7 @@ qx.Class.define("qx.html2.Table",
 
       // Generate row and styles
       html.push("<tr style='");
+      html.push('height:', this._rowHeight, 'px;');
 
       if (rowdata.selected) {
         html.push('background:#3399FF;color:white;');
@@ -230,8 +232,8 @@ qx.Class.define("qx.html2.Table",
           content = this._dateFormat.format(content);
         }
 
-        // padding:1px 4px;text-overflow:hidden;overflow:hidden;
-        html.push("<td style='padding:2px 8px;height:" + this._rowHeight + "px'>", content, "</td>");
+        // style='padding:2px 8px;overflow:hidden;text-overflow:hidden;'
+        html.push("<td>", content, "</td>");
       }
 
       // Insert helper column
@@ -258,7 +260,7 @@ qx.Class.define("qx.html2.Table",
 
       var pos = this._rowPosition;
       var nr = this._rowNumber;
-
+      
       // Table start
       html.push("<table style='font:11px Tahoma,sans-serif;table-layout:fixed;cursor:default;width:100%;height:100%' cellSpacing='0' cellPadding='0'>");
 
@@ -300,7 +302,6 @@ qx.Class.define("qx.html2.Table",
      */
     _sync : function()
     {
-      this._lastScroll = new Date;
       this._appliedRowPosition = this._rowPosition;
       this._render();
     },
@@ -313,13 +314,8 @@ qx.Class.define("qx.html2.Table",
      * @param e {Event} TODOC
      * @return {void} 
      */
-    _onscroll : function(e)
-    {
+    _onscroll : function(e) {
       this._rowPosition = Math.ceil(this._scrollarea.scrollTop / this._rowHeight);
-      
-      if (!this._helperTimeout) {
-        this._helperTimeout = window.setTimeout(this._onintervalWrapper, this._scrollTimeout);
-      }
     },
 
 
@@ -333,12 +329,6 @@ qx.Class.define("qx.html2.Table",
     {
       if (this._appliedRowPosition != this._rowPosition) {
         this._sync();
-      }
-      
-      if (this._helperTimeout) 
-      {
-        window.clearTimeout(this._helperTimeout);
-        this._helperTimeout = null;
       }
     }
   }
