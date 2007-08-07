@@ -303,7 +303,7 @@ qx.Class.define("qx.ui.table.model.Simple",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Integer} TODOC
      */
     getRowCount : function() {
       return this._rowArr.length;

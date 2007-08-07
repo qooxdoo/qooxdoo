@@ -130,7 +130,7 @@ qx.Class.define("qx.ui.table.model.Remote",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Integer} TODOC
      */
     getRowCount : function()
     {

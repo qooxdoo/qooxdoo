@@ -43,10 +43,10 @@ qx.Class.define("qx.ui.table.Table",
   */
 
   /**
-   * @param tableModel {qx.ui.table.model.Basic, null}
+   * @param tableModel {qx.ui.table.model.Basic}
    *   The table model to read the data from.
    *
-   * @param custom {Map ? null}
+   * @param custom {Map}
    *   A map provided to override the various supplemental classes allocated
    *   within this constructor.  Each property must be a function which
    *   returns an object instance, as indicated by shown the defaults listed
