@@ -14,6 +14,47 @@
     
   </div>
   
+  <style type="text/css">
+.qxtable{
+  position: absolute;
+}
+
+.qxtable table
+{
+  font: 11px Tahoma, sans-serif;
+  table-layout: fixed;
+  cursor: default;
+  margin: 0;
+  padding: 0;
+  border: 0 none;
+  empty-cells: show;
+  width: 100%;
+}   
+
+.qxtable table.header
+{
+
+}   
+
+.qxtable table.content
+{
+
+}   
+
+.qxtable table.header td{
+  padding: 1px 8px;
+  border-right: 1px solid #ccc;
+}
+
+.qxtable table.content td{
+  padding: 1px 8px;
+  border-right: 1px solid white;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+}
+  </style>
+  
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {

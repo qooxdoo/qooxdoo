@@ -15,7 +15,6 @@ qx.Class.define("qx.html2.Table",
     this._scrollbarWidth = 18;
     this._headerHeight = 24;
 
-    this._scrollTimeout = 20;
     this._borderWidthX = 2;
     this._borderWidthY = 2;
 
@@ -61,7 +60,7 @@ qx.Class.define("qx.html2.Table",
     {
       // Create root
       this._root = document.createElement("div");
-      this._root.style.position = "absolute";
+      this._root.className = "qxtable";
 
       // Create header
       this._initHeader();
@@ -94,10 +93,11 @@ qx.Class.define("qx.html2.Table",
 
       // Create main
       this._header = document.createElement("table");
+      this._header.className = "header";
       this._header.cellPadding = 0;
       this._header.cellSpacing = 0;
       this._header.style.tableLayout = "fixed";
-      this._header.style.font = "12px Tahoma, sans-serif";
+      this._header.style.font = "11px Tahoma, sans-serif";
       this._headerCols = [];
 
       // Create column config
@@ -113,6 +113,9 @@ qx.Class.define("qx.html2.Table",
         this._headerCols.push(col);
         group.appendChild(col);
       }
+      
+      // Helper Col
+      group.appendChild(document.createElement("col"));
 
       this._header.appendChild(group);
 
@@ -127,17 +130,13 @@ qx.Class.define("qx.html2.Table",
       for (var key in layout)
       {
         cell = document.createElement("td");
-        cell.style.borderRight = "1px solid #ccc";
-        cell.style.padding = "2px 8px";
-        cell.style.MozUserSelect = "none";
-        cell.style.cursor = "default";
         cell.innerHTML = layout[key].caption || "&#160;";
 
         this._headerRow.appendChild(cell);
       }
-
-      // Add cell for remaining space
-      this._headerRow.appendChild(document.createElement("td"));
+      
+      var helper = document.createElement("td");
+      this._headerRow.appendChild(helper);
     },
 
 
@@ -158,7 +157,6 @@ qx.Class.define("qx.html2.Table",
       // Configure header
       this._header.style.left = "0px";
       this._header.style.top = "0px";
-      this._header.style.width = "100%";
       this._header.style.height = this._headerHeight + "px";
       this._header.style.background = "#eee";
       this._header.style.borderBottom = "1px solid #ccc";
@@ -235,10 +233,8 @@ qx.Class.define("qx.html2.Table",
         // style='padding:2px 8px;overflow:hidden;text-overflow:hidden;'
         html.push("<td>", content, "</td>");
       }
-
-      // Insert helper column
-      // to address the available space
-      html.push('<td>&#160;</td>');
+      
+      html.push("<td/>");
 
       html.push("</tr>");
 
@@ -262,7 +258,7 @@ qx.Class.define("qx.html2.Table",
       var nr = this._rowNumber;
       
       // Table start
-      html.push("<table style='font:11px Tahoma,sans-serif;table-layout:fixed;cursor:default;width:100%;height:100%' cellSpacing='0' cellPadding='0'>");
+      html.push("<table class='content' cellSpacing='0' cellPadding='0'>");
 
       // Column configuration
       html.push("<colgroup>");
@@ -271,7 +267,8 @@ qx.Class.define("qx.html2.Table",
       for (var key in layout) {
         html.push("<col width='" + layout[key].width + "'/>");
       }
-
+      
+      html.push("<col/>");
       html.push("</colgroup>");
 
       // Table body start
