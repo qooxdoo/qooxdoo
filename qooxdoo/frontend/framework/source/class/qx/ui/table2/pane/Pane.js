@@ -68,8 +68,8 @@ qx.Class.define("qx.ui.table2.pane.Pane",
 
   statics :
   {
-    USE_ARRAY_JOIN               : true,
-    USE_TABLE                    : true,
+    USE_ARRAY_JOIN               : false,
+    USE_TABLE                    : false,
 
     CONTENT_ROW_FONT_FAMILY_TEST : "'Segoe UI', Corbel, Calibri, Tahoma, 'Lucida Sans Unicode', sans-serif",
     CONTENT_ROW_FONT_SIZE_TEST   : "11px"
@@ -350,7 +350,7 @@ qx.Class.define("qx.ui.table2.pane.Pane",
       this.TABLE_ARR[i++] = ';font-size:';
       this.TAB_FONT_SIZE = i++;
       this.TABLE_ARR[i++] = ';width:';
-      this.TAB_ROW_HEIGHT = i++;
+      this.TAB_ROW_WIDTH = i++;
       this.TABLE_ARR[i++] = 'px"><colgroup>';
       this.TAB_COLGROUP = i++;
       this.TABLE_ARR[i++] = '</colgroup><tbody>';
@@ -372,7 +372,9 @@ qx.Class.define("qx.ui.table2.pane.Pane",
      */
     _updateContent_array_join : function(completeUpdate, onlyRow, onlySelectionOrFocusChanged)
     {
-      //var start = new Date();
+      //this.printStackTrace();
+
+      var start = new Date();
       var TablePane = qx.ui.table2.pane.Pane;
 
       var table = this.getTable();
@@ -501,12 +503,25 @@ qx.Class.define("qx.ui.table2.pane.Pane",
 
       var elem = this.getElement();
 
-      // this.debug(">>>" + htmlArr.join("") + "<<<")
+      // this.debug(">>>" + this.TABLE_ARR.join("") + "<<<")
       //this.debug("compute time: " + (new Date() - start) + "ms");
 
-      //var start = new Date();
+      var start = new Date();
       if (TablePane.USE_TABLE) {
+        //this._paintElem.innerHTML = this.TABLE_ARR.join("");
+
+        /*
+        this._paintElem.style.display = "block";
+        this._displayElem.style.display = "none";
+
+        var tmp = this._displayElem;
+        this._displayElem = this._paintElem;
+        this._paintElem = tmp;
+        */
+
+
         elem.innerHTML = this.TABLE_ARR.join("");
+        //document.getElementById("juhu").innerHTML = this.TABLE_ARR.join("");
       } else {
         elem.innerHTML = htmlArr.join("");
       }
