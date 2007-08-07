@@ -5,6 +5,8 @@ qx.Class.define("qx.html2.Table",
   construct : function(layout, data)
   {
     this.base(arguments);
+    
+    this._useTable = true;
 
     this._layout = layout;
     this._data = data;
@@ -192,7 +194,7 @@ qx.Class.define("qx.html2.Table",
      * @param row {var} TODOC
      * @return {var} TODOC
      */
-    _renderRow : function(row)
+    _renderTableRow : function(row)
     {
       var html = [];
       var layout = this._layout;
@@ -230,7 +232,6 @@ qx.Class.define("qx.html2.Table",
           content = this._dateFormat.format(content);
         }
 
-        // style='padding:2px 8px;overflow:hidden;text-overflow:hidden;'
         html.push("<td>", content, "</td>");
       }
       
@@ -241,6 +242,41 @@ qx.Class.define("qx.html2.Table",
       // Cache and return
       return this._rowCache[row] = html.join("");
     },
+    
+    
+    _renderDivRow : function(row)
+    {
+      var html = [];
+      var layout = this._layout;
+      var data = this._data;
+      var rowdata = data[row] || {};  
+      
+      // Generate row and styles
+      var left = 0;
+      
+      // Process column content
+      for (var key in layout)
+      {
+        content = rowdata[key] || "";
+
+        if (typeof content === "boolean") {
+          content = content ? this._checkImage : "";
+        } else if (content instanceof Date) {
+          content = this._dateFormat.format(content);
+        }
+
+        html.push("<div style='position:absolute;top:0px;left:" + left + "px;height:" + this._rowHeight + "px;width:" + layout[key].width + "px'>", content, "</div>");
+        left += layout[key].width;
+      }      
+      
+      // Cache and return
+      return this._rowCache[row] = html.join("");      
+    },
+    
+    
+    _render : function() {
+      this._useTable ? this._renderTable() : this._renderDiv();
+    },
 
 
     /**
@@ -249,7 +285,7 @@ qx.Class.define("qx.html2.Table",
      * @type member
      * @return {void} 
      */
-    _render : function()
+    _renderTable : function()
     {
       var start = new Date;
       var html = [];
@@ -275,7 +311,7 @@ qx.Class.define("qx.html2.Table",
       html.push("<tbody>");
 
       for (var i=pos, l=pos+nr; i<l; i++) {
-        html.push(this._rowCache[i] || this._renderRow(i));
+        html.push(this._rowCache[i] || this._renderTableRow(i));
       }
 
       // Close table
@@ -288,6 +324,55 @@ qx.Class.define("qx.html2.Table",
       var t2 = new Date - start;
       
       console.log("Generate/Apply: " + t1 + "ms, " + t2 + "ms");
+    },
+    
+    
+    _renderDiv : function()
+    {
+      var start = new Date;
+      var html = [];
+      var data = this._data;
+
+      var pos = this._rowPosition;
+      var nr = this._rowNumber;      
+
+      for (var i=pos, l=pos+nr; i<l; i++) 
+      {
+        var rowdata = data[i] || {};  
+        
+        html.push("<div class='row' style='");
+        html.push('position:absolute;top:' + ((i-pos) * this._rowHeight) + 'px;left:0px;');
+        html.push('width:100%;height:', this._rowHeight, 'px;');
+  
+        if (rowdata.selected) {
+          html.push('background:#3399FF;color:white;');
+        } else if (i % 2) {
+          html.push('background:#f0f0f0;');
+        }
+  
+        if (!rowdata.read) {
+          html.push('font-weight:bold;');
+        }
+  
+        if (rowdata.spam) {
+          html.push('color:#7B5229');
+        }
+  
+        html.push("'>");   
+        
+        html.push(this._rowCache[i] || this._renderDivRow(i));
+        
+        html.push("</div>");
+      }
+      
+      var t1 = new Date - start;
+
+      // Apply
+      var start = new Date;
+      this._frame.innerHTML = html.join("");
+      var t2 = new Date - start;
+      
+      console.log("Generate/Apply: " + t1 + "ms, " + t2 + "ms");            
     },
 
 
