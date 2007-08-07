@@ -1,0 +1,80 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+  <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
+</head>
+<body>
+  <div id="description">
+    <p>The default table using divs and nodeValue.</p>
+  </div>
+
+  <div id="juhu" style="position:absolute; top:30px; left: 480px; width: 450px; height: 400px; border: 1px solid black;">
+  </div>
+
+  <script type="text/javascript">
+  qx.core.Init.getInstance().defineMain(function()
+  {
+    var d = qx.ui.core.ClientDocument.getInstance();
+
+    // new table
+
+    var tableModel_new = new qx.ui.table2.model.Simple();
+    tableModel_new.setColumns([ "", "Subject", "", "Sender", "", "Date" ]);
+    var rowData = [];
+    var now = new Date().getTime();
+    var dateRange = 400 * 24 * 60 * 60 * 1000; // 400 days
+
+        // generate data
+    var data = [];
+    for (var i=0; i<1000; i++)
+    {
+      data.push([
+        i%20==0,
+        "Subject of mail " + i,
+        i>50||i%3==0,
+        "Sender " + i,
+        i % 16 == 0,
+        new Date(2007, 1+Math.round(Math.random()*11), 1+Math.round(Math.random()*30), 12, 0, 0)
+      ]);
+    }
+    tableModel_new.setData(data);
+
+    var table_new = new qx.ui.table2.Table(tableModel_new);
+    table_new.set({ left:10, top:30, width:450, height:400, border:"inset-thin" });
+
+    table_new.getTableColumnModel().setDataCellRenderer(0, new qx.ui.table2.cellrenderer.Boolean());
+    table_new.getTableColumnModel().setDataCellRenderer(2, new qx.ui.table2.cellrenderer.Boolean());
+    table_new.getTableColumnModel().setDataCellRenderer(5, new qx.ui.table2.cellrenderer.Boolean());
+
+    d.add(table_new);
+
+
+    // old table
+    var tableModel_old = new qx.ui.table.model.Simple();
+    tableModel_old.setColumns([ "", "Subject", "", "Sender", "", "Date" ]);
+    tableModel_old.setData(data);
+
+    var table_old = new qx.ui.table.Table(tableModel_old);
+
+    table_old.getTableColumnModel().setDataCellRenderer(0, new qx.ui.table.cellrenderer.Boolean());
+    table_old.getTableColumnModel().setDataCellRenderer(2, new qx.ui.table.cellrenderer.Boolean());
+    table_old.getTableColumnModel().setDataCellRenderer(5, new qx.ui.table.cellrenderer.Boolean());
+
+    table_old.set({ left:480, top:30, width:450, height:400, border:"inset-thin" });
+    //d.add(table_old);
+
+    /*
+    btn.addEventListener("execute", function(e) {
+      console.profile("scroll");
+      table.getPaneScroller(0).setScrollY(Math.random()*200);
+      console.profileEnd();
+    });
+    btn.addToDocument();
+    */
+
+  });
+  </script>
+</body>
+</html>
