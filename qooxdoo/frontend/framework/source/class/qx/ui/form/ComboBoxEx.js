@@ -465,6 +465,10 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
           }
         }
       }
+      else
+      {
+        this.setValue(newValue != null ? newValue:this.getValue());
+      }
     },
 
 
