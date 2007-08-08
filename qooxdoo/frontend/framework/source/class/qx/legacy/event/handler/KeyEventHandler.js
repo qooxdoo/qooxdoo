@@ -29,7 +29,7 @@
  * This class provides unified key event handler for Internet Explorer,
  * Firefox, Opera and Safari
  */
-qx.Class.define("qx.event.handler.KeyEventHandler",
+qx.Class.define("qx.legacy.event.handler.KeyEventHandler",
 {
   type : "singleton",
   extend : qx.core.Target,
@@ -80,9 +80,9 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
     {
       var el = qx.core.Variant.isSet("qx.client", "gecko") ? window : document.body;
 
-      qx.html.EventRegistration.addEventListener(el, "keypress", this.__onkeypress);
-      qx.html.EventRegistration.addEventListener(el, "keyup", this.__onkeyupdown);
-      qx.html.EventRegistration.addEventListener(el, "keydown", this.__onkeyupdown);
+      qx.legacy.html.EventRegistration.addEventListener(el, "keypress", this.__onkeypress);
+      qx.legacy.html.EventRegistration.addEventListener(el, "keyup", this.__onkeyupdown);
+      qx.legacy.html.EventRegistration.addEventListener(el, "keydown", this.__onkeyupdown);
     },
 
 
@@ -98,9 +98,9 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
       var el = qx.core.Variant.isSet("qx.client", "gecko") ? window : document.body;
 
       // Unregister dom events
-      qx.html.EventRegistration.removeEventListener(el, "keypress", this.__onkeypress);
-      qx.html.EventRegistration.removeEventListener(el, "keyup", this.__onkeyupdown);
-      qx.html.EventRegistration.removeEventListener(el, "keydown", this.__onkeyupdown);
+      qx.legacy.html.EventRegistration.removeEventListener(el, "keypress", this.__onkeypress);
+      qx.legacy.html.EventRegistration.removeEventListener(el, "keyup", this.__onkeyupdown);
+      qx.legacy.html.EventRegistration.removeEventListener(el, "keydown", this.__onkeyupdown);
     },
 
 
@@ -591,15 +591,15 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
       if (keyCode)
       {
         keyIdentifier = this._keyCodeToIdentifier(keyCode);
-        qx.event.handler.EventHandler.getInstance()._onkeyevent_post(domEvent, eventType, keyCode, charCode, keyIdentifier);
+        qx.legacy.event.handler.EventHandler.getInstance()._onkeyevent_post(domEvent, eventType, keyCode, charCode, keyIdentifier);
       }
 
       // Use: charCode
       else
       {
         keyIdentifier = this._charCodeToIdentifier(charCode);
-        qx.event.handler.EventHandler.getInstance()._onkeyevent_post(domEvent, "keypress", keyCode, charCode, keyIdentifier);
-        qx.event.handler.EventHandler.getInstance()._onkeyevent_post(domEvent, "keyinput", keyCode, charCode, keyIdentifier);
+        qx.legacy.event.handler.EventHandler.getInstance()._onkeyevent_post(domEvent, "keypress", keyCode, charCode, keyIdentifier);
+        qx.legacy.event.handler.EventHandler.getInstance()._onkeyevent_post(domEvent, "keyinput", keyCode, charCode, keyIdentifier);
       }
     }
   },

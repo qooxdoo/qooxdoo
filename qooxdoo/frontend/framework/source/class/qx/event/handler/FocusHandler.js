@@ -33,9 +33,9 @@
  *
  *
  */
-qx.Class.define("qx.event2.handler.FocusHandler",
+qx.Class.define("qx.event.handler.FocusHandler",
 {
-  extend : qx.event2.handler.AbstractEventHandler,
+  extend : qx.event.handler.AbstractEventHandler,
 
   construct : function(manager)
   {
@@ -50,7 +50,7 @@ qx.Class.define("qx.event2.handler.FocusHandler",
 
     // Common native listeners
     this.__onNativeMouseDown = qx.lang.Function.bind(this._onNativeMouseDown, this);
-    qx.event2.Manager.addNativeListener(this._document, "mousedown", this.__onNativeMouseDown);
+    qx.event.Manager.addNativeListener(this._document, "mousedown", this.__onNativeMouseDown);
 
     // Cross browser listeners
     if (qx.core.Variant.isSet("qx.client", "gecko"))
@@ -74,8 +74,8 @@ qx.Class.define("qx.event2.handler.FocusHandler",
       // To detect which elements get focus the target is useful
       // The window blur can detected using focusout and look
       // for the relatedTarget which is empty in this case.
-      qx.event2.Manager.addNativeListener(this._document, "focusin", this.__onNativeFocusIn);
-      qx.event2.Manager.addNativeListener(this._document, "focusout", this.__onNativeFocusOut);
+      qx.event.Manager.addNativeListener(this._document, "focusin", this.__onNativeFocusIn);
+      qx.event.Manager.addNativeListener(this._document, "focusout", this.__onNativeFocusOut);
     }
     else if (qx.core.Variant.isSet("qx.client", "opera|webkit"))
     {
@@ -89,7 +89,7 @@ qx.Class.define("qx.event2.handler.FocusHandler",
       this._window.addEventListener("blur", this.__onNativeBlur, false);
 
       // Opera 9.x supports DOMFocusOut which is needed to detect the element focus
-      qx.event2.Manager.addNativeListener(this._document, "DOMFocusIn", this.__onNativeFocusIn);
+      qx.event.Manager.addNativeListener(this._document, "DOMFocusIn", this.__onNativeFocusIn);
     }
   },
 
@@ -452,7 +452,7 @@ qx.Class.define("qx.event2.handler.FocusHandler",
 
     __fireCustom : function(target, type)
     {
-      var event = this._eventPool.getEventInstance("qx.event2.type.Event").init({});
+      var event = this._eventPool.getEventInstance("qx.event.type.Event").init({});
 
       if (target) {
         event.setTarget(target);
@@ -471,24 +471,24 @@ qx.Class.define("qx.event2.handler.FocusHandler",
     {
       "gecko" : function()
       {
-        qx.event2.Manager.removeNativeListener(this._document, "mousedown", this.__onNativeMouseDown);
+        qx.event.Manager.removeNativeListener(this._document, "mousedown", this.__onNativeMouseDown);
         this._window.removeEventListener("focus", this.__onNativeFocus, true);
         this._window.removeEventListener("blur", this.__onNativeBlur, true);
       },
 
       "mshtml" : function()
       {
-        qx.event2.Manager.removeNativeListener(this._document, "mousedown", this.__onNativeMouseDown);
-        qx.event2.Manager.removeNativeListener(this._document, "focusin", this.__onNativeFocusIn);
-        qx.event2.Manager.removeNativeListener(this._document, "focusout", this.__onNativeFocusOut);
+        qx.event.Manager.removeNativeListener(this._document, "mousedown", this.__onNativeMouseDown);
+        qx.event.Manager.removeNativeListener(this._document, "focusin", this.__onNativeFocusIn);
+        qx.event.Manager.removeNativeListener(this._document, "focusout", this.__onNativeFocusOut);
       },
 
       "webkit|opera" : function()
       {
-        qx.event2.Manager.removeNativeListener(this._document, "mousedown", this.__onNativeMouseDown);
+        qx.event.Manager.removeNativeListener(this._document, "mousedown", this.__onNativeMouseDown);
         this._window.removeEventListener("focus", this.__onNativeFocus, false);
         this._window.removeEventListener("blur", this.__onNativeBlur, false);
-        qx.event2.Manager.removeNativeListener(this._document, "DOMFocusIn", this.__onNativeFocusIn);
+        qx.event.Manager.removeNativeListener(this._document, "DOMFocusIn", this.__onNativeFocusIn);
       }
     })
 
@@ -504,7 +504,7 @@ qx.Class.define("qx.event2.handler.FocusHandler",
 
   defer : function(statics)
   {
-    var manager = qx.event2.Manager;
+    var manager = qx.event.Manager;
     manager.registerEventHandler(statics, manager.PRIORITY_FIRST);
   }
 });

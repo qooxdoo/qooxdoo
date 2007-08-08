@@ -34,12 +34,12 @@ qx.Class.define("qx.locale.Key",
   {
     /**
      * Return localized name of a key identifier
-     * @{link qx.event.handler.KeyEventHandler}
+     * @{link qx.legacy.event.handler.KeyEventHandler}
      *
      * @type static
      * @param size {String} format of the key identifier.
      *       Possible values: "short", "full"
-     * @param keyIdentifier {String} key identifier to translate {@link qx.event.handler.KeyEventHandler}
+     * @param keyIdentifier {String} key identifier to translate {@link qx.legacy.event.handler.KeyEventHandler}
      * @param locale {String} optional locale to be used
      * @return {String} localized key name
      * @throws TODOC

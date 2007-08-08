@@ -23,9 +23,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.event2.handler.ObjectEventHandler",
+qx.Class.define("qx.event.handler.ObjectEventHandler",
 {
-  extend : qx.event2.handler.AbstractEventHandler,
+  extend : qx.event.handler.AbstractEventHandler,
 
   members :
   {
@@ -55,7 +55,7 @@ qx.Class.define("qx.event2.handler.ObjectEventHandler",
 
   defer : function(statics)
   {
-    var manager = qx.event2.Manager;
+    var manager = qx.event.Manager;
     manager.registerEventHandler(statics, manager.PRIORITY_NORMAL);
   }
 

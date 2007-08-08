@@ -20,7 +20,7 @@
 /* ************************************************************************
 
 #module(client2)
-#require(qx.client2.detail.Engine)
+#require(qx.client.detail.Engine)
 
 ************************************************************************ */
 
@@ -32,7 +32,7 @@
  * phase of the class. The defaults listed in the API viewer need not
  * to be identical to the values at runtime.
  */
-qx.Class.define("qx.client2.detail.Feature",
+qx.Class.define("qx.client.detail.Feature",
 {
   /*
   *****************************************************************************
@@ -78,12 +78,12 @@ qx.Class.define("qx.client2.detail.Feature",
       this.STANDARD_MODE = document.compatMode == "CSS1Compat";
       this.QUIRKS_MODE = !this.STANDARD_MODE;
 
-      this.CONTENT_BOX = !!(!qx.client2.detail.Engine.MSHTML || this.STANDARD_MODE);
+      this.CONTENT_BOX = !!(!qx.client.detail.Engine.MSHTML || this.STANDARD_MODE);
       this.BORDER_BOX = !this.CONTENT_BOX;
 
       this.SVG = document.implementation && document.implementation.hasFeature && document.implementation.hasFeature("org.w3c.dom.svg", "1.0");
       this.CANVAS = !!window.CanvasRenderingContext2D;
-      this.VML = qx.client2.detail.Engine.MSHTML;
+      this.VML = qx.client.detail.Engine.MSHTML;
 
       this.XPATH = !!document.evaluate;
     }

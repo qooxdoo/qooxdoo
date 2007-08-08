@@ -247,10 +247,10 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
   events :
   {
-    "treeOpenWithContent" : "qx.event.type.DataEvent",
-    "treeOpenWhileEmpty"  : "qx.event.type.DataEvent",
-    "treeClose"           : "qx.event.type.DataEvent",
-    "changeSelection"     : "qx.event.type.DataEvent"
+    "treeOpenWithContent" : "qx.legacy.event.type.DataEvent",
+    "treeOpenWhileEmpty"  : "qx.legacy.event.type.DataEvent",
+    "treeClose"           : "qx.legacy.event.type.DataEvent",
+    "changeSelection"     : "qx.legacy.event.type.DataEvent"
   },
 
 
@@ -366,7 +366,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
           lastColumn  : stdcm.getColumnCount() - 1
         };
 
-        stdcm.dispatchEvent(new qx.event.type.DataEvent("dataChanged", data),
+        stdcm.dispatchEvent(new qx.legacy.event.type.DataEvent("dataChanged", data),
                             true);
       }
     },
@@ -419,7 +419,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
           lastColumn  : stdcm.getColumnCount() - 1
         };
 
-        stdcm.dispatchEvent(new qx.event.type.DataEvent("dataChanged", data),
+        stdcm.dispatchEvent(new qx.legacy.event.type.DataEvent("dataChanged", data),
                             true);
       }
     },
@@ -455,7 +455,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
           lastColumn  : stdcm.getColumnCount() - 1
         };
 
-        stdcm.dispatchEvent(new qx.event.type.DataEvent("dataChanged", data),
+        stdcm.dispatchEvent(new qx.legacy.event.type.DataEvent("dataChanged", data),
                             true);
       }
     },
@@ -753,7 +753,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
             break;
         }
       }
-      else if (modifiers == qx.event.type.DomEvent.CTRL_MASK)
+      else if (modifiers == qx.legacy.event.type.DomEvent.CTRL_MASK)
       {
         switch(identifier)
         {
@@ -808,7 +808,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
             break;
         }
       }
-      else if (modifiers == qx.event.type.DomEvent.SHIFT_MASK)
+      else if (modifiers == qx.legacy.event.type.DomEvent.SHIFT_MASK)
       {
         switch(identifier)
         {

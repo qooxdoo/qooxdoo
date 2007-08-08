@@ -35,7 +35,7 @@
  * Functions to scroll DOM elements into the visible area of the parent element
  * @deprecated: Use qx.bom.element.Scroll instead
  */
-qx.Class.define("qx.html.ScrollIntoView",
+qx.Class.define("qx.legacy.html.ScrollIntoView",
 {
   /*
   *****************************************************************************
@@ -64,7 +64,7 @@ qx.Class.define("qx.html.ScrollIntoView",
 
       while (vParent)
       {
-        switch(qx.html.Style.getStyleProperty(vParent, "overflow"))
+        switch(qx.legacy.html.Style.getStyleProperty(vParent, "overflow"))
         {
           case "scroll":
           case "auto":
@@ -73,7 +73,7 @@ qx.Class.define("qx.html.ScrollIntoView",
             break;
 
           default:
-            switch(qx.html.Style.getStyleProperty(vParent, "overflowX"))
+            switch(qx.legacy.html.Style.getStyleProperty(vParent, "overflowX"))
             {
               case "scroll":
               case "auto":
@@ -138,7 +138,7 @@ qx.Class.define("qx.html.ScrollIntoView",
 
       while (vParent)
       {
-        switch(qx.html.Style.getStyleProperty(vParent, "overflow"))
+        switch(qx.legacy.html.Style.getStyleProperty(vParent, "overflow"))
         {
           case "scroll":
           case "auto":
@@ -147,7 +147,7 @@ qx.Class.define("qx.html.ScrollIntoView",
             break;
 
           default:
-            switch(qx.html.Style.getStyleProperty(vParent, "overflowY"))
+            switch(qx.legacy.html.Style.getStyleProperty(vParent, "overflowY"))
             {
               case "scroll":
               case "auto":

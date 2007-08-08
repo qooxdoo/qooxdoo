@@ -29,11 +29,11 @@
     	var id = href.substr(href.indexOf('#')+1);
 
     	var frame1 = document.getElementById("inner1");
-    	var doc1 = qx.html.Iframe.getDocument(frame1);
+    	var doc1 = qx.legacy.html.Iframe.getDocument(frame1);
     	var elem1 = doc1.getElementById(id);
 
     	var frame2 = document.getElementById("inner2");
-    	var doc2 = qx.html.Iframe.getDocument(frame2);
+    	var doc2 = qx.legacy.html.Iframe.getDocument(frame2);
     	var elem2 = doc2.getElementById(id);
 
     	var location1 = qx.bom.element.Location.get(elem1, document.getElementById("mode").value);
@@ -54,10 +54,10 @@
     function randomize()
     {
     	var frame1 = document.getElementById("inner1");
-    	var doc1 = qx.html.Iframe.getDocument(frame1);
+    	var doc1 = qx.legacy.html.Iframe.getDocument(frame1);
 
     	var frame2 = document.getElementById("inner2");
-    	var doc2 = qx.html.Iframe.getDocument(frame2);
+    	var doc2 = qx.legacy.html.Iframe.getDocument(frame2);
 
       var divs1 = qx.lang.Array.fromCollection(doc1.body.getElementsByTagName("div"));
       var divs2 = qx.lang.Array.fromCollection(doc2.body.getElementsByTagName("div"));

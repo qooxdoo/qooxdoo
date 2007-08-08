@@ -43,13 +43,13 @@ qx.Class.define("qx.xml.Element",
     {
       "hasXMLSerializer": function(element)
       {
-        var element = qx.xml.Document.isDocument(element) ? element.documentElement : element;
+        var element = qx.dom.Node.isDocument(element) ? element.documentElement : element;
         return (new XMLSerializer()).serializeToString(element);
       },
 
       "noXMLSerializer": function(element)
       {
-        var element = qx.xml.Document.isDocument(element) ? element.documentElement : element;
+        var element = qx.dom.Node.isDocument(element) ? element.documentElement : element;
         return element.xml || element.outerHTML;
       }
     }),

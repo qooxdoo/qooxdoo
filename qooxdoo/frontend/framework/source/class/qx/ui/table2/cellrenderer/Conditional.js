@@ -353,7 +353,7 @@ qx.Class.define("qx.ui.table2.cellrenderer.Conditional",
       if (textNode != null) {
         textNode.nodeValue = this._formatValue(cellInfo);
       } else {
-        cellElement.innerHTML = qx.html.String.escape(this._formatValue(cellInfo));
+        cellElement.innerHTML = qx.legacy.html.String.escape(this._formatValue(cellInfo));
       }
     }
   }

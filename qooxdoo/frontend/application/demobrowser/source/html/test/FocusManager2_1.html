@@ -84,9 +84,9 @@ qx.Class.define("Gui2Test",
       document.body.focus();
       this.oldFocus = document.body;
 
-      qx.event2.Manager.addListener(document.documentElement, "activate", this._changeActive, this, true);
-      qx.event2.Manager.addListener(document.documentElement, "deactivate", this._changeActive, this, true);
-      qx.event2.Manager.addListener(document.documentElement, "focusin", this._changeFocus, this);
+      qx.event.Manager.addListener(document.documentElement, "activate", this._changeActive, this, true);
+      qx.event.Manager.addListener(document.documentElement, "deactivate", this._changeActive, this, true);
+      qx.event.Manager.addListener(document.documentElement, "focusin", this._changeFocus, this);
     },
 
     _changeActive : function(e)

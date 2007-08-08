@@ -66,13 +66,13 @@ qx.Class.define("qx.ui.table2.columnmodel.Basic",
      *   <li>oldWidth: The old width of the column in pixels.</li>
      * </ul>
      */
-    "widthChanged" : "qx.event.type.DataEvent",
+    "widthChanged" : "qx.legacy.event.type.DataEvent",
 
     /**
      * Fired when the visibility of a column has changed. This event is equal to
       * "visibilityChanged", but is fired right before.
      */
-    "visibilityChangedPre" : "qx.event.type.DataEvent",
+    "visibilityChangedPre" : "qx.legacy.event.type.DataEvent",
 
     /**
      * Fired when the visibility of a column has changed. The data property of the
@@ -82,7 +82,7 @@ qx.Class.define("qx.ui.table2.columnmodel.Basic",
      *   <li>visible: Whether the column is now visible.</li>
      * </ul>
      */
-    "visibilityChanged" : "qx.event.type.DataEvent",
+    "visibilityChanged" : "qx.legacy.event.type.DataEvent",
 
     /**
      * Fired when the column order has changed. The data property of the
@@ -93,7 +93,7 @@ qx.Class.define("qx.ui.table2.columnmodel.Basic",
      *   <li>toOverXPos: The new overall x position of the column.</li>
      * </ul>
      */
-    "orderChanged" : "qx.event.type.DataEvent"
+    "orderChanged" : "qx.legacy.event.type.DataEvent"
   },
 
 
@@ -193,7 +193,7 @@ qx.Class.define("qx.ui.table2.columnmodel.Basic",
             oldWidth : oldWidth
           };
 
-          this.dispatchEvent(new qx.event.type.DataEvent("widthChanged", data), true);
+          this.dispatchEvent(new qx.legacy.event.type.DataEvent("widthChanged", data), true);
         }
       }
     },
@@ -470,7 +470,7 @@ qx.Class.define("qx.ui.table2.columnmodel.Basic",
               visible : visible
             };
 
-            this.dispatchEvent(new qx.event.type.DataEvent("visibilityChangedPre", data), true);
+            this.dispatchEvent(new qx.legacy.event.type.DataEvent("visibilityChangedPre", data), true);
           }
 
           if (this.hasEventListeners("visibilityChanged"))
@@ -481,7 +481,7 @@ qx.Class.define("qx.ui.table2.columnmodel.Basic",
               visible : visible
             };
 
-            this.dispatchEvent(new qx.event.type.DataEvent("visibilityChanged", data), true);
+            this.dispatchEvent(new qx.legacy.event.type.DataEvent("visibilityChanged", data), true);
           }
         }
       }
@@ -530,7 +530,7 @@ qx.Class.define("qx.ui.table2.columnmodel.Basic",
           toOverXPos   : toOverXPos
         };
 
-        this.dispatchEvent(new qx.event.type.DataEvent("orderChanged", data), true);
+        this.dispatchEvent(new qx.legacy.event.type.DataEvent("orderChanged", data), true);
       }
     }
   },

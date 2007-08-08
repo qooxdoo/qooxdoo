@@ -66,7 +66,7 @@ qx.Class.define("qx.ui.selection.SelectionManager",
      * Fired on a selection change. The "data" proeprty is set to an array of
      * selected items as returned by {@link #getSelectedItems}.
      **/
-    "changeSelection" : "qx.event.type.DataEvent"
+    "changeSelection" : "qx.legacy.event.type.DataEvent"
   },
 
 
@@ -1327,7 +1327,7 @@ qx.Class.define("qx.ui.selection.SelectionManager",
      * Handles key event to perform selection and navigation
      *
      * @type member
-     * @param vDomEvent {qx.event.type.KeyEvent} event object
+     * @param vDomEvent {qx.legacy.event.type.KeyEvent} event object
      * @return {void}
      */
     handleKeyPress : function(vDomEvent)
@@ -1514,7 +1514,7 @@ qx.Class.define("qx.ui.selection.SelectionManager",
       }
 
       if (this.hasEventListeners("changeSelection")) {
-        this.dispatchEvent(new qx.event.type.DataEvent("changeSelection", this.getSelectedItems()), true);
+        this.dispatchEvent(new qx.legacy.event.type.DataEvent("changeSelection", this.getSelectedItems()), true);
       }
     },
 

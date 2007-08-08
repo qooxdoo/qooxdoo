@@ -133,7 +133,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
   */
 
   events: {
-    "beforeInitialOpen" : "qx.event.type.Event"
+    "beforeInitialOpen" : "qx.legacy.event.type.Event"
   },
 
 
@@ -755,7 +755,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       this._createPopup();
       var p = this._popup;
       var el = this.getElement();
-      p.positionRelativeTo(el, 1, qx.html.Dimension.getBoxHeight(el));
+      p.positionRelativeTo(el, 1, qx.legacy.html.Dimension.getBoxHeight(el));
       this._calculateDimensions();
       // For aesthetic purposes, make the list width at least the width of the combo.
       p.set({
@@ -952,7 +952,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
     _onContextMenu: function(ev) {
       if (this.getAllowSearch()) {
         var menu = new qx.ui.menu.Menu;
-        var cmd = new qx.client.Command();
+        var cmd = new qx.event.Command();
         cmd.addEventListener('execute', this.openSearchDialog, this);
         menu.add(new qx.ui.menu.Button(this.tr("Search"), 'icon/16/actions/edit-find.png', cmd));
         menu.addToDocument();

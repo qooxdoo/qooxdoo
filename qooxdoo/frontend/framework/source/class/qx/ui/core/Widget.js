@@ -23,8 +23,8 @@
 #module(ui_core)
 #optional(qx.ui.core.Parent)
 #optional(qx.ui.form.Button)
-#optional(qx.client.Timer)
-#optional(qx.client.Command)
+#optional(qx.event.Timer)
+#optional(qx.event.Command)
 #optional(qx.ui.popup.ToolTip)
 #optional(qx.ui.menu.Menu)
 #optional(qx.ui.basic.Inline)
@@ -74,85 +74,85 @@ qx.Class.define("qx.ui.core.Widget",
 
   events:
   {
-    "beforeAppear"    : "qx.event.type.Event",
-    "appear"          : "qx.event.type.Event",
-    "beforeDisappear" : "qx.event.type.Event",
-    "disappear"       : "qx.event.type.Event",
-    "beforeInsertDom" : "qx.event.type.Event",
-    "insertDom"       : "qx.event.type.Event",
-    "beforeRemoveDom" : "qx.event.type.Event",
-    "removeDom"       : "qx.event.type.Event",
-    "create"          : "qx.event.type.Event",
-    "execute"         : "qx.event.type.Event",
+    "beforeAppear"    : "qx.legacy.event.type.Event",
+    "appear"          : "qx.legacy.event.type.Event",
+    "beforeDisappear" : "qx.legacy.event.type.Event",
+    "disappear"       : "qx.legacy.event.type.Event",
+    "beforeInsertDom" : "qx.legacy.event.type.Event",
+    "insertDom"       : "qx.legacy.event.type.Event",
+    "beforeRemoveDom" : "qx.legacy.event.type.Event",
+    "removeDom"       : "qx.legacy.event.type.Event",
+    "create"          : "qx.legacy.event.type.Event",
+    "execute"         : "qx.legacy.event.type.Event",
 
-    /** (Fired by {@link qx.event.handler.EventHandler}) */
-    "mouseover"       : "qx.event.type.MouseEvent",
+    /** (Fired by {@link qx.legacy.event.handler.EventHandler}) */
+    "mouseover"       : "qx.legacy.event.type.MouseEvent",
 
-    /** (Fired by {@link qx.event.handler.EventHandler}) */
-    "mousemove"       : "qx.event.type.MouseEvent",
+    /** (Fired by {@link qx.legacy.event.handler.EventHandler}) */
+    "mousemove"       : "qx.legacy.event.type.MouseEvent",
 
-    /** (Fired by {@link qx.event.handler.EventHandler}) */
-    "mouseout"        : "qx.event.type.MouseEvent",
+    /** (Fired by {@link qx.legacy.event.handler.EventHandler}) */
+    "mouseout"        : "qx.legacy.event.type.MouseEvent",
 
-    /** (Fired by {@link qx.event.handler.EventHandler}) */
-    "mousedown"       : "qx.event.type.MouseEvent",
+    /** (Fired by {@link qx.legacy.event.handler.EventHandler}) */
+    "mousedown"       : "qx.legacy.event.type.MouseEvent",
 
-    /** (Fired by {@link qx.event.handler.EventHandler}) */
-    "mouseup"         : "qx.event.type.MouseEvent",
+    /** (Fired by {@link qx.legacy.event.handler.EventHandler}) */
+    "mouseup"         : "qx.legacy.event.type.MouseEvent",
 
-    /** (Fired by {@link qx.event.handler.EventHandler}) */
-    "mousewheel"      : "qx.event.type.MouseEvent",
+    /** (Fired by {@link qx.legacy.event.handler.EventHandler}) */
+    "mousewheel"      : "qx.legacy.event.type.MouseEvent",
 
-    /** (Fired by {@link qx.event.handler.EventHandler}) */
-    "click"           : "qx.event.type.MouseEvent",
+    /** (Fired by {@link qx.legacy.event.handler.EventHandler}) */
+    "click"           : "qx.legacy.event.type.MouseEvent",
 
-    /** (Fired by {@link qx.event.handler.EventHandler}) */
-    "dblclick"        : "qx.event.type.MouseEvent",
+    /** (Fired by {@link qx.legacy.event.handler.EventHandler}) */
+    "dblclick"        : "qx.legacy.event.type.MouseEvent",
 
-    /** (Fired by {@link qx.event.handler.EventHandler}) */
-    "contextmenu"     : "qx.event.type.MouseEvent",
+    /** (Fired by {@link qx.legacy.event.handler.EventHandler}) */
+    "contextmenu"     : "qx.legacy.event.type.MouseEvent",
 
-    /** (Fired by {@link qx.event.handler.EventHandler}) */
-    "keydown"         : "qx.event.type.KeyEvent",
+    /** (Fired by {@link qx.legacy.event.handler.EventHandler}) */
+    "keydown"         : "qx.legacy.event.type.KeyEvent",
 
-    /** (Fired by {@link qx.event.handler.EventHandler}) */
-    "keypress"        : "qx.event.type.KeyEvent",
+    /** (Fired by {@link qx.legacy.event.handler.EventHandler}) */
+    "keypress"        : "qx.legacy.event.type.KeyEvent",
 
-    /** (Fired by {@link qx.event.handler.EventHandler}) */
-    "keyinput"        : "qx.event.type.KeyEvent",
+    /** (Fired by {@link qx.legacy.event.handler.EventHandler}) */
+    "keyinput"        : "qx.legacy.event.type.KeyEvent",
 
-    /** (Fired by {@link qx.event.handler.EventHandler}) */
-    "keyup"           : "qx.event.type.KeyEvent",
-
-    /** (Fired by {@link qx.ui.core.Parent}) */
-    "focusout"        : "qx.event.type.FocusEvent",
+    /** (Fired by {@link qx.legacy.event.handler.EventHandler}) */
+    "keyup"           : "qx.legacy.event.type.KeyEvent",
 
     /** (Fired by {@link qx.ui.core.Parent}) */
-    "focusin"         : "qx.event.type.FocusEvent",
+    "focusout"        : "qx.legacy.event.type.FocusEvent",
 
     /** (Fired by {@link qx.ui.core.Parent}) */
-    "blur"            : "qx.event.type.FocusEvent",
+    "focusin"         : "qx.legacy.event.type.FocusEvent",
 
     /** (Fired by {@link qx.ui.core.Parent}) */
-    "focus"           : "qx.event.type.FocusEvent",
+    "blur"            : "qx.legacy.event.type.FocusEvent",
 
-    /** (Fired by {@link qx.event.handler.DragAndDropHandler}) */
-    "dragdrop"        : "qx.event.type.DragEvent",
+    /** (Fired by {@link qx.ui.core.Parent}) */
+    "focus"           : "qx.legacy.event.type.FocusEvent",
 
-    /** (Fired by {@link qx.event.handler.DragAndDropHandler}) */
-    "dragout"         : "qx.event.type.DragEvent",
+    /** (Fired by {@link qx.legacy.event.handler.DragAndDropHandler}) */
+    "dragdrop"        : "qx.legacy.event.type.DragEvent",
 
-    /** (Fired by {@link qx.event.handler.DragAndDropHandler}) */
-    "dragover"        : "qx.event.type.DragEvent",
+    /** (Fired by {@link qx.legacy.event.handler.DragAndDropHandler}) */
+    "dragout"         : "qx.legacy.event.type.DragEvent",
 
-    /** (Fired by {@link qx.event.handler.DragAndDropHandler}) */
-    "dragmove"        : "qx.event.type.DragEvent",
+    /** (Fired by {@link qx.legacy.event.handler.DragAndDropHandler}) */
+    "dragover"        : "qx.legacy.event.type.DragEvent",
 
-    /** (Fired by {@link qx.event.handler.DragAndDropHandler}) */
-    "dragstart"       : "qx.event.type.DragEvent",
+    /** (Fired by {@link qx.legacy.event.handler.DragAndDropHandler}) */
+    "dragmove"        : "qx.legacy.event.type.DragEvent",
 
-    /** (Fired by {@link qx.event.handler.DragAndDropHandler}) */
-    "dragend"         : "qx.event.type.DragEvent"
+    /** (Fired by {@link qx.legacy.event.handler.DragAndDropHandler}) */
+    "dragstart"       : "qx.legacy.event.type.DragEvent",
+
+    /** (Fired by {@link qx.legacy.event.handler.DragAndDropHandler}) */
+    "dragend"         : "qx.legacy.event.type.DragEvent"
   },
 
 
@@ -177,7 +177,7 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
-    // Will be calculated later (TODO: Move to qx.html?)
+    // Will be calculated later (TODO: Move to qx.legacy.html?)
     SCROLLBAR_SIZE : null,
 
     /* ************************************************************************
@@ -1028,7 +1028,7 @@ qx.Class.define("qx.ui.core.Widget",
 
       document.body.appendChild(t);
 
-      var c = qx.html.Dimension.getScrollBarSizeRight(t);
+      var c = qx.legacy.html.Dimension.getScrollBarSizeRight(t);
 
       qx.ui.core.Widget.SCROLLBAR_SIZE = c ? c : 16;
 
@@ -1485,7 +1485,7 @@ qx.Class.define("qx.ui.core.Widget",
     /** A command called if the widget should be excecuted (a placeholder for buttons, ...) */
     command :
     {
-      check : "qx.client.Command",
+      check : "qx.event.Command",
       nullable : true,
       apply : "_applyCommand"
     },
@@ -2185,8 +2185,8 @@ qx.Class.define("qx.ui.core.Widget",
       return (
         this._initialLayoutDone &&
         this._isDisplayable &&
-        qx.html.Style.getStyleProperty(elem, "display") != "none" &&
-        qx.html.Style.getStyleProperty(elem, "visibility") != "hidden" &&
+        qx.legacy.html.Style.getStyleProperty(elem, "display") != "none" &&
+        qx.legacy.html.Style.getStyleProperty(elem, "visibility") != "hidden" &&
         elem.offsetWidth > 0 && elem.offsetHeight > 0
       );
     },
@@ -5102,7 +5102,7 @@ qx.Class.define("qx.ui.core.Widget",
       {
         if (vStates.focused)
         {
-          if (!qx.event.handler.FocusHandler.mouseFocus && !this.getHideFocus()) {
+          if (!qx.legacy.event.handler.FocusHandler.mouseFocus && !this.getHideFocus()) {
             this.setStyleProperty("MozOutline", "1px dotted invert");
           }
         }
@@ -5116,7 +5116,7 @@ qx.Class.define("qx.ui.core.Widget",
       {
         if (vStates.focused)
         {
-          if (!qx.event.handler.FocusHandler.mouseFocus && !this.getHideFocus()) {
+          if (!qx.legacy.event.handler.FocusHandler.mouseFocus && !this.getHideFocus()) {
             this.setStyleProperty("outline", "1px dotted invert");
           }
         }
@@ -5773,8 +5773,8 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _visualizeFocus : function()
     {
-      // this.info("_visualizeFocus: " + qx.event.handler.FocusHandler.mouseFocus);
-      if (!qx.event.handler.FocusHandler.mouseFocus && this.getEnableElementFocus())
+      // this.info("_visualizeFocus: " + qx.legacy.event.handler.FocusHandler.mouseFocus);
+      if (!qx.legacy.event.handler.FocusHandler.mouseFocus && this.getEnableElementFocus())
       {
         try {
           this.getElement().focus();
@@ -5793,7 +5793,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     focus : function()
     {
-      delete qx.event.handler.FocusHandler.mouseFocus;
+      delete qx.legacy.event.handler.FocusHandler.mouseFocus;
       this.setFocused(true);
     },
 
@@ -5806,7 +5806,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     blur : function()
     {
-      delete qx.event.handler.FocusHandler.mouseFocus;
+      delete qx.legacy.event.handler.FocusHandler.mouseFocus;
       this.setFocused(false);
     },
 
@@ -5832,7 +5832,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _applyCapture : function(value, old)
     {
-      var vMgr = qx.event.handler.EventHandler.getInstance();
+      var vMgr = qx.legacy.event.handler.EventHandler.getInstance();
 
       if (old) {
         vMgr.setCaptureWidget(null);
@@ -6851,7 +6851,7 @@ qx.Class.define("qx.ui.core.Widget",
     getOffsetLeft : function()
     {
       this._visualPropertyCheck();
-      return qx.html.Offset.getLeft(this.getElement());
+      return qx.legacy.html.Offset.getLeft(this.getElement());
     },
 
 
@@ -6864,7 +6864,7 @@ qx.Class.define("qx.ui.core.Widget",
     getOffsetTop : function()
     {
       this._visualPropertyCheck();
-      return qx.html.Offset.getTop(this.getElement());
+      return qx.legacy.html.Offset.getTop(this.getElement());
     },
 
 
@@ -7016,7 +7016,7 @@ qx.Class.define("qx.ui.core.Widget",
         return false;
       }
 
-      return qx.html.ScrollIntoView.scrollX(this.getElement(), alignLeft);
+      return qx.legacy.html.ScrollIntoView.scrollX(this.getElement(), alignLeft);
     },
 
 
@@ -7037,7 +7037,7 @@ qx.Class.define("qx.ui.core.Widget",
         return false;
       }
 
-      return qx.html.ScrollIntoView.scrollY(this.getElement(), alignTop);
+      return qx.legacy.html.ScrollIntoView.scrollY(this.getElement(), alignTop);
     },
 
 

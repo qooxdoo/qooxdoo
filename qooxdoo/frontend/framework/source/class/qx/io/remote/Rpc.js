@@ -110,10 +110,10 @@ qx.Class.define("qx.io.remote.Rpc",
 
   events :
   {
-    "completed" : "qx.event.type.Event",
-    "aborted" : "qx.event.type.Event",
-    "failed" : "qx.event.type.Event",
-    "timeout" : "qx.event.type.Event"
+    "completed" : "qx.legacy.event.type.Event",
+    "aborted" : "qx.legacy.event.type.Event",
+    "failed" : "qx.legacy.event.type.Event",
+    "timeout" : "qx.legacy.event.type.Event"
   },
 
 
@@ -216,8 +216,8 @@ qx.Class.define("qx.io.remote.Rpc",
      *
      * A request is cross domain if the request's URL points to a host other
      * than the local host. This switches the concrete implementation that is
-     * used for sending the request from qx.io.remote.XmlHttpTransport to
-     * qx.io.remote.ScriptTransport because only the latter can handle cross
+     * used for sending the request from qx.io.remote.transport.XmlHttp to
+     * qx.io.remote.transport.Script because only the latter can handle cross
      * domain requests.
      */
     crossDomain :
@@ -344,7 +344,7 @@ qx.Class.define("qx.io.remote.Rpc",
       }
 
       var req = new qx.io.remote.Request(this.getUrl(),
-                                         qx.net.Http.METHOD_POST,
+                                         qx.util.Http.METHOD_POST,
                                          qx.util.Mime.JSON);
 
       var requestObject =

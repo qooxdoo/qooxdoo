@@ -20,10 +20,10 @@
 /* ************************************************************************
 
 #module(client2)
-#require(qx.client2.detail.Engine)
-#require(qx.client2.detail.Feature)
-#require(qx.client2.detail.Platform)
-#require(qx.client2.detail.System)
+#require(qx.client.detail.Engine)
+#require(qx.client.detail.Feature)
+#require(qx.client.detail.Platform)
+#require(qx.client.detail.System)
 
 ************************************************************************ */
 
@@ -68,7 +68,7 @@
  * Valid expressions are for example: <code>gecko</code>, <code>gecko|opera</code>,
  * <code>gecko,version>1.6</code>, <code>opera|(gecko,border_box)</code>
  */
-qx.Class.define("qx.client2.Client",
+qx.Class.define("qx.client.Client",
 {
   /*
   *****************************************************************************
@@ -230,7 +230,7 @@ qx.Class.define("qx.client2.Client",
     {
       var keys = this.__keys;
       var lower = this.__lower;
-      var ns = qx.client2.detail;
+      var ns = qx.client.detail;
       var prop;
       var value;
 

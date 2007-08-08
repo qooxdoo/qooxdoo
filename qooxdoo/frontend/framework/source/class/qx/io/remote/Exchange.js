@@ -25,9 +25,9 @@
 /* ************************************************************************
 
 #module(io_remote)
-#use(qx.io.remote.XmlHttpTransport)
-#use(qx.io.remote.IframeTransport)
-#use(qx.io.remote.ScriptTransport)
+#use(qx.io.remote.transport.XmlHttp)
+#use(qx.io.remote.transport.Iframe)
+#use(qx.io.remote.transport.Script)
 
 ************************************************************************ */
 
@@ -67,8 +67,8 @@ qx.Class.define("qx.io.remote.Exchange",
   */
 
   events : {
-    "sending" : "qx.event.type.Event",
-    "receiving" : "qx.event.type.Event",
+    "sending" : "qx.legacy.event.type.Event",
+    "receiving" : "qx.legacy.event.type.Event",
     "completed" : "qx.io.remote.Response",
     "aborted" : "qx.io.remote.Response",
     "failed" : "qx.io.remote.Response",
@@ -95,7 +95,7 @@ qx.Class.define("qx.io.remote.Exchange",
     ---------------------------------------------------------------------------
     */
 
-    typesOrder : [ "qx.io.remote.XmlHttpTransport", "qx.io.remote.IframeTransport", "qx.io.remote.ScriptTransport" ],
+    typesOrder : [ "qx.io.remote.transport.XmlHttp", "qx.io.remote.transport.Iframe", "qx.io.remote.transport.Script" ],
 
     typesReady : false,
 
@@ -504,12 +504,12 @@ qx.Class.define("qx.io.remote.Exchange",
     /**
      * Set the implementation to use to send the request with.
      *
-     *  The implementation should be a subclass of qx.io.remote.AbstractRemoteTransport and
+     *  The implementation should be a subclass of qx.io.remote.transport.Abstract and
      *  must implement all methods in the transport API.
      */
     implementation :
     {
-      check : "qx.io.remote.AbstractRemoteTransport",
+      check : "qx.io.remote.transport.Abstract",
       nullable : true,
       apply : "_applyImplementation"
     },

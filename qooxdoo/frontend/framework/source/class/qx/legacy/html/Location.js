@@ -28,7 +28,7 @@
  * @deprecated: Use qx.bom.element.Location instead
  *
  */
-qx.Class.define("qx.html.Location",
+qx.Class.define("qx.legacy.html.Location",
 {
   /*
   *****************************************************************************
@@ -46,7 +46,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getPageOuterLeft : function(el) {
-      return qx.html.Location.getPageBoxLeft(el) - qx.html.Style.getMarginLeft(el);
+      return qx.legacy.html.Location.getPageBoxLeft(el) - qx.legacy.html.Style.getMarginLeft(el);
     },
 
 
@@ -58,7 +58,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getPageOuterTop : function(el) {
-      return qx.html.Location.getPageBoxTop(el) - qx.html.Style.getMarginTop(el);
+      return qx.legacy.html.Location.getPageBoxTop(el) - qx.legacy.html.Style.getMarginTop(el);
     },
 
 
@@ -70,7 +70,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getPageOuterRight : function(el) {
-      return qx.html.Location.getPageBoxRight(el) + qx.html.Style.getMarginRight(el);
+      return qx.legacy.html.Location.getPageBoxRight(el) + qx.legacy.html.Style.getMarginRight(el);
     },
 
 
@@ -82,7 +82,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getPageOuterBottom : function(el) {
-      return qx.html.Location.getPageBoxBottom(el) + qx.html.Style.getMarginBottom(el);
+      return qx.legacy.html.Location.getPageBoxBottom(el) + qx.legacy.html.Style.getMarginBottom(el);
     },
 
 
@@ -94,7 +94,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getClientOuterLeft : function(el) {
-      return qx.html.Location.getClientBoxLeft(el) - qx.html.Style.getMarginLeft(el);
+      return qx.legacy.html.Location.getClientBoxLeft(el) - qx.legacy.html.Style.getMarginLeft(el);
     },
 
 
@@ -106,7 +106,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getClientOuterTop : function(el) {
-      return qx.html.Location.getClientBoxTop(el) - qx.html.Style.getMarginTop(el);
+      return qx.legacy.html.Location.getClientBoxTop(el) - qx.legacy.html.Style.getMarginTop(el);
     },
 
 
@@ -118,7 +118,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getClientOuterRight : function(el) {
-      return qx.html.Location.getClientBoxRight(el) + qx.html.Style.getMarginRight(el);
+      return qx.legacy.html.Location.getClientBoxRight(el) + qx.legacy.html.Style.getMarginRight(el);
     },
 
 
@@ -130,7 +130,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getClientOuterBottom : function(el) {
-      return qx.html.Location.getClientBoxBottom(el) + qx.html.Style.getMarginBottom(el);
+      return qx.legacy.html.Location.getClientBoxBottom(el) + qx.legacy.html.Style.getMarginBottom(el);
     },
 
 
@@ -149,7 +149,7 @@ qx.Class.define("qx.html.Location",
       },
 
       "gecko" : function(el) {
-        return qx.html.Location.getClientAreaLeft(el) - qx.html.Style.getBorderLeft(el);
+        return qx.legacy.html.Location.getClientAreaLeft(el) - qx.legacy.html.Style.getBorderLeft(el);
       },
 
       "default" : function(el)
@@ -182,7 +182,7 @@ qx.Class.define("qx.html.Location",
       },
 
       "gecko" : function(el) {
-        return qx.html.Location.getClientAreaTop(el) - qx.html.Style.getBorderTop(el);
+        return qx.legacy.html.Location.getClientAreaTop(el) - qx.legacy.html.Style.getBorderTop(el);
       },
 
       "default" : function(el)
@@ -215,7 +215,7 @@ qx.Class.define("qx.html.Location",
       },
 
       "default" : function(el) {
-        return qx.html.Location.getClientBoxLeft(el) + qx.html.Dimension.getBoxWidth(el);
+        return qx.legacy.html.Location.getClientBoxLeft(el) + qx.legacy.html.Dimension.getBoxWidth(el);
       }
     }),
 
@@ -235,7 +235,7 @@ qx.Class.define("qx.html.Location",
       },
 
       "default" : function(el) {
-        return qx.html.Location.getClientBoxTop(el) + qx.html.Dimension.getBoxHeight(el);
+        return qx.legacy.html.Location.getClientBoxTop(el) + qx.legacy.html.Dimension.getBoxHeight(el);
       }
     }),
 
@@ -251,11 +251,11 @@ qx.Class.define("qx.html.Location",
     getPageBoxLeft : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(el) {
-        return qx.html.Location.getClientBoxLeft(el) + qx.html.Scroll.getLeftSum(el);
+        return qx.legacy.html.Location.getClientBoxLeft(el) + qx.legacy.html.Scroll.getLeftSum(el);
       },
 
       "gecko" : function(el) {
-        return qx.html.Location.getPageAreaLeft(el) - qx.html.Style.getBorderLeft(el);
+        return qx.legacy.html.Location.getPageAreaLeft(el) - qx.legacy.html.Style.getBorderLeft(el);
       },
 
       "default" : function(el)
@@ -284,11 +284,11 @@ qx.Class.define("qx.html.Location",
     getPageBoxTop : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(el) {
-        return qx.html.Location.getClientBoxTop(el) + qx.html.Scroll.getTopSum(el);
+        return qx.legacy.html.Location.getClientBoxTop(el) + qx.legacy.html.Scroll.getTopSum(el);
       },
 
       "gecko" : function(el) {
-        return qx.html.Location.getPageAreaTop(el) - qx.html.Style.getBorderTop(el);
+        return qx.legacy.html.Location.getPageAreaTop(el) - qx.legacy.html.Style.getBorderTop(el);
       },
 
       "default" : function(el)
@@ -317,11 +317,11 @@ qx.Class.define("qx.html.Location",
     getPageBoxRight : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(el) {
-        return qx.html.Location.getClientBoxRight(el) + qx.html.Scroll.getLeftSum(el);
+        return qx.legacy.html.Location.getClientBoxRight(el) + qx.legacy.html.Scroll.getLeftSum(el);
       },
 
       "default" : function(el) {
-        return qx.html.Location.getPageBoxLeft(el) + qx.html.Dimension.getBoxWidth(el);
+        return qx.legacy.html.Location.getPageBoxLeft(el) + qx.legacy.html.Dimension.getBoxWidth(el);
       }
     }),
 
@@ -337,11 +337,11 @@ qx.Class.define("qx.html.Location",
     getPageBoxBottom : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(el) {
-        return qx.html.Location.getClientBoxBottom(el) + qx.html.Scroll.getTopSum(el);
+        return qx.legacy.html.Location.getClientBoxBottom(el) + qx.legacy.html.Scroll.getTopSum(el);
       },
 
       "default" : function(el) {
-        return qx.html.Location.getPageBoxTop(el) + qx.html.Dimension.getBoxHeight(el);
+        return qx.legacy.html.Location.getPageBoxTop(el) + qx.legacy.html.Dimension.getBoxHeight(el);
       }
     }),
 
@@ -358,11 +358,11 @@ qx.Class.define("qx.html.Location",
     {
       "gecko" : function(el) {
         // We need to subtract the scroll position of all parent containers (bug #186229).
-        return qx.html.Location.getPageAreaLeft(el) - qx.html.Scroll.getLeftSum(el);
+        return qx.legacy.html.Location.getPageAreaLeft(el) - qx.legacy.html.Scroll.getLeftSum(el);
       },
 
       "default" : function(el) {
-        return qx.html.Location.getClientBoxLeft(el) + qx.html.Style.getBorderLeft(el);
+        return qx.legacy.html.Location.getClientBoxLeft(el) + qx.legacy.html.Style.getBorderLeft(el);
       }
     }),
 
@@ -379,11 +379,11 @@ qx.Class.define("qx.html.Location",
     {
       "gecko" : function(el) {
         // We need to subtract the scroll position of all parent containers (bug #186229).
-        return qx.html.Location.getPageAreaTop(el) - qx.html.Scroll.getTopSum(el);
+        return qx.legacy.html.Location.getPageAreaTop(el) - qx.legacy.html.Scroll.getTopSum(el);
       },
 
       "default" : function(el) {
-        return qx.html.Location.getClientBoxTop(el) + qx.html.Style.getBorderTop(el);
+        return qx.legacy.html.Location.getClientBoxTop(el) + qx.legacy.html.Style.getBorderTop(el);
       }
     }),
 
@@ -396,7 +396,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getClientAreaRight : function(el) {
-      return qx.html.Location.getClientAreaLeft(el) + qx.html.Dimension.getAreaWidth(el);
+      return qx.legacy.html.Location.getClientAreaLeft(el) + qx.legacy.html.Dimension.getAreaWidth(el);
     },
 
 
@@ -408,7 +408,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getClientAreaBottom : function(el) {
-      return qx.html.Location.getClientAreaTop(el) + qx.html.Dimension.getAreaHeight(el);
+      return qx.legacy.html.Location.getClientAreaTop(el) + qx.legacy.html.Dimension.getAreaHeight(el);
     },
 
 
@@ -427,7 +427,7 @@ qx.Class.define("qx.html.Location",
       },
 
       "default" : function(el) {
-        return qx.html.Location.getPageBoxLeft(el) + qx.html.Style.getBorderLeft(el);
+        return qx.legacy.html.Location.getPageBoxLeft(el) + qx.legacy.html.Style.getBorderLeft(el);
       }
     }),
 
@@ -447,7 +447,7 @@ qx.Class.define("qx.html.Location",
       },
 
       "default" : function(el) {
-        return qx.html.Location.getPageBoxTop(el) + qx.html.Style.getBorderTop(el);
+        return qx.legacy.html.Location.getPageBoxTop(el) + qx.legacy.html.Style.getBorderTop(el);
       }
     }),
 
@@ -460,7 +460,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getPageAreaRight : function(el) {
-      return qx.html.Location.getPageAreaLeft(el) + qx.html.Dimension.getAreaWidth(el);
+      return qx.legacy.html.Location.getPageAreaLeft(el) + qx.legacy.html.Dimension.getAreaWidth(el);
     },
 
 
@@ -472,7 +472,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getPageAreaBottom : function(el) {
-      return qx.html.Location.getPageAreaTop(el) + qx.html.Dimension.getAreaHeight(el);
+      return qx.legacy.html.Location.getPageAreaTop(el) + qx.legacy.html.Dimension.getAreaHeight(el);
     },
 
 
@@ -484,7 +484,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getClientInnerLeft : function(el) {
-      return qx.html.Location.getClientAreaLeft(el) + qx.html.Style.getPaddingLeft(el);
+      return qx.legacy.html.Location.getClientAreaLeft(el) + qx.legacy.html.Style.getPaddingLeft(el);
     },
 
 
@@ -496,7 +496,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getClientInnerTop : function(el) {
-      return qx.html.Location.getClientAreaTop(el) + qx.html.Style.getPaddingTop(el);
+      return qx.legacy.html.Location.getClientAreaTop(el) + qx.legacy.html.Style.getPaddingTop(el);
     },
 
 
@@ -508,7 +508,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getClientInnerRight : function(el) {
-      return qx.html.Location.getClientInnerLeft(el) + qx.html.Dimension.getInnerWidth(el);
+      return qx.legacy.html.Location.getClientInnerLeft(el) + qx.legacy.html.Dimension.getInnerWidth(el);
     },
 
 
@@ -520,7 +520,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getClientInnerBottom : function(el) {
-      return qx.html.Location.getClientInnerTop(el) + qx.html.Dimension.getInnerHeight(el);
+      return qx.legacy.html.Location.getClientInnerTop(el) + qx.legacy.html.Dimension.getInnerHeight(el);
     },
 
 
@@ -532,7 +532,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getPageInnerLeft : function(el) {
-      return qx.html.Location.getPageAreaLeft(el) + qx.html.Style.getPaddingLeft(el);
+      return qx.legacy.html.Location.getPageAreaLeft(el) + qx.legacy.html.Style.getPaddingLeft(el);
     },
 
 
@@ -544,7 +544,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getPageInnerTop : function(el) {
-      return qx.html.Location.getPageAreaTop(el) + qx.html.Style.getPaddingTop(el);
+      return qx.legacy.html.Location.getPageAreaTop(el) + qx.legacy.html.Style.getPaddingTop(el);
     },
 
 
@@ -556,7 +556,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getPageInnerRight : function(el) {
-      return qx.html.Location.getPageInnerLeft(el) + qx.html.Dimension.getInnerWidth(el);
+      return qx.legacy.html.Location.getPageInnerLeft(el) + qx.legacy.html.Dimension.getInnerWidth(el);
     },
 
 
@@ -568,7 +568,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getPageInnerBottom : function(el) {
-      return qx.html.Location.getPageInnerTop(el) + qx.html.Dimension.getInnerHeight(el);
+      return qx.legacy.html.Location.getPageInnerTop(el) + qx.legacy.html.Dimension.getInnerHeight(el);
     },
 
 
@@ -604,7 +604,7 @@ qx.Class.define("qx.html.Location",
 
       "default" : function(el) {
         // Hope this works in khtml, too (opera 7.6p3 seems to be ok)
-        return qx.html.Location.getScreenDocumentLeft(el) + qx.html.Location.getPageBoxLeft(el);
+        return qx.legacy.html.Location.getScreenDocumentLeft(el) + qx.legacy.html.Location.getPageBoxLeft(el);
       }
     }),
 
@@ -636,7 +636,7 @@ qx.Class.define("qx.html.Location",
       },
 
       "default" : function(el) {
-        return qx.html.Location.getScreenDocumentTop(el) + qx.html.Location.getPageBoxTop(el);
+        return qx.legacy.html.Location.getScreenDocumentTop(el) + qx.legacy.html.Location.getPageBoxTop(el);
       }
     }),
 
@@ -649,7 +649,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getScreenBoxRight : function(el) {
-      return qx.html.Location.getScreenBoxLeft(el) + qx.html.Dimension.getBoxWidth(el);
+      return qx.legacy.html.Location.getScreenBoxLeft(el) + qx.legacy.html.Dimension.getBoxWidth(el);
     },
 
 
@@ -661,7 +661,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getScreenBoxBottom : function(el) {
-      return qx.html.Location.getScreenBoxTop(el) + qx.html.Dimension.getBoxHeight(el);
+      return qx.legacy.html.Location.getScreenBoxTop(el) + qx.legacy.html.Dimension.getBoxHeight(el);
     },
 
 
@@ -673,7 +673,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getScreenOuterLeft : function(el) {
-      return qx.html.Location.getScreenBoxLeft(el) - qx.html.Style.getMarginLeft(el);
+      return qx.legacy.html.Location.getScreenBoxLeft(el) - qx.legacy.html.Style.getMarginLeft(el);
     },
 
 
@@ -685,7 +685,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getScreenOuterTop : function(el) {
-      return qx.html.Location.getScreenBoxTop(el) - qx.html.Style.getMarginTop(el);
+      return qx.legacy.html.Location.getScreenBoxTop(el) - qx.legacy.html.Style.getMarginTop(el);
     },
 
 
@@ -697,7 +697,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getScreenOuterRight : function(el) {
-      return qx.html.Location.getScreenBoxRight(el) + qx.html.Style.getMarginRight(el);
+      return qx.legacy.html.Location.getScreenBoxRight(el) + qx.legacy.html.Style.getMarginRight(el);
     },
 
 
@@ -709,7 +709,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getScreenOuterBottom : function(el) {
-      return qx.html.Location.getScreenBoxBottom(el) + qx.html.Style.getMarginBottom(el);
+      return qx.legacy.html.Location.getScreenBoxBottom(el) + qx.legacy.html.Style.getMarginBottom(el);
     },
 
 
@@ -721,7 +721,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getScreenAreaLeft : function(el) {
-      return qx.html.Location.getScreenBoxLeft(el) + qx.html.Dimension.getInsetLeft(el);
+      return qx.legacy.html.Location.getScreenBoxLeft(el) + qx.legacy.html.Dimension.getInsetLeft(el);
     },
 
 
@@ -733,7 +733,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getScreenAreaTop : function(el) {
-      return qx.html.Location.getScreenBoxTop(el) + qx.html.Dimension.getInsetTop(el);
+      return qx.legacy.html.Location.getScreenBoxTop(el) + qx.legacy.html.Dimension.getInsetTop(el);
     },
 
 
@@ -745,7 +745,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getScreenAreaRight : function(el) {
-      return qx.html.Location.getScreenBoxRight(el) - qx.html.Dimension.getInsetRight(el);
+      return qx.legacy.html.Location.getScreenBoxRight(el) - qx.legacy.html.Dimension.getInsetRight(el);
     },
 
 
@@ -757,7 +757,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getScreenAreaBottom : function(el) {
-      return qx.html.Location.getScreenBoxBottom(el) - qx.html.Dimension.getInsetBottom(el);
+      return qx.legacy.html.Location.getScreenBoxBottom(el) - qx.legacy.html.Dimension.getInsetBottom(el);
     },
 
 
@@ -769,7 +769,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getScreenInnerLeft : function(el) {
-      return qx.html.Location.getScreenAreaLeft(el) + qx.html.Style.getPaddingLeft(el);
+      return qx.legacy.html.Location.getScreenAreaLeft(el) + qx.legacy.html.Style.getPaddingLeft(el);
     },
 
 
@@ -781,7 +781,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getScreenInnerTop : function(el) {
-      return qx.html.Location.getScreenAreaTop(el) + qx.html.Style.getPaddingTop(el);
+      return qx.legacy.html.Location.getScreenAreaTop(el) + qx.legacy.html.Style.getPaddingTop(el);
     },
 
 
@@ -793,7 +793,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getScreenInnerRight : function(el) {
-      return qx.html.Location.getScreenAreaRight(el) - qx.html.Style.getPaddingRight(el);
+      return qx.legacy.html.Location.getScreenAreaRight(el) - qx.legacy.html.Style.getPaddingRight(el);
     },
 
 
@@ -805,7 +805,7 @@ qx.Class.define("qx.html.Location",
      * @return {var} TODOC
      */
     getScreenInnerBottom : function(el) {
-      return qx.html.Location.getScreenAreaBottom(el) - qx.html.Style.getPaddingBottom(el);
+      return qx.legacy.html.Location.getScreenAreaBottom(el) - qx.legacy.html.Style.getPaddingBottom(el);
     },
 
 
@@ -825,7 +825,7 @@ qx.Class.define("qx.html.Location",
         //  Notice:
         //    This doesn't work like the mshtml method:
         //    el.ownerDocument.defaultView.screenX;
-        return qx.html.Location.getScreenOuterLeft(el.ownerDocument.body);
+        return qx.legacy.html.Location.getScreenOuterLeft(el.ownerDocument.body);
       },
 
       "default" : function(el) {
@@ -847,7 +847,7 @@ qx.Class.define("qx.html.Location",
     getScreenDocumentTop : qx.core.Variant.select("qx.client",
     {
       "gecko" : function(el) {
-        return qx.html.Location.getScreenOuterTop(el.ownerDocument.body);
+        return qx.legacy.html.Location.getScreenOuterTop(el.ownerDocument.body);
       },
 
       "default" : function(el) {
@@ -867,7 +867,7 @@ qx.Class.define("qx.html.Location",
     getScreenDocumentRight : qx.core.Variant.select("qx.client",
     {
       "gecko" : function(el) {
-        return qx.html.Location.getScreenOuterRight(el.ownerDocument.body);
+        return qx.legacy.html.Location.getScreenOuterRight(el.ownerDocument.body);
       },
 
       "default" : function(el) {}
@@ -885,7 +885,7 @@ qx.Class.define("qx.html.Location",
     getScreenDocumentBottom : qx.core.Variant.select("qx.client",
     {
       "gecko" : function(el) {
-        return qx.html.Location.getScreenOuterBottom(el.ownerDocument.body);
+        return qx.legacy.html.Location.getScreenOuterBottom(el.ownerDocument.body);
       },
 
       "default" : function(el) {}

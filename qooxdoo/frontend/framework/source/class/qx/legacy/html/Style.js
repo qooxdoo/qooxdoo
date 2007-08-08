@@ -29,7 +29,7 @@
  * @deprecated: Should be replaced with qx.bom.element.Style which should
  *   also work a lot better
  */
-qx.Class.define("qx.html.Style",
+qx.Class.define("qx.legacy.html.Style",
 {
   /*
   *****************************************************************************
@@ -143,7 +143,7 @@ qx.Class.define("qx.html.Style",
      * @return {Integer} the (CSS) style property converted to an integer value
      */
     getStyleSize : function(vElement, propertyName) {
-      return parseInt(qx.html.Style.getStyleProperty(vElement, propertyName)) || 0;
+      return parseInt(qx.legacy.html.Style.getStyleProperty(vElement, propertyName)) || 0;
     },
 
 
@@ -155,7 +155,7 @@ qx.Class.define("qx.html.Style",
      * @return {Integer} the element's left margin size
      */
     getMarginLeft : function(vElement) {
-      return qx.html.Style.getStyleSize(vElement, "marginLeft");
+      return qx.legacy.html.Style.getStyleSize(vElement, "marginLeft");
     },
 
 
@@ -167,7 +167,7 @@ qx.Class.define("qx.html.Style",
      * @return {Integer} the element's top margin size
      */
     getMarginTop : function(vElement) {
-      return qx.html.Style.getStyleSize(vElement, "marginTop");
+      return qx.legacy.html.Style.getStyleSize(vElement, "marginTop");
     },
 
 
@@ -179,7 +179,7 @@ qx.Class.define("qx.html.Style",
      * @return {Integer} the element's right margin size
      */
     getMarginRight : function(vElement) {
-      return qx.html.Style.getStyleSize(vElement, "marginRight");
+      return qx.legacy.html.Style.getStyleSize(vElement, "marginRight");
     },
 
 
@@ -191,7 +191,7 @@ qx.Class.define("qx.html.Style",
      * @return {Integer} the element's bottom margin size
      */
     getMarginBottom : function(vElement) {
-      return qx.html.Style.getStyleSize(vElement, "marginBottom");
+      return qx.legacy.html.Style.getStyleSize(vElement, "marginBottom");
     },
 
 
@@ -203,7 +203,7 @@ qx.Class.define("qx.html.Style",
      * @return {Integer} the element's left padding size
      */
     getPaddingLeft : function(vElement) {
-      return qx.html.Style.getStyleSize(vElement, "paddingLeft");
+      return qx.legacy.html.Style.getStyleSize(vElement, "paddingLeft");
     },
 
 
@@ -215,7 +215,7 @@ qx.Class.define("qx.html.Style",
      * @return {Integer} the element's top padding size
      */
     getPaddingTop : function(vElement) {
-      return qx.html.Style.getStyleSize(vElement, "paddingTop");
+      return qx.legacy.html.Style.getStyleSize(vElement, "paddingTop");
     },
 
 
@@ -227,7 +227,7 @@ qx.Class.define("qx.html.Style",
      * @return {Integer} the element's right padding size
      */
     getPaddingRight : function(vElement) {
-      return qx.html.Style.getStyleSize(vElement, "paddingRight");
+      return qx.legacy.html.Style.getStyleSize(vElement, "paddingRight");
     },
 
 
@@ -239,7 +239,7 @@ qx.Class.define("qx.html.Style",
      * @return {Integer} the element's bottom padding size
      */
     getPaddingBottom : function(vElement) {
-      return qx.html.Style.getStyleSize(vElement, "paddingBottom");
+      return qx.legacy.html.Style.getStyleSize(vElement, "paddingBottom");
     },
 
 
@@ -251,7 +251,7 @@ qx.Class.define("qx.html.Style",
      * @return {Integer} the element's left border width
      */
     getBorderLeft : function(vElement) {
-      return qx.html.Style.getStyleProperty(vElement, "borderLeftStyle") == "none" ? 0 : qx.html.Style.getStyleSize(vElement, "borderLeftWidth");
+      return qx.legacy.html.Style.getStyleProperty(vElement, "borderLeftStyle") == "none" ? 0 : qx.legacy.html.Style.getStyleSize(vElement, "borderLeftWidth");
     },
 
 
@@ -263,7 +263,7 @@ qx.Class.define("qx.html.Style",
      * @return {Integer} the element's top border width
      */
     getBorderTop : function(vElement) {
-      return qx.html.Style.getStyleProperty(vElement, "borderTopStyle") == "none" ? 0 : qx.html.Style.getStyleSize(vElement, "borderTopWidth");
+      return qx.legacy.html.Style.getStyleProperty(vElement, "borderTopStyle") == "none" ? 0 : qx.legacy.html.Style.getStyleSize(vElement, "borderTopWidth");
     },
 
 
@@ -275,7 +275,7 @@ qx.Class.define("qx.html.Style",
      * @return {Integer} the element's right border width
      */
     getBorderRight : function(vElement) {
-      return qx.html.Style.getStyleProperty(vElement, "borderRightStyle") == "none" ? 0 : qx.html.Style.getStyleSize(vElement, "borderRightWidth");
+      return qx.legacy.html.Style.getStyleProperty(vElement, "borderRightStyle") == "none" ? 0 : qx.legacy.html.Style.getStyleSize(vElement, "borderRightWidth");
     },
 
 
@@ -287,7 +287,7 @@ qx.Class.define("qx.html.Style",
      * @return {Integer} the element's bottom border width
      */
     getBorderBottom : function(vElement) {
-      return qx.html.Style.getStyleProperty(vElement, "borderBottomStyle") == "none" ? 0 : qx.html.Style.getStyleSize(vElement, "borderBottomWidth");
+      return qx.legacy.html.Style.getStyleProperty(vElement, "borderBottomStyle") == "none" ? 0 : qx.legacy.html.Style.getStyleSize(vElement, "borderBottomWidth");
     }
   }
 });

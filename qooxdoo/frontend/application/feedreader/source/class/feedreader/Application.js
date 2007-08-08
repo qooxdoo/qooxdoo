@@ -175,7 +175,7 @@ qx.Class.define("feedreader.Application",
       qx.io.Alias.getInstance().add("feedreader", qx.core.Setting.get("feedreader.resourceUri"));
 
       // Include CSS file
-      qx.html.StyleSheet.includeFile(qx.io.Alias.getInstance().resolve("feedreader/css/reader.css"));
+      qx.legacy.html.StyleSheet.includeFile(qx.io.Alias.getInstance().resolve("feedreader/css/reader.css"));
 
       // create main layout
       var dockLayout = new qx.ui.layout.DockLayout();
@@ -193,7 +193,7 @@ qx.Class.define("feedreader.Application",
       dockLayout.addTop(this._header);
 
       // define commands
-      var reload_cmd = new qx.client.Command("Control+R");
+      var reload_cmd = new qx.event.Command("Control+R");
 
       reload_cmd.addEventListener("execute", function(e)
       {
@@ -202,7 +202,7 @@ qx.Class.define("feedreader.Application",
       },
       this);
 
-      var about_cmd = new qx.client.Command("F1");
+      var about_cmd = new qx.event.Command("F1");
 
       about_cmd.addEventListener("execute", function(e) {
         alert(this.tr("qooxdoo feed reader."));

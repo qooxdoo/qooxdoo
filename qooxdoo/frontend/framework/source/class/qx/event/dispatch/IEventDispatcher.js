@@ -26,9 +26,9 @@
 /**
  * All event dispatcher must implement this interface. Event dispatcher must
  * register themselves at the event Manager using
- * {@link qx.event2.Manager#registerEventDispatcher}.
+ * {@link qx.event.Manager#registerEventDispatcher}.
  */
-qx.Interface.define("qx.event2.dispatch.IEventDispatcher",
+qx.Interface.define("qx.event.dispatch.IEventDispatcher",
 {
   members:
   {
@@ -36,7 +36,7 @@ qx.Interface.define("qx.event2.dispatch.IEventDispatcher",
     /**
      * Whether the dispatcher is responsible for the this event.
      *
-     * @param event {qx.event2.type.Event} The event object
+     * @param event {qx.event.type.Event} The event object
      * @param type {String} the event type
      * @return {Boolean} Whether the event dispatcher is responsible for the this event
      */
@@ -48,7 +48,7 @@ qx.Interface.define("qx.event2.dispatch.IEventDispatcher",
     /**
      * This function dispatches the event to the event listeners.
      *
-     * @param event {qx.event2.type.Event} event object to dispatch
+     * @param event {qx.event.type.Event} event object to dispatch
      * @param type {String} the event type
      */
     dispatchEvent : function(event, type) {

@@ -24,9 +24,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.event.type.DomEvent",
+qx.Class.define("qx.legacy.event.type.DomEvent",
 {
-  extend : qx.event.type.Event,
+  extend : qx.legacy.event.type.Event,
 
 
 
@@ -145,10 +145,10 @@ qx.Class.define("qx.event.type.DomEvent",
     {
       var mask = 0;
       var evt = this.getDomEvent();
-      if (evt.shiftKey) mask |= qx.event.type.DomEvent.SHIFT_MASK;
-      if (evt.ctrlKey) mask |= qx.event.type.DomEvent.CTRL_MASK;
-      if (evt.altKey) mask |= qx.event.type.DomEvent.ALT_MASK;
-      if (evt.metaKey) mask |= qx.event.type.DomEvent.META_MASK;
+      if (evt.shiftKey) mask |= qx.legacy.event.type.DomEvent.SHIFT_MASK;
+      if (evt.ctrlKey) mask |= qx.legacy.event.type.DomEvent.CTRL_MASK;
+      if (evt.altKey) mask |= qx.legacy.event.type.DomEvent.ALT_MASK;
+      if (evt.metaKey) mask |= qx.legacy.event.type.DomEvent.META_MASK;
       return mask;
     },
 

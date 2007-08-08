@@ -66,7 +66,7 @@ qx.Class.define("qx.ui.form.ListItem",
 
   events: {
     /** (Fired by {@link qx.ui.form.List}) */
-    "action" : "qx.event.type.Event"
+    "action" : "qx.legacy.event.type.Event"
   },
 
 
@@ -104,7 +104,7 @@ qx.Class.define("qx.ui.form.ListItem",
       init : true
     },
 
-    /** Fires a "changeValue" (qx.event.type.ChangeEvent) event */
+    /** Fires a "changeValue" (qx.legacy.event.type.ChangeEvent) event */
     value : {
       event : "changeValue"
     }
@@ -232,7 +232,7 @@ qx.Class.define("qx.ui.form.ListItem",
      * Executes an registered command - if available.
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} double-click event
+     * @param e {qx.legacy.event.type.MouseEvent} double-click event
      * @return {void}
      */
     _ondblclick : function(e)

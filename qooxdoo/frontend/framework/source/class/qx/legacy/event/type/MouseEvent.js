@@ -25,9 +25,9 @@
 ************************************************************************ */
 
 /** A mouse event instance contains all data for each occured mouse event */
-qx.Class.define("qx.event.type.MouseEvent",
+qx.Class.define("qx.legacy.event.type.MouseEvent",
 {
-  extend : qx.event.type.DomEvent,
+  extend : qx.legacy.event.type.DomEvent,
 
 
 
@@ -375,12 +375,12 @@ qx.Class.define("qx.event.type.MouseEvent",
         if (this.getType() == "click") {
           return true;
         } else {
-          return this.getButton() === qx.event.type.MouseEvent.C_BUTTON_LEFT;
+          return this.getButton() === qx.legacy.event.type.MouseEvent.C_BUTTON_LEFT;
         }
       },
 
      "default": function() {
-        return this.getButton() === qx.event.type.MouseEvent.C_BUTTON_LEFT;
+        return this.getButton() === qx.legacy.event.type.MouseEvent.C_BUTTON_LEFT;
       }
     }),
 
@@ -391,7 +391,7 @@ qx.Class.define("qx.event.type.MouseEvent",
      * @return {var} TODOC
      */
     isMiddleButtonPressed : function() {
-      return this.getButton() === qx.event.type.MouseEvent.C_BUTTON_MIDDLE;
+      return this.getButton() === qx.legacy.event.type.MouseEvent.C_BUTTON_MIDDLE;
     },
 
 
@@ -402,7 +402,7 @@ qx.Class.define("qx.event.type.MouseEvent",
      * @return {var} TODOC
      */
     isRightButtonPressed : function() {
-      return this.getButton() === qx.event.type.MouseEvent.C_BUTTON_RIGHT;
+      return this.getButton() === qx.legacy.event.type.MouseEvent.C_BUTTON_RIGHT;
     },
 
 
@@ -421,16 +421,16 @@ qx.Class.define("qx.event.type.MouseEvent",
         switch(e.which)
         {
           case 1:
-            return qx.event.type.MouseEvent.C_BUTTON_LEFT;
+            return qx.legacy.event.type.MouseEvent.C_BUTTON_LEFT;
 
           case 3:
-            return qx.event.type.MouseEvent.C_BUTTON_RIGHT;
+            return qx.legacy.event.type.MouseEvent.C_BUTTON_RIGHT;
 
           case 2:
-            return qx.event.type.MouseEvent.C_BUTTON_MIDDLE;
+            return qx.legacy.event.type.MouseEvent.C_BUTTON_MIDDLE;
 
           default:
-            return qx.event.type.MouseEvent.C_BUTTON_NONE;
+            return qx.legacy.event.type.MouseEvent.C_BUTTON_NONE;
         }
       }
       else
@@ -438,16 +438,16 @@ qx.Class.define("qx.event.type.MouseEvent",
         switch(e.button)
         {
           case 1:
-            return qx.event.type.MouseEvent.C_BUTTON_LEFT;
+            return qx.legacy.event.type.MouseEvent.C_BUTTON_LEFT;
 
           case 2:
-            return qx.event.type.MouseEvent.C_BUTTON_RIGHT;
+            return qx.legacy.event.type.MouseEvent.C_BUTTON_RIGHT;
 
           case 4:
-            return qx.event.type.MouseEvent.C_BUTTON_MIDDLE;
+            return qx.legacy.event.type.MouseEvent.C_BUTTON_MIDDLE;
 
           default:
-            return qx.event.type.MouseEvent.C_BUTTON_NONE;
+            return qx.legacy.event.type.MouseEvent.C_BUTTON_NONE;
         }
       }
     },

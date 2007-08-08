@@ -26,10 +26,10 @@
 ************************************************************************ */
 
 /**
- * @deprecated: Use qx.event2.Manager instead
+ * @deprecated: Use qx.event.Manager instead
  *
  */
-qx.Class.define("qx.html.EventRegistration",
+qx.Class.define("qx.legacy.html.EventRegistration",
 {
   /*
   *****************************************************************************

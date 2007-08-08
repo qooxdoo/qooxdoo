@@ -46,7 +46,7 @@ qx.Class.define("qx.ui.pageview.tabview.Button",
   */
 
   events: {
-    "closetab" : "qx.event.type.Event"
+    "closetab" : "qx.legacy.event.type.Event"
   },
 
 
@@ -140,7 +140,7 @@ qx.Class.define("qx.ui.pageview.tabview.Button",
           {
             // we want to enable the outline border, because
             // the user used the keyboard for activation
-            delete qx.event.handler.FocusHandler.mouseFocus;
+            delete qx.legacy.event.handler.FocusHandler.mouseFocus;
 
             // focus previous tab
             vPrev.setFocused(true);
@@ -158,7 +158,7 @@ qx.Class.define("qx.ui.pageview.tabview.Button",
           {
             // we want to enable the outline border, because
             // the user used the keyboard for activation
-            delete qx.event.handler.FocusHandler.mouseFocus;
+            delete qx.legacy.event.handler.FocusHandler.mouseFocus;
 
             // focus next tab
             vNext.setFocused(true);

@@ -97,7 +97,7 @@ qx.Class.define("qx.ui.form.Spinner",
     // ************************************************************************
     //   TIMER
     // ************************************************************************
-    this._timer = new qx.client.Timer(this.getInterval());
+    this._timer = new qx.event.Timer(this.getInterval());
 
     // ************************************************************************
     //   MANAGER
@@ -155,7 +155,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * The "data" property of the event is set to the new value
      * of the spinner.
      */
-    "change" : "qx.event.type.DataEvent"
+    "change" : "qx.legacy.event.type.DataEvent"
   },
 
 
@@ -394,7 +394,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * events without modifiers.
      *
      * @type member
-     * @param e {qx.event.type.KeyEvent} keyPress event
+     * @param e {qx.legacy.event.type.KeyEvent} keyPress event
      * @return {void}
      */
     _onkeypress : function(e)
@@ -452,7 +452,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * spinner value.
      *
      * @type member
-     * @param e {qx.event.type.KeyEvent} keyDown event
+     * @param e {qx.legacy.event.type.KeyEvent} keyDown event
      * @return {void}
      */
     _onkeydown : function(e)
@@ -501,7 +501,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * gets stopped.
      *
      * @type member
-     * @param e {qx.event.type.KeyEvent} keyUp event
+     * @param e {qx.legacy.event.type.KeyEvent} keyUp event
      * @return {void}
      */
     _onkeyup : function(e)
@@ -537,7 +537,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * invoking the increment management (resets increments, setup and start timer etc.).
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} mouseDown event
+     * @param e {qx.legacy.event.type.MouseEvent} mouseDown event
      * @return {void}
      */
     _onmousedown : function(e)
@@ -573,7 +573,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * resetting interval increase).
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} mouseUp event
+     * @param e {qx.legacy.event.type.MouseEvent} mouseUp event
      * @return {void}
      */
     _onmouseup : function(e)
@@ -599,7 +599,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * selects the text field.
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} mouseWheel event
+     * @param e {qx.legacy.event.type.MouseEvent} mouseWheel event
      * @return {void}
      */
     _onmousewheel : function(e)
@@ -635,7 +635,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * hold by the "checkValue" property.
      *
      * @type member
-     * @param e {qx.event.type.DataEvent} input event
+     * @param e {qx.legacy.event.type.DataEvent} input event
      * @return {void}
      */
     _oninput : function(e) {
@@ -651,7 +651,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * Dispatched the "change" event.
      *
      * @type member
-     * @param e {qx.event.type.ChangeEvent} change event
+     * @param e {qx.legacy.event.type.ChangeEvent} change event
      * @return {void}
      */
     _onchange : function(e)
@@ -691,7 +691,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * Calls the method of the "checkValueFunction" property
      *
      * @type member
-     * @param e {qx.event.type.FocusEvent} blur event
+     * @param e {qx.legacy.event.type.FocusEvent} blur event
      * @return {void}
      */
     _onblur : function(e) {
@@ -805,7 +805,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * the new interval.
      *
      * @type member
-     * @param e {qx.event.type.Event} interval event
+     * @param e {qx.legacy.event.type.Event} interval event
      * @return {void}
      */
     _oninterval : function(e)

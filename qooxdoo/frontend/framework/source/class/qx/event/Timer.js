@@ -30,7 +30,7 @@
  * {@link #once} is a special case. It will call a function deferred after a
  * given timeout.
  */
-qx.Class.define("qx.client.Timer",
+qx.Class.define("qx.event.Timer",
 {
   extend : qx.core.Target,
 
@@ -71,7 +71,7 @@ qx.Class.define("qx.client.Timer",
   events :
   {
     /** This event if fired each time the interval time has elapsed */
-    "interval" : "qx.event.type.Event"
+    "interval" : "qx.legacy.event.type.Event"
   },
 
 
@@ -97,7 +97,7 @@ qx.Class.define("qx.client.Timer",
     once : function(func, obj, timeout)
     {
       // Create time instance
-      var timer = new qx.client.Timer(timeout);
+      var timer = new qx.event.Timer(timeout);
 
       // Add event listener to interval
       timer.addEventListener("interval", function(e)

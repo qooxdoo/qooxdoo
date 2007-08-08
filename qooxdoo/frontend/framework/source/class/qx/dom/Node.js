@@ -172,7 +172,7 @@ qx.Class.define("qx.dom.Node",
      * @return {Boolean} true if the node is a DOM element
      */
     isElement : function(node) {
-      return !!(node && node.nodeType === qx.xml.Node.ELEMENT);
+      return !!(node && node.nodeType === qx.dom.Node.ELEMENT);
     },
 
 
@@ -184,7 +184,7 @@ qx.Class.define("qx.dom.Node",
      * @return {Boolean} true when the node is a document
      */
     isDocument : function(node) {
-      return !!(node && node.nodeType === qx.xml.Node.DOCUMENT);
+      return !!(node && node.nodeType === qx.dom.Node.DOCUMENT);
     },
 
 
@@ -196,7 +196,7 @@ qx.Class.define("qx.dom.Node",
      * @return {Boolean} true if the node is a DOM element
      */
     isText : function(node) {
-      return !!(node && node.nodeType === qx.xml.Node.TEXT);
+      return !!(node && node.nodeType === qx.dom.Node.TEXT);
     },
 
 

@@ -63,12 +63,12 @@ qx.Class.define("qx.ui.table2.model.Basic",
      *   <li>lastColumn: The model index of the last column that has changed.</li>
      * </ul>
      */
-    "dataChanged" : "qx.event.type.DataEvent",
+    "dataChanged" : "qx.legacy.event.type.DataEvent",
 
     /**
      * Fired when the meta data changed (the stuff shown in the table header).
      */
-    "metaDataChanged" : "qx.event.type.DataEvent"
+    "metaDataChanged" : "qx.legacy.event.type.DataEvent"
   },
 
 

@@ -31,7 +31,7 @@
  * The interface is modeled after the DOM level 2 event interface:
  * http://www.w3.org/TR/DOM-Level-2-Events/events.html#Events-interface
  */
-qx.Class.define("qx.event2.type.Event",
+qx.Class.define("qx.event.type.Event",
 {
   extend : qx.core.Object,
 
@@ -100,7 +100,7 @@ qx.Class.define("qx.event2.type.Event",
      *
      * @type member
      * @param domEvent {Event} DOM event
-     * @return {qx.event2.type.Event} The initialized event instance
+     * @return {qx.event.type.Event} The initialized event instance
      */
     init : function(domEvent)
     {
@@ -253,7 +253,7 @@ qx.Class.define("qx.event2.type.Event",
         var node = this._dom.target;
 
         // Safari takes text nodes as targets for events
-        if (node && (node.nodeType == qx.xml.Node.TEXT)) {
+        if (node && (node.nodeType == qx.dom.Node.TEXT)) {
           node = node.parentNode;
         }
 

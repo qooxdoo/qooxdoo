@@ -47,7 +47,7 @@ qx.Mixin.define("qx.core.MLegacyInit",
         }
         func.call(this);
         if (this.finalize) {
-          qx.client.Timer.once(this.finalize, this, 0);
+          qx.event.Timer.once(this.finalize, this, 0);
         }
       }
     },

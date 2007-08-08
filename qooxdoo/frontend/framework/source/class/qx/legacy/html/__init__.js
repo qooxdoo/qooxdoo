@@ -1,3 +1,3 @@
 /**
- * The qx.html package.
+ * The qx.legacy.html package.
  */

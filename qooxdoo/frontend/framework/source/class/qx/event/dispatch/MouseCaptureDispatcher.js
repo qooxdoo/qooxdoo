@@ -27,14 +27,14 @@
   * Implementation of the Internet Explorer specific event capturing mode for
   * mouse events http://msdn2.microsoft.com/en-us/library/ms536742.aspx.
   *
-  * This class is used internally by {@link qx.event2.Manager} to do mouse event
+  * This class is used internally by {@link qx.event.Manager} to do mouse event
   * capturing.
   */
- qx.Class.define("qx.event2.dispatch.MouseCaptureDispatcher",
+ qx.Class.define("qx.event.dispatch.MouseCaptureDispatcher",
  {
 
   extend : qx.core.Object,
-  implement : qx.event2.dispatch.IEventDispatcher,
+  implement : qx.event.dispatch.IEventDispatcher,
 
 
 
@@ -55,7 +55,7 @@
     this.__captureElement = null;
     var win = manager.getWindow();
 
-    this.__eventPool = qx.event2.type.EventPool.getInstance();
+    this.__eventPool = qx.event.type.EventPool.getInstance();
 
     manager.addListener(win, "blur", this.releaseCapture, this);
     manager.addListener(win, "focus", this.releaseCapture, this);
@@ -101,7 +101,7 @@
     /**
      * Whether the event should be captured.
      *
-     * @param event {qx.event2.type.Event} Event
+     * @param event {qx.event.type.Event} Event
      * @param type {String} the event type
      * @return {Boolean} whether the event should be captured.
      */
@@ -113,7 +113,7 @@
     /**
      * Dispatch the event on the capturing node
      *
-     * @param event {qx.event2.type.Event} Event
+     * @param event {qx.event.type.Event} Event
      * @param type {String} the event type
      */
     dispatchEvent : function(event, type)
@@ -123,7 +123,7 @@
       if (listeners)
       {
         event.setCurrentTarget(this.__captureElement);
-        event.setEventPhase(qx.event2.type.Event.AT_TARGET);
+        event.setEventPhase(qx.event.type.Event.AT_TARGET);
 
         for (var i=0; i<listeners.length; i++) {
           var context = listeners[i].context || event.getCurrentTarget();
@@ -168,7 +168,7 @@
       }
 
       // create synthetic losecapture event
-      var event = this.__eventPool.getEventInstance("qx.event2.type.Event").init({});
+      var event = this.__eventPool.getEventInstance("qx.event.type.Event").init({});
       event.setType("losecapture");
       event.setTarget(this.__captureElement);
 
@@ -190,7 +190,7 @@
 
   defer : function(statics)
   {
-    var manager = qx.event2.Manager;
+    var manager = qx.event.Manager;
     manager.registerEventDispatcher(statics, manager.PRIORITY_FIRST);
   }
 

@@ -50,7 +50,7 @@
  *   </li>
  * </ul>
  */
-qx.Class.define("qx.event2.Manager",
+qx.Class.define("qx.event.Manager",
 {
   extend : qx.core.Object,
 
@@ -107,7 +107,7 @@ qx.Class.define("qx.event2.Manager",
   destruct : function()
   {
     var winId = qx.core.Object.toHashCode(this.getWindow());
-    delete(qx.event2.Manager.__managers[winId]);
+    delete(qx.event.Manager.__managers[winId]);
 
     this._disposeObjects("__captureHandler");
 
@@ -147,7 +147,7 @@ qx.Class.define("qx.event2.Manager",
      * given element.
      *
      * @param element {Element} DOM element
-     * @return {qx.event2.Manager} The event manger for the element.
+     * @return {qx.event.Manager} The event manger for the element.
      */
     getManager : function(element)
     {
@@ -164,7 +164,7 @@ qx.Class.define("qx.event2.Manager",
       var manager = this.__managers[id];
       if (!manager)
       {
-        manager = new qx.event2.Manager(win);
+        manager = new qx.event.Manager(win);
         this.__managers[id] = manager;
       }
 
@@ -290,8 +290,8 @@ qx.Class.define("qx.event2.Manager",
     /**
      * Sort the event handler/dispatcher list by priority.
      *
-     * @param handlerList {qx.event.handler.AbstractEventHandler[]} handler list
-     * @return {qx.event.handler.AbstractEventHandler[]} sorted handler list
+     * @param handlerList {qx.legacy.event.handler.AbstractEventHandler[]} handler list
+     * @return {qx.legacy.event.handler.AbstractEventHandler[]} sorted handler list
      */
     __sortHandlerList : function(handlerList)
     {
@@ -308,7 +308,7 @@ qx.Class.define("qx.event2.Manager",
     /**
      * Register an event handler.
      *
-     * @param handler {qx.event.handler.AbstractEventHandler} Event handler to add
+     * @param handler {qx.legacy.event.handler.AbstractEventHandler} Event handler to add
      * @param priority {Integer} One of {@link #PRIORITY_FIRST}, {@link PRIORITY_NORMAL}
      *     or {@link #PRIORITY_LAST}.
      */
@@ -324,7 +324,7 @@ qx.Class.define("qx.event2.Manager",
     /**
      * Get a sorted list of registered event handlers.
      *
-     * @return {qx.event.handler.AbstractEventHandler[]} registered event handlers
+     * @return {qx.legacy.event.handler.AbstractEventHandler[]} registered event handlers
      */
     getRegisteredEventHandler : function() {
       return this.__sortHandlerList(this.__eventHandler);
@@ -336,7 +336,7 @@ qx.Class.define("qx.event2.Manager",
     /**
      * Register an event dispatcher.
      *
-     * @param handler {qx.event.dispatch.IEventDispatch} Event dispatcher to add
+     * @param handler {qx.legacy.event.dispatch.IEventDispatch} Event dispatcher to add
      * @param priority {Integer} One of {@link #PRIORITY_FIRST}, {@link PRIORITY_NORMAL}
      *     or {@link #PRIORITY_LAST}.
      */
@@ -344,8 +344,8 @@ qx.Class.define("qx.event2.Manager",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (!qx.Class.hasInterface(handler, qx.event2.dispatch.IEventDispatcher)) {
-          throw new Error("The dispatch handler does not implement the interface qx.event2.dispatch.IEventDispatcher!");
+        if (!qx.Class.hasInterface(handler, qx.event.dispatch.IEventDispatcher)) {
+          throw new Error("The dispatch handler does not implement the interface qx.event.dispatch.IEventDispatcher!");
         }
       }
 
@@ -359,7 +359,7 @@ qx.Class.define("qx.event2.Manager",
     /**
      * Get a sorted list of registered event dispatcher.
      *
-     * @return {qx.event.dispatch.IEventDispatch[]} all registered event dispatcher
+     * @return {qx.legacy.event.dispatch.IEventDispatch[]} all registered event dispatcher
      */
     getRegisteredEventDispatcher : function() {
       return this.__sortHandlerList(this.__eventDispatcher);
@@ -438,7 +438,7 @@ qx.Class.define("qx.event2.Manager",
 
     /**
      * This method is called each time an event listener for one of the
-     * supported events is added using {qx.event2.Manager#addListener}.
+     * supported events is added using {qx.event.Manager#addListener}.
      *
      * @param element {Element} DOM element to, which the event handler should
      *     be attached
@@ -530,7 +530,7 @@ qx.Class.define("qx.event2.Manager",
 
     /**
      * This method is called each time the an event listener for one of the
-     * supported events is removed by using {qx.event2.Manager#removeListener}
+     * supported events is removed by using {qx.event.Manager#removeListener}
      * and no other event listener is listening on this type.
      *
      * @param element {Element} DOM element from, which the event handler should
@@ -560,7 +560,7 @@ qx.Class.define("qx.event2.Manager",
      * event will only be visible in event listeners attached using
      * {@link #addListener}.
      *
-     * @param event {qx.event2.type.Event} qooxdoo event object
+     * @param event {qx.event.type.Event} qooxdoo event object
      */
     dispatchEvent : function(event)
     {
@@ -604,7 +604,7 @@ qx.Class.define("qx.event2.Manager",
     /**
      * Get the capture handler for the element.
      *
-     * @return {qx.event2.handler.MouseCaptureHandler} the mouse capture handler
+     * @return {qx.event.handler.MouseCaptureHandler} the mouse capture handler
      *     reponsible for the given element.
      */
     getCaptureHandler : function() {
@@ -780,10 +780,10 @@ qx.Class.define("qx.event2.Manager",
 
   defer : function(statics)
   {
-    statics.registerEventHandler(qx.event2.handler.InlineEventHandler, statics.PRIORITY_NORMAL);
+    statics.registerEventHandler(qx.event.handler.InlineEventHandler, statics.PRIORITY_NORMAL);
 
-    statics.registerEventDispatcher(qx.event2.dispatch.InlineDispatch, statics.PRIORITY_NORMAL);
-    statics.registerEventDispatcher(qx.event2.dispatch.BubblingDispatch, statics.PRIORITY_NORMAL);
+    statics.registerEventDispatcher(qx.event.dispatch.InlineDispatch, statics.PRIORITY_NORMAL);
+    statics.registerEventDispatcher(qx.event.dispatch.BubblingDispatch, statics.PRIORITY_NORMAL);
   }
 
 });

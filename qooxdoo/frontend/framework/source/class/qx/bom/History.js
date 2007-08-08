@@ -57,7 +57,7 @@
  * The original code is licensed under a BSD license
  * (http://developer.yahoo.com/yui/license.txt).
  */
-qx.Class.define("qx.client.History",
+qx.Class.define("qx.bom.History",
 {
   type : "singleton",
   extend : qx.core.Target,
@@ -125,7 +125,7 @@ qx.Class.define("qx.client.History",
      * Fired when the user moved in the history. The data property of the event
      * holds the state, which was passed to {@link #addToHistory}.
      */
-    "request" : "qx.event.type.DataEvent"
+    "request" : "qx.legacy.event.type.DataEvent"
   },
 
 
@@ -215,7 +215,7 @@ qx.Class.define("qx.client.History",
      * Simulates a back button click.
      */
      navigateBack : function() {
-       qx.client.Timer.once(function() {history.back();}, 0);
+       qx.event.Timer.once(function() {history.back();}, 0);
      },
 
 
@@ -224,7 +224,7 @@ qx.Class.define("qx.client.History",
      * Simulates a forward button click.
      */
      navigateForward : function() {
-       qx.client.Timer.once(function() {history.forward();}, 0);
+       qx.event.Timer.once(function() {history.forward();}, 0);
      },
 
 
@@ -259,7 +259,7 @@ qx.Class.define("qx.client.History",
      */
     __startTimer : function()
     {
-      this._timer = new qx.client.Timer(this.getTimeoutInterval());
+      this._timer = new qx.event.Timer(this.getTimeoutInterval());
 
       this._timer.addEventListener("interval", function(e) {
         var newHash = this.__getState();
@@ -335,7 +335,7 @@ qx.Class.define("qx.client.History",
       {
         // Opera needs to update the location, after the current thread has
         // finished to remember the history
-        qx.client.Timer.once(function() {
+        qx.event.Timer.once(function() {
           top.location.hash = "#" + encodeURIComponent(state);
         }, this, 0);
         return true;
@@ -356,7 +356,7 @@ qx.Class.define("qx.client.History",
       {
         if ( !this._iframe.contentWindow || !this._iframe.contentWindow.document ) {
             // Check again in 10 msec...
-            qx.client.Timer.once(function() {
+            qx.event.Timer.once(function() {
               this.__waitForIFrame(callback, context);
             }, this, 10);
             return;

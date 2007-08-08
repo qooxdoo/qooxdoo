@@ -1,3 +1,3 @@
 /**
- * The qx.event.type package.
+ * The qx.legacy.event.type package.
  */

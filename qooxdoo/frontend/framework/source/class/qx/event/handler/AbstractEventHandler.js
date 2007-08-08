@@ -28,7 +28,7 @@
  *
  * @internal
  */
-qx.Class.define("qx.event2.handler.AbstractEventHandler",
+qx.Class.define("qx.event.handler.AbstractEventHandler",
 {
   extend : qx.core.Object,
   type : "abstract",
@@ -44,7 +44,7 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
   */
 
   /**
-   * @param manager {qx.event2.Manager} reference to the event manager using
+   * @param manager {qx.event.Manager} reference to the event manager using
    *     this class.
    */
   construct : function(manager)
@@ -53,7 +53,7 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
 
     this._manager = manager;
     this.__registeredEvents = {};
-    this._eventPool = qx.event2.type.EventPool.getInstance();
+    this._eventPool = qx.event.type.EventPool.getInstance();
   },
 
 
@@ -102,7 +102,7 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
 
     /**
      * This method is called each time the an event listener for one of the
-     * supported events is added using {qx.event2.Manager#addListener}.
+     * supported events is added using {qx.event.Manager#addListener}.
      *
      * @param element {Element} DOM element to, which the event handler should
      *     be attached
@@ -114,7 +114,7 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
 
     /**
      * This method is called each time the an event listener for one of the
-     * supported events is removed by using {qx.event2.Manager#removeListener}
+     * supported events is removed by using {qx.event.Manager#removeListener}
      * and no other event listener is listening on this type.
      *
      * @param element {Element} DOM element from, which the event handler should
@@ -134,7 +134,7 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
       for (var id in this.__registeredEvents)
       {
         var eventData = this.__registeredEvents[id];
-        qx.event2.Manager.removeNativeListener(
+        qx.event.Manager.removeNativeListener(
           eventData.element,
           eventData.type,
           eventData.listener
@@ -178,7 +178,7 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
      * Add an event listener from a DOM node a keep track of all events registered
      * using this class. This makes it easy to later cleanly remove all event
      * listeners. Derived classes should use this method in favour of
-     * {@link qx.event2.Manager#addNativeListener}.
+     * {@link qx.event.Manager#addNativeListener}.
      *
      * @type member
      * @param element {Element} DOM Element
@@ -187,7 +187,7 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
      */
     _managedAddNativeListener : function(element, type, listener)
     {
-      qx.event2.Manager.addNativeListener(element, type, listener);
+      qx.event.Manager.addNativeListener(element, type, listener);
       var obj = qx.core.Object;
       var id = obj.toHashCode(element) + type + obj.toHashCode(listener);
       this.__registeredEvents[id] =
@@ -203,7 +203,7 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
      * Remove an event listener from a DOM node a keep track of all events registered
      * using this class. This makes it easy to later cleanly remove all event
      * listeners. Derived classes should use this method in favour of
-     * {@link qx.event2.Manager#removeNativeListener}.
+     * {@link qx.event.Manager#removeNativeListener}.
      *
      * @type member
      * @param element {Element} DOM Element
@@ -212,7 +212,7 @@ qx.Class.define("qx.event2.handler.AbstractEventHandler",
      */
     _managedRemoveNativeListener : function(element, type, listener)
     {
-      qx.event2.Manager.removeNativeListener(element, type, listener);
+      qx.event.Manager.removeNativeListener(element, type, listener);
       var obj = qx.core.Object;
       var id = obj.toHashCode(element) + type + obj.toHashCode(listener);
       delete(this.__registeredEvents[id]);

@@ -187,7 +187,7 @@ qx.Class.define("qx.ui.form.RadioButton",
      * the "Alt" key.
      *
      * @type member
-     * @param e {qx.event.type.KeyEvent} keyDown event
+     * @param e {qx.legacy.event.type.KeyEvent} keyDown event
      * @return {void}
      */
     _onkeydown : function(e)
@@ -204,7 +204,7 @@ qx.Class.define("qx.ui.form.RadioButton",
      * selects the next RadioButton when pressing "Right" and "Down"
      *
      * @type member
-     * @param e {qx.event.type.KeyEvent} keyPress event
+     * @param e {qx.legacy.event.type.KeyEvent} keyPress event
      * @return {null | true}
      */
     _onkeypress : function(e)
@@ -213,17 +213,17 @@ qx.Class.define("qx.ui.form.RadioButton",
       {
         case "Left":
         case "Up":
-          qx.event.handler.FocusHandler.mouseFocus = false;
+          qx.legacy.event.handler.FocusHandler.mouseFocus = false;
 
           // we want to have a focus border when using arrows to select
-          qx.event.handler.FocusHandler.mouseFocus = false;
+          qx.legacy.event.handler.FocusHandler.mouseFocus = false;
 
           return this.getManager() ? this.getManager().selectPrevious(this) : true;
 
         case "Right":
         case "Down":
           // we want to have a focus border when using arrows to select
-          qx.event.handler.FocusHandler.mouseFocus = false;
+          qx.legacy.event.handler.FocusHandler.mouseFocus = false;
 
           return this.getManager() ? this.getManager().selectNext(this) : true;
       }
@@ -235,7 +235,7 @@ qx.Class.define("qx.ui.form.RadioButton",
      * Simply sets the "checked" property to true
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} click event
+     * @param e {qx.legacy.event.type.MouseEvent} click event
      * @return {void}
      */
     _onclick : function(e) {
@@ -248,7 +248,7 @@ qx.Class.define("qx.ui.form.RadioButton",
      * If "Space" is pressed the property "checked" is set to true
      *
      * @type member
-     * @param e {qx.event.type.KeyEvent} keyUp event
+     * @param e {qx.legacy.event.type.KeyEvent} keyUp event
      * @return {void}
      */
     _onkeyup : function(e)

@@ -72,7 +72,7 @@ qx.Class.define("qx.ui.embed.Iframe",
     /**
      * The "load" event is fired after the iframe content has successfully been loaded.
      */
-    "load" : "qx.event.type.Event"
+    "load" : "qx.legacy.event.type.Event"
   },
 
 
@@ -232,7 +232,7 @@ qx.Class.define("qx.ui.embed.Iframe",
     getContentWindow : function()
     {
       if (this.isCreated()) {
-        return qx.html.Iframe.getWindow(this.getIframeNode());
+        return qx.legacy.html.Iframe.getWindow(this.getIframeNode());
       } else {
         return null;
       }
@@ -248,7 +248,7 @@ qx.Class.define("qx.ui.embed.Iframe",
     getContentDocument : function()
     {
       if (this.isCreated()) {
-        return qx.html.Iframe.getDocument(this.getIframeNode());
+        return qx.legacy.html.Iframe.getDocument(this.getIframeNode());
       } else {
         return null;
       }

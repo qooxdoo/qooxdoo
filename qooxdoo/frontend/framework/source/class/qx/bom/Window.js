@@ -23,7 +23,7 @@
  * It wraps the window.open command to a useable cross-browser
  * compatible API.
  */
-qx.Class.define("qx.client.NativeWindow",
+qx.Class.define("qx.bom.Window",
 {
   extend : qx.core.Target,
 
@@ -40,7 +40,7 @@ qx.Class.define("qx.client.NativeWindow",
   {
     this.base(arguments);
 
-    this._timer = new qx.client.Timer(100);
+    this._timer = new qx.event.Timer(100);
     this._timer.addEventListener("interval", this._oninterval, this);
 
     if (url != null) {
@@ -64,10 +64,10 @@ qx.Class.define("qx.client.NativeWindow",
   events :
   {
     /** Fired when the browser fires the load event of the document */
-    "load" : "qx.event.type.Event",
+    "load" : "qx.legacy.event.type.Event",
 
     /** Fired when the window was closed */
-    "close" : "qx.event.type.Event"
+    "close" : "qx.legacy.event.type.Event"
   },
 
 
@@ -634,7 +634,7 @@ qx.Class.define("qx.client.NativeWindow",
      * @return {void}
      */
     centerToOpener : function() {
-      this._centerHelper(((qx.html.Window.getInnerWidth(window) - this.getWidth()) / 2) + qx.html.Location.getScreenBoxLeft(window.document.body), ((qx.html.Window.getInnerHeight(window) - this.getHeight()) / 2) + qx.html.Location.getScreenBoxTop(window.document.body));
+      this._centerHelper(((qx.legacy.html.Window.getInnerWidth(window) - this.getWidth()) / 2) + qx.legacy.html.Location.getScreenBoxLeft(window.document.body), ((qx.legacy.html.Window.getInnerHeight(window) - this.getHeight()) / 2) + qx.legacy.html.Location.getScreenBoxTop(window.document.body));
     },
 
 

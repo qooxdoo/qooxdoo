@@ -192,7 +192,7 @@ qx.Class.define("qx.ui.form.List",
      * resolved out of the event target.
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} mouseOver event
+     * @param e {qx.legacy.event.type.MouseEvent} mouseOver event
      * @return {void}
      */
     _onmouseover : function(e)
@@ -210,7 +210,7 @@ qx.Class.define("qx.ui.form.List",
      * resolved out of the event target.
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} mouseDown event
+     * @param e {qx.legacy.event.type.MouseEvent} mouseDown event
      * @return {void}
      */
     _onmousedown : function(e)
@@ -228,7 +228,7 @@ qx.Class.define("qx.ui.form.List",
      * resolved out of the event target.
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} mouseUp event
+     * @param e {qx.legacy.event.type.MouseEvent} mouseUp event
      * @return {void}
      */
     _onmouseup : function(e)
@@ -246,7 +246,7 @@ qx.Class.define("qx.ui.form.List",
      * resolved out of the event target.
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} click event
+     * @param e {qx.legacy.event.type.MouseEvent} click event
      * @return {void}
      */
     _onclick : function(e)
@@ -264,7 +264,7 @@ qx.Class.define("qx.ui.form.List",
      * resolved out of the event target.
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} double-click event
+     * @param e {qx.legacy.event.type.MouseEvent} double-click event
      * @return {void}
      */
     _ondblclick : function(e)
@@ -290,7 +290,7 @@ qx.Class.define("qx.ui.form.List",
      * when the "Enter" key is pressed
      *
      * @type member
-     * @param e {qx.event.type.KeyEvent} keyDown event
+     * @param e {qx.legacy.event.type.KeyEvent} keyDown event
      * @return {void}
      */
     _onkeydown : function(e)
@@ -312,7 +312,7 @@ qx.Class.define("qx.ui.form.List",
      * Delegates the control of the event to selection manager
      *
      * @type member
-     * @param e {qx.event.type.KeyEvent} keyPress event
+     * @param e {qx.legacy.event.type.KeyEvent} keyPress event
      * @return {void}
      */
     _onkeypress : function(e)
@@ -328,7 +328,7 @@ qx.Class.define("qx.ui.form.List",
      * Handles the inline find - if enabled
      *
      * @type member
-     * @param e {qx.event.type.KeyEvent} keyInput event
+     * @param e {qx.legacy.event.type.KeyEvent} keyInput event
      * @return {void}
      */
     _onkeyinput : function(e)

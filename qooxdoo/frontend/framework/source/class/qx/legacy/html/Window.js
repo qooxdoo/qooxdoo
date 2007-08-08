@@ -25,7 +25,7 @@
 /**
  * @deprecated: Use qx.bom.Viewport instead
  */
-qx.Class.define("qx.html.Window",
+qx.Class.define("qx.legacy.html.Window",
 {
   /*
   *****************************************************************************

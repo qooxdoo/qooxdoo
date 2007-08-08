@@ -42,7 +42,7 @@ qx.Class.define("BasicSample",
     main : function()
     {
       this.base(arguments);
-      //var em = new qx.event2.Manager.getInstance();
+      //var em = new qx.event.Manager.getInstance();
     }
   }
 });
@@ -70,7 +70,7 @@ function getActiveElement()
 {
   var rv;
 
-  var el = qx.event2.Manager.getInstance().getActiveElement();
+  var el = qx.event.Manager.getInstance().getActiveElement();
   if (!el) {
     rv = "none";
     return rv;

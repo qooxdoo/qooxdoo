@@ -78,7 +78,7 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
         case 0:
           break;
 
-        case qx.event.type.DomEvent.SHIFT_MASK:
+        case qx.legacy.event.type.DomEvent.SHIFT_MASK:
           var anchor = selectionModel.getAnchorSelectionIndex();
 
           if (anchor == -1) {
@@ -122,14 +122,14 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
         }
 
         // Was this a mouse event?
-        if (evt instanceof qx.event.type.MouseEvent)
+        if (evt instanceof qx.legacy.event.type.MouseEvent)
         {
           // Yup.  Get the order of the columns
           var tcm = table.getTableColumnModel();
           var columnPositions = tcm._getColToXPosMap();
 
           // Calculate the position of the beginning of the tree column
-          var left = qx.html.Location.getClientBoxLeft(table.getElement());
+          var left = qx.legacy.html.Location.getClientBoxLeft(table.getElement());
 
           for (i=0; i<columnPositions[treeCol].visX; i++) {
             left += tcm.getColumnWidth(columnPositions[i].visX);

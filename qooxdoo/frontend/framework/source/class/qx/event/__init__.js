@@ -6,10 +6,10 @@
  * The event layer is able to support features, which are normallly only
  * available in one browser, in all supoprted browsers. For a list of
  * supported features take a look at the class documentation of
- * {@link qx.event2.Manager}.
+ * {@link qx.event.Manager}.
  *
- * The central class is {@link qx.event2.Manager}, which provieds the event
+ * The central class is {@link qx.event.Manager}, which provieds the event
  * registration and deregistration functionality. The event types provided as
- * parameters for the event listeners are located in the {@link qx.event2.handler}
+ * parameters for the event listeners are located in the {@link qx.event.handler}
  * namespace.
  */
