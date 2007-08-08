@@ -70,7 +70,7 @@
  *   MIT: http://www.opensource.org/licenses/mit-license.php<br/>
  *   For more info, please see the corresponding source file.
  */
-qx.Class.define("qx.html2.client.Flash",
+qx.Class.define("qx.client2.detail.Flash",
 {
 
    /*
