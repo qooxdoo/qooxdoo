@@ -6,3 +6,4 @@
 \bqx\.html2\.node\.Util\b=qx.html2.Node
 \bqx\.html2\.node\.Tree\b=qx.html2.Hierarchy
 \bqx\.html2\.element\.Generic\b=qx.html2.Element
+\bqx\.html2\.Element\b=qx.html2.element.Object
