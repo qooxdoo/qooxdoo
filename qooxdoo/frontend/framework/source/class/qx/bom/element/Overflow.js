@@ -58,7 +58,7 @@ qx.Class.define("qx.bom.element.Overflow",
       },
 
       // gecko support differs
-      "gecko" : qx.client.Client.select(
+      "gecko" : qx.bom.Client.select(
       {
         // gecko >= 1.8 supports overflowX, too
         "version>=1.8" : function(element) {
@@ -91,7 +91,7 @@ qx.Class.define("qx.bom.element.Overflow",
       },
 
       // gecko support differs
-      "gecko" : qx.client.Client.select(
+      "gecko" : qx.bom.Client.select(
       {
         // older geckos do not support overflowY
         // it's also more safe to translate hidden to -moz-scrollbars-none
@@ -149,7 +149,7 @@ qx.Class.define("qx.bom.element.Overflow",
       },
 
       // gecko support differs
-      "gecko" : qx.client.Client.select(
+      "gecko" : qx.bom.Client.select(
       {
         // gecko >= 1.8 supports overflowY, too
         "version>=1.8" : function(element) {
@@ -182,7 +182,7 @@ qx.Class.define("qx.bom.element.Overflow",
       },
 
       // gecko support differs
-      "gecko" : qx.client.Client.select(
+      "gecko" : qx.bom.Client.select(
       {
         // older geckos do not support overflowY
         // it's also more safe to translate hidden to -moz-scrollbars-none
