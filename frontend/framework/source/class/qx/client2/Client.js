@@ -188,12 +188,7 @@ qx.Class.define("qx.client2.Client",
     {
       Engine :
       [
-        "KHTML",
-        "OPERA", "OPERA8", "OPERA85", "OPERA9", "OPERA95",
-        "WEBKIT", "WEBKIT419", "WEBKIT420",
-        "GECKO", "GECKO17", "GECKO18", "GECKO181", "GECKO19",
-        "MSHTML", "MSHTML6", "MSHTML7",
-        "VERSION"
+        "KHTML", "OPERA", "WEBKIT", "GECKO", "MSHTML", "VERSION"
       ],
 
       Feature :
