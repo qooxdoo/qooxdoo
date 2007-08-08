@@ -33,7 +33,7 @@
  * of edit distance in an optimal way. This means that operations
  * on visible DOM nodes will be reduced at all needs.
  */
-qx.Class.define("qx.html2.element.Object",
+qx.Class.define("qx.bom.element.Object",
 {
   extend : qx.core.Object,
 

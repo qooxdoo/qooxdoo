@@ -26,7 +26,7 @@
 /**
  * A Collection of utility functions to escape and unescape strings.
  */
-qx.Class.define("qx.html2.String",
+qx.Class.define("qx.bom.String",
 {
   /*
   *****************************************************************************

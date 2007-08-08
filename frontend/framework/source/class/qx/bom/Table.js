@@ -1,4 +1,7 @@
-qx.Class.define("qx.html2.Table",
+/**
+ * @internal
+ */
+qx.Class.define("qx.bom.Table",
 {
   extend : qx.core.Object,
 

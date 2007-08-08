@@ -26,7 +26,7 @@
 /**
  * Contains methods to control and query the element's scroll properties
  */
-qx.Class.define("qx.html2.element.Scroll",
+qx.Class.define("qx.bom.element.Scroll",
 {
   /*
   *****************************************************************************
