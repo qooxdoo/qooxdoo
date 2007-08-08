@@ -112,7 +112,7 @@ qx.Class.define("testrunner.test.html2.HtmlBasics",
 
     testGeneric : function()
     {
-      var gen = qx.html2.element.Generic;
+      var gen = qx.html2.element.Object;
 
       var test1 = document.getElementById("test1");
 

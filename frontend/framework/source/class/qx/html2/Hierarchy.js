@@ -123,8 +123,8 @@ qx.Class.define("qx.html2.Hierarchy",
     {
       "mshtml|opera" : function(element, target)
       {
-        var clazz = qx.html2.node.Util;
-        return clazz.isDocumentNode(element) ? element === clazz.getDocument(target) : element !== target && element.contains(target);
+        var clazz = qx.html2.Node;
+        return clazz.isDocument(element) ? element === clazz.getDocument(target) : element !== target && element.contains(target);
       },
 
       "default" : function(element, target)
