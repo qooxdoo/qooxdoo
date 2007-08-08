@@ -1,3 +1,7 @@
+#
+# PART 1
+#
+
 # Renamed methods
 \bisElementNode\b=isElement
 \bisDocumentNode\b=isDocument
@@ -43,4 +47,10 @@
 
 # Minor name correction
 \bqx\.client2\.detail\.Features\b=qx.client2.detail.Feature
+
+
+
+#
+# PART 2
+#
 
