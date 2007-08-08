@@ -82,3 +82,17 @@
 
 \bqx\.event\b=qx.legacy.event
 \bqx\.event2\b=qx.event
+
+\bqx\.html\b=qx.legacy.html
+
+\bqx\.bom\.element\.Iframe\b=qx.bom.Iframe
+\bqx\.bom\.element\.Flash\b=qx.bom.Flash
+
+
+
+
+#
+# PART 4
+#
+
+\bqx\.bom\.element\.Object\b=qx.html.Element
