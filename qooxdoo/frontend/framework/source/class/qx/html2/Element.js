@@ -39,7 +39,7 @@
  * crititcal areas like animations it would be the best to directly use the
  * classes which contain the implementations.
  */
-qx.Class.define("qx.html2.element.Generic",
+qx.Class.define("qx.html2.Element",
 {
   /*
   *****************************************************************************

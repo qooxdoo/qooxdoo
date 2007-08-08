@@ -39,7 +39,7 @@ qx.Class.define("qx.html2.node.Util",
   {
     /*
     ---------------------------------------------------------------------------
-      DOCUMENT/VIEW DETECTION
+      DOCUMENT ACCESS
     ---------------------------------------------------------------------------
     */
 
@@ -55,23 +55,20 @@ qx.Class.define("qx.html2.node.Util",
       if (this.isDocumentNode(node)) {
         return node;
       }
+      
       return node.ownerDocument || node.document || null;
     },
 
 
     /**
-     * Returns the DOM2 <code>defaultView</code>.
-     *
-     * This is a convenience attribute that allows direct access to the child
-     * node that is the root element of the document. For HTML documents,
-     * this is the element with the tagName "HTML".
+     * Returns the DOM2 <code>defaultView</code> (window).
      *
      * @type static
      * @signature function(node)
      * @param node {Node} node to inspect
      * @return {Window} the <code>defaultView</code> of the given node
      */
-    getDefaultView : qx.core.Variant.select("qx.client",
+    getWindow : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(node) {
         return this.getDocument(node).parentWindow;
@@ -81,6 +78,38 @@ qx.Class.define("qx.html2.node.Util",
         return this.getDocument(node).defaultView;
       }
     }),
+    
+    
+    /**
+     * Returns the document element. (Logical root node)
+     *
+     * This is a convenience attribute that allows direct access to the child
+     * node that is the root element of the document. For HTML documents,
+     * this is the element with the tagName "HTML".
+     *
+     * @type static
+     * @param node {Node} node to inspect
+     * @return {Element} document element of the given node
+     */
+    getDocumentElement : function(node) {
+      return this.getDocument(node).documentElement;
+    },
+    
+
+    /**
+     * Returns the body element. (Visual root node)
+     *
+     * This normally only makes sense for HTML documents. It returns
+     * the content area of the HTML document.
+     *
+     * @type static
+     * @param node {Node} node to inspect
+     * @return {Element} document body of the given node
+     */
+    getBodyElement : function(node) {
+      return this.getDocument(node).body;
+    },
+    
 
 
 
@@ -99,7 +128,7 @@ qx.Class.define("qx.html2.node.Util",
      * @param node {Node} the node which should be tested
      * @return {Boolean} true if the node is a DOM element
      */
-    isElementNode : function(node) {
+    isElement : function(node) {
       return !!(node && node.nodeType === qx.dom.Node.ELEMENT);
     },
 
@@ -111,7 +140,7 @@ qx.Class.define("qx.html2.node.Util",
      * @param node {Node} the node which should be tested
      * @return {Boolean} true when the node is a document
      */
-    isDocumentNode : function(node) {
+    isDocument : function(node) {
       return !!(node && node.nodeType === qx.dom.Node.DOCUMENT);
     },
 
@@ -123,7 +152,7 @@ qx.Class.define("qx.html2.node.Util",
      * @param node {Node} the node which should be tested
      * @return {Boolean} true if the node is a DOM element
      */
-    isTextNode : function(node) {
+    isText : function(node) {
       return !!(node && node.nodeType === qx.dom.Node.TEXT);
     },
 
