@@ -21,7 +21,7 @@
 
 #module(client2)
 #require(qx.client2.detail.Engine)
-#require(qx.client2.detail.Features)
+#require(qx.client2.detail.Feature)
 #require(qx.client2.detail.Platform)
 #require(qx.client2.detail.System)
 
@@ -196,7 +196,7 @@ qx.Class.define("qx.client2.Client",
         "VERSION"
       ],
 
-      Features :
+      Feature :
       [
         "STANDARD_MODE", "QUIRKS_MODE",
         "CONTENT_BOX", "BORDER_BOX",
