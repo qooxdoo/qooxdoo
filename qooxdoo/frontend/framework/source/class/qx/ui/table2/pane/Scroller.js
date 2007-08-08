@@ -1864,8 +1864,6 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
      */
     _postponedUpdateContent : function()
     {
-      //this._updateContent();
-      //return;
       /*
       if (!this._updateContentPlanned)
       {
@@ -1885,8 +1883,8 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
         this._updateContentPlanned = true;
       }*/
 
-     this._updateContent();
-     return;
+     //this._updateContent();
+     //return;
 
      if (this._updateId) {
        window.clearTimeout(this._updateId);
@@ -1903,7 +1901,7 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
           }
           self._updateContent();
           self._updateId = null;
-       }, 40);
+       }, 30);
      }
     },
 
