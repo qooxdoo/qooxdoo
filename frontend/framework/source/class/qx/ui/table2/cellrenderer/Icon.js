@@ -133,130 +133,17 @@ qx.Class.define("qx.ui.table2.cellrenderer.Icon",
       return urlAndTooltipMap;
     },
 
-    // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @return {var} TODOC
-     */
-    _getCellStyle : function(cellInfo)
-    {
-      var style = this.base(arguments, cellInfo);
-      style += qx.ui.table2.cellrenderer.Icon.MAIN_DIV_STYLE;
-      return style;
-    },
 
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @return {String} TODOC
-     */
-    _getContentHtml : function(cellInfo)
-    {
-      var IconDataCellRenderer = qx.ui.table2.cellrenderer.Icon;
-
-      var urlAndToolTip = this._getImageInfos(cellInfo);
-      var html = IconDataCellRenderer.IMG_START;
-
-      if (qx.core.Client.getInstance().isMshtml() && /\.png$/i.test(urlAndToolTip.url)) {
-        html += this.IMG_BLANK_URL + '" style="filter:' + "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + urlAndToolTip.url + "',sizingMethod='scale')";
-      } else {
-        html += urlAndToolTip.url + '" style="';
-      }
-
-      if (urlAndToolTip.imageWidth && urlAndToolTip.imageHeight) {
-        html += ';width:' + urlAndToolTip.imageWidth + 'px' + ';height:' + urlAndToolTip.imageHeight + 'px';
-      }
-
-      var tooltip = urlAndToolTip.tooltip;
-
-      if (tooltip != null) {
-        html += IconDataCellRenderer.IMG_TITLE_START + tooltip;
-      }
-
-      html += IconDataCellRenderer.IMG_END;
-      return html;
-    },
-
-    // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @param cellElement {var} TODOC
-     * @return {void}
-     */
-    updateDataCellElement : function(cellInfo, cellElement)
-    {
-      // Set image and tooltip text
-      var urlAndToolTip = this._getImageInfos(cellInfo);
-
-      var img = cellElement.firstChild;
-
-      if(img.src == urlAndToolTip.url) {
-        return;
-      }
-
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
-        if (/\.png$/i.test(urlAndToolTip.url))
-        {
-          img.src = this.IMG_BLANK_URL;
-          img.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + urlAndToolTip.url + "',sizingMethod='scale')";
-        }
-        else
-        {
-          img.src = urlAndToolTip.url;
-          img.style.filter = "";
-        }
-      }
-      else
-      {
-        img.src = urlAndToolTip.url;
-      }
-
-      if (urlAndToolTip.imageWidth && urlAndToolTip.imageHeight)
-      {
-        img.style.width = urlAndToolTip.imageWidth + "px";
-        img.style.height = urlAndToolTip.imageHeight + "px";
-      }
-
-      if (urlAndToolTip.tooltip != null) {
-        img.setAttribute("title", urlAndToolTip.tooltip);
-      }
-    },
-
-    // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @param htmlArr {var} TODOC
-     * @return {void}
-     */
-    _createCellStyle_array_join : function(cellInfo, htmlArr)
+    _getCellStyle : function(cellInfo, htmlArr)
     {
       this.base(arguments, cellInfo, htmlArr);
       htmlArr.push(qx.ui.table2.cellrenderer.Icon.MAIN_DIV_STYLE);
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @param htmlArr {var} TODOC
-     * @return {void}
-     */
-    _createContentHtml_array_join : function(cellInfo, htmlArr)
+    // overridden
+    _getContentHtml : function(cellInfo, htmlArr)
     {
       var IconDataCellRenderer = qx.ui.table2.cellrenderer.Icon;
 
@@ -272,10 +159,7 @@ qx.Class.define("qx.ui.table2.cellrenderer.Icon",
       }
 
       htmlArr.push(IconDataCellRenderer.IMG_END);
-
-      if (qx.ui.table2.pane.Pane.USE_TABLE) {
-        htmlArr.push(IconDataCellRenderer.TABLE_DIV_END);
-      }
+      htmlArr.push(IconDataCellRenderer.TABLE_DIV_END);
     }
   }
 });

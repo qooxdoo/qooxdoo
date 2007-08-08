@@ -30,8 +30,8 @@
 qx.Class.define("qx.ui.table2.cellrenderer.Abstract",
 {
   type : "abstract",
-  extend : qx.ui.table2.cellrenderer.Basic,
-
+  implement : qx.ui.table2.cellrenderer.ICellRenderer,
+  extend : qx.core.Object,
 
   construct : function() {
     var clazz = this.self(arguments);
@@ -61,19 +61,7 @@ qx.Class.define("qx.ui.table2.cellrenderer.Abstract",
 
   statics :
   {
-    MAIN_DIV_START                : '<div style="',
-    MAIN_DIV_START_END            : '">',
-    MAIN_DIV_END                  : '</div>',
-
     /** main style */
-    MAIN_DIV_STYLE                : ';overflow:hidden;white-space:nowrap;border-right:1px solid #eeeeee;border-bottom:1px solid #eeeeee;padding-left:2px;padding-right:2px;cursor:default' + (qx.core.Variant.isSet("qx.client", "mshtml") ? '' : ';-moz-user-select:none;'),
-
-    ARRAY_JOIN_MAIN_DIV_LEFT      : '<div style="position:absolute;left:',
-    ARRAY_JOIN_MAIN_DIV_WIDTH     : 'px;top:0px;width:',
-    ARRAY_JOIN_MAIN_DIV_HEIGHT    : 'px;height:',
-    ARRAY_JOIN_MAIN_DIV_START_END : '">',
-    ARRAY_JOIN_MAIN_DIV_END       : '</div>',
-
     TABLE_TD                      : '<td class="qooxdoo-table-cell-abstract" style="', //'<td style="height:',
     TABLE_TD_END                  : '</td>'
   },
@@ -89,34 +77,6 @@ qx.Class.define("qx.ui.table2.cellrenderer.Abstract",
 
   members :
   {
-    // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @return {var} TODOC
-     */
-    createDataCellHtml : function(cellInfo)
-    {
-      var AbstractDataCellRenderer = qx.ui.table2.cellrenderer.Abstract;
-      return AbstractDataCellRenderer.MAIN_DIV_START + this._getCellStyle(cellInfo) + AbstractDataCellRenderer.MAIN_DIV_START_END + this._getContentHtml(cellInfo) + AbstractDataCellRenderer.MAIN_DIV_END;
-    },
-
-    // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @param cellElement {var} TODOC
-     * @return {void}
-     */
-    updateDataCellElement : function(cellInfo, cellElement) {
-      cellElement.innerHTML = this._getContentHtml(cellInfo);
-    },
-
-
     /**
      * Returns the CSS styles that should be applied to the main div of this cell.
      *
@@ -125,8 +85,11 @@ qx.Class.define("qx.ui.table2.cellrenderer.Abstract",
      *          See {@link #createDataCellHtml}.
      * @return {var} the CSS styles of the main div.
      */
-    _getCellStyle : function(cellInfo) {
-      return cellInfo.style + qx.ui.table2.cellrenderer.Abstract.MAIN_DIV_STYLE;
+    _getCellStyle : function(cellInfo, htmlArr)
+    {
+      if (cellInfo.style) {
+        htmlArr.push(cellInfo.style);
+      };
     },
 
 
@@ -138,8 +101,11 @@ qx.Class.define("qx.ui.table2.cellrenderer.Abstract",
      *          See {@link #createDataCellHtml}.
      * @return {String} the inner HTML of the main div.
      */
-    _getContentHtml : function(cellInfo) {
-      return cellInfo.value;
+    _getContentHtml : function(cellInfo, htmlArr)
+    {
+      if (cellInfo.value) {
+        htmlArr.push(cellInfo.value);
+      }
     },
 
 
@@ -151,40 +117,15 @@ qx.Class.define("qx.ui.table2.cellrenderer.Abstract",
      * @param htmlArr {var} TODOC
      * @return {void}
      */
-    createDataCellHtml_array_join : function(cellInfo, htmlArr)
+    createDataCellHtml : function(cellInfo, htmlArr)
     {
       var AbstractDataCellRenderer = qx.ui.table2.cellrenderer.Abstract;
       htmlArr.push(AbstractDataCellRenderer.TABLE_TD);
-      this._createCellStyle_array_join(cellInfo, htmlArr)
-      htmlArr.push(AbstractDataCellRenderer.ARRAY_JOIN_MAIN_DIV_START_END);
-      this._createContentHtml_array_join(cellInfo, htmlArr);
+      this._getCellStyle(cellInfo, htmlArr)
+      htmlArr.push('">');
+      this._getContentHtml(cellInfo, htmlArr);
       htmlArr.push(AbstractDataCellRenderer.TABLE_TD_END);
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @param htmlArr {var} TODOC
-     * @return {void}
-     */
-    _createCellStyle_array_join : function(cellInfo, htmlArr) {
-      return;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @param htmlArr {var} TODOC
-     * @return {void}
-     */
-    _createContentHtml_array_join : function(cellInfo, htmlArr) {
-      htmlArr.push(cellInfo.value);
     }
+
   }
 });
