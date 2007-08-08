@@ -344,8 +344,12 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
      */
     _onmousemove : function(e)
     {
+      if (this._disableResize) {
+        return; 
+      }
+      
       var s = this._resizeSession;
-
+      
       if (s)
       {
         if (this._resizeWest)
