@@ -26,7 +26,7 @@
 /**
  * Contains methods to control and query the element's cursor property
  */
-qx.Class.define("qx.html2.element.Cursor",
+qx.Class.define("qx.bom.element.Cursor",
 {
   /*
   *****************************************************************************

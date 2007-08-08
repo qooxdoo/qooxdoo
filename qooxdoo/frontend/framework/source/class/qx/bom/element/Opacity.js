@@ -48,7 +48,7 @@
  * in some browsers). Reduced class dependencies for optimal size and
  * performance.
  */
-qx.Class.define("qx.html2.element.Opacity",
+qx.Class.define("qx.bom.element.Opacity",
 {
   /*
   *****************************************************************************

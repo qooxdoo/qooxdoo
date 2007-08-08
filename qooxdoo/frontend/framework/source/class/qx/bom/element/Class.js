@@ -45,7 +45,7 @@
  * CSS class name support for HTML elements. Supports multiple class names
  * for each element. Can query and apply class names to HTML elements.
  */
-qx.Class.define("qx.html2.element.Class",
+qx.Class.define("qx.bom.element.Class",
 {
   /*
   *****************************************************************************

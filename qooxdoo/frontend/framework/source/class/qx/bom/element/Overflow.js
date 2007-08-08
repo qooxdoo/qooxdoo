@@ -26,7 +26,7 @@
 /**
  * Contains methods to control and query the element overflow
  */
-qx.Class.define("qx.html2.element.Overflow",
+qx.Class.define("qx.bom.element.Overflow",
 {
   /*
   *****************************************************************************

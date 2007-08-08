@@ -70,7 +70,7 @@
  *   MIT: http://www.opensource.org/licenses/mit-license.php<br/>
  *   For more info, please see the corresponding source file.
  */
-qx.Class.define("qx.html2.element.Flash",
+qx.Class.define("qx.bom.element.Flash",
 {
   extend : qx.core.Object,
 

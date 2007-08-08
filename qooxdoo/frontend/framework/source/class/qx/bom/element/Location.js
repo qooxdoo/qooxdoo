@@ -50,7 +50,7 @@
  * * Opera 9.2
  * * Safari 3.0 beta
  */
-qx.Class.define("qx.html2.element.Location",
+qx.Class.define("qx.bom.element.Location",
 {
   statics :
   {
