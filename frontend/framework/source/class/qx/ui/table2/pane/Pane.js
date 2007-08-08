@@ -484,7 +484,7 @@ qx.Class.define("qx.ui.table2.pane.Pane",
       elem.innerHTML = this.TABLE_ARR.join("");
       elem.childNodes[0].offsetHeight;
 
-      //this.debug("render time: " + (new Date() - start) + "ms");
+      this.debug("render time: " + (new Date() - start) + "ms");
 
       this.setHeight(rowCount * rowHeight);
 
