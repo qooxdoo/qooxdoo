@@ -24,6 +24,27 @@ qx.Class.define("qx.xml.String",
 {
   statics :
   {
+    /** Mapping of XML entity names to the corresponding char code */
+    TO_CHARCODE :
+    {
+      "quot" : 34, // " - double-quote
+      "amp"  : 38, // &
+      "lt"   : 60, // <
+      "gt"   : 62, // >
+      "apos" : 39 // XML apostrophe
+    },
+
+    /** Mapping of char codes to XML entity names */
+    FROM_CHARCODE :
+    {
+      34: "quot", // " - double-quote
+      38: "amp",  // &
+      60: "lt",   // <
+      62: "gt",   // >
+      39: "apos"  // XML apostrophe
+    },
+    
+        
     /**
      * Escapes the characters in a <code>String</code> using XML entities.
      *
