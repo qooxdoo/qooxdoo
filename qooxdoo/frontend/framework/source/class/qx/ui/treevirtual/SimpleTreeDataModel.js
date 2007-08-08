@@ -35,7 +35,9 @@
  *   type           : qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF,
  *   parentNodeId   : 23,    // index in _nodeArr of the parent node
  *   label          : "My Documents",
- *   bSelected      : true,  // true if node is selected; false otherwise
+ *   bSelected      : true,  // true if node is selected; false otherwise. 
+ *                           // If the RecursiveSelectionModel is in use, a third value is also possible: 'p'; 
+ *                           // it denotes partial children selection
  *   bOpened        : true,  // true (-), false (+)
  *   bHideOpenClose : false, // whether to hide the open/close button
  *   icon           : "images/folder.gif",
@@ -259,8 +261,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       }
 
       // convert from rowArr to nodeArr, and get the requested node
-      var node =
-        this._nodeArr[this._rowArr[rowIndex][this._treeColumn].nodeId];
+      var node = this.getNodeFromRow(rowIndex);
 
       if (node.columnData[columnIndex] != value)
       {
@@ -927,6 +928,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     /**
      * Return the mapping of nodes to rendered rows.  This function is intended
      * for use by the cell renderer, not by users of this class.
+     * It is also useful to select a node.
      *
      * @type member
      *
@@ -937,6 +939,22 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     {
       return this._nodeRowMap;
     },
+
+
+    /**
+     * This operation maps rowIndexes to nodes.  It does the opposite job to {@link #getNodeRowMap}.
+     * This function is useful to map selection (row based) to nodes.
+     *
+     * @type member
+     *
+     * @param rowIndex {Integer} zero-based row index.
+     * @return {Object} node associated to <tt>rowIndex</tt>.
+     */
+    getNodeFromRow: function(rowIndex)
+    {
+      return this._nodeArr[this._rowArr[rowIndex][this._treeColumn].nodeId];
+    },
+
 
     /**
      * Clear all selections in the data model.  This method does not clear

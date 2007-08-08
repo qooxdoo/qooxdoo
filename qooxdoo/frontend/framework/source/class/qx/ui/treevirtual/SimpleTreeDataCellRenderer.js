@@ -14,6 +14,7 @@
 
    Authors:
      * Derrell Lipman (derrell)
+     * David Perez Carmona (david-perez)
 
 ************************************************************************ */
 
@@ -202,22 +203,22 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         }
 
       if (urlAndToolTip.imageWidth && urlAndToolTip.imageHeight)
-        {
-          html +=
-            ';width:' +
-            urlAndToolTip.imageWidth +
-            'px' +
-            ';height:' +
-            urlAndToolTip.imageHeight +
-            'px';
-        }
+      {
+        html +=
+          ';width:' +
+          urlAndToolTip.imageWidth +
+          'px' +
+          ';height:' +
+          urlAndToolTip.imageHeight +
+          'px';
+      }
 
       var tooltip = urlAndToolTip.tooltip;
 
       if (tooltip != null)
-        {
-          html += Stdcr.IMG_TITLE_START + tooltip;
-        }
+      {
+        html += Stdcr.IMG_TITLE_START + tooltip;
+      }
 
       html += Stdcr.IMG_END;
 
@@ -225,6 +226,16 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
     },
 
 
+    /**
+     * Adds extra content just before the icon.
+     * @param cellInfo {Map} The information about the cell.
+     *          See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
+     * @return {Map} with the HTML and width in pixels of the rendered content.
+     */
+    _addExtraContentBeforeIcon : function(cellInfo)
+    {
+      return { html: '', width: 0 };
+    },
 
     // overridden
     /**
@@ -243,6 +254,9 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       var bExcludeFirstLevelTreeLines = this.getExcludeFirstLevelTreeLines();
       var bAlwaysShowOpenCloseSymbol = this.getAlwaysShowOpenCloseSymbol();
 
+      // Horizontal position
+      var pos = 0;
+
       for (var i=0; i<node.level; i++)
       {
         imageUrl = this._getIndentSymbol(i, node, bUseTreeLines,
@@ -255,7 +269,12 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
           imageWidth  : 19,
           imageHeight : 16
         });
+        pos += 19;
       }
+
+      var extra = this._addExtraContentBeforeIcon(cellInfo);
+      html += extra.html;
+      pos += extra.width;
 
       // Add the node's icon
       imageUrl = (node.bSelected ? node.iconSelected : node.icon);
@@ -284,6 +303,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         imageWidth  : 16,
         imageHeight : 16
       });
+      pos += 16;
 
       // Add the node's label.  We calculate the "left" property with: each
       // tree line (indentation) icon is 19 pixels wide; the folder icon is 16
@@ -292,7 +312,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       html +=
         '<div style="position:absolute;' +
         'left:' +
-        ((node.level * 19) + 16 + 2 + 2) +
+        (2 + 2 + pos) +
         ';' +
         'top:0' +
         (node.labelStyle ? ";" + node.labelStyle : "") +
