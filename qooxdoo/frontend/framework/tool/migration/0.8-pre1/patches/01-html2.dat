@@ -36,3 +36,7 @@
 \bqx\.html2\.element\.Util\.setBoxSizing\b=qx.html2.element.Util.setBoxSizing
 \bqx\.html2\.element\.Util\.getBoxSizing\b=qx.html2.element.Util.getBoxSizing
 \bqx\.html2\.element\.Util\b=qx.html2.element.Visibility
+
+# Moved qx.html2.client
+\bqx\.html2\.client\b=qx.client2.detail
+\bqx\.html2\.Client\b=qx.client2.Client
