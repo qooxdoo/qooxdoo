@@ -24,56 +24,23 @@
 ************************************************************************ */
 
 /**
- * High-performance, high-level DOM element creation and managment.
+ * The intention of this class is to bring more convenience to the attribute
+ * and style features implemented by the other classes. It wraps the features
+ * of multiple classes in one unique interface.
  *
- * Includes support for HTML and style attributes. Allows to
- * add children or to apply text or HTML content.
+ * There is a automatic detection if the given name should be interpreted
+ * as HTML property, attribute or style. It even supports complex
+ * setter/getter pairs like opacity. All these features are usable through
+ * the same interface by just using the name of the attribute/style etc. to
+ * modify/query.
  *
- * Processes DOM insertion and modification based on the concept
- * of edit distance in an optimal way. This means that operations
- * on visible DOM nodes will be reduced at all needs.
+ * This class is optimized for performance, but is not as optimal in performance
+ * aspects than the more native implementations. For all highly performance
+ * crititcal areas like animations it would be the best to directly use the
+ * classes which contain the implementations.
  */
-qx.Class.define("qx.html2.Element",
+qx.Class.define("qx.html2.element.Generic",
 {
-  extend : qx.core.Object,
-
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  /**
-   * Creates a new Element
-   *
-   * @param el {Element?} an existing and visible DOM element
-   */
-  construct : function(el)
-  {
-    this.base(arguments);
-
-    this.__children = [];
-    this.__attribCache = {};
-    this.__styleCache = {};
-
-    this.__contentJobs = [];
-    this.__attribJobs = [];
-    this.__styleJobs = [];
-
-    this.__addEventJobs = [];
-    this.__removeEventJobs = [];
-
-    if (el != null) {
-      this.setElement(el);
-    }
-  },
-
-
-
-
   /*
   *****************************************************************************
      STATICS
@@ -82,1060 +49,162 @@ qx.Class.define("qx.html2.Element",
 
   statics :
   {
-    /*
-    ---------------------------------------------------------------------------
-      QUEUE MANAGMENT
-    ---------------------------------------------------------------------------
-    */
+    /**
+     * This internal data will be automatically translated to a full blown
+     * map structure in __init()
+     */
+    __generic :
+    {
+      attributes :
+      [
+        "class", "text", "html", "name", "id",
+        "href", "src", "type", "for",
+        "colspan", "rowspan", "valign", "datetime", "accesskey",
+        "tabindex", "enctype", "maxlength", "readonly", "longdesc",
+        "disabled", "checked", "multiple", "selected", "value",
+        "title"
+      ],
 
-    __queue : [],
-    __debug : false,
+      styles :
+      [
+        "minWidth", "width", "maxWidth",
+        "minHeight", "height", "maxHeight",
+        "top", "right", "bottom", "left",
+        "border",
+        "borderTop", "borderRight", "borderBottom", "borderLeft",
+        "margin",
+        "marginTop", "marginRight", "marginBottom", "marginLeft",
+        "padding",
+        "paddingTop", "paddingRight", "paddingBottom", "paddingLeft",
+        "float", "clear",
+        "color", "backgroundColor",
+        "font", "fontFamily"
+      ],
+
+      custom :
+      {
+        "opacity" : qx.html2.element.Opacity,
+        "cursor" : qx.html2.element.Cursor,
+        "clip" : qx.html2.element.Clip,
+        "overflow" : qx.html2.element.Overflow
+      }
+    },
 
 
     /**
-     * Adds the given element to the queue.
+     * Applies the given attribute or style to the element.
+     * Automatically determines if the given key should be
+     * interpreted as a style property, attribute name, or
+     * custom setter.
      *
      * @type static
-     * @param element {qx.html2.Element} Add the element to the global queue
+     * @param element {Element} DOM element to modify
+     * @param key {String} Name of attribute or style
+     * @param value {var} Any acceptable value for the given attribute or style
+     * @return {var} the new value
+     * @throws an exception if the given key couldn't be processed
      */
-    addToQueue : function(element)
+    set : function(element, key, value)
     {
-      if (!element.__queued)
-      {
-        // console.debug("Add to queue object[" + element.toHashCode() + "]");
-        this.__queue.push(element);
-        element.__queued = true;
-        this.__autoFlush.schedule();
+      var gen = this.__generic;
+
+      if (gen.attributes[key]) {
+        return qx.html2.element.Attribute.set(element, key, value);
+      } else if (gen.styles[key]) {
+        return qx.html2.element.Style.set(element, key, value);
+      } else if (gen.custom[key]) {
+        return gen.custom[key].set(element, value);
       }
+
+      throw new Error("Generic set() has no informations about: " + key);
     },
 
 
     /**
-     * Removes the given element from the queue.
+     * Returns the given attribute or style of the element.
+     * Automatically determines if the given key should be
+     * interpreted as a style property, attribute name, or
+     * custom setter.
      *
      * @type static
-     * @param element {qx.html2.Element} Remove the element from the global queue
+     * @param element {Element} DOM element to modify
+     * @param key {String} Name of attribute or style
+     * @return {var} the resulting value
+     * @throws an exception if the given key couldn't be processed
      */
-    removeFromQueue : function(element)
+    get : function(element, key)
     {
-      if (element.__queued)
-      {
-        // console.debug("Remove from queue object[" + element.toHashCode() + "]");
-        this.__queue.remove(element);
-        delete element.__queued;
-        this.__autoFlush.call();
+      var gen = this.__generic;
+
+      if (gen.attributes[key]) {
+        return qx.html2.element.Attribute.get(element, key);
+      } else if (gen.styles[key]) {
+        return qx.html2.element.Style.get(element, key);
+      } else if (gen.custom[key]) {
+        return gen.custom[key].get(element);
       }
+
+      throw new Error("Generic get() has no informations about: " + key);
     },
 
 
-
-
-    /*
-    ---------------------------------------------------------------------------
-      CONTENT FLUSH
-    ---------------------------------------------------------------------------
-    */
-
     /**
-     * Internal helper to apply the DOM structure of the
-     * defined children.
+     * Preprocesses and translates <code>__generic</code> data
+     * structure and creates a larger but faster accessible table
+     * for later usage.
      *
      * @type static
-     * @param entry {qx.html2.Element} the element to flush
-     */
-    __flushContent : function(entry)
-    {
-      if (!entry.__element) {
-        entry.__create();
-      }
-
-      if (entry.__addEventJobs.length > 0) {
-        this.__flushAddEvents(entry);
-      }
-
-      if (entry.__removeEventJobs.length > 0) {
-        this.__flushRemoveEvents(entry);
-      }
-
-      if (entry.__text) {
-        this.__flushText(entry);
-      } else if (entry.__html) {
-        this.__flushHtml(entry);
-      } else {
-        this.__flushChildren(entry);
-      }
-    },
-
-
-    /**
-     * Internal helper to apply the defined text to the DOM element.
-     *
-     * @type static
-     * @param entry {qx.html2.Element} the element to flush
-     */
-    __flushText : function(entry)
-    {
-      // MSHTML does not support textContent (DOM3), but the
-      // properitary innerText attribute
-      if (entry.__element.textContent !== undefined) {
-        entry.__element.textContent = entry.__text;
-      } else {
-        entry.__element.innerText = entry.__text;
-      }
-    },
-
-
-    /**
-     * Internal helper to apply the added event listeners to the DOM element.
-     *
-     * @type static
-     * @param entry {qx.html2.Element} the element to flush
-     */
-    __flushAddEvents : function(entry)
-    {
-      var element = entry.__element;
-      var eventManager = qx.event2.Manager.getManager(element);
-
-      var addEventJobs = entry.__addEventJobs;
-      for (var i=0, l=addEventJobs.length; i<l; i++)
-      {
-        var eventData = addEventJobs[i];
-        eventManager.addListener(
-          element,
-          eventData.type,
-          eventData.listener,
-          eventData.self,
-          eventData.capture
-        );
-      }
-      entry.__addEventJobs = [];
-    },
-
-
-    /**
-     * Internal helper to apply the removed event listeners  to the DOM element.
-     *
-     * @type static
-     * @param entry {qx.html2.Element} the element to flush
-     */
-    __flushRemoveEvents : function(entry)
-    {
-      var element = entry.__element;
-      var eventManager = qx.event2.Manager.getManager(element);
-
-      var removeEventJobs = entry.__removeEventJobs;
-      for (var i=0, l=removeEventJobs.length; i<l; i++)
-      {
-        var eventData = removeEventJobs[i];
-        eventManager.removeListener(
-          element,
-          eventData.type,
-          eventData.listener,
-          eventData.capture
-        );
-      }
-      entry.__removeEventJobs = [];
-    },
-
-
-    /**
-     * Internal helper to apply the defined HTML to the DOM element.
-     *
-     * @type static
-     * @param entry {qx.html2.Element} the element to flush
-     */
-    __flushHtml : function(entry) {
-      entry.__element.innerHTML = entry.__html;
-    },
-
-
-    /**
-     * Internal helper to apply the DOM structure of the
-     * defined children.
-     *
-     * @type static
-     * @param entry {qx.html2.Element} the element to flush
-     */
-    __flushChildren : function(entry)
-    {
-      // **********************************************************************
-      //   Compute needed operations
-      // **********************************************************************
-      // Collect all element nodes of the children data
-      var target = [];
-
-      for (var i=0, a=entry.__children, l=a.length; i<l; i++)
-      {
-        if (!a[i].__element) {
-          a[i].__create();
-        }
-
-        target.push(a[i].__element);
-      }
-
-      var domElement = entry.__element;
-      var source = domElement.childNodes;
-
-      // Compute edit operations
-      var operations = qx.util.EditDistance.getEditOperations(source, target);
-
-      /*
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        // We need to convert the collection to an array otherwise
-        // FireBug sometimes will display a live view of the DOM and not the
-        // the snapshot at this moment.
-        source = qx.lang.Array.fromCollection(source);
-         console.log("Source: ", source.length + ": ", source);
-        console.log("Target: ", target.length + ": ", target);
-        console.log("Operations: ", operations);
-      }
-      */
-
-      // **********************************************************************
-      //   Process operations
-      // **********************************************************************
-      var job;
-      var domOperations = 0;
-
-      // Store offsets which are a result of element moves
-      var offsets = [];
-
-      for (var i=0, l=operations.length; i<l; i++)
-      {
-        job = operations[i];
-
-        // ********************************************************************
-        //   Apply offset
-        // ********************************************************************
-        if (offsets[job.pos] !== undefined)
-        {
-          job.pos -= offsets[job.pos];
-
-          // We need to be sure that we don't get negative indexes.
-          // This will otherwise break array/collection index access.
-          if (job.pos < 0) {
-            job.pos = 0;
-          }
-        }
-
-        // ********************************************************************
-        //   Process DOM
-        // ********************************************************************
-        if (job.operation === qx.util.EditDistance.OPERATION_DELETE)
-        {
-          // Ignore elements which are not placed at their original position anymore.
-          if (domElement.childNodes[job.pos] === job.old)
-          {
-            // console.log("Remove: ", job.old);
-            domElement.removeChild(job.old);
-          }
-        }
-        else
-        {
-          // Operations: insert and replace
-          // ******************************************************************
-          //   Offset calculation
-          // ******************************************************************
-          // Element will be moved around in the same parent
-          // We use the element on its old position and scan
-          // to the begin. A counter will increment on each
-          // step.
-          //
-          // This way we get the index of the element
-          // from the beginning.
-          //
-          // After this we increment the offset of all affected
-          // children (the following ones) until we reached the
-          // current position in our operation queue. The reason
-          // we stop at this point is that the following
-          // childrens should already be placed correctly through
-          // the operation method from the end to begin of the
-          // edit distance algorithm.
-          if (job.value.parentNode === domElement)
-          {
-            // find the position/index where the element is stored currently
-            previousIndex = -1;
-            iterator = job.value;
-
-            do
-            {
-              previousIndex++;
-              iterator = iterator.previousSibling;
-            }
-            while (iterator);
-
-            // increment all affected offsets
-            for (var j=previousIndex+1; j<=job.pos; j++)
-            {
-              if (offsets[j] === undefined) {
-                offsets[j] = 1;
-              } else {
-                offsets[j]++;
-              }
-            }
-          }
-
-          // ******************************************************************
-          //   The real DOM work
-          // ******************************************************************
-          if (job.operation === qx.util.EditDistance.OPERATION_REPLACE)
-          {
-            if (domElement.childNodes[job.pos] === job.old)
-            {
-
-              // console.log("Replace: ", job.old, " with ", job.value);
-              domOperations++;
-
-              domElement.replaceChild(job.value, job.old);
-            }
-            else
-            {
-              // console.log("Pseudo replace: ", job.old, " with ", job.value);
-              job.operation = qx.util.EditDistance.OPERATION_INSERT;
-            }
-          }
-
-          if (job.operation === qx.util.EditDistance.OPERATION_INSERT)
-          {
-            var before = domElement.childNodes[job.pos];
-
-            if (before)
-            {
-              // console.log("Insert: ", job.value, " at: ", job.pos);
-              domElement.insertBefore(job.value, before);
-              domOperations++;
-            }
-            else
-            {
-              // console.log("Append: ", job.value);
-              domElement.appendChild(job.value);
-              domOperations++;
-            }
-          }
-        }
-      }
-
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (this.__debug) {
-          console.debug("      - " + domOperations + " DOM operations made");
-        }
-      }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      QUEUE FLUSH
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Flush the global queue for all existing element needs
-     *
-     * @type static
-     */
-    flushQueue : function()
-    {
-      if (this.__inFlushQueue) {
-        return;
-      }
-
-      this.__inFlushQueue = true;
-
-      var queue = this.__queue;
-      var entry, child, a, i, l;
-
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (this.__debug) {
-          console.debug("Process: " + queue.length + " entries...");
-        }
-      }
-
-      // **********************************************************************
-      //   Create DOM elements
-      // **********************************************************************
-      // Creating DOM nodes could modify the queue again
-      // because the generated children will also be added
-      // to the queue
-      i = 0;
-
-      while (queue.length > i)
-      {
-        for (l=queue.length; i<l; i++)
-        {
-          entry = queue[i];
-
-          for (var j=0, a=entry.__children, lj=a.length; j<lj; j++)
-          {
-            child = a[j];
-
-            if (!child.__element && !child.__queued)
-            {
-              queue.push(child);
-              child.__queued = true;
-            }
-          }
-        }
-      }
-
-      // **********************************************************************
-      //   Apply content
-      // **********************************************************************
-      l = queue.length;
-
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (this.__debug) {
-          console.debug("  - Flush: " + l + " entries...");
-        }
-      }
-
-      for (i=0; i<l; i++)
-      {
-        entry = queue[i];
-
-        // the invisible items
-        if (!entry.isVisible())
-        {
-          if (qx.core.Variant.isSet("qx.debug", "on"))
-          {
-            if (this.__debug) {
-              console.debug("    - invisible: " + entry.toHashCode());
-            }
-          }
-
-          this.__flushContent(entry);
-          delete entry.__queued;
-        }
-      }
-
-      for (i=0; i<l; i++)
-      {
-        entry = queue[i];
-
-        // the remaining items
-        if (entry.__queued)
-        {
-          if (qx.core.Variant.isSet("qx.debug", "on"))
-          {
-            if (this.__debug) {
-              console.debug("    - visible: " + entry.toHashCode());
-            }
-          }
-
-          this.__flushContent(entry);
-          delete entry.__queued;
-        }
-      }
-
-      // **********************************************************************
-      //   Cleanup
-      // **********************************************************************
-      queue.length = 0;
-      delete this.__inFlushQueue;
-    }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
-  members :
-  {
-    __nodeName : "div",
-    __element : null,
-    __top : false,
-
-
-    /**
-     * Internal helper to generate the DOM element
-     *
-     * @type member
-     */
-    __create : function()
-    {
-      // console.debug("Create element[" + this.toHashCode() + "]");
-      var el = this.__element = document.createElement(this.__nodeName);
-      var style = this.__style = el.style;
-
-      var cache;
-
-      cache = this.__attribCache;
-
-      for (key in cache) {
-        el[key] = cache[key];
-      }
-
-      cache = this.__styleCache;
-
-      for (key in cache) {
-        style[key] = cache[key];
-      }
-    },
-
-
-    /**
-     * Internal helper for all children addition needs
-     *
-     * @type member
-     * @param child {var} the element to add
-     * @throws an exception if the given element is already a child
-     *     of this element
-     */
-    __addChildHelper : function(child)
-    {
-      if (child.__parent === this) {
-        throw new Error("Already in: " + child);
-      }
-
-      if (child.__parent) {
-        child.__parent.__children.remove(child);
-      }
-
-      child.__parent = this;
-
-      // If this element is created
-      if (this.__element) {
-        this.self(arguments).addToQueue(this);
-      }
-    },
-
-
-    /**
-     * Internal helper for all children removal needs
-     *
-     * @type member
-     * @param child {qx.html2.Element} the removed element
-     * @throws an exception if the given element is not a child
-     *     of this element
-     */
-    __removeChildHelper : function(child)
-    {
-      if (child.__parent !== this) {
-        throw new Error("Has no child: " + child);
-      }
-
-      if (this.__element && child.__element)
-      {
-        // If the DOM element is really inserted, we need to remove it
-        if (child.__element.parentNode === this.__element) {
-          this.self(arguments).addToQueue(this);
-        }
-      }
-
-      delete child.__parent;
-    },
-
-
-    /**
-     * Whether the element is a top level element.
-     *
-     * @type member
-     * @return {Boolean} whether the element is a top level element.
-     */
-    isTop : function() {
-      return this.__top;
-    },
-
-
-    /**
-     * Whether the element is visible / rendered.
-     *
-     * @type member
-     * @return {Boolean} whether the element is visible / rendered.
-     */
-    isVisible : function()
-    {
-      var elem = this;
-
-      do
-      {
-        if (elem.__top) {
-          return true;
-        }
-
-        if (!elem.__element || !elem.__element.parentNode) {
-          return false;
-        }
-
-        elem = elem.__parent;
-      }
-      while (elem);
-
-      return false;
-    },
-
-
-    /**
-     * Returns a copy of the internal children structure.
-     *
-     * @type member
-     * @return {Array} the children list
-     */
-    getChildren : function()
-    {
-      // protect structure using a copy
-      return qx.lang.Array.copy(this.__children);
-    },
-
-
-    /**
-     * Find the position of the given child
-     *
-     * @type member
-     * @param child {qx.html2.Element} the child
-     * @return {Integer} returns the position. If the element
-     *     is not a child <code>-1</code> will be returned.
-     */
-    indexOf : function(child) {
-      return this.__children.indexOf(child);
-    },
-
-
-    /**
-     * Append the given child at the end of this element's children.
-     *
-     * @type member
-     * @param child {qx.html2.Element} the element to insert
-     * @return {qx.html2.Element} this object (for chaining support)
-     */
-    add : function(child)
-    {
-      this.__addChildHelper(child);
-      this.__children.push(child);
-
-      return this;
-    },
-
-
-    /**
-     * Add all given children to this element
-     *
-     * @type member
-     * @param varargs {arguments} the elements to add
-     * @return {qx.html2.Element} this object (for chaining support)
-     */
-    addList : function(varargs)
-    {
-      for (var i=0, l=arguments.length; i<l; i++) {
-        this.add(arguments[i]);
-      }
-
-      return this;
-    },
-
-
-    /**
-     * Inserts the given element after the given child.
-     *
-     * @type member
-     * @param child {qx.html2.Element} the element to insert
-     * @param rel {qx.html2.Element} the related child
-     * @return {qx.html2.Element} this object (for chaining support)
-     */
-    insertAfter : function(child, rel)
-    {
-      this.__addChildHelper(child);
-      qx.lang.Array.insertAfter(this.__children, child, rel);
-
-      return this;
-    },
-
-
-    /**
-     * Inserts the given element before the given child.
-     *
-     * @type member
-     * @param child {qx.html2.Element} the element to insert
-     * @param rel {qx.html2.Element} the related child
-     * @return {qx.html2.Element} this object (for chaining support)
-     */
-    insertBefore : function(child, rel)
-    {
-      this.__addChildHelper(child);
-      qx.lang.Array.insertBefore(this.__children, child, rel);
-
-      return this;
-    },
-
-
-    /**
-     * Inserts a new element at the given position
-     *
-     * @type member
-     * @param child {qx.html2.Element} the element to insert
-     * @param index {Integer} the index (starts at 0 for the
-     *     first child) to insert (the index of the following
-     *     children will be increased by one)
-     * @return {qx.html2.Element} this object (for chaining support)
-     */
-    insertAt : function(child, index)
-    {
-      this.__addChildHelper(child);
-      qx.lang.Array.insertAt(this.__children, child, index);
-
-      return this;
-    },
-
-
-    /**
-     * Remove the given child from this element.
-     *
-     * @type member
-     * @param child {qx.html2.Element} The child to remove
-     * @return {qx.html2.Element} the removed element
-     */
-    remove : function(child)
-    {
-      this.__removeChildHelper(child);
-      return qx.lang.Array.remove(this.__children, child);
-    },
-
-
-    /**
-     * Remove the child at the given index from this element.
-     *
-     * @type member
-     * @param index {Integer} the position of the
-     *     child (starts at 0 for the first child)
-     * @return {qx.html2.Element} the removed element
-     */
-    removeAt : function(index)
-    {
-      this.__removeChildHelper(child);
-      return qx.lang.Array.removeAt(this.__children, index);
-    },
-
-
-    /**
-     * Remove all given children from this element
-     *
-     * @type member
-     * @param varargs {arguments} the elements
-     * @return {qx.html2.Element} this object (for chaining support)
-     */
-    removeList : function(varargs)
-    {
-      for (var i=0, l=arguments.length; i<l; i++) {
-        this.remove(arguments[i]);
-      }
-
-      return this;
-    },
-
-
-    /**
-     * Move the given child to the given index. The index
-     * of the child on this index (if so) and all following
-     * siblings will be increased by one.
-     *
-     * @type member
-     * @param child {var} the child to move
-     * @param index {Integer} the index (starts at 0 for the first child)
-     * @return {qx.html2.Element} this object (for chaining support)
-     * @throws an exception when the given element is not child
-     *      of this element.
-     */
-    moveTo : function(child, index)
-    {
-      if (child.__parent !== this) {
-        throw new Error("Has no child: " + child);
-      }
-
-      if (this.__element) {
-        this.self(arguments).addToQueue(this);
-      }
-
-      var oldIndex = this.__children.indexOf(child);
-
-      if (oldIndex === index) {
-        throw new Error("Could not move to same index!");
-      } else if (oldIndex < index) {
-        index--;
-      }
-
-      qx.lang.Array.removeAt(this.__children, oldIndex);
-      qx.lang.Array.insertAt(this.__children, child, index);
-
-      return this;
-    },
-
-
-    /**
-     * Move the given <code>child</code> before the child <code>rel</code>.
-     *
-     * @type member
-     * @param child {qx.html2.Element} the child to move
-     * @param rel {qx.html2.Element} the related child
-     * @return {qx.html2.Element} this object (for chaining support)
-     */
-    moveBefore : function(child, rel) {
-      return this.moveTo(child, this.__children.indexOf(rel));
-    },
-
-
-    /**
-     * Move the given <code>child</code> after the child <code>rel</code>.
-     *
-     * @type member
-     * @param child {qx.html2.Element} the child to move
-     * @param rel {qx.html2.Element} the related child
-     * @return {qx.html2.Element} this object (for chaining support)
-     */
-    moveAfter : function(child, rel) {
-      return this.moveTo(child, this.__children.indexOf(rel) + 1);
-    },
-
-
-    /**
-     * Sets the element to an already existing node. It will be
-     * assumed that this DOM element is already visible e.g.
-     * like a normal displayed element in the document's body.
-     *
-     * @type member
-     * @param el {Element} the dom element to set
      * @return {void}
-     * @throws TODOC
      */
-    setElement : function(el)
+    __init : function()
     {
-      if (this.__element) {
-        throw new Error("Elements could not be replaced!");
+      var generic = this.__generic;
+
+      var map =
+      {
+        attributes : {},
+        styles     : {},
+        custom     : {}
+      };
+
+      var name, hints, source, target;
+
+      // Process attributes
+      hints = qx.html2.element.Attribute.__hints.names;
+      source = generic.attributes;
+      target = map.attributes;
+
+      for (var i=0, l=source.length; i<l; i++)
+      {
+        name = source[i];
+        target[name] = true;
+
+        if (hints[name]) {
+          target[hints[name]] = true;
+        }
       }
 
-      // Initialize based on given element
-      this.__element = el;
-      this.__nodeName = el.tagName.toLowerCase();
-      this.__top = true;
+      // Process styles
+      hints = qx.html2.element.Style.__hints.names;
+      source = generic.styles;
+      target = map.styles;
 
-      // Cleanup the element
-      el.innerHTML = "";
+      for (var i=0, l=source.length; i<l; i++)
+      {
+        name = source[i];
+        target[name] = true;
 
-      // Finally add it to the queue
-      this.self(arguments).addToQueue(this);
-    },
-
-
-    /**
-     * Returns the DOM element (if created). Please don't use this.
-     * It is better to make all changes to the framework object itself (using
-     * {@link #setText}, {@link #setHtml}, or manipulating the children), rather
-     * than to the underying DOM element.
-     *
-     * @type member
-     * @return {Element} the DOM element node
-     * @throws an error if the element was not yet created
-     */
-    getElement : function()
-    {
-      if (!this.__element) {
-        throw new Error("Element is not yet created!");
+        if (hints[name]) {
+          target[hints[name]] = true;
+        }
       }
 
-      return this.__element;
-    },
+      // custom attributes
+      map.custom = generic.custom;
 
-
-    /**
-     * Set up the given style attribute
-     *
-     * @type member
-     * @param key {String} the name of the style attribute
-     * @param value {var} the value
-     * @return {qx.html2.Element} this object (for chaining support)
-     */
-    setStyle : function(key, value)
-    {
-      this.__styleCache[key] = value;
-
-      if (this.__element) {
-        this.__style[key] = value;
-      }
-
-      return this;
-    },
-
-
-    /**
-     * Get the value of the given style attribute.
-     *
-     * @type member
-     * @param key {String} name of the style attribute
-     * @return {var} the value of the style attribute
-     */
-    getStyle : function(key) {
-      return this.__styleCache[key];
-    },
-
-
-    /**
-     * Set up the given attribute
-     *
-     * @type member
-     * @param key {String} the name of the attribute
-     * @param value {var} the value
-     * @return {qx.html2.Element} this object (for chaining support)
-     */
-    setAttribute : function(key, value)
-    {
-      this.__attribCache[key] = value;
-
-      if (this.__element) {
-        this.__element[key] = value;
-      }
-
-      return this;
-    },
-
-
-    /**
-     * Get the value of the given attribute.
-     *
-     * @type member
-     * @param key {String} name of the attribute
-     * @return {var} the value of the attribute
-     */
-    getAttribute : function(key) {
-      return this.__attribCache[key];
-    },
-
-
-    /**
-     * Add an event listener to the element using {@link qx.event2.Manager#addListener}.
-     *
-     * @type static
-     * @param type {String} Name of the event e.g. "click", "keydown", ...
-     * @param listener {Function} Event listener function
-     * @param self {Object ? window} Reference to the 'this' variable inside
-     *       the event listener.
-     * @param capture {Boolean ? false} Whether to attach the event to the
-     *       capturing phase of the bubbling phase of the event. The default is
-     *       to attach the event handler to the bubbling phase.
-     * @return {qx.html2.Element} this object (for chaining support)
-     */
-    addEventListener : function(type, listener, self, capture)
-    {
-      this.__addEventJobs.push({
-        type: type,
-        listener: listener,
-        self: self,
-        capture: capture
-      });
-
-      if (this.__element) {
-        this.self(arguments).addToQueue(this);
-      }
-
-      return this;
-    },
-
-
-    /**
-     * Remove an event listener from the element using {@link qx.event2.Manager#removeListener}.
-     *
-     * @type static
-     * @param type {String} Name of the event e.g. "click", "keydown", ...
-     * @param listener {Function} Event listener function
-     * @param self {Object ? window} Reference to the 'this' variable inside
-     *       the event listener.
-     * @param capture {Boolean ? false} Whether to attach the event to the
-     *       capturing phase of the bubbling phase of the event. The default is
-     *       to attach the event handler to the bubbling phase.
-     * @return {qx.html2.Element} this object (for chaining support)
-     */
-    removeEventListener : function(type, listener, self, capture)
-    {
-      this.__removeEventJobs.push({
-        type: type,
-        listener: listener,
-        self : self,
-        capture: capture
-      });
-
-      if (this.__element) {
-        this.self(arguments).addToQueue(this);
-      }
-
-      return this;
-    },
-
-
-    /**
-     * Set up the HTML content of this element
-     *
-     * Please note that you can only use one content type:
-     * children, HTML or text
-     *
-     * @type member
-     * @param html {String} the HTML content to apply
-     * @return {qx.html2.Element} this object (for chaining support)
-     */
-    setHtml : function(html)
-    {
-      this.__html = html;
-
-      if (this.__element) {
-        this.self(arguments).addToQueue(this);
-      }
-
-      return this;
-    },
-
-
-    /**
-     * Returns the configured HTML content
-     *
-     * @type member
-     * @return {String | null} the HTML
-     */
-    getHtml : function() {
-      return this.__html || null;
-    },
-
-
-    /**
-     * Set up the text content of this element
-     *
-     * Please note that you can only use one content type:
-     * children, HTML or text
-     *
-     * @type member
-     * @param text {String} the text content to apply
-     * @return {qx.html2.Element} this object (for chaining support)
-     */
-    setText : function(text)
-    {
-      this.__text = text;
-
-      if (this.__element) {
-        this.self(arguments).addToQueue(this);
-      }
-
-      return this;
-    },
-
-
-    /**
-     * Returns the configured text content
-     *
-     * @type member
-     * @return {String | null} the text
-     */
-    getText : function() {
-      return this.__text || null;
+      this.__generic = map;
     }
   },
-
 
 
 
@@ -1146,7 +215,7 @@ qx.Class.define("qx.html2.Element",
   *****************************************************************************
   */
 
-  defer : function(statics, members) {
-    statics.__autoFlush = new qx.util.DeferredCall(statics.flushQueue, statics);
+  defer : function(statics) {
+    statics.__init();
   }
 });
