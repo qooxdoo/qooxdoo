@@ -42,7 +42,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
   */
 
   /**
-   * @param paneScroller {TablePaneScroller} the TablePaneScroller the header belongs to.
+   * @param paneScroller {qx.ui.table.pane.Scroller} the TablePaneScroller the header belongs to.
    */
   construct : function(paneScroller)
   {

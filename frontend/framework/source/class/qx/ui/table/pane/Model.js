@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.table.pane.Model",
 
   /**
    *
-   * @param tableColumnModel {TableColumnModel} The TableColumnModel of which this
+   * @param tableColumnModel {qx.ui.table.columnmodel.Basic} The TableColumnModel of which this
    *    model is the proxy.
    */
   construct : function(tableColumnModel)
