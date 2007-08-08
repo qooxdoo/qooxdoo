@@ -115,7 +115,6 @@ qx.Class.define("qx.dom.Node",
       },
 
       "default" : function(node) {
-        console.log("query: " + node);
         return this.getDocument(node).defaultView;
       }
     }),
