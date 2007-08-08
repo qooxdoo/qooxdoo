@@ -470,7 +470,7 @@ qx.Class.define("qx.ui.table2.pane.Pane",
 
       var elem = this.getElement();
 
-      this.debug(">>>" + this.TABLE_ARR.join("") + "<<<")
+      // this.debug(">>>" + this.TABLE_ARR.join("") + "<<<")
       //this.debug("compute time: " + (new Date() - start) + "ms");
 
       var start = new Date();
