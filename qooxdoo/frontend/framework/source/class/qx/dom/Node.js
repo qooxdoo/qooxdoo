@@ -27,7 +27,7 @@
 /**
  * Basic node creation and type detection
  */
-qx.Class.define("qx.xml.Node",
+qx.Class.define("qx.dom.Node",
 {
   /*
   *****************************************************************************
@@ -37,6 +37,29 @@ qx.Class.define("qx.xml.Node",
 
   statics :
   {
+    /*
+    ---------------------------------------------------------------------------
+      NODE TYPES
+    ---------------------------------------------------------------------------
+    */    
+    
+    ELEMENT                : 1,
+    ATTRIBUTE              : 2,
+    TEXT                   : 3,
+    CDATA_SECTION          : 4,
+    ENTITY_REFERENCE       : 5,
+    ENTITY                 : 6,
+    PROCESSING_INSTRUCTION : 7,
+    COMMENT                : 8,
+    DOCUMENT               : 9,
+    DOCUMENT_TYPE          : 10,
+    DOCUMENT_FRAGMENT      : 11,
+    NOTATION               : 12,
+    
+    
+    
+        
+    
     /*
     ---------------------------------------------------------------------------
       DOCUMENT ACCESS
@@ -165,6 +188,53 @@ qx.Class.define("qx.xml.Node",
      */
     isWindow : function(node) {
       return node.document && this.getWindow(node.document) == node;
-    }
+    },
+    
+    
+    
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      UTILITIES
+    ---------------------------------------------------------------------------
+    */    
+    
+    /**
+     * Returns the text content of an element where the element may be of node type NODE_ELEMENT, NODE_ATTRIBUTE or NODE_TEXT
+     *
+     * @param element {Element} the element from where the search should start.
+     *     If the element has subnodes the text contents are recursively retreived and joined.
+     * @return {String} the joined text content of the given element or null if not appropriate.
+     * @signature function(element)
+     */
+    getText : function(element)
+    {
+      if(!element || !element.nodeType) {
+        return null;
+      }
+
+      switch(element.nodeType)
+      {
+        case 1: // NODE_ELEMENT
+          var i, a=[], nodes = element.childNodes, length = nodes.length;
+          for (i=0; i<length; i++) {
+            a[i] = this.getText(nodes[i]);
+          };
+
+          return a.join("");
+
+        case 2: // NODE_ATTRIBUTE
+          return element.nodeValue;
+          break;
+
+        case 3: // NODE_TEXT
+          return element.nodeValue;
+          break;
+      }
+
+      return null;
+    }    
   }
 });
