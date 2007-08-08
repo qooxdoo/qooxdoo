@@ -185,7 +185,7 @@ qx.Class.define("qx.dev.Tokenizer",
       var js = new qx.util.StringBuilder();
       for (var i=0; i<tokens.length; i++) {
         var token = tokens[i];
-        var htmlValue = qx.html.String.escape(token.value);
+        var htmlValue = qx.legacy.html.String.escape(token.value);
         switch(token.type) {
           case "ident":
             js.add("<span class='ident'>", htmlValue, "</span>");

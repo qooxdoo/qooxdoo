@@ -62,15 +62,15 @@ qx.Class.define("demobrowser.Application",
       qx.io.Alias.getInstance().add("demobrowser", qx.core.Setting.get("demobrowser.resourceUri"));
 
       // Include CSS files
-      qx.html.StyleSheet.includeFile(qx.io.Alias.getInstance().resolve("demobrowser/css/style.css"));
-      qx.html.StyleSheet.includeFile(qx.io.Alias.getInstance().resolve("demobrowser/css/sourceview.css"));
+      qx.legacy.html.StyleSheet.includeFile(qx.io.Alias.getInstance().resolve("demobrowser/css/style.css"));
+      qx.legacy.html.StyleSheet.includeFile(qx.io.Alias.getInstance().resolve("demobrowser/css/sourceview.css"));
 
       // Initialize the viewer
       this.viewer = new demobrowser.DemoBrowser;
       this.viewer.addToDocument();
 
       // Load data file
-      qx.client.Timer.once(this._load, this, 0);
+      qx.event.Timer.once(this._load, this, 0);
     },
 
 

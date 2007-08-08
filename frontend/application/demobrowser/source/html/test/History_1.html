@@ -20,7 +20,7 @@
 			a1.setLabel("History event: " + e.getData());
 		}
 
-    var hist = qx.client.History.getInstance();
+    var hist = qx.bom.History.getInstance();
 
     hist.addEventListener("request", callback);
 
@@ -28,7 +28,7 @@
 		hist.addToHistory("Juhu2", "Juhu2");
 		hist.addToHistory("Juhu3", "Juhu3");
 
-	  //qx.client.Timer.once(function() {history.back();}, 0);
+	  //qx.event.Timer.once(function() {history.back();}, 0);
 	  hist.navigateBack();
 
     var t1 = new qx.ui.form.TextField();

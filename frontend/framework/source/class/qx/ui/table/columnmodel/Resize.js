@@ -182,7 +182,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
      *
      * @type member
      *
-     * @param event {qx.event.type.DataEvent}
+     * @param event {qx.legacy.event.type.DataEvent}
      *   The "columnVisibilityMenuCreateEnd" event indicating that the menu is
      *   being generated.  The data is a map containing propeties <i>table</i>
      *   and <i>menu</i>.
@@ -215,7 +215,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
      *
      * @type member
      *
-     * @param event {qx.event.type.Event}
+     * @param event {qx.legacy.event.type.Event}
      *   The "onappear" event object.
      *
      * @return {void}
@@ -241,7 +241,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
 
       this.getBehavior().onAppear(this, event);
 
-      qx.client.Timer.once(function()
+      qx.event.Timer.once(function()
                            {
                              if (!this._table.getDisposed())
                              {
@@ -263,7 +263,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
      *
      * @type member
      *
-     * @param event {qx.event.type.Event}
+     * @param event {qx.legacy.event.type.Event}
      *   The "onwindowresize" event object.
      *
      * @return {void}
@@ -297,7 +297,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
      *
      * @type member
      *
-     * @param event {qx.event.type.DataEvent}
+     * @param event {qx.legacy.event.type.DataEvent}
      *   The "verticalScrollBarChanged" event object.  The data is a boolean
      *   indicating whether a vertical scroll bar is now present.
      *
@@ -324,7 +324,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
 
       this.getBehavior().onVerticalScrollBarChanged(this, event);
 
-      qx.client.Timer.once(function()
+      qx.event.Timer.once(function()
                            {
                              if (!this._table.getDisposed())
                              {
@@ -344,7 +344,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
      *
      * @type member
      *
-     * @param event {qx.event.type.DataEvent}
+     * @param event {qx.legacy.event.type.DataEvent}
      *   The "widthChanged" event object.
      *
      * @return {void}
@@ -378,7 +378,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
      *
      * @type member
      *
-     * @param event {qx.event.type.DataEvent}
+     * @param event {qx.legacy.event.type.DataEvent}
      *   The "visibilityChanged" event object.
      *
      * @return {void}

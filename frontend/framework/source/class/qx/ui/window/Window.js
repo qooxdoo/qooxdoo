@@ -612,7 +612,7 @@ qx.Class.define("qx.ui.window.Window",
       qx.ui.popup.PopupManager.getInstance().update();
 
       // Configure the focus root to be the current opened window
-      qx.event.handler.EventHandler.getInstance().setFocusRoot(this);
+      qx.legacy.event.handler.EventHandler.getInstance().setFocusRoot(this);
 
       this.getWindowManager().add(this);
       this._makeActive();
@@ -633,16 +633,16 @@ qx.Class.define("qx.ui.window.Window",
       qx.ui.layout.CanvasLayout.prototype._beforeDisappear.call(this);
 
       // Reset focus root
-      var vFocusRoot = qx.event.handler.EventHandler.getInstance().getFocusRoot();
+      var vFocusRoot = qx.legacy.event.handler.EventHandler.getInstance().getFocusRoot();
 
       if (vFocusRoot == this || this.contains(vFocusRoot)) {
-        qx.event.handler.EventHandler.getInstance().setFocusRoot(null);
+        qx.legacy.event.handler.EventHandler.getInstance().setFocusRoot(null);
       }
 
       // Be sure to disable any capturing inside invisible parts
       // Is this to much overhead?
       // Are there any other working solutions?
-      var vWidget = qx.event.handler.EventHandler.getInstance().getCaptureWidget();
+      var vWidget = qx.legacy.event.handler.EventHandler.getInstance().getCaptureWidget();
 
       if (vWidget && this.contains(vWidget)) {
         vWidget.setCapture(false);
@@ -1202,10 +1202,10 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * Stops every mouse click on the window by calling {@link qx.event.type.Event#stopPropagation}
+     * Stops every mouse click on the window by calling {@link qx.legacy.event.type.Event#stopPropagation}
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} mouse click event
+     * @param e {qx.legacy.event.type.MouseEvent} mouse click event
      * @return {void}
      */
     _onwindowclick : function(e)
@@ -1219,7 +1219,7 @@ qx.Class.define("qx.ui.window.Window",
      * Focuses the window instance.
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} mouse down event
+     * @param e {qx.legacy.event.type.MouseEvent} mouse down event
      * @return {void}
      */
     _onwindowmousedown : function(e) {
@@ -1236,10 +1236,10 @@ qx.Class.define("qx.ui.window.Window",
 
     /**
      * Stops every mouse down event on each button in the captionbar
-     * by calling {@link qx.event.type.Event#stopPropagation}
+     * by calling {@link qx.legacy.event.type.Event#stopPropagation}
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} mouse down event
+     * @param e {qx.legacy.event.type.MouseEvent} mouse down event
      * @return {void}
      */
     _onbuttonmousedown : function(e) {
@@ -1249,10 +1249,10 @@ qx.Class.define("qx.ui.window.Window",
 
     /**
      * Minmizes the window, removes all states from the minimize button and
-     * stops the further propagation of the event (calling {@link qx.event.type.Event#stopPropagation}).
+     * stops the further propagation of the event (calling {@link qx.legacy.event.type.Event#stopPropagation}).
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} mouse click event
+     * @param e {qx.legacy.event.type.MouseEvent} mouse click event
      * @return {void}
      */
     _onminimizebuttonclick : function(e)
@@ -1271,10 +1271,10 @@ qx.Class.define("qx.ui.window.Window",
 
     /**
      * Restores the window, removes all states from the restore button and
-     * stops the further propagation of the event (calling {@link qx.event.type.Event#stopPropagation}).
+     * stops the further propagation of the event (calling {@link qx.legacy.event.type.Event#stopPropagation}).
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} mouse click event
+     * @param e {qx.legacy.event.type.MouseEvent} mouse click event
      * @return {void}
      */
     _onrestorebuttonclick : function(e)
@@ -1293,10 +1293,10 @@ qx.Class.define("qx.ui.window.Window",
 
     /**
      * Maximizes the window, removes all states from the maximize button and
-     * stops the further propagation of the event (calling {@link qx.event.type.Event#stopPropagation}).
+     * stops the further propagation of the event (calling {@link qx.legacy.event.type.Event#stopPropagation}).
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} mouse click event
+     * @param e {qx.legacy.event.type.MouseEvent} mouse click event
      * @return {void}
      */
     _onmaximizebuttonclick : function(e)
@@ -1315,10 +1315,10 @@ qx.Class.define("qx.ui.window.Window",
 
     /**
      * Closes the window, removes all states from the close button and
-     * stops the further propagation of the event (calling {@link qx.event.type.Event#stopPropagation}).
+     * stops the further propagation of the event (calling {@link qx.legacy.event.type.Event#stopPropagation}).
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} mouse click event
+     * @param e {qx.legacy.event.type.MouseEvent} mouse click event
      * @return {void}
      */
     _onclosebuttonclick : function(e)
@@ -1348,7 +1348,7 @@ qx.Class.define("qx.ui.window.Window",
      * appearance (translucent, frame or opaque) for the moving of the window.
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} mouse down event
+     * @param e {qx.legacy.event.type.MouseEvent} mouse down event
      * @return {void}
      */
     _oncaptionmousedown : function(e)
@@ -1367,15 +1367,15 @@ qx.Class.define("qx.ui.window.Window",
       var pa = this.getParent();
       var pl = pa.getElement();
 
-      var l = qx.html.Location.getPageAreaLeft(pl);
-      var t = qx.html.Location.getPageAreaTop(pl);
-      var r = qx.html.Location.getPageAreaRight(pl);
-      var b = qx.html.Location.getPageAreaBottom(pl);
+      var l = qx.legacy.html.Location.getPageAreaLeft(pl);
+      var t = qx.legacy.html.Location.getPageAreaTop(pl);
+      var r = qx.legacy.html.Location.getPageAreaRight(pl);
+      var b = qx.legacy.html.Location.getPageAreaBottom(pl);
 
       this._dragSession =
       {
-        offsetX                   : e.getPageX() - qx.html.Location.getPageBoxLeft(el) + l,
-        offsetY                   : e.getPageY() - qx.html.Location.getPageBoxTop(el) + t,
+        offsetX                   : e.getPageX() - qx.legacy.html.Location.getPageBoxLeft(el) + l,
+        offsetY                   : e.getPageY() - qx.legacy.html.Location.getPageBoxTop(el) + t,
         parentAvailableAreaLeft   : l + 5,
         parentAvailableAreaTop    : t + 5,
         parentAvailableAreaRight  : r - 5,
@@ -1401,11 +1401,11 @@ qx.Class.define("qx.ui.window.Window",
             qx.ui.core.Widget.flushGlobalQueues();
           }
 
-          f._renderRuntimeLeft(qx.html.Location.getPageBoxLeft(el) - l);
-          f._renderRuntimeTop(qx.html.Location.getPageBoxTop(el) - t);
+          f._renderRuntimeLeft(qx.legacy.html.Location.getPageBoxLeft(el) - l);
+          f._renderRuntimeTop(qx.legacy.html.Location.getPageBoxTop(el) - t);
 
-          f._renderRuntimeWidth(qx.html.Dimension.getBoxWidth(el));
-          f._renderRuntimeHeight(qx.html.Dimension.getBoxHeight(el));
+          f._renderRuntimeWidth(qx.legacy.html.Dimension.getBoxWidth(el));
+          f._renderRuntimeHeight(qx.legacy.html.Dimension.getBoxHeight(el));
 
           f.setZIndex(this.getZIndex() + 1);
 
@@ -1420,7 +1420,7 @@ qx.Class.define("qx.ui.window.Window",
      * of the window.
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} mouse up event
+     * @param e {qx.legacy.event.type.MouseEvent} mouse up event
      * @return {void}
      */
     _oncaptionmouseup : function(e)
@@ -1465,7 +1465,7 @@ qx.Class.define("qx.ui.window.Window",
      * of the window (or frame) at runtime using direct dom methods.
      *
      * @type member
-     * @param e {qx.event.type.Event} mouse move event
+     * @param e {qx.legacy.event.type.Event} mouse move event
      * @return {void}
      */
     _oncaptionmousemove : function(e)
@@ -1495,7 +1495,7 @@ qx.Class.define("qx.ui.window.Window",
      * maximized.
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} double click event
+     * @param e {qx.legacy.event.type.MouseEvent} double click event
      * @return {void}
      */
     _oncaptiondblblick : function(e)

@@ -85,13 +85,13 @@ qx.Class.define("qx.application.Gui",
       qx.theme.manager.Meta.getInstance().initialize();
 
       // Force creation of event handler
-      qx.event.handler.EventHandler.getInstance();
+      qx.legacy.event.handler.EventHandler.getInstance();
 
       // Force creation of client document
       qx.ui.core.ClientDocument.getInstance();
 
       // Call preloader
-      qx.client.Timer.once(this._preload, this, 0);
+      qx.event.Timer.once(this._preload, this, 0);
     },
 
 
@@ -145,10 +145,10 @@ qx.Class.define("qx.application.Gui",
       this.info("render runtime: " + (new Date - start) + "ms");
 
       // Finally attach event to make the GUI ready for the user
-      qx.event.handler.EventHandler.getInstance().attachEvents();
+      qx.legacy.event.handler.EventHandler.getInstance().attachEvents();
 
       // Call postloader
-      qx.client.Timer.once(this._postload, this, 100);
+      qx.event.Timer.once(this._postload, this, 100);
     },
 
 

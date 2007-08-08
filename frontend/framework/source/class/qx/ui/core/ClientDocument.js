@@ -21,7 +21,7 @@
 /* ************************************************************************
 
 #module(ui_core)
-#optional(qx.client.NativeWindow)
+#optional(qx.bom.Window)
 #optional(qx.ui.window.Window)
 #optional(qx.ui.popup.PopupManager)
 
@@ -87,7 +87,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
     this.initSelectable();
 
     // Register as current focus root
-    qx.event.handler.EventHandler.getInstance().setFocusRoot(this);
+    qx.legacy.event.handler.EventHandler.getInstance().setFocusRoot(this);
   },
 
 
@@ -100,17 +100,17 @@ qx.Class.define("qx.ui.core.ClientDocument",
 
   events:
   {
-    /** (Fired by {@link qx.event.handler.EventHandler}) */
-    "focus"         : "qx.event.type.Event",
+    /** (Fired by {@link qx.legacy.event.handler.EventHandler}) */
+    "focus"         : "qx.legacy.event.type.Event",
 
-    /** Fired when the window looses the focus (Fired by {@link qx.event.handler.EventHandler}) */
-    "windowblur"    : "qx.event.type.Event",
+    /** Fired when the window looses the focus (Fired by {@link qx.legacy.event.handler.EventHandler}) */
+    "windowblur"    : "qx.legacy.event.type.Event",
 
-    /**  Fired when the window gets the focus (Fired by {@link qx.event.handler.EventHandler}) */
-    "windowfocus"   : "qx.event.type.Event",
+    /**  Fired when the window gets the focus (Fired by {@link qx.legacy.event.handler.EventHandler}) */
+    "windowfocus"   : "qx.legacy.event.type.Event",
 
-    /** Fired when the window has been resized (Fired by {@link qx.event.handler.EventHandler}) */
-    "windowresize"  : "qx.event.type.Event"
+    /** Fired when the window has been resized (Fired by {@link qx.legacy.event.handler.EventHandler}) */
+    "windowresize"  : "qx.legacy.event.type.Event"
   },
 
 
@@ -362,7 +362,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
         this._getBlocker().setZIndex(vOrigIndex);
         vActiveChild.setZIndex(vOrigIndex + 1);
       }
-      else if (qx.Class.isDefined("qx.client.NativeWindow") && vActiveChild instanceof qx.client.NativeWindow)
+      else if (qx.Class.isDefined("qx.bom.Window") && vActiveChild instanceof qx.bom.Window)
       {
         this._modalNativeWindow = vActiveChild;
         this._getBlocker().setZIndex(1e7);
@@ -382,7 +382,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
       // this.debug("RELEASE: " + vActiveChild.toHashCode());
       if (vActiveChild)
       {
-        if (qx.Class.isDefined("qx.client.NativeWindow") && vActiveChild instanceof qx.client.NativeWindow) {
+        if (qx.Class.isDefined("qx.bom.Window") && vActiveChild instanceof qx.bom.Window) {
           this._modalNativeWindow = null;
         } else {
           qx.lang.Array.remove(this._modalWidgets, vActiveChild);
@@ -421,7 +421,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
      * @return {var} TODOC
      */
     createStyleElement : function(vCssText) {
-      return qx.html.StyleSheet.createElement(vCssText);
+      return qx.legacy.html.StyleSheet.createElement(vCssText);
     },
 
 
@@ -435,7 +435,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
      * @return {var} TODOC
      */
     addCssRule : function(vSheet, vSelector, vStyle) {
-      return qx.html.StyleSheet.addRule(vSheet, vSelector, vStyle);
+      return qx.legacy.html.StyleSheet.addRule(vSheet, vSelector, vStyle);
     },
 
 
@@ -448,7 +448,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
      * @return {var} TODOC
      */
     removeCssRule : function(vSheet, vSelector) {
-      return qx.html.StyleSheet.removeRule(vSheet, vSelector);
+      return qx.legacy.html.StyleSheet.removeRule(vSheet, vSelector);
     },
 
 
@@ -460,7 +460,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
      * @return {var} TODOC
      */
     removeAllCssRules : function(vSheet) {
-      return qx.html.StyleSheet.removeAllRules(vSheet);
+      return qx.legacy.html.StyleSheet.removeAllRules(vSheet);
     },
 
 
@@ -650,7 +650,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
       var borderBoxCss = boxSizingAttr.join(":border-box;") + ":border-box;";
       var contentBoxCss = boxSizingAttr.join(":content-box;") + ":content-box;";
 
-      qx.html.StyleSheet.createElement(
+      qx.legacy.html.StyleSheet.createElement(
         "html,body { margin:0;border:0;padding:0; } " +
         "html { border:0 none; } " +
         "*{" + borderBoxCss +"} " +
@@ -659,7 +659,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
     }
 
     if (qx.core.Setting.get("qx.enableApplicationLayout")) {
-      qx.html.StyleSheet.createElement("html,body{width:100%;height:100%;overflow:hidden;}");
+      qx.legacy.html.StyleSheet.createElement("html,body{width:100%;height:100%;overflow:hidden;}");
     }
   },
 

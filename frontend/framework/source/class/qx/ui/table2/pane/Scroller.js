@@ -1228,7 +1228,7 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
     {
       var paneModel = this.getTablePaneModel();
       var columnModel = this.getTable().getTableColumnModel();
-      var paneLeftX = qx.html.Location.getClientBoxLeft(this._tablePane.getElement());
+      var paneLeftX = qx.legacy.html.Location.getClientBoxLeft(this._tablePane.getElement());
       var colCount = paneModel.getColumnCount();
 
       var targetXPos = 0;
@@ -1250,7 +1250,7 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
       }
 
       // Ensure targetX is visible
-      var clipperLeftX = qx.html.Location.getClientBoxLeft(this._paneClipper.getElement());
+      var clipperLeftX = qx.legacy.html.Location.getClientBoxLeft(this._paneClipper.getElement());
       var clipperWidth = this._paneClipper.getBoxWidth();
       var scrollX = clipperLeftX - paneLeftX;
 
@@ -1497,7 +1497,7 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
                                             this);
 
           // Workaround: Calling focus() directly has no effect
-          qx.client.Timer.once(function()
+          qx.event.Timer.once(function()
           {
             if (this.getDisposed())
             {
@@ -1561,7 +1561,7 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
           // Defer the actual disposing of the cell editor briefly, as there
           // may be more accesses to it for a short while after we leave this
           // function.
-          qx.client.Timer.once(function()
+          qx.event.Timer.once(function()
                                {
                                  var d =
                                    qx.ui.core.ClientDocument.getInstance();
@@ -1631,7 +1631,7 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
      */
     _getColumnForPageX : function(pageX)
     {
-      var headerLeftX = qx.html.Location.getClientBoxLeft(this._header.getElement());
+      var headerLeftX = qx.legacy.html.Location.getClientBoxLeft(this._header.getElement());
 
       var columnModel = this.getTable().getTableColumnModel();
       var paneModel = this.getTablePaneModel();
@@ -1663,7 +1663,7 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
      */
     _getResizeColumnForPageX : function(pageX)
     {
-      var headerLeftX = qx.html.Location.getClientBoxLeft(this._header.getElement());
+      var headerLeftX = qx.legacy.html.Location.getClientBoxLeft(this._header.getElement());
 
       var columnModel = this.getTable().getTableColumnModel();
       var paneModel = this.getTablePaneModel();
@@ -1699,8 +1699,8 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
     _getRowForPagePos : function(pageX, pageY)
     {
       var paneClipperElem = this._paneClipper.getElement();
-      var paneClipperLeftX = qx.html.Location.getClientBoxLeft(paneClipperElem);
-      var paneClipperRightX = qx.html.Location.getClientBoxRight(paneClipperElem);
+      var paneClipperLeftX = qx.legacy.html.Location.getClientBoxLeft(paneClipperElem);
+      var paneClipperRightX = qx.legacy.html.Location.getClientBoxRight(paneClipperElem);
 
       if (pageX < paneClipperLeftX || pageX > paneClipperRightX)
       {
@@ -1708,8 +1708,8 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
         return null;
       }
 
-      var paneClipperTopY = qx.html.Location.getClientBoxTop(paneClipperElem);
-      var paneClipperBottomY = qx.html.Location.getClientBoxBottom(paneClipperElem);
+      var paneClipperTopY = qx.legacy.html.Location.getClientBoxTop(paneClipperElem);
+      var paneClipperBottomY = qx.legacy.html.Location.getClientBoxBottom(paneClipperElem);
 
       if (pageY >= paneClipperTopY && pageY <= paneClipperBottomY)
       {
@@ -1731,7 +1731,7 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
 
       var headerElem = this._headerClipper.getElement();
 
-      if (pageY >= qx.html.Location.getClientBoxTop(headerElem) && pageY <= qx.html.Location.getClientBoxBottom(headerElem) && pageX <= qx.html.Location.getClientBoxRight(headerElem))
+      if (pageY >= qx.legacy.html.Location.getClientBoxTop(headerElem) && pageY <= qx.legacy.html.Location.getClientBoxBottom(headerElem) && pageX <= qx.legacy.html.Location.getClientBoxRight(headerElem))
       {
         // This event is in the pane -> Return -1 for the header
         return -1;

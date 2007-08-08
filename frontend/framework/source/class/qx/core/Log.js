@@ -459,7 +459,7 @@ qx.Class.define("qx.core.Log",
       consoleFrame.style.bottom = "0px";
       consoleFrame.style.height = "200px";
       
-      if (qx.client2.detail.Engine.MSHTML) 
+      if (qx.client.detail.Engine.MSHTML) 
       {
         consoleFrame.style.setExpression("top", "(qx.bom.Viewport.getHeight()+qx.bom.Viewport.getScrollTop()-200) + 'px'");
         consoleFrame.style.position = "absolute";

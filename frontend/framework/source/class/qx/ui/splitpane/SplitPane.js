@@ -595,7 +595,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * Initializes drag session in case of a mousedown event on splitter in a horizontal splitpane.
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} The event itself.
+     * @param e {qx.legacy.event.type.MouseEvent} The event itself.
      * @return {void}
      */
     _onSplitterMouseDownX : function(e)
@@ -612,9 +612,9 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
       this._knob.addState("dragging");
 
       // initialize the drag session
-      this._dragMin = qx.html.Location.getPageInnerLeft(this._box.getElement());
+      this._dragMin = qx.legacy.html.Location.getPageInnerLeft(this._box.getElement());
       this._dragMax = this._dragMin + this._box.getInnerWidth() - this._splitter.getBoxWidth();
-      this._dragOffset = e.getPageX() - qx.html.Location.getPageBoxLeft(this._splitter.getElement());
+      this._dragOffset = e.getPageX() - qx.legacy.html.Location.getPageBoxLeft(this._splitter.getElement());
     },
 
 
@@ -622,7 +622,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * Initializes drag session in case of a mousedown event on splitter in a vertical splitpane.
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} The event itself.
+     * @param e {qx.legacy.event.type.MouseEvent} The event itself.
      * @return {void}
      */
     _onSplitterMouseDownY : function(e)
@@ -640,9 +640,9 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
 
       // initialize the drag session
       // dragStart = position of layout + mouse offset on splitter
-      this._dragMin = qx.html.Location.getPageInnerTop(this._box.getElement());
+      this._dragMin = qx.legacy.html.Location.getPageInnerTop(this._box.getElement());
       this._dragMax = this._dragMin + this._box.getInnerHeight() - this._splitter.getBoxHeight();
-      this._dragOffset = e.getPageY() - qx.html.Location.getPageBoxTop(this._splitter.getElement());
+      this._dragOffset = e.getPageY() - qx.legacy.html.Location.getPageBoxTop(this._splitter.getElement());
     },
 
 
@@ -674,7 +674,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * Move the splitter in case of a mousemove event on splitter in a horizontal splitpane.
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} The event itself.
+     * @param e {qx.legacy.event.type.MouseEvent} The event itself.
      * @return {void}
      */
     _onSplitterMouseMoveX : function(e)
@@ -692,7 +692,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * Move the splitter in case of a mousemove event on splitter in a vertical splitpane.
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} The event itself.
+     * @param e {qx.legacy.event.type.MouseEvent} The event itself.
      * @return {void}
      */
     _onSplitterMouseMoveY : function(e)
@@ -710,7 +710,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * Ends the drag session and computes the new dimensions of panes in case of a mouseup event on splitter in a horizontal splitpane.
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} The event itself.
+     * @param e {qx.legacy.event.type.MouseEvent} The event itself.
      * @return {void}
      */
     _onSplitterMouseUpX : function(e)
@@ -731,7 +731,7 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
      * Ends the drag session and computes the new dimensions of panes in case of a mouseup event on splitter in a vertical splitpane.
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} The event itself.
+     * @param e {qx.legacy.event.type.MouseEvent} The event itself.
      * @return {void}
      */
     _onSplitterMouseUpY : function(e)

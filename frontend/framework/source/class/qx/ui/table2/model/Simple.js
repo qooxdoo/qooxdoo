@@ -355,7 +355,7 @@ qx.Class.define("qx.ui.table2.model.Simple",
             lastColumn  : columnIndex
           };
 
-          this.dispatchEvent(new qx.event.type.DataEvent(qx.ui.table2.model.Basic.EVENT_TYPE_DATA_CHANGED, data), true);
+          this.dispatchEvent(new qx.legacy.event.type.DataEvent(qx.ui.table2.model.Basic.EVENT_TYPE_DATA_CHANGED, data), true);
         }
 
         if (columnIndex == this._sortColumnIndex) {
@@ -456,7 +456,7 @@ qx.Class.define("qx.ui.table2.model.Simple",
           lastColumn  : this.getColumnCount() - 1
         };
 
-        this.dispatchEvent(new qx.event.type.DataEvent(qx.ui.table2.model.Basic.EVENT_TYPE_DATA_CHANGED, data), true);
+        this.dispatchEvent(new qx.legacy.event.type.DataEvent(qx.ui.table2.model.Basic.EVENT_TYPE_DATA_CHANGED, data), true);
       }
 
       this._clearSorting();
@@ -503,7 +503,7 @@ qx.Class.define("qx.ui.table2.model.Simple",
           lastColumn  : this.getColumnCount() - 1
         };
 
-        this.dispatchEvent(new qx.event.type.DataEvent(qx.ui.table2.model.Basic.EVENT_TYPE_DATA_CHANGED, data), true);
+        this.dispatchEvent(new qx.legacy.event.type.DataEvent(qx.ui.table2.model.Basic.EVENT_TYPE_DATA_CHANGED, data), true);
       }
 
       this._clearSorting();

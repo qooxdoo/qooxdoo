@@ -20,7 +20,7 @@
 ************************************************************************ */
 
 /* ************************************************************************
-#require(qx.bom.element.Flash)
+#require(qx.bom.Flash)
 
 ************************************************************************ */
 
@@ -47,7 +47,7 @@ qx.Class.define("qx.ui.embed.Flash",
   {
     this.base(arguments);
 
-    this.setFlashObject(new qx.bom.element.Flash(vSource, vVersion));
+    this.setFlashObject(new qx.bom.Flash(vSource, vVersion));
   },
 
 
@@ -62,7 +62,7 @@ qx.Class.define("qx.ui.embed.Flash",
     /** Underlying flash object */
     flashObject :
     {
-       check    : "qx.bom.element.Flash",
+       check    : "qx.bom.Flash",
        nullable : false
     }
   },
@@ -77,7 +77,7 @@ qx.Class.define("qx.ui.embed.Flash",
   members :
   {
     /**
-     * Wrapper for {@link qx.bom.element.Flash#setVariable}
+     * Wrapper for {@link qx.bom.Flash#setVariable}
      *
      * @param name {String} name of the variable
      * @param value {String} value of the variable
@@ -90,7 +90,7 @@ qx.Class.define("qx.ui.embed.Flash",
 
 
     /**
-     * Wrapper for {@link qx.bom.element.Flash#getVariable}
+     * Wrapper for {@link qx.bom.Flash#getVariable}
      *
      * @param name {String} name of the variable
      * @return {String} value of the variable
@@ -102,7 +102,7 @@ qx.Class.define("qx.ui.embed.Flash",
 
 
     /**
-     * Wrapper for {@link qx.bom.element.Flash#setSource}
+     * Wrapper for {@link qx.bom.Flash#setSource}
      *
      * @param source {String} source of the flash file
      * @return {void}
@@ -114,7 +114,7 @@ qx.Class.define("qx.ui.embed.Flash",
 
 
     /**
-     * Wrapper for {@link qx.bom.element.Flash#getSource}
+     * Wrapper for {@link qx.bom.Flash#getSource}
      *
      * @return {String} source of the flash file
      */
@@ -125,7 +125,7 @@ qx.Class.define("qx.ui.embed.Flash",
 
 
     /**
-     * Wrapper for {@link qx.bom.element.Flash#setVersion}
+     * Wrapper for {@link qx.bom.Flash#setVersion}
      *
      * @param version {String} version of the flash file
      * @return {void}
@@ -137,7 +137,7 @@ qx.Class.define("qx.ui.embed.Flash",
 
 
     /**
-     * Wrapper for {@link qx.bom.element.Flash#getVersion}
+     * Wrapper for {@link qx.bom.Flash#getVersion}
      *
      * @return {String} version of the flash file
      */
@@ -148,7 +148,7 @@ qx.Class.define("qx.ui.embed.Flash",
 
 
     /**
-     * Wrapper for {@link qx.bom.element.Flash#setQuality}
+     * Wrapper for {@link qx.bom.Flash#setQuality}
      *
      * @param quality {String} quality of the flash file
      * @return {void}
@@ -160,7 +160,7 @@ qx.Class.define("qx.ui.embed.Flash",
 
 
     /**
-     * Wrapper for {@link qx.bom.element.Flash#getQuality}
+     * Wrapper for {@link qx.bom.Flash#getQuality}
      *
      * @return {String} quality of the flash file
      */
@@ -171,7 +171,7 @@ qx.Class.define("qx.ui.embed.Flash",
 
 
     /**
-     * Wrapper for {@link qx.bom.element.Flash#setScale}
+     * Wrapper for {@link qx.bom.Flash#setScale}
      *
      * @param scale {String} scale of the flash file
      * @return {void}
@@ -183,7 +183,7 @@ qx.Class.define("qx.ui.embed.Flash",
 
 
     /**
-     * Wrapper for {@link qx.bom.element.Flash#getScale}
+     * Wrapper for {@link qx.bom.Flash#getScale}
      *
      * @return {String} scale of the flash file
      */
@@ -194,7 +194,7 @@ qx.Class.define("qx.ui.embed.Flash",
 
 
     /**
-     * Wrapper for {@link qx.bom.element.Flash#setWmode}
+     * Wrapper for {@link qx.bom.Flash#setWmode}
      *
      * @param wmode {String} wmode of the flash file
      * @return {void}
@@ -206,7 +206,7 @@ qx.Class.define("qx.ui.embed.Flash",
 
 
     /**
-     * Wrapper for {@link qx.bom.element.Flash#getWmode}
+     * Wrapper for {@link qx.bom.Flash#getWmode}
      *
      * @return {String} wmode of the flash file
      */
@@ -217,7 +217,7 @@ qx.Class.define("qx.ui.embed.Flash",
 
 
     /**
-     * Wrapper for {@link qx.bom.element.Flash#setPlay}
+     * Wrapper for {@link qx.bom.Flash#setPlay}
      *
      * @param play {String} play/stop the flash file
      * @return {void}
@@ -229,7 +229,7 @@ qx.Class.define("qx.ui.embed.Flash",
 
 
     /**
-     * Wrapper for {@link qx.bom.element.Flash#getPlay}
+     * Wrapper for {@link qx.bom.Flash#getPlay}
      *
      * @return {String} play/stop the flash file
      */
@@ -240,7 +240,7 @@ qx.Class.define("qx.ui.embed.Flash",
 
 
     /**
-     * Wrapper for {@link qx.bom.element.Flash#setLoop}
+     * Wrapper for {@link qx.bom.Flash#setLoop}
      *
      * @param loop {String} controls if the flash file is played in an endless loop
      * @return {void}
@@ -252,7 +252,7 @@ qx.Class.define("qx.ui.embed.Flash",
 
 
     /**
-     * Wrapper for {@link qx.bom.element.Flash#getLoop}
+     * Wrapper for {@link qx.bom.Flash#getLoop}
      *
      * @return {String} returns if the flash file is played in an endless loop
      */
@@ -263,7 +263,7 @@ qx.Class.define("qx.ui.embed.Flash",
 
 
     /**
-     * Wrapper for {@link qx.bom.element.Flash#setEnableExpressInstall}
+     * Wrapper for {@link qx.bom.Flash#setEnableExpressInstall}
      *
      * @param expressInstall {Boolean} whether expressInstall should be used or not
      * @return {void}
@@ -275,7 +275,7 @@ qx.Class.define("qx.ui.embed.Flash",
 
 
     /**
-     * Wrapper for {@link qx.bom.element.Flash#getEnableExpressInstall}
+     * Wrapper for {@link qx.bom.Flash#getEnableExpressInstall}
      *
      * @return {Boolean} use of enableExpressInstall
      */
@@ -286,7 +286,7 @@ qx.Class.define("qx.ui.embed.Flash",
 
 
     /**
-     * Wrapper for {@link qx.bom.element.Flash#setEnableDetection}
+     * Wrapper for {@link qx.bom.Flash#setEnableDetection}
      *
      * @param detection {Boolean} use version detection or not
      * @return {void}
@@ -298,7 +298,7 @@ qx.Class.define("qx.ui.embed.Flash",
 
 
     /**
-     * Wrapper for {@link qx.bom.element.Flash#getEnableDetection}
+     * Wrapper for {@link qx.bom.Flash#getEnableDetection}
      *
      * @return {Boolean} use of version detection
      */
@@ -309,7 +309,7 @@ qx.Class.define("qx.ui.embed.Flash",
 
 
     /**
-     * Wrapper for {@link qx.bom.element.Flash#setMenu}
+     * Wrapper for {@link qx.bom.Flash#setMenu}
      *
      * @param menu {Boolean} use menu or not
      * @return {void}
@@ -321,7 +321,7 @@ qx.Class.define("qx.ui.embed.Flash",
 
 
     /**
-     * Wrapper for {@link qx.bom.element.Flash#getMenu}
+     * Wrapper for {@link qx.bom.Flash#getMenu}
      *
      * @return {Boolean} use of menu
      */
@@ -332,7 +332,7 @@ qx.Class.define("qx.ui.embed.Flash",
 
 
     /**
-     * Wrapper for {@link qx.bom.element.Flash#setRedirectUrl}
+     * Wrapper for {@link qx.bom.Flash#setRedirectUrl}
      *
      * @param redirectUrl {String} redirectUrl of the flash file
      * @return {void}
@@ -344,7 +344,7 @@ qx.Class.define("qx.ui.embed.Flash",
 
 
     /**
-     * Wrapper for {@link qx.bom.element.Flash#getRedirectUrl}
+     * Wrapper for {@link qx.bom.Flash#getRedirectUrl}
      *
      * @return {String} redirectUrl of the flash file
      */

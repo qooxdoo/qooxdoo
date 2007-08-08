@@ -63,7 +63,7 @@ qx.Class.define("qx.io.image.PreloaderSystem",
     }
 
     // Create timer
-    this._timer = new qx.client.Timer(qx.core.Setting.get("qx.preloaderTimeout"));
+    this._timer = new qx.event.Timer(qx.core.Setting.get("qx.preloaderTimeout"));
     this._timer.addEventListener("interval", this.__oninterval, this);
 
     // If we use the compact syntax, automatically add an event listeners and start the loading process
@@ -83,7 +83,7 @@ qx.Class.define("qx.io.image.PreloaderSystem",
   events:
   {
     /** Fired after the pre loading of the images is complete */
-    "completed" : "qx.event.type.Event"
+    "completed" : "qx.legacy.event.type.Event"
   },
 
 

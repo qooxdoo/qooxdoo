@@ -28,7 +28,7 @@
  * @deprecated: Old stuff, even does not work correctly. String performance is
  *   quite slow. Better to omit these stuff at all at client side.
  */
-qx.Class.define("qx.html.Textile",
+qx.Class.define("qx.legacy.html.Textile",
 {
   /*
   *****************************************************************************

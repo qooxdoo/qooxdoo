@@ -23,7 +23,7 @@
 #module(core)
 #optional(qx.Theme)
 #optional(qx.locale.Manager)
-#require(qx.event2.Manager)
+#require(qx.event.Manager)
 
 ************************************************************************ */
 
@@ -56,9 +56,9 @@ qx.Class.define("qx.core.Init",
     this.base(arguments);
 
     // Attach DOM events
-    qx.event2.Manager.addListener(window, "load", this._onload, this);
-    qx.event2.Manager.addListener(window, "beforeunload", this._onbeforeunload, this);
-    qx.event2.Manager.addListener(window, "unload", this._onunload, this);
+    qx.event.Manager.addListener(window, "load", this._onload, this);
+    qx.event.Manager.addListener(window, "beforeunload", this._onbeforeunload, this);
+    qx.event.Manager.addListener(window, "unload", this._onunload, this);
   },
 
 
@@ -76,19 +76,19 @@ qx.Class.define("qx.core.Init",
      * Fired in the load event of the document window and before the main init
      * function is called
      */
-    "load" : "qx.event.type.Event",
+    "load" : "qx.legacy.event.type.Event",
 
     /**
      * Fired in the beforeunload event of the document window and before the default
      * handler is called.
      */
-    "beforeunload" : "qx.event.type.Event",
+    "beforeunload" : "qx.legacy.event.type.Event",
 
     /**
      * Fired in the unload event of the document window and before the default
      * handler is called.
      */
-    "unload" : "qx.event.type.Event"
+    "unload" : "qx.legacy.event.type.Event"
   },
 
 
@@ -165,8 +165,8 @@ qx.Class.define("qx.core.Init",
       }
 
       // Print browser information
-      this.debug("engine: " + qx.client2.detail.Engine.NAME + "-" + qx.client2.detail.Engine.VERSION);
-      this.debug("system: " + qx.client2.detail.Platform.NAME + " | " + qx.client2.detail.System.NAME);
+      this.debug("engine: " + qx.client.detail.Engine.NAME + "-" + qx.client.detail.Engine.VERSION);
+      this.debug("system: " + qx.client.detail.Platform.NAME + " | " + qx.client.detail.System.NAME);
 
       // Init application from settings
       if (!this.getApplication())

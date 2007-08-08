@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 
-qx.Class.define("qx.io.remote.AbstractRemoteTransport",
+qx.Class.define("qx.io.remote.transport.Abstract",
 {
   type : "abstract",
   extend : qx.core.Target,
@@ -53,14 +53,14 @@ qx.Class.define("qx.io.remote.AbstractRemoteTransport",
   */
 
   events : {
-    "created" : "qx.event.type.Event",
-    "configured" : "qx.event.type.Event",
-    "sending" : "qx.event.type.Event",
-    "receiving" : "qx.event.type.Event",
-    "completed" : "qx.event.type.Event",
-    "aborted" : "qx.event.type.Event",
-    "failed" : "qx.event.type.Event",
-    "timeout" : "qx.event.type.Event"
+    "created" : "qx.legacy.event.type.Event",
+    "configured" : "qx.legacy.event.type.Event",
+    "sending" : "qx.legacy.event.type.Event",
+    "receiving" : "qx.legacy.event.type.Event",
+    "completed" : "qx.legacy.event.type.Event",
+    "aborted" : "qx.legacy.event.type.Event",
+    "failed" : "qx.legacy.event.type.Event",
+    "timeout" : "qx.legacy.event.type.Event"
   },
 
 

@@ -963,7 +963,7 @@ qx.Class.define("testrunner.runner.TestRunner",
           var test = tlist[0];
           that.loader.runTests(testResult, test[0], test[1]);
           tlist = tlist.slice(1, tlist.length);  // recurse with rest of list
-          qx.client.Timer.once(runtest, this, 100);
+          qx.event.Timer.once(runtest, this, 100);
         }
         else
         {  // no more tests -> re-enable toolbar
@@ -1073,7 +1073,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       // reset status information
       this.resetGui();
 
-      qx.client.Timer.once(function()
+      qx.event.Timer.once(function()
       {
         if (curr == neu) {
           this.iframe.reload();

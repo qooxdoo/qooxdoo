@@ -126,30 +126,30 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
         var vMenuParent = vMenu.getParent();
         var vMenuParentElement = vMenuParent.getElement();
         var vButtonElement = this.getElement();
-        var vButtonHeight = qx.html.Dimension.getBoxHeight(vButtonElement);
+        var vButtonHeight = qx.legacy.html.Dimension.getBoxHeight(vButtonElement);
 
         // Apply X-Location
-        var vMenuParentLeft = qx.html.Location.getPageBoxLeft(vMenuParentElement);
-        var vButtonLeft = qx.html.Location.getPageBoxLeft(vButtonElement);
-        var vScrollLeft = qx.html.Scroll.getLeftSum(vButtonElement);
+        var vMenuParentLeft = qx.legacy.html.Location.getPageBoxLeft(vMenuParentElement);
+        var vButtonLeft = qx.legacy.html.Location.getPageBoxLeft(vButtonElement);
+        var vScrollLeft = qx.legacy.html.Scroll.getLeftSum(vButtonElement);
 
         vMenu.setLeft(vButtonLeft - vMenuParentLeft - vScrollLeft);
 
         // Apply Y-Location
-        var vScrollTop = qx.html.Scroll.getTopSum(vButtonElement);
+        var vScrollTop = qx.legacy.html.Scroll.getTopSum(vButtonElement);
         switch(this.getDirection())
         {
           case "up":
-            var vBodyHeight = qx.html.Dimension.getInnerHeight(document.body);
-            var vMenuParentBottom = qx.html.Location.getPageBoxBottom(vMenuParentElement);
-            var vButtonBottom = qx.html.Location.getPageBoxBottom(vButtonElement);
+            var vBodyHeight = qx.legacy.html.Dimension.getInnerHeight(document.body);
+            var vMenuParentBottom = qx.legacy.html.Location.getPageBoxBottom(vMenuParentElement);
+            var vButtonBottom = qx.legacy.html.Location.getPageBoxBottom(vButtonElement);
 
             vMenu.setBottom(vButtonHeight + (vBodyHeight - vButtonBottom) - (vBodyHeight - vMenuParentBottom) - vScrollTop);
             vMenu.setTop(null);
             break;
 
           case "down":
-            var vButtonTop = qx.html.Location.getPageBoxTop(vButtonElement);
+            var vButtonTop = qx.legacy.html.Location.getPageBoxTop(vButtonElement);
 
             vMenu.setTop(vButtonTop + vButtonHeight - vScrollTop);
             vMenu.setBottom(null);

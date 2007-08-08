@@ -54,7 +54,7 @@ qx.Class.define("testrunner.runner.BasicRunner",
       // wait for the iframe to load
       if (!testLoader)
       {
-        qx.client.Timer.once(arguments.callee, this, 50);
+        qx.event.Timer.once(arguments.callee, this, 50);
         return;
       }
 

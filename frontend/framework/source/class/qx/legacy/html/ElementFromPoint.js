@@ -27,7 +27,7 @@
  * @deprecated: No replacement. Only needed for historic gecko support
  *
  */
-qx.Class.define("qx.html.ElementFromPoint",
+qx.Class.define("qx.legacy.html.ElementFromPoint",
 {
   /*
   *****************************************************************************
@@ -85,8 +85,8 @@ qx.Class.define("qx.html.ElementFromPoint",
           {
             subres = this.getElementFromPointHandler(
               childNode,
-              x - ret[0] - qx.html.Style.getBorderLeft(childNode),
-              y - ret[2] - qx.html.Style.getBorderTop(childNode),
+              x - ret[0] - qx.legacy.html.Style.getBorderLeft(childNode),
+              y - ret[2] - qx.legacy.html.Style.getBorderTop(childNode),
               true
             );
             return subres ? subres : childNode;
@@ -112,15 +112,15 @@ qx.Class.define("qx.html.ElementFromPoint",
     {
       var xstart, ystart, xstop, ystop;
 
-      if (element.nodeType != qx.xml.Node.ELEMENT) {
+      if (element.nodeType != qx.dom.Node.ELEMENT) {
         return false;
       }
 
-      xstart = qx.html.Offset.getLeft(element);
+      xstart = qx.legacy.html.Offset.getLeft(element);
 
       if (x > xstart)
       {
-        ystart = qx.html.Offset.getTop(element);
+        ystart = qx.legacy.html.Offset.getTop(element);
 
         if (y > ystart)
         {
@@ -154,15 +154,15 @@ qx.Class.define("qx.html.ElementFromPoint",
     {
       var xstart, ystart, xstop, ystop;
 
-      if (!element || element.nodeType != qx.xml.Node.ELEMENT) {
+      if (!element || element.nodeType != qx.dom.Node.ELEMENT) {
         return false;
       }
 
-      xstart = qx.html.Location.getPageBoxLeft(element);
+      xstart = qx.legacy.html.Location.getPageBoxLeft(element);
 
       if (x > xstart)
       {
-        ystart = qx.html.Location.getPageBoxTop(element);
+        ystart = qx.legacy.html.Location.getPageBoxTop(element);
 
         if (y > ystart)
         {

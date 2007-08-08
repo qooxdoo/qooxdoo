@@ -193,8 +193,8 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
             f._renderRuntimeLeft(elementLocation.left - parentLocation.left);
             f._renderRuntimeTop(elementLocation.top - parentLocation.top);
 
-            f._renderRuntimeWidth(qx.html.Dimension.getBoxWidth(el));
-            f._renderRuntimeHeight(qx.html.Dimension.getBoxHeight(el));
+            f._renderRuntimeWidth(qx.legacy.html.Dimension.getBoxWidth(el));
+            f._renderRuntimeHeight(qx.legacy.html.Dimension.getBoxHeight(el));
 
             f.setZIndex(this.getZIndex() + 1);
 
@@ -207,7 +207,7 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
 
         if (this._resizeWest)
         {
-          s.boxWidth = qx.html.Dimension.getBoxWidth(el);
+          s.boxWidth = qx.legacy.html.Dimension.getBoxWidth(el);
           s.boxRight = elementLocation.right;
         }
 
@@ -224,7 +224,7 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
 
         if (this._resizeNorth)
         {
-          s.boxHeight = qx.html.Dimension.getBoxHeight(el);
+          s.boxHeight = qx.legacy.html.Dimension.getBoxHeight(el);
           s.boxBottom = elementLocation.bottom;
         }
 

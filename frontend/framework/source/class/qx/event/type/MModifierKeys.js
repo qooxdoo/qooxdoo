@@ -28,7 +28,7 @@
 /**
  * Common functions to access the state of modifier keys.
  */
-qx.Mixin.define("qx.event2.type.MModifierKeys",
+qx.Mixin.define("qx.event.type.MModifierKeys",
 {
   members :
   {

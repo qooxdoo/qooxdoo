@@ -99,19 +99,19 @@ qx.Class.define("qx.ui.tree.TreeFolder",
      * Called when a tree folder with content is opened. The data property
      * contains the opened {@link TreeFolder}.
      */
-    "treeOpenWithContent" : "qx.event.type.DataEvent",
+    "treeOpenWithContent" : "qx.legacy.event.type.DataEvent",
 
     /**
      * Called when a tree folder without content is opened. The data property
      * contains the opened {@link TreeFolder}.
      */
-    "treeOpenWhileEmpty" : "qx.event.type.DataEvent",
+    "treeOpenWhileEmpty" : "qx.legacy.event.type.DataEvent",
 
     /**
      * Called when a tree folder is closed. The data property
      * contains the {@link TreeFolder} being closed.
      */
-    "treeClose" : "qx.event.type.DataEvent"
+    "treeClose" : "qx.legacy.event.type.DataEvent"
   },
 
 
@@ -227,11 +227,11 @@ qx.Class.define("qx.ui.tree.TreeFolder",
         if (this.getTree().hasEventListeners("treeOpenWithContent"))
         {
           // ... then issue the event
-          this.getTree().dispatchEvent(new qx.event.type.DataEvent("treeOpenWithContent", this), true);
+          this.getTree().dispatchEvent(new qx.legacy.event.type.DataEvent("treeOpenWithContent", this), true);
         }
 
         this.getTopLevelWidget().setGlobalCursor("progress");
-        qx.client.Timer.once(this._openCallback, this, 0);
+        qx.event.Timer.once(this._openCallback, this, 0);
       }
       else
       {
@@ -239,7 +239,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
         if (this.getTree().hasEventListeners("treeOpenWhileEmpty"))
         {
           // ... then issue the event
-          this.getTree().dispatchEvent(new qx.event.type.DataEvent("treeOpenWhileEmpty", this), true);
+          this.getTree().dispatchEvent(new qx.legacy.event.type.DataEvent("treeOpenWhileEmpty", this), true);
         }
 
         this.setOpen(true);
@@ -259,7 +259,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
       if (this.getTree().hasEventListeners("treeClose"))
       {
         // ... then issue the event
-        this.getTree().dispatchEvent(new qx.event.type.DataEvent("treeClose", this), true);
+        this.getTree().dispatchEvent(new qx.legacy.event.type.DataEvent("treeClose", this), true);
       }
 
       this.setOpen(false);
@@ -701,7 +701,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
           // delay the dispose until return from current call stack.  if we
           // were called via an event, e.g. a mouse click, the global queue
           // will be flushed so we can't yet be disposed.
-          qx.client.Timer.once(function()
+          qx.event.Timer.once(function()
                                {
                                  item.dispose();
                                  delete items[i]

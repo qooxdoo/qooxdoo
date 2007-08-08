@@ -21,7 +21,7 @@
 /* ************************************************************************
 
 #module(ui_core)
-#optional(qx.event.handler.FocusHandler)
+#optional(qx.legacy.event.handler.FocusHandler)
 #optional(qx.ui.popup.ToolTipManager)
 #optional(qx.ui.popup.PopupManager)
 
@@ -71,7 +71,7 @@ qx.Class.define("qx.ui.core.Parent",
     /** Individual focus handler for all child elements. */
     focusHandler :
     {
-      check : "qx.event.handler.FocusHandler",
+      check : "qx.legacy.event.handler.FocusHandler",
       apply : "_applyFocusHandler",
       nullable : true
     },
@@ -135,7 +135,7 @@ qx.Class.define("qx.ui.core.Parent",
      * Return the responsible focus handler
      *
      * @type member
-     * @return {qx.event.handler.FocusHandler} TODOC
+     * @return {qx.legacy.event.handler.FocusHandler} TODOC
      */
     getFocusRoot : function()
     {
@@ -158,7 +158,7 @@ qx.Class.define("qx.ui.core.Parent",
      * @return {void}
      */
     activateFocusRoot : function() {
-      this.setFocusHandler(new qx.event.handler.FocusHandler(this));
+      this.setFocusHandler(new qx.legacy.event.handler.FocusHandler(this));
     },
 
 
@@ -253,7 +253,7 @@ qx.Class.define("qx.ui.core.Parent",
         // Dispatch FocusOut
         if (old.hasEventListeners("focusout"))
         {
-          var vEventObject = new qx.event.type.FocusEvent("focusout", old);
+          var vEventObject = new qx.legacy.event.type.FocusEvent("focusout", old);
 
           if (vFocusValid) {
             vEventObject.setRelatedTarget(value);
@@ -269,7 +269,7 @@ qx.Class.define("qx.ui.core.Parent",
         if (value.hasEventListeners("focusin"))
         {
           // Dispatch FocusIn
-          var vEventObject = new qx.event.type.FocusEvent("focusin", value);
+          var vEventObject = new qx.legacy.event.type.FocusEvent("focusin", value);
 
           if (vBlurValid) {
             vEventObject.setRelatedTarget(old);
@@ -289,7 +289,7 @@ qx.Class.define("qx.ui.core.Parent",
         old.setFocused(false);
 
         // Dispatch Blur
-        var vEventObject = new qx.event.type.FocusEvent("blur", old);
+        var vEventObject = new qx.legacy.event.type.FocusEvent("blur", old);
 
         if (vFocusValid) {
           vEventObject.setRelatedTarget(value);
@@ -313,10 +313,10 @@ qx.Class.define("qx.ui.core.Parent",
       {
         this.setActiveChild(value);
         value.setFocused(true);
-        qx.event.handler.EventHandler.getInstance().setFocusRoot(this);
+        qx.legacy.event.handler.EventHandler.getInstance().setFocusRoot(this);
 
         // Dispatch Focus
-        var vEventObject = new qx.event.type.FocusEvent("focus", value);
+        var vEventObject = new qx.legacy.event.type.FocusEvent("focus", value);
 
         if (vBlurValid) {
           vEventObject.setRelatedTarget(old);

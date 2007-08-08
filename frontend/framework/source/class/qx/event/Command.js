@@ -31,7 +31,7 @@
  * widgets. It is possible to use the same Command in a MenuButton and
  * ToolBarButton for example.
  */
-qx.Class.define("qx.client.Command",
+qx.Class.define("qx.event.Command",
 {
   extend : qx.core.Target,
 
@@ -41,7 +41,7 @@ qx.Class.define("qx.client.Command",
      * Fired when the command is executed. Sets the "data" property of the event to
      * the object that issued the command.
      */
-    "execute" : "qx.event.type.DataEvent"
+    "execute" : "qx.legacy.event.type.DataEvent"
   },
 
 
@@ -92,7 +92,7 @@ qx.Class.define("qx.client.Command",
       }
     }
 
-    qx.event.handler.EventHandler.getInstance().addCommand(this);
+    qx.legacy.event.handler.EventHandler.getInstance().addCommand(this);
   },
 
 
@@ -172,7 +172,7 @@ qx.Class.define("qx.client.Command",
     {
       if (this.hasEventListeners("execute"))
       {
-        var event = new qx.event.type.DataEvent("execute", vTarget);
+        var event = new qx.legacy.event.type.DataEvent("execute", vTarget);
         this.dispatchEvent(event, true);
       }
 
@@ -255,7 +255,7 @@ qx.Class.define("qx.client.Command",
      * Checks whether the given key event matches the command's shortcut
      *
      * @type member
-     * @param e {qx.event.type.KeyEvent} the key event object
+     * @param e {qx.legacy.event.type.KeyEvent} the key event object
      * @return {Boolean} whether the commands shortcut matches the key event
      */
     matchesKeyEvent : function(e)
@@ -331,7 +331,7 @@ qx.Class.define("qx.client.Command",
 
 
     /**
-     * converts an old key name as found in {@link qx.event.type.KeyEvent.keys} to
+     * converts an old key name as found in {@link qx.legacy.event.type.KeyEvent.keys} to
      * the new keyIdentifier.
      *
      * @type member
@@ -340,7 +340,7 @@ qx.Class.define("qx.client.Command",
      */
     __oldKeyNameToKeyIdentifier : function(keyName)
     {
-      var keyHandler = qx.event.handler.KeyEventHandler.getInstance();
+      var keyHandler = qx.legacy.event.handler.KeyEventHandler.getInstance();
       var keyIdentifier = "Unidentified";
 
       if (keyHandler.isValidKeyIdentifier(keyName)) {
@@ -354,7 +354,7 @@ qx.Class.define("qx.client.Command",
       keyName = keyName.toLowerCase();
 
       // check whether its a valid old key name
-      if (!qx.event.type.KeyEvent.keys[keyName]) {
+      if (!qx.legacy.event.type.KeyEvent.keys[keyName]) {
         return "Unidentified";
       }
 
@@ -399,7 +399,7 @@ qx.Class.define("qx.client.Command",
 
       if (keyCode != null)
       {
-        var vTemp = qx.event.type.KeyEvent.codes[keyCode];
+        var vTemp = qx.legacy.event.type.KeyEvent.codes[keyCode];
         str.push(vTemp ? qx.lang.String.toFirstUp(vTemp) : String(keyCode));
       }
 
@@ -418,7 +418,7 @@ qx.Class.define("qx.client.Command",
 
   destruct : function()
   {
-    var mgr = qx.event.handler.EventHandler.getInstance();
+    var mgr = qx.legacy.event.handler.EventHandler.getInstance();
 
     if (mgr) {
       mgr.removeCommand(this);

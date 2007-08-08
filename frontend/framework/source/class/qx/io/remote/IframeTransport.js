@@ -34,9 +34,9 @@
  *
  * This class should not be used directly by client programmers.
  */
-qx.Class.define("qx.io.remote.IframeTransport",
+qx.Class.define("qx.io.remote.transport.Iframe",
 {
-  extend : qx.io.remote.AbstractRemoteTransport,
+  extend : qx.io.remote.transport.Abstract,
 
 
 
@@ -239,7 +239,7 @@ qx.Class.define("qx.io.remote.IframeTransport",
         return;
       }
 
-      this._switchReadyState(qx.io.remote.IframeTransport._numericMap.complete);
+      this._switchReadyState(qx.io.remote.transport.Iframe._numericMap.complete);
     },
 
 
@@ -251,7 +251,7 @@ qx.Class.define("qx.io.remote.IframeTransport",
      * @return {void}
      */
     _onreadystatechange : function(e) {
-      this._switchReadyState(qx.io.remote.IframeTransport._numericMap[this._frame.readyState]);
+      this._switchReadyState(qx.io.remote.transport.Iframe._numericMap[this._frame.readyState]);
     },
 
 
@@ -376,7 +376,7 @@ qx.Class.define("qx.io.remote.IframeTransport",
      * @return {var} TODOC
      */
     getIframeWindow : function() {
-      return qx.html.Iframe.getWindow(this._frame);
+      return qx.legacy.html.Iframe.getWindow(this._frame);
     },
 
 
@@ -387,7 +387,7 @@ qx.Class.define("qx.io.remote.IframeTransport",
      * @return {var} TODOC
      */
     getIframeDocument : function() {
-      return qx.html.Iframe.getDocument(this._frame);
+      return qx.legacy.html.Iframe.getDocument(this._frame);
     },
 
 
@@ -398,7 +398,7 @@ qx.Class.define("qx.io.remote.IframeTransport",
      * @return {var} TODOC
      */
     getIframeBody : function() {
-      return qx.html.Iframe.getBody(this._frame);
+      return qx.legacy.html.Iframe.getBody(this._frame);
     },
 
 
@@ -580,7 +580,7 @@ qx.Class.define("qx.io.remote.IframeTransport",
   {
     // basic registration to qx.io.remote.Exchange
     // the real availability check (activeX stuff and so on) follows at the first real request
-    qx.io.remote.Exchange.registerType(qx.io.remote.IframeTransport, "qx.io.remote.IframeTransport");
+    qx.io.remote.Exchange.registerType(qx.io.remote.transport.Iframe, "qx.io.remote.transport.Iframe");
   },
 
 

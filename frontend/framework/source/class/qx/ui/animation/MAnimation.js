@@ -35,7 +35,7 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
 
   events : {
     /** This event is fired after the fading has finished. */
-    "FADE_FINISHED"   : "qx.event.type.DataEvent"
+    "FADE_FINISHED"   : "qx.legacy.event.type.DataEvent"
   },
 
   statics :
@@ -167,7 +167,7 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
       if (this._fadeTimer) {
         this._fadeTimer.setInterval(this.getFadeInterval());
       } else {
-        this._fadeTimer = new qx.client.Timer(this.getFadeInterval());
+        this._fadeTimer = new qx.event.Timer(this.getFadeInterval());
       }
 
       return this._fadeTimer;

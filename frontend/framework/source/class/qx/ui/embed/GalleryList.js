@@ -76,8 +76,8 @@ qx.Class.define("qx.ui.embed.GalleryList",
      * control which tooltip is shown. The data property holds a reference to
      * the hovered item.
      */
-    "beforeToolTipAppear"     : "qx.event.type.DataEvent",
-    "loadComplete"            : "qx.event.type.Event"
+    "beforeToolTipAppear"     : "qx.legacy.event.type.DataEvent",
+    "loadComplete"            : "qx.legacy.event.type.Event"
   },
 
 
@@ -409,7 +409,7 @@ qx.Class.define("qx.ui.embed.GalleryList",
 
       if (this._lastItem)
       {
-        var vEventObject = new qx.event.type.MouseEvent("mouseout", e, false, this._lastItem);
+        var vEventObject = new qx.legacy.event.type.MouseEvent("mouseout", e, false, this._lastItem);
         qx.ui.popup.ToolTipManager.getInstance().handleMouseOut(vEventObject);
         vEventObject.dispose();
       }
@@ -417,14 +417,14 @@ qx.Class.define("qx.ui.embed.GalleryList",
       if (vItem)
       {
         if (this.hasEventListeners("beforeToolTipAppear")) {
-        this.dispatchEvent(new qx.event.type.DataEvent("beforeToolTipAppear", vItem), true);
+        this.dispatchEvent(new qx.legacy.event.type.DataEvent("beforeToolTipAppear", vItem), true);
         }
 
         if (!this.getToolTip()) {
         return;
         }
 
-        var vEventObject = new qx.event.type.MouseEvent("mouseout", e, false, vItem);
+        var vEventObject = new qx.legacy.event.type.MouseEvent("mouseout", e, false, vItem);
         qx.ui.popup.ToolTipManager.getInstance().handleMouseOver(vEventObject);
         vEventObject.dispose();
 
@@ -498,7 +498,7 @@ qx.Class.define("qx.ui.embed.GalleryList",
      * @return {void}
      */
     scrollItemIntoViewX : function(vItem) {
-      qx.html.ScrollIntoView.scrollX(vItem);
+      qx.legacy.html.ScrollIntoView.scrollX(vItem);
     },
 
 
@@ -510,7 +510,7 @@ qx.Class.define("qx.ui.embed.GalleryList",
      * @return {void}
      */
     scrollItemIntoViewY : function(vItem) {
-      qx.html.ScrollIntoView.scrollY(vItem);
+      qx.legacy.html.ScrollIntoView.scrollY(vItem);
     },
 
 
@@ -712,7 +712,7 @@ qx.Class.define("qx.ui.embed.GalleryList",
       this._processedImages++;
 
       if (this._processedImages == this._listSize) {
-        this.dispatchEvent(new qx.event.type.Event("loadComplete"), true);
+        this.dispatchEvent(new qx.legacy.event.type.Event("loadComplete"), true);
       }
     }
   },

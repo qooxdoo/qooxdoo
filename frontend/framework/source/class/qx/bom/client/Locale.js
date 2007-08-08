@@ -20,7 +20,7 @@
 /* ************************************************************************
 
 #module(client2)
-#require(qx.client2.detail.Engine)
+#require(qx.client.detail.Engine)
 
 ************************************************************************ */
 
@@ -32,7 +32,7 @@
  * phase of the class. The defaults listed in the API viewer need not
  * to be identical to the values at runtime.
  */
-qx.Class.define("qx.client2.detail.Locale",
+qx.Class.define("qx.client.detail.Locale",
 {
   /*
   *****************************************************************************
@@ -58,7 +58,7 @@ qx.Class.define("qx.client2.detail.Locale",
      */
     __init : function()
     {
-      var locale = (qx.client2.detail.Engine.MSHTML ? navigator.userLanguage : navigator.language).toLowerCase();
+      var locale = (qx.client.detail.Engine.MSHTML ? navigator.userLanguage : navigator.language).toLowerCase();
       var variant = "";
 
       var index = locale.indexOf("-");

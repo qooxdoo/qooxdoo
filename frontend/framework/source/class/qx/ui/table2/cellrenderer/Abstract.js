@@ -37,7 +37,7 @@ qx.Class.define("qx.ui.table2.cellrenderer.Abstract",
     var clazz = this.self(arguments);
     if (!clazz.stylesheet)
     {
-      clazz.stylesheet = qx.html.StyleSheet.createElement(
+      clazz.stylesheet = qx.legacy.html.StyleSheet.createElement(
         ".qooxdoo-table-cell-abstract {" +
         "  overflow:hidden;" +
         "  white-space:nowrap;" +

@@ -29,7 +29,7 @@
  *   in prototype or Base2 etc.
  *
  */
-qx.Class.define("qx.html.Form",
+qx.Class.define("qx.legacy.html.Form",
 {
   /*
   *****************************************************************************
@@ -59,17 +59,17 @@ qx.Class.define("qx.html.Form",
 
       var vTag = (vNode.tagName || "").toLowerCase();
 
-      if (qx.lang.Array.contains(qx.html.Form.ignoreElementTypes, vTag)) {
+      if (qx.lang.Array.contains(qx.legacy.html.Form.ignoreElementTypes, vTag)) {
         return false;
       }
 
       var vType = vNode.type.toLowerCase();
 
-      if (qx.lang.Array.contains(qx.html.Form.ignoreInputTypes, vType)) {
+      if (qx.lang.Array.contains(qx.legacy.html.Form.ignoreInputTypes, vType)) {
         return false;
       }
 
-      if (!vNode.checked && qx.lang.Array.contains(qx.html.Form.checkElementTypes, vType)) {
+      if (!vNode.checked && qx.lang.Array.contains(qx.legacy.html.Form.checkElementTypes, vType)) {
         return false;
       }
 
@@ -85,7 +85,7 @@ qx.Class.define("qx.html.Form",
      * @return {var} TODOC
      */
     getFields : function(vForm) {
-      return Array.filter(vForm.elements, qx.html.Form.inputFilter);
+      return Array.filter(vForm.elements, qx.legacy.html.Form.inputFilter);
     },
 
 
@@ -101,7 +101,7 @@ qx.Class.define("qx.html.Form",
       var vName = vNode.name || "";
       var vType = (vNode.type || "").toLowerCase();
 
-      if (vType === qx.html.Form.multiSelectType)
+      if (vType === qx.legacy.html.Form.multiSelectType)
       {
         var vValues = [];
 
@@ -130,11 +130,11 @@ qx.Class.define("qx.html.Form",
      */
     encodeForm : function(vForm)
     {
-      var vFields = qx.html.Form.getFields(vForm);
+      var vFields = qx.legacy.html.Form.getFields(vForm);
       var vAll = [];
 
       for (var i=0, l=vFields.length; i<l; i++) {
-        vAll.push(qx.html.Form.encodeField(vFields[i]));
+        vAll.push(qx.legacy.html.Form.encodeField(vFields[i]));
       }
 
       return vAll.join("&");
@@ -151,7 +151,7 @@ qx.Class.define("qx.html.Form",
      */
     bind : function(vForm, vMethod)
     {
-      qx.html.EventRegistration.addEventListener(vForm, "submit", function(e)
+      qx.legacy.html.EventRegistration.addEventListener(vForm, "submit", function(e)
       {
         e.returnValue = false;
 

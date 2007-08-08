@@ -28,9 +28,9 @@
  *
  * @internal
  */
-qx.Class.define("qx.event2.handler.InlineEventHandler",
+qx.Class.define("qx.event.handler.InlineEventHandler",
 {
-  extend : qx.event2.handler.AbstractEventHandler,
+  extend : qx.event.handler.AbstractEventHandler,
 
 
 
@@ -124,7 +124,7 @@ qx.Class.define("qx.event2.handler.InlineEventHandler",
       var elementId = qx.core.Object.toHashCode(element);
       var listener = qx.lang.Function.bind(this.__handleEvent, this, elementId);
 
-      qx.event2.Manager.addNativeListener(element, type, listener);
+      qx.event.Manager.addNativeListener(element, type, listener);
 
       var id = elementId + type;
 
@@ -143,7 +143,7 @@ qx.Class.define("qx.event2.handler.InlineEventHandler",
       var id = qx.core.Object.toHashCode(element) + type;
 
       var eventData = this.__registeredEvents[id];
-      qx.event2.Manager.removeNativeListener(element, type, eventData.listener);
+      qx.event.Manager.removeNativeListener(element, type, eventData.listener);
 
       delete(this.__registeredEvents[id]);
     },
@@ -155,7 +155,7 @@ qx.Class.define("qx.event2.handler.InlineEventHandler",
       for (var id in this.__registeredEvents)
       {
         var eventData = this.__registeredEvents[id];
-        qx.event2.Manager.removeNativeListener(
+        qx.event.Manager.removeNativeListener(
           eventData.element,
           eventData.type,
           eventData.listener
@@ -179,7 +179,7 @@ qx.Class.define("qx.event2.handler.InlineEventHandler",
      */
     __handleEvent : function(elementId, domEvent)
     {
-      var event = this._eventPool.getEventInstance("qx.event2.type.Event").init(domEvent);
+      var event = this._eventPool.getEventInstance("qx.event.type.Event").init(domEvent);
       event.setBubbles(false);
 
       var eventData = this.__registeredEvents[elementId + event.getType()];

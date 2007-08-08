@@ -28,7 +28,7 @@
  * @deprecated: Unconvenient feature. Could be easily replace with qx.bom.element.Location
  *
  */
-qx.Class.define("qx.html.Scroll",
+qx.Class.define("qx.legacy.html.Scroll",
 {
   /*
   *****************************************************************************

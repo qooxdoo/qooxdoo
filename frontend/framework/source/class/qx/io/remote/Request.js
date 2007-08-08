@@ -94,16 +94,16 @@ qx.Class.define("qx.io.remote.Request",
   events : {
 
     /** Fired when the Request object changes its state to 'created' */
-    "created" : "qx.event.type.Event",
+    "created" : "qx.legacy.event.type.Event",
 
     /** Fired when the Request object changes its state to 'configured' */
-    "configured" : "qx.event.type.Event",
+    "configured" : "qx.legacy.event.type.Event",
 
     /** Fired when the Request object changes its state to 'sending' */
-    "sending" : "qx.event.type.Event",
+    "sending" : "qx.legacy.event.type.Event",
 
     /** Fired when the Request object changes its state to 'receiving' */
-    "receiving" : "qx.event.type.Event",
+    "receiving" : "qx.legacy.event.type.Event",
 
     /**
      * Fired once the request has finished successfully. The event object
@@ -170,9 +170,9 @@ qx.Class.define("qx.io.remote.Request",
      */
     method :
     {
-      check : [ qx.net.Http.METHOD_GET, qx.net.Http.METHOD_POST, qx.net.Http.METHOD_PUT, qx.net.Http.METHOD_HEAD, qx.net.Http.METHOD_DELETE ],
+      check : [ qx.util.Http.METHOD_GET, qx.util.Http.METHOD_POST, qx.util.Http.METHOD_PUT, qx.util.Http.METHOD_HEAD, qx.util.Http.METHOD_DELETE ],
       apply : "_applyMethod",
-      init : qx.net.Http.METHOD_GET
+      init : qx.util.Http.METHOD_GET
     },
 
 
@@ -280,8 +280,8 @@ qx.Class.define("qx.io.remote.Request",
      *
      * A request is cross domain if the request's URL points to a host other than
      * the local host. This switches the concrete implementation that is used for
-     * sending the request from qx.io.remote.XmlHttpTransport to
-     * qx.io.remote.ScriptTransport, because only the latter can handle cross
+     * sending the request from qx.io.remote.transport.XmlHttp to
+     * qx.io.remote.transport.Script, because only the latter can handle cross
      * domain requests.
      */
     crossDomain :
@@ -296,7 +296,7 @@ qx.Class.define("qx.io.remote.Request",
      *
      * The request will be used for a file upload.  This switches the concrete
      * implementation that is used for sending the request from
-     * qx.io.remote.XmlHttpTransport to qx.io.remote.IFrameTransport, because only
+     * qx.io.remote.transport.XmlHttp to qx.io.remote.IFrameTransport, because only
      * the latter can handle file uploads.
      */
     fileUpload :
@@ -505,7 +505,7 @@ qx.Class.define("qx.io.remote.Request",
      * Event handler called when the request enters the queued state.
      *
      * @type member
-     * @param e {qx.event.type.Event} Event indicating state change
+     * @param e {qx.legacy.event.type.Event} Event indicating state change
      * @return {void}
      */
     _onqueued : function(e)
@@ -522,7 +522,7 @@ qx.Class.define("qx.io.remote.Request",
      * Event handler called when the request enters the sending state.
      *
      * @type member
-     * @param e {qx.event.type.Event} Event indicating state change
+     * @param e {qx.legacy.event.type.Event} Event indicating state change
      * @return {void}
      */
     _onsending : function(e)
@@ -539,7 +539,7 @@ qx.Class.define("qx.io.remote.Request",
      * Event handler called when the request enters the receiving state.
      *
      * @type member
-     * @param e {qx.event.type.Event} Event indicating state change
+     * @param e {qx.legacy.event.type.Event} Event indicating state change
      * @return {void}
      */
     _onreceiving : function(e)
@@ -556,7 +556,7 @@ qx.Class.define("qx.io.remote.Request",
      * Event handler called when the request enters the completed state.
      *
      * @type member
-     * @param e {qx.event.type.Event} Event indicating state change
+     * @param e {qx.legacy.event.type.Event} Event indicating state change
      * @return {void}
      */
     _oncompleted : function(e)
@@ -576,7 +576,7 @@ qx.Class.define("qx.io.remote.Request",
      * Event handler called when the request enters the aborted state.
      *
      * @type member
-     * @param e {qx.event.type.Event} Event indicating state change
+     * @param e {qx.legacy.event.type.Event} Event indicating state change
      * @return {void}
      */
     _onaborted : function(e)
@@ -596,7 +596,7 @@ qx.Class.define("qx.io.remote.Request",
      * Event handler called when the request enters the timeout state.
      *
      * @type member
-     * @param e {qx.event.type.Event} Event indicating state change
+     * @param e {qx.legacy.event.type.Event} Event indicating state change
      * @return {void}
      */
     _ontimeout : function(e)
@@ -630,7 +630,7 @@ qx.Class.define("qx.io.remote.Request",
      * Event handler called when the request enters the failed state.
      *
      * @type member
-     * @param e {qx.event.type.Event} Event indicating state change
+     * @param e {qx.legacy.event.type.Event} Event indicating state change
      * @return {void}
      */
     _onfailed : function(e)
@@ -712,7 +712,7 @@ qx.Class.define("qx.io.remote.Request",
      */
     _applyMethod : function(value, old)
     {
-      if (value === qx.net.Http.METHOD_POST) {
+      if (value === qx.util.Http.METHOD_POST) {
         this.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
       } else {
         this.removeRequestHeader("Content-Type");

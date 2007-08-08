@@ -28,11 +28,11 @@
  *
  * @internal
  */
-qx.Class.define("qx.event2.dispatch.InlineDispatch",
+qx.Class.define("qx.event.dispatch.InlineDispatch",
 {
 
   extend : qx.core.Object,
-  implement : qx.event2.dispatch.IEventDispatcher,
+  implement : qx.event.dispatch.IEventDispatcher,
 
 
 
@@ -43,7 +43,7 @@ qx.Class.define("qx.event2.dispatch.InlineDispatch",
   */
 
   /**
-   * @param manager {qx.event2.Manager} reference to the event manager using
+   * @param manager {qx.event.Manager} reference to the event manager using
    *     this class.
    */
   construct : function(manager) {
@@ -63,7 +63,7 @@ qx.Class.define("qx.event2.dispatch.InlineDispatch",
     /**
      * Whether the dispatcher is responsible for the this event.
      *
-     * @param event {qx.event2.type.Event} The event object
+     * @param event {qx.event.type.Event} The event object
      * @param type {String} the event type
      * @return {Boolean} Whether the event dispatcher is responsible for the this event
      */
@@ -82,12 +82,12 @@ qx.Class.define("qx.event2.dispatch.InlineDispatch",
      * This function dispatches an  inline event to the event handlers.
      *
      * @type member
-     * @param event {qx.event2.type.Event} event object to dispatch
+     * @param event {qx.event.type.Event} event object to dispatch
      * @param type {String} the event type
      */
     dispatchEvent : function(event, type)
     {
-      event.setEventPhase(qx.event2.type.Event.AT_TARGET);
+      event.setEventPhase(qx.event.type.Event.AT_TARGET);
 
       var currentTarget = event.getCurrentTarget();
 

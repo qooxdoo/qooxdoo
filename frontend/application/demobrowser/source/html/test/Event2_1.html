@@ -119,13 +119,13 @@ qx.Class.define("BasicSample",
       this._juhu = document.getElementById("juhu");
       this._inner = document.getElementById("inner");
 
-      qx.event2.Manager.addListener(this._juhu, "contextmenu", this._preventDefault, this);
-      qx.event2.Manager.addListener(this._inner, "click", this._stopPropagation, this);
-      qx.event2.Manager.addListener(this._juhu, "click", this._onclick1, this);
-      qx.event2.Manager.addListener(this._juhu, "click", this._onclick2, this);
-      qx.event2.Manager.addListener(this._juhu, "keydown", this._onclick2, this);
+      qx.event.Manager.addListener(this._juhu, "contextmenu", this._preventDefault, this);
+      qx.event.Manager.addListener(this._inner, "click", this._stopPropagation, this);
+      qx.event.Manager.addListener(this._juhu, "click", this._onclick1, this);
+      qx.event.Manager.addListener(this._juhu, "click", this._onclick2, this);
+      qx.event.Manager.addListener(this._juhu, "keydown", this._onclick2, this);
 
-      qx.event2.Manager.addListener(
+      qx.event.Manager.addListener(
         document.getElementById("input"),
         "keydown",
         this._onkeydown, this
@@ -133,29 +133,29 @@ qx.Class.define("BasicSample",
 
       for (var i=1; i<10; i++) {
         var div = document.getElementById("div"+i);
-        qx.event2.Manager.addListener(div, "click", this._cascadeCapture, this, true);
-        qx.event2.Manager.addListener(div, "click", this._cascadeBubble, this, false);
+        qx.event.Manager.addListener(div, "click", this._cascadeCapture, this, true);
+        qx.event.Manager.addListener(div, "click", this._cascadeBubble, this, false);
       }
 
-      qx.event2.Manager.addListener(
+      qx.event.Manager.addListener(
         document.getElementById("scroll"),
         "scroll",
         this._scroll,
         this
       );
 
-      //qx.event2.Manager.addListener(document.documentElement, "click", this._positionDiv, this);
+      //qx.event.Manager.addListener(document.documentElement, "click", this._positionDiv, this);
 
-      qx.event2.Manager.addListener(this._juhu, "click", function() {
-        var e = qx.event2.type.EventPool.getInstance().getEventInstance("qx.event2.type.Event").init({});
+      qx.event.Manager.addListener(this._juhu, "click", function() {
+        var e = qx.event.type.EventPool.getInstance().getEventInstance("qx.event.type.Event").init({});
         e.setType("juhu");
         e.setCurrentTarget(this);
         e.setTarget(this);
-        qx.event2.Manager.getManager(this).dispatchEvent(e);
-        qx.event2.type.EventPool.getInstance().poolEvent(e);
+        qx.event.Manager.getManager(this).dispatchEvent(e);
+        qx.event.type.EventPool.getInstance().poolEvent(e);
       }, this);
 
-      qx.event2.Manager.addListener(this, "juhu", this._onJuhu, this);
+      qx.event.Manager.addListener(this, "juhu", this._onJuhu, this);
 
 
     },
@@ -199,7 +199,7 @@ qx.Class.define("BasicSample",
     _onclick1 : function(e)
     {
       this.debug(e.getType() + " 1: " +  e);
-      qx.event2.Manager.removeListener(this._juhu, "click", this._onclick1);
+      qx.event.Manager.removeListener(this._juhu, "click", this._onclick1);
     },
 
     _onclick2 : function(e)

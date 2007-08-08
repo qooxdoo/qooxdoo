@@ -133,7 +133,7 @@ qx.Class.define("qx.ui.table2.cellrenderer.Default",
      * @return {void}
      */
     _getContentHtml : function(cellInfo, htmlArr) {
-      htmlArr.push(qx.html.String.escape(this._formatValue(cellInfo)));
+      htmlArr.push(qx.legacy.html.String.escape(this._formatValue(cellInfo)));
     },
 
 

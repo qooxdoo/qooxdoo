@@ -33,10 +33,10 @@
  * <p>
  * On a technical level of data exchange with the server, the <i>*Transport</i>
  * classes implement different schemes.  Common features of these transport
- * classes are collected in the {@link qx.io.remote.AbstractRemoteTransport
- * AbstractRemoteTransport} class, and {@link qx.io.remote.IframeTransport
- * IframeTransport}, {@link qx.io.remote.ScriptTransport ScriptTransport} and
- * {@link qx.io.remote.XmlHttpTransport XmlHttpTransport} specialize them,
+ * classes are collected in the {@link qx.io.remote.transport.Abstract
+ * AbstractRemoteTransport} class, and {@link qx.io.remote.transport.Iframe
+ * IframeTransport}, {@link qx.io.remote.transport.Script ScriptTransport} and
+ * {@link qx.io.remote.transport.XmlHttp XmlHttpTransport} specialize them,
  * depending of their interaction model with the server. Usually, you will
  * use one of these classes to taylor the implementation details of a specific
  * client-server communication in your application. Mind that the

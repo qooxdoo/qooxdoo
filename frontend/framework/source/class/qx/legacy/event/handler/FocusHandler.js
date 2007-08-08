@@ -29,7 +29,7 @@
 /**
  * Each focus root delegates the focus handling to instances of the FocusHandler.
  */
-qx.Class.define("qx.event.handler.FocusHandler",
+qx.Class.define("qx.legacy.event.handler.FocusHandler",
 {
   extend : qx.core.Target,
 
@@ -110,7 +110,7 @@ qx.Class.define("qx.event.handler.FocusHandler",
       ev.stopPropagation();
       ev.preventDefault();
 
-      qx.event.handler.FocusHandler.mouseFocus = false;
+      qx.legacy.event.handler.FocusHandler.mouseFocus = false;
 
       var vCurrent = this.getAttachedWidget().getFocusedChild();
 
@@ -154,16 +154,16 @@ qx.Class.define("qx.event.handler.FocusHandler",
         return t1 - t2;
       }
 
-      var y1 = qx.html.Location.getPageBoxTop(c1.getElement());
-      var y2 = qx.html.Location.getPageBoxTop(c2.getElement());
+      var y1 = qx.legacy.html.Location.getPageBoxTop(c1.getElement());
+      var y2 = qx.legacy.html.Location.getPageBoxTop(c2.getElement());
 
       if (y1 != y2) {
         return y1 - y2;
       }
 
       // Sort-Check #3: Left-Position
-      var x1 = qx.html.Location.getPageBoxLeft(c1.getElement());
-      var x2 = qx.html.Location.getPageBoxLeft(c2.getElement());
+      var x1 = qx.legacy.html.Location.getPageBoxLeft(c1.getElement());
+      var x2 = qx.legacy.html.Location.getPageBoxLeft(c2.getElement());
 
       if (x1 != x2) {
         return x1 - x2;

@@ -66,7 +66,7 @@ qx.Class.define("apiviewer.Controller",
 
     this.__bindToolbar();
 
-    this._history = qx.client.History.getInstance();
+    this._history = qx.bom.History.getInstance();
     this.__bindHistory();
   },
 
@@ -101,14 +101,14 @@ qx.Class.define("apiviewer.Controller",
         this.debug("Time to eval tree data: " + (end.getTime() - start.getTime()) + "ms");
 
         // give the browser a chance to update its UI before doing more
-        qx.client.Timer.once(function() {
+        qx.event.Timer.once(function() {
           this.__setDocTree(treeData);
 
           // Handle bookmarks
           var state = this._history.getState();
           if (state)
           {
-            qx.client.Timer.once(function() {
+            qx.event.Timer.once(function() {
               this.__selectItem(this.__decodeState(state));
             }, this, 0);
           }
@@ -226,7 +226,7 @@ qx.Class.define("apiviewer.Controller",
     __updateHistory : function(className)
     {
       var newTitle = this._titlePrefix + " - class " + className;
-      qx.client.History.getInstance().addToHistory(this.__encodeState(className), newTitle);
+      qx.bom.History.getInstance().addToHistory(this.__encodeState(className), newTitle);
     },
 
 

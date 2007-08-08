@@ -58,7 +58,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
     this._totalRequests = 0;
 
     // timeout handling
-    this._timer = new qx.client.Timer(500);
+    this._timer = new qx.event.Timer(500);
     this._timer.addEventListener("interval", this._oninterval, this);
   },
 

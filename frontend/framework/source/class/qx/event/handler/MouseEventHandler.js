@@ -31,9 +31,9 @@
  *
  * @internal
  */
-qx.Class.define("qx.event2.handler.MouseEventHandler",
+qx.Class.define("qx.event.handler.MouseEventHandler",
 {
-  extend : qx.event2.handler.AbstractEventHandler,
+  extend : qx.event.handler.AbstractEventHandler,
 
 
 
@@ -172,7 +172,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
      */
     __fireEvent : function(domEvent, type, target)
     {
-      var event = this._eventPool.getEventInstance("qx.event2.type.MouseEvent").init(domEvent);
+      var event = this._eventPool.getEventInstance("qx.event.type.MouseEvent").init(domEvent);
 
       if (type) {
         event.setType(type);
@@ -196,7 +196,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
      */
     onMouseButtonEvent : function(domEvent)
     {
-      var event = this._eventPool.getEventInstance("qx.event2.type.MouseEvent").init(domEvent);
+      var event = this._eventPool.getEventInstance("qx.event.type.MouseEvent").init(domEvent);
       var type = event.getType();
       var target = event.getTarget();
 
@@ -359,7 +359,7 @@ qx.Class.define("qx.event2.handler.MouseEventHandler",
 
   defer : function(statics)
   {
-    var manager = qx.event2.Manager;
+    var manager = qx.event.Manager;
     manager.registerEventHandler(statics, manager.PRIORITY_NORMAL);
   }
 
