@@ -96,3 +96,27 @@
 #
 
 \bqx\.bom\.element\.Object\b=qx.html.Element
+\bqx\.bom\.Timer\b=qx.event.Timer
+\bqx\.client2\.Client\b=qx.bom.Client
+\bqx\.client2\.detail\b=qx.bom.client
+
+
+
+#
+# PART 5
+#
+
+\bqx\.net\.HttpRequest=qx.bom.HttpRequest
+\bqx\.net\.Http\b=qx.util.Http
+\bqx\.net\.Protocol\b=qx.util.Protocol
+
+
+
+#
+# PART 6 (tomorrow)
+#
+
+\bqx\.io\.remote\.AbstractRemoteTransport\b=qx.io.remote.transport.Abstract
+\bqx\.io\.remote\.IframeTransport\b=qx.io.remote.transport.Iframe
+\bqx\.io\.remote\.ScriptTransport\b=qx.io.remote.transport.Script
+\bqx\.io\.remote\.XmlHttpTransport\b=qx.io.remote.transport.XmlHttp
