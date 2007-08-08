@@ -68,8 +68,8 @@ qx.Class.define("qx.ui.table2.pane.Pane",
 
   statics :
   {
-    USE_ARRAY_JOIN               : false,
-    USE_TABLE                    : false,
+    USE_ARRAY_JOIN               : true,
+    USE_TABLE                    : true,
 
     CONTENT_ROW_FONT_FAMILY_TEST : "'Segoe UI', Corbel, Calibri, Tahoma, 'Lucida Sans Unicode', sans-serif",
     CONTENT_ROW_FONT_SIZE_TEST   : "11px"
@@ -372,8 +372,6 @@ qx.Class.define("qx.ui.table2.pane.Pane",
      */
     _updateContent_array_join : function(completeUpdate, onlyRow, onlySelectionOrFocusChanged)
     {
-      //this.printStackTrace();
-
       var start = new Date();
       var TablePane = qx.ui.table2.pane.Pane;
 
@@ -387,8 +385,8 @@ qx.Class.define("qx.ui.table2.pane.Pane",
 
       var colCount = paneModel.getColumnCount();
       var rowHeight = table.getRowHeight();
-
       var firstRow = this.getFirstVisibleRow();
+
       var rowCount = this.getVisibleRowCount();
       var modelRowCount = tableModel.getRowCount();
 
@@ -402,25 +400,22 @@ qx.Class.define("qx.ui.table2.pane.Pane",
       var htmlArr = [];
       var rowWidth = paneModel.getTotalWidth();
 
-      if (TablePane.USE_TABLE)
+      this.TABLE_ARR[this.TAB_FONT_FAMILY] = qx.ui.table2.pane.Pane.CONTENT_ROW_FONT_FAMILY_TEST;
+      this.TABLE_ARR[this.TAB_FONT_SIZE] =qx.ui.table2.pane.Pane.CONTENT_ROW_FONT_SIZE_TEST;
+      this.TABLE_ARR[this.TAB_ROW_WIDTH] = rowWidth;
+
+      var i=0;
+      var colArr = [];
+      for (var x=0; x<colCount; x++)
       {
-        this.TABLE_ARR[this.TAB_FONT_FAMILY] = qx.ui.table2.pane.Pane.CONTENT_ROW_FONT_FAMILY_TEST;
-        this.TABLE_ARR[this.TAB_FONT_SIZE] =qx.ui.table2.pane.Pane.CONTENT_ROW_FONT_SIZE_TEST;
-        this.TABLE_ARR[this.TAB_ROW_WIDTH] = rowWidth;
+        var col = paneModel.getColumnAtX(x);
 
-        var i=0;
-        var colArr = [];
-        for (var x=0; x<colCount; x++)
-        {
-          var col = paneModel.getColumnAtX(x);
-
-          colArr[i++] = '<col width="';
-          colArr[i++] = columnModel.getColumnWidth(col);
-          colArr[i++] = '"/>';
-        }
-
-        this.TABLE_ARR[this.TAB_COLGROUP] = colArr.join("");
+        colArr[i++] = '<col width="';
+        colArr[i++] = columnModel.getColumnWidth(col);
+        colArr[i++] = '"/>';
       }
+
+      this.TABLE_ARR[this.TAB_COLGROUP] = colArr.join("");
 
       tableModel.prefetchRows(firstRow, firstRow + rowCount - 1);
 
@@ -443,21 +438,8 @@ qx.Class.define("qx.ui.table2.pane.Pane",
         cellInfo.rowData = tableModel.getRowData(row);
 
         // Update this row
-        if (TablePane.USE_TABLE)
-        {
-          rowHtml.push('<tr style\="height:');
-          rowHtml.push(rowHeight);
-        }
-        else
-        {
-          rowHtml.push('<div style\="position:absolute;left:0px;top:');
-          rowHtml.push(y * rowHeight);
-          rowHtml.push('px;width:');
-          rowHtml.push(rowWidth);
-          rowHtml.push('px;height:');
-          rowHtml.push(rowHeight);
-          rowHtml.push('px');
-        }
+        rowHtml.push('<tr style\="height:');
+        rowHtml.push(rowHeight);
 
         rowRenderer._createRowStyle_array_join(cellInfo, rowHtml);
 
@@ -484,11 +466,7 @@ qx.Class.define("qx.ui.table2.pane.Pane",
           left += cellWidth;
         }
 
-        if (TablePane.USE_TABLE) {
-          rowHtml.push('</tr>');
-        } else {
-          rowHtml.push('</div>');
-        }
+        rowHtml.push('</tr>');
 
         var rowString = rowHtml.join("");
         if (!selected) {
@@ -497,9 +475,7 @@ qx.Class.define("qx.ui.table2.pane.Pane",
         rowsArr[y] = rowString;
       }
 
-      if (TablePane.USE_TABLE) {
-        this.TABLE_ARR[this.TAB_BODY] = rowsArr.join("");
-      }
+      this.TABLE_ARR[this.TAB_BODY] = rowsArr.join("");
 
       var elem = this.getElement();
 
@@ -507,24 +483,16 @@ qx.Class.define("qx.ui.table2.pane.Pane",
       //this.debug("compute time: " + (new Date() - start) + "ms");
 
       var start = new Date();
-      if (TablePane.USE_TABLE) {
-        //this._paintElem.innerHTML = this.TABLE_ARR.join("");
+      /*
+      var data = this.TABLE_ARR.join("") + "<div id='juhu'></div>";;
+      window.setTimeout(function() {
+        elem.innerHTML = data;
+        var j = document.getElementById("juhu").offsetHeight;
+      }, 0);
+      */
+      elem.innerHTML = this.TABLE_ARR.join("");
+      elem.childNodes[0].offsetHeight;
 
-        /*
-        this._paintElem.style.display = "block";
-        this._displayElem.style.display = "none";
-
-        var tmp = this._displayElem;
-        this._displayElem = this._paintElem;
-        this._paintElem = tmp;
-        */
-
-
-        elem.innerHTML = this.TABLE_ARR.join("");
-        //document.getElementById("juhu").innerHTML = this.TABLE_ARR.join("");
-      } else {
-        elem.innerHTML = htmlArr.join("");
-      }
       //this.debug("render time: " + (new Date() - start) + "ms");
 
       this.setHeight(rowCount * rowHeight);

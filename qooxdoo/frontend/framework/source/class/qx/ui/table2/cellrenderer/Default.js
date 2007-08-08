@@ -265,7 +265,7 @@ qx.Class.define("qx.ui.table2.cellrenderer.Default",
      */
     _createCellStyle_array_join : function(cellInfo, htmlArr)
     {
-      qx.ui.table2.cellrenderer.Abstract.prototype._createCellStyle_array_join(cellInfo, htmlArr);
+      this.base(arguments, cellInfo, htmlArr);
 
       var stylesToApply = this._getStyleFlags(cellInfo);
 

@@ -33,6 +33,24 @@ qx.Class.define("qx.ui.table2.cellrenderer.Abstract",
   extend : qx.ui.table2.cellrenderer.Basic,
 
 
+  construct : function() {
+    var clazz = this.self(arguments);
+    if (!clazz.stylesheet)
+    {
+      clazz.stylesheet = qx.html.StyleSheet.createElement(
+        ".qooxdoo-table-cell-abstract {" +
+        "  overflow:hidden;" +
+        "  white-space:nowrap;" +
+        "  border-right:1px solid #eeeeee;" +
+        "  border-bottom:1px solid #eeeeee;" +
+        "  padding-left:2px;" +
+        "  padding-right:2px;" +
+        "  cursor:default;" +
+        (qx.core.Variant.isSet("qx.client", "mshtml") ? '' : ';-moz-user-select:none;') +
+        "}"
+      );
+    }
+  },
 
 
   /*
@@ -56,7 +74,7 @@ qx.Class.define("qx.ui.table2.cellrenderer.Abstract",
     ARRAY_JOIN_MAIN_DIV_START_END : '">',
     ARRAY_JOIN_MAIN_DIV_END       : '</div>',
 
-    TABLE_TD                      : '<td style="height:',
+    TABLE_TD                      : '<td class="qooxdoo-table-cell-abstract" style="', //'<td style="height:',
     TABLE_TD_END                  : '</td>'
   },
 
@@ -136,35 +154,11 @@ qx.Class.define("qx.ui.table2.cellrenderer.Abstract",
     createDataCellHtml_array_join : function(cellInfo, htmlArr)
     {
       var AbstractDataCellRenderer = qx.ui.table2.cellrenderer.Abstract;
-
-      if (qx.ui.table2.pane.Pane.USE_TABLE)
-      {
-        htmlArr.push(AbstractDataCellRenderer.TABLE_TD);
-        htmlArr.push(cellInfo.styleHeight);
-        htmlArr.push("px");
-      }
-      else
-      {
-        htmlArr.push(AbstractDataCellRenderer.ARRAY_JOIN_MAIN_DIV_LEFT);
-        htmlArr.push(cellInfo.styleLeft);
-        htmlArr.push(AbstractDataCellRenderer.ARRAY_JOIN_MAIN_DIV_WIDTH);
-        htmlArr.push(cellInfo.styleWidth);
-        htmlArr.push(AbstractDataCellRenderer.ARRAY_JOIN_MAIN_DIV_HEIGHT);
-        htmlArr.push(cellInfo.styleHeight);
-        htmlArr.push("px");
-      }
-
-      this._createCellStyle_array_join(cellInfo, htmlArr);
-
+      htmlArr.push(AbstractDataCellRenderer.TABLE_TD);
+      this._createCellStyle_array_join(cellInfo, htmlArr)
       htmlArr.push(AbstractDataCellRenderer.ARRAY_JOIN_MAIN_DIV_START_END);
-
       this._createContentHtml_array_join(cellInfo, htmlArr);
-
-      if (qx.ui.table2.pane.Pane.USE_TABLE) {
-        htmlArr.push(AbstractDataCellRenderer.TABLE_TD_END);
-      } else {
-        htmlArr.push(AbstractDataCellRenderer.ARRAY_JOIN_MAIN_DIV_END);
-      }
+      htmlArr.push(AbstractDataCellRenderer.TABLE_TD_END);
     },
 
 
@@ -177,7 +171,7 @@ qx.Class.define("qx.ui.table2.cellrenderer.Abstract",
      * @return {void}
      */
     _createCellStyle_array_join : function(cellInfo, htmlArr) {
-      htmlArr.push(qx.ui.table2.cellrenderer.Abstract.MAIN_DIV_STYLE);
+      return;
     },
 
 
