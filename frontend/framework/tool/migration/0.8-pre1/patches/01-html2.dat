@@ -64,3 +64,6 @@
 \bqx\.dom\.Element\.set\b=qx.bom.Element.set
 \bqx\.dom\.Element\.get\b=qx.bom.Element.get
 
+\bqx\.xml\.Node\b=qx.dom.Node
+\bqx\.xml\.Element\.getText\b=qx.dom.Element.getText
+\bqx\.xml\.Document\.isDocument\b=qx.dom.Node.isDocument
