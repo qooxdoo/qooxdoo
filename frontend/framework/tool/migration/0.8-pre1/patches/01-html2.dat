@@ -67,3 +67,18 @@
 \bqx\.xml\.Node\b=qx.dom.Node
 \bqx\.xml\.Element\.getText\b=qx.dom.Element.getText
 \bqx\.xml\.Document\.isDocument\b=qx.dom.Node.isDocument
+
+
+
+#
+# PART 3
+#
+
+\bqx\.client\.Command\b=qx.event2.Command
+\bqx\.client\.History\b=qx.bom.History
+\bqx\.client\.NativeWindow\b=qx.bom.Window
+\bqx\.client\.Timer\b=qx.bom.Timer
+\bqx\.client2\b=qx.client
+
+\bqx\.event\b=qx.legacy.event
+\bqx\.event2\b=qx.event
