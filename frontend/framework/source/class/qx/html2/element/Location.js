@@ -209,7 +209,7 @@ qx.Class.define("qx.html2.element.Location",
         var top = body.offsetTop;
 
         // Correct substracted border (only in content-box mode)
-        if (qx.html2.element.Util.getBoxSizing(body) !== "border-box")
+        if (qx.html2.element.Visibility.getBoxSizing(body) !== "border-box")
         {
           left += this.__num(body, "borderLeftWidth");
           top += this.__num(body, "borderTopWidth");
@@ -365,7 +365,7 @@ qx.Class.define("qx.html2.element.Location",
 
           // Stop at the body
           var body = qx.html2.Node.getDocument(elem).body;
-          var util = qx.html2.element.Util;
+          var util = qx.html2.element.Visibility;
 
           if (util.getBoxSizing(elem) !== "border-box")
           {
