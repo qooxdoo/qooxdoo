@@ -61,10 +61,11 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
     this._verScrollBar.setWidth("auto");
     this._horScrollBar.setHeight("auto");
     this._horScrollBar.setPaddingRight(scrollBarWidth);
-
-    // this._verScrollBar.setMergeEvents(true);
     this._horScrollBar.addEventListener("changeValue", this._onScrollX, this);
     this._verScrollBar.addEventListener("changeValue", this._onScrollY, this);
+
+    this._onintervalWrapper = qx.lang.Function.bind(this._oninterval, this);
+    this._updateInterval = window.setInterval(this._onintervalWrapper, 50);
 
     // init header
     this._header = this.getTable().getNewTablePaneHeader()(this);
@@ -1864,6 +1865,9 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
      */
     _postponedUpdateContent : function()
     {
+      this._updateContentPlanned = true;
+      return;
+
       /*
       if (!this._updateContentPlanned)
       {
@@ -1883,8 +1887,8 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
         this._updateContentPlanned = true;
       }*/
 
-     //this._updateContent();
-     //return;
+     this._updateContent();
+     return;
 
      if (this._updateId) {
        window.clearTimeout(this._updateId);
@@ -1903,6 +1907,21 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
           self._updateId = null;
        }, 30);
      }
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void}
+     */
+    _oninterval : function()
+    {
+      if (this._updateContentPlanned) {
+        this._updateContentPlanned = false;
+        this._updateContent();
+      }
     },
 
 
