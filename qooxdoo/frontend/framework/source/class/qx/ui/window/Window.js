@@ -808,14 +808,17 @@ qx.Class.define("qx.ui.window.Window",
       switch(value)
       {
         case "minimized":
+          this._disableResize = true;
           this._minimize();
           break;
 
         case "maximized":
+          this._disableResize = true;
           this._maximize();
           break;
 
         default:
+          delete this._disableResize;
           switch(old)
           {
             case "maximized":
