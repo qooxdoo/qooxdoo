@@ -61,10 +61,7 @@ qx.Class.define("qx.ui.table2.cellrenderer.Icon",
     MAIN_DIV_STYLE  : ';text-align:center;padding-top:1px;',
     IMG_START       : '<img src="',
     IMG_END         : '"/>',
-    IMG_TITLE_START : '" title="',
-    TABLE_DIV       : '<div style="overflow:hidden;height:',
-    TABLE_DIV_CLOSE : 'px">',
-    TABLE_DIV_END   : '</div>'
+    IMG_TITLE_START : '" title="'
   },
 
 
@@ -159,7 +156,6 @@ qx.Class.define("qx.ui.table2.cellrenderer.Icon",
       }
 
       htmlArr.push(IconDataCellRenderer.IMG_END);
-      htmlArr.push(IconDataCellRenderer.TABLE_DIV_END);
     }
   }
 });
