@@ -114,7 +114,7 @@ qx.Class.define("qx.html2.element.Scroll",
     intoViewY : function(element, align)
     {
       var parent = element.parentNode;
-      var body = qx.html2.node.Util.getDocument(element).body;
+      var body = qx.html2.Node.getDocument(element).body;
       
       var parentLocation, parentTop, parentBottom;
       var parentOuterHeight, parentClientHeight, parentScrollHeight;
@@ -229,7 +229,7 @@ qx.Class.define("qx.html2.element.Scroll",
     intoViewX : function(element, align)
     {
       var parent = element.parentNode;
-      var body = qx.html2.node.Util.getDocument(element).body;
+      var body = qx.html2.Node.getDocument(element).body;
       
       var parentLocation, parentLeft, parentRight;
       var parentOuterWidth, parentClientWidth, parentScrollWidth;
