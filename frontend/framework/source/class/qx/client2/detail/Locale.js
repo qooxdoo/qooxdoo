@@ -20,7 +20,7 @@
 /* ************************************************************************
 
 #module(client2)
-#require(qx.html2.client.Engine)
+#require(qx.client2.detail.Engine)
 
 ************************************************************************ */
 
@@ -58,7 +58,7 @@ qx.Class.define("qx.client2.detail.Locale",
      */
     __init : function()
     {
-      var locale = (qx.html2.client.Engine.MSHTML ? navigator.userLanguage : navigator.language).toLowerCase();
+      var locale = (qx.client2.detail.Engine.MSHTML ? navigator.userLanguage : navigator.language).toLowerCase();
       var variant = "";
 
       var index = locale.indexOf("-");
