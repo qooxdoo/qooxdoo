@@ -26,31 +26,8 @@
 /**
  * A cell renderer for data cells.
  */
-qx.Class.define("qx.ui.table2.cellrenderer.Basic",
+qx.Interface.define("qx.ui.table2.cellrenderer.ICellRenderer",
 {
-  extend : qx.core.Object,
-
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function() {
-    this.base(arguments);
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
 
   members :
   {
@@ -75,45 +52,15 @@ qx.Class.define("qx.ui.table2.cellrenderer.Basic",
      *   element.</li>
      * </ul>
      *
-     * @type member
-     * @abstract
      * @param cellInfo {Map} A map containing the information about the cell to
      *      create.
+     * @param htmlArr {var} TODOC
      * @return {String} the HTML of the data cell.
      * @throws the abstract function warning.
      */
-    createDataCellHtml : function(cellInfo) {
-      throw new Error("createDataCellHtml is abstract");
-    },
-
-
-    /**
-     * Updates the content of the pane.
-     *
-     * @type member
-     * @abstract
-     * @param cellInfo {var} TODOC
-     * @param cellElement {var} TODOC
-     * @return {void}
-     * @throws the abstract function warning.
-     */
-    updateDataCellElement : function(cellInfo, cellElement) {
-      throw new Error("updateDataCellElement is abstract");
-    },
-
-
-    /**
-     * Updates the content of the pane using array joins.
-     *
-     * @type member
-     * @abstract
-     * @param cellInfo {var} TODOC
-     * @param htmlArr {var} TODOC
-     * @return {void}
-     * @throws the abstract function warning.
-     */
-    createDataCellHtml_array_join : function(cellInfo, htmlArr) {
-      throw new Error("createDataCellHtml_array_join is abstract");
+    createDataCellHtml : function(cellInfo, htmlArr) {
+      return true;
     }
+
   }
 });
