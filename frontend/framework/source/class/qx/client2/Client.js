@@ -68,7 +68,7 @@
  * Valid expressions are for example: <code>gecko</code>, <code>gecko|opera</code>,
  * <code>gecko,version>1.6</code>, <code>opera|(gecko,border_box)</code>
  */
-qx.Class.define("qx.html2.Client",
+qx.Class.define("qx.client2.Client",
 {
   /*
   *****************************************************************************
