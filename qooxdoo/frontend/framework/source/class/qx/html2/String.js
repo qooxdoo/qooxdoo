@@ -366,7 +366,7 @@ qx.Class.define("qx.html2.String",
      * @see #unescape
      */
     escape : function(str) {
-      return qx.dom.String.escapeEntities(str, qx.html2.String.FROM_CHARCODE);
+      return qx.util.StringEscape.escape(str, qx.html2.String.FROM_CHARCODE);
     },
 
 
@@ -388,7 +388,7 @@ qx.Class.define("qx.html2.String",
      * @see #escape
      */
     unescape : function(str) {
-      return qx.dom.String.unescapeEntities(str, qx.html2.String.TO_CHARCODE);
+      return qx.util.StringEscape.unescape(str, qx.html2.String.TO_CHARCODE);
     },
 
 

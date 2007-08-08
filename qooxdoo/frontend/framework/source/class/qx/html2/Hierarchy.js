@@ -375,7 +375,7 @@ qx.Class.define("qx.html2.Hierarchy",
 
       while (element)
       {
-        if (element.nodeType === qx.dom.Node.ELEMENT || element.nodeType === qx.dom.Node.TEXT) {
+        if (element.nodeType === qx.xml.Node.ELEMENT || element.nodeType === qx.xml.Node.TEXT) {
           return false;
         }
 

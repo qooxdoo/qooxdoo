@@ -150,7 +150,7 @@ qx.Class.define("qx.xml.Document",
      * @return {Boolean} whether the object is a Document instance
      */
     isDocument : function(obj) {
-      return (obj.nodeType == qx.dom.Node.DOCUMENT);
+      return (obj.nodeType == qx.xml.Node.DOCUMENT);
     }
   }
 });
