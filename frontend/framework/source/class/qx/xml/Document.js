@@ -139,18 +139,6 @@ qx.Class.define("qx.xml.Document",
         dom.loadXML(str);
         return dom;
       }
-    }),
-
-
-    /**
-     * Check whether an object is a Document instance
-     *
-     * @type static
-     * @param obj {Object} object to check
-     * @return {Boolean} whether the object is a Document instance
-     */
-    isDocument : function(obj) {
-      return (obj.nodeType == qx.xml.Node.DOCUMENT);
-    }
+    })
   }
 });

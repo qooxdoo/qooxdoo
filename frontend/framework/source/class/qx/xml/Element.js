@@ -178,43 +178,6 @@ qx.Class.define("qx.xml.Element",
 
 
     /**
-     * Returns the text content of an element where the element may be of node type NODE_ELEMENT, NODE_ATTRIBUTE or NODE_TEXT
-     *
-     * @param element {Element} the element from where the search should start.
-     *     If the element has subnodes the text contents are recursively retreived and joined.
-     * @return {String} the joined text content of the given element or null if not appropriate.
-     * @signature function(element)
-     */
-    getText : function(element)
-    {
-      if(!element || !element.nodeType) {
-        return null;
-      }
-
-      switch(element.nodeType)
-      {
-        case 1: // NODE_ELEMENT
-          var i, a=[], nodes = element.childNodes, length = nodes.length;
-          for (i=0; i<length; i++) {
-            a[i] = this.getText(nodes[i]);
-          };
-
-          return a.join("");
-
-        case 2: // NODE_ATTRIBUTE
-          return element.nodeValue;
-          break;
-
-        case 3: // NODE_TEXT
-          return element.nodeValue;
-          break;
-      }
-
-      return null;
-    },
-
-
-    /**
      * Selects the first XmlNode that matches the XPath expression and returns the text content of the element
      *
      * @param element {Element|Document} root element for the search
@@ -222,7 +185,8 @@ qx.Class.define("qx.xml.Element",
      * @return {String} the joined text content of the found element or null if not appropriate.
      * @signature function(element, query)
      */
-    getSingleNodeText : function(element, query) {
+    getSingleNodeText : function(element, query) 
+    {
       var node = this.selectSingleNode(element, query);
       return this.getText(node);
     }
