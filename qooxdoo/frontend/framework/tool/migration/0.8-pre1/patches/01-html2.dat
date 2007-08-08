@@ -1,9 +1,16 @@
+# Renamed methods
 \bisElementNode\b=isElement
 \bisDocumentNode\b=isDocument
 \bisTextNode\b=isText
 \bgetDefaultView\b=getWindow
 
+# Renamed classes
 \bqx\.html2\.node\.Util\b=qx.html2.Node
 \bqx\.html2\.node\.Tree\b=qx.html2.Hierarchy
 \bqx\.html2\.element\.Generic\b=qx.html2.Element
 \bqx\.html2\.Element\b=qx.html2.element.Object
+
+# Merged Entity and String classes
+qx.html2.Entity=qx.html2.String
+qx.html.Entity=qx.html.String
+qx.xml.Entity=qx.xml.String
