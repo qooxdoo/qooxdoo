@@ -705,7 +705,7 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
         return;
       }
 
-      this._verScrollBar.setValue(this._verScrollBar.getValue() - evt.getWheelDelta() * table.getRowHeight());
+      this._verScrollBar.setValue(this._verScrollBar.getValue() - (evt.getWheelDelta() * 3) * table.getRowHeight());
 
       // Update the focus
       if (this._lastMousePageX && this.getFocusCellOnMouseMove()) {
@@ -1905,7 +1905,7 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
           }
           self._updateContent();
           self._updateId = null;
-       }, 30);
+       }, 20);
      }
     },
 
