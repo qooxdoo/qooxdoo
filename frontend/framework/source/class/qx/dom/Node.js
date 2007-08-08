@@ -27,7 +27,7 @@
 /**
  * Basic node creation and type detection
  */
-qx.Class.define("qx.html2.Node",
+qx.Class.define("qx.xml.Node",
 {
   /*
   *****************************************************************************

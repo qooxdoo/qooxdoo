@@ -39,7 +39,7 @@
  * crititcal areas like animations it would be the best to directly use the
  * classes which contain the implementations.
  */
-qx.Class.define("qx.bom.Element",
+qx.Class.define("qx.dom.Element",
 {
   /*
   *****************************************************************************
@@ -111,10 +111,10 @@ qx.Class.define("qx.bom.Element",
 
       custom :
       {
-        "opacity" : qx.html2.element.Opacity,
-        "cursor" : qx.html2.element.Cursor,
-        "clip" : qx.html2.element.Clip,
-        "overflow" : qx.html2.element.Overflow
+        "opacity" : qx.bom.element.Opacity,
+        "cursor" : qx.bom.element.Cursor,
+        "clip" : qx.bom.element.Clip,
+        "overflow" : qx.bom.element.Overflow
       }
     },
 
@@ -137,9 +137,9 @@ qx.Class.define("qx.bom.Element",
       var gen = this.__generic;
 
       if (gen.attributes[key]) {
-        return qx.html2.element.Attribute.set(element, key, value);
+        return qx.bom.element.Attribute.set(element, key, value);
       } else if (gen.styles[key]) {
-        return qx.html2.element.Style.set(element, key, value);
+        return qx.bom.element.Style.set(element, key, value);
       } else if (gen.custom[key]) {
         return gen.custom[key].set(element, value);
       }
@@ -165,9 +165,9 @@ qx.Class.define("qx.bom.Element",
       var gen = this.__generic;
 
       if (gen.attributes[key]) {
-        return qx.html2.element.Attribute.get(element, key);
+        return qx.bom.element.Attribute.get(element, key);
       } else if (gen.styles[key]) {
-        return qx.html2.element.Style.get(element, key);
+        return qx.bom.element.Style.get(element, key);
       } else if (gen.custom[key]) {
         return gen.custom[key].get(element);
       }
@@ -198,7 +198,7 @@ qx.Class.define("qx.bom.Element",
       var name, hints, source, target;
 
       // Process attributes
-      hints = qx.html2.element.Attribute.__hints.names;
+      hints = qx.bom.element.Attribute.__hints.names;
       source = generic.attributes;
       target = map.attributes;
 
@@ -213,7 +213,7 @@ qx.Class.define("qx.bom.Element",
       }
 
       // Process styles
-      hints = qx.html2.element.Style.__hints.names;
+      hints = qx.bom.element.Style.__hints.names;
       source = generic.styles;
       target = map.styles;
 

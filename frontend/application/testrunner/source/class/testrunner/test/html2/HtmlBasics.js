@@ -52,10 +52,10 @@ qx.Class.define("testrunner.test.html2.HtmlBasics",
 
     testElementAttributes : function()
     {
-      var util = qx.html2.element.Visibility;
-      var attrib = qx.html2.element.Attribute;
-      var style = qx.html2.element.Style;
-      var opac = qx.html2.element.Opacity;
+      var util = qx.bom.element.Visibility;
+      var attrib = qx.bom.element.Attribute;
+      var style = qx.bom.element.Style;
+      var opac = qx.bom.element.Opacity;
 
       var test1 = document.getElementById("test1");
 
@@ -112,7 +112,7 @@ qx.Class.define("testrunner.test.html2.HtmlBasics",
 
     testGeneric : function()
     {
-      var gen = qx.html2.element.Object;
+      var gen = qx.bom.element.Object;
 
       var test1 = document.getElementById("test1");
 

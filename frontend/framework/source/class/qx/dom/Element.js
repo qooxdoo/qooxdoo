@@ -24,7 +24,7 @@
 ************************************************************************ */
 
 /**
- * Manager child structures of an element. Easy and convenient APIs
+ * Manages children structures of an element. Easy and convenient APIs
  * to insert, remove and replace children.
  */
 qx.Class.define("qx.dom.Element",

@@ -14,20 +14,20 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var doc = new qx.html2.element.Object(document.getElementById("test"));
+    var doc = new qx.bom.element.Object(document.getElementById("test"));
 
 
-    var div = new qx.html2.element.Object();
+    var div = new qx.bom.element.Object();
     div.setText("Juhu Kinners");
     div.addEventListener("click", function(e) {
       div.removeEventListener("click", arguments.callee);
       div.debug(e + "");
-      //qx.html2.element.Object.flushQueue();
+      //qx.bom.element.Object.flushQueue();
     });
 
     doc.add(div);
 
-    //qx.html2.element.Object.flushQueue();
+    //qx.bom.element.Object.flushQueue();
   });
   </script>
 </body>

@@ -61,11 +61,11 @@ qx.Class.define("qx.bom.element.Cursor",
     }),
 
     get : function(element) {
-      return qx.html2.element.Style.getComputed(element, "cursor");
+      return qx.bom.element.Style.getComputed(element, "cursor");
     },
 
     set : function(element, value) {
-      return qx.html2.element.Style.set(element, this.__map[value] || value);
+      return qx.bom.element.Style.set(element, this.__map[value] || value);
     }
   }
 });

@@ -366,7 +366,7 @@ qx.Class.define("qx.bom.String",
      * @see #unescape
      */
     escape : function(str) {
-      return qx.util.StringEscape.escape(str, qx.html2.String.FROM_CHARCODE);
+      return qx.util.StringEscape.escape(str, qx.bom.String.FROM_CHARCODE);
     },
 
 
@@ -388,7 +388,7 @@ qx.Class.define("qx.bom.String",
      * @see #escape
      */
     unescape : function(str) {
-      return qx.util.StringEscape.unescape(str, qx.html2.String.TO_CHARCODE);
+      return qx.util.StringEscape.unescape(str, qx.bom.String.TO_CHARCODE);
     },
 
 
@@ -404,7 +404,7 @@ qx.Class.define("qx.bom.String",
      */
     fromText : function(str)
     {
-      return qx.html2.String.escape(str).replace(/(  |\n)/g, function(chr)
+      return qx.bom.String.escape(str).replace(/(  |\n)/g, function(chr)
       {
         var map =
         {
@@ -430,7 +430,7 @@ qx.Class.define("qx.bom.String",
      */
     toText : function(str)
     {
-      return qx.html2.String.unescape(str.replace(/\s+|<([^>])+>/gi, function(chr)
+      return qx.bom.String.unescape(str.replace(/\s+|<([^>])+>/gi, function(chr)
       {
         if (/\s+/.test(chr)) {
           return " ";

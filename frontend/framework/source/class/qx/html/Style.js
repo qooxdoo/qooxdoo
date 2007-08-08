@@ -26,7 +26,7 @@
 
 /**
  * Methods to get CSS style properties of DOM elements.
- * @deprecated: Should be replaced with qx.html2.element.Style which should
+ * @deprecated: Should be replaced with qx.bom.element.Style which should
  *   also work a lot better
  */
 qx.Class.define("qx.html.Style",

@@ -475,7 +475,7 @@ qx.Class.define("qx.ui.basic.Label",
       else
       {
         element.innerHTML = "";
-        qx.html2.element.Attribute.set(element, "text", this._content);
+        qx.bom.element.Attribute.set(element, "text", this._content);
       }
 
       // store values
@@ -599,7 +599,7 @@ qx.Class.define("qx.ui.basic.Label",
       else
       {
         element.innerHTML = "";
-        qx.html2.element.Attribute.set(element, "text", html);
+        qx.bom.element.Attribute.set(element, "text", html);
       }
     }
   }

@@ -95,7 +95,7 @@ qx.Class.define("qx.bom.Document",
     getWidth : function(win)
     {
       var doc = (win||window).document;
-      var view = qx.html2.Viewport.getWidth(win);
+      var view = qx.bom.Viewport.getWidth(win);
       var scroll = doc.compatMode === "CSS1Compat" ? doc.documentElement.scrollWidth : doc.body.scrollWidth;
       return Math.max(scroll, view);
     },
@@ -127,7 +127,7 @@ qx.Class.define("qx.bom.Document",
     getHeight : function(win)
     {
       var doc = (win||window).document;
-      var view = qx.html2.Viewport.getHeight(win);
+      var view = qx.bom.Viewport.getHeight(win);
       var scroll = doc.compatMode === "CSS1Compat" ? doc.documentElement.scrollHeight : doc.body.scrollHeight;
       return Math.max(scroll, view);
     }

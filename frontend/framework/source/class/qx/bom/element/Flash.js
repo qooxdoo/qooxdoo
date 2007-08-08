@@ -100,7 +100,7 @@ qx.Class.define("qx.bom.element.Flash",
       this.setSource(vSource);
     }
 
-    this.setVersion(vVersion != null ? vVersion : qx.html2.element.Flash.MINREQUIRED);
+    this.setVersion(vVersion != null ? vVersion : qx.bom.element.Flash.MINREQUIRED);
   },
 
 
@@ -266,11 +266,11 @@ qx.Class.define("qx.bom.element.Flash",
      * Returns a DOM node for embedding the flash file
      *
      * @type member
-     * @return {qx.html2.Node} the DOM node containing the html code for embedding
+     * @return {qx.dom.Node} the DOM node containing the html code for embedding
      */
     getDOMNode : function()
     {
-       var node = qx.html2.Node.createElement("div");
+       var node = qx.dom.Node.createElement("div");
        node.innerHTML = this.getHtml();
 
        return node;
@@ -292,8 +292,8 @@ qx.Class.define("qx.bom.element.Flash",
       if (this.getEnableExpressInstall())
       {
         // check to see if we need to do an express install
-        var expressInstallReqVer = new qx.util.Version(qx.html2.element.Flash.EXPRESSINSTALL);
-        var installedVer = qx.html2.Flash.PLAYERVERSION;
+        var expressInstallReqVer = new qx.util.Version(qx.bom.element.Flash.EXPRESSINSTALL);
+        var installedVer = qx.bom.Flash.PLAYERVERSION;
 
         if (installedVer.versionIsValid(expressInstallReqVer) && !installedVer.versionIsValid(this._version)) {
           this._expressInstall = true;
@@ -302,7 +302,7 @@ qx.Class.define("qx.bom.element.Flash",
 
       // this.debug("ExpressInstall Enabled: " + this._expressInstall);
       // Apply HTML
-      if (!this.getEnableDetection() || this._expressInstall || qx.html2.element.Flash.PLAYERVERSION.versionIsValid(this._version))
+      if (!this.getEnableDetection() || this._expressInstall || qx.bom.element.Flash.PLAYERVERSION.versionIsValid(this._version))
       {
         this._html       = this.__generateHTML();
         this._generation = true;

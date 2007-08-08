@@ -45,9 +45,9 @@ qx.Class.define("BasicSample",
       
       document.body.onclick = qx.lang.Function.bind(function()
       {
-        this.debug("Document Dimension: " + qx.html2.Document.getWidth() + "x" + qx.html2.Document.getHeight());
-        this.debug("Viewport Dimension: " + qx.html2.Viewport.getWidth() + "x" + qx.html2.Viewport.getHeight());
-        this.debug("Viewport Scroll: " + qx.html2.Viewport.getScrollLeft() + "x" + qx.html2.Viewport.getScrollTop());
+        this.debug("Document Dimension: " + qx.bom.Document.getWidth() + "x" + qx.bom.Document.getHeight());
+        this.debug("Viewport Dimension: " + qx.bom.Viewport.getWidth() + "x" + qx.bom.Viewport.getHeight());
+        this.debug("Viewport Scroll: " + qx.bom.Viewport.getScrollLeft() + "x" + qx.bom.Viewport.getScrollTop());
       }, this);
     }
   }
