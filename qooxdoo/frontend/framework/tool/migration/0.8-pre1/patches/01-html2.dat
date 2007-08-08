@@ -14,3 +14,14 @@
 \bqx\.html2\.Entity\b=qx.html2.String
 \bqx\.html\.Entity\b=qx.html.String
 \bqx\.xml\.Entity\b=qx.xml.String
+
+# Migration from qx.dom.Element to qx.html2
+\bqx\.dom\.Element\.cleanWhitespace\b=qx.html2.Hierarchy.cleanWhitespace
+\bqx\.dom\.Element\.isEmpty\b=qx.html2.Hierarchy.isEmpty
+\bqx\.dom\.Element\.setTextContent\(=qx.html2.Attribute.set("text",
+
+# Migration from qx.dom.String to StringEscape and lang.String
+\bqx\.dom\.String\.escapeEntities\b=qx.util.StringEscape.escape
+\bqx\.dom\.String\.unescapeEntities\b=qx.util.StringEscape.unescape
+\bqx\.dom\.String\.stripTags\b=qx.lang.String.stripTags
+

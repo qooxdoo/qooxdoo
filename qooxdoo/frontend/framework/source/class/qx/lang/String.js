@@ -304,6 +304,20 @@ qx.Class.define("qx.lang.String",
      */
     toArray : function(str) {
       return str.split(/\B|\b/g);
-    }
+    },
+    
+    
+    /**
+     * Remove HTML/XML tags from a string
+     * Example:
+     * <pre class='javascript'>qx.lang.String.stripTags("&lt;h1>Hello&lt;/h1>") == "Hello"</pre>
+     *
+     * @type static
+     * @param str {String} string containing tags
+     * @return {String} the string with stripped tags
+     */
+    stripTags : function(str) {
+      return str.replace(/<\/?[^>]+>/gi, "");
+    }    
   }
 });
