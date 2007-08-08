@@ -32,24 +32,6 @@ qx.Class.define("qx.ui.table2.cellrenderer.Default",
 
 
 
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function() {
-    this.base(arguments);
-
-    // add an event listener which invalidates the
-    // cell cache on locale change
-    qx.locale.Manager.getInstance().addEventListener("changeLocale", this._onChangeLocale, this);
-  },
-
-
-
-
   /*
   *****************************************************************************
      STATICS
@@ -96,36 +78,6 @@ qx.Class.define("qx.ui.table2.cellrenderer.Default",
 
   members :
   {
-    // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @return {var} TODOC
-     */
-    _getCellStyle : function(cellInfo)
-    {
-      var style = qx.ui.table2.cellrenderer.Abstract.prototype._getCellStyle(cellInfo);
-
-      var stylesToApply = this._getStyleFlags(cellInfo);
-
-      if (stylesToApply & qx.ui.table2.cellrenderer.Default.STYLEFLAG_ALIGN_RIGHT) {
-        style += ";text-align:right";
-      }
-
-      if (stylesToApply & qx.ui.table2.cellrenderer.Default.STYLEFLAG_BOLD) {
-        style += ";font-weight:bold";
-      }
-
-      if (stylesToApply & qx.ui.table2.cellrenderer.Default.STYLEFLAG_ITALIC) {
-        style += ";font-style:italic";
-      }
-
-      return style;
-    },
-
-
     /**
      * Determines the styles to apply to the cell
      *
@@ -143,117 +95,6 @@ qx.Class.define("qx.ui.table2.cellrenderer.Default",
       }
     },
 
-    // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @return {String} TODOC
-     */
-    _getContentHtml : function(cellInfo) {
-      return qx.html.String.escape(this._formatValue(cellInfo));
-    },
-
-    // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @param cellElement {var} TODOC
-     * @return {void}
-     */
-    updateDataCellElement : function(cellInfo, cellElement)
-    {
-      var clazz = qx.ui.table2.cellrenderer.Default;
-      var style = cellElement.style;
-
-      var stylesToApply = this._getStyleFlags(cellInfo);
-
-      if (stylesToApply & clazz.STYLEFLAG_ALIGN_RIGHT) {
-        style.textAlign = "right";
-      } else {
-        style.textAlign = "";
-      }
-
-      if (stylesToApply & clazz.STYLEFLAG_BOLD) {
-        style.fontWeight = "bold";
-      } else {
-        style.fontWeight = "";
-      }
-
-      if (stylesToApply & clazz.STYLEFLAG_ITALIC) {
-        style.fontStyle = "italic";
-      } else {
-        style.fontStyle = "";
-      }
-
-      var textNode = cellElement.firstChild;
-
-      if (textNode != null) {
-        textNode.nodeValue = this._formatValue(cellInfo);
-      } else {
-        cellElement.innerHTML = qx.html.String.escape(this._formatValue(cellInfo));
-      }
-    },
-
-
-    /**
-     * Formats a value.
-     *
-     * @type member
-     * @param cellInfo {Map} A map containing the information about the cell to
-     *          create. This map has the same structure as in
-     *          {@link DataCellRenderer#createDataCell}.
-     * @return {String} the formatted value.
-     */
-    _formatValue : function(cellInfo)
-    {
-      var value = cellInfo.value;
-
-      if (value == null) {
-        return "";
-      }
-
-      if (typeof value == "string") {
-        return value;
-      }
-
-      if (!this._cellCache) {
-        this._cellCache = {};
-      }
-
-      var res = this._cellCache[value];
-
-      if (res)
-      {
-        return res;
-      }
-      else if (typeof value == "number")
-      {
-        if (!qx.ui.table2.cellrenderer.Default._numberFormat)
-        {
-          qx.ui.table2.cellrenderer.Default._numberFormat = new qx.util.format.NumberFormat();
-          qx.ui.table2.cellrenderer.Default._numberFormat.setMaximumFractionDigits(2);
-        }
-
-        res = qx.ui.table2.cellrenderer.Default._numberFormat.format(value);
-      }
-      else if (value instanceof Date)
-      {
-        res = qx.util.format.DateFormat.getDateInstance().format(value);
-      }
-      else
-      {
-        res = value;
-      }
-
-      this._cellCache[value] = res;
-
-      return res;
-    },
-
 
     /**
      * TODOC
@@ -263,7 +104,7 @@ qx.Class.define("qx.ui.table2.cellrenderer.Default",
      * @param htmlArr {var} TODOC
      * @return {void}
      */
-    _createCellStyle_array_join : function(cellInfo, htmlArr)
+    _getCellStyle : function(cellInfo, htmlArr)
     {
       this.base(arguments, cellInfo, htmlArr);
 
@@ -291,27 +132,51 @@ qx.Class.define("qx.ui.table2.cellrenderer.Default",
      * @param htmlArr {var} TODOC
      * @return {void}
      */
-    _createContentHtml_array_join : function(cellInfo, htmlArr) {
+    _getContentHtml : function(cellInfo, htmlArr) {
       htmlArr.push(qx.html.String.escape(this._formatValue(cellInfo)));
     },
 
 
-
-    /*
-    ---------------------------------------------------------------------------
-      EVENT HANDLER
-    ---------------------------------------------------------------------------
-    */
-
     /**
-     * Invalidate the cell cache on locale change.
+     * Formats a value.
      *
      * @type member
-     * @param e {Event} change value event data
-     * @return {void}
+     * @param cellInfo {Map} A map containing the information about the cell to
+     *          create. This map has the same structure as in
+     *          {@link DataCellRenderer#createDataCell}.
+     * @return {String} the formatted value.
      */
-    _onChangeLocale : function(e) {
-      delete this._cellCache;
+    _formatValue : function(cellInfo)
+    {
+      var value = cellInfo.value;
+
+      if (value == null) {
+        return "";
+      }
+
+      if (typeof value == "string") {
+        return value;
+      }
+      else if (typeof value == "number")
+      {
+        if (!qx.ui.table2.cellrenderer.Default._numberFormat)
+        {
+          qx.ui.table2.cellrenderer.Default._numberFormat = new qx.util.format.NumberFormat();
+          qx.ui.table2.cellrenderer.Default._numberFormat.setMaximumFractionDigits(2);
+        }
+
+        res = qx.ui.table2.cellrenderer.Default._numberFormat.format(value);
+      }
+      else if (value instanceof Date)
+      {
+        res = qx.util.format.DateFormat.getDateInstance().format(value);
+      }
+      else
+      {
+        res = value;
+      }
+
+      return res;
     }
 
   }
