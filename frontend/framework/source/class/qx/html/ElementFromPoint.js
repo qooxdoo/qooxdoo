@@ -112,7 +112,7 @@ qx.Class.define("qx.html.ElementFromPoint",
     {
       var xstart, ystart, xstop, ystop;
 
-      if (element.nodeType != qx.dom.Node.ELEMENT) {
+      if (element.nodeType != qx.xml.Node.ELEMENT) {
         return false;
       }
 
@@ -154,7 +154,7 @@ qx.Class.define("qx.html.ElementFromPoint",
     {
       var xstart, ystart, xstop, ystop;
 
-      if (!element || element.nodeType != qx.dom.Node.ELEMENT) {
+      if (!element || element.nodeType != qx.xml.Node.ELEMENT) {
         return false;
       }
 
