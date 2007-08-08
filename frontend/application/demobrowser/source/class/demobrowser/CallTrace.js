@@ -53,7 +53,7 @@ qx.Class.define("demobrowser.CallTrace", {
   defer : function(statics)
   {
     qx.core.Aspect.addAdvice("before", "*", "demobrowser\.(?!(DemoBrowser\.(init|get|set)|Application))", statics.callTraceEnter);
-    //qx.core.Aspect.addAdvice("before", "*", "(?!qx.event.*)", statics.callTraceEnter);
+    //qx.core.Aspect.addAdvice("before", "*", "(?!qx.legacy.event.*)", statics.callTraceEnter);
 
   }
 

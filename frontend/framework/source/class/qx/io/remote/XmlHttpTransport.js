@@ -26,9 +26,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.io.remote.XmlHttpTransport",
+qx.Class.define("qx.io.remote.transport.XmlHttp",
 {
-  extend : qx.io.remote.AbstractRemoteTransport,
+  extend : qx.io.remote.transport.Abstract,
 
 
 
@@ -43,7 +43,7 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
   {
     this.base(arguments);
 
-    this._req = qx.io.remote.XmlHttpTransport.createRequestObject();
+    this._req = qx.io.remote.transport.XmlHttp.createRequestObject();
     this._req.onreadystatechange = qx.lang.Function.bind(this._onreadystatechange, this);
   },
 
@@ -57,14 +57,14 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
   */
 
   events : {
-    "created" : "qx.event.type.Event",
-    "configured" : "qx.event.type.Event",
-    "sending" : "qx.event.type.Event",
-    "receiving" : "qx.event.type.Event",
-    "completed" : "qx.event.type.Event",
-    "aborted" : "qx.event.type.Event",
-    "failed" : "qx.event.type.Event",
-    "timeout" : "qx.event.type.Event"
+    "created" : "qx.legacy.event.type.Event",
+    "configured" : "qx.legacy.event.type.Event",
+    "sending" : "qx.legacy.event.type.Event",
+    "receiving" : "qx.legacy.event.type.Event",
+    "completed" : "qx.legacy.event.type.Event",
+    "aborted" : "qx.legacy.event.type.Event",
+    "failed" : "qx.legacy.event.type.Event",
+    "timeout" : "qx.legacy.event.type.Event"
   },
 
 
@@ -98,7 +98,7 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
      * @return {var} TODOC
      */
     isSupported : function() {
-      return qx.net.HttpRequest.create() != null ? true : false;
+      return qx.bom.HttpRequest.create() != null ? true : false;
     },
 
 
@@ -109,7 +109,7 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
      * @return {var} TODOC
      */
     createRequestObject : function() {
-      return qx.net.HttpRequest.create();
+      return qx.bom.HttpRequest.create();
     }
   },
 
@@ -416,7 +416,7 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
     /**
      * Get the ready state of this transports request.
      *
-     * For qx.io.remote.XmlHttpTransport, ready state is a number between 1 to 4.
+     * For qx.io.remote.transport.XmlHttp, ready state is a number between 1 to 4.
      *
      * @type member
      * @return {var} TODOC
@@ -865,7 +865,7 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
   {
     // basic registration to qx.io.remote.Exchange
     // the real availability check (activeX stuff and so on) follows at the first real request
-    qx.io.remote.Exchange.registerType(qx.io.remote.XmlHttpTransport, "qx.io.remote.XmlHttpTransport");
+    qx.io.remote.Exchange.registerType(qx.io.remote.transport.XmlHttp, "qx.io.remote.transport.XmlHttp");
   },
 
 

@@ -33,9 +33,9 @@
  *
  *  This class should not be used directly by client programmers.
  */
-qx.Class.define("qx.io.remote.ScriptTransport",
+qx.Class.define("qx.io.remote.transport.Script",
 {
-  extend : qx.io.remote.AbstractRemoteTransport,
+  extend : qx.io.remote.transport.Abstract,
 
 
 
@@ -50,10 +50,10 @@ qx.Class.define("qx.io.remote.ScriptTransport",
   {
     this.base(arguments);
 
-    var vUniqueId = ++qx.io.remote.ScriptTransport._uniqueId;
+    var vUniqueId = ++qx.io.remote.transport.Script._uniqueId;
 
     if (vUniqueId >= 2000000000) {
-      qx.io.remote.ScriptTransport._uniqueId = vUniqueId = 1;
+      qx.io.remote.transport.Script._uniqueId = vUniqueId = 1;
     }
 
     this._element = null;
@@ -131,7 +131,7 @@ qx.Class.define("qx.io.remote.ScriptTransport",
      */
     _requestFinished : function(id, content)
     {
-      var vInstance = qx.io.remote.ScriptTransport._instanceRegistry[id];
+      var vInstance = qx.io.remote.transport.Script._instanceRegistry[id];
 
       if (vInstance == null)
       {
@@ -145,7 +145,7 @@ qx.Class.define("qx.io.remote.ScriptTransport",
       else
       {
         vInstance._responseContent = content;
-        vInstance._switchReadyState(qx.io.remote.ScriptTransport._numericMap.complete);
+        vInstance._switchReadyState(qx.io.remote.transport.Script._numericMap.complete);
       }
     }
   },
@@ -185,15 +185,15 @@ qx.Class.define("qx.io.remote.ScriptTransport",
       // --------------------------------------
       //   Adding parameters
       // --------------------------------------
-      vUrl += (vUrl.indexOf("?") >= 0 ? "&" : "?") + qx.io.remote.ScriptTransport.ScriptTransport_ID_PARAM + "=" + this._uniqueId;
+      vUrl += (vUrl.indexOf("?") >= 0 ? "&" : "?") + qx.io.remote.transport.Script.ScriptTransport_ID_PARAM + "=" + this._uniqueId;
 
       var vParameters = this.getParameters();
       var vParametersList = [];
 
       for (var vId in vParameters)
       {
-        if (vId.indexOf(qx.io.remote.ScriptTransport.ScriptTransport_PREFIX) == 0) {
-          this.error("Illegal parameter name. The following prefix is used internally by qooxdoo): " + qx.io.remote.ScriptTransport.ScriptTransport_PREFIX);
+        if (vId.indexOf(qx.io.remote.transport.Script.ScriptTransport_PREFIX) == 0) {
+          this.error("Illegal parameter name. The following prefix is used internally by qooxdoo): " + qx.io.remote.transport.Script.ScriptTransport_PREFIX);
         }
 
         var value = vParameters[vId];
@@ -220,10 +220,10 @@ qx.Class.define("qx.io.remote.ScriptTransport",
       vData = this.getData();
 
       if (vData != null) {
-        vUrl += "&" + qx.io.remote.ScriptTransport.ScriptTransport_DATA_PARAM + "=" + encodeURIComponent(vData);
+        vUrl += "&" + qx.io.remote.transport.Script.ScriptTransport_DATA_PARAM + "=" + encodeURIComponent(vData);
       }
 
-      qx.io.remote.ScriptTransport._instanceRegistry[this._uniqueId] = this;
+      qx.io.remote.transport.Script._instanceRegistry[this._uniqueId] = this;
       this._element = document.createElement("script");
 
       // IE needs this (it ignores the
@@ -431,7 +431,7 @@ qx.Class.define("qx.io.remote.ScriptTransport",
   {
     // basic registration to qx.io.remote.Exchange
     // the real availability check (activeX stuff and so on) follows at the first real request
-    qx.io.remote.Exchange.registerType(qx.io.remote.ScriptTransport, "qx.io.remote.ScriptTransport");
+    qx.io.remote.Exchange.registerType(qx.io.remote.transport.Script, "qx.io.remote.transport.Script");
   },
 
 
@@ -447,7 +447,7 @@ qx.Class.define("qx.io.remote.ScriptTransport",
   {
     if (this._element)
     {
-      delete qx.io.remote.ScriptTransport._instanceRegistry[this._uniqueId];
+      delete qx.io.remote.transport.Script._instanceRegistry[this._uniqueId];
       document.body.removeChild(this._element);
     }
 

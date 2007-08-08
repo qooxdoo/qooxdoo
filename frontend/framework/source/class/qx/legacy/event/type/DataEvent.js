@@ -25,9 +25,9 @@
 ************************************************************************ */
 
 /** Event object for data transfers. */
-qx.Class.define("qx.event.type.DataEvent",
+qx.Class.define("qx.legacy.event.type.DataEvent",
 {
-  extend : qx.event.type.Event,
+  extend : qx.legacy.event.type.Event,
 
 
 

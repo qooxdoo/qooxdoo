@@ -32,7 +32,7 @@
 </head>
 <body>
   <div id="description">
-    <p>Some tests of qx.html.StyleSheet</p>
+    <p>Some tests of qx.legacy.html.StyleSheet</p>
   </div>
 
 
@@ -47,33 +47,33 @@
   <div style="display:none" id="control">
     <p>
 			<h3>Box 1</h3>
-      <a href="javascript://" onclick="qx.html.StyleSheet.addRule(sheet, '#box1', 'background-color:green !important');">qx.html.StyleSheet.addRule(style, '#box1', 'background-color:green !important')</a> <br>
-      <a href="javascript://" onclick="qx.html.StyleSheet.removeRule(sheet, '#box1');">qx.html.StyleSheet.removeRule(sheet, '#box1')</a> <br>
+      <a href="javascript://" onclick="qx.legacy.html.StyleSheet.addRule(sheet, '#box1', 'background-color:green !important');">qx.legacy.html.StyleSheet.addRule(style, '#box1', 'background-color:green !important')</a> <br>
+      <a href="javascript://" onclick="qx.legacy.html.StyleSheet.removeRule(sheet, '#box1');">qx.legacy.html.StyleSheet.removeRule(sheet, '#box1')</a> <br>
     </p>
 			<h3>Box 2</h3>
-      <a href="javascript://" onclick="qx.html.StyleSheet.addRule(sheet, '#box2', 'background-color:yellow !important');">qx.html.StyleSheet.addRule(style, '#box2', 'background-color:yellow !important')</a> <br>
-      <a href="javascript://" onclick="qx.html.StyleSheet.removeRule(sheet, '#box2');">qx.html.StyleSheet.removeRule(sheet, '#box2')</a> <br>
+      <a href="javascript://" onclick="qx.legacy.html.StyleSheet.addRule(sheet, '#box2', 'background-color:yellow !important');">qx.legacy.html.StyleSheet.addRule(style, '#box2', 'background-color:yellow !important')</a> <br>
+      <a href="javascript://" onclick="qx.legacy.html.StyleSheet.removeRule(sheet, '#box2');">qx.legacy.html.StyleSheet.removeRule(sheet, '#box2')</a> <br>
 		<p>
 			<h3>All</h3>
-			<a href="javascript://" onclick="qx.html.StyleSheet.removeAllRules(sheet)">qx.html.StyleSheet.removeAllRules(sheet)</a> <br>
+			<a href="javascript://" onclick="qx.legacy.html.StyleSheet.removeAllRules(sheet)">qx.legacy.html.StyleSheet.removeAllRules(sheet)</a> <br>
     </p>
 		<p>
 			<h3>Import</h3>
 			add Import <br>
-			<a href="javascript://" onclick="qx.html.StyleSheet.addImport(sheet, 'bigFont.css')">qx.html.StyleSheet.addImport(sheet, 'bigFont.css')</a> <br>
-			<a href="javascript://" onclick="qx.html.StyleSheet.addImport(sheet, 'boldFont.css')">qx.html.StyleSheet.addImport(sheet, 'boldFont.css')</a> <br>
+			<a href="javascript://" onclick="qx.legacy.html.StyleSheet.addImport(sheet, 'bigFont.css')">qx.legacy.html.StyleSheet.addImport(sheet, 'bigFont.css')</a> <br>
+			<a href="javascript://" onclick="qx.legacy.html.StyleSheet.addImport(sheet, 'boldFont.css')">qx.legacy.html.StyleSheet.addImport(sheet, 'boldFont.css')</a> <br>
 			remove Import<br>
-			<a href="javascript://" onclick="qx.html.StyleSheet.removeImport(sheet, 'bigFont.css')">qx.html.StyleSheet.removeImport(sheet, 'bigFont.css')</a> <br>
-			<a href="javascript://" onclick="qx.html.StyleSheet.removeImport(sheet, 'boldFont.css')">qx.html.StyleSheet.removeImport(sheet, 'boldFont.css')</a> <br>
+			<a href="javascript://" onclick="qx.legacy.html.StyleSheet.removeImport(sheet, 'bigFont.css')">qx.legacy.html.StyleSheet.removeImport(sheet, 'bigFont.css')</a> <br>
+			<a href="javascript://" onclick="qx.legacy.html.StyleSheet.removeImport(sheet, 'boldFont.css')">qx.legacy.html.StyleSheet.removeImport(sheet, 'boldFont.css')</a> <br>
     	remove all Imports<br>
-			<a href="javascript://" onclick="qx.html.StyleSheet.removeAllImports(sheet)">qx.html.StyleSheet.removeAllImports(sheet)</a> <br>
+			<a href="javascript://" onclick="qx.legacy.html.StyleSheet.removeAllImports(sheet)">qx.legacy.html.StyleSheet.removeAllImports(sheet)</a> <br>
 		</p>
 
   </div>
 
   <script type="text/javascript">
 
-	var sheet = qx.html.StyleSheet.createElement();
+	var sheet = qx.legacy.html.StyleSheet.createElement();
 
   qx.core.Init.getInstance().defineMain(function()
   {

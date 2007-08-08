@@ -20,8 +20,8 @@
 /* ************************************************************************
 
 #module(client2)
-#require(qx.client2.detail.Platform)
-#require(qx.client2.detail.Engine)
+#require(qx.client.detail.Platform)
+#require(qx.client.detail.Engine)
 
 ************************************************************************ */
 
@@ -37,7 +37,7 @@
  * phase of the class. The defaults listed in the API viewer need not
  * to be identical to the values at runtime.
  */
-qx.Class.define("qx.client2.detail.System",
+qx.Class.define("qx.client.detail.System",
 {
   /*
   *****************************************************************************
@@ -166,11 +166,11 @@ qx.Class.define("qx.client2.detail.System",
       this.NAME = this.__ids[RegExp.$1];
       this[this.NAME.toUpperCase()] = true;
 
-      if (qx.client2.detail.Platform.WIN)
+      if (qx.client.detail.Platform.WIN)
       {
         if (agent.indexOf("Windows NT 5.01")!==-1) {
           this.SP1 = true;
-        } else if (qx.client2.detail.Engine.MSHTML && agent.indexOf("SV1")!==-1) {
+        } else if (qx.client.detail.Engine.MSHTML && agent.indexOf("SV1")!==-1) {
           this.SP2 = true;
         }
       }

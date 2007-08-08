@@ -57,7 +57,7 @@ qx.Class.define("qx.ui.basic.ScrollArea",
   events :
   {
     /** Fired each time the widget gets scrolled. */
-    "scroll" : "qx.event.type.Event"
+    "scroll" : "qx.legacy.event.type.Event"
   },
 
 
@@ -93,7 +93,7 @@ qx.Class.define("qx.ui.basic.ScrollArea",
     _onscroll : function(e)
     {
       this.createDispatchEvent("scroll");
-      qx.event.handler.EventHandler.stopDomEvent(e);
+      qx.legacy.event.handler.EventHandler.stopDomEvent(e);
     }
   },
 

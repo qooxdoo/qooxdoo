@@ -28,9 +28,9 @@
  *
  * @internal
  */
-qx.Class.define("qx.event2.handler.DocumentEventHandler",
+qx.Class.define("qx.event.handler.DocumentEventHandler",
 {
-  extend : qx.event2.handler.AbstractEventHandler,
+  extend : qx.event.handler.AbstractEventHandler,
 
 
 
@@ -130,7 +130,7 @@ qx.Class.define("qx.event2.handler.DocumentEventHandler",
      */
     __handleEvent : function(domEvent)
     {
-      var event = this._eventPool.getEventInstance("qx.event2.type.Event").init(domEvent);
+      var event = this._eventPool.getEventInstance("qx.event.type.Event").init(domEvent);
       this._manager.dispatchEvent(event);
       this._eventPool.poolEvent(event);
     }
@@ -146,7 +146,7 @@ qx.Class.define("qx.event2.handler.DocumentEventHandler",
 
   defer : function(statics)
   {
-    var manager = qx.event2.Manager;
+    var manager = qx.event.Manager;
     manager.registerEventHandler(statics, manager.PRIORITY_LAST);
   }
 

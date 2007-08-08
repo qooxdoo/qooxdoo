@@ -28,11 +28,11 @@
  *
  * @internal
  */
-qx.Class.define("qx.event2.dispatch.BubblingDispatch",
+qx.Class.define("qx.event.dispatch.BubblingDispatch",
 {
 
   extend : qx.core.Object,
-  implement : qx.event2.dispatch.IEventDispatcher,
+  implement : qx.event.dispatch.IEventDispatcher,
 
 
   /*
@@ -42,7 +42,7 @@ qx.Class.define("qx.event2.dispatch.BubblingDispatch",
   */
 
   /**
-   * @param manager {qx.event2.Manager} reference to the event manager using
+   * @param manager {qx.event.Manager} reference to the event manager using
    *     this class.
    */
   construct : function(manager) {
@@ -62,7 +62,7 @@ qx.Class.define("qx.event2.dispatch.BubblingDispatch",
     /**
      * Whether the dispatcher is responsible for the this event.
      *
-     * @param event {qx.event2.type.Event} The event object
+     * @param event {qx.event.type.Event} The event object
      * @param type {String} the event type
      */
     canDispatchEvent : function(event, type) {
@@ -81,7 +81,7 @@ qx.Class.define("qx.event2.dispatch.BubblingDispatch",
      * the capturing and bubbling phase.
      *
      * @type member
-     * @param event {qx.event2.type.Event} event object to dispatch
+     * @param event {qx.event.type.Event} event object to dispatch
      * @param type {String} the event type
      */
     dispatchEvent : function(event, type)
@@ -126,7 +126,7 @@ qx.Class.define("qx.event2.dispatch.BubblingDispatch",
       }
 
       // capturing phase
-      event.setEventPhase(qx.event2.type.Event.CAPTURING_PHASE);
+      event.setEventPhase(qx.event.type.Event.CAPTURING_PHASE);
 
       for (var i=(captureList.length-1); i>=0; i--)
       {
@@ -148,8 +148,8 @@ qx.Class.define("qx.event2.dispatch.BubblingDispatch",
 
 
       // bubbling phase
-      var BUBBLE_PHASE = qx.event2.type.Event.BUBBLING_PHASE;
-      var AT_TARGET = qx.event2.type.Event.AT_TARGET;
+      var BUBBLE_PHASE = qx.event.type.Event.BUBBLING_PHASE;
+      var AT_TARGET = qx.event.type.Event.AT_TARGET;
 
       for (var i=0, l=bubbleList.length; i<l; i++)
       {

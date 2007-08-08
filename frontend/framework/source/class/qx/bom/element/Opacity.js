@@ -108,7 +108,7 @@ qx.Class.define("qx.bom.element.Opacity",
           opacity = 0.999999;
         }
 
-        if (qx.client2.detail.Engine.VERSION < 1.7) {
+        if (qx.client.detail.Engine.VERSION < 1.7) {
           element.style.MozOpacity = opacity;
         } else {
           element.style.opacity = opacity;
@@ -155,7 +155,7 @@ qx.Class.define("qx.bom.element.Opacity",
 
       "gecko" : function(element)
       {
-        var opacity = this.__style.getComputed(element, qx.client2.detail.Engine.VERSION < 1.7 ? "MozOpacity" : "opacity");
+        var opacity = this.__style.getComputed(element, qx.client.detail.Engine.VERSION < 1.7 ? "MozOpacity" : "opacity");
 
         if (opacity == 0.999999) {
           opacity = 1.0;

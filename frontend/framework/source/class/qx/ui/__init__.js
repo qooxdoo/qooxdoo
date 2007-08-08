@@ -57,7 +57,7 @@
  *     various *qx.ui* packages, which are important for event handling; in
  *     order to make your application work, you will also have to concern
  *     yourself with qooxdoo classes outside the *qx.ui* namespace, like
- *     {@link qx.event};
+ *     {@link qx.legacy.event};
  *
  *   * <b>The icing:</b> Here are some packages that are relevant for advanced
  *     features of your GUI app:

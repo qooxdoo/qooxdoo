@@ -25,9 +25,9 @@
 ************************************************************************ */
 
 /** The event object for drag and drop sessions */
-qx.Class.define("qx.event.type.DragEvent",
+qx.Class.define("qx.legacy.event.type.DragEvent",
 {
-  extend : qx.event.type.MouseEvent,
+  extend : qx.legacy.event.type.MouseEvent,
 
 
 
@@ -100,11 +100,11 @@ qx.Class.define("qx.event.type.DragEvent",
     startDrag : function()
     {
       if (this.getType() != "dragstart") {
-        throw new Error("qx.event.type.DragEvent startDrag can only be called during the dragstart event: " + this.getType());
+        throw new Error("qx.legacy.event.type.DragEvent startDrag can only be called during the dragstart event: " + this.getType());
       }
 
       this.stopPropagation();
-      qx.event.handler.DragAndDropHandler.getInstance().startDrag();
+      qx.legacy.event.handler.DragAndDropHandler.getInstance().startDrag();
     },
 
 
@@ -125,7 +125,7 @@ qx.Class.define("qx.event.type.DragEvent",
      * @return {void}
      */
     addData : function(sType, oData) {
-      qx.event.handler.DragAndDropHandler.getInstance().addData(sType, oData);
+      qx.legacy.event.handler.DragAndDropHandler.getInstance().addData(sType, oData);
     },
 
 
@@ -137,7 +137,7 @@ qx.Class.define("qx.event.type.DragEvent",
      * @return {var} TODOC
      */
     getData : function(sType) {
-      return qx.event.handler.DragAndDropHandler.getInstance().getData(sType);
+      return qx.legacy.event.handler.DragAndDropHandler.getInstance().getData(sType);
     },
 
 
@@ -148,7 +148,7 @@ qx.Class.define("qx.event.type.DragEvent",
      * @return {void}
      */
     clearData : function() {
-      qx.event.handler.DragAndDropHandler.getInstance().clearData();
+      qx.legacy.event.handler.DragAndDropHandler.getInstance().clearData();
     },
 
 
@@ -159,7 +159,7 @@ qx.Class.define("qx.event.type.DragEvent",
      * @return {var} TODOC
      */
     getDropDataTypes : function() {
-      return qx.event.handler.DragAndDropHandler.getInstance().getDropDataTypes();
+      return qx.legacy.event.handler.DragAndDropHandler.getInstance().getDropDataTypes();
     },
 
 
@@ -179,7 +179,7 @@ qx.Class.define("qx.event.type.DragEvent",
      * @return {void}
      */
     addAction : function(sAction) {
-      qx.event.handler.DragAndDropHandler.getInstance().addAction(sAction);
+      qx.legacy.event.handler.DragAndDropHandler.getInstance().addAction(sAction);
     },
 
 
@@ -191,7 +191,7 @@ qx.Class.define("qx.event.type.DragEvent",
      * @return {void}
      */
     removeAction : function(sAction) {
-      qx.event.handler.DragAndDropHandler.getInstance().removeAction(sAction);
+      qx.legacy.event.handler.DragAndDropHandler.getInstance().removeAction(sAction);
     },
 
 
@@ -202,7 +202,7 @@ qx.Class.define("qx.event.type.DragEvent",
      * @return {var} TODOC
      */
     getAction : function() {
-      return qx.event.handler.DragAndDropHandler.getInstance().getCurrentAction();
+      return qx.legacy.event.handler.DragAndDropHandler.getInstance().getCurrentAction();
     },
 
 
@@ -213,7 +213,7 @@ qx.Class.define("qx.event.type.DragEvent",
      * @return {void}
      */
     clearActions : function() {
-      qx.event.handler.DragAndDropHandler.getInstance().clearActions();
+      qx.legacy.event.handler.DragAndDropHandler.getInstance().clearActions();
     },
 
 
@@ -240,7 +240,7 @@ qx.Class.define("qx.event.type.DragEvent",
      * @return {void}
      */
     setFeedbackWidget : function(widget, deltaX, deltaY, autoDisposeWidget) {
-      qx.event.handler.DragAndDropHandler.getInstance().setFeedbackWidget(widget, deltaX, deltaY, autoDisposeWidget);
+      qx.legacy.event.handler.DragAndDropHandler.getInstance().setFeedbackWidget(widget, deltaX, deltaY, autoDisposeWidget);
     },
 
 
@@ -264,7 +264,7 @@ qx.Class.define("qx.event.type.DragEvent",
      * @return {void}
      */
     setCursorPosition : function(deltaX, deltaY) {
-      qx.event.handler.DragAndDropHandler.getInstance().setCursorPosition(deltaX, deltaY);
+      qx.legacy.event.handler.DragAndDropHandler.getInstance().setCursorPosition(deltaX, deltaY);
     }
   },
 

@@ -152,7 +152,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
      * @return {String} TODOC
      */
     _getContentHtml : function(cellInfo) {
-      return qx.html.String.escape(this._formatValue(cellInfo));
+      return qx.legacy.html.String.escape(this._formatValue(cellInfo));
     },
 
     // overridden
@@ -194,7 +194,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
       if (textNode != null) {
         textNode.nodeValue = this._formatValue(cellInfo);
       } else {
-        cellElement.innerHTML = qx.html.String.escape(this._formatValue(cellInfo));
+        cellElement.innerHTML = qx.legacy.html.String.escape(this._formatValue(cellInfo));
       }
     },
 
@@ -292,7 +292,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
      * @return {void}
      */
     _createContentHtml_array_join : function(cellInfo, htmlArr) {
-      htmlArr.push(qx.html.String.escape(this._formatValue(cellInfo)));
+      htmlArr.push(qx.legacy.html.String.escape(this._formatValue(cellInfo)));
     },
 
 

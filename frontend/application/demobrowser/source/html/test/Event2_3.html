@@ -149,42 +149,42 @@ qx.Class.define("BasicSample",
       {
         var elem = document.getElementById("check_" + events[i])
         if (elem.checked) {
-          qx.event2.Manager.addListener(
+          qx.event.Manager.addListener(
             mouseDiv,
             events[i],
             this.logMouseEvent,
             this
           )
         }
-        qx.event2.Manager.addListener(elem, "change", this.__changeCheckbox, this);
+        qx.event.Manager.addListener(elem, "change", this.__changeCheckbox, this);
       }
 
       var captureDiv = document.getElementById("capture");
       captureDiv.checked = false;
-      qx.event2.Manager.addListener(captureDiv, "change", function(e) {
+      qx.event.Manager.addListener(captureDiv, "change", function(e) {
         var checked = e.getTarget().checked;
         if (checked) {
-          qx.event2.Manager.getManager(mouseDiv).getCaptureHandler().setCapture(mouseDiv);
+          qx.event.Manager.getManager(mouseDiv).getCaptureHandler().setCapture(mouseDiv);
         } else {
-          qx.event2.Manager.getManager(mouseDiv).getCaptureHandler().releaseCapture();
+          qx.event.Manager.getManager(mouseDiv).getCaptureHandler().releaseCapture();
         }
       }, this);
 
-      qx.event2.Manager.addListener(
+      qx.event.Manager.addListener(
         mouseDiv,
         "losecapture",
         function(e) { captureDiv.checked = false; },
         this
       );
 
-      qx.event2.Manager.addListener(
+      qx.event.Manager.addListener(
         document.body,
         "selectstart",
         function(e) { e.preventDefault(); },
         this
       )
 
-      qx.event2.Manager.addListener(
+      qx.event.Manager.addListener(
         document.getElementById("btnClear"),
         "click",
         this.initializeLogger,
@@ -200,7 +200,7 @@ qx.Class.define("BasicSample",
       var mouseDiv = document.getElementById("mouse");
 
       if (checked) {
-        qx.event2.Manager.addListener(
+        qx.event.Manager.addListener(
           mouseDiv,
           type,
           this.logMouseEvent,
@@ -209,7 +209,7 @@ qx.Class.define("BasicSample",
       }
       else
       {
-        qx.event2.Manager.removeListener(
+        qx.event.Manager.removeListener(
           mouseDiv,
           type,
           this.logMouseEvent

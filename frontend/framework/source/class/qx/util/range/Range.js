@@ -35,7 +35,7 @@ qx.Class.define("qx.util.range.Range",
   */
 
   events: {
-    "change" : "qx.event.type.Event"
+    "change" : "qx.legacy.event.type.Event"
   },
 
 

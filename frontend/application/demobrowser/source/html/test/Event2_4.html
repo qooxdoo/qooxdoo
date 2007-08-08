@@ -54,17 +54,17 @@ qx.Class.define("BasicSample",
     bindIFrameEvents : function()
     {
       var iframe = window.document.getElementById("iframe");
-      var document = qx.html.Iframe.getDocument(iframe);
+      var document = qx.legacy.html.Iframe.getDocument(iframe);
 
       this._juhu = document.getElementById("juhu");
       this._inner = document.getElementById("inner");
 
-      qx.event2.Manager.addListener(this._juhu, "contextmenu", this._preventDefault, this);
-      qx.event2.Manager.addListener(this._inner, "click", this._stopPropagation, this);
-      qx.event2.Manager.addListener(this._juhu, "click", this._onclick1, this);
-      qx.event2.Manager.addListener(this._juhu, "click", this._onclick2, this);
+      qx.event.Manager.addListener(this._juhu, "contextmenu", this._preventDefault, this);
+      qx.event.Manager.addListener(this._inner, "click", this._stopPropagation, this);
+      qx.event.Manager.addListener(this._juhu, "click", this._onclick1, this);
+      qx.event.Manager.addListener(this._juhu, "click", this._onclick2, this);
 
-      qx.event2.Manager.addListener(
+      qx.event.Manager.addListener(
         document.getElementById("input"),
         "keydown",
         this._onkeydown, this
@@ -72,11 +72,11 @@ qx.Class.define("BasicSample",
 
       for (var i=1; i<10; i++) {
         var div = document.getElementById("div"+i);
-        qx.event2.Manager.addListener(div, "click", this._cascadeCapture, this, true);
-        qx.event2.Manager.addListener(div, "click", this._cascadeBubble, this, false);
+        qx.event.Manager.addListener(div, "click", this._cascadeCapture, this, true);
+        qx.event.Manager.addListener(div, "click", this._cascadeBubble, this, false);
       }
 
-      qx.event2.Manager.addListener(
+      qx.event.Manager.addListener(
         document.getElementById("scroll"),
         "scroll",
         this.throttle(150, this._scroll, this),
@@ -84,7 +84,7 @@ qx.Class.define("BasicSample",
       );
 
       /*
-      qx.event2.Manager.addListener(
+      qx.event.Manager.addListener(
         document.documentElement,
         "click",
         this._positionDiv,
@@ -140,7 +140,7 @@ qx.Class.define("BasicSample",
     _onclick1 : function(e)
     {
       this.debug(e.getType() + " 1: " +  e);
-      qx.event2.Manager.removeListener(this._juhu, "click", this._onclick1);
+      qx.event.Manager.removeListener(this._juhu, "click", this._onclick1);
     },
 
     _onclick2 : function(e)

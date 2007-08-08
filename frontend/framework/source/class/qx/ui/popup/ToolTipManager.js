@@ -113,7 +113,7 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
      * set as {@link #currentToolTip}
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} mouseOver event
+     * @param e {qx.legacy.event.type.MouseEvent} mouseOver event
      * @return {void}
      */
     handleMouseOver : function(e)
@@ -123,7 +123,7 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
 
       // Allows us to use DOM Nodes as tooltip target :)
       if (!(vTarget instanceof qx.ui.core.Widget) && vTarget.nodeType == 1) {
-        vTarget = qx.event.handler.EventHandler.getTargetObject(vTarget);
+        vTarget = qx.legacy.event.handler.EventHandler.getTargetObject(vTarget);
       }
 
       // Search first parent which has a tooltip
@@ -146,7 +146,7 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
      * tooltip and no new one is created.
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} mouseOut event
+     * @param e {qx.legacy.event.type.MouseEvent} mouseOut event
      * @return {void}
      */
     handleMouseOut : function(e)
@@ -189,7 +189,7 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
      * to the target widget and set the {@link #currentToolTip} property.
      *
      * @type member
-     * @param e {qx.event.type.FocusEvent} focus event
+     * @param e {qx.legacy.event.type.FocusEvent} focus event
      * @return {void}
      */
     handleFocus : function(e)
@@ -215,7 +215,7 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
      * current tooltip is the tooltip of the target widget.
      *
      * @type member
-     * @param e {qx.event.type.FocusEvent} blur event
+     * @param e {qx.legacy.event.type.FocusEvent} blur event
      * @return {void}
      */
     handleBlur : function(e)

@@ -39,7 +39,7 @@
  * crititcal areas like animations it would be the best to directly use the
  * classes which contain the implementations.
  */
-qx.Class.define("qx.bom.Element",
+qx.Class.define("qx.dom.Element",
 {
   /*
   *****************************************************************************

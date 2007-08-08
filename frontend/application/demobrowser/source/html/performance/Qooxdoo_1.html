@@ -11,8 +11,8 @@
     <ol>
       <li>qx.core.Object</li>
       <li>qx.core.Target</li>
-      <li>qx.event.type.Event</li>
-      <li>qx.event.type.MouseEvent</li>
+      <li>qx.legacy.event.type.Event</li>
+      <li>qx.legacy.event.type.MouseEvent</li>
       <li>qx.ui.basic.Terminator</li>
       <li>qx.ui.layout.CanvasLayout</li>
       <li>qx.ui.layout.BoxLayout</li>
@@ -39,14 +39,14 @@
     function TestEvent(vLoops)
     {
       for (var i=0; i<vLoops; i++) {
-        new qx.event.type.Event;
+        new qx.legacy.event.type.Event;
       };
     };
 
     function TestMouseEvent(vLoops)
     {
       for (var i=0; i<vLoops; i++) {
-        new qx.event.type.MouseEvent;
+        new qx.legacy.event.type.MouseEvent;
       };
     };
 

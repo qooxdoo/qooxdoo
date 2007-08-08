@@ -100,7 +100,7 @@ qx.Class.define("qx.bom.Flash",
       this.setSource(vSource);
     }
 
-    this.setVersion(vVersion != null ? vVersion : qx.bom.element.Flash.MINREQUIRED);
+    this.setVersion(vVersion != null ? vVersion : qx.bom.Flash.MINREQUIRED);
   },
 
 
@@ -119,8 +119,8 @@ qx.Class.define("qx.bom.Flash",
 
     MINREQUIRED : "1",
 
-    /** Detected player version (using {@link qx.client2.detail.Flash} class) */
-    PLAYERVERSION : qx.client2.detail.Flash.PLAYERVERSION,
+    /** Detected player version (using {@link qx.client.detail.Flash} class) */
+    PLAYERVERSION : qx.client.detail.Flash.PLAYERVERSION,
 
     PLUGINKEY : "Shockwave Flash",
 
@@ -292,7 +292,7 @@ qx.Class.define("qx.bom.Flash",
       if (this.getEnableExpressInstall())
       {
         // check to see if we need to do an express install
-        var expressInstallReqVer = new qx.util.Version(qx.bom.element.Flash.EXPRESSINSTALL);
+        var expressInstallReqVer = new qx.util.Version(qx.bom.Flash.EXPRESSINSTALL);
         var installedVer = qx.bom.Flash.PLAYERVERSION;
 
         if (installedVer.versionIsValid(expressInstallReqVer) && !installedVer.versionIsValid(this._version)) {
@@ -302,7 +302,7 @@ qx.Class.define("qx.bom.Flash",
 
       // this.debug("ExpressInstall Enabled: " + this._expressInstall);
       // Apply HTML
-      if (!this.getEnableDetection() || this._expressInstall || qx.bom.element.Flash.PLAYERVERSION.versionIsValid(this._version))
+      if (!this.getEnableDetection() || this._expressInstall || qx.bom.Flash.PLAYERVERSION.versionIsValid(this._version))
       {
         this._html       = this.__generateHTML();
         this._generation = true;

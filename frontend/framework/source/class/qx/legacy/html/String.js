@@ -27,7 +27,7 @@
  *
  * @deprecated: Use qx.bom.String instead
  */
-qx.Class.define("qx.html.String",
+qx.Class.define("qx.legacy.html.String",
 {
   /*
   *****************************************************************************
@@ -368,7 +368,7 @@ qx.Class.define("qx.html.String",
      * @see #unescape
      */
     escape : function(str) {
-      return qx.util.StringEscape.escape(str, qx.html.String.FROM_CHARCODE);
+      return qx.util.StringEscape.escape(str, qx.legacy.html.String.FROM_CHARCODE);
     },
 
 
@@ -390,7 +390,7 @@ qx.Class.define("qx.html.String",
      * @see #escape
      */
     unescape : function(str) {
-      return qx.util.StringEscape.unescape(str, qx.html.String.TO_CHARCODE);
+      return qx.util.StringEscape.unescape(str, qx.legacy.html.String.TO_CHARCODE);
     },
 
 
@@ -406,7 +406,7 @@ qx.Class.define("qx.html.String",
      */
     fromText : function(str)
     {
-      return qx.html.String.escape(str).replace(/(  |\n)/g, function(chr)
+      return qx.legacy.html.String.escape(str).replace(/(  |\n)/g, function(chr)
       {
         var map =
         {
@@ -432,7 +432,7 @@ qx.Class.define("qx.html.String",
      */
     toText : function(str)
     {
-      return qx.html.String.unescape(str.replace(/\s+|<([^>])+>/gi, function(chr)
+      return qx.legacy.html.String.unescape(str.replace(/\s+|<([^>])+>/gi, function(chr)
       {
         if (/\s+/.test(chr)) {
           return " ";

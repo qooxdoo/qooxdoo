@@ -31,9 +31,9 @@
  *
  * @internal
  */
-qx.Class.define("qx.event2.handler.KeyEventHandler",
+qx.Class.define("qx.event.handler.KeyEventHandler",
 {
-  extend : qx.event2.handler.AbstractEventHandler,
+  extend : qx.event.handler.AbstractEventHandler,
 
 
 
@@ -99,7 +99,7 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
      */
     __fireEvent : function(domEvent, eventType, keyCode, charCode, keyIdentifier)
     {
-      var event = this._eventPool.getEventInstance("qx.event2.type.KeyEvent").init(
+      var event = this._eventPool.getEventInstance("qx.event.type.KeyEvent").init(
         domEvent, keyCode, charCode, keyIdentifier
       );
       event.setType(eventType);
@@ -599,7 +599,7 @@ qx.Class.define("qx.event2.handler.KeyEventHandler",
   defer : function(statics, members, properties)
   {
     // register at the event handler
-    var manager = qx.event2.Manager;
+    var manager = qx.event.Manager;
     manager.registerEventHandler(statics, manager.PRIORITY_NORMAL);
 
 

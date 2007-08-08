@@ -87,7 +87,7 @@ qx.Class.define("qx.ui.basic.Image",
 
   events : {
     /** Fires if an image could not be preloaded  */
-    "error" : "qx.event.type.Event"
+    "error" : "qx.legacy.event.type.Event"
   },
 
 
@@ -238,7 +238,7 @@ qx.Class.define("qx.ui.basic.Image",
       this.setLoaded(false);
 
       if (this.hasEventListeners("error")) {
-        this.dispatchEvent(new qx.event.type.Event("error"), true);
+        this.dispatchEvent(new qx.legacy.event.type.Event("error"), true);
       }
     },
 

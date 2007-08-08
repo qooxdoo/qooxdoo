@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
   {
     this.base(arguments, vText, vIcon, vIconWidth, vIconHeight, vFlash);
 
-    this._timer = new qx.client.Timer;
+    this._timer = new qx.event.Timer;
     this._timer.setInterval(this.getInterval());
     this._timer.addEventListener("interval", this._oninterval, this);
   },
@@ -60,7 +60,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * This event gets dispatched with every interval. The timer gets executed
      * as long as the user holds down the mouse button.
      */
-    "execute" : "qx.event.type.Event"
+    "execute" : "qx.legacy.event.type.Event"
   },
 
 
@@ -119,7 +119,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * state "pressed".
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} mouseDown event
+     * @param e {qx.legacy.event.type.MouseEvent} mouseDown event
      * @return {void}
      */
     _onmousedown : function(e)
@@ -145,7 +145,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * "execute" method get executed at least one time.
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} mouseUp event
+     * @param e {qx.legacy.event.type.MouseEvent} mouseUp event
      * @return {void}
      */
     _onmouseup : function(e)
@@ -175,7 +175,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * "execute" event.
      *
      * @type member
-     * @param e {qx.event.type.Event} interval event
+     * @param e {qx.legacy.event.type.Event} interval event
      * @return {void}
      */
     _oninterval : function(e)

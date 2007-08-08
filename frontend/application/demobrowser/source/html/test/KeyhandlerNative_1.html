@@ -70,24 +70,24 @@ qx.Class.define("BasicSample",
 
       var keyHandler = qx.lang.Function.bind(this.logKeyEvent, this);
 
-      qx.html.EventRegistration.addEventListener(
+      qx.legacy.html.EventRegistration.addEventListener(
         document.documentElement,
         "keydown",
         keyHandler
       );
-      qx.html.EventRegistration.addEventListener(
+      qx.legacy.html.EventRegistration.addEventListener(
         document.documentElement,
         "keypress",
         keyHandler
       );
-      qx.html.EventRegistration.addEventListener(
+      qx.legacy.html.EventRegistration.addEventListener(
         document.documentElement,
         "keyup",
         keyHandler
       );
 
 
-      qx.html.EventRegistration.addEventListener(
+      qx.legacy.html.EventRegistration.addEventListener(
         document.getElementById("btnClear"),
         "click",
         qx.lang.Function.bind(this.initializeLogger, this)

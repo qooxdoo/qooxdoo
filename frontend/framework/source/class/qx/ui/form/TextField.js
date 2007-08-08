@@ -120,7 +120,7 @@ qx.Class.define("qx.ui.form.TextField",
      * Fired each time the user types in the text field. The data property
      * of the event contains the value of the text field.
      */
-    "input" : "qx.event.type.DataEvent"
+    "input" : "qx.legacy.event.type.DataEvent"
   },
 
 
@@ -669,7 +669,7 @@ qx.Class.define("qx.ui.form.TextField",
     {
       this.base(arguments);
 
-      if (!qx.event.handler.FocusHandler.mouseFocus && this.getEnableElementFocus())
+      if (!qx.legacy.event.handler.FocusHandler.mouseFocus && this.getEnableElementFocus())
       {
         try {
           this._inputElement.focus();
@@ -692,7 +692,7 @@ qx.Class.define("qx.ui.form.TextField",
       // We need to remove the caret in all cases.
       // This sometimes does not work in IE (caret keeps blinking)
       // but key events are not handled by the text field anymore.
-      if (!qx.event.handler.FocusHandler.mouseFocus)
+      if (!qx.legacy.event.handler.FocusHandler.mouseFocus)
       {
         try {
           this._inputElement.blur();
@@ -824,7 +824,7 @@ qx.Class.define("qx.ui.form.TextField",
         this.base(arguments);
 
         if (!this._firstInputFixApplied) {
-          qx.client.Timer.once(this._ieFirstInputFix, this, 1);
+          qx.event.Timer.once(this._ieFirstInputFix, this, 1);
         }
       },
 

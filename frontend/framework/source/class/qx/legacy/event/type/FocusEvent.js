@@ -31,9 +31,9 @@
  *  1+2: focus and blur also propagate the target object
  *  3+4: focusout and focusin are bubbling to the parent objects
  */
-qx.Class.define("qx.event.type.FocusEvent",
+qx.Class.define("qx.legacy.event.type.FocusEvent",
 {
-  extend : qx.event.type.Event,
+  extend : qx.legacy.event.type.Event,
 
   construct : function(type, target)
   {

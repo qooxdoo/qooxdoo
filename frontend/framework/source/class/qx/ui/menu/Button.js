@@ -446,7 +446,7 @@ qx.Class.define("qx.ui.menu.Button",
      * Simply calls the {@link #execute} method
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} mouseUp event
+     * @param e {qx.legacy.event.type.MouseEvent} mouseUp event
      * @return {void}
      */
     _onmouseup : function(e) {

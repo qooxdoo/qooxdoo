@@ -21,9 +21,9 @@
 /* ************************************************************************
 
 #module(ui_core)
-#optional(qx.event.handler.DragAndDropHandler)
+#optional(qx.legacy.event.handler.DragAndDropHandler)
 #optional(qx.ui.menu.Manager)
-#optional(qx.event.handler.FocusHandler)
+#optional(qx.legacy.event.handler.FocusHandler)
 #optional(qx.ui.popup.PopupManager)
 #optional(qx.ui.popup.ToolTipManager)
 
@@ -32,7 +32,7 @@
 /**
  * This manager registers and manage all incoming key and mouse events.
  */
-qx.Class.define("qx.event.handler.EventHandler",
+qx.Class.define("qx.legacy.event.handler.EventHandler",
 {
   type : "singleton",
   extend : qx.core.Target,
@@ -79,7 +79,7 @@ qx.Class.define("qx.event.handler.EventHandler",
       * Fired when an exception was thrown when dispatching the event to the listeners.
       * The event's property "data" holds the exception.
       */
-    "error" : "qx.event.type.DataEvent"
+    "error" : "qx.legacy.event.type.DataEvent"
   },
 
 
@@ -137,7 +137,7 @@ qx.Class.define("qx.event.handler.EventHandler",
         var vNode = vDomEvent.target || vDomEvent.srcElement;
 
         // Safari takes text nodes as targets for events
-        if (vNode && (vNode.nodeType == qx.xml.Node.TEXT)) {
+        if (vNode && (vNode.nodeType == qx.dom.Node.TEXT)) {
           vNode = vNode.parentNode;
         }
 
@@ -209,7 +209,7 @@ qx.Class.define("qx.event.handler.EventHandler",
      */
     getOriginalTargetObjectFromEvent : function(vDomEvent, vWindow)
     {
-      var vNode = qx.event.handler.EventHandler.getDomTarget(vDomEvent);
+      var vNode = qx.legacy.event.handler.EventHandler.getDomTarget(vDomEvent);
 
       // Especially to fix key events.
       // 'vWindow' is the window reference then
@@ -222,7 +222,7 @@ qx.Class.define("qx.event.handler.EventHandler",
         }
       }
 
-      return qx.event.handler.EventHandler.getOriginalTargetObject(vNode);
+      return qx.legacy.event.handler.EventHandler.getOriginalTargetObject(vNode);
     },
 
 
@@ -234,7 +234,7 @@ qx.Class.define("qx.event.handler.EventHandler",
      * @return {var} TODOC
      */
     getRelatedOriginalTargetObjectFromEvent : function(vDomEvent) {
-      return qx.event.handler.EventHandler.getOriginalTargetObject(
+      return qx.legacy.event.handler.EventHandler.getOriginalTargetObject(
         vDomEvent.relatedTarget ||
         (vDomEvent.type == "mouseover" ? vDomEvent.fromElement : vDomEvent.toElement)
       );
@@ -259,7 +259,7 @@ qx.Class.define("qx.event.handler.EventHandler",
     {
       if (!vObject)
       {
-        var vObject = qx.event.handler.EventHandler.getOriginalTargetObject(vNode);
+        var vObject = qx.legacy.event.handler.EventHandler.getOriginalTargetObject(vNode);
 
         if (!vObject) {
           return null;
@@ -298,7 +298,7 @@ qx.Class.define("qx.event.handler.EventHandler",
      *   if no widget is found).
      */
     getTargetObjectFromEvent : function(vDomEvent) {
-      return qx.event.handler.EventHandler.getTargetObject(qx.event.handler.EventHandler.getDomTarget(vDomEvent));
+      return qx.legacy.event.handler.EventHandler.getTargetObject(qx.legacy.event.handler.EventHandler.getDomTarget(vDomEvent));
     },
 
 
@@ -322,7 +322,7 @@ qx.Class.define("qx.event.handler.EventHandler",
         }
       }
 
-      return qx.event.handler.EventHandler.getTargetObject(target);
+      return qx.legacy.event.handler.EventHandler.getTargetObject(target);
     }
   },
 
@@ -512,16 +512,16 @@ qx.Class.define("qx.event.handler.EventHandler",
     attachEvents : function()
     {
       // Register dom events
-      this.attachEventTypes(qx.event.handler.EventHandler.mouseEventTypes, this.__onmouseevent);
-      this.attachEventTypes(qx.event.handler.EventHandler.dragEventTypes, this.__ondragevent);
+      this.attachEventTypes(qx.legacy.event.handler.EventHandler.mouseEventTypes, this.__onmouseevent);
+      this.attachEventTypes(qx.legacy.event.handler.EventHandler.dragEventTypes, this.__ondragevent);
 
       // Unregister separate handler events
-      qx.event.handler.KeyEventHandler.getInstance()._attachEvents();
+      qx.legacy.event.handler.KeyEventHandler.getInstance()._attachEvents();
 
       // Register window events
-      qx.html.EventRegistration.addEventListener(window, "blur", this.__onwindowblur);
-      qx.html.EventRegistration.addEventListener(window, "focus", this.__onwindowfocus);
-      qx.html.EventRegistration.addEventListener(window, "resize", this.__onwindowresize);
+      qx.legacy.html.EventRegistration.addEventListener(window, "blur", this.__onwindowblur);
+      qx.legacy.html.EventRegistration.addEventListener(window, "focus", this.__onwindowfocus);
+      qx.legacy.html.EventRegistration.addEventListener(window, "resize", this.__onwindowresize);
 
       // Register selection events
       document.body.onselect = document.onselectstart = document.onselectionchange = this.__onselectevent;
@@ -537,16 +537,16 @@ qx.Class.define("qx.event.handler.EventHandler",
     detachEvents : function()
     {
       // Unregister dom events
-      this.detachEventTypes(qx.event.handler.EventHandler.mouseEventTypes, this.__onmouseevent);
-      this.detachEventTypes(qx.event.handler.EventHandler.dragEventTypes, this.__ondragevent);
+      this.detachEventTypes(qx.legacy.event.handler.EventHandler.mouseEventTypes, this.__onmouseevent);
+      this.detachEventTypes(qx.legacy.event.handler.EventHandler.dragEventTypes, this.__ondragevent);
 
       // Unregister separate handler events
-      qx.event.handler.KeyEventHandler.getInstance()._detachEvents();
+      qx.legacy.event.handler.KeyEventHandler.getInstance()._detachEvents();
 
       // Unregister window events
-      qx.html.EventRegistration.removeEventListener(window, "blur", this.__onwindowblur);
-      qx.html.EventRegistration.removeEventListener(window, "focus", this.__onwindowfocus);
-      qx.html.EventRegistration.removeEventListener(window, "resize", this.__onwindowresize);
+      qx.legacy.html.EventRegistration.removeEventListener(window, "blur", this.__onwindowblur);
+      qx.legacy.html.EventRegistration.removeEventListener(window, "focus", this.__onwindowfocus);
+      qx.legacy.html.EventRegistration.removeEventListener(window, "resize", this.__onwindowresize);
 
       // Unregister selection events
       document.body.onselect = document.onselectstart = document.onselectionchange = null;
@@ -581,12 +581,12 @@ qx.Class.define("qx.event.handler.EventHandler",
         var el = qx.core.Variant.isSet("qx.client", "gecko") ? window : document.body;
 
         for (var i=0, l=vEventTypes.length; i<l; i++) {
-          qx.html.EventRegistration.addEventListener(el, vEventTypes[i], vFunctionPointer);
+          qx.legacy.html.EventRegistration.addEventListener(el, vEventTypes[i], vFunctionPointer);
         }
       }
       catch(ex)
       {
-        throw new Error("qx.event.handler.EventHandler: Failed to attach window event types: " + vEventTypes + ": " + ex);
+        throw new Error("qx.legacy.event.handler.EventHandler: Failed to attach window event types: " + vEventTypes + ": " + ex);
       }
     },
 
@@ -607,12 +607,12 @@ qx.Class.define("qx.event.handler.EventHandler",
         var el = qx.core.Variant.isSet("qx.client", "gecko") ? window : document.body;
 
         for (var i=0, l=vEventTypes.length; i<l; i++) {
-          qx.html.EventRegistration.removeEventListener(el, vEventTypes[i], vFunctionPointer);
+          qx.legacy.html.EventRegistration.removeEventListener(el, vEventTypes[i], vFunctionPointer);
         }
       }
       catch(ex)
       {
-        throw new Error("qx.event.handler.EventHandler: Failed to detach window event types: " + vEventTypes + ": " + ex);
+        throw new Error("qx.legacy.event.handler.EventHandler: Failed to detach window event types: " + vEventTypes + ": " + ex);
       }
     },
 
@@ -637,7 +637,7 @@ qx.Class.define("qx.event.handler.EventHandler",
      */
     _onkeyevent_post : function(vDomEvent, vType, vKeyCode, vCharCode, vKeyIdentifier)
     {
-      var vDomTarget = qx.event.handler.EventHandler.getDomTarget(vDomEvent);
+      var vDomTarget = qx.legacy.event.handler.EventHandler.getDomTarget(vDomEvent);
 
       // Find current active qooxdoo object
       var vFocusRoot = this.getFocusRoot();
@@ -675,13 +675,13 @@ qx.Class.define("qx.event.handler.EventHandler",
               break;
 
             default:
-              qx.event.handler.EventHandler.stopDomEvent(vDomEvent);
+              qx.legacy.event.handler.EventHandler.stopDomEvent(vDomEvent);
           }
         }
       }
 
       // Create Event Object
-      var vKeyEventObject = new qx.event.type.KeyEvent(vType, vDomEvent, vDomTarget, vTarget, null, vKeyCode, vCharCode, vKeyIdentifier);
+      var vKeyEventObject = new qx.legacy.event.type.KeyEvent(vType, vDomEvent, vDomTarget, vTarget, null, vKeyCode, vCharCode, vKeyIdentifier);
 
       // Check for commands
       if (vType == "keydown") {
@@ -694,9 +694,9 @@ qx.Class.define("qx.event.handler.EventHandler",
         // This handles the real event action
         vTarget.dispatchEvent(vKeyEventObject);
 
-        // Send event to qx.event.handler.DragAndDropHandler
-        if (qx.Class.isDefined("qx.event.handler.DragAndDropHandler")) {
-          qx.event.handler.DragAndDropHandler.getInstance().handleKeyEvent(vKeyEventObject);
+        // Send event to qx.legacy.event.handler.DragAndDropHandler
+        if (qx.Class.isDefined("qx.legacy.event.handler.DragAndDropHandler")) {
+          qx.legacy.event.handler.DragAndDropHandler.getInstance().handleKeyEvent(vKeyEventObject);
         }
       }
       catch(ex)
@@ -744,7 +744,7 @@ qx.Class.define("qx.event.handler.EventHandler",
           vDomEvent = window.event;
         }
 
-        var vDomTarget = qx.event.handler.EventHandler.getDomTarget(vDomEvent);
+        var vDomTarget = qx.legacy.event.handler.EventHandler.getDomTarget(vDomEvent);
         var vType = vDomEvent.type;
 
         if (vType == "mousemove")
@@ -791,7 +791,7 @@ qx.Class.define("qx.event.handler.EventHandler",
 
       "default" : function(vDomEvent)
       {
-        var vDomTarget = qx.event.handler.EventHandler.getDomTarget(vDomEvent);
+        var vDomTarget = qx.legacy.event.handler.EventHandler.getDomTarget(vDomEvent);
         var vType = vDomEvent.type;
 
         switch(vType)
@@ -878,18 +878,18 @@ qx.Class.define("qx.event.handler.EventHandler",
         vCaptureTarget = this.getCaptureWidget();
 
         // Event Target Object
-        vOriginalTarget = qx.event.handler.EventHandler.getOriginalTargetObject(vDomTarget);
+        vOriginalTarget = qx.legacy.event.handler.EventHandler.getOriginalTargetObject(vDomTarget);
 
         // If capturing isn't active search for a valid target object
         if (!vCaptureTarget)
         {
           // Get Target Object
-          vDispatchTarget = vTarget = qx.event.handler.EventHandler.getTargetObject(null, vOriginalTarget, true);
+          vDispatchTarget = vTarget = qx.legacy.event.handler.EventHandler.getTargetObject(null, vOriginalTarget, true);
         }
         else
         {
           vDispatchTarget = vCaptureTarget;
-          vTarget = qx.event.handler.EventHandler.getTargetObject(null, vOriginalTarget, true);
+          vTarget = qx.legacy.event.handler.EventHandler.getTargetObject(null, vOriginalTarget, true);
         }
 
         // If there is no target, we have nothing to do
@@ -906,13 +906,13 @@ qx.Class.define("qx.event.handler.EventHandler",
 
         // Prevent the browser's native context menu
         if (vType == "contextmenu" && !this.getAllowClientContextMenu()) {
-          qx.event.handler.EventHandler.stopDomEvent(vDomEvent);
+          qx.legacy.event.handler.EventHandler.stopDomEvent(vDomEvent);
         }
 
         // Update focus
         if (vTargetIsEnabled && vType == "mousedown")
         {
-          qx.event.handler.FocusHandler.mouseFocus = true;
+          qx.legacy.event.handler.FocusHandler.mouseFocus = true;
 
           var vRoot = vTarget.getFocusRoot();
 
@@ -943,7 +943,7 @@ qx.Class.define("qx.event.handler.EventHandler",
         {
           case "mouseover":
           case "mouseout":
-            vRelatedTarget = qx.event.handler.EventHandler.getRelatedTargetObjectFromEvent(vDomEvent);
+            vRelatedTarget = qx.legacy.event.handler.EventHandler.getRelatedTargetObjectFromEvent(vDomEvent);
 
             // Ignore events where the related target and
             // the real target are equal - from our sight
@@ -955,7 +955,7 @@ qx.Class.define("qx.event.handler.EventHandler",
         //try
         //{
           // Create Mouse Event Object
-          vEventObject = new qx.event.type.MouseEvent(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget, vRelatedTarget);
+          vEventObject = new qx.legacy.event.type.MouseEvent(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget, vRelatedTarget);
         //}
         //catch(ex)
         //{
@@ -964,7 +964,7 @@ qx.Class.define("qx.event.handler.EventHandler",
 
         // Store last Event in MouseEvent Constructor
         // Needed for Tooltips, ...
-        qx.event.type.MouseEvent.storeEventState(vEventObject);
+        qx.legacy.event.type.MouseEvent.storeEventState(vEventObject);
 
         if (vTargetIsEnabled)
         {
@@ -1081,7 +1081,7 @@ qx.Class.define("qx.event.handler.EventHandler",
           if (qx.core.Variant.isSet("qx.client", "gecko"))
           {
             // priority for the real target not the (eventually captured) dispatch target
-            vEventWasProcessed ? this._onmousewheel(vOriginalTarget || vDispatchTarget, vEventObject) : qx.event.handler.EventHandler.stopDomEvent(vDomEvent);
+            vEventWasProcessed ? this._onmousewheel(vOriginalTarget || vDispatchTarget, vEventObject) : qx.legacy.event.handler.EventHandler.stopDomEvent(vDomEvent);
           }
 
           break;
@@ -1091,8 +1091,8 @@ qx.Class.define("qx.event.handler.EventHandler",
       this._ignoreWindowBlur = vType === "mousedown";
 
       // Send Event Object to Drag&Drop Manager
-      if (qx.Class.isDefined("qx.event.handler.DragAndDropHandler") && vTarget) {
-        qx.event.handler.DragAndDropHandler.getInstance().handleMouseEvent(vEventObject);
+      if (qx.Class.isDefined("qx.legacy.event.handler.DragAndDropHandler") && vTarget) {
+        qx.legacy.event.handler.DragAndDropHandler.getInstance().handleMouseEvent(vEventObject);
       }
     },
 
@@ -1167,7 +1167,7 @@ qx.Class.define("qx.event.handler.EventHandler",
         vEvent = window.event;
       }
 
-      qx.event.handler.EventHandler.stopDomEvent(vEvent);
+      qx.legacy.event.handler.EventHandler.stopDomEvent(vEvent);
     },
 
 
@@ -1192,7 +1192,7 @@ qx.Class.define("qx.event.handler.EventHandler",
         e = window.event;
       }
 
-      var target = qx.event.handler.EventHandler.getOriginalTargetObjectFromEvent(e);
+      var target = qx.legacy.event.handler.EventHandler.getOriginalTargetObjectFromEvent(e);
 
       // this.debug("Onselect...: " + e.type + " :: " + target + " :: " + target.getSelectable());
 
@@ -1203,7 +1203,7 @@ qx.Class.define("qx.event.handler.EventHandler",
           if (!target.getSelectable())
           {
             // this.debug("Stopping: " + e.type);
-            qx.event.handler.EventHandler.stopDomEvent(e);
+            qx.legacy.event.handler.EventHandler.stopDomEvent(e);
           }
 
           break;
@@ -1256,8 +1256,8 @@ qx.Class.define("qx.event.handler.EventHandler",
       }
 
       // Cancel Drag Operations
-      if (qx.Class.isDefined("qx.event.handler.DragAndDropHandler")) {
-        qx.event.handler.DragAndDropHandler.getInstance().globalCancelDrag();
+      if (qx.Class.isDefined("qx.legacy.event.handler.DragAndDropHandler")) {
+        qx.legacy.event.handler.DragAndDropHandler.getInstance().globalCancelDrag();
       }
 
       // Send blur event to client document

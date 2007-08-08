@@ -162,7 +162,7 @@ qx.Class.define("qx.ui.listview.ListViewPane",
     {
       if (qx.ui.core.Widget._inFlushGlobalQueues)
       {
-        qx.client.Timer.once(function()
+        qx.event.Timer.once(function()
         {
           this._updateLayoutReal(vUpdate);
           this._updateRendering();
@@ -186,7 +186,7 @@ qx.Class.define("qx.ui.listview.ListViewPane",
     {
       var vColumns = this._columns;
       //var vRowCount = Math.ceil(this.getInnerHeight() / this._rowHeight);
-      //var vRowCount = Math.ceil(qx.html.Dimension.getInnerHeight(this.getElement()) / this._rowHeight);
+      //var vRowCount = Math.ceil(qx.legacy.html.Dimension.getInnerHeight(this.getElement()) / this._rowHeight);
       //var vRowCount = Math.ceil((this._computeBoxHeight() - this._computeFrameHeight()) / this._rowHeight);
 
       if (this._cachedInnerHeight)
@@ -408,7 +408,7 @@ qx.Class.define("qx.ui.listview.ListViewPane",
     getListViewTarget : function(e)
     {
       var vEventTop = e.getPageY();
-      var vPaneTop = qx.html.Location.getPageInnerTop(this.getElement());
+      var vPaneTop = qx.legacy.html.Location.getPageInnerTop(this.getElement());
       var vItemNo = Math.floor(this._currentScrollTop / this._rowHeight) + Math.floor((vEventTop - vPaneTop) / this._rowHeight);
 
       return this._data[vItemNo];
@@ -468,7 +468,7 @@ qx.Class.define("qx.ui.listview.ListViewPane",
      * @return {var} TODOC
      */
     getItemWidth : function(vItem) {
-      return qx.html.Dimension.getInnerWidth(this.getElement());
+      return qx.legacy.html.Dimension.getInnerWidth(this.getElement());
     },
 
 
@@ -515,7 +515,7 @@ qx.Class.define("qx.ui.listview.ListViewPane",
     {
       var vScroll = this.getView().getScroll();
       vScroll.setValue(vScroll.getValue() - (e.getWheelDelta() * 20));
-      qx.event.handler.EventHandler.stopDomEvent(e);
+      qx.legacy.event.handler.EventHandler.stopDomEvent(e);
     },
 
 

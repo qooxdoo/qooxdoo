@@ -30,7 +30,7 @@
  * @deprecated: Should be replaced by qx.bom.StyleSheet
  *
  */
-qx.Class.define("qx.html.StyleSheet",
+qx.Class.define("qx.legacy.html.StyleSheet",
 {
   /*
   *****************************************************************************
@@ -180,7 +180,7 @@ qx.Class.define("qx.html.StyleSheet",
         "safari2+" : function(vSheet, vSelector)
         {
           var warn = function() {
-            qx.log.Logger.ROOT_LOGGER.warn("In Safari/Webkit you can only remove rules that are created using qx.html.StyleSheet.addRule");
+            qx.log.Logger.ROOT_LOGGER.warn("In Safari/Webkit you can only remove rules that are created using qx.legacy.html.StyleSheet.addRule");
           };
 
           if (!vSheet._qxRules) {

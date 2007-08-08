@@ -31,10 +31,10 @@
  * the interface of this class is based on the DOM Level 2 mouse event
  * interface: http://www.w3.org/TR/DOM-Level-2-Events/events.html#Events-eventgroupings-mouseevents
  */
-qx.Class.define("qx.event2.type.MouseEvent",
+qx.Class.define("qx.event.type.MouseEvent",
 {
-  extend : qx.event2.type.Event,
-  include : qx.event2.type.MModifierKeys,
+  extend : qx.event.type.Event,
+  include : qx.event.type.MModifierKeys,
 
 
 

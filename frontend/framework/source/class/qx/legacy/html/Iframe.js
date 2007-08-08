@@ -27,9 +27,9 @@
 /**
  * Cross browser abstractions to work with iframes.
  *
- * @deprecated: Use qx.bom.element.Iframe instead
+ * @deprecated: Use qx.bom.Iframe instead
  */
-qx.Class.define("qx.html.Iframe",
+qx.Class.define("qx.legacy.html.Iframe",
 {
   /*
   *****************************************************************************
@@ -62,7 +62,7 @@ qx.Class.define("qx.html.Iframe",
       {
         try
         {
-          var vDoc = qx.html.Iframe.getDocument(vIframe);
+          var vDoc = qx.legacy.html.Iframe.getDocument(vIframe);
           return vDoc ? vDoc.defaultView : null;
         }
         catch(ex)
@@ -87,7 +87,7 @@ qx.Class.define("qx.html.Iframe",
       {
         try
         {
-          var vWin = qx.html.Iframe.getWindow(vIframe);
+          var vWin = qx.legacy.html.Iframe.getWindow(vIframe);
           return vWin ? vWin.document : null;
         }
         catch(ex)
@@ -116,7 +116,7 @@ qx.Class.define("qx.html.Iframe",
      */
     getBody : function(vIframe)
     {
-      var vDoc = qx.html.Iframe.getDocument(vIframe);
+      var vDoc = qx.legacy.html.Iframe.getDocument(vIframe);
       return vDoc ? vDoc.getElementsByTagName("body")[0] : null;
     }
   }

@@ -55,10 +55,10 @@ qx.Class.define("qx.ui.menu.Menu",
     this.add(l);
 
     // Timer
-    this._openTimer = new qx.client.Timer(this.getOpenInterval());
+    this._openTimer = new qx.event.Timer(this.getOpenInterval());
     this._openTimer.addEventListener("interval", this._onopentimer, this);
 
-    this._closeTimer = new qx.client.Timer(this.getCloseInterval());
+    this._closeTimer = new qx.event.Timer(this.getCloseInterval());
     this._closeTimer.addEventListener("interval", this._onclosetimer, this);
 
     // Event Listeners
@@ -441,8 +441,8 @@ qx.Class.define("qx.ui.menu.Menu",
           var pl = value.getElement();
           var el = this.getElement();
 
-          vSub.setTop(qx.html.Location.getPageBoxTop(pl) + this.getSubMenuVerticalOffset());
-          vSub.setLeft(qx.html.Location.getPageBoxLeft(el) + qx.html.Dimension.getBoxWidth(el) + this.getSubMenuHorizontalOffset());
+          vSub.setTop(qx.legacy.html.Location.getPageBoxTop(pl) + this.getSubMenuVerticalOffset());
+          vSub.setLeft(qx.legacy.html.Location.getPageBoxLeft(el) + qx.legacy.html.Dimension.getBoxWidth(el) + this.getSubMenuHorizontalOffset());
 
           vSub.show();
         }

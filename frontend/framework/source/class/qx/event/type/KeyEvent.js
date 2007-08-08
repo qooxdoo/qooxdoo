@@ -31,10 +31,10 @@
  * the interface of this class is based on the DOM Level 3 keyboard event
  * interface: http://www.w3.org/TR/DOM-Level-3-Events/events.html#Events-KeyboardEvent
  */
-qx.Class.define("qx.event2.type.KeyEvent",
+qx.Class.define("qx.event.type.KeyEvent",
 {
-  extend : qx.event2.type.Event,
-  include : qx.event2.type.MModifierKeys,
+  extend : qx.event.type.Event,
+  include : qx.event.type.MModifierKeys,
 
 
 
@@ -54,7 +54,7 @@ qx.Class.define("qx.event2.type.KeyEvent",
      * @param keyCode {Integer} the key code
      * @param charCode {Integer} the character code
      * @param keyIdentifier {String} Key identifier
-     * @return {qx.event2.type.KeyEvent} The initialized key event instance
+     * @return {qx.event.type.KeyEvent} The initialized key event instance
      */
     init : function(domEvent, keyCode, charCode, keyIdentifier)
     {

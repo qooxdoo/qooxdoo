@@ -148,7 +148,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * This event is dispatched right before the popup of the combo box
      * is opened the first time (the popup object is not rendered at that time).
      */
-    "beforeInitialOpen" : "qx.event.type.Event"
+    "beforeInitialOpen" : "qx.legacy.event.type.Event"
   },
 
 
@@ -445,7 +445,7 @@ qx.Class.define("qx.ui.form.ComboBox",
         return;
       }
 
-      p.positionRelativeTo(el, 1, qx.html.Dimension.getBoxHeight(el));
+      p.positionRelativeTo(el, 1, qx.legacy.html.Dimension.getBoxHeight(el));
       p.setWidth(this.getBoxWidth() - 2);
 
       p.setParent(this.getTopLevelWidget());
@@ -508,7 +508,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * Listener method for the "appear" event of the popup widget
      *
      * @type member
-     * @param e {qx.event.type.Event} Appear event
+     * @param e {qx.legacy.event.type.Event} Appear event
      * @return {void}
      */
     _onpopupappear : function(e)
@@ -525,7 +525,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * Listener method for the "input" event of the text field widget
      *
      * @type member
-     * @param e {qx.event.type.DataEvent} Input event
+     * @param e {qx.legacy.event.type.DataEvent} Input event
      * @return {void}
      */
     _oninput : function(e)
@@ -549,7 +549,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * if the popup widget is closed.
      *
      * @type member
-     * @param e {qx.event.type.Event} Disappear event
+     * @param e {qx.legacy.event.type.Event} Disappear event
      * @return {void}
      */
     _onbeforedisappear : function(e) {
@@ -560,7 +560,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * Listener method for the "changeLocale" event of the locale manager
      *
      * @type member
-     * @param e {qx.event.type.ChangeEvent} ChangeLocale event
+     * @param e {qx.legacy.event.type.ChangeEvent} ChangeLocale event
      * @return {void}
      */
     _onlocalechange : function(e) {
@@ -584,7 +584,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * the user is clicking outside the combo box.
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} MouseDown event
+     * @param e {qx.legacy.event.type.MouseEvent} MouseDown event
      * @return {void}
      */
     _onmousedown : function(e)
@@ -636,7 +636,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * Listener method for the mouseUp event of the combo box.
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} MouseUp event
+     * @param e {qx.legacy.event.type.MouseEvent} MouseUp event
      * @return {void}
      */
     _onmouseup : function(e)
@@ -662,7 +662,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * Delegates the control the selection manager if target is a listitem widget.
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} MouseOver event
+     * @param e {qx.legacy.event.type.MouseEvent} MouseOver event
      * @return {void}
      */
     _onmouseover : function(e)
@@ -688,7 +688,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * Only works if the popup is not seeable.
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} MouseWheel event
+     * @param e {qx.legacy.event.type.MouseEvent} MouseWheel event
      * @return {void}
      */
     _onmousewheel : function(e)
@@ -740,7 +740,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * Handles hitting "Enter", "Escape" and "Alt+Down".
      *
      * @type member
-     * @param e {qx.event.type.KeyEvent} KeyDown event
+     * @param e {qx.legacy.event.type.KeyEvent} KeyDown event
      * @return {void}
      */
     _onkeydown : function(e)
@@ -803,7 +803,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * hits other keys a match is searched and (if found) selected.
      *
      * @type member
-     * @param e {qx.event.type.KeyEvent} KeyPress event
+     * @param e {qx.legacy.event.type.KeyEvent} KeyPress event
      * @return {void}
      */
     _onkeypress : function(e)
@@ -889,7 +889,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * Listener method for the "keyInput" event of combo box.
      *
      * @type member
-     * @param e {qx.event.type.KeyEvent} KeyInput event
+     * @param e {qx.legacy.event.type.KeyEvent} KeyInput event
      * @return {void}
      */
     _onkeyinput : function(e)

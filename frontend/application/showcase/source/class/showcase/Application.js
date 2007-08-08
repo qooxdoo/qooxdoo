@@ -41,8 +41,8 @@ qx.Class.define("showcase.Application",
 
   events :
   {
-    "changeSize" : "qx.event.type.DataEvent",
-    "changeLayout" : "qx.event.type.DataEvent"
+    "changeSize" : "qx.legacy.event.type.DataEvent",
+    "changeLayout" : "qx.legacy.event.type.DataEvent"
   },
 
 
@@ -90,7 +90,7 @@ qx.Class.define("showcase.Application",
       this._createPage(barView, "Themes", "icon/32/apps/preferences-desktop-wallpaper.png", this._createThemesDemo);
 
       // back button and bookmark support
-      this._history = qx.client.History.getInstance();
+      this._history = qx.bom.History.getInstance();
 
       // listen for state changes
       this._history.addEventListener("request", function(e) {
@@ -530,7 +530,7 @@ qx.Class.define("showcase.Application",
       var rbm = new qx.ui.selection.RadioManager(null, [ radio1, radio2, radio3 ]);
 
       rbm.addEventListener("changeSelected", function(e) {
-        this.dispatchEvent(new qx.event.type.DataEvent("changeLayout", e.getData().getValue()));
+        this.dispatchEvent(new qx.legacy.event.type.DataEvent("changeLayout", e.getData().getValue()));
       }, this);
 
       // Alignment
@@ -558,7 +558,7 @@ qx.Class.define("showcase.Application",
       button.setHorizontalAlign("center");
 
       button.addEventListener("execute", function(e) {
-        this.dispatchEvent(new qx.event.type.DataEvent("changeSize", 22));
+        this.dispatchEvent(new qx.legacy.event.type.DataEvent("changeSize", 22));
       }, this);
 
       vert.add(button);
@@ -567,7 +567,7 @@ qx.Class.define("showcase.Application",
       button.setHorizontalAlign("center");
 
       button.addEventListener("execute", function(e) {
-        this.dispatchEvent(new qx.event.type.DataEvent("changeSize", 32));
+        this.dispatchEvent(new qx.legacy.event.type.DataEvent("changeSize", 32));
       }, this);
 
       vert.add(button);
@@ -1454,15 +1454,15 @@ qx.Class.define("showcase.Application",
       controls.add(chooser);
 
       // Commands
-      var undo_cmd = new qx.client.Command("Ctrl+Z");
-      var redo_cmd = new qx.client.Command("Ctrl+Y");
-      var cut_cmd = new qx.client.Command("Ctrl+X");
-      var copy_cmd = new qx.client.Command("Ctrl+C");
-      var paste_cmd = new qx.client.Command("Ctrl+V");
-      var delete_cmd = new qx.client.Command("Del");
-      var select_all_cmd = new qx.client.Command("Ctrl+A");
-      var search_cmd = new qx.client.Command("Ctrl+F");
-      var search_again_cmd = new qx.client.Command("F3");
+      var undo_cmd = new qx.event.Command("Ctrl+Z");
+      var redo_cmd = new qx.event.Command("Ctrl+Y");
+      var cut_cmd = new qx.event.Command("Ctrl+X");
+      var copy_cmd = new qx.event.Command("Ctrl+C");
+      var paste_cmd = new qx.event.Command("Ctrl+V");
+      var delete_cmd = new qx.event.Command("Del");
+      var select_all_cmd = new qx.event.Command("Ctrl+A");
+      var search_cmd = new qx.event.Command("Ctrl+F");
+      var search_again_cmd = new qx.event.Command("F3");
 
       var m1 = new qx.ui.menu.Menu;
       m1.add(new qx.ui.menu.Button(this.tr("Undo"), null, undo_cmd));
@@ -1488,8 +1488,8 @@ qx.Class.define("showcase.Application",
         else
         {
           var el = this.getElement();
-          m1.setLeft(qx.html.Location.getPageBoxLeft(el));
-          m1.setTop(qx.html.Location.getPageBoxBottom(el));
+          m1.setLeft(qx.legacy.html.Location.getPageBoxLeft(el));
+          m1.setTop(qx.legacy.html.Location.getPageBoxBottom(el));
           m1.show();
         }
 
@@ -1507,8 +1507,8 @@ qx.Class.define("showcase.Application",
 
       mybtn.addEventListener("execute", function()
       {
-        mypop.setTop(qx.html.Location.getPageBoxBottom(this.getElement()));
-        mypop.setLeft(qx.html.Location.getPageBoxLeft(this.getElement()));
+        mypop.setTop(qx.legacy.html.Location.getPageBoxBottom(this.getElement()));
+        mypop.setLeft(qx.legacy.html.Location.getPageBoxLeft(this.getElement()));
         mypop.show();
       });
 
@@ -1660,7 +1660,7 @@ qx.Class.define("showcase.Application",
         spacing : 5
       });
 
-      var win = new qx.client.NativeWindow("http://qooxdoo.org");
+      var win = new qx.bom.Window("http://qooxdoo.org");
       win.setDimension(600, 400);
 
       var openBt = new qx.ui.form.Button("Open Native Window", "icon/16/apps/system-users.png");

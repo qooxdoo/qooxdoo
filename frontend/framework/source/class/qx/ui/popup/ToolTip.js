@@ -54,10 +54,10 @@ qx.Class.define("qx.ui.popup.ToolTip",
     // ************************************************************************
     //   TIMER
     // ************************************************************************
-    this._showTimer = new qx.client.Timer(this.getShowInterval());
+    this._showTimer = new qx.event.Timer(this.getShowInterval());
     this._showTimer.addEventListener("interval", this._onshowtimer, this);
 
-    this._hideTimer = new qx.client.Timer(this.getHideInterval());
+    this._hideTimer = new qx.event.Timer(this.getHideInterval());
     this._hideTimer.addEventListener("interval", this._onhidetimer, this);
 
     // ************************************************************************
@@ -258,8 +258,8 @@ qx.Class.define("qx.ui.popup.ToolTip",
         var width  = this.getBoxWidth();
         var height = this.getBoxHeight();
 
-        var mouseX = qx.event.type.MouseEvent.getPageX();
-        var mouseY = qx.event.type.MouseEvent.getPageY();
+        var mouseX = qx.legacy.event.type.MouseEvent.getPageX();
+        var mouseY = qx.legacy.event.type.MouseEvent.getPageY();
 
         var oldLeft = this.getLeft();
         var oldTop = top;
@@ -400,7 +400,7 @@ qx.Class.define("qx.ui.popup.ToolTip",
      * If property {@link #hideOnOver} is enabled the tooltip gets hidden
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} mouseOver event
+     * @param e {qx.legacy.event.type.MouseEvent} mouseOver event
      * @return {void}
      */
     _onmouseover : function(e)
@@ -417,12 +417,12 @@ qx.Class.define("qx.ui.popup.ToolTip",
      * {@link #show} method.
      *
      * @type member
-     * @param e {qx.event.type.Event} interval event
+     * @param e {qx.legacy.event.type.Event} interval event
      */
     _onshowtimer : function(e)
     {
-      this.setLeft(qx.event.type.MouseEvent.getPageX() + this.getMousePointerOffsetX());
-      this.setTop(qx.event.type.MouseEvent.getPageY() + this.getMousePointerOffsetY());
+      this.setLeft(qx.legacy.event.type.MouseEvent.getPageX() + this.getMousePointerOffsetX());
+      this.setTop(qx.legacy.event.type.MouseEvent.getPageY() + this.getMousePointerOffsetY());
 
       this.show();
     },
@@ -433,7 +433,7 @@ qx.Class.define("qx.ui.popup.ToolTip",
      * Hides the tooltip by calling the corresponding {@link #hide} method.
      *
      * @type member
-     * @param e {qx.event.type.Event} interval event
+     * @param e {qx.legacy.event.type.Event} interval event
      * @return {var} TODOC
      */
     _onhidetimer : function(e) {
