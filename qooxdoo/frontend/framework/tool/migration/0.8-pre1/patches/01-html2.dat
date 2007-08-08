@@ -24,4 +24,5 @@
 \bqx\.dom\.String\.escapeEntities\b=qx.util.StringEscape.escape
 \bqx\.dom\.String\.unescapeEntities\b=qx.util.StringEscape.unescape
 \bqx\.dom\.String\.stripTags\b=qx.lang.String.stripTags
+\bqx\.dom\.String\b=qx.lang.String
 
