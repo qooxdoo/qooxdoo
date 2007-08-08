@@ -96,7 +96,7 @@ qx.Class.define("qx.html2.element.Location",
       // Hint: The viewport workaround here only needs to be applied for
       // MSHTML currently. Gecko must always use the bottom code block -
       // independently from the availbility of getBoundingClientRect()
-      if (qx.html2.client.Engine.MSHTML && elem.getBoundingClientRect)
+      if (qx.client2.detail.Engine.MSHTML && elem.getBoundingClientRect)
       {
         // Find window
         var win = qx.html2.Node.getWindow(elem);
