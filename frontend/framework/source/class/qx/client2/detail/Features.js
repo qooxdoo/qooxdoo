@@ -20,7 +20,7 @@
 /* ************************************************************************
 
 #module(client2)
-#require(qx.html2.client.Engine)
+#require(qx.client2.detail.Engine)
 
 ************************************************************************ */
 
@@ -78,12 +78,12 @@ qx.Class.define("qx.client2.detail.Features",
       this.STANDARD_MODE = document.compatMode == "CSS1Compat";
       this.QUIRKS_MODE = !this.STANDARD_MODE;
 
-      this.CONTENT_BOX = !!(!qx.html2.client.Engine.MSHTML || this.STANDARD_MODE);
+      this.CONTENT_BOX = !!(!qx.client2.detail.Engine.MSHTML || this.STANDARD_MODE);
       this.BORDER_BOX = !this.CONTENT_BOX;
 
       this.SVG = document.implementation && document.implementation.hasFeature && document.implementation.hasFeature("org.w3c.dom.svg", "1.0");
       this.CANVAS = !!window.CanvasRenderingContext2D;
-      this.VML = qx.html2.client.Engine.MSHTML;
+      this.VML = qx.client2.detail.Engine.MSHTML;
 
       this.XPATH = !!document.evaluate;
     }
