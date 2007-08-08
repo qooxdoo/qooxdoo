@@ -26,3 +26,5 @@
 \bqx\.dom\.String\.stripTags\b=qx.lang.String.stripTags
 \bqx\.dom\.String\b=qx.lang.String
 
+# Migration from qx.dom to qx.xml
+\bqx\.dom\.Node\b=qx.xml.Node
