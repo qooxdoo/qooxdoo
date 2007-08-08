@@ -31,6 +31,8 @@
  *
  * This class is a singleton and is used by qx.io.remote.Request to schedule its
  * requests. It should not be used directly.
+ *
+ * @internal
  */
 qx.Class.define("qx.io.remote.RequestQueue",
 {
