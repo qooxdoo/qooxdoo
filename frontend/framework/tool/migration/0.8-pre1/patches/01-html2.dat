@@ -11,6 +11,6 @@
 \bqx\.html2\.Element\b=qx.html2.element.Object
 
 # Merged Entity and String classes
-qx.html2.Entity=qx.html2.String
-qx.html.Entity=qx.html.String
-qx.xml.Entity=qx.xml.String
+\bqx\.html2\.Entity\b=qx.html2.String
+\bqx\.html\.Entity\b=qx.html.String
+\bqx\.xml\.Entity\b=qx.xml.String
