@@ -50,7 +50,7 @@
  * result in a much bigger implementation. For special things like
  * these please use the appropriate classes in this namespace.
  */
-qx.Class.define("qx.html2.element.Style",
+qx.Class.define("qx.bom.element.Style",
 {
   /*
   *****************************************************************************

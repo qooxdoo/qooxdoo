@@ -26,7 +26,7 @@
 /**
  * Contains support for calculating dimensions of HTML elements.
  */
-qx.Class.define("qx.html2.element.Dimension",
+qx.Class.define("qx.bom.element.Dimension",
 {
   /*
   *****************************************************************************

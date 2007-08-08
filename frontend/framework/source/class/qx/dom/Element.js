@@ -24,20 +24,8 @@
 ************************************************************************ */
 
 /**
- * The intention of this class is to bring more convenience to the attribute
- * and style features implemented by the other classes. It wraps the features
- * of multiple classes in one unique interface.
- *
- * There is a automatic detection if the given name should be interpreted
- * as HTML property, attribute or style. It even supports complex
- * setter/getter pairs like opacity. All these features are usable through
- * the same interface by just using the name of the attribute/style etc. to
- * modify/query.
- *
- * This class is optimized for performance, but is not as optimal in performance
- * aspects than the more native implementations. For all highly performance
- * crititcal areas like animations it would be the best to directly use the
- * classes which contain the implementations.
+ * Manager child structures of an element. Easy and convenient APIs
+ * to insert, remove and replace children.
  */
 qx.Class.define("qx.dom.Element",
 {
@@ -49,13 +37,6 @@ qx.Class.define("qx.dom.Element",
 
   statics :
   {
-
-    /*
-    ---------------------------------------------------------------------------
-      STRUCTURE
-    ---------------------------------------------------------------------------
-    */
-
     /**
      * Whether the given <code>child</code> is a child of <code>parent</code>
      *

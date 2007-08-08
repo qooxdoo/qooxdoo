@@ -41,7 +41,7 @@
 /**
  * Includes library functions to work with the current document.
  */
-qx.Class.define("qx.html2.Document",
+qx.Class.define("qx.bom.Document",
 {
   statics :
   {

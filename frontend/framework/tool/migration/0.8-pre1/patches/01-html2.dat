@@ -54,3 +54,13 @@
 # PART 2
 #
 
+\bqx\.html2\b=qx.bom
+
+\bqx\.bom\.Node\b=qx.dom.Node
+\bqx\.bom\.Hierarchy\b=qx.dom.Hierarchy
+\bqx\.bom\.Element\b=qx.dom.Element
+
+\bqx\.dom\.Element\.create\b=qx.bom.Element.create
+\bqx\.dom\.Element\.set\b=qx.bom.Element.set
+\bqx\.dom\.Element\.get\b=qx.bom.Element.get
+

@@ -26,7 +26,7 @@
 /**
  * Contains utilities to work with the visibility of HTML elements.
  */
-qx.Class.define("qx.html2.element.Visibility",
+qx.Class.define("qx.bom.element.Visibility",
 {
   /*
   *****************************************************************************
