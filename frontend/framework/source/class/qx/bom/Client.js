@@ -20,10 +20,10 @@
 /* ************************************************************************
 
 #module(client2)
-#require(qx.client.detail.Engine)
-#require(qx.client.detail.Feature)
-#require(qx.client.detail.Platform)
-#require(qx.client.detail.System)
+#require(qx.bom.client.Engine)
+#require(qx.bom.client.Feature)
+#require(qx.bom.client.Platform)
+#require(qx.bom.client.System)
 
 ************************************************************************ */
 
@@ -230,7 +230,7 @@ qx.Class.define("qx.bom.Client",
     {
       var keys = this.__keys;
       var lower = this.__lower;
-      var ns = qx.client.detail;
+      var ns = qx.bom.client;
       var prop;
       var value;
 

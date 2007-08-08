@@ -119,8 +119,8 @@ qx.Class.define("qx.bom.Flash",
 
     MINREQUIRED : "1",
 
-    /** Detected player version (using {@link qx.client.detail.Flash} class) */
-    PLAYERVERSION : qx.client.detail.Flash.PLAYERVERSION,
+    /** Detected player version (using {@link qx.bom.client.Flash} class) */
+    PLAYERVERSION : qx.bom.client.Flash.PLAYERVERSION,
 
     PLUGINKEY : "Shockwave Flash",
 
