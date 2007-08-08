@@ -27,7 +27,7 @@
 ************************************************************************ */
 
 /**
- * @deprecated: Should be replaced by qx.html2.StyleSheet
+ * @deprecated: Should be replaced by qx.bom.StyleSheet
  *
  */
 qx.Class.define("qx.html.StyleSheet",

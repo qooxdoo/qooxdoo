@@ -96,7 +96,7 @@ qx.Class.define("qx.bom.element.Object",
      * Adds the given element to the queue.
      *
      * @type static
-     * @param element {qx.html2.element.Object} Add the element to the global queue
+     * @param element {qx.bom.element.Object} Add the element to the global queue
      */
     addToQueue : function(element)
     {
@@ -114,7 +114,7 @@ qx.Class.define("qx.bom.element.Object",
      * Removes the given element from the queue.
      *
      * @type static
-     * @param element {qx.html2.element.Object} Remove the element from the global queue
+     * @param element {qx.bom.element.Object} Remove the element from the global queue
      */
     removeFromQueue : function(element)
     {
@@ -141,7 +141,7 @@ qx.Class.define("qx.bom.element.Object",
      * defined children.
      *
      * @type static
-     * @param entry {qx.html2.element.Object} the element to flush
+     * @param entry {qx.bom.element.Object} the element to flush
      */
     __flushContent : function(entry)
     {
@@ -171,7 +171,7 @@ qx.Class.define("qx.bom.element.Object",
      * Internal helper to apply the defined text to the DOM element.
      *
      * @type static
-     * @param entry {qx.html2.element.Object} the element to flush
+     * @param entry {qx.bom.element.Object} the element to flush
      */
     __flushText : function(entry)
     {
@@ -189,7 +189,7 @@ qx.Class.define("qx.bom.element.Object",
      * Internal helper to apply the added event listeners to the DOM element.
      *
      * @type static
-     * @param entry {qx.html2.element.Object} the element to flush
+     * @param entry {qx.bom.element.Object} the element to flush
      */
     __flushAddEvents : function(entry)
     {
@@ -216,7 +216,7 @@ qx.Class.define("qx.bom.element.Object",
      * Internal helper to apply the removed event listeners  to the DOM element.
      *
      * @type static
-     * @param entry {qx.html2.element.Object} the element to flush
+     * @param entry {qx.bom.element.Object} the element to flush
      */
     __flushRemoveEvents : function(entry)
     {
@@ -242,7 +242,7 @@ qx.Class.define("qx.bom.element.Object",
      * Internal helper to apply the defined HTML to the DOM element.
      *
      * @type static
-     * @param entry {qx.html2.element.Object} the element to flush
+     * @param entry {qx.bom.element.Object} the element to flush
      */
     __flushHtml : function(entry) {
       entry.__element.innerHTML = entry.__html;
@@ -254,7 +254,7 @@ qx.Class.define("qx.bom.element.Object",
      * defined children.
      *
      * @type static
-     * @param entry {qx.html2.element.Object} the element to flush
+     * @param entry {qx.bom.element.Object} the element to flush
      */
     __flushChildren : function(entry)
     {
@@ -615,7 +615,7 @@ qx.Class.define("qx.bom.element.Object",
      * Internal helper for all children removal needs
      *
      * @type member
-     * @param child {qx.html2.element.Object} the removed element
+     * @param child {qx.bom.element.Object} the removed element
      * @throws an exception if the given element is not a child
      *     of this element
      */
@@ -693,7 +693,7 @@ qx.Class.define("qx.bom.element.Object",
      * Find the position of the given child
      *
      * @type member
-     * @param child {qx.html2.element.Object} the child
+     * @param child {qx.bom.element.Object} the child
      * @return {Integer} returns the position. If the element
      *     is not a child <code>-1</code> will be returned.
      */
@@ -706,8 +706,8 @@ qx.Class.define("qx.bom.element.Object",
      * Append the given child at the end of this element's children.
      *
      * @type member
-     * @param child {qx.html2.element.Object} the element to insert
-     * @return {qx.html2.element.Object} this object (for chaining support)
+     * @param child {qx.bom.element.Object} the element to insert
+     * @return {qx.bom.element.Object} this object (for chaining support)
      */
     add : function(child)
     {
@@ -723,7 +723,7 @@ qx.Class.define("qx.bom.element.Object",
      *
      * @type member
      * @param varargs {arguments} the elements to add
-     * @return {qx.html2.element.Object} this object (for chaining support)
+     * @return {qx.bom.element.Object} this object (for chaining support)
      */
     addList : function(varargs)
     {
@@ -739,9 +739,9 @@ qx.Class.define("qx.bom.element.Object",
      * Inserts the given element after the given child.
      *
      * @type member
-     * @param child {qx.html2.element.Object} the element to insert
-     * @param rel {qx.html2.element.Object} the related child
-     * @return {qx.html2.element.Object} this object (for chaining support)
+     * @param child {qx.bom.element.Object} the element to insert
+     * @param rel {qx.bom.element.Object} the related child
+     * @return {qx.bom.element.Object} this object (for chaining support)
      */
     insertAfter : function(child, rel)
     {
@@ -756,9 +756,9 @@ qx.Class.define("qx.bom.element.Object",
      * Inserts the given element before the given child.
      *
      * @type member
-     * @param child {qx.html2.element.Object} the element to insert
-     * @param rel {qx.html2.element.Object} the related child
-     * @return {qx.html2.element.Object} this object (for chaining support)
+     * @param child {qx.bom.element.Object} the element to insert
+     * @param rel {qx.bom.element.Object} the related child
+     * @return {qx.bom.element.Object} this object (for chaining support)
      */
     insertBefore : function(child, rel)
     {
@@ -773,11 +773,11 @@ qx.Class.define("qx.bom.element.Object",
      * Inserts a new element at the given position
      *
      * @type member
-     * @param child {qx.html2.element.Object} the element to insert
+     * @param child {qx.bom.element.Object} the element to insert
      * @param index {Integer} the index (starts at 0 for the
      *     first child) to insert (the index of the following
      *     children will be increased by one)
-     * @return {qx.html2.element.Object} this object (for chaining support)
+     * @return {qx.bom.element.Object} this object (for chaining support)
      */
     insertAt : function(child, index)
     {
@@ -792,8 +792,8 @@ qx.Class.define("qx.bom.element.Object",
      * Remove the given child from this element.
      *
      * @type member
-     * @param child {qx.html2.element.Object} The child to remove
-     * @return {qx.html2.element.Object} the removed element
+     * @param child {qx.bom.element.Object} The child to remove
+     * @return {qx.bom.element.Object} the removed element
      */
     remove : function(child)
     {
@@ -808,7 +808,7 @@ qx.Class.define("qx.bom.element.Object",
      * @type member
      * @param index {Integer} the position of the
      *     child (starts at 0 for the first child)
-     * @return {qx.html2.element.Object} the removed element
+     * @return {qx.bom.element.Object} the removed element
      */
     removeAt : function(index)
     {
@@ -822,7 +822,7 @@ qx.Class.define("qx.bom.element.Object",
      *
      * @type member
      * @param varargs {arguments} the elements
-     * @return {qx.html2.element.Object} this object (for chaining support)
+     * @return {qx.bom.element.Object} this object (for chaining support)
      */
     removeList : function(varargs)
     {
@@ -842,7 +842,7 @@ qx.Class.define("qx.bom.element.Object",
      * @type member
      * @param child {var} the child to move
      * @param index {Integer} the index (starts at 0 for the first child)
-     * @return {qx.html2.element.Object} this object (for chaining support)
+     * @return {qx.bom.element.Object} this object (for chaining support)
      * @throws an exception when the given element is not child
      *      of this element.
      */
@@ -875,9 +875,9 @@ qx.Class.define("qx.bom.element.Object",
      * Move the given <code>child</code> before the child <code>rel</code>.
      *
      * @type member
-     * @param child {qx.html2.element.Object} the child to move
-     * @param rel {qx.html2.element.Object} the related child
-     * @return {qx.html2.element.Object} this object (for chaining support)
+     * @param child {qx.bom.element.Object} the child to move
+     * @param rel {qx.bom.element.Object} the related child
+     * @return {qx.bom.element.Object} this object (for chaining support)
      */
     moveBefore : function(child, rel) {
       return this.moveTo(child, this.__children.indexOf(rel));
@@ -888,9 +888,9 @@ qx.Class.define("qx.bom.element.Object",
      * Move the given <code>child</code> after the child <code>rel</code>.
      *
      * @type member
-     * @param child {qx.html2.element.Object} the child to move
-     * @param rel {qx.html2.element.Object} the related child
-     * @return {qx.html2.element.Object} this object (for chaining support)
+     * @param child {qx.bom.element.Object} the child to move
+     * @param rel {qx.bom.element.Object} the related child
+     * @return {qx.bom.element.Object} this object (for chaining support)
      */
     moveAfter : function(child, rel) {
       return this.moveTo(child, this.__children.indexOf(rel) + 1);
@@ -952,7 +952,7 @@ qx.Class.define("qx.bom.element.Object",
      * @type member
      * @param key {String} the name of the style attribute
      * @param value {var} the value
-     * @return {qx.html2.element.Object} this object (for chaining support)
+     * @return {qx.bom.element.Object} this object (for chaining support)
      */
     setStyle : function(key, value)
     {
@@ -984,7 +984,7 @@ qx.Class.define("qx.bom.element.Object",
      * @type member
      * @param key {String} the name of the attribute
      * @param value {var} the value
-     * @return {qx.html2.element.Object} this object (for chaining support)
+     * @return {qx.bom.element.Object} this object (for chaining support)
      */
     setAttribute : function(key, value)
     {
@@ -1021,7 +1021,7 @@ qx.Class.define("qx.bom.element.Object",
      * @param capture {Boolean ? false} Whether to attach the event to the
      *       capturing phase of the bubbling phase of the event. The default is
      *       to attach the event handler to the bubbling phase.
-     * @return {qx.html2.element.Object} this object (for chaining support)
+     * @return {qx.bom.element.Object} this object (for chaining support)
      */
     addEventListener : function(type, listener, self, capture)
     {
@@ -1051,7 +1051,7 @@ qx.Class.define("qx.bom.element.Object",
      * @param capture {Boolean ? false} Whether to attach the event to the
      *       capturing phase of the bubbling phase of the event. The default is
      *       to attach the event handler to the bubbling phase.
-     * @return {qx.html2.element.Object} this object (for chaining support)
+     * @return {qx.bom.element.Object} this object (for chaining support)
      */
     removeEventListener : function(type, listener, self, capture)
     {
@@ -1078,7 +1078,7 @@ qx.Class.define("qx.bom.element.Object",
      *
      * @type member
      * @param html {String} the HTML content to apply
-     * @return {qx.html2.element.Object} this object (for chaining support)
+     * @return {qx.bom.element.Object} this object (for chaining support)
      */
     setHtml : function(html)
     {
@@ -1111,7 +1111,7 @@ qx.Class.define("qx.bom.element.Object",
      *
      * @type member
      * @param text {String} the text content to apply
-     * @return {qx.html2.element.Object} this object (for chaining support)
+     * @return {qx.bom.element.Object} this object (for chaining support)
      */
     setText : function(text)
     {

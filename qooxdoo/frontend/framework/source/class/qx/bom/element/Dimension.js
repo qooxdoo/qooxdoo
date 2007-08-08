@@ -127,13 +127,13 @@ qx.Class.define("qx.bom.element.Dimension",
     {
       // Gecko properitary
       "gecko" : function(element) {
-        return qx.html2.element.Style.getComputed(element, "MozBoxSizing");
+        return qx.bom.element.Style.getComputed(element, "MozBoxSizing");
       },
 
       // Not directly supported in MSHTML, using render mode
       "mshtml" : function(element)
       {
-        if (qx.html2.Document.isStandardMode(qx.html2.Node.getDocument(element)))
+        if (qx.bom.Document.isStandardMode(qx.dom.Node.getDocument(element)))
         {
           if (!this.__usesNativeBorderBox(element)) {
             return "content-box";
@@ -145,7 +145,7 @@ qx.Class.define("qx.bom.element.Dimension",
 
       // Webkit & Opera
       "default" : function(element) {
-        return qx.html2.element.Style.getComputed(element, "boxSizing");
+        return qx.bom.element.Style.getComputed(element, "boxSizing");
       }
     })
   }

@@ -63,7 +63,7 @@ qx.Class.define("qx.bom.element.Location",
      * @return {String} Value of given style property
      */
     __style : function(elem, style) {
-      return qx.html2.element.Style.getComputed(elem, style);
+      return qx.bom.element.Style.getComputed(elem, style);
     },
 
 
@@ -76,7 +76,7 @@ qx.Class.define("qx.bom.element.Location",
      * @return {Integer} Value of given style property
      */
     __num : function(elem, style) {
-      return parseInt(qx.html2.element.Style.getComputed(elem, style)) || 0;
+      return parseInt(qx.bom.element.Style.getComputed(elem, style)) || 0;
     },
 
 
@@ -99,19 +99,19 @@ qx.Class.define("qx.bom.element.Location",
       if (qx.client2.detail.Engine.MSHTML && elem.getBoundingClientRect)
       {
         // Find window
-        var win = qx.html2.Node.getWindow(elem);
+        var win = qx.dom.Node.getWindow(elem);
 
         // Reduce by viewport scrolling.
         // Hint: getBoundingClientRect returns the location of the
         // element in relation to the viewport which includes
         // the scrolling
-        left -= qx.html2.Viewport.getScrollLeft(win);
-        top -= qx.html2.Viewport.getScrollTop(win);
+        left -= qx.bom.Viewport.getScrollLeft(win);
+        top -= qx.bom.Viewport.getScrollTop(win);
       }
       else
       {
         // Find body element
-        var body = qx.html2.Node.getDocument(elem).body;
+        var body = qx.dom.Node.getDocument(elem).body;
 
         // Only the parents are influencing the scroll position
         elem = elem.parentNode;
@@ -148,7 +148,7 @@ qx.Class.define("qx.bom.element.Location",
       "mshtml" : function(elem)
       {
         // Find body element
-        var doc = qx.html2.Node.getDocument(elem);
+        var doc = qx.dom.Node.getDocument(elem);
         var body = doc.body;
 
         // Start with the offset
@@ -175,7 +175,7 @@ qx.Class.define("qx.bom.element.Location",
       "webkit" : function(elem)
       {
         // Find body element
-        var doc = qx.html2.Node.getDocument(elem);
+        var doc = qx.dom.Node.getDocument(elem);
         var body = doc.body;
 
         // Start with the offset
@@ -202,14 +202,14 @@ qx.Class.define("qx.bom.element.Location",
       "gecko" : function(elem)
       {
         // Find body element
-        var body = qx.html2.Node.getDocument(elem).body;
+        var body = qx.dom.Node.getDocument(elem).body;
 
         // Start with the offset
         var left = body.offsetLeft;
         var top = body.offsetTop;
 
         // Correct substracted border (only in content-box mode)
-        if (qx.html2.element.Visibility.getBoxSizing(body) !== "border-box")
+        if (qx.bom.element.Visibility.getBoxSizing(body) !== "border-box")
         {
           left += this.__num(body, "borderLeftWidth");
           top += this.__num(body, "borderTopWidth");
@@ -253,7 +253,7 @@ qx.Class.define("qx.bom.element.Location",
       "default" : function(elem)
       {
         // Find body element
-        var body = qx.html2.Node.getDocument(elem).body;
+        var body = qx.dom.Node.getDocument(elem).body;
 
         // Start with the offset
         var left = body.offsetLeft;
@@ -290,7 +290,7 @@ qx.Class.define("qx.bom.element.Location",
     {
       "mshtml|webkit" : function(elem)
       {
-        var doc = qx.html2.Node.getDocument(elem);
+        var doc = qx.dom.Node.getDocument(elem);
 
         // Use faster getBoundingClientRect() if available
         // Note: This is not yet supported by Webkit.
@@ -364,8 +364,8 @@ qx.Class.define("qx.bom.element.Location",
           var top = 0;
 
           // Stop at the body
-          var body = qx.html2.Node.getDocument(elem).body;
-          var util = qx.html2.element.Visibility;
+          var body = qx.dom.Node.getDocument(elem).body;
+          var util = qx.bom.element.Visibility;
 
           if (util.getBoxSizing(elem) !== "border-box")
           {
@@ -413,7 +413,7 @@ qx.Class.define("qx.bom.element.Location",
         var top = 0;
 
         // Stop at the body
-        var body = qx.html2.Node.getDocument(elem).body;
+        var body = qx.dom.Node.getDocument(elem).body;
 
         // Add all offsets of parent hierarchy, do not include
         // body element.

@@ -57,7 +57,7 @@ qx.Class.define("BasicSample",
       
       var el = document.getElementById("test1");
       
-      var clip = qx.html2.element.Clip.get(el)
+      var clip = qx.bom.element.Clip.get(el)
       this.debug("Clip init: " + clip.left + "," + clip.top + "  " + clip.width + "," + clip.height);
     },
     
@@ -66,9 +66,9 @@ qx.Class.define("BasicSample",
       var el = document.getElementById("test1");
       
       this.debug("Setting to: 20,20  200,40");
-      qx.html2.element.Clip.set(el, 20, 20, 120, 40);
+      qx.bom.element.Clip.set(el, 20, 20, 120, 40);
 
-      var clip = qx.html2.element.Clip.get(el)
+      var clip = qx.bom.element.Clip.get(el)
       this.debug("Clip after: " + clip.left + "," + clip.top + "  " + clip.width + "," + clip.height);
     },
     
@@ -77,9 +77,9 @@ qx.Class.define("BasicSample",
       var el = document.getElementById("test1");
       
       this.debug("Setting to: auto");
-      qx.html2.element.Clip.reset(el);
+      qx.bom.element.Clip.reset(el);
 
-      var clip = qx.html2.element.Clip.get(el)
+      var clip = qx.bom.element.Clip.get(el)
       this.debug("Clip after: " + clip.left + "," + clip.top + "  " + clip.width + "," + clip.height);
     }
   }

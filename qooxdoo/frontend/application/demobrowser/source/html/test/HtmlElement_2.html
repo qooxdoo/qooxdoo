@@ -19,29 +19,29 @@
     btn.addToDocument();
     btn.addEventListener("execute", function(e)
     {
-      var doc = new qx.html2.element.Object(document.getElementById("test"));
+      var doc = new qx.bom.element.Object(document.getElementById("test"));
 
-      var large = new qx.html2.element.Object;
+      var large = new qx.bom.element.Object;
       doc.add(large);
 
       var parent, child;
 
       for (var i=0; i<10; i++)
       {
-        parent = new qx.html2.element.Object;
+        parent = new qx.bom.element.Object;
         parent.setAttribute("id", "#" + i);
         large.add(parent);
 
         for (var j=0; j<100; j++)
         {
-          child = new qx.html2.element.Object;
+          child = new qx.bom.element.Object;
           child.setAttribute("id", "#" + i + "_" + j);
           parent.add(child);
         }
       };
 
       var s = new Date;
-      qx.html2.element.Object.flushQueue();
+      qx.bom.element.Object.flushQueue();
       this.debug("Time to create 1000 elements: " + (new Date - s) + "ms");
     });
   });

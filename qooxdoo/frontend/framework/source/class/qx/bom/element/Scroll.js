@@ -114,7 +114,7 @@ qx.Class.define("qx.bom.element.Scroll",
     intoViewY : function(element, align)
     {
       var parent = element.parentNode;
-      var body = qx.html2.Node.getDocument(element).body;
+      var body = qx.dom.Node.getDocument(element).body;
       
       var parentLocation, parentTop, parentBottom;
       var parentOuterHeight, parentClientHeight, parentScrollHeight;
@@ -129,7 +129,7 @@ qx.Class.define("qx.bom.element.Scroll",
       while (parent)
       {
         // "overflow" is always visible for both: document.body and document.documentElement
-        if (parent.scrollHeight > parent.clientHeight && (parent === body || qx.html2.element.Overflow.getY(parent) != "visible")) 
+        if (parent.scrollHeight > parent.clientHeight && (parent === body || qx.bom.element.Overflow.getY(parent) != "visible")) 
         {
           // console.debug("Process...")
           
@@ -138,8 +138,8 @@ qx.Class.define("qx.bom.element.Scroll",
           if (parent === body)
           {
             parentTop = parent.scrollTop;
-            parentBottom = parentTop + qx.html2.Viewport.getHeight();
-            parentOuterHeight = qx.html2.Viewport.getHeight();
+            parentBottom = parentTop + qx.bom.Viewport.getHeight();
+            parentOuterHeight = qx.bom.Viewport.getHeight();
             parentClientHeight = parent.clientHeight;
             parentScrollHeight = parent.scrollHeight;
             parentTopBorder = 0;
@@ -148,19 +148,19 @@ qx.Class.define("qx.bom.element.Scroll",
           }
           else
           {
-            parentLocation = qx.html2.element.Location.get(parent);
+            parentLocation = qx.bom.element.Location.get(parent);
             parentTop = parentLocation.top;
             parentBottom = parentLocation.bottom;
             parentOuterHeight = parent.offsetHeight;
             parentClientHeight = parent.clientHeight;
             parentScrollHeight = parent.scrollHeight;
-            parentTopBorder = parseInt(qx.html2.element.Style.getComputed(parent, "borderTopWidth")) || 0;
-            parentBottomBorder = parseInt(qx.html2.element.Style.getComputed(parent, "borderBottomWidth")) || 0;
+            parentTopBorder = parseInt(qx.bom.element.Style.getComputed(parent, "borderTopWidth")) || 0;
+            parentBottomBorder = parseInt(qx.bom.element.Style.getComputed(parent, "borderBottomWidth")) || 0;
             parentScrollBarHeight = parentOuterHeight - parentClientHeight - parentTopBorder - parentBottomBorder;
           }
 
           // Calculate element data
-          elementLocation = qx.html2.element.Location.get(element);
+          elementLocation = qx.bom.element.Location.get(element);
           elementTop = elementLocation.top;
           elementBottom = elementLocation.bottom;
           elementHeight = element.offsetHeight;
@@ -229,7 +229,7 @@ qx.Class.define("qx.bom.element.Scroll",
     intoViewX : function(element, align)
     {
       var parent = element.parentNode;
-      var body = qx.html2.Node.getDocument(element).body;
+      var body = qx.dom.Node.getDocument(element).body;
       
       var parentLocation, parentLeft, parentRight;
       var parentOuterWidth, parentClientWidth, parentScrollWidth;
@@ -244,7 +244,7 @@ qx.Class.define("qx.bom.element.Scroll",
       while (parent)
       {
         // "overflow" is always visible for both: document.body and document.documentElement
-        if (parent.scrollWidth > parent.clientWidth && (parent === body || qx.html2.element.Overflow.getY(parent) != "visible")) 
+        if (parent.scrollWidth > parent.clientWidth && (parent === body || qx.bom.element.Overflow.getY(parent) != "visible")) 
         {
           // console.debug("Process...")
           
@@ -253,8 +253,8 @@ qx.Class.define("qx.bom.element.Scroll",
           if (parent === body)
           {
             parentLeft = parent.scrollLeft;
-            parentRight = parentLeft + qx.html2.Viewport.getWidth();
-            parentOuterWidth = qx.html2.Viewport.getWidth();
+            parentRight = parentLeft + qx.bom.Viewport.getWidth();
+            parentOuterWidth = qx.bom.Viewport.getWidth();
             parentClientWidth = parent.clientWidth;
             parentScrollWidth = parent.scrollWidth;
             parentLeftBorder = 0;
@@ -263,19 +263,19 @@ qx.Class.define("qx.bom.element.Scroll",
           }
           else
           {
-            parentLocation = qx.html2.element.Location.get(parent);
+            parentLocation = qx.bom.element.Location.get(parent);
             parentLeft = parentLocation.left;
             parentRight = parentLocation.right;
             parentOuterWidth = parent.offsetWidth;
             parentClientWidth = parent.clientWidth;
             parentScrollWidth = parent.scrollWidth;
-            parentLeftBorder = parseInt(qx.html2.element.Style.getComputed(parent, "borderLeftWidth")) || 0;
-            parentRightBorder = parseInt(qx.html2.element.Style.getComputed(parent, "borderRightWidth")) || 0;
+            parentLeftBorder = parseInt(qx.bom.element.Style.getComputed(parent, "borderLeftWidth")) || 0;
+            parentRightBorder = parseInt(qx.bom.element.Style.getComputed(parent, "borderRightWidth")) || 0;
             parentScrollBarWidth = parentOuterWidth - parentClientWidth - parentLeftBorder - parentRightBorder;
           }
 
           // Calculate element data
-          elementLocation = qx.html2.element.Location.get(element);
+          elementLocation = qx.bom.element.Location.get(element);
           elementLeft = elementLocation.left;
           elementRight = elementLocation.right;
           elementWidth = element.offsetWidth;

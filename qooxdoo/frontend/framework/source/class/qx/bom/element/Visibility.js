@@ -92,7 +92,7 @@ qx.Class.define("qx.bom.element.Visibility",
      * @return {Boolean} true when the element is hidden
      */
     isHidden : function(element) {
-      return qx.html2.element.Style.getComputed(element, "visibility") === "hidden";
+      return qx.bom.element.Style.getComputed(element, "visibility") === "hidden";
     }
   }
 });

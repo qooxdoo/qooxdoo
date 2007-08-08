@@ -98,7 +98,7 @@ qx.Class.define("qx.event2.type.EventPool",
      * It is assumed that no other references exist to this Object, and that it will
      * not be used at all while it is pooled.
      *
-     * @param event {qx.html2.type.Event} An Event instance to pool.
+     * @param event {qx.bom.type.Event} An Event instance to pool.
      */
     poolEvent : function(event)
     {
