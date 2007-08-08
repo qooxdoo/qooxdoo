@@ -99,7 +99,7 @@ qx.Class.define("qx.html2.element.Location",
       if (qx.html2.client.Engine.MSHTML && elem.getBoundingClientRect)
       {
         // Find window
-        var win = qx.html2.node.Util.getDefaultView(elem);
+        var win = qx.html2.Node.getWindow(elem);
 
         // Reduce by viewport scrolling.
         // Hint: getBoundingClientRect returns the location of the
@@ -111,7 +111,7 @@ qx.Class.define("qx.html2.element.Location",
       else
       {
         // Find body element
-        var body = qx.html2.node.Util.getDocument(elem).body;
+        var body = qx.html2.Node.getDocument(elem).body;
 
         // Only the parents are influencing the scroll position
         elem = elem.parentNode;
@@ -148,7 +148,7 @@ qx.Class.define("qx.html2.element.Location",
       "mshtml" : function(elem)
       {
         // Find body element
-        var doc = qx.html2.node.Util.getDocument(elem);
+        var doc = qx.html2.Node.getDocument(elem);
         var body = doc.body;
 
         // Start with the offset
@@ -175,7 +175,7 @@ qx.Class.define("qx.html2.element.Location",
       "webkit" : function(elem)
       {
         // Find body element
-        var doc = qx.html2.node.Util.getDocument(elem);
+        var doc = qx.html2.Node.getDocument(elem);
         var body = doc.body;
 
         // Start with the offset
@@ -202,7 +202,7 @@ qx.Class.define("qx.html2.element.Location",
       "gecko" : function(elem)
       {
         // Find body element
-        var body = qx.html2.node.Util.getDocument(elem).body;
+        var body = qx.html2.Node.getDocument(elem).body;
 
         // Start with the offset
         var left = body.offsetLeft;
@@ -253,7 +253,7 @@ qx.Class.define("qx.html2.element.Location",
       "default" : function(elem)
       {
         // Find body element
-        var body = qx.html2.node.Util.getDocument(elem).body;
+        var body = qx.html2.Node.getDocument(elem).body;
 
         // Start with the offset
         var left = body.offsetLeft;
@@ -290,7 +290,7 @@ qx.Class.define("qx.html2.element.Location",
     {
       "mshtml|webkit" : function(elem)
       {
-        var doc = qx.html2.node.Util.getDocument(elem);
+        var doc = qx.html2.Node.getDocument(elem);
 
         // Use faster getBoundingClientRect() if available
         // Note: This is not yet supported by Webkit.
@@ -364,7 +364,7 @@ qx.Class.define("qx.html2.element.Location",
           var top = 0;
 
           // Stop at the body
-          var body = qx.html2.node.Util.getDocument(elem).body;
+          var body = qx.html2.Node.getDocument(elem).body;
           var util = qx.html2.element.Util;
 
           if (util.getBoxSizing(elem) !== "border-box")
@@ -413,7 +413,7 @@ qx.Class.define("qx.html2.element.Location",
         var top = 0;
 
         // Stop at the body
-        var body = qx.html2.node.Util.getDocument(elem).body;
+        var body = qx.html2.Node.getDocument(elem).body;
 
         // Add all offsets of parent hierarchy, do not include
         // body element.

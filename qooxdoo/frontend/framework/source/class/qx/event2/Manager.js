@@ -152,10 +152,10 @@ qx.Class.define("qx.event2.Manager",
     getManager : function(element)
     {
       // get the corresponding default view (window)
-      if (qx.html2.node.Util.isWindow(element)) {
+      if (qx.html2.Node.isWindow(element)) {
         var win = element;
-      } else if (qx.html2.node.Util.isElementNode(element)) {
-        var win = qx.html2.node.Util.getDefaultView(element);
+      } else if (qx.html2.Node.isElement(element)) {
+        var win = qx.html2.Node.getWindow(element);
       } else {
         var win = window;
       }

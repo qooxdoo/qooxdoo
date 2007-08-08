@@ -52,7 +52,7 @@ qx.Class.define("qx.html2.Node",
      */
     getDocument : function(node) 
     {
-      if (this.isDocumentNode(node)) {
+      if (this.isDocument(node)) {
         return node;
       }
       
@@ -164,7 +164,7 @@ qx.Class.define("qx.html2.Node",
      * @return {Boolean} true if the object is a window object.
      */
     isWindow : function(node) {
-      return node.document && this.getDefaultView(node.document) == node;
+      return node.document && this.getWindow(node.document) == node;
     }
   }
 });
