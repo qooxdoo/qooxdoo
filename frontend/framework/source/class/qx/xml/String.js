@@ -60,7 +60,7 @@ qx.Class.define("qx.xml.String",
      * @return {String} the escaped string
      */
     escape : function(str) {
-      return qx.dom.String.escapeEntities(str, qx.xml.Entity.FROM_CHARCODE);
+      return qx.dom.String.escapeEntities(str, qx.xml.String.FROM_CHARCODE);
     },
 
 
@@ -77,7 +77,7 @@ qx.Class.define("qx.xml.String",
      * @return {String} the unescaped string
      */
     unescape : function(str) {
-      return qx.dom.String.unescapeEntities(str, qx.xml.Entity.TO_CHARCODE);
+      return qx.dom.String.unescapeEntities(str, qx.xml.String.TO_CHARCODE);
     }
   }
 });
