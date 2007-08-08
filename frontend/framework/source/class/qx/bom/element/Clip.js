@@ -38,7 +38,7 @@ qx.Class.define("qx.bom.element.Clip",
   {
     get : function(element)
     {
-      var clip = qx.html2.element.Style.getComputed(element, "clip");
+      var clip = qx.bom.element.Style.getComputed(element, "clip");
 
       var left = "auto";
       var top = "auto";
@@ -126,11 +126,11 @@ qx.Class.define("qx.bom.element.Clip",
         top = top + "px";
       }
 
-      return qx.html2.element.Style.set(element, "clip", "rect(" + top + "," + right + "," + bottom + "," + left + ")");
+      return qx.bom.element.Style.set(element, "clip", "rect(" + top + "," + right + "," + bottom + "," + left + ")");
     },
 
     reset : function(element) {
-      qx.html2.element.Style.set(element, "clip", "auto");
+      qx.bom.element.Style.set(element, "clip", "auto");
     }
   }
 });

@@ -23,7 +23,7 @@
 ************************************************************************ */
 
 /**
- * @deprecated: Use qx.html2.Viewport instead
+ * @deprecated: Use qx.bom.Viewport instead
  */
 qx.Class.define("qx.html.Window",
 {

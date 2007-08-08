@@ -47,7 +47,7 @@
  * supports to operate on one element and reorganize the content with
  * the insertion of new HTML or nodes.
  */
-qx.Class.define("qx.html2.Hierarchy",
+qx.Class.define("qx.dom.Hierarchy",
 {
   statics :
   {
@@ -123,7 +123,7 @@ qx.Class.define("qx.html2.Hierarchy",
     {
       "mshtml|opera" : function(element, target)
       {
-        var clazz = qx.html2.Node;
+        var clazz = qx.dom.Node;
         return clazz.isDocument(element) ? element === clazz.getDocument(target) : element !== target && element.contains(target);
       },
 

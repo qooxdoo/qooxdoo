@@ -60,7 +60,7 @@ qx.Class.define("qx.bom.element.Opacity",
   {
 
     /** shorthand to style class */
-    __style : qx.html2.element.Style,
+    __style : qx.bom.element.Style,
 
 
     /**

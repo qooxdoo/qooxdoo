@@ -43,10 +43,10 @@ qx.Class.define("BasicSample",
     {
       this.base(arguments);
       
-      var util = qx.html2.element.Visibility;
-      var attrib = qx.html2.element.Attribute;
-      var style = qx.html2.element.Style;
-      var opac = qx.html2.element.Opacity;
+      var util = qx.bom.element.Visibility;
+      var attrib = qx.bom.element.Attribute;
+      var style = qx.bom.element.Style;
+      var opac = qx.bom.element.Opacity;
   
       this.info("test1");
       this.debug("classname: " + attrib.get(document.getElementById("test1"), "class"));
@@ -106,8 +106,8 @@ qx.Class.define("BasicSample",
       this.debug("opacity: " + opac.get(document.getElementById("test8")));
       
       this.info("test9");
-      this.debug("Document: " + qx.html2.Document.getWidth() + "x" + qx.html2.Document.getHeight());
-      this.debug("Viewport: " + qx.html2.Viewport.getWidth() + "x" + qx.html2.Viewport.getHeight());
+      this.debug("Document: " + qx.bom.Document.getWidth() + "x" + qx.bom.Document.getHeight());
+      this.debug("Viewport: " + qx.bom.Viewport.getWidth() + "x" + qx.bom.Viewport.getHeight());
     }
   }
 });

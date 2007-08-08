@@ -33,7 +33,7 @@
 
 /**
  * Functions to scroll DOM elements into the visible area of the parent element
- * @deprecated: Use qx.html2.element.Scroll instead
+ * @deprecated: Use qx.bom.element.Scroll instead
  */
 qx.Class.define("qx.html.ScrollIntoView",
 {

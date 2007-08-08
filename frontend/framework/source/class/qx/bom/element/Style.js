@@ -387,7 +387,7 @@ qx.Class.define("qx.bom.element.Style",
         // when working with frames and access an element of another frame.
         // Then we must use the <code>getComputedStyle</code> of the document
         // where the element is defined.
-        var doc = qx.html2.Node.getDocument(element);
+        var doc = qx.dom.Node.getDocument(element);
         var computed = doc.defaultView.getComputedStyle(element, null);
 
         // All relevant browsers expose the configured style properties to
