@@ -52,7 +52,7 @@ qx.Class.define("testrunner.test.html2.HtmlBasics",
 
     testElementAttributes : function()
     {
-      var util = qx.html2.element.Util;
+      var util = qx.html2.element.Visibility;
       var attrib = qx.html2.element.Attribute;
       var style = qx.html2.element.Style;
       var opac = qx.html2.element.Opacity;
