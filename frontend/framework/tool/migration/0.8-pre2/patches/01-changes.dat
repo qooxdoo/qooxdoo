@@ -1,0 +1,1 @@
+\bqx\.dom\.Element\.getTextContent\b=qx.dom.Node.getText

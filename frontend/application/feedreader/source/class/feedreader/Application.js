@@ -602,16 +602,16 @@ qx.Class.define("feedreader.Application",
       {
         var eItem = eItems[i];
         var item = {};
-        item.title = qx.dom.Element.getTextContent(eItem.getElementsByTagName("title")[0]);
+        item.title = qx.dom.Node.getText(eItem.getElementsByTagName("title")[0]);
 
         if (eItem.getElementsByTagName("author").length > 0) {
-          item.author = qx.dom.Element.getTextContent(eItem.getElementsByTagName("author")[0].getElementsByTagName("name")[0]);
+          item.author = qx.dom.Node.getText(eItem.getElementsByTagName("author")[0].getElementsByTagName("name")[0]);
         } else {
           item.author = "";
         }
 
-        item.date = qx.dom.Element.getTextContent(eItem.getElementsByTagName("created")[0] || eItem.getElementsByTagName("published")[0] || eItem.getElementsByTagName("updated")[0] || empty);
-        item.content = qx.dom.Element.getTextContent(eItem.getElementsByTagName("content")[0] || empty);
+        item.date = qx.dom.Node.getText(eItem.getElementsByTagName("created")[0] || eItem.getElementsByTagName("published")[0] || eItem.getElementsByTagName("updated")[0] || empty);
+        item.content = qx.dom.Node.getText(eItem.getElementsByTagName("content")[0] || empty);
         item.link = eItem.getElementsByTagName("link")[0].getAttribute("href");
         item.id = i;
         items.push(item);
@@ -638,11 +638,11 @@ qx.Class.define("feedreader.Application",
       {
         var eItem = eItems[i];
         var item = {};
-        item.title = qx.dom.Element.getTextContent(eItem.getElementsByTagName("title")[0]);
-        item.author = qx.dom.Element.getTextContent(qx.xml.Element.getElementsByTagNameNS(eItem, qx.xml.Namespace.DC, "creator")[0] || empty);
-        item.date = qx.dom.Element.getTextContent(eItem.getElementsByTagName("pubDate")[0]);
-        item.content = qx.dom.Element.getTextContent(qx.xml.Element.getElementsByTagNameNS(eItem, qx.xml.Namespace.RSS1, "encoded")[0] || empty);
-        item.link = qx.dom.Element.getTextContent(eItem.getElementsByTagName("link")[0]);
+        item.title = qx.dom.Node.getText(eItem.getElementsByTagName("title")[0]);
+        item.author = qx.dom.Node.getText(qx.xml.Element.getElementsByTagNameNS(eItem, qx.xml.Namespace.DC, "creator")[0] || empty);
+        item.date = qx.dom.Node.getText(eItem.getElementsByTagName("pubDate")[0]);
+        item.content = qx.dom.Node.getText(qx.xml.Element.getElementsByTagNameNS(eItem, qx.xml.Namespace.RSS1, "encoded")[0] || empty);
+        item.link = qx.dom.Node.getText(eItem.getElementsByTagName("link")[0]);
         item.id = i;
         items.push(item);
       }
