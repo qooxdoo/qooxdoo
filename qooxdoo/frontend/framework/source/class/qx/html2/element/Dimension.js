@@ -24,7 +24,7 @@
 ************************************************************************ */
 
 /**
- * Contains miscellaneous utilities to operate on HTML elements.
+ * Contains support for calculating dimensions of HTML elements.
  */
 qx.Class.define("qx.html2.element.Util",
 {
@@ -38,76 +38,7 @@ qx.Class.define("qx.html2.element.Util",
   {
     /*
     ---------------------------------------------------------------------------
-      ELEMENT VISIBILITY
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Shows the given element
-     *
-     * @type static
-     * @param element {Element} DOM element to show
-     * @return {void}
-     */
-    show : function(element) {
-      element.style.visibility = "visible";
-    },
-
-
-    /**
-     * Hides the given element
-     *
-     * @type static
-     * @param element {Element} DOM element to hide
-     * @return {void}
-     */
-    hide : function(element) {
-      element.style.visibility = "hidden";
-    },
-
-
-    /**
-     * Toggle the visibility of the given element
-     *
-     * @type static
-     * @param element {Element} DOM element to show
-     * @return {void}
-     */
-    toggle : function(element) {
-      element.style.visibility = this.isHidden(element) ? "visible" : "hidden";
-    },
-
-
-    /**
-     * Whether the given element is visible
-     *
-     * @type static
-     * @param element {Element} DOM element to query
-     * @return {Boolean} true when the element is visible
-     */
-    isVisible : function(element) {
-      return !this.isHidden(element);
-    },
-
-
-    /**
-     * Whether the given element is hidden
-     *
-     * @type static
-     * @param element {Element} DOM element to query
-     * @return {Boolean} true when the element is hidden
-     */
-    isHidden : function(element) {
-      return qx.html2.element.Style.getComputed(element, "visibility") === "hidden";
-    },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      ELEMENT BOX SIZING
+      BOX SIZING
     ---------------------------------------------------------------------------
     */
 
