@@ -84,7 +84,7 @@ qx.Class.define("qx.ui.layout.GridLayout",
     },
 
 
-    /** The horizontal align of the children. Allowed values are: "left", "center" and "right" */
+    /** The horizontal alignment of the children. Allowed values are: "left", "center" and "right" */
     horizontalChildrenAlign :
     {
       check : [ "left", "center", "right" ],
@@ -94,7 +94,7 @@ qx.Class.define("qx.ui.layout.GridLayout",
     },
 
 
-    /** The vertical align of the children. Allowed values are: "top", "middle" and "bottom" */
+    /** The vertical alignment of the children. Allowed values are: "top", "middle" and "bottom" */
     verticalChildrenAlign :
     {
       check : [ "top", "middle", "bottom" ],
