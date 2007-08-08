@@ -42,19 +42,39 @@ qx.Class.define("qx.dom.Node",
       NODE TYPES
     ---------------------------------------------------------------------------
     */    
+
+    /**
+     * {Map} Node type:
+     *
+     * * ELEMENT               
+     * * ATTRIBUTE             
+     * * TEXT                  
+     * * CDATA_SECTION         
+     * * ENTITY_REFERENCE      
+     * * ENTITY                
+     * * PROCESSING_INSTRUCTION
+     * * COMMENT               
+     * * DOCUMENT              
+     * * DOCUMENT_TYPE         
+     * * DOCUMENT_FRAGMENT     
+     * * NOTATION
+     */    
+    TYPE :
+    { 
+      ELEMENT                : 1,
+      ATTRIBUTE              : 2,
+      TEXT                   : 3,
+      CDATA_SECTION          : 4,
+      ENTITY_REFERENCE       : 5,
+      ENTITY                 : 6,
+      PROCESSING_INSTRUCTION : 7,
+      COMMENT                : 8,
+      DOCUMENT               : 9,
+      DOCUMENT_TYPE          : 10,
+      DOCUMENT_FRAGMENT      : 11,
+      NOTATION               : 12
+    },
     
-    ELEMENT                : 1,
-    ATTRIBUTE              : 2,
-    TEXT                   : 3,
-    CDATA_SECTION          : 4,
-    ENTITY_REFERENCE       : 5,
-    ENTITY                 : 6,
-    PROCESSING_INSTRUCTION : 7,
-    COMMENT                : 8,
-    DOCUMENT               : 9,
-    DOCUMENT_TYPE          : 10,
-    DOCUMENT_FRAGMENT      : 11,
-    NOTATION               : 12,
     
     
     
