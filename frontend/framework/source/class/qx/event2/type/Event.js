@@ -253,7 +253,7 @@ qx.Class.define("qx.event2.type.Event",
         var node = this._dom.target;
 
         // Safari takes text nodes as targets for events
-        if (node && (node.nodeType == qx.dom.Node.TEXT)) {
+        if (node && (node.nodeType == qx.xml.Node.TEXT)) {
           node = node.parentNode;
         }
 
