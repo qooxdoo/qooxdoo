@@ -31,7 +31,7 @@
  * phase of the class. The defaults listed in the API viewer need not
  * to be identical to the values at runtime.
  */
-qx.Class.define("qx.client.detail.Platform",
+qx.Class.define("qx.bom.client.Platform",
 {
   /*
   *****************************************************************************
