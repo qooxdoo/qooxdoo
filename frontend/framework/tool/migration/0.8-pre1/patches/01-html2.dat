@@ -40,3 +40,7 @@
 # Moved qx.html2.client
 \bqx\.html2\.client\b=qx.client2.detail
 \bqx\.html2\.Client\b=qx.client2.Client
+
+# Minor name correction
+\bqx\.client2\.detail\.Features\b=qx.client2.detail.Feature
+
