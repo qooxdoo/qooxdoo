@@ -143,7 +143,7 @@ qx.Class.define("qx.ui.table2.cellrenderer.Icon",
      */
     _getCellStyle : function(cellInfo)
     {
-      var style = qx.ui.table2.cellrenderer.Abstract.prototype._getCellStyle(cellInfo);
+      var style = this.base(arguments, cellInfo);
       style += qx.ui.table2.cellrenderer.Icon.MAIN_DIV_STYLE;
       return style;
     },
@@ -243,8 +243,7 @@ qx.Class.define("qx.ui.table2.cellrenderer.Icon",
      */
     _createCellStyle_array_join : function(cellInfo, htmlArr)
     {
-      qx.ui.table2.cellrenderer.Abstract.prototype._createCellStyle_array_join(cellInfo, htmlArr);
-
+      this.base(arguments, cellInfo, htmlArr);
       htmlArr.push(qx.ui.table2.cellrenderer.Icon.MAIN_DIV_STYLE);
     },
 
@@ -260,13 +259,6 @@ qx.Class.define("qx.ui.table2.cellrenderer.Icon",
     _createContentHtml_array_join : function(cellInfo, htmlArr)
     {
       var IconDataCellRenderer = qx.ui.table2.cellrenderer.Icon;
-
-      if (qx.ui.table2.pane.Pane.USE_TABLE)
-      {
-        htmlArr.push(IconDataCellRenderer.TABLE_DIV);
-        htmlArr.push(cellInfo.styleHeight - 2); // -1 for the border, -1 for the padding
-        htmlArr.push(IconDataCellRenderer.TABLE_DIV_CLOSE);
-      }
 
       htmlArr.push(IconDataCellRenderer.IMG_START);
       var urlAndToolTip = this._getImageInfos(cellInfo);

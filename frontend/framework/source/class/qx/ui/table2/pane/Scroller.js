@@ -1884,12 +1884,9 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
 
         this._updateContentPlanned = true;
       }*/
-     /*
-     if (!this._lazyUpdate) {
-       this._updateContent();
-       return;
-     }
-     */
+
+     this._updateContent();
+     return;
 
      if (this._updateId) {
        window.clearTimeout(this._updateId);
@@ -1904,13 +1901,9 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
           if (self.getDisposed()) {
             return;
           }
-
-          var start = new Date();
           self._updateContent();
-          self.debug("render time: " + (new Date() - start) + "ms");
-
           self._updateId = null;
-       }, 70);
+       }, 40);
      }
     },
 
