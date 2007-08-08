@@ -40,7 +40,7 @@ qx.Class.define("qx.util.StringEscape",
      * @return {String} escaped string
      * @signature function(str, charCodeToEntities)
      */
-    escapeEntities : qx.core.Variant.select("qx.client",
+    escape : qx.core.Variant.select("qx.client",
     {
       // IE and Opera:
       //  - use [].join() to build strings
@@ -110,7 +110,7 @@ qx.Class.define("qx.util.StringEscape",
      * @param entitiesToCharCode {Map} charcode to entity map
      * @return {var} TODOC
      */
-    unescapeEntities : function(str, entitiesToCharCode)
+    unescape : function(str, entitiesToCharCode)
     {
       return str.replace(/&[#\w]+;/gi, function(entity)
       {

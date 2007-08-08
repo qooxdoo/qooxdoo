@@ -28,3 +28,6 @@
 
 # Migration from qx.dom to qx.xml
 \bqx\.dom\.Node\b=qx.xml.Node
+
+# Fix above error
+\bqx\.html2\.Attribute\b=qx.html2.element.Attribute
