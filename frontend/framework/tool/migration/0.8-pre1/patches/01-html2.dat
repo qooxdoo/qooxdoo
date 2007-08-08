@@ -31,3 +31,8 @@
 
 # Fix above error
 \bqx\.html2\.Attribute\b=qx.html2.element.Attribute
+
+# Splitted qx.html2.element.Util
+\bqx\.html2\.element\.Util\.setBoxSizing\b=qx.html2.element.Util.setBoxSizing
+\bqx\.html2\.element\.Util\.getBoxSizing\b=qx.html2.element.Util.getBoxSizing
+\bqx\.html2\.element\.Util\b=qx.html2.element.Visibility
