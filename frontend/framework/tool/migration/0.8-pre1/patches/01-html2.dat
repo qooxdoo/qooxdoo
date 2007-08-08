@@ -78,7 +78,6 @@
 \bqx\.client\.History\b=qx.bom.History
 \bqx\.client\.NativeWindow\b=qx.bom.Window
 \bqx\.client\.Timer\b=qx.bom.Timer
-\bqx\.client2\b=qx.client
 
 \bqx\.event\b=qx.legacy.event
 \bqx\.event2\b=qx.event
