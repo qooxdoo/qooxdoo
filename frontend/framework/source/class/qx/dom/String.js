@@ -148,20 +148,6 @@ qx.Class.define("qx.dom.String",
 
         return chr;
       });
-    },
-
-
-    /**
-     * Remove HTML/XML tags from a string
-     * Example:
-     * <pre class='javascript'>qx.dom.String.stripTags("&lt;h1>Hello&lt;/h1>") == "Hello"</pre>
-     *
-     * @type static
-     * @param str {String} string containing tags
-     * @return {String} the string with stripped tags
-     */
-    stripTags : function(str) {
-      return str.replace(/<\/?[^>]+>/gi, "");
     }
   }
 });
