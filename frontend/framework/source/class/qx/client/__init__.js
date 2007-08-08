@@ -1,3 +1,0 @@
-/**
- * The qx.client package.
- */
