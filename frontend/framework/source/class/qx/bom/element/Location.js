@@ -209,7 +209,7 @@ qx.Class.define("qx.bom.element.Location",
         var top = body.offsetTop;
 
         // Correct substracted border (only in content-box mode)
-        if (qx.bom.element.Visibility.getBoxSizing(body) !== "border-box")
+        if (qx.bom.element.Dimension.getBoxSizing(body) !== "border-box")
         {
           left += this.__num(body, "borderLeftWidth");
           top += this.__num(body, "borderTopWidth");
@@ -365,9 +365,9 @@ qx.Class.define("qx.bom.element.Location",
 
           // Stop at the body
           var body = qx.dom.Node.getDocument(elem).body;
-          var util = qx.bom.element.Visibility;
+          var dim = qx.bom.element.Dimension;
 
-          if (util.getBoxSizing(elem) !== "border-box")
+          if (dim.getBoxSizing(elem) !== "border-box")
           {
             left -= this.__num(elem, "borderLeftWidth");
             top -= this.__num(elem, "borderTopWidth");
@@ -381,7 +381,7 @@ qx.Class.define("qx.bom.element.Location",
 
             // Mozilla does not add the borders to the offset
             // when using box-sizing=content-box
-            if (util.getBoxSizing(elem) !== "border-box")
+            if (dim.getBoxSizing(elem) !== "border-box")
             {
               left += this.__num(elem, "borderLeftWidth");
               top += this.__num(elem, "borderTopWidth");
@@ -501,6 +501,50 @@ qx.Class.define("qx.bom.element.Location",
         right : left + elem.offsetWidth,
         bottom : top + elem.offsetHeight
       };
+    },
+    
+
+    /**
+     * Computes the location of the given element in context of
+     * the document dimenions.
+     *
+     * Supported modes:
+     *
+     * * <code>margin</code>: Align to the margin of the given element (incl. padding, border and margin)
+     * * <code>box</code> (default): Align to the box of the given element (incl. padding and border)
+     * * <code>border</code>: Align to the border of the given element (incl. padding)
+     * * <code>content</code>: Align to the content of the given element (does not contain border, padding or margin)
+     *
+     * @type static
+     * @param elem {Element} DOM element to query
+     * @param mode {String} A supported option. See comment above.
+     * @return {Integer} The left distance
+     *   of the element relative to the document.
+     */    
+    getLeft : function(elem, mode) {
+      return this.get(elem, mode).left;
+    },
+    
+    
+    /**
+     * Computes the location of the given element in context of
+     * the document dimenions.
+     *
+     * Supported modes:
+     *
+     * * <code>margin</code>: Align to the margin of the given element (incl. padding, border and margin)
+     * * <code>box</code> (default): Align to the box of the given element (incl. padding and border)
+     * * <code>border</code>: Align to the border of the given element (incl. padding)
+     * * <code>content</code>: Align to the content of the given element (does not contain border, padding or margin)
+     *
+     * @type static
+     * @param elem {Element} DOM element to query
+     * @param mode {String} A supported option. See comment above.
+     * @return {Integer} The top distance
+     *   of the element relative to the document.
+     */    
+    getTop : function(elem, mode) {
+      return this.get(elem, mode).top;
     },
 
 
