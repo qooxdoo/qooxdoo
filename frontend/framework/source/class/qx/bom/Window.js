@@ -549,11 +549,6 @@ qx.Class.define("qx.bom.Window",
 
         // start timer for close detection
         this._timer.start();
-
-        // block original document
-        if (this.getModal()) {
-          qx.ui.core.ClientDocument.getInstance().block(this);
-        }
       }
     },
 
@@ -572,11 +567,6 @@ qx.Class.define("qx.bom.Window",
 
       // stop timer for close detection
       this._timer.stop();
-
-      // release window again
-      if (this.getModal()) {
-        qx.ui.core.ClientDocument.getInstance().release(this);
-      }
 
       // finally close window
       if (!this.isClosed()) {
