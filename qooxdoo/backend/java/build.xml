@@ -17,11 +17,11 @@
     
     <target name="war">
         <mkdir dir="build"/>
-        <copy todir="build/api">
+        <copy todir="build/apiviewer">
             <fileset dir="${frontendDir}/application/apiviewer/build"/>
         </copy>
-        <copy todir="build/sample">
-            <fileset dir="${frontendDir}/application/sample/build"/>
+        <copy todir="build/demobrowser">
+            <fileset dir="${frontendDir}/application/demobrowser/build"/>
         </copy>
         <war destfile="qooxdoo.war" webxml="webapp/WEB-INF/web.xml">
             <fileset dir="build"/>
