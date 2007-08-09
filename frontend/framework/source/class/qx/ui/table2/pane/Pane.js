@@ -341,7 +341,7 @@ qx.Class.define("qx.ui.table2.pane.Pane",
 
       //var start = new Date();
 
-      if (scrollOffset && Math.abs(scrollOffset) <= 10)
+      if (scrollOffset && Math.abs(scrollOffset) <= Math.min(10, this.getVisibleRowCount()))
       {
         //this.debug("scroll", scrollOffset);
         this._scrollContent(scrollOffset);
