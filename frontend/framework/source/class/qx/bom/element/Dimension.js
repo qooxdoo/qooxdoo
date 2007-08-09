@@ -42,26 +42,68 @@ qx.Class.define("qx.bom.element.Dimension",
     ---------------------------------------------------------------------------
     */    
     
+    /**
+     * Returns the (box) width of the given element.
+     *
+     * @type static
+     * @param element {Element} DOM element to query
+     * @return {Integer} width of the element
+     */
     getWidth : function(element) {
       return element.offsetWidth; 
     },
     
+    /**
+     * Returns the (box) height of the given element.
+     *
+     * @type static
+     * @param element {Element} DOM element to query
+     * @return {Integer} height of the element
+     */    
     getHeight : function(element) {
       return element.offsetHeight;
     },
     
+    /**
+     * Returns the inner width of the given element.
+     *
+     * @type static
+     * @param element {Element} DOM element to query
+     * @return {Integer} inner width of the element
+     */
     getInnerWidth : function(element) {
       return element.clientWidth; 
     },
     
+    /**
+     * Returns the inner height of the given element.
+     *
+     * @type static
+     * @param element {Element} DOM element to query
+     * @return {Integer} inner height of the element
+     */
     getInnerHeight : function(element) {
       return element.clientHeight;
     },
     
+    /**
+     * Returns the scroll width of the given element.
+     *
+     * @type static
+     * @param element {Element} DOM element to query
+     * @return {Integer} scroll width of the element
+     */
     getScrollWidth : function(element) {
       return element.scrollWidth; 
     },
     
+    /**
+     * Returns the scroll height of the given element.
+     *
+     * @type static
+     * @param element {Element} DOM element to query
+     * @return {Integer} scroll height of the element
+     */
     getScrollHeight : function(element) {
       return element.scrollHeight;
     },        
@@ -120,6 +162,7 @@ qx.Class.define("qx.bom.element.Dimension",
      * * "border-box" = Microsoft model (dimensions are box specific incl. border and padding)
      *
      * @type static
+     * @signature function(element, sizing)
      * @param element {Element} DOM element to modify
      * @param sizing {String} "content-box" or "border-box"
      * @return {void}
@@ -153,6 +196,7 @@ qx.Class.define("qx.bom.element.Dimension",
      * * "border-box" = Microsoft model (dimensions are box specific incl. border and padding)
      *
      * @type static
+     * @signature function(element, sizing)
      * @param element {Element} DOM element to modify
      * @param sizing {String} "content-box" or "border-box"
      * @return {void}

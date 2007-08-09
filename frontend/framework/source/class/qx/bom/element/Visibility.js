@@ -53,7 +53,7 @@ qx.Class.define("qx.bom.element.Visibility",
      *
      * @type static
      * @param element {Element} DOM element to modify
-     * @param value {Boolean}
+     * @param value {Boolean} <code>true</code> makes the element visible, otherwise it gets hidden
      * @return {void}
      */
     set : function(element, value) {
@@ -66,10 +66,9 @@ qx.Class.define("qx.bom.element.Visibility",
      *
      * @type static
      * @param element {Element} DOM element to modify
-     * @param value {Boolean}
      * @return {void}
      */
-    reset : function(element, value) {
+    reset : function(element) {
       element.style.visibility = "";
     },    
     

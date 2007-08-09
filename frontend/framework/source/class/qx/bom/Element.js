@@ -180,7 +180,6 @@ qx.Class.define("qx.bom.Element",
      * @type static
      * @param element {Element} DOM element to modify
      * @param property {String} Name of attribute or style
-     * @param value {var} Any acceptable value for the given attribute or style
      * @return {var} the new value
      */    
     reset : function(element, property)
