@@ -96,7 +96,7 @@ qx.Class.define("qx.ui.table.headerrenderer.Default",
      *
      * @type member
      * @param cellInfo {var} TODOC
-     * @return {var} TODOC
+     * @return {qx.ui.core.Widget} TODOC
      */
     createHeaderCell : function(cellInfo)
     {
