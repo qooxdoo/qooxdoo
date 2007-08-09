@@ -209,7 +209,6 @@ qx.Class.define("qx.ui.table2.pane.Pane",
           this._updateContent(false, null, oldRow, true);
           this._updateContent(false, null, row, true);
         }
-
       }
     },
 
@@ -339,44 +338,25 @@ qx.Class.define("qx.ui.table2.pane.Pane",
         return;
       }
 
-      var start = new Date();
+      //var start = new Date();
 
       if (scrollOffset && Math.abs(scrollOffset) <= 10)
       {
-        console.log("scroll", scrollOffset);
+        //this.debug("scroll", scrollOffset);
         this._scrollContent(scrollOffset);
       }
       else if (onlySelectionOrFocusChanged && !this.getTable().getAlwaysUpdateCells())
       {
-        console.log("update row styles");
+        //this.debug("update row styles");
         this._updateRowStyles(onlyRow);
       }
       else
       {
-        console.log("full update");
+        //this.debug("full update");
         this._updateAllRows(onlySelectionOrFocusChanged);
       }
 
-      this.debug("render time: " + (new Date() - start) + "ms");
-    },
-
-
-    __initTableArray : function()
-    {
-      this.TABLE_ARR = [];
-
-      var i=0;
-      this.TABLE_ARR[i++] = '<table cellspacing="0" cellpadding="0" style="table-layout:fixed;font-family:';
-      this.TAB_FONT_FAMILY = i++;
-      this.TABLE_ARR[i++] = ';font-size:';
-      this.TAB_FONT_SIZE = i++;
-      this.TABLE_ARR[i++] = ';width:';
-      this.TAB_ROW_WIDTH = i++;
-      this.TABLE_ARR[i++] = 'px"><colgroup>';
-      this.TAB_COLGROUP = i++;
-      this.TABLE_ARR[i++] = '</colgroup><tbody>';
-      this.TAB_BODY = i++;
-      this.TABLE_ARR[i++] = '</tbody></table>';
+      //this.debug("render time: " + (new Date() - start) + "ms");
     },
 
 
@@ -451,7 +431,7 @@ qx.Class.define("qx.ui.table2.pane.Pane",
 
         rowHtml.push('<tr style="height:');
         rowHtml.push(rowHeight+"px");
-        rowRenderer._createRowStyle_array_join(cellInfo, rowHtml);
+        rowRenderer.createRowStyle(cellInfo, rowHtml);
 
         rowHtml.push('">');
 
@@ -500,6 +480,15 @@ qx.Class.define("qx.ui.table2.pane.Pane",
       var rowCount = this.getVisibleRowCount();
       var firstRow = this.getFirstVisibleRow();
 
+
+      var modelRowCount = this.getTable().getTableModel().getRowCount();
+
+      // don't handle this special case here
+      if (firstRow + rowCount > modelRowCount) {
+        this._updateAllRows();
+        return;
+      }
+
       // remove old lines
       var removeRowBase = rowOffset < 0 ? rowCount + rowOffset : 0;
       var addRowBase = rowOffset < 0 ? 0: rowCount - rowOffset;
@@ -507,7 +496,11 @@ qx.Class.define("qx.ui.table2.pane.Pane",
       for (i=Math.abs(rowOffset)-1; i>=0; i--)
       {
         var rowElem = tableChildNodes[removeRowBase];
-        tableBody.removeChild(rowElem);
+        try {
+          tableBody.removeChild(rowElem);
+        } catch(e) {
+          break;
+        }
       }
 
       // render new lines
@@ -537,6 +530,29 @@ qx.Class.define("qx.ui.table2.pane.Pane",
           tableBody.insertBefore(rowElem, tableBody.firstChild);
         }
       }
+
+      // force immediate layouting
+      // this prevents Firefox from flickering
+      rowElem.offsetHeight;
+    },
+
+
+    __initTableArray : function()
+    {
+      this.TABLE_ARR = [];
+
+      var i=0;
+      this.TABLE_ARR[i++] = '<table cellspacing="0" cellpadding="0" style="table-layout:fixed;font-family:';
+      this.TAB_FONT_FAMILY = i++;
+      this.TABLE_ARR[i++] = ';font-size:';
+      this.TAB_FONT_SIZE = i++;
+      this.TABLE_ARR[i++] = ';width:';
+      this.TAB_ROW_WIDTH = i++;
+      this.TABLE_ARR[i++] = 'px"><colgroup>';
+      this.TAB_COLGROUP = i++;
+      this.TABLE_ARR[i++] = '</colgroup><tbody>';
+      this.TAB_BODY = i++;
+      this.TABLE_ARR[i++] = '</tbody></table>';
     },
 
 
@@ -576,7 +592,7 @@ qx.Class.define("qx.ui.table2.pane.Pane",
       var rowWidth = paneModel.getTotalWidth();
 
       this.TABLE_ARR[this.TAB_FONT_FAMILY] = qx.ui.table2.pane.Pane.CONTENT_ROW_FONT_FAMILY_TEST;
-      this.TABLE_ARR[this.TAB_FONT_SIZE] =qx.ui.table2.pane.Pane.CONTENT_ROW_FONT_SIZE_TEST;
+      this.TABLE_ARR[this.TAB_FONT_SIZE] = qx.ui.table2.pane.Pane.CONTENT_ROW_FONT_SIZE_TEST;
       this.TABLE_ARR[this.TAB_ROW_WIDTH] = rowWidth;
 
       var i=0;
@@ -596,14 +612,19 @@ qx.Class.define("qx.ui.table2.pane.Pane",
       var elem = this.getElement();
 
       // this.debug(">>>" + this.TABLE_ARR.join("") + "<<<")
+
+      var data = this.TABLE_ARR.join("");
       /*
-      var data = this.TABLE_ARR.join("") + "<div id='juhu'></div>";;
       window.setTimeout(function() {
         elem.innerHTML = data;
-        var j = document.getElementById("juhu").offsetHeight;
+        elem.childNodes[0].offsetHeight;
       }, 0);
       */
-      elem.innerHTML = this.TABLE_ARR.join("");
+
+      elem.innerHTML = data;
+
+      // force immediate layouting
+      // this prevents Firefox from flickering
       elem.childNodes[0].offsetHeight;
 
       this.setHeight(rowCount * rowHeight);
