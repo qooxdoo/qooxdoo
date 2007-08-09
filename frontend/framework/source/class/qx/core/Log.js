@@ -37,7 +37,6 @@
 /* ************************************************************************
 
 #module(core)
-#require(qx.bom.Viewport)
 
 ************************************************************************ */
 
@@ -327,9 +326,6 @@ qx.Class.define("qx.core.Log",
     },
 
     // ********************************************************************************************
-    /** emulation flag */
-    emu : true,
-
     /** Iframe element in which the console gets rendered */
     consoleFrame : null,
 
@@ -422,7 +418,7 @@ qx.Class.define("qx.core.Log",
       // set the flag and create frame if the current console is FireBug Lite
       this.loaded = true;
 
-      if (console.emu) {
+      if (!window.console) {
         this.createFrame();
       }
     },
@@ -454,12 +450,6 @@ qx.Class.define("qx.core.Log",
       consoleFrame.style.bottom = "0px";
       consoleFrame.style.height = "200px";
       
-      if (qx.bom.client.Engine.MSHTML) 
-      {
-        consoleFrame.style.setExpression("top", "(qx.bom.Viewport.getHeight()+qx.bom.Viewport.getScrollTop()-200) + 'px'");
-        consoleFrame.style.position = "absolute";
-      }
-
       qx.core.Log.consoleFrame = consoleFrame;
       document.body.appendChild(consoleFrame);
     },
@@ -703,7 +693,7 @@ qx.Class.define("qx.core.Log",
     logFormatted : function(objects, className)
     {
       // check for FireBug extension and delegate it to the extension
-      if (!console.emu && console[className])
+      if (window.console)
       {
         for (var i=0, j=objects.length; i<j; i++) {
           console[className].call(console, this.objectToString(objects[i]));
@@ -1196,10 +1186,6 @@ qx.Class.define("qx.core.Log",
 
   defer : function(statics, members, properties)
   {
-    if (!("console" in window) || !("firebug" in console)) {
-      window.console = statics;
-    }
-
     // add listener - DO NOT poll for "document.body"
     qx.core.Init.getInstance().addEventListener("load", qx.core.Log.onload, qx.core.Log);
   }
