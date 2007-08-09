@@ -36,6 +36,44 @@ qx.Class.define("qx.bom.element.Visibility",
 
   statics :
   {
+    /** 
+     * Sets the given element to visible or hidden
+     *
+     * @type static
+     * @param element {Element} DOM element to modify
+     * @return {Boolean} <code>true</code> when the element is visible
+     */
+    get : function(element) {
+      return !this.isHidden(element);
+    },
+    
+        
+    /** 
+     * Sets the given element to visible or hidden
+     *
+     * @type static
+     * @param element {Element} DOM element to modify
+     * @param value {Boolean}
+     * @return {void}
+     */
+    set : function(element, value) {
+      element.style.visibility = value ? "visible" : "hidden";
+    },
+    
+    
+    /** 
+     * Resets the local visibility property of the given element
+     *
+     * @type static
+     * @param element {Element} DOM element to modify
+     * @param value {Boolean}
+     * @return {void}
+     */
+    reset : function(element, value) {
+      element.style.visibility = "";
+    },    
+    
+
     /**
      * Shows the given element
      *

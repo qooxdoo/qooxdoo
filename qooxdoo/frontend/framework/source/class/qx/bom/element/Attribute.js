@@ -117,6 +117,17 @@ qx.Class.define("qx.bom.element.Attribute",
         href : true,
         src  : true,
         type : true
+      },
+      
+      // Block these properties when trying to apply new value to them
+      readOnly : 
+      {
+        offsetWidth : true,
+        offsetHeight : true,
+        scrollWidth : true,
+        scrollHeight : true,
+        clientWidth : true,
+        clientHeight : true       
       }
     },
 
@@ -138,7 +149,7 @@ qx.Class.define("qx.bom.element.Attribute",
 
         // normalize name
         name = hints.names[name] || name;
-
+        
         // respect properties
         if (hints.property[name]) {
           return element[name];
@@ -152,13 +163,23 @@ qx.Class.define("qx.bom.element.Attribute",
 
         return element.getAttribute(name);
       },
-
+      
+      // currently only supported by gecko
       "default" : function(element, name)
       {
         var hints = this.__hints;
 
         // normalize name
         name = hints.names[name] || name;
+
+        // Respect dual property/attributes
+        // where sometimes the value is stored under
+        // as an attribute and sometimes as a property
+        // This is the case for example tabIndex in Opera,
+        // Safari and Gecko
+        if (hints.dual[name]) {
+          return element.getAttribute(name) || element[name]; 
+        }
 
         // respect properties
         if (hints.property[name]) {
@@ -171,12 +192,7 @@ qx.Class.define("qx.bom.element.Attribute",
 
 
     /**
-     * Sets a HTML attribute on an DOM element
-     *
-     * Correctly supports HTML "for" attribute.
-     * Can handle both name variants lowercase & camelcase.
-     * Supports "text" property to define innerText/textContent.
-     * Supports "html" property to define innerHTML content.
+     * Sets an HTML attribute on the given DOM element
      *
      * @type static
      * @param element {Element} The DOM element to modify
@@ -187,6 +203,11 @@ qx.Class.define("qx.bom.element.Attribute",
     set : function(element, name, value)
     {
       var hints = this.__hints;
+      
+      // block read only ones
+      if (hints.readOnly[name]) {
+        throw new Error("Attribute " + name + " is read only!"); 
+      }
 
       // normalize name
       name = hints.names[name] || name;
@@ -201,6 +222,20 @@ qx.Class.define("qx.bom.element.Attribute",
       } else {
         element.setAttribute(name, value);
       }
+    },
+    
+    
+    /**
+     * Resets an HTML attribute on the given DOM element
+     *
+     * @type static
+     * @param element {Element} The DOM element to modify
+     * @param name {String} Name of the attribute
+     * @param value {var} New value of the attribute
+     * @return {void}
+     */    
+    reset : function(element, name) {
+      this.set(element, name, null); 
     }
   }
 });

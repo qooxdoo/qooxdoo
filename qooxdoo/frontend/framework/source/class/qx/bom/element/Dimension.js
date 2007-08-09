@@ -38,6 +38,40 @@ qx.Class.define("qx.bom.element.Dimension",
   {
     /*
     ---------------------------------------------------------------------------
+      QUERY
+    ---------------------------------------------------------------------------
+    */    
+    
+    getWidth : function(element) {
+      return element.offsetWidth; 
+    },
+    
+    getHeight : function(element) {
+      return element.offsetHeight;
+    },
+    
+    getInnerWidth : function(element) {
+      return element.clientWidth; 
+    },
+    
+    getInnerHeight : function(element) {
+      return element.clientHeight;
+    },
+    
+    getScrollWidth : function(element) {
+      return element.scrollWidth; 
+    },
+    
+    getScrollHeight : function(element) {
+      return element.scrollHeight;
+    },        
+    
+    
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
       BOX SIZING
     ---------------------------------------------------------------------------
     */
