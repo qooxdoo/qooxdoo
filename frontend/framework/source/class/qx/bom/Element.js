@@ -81,6 +81,72 @@ qx.Class.define("qx.bom.Element",
     
     
     
+    /*
+    ---------------------------------------------------------------------------
+      FLY WEIGHT PATTERN
+      Inspired by ExtJS
+    ---------------------------------------------------------------------------
+    */
+    
+    fly : function(element)
+    {
+      // Dynamic helper object creation
+      if (!this._flyHelper)
+      {
+        this._flyHelper = 
+        {
+          get : function(property, value1, value2, value3, value4, value5, value6) 
+          {
+            qx.bom.Element.get(this._element, property, value1, value2, value3, value4, value5, value6);
+            return this;
+          },
+          
+          set : function(property, value1, value2, value3, value4, value5, value6) 
+          {
+            qx.bom.Element.set(this._element, property, value1, value2, value3, value4, value5, value6);
+            return this;
+          },
+
+          reset : function(property, value1, value2, value3, value4, value5, value6) 
+          {
+            qx.bom.Element.reset(this._element, property, value1, value2, value3, value4, value5, value6);
+            return this;
+          }                  
+        };
+      }
+      
+      this._flyHelper._element = element;
+      return this._flyHelper;
+    },
+    
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      EXTEND PATTERN
+      Inspired by Prototype and Base2
+    ---------------------------------------------------------------------------
+    */    
+    
+    extend : function(element)
+    {
+      if (!element.get)
+      {
+        element.get = new Function("property", "value1", "return qx.bom.Element.get(this, property, value1);");
+        element.set = new Function("property", "value1", "value2", "value3", "value4", "value5", "value6", "qx.bom.Element.set(this, property, value1, value2, value3, value4, value5, value6); return this;");
+        element.reset = new Function("property", "qx.bom.Element.reset(this, property); return this;");
+      }
+      
+      return element;
+    },
+    
+    
+    
+
+        
+    
+    
     
     /*
     ---------------------------------------------------------------------------
@@ -130,14 +196,28 @@ qx.Class.define("qx.bom.Element",
      * interpreted as a style property, attribute name, or
      * requires a custom setter.
      *
+     * Also supports a map as second incoming argument. This is 
+     * modeled after the idea of <code>qx.core.Object.set</code>.
+     *
      * @type static
      * @param element {Element} DOM element to modify
-     * @param property {String} Name of attribute or style
+     * @param property {String|Map} Name of attribute or style or Map of properties and values.
      * @param value {var} Any acceptable value for the given attribute or style
      * @return {var} the new value
      */
     set : function(element, property, value)
     {
+      // Support alternative use case: input=map
+      // following the idea of qx.core.Object.set()
+      if (typeof property === "object") 
+      {
+        for (var key in property) {
+          this.set(element, key, property[key]); 
+        }
+        
+        return element;
+      }
+      
       var custom = this.__custom[property];
       
       if (custom) 
@@ -151,7 +231,7 @@ qx.Class.define("qx.bom.Element",
           var args = qx.lang.Array.fromArguments(arguments);
           qx.lang.Array.removeAt(args, 1); // remove 'property'
           
-          custom.context[custom.set].call(custom.context, args);
+          custom.context[custom.set].apply(custom.context, args);
         }
         else
         {
