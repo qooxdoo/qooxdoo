@@ -50,7 +50,7 @@ qx.Class.define("qx.ui.table.model.Abstract",
      * TODOC
      *
      * @type member
-     * @return {var} TODOC
+     * @return {Integer} TODOC
      */
     getColumnCount : function() {
       return this._columnIdArr.length;

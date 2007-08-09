@@ -40,7 +40,7 @@ qx.Class.define("qx.log.appender.Forward",
   */
 
   /**
-   * @param targetProcessor {LogEventProcessor} The log event processor Where to
+   * @param targetProcessor {qx.log.LogEventProcessor} The log event processor Where to
    *    pass the log events.
    */
   construct : function(targetProcessor)
