@@ -53,21 +53,6 @@ qx.Class.define("qx.ui.table2.cellrenderer.Abstract",
   },
 
 
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-    /** main style */
-    TABLE_TD                      : '<td class="qooxdoo-table-cell-abstract" style="', //'<td style="height:',
-    TABLE_TD_END                  : '</td>'
-  },
-
-
-
 
   /*
   *****************************************************************************
@@ -77,6 +62,11 @@ qx.Class.define("qx.ui.table2.cellrenderer.Abstract",
 
   members :
   {
+    _getCellClass : function() {
+      return "qooxdoo-table-cell-abstract";
+    },
+
+
     /**
      * Returns the CSS styles that should be applied to the main div of this cell.
      *
@@ -119,12 +109,13 @@ qx.Class.define("qx.ui.table2.cellrenderer.Abstract",
      */
     createDataCellHtml : function(cellInfo, htmlArr)
     {
-      var AbstractDataCellRenderer = qx.ui.table2.cellrenderer.Abstract;
-      htmlArr.push(AbstractDataCellRenderer.TABLE_TD);
+      htmlArr.push('<td class="');
+      htmlArr.push(this._getCellClass());
+      htmlArr.push('" style="');
       this._getCellStyle(cellInfo, htmlArr)
       htmlArr.push('">');
       this._getContentHtml(cellInfo, htmlArr);
-      htmlArr.push(AbstractDataCellRenderer.TABLE_TD_END);
+      htmlArr.push("</td>");
     }
 
   }
