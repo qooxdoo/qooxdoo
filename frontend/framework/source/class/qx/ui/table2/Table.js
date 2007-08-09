@@ -364,7 +364,7 @@ qx.Class.define("qx.ui.table2.Table",
     /** The renderer to use for styling the rows. */
     dataRowRenderer :
     {
-      check : "qx.ui.table2.rowrenderer.Basic",
+      check : "qx.ui.table2.rowrenderer.IRowRenderer",
       init : null,
       nullable : true,
       apply : "_applyDataRowRenderer",
