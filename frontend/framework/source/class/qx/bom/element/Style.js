@@ -66,7 +66,8 @@ qx.Class.define("qx.bom.element.Style",
       // Style property name correction
       names :
       {
-        "float" : qx.core.Client.getInstance().isMshtml() ? "styleFloat" : "cssFloat"
+        "float" : qx.bom.client.Engine.MSHTML ? "styleFloat" : "cssFloat",
+        "boxSizing" : qx.bom.client.Engine.GECKO ? "mozBoxSizing" : "boxSizing"
       },
 
       // Mshtml has propertiery pixel* properties for locations and dimensions
@@ -79,25 +80,6 @@ qx.Class.define("qx.bom.element.Style",
         right : "pixelRight",
         top : "pixelTop",
         bottom : "pixelBottom"
-      },
-
-      // Shorthand properties must be blocked for cascaded/computed values
-      shorthand :
-      {
-        background : true,
-        listStyle : true,
-        font : true,
-        margin : true,
-        padding : true,
-        border : true,
-        borderTop : true,
-        borderRight : true,
-        borderBottom : true,
-        borderLeft : true,
-        outlineTop : true,
-        outlineRight : true,
-        outlineBottom : true,
-        outlineLeft : true
       }
     },
 
@@ -285,11 +267,6 @@ qx.Class.define("qx.bom.element.Style",
         // Normalize name
         name = hints.names[name] || name;
 
-        // Block shorthands
-        if (hints.shorthand[name]) {
-          throw new Error("Shorthand properties are not supported to be evaluated by cascade: " + name);
-        }
-
         // return currentStyle of element
         return element.currentStyle[name];
       },
@@ -297,11 +274,6 @@ qx.Class.define("qx.bom.element.Style",
       "default" : function(element, name)
       {
         var hints = this.__hints;
-
-        // Block shorthands
-        if (hints.shorthand[name]) {
-          throw new Error("Shorthand properties are not supported to be evaluated by cascade: " + name);
-        }
 
         throw new Error("Cascaded styles are not supported on this client");
       }
@@ -335,11 +307,6 @@ qx.Class.define("qx.bom.element.Style",
 
         // Normalize name
         name = hints.names[name] || name;
-
-        // Block shorthands
-        if (hints.shorthand[name]) {
-          throw new Error("Shorthand properties are not supported to be evaluated by cascade: " + name);
-        }
 
         // Read cascaded style
         var currentStyle = element.currentStyle[name];
@@ -394,11 +361,6 @@ qx.Class.define("qx.bom.element.Style",
 
         // Normalize name
         name = hints.names[name] || name;
-
-        // Block shorthands
-        if (hints.shorthand[name]) {
-          throw new Error("Shorthand properties are not supported to be evaluated by cascade: " + name);
-        }
 
         // Opera, Mozilla and Safari 3+ also have a global getComputedStyle which is identical
         // to the one found under document.defaultView.

@@ -49,6 +49,12 @@ qx.Class.define("qx.bom.Element",
 
   statics :
   {
+    /*
+    ---------------------------------------------------------------------------
+      CREATION
+    ---------------------------------------------------------------------------
+    */    
+    
     /**
      * Creates an DOM element
      *
@@ -76,161 +82,263 @@ qx.Class.define("qx.bom.Element",
     
     
     
-        
-    /**
-     * This internal data will be automatically translated to a full blown
-     * map structure in __init()
-     */
-    __generic :
-    {
-      attributes :
-      [
-        "class", "text", "html", "name", "id",
-        "href", "src", "type", "for",
-        "colspan", "rowspan", "valign", "datetime", "accesskey",
-        "tabindex", "enctype", "maxlength", "readonly", "longdesc",
-        "disabled", "checked", "multiple", "selected", "value",
-        "title"
-      ],
-
-      styles :
-      [
-        "minWidth", "width", "maxWidth",
-        "minHeight", "height", "maxHeight",
-        "top", "right", "bottom", "left",
-        "border",
-        "borderTop", "borderRight", "borderBottom", "borderLeft",
-        "margin",
-        "marginTop", "marginRight", "marginBottom", "marginLeft",
-        "padding",
-        "paddingTop", "paddingRight", "paddingBottom", "paddingLeft",
-        "float", "clear",
-        "color", "backgroundColor",
-        "font", "fontFamily"
-      ],
-
-      custom :
-      {
-        "opacity" : qx.bom.element.Opacity,
-        "cursor" : qx.bom.element.Cursor,
-        "clip" : qx.bom.element.Clip,
-        "overflow" : qx.bom.element.Overflow
-      }
-    },
-
-
-    /**
-     * Applies the given attribute or style to the element.
-     * Automatically determines if the given key should be
-     * interpreted as a style property, attribute name, or
-     * custom setter.
-     *
-     * @type static
-     * @param element {Element} DOM element to modify
-     * @param key {String} Name of attribute or style
-     * @param value {var} Any acceptable value for the given attribute or style
-     * @return {var} the new value
-     * @throws an exception if the given key couldn't be processed
-     */
-    set : function(element, key, value)
-    {
-      var gen = this.__generic;
-
-      if (gen.attributes[key]) {
-        return qx.bom.element.Attribute.set(element, key, value);
-      } else if (gen.styles[key]) {
-        return qx.bom.element.Style.set(element, key, value);
-      } else if (gen.custom[key]) {
-        return gen.custom[key].set(element, value);
-      }
-
-      throw new Error("Generic set() has no informations about: " + key);
-    },
-
+    /*
+    ---------------------------------------------------------------------------
+      GENERIC INTERFACE
+    ---------------------------------------------------------------------------
+    */
 
     /**
      * Returns the given attribute or style of the element.
-     * Automatically determines if the given key should be
+     * Automatically determines if the given property should be
      * interpreted as a style property, attribute name, or
-     * custom setter.
+     * comes with a custom getter.
      *
      * @type static
      * @param element {Element} DOM element to modify
-     * @param key {String} Name of attribute or style
+     * @param property {String} Name of attribute or style
      * @return {var} the resulting value
-     * @throws an exception if the given key couldn't be processed
      */
-    get : function(element, key)
+    get : function(element, property)
     {
-      var gen = this.__generic;
-
-      if (gen.attributes[key]) {
-        return qx.bom.element.Attribute.get(element, key);
-      } else if (gen.styles[key]) {
-        return qx.bom.element.Style.get(element, key);
-      } else if (gen.custom[key]) {
-        return gen.custom[key].get(element);
+      var custom = this.__custom[property];
+      
+      if (custom) 
+      {
+        if (!custom.get) {
+          throw new Error("Property " + property + " does not support to be changed.");
+        }
+        
+        return custom.context[custom.get](element);
       }
-
-      throw new Error("Generic get() has no informations about: " + key);
+      else
+      {
+        if (this.__style[property]) {
+          return qx.bom.element.Style.getComputed(element, property);
+        } else {
+          return qx.bom.element.Attribute.get(element, property);
+        }
+      }
+      
+      return element;        
+    },
+    
+    
+    /**
+     * Applies the given attribute or style to the element.
+     * Automatically determines if the given property should be
+     * interpreted as a style property, attribute name, or
+     * requires a custom setter.
+     *
+     * @type static
+     * @param element {Element} DOM element to modify
+     * @param property {String} Name of attribute or style
+     * @param value {var} Any acceptable value for the given attribute or style
+     * @return {var} the new value
+     */
+    set : function(element, property, value)
+    {
+      var custom = this.__custom[property];
+      
+      if (custom) 
+      {
+        if (!custom.set) {
+          throw new Error("Property " + property + " does not support to be changed.");
+        }
+        
+        if (custom.multiarg)
+        {
+          var args = qx.lang.Array.fromArguments(arguments);
+          qx.lang.Array.removeAt(args, 1); // remove 'property'
+          
+          custom.context[custom.set].call(custom.context, args);
+        }
+        else
+        {
+          custom.context[custom.set](element, value);
+        }
+      }
+      else
+      {
+        if (this.__style[property]) {
+          qx.bom.element.Style.set(element, property, value);
+        } else {
+          qx.bom.element.Attribute.set(element, property, value);
+        }
+      }
+      
+      return element;
     },
 
 
     /**
-     * Preprocesses and translates <code>__generic</code> data
-     * structure and creates a larger but faster accessible table
-     * for later usage.
+     * Resets the given attribute or style to the element.
+     * Automatically determines if the given property should be
+     * interpreted as a style property, attribute name, or
+     * requires a custom resetter.
      *
      * @type static
-     * @return {void}
-     */
+     * @param element {Element} DOM element to modify
+     * @param property {String} Name of attribute or style
+     * @param value {var} Any acceptable value for the given attribute or style
+     * @return {var} the new value
+     */    
+    reset : function(element, property)
+    {
+      var custom = this.__custom[property];
+      
+      if (custom) 
+      {
+        if (!custom.set) {
+          throw new Error("Property " + property + " does not support to be changed.");
+        }
+        
+        custom.context[custom.reset](element, value);
+      }
+      else
+      {
+        if (this.__style[property]) {
+          qx.bom.element.Style.reset(element, property, value);
+        } else {
+          qx.bom.element.Attribute.reset(element, property, value);
+        }
+      }
+      
+      return element;      
+    },
+    
+    
+    /** {Map} Internal data structures to map to separate implementation classes */
+    __custom : 
+    {
+      clip : 
+      {
+        context : qx.bom.element.Clip,
+        multiarg : true
+      },
+      
+      cursor : 
+      {
+        context : qx.bom.element.Cursor
+      },
+      
+      boxWidth : 
+      {
+        context : qx.bom.element.Dimension,
+        get : "getWidth"
+      },
+      
+      boxHeight : 
+      {
+        context : qx.bom.element.Dimension,
+        get : "getHeight"
+      },
+      
+      innerWidth : 
+      {
+        context : qx.bom.element.Dimension,
+        get : "getInnerWidth"
+      },
+      
+      innerHeight : 
+      {
+        context : qx.bom.element.Dimension,
+        get : "getInnerHeight"
+      },   
+      
+      scrollWidth : 
+      {
+        context : qx.bom.element.Dimension,
+        get : "getScrollWidth"
+      },
+      
+      scrollHeight : 
+      {
+        context : qx.bom.element.Dimension,
+        get : "getScrollHeight"
+      },                
+      
+      locationLeft : 
+      {
+        context : qx.bom.element.Location,
+        get : "getLeft"
+      },
+      
+      locationTop : 
+      {
+        context : qx.bom.element.Location,
+        get : "getTop"
+      },
+            
+      opacity : 
+      {
+        context : qx.bom.element.Opacity
+      },
+      
+      overflowX : 
+      {
+        context : qx.bom.element.Overflow,
+        set : "setX",
+        get : "getX",
+        reset : "resetX" 
+      },
+      
+      overflowY : 
+      {
+        context : qx.bom.element.Overflow,
+        set : "setX",
+        get : "getX",
+        reset : "resetX" 
+      },
+      
+      scrollX : 
+      {
+        context : qx.bom.element.Scroll,
+        set : "setX",
+        get : "getX",
+        reset : "resetX" 
+      },
+      
+      scrollY : 
+      {
+        context : qx.bom.element.Scroll,
+        set : "setX",
+        get : "getX",
+        reset : "resetX" 
+      },
+      
+      visibility : 
+      {
+        context : qx.bom.element.Visibility
+      }    
+    },
+    
+    
+    /** Initializes generic interface */
     __init : function()
     {
-      var generic = this.__generic;
-
-      var map =
+      // Generate style data
+      var source = document.createElement("div").style;
+      var target = this.__style = {};
+      
+      for (var key in source) {
+        target[key] = true;
+      }
+      
+      // Process custom data
+      var custom = this.__custom;
+      var value;
+      for (var key in custom)
       {
-        attributes : {},
-        styles     : {},
-        custom     : {}
-      };
-
-      var name, hints, source, target;
-
-      // Process attributes
-      hints = qx.bom.element.Attribute.__hints.names;
-      source = generic.attributes;
-      target = map.attributes;
-
-      for (var i=0, l=source.length; i<l; i++)
-      {
-        name = source[i];
-        target[name] = true;
-
-        if (hints[name]) {
-          target[hints[name]] = true;
+        value = custom[key];
+        
+        if (value.set === undefined && value.get === undefined && value.reset === undefined)
+        {
+          value.set = "set";
+          value.get = "get";
+          value.reset = "reset";
         }
       }
-
-      // Process styles
-      hints = qx.bom.element.Style.__hints.names;
-      source = generic.styles;
-      target = map.styles;
-
-      for (var i=0, l=source.length; i<l; i++)
-      {
-        name = source[i];
-        target[name] = true;
-
-        if (hints[name]) {
-          target[hints[name]] = true;
-        }
-      }
-
-      // custom attributes
-      map.custom = generic.custom;
-
-      this.__generic = map;
     }
   },
 

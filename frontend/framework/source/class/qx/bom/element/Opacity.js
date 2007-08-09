@@ -124,6 +124,37 @@ qx.Class.define("qx.bom.element.Opacity",
         element.style.opacity = opacity;
       }
     }),
+    
+    
+    /**
+     * Resets opacity of given element. 
+     *
+     * @type static
+     * @param element {Element} DOM element to modify
+     * @return {void}
+     * @signature function(element)
+     */    
+    reset : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(element)
+      {
+        // Remove old alpha filter
+        element.style.filter = filter.replace(/alpha\([^\)]*\)/gi, "");
+      },
+      
+      "gecko" : function(element)
+      {
+        if (qx.bom.client.Engine.VERSION < 1.7) {
+          element.style.MozOpacity = "";
+        } else {
+          element.style.opacity = "";
+        }        
+      },
+      
+      "default" : function(element) {
+        element.style.opacity = "";
+      }
+    }),
 
 
     /**
