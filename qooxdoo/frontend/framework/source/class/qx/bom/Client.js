@@ -44,12 +44,7 @@
  *
  * Currently supports the following keys:
  *
- * * khtml
- * * opera, opera8, opera85, opera9, opera95
- * * webkit, webkit419, webkit420
- * * gecko, gecko17, gecko18, gecko181, gecko19
- * * mshtml, mshtml6, mshtml7
- * * version
+ * * khtml, opera, webkik, gecko, mshtml, version
  *
  * * standard_mode, quirks_mode
  * * content_box, border_box
@@ -57,6 +52,12 @@
  * * xpath
  *
  * * win, mac, unix
+ *
+ * * sp1, sp2
+ * * win95, win98, winme, winnt4, win2000, winxp, win2003, winvista, wince
+ * * linux, sunos, freebsd, netbsd
+ * * osx, os9
+ * * symbian, psp, nintendods
  *
  * Types: <code>version</code> is a floating point number. All others
  * are <code>boolean</code>.
