@@ -112,7 +112,7 @@
 
 
 #
-# PART 6 (tomorrow)
+# PART 6
 #
 
 \bqx\.io\.remote\.AbstractRemoteTransport\b=qx.io.remote.transport.Abstract
