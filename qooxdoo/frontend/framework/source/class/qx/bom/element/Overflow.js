@@ -87,7 +87,7 @@ qx.Class.define("qx.bom.element.Overflow",
     {
       // use native overflowX property
       "mshtml|webkit|opera" : function(element, value) {
-        return qx.bom.element.Style.set(element, "overflowX", value);
+        qx.bom.element.Style.set(element, "overflowX", value);
       },
 
       // gecko support differs
@@ -136,7 +136,7 @@ qx.Class.define("qx.bom.element.Overflow",
 
         // gecko >= 1.8 supports overflowX, too
         "default" : function(element, value) {
-          return qx.bom.element.Style.set(element, "overflowX", value);
+          qx.bom.element.Style.set(element, "overflowX", value);
         }
       })
     }),
@@ -178,7 +178,7 @@ qx.Class.define("qx.bom.element.Overflow",
     {
       // use native overflowY property
       "mshtml|webkit|opera" : function(element, value) {
-        return qx.bom.element.Style.set(element, "overflowY", value);
+        qx.bom.element.Style.set(element, "overflowY", value);
       },
 
       // gecko support differs
@@ -227,7 +227,7 @@ qx.Class.define("qx.bom.element.Overflow",
 
         // gecko >= 1.8 supports overflowY, too
         "default" : function(element, value) {
-          return qx.bom.element.Style.set(element, "overflowY", value);
+          qx.bom.element.Style.set(element, "overflowY", value);
         }
       })
     })

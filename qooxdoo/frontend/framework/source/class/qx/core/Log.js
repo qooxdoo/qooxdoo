@@ -37,6 +37,7 @@
 /* ************************************************************************
 
 #module(core)
+#require(qx.bom.Viewport)
 
 ************************************************************************ */
 
@@ -439,12 +440,6 @@ qx.Class.define("qx.core.Log",
         return;
       }
 
-      /* call the own "onLogReady" method in the context of "qx.core.Log" */
-
-      window.onLogReady = function(doc) {
-        qx.core.Log.onLogReady.call(qx.core.Log, doc);
-      };
-
       var baseURL = qx.core.Log.getLogURL();
       var consoleFrame = qx.core.Log.consoleFrame;
 
@@ -481,8 +476,6 @@ qx.Class.define("qx.core.Log",
      */
     onLogReady : function(doc)
     {
-      window.onLogReady = null;
-
       var toolbar = doc.getElementById("toolbar");
 
       toolbar.onmousedown = function(e) {
