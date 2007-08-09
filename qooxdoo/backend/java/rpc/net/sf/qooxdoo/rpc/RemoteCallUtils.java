@@ -133,8 +133,10 @@ public class RemoteCallUtils {
                         name = names.getString(i);
                         if (!"class".equals(name)) {
                             desc = PropertyUtils.getPropertyDescriptor(bean, name);
-                            PropertyUtils.setSimpleProperty(bean, name,
-                                toJava(jsonObject.get(name), desc.getPropertyType()));
+                            if (desc != null && desc.getWriteMethod() != null) {
+                                PropertyUtils.setSimpleProperty(bean, name,
+                                    toJava(jsonObject.get(name), desc.getPropertyType()));
+                            }
                         }
                     }
                 }
