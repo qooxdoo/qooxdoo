@@ -148,7 +148,7 @@ qx.Class.define("qx.bom.element.Clip",
      * @param top {Integer|null} Could be null or any integer value
      * @param width {Integer|null} Could be null or any integer value
      * @param height {Integer|null} Could be null or any integer value
-     * @return {Element} Returns the modified DOM element
+     * @return {void}
      */
     set : function(element, left, top, width, height)
     {
@@ -177,7 +177,6 @@ qx.Class.define("qx.bom.element.Clip",
       }
 
       qx.bom.element.Style.set(element, "clip", "rect(" + top + "," + right + "," + bottom + "," + left + ")");
-      return element;
     },
      
      
@@ -186,12 +185,10 @@ qx.Class.define("qx.bom.element.Clip",
      *
      * @type static
      * @param element {Element} DOM element to modify
-     * @return {Element} The modified DOM element
+     * @return {void}
      */
-    reset : function(element) 
-    {
-      qx.bom.element.Style.set(element, "clip", "auto");
-      return element;
+    reset : function(element) {
+      qx.bom.element.Style.reset(element, "clip");
     }
   }
 });
