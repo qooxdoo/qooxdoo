@@ -963,7 +963,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
         return nodeArr;
       }
 
-      copyArr = nodeArr.concat();
+      var copyArr = nodeArr.concat();
       for (var i=nodeArr.length-1; i>=0; i--)
       {
         var node = nodeArr[i];
@@ -995,7 +995,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
       // Move protected methods to the end
       nodeArr.sort(function(obj1, obj2)
       {
-        sum1 = 0;
+        var sum1 = 0;
         if (obj1.isInternal()) {
           sum1 += 4;
         }
@@ -1006,7 +1006,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
           sum1 += 1;
         }
 
-        sum2 = 0;
+        var sum2 = 0;
         if (obj2.isInternal()) {
           sum2 += 4;
         }
