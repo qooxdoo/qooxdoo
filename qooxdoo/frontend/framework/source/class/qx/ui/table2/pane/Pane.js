@@ -202,7 +202,6 @@ qx.Class.define("qx.ui.table2.pane.Pane",
         this._focusedCol = col;
         this._focusedRow = row;
 
-        /*
         // Update the focused row background
         if (row != oldRow && !massUpdate)
         {
@@ -210,7 +209,7 @@ qx.Class.define("qx.ui.table2.pane.Pane",
           this._updateContent(false, null, oldRow, true);
           this._updateContent(false, null, row, true);
         }
-        */
+
       }
     },
 
@@ -342,13 +341,18 @@ qx.Class.define("qx.ui.table2.pane.Pane",
 
       var start = new Date();
 
-      if (scrollOffset && Math.abs(scrollOffset) <= 10) {
+      if (scrollOffset && Math.abs(scrollOffset) <= 10)
+      {
         console.log("scroll", scrollOffset);
         this._scrollContent(scrollOffset);
-      } else if (onlyRow) {
-        console.log("singlerow", onlyRow);
-        this._updateSingleRow(onlyRow);
-      } else {
+      }
+      else if (onlySelectionOrFocusChanged && !this.getTable().getAlwaysUpdateCells())
+      {
+        console.log("update row styles");
+        this._updateRowStyles(onlyRow);
+      }
+      else
+      {
         console.log("full update");
         this._updateAllRows(onlySelectionOrFocusChanged);
       }
@@ -376,26 +380,36 @@ qx.Class.define("qx.ui.table2.pane.Pane",
     },
 
 
-    _updateSingleRow : function(row)
+    _updateRowStyles : function(onlyRow)
     {
-      if (!this.getElement().firstChild) {
-        this._updateAllRows();
-        return;
-      }
+      var table = this.getTable();
+      var selectionModel = table.getSelectionModel();
+      var tableModel = table.getTableModel();
+      var rowRenderer = table.getDataRowRenderer();
 
-      var tableBody = this.getElement().firstChild.childNodes[1];
-      var oldRow = tableBody.childNodes[row-this.getFirstVisibleRow()];
+      var rowHeight = table.getRowHeight();
+      var firstRow = this.getFirstVisibleRow();
 
-      // render new lines
-      if (!this._tableContainer) {
-        this._tableContainer = document.createElement("div");
-      }
-      var tableDummy = '<table cellspacing="0" cellpadding="0" style="table-layout:fixed"><tbody>';
-      tableDummy += this._getRowsHtml(row, 1);
-      tableDummy += '</tbody></table>';
-      this._tableContainer.innerHTML = tableDummy;
-      var newRow = this._tableContainer.firstChild.firstChild.childNodes[0];
-      tableBody.replaceChild(newRow, oldRow);
+      var elem = this.getElement();
+      var rowNodes = elem.firstChild.childNodes[1].childNodes;
+      var cellInfo = { table : table };
+
+      for (var y=0, l=rowNodes.length; y<l; y++)
+      {
+        var row = firstRow + y;
+
+        if ((onlyRow != null) && (row != onlyRow)) {
+          continue;
+        }
+
+        cellInfo.row = row;
+        cellInfo.selected = selectionModel.isSelectedIndex(row);
+        cellInfo.focusedRow = (this._focusedRow == row);
+        cellInfo.rowData = tableModel.getRowData(row);
+
+        var rowElem = rowNodes[y];
+        rowRenderer.updateDataRowElement(cellInfo, rowElem);
+      };
     },
 
 
@@ -415,8 +429,9 @@ qx.Class.define("qx.ui.table2.pane.Pane",
       for (var row=firstRow; row < firstRow + rowCount; row++)
       {
         var selected = selectionModel.isSelectedIndex(row);
+        var focusedRow = (this._focusedRow == row);
 
-        if (!selected && this.__rowCache[row]) {
+        if (!selected && !focusedRow && this.__rowCache[row]) {
           rowsArr.push(this.__rowCache[row]);
           continue;
         }
@@ -431,12 +446,8 @@ qx.Class.define("qx.ui.table2.pane.Pane",
 
         cellInfo.row = row;
         cellInfo.selected = selected;
-        cellInfo.focusedRow = (this._focusedRow == row);
+        cellInfo.focusedRow = focusedRow;
         cellInfo.rowData = tableModel.getRowData(row);
-
-        // Update this row
-        //rowHtml.push('<tr height=');
-        //rowHtml.push(rowHeight+"px");
 
         rowHtml.push('<tr style="height:');
         rowHtml.push(rowHeight+"px");
@@ -468,7 +479,7 @@ qx.Class.define("qx.ui.table2.pane.Pane",
 
         var rowString = rowHtml.join("");
 
-        if (!selected) {
+        if (!selected && !focusedRow) {
           this.__rowCache[row] = rowString;
         }
         rowsArr.push(rowString);
