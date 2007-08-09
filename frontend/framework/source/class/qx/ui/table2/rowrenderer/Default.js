@@ -32,7 +32,8 @@
  */
 qx.Class.define("qx.ui.table2.rowrenderer.Default",
 {
-  extend : qx.ui.table2.rowrenderer.IRowRenderer,
+  extend : qx.core.Target,
+  implement : qx.ui.table2.rowrenderer.IRowRenderer,
 
 
 
