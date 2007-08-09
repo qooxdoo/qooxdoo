@@ -1,3 +1,0 @@
-/**
- * The qx.net package.
- */
