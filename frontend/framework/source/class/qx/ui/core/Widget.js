@@ -7012,7 +7012,7 @@ qx.Class.define("qx.ui.core.Widget",
     scrollIntoViewX : function(alignLeft)
     {
       if (!this._isCreated || !this._isDisplayable) {
-        this.warn("The function scrollIntoViewX can only be called after the widget is created!");
+        // this.warn("The function scrollIntoViewX can only be called after the widget is created!");
         return false;
       }
 
@@ -7033,7 +7033,7 @@ qx.Class.define("qx.ui.core.Widget",
     scrollIntoViewY : function(alignTop)
     {
       if (!this._isCreated || !this._isDisplayable) {
-        this.warn("The function scrollIntoViewY can only be called after the widget is created!");
+        //this.warn("The function scrollIntoViewY can only be called after the widget is created!");
         return false;
       }
 

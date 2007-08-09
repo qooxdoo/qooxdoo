@@ -364,7 +364,8 @@ qx.Class.define("qx.ui.tree.Tree",
     addChildToTreeQueue : function(vChild)
     {
       if (!vChild._isInTreeQueue && !vChild._isDisplayable) {
-        this.debug("Ignoring invisible child: " + vChild);
+        // this.debug("Ignoring invisible child: " + vChild);
+        return;
       }
 
       if (!vChild._isInTreeQueue && vChild._isDisplayable)
