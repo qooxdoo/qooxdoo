@@ -508,7 +508,7 @@ qx.Class.define("qx.ui.table2.pane.Pane",
       if (!this._tableContainer) {
         this._tableContainer = document.createElement("div");
       }
-      var tableDummy = '<table cellspacing="0" cellpadding="0" style="table-layout:fixed"><tbody>';
+      var tableDummy = '<table><tbody>';
       tableDummy += this._getRowsHtml(firstRow + addRowBase, Math.abs(rowOffset));
       tableDummy += '</tbody></table>';
       this._tableContainer.innerHTML = tableDummy;
@@ -519,7 +519,7 @@ qx.Class.define("qx.ui.table2.pane.Pane",
       {
         for (var i=newTableRows.length-1; i>=0; i--)
         {
-          var rowElem = newTableRows[i];
+          var rowElem = newTableRows[0];
           tableBody.appendChild(rowElem);
         }
       }
@@ -527,7 +527,7 @@ qx.Class.define("qx.ui.table2.pane.Pane",
       {
         for (var i=newTableRows.length-1; i>=0; i--)
         {
-          var rowElem = newTableRows[i];
+          var rowElem = newTableRows[0];
           tableBody.insertBefore(rowElem, tableBody.firstChild);
         }
       }
