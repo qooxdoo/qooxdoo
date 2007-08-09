@@ -1120,6 +1120,7 @@ qx.Class.define("qx.ui.core.Parent",
     {
       if (!vChild._isInParentChildrenQueue && !vChild._isDisplayable) {
         this.warn("Ignoring invisible child: " + vChild);
+        return;
       }
 
       if (!vChild._isInParentChildrenQueue && vChild._isDisplayable)

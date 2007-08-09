@@ -316,7 +316,7 @@ qx.Class.define("qx.ui.tree.SelectionManager",
       if (isSelected)
       {
         // scrool it into view
-        if (treeNode.isCreated())
+        if (treeNode.isSeeable())
         {
           this.scrollItemIntoView(treeNode);
         }
