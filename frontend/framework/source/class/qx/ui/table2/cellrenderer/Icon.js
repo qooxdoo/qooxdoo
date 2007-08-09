@@ -45,6 +45,17 @@ qx.Class.define("qx.ui.table2.cellrenderer.Icon",
   {
     this.base(arguments);
     this.IMG_BLANK_URL = qx.io.Alias.getInstance().resolve("static/image/blank.gif");
+
+    var clazz = this.self(arguments);
+    if (!clazz.stylesheet)
+    {
+      clazz.stylesheet = qx.html.StyleSheet.createElement(
+        ".qooxdoo-table-cell-abstract {" +
+        "  text-align:center;" +
+        "  padding-top:1px;" +
+        "}"
+      );
+    }
   },
 
 
@@ -58,7 +69,6 @@ qx.Class.define("qx.ui.table2.cellrenderer.Icon",
 
   statics :
   {
-    MAIN_DIV_STYLE  : ';text-align:center;padding-top:1px;',
     IMG_START       : '<img src="',
     IMG_END         : '"/>',
     IMG_TITLE_START : '" title="'
@@ -132,10 +142,8 @@ qx.Class.define("qx.ui.table2.cellrenderer.Icon",
 
 
     // overridden
-    _getCellStyle : function(cellInfo, htmlArr)
-    {
-      this.base(arguments, cellInfo, htmlArr);
-      htmlArr.push(qx.ui.table2.cellrenderer.Icon.MAIN_DIV_STYLE);
+    _getCellClass : function() {
+      return this.base(arguments) + " qooxdoo-table-cell-icon";
     },
 
 
