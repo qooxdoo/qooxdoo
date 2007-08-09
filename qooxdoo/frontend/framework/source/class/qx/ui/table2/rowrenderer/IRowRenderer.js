@@ -26,32 +26,8 @@
 /**
  * A cell renderer for data rows.
  */
-qx.Class.define("qx.ui.table2.rowrenderer.Basic",
+qx.Interface.define("qx.ui.table2.rowrenderer.IRowRenderer",
 {
-  extend : qx.ui.basic.Terminator,
-
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function() {
-    this.base(arguments);
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
   members :
   {
     /**
@@ -78,7 +54,13 @@ qx.Class.define("qx.ui.table2.rowrenderer.Basic",
      * @throws the abstract function warning.
      */
     updateDataRowElement : function(rowInfo, rowElement) {
-      throw new Error("updateDataRowElement is abstract");
+      return true;
+    },
+
+
+    createRowStyle : function(rowInfo, htmlArr) {
+      return true;
     }
+
   }
 });

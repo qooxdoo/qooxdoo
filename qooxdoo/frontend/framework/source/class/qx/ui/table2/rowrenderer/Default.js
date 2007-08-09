@@ -32,7 +32,7 @@
  */
 qx.Class.define("qx.ui.table2.rowrenderer.Default",
 {
-  extend : qx.ui.table2.rowrenderer.Basic,
+  extend : qx.ui.table2.rowrenderer.IRowRenderer,
 
 
 
@@ -481,7 +481,7 @@ qx.Class.define("qx.ui.table2.rowrenderer.Default",
       style.color = rowInfo.selected ? this._colors.colSelected : this._colors.colNormal;
     },
 
-    // Array join test
+
     /**
      * TODOC
      *
@@ -490,7 +490,7 @@ qx.Class.define("qx.ui.table2.rowrenderer.Default",
      * @param htmlArr {var} TODOC
      * @return {void}
      */
-    _createRowStyle_array_join : function(rowInfo, htmlArr)
+    createRowStyle : function(rowInfo, htmlArr)
     {
       htmlArr.push(";");
       htmlArr.push(this._fontStyleString);
@@ -523,6 +523,7 @@ qx.Class.define("qx.ui.table2.rowrenderer.Default",
       htmlArr.push(';color:');
       htmlArr.push(rowInfo.selected ? this._colors.colSelected : this._colors.colNormal);
     },
+
 
     /**
      * Does a postponed update of the table content.
