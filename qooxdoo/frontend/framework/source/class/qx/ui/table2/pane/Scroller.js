@@ -1192,7 +1192,7 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
         resizeLine.setBackgroundColor("#D6D5D9");
         resizeLine.setWidth(3);
         this._paneClipper.add(resizeLine);
-        //qx.ui.core.Widget.flushGlobalQueues();
+        qx.ui.core.Widget.flushGlobalQueues();
 
         this._resizeLine = resizeLine;
       }
