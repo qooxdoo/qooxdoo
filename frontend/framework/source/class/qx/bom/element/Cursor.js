@@ -36,6 +36,7 @@ qx.Class.define("qx.bom.element.Cursor",
 
   statics :
   {
+    /** Internal helper structure to map cursor values to supported ones */
     __map : qx.core.Variant.select("qx.client",
     {
       "mshtml" :
@@ -60,12 +61,41 @@ qx.Class.define("qx.bom.element.Cursor",
       "default" : {}
     }),
 
+
+    /**
+     * Returns the computed cursor style for the given element.
+     *
+     * @type static
+     * @param element {Element} The element to query
+     * @return {String} Computed cursor value of the given element.
+     */
     get : function(element) {
       return qx.bom.element.Style.getComputed(element, "cursor");
     },
 
+
+    /**
+     * Applies a new cursor style to the given element
+     *
+     * @type static
+     * @param element {Element} The element to modify
+     * @param value {String} New cursor value to set
+     * @return {void}
+     */
     set : function(element, value) {
-      return qx.bom.element.Style.set(element, this.__map[value] || value);
+      qx.bom.element.Style.set(element, "cursor", this.__map[value] || value);
+    },
+    
+    
+    /**
+     * Removes the local cursor style applied to the element
+     * 
+     * @type static
+     * @param element {Element} The element to modify
+     * @return {void}
+     */
+    reset : function(element) {
+      qx.bom.element.Style.reset(element, "cursor"); 
     }
   }
 });

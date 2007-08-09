@@ -234,6 +234,26 @@ qx.Class.define("qx.bom.element.Style",
       // query style
       return element.style[name] || "";
     },
+    
+    
+    /**
+     * Resets the value of a style property
+     *
+     * @type static
+     * @param element {Element} The DOM element to modify
+     * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)
+     * @return {void}
+     */
+    reset : function(element, name)
+    {
+      var hints = this.__hints;
+
+      // normalize name
+      name = hints.names[name] || name;
+
+      // apply style
+      element.style[name] = "";
+    },    
 
 
 

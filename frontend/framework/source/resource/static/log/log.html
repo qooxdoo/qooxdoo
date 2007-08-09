@@ -4,25 +4,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-    <title>Firebug</title>
+    <title>qooxdoo Log</title>
     <link rel="stylesheet" type="text/css" href="log.css">
 </head>
 
 <body>
     <div id="toolbar" class="toolbar">
-        <a href="#" onclick="parent.console.clear()">Clear</a>
+        <a href="#" onclick="parent.qx.core.Log.clear()">Clear</a>
         <span class="toolbarRight">
-            <a href="#" onclick="parent.console.close()">Close</a>
+            <a href="#" onclick="parent.qx.core.Log.close()">Close</a>
         </span>
     </div>
     <div id="log"></div>
     <input type="text" id="commandLine">
     
     <script type="text/javascript">
-      if (parent.onLogReady)
-      {
-        parent.onLogReady(document);
-      }    
+      if (qx.core.Log.onLogReady) {
+        qx.core.Log.onLogReady(document);
+      }
     </script>
 </body>
 </html>
