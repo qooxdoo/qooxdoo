@@ -181,8 +181,8 @@ def copy(options, sortedIncludeList, fileDb):
                                 continue
 
                         # Generate destination directory and file path
-                        itemDestDir = os.path.join(destinationDirectory, itemRelDir)
-                        itemDestPath = os.path.join(itemDestDir, itemName)
+                        itemDestDir = os.path.normpath(os.path.join(destinationDirectory, itemRelDir))
+                        itemDestPath = os.path.normpath(os.path.join(itemDestDir, itemName))
 
                         # Check/Create destination directory
                         if not os.path.exists(itemDestDir):
