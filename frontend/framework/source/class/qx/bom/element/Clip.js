@@ -36,15 +36,20 @@ qx.Class.define("qx.bom.element.Clip",
 
   statics :
   {
+    /**
+     * Gets the clipping of the given element.
+     *
+     * @type static
+     * @param element {Element} DOM element to query
+     * @return {Map} Map which contains <code>left</code>, <code>top</code>
+     *   <code>width</code> and <code>height</code> of the clipped area.
+     *   Each one could be null or any integer value.
+     */
     get : function(element)
     {
       var clip = qx.bom.element.Style.getComputed(element, "clip");
 
-      var left = "auto";
-      var top = "auto";
-      var width = "auto";
-      var height = "auto";
-
+      var left, top, width, height;
       var right, bottom;
 
       if (typeof clip === "string" && clip !== "auto")
@@ -55,35 +60,59 @@ qx.Class.define("qx.bom.element.Clip",
         // an issue that the lastIndex will not be resetted on separate calls.
         if (/\((.*)\)/.test(clip))
         {
+          // Process result
           var split = RegExp.$1.split(",");
 
           top = qx.lang.String.trim(split[0]);
           right = qx.lang.String.trim(split[1]);
           bottom = qx.lang.String.trim(split[2]);
           left = qx.lang.String.trim(split[3]);
-
-          if (top != "auto") {
+          
+          // Normalize "auto" to null
+          if (left === "auto") {
+            left = null; 
+          }
+    
+          if (top === "auto") {
+            top = null; 
+          }
+          
+          if (right === "auto") {
+            right = null; 
+          }
+    
+          if (bottom === "auto") {
+            bottom = null; 
+          }          
+    
+          // Convert to integer values
+          if (top != null) {
             top = parseInt(top);
           }
 
-          if (right != "auto") {
+          if (right != null) {
             right = parseInt(right);
           }
 
-          if (bottom != "auto") {
+          if (bottom != null) {
             bottom = parseInt(bottom);
           }
 
-          if (left != "auto") {
+          if (left != null) {
             left = parseInt(left);
           }
 
-          if (right != "auto" && left != "auto") {
+          // Compute width and height
+          if (right != null && left != null) {
             width = right - left;
+          } else if (right != null) {
+            width = right; 
           }
 
-          if (bottom != "auto" && top != "auto") {
+          if (bottom != null && top != null) {
             height = bottom - top;
+          } else if (bottom != null) {
+            height = bottom; 
           }
         }
         else
@@ -91,15 +120,36 @@ qx.Class.define("qx.bom.element.Clip",
           throw new Error("Could not parse clip string: " + clip);
         }
       }
+      
+      // Simplify return value when nothing set
+      if (left == null && top == null && width == null && height == null) {
+        return null; 
+      }
 
+      // Return map when any value is available.
       return {
-        left : left,
-        top : top,
-        width : width,
-        height : height
+        left : left || null,
+        top : top || null,
+        width : width || null,
+        height : height || null
       };
     },
 
+
+    /**
+     * Sets the clipping of the given element. This is a simple
+     * square which describes the visible area of an DOM element.
+     * Changing the clipping does not change the dimensions of
+     * an element.
+     *
+     * @type static
+     * @param element {Element} DOM element to modify
+     * @param left {Integer|null} Could be null or any integer value
+     * @param top {Integer|null} Could be null or any integer value
+     * @param width {Integer|null} Could be null or any integer value
+     * @param height {Integer|null} Could be null or any integer value
+     * @return {Element} Returns the modified DOM element
+     */
     set : function(element, left, top, width, height)
     {
       var right, bottom;
@@ -126,11 +176,22 @@ qx.Class.define("qx.bom.element.Clip",
         top = top + "px";
       }
 
-      return qx.bom.element.Style.set(element, "clip", "rect(" + top + "," + right + "," + bottom + "," + left + ")");
+      qx.bom.element.Style.set(element, "clip", "rect(" + top + "," + right + "," + bottom + "," + left + ")");
+      return element;
     },
-
-    reset : function(element) {
+     
+     
+    /**
+     * Resets the clipping of the given DOM element.
+     *
+     * @type static
+     * @param element {Element} DOM element to modify
+     * @return {Element} The modified DOM element
+     */
+    reset : function(element) 
+    {
       qx.bom.element.Style.set(element, "clip", "auto");
+      return element;
     }
   }
 });
