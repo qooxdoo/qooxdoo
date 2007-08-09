@@ -95,6 +95,7 @@ qx.Class.define("qx.ui.layout.DockLayout",
     /**
      * This creates an new instance of the layout impl this widget uses
      *
+     * @param widget {var} TODOC
      * @type member
      * @return {qx.ui.layout.BoxLayout} TODOC
      */
@@ -114,10 +115,11 @@ qx.Class.define("qx.ui.layout.DockLayout",
     /**
      * Add multiple childrens and make them left aligned
      *
+     * @param widget {var} TODOC
      * @type member
      * @return {void}
      */
-    addLeft : function() {
+    addLeft : function(widget) {
       this._addAlignedHorizontal("left", arguments);
     },
 
@@ -125,10 +127,11 @@ qx.Class.define("qx.ui.layout.DockLayout",
     /**
      * Add multiple childrens and make them right aligned
      *
+     * @param widget {var} TODOC
      * @type member
      * @return {void}
      */
-    addRight : function() {
+    addRight : function(widget) {
       this._addAlignedHorizontal("right", arguments);
     },
 
@@ -136,10 +139,11 @@ qx.Class.define("qx.ui.layout.DockLayout",
     /**
      * Add multiple childrens and make them top aligned
      *
+     * @param widget {var} TODOC
      * @type member
      * @return {void}
      */
-    addTop : function() {
+    addTop : function(widget) {
       this._addAlignedVertical("top", arguments);
     },
 
@@ -147,10 +151,11 @@ qx.Class.define("qx.ui.layout.DockLayout",
     /**
      * Add multiple childrens and make them bottom aligned
      *
+     * @param widget {var} TODOC
      * @type member
      * @return {void}
      */
-    addBottom : function() {
+    addBottom : function(widget) {
       this._addAlignedVertical("bottom", arguments);
     },
 

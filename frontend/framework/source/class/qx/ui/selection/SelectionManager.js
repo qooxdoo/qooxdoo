@@ -1646,7 +1646,7 @@ qx.Class.define("qx.ui.selection.SelectionManager",
      * @type member
      * @abstract
      * @param vItem {var} TODOC
-     * @return {void}
+     * @return {var}
      * @throws the abstract function warning.
      */
     getAbove : function(vItem) {
@@ -1660,7 +1660,7 @@ qx.Class.define("qx.ui.selection.SelectionManager",
      * @type member
      * @abstract
      * @param vItem {var} TODOC
-     * @return {void}
+     * @return {var}
      * @throws the abstract function warning.
      */
     getUnder : function(vItem) {
