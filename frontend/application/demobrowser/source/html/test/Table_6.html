@@ -42,11 +42,14 @@
     tableModel_new.setData(data);
 
     var table_new = new qx.ui.table2.Table(tableModel_new);
-    table_new.set({ left:10, top:30, width:450, height:400, border:"inset-thin" });
+    table_new.set({ left:10, top:30, width:450, height:600, border:"inset-thin" });
 
     table_new.getTableColumnModel().setDataCellRenderer(0, new qx.ui.table2.cellrenderer.Boolean());
     table_new.getTableColumnModel().setDataCellRenderer(2, new qx.ui.table2.cellrenderer.Boolean());
     table_new.getTableColumnModel().setDataCellRenderer(4, new qx.ui.table2.cellrenderer.Boolean());
+
+    table_new.getSelectionModel().setSelectionMode(qx.ui.table2.selection.Model.MULTIPLE_INTERVAL_SELECTION);
+    table_new.setFocusCellOnMouseMove(true);
 
     d.add(table_new);
 
@@ -62,8 +65,22 @@
     table_old.getTableColumnModel().setDataCellRenderer(2, new qx.ui.table.cellrenderer.Boolean());
     table_old.getTableColumnModel().setDataCellRenderer(4, new qx.ui.table.cellrenderer.Boolean());
 
-    table_old.set({ left:480, top:30, width:450, height:400, border:"inset-thin" });
+    table_old.getSelectionModel().setSelectionMode(qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION);
+    table_old.setFocusCellOnMouseMove(true);
+
+
+    table_old.set({ left:480, top:30, width:450, height:600, border:"inset-thin" });
     d.add(table_old);
+
+    var height = table_new.getTableModel().getRowCount() * table_new.getRowHeight();
+    var spinner = new qx.ui.form.Spinner(0, 0, height);
+    spinner.set({
+      left : 10,
+      top : 5
+    });
+    d.add(spinner);
+    var scroller = table_new.getPaneScroller(0);
+    spinner.addEventListener("change", scroller._onScrollY, scroller);
 
     /*
     btn.addEventListener("execute", function(e) {

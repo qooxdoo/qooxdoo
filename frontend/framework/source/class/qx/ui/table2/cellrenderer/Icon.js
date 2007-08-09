@@ -49,7 +49,7 @@ qx.Class.define("qx.ui.table2.cellrenderer.Icon",
     var clazz = this.self(arguments);
     if (!clazz.stylesheet)
     {
-      clazz.stylesheet = qx.html.StyleSheet.createElement(
+      clazz.stylesheet = qx.legacy.html.StyleSheet.createElement(
         ".qooxdoo-table-cell-abstract {" +
         "  text-align:center;" +
         "  padding-top:1px;" +
