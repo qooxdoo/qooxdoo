@@ -231,7 +231,6 @@ qx.Class.define("qx.bom.element.Attribute",
      * @type static
      * @param element {Element} The DOM element to modify
      * @param name {String} Name of the attribute
-     * @param value {var} New value of the attribute
      * @return {void}
      */    
     reset : function(element, name) {
