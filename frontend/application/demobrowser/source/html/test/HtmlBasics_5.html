@@ -82,6 +82,24 @@ qx.Class.define("BasicSample",
       this.debug("INP checked (before=true): " + qx.bom.Element.get(c, "checked"));
       qx.bom.Element.set(c, "checked", false);
       this.debug("INP checked (after=false): " + qx.bom.Element.get(c, "checked"));      
+      
+      // Map input
+      this.debug("H1 apply multi values");
+      qx.bom.Element.set(h, { fontSize : "60px", color : "blue", textDecoration : "italic", fontFamily : "'Comic Sans MS'" });
+      this.debug("H1 apply multi values: Done");
+      
+      // Fly weight Pattern
+      this.debug("P fly weight pattern");
+      qx.bom.Element.fly(p).set("fontSize", "40px").set("color", "orange").set("letterSpacing", "4px");
+      this.debug("P fly weight pattern: Done");
+      
+      // Extend Pattern
+      this.debug("INP extend pattern");
+      qx.bom.Element.extend(i).set("maxLength", 100);
+      i.set("value", "extend pattern was here");
+      this.debug("INP value: " + i.get("value"));
+      this.debug("INP extend pattern: Done");
+      
     }
   }
 });

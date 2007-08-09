@@ -33,18 +33,18 @@ qx.Class.define("qx.lang.Function",
   statics :
   {
     /**
-     * TODOC
+     * Evaluates JavaScript code globally
      *
      * @type static
-     * @param data {var} TODOC
-     * @return {void}
+     * @param data {String} JavaScript commands
+     * @return {var} Result of the execution
      */
     globalEval : function(data)
     {
       if (window.execScript) {
-        window.execScript(data);
+        return window.execScript(data);
       } else {
-        eval.call(window, data);
+        return eval.call(window, data);
       }
     },
 
