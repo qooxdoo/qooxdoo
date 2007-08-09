@@ -91,7 +91,7 @@ a:hover {
 
 .logRow-info,
 .logRow-error,
-.logRow-warning {
+.logRow-warn {
     background: #FFFFFF no-repeat 2px 2px;
     padding-left: 20px;
     padding-bottom: 3px;
@@ -101,7 +101,7 @@ a:hover {
     background-image: url(infoIcon.png);
 }
 
-.logRow-warning {
+.logRow-warn {
     background-color: cyan;
     background-image: url(warningIcon.png);
 }

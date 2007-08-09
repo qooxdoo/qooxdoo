@@ -96,7 +96,7 @@ qx.Class.define("qx.core.Log",
      * @return {void} 
      */
     warn : function(varargs) {
-      this.logFormatted(arguments, "warning");
+      this.logFormatted(arguments, "warn");
     },
 
 
@@ -255,6 +255,12 @@ qx.Class.define("qx.core.Log",
      * @return {void} 
      */
     count : function() {
+      if (window.console && console.count) 
+      {
+        console.count();
+        return;
+      }
+      
       this.warn([ "count() not supported." ]);
     },
 
@@ -265,7 +271,14 @@ qx.Class.define("qx.core.Log",
      * @type static
      * @return {void} 
      */
-    trace : function() {
+    trace : function() 
+    {
+      if (window.console && console.trace) 
+      {
+        console.trace();
+        return;
+      }      
+      
       this.warn([ "trace() not supported." ]);
     },
 
@@ -276,7 +289,13 @@ qx.Class.define("qx.core.Log",
      * @type static
      * @return {void} 
      */
-    profile : function() {
+    profile : function() 
+    {
+      if (window.console && console.profile) 
+      {
+        console.profile();
+        return;
+      }        
       this.warn([ "profile() not supported." ]);
     },
 
@@ -287,7 +306,15 @@ qx.Class.define("qx.core.Log",
      * @type static
      * @return {void} 
      */
-    profileEnd : function() {},
+    profileEnd : function() 
+    {
+      if (window.console && console.profileEnd) 
+      {
+        console.profileEnd();
+        return;
+      }        
+      this.warn([ "profileEnd() not supported." ]);      
+    },
 
 
     /**
