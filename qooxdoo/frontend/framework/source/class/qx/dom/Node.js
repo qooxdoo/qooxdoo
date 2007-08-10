@@ -219,23 +219,23 @@ qx.Class.define("qx.dom.Node",
     */    
     
     /**
-     * Returns the text content of an element where the element may be of node type NODE_ELEMENT, NODE_ATTRIBUTE or NODE_TEXT
+     * Returns the text content of an node where the node may be of node type NODE_ELEMENT, NODE_ATTRIBUTE or NODE_TEXT
      *
-     * @param element {Element} the element from where the search should start.
-     *     If the element has subnodes the text contents are recursively retreived and joined.
-     * @return {String} the joined text content of the given element or null if not appropriate.
-     * @signature function(element)
+     * @param node {Node} the node from where the search should start.
+     *     If the node has subnodes the text contents are recursively retreived and joined.
+     * @return {String} the joined text content of the given node or null if not appropriate.
+     * @signature function(node)
      */
-    getText : function(element)
+    getText : function(node)
     {
-      if(!element || !element.nodeType) {
+      if(!node || !node.nodeType) {
         return null;
       }
 
-      switch(element.nodeType)
+      switch(node.nodeType)
       {
         case 1: // NODE_ELEMENT
-          var i, a=[], nodes = element.childNodes, length = nodes.length;
+          var i, a=[], nodes = node.childNodes, length = nodes.length;
           for (i=0; i<length; i++) {
             a[i] = this.getText(nodes[i]);
           };
@@ -243,11 +243,11 @@ qx.Class.define("qx.dom.Node",
           return a.join("");
 
         case 2: // NODE_ATTRIBUTE
-          return element.nodeValue;
+          return node.nodeValue;
           break;
 
         case 3: // NODE_TEXT
-          return element.nodeValue;
+          return node.nodeValue;
           break;
       }
 
