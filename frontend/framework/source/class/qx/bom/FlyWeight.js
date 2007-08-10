@@ -25,6 +25,16 @@
 
 ************************************************************************ */
 
+/**
+ * Implements the fly weight pattern for DOM elements.
+ *
+ * Most of the methods of the classes in {@link qx.bom.element} and {@link qx.dom} are available.
+ * Some with really generic names are automatically translated e.g.
+ * <code>get()</code> -> <code>getCursor()</code>
+ *
+ * Also included the the generic <code>set()</code>, <code>get()</code> and <code>reset()</code>
+ * methods of {@link qx.bom.Element}.
+ */
 qx.Class.define("qx.bom.FlyWeight",
 {
   statics :
@@ -78,7 +88,9 @@ qx.Class.define("qx.bom.FlyWeight",
       toString : true,
       classname : true,
       name : true,
-      basename : true
+      basename : true,
+      fly : true,
+      create : true
     },
     
     
