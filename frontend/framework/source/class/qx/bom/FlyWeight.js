@@ -20,7 +20,6 @@
 /* ************************************************************************
 
 #module(html2)
-#require(qx.bom.Element)
 #require(qx.bom.element.Class)
 
 ************************************************************************ */
@@ -32,8 +31,13 @@
  * Some with really generic names are automatically translated e.g.
  * <code>get()</code> -> <code>getCursor()</code>
  *
- * Also included the the generic <code>set()</code>, <code>get()</code> and <code>reset()</code>
+ * Also included are the generic <code>set()</code>, <code>get()</code> and <code>reset()</code>
  * methods of {@link qx.bom.Element}.
+ *
+ * All methods accepts getters (starting with get* and is*) are chainable.
+ *
+ * Example for fly weight usage:
+ * <pre>var width = qx.bom.Element.fly(document.body).addClass("main").set("fontSize", "10px").get("locationLeft");</code>
  */
 qx.Class.define("qx.bom.FlyWeight",
 {
