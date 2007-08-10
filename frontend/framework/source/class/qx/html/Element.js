@@ -19,7 +19,7 @@
 
 /* ************************************************************************
 
-#module(html2)
+#module(html)
 
 ************************************************************************ */
 
@@ -208,6 +208,7 @@ qx.Class.define("qx.html.Element",
           eventData.capture
         );
       }
+      
       entry.__addEventJobs = [];
     },
 
@@ -235,17 +236,6 @@ qx.Class.define("qx.html.Element",
         );
       }
       entry.__removeEventJobs = [];
-    },
-
-
-    /**
-     * Internal helper to apply the defined HTML to the DOM element.
-     *
-     * @type static
-     * @param entry {qx.html.Element} the element to flush
-     */
-    __flushHtml : function(entry) {
-      entry.__element.innerHTML = entry.__html;
     },
 
 
@@ -463,7 +453,6 @@ qx.Class.define("qx.html.Element",
       // because the generated children will also be added
       // to the queue
       i = 0;
-
       while (queue.length > i)
       {
         for (l=queue.length; i<l; i++)
@@ -1024,7 +1013,7 @@ qx.Class.define("qx.html.Element",
      * @return {qx.html.Element} this object (for chaining support)
      */
     addEventListener : function(type, listener, self, capture)
-    {
+    { 
       this.__addEventJobs.push({
         type: type,
         listener: listener,
@@ -1067,72 +1056,6 @@ qx.Class.define("qx.html.Element",
       }
 
       return this;
-    },
-
-
-    /**
-     * Set up the HTML content of this element
-     *
-     * Please note that you can only use one content type:
-     * children, HTML or text
-     *
-     * @type member
-     * @param html {String} the HTML content to apply
-     * @return {qx.html.Element} this object (for chaining support)
-     */
-    setHtml : function(html)
-    {
-      this.__html = html;
-
-      if (this.__element) {
-        this.self(arguments).addToQueue(this);
-      }
-
-      return this;
-    },
-
-
-    /**
-     * Returns the configured HTML content
-     *
-     * @type member
-     * @return {String | null} the HTML
-     */
-    getHtml : function() {
-      return this.__html || null;
-    },
-
-
-    /**
-     * Set up the text content of this element
-     *
-     * Please note that you can only use one content type:
-     * children, HTML or text
-     *
-     * @type member
-     * @param text {String} the text content to apply
-     * @return {qx.html.Element} this object (for chaining support)
-     */
-    setText : function(text)
-    {
-      this.__text = text;
-
-      if (this.__element) {
-        this.self(arguments).addToQueue(this);
-      }
-
-      return this;
-    },
-
-
-    /**
-     * Returns the configured text content
-     *
-     * @type member
-     * @return {String | null} the text
-     */
-    getText : function() {
-      return this.__text || null;
     }
   },
 
