@@ -407,18 +407,6 @@ qx.Class.define("qx.dom.Hierarchy",
 
         node = nextNode;
       }
-    },
-
-
-    /**
-     * Removes all content from the given element
-     *
-     * @type static
-     * @param element {Element} element to clean
-     * @return {String} empty string (new HTML content)
-     */
-    makeEmpty : function(element) {
-      return element.innerHTML = "";
     }
   }
 });
