@@ -79,8 +79,18 @@ qx.Class.define("qx.bom.Element",
     
     
     
-   
-
+    
+    /*
+    ---------------------------------------------------------------------------
+      FLY WEIGHT PATTERN
+    ---------------------------------------------------------------------------
+    */
+    
+    fly : function(element) {
+      return qx.bom.FlyWeight.connect(element);
+    },
+    
+    
         
     
     
@@ -209,14 +219,14 @@ qx.Class.define("qx.bom.Element",
           throw new Error("Property " + property + " does not support to be changed.");
         }
         
-        custom.context[custom.reset](element, value);
+        custom.context[custom.reset](element);
       }
       else
       {
         if (this.__style[property]) {
-          qx.bom.element.Style.reset(element, property, value);
+          qx.bom.element.Style.reset(element, property);
         } else {
-          qx.bom.element.Attribute.reset(element, property, value);
+          qx.bom.element.Attribute.reset(element, property);
         }
       }
       
@@ -302,9 +312,9 @@ qx.Class.define("qx.bom.Element",
       overflowY : 
       {
         context : qx.bom.element.Overflow,
-        set : "setX",
-        get : "getX",
-        reset : "resetX" 
+        set : "setY",
+        get : "getY",
+        reset : "resetY" 
       },
       
       scrollX : 
@@ -318,9 +328,9 @@ qx.Class.define("qx.bom.Element",
       scrollY : 
       {
         context : qx.bom.element.Scroll,
-        set : "setX",
-        get : "getX",
-        reset : "resetX" 
+        set : "setY",
+        get : "getY",
+        reset : "resetY" 
       },
       
       visibility : 
