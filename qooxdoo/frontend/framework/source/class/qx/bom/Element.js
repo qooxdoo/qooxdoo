@@ -78,7 +78,21 @@ qx.Class.define("qx.bom.Element",
         return win.document.createElement(name);
       }
     },
+
+
+    /**
+     * Removes all content from the given element
+     *
+     * @type static
+     * @param element {Element} element to clean
+     * @return {String} empty string (new HTML content)
+     */
+    empty : function(element) {
+      return element.innerHTML = "";
+    },
     
+    
+        
     
     
     
@@ -274,16 +288,16 @@ qx.Class.define("qx.bom.Element",
         get : "getHeight"
       },
       
-      innerWidth : 
+      clientWidth : 
       {
         context : qx.bom.element.Dimension,
-        get : "getInnerWidth"
+        get : "getClientWidth"
       },
       
-      innerHeight : 
+      clientHeight : 
       {
         context : qx.bom.element.Dimension,
-        get : "getInnerHeight"
+        get : "getClientHeight"
       },   
       
       scrollWidth : 
