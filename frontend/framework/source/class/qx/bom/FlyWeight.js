@@ -230,9 +230,9 @@ qx.Class.define("qx.bom.FlyWeight",
         // console.log("  - Key: " + key);
         
         // Map into wrapper function
-        // Return the value when target name starts with "get".
+        // Return the value when target name starts with "get" or "is".
         // Otherwise return the wrapper object for chaining support.
-        if (target.indexOf("get") === 0) {
+        if (target.indexOf("get") === 0 || target.indexOf("is") === 0) {
           wrap[target] = new Function("var args = qx.lang.Array.fromArguments(arguments); args.unshift(this._element); return " + classname + "." + key + ".apply(" + classname + ", args);");
         } else {
           wrap[target] = new Function("var args = qx.lang.Array.fromArguments(arguments); args.unshift(this._element); " + classname + "." + key + ".apply(" + classname + ", args); return this;");          
