@@ -79,70 +79,7 @@ qx.Class.define("qx.bom.Element",
     
     
     
-    
-    
-    /*
-    ---------------------------------------------------------------------------
-      FLY WEIGHT PATTERN
-      Inspired by ExtJS
-    ---------------------------------------------------------------------------
-    */
-    
-    fly : function(element)
-    {
-      // Dynamic helper object creation
-      if (!this._flyHelper)
-      {
-        this._flyHelper = 
-        {
-          get : function(property, value1, value2, value3, value4, value5, value6) 
-          {
-            qx.bom.Element.get(this._element, property, value1, value2, value3, value4, value5, value6);
-            return this;
-          },
-          
-          set : function(property, value1, value2, value3, value4, value5, value6) 
-          {
-            qx.bom.Element.set(this._element, property, value1, value2, value3, value4, value5, value6);
-            return this;
-          },
-
-          reset : function(property, value1, value2, value3, value4, value5, value6) 
-          {
-            qx.bom.Element.reset(this._element, property, value1, value2, value3, value4, value5, value6);
-            return this;
-          }                  
-        };
-      }
-      
-      this._flyHelper._element = element;
-      return this._flyHelper;
-    },
-    
-    
-    
-    
-    /*
-    ---------------------------------------------------------------------------
-      EXTEND PATTERN
-      Inspired by Prototype and Base2
-    ---------------------------------------------------------------------------
-    */    
-    
-    extend : function(element)
-    {
-      if (!element.get)
-      {
-        element.get = new Function("property", "value1", "return qx.bom.Element.get(this, property, value1);");
-        element.set = new Function("property", "value1", "value2", "value3", "value4", "value5", "value6", "qx.bom.Element.set(this, property, value1, value2, value3, value4, value5, value6); return this;");
-        element.reset = new Function("property", "qx.bom.Element.reset(this, property); return this;");
-      }
-      
-      return element;
-    },
-    
-    
-    
+   
 
         
     
