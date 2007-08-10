@@ -65,24 +65,24 @@ qx.Class.define("qx.bom.element.Dimension",
     },
     
     /**
-     * Returns the inner width of the given element.
+     * Returns the client width of the given element.
      *
      * @type static
      * @param element {Element} DOM element to query
      * @return {Integer} inner width of the element
      */
-    getInnerWidth : function(element) {
+    getClientWidth : function(element) {
       return element.clientWidth; 
     },
     
     /**
-     * Returns the inner height of the given element.
+     * Returns the client height of the given element.
      *
      * @type static
      * @param element {Element} DOM element to query
      * @return {Integer} inner height of the element
      */
-    getInnerHeight : function(element) {
+    getClientHeight : function(element) {
       return element.clientHeight;
     },
     
