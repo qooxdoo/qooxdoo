@@ -29,13 +29,15 @@
  * of multiple classes in one unique interface.
  *
  * There is a automatic detection if the given name should be interpreted
- * as HTML property, attribute or style. It even supports complex
- * setter/getter pairs like opacity. All these features are usable through
+ * as HTML property, HTML attribute or style property. It even supports complex
+ * setter/getter pairs like needed for opacity. All these features are usable through
  * the same interface by just using the name of the attribute/style etc. to
- * modify/query.
+ * modify/query it.
  *
  * This class is optimized for performance, but is not as optimal in performance
- * aspects than the more native implementations. For all highly performance
+ * aspects than the more native implementations cause of the additional wrapper.
+ * 
+ * For all highly performance
  * crititcal areas like animations it would be the best to directly use the
  * classes which contain the implementations.
  */
@@ -80,12 +82,24 @@ qx.Class.define("qx.bom.Element",
     
     
     
+    
     /*
     ---------------------------------------------------------------------------
       FLY WEIGHT PATTERN
     ---------------------------------------------------------------------------
     */
     
+    /**
+     * Returns a wrapper object which is enabled for a
+     * optimized API access around the given element.
+     * 
+     * For more details have a look at the real implementation
+     * class {@link qx.bom.FlyWeight}
+     *
+     * @type static
+     * @param element {Element} DOM element to connect
+     * @return {Object} Extended wrapper element/object
+     */
     fly : function(element) {
       return qx.bom.FlyWeight.connect(element);
     },
