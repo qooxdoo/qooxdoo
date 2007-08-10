@@ -49,26 +49,24 @@ qx.Class.define("qx.bom.element.Overflow",
     // * https://bugzilla.mozilla.org/show_bug.cgi?id=42676
     // * https://bugzilla.mozilla.org/show_bug.cgi?id=47710
     // * https://bugzilla.mozilla.org/show_bug.cgi?id=235524
-    // *
+
+    /**
+     * Returns the computed value of the horizontal overflow
+     * 
+     * @type static
+     * @signature function(element)
+     * @param element {Element} DOM element to query
+     * @return {String} computed overflow value
+     */
     getX : qx.core.Variant.select("qx.client",
     {
-      // use native overflowX property
-      "mshtml|webkit|opera" : function(element) {
-        return qx.bom.element.Style.getComputed(element, "overflowX");
-      },
-
       // gecko support differs
       "gecko" : qx.bom.Client.select(
       {
-        // gecko >= 1.8 supports overflowX, too
-        "version>=1.8" : function(element) {
-          return qx.bom.element.Style.getComputed(element, "overflowX");
-        },
-
         // older geckos do not support overflowX
         // it's also more safe to translate hidden to -moz-scrollbars-none
         // because of issues in older geckos
-        "default" : function(element)
+        "version<1.8" : function(element)
         {
           var overflow = qx.bom.element.Style.getComputed(element, "overflow");
 
@@ -79,21 +77,36 @@ qx.Class.define("qx.bom.element.Overflow",
           }
 
           return overflow;
+        },
+        
+        // gecko >= 1.8 supports overflowX, too
+        "default" : function(element) {
+          return qx.bom.element.Style.getComputed(element, "overflowX");
         }
-      })
+      }),
+      
+      // use native overflowX property
+      "default" : function(element) {
+        return qx.bom.element.Style.getComputed(element, "overflowX");
+      }
     }),
 
+
+    /**
+     * Sets the local horizontal overflow value to the given value
+     * 
+     * @type static
+     * @signature function(element, value)
+     * @param element {Element} DOM element to modify
+     * @param value {String} Any of "visible", "scroll", "hidden", "auto" or ""
+     * @return {void}
+     */
     setX : qx.core.Variant.select("qx.client",
     {
-      // use native overflowX property
-      "mshtml|webkit|opera" : function(element, value) {
-        qx.bom.element.Style.set(element, "overflowX", value);
-      },
-
       // gecko support differs
       "gecko" : qx.bom.Client.select(
       {
-        // older geckos do not support overflowY
+        // older geckos do not support overflowX
         // it's also more safe to translate hidden to -moz-scrollbars-none
         // because of issues in older geckos
         "version<1.8" : function(element, value)
@@ -138,49 +151,97 @@ qx.Class.define("qx.bom.element.Overflow",
         "default" : function(element, value) {
           qx.bom.element.Style.set(element, "overflowX", value);
         }
-      })
+      }),
+      
+      // use native overflowX property
+      "default" : function(element, value) {
+        qx.bom.element.Style.set(element, "overflowX", value);
+      }      
+    }),
+    
+    
+    /**
+     * Removes the locally configured horizontal overflow property
+     *
+     * @type static
+     * @signature function(element)
+     * @param element {Element} DOM element to modify
+     * @return {void}
+     */
+    resetX : qx.core.Variant.select("qx.client",
+    {
+      "gecko" : qx.bom.Client.select(
+      {
+        "version<1.8" : function(element) {
+          this.setX(element, "");
+        },
+        
+        // gecko >= 1.8 supports overflowX, too
+        "default" : function(element) {
+          return qx.bom.element.Style.reset(element, "overflowX");
+        }
+      }),
+      
+      // use native overflowY property
+      "default" : function(element) {
+        qx.bom.element.Style.reset(element, "overflowX");
+      }
     }),
 
+
+    /**
+     * Returns the computed value of the vertical overflow
+     * 
+     * @type static
+     * @signature function(element)
+     * @param element {Element} DOM element to query
+     * @return {String} computed overflow value
+     */
     getY : qx.core.Variant.select("qx.client",
     {
-      // use native overflowY property
-      "mshtml|webkit|opera" : function(element) {
-        return qx.bom.element.Style.getComputed(element, "overflowY");
-      },
-
       // gecko support differs
       "gecko" : qx.bom.Client.select(
       {
-        // gecko >= 1.8 supports overflowY, too
-        "version>=1.8" : function(element) {
-          return qx.bom.element.Style.getComputed(element, "overflowY");
-        },
-
         // older geckos do not support overflowY
         // it's also more safe to translate hidden to -moz-scrollbars-none
         // because of issues in older geckos
-        "default" : function(element)
+        "version<1.8" : function(element)
         {
           var overflow = qx.bom.element.Style.getComputed(element, "overflow");
 
-          if (overflow == "-moz-scrollbars-horizontal") {
+          if (overflow == "-moz-scrollbars-vertical") {
             return "scroll";
-          } else if (overflow === "-moz-scrollbars-vertical" || overflow === "-moz-scrollbars-none" || overflow === "hidden") {
+          } else if (overflow === "-moz-scrollbars-horizontal" || overflow === "-moz-scrollbars-none" || overflow === "hidden") {
             return "hidden";
           }
 
           return overflow;
+        },
+        
+        // gecko >= 1.8 supports overflowY, too
+        "default" : function(element) {
+          return qx.bom.element.Style.getComputed(element, "overflowY");
         }
-      })
+      }),
+      
+      // use native overflowY property
+      "default" : function(element) {
+        return qx.bom.element.Style.getComputed(element, "overflowY");
+      }      
     }),
 
+
+    /**
+     * Sets the local vertical overflow value to the given value
+     * 
+     * @type static
+     * @signature function(element, value)
+     * @param element {Element} DOM element to modify
+     * @param value {String} Any of "visible", "scroll", "hidden", "auto" or ""
+     * @return {void}
+     */
     setY : qx.core.Variant.select("qx.client",
     {
-      // use native overflowY property
-      "mshtml|webkit|opera" : function(element, value) {
-        qx.bom.element.Style.set(element, "overflowY", value);
-      },
-
       // gecko support differs
       "gecko" : qx.bom.Client.select(
       {
@@ -194,7 +255,7 @@ qx.Class.define("qx.bom.element.Overflow",
 
           if (!element._overflowX)
           {
-            if (orig === "-moz-scrollbars-horizontal" || orig === "scroll") {
+            if (orig === "-moz-scrollbars-vertical" || orig === "scroll") {
               element._overflowX = "scroll";
             } else if (orig === "-moz-scrollbars-none" || orig === "hidden") {
               element._overflowX = "hidden";
@@ -229,7 +290,41 @@ qx.Class.define("qx.bom.element.Overflow",
         "default" : function(element, value) {
           qx.bom.element.Style.set(element, "overflowY", value);
         }
-      })
-    })
+      }),
+    
+      // use native overflowY property
+      "default" : function(element, value) {
+        qx.bom.element.Style.set(element, "overflowY", value);
+      }
+    }),
+    
+    
+    /**
+     * Removes the locally configured vertical overflow property
+     *
+     * @type static
+     * @signature function(element)
+     * @param element {Element} DOM element to modify
+     * @return {void}
+     */
+    resetY : qx.core.Variant.select("qx.client",
+    {
+      "gecko" : qx.bom.Client.select(
+      {
+        "version<1.8" : function(element) {
+          this.setY(element, "");
+        },
+        
+        // gecko >= 1.8 supports overflowX, too
+        "default" : function(element) {
+          return qx.bom.element.Style.reset(element, "overflowY");
+        }
+      }),
+      
+      // use native overflowY property
+      "default" : function(element) {
+        qx.bom.element.Style.reset(element, "overflowY");
+      }
+    })    
   }
 });
