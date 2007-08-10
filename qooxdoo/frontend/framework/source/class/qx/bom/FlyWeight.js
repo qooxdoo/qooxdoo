@@ -37,7 +37,7 @@
  * All methods accepts getters (starting with get* and is*) are chainable.
  *
  * Example for fly weight usage:
- * <pre>var width = qx.bom.Element.fly(document.body).addClass("main").set("fontSize", "10px").get("locationLeft");</code>
+ * <pre class='javascript'>var width = qx.bom.Element.fly(document.body).addClass("main").set("fontSize", "10px").get("locationLeft");</code>
  */
 qx.Class.define("qx.bom.FlyWeight",
 {
