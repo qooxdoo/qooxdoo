@@ -81,7 +81,7 @@ qx.Class.define("qx.dom.Hierarchy",
      */
     getNextElementSibling : function(element)
     {
-      while (element && (element = element.nextSibling) && !this.isElement(element)) {
+      while (element && (element = element.nextSibling) && !qx.dom.Node.isElement(element)) {
         continue;
       }
 
@@ -100,7 +100,7 @@ qx.Class.define("qx.dom.Hierarchy",
      */
     getPreviousElementSibling : function(element)
     {
-      while (element && (element = element.previousSibling) && !this.isElement(element)) {
+      while (element && (element = element.previousSibling) && !qx.dom.Node.isElement(element)) {
         continue;
       }
 
@@ -146,7 +146,7 @@ qx.Class.define("qx.dom.Hierarchy",
      * @param ancestor {Element} second element
      * @return {var} TODOC
      */
-    descendantOf : function(element, ancestor) {
+    isDescendantOf : function(element, ancestor) {
       return this.contains(ancestor, element);
     },
 
@@ -233,7 +233,7 @@ qx.Class.define("qx.dom.Hierarchy",
      * @param element {Element} DOM element to query for ancestors
      * @return {Array} list of all parents
      */
-    ancestors : function(element) {
+    getAncestors : function(element) {
       return element.recursivelyCollect("parentNode");
     },
 
@@ -245,7 +245,7 @@ qx.Class.define("qx.dom.Hierarchy",
      * @param element {Element} DOM element to query for child elements
      * @return {Array} list of all child elements
      */
-    childElements : function(element)
+    getChildElements : function(element)
     {
       element = element.firstChild;
 
@@ -273,7 +273,7 @@ qx.Class.define("qx.dom.Hierarchy",
      * @param element {Element} DOM element to query for child elements
      * @return {Array} list of all found elements
      */
-    descendants : function(element) {
+    getDescendants : function(element) {
       return qx.lang.Array.fromCollection(element.getElementsByTagName("*"));
     },
 
@@ -286,7 +286,7 @@ qx.Class.define("qx.dom.Hierarchy",
      * @param element {Element} DOM element to query for first descendant
      * @return {Element} the first descendant
      */
-    firstDescendant : function(element)
+    getFirstDescendant : function(element)
     {
       element = element.firstChild;
 
@@ -305,8 +305,8 @@ qx.Class.define("qx.dom.Hierarchy",
      * @param element {Element} DOM element to query for previous siblings
      * @return {Array} list of found DOM elements
      */
-    previousSiblings : function(element) {
-      return this.recursivelyCollect(element, "previousSibling");
+    getPreviousSiblings : function(element) {
+      return this._recursivelyCollect(element, "previousSibling");
     },
 
 
@@ -318,8 +318,8 @@ qx.Class.define("qx.dom.Hierarchy",
      * @param element {Element} DOM element to query for next siblings
      * @return {Array} list of found DOM elements
      */
-    nextSiblings : function(element) {
-      return this.recursivelyCollect(element, "nextSibling");
+    getNextSiblings : function(element) {
+      return this._recursivelyCollect(element, "nextSibling");
     },
 
 
@@ -334,7 +334,7 @@ qx.Class.define("qx.dom.Hierarchy",
      * @param property {String} property to look for
      * @return {Array} result list
      */
-    recursivelyCollect : function(element, property)
+    _recursivelyCollect : function(element, property)
     {
       var list = [];
 
@@ -356,8 +356,8 @@ qx.Class.define("qx.dom.Hierarchy",
      * @param element {var} DOM element to start with
      * @return {Array} list of all found siblings
      */
-    siblings : function(element) {
-      return this.previousSiblings(element).reverse().concat(this.nextSiblings(element));
+    getSiblings : function(element) {
+      return this.getPreviousSiblings(element).reverse().concat(this.getNextSiblings(element));
     },
 
 
