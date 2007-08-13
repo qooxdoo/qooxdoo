@@ -51,4 +51,38 @@
  * allows you to accommodate a wide varity of transport options without
  * overloading the Request object with the details.
  *
+ * <h4> Cross-Domain Requests </h4>
+ *
+ * Sending cross-domain requests, i.e. sending a request to a URL with a domain
+ * part other than the domain of the current document, require special treatment
+ * since the security concept of most browsers restrict such requests.
+ * <p>
+ * Currently, those requests are realised through the dynamic insertion of a
+ * "script" tag into the current document (this is the beforementioned {@link
+ * qx.io.remote.transport.Script ScriptTransport}). The "src" attribute of the
+ * script tag is set to the requested URL. On insertion of the script tag the
+ * browser will load the source URL and parse and execute the returned content
+ * as JavaScript.  This means that the returned data has to be valid JavaScript!
+ * <p>
+ * In order to do that and to link the completion of the script transport to
+ * your normal request "completed" event handler, it is best to wrap the
+ * returned data in a call to the {@link
+ * qx.io.remote.transport.Script#_requestFinished} static.  Additional to the
+ * response data, this method takes a script transport id as a parameter,
+ * available to the server side as the "_ScriptTransport_id" request variable.
+ * (Normal GET or POST data of the request is available through the
+ * "_ScriptTransport_data" variable). In the response data, you also have to
+ * take care of proper string escaping.
+ * <p>
+ * So the request you might see in your server log from a script tansport
+ * may look like this:
+ * <pre>
+ * "GET /cgi-bin/qxresponse.cgi?_ScriptTransport_id=10&_ScriptTransport_data=action%3Ddoit HTTP/1.1" 200 -
+ * </pre>
+ * and the string you might return as content may look like this:
+ * <pre>
+ * 'qx.io.remote.ScriptTransport._requestFinished(10, "Thank you for asking");'
+ * </pre>
+ *
+ *
  */
