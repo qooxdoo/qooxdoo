@@ -31,7 +31,6 @@ qx.Class.define("qx.ui.table2.cellrenderer.Default",
   extend : qx.ui.table2.cellrenderer.Abstract,
 
 
-
   /*
   *****************************************************************************
      STATICS
@@ -96,31 +95,28 @@ qx.Class.define("qx.ui.table2.cellrenderer.Default",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @param htmlArr {var} TODOC
-     * @return {void}
-     */
-    _getCellStyle : function(cellInfo, htmlArr)
+    _getCellClass : function(cellInfo)
     {
-      this.base(arguments, cellInfo, htmlArr);
+      var cellClass = this.base(arguments, cellInfo);
+      if (!cellClass) {
+        return "";
+      }
 
       var stylesToApply = this._getStyleFlags(cellInfo);
 
       if (stylesToApply & qx.ui.table2.cellrenderer.Default.STYLEFLAG_ALIGN_RIGHT) {
-        htmlArr.push(";text-align:right");
+        cellClass += " qooxdoo-table-cell-right";
       }
 
       if (stylesToApply & qx.ui.table2.cellrenderer.Default.STYLEFLAG_BOLD) {
-        htmlArr.push(";font-weight:bold");
+        cellClass += " qooxdoo-table-cell-bold";
       }
 
       if (stylesToApply & qx.ui.table2.cellrenderer.Default.STYLEFLAG_ITALIC) {
-        htmlArr.push(";font-style:italic");
+        cellClass += " qooxdoo-table-cell-italic";
       }
+
+      return cellClass;
     },
 
 

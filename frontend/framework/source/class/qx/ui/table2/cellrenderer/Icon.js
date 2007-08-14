@@ -63,22 +63,6 @@ qx.Class.define("qx.ui.table2.cellrenderer.Icon",
 
   /*
   *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-    IMG_START       : '<img src="',
-    IMG_END         : '"/>',
-    IMG_TITLE_START : '" title="'
-  },
-
-
-
-
-  /*
-  *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
@@ -150,20 +134,33 @@ qx.Class.define("qx.ui.table2.cellrenderer.Icon",
     // overridden
     _getContentHtml : function(cellInfo, htmlArr)
     {
-      var IconDataCellRenderer = qx.ui.table2.cellrenderer.Icon;
-
-      htmlArr.push(IconDataCellRenderer.IMG_START);
+      htmlArr.push('<img ');
       var urlAndToolTip = this._getImageInfos(cellInfo);
-      htmlArr.push(urlAndToolTip.url);
-      var tooltip = urlAndToolTip.tooltip;
 
-      if (tooltip != null)
-      {
-        IconDataCellRenderer.IMG_TITLE_START;
-        htmlArr.push(tooltip);
+      if (qx.core.Client.getInstance().isMshtml() && /\.png$/i.test(urlAndToolTip.url)) {
+        htmlArr.push(
+          'src="', this.IMG_BLANK_URL, '" style="filter:',
+          "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='",
+          urlAndToolTip.url, "',sizingMethod='scale')", '" '
+        );
+      } else {
+        htmlArr.push('src="', urlAndToolTip.url, '" ');
       }
 
-      htmlArr.push(IconDataCellRenderer.IMG_END);
+      if (urlAndToolTip.imageWidth && urlAndToolTip.imageHeight) {
+        htmlArr.push(
+          ' width="', urlAndToolTip.imageWidth, 'px" height="',
+          urlAndToolTip.imageHeight, 'px" '
+        );
+      }
+
+      var tooltip = urlAndToolTip.tooltip;
+
+      if (tooltip != null) {
+        htmlArr.push('title="', tooltip, '" ');
+      }
+
+      htmlArr.push(">");
     }
   }
 });

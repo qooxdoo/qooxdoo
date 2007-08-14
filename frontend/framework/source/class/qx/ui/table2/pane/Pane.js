@@ -104,6 +104,7 @@ qx.Class.define("qx.ui.table2.pane.Pane",
       init : 0,
       apply : "_applyVisibleRowCount"
     }
+
   },
 
 
@@ -372,6 +373,11 @@ qx.Class.define("qx.ui.table2.pane.Pane",
       var firstRow = this.getFirstVisibleRow();
 
       var elem = this.getElement();
+      if (!elem.firstChild) {
+        this._updateAllRows();
+        return;
+      }
+
       var rowNodes = elem.firstChild.childNodes[1].childNodes;
       var cellInfo = { table : table };
 
@@ -430,11 +436,19 @@ qx.Class.define("qx.ui.table2.pane.Pane",
         cellInfo.focusedRow = focusedRow;
         cellInfo.rowData = tableModel.getRowData(row);
 
-        rowHtml.push('<tr style="height:');
-        rowHtml.push(rowHeight+"px");
-        rowRenderer.createRowStyle(cellInfo, rowHtml);
+        rowHtml.push('<tr height="');
+        rowHtml.push(rowHeight+'px" ');
 
-        rowHtml.push('">');
+        var rowClass = rowRenderer.getRowClass(cellInfo);
+        if (rowClass) {
+          rowHtml.push('class="', rowClass, '" ');
+        }
+
+        var rowStyle = rowRenderer.createRowStyle(cellInfo);
+        if (rowStyle) {
+          rowHtml.push('style="', rowStyle, '" ');
+        }
+        rowHtml.push('>');
 
         var left = 0;
 
@@ -532,9 +546,13 @@ qx.Class.define("qx.ui.table2.pane.Pane",
         }
       }
 
+      //this._updateRowStyles();
+
       // force immediate layouting
       // this prevents Firefox from flickering
-      rowElem.offsetHeight;
+      if (qx.core.Variant.isSet("qx.client", "gecko")) {
+        rowElem.offsetHeight;
+      }
     },
 
 
@@ -543,7 +561,7 @@ qx.Class.define("qx.ui.table2.pane.Pane",
       this.TABLE_ARR = [];
 
       var i=0;
-      this.TABLE_ARR[i++] = '<table cellspacing="0" cellpadding="0" style="table-layout:fixed;font-family:';
+      this.TABLE_ARR[i++] = '<table cellspacing="0" cellpadding="0" style="table-layout:fixed;border-collapse: collapse;empty-cells: show;font-family:';
       this.TAB_FONT_FAMILY = i++;
       this.TABLE_ARR[i++] = ';font-size:';
       this.TAB_FONT_SIZE = i++;
@@ -604,29 +622,42 @@ qx.Class.define("qx.ui.table2.pane.Pane",
 
         colArr[i++] = '<col width="';
         colArr[i++] = columnModel.getColumnWidth(col);
-        colArr[i++] = '"/>';
+        colArr[i++] = '" />';
       }
 
       this.TABLE_ARR[this.TAB_COLGROUP] = colArr.join("");
       this.TABLE_ARR[this.TAB_BODY] = this._getRowsHtml(firstRow, rowCount);
 
+      //this.debug(">>>" + this.TABLE_ARR.join("") + "<<<")
+
       var elem = this.getElement();
-
-      // this.debug(">>>" + this.TABLE_ARR.join("") + "<<<")
-
       var data = this.TABLE_ARR.join("");
+
       /*
+      var self = this;
+      this._layoutPending = true;
       window.setTimeout(function() {
         elem.innerHTML = data;
         elem.childNodes[0].offsetHeight;
-      }, 0);
+
+        // force immediate layouting
+        // this prevents Firefox from flickering
+        if (qx.core.Variant.isSet("qx.client", "gecko")) {
+          elem.childNodes[0].offsetHeight;
+        }
+        self._layoutPending = false;
+      }, 10);
       */
+
 
       elem.innerHTML = data;
 
       // force immediate layouting
       // this prevents Firefox from flickering
-      elem.childNodes[0].offsetHeight;
+      if (qx.core.Variant.isSet("qx.client", "gecko")) {
+        elem.childNodes[0].offsetHeight;
+      }
+
 
       this.setHeight(rowCount * rowHeight);
 

@@ -58,7 +58,12 @@ qx.Interface.define("qx.ui.table2.rowrenderer.IRowRenderer",
     },
 
 
-    createRowStyle : function(rowInfo, htmlArr) {
+    createRowStyle : function(rowInfo) {
+      return true;
+    },
+
+
+    getRowClass : function(rowInfo) {
       return true;
     }
 
