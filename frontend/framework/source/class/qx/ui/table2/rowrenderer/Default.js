@@ -488,21 +488,21 @@ qx.Class.define("qx.ui.table2.rowrenderer.Default",
      *
      * @type member
      * @param rowInfo {var} TODOC
-     * @param htmlArr {var} TODOC
      * @return {void}
      */
-    createRowStyle : function(rowInfo, htmlArr)
+    createRowStyle : function(rowInfo)
     {
-      htmlArr.push(";");
-      htmlArr.push(this._fontStyleString);
-      htmlArr.push("background-color:");
+      var rowStyle = [];
+      rowStyle.push(";");
+      rowStyle.push(this._fontStyleString);
+      rowStyle.push("background-color:");
 
       if (rowInfo.focusedRow && this.getHighlightFocusRow())
       {
         if (rowInfo.table.getFocused() || !this.getVisualizeFocusedState()) {
-          htmlArr.push(rowInfo.selected ? this._colors.bgcolFocusedSelected : this._colors.bgcolFocused);
+          rowStyle.push(rowInfo.selected ? this._colors.bgcolFocusedSelected : this._colors.bgcolFocused);
         } else {
-          htmlArr.push(rowInfo.selected ? this._colors.bgcolFocusedSelectedBlur : this._colors.bgcolFocusedBlur);
+          rowStyle.push(rowInfo.selected ? this._colors.bgcolFocusedSelectedBlur : this._colors.bgcolFocusedBlur);
         }
       }
       else
@@ -510,19 +510,26 @@ qx.Class.define("qx.ui.table2.rowrenderer.Default",
         if (rowInfo.selected)
         {
           if (rowInfo.table.getFocused() || !this.getVisualizeFocusedState()) {
-            htmlArr.push(this._colors.bgcolSelected);
+            rowStyle.push(this._colors.bgcolSelected);
           } else {
-            htmlArr.push(this._colors.bgcolSelectedBlur);
+            rowStyle.push(this._colors.bgcolSelectedBlur);
           }
         }
         else
         {
-          htmlArr.push((rowInfo.row % 2 == 0) ? this._colors.bgcolEven : this._colors.bgcolOdd);
+          rowStyle.push((rowInfo.row % 2 == 0) ? this._colors.bgcolEven : this._colors.bgcolOdd);
         }
       }
 
-      htmlArr.push(';color:');
-      htmlArr.push(rowInfo.selected ? this._colors.colSelected : this._colors.colNormal);
+      rowStyle.push(';color:');
+      rowStyle.push(rowInfo.selected ? this._colors.colSelected : this._colors.colNormal);
+
+      return rowStyle.join("");
+    },
+
+
+    getRowClass : function(rowInfo) {
+      return "";
     },
 
 

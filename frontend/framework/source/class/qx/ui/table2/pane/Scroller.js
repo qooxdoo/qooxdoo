@@ -64,9 +64,6 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
     this._horScrollBar.addEventListener("changeValue", this._onScrollX, this);
     this._verScrollBar.addEventListener("changeValue", this._onScrollY, this);
 
-    this._onintervalWrapper = qx.lang.Function.bind(this._oninterval, this);
-    this._updateInterval = window.setInterval(this._onintervalWrapper, 50);
-
     // init header
     this._header = this.getTable().getNewTablePaneHeader()(this);
 
@@ -138,6 +135,8 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
     this._paneClipper.addEventListener("dblclick", this._ondblclickPane, this);
 
     this.addEventListener("mouseout", this._onmouseout, this);
+
+    this.initLazyScroll();
   },
 
 
@@ -292,7 +291,24 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
       check : "Boolean",
       init : true,
       apply : "_applyShowCellFocusIndicator"
+    },
+
+
+    lazyScroll :
+    {
+      check : "Boolean",
+      init : false,
+      apply : "_applyLazyScroll"
+    },
+
+
+    scrollTimeout :
+    {
+      check : "Integer",
+      init : 100,
+      apply : "_applyScrollTimeout"
     }
+
   },
 
 
@@ -1856,6 +1872,34 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
     },
 
 
+    _applyScrollTimeout : function(value, old)
+    {
+      if (!this.getLazyScroll()) {
+        // reset timer
+        this.getLazyScroll(true);
+        this.getLazyScroll(false);
+      }
+    },
+
+
+    _applyLazyScroll : function(value, old)
+    {
+      if (old === false && this._updateInterval)
+      {
+        window.clearInterval(this._updateInterval);
+        this._updateInterval = null;
+      }
+
+      if (value === false && !this._updateInterval)
+      {
+        if (!this._onintervalWrapper) {
+          this._onintervalWrapper = qx.lang.Function.bind(this._oninterval, this);
+        }
+        this._updateInterval = window.setInterval(this._onintervalWrapper, this.getScrollTimeout());
+      }
+    },
+
+
     /**
      * Does a postponed update of the content.
      *
@@ -1865,8 +1909,10 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
      */
     _postponedUpdateContent : function()
     {
-      this._updateContentPlanned = true;
-      return;
+      if (!this.getLazyScroll()) {
+        this._updateContentPlanned = true;
+        return;
+      }
 
       /*
       if (!this._updateContentPlanned)
@@ -1882,13 +1928,15 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
           self._updateContent();
           self._updateContentPlanned = false;
         },
-        20);
+        0);
 
         this._updateContentPlanned = true;
-      }*/
+      }
+      return;
+    */
 
-     this._updateContent();
-     return;
+     //this._updateContent();
+     //return;
 
      if (this._updateId) {
        window.clearTimeout(this._updateId);
@@ -1905,7 +1953,7 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
           }
           self._updateContent();
           self._updateId = null;
-       }, 20);
+       }, this.getScrollTimeout());
      }
     },
 
@@ -1918,7 +1966,7 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
      */
     _oninterval : function()
     {
-      if (this._updateContentPlanned) {
+      if (this._updateContentPlanned && !this._tablePane._layoutPending) {
         this._updateContentPlanned = false;
         this._updateContent();
       }
