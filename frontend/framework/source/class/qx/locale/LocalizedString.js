@@ -39,7 +39,7 @@ qx.Class.define("qx.locale.LocalizedString",
    */
   construct : function(messageId, args, locale)
   {
-    this.base(arguments);
+    this.base(arguments, false);
 
     this.setId(messageId);
     this._locale = locale;
