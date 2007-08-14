@@ -26,31 +26,8 @@
 /**
  * A cell renderer for header cells.
  */
-qx.Class.define("qx.ui.table2.headerrenderer.Basic",
+qx.Interface.define("qx.ui.table2.headerrenderer.IHeaderRenderer",
 {
-  type : "abstract",
-
-  extend : qx.core.Object,
-
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function() {
-    this.base(arguments);
-  },
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
 
   members :
   {
@@ -75,7 +52,7 @@ qx.Class.define("qx.ui.table2.headerrenderer.Basic",
      * @throws the abstract function warning.
      */
     createHeaderCell : function(cellInfo) {
-      throw new Error("createHeaderCell is abstract");
+      return true;
     },
 
 
@@ -92,7 +69,7 @@ qx.Class.define("qx.ui.table2.headerrenderer.Basic",
      * @throws the abstract function warning.
      */
     updateHeaderCell : function(cellInfo, cellWidget) {
-      throw new Error("updateHeaderCell is abstract");
+      return true;
     }
   }
 });
