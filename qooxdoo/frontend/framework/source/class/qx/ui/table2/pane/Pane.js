@@ -561,7 +561,7 @@ qx.Class.define("qx.ui.table2.pane.Pane",
       this.TABLE_ARR = [];
 
       var i=0;
-      this.TABLE_ARR[i++] = '<table cellspacing="0" cellpadding="0" style="table-layout:fixed;border-collapse: collapse;empty-cells: show;font-family:';
+      this.TABLE_ARR[i++] = '<table cellspacing="0" cellpadding="0" style="table-layout:fixed;empty-cells: show;font-family:';
       this.TAB_FONT_FAMILY = i++;
       this.TABLE_ARR[i++] = ';font-size:';
       this.TAB_FONT_SIZE = i++;
@@ -633,7 +633,6 @@ qx.Class.define("qx.ui.table2.pane.Pane",
       var elem = this.getElement();
       var data = this.TABLE_ARR.join("");
 
-      /*
       var self = this;
       this._layoutPending = true;
       window.setTimeout(function() {
@@ -647,9 +646,8 @@ qx.Class.define("qx.ui.table2.pane.Pane",
         }
         self._layoutPending = false;
       }, 10);
-      */
 
-
+      /*
       elem.innerHTML = data;
 
       // force immediate layouting
@@ -657,7 +655,7 @@ qx.Class.define("qx.ui.table2.pane.Pane",
       if (qx.core.Variant.isSet("qx.client", "gecko")) {
         elem.childNodes[0].offsetHeight;
       }
-
+      */
 
       this.setHeight(rowCount * rowHeight);
 
