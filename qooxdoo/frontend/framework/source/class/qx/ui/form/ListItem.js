@@ -105,7 +105,9 @@ qx.Class.define("qx.ui.form.ListItem",
     },
 
     /** Fires a "changeValue" (qx.event.type.ChangeEvent) event */
-    value : {
+    value :
+    {
+      check : "String",
       event : "changeValue"
     }
   },
