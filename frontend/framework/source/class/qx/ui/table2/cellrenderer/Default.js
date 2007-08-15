@@ -128,8 +128,8 @@ qx.Class.define("qx.ui.table2.cellrenderer.Default",
      * @param htmlArr {var} TODOC
      * @return {void}
      */
-    _getContentHtml : function(cellInfo, htmlArr) {
-      htmlArr.push(qx.legacy.html.String.escape(this._formatValue(cellInfo)));
+    _getContentHtml : function(cellInfo) {
+      return qx.legacy.html.String.escape(this._formatValue(cellInfo));
     },
 
 

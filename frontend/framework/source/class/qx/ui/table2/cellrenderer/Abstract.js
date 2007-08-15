@@ -102,11 +102,8 @@ qx.Class.define("qx.ui.table2.cellrenderer.Abstract",
      *          See {@link #createDataCellHtml}.
      * @return {String} the inner HTML of the main div.
      */
-    _getContentHtml : function(cellInfo, htmlArr)
-    {
-      if (cellInfo.value) {
-        htmlArr.push(cellInfo.value);
-      }
+    _getContentHtml : function(cellInfo) {
+      return cellInfo.value || "";
     },
 
 
@@ -133,15 +130,11 @@ qx.Class.define("qx.ui.table2.cellrenderer.Abstract",
 
       // IE cannot handle overflow of table cells correctly so we have to
       // wrap the contents in a div.
-      if (qx.core.Variant.isSet("qx.client", "mshtml")) // && /[\s\f\n\r]/i.test(content))
-      {
-        htmlArr.push('<div>');
-        this._getContentHtml(cellInfo, htmlArr);
-        htmlArr.push('</div>');
-      }
-      else
-      {
-        this._getContentHtml(cellInfo, htmlArr);
+      var content = this._getContentHtml(cellInfo);
+      if (qx.core.Variant.isSet("qx.client", "mshtml") && /[\s\f\n\r]/g.test(content)) {
+        htmlArr.push('<div>', content, '</div>');
+      } else {
+        htmlArr.push(content);
       }
 
       htmlArr.push("</td>");

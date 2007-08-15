@@ -132,23 +132,23 @@ qx.Class.define("qx.ui.table2.cellrenderer.Icon",
 
 
     // overridden
-    _getContentHtml : function(cellInfo, htmlArr)
+    _getContentHtml : function(cellInfo)
     {
-      htmlArr.push('<img ');
+      var content = ['<img '];
       var urlAndToolTip = this._getImageInfos(cellInfo);
 
       if (qx.core.Client.getInstance().isMshtml() && /\.png$/i.test(urlAndToolTip.url)) {
-        htmlArr.push(
+        content.push(
           'src="', this.IMG_BLANK_URL, '" style="filter:',
           "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='",
           urlAndToolTip.url, "',sizingMethod='scale')", '" '
         );
       } else {
-        htmlArr.push('src="', urlAndToolTip.url, '" ');
+        content.push('src="', urlAndToolTip.url, '" ');
       }
 
       if (urlAndToolTip.imageWidth && urlAndToolTip.imageHeight) {
-        htmlArr.push(
+        content.push(
           ' width="', urlAndToolTip.imageWidth, 'px" height="',
           urlAndToolTip.imageHeight, 'px" '
         );
@@ -157,10 +157,12 @@ qx.Class.define("qx.ui.table2.cellrenderer.Icon",
       var tooltip = urlAndToolTip.tooltip;
 
       if (tooltip != null) {
-        htmlArr.push('title="', tooltip, '" ');
+        content.push('title="', tooltip, '" ');
       }
 
-      htmlArr.push(">");
+      content.push(">");
+
+      return content.join("");
     }
   }
 });
