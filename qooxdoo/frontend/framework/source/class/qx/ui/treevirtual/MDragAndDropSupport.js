@@ -20,29 +20,22 @@
 
 /**
  * Adds Drag & Drop support to the TreeVirtual.
- * 
+ *
  * Because the mixin needs to overwrite the default supportsDrop method, this
  * mixin must be applied with "patch" instead of "include":
- * 
+ *
  * qx.Class.patch(qx.ui.treevirtual.TreeVirtual,qx.ui.treevirtual.MDragAndDropSupport);
- * 
+ *
  * You also need the MNode Mixin:
- * 
+ *
  * qx.Class.include(qx.ui.treevirtual.TreeVirtual, qx.ui.treevirtual.MNode);
- * 
+ *
  * If you want to define your own supportsDrop method, you need to define a supportsDropCallback
  * function in your TreeVirtual instance.
- * 
- * The mixin makes it very easy to create a complex drag & drop behaviour. See the tutorial here: 
- * 
+ *
+ * The mixin makes it very easy to create a complex drag & drop behaviour. See the tutorial here:
+ *
  * http://qooxdoo.org/documentation/0.7/snippets/treevirtual_draganddrop_mixin
- * 
- * To drag & drop within the same TreeVirtual, you need to patch the 
- * qx.event.handler.DragAndDropHandler class like so (if it hasn't already been patched in SVN)
- * Line 262:  replace
- *            while (vCurrent != null && vCurrent != this.__dragCache.sourceWidget)
- *            with
- *            while (vCurrent != null) 
  */
 qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
 {
@@ -70,9 +63,9 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
       apply : "_applyEnableDragDrop",
       init : false
     },
-    
-    /** 
-     * set the mimetype of the nodes, defaults to "treevirtualnode" 
+
+    /**
+     * set the mimetype of the nodes, defaults to "treevirtualnode"
      * You do not usually have to change this
      */
     dragDataMimeType :
@@ -81,7 +74,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
       init : "treevirtualnode"
     },
 
-    /** 
+    /**
      * a list of node types allowed to be dragged (separated by comma)
      */
     allowDragTypes :
@@ -90,19 +83,19 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
       nullable: true,
       init : null
     },
-    
-    /** 
-     * drag action 
+
+    /**
+     * drag action
      */
     dragAction :
     {
       check :  ['move','copy','alias'],
       init : 'move'
     },
-    
-    /** 
-     * the name of the data event that is fired with a reference the hovered node 
-     * after the drag cursor has been hovering over it for the "dragHoverTimeout" 
+
+    /**
+     * the name of the data event that is fired with a reference the hovered node
+     * after the drag cursor has been hovering over it for the "dragHoverTimeout"
      * number of milliseconds
      **/
     dragHoverEventName :
@@ -112,7 +105,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
       init : "draghover"
     },
 
-    /** 
+    /**
      * the number of milliseconds that the drag cursor has to hover over a node
      * before a the event specified by the "dragHoverEventName" property is fired
      **/
@@ -123,17 +116,17 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
       init : 1000
     },
 
-    /** 
+    /**
      * whether it is possible to drop between nodes (i.e., for reordering them).
-     * the focus indicator changed to a line to mark where the insertion should take place 
+     * the focus indicator changed to a line to mark where the insertion should take place
      **/
     allowDropBetweenNodes :
     {
       check : "Boolean",
       init: false
     },
-    
-    /** 
+
+    /**
      * the color of the cell focus indicator when hovering on a node
      * this should probably be handled with themes or appearance
      **/
@@ -143,7 +136,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
       init: qx.util.ExtendedColor.toRgbString("lightblue")
     },
 
-    /** 
+    /**
      * the color of the cell focus indicator when hovering on a node
      * this should probably be handled with themes or appearance
      **/
@@ -152,10 +145,10 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
       check : "String",
       init: "black"
     },
-    
-    /** 
-     * array of two-element arrays containing a combination of drag source and 
-     * drop target types. Type information is in the nodeTypeProperty of the 
+
+    /**
+     * array of two-element arrays containing a combination of drag source and
+     * drop target types. Type information is in the nodeTypeProperty of the
      * userData hash map. If null, allow any combination. "*" can be used to as a
      * wildcard, i.e. [ ['Foo','*'] ...] will allow the 'Foo' type node to be dropped on any
      * other type, and [ ['*','Bar'] ...] will allow any type to be dropped on a 'Bar' type node.
@@ -168,7 +161,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
       init : null
     },
 
-    /** 
+    /**
      * records the target node on which the drag objects has been dropped
      **/
     dropTarget :
@@ -177,9 +170,9 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
       nullable: true,
       init : null
     },
-    
-    /** 
-     * provide a hint on where the node has been dropped 
+
+    /**
+     * provide a hint on where the node has been dropped
      * (-1 = above the node, 0 = on the node, 1 = below the node)
      **/
     dropTargetRelativePosition :
@@ -187,8 +180,8 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
       check :  [-1,0,1],
       init : 0
     },
-        
-    /** 
+
+    /**
      * Map according to which sorting is done, for example:
      * { "type" : "asc", "dragType" : ['Folder','Message'], "label" : "desc" }
      * will sort the nodes by type, data.MDragAndDropSupport.type and label
@@ -199,8 +192,8 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
       nullable: true,
       init : null
     },
-    
-    /** 
+
+    /**
      * whether a nodes children should be automatically be sorted after a drop
      **/
     sortAfterDrop :
@@ -221,8 +214,8 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
   {
     //---------------------------------------------------------------------------
     // Property manipulation
-    //---------------------------------------------------------------------------    
-    
+    //---------------------------------------------------------------------------
+
     /**
      * enables or disables drag and drop, adds event listeners and does some other initialization stuff
      * if you want to keep this function from adding default event handling functions, add event
@@ -232,14 +225,14 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
     {
       if ( old && ! value )
       {
-        // remove default listeners 
+        // remove default listeners
         this.removeEventListener("dragstart",this._handleDragStart);
         this.removeEventListener("dragover",this._handleDragOver);
         this.removeEventListener("dragout",this._handleDragOut);
         this.removeEventListener("dragout",this._handleDragDrop);
         this.removeEventListener("dragend",this._handleDragEnd);
       }
-      
+
       if ( value && ! old )
       {
         // set default mimetype for accepting drag data from other widgets (or from itself)
@@ -250,40 +243,40 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
           dropDataTypes.push(defaultMimeType);
           this.setDropDataTypes( dropDataTypes );
         }
-        
+
         // set default listeners if not set already
         if ( ! this.hasEventListeners ("dragstart") )
         {
           this.addEventListener("dragstart",this._handleDragStart,this);
         }
-        
+
         if ( ! this.hasEventListeners ("dragover") )
         {
           this.addEventListener("dragover",this._handleDragOver,this);
         }
-        
+
         if ( ! this.hasEventListeners ("dragout") )
         {
           this.addEventListener("dragout",this._handleDragOut,this);
         }
-        
+
         if ( ! this.hasEventListeners ("dragdrop") )
         {
           this.addEventListener("dragdrop",this._handleDragDrop,this);
-        }        
-        
+        }
+
         if ( ! this.hasEventListeners ("dragend") )
         {
           this.addEventListener("dragend",this._handleDragEnd,this);
         }
       }
     },
-    
+
 
     //---------------------------------------------------------------------------
     // Shorthand methods
     //---------------------------------------------------------------------------
-         
+
     /**
      * shorthand method for setting a row focus indicator
      */
@@ -291,7 +284,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
     {
       this.getDataRowRenderer().setHighlightFocusRow(value);
     },
-    
+
     /**
      * get tree column pane scroller widget
      */
@@ -299,7 +292,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
     {
         return this._getPaneScrollerArr()[this.getDataModel().getTreeColumn()];
     },
-    
+
     /**
      * get focus indicator widget
      */
@@ -307,11 +300,11 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
     {
         return this.getTreePaneScroller()._focusIndicator;
     },
-   
+
     //---------------------------------------------------------------------------
     // event handling functions
     //---------------------------------------------------------------------------
-   
+
     /**
      * Handles event fired whe a drag session starts.
      * To replace this handler, define and add your custom event listener before you setEnableDragDrop(true).
@@ -321,12 +314,12 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
     {
       var selection = this.getDataModel().getSelectedNodes();
       var types = this.getAllowDragTypes();
-     
+
       if (types === null) return false;
-      
+
       if (types[0] != "*" )
       {
-        // check for allowed types for all of he selection, i.e. if one 
+        // check for allowed types for all of he selection, i.e. if one
         // doesn't match, drag is not allowed.
         for (var i=0; i<selection.length; i++)
         {
@@ -334,84 +327,84 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
           try
           {
             type = selection[i].data.MDragAndDropSupport.type;
-          } 
+          }
           catch(e){}
-          
+
           // type is not among the allowed types, do not allow drag
           if ( types.indexOf(type) < 0 ) return false;
-        } 
+        }
       }
-     
+
      // prepare drag data
       var dragData = {
         'nodeData' : selection,
         'sourceWidget' : this
       };
-      
-      event.addData(this.getDragDataMimeType(), dragData); 
+
+      event.addData(this.getDragDataMimeType(), dragData);
       event.addAction(this.getDragAction());
       event.startDrag();
      },
-     
+
     /**
      * Handles event fired when a drag occurs over the widget
      * To replace this handler, define and add your custom event listener before you setEnableDragDrop(true).
-     */    
+     */
     _handleDragOver : function (event)
     {
       // currently not used
-    }, 
+    },
 
     /**
      * handles event fired when the mouse hovers over a node for a the number of milliseconds
      * specified in the dragHoverTimeout property
-     */    
+     */
     _handleDragHover : function (event)
     {
       // currently not used
-    }, 
-    
+    },
+
     /**
      * Handles the event fired when the cursor leaves the widget during a drag session.
      * To replace this handler, define and add your custom event listener before you setEnableDragDrop(true).
-     */    
+     */
     _handleDragOut : function ()
     {
       this.getCellFocusIndicator().setBackgroundColor(this.getCellFocusIndicatorColor());
-    }, 
+    },
 
     /**
-     * Handles the event fired when the mouse button is released over a legitmate drop target 
+     * Handles the event fired when the mouse button is released over a legitmate drop target
      * To replace this handler, define and add your custom event listener before you setEnableDragDrop(true).
-     */    
+     */
     _handleDragDrop : function ()
     {
       // currently not used
-    }, 
-    
+    },
+
     /**
      * Handles the event fired when a drag session ends (with or without drop).
      * To replace this handler, define and add your custom event listener before you setEnableDragDrop(true).
-     */    
+     */
     _handleDragEnd : function ()
     {
       this.getCellFocusIndicator().setBackgroundColor(this.getCellFocusIndicatorColor());
-    }, 
+    },
 
     //---------------------------------------------------------------------------
     // Methods handling dropping and hovering
     //---------------------------------------------------------------------------
-                
+
     /**
      * gets information on the drag session after the drop has occurred
      * @param event {Object} the drag event fired
-     * @return {Object} map with the following information: 
+     * @return {Object} map with the following information:
      * {
      *  'nodeData' : an array of selected nodes in the source widget, i.e. those nodes which were dragged,
      *  'sourceWidget' : the source widget,
      *  'targetNode' : the node on which the data was dropped,
      *  'position' : the relative position of the drop action: -1 = above, 0=on, 1= below the node
-     * }	
+     * }
      */
     getDropData : function(event)
     {
@@ -421,18 +414,18 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
         'sourceWidget' : dragData.sourceWidget,
         'targetNode' : this.getDropTarget(),
         'position' : this.getDropTargetRelativePosition()
-      }	
-    },    
+      }
+    },
 
     /**
      * overrides supportsDrop method. you can hook in your custom supportsDrop method by
-     * defining a supportsDropCallback function in your TreeVirtual instance. Both must 
+     * defining a supportsDropCallback function in your TreeVirtual instance. Both must
      * return true for a drop to be allowed.
      * @param dragCache {Object}
-     *    a temporary and incomplete copy of the drag event 
+     *    a temporary and incomplete copy of the drag event
      * @return {Boolean} whether drop is allowed
      */
-    supportsDrop : function(dragCache) 
+    supportsDrop : function(dragCache)
     {
       var result = this.checkDrop(dragCache);
       if ( typeof this.supportsDropCallback == "function" ){
@@ -440,21 +433,21 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
       }
       return result;
     },
-    
+
     /**
-     * the main method of this mixin, providing a check on whether drop is allowed, displaying a 
+     * the main method of this mixin, providing a check on whether drop is allowed, displaying a
      * insertion cursor for drop-between-nodes
      * @param dragCache {Object}
-     *    a temporary and incomplete copy of the drag event 
+     *    a temporary and incomplete copy of the drag event
      * @return {Boolean} whether drop is allowed
      */
-    checkDrop : function(dragCache) 
+    checkDrop : function(dragCache)
     {
         // pane scroller widget takes care of mouse events
         var scroller = this.getTreePaneScroller();
-        
+
         // calculate row and mouse Y position within row
-        var paneClipperElem = scroller._paneClipper.getElement();     
+        var paneClipperElem = scroller._paneClipper.getElement();
         var paneClipperTopY = qx.html.Location.getClientBoxTop(paneClipperElem);
         var rowHeight = scroller.getTable().getRowHeight();
         var scrollY = scroller._verScrollBar.getValue();
@@ -468,27 +461,27 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
         // update cell focus indicator
         scroller._focusCellAtPagePos(dragCache.pageX, dragCache.pageY);
 
-        // if dropping "between" nodes is allowed, change focus indicator's height and color 
+        // if dropping "between" nodes is allowed, change focus indicator's height and color
         var dropTargetRelativePosition = 0;
         if ( this.getAllowDropBetweenNodes() )
-        {      				
+        {
           var firstRow = scroller._tablePane.getFirstVisibleRow();
           var focusIndicator = this.getCellFocusIndicator();
-          
+
           if ( deltaY < 4 || deltaY > (rowHeight-4) )
           {
             // todo: unhardcode color here, this should be themed!
             focusIndicator.setBackgroundColor(this.getCellFocusIndicatorColorBetweenNodes()); // better visibility
-            focusIndicator.setHeight(2); 
-          
+            focusIndicator.setHeight(2);
+
             if ( deltaY < 4 )
             {
-              focusIndicator.setTop((row - firstRow) * rowHeight - 2);       					
+              focusIndicator.setTop((row - firstRow) * rowHeight - 2);
               dropTargetRelativePosition = -1;
             }
-            else 
+            else
             {
-              focusIndicator.setTop((row - firstRow + 1 ) * rowHeight - 2); 
+              focusIndicator.setTop((row - firstRow + 1 ) * rowHeight - 2);
               dropTargetRelativePosition = 1;
             }
           }
@@ -499,27 +492,27 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
             scroller._updateFocusIndicator();
           }
        }
-    
+
         // drag source
         var sourceData   = qx.event.handler.DragAndDropHandler
                               .getInstance().getData(this.getDragDataMimeType());
         var sourceNode   = sourceData.nodeData[0]; // use only the first node to determine node type
-        var sourceWidget = sourceData.sourceWidget; 
-        
-        // get and save drag target 
+        var sourceWidget = sourceData.sourceWidget;
+
+        // get and save drag target
         var targetWidget = this;
         var targetRowData = this.getDataModel().getRowData(row);
         if ( ! targetRowData ) return false;
         var targetNode = targetRowData[0];
         var targetParentNode = this.nodeGet(targetNode.parentNodeId);
-        this.setDropTarget(targetNode); 
-        this.setDropTargetRelativePosition(dropTargetRelativePosition);   
-        
+        this.setDropTarget(targetNode);
+        this.setDropTargetRelativePosition(dropTargetRelativePosition);
+
         // if we are dragging within the same widget
         if ( sourceWidget == targetWidget )
         {
           // prevent drop of nodes on themself
-          if ( sourceNode.nodeId == targetNode.nodeId ) 
+          if ( sourceNode.nodeId == targetNode.nodeId )
           {
             return false;
           }
@@ -528,14 +521,14 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
           var traverseNode = targetNode;
           while ( traverseNode.parentNodeId )
           {
-            if ( traverseNode.parentNodeId == sourceNode.nodeId ) 
-            { 
+            if ( traverseNode.parentNodeId == sourceNode.nodeId )
+            {
               return false;
             }
             traverseNode = this.nodeGet(traverseNode.parentNodeId);
           }
         }
-                
+
         // programmatically select node to load children after a timeout
         var dragHoverTimeout = this.getDragHoverTimeout();
         var dragHoverEventName = this.getDragHoverEventName();
@@ -550,7 +543,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
               this.__dragHoverTimeoutFunc = null;
             }
           }
-  
+
           if ( ! this.__dragHoverTimeoutFunc && ! dropTargetRelativePosition)
           {
             // initialize timeout for current row
@@ -559,29 +552,29 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
             this.__dragHoverTimeoutFunc = window.setTimeout(function(){
               // dispatch event with targetNode with row hint
               targetNode.row = row;
-              _this.createDispatchDataEvent(dragHoverEventName,targetNode);				
+              _this.createDispatchDataEvent(dragHoverEventName,targetNode);
            }, dragHoverTimeout );
           }
         }
-        
+
         // check legitimate source and target type combinations
         var sourceType = this.getNodeType(sourceNode);
-        var targetType = dropTargetRelativePosition ? 
+        var targetType = dropTargetRelativePosition ?
                             this.getNodeType(targetParentNode) :
                             this.getNodeType(targetNode);
         var allowDropTypes = this.getAllowDropTypes();
-        
+
         // allow all drops if null or undefined
-        if ( allowDropTypes[0] == "*" ) 
+        if ( allowDropTypes[0] == "*" )
         {
           return true;
         }
-        
+
         // check more closely
         for ( var i=0; i< allowDropTypes.length; i++ )
         {
             if ( ( allowDropTypes[i][0] == sourceType || allowDropTypes[i][0] == "*" )
-                 && 
+                 &&
                  ( allowDropTypes[i][1] == targetType || allowDropTypes[i][1] == "*" ) )
             {
               return true;
@@ -590,11 +583,11 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
         // do not allow any drop
         return false;
      },
-    
+
     //---------------------------------------------------------------------------
     // Node manipulation
     //---------------------------------------------------------------------------
-    
+
     /**
      * gets the (drag) type of a node
      * @param nodeReference {Object|Integer}
@@ -604,14 +597,14 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
     {
       try
       {
-        return this.nodeGet(nodeReference).data.MDragAndDropSupport.type;  
+        return this.nodeGet(nodeReference).data.MDragAndDropSupport.type;
       }
       catch(e)
       {
         return null;
       }
     },
-    
+
     /**
      * sets the (drag) type of a node
      * @param nodeReference {Object|Integer}
@@ -622,16 +615,16 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
       if (typeof type != "string" )
       {
         this.error("Drag Type must be a string, got " + (typeof type) );
-      }     
+      }
       var node = this.nodeGet(nodeReference);
       if ( ! node.data ) node.data = {};
       if ( ! node.data.MDragAndDropSupport ) node.data.MDragAndDropSupport = {};
       node.data.MDragAndDropSupport.type = type;
     },
-        
-    
+
+
     /**
-     * moves or copies a node to a different place. if you supply only one argument, it is treated as 
+     * moves or copies a node to a different place. if you supply only one argument, it is treated as
      * the result of the getDropData() method. Otherwise use the parameter list below.
      * @param first {Object} "this" if moving within the same tree
      * @param sourceNode {Object}
@@ -641,7 +634,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
      *    below target if 1, and as a child if 0 or undefined
      */
     moveNode : function ( first, sourceNode, targetNode, position )
-    {      
+    {
       // one-parameter signature
       if ( arguments.length == 1)
       {
@@ -654,12 +647,12 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
       {
         var sourceWidget = first;
       }
-      
+
       // source
       var sourceNodeId = sourceNode.nodeId;
-      var sourceParentNode = sourceWidget.nodeGet(sourceNode.parentNodeId); 
+      var sourceParentNode = sourceWidget.nodeGet(sourceNode.parentNodeId);
       var sourceNodeIndex = sourceParentNode.children.indexOf(sourceNodeId);
-      
+
       // target
       var targetNodeId = targetNode.nodeId;
       var targetParentNodeId = targetNode.parentNodeId || 0;
@@ -673,31 +666,31 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
       {
         throw new Error("Sorry, a LEAF may not have children.");
       }
-  
+
       // action
       var action = this.getDragAction();
-  
+
       // if we move a copy or from a different tree, we need to create a new node
       if ( action == "copy" || sourceWidget != this )
       {
         // get a new node id for the copy
         var sourceNodeId = this.getDataModel()._nodeArr.length;
-   
+
         // Set the data for this node
         var sourceNode = qx.lang.Object.copy(sourceNode);
         sourceNode.nodeId = sourceNodeId;
-        
+
         // Add this node to the array
         this.getDataModel()._nodeArr.push(sourceNode);
-        
+
         // handle children
         if ( sourceNode.children.length )
-        { 
+        {
           this.warn("Copying of node children not implemented yet!")
           sourceNode.children=[];
         }
       }
-      
+
       if ( action == "move" )
       {
         qx.lang.Array.removeAt( sourceParentNode.children, sourceNodeIndex );
@@ -706,14 +699,14 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
           sourceWidget.getDataModel().setData();
         }
       }
-      
+
       // set source node information
       sourceNode.bSelected = false;
-      
+
       // insert node
       if ( position > 0 )
       {
-        // insert source above target 
+        // insert source above target
         sourceNode.level = targetNode.level;
         sourceNode.parentNodeId = targetParentNodeId;
         qx.lang.Array.insertAt( targetParentNode.children, sourceNodeId, targetNodeIndex + 1 );
@@ -722,25 +715,25 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
       else if ( position < 0 )
       {
         // insert source below target
-        sourceNode.level = targetNode.level; 
+        sourceNode.level = targetNode.level;
         sourceNode.parentNodeId = targetParentNodeId;
         qx.lang.Array.insertAt( targetParentNode.children, sourceNodeId, targetNodeIndex );
         if ( this.getSortAfterDrop() ) this.sortChildNodes(targetParentNode);
       }
       else if ( targetNode.type != qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF )
       {
-        // insert source as a child of target 
+        // insert source as a child of target
         sourceNode.level = targetNode.level+1;
         sourceNode.parentNodeId = targetNodeId;
         targetNode.children.push( sourceNodeId );
         if ( this.getSortAfterDrop() ) this.sortChildNodes(targetNode);
       }
       this.getDataModel().setData();
-  
+
       // Return the node we just moved
       return sourceNode;
     },
-  
+
     /**
      * sorts child nodes according to sortChildNodesBy property
      * @param nodeReference {Object} node whose children should be sorted
@@ -756,36 +749,36 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
         for(var key in sortMap )
         {
            var prop;
-           var sortHint = sortMap[key];            
+           var sortHint = sortMap[key];
            _this.info([prop,typeof sortHint] );
-           
+
             // property aliases
            switch  ( key )
            {
              case "dragType":
                 prop = "data.MDragAndDropSupport.type";
                 break;
-                
+
              default:
                 prop = key;
            }
-           
+
            // get values to compare
            var nodeA = _this.nodeGet(a);
            var nodeB = _this.nodeGet(b);
-           
+
            try
            {
-             var valueA = eval("nodeA."+prop); 
+             var valueA = eval("nodeA."+prop);
              var valueB = eval("nodeB."+prop);
            }
-           catch(e) 
+           catch(e)
            {
              continue;
            }
-           
+
            // do comparison
-           
+
            // if sort hint is a string, assume that it is either "asc" or "desc"
            if ( typeof sortHint == "string" )
            {
@@ -794,7 +787,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
            }
            // if it is an array, elements that appear earlier in the array take
            // precedence over those further back in the array
-           if ( typeof sortHint == "object" && 
+           if ( typeof sortHint == "object" &&
            sortHint.length )
            {
              _this.info([sortHint,valueA,valueB]);
@@ -804,7 +797,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
         }
         return 0;
       });
-      
+
       // recurse into children
       if (recurse)
       {
@@ -812,7 +805,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
           this.sortChildNodes(this.nodeGet(nodeId),true);
         },this);
       }
-      
+
       this.getDataModel().setData();
     }
   }
