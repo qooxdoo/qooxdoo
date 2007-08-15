@@ -6334,9 +6334,9 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _applyOverflow : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(value, old)
+      "mshtml|webkit" : function(value, old)
       {
-        // Mshtml conforms here to CSS3 Spec. Eventually there will be multiple
+        // Mshtml and WebKit conform to CSS3 Spec. Eventually there will be multiple
         // browsers which support these new overflowX overflowY properties.
         var pv = value;
         var pn = "overflow";
