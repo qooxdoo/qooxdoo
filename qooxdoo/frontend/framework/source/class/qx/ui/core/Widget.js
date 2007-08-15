@@ -6270,7 +6270,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _applyOverflow : qx.core.Variant.select("qx.client",
     {
-      "mshtml|webkit" : function(value, old)
+      "default" : function(value, old)
       {
         // Mshtml and WebKit conform to CSS3 Spec. Eventually there will be multiple
         // browsers which support these new overflowX overflowY properties.
@@ -6339,7 +6339,7 @@ qx.Class.define("qx.ui.core.Widget",
         this.addToQueue("overflow");
       },
 
-      "default" : function(value, old)
+      "opera" : function(value, old)
       {
         // Opera/Khtml Mode...
         // hopefully somewhat of this is supported in the near future.
