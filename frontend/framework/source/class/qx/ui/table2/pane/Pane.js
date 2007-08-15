@@ -340,6 +340,10 @@ qx.Class.define("qx.ui.table2.pane.Pane",
         return;
       }
 
+      if (this._layoutPending) {
+        window.clearTimeout(this._layoutPending);
+      }
+
       //var start = new Date();
 
       if (scrollOffset && Math.abs(scrollOffset) <= Math.min(10, this.getVisibleRowCount()))
@@ -546,7 +550,9 @@ qx.Class.define("qx.ui.table2.pane.Pane",
         }
       }
 
-      //this._updateRowStyles();
+      // update focus indicator
+      this._updateRowStyles(this._focusedRow - rowOffset);
+      this._updateRowStyles(this._focusedRow);
 
       // force immediate layouting
       // this prevents Firefox from flickering
@@ -634,8 +640,8 @@ qx.Class.define("qx.ui.table2.pane.Pane",
       var data = this.TABLE_ARR.join("");
 
       var self = this;
-      this._layoutPending = true;
-      window.setTimeout(function() {
+      this._layoutPending = window.setTimeout(function()
+      {
         elem.innerHTML = data;
         elem.childNodes[0].offsetHeight;
 
@@ -644,7 +650,7 @@ qx.Class.define("qx.ui.table2.pane.Pane",
         if (qx.core.Variant.isSet("qx.client", "gecko")) {
           elem.childNodes[0].offsetHeight;
         }
-        self._layoutPending = false;
+        self._layoutPending = null;
       }, 10);
 
       /*
