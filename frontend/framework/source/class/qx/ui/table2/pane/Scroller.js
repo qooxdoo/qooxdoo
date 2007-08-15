@@ -136,7 +136,7 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
 
     this.addEventListener("mouseout", this._onmouseout, this);
 
-    this.initLazyScroll();
+    this.initScrollTimeout();
   },
 
 
@@ -291,14 +291,6 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
       check : "Boolean",
       init : true,
       apply : "_applyShowCellFocusIndicator"
-    },
-
-
-    lazyScroll :
-    {
-      check : "Boolean",
-      init : false,
-      apply : "_applyLazyScroll"
     },
 
 
@@ -1874,28 +1866,17 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
 
     _applyScrollTimeout : function(value, old)
     {
-      if (!this.getLazyScroll()) {
-        // reset timer
-        this.getLazyScroll(true);
-        this.getLazyScroll(false);
-      }
-    },
-
-
-    _applyLazyScroll : function(value, old)
-    {
-      if (old === false && this._updateInterval)
+      if (this._updateInterval)
       {
         window.clearInterval(this._updateInterval);
         this._updateInterval = null;
       }
-
-      if (value === false && !this._updateInterval)
+      else
       {
         if (!this._onintervalWrapper) {
           this._onintervalWrapper = qx.lang.Function.bind(this._oninterval, this);
         }
-        this._updateInterval = window.setInterval(this._onintervalWrapper, this.getScrollTimeout());
+        this._updateInterval = window.setInterval(this._onintervalWrapper, value);
       }
     },
 
@@ -1909,52 +1890,7 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
      */
     _postponedUpdateContent : function()
     {
-      if (!this.getLazyScroll()) {
-        this._updateContentPlanned = true;
-        return;
-      }
-
-      /*
-      if (!this._updateContentPlanned)
-      {
-        var self = this;
-
-        window.setTimeout(function()
-        {
-          if (self.getDisposed()) {
-            return;
-          }
-
-          self._updateContent();
-          self._updateContentPlanned = false;
-        },
-        0);
-
-        this._updateContentPlanned = true;
-      }
-      return;
-    */
-
-     //this._updateContent();
-     //return;
-
-     if (this._updateId) {
-       window.clearTimeout(this._updateId);
-       this._updateId = null;
-     }
-
-     if (!this._updateId)
-     {
-       var self = this;
-       this._updateId = window.setTimeout(function()
-       {
-          if (self.getDisposed()) {
-            return;
-          }
-          self._updateContent();
-          self._updateId = null;
-       }, this.getScrollTimeout());
-     }
+      this._updateContentPlanned = true;
     },
 
 
