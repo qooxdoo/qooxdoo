@@ -340,8 +340,11 @@ qx.Class.define("qx.ui.table2.pane.Pane",
         return;
       }
 
-      if (this._layoutPending) {
+      if (this._layoutPending)
+      {
         window.clearTimeout(this._layoutPending);
+        this._updateAllRows();
+        return;
       }
 
       //var start = new Date();
@@ -359,7 +362,7 @@ qx.Class.define("qx.ui.table2.pane.Pane",
       else
       {
         //this.debug("full update");
-        this._updateAllRows(onlySelectionOrFocusChanged);
+        this._updateAllRows();
       }
 
       //this.debug("render time: " + (new Date() - start) + "ms");
@@ -545,7 +548,7 @@ qx.Class.define("qx.ui.table2.pane.Pane",
       {
         for (var i=newTableRows.length-1; i>=0; i--)
         {
-          var rowElem = newTableRows[0];
+          var rowElem = newTableRows[newTableRows.length-1];
           tableBody.insertBefore(rowElem, tableBody.firstChild);
         }
       }
@@ -588,11 +591,8 @@ qx.Class.define("qx.ui.table2.pane.Pane",
      * @param completeUpdate {Boolean ? false} if true a complete update is performed.
      *      On a complete update all cell widgets are recreated.
      * @param onlyRow {Integer ? null} if set only the specified row will be updated.
-     * @param onlySelectionOrFocusChanged {Boolean ? false} if true, cell values won't
-     *          be updated. Only the row background will.
-     * @return {void}
      */
-    _updateAllRows : function(onlySelectionOrFocusChanged)
+    _updateAllRows : function()
     {
       var TablePane = qx.ui.table2.pane.Pane;
 
@@ -639,6 +639,8 @@ qx.Class.define("qx.ui.table2.pane.Pane",
       var elem = this.getElement();
       var data = this.TABLE_ARR.join("");
 
+
+      /*
       var self = this;
       this._layoutPending = window.setTimeout(function()
       {
@@ -652,8 +654,7 @@ qx.Class.define("qx.ui.table2.pane.Pane",
         }
         self._layoutPending = null;
       }, 10);
-
-      /*
+*/
       elem.innerHTML = data;
 
       // force immediate layouting
@@ -661,7 +662,6 @@ qx.Class.define("qx.ui.table2.pane.Pane",
       if (qx.core.Variant.isSet("qx.client", "gecko")) {
         elem.childNodes[0].offsetHeight;
       }
-      */
 
       this.setHeight(rowCount * rowHeight);
 
