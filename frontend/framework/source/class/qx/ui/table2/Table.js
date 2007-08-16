@@ -1718,7 +1718,6 @@ qx.Class.define("qx.ui.table2.Table",
           qx.ui.core.Widget.flushGlobalQueues();
 
           menu.setLeft(qx.legacy.html.Location.getClientBoxRight(btElem) - menu.getOffsetWidth());
-          //qx.ui.core.Widget.flushGlobalQueues();
         },
         0);
       }

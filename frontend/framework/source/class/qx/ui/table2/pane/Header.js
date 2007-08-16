@@ -26,7 +26,7 @@
 /**
  * Shows the header of a table.
  */
-qx.Class.define("qx.ui.table2.pane.Header",
+qx.Class.define("qx.ui.table.pane2.Header",
 {
   extend : qx.ui.layout.HorizontalBoxLayout,
 
@@ -40,7 +40,7 @@ qx.Class.define("qx.ui.table2.pane.Header",
   */
 
   /**
-   * @param paneScroller {TablePaneScroller} the TablePaneScroller the header belongs to.
+   * @param paneScroller {qx.ui.table2.pane.Scroller} the TablePaneScroller the header belongs to.
    */
   construct : function(paneScroller)
   {
