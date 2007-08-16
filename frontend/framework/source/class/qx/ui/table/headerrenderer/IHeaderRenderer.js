@@ -49,7 +49,6 @@ qx.Interface.define("qx.ui.table.headerrenderer.IHeaderRenderer",
      * @param cellInfo {Map} A map containing the information about the cell to
      *      create.
      * @return {qx.ui.core.Widget} the widget that renders the header cell.
-     * @throws the abstract function warning.
      */
     createHeaderCell : function(cellInfo) {
       return true;
@@ -66,7 +65,6 @@ qx.Interface.define("qx.ui.table.headerrenderer.IHeaderRenderer",
      * @param cellWidget {qx.ui.core.Widget} the widget that renders the header cell. This is
      *      the same widget formally created by {@link #createHeaderCell}.
      * @return {void}
-     * @throws the abstract function warning.
      */
     updateHeaderCell : function(cellInfo, cellWidget) {
       return true;

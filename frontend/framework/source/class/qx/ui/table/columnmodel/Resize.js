@@ -68,10 +68,10 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
 
   properties :
   {
-    /*
+    /**
      * The behavior to use.
      *
-     * The provided behavior must extend {link @AbstractResizeBehavior} and
+     * The provided behavior must extend {link @qx.ui.table.columnmodel.resizebehavior.Abstract} and
      * implement the <i>onAppear</i>, <i>onTableWidthChanged</i>,
      * <i>onColumnWidthChanged</i> and <i>onVisibilityChanged</i>methods.
      */
@@ -122,7 +122,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
      *
      * @type member
      *
-     * @param numColumns {var} TODOC
+     * @param numColumns {var} the number of columns the model should have.
      *
      * @param table {qx.ui.table.Table}
      *   The table which this model is used for.  This allows us access to

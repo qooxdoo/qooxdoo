@@ -56,7 +56,7 @@ qx.Class.define("qx.ui.table.celleditor.CheckBox",
 
   members :
   {
-    // overridden
+    // interface implementation
     createCellEditor : function(cellInfo)
     {
       var editor = new qx.ui.form.CheckBox;
@@ -65,7 +65,7 @@ qx.Class.define("qx.ui.table.celleditor.CheckBox",
       return editor;
     },
 
-    // overridden
+    // interface implementation
     getCellEditorValue : function(cellEditor) {
       return cellEditor.getChecked();
     }
