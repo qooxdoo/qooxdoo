@@ -26,7 +26,7 @@
 /**
  * Interface for a row renderer.
  */
-qx.Interface.define("qx.ui.table.rowrenderer.IRowRenderer",
+qx.Interface.define("qx.ui.table.IRowRenderer",
 {
   members :
   {

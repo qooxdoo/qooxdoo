@@ -32,7 +32,7 @@
 qx.Class.define("qx.ui.table.headerrenderer.Default",
 {
   extend : qx.core.Object,
-  implement : qx.ui.table.headerrenderer.IHeaderRenderer,
+  implement : qx.ui.table.IHeaderRenderer,
 
 
 

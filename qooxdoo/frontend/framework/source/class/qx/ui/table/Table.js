@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.table.Table",
   */
 
   /**
-   * @param tableModel {qx.ui.table.model.ITableModel, null}
+   * @param tableModel {qx.ui.table.ITableModel, null}
    *   The table model to read the data from.
    *
    * @param custom {Map ? null}
@@ -258,7 +258,7 @@ qx.Class.define("qx.ui.table.Table",
     /** The table model. */
     tableModel :
     {
-      check : "qx.ui.table.model.ITableModel",
+      check : "qx.ui.table.ITableModel",
       apply : "_applyTableModel",
       event : "changeTableModel",
       nullable : true
@@ -364,7 +364,7 @@ qx.Class.define("qx.ui.table.Table",
     /** The renderer to use for styling the rows. */
     dataRowRenderer :
     {
-      check : "qx.ui.table.rowrenderer.IRowRenderer",
+      check : "qx.ui.table.IRowRenderer",
       init : null,
       nullable : true,
       apply : "_applyDataRowRenderer",
@@ -537,12 +537,12 @@ qx.Class.define("qx.ui.table.Table",
 
       if (old != null)
       {
-        old.removeEventListener(qx.ui.table.model.ITableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
-        old.removeEventListener(qx.ui.table.model.ITableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
+        old.removeEventListener(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
+        old.removeEventListener(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
       }
 
-      value.addEventListener(qx.ui.table.model.ITableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
-      value.addEventListener(qx.ui.table.model.ITableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
+      value.addEventListener(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
+      value.addEventListener(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
 
       // Update the status bar
       this._updateStatusBar();

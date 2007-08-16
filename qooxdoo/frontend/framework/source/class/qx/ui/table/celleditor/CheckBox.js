@@ -30,7 +30,7 @@
 qx.Class.define("qx.ui.table.celleditor.CheckBox",
 {
   extend : qx.core.Target,
-  implement : qx.ui.table.celleditor.ICellEditorFactory,
+  implement : qx.ui.table.ICellEditorFactory,
 
 
 

@@ -30,7 +30,7 @@
 qx.Class.define("qx.ui.table.cellrenderer.Abstract",
 {
   type : "abstract",
-  implement : qx.ui.table.cellrenderer.ICellRenderer,
+  implement : qx.ui.table.ICellRenderer,
   extend : qx.core.Object,
 
   construct : function() {

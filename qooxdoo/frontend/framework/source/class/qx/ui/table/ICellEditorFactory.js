@@ -24,42 +24,46 @@
 ************************************************************************ */
 
 /**
- * A cell renderer for data cells.
+ * A factory creating widgets to use for editing table cells.
  */
-qx.Interface.define("qx.ui.table.cellrenderer.ICellRenderer",
+qx.Interface.define("qx.ui.table.ICellEditorFactory",
 {
 
   members :
   {
     /**
-     * Creates the HTML for a data cell.
+     * Creates a cell editor.
      *
      * The cellInfo map contains the following properties:
      * <ul>
      * <li>value (var): the cell's value.</li>
-     * <li>rowData (var): contains the row data for the row, the cell belongs to.
-     *   The kind of this object depends on the table model, see
-     *   {@link TableModel#getRowData()}</li>
      * <li>row (int): the model index of the row the cell belongs to.</li>
      * <li>col (int): the model index of the column the cell belongs to.</li>
-     * <li>table (qx.ui.table.Table): the table the cell belongs to.</li>
      * <li>xPos (int): the x position of the cell in the table pane.</li>
-     * <li>selected (boolean): whether the cell is selected.</li>
-     * <li>focusedRow (boolean): whether the cell is in the same row as the
-     *   focused cell.</li>
-     * <li>editable (boolean): whether the cell is editable.</li>
-     * <li>style (string): The CSS styles that should be applied to the outer HTML
-     *   element.</li>
      * </ul>
      *
+     * @type member
+     * @abstract
      * @param cellInfo {Map} A map containing the information about the cell to
-     *     create.
-     * @param htmlArr {String[]} Target string container. The HTML of the data
-     *     cell should be appended to this array.
+     *      create.
+     * @return {qx.ui.core.Widget} the widget that should be used as cell editor.
      */
-    createDataCellHtml : function(cellInfo, htmlArr) {
+    createCellEditor : function(cellInfo) {
+      return true;
+    },
+
+
+    /**
+     * Returns the current value of a cell editor.
+     *
+     * @type member
+     * @abstract
+     * @param cellEditor {qx.ui.core.Widget} The cell editor formally created by
+     *      {@link #createCellEditor}.
+     * @return {var} the current value from the editor.
+     */
+    getCellEditorValue : function(cellEditor) {
       return true;
     }
-
   }
 });

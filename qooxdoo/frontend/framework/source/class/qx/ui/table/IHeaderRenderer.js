@@ -26,7 +26,7 @@
 /**
  * A cell renderer for header cells.
  */
-qx.Interface.define("qx.ui.table.headerrenderer.IHeaderRenderer",
+qx.Interface.define("qx.ui.table.IHeaderRenderer",
 {
 
   members :
