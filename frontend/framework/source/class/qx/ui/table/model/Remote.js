@@ -34,9 +34,9 @@
  * This class is abstract: The actual loading of row data must be done by
  * subclasses.
  */
-qx.Class.define("qx.ui.table2.model.Remote",
+qx.Class.define("qx.ui.table.model.Remote",
 {
-  extend : qx.ui.table2.model.Abstract,
+  extend : qx.ui.table.model.Abstract,
 
 
 
@@ -190,7 +190,7 @@ qx.Class.define("qx.ui.table2.model.Remote",
         lastColumn  : this.getColumnCount() - 1
       };
 
-      this.dispatchEvent(new qx.legacy.event.type.DataEvent(qx.ui.table2.model.Basic.EVENT_TYPE_DATA_CHANGED, data), true);
+      this.dispatchEvent(new qx.legacy.event.type.DataEvent(qx.ui.table.model.Basic.EVENT_TYPE_DATA_CHANGED, data), true);
     },
 
 
@@ -289,7 +289,7 @@ qx.Class.define("qx.ui.table2.model.Remote",
 
       // Inform the listeners
       var data = { firstRow:0, lastRow:this._rowCount - 1, firstColumn:0, lastColumn:this.getColumnCount() - 1 };
-      this.dispatchEvent(new qx.legacy.event.type.DataEvent(qx.ui.table2.TableModel.EVENT_TYPE_DATA_CHANGED, data), true);
+      this.dispatchEvent(new qx.legacy.event.type.DataEvent(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, data), true);
     },
 
 
@@ -487,7 +487,7 @@ qx.Class.define("qx.ui.table2.model.Remote",
           lastColumn  : this.getColumnCount() - 1
         };
 
-        this.dispatchEvent(new qx.legacy.event.type.DataEvent(qx.ui.table2.model.Basic.EVENT_TYPE_DATA_CHANGED, data), true);
+        this.dispatchEvent(new qx.legacy.event.type.DataEvent(qx.ui.table.model.Basic.EVENT_TYPE_DATA_CHANGED, data), true);
       }
 
       // We're not loading any blocks any more
@@ -572,7 +572,7 @@ qx.Class.define("qx.ui.table2.model.Remote",
           lastColumn  : this.getColumnCount() - 1
         };
 
-        this.dispatchEvent(new qx.legacy.event.type.DataEvent(qx.ui.table2.model.Basic.EVENT_TYPE_DATA_CHANGED, data), true);
+        this.dispatchEvent(new qx.legacy.event.type.DataEvent(qx.ui.table.model.Basic.EVENT_TYPE_DATA_CHANGED, data), true);
       }
       else
       {
@@ -630,7 +630,7 @@ qx.Class.define("qx.ui.table2.model.Remote",
         }
 
         // Inform the listeners
-        if (this.hasEventListeners(qx.ui.table2.model.Basic.EVENT_TYPE_DATA_CHANGED))
+        if (this.hasEventListeners(qx.ui.table.model.Basic.EVENT_TYPE_DATA_CHANGED))
         {
           var data =
           {
@@ -640,7 +640,7 @@ qx.Class.define("qx.ui.table2.model.Remote",
             lastColumn  : this.getColumnCount() - 1
           };
 
-          this.dispatchEvent(new qx.legacy.event.type.DataEvent(qx.ui.table2.model.Basic.EVENT_TYPE_DATA_CHANGED, data), true);
+          this.dispatchEvent(new qx.legacy.event.type.DataEvent(qx.ui.table.model.Basic.EVENT_TYPE_DATA_CHANGED, data), true);
         }
       }
     },
@@ -720,7 +720,7 @@ qx.Class.define("qx.ui.table2.model.Remote",
 
         this._sortableColArr[columnIndex] = sortable;
 
-        this.createDispatchEvent(qx.ui.table2.model.Basic.EVENT_TYPE_META_DATA_CHANGED);
+        this.createDispatchEvent(qx.ui.table.model.Basic.EVENT_TYPE_META_DATA_CHANGED);
       }
     },
 
@@ -755,7 +755,7 @@ qx.Class.define("qx.ui.table2.model.Remote",
         this.clearCache();
 
         // Inform the listeners
-        this.createDispatchEvent(qx.ui.table2.model.Basic.EVENT_TYPE_META_DATA_CHANGED);
+        this.createDispatchEvent(qx.ui.table.model.Basic.EVENT_TYPE_META_DATA_CHANGED);
       }
     },
 

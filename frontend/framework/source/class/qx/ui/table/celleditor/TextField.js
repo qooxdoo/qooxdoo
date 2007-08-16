@@ -28,9 +28,9 @@
  *
  * @appearance table-editor-textfield {qx.ui.form.TextField}
  */
-qx.Class.define("qx.ui.table2.celleditor.TextField",
+qx.Class.define("qx.ui.table.celleditor.TextField",
 {
-  extend : qx.ui.table2.celleditor.Factory,
+  extend : qx.ui.table.celleditor.Factory,
 
 
 

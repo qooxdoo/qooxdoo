@@ -1,3 +1,3 @@
 /**
- * The qx.ui.table2.model package.
+ * The qx.ui.table.model package.
  */

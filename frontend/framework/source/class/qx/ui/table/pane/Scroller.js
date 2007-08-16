@@ -30,7 +30,7 @@
  *
  * @appearance table-focus-indicator {qx.ui.layout.HorizontalBoxLayout}
  */
-qx.Class.define("qx.ui.table2.pane.Scroller",
+qx.Class.define("qx.ui.table.pane.Scroller",
 {
   extend : qx.ui.layout.VerticalBoxLayout,
 
@@ -44,7 +44,7 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
   */
 
   /**
-   * @param table {qx.ui.table2.Table} the table the scroller belongs to.
+   * @param table {qx.ui.table.Table} the table the scroller belongs to.
    */
   construct : function(table)
   {
@@ -223,7 +223,7 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
     /** The table pane model. */
     tablePaneModel :
     {
-      check : "qx.ui.table2.pane.Model",
+      check : "qx.ui.table.pane.Model",
       apply : "_applyTablePaneModel",
       event : "changeTablePaneModel"
     },
@@ -429,7 +429,7 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
      * Returns the table this scroller belongs to.
      *
      * @type member
-     * @return {qx.ui.table2.Table} the table.
+     * @return {qx.ui.table.Table} the table.
      */
     getTable : function() {
       return this._table;
@@ -733,7 +733,7 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
     {
       var table = this.getTable();
       // We are currently resizing -> Update the position
-      var minColumnWidth = qx.ui.table2.pane.Scroller.MIN_COLUMN_WIDTH;
+      var minColumnWidth = qx.ui.table.pane.Scroller.MIN_COLUMN_WIDTH;
       var newWidth = Math.max(minColumnWidth, this._lastResizeWidth + pageX - this._lastResizeMousePageX);
 
       if (this.getLiveResize()) {
@@ -765,7 +765,7 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
       // Check whether we moved outside the click tolerance so we can start
       // showing the column move feedback
       // (showing the column move feedback prevents the onclick event)
-      var clickTolerance = qx.ui.table2.pane.Scroller.CLICK_TOLERANCE;
+      var clickTolerance = qx.ui.table.pane.Scroller.CLICK_TOLERANCE;
       if (this._header.isShowingColumnMoveFeedback()
         || pageX > this._lastMoveMousePageX + clickTolerance
         || pageX < this._lastMoveMousePageX - clickTolerance)
@@ -840,7 +840,7 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
 
       // Workaround: Setting the cursor to the right widget doesn't work
       //this._header.setCursor(useResizeCursor ? "e-resize" : null);
-      this.getTopLevelWidget().setGlobalCursor(useResizeCursor ? qx.ui.table2.pane.Scroller.CURSOR_RESIZE_HORIZONTAL : null);
+      this.getTopLevelWidget().setGlobalCursor(useResizeCursor ? qx.ui.table.pane.Scroller.CURSOR_RESIZE_HORIZONTAL : null);
 
       this._header.setMouseOverColumn(mouseOverColumn);
     },
@@ -891,7 +891,7 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
 
       // Workaround: Setting the cursor to the right widget doesn't work
       //this._header.setCursor(useResizeCursor ? "e-resize" : null);
-      this.getTopLevelWidget().setGlobalCursor(useResizeCursor ? qx.ui.table2.pane.Scroller.CURSOR_RESIZE_HORIZONTAL : null);
+      this.getTopLevelWidget().setGlobalCursor(useResizeCursor ? qx.ui.table.pane.Scroller.CURSOR_RESIZE_HORIZONTAL : null);
 
       this._header.setMouseOverColumn(null);
     },
@@ -1677,7 +1677,7 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
       var paneModel = this.getTablePaneModel();
       var colCount = paneModel.getColumnCount();
       var currX = headerLeftX;
-      var regionRadius = qx.ui.table2.pane.Scroller.RESIZE_REGION_RADIUS;
+      var regionRadius = qx.ui.table.pane.Scroller.RESIZE_REGION_RADIUS;
 
       for (var x=0; x<colCount; x++)
       {
@@ -1785,7 +1785,7 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
      * Returns the header.
      *
      * @type member
-     * @return {qx.ui.table2.pane.Header} the header.
+     * @return {qx.ui.table.pane.Header} the header.
      */
     getHeader : function() {
       return this._header;
@@ -1796,7 +1796,7 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
      * Returns the table pane.
      *
      * @type member
-     * @return {qx.ui.table2.pane.Pane} the table pane.
+     * @return {qx.ui.table.pane.Pane} the table pane.
      */
     getTablePane : function() {
       return this._tablePane;
@@ -1858,8 +1858,8 @@ qx.Class.define("qx.ui.table2.pane.Scroller",
       }
 
       // Create the mask
-      var horBar = qx.ui.table2.pane.Scroller.HORIZONTAL_SCROLLBAR;
-      var verBar = qx.ui.table2.pane.Scroller.VERTICAL_SCROLLBAR;
+      var horBar = qx.ui.table.pane.Scroller.HORIZONTAL_SCROLLBAR;
+      var verBar = qx.ui.table.pane.Scroller.VERTICAL_SCROLLBAR;
       return ((forceHorizontal || horNeeded) ? horBar : 0) | ((preventVertical || !verNeeded) ? 0 : verBar);
     },
 
