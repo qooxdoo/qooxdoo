@@ -591,7 +591,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
     /**
      * gets the (drag) type of a node
      * @param nodeReference {Object|Integer}
-     * @return the user-supplied type of the node or null if not set
+     * @return {Object} the user-supplied type of the node or null if not set
      */
     getNodeType : function (nodeReference,type)
     {
