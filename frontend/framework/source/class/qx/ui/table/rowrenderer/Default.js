@@ -33,7 +33,7 @@
 qx.Class.define("qx.ui.table.rowrenderer.Default",
 {
   extend : qx.ui.basic.Terminator,
-  implement : qx.ui.table.rowrenderer.IRowRenderer,
+  implement : qx.ui.table.IRowRenderer,
 
 
 
