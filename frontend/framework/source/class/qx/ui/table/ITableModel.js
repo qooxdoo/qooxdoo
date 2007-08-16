@@ -26,7 +26,7 @@
 /**
  * The data model of a table.
  */
-qx.Interface.define("qx.ui.table.model.ITableModel",
+qx.Interface.define("qx.ui.table.ITableModel",
 {
   /*
   *****************************************************************************
