@@ -259,7 +259,7 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
           vCurrent = qx.legacy.event.handler.EventHandler.getTargetObject(null, vCurrent);
         }
 
-        while (vCurrent != null)
+        while (vCurrent != null && vCurrent != this.__dragCache.sourceWidget)
         {
           if (!vCurrent.supportsDrop(this.__dragCache)) {
             return null;
