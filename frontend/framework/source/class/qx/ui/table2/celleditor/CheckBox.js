@@ -60,7 +60,7 @@ qx.Class.define("qx.ui.table2.celleditor.CheckBox",
      *
      * @type member
      * @param cellInfo {var} TODOC
-     * @return {var} TODOC
+     * @return {qx.ui.core.Widget} TODOC
      */
     createCellEditor : function(cellInfo)
     {

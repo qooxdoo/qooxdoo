@@ -25,7 +25,7 @@
 
 /**
  * The model of a table pane. This model works as proxy to a
- * {@link TableColumnModel} and manages the visual order of the columns shown in
+ * {@link qx.ui.table2.columnmodel.Basic} and manages the visual order of the columns shown in
  * a {@link TablePane}.
  */
 qx.Class.define("qx.ui.table2.pane.Model",
@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.table2.pane.Model",
 
   /**
    *
-   * @param tableColumnModel {TableColumnModel} The TableColumnModel of which this
+   * @param tableColumnModel {qx.ui.table2.columnmodel.Basic} The TableColumnModel of which this
    *    model is the proxy.
    */
   construct : function(tableColumnModel)
