@@ -1,3 +1,3 @@
 /**
- * The qx.ui.table2.headerrenderer package.
+ * The qx.ui.table.headerrenderer package.
  */

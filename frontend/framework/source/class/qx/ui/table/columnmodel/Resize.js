@@ -28,11 +28,11 @@
  * A table column model that automagically resizes columns based on a
  * selected behavior.
  *
- * @see qx.ui.table2.columnmodel.Basic
+ * @see qx.ui.table.columnmodel.Basic
  */
-qx.Class.define("qx.ui.table2.columnmodel.Resize",
+qx.Class.define("qx.ui.table.columnmodel.Resize",
 {
-  extend : qx.ui.table2.columnmodel.Basic,
+  extend : qx.ui.table.columnmodel.Basic,
 
 
 
@@ -77,7 +77,7 @@ qx.Class.define("qx.ui.table2.columnmodel.Resize",
      */
     behavior :
     {
-      check : "qx.ui.table2.columnmodel.resizebehavior.Abstract",
+      check : "qx.ui.table.columnmodel.resizebehavior.Abstract",
       init : null,
       nullable : true,
       apply : "_applyBehavior",
@@ -124,7 +124,7 @@ qx.Class.define("qx.ui.table2.columnmodel.Resize",
      *
      * @param numColumns {var} TODOC
      *
-     * @param table {qx.ui.table2.Table}
+     * @param table {qx.ui.table.Table}
      *   The table which this model is used for.  This allows us access to
      *   other aspects of the table, as the <i>behavior</i> sees fit.
      *
@@ -138,7 +138,7 @@ qx.Class.define("qx.ui.table2.columnmodel.Resize",
       // Set the initial resize behavior
       if (this.getBehavior() == null)
       {
-        this.setBehavior(new qx.ui.table2.columnmodel.resizebehavior.Default());
+        this.setBehavior(new qx.ui.table.columnmodel.resizebehavior.Default());
       }
 
       // Save the table so we can get at its features, as necessary.

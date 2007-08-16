@@ -29,7 +29,7 @@
  * the display of the data part of a table and is therefore the base for virtual
  * scrolling.
  */
-qx.Class.define("qx.ui.table2.pane.Pane",
+qx.Class.define("qx.ui.table.pane.Pane",
 {
   extend : qx.ui.basic.Terminator,
 
@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.table2.pane.Pane",
   */
 
   /**
-   * @param paneScroller {qx.ui.table2.pane.Scroller} the TablePaneScroller the header belongs to.
+   * @param paneScroller {qx.ui.table.pane.Scroller} the TablePaneScroller the header belongs to.
    */
   construct : function(paneScroller)
   {
@@ -152,7 +152,7 @@ qx.Class.define("qx.ui.table2.pane.Pane",
      * Returns the TablePaneScroller this pane belongs to.
      *
      * @type member
-     * @return {qx.ui.table2.pane.Scroller} the TablePaneScroller.
+     * @return {qx.ui.table.pane.Scroller} the TablePaneScroller.
      */
     getPaneScroller : function() {
       return this._paneScroller;
@@ -163,7 +163,7 @@ qx.Class.define("qx.ui.table2.pane.Pane",
      * Returns the table this pane belongs to.
      *
      * @type member
-     * @return {qx.ui.table2.Table} the table.
+     * @return {qx.ui.table.Table} the table.
      */
     getTable : function() {
       return this._paneScroller.getTable();
@@ -578,7 +578,7 @@ qx.Class.define("qx.ui.table2.pane.Pane",
      */
     _updateAllRows : function()
     {
-      var TablePane = qx.ui.table2.pane.Pane;
+      var TablePane = qx.ui.table.pane.Pane;
 
       var table = this.getTable();
 

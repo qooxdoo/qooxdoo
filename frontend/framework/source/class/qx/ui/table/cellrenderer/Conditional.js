@@ -23,9 +23,9 @@
 ************************************************************************ */
 
 
-qx.Class.define("qx.ui.table2.cellrenderer.Conditional",
+qx.Class.define("qx.ui.table.cellrenderer.Conditional",
 {
-  extend : qx.ui.table2.cellrenderer.Default,
+  extend : qx.ui.table.cellrenderer.Default,
 
 
 

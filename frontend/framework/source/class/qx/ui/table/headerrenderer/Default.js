@@ -29,10 +29,10 @@
  * @appearance table-header-cell {qx.ui.basic.Atom}
  * @state mouseover {table-header-cell}
  */
-qx.Class.define("qx.ui.table2.headerrenderer.Default",
+qx.Class.define("qx.ui.table.headerrenderer.Default",
 {
   extend : qx.core.Object,
-  implement : qx.ui.table2.headerrenderer.IHeaderRenderer,
+  implement : qx.ui.table.headerrenderer.IHeaderRenderer,
 
 
 
@@ -121,7 +121,7 @@ qx.Class.define("qx.ui.table2.headerrenderer.Default",
      */
     updateHeaderCell : function(cellInfo, cellWidget)
     {
-      var DefaultHeaderCellRenderer = qx.ui.table2.headerrenderer.Default;
+      var DefaultHeaderCellRenderer = qx.ui.table.headerrenderer.Default;
 
       cellWidget.setLabel(cellInfo.name);
 

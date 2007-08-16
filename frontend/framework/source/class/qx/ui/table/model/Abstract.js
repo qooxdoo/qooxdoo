@@ -27,10 +27,10 @@
  * An abstract table model that performs the column handling, so subclasses only
  * need to care for row handling.
  */
-qx.Class.define("qx.ui.table2.model.Abstract",
+qx.Class.define("qx.ui.table.model.Abstract",
 {
   type : "abstract",
-  extend : qx.ui.table2.model.Basic,
+  extend : qx.ui.table.model.Basic,
 
 
   construct : function()
@@ -119,7 +119,7 @@ qx.Class.define("qx.ui.table2.model.Abstract",
 
       // Inform the listeners
       if (!this._internalChange) {
-        this.createDispatchEvent(qx.ui.table2.model.Basic.EVENT_TYPE_META_DATA_CHANGED);
+        this.createDispatchEvent(qx.ui.table.model.Basic.EVENT_TYPE_META_DATA_CHANGED);
       }
     },
 
@@ -145,7 +145,7 @@ qx.Class.define("qx.ui.table2.model.Abstract",
       this._columnNameArr = columnNameArr;
 
       // Inform the listeners
-      this.createDispatchEvent(qx.ui.table2.model.Basic.EVENT_TYPE_META_DATA_CHANGED);
+      this.createDispatchEvent(qx.ui.table.model.Basic.EVENT_TYPE_META_DATA_CHANGED);
     },
 
 

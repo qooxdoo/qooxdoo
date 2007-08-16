@@ -29,7 +29,7 @@
  *
  * @appearance table-focus-statusbar {qx.ui.basic.Label}
  */
-qx.Class.define("qx.ui.table2.Table",
+qx.Class.define("qx.ui.table.Table",
 {
   extend : qx.ui.layout.VerticalBoxLayout,
 
@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.table2.Table",
   */
 
   /**
-   * @param tableModel {qx.ui.table2.model.Basic, null}
+   * @param tableModel {qx.ui.table.model.Basic, null}
    *   The table model to read the data from.
    *
    * @param custom {Map ? null}
@@ -57,56 +57,56 @@ qx.Class.define("qx.ui.table2.Table",
    *       <dd><pre class='javascript'>
    *         function(obj)
    *         {
-   *           return new qx.ui.table2.selection.Manager(obj);
+   *           return new qx.ui.table.selection.Manager(obj);
    *         }
    *       </pre></dd>
    *     <dt>selectionModel</dt>
    *       <dd><pre class='javascript'>
    *         function(obj)
    *         {
-   *           return new qx.ui.table2.selection.Model(obj);
+   *           return new qx.ui.table.selection.Model(obj);
    *         }
    *       </pre></dd>
    *     <dt>tableColumnModel</dt>
    *       <dd><pre class='javascript'>
    *         function(obj)
    *         {
-   *           return new qx.ui.table2.columnmodel.Basic(obj);
+   *           return new qx.ui.table.columnmodel.Basic(obj);
    *         }
    *       </pre></dd>
    *     <dt>tablePaneModel</dt>
    *       <dd><pre class='javascript'>
    *         function(obj)
    *         {
-   *           return new qx.ui.table2.pane.Model(obj);
+   *           return new qx.ui.table.pane.Model(obj);
    *         }
    *       </pre></dd>
    *     <dt>tablePane</dt>
    *       <dd><pre class='javascript'>
    *         function(obj)
    *         {
-   *           return new qx.ui.table2.pane.Pane(obj);
+   *           return new qx.ui.table.pane.Pane(obj);
    *         }
    *       </pre></dd>
    *     <dt>tablePaneHeader</dt>
    *       <dd><pre class='javascript'>
    *         function(obj)
    *         {
-   *           return new qx.ui.table2.pane.Header(obj);
+   *           return new qx.ui.table.pane.Header(obj);
    *         }
    *       </pre></dd>
    *     <dt>tablePaneScroller</dt>
    *       <dd><pre class='javascript'>
    *         function(obj)
    *         {
-   *           return new qx.ui.table2.pane.Scroller(obj);
+   *           return new qx.ui.table.pane.Scroller(obj);
    *         }
    *       </pre></dd>
    *     <dt>tablePaneModel</dt>
    *       <dd><pre class='javascript'>
    *         function(obj)
    *         {
-   *           return new qx.ui.table2.pane.Model(obj);
+   *           return new qx.ui.table.pane.Model(obj);
    *         }
    *       </pre></dd>
    *   </dl>
@@ -166,7 +166,7 @@ qx.Class.define("qx.ui.table2.Table",
     this._columnVisibilityBt.addEventListener("execute", this._onColumnVisibilityBtExecuted, this);
 
     // Allocate a default data row renderer
-    this.setDataRowRenderer(new qx.ui.table2.rowrenderer.Default());
+    this.setDataRowRenderer(new qx.ui.table.rowrenderer.Default());
 
     // Create the models
     this._selectionManager = this.getNewSelectionManager()(this);
@@ -250,7 +250,7 @@ qx.Class.define("qx.ui.table2.Table",
     /** The selection model. */
     selectionModel :
     {
-      check : "qx.ui.table2.selection.Model",
+      check : "qx.ui.table.selection.Model",
       apply : "_applySelectionModel",
       event : "changeSelectionModel"
     },
@@ -258,7 +258,7 @@ qx.Class.define("qx.ui.table2.Table",
     /** The table model. */
     tableModel :
     {
-      check : "qx.ui.table2.model.Basic",
+      check : "qx.ui.table.model.Basic",
       apply : "_applyTableModel",
       event : "changeTableModel",
       nullable : true
@@ -267,7 +267,7 @@ qx.Class.define("qx.ui.table2.Table",
     /** The table column model. */
     tableColumnModel :
     {
-      check : "qx.ui.table2.columnmodel.Basic",
+      check : "qx.ui.table.columnmodel.Basic",
       apply : "_applyTableColumnModel",
       event : "changeTableColumnModel"
     },
@@ -364,7 +364,7 @@ qx.Class.define("qx.ui.table2.Table",
     /** The renderer to use for styling the rows. */
     dataRowRenderer :
     {
-      check : "qx.ui.table2.rowrenderer.IRowRenderer",
+      check : "qx.ui.table.rowrenderer.IRowRenderer",
       init : null,
       nullable : true,
       apply : "_applyDataRowRenderer",
@@ -404,7 +404,7 @@ qx.Class.define("qx.ui.table2.Table",
     {
       check : "Function",
       init : function(obj) {
-        return new qx.ui.table2.selection.Manager(obj);
+        return new qx.ui.table.selection.Manager(obj);
       }
     },
 
@@ -418,7 +418,7 @@ qx.Class.define("qx.ui.table2.Table",
     {
       check : "Function",
       init : function(obj) {
-        return new qx.ui.table2.selection.Model(obj);
+        return new qx.ui.table.selection.Model(obj);
       }
     },
 
@@ -432,7 +432,7 @@ qx.Class.define("qx.ui.table2.Table",
     {
       check : "Function",
       init : function(obj) {
-        return new qx.ui.table2.columnmodel.Basic(obj);
+        return new qx.ui.table.columnmodel.Basic(obj);
       }
     },
 
@@ -446,7 +446,7 @@ qx.Class.define("qx.ui.table2.Table",
     {
       check : "Function",
       init : function(obj) {
-        return new qx.ui.table2.pane.Pane(obj);
+        return new qx.ui.table.pane.Pane(obj);
       }
     },
 
@@ -460,7 +460,7 @@ qx.Class.define("qx.ui.table2.Table",
     {
       check : "Function",
       init : function(obj) {
-        return new qx.ui.table2.pane.Header(obj);
+        return new qx.ui.table.pane.Header(obj);
       }
     },
 
@@ -474,7 +474,7 @@ qx.Class.define("qx.ui.table2.Table",
     {
       check : "Function",
       init : function(obj) {
-        return new qx.ui.table2.pane.Scroller(obj);
+        return new qx.ui.table.pane.Scroller(obj);
       }
     },
 
@@ -488,7 +488,7 @@ qx.Class.define("qx.ui.table2.Table",
     {
       check : "Function",
       init : function(columnModel) {
-        return new qx.ui.table2.pane.Model(columnModel);
+        return new qx.ui.table.pane.Model(columnModel);
       }
     }
   },
@@ -537,12 +537,12 @@ qx.Class.define("qx.ui.table2.Table",
 
       if (old != null)
       {
-        old.removeEventListener(qx.ui.table2.model.Basic.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
-        old.removeEventListener(qx.ui.table2.model.Basic.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
+        old.removeEventListener(qx.ui.table.model.Basic.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
+        old.removeEventListener(qx.ui.table.model.Basic.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
       }
 
-      value.addEventListener(qx.ui.table2.model.Basic.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
-      value.addEventListener(qx.ui.table2.model.Basic.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
+      value.addEventListener(qx.ui.table.model.Basic.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
+      value.addEventListener(qx.ui.table.model.Basic.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
 
       // Update the status bar
       this._updateStatusBar();
@@ -783,7 +783,7 @@ qx.Class.define("qx.ui.table2.Table",
      * Returns the selection manager.
      *
      * @type member
-     * @return {qx.ui.table2.selection.Manager} the selection manager.
+     * @return {qx.ui.table.selection.Manager} the selection manager.
      */
     _getSelectionManager : function() {
       return this._selectionManager;
@@ -794,7 +794,7 @@ qx.Class.define("qx.ui.table2.Table",
      * Returns an array containing all TablePaneScrollers in this table.
      *
      * @type member
-     * @return {qx.ui.table2.pane.Scroller[]} all TablePaneScrollers in this table.
+     * @return {qx.ui.table.pane.Scroller[]} all TablePaneScrollers in this table.
      */
     _getPaneScrollerArr : function() {
       return this._scrollerParent.getChildren();
@@ -806,7 +806,7 @@ qx.Class.define("qx.ui.table2.Table",
      *
      * @type member
      * @param metaColumn {Integer} the meta column to get the TablePaneScroller for.
-     * @return {qx.ui.table2.pane.Scroller} the qx.ui.table2.pane.Scroller.
+     * @return {qx.ui.table.pane.Scroller} the qx.ui.table.pane.Scroller.
      */
     getPaneScroller : function(metaColumn) {
       return this._getPaneScrollerArr()[metaColumn];
@@ -1223,7 +1223,7 @@ qx.Class.define("qx.ui.table2.Table",
      *
      * @type member
      * @param pageX {Integer} the position in the page to check (in pixels).
-     * @return {qx.ui.table2.pane.Scroller} the TablePaneScroller or null.
+     * @return {qx.ui.table.pane.Scroller} the TablePaneScroller or null.
      * @see TablePaneScrollerPool
      */
     getTablePaneScrollerAtPageX : function(pageX)
@@ -1561,8 +1561,8 @@ qx.Class.define("qx.ui.table2.Table",
     {
       if (this.isSeeable())
       {
-        var horBar = qx.ui.table2.pane.Scroller.HORIZONTAL_SCROLLBAR;
-        var verBar = qx.ui.table2.pane.Scroller.VERTICAL_SCROLLBAR;
+        var horBar = qx.ui.table.pane.Scroller.HORIZONTAL_SCROLLBAR;
+        var verBar = qx.ui.table.pane.Scroller.VERTICAL_SCROLLBAR;
         var scrollerArr = this._getPaneScrollerArr();
 
         // Check which scroll bars are needed
