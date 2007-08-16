@@ -444,7 +444,7 @@ qx.Class.define("qx.ui.table2.pane.Pane",
         cellInfo.rowData = tableModel.getRowData(row);
 
         rowHtml.push('<tr height="');
-        rowHtml.push(rowHeight+'px" ');
+        rowHtml.push(rowHeight, 'px" ');
 
         var rowClass = rowRenderer.getRowClass(cellInfo);
         if (rowClass) {
@@ -640,7 +640,6 @@ qx.Class.define("qx.ui.table2.pane.Pane",
       var data = this.TABLE_ARR.join("");
 
 
-      /*
       var self = this;
       this._layoutPending = window.setTimeout(function()
       {
@@ -654,7 +653,8 @@ qx.Class.define("qx.ui.table2.pane.Pane",
         }
         self._layoutPending = null;
       }, 10);
-*/
+
+      /*
       elem.innerHTML = data;
 
       // force immediate layouting
@@ -662,6 +662,7 @@ qx.Class.define("qx.ui.table2.pane.Pane",
       if (qx.core.Variant.isSet("qx.client", "gecko")) {
         elem.childNodes[0].offsetHeight;
       }
+      */
 
       this.setHeight(rowCount * rowHeight);
 
