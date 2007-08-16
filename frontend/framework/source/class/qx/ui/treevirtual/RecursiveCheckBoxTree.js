@@ -56,6 +56,10 @@ qx.Class.define("qx.ui.treevirtual.RecursiveCheckBoxTree",
 
   members:
   {
+    /** 
+     * TODOC
+     * @return {Object}
+     */
     _calculateSelectedNodes : function()
     {
       var selectedNodes = [];
