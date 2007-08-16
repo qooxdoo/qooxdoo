@@ -1316,13 +1316,13 @@ qx.Class.define("qx.ui.core.Parent",
 
 
     /**
-     * TODOC
+     * Called on inner width changes by the layout engine.
      *
      * @type member
-     * @param vNew {var} TODOC
-     * @param vOld {var} TODOC
-     * @return {void}
+     * @param vNew {var} new width value
+     * @param vOld {var} old width value
      */
+
     _changeInnerWidth : function(vNew, vOld)
     {
       var vLayout = this.getLayoutImpl();
@@ -1343,12 +1343,11 @@ qx.Class.define("qx.ui.core.Parent",
 
 
     /**
-     * TODOC
+     * Called on inner height changes by the layout engine.
      *
      * @type member
-     * @param vNew {var} TODOC
-     * @param vOld {var} TODOC
-     * @return {void}
+     * @param vNew {var} new height value
+     * @param vOld {var} old height value
      */
     _changeInnerHeight : function(vNew, vOld)
     {
