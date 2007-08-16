@@ -336,7 +336,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
      */
     __rowCacheGet : function(row, selected, focused)
     {
-      if (!selected && !focusedRow && this.__rowCache[row]) {
+      if (!selected && !focused && this.__rowCache[row]) {
         return this.__rowCache[row];
       } else {
         return null;

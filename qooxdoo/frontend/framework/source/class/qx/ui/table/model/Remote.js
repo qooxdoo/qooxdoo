@@ -126,12 +126,6 @@ qx.Class.define("qx.ui.table.model.Remote",
   members :
   {
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {Integer} TODOC
-     */
     getRowCount : function()
     {
       if (this._rowCount == -1)
@@ -190,7 +184,7 @@ qx.Class.define("qx.ui.table.model.Remote",
         lastColumn  : this.getColumnCount() - 1
       };
 
-      this.dispatchEvent(new qx.legacy.event.type.DataEvent(qx.ui.table.model.Basic.EVENT_TYPE_DATA_CHANGED, data), true);
+      this.dispatchEvent(new qx.legacy.event.type.DataEvent(qx.ui.table.model.ITableModel.EVENT_TYPE_DATA_CHANGED, data), true);
     },
 
 
@@ -318,7 +312,7 @@ qx.Class.define("qx.ui.table.model.Remote",
      *
      * @type member
      * @param iterator {Function} The iterator function to call.
-     * @param object {var} TODOC
+     * @param object {Object} context of the iterator
      * @return {void}
      */
     iterateCachedRows : function(iterator, object)
@@ -351,14 +345,6 @@ qx.Class.define("qx.ui.table.model.Remote",
     },
 
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param firstRowIndex {var} TODOC
-     * @param lastRowIndex {var} TODOC
-     * @return {void}
-     */
     prefetchRows : function(firstRowIndex, lastRowIndex)
     {
       // this.debug("Prefetch wanted: " + firstRowIndex + ".." + lastRowIndex);
@@ -487,7 +473,7 @@ qx.Class.define("qx.ui.table.model.Remote",
           lastColumn  : this.getColumnCount() - 1
         };
 
-        this.dispatchEvent(new qx.legacy.event.type.DataEvent(qx.ui.table.model.Basic.EVENT_TYPE_DATA_CHANGED, data), true);
+        this.dispatchEvent(new qx.legacy.event.type.DataEvent(qx.ui.table.model.ITableModel.EVENT_TYPE_DATA_CHANGED, data), true);
       }
 
       // We're not loading any blocks any more
@@ -572,7 +558,7 @@ qx.Class.define("qx.ui.table.model.Remote",
           lastColumn  : this.getColumnCount() - 1
         };
 
-        this.dispatchEvent(new qx.legacy.event.type.DataEvent(qx.ui.table.model.Basic.EVENT_TYPE_DATA_CHANGED, data), true);
+        this.dispatchEvent(new qx.legacy.event.type.DataEvent(qx.ui.table.model.ITableModel.EVENT_TYPE_DATA_CHANGED, data), true);
       }
       else
       {
@@ -630,7 +616,7 @@ qx.Class.define("qx.ui.table.model.Remote",
         }
 
         // Inform the listeners
-        if (this.hasEventListeners(qx.ui.table.model.Basic.EVENT_TYPE_DATA_CHANGED))
+        if (this.hasEventListeners(qx.ui.table.model.ITableModel.EVENT_TYPE_DATA_CHANGED))
         {
           var data =
           {
@@ -640,7 +626,7 @@ qx.Class.define("qx.ui.table.model.Remote",
             lastColumn  : this.getColumnCount() - 1
           };
 
-          this.dispatchEvent(new qx.legacy.event.type.DataEvent(qx.ui.table.model.Basic.EVENT_TYPE_DATA_CHANGED, data), true);
+          this.dispatchEvent(new qx.legacy.event.type.DataEvent(qx.ui.table.model.ITableModel.EVENT_TYPE_DATA_CHANGED, data), true);
         }
       }
     },
@@ -679,14 +665,6 @@ qx.Class.define("qx.ui.table.model.Remote",
     },
 
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param columnIndex {var} TODOC
-     * @param rowIndex {var} TODOC
-     * @return {null | var} TODOC
-     */
     getValue : function(columnIndex, rowIndex)
     {
       var rowData = this.getRowData(rowIndex);
@@ -720,31 +698,16 @@ qx.Class.define("qx.ui.table.model.Remote",
 
         this._sortableColArr[columnIndex] = sortable;
 
-        this.createDispatchEvent(qx.ui.table.model.Basic.EVENT_TYPE_META_DATA_CHANGED);
+        this.createDispatchEvent(qx.ui.table.model.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
       }
     },
 
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param columnIndex {var} TODOC
-     * @return {var} TODOC
-     */
     isColumnSortable : function(columnIndex) {
       return this._sortableColArr ? (this._sortableColArr[columnIndex] == true) : false;
     },
 
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param columnIndex {var} TODOC
-     * @param ascending {var} TODOC
-     * @return {void}
-     */
     sortByColumn : function(columnIndex, ascending)
     {
       if (this._sortColumnIndex != columnIndex || this._sortAscending != ascending)
@@ -755,28 +718,16 @@ qx.Class.define("qx.ui.table.model.Remote",
         this.clearCache();
 
         // Inform the listeners
-        this.createDispatchEvent(qx.ui.table.model.Basic.EVENT_TYPE_META_DATA_CHANGED);
+        this.createDispatchEvent(qx.ui.table.model.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
       }
     },
 
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {Integer} TODOC
-     */
     getSortColumnIndex : function() {
       return this._sortColumnIndex;
     },
 
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {boolean} TODOC
-     */
     isSortAscending : function() {
       return this._sortAscending;
     }
