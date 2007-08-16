@@ -26,26 +26,8 @@
 /**
  * The data model of a table.
  */
-qx.Class.define("qx.ui.table.model.Basic",
+qx.Interface.define("qx.ui.table.model.ITableModel",
 {
-  extend : qx.core.Target,
-
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function() {
-    this.base(arguments);
-  },
-
-
-
-
   /*
   *****************************************************************************
      EVENTS
@@ -106,10 +88,9 @@ qx.Class.define("qx.ui.table.model.Basic",
      * @type member
      * @abstract
      * @return {Integer} the number of rows.
-     * @throws the abstract function warning.
      */
     getRowCount : function() {
-      throw new Error("getRowCount is abstract");
+      return true;
     },
 
 
@@ -129,7 +110,7 @@ qx.Class.define("qx.ui.table.model.Basic",
      *                    implementation only.
      */
     getRowData : function(rowIndex) {
-      return null;
+      return true;
     },
 
 
@@ -139,10 +120,9 @@ qx.Class.define("qx.ui.table.model.Basic",
      * @type member
      * @abstract
      * @return {Integer} the number of columns.
-     * @throws the abstract function warning.
      */
     getColumnCount : function() {
-      throw new Error("getColumnCount is abstract");
+      return true;
     },
 
 
@@ -155,10 +135,9 @@ qx.Class.define("qx.ui.table.model.Basic",
      * @abstract
      * @param columnIndex {Integer} the index of the column.
      * @return {String} the ID of the column.
-     * @throws the abstract function warning.
      */
     getColumnId : function(columnIndex) {
-      throw new Error("getColumnId is abstract");
+      return true;
     },
 
 
@@ -169,10 +148,9 @@ qx.Class.define("qx.ui.table.model.Basic",
      * @abstract
      * @param columnId {String} the ID of the column.
      * @return {Integer} the index of the column.
-     * @throws the abstract function warning.
      */
     getColumnIndexById : function(columnId) {
-      throw new Error("getColumnIndexById is abstract");
+      return true;
     },
 
 
@@ -184,10 +162,9 @@ qx.Class.define("qx.ui.table.model.Basic",
      * @abstract
      * @param columnIndex {Integer} the index of the column.
      * @return {String} the name of the column.
-     * @throws the abstract function warning.
      */
     getColumnName : function(columnIndex) {
-      throw new Error("getColumnName is abstract");
+      return true
     },
 
 
@@ -199,7 +176,7 @@ qx.Class.define("qx.ui.table.model.Basic",
      * @return {Boolean} whether the column is editable.
      */
     isColumnEditable : function(columnIndex) {
-      return false;
+      return true;
     },
 
 
@@ -211,7 +188,7 @@ qx.Class.define("qx.ui.table.model.Basic",
      * @return {Boolean} whether the column is sortable.
      */
     isColumnSortable : function(columnIndex) {
-      return false;
+      return true;
     },
 
 
@@ -223,7 +200,9 @@ qx.Class.define("qx.ui.table.model.Basic",
      * @param ascending {Boolean} whether to sort ascending.
      * @return {void}
      */
-    sortByColumn : function(columnIndex, ascending) {},
+    sortByColumn : function(columnIndex, ascending) {
+      return true;
+    },
 
 
     /**
@@ -234,7 +213,7 @@ qx.Class.define("qx.ui.table.model.Basic",
      * @return {Integer} the column index the model is sorted by.
      */
     getSortColumnIndex : function() {
-      return -1;
+      return true;
     },
 
 
@@ -258,7 +237,9 @@ qx.Class.define("qx.ui.table.model.Basic",
      * @param lastRowIndex {Integer} the index of last row.
      * @return {void}
      */
-    prefetchRows : function(firstRowIndex, lastRowIndex) {},
+    prefetchRows : function(firstRowIndex, lastRowIndex) {
+      return true;
+    },
 
 
     /**
@@ -269,11 +250,10 @@ qx.Class.define("qx.ui.table.model.Basic",
      * @param columnIndex {Integer} the index of the column.
      * @param rowIndex {Integer} the index of the row.
      * @return {var} The value of the cell.
-     * @throws the abstract function warning.
      * @see #getValueById
      */
     getValue : function(columnIndex, rowIndex) {
-      throw new Error("getValue is abstract");
+      return true;
     },
 
 
@@ -289,7 +269,8 @@ qx.Class.define("qx.ui.table.model.Basic",
      * @return {var} the value of the cell.
      */
     getValueById : function(columnId, rowIndex) {
-      return this.getValue(this.getColumnIndexById(columnId), rowIndex);
+      return true;
+      //return this.getValue(this.getColumnIndexById(columnId), rowIndex);
     },
 
 
@@ -302,11 +283,10 @@ qx.Class.define("qx.ui.table.model.Basic",
      * @param rowIndex {Integer} the index of the row.
      * @param value {var} The new value.
      * @return {void}
-     * @throws the abstract function warning.
      * @see #setValueById
      */
     setValue : function(columnIndex, rowIndex, value) {
-      throw new Error("setValue is abstract");
+      return true;
     },
 
 
@@ -323,7 +303,8 @@ qx.Class.define("qx.ui.table.model.Basic",
      * @return {var} TODOC
      */
     setValueById : function(columnId, rowIndex, value) {
-      return this.setValue(this.getColumnIndexById(columnId), rowIndex, value);
+      return true;
+      //return this.setValue(this.getColumnIndexById(columnId), rowIndex, value);
     }
   }
 });

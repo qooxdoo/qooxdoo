@@ -30,7 +30,29 @@
 qx.Class.define("qx.ui.table.model.Abstract",
 {
   type : "abstract",
-  extend : qx.ui.table.model.Basic,
+  extend : qx.core.Target,
+  implement : qx.ui.table.model.ITableModel,
+
+
+  events :
+  {
+    /**
+     * Fired when the table data changed (the stuff shown in the table body).
+     * The data property of the event may be null or a map having the following attributes:
+     * <ul>
+     *   <li>firstRow: The index of the first row that has changed.</li>
+     *   <li>lastRow: The index of the last row that has changed.</li>
+     *   <li>firstColumn: The model index of the first column that has changed.</li>
+     *   <li>lastColumn: The model index of the last column that has changed.</li>
+     * </ul>
+     */
+    "dataChanged" : "qx.legacy.event.type.DataEvent",
+
+    /**
+     * Fired when the meta data changed (the stuff shown in the table header).
+     */
+    "metaDataChanged" : "qx.legacy.event.type.DataEvent"
+  },
 
 
   construct : function()
@@ -45,49 +67,68 @@ qx.Class.define("qx.ui.table.model.Abstract",
 
   members :
   {
+    getRowCount : function() {
+      throw new Error("getRowCount is abstract");
+    },
+
+    getRowData : function(rowIndex) {
+      return null;
+    },
+
+    isColumnEditable : function(columnIndex) {
+      return false;
+    },
+
+    isColumnSortable : function(columnIndex) {
+      return false;
+    },
+
+    sortByColumn : function(columnIndex, ascending) {
+    },
+
+    getSortColumnIndex : function() {
+      return -1;
+    },
+
+    isSortAscending : function() {
+      return true;
+    },
+
+    prefetchRows : function(firstRowIndex, lastRowIndex) {
+    },
+
+    getValue : function(columnIndex, rowIndex) {
+      throw new Error("getValue is abstract");
+    },
+
+    getValueById : function(columnId, rowIndex) {
+      return this.getValue(this.getColumnIndexById(columnId), rowIndex);
+    },
+
+    setValue : function(columnIndex, rowIndex, value) {
+      throw new Error("setValue is abstract");
+    },
+
+    setValueById : function(columnId, rowIndex, value) {
+      return this.setValue(this.getColumnIndexById(columnId), rowIndex, value);
+    },
+
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {Integer} TODOC
-     */
     getColumnCount : function() {
       return this._columnIdArr.length;
     },
 
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param columnId {var} TODOC
-     * @return {var} TODOC
-     */
     getColumnIndexById : function(columnId) {
       return this._columnIndexMap[columnId];
     },
 
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param columnIndex {var} TODOC
-     * @return {var} TODOC
-     */
     getColumnId : function(columnIndex) {
       return this._columnIdArr[columnIndex];
     },
 
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param columnIndex {var} TODOC
-     * @return {var} TODOC
-     */
     getColumnName : function(columnIndex) {
       return this._columnNameArr[columnIndex];
     },
@@ -119,7 +160,7 @@ qx.Class.define("qx.ui.table.model.Abstract",
 
       // Inform the listeners
       if (!this._internalChange) {
-        this.createDispatchEvent(qx.ui.table.model.Basic.EVENT_TYPE_META_DATA_CHANGED);
+        this.createDispatchEvent(qx.ui.table.model.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
       }
     },
 
@@ -145,7 +186,7 @@ qx.Class.define("qx.ui.table.model.Abstract",
       this._columnNameArr = columnNameArr;
 
       // Inform the listeners
-      this.createDispatchEvent(qx.ui.table.model.Basic.EVENT_TYPE_META_DATA_CHANGED);
+      this.createDispatchEvent(qx.ui.table.model.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
     },
 
 
