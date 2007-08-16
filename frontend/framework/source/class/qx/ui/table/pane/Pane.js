@@ -88,6 +88,18 @@ qx.Class.define("qx.ui.table.pane.Pane",
       check : "Number",
       init : 0,
       apply : "_applyVisibleRowCount"
+    },
+
+
+    /**
+     * Maximum number of cached rows. If the value is <code>-1</code> the cache
+     * size is unlimited
+     */
+    maxCacheLines :
+    {
+      check : "Number",
+      init : 1000,
+      apply : "_applyMaxCacheLines"
     }
 
   },
@@ -127,13 +139,8 @@ qx.Class.define("qx.ui.table.pane.Pane",
       this._updateContent();
     },
 
+
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
     _afterAppear : function()
     {
       this.base(arguments);
@@ -270,7 +277,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
     _onTableModelDataChanged : function(evt)
     {
       var data = evt.getData ? evt.getData() : null;
-      this._invalidateRowCache();
+      this.__rowCacheClear();
 
       var firstRow = this.getFirstVisibleRow();
       var rowCount = this.getVisibleRowCount();
@@ -295,10 +302,63 @@ qx.Class.define("qx.ui.table.pane.Pane",
     },
 
 
+    // sparse array to cache rendered rows
     __rowCache : [],
+    __rowCacheCount : 0,
 
-    _invalidateRowCache : function() {
+
+    // property apply method
+    _applyMaxCacheLines : function(value, old)
+    {
+      if (this.__rowCacheCount >= value && value !== -1) {
+        this.__rowCacheClear();
+      }
+    },
+
+
+    /**
+     * Clear the row cache
+     */
+    __rowCacheClear : function() {
       this.__rowCache = [];
+      this.__rowCacheCount = 0;
+    },
+
+
+    /**
+     * Get a line from the row cache.
+     *
+     * @param row {Integer} Row index to get
+     * @param selected {Boolean} Whether the row is currently selected
+     * @param focused {Boolean} Whether the row is currently focused
+     * @return {String|null} The cached row or null if a row with the given
+     *     index is not cached.
+     */
+    __rowCacheGet : function(row, selected, focused)
+    {
+      if (!selected && !focusedRow && this.__rowCache[row]) {
+        return this.__rowCache[row];
+      } else {
+        return null;
+      }
+    },
+
+
+    /**
+     * Add a line to the row cache.
+     *
+     * @param row {Integer} Row index to set
+     * @param rowString {String} computed row string to cache
+     * @param selected {Boolean} Whether the row is currently selected
+     * @param focused {Boolean} Whether the row is currently focused
+     */
+    __rowCacheSet : function(row, rowString, selected, focused)
+    {
+      if (!selected && !focused && !this.__rowCache[row]) {
+        this._applyMaxCacheLines(this.getMaxCacheLines());
+        this.__rowCache[row] = rowString;
+        this.__rowCacheCount += 1;
+      }
     },
 
 
@@ -308,6 +368,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
      * @type member
      * @param completeUpdate {Boolean ? false} if true a complete update is performed.
      *      On a complete update all cell widgets are recreated.
+     * @param scrollOffset {Integer ? null} If set specifies how many rows to scroll.
      * @param onlyRow {Integer ? null} if set only the specified row will be updated.
      * @param onlySelectionOrFocusChanged {Boolean ? false} if true, cell values won't
      *          be updated. Only the row background will.
@@ -316,7 +377,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
     _updateContent : function(completeUpdate, scrollOffset, onlyRow, onlySelectionOrFocusChanged)
     {
       if (completeUpdate) {
-        this._invalidateRowCache();
+        this.__rowCacheClear();
       }
 
       if (!this.isSeeable())
@@ -354,6 +415,14 @@ qx.Class.define("qx.ui.table.pane.Pane",
     },
 
 
+    /**
+     * If only focus or selection changes it is sufficient to only update the
+     * row styles. This method updates the row styles of alll vivible rows or
+     * of just one row.
+     *
+     * @param onlyRow {Integer|null ? null} If this parameter is set only the row
+     *     with this index is updated.
+     */
     _updateRowStyles : function(onlyRow)
     {
       var table = this.getTable();
@@ -392,6 +461,13 @@ qx.Class.define("qx.ui.table.pane.Pane",
     },
 
 
+    /**
+     * Get the HTML table fragment for the given row range.
+     *
+     * @param firstRow {Integer} Index of the first row
+     * @param rowCount {Integer} Number of rows
+     * @return {String} The HTML table fragment for the given row range.
+     */
     _getRowsHtml : function(firstRow, rowCount)
     {
       var table = this.getTable();
@@ -410,8 +486,9 @@ qx.Class.define("qx.ui.table.pane.Pane",
         var selected = selectionModel.isSelectedIndex(row);
         var focusedRow = (this._focusedRow == row);
 
-        if (!selected && !focusedRow && this.__rowCache[row]) {
-          rowsArr.push(this.__rowCache[row]);
+        var cachedRow = this.__rowCacheGet(row, selected, focusedRow);
+        if (cachedRow) {
+          rowsArr.push(cachedRow);
           continue;
         }
 
@@ -466,15 +543,19 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
         var rowString = rowHtml.join("");
 
-        if (!selected && !focusedRow) {
-          this.__rowCache[row] = rowString;
-        }
+        this.__rowCacheSet(row, rowString, selected, focusedRow);
         rowsArr.push(rowString);
       }
       return rowsArr.join("");
     },
 
 
+    /**
+     * Scrolls the pane's contents by the given offset.
+     *
+     * @param rowOffset {Integer} Number of lines to scroll. Scrolling up is
+     *     represented by a negative offset.
+     */
     _scrollContent : function(rowOffset)
     {
       if (!this.getElement().firstChild) {
@@ -550,6 +631,9 @@ qx.Class.define("qx.ui.table.pane.Pane",
     },
 
 
+    /**
+     * Initialize the table HTML template.
+     */
     __initTableArray : function()
     {
       this.TABLE_ARR = [];
@@ -570,11 +654,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
     /**
      * Updates the content of the pane (implemented using array joins).
-     *
-     * @type member
-     * @param completeUpdate {Boolean ? false} if true a complete update is performed.
-     *      On a complete update all cell widgets are recreated.
-     * @param onlyRow {Integer ? null} if set only the specified row will be updated.
      */
     _updateAllRows : function()
     {

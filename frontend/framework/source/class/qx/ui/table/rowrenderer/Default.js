@@ -264,51 +264,112 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
        THEME STYLERS FOR COLOR PROPERTIES
     *****************************************************************************
     */
-    _styleBgcolFocusedSelected     : function(value) {
+
+    /**
+     * Theme styler for color property.
+     *
+     * @param value {String} new value
+     * @param old {String} old value
+     */
+    _styleBgcolFocusedSelected     : function(value, old) {
       this._colors.bgcolFocusedSelected = value;
       this._postponedUpdateTableContent();
     },
 
+    /**
+     * Theme styler for color property.
+     *
+     * @param value {String} new value
+     * @param old {String} old value
+     */
     _styleBgcolFocusedSelectedBlur : function(value, old) {
       this._colors.bgcolFocusedSelectedBlur = value;
       this._postponedUpdateTableContent();
     },
 
+    /**
+     * Theme styler for color property.
+     *
+     * @param value {String} new value
+     * @param old {String} old value
+     */
     _styleBgcolFocused             : function(value, old) {
       this._colors.bgcolFocused = value;
       this._postponedUpdateTableContent();
     },
 
+    /**
+     * Theme styler for color property.
+     *
+     * @param value {String} new value
+     * @param old {String} old value
+     */
     _styleBgcolFocusedBlur         : function(value, old) {
       this._colors.bgcolFocusedBlur = value;
       this._postponedUpdateTableContent();
     },
 
+    /**
+     * Theme styler for color property.
+     *
+     * @param value {String} new value
+     * @param old {String} old value
+     */
     _styleBgcolSelected            : function(value, old) {
       this._colors.bgcolSelected = value;
       this._postponedUpdateTableContent();
     },
 
+    /**
+     * Theme styler for color property.
+     *
+     * @param value {String} new value
+     * @param old {String} old value
+     */
     _styleBgcolSelectedBlur        : function(value, old) {
       this._colors.bgcolSelectedBlur = value;
       this._postponedUpdateTableContent();
     },
 
+    /**
+     * Theme styler for color property.
+     *
+     * @param value {String} new value
+     * @param old {String} old value
+     */
     _styleBgcolEven                : function(value, old) {
       this._colors.bgcolEven = value;
       this._postponedUpdateTableContent();
     },
 
+    /**
+     * Theme styler for color property.
+     *
+     * @param value {String} new value
+     * @param old {String} old value
+     */
     _styleBgcolOdd                 : function(value, old) {
       this._colors.bgcolOdd = value;
       this._postponedUpdateTableContent();
     },
 
+    /**
+     * Theme styler for color property.
+     *
+     * @param value {String} new value
+     * @param old {String} old value
+     */
     _styleColSelected              : function(value, old) {
       this._colors.colSelected = value;
       this._postponedUpdateTableContent();
     },
 
+    /**
+     * Theme styler for color property.
+     *
+     * @param value {String} new value
+     * @param old {String} old value
+     */
     _styleColNormal                : function(value, old) {
       this._colors.colNormal = value;
       this._postponedUpdateTableContent();
@@ -335,8 +396,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
      * </ul>
      *
      * @type member
-     * @param colors {Map}
-     * @return {void}
+     * @param colors {Map} color map
      */
     setRowColors : function(colors) {
       // stop continuous table updates while setting
@@ -370,7 +430,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
      * </ul>
      *
      * @type member
-     * @return {Map}
+     * @return {Map} the color map
      */
     getRowColors : function() {
       return {
@@ -387,13 +447,13 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
       };
     },
 
+
     /**
      * Font property applyer.
      *
      * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
-     * @return {void}
      */
     _applyFont : function(value, old) {
       qx.theme.manager.Font.getInstance().connect(this._styleFont, this, value);
@@ -406,7 +466,6 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
      *
      * @type member
      * @param value {qx.ui.core.Font} new font value to render
-     * @return {void}
      */
     _styleFont : function(value) {
       this.__font = value;
@@ -417,9 +476,6 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
     /**
      * Render the new font and update the table pane content
      * to reflect the font change.
-     *
-     * @type member
-     * @return {void}
      */
     _renderFont : function() {
       var value = this.__font;
@@ -435,15 +491,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
       this._postponedUpdateTableContent();
     },
 
-    // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param rowInfo {var} TODOC
-     * @param rowElem {var} TODOC
-     * @return {void}
-     */
+    // interface implementation
     updateDataRowElement : function(rowInfo, rowElem)
     {
       var fontStyle = this._fontStyle;
@@ -483,13 +531,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param rowInfo {var} TODOC
-     * @return {void}
-     */
+    // interface implementation
     createRowStyle : function(rowInfo)
     {
       var rowStyle = [];
@@ -537,7 +579,6 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
      * Does a postponed update of the table content.
      *
      * @type member
-     * @return {void}
      * @see #_updateTableContent
      */
     _postponedUpdateTableContent : function()
@@ -568,7 +609,6 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
      * Update the table pane content to reflect visual changes.
      *
      * @type member
-     * @return {void}
      */
     _updateTableContent : function() {
       if(this._noTableContentUpdate) {

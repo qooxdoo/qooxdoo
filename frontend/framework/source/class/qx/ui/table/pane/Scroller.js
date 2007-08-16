@@ -294,6 +294,9 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     },
 
 
+    /**
+     * Interval time (in milliseconds) for the table update timer.
+     */
     scrollTimeout :
     {
       check : "Integer",
@@ -624,30 +627,18 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       this._updateContent();
     },
 
+
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param newValue {var} TODOC
-     * @param oldValue {var} TODOC
-     * @return {void} TODOC
-     */
-    _changeInnerHeight : function(newValue, oldValue)
+    _changeInnerHeight : function(vNew, vOld)
     {
       // The height has changed -> Update content
       this._postponedUpdateContent();
 
-      return this.base(arguments, newValue, oldValue);
+      return this.base(arguments, vNew, vOld);
     },
 
+
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
     _afterAppear : function()
     {
       this.base(arguments);
@@ -1864,6 +1855,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     },
 
 
+    // property apply method
     _applyScrollTimeout : function(value, old)
     {
       if (this._updateInterval)
@@ -1895,7 +1887,9 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
 
     /**
-     * TODOC
+     * Timer event handler. Periodically checks whether a tabe update is
+     * required. The update interval is controled by the {@link #scrollTimeout}
+     * property.
      *
      * @type member
      * @return {void}

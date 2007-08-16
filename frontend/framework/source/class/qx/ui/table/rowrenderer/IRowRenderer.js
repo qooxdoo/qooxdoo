@@ -24,7 +24,7 @@
 ************************************************************************ */
 
 /**
- * A cell renderer for data rows.
+ * Interface for a row renderer.
  */
 qx.Interface.define("qx.ui.table.rowrenderer.IRowRenderer",
 {
@@ -47,22 +47,31 @@ qx.Interface.define("qx.ui.table.rowrenderer.IRowRenderer",
      * @type member
      * @abstract
      * @param rowInfo {Map} A map containing the information about the row to
-     *      update. This map has the same structure as in {@link #createDataCell}.
-     * @param rowElement {element} the DOM element that renders the data rot. This
-     *      is the same element formally created by the HTML from {@link #createDataCell}.
-     * @return {void}
-     * @throws the abstract function warning.
+     *      update.
+     * @param rowElement {element} the DOM element that renders the data row.
      */
     updateDataRowElement : function(rowInfo, rowElement) {
       return true;
     },
 
 
+    /**
+     * Create a style string, which will be set as the style property of the row.
+     *
+     * @param rowInfo {Map} A map containing the information about the row to
+     *      update. See {@link #updateDataRowElement} for more information.
+     */
     createRowStyle : function(rowInfo) {
       return true;
     },
 
 
+    /**
+     * Create a HTML class string, which will be set as the class property of the row.
+     *
+     * @param rowInfo {Map} A map containing the information about the row to
+     *      update. See {@link #updateDataRowElement} for more information.
+     */
     getRowClass : function(rowInfo) {
       return true;
     }
