@@ -81,8 +81,9 @@ qx.Class.define("qx.ui.table2.cellrenderer.Default",
      * Determines the styles to apply to the cell
      *
      * @type member
-     * @param cellInfo {Object} cellInfo of the cell
-     * @return {var} the sum of any of the STYLEFLAGS defined below
+     * @param cellInfo {Map} cellInfo of the cell
+     *     See {@link #createDataCellHtml}.
+     * @return {Integer} the sum of any of the STYLEFLAGS defined below
      */
     _getStyleFlags : function(cellInfo)
     {
@@ -95,6 +96,7 @@ qx.Class.define("qx.ui.table2.cellrenderer.Default",
     },
 
 
+    // overridden
     _getCellClass : function(cellInfo)
     {
       var cellClass = this.base(arguments, cellInfo);
@@ -120,14 +122,7 @@ qx.Class.define("qx.ui.table2.cellrenderer.Default",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @param htmlArr {var} TODOC
-     * @return {void}
-     */
+    // overridden
     _getContentHtml : function(cellInfo) {
       return qx.legacy.html.String.escape(this._formatValue(cellInfo));
     },

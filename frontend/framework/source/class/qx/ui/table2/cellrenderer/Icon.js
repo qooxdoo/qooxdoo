@@ -126,7 +126,7 @@ qx.Class.define("qx.ui.table2.cellrenderer.Icon",
 
 
     // overridden
-    _getCellClass : function() {
+    _getCellClass : function(cellInfo) {
       return this.base(arguments) + " qooxdoo-table-cell-icon";
     },
 
