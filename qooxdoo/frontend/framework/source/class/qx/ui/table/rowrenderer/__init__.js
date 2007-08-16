@@ -1,3 +1,3 @@
 /**
- * The qx.ui.table2.rowrenderer package.
+ * The qx.ui.table.rowrenderer package.
  */

@@ -24,9 +24,9 @@
  * *Model*
  *
  * The model represents the data of the grid.  It is implemented by a subclass
- * of {@link qx.ui.table2.model.Abstract}.
+ * of {@link qx.ui.table.model.Abstract}.
  *
  * *Selection*
  *
- * The selection of a table is managed by a {@link qx.ui.table2.selection.Manager}.
+ * The selection of a table is managed by a {@link qx.ui.table.selection.Manager}.
  */

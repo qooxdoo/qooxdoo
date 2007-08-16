@@ -26,9 +26,9 @@
 /**
  * For editing boolean data in a checkbox.  It is advisable to use this in conjuntion with BooleanDataCellRenderer.
  */
-qx.Class.define("qx.ui.table2.celleditor.CheckBox",
+qx.Class.define("qx.ui.table.celleditor.CheckBox",
 {
-  extend : qx.ui.table2.celleditor.Factory,
+  extend : qx.ui.table.celleditor.Factory,
 
 
 

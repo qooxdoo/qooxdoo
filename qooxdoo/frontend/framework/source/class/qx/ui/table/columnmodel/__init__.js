@@ -1,3 +1,3 @@
 /**
- * The qx.ui.table2.columnmodel package.
+ * The qx.ui.table.columnmodel package.
  */
