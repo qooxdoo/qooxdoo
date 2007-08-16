@@ -101,8 +101,10 @@ qx.Class.define("qx.ui.treevirtual.CheckBoxDataCellRenderer",
       }
     },
 
-
-    // overridden
+    /** 
+     * TODOC
+     * @return {Map}
+     */
     _addExtraContentBeforeIcon : function(cellInfo)
     {
       var node = cellInfo.value;
