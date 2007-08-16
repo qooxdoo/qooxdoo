@@ -55,14 +55,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataRowRenderer",
   members :
   {
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param rowInfo {var} TODOC
-     * @param rowElem {var} TODOC
-     * @return {void}
-     */
     updateDataRowElement : function(rowInfo, rowElem)
     {
       // If the node is selected, select the row
@@ -84,8 +76,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataRowRenderer",
       }
 
       // Now call our superclass
-      var ddrr = qx.ui.table.rowrenderer.Default;
-      ddrr.prototype.updateDataRowElement.call(this, rowInfo, rowElem);
+      this.base(arguments, rowInfo, rowElem);
     }
   }
 });

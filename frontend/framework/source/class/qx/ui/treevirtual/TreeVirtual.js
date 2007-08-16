@@ -204,6 +204,9 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
     // Move the focus with the mouse
     this.setFocusCellOnMouseMove(true);
 
+    // slightly increase the line height
+    this.setRowHeight(16);
+
     // Set the cell focus color
     var lightblue = "rgb(" + qx.util.ExtendedColor.toRgb("lightblue") + ")";
     this.setCellFocusAttributes({ backgroundColor : lightblue });
