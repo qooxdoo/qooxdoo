@@ -75,6 +75,16 @@ qx.Class.define("qx.ui.table2.cellrenderer.Abstract",
 
   members :
   {
+
+    /**
+     * Get a string of the cell element's HTML classes.
+     *
+     * This method may be overridden by sub classes.
+     *
+     * @type member
+     * @param cellInfo {Map} cellInfo of the cell
+     * @return {String} The table cell HTML classes as string.
+     */
     _getCellClass : function(cellInfo) {
       return "qooxdoo-table-cell";
     },
@@ -82,6 +92,8 @@ qx.Class.define("qx.ui.table2.cellrenderer.Abstract",
 
     /**
      * Returns the CSS styles that should be applied to the main div of this cell.
+     *
+     * This method may be overridden by sub classes.
      *
      * @type member
      * @param cellInfo {Map} The information about the cell.
@@ -97,24 +109,19 @@ qx.Class.define("qx.ui.table2.cellrenderer.Abstract",
     /**
      * Returns the HTML that should be used inside the main div of this cell.
      *
+     * This method may be overridden by sub classes.
+     *
      * @type member
      * @param cellInfo {Map} The information about the cell.
      *          See {@link #createDataCellHtml}.
-     * @return {String} the inner HTML of the main div.
+     * @return {String} the inner HTML of the cell.
      */
     _getContentHtml : function(cellInfo) {
       return cellInfo.value || "";
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @param htmlArr {var} TODOC
-     * @return {void}
-     */
+    // interface implementation
     createDataCellHtml : function(cellInfo, htmlArr)
     {
       htmlArr.push('<td class="');

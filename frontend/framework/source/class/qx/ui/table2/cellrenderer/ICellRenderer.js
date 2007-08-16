@@ -53,10 +53,9 @@ qx.Interface.define("qx.ui.table2.cellrenderer.ICellRenderer",
      * </ul>
      *
      * @param cellInfo {Map} A map containing the information about the cell to
-     *      create.
-     * @param htmlArr {var} TODOC
-     * @return {String} the HTML of the data cell.
-     * @throws the abstract function warning.
+     *     create.
+     * @param htmlArr {String[]} Target string container. The HTML of the data
+     *     cell should be appended to this array.
      */
     createDataCellHtml : function(cellInfo, htmlArr) {
       return true;
