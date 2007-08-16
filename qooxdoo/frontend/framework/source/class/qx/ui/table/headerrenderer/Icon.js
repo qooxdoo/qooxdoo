@@ -92,14 +92,6 @@ qx.Class.define("qx.ui.table.headerrenderer.Icon",
   members :
   {
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @param cellWidget {var} TODOC
-     * @return {void}
-     */
     updateHeaderCell : function(cellInfo, cellWidget)
     {
       this.base(arguments, cellInfo, cellWidget);

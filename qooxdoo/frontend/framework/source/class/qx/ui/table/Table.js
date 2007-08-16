@@ -1065,10 +1065,10 @@ qx.Class.define("qx.ui.table.Table",
 
 
     /**
-     * TODOC
+     * Event handler. Called when a key was pressed.
      *
      * @type member
-     * @param evt {Event} TODOC
+     * @param evt {qx.event.type.KeyEvent} the event.
      * @return {void}
      */
     _onkeypress : function(evt)
@@ -1143,7 +1143,7 @@ qx.Class.define("qx.ui.table.Table",
      * Event handler. Called when the table gets the focus.
      *
      * @type member
-     * @param evt {Event} TODOC
+     * @param evt {Map} the event.
      * @return {void}
      */
     _onFocusChanged : function(evt)
@@ -1775,16 +1775,9 @@ qx.Class.define("qx.ui.table.Table",
       this.getTableColumnModel().setColumnWidth(col, width);
     },
 
+
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param newValue {var} TODOC
-     * @param oldValue {var} TODOC
-     * @return {void} TODOC
-     */
-    _changeInnerWidth : function(newValue, oldValue)
+    _changeInnerWidth : function(vNew, vOld)
     {
       var self = this;
 
@@ -1801,19 +1794,12 @@ qx.Class.define("qx.ui.table.Table",
       },
       0);
 
-      return this.base(arguments, newValue, oldValue);
+      return this.base(arguments, vNew, vOld);
     },
 
+
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param newValue {var} TODOC
-     * @param oldValue {var} TODOC
-     * @return {void} TODOC
-     */
-    _changeInnerHeight : function(newValue, oldValue)
+    _changeInnerHeight : function(vNew, vOld)
     {
       var self = this;
 
@@ -1828,16 +1814,11 @@ qx.Class.define("qx.ui.table.Table",
       },
       0);
 
-      return this.base(arguments, newValue, oldValue);
+      return this.base(arguments, vNew, vOld);
     },
 
+
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
     _afterAppear : function()
     {
       this.base(arguments);
