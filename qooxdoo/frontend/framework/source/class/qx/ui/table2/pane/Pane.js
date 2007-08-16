@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.table2.pane.Pane",
   */
 
   /**
-   * @param paneScroller {TablePaneScroller} the TablePaneScroller the header belongs to.
+   * @param paneScroller {qx.ui.table2.pane.Scroller} the TablePaneScroller the header belongs to.
    */
   construct : function(paneScroller)
   {
@@ -55,21 +55,6 @@ qx.Class.define("qx.ui.table2.pane.Pane",
     this._lastRowCount = 0;
 
     this.__initTableArray();
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-    CONTENT_ROW_FONT_FAMILY_TEST : "'Segoe UI', Corbel, Calibri, Tahoma, 'Lucida Sans Unicode', sans-serif",
-    CONTENT_ROW_FONT_SIZE_TEST   : "11px"
   },
 
 
@@ -571,9 +556,8 @@ qx.Class.define("qx.ui.table2.pane.Pane",
 
       var i=0;
       this.TABLE_ARR[i++] = '<table cellspacing="0" cellpadding="0" style="table-layout:fixed;empty-cells: show;font-family:';
-      this.TAB_FONT_FAMILY = i++;
-      this.TABLE_ARR[i++] = ';font-size:';
-      this.TAB_FONT_SIZE = i++;
+      this.TABLE_ARR[i++] = "'Segoe UI', Corbel, Calibri, Tahoma, 'Lucida Sans Unicode', sans-serif";
+      this.TABLE_ARR[i++] = ';font-size: 11px';
       this.TABLE_ARR[i++] = ';width:';
       this.TAB_ROW_WIDTH = i++;
       this.TABLE_ARR[i++] = 'px"><colgroup>';
@@ -616,8 +600,6 @@ qx.Class.define("qx.ui.table2.pane.Pane",
       var htmlArr = [];
       var rowWidth = paneModel.getTotalWidth();
 
-      this.TABLE_ARR[this.TAB_FONT_FAMILY] = qx.ui.table2.pane.Pane.CONTENT_ROW_FONT_FAMILY_TEST;
-      this.TABLE_ARR[this.TAB_FONT_SIZE] = qx.ui.table2.pane.Pane.CONTENT_ROW_FONT_SIZE_TEST;
       this.TABLE_ARR[this.TAB_ROW_WIDTH] = rowWidth;
 
       var i=0;
