@@ -30,7 +30,7 @@
 ************************************************************************ */
 
 /**
- * This manager registers and manage all incoming key and mouse events.
+ * This manager registers and manages all incoming key and mouse events.
  */
 qx.Class.define("qx.legacy.event.handler.EventHandler",
 {
@@ -96,7 +96,7 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
     mouseEventTypes : [
       "mouseover", "mousemove", "mouseout", "mousedown", "mouseup", "click",
       "dblclick", "contextmenu",
-      qx.core.Variant.isSet("qx.client", "mshtml") ? "mousewheel" : "DOMMouseScroll"
+      qx.core.Variant.isSet("qx.client", "gecko") ? "DOMMouseScroll" : "mousewheel"
     ],
 
     keyEventTypes : [ "keydown", "keypress", "keyup" ],

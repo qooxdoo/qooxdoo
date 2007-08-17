@@ -129,7 +129,7 @@ qx.Class.define("qx.event.handler.MouseEventHandler",
     // overridden
     registerEvent : function(element, type)
     {
-      var type = this.__normalizeEventNames[type] || type
+      var type = this.__normalizeEventNames[type] || type;
       if (this.__mouseButtonHandler[type])
       {
         this.__mouseButtonListenerCount += 1;
@@ -206,6 +206,10 @@ qx.Class.define("qx.event.handler.MouseEventHandler",
       var event = this._eventPool.getEventInstance("qx.event.type.MouseEvent").init(domEvent);
       var type = event.getType();
       var target = event.getTarget();
+
+      if (type == "DOMMouseScroll") {
+        type = "mousewheel";
+      }
 
       if (this.__rightClickFixPre) {
         this.__rightClickFixPre(domEvent, type, target);
