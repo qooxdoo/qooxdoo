@@ -1637,96 +1637,89 @@ qx.Class.define("qx.ui.table.Table",
      */
     _toggleColumnVisibilityMenu : function()
     {
-      if (this._columnVisibilityMenu == null || !this._columnVisibilityMenu.isSeeable())
+      if (!this.getEnabled()) {
+        return;
+      }
+
+      // Show the menu
+      // Create the new menu
+      var menu = new qx.ui.menu.Menu;
+
+      menu.addEventListener("disappear", function(evt)
       {
-        if (!this.getEnabled()) {
+        this._cleanupColumnVisibilityMenu();
+        this._columnVisibilityMenuCloseTime = new Date().getTime();
+      }, this);
+
+      var tableModel = this.getTableModel();
+      var columnModel = this.getTableColumnModel();
+
+      // Inform listeners who may want to insert menu items at the beginning
+      if (this.hasEventListeners("columnVisibilityMenuCreateStart"))
+      {
+        var data =
+        {
+          table : this,
+          menu  : menu
+        };
+
+        var event = new qx.legacy.event.type.DataEvent("columnVisibilityMenuCreateStart", data);
+        this.dispatchEvent(event, true);
+      }
+
+      for (var x=0; x<columnModel.getOverallColumnCount(); x++)
+      {
+        var col = columnModel.getOverallColumnAtX(x);
+        var visible = columnModel.isColumnVisible(col);
+        var cmd = { col : col };
+        var bt = new qx.ui.menu.CheckBox(tableModel.getColumnName(col), null, visible);
+
+        var handler = this._createColumnVisibilityCheckBoxHandler(col);
+        bt._handler = handler;
+        bt.addEventListener("execute", handler, this);
+
+        menu.add(bt);
+      }
+
+      // Inform listeners who may want to insert menu items at the end
+      if (this.hasEventListeners("columnVisibilityMenuCreateEnd"))
+      {
+        var data =
+        {
+          table : this,
+          menu  : menu
+        };
+
+        var event = new qx.legacy.event.type.DataEvent("columnVisibilityMenuCreateEnd", data);
+        this.dispatchEvent(event, true);
+      }
+
+      menu.setParent(this.getTopLevelWidget());
+
+      this._columnVisibilityMenu = menu;
+
+      // Show the menu
+      var btElem = this._columnVisibilityBt.getElement();
+      menu.setRestrictToPageOnOpen(false);
+      menu.setTop(qx.legacy.html.Location.getClientBoxBottom(btElem));
+      menu.setLeft(-1000);
+
+      // NOTE: We have to show the menu in a timeout, otherwise it won't be shown
+      //       at all.
+      var self = this;
+
+      window.setTimeout(function()
+      {
+        if (self.getDisposed()) {
           return;
         }
 
-        // Show the menu
-        // Create the new menu
-        var menu = new qx.ui.menu.Menu;
+        menu.show();
+        qx.ui.core.Widget.flushGlobalQueues();
 
-        menu.addEventListener("disappear", function(evt) {
-          this._columnVisibilityMenuCloseTime = new Date().getTime();
-        }, this);
-
-        var tableModel = this.getTableModel();
-        var columnModel = this.getTableColumnModel();
-
-        // Inform listeners who may want to insert menu items at the beginning
-        if (this.hasEventListeners("columnVisibilityMenuCreateStart"))
-        {
-          var data =
-          {
-            table : this,
-            menu  : menu
-          };
-
-          var event = new qx.legacy.event.type.DataEvent("columnVisibilityMenuCreateStart", data);
-          this.dispatchEvent(event, true);
-        }
-
-        for (var x=0; x<columnModel.getOverallColumnCount(); x++)
-        {
-          var col = columnModel.getOverallColumnAtX(x);
-          var visible = columnModel.isColumnVisible(col);
-          var cmd = { col : col };
-          var bt = new qx.ui.menu.CheckBox(tableModel.getColumnName(col), null, visible);
-
-          var handler = this._createColumnVisibilityCheckBoxHandler(col);
-          bt._handler = handler;
-          bt.addEventListener("execute", handler, this);
-
-          menu.add(bt);
-        }
-
-        // Inform listeners who may want to insert menu items at the end
-        if (this.hasEventListeners("columnVisibilityMenuCreateEnd"))
-        {
-          var data =
-          {
-            table : this,
-            menu  : menu
-          };
-
-          var event = new qx.legacy.event.type.DataEvent("columnVisibilityMenuCreateEnd", data);
-          this.dispatchEvent(event, true);
-        }
-
-        menu.setParent(this.getTopLevelWidget());
-
-        this._columnVisibilityMenu = menu;
-
-        // Show the menu
-        var btElem = this._columnVisibilityBt.getElement();
-        menu.setRestrictToPageOnOpen(false);
-        menu.setTop(qx.legacy.html.Location.getClientBoxBottom(btElem));
-        menu.setLeft(-1000);
-
-        // NOTE: We have to show the menu in a timeout, otherwise it won't be shown
-        //       at all.
-        var self = this;
-
-        window.setTimeout(function()
-        {
-          if (self.getDisposed()) {
-            return;
-          }
-
-          menu.show();
-          qx.ui.core.Widget.flushGlobalQueues();
-
-          menu.setLeft(qx.legacy.html.Location.getClientBoxRight(btElem) - menu.getOffsetWidth());
-        },
-        0);
-      }
-      else
-      {
-        // hide the menu
-        menu.hide();
-        this._cleanupColumnVisibilityMenu();
-      }
+        menu.setLeft(qx.legacy.html.Location.getClientBoxRight(btElem) - menu.getOffsetWidth());
+      },
+      0);
     },
 
 
@@ -1740,6 +1733,10 @@ qx.Class.define("qx.ui.table.Table",
     {
       if (this._columnVisibilityMenu != null && !this._columnVisibilityMenu.getDisposed())
       {
+        var parent = this._columnVisibilityMenu.getParent();
+        if (parent) {
+          parent.remove(this._columnVisibilityMenu);
+        }
         this._columnVisibilityMenu.dispose();
         this._columnVisibilityMenu = null;
       }
