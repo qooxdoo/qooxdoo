@@ -36,7 +36,7 @@
  *
  * This class is optimized for performance, but is not as optimal in performance
  * aspects than the more native implementations cause of the additional wrapper.
- * 
+ *
  * For all highly performance
  * crititcal areas like animations it would be the best to directly use the
  * classes which contain the implementations.
@@ -55,8 +55,8 @@ qx.Class.define("qx.bom.Element",
     ---------------------------------------------------------------------------
       CREATION
     ---------------------------------------------------------------------------
-    */    
-    
+    */
+
     /**
      * Creates an DOM element
      *
@@ -90,39 +90,39 @@ qx.Class.define("qx.bom.Element",
     empty : function(element) {
       return element.innerHTML = "";
     },
-    
-    
-        
-    
-    
-    
-    
+
+
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       FLY WEIGHT PATTERN
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Returns a wrapper object which is enabled for a
      * optimized API access around the given element.
-     * 
+     *
      * For more details have a look at the real implementation
      * class {@link qx.bom.FlyWeight}
      *
      * @type static
      * @param element {Element} DOM element to connect
-     * @return {Object} Extended wrapper element/object
+     * @return {FlyWeight} Extended wrapper element/object
      */
     fly : function(element) {
       return qx.bom.FlyWeight.connect(element);
     },
-    
-    
-        
-    
-    
-    
+
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       GENERIC INTERFACE
@@ -143,13 +143,13 @@ qx.Class.define("qx.bom.Element",
     get : function(element, property)
     {
       var custom = this.__custom[property];
-      
-      if (custom) 
+
+      if (custom)
       {
         if (!custom.get) {
           throw new Error("Property " + property + " does not support to be changed.");
         }
-        
+
         return custom.context[custom.get](element);
       }
       else
@@ -160,18 +160,18 @@ qx.Class.define("qx.bom.Element",
           return qx.bom.element.Attribute.get(element, property);
         }
       }
-      
-      return element;        
+
+      return element;
     },
-    
-    
+
+
     /**
      * Applies the given attribute or style to the element.
      * Automatically determines if the given property should be
      * interpreted as a style property, attribute name, or
      * requires a custom setter.
      *
-     * Also supports a map as second incoming argument. This is 
+     * Also supports a map as second incoming argument. This is
      * modeled after the idea of <code>qx.core.Object.set</code>.
      *
      * @type static
@@ -184,28 +184,28 @@ qx.Class.define("qx.bom.Element",
     {
       // Support alternative use case: input=map
       // following the idea of qx.core.Object.set()
-      if (typeof property === "object") 
+      if (typeof property === "object")
       {
         for (var key in property) {
-          this.set(element, key, property[key]); 
+          this.set(element, key, property[key]);
         }
-        
+
         return element;
       }
-      
+
       var custom = this.__custom[property];
-      
-      if (custom) 
+
+      if (custom)
       {
         if (!custom.set) {
           throw new Error("Property " + property + " does not support to be changed.");
         }
-        
+
         if (custom.multiarg)
         {
           var args = qx.lang.Array.fromArguments(arguments);
           qx.lang.Array.removeAt(args, 1); // remove 'property'
-          
+
           custom.context[custom.set].apply(custom.context, args);
         }
         else
@@ -221,7 +221,7 @@ qx.Class.define("qx.bom.Element",
           qx.bom.element.Attribute.set(element, property, value);
         }
       }
-      
+
       return element;
     },
 
@@ -236,17 +236,17 @@ qx.Class.define("qx.bom.Element",
      * @param element {Element} DOM element to modify
      * @param property {String} Name of attribute or style
      * @return {var} the new value
-     */    
+     */
     reset : function(element, property)
     {
       var custom = this.__custom[property];
-      
-      if (custom) 
+
+      if (custom)
       {
         if (!custom.set) {
           throw new Error("Property " + property + " does not support to be changed.");
         }
-        
+
         custom.context[custom.reset](element);
       }
       else
@@ -257,135 +257,135 @@ qx.Class.define("qx.bom.Element",
           qx.bom.element.Attribute.reset(element, property);
         }
       }
-      
-      return element;      
+
+      return element;
     },
-    
-    
+
+
     /** {Map} Internal data structures to map to separate implementation classes */
-    __custom : 
+    __custom :
     {
-      clip : 
+      clip :
       {
         context : qx.bom.element.Clip,
         multiarg : true
       },
-      
-      cursor : 
+
+      cursor :
       {
         context : qx.bom.element.Cursor
       },
-      
-      boxWidth : 
+
+      boxWidth :
       {
         context : qx.bom.element.Dimension,
         get : "getWidth"
       },
-      
-      boxHeight : 
+
+      boxHeight :
       {
         context : qx.bom.element.Dimension,
         get : "getHeight"
       },
-      
-      clientWidth : 
+
+      clientWidth :
       {
         context : qx.bom.element.Dimension,
         get : "getClientWidth"
       },
-      
-      clientHeight : 
+
+      clientHeight :
       {
         context : qx.bom.element.Dimension,
         get : "getClientHeight"
-      },   
-      
-      scrollWidth : 
+      },
+
+      scrollWidth :
       {
         context : qx.bom.element.Dimension,
         get : "getScrollWidth"
       },
-      
-      scrollHeight : 
+
+      scrollHeight :
       {
         context : qx.bom.element.Dimension,
         get : "getScrollHeight"
-      },                
-      
-      locationLeft : 
+      },
+
+      locationLeft :
       {
         context : qx.bom.element.Location,
         get : "getLeft"
       },
-      
-      locationTop : 
+
+      locationTop :
       {
         context : qx.bom.element.Location,
         get : "getTop"
       },
-            
-      opacity : 
+
+      opacity :
       {
         context : qx.bom.element.Opacity
       },
-      
-      overflowX : 
+
+      overflowX :
       {
         context : qx.bom.element.Overflow,
         set : "setX",
         get : "getX",
-        reset : "resetX" 
+        reset : "resetX"
       },
-      
-      overflowY : 
+
+      overflowY :
       {
         context : qx.bom.element.Overflow,
         set : "setY",
         get : "getY",
-        reset : "resetY" 
+        reset : "resetY"
       },
-      
-      scrollX : 
+
+      scrollX :
       {
         context : qx.bom.element.Scroll,
         set : "setX",
         get : "getX",
-        reset : "resetX" 
+        reset : "resetX"
       },
-      
-      scrollY : 
+
+      scrollY :
       {
         context : qx.bom.element.Scroll,
         set : "setY",
         get : "getY",
-        reset : "resetY" 
+        reset : "resetY"
       },
-      
-      visibility : 
+
+      visibility :
       {
         context : qx.bom.element.Visibility
-      }    
+      }
     },
-    
-    
+
+
     /** Initializes generic interface */
     __init : function()
     {
       // Generate style data
       var source = document.createElement("div").style;
       var target = this.__style = {};
-      
+
       for (var key in source) {
         target[key] = true;
       }
-      
+
       // Process custom data
       var custom = this.__custom;
       var value;
       for (var key in custom)
       {
         value = custom[key];
-        
+
         if (value.set === undefined && value.get === undefined && value.reset === undefined)
         {
           value.set = "set";

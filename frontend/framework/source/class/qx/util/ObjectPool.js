@@ -113,6 +113,9 @@ qx.Class.define("qx.util.ObjectPool",
     */
 
     /**
+     * Get the number of instance of type vClassname that are currently
+     * pooled.
+     *
      * @param vClassname {String} The name of the Object type to count.
      *
      * @return {Integer} The number of instance of type vClassname that are currently

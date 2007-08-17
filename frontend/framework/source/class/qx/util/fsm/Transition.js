@@ -281,6 +281,12 @@ qx.Class.define("qx.util.fsm.Transition",
 
   members:
   {
+    /**
+     * Validate the predicate. Converts all incoming values to functions.
+     *
+     * @param value {var} incoming value
+     * @return {Function} predicate function
+     */
     __transformPredicate : function(value)
     {
       // Validate the predicate.  Convert all valid types to function.
@@ -311,6 +317,13 @@ qx.Class.define("qx.util.fsm.Transition",
       }
     },
 
+
+    /**
+     * Validates the incoming state.
+     *
+     * @param value {Object} incoming state
+     * @return {var} the value
+     */
     __transformNextState : function(value)
     {
       // Validate nextState.  It must be a string or a number.
@@ -344,6 +357,13 @@ qx.Class.define("qx.util.fsm.Transition",
       }
     },
 
+
+    /**
+     * Validate the ontransition function. Converts all incoming values to functions.
+     *
+     * @param value {var} incoming value
+     * @return {Function} predicate function
+     */
     __transformOntransition : function(value)
     {
       // Validate the ontransition function.  Convert undefined to function.

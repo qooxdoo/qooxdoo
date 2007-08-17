@@ -54,9 +54,9 @@ qx.Class.define("qx.lang.String",
      * @param str {String} string seperated by '-'
      * @return {String} camel case string
      */
-    toCamelCase : function(string)
+    toCamelCase : function(str)
     {
-      return string.replace(/\-([a-z])/g, function(match, chr) {
+      return str.replace(/\-([a-z])/g, function(match, chr) {
         return chr.toUpperCase();
       });
     },
@@ -67,7 +67,7 @@ qx.Class.define("qx.lang.String",
      *
      * @type static
      * @param str {String} the string to trim
-     * @return {String} TODOC
+     * @return {String} the trimmed string
      */
     trimLeft : function(str) {
       return str.replace(/^\s+/, "");
@@ -79,7 +79,7 @@ qx.Class.define("qx.lang.String",
      *
      * @type static
      * @param str {String} the string to trim
-     * @return {String} TODOC
+     * @return {String} the trimmed string
      */
     trimRight : function(str) {
       return str.replace(/\s+$/, "");
@@ -91,7 +91,7 @@ qx.Class.define("qx.lang.String",
      *
      * @type static
      * @param str {String} the string to trim
-     * @return {String} TODOC
+     * @return {String} the trimmed string
      */
     trim : function(str) {
       return str.replace(/^\s+|\s+$/g, "");
@@ -268,7 +268,7 @@ qx.Class.define("qx.lang.String",
      * @type static
      * @param pattern {String} format string
      * @param args {Array} array of arguments to insert into the format string
-     * @return {String} TODOC
+     * @return {String} the formatted string
      */
     format : function(pattern, args)
     {
@@ -305,8 +305,8 @@ qx.Class.define("qx.lang.String",
     toArray : function(str) {
       return str.split(/\B|\b/g);
     },
-    
-    
+
+
     /**
      * Remove HTML/XML tags from a string
      * Example:
@@ -318,6 +318,6 @@ qx.Class.define("qx.lang.String",
      */
     stripTags : function(str) {
       return str.replace(/<\/?[^>]+>/gi, "");
-    }    
+    }
   }
 });
