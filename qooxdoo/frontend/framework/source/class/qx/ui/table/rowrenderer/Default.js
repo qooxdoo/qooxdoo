@@ -589,7 +589,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
 
       if (!this._updateContentPlanned)
       {
-        qx.event.Timer.once(function()
+        qx.client.Timer.once(function()
         {
           if (this.getDisposed()) {
             return;

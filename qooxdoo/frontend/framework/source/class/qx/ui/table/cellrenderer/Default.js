@@ -124,7 +124,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
 
     // overridden
     _getContentHtml : function(cellInfo) {
-      return qx.legacy.html.String.escape(this._formatValue(cellInfo));
+      return qx.html.String.escape(this._formatValue(cellInfo));
     },
 
 

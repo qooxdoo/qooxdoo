@@ -67,7 +67,7 @@ qx.Class.define("qx.ui.table.pane.Model",
   events :
   {
     /** Fired when the model changed. */
-    "modelChanged" : "qx.legacy.event.type.Event"
+    "modelChanged" : "qx.event.type.Event"
   },
 
 

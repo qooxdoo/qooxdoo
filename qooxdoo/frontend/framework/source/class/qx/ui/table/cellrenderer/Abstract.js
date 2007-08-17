@@ -37,7 +37,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
     var clazz = this.self(arguments);
     if (!clazz.stylesheet)
     {
-      clazz.stylesheet = qx.legacy.html.StyleSheet.createElement(
+      clazz.stylesheet = qx.html.StyleSheet.createElement(
         ".qooxdoo-table-cell div {" +
         "  white-space: nowrap;" +
         "}" +

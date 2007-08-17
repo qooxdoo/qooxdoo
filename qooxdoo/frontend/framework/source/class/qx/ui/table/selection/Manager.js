@@ -179,7 +179,7 @@ qx.Class.define("qx.ui.table.selection.Manager",
           selectionModel.setSelectionInterval(index, index);
           break;
 
-        case qx.legacy.event.type.DomEvent.SHIFT_MASK:
+        case qx.event.type.DomEvent.SHIFT_MASK:
           var anchor = selectionModel.getAnchorSelectionIndex();
 
           if (anchor == -1) {

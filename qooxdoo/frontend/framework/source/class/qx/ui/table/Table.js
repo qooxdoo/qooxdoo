@@ -213,7 +213,7 @@ qx.Class.define("qx.ui.table.Table",
      * may add additional items to the menu, which appear at the top of the
      * menu.
      */
-    "columnVisibilityMenuCreateStart" : "qx.legacy.event.type.DataEvent",
+    "columnVisibilityMenuCreateStart" : "qx.event.type.DataEvent",
 
     /**
      * Dispatched after adding the column list to the column visibility menu.
@@ -221,19 +221,19 @@ qx.Class.define("qx.ui.table.Table",
      * may add additional items to the menu, which appear at the bottom of the
      * menu.
      */
-    "columnVisibilityMenuCreateEnd" : "qx.legacy.event.type.DataEvent",
+    "columnVisibilityMenuCreateEnd" : "qx.event.type.DataEvent",
 
      /**
       * Dispatched when the inner width of the table has changed.
       */
-    "tableWidthChanged" : "qx.legacy.event.type.DataEvent",
+    "tableWidthChanged" : "qx.event.type.DataEvent",
 
     /**
      * Dispatched when updating scrollbars discovers that a vertical scrollbar
      * is needed when it previously was not, or vice versa.  The data is a
      * boolean indicating whether a vertical scrollbar is now being used.
      */
-    "verticalScrollBarChanged" : "qx.legacy.event.type.DataEvent"
+    "verticalScrollBarChanged" : "qx.event.type.DataEvent"
   },
 
 
@@ -1421,7 +1421,7 @@ qx.Class.define("qx.ui.table.Table",
     {
       if (!this._updateContentPlanned)
       {
-        qx.event.Timer.once(function()
+        qx.client.Timer.once(function()
         {
           if (this.getDisposed()) {
             return;
@@ -1468,7 +1468,7 @@ qx.Class.define("qx.ui.table.Table",
       {
         var elem = scrollerArr[i].getElement();
 
-        if (pageX >= qx.legacy.html.Location.getPageBoxLeft(elem) && pageX <= qx.legacy.html.Location.getPageBoxRight(elem)) {
+        if (pageX >= qx.html.Location.getPageBoxLeft(elem) && pageX <= qx.html.Location.getPageBoxRight(elem)) {
           return i;
         }
       }
@@ -1663,7 +1663,7 @@ qx.Class.define("qx.ui.table.Table",
             menu  : menu
           };
 
-          var event = new qx.legacy.event.type.DataEvent("columnVisibilityMenuCreateStart", data);
+          var event = new qx.event.type.DataEvent("columnVisibilityMenuCreateStart", data);
           this.dispatchEvent(event, true);
         }
 
@@ -1690,7 +1690,7 @@ qx.Class.define("qx.ui.table.Table",
             menu  : menu
           };
 
-          var event = new qx.legacy.event.type.DataEvent("columnVisibilityMenuCreateEnd", data);
+          var event = new qx.event.type.DataEvent("columnVisibilityMenuCreateEnd", data);
           this.dispatchEvent(event, true);
         }
 
@@ -1701,7 +1701,7 @@ qx.Class.define("qx.ui.table.Table",
         // Show the menu
         var btElem = this._columnVisibilityBt.getElement();
         menu.setRestrictToPageOnOpen(false);
-        menu.setTop(qx.legacy.html.Location.getClientBoxBottom(btElem));
+        menu.setTop(qx.html.Location.getClientBoxBottom(btElem));
         menu.setLeft(-1000);
 
         // NOTE: We have to show the menu in a timeout, otherwise it won't be shown
@@ -1717,7 +1717,7 @@ qx.Class.define("qx.ui.table.Table",
           menu.show();
           qx.ui.core.Widget.flushGlobalQueues();
 
-          menu.setLeft(qx.legacy.html.Location.getClientBoxRight(btElem) - menu.getOffsetWidth());
+          menu.setLeft(qx.html.Location.getClientBoxRight(btElem) - menu.getOffsetWidth());
         },
         0);
       }
