@@ -157,6 +157,10 @@ qx.Class.define("BasicSample",
 
       qx.event.Manager.addListener(this, "juhu", this._onJuhu, this);
 
+      qx.event.Manager.addListener(document.getElementById("div9"), "mousewheel", function(e)
+      {
+        this.debug("wheel: " + e.getTarget().id + " " + e.getWheelDelta() + " " + e._dom.wheelDelta + " " + e._dom.detail);
+      }, this);
 
     },
 
