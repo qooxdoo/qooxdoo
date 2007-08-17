@@ -42,7 +42,7 @@
 #</pre>
 ##
 
-import sys, string, re, os, random, cPickle, codecs
+import sys, string, re, os, random, codecs
 import config, tokenizer, treegenerator, filetool, stringoptimizer, textutil
 import treeutil
 
@@ -112,11 +112,6 @@ def getInternalModTime(options):
 
 
 def extractFileContentId(data, fileId=""):
-    # 0.6 class style
-    for item in config.QXHEAD["defineClass"].findall(data):
-        return item[0]
-
-    # 0.7 class style
     for item in config.QXHEAD["classDefine"].findall(data):
         return item[1]
 
