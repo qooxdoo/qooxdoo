@@ -54,11 +54,13 @@ qx.Class.define("qx.event.handler.MouseEventHandler",
     var buttonHandler = qx.lang.Function.bind(this.onMouseButtonEvent, this);
     this.__mouseButtonHandler =
     {
-      "mousedown"   : buttonHandler,
-      "mouseup"     : buttonHandler,
-      "click"       : buttonHandler,
-      "dblclick"    : buttonHandler,
-      "contextmenu" : buttonHandler
+      "mousedown" : buttonHandler,
+      "mouseup" : buttonHandler,
+      "click" : buttonHandler,
+      "dblclick" : buttonHandler,
+      "contextmenu" : buttonHandler,
+      "mousewheel" : buttonHandler,
+      "DOMMouseScroll" : buttonHandler
     };
 
     this.__mouseMoveHandler = qx.lang.Function.bind(this.__fireEvent, this);
@@ -100,7 +102,11 @@ qx.Class.define("qx.event.handler.MouseEventHandler",
     {
       "mousemove" : "mousemove",
       "mouseover" : "mouseover",
-      "mouseout" : "mouseout",
+      "mouseout" : "mouseout"
+    },
+
+
+    __normalizeEventNames : {
       "mousewheel" : qx.core.Variant.isSet("qx.client", "mshtml") ? "mousewheel" : "DOMMouseScroll"
     },
 
@@ -123,6 +129,7 @@ qx.Class.define("qx.event.handler.MouseEventHandler",
     // overridden
     registerEvent : function(element, type)
     {
+      var type = this.__normalizeEventNames[type] || type
       if (this.__mouseButtonHandler[type])
       {
         this.__mouseButtonListenerCount += 1;
@@ -133,7 +140,7 @@ qx.Class.define("qx.event.handler.MouseEventHandler",
       }
       else if (this.__mouseMoveEvents[type])
       {
-        this._managedAddNativeListener(this.__documentElement, this.__mouseMoveEvents[type], this.__mouseMoveHandler);
+        this._managedAddNativeListener(this.__documentElement, type, this.__mouseMoveHandler);
       }
     },
 

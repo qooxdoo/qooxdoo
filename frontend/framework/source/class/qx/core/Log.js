@@ -14,7 +14,7 @@
 
    Authors:
      * Alexander Back (aback)
-   
+
    ======================================================================
 
    This class contains code based on the following work:
@@ -57,7 +57,7 @@ qx.Class.define("qx.core.Log",
      *
      * @type static
      * @param varargs {arguments} One or multiple messages
-     * @return {void} 
+     * @return {void}
      */
     log : function(varargs) {
       this.logFormatted(arguments, "");
@@ -69,7 +69,7 @@ qx.Class.define("qx.core.Log",
      *
      * @type static
      * @param varargs {arguments} One or multiple messages
-     * @return {void} 
+     * @return {void}
      */
     debug : function(varargs) {
       this.logFormatted(arguments, "debug");
@@ -81,7 +81,7 @@ qx.Class.define("qx.core.Log",
      *
      * @type static
      * @param varargs {arguments} One or multiple messages
-     * @return {void} 
+     * @return {void}
      */
     info : function(varargs) {
       this.logFormatted(arguments, "info");
@@ -93,7 +93,7 @@ qx.Class.define("qx.core.Log",
      *
      * @type static
      * @param varargs {arguments} One or multiple messages
-     * @return {void} 
+     * @return {void}
      */
     warn : function(varargs) {
       this.logFormatted(arguments, "warn");
@@ -105,7 +105,7 @@ qx.Class.define("qx.core.Log",
      *
      * @type static
      * @param varargs {arguments} One or multiple messages
-     * @return {void} 
+     * @return {void}
      */
     error : function(varargs) {
       this.logFormatted(arguments, "error");
@@ -114,14 +114,14 @@ qx.Class.define("qx.core.Log",
 
     /**
      * Asserts the given truth and outputs the message if the given "truth" is false
-     * Also accepts variable arguments where the first argument is the expression and 
+     * Also accepts variable arguments where the first argument is the expression and
      * the following are the object which should be tested.
      *
      * @type static
      * @param truth {Boolean ? null} Boolean value or null
      * @param message {String} message to throw
      * @param varargs {arguments} Multiple arguments, the first one is the expression, the following the objects to test
-     * @return {void} 
+     * @return {void}
      * @throws TODOC
      */
     assert : function(truth, message, varargs)
@@ -142,7 +142,7 @@ qx.Class.define("qx.core.Log",
      *
      * @type static
      * @param object {Object} Object to list
-     * @return {void} 
+     * @return {void}
      */
     dir : function(object)
     {
@@ -183,7 +183,7 @@ qx.Class.define("qx.core.Log",
      *
      * @type static
      * @param node {DOMNode} Node to list
-     * @return {void} 
+     * @return {void}
      */
     dirxml : function(node)
     {
@@ -199,7 +199,7 @@ qx.Class.define("qx.core.Log",
      *
      * @type static
      * @param varargs {arguments} One or multiple messages
-     * @return {void} 
+     * @return {void}
      */
     group : function(varargs) {
       this.logRow(arguments, "group", this.pushGroup);
@@ -211,7 +211,7 @@ qx.Class.define("qx.core.Log",
      *
      * @type static
      * @param varargs {arguments} One or multiple messages
-     * @return {void} 
+     * @return {void}
      */
     groupEnd : function(varargs) {
       this.logRow(arguments, "", this.popGroup);
@@ -223,7 +223,7 @@ qx.Class.define("qx.core.Log",
      *
      * @type static
      * @param name {String} name of the timer
-     * @return {void} 
+     * @return {void}
      */
     time : function(name) {
       this.timeMap[name] = (new Date()).getTime();
@@ -235,7 +235,7 @@ qx.Class.define("qx.core.Log",
      *
      * @type static
      * @param name {String} name of the timer
-     * @return {void} 
+     * @return {void}
      */
     timeEnd : function(name)
     {
@@ -252,15 +252,15 @@ qx.Class.define("qx.core.Log",
      * Currently not supported
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
     count : function() {
-      if (window.console && console.count) 
+      if (window.console && console.count)
       {
         console.count();
         return;
       }
-      
+
       this.warn([ "count() not supported." ]);
     },
 
@@ -269,16 +269,16 @@ qx.Class.define("qx.core.Log",
      * Currently not supported
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
-    trace : function() 
+    trace : function()
     {
-      if (window.console && console.trace) 
+      if (window.console && console.trace)
       {
         console.trace();
         return;
-      }      
-      
+      }
+
       this.warn([ "trace() not supported." ]);
     },
 
@@ -287,15 +287,15 @@ qx.Class.define("qx.core.Log",
      * Currently not supported
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
-    profile : function() 
+    profile : function()
     {
-      if (window.console && console.profile) 
+      if (window.console && console.profile)
       {
         console.profile();
         return;
-      }        
+      }
       this.warn([ "profile() not supported." ]);
     },
 
@@ -304,16 +304,16 @@ qx.Class.define("qx.core.Log",
      * Currently not supported
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
-    profileEnd : function() 
+    profileEnd : function()
     {
-      if (window.console && console.profileEnd) 
+      if (window.console && console.profileEnd)
       {
         console.profileEnd();
         return;
-      }        
-      this.warn([ "profileEnd() not supported." ]);      
+      }
+      this.warn([ "profileEnd() not supported." ]);
     },
 
 
@@ -321,7 +321,7 @@ qx.Class.define("qx.core.Log",
      * Clears the console
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
     clear : function() {
       this.consoleBody.innerHTML = "";
@@ -332,7 +332,7 @@ qx.Class.define("qx.core.Log",
      * Opens the console
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
     open : function() {
       this.toggleConsole(true);
@@ -343,7 +343,7 @@ qx.Class.define("qx.core.Log",
      * Closes the console
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
     close : function()
     {
@@ -405,7 +405,7 @@ qx.Class.define("qx.core.Log",
      *
      * @type static
      * @param forceOpen {boolean} Flag to force the console to open/close
-     * @return {void} 
+     * @return {void}
      */
     toggleConsole : function(forceOpen)
     {
@@ -421,7 +421,7 @@ qx.Class.define("qx.core.Log",
      * Focuses the command line
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
     focusCommandLine : function()
     {
@@ -437,17 +437,29 @@ qx.Class.define("qx.core.Log",
      * Listener method for "load" event of qx.core.Init
      *
      * @type static
-     * @param e {Event} TODOC
-     * @return {void} 
+     * @param e {Event} The event object
+     * @return {void}
      */
     onload : function(e)
     {
       // set the flag and create frame if the current console is FireBug Lite
       this.loaded = true;
 
-      if (!window.console) {
+      // WebKit defines its own console object.
+      if (!this.hasFireBug()) {
         this.createFrame();
       }
+    },
+
+
+    /**
+     * Whether the browser has firebug installed.
+     *
+     * @return {Boolean} Whether the browser has firebug installed.
+     */
+    hasFireBug : function() {
+      // WebKit defines its own console object.
+      return (window.console && !qx.core.Variant.isSet("qx.client", "webkit"));
     },
 
 
@@ -455,7 +467,7 @@ qx.Class.define("qx.core.Log",
      * Creates the iframe element which represents the console
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
     createFrame : function()
     {
@@ -471,12 +483,12 @@ qx.Class.define("qx.core.Log",
       consoleFrame.setAttribute("frameBorder", "0");
       consoleFrame.style.visibility = (this.frameVisible ? "visible" : "hidden");
       consoleFrame.style.zIndex = 1e6;
-      consoleFrame.style.position = "fixed";
+      consoleFrame.style.position = "absolute";
       consoleFrame.style.width = "100%";
       consoleFrame.style.left = "0px";
       consoleFrame.style.bottom = "0px";
       consoleFrame.style.height = "200px";
-      
+
       qx.core.Log.consoleFrame = consoleFrame;
       document.body.appendChild(consoleFrame);
     },
@@ -484,12 +496,12 @@ qx.Class.define("qx.core.Log",
 
     /**
      * Called when the document in the iframe is fully loadad.
-     * Registers some events on the several console elements 
+     * Registers some events on the several console elements
      * and layouts the console
      *
      * @type static
      * @param doc {Node} Document node
-     * @return {void} 
+     * @return {void}
      */
     onLogReady : function(doc)
     {
@@ -529,7 +541,7 @@ qx.Class.define("qx.core.Log",
      * Evals the value typed in the commandline
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
     evalCommandLine : function()
     {
@@ -563,7 +575,7 @@ qx.Class.define("qx.core.Log",
      * layout the console
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
     layout : function()
     {
@@ -585,7 +597,7 @@ qx.Class.define("qx.core.Log",
      * @param message {String} message to log
      * @param className {String} Controls the format of the message
      * @param handler {String} Name of the handler method
-     * @return {void} 
+     * @return {void}
      */
     logRow : function(message, className, handler)
     {
@@ -605,7 +617,7 @@ qx.Class.define("qx.core.Log",
      * Flushes the message queue and writes the content to the console
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
     flush : function()
     {
@@ -625,7 +637,7 @@ qx.Class.define("qx.core.Log",
      * @param message {Array} Array of message parts
      * @param className {String} Controls the format of the message
      * @param handler {String} Name of the handler method
-     * @return {void} 
+     * @return {void}
      */
     writeMessage : function(message, className, handler)
     {
@@ -648,7 +660,7 @@ qx.Class.define("qx.core.Log",
      *
      * @type static
      * @param row {Node} Complete row element
-     * @return {void} 
+     * @return {void}
      */
     appendRow : function(row)
     {
@@ -663,7 +675,7 @@ qx.Class.define("qx.core.Log",
      * @type static
      * @param message {Array} Array of message parts
      * @param className {String} Controls the format of the message
-     * @return {void} 
+     * @return {void}
      */
     writeRow : function(message, className)
     {
@@ -680,7 +692,7 @@ qx.Class.define("qx.core.Log",
      * @type static
      * @param message {Array} Array of message parts
      * @param className {String} Controls the format of the message
-     * @return {void} 
+     * @return {void}
      */
     pushGroup : function(message, className)
     {
@@ -702,7 +714,7 @@ qx.Class.define("qx.core.Log",
      * Handler method for ungrouping messages
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
     popGroup : function() {
       this.groupStack.pop();
@@ -715,12 +727,12 @@ qx.Class.define("qx.core.Log",
      * @type static
      * @param objects {Array} Log objects
      * @param className {String} Controls the format of the message
-     * @return {void} 
+     * @return {void}
      */
     logFormatted : function(objects, className)
     {
       // check for FireBug extension and delegate it to the extension
-      if (window.console)
+      if (this.hasFireBug())
       {
         for (var i=0, j=objects.length; i<j; i++) {
           console[className].call(console, this.objectToString(objects[i]));
@@ -871,7 +883,7 @@ qx.Class.define("qx.core.Log",
      * @type static
      * @param object {Object} given object
      * @param html {String} output
-     * @return {void} 
+     * @return {void}
      */
     appendText : function(object, html) {
       html.push(this.escapeHTML(this.objectToString(object)));
@@ -884,7 +896,7 @@ qx.Class.define("qx.core.Log",
      * @type static
      * @param object {Object} given object
      * @param html {String} output
-     * @return {void} 
+     * @return {void}
      */
     appendNull : function(object, html) {
       html.push('<span class="objectBox-null">', this.escapeHTML(this.objectToString(object)), '</span>');
@@ -897,7 +909,7 @@ qx.Class.define("qx.core.Log",
      * @type static
      * @param object {Object} given object
      * @param html {String} output
-     * @return {void} 
+     * @return {void}
      */
     appendString : function(object, html) {
       html.push('<span class="objectBox-string">&quot;', this.escapeHTML(this.objectToString(object)), '&quot;</span>');
@@ -910,7 +922,7 @@ qx.Class.define("qx.core.Log",
      * @type static
      * @param object {Object} given object
      * @param html {String} output
-     * @return {void} 
+     * @return {void}
      */
     appendInteger : function(object, html) {
       html.push('<span class="objectBox-number">', this.escapeHTML(this.objectToString(object)), '</span>');
@@ -923,7 +935,7 @@ qx.Class.define("qx.core.Log",
      * @type static
      * @param object {Object} given object
      * @param html {String} output
-     * @return {void} 
+     * @return {void}
      */
     appendFloat : function(object, html) {
       html.push('<span class="objectBox-number">', this.escapeHTML(this.objectToString(object)), '</span>');
@@ -936,7 +948,7 @@ qx.Class.define("qx.core.Log",
      * @type static
      * @param object {Object} given object
      * @param html {String} output
-     * @return {void} 
+     * @return {void}
      */
     appendFunction : function(object, html)
     {
@@ -953,7 +965,7 @@ qx.Class.define("qx.core.Log",
      * @type static
      * @param object {Object} given object
      * @param html {String} output
-     * @return {void} 
+     * @return {void}
      */
     appendObject : function(object, html)
     {
@@ -972,7 +984,7 @@ qx.Class.define("qx.core.Log",
      * @type static
      * @param object {Object} given object
      * @param html {String} output
-     * @return {void} 
+     * @return {void}
      */
     appendObjectFormatted : function(object, html)
     {
@@ -990,7 +1002,7 @@ qx.Class.define("qx.core.Log",
      * @type static
      * @param object {Object} given object
      * @param html {String} output
-     * @return {void} 
+     * @return {void}
      */
     appendSelector : function(object, html)
     {
@@ -1010,7 +1022,7 @@ qx.Class.define("qx.core.Log",
      * @type static
      * @param node {Node} given node
      * @param html {String} output
-     * @return {void} 
+     * @return {void}
      */
     appendNode : function(node, html)
     {
@@ -1050,7 +1062,7 @@ qx.Class.define("qx.core.Log",
      * @param object {Object} Target of the event
      * @param name {String} Name of the event
      * @param handler {Function} Event handler method
-     * @return {void} 
+     * @return {void}
      */
     addEvent : function(object, name, handler)
     {
@@ -1066,7 +1078,7 @@ qx.Class.define("qx.core.Log",
      * @param object {Object} Target of the event
      * @param name {String} Name of the event
      * @param handler {Function} Event handler method
-     * @return {void} 
+     * @return {void}
      */
     removeEvent : function(object, name, handler)
     {
@@ -1080,7 +1092,7 @@ qx.Class.define("qx.core.Log",
      *
      * @type static
      * @param event {String} Event name
-     * @return {void} 
+     * @return {void}
      */
     cancelEvent : function(event)
     {
@@ -1096,7 +1108,7 @@ qx.Class.define("qx.core.Log",
      * @param msg {String} Message to log
      * @param href {String} Link to the filename
      * @param lineNo {String} Line number
-     * @return {void} 
+     * @return {void}
      */
     onError : function(msg, href, lineNo)
     {
@@ -1116,7 +1128,7 @@ qx.Class.define("qx.core.Log",
      *
      * @type static
      * @param event {Object} Event object
-     * @return {void} 
+     * @return {void}
      */
     onKeyDown : function(event)
     {
@@ -1138,7 +1150,7 @@ qx.Class.define("qx.core.Log",
      *
      * @type static
      * @param event {Object} Event object
-     * @return {void} 
+     * @return {void}
      */
     onSplitterMouseDown : function(event)
     {
@@ -1160,7 +1172,7 @@ qx.Class.define("qx.core.Log",
      *
      * @type static
      * @param event {Object} Event object
-     * @return {void} 
+     * @return {void}
      */
     onSplitterMouseMove : function(event)
     {
@@ -1183,7 +1195,7 @@ qx.Class.define("qx.core.Log",
      *
      * @type static
      * @param event {Object} Event object
-     * @return {void} 
+     * @return {void}
      */
     onSplitterMouseUp : function(event)
     {
@@ -1203,7 +1215,7 @@ qx.Class.define("qx.core.Log",
      *
      * @type static
      * @param event {Object} Event object
-     * @return {void} 
+     * @return {void}
      */
     onCommandLineKeyDown : function(event)
     {
