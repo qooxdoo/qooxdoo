@@ -300,7 +300,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         imageWidth  : 16,
         imageHeight : 16
       });
-      pos += 16;
 
       // Add the node's label. We want
       // 5 pixels between the folder icon and the label
