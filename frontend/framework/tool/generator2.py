@@ -18,12 +18,12 @@
 #
 ################################################################################
 
-import sys, re, os, optparse, math
+import sys, re, os, optparse, math, cPickle
 
 # reconfigure path to import own modules from modules subfolder
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "modules"))
 
-import config, tokenizer, tree, treegenerator, optparseext, loader, filetool
+import config, tokenizer, tree, treegenerator, optparseext, filetool
 
 
 
@@ -74,7 +74,8 @@ def process(options):
             "include" : ["common"],
             "optimizeVariables" : True,
             "buildScript" : "build.js",
-            "useClass" : "apiviewer.Application"
+            "use" : ["apiviewer.Application"],
+            "ignore" : ["tree"]
         },
         
         "views" : 
@@ -149,19 +150,27 @@ def execute(id, config):
 
 
 ######################################################################
-#  GENERATORS
+#  CORE: GENERATORS
 ######################################################################
 
 def generateSourceScript(config):
+    global classes
+    
     print ">>> Generate source script..."
 
+
+
+
 def generateBuildScript(config):
+    global classes
+    
     outputFilename = config["buildScript"]
     classPaths = config["classPath"]
 
-    
     print ">>> Generate build script: %s" % outputFilename
     print "  - Class Paths: %s" % ", ".join(classPaths)
+
+    scanClassPaths(classPaths)
     
     # 1. Loading include list -> Resolving
     # 2. Removing variant code
@@ -172,13 +181,15 @@ def generateBuildScript(config):
     # 7. Compiling output
     # 8. Storing result file
     
-    classes = analyzeClassesBasic(scanClassPaths(classPaths))
-    
-    analyzeDependencies(classes)
-    
+    if config.has_key("use"):
+        use = config["use"]
+        processUse(use)
+        
     if config.has_key("views"):
         views = config["views"]
-        analyzeViews(views, classes)
+        processViews(views)
+
+
 
 
 
@@ -187,24 +198,165 @@ def generateBuildScript(config):
 
 
 ######################################################################
-#  CACHE SUPPORT
+#  CORE: CACHE SUPPORT
 ######################################################################
+
+# Improved version of the one in filetool module
+
+cachePath = os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), ".cache") + os.sep
+filetool.directory(cachePath)
 
 def readCache(id, segment, dep):
-    cachePath = "/tmp/qxcache/" + id + "-" + segment
+    fileModTime = os.stat(dep).st_mtime
+
+    try:
+        cacheModTime = os.stat(cachePath + id + "-" + segment).st_mtime
+    except OSError:
+        cacheModTime = 0
         
-    # TODO: Internal time
-    if not filetool.checkCache(dep, cachePath, 0):
-        return filetool.readCache(cachePath)
+    # Out of date check
+    if fileModTime > cacheModTime:
+        return None
         
-    return None
+    try:
+        return cPickle.load(open(cachePath + id + "-" + segment, 'rb'))
+
+    except (EOFError, cPickle.PickleError, cPickle.UnpicklingError):
+        print ">>> Could not read cache from %s" % cachePath
+        return None
     
     
 def writeCache(id, segment, content):
-    cachePath = "/tmp/qxcache/" + id + "-" + segment
+    try:
+        cPickle.dump(content, open(cachePath + id + "-" + segment, 'wb'), 2)
+
+    except (EOFError, cPickle.PickleError, cPickle.PicklingError):
+        print ">>> Could not store cache to %s" % cachePath
+        sys.exit(1)
+
+
+
+        
+        
+        
+        
+        
+        
+######################################################################
+#  META DATA SUPPORT
+######################################################################
+
+def getMeta(id):
+    global classes
     
-    filetool.directory("/tmp/qxcache")
-    filetool.storeCache(cachePath, content)
+    entry = classes[id]
+    path = entry["path"]
+    encoding = entry["encoding"]
+    
+    cache = readCache(id, "meta", path)
+    if cache != None:
+        return cache
+        
+    meta = {}
+    category = entry["category"]
+
+    if category == "qx.doc":
+        pass
+        
+    elif category == "qx.locale":
+        meta["loadtimeDeps"] = ["qx.locale.Locale", "qx.locale.Manager"]
+        
+    elif category == "qx.impl":
+        content = filetool.read(path, encoding)
+        
+        meta["loadtimeDeps"] = _extractQxLoadtimeDeps(content, id)
+        meta["runtimeDeps"] = _extractQxRuntimeDeps(content, id)
+        meta["optionalDeps"] = _extractQxOptionalDeps(content)
+        meta["ignoreDeps"] = _extractQxIgnoreDeps(content)
+
+        meta["modules"] = _extractQxModules(content)
+        meta["resources"] = _extractQxResources(content)
+        meta["embeds"] = _extractQxEmbeds(content)    
+        
+    writeCache(id, "meta", meta)
+    
+    return meta
+
+
+def _extractQxLoadtimeDeps(data, fileId=""):
+    deps = []
+
+    for item in config.QXHEAD["require"].findall(data):
+        if item == fileId:
+            print "    - Error: Self-referring load dependency: %s" % item
+            sys.exit(1)
+        else:
+            deps.append(item)
+
+    return deps
+
+
+def _extractQxRuntimeDeps(data, fileId=""):
+    deps = []
+
+    for item in config.QXHEAD["use"].findall(data):
+        if item == fileId:
+            print "    - Self-referring runtime dependency: %s" % item
+        else:
+            deps.append(item)
+
+    return deps
+
+
+def _extractQxOptionalDeps(data):
+    deps = []
+
+    # Adding explicit requirements
+    for item in config.QXHEAD["optional"].findall(data):
+        if not item in deps:
+            deps.append(item)
+
+    return deps
+
+
+def _extractQxIgnoreDeps(data):
+    ignores = []
+
+    # Adding explicit requirements
+    for item in config.QXHEAD["ignore"].findall(data):
+        if not item in ignores:
+            ignores.append(item)
+
+    return ignores
+
+
+def _extractQxModules(data):
+    mods = []
+
+    for item in config.QXHEAD["module"].findall(data):
+        if not item in mods:
+            mods.append(item)
+
+    return mods
+
+
+def _extractQxResources(data):
+    res = []
+
+    for item in config.QXHEAD["resource"].findall(data):
+        res.append({ "namespace" : item[0], "id" : item[1], "entry" : item[2] })
+
+    return res
+
+
+def _extractQxEmbeds(data):
+    emb = []
+
+    for item in config.QXHEAD["embed"].findall(data):
+        emb.append({ "namespace" : item[0], "id" : item[1], "entry" : item[2] })
+
+    return emb
+
 
 
 
@@ -212,83 +364,126 @@ def writeCache(id, segment, content):
 
 
 ######################################################################
-#  CLASS ANALYSIS
+#  TREE SUPPORT
 ######################################################################
 
-def analyzeClassesBasic(classes):
-    print ">>> Basic analysis of %s classes..." % len(classes)
+def getTree(id):
+    global classes
     
-    for fileId in classes:        
-        entry = classes[fileId]        
-
-        # Check cache availability
-        cache = readCache(fileId, "basic", entry["path"])
-        
-        if cache != None:
-            classes[fileId] = cache
-            continue
-        
-        # Invalid cache => reevaluate         
-        # Category specific processing
-        category = entry["category"]
-
-        if category == "qx.doc":
-            pass
-            
-        elif category == "qx.locale":
-            entry["loadtimeDeps"] = ["qx.locale.Locale", "qx.locale.Manager"]
-            
-        elif category == "qx.impl":
-            content = filetool.read(entry["path"], entry["encoding"])
-            
-            entry["loadtimeDeps"] = extractQxLoadtimeDeps(content, fileId)
-            entry["runtimeDeps"] = extractQxRuntimeDeps(content, fileId)
-            entry["optionalDeps"] = extractQxOptionalDeps(content)
-            entry["ignoreDeps"] = extractQxIgnoreDeps(content)
-
-            entry["modules"] = extractQxModules(content)
-            entry["resources"] = extractQxResources(content)
-            entry["embeds"] = extractQxEmbeds(content)
-            
-        # Store cache
-        writeCache(fileId, "basic", entry)
-        
-    return classes
-        
-
-
-
-def getTree(fileId, filePath, fileEncoding="utf-8"):
-    cache = readCache(fileId, "tree", filePath)
-    
+    cache = readCache(id, "tree", classes[id]["path"])
     if cache != None:
         return cache
     
-    print "  - Generating tree: %s" % fileId
-    tree = treegenerator.createSyntaxTree(tokenizer.parseFile(filePath, fileId, fileEncoding))
+    print "  - Generating tree: %s" % id
+    tree = treegenerator.createSyntaxTree(tokenizer.parseFile(classes[id]["path"], id, classes[id]["encoding"]))
     
-    writeCache(fileId, "tree", tree)
+    writeCache(id, "tree", tree)
     return tree
 
 
-def analyzeDependencies(classes):
-    print ">>> Analysing dependencies..."
-    
-    for fileId in classes:
-        entry = classes[fileId]
-        analyzeClassDeps(fileId, entry["path"], classes)
+
+
+        
         
 
-def analyzeClassDeps(fileId, filePath, classes):
-    loadtimeDeps = []
-    runtimeDeps = []
-    
-    analyzeClassDepsNode(getTree(fileId, filePath), loadtimeDeps, runtimeDeps, fileId, classes, False)
-    
-    
 
 
-def analyzeClassDepsNode(node, loadtimeDeps, runtimeDeps, fileId, fileDb, inFunction):
+######################################################################
+#  USE SUPPORT
+######################################################################
+
+def processUse(input):
+    output = {}
+    
+    print ">>> Analysing USE list..."
+    
+    for entry in input:
+        print "  - Processing: %s" % entry
+        _useRecurser(entry, output)
+        
+    print ">>> Use %s classes" % len(output)
+
+
+def _useRecurser(id, use):
+    global classes
+    
+    if use.has_key(id):
+        return
+    
+    use[id] = True
+    deps = getDeps(id)
+    
+    for entry in deps["load"]:
+        if not use.has_key(entry):
+            _useRecurser(entry, use)
+        
+    for entry in deps["run"]:
+        if not use.has_key(entry):
+            _useRecurser(entry, use)
+            
+     
+
+
+
+
+
+######################################################################
+#  VIEW SUPPORT
+######################################################################
+
+def processViews(classes, views):
+    print ">>> Analysing %s views..." % len(views)
+    
+    
+    
+    
+     
+     
+     
+     
+######################################################################
+#  DEPENDENCY SUPPORT
+######################################################################
+
+def getDeps(id):
+    global classes
+    
+    cache = readCache(id, "deps", classes[id]["path"])
+    if cache != None:
+        return cache
+    
+    print "  - Gathering dependencies: %s" % id
+    (load, run) = _analyzeClassDeps(id)
+    meta = getMeta(id)
+    
+    load.extend(meta["loadtimeDeps"])
+    run.extend(meta["runtimeDeps"])
+    
+    deps = {
+        "load" : load,
+        "run" : run
+    }
+    
+    writeCache(id, "deps", deps)
+    
+    return deps
+    
+    
+def _analyzeClassDeps(id):
+    global classes
+    
+    tree = getTree(id)
+    loadtime = []
+    runtime = []
+    
+    _analyzeClassDepsNode(id, tree, loadtime, runtime, False)
+    
+    return loadtime, runtime
+    
+
+def _analyzeClassDepsNode(id, node, loadtime, runtime, inFunction):
+    global classes
+        
     if node.type == "variable":
         if node.hasChildren:
             assembled = ""
@@ -302,16 +497,16 @@ def analyzeClassDepsNode(node, loadtimeDeps, runtimeDeps, fileId, fileDb, inFunc
                     assembled += child.get("name")
                     first = False
 
-                    if assembled != fileId and fileDb.has_key(assembled):
+                    if assembled != id and classes.has_key(assembled):
                         if inFunction:
-                            targetDeps = runtimeDeps
+                            target = runtime
                         else:
-                            targetDeps = loadtimeDeps
+                            target = loadtime
 
-                        if assembled in targetDeps:
+                        if assembled in target:
                             return
 
-                        targetDeps.append(assembled)
+                        target.append(assembled)
 
                 else:
                     assembled = ""
@@ -322,43 +517,33 @@ def analyzeClassDepsNode(node, loadtimeDeps, runtimeDeps, fileId, fileDb, inFunc
 
     if node.hasChildren():
         for child in node.children:
-            analyzeClassDepsNode(child, loadtimeDeps, runtimeDeps, fileId, fileDb, inFunction)
+            _analyzeClassDepsNode(id, child, loadtime, runtime, inFunction)
 
 
 
 
 
-        
-
-
-
-
-######################################################################
-#  VIEW SUPPORT
-######################################################################
-
-def analyzeViews(views, classes):
-    print ">>> Analysing %s views..." % len(views)
-    
-    
     
     
 
 
 ######################################################################
-#  CLASS FILE IO
+#  CLASS PATH SUPPORT
 ######################################################################
 
 def scanClassPaths(paths):
+    global classes
     classes = {}
     
     for path in paths:
-        scanClassPath(path, classes)
+        _addClassPath(path)
         
     return classes
     
 
-def scanClassPath(classPath, classes, encoding="utf-8"):
+def _addClassPath(classPath, encoding="utf-8"):
+    global classes
+        
     print ">>> Scanning: %s" % classPath
     
     implCounter = 0
@@ -386,10 +571,10 @@ def scanClassPath(classPath, classes, encoding="utf-8"):
                     docCounter += 1
                     
                 else:
-                    fileContentId = extractQxClassContentId(fileContent)
+                    fileContentId = _extractQxClassContentId(fileContent)
                     
                     if fileContentId == None:
-                        fileContentId = extractQxLocaleContentId(fileContent)
+                        fileContentId = _extractQxLocaleContentId(fileContent)
                         
                         if fileContentId != None:
                             fileCategory = "qx.locale"
@@ -413,6 +598,7 @@ def scanClassPath(classPath, classes, encoding="utf-8"):
                     "encoding" : encoding,
                     "classPath" : classPath,
                     "category" : fileCategory,
+                    "id" : fileId,
                     "contentId" : fileContentId,
                     "pathId" : filePathId,
                     "runtimeDeps" : [],
@@ -422,18 +608,10 @@ def scanClassPath(classPath, classes, encoding="utf-8"):
                 }
                 
                 
-    print "  - Found these files: %s impl, %s doc, %s locale" % (implCounter, docCounter, localeCounter)
+    print "  - Found: %s impl, %s doc, %s locale" % (implCounter, docCounter, localeCounter)
 
 
-
-
-
-
-######################################################################
-#  FILE CONTENT PROCESSING
-######################################################################
-
-def extractQxClassContentId(data):
+def _extractQxClassContentId(data):
     classDefine = re.compile('qx.(Class|Mixin|Interface|Theme).define\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M)
 
     for item in classDefine.findall(data):
@@ -442,7 +620,7 @@ def extractQxClassContentId(data):
     return None
 
 
-def extractQxLocaleContentId(data):
+def _extractQxLocaleContentId(data):
     localeDefine = re.compile('qx.locale\.Locale.define\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M)
     
     for item in localeDefine.findall(data):
@@ -451,81 +629,7 @@ def extractQxLocaleContentId(data):
     return None
 
 
-def extractQxLoadtimeDeps(data, fileId=""):
-    deps = []
 
-    for item in config.QXHEAD["require"].findall(data):
-        if item == fileId:
-            print "    - Error: Self-referring load dependency: %s" % item
-            sys.exit(1)
-        else:
-            deps.append(item)
-
-    return deps
-
-
-def extractQxRuntimeDeps(data, fileId=""):
-    deps = []
-
-    for item in config.QXHEAD["use"].findall(data):
-        if item == fileId:
-            print "    - Self-referring runtime dependency: %s" % item
-        else:
-            deps.append(item)
-
-    return deps
-
-
-def extractQxOptionalDeps(data):
-    deps = []
-
-    # Adding explicit requirements
-    for item in config.QXHEAD["optional"].findall(data):
-        if not item in deps:
-            deps.append(item)
-
-    return deps
-
-
-def extractQxIgnoreDeps(data):
-    ignores = []
-
-    # Adding explicit requirements
-    for item in config.QXHEAD["ignore"].findall(data):
-        if not item in ignores:
-            ignores.append(item)
-
-    return ignores
-
-
-def extractQxModules(data):
-    mods = []
-
-    for item in config.QXHEAD["module"].findall(data):
-        if not item in mods:
-            mods.append(item)
-
-    return mods
-
-
-def extractQxResources(data):
-    res = []
-
-    for item in config.QXHEAD["resource"].findall(data):
-        res.append({ "namespace" : item[0], "id" : item[1], "entry" : item[2] })
-
-    return res
-
-
-def extractQxEmbeds(data):
-    emb = []
-
-    for item in config.QXHEAD["embed"].findall(data):
-        emb.append({ "namespace" : item[0], "id" : item[1], "entry" : item[2] })
-
-    return emb
-
-    
     
     
     
