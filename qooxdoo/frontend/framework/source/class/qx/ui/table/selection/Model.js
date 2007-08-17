@@ -107,6 +107,30 @@ qx.Class.define("qx.ui.table.selection.Model",
 
 
 
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    /**
+     * Set the selection mode. Valid values are {@link #NO_SELECTION},
+     * {@link #SINGLE_SELECTION}, {@link #SINGLE_INTERVAL_SELECTION},
+     * {@link #MULTIPLE_INTERVAL_SELECTION} and
+     * {@link #MULTIPLE_INTERVAL_SELECTION_TOGGLE}.
+     */
+    selectionMode :
+    {
+      init : 2, //SINGLE_SELECTION,
+      check : [1,2,3,4,5],
+      //[ NO_SELECTION, SINGLE_SELECTION, SINGLE_INTERVAL_SELECTION, MULTIPLE_INTERVAL_SELECTION, MULTIPLE_INTERVAL_SELECTION_TOGGLE ],
+      apply : "_applySelectionMode"
+    }
+  },
+
+
 
 
   /*
@@ -118,12 +142,6 @@ qx.Class.define("qx.ui.table.selection.Model",
   members :
   {
     // selectionMode property modifier
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param selectionMode {var} TODOC
-     */
     _applySelectionMode : function(selectionMode)
     {
       if (selectionMode == qx.ui.table.selection.Model.NO_SELECTION) {
@@ -602,25 +620,6 @@ qx.Class.define("qx.ui.table.selection.Model",
         this.dispatchEvent(new qx.event.type.Event("changeSelection"), true);
       }
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
-
-  defer : function(statics, members, properties)
-  {
-    properties.add("selectionMode",
-    {
-      init : statics.SINGLE_SELECTION,
-      check : [ statics.NO_SELECTION, statics.SINGLE_SELECTION, statics.SINGLE_INTERVAL_SELECTION, statics.MULTIPLE_INTERVAL_SELECTION, statics.MULTIPLE_INTERVAL_SELECTION_TOGGLE ],
-      apply : "_applySelectionMode"
-    });
   },
 
 

@@ -1,5 +1,5 @@
 /* ************************************************************************
-table
+
    qooxdoo - the new era of web development
 
    http://qooxdoo.org

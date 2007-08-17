@@ -45,26 +45,17 @@ qx.Class.define("qx.ui.table.cellrenderer.Icon",
   {
     this.base(arguments);
     this.IMG_BLANK_URL = qx.io.Alias.getInstance().resolve("static/image/blank.gif");
-  },
 
-
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-    MAIN_DIV_STYLE  : ';text-align:center;padding-top:1px;',
-    IMG_START       : '<img src="',
-    IMG_END         : '"/>',
-    IMG_TITLE_START : '" title="',
-    TABLE_DIV       : '<div style="overflow:hidden;height:',
-    TABLE_DIV_CLOSE : 'px">',
-    TABLE_DIV_END   : '</div>'
+    var clazz = this.self(arguments);
+    if (!clazz.stylesheet)
+    {
+      clazz.stylesheet = qx.html.StyleSheet.createElement(
+        ".qooxdoo-table-cell-icon {" +
+        "  text-align:center;" +
+        "  padding-top:1px;" +
+        "}"
+      );
+    }
   },
 
 
@@ -133,157 +124,45 @@ qx.Class.define("qx.ui.table.cellrenderer.Icon",
       return urlAndTooltipMap;
     },
 
+
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @return {var} TODOC
-     */
-    _getCellStyle : function(cellInfo)
-    {
-      var style = qx.ui.table.cellrenderer.Abstract.prototype._getCellStyle(cellInfo);
-      style += qx.ui.table.cellrenderer.Icon.MAIN_DIV_STYLE;
-      return style;
+    _getCellClass : function(cellInfo) {
+      return this.base(arguments) + " qooxdoo-table-cell-icon";
     },
 
+
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @return {String} TODOC
-     */
     _getContentHtml : function(cellInfo)
     {
-      var IconDataCellRenderer = qx.ui.table.cellrenderer.Icon;
-
+      var content = ['<img '];
       var urlAndToolTip = this._getImageInfos(cellInfo);
-      var html = IconDataCellRenderer.IMG_START;
 
       if (qx.core.Client.getInstance().isMshtml() && /\.png$/i.test(urlAndToolTip.url)) {
-        html += this.IMG_BLANK_URL + '" style="filter:' + "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + urlAndToolTip.url + "',sizingMethod='scale')";
+        content.push(
+          'src="', this.IMG_BLANK_URL, '" style="filter:',
+          "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='",
+          urlAndToolTip.url, "',sizingMethod='scale')", '" '
+        );
       } else {
-        html += urlAndToolTip.url + '" style="';
+        content.push('src="', urlAndToolTip.url, '" ');
       }
 
       if (urlAndToolTip.imageWidth && urlAndToolTip.imageHeight) {
-        html += ';width:' + urlAndToolTip.imageWidth + 'px' + ';height:' + urlAndToolTip.imageHeight + 'px';
+        content.push(
+          ' width="', urlAndToolTip.imageWidth, 'px" height="',
+          urlAndToolTip.imageHeight, 'px" '
+        );
       }
 
       var tooltip = urlAndToolTip.tooltip;
 
       if (tooltip != null) {
-        html += IconDataCellRenderer.IMG_TITLE_START + tooltip;
+        content.push('title="', tooltip, '" ');
       }
 
-      html += IconDataCellRenderer.IMG_END;
-      return html;
-    },
+      content.push(">");
 
-    // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @param cellElement {var} TODOC
-     * @return {void}
-     */
-    updateDataCellElement : function(cellInfo, cellElement)
-    {
-      // Set image and tooltip text
-      var urlAndToolTip = this._getImageInfos(cellInfo);
-
-      var img = cellElement.firstChild;
-
-      if(img.src == urlAndToolTip.url) {
-        return;
-      }
-
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
-        if (/\.png$/i.test(urlAndToolTip.url))
-        {
-          img.src = this.IMG_BLANK_URL;
-          img.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + urlAndToolTip.url + "',sizingMethod='scale')";
-        }
-        else
-        {
-          img.src = urlAndToolTip.url;
-          img.style.filter = "";
-        }
-      }
-      else
-      {
-        img.src = urlAndToolTip.url;
-      }
-
-      if (urlAndToolTip.imageWidth && urlAndToolTip.imageHeight)
-      {
-        img.style.width = urlAndToolTip.imageWidth + "px";
-        img.style.height = urlAndToolTip.imageHeight + "px";
-      }
-
-      if (urlAndToolTip.tooltip != null) {
-        img.setAttribute("title", urlAndToolTip.tooltip);
-      }
-    },
-
-    // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @param htmlArr {var} TODOC
-     * @return {void}
-     */
-    _createCellStyle_array_join : function(cellInfo, htmlArr)
-    {
-      qx.ui.table.cellrenderer.Abstract.prototype._createCellStyle_array_join(cellInfo, htmlArr);
-
-      htmlArr.push(qx.ui.table.cellrenderer.Icon.MAIN_DIV_STYLE);
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @param htmlArr {var} TODOC
-     * @return {void}
-     */
-    _createContentHtml_array_join : function(cellInfo, htmlArr)
-    {
-      var IconDataCellRenderer = qx.ui.table.cellrenderer.Icon;
-
-      if (qx.ui.table.pane.Pane.USE_TABLE)
-      {
-        htmlArr.push(IconDataCellRenderer.TABLE_DIV);
-        htmlArr.push(cellInfo.styleHeight - 2); // -1 for the border, -1 for the padding
-        htmlArr.push(IconDataCellRenderer.TABLE_DIV_CLOSE);
-      }
-
-      htmlArr.push(IconDataCellRenderer.IMG_START);
-      var urlAndToolTip = this._getImageInfos(cellInfo);
-      htmlArr.push(urlAndToolTip.url);
-      var tooltip = urlAndToolTip.tooltip;
-
-      if (tooltip != null)
-      {
-        IconDataCellRenderer.IMG_TITLE_START;
-        htmlArr.push(tooltip);
-      }
-
-      htmlArr.push(IconDataCellRenderer.IMG_END);
-
-      if (qx.ui.table.pane.Pane.USE_TABLE) {
-        htmlArr.push(IconDataCellRenderer.TABLE_DIV_END);
-      }
+      return content.join("");
     }
   }
 });

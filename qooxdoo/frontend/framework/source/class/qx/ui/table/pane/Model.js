@@ -25,7 +25,7 @@
 
 /**
  * The model of a table pane. This model works as proxy to a
- * {@link TableColumnModel} and manages the visual order of the columns shown in
+ * {@link qx.ui.table.columnmodel.Basic} and manages the visual order of the columns shown in
  * a {@link TablePane}.
  */
 qx.Class.define("qx.ui.table.pane.Model",
@@ -64,8 +64,10 @@ qx.Class.define("qx.ui.table.pane.Model",
   *****************************************************************************
   */
 
-  events : {
-    "modelChanged" : "qx.event.type.Event" /** Fired when the model changed. */
+  events :
+  {
+    /** Fired when the model changed. */
+    "modelChanged" : "qx.event.type.Event"
   },
 
 

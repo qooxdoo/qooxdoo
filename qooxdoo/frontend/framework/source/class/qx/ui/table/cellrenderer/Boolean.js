@@ -64,13 +64,6 @@ qx.Class.define("qx.ui.table.cellrenderer.Boolean",
   members :
   {
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @return {var} TODOC
-     */
     _identifyImage : function(cellInfo)
     {
       var imageHints =

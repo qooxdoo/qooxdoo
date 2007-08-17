@@ -24,11 +24,13 @@
 ************************************************************************ */
 
 /**
- * For editing boolean data in a checkbox.  It is advisable to use this in conjuntion with BooleanDataCellRenderer.
+ * For editing boolean data in a checkbox. It is advisable to use this in
+ * conjuntion with {@link qx.ui.table.cellrenderer.Boolean}.
  */
 qx.Class.define("qx.ui.table.celleditor.CheckBox",
 {
-  extend : qx.ui.table.celleditor.Factory,
+  extend : qx.core.Target,
+  implement : qx.ui.table.ICellEditorFactory,
 
 
 
@@ -54,14 +56,7 @@ qx.Class.define("qx.ui.table.celleditor.CheckBox",
 
   members :
   {
-    // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @return {qx.ui.core.Widget} TODOC
-     */
+    // interface implementation
     createCellEditor : function(cellInfo)
     {
       var editor = new qx.ui.form.CheckBox;
@@ -70,14 +65,7 @@ qx.Class.define("qx.ui.table.celleditor.CheckBox",
       return editor;
     },
 
-    // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellEditor {var} TODOC
-     * @return {var} TODOC
-     */
+    // interface implementation
     getCellEditorValue : function(cellEditor) {
       return cellEditor.getChecked();
     }

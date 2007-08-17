@@ -53,14 +53,14 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
   {
     this.base(arguments);
 
-    this.numericAllowed = new Array("==", "!=", ">", "<", ">=", "<=");
-    this.betweenAllowed = new Array("between", "!between");
-    this.Conditions = new Array();
+    this.numericAllowed = ["==", "!=", ">", "<", ">=", "<="];
+    this.betweenAllowed = ["between", "!between"];
+    this.Conditions = [];
 
-    this._defaultTextAlign = (align != null ? align : "");
-    this._defaultColor = (color != null ? color : "");
-    this._defaultFontStyle = (style != null ? style : "");
-    this._defaultFontWeight = (weight != null ? weight : "");
+    this._defaultTextAlign = align || "";
+    this._defaultColor = color || "";
+    this._defaultFontStyle = style || "";
+    this._defaultFontWeight = weight || "";
   },
 
 
@@ -74,37 +74,31 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
 
   members :
   {
-    _apply_formatting : function(conditions, cond_num, style)
+
+    /**
+     * Applies the cell styles to the style map.
+     * @param condition {Array} The matched condition
+     * @param style {style} map of already applied styles.
+     */
+    __applyFormatting : function(condition, style)
     {
-      if (conditions[cond_num][1] != null) {
-        style.textAlign = conditions[cond_num][1];
+      if (condition[1] != null) {
+        style["text-align"] = condition[1];
       }
 
-      if (conditions[cond_num][2] != null) {
-        style.color = conditions[cond_num][2];
+      if (condition[2] != null) {
+        style["color"] = condition[2];
       }
 
-      if (conditions[cond_num][3] != null) {
-        style.fontStyle = conditions[cond_num][3];
+      if (condition[3] != null) {
+        style["font-style"] = condition[3];
       }
 
-      if (conditions[cond_num][4] != null) {
-        style.fontWeight = conditions[cond_num][4];
+      if (condition[4] != null) {
+        style["font-weight"] = condition[4];
       }
     },
 
-    _js_in_array : function(the_needle, the_haystack)
-    {
-      var the_hay = the_haystack.toString();
-
-      if (the_hay == '') {
-        return false;
-      }
-
-      var the_pattern = new RegExp(the_needle, 'g');
-      var matched = the_pattern.test(the_haystack);
-      return matched;
-    },
 
     /**
      * The addNumericCondition method is used to add a basic numeric condition to
@@ -126,17 +120,15 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
      * @param weight {String} The weight to format the cell with if the condition matches.
      * @param target {String} The text value of the column to compare against. If this is null,
      *     comparisons will be against the contents of this cell.
-     * @return {void}
-     * @throws TODOC
      */
     addNumericCondition : function(condition, value1, align, color, style, weight, target)
     {
       var temp = null;
 
-      if (this._js_in_array(condition, this.numericAllowed))
+      if (qx.lang.Array.contains(this.numericAllowed, condition))
       {
         if (value1 != null) {
-          temp = new Array(condition, align, color, style, weight, value1, target);
+          temp = [condition, align, color, style, weight, value1, target];
         }
       }
 
@@ -173,10 +165,10 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
      */
     addBetweenCondition : function(condition, value1, value2, align, color, style, weight, target)
     {
-      if (this._js_in_array(condition, this.betweenAllowed))
+      if (qx.lang.Array.contains(this.betweenAllowed, condition))
       {
         if (value1 != null && value2 != null) {
-          var temp = new Array(condition, align, color, style, weight, value1, value2, target);
+          var temp = [condition, align, color, style, weight, value1, value2, target];
         }
       }
 
@@ -206,13 +198,11 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
      * @param weight {String} The weight to format the cell with if the condition matches.
      * @param target {String} The text value of the column to compare against. If this is null,
      *     comparisons will be against the contents of this cell.
-     * @return {void}
-     * @throws TODOC
      */
     addRegex : function(regex, align, color, style, weight, target)
     {
       if (regex != null) {
-        var temp = new Array("regex", align, color, style, weight, regex, target);
+        var temp = ["regex", align, color, style, weight, regex, target];
       }
 
       if (temp != null) {
@@ -231,28 +221,30 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
      * that apply to that value.
      *
      * @type member
-     * @param cellInfo {var} TODOC
-     * @param cellElement {var} TODOC
+     * @param cellInfo {Map} The information about the cell.
+     *          See {@link #createDataCellHtml}.
      * @return {void}
      */
-    updateDataCellElement : function(cellInfo, cellElement)
+    _getCellStyle : function(cellInfo)
     {
-      var style = cellElement.style;
       var tableModel = cellInfo.table.getTableModel();
       var i;
       var cond_test;
       var compareValue;
 
-      style.textAlign = this._defaultTextAlign;
-      style.color = this._defaultColor;
-      style.fontStyle = this._defaultFontStyle;
-      style.fontWeight = this._defaultFontWeight;
+      var style =
+      {
+        "text-align": this._defaultTextAlign,
+        "color": this._defaultColor,
+        "font-style": this._defaultFontStyle,
+        "font-weight": this._defaultFontWeight
+      };
 
       for (i in this.Conditions)
       {
         cond_test = false;
 
-        if (this._js_in_array(this.Conditions[i][0], this.numericAllowed))
+        if (qx.lang.Array.contains(this.numericAllowed, this.Conditions[i][0]))
         {
           if (this.Conditions[i][6] == null) {
             compareValue = cellInfo.value;
@@ -305,7 +297,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
               break;
           }
         }
-        else if (this._js_in_array(this.Conditions[i][0], this.betweenAllowed))
+        else if (qx.lang.Array.contains(this.betweenAllowed, this.Conditions[i][0]))
         {
           if (this.Conditions[i][7] == null) {
             compareValue = cellInfo.value;
@@ -344,17 +336,16 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
 
         // Apply formatting, if any.
         if (cond_test == true) {
-          this._apply_formatting(this.Conditions, i, style);
+          this.__applyFormatting(this.Conditions[i], style);
         }
       }
 
-      var textNode = cellElement.firstChild;
-
-      if (textNode != null) {
-        textNode.nodeValue = this._formatValue(cellInfo);
-      } else {
-        cellElement.innerHTML = qx.html.String.escape(this._formatValue(cellInfo));
+      var styleString = [];
+      for(var key in style) {
+        styleString.push(key, ":", style[key], ";");
       }
+      return styleString.join("");
+
     }
   }
 });

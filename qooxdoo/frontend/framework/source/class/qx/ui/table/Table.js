@@ -43,10 +43,10 @@ qx.Class.define("qx.ui.table.Table",
   */
 
   /**
-   * @param tableModel {qx.ui.table.model.Basic}
+   * @param tableModel {qx.ui.table.ITableModel, null}
    *   The table model to read the data from.
    *
-   * @param custom {Map}
+   * @param custom {Map ? null}
    *   A map provided to override the various supplemental classes allocated
    *   within this constructor.  Each property must be a function which
    *   returns an object instance, as indicated by shown the defaults listed
@@ -258,7 +258,7 @@ qx.Class.define("qx.ui.table.Table",
     /** The table model. */
     tableModel :
     {
-      check : "qx.ui.table.model.Basic",
+      check : "qx.ui.table.ITableModel",
       apply : "_applyTableModel",
       event : "changeTableModel",
       nullable : true
@@ -364,7 +364,7 @@ qx.Class.define("qx.ui.table.Table",
     /** The renderer to use for styling the rows. */
     dataRowRenderer :
     {
-      check : "qx.ui.table.rowrenderer.Basic",
+      check : "qx.ui.table.IRowRenderer",
       init : null,
       nullable : true,
       apply : "_applyDataRowRenderer",
@@ -537,12 +537,12 @@ qx.Class.define("qx.ui.table.Table",
 
       if (old != null)
       {
-        old.removeEventListener(qx.ui.table.model.Basic.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
-        old.removeEventListener(qx.ui.table.model.Basic.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
+        old.removeEventListener(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
+        old.removeEventListener(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
       }
 
-      value.addEventListener(qx.ui.table.model.Basic.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
-      value.addEventListener(qx.ui.table.model.Basic.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
+      value.addEventListener(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
+      value.addEventListener(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
 
       // Update the status bar
       this._updateStatusBar();
@@ -1065,10 +1065,10 @@ qx.Class.define("qx.ui.table.Table",
 
 
     /**
-     * TODOC
+     * Event handler. Called when a key was pressed.
      *
      * @type member
-     * @param evt {Event} TODOC
+     * @param evt {qx.event.type.KeyEvent} the event.
      * @return {void}
      */
     _onkeypress : function(evt)
@@ -1143,7 +1143,7 @@ qx.Class.define("qx.ui.table.Table",
      * Event handler. Called when the table gets the focus.
      *
      * @type member
-     * @param evt {Event} TODOC
+     * @param evt {Map} the event.
      * @return {void}
      */
     _onFocusChanged : function(evt)
@@ -1718,7 +1718,6 @@ qx.Class.define("qx.ui.table.Table",
           qx.ui.core.Widget.flushGlobalQueues();
 
           menu.setLeft(qx.html.Location.getClientBoxRight(btElem) - menu.getOffsetWidth());
-          qx.ui.core.Widget.flushGlobalQueues();
         },
         0);
       }
@@ -1776,16 +1775,9 @@ qx.Class.define("qx.ui.table.Table",
       this.getTableColumnModel().setColumnWidth(col, width);
     },
 
+
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param newValue {var} TODOC
-     * @param oldValue {var} TODOC
-     * @return {void} TODOC
-     */
-    _changeInnerWidth : function(newValue, oldValue)
+    _changeInnerWidth : function(vNew, vOld)
     {
       var self = this;
 
@@ -1802,19 +1794,12 @@ qx.Class.define("qx.ui.table.Table",
       },
       0);
 
-      return this.base(arguments, newValue, oldValue);
+      return this.base(arguments, vNew, vOld);
     },
 
+
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param newValue {var} TODOC
-     * @param oldValue {var} TODOC
-     * @return {void} TODOC
-     */
-    _changeInnerHeight : function(newValue, oldValue)
+    _changeInnerHeight : function(vNew, vOld)
     {
       var self = this;
 
@@ -1829,16 +1814,11 @@ qx.Class.define("qx.ui.table.Table",
       },
       0);
 
-      return this.base(arguments, newValue, oldValue);
+      return this.base(arguments, vNew, vOld);
     },
 
+
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
     _afterAppear : function()
     {
       this.base(arguments);

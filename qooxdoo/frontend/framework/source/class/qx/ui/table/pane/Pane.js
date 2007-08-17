@@ -14,6 +14,7 @@
 
    Authors:
      * Til Schneider (til132)
+     * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
 
@@ -50,27 +51,10 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
     this._paneScroller = paneScroller;
 
-    // this.debug("USE_ARRAY_JOIN:" + qx.ui.table.pane.Pane.USE_ARRAY_JOIN + ", USE_TABLE:" + qx.ui.table.pane.Pane.USE_TABLE);
     this._lastColCount = 0;
     this._lastRowCount = 0;
-  },
 
-
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-    USE_ARRAY_JOIN               : false,
-    USE_TABLE                    : false,
-
-    CONTENT_ROW_FONT_FAMILY_TEST : "'Segoe UI', Corbel, Calibri, Tahoma, 'Lucida Sans Unicode', sans-serif",
-    CONTENT_ROW_FONT_SIZE_TEST   : "11px"
+    this.__initTableArray();
   },
 
 
@@ -104,7 +88,20 @@ qx.Class.define("qx.ui.table.pane.Pane",
       check : "Number",
       init : 0,
       apply : "_applyVisibleRowCount"
+    },
+
+
+    /**
+     * Maximum number of cached rows. If the value is <code>-1</code> the cache
+     * size is unlimited
+     */
+    maxCacheLines :
+    {
+      check : "Number",
+      init : 1000,
+      apply : "_applyMaxCacheLines"
     }
+
   },
 
 
@@ -127,7 +124,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
      * @param old {var} Previous value
      */
     _applyFirstVisibleRow : function(value, old) {
-      this._updateContent();
+      this._updateContent(false, value-old);
     },
 
     // property modifier
@@ -142,13 +139,8 @@ qx.Class.define("qx.ui.table.pane.Pane",
       this._updateContent();
     },
 
+
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
     _afterAppear : function()
     {
       this.base(arguments);
@@ -208,8 +200,8 @@ qx.Class.define("qx.ui.table.pane.Pane",
         if (row != oldRow && !massUpdate)
         {
           // NOTE: Only the old and the new row need update
-          this._updateContent(false, oldRow, true);
-          this._updateContent(false, row, true);
+          this._updateContent(false, null, oldRow, true);
+          this._updateContent(false, null, row, true);
         }
       }
     },
@@ -223,7 +215,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
      * @return {void}
      */
     _onSelectionChanged : function(evt) {
-      this._updateContent(false, null, true);
+      this._updateContent(false, null, null, true);
     },
 
 
@@ -235,7 +227,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
      * @return {void}
      */
     _onFocusChanged : function(evt) {
-      this._updateContent(false, null, true);
+      this._updateContent(false, null, null, true);
     },
 
 
@@ -285,6 +277,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
     _onTableModelDataChanged : function(evt)
     {
       var data = evt.getData ? evt.getData() : null;
+      this.__rowCacheClear();
 
       var firstRow = this.getFirstVisibleRow();
       var rowCount = this.getVisibleRowCount();
@@ -305,7 +298,67 @@ qx.Class.define("qx.ui.table.pane.Pane",
      * @return {void}
      */
     _onTableModelMetaDataChanged : function(evt) {
-      this._updateContent();
+      this._updateContent(true);
+    },
+
+
+    // sparse array to cache rendered rows
+    __rowCache : [],
+    __rowCacheCount : 0,
+
+
+    // property apply method
+    _applyMaxCacheLines : function(value, old)
+    {
+      if (this.__rowCacheCount >= value && value !== -1) {
+        this.__rowCacheClear();
+      }
+    },
+
+
+    /**
+     * Clear the row cache
+     */
+    __rowCacheClear : function() {
+      this.__rowCache = [];
+      this.__rowCacheCount = 0;
+    },
+
+
+    /**
+     * Get a line from the row cache.
+     *
+     * @param row {Integer} Row index to get
+     * @param selected {Boolean} Whether the row is currently selected
+     * @param focused {Boolean} Whether the row is currently focused
+     * @return {String|null} The cached row or null if a row with the given
+     *     index is not cached.
+     */
+    __rowCacheGet : function(row, selected, focused)
+    {
+      if (!selected && !focused && this.__rowCache[row]) {
+        return this.__rowCache[row];
+      } else {
+        return null;
+      }
+    },
+
+
+    /**
+     * Add a line to the row cache.
+     *
+     * @param row {Integer} Row index to set
+     * @param rowString {String} computed row string to cache
+     * @param selected {Boolean} Whether the row is currently selected
+     * @param focused {Boolean} Whether the row is currently focused
+     */
+    __rowCacheSet : function(row, rowString, selected, focused)
+    {
+      if (!selected && !focused && !this.__rowCache[row]) {
+        this._applyMaxCacheLines(this.getMaxCacheLines());
+        this.__rowCache[row] = rowString;
+        this.__rowCacheCount += 1;
+      }
     },
 
 
@@ -315,42 +368,108 @@ qx.Class.define("qx.ui.table.pane.Pane",
      * @type member
      * @param completeUpdate {Boolean ? false} if true a complete update is performed.
      *      On a complete update all cell widgets are recreated.
+     * @param scrollOffset {Integer ? null} If set specifies how many rows to scroll.
      * @param onlyRow {Integer ? null} if set only the specified row will be updated.
      * @param onlySelectionOrFocusChanged {Boolean ? false} if true, cell values won't
      *          be updated. Only the row background will.
      * @return {void}
      */
-    _updateContent : function(completeUpdate, onlyRow, onlySelectionOrFocusChanged)
+    _updateContent : function(completeUpdate, scrollOffset, onlyRow, onlySelectionOrFocusChanged)
     {
+      if (completeUpdate) {
+        this.__rowCacheClear();
+      }
+
       if (!this.isSeeable())
       {
         this._updateWantedWhileInvisible = true;
         return;
       }
 
-      if (qx.ui.table.pane.Pane.USE_ARRAY_JOIN) {
-        this._updateContent_array_join(completeUpdate, onlyRow, onlySelectionOrFocusChanged);
-      } else {
-        this._updateContent_orig(completeUpdate, onlyRow, onlySelectionOrFocusChanged);
+      if (this._layoutPending)
+      {
+        window.clearTimeout(this._layoutPending);
+        this._updateAllRows();
+        return;
       }
+
+      //var start = new Date();
+
+      if (scrollOffset && Math.abs(scrollOffset) <= Math.min(10, this.getVisibleRowCount()))
+      {
+        //this.debug("scroll", scrollOffset);
+        this._scrollContent(scrollOffset);
+      }
+      else if (onlySelectionOrFocusChanged && !this.getTable().getAlwaysUpdateCells())
+      {
+        //this.debug("update row styles");
+        this._updateRowStyles(onlyRow);
+      }
+      else
+      {
+        //this.debug("full update");
+        this._updateAllRows();
+      }
+
+      //this.debug("render time: " + (new Date() - start) + "ms");
     },
 
 
     /**
-     * Updates the content of the pane (implemented using array joins).
+     * If only focus or selection changes it is sufficient to only update the
+     * row styles. This method updates the row styles of alll vivible rows or
+     * of just one row.
      *
-     * @type member
-     * @param completeUpdate {Boolean ? false} if true a complete update is performed.
-     *      On a complete update all cell widgets are recreated.
-     * @param onlyRow {Integer ? null} if set only the specified row will be updated.
-     * @param onlySelectionOrFocusChanged {Boolean ? false} if true, cell values won't
-     *          be updated. Only the row background will.
-     * @return {void}
+     * @param onlyRow {Integer|null ? null} If this parameter is set only the row
+     *     with this index is updated.
      */
-    _updateContent_array_join : function(completeUpdate, onlyRow, onlySelectionOrFocusChanged)
+    _updateRowStyles : function(onlyRow)
     {
-      var TablePane = qx.ui.table.pane.Pane;
+      var table = this.getTable();
+      var selectionModel = table.getSelectionModel();
+      var tableModel = table.getTableModel();
+      var rowRenderer = table.getDataRowRenderer();
 
+      var rowHeight = table.getRowHeight();
+      var firstRow = this.getFirstVisibleRow();
+
+      var elem = this.getElement();
+      if (!elem.firstChild) {
+        this._updateAllRows();
+        return;
+      }
+
+      var rowNodes = elem.firstChild.childNodes[1].childNodes;
+      var cellInfo = { table : table };
+
+      for (var y=0, l=rowNodes.length; y<l; y++)
+      {
+        var row = firstRow + y;
+
+        if ((onlyRow != null) && (row != onlyRow)) {
+          continue;
+        }
+
+        cellInfo.row = row;
+        cellInfo.selected = selectionModel.isSelectedIndex(row);
+        cellInfo.focusedRow = (this._focusedRow == row);
+        cellInfo.rowData = tableModel.getRowData(row);
+
+        var rowElem = rowNodes[y];
+        rowRenderer.updateDataRowElement(cellInfo, rowElem);
+      };
+    },
+
+
+    /**
+     * Get the HTML table fragment for the given row range.
+     *
+     * @param firstRow {Integer} Index of the first row
+     * @param rowCount {Integer} Number of rows
+     * @return {String} The HTML table fragment for the given row range.
+     */
+    _getRowsHtml : function(firstRow, rowCount)
+    {
       var table = this.getTable();
 
       var selectionModel = table.getSelectionModel();
@@ -359,77 +478,46 @@ qx.Class.define("qx.ui.table.pane.Pane",
       var paneModel = this.getPaneScroller().getTablePaneModel();
       var rowRenderer = table.getDataRowRenderer();
 
-      var colCount = paneModel.getColumnCount();
-      var rowHeight = table.getRowHeight();
-
-      var firstRow = this.getFirstVisibleRow();
-      var rowCount = this.getVisibleRowCount();
-      var modelRowCount = tableModel.getRowCount();
-
-      if (firstRow + rowCount > modelRowCount) {
-        rowCount = Math.max(0, modelRowCount - firstRow);
-      }
-
-      var cellInfo = { table : table };
-      cellInfo.styleHeight = rowHeight;
-
-      var htmlArr = [];
-      var rowWidth = paneModel.getTotalWidth();
-
-      if (TablePane.USE_TABLE)
-      {
-        // The table test
-        htmlArr.push('<table cellspacing\="0" cellpadding\="0" style\="table-layout:fixed;font-family:');
-        htmlArr.push(qx.ui.table.pane.Pane.CONTENT_ROW_FONT_FAMILY_TEST);
-        htmlArr.push(';font-size:');
-        htmlArr.push(qx.ui.table.pane.Pane.CONTENT_ROW_FONT_SIZE_TEST);
-        htmlArr.push(';width:');
-        htmlArr.push(rowWidth);
-        htmlArr.push('px"><colgroup>');
-
-        for (var x=0; x<colCount; x++)
-        {
-          var col = paneModel.getColumnAtX(x);
-
-          htmlArr.push('<col width="');
-          htmlArr.push(columnModel.getColumnWidth(col));
-          htmlArr.push('"/>');
-        }
-
-        htmlArr.push('</colgroup><tbody>');
-      }
-
       tableModel.prefetchRows(firstRow, firstRow + rowCount - 1);
 
-      for (var y=0; y<rowCount; y++)
+      var rowsArr = [];
+      for (var row=firstRow; row < firstRow + rowCount; row++)
       {
-        var row = firstRow + y;
+        var selected = selectionModel.isSelectedIndex(row);
+        var focusedRow = (this._focusedRow == row);
+
+        var cachedRow = this.__rowCacheGet(row, selected, focusedRow);
+        if (cachedRow) {
+          rowsArr.push(cachedRow);
+          continue;
+        }
+
+        var rowHtml = [];
+
+        var rowHeight = table.getRowHeight();
+        var colCount = paneModel.getColumnCount();
+
+        var cellInfo = { table : table };
+        cellInfo.styleHeight = rowHeight;
 
         cellInfo.row = row;
-        cellInfo.selected = selectionModel.isSelectedIndex(row);
-        cellInfo.focusedRow = (this._focusedRow == row);
+        cellInfo.selected = selected;
+        cellInfo.focusedRow = focusedRow;
         cellInfo.rowData = tableModel.getRowData(row);
 
-        // Update this row
-        if (TablePane.USE_TABLE)
-        {
-          htmlArr.push('<tr style\="height:');
-          htmlArr.push(rowHeight);
-        }
-        else
-        {
-          htmlArr.push('<div style\="position:absolute;left:0px;top:');
-          htmlArr.push(y * rowHeight);
-          htmlArr.push('px;width:');
-          htmlArr.push(rowWidth);
-          htmlArr.push('px;height:');
-          htmlArr.push(rowHeight);
-          htmlArr.push('px');
+        rowHtml.push('<tr height="');
+        rowHtml.push(rowHeight, 'px" ');
+
+        var rowClass = rowRenderer.getRowClass(cellInfo);
+        if (rowClass) {
+          rowHtml.push('class="', rowClass, '" ');
         }
 
-        rowRenderer._createRowStyle_array_join(cellInfo, htmlArr);
-
-        htmlArr.push('">');
+        var rowStyle = rowRenderer.createRowStyle(cellInfo);
+        if (rowStyle) {
+          rowHtml.push('style="', rowStyle, '" ');
+        }
+        rowHtml.push('>');
 
         var left = 0;
 
@@ -447,64 +535,140 @@ qx.Class.define("qx.ui.table.pane.Pane",
           cellInfo.styleWidth = cellWidth;
 
           var cellRenderer = columnModel.getDataCellRenderer(col);
-          cellRenderer.createDataCellHtml_array_join(cellInfo, htmlArr);
+          cellRenderer.createDataCellHtml(cellInfo, rowHtml);
 
           left += cellWidth;
         }
+        rowHtml.push('</tr>');
 
-        if (TablePane.USE_TABLE) {
-          htmlArr.push('</tr>');
-        } else {
-          htmlArr.push('</div>');
-        }
+        var rowString = rowHtml.join("");
+
+        this.__rowCacheSet(row, rowString, selected, focusedRow);
+        rowsArr.push(rowString);
       }
-
-      if (TablePane.USE_TABLE) {
-        htmlArr.push('</tbody></table>');
-      }
-
-      var elem = this.getElement();
-
-      // this.debug(">>>" + htmlArr.join("") + "<<<")
-      elem.innerHTML = htmlArr.join("");
-
-      this.setHeight(rowCount * rowHeight);
-
-      this._lastColCount = colCount;
-      this._lastRowCount = rowCount;
+      return rowsArr.join("");
     },
 
 
     /**
-     * Updates the content of the pane (old implementation).
+     * Scrolls the pane's contents by the given offset.
      *
-     * @type member
-     * @param completeUpdate {Boolean ? false} if true a complete update is performed.
-     *      On a complete update all cell widgets are recreated.
-     * @param onlyRow {Integer ? null} if set only the specified row will be updated.
-     * @param onlySelectionOrFocusChanged {Boolean ? false} if true, cell values won't
-     *          be updated. Only the row background will.
-     * @return {void}
-     * @throws TODOC
+     * @param rowOffset {Integer} Number of lines to scroll. Scrolling up is
+     *     represented by a negative offset.
      */
-    _updateContent_orig : function(completeUpdate, onlyRow, onlySelectionOrFocusChanged)
+    _scrollContent : function(rowOffset)
+    {
+      if (!this.getElement().firstChild) {
+        this._updateAllRows();
+        return;
+      }
+
+      var tableBody = this.getElement().firstChild.childNodes[1];
+      var tableChildNodes = tableBody.childNodes;
+      var rowCount = this.getVisibleRowCount();
+      var firstRow = this.getFirstVisibleRow();
+
+
+      var modelRowCount = this.getTable().getTableModel().getRowCount();
+
+      // don't handle this special case here
+      if (firstRow + rowCount > modelRowCount) {
+        this._updateAllRows();
+        return;
+      }
+
+      // remove old lines
+      var removeRowBase = rowOffset < 0 ? rowCount + rowOffset : 0;
+      var addRowBase = rowOffset < 0 ? 0: rowCount - rowOffset;
+
+      for (i=Math.abs(rowOffset)-1; i>=0; i--)
+      {
+        var rowElem = tableChildNodes[removeRowBase];
+        try {
+          tableBody.removeChild(rowElem);
+        } catch(e) {
+          break;
+        }
+      }
+
+      // render new lines
+      if (!this._tableContainer) {
+        this._tableContainer = document.createElement("div");
+      }
+      var tableDummy = '<table><tbody>';
+      tableDummy += this._getRowsHtml(firstRow + addRowBase, Math.abs(rowOffset));
+      tableDummy += '</tbody></table>';
+      this._tableContainer.innerHTML = tableDummy;
+      var newTableRows = this._tableContainer.firstChild.firstChild.childNodes;
+
+      // append new lines
+      if (rowOffset > 0)
+      {
+        for (var i=newTableRows.length-1; i>=0; i--)
+        {
+          var rowElem = newTableRows[0];
+          tableBody.appendChild(rowElem);
+        }
+      }
+      else
+      {
+        for (var i=newTableRows.length-1; i>=0; i--)
+        {
+          var rowElem = newTableRows[newTableRows.length-1];
+          tableBody.insertBefore(rowElem, tableBody.firstChild);
+        }
+      }
+
+      // update focus indicator
+      this._updateRowStyles(this._focusedRow - rowOffset);
+      this._updateRowStyles(this._focusedRow);
+
+      // force immediate layouting
+      // this prevents Firefox from flickering
+      if (qx.core.Variant.isSet("qx.client", "gecko")) {
+        rowElem.offsetHeight;
+      }
+    },
+
+
+    /**
+     * Initialize the table HTML template.
+     */
+    __initTableArray : function()
+    {
+      this.TABLE_ARR = [];
+
+      var i=0;
+      this.TABLE_ARR[i++] = '<table cellspacing="0" cellpadding="0" style="table-layout:fixed;empty-cells: show;font-family:';
+      this.TABLE_ARR[i++] = "'Segoe UI', Corbel, Calibri, Tahoma, 'Lucida Sans Unicode', sans-serif";
+      this.TABLE_ARR[i++] = ';font-size: 11px';
+      this.TABLE_ARR[i++] = ';width:';
+      this.TAB_ROW_WIDTH = i++;
+      this.TABLE_ARR[i++] = 'px"><colgroup>';
+      this.TAB_COLGROUP = i++;
+      this.TABLE_ARR[i++] = '</colgroup><tbody>';
+      this.TAB_BODY = i++;
+      this.TABLE_ARR[i++] = '</tbody></table>';
+    },
+
+
+    /**
+     * Updates the content of the pane (implemented using array joins).
+     */
+    _updateAllRows : function()
     {
       var TablePane = qx.ui.table.pane.Pane;
 
       var table = this.getTable();
 
-      var alwaysUpdateCells = table.getAlwaysUpdateCells();
-
-      var selectionModel = table.getSelectionModel();
       var tableModel = table.getTableModel();
       var columnModel = table.getTableColumnModel();
       var paneModel = this.getPaneScroller().getTablePaneModel();
-      var rowRenderer = table.getDataRowRenderer();
 
       var colCount = paneModel.getColumnCount();
       var rowHeight = table.getRowHeight();
-
       var firstRow = this.getFirstVisibleRow();
+
       var rowCount = this.getVisibleRowCount();
       var modelRowCount = tableModel.getRowCount();
 
@@ -512,129 +676,61 @@ qx.Class.define("qx.ui.table.pane.Pane",
         rowCount = Math.max(0, modelRowCount - firstRow);
       }
 
-      // Remove the rows that are not needed any more
-      if (completeUpdate || this._lastRowCount > rowCount)
+      var htmlArr = [];
+      var rowWidth = paneModel.getTotalWidth();
+
+      this.TABLE_ARR[this.TAB_ROW_WIDTH] = rowWidth;
+
+      var i=0;
+      var colArr = [];
+      for (var x=0; x<colCount; x++)
       {
-        var firstRowToRemove = completeUpdate ? 0 : rowCount;
-        this._cleanUpRows(firstRowToRemove);
+        var col = paneModel.getColumnAtX(x);
+
+        colArr[i++] = '<col width="';
+        colArr[i++] = columnModel.getColumnWidth(col);
+        colArr[i++] = '" />';
       }
 
-      if (TablePane.USE_TABLE) {
-        throw new Error("Combination of USE_TABLE==true and USE_ARRAY_JOIN==false is not yet implemented");
-      }
+      this.TABLE_ARR[this.TAB_COLGROUP] = colArr.join("");
+      this.TABLE_ARR[this.TAB_BODY] = this._getRowsHtml(firstRow, rowCount);
+
+      //this.debug(">>>" + this.TABLE_ARR.join("") + "<<<")
 
       var elem = this.getElement();
-      var childNodes = elem.childNodes;
-      var cellInfo = { table : table };
-      tableModel.prefetchRows(firstRow, firstRow + rowCount - 1);
+      var data = this.TABLE_ARR.join("");
 
-      for (var y=0; y<rowCount; y++)
+
+      var self = this;
+      this._layoutPending = window.setTimeout(function()
       {
-        var row = firstRow + y;
+        elem.innerHTML = data;
+        elem.childNodes[0].offsetHeight;
 
-        if ((onlyRow != null) && (row != onlyRow)) {
-          continue;
+        // force immediate layouting
+        // this prevents Firefox from flickering
+        if (qx.core.Variant.isSet("qx.client", "gecko")) {
+          elem.childNodes[0].offsetHeight;
         }
+        self._layoutPending = null;
+      }, 10);
 
-        cellInfo.row = row;
-        cellInfo.selected = selectionModel.isSelectedIndex(row);
-        cellInfo.focusedRow = (this._focusedRow == row);
-        cellInfo.rowData = tableModel.getRowData(row);
+      /*
+      elem.innerHTML = data;
 
-        // Update this row
-        var rowElem;
-        var recyleRowElem;
-
-        if (y < childNodes.length)
-        {
-          rowElem = childNodes[y];
-          recyleRowElem = true;
-        }
-        else
-        {
-          var rowElem = document.createElement("div");
-
-          // rowElem.style.position = "relative";
-          rowElem.style.position = "absolute";
-          rowElem.style.left = "0px";
-          rowElem.style.top = (y * rowHeight) + "px";
-
-          rowElem.style.height = rowHeight + "px";
-          elem.appendChild(rowElem);
-          recyleRowElem = false;
-        }
-
-        rowRenderer.updateDataRowElement(cellInfo, rowElem);
-
-        if (alwaysUpdateCells || !recyleRowElem || !onlySelectionOrFocusChanged)
-        {
-          var html = "";
-          var left = 0;
-
-          for (var x=0; x<colCount; x++)
-          {
-            var col = paneModel.getColumnAtX(x);
-            cellInfo.xPos = x;
-            cellInfo.col = col;
-            cellInfo.editable = tableModel.isColumnEditable(col);
-            cellInfo.focusedCol = (this._focusedCol == col);
-            cellInfo.value = tableModel.getValue(col, row);
-            var width = columnModel.getColumnWidth(col);
-            cellInfo.style = 'position:absolute;left:' + left + 'px;top:0px;width:' + width + 'px; height:' + rowHeight + "px";
-
-            var cellRenderer = columnModel.getDataCellRenderer(col);
-
-            if (recyleRowElem)
-            {
-              var cellElem = rowElem.childNodes[x];
-              cellRenderer.updateDataCellElement(cellInfo, cellElem);
-            }
-            else
-            {
-              html += cellRenderer.createDataCellHtml(cellInfo);
-            }
-
-            left += width;
-          }
-
-          if (!recyleRowElem)
-          {
-            rowElem.style.width = left + "px";
-            rowElem.innerHTML = html;
-          }
-        }
+      // force immediate layouting
+      // this prevents Firefox from flickering
+      if (qx.core.Variant.isSet("qx.client", "gecko")) {
+        elem.childNodes[0].offsetHeight;
       }
+      */
 
       this.setHeight(rowCount * rowHeight);
 
       this._lastColCount = colCount;
       this._lastRowCount = rowCount;
-    },
-
-
-    /**
-     * Cleans up the row widgets.
-     *
-     * @type member
-     * @param firstRowToRemove {Integer} the visible index of the first row to clean up.
-     *      All following rows will be cleaned up, too.
-     * @return {void}
-     */
-    _cleanUpRows : function(firstRowToRemove)
-    {
-      var elem = this.getElement();
-
-      if (elem)
-      {
-        var childNodes = this.getElement().childNodes;
-        var paneModel = this.getPaneScroller().getTablePaneModel();
-        var colCount = paneModel.getColumnCount();
-
-        for (var y=childNodes.length-1; y>=firstRowToRemove; y--) {
-          elem.removeChild(childNodes[y]);
-        }
-      }
     }
+
   },
 
 

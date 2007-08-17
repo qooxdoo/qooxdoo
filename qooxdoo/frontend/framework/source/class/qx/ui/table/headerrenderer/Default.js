@@ -31,7 +31,8 @@
  */
 qx.Class.define("qx.ui.table.headerrenderer.Default",
 {
-  extend : qx.ui.table.headerrenderer.Basic,
+  extend : qx.core.Object,
+  implement : qx.ui.table.IHeaderRenderer,
 
 
 
@@ -91,13 +92,6 @@ qx.Class.define("qx.ui.table.headerrenderer.Default",
   members :
   {
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @return {qx.ui.core.Widget} TODOC
-     */
     createHeaderCell : function(cellInfo)
     {
       var widget = new qx.ui.basic.Atom();
@@ -110,14 +104,6 @@ qx.Class.define("qx.ui.table.headerrenderer.Default",
     },
 
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @param cellWidget {var} TODOC
-     * @return {void}
-     */
     updateHeaderCell : function(cellInfo, cellWidget)
     {
       var DefaultHeaderCellRenderer = qx.ui.table.headerrenderer.Default;

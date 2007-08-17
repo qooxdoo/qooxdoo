@@ -31,25 +31,6 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
   extend : qx.ui.table.cellrenderer.Abstract,
 
 
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function() {
-    this.base(arguments);
-
-    // add an event listener which invalidates the
-    // cell cache on locale change
-    qx.locale.Manager.getInstance().addEventListener("changeLocale", this._onChangeLocale, this);
-  },
-
-
-
-
   /*
   *****************************************************************************
      STATICS
@@ -96,42 +77,13 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
 
   members :
   {
-    // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @return {var} TODOC
-     */
-    _getCellStyle : function(cellInfo)
-    {
-      var style = qx.ui.table.cellrenderer.Abstract.prototype._getCellStyle(cellInfo);
-
-      var stylesToApply = this._getStyleFlags(cellInfo);
-
-      if (stylesToApply & qx.ui.table.cellrenderer.Default.STYLEFLAG_ALIGN_RIGHT) {
-        style += ";text-align:right";
-      }
-
-      if (stylesToApply & qx.ui.table.cellrenderer.Default.STYLEFLAG_BOLD) {
-        style += ";font-weight:bold";
-      }
-
-      if (stylesToApply & qx.ui.table.cellrenderer.Default.STYLEFLAG_ITALIC) {
-        style += ";font-style:italic";
-      }
-
-      return style;
-    },
-
-
     /**
      * Determines the styles to apply to the cell
      *
      * @type member
-     * @param cellInfo {Object} cellInfo of the cell
-     * @return {var} the sum of any of the STYLEFLAGS defined below
+     * @param cellInfo {Map} cellInfo of the cell
+     *     See {@link #createDataCellHtml}.
+     * @return {Integer} the sum of any of the STYLEFLAGS defined below
      */
     _getStyleFlags : function(cellInfo)
     {
@@ -143,59 +95,36 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
       }
     },
 
-    // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @return {String} TODOC
-     */
-    _getContentHtml : function(cellInfo) {
-      return qx.html.String.escape(this._formatValue(cellInfo));
-    },
 
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @param cellElement {var} TODOC
-     * @return {void}
-     */
-    updateDataCellElement : function(cellInfo, cellElement)
+    _getCellClass : function(cellInfo)
     {
-      var clazz = qx.ui.table.cellrenderer.Default;
-      var style = cellElement.style;
+      var cellClass = this.base(arguments, cellInfo);
+      if (!cellClass) {
+        return "";
+      }
 
       var stylesToApply = this._getStyleFlags(cellInfo);
 
-      if (stylesToApply & clazz.STYLEFLAG_ALIGN_RIGHT) {
-        style.textAlign = "right";
-      } else {
-        style.textAlign = "";
+      if (stylesToApply & qx.ui.table.cellrenderer.Default.STYLEFLAG_ALIGN_RIGHT) {
+        cellClass += " qooxdoo-table-cell-right";
       }
 
-      if (stylesToApply & clazz.STYLEFLAG_BOLD) {
-        style.fontWeight = "bold";
-      } else {
-        style.fontWeight = "";
+      if (stylesToApply & qx.ui.table.cellrenderer.Default.STYLEFLAG_BOLD) {
+        cellClass += " qooxdoo-table-cell-bold";
       }
 
-      if (stylesToApply & clazz.STYLEFLAG_ITALIC) {
-        style.fontStyle = "italic";
-      } else {
-        style.fontStyle = "";
+      if (stylesToApply & qx.ui.table.cellrenderer.Default.STYLEFLAG_ITALIC) {
+        cellClass += " qooxdoo-table-cell-italic";
       }
 
-      var textNode = cellElement.firstChild;
+      return cellClass;
+    },
 
-      if (textNode != null) {
-        textNode.nodeValue = this._formatValue(cellInfo);
-      } else {
-        cellElement.innerHTML = qx.html.String.escape(this._formatValue(cellInfo));
-      }
+
+    // overridden
+    _getContentHtml : function(cellInfo) {
+      return qx.html.String.escape(this._formatValue(cellInfo));
     },
 
 
@@ -219,17 +148,6 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
       if (typeof value == "string") {
         return value;
       }
-
-      if (!this._cellCache) {
-        this._cellCache = {};
-      }
-
-      var res = this._cellCache[value];
-
-      if (res)
-      {
-        return res;
-      }
       else if (typeof value == "number")
       {
         if (!qx.ui.table.cellrenderer.Default._numberFormat)
@@ -249,69 +167,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
         res = value;
       }
 
-      this._cellCache[value] = res;
-
       return res;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @param htmlArr {var} TODOC
-     * @return {void}
-     */
-    _createCellStyle_array_join : function(cellInfo, htmlArr)
-    {
-      qx.ui.table.cellrenderer.Abstract.prototype._createCellStyle_array_join(cellInfo, htmlArr);
-
-      var stylesToApply = this._getStyleFlags(cellInfo);
-
-      if (stylesToApply & qx.ui.table.cellrenderer.Default.STYLEFLAG_ALIGN_RIGHT) {
-        htmlArr.push(";text-align:right");
-      }
-
-      if (stylesToApply & qx.ui.table.cellrenderer.Default.STYLEFLAG_BOLD) {
-        htmlArr.push(";font-weight:bold");
-      }
-
-      if (stylesToApply & qx.ui.table.cellrenderer.Default.STYLEFLAG_ITALIC) {
-        htmlArr.push(";font-style:italic");
-      }
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @param htmlArr {var} TODOC
-     * @return {void}
-     */
-    _createContentHtml_array_join : function(cellInfo, htmlArr) {
-      htmlArr.push(qx.html.String.escape(this._formatValue(cellInfo)));
-    },
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      EVENT HANDLER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Invalidate the cell cache on locale change.
-     *
-     * @type member
-     * @param e {Event} change value event data
-     * @return {void}
-     */
-    _onChangeLocale : function(e) {
-      delete this._cellCache;
     }
 
   }

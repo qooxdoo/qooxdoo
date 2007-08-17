@@ -30,8 +30,8 @@
  */
 qx.Class.define("qx.ui.table.celleditor.TextField",
 {
-  extend : qx.ui.table.celleditor.Factory,
-
+  extend : qx.core.Target,
+  implement : qx.ui.table.ICellEditorFactory,
 
 
 
@@ -56,14 +56,7 @@ qx.Class.define("qx.ui.table.celleditor.TextField",
 
   members :
   {
-    // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @return {qx.ui.core.Widget} TODOC
-     */
+    // interface implementation
     createCellEditor : function(cellInfo)
     {
       var cellEditor = new qx.ui.form.TextField;
@@ -79,14 +72,7 @@ qx.Class.define("qx.ui.table.celleditor.TextField",
       return cellEditor;
     },
 
-    // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellEditor {var} TODOC
-     * @return {var} TODOC
-     */
+    // interface implementation
     getCellEditorValue : function(cellEditor)
     {
       var value = cellEditor.getValue();

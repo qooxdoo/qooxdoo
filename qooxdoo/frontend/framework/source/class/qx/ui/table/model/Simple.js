@@ -48,7 +48,14 @@ qx.Class.define("qx.ui.table.model.Simple",
 
   statics :
   {
-    // Default sort methods to use if no custom method has been provided
+    /**
+     * Default ascendeing sort method to use if no custom method has been
+     * provided.
+     *
+     * @param row1 {var} first row
+     * @param row2 {var} second row
+     * @return {Integer} 1 of row1 is > row2, -1 if row1 is < row2, 0 if row1 == row2
+     */
     _defaultSortComparatorAscending :
       function(row1, row2)
       {
@@ -57,6 +64,14 @@ qx.Class.define("qx.ui.table.model.Simple",
         return (obj1 > obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
       },
 
+    /**
+     * Default descendeing sort method to use if no custom method has been
+     * provided.
+     *
+     * @param row1 {var} first row
+     * @param row2 {var} second row
+     * @return {Integer} 1 of row1 is > row2, -1 if row1 is < row2, 0 if row1 == row2
+     */
     _defaultSortComparatorDescending :
       function(row1, row2)
       {
@@ -69,15 +84,9 @@ qx.Class.define("qx.ui.table.model.Simple",
 
   members :
   {
-    /**
-     *
-     * See overridden method for details.
-     *
-     * @type member
-     * @param rowIndex {Integer} the model index of the row.
-     * @return {Array} Array containing a value for each column.
-     */
-    getRowData : function(rowIndex) {
+    // overridden
+    getRowData : function(rowIndex)
+    {
     var rowData = this._rowArr[rowIndex];
     if (rowData == null || rowData.originalData == null) {
       return rowData;
@@ -123,7 +132,7 @@ qx.Class.define("qx.ui.table.model.Simple",
         this._editableColArr[col] = editable;
       }
 
-      this.createDispatchEvent(qx.ui.table.model.Basic.EVENT_TYPE_META_DATA_CHANGED);
+      this.createDispatchEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
     },
 
 
@@ -145,63 +154,42 @@ qx.Class.define("qx.ui.table.model.Simple",
 
         this._editableColArr[columnIndex] = editable;
 
-        this.createDispatchEvent(qx.ui.table.model.Basic.EVENT_TYPE_META_DATA_CHANGED);
+        this.createDispatchEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
       }
     },
 
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param columnIndex {var} TODOC
-     * @return {var} TODOC
-     */
     isColumnEditable : function(columnIndex) {
       return this._editableColArr ? (this._editableColArr[columnIndex] == true) : false;
     },
 
 
-  /**
-   * Sets whether a column is sortable.
-   *
-   * @param columnIndex {Integer} the column of which to set the sortable state.
-   * @param sortable {Boolean} whether the column should be sortable.
-   */
-  setColumnSortable : function(columnIndex, sortable)
-  {
-    if (sortable != this.isColumnSortable(columnIndex))
+    /**
+     * Sets whether a column is sortable.
+     *
+     * @param columnIndex {Integer} the column of which to set the sortable state.
+     * @param sortable {Boolean} whether the column should be sortable.
+     */
+    setColumnSortable : function(columnIndex, sortable)
     {
-      if (this._sortableColArr == null) {
-        this._sortableColArr = [];
-      }
+      if (sortable != this.isColumnSortable(columnIndex))
+      {
+        if (this._sortableColArr == null) {
+          this._sortableColArr = [];
+        }
 
-      this._sortableColArr[columnIndex] = sortable;
-      this.createDispatchEvent(qx.ui.table.model.Basic.EVENT_TYPE_META_DATA_CHANGED);
-    }
-  },
+        this._sortableColArr[columnIndex] = sortable;
+        this.createDispatchEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
+      }
+    },
 
 
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param columnIndex {var} TODOC
-     */
     isColumnSortable : function(columnIndex) {
       return this._sortableColArr ? (this._sortableColArr[columnIndex] == true) : true;
     },
 
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param columnIndex {var} TODOC
-     * @param ascending {var} TODOC
-     * @return {void}
-     */
     sortByColumn : function(columnIndex, ascending)
     {
       // NOTE: We use different comperators for ascending and descending,
@@ -230,7 +218,7 @@ qx.Class.define("qx.ui.table.model.Simple",
       this._sortColumnIndex = columnIndex;
       this._sortAscending = ascending;
 
-      this.createDispatchEvent(qx.ui.table.model.Basic.EVENT_TYPE_META_DATA_CHANGED);
+      this.createDispatchEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
     },
 
 
@@ -272,53 +260,26 @@ qx.Class.define("qx.ui.table.model.Simple",
         this._sortColumnIndex = -1;
         this._sortAscending = true;
 
-        this.createDispatchEvent(qx.ui.table.model.Basic.EVENT_TYPE_META_DATA_CHANGED);
+        this.createDispatchEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
       }
     },
 
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {Integer} TODOC
-     */
     getSortColumnIndex : function() {
       return this._sortColumnIndex;
     },
 
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {boolean} TODOC
-     */
     isSortAscending : function() {
       return this._sortAscending;
     },
 
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {Integer} TODOC
-     */
     getRowCount : function() {
       return this._rowArr.length;
     },
 
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param columnIndex {var} TODOC
-     * @param rowIndex {var} TODOC
-     * @return {var} TODOC
-     * @throws TODOC
-     */
     getValue : function(columnIndex, rowIndex)
     {
       if (rowIndex < 0 || rowIndex >= this._rowArr.length) {
@@ -329,15 +290,6 @@ qx.Class.define("qx.ui.table.model.Simple",
     },
 
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param columnIndex {var} TODOC
-     * @param rowIndex {var} TODOC
-     * @param value {var} TODOC
-     * @return {void}
-     */
     setValue : function(columnIndex, rowIndex, value)
     {
       if (this._rowArr[rowIndex][columnIndex] != value)
@@ -345,7 +297,7 @@ qx.Class.define("qx.ui.table.model.Simple",
         this._rowArr[rowIndex][columnIndex] = value;
 
         // Inform the listeners
-        if (this.hasEventListeners(qx.ui.table.model.Basic.EVENT_TYPE_DATA_CHANGED))
+        if (this.hasEventListeners(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED))
         {
           var data =
           {
@@ -355,7 +307,7 @@ qx.Class.define("qx.ui.table.model.Simple",
             lastColumn  : columnIndex
           };
 
-          this.dispatchEvent(new qx.event.type.DataEvent(qx.ui.table.model.Basic.EVENT_TYPE_DATA_CHANGED, data), true);
+          this.dispatchEvent(new qx.event.type.DataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data), true);
         }
 
         if (columnIndex == this._sortColumnIndex) {
@@ -380,8 +332,8 @@ qx.Class.define("qx.ui.table.model.Simple",
       this._rowArr = rowArr;
 
       // Inform the listeners
-      if (this.hasEventListeners(qx.ui.table.model.Basic.EVENT_TYPE_DATA_CHANGED)) {
-        this.createDispatchEvent(qx.ui.table.model.Basic.EVENT_TYPE_DATA_CHANGED);
+      if (this.hasEventListeners(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED)) {
+        this.createDispatchEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED);
       }
 
     if (clearSorting) {
@@ -406,18 +358,18 @@ qx.Class.define("qx.ui.table.model.Simple",
     },
 
 
-  /**
-   * Sets the whole data in a bulk.
-   *
-   * @param mapArr {Map[]} An array containing a map for each row. Each
-   *        row-map contains the column IDs as key and the cell values as value.
-   * @param rememberMaps {Boolean ? false} Whether to remember the original maps.
-   *        If true {@link #getRowData} will return the original map.
-   * @param clearSorting {Boolean ? true} Whether to clear the sort state.
-   */
-  setDataAsMapArray : function(mapArr, rememberMaps, clearSorting) {
-    this.setData(this._mapArray2RowArr(mapArr, rememberMaps), clearSorting);
-  },
+    /**
+     * Sets the whole data in a bulk.
+     *
+     * @param mapArr {Map[]} An array containing a map for each row. Each
+     *        row-map contains the column IDs as key and the cell values as value.
+     * @param rememberMaps {Boolean ? false} Whether to remember the original maps.
+     *        If true {@link #getRowData} will return the original map.
+     * @param clearSorting {Boolean ? true} Whether to clear the sort state.
+     */
+    setDataAsMapArray : function(mapArr, rememberMaps, clearSorting) {
+      this.setData(this._mapArray2RowArr(mapArr, rememberMaps), clearSorting);
+    },
 
 
     /**
@@ -446,7 +398,7 @@ qx.Class.define("qx.ui.table.model.Simple",
       Array.prototype.splice.apply(this._rowArr, rowArr);
 
       // Inform the listeners
-      if (this.hasEventListeners(qx.ui.table.model.Basic.EVENT_TYPE_DATA_CHANGED))
+      if (this.hasEventListeners(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED))
       {
         var data =
         {
@@ -456,28 +408,28 @@ qx.Class.define("qx.ui.table.model.Simple",
           lastColumn  : this.getColumnCount() - 1
         };
 
-        this.dispatchEvent(new qx.event.type.DataEvent(qx.ui.table.model.Basic.EVENT_TYPE_DATA_CHANGED, data), true);
+        this.dispatchEvent(new qx.event.type.DataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data), true);
       }
 
       this._clearSorting();
     },
 
 
-  /**
-   * Adds some rows to the model.
-   *
-   * Warning: The given array (mapArr) will be altered!
-   *
-   * @param mapArr {Map[]} An array containing a map for each row. Each
-   *        row-map contains the column IDs as key and the cell values as value.
-   * @param startIndex {Integer ? null} The index where to insert the new rows. If null,
-   *        the rows are appended to the end.
-   * @param rememberMaps {Boolean ? false} Whether to remember the original maps.
-   *        If true {@link #getRowData} will return the original map.
-   */
-  addRowsAsMapArray : function(mapArr, startIndex, rememberMaps) {
-    this.addRows(this._mapArray2RowArr(mapArr, rememberMaps), startIndex);
-  },
+    /**
+     * Adds some rows to the model.
+     *
+     * Warning: The given array (mapArr) will be altered!
+     *
+     * @param mapArr {Map[]} An array containing a map for each row. Each
+     *        row-map contains the column IDs as key and the cell values as value.
+     * @param startIndex {Integer ? null} The index where to insert the new rows. If null,
+     *        the rows are appended to the end.
+     * @param rememberMaps {Boolean ? false} Whether to remember the original maps.
+     *        If true {@link #getRowData} will return the original map.
+     */
+    addRowsAsMapArray : function(mapArr, startIndex, rememberMaps) {
+      this.addRows(this._mapArray2RowArr(mapArr, rememberMaps), startIndex);
+    },
 
 
     /**
@@ -493,7 +445,7 @@ qx.Class.define("qx.ui.table.model.Simple",
       this._rowArr.splice(startIndex, howMany);
 
       // Inform the listeners
-      if (this.hasEventListeners(qx.ui.table.model.Basic.EVENT_TYPE_DATA_CHANGED))
+      if (this.hasEventListeners(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED))
       {
         var data =
         {
@@ -503,7 +455,7 @@ qx.Class.define("qx.ui.table.model.Simple",
           lastColumn  : this.getColumnCount() - 1
         };
 
-        this.dispatchEvent(new qx.event.type.DataEvent(qx.ui.table.model.Basic.EVENT_TYPE_DATA_CHANGED, data), true);
+        this.dispatchEvent(new qx.event.type.DataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data), true);
       }
 
       this._clearSorting();
@@ -516,8 +468,8 @@ qx.Class.define("qx.ui.table.model.Simple",
      * @type member
      * @param mapArr {Map[]} An array containing a map for each row. Each
      *          row-map contains the column IDs as key and the cell values as value.
-   * @param rememberMaps {Boolean ? false} Whether to remember the original maps.
-   *        If true {@link #getRowData} will return the original map.
+     * @param rememberMaps {Boolean ? false} Whether to remember the original maps.
+     *        If true {@link #getRowData} will return the original map.
      * @return {var[][]} An array containing an array for each row. Each
      *           row-array contains the values in that row in the order of the columns
      *           in this model.

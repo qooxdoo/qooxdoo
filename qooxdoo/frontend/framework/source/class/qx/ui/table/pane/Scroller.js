@@ -61,8 +61,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this._verScrollBar.setWidth("auto");
     this._horScrollBar.setHeight("auto");
     this._horScrollBar.setPaddingRight(scrollBarWidth);
-
-    // this._verScrollBar.setMergeEvents(true);
     this._horScrollBar.addEventListener("changeValue", this._onScrollX, this);
     this._verScrollBar.addEventListener("changeValue", this._onScrollY, this);
 
@@ -137,6 +135,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this._paneClipper.addEventListener("dblclick", this._ondblclickPane, this);
 
     this.addEventListener("mouseout", this._onmouseout, this);
+
+    this.initScrollTimeout();
   },
 
 
@@ -291,7 +291,19 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       check : "Boolean",
       init : true,
       apply : "_applyShowCellFocusIndicator"
+    },
+
+
+    /**
+     * Interval time (in milliseconds) for the table update timer.
+     */
+    scrollTimeout :
+    {
+      check : "Integer",
+      init : 100,
+      apply : "_applyScrollTimeout"
     }
+
   },
 
 
@@ -325,11 +337,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       }
 
       this._horScrollBar.setVisibility(value);
-
-      // NOTE: We have to flush the queues before updating the content so the new
-      //     layout has been applied and _updateContent is able to work with
-      //     correct values.
-      qx.ui.core.Widget.flushGlobalQueues();
       this._updateContent();
     },
 
@@ -620,30 +627,18 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       this._updateContent();
     },
 
+
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param newValue {var} TODOC
-     * @param oldValue {var} TODOC
-     * @return {void} TODOC
-     */
-    _changeInnerHeight : function(newValue, oldValue)
+    _changeInnerHeight : function(vNew, vOld)
     {
       // The height has changed -> Update content
       this._postponedUpdateContent();
 
-      return this.base(arguments, newValue, oldValue);
+      return this.base(arguments, vNew, vOld);
     },
 
+
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
     _afterAppear : function()
     {
       this.base(arguments);
@@ -709,7 +704,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         return;
       }
 
-      this._verScrollBar.setValue(this._verScrollBar.getValue() - evt.getWheelDelta() * table.getRowHeight());
+      this._verScrollBar.setValue(this._verScrollBar.getValue() - (evt.getWheelDelta() * 3) * table.getRowHeight());
 
       // Update the focus
       if (this._lastMousePageX && this.getFocusCellOnMouseMove()) {
@@ -1860,6 +1855,24 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     },
 
 
+    // property apply method
+    _applyScrollTimeout : function(value, old)
+    {
+      if (this._updateInterval)
+      {
+        window.clearInterval(this._updateInterval);
+        this._updateInterval = null;
+      }
+      else
+      {
+        if (!this._onintervalWrapper) {
+          this._onintervalWrapper = qx.lang.Function.bind(this._oninterval, this);
+        }
+        this._updateInterval = window.setInterval(this._onintervalWrapper, value);
+      }
+    },
+
+
     /**
      * Does a postponed update of the content.
      *
@@ -1869,23 +1882,23 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _postponedUpdateContent : function()
     {
-      if (!this._updateContentPlanned)
-      {
-        var self = this;
+      this._updateContentPlanned = true;
+    },
 
-        window.setTimeout(function()
-        {
-          if (self.getDisposed()) {
-            return;
-          }
 
-          self._updateContent();
-          self._updateContentPlanned = false;
-          qx.ui.core.Widget.flushGlobalQueues();
-        },
-        0);
-
-        this._updateContentPlanned = true;
+    /**
+     * Timer event handler. Periodically checks whether a tabe update is
+     * required. The update interval is controled by the {@link #scrollTimeout}
+     * property.
+     *
+     * @type member
+     * @return {void}
+     */
+    _oninterval : function()
+    {
+      if (this._updateContentPlanned && !this._tablePane._layoutPending) {
+        this._updateContentPlanned = false;
+        this._updateContent();
       }
     },
 
