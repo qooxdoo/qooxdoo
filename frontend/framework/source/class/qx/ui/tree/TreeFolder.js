@@ -347,9 +347,6 @@ qx.Class.define("qx.ui.tree.TreeFolder",
         // opened again invisible.
         this._containerObject.setDisplay(this.getOpen());
         this._containerObject.setParent(this);
-
-        // remap remove* functions
-        this.remapChildrenHandlingTo(this._containerObject);
       }
     },
 
@@ -512,7 +509,62 @@ qx.Class.define("qx.ui.tree.TreeFolder",
       }
     },
 
-    _remappingChildTable : [ "remove", "removeAt", "removeAll" ],
+
+    /**
+     * Store the current selection and select the root node.
+     */
+    __saveSelectionBeforeRemove : function()
+    {
+      var tree = this.getTree();
+      this.__oldSelection = tree.getSelectedElement();
+      tree.setSelectedElement(tree);
+    },
+
+
+    /**
+     * Restore the tree selection. If the old selection has been removed from
+     * the tree, the root node will be selected.
+     */
+    __restoreSelectionAfterRemove : function()
+    {
+      var tree = this.getTree();
+      if (!this.__oldSelection || !this.__oldSelection.getTree()) {
+        tree.setSelectedElement(tree);
+      } else {
+        tree.setSelectedElement(this.__oldSelection);
+      }
+    },
+
+
+    // overridden
+    remove : function(varargs)
+    {
+      if (this._containerObject) {
+        this.__saveSelectionBeforeRemove();
+        this._containerObject.remove.apply(this._containerObject, varargs);
+        this.__restoreSelectionAfterRemove();
+      }
+    },
+
+    // overridden
+    removeAt : function(vIndex)
+    {
+      if (this._containerObject) {
+        this.__saveSelectionBeforeRemove();
+        this._containerObject.removeAt(vIndex);
+        this.__restoreSelectionAfterRemove();
+      }
+    },
+
+    // overridden
+    removeAll : function()
+    {
+      if (this._containerObject) {
+        this.__saveSelectionBeforeRemove();
+        this._containerObject.removeAll();
+        this.__restoreSelectionAfterRemove();
+      }
+    },
 
 
 
