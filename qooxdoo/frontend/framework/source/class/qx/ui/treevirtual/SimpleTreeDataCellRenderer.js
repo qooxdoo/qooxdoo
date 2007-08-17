@@ -303,22 +303,21 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         imageWidth  : 16,
         imageHeight : 16
       });
-      pos += 16;
 
-      // Add the node's label.  We calculate the "left" property with: each
-      // tree line (indentation) icon is 19 pixels wide; the folder icon is 16
-      // pixels wide, there are two pixels of padding at the left, and we want
-      // 2 pixels between the folder icon and the label
+      // Add the node's label. We want
+      // 5 pixels between the folder icon and the label
       html +=
-        '<div style="position:absolute;' +
-        'left:' +
-        (2 + 2 + pos) +
-        ';' +
-        'top:0' +
+        '<span style="position:relative;' +
+        'left: 5px;' +
+        'top: -3px;' +
         (node.labelStyle ? ";" + node.labelStyle : "") +
         ';">' +
         node.label +
         '</div>';
+
+      // wrap the cell in a div to make sure the line does not get higher than
+      // the line height
+      html = "<div style='overflow:hidden; height:"+(cellInfo.table.getRowHeight()-1)+"px'>" + html + "</div>";
 
       return html;
     },
