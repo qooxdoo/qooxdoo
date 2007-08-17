@@ -96,7 +96,7 @@ qx.Class.define("qx.event.handler.EventHandler",
     mouseEventTypes : [
       "mouseover", "mousemove", "mouseout", "mousedown", "mouseup", "click",
       "dblclick", "contextmenu",
-      qx.core.Variant.isSet("qx.client", "mshtml") ? "mousewheel" : "DOMMouseScroll"
+      qx.core.Variant.isSet("qx.client", "gecko") ? "DOMMouseScroll" : "mousewheel"
     ],
 
     keyEventTypes : [ "keydown", "keypress", "keyup" ],
