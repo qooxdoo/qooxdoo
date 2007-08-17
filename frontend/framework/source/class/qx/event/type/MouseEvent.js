@@ -267,10 +267,10 @@ qx.Class.define("qx.event.type.MouseEvent",
      */
     getWheelDelta : qx.core.Variant.select("qx.client",
     {
-      "mshtml|opera" : function() {
+      "default" : function() {
         return this._dom.wheelDelta / 120;
       },
-      "default" : function() {
+      "gecko" : function() {
         return -(this._dom.detail / 3);
       }
     })
