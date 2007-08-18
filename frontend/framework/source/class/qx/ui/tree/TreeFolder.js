@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#module(ui_treefullcontrol)
+#module(ui_tree)
 #embed(qx.icontheme/16/status/folder-open.png)
 #embed(qx.icontheme/16/places/folder.png)
 
