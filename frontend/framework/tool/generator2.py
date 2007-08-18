@@ -18,7 +18,7 @@
 #
 ################################################################################
 
-import sys, re, os, optparse, math, cPickle
+import sys, re, os, optparse, math, cPickle, copy
 
 # reconfigure path to import own modules from modules subfolder
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "modules"))
@@ -60,27 +60,49 @@ def process(options):
     config = {
         "common" : 
         {
-            "classPath" : [ "framework/source/class", "application/apiviewer/source/class" ]
+            "classPath" : [ "framework/source/class", "application/apiviewer/source/class" ],
+            "require" :
+            {
+                "qx.log.Logger" : "qx.log.appender.Native"
+            }
         },
       
         "source" : 
         {
-            "include" : ["common"],
+            "extend" : ["common"],
             "sourceScript" : "source.js"
         },
       
-        "build" : 
+
+
+
+        "build-common" :
         {
-            "include" : ["common"],
+            "extend" : ["common"],
             "optimizeVariables" : True,
-            "buildScript" : "build.js",
-            "use" : ["apiviewer.Application"],
-            "ignore" : ["tree"]
+        },
+      
+        "build-core" : 
+        {
+            "extend" : ["build-common"],
+            "buildScript" : "build-core.js",
+            "include" : ["apiviewer.Application"],
+            "exclude" : ["ui_tree"]
         },
         
+        "build-tree" : 
+        {
+            "extend" : ["build-common"],
+            "buildScript" : "build-tree.js"
+            # How to revert above selection?
+        },        
+        
+
+
+
         "views" : 
         {
-            "include" : ["common"],
+            "extend" : ["common"],
             "optimizeVariables" : True,
             "buildScript" : "build.js",
             "views" : {
@@ -91,7 +113,7 @@ def process(options):
         
         "unused" :
         {
-            "include" : ["source"]
+            "extend" : ["source"]
         }
     }
     
@@ -110,7 +132,7 @@ def resolve(config, jobs):
 def resolveEntry(config, job):
     if not config.has_key(job):
         print "  - No such job: %s" % job
-        return
+        sys.exit(1)
 
     data = config[job]
     
@@ -119,8 +141,8 @@ def resolveEntry(config, job):
     
     print "  - Processing: %s" % job
 
-    if data.has_key("include"):
-        includes = data["include"]
+    if data.has_key("extend"):
+        includes = data["extend"]
         
         for entry in includes:
             resolveEntry(config, entry)
@@ -136,7 +158,11 @@ def mergeEntry(target, source):
     
     
 def execute(id, config):
-    print ">>> Executing job: %s" % id
+    print
+    print "========================================================="
+    print "  EXECUTING: %s" % id
+    print "========================================================="
+    print
     
     if config.has_key("buildScript"):
         generateBuildScript(config)
@@ -163,6 +189,7 @@ def generateSourceScript(config):
 
 def generateBuildScript(config):
     global classes
+    global modules
     
     outputFilename = config["buildScript"]
     classPaths = config["classPath"]
@@ -171,7 +198,8 @@ def generateBuildScript(config):
     print "  - Class Paths: %s" % ", ".join(classPaths)
 
     scanClassPaths(classPaths)
-    
+    scanModules()
+        
     # 1. Loading include list -> Resolving
     # 2. Removing variant code
     # 3. Reloading include list based on new trees
@@ -180,11 +208,33 @@ def generateBuildScript(config):
     # 6. Protect private members
     # 7. Compiling output
     # 8. Storing result file
+
+    # Normalize incoming data
+    if config.has_key("include"):
+        include = config["include"]
+    else:
+        include = []
+    
+    if config.has_key("exclude"):   
+        exclude = config["exclude"]
+    else:
+        exclude = []
+    
+    if config.has_key("require"):
+        require = config["require"]
+    else:
+        require = {}
     
     if config.has_key("use"):
         use = config["use"]
-        processUse(use)
+    else:
+        use = {}
         
+    processIncludeExclude(include, exclude, require, use)
+    
+    
+    
+    # Alternative: Views (TODO)    
     if config.has_key("views"):
         views = config["views"]
         processViews(views)
@@ -202,6 +252,7 @@ def generateBuildScript(config):
 ######################################################################
 
 # Improved version of the one in filetool module
+# TODO: Add memcache with controllable size
 
 cachePath = os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), ".cache") + os.sep
 filetool.directory(cachePath)
@@ -381,6 +432,8 @@ def getTree(id):
     return tree
 
 
+def getTreeCopy(id):
+    return copy.deepcopy(getTree(id))
 
 
         
@@ -389,40 +442,128 @@ def getTree(id):
 
 
 ######################################################################
-#  USE SUPPORT
+#  USE/SORT SUPPORT
 ######################################################################
 
-def processUse(input):
-    output = {}
+def processIncludeExcludeLegacy(include, exclude):
+    print ">>> Processing include/exclude"
+    print "  - Including/Excluding %s/%s items" % (len(include), len(exclude))
     
-    print ">>> Analysing USE list..."
+    print ">>> Resolving modules..."
+    include = resolveModules(include)
+    exclude = resolveModules(exclude)
+    print "  - Including/Excluding %s/%s classes" % (len(include), len(exclude))
     
-    for entry in input:
-        print "  - Processing: %s" % entry
-        _useRecurser(entry, output)
+    print ">>> Resolving dependencies..."
+    include = resolveDependencies(include)
+    exclude = resolveDependencies(exclude)
+    print "  - Including/Excluding %s/%s classes" % (len(include), len(exclude))
+    
+    print ">>> Combining lists..."
+    final = []
+    for entry in include:
+        if not entry in exclude:
+            final.append(entry)
+            
+    print ">>> Sorting %s classes..." % len(final)
+    sorted = sortClassList(final)
+    
+
+def processIncludeExclude(include, exclude, loadDeps, runDeps):
+    print ">>> Processing include/exclude"
+    print "  - Including/Excluding %s/%s items" % (len(include), len(exclude))
+    
+    print ">>> Resolving modules..."
+    include = resolveModules(include)
+    exclude = resolveModules(exclude)
+    print "  - Including/Excluding %s/%s classes" % (len(include), len(exclude))
+
+    print ">>> Resolving dependencies..."
+    include = resolveDependencies(include, exclude, loadDeps, runDeps)
+    #exclude = resolveDependencies(exclude, include, loadDeps, runDeps)
+    print "  - Including %s classes" % len(include)
+    #print "  - Excluding %s classes" % len(exclude)
+    
+    print ">>> Sorting %s classes..." % len(include)
+    sorted = sortClassList(include)
+
+
+def resolveModules(entries):
+    global modules
+    
+    classes = []
+    
+    for id in entries:
+        if id in modules:
+            classes.extend(modules[id])
+        else:
+            classes.append(id)
+    
+    return classes
         
-    print ">>> Use %s classes" % len(output)
+
+def resolveDependencies(add, block, loadDeps, runDeps):
+    result = {}
+    
+    print "  - Blocking %s" % ", ".join(block)
+    
+    for entry in add:
+        _dependencyRecurser(entry, result, block, loadDeps, runDeps)
+        
+    return result
 
 
-def _useRecurser(id, use):
+def _dependencyRecurser(add, result, block, loadDeps, runDeps):
     global classes
     
-    if use.has_key(id):
+    # check if already in
+    if result.has_key(add):
         return
     
-    use[id] = True
+    # add self
+    result[add] = True
+    
+    # process dependencies
+    deps = getDeps(add)
+    both = []
+    both.extend(deps["load"])
+    both.extend(deps["run"])
+    
+    for sub in both:
+        if not result.has_key(sub) and not sub in block:
+            _dependencyRecurser(sub, result, block, loadDeps, runDeps)            
+            
+            
+def sortClassList(input):
+    sorted = []
+    
+    for entry in input:
+        _sortRecurser(entry, input, sorted)
+     
+    return sorted
+    
+    
+def _sortRecurser(id, available, sorted):
+    global classes
+    
+    if id in sorted:
+        return
+    
     deps = getDeps(id)
     
     for entry in deps["load"]:
-        if not use.has_key(entry):
-            _useRecurser(entry, use)
-        
-    for entry in deps["run"]:
-        if not use.has_key(entry):
-            _useRecurser(entry, use)
+        if entry in available and not entry in sorted:
+            _sortRecurser(entry, available, sorted)
             
-     
+    if id in sorted:
+        return
+        
+    # print "  - Add: %s" % id
+    sorted.append(id)
 
+    for entry in deps["run"]:
+        if entry in available and not entry in sorted:
+            _sortRecurser(entry, available, sorted)
 
 
 
@@ -452,13 +593,50 @@ def getDeps(id):
     if cache != None:
         return cache
     
+    # Notes:
+    # load time = before class = require
+    # runtime = after class = use    
+
     print "  - Gathering dependencies: %s" % id
-    (load, run) = _analyzeClassDeps(id)
+    load = []
+    run = []
+    
+    # Read meta data
     meta = getMeta(id)
-    
-    load.extend(meta["loadtimeDeps"])
-    run.extend(meta["runtimeDeps"])
-    
+    metaLoad = meta["loadtimeDeps"]
+    metaRun = meta["runtimeDeps"]
+    metaOptional = meta["optionalDeps"]
+    metaIgnore = meta["ignoreDeps"]
+
+    # Process meta data
+    load.extend(metaLoad)
+    run.extend(metaRun)    
+
+    # Read content data
+    (autoLoad, autoRun) = _analyzeClassDeps(id)
+
+    # Process content data
+    if not "auto-require" in metaIgnore:
+        for entry in autoLoad:
+            if entry in metaOptional:
+                pass
+            elif entry in load:
+                print "  - #require(%s) is auto-detected" % entry
+            else:
+                load.append(entry)
+
+    if not "auto-use" in metaIgnore:
+        for entry in autoRun:
+            if entry in metaOptional:
+                pass
+            elif entry in load:
+                pass
+            elif entry in run:
+                print "  - #use(%s) is auto-detected" % entry
+            else:
+                run.append(entry)
+                    
+    # Build data structure
     deps = {
         "load" : load,
         "run" : run
@@ -530,6 +708,24 @@ def _analyzeClassDepsNode(id, node, loadtime, runtime, inFunction):
 ######################################################################
 #  CLASS PATH SUPPORT
 ######################################################################
+
+def scanModules():
+    global classes
+    global modules
+    
+    modules = {}
+
+    print ">>> Searching for module definitions..."
+    for id in classes:
+        if classes[id]["category"] == "qx.impl":
+            for mod in getMeta(id)["modules"]:
+                if not modules.has_key(mod):
+                    modules[mod] = []
+                
+                modules[mod].append(id)
+    
+    print "  - Found %s modules" % len(modules)
+                
 
 def scanClassPaths(paths):
     global classes
