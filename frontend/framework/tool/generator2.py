@@ -32,6 +32,10 @@ import config, tokenizer, tree, treegenerator, optparseext, filetool
 ######################################################################
 
 def main():
+    print "========================================================="
+    print "    INIT"
+    print "========================================================="
+        
     parser = optparse.OptionParser(option_class=optparseext.ExtendAction)
     
     parser.add_option("--config", dest="config", metavar="FILENAME", help="Configuration file")
@@ -57,13 +61,33 @@ def process(options):
     # - Translate dashed to camelcase
     # - Translate "true" to Python "True"
     
+    # Include/Exclude hints
+    #
+    # class/module =>
+    #   include items with their dependencies
+    #   exclude items, also remove items not needed by other modules than the removed ones
+    #
+    # =class/module => 
+    #   explicit include/exclude of given module or class
+    #
+    # +class/module =>
+    #   aggressive exclude (excluding also things needed by other classes)
+    # 
+    
     config = {
         "common" : 
         {
-            "classPath" : [ "framework/source/class", "application/apiviewer/source/class" ],
+            "classPath" : 
+            [ 
+                "framework/source/class", 
+                "application/apiviewer/source/class", 
+                "application/feedreader/source/class",
+                "application/webmail/source/class"
+            ],
+            
             "require" :
             {
-                "qx.log.Logger" : "qx.log.appender.Native"
+                "qx.log.Logger" : ["qx.log.appender.Native"]
             }
         },
       
@@ -87,33 +111,33 @@ def process(options):
             "extend" : ["build-common"],
             "buildScript" : "build-core.js",
             "include" : ["apiviewer.Application"],
-            "exclude" : ["ui_tree"]
+            "exclude" : ["ui_tree","=qx.ui.core.Widget"]
         },
-        
-        "build-tree" : 
+
+        "build-apiviewer" : 
         {
             "extend" : ["build-common"],
-            "buildScript" : "build-tree.js"
-            # How to revert above selection?
+            "buildScript" : "build-apiviewer.js",
+            "include" : ["apiviewer.Application"]
         },        
         
-
-
-
-        "views" : 
+        "build-feedreader" : 
         {
-            "extend" : ["common"],
-            "optimizeVariables" : True,
-            "buildScript" : "build.js",
-            "views" : {
-                "frame" : ["apiviewer.Application"],
-                "panels" : ["apiviewer.ui.panels.*"]
+            "extend" : ["build-common"],
+            "buildScript" : "build-feedreader.js",
+            "include" : ["feedreader.Application"]
+        },        
+        
+        "build-views" : 
+        {
+            "extend" : ["build-common"],
+            "buildScript" : "build-views.js",
+            "views" : 
+            {
+                "apiviewer" : ["apiviewer.Application"],
+                "feedreader" : ["feedreader.Application"],
+                "webmail" : ["webmail.Application"]
             }
-        },        
-        
-        "unused" :
-        {
-            "extend" : ["source"]
         }
     }
     
@@ -160,9 +184,8 @@ def mergeEntry(target, source):
 def execute(id, config):
     print
     print "========================================================="
-    print "  EXECUTING: %s" % id
+    print "    EXECUTING: %s" % id
     print "========================================================="
-    print
     
     if config.has_key("buildScript"):
         generateBuildScript(config)
@@ -195,7 +218,6 @@ def generateBuildScript(config):
     classPaths = config["classPath"]
 
     print ">>> Generate build script: %s" % outputFilename
-    print "  - Class Paths: %s" % ", ".join(classPaths)
 
     scanClassPaths(classPaths)
     scanModules()
@@ -230,16 +252,20 @@ def generateBuildScript(config):
     else:
         use = {}
         
-    processIncludeExclude(include, exclude, require, use)
-    
-    
-    
-    # Alternative: Views (TODO)    
     if config.has_key("views"):
         views = config["views"]
-        processViews(views)
+    else:
+        views = {}    
+    
+    
+    # Two alternative solutions to build the class list
+    if len(views) > 0:
+        classes = processViews(views, require, use)
+    else:
+        classes = processIncludeExclude(include, exclude, require, use)
 
-
+    
+    print ">>> Continuing process with %s classes" % len(classes)
 
 
 
@@ -445,47 +471,61 @@ def getTreeCopy(id):
 #  USE/SORT SUPPORT
 ######################################################################
 
-def processIncludeExcludeLegacy(include, exclude):
-    print ">>> Processing include/exclude"
-    print "  - Including/Excluding %s/%s items" % (len(include), len(exclude))
-    
-    print ">>> Resolving modules..."
-    include = resolveModules(include)
-    exclude = resolveModules(exclude)
-    print "  - Including/Excluding %s/%s classes" % (len(include), len(exclude))
-    
-    print ">>> Resolving dependencies..."
-    include = resolveDependencies(include)
-    exclude = resolveDependencies(exclude)
-    print "  - Including/Excluding %s/%s classes" % (len(include), len(exclude))
-    
-    print ">>> Combining lists..."
-    final = []
-    for entry in include:
-        if not entry in exclude:
-            final.append(entry)
-            
-    print ">>> Sorting %s classes..." % len(final)
-    sorted = sortClassList(final)
-    
-
 def processIncludeExclude(include, exclude, loadDeps, runDeps):
-    print ">>> Processing include/exclude"
-    print "  - Including/Excluding %s/%s items" % (len(include), len(exclude))
+    print ">>> Processing include/exclude"    
+    smartInclude, explicitInclude = _splitIncludeExcludeList(include)
+    smartExclude, explicitExclude = _splitIncludeExcludeList(exclude)
+    print "  - Including %s items smart, %s items explicit" % (len(smartInclude), len(explicitInclude))
+    print "  - Excluding %s items smart, %s items explicit" % (len(smartExclude), len(explicitExclude))
+    
+    if len(exclude) > 0:
+        print "  - Warning: Excludes may break code!"
+        
+    if len(explicitInclude) > 0:
+        print "  - Warning: Explicit included classes may not work"
     
     print ">>> Resolving modules..."
-    include = resolveModules(include)
-    exclude = resolveModules(exclude)
-    print "  - Including/Excluding %s/%s classes" % (len(include), len(exclude))
-
-    print ">>> Resolving dependencies..."
-    include = resolveDependencies(include, exclude, loadDeps, runDeps)
-    #exclude = resolveDependencies(exclude, include, loadDeps, runDeps)
-    print "  - Including %s classes" % len(include)
-    #print "  - Excluding %s classes" % len(exclude)
+    smartInclude = resolveModules(smartInclude)
+    explicitInclude = resolveModules(explicitInclude)
+    smartExclude = resolveModules(smartExclude)
+    explicitExclude = resolveModules(explicitExclude)
     
-    print ">>> Sorting %s classes..." % len(include)
-    sorted = sortClassList(include)
+    # getting dictionary of files
+    print ">>> Resolving dependencies for smart includes/excludes..."
+    result = resolveDependencies(smartInclude, smartExclude, loadDeps, runDeps)
+    print "  - List contains %s classes" % len(result)
+    
+    print ">>> Processing explicitely configured includes/excludes..."
+    for entry in explicitInclude:
+        result[entry] = True
+
+    for entry in explicitExclude:
+        del result[entry]
+
+    print "  - List contains %s classes" % len(result)
+    
+    # Detect optionals
+    optionals = getOptionals(result)
+    if len(optionals) > 0:
+        print ">>> These optional classes may be useful:"
+        for entry in optionals:
+            print "  - %s" % entry
+            
+    # Return result list
+    return result
+
+
+def _splitIncludeExcludeList(input):
+    intelli = []
+    explicit = []
+
+    for entry in input:
+        if entry[0] == "=":
+            explicit.append(entry[1:])
+        else:
+            intelli.append(entry)
+    
+    return intelli, explicit
 
 
 def resolveModules(entries):
@@ -505,15 +545,13 @@ def resolveModules(entries):
 def resolveDependencies(add, block, loadDeps, runDeps):
     result = {}
     
-    print "  - Blocking %s" % ", ".join(block)
-    
     for entry in add:
-        _dependencyRecurser(entry, result, block, loadDeps, runDeps)
+        _resolveDependenciesRecurser(entry, result, block, loadDeps, runDeps)
         
     return result
 
 
-def _dependencyRecurser(add, result, block, loadDeps, runDeps):
+def _resolveDependenciesRecurser(add, result, block, loadDeps, runDeps):
     global classes
     
     # check if already in
@@ -522,59 +560,156 @@ def _dependencyRecurser(add, result, block, loadDeps, runDeps):
     
     # add self
     result[add] = True
+
+    # reading dependencies
+    deps = getCombinedDeps(add, loadDeps, runDeps)
     
-    # process dependencies
-    deps = getDeps(add)
-    both = []
-    both.extend(deps["load"])
-    both.extend(deps["run"])
-    
-    for sub in both:
+    # process lists
+    for sub in deps["load"]:
         if not result.has_key(sub) and not sub in block:
-            _dependencyRecurser(sub, result, block, loadDeps, runDeps)            
+            _resolveDependenciesRecurser(sub, result, block, loadDeps, runDeps)            
+
+    for sub in deps["run"]:
+        if not result.has_key(sub) and not sub in block:
+            _resolveDependenciesRecurser(sub, result, block, loadDeps, runDeps)            
             
             
-def sortClassList(input):
+def sortClasses(input, loadDeps, runDeps):
     sorted = []
     
     for entry in input:
-        _sortRecurser(entry, input, sorted)
+        _sortClassesRecurser(entry, input, sorted, loadDeps, runDeps)
      
     return sorted
     
     
-def _sortRecurser(id, available, sorted):
+def _sortClassesRecurser(id, available, sorted, loadDeps, runDeps):
     global classes
     
     if id in sorted:
         return
+            
+    # reading dependencies
+    deps = getCombinedDeps(id, loadDeps, runDeps)
     
-    deps = getDeps(id)
-    
+    # process loadtime requirements
     for entry in deps["load"]:
         if entry in available and not entry in sorted:
-            _sortRecurser(entry, available, sorted)
+            _sortClassesRecurser(entry, available, sorted, loadDeps, runDeps)
             
     if id in sorted:
         return
         
-    # print "  - Add: %s" % id
+    # print "  - Adding: %s" % id
     sorted.append(id)
 
+    # process runtime requirements
     for entry in deps["run"]:
         if entry in available and not entry in sorted:
-            _sortRecurser(entry, available, sorted)
+            _sortClassesRecurser(entry, available, sorted, loadDeps, runDeps)
 
 
+def getOptionals(classes):
+    opt = {}
+    
+    for id in classes:
+        for sub in getMeta(id)["optionalDeps"]:
+            if not sub in classes:
+                opt[sub] = True
+
+    return opt
+        
+        
+        
+        
 
 
 ######################################################################
 #  VIEW SUPPORT
 ######################################################################
 
-def processViews(classes, views):
+def processViews(views, loadDeps, runDeps):
     print ">>> Analysing %s views..." % len(views)
     
+    classCounts = {}
+    
+    # Generating data structures for possible modules
+    classMods = {}
+    # for id in views:
+        
+    # Hint: IDs
+    #
+    # apiviewer
+    # feedreader
+    # webmail
+    # apiviewer-feedreader
+    # apiviewer-webmail
+    # feedreader-webmail
+    # apiviewer-feedreader-webmail
+    #
+    
+    
+    # Find all classes
+    allIncludes = []
+    for id in views:
+        allIncludes.extend(views[id])
+    
+    allClasses = resolveDependencies(allIncludes, [], loadDeps, runDeps)
+    
+    print "  - Using %s classes" % len(allClasses)
+    
+    
+    # Caching dependencies of each view
+    deps = {}
+    for viewId in views:
+        deps[viewId] = resolveDependencies(views[viewId], [], loadDeps, runDeps)
+        print "    - %s use %s classes" % (viewId, len(deps[viewId]))
+    
+    
+    # Build bitmask ids for views
+    # 1,2,4,8,16,32,64,128
+    bits = {}
+    pos = 1
+    for id in views:
+        bits[id] = pos
+        pos = pos * 2
+        
+
+    # Revert map
+    bitIds = {}
+    # TODO
+
+            
+
+        
+    # Find out usage of classes and assign them to a bitmask using map    
+    usage = {}
+    for classId in classes:
+        usageId = 0
+        for viewId in views:
+            if classId in deps[viewId]:
+                usageId += bits[viewId]
+        
+        if usageId == 0:
+            continue
+        
+        if not usage.has_key(usageId):
+            usage[usageId] = []
+            
+        usage[usageId].append(classId)
+            
+    
+    # Debug
+    print ">>> Bit results"
+    for bit in usage:
+        print "  - Bit %s has %s classes" % (bit, len(usage[bit]))
+    
+        
+    
+    result = []
+    
+    # Return result list
+    return result
     
     
     
@@ -585,6 +720,36 @@ def processViews(classes, views):
 ######################################################################
 #  DEPENDENCY SUPPORT
 ######################################################################
+
+def getCombinedDeps(id, loadDeps, runDeps):
+    # init lists
+    loadFinal = []
+    runFinal = []
+    
+    # add static dependencies
+    static = getDeps(id)
+    loadFinal.extend(static["load"])
+    runFinal.extend(static["run"])
+    
+    # add dynamic dependencies
+    if loadDeps.has_key(id):
+        #for entry in loadDeps[id]:
+        #    print "  - Adding loadtime dependency %s to %s" % (entry, id)
+        
+        loadFinal.extend(loadDeps[id])
+
+    if runDeps.has_key(id):
+        #for entry in runDeps[id]:
+        #    print "  - Adding runtime dependency %s to %s" % (entry, id)
+
+        runFinal.extend(runDeps[id])
+    
+    # return dict
+    return {
+        "load" : loadFinal,
+        "run" : runFinal
+    }
+    
 
 def getDeps(id):
     global classes
