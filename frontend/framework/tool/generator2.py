@@ -82,7 +82,8 @@ def process(options):
                 "framework/source/class", 
                 "application/apiviewer/source/class", 
                 "application/feedreader/source/class",
-                "application/webmail/source/class"
+                "application/webmail/source/class",
+                "application/showcase/source/class"
             ],
             
             "require" :
@@ -128,15 +129,29 @@ def process(options):
             "include" : ["feedreader.Application"]
         },        
         
-        "build-views" : 
+        "build-app-views" : 
         {
             "extend" : ["build-common"],
-            "buildScript" : "build-views.js",
+            "buildScript" : "build-app-views.js",
             "views" : 
             {
                 "apiviewer" : ["apiviewer.Application"],
                 "feedreader" : ["feedreader.Application"],
-                "webmail" : ["webmail.Application"]
+                "webmail" : ["webmail.Application"],
+                "showcase" : ["showcase.Application"]
+            }
+        },
+        
+        "build-comp-views" :
+        {
+            "extend" : ["build-common"],
+            "buildScript" : "build-comp-views.js",
+            "views" : 
+            {
+                "tree" : ["qx.ui.tree.Tree"],
+                "colorselector" : ["qx.ui.component.ColorSelector"],
+                "window" : ["qx.ui.window.Window"],
+                "toolbar" : ["qx.ui.toolbar.ToolBar", "qx.ui.menu.Menu"]
             }
         }
     }
@@ -629,6 +644,8 @@ def getOptionals(classes):
 ######################################################################
 
 def processViews(views, loadDeps, runDeps):
+    global classes
+    
     print ">>> Analysing %s views..." % len(views)
     
     classCounts = {}
@@ -673,9 +690,11 @@ def processViews(views, loadDeps, runDeps):
     for id in views:
         bits[id] = pos
         pos = pos * 2
-        
+    
+    print bits
 
     # Revert map
+    # apiviever = [1,4,8]
     bitIds = {}
     # TODO
 
@@ -684,7 +703,7 @@ def processViews(views, loadDeps, runDeps):
         
     # Find out usage of classes and assign them to a bitmask using map    
     usage = {}
-    for classId in classes:
+    for classId in allClasses:
         usageId = 0
         for viewId in views:
             if classId in deps[viewId]:
@@ -703,8 +722,24 @@ def processViews(views, loadDeps, runDeps):
     print ">>> Bit results"
     for bit in usage:
         print "  - Bit %s has %s classes" % (bit, len(usage[bit]))
+        #print "    %s" % ", ".join(usage[bit])
     
+    
+    viewFiles = {}
+    for viewId in views:
+        bitId = bits[viewId]
+        content = []
         
+        for num in usage:
+            if num&bitId:
+                content.insert(0, num)
+
+        viewFiles[viewId] = content
+  
+    print viewFiles
+    
+    exportUsageToPackagesJson(usage)
+    exportUsageToClassJson(usage)
     
     result = []
     
@@ -712,7 +747,32 @@ def processViews(views, loadDeps, runDeps):
     return result
     
     
+
+def exportUsageToPackagesJson(usage):
+    str = "packages={"
+
+    for bit in usage:
+        str += '%s:["%s"],' % (bit, '","'.join(usage[bit]))
+        
+    # remove last comma
+    str = str[:-1]
+    str += "}"
     
+    return str
+    
+    
+def exportUsageToClassJson(usage):
+    str = "classes={"
+    
+    for bit in usage:
+        for entry in usage[bit]:
+            str += '"%s":%s,' % (entry, bit)
+    
+    # remove last comma
+    str = str[:-1]
+    str += "}"
+    
+    return str
      
      
      
