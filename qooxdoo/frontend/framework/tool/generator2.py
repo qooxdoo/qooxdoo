@@ -23,7 +23,8 @@ import sys, re, os, optparse, math, cPickle, copy
 # reconfigure path to import own modules from modules subfolder
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "modules"))
 
-import config, tokenizer, tree, treegenerator, optparseext, filetool
+import config, tokenizer, tree, treegenerator, treeutil, optparseext, filetool
+import compiler
 
 
 
@@ -119,7 +120,7 @@ def process(options):
         {
             "extend" : ["build-common"],
             "buildScript" : "build-apiviewer.js",
-            "include" : ["apiviewer.Application"]
+            "include" : ["apiviewer.Application","qx.theme.ClassicRoyale"]
         },        
         
         "build-feedreader" : 
@@ -153,7 +154,19 @@ def process(options):
                 "window" : ["qx.ui.window.Window"],
                 "toolbar" : ["qx.ui.toolbar.ToolBar", "qx.ui.menu.Menu"]
             }
-        }
+        },
+        
+        "build-apiviewer-views" :
+        {
+            "extend" : ["build-common"],
+            "buildScript" : "build-apiviewer-views.js",
+            "views" : 
+            {
+                "core" : ["apiviewer.Application","qx.theme.ClassicRoyale"],
+                "viewer" : ["apiviewer.Viewer"],
+                "content" : ["apiviewer.ui.ClassViewer","apiviewer.ui.PackageViewer"]
+            }
+        }    
     }
     
     resolve(config, options.jobs)
@@ -270,17 +283,24 @@ def generateBuildScript(config):
     if config.has_key("views"):
         views = config["views"]
     else:
-        views = {}    
+        views = {}
+        
+    if config.has_key("buildScript"):
+        script = config["buildScript"]
+    else:
+        script = ""
+        
+                  
     
     
     # Two alternative solutions to build the class list
     if len(views) > 0:
-        classes = processViews(views, require, use)
+        processViews(views, require, use, script)
     else:
-        classes = processIncludeExclude(include, exclude, require, use)
+        processIncludeExclude(include, exclude, require, use, script)
 
     
-    print ">>> Continuing process with %s classes" % len(classes)
+
 
 
 
@@ -486,7 +506,7 @@ def getTreeCopy(id):
 #  USE/SORT SUPPORT
 ######################################################################
 
-def processIncludeExclude(include, exclude, loadDeps, runDeps):
+def processIncludeExclude(include, exclude, loadDeps, runDeps, script):
     print ">>> Processing include/exclude"    
     smartInclude, explicitInclude = _splitIncludeExcludeList(include)
     smartExclude, explicitExclude = _splitIncludeExcludeList(exclude)
@@ -525,9 +545,15 @@ def processIncludeExclude(include, exclude, loadDeps, runDeps):
         print ">>> These optional classes may be useful:"
         for entry in optionals:
             print "  - %s" % entry
-            
-    # Return result list
-    return result
+
+    print ">>> Sorting classes..."
+    sorted = sortClasses(result, loadDeps, runDeps) 
+    
+    print ">>> Compiling classes..."
+    compiled = compileClasses(sorted)
+    
+    print ">>> Storing result (%s KB) to %s" % ((len(compiled) / 1024), script)
+    filetool.save(script, compiled)
 
 
 def _splitIncludeExcludeList(input):
@@ -635,7 +661,28 @@ def getOptionals(classes):
     return opt
         
         
-        
+def compileClasses(classes):
+    content = ""
+    
+    for id in classes:
+        print "  - %s" % id
+        content += _compileClassHelper(getTree(id))
+    
+    return content
+    
+
+def _compileClassHelper(restree):
+    # Emulate options
+    parser = optparse.OptionParser()
+    parser.add_option("--p1", action="store_true", dest="prettyPrint", default=False) 
+    parser.add_option("--p2", action="store_true", dest="prettypIndentString", default="  ")     
+    parser.add_option("--p3", action="store_true", dest="prettypCommentsInlinePadding", default="  ")     
+    parser.add_option("--p4", action="store_true", dest="prettypCommentsTrailingCommentCols", default="")     
+    
+    (options, args) = parser.parse_args([])
+    
+    return compiler.compile(restree, options)    
+    
         
 
 
@@ -643,7 +690,7 @@ def getOptionals(classes):
 #  VIEW SUPPORT
 ######################################################################
 
-def processViews(views, loadDeps, runDeps):
+def processViews(views, loadDeps, runDeps, output):
     global classes
     
     print ">>> Analysing %s views..." % len(views)
@@ -679,7 +726,17 @@ def processViews(views, loadDeps, runDeps):
     # Caching dependencies of each view
     deps = {}
     for viewId in views:
-        deps[viewId] = resolveDependencies(views[viewId], [], loadDeps, runDeps)
+        # Exclude all features of other views
+        # and handle dependencies the smart way =>
+        # also exclude classes only needed by the
+        # already excluded features
+        exclude = []
+        for subViewId in views:
+            if subViewId != viewId:
+                exclude.extend(views[subViewId])
+
+        # Finally resolve the dependencies
+        deps[viewId] = resolveDependencies(views[viewId], exclude, loadDeps, runDeps)
         print "    - %s use %s classes" % (viewId, len(deps[viewId]))
     
     
@@ -693,12 +750,11 @@ def processViews(views, loadDeps, runDeps):
     
     print bits
 
-    # Revert map
-    # apiviever = [1,4,8]
-    bitIds = {}
-    # TODO
 
-            
+
+
+# TODO: Dynamic "optional" to not require these changes to the classes
+# TODO: Select "init" package to have init stuff in one package            
 
         
     # Find out usage of classes and assign them to a bitmask using map    
@@ -722,7 +778,7 @@ def processViews(views, loadDeps, runDeps):
     print ">>> Bit results"
     for bit in usage:
         print "  - Bit %s has %s classes" % (bit, len(usage[bit]))
-        #print "    %s" % ", ".join(usage[bit])
+        print "    %s" % ", ".join(usage[bit])
     
     
     viewFiles = {}
@@ -736,43 +792,37 @@ def processViews(views, loadDeps, runDeps):
 
         viewFiles[viewId] = content
   
-    print viewFiles
+    # print viewFiles
     
-    exportUsageToPackagesJson(usage)
-    exportUsageToClassJson(usage)
-    
-    result = []
-    
-    # Return result list
-    return result
-    
-    
-
-def exportUsageToPackagesJson(usage):
-    str = "packages={"
-
+    # Build files...
+    reverted = []
     for bit in usage:
-        str += '%s:["%s"],' % (bit, '","'.join(usage[bit]))
+        reverted.insert(0, bit)
+    
+    loader = ""
+    for bit in reverted:
+        print ">>> Sorting classes of package %s..." % bit
+        sorted = sortClasses(usage[bit], loadDeps, runDeps) 
+    
+        print ">>> Compiling classes of package %s..." % bit
+        compiled = compileClasses(sorted)
+
+        fname = output.replace(".js", "_%s.js" % bit)
+        print ">>> Storing result (%s KB) to %s" % ((len(compiled) / 1024), fname)
+        filetool.save(fname, compiled)
+
+        # TODO: Make configurable
+        prefix = "script/"
+        loader += "document.write('<script type=\"text/javascript\" src=\"%s\"></script>');\n" % (prefix + fname)
+
+    print ">>> Creating package loader..."
+    filetool.save(output, loader)
         
-    # remove last comma
-    str = str[:-1]
-    str += "}"
-    
-    return str
+
+
     
     
-def exportUsageToClassJson(usage):
-    str = "classes={"
-    
-    for bit in usage:
-        for entry in usage[bit]:
-            str += '"%s":%s,' % (entry, bit)
-    
-    # remove last comma
-    str = str[:-1]
-    str += "}"
-    
-    return str
+
      
      
      
@@ -914,6 +964,13 @@ def _analyzeClassDepsNode(id, node, loadtime, runtime, inFunction):
                 else:
                     assembled = ""
                     break
+                    
+                # treat dependencies in defer as requires
+                if assembled == "qx.Class.define":
+                    if node.parent.type == "operand" and node.parent.parent.type == "call":
+                        deferNode = treeutil.selectNode(node, "../../params/2/keyvalue[@key='defer']/value/function/body/block")
+                        if deferNode != None:
+                            _analyzeClassDepsNode(id, deferNode, loadtime, runtime, False)                    
 
     elif node.type == "body" and node.parent.type == "function":
         inFunction = True
