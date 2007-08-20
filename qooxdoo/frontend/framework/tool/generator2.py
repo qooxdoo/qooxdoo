@@ -160,6 +160,7 @@ def process(options):
         {
             "extend" : ["build-common"],
             "buildScript" : "build-apiviewer-views.js",
+            "collapseViews" : ["core"],
             "views" : 
             {
                 "core" : ["apiviewer.Application","qx.theme.ClassicRoyale"],
@@ -290,12 +291,15 @@ def generateBuildScript(config):
     else:
         script = ""
         
-                  
+    if config.has_key("collapseViews"):
+        collapse = config["collapseViews"]
+    else:
+        collapse = []                 
     
     
     # Two alternative solutions to build the class list
     if len(views) > 0:
-        processViews(views, require, use, script)
+        processViews(views, require, use, collapse, script)
     else:
         processIncludeExclude(include, exclude, require, use, script)
 
@@ -665,7 +669,7 @@ def compileClasses(classes):
     content = ""
     
     for id in classes:
-        print "  - %s" % id
+        # print "  - %s" % id
         content += _compileClassHelper(getTree(id))
     
     return content
@@ -690,30 +694,14 @@ def _compileClassHelper(restree):
 #  VIEW SUPPORT
 ######################################################################
 
-def processViews(views, loadDeps, runDeps, output):
+def processViews(views, loadDeps, runDeps, collapseViews, outputFile):
     global classes
     
-    print ">>> Analysing %s views..." % len(views)
-    
-    classCounts = {}
-    
-    # Generating data structures for possible modules
-    classMods = {}
-    # for id in views:
-        
-    # Hint: IDs
-    #
-    # apiviewer
-    # feedreader
-    # webmail
-    # apiviewer-feedreader
-    # apiviewer-webmail
-    # feedreader-webmail
-    # apiviewer-feedreader-webmail
-    #
     
     
+
     # Find all classes
+    print ">>> Analysing %s views..." % len(views)
     allIncludes = []
     for id in views:
         allIncludes.extend(views[id])
@@ -737,86 +725,94 @@ def processViews(views, loadDeps, runDeps, output):
 
         # Finally resolve the dependencies
         deps[viewId] = resolveDependencies(views[viewId], exclude, loadDeps, runDeps)
-        print "    - %s use %s classes" % (viewId, len(deps[viewId]))
+        print "    - %s uses %s classes" % (viewId, len(deps[viewId]))
     
     
     # Build bitmask ids for views
     # 1,2,4,8,16,32,64,128
     bits = {}
-    pos = 1
-    for id in views:
-        bits[id] = pos
-        pos = pos * 2
+    pos = 0
+    for viewId in views:
+        bits[viewId] = 1<<pos
+        pos += 1
+        print "  - %s has bit %s" % (viewId, bits[viewId])
     
-    print bits
+    
 
 
-
-
-# TODO: Dynamic "optional" to not require these changes to the classes
-# TODO: Select "init" package to have init stuff in one package            
+   
+   
+    
+    # TODO: Select "init" package to have init stuff in one package            
 
         
     # Find out usage of classes and assign them to a bitmask using map    
-    usage = {}
+    packages = {}
     for classId in allClasses:
-        usageId = 0
+        packageId = 0
         for viewId in views:
             if classId in deps[viewId]:
-                usageId += bits[viewId]
+                packageId += bits[viewId]
         
-        if usageId == 0:
+        if packageId == 0:
             continue
         
-        if not usage.has_key(usageId):
-            usage[usageId] = []
+        if not packages.has_key(packageId):
+            packages[packageId] = []
             
-        usage[usageId].append(classId)
-            
+        packages[packageId].append(classId)
+        
     
-    # Debug
-    print ">>> Bit results"
-    for bit in usage:
-        print "  - Bit %s has %s classes" % (bit, len(usage[bit]))
-        print "    %s" % ", ".join(usage[bit])
+
+    
+    # Debug package content
+    print ">>> Packages:"
+    for packageId in packages:
+        print "  - %s contains %s classes" % (packageId, len(packages[packageId]))
     
     
+    # Debug (map views to packages they need)
     viewFiles = {}
     for viewId in views:
         bitId = bits[viewId]
         content = []
         
-        for num in usage:
+        for num in packages:
             if num&bitId:
                 content.insert(0, num)
 
         viewFiles[viewId] = content
   
-    # print viewFiles
-    
-    # Build files...
-    reverted = []
-    for bit in usage:
-        reverted.insert(0, bit)
-    
-    loader = ""
-    for bit in reverted:
-        print ">>> Sorting classes of package %s..." % bit
-        sorted = sortClasses(usage[bit], loadDeps, runDeps) 
-    
-        print ">>> Compiling classes of package %s..." % bit
-        compiled = compileClasses(sorted)
+  
+    # Collapse packages...
+    if len(collapseViews) > 0:
+        for viewId in collapseViews:
+            oldPackages = viewFiles[viewId]
+            
+            # TODO: Impl...
+            
 
-        fname = output.replace(".js", "_%s.js" % bit)
-        print ">>> Storing result (%s KB) to %s" % ((len(compiled) / 1024), fname)
-        filetool.save(fname, compiled)
+    # Compile files...
+    revertedPackages = []
+    for packageId in packages:
+        revertedPackages.insert(0, packageId)
+    
+    packageLoaderContent = ""
+    for packageId in revertedPackages:
+        packageFile = outputFile.replace(".js", "_%s.js" % packageId)
+        
+        print ">>> Compiling classes of package %s..." % packageId
+        compiledContent = compileClasses(sortClasses(packages[packageId], loadDeps, runDeps))
+        
+        print "  - Storing result (%s KB) to %s" % ((len(compiledContent) / 1024), packageFile)
+        filetool.save(packageFile, compiledContent)
 
         # TODO: Make configurable
         prefix = "script/"
-        loader += "document.write('<script type=\"text/javascript\" src=\"%s\"></script>');\n" % (prefix + fname)
+        packageLoaderContent += "document.write('<script type=\"text/javascript\" src=\"%s\"></script>');\n" % (prefix + packageFile)
 
     print ">>> Creating package loader..."
-    filetool.save(output, loader)
+    filetool.save(outputFile, packageLoaderContent)
         
 
 
