@@ -24,7 +24,7 @@ import sys, re, os, optparse, math, cPickle, copy
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "modules"))
 
 import config, tokenizer, tree, treegenerator, treeutil, optparseext, filetool
-import compiler
+import compiler, variableoptimizer
 
 
 
@@ -501,6 +501,20 @@ def getTreeCopy(id):
     return copy.deepcopy(getTree(id))
 
 
+def getVariableOptimizedTree(id):
+    global classes
+    
+    cache = readCache(id, "tree-varopt", classes[id]["path"])
+    if cache != None:
+        return cache
+    
+    print ">>> Optimize variables: %s" % id    
+    tree = getTreeCopy(id)
+    counter = variableoptimizer.search(tree, [], 0, 0, "$")
+    print "  - Optimized %s variables" % counter
+        
+    writeCache(id, "tree-varopt", tree)
+    return tree    
         
         
 
@@ -670,7 +684,7 @@ def compileClasses(classes):
     
     for id in classes:
         # print "  - %s" % id
-        content += _compileClassHelper(getTree(id))
+        content += _compileClassHelper(getVariableOptimizedTree(id))
     
     return content
     
