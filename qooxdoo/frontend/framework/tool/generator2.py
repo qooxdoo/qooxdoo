@@ -621,10 +621,11 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, outputFile):
         combinedDefs.extend(viewDefs[viewId])
     
     combinedClasses = resolveDependencies(combinedDefs, [], loadDeps, runDeps)
-    print "  - Number of classes: %s" % len(combinedClasses)
+    print "  - Number of involved classes: %s" % len(combinedClasses)
     
     
     # Caching dependencies of each view
+    print ">>> Resolving view dependencies..."
     viewDeps = {}
     for viewId in viewDefs:
         # Exclude all features of other views
@@ -638,11 +639,12 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, outputFile):
 
         # Finally resolve the dependencies
         viewDeps[viewId] = resolveDependencies(viewDefs[viewId], viewExcludes, loadDeps, runDeps)
-        print "    - %s[#%s] needs %s classes" % (viewId, viewBits[viewId], len(viewDeps[viewId]))
+        print "  - view '%s' needs %s classes" % (viewId, len(viewDeps[viewId]))
     
 
     # Assign classes to packages
     packageClasses = {}
+    
     for classId in combinedClasses:
         packageId = 0
         
@@ -660,11 +662,12 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, outputFile):
         
     
     # Generate sorted list of packageIds
-    packageIds = dictToSortedList(packageClasses)
+    packageIds = _dictToSortedList(packageClasses)
 
 
     # Assign packages to views
     viewPackages = {}
+    
     for viewId in viewDefs:
         viewBit = viewBits[viewId]
         
@@ -707,7 +710,7 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, outputFile):
             _mergePackages(viewPackages[viewId][1:], viewPackages[viewId][0], viewDefs, viewPackages, packageClasses)
         
         # Re-Generate sorted list of packageIds
-        packageIds = dictToSortedList(packageClasses)        
+        packageIds = _dictToSortedList(packageClasses)        
 
         # Debug
         print ">>> Package content:"
@@ -720,6 +723,8 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, outputFile):
         
       
   
+  
+    # TODO: Collapse small files...
   
 
     
@@ -735,7 +740,7 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, outputFile):
         print "  - Storing result (%s KB) to %s" % ((len(compiledContent) / 1024), packageFile)
         filetool.save(packageFile, compiledContent)
 
-        # TODO: Make configurable
+        # TODO: Make prefix configurable
         prefix = "script/"
         packageLoaderContent += "document.write('<script type=\"text/javascript\" src=\"%s\"></script>');\n" % (prefix + packageFile)
 
@@ -743,9 +748,7 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, outputFile):
     filetool.save(outputFile, packageLoaderContent)
         
 
-
-
-def dictToSortedList(input):
+def _dictToSortedList(input):
     output = []
     for key in input:
         output.append(key)
@@ -788,6 +791,10 @@ def _intListToString(input):
         result += "#%s, " % entry
         
     return result[:-2]
+
+
+
+
 
 
 ######################################################################
