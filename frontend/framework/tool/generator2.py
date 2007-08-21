@@ -28,6 +28,9 @@ import compiler, variableoptimizer
 
 
 
+
+
+
 ######################################################################
 #  MAIN CONTENT
 ######################################################################
@@ -521,7 +524,7 @@ def getVariableOptimizedTree(id):
 
 
 ######################################################################
-#  USE/SORT SUPPORT
+#  INCLUDE/EXCLUDE SUPPORT
 ######################################################################
 
 def processIncludeExclude(include, exclude, loadDeps, runDeps, script):
@@ -587,6 +590,133 @@ def _splitIncludeExcludeList(input):
     return intelli, explicit
 
 
+
+
+
+
+
+######################################################################
+#  VIEW/PACKAGE SUPPORT
+######################################################################
+
+def processViews(viewDefs, loadDeps, runDeps, collapseViews, outputFile):
+    global classes
+    
+
+    # Build bitmask ids for views
+    viewBits = {}
+    viewPos = 0
+    for viewId in viewDefs:
+        viewBits[viewId] = 1<<viewPos    
+        viewPos += 1
+    
+
+    # Find all used classes
+    # Used to reduce loop size for further iterations (not using huge 'classes')
+    print ">>> Analysing %s views..." % len(viewDefs)
+    combinedDefs = []
+    for viewId in viewDefs:
+        combinedDefs.extend(viewDefs[viewId])
+    
+    combinedClasses = resolveDependencies(combinedDefs, [], loadDeps, runDeps)
+    print "  - Number of classes: %s" % len(combinedClasses)
+    
+    
+    # Caching dependencies of each view
+    viewDeps = {}
+    for viewId in viewDefs:
+        # Exclude all features of other views
+        # and handle dependencies the smart way =>
+        # also exclude classes only needed by the
+        # already excluded features
+        viewExcludes = []
+        for subViewId in viewDefs:
+            if subViewId != viewId:
+                viewExcludes.extend(viewDefs[subViewId])
+
+        # Finally resolve the dependencies
+        viewDeps[viewId] = resolveDependencies(viewDefs[viewId], viewExcludes, loadDeps, runDeps)
+        print "    - view '%s'[%s] needs %s classes" % (viewId, viewBits[viewId], len(viewDeps[viewId]))
+    
+
+    # Assign classes to packages
+    packageClasses = {}
+    for classId in combinedClasses:
+        packageId = 0
+        
+        # Iterate through the views use needs this class
+        for viewId in viewDefs:
+            if classId in viewDeps[viewId]:
+                packageId += viewBits[viewId]
+        
+        # Create missing data structure
+        if not packageClasses.has_key(packageId):
+            packageClasses[packageId] = []
+            
+        # Finally store the class to the package
+        packageClasses[packageId].append(classId)
+        
+    
+
+
+    
+    # Debug package content
+    print ">>> Package content:"
+    for packageId in packageClasses:
+        print "  - package %s contains %s classes" % (packageId, len(packageClasses[packageId]))
+    
+    
+    # Debug (map views to packages they need)
+    viewContent = {}
+    for viewId in viewDefs:
+        viewBit = viewBits[viewId]
+        viewPackages = []
+        
+        for packageId in packageClasses:
+            if packageId&viewBit:
+                viewPackages.insert(0, packageId)
+
+        viewContent[viewId] = viewPackages
+        
+    print viewContent
+    
+    
+  
+    
+    
+
+    # Compile files...
+    revertedPackages = []
+    for packageId in packageClasses:
+        revertedPackages.insert(0, packageId)
+    
+    packageLoaderContent = ""
+    for packageId in revertedPackages:
+        packageFile = outputFile.replace(".js", "_%s.js" % packageId)
+        
+        print ">>> Compiling classes of package %s..." % packageId
+        compiledContent = compileClasses(sortClasses(packageClasses[packageId], loadDeps, runDeps))
+        
+        print "  - Storing result (%s KB) to %s" % ((len(compiledContent) / 1024), packageFile)
+        filetool.save(packageFile, compiledContent)
+
+        # TODO: Make configurable
+        prefix = "script/"
+        packageLoaderContent += "document.write('<script type=\"text/javascript\" src=\"%s\"></script>');\n" % (prefix + packageFile)
+
+    print ">>> Creating package loader..."
+    filetool.save(outputFile, packageLoaderContent)
+        
+
+
+    
+
+
+
+######################################################################
+#  MODULE SUPPORT
+######################################################################
+
 def resolveModules(entries):
     global modules
     
@@ -600,6 +730,67 @@ def resolveModules(entries):
     
     return classes
         
+
+
+
+
+
+
+
+
+######################################################################
+#  SUPPORT FOR OPTIONAL CLASSES/FEATURES
+######################################################################
+
+def getOptionals(classes):
+    opt = {}
+    
+    for id in classes:
+        for sub in getMeta(id)["optionalDeps"]:
+            if not sub in classes:
+                opt[sub] = True
+
+    return opt
+        
+
+
+
+
+
+######################################################################
+#  COMPILER SUPPORT
+######################################################################
+
+def compileClasses(classes):
+    content = ""
+    
+    for id in classes:
+        content += _compileClassHelper(getVariableOptimizedTree(id))
+    
+    return content
+    
+
+def _compileClassHelper(restree):
+    # Emulate options
+    parser = optparse.OptionParser()
+    parser.add_option("--p1", action="store_true", dest="prettyPrint", default=False) 
+    parser.add_option("--p2", action="store_true", dest="prettypIndentString", default="  ")     
+    parser.add_option("--p3", action="store_true", dest="prettypCommentsInlinePadding", default="  ")     
+    parser.add_option("--p4", action="store_true", dest="prettypCommentsTrailingCommentCols", default="")     
+    
+    (options, args) = parser.parse_args([])
+    
+    return compiler.compile(restree, options)    
+    
+    
+    
+     
+     
+     
+     
+######################################################################
+#  CLASS DEPENDENCY SUPPORT
+######################################################################
 
 def resolveDependencies(add, block, loadDeps, runDeps):
     result = {}
@@ -630,216 +821,8 @@ def _resolveDependenciesRecurser(add, result, block, loadDeps, runDeps):
 
     for sub in deps["run"]:
         if not result.has_key(sub) and not sub in block:
-            _resolveDependenciesRecurser(sub, result, block, loadDeps, runDeps)            
-            
-            
-def sortClasses(input, loadDeps, runDeps):
-    sorted = []
-    
-    for entry in input:
-        _sortClassesRecurser(entry, input, sorted, loadDeps, runDeps)
-     
-    return sorted
-    
-    
-def _sortClassesRecurser(id, available, sorted, loadDeps, runDeps):
-    global classes
-    
-    if id in sorted:
-        return
-            
-    # reading dependencies
-    deps = getCombinedDeps(id, loadDeps, runDeps)
-    
-    # process loadtime requirements
-    for entry in deps["load"]:
-        if entry in available and not entry in sorted:
-            _sortClassesRecurser(entry, available, sorted, loadDeps, runDeps)
-            
-    if id in sorted:
-        return
-        
-    # print "  - Adding: %s" % id
-    sorted.append(id)
+            _resolveDependenciesRecurser(sub, result, block, loadDeps, runDeps)     
 
-    # process runtime requirements
-    for entry in deps["run"]:
-        if entry in available and not entry in sorted:
-            _sortClassesRecurser(entry, available, sorted, loadDeps, runDeps)
-
-
-def getOptionals(classes):
-    opt = {}
-    
-    for id in classes:
-        for sub in getMeta(id)["optionalDeps"]:
-            if not sub in classes:
-                opt[sub] = True
-
-    return opt
-        
-        
-def compileClasses(classes):
-    content = ""
-    
-    for id in classes:
-        # print "  - %s" % id
-        content += _compileClassHelper(getVariableOptimizedTree(id))
-    
-    return content
-    
-
-def _compileClassHelper(restree):
-    # Emulate options
-    parser = optparse.OptionParser()
-    parser.add_option("--p1", action="store_true", dest="prettyPrint", default=False) 
-    parser.add_option("--p2", action="store_true", dest="prettypIndentString", default="  ")     
-    parser.add_option("--p3", action="store_true", dest="prettypCommentsInlinePadding", default="  ")     
-    parser.add_option("--p4", action="store_true", dest="prettypCommentsTrailingCommentCols", default="")     
-    
-    (options, args) = parser.parse_args([])
-    
-    return compiler.compile(restree, options)    
-    
-        
-
-
-######################################################################
-#  VIEW SUPPORT
-######################################################################
-
-def processViews(views, loadDeps, runDeps, collapseViews, outputFile):
-    global classes
-    
-    
-    
-
-    # Find all classes
-    print ">>> Analysing %s views..." % len(views)
-    allIncludes = []
-    for id in views:
-        allIncludes.extend(views[id])
-    
-    allClasses = resolveDependencies(allIncludes, [], loadDeps, runDeps)
-    
-    print "  - Using %s classes" % len(allClasses)
-    
-    
-    # Caching dependencies of each view
-    deps = {}
-    for viewId in views:
-        # Exclude all features of other views
-        # and handle dependencies the smart way =>
-        # also exclude classes only needed by the
-        # already excluded features
-        exclude = []
-        for subViewId in views:
-            if subViewId != viewId:
-                exclude.extend(views[subViewId])
-
-        # Finally resolve the dependencies
-        deps[viewId] = resolveDependencies(views[viewId], exclude, loadDeps, runDeps)
-        print "    - %s uses %s classes" % (viewId, len(deps[viewId]))
-    
-    
-    # Build bitmask ids for views
-    # 1,2,4,8,16,32,64,128
-    bits = {}
-    pos = 0
-    for viewId in views:
-        bits[viewId] = 1<<pos
-        pos += 1
-        print "  - %s has bit %s" % (viewId, bits[viewId])
-    
-    
-
-
-   
-   
-    
-    # TODO: Select "init" package to have init stuff in one package            
-
-        
-    # Find out usage of classes and assign them to a bitmask using map    
-    packages = {}
-    for classId in allClasses:
-        packageId = 0
-        for viewId in views:
-            if classId in deps[viewId]:
-                packageId += bits[viewId]
-        
-        if packageId == 0:
-            continue
-        
-        if not packages.has_key(packageId):
-            packages[packageId] = []
-            
-        packages[packageId].append(classId)
-        
-    
-
-    
-    # Debug package content
-    print ">>> Packages:"
-    for packageId in packages:
-        print "  - %s contains %s classes" % (packageId, len(packages[packageId]))
-    
-    
-    # Debug (map views to packages they need)
-    viewFiles = {}
-    for viewId in views:
-        bitId = bits[viewId]
-        content = []
-        
-        for num in packages:
-            if num&bitId:
-                content.insert(0, num)
-
-        viewFiles[viewId] = content
-  
-  
-    # Collapse packages...
-    if len(collapseViews) > 0:
-        for viewId in collapseViews:
-            oldPackages = viewFiles[viewId]
-            
-            # TODO: Impl...
-            
-
-    # Compile files...
-    revertedPackages = []
-    for packageId in packages:
-        revertedPackages.insert(0, packageId)
-    
-    packageLoaderContent = ""
-    for packageId in revertedPackages:
-        packageFile = outputFile.replace(".js", "_%s.js" % packageId)
-        
-        print ">>> Compiling classes of package %s..." % packageId
-        compiledContent = compileClasses(sortClasses(packages[packageId], loadDeps, runDeps))
-        
-        print "  - Storing result (%s KB) to %s" % ((len(compiledContent) / 1024), packageFile)
-        filetool.save(packageFile, compiledContent)
-
-        # TODO: Make configurable
-        prefix = "script/"
-        packageLoaderContent += "document.write('<script type=\"text/javascript\" src=\"%s\"></script>');\n" % (prefix + packageFile)
-
-    print ">>> Creating package loader..."
-    filetool.save(outputFile, packageLoaderContent)
-        
-
-
-    
-    
-
-     
-     
-     
-     
-######################################################################
-#  DEPENDENCY SUPPORT
-######################################################################
 
 def getCombinedDeps(id, loadDeps, runDeps):
     # init lists
@@ -993,6 +976,47 @@ def _analyzeClassDepsNode(id, node, loadtime, runtime, inFunction):
 
 
 
+            
+            
+            
+######################################################################
+#  CLASS SORT SUPPORT
+######################################################################
+            
+def sortClasses(input, loadDeps, runDeps):
+    sorted = []
+    
+    for entry in input:
+        _sortClassesRecurser(entry, input, sorted, loadDeps, runDeps)
+     
+    return sorted
+    
+    
+def _sortClassesRecurser(id, available, sorted, loadDeps, runDeps):
+    global classes
+    
+    if id in sorted:
+        return
+            
+    # reading dependencies
+    deps = getCombinedDeps(id, loadDeps, runDeps)
+    
+    # process loadtime requirements
+    for entry in deps["load"]:
+        if entry in available and not entry in sorted:
+            _sortClassesRecurser(entry, available, sorted, loadDeps, runDeps)
+            
+    if id in sorted:
+        return
+        
+    # print "  - Adding: %s" % id
+    sorted.append(id)
+
+    # process runtime requirements
+    for entry in deps["run"]:
+        if entry in available and not entry in sorted:
+            _sortClassesRecurser(entry, available, sorted, loadDeps, runDeps)
+
     
     
 
@@ -1088,11 +1112,7 @@ def _addClassPath(classPath, encoding="utf-8"):
                     "category" : fileCategory,
                     "id" : fileId,
                     "contentId" : fileContentId,
-                    "pathId" : filePathId,
-                    "runtimeDeps" : [],
-                    "loadtimeDeps" : [],
-                    "optionalDeps" : [],
-                    "ignoreDeps" : []
+                    "pathId" : filePathId
                 }
                 
                 
