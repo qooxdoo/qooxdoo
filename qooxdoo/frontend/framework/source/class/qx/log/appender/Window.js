@@ -51,7 +51,21 @@ qx.Class.define("qx.log.appender.Window",
     this.base(arguments);
 
     this._id = qx.log.appender.Window.register(this);
-    this._name = (name == null) ? "qx_log" + (new Date()).getTime() : name;
+
+    this._name = name;
+    if (this._name == null) {
+      // No name was provided -> Use a name that includes a hash of the URL, so
+      // every running application gets its own log window.
+      // NOTE: We use a hash, because IE doesn't like when a whole URL is included
+      //       in the name
+      var url = window.location.href;
+      var hash = 0;
+      for (var i = 0; i < url.length; i++) {
+        hash = (hash + url.charCodeAt(i)) % 10000000;
+      }
+  
+      this._name = "qx_log_" + hash;
+    }
 
     this._errorsPreventingAutoCloseCount = 0;
 
