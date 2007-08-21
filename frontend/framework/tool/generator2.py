@@ -18,7 +18,7 @@
 #
 ################################################################################
 
-import sys, re, os, optparse, math, cPickle, copy
+import sys, re, os, optparse, math, cPickle, copy, sets
 
 # reconfigure path to import own modules from modules subfolder
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "modules"))
@@ -657,32 +657,80 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, outputFile):
         packageClasses[packageId].append(classId)
         
     
+    # Assign packages to views
+    viewPackages = {}
+    for viewId in viewDefs:
+        viewBit = viewBits[viewId]
+        
+        for packageId in packageClasses:
+            if packageId&viewBit:
+                if not viewPackages.has_key(viewId):
+                    viewPackages[viewId] = []
+                    
+                viewPackages[viewId].insert(0, packageId)
+
+
 
 
     
-    # Debug package content
     print ">>> Package content:"
     for packageId in packageClasses:
         print "  - package #%s contains %s classes" % (packageId, len(packageClasses[packageId]))
     
-    
-    # Debug (map views to packages they need)
-    viewContent = {}
-    for viewId in viewDefs:
-        viewBit = viewBits[viewId]
-        viewPackages = []
+    print ">>> View content:"
+    for viewId in viewPackages:
+        print "  - view '%s' uses these packages %s" % (viewId, viewPackages[viewId])
         
-        for packageId in packageClasses:
-            if packageId&viewBit:
-                viewPackages.insert(0, packageId)
 
-        viewContent[viewId] = viewPackages
+
+    
+    
+    
+    for viewId in collapseViews:
+        print ">>> Collapsing view '%s'..." % viewId
         
-    print viewContent
+        collapsePackage = viewPackages[viewId][0]
+        replacePackages = viewPackages[viewId][1:]
+        
+        print "  - Modifying other views..."
+        # Replace other package content
+        for subViewId in viewDefs:
+            subViewContent = viewPackages[subViewId]
+            
+            for package in replacePackages:
+                if package in subViewContent:
+                    toIndex = subViewContent.index(package)
+                    subViewContent[toIndex] = collapsePackage
+                    
+                    # Remove duplicate
+                    if subViewContent.count(collapsePackage) > 1:
+                        subViewContent.reverse()
+                        subViewContent.remove(collapsePackage)
+                        subViewContent.reverse()
+
+        print "  - Merging collapsed packages..."
+        
+        for packageId in replacePackages:
+            packageClasses[collapsePackage].extend(packageClasses[packageId])
+            del packageClasses[packageId]
+        
+        
+
+
+
+    print ">>> Package content:"
+    for packageId in packageClasses:
+        print "  - package #%s contains %s classes" % (packageId, len(packageClasses[packageId]))
+            
     
-    
+    print ">>> View content:"
+    for viewId in viewPackages:
+        print "  - view '%s' uses these packages %s" % (viewId, viewPackages[viewId])
+        
+      
   
-    
+  
+
     
 
     # Compile files...
