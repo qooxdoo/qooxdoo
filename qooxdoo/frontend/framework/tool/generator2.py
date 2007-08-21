@@ -678,59 +678,45 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, outputFile):
 
 
 
-    
+
+
+    # Debug
     print ">>> Package content:"
     for packageId in packageIds:
         print "  - package #%s contains %s classes" % (packageId, len(packageClasses[packageId]))
     
     print ">>> View content:"
     for viewId in viewPackages:
-        print "  - view '%s' uses these packages %s" % (viewId, viewPackages[viewId])
+        print "  - view '%s' uses these packages: %s" % (viewId, _intListToString(viewPackages[viewId]))
 
     
     
+    
+    
+    
+    
+    # Collapse support
     if len(collapseViews) > 0:
         for viewId in collapseViews:
+            # Theory:
+            # Merge all packages into one
+            # Target should be the one width the most usage by other views
+            # This is normally the first package in the list
+            # Hint: higher index = more views
             print ">>> Collapsing view '%s'..." % viewId
-        
-            collapsePackage = viewPackages[viewId][0]
-            replacePackages = viewPackages[viewId][1:]
-        
-            print "  - Modifying other views..."
-            # Replace other package content
-            for subViewId in viewDefs:
-                subViewContent = viewPackages[subViewId]
-            
-                for package in replacePackages:
-                    if package in subViewContent:
-                        toIndex = subViewContent.index(package)
-                        subViewContent[toIndex] = collapsePackage
-                    
-                        # Remove duplicate
-                        if subViewContent.count(collapsePackage) > 1:
-                            subViewContent.reverse()
-                            subViewContent.remove(collapsePackage)
-                            subViewContent.reverse()
-
-            print "  - Merging collapsed packages..."
-        
-            for packageId in replacePackages:
-                packageClasses[collapsePackage].extend(packageClasses[packageId])
-                del packageClasses[packageId]
+            _mergePackages(viewPackages[viewId][1:], viewPackages[viewId][0], viewDefs, viewPackages, packageClasses)
         
         # Re-Generate sorted list of packageIds
         packageIds = dictToSortedList(packageClasses)        
 
-
-
+        # Debug
         print ">>> Package content:"
         for packageId in packageIds:
             print "  - package #%s contains %s classes" % (packageId, len(packageClasses[packageId]))
             
-    
         print ">>> View content:"
         for viewId in viewPackages:
-            print "  - view '%s' uses these packages %s" % (viewId, viewPackages[viewId])
+            print "  - view '%s' uses these packages: %s" % (viewId, _intListToString(viewPackages[viewId]))
         
       
   
@@ -769,6 +755,39 @@ def dictToSortedList(input):
     return output
     
 
+def _mergePackages(replacePackages, collapsePackage, viewDefs, viewPackages, packageClasses):
+    for packageId in replacePackages:
+        _mergePackageInto(packageId, collapsePackage, viewDefs, viewPackages, packageClasses)
+
+
+def _mergePackageInto(replacePackage, collapsePackage, viewDefs, viewPackages, packageClasses):
+    print "  - Collapse package #%s into #%s" % (replacePackage, collapsePackage)
+    
+    # Replace other package content
+    for viewId in viewDefs:
+        viewContent = viewPackages[viewId]
+    
+        if replacePackage in viewContent:
+            # Store collapse package at the place of the old value
+            viewContent[viewContent.index(replacePackage)] = collapsePackage
+        
+            # Remove duplicate (may be, but only one)
+            if viewContent.count(collapsePackage) > 1:
+                viewContent.reverse()
+                viewContent.remove(collapsePackage)
+                viewContent.reverse()
+
+    # Merging collapsed packages
+    packageClasses[collapsePackage].extend(packageClasses[replacePackage])
+    del packageClasses[replacePackage]    
+
+
+def _intListToString(input):
+    result = ""
+    for entry in input:
+        result += "#%s, " % entry
+        
+    return result[:-2]
 
 
 ######################################################################
