@@ -636,7 +636,7 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, outputFile):
 
         # Finally resolve the dependencies
         viewDeps[viewId] = resolveDependencies(viewDefs[viewId], viewExcludes, loadDeps, runDeps)
-        print "    - view '%s'[%s] needs %s classes" % (viewId, viewBits[viewId], len(viewDeps[viewId]))
+        print "    - %s[#%s] needs %s classes" % (viewId, viewBits[viewId], len(viewDeps[viewId]))
     
 
     # Assign classes to packages
@@ -663,7 +663,7 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, outputFile):
     # Debug package content
     print ">>> Package content:"
     for packageId in packageClasses:
-        print "  - package %s contains %s classes" % (packageId, len(packageClasses[packageId]))
+        print "  - package #%s contains %s classes" % (packageId, len(packageClasses[packageId]))
     
     
     # Debug (map views to packages they need)
@@ -694,7 +694,7 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, outputFile):
     for packageId in revertedPackages:
         packageFile = outputFile.replace(".js", "_%s.js" % packageId)
         
-        print ">>> Compiling classes of package %s..." % packageId
+        print ">>> Compiling classes of package #%s..." % packageId
         compiledContent = compileClasses(sortClasses(packageClasses[packageId], loadDeps, runDeps))
         
         print "  - Storing result (%s KB) to %s" % ((len(compiledContent) / 1024), packageFile)
