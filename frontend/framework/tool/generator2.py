@@ -155,7 +155,9 @@ def process(options):
                 "tree" : ["qx.ui.tree.Tree"],
                 "colorselector" : ["qx.ui.component.ColorSelector"],
                 "window" : ["qx.ui.window.Window"],
-                "toolbar" : ["qx.ui.toolbar.ToolBar", "qx.ui.menu.Menu"]
+                "toolbar" : ["qx.ui.toolbar.ToolBar", "qx.ui.menu.Menu"],
+                "table" : ["qx.ui.table.Table"],
+                "combobox" : ["qx.ui.form.ComboBox"]
             }
         },
         
@@ -657,75 +659,78 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, outputFile):
         packageClasses[packageId].append(classId)
         
     
+    # Generate sorted list of packageIds
+    packageIds = dictToSortedList(packageClasses)
+
+
     # Assign packages to views
     viewPackages = {}
     for viewId in viewDefs:
         viewBit = viewBits[viewId]
         
-        for packageId in packageClasses:
+        for packageId in packageIds:
             if packageId&viewBit:
                 if not viewPackages.has_key(viewId):
                     viewPackages[viewId] = []
                     
-                viewPackages[viewId].insert(0, packageId)
+                viewPackages[viewId].append(packageId)
 
 
 
 
     
     print ">>> Package content:"
-    for packageId in packageClasses:
+    for packageId in packageIds:
         print "  - package #%s contains %s classes" % (packageId, len(packageClasses[packageId]))
     
     print ">>> View content:"
     for viewId in viewPackages:
         print "  - view '%s' uses these packages %s" % (viewId, viewPackages[viewId])
-        
-
 
     
     
-    
-    for viewId in collapseViews:
-        print ">>> Collapsing view '%s'..." % viewId
+    if len(collapseViews) > 0:
+        for viewId in collapseViews:
+            print ">>> Collapsing view '%s'..." % viewId
         
-        collapsePackage = viewPackages[viewId][0]
-        replacePackages = viewPackages[viewId][1:]
+            collapsePackage = viewPackages[viewId][0]
+            replacePackages = viewPackages[viewId][1:]
         
-        print "  - Modifying other views..."
-        # Replace other package content
-        for subViewId in viewDefs:
-            subViewContent = viewPackages[subViewId]
+            print "  - Modifying other views..."
+            # Replace other package content
+            for subViewId in viewDefs:
+                subViewContent = viewPackages[subViewId]
             
-            for package in replacePackages:
-                if package in subViewContent:
-                    toIndex = subViewContent.index(package)
-                    subViewContent[toIndex] = collapsePackage
+                for package in replacePackages:
+                    if package in subViewContent:
+                        toIndex = subViewContent.index(package)
+                        subViewContent[toIndex] = collapsePackage
                     
-                    # Remove duplicate
-                    if subViewContent.count(collapsePackage) > 1:
-                        subViewContent.reverse()
-                        subViewContent.remove(collapsePackage)
-                        subViewContent.reverse()
+                        # Remove duplicate
+                        if subViewContent.count(collapsePackage) > 1:
+                            subViewContent.reverse()
+                            subViewContent.remove(collapsePackage)
+                            subViewContent.reverse()
 
-        print "  - Merging collapsed packages..."
+            print "  - Merging collapsed packages..."
         
-        for packageId in replacePackages:
-            packageClasses[collapsePackage].extend(packageClasses[packageId])
-            del packageClasses[packageId]
+            for packageId in replacePackages:
+                packageClasses[collapsePackage].extend(packageClasses[packageId])
+                del packageClasses[packageId]
         
-        
+        # Re-Generate sorted list of packageIds
+        packageIds = dictToSortedList(packageClasses)        
 
 
 
-    print ">>> Package content:"
-    for packageId in packageClasses:
-        print "  - package #%s contains %s classes" % (packageId, len(packageClasses[packageId]))
+        print ">>> Package content:"
+        for packageId in packageIds:
+            print "  - package #%s contains %s classes" % (packageId, len(packageClasses[packageId]))
             
     
-    print ">>> View content:"
-    for viewId in viewPackages:
-        print "  - view '%s' uses these packages %s" % (viewId, viewPackages[viewId])
+        print ">>> View content:"
+        for viewId in viewPackages:
+            print "  - view '%s' uses these packages %s" % (viewId, viewPackages[viewId])
         
       
   
@@ -734,12 +739,8 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, outputFile):
     
 
     # Compile files...
-    revertedPackages = []
-    for packageId in packageClasses:
-        revertedPackages.insert(0, packageId)
-    
     packageLoaderContent = ""
-    for packageId in revertedPackages:
+    for packageId in packageIds:
         packageFile = outputFile.replace(".js", "_%s.js" % packageId)
         
         print ">>> Compiling classes of package #%s..." % packageId
@@ -757,6 +758,15 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, outputFile):
         
 
 
+
+def dictToSortedList(input):
+    output = []
+    for key in input:
+        output.append(key)
+    output.sort()
+    output.reverse()
+
+    return output
     
 
 
