@@ -169,6 +169,20 @@ def process(options):
             }
         },
         
+        "build-feedreader-views" : 
+        {
+            "extend" : ["build-views-common"],
+            "buildScript" : "build-feedreader-views.js",
+            "collapseViews" : ["core"],
+            "views" : 
+            {
+                "core" : ["feedreader.Application","qx.theme.ClassicRoyale"],
+                "table" : ["qx.ui.table.Table", "qx.ui.table.model.Simple", "qx.ui.table.columnmodel.Resize"],
+                "article" : ["feedreader.ArticleView"],
+                "preferences" : ["ui_window"]
+            }        
+        },
+        
         "build-apiviewer-views" :
         {
             "extend" : ["build-views-common"],
@@ -788,6 +802,11 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, optimizeLatency, ou
                 if not packageId&viewBit:
                 
                     mergeId += viewBit
+                    print "Try: %s (%s)" % (mergeId, viewBit)
+                    
+                    # TODO: Moegliche Kombinationen finden
+                    # ...
+                    
                     if mergeId in packageIds:
                         print "    - merge into package #%s" % mergeId
                         _mergePackage(packageId, mergeId, viewClasses, viewPackages, packageClasses)
