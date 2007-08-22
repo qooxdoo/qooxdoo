@@ -681,17 +681,19 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, optimizeLatency, ou
         print "  - View '%s' needs %s classes" % (viewId, len(viewDeps[viewId]))
 
 
-    
-
 
     # Build bitmask ids for views
     print    
     print ">>> Assigning bits to views..."
+    
+    # References viewId -> bitId of that view
     viewBits = {}
+    
     viewPos = 0
     for viewId in viewDefs:
-        print "  - View '%s' => %s" % (viewId, 1<<viewPos)
-        viewBits[viewId] = 1<<viewPos    
+        viewBit = 1<<viewPos
+        print "  - View '%s' => %s" % (viewId, viewBit)
+        viewBits[viewId] = viewBit
         viewPos += 1
         
         
@@ -699,16 +701,22 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, optimizeLatency, ou
     # Assign classes to packages
     print
     print ">>> Assigning classes to packages..."
+    
+    # References packageId -> class list
     packageClasses = {}
-    packageViewNumber = {}
+    
+    # References packageId -> bit number e.g. 4=1, 5=2, 6=2, 7=3
+    packageBitCounts = {}
     
     for classId in classes:
         packageId = 0
+        bitCount = 0
         
         # Iterate through the views use needs this class
         for viewId in viewClasses:
             if classId in viewDeps[viewId]:
                 packageId += viewBits[viewId]
+                bitCount += 1
         
         # Ignore unused classes
         if packageId == 0:
@@ -717,17 +725,14 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, optimizeLatency, ou
         # Create missing data structure
         if not packageClasses.has_key(packageId):
             packageClasses[packageId] = []
+            packageBitCounts[packageId] = bitCount
             
         # Finally store the class to the package
         packageClasses[packageId].append(classId)
         
-    
-    
-    # Generate sorted list of packageIds
-    packageIds = _dictToSortedList(packageClasses)
-    
-    
-    
+
+
+
     # Assign packages to views
     print ">>> Assigning packages to views..."
     viewPackages = {}
@@ -735,51 +740,63 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, optimizeLatency, ou
     for viewId in viewClasses:
         viewBit = viewBits[viewId]
         
-        for packageId in packageIds:
+        for packageId in packageClasses:
             if packageId&viewBit:
                 if not viewPackages.has_key(viewId):
                     viewPackages[viewId] = []
                     
                 viewPackages[viewId].append(packageId)
                 
-                
+        # Be sure that the view package list is in order to the package priorit
+        _sortPackageIdsByPriority(viewPackages[viewId], packageBitCounts)
+
+
+
                 
     # User feedback
     _printViewStats(packageClasses, viewPackages)
 
+
     
-    # Collapse support
+    # Support for package collapsing
+    # Could improve latency when initial loading an application
+    # Merge all packages of a specific view into one (also supports multiple views)
+    # Hint: View packages are sorted by priority, this way we can
+    # easily merge all following packages with the first one, because
+    # the first one is always the one with the highest priority
     if len(collapseViews) > 0:
         print ">>> Collapsing views..."
         for viewId in collapseViews:
-            # Theory:
-            # Merge all packages into one
-            # Target should be the one width the most usage by other views
-            # This is normally the first package in the list
-            # Hint: higher index = more views
             print "  - Collapsing view '%s'..." % viewId
             collapsePackage = viewPackages[viewId][0]
             for packageId in viewPackages[viewId][1:]:
                 print "    - Merge package #%s into #%s" % (packageId, collapsePackage)
                 _mergePackage(packageId, collapsePackage, viewClasses, viewPackages, packageClasses)
         
-        # Re-Generate sorted list of packageIds
-        packageIds = _dictToSortedList(packageClasses)        
-
         # User feedback
         _printViewStats(packageClasses, viewPackages)
       
-
-    # Post-Analysis of package sizes...
-    # Based on the token length which is a bit strange but a good
+      
+    # Support for merging small packages
+    # Hint1: Based on the token length which is a bit strange but a good
     # possibility to get the not really correct filesize in an ultrafast way
     # More complex code and classes generally also have more tokens in them
+    # Hint2: The first common package before the selected package between two 
+    # or more views is allowed to merge with. As the package which should be merged
+    # may have requirements these must be solved. The easiest way to be sure regarding
+    # this issue, is to look out for another common package. The package for which we
+    # are looking must have requirements in all views so these must be solved by all views
+    # so there must be another common package. Hardly to describe... hope this makes some sense
     if optimizeLatency != None and optimizeLatency != 0:
         smallPackages = []
-        packageIds.reverse() # starting from the end
+        
+        # Start at the end with the priority sorted list
+        sortedPackageIds = _sortPackageIdsByPriority(_dictToHumanSortedList(packageClasses), packageBitCounts)
+        sortedPackageIds.reverse()
+        
         print ">>> Analysing package sizes..."
         print "  - Optimize at %s tokens" % optimizeLatency
-        for packageId in packageIds:
+        for packageId in sortedPackageIds:
             packageLength = 0
         
             for classId in packageClasses[packageId]:
@@ -789,18 +806,15 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, optimizeLatency, ou
                 print "  - Package #%s has %s tokens" % (packageId, packageLength)
                 continue
             else:
-                print "  - Package #%s has %s tokens => try to optimize" % (packageId, packageLength)
+                print "  - Package #%s has %s tokens => trying to optimize" % (packageId, packageLength)
             
             collapsePackage = _getPreviousCommonPackage(packageId, viewPackages)
             if collapsePackage != None:
                 print "    - Merge package #%s into #%s" % (packageId, collapsePackage)
                 _mergePackage(packageId, collapsePackage, viewClasses, viewPackages, packageClasses)                
             else:
-                print "    - Sorry no matching parent found!"
+                print "    - Sorry no matching parent found (should normally not occour)!"
             
-        # Re-Generate sorted list of packageIds
-        packageIds = _dictToSortedList(packageClasses)      
-
         # User feedback
         _printViewStats(packageClasses, viewPackages)
 
@@ -808,7 +822,7 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, optimizeLatency, ou
 
     # Compile files...
     packageLoaderContent = ""
-    for packageId in packageIds:
+    for packageId in packageClasses:
         packageFile = outputFile.replace(".js", "_%s.js" % packageId)
         
         print ">>> Compiling classes of package #%s..." % packageId
@@ -823,9 +837,19 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, optimizeLatency, ou
         prefix = "script/"
         packageLoaderContent += "document.write('<script type=\"text/javascript\" src=\"%s\"></script>');\n" % (prefix + packageFile)
 
-    print ">>> Creating package loader..."
+    print ">>> Storing package loader..."
     filetool.save(outputFile, packageLoaderContent)
-  
+ 
+ 
+ 
+def _sortPackageIdsByPriority(packageIds, packageBitCount):
+    def _cmpPackageIds(pkgId1, pkgId2):
+        return packageBitCount[pkgId2] - packageBitCount[pkgId1]
+        
+    packageIds.sort(_cmpPackageIds)
+    
+    return packageIds
+    
   
 def _getPreviousCommonPackage(searchId, viewPackages):
     relevantViews = []
@@ -850,22 +874,22 @@ def _getPreviousCommonPackage(searchId, viewPackages):
 
         
 def _printViewStats(packageClasses, viewPackages):
-    packageIds = _dictToSortedList(packageClasses)
+    packageIds = _dictToHumanSortedList(packageClasses)
     
     print
-    print ">>> Package content:"
+    print ">>> Current package contents:"
     for packageId in packageIds:
         print "  - Package #%s contains %s classes" % (packageId, len(packageClasses[packageId]))
 
     print
-    print ">>> View content:"
+    print ">>> Current view contents:"
     for viewId in viewPackages:
         print "  - View '%s' uses these packages: %s" % (viewId, _intListToString(viewPackages[viewId]))
         
     print
         
 
-def _dictToSortedList(input):
+def _dictToHumanSortedList(input):
     output = []
     for key in input:
         output.append(key)
