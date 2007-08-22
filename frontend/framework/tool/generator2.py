@@ -166,6 +166,7 @@ def process(options):
             "extend" : ["build-common"],
             "buildScript" : "build-apiviewer-views.js",
             "collapseViews" : ["core"],
+            "optimizeLatency" : 5000,
             "views" : 
             {
                 "core" : ["apiviewer.Application","qx.theme.ClassicRoyale"],
@@ -297,14 +298,20 @@ def generateBuildScript(config):
         script = ""
         
     if config.has_key("collapseViews"):
-        collapse = config["collapseViews"]
+        collapseViews = config["collapseViews"]
     else:
-        collapse = []                 
+        collapseViews = []                 
     
+    if config.has_key("optimizeLatency"):
+        optimizeLatency = config["optimizeLatency"]
+    else:
+        optimizeLatency = False
+        
+            
     
     # Two alternative solutions to build the class list
     if len(views) > 0:
-        processViews(views, require, use, collapse, script)
+        processViews(views, require, use, collapseViews, optimizeLatency, script)
     else:
         processIncludeExclude(include, exclude, require, use, script)
 
@@ -488,6 +495,24 @@ def _extractQxEmbeds(data):
 #  TREE SUPPORT
 ######################################################################
 
+def getTokens(id):
+    global classes
+    
+    cache = readCache(id, "tokens", classes[id]["path"])
+    if cache != None:
+        return cache
+    
+    print "  - Generating tokens: %s" % id
+    tokens = tokenizer.parseFile(classes[id]["path"], id, classes[id]["encoding"])
+    
+    writeCache(id, "tokens", tokens)
+    return tokens
+        
+
+def getLength(id):
+    return len(getTokens(id))
+
+
 def getTree(id):
     global classes
     
@@ -496,7 +521,7 @@ def getTree(id):
         return cache
     
     print "  - Generating tree: %s" % id
-    tree = treegenerator.createSyntaxTree(tokenizer.parseFile(classes[id]["path"], id, classes[id]["encoding"]))
+    tree = treegenerator.createSyntaxTree(getTokens(id))
     
     writeCache(id, "tree", tree)
     return tree
@@ -603,16 +628,9 @@ def _splitIncludeExcludeList(input):
 #  VIEW/PACKAGE SUPPORT
 ######################################################################
 
-def processViews(viewDefs, loadDeps, runDeps, collapseViews, outputFile):
+def processViews(viewDefs, loadDeps, runDeps, collapseViews, optimizeLatency, outputFile):
     global classes
-    
 
-    # Build bitmask ids for views
-    viewBits = {}
-    viewPos = 0
-    for viewId in viewDefs:
-        viewBits[viewId] = 1<<viewPos    
-        viewPos += 1
     
     
     # Resolving modules/regexps
@@ -624,6 +642,7 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, outputFile):
     
 
     # Caching dependencies of each view
+    print
     print ">>> Resolving dependencies..."
     viewDeps = {}
     for viewId in viewClasses:
@@ -638,11 +657,26 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, outputFile):
 
         # Finally resolve the dependencies
         viewDeps[viewId] = resolveDependencies(viewClasses[viewId], viewExcludes, loadDeps, runDeps)
-        print "  - view '%s' needs %s classes" % (viewId, len(viewDeps[viewId]))
+        print "  - View '%s' needs %s classes" % (viewId, len(viewDeps[viewId]))
+
+
     
 
 
+    # Build bitmask ids for views
+    print    
+    print ">>> Assigning bits to views..."
+    viewBits = {}
+    viewPos = 0
+    for viewId in viewDefs:
+        print "  - View '%s' => %s" % (viewId, 1<<viewPos)
+        viewBits[viewId] = 1<<viewPos    
+        viewPos += 1
+        
+        
+        
     # Assign classes to packages
+    print
     print ">>> Assigning classes to packages..."
     packageClasses = {}
     
@@ -666,11 +700,11 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, outputFile):
         packageClasses[packageId].append(classId)
         
     
+    
     # Generate sorted list of packageIds
     packageIds = _dictToSortedList(packageClasses)
-
-
-
+    
+    
     
     # Assign packages to views
     print ">>> Assigning packages to views..."
@@ -685,26 +719,12 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, outputFile):
                     viewPackages[viewId] = []
                     
                 viewPackages[viewId].append(packageId)
+                
+                
+                
+    # User feedback
+    _printViewStats(packageClasses, viewPackages)
 
-
-
-
-
-
-    # Debug
-    print ">>> Package content:"
-    for packageId in packageIds:
-        print "  - package #%s contains %s classes" % (packageId, len(packageClasses[packageId]))
-    
-    print ">>> View content:"
-    for viewId in viewPackages:
-        print "  - view '%s' uses these packages: %s" % (viewId, _intListToString(viewPackages[viewId]))
-
-    
-    
-    
-    
-    
     
     # Collapse support
     if len(collapseViews) > 0:
@@ -715,27 +735,64 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, outputFile):
             # This is normally the first package in the list
             # Hint: higher index = more views
             print ">>> Collapsing view '%s'..." % viewId
-            _mergePackages(viewPackages[viewId][1:], viewPackages[viewId][0], viewClasses, viewPackages, packageClasses)
+            collapsePackage = viewPackages[viewId][0]
+            for packageId in viewPackages[viewId][1:]:
+                print "  - Merge package #%s into #%s" % (packageId, collapsePackage)
+                _mergePackage(packageId, collapsePackage, viewClasses, viewPackages, packageClasses)
         
         # Re-Generate sorted list of packageIds
         packageIds = _dictToSortedList(packageClasses)        
 
-        # Debug
-        print ">>> Package content:"
-        for packageId in packageIds:
-            print "  - package #%s contains %s classes" % (packageId, len(packageClasses[packageId]))
-            
-        print ">>> View content:"
-        for viewId in viewPackages:
-            print "  - view '%s' uses these packages: %s" % (viewId, _intListToString(viewPackages[viewId]))
-        
+        # User feedback
+        _printViewStats(packageClasses, viewPackages)
       
-  
-  
-    # TODO: Collapse small files...
-  
 
+
+    # Post-Analysis of package sizes...
+    # Based on the token length which is a bit strange but a good
+    # possibility to get the not really correct filesize in an ultrafast way
+    # More complex code and classes generally also have more tokens in them
+    if optimizeLatency != None and optimizeLatency != 0:
+        smallPackages = []
+        packageIds.reverse() # starting from the end
+        print ">>> Analysing package sizes..."
+        print "  - Optimize at %s tokens" % optimizeLatency
+        for packageId in packageIds:
+            packageLength = 0
+        
+            for classId in packageClasses[packageId]:
+                packageLength += getLength(classId)
+            
+            if packageLength >= optimizeLatency:
+                print "  - Package #%s has %s tokens" % (packageId, packageLength)
+                continue
+            else:
+                print "  - Package #%s has %s tokens => try to optimize" % (packageId, packageLength)
+            
+            # The idea behind is to merge small packages into packages which shares the same
+            # views as already defined. To find these packages we simply add the not yet added views
+            # to the current ID and maybe we find a matching ID to merge with
+            # This would mean an overhead for views which don't used the other classes before
+            # But it may improve regarding the latency of network connections.
+            for viewId in viewBits:
+                viewBit = viewBits[viewId]
+                mergeId = packageId
+            
+                if not packageId&viewBit:
+                
+                    mergeId += viewBit
+                    if mergeId in packageIds:
+                        print "    - merge into package #%s" % mergeId
+                        _mergePackage(packageId, mergeId, viewClasses, viewPackages, packageClasses)
+                        break            
     
+        # Re-Generate sorted list of packageIds
+        packageIds = _dictToSortedList(packageClasses)      
+
+        # User feedback
+        _printViewStats(packageClasses, viewPackages)
+
+  
 
     # Compile files...
     packageLoaderContent = ""
@@ -755,6 +812,22 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, outputFile):
     print ">>> Creating package loader..."
     filetool.save(outputFile, packageLoaderContent)
         
+        
+def _printViewStats(packageClasses, viewPackages):
+    packageIds = _dictToSortedList(packageClasses)
+    
+    print
+    print ">>> Package content:"
+    for packageId in packageIds:
+        print "  - package #%s contains %s classes" % (packageId, len(packageClasses[packageId]))
+
+    print
+    print ">>> View content:"
+    for viewId in viewPackages:
+        print "  - view '%s' uses these packages: %s" % (viewId, _intListToString(viewPackages[viewId]))
+        
+    print
+        
 
 def _dictToSortedList(input):
     output = []
@@ -766,14 +839,7 @@ def _dictToSortedList(input):
     return output
     
 
-def _mergePackages(replacePackages, collapsePackage, viewClasses, viewPackages, packageClasses):
-    for packageId in replacePackages:
-        _mergePackageInto(packageId, collapsePackage, viewClasses, viewPackages, packageClasses)
-
-
-def _mergePackageInto(replacePackage, collapsePackage, viewClasses, viewPackages, packageClasses):
-    print "  - Collapse package #%s into #%s" % (replacePackage, collapsePackage)
-    
+def _mergePackage(replacePackage, collapsePackage, viewClasses, viewPackages, packageClasses):
     # Replace other package content
     for viewId in viewClasses:
         viewContent = viewPackages[viewId]
@@ -1143,6 +1209,7 @@ def scanClassPaths(paths):
     global classes
     classes = {}
     
+    print ">>> Scanning class paths..."
     for path in paths:
         _addClassPath(path)
         
@@ -1152,7 +1219,7 @@ def scanClassPaths(paths):
 def _addClassPath(classPath, encoding="utf-8"):
     global classes
         
-    print ">>> Scanning: %s" % classPath
+    print "  - Scanning: %s" % classPath
     
     implCounter = 0
     docCounter = 0
@@ -1193,10 +1260,10 @@ def _addClassPath(classPath, encoding="utf-8"):
                         implCounter += 1
                     
                     if filePathId != fileContentId:
-                        print "  - Mismatching IDs in file: %s" % filePath
+                        print "    - Mismatching IDs in file: %s" % filePath
                 
                 if fileCategory == "unknown":
-                    print "  - Invalid file: %s" % filePath
+                    print "    - Invalid file: %s" % filePath
                     sys.exit(1)
                 
                 fileId = filePathId
@@ -1212,7 +1279,7 @@ def _addClassPath(classPath, encoding="utf-8"):
                 }
                 
                 
-    print "  - Found: %s impl, %s doc, %s locale" % (implCounter, docCounter, localeCounter)
+    print "    - Found: %s impl, %s doc, %s locale" % (implCounter, docCounter, localeCounter)
 
 
 def _extractQxClassContentId(data):
