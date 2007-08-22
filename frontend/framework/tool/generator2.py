@@ -822,7 +822,9 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, optimizeLatency, ou
 
     # Compile files...
     packageLoaderContent = ""
-    for packageId in packageClasses:
+    sortedPackageIds = _sortPackageIdsByPriority(_dictToHumanSortedList(packageClasses), packageBitCounts)
+    
+    for packageId in sortedPackageIds:
         packageFile = outputFile.replace(".js", "_%s.js" % packageId)
         
         print ">>> Compiling classes of package #%s..." % packageId
