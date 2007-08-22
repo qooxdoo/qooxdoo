@@ -131,11 +131,19 @@ def process(options):
             "extend" : ["build-common"],
             "buildScript" : "build-feedreader.js",
             "include" : ["feedreader.Application"]
-        },        
+        },    
+        
+        
+        
+        "build-views-common" :
+        {
+            "extend" : ["build-common"],
+            "optimizeLatency" : 5000
+        },            
         
         "build-app-views" : 
         {
-            "extend" : ["build-common"],
+            "extend" : ["build-views-common"],
             "buildScript" : "build-app-views.js",
             "views" : 
             {
@@ -148,7 +156,7 @@ def process(options):
         
         "build-comp-views" :
         {
-            "extend" : ["build-common"],
+            "extend" : ["build-views-common"],
             "buildScript" : "build-comp-views.js",
             "views" : 
             {
@@ -163,10 +171,9 @@ def process(options):
         
         "build-apiviewer-views" :
         {
-            "extend" : ["build-common"],
+            "extend" : ["build-views-common"],
             "buildScript" : "build-apiviewer-views.js",
             "collapseViews" : ["core"],
-            "optimizeLatency" : 5000,
             "views" : 
             {
                 "core" : ["apiviewer.Application","qx.theme.ClassicRoyale"],
@@ -305,7 +312,7 @@ def generateBuildScript(config):
     if config.has_key("optimizeLatency"):
         optimizeLatency = config["optimizeLatency"]
     else:
-        optimizeLatency = False
+        optimizeLatency = None
         
             
     
@@ -819,12 +826,12 @@ def _printViewStats(packageClasses, viewPackages):
     print
     print ">>> Package content:"
     for packageId in packageIds:
-        print "  - package #%s contains %s classes" % (packageId, len(packageClasses[packageId]))
+        print "  - Package #%s contains %s classes" % (packageId, len(packageClasses[packageId]))
 
     print
     print ">>> View content:"
     for viewId in viewPackages:
-        print "  - view '%s' uses these packages: %s" % (viewId, _intListToString(viewPackages[viewId]))
+        print "  - View '%s' uses these packages: %s" % (viewId, _intListToString(viewPackages[viewId]))
         
     print
         
