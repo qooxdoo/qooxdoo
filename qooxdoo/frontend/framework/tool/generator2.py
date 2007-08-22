@@ -24,7 +24,7 @@ import sys, re, os, optparse, math, cPickle, copy, sets
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "modules"))
 
 import config, tokenizer, tree, treegenerator, treeutil, optparseext, filetool
-import compiler, variableoptimizer
+import compiler, variableoptimizer, textutil
 
 
 
@@ -123,7 +123,7 @@ def process(options):
         {
             "extend" : ["build-common"],
             "buildScript" : "build-apiviewer.js",
-            "include" : ["apiviewer.Application","qx.theme.ClassicRoyale"]
+            "include" : ["apiviewer.*","qx.theme.ClassicRoyale"]
         },        
         
         "build-feedreader" : 
@@ -152,12 +152,12 @@ def process(options):
             "buildScript" : "build-comp-views.js",
             "views" : 
             {
-                "tree" : ["qx.ui.tree.Tree"],
+                "tree" : ["ui_tree"],
                 "colorselector" : ["qx.ui.component.ColorSelector"],
-                "window" : ["qx.ui.window.Window"],
-                "toolbar" : ["qx.ui.toolbar.ToolBar", "qx.ui.menu.Menu"],
-                "table" : ["qx.ui.table.Table"],
-                "combobox" : ["qx.ui.form.ComboBox"]
+                "window" : ["ui_window"],
+                "toolbar" : ["ui_toolbar", "ui_menu"],
+                "table" : ["ui_table"],
+                "form" : ["ui_form"]
             }
         },
         
@@ -536,23 +536,26 @@ def processIncludeExclude(include, exclude, loadDeps, runDeps, script):
     print "  - Including %s items smart, %s items explicit" % (len(smartInclude), len(explicitInclude))
     print "  - Excluding %s items smart, %s items explicit" % (len(smartExclude), len(explicitExclude))
     
+    # Configuration feedback
     if len(exclude) > 0:
         print "  - Warning: Excludes may break code!"
         
     if len(explicitInclude) > 0:
         print "  - Warning: Explicit included classes may not work"
     
-    print ">>> Resolving modules..."
-    smartInclude = resolveModules(smartInclude)
-    explicitInclude = resolveModules(explicitInclude)
-    smartExclude = resolveModules(smartExclude)
-    explicitExclude = resolveModules(explicitExclude)
+    # Resolve modules/regexps
+    print ">>> Resolving modules/regexps..."
+    smartInclude = resolveComplexDefs(smartInclude)
+    explicitInclude = resolveComplexDefs(explicitInclude)
+    smartExclude = resolveComplexDefs(smartExclude)
+    explicitExclude = resolveComplexDefs(explicitExclude)
     
-    # getting dictionary of files
+    # Detect dependencies
     print ">>> Resolving dependencies for smart includes/excludes..."
     result = resolveDependencies(smartInclude, smartExclude, loadDeps, runDeps)
     print "  - List contains %s classes" % len(result)
     
+    # Explicit include/exclude
     print ">>> Processing explicitely configured includes/excludes..."
     for entry in explicitInclude:
         result[entry] = True
@@ -569,12 +572,11 @@ def processIncludeExclude(include, exclude, loadDeps, runDeps, script):
         for entry in optionals:
             print "  - %s" % entry
 
-    print ">>> Sorting classes..."
-    sorted = sortClasses(result, loadDeps, runDeps) 
-    
+    # Compiling classes
     print ">>> Compiling classes..."
-    compiled = compileClasses(sorted)
+    compiled = compileClasses(sortClasses(result, loadDeps, runDeps))
     
+    # Saving result
     print ">>> Storing result (%s KB) to %s" % ((len(compiled) / 1024), script)
     filetool.save(script, compiled)
 
@@ -612,46 +614,49 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, outputFile):
         viewBits[viewId] = 1<<viewPos    
         viewPos += 1
     
+    
+    # Resolving modules/regexps
+    print ">>> Resolving modules/regexps..."
+    viewClasses = {}
+    for viewId in viewDefs:
+        viewClasses[viewId] = resolveComplexDefs(viewDefs[viewId])
+    
+    
 
-    # Find all used classes
-    # Used to reduce loop size for further iterations (not using huge 'classes')
-    print ">>> Analysing %s views..." % len(viewDefs)
-    combinedDefs = []
-    for viewId in viewDefs:
-        combinedDefs.extend(viewDefs[viewId])
-    
-    combinedClasses = resolveDependencies(combinedDefs, [], loadDeps, runDeps)
-    print "  - Number of involved classes: %s" % len(combinedClasses)
-    
-    
     # Caching dependencies of each view
-    print ">>> Resolving view dependencies..."
+    print ">>> Resolving dependencies..."
     viewDeps = {}
-    for viewId in viewDefs:
+    for viewId in viewClasses:
         # Exclude all features of other views
         # and handle dependencies the smart way =>
         # also exclude classes only needed by the
         # already excluded features
         viewExcludes = []
-        for subViewId in viewDefs:
+        for subViewId in viewClasses:
             if subViewId != viewId:
-                viewExcludes.extend(viewDefs[subViewId])
+                viewExcludes.extend(viewClasses[subViewId])
 
         # Finally resolve the dependencies
-        viewDeps[viewId] = resolveDependencies(viewDefs[viewId], viewExcludes, loadDeps, runDeps)
+        viewDeps[viewId] = resolveDependencies(viewClasses[viewId], viewExcludes, loadDeps, runDeps)
         print "  - view '%s' needs %s classes" % (viewId, len(viewDeps[viewId]))
     
 
+
     # Assign classes to packages
+    print ">>> Assigning classes to packages..."
     packageClasses = {}
     
-    for classId in combinedClasses:
+    for classId in classes:
         packageId = 0
         
         # Iterate through the views use needs this class
-        for viewId in viewDefs:
+        for viewId in viewClasses:
             if classId in viewDeps[viewId]:
                 packageId += viewBits[viewId]
+        
+        # Ignore unused classes
+        if packageId == 0:
+            continue
         
         # Create missing data structure
         if not packageClasses.has_key(packageId):
@@ -665,10 +670,13 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, outputFile):
     packageIds = _dictToSortedList(packageClasses)
 
 
+
+    
     # Assign packages to views
+    print ">>> Assigning packages to views..."
     viewPackages = {}
     
-    for viewId in viewDefs:
+    for viewId in viewClasses:
         viewBit = viewBits[viewId]
         
         for packageId in packageIds:
@@ -707,7 +715,7 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, outputFile):
             # This is normally the first package in the list
             # Hint: higher index = more views
             print ">>> Collapsing view '%s'..." % viewId
-            _mergePackages(viewPackages[viewId][1:], viewPackages[viewId][0], viewDefs, viewPackages, packageClasses)
+            _mergePackages(viewPackages[viewId][1:], viewPackages[viewId][0], viewClasses, viewPackages, packageClasses)
         
         # Re-Generate sorted list of packageIds
         packageIds = _dictToSortedList(packageClasses)        
@@ -758,16 +766,16 @@ def _dictToSortedList(input):
     return output
     
 
-def _mergePackages(replacePackages, collapsePackage, viewDefs, viewPackages, packageClasses):
+def _mergePackages(replacePackages, collapsePackage, viewClasses, viewPackages, packageClasses):
     for packageId in replacePackages:
-        _mergePackageInto(packageId, collapsePackage, viewDefs, viewPackages, packageClasses)
+        _mergePackageInto(packageId, collapsePackage, viewClasses, viewPackages, packageClasses)
 
 
-def _mergePackageInto(replacePackage, collapsePackage, viewDefs, viewPackages, packageClasses):
+def _mergePackageInto(replacePackage, collapsePackage, viewClasses, viewPackages, packageClasses):
     print "  - Collapse package #%s into #%s" % (replacePackage, collapsePackage)
     
     # Replace other package content
-    for viewId in viewDefs:
+    for viewId in viewClasses:
         viewContent = viewPackages[viewId]
     
         if replacePackage in viewContent:
@@ -798,24 +806,28 @@ def _intListToString(input):
 
 
 ######################################################################
-#  MODULE SUPPORT
+#  MODULE/REGEXP SUPPORT
 ######################################################################
 
-def resolveModules(entries):
+def resolveComplexDefs(entries):
     global modules
+    global classes
     
-    classes = []
+    content = []
     
-    for id in entries:
-        if id in modules:
-            classes.extend(modules[id])
-        else:
-            classes.append(id)
-    
-    return classes
-        
+    for entry in entries:
+        if entry in modules:
+            content.extend(modules[entry])
+        else:        
+            regexp = textutil.toRegExp(entry)
 
-
+            for className in classes:
+                if regexp.search(className):
+                    if not className in content:
+                        # print "Resolved: %s with %s" % (entry, className)
+                        content.append(className)    
+                        
+    return content
 
 
 
