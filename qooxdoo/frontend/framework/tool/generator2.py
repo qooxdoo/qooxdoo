@@ -700,6 +700,7 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, optimizeLatency, ou
     print
     print ">>> Assigning classes to packages..."
     packageClasses = {}
+    packageViewNumber = {}
     
     for classId in classes:
         packageId = 0
@@ -749,16 +750,17 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, optimizeLatency, ou
     
     # Collapse support
     if len(collapseViews) > 0:
+        print ">>> Collapsing views..."
         for viewId in collapseViews:
             # Theory:
             # Merge all packages into one
             # Target should be the one width the most usage by other views
             # This is normally the first package in the list
             # Hint: higher index = more views
-            print ">>> Collapsing view '%s'..." % viewId
+            print "  - Collapsing view '%s'..." % viewId
             collapsePackage = viewPackages[viewId][0]
             for packageId in viewPackages[viewId][1:]:
-                print "  - Merge package #%s into #%s" % (packageId, collapsePackage)
+                print "    - Merge package #%s into #%s" % (packageId, collapsePackage)
                 _mergePackage(packageId, collapsePackage, viewClasses, viewPackages, packageClasses)
         
         # Re-Generate sorted list of packageIds
@@ -767,7 +769,6 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, optimizeLatency, ou
         # User feedback
         _printViewStats(packageClasses, viewPackages)
       
-
 
     # Post-Analysis of package sizes...
     # Based on the token length which is a bit strange but a good
@@ -790,28 +791,13 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, optimizeLatency, ou
             else:
                 print "  - Package #%s has %s tokens => try to optimize" % (packageId, packageLength)
             
-            # The idea behind is to merge small packages into packages which shares the same
-            # views as already defined. To find these packages we simply add the not yet added views
-            # to the current ID and maybe we find a matching ID to merge with
-            # This would mean an overhead for views which don't used the other classes before
-            # But it may improve regarding the latency of network connections.
-            for viewId in viewBits:
-                viewBit = viewBits[viewId]
-                mergeId = packageId
+            collapsePackage = _getPreviousCommonPackage(packageId, viewPackages)
+            if collapsePackage != None:
+                print "    - Merge package #%s into #%s" % (packageId, collapsePackage)
+                _mergePackage(packageId, collapsePackage, viewClasses, viewPackages, packageClasses)                
+            else:
+                print "    - Sorry no matching parent found!"
             
-                if not packageId&viewBit:
-                
-                    mergeId += viewBit
-                    print "Try: %s (%s)" % (mergeId, viewBit)
-                    
-                    # TODO: Moegliche Kombinationen finden
-                    # ...
-                    
-                    if mergeId in packageIds:
-                        print "    - merge into package #%s" % mergeId
-                        _mergePackage(packageId, mergeId, viewClasses, viewPackages, packageClasses)
-                        break            
-    
         # Re-Generate sorted list of packageIds
         packageIds = _dictToSortedList(packageClasses)      
 
@@ -826,10 +812,12 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, optimizeLatency, ou
         packageFile = outputFile.replace(".js", "_%s.js" % packageId)
         
         print ">>> Compiling classes of package #%s..." % packageId
-        compiledContent = compileClasses(sortClasses(packageClasses[packageId], loadDeps, runDeps))
+        sortedClasses = sortClasses(packageClasses[packageId], loadDeps, runDeps)
+        compiledContent = compileClasses(sortedClasses)
         
         print "  - Storing result (%s KB) to %s" % ((len(compiledContent) / 1024), packageFile)
         filetool.save(packageFile, compiledContent)
+        filetool.save(packageFile + ".index", "\n".join(sortedClasses))
 
         # TODO: Make prefix configurable
         prefix = "script/"
@@ -837,7 +825,29 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, optimizeLatency, ou
 
     print ">>> Creating package loader..."
     filetool.save(outputFile, packageLoaderContent)
-        
+  
+  
+def _getPreviousCommonPackage(searchId, viewPackages):
+    relevantViews = []
+    relevantPackages = []
+    
+    for viewId in viewPackages:
+        packages = viewPackages[viewId]
+        if searchId in packages:
+            relevantViews.append(viewId)
+            relevantPackages.extend(packages[:packages.index(searchId)])
+
+    # Should be sorted like other package lists
+    # but in this case starting from the end (so not reversing)
+    relevantPackages.sort()
+
+    # Check if a package is available identical times to the number of views
+    for packageId in relevantPackages:
+        if relevantPackages.count(packageId) == len(relevantViews):
+            return packageId
+            
+    return None
+
         
 def _printViewStats(packageClasses, viewPackages):
     packageIds = _dictToSortedList(packageClasses)
