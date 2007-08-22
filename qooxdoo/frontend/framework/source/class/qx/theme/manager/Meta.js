@@ -316,7 +316,7 @@ qx.Class.define("qx.theme.manager.Meta",
      * @return {Theme[]} list of color themes
      */
     getAppearanceThemes : function() {
-      return this.__queryThemes("appearance");
+      return this.__queryThemes("appearances");
     }
   },
 
