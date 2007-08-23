@@ -136,6 +136,14 @@ def cleanup(target):
     rc = invoke_external("svn --recursive revert %s" % target)
     return rc
 
+def date():
+    " Print a nicely formatted datetime string "
+    import time
+    print
+    time.ctime()
+    print
+    return
+
 #rc = build_packet('tags/release_0_7',0)
 #rc = build_packet('branches/legacy_0_7_x',0)
 #rc = build_packet('trunc',0)
@@ -143,9 +151,11 @@ def build_packet(target,revision):
     cleanup(target)
     svn_checkout(target,revision)
     goto_workdir(os.path.join(target,"qooxdoo","frontend"))
+    date()
     #make('source')
     #make('build')
     make('release')
+    date()
     return 0
 
 def build_targets(targList):
