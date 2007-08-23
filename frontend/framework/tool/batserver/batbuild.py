@@ -140,7 +140,7 @@ def date():
     " Print a nicely formatted datetime string "
     import time
     print
-    time.ctime()
+    print time.ctime()
     print
     return
 
