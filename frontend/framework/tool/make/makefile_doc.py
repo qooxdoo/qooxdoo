@@ -138,8 +138,8 @@ def main():
                 t=newdoc.createTextNode(mo.group(3))
                 d.appendChild(t)
     f.close()
-    topEl.writexml(sys.stdout)
-    #print topEl.toprettyxml("  ")
+    #topEl.writexml(sys.stdout)
+    print topEl.toprettyxml("  ")
     #output(topEl)
 
 # - Output Control -------------------------------------------------------
