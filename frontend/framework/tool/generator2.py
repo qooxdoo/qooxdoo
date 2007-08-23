@@ -123,7 +123,12 @@ def process(options):
         {
             "extend" : ["build-common"],
             "buildScript" : "build-apiviewer.js",
-            "include" : ["apiviewer.*","qx.theme.ClassicRoyale"]
+            "include" : ["apiviewer.*","qx.theme.ClassicRoyale"],
+            "variants" : 
+            {
+                "qx.debug" : ["on","off"],
+                "qx.client" : ["gecko","mshtml","webkit","opera"]
+            }
         },        
         
         "build-feedreader" : 
@@ -314,9 +319,14 @@ def generateBuildScript(config):
         views = {}
         
     if config.has_key("buildScript"):
-        script = config["buildScript"]
+        buildScript = config["buildScript"]
     else:
-        script = ""
+        buildScript = ""
+        
+    if config.has_key("variants"):
+        variants = config["variants"]
+    else:
+        variants = ""        
         
     if config.has_key("collapseViews"):
         collapseViews = config["collapseViews"]
@@ -332,9 +342,9 @@ def generateBuildScript(config):
     
     # Two alternative solutions to build the class list
     if len(views) > 0:
-        processViews(views, require, use, collapseViews, optimizeLatency, script)
+        processViews(views, require, use, variants, collapseViews, optimizeLatency, buildScript)
     else:
-        processIncludeExclude(include, exclude, require, use, script)
+        processIncludeExclude(include, exclude, require, use, variants, buildScript)
 
     
 
@@ -575,12 +585,13 @@ def getVariableOptimizedTree(id):
 #  INCLUDE/EXCLUDE SUPPORT
 ######################################################################
 
-def processIncludeExclude(include, exclude, loadDeps, runDeps, script):
+def processIncludeExclude(include, exclude, loadDeps, runDeps, variants, buildScript):
     print ">>> Processing include/exclude"    
     smartInclude, explicitInclude = _splitIncludeExcludeList(include)
     smartExclude, explicitExclude = _splitIncludeExcludeList(exclude)
     print "  - Including %s items smart, %s items explicit" % (len(smartInclude), len(explicitInclude))
     print "  - Excluding %s items smart, %s items explicit" % (len(smartExclude), len(explicitExclude))
+    
     
     # Configuration feedback
     if len(exclude) > 0:
@@ -589,6 +600,7 @@ def processIncludeExclude(include, exclude, loadDeps, runDeps, script):
     if len(explicitInclude) > 0:
         print "  - Warning: Explicit included classes may not work"
     
+    
     # Resolve modules/regexps
     print ">>> Resolving modules/regexps..."
     smartInclude = resolveComplexDefs(smartInclude)
@@ -596,10 +608,21 @@ def processIncludeExclude(include, exclude, loadDeps, runDeps, script):
     smartExclude = resolveComplexDefs(smartExclude)
     explicitExclude = resolveComplexDefs(explicitExclude)
     
+    
     # Detect dependencies
     print ">>> Resolving dependencies for smart includes/excludes..."
     result = resolveDependencies(smartInclude, smartExclude, loadDeps, runDeps)
     print "  - List contains %s classes" % len(result)
+    
+    
+    
+    # Apply variants
+    print ">>> Computing variant combinations..."
+    variantCombis = _computeVariantCombinations(variants)
+    print "  - Possible combinations: %s" % len(variantCombis)
+    for combi in variantCombis:
+        print combi
+    
     
     # Explicit include/exclude
     print ">>> Processing explicitely configured includes/excludes..."
@@ -611,6 +634,7 @@ def processIncludeExclude(include, exclude, loadDeps, runDeps, script):
 
     print "  - List contains %s classes" % len(result)
     
+    
     # Detect optionals
     optionals = getOptionals(result)
     if len(optionals) > 0:
@@ -618,13 +642,16 @@ def processIncludeExclude(include, exclude, loadDeps, runDeps, script):
         for entry in optionals:
             print "  - %s" % entry
 
+
     # Compiling classes
     print ">>> Compiling classes..."
     compiled = compileClasses(sortClasses(result, loadDeps, runDeps))
+
     
     # Saving result
-    print ">>> Storing result (%s KB) to %s" % ((len(compiled) / 1024), script)
-    filetool.save(script, compiled)
+    print ">>> Storing result (%s KB) to %s" % ((len(compiled) / 1024), buildScript)
+    filetool.save(buildScript, compiled)
+
 
 
 def _splitIncludeExcludeList(input):
@@ -641,9 +668,34 @@ def _splitIncludeExcludeList(input):
 
 
 
+def _findCombinations(a):
+    result = [[]]
+    
+    for x in a:
+        t = []
+        for y in x:
+            for i in result:
+                t.append(i+[y])
+        result = t    
+
+    return result
+    
+    
+
+def _computeVariantCombinations(variants):
+    variantPossibilities = []
+    for variantId in variants:
+        innerList = []
+        for variantValue in variants[variantId]:
+            innerList.append({"id" : variantId, "value" : variantValue})
+        variantPossibilities.append(innerList)
+    
+    return _findCombinations(variantPossibilities)
 
 
 
+
+    
 
 ######################################################################
 #  VIEW/PACKAGE SUPPORT
