@@ -24,7 +24,7 @@ import sys, re, os, optparse, math, cPickle, copy, sets
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "modules"))
 
 import config, tokenizer, tree, treegenerator, treeutil, optparseext, filetool
-import compiler, variableoptimizer, textutil, variantoptimizer
+import compiler, variableoptimizer, textutil, variantoptimizer, stringoptimizer, basecalloptimizer
 
 
 
@@ -126,10 +126,13 @@ def process(options):
             "include" : ["apiviewer.*","qx.theme.ClassicRoyale"],
             "variants" : 
             {
-                "qx.debug" : ["on","off"],
-                "qx.client" : ["gecko","mshtml","webkit","opera"],
+                #"qx.debug" : ["on","off"],
+                "qx.debug" : ["off"],
+                #"qx.client" : ["gecko","mshtml","webkit","opera"],
+                "qx.client" : ["gecko","mshtml"],
                 "qx.variableoptimizer" : ["on"],
-                "qx.stringoptimizer" : ["on"]
+                "qx.stringoptimizer" : ["on"],
+                "qx.basecalloptimizer" : ["on"]
             }
         },        
         
@@ -541,9 +544,11 @@ def getTokens(id):
     writeCache(id, "tokens", tokens)
     return tokens
         
+        
 
 def getLength(id):
     return len(getTokens(id))
+
 
 
 def getTree(id):
@@ -558,6 +563,7 @@ def getTree(id):
     
     writeCache(id, "tree", tree)
     return tree
+    
 
 
 def getVariableOptimizedTree(id):
@@ -573,9 +579,47 @@ def getVariableOptimizedTree(id):
     print "  - Optimized %s variables" % counter
         
     writeCache(id, "tree-variableoptimized", tree)
-    return tree  
+    return tree
+    
+    
+    
+def getOptimizedTree(id, varopt=False, baseopt=False, stringopt=False):
+    global classes
+    
+    storeId = "tree-"
+    if varopt:
+        storeId += "-varopt"
+    if baseopt:
+        storeId += "-baseopt"
+    if stringopt:
+        storeId += "-stringopt"
         
+    cache = readCache(id, storeId, classes[id]["path"])
+    if cache != None:
+        return cache
+    
+    print ">>> Generating optimized tree: %s" % id
+    tree = copy.deepcopy(getTree(id))
+    
+    if varopt:
+        print "  - Optimize local variables..."
+        variableoptimizer.search(tree, [], 0, 0, "$")
 
+    if baseopt:
+        print "  - Optimize base calls..."
+        basecalloptimizer.patch(tree, id)
+        
+    if stringopt:
+        print "  - Optimize strings..."
+        #TODO
+    
+    # Store result into cache
+    writeCache(id, storeId, tree)
+    
+    return tree
+    
+        
+    
 def getVariantsTree(id, variants):
     global classes
 
@@ -591,15 +635,22 @@ def getVariantsTree(id, variants):
     variantsMap = {}
     for entry in variants:
         variantsMap[entry["id"]] = entry["value"]
-
-    # Special variants: Variable optimizer
+        
+    # Special variants: Optimizers
+    varopt = baseopt = stringopt = False
+    
     if variantsMap.has_key("qx.variableoptimizer") and variantsMap["qx.variableoptimizer"] == "on":
-        tree = getVariableOptimizedTree(id)
-    else:
-        tree = getTree(id)
+        varopt = True
+
+    if variantsMap.has_key("qx.basecalloptimizer") and variantsMap["qx.basecalloptimizer"] == "on":
+        baseopt = True
+
+    if variantsMap.has_key("qx.stringoptimizer") and variantsMap["qx.stringoptimizer"] == "on":
+        if variantsMap.has_key("qx.client") and variantsMap["qx.client"] == "mshtml":
+            stringopt = True
 
     # Copy tree to work with
-    tree = copy.deepcopy(tree)
+    tree = copy.deepcopy(getOptimizedTree(id, varopt, baseopt, stringopt))
     
     # Call variant optimizer
     variantoptimizer.search(tree, variantsMap, id)
@@ -609,7 +660,8 @@ def getVariantsTree(id, variants):
     
     return tree
         
-    
+
+
   
         
         
@@ -644,13 +696,13 @@ def processIncludeExclude(include, exclude, loadDeps, runDeps, variants, buildSc
     explicitExclude = resolveComplexDefs(explicitExclude)
     
     
-    # Compute variant combinations
+    # Compute variant sets
     print ">>> Computing variant combinations..."
     variantsSets = _computeVariantCombinations(variants)
     print "  - Possible combinations: %s" % len(variantsSets)
     
     
-    
+    # Process variant sets
     for variants in variantsSets:
         variantsId = generateVariantCombinationId(variants)
         
@@ -749,6 +801,10 @@ def generateVariantCombinationId(selected):
         sortedString.append("(" + entry["id"].replace(".", "") + "_" + entry["value"] + ")")
         
     return "_".join(sortedString)
+    
+    
+    
+    
     
     
 
@@ -1092,10 +1148,10 @@ def getOptionals(classes):
 #  COMPILER SUPPORT
 ######################################################################
 
-def compileClasses(classes, variants):
+def compileClasses(todo, variants):
     content = ""
     
-    for id in classes:
+    for id in todo:
         content += _compileClassHelper(getVariantsTree(id, variants))
     
     return content
