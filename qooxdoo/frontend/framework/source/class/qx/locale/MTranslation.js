@@ -45,9 +45,9 @@ qx.Mixin.define("qx.locale.MTranslation",
      */
     tr : function(messageId, varargs)
     {
-      var nlsManager = qx.locale.Manager;
-      if (nlsManager) {
-        return nlsManager.tr.apply(nlsManager, arguments);
+      var localeManager = qx.locale.Manager;
+      if (localeManager) {
+        return localeManager.tr.apply(localeManager, arguments);
       }
 
       throw new Error("To enable localization please include qx.locale.Manager into your build!");
@@ -69,9 +69,9 @@ qx.Mixin.define("qx.locale.MTranslation",
      */
     trn : function(singularMessageId, pluralMessageId, count, varargs)
     {
-      var nlsManager = qx.locale.Manager;
-      if (nlsManager) {
-        return nlsManager.trn.apply(nlsManager, arguments);
+      var localeManager = qx.locale.Manager;
+      if (localeManager) {
+        return localeManager.trn.apply(localeManager, arguments);
       }
 
       throw new Error("To enable localization please include qx.locale.Manager into your build!");
@@ -87,9 +87,9 @@ qx.Mixin.define("qx.locale.MTranslation",
      */
     marktr : function(messageId)
     {
-      var nlsManager = qx.locale.Manager;
-      if (nlsManager) {
-        return nlsManager.marktr.apply(nlsManager, arguments);
+      var localeManager = qx.locale.Manager;
+      if (localeManager) {
+        return localeManager.marktr.apply(localeManager, arguments);
       }
 
       throw new Error("To enable localization please include qx.locale.Manager into your build!");
