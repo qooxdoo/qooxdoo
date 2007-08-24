@@ -197,6 +197,11 @@ def process(options):
         {
             "extend" : ["build-views-common"],
             "buildScript" : "build-apiviewer-views",
+            "variants" : 
+            {
+                "qx.debug" : ["off"],
+                "qx.client" : ["gecko","mshtml"]
+            },
             "collapseViews" : ["core"],
             "views" : 
             {
@@ -797,10 +802,14 @@ def generateVariantCombinationId(selected):
 #  VIEW/PACKAGE SUPPORT
 ######################################################################
 
-def processViews(viewDefs, loadDeps, runDeps, collapseViews, optimizeLatency, outputFile):
+def processViews(viewDefs, loadDeps, runDeps, variants, collapseViews, optimizeLatency, outputFile):
     global classes
 
-    
+    # Compute variant sets
+    print ">>> Computing variant combinations..."
+    variantsSets = _computeVariantCombinations(variants)
+    print "  - Possible combinations: %s" % len(variantsSets)
+
     
     # Resolving modules/regexps
     print ">>> Resolving modules/regexps..."
@@ -809,186 +818,189 @@ def processViews(viewDefs, loadDeps, runDeps, collapseViews, optimizeLatency, ou
         viewClasses[viewId] = resolveComplexDefs(viewDefs[viewId])
     
     
-
-    # Caching dependencies of each view
-    print
-    print ">>> Resolving dependencies..."
-    viewDeps = {}
-    for viewId in viewClasses:
-        # Exclude all features of other views
-        # and handle dependencies the smart way =>
-        # also exclude classes only needed by the
-        # already excluded features
-        viewExcludes = []
-        for subViewId in viewClasses:
-            if subViewId != viewId:
-                viewExcludes.extend(viewClasses[subViewId])
-
-        # Finally resolve the dependencies
-        viewDeps[viewId] = resolveDependencies(viewClasses[viewId], viewExcludes, loadDeps, runDeps)
-        print "  - View '%s' needs %s classes" % (viewId, len(viewDeps[viewId]))
-
-
-
-    # Build bitmask ids for views
-    print    
-    print ">>> Assigning bits to views..."
-    
-    # References viewId -> bitId of that view
-    viewBits = {}
-    
-    viewPos = 0
-    for viewId in viewDefs:
-        viewBit = 1<<viewPos
-        print "  - View '%s' => %s" % (viewId, viewBit)
-        viewBits[viewId] = viewBit
-        viewPos += 1
+    # Process variant sets
+    for variants in variantsSets:
+        variantsId = generateVariantCombinationId(variants)
         
-        
-        
-    # Assign classes to packages
-    print
-    print ">>> Assigning classes to packages..."
-    
-    # References packageId -> class list
-    packageClasses = {}
-    
-    # References packageId -> bit number e.g. 4=1, 5=2, 6=2, 7=3
-    packageBitCounts = {}
-    
-    for classId in classes:
-        packageId = 0
-        bitCount = 0
-        
-        # Iterate through the views use needs this class
+        # Caching dependencies of each view
+        print
+        print ">>> Resolving dependencies..."
+        viewDeps = {}
         for viewId in viewClasses:
-            if classId in viewDeps[viewId]:
-                packageId += viewBits[viewId]
-                bitCount += 1
-        
-        # Ignore unused classes
-        if packageId == 0:
-            continue
-        
-        # Create missing data structure
-        if not packageClasses.has_key(packageId):
-            packageClasses[packageId] = []
-            packageBitCounts[packageId] = bitCount
-            
-        # Finally store the class to the package
-        packageClasses[packageId].append(classId)
-        
+            # Exclude all features of other views
+            # and handle dependencies the smart way =>
+            # also exclude classes only needed by the
+            # already excluded features
+            viewExcludes = []
+            for subViewId in viewClasses:
+                if subViewId != viewId:
+                    viewExcludes.extend(viewClasses[subViewId])
+
+            # Finally resolve the dependencies
+            viewDeps[viewId] = resolveDependencies(viewClasses[viewId], viewExcludes, loadDeps, runDeps, variants)
+            print "  - View '%s' needs %s classes" % (viewId, len(viewDeps[viewId]))
 
 
 
-    # Assign packages to views
-    print ">>> Assigning packages to views..."
-    viewPackages = {}
+        # Build bitmask ids for views
+        print    
+        print ">>> Assigning bits to views..."
     
-    for viewId in viewClasses:
-        viewBit = viewBits[viewId]
-        
-        for packageId in packageClasses:
-            if packageId&viewBit:
-                if not viewPackages.has_key(viewId):
-                    viewPackages[viewId] = []
-                    
-                viewPackages[viewId].append(packageId)
-                
-        # Be sure that the view package list is in order to the package priorit
-        _sortPackageIdsByPriority(viewPackages[viewId], packageBitCounts)
-
-
-
-                
-    # User feedback
-    _printViewStats(packageClasses, viewPackages)
-
-
+        # References viewId -> bitId of that view
+        viewBits = {}
     
-    # Support for package collapsing
-    # Could improve latency when initial loading an application
-    # Merge all packages of a specific view into one (also supports multiple views)
-    # Hint: View packages are sorted by priority, this way we can
-    # easily merge all following packages with the first one, because
-    # the first one is always the one with the highest priority
-    if len(collapseViews) > 0:
-        print ">>> Collapsing views..."
-        for viewId in collapseViews:
-            print "  - Collapsing view '%s'..." % viewId
-            collapsePackage = viewPackages[viewId][0]
-            for packageId in viewPackages[viewId][1:]:
-                print "    - Merge package #%s into #%s" % (packageId, collapsePackage)
-                _mergePackage(packageId, collapsePackage, viewClasses, viewPackages, packageClasses)
+        viewPos = 0
+        for viewId in viewDefs:
+            viewBit = 1<<viewPos
+            print "  - View '%s' => %s" % (viewId, viewBit)
+            viewBits[viewId] = viewBit
+            viewPos += 1
         
-        # User feedback
-        _printViewStats(packageClasses, viewPackages)
-      
-      
-    # Support for merging small packages
-    # Hint1: Based on the token length which is a bit strange but a good
-    # possibility to get the not really correct filesize in an ultrafast way
-    # More complex code and classes generally also have more tokens in them
-    # Hint2: The first common package before the selected package between two 
-    # or more views is allowed to merge with. As the package which should be merged
-    # may have requirements these must be solved. The easiest way to be sure regarding
-    # this issue, is to look out for another common package. The package for which we
-    # are looking must have requirements in all views so these must be solved by all views
-    # so there must be another common package. Hardly to describe... hope this makes some sense
-    if optimizeLatency != None and optimizeLatency != 0:
-        smallPackages = []
         
-        # Start at the end with the priority sorted list
-        sortedPackageIds = _sortPackageIdsByPriority(_dictToHumanSortedList(packageClasses), packageBitCounts)
-        sortedPackageIds.reverse()
         
-        print ">>> Analysing package sizes..."
-        print "  - Optimize at %s tokens" % optimizeLatency
-        for packageId in sortedPackageIds:
-            packageLength = 0
+        # Assign classes to packages
+        print
+        print ">>> Assigning classes to packages..."
+    
+        # References packageId -> class list
+        packageClasses = {}
+    
+        # References packageId -> bit number e.g. 4=1, 5=2, 6=2, 7=3
+        packageBitCounts = {}
+    
+        for classId in classes:
+            packageId = 0
+            bitCount = 0
         
-            for classId in packageClasses[packageId]:
-                packageLength += getLength(classId)
-            
-            if packageLength >= optimizeLatency:
-                print "  - Package #%s has %s tokens" % (packageId, packageLength)
+            # Iterate through the views use needs this class
+            for viewId in viewClasses:
+                if classId in viewDeps[viewId]:
+                    packageId += viewBits[viewId]
+                    bitCount += 1
+        
+            # Ignore unused classes
+            if packageId == 0:
                 continue
-            else:
-                print "  - Package #%s has %s tokens => trying to optimize" % (packageId, packageLength)
+        
+            # Create missing data structure
+            if not packageClasses.has_key(packageId):
+                packageClasses[packageId] = []
+                packageBitCounts[packageId] = bitCount
             
-            collapsePackage = _getPreviousCommonPackage(packageId, viewPackages)
-            if collapsePackage != None:
-                print "    - Merge package #%s into #%s" % (packageId, collapsePackage)
-                _mergePackage(packageId, collapsePackage, viewClasses, viewPackages, packageClasses)                
-            else:
-                print "    - Sorry no matching parent found (should normally not occour)!"
-            
+            # Finally store the class to the package
+            packageClasses[packageId].append(classId)
+        
+
+
+
+        # Assign packages to views
+        print ">>> Assigning packages to views..."
+        viewPackages = {}
+    
+        for viewId in viewClasses:
+            viewBit = viewBits[viewId]
+        
+            for packageId in packageClasses:
+                if packageId&viewBit:
+                    if not viewPackages.has_key(viewId):
+                        viewPackages[viewId] = []
+                    
+                    viewPackages[viewId].append(packageId)
+                
+            # Be sure that the view package list is in order to the package priorit
+            _sortPackageIdsByPriority(viewPackages[viewId], packageBitCounts)
+
+
+
+                
         # User feedback
         _printViewStats(packageClasses, viewPackages)
+
+
+    
+        # Support for package collapsing
+        # Could improve latency when initial loading an application
+        # Merge all packages of a specific view into one (also supports multiple views)
+        # Hint: View packages are sorted by priority, this way we can
+        # easily merge all following packages with the first one, because
+        # the first one is always the one with the highest priority
+        if len(collapseViews) > 0:
+            print ">>> Collapsing views..."
+            for viewId in collapseViews:
+                print "  - Collapsing view '%s'..." % viewId
+                collapsePackage = viewPackages[viewId][0]
+                for packageId in viewPackages[viewId][1:]:
+                    print "    - Merge package #%s into #%s" % (packageId, collapsePackage)
+                    _mergePackage(packageId, collapsePackage, viewClasses, viewPackages, packageClasses)
+        
+            # User feedback
+            _printViewStats(packageClasses, viewPackages)
+      
+      
+        # Support for merging small packages
+        # Hint1: Based on the token length which is a bit strange but a good
+        # possibility to get the not really correct filesize in an ultrafast way
+        # More complex code and classes generally also have more tokens in them
+        # Hint2: The first common package before the selected package between two 
+        # or more views is allowed to merge with. As the package which should be merged
+        # may have requirements these must be solved. The easiest way to be sure regarding
+        # this issue, is to look out for another common package. The package for which we
+        # are looking must have requirements in all views so these must be solved by all views
+        # so there must be another common package. Hardly to describe... hope this makes some sense
+        if optimizeLatency != None and optimizeLatency != 0:
+            smallPackages = []
+        
+            # Start at the end with the priority sorted list
+            sortedPackageIds = _sortPackageIdsByPriority(_dictToHumanSortedList(packageClasses), packageBitCounts)
+            sortedPackageIds.reverse()
+        
+            print ">>> Analysing package sizes..."
+            print "  - Optimize at %s tokens" % optimizeLatency
+            for packageId in sortedPackageIds:
+                packageLength = 0
+        
+                for classId in packageClasses[packageId]:
+                    packageLength += getLength(classId)
+            
+                if packageLength >= optimizeLatency:
+                    print "  - Package #%s has %s tokens" % (packageId, packageLength)
+                    continue
+                else:
+                    print "  - Package #%s has %s tokens => trying to optimize" % (packageId, packageLength)
+            
+                collapsePackage = _getPreviousCommonPackage(packageId, viewPackages)
+                if collapsePackage != None:
+                    print "    - Merge package #%s into #%s" % (packageId, collapsePackage)
+                    _mergePackage(packageId, collapsePackage, viewClasses, viewPackages, packageClasses)                
+                else:
+                    print "    - Sorry no matching parent found (should normally not occour)!"
+            
+            # User feedback
+            _printViewStats(packageClasses, viewPackages)
 
   
 
-    # Compile files...
-    packageLoaderContent = ""
-    sortedPackageIds = _sortPackageIdsByPriority(_dictToHumanSortedList(packageClasses), packageBitCounts)
+        # Compile files...
+        packageLoaderContent = ""
+        sortedPackageIds = _sortPackageIdsByPriority(_dictToHumanSortedList(packageClasses), packageBitCounts)
     
-    for packageId in sortedPackageIds:
-        packageFile = outputFile.replace(".js", "_%s.js" % packageId)
+        for packageId in sortedPackageIds:
+            packageFile = outputFile + ("_%s_%s.js" % (variantsId, packageId))
         
-        print ">>> Compiling classes of package #%s..." % packageId
-        sortedClasses = sortClasses(packageClasses[packageId], loadDeps, runDeps)
-        compiledContent = compileClasses(sortedClasses)
+            print ">>> Compiling classes of package #%s..." % packageId
+            sortedClasses = sortClasses(packageClasses[packageId], loadDeps, runDeps, variants)
+            compiledContent = compileClasses(sortedClasses, variants)
         
-        print "  - Storing result (%s KB) to %s" % ((len(compiledContent) / 1024), packageFile)
-        filetool.save(packageFile, compiledContent)
-        filetool.save(packageFile + ".index", "\n".join(sortedClasses))
+            print "  - Storing result (%s KB) to %s" % ((len(compiledContent) / 1024), packageFile)
+            filetool.save(packageFile, compiledContent)
+            filetool.save(packageFile + ".index", "\n".join(sortedClasses))
 
-        # TODO: Make prefix configurable
-        prefix = "script/"
-        packageLoaderContent += "document.write('<script type=\"text/javascript\" src=\"%s\"></script>');\n" % (prefix + packageFile)
+            # TODO: Make prefix configurable
+            prefix = "script/"
+            packageLoaderContent += "document.write('<script type=\"text/javascript\" src=\"%s\"></script>');\n" % (prefix + packageFile)
 
-    print ">>> Storing package loader..."
-    filetool.save(outputFile, packageLoaderContent)
+        print ">>> Storing package loader..."
+        filetool.save(outputFile + "_" + variantsId, packageLoaderContent)
  
  
  
