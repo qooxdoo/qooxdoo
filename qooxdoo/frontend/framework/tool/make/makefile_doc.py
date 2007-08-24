@@ -69,6 +69,7 @@
 import sys
 import re
 import xml.dom.minidom
+import optparse
 
 comment = re.compile(r'^#')
 include = re.compile(r'^\s*include')
@@ -78,11 +79,12 @@ first_part = 1
 # - Makefile Parser -------------------------------------------------------
 
 def main():
+    (opts, args) = get_options()
     impl = xml.dom.minidom.getDOMImplementation()
     newdoc = impl.createDocument(None,"mak",None)
     topEl = newdoc.documentElement
     curr  = topEl
-    file_name = sys.argv[1]
+    file_name = args[0]
     in_comment= 0
     in_ptitle = 0
     f = open(file_name,'r')
@@ -114,14 +116,14 @@ def main():
                     curr=e
             line1 = line1.replace('#','')
             if len(line1) > 0:
-                t=newdoc.createTextNode(line1)
+                t=newdoc.createTextNode(escape_text(line1))
                 de.appendChild(t)
         else:
             in_comment=0
             in_ptitle =0
             if include.search(line1): # handle include's
                 e=newdoc.createElement("incl")
-                t=newdoc.createTextNode(line1.partition("include ")[2])
+                t=newdoc.createTextNode(escape_text(line1.split("include ")[1]))
                 e.appendChild(t)
                 curr.appendChild(e)
             elif var.search(line1):  # handle var's
@@ -131,11 +133,11 @@ def main():
                 curr.appendChild(v)
                 n=newdoc.createElement("name")
                 v.appendChild(n)
-                t=newdoc.createTextNode(mo.group(2))
+                t=newdoc.createTextNode(escape_text(mo.group(2)))
                 n.appendChild(t)
                 d=newdoc.createElement("default")
                 v.appendChild(d)
-                t=newdoc.createTextNode(mo.group(3))
+                t=newdoc.createTextNode(escape_text(mo.group(3)))
                 d.appendChild(t)
     f.close()
     topEl.writexml(sys.stdout)
@@ -184,6 +186,28 @@ def output_desc(desc):
     text = desc.innerHtml  # stimmt bestimmt nicht!
     print text
     print
+
+
+
+def escape_text(txt):
+    if not options.escape:
+        return txt
+    txt1 = txt
+    #txt1 = re.sub("'",r"\'",txt1)
+    txt1 = txt1.replace("'",r"\'")
+    return txt1
+
+def get_options():
+    global options
+
+    parser = optparse.OptionParser()
+    parser.add_option(
+        "-e", dest="escape", default=False, action="store_true",
+        help="Apply escapes to text nodes"
+    )
+    (options, args) = parser.parse_args()
+
+    return (options, args)
 
 # - Main -----------------------------------------------------------------
 
