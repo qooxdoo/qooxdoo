@@ -36,14 +36,16 @@ import compiler, variableoptimizer, textutil, variantoptimizer, stringoptimizer,
 ######################################################################
 
 def main():
-    print "========================================================="
-    print "    INIT"
-    print "========================================================="
+    print "============================================================================"
+    print "    INITIALIZATION"
+    print "============================================================================"
         
     parser = optparse.OptionParser(option_class=optparseext.ExtendAction)
     
     parser.add_option("--config", dest="config", metavar="FILENAME", help="Configuration file")
     parser.add_option("--jobs", action="extend", dest="jobs", metavar="DIRECTORY", type="string", default=[], help="Selected jobs")
+    parser.add_option("-q", "--quiet", action="store_true", dest="quiet", default=False, help="Quiet output mode (Extra quiet).")
+    parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False, help="Verbose output mode (Extra verbose).")
     
     if len(sys.argv[1:]) == 0:
         basename = os.path.basename(sys.argv[0])
@@ -57,9 +59,20 @@ def main():
     
     
 def process(options):
+    global verbose
+    global quiet
+    
+    verbose = options.verbose
+    quiet = options.quiet
+    
+    if verbose:
+        quiet = False
+
     print ">>> Processing..."
-    print "  - Configuration: %s" % options.config
-    print "  - Jobs: %s" % ", ".join(options.jobs)
+    if not quiet:
+        print "  - Configuration: %s" % options.config
+        print "  - Jobs: %s" % ", ".join(options.jobs)
+    
     
     # TODO: File parser
     # - Translate dashed to camelcase
@@ -225,6 +238,8 @@ def resolve(config, jobs):
     
 
 def resolveEntry(config, job):
+    global quiet
+    
     if not config.has_key(job):
         print "  - No such job: %s" % job
         sys.exit(1)
@@ -234,7 +249,7 @@ def resolveEntry(config, job):
     if data.has_key("resolved"):
         return
     
-    print "  - Processing: %s" % job
+    #print "  - Processing: %s" % job
 
     if data.has_key("extend"):
         includes = data["extend"]
@@ -285,14 +300,12 @@ def generateScript():
     global classes
     global modules
     global verbose
+    global quiet
     
     
     #
     # INITIALIZATION PHASE
     #
-    
-    # Verbosity
-    verbose = getJobConfig("verbose", False)
     
     # Class paths
     classPaths = getJobConfig("classPath")
@@ -338,8 +351,12 @@ def generateScript():
     #
     
     if len(userViews) > 0:
+        print ">>> Using view configuration..."    
+                
         # Build bitmask ids for views
-        print    
+        if not quiet:
+            print    
+            
         print ">>> Assigning bits to views..."
 
         # References viewId -> bitId of that view
@@ -348,7 +365,10 @@ def generateScript():
         viewPos = 0
         for viewId in userViews:
             viewBit = 1<<viewPos
-            print "  - View '%s' => %s" % (viewId, viewBit)
+            
+            if not quiet:
+                print "  - View '%s' => %s" % (viewId, viewBit)
+                
             viewBits[viewId] = viewBit
             viewPos += 1
 
@@ -359,20 +379,20 @@ def generateScript():
             viewClasses[viewId] = resolveComplexDefs(userViews[viewId])
 
     else:
-        print ">>> Processing include/exclude"    
+        print ">>> Using include/exclude lists..."    
         smartInclude, explicitInclude = _splitIncludeExcludeList(userInclude)
         smartExclude, explicitExclude = _splitIncludeExcludeList(userExclude)
-        print "  - Including %s items smart, %s items explicit" % (len(smartInclude), len(explicitInclude))
-        print "  - Excluding %s items smart, %s items explicit" % (len(smartExclude), len(explicitExclude))
-    
-    
-        # Configuration feedback
-        if len(userExclude) > 0:
-            print "  - Warning: Excludes may break code!"
         
-        if len(explicitInclude) > 0:
-            print "  - Warning: Explicit included classes may not work"
+        # Configuration feedback
+        if not quiet:
+            print "  - Including %s items smart, %s items explicit" % (len(smartInclude), len(explicitInclude))
+            print "  - Excluding %s items smart, %s items explicit" % (len(smartExclude), len(explicitExclude))
     
+            if len(userExclude) > 0:
+                print "  - Warning: Excludes may break code!"
+        
+            if len(explicitInclude) > 0:
+                print "  - Warning: Explicit included classes may not work"
     
         # Resolve modules/regexps
         print ">>> Resolving modules/regexps..."
@@ -389,17 +409,15 @@ def generateScript():
     #
     
     sets = _computeVariantCombinations(userVariants)
-    
-    # TODO: Fill up when there are no variants defined
-    
     for pos, variants in enumerate(sets):
         print
         print "----------------------------------------------------------------------------"
         print "    PROCESSING VARIANT SET %s/%s" % (pos+1, len(sets))
         print "----------------------------------------------------------------------------"
-        for entry in variants:
-            print "  - %s = %s" % (entry["id"], entry["value"])
-        print "----------------------------------------------------------------------------"
+        if not quiet and len(variants) > 0:
+            for entry in variants:
+                print "  - %s = %s" % (entry["id"], entry["value"])
+            print "----------------------------------------------------------------------------"
         
         if len(userViews) > 0:
             processViews(viewClasses, viewBits, dynLoadDeps, dynRunDeps, variants, collapseViews, optimizeLatency, buildScript)
@@ -724,10 +742,14 @@ def getVariantsTree(id, variants):
 ######################################################################
 
 def processIncludeExclude(smartInclude, smartExclude, explicitInclude, explicitExclude, loadDeps, runDeps, variants, buildScript):
+    global quiet
+    
     # Detect dependencies
     print ">>> Resolving dependencies..."
     result = resolveDependencies(smartInclude, smartExclude, loadDeps, runDeps, variants)
-    print "  - List contains %s classes" % len(result)
+    
+    if not quiet:
+        print "  - List contains %s classes" % len(result)
 
 
     # Explicit include/exclude
@@ -739,15 +761,17 @@ def processIncludeExclude(smartInclude, smartExclude, explicitInclude, explicitE
         for entry in explicitExclude:
             del result[entry]
 
-        print "  - List contains %s classes" % len(result)
+        if not quiet:
+            print "  - List contains %s classes" % len(result)
 
 
     # Detect optionals
-    optionals = getOptionals(result)
-    if len(optionals) > 0:
-        print ">>> These optional classes may be useful:"
-        for entry in optionals:
-            print "  - %s" % entry
+    if not quiet:
+        optionals = getOptionals(result)
+        if len(optionals) > 0:
+            print ">>> These optional classes may be useful:"
+            for entry in optionals:
+                print "  - %s" % entry
 
 
     # Compiling classes
@@ -758,7 +782,8 @@ def processIncludeExclude(smartInclude, smartExclude, explicitInclude, explicitE
     # Saving result
     variantsId = generateVariantCombinationId(variants)
     compiledFileName = buildScript + "_" + variantsId + ".js"
-    print "  - Storing result (%s KB)..." % (len(compiledContent) / 1024)
+    if not quiet:
+        print "  - Storing result (%s KB)..." % (len(compiledContent) / 1024)
     filetool.save(compiledFileName, compiledContent)
 
 
@@ -835,15 +860,19 @@ def generateVariantCombinationId(selected):
 def processViews(viewClasses, viewBits, loadDeps, runDeps, variants, collapseViews, optimizeLatency, outputFile):
     global classes
     global verbose
+    global quiet
 
     
     # Caching dependencies of each view
-    print
+    if not quiet:
+        print
+        
     print ">>> Resolving dependencies..."
     viewDeps = {}
     length = len(viewClasses.keys())
     for pos, viewId in enumerate(viewClasses.keys()):
-        print "  - View '%s'..." % viewId
+        if not quiet:
+            print "  - View '%s'..." % viewId
         
         # Exclude all features of other views
         # and handle dependencies the smart way =>
@@ -856,12 +885,16 @@ def processViews(viewClasses, viewBits, loadDeps, runDeps, variants, collapseVie
 
         # Finally resolve the dependencies
         viewDeps[viewId] = resolveDependencies(viewClasses[viewId], viewExcludes, loadDeps, runDeps, variants)
-        print "    - Needs %s classes" % len(viewDeps[viewId])
+        
+        if not quiet:
+            print "    - Needs %s classes" % len(viewDeps[viewId])
 
 
     
     # Assign classes to packages
-    print
+    if not quiet:
+        print
+        
     print ">>> Assigning classes to packages..."
 
     # References packageId -> class list
@@ -927,13 +960,19 @@ def processViews(viewClasses, viewBits, loadDeps, runDeps, variants, collapseVie
     # easily merge all following packages with the first one, because
     # the first one is always the one with the highest priority
     if len(collapseViews) > 0:
-        print
+        if not quiet:
+            print
+            
         print ">>> Collapsing views..."
         for viewId in collapseViews:
-            print "  - Collapsing view '%s'..." % viewId
+            if not quiet:
+                print "  - Collapsing view '%s'..." % viewId
+                
             collapsePackage = viewPackages[viewId][0]
             for packageId in viewPackages[viewId][1:]:
-                print "    - Merge package #%s into #%s" % (packageId, collapsePackage)
+                if not quiet:
+                    print "    - Merge package #%s into #%s" % (packageId, collapsePackage)
+                    
                 _mergePackage(packageId, collapsePackage, viewClasses, viewPackages, packageClasses)
     
         # User feedback
@@ -957,9 +996,12 @@ def processViews(viewClasses, viewBits, loadDeps, runDeps, variants, collapseVie
         sortedPackageIds = _sortPackageIdsByPriority(_dictToHumanSortedList(packageClasses), packageBitCounts)
         sortedPackageIds.reverse()
     
-        print
+        if not quiet:
+            print
         print ">>> Analysing package sizes..."
-        print "  - Optimize at %s tokens" % optimizeLatency
+        if not quiet:
+            print "  - Optimize at %s tokens" % optimizeLatency
+            
         for packageId in sortedPackageIds:
             packageLength = 0
     
@@ -967,17 +1009,20 @@ def processViews(viewClasses, viewBits, loadDeps, runDeps, variants, collapseVie
                 packageLength += getLength(classId)
         
             if packageLength >= optimizeLatency:
-                print "  - Package #%s has %s tokens" % (packageId, packageLength)
+                if not quiet:
+                    print "  - Package #%s has %s tokens" % (packageId, packageLength)
                 continue
             else:
-                print "  - Package #%s has %s tokens => trying to optimize" % (packageId, packageLength)
+                if not quiet:
+                    print "  - Package #%s has %s tokens => trying to optimize" % (packageId, packageLength)
         
             collapsePackage = _getPreviousCommonPackage(packageId, viewPackages)
             if collapsePackage != None:
-                print "    - Merge package #%s into #%s" % (packageId, collapsePackage)
+                if not quiet:
+                    print "    - Merge package #%s into #%s" % (packageId, collapsePackage)
                 _mergePackage(packageId, collapsePackage, viewClasses, viewPackages, packageClasses)                
             else:
-                print "    - Sorry no matching parent found (should normally not occour)!"
+                print "    - Warning: No matching parent found (should normally not occour)!"
         
         # User feedback
         _printViewStats(packageClasses, viewPackages)
@@ -989,7 +1034,9 @@ def processViews(viewClasses, viewBits, loadDeps, runDeps, variants, collapseVie
     sortedPackageIds = _sortPackageIdsByPriority(_dictToHumanSortedList(packageClasses), packageBitCounts)
     variantsId = generateVariantCombinationId(variants)
     
-    print
+    if not quiet:
+        print
+        
     for packageId in sortedPackageIds:
         packageFile = "%s_%s_%s.js" % (outputFile, variantsId, packageId)
     
@@ -997,7 +1044,8 @@ def processViews(viewClasses, viewBits, loadDeps, runDeps, variants, collapseVie
         sortedClasses = sortClasses(packageClasses[packageId], loadDeps, runDeps, variants)
         compiledContent = compileClasses(sortedClasses, variants)
     
-        print "  - Storing result (%s KB)" % (len(compiledContent) / 1024)
+        if not quiet:
+            print "  - Storing result (%s KB)" % (len(compiledContent) / 1024)
         filetool.save(packageFile, compiledContent)
 
         # TODO: Make prefix configurable
@@ -1154,7 +1202,12 @@ def getOptionals(classes):
 #  COMPILER SUPPORT
 ######################################################################
 
-def printProgress(pos, length, unit=10):
+def printProgress(pos, length):
+    global quiet
+    
+    if quiet:
+        return
+    
     # starts normally at null, but this is not useful here
     # also the length is normally +1 the real size
     pos += 1
@@ -1163,6 +1216,7 @@ def printProgress(pos, length, unit=10):
         sys.stdout.write("  - Processing:")
         sys.stdout.flush()
 
+    unit = 10
     thisstep = unit * pos / length
     prevstep = unit * (pos-1) / length
     
@@ -1444,6 +1498,7 @@ def _sortClassesRecurser(id, available, sorted, loadDeps, runDeps, variants):
 def scanModules():
     global classes
     global modules
+    global quiet
     
     modules = {}
 
@@ -1456,27 +1511,33 @@ def scanModules():
                 
                 modules[mod].append(id)
     
-    print "  - Found %s modules" % len(modules)
-    print
+    if not quiet:
+        print "  - Found %s modules" % len(modules)
+        print
                 
 
 def scanClassPaths(paths):
     global classes
+    global quiet
+    
     classes = {}
     
     print ">>> Scanning class paths..."
     for path in paths:
         _addClassPath(path)
 
-    print
+    if not quiet:
+        print
         
     return classes
     
 
 def _addClassPath(classPath, encoding="utf-8"):
     global classes
+    global quiet
         
-    print "  - Scanning: %s" % classPath
+    if not quiet:
+        print "  - Scanning: %s" % classPath
     
     implCounter = 0
     docCounter = 0
@@ -1535,8 +1596,8 @@ def _addClassPath(classPath, encoding="utf-8"):
                     "pathId" : filePathId
                 }
                 
-                
-    print "    - Found: %s impl, %s doc, %s locale" % (implCounter, docCounter, localeCounter)
+    if not quiet:
+        print "    - Found: %s impl, %s doc, %s locale" % (implCounter, docCounter, localeCounter)
 
 
 def _extractQxClassContentId(data):
