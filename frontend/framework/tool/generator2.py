@@ -985,22 +985,22 @@ def processViews(viewDefs, loadDeps, runDeps, variants, collapseViews, optimizeL
         sortedPackageIds = _sortPackageIdsByPriority(_dictToHumanSortedList(packageClasses), packageBitCounts)
     
         for packageId in sortedPackageIds:
-            packageFile = outputFile + ("_%s_%s.js" % (variantsId, packageId))
+            packageFile = "%s_%s_%s.js" % (outputFile, variantsId, packageId)
         
             print ">>> Compiling classes of package #%s..." % packageId
             sortedClasses = sortClasses(packageClasses[packageId], loadDeps, runDeps, variants)
             compiledContent = compileClasses(sortedClasses, variants)
         
-            print "  - Storing result (%s KB) to %s" % ((len(compiledContent) / 1024), packageFile)
+            print "  - Storing result (%s KB)" % (len(compiledContent) / 1024)
             filetool.save(packageFile, compiledContent)
-            filetool.save(packageFile + ".index", "\n".join(sortedClasses))
 
             # TODO: Make prefix configurable
             prefix = "script/"
             packageLoaderContent += "document.write('<script type=\"text/javascript\" src=\"%s\"></script>');\n" % (prefix + packageFile)
 
         print ">>> Storing package loader..."
-        filetool.save(outputFile + "_" + variantsId, packageLoaderContent)
+        packageLoader = "%s_%s.js" % (outputFile, variantsId)
+        filetool.save(packageLoader, packageLoaderContent)
  
  
  
@@ -1146,19 +1146,26 @@ def getOptionals(classes):
 ######################################################################
 
 def printProgress(pos, length):
-    if pos == 0:
+    print "%s/%s" % (pos, length)
+
+def printProgress(pos, length, unit=10):
+    # starts normally at null, but this is not useful here
+    # also the length is normally +1 the real size
+    pos += 1
+    
+    if pos == 1:
         sys.stdout.write("    - processing:")
         sys.stdout.flush()
 
-    thisstep = 100 * pos / length
-    prevstep = 100 * (pos-1) / length
+    thisstep = unit * pos / length
+    prevstep = unit * (pos-1) / length
     
-    if thisstep != prevstep and thisstep % 10 == 0:
-        sys.stdout.write("  %s%%" % thisstep)
+    if thisstep != prevstep:
+        sys.stdout.write(" %s%%" % (thisstep * unit))
         sys.stdout.flush()
         
-    if pos == (length - 1):
-        sys.stdout.write("  100%\n")
+    if pos == length:
+        sys.stdout.write("\n")
         sys.stdout.flush()
 
 
