@@ -538,7 +538,7 @@ def getTokens(id):
     if cache != None:
         return cache
     
-    print "  - Generating tokens: %s" % id
+    print "  - Generating tokens: %s..." % id
     tokens = tokenizer.parseFile(classes[id]["path"], id, classes[id]["encoding"])
     
     writeCache(id, "tokens", tokens)
@@ -558,35 +558,20 @@ def getTree(id):
     if cache != None:
         return cache
     
-    print "  - Generating tree: %s (%s)" % (id, variantsId)
-    tree = treegenerator.createSyntaxTree(getTokens(id))
+    tokens = getTokens(id)
+    
+    print "  - Generating tree: %s..." % id
+    tree = treegenerator.createSyntaxTree(tokens)
     
     writeCache(id, "tree", tree)
     return tree
     
 
 
-def getVariableOptimizedTree(id):
-    global classes
-    
-    cache = readCache(id, "tree-variableoptimized", classes[id]["path"])
-    if cache != None:
-        return cache
-    
-    print ">>> Optimize variables: %s" % id    
-    tree = copy.deepcopy(getTree(id))
-    counter = variableoptimizer.search(tree, [], 0, 0, "$")
-    print "  - Optimized %s variables" % counter
-        
-    writeCache(id, "tree-variableoptimized", tree)
-    return tree
-    
-    
-    
 def getOptimizedTree(id, varopt=False, baseopt=False, stringopt=False):
     global classes
     
-    storeId = "tree-"
+    storeId = "tree"
     if varopt:
         storeId += "-varopt"
     if baseopt:
@@ -598,19 +583,19 @@ def getOptimizedTree(id, varopt=False, baseopt=False, stringopt=False):
     if cache != None:
         return cache
     
-    print ">>> Generating optimized tree: %s" % id
     tree = copy.deepcopy(getTree(id))
+    print "  - Generating optimized tree: %s..." % id
     
     if varopt:
-        print "  - Optimize local variables..."
+        print "    - Optimize local variables..."
         variableoptimizer.search(tree, [], 0, 0, "$")
 
     if baseopt:
-        print "  - Optimize base calls..."
+        print "    - Optimize base calls..."
         basecalloptimizer.patch(tree, id)
         
     if stringopt:
-        print "  - Optimize strings..."
+        print "    - Optimize strings..."
         #TODO
     
     # Store result into cache
@@ -629,8 +614,6 @@ def getVariantsTree(id, variants):
     if cache != None:
         return cache
             
-    print "  - Select variants in %s..." % id
-    
     # Generate map
     variantsMap = {}
     for entry in variants:
@@ -651,6 +634,8 @@ def getVariantsTree(id, variants):
 
     # Copy tree to work with
     tree = copy.deepcopy(getOptimizedTree(id, varopt, baseopt, stringopt))
+
+    print "  - Select variants: %s..." % id
     
     # Call variant optimizer
     variantoptimizer.search(tree, variantsMap, id)
@@ -738,7 +723,7 @@ def processIncludeExclude(include, exclude, loadDeps, runDeps, variants, buildSc
     
         # Saving result
         compiledFileName = buildScript + "_" + variantsId + ".js"
-        print ">>> Storing result (%s KB) to %s" % ((len(compiledContent) / 1024), compiledFileName)
+        print ">>> Storing result (%s KB)..." % (len(compiledContent) / 1024)
         filetool.save(compiledFileName, compiledContent)
 
 
@@ -1148,10 +1133,29 @@ def getOptionals(classes):
 #  COMPILER SUPPORT
 ######################################################################
 
+def printProgress(pos, length):
+    if pos == 0:
+        sys.stdout.write("    - processing:")
+        sys.stdout.flush()
+
+    thisstep = 100 * pos / length
+    prevstep = 100 * (pos-1) / length
+    
+    if thisstep != prevstep and thisstep % 10 == 0:
+        sys.stdout.write("  %s%%" % thisstep)
+        sys.stdout.flush()
+        
+    if pos == (length - 1):
+        sys.stdout.write("  100%\n")
+        sys.stdout.flush()
+
+
 def compileClasses(todo, variants):
     content = ""
+    length = len(todo)
     
-    for id in todo:
+    for pos, id in enumerate(todo):
+        printProgress(pos, length)
         content += _compileClassHelper(getVariantsTree(id, variants))
     
     return content
