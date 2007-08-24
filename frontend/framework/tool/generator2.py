@@ -252,17 +252,16 @@ def mergeEntry(target, source):
             target[key] = source[key] 
     
     
-def execute(id, config):
-    print
-    print "========================================================="
-    print "    EXECUTING: %s" % id
-    print "========================================================="
+def execute(job, config):
+    global jobconfig
+    jobconfig = config
     
-    if config.has_key("buildScript"):
-        generateBuildScript(config)
-        
-    if config.has_key("sourceScript"):
-        generateSourceScript(config)
+    print
+    print "============================================================================"
+    print "    EXECUTING: %s" % job
+    print "============================================================================"
+
+    generateScript()
     
 
 
@@ -273,88 +272,139 @@ def execute(id, config):
 #  CORE: GENERATORS
 ######################################################################
 
-def generateSourceScript(config):
-    global classes
+def getJobConfig(key, default=None):
+    global jobconfig
     
-    print ">>> Generate source script..."
+    if jobconfig.has_key(key):
+        return jobconfig[key]
+    else:
+        return default
+        
 
-
-
-
-def generateBuildScript(config):
+def generateScript():
     global classes
     global modules
+    global verbose
     
-    outputFilename = config["buildScript"]
-    classPaths = config["classPath"]
+    
+    #
+    # INITIALIZATION PHASE
+    #
+    
+    # Verbosity
+    verbose = getJobConfig("verbose", False)
+    
+    # Class paths
+    classPaths = getJobConfig("classPath")
 
-    print ">>> Generate build script: %s" % outputFilename
+    # Script names
+    buildScript = getJobConfig("buildScript")
+    sourceScript = getJobConfig("sourceScript")
 
+    # Dynamic dependencies
+    dynLoadDeps = getJobConfig("require", {})
+    dynRunDeps = getJobConfig("use", {})
+    
+    # Variants data
+    userVariants = getJobConfig("variants", {})
+
+    # View support (has priority)
+    userViews = getJobConfig("views", {})
+        
+    if len(userViews) > 0:
+        collapseViews = getJobConfig("collapseViews", [])
+        optimizeLatency = getJobConfig("optimizeLatency")
+        
+    else:
+        userInclude = getJobConfig("include", [])
+        userExclude = getJobConfig("exclude", [])
+    
+    
+    
+    
+    #
+    # SCAN PHASE
+    #
+    
+    # Scan for classes and modules
     scanClassPaths(classPaths)
     scanModules()
-        
-    # 1. Loading include list -> Resolving
-    # 2. Removing variant code
-    # 3. Reloading include list based on new trees
-    # 4. Optimize variables
-    # 5. Optimize strings
-    # 6. Protect private members
-    # 7. Compiling output
-    # 8. Storing result file
+    
+    
+    
+    
+    #
+    # PREPROCESS PHASE
+    #
+    
+    if len(userViews) > 0:
+        # Build bitmask ids for views
+        print    
+        print ">>> Assigning bits to views..."
 
-    # Normalize incoming data
-    if config.has_key("include"):
-        include = config["include"]
+        # References viewId -> bitId of that view
+        viewBits = {}
+
+        viewPos = 0
+        for viewId in userViews:
+            viewBit = 1<<viewPos
+            print "  - View '%s' => %s" % (viewId, viewBit)
+            viewBits[viewId] = viewBit
+            viewPos += 1
+
+        # Resolving modules/regexps
+        print ">>> Resolving modules/regexps..."
+        viewClasses = {}
+        for viewId in userViews:
+            viewClasses[viewId] = resolveComplexDefs(userViews[viewId])
+
     else:
-        include = []
+        print ">>> Processing include/exclude"    
+        smartInclude, explicitInclude = _splitIncludeExcludeList(userInclude)
+        smartExclude, explicitExclude = _splitIncludeExcludeList(userExclude)
+        print "  - Including %s items smart, %s items explicit" % (len(smartInclude), len(explicitInclude))
+        print "  - Excluding %s items smart, %s items explicit" % (len(smartExclude), len(explicitExclude))
     
-    if config.has_key("exclude"):   
-        exclude = config["exclude"]
-    else:
-        exclude = []
     
-    if config.has_key("require"):
-        require = config["require"]
-    else:
-        require = {}
+        # Configuration feedback
+        if len(userExclude) > 0:
+            print "  - Warning: Excludes may break code!"
+        
+        if len(explicitInclude) > 0:
+            print "  - Warning: Explicit included classes may not work"
     
-    if config.has_key("use"):
-        use = config["use"]
-    else:
-        use = {}
-        
-    if config.has_key("views"):
-        views = config["views"]
-    else:
-        views = {}
-        
-    if config.has_key("buildScript"):
-        buildScript = config["buildScript"]
-    else:
-        buildScript = ""
-        
-    if config.has_key("variants"):
-        variants = config["variants"]
-    else:
-        variants = ""        
-        
-    if config.has_key("collapseViews"):
-        collapseViews = config["collapseViews"]
-    else:
-        collapseViews = []                 
     
-    if config.has_key("optimizeLatency"):
-        optimizeLatency = config["optimizeLatency"]
-    else:
-        optimizeLatency = None
+        # Resolve modules/regexps
+        print ">>> Resolving modules/regexps..."
+        smartInclude = resolveComplexDefs(smartInclude)
+        explicitInclude = resolveComplexDefs(explicitInclude)
+        smartExclude = resolveComplexDefs(smartExclude)
+        explicitExclude = resolveComplexDefs(explicitExclude)
         
-            
+        
+
+
+    #
+    # EXECUTION PHASE
+    #
     
-    # Two alternative solutions to build the class list
-    if len(views) > 0:
-        processViews(views, require, use, variants, collapseViews, optimizeLatency, buildScript)
-    else:
-        processIncludeExclude(include, exclude, require, use, variants, buildScript)
+    sets = _computeVariantCombinations(userVariants)
+    
+    # TODO: Fill up when there are no variants defined
+    
+    for pos, variants in enumerate(sets):
+        print
+        print "----------------------------------------------------------------------------"
+        print "    PROCESSING VARIANT SET %s/%s" % (pos+1, len(sets))
+        print "----------------------------------------------------------------------------"
+        for entry in variants:
+            print "  - %s = %s" % (entry["id"], entry["value"])
+        print "----------------------------------------------------------------------------"
+        
+        if len(userViews) > 0:
+            processViews(viewClasses, viewBits, dynLoadDeps, dynRunDeps, variants, collapseViews, optimizeLatency, buildScript)
+        else:
+            processIncludeExclude(smartInclude, smartExclude, explicitInclude, explicitExclude, dynLoadDeps, dynRunDeps, variants, buildScript)
 
     
 
@@ -538,12 +588,14 @@ def _extractQxEmbeds(data):
 
 def getTokens(id):
     global classes
+    global verbose
     
     cache = readCache(id, "tokens", classes[id]["path"])
     if cache != None:
         return cache
     
-    print "  - Generating tokens: %s..." % id
+    if verbose:
+        print "  - Generating tokens: %s..." % id
     tokens = tokenizer.parseFile(classes[id]["path"], id, classes[id]["encoding"])
     
     writeCache(id, "tokens", tokens)
@@ -558,6 +610,7 @@ def getLength(id):
 
 def getTree(id):
     global classes
+    global verbose
     
     cache = readCache(id, "tree", classes[id]["path"])
     if cache != None:
@@ -565,7 +618,8 @@ def getTree(id):
     
     tokens = getTokens(id)
     
-    print "  - Generating tree: %s..." % id
+    if verbose:
+        print "  - Generating tree: %s..." % id
     tree = treegenerator.createSyntaxTree(tokens)
     
     writeCache(id, "tree", tree)
@@ -575,6 +629,7 @@ def getTree(id):
 
 def getOptimizedTree(id, varopt=False, baseopt=False, stringopt=False):
     global classes
+    global verbose
     
     storeId = "tree"
     if varopt:
@@ -589,18 +644,22 @@ def getOptimizedTree(id, varopt=False, baseopt=False, stringopt=False):
         return cache
     
     tree = copy.deepcopy(getTree(id))
-    print "  - Generating optimized tree: %s..." % id
+    if verbose:
+        print "  - Generating optimized tree: %s..." % id
     
     if varopt:
-        print "    - Optimize local variables..."
+        if verbose:
+            print "    - Optimize local variables..."
         variableoptimizer.search(tree, [], 0, 0, "$")
 
     if baseopt:
-        print "    - Optimize base calls..."
+        if verbose:
+            print "    - Optimize base calls..."
         basecalloptimizer.patch(tree, id)
         
     if stringopt:
-        print "    - Optimize strings..."
+        if verbose:
+            print "    - Optimize strings..."
         #TODO
     
     # Store result into cache
@@ -612,6 +671,7 @@ def getOptimizedTree(id, varopt=False, baseopt=False, stringopt=False):
     
 def getVariantsTree(id, variants):
     global classes
+    global verbose
 
     variantsId = generateVariantCombinationId(variants)
     
@@ -640,7 +700,8 @@ def getVariantsTree(id, variants):
     # Copy tree to work with
     tree = copy.deepcopy(getOptimizedTree(id, varopt, baseopt, stringopt))
 
-    print "  - Select variants: %s..." % id
+    if verbose:
+        print "  - Select variants: %s..." % id
     
     # Call variant optimizer
     variantoptimizer.search(tree, variantsMap, id)
@@ -662,47 +723,15 @@ def getVariantsTree(id, variants):
 #  INCLUDE/EXCLUDE SUPPORT
 ######################################################################
 
-def processIncludeExclude(include, exclude, loadDeps, runDeps, variants, buildScript):
-    print ">>> Processing include/exclude"    
-    smartInclude, explicitInclude = _splitIncludeExcludeList(include)
-    smartExclude, explicitExclude = _splitIncludeExcludeList(exclude)
-    print "  - Including %s items smart, %s items explicit" % (len(smartInclude), len(explicitInclude))
-    print "  - Excluding %s items smart, %s items explicit" % (len(smartExclude), len(explicitExclude))
-    
-    
-    # Configuration feedback
-    if len(exclude) > 0:
-        print "  - Warning: Excludes may break code!"
-        
-    if len(explicitInclude) > 0:
-        print "  - Warning: Explicit included classes may not work"
-    
-    
-    # Resolve modules/regexps
-    print ">>> Resolving modules/regexps..."
-    smartInclude = resolveComplexDefs(smartInclude)
-    explicitInclude = resolveComplexDefs(explicitInclude)
-    smartExclude = resolveComplexDefs(smartExclude)
-    explicitExclude = resolveComplexDefs(explicitExclude)
-    
-    
-    # Compute variant sets
-    print ">>> Computing variant combinations..."
-    variantsSets = _computeVariantCombinations(variants)
-    print "  - Possible combinations: %s" % len(variantsSets)
-    
-    
-    # Process variant sets
-    for variants in variantsSets:
-        variantsId = generateVariantCombinationId(variants)
-        
-        # Detect dependencies
-        print ">>> Resolving dependencies for smart includes/excludes..."
-        result = resolveDependencies(smartInclude, smartExclude, loadDeps, runDeps, variants)
-        print "  - List contains %s classes" % len(result)
-    
-    
-        # Explicit include/exclude
+def processIncludeExclude(smartInclude, smartExclude, explicitInclude, explicitExclude, loadDeps, runDeps, variants, buildScript):
+    # Detect dependencies
+    print ">>> Resolving dependencies..."
+    result = resolveDependencies(smartInclude, smartExclude, loadDeps, runDeps, variants)
+    print "  - List contains %s classes" % len(result)
+
+
+    # Explicit include/exclude
+    if len(explicitInclude) > 0 or len(explicitExclude) > 0:
         print ">>> Processing explicitely configured includes/excludes..."
         for entry in explicitInclude:
             result[entry] = True
@@ -711,25 +740,26 @@ def processIncludeExclude(include, exclude, loadDeps, runDeps, variants, buildSc
             del result[entry]
 
         print "  - List contains %s classes" % len(result)
-    
-    
-        # Detect optionals
-        optionals = getOptionals(result)
-        if len(optionals) > 0:
-            print ">>> These optional classes may be useful:"
-            for entry in optionals:
-                print "  - %s" % entry
 
 
-        # Compiling classes
-        print ">>> Compiling classes..."
-        compiledContent = compileClasses(sortClasses(result, loadDeps, runDeps, variants), variants)
+    # Detect optionals
+    optionals = getOptionals(result)
+    if len(optionals) > 0:
+        print ">>> These optional classes may be useful:"
+        for entry in optionals:
+            print "  - %s" % entry
 
-    
-        # Saving result
-        compiledFileName = buildScript + "_" + variantsId + ".js"
-        print ">>> Storing result (%s KB)..." % (len(compiledContent) / 1024)
-        filetool.save(compiledFileName, compiledContent)
+
+    # Compiling classes
+    print ">>> Compiling classes..."
+    compiledContent = compileClasses(sortClasses(result, loadDeps, runDeps, variants), variants)
+
+
+    # Saving result
+    variantsId = generateVariantCombinationId(variants)
+    compiledFileName = buildScript + "_" + variantsId + ".js"
+    print "  - Storing result (%s KB)..." % (len(compiledContent) / 1024)
+    filetool.save(compiledFileName, compiledContent)
 
 
 
@@ -802,205 +832,181 @@ def generateVariantCombinationId(selected):
 #  VIEW/PACKAGE SUPPORT
 ######################################################################
 
-def processViews(viewDefs, loadDeps, runDeps, variants, collapseViews, optimizeLatency, outputFile):
+def processViews(viewClasses, viewBits, loadDeps, runDeps, variants, collapseViews, optimizeLatency, outputFile):
     global classes
-
-    # Compute variant sets
-    print ">>> Computing variant combinations..."
-    variantsSets = _computeVariantCombinations(variants)
-    print "  - Possible combinations: %s" % len(variantsSets)
+    global verbose
 
     
-    # Resolving modules/regexps
-    print ">>> Resolving modules/regexps..."
-    viewClasses = {}
-    for viewId in viewDefs:
-        viewClasses[viewId] = resolveComplexDefs(viewDefs[viewId])
-    
-    
-    # Process variant sets
-    for variants in variantsSets:
-        variantsId = generateVariantCombinationId(variants)
+    # Caching dependencies of each view
+    print
+    print ">>> Resolving dependencies..."
+    viewDeps = {}
+    length = len(viewClasses.keys())
+    for pos, viewId in enumerate(viewClasses.keys()):
+        print "  - View '%s'..." % viewId
         
-        # Caching dependencies of each view
-        print
-        print ">>> Resolving dependencies..."
-        viewDeps = {}
+        # Exclude all features of other views
+        # and handle dependencies the smart way =>
+        # also exclude classes only needed by the
+        # already excluded features
+        viewExcludes = []
+        for subViewId in viewClasses:
+            if subViewId != viewId:
+                viewExcludes.extend(viewClasses[subViewId])
+
+        # Finally resolve the dependencies
+        viewDeps[viewId] = resolveDependencies(viewClasses[viewId], viewExcludes, loadDeps, runDeps, variants)
+        print "    - Needs %s classes" % len(viewDeps[viewId])
+
+
+    
+    # Assign classes to packages
+    print
+    print ">>> Assigning classes to packages..."
+
+    # References packageId -> class list
+    packageClasses = {}
+
+    # References packageId -> bit number e.g. 4=1, 5=2, 6=2, 7=3
+    packageBitCounts = {}
+
+    for classId in classes:
+        packageId = 0
+        bitCount = 0
+    
+        # Iterate through the views use needs this class
         for viewId in viewClasses:
-            # Exclude all features of other views
-            # and handle dependencies the smart way =>
-            # also exclude classes only needed by the
-            # already excluded features
-            viewExcludes = []
-            for subViewId in viewClasses:
-                if subViewId != viewId:
-                    viewExcludes.extend(viewClasses[subViewId])
+            if classId in viewDeps[viewId]:
+                packageId += viewBits[viewId]
+                bitCount += 1
+    
+        # Ignore unused classes
+        if packageId == 0:
+            continue
+    
+        # Create missing data structure
+        if not packageClasses.has_key(packageId):
+            packageClasses[packageId] = []
+            packageBitCounts[packageId] = bitCount
+        
+        # Finally store the class to the package
+        packageClasses[packageId].append(classId)
+    
 
-            # Finally resolve the dependencies
-            viewDeps[viewId] = resolveDependencies(viewClasses[viewId], viewExcludes, loadDeps, runDeps, variants)
-            print "  - View '%s' needs %s classes" % (viewId, len(viewDeps[viewId]))
 
 
+    # Assign packages to views
+    print ">>> Assigning packages to views..."
+    viewPackages = {}
 
-        # Build bitmask ids for views
-        print    
-        print ">>> Assigning bits to views..."
+    for viewId in viewClasses:
+        viewBit = viewBits[viewId]
     
-        # References viewId -> bitId of that view
-        viewBits = {}
-    
-        viewPos = 0
-        for viewId in viewDefs:
-            viewBit = 1<<viewPos
-            print "  - View '%s' => %s" % (viewId, viewBit)
-            viewBits[viewId] = viewBit
-            viewPos += 1
-        
-        
-        
-        # Assign classes to packages
-        print
-        print ">>> Assigning classes to packages..."
-    
-        # References packageId -> class list
-        packageClasses = {}
-    
-        # References packageId -> bit number e.g. 4=1, 5=2, 6=2, 7=3
-        packageBitCounts = {}
-    
-        for classId in classes:
-            packageId = 0
-            bitCount = 0
-        
-            # Iterate through the views use needs this class
-            for viewId in viewClasses:
-                if classId in viewDeps[viewId]:
-                    packageId += viewBits[viewId]
-                    bitCount += 1
-        
-            # Ignore unused classes
-            if packageId == 0:
-                continue
-        
-            # Create missing data structure
-            if not packageClasses.has_key(packageId):
-                packageClasses[packageId] = []
-                packageBitCounts[packageId] = bitCount
+        for packageId in packageClasses:
+            if packageId&viewBit:
+                if not viewPackages.has_key(viewId):
+                    viewPackages[viewId] = []
+                
+                viewPackages[viewId].append(packageId)
             
-            # Finally store the class to the package
-            packageClasses[packageId].append(classId)
-        
+        # Be sure that the view package list is in order to the package priorit
+        _sortPackageIdsByPriority(viewPackages[viewId], packageBitCounts)
 
 
 
-        # Assign packages to views
-        print ">>> Assigning packages to views..."
-        viewPackages = {}
+            
+    # User feedback
+    _printViewStats(packageClasses, viewPackages)
+
+
+
+    # Support for package collapsing
+    # Could improve latency when initial loading an application
+    # Merge all packages of a specific view into one (also supports multiple views)
+    # Hint: View packages are sorted by priority, this way we can
+    # easily merge all following packages with the first one, because
+    # the first one is always the one with the highest priority
+    if len(collapseViews) > 0:
+        print
+        print ">>> Collapsing views..."
+        for viewId in collapseViews:
+            print "  - Collapsing view '%s'..." % viewId
+            collapsePackage = viewPackages[viewId][0]
+            for packageId in viewPackages[viewId][1:]:
+                print "    - Merge package #%s into #%s" % (packageId, collapsePackage)
+                _mergePackage(packageId, collapsePackage, viewClasses, viewPackages, packageClasses)
     
-        for viewId in viewClasses:
-            viewBit = viewBits[viewId]
+        # User feedback
+        _printViewStats(packageClasses, viewPackages)
+  
+  
+    # Support for merging small packages
+    # Hint1: Based on the token length which is a bit strange but a good
+    # possibility to get the not really correct filesize in an ultrafast way
+    # More complex code and classes generally also have more tokens in them
+    # Hint2: The first common package before the selected package between two 
+    # or more views is allowed to merge with. As the package which should be merged
+    # may have requirements these must be solved. The easiest way to be sure regarding
+    # this issue, is to look out for another common package. The package for which we
+    # are looking must have requirements in all views so these must be solved by all views
+    # so there must be another common package. Hardly to describe... hope this makes some sense
+    if optimizeLatency != None and optimizeLatency != 0:
+        smallPackages = []
+    
+        # Start at the end with the priority sorted list
+        sortedPackageIds = _sortPackageIdsByPriority(_dictToHumanSortedList(packageClasses), packageBitCounts)
+        sortedPackageIds.reverse()
+    
+        print
+        print ">>> Analysing package sizes..."
+        print "  - Optimize at %s tokens" % optimizeLatency
+        for packageId in sortedPackageIds:
+            packageLength = 0
+    
+            for classId in packageClasses[packageId]:
+                packageLength += getLength(classId)
         
-            for packageId in packageClasses:
-                if packageId&viewBit:
-                    if not viewPackages.has_key(viewId):
-                        viewPackages[viewId] = []
-                    
-                    viewPackages[viewId].append(packageId)
-                
-            # Be sure that the view package list is in order to the package priorit
-            _sortPackageIdsByPriority(viewPackages[viewId], packageBitCounts)
-
-
-
-                
+            if packageLength >= optimizeLatency:
+                print "  - Package #%s has %s tokens" % (packageId, packageLength)
+                continue
+            else:
+                print "  - Package #%s has %s tokens => trying to optimize" % (packageId, packageLength)
+        
+            collapsePackage = _getPreviousCommonPackage(packageId, viewPackages)
+            if collapsePackage != None:
+                print "    - Merge package #%s into #%s" % (packageId, collapsePackage)
+                _mergePackage(packageId, collapsePackage, viewClasses, viewPackages, packageClasses)                
+            else:
+                print "    - Sorry no matching parent found (should normally not occour)!"
+        
         # User feedback
         _printViewStats(packageClasses, viewPackages)
 
 
+
+    # Compile files...
+    packageLoaderContent = ""
+    sortedPackageIds = _sortPackageIdsByPriority(_dictToHumanSortedList(packageClasses), packageBitCounts)
+    variantsId = generateVariantCombinationId(variants)
     
-        # Support for package collapsing
-        # Could improve latency when initial loading an application
-        # Merge all packages of a specific view into one (also supports multiple views)
-        # Hint: View packages are sorted by priority, this way we can
-        # easily merge all following packages with the first one, because
-        # the first one is always the one with the highest priority
-        if len(collapseViews) > 0:
-            print ">>> Collapsing views..."
-            for viewId in collapseViews:
-                print "  - Collapsing view '%s'..." % viewId
-                collapsePackage = viewPackages[viewId][0]
-                for packageId in viewPackages[viewId][1:]:
-                    print "    - Merge package #%s into #%s" % (packageId, collapsePackage)
-                    _mergePackage(packageId, collapsePackage, viewClasses, viewPackages, packageClasses)
-        
-            # User feedback
-            _printViewStats(packageClasses, viewPackages)
-      
-      
-        # Support for merging small packages
-        # Hint1: Based on the token length which is a bit strange but a good
-        # possibility to get the not really correct filesize in an ultrafast way
-        # More complex code and classes generally also have more tokens in them
-        # Hint2: The first common package before the selected package between two 
-        # or more views is allowed to merge with. As the package which should be merged
-        # may have requirements these must be solved. The easiest way to be sure regarding
-        # this issue, is to look out for another common package. The package for which we
-        # are looking must have requirements in all views so these must be solved by all views
-        # so there must be another common package. Hardly to describe... hope this makes some sense
-        if optimizeLatency != None and optimizeLatency != 0:
-            smallPackages = []
-        
-            # Start at the end with the priority sorted list
-            sortedPackageIds = _sortPackageIdsByPriority(_dictToHumanSortedList(packageClasses), packageBitCounts)
-            sortedPackageIds.reverse()
-        
-            print ">>> Analysing package sizes..."
-            print "  - Optimize at %s tokens" % optimizeLatency
-            for packageId in sortedPackageIds:
-                packageLength = 0
-        
-                for classId in packageClasses[packageId]:
-                    packageLength += getLength(classId)
-            
-                if packageLength >= optimizeLatency:
-                    print "  - Package #%s has %s tokens" % (packageId, packageLength)
-                    continue
-                else:
-                    print "  - Package #%s has %s tokens => trying to optimize" % (packageId, packageLength)
-            
-                collapsePackage = _getPreviousCommonPackage(packageId, viewPackages)
-                if collapsePackage != None:
-                    print "    - Merge package #%s into #%s" % (packageId, collapsePackage)
-                    _mergePackage(packageId, collapsePackage, viewClasses, viewPackages, packageClasses)                
-                else:
-                    print "    - Sorry no matching parent found (should normally not occour)!"
-            
-            # User feedback
-            _printViewStats(packageClasses, viewPackages)
-
-  
-
-        # Compile files...
-        packageLoaderContent = ""
-        sortedPackageIds = _sortPackageIdsByPriority(_dictToHumanSortedList(packageClasses), packageBitCounts)
+    print
+    for packageId in sortedPackageIds:
+        packageFile = "%s_%s_%s.js" % (outputFile, variantsId, packageId)
     
-        for packageId in sortedPackageIds:
-            packageFile = "%s_%s_%s.js" % (outputFile, variantsId, packageId)
-        
-            print ">>> Compiling classes of package #%s..." % packageId
-            sortedClasses = sortClasses(packageClasses[packageId], loadDeps, runDeps, variants)
-            compiledContent = compileClasses(sortedClasses, variants)
-        
-            print "  - Storing result (%s KB)" % (len(compiledContent) / 1024)
-            filetool.save(packageFile, compiledContent)
+        print ">>> Compiling classes of package #%s..." % packageId
+        sortedClasses = sortClasses(packageClasses[packageId], loadDeps, runDeps, variants)
+        compiledContent = compileClasses(sortedClasses, variants)
+    
+        print "  - Storing result (%s KB)" % (len(compiledContent) / 1024)
+        filetool.save(packageFile, compiledContent)
 
-            # TODO: Make prefix configurable
-            prefix = "script/"
-            packageLoaderContent += "document.write('<script type=\"text/javascript\" src=\"%s\"></script>');\n" % (prefix + packageFile)
+        # TODO: Make prefix configurable
+        prefix = "script/"
+        packageLoaderContent += "document.write('<script type=\"text/javascript\" src=\"%s\"></script>');\n" % (prefix + packageFile)
 
-        print ">>> Storing package loader..."
-        packageLoader = "%s_%s.js" % (outputFile, variantsId)
-        filetool.save(packageLoader, packageLoaderContent)
+    print ">>> Storing package loader..."
+    packageLoader = "%s_%s.js" % (outputFile, variantsId)
+    filetool.save(packageLoader, packageLoaderContent)
  
  
  
@@ -1036,6 +1042,11 @@ def _getPreviousCommonPackage(searchId, viewPackages):
 
         
 def _printViewStats(packageClasses, viewPackages):
+    global verbose
+    
+    if not verbose:
+        return
+        
     packageIds = _dictToHumanSortedList(packageClasses)
     
     print
@@ -1047,8 +1058,6 @@ def _printViewStats(packageClasses, viewPackages):
     print ">>> Current view contents:"
     for viewId in viewPackages:
         print "  - View '%s' uses these packages: %s" % (viewId, _intListToString(viewPackages[viewId]))
-        
-    print
         
 
 def _dictToHumanSortedList(input):
@@ -1145,16 +1154,13 @@ def getOptionals(classes):
 #  COMPILER SUPPORT
 ######################################################################
 
-def printProgress(pos, length):
-    print "%s/%s" % (pos, length)
-
 def printProgress(pos, length, unit=10):
     # starts normally at null, but this is not useful here
     # also the length is normally +1 the real size
     pos += 1
     
     if pos == 1:
-        sys.stdout.write("    - processing:")
+        sys.stdout.write("  - Processing:")
         sys.stdout.flush()
 
     thisstep = unit * pos / length
@@ -1219,6 +1225,7 @@ def _resolveDependenciesRecurser(add, result, block, loadDeps, runDeps, variants
         return
     
     # add self
+    
     result[add] = True
 
     # reading dependencies
@@ -1260,6 +1267,7 @@ def getCombinedDeps(id, loadDeps, runDeps, variants):
 
 def getDeps(id, variants):
     global classes
+    global verbose
     
     variantsId = generateVariantCombinationId(variants)
     
@@ -1271,7 +1279,9 @@ def getDeps(id, variants):
     # load time = before class = require
     # runtime = after class = use    
 
-    print "  - Gathering dependencies: %s" % id
+    if verbose:
+        print "  - Gathering dependencies: %s" % id
+        
     load = []
     run = []
     
@@ -1447,6 +1457,7 @@ def scanModules():
                 modules[mod].append(id)
     
     print "  - Found %s modules" % len(modules)
+    print
                 
 
 def scanClassPaths(paths):
@@ -1456,6 +1467,8 @@ def scanClassPaths(paths):
     print ">>> Scanning class paths..."
     for path in paths:
         _addClassPath(path)
+
+    print
         
     return classes
     
