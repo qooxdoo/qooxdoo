@@ -24,7 +24,7 @@ import sys, re, os, optparse, math, cPickle, copy, sets
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "modules"))
 
 import config, tokenizer, tree, treegenerator, treeutil, optparseext, filetool
-import compiler, variableoptimizer, textutil
+import compiler, variableoptimizer, textutil, variantoptimizer
 
 
 
@@ -114,7 +114,7 @@ def process(options):
         "build-core" : 
         {
             "extend" : ["build-common"],
-            "buildScript" : "build-core.js",
+            "buildScript" : "build-core",
             "include" : ["apiviewer.Application"],
             "exclude" : ["ui_tree","=qx.ui.core.Widget"]
         },
@@ -122,19 +122,21 @@ def process(options):
         "build-apiviewer" : 
         {
             "extend" : ["build-common"],
-            "buildScript" : "build-apiviewer.js",
+            "buildScript" : "build-apiviewer",
             "include" : ["apiviewer.*","qx.theme.ClassicRoyale"],
             "variants" : 
             {
                 "qx.debug" : ["on","off"],
-                "qx.client" : ["gecko","mshtml","webkit","opera"]
+                "qx.client" : ["gecko","mshtml","webkit","opera"],
+                "qx.variableoptimizer" : ["on"],
+                "qx.stringoptimizer" : ["on"]
             }
         },        
         
         "build-feedreader" : 
         {
             "extend" : ["build-common"],
-            "buildScript" : "build-feedreader.js",
+            "buildScript" : "build-feedreader",
             "include" : ["feedreader.Application"]
         },    
         
@@ -149,7 +151,7 @@ def process(options):
         "build-app-views" : 
         {
             "extend" : ["build-views-common"],
-            "buildScript" : "build-app-views.js",
+            "buildScript" : "build-app-views",
             "views" : 
             {
                 "apiviewer" : ["apiviewer.Application"],
@@ -162,7 +164,7 @@ def process(options):
         "build-comp-views" :
         {
             "extend" : ["build-views-common"],
-            "buildScript" : "build-comp-views.js",
+            "buildScript" : "build-comp-views",
             "views" : 
             {
                 "tree" : ["ui_tree"],
@@ -177,7 +179,7 @@ def process(options):
         "build-feedreader-views" : 
         {
             "extend" : ["build-views-common"],
-            "buildScript" : "build-feedreader-views.js",
+            "buildScript" : "build-feedreader-views",
             "collapseViews" : ["core"],
             "views" : 
             {
@@ -191,7 +193,7 @@ def process(options):
         "build-apiviewer-views" :
         {
             "extend" : ["build-views-common"],
-            "buildScript" : "build-apiviewer-views.js",
+            "buildScript" : "build-apiviewer-views",
             "collapseViews" : ["core"],
             "views" : 
             {
@@ -523,7 +525,7 @@ def _extractQxEmbeds(data):
 
 
 ######################################################################
-#  TREE SUPPORT
+#  TOKEN/TREE SUPPORT
 ######################################################################
 
 def getTokens(id):
@@ -551,31 +553,64 @@ def getTree(id):
     if cache != None:
         return cache
     
-    print "  - Generating tree: %s" % id
+    print "  - Generating tree: %s (%s)" % (id, variantsId)
     tree = treegenerator.createSyntaxTree(getTokens(id))
     
     writeCache(id, "tree", tree)
     return tree
 
 
-def getTreeCopy(id):
-    return copy.deepcopy(getTree(id))
-
-
 def getVariableOptimizedTree(id):
     global classes
     
-    cache = readCache(id, "tree-varopt", classes[id]["path"])
+    cache = readCache(id, "tree-variableoptimized", classes[id]["path"])
     if cache != None:
         return cache
     
     print ">>> Optimize variables: %s" % id    
-    tree = getTreeCopy(id)
+    tree = copy.deepcopy(getTree(id))
     counter = variableoptimizer.search(tree, [], 0, 0, "$")
     print "  - Optimized %s variables" % counter
         
-    writeCache(id, "tree-varopt", tree)
-    return tree    
+    writeCache(id, "tree-variableoptimized", tree)
+    return tree  
+        
+
+def getVariantsTree(id, variants):
+    global classes
+
+    variantsId = generateVariantCombinationId(variants)
+    
+    cache = readCache(id, "tree" + variantsId, classes[id]["path"])
+    if cache != None:
+        return cache
+            
+    print "  - Select variants in %s..." % id
+    
+    # Generate map
+    variantsMap = {}
+    for entry in variants:
+        variantsMap[entry["id"]] = entry["value"]
+
+    # Special variants: Variable optimizer
+    if variantsMap.has_key("qx.variableoptimizer") and variantsMap["qx.variableoptimizer"] == "on":
+        tree = getVariableOptimizedTree(id)
+    else:
+        tree = getTree(id)
+
+    # Copy tree to work with
+    tree = copy.deepcopy(tree)
+    
+    # Call variant optimizer
+    variantoptimizer.search(tree, variantsMap, id)
+
+    # Store result into cache
+    writeCache(id, "tree" + variantsId, tree)
+    
+    return tree
+        
+    
+  
         
         
 
@@ -609,48 +644,50 @@ def processIncludeExclude(include, exclude, loadDeps, runDeps, variants, buildSc
     explicitExclude = resolveComplexDefs(explicitExclude)
     
     
-    # Detect dependencies
-    print ">>> Resolving dependencies for smart includes/excludes..."
-    result = resolveDependencies(smartInclude, smartExclude, loadDeps, runDeps)
-    print "  - List contains %s classes" % len(result)
-    
-    
-    
-    # Apply variants
+    # Compute variant combinations
     print ">>> Computing variant combinations..."
-    variantCombis = _computeVariantCombinations(variants)
-    print "  - Possible combinations: %s" % len(variantCombis)
-    for combi in variantCombis:
-        print combi
+    variantsSets = _computeVariantCombinations(variants)
+    print "  - Possible combinations: %s" % len(variantsSets)
     
     
-    # Explicit include/exclude
-    print ">>> Processing explicitely configured includes/excludes..."
-    for entry in explicitInclude:
-        result[entry] = True
-
-    for entry in explicitExclude:
-        del result[entry]
-
-    print "  - List contains %s classes" % len(result)
+    
+    for variants in variantsSets:
+        variantsId = generateVariantCombinationId(variants)
+        
+        # Detect dependencies
+        print ">>> Resolving dependencies for smart includes/excludes..."
+        result = resolveDependencies(smartInclude, smartExclude, loadDeps, runDeps, variants)
+        print "  - List contains %s classes" % len(result)
     
     
-    # Detect optionals
-    optionals = getOptionals(result)
-    if len(optionals) > 0:
-        print ">>> These optional classes may be useful:"
-        for entry in optionals:
-            print "  - %s" % entry
+        # Explicit include/exclude
+        print ">>> Processing explicitely configured includes/excludes..."
+        for entry in explicitInclude:
+            result[entry] = True
+
+        for entry in explicitExclude:
+            del result[entry]
+
+        print "  - List contains %s classes" % len(result)
+    
+    
+        # Detect optionals
+        optionals = getOptionals(result)
+        if len(optionals) > 0:
+            print ">>> These optional classes may be useful:"
+            for entry in optionals:
+                print "  - %s" % entry
 
 
-    # Compiling classes
-    print ">>> Compiling classes..."
-    compiled = compileClasses(sortClasses(result, loadDeps, runDeps))
+        # Compiling classes
+        print ">>> Compiling classes..."
+        compiledContent = compileClasses(sortClasses(result, loadDeps, runDeps, variants), variants)
 
     
-    # Saving result
-    print ">>> Storing result (%s KB) to %s" % ((len(compiled) / 1024), buildScript)
-    filetool.save(buildScript, compiled)
+        # Saving result
+        compiledFileName = buildScript + "_" + variantsId + ".js"
+        print ">>> Storing result (%s KB) to %s" % ((len(compiledContent) / 1024), compiledFileName)
+        filetool.save(compiledFileName, compiledContent)
 
 
 
@@ -693,8 +730,26 @@ def _computeVariantCombinations(variants):
     return _findCombinations(variantPossibilities)
 
 
+def generateVariantCombinationId(selected):
+    def _compare(x, y):
+        if x["id"] > y["id"]:
+            return 1
 
+        if x["id"] < y["id"]:
+            return -1
+        
+        return 0
 
+    sortedList = []
+    sortedList.extend(selected)
+    sortedList.sort(_compare)
+    
+    sortedString = []
+    for entry in sortedList:
+        sortedString.append("(" + entry["id"].replace(".", "") + "_" + entry["value"] + ")")
+        
+    return "_".join(sortedString)
+    
     
 
 ######################################################################
@@ -1037,11 +1092,11 @@ def getOptionals(classes):
 #  COMPILER SUPPORT
 ######################################################################
 
-def compileClasses(classes):
+def compileClasses(classes, variants):
     content = ""
     
     for id in classes:
-        content += _compileClassHelper(getVariableOptimizedTree(id))
+        content += _compileClassHelper(getVariantsTree(id, variants))
     
     return content
     
@@ -1068,16 +1123,16 @@ def _compileClassHelper(restree):
 #  CLASS DEPENDENCY SUPPORT
 ######################################################################
 
-def resolveDependencies(add, block, loadDeps, runDeps):
+def resolveDependencies(add, block, loadDeps, runDeps, variants):
     result = {}
     
     for entry in add:
-        _resolveDependenciesRecurser(entry, result, block, loadDeps, runDeps)
+        _resolveDependenciesRecurser(entry, result, block, loadDeps, runDeps, variants)
         
     return result
 
 
-def _resolveDependenciesRecurser(add, result, block, loadDeps, runDeps):
+def _resolveDependenciesRecurser(add, result, block, loadDeps, runDeps, variants):
     global classes
     
     # check if already in
@@ -1088,39 +1143,33 @@ def _resolveDependenciesRecurser(add, result, block, loadDeps, runDeps):
     result[add] = True
 
     # reading dependencies
-    deps = getCombinedDeps(add, loadDeps, runDeps)
+    deps = getCombinedDeps(add, loadDeps, runDeps, variants)
     
     # process lists
     for sub in deps["load"]:
         if not result.has_key(sub) and not sub in block:
-            _resolveDependenciesRecurser(sub, result, block, loadDeps, runDeps)            
+            _resolveDependenciesRecurser(sub, result, block, loadDeps, runDeps, variants)            
 
     for sub in deps["run"]:
         if not result.has_key(sub) and not sub in block:
-            _resolveDependenciesRecurser(sub, result, block, loadDeps, runDeps)     
+            _resolveDependenciesRecurser(sub, result, block, loadDeps, runDeps, variants)     
 
 
-def getCombinedDeps(id, loadDeps, runDeps):
+def getCombinedDeps(id, loadDeps, runDeps, variants):
     # init lists
     loadFinal = []
     runFinal = []
     
     # add static dependencies
-    static = getDeps(id)
+    static = getDeps(id, variants)
     loadFinal.extend(static["load"])
     runFinal.extend(static["run"])
     
     # add dynamic dependencies
     if loadDeps.has_key(id):
-        #for entry in loadDeps[id]:
-        #    print "  - Adding loadtime dependency %s to %s" % (entry, id)
-        
         loadFinal.extend(loadDeps[id])
 
     if runDeps.has_key(id):
-        #for entry in runDeps[id]:
-        #    print "  - Adding runtime dependency %s to %s" % (entry, id)
-
         runFinal.extend(runDeps[id])
     
     # return dict
@@ -1130,10 +1179,12 @@ def getCombinedDeps(id, loadDeps, runDeps):
     }
     
 
-def getDeps(id):
+def getDeps(id, variants):
     global classes
     
-    cache = readCache(id, "deps", classes[id]["path"])
+    variantsId = generateVariantCombinationId(variants)
+    
+    cache = readCache(id, "deps" + variantsId, classes[id]["path"])
     if cache != None:
         return cache
     
@@ -1157,7 +1208,7 @@ def getDeps(id):
     run.extend(metaRun)    
 
     # Read content data
-    (autoLoad, autoRun) = _analyzeClassDeps(id)
+    (autoLoad, autoRun) = _analyzeClassDeps(id, variants)
 
     # Process content data
     if not "auto-require" in metaIgnore:
@@ -1186,15 +1237,15 @@ def getDeps(id):
         "run" : run
     }
     
-    writeCache(id, "deps", deps)
+    writeCache(id, "deps" + variantsId, deps)
     
     return deps
     
     
-def _analyzeClassDeps(id):
+def _analyzeClassDeps(id, variants):
     global classes
     
-    tree = getTree(id)
+    tree = getVariantsTree(id, variants)
     loadtime = []
     runtime = []
     
@@ -1259,28 +1310,28 @@ def _analyzeClassDepsNode(id, node, loadtime, runtime, inFunction):
 #  CLASS SORT SUPPORT
 ######################################################################
             
-def sortClasses(input, loadDeps, runDeps):
+def sortClasses(input, loadDeps, runDeps, variants):
     sorted = []
     
     for entry in input:
-        _sortClassesRecurser(entry, input, sorted, loadDeps, runDeps)
+        _sortClassesRecurser(entry, input, sorted, loadDeps, runDeps, variants)
      
     return sorted
     
     
-def _sortClassesRecurser(id, available, sorted, loadDeps, runDeps):
+def _sortClassesRecurser(id, available, sorted, loadDeps, runDeps, variants):
     global classes
     
     if id in sorted:
         return
             
     # reading dependencies
-    deps = getCombinedDeps(id, loadDeps, runDeps)
+    deps = getCombinedDeps(id, loadDeps, runDeps, variants)
     
     # process loadtime requirements
     for entry in deps["load"]:
         if entry in available and not entry in sorted:
-            _sortClassesRecurser(entry, available, sorted, loadDeps, runDeps)
+            _sortClassesRecurser(entry, available, sorted, loadDeps, runDeps, variants)
             
     if id in sorted:
         return
@@ -1291,7 +1342,7 @@ def _sortClassesRecurser(id, available, sorted, loadDeps, runDeps):
     # process runtime requirements
     for entry in deps["run"]:
         if entry in available and not entry in sorted:
-            _sortClassesRecurser(entry, available, sorted, loadDeps, runDeps)
+            _sortClassesRecurser(entry, available, sorted, loadDeps, runDeps, variants)
 
     
     
