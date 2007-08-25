@@ -142,11 +142,14 @@ def process(options):
                 #"qx.debug" : ["on","off"],
                 "qx.debug" : ["off"],
                 #"qx.client" : ["gecko","mshtml","webkit","opera"],
-                "qx.client" : ["gecko","mshtml"],
-                "qx.variableoptimizer" : ["on"],
-                "qx.stringoptimizer" : ["on"],
-                "qx.basecalloptimizer" : ["on"]
-            }
+                "qx.client" : ["gecko","mshtml"]
+            },
+            "buildProcess" : 
+            [
+                "optimize-variables", 
+                "optimize-strings",
+                "optimize-basecalls"
+            ]
         },        
         
         "build-feedreader" : 
@@ -319,10 +322,14 @@ def generateScript():
     dynRunDeps = getJobConfig("use", {})
     
     # Variants data
+    # TODO: Variants for source -> Not possible
     userVariants = getJobConfig("variants", {})
 
     # View support (has priority)
     userViews = getJobConfig("views", {})
+    
+    # Build relevant post processing
+    buildProcess = getJobConfig("buildProcess", [])
         
     if len(userViews) > 0:
         collapseViews = getJobConfig("collapseViews", [])
@@ -420,9 +427,9 @@ def generateScript():
             print "----------------------------------------------------------------------------"
         
         if len(userViews) > 0:
-            processViews(viewClasses, viewBits, dynLoadDeps, dynRunDeps, variants, collapseViews, optimizeLatency, buildScript)
+            processViews(viewClasses, viewBits, dynLoadDeps, dynRunDeps, variants, collapseViews, optimizeLatency, buildScript, buildProcess)
         else:
-            processIncludeExclude(smartInclude, smartExclude, explicitInclude, explicitExclude, dynLoadDeps, dynRunDeps, variants, buildScript)
+            processIncludeExclude(smartInclude, smartExclude, explicitInclude, explicitExclude, dynLoadDeps, dynRunDeps, variants, buildScript, buildProcess)
 
     
 
@@ -644,48 +651,6 @@ def getTree(id):
     return tree
     
 
-
-def getOptimizedTree(id, varopt=False, baseopt=False, stringopt=False):
-    global classes
-    global verbose
-    
-    storeId = "tree"
-    if varopt:
-        storeId += "-varopt"
-    if baseopt:
-        storeId += "-baseopt"
-    if stringopt:
-        storeId += "-stringopt"
-        
-    cache = readCache(id, storeId, classes[id]["path"])
-    if cache != None:
-        return cache
-    
-    tree = copy.deepcopy(getTree(id))
-    if verbose:
-        print "  - Generating optimized tree: %s..." % id
-    
-    if varopt:
-        if verbose:
-            print "    - Optimize local variables..."
-        variableoptimizer.search(tree, [], 0, 0, "$")
-
-    if baseopt:
-        if verbose:
-            print "    - Optimize base calls..."
-        basecalloptimizer.patch(tree, id)
-        
-    if stringopt:
-        if verbose:
-            print "    - Optimize strings..."
-        #TODO
-    
-    # Store result into cache
-    writeCache(id, storeId, tree)
-    
-    return tree
-    
-        
     
 def getVariantsTree(id, variants):
     global classes
@@ -693,7 +658,7 @@ def getVariantsTree(id, variants):
 
     variantsId = generateVariantCombinationId(variants)
     
-    cache = readCache(id, "tree" + variantsId, classes[id]["path"])
+    cache = readCache(id, "tree-" + variantsId, classes[id]["path"])
     if cache != None:
         return cache
             
@@ -702,21 +667,8 @@ def getVariantsTree(id, variants):
     for entry in variants:
         variantsMap[entry["id"]] = entry["value"]
         
-    # Special variants: Optimizers
-    varopt = baseopt = stringopt = False
-    
-    if variantsMap.has_key("qx.variableoptimizer") and variantsMap["qx.variableoptimizer"] == "on":
-        varopt = True
-
-    if variantsMap.has_key("qx.basecalloptimizer") and variantsMap["qx.basecalloptimizer"] == "on":
-        baseopt = True
-
-    if variantsMap.has_key("qx.stringoptimizer") and variantsMap["qx.stringoptimizer"] == "on":
-        if variantsMap.has_key("qx.client") and variantsMap["qx.client"] == "mshtml":
-            stringopt = True
-
     # Copy tree to work with
-    tree = copy.deepcopy(getOptimizedTree(id, varopt, baseopt, stringopt))
+    tree = copy.deepcopy(getTree(id))
 
     if verbose:
         print "  - Select variants: %s..." % id
@@ -725,7 +677,7 @@ def getVariantsTree(id, variants):
     variantoptimizer.search(tree, variantsMap, id)
 
     # Store result into cache
-    writeCache(id, "tree" + variantsId, tree)
+    writeCache(id, "tree-" + variantsId, tree)
     
     return tree
         
@@ -741,7 +693,7 @@ def getVariantsTree(id, variants):
 #  INCLUDE/EXCLUDE SUPPORT
 ######################################################################
 
-def processIncludeExclude(smartInclude, smartExclude, explicitInclude, explicitExclude, loadDeps, runDeps, variants, buildScript):
+def processIncludeExclude(smartInclude, smartExclude, explicitInclude, explicitExclude, loadDeps, runDeps, variants, buildScript, buildProcess):
     global quiet
     
     # Detect dependencies
@@ -776,12 +728,13 @@ def processIncludeExclude(smartInclude, smartExclude, explicitInclude, explicitE
 
     # Compiling classes
     print ">>> Compiling classes..."
-    compiledContent = compileClasses(sortClasses(result, loadDeps, runDeps, variants), variants)
+    compiledContent = compileClasses(sortClasses(result, loadDeps, runDeps, variants), variants, buildProcess)
 
 
     # Saving result
     variantsId = generateVariantCombinationId(variants)
-    compiledFileName = buildScript + "_" + variantsId + ".js"
+    processId = generateProcessCombinationId(buildProcess)
+    compiledFileName = buildScript + "_" + variantsId + "_" + processId + ".js"
     if not quiet:
         print "  - Storing result (%s KB)..." % (len(compiledContent) / 1024)
     filetool.save(compiledFileName, compiledContent)
@@ -857,7 +810,7 @@ def generateVariantCombinationId(selected):
 #  VIEW/PACKAGE SUPPORT
 ######################################################################
 
-def processViews(viewClasses, viewBits, loadDeps, runDeps, variants, collapseViews, optimizeLatency, outputFile):
+def processViews(viewClasses, viewBits, loadDeps, runDeps, variants, collapseViews, optimizeLatency, outputFile, buildProcess):
     global classes
     global verbose
     global quiet
@@ -1033,6 +986,7 @@ def processViews(viewClasses, viewBits, loadDeps, runDeps, variants, collapseVie
     packageLoaderContent = ""
     sortedPackageIds = _sortPackageIdsByPriority(_dictToHumanSortedList(packageClasses), packageBitCounts)
     variantsId = generateVariantCombinationId(variants)
+    processId = generateProcessCombinationId(buildProcess)
     
     if not quiet:
         print
@@ -1042,7 +996,7 @@ def processViews(viewClasses, viewBits, loadDeps, runDeps, variants, collapseVie
     
         print ">>> Compiling classes of package #%s..." % packageId
         sortedClasses = sortClasses(packageClasses[packageId], loadDeps, runDeps, variants)
-        compiledContent = compileClasses(sortedClasses, variants)
+        compiledContent = compileClasses(sortedClasses, variants, buildProcess)
     
         if not quiet:
             print "  - Storing result (%s KB)" % (len(compiledContent) / 1024)
@@ -1053,7 +1007,7 @@ def processViews(viewClasses, viewBits, loadDeps, runDeps, variants, collapseVie
         packageLoaderContent += "document.write('<script type=\"text/javascript\" src=\"%s\"></script>');\n" % (prefix + packageFile)
 
     print ">>> Storing package loader..."
-    packageLoader = "%s_%s.js" % (outputFile, variantsId)
+    packageLoader = "%s_%s_%s.js" % (outputFile, variantsId, processId)
     filetool.save(packageLoader, packageLoaderContent)
  
  
@@ -1229,13 +1183,13 @@ def printProgress(pos, length):
         sys.stdout.flush()
 
 
-def compileClasses(todo, variants):
+def compileClasses(todo, variants, process):
     content = ""
     length = len(todo)
     
     for pos, id in enumerate(todo):
         printProgress(pos, length)
-        content += _compileClassHelper(getVariantsTree(id, variants))
+        content += getCompiled(id, variants, process)
     
     return content
     
@@ -1253,7 +1207,54 @@ def _compileClassHelper(restree):
     return compiler.compile(restree, options)    
     
     
+def getCompiled(id, variants, process):
+    global classes
+    global verbose
     
+    variantsId = generateVariantCombinationId(variants)
+    processId = generateProcessCombinationId(process)
+    
+    cache = readCache(id, "compiled-" + variantsId + "-" + processId, classes[id]["path"])
+    if cache != None:
+        return cache
+    
+    tokens = getTokens(id)
+    
+    tree = getVariantsTree(id, variants)
+
+    if verbose:
+        print "  - Postprocessing tree: %s..." % id
+        
+    _postProcessHelper(tree, process)    
+        
+    if verbose:
+        print "  - Compiling tree: %s..." % id
+    
+    compiled = _compileClassHelper(tree)
+    
+    writeCache(id, "compiled-" + variantsId + "-" + processId, compiled)
+    return compiled
+    
+
+def _postProcessHelper(tree, todo):
+    if "optimize-basecalls" in todo:
+        if verbose:
+            print "    - Optimize base calls..."
+        basecalloptimizer.patch(tree, id)
+        
+    if "optimize-variables" in todo:
+        if verbose:
+            print "    - Optimize local variables..."
+        variableoptimizer.search(tree, [], 0, 0, "$")
+    
+    if "optimize-strings" in todo:
+        if verbose:
+            print "    - Optimize strings..."
+     
+def generateProcessCombinationId(process):
+    return "-".join(process)     
+     
+     
      
      
      
