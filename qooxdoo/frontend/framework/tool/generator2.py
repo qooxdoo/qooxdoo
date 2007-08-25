@@ -137,20 +137,34 @@ def process(options):
             "extend" : ["build-common"],
             "buildScript" : "build-apiviewer",
             "include" : ["apiviewer.*","qx.theme.ClassicRoyale"],
+            "buildProcess" : 
+            [
+                "optimize-variables",
+                "optimize-basecalls",
+                "optimize-strings"
+            ]
+        },    
+        
+        "build-apiviewer-variants" : 
+        {
+            "extend" : ["build-common"],
+            "buildScript" : "build-apiviewer-variants",
+            "include" : ["apiviewer.*","qx.theme.ClassicRoyale"],
             "variants" : 
             {
                 #"qx.debug" : ["on","off"],
                 "qx.debug" : ["off"],
+                "qx.aspects" : ["off"],
                 #"qx.client" : ["gecko","mshtml","webkit","opera"],
                 "qx.client" : ["gecko","mshtml"]
             },
             "buildProcess" : 
             [
-                "optimize-variables", 
-                "optimize-strings",
-                "optimize-basecalls"
+                "optimize-variables",
+                "optimize-basecalls",
+                "optimize-strings"
             ]
-        },        
+        },             
         
         "build-feedreader" : 
         {
@@ -1243,33 +1257,34 @@ def _postProcessHelper(tree, process, variants):
     if "optimize-basecalls" in process:
         if verbose:
             print "    - Optimize base calls..."
-        tree = baseCallOptimizeHelper(tree, variants)
+        baseCallOptimizeHelper(tree, variants)
         
     if "optimize-variables" in process:
         if verbose:
             print "    - Optimize local variables..."
-        tree = variableOptimizeHelper(tree, variants)
+        variableOptimizeHelper(tree, variants)
     
     if "optimize-strings" in process:
         if verbose:
             print "    - Optimize strings..."
-        tree = stringOptimizeHelper(tree, variants)
+        stringOptimizeHelper(tree, variants)
         
     return tree
      
      
 def generateProcessCombinationId(process):
-    return "-".join(process)  
+    process = copy.copy(process)
+    process.sort()
+    
+    return "[%s]" % ("-".join(process))
        
      
 def baseCallOptimizeHelper(tree, variants):
     basecalloptimizer.patch(tree)
-    return tree
     
     
 def variableOptimizeHelper(tree, variants):
     variableoptimizer.search(tree, [], 0, 0, "$")
-    return tree
      
      
 def stringOptimizeHelper(tree, variants):
@@ -1279,7 +1294,7 @@ def stringOptimizeHelper(tree, variants):
     # Do not optimize strings for non-mshtml clients
     clientValue = getVariantValue(variants, "qx.client")
     if clientValue != None and clientValue != "mshtml":
-        return tree
+        return
     
     # TODO: Customize option for __SS__
     
@@ -1289,18 +1304,23 @@ def stringOptimizeHelper(tree, variants):
     stringoptimizer.replace(tree, stringList, "__SS__")
 
     # Build JS string fragments
-    stringStart = "function(){"
+    stringStart = "(function(){"
     stringReplacement = "var " + stringoptimizer.replacement(stringList, "__SS__")
-    stringStop = "}();"
+    stringStop = "})();"
 
     # Compile wrapper node
     wrapperNode = treeutil.compileString(stringStart+stringReplacement+stringStop)
-    
-    # Append 'old' tree to wrapper
-    wrapperNode.getChild("operand").getChild("function").getChild("body").addChild(tree)
-    
-    return wrapperNode
-    
+        
+    # Reorganize structure
+    funcBody = wrapperNode.getChild("operand").getChild("group").getChild("function").getChild("body").getChild("block")
+    if tree.hasChildren():
+        for child in copy.copy(tree.children):
+            tree.removeChild(child)
+            funcBody.addChild(child)
+            
+    # Add wrapper to tree
+    tree.addChild(wrapperNode)
+            
     
 def getVariantValue(variants, key):
     for entry in variants:
