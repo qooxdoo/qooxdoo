@@ -1220,12 +1220,12 @@ def getCompiled(id, variants, process):
     
     tokens = getTokens(id)
     
-    tree = getVariantsTree(id, variants)
+    tree = copy.deepcopy(getVariantsTree(id, variants))
 
     if verbose:
         print "  - Postprocessing tree: %s..." % id
         
-    _postProcessHelper(tree, process)    
+    tree = _postProcessHelper(tree, process, variants)    
         
     if verbose:
         print "  - Compiling tree: %s..." % id
@@ -1236,26 +1236,78 @@ def getCompiled(id, variants, process):
     return compiled
     
 
-def _postProcessHelper(tree, todo):
-    if "optimize-basecalls" in todo:
+def _postProcessHelper(tree, process, variants):
+    global verbose
+    global quiet
+    
+    if "optimize-basecalls" in process:
         if verbose:
             print "    - Optimize base calls..."
-        basecalloptimizer.patch(tree, id)
+        tree = baseCallOptimizeHelper(tree, variants)
         
-    if "optimize-variables" in todo:
+    if "optimize-variables" in process:
         if verbose:
             print "    - Optimize local variables..."
-        variableoptimizer.search(tree, [], 0, 0, "$")
+        tree = variableOptimizeHelper(tree, variants)
     
-    if "optimize-strings" in todo:
+    if "optimize-strings" in process:
         if verbose:
             print "    - Optimize strings..."
+        tree = stringOptimizeHelper(tree, variants)
+        
+    return tree
+     
      
 def generateProcessCombinationId(process):
-    return "-".join(process)     
+    return "-".join(process)  
+       
+     
+def baseCallOptimizeHelper(tree, variants):
+    basecalloptimizer.patch(tree)
+    return tree
+    
+    
+def variableOptimizeHelper(tree, variants):
+    variableoptimizer.search(tree, [], 0, 0, "$")
+    return tree
      
      
-     
+def stringOptimizeHelper(tree, variants):
+    global verbose
+    global quiet
+    
+    # Do not optimize strings for non-mshtml clients
+    clientValue = getVariantValue(variants, "qx.client")
+    if clientValue != None and clientValue != "mshtml":
+        return tree
+    
+    # TODO: Customize option for __SS__
+    
+    stringMap = stringoptimizer.search(tree)    
+    stringList = stringoptimizer.sort(stringMap)
+    
+    stringoptimizer.replace(tree, stringList, "__SS__")
+
+    # Build JS string fragments
+    stringStart = "function(){"
+    stringReplacement = "var " + stringoptimizer.replacement(stringList, "__SS__")
+    stringStop = "}();"
+
+    # Compile wrapper node
+    wrapperNode = treeutil.compileString(stringStart+stringReplacement+stringStop)
+    
+    # Append 'old' tree to wrapper
+    wrapperNode.getChild("operand").getChild("function").getChild("body").addChild(tree)
+    
+    return wrapperNode
+    
+    
+def getVariantValue(variants, key):
+    for entry in variants:
+        if entry["id"] == key:
+            return entry["value"]
+    
+    return None
      
      
      
