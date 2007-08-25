@@ -63,7 +63,7 @@ import treeutil
 # @defreturn          The return type
 # @exception IOError  The error it throws
 #
-def patch(node, variantMap, fileId=""):
+def patch(node):
     patchCount = 0
 
     this_base_vars = treeutil.findVariable(node, "this.base")
