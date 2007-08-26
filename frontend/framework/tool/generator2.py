@@ -18,13 +18,13 @@
 #
 ################################################################################
 
-import sys, re, os, optparse, math, cPickle, copy, sets
+import sys, re, os, optparse, math, cPickle, copy, sets, zlib
 
 # reconfigure path to import own modules from modules subfolder
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "modules"))
 
 import config, tokenizer, tree, treegenerator, treeutil, optparseext, filetool
-import compiler, variableoptimizer, textutil
+import compiler, variableoptimizer, textutil, mapper
 import variantoptimizer, stringoptimizer, basecalloptimizer, privateoptimizer
 
 
@@ -481,7 +481,7 @@ def readCache(id, segment, dep):
     try:
         return cPickle.load(open(cachePath + id + "-" + segment, 'rb'))
 
-    except (EOFError, cPickle.PickleError, cPickle.UnpicklingError):
+    except (IOError, EOFError, cPickle.PickleError, cPickle.UnpicklingError):
         print ">>> Could not read cache from %s" % cachePath
         return None
     
@@ -490,7 +490,7 @@ def writeCache(id, segment, content):
     try:
         cPickle.dump(content, open(cachePath + id + "-" + segment, 'wb'), 2)
 
-    except (EOFError, cPickle.PickleError, cPickle.PicklingError):
+    except (IOError, EOFError, cPickle.PickleError, cPickle.PicklingError):
         print ">>> Could not store cache to %s" % cachePath
         sys.exit(1)
 
@@ -500,7 +500,37 @@ def writeCache(id, segment, content):
         
         
         
+   
+######################################################################
+#  ZLIB INTERFACE
+######################################################################
+
+# calculates a hash code (simple incrementer)
+# cache all already calculates inputs for the next session using pickle
+# to keep hash codes identical between different sessions
+def toHashCode(id):
+    global classes
+    global hashes
+    
+    try:
+        hashes = cPickle.load(open(cachePath + "hashes", 'rb'))
+    except (IOError, EOFError, cPickle.PickleError, cPickle.UnpicklingError):
+        hashes = {}
+    
+    if not hashes.has_key(id):
+        hashes[id] = mapper.convert(len(hashes))
         
+        try:
+            cPickle.dump(hashes, open(cachePath + "hashes", 'wb'), 2)
+        except (IOError, EOFError, cPickle.PickleError, cPickle.UnpicklingError):
+            print ">>> Could not store hash cache: %s" % cachePath
+            sys.exit(1)
+    
+    return hashes[id]
+    
+
+
+     
         
 ######################################################################
 #  META DATA SUPPORT
@@ -1295,11 +1325,8 @@ def variableOptimizeHelper(tree, id, variants):
      
 
 def privateOptimizeHelper(tree, id, variants):
-    # TODO: Fix issues regarding API viewer and qx.core
-    # There seems to be some issues when these are private
-    # protected e.g. application is not loading correctly.
-    if not "qx.core" in id and not "apiviewer." in id:
-        privateoptimizer.patch(tree, {}, "$", False, False)
+    unique = toHashCode(id)
+    privateoptimizer.patch(unique, tree, {})
     
     
 def stringOptimizeHelper(tree, id, variants):
