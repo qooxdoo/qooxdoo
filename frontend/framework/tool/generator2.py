@@ -784,6 +784,14 @@ def processIncludeExclude(smartInclude, smartExclude, explicitInclude, explicitE
     if not quiet:
         print "  - Storing result (%s KB)..." % (len(compiledContent) / 1024)
     filetool.save(compiledFileName, compiledContent)
+    
+    # Zlib compression
+    compressedFileName = compiledFileName + ".gz"
+    if not quiet:
+        compressedContent = zlib.compress(compiledContent, 9)
+        print "  - Storing gzipped result (%s KB)..." % (len(compressedContent) / 1024)
+    filetool.saveGzip(compressedFileName, compiledContent)
+    
 
 
 
@@ -1038,16 +1046,24 @@ def processViews(viewClasses, viewBits, loadDeps, runDeps, variants, collapseVie
         print
         
     for packageId in sortedPackageIds:
-        packageFile = "%s_%s_%s.js" % (outputFile, variantsId, packageId)
+        packageFile = "%s_%s_%s_%s.js" % (outputFile, variantsId, processId, packageId)
     
         print ">>> Compiling classes of package #%s..." % packageId
         sortedClasses = sortClasses(packageClasses[packageId], loadDeps, runDeps, variants)
         compiledContent = compileClasses(sortedClasses, variants, buildProcess)
     
+        # Store content
         if not quiet:
             print "  - Storing result (%s KB)" % (len(compiledContent) / 1024)
         filetool.save(packageFile, compiledContent)
-
+        
+        # Zlib compression
+        compressedPackageFile = packageFile + ".gz"
+        if not quiet:
+            compressedContent = zlib.compress(compiledContent, 9)
+            print "  - Storing gzipped result (%s KB)..." % (len(compressedContent) / 1024)
+        filetool.saveGzip(compressedPackageFile, compiledContent)
+            
         # TODO: Make prefix configurable
         prefix = "script/"
         packageLoaderContent += "document.write('<script type=\"text/javascript\" src=\"%s\"></script>');\n" % (prefix + packageFile)
@@ -1469,25 +1485,26 @@ def getDeps(id, variants):
     (autoLoad, autoRun) = _analyzeClassDeps(id, variants)
 
     # Process content data
-    if not "auto-require" in metaIgnore:
-        for entry in autoLoad:
-            if entry in metaOptional:
-                pass
-            elif entry in load:
-                print "  - #require(%s) is auto-detected" % entry
-            else:
-                load.append(entry)
+    if verbose:
+        if not "auto-require" in metaIgnore:
+            for entry in autoLoad:
+                if entry in metaOptional:
+                    pass
+                elif entry in load:
+                    print "  - #require(%s) is auto-detected" % entry
+                else:
+                    load.append(entry)
 
-    if not "auto-use" in metaIgnore:
-        for entry in autoRun:
-            if entry in metaOptional:
-                pass
-            elif entry in load:
-                pass
-            elif entry in run:
-                print "  - #use(%s) is auto-detected" % entry
-            else:
-                run.append(entry)
+        if not "auto-use" in metaIgnore:
+            for entry in autoRun:
+                if entry in metaOptional:
+                    pass
+                elif entry in load:
+                    pass
+                elif entry in run:
+                    print "  - #use(%s) is auto-detected" % entry
+                else:
+                    run.append(entry)
                     
     # Build data structure
     deps = {
