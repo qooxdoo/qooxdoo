@@ -88,10 +88,7 @@ def process(options):
     # =class/module => 
     #   explicit include/exclude of given module or class
     #
-    # +class/module =>
-    #   aggressive exclude (excluding also things needed by other classes)
-    # 
-    
+
     config = {
         "common" : 
         {
