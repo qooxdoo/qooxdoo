@@ -59,16 +59,13 @@ ignore = ["__registry"]
 # @defreturn          The return type
 # @exception IOError  The error it throws
 #
-def patch(node, known, prefix="$", verbose=False, debug=False):
+def patch(unique, node, known, prefix="__$", verbose=False):
     if node.type == "definition":
         name = node.get("identifier", False)
         
         if name != None and name.startswith("__") and not name in ignore:
             if not name in known:
-                if debug:
-                    known[name] = "__%sPP%s__%s" % (prefix, name, mapper.convert(len(known)))
-                else:
-                    known[name] = "__%sPP%s" % (prefix, mapper.convert(len(known)))
+                known[name] = "%s%s_%s" % (prefix, unique, mapper.convert(len(known)))
 
             if verbose:
                 print "      - Replace definition: %s with %s" % (name, known[name])
@@ -80,10 +77,7 @@ def patch(node, known, prefix="$", verbose=False, debug=False):
 
         if name != None and name.startswith("__") and not name in ignore:
             if not name in known:
-                if debug:
-                    known[name] = "__%sPP%s__%s" % (prefix, name, mapper.convert(len(known)))
-                else:
-                    known[name] = "__%sPP%s" % (prefix, mapper.convert(len(known)))
+                known[name] = "%s%s_%s" % (prefix, unique, mapper.convert(len(known)))
 
             if verbose:
                 print "      - Replace identifier: %s with %s" % (name, known[name])
@@ -95,11 +89,8 @@ def patch(node, known, prefix="$", verbose=False, debug=False):
 
         if name != None and name.startswith("__") and not name in ignore:
             if not name in known:
-                if debug:
-                    known[name] = "__%sPP%s__%s" % (prefix, name, mapper.convert(len(known)))
-                else:
-                    known[name] = "__%sPP%s" % (prefix, mapper.convert(len(known)))
-
+                known[name] = "%s%s_%s" % (prefix, unique, mapper.convert(len(known)))
+                
             if verbose:
                 print "      - Replace key: %s with %s" % (name, known[name])
 
@@ -107,6 +98,6 @@ def patch(node, known, prefix="$", verbose=False, debug=False):
 
     if node.hasChildren():
         for child in node.children:
-            patch(child, known, prefix, verbose, debug)
+            patch(unique, child, known, prefix, verbose)
 
     return len(known)
