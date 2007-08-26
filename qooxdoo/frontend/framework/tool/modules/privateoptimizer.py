@@ -44,7 +44,8 @@
 
 import tree, mapper
 
-ignore = []
+# TODO: Fix the code. Maybe bootstrap relevant?
+ignore = ["__registry"]
 
 ##                                                                              
 # Some nice short description of foo(); this can contain html and 
@@ -58,13 +59,31 @@ ignore = []
 # @defreturn          The return type
 # @exception IOError  The error it throws
 #
-def patch(node, known, prefix, verbose):
-    if node.type == "identifier":
+def patch(node, known, prefix="$", verbose=False, debug=False):
+    if node.type == "definition":
+        name = node.get("identifier", False)
+        
+        if name != None and name.startswith("__") and not name in ignore:
+            if not name in known:
+                if debug:
+                    known[name] = "__%sPP%s__%s" % (prefix, name, mapper.convert(len(known)))
+                else:
+                    known[name] = "__%sPP%s" % (prefix, mapper.convert(len(known)))
+
+            if verbose:
+                print "      - Replace definition: %s with %s" % (name, known[name])
+
+            node.set("identifier", known[name])
+                    
+    elif node.type == "identifier":
         name = node.get("name", False)
 
         if name != None and name.startswith("__") and not name in ignore:
             if not name in known:
-                known[name] = "__%s%s" % (prefix, len(known))
+                if debug:
+                    known[name] = "__%sPP%s__%s" % (prefix, name, mapper.convert(len(known)))
+                else:
+                    known[name] = "__%sPP%s" % (prefix, mapper.convert(len(known)))
 
             if verbose:
                 print "      - Replace identifier: %s with %s" % (name, known[name])
@@ -76,7 +95,10 @@ def patch(node, known, prefix, verbose):
 
         if name != None and name.startswith("__") and not name in ignore:
             if not name in known:
-                known[name] = "__%s%s" % (prefix, len(known))
+                if debug:
+                    known[name] = "__%sPP%s__%s" % (prefix, name, mapper.convert(len(known)))
+                else:
+                    known[name] = "__%sPP%s" % (prefix, mapper.convert(len(known)))
 
             if verbose:
                 print "      - Replace key: %s with %s" % (name, known[name])
@@ -85,6 +107,6 @@ def patch(node, known, prefix, verbose):
 
     if node.hasChildren():
         for child in node.children:
-            patch(child, known, prefix, verbose)
+            patch(child, known, prefix, verbose, debug)
 
     return len(known)
