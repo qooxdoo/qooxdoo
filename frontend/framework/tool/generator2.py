@@ -24,7 +24,8 @@ import sys, re, os, optparse, math, cPickle, copy, sets
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "modules"))
 
 import config, tokenizer, tree, treegenerator, treeutil, optparseext, filetool
-import compiler, variableoptimizer, textutil, variantoptimizer, stringoptimizer, basecalloptimizer
+import compiler, variableoptimizer, textutil
+import variantoptimizer, stringoptimizer, basecalloptimizer, privateoptimizer
 
 
 
@@ -141,7 +142,8 @@ def process(options):
             [
                 "optimize-variables",
                 "optimize-basecalls",
-                "optimize-strings"
+                "optimize-strings",
+                "optimize-privates"
             ]
         },    
         
@@ -1239,7 +1241,7 @@ def getCompiled(id, variants, process):
     if verbose:
         print "  - Postprocessing tree: %s..." % id
         
-    tree = _postProcessHelper(tree, process, variants)    
+    tree = _postProcessHelper(tree, id, process, variants)    
         
     if verbose:
         print "  - Compiling tree: %s..." % id
@@ -1250,24 +1252,29 @@ def getCompiled(id, variants, process):
     return compiled
     
 
-def _postProcessHelper(tree, process, variants):
+def _postProcessHelper(tree, id, process, variants):
     global verbose
     global quiet
     
     if "optimize-basecalls" in process:
         if verbose:
             print "    - Optimize base calls..."
-        baseCallOptimizeHelper(tree, variants)
-        
+        baseCallOptimizeHelper(tree, id, variants)
+
     if "optimize-variables" in process:
         if verbose:
             print "    - Optimize local variables..."
-        variableOptimizeHelper(tree, variants)
+        variableOptimizeHelper(tree, id, variants)
     
+    if "optimize-privates" in process:
+        if verbose:
+            print "    - Optimize privates..."
+        privateOptimizeHelper(tree, id, variants)
+
     if "optimize-strings" in process:
         if verbose:
             print "    - Optimize strings..."
-        stringOptimizeHelper(tree, variants)
+        stringOptimizeHelper(tree, id, variants)
         
     return tree
      
@@ -1279,15 +1286,23 @@ def generateProcessCombinationId(process):
     return "[%s]" % ("-".join(process))
        
      
-def baseCallOptimizeHelper(tree, variants):
+def baseCallOptimizeHelper(tree, id, variants):
     basecalloptimizer.patch(tree)
     
     
-def variableOptimizeHelper(tree, variants):
+def variableOptimizeHelper(tree, id, variants):
     variableoptimizer.search(tree, [], 0, 0, "$")
      
-     
-def stringOptimizeHelper(tree, variants):
+
+def privateOptimizeHelper(tree, id, variants):
+    # TODO: Fix issues regarding API viewer and qx.core
+    # There seems to be some issues when these are private
+    # protected e.g. application is not loading correctly.
+    if not "qx.core" in id and not "apiviewer." in id:
+        privateoptimizer.patch(tree, {}, "$", False, False)
+    
+    
+def stringOptimizeHelper(tree, id, variants):
     global verbose
     global quiet
     
