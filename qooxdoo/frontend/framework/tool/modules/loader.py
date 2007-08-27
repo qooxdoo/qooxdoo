@@ -368,10 +368,11 @@ def resolveAutoDeps(fileDb, options):
         # Detecting doubles in loadtime data
         for dep in fileEntry["loadtimeDeps"]:
             if dep in loadtimeDeps:
-                if not options.verbose:
-                    print
+                pass
+                #if not options.verbose:
+                #    print
 
-                print "    - Please remove #require(%s) from the class %s as this was already auto-detected." % (dep, fileId)
+                # print "    - Please remove #require(%s) from the class %s as this was already auto-detected." % (dep, fileId)
             else:
                 if dep in runtimeDeps:
                     if options.verbose:
@@ -386,10 +387,11 @@ def resolveAutoDeps(fileDb, options):
         # Detecting doubles in runtime data
         for dep in fileEntry["runtimeDeps"]:
             if dep in runtimeDeps:
-                if not options.verbose:
-                    print
+                pass
+                #if not options.verbose:
+                #    print
 
-                print "    - Please remove #use(%s) from the class %s as this was already auto-detected." % (dep, fileId)
+                # print "    - Please remove #use(%s) from the class %s as this was already auto-detected." % (dep, fileId)
             elif dep in loadtimeDeps:
                 if not options.verbose:
                     print
