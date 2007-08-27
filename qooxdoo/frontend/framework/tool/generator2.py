@@ -1482,26 +1482,27 @@ def getDeps(id, variants):
     (autoLoad, autoRun) = _analyzeClassDeps(id, variants)
 
     # Process content data
-    if verbose:
-        if not "auto-require" in metaIgnore:
-            for entry in autoLoad:
-                if entry in metaOptional:
-                    pass
-                elif entry in load:
+    if not "auto-require" in metaIgnore:
+        for entry in autoLoad:
+            if entry in metaOptional:
+                pass
+            elif entry in load:
+                if verbose:
                     print "  - #require(%s) is auto-detected" % entry
-                else:
-                    load.append(entry)
+            else:
+                load.append(entry)
 
-        if not "auto-use" in metaIgnore:
-            for entry in autoRun:
-                if entry in metaOptional:
-                    pass
-                elif entry in load:
-                    pass
-                elif entry in run:
+    if not "auto-use" in metaIgnore:
+        for entry in autoRun:
+            if entry in metaOptional:
+                pass
+            elif entry in load:
+                pass
+            elif entry in run:
+                if verbose:
                     print "  - #use(%s) is auto-detected" % entry
-                else:
-                    run.append(entry)
+            else:
+                run.append(entry)
                     
     # Build data structure
     deps = {
