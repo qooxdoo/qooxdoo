@@ -185,7 +185,7 @@ def process(options):
         {
             "extend" : ["build-views-common"],
             "buildScript" : "build-app-views",
-            "collapseViews" : ["webmail","feedreader"],
+            #"collapseViews" : ["webmail","feedreader","showcase"],
             "views" : 
             {
                 "apiviewer" : ["apiviewer.Application"],
@@ -1030,7 +1030,7 @@ def processViews(viewClasses, viewBits, loadDeps, runDeps, variants, collapseVie
                 if not quiet:
                     print "    - Package #%s has %s tokens => trying to optimize" % (packageId, packageLength)
         
-            collapsePackage = _getPreviousCommonPackage(packageId, viewPackages)
+            collapsePackage = _getPreviousCommonPackage(packageId, viewPackages, packageBitCounts)
             if collapsePackage != None:
                 if not quiet:
                     print "      - Merge package #%s into #%s" % (packageId, collapsePackage)
@@ -1079,16 +1079,16 @@ def processViews(viewClasses, viewBits, loadDeps, runDeps, variants, collapseVie
  
  
  
-def _sortPackageIdsByPriority(packageIds, packageBitCount):
+def _sortPackageIdsByPriority(packageIds, packageBitCounts):
     def _cmpPackageIds(pkgId1, pkgId2):
-        return packageBitCount[pkgId2] - packageBitCount[pkgId1]
+        return packageBitCounts[pkgId2] - packageBitCounts[pkgId1]
         
     packageIds.sort(_cmpPackageIds)
     
     return packageIds
     
   
-def _getPreviousCommonPackage(searchId, viewPackages):
+def _getPreviousCommonPackage(searchId, viewPackages, packageBitCounts):
     relevantViews = []
     relevantPackages = []
     
@@ -1098,9 +1098,9 @@ def _getPreviousCommonPackage(searchId, viewPackages):
             relevantViews.append(viewId)
             relevantPackages.extend(packages[:packages.index(searchId)])
 
-    # Should be sorted like other package lists
-    # but in this case starting from the end (so not reversing)
-    relevantPackages.sort()
+    # Sorted by priority, but start from end
+    _sortPackageIdsByPriority(relevantPackages, packageBitCounts)
+    relevantPackages.reverse()
 
     # Check if a package is available identical times to the number of views
     for packageId in relevantPackages:
