@@ -24,8 +24,9 @@ import sys, re, os, optparse, math, cPickle, copy, sets, zlib
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "modules"))
 
 import config, tokenizer, tree, treegenerator, treeutil, optparseext, filetool
-import compiler, variableoptimizer, textutil, mapper
-import variantoptimizer, stringoptimizer, basecalloptimizer, privateoptimizer
+import compiler, textutil, mapper
+import variantoptimizer
+import variableoptimizer, stringoptimizer, basecalloptimizer, privateoptimizer
 
 
 
