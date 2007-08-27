@@ -185,6 +185,7 @@ def process(options):
         {
             "extend" : ["build-views-common"],
             "buildScript" : "build-app-views",
+            "collapseViews" : ["webmail","feedreader"],
             "views" : 
             {
                 "apiviewer" : ["apiviewer.Application"],
@@ -972,18 +973,21 @@ def processViews(viewClasses, viewBits, loadDeps, runDeps, variants, collapseVie
     if len(collapseViews) > 0:
         if not quiet:
             print
-            
+        
+        collapsePos = 0
         print ">>> Collapsing views..."
         for viewId in collapseViews:
             if not quiet:
-                print "  - Collapsing view '%s'..." % viewId
+                print "  - Collapsing view '%s' (%s)..." % (viewId, collapsePos)
                 
-            collapsePackage = viewPackages[viewId][0]
-            for packageId in viewPackages[viewId][1:]:
+            collapsePackage = viewPackages[viewId][collapsePos]
+            for packageId in viewPackages[viewId][collapsePos+1:]:
                 if not quiet:
                     print "    - Merge package #%s into #%s" % (packageId, collapsePackage)
                     
                 _mergePackage(packageId, collapsePackage, viewClasses, viewPackages, packageClasses)
+            
+            collapsePos += 1
     
         # User feedback
         _printViewStats(packageClasses, viewPackages)
