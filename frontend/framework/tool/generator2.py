@@ -764,10 +764,11 @@ def processIncludeExclude(smartInclude, smartExclude, explicitInclude, explicitE
 
 
     # Compiling classes
-    print ">>> Compiling %s classes..." % len(includeList)
+    print ">>> Compiling %s classes" % len(includeList)
     compiledContent = compileClasses(sortClasses(includeList, loadDeps, runDeps, variants), variants, buildProcess)
 
 
+    # Pre storage calculations
     variantsId = generateVariantCombinationId(variants)
     processId = generateProcessCombinationId(buildProcess)
     compiledFileName = "%s_%s_%s.js" % (buildScript, variantsId, processId)
@@ -776,16 +777,23 @@ def processIncludeExclude(smartInclude, smartExclude, explicitInclude, explicitE
 
     # Saving compiled content
     if not quiet:
-        print "  - Storing script (%s KB)..." % (len(compiledContent) / 1024)
+        print "  - Storing script (%s)..." % getContentSize(compiledContent)
     filetool.save(compiledFileName, compiledContent)
     
    
     # Saving gzipped content
     if not quiet:
-        compressedContent = zlib.compress(compiledContent, 9)
-        print "  - Storing gzipped script (%s KB)..." % (len(compressedContent) / 1024)
+        print "  - Storing gzipped script (%s)..." % getCompressedContentSize(compiledContent)
     filetool.saveGzip(compressedFileName, compiledContent)
     
+
+
+def getContentSize(content):
+    return "%s KB" % (len(content) / 1024)
+
+
+def getCompressedContentSize(content):
+    return "%s KB" % (len(zlib.compress(content, 9)) / 1024)
 
 
 
@@ -1011,19 +1019,17 @@ def processViews(viewClasses, viewBits, loadDeps, runDeps, variants, collapseVie
         
             if packageLength >= optimizeLatency:
                 if not quiet:
-                    print "  - Package #%s has %s tokens" % (packageId, packageLength)
+                    print "    - Package #%s has %s tokens" % (packageId, packageLength)
                 continue
             else:
                 if not quiet:
-                    print "  - Package #%s has %s tokens => trying to optimize" % (packageId, packageLength)
+                    print "    - Package #%s has %s tokens => trying to optimize" % (packageId, packageLength)
         
             collapsePackage = _getPreviousCommonPackage(packageId, viewPackages)
             if collapsePackage != None:
                 if not quiet:
-                    print "    - Merge package #%s into #%s" % (packageId, collapsePackage)
+                    print "      - Merge package #%s into #%s" % (packageId, collapsePackage)
                 _mergePackage(packageId, collapsePackage, viewClasses, viewPackages, packageClasses)                
-            else:
-                print "    - Warning: No matching parent found (should normally not occour)!"
         
         # User feedback
         _printViewStats(packageClasses, viewPackages)
@@ -1039,30 +1045,30 @@ def processViews(viewClasses, viewBits, loadDeps, runDeps, variants, collapseVie
     if not quiet:
         print
         
+    print ">>> Compiling classes..."
     for packageId in sortedPackageIds:
         packageFile = "%s_%s_%s_%s.js" % (outputFile, variantsId, processId, packageId)
     
-        print ">>> Compiling classes of package #%s..." % packageId
+        print "  - Package #%s (%s classes)..." % (packageId, len(packageClasses[packageId]))
         sortedClasses = sortClasses(packageClasses[packageId], loadDeps, runDeps, variants)
         compiledContent = compileClasses(sortedClasses, variants, buildProcess)
     
         # Store content
         if not quiet:
-            print "  - Storing result (%s KB)" % (len(compiledContent) / 1024)
+            print "    - Storing script (%s)" % getContentSize(compiledContent)
         filetool.save(packageFile, compiledContent)
         
         # Zlib compression
         compressedPackageFile = packageFile + ".gz"
         if not quiet:
-            compressedContent = zlib.compress(compiledContent, 9)
-            print "  - Storing gzipped result (%s KB)..." % (len(compressedContent) / 1024)
+            print "    - Storing gzipped script (%s)..." % getCompressedContentSize(compiledContent)
         filetool.saveGzip(compressedPackageFile, compiledContent)
             
         # TODO: Make prefix configurable
         prefix = "script/"
         packageLoaderContent += "document.write('<script type=\"text/javascript\" src=\"%s\"></script>');\n" % (prefix + packageFile)
 
-    print ">>> Storing package loader..."
+    print ">>> Storing package loader script..."
     packageLoader = "%s_%s_%s.js" % (outputFile, variantsId, processId)
     filetool.save(packageLoader, packageLoaderContent)
  
@@ -1212,7 +1218,7 @@ def getOptionals(classes):
 #  COMPILER SUPPORT
 ######################################################################
 
-def printProgress(pos, length):
+def printProgress(pos, length, indent=4):
     global quiet
     
     if quiet:
@@ -1223,7 +1229,7 @@ def printProgress(pos, length):
     pos += 1
     
     if pos == 1:
-        sys.stdout.write("  - Processing:")
+        sys.stdout.write("%s- Processing:" % (" " * indent))
         sys.stdout.flush()
 
     unit = 10
