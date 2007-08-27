@@ -501,6 +501,22 @@ endif
 ################################################################################
 
 #
+# Redefine folder names (inside build/source)
+# It is not recommended to change these fundamental settings.
+#
+ifndef APPLICATION_SCRIPT_FOLDERNAME
+  APPLICATION_SCRIPT_FOLDERNAME = script
+endif
+
+ifndef APPLICATION_CLASS_FOLDERNAME
+  APPLICATION_CLASS_FOLDERNAME = class
+endif
+
+ifndef APPLICATION_TRANSLATION_FOLDERNAME
+  APPLICATION_TRANSLATION_FOLDERNAME = translation
+endif
+
+#
 # File name of the generated script
 #
 ifndef APPLICATION_SCRIPT_FILENAME

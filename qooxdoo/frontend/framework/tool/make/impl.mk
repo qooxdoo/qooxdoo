@@ -33,8 +33,8 @@ exec-clean:
 	@$(CMD_REMOVE) $(APPLICATION_BUILD_PATH)/script/$(APPLICATION_SCRIPT_FILENAME:.js=)_*.js
 
 	@echo "  * Cleaning up source..."
-	@$(CMD_REMOVE) $(APPLICATION_SOURCE_PATH)/script/$(APPLICATION_SCRIPT_FILENAME)
-	@$(CMD_REMOVE) $(APPLICATION_SOURCE_PATH)/translation/messages.pot
+	@$(CMD_REMOVE) $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/$(APPLICATION_SCRIPT_FILENAME)
+	@$(CMD_REMOVE) $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TRANSLATION_FOLDERNAME)/messages.pot
 
 	@echo "  * Cleaning up framework..."
 	@$(CMD_REMOVE) $(FRAMEWORK_SOURCE_PATH)/translation/messages.pot
@@ -50,9 +50,9 @@ exec-distclean:
 	@$(CMD_REMOVE) $(APPLICATION_DEBUG_PATH)
 
 	@echo "  * Cleaning up source..."
-	@$(CMD_REMOVE) $(APPLICATION_SOURCE_PATH)/script
-	@$(CMD_REMOVE) $(APPLICATION_SOURCE_PATH)/translation/messages.pot
-	@$(CMD_REMOVE) $(APPLICATION_SOURCE_PATH)/class/$(APPLICATION_NAMESPACE_PATH)/translation
+	@$(CMD_REMOVE) $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)
+	@$(CMD_REMOVE) $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TRANSLATION_FOLDERNAME)/messages.pot
+	@$(CMD_REMOVE) $(APPLICATION_SOURCE_PATH)/$(APPLICATION_CLASS_FOLDERNAME)/$(APPLICATION_NAMESPACE_PATH)/translation
 	@$(CMD_FIND) $(APPLICATION_SOURCE_PATH) $(FILES_TEMP) -exec $(CMD_REMOVE) {} \;
 
 	@echo "  * Cleaning up framework..."
@@ -198,7 +198,7 @@ exec-migration:
 	  --from-makefile Makefile \
 	  --migrate-html \
 	  --from-version=$(QOOXDOO_VERSION) \
-	  --class-path=$(APPLICATION_SOURCE_PATH)/class,$(APPLICATION_ADDITIONAL_CLASS_PATH) \
+	  --class-path=$(APPLICATION_SOURCE_PATH)/$(APPLICATION_CLASS_FOLDERNAME),$(APPLICATION_ADDITIONAL_CLASS_PATH) \
 	  $(PRETTY_PRINT_OPTIONS)
 
 
@@ -335,39 +335,39 @@ exec-application-translation:
 	@which msginit > /dev/null 2>&1 || (echo "    - Please install gettext tools (msginit)" && exit 1)
 	@which msgmerge > /dev/null 2>&1 || (echo "    - Please install gettext tools (msgmerge)" && exit 1)
 
-	@mkdir -p $(APPLICATION_SOURCE_PATH)/translation
-	@mkdir -p $(APPLICATION_SOURCE_PATH)/class/$(APPLICATION_NAMESPACE_PATH)/translation
+	@mkdir -p $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TRANSLATION_FOLDERNAME)
+	@mkdir -p $(APPLICATION_SOURCE_PATH)/$(APPLICATION_CLASS_FOLDERNAME)/$(APPLICATION_NAMESPACE_PATH)/translation
 
-	@rm -f $(APPLICATION_SOURCE_PATH)/translation/messages.pot
-	@touch $(APPLICATION_SOURCE_PATH)/translation/messages.pot
-	@for file in `find $(APPLICATION_SOURCE_PATH)/class -name "*.js"`; do \
+	@rm -f $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TRANSLATION_FOLDERNAME)/messages.pot
+	@touch $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TRANSLATION_FOLDERNAME)/messages.pot
+	@for file in `find $(APPLICATION_SOURCE_PATH)/$(APPLICATION_CLASS_FOLDERNAME) -name "*.js"`; do \
 	  LC_ALL=C xgettext --language=Java --from-code=UTF-8 \
 	  -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 \
 	  -kself.trc -kself.tr -kself.marktr -kself.trn:1,2 \
 	  -kManager.trc -kManager.tr -kManager.marktr -kManager.trn:1,2 \
 	  --sort-by-file --add-comments=TRANSLATION \
-	  -o $(APPLICATION_SOURCE_PATH)/translation/messages.pot \
-	  `find $(APPLICATION_SOURCE_PATH)/class -name "*.js"` 2>&1 | grep -v warning; \
+	  -o $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TRANSLATION_FOLDERNAME)/messages.pot \
+	  `find $(APPLICATION_SOURCE_PATH)/$(APPLICATION_CLASS_FOLDERNAME) -name "*.js"` 2>&1 | grep -v warning; \
 	  break; done
 
 	@echo "  * Processing translations..."
 	@for LOC in $(COMPUTED_LOCALES); do \
 	  echo "    - Translation: $$LOC"; \
-	  if [ ! -r $(APPLICATION_SOURCE_PATH)/translation/$$LOC.po ]; then \
+	  if [ ! -r $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TRANSLATION_FOLDERNAME)/$$LOC.po ]; then \
   	    echo "      - Generating initial translation file..."; \
-	    msginit --locale $$LOC --no-translator -i $(APPLICATION_SOURCE_PATH)/translation/messages.pot -o $(APPLICATION_SOURCE_PATH)/translation/$$LOC.po > /dev/null 2>&1; \
+	    msginit --locale $$LOC --no-translator -i $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TRANSLATION_FOLDERNAME)/messages.pot -o $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TRANSLATION_FOLDERNAME)/$$LOC.po > /dev/null 2>&1; \
 	  else \
 	    echo "      - Merging translation file..."; \
-	    msgmerge --update -q $(APPLICATION_SOURCE_PATH)/translation/$$LOC.po $(APPLICATION_SOURCE_PATH)/translation/messages.pot; \
+	    msgmerge --update -q $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TRANSLATION_FOLDERNAME)/$$LOC.po $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TRANSLATION_FOLDERNAME)/messages.pot; \
 	  fi; \
 	  echo "      - Generating catalog..."; \
-	  mkdir -p $(APPLICATION_SOURCE_PATH)/translation; \
+	  mkdir -p $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TRANSLATION_FOLDERNAME); \
 	  $(CMD_MSGFMT) \
 	    -n $(APPLICATION_NAMESPACE).translation \
-	    -d $(APPLICATION_SOURCE_PATH)/class/$(APPLICATION_NAMESPACE_PATH)/translation \
-	    $(APPLICATION_SOURCE_PATH)/translation/$$LOC.po; \
+	    -d $(APPLICATION_SOURCE_PATH)/$(APPLICATION_CLASS_FOLDERNAME)/$(APPLICATION_NAMESPACE_PATH)/translation \
+	    $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TRANSLATION_FOLDERNAME)/$$LOC.po; \
 	done
-	@rm -rf $(APPLICATION_SOURCE_PATH)/translation/*~
+	@rm -rf $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TRANSLATION_FOLDERNAME)/*~
 
 
 
