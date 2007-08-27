@@ -741,28 +741,22 @@ def processIncludeExclude(smartInclude, smartExclude, explicitInclude, explicitE
     
     # Detect dependencies
     print ">>> Resolving dependencies..."
-    result = resolveDependencies(smartInclude, smartExclude, loadDeps, runDeps, variants)
+    includeList = resolveDependencies(smartInclude, smartExclude, loadDeps, runDeps, variants)
     
-    if not quiet:
-        print "  - List contains %s classes" % len(result)
-
 
     # Explicit include/exclude
     if len(explicitInclude) > 0 or len(explicitExclude) > 0:
         print ">>> Processing explicitely configured includes/excludes..."
         for entry in explicitInclude:
-            result[entry] = True
+            includeList[entry] = True
 
         for entry in explicitExclude:
-            del result[entry]
-
-        if not quiet:
-            print "  - List contains %s classes" % len(result)
+            del includeList[entry]
 
 
     # Detect optionals
-    if not quiet:
-        optionals = getOptionals(result)
+    if verbose:
+        optionals = getOptionals(includeList)
         if len(optionals) > 0:
             print ">>> These optional classes may be useful:"
             for entry in optionals:
@@ -770,23 +764,26 @@ def processIncludeExclude(smartInclude, smartExclude, explicitInclude, explicitE
 
 
     # Compiling classes
-    print ">>> Compiling classes..."
-    compiledContent = compileClasses(sortClasses(result, loadDeps, runDeps, variants), variants, buildProcess)
+    print ">>> Compiling %s classes..." % len(includeList)
+    compiledContent = compileClasses(sortClasses(includeList, loadDeps, runDeps, variants), variants, buildProcess)
 
 
-    # Saving result
     variantsId = generateVariantCombinationId(variants)
     processId = generateProcessCombinationId(buildProcess)
-    compiledFileName = buildScript + "_" + variantsId + "_" + processId + ".js"
+    compiledFileName = "%s_%s_%s.js" % (buildScript, variantsId, processId)
+    compressedFileName = compiledFileName + ".gz"
+
+
+    # Saving compiled content
     if not quiet:
-        print "  - Storing result (%s KB)..." % (len(compiledContent) / 1024)
+        print "  - Storing script (%s KB)..." % (len(compiledContent) / 1024)
     filetool.save(compiledFileName, compiledContent)
     
-    # Zlib compression
-    compressedFileName = compiledFileName + ".gz"
+   
+    # Saving gzipped content
     if not quiet:
         compressedContent = zlib.compress(compiledContent, 9)
-        print "  - Storing gzipped result (%s KB)..." % (len(compressedContent) / 1024)
+        print "  - Storing gzipped script (%s KB)..." % (len(compressedContent) / 1024)
     filetool.saveGzip(compressedFileName, compiledContent)
     
 
