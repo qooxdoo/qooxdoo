@@ -294,9 +294,9 @@ qx.Class.define("qx.dev.Profile", {
     statics.__calibrateHelper = qx.core.Aspect.wrap("qx.dev.Profile.__calibrateHelper", statics.__calibrateHelper, "static");
     qx.core.Aspect.wrap = qx.core.Aspect.wrap("qx.core.Aspect.wrap", qx.core.Aspect.wrap, "static");
 
-    for (var classname in qx.core.Bootstrap.__registry)
+    for (var classname in qx.core.Bootstrap.$$registry)
     {
-      var statics = qx.core.Bootstrap.__registry[classname];
+      var statics = qx.core.Bootstrap.$$registry[classname];
       for (var key in statics) {
         // only functions, no regexps
         if (statics[key] instanceof Function) {
