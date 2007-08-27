@@ -150,7 +150,7 @@ qx.Class.define("qx.Mixin",
       mixin.basename = qx.Class.createNamespace(name, mixin);
 
       // Store class reference in global mixin registry
-      this.__registry[name] = mixin;
+      this.$$registry[name] = mixin;
 
       // Return final mixin
       return mixin;
@@ -237,7 +237,7 @@ qx.Class.define("qx.Mixin",
      * @return {Class} the class
      */
     getByName : function(name) {
-      return this.__registry[name];
+      return this.$$registry[name];
     },
 
 
@@ -261,7 +261,7 @@ qx.Class.define("qx.Mixin",
      * @return {Number} the number of classes
      */
     getTotalNumber : function() {
-      return qx.lang.Object.getLength(this.__registry);
+      return qx.lang.Object.getLength(this.$$registry);
     },
 
 
@@ -316,7 +316,7 @@ qx.Class.define("qx.Mixin",
 
 
     /** Registers all defined mixins */
-    __registry : {},
+    $$registry : {},
 
 
     /** {Map} allowed keys in mixin definition */
