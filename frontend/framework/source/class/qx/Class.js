@@ -311,7 +311,7 @@ qx.Class.define("qx.Class",
      * @return {Number} the total number of classes
      */
     getTotalNumber : function() {
-      return qx.lang.Object.getLength(this.__registry);
+      return qx.lang.Object.getLength(this.$$registry);
     },
 
 
@@ -323,7 +323,7 @@ qx.Class.define("qx.Class",
      * @return {Class} the class
      */
     getByName : function(name) {
-      return this.__registry[name];
+      return this.$$registry[name];
     },
 
 
@@ -748,7 +748,7 @@ qx.Class.define("qx.Class",
 
 
     /** Stores all defined classes */
-    __registry : qx.core.Bootstrap.__registry,
+    $$registry : qx.core.Bootstrap.$$registry,
 
 
     /** {Map} allowed keys in non-static class definition */
@@ -1031,7 +1031,7 @@ qx.Class.define("qx.Class",
       }
 
       // Store class reference in global class registry
-      this.__registry[name] = clazz;
+      this.$$registry[name] = clazz;
 
       // Return final class object
       return clazz;

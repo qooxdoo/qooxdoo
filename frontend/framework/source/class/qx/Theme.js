@@ -105,7 +105,7 @@ qx.Class.define("qx.Theme",
       this.__convert(theme, config);
 
       // Store class reference in global class registry
-      this.__registry[name] = theme;
+      this.$$registry[name] = theme;
 
       // Include mixin themes
       if (config.include)
@@ -124,7 +124,7 @@ qx.Class.define("qx.Theme",
      * @return {Map} known themes
      */
     getAll : function() {
-      return this.__registry;
+      return this.$$registry;
     },
 
 
@@ -136,7 +136,7 @@ qx.Class.define("qx.Theme",
      * @return {Object ? void} theme object
      */
     getByName : function(name) {
-      return this.__registry[name];
+      return this.$$registry[name];
     },
 
 
@@ -159,7 +159,7 @@ qx.Class.define("qx.Theme",
      * @return {Number} the number of classes
      */
     getTotalNumber : function() {
-      return qx.lang.Object.getLength(this.__registry);
+      return qx.lang.Object.getLength(this.$$registry);
     },
 
 
@@ -250,7 +250,7 @@ qx.Class.define("qx.Theme",
 
 
     /** {Map} Internal theme registry */
-    __registry : {},
+    $$registry : {},
 
 
     /** {Array} Keys which support inheritance */

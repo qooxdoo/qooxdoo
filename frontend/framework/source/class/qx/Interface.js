@@ -143,7 +143,7 @@ qx.Class.define("qx.Interface",
       iface.basename = qx.Class.createNamespace(name, iface);
 
       // Add to registry
-      qx.Interface.__registry[name] = iface;
+      qx.Interface.$$registry[name] = iface;
 
       // Return final interface
       return iface;
@@ -158,7 +158,7 @@ qx.Class.define("qx.Interface",
      * @return {Class} the class
      */
     getByName : function(name) {
-      return this.__registry[name];
+      return this.$$registry[name];
     },
 
 
@@ -181,7 +181,7 @@ qx.Class.define("qx.Interface",
      * @return {Number} the number of classes
      */
     getTotalNumber : function() {
-      return qx.lang.Object.getLength(this.__registry);
+      return qx.lang.Object.getLength(this.$$registry);
     },
 
 
@@ -314,7 +314,7 @@ qx.Class.define("qx.Interface",
 
 
     /** Registry of all defined interfaces */
-    __registry : {},
+    $$registry : {},
 
 
     /**
