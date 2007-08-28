@@ -517,8 +517,11 @@ def generateScript():
         if execMode == "views":
             processViews(viewClasses, viewBits, includeDict, dynLoadDeps, dynRunDeps, variants, collapseViews, optimizeLatency, buildScript, buildProcess)
         else:
-            packageFileName = buildScript + "_%variants_%process.js" 
-            storeCompiledPackage(includeDict, packageFileName, dynLoadDeps, dynRunDeps, variants, buildProcess)            
+            sys.stdout.write(">>> Compiling classes:")
+            sys.stdout.flush()
+            packageFileName = buildScript + "_$variants_$process.js" 
+            packageSize = storeCompiledPackage(includeDict, packageFileName, dynLoadDeps, dynRunDeps, variants, buildProcess)            
+            print "    - Done: %s" % packageSize
 
     
 
@@ -814,7 +817,6 @@ def getVariantsTree(id, variants):
 
 def storeCompiledPackage(includeDict, packageFileName, loadDeps, runDeps, variants, buildProcess):
     # Compiling classes
-    print ">>> Compiling %s classes" % len(includeDict)
     sortedClasses = sortClasses(includeDict, loadDeps, runDeps, variants)
     compiledContent = compileClasses(sortedClasses, variants, buildProcess)
 
@@ -822,12 +824,12 @@ def storeCompiledPackage(includeDict, packageFileName, loadDeps, runDeps, varian
     variantsId = generateVariantCombinationId(variants)
     processId = generateProcessCombinationId(buildProcess)
     
-    packageFileName = packageFileName.replace("%variants", variantsId)
-    packageFileName = packageFileName.replace("%process", processId)
+    packageFileName = packageFileName.replace("$variants", variantsId)
+    packageFileName = packageFileName.replace("$process", processId)
     
     # Saving compiled content
-    print ">>> Storing script (%s)..." % getContentSize(compiledContent)
     filetool.save(packageFileName, compiledContent)  
+    return getContentSize(compiledContent)
 
     
 
@@ -840,7 +842,7 @@ def getContentSize(content):
     origSize = len(uni) / 1024
     compressedSize = len(zlib.compress(uni, 9)) / 1024
       
-    return "%sKB => %sKB" % (origSize, compressedSize)
+    return "%sKB / %sKB" % (origSize, compressedSize)
 
 
 
@@ -914,7 +916,7 @@ def generateVariantCombinationId(selected):
 #  VIEW/PACKAGE SUPPORT
 ######################################################################
 
-def processViews(viewClasses, viewBits, includeDict, loadDeps, runDeps, variants, collapseViews, optimizeLatency, outputFile, buildProcess):
+def processViews(viewClasses, viewBits, includeDict, loadDeps, runDeps, variants, collapseViews, optimizeLatency, buildScript, buildProcess):
     global classes
     global verbose
     global quiet
@@ -1106,25 +1108,23 @@ def processViews(viewClasses, viewBits, includeDict, loadDeps, runDeps, variants
     if not quiet:
         print
         
-    print ">>> Compiling classes..."
+      
+    print ">>> Creating packages..."  
     for packageId in sortedPackageIds:
-        packageFile = "%s_%s_%s_%s.js" % (outputFile, variantsId, processId, packageId)
-    
-        print "  - Package #%s (%s classes)..." % (packageId, len(packageClasses[packageId]))
-        sortedClasses = sortClasses(packageClasses[packageId], loadDeps, runDeps, variants)
-        compiledContent = compileClasses(sortedClasses, variants, buildProcess)
-    
-        # Store content
-        if not quiet:
-            print "    - Storing script (%s)" % getContentSize(compiledContent)
-        filetool.save(packageFile, compiledContent)
+        sys.stdout.write("  - Compiling package #%s:" % packageId)
+        sys.stdout.flush()
         
+        packageFileName = buildScript + "_$variants_$process_%s.js" % packageId
+        packageSize = storeCompiledPackage(packageClasses[packageId], packageFileName, loadDeps, runDeps, variants, buildProcess)
+        print "    - Done: %s" % packageSize
+
         # TODO: Make prefix configurable
         prefix = "script/"
-        packageLoaderContent += "document.write('<script type=\"text/javascript\" src=\"%s\"></script>');\n" % (prefix + packageFile)
+        packageLoaderContent += "document.write('<script type=\"text/javascript\" src=\"%s\"></script>');\n" % (prefix + packageFileName)
+        
 
     print ">>> Storing package loader script..."
-    packageLoader = "%s_%s_%s.js" % (outputFile, variantsId, processId)
+    packageLoader = "%s_%s_%s.js" % (buildScript, variantsId, processId)
     filetool.save(packageLoader, packageLoaderContent)
  
  
@@ -1278,7 +1278,7 @@ def getOptionals(classes):
 #  COMPILER SUPPORT
 ######################################################################
 
-def printProgress(pos, length, indent=4):
+def printProgress(pos, length):
     global quiet
     
     if quiet:
@@ -1288,16 +1288,11 @@ def printProgress(pos, length, indent=4):
     # also the length is normally +1 the real size
     pos += 1
     
-    if pos == 1:
-        sys.stdout.write("%s- Processing:" % (" " * indent))
-        sys.stdout.flush()
-
-    unit = 10
-    thisstep = unit * pos / length
-    prevstep = unit * (pos-1) / length
+    thisstep = 10 * pos / length
+    prevstep = 10 * (pos-1) / length
     
     if thisstep != prevstep:
-        sys.stdout.write(" %s%%" % (thisstep * unit))
+        sys.stdout.write(" %s%%" % (thisstep * 10))
         sys.stdout.flush()
         
     if pos == length:
