@@ -375,6 +375,10 @@ def generateScript():
     collapseViews = getJobConfig("collapseViews", [])
     optimizeLatency = getJobConfig("optimizeLatency")
     
+    if len(userViews) > 0:
+        execMode = "views"
+    else:
+        execMode = "normal"
     
     
     
@@ -393,6 +397,13 @@ def generateScript():
     # PREPROCESS PHASE: INCLUDE/EXCLUDE
     #
     
+    # Auto include all when nothing defined
+    if execMode == "normal" and len(userInclude) == 0:
+        print "  - Automatically including all available classes"
+        userInclude.append("*")
+
+
+
     print ">>> Preparing include/exclude configuration..."    
     smartInclude, explicitInclude = _splitIncludeExcludeList(userInclude)
     smartExclude, explicitExclude = _splitIncludeExcludeList(userExclude)
@@ -411,10 +422,6 @@ def generateScript():
 
 
 
-    # Auto include all when nothing defined
-    if len(userViews) == 0:
-        print "  - Automatically including all available classes"
-        smartInclude.append("*")
         
         
         
@@ -433,7 +440,7 @@ def generateScript():
     # PREPROCESS PHASE: VIEWS
     #
            
-    if len(userViews) > 0:
+    if execMode == "views":
         print ">>> Preparing view configuration..."    
                 
         # Build bitmask ids for views
@@ -507,10 +514,11 @@ def generateScript():
                     
                        
         
-        if len(userViews) > 0:
+        if execMode == "views":
             processViews(viewClasses, viewBits, includeDict, dynLoadDeps, dynRunDeps, variants, collapseViews, optimizeLatency, buildScript, buildProcess)
         else:
-            processIncludeExclude(includeDict, dynLoadDeps, dynRunDeps, variants, buildScript, buildProcess)
+            packageFileName = buildScript + "_%variants_%process.js" 
+            storeCompiledPackage(includeDict, packageFileName, dynLoadDeps, dynRunDeps, variants, buildProcess)            
 
     
 
@@ -567,7 +575,7 @@ def writeCache(id, segment, content):
         
    
 ######################################################################
-#  ZLIB INTERFACE
+#  SESSION STABLE HASH CODE SUPPORT
 ######################################################################
 
 # calculates a hash code (simple incrementer)
@@ -801,32 +809,26 @@ def getVariantsTree(id, variants):
 
 
 ######################################################################
-#  INCLUDE/EXCLUDE SUPPORT
+#  COMMON COMPILED PKG SUPPORT
 ######################################################################
 
-def processIncludeExclude(includeDict, loadDeps, runDeps, variants, buildScript, buildProcess):
-    global quiet
-    
-
+def storeCompiledPackage(includeDict, packageFileName, loadDeps, runDeps, variants, buildProcess):
     # Compiling classes
     print ">>> Compiling %s classes" % len(includeDict)
     sortedClasses = sortClasses(includeDict, loadDeps, runDeps, variants)
     compiledContent = compileClasses(sortedClasses, variants, buildProcess)
 
-
     # Pre storage calculations
     variantsId = generateVariantCombinationId(variants)
     processId = generateProcessCombinationId(buildProcess)
-    compiledFileName = "%s_%s_%s.js" % (buildScript, variantsId, processId)
-    compressedFileName = compiledFileName + ".gz"
-
-
-    # Saving compiled content
-    if not quiet:
-        print "  - Storing script (%s)..." % getContentSize(compiledContent)
-    filetool.save(compiledFileName, compiledContent)
     
-   
+    packageFileName = packageFileName.replace("%variants", variantsId)
+    packageFileName = packageFileName.replace("%process", processId)
+    
+    # Saving compiled content
+    print ">>> Storing script (%s)..." % getContentSize(compiledContent)
+    filetool.save(packageFileName, compiledContent)  
+
     
 
 
