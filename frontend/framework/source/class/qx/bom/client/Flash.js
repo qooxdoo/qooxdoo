@@ -39,6 +39,7 @@
 /* ************************************************************************
 
 #module(client)
+#require(qx.bom.client.Platform)
 
 ************************************************************************ */
 
@@ -63,7 +64,26 @@ qx.Class.define("qx.bom.client.Flash",
 
     /** {Float} Version of the installed flash player e.g. 9.0, 6.0, ... */
     VERSION : 0.0,
+    
+    /** {Boolean} Whether the system supports express installation */
+    EXPRESSINSTALL : false,
 
+
+    /**
+     * If the system support the given version of Flash(TM) movie.
+     *
+     * @type static
+     * @param input {String} Version string e.g. 6.0.64
+     * @return {Boolean} <code>true</code> when supported, otherwise <code>false</code>
+     */
+    supportsVersion : function(input) 
+    {
+      var input = input.split(".");
+      var system = qx.bom.client.Flash.FULLVERSION.split(".");
+      
+      return (system[0] > input[0] || (system[0] == input[0] && system[1] > input[1]) || (system[0] == input[0] && system[1] == input[1] && system[2] >= input[2])) ? true : false;
+    },
+    
 
     /**
      * Internal initialize helper
@@ -134,6 +154,9 @@ qx.Class.define("qx.bom.client.Flash",
       this.FULLVERSION = full.join(".");
       this.VERSION = parseFloat(full);
       this.AVAILABLE = this.VERSION > 0;
+      
+      var platform = qx.bom.client.Platform;
+      this.EXPRESSINSTALL = (platform.WIN || platform.MAC) && this.supportsVersion("6.0.65");
     }
   },
 
