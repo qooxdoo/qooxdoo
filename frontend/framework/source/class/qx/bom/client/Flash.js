@@ -84,6 +84,23 @@ qx.Class.define("qx.bom.client.Flash",
       return (system[0] > input[0] || (system[0] == input[0] && system[1] > input[1]) || (system[0] == input[0] && system[1] == input[1] && system[2] >= input[2])) ? true : false;
     },
     
+    
+    /**
+     * Internal helper to prevent leaks in IE 
+     *
+     * @type static
+     * @return {void}
+     */
+    __fixOutOfMemoryError : function()
+    {
+      // IE Memory Leak Fix
+      __flash_unloadHandler = function() {};
+      __flash_savedUnloadHandler = function() {};
+    
+      // Remove listener again
+      window.detachEvent("onbeforeunload", qx.bom.client.Flash.fixOutOfMemoryError);
+    },
+    
 
     /**
      * Internal initialize helper
@@ -169,7 +186,12 @@ qx.Class.define("qx.bom.client.Flash",
   *****************************************************************************
   */
 
-  defer : function(statics) {
+  defer : function(statics) 
+  {
     statics.__init();
+
+    if (qx.core.Variant.isSet("qx.client", "mshtml")) { 
+      window.attachEvent("onbeforeunload", statics.fixOutOfMemoryError);
+    }
   }
 });
