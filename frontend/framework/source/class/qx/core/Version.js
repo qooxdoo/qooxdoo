@@ -30,7 +30,6 @@
  * TODO:
  * <ul>
  *   <li>Resemble naming of http://en.wikipedia.org/wiki/Software_version</li>
- *   <li>Compare/unify with qx.util.Version</li>
  *   <li>The following class variables are not yet included in the api viewer:
  *     <ul>
  *       <li>major</li>

@@ -47,6 +47,9 @@ qx.Class.define("qx.bom.client.Engine",
     /** {String} Name of the client's HTML/JS engine e.g. mshtml, gecko, webkit, opera, khtml */
     NAME : "",
 
+    /** {String} Full version string with multiple dots (major.minor.revision) e.g. 1.8.1, 8.5.4 */
+    FULLVERSION : "0.0.0",
+
     /** {Float} Version of the client's HTML/JS engine e.g. 1.0, 1.7, 1.9 */
     VERSION : 0.0,
 
@@ -76,7 +79,7 @@ qx.Class.define("qx.bom.client.Engine",
     __init : function()
     {
       var engine = "unknown";
-      var version = "0.0";
+      var version = "0.0.0";
       var agent = navigator.userAgent;
 
       if (window.opera)
