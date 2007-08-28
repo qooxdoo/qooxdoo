@@ -1,0 +1,23 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+  <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
+</head>
+<body>
+  <div id="description">
+    Flash embed test
+  </div>
+
+  <div id="test"></div>
+
+  <script type="text/javascript">
+  qx.core.Init.getInstance().defineMain(function()
+  {
+    var movie = qx.bom.Flash.create("test.swf", "300", "120");
+    document.getElementById("test").appendChild(movie);
+  });
+  </script>
+</body>
+</html>

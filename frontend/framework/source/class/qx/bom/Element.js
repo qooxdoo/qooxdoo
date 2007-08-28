@@ -48,16 +48,15 @@ qx.Class.define("qx.bom.Element",
      * @type static
      * @param name {String} Tag name of the element
      * @param win {Window} Window to create document for
-     * @param xhtml {Boolean ? false} Enable XHTML
      * @return {Element} the created element node
      */
-    create : function(name, win, xhtml)
+    create : function(name, win)
     {
       if (!win) {
         win = window;
       }
-
-      if (xhtml) {
+      
+      if (win.document.createElementNS) {
         return win.document.createElementNS("http://www.w3.org/1999/xhtml", name);
       } else {
         return win.document.createElement(name);
