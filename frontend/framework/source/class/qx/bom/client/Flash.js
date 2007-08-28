@@ -98,7 +98,7 @@ qx.Class.define("qx.bom.client.Flash",
       __flash_savedUnloadHandler = function() {};
     
       // Remove listener again
-      window.detachEvent("onbeforeunload", qx.bom.client.Flash.fixOutOfMemoryError);
+      window.detachEvent("onbeforeunload", qx.bom.client.Flash.__fixOutOfMemoryError);
     },
     
 
@@ -191,7 +191,7 @@ qx.Class.define("qx.bom.client.Flash",
     statics.__init();
 
     if (qx.core.Variant.isSet("qx.client", "mshtml")) { 
-      window.attachEvent("onbeforeunload", statics.fixOutOfMemoryError);
+      window.attachEvent("onbeforeunload", statics.__fixOutOfMemoryError);
     }
   }
 });
