@@ -221,7 +221,7 @@ def process(options):
                 "table" : ["qx.ui.table.Table", "qx.ui.table.model.Simple", "qx.ui.table.columnmodel.Resize"],
                 "article" : ["feedreader.ArticleView"],
                 "preferences" : ["ui_window"]
-            }        
+            }  
         },
         
         "build-apiviewer-views" :
@@ -240,7 +240,27 @@ def process(options):
                 "viewer" : ["apiviewer.Viewer"],
                 "content" : ["apiviewer.ui.ClassViewer","apiviewer.ui.PackageViewer"]
             }
-        }    
+        },
+        
+        "build-apiviewer-views-noqx" :
+        {
+            "extend" : ["build-views-common"],
+            "buildScript" : "build-apiviewer-views-noqx",
+            "variants" : 
+            {
+                "qx.debug" : ["off"],
+                "qx.client" : ["gecko","mshtml"]
+            },
+            "collapseViews" : ["core"],
+            "include" : ["apiviewer.Application"],
+            "exclude" : ["=qx.*"],
+            "views" : 
+            {
+                "core" : ["apiviewer.Application","qx.theme.ClassicRoyale"],
+                "viewer" : ["apiviewer.Viewer"],
+                "content" : ["apiviewer.ui.ClassViewer","apiviewer.ui.PackageViewer"]
+            }
+        }            
     }
     
     resolve(config, options.jobs)
@@ -346,13 +366,11 @@ def generateScript():
     # Build relevant post processing
     buildProcess = getJobConfig("buildProcess", [])
         
-    if len(userViews) > 0:
-        collapseViews = getJobConfig("collapseViews", [])
-        optimizeLatency = getJobConfig("optimizeLatency")
-        
-    else:
-        userInclude = getJobConfig("include", [])
-        userExclude = getJobConfig("exclude", [])
+    userInclude = getJobConfig("include", [])
+    userExclude = getJobConfig("exclude", [])
+    
+    collapseViews = getJobConfig("collapseViews", [])
+    optimizeLatency = getJobConfig("optimizeLatency")
     
     
     
@@ -369,17 +387,49 @@ def generateScript():
     
     
     #
-    # PREPROCESS PHASE
+    # PREPROCESS PHASE: INCLUDE/EXCLUDE
     #
     
+    print ">>> Preparing include/exclude configuration..."    
+    smartInclude, explicitInclude = _splitIncludeExcludeList(userInclude)
+    smartExclude, explicitExclude = _splitIncludeExcludeList(userExclude)
+    
+
+    # Configuration feedback
+    if not quiet:
+        print "  - Including %s items smart, %s items explicit" % (len(smartInclude), len(explicitInclude))
+        print "  - Excluding %s items smart, %s items explicit" % (len(smartExclude), len(explicitExclude))
+
+        if len(userExclude) > 0:
+            print "    - Warning: Excludes may break code!"
+    
+        if len(explicitInclude) > 0:
+            print "    - Warning: Explicit included classes may not work"
+
+
+    # Resolve modules/regexps
+    print "  - Resolving modules/regexps..."
+    smartInclude = resolveComplexDefs(smartInclude)
+    explicitInclude = resolveComplexDefs(explicitInclude)
+    smartExclude = resolveComplexDefs(smartExclude)
+    explicitExclude = resolveComplexDefs(explicitExclude)
+        
+
+
+
+
+    #
+    # PREPROCESS PHASE: VIEWS
+    #
+           
     if len(userViews) > 0:
-        print ">>> Using view configuration..."    
+        print ">>> Preparing view configuration..."    
                 
         # Build bitmask ids for views
         if not quiet:
             print    
             
-        print ">>> Assigning bits to views..."
+        print "  - Assigning bits to views..."
 
         # References viewId -> bitId of that view
         viewBits = {}
@@ -389,40 +439,17 @@ def generateScript():
             viewBit = 1<<viewPos
             
             if not quiet:
-                print "  - View '%s' => %s" % (viewId, viewBit)
+                print "    - View '%s' => %s" % (viewId, viewBit)
                 
             viewBits[viewId] = viewBit
             viewPos += 1
 
         # Resolving modules/regexps
-        print ">>> Resolving modules/regexps..."
+        print "  - Resolving view modules/regexps..."
         viewClasses = {}
         for viewId in userViews:
             viewClasses[viewId] = resolveComplexDefs(userViews[viewId])
 
-    else:
-        print ">>> Using include/exclude lists..."    
-        smartInclude, explicitInclude = _splitIncludeExcludeList(userInclude)
-        smartExclude, explicitExclude = _splitIncludeExcludeList(userExclude)
-        
-        # Configuration feedback
-        if not quiet:
-            print "  - Including %s items smart, %s items explicit" % (len(smartInclude), len(explicitInclude))
-            print "  - Excluding %s items smart, %s items explicit" % (len(smartExclude), len(explicitExclude))
-    
-            if len(userExclude) > 0:
-                print "  - Warning: Excludes may break code!"
-        
-            if len(explicitInclude) > 0:
-                print "  - Warning: Explicit included classes may not work"
-    
-        # Resolve modules/regexps
-        print ">>> Resolving modules/regexps..."
-        smartInclude = resolveComplexDefs(smartInclude)
-        explicitInclude = resolveComplexDefs(explicitInclude)
-        smartExclude = resolveComplexDefs(smartExclude)
-        explicitExclude = resolveComplexDefs(explicitExclude)
-        
         
 
 
@@ -441,10 +468,38 @@ def generateScript():
                 print "  - %s = %s" % (entry["id"], entry["value"])
             print "----------------------------------------------------------------------------"
         
+        
+        # Detect dependencies
+        print ">>> Resolving dependencies..."
+        includeDict = resolveDependencies(smartInclude, smartExclude, dynLoadDeps, dynRunDeps, variants)
+        
+    
+        # Explicit include/exclude
+        if len(explicitInclude) > 0 or len(explicitExclude) > 0:
+            print ">>> Processing explicitely configured includes/excludes..."
+            for entry in explicitInclude:
+                includeDict[entry] = True
+    
+            for entry in explicitExclude:
+                if includeDict.has_key(entry):
+                    del includeDict[entry]
+    
+    
+        # Detect optionals
+        if verbose:
+            optionals = getOptionals(includeDict)
+            if len(optionals) > 0:
+                print ">>> These optional classes may be useful:"
+                for entry in optionals:
+                    print "  - %s" % entry
+                    
+                    
+                       
+        
         if len(userViews) > 0:
-            processViews(viewClasses, viewBits, dynLoadDeps, dynRunDeps, variants, collapseViews, optimizeLatency, buildScript, buildProcess)
+            processViews(viewClasses, viewBits, includeDict, dynLoadDeps, dynRunDeps, variants, collapseViews, optimizeLatency, buildScript, buildProcess)
         else:
-            processIncludeExclude(smartInclude, smartExclude, explicitInclude, explicitExclude, dynLoadDeps, dynRunDeps, variants, buildScript, buildProcess)
+            processIncludeExclude(includeDict, dynLoadDeps, dynRunDeps, variants, buildScript, buildProcess)
 
     
 
@@ -738,36 +793,14 @@ def getVariantsTree(id, variants):
 #  INCLUDE/EXCLUDE SUPPORT
 ######################################################################
 
-def processIncludeExclude(smartInclude, smartExclude, explicitInclude, explicitExclude, loadDeps, runDeps, variants, buildScript, buildProcess):
+def processIncludeExclude(includeDict, loadDeps, runDeps, variants, buildScript, buildProcess):
     global quiet
     
-    # Detect dependencies
-    print ">>> Resolving dependencies..."
-    includeList = resolveDependencies(smartInclude, smartExclude, loadDeps, runDeps, variants)
-    
-
-    # Explicit include/exclude
-    if len(explicitInclude) > 0 or len(explicitExclude) > 0:
-        print ">>> Processing explicitely configured includes/excludes..."
-        for entry in explicitInclude:
-            includeList[entry] = True
-
-        for entry in explicitExclude:
-            del includeList[entry]
-
-
-    # Detect optionals
-    if verbose:
-        optionals = getOptionals(includeList)
-        if len(optionals) > 0:
-            print ">>> These optional classes may be useful:"
-            for entry in optionals:
-                print "  - %s" % entry
-
 
     # Compiling classes
     print ">>> Compiling %s classes" % len(includeList)
-    compiledContent = compileClasses(sortClasses(includeList, loadDeps, runDeps, variants), variants, buildProcess)
+    sortedClasses = sortClasses(includeDict, loadDeps, runDeps, variants)
+    compiledContent = compileClasses(sortedClasses, variants, buildProcess)
 
 
     # Pre storage calculations
@@ -783,19 +816,15 @@ def processIncludeExclude(smartInclude, smartExclude, explicitInclude, explicitE
     filetool.save(compiledFileName, compiledContent)
     
    
-    # Saving gzipped content
-    if not quiet:
-        print "  - Storing gzipped script (%s)..." % getCompressedContentSize(compiledContent)
-    filetool.saveGzip(compressedFileName, compiledContent)
     
 
 
 def getContentSize(content):
-    return "%s KB" % (len(content) / 1024)
+    origSize = len(content) / 1024
+    compressedSize = len(zlib.compress(content, 9)) / 1024
+      
+    return "%sKB => %sKB" % (origSize, compressedSize)
 
-
-def getCompressedContentSize(content):
-    return "%s KB" % (len(zlib.compress(content, 9)) / 1024)
 
 
 
@@ -868,7 +897,7 @@ def generateVariantCombinationId(selected):
 #  VIEW/PACKAGE SUPPORT
 ######################################################################
 
-def processViews(viewClasses, viewBits, loadDeps, runDeps, variants, collapseViews, optimizeLatency, outputFile, buildProcess):
+def processViews(viewClasses, viewBits, includeDict, loadDeps, runDeps, variants, collapseViews, optimizeLatency, outputFile, buildProcess):
     global classes
     global verbose
     global quiet
@@ -895,10 +924,20 @@ def processViews(viewClasses, viewBits, loadDeps, runDeps, variants, collapseVie
                 viewExcludes.extend(viewClasses[subViewId])
 
         # Finally resolve the dependencies
-        viewDeps[viewId] = resolveDependencies(viewClasses[viewId], viewExcludes, loadDeps, runDeps, variants)
+        localDeps = resolveDependencies(viewClasses[viewId], viewExcludes, loadDeps, runDeps, variants)
         
+         
+        # Remove all dependencies which are not included in the full list       
+        if len(includeDict) > 0:
+          depKeys = localDeps.keys()
+          for dep in depKeys:
+              if not dep in includeDict:
+                  del localDeps[dep]
+
         if not quiet:
-            print "    - Needs %s classes" % len(viewDeps[viewId])
+            print "    - Needs %s classes" % len(localDeps)
+        
+        viewDeps[viewId] = localDeps
 
 
     
@@ -1063,12 +1102,6 @@ def processViews(viewClasses, viewBits, loadDeps, runDeps, variants, collapseVie
             print "    - Storing script (%s)" % getContentSize(compiledContent)
         filetool.save(packageFile, compiledContent)
         
-        # Zlib compression
-        compressedPackageFile = packageFile + ".gz"
-        if not quiet:
-            print "    - Storing gzipped script (%s)..." % getCompressedContentSize(compiledContent)
-        filetool.saveGzip(compressedPackageFile, compiledContent)
-            
         # TODO: Make prefix configurable
         prefix = "script/"
         packageLoaderContent += "document.write('<script type=\"text/javascript\" src=\"%s\"></script>');\n" % (prefix + packageFile)
@@ -1481,11 +1514,12 @@ def getDeps(id, variants):
     run = []
     
     # Read meta data
+    
     meta = getMeta(id)
-    metaLoad = meta["loadtimeDeps"]
-    metaRun = meta["runtimeDeps"]
-    metaOptional = meta["optionalDeps"]
-    metaIgnore = meta["ignoreDeps"]
+    metaLoad = _readDictKey(meta, "loadtimeDeps", [])
+    metaRun = _readDictKey(meta, "runtimeDeps", [])
+    metaOptional = _readDictKey(meta, "optionalDeps", [])
+    metaIgnore = _readDictKey(meta, "ignoreDeps", [])
 
     # Process meta data
     load.extend(metaLoad)
@@ -1526,6 +1560,13 @@ def getDeps(id, variants):
     writeCache(id, "deps" + variantsId, deps)
     
     return deps
+    
+    
+def _readDictKey(data, key, default=None):
+    if data.has_key(key):
+        return data[key]
+    
+    return default
     
     
 def _analyzeClassDeps(id, variants):
