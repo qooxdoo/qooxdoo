@@ -82,28 +82,6 @@ def save(filePath, content="", encoding="utf-8"):
     outputFile.close()
 
 
-def saveGzip(filePath, content):
-    # Normalize
-    filePath = normalize(filePath)
-
-    # Create directory
-    directory(os.path.dirname(filePath))
-        
-    # Writing file
-    try:
-        outputFile = gzip.GzipFile(filePath, "wb", 9)
-        outputFile.write(content)
-    except IOError, (errno, strerror):
-        print "  * I/O error(%s): %s" % (errno, strerror)
-        sys.exit(1)
-    except:
-        print "  * Unexpected error:", sys.exc_info()[0]
-        sys.exit(1)
-        
-    outputFile.flush()
-    outputFile.close()
-        
-
 def directory(dirname):
     # Normalize
     dirname = normalize(dirname)

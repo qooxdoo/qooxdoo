@@ -119,8 +119,13 @@ def process(options):
 
         "build-common" :
         {
-            "extend" : ["common"],
-            "optimizeVariables" : True,
+            "extend" : ["common"]
+        },
+        
+        "build-all" : 
+        {
+            "extend" : ["build-common"],
+            "buildScript" : "build-all"
         },
       
         "build-core" : 
@@ -172,8 +177,6 @@ def process(options):
             "buildScript" : "build-feedreader",
             "include" : ["feedreader.Application"]
         },    
-        
-        
         
         "build-views-common" :
         {
@@ -407,6 +410,14 @@ def generateScript():
             print "    - Warning: Explicit included classes may not work"
 
 
+
+    # Auto include all when nothing defined
+    if len(userViews) == 0:
+        print "  - Automatically including all available classes"
+        smartInclude.append("*")
+        
+        
+        
     # Resolve modules/regexps
     print "  - Resolving modules/regexps..."
     smartInclude = resolveComplexDefs(smartInclude)
@@ -798,7 +809,7 @@ def processIncludeExclude(includeDict, loadDeps, runDeps, variants, buildScript,
     
 
     # Compiling classes
-    print ">>> Compiling %s classes" % len(includeList)
+    print ">>> Compiling %s classes" % len(includeDict)
     sortedClasses = sortClasses(includeDict, loadDeps, runDeps, variants)
     compiledContent = compileClasses(sortedClasses, variants, buildProcess)
 
@@ -820,8 +831,12 @@ def processIncludeExclude(includeDict, loadDeps, runDeps, variants, buildScript,
 
 
 def getContentSize(content):
-    origSize = len(content) / 1024
-    compressedSize = len(zlib.compress(content, 9)) / 1024
+    # Convert to utf-8 first
+    uni = unicode(content).encode("utf-8")
+    
+    # Calculate sizes
+    origSize = len(uni) / 1024
+    compressedSize = len(zlib.compress(uni, 9)) / 1024
       
     return "%sKB => %sKB" % (origSize, compressedSize)
 
