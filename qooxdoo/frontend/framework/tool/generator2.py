@@ -1081,7 +1081,12 @@ def processViews(viewClasses, viewBits, loadDeps, runDeps, variants, collapseVie
  
 def _sortPackageIdsByPriority(packageIds, packageBitCounts):
     def _cmpPackageIds(pkgId1, pkgId2):
-        return packageBitCounts[pkgId2] - packageBitCounts[pkgId1]
+        if packageBitCounts[pkgId2] > packageBitCounts[pkgId1]:
+            return 1
+        elif packageBitCounts[pkgId2] < packageBitCounts[pkgId1]:
+            return -1
+        
+        return pkgId2 - pkgId1
         
     packageIds.sort(_cmpPackageIds)
     
