@@ -18,6 +18,49 @@
 #
 ################################################################################
 
+"""
+Replacement for old generator
+Currently includes features of the old modules "generator" and "loader"
+
+Description:
+* Load project configuration from JSON(-like) data file
+* Each configuration can define multiple so named jobs
+* Each job defines one action with all configuration
+* A job can extend any other job and finetune the configuration
+* Each execution of the generator can execute multiple of these jobs at once
+
+* The system supports simple include/exclude lists
+* The smart mode (default) includes the defined classes and their dependencies
+and excludes the defined classes and dependencies but does not break remaining 
+included features.
+* Each generated script (named package here) contains the compiled JavaScript data
+* It is possible to generate multiple variant combinations 
+* This means that a single job execution can create multiple files at once
+* Variants are combineable and all possible combinations are automatically created.
+For example: gecko+debug, mshtml+debug, gecko+nodebug, mshtml+nodebug
+
+* A further method to work with is the declaration of so named parts
+* Each part defines a part of the application which you want to load separately
+* A part could be of visual or logical nature
+* Each part may result into multiple packages (script files)
+* The number of packages could be exponential to the number of views
+but through the optimization this is often not the case
+* You can automatically collapse the important views. Such an important
+view may be the initial application class (application layout frame) or
+the splashscreen. Collapsing reduces the number of packages for the
+defined views. However collapsing badly influences the fine-grained nature
+of the package system and should be ommitted for non-initial views normally.
+* Further optimization includes support for auto-merging small packages.
+The relevant size to decide if a package is too small is the token size which 
+is defined by the author of the job. The system calculates the token size of
+each package and tries to merge packages automatically.
+* All merges happen from right to left when the package list is sorted by priority.
+The main theory is that a package which is used by multiple views must have the dependencies 
+solved by both of them. So the merge will always happen into the next common package of
+both views from the current position to the left side.
+"""
+
+
 import sys, re, os, optparse, math, cPickle, copy, sets, zlib
 
 # reconfigure path to import own modules from modules subfolder
@@ -27,7 +70,6 @@ import config, tokenizer, tree, treegenerator, treeutil, optparseext, filetool
 import compiler, textutil, mapper
 import variantoptimizer
 import variableoptimizer, stringoptimizer, basecalloptimizer, privateoptimizer
-
 
 
 
@@ -178,7 +220,7 @@ def process(options):
             "include" : ["feedreader.Application"]
         },    
         
-        "build-views-common" :
+        "build-parts-common" :
         {
             "extend" : ["build-common"],
             "optimizeLatency" : 5000
@@ -186,9 +228,9 @@ def process(options):
         
         "build-app-views" : 
         {
-            "extend" : ["build-views-common"],
+            "extend" : ["build-parts-common"],
             "buildScript" : "build-app-views",
-            #"collapseViews" : ["webmail","feedreader","showcase"],
+            #"collapseParts" : ["webmail","feedreader","showcase"],
             "views" : 
             {
                 "apiviewer" : ["apiviewer.Application"],
@@ -200,9 +242,9 @@ def process(options):
         
         "build-comp-views" :
         {
-            "extend" : ["build-views-common"],
-            "buildScript" : "build-comp-views",
-            "views" : 
+            "extend" : ["build-parts-common"],
+            "buildScript" : "build-comp-parts",
+            "parts" : 
             {
                 "tree" : ["ui_tree"],
                 "colorselector" : ["qx.ui.component.ColorSelector"],
@@ -213,12 +255,12 @@ def process(options):
             }
         },
         
-        "build-feedreader-views" : 
+        "build-feedreader-parts" : 
         {
-            "extend" : ["build-views-common"],
-            "buildScript" : "build-feedreader-views",
-            "collapseViews" : ["core"],
-            "views" : 
+            "extend" : ["build-parts-common"],
+            "buildScript" : "build-feedreader-parts",
+            "collapseParts" : ["core"],
+            "parts" : 
             {
                 "core" : ["feedreader.Application","qx.theme.ClassicRoyale"],
                 "table" : ["qx.ui.table.Table", "qx.ui.table.model.Simple", "qx.ui.table.columnmodel.Resize"],
@@ -227,17 +269,17 @@ def process(options):
             }  
         },
         
-        "build-apiviewer-views" :
+        "build-apiviewer-parts" :
         {
-            "extend" : ["build-views-common"],
-            "buildScript" : "build-apiviewer-views",
+            "extend" : ["build-parts-common"],
+            "buildScript" : "build-apiviewer-parts",
             "variants" : 
             {
                 "qx.debug" : ["off"],
                 "qx.client" : ["gecko","mshtml"]
             },
-            "collapseViews" : ["core"],
-            "views" : 
+            "collapseParts" : ["core"],
+            "parts" : 
             {
                 "core" : ["apiviewer.Application","qx.theme.ClassicRoyale"],
                 "viewer" : ["apiviewer.Viewer"],
@@ -245,19 +287,19 @@ def process(options):
             }
         },
         
-        "build-apiviewer-views-noqx" :
+        "build-apiviewer-parts-noqx" :
         {
-            "extend" : ["build-views-common"],
-            "buildScript" : "build-apiviewer-views-noqx",
+            "extend" : ["build-parts-common"],
+            "buildScript" : "build-apiviewer-parts-noqx",
             "variants" : 
             {
                 "qx.debug" : ["off"],
                 "qx.client" : ["gecko","mshtml"]
             },
-            "collapseViews" : ["core"],
+            "collapseParts" : ["core"],
             "include" : ["apiviewer.Application"],
             "exclude" : ["=qx.*"],
-            "views" : 
+            "parts" : 
             {
                 "core" : ["apiviewer.Application","qx.theme.ClassicRoyale"],
                 "viewer" : ["apiviewer.Viewer"],
@@ -363,8 +405,8 @@ def generateScript():
     # TODO: Variants for source -> Not possible
     userVariants = getJobConfig("variants", {})
 
-    # View support (has priority)
-    userViews = getJobConfig("views", {})
+    # Part support (has priority)
+    userParts = getJobConfig("parts", {})
     
     # Build relevant post processing
     buildProcess = getJobConfig("buildProcess", [])
@@ -372,11 +414,11 @@ def generateScript():
     userInclude = getJobConfig("include", [])
     userExclude = getJobConfig("exclude", [])
     
-    collapseViews = getJobConfig("collapseViews", [])
+    collapseParts = getJobConfig("collapseParts", [])
     optimizeLatency = getJobConfig("optimizeLatency")
     
-    if len(userViews) > 0:
-        execMode = "views"
+    if len(userParts) > 0:
+        execMode = "parts"
     else:
         execMode = "normal"
     
@@ -440,33 +482,34 @@ def generateScript():
     # PREPROCESS PHASE: VIEWS
     #
            
-    if execMode == "views":
-        print ">>> Preparing view configuration..."    
+    if execMode == "parts":
+        print
+        print ">>> Preparing part configuration..."    
                 
-        # Build bitmask ids for views
-        if not quiet:
+        # Build bitmask ids for parts
+        if verbose:
             print    
             
-        print "  - Assigning bits to views..."
+        print "  - Assigning bits to parts..."
 
-        # References viewId -> bitId of that view
-        viewBits = {}
+        # References partId -> bitId of that part
+        partBits = {}
 
-        viewPos = 0
-        for viewId in userViews:
-            viewBit = 1<<viewPos
+        partPos = 0
+        for partId in userParts:
+            partBit = 1<<partPos
             
-            if not quiet:
-                print "    - View '%s' => %s" % (viewId, viewBit)
+            if verbose:
+                print "    - Part #%s => %s" % (partId, partBit)
                 
-            viewBits[viewId] = viewBit
-            viewPos += 1
+            partBits[partId] = partBit
+            partPos += 1
 
         # Resolving modules/regexps
-        print "  - Resolving view modules/regexps..."
-        viewClasses = {}
-        for viewId in userViews:
-            viewClasses[viewId] = resolveComplexDefs(userViews[viewId])
+        print "  - Resolving part modules/regexps..."
+        partClasses = {}
+        for partId in userParts:
+            partClasses[partId] = resolveComplexDefs(userParts[partId])
 
         
 
@@ -514,8 +557,8 @@ def generateScript():
                     
                        
         
-        if execMode == "views":
-            processViews(viewClasses, viewBits, includeDict, dynLoadDeps, dynRunDeps, variants, collapseViews, optimizeLatency, buildScript, buildProcess)
+        if execMode == "parts":
+            processParts(partClasses, partBits, includeDict, dynLoadDeps, dynRunDeps, variants, collapseParts, optimizeLatency, buildScript, buildProcess)
         else:
             sys.stdout.write(">>> Compiling classes:")
             sys.stdout.flush()
@@ -916,34 +959,34 @@ def generateVariantCombinationId(selected):
 #  VIEW/PACKAGE SUPPORT
 ######################################################################
 
-def processViews(viewClasses, viewBits, includeDict, loadDeps, runDeps, variants, collapseViews, optimizeLatency, buildScript, buildProcess):
+def processParts(partClasses, partBits, includeDict, loadDeps, runDeps, variants, collapseParts, optimizeLatency, buildScript, buildProcess):
     global classes
     global verbose
     global quiet
 
     
-    # Caching dependencies of each view
+    # Caching dependencies of each part
     if not quiet:
         print
         
     print ">>> Resolving dependencies..."
-    viewDeps = {}
-    length = len(viewClasses.keys())
-    for pos, viewId in enumerate(viewClasses.keys()):
+    partDeps = {}
+    length = len(partClasses.keys())
+    for pos, partId in enumerate(partClasses.keys()):
         if not quiet:
-            print "  - View '%s'..." % viewId
+            print "  - Part #%s..." % partId
         
-        # Exclude all features of other views
+        # Exclude all features of other parts
         # and handle dependencies the smart way =>
         # also exclude classes only needed by the
         # already excluded features
-        viewExcludes = []
-        for subViewId in viewClasses:
-            if subViewId != viewId:
-                viewExcludes.extend(viewClasses[subViewId])
+        partExcludes = []
+        for subPartId in partClasses:
+            if subPartId != partId:
+                partExcludes.extend(partClasses[subPartId])
 
         # Finally resolve the dependencies
-        localDeps = resolveDependencies(viewClasses[viewId], viewExcludes, loadDeps, runDeps, variants)
+        localDeps = resolveDependencies(partClasses[partId], partExcludes, loadDeps, runDeps, variants)
         
          
         # Remove all dependencies which are not included in the full list       
@@ -956,7 +999,7 @@ def processViews(viewClasses, viewBits, includeDict, loadDeps, runDeps, variants
         if not quiet:
             print "    - Needs %s classes" % len(localDeps)
         
-        viewDeps[viewId] = localDeps
+        partDeps[partId] = localDeps
 
 
     
@@ -976,10 +1019,10 @@ def processViews(viewClasses, viewBits, includeDict, loadDeps, runDeps, variants
         packageId = 0
         bitCount = 0
     
-        # Iterate through the views use needs this class
-        for viewId in viewClasses:
-            if classId in viewDeps[viewId]:
-                packageId += viewBits[viewId]
+        # Iterate through the parts use needs this class
+        for partId in partClasses:
+            if classId in partDeps[partId]:
+                packageId += partBits[partId]
                 bitCount += 1
     
         # Ignore unused classes
@@ -997,58 +1040,58 @@ def processViews(viewClasses, viewBits, includeDict, loadDeps, runDeps, variants
 
 
 
-    # Assign packages to views
-    print ">>> Assigning packages to views..."
-    viewPackages = {}
+    # Assign packages to parts
+    print ">>> Assigning packages to parts..."
+    partPackages = {}
 
-    for viewId in viewClasses:
-        viewBit = viewBits[viewId]
+    for partId in partClasses:
+        partBit = partBits[partId]
     
         for packageId in packageClasses:
-            if packageId&viewBit:
-                if not viewPackages.has_key(viewId):
-                    viewPackages[viewId] = []
+            if packageId&partBit:
+                if not partPackages.has_key(partId):
+                    partPackages[partId] = []
                 
-                viewPackages[viewId].append(packageId)
+                partPackages[partId].append(packageId)
             
-        # Be sure that the view package list is in order to the package priorit
-        _sortPackageIdsByPriority(viewPackages[viewId], packageBitCounts)
+        # Be sure that the part package list is in order to the package priorit
+        _sortPackageIdsByPriority(partPackages[partId], packageBitCounts)
 
 
 
             
     # User feedback
-    _printViewStats(packageClasses, viewPackages)
+    _printPartStats(packageClasses, partPackages)
 
 
 
     # Support for package collapsing
     # Could improve latency when initial loading an application
-    # Merge all packages of a specific view into one (also supports multiple views)
-    # Hint: View packages are sorted by priority, this way we can
+    # Merge all packages of a specific part into one (also supports multiple parts)
+    # Hint: Part packages are sorted by priority, this way we can
     # easily merge all following packages with the first one, because
     # the first one is always the one with the highest priority
-    if len(collapseViews) > 0:
+    if len(collapseParts) > 0:
         if not quiet:
             print
         
         collapsePos = 0
-        print ">>> Collapsing views..."
-        for viewId in collapseViews:
+        print ">>> Collapsing parts..."
+        for partId in collapseParts:
             if not quiet:
-                print "  - Collapsing view '%s' (%s)..." % (viewId, collapsePos)
+                print "  - Collapsing part #%s(%s)..." % (partId, collapsePos)
                 
-            collapsePackage = viewPackages[viewId][collapsePos]
-            for packageId in viewPackages[viewId][collapsePos+1:]:
+            collapsePackage = partPackages[partId][collapsePos]
+            for packageId in partPackages[partId][collapsePos+1:]:
                 if not quiet:
                     print "    - Merge package #%s into #%s" % (packageId, collapsePackage)
                     
-                _mergePackage(packageId, collapsePackage, viewClasses, viewPackages, packageClasses)
+                _mergePackage(packageId, collapsePackage, partClasses, partPackages, packageClasses)
             
             collapsePos += 1
     
         # User feedback
-        _printViewStats(packageClasses, viewPackages)
+        _printPartStats(packageClasses, partPackages)
   
   
     # Support for merging small packages
@@ -1056,10 +1099,10 @@ def processViews(viewClasses, viewBits, includeDict, loadDeps, runDeps, variants
     # possibility to get the not really correct filesize in an ultrafast way
     # More complex code and classes generally also have more tokens in them
     # Hint2: The first common package before the selected package between two 
-    # or more views is allowed to merge with. As the package which should be merged
+    # or more parts is allowed to merge with. As the package which should be merged
     # may have requirements these must be solved. The easiest way to be sure regarding
     # this issue, is to look out for another common package. The package for which we
-    # are looking must have requirements in all views so these must be solved by all views
+    # are looking must have requirements in all parts so these must be solved by all parts
     # so there must be another common package. Hardly to describe... hope this makes some sense
     if optimizeLatency != None and optimizeLatency != 0:
         smallPackages = []
@@ -1088,14 +1131,14 @@ def processViews(viewClasses, viewBits, includeDict, loadDeps, runDeps, variants
                 if not quiet:
                     print "    - Package #%s has %s tokens => trying to optimize" % (packageId, packageLength)
         
-            collapsePackage = _getPreviousCommonPackage(packageId, viewPackages, packageBitCounts)
+            collapsePackage = _getPreviousCommonPackage(packageId, partPackages, packageBitCounts)
             if collapsePackage != None:
                 if not quiet:
                     print "      - Merge package #%s into #%s" % (packageId, collapsePackage)
-                _mergePackage(packageId, collapsePackage, viewClasses, viewPackages, packageClasses)                
+                _mergePackage(packageId, collapsePackage, partClasses, partPackages, packageClasses)                
         
         # User feedback
-        _printViewStats(packageClasses, viewPackages)
+        _printPartStats(packageClasses, partPackages)
 
 
 
@@ -1143,29 +1186,29 @@ def _sortPackageIdsByPriority(packageIds, packageBitCounts):
     return packageIds
     
   
-def _getPreviousCommonPackage(searchId, viewPackages, packageBitCounts):
-    relevantViews = []
+def _getPreviousCommonPackage(searchId, partPackages, packageBitCounts):
+    relevantParts = []
     relevantPackages = []
     
-    for viewId in viewPackages:
-        packages = viewPackages[viewId]
+    for partId in partPackages:
+        packages = partPackages[partId]
         if searchId in packages:
-            relevantViews.append(viewId)
+            relevantParts.append(partId)
             relevantPackages.extend(packages[:packages.index(searchId)])
 
     # Sorted by priority, but start from end
     _sortPackageIdsByPriority(relevantPackages, packageBitCounts)
     relevantPackages.reverse()
 
-    # Check if a package is available identical times to the number of views
+    # Check if a package is available identical times to the number of parts
     for packageId in relevantPackages:
-        if relevantPackages.count(packageId) == len(relevantViews):
+        if relevantPackages.count(packageId) == len(relevantParts):
             return packageId
             
     return None
 
         
-def _printViewStats(packageClasses, viewPackages):
+def _printPartStats(packageClasses, partPackages):
     global verbose
     
     if not verbose:
@@ -1174,14 +1217,14 @@ def _printViewStats(packageClasses, viewPackages):
     packageIds = _dictToHumanSortedList(packageClasses)
     
     print
-    print ">>> Current package contents:"
+    print ">>> Content of packages(%s):" % len(packageIds)
     for packageId in packageIds:
         print "  - Package #%s contains %s classes" % (packageId, len(packageClasses[packageId]))
 
     print
-    print ">>> Current view contents:"
-    for viewId in viewPackages:
-        print "  - View '%s' uses these packages: %s" % (viewId, _intListToString(viewPackages[viewId]))
+    print ">>> Content of parts(%s):" % len(partPackages)
+    for partId in partPackages:
+        print "  - Part #%s uses these packages: %s" % (partId, _intListToString(partPackages[partId]))
         
 
 def _dictToHumanSortedList(input):
@@ -1194,20 +1237,20 @@ def _dictToHumanSortedList(input):
     return output
     
 
-def _mergePackage(replacePackage, collapsePackage, viewClasses, viewPackages, packageClasses):
+def _mergePackage(replacePackage, collapsePackage, partClasses, partPackages, packageClasses):
     # Replace other package content
-    for viewId in viewClasses:
-        viewContent = viewPackages[viewId]
+    for partId in partClasses:
+        partContent = partPackages[partId]
     
-        if replacePackage in viewContent:
+        if replacePackage in partContent:
             # Store collapse package at the place of the old value
-            viewContent[viewContent.index(replacePackage)] = collapsePackage
+            partContent[partContent.index(replacePackage)] = collapsePackage
         
             # Remove duplicate (may be, but only one)
-            if viewContent.count(collapsePackage) > 1:
-                viewContent.reverse()
-                viewContent.remove(collapsePackage)
-                viewContent.reverse()
+            if partContent.count(collapsePackage) > 1:
+                partContent.reverse()
+                partContent.remove(collapsePackage)
+                partContent.reverse()
 
     # Merging collapsed packages
     packageClasses[collapsePackage].extend(packageClasses[replacePackage])
