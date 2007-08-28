@@ -167,7 +167,9 @@ qx.Class.define("qx.core.Init",
       // Print browser information
       this.debug("engine: " + qx.bom.client.Engine.NAME + "-" + qx.bom.client.Engine.FULLVERSION);
       this.debug("system: " + qx.bom.client.Platform.NAME + " | " + qx.bom.client.System.NAME);
-      this.debug("flash: " + qx.bom.client.Flash.FULLVERSION);
+      
+      var express = qx.bom.client.Flash.EXPRESSINSTALL ? " (express)" : " (no-express)";
+      this.debug("flash: " + qx.bom.client.Flash.FULLVERSION + express);
 
       // Init application from settings
       if (!this.getApplication())
