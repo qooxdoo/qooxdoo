@@ -24,22 +24,7 @@
 ************************************************************************ */
 
 /**
- * The intention of this class is to bring more convenience to the attribute
- * and style features implemented by the other classes. It wraps the features
- * of multiple classes in one unique interface.
  *
- * There is a automatic detection if the given name should be interpreted
- * as HTML property, HTML attribute or style property. It even supports complex
- * setter/getter pairs like needed for opacity. All these features are usable through
- * the same interface by just using the name of the attribute/style etc. to
- * modify/query it.
- *
- * This class is optimized for performance, but is not as optimal in performance
- * aspects than the more native implementations cause of the additional wrapper.
- *
- * For all highly performance
- * crititcal areas like animations it would be the best to directly use the
- * classes which contain the implementations.
  */
 qx.Class.define("qx.bom.Element",
 {
@@ -90,18 +75,5 @@ qx.Class.define("qx.bom.Element",
     empty : function(element) {
       return element.innerHTML = "";
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
-
-  defer : function(statics) {
-    statics.__init();
   }
 });
