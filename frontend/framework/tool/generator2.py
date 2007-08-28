@@ -19,10 +19,13 @@
 ################################################################################
 
 """
+Introduction
+======================
 Replacement for old generator
 Currently includes features of the old modules "generator" and "loader"
 
-Description:
+Overview
+======================
 * Load project configuration from JSON(-like) data file
 * Each configuration can define multiple so named jobs
 * Each job defines one action with all configuration
@@ -54,10 +57,26 @@ of the package system and should be ommitted for non-initial views normally.
 The relevant size to decide if a package is too small is the token size which 
 is defined by the author of the job. The system calculates the token size of
 each package and tries to merge packages automatically.
+
+Internals
+======================
 * All merges happen from right to left when the package list is sorted by priority.
 The main theory is that a package which is used by multiple views must have the dependencies 
 solved by both of them. So the merge will always happen into the next common package of
 both views from the current position to the left side.
+
+* There are some utility method which 
+
+* The following global variables exist:
+  * classes{Dict}: All classes of the present class path configuration. Each entry
+      contains information regarding the path, the encoding, the class path and stuff
+  * modules{Dict}: All known modules from all available classes. Each entry contains 
+      the classes of the current module
+  * verbose{Boolean}: If verbose mode is enabled
+  * quiet{Boolean}: If quiet mode is enabled
+  
+* All cache data is automatically stored into framework/tool/.cache. The path is automatically
+  detected through the location of the generator script.
 """
 
 
