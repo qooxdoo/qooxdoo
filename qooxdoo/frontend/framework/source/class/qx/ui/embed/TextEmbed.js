@@ -212,7 +212,7 @@ qx.Class.define("qx.ui.embed.TextEmbed",
      * @return {void}
      */
     _applyElementData : function() {
-      this.getElement().appendChild(document.createTextNode(this.getText()));
+      this._getTargetNode().appendChild(document.createTextNode(this.getText()));
     },
 
 
@@ -223,7 +223,7 @@ qx.Class.define("qx.ui.embed.TextEmbed",
      * @return {void}
      */
     _syncText : function() {
-      this.getElement().firstChild.nodeValue = this.getText();
+      this._getTargetNode().firstChild.nodeValue = this.getText();
     }
   }
 });

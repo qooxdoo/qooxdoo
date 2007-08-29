@@ -209,7 +209,7 @@ qx.Class.define("qx.ui.embed.HtmlEmbed",
      * @return {void}
      */
     _syncHtml : function() {
-      this.getElement().innerHTML = this.getHtml();
+      this._getTargetNode().innerHTML = this.getHtml();
     }
   }
 });
