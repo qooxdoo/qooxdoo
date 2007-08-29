@@ -1383,7 +1383,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      MANAGMENT PROPERTIES
+      MANAGEMENT PROPERTIES
     ---------------------------------------------------------------------------
     */
 
@@ -1498,6 +1498,26 @@ qx.Class.define("qx.ui.core.Widget",
       init : "widget",
       apply : "_applyAppearance",
       event : "changeAppearance"
+    },
+
+
+    /*
+     * The method which this.supportsDrop() calls to determine whether the
+     * widget supports a particular drop operation.
+     *
+     * This is a property so that a mixin can modify it.  Otherwise, the mixin
+     * would have to override the supportsDrop() method, requiring the mixin
+     * to be applied with patch() instead of include().  All normal mixins
+     * should be able to be simply include()ed, and not have to be patch()ed.
+     *
+     * If this property is null, then the default supportsDrop() action
+     * defined herein shall be used.
+     */
+    supportsDropMethod :
+    {
+      check : "Function",
+      nullable : true,
+      init : null
     },
 
 
@@ -7056,10 +7076,34 @@ qx.Class.define("qx.ui.core.Widget",
      * TODOC
      *
      * @type member
-     * @param dragCache {var} TODOC
+     *
+     * @param dragCache {var} 
+     *   An object describing the event, containing at least these members:
+     *     <ul>
+     *       <li>startScreenX</li>
+     *       <li>startScreenY</li>
+     *       <li>pageX</li>
+     *       <li>pageY</li>
+     *       <li>sourceWidget</li>
+     *       <li>sourceTopLevel</li>
+     *       <li>dragHandlerActive</li>
+     *       <li>hasFiredDragStart</li>
+     *     </ul>
+     *
+     * @return {Boolean}
+     *   <i>true</i> if the widget can accept this drop operation;
+     *   <i>false</i> otherwise.
      */
     supportsDrop : function(dragCache) {
-      return true;
+      // Is there a user-supplied supportsDropMethod?
+      var supportsDropMethod = this.getSupportsDropMethod();
+      if (supportsDropMethod !== null) {
+        // Yup.  Let it determine whether a drop is allowed.
+        return supportsDropMethod.call(this, dragCache);
+      }
+
+      // Default behavior is to allow drop only if not dropping onto self
+      return (this != dragCache.sourceWidget);
     }
   },
 
