@@ -89,7 +89,8 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
     currentAction :
     {
       check : "String",
-      nullable : true
+      nullable : true,
+      event : "changeCurrentAction"
     },
 
 
