@@ -107,7 +107,7 @@ qx.Class.define("qx.ui.embed.LinkEmbed",
       vHtml.push(this.getHtml());
       vHtml.push("</a>");
 
-      this.getElement().innerHTML = vHtml.join("");
+      this._getTargetNode().innerHTML = vHtml.join("");
     }
   }
 });
