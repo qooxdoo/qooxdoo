@@ -59,6 +59,12 @@ qx.Class.define("qx.html.Element",
     
     this.__attribCache = {};
     this.__styleCache = {};
+    
+    this.__jobs = {};
+    this.__attribJobs = {};
+    this.__styleJobs = {};
+    
+    this.setAttribute("hashCode", this.toHashCode());
 
     if (domEl != null) {
       this.setDomElement(domEl);
@@ -82,7 +88,7 @@ qx.Class.define("qx.html.Element",
     ---------------------------------------------------------------------------
     */
     
-    __debug : false,
+    __debug : true,
     
     
     
@@ -137,52 +143,138 @@ qx.Class.define("qx.html.Element",
 
     /*
     ---------------------------------------------------------------------------
-      QUEUE FLUSH
+      ELEMENT QUEUE FLUSH
     ---------------------------------------------------------------------------
     */
-
-    /**
-     * Internal helper to apply the DOM structure of the
-     * defined children.
-     *
-     * @type static
-     * @param entry {qx.html.Element} the element to flush
-     */
-    __flushContent : function(entry)
+    
+    __flushElement : function(obj)
     {
-      if (!entry.__element) {
-        entry.__create();
+      var isNew = !obj.__rendered;
+      
+      // console.debug("Flush element: " + obj + " (" + isNew + ")");
+      
+      if (isNew) 
+      {
+        this.__copyData(obj); 
+        this.__insertChildren(obj);
       }
-
-      this.__flushChildren(entry);
+      else
+      {
+        this.__syncData(obj);
+        this.__syncChildren(obj);
+      }
+      
+      obj.__rendered = true;
     },
-
+    
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      SUPPORT FOR ATTRIBUTE/STYLE/EVENT FLUSH
+    ---------------------------------------------------------------------------
+    */
+        
+    __copyData : function(obj)
+    {
+      var elem = obj.__element;
+      
+      var Attribute = qx.bom.element.Attribute;
+      var Style = qx.bom.element.Style;
+      
+      // Copy attributes
+      var data = obj.__attribCache;
+      for (var key in data) {
+        Attribute.set(elem, key, data[key]);
+      }
+      
+      // Copy styles
+      var data = obj.__styleCache;
+      for (var key in data) {
+        Style.set(elem, key, data[key]);
+      }
+    },
+    
+    
+    __syncData : function(obj)
+    {
+      var elem = obj.__element;
+      
+      var Attribute = qx.bom.element.Attribute;
+      var Style = qx.bom.element.Style;
+      
+      // Copy attributes
+      var data = obj.__attribCache;
+      var jobs = obj.__attribJobs;
+      for (var key in jobs) {
+        Attribute.set(elem, key, data[key]);
+      }
+      
+      // Copy styles
+      var data = obj.__styleCache;
+      var jobs = obj.__styleJobs;
+      for (var key in data) {
+        Style.set(elem, key, data[key]);
+      }
+      
+      // Cleanup jobs
+      this.__attribJobs = {};
+      this.__styleJobs = {};
+    },
+    
+    
+    
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      SUPPORT FOR CHILDREN FLUSH
+    ---------------------------------------------------------------------------
+    */    
+    
+    __insertChildren : function(obj)
+    {
+      var domElement = obj.__element;
+      
+      for (var i=0, children=obj.__children, l=children.length; i<l; i++) 
+      {
+        if (children[i].__element) {
+          domElement.appendChild(children[i].__element);
+        }
+      }
+    },
+    
 
     /**
      * Internal helper to apply the DOM structure of the
      * defined children.
      *
      * @type static
-     * @param entry {qx.html.Element} the element to flush
+     * @param obj {qx.html.Element} the element to flush
      */
-    __flushChildren : function(entry)
+    __syncChildren : function(obj)
     {
       // **********************************************************************
       //   Compute needed operations
       // **********************************************************************
+      
       // Collect all element nodes of the children data
       var target = [];
 
-      for (var i=0, a=entry.__children, l=a.length; i<l; i++)
+      for (var i=0, a=obj.__children, l=a.length; i<l; i++)
       {
+        // Be sure that all children are created
         if (!a[i].__element) {
           a[i].__create();
         }
 
+        // Push them into the target element
         target.push(a[i].__element);
       }
 
-      var domElement = entry.__element;
+      var domElement = obj.__element;
       var source = domElement.childNodes;
 
       // Compute edit operations
@@ -202,6 +294,8 @@ qx.Class.define("qx.html.Element",
       }
       */
 
+
+
       // **********************************************************************
       //   Process operations
       // **********************************************************************
@@ -214,6 +308,8 @@ qx.Class.define("qx.html.Element",
       for (var i=0, l=operations.length; i<l; i++)
       {
         job = operations[i];
+
+
 
         // ********************************************************************
         //   Apply offset
@@ -228,6 +324,8 @@ qx.Class.define("qx.html.Element",
             job.pos = 0;
           }
         }
+
+
 
         // ********************************************************************
         //   Process DOM
@@ -286,6 +384,8 @@ qx.Class.define("qx.html.Element",
             }
           }
 
+
+
           // ******************************************************************
           //   The real DOM work
           // ******************************************************************
@@ -326,6 +426,8 @@ qx.Class.define("qx.html.Element",
         }
       }
 
+
+
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (this.__debug) {
@@ -334,14 +436,6 @@ qx.Class.define("qx.html.Element",
       }
     },
 
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      QUEUE FLUSH
-    ---------------------------------------------------------------------------
-    */
 
     /**
      * Flush the global queue for all existing element needs
@@ -354,110 +448,137 @@ qx.Class.define("qx.html.Element",
         return;
       }
 
+
+      // Block repeated flush calls
       this.__inFlushQueue = true;
 
+
+      // Localize queue and create a new one
       var queue = this.__queue;
-      var entry, child, a, i, l;
+      
+      // Block queue (should produce errors)
+      this._queue = null;
 
+      
+      // User feedback
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (this.__debug) {
-          console.debug("Process: " + queue.length + " entries...");
+          console.debug("Incoming queue has " + queue.length + " entries. Processing children...");
         }
       }
-
-
-
-      // **********************************************************************
-      //   Create DOM elements
-      // **********************************************************************
       
-      // Creating DOM nodes could modify the queue again
-      // because the generated children will also be added
-      // to the queue
-      i = 0;
-      while (queue.length > i)
+      
+      // Be sure that all elements in the queue
+      // and all their visible children
+      var queuePos = 0;
+      var queueLength = queue.length;
+      var elemObj;
+      
+      // Continue running (while children were added)
+      while(queuePos < queueLength)
       {
-        for (l=queue.length; i<l; i++)
+        // console.debug("Running: " + queuePos + " < " + queueLength);
+        
+        for (; queuePos<queueLength; queuePos++)
         {
-          entry = queue[i];
-
-          for (var j=0, a=entry.__children, lj=a.length; j<lj; j++)
+          elemObj = queue[queuePos];
+          
+          if (elemObj.isLogicallyVisible())
           {
-            child = a[j];
-
-            if (!child.__element && !child.__queued)
+            // Create DOM element
+            if (!elemObj.__element) {
+              elemObj.__create();
+            }
+              
+            // Add logically visible children to the queue
+            children = elemObj.__children;
+            if (children)
             {
-              queue.push(child);
-              child.__queued = true;
+              childrenLength = children.length;
+              for (var j=0; j<childrenLength; j++)
+              {
+                if (children[j].isLogicallyVisible()) {
+                  queue.push(children[j]);
+                }
+              }
             }
           }
         }
+        
+        queueLength = queue.length;
       }
 
 
 
-      // **********************************************************************
-      //   Apply content
-      // **********************************************************************
-      
-      l = queue.length;
-
+      // User feedback
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (this.__debug) {
-          console.debug("  - Flush: " + l + " entries...");
+          console.debug("Final queue has " + queue.length + " entries. Flushing...");
         }
       }
+      
+      
+      
+      // Split queue into two groups: rendered and not rendered 
+      var renderedObjs = [];
+      var invisibleObjs = [];
 
-      for (i=0; i<l; i++)
+      var queueLength = queue.length;
+      for (var queuePos=0; queuePos<queueLength; queuePos++)
       {
-        entry = queue[i];
-
-        // the invisible items
-        if (!entry.isVisible())
-        {
-          if (qx.core.Variant.isSet("qx.debug", "on"))
-          {
-            if (this.__debug) {
-              console.debug("    - invisible: " + entry.toHashCode());
-            }
-          }
-
-          this.__flushContent(entry);
-          delete entry.__queued;
+        elemObj = queue[queuePos];
+        
+        if (elemObj.__rendered) {
+          renderedObjs.push(elemObj);
+        } else {
+          invisibleObjs.push(elemObj);
         }
       }
-
-      for (i=0; i<l; i++)
+      
+      
+      // User feedback
+      if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        entry = queue[i];
-
-        // the remaining items
-        if (entry.__queued)
+        if (this.__debug) 
         {
-          if (qx.core.Variant.isSet("qx.debug", "on"))
-          {
-            if (this.__debug) {
-              console.debug("    - visible: " + entry.toHashCode());
-            }
-          }
-
-          this.__flushContent(entry);
-          delete entry.__queued;
+          console.debug("Syncing " + invisibleObjs.length + " invisible elements...");
         }
       }
       
+      for (var i=0; i<invisibleObjs.length; i++)
+      {
+        qx.html.Element.__flushElement(invisibleObjs[i]);
+      }
       
-
-      // **********************************************************************
-      //   Cleanup
-      // **********************************************************************
       
-      queue.length = 0;
+      // User feedback
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (this.__debug) 
+        {
+          console.debug("Syncing " + renderedObjs.length + " rendered elements...");
+        }
+      }      
+      
+      for (var i=0; i<renderedObjs.length; i++)
+      {
+        qx.html.Element.__flushElement(renderedObjs[i]);
+      }      
+   
+      
+      
+      // Free queue
+      this._queue = [];
+      
+      
+      // Remove process flag
       delete this.__inFlushQueue;
     }
   },
+
+
 
 
 
@@ -478,7 +599,6 @@ qx.Class.define("qx.html.Element",
     
     __nodeName : "div",
     __element : null,
-    __top : false,
 
 
     /**
@@ -486,8 +606,10 @@ qx.Class.define("qx.html.Element",
      *
      * @type member
      */
-    __create : function() {
+    __create : function() 
+    {
       this.__element = qx.bom.Element.create(this.__nodeName);
+      this.__element.QxElement = this;
     },
 
 
@@ -502,18 +624,22 @@ qx.Class.define("qx.html.Element",
     __addChildHelper : function(child)
     {
       if (child.__parent === this) {
-        throw new Error("Already in: " + child);
+        return;
       }
 
+      // Remove from previous parent
       if (child.__parent) {
-        child.__parent.__children.remove(child);
+        child.__parent.remove(child);
       }
 
+      // Convert to child of this object
       child.__parent = this;
 
-      // If this element is created
-      if (this.__element) {
-        this.self(arguments).addToQueue(this);
+      // Parent should remember job when already created
+      if (this.__element) 
+      {
+        this.__jobs.children = true;
+        qx.html.Element.addToQueue(this);
       }
     },
 
@@ -532,14 +658,14 @@ qx.Class.define("qx.html.Element",
         throw new Error("Has no child: " + child);
       }
 
-      if (this.__element && child.__element)
+      // Parent should remember job when already created
+      if (this.__element) 
       {
-        // If the DOM element is really inserted, we need to remove it
-        if (child.__element.parentNode === this.__element) {
-          this.self(arguments).addToQueue(this);
-        }
+        this.__jobs.children = true;
+        qx.html.Element.addToQueue(this);
       }
 
+      // Remove reference to old parent
       delete child.__parent;
     },
 
@@ -558,41 +684,32 @@ qx.Class.define("qx.html.Element",
     */
     
     /**
-     * Whether the element is a top level element.
-     *
-     * @type member
-     * @return {Boolean} whether the element is a top level element.
-     */
-    isTop : function() {
-      return this.__top;
-    },
-
-
-    /**
-     * Whether the element is visible / rendered.
+     * TODOC
      *
      * @type member
      * @return {Boolean} whether the element is visible / rendered.
      */
-    isVisible : function()
+    isLogicallyVisible : function()
     {
       var elem = this;
 
       do
       {
-        if (elem.__top) {
-          return true;
-        }
-
-        if (!elem.__element || !elem.__element.parentNode) {
-          return false;
+        if (elem.__rendered) {
+          return true; 
         }
 
         elem = elem.__parent;
       }
       while (elem);
-
+      
       return false;
+    },
+    
+    
+    isPhysicallyVisible : function()
+    {
+      return this.__rendered;  
     },
 
 
@@ -869,14 +986,9 @@ qx.Class.define("qx.html.Element",
 
       // Initialize based on given element
       this.__element = elem;
-      this.__nodeName = elem.tagName.toLowerCase();
-      this.__top = true;
-
-      // Cleanup the element
-      elem.innerHTML = "";
-
-      // Finally add it to the queue
-      this.self(arguments).addToQueue(this);
+      
+      // Mark as rendered
+      this.__rendered = true;
     },
 
 
@@ -922,6 +1034,13 @@ qx.Class.define("qx.html.Element",
     setStyle : function(key, value)
     {
       this.__styleCache[key] = value;
+      
+      if (this.__rendered) 
+      {
+        qx.html.Element.addToQueue(this);
+        this.__styleJobs[key] = true;
+      }
+      
       return this;
     },
 
@@ -958,6 +1077,13 @@ qx.Class.define("qx.html.Element",
     setAttribute : function(key, value)
     {
       this.__attribCache[key] = value;
+      
+      if (this.__rendered) 
+      {
+        qx.html.Element.addToQueue(this);
+        this.__attribJobs[key] = true;
+      }
+      
       return this;
     },
 

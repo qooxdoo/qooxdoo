@@ -14,7 +14,8 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var doc = new qx.html.Element(document.getElementById("test"));
+    var doc = new qx.html.Element();
+    doc.setDomElement(document.getElementById("test"));
 
 
 
@@ -45,7 +46,7 @@
 
     qx.html.Element.flushQueue();
 
-
+    return;
 
 
 
