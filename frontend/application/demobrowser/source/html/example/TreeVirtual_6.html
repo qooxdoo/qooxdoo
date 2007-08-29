@@ -24,8 +24,8 @@
                      qx.ui.treevirtual.MNode);
                      
     // Provide Drag and Drop support
-    qx.Class.patch(qx.ui.treevirtual.TreeVirtual,
-                qx.ui.treevirtual.MDragAndDropSupport);
+    qx.Class.include(qx.ui.treevirtual.TreeVirtual,
+                     qx.ui.treevirtual.MDragAndDropSupport);
     
     //---------------------------------------------------------------------------
     // First tree
