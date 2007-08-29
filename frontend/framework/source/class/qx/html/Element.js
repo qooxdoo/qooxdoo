@@ -78,12 +78,23 @@ qx.Class.define("qx.html.Element",
   {
     /*
     ---------------------------------------------------------------------------
+      STATIC DATA
+    ---------------------------------------------------------------------------
+    */
+    
+    __debug : false,
+    
+    
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
       QUEUE MANAGMENT
     ---------------------------------------------------------------------------
     */
 
     __queue : [],
-    __debug : false,
 
 
     /**
@@ -124,9 +135,11 @@ qx.Class.define("qx.html.Element",
 
 
 
+
+
     /*
     ---------------------------------------------------------------------------
-      CONTENT FLUSH
+      QUEUE FLUSH
     ---------------------------------------------------------------------------
     */
 
@@ -184,7 +197,8 @@ qx.Class.define("qx.html.Element",
         // FireBug sometimes will display a live view of the DOM and not the
         // the snapshot at this moment.
         source = qx.lang.Array.fromCollection(source);
-         console.log("Source: ", source.length + ": ", source);
+        
+        console.log("Source: ", source.length + ": ", source);
         console.log("Target: ", target.length + ": ", target);
         console.log("Operations: ", operations);
       }
@@ -354,9 +368,12 @@ qx.Class.define("qx.html.Element",
         }
       }
 
+
+
       // **********************************************************************
       //   Create DOM elements
       // **********************************************************************
+      
       // Creating DOM nodes could modify the queue again
       // because the generated children will also be added
       // to the queue
@@ -380,9 +397,12 @@ qx.Class.define("qx.html.Element",
         }
       }
 
+
+
       // **********************************************************************
       //   Apply content
       // **********************************************************************
+      
       l = queue.length;
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -429,10 +449,13 @@ qx.Class.define("qx.html.Element",
           delete entry.__queued;
         }
       }
+      
+      
 
       // **********************************************************************
       //   Cleanup
       // **********************************************************************
+      
       queue.length = 0;
       delete this.__inFlushQueue;
     }
@@ -449,6 +472,12 @@ qx.Class.define("qx.html.Element",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      INTERNAL HELPERS
+    ---------------------------------------------------------------------------
+    */    
+    
     __nodeName : "div",
     __element : null,
     __top : false,
@@ -459,25 +488,8 @@ qx.Class.define("qx.html.Element",
      *
      * @type member
      */
-    __create : function()
-    {
-      // console.debug("Create element[" + this.toHashCode() + "]");
-      var el = this.__element = document.createElement(this.__nodeName);
-      var style = this.__style = el.style;
-
-      var cache;
-
-      cache = this.__attribCache;
-
-      for (key in cache) {
-        el[key] = cache[key];
-      }
-
-      cache = this.__styleCache;
-
-      for (key in cache) {
-        style[key] = cache[key];
-      }
+    __create : function() {
+      this.__element = qx.bom.Element.create(this.__nodeName);
     },
 
 
@@ -534,6 +546,19 @@ qx.Class.define("qx.html.Element",
     },
 
 
+
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      ELEMENT STATUS
+    ---------------------------------------------------------------------------
+    */
+    
     /**
      * Whether the element is a top level element.
      *
@@ -573,6 +598,16 @@ qx.Class.define("qx.html.Element",
     },
 
 
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      HIERACHY SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
     /**
      * Returns a copy of the internal children structure.
      *
@@ -599,6 +634,18 @@ qx.Class.define("qx.html.Element",
     },
 
 
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      CHILDREN MANAGEMENT
+    ---------------------------------------------------------------------------
+    */
+    
     /**
      * Append the given child at the end of this element's children.
      *
@@ -794,29 +841,41 @@ qx.Class.define("qx.html.Element",
     },
 
 
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      DOM ELEMENT ACCESS
+    ---------------------------------------------------------------------------
+    */
+    
     /**
      * Sets the element to an already existing node. It will be
      * assumed that this DOM element is already visible e.g.
      * like a normal displayed element in the document's body.
      *
      * @type member
-     * @param el {Element} the dom element to set
+     * @param elem {Element} the dom element to set
      * @return {void}
      * @throws TODOC
      */
-    setDomElement : function(el)
+    setDomElement : function(elem)
     {
       if (this.__element) {
         throw new Error("Elements could not be replaced!");
       }
 
       // Initialize based on given element
-      this.__element = el;
-      this.__nodeName = el.tagName.toLowerCase();
+      this.__element = elem;
+      this.__nodeName = elem.tagName.toLowerCase();
       this.__top = true;
 
       // Cleanup the element
-      el.innerHTML = "";
+      elem.innerHTML = "";
 
       // Finally add it to the queue
       this.self(arguments).addToQueue(this);
@@ -841,7 +900,18 @@ qx.Class.define("qx.html.Element",
 
       return this.__element;
     },
-
+    
+    
+    
+    
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      STYLE SUPPORT
+    ---------------------------------------------------------------------------
+    */
 
     /**
      * Set up the given style attribute
@@ -854,11 +924,6 @@ qx.Class.define("qx.html.Element",
     setStyle : function(key, value)
     {
       this.__styleCache[key] = value;
-
-      if (this.__element) {
-        this.__style[key] = value;
-      }
-
       return this;
     },
 
@@ -875,6 +940,15 @@ qx.Class.define("qx.html.Element",
     },
 
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      ATTRIBUTE SUPPORT
+    ---------------------------------------------------------------------------
+    */
+    
     /**
      * Set up the given attribute
      *
@@ -886,11 +960,6 @@ qx.Class.define("qx.html.Element",
     setAttribute : function(key, value)
     {
       this.__attribCache[key] = value;
-
-      if (this.__element) {
-        this.__element[key] = value;
-      }
-
       return this;
     },
 
