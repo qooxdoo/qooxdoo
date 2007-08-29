@@ -11,7 +11,7 @@
      * Christian Boulanger
 
 ************************************************************************ */
-
+ 
 /* ************************************************************************
 
 #module(ui.treevirtual)
@@ -39,6 +39,17 @@
  */
 qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
 {
+  construct : function()
+  {
+    // We'll use our own supportsDropMethod() to determine if a drop is
+    // allowed.
+    this.setSupportsDropMethod(this._supportsDrop);
+  },
+
+  events :
+  {
+    "draghover" : "qx.event.type.DataEvent"
+  },
 
   /*
   *****************************************************************************
@@ -56,6 +67,8 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
 
     /**
      * enable/disable drag and drop
+     * This needs to be the last property set since it configures 
+     * the drag and drop behavior based on the other properties
      */
     enableDragDrop :
     {
@@ -66,7 +79,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
 
     /**
      * set the mimetype of the nodes, defaults to "treevirtualnode"
-     * You do not usually have to change this
+     * you do not have to use or change this
      */
     dragDataMimeType :
     {
@@ -75,7 +88,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
     },
 
     /**
-     * a list of node types allowed to be dragged (separated by comma)
+     * a list of node types allowed to be dragged
      */
     allowDragTypes :
     {
@@ -96,7 +109,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
     /**
      * the name of the data event that is fired with a reference the hovered node
      * after the drag cursor has been hovering over it for the "dragHoverTimeout"
-     * number of milliseconds
+     * number of milliseconds. Defaults to "draghover"
      **/
     dragHoverEventName :
     {
@@ -107,7 +120,8 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
 
     /**
      * the number of milliseconds that the drag cursor has to hover over a node
-     * before a the event specified by the "dragHoverEventName" property is fired
+     * before a the event specified by the "dragHoverEventName" property is fired.
+     * Defaults to 1000
      **/
     dragHoverTimeout :
     {
@@ -312,8 +326,19 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
      */
     _handleDragStart : function(event)
     {
-      var selection = this.getDataModel().getSelectedNodes();
-      var types = this.getAllowDragTypes();
+			var target 		= event.getTarget();
+			
+			// allow drag only in pane area
+			// this needs a more sophisticated check
+			switch ( target.getParent().classname )
+			{
+				case "qx.ui.table.pane.Header":
+				case "qx.ui.basic.ScrollBar":
+					return;
+			}
+			
+			var selection = this.getDataModel().getSelectedNodes();
+      var types 		= this.getAllowDragTypes();
 
       if (types === null) return false;
 
@@ -418,14 +443,29 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
     },
 
     /**
-     * overrides supportsDrop method. you can hook in your custom supportsDrop method by
-     * defining a supportsDropCallback function in your TreeVirtual instance. Both must
+     * The hook to be called when widget.supportsDrop() is called.  This is
+     * set in the constructor via this.setSupportsDropMethod(this._supportDrop)
+     *
+     * You can hook in your custom supportsDrop method by defining a
+     * supportsDropCallback function in your TreeVirtual instance. Both must
      * return true for a drop to be allowed.
-     * @param dragCache {Object}
-     *    a temporary and incomplete copy of the drag event
+     *
+     * @param dragCache {var} 
+     *   An object describing the event, containing at least these members:
+     *     <ul>
+     *       <li>startScreenX</li>
+     *       <li>startScreenY</li>
+     *       <li>pageX</li>
+     *       <li>pageY</li>
+     *       <li>sourceWidget</li>
+     *       <li>sourceTopLevel</li>
+     *       <li>dragHandlerActive</li>
+     *       <li>hasFiredDragStart</li>
+     *     </ul>
+     *
      * @return {Boolean} whether drop is allowed
      */
-    supportsDrop : function(dragCache)
+    _supportsDrop : function(dragCache)
     {
       var result = this.checkDrop(dragCache);
       if ( typeof this.supportsDropCallback == "function" ){
@@ -461,11 +501,31 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
         // update cell focus indicator
         scroller._focusCellAtPagePos(dragCache.pageX, dragCache.pageY);
 
+        // info on visible rows
+        var firstRow = scroller._tablePane.getFirstVisibleRow();
+        var rowCount = scroller._tablePane.getVisibleRowCount();
+        var lastRow  = firstRow + rowCount;
+        var scrollY  = parseInt(scroller.getScrollY()) ;
+				
+        // scroll up if drag cursor over first row
+        if ( (row - firstRow < 2) )
+          {
+            if ( row != 0 )
+              {
+                scroller.setScrollY( scrollY - rowHeight );	
+              }
+          }
+        
+        // scroll down if drag cursor over last row
+        else if ( row != lastRow && (row - lastRow  < 2) )
+          {
+            scroller.setScrollY( scrollY + rowHeight );	
+          }
+
         // if dropping "between" nodes is allowed, change focus indicator's height and color
-        var dropTargetRelativePosition = 0;
+        var dropTargetRelativePosition = 0;	
         if ( this.getAllowDropBetweenNodes() )
-        {
-          var firstRow = scroller._tablePane.getFirstVisibleRow();
+        {  
           var focusIndicator = this.getCellFocusIndicator();
 
           if ( deltaY < 4 || deltaY > (rowHeight-4) )
@@ -498,12 +558,14 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
                               .getInstance().getData(this.getDragDataMimeType());
         var sourceNode   = sourceData.nodeData[0]; // use only the first node to determine node type
         var sourceWidget = sourceData.sourceWidget;
-
+				if ( ! sourceNode ) return;
+				
         // get and save drag target
         var targetWidget = this;
         var targetRowData = this.getDataModel().getRowData(row);
         if ( ! targetRowData ) return false;
         var targetNode = targetRowData[0];
+				if ( ! targetNode ) return;
         var targetParentNode = this.nodeGet(targetNode.parentNodeId);
         this.setDropTarget(targetNode);
         this.setDropTargetRelativePosition(dropTargetRelativePosition);
@@ -529,7 +591,8 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
           }
         }
 
-        // programmatically select node to load children after a timeout
+        // "dragHover" event fired after the drag cursor hovers over a node
+				// for a specific time
         var dragHoverTimeout = this.getDragHoverTimeout();
         var dragHoverEventName = this.getDragHoverEventName();
         if ( dragHoverTimeout && dragHoverEventName )
@@ -563,9 +626,9 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
                             this.getNodeType(targetParentNode) :
                             this.getNodeType(targetNode);
         var allowDropTypes = this.getAllowDropTypes();
-
-        // allow all drops if null or undefined
-        if ( allowDropTypes[0] == "*" )
+				
+				// allow all drops if null or undefined
+        if ( ! allowDropTypes || typeof allowDropTypes != "object" || allowDropTypes[0] == "*" )
         {
           return true;
         }
@@ -633,13 +696,13 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
      *    position source node will be inserted above target if -1,
      *    below target if 1, and as a child if 0 or undefined
      */
-    moveNode : function ( first, sourceNode, targetNode, position )
+    moveNode : function ( first, sourceNodes, targetNode, position )
     {
       // one-parameter signature
       if ( arguments.length == 1)
       {
         var sourceWidget = first.sourceWidget,
-            sourceNode = first.nodeData[0],
+            sourceNodes = first.nodeData,
             targetNode = first.targetNode,
             position = first.position;
       }
@@ -648,7 +711,25 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
         var sourceWidget = first;
       }
 
+			if (! sourceNodes ) 
+			{
+				this.error ("No source node(s) supplied. Aborting.");
+			}
+			
+			// if sourceNodes parameter is an array of source nodes, move each
+			if ( typeof sourceNodes == "object" && sourceNodes.length )
+			{
+				sourceNodes.forEach(function(sourceNode){
+					this.moveNode(sourceWidget,sourceNode,targetNode,position);
+				},this);
+				return true;	
+			} 
+
+			// clear selection
+			sourceWidget.getSelectionModel().clearSelection();
+
       // source
+			var sourceNode = sourceNodes;
       var sourceNodeId = sourceNode.nodeId;
       var sourceParentNode = sourceWidget.nodeGet(sourceNode.parentNodeId);
       var sourceNodeIndex = sourceParentNode.children.indexOf(sourceNodeId);
@@ -690,19 +771,14 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
           sourceNode.children=[];
         }
       }
-
+			 
+			// action
       if ( action == "move" )
       {
         qx.lang.Array.removeAt( sourceParentNode.children, sourceNodeIndex );
-        if ( sourceWidget != this )
-        {
-          sourceWidget.getDataModel().setData();
-        }
+				sourceWidget.getDataModel().setData();
       }
-
-      // set source node information
-      sourceNode.bSelected = false;
-
+			
       // insert node
       if ( position > 0 )
       {
@@ -750,7 +826,6 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
         {
            var prop;
            var sortHint = sortMap[key];
-           _this.info([prop,typeof sortHint] );
 
             // property aliases
            switch  ( key )
@@ -790,7 +865,6 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
            if ( typeof sortHint == "object" &&
            sortHint.length )
            {
-             _this.info([sortHint,valueA,valueB]);
              if ( sortHint.indexOf(valueA) > sortHint.indexOf(valueB) ) return 1;
              if ( sortHint.indexOf(valueA) < sortHint.indexOf(valueB) ) return -1;
            }
