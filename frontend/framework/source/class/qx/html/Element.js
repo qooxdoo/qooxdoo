@@ -110,7 +110,6 @@ qx.Class.define("qx.html.Element",
         // console.debug("Add to queue object[" + element.toHashCode() + "]");
         this.__queue.push(element);
         element.__queued = true;
-        this.__autoFlush.schedule();
       }
     },
 
@@ -128,7 +127,6 @@ qx.Class.define("qx.html.Element",
         // console.debug("Remove from queue object[" + element.toHashCode() + "]");
         this.__queue.remove(element);
         delete element.__queued;
-        this.__autoFlush.call();
       }
     },
 
@@ -974,19 +972,5 @@ qx.Class.define("qx.html.Element",
     getAttribute : function(key) {
       return this.__attribCache[key];
     }
-  },
-
-
-
-
-
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
-
-  defer : function(statics, members) {
-    statics.__autoFlush = new qx.util.DeferredCall(statics.flushQueue, statics);
   }
 });
