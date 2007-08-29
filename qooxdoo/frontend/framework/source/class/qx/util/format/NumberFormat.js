@@ -83,7 +83,14 @@ qx.Class.define("qx.util.format.NumberFormat",
      * @return {qx.util.format.NumberFormat} an instance
      * @signature function()
      */
-    getInstance : qx.lang.Function.returnInstance
+    getInstance : function()
+    {
+      if (!this._instance) {
+        this._instance = new this;
+      }
+
+      return this._instance;
+    }
 
   },
 

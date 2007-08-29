@@ -371,18 +371,18 @@ qx.Class.define("qx.core.Property",
         if (name.charAt(1) === "_")
         {
           prefix = "__";
-          postfix = qx.lang.String.toFirstUp(name.substring(2));
+          postfix = qx.lang.String.firstUp(name.substring(2));
         }
         else
         {
           prefix = "_";
-          postfix = qx.lang.String.toFirstUp(name.substring(1));
+          postfix = qx.lang.String.firstUp(name.substring(1));
         }
       }
       else
       {
         prefix = "";
-        postfix = qx.lang.String.toFirstUp(name);
+        postfix = qx.lang.String.firstUp(name);
       }
 
       // Attach methods
