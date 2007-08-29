@@ -49,25 +49,19 @@ qx.Class.define("qx.html.Element",
   /**
    * Creates a new Element
    *
-   * @param el {Element?} an existing and visible DOM element
+   * @param domEl {Element?} an existing and visible DOM element
    */
-  construct : function(el)
+  construct : function(domEl)
   {
     this.base(arguments);
 
     this.__children = [];
+    
     this.__attribCache = {};
     this.__styleCache = {};
 
-    this.__contentJobs = [];
-    this.__attribJobs = [];
-    this.__styleJobs = [];
-
-    this.__addEventJobs = [];
-    this.__removeEventJobs = [];
-
-    if (el != null) {
-      this.setElement(el);
+    if (domEl != null) {
+      this.setDomElement(domEl);
     }
   },
 
@@ -149,93 +143,7 @@ qx.Class.define("qx.html.Element",
         entry.__create();
       }
 
-      if (entry.__addEventJobs.length > 0) {
-        this.__flushAddEvents(entry);
-      }
-
-      if (entry.__removeEventJobs.length > 0) {
-        this.__flushRemoveEvents(entry);
-      }
-
-      if (entry.__text) {
-        this.__flushText(entry);
-      } else if (entry.__html) {
-        this.__flushHtml(entry);
-      } else {
-        this.__flushChildren(entry);
-      }
-    },
-
-
-    /**
-     * Internal helper to apply the defined text to the DOM element.
-     *
-     * @type static
-     * @param entry {qx.html.Element} the element to flush
-     */
-    __flushText : function(entry)
-    {
-      // MSHTML does not support textContent (DOM3), but the
-      // properitary innerText attribute
-      if (entry.__element.textContent !== undefined) {
-        entry.__element.textContent = entry.__text;
-      } else {
-        entry.__element.innerText = entry.__text;
-      }
-    },
-
-
-    /**
-     * Internal helper to apply the added event listeners to the DOM element.
-     *
-     * @type static
-     * @param entry {qx.html.Element} the element to flush
-     */
-    __flushAddEvents : function(entry)
-    {
-      var element = entry.__element;
-      var eventManager = qx.event.Manager.getManager(element);
-
-      var addEventJobs = entry.__addEventJobs;
-      for (var i=0, l=addEventJobs.length; i<l; i++)
-      {
-        var eventData = addEventJobs[i];
-        eventManager.addListener(
-          element,
-          eventData.type,
-          eventData.listener,
-          eventData.self,
-          eventData.capture
-        );
-      }
-      
-      entry.__addEventJobs = [];
-    },
-
-
-    /**
-     * Internal helper to apply the removed event listeners  to the DOM element.
-     *
-     * @type static
-     * @param entry {qx.html.Element} the element to flush
-     */
-    __flushRemoveEvents : function(entry)
-    {
-      var element = entry.__element;
-      var eventManager = qx.event.Manager.getManager(element);
-
-      var removeEventJobs = entry.__removeEventJobs;
-      for (var i=0, l=removeEventJobs.length; i<l; i++)
-      {
-        var eventData = removeEventJobs[i];
-        eventManager.removeListener(
-          element,
-          eventData.type,
-          eventData.listener,
-          eventData.capture
-        );
-      }
-      entry.__removeEventJobs = [];
+      this.__flushChildren(entry);
     },
 
 
@@ -896,7 +804,7 @@ qx.Class.define("qx.html.Element",
      * @return {void}
      * @throws TODOC
      */
-    setElement : function(el)
+    setDomElement : function(el)
     {
       if (this.__element) {
         throw new Error("Elements could not be replaced!");
@@ -925,7 +833,7 @@ qx.Class.define("qx.html.Element",
      * @return {Element} the DOM element node
      * @throws an error if the element was not yet created
      */
-    getElement : function()
+    getDomElement : function()
     {
       if (!this.__element) {
         throw new Error("Element is not yet created!");
@@ -996,66 +904,6 @@ qx.Class.define("qx.html.Element",
      */
     getAttribute : function(key) {
       return this.__attribCache[key];
-    },
-
-
-    /**
-     * Add an event listener to the element using {@link qx.event.Manager#addListener}.
-     *
-     * @type static
-     * @param type {String} Name of the event e.g. "click", "keydown", ...
-     * @param listener {Function} Event listener function
-     * @param self {Object ? window} Reference to the 'this' variable inside
-     *       the event listener.
-     * @param capture {Boolean ? false} Whether to attach the event to the
-     *       capturing phase of the bubbling phase of the event. The default is
-     *       to attach the event handler to the bubbling phase.
-     * @return {qx.html.Element} this object (for chaining support)
-     */
-    addEventListener : function(type, listener, self, capture)
-    { 
-      this.__addEventJobs.push({
-        type: type,
-        listener: listener,
-        self: self,
-        capture: capture
-      });
-
-      if (this.__element) {
-        this.self(arguments).addToQueue(this);
-      }
-
-      return this;
-    },
-
-
-    /**
-     * Remove an event listener from the element using {@link qx.event.Manager#removeListener}.
-     *
-     * @type static
-     * @param type {String} Name of the event e.g. "click", "keydown", ...
-     * @param listener {Function} Event listener function
-     * @param self {Object ? window} Reference to the 'this' variable inside
-     *       the event listener.
-     * @param capture {Boolean ? false} Whether to attach the event to the
-     *       capturing phase of the bubbling phase of the event. The default is
-     *       to attach the event handler to the bubbling phase.
-     * @return {qx.html.Element} this object (for chaining support)
-     */
-    removeEventListener : function(type, listener, self, capture)
-    {
-      this.__removeEventJobs.push({
-        type: type,
-        listener: listener,
-        self : self,
-        capture: capture
-      });
-
-      if (this.__element) {
-        this.self(arguments).addToQueue(this);
-      }
-
-      return this;
     }
   },
 
