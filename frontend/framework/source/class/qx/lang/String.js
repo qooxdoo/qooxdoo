@@ -15,6 +15,20 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
+     
+   ======================================================================
+     
+   This class contains code based on the following work:
+
+   * Mootools
+     http://mootools.net/
+     Version 1.1.1
+
+     Copyright:
+       (c) 2007 Valerio Proietti
+
+     License:
+       MIT: http://www.opensource.org/licenses/mit-license.php     
 
 ************************************************************************ */
 
@@ -44,23 +58,57 @@ qx.Class.define("qx.lang.String",
   statics :
   {
     /**
-     * converts a string seperated by '-' to camel case.
-     * Example:
-     * <pre class='javascript'>qx.lang.String.toCamelCase("to-camel-case") == "toCamelCase"</pre>
+     * Converts a hyphenated string (seperated by '-') to camel case.
      *
-     * Adapted from PrototypeJS
+     * Example:
+     * <pre class='javascript'>qx.lang.String.camelCase("I-like-cookies"); //returns "ILikeCookies"</pre>
      *
      * @type static
-     * @param str {String} string seperated by '-'
-     * @return {String} camel case string
+     * @param str {String} hyphenated string
+     * @return {String} camelcase string
      */
-    toCamelCase : function(str)
+    camelCase : function(str)
     {
       return str.replace(/\-([a-z])/g, function(match, chr) {
         return chr.toUpperCase();
       });
     },
 
+
+    /**
+     * Converts a camelcased string to a hyphenated (seperated by '-') string.
+     *
+     * Example:
+     * <pre class='javascript'>qx.lang.String.camelCase("ILikeCookies"); //returns "I-like-cookies"</pre>
+     *
+     * @type static
+     * @param str {String} camelcased string
+     * @return {String} hyphenated string
+     */
+  	hyphenate: function(str)
+  	{
+  		return str.replace(/[A-Z]/g, function(match){
+  			return ('-' + match.charAt(0).toLowerCase());
+  		});
+  	},
+  	
+
+    /**
+     * Converts a string to camel case.
+     *
+     * Example:
+     * <pre class='javascript'>qx.lang.String.camelCase("i like cookies"); //returns "I Like Cookies"</pre>
+     *
+     * @type static
+     * @param str {String} any string
+     * @return {String} capitalized string
+     */  	
+  	capitalize: function(str){
+  		return str.replace(/\b[a-z]/g, function(match){
+  			return match.toUpperCase();
+  		});
+  	}, 
+  	 	
 
     /**
      * removes white space from the left side of a string
@@ -156,7 +204,7 @@ qx.Class.define("qx.lang.String",
      * @param str {String} the string
      * @return {String} the string with a upper case first character
      */
-    toFirstUp : function(str) {
+    firstUp : function(str) {
       return str.charAt(0).toUpperCase() + str.substr(1);
     },
 
@@ -168,81 +216,8 @@ qx.Class.define("qx.lang.String",
      * @param str {String} the string
      * @return {String} the string with a lower case first character
      */
-    toFirstLower : function(str) {
+    firstLow : function(str) {
       return str.charAt(0).toLowerCase() + str.substr(1);
-    },
-
-
-    /**
-     * Add a list item to a serialized list string
-     * Example:
-     * <pre class='javascript'>qx.lang.String.addListItem("red, yellow, green", "blue", ", ") == "red, yellow, green, blue"</pre>
-     *
-     * @type static
-     * @param str {String} serialized list. The items are seperated by "sep"
-     * @param item {String} list item to be added
-     * @param sep {String} separator
-     * @return {String} the string with the added item
-     */
-    addListItem : function(str, item, sep)
-    {
-      if (str == item || str == "") {
-        return item;
-      }
-
-      if (sep == null) {
-        sep = ",";
-      }
-
-      var a = str.split(sep);
-
-      if (a.indexOf(item) == -1)
-      {
-        a.push(item);
-        return a.join(sep);
-      }
-      else
-      {
-        return str;
-      }
-    },
-
-
-    /**
-     * Remove a list item from a serialized list string
-     * Example:
-     * <pre class='javascript'>qx.lang.String.removeListItem("red, yellow, green", "yellow", ", ") == "red, green, blue"</pre>
-     *
-     * @type static
-     * @param str {String} serialized list. The items are seperated by "sep"
-     * @param item {String} list item to be removed
-     * @param sep {String} separator
-     * @return {String} the string with the removed item
-     */
-    removeListItem : function(str, item, sep)
-    {
-      if (str == item || str == "") {
-        return "";
-      }
-      else
-      {
-        if (sep == null) {
-          sep = ",";
-        }
-
-        var a = str.split(sep);
-        var p = a.indexOf(item);
-
-        if (p === -1) {
-          return str;
-        }
-
-        do {
-          a.splice(p, 1);
-        } while ((p = a.indexOf(item)) != -1);
-
-        return a.join(sep);
-      }
     },
 
 
@@ -290,7 +265,7 @@ qx.Class.define("qx.lang.String",
      * @return {String} the string with the escaped chars.
      */
     escapeRegexpChars : function(str) {
-      return str.replace(/([\\\.\(\)\[\]\{\}\^\$\?\+\*])/g, "\\$1");
+      return str.replace(/([.*+?^${}()|[\]\/\\])/g, '\\$1');
     },
 
 

@@ -1,1 +1,6 @@
 \bqx\.dom\.Element\.getTextContent\b=qx.dom.Node.getText
+
+# lang.String
+\btoFirstUp\b=firstUp
+\btoFirstLower\b=firstLow
+
