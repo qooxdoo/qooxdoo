@@ -11,6 +11,8 @@
 
   <div id="test"></div>
 
+  <p><a href="javascript:qx.html.Element.flushQueue()">Flush queue</a></p>
+
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
@@ -46,7 +48,6 @@
 
     qx.html.Element.flushQueue();
 
-    return;
 
 
 
@@ -65,7 +66,7 @@
     qx.html.Element.flushQueue();
 
 
-
+return;
 
 
     // Positioned Insert #1

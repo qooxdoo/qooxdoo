@@ -149,22 +149,27 @@ qx.Class.define("qx.html.Element",
     
     __flushElement : function(obj)
     {
-      var isNew = !obj.__rendered;
-      
-      // console.debug("Flush element: " + obj + " (" + isNew + ")");
-      
-      if (isNew) 
+      if (obj.__new) 
       {
+        console.debug("Flush new: " + obj.toHashCode());
+        
         this.__copyData(obj); 
         this.__insertChildren(obj);
+        
+        delete obj.__new;
       }
       else
       {
+        console.debug("Flush existing: " + obj.toHashCode());
+        
         this.__syncData(obj);
-        this.__syncChildren(obj);
+        
+        if (obj.__jobs.children) 
+        {
+          this.__syncChildren(obj);
+          delete obj.__jobs.children;
+        }
       }
-      
-      obj.__rendered = true;
     },
     
     
@@ -456,8 +461,6 @@ qx.Class.define("qx.html.Element",
       // Localize queue and create a new one
       var queue = this.__queue;
       
-      // Block queue (should produce errors)
-      this._queue = null;
 
       
       // User feedback
@@ -475,39 +478,83 @@ qx.Class.define("qx.html.Element",
       var queueLength = queue.length;
       var elemObj;
       
-      // Continue running (while children were added)
-      while(queuePos < queueLength)
-      {
-        // console.debug("Running: " + queuePos + " < " + queueLength);
+      
+      
+      // Create all nodes which will become visible
+      // = nodes which are visible by the current data structure
+      // Loop through the hierarchy queue for this
+      
+      // Mark the root node which is not changeable anytime afterwards
+      
+      // Split queues into two. Data queues (styles, attributes, ...) and Hierarchy queues (inserts, removes, ...)
+      
+      // First: 
+      // Flush data queue (this now works on all the previously created elements)
+      // some of them continue to be hidden (not yet inserted into document) (which is also better for performance)
+      // Order of flush is not important. Could be the same than added to the queue.
+      // Data queue contains jobs for the element itself
+      
+      // Second:
+      // Hierarchy queue contains jobs for the children of the element - not the element itself.
+      // Split into currently visible (rendered) and non-rendered nodes (created, but not in document yet)
+      // Flush the non-rendered nodes first (insert them into each other / remove them from each other / move them)
+      // Order of the above flush is not important (really?)
+      // After this syncronize the currently visible (rendered) nodes
+      // Remember: It is better to reduce transactions in visible nodes
+      // Is there any ording of the queue which can help to improve browser times?
+      
+      // What if an element is currently rendered (visible) but through a transaction of any parent
+      // becomes invisible. If it would be possible to make it invisible first this would improve all the 
+      // following transactions. This could be improved if the queue is sorted by the depth of 
+      
+      // Important: When a node is moved from a visible element to an invisible one we must be sure 
+      // to remove the element from its old parent (because this one is still visible) even if we don't
+      // directly add it to the invisible new parent
+      
+      /*
+      1
+      | 2
+      | 3
+        | 4
+        | 5
         
-        for (; queuePos<queueLength; queuePos++)
-        {
-          elemObj = queue[queuePos];
+      1
+      | 2
+        | 3
+        | 4
+          | 5
           
-          if (elemObj.isLogicallyVisible())
-          {
-            // Create DOM element
-            if (!elemObj.__element) {
-              elemObj.__create();
-            }
-              
-            // Add logically visible children to the queue
-            children = elemObj.__children;
-            if (children)
-            {
-              childrenLength = children.length;
-              for (var j=0; j<childrenLength; j++)
-              {
-                if (children[j].isLogicallyVisible()) {
-                  queue.push(children[j]);
-                }
-              }
-            }
-          }
-        }
-        
-        queueLength = queue.length;
-      }
+     In queue are: 
+     * 1 (3 removed)
+     * 2 (3 added)
+     * 3 (4 removed)
+     * 2 (4 added)
+     * 3 (5 removed)
+     * 4 (5 added)
+     
+     Optimal:
+     * Solve adds first
+     * Flush: 4, 
+     
+     */
+      
+      
+      
+      
+
+      
+      // What happs when a currently visible node moves into a currently invisible node?
+      // The current parent is in the queue. It will remove the element after it has already moved to the new one.
+      // Because we using the sync feature in this case this should not make any problems.
+      
+      // A already created node which currently is inside a non-visible node becomes visible again
+      
+      // It should be possible to omit flushes of invisible elements?
+      // This may be simple for the data stuff (but how to get the info if something becomes visible first/again?)
+      // Events are a bad idea (to slow on this low level impl)
+
+      
+
 
 
 
@@ -522,7 +569,7 @@ qx.Class.define("qx.html.Element",
       
       
       // Split queue into two groups: rendered and not rendered 
-      var renderedObjs = [];
+      var visibleObjs = [];
       var invisibleObjs = [];
 
       var queueLength = queue.length;
@@ -530,8 +577,8 @@ qx.Class.define("qx.html.Element",
       {
         elemObj = queue[queuePos];
         
-        if (elemObj.__rendered) {
-          renderedObjs.push(elemObj);
+        if (elemObj.isPhysicallyVisible()) {
+          visibleObjs.push(elemObj);
         } else {
           invisibleObjs.push(elemObj);
         }
@@ -550,6 +597,7 @@ qx.Class.define("qx.html.Element",
       for (var i=0; i<invisibleObjs.length; i++)
       {
         qx.html.Element.__flushElement(invisibleObjs[i]);
+        invisibleObjs[i].__queued = false;
       }
       
       
@@ -558,19 +606,20 @@ qx.Class.define("qx.html.Element",
       {
         if (this.__debug) 
         {
-          console.debug("Syncing " + renderedObjs.length + " rendered elements...");
+          console.debug("Syncing " + visibleObjs.length + " visible elements...");
         }
       }      
       
-      for (var i=0; i<renderedObjs.length; i++)
+      for (var i=0; i<visibleObjs.length; i++)
       {
-        qx.html.Element.__flushElement(renderedObjs[i]);
+        qx.html.Element.__flushElement(visibleObjs[i]);
+        visibleObjs[i].__queued = false;
       }      
    
       
       
       // Free queue
-      this._queue = [];
+      this.__queue.length = 0;
       
       
       // Remove process flag
@@ -599,6 +648,8 @@ qx.Class.define("qx.html.Element",
     
     __nodeName : "div",
     __element : null,
+    __new : false,
+    __visible : false,
 
 
     /**
@@ -610,6 +661,9 @@ qx.Class.define("qx.html.Element",
     {
       this.__element = qx.bom.Element.create(this.__nodeName);
       this.__element.QxElement = this;
+
+      // Mark as new
+      this.__new = true;      
     },
 
 
@@ -635,11 +689,15 @@ qx.Class.define("qx.html.Element",
       // Convert to child of this object
       child.__parent = this;
 
-      // Parent should remember job when already created
-      if (this.__element) 
+      // Parent should remember job when node is created
+      if (this.__element)
       {
         this.__jobs.children = true;
-        qx.html.Element.addToQueue(this);
+        
+        // Only add to queue when visible        
+        if (this.isPhysicallyVisible()) {
+          qx.html.Element.addToQueue(this);
+        }
       }
     },
 
@@ -658,11 +716,15 @@ qx.Class.define("qx.html.Element",
         throw new Error("Has no child: " + child);
       }
 
-      // Parent should remember job when already created
-      if (this.__element) 
+      // Parent should remember job when node is created
+      if (this.__element)
       {
         this.__jobs.children = true;
-        qx.html.Element.addToQueue(this);
+        
+        // Only add to queue when visible
+        if (this.isPhysicallyVisible()) {
+          qx.html.Element.addToQueue(this);
+        }
       }
 
       // Remove reference to old parent
@@ -684,7 +746,7 @@ qx.Class.define("qx.html.Element",
     */
     
     /**
-     * TODOC
+     * Visible means inserted into the document in this case.
      *
      * @type member
      * @return {Boolean} whether the element is visible / rendered.
@@ -695,7 +757,9 @@ qx.Class.define("qx.html.Element",
 
       do
       {
-        if (elem.__rendered) {
+        // If one of the parents is physically visible
+        // than this element might get visible, too
+        if (elem.isPhysicallyVisible()) {
           return true; 
         }
 
@@ -709,7 +773,13 @@ qx.Class.define("qx.html.Element",
     
     isPhysicallyVisible : function()
     {
-      return this.__rendered;  
+      if (this.__element) 
+      {
+        var doc = qx.dom.Node.getDocument(this.__element);
+        return qx.dom.Hierarchy.contains(doc, this.__element);
+      }
+      
+      return false;
     },
 
 
@@ -987,8 +1057,8 @@ qx.Class.define("qx.html.Element",
       // Initialize based on given element
       this.__element = elem;
       
-      // Mark as rendered
-      this.__rendered = true;
+      // Mark as visible
+      this.__visible = true;
     },
 
 
@@ -1035,10 +1105,13 @@ qx.Class.define("qx.html.Element",
     {
       this.__styleCache[key] = value;
       
-      if (this.__rendered) 
+      if (this.__element) 
       {
-        qx.html.Element.addToQueue(this);
         this.__styleJobs[key] = true;
+        
+        if (this.isPhysicallyVisible()) {
+          qx.html.Element.addToQueue(this);
+        }
       }
       
       return this;
@@ -1078,11 +1151,14 @@ qx.Class.define("qx.html.Element",
     {
       this.__attribCache[key] = value;
       
-      if (this.__rendered) 
+      if (this.__element) 
       {
-        qx.html.Element.addToQueue(this);
         this.__attribJobs[key] = true;
-      }
+        
+        if (this.isPhysicallyVisible()) {
+          qx.html.Element.addToQueue(this);
+        }
+      }      
       
       return this;
     },
