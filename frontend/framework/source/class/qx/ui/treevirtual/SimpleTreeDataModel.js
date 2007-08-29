@@ -36,8 +36,6 @@
  *   parentNodeId   : 23,    // index in _nodeArr of the parent node
  *   label          : "My Documents",
  *   bSelected      : true,  // true if node is selected; false otherwise.
- *                           // If the RecursiveSelectionModel is in use, a third value is also possible: 'p';
- *                           // it denotes partial children selection
  *   bOpened        : true,  // true (-), false (+)
  *   bHideOpenClose : false, // whether to hide the open/close button
  *   icon           : "images/folder.gif",
@@ -46,6 +44,32 @@
  *
  *   cellStyle      : "background-color:cyan"
  *   labelStyle     : "background-color:red;color:white"
+ *
+ *   // USER-PROVIDED COLUMN DATA
+ *   columnData     : [
+ *                      null, // null at index of tree column (typically 0)
+ *                      "text of column 1",
+ *                      "text of column 2"
+ *                    ],
+ *
+ *   // APPLICATION-, MIXIN-, and SUBCLASS-PROVIDED CUSTOM DATA
+ *   data           : {
+ *                      application :
+ *                      {
+ *                          // application-specific user data goes in here
+ *                          foo: "bar",
+ *                          ...
+ *                      },
+ *                      MDragAndDropSupport :
+ *                      {
+ *                          // Data required for the Drag & Drop mixin.
+ *                          // When a mixin is included, its constructor
+ *                          // should create this object, named according
+ *                          // to the mixin or subclass name (empty or
+ *                          // otherwise)
+ *                      },
+ *                      ... // Additional mixins or subclasses.
+ *                    },
  *
  *   // INTERNALLY-CALCULATED ATTRIBUTES
  *   // --------------------------------
