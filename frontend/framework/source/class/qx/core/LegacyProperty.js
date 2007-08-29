@@ -54,7 +54,7 @@ qx.Class.define("qx.core.LegacyProperty",
     addFastProperty : function(config, proto)
     {
       var vName = config.name;
-      var vUpName = qx.lang.String.toFirstUp(vName);
+      var vUpName = qx.lang.String.firstUp(vName);
 
       var vStorageField = "_value" + vUpName;
       var vGetterName = "get" + vUpName;
@@ -120,7 +120,7 @@ qx.Class.define("qx.core.LegacyProperty",
     addCachedProperty : function(config, proto)
     {
       var vName = config.name;
-      var vUpName = qx.lang.String.toFirstUp(vName);
+      var vUpName = qx.lang.String.firstUp(vName);
 
       var vStorageField = "_cached" + vUpName;
       var vComputerName = "_compute" + vUpName;

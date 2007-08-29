@@ -363,7 +363,7 @@ qx.Class.define("qx.event.Command",
       if (keyIdentifier) {
         return keyIdentifier;
       } else {
-        return qx.lang.String.toFirstUp(keyName);
+        return qx.lang.String.firstUp(keyName);
       }
     },
 
@@ -400,7 +400,7 @@ qx.Class.define("qx.event.Command",
       if (keyCode != null)
       {
         var vTemp = qx.legacy.event.type.KeyEvent.codes[keyCode];
-        str.push(vTemp ? qx.lang.String.toFirstUp(vTemp) : String(keyCode));
+        str.push(vTemp ? qx.lang.String.firstUp(vTemp) : String(keyCode));
       }
 
       return str.join("-");

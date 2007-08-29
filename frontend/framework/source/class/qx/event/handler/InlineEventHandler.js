@@ -122,7 +122,7 @@ qx.Class.define("qx.event.handler.InlineEventHandler",
     registerEvent : function(element, type)
     {
       var elementId = qx.core.Object.toHashCode(element);
-      var listener = qx.lang.Function.bind(this.__handleEvent, this, elementId);
+      var listener = qx.lang.Function.bind(this.__handleEvent, this, false, [elementId]);
 
       qx.event.Manager.addNativeListener(element, type, listener);
 
