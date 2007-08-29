@@ -81,7 +81,14 @@ qx.Class.define("qx.event.type.Event",
     BUBBLING_PHASE : 3,
 
 
-    getInstance : qx.lang.Function.returnInstance
+    getInstance : function()
+    {
+      if (!this._instance) {
+        this._instance = new this;
+      }
+
+      return this._instance;
+    }
 
   },
 

@@ -980,7 +980,7 @@ qx.Class.define("qx.ui.core.Widget",
       for (var i=0, l=a.length, p, b, t; i<l; i++)
       {
         p = a[i];
-        b = "_computed" + qx.lang.String.toFirstUp(p);
+        b = "_computed" + qx.lang.String.firstUp(p);
         t = b + "Type";
 
         statics.layoutPropertyTypes[p] =
@@ -2266,10 +2266,11 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Return the position of the child inside
      *
-     * @signature function()
      * @return {Integer}
      */
-    indexOf : qx.lang.Function.returnNegativeIndex,
+    indexOf : function() {
+      return -1;
+    },
 
 
     /**

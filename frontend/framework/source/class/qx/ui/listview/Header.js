@@ -74,7 +74,7 @@ qx.Class.define("qx.ui.listview.Header",
       }
 
       // store some additional data
-      vColumns[vCol].contentClass = qx.Class.getByName("qx.ui.listview.ContentCell" + qx.lang.String.toFirstUp(vColumns[vCol].type || "text"));
+      vColumns[vCol].contentClass = qx.Class.getByName("qx.ui.listview.ContentCell" + qx.lang.String.firstUp(vColumns[vCol].type || "text"));
       vColumns[vCol].headerCell = vHeadCell;
     }
 
