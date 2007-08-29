@@ -7019,7 +7019,7 @@ qx.Class.define("qx.ui.core.Widget",
     getScrollWidth : function()
     {
       this._visualPropertyCheck();
-      return this.getElement().scrollWidth;
+      return this._getTargetNode().scrollWidth;
     },
 
 
@@ -7032,7 +7032,7 @@ qx.Class.define("qx.ui.core.Widget",
     getScrollHeight : function()
     {
       this._visualPropertyCheck();
-      return this.getElement().scrollHeight;
+      return this._getTargetNode().scrollHeight;
     },
 
 
