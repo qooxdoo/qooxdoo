@@ -323,8 +323,8 @@ qx.Class.define("qx.core.Object",
      * @return {Integer} The key in the db for the current object.
      */
     getDbKey: function() {
-			return this.__dbKey;
-		},
+      return this.__dbKey;
+    },
 
 
     /*
