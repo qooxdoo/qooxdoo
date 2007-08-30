@@ -50,6 +50,13 @@
     qx.html.Element.flushQueue();
 
 
+    /*
+      Current:
+      
+      doc
+      - el1
+    */
+
 
 
 
@@ -67,8 +74,18 @@
 
     qx.html.Element.flushQueue();
 
+    /*
+      Current:
+      
+      doc
+      - before1
+      - el1
+      - after1
+    */
 
-return;
+
+
+
 
     // Positioned Insert #1
 
@@ -84,6 +101,17 @@ return;
 
     qx.html.Element.flushQueue();
 
+    /*
+      Current:
+      
+      doc
+      - before2
+      - before1
+      - el1
+      - after1
+      - after2
+    */
+
 
 
 
@@ -98,7 +126,18 @@ return;
     qx.html.Element.flushQueue();
 
 
+    /*
+      Current:
+      
+      doc
+      - before1
+      - before2
+      - el1
+      - after2
+      - after1
+    */
 
+return;
 
     // Switch
 

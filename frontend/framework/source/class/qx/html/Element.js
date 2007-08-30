@@ -436,7 +436,7 @@ qx.Class.define("qx.html.Element",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (this.__debug) {
-          console.debug("      - " + domOperations + " DOM operations made");
+          console.debug("  - " + domOperations + " DOM operations made");
         }
       }
     },
@@ -489,37 +489,6 @@ qx.Class.define("qx.html.Element",
       // to remove the element from its old parent (because this one is still visible) even if we don't
       // directly add it to the invisible new parent
       
-      /*
-      1
-      | 2
-      | 3
-        | 4
-        | 5
-        
-      1
-      | 2
-        | 3
-        | 4
-          | 5
-          
-     In queue are: 
-     * 1 (3 removed)
-     * 2 (3 added)
-     * 3 (4 removed)
-     * 2 (4 added)
-     * 3 (5 removed)
-     * 4 (5 added)
-     
-     Optimal:
-     * Solve adds first (but this is not possible)
-     
-     */
-      
-      
-      
-      
-
-      
       // What happs when a currently visible node moves into a currently invisible node?
       // The current parent is in the queue. It will remove the element after it has already moved to the new one.
       // Because we using the sync feature in this case this should not make any problems.
@@ -546,7 +515,7 @@ qx.Class.define("qx.html.Element",
       {
         if (this.__debug) 
         {
-          console.debug("Queue has " + queue.length + " entries.");
+          console.debug("Incoming queue has " + queue.length + " entries.");
           
           for (var i=0; i<queue.length; i++) {
             console.debug("  - " + queue[i].getAttribute("id")); 
@@ -580,7 +549,7 @@ qx.Class.define("qx.html.Element",
       {
         if (this.__debug) 
         {
-          console.debug("Queue has " + queue.length + " entries.");
+          console.debug("Processed queue has " + queue.length + " entries.");
           
           for (var i=0; i<queue.length; i++) {
             console.debug("  - " + queue[i].getAttribute("id")); 
@@ -615,12 +584,12 @@ qx.Class.define("qx.html.Element",
       {
         if (this.__debug) 
         {
-          console.debug("Invisible queue has " + invisibleQueue.length + " entries.");
+          console.debug("Splitted invisible queue has " + invisibleQueue.length + " entries.");
           for (var i=0; i<invisibleQueue.length; i++) {
             console.debug("  - " + invisibleQueue[i].getAttribute("id")); 
           }
 
-          console.debug("Rendered queue has " + renderedQueue.length + " entries.");
+          console.debug("Splitted rendered queue has " + renderedQueue.length + " entries.");
           for (var i=0; i<renderedQueue.length; i++) {
             console.debug("  - " + renderedQueue[i].getAttribute("id")); 
           }
@@ -984,8 +953,10 @@ qx.Class.define("qx.html.Element",
         throw new Error("Has no child: " + child);
       }
 
-      if (this.__element) {
-        this.self(arguments).addToQueue(this);
+      if (this.__element) 
+      {
+        this.__jobs.children = true;
+        qx.html.Element.addToQueue(this);
       }
 
       var oldIndex = this.__children.indexOf(child);
