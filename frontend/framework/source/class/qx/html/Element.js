@@ -337,6 +337,7 @@ qx.Class.define("qx.html.Element",
           {
             // console.log("Remove: ", job.old);
             domElement.removeChild(job.old);
+            domOperations++;
           }
         }
         else
@@ -393,11 +394,9 @@ qx.Class.define("qx.html.Element",
           {
             if (domElement.childNodes[job.pos] === job.old)
             {
-
               // console.log("Replace: ", job.old, " with ", job.value);
-              domOperations++;
-
               domElement.replaceChild(job.value, job.old);
+              domOperations++;
             }
             else
             {

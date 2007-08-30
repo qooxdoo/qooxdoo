@@ -182,7 +182,7 @@
       - after2
       - after1
     */
-return;
+
 
 
     // Remove
@@ -193,6 +193,19 @@ return;
     doc.remove(after2);
 
     qx.html.Element.flushQueue();
+    
+    /*
+      Current:
+      
+      doc
+      - before1
+      - el1
+        - el2a
+          - el3a
+          - el3b
+        - el2b 
+      - after1
+    */    
 
 
 
@@ -203,6 +216,22 @@ return;
     doc.addList(before2, after2);
 
     qx.html.Element.flushQueue();
+
+
+    /*
+      Current:
+      
+      doc
+      - before1
+      - el1
+        - el2a
+          - el3a
+          - el3b
+        - el2b 
+      - after1
+      - before2
+      - after2
+    */ 
 
 
 
@@ -217,7 +246,23 @@ return;
 
     qx.html.Element.flushQueue();
 
-
+    /*
+      Current:
+      
+      doc
+      - before1
+      - el1
+        - el2a
+          - el3a
+          - el3b
+        - el2b 
+      - after1
+      - before2
+      - after2
+    */ 
+    
+    
+    
 
 
     // Move, remove & add
@@ -240,6 +285,20 @@ return;
     after2                                       after2
     */
 
+    /*
+      Current:
+      
+      doc
+      - el1
+        - el2a
+          - el3a
+          - el3b
+        - el2b 
+      - after1
+      - before2
+      - before1
+      - after2
+    */ 
 
 
 
@@ -260,6 +319,20 @@ return;
 
     // AFTER: after2, before1, before2, after1, el1
 
+    /*
+      Current:
+      
+      doc
+      - after2
+      - before1
+      - before2
+      - after1
+      - el1
+        - el2a
+          - el3a
+          - el3b
+        - el2b 
+    */ 
 
 
 
