@@ -49,7 +49,7 @@ qx.Class.define("qx.html.Element",
   /**
    * Creates a new Element
    *
-   * @param domEl {Element?} an existing and visible DOM element
+   * @param domEl {Element?null} an existing and visible DOM element
    */
   construct : function(domEl)
   {
@@ -60,9 +60,9 @@ qx.Class.define("qx.html.Element",
     this.__attribCache = {};
     this.__styleCache = {};
     
-    this.__jobs = {};
     this.__attribJobs = {};
     this.__styleJobs = {};
+    this.__eventJobs = {};
     
     this.setAttribute("hashCode", this.toHashCode());
 
@@ -96,7 +96,7 @@ qx.Class.define("qx.html.Element",
     
     /*
     ---------------------------------------------------------------------------
-      MODIFIED OBJECT MANAGMENT
+      OBJECT MODIFICATION MANAGMENT
     ---------------------------------------------------------------------------
     */
 
@@ -131,7 +131,7 @@ qx.Class.define("qx.html.Element",
 
     /*
     ---------------------------------------------------------------------------
-      SINGLE OBJECT FLUSH
+      FLUSH OBJECT
     ---------------------------------------------------------------------------
     */
     
@@ -182,6 +182,9 @@ qx.Class.define("qx.html.Element",
       for (var key in data) {
         Style.set(elem, key, data[key]);
       }
+      
+      // Attach/Detach events
+      // TODO
     },
     
     
@@ -192,23 +195,27 @@ qx.Class.define("qx.html.Element",
       var Attribute = qx.bom.element.Attribute;
       var Style = qx.bom.element.Style;
       
-      // Copy attributes
+      // Sync attributes
       var data = obj.__attribCache;
       var jobs = obj.__attribJobs;
       for (var key in jobs) {
         Attribute.set(elem, key, data[key]);
       }
       
-      // Copy styles
+      // Sync styles
       var data = obj.__styleCache;
       var jobs = obj.__styleJobs;
       for (var key in data) {
         Style.set(elem, key, data[key]);
       }
       
+      // Attach/Detach events
+      // TODO
+      
       // Cleanup jobs
       this.__attribJobs = {};
       this.__styleJobs = {};
+      this.__eventJobs = {};
     },
     
     
@@ -244,27 +251,22 @@ qx.Class.define("qx.html.Element",
      */
     __syncChildren : function(obj)
     {
-      if (!obj.__jobs.children) {
+      if (!obj.__modifiedChildren) {
         return;  
       }
       
-      delete obj.__jobs.children;
+      delete obj.__modifiedChildren;
       
       // **********************************************************************
       //   Compute needed operations
       // **********************************************************************
       
-      // Collect all element nodes of the children data
-      var target = [];
-
-      for (var i=0, a=obj.__children, l=a.length; i<l; i++)
-      {
-        // Push them into the target element
-        target.push(a[i].__element);
-      }
-
       var domElement = obj.__element;
       var source = domElement.childNodes;
+      var target = [];
+      for (var i=0, ch=obj.__children, cl=ch.length; i<cl; i++) {
+        target.push(ch[i].__element); 
+      }
 
       // Compute edit operations
       var operations = qx.util.EditDistance.getEditOperations(source, target);
@@ -414,8 +416,6 @@ qx.Class.define("qx.html.Element",
         }
       }
 
-
-
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (this.__debug) {
@@ -436,20 +436,14 @@ qx.Class.define("qx.html.Element",
         return;
       }
 
-
-
-
-      
-
       var modified = this.__modified;
       
       if (qx.lang.Object.isEmpty(modified)) {
         return; 
       }
 
-
-
       // Block repeated flush calls
+      // TODO: Is this really needed? (Javascript has no threads)
       this.__inFlush = true;
 
 
@@ -467,7 +461,6 @@ qx.Class.define("qx.html.Element",
           }
         }
       }
-      
       
       
       
@@ -494,7 +487,7 @@ qx.Class.define("qx.html.Element",
           delete modified[entry.toHashCode()];
           
           // Test children
-          if (!entry.__element || entry.__new || entry.__jobs.children)
+          if (!entry.__element || entry.__new || entry.__modifiedChildren)
           {
             children = entry.__recursivelyCollectVisibleChildren();
             
@@ -509,7 +502,6 @@ qx.Class.define("qx.html.Element",
           }
         }
       }
-      
       
       
       
@@ -535,7 +527,6 @@ qx.Class.define("qx.html.Element",
       
       
       
-      
       // Flush queues: Create first
       for (var hc in domInvisible)
       {
@@ -546,10 +537,6 @@ qx.Class.define("qx.html.Element",
       
       
       
-      /*
-       * rendered = in the dom of the document
-       * new = eventually created but never added data to
-       */
       
       // Flush queues: Apply children, styles and attributes
       for (var hc in domInvisible) {
@@ -631,7 +618,7 @@ qx.Class.define("qx.html.Element",
     __hasJobs : function() 
     {
       var tool = qx.lang.Object;
-      return !tool.isEmpty(this.__jobs) || !tool.isEmpty(this.__styleJobs) || !tool.isEmpty(this.__attribJobs);
+      return this.__modifiedChildren || !tool.isEmpty(this.__styleJobs) || !tool.isEmpty(this.__attribJobs) || !tool.isEmpty(this.__eventJobs);
     },
     
     
@@ -689,7 +676,7 @@ qx.Class.define("qx.html.Element",
 
       if (this.__element)
       {
-        this.__jobs.children = true;
+        this.__modifiedChildren = true;
         qx.html.Element.addToQueue(this);
       }
     },
@@ -711,12 +698,26 @@ qx.Class.define("qx.html.Element",
 
       if (this.__element)
       {
-        this.__jobs.children = true;
+        this.__modifiedChildren = true;
         qx.html.Element.addToQueue(this);
       }
 
       // Remove reference to old parent
       delete child.__parent;
+    },
+    
+    
+    __moveChildHelper : function(child)
+    {
+      if (child.__parent !== this) {
+        throw new Error("Has no child: " + child);
+      }      
+      
+      if (this.__element)
+      {
+        this.__modifiedChildren = true;
+        qx.html.Element.addToQueue(this);
+      }
     },
 
 
@@ -919,15 +920,7 @@ qx.Class.define("qx.html.Element",
      */
     moveTo : function(child, index)
     {
-      if (child.__parent !== this) {
-        throw new Error("Has no child: " + child);
-      }
-
-      if (this.__element) 
-      {
-        this.__jobs.children = true;
-        qx.html.Element.addToQueue(this);
-      }
+      this.__moveChildHelper(child);
 
       var oldIndex = this.__children.indexOf(child);
 
@@ -1027,6 +1020,8 @@ qx.Class.define("qx.html.Element",
 
       return this.__element;
     },
+    
+    
     
     
     
