@@ -11,7 +11,7 @@
 
   <div id="test"></div>
 
-  <p><a href="javascript:qx.html.Element.flushQueue()">Flush queue</a></p>
+  <p><a href="javascript:qx.html.Element.flush()">Flush queue</a></p>
 
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
@@ -47,7 +47,7 @@
     el1.setStyle("color", "blue");
     el1.setStyle("width", "100px").setStyle("height", "100px");
 
-    qx.html.Element.flushQueue();
+    qx.html.Element.flush();
 
 
     /*
@@ -61,7 +61,7 @@
         - el2b
     */
 
-
+return;
 
 
     // Positioned Insert #1
@@ -76,7 +76,7 @@
     after1.setAttribute("id", "after1");
     doc.insertAfter(after1, el1);
 
-    qx.html.Element.flushQueue();
+    qx.html.Element.flush();
 
     /*
       Current:
@@ -108,7 +108,7 @@
     after2.setAttribute("id", "after2");
     doc.insertAt(after2, 10);
 
-    qx.html.Element.flushQueue();
+    qx.html.Element.flush();
 
     /*
       Current:
@@ -132,10 +132,10 @@
     this.info("Move");
 
     doc.moveAfter(before2, before1);
-    qx.html.Element.flushQueue();
+    qx.html.Element.flush();
 
     doc.moveBefore(after2, after1);
-    qx.html.Element.flushQueue();
+    qx.html.Element.flush();
 
 
     /*
@@ -165,7 +165,7 @@
     doc.moveTo(before2, in2);
     doc.moveTo(after2, in1);
 
-    qx.html.Element.flushQueue();
+    qx.html.Element.flush();
 
 
     /*
@@ -192,7 +192,7 @@
     doc.remove(before2);
     doc.remove(after2);
 
-    qx.html.Element.flushQueue();
+    qx.html.Element.flush();
     
     /*
       Current:
@@ -215,7 +215,7 @@
 
     doc.addList(before2, after2);
 
-    qx.html.Element.flushQueue();
+    qx.html.Element.flush();
 
 
     /*
@@ -244,7 +244,7 @@
     doc.removeList(before2, after2);
     doc.addList(before2, after2);
 
-    qx.html.Element.flushQueue();
+    qx.html.Element.flush();
 
     /*
       Current:
@@ -273,7 +273,7 @@
     doc.moveAfter(before1, after1);
     doc.insertBefore(before2, before1);
 
-    qx.html.Element.flushQueue();
+    qx.html.Element.flush();
 
     /*
     BEFORE:        AFTER1:        AFTER2:        AFTER3:
@@ -315,7 +315,7 @@
       doc.moveTo(a[i], 0);
     }
 
-    qx.html.Element.flushQueue();
+    qx.html.Element.flush();
 
     // AFTER: after2, before1, before2, after1, el1
 
@@ -344,7 +344,7 @@
 
     doc.moveAfter(before1, before2);
 
-    qx.html.Element.flushQueue();
+    qx.html.Element.flush();
 
     // AFTER: after2, before2, before1, after1, el1
   });
