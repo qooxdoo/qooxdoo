@@ -89,7 +89,6 @@ qx.Class.define("qx.html.Element",
     */
     
     __debug : true,
-    __new : false,
     
     
     
@@ -152,7 +151,7 @@ qx.Class.define("qx.html.Element",
     {
       if (obj.__new) 
       {
-        console.debug("Flush new: " + obj.toHashCode());
+        console.debug("Flush new: " + obj.getAttribute("id"));
         
         this.__copyData(obj); 
         this.__insertChildren(obj);
@@ -161,7 +160,7 @@ qx.Class.define("qx.html.Element",
       }
       else
       {
-        console.debug("Flush existing: " + obj.toHashCode());
+        console.debug("Flush existing: " + obj.getAttribute("id"));
         
         this.__syncData(obj);
         
@@ -273,7 +272,7 @@ qx.Class.define("qx.html.Element",
       {
         // Be sure that all children are created
         if (!a[i].__element) {
-          a[i].__create();
+          a[i].__createDomElement();
         }
 
         // Push them into the target element
@@ -458,28 +457,6 @@ qx.Class.define("qx.html.Element",
       // Block repeated flush calls
       this.__inFlushQueue = true;
 
-
-      // Localize queue and create a new one
-      var queue = this.__queue;
-      
-
-      
-      // User feedback
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (this.__debug) {
-          console.debug("Incoming queue has " + queue.length + " entries. Processing children...");
-        }
-      }
-      
-      
-      // Be sure that all elements in the queue
-      // and all their visible children
-      var queuePos = 0;
-      var queueLength = queue.length;
-      var elemObj;
-      
-      
       
       // Create all nodes which will become visible
       // = nodes which are visible by the current data structure
@@ -557,22 +534,123 @@ qx.Class.define("qx.html.Element",
 
 
 
+      var queue = this.__queue;
+      
+      if (queue.length == 0) {
+        return; 
+      }
+
 
       // User feedback
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (this.__debug) {
-          console.debug("Final queue has " + queue.length + " entries. Flushing...");
+        if (this.__debug) 
+        {
+          console.debug("Queue has " + queue.length + " entries.");
+          
+          for (var i=0; i<queue.length; i++) {
+            console.debug("  - " + queue[i].getAttribute("id")); 
+          }
         }
       }
       
       
-    
+      
+      
+      // Be sure that all DOM nodes which will be visible
+      // through this queue flush are also in the queue
+      // and will be rendered correctly.
+      for (var i=0, ql=queue.length; i<ql; i++)
+      {
+        if (queue[i].__new || queue[i].__jobs.children)
+        {
+          if (queue[i].hasRoot()) 
+          {
+            // 1. Be sure that all elements with a root are created
+            // 2. Add all '__new' elements to the queue
+            queue[i].__recursivelyCreateDomElements();
+          }
+        }
+      }
+      
+      
+      
+      // User feedback
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (this.__debug) 
+        {
+          console.debug("Queue has " + queue.length + " entries.");
+          
+          for (var i=0; i<queue.length; i++) {
+            console.debug("  - " + queue[i].getAttribute("id")); 
+          }
+        }
+      }      
+      
+      
+      
+      // Split queue
+      var renderedQueue = [];
+      var invisibleQueue = [];
+      
+      for (var i=0; i<queue.length; i++) 
+      {
+        if (queue[i].isDomRendered())
+        {
+          renderedQueue.push(queue[i]);
+        }
+        else
+        {
+          invisibleQueue.push(queue[i]);
+        } 
+      }
+      
+      
+      
+      
+      
+      // User feedback
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (this.__debug) 
+        {
+          console.debug("Invisible queue has " + invisibleQueue.length + " entries.");
+          for (var i=0; i<invisibleQueue.length; i++) {
+            console.debug("  - " + invisibleQueue[i].getAttribute("id")); 
+          }
+
+          console.debug("Rendered queue has " + renderedQueue.length + " entries.");
+          for (var i=0; i<renderedQueue.length; i++) {
+            console.debug("  - " + renderedQueue[i].getAttribute("id")); 
+          }
+        }
+      }  
+      
+      
+            
+      
+      
+      // Process invisible queue
+      for (var i=0; i<invisibleQueue.length; i++) {
+        this.__flushElement(invisibleQueue[i]);
+      }    
+      
+      // Process rendered queue
+      for (var i=0; i<renderedQueue.length; i++) {
+        this.__flushElement(renderedQueue[i]);
+      }        
+      
+      
+      
    
+      // Remove queued markers
+      for (var i=0; i<queue.length; i++) {
+        queue[i].__queued = false; 
+      }
       
-      
-      // Free queue
-      this.__queue.length = 0;
+      // Clear queue
+      queue.length = 0;
       
       
       // Remove process flag
@@ -601,6 +679,31 @@ qx.Class.define("qx.html.Element",
     
     __nodeName : "div",
     __element : null,
+    __new : false,
+    __root : false,
+    
+    
+    
+
+    
+    
+    // elements with __new but not __root are invisible at the moment
+    __recursivelyCreateDomElements : function()
+    {
+      if (!this.__element) {
+        this.__createDomElement();
+      }
+      
+      var ch = this.__children;      
+      if (ch)
+      {
+        for (var i=0, l=ch.length; i<l; i++) {
+          ch[i].__recursivelyCreateDomElements();
+        }
+      }
+    },
+    
+    
 
 
     /**
@@ -608,11 +711,18 @@ qx.Class.define("qx.html.Element",
      *
      * @type member
      */
-    __create : function() 
+    __createDomElement : function() 
     {
+      console.log("Creating: " + this.getAttribute("id"));
+      
       this.__element = qx.bom.Element.create(this.__nodeName);
       this.__element.QxElement = this;
+      
+      // Mark as new
       this.__new = true;
+      
+      // Add to queue
+      qx.html.Element.addToQueue(this);
     },
 
 
@@ -638,7 +748,6 @@ qx.Class.define("qx.html.Element",
       // Convert to child of this object
       child.__parent = this;
 
-      // Parent should remember job when node is created
       if (this.__element)
       {
         this.__jobs.children = true;
@@ -661,7 +770,6 @@ qx.Class.define("qx.html.Element",
         throw new Error("Has no child: " + child);
       }
 
-      // Parent should remember job when node is created
       if (this.__element)
       {
         this.__jobs.children = true;
@@ -978,6 +1086,48 @@ qx.Class.define("qx.html.Element",
 
       return this.__element;
     },
+    
+    
+    
+    
+    /**
+     * Walk up the internal children hierarchy and 
+     * look if one of the children is marked as root
+     */
+    hasRoot : function()
+    {
+      var pa = this;
+      
+      while(pa)
+      {
+        if (pa.__root) {
+          return true; 
+        } 
+        
+        pa = pa.__parent;
+      }
+      
+      return false;
+    },
+    
+    
+    /**
+     * If the element is created and inserted into the DOM
+     * structure of the underlying document.
+     *
+     */
+    isDomRendered : function()
+    {
+      var el = this.__element;
+      
+      if (!el) {
+        return false; 
+      }
+      
+      var doc = qx.dom.Node.getDocument(el);
+      return qx.dom.Hierarchy.contains(doc, el);
+    },
+    
     
     
     
