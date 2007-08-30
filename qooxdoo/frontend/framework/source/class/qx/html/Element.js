@@ -598,6 +598,7 @@ qx.Class.define("qx.html.Element",
     __element : null,
     __new : false,
     __root : false,
+    __visible : true,
     
     
     
@@ -616,12 +617,11 @@ qx.Class.define("qx.html.Element",
       {
         for (var i=0, l=ch.length; i<l; i++) 
         {
-          // Ignore invisible children
-          if (!ch[i].__invisible)
+          // Ignore invisible children (and all their children)
+          if (ch[i].__visible)
           {
-            // Only add to queue when uncreated/new or has jobs
-            // When __appear is used it depends on the jobs the element has
-            if (!ch[i].__element || !ch[i].__new || !qx.lang.Object.isEmpty(ch[i].__jobs) || !qx.lang.Object.isEmpty(ch[i].__styleJobs) || !qx.lang.Object.isEmpty(ch[i].__attribJobs)) {
+            // Only add to queue when uncreated or new or has jobs
+            if (!ch[i].__element || ch[i].__new || ch[i].__hasJobs()) {
               res.push(ch[i]);
             }
             
@@ -632,7 +632,25 @@ qx.Class.define("qx.html.Element",
       }
       
       return res;
-    },    
+    }, 
+    
+    
+    __hasJobs : function() 
+    {
+      var tool = qx.lang.Object;
+      return !tool.isEmpty(this.__jobs) || !tool.isEmpty(this.__styleJobs) || !tool.isEmpty(this.__attribJobs);
+    },
+    
+    
+    __markAsHidden : function() {
+      this.__visible = false; 
+    },
+    
+    __markAsVisible : function() {
+      this.__visible = true; 
+    },
+    
+    
     
     
 
