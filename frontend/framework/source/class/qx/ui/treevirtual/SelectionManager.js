@@ -114,6 +114,18 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
         // Get the table model
         var tableModel = table.getTableModel();
 
+        // If the cell hasn't been focused automatically...
+        if (! table.getFocusCellOnMouseMove())
+        {
+          // ... then focus it now so we can determine the node to open/close
+          var scrollers = table._getPaneScrollerArr();
+
+          for (var i=0; i<scrollers.length; i++)
+          {
+            scrollers[i]._focusCellAtPagePos(evt.getPageX(), evt.getPageY());
+          }
+        }
+
         // Get the node to which this event applies
         var node = tableModel.getValue(treeCol, table.getFocusedRow());
 
