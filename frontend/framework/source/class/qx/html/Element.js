@@ -89,6 +89,7 @@ qx.Class.define("qx.html.Element",
     */
     
     __debug : true,
+    __new : false,
     
     
     
@@ -533,8 +534,7 @@ qx.Class.define("qx.html.Element",
      * 4 (5 added)
      
      Optimal:
-     * Solve adds first
-     * Flush: 4, 
+     * Solve adds first (but this is not possible)
      
      */
       
@@ -567,54 +567,7 @@ qx.Class.define("qx.html.Element",
       }
       
       
-      
-      // Split queue into two groups: rendered and not rendered 
-      var visibleObjs = [];
-      var invisibleObjs = [];
-
-      var queueLength = queue.length;
-      for (var queuePos=0; queuePos<queueLength; queuePos++)
-      {
-        elemObj = queue[queuePos];
-        
-        if (elemObj.isPhysicallyVisible()) {
-          visibleObjs.push(elemObj);
-        } else {
-          invisibleObjs.push(elemObj);
-        }
-      }
-      
-      
-      // User feedback
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (this.__debug) 
-        {
-          console.debug("Syncing " + invisibleObjs.length + " invisible elements...");
-        }
-      }
-      
-      for (var i=0; i<invisibleObjs.length; i++)
-      {
-        qx.html.Element.__flushElement(invisibleObjs[i]);
-        invisibleObjs[i].__queued = false;
-      }
-      
-      
-      // User feedback
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (this.__debug) 
-        {
-          console.debug("Syncing " + visibleObjs.length + " visible elements...");
-        }
-      }      
-      
-      for (var i=0; i<visibleObjs.length; i++)
-      {
-        qx.html.Element.__flushElement(visibleObjs[i]);
-        visibleObjs[i].__queued = false;
-      }      
+    
    
       
       
@@ -648,8 +601,6 @@ qx.Class.define("qx.html.Element",
     
     __nodeName : "div",
     __element : null,
-    __new : false,
-    __visible : false,
 
 
     /**
@@ -661,9 +612,7 @@ qx.Class.define("qx.html.Element",
     {
       this.__element = qx.bom.Element.create(this.__nodeName);
       this.__element.QxElement = this;
-
-      // Mark as new
-      this.__new = true;      
+      this.__new = true;
     },
 
 
@@ -693,11 +642,7 @@ qx.Class.define("qx.html.Element",
       if (this.__element)
       {
         this.__jobs.children = true;
-        
-        // Only add to queue when visible        
-        if (this.isPhysicallyVisible()) {
-          qx.html.Element.addToQueue(this);
-        }
+        qx.html.Element.addToQueue(this);
       }
     },
 
@@ -720,11 +665,7 @@ qx.Class.define("qx.html.Element",
       if (this.__element)
       {
         this.__jobs.children = true;
-        
-        // Only add to queue when visible
-        if (this.isPhysicallyVisible()) {
-          qx.html.Element.addToQueue(this);
-        }
+        qx.html.Element.addToQueue(this);
       }
 
       // Remove reference to old parent
@@ -735,52 +676,6 @@ qx.Class.define("qx.html.Element",
 
 
 
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      ELEMENT STATUS
-    ---------------------------------------------------------------------------
-    */
-    
-    /**
-     * Visible means inserted into the document in this case.
-     *
-     * @type member
-     * @return {Boolean} whether the element is visible / rendered.
-     */
-    isLogicallyVisible : function()
-    {
-      var elem = this;
-
-      do
-      {
-        // If one of the parents is physically visible
-        // than this element might get visible, too
-        if (elem.isPhysicallyVisible()) {
-          return true; 
-        }
-
-        elem = elem.__parent;
-      }
-      while (elem);
-      
-      return false;
-    },
-    
-    
-    isPhysicallyVisible : function()
-    {
-      if (this.__element) 
-      {
-        var doc = qx.dom.Node.getDocument(this.__element);
-        return qx.dom.Hierarchy.contains(doc, this.__element);
-      }
-      
-      return false;
-    },
 
 
 
@@ -1057,8 +952,11 @@ qx.Class.define("qx.html.Element",
       // Initialize based on given element
       this.__element = elem;
       
-      // Mark as visible
-      this.__visible = true;
+      // Mark as root
+      this.__root = true;
+      
+      // Mark as new
+      this.__new = true;
     },
 
 
@@ -1108,10 +1006,7 @@ qx.Class.define("qx.html.Element",
       if (this.__element) 
       {
         this.__styleJobs[key] = true;
-        
-        if (this.isPhysicallyVisible()) {
-          qx.html.Element.addToQueue(this);
-        }
+        qx.html.Element.addToQueue(this);
       }
       
       return this;
@@ -1154,10 +1049,7 @@ qx.Class.define("qx.html.Element",
       if (this.__element) 
       {
         this.__attribJobs[key] = true;
-        
-        if (this.isPhysicallyVisible()) {
-          qx.html.Element.addToQueue(this);
-        }
+        qx.html.Element.addToQueue(this);
       }      
       
       return this;
