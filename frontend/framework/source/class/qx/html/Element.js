@@ -149,6 +149,10 @@ qx.Class.define("qx.html.Element",
     
     __flushElement : function(obj)
     {
+      if (!obj.__element) {
+        obj.__createDomElement();
+      }
+      
       if (obj.__new) 
       {
         console.debug("Flush new: " + obj.getAttribute("id"));
@@ -270,11 +274,6 @@ qx.Class.define("qx.html.Element",
 
       for (var i=0, a=obj.__children, l=a.length; i<l; i++)
       {
-        // Be sure that all children are created
-        if (!a[i].__element) {
-          a[i].__createDomElement();
-        }
-
         // Push them into the target element
         target.push(a[i].__element);
       }
@@ -458,56 +457,14 @@ qx.Class.define("qx.html.Element",
       this.__inFlushQueue = true;
 
       
-      // Create all nodes which will become visible
-      // = nodes which are visible by the current data structure
-      // Loop through the hierarchy queue for this
-      
-      // Mark the root node which is not changeable anytime afterwards
-      
-      // Split queues into two. Data queues (styles, attributes, ...) and Hierarchy queues (inserts, removes, ...)
-      
-      // First: 
-      // Flush data queue (this now works on all the previously created elements)
-      // some of them continue to be hidden (not yet inserted into document) (which is also better for performance)
-      // Order of flush is not important. Could be the same than added to the queue.
-      // Data queue contains jobs for the element itself
-      
-      // Second:
-      // Hierarchy queue contains jobs for the children of the element - not the element itself.
-      // Split into currently visible (rendered) and non-rendered nodes (created, but not in document yet)
-      // Flush the non-rendered nodes first (insert them into each other / remove them from each other / move them)
-      // Order of the above flush is not important (really?)
-      // After this syncronize the currently visible (rendered) nodes
-      // Remember: It is better to reduce transactions in visible nodes
-      // Is there any ording of the queue which can help to improve browser times?
-      
-      // What if an element is currently rendered (visible) but through a transaction of any parent
-      // becomes invisible. If it would be possible to make it invisible first this would improve all the 
-      // following transactions. This could be improved if the queue is sorted by the depth of 
-      
-      // Important: When a node is moved from a visible element to an invisible one we must be sure 
-      // to remove the element from its old parent (because this one is still visible) even if we don't
-      // directly add it to the invisible new parent
-      
-      // What happs when a currently visible node moves into a currently invisible node?
-      // The current parent is in the queue. It will remove the element after it has already moved to the new one.
-      // Because we using the sync feature in this case this should not make any problems.
-      
-      // A already created node which currently is inside a non-visible node becomes visible again
-      
-      // It should be possible to omit flushes of invisible elements?
-      // This may be simple for the data stuff (but how to get the info if something becomes visible first/again?)
-      // Events are a bad idea (to slow on this low level impl)
-
-      
-
-
 
       var queue = this.__queue;
       
       if (queue.length == 0) {
         return; 
       }
+
+
 
 
       // User feedback
@@ -526,53 +483,46 @@ qx.Class.define("qx.html.Element",
       
       
       
-      // Be sure that all DOM nodes which will be visible
-      // through this queue flush are also in the queue
-      // and will be rendered correctly.
-      for (var i=0, ql=queue.length; i<ql; i++)
-      {
-        if (queue[i].__new || queue[i].__jobs.children)
-        {
-          if (queue[i].hasRoot()) 
-          {
-            // 1. Be sure that all elements with a root are created
-            // 2. Add all '__new' elements to the queue
-            queue[i].__recursivelyCreateDomElements();
-          }
-        }
-      }
       
-      
-      
-      // User feedback
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (this.__debug) 
-        {
-          console.debug("Processed queue has " + queue.length + " entries.");
-          
-          for (var i=0; i<queue.length; i++) {
-            console.debug("  - " + queue[i].getAttribute("id")); 
-          }
-        }
-      }      
-      
-      
-      
-      // Split queue
+      // Split queue into rendered/invisible and keep
+      // logically invisible children in the old queue.
       var renderedQueue = [];
       var invisibleQueue = [];
       
-      for (var i=0; i<queue.length; i++) 
+      for (var i=queue.length-1; i>=0; i--)
       {
-        if (queue[i].isDomRendered())
+        queueEntry = queue[i];
+        
+        if (queueEntry.hasRoot())
         {
-          renderedQueue.push(queue[i]);
+          // Add self to queue
+          if (queueEntry.isDomRendered()) {
+            renderedQueue.push(queueEntry);
+          } else {
+            invisibleQueue.push(queueEntry);
+          }
+
+          // Remove flag for orignal queue
+          queueEntry.__queued = false;
+          
+          // Remove from old queue
+          qx.lang.Array.remove(queue, queueEntry);
+          
+          // Test children
+          if (!queueEntry.__element || queueEntry.__new || queueEntry.__jobs.children)
+          {
+            children = queueEntry.__recursivelyCollectVisibleChildren();
+            
+            for (var j=0, cl=children.length; j<cl; j++)
+            {
+              if (children[j].isDomRendered()) {
+                renderedQueue.push(children[j]);
+              } else {
+                invisibleQueue.push(children[j]);
+              }                
+            }
+          }
         }
-        else
-        {
-          invisibleQueue.push(queue[i]);
-        } 
       }
       
       
@@ -584,44 +534,35 @@ qx.Class.define("qx.html.Element",
       {
         if (this.__debug) 
         {
-          console.debug("Splitted invisible queue has " + invisibleQueue.length + " entries.");
-          for (var i=0; i<invisibleQueue.length; i++) {
-            console.debug("  - " + invisibleQueue[i].getAttribute("id")); 
-          }
+          console.debug("Old queue keeps " + queue.length + " entries.");
 
-          console.debug("Splitted rendered queue has " + renderedQueue.length + " entries.");
+          console.debug("Rendered queue has " + renderedQueue.length + " entries.");
           for (var i=0; i<renderedQueue.length; i++) {
             console.debug("  - " + renderedQueue[i].getAttribute("id")); 
           }
+
+          console.debug("Invisible queue has " + invisibleQueue.length + " entries.");
+          for (var i=0; i<invisibleQueue.length; i++) {
+            console.debug("  - " + invisibleQueue[i].getAttribute("id")); 
+          }
         }
-      }  
-      
-      
-            
-      
-      
-      // Process invisible queue
-      for (var i=0; i<invisibleQueue.length; i++) {
-        this.__flushElement(invisibleQueue[i]);
-      }    
-      
-      // Process rendered queue
-      for (var i=0; i<renderedQueue.length; i++) {
-        this.__flushElement(renderedQueue[i]);
-      }        
-      
-      
-      
-   
-      // Remove queued markers
-      for (var i=0; i<queue.length; i++) {
-        queue[i].__queued = false; 
       }
       
-      // Clear queue
-      queue.length = 0;
       
       
+      
+      // Flush queues
+      for (var i=0; i<invisibleQueue.length; i++) {
+        this.__flushElement(invisibleQueue[i]);
+      }
+             
+      for (var i=0; i<renderedQueue.length; i++) {
+        this.__flushElement(renderedQueue[i]);
+      }
+            
+      
+     
+  
       // Remove process flag
       delete this.__inFlushQueue;
     }
@@ -656,21 +597,35 @@ qx.Class.define("qx.html.Element",
 
     
     
-    // elements with __new but not __root are invisible at the moment
-    __recursivelyCreateDomElements : function()
+
+    __recursivelyCollectVisibleChildren : function(res)
     {
-      if (!this.__element) {
-        this.__createDomElement();
+      if (!res) {
+        var res = []; 
       }
       
       var ch = this.__children;      
       if (ch)
       {
-        for (var i=0, l=ch.length; i<l; i++) {
-          ch[i].__recursivelyCreateDomElements();
+        for (var i=0, l=ch.length; i<l; i++) 
+        {
+          // Ignore invisible children
+          if (!ch[i].__invisible)
+          {
+            // Only add to queue when uncreated/new or has jobs
+            // When __appear is used it depends on the jobs the element has
+            if (!ch[i].__element || !ch[i].__new || !qx.lang.Object.isEmpty(ch[i].__jobs) || !qx.lang.Object.isEmpty(ch[i].__styleJobs) || !qx.lang.Object.isEmpty(ch[i].__attribJobs)) {
+              res.push(ch[i]);
+            }
+            
+            // Test children, too
+            ch[i].__recursivelyCollectVisibleChildren(res);
+          }
         }
       }
-    },
+      
+      return res;
+    },    
     
     
 
@@ -682,16 +637,13 @@ qx.Class.define("qx.html.Element",
      */
     __createDomElement : function() 
     {
-      console.log("Creating: " + this.getAttribute("id"));
+      // console.log("Creating: " + this.getAttribute("id"));
       
       this.__element = qx.bom.Element.create(this.__nodeName);
       this.__element.QxElement = this;
       
       // Mark as new
       this.__new = true;
-      
-      // Add to queue
-      qx.html.Element.addToQueue(this);
     },
 
 
