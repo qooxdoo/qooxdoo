@@ -149,13 +149,9 @@ qx.Class.define("qx.html.Element",
     
     __flushElement : function(obj)
     {
-      if (!obj.__element) {
-        obj.__createDomElement();
-      }
-      
       if (obj.__new) 
       {
-        console.debug("Flush new: " + obj.getAttribute("id"));
+        console.debug("Flush: " + obj.getAttribute("id") + " [new] (" + obj.__children.length + " children)");
         
         this.__copyData(obj); 
         this.__insertChildren(obj);
@@ -164,7 +160,7 @@ qx.Class.define("qx.html.Element",
       }
       else
       {
-        console.debug("Flush existing: " + obj.getAttribute("id"));
+        console.debug("Flush: " + obj.getAttribute("id") + " [existing]");
         
         this.__syncData(obj);
         
@@ -551,7 +547,18 @@ qx.Class.define("qx.html.Element",
       
       
       
-      // Flush queues
+      // Flush queues: Create first
+      for (var i=0; i<invisibleQueue.length; i++) 
+      {
+        if (!invisibleQueue[i].__element) {
+          invisibleQueue[i].__createDomElement();
+        }
+      }
+      
+      
+      
+      
+      // Flush queues: Apply children, styles and attributes
       for (var i=0; i<invisibleQueue.length; i++) {
         this.__flushElement(invisibleQueue[i]);
       }
