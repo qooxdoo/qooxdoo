@@ -317,8 +317,6 @@ return;
 
     qx.html.Element.flush();
 
-    // AFTER: after2, before1, before2, after1, el1
-
     /*
       Current:
       
@@ -346,7 +344,20 @@ return;
 
     qx.html.Element.flush();
 
-    // AFTER: after2, before2, before1, after1, el1
+    /*
+      Current:
+      
+      doc
+      - after2
+      - before2
+      - before1
+      - after1
+      - el1
+        - el2a
+          - el3a
+          - el3b
+        - el2b 
+    */ 
   });
   </script>
 </body>
