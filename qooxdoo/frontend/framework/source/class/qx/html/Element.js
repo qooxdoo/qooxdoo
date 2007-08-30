@@ -96,44 +96,32 @@ qx.Class.define("qx.html.Element",
     
     /*
     ---------------------------------------------------------------------------
-      QUEUE MANAGMENT
+      MODIFIED OBJECT MANAGMENT
     ---------------------------------------------------------------------------
     */
 
-    __queue : [],
+    __modified : {},
 
 
     /**
-     * Adds the given element to the queue.
+     * Adds the given obj to the modified.
      *
      * @type static
-     * @param element {qx.html.Element} Add the element to the global queue
+     * @param obj {qx.html.Element} Add the obj to the global modified
      */
-    addToQueue : function(element)
-    {
-      if (!element.__queued)
-      {
-        // console.debug("Add to queue object[" + element.toHashCode() + "]");
-        this.__queue.push(element);
-        element.__queued = true;
-      }
+    addToQueue : function(obj) {
+      this.__modified[obj.toHashCode()] = obj;
     },
 
 
     /**
-     * Removes the given element from the queue.
+     * Removes the given obj from the modified.
      *
      * @type static
-     * @param element {qx.html.Element} Remove the element from the global queue
+     * @param obj {qx.html.Element} Remove the obj from the global modified
      */
-    removeFromQueue : function(element)
-    {
-      if (element.__queued)
-      {
-        // console.debug("Remove from queue object[" + element.toHashCode() + "]");
-        this.__queue.remove(element);
-        delete element.__queued;
-      }
+    removeFromQueue : function(obj) {
+      delete this.__modified[obj.toHashCode()];
     },
 
 
@@ -143,11 +131,11 @@ qx.Class.define("qx.html.Element",
 
     /*
     ---------------------------------------------------------------------------
-      ELEMENT QUEUE FLUSH
+      SINGLE OBJECT FLUSH
     ---------------------------------------------------------------------------
     */
     
-    __flushElement : function(obj)
+    __flushObject : function(obj)
     {
       if (obj.__new) 
       {
@@ -163,12 +151,7 @@ qx.Class.define("qx.html.Element",
         console.debug("Flush: " + obj.getAttribute("id") + " [existing]");
         
         this.__syncData(obj);
-        
-        if (obj.__jobs.children) 
-        {
-          this.__syncChildren(obj);
-          delete obj.__jobs.children;
-        }
+        this.__syncChildren(obj);
       }
     },
     
@@ -261,6 +244,12 @@ qx.Class.define("qx.html.Element",
      */
     __syncChildren : function(obj)
     {
+      if (!obj.__jobs.children) {
+        return;  
+      }
+      
+      delete obj.__jobs.children;
+      
       // **********************************************************************
       //   Compute needed operations
       // **********************************************************************
@@ -356,7 +345,7 @@ qx.Class.define("qx.html.Element",
           //
           // After this we increment the offset of all affected
           // children (the following ones) until we reached the
-          // current position in our operation queue. The reason
+          // current position in our operation modified. The reason
           // we stop at this point is that the following
           // childrens should already be placed correctly through
           // the operation method from the end to begin of the
@@ -437,27 +426,31 @@ qx.Class.define("qx.html.Element",
 
 
     /**
-     * Flush the global queue for all existing element needs
+     * Flush the global modified for all existing element needs
      *
      * @type static
      */
-    flushQueue : function()
+    flush : function()
     {
-      if (this.__inFlushQueue) {
+      if (this.__inFlush) {
         return;
       }
 
 
-      // Block repeated flush calls
-      this.__inFlushQueue = true;
+
 
       
 
-      var queue = this.__queue;
+      var modified = this.__modified;
       
-      if (queue.length == 0) {
+      if (qx.lang.Object.isEmpty(modified)) {
         return; 
       }
+
+
+
+      // Block repeated flush calls
+      this.__inFlush = true;
 
 
 
@@ -467,10 +460,10 @@ qx.Class.define("qx.html.Element",
       {
         if (this.__debug) 
         {
-          console.debug("Incoming queue has " + queue.length + " entries.");
+          console.debug("Incoming data has " + qx.lang.Object.getLength(modified) + " entries.");
           
-          for (var i=0; i<queue.length; i++) {
-            console.debug("  - " + queue[i].getAttribute("id")); 
+          for (var hc in modified) {
+            console.debug("  - " + modified[hc].getAttribute("id")); 
           }
         }
       }
@@ -479,41 +472,38 @@ qx.Class.define("qx.html.Element",
       
       
       
-      // Split queue into rendered/invisible and keep
-      // logically invisible children in the old queue.
-      var renderedQueue = [];
-      var invisibleQueue = [];
+      // Split modified into rendered/invisible and keep
+      // logically invisible children in the old modified.
+      var domRendered = {};
+      var domInvisible = {};
       
-      for (var i=queue.length-1; i>=0; i--)
+      for (var hc in modified)
       {
-        queueEntry = queue[i];
+        entry = modified[hc];
         
-        if (queueEntry.hasRoot())
+        if (entry.hasRoot())
         {
-          // Add self to queue
-          if (queueEntry.isDomRendered()) {
-            renderedQueue.push(queueEntry);
+          // Add self to modified
+          if (entry.isDomRendered()) {
+            domRendered[entry.toHashCode()] = entry;
           } else {
-            invisibleQueue.push(queueEntry);
+            domInvisible[entry.toHashCode()] = entry;
           }
 
-          // Remove flag for orignal queue
-          queueEntry.__queued = false;
-          
-          // Remove from old queue
-          qx.lang.Array.remove(queue, queueEntry);
+          // Remove from old modified data
+          delete modified[entry.toHashCode()];
           
           // Test children
-          if (!queueEntry.__element || queueEntry.__new || queueEntry.__jobs.children)
+          if (!entry.__element || entry.__new || entry.__jobs.children)
           {
-            children = queueEntry.__recursivelyCollectVisibleChildren();
+            children = entry.__recursivelyCollectVisibleChildren();
             
             for (var j=0, cl=children.length; j<cl; j++)
             {
               if (children[j].isDomRendered()) {
-                renderedQueue.push(children[j]);
+                domRendered[children[j].toHashCode()] = children[j];
               } else {
-                invisibleQueue.push(children[j]);
+                domInvisible[children[j].toHashCode()] = children[j];
               }                
             }
           }
@@ -529,16 +519,16 @@ qx.Class.define("qx.html.Element",
       {
         if (this.__debug) 
         {
-          console.debug("Old queue keeps " + queue.length + " entries.");
+          console.debug("Old data keeps " + qx.lang.Object.getLength(modified) + " entries.");
 
-          console.debug("Rendered queue has " + renderedQueue.length + " entries.");
-          for (var i=0; i<renderedQueue.length; i++) {
-            console.debug("  - " + renderedQueue[i].getAttribute("id")); 
+          console.debug("Rendered data has " + qx.lang.Object.getLength(domRendered) + " entries.");
+          for (var hc in domRendered) {
+            console.debug("  - " + domRendered[hc].getAttribute("id")); 
           }
 
-          console.debug("Invisible queue has " + invisibleQueue.length + " entries.");
-          for (var i=0; i<invisibleQueue.length; i++) {
-            console.debug("  - " + invisibleQueue[i].getAttribute("id")); 
+          console.debug("Invisible data has " + qx.lang.Object.getLength(domInvisible) + " entries.");
+          for (var hc in domInvisible) {
+            console.debug("  - " + domInvisible[hc].getAttribute("id")); 
           }
         }
       }
@@ -547,30 +537,34 @@ qx.Class.define("qx.html.Element",
       
       
       // Flush queues: Create first
-      for (var i=0; i<invisibleQueue.length; i++) 
+      for (var hc in domInvisible)
       {
-        if (!invisibleQueue[i].__element) {
-          invisibleQueue[i].__createDomElement();
+        if (!domInvisible[hc].__element) {
+          domInvisible[hc].__createDomElement();
         }
       }
       
       
       
+      /*
+       * rendered = in the dom of the document
+       * new = eventually created but never added data to
+       */
       
       // Flush queues: Apply children, styles and attributes
-      for (var i=0; i<invisibleQueue.length; i++) {
-        this.__flushElement(invisibleQueue[i]);
+      for (var hc in domInvisible) {
+        this.__flushObject(domInvisible[hc]);
       }
              
-      for (var i=0; i<renderedQueue.length; i++) {
-        this.__flushElement(renderedQueue[i]);
+      for (var hc in domRendered) {
+        this.__flushObject(domRendered[hc]);
       }
             
       
      
   
       // Remove process flag
-      delete this.__inFlushQueue;
+      delete this.__inFlush;
     }
   },
 
@@ -619,7 +613,7 @@ qx.Class.define("qx.html.Element",
           // Ignore invisible children (and all their children)
           if (ch[i].__visible)
           {
-            // Only add to queue when uncreated or new or has jobs
+            // Only add to modified when uncreated or new or has jobs
             if (!ch[i].__element || ch[i].__new || ch[i].__hasJobs()) {
               res.push(ch[i]);
             }
