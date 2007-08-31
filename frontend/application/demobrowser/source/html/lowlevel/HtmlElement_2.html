@@ -49,6 +49,15 @@
     
     qx.html.Element.flush();
     
+    /**
+     * Current:
+     *
+     * doc
+     * - el1
+     * - el3
+     * - el5
+     */
+    
     
 
     
@@ -58,6 +67,17 @@
     
     qx.html.Element.flush();
     
+    /**
+     * Current:
+     *
+     * doc
+     * - el1
+     * - el2
+     * - el3
+     * - el5
+     */
+     
+         
     
     
     this.info("Make complex hidden element visible");
@@ -67,6 +87,9 @@
     
     var el4_2 = new qx.html.Element;
     el4_2.setAttribute("id", "el4_2");
+    el4_2.setStyle("color", "red");
+    el4_2.setAttribute("text", "el4_2");
+    el4_2.__markAsHidden();
 
     var el4_3 = new qx.html.Element;
     el4_3.setAttribute("id", "el4_3");
@@ -77,6 +100,41 @@
     
     qx.html.Element.flush();    
 
+    /**
+     * Current:
+     *
+     * doc
+     * - el1
+     * - el2
+     * - el3
+     * - el4
+     *   - el4_1
+     *   - el4_3
+     * - el5
+     */
+     
+     
+    
+    this.info("Show inner element");
+    
+    el4_2.__markAsVisible();
+    
+    qx.html.Element.flush();
+
+    /**
+     * Current:
+     *
+     * doc
+     * - el1
+     * - el2
+     * - el3
+     * - el4
+     *   - el4_1
+     *   - el4_2
+     *   - el4_3
+     * - el5
+     */    
+    
     
     
   });
