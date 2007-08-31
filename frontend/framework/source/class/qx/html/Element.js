@@ -48,26 +48,31 @@ qx.Class.define("qx.html.Element",
 
   /**
    * Creates a new Element
-   *
-   * @param domEl {Element?null} an existing and visible DOM element
    */
-  construct : function(domEl)
+  construct : function()
   {
     this.base(arguments);
 
+    // All added children (each one is a qx.html.Element itself)
     this.__children = [];
     
-    this.__attribCache = {};
-    this.__styleCache = {};
+    // Maps which contains styles and attribute
+    // These are used to keep data for pre-creation
+    // and until the next sync. These are never cleared.
+    // They always reflect the presently choosen values.
+    // Please note that these need not to be always in
+    // sync with the DOM.
+    this.__attribValues = {};
+    this.__styleValues = {};
     
+    // Used to schedule modifications after initial display
     this.__attribJobs = {};
     this.__styleJobs = {};
     this.__eventJobs = {};
     
-    this.setAttribute("hashCode", this.toHashCode());
-
-    if (domEl != null) {
-      this.setDomElement(domEl);
+    // Add hashcode (temporary, while development)
+    if (qx.core.Variant.isSet("qx.debug", "on")) {
+      this.setAttribute("hashCode", this.toHashCode());
     }
   },
 
@@ -103,26 +108,7 @@ qx.Class.define("qx.html.Element",
     __modified : {},
 
 
-    /**
-     * Adds the given obj to the modified.
-     *
-     * @type static
-     * @param obj {qx.html.Element} Add the obj to the global modified
-     */
-    addToQueue : function(obj) {
-      this.__modified[obj.toHashCode()] = obj;
-    },
 
-
-    /**
-     * Removes the given obj from the modified.
-     *
-     * @type static
-     * @param obj {qx.html.Element} Remove the obj from the global modified
-     */
-    removeFromQueue : function(obj) {
-      delete this.__modified[obj.toHashCode()];
-    },
 
 
 
@@ -172,13 +158,13 @@ qx.Class.define("qx.html.Element",
       var Style = qx.bom.element.Style;
       
       // Copy attributes
-      var data = obj.__attribCache;
+      var data = obj.__attribValues;
       for (var key in data) {
         Attribute.set(elem, key, data[key]);
       }
       
       // Copy styles
-      var data = obj.__styleCache;
+      var data = obj.__styleValues;
       for (var key in data) {
         Style.set(elem, key, data[key]);
       }
@@ -196,14 +182,14 @@ qx.Class.define("qx.html.Element",
       var Style = qx.bom.element.Style;
       
       // Sync attributes
-      var data = obj.__attribCache;
+      var data = obj.__attribValues;
       var jobs = obj.__attribJobs;
       for (var key in jobs) {
         Attribute.set(elem, key, data[key]);
       }
       
       // Sync styles
-      var data = obj.__styleCache;
+      var data = obj.__styleValues;
       var jobs = obj.__styleJobs;
       for (var key in data) {
         Style.set(elem, key, data[key]);
@@ -582,9 +568,16 @@ qx.Class.define("qx.html.Element",
     
     
     
+    /**
+     * Removes element to the global modification list.
+     *
+     * @type static
+     * @param obj {qx.html.Element} Add the obj to the global modified
+     */
+    __scheduleSync : function() {
+      qx.html.Element.__modified[this.toHashCode()] = this;
+    },
 
-    
-    
 
     __recursivelyCollectVisibleChildren : function(res)
     {
@@ -678,7 +671,7 @@ qx.Class.define("qx.html.Element",
       if (this.__element)
       {
         this.__modifiedChildren = true;
-        qx.html.Element.addToQueue(this);
+        this.__scheduleSync();
       }
     },
 
@@ -701,7 +694,7 @@ qx.Class.define("qx.html.Element",
       if (this.__element)
       {
         this.__modifiedChildren = true;
-        qx.html.Element.addToQueue(this);
+        this.__scheduleSync();
       }
 
       // Remove reference to old parent
@@ -727,7 +720,7 @@ qx.Class.define("qx.html.Element",
       if (this.__element)
       {
         this.__modifiedChildren = true;
-        qx.html.Element.addToQueue(this);
+        this.__scheduleSync();
       }
     },
 
@@ -736,17 +729,12 @@ qx.Class.define("qx.html.Element",
 
 
 
-
-
-
-
-
     /*
     ---------------------------------------------------------------------------
-      HIERACHY SUPPORT
+      CHILDREN MANAGEMENT
     ---------------------------------------------------------------------------
     */
-
+    
     /**
      * Returns a copy of the internal children structure.
      *
@@ -771,19 +759,7 @@ qx.Class.define("qx.html.Element",
     indexOf : function(child) {
       return this.__children.indexOf(child);
     },
-
-
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      CHILDREN MANAGEMENT
-    ---------------------------------------------------------------------------
-    */
+        
     
     /**
      * Append all given children at the end of this element.
@@ -971,8 +947,6 @@ qx.Class.define("qx.html.Element",
 
 
 
-
-
     /*
     ---------------------------------------------------------------------------
       DOM ELEMENT ACCESS
@@ -1005,15 +979,14 @@ qx.Class.define("qx.html.Element",
       this.__new = true;
       
       // Queue apply of already inserted children and applied styles etc.
-      qx.html.Element.addToQueue(this); 
+      this.__scheduleSync();
     },
 
 
     /**
-     * Returns the DOM element (if created). Please don't use this.
-     * It is better to make all changes to the framework object itself (using
-     * {@link #setText}, {@link #setHtml}, or manipulating the children), rather
-     * than to the underying DOM element.
+     * Returns the DOM element (if created). Please use this with caution.
+     * It is better to make all changes to the object itself using the public
+     * API rather than to the underlying DOM element.
      *
      * @type member
      * @return {Element} the DOM element node
@@ -1031,7 +1004,13 @@ qx.Class.define("qx.html.Element",
     
     
     
-    
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LOGICAL HELPERS FOR FLUSH LOGIC
+    ---------------------------------------------------------------------------
+    */    
     
     /**
      * Walk up the internal children hierarchy and 
@@ -1076,8 +1055,6 @@ qx.Class.define("qx.html.Element",
     
     
     
-    
-    
     /*
     ---------------------------------------------------------------------------
       STYLE SUPPORT
@@ -1094,12 +1071,12 @@ qx.Class.define("qx.html.Element",
      */
     setStyle : function(key, value)
     {
-      this.__styleCache[key] = value;
+      this.__styleValues[key] = value;
       
       if (this.__element) 
       {
         this.__styleJobs[key] = true;
-        qx.html.Element.addToQueue(this);
+        this.__scheduleSync();
       }
       
       return this;
@@ -1115,13 +1092,18 @@ qx.Class.define("qx.html.Element",
      */
     setStyles : function(map)
     {
-      for (var key in map) 
-      {
-        this.__styleJobs[key] = true;
-        this.__styleCache[key] = map[key];
+      for (var key in map) {
+        this.__styleValues[key] = map[key];
       }
       
-      qx.html.Element.addToQueue(this);
+      if (this.__element) 
+      {
+        for (var key in map) {
+          this.__styleJobs[key] = true;
+        }
+        
+        this.__scheduleSync();
+      }
       
       return this;
     },
@@ -1135,7 +1117,7 @@ qx.Class.define("qx.html.Element",
      * @return {var} the value of the style attribute
      */
     getStyle : function(key) {
-      return this.__styleCache[key];
+      return this.__styleValues[key];
     },
 
 
@@ -1158,12 +1140,12 @@ qx.Class.define("qx.html.Element",
      */
     setAttribute : function(key, value)
     {
-      this.__attribCache[key] = value;
+      this.__attribValues[key] = value;
       
       if (this.__element) 
       {
         this.__attribJobs[key] = true;
-        qx.html.Element.addToQueue(this);
+        this.__scheduleSync();
       }      
       
       return this;
@@ -1179,13 +1161,18 @@ qx.Class.define("qx.html.Element",
      */
     setAttributes : function(map)
     {
-      for (var key in map) 
-      {
-        this.__attribJobs[key] = true;
-        this.__attribCache[key] = map[key];
+      for (var key in map) {
+        this.__attribValues[key] = map[key];
       }
       
-      qx.html.Element.addToQueue(this);
+      if (this.__element) 
+      {
+        for (var key in map) {
+          this.__attribJobs[key] = true;
+        }
+        
+        this.__scheduleSync();
+      }
       
       return this;
     },
@@ -1199,7 +1186,7 @@ qx.Class.define("qx.html.Element",
      * @return {var} the value of the attribute
      */
     getAttribute : function(key) {
-      return this.__attribCache[key];
+      return this.__attribValues[key];
     }
   }
 });
