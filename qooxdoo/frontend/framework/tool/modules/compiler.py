@@ -45,7 +45,7 @@
 
 import sys, string, re, optparse
 import config, tokenizer, filetool, treegenerator, variableoptimizer, comment, tree
-import accessorobfuscator, optparseext, variantoptimizer
+import accessorobfuscator, optparseext, variantoptimizer, privateoptimizer
 
 KEY = re.compile("^[A-Za-z0-9_$]+$")
 
@@ -1649,6 +1649,7 @@ def main():
     parser.add_option("-e", "--extension", dest="extension", metavar="EXTENSION", help="The EXTENSION to use", default="")
     parser.add_option("-c", "--compress", action="store_true", dest="compress", help="Enable compression", default=False)
     parser.add_option("--optimize-variables", action="store_true", dest="optimizeVariables", default=False, help="Optimize variables. Reducing size.")
+    parser.add_option("--optimize-privates", action="store_true", dest="optimizePrivates", default=False, help="Optimize privates. Protected them and reducing size.")
     parser.add_option("--obfuscate-accessors", action="store_true", dest="obfuscateAccessors", default=False, help="Enable accessor obfuscation")
     parser.add_option("--encoding", dest="encoding", default="utf-8", metavar="ENCODING", help="Defines the encoding expected for input files.")
     parser.add_option("--use-variant", action="extend", dest="useVariant", type="string", metavar="NAMESPACE.KEY:VALUE", default=[], help="Optimize for the given variant.")
@@ -1682,6 +1683,9 @@ def main():
             
         if options.obfuscateAccessors:
             accessorobfuscator.process(restree)
+            
+        if options.optimizePrivates:
+            privateoptimizer.patch("A", restree, {})
 
         if options.optimizeVariables:
             variableoptimizer.search(restree, [], 0, 0, "$")
