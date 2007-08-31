@@ -220,7 +220,7 @@ qx.Class.define("qx.html.Element",
       
       for (var i=0, children=obj.__children, l=children.length; i<l; i++) 
       {
-        if (children[i].__element) {
+        if (children[i].__visible) {
           domElement.appendChild(children[i].__element);
         }
       }
@@ -251,7 +251,7 @@ qx.Class.define("qx.html.Element",
       var target = [];
       for (var i=0, ch=obj.__children, cl=ch.length; i<cl; i++) 
       {
-        if (ch[i].__element) {
+        if (ch[i].__visible) {
           target.push(ch[i].__element); 
         }
       }
@@ -462,7 +462,7 @@ qx.Class.define("qx.html.Element",
       {
         entry = modified[hc];
         
-        if (entry.hasRoot())
+        if (entry.hasRoot() && entry.__visible)
         {
           // Add self to modified
           if (entry.isDomRendered()) {
