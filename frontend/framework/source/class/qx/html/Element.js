@@ -251,7 +251,7 @@ qx.Class.define("qx.html.Element",
       var target = [];
       for (var i=0, ch=obj.__children, cl=ch.length; i<cl; i++) 
       {
-        if (ch[i].__visible) {
+        if (ch[i].__element) {
           target.push(ch[i].__element); 
         }
       }
