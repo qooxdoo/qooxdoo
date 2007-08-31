@@ -663,7 +663,7 @@ qx.Class.define("qx.html.Element",
     __addChildHelper : function(child)
     {
       if (child.__parent === this) {
-        return;
+        throw new Error("Child is already in: " + child);
       }
 
       // Remove from previous parent
@@ -674,6 +674,7 @@ qx.Class.define("qx.html.Element",
       // Convert to child of this object
       child.__parent = this;
 
+      // Register job and add to queue for existing elements
       if (this.__element)
       {
         this.__modifiedChildren = true;
@@ -696,6 +697,7 @@ qx.Class.define("qx.html.Element",
         throw new Error("Has no child: " + child);
       }
 
+      // Register job and add to queue for existing elements
       if (this.__element)
       {
         this.__modifiedChildren = true;
@@ -707,12 +709,21 @@ qx.Class.define("qx.html.Element",
     },
     
     
+    /**
+     * Internal helper for all children move needs
+     *
+     * @type member
+     * @param child {qx.html.Element} the moved element
+     * @throws an exception if the given element is not a child
+     *     of this element
+     */    
     __moveChildHelper : function(child)
     {
       if (child.__parent !== this) {
         throw new Error("Has no child: " + child);
       }      
       
+      // Register job and add to queue for existing elements
       if (this.__element)
       {
         this.__modifiedChildren = true;
@@ -775,32 +786,26 @@ qx.Class.define("qx.html.Element",
     */
     
     /**
-     * Append the given child at the end of this element's children.
+     * Append all given children at the end of this element.
      *
      * @type member
-     * @param child {qx.html.Element} the element to insert
+     * @param childs {qx.html.Element...} elements to insert
      * @return {qx.html.Element} this object (for chaining support)
      */
-    add : function(child)
+    add : function(childs)
     {
-      this.__addChildHelper(child);
-      this.__children.push(child);
-
-      return this;
-    },
-
-
-    /**
-     * Add all given children to this element
-     *
-     * @type member
-     * @param varargs {arguments} the elements to add
-     * @return {qx.html.Element} this object (for chaining support)
-     */
-    addList : function(varargs)
-    {
-      for (var i=0, l=arguments.length; i<l; i++) {
-        this.add(arguments[i]);
+      if (arguments[1])
+      {
+        for (var i=0, l=arguments.length; i<l; i++) {
+          this.__addChildHelper(arguments[i]);
+        }
+        
+        this.__children.push.apply(this.__children, childs);
+      }
+      else
+      {
+        this.__addChildHelper(childs);
+        this.__children.push(childs); 
       }
 
       return this;
@@ -861,16 +866,32 @@ qx.Class.define("qx.html.Element",
 
 
     /**
-     * Remove the given child from this element.
+     * Remove all given children from this element.
      *
      * @type member
-     * @param child {qx.html.Element} The child to remove
+     * @param childs {qx.html.Element...} children to remove
      * @return {qx.html.Element} the removed element
      */
-    remove : function(child)
+    remove : function(childs)
     {
-      this.__removeChildHelper(child);
-      return qx.lang.Array.remove(this.__children, child);
+      if (arguments[1])
+      {
+        var child;
+        for (var i=0, l=arguments.length; i<l; i++) 
+        {
+          child = arguments[i];
+          
+          this.__removeChildHelper(child);
+          qx.lang.Array.remove(this.__children, child);
+        }
+      }
+      else
+      {
+        this.__removeChildHelper(childs);
+        qx.lang.Array.remove(this.__children, childs);        
+      }
+
+      return this;
     },
 
 
@@ -886,23 +907,6 @@ qx.Class.define("qx.html.Element",
     {
       this.__removeChildHelper(child);
       return qx.lang.Array.removeAt(this.__children, index);
-    },
-
-
-    /**
-     * Remove all given children from this element
-     *
-     * @type member
-     * @param varargs {arguments} the elements
-     * @return {qx.html.Element} this object (for chaining support)
-     */
-    removeList : function(varargs)
-    {
-      for (var i=0, l=arguments.length; i<l; i++) {
-        this.remove(arguments[i]);
-      }
-
-      return this;
     },
 
 
@@ -999,6 +1003,9 @@ qx.Class.define("qx.html.Element",
       
       // Mark as new
       this.__new = true;
+      
+      // Queue apply of already inserted children and applied styles etc.
+      qx.html.Element.addToQueue(this); 
     },
 
 

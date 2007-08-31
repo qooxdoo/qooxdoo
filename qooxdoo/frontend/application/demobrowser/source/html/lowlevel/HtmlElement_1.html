@@ -38,8 +38,8 @@
     el3a.setAttribute("id", "el3a");
     el3b.setAttribute("id", "el3b");
 
-    el1.addList(el2a, el2b);
-    el2a.addList(el3a, el3b);
+    el1.add(el2a, el2b);
+    el2a.add(el3a, el3b);
     doc.add(el1);
 
     el3a.setAttribute("html", "<b>hello</b>");
@@ -213,7 +213,7 @@
 
     this.info("Re-add");
 
-    doc.addList(before2, after2);
+    doc.add(before2, after2);
 
     qx.html.Element.flush();
 
@@ -239,10 +239,10 @@
 
     this.info("Remove and Add and Remove and Add");
 
-    doc.removeList(before2, after2);
-    doc.addList(before2, after2);
-    doc.removeList(before2, after2);
-    doc.addList(before2, after2);
+    doc.remove(before2, after2);
+    doc.add(before2, after2);
+    doc.remove(before2, after2);
+    doc.add(before2, after2);
 
     qx.html.Element.flush();
 

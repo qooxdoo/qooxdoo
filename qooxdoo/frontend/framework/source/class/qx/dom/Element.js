@@ -100,12 +100,12 @@ qx.Class.define("qx.dom.Element",
      * inside <code>parent</code>.
      *
      * @type static
-     * @param index {Integer} where to insert
      * @param node {Node} node to insert
      * @param parent {Element} parent element node
+     * @param index {Integer} where to insert
      * @return {Boolean} returns true (successful)
      */
-    insertAt : function(index, node, parent)
+    insertAt : function(node, parent, index)
     {
       var ref = parent.childNodes[i];
 
