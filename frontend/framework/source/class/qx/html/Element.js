@@ -501,12 +501,12 @@ qx.Class.define("qx.html.Element",
         {
           console.debug("Ignoring " + qx.lang.Object.getLength(modified) + " hidden elements");
 
-          console.debug("Updating " + qx.lang.Object.getLength(domInvisible) + " invisible elements");
+          console.debug("Updating " + qx.lang.Object.getLength(domInvisible) + " DOM invisible elements");
           for (var hc in domInvisible) {
             console.debug("  - " + domInvisible[hc].getAttribute("id")); 
           }
 
-          console.debug("Updating " + qx.lang.Object.getLength(domRendered) + " rendered elements");
+          console.debug("Updating " + qx.lang.Object.getLength(domRendered) + " DOM rendered elements");
           for (var hc in domRendered) {
             console.debug("  - " + domRendered[hc].getAttribute("id")); 
           }
@@ -536,6 +536,9 @@ qx.Class.define("qx.html.Element",
       }
             
       
+     
+      // Complete delete
+      this.__modified = {};
      
   
       // Remove process flag
