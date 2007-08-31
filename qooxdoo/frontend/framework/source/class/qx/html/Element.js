@@ -439,7 +439,7 @@ qx.Class.define("qx.html.Element",
       {
         if (this.__debug) 
         {
-          console.debug("Incoming data has " + qx.lang.Object.getLength(modified) + " entries.");
+          console.debug("Processing " + qx.lang.Object.getLength(modified) + " scheduled modifications...");
           
           for (var hc in modified) {
             console.debug("  - " + modified[hc].getAttribute("id")); 
@@ -496,16 +496,16 @@ qx.Class.define("qx.html.Element",
       {
         if (this.__debug) 
         {
-          console.debug("Old data keeps " + qx.lang.Object.getLength(modified) + " entries.");
+          console.debug("Ignoring " + qx.lang.Object.getLength(modified) + " hidden elements");
 
-          console.debug("Rendered data has " + qx.lang.Object.getLength(domRendered) + " entries.");
-          for (var hc in domRendered) {
-            console.debug("  - " + domRendered[hc].getAttribute("id")); 
-          }
-
-          console.debug("Invisible data has " + qx.lang.Object.getLength(domInvisible) + " entries.");
+          console.debug("Updating " + qx.lang.Object.getLength(domInvisible) + " invisible elements");
           for (var hc in domInvisible) {
             console.debug("  - " + domInvisible[hc].getAttribute("id")); 
+          }
+
+          console.debug("Updating " + qx.lang.Object.getLength(domRendered) + " rendered elements");
+          for (var hc in domRendered) {
+            console.debug("  - " + domRendered[hc].getAttribute("id")); 
           }
         }
       }
