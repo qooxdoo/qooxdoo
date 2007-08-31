@@ -211,8 +211,12 @@ qx.Class.define("qx.html.Element",
     */    
     
     /**
+     * Internal helper to append all child nodes to the DOM
+     * element. This function is used when the element is initially
+     * created.
      *
-     *
+     * @type static
+     * @param obj {qx.html.Element} the element to flush
      */    
     __insertChildren : function(obj)
     {
@@ -462,7 +466,7 @@ qx.Class.define("qx.html.Element",
       {
         entry = modified[hc];
         
-        if (entry.hasRoot() && entry.__visible)
+        if (entry.hasVisibleRoot())
         {
           // Add self to modified
           if (entry.isDomRendered()) {
@@ -574,19 +578,34 @@ qx.Class.define("qx.html.Element",
     
     
     /**
-     * Removes element to the global modification list.
+     * Add the element to the global modification list.
      *
      * @type static
-     * @param obj {qx.html.Element} Add the obj to the global modified
+     * @return {void}
      */
     __scheduleSync : function() {
       qx.html.Element.__modified[this.toHashCode()] = this;
     },
+    
+    
+    /**
+     * Removed the element from the global modification list.
+     *
+     * @type static
+     * @return {void}
+     */
+    __unscheduleSync : function() {
+      delete qx.html.Element.__modified[this.toHashCode()];
+    },
 
 
     /**
+     * Finds all visible marked children of this element.
      *
-     *
+     * @type static
+     * @param res {Array?} Optional array of already found children.
+     *   Normally only used by the recursion
+     * @return {Array} list of all found children
      */
     __recursivelyCollectVisibleChildren : function(res)
     {
@@ -618,8 +637,13 @@ qx.Class.define("qx.html.Element",
     
     
     /**
+     * If this element has any jobs todo when it becomes visible
+     * This only succeeds for already created elements. New elements
+     * never have any jobs. (In this case it is just a copy-paste, the
+     * element is processed as if it is empty).
      *
-     *
+     * @type static
+     * @return {Boolean} <code>true</code> when the element has at least one job
      */    
     __hasJobs : function() 
     {
@@ -638,7 +662,9 @@ qx.Class.define("qx.html.Element",
         return; 
       }
       
-      if (this.__parent && this.__parent.isDomRendered()) 
+      // If the parent element is created, schedule 
+      // the modification for it
+      if (this.__parent && this.__parent.__element) 
       {
         this.__parent.__modifiedChildren = true;
         this.__parent.__scheduleSync(); 
@@ -658,7 +684,9 @@ qx.Class.define("qx.html.Element",
         return; 
       }
       
-      if (this.__parent && this.__parent.isDomRendered()) 
+      // If the parent element is created, schedule 
+      // the modification for it
+      if (this.__parent && this.__parent.__element) 
       {
         this.__parent.__modifiedChildren = true;
         this.__parent.__scheduleSync(); 
@@ -708,10 +736,13 @@ qx.Class.define("qx.html.Element",
       child.__parent = this;
 
       // Register job and add to queue for existing elements
-      if (this.__element)
+      if (this.__element && !this.__modifiedChildren)
       {
         this.__modifiedChildren = true;
-        this.__scheduleSync();
+        
+        if (this.__visible) {
+          this.__scheduleSync();
+        }
       }
     },
 
@@ -731,10 +762,13 @@ qx.Class.define("qx.html.Element",
       }
 
       // Register job and add to queue for existing elements
-      if (this.__element)
+      if (this.__element && !this.__modifiedChildren)
       {
         this.__modifiedChildren = true;
-        this.__scheduleSync();
+        
+        if (this.__visible) {
+          this.__scheduleSync();
+        }
       }
 
       // Remove reference to old parent
@@ -757,10 +791,13 @@ qx.Class.define("qx.html.Element",
       }      
       
       // Register job and add to queue for existing elements
-      if (this.__element)
+      if (this.__element && !this.__modifiedChildren)
       {
         this.__modifiedChildren = true;
-        this.__scheduleSync();
+        
+        if (this.__visible) {
+          this.__scheduleSync();
+        }
       }
     },
 
@@ -1056,7 +1093,7 @@ qx.Class.define("qx.html.Element",
      * Walk up the internal children hierarchy and 
      * look if one of the children is marked as root
      */
-    hasRoot : function()
+    hasVisibleRoot : function()
     {
       var pa = this;
       
@@ -1064,7 +1101,11 @@ qx.Class.define("qx.html.Element",
       {
         if (pa.__root) {
           return true; 
-        } 
+        }
+        
+        if (!pa.__visible) {
+          return false; 
+        }
         
         pa = pa.__parent;
       }
@@ -1116,7 +1157,10 @@ qx.Class.define("qx.html.Element",
       if (this.__element) 
       {
         this.__styleJobs[key] = true;
-        this.__scheduleSync();
+        
+        if (this.__visible) {
+          this.__scheduleSync();
+        }
       }
       
       return this;
@@ -1142,7 +1186,9 @@ qx.Class.define("qx.html.Element",
           this.__styleJobs[key] = true;
         }
         
-        this.__scheduleSync();
+        if (this.__visible) {
+          this.__scheduleSync();
+        }
       }
       
       return this;
@@ -1185,7 +1231,10 @@ qx.Class.define("qx.html.Element",
       if (this.__element) 
       {
         this.__attribJobs[key] = true;
-        this.__scheduleSync();
+        
+        if (this.__visible) {
+          this.__scheduleSync();
+        }
       }      
       
       return this;
@@ -1211,7 +1260,9 @@ qx.Class.define("qx.html.Element",
           this.__attribJobs[key] = true;
         }
         
-        this.__scheduleSync();
+        if (this.__visible) {
+          this.__scheduleSync();
+        }
       }
       
       return this;
