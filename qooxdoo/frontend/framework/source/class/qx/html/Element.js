@@ -479,9 +479,6 @@ qx.Class.define("qx.html.Element",
             domInvisible[entry.toHashCode()] = entry;
           }
 
-          // Remove from old modified data
-          delete modified[entry.toHashCode()];
-          
           // Test children
           if (!entry.__element || entry.__new || entry.__modifiedChildren)
           {
@@ -498,7 +495,6 @@ qx.Class.define("qx.html.Element",
           }
         }
       }
-      
       
       
       
@@ -524,15 +520,15 @@ qx.Class.define("qx.html.Element",
       
       
       // Flush queues: Create first
+      // This is done previously because the other
+      // elements flushed could already need one of these
+      // currently missing elements.
       for (var hc in domInvisible)
       {
         if (!domInvisible[hc].__element) {
           domInvisible[hc].__createDomElement();
         }
-      }
-      
-      
-      
+      }    
       
       // Flush queues: Apply children, styles and attributes
       for (var hc in domInvisible) {
@@ -545,9 +541,14 @@ qx.Class.define("qx.html.Element",
             
       
      
-      // Complete delete
-      this.__modified = {};
      
+      // Complete delete of modified data
+      // Even not processed elements could be removed
+      // With the next event they become visible they
+      // will dynamically readded to the queue.
+      // This action keep the modified data small even
+      // after some unsynced elements are invisible.
+      this.__modified = {};     
   
       // Remove process flag
       delete this.__inFlush;
