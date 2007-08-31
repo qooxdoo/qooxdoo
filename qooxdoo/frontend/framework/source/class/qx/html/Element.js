@@ -64,6 +64,7 @@ qx.Class.define("qx.html.Element",
     // sync with the DOM.
     this.__attribValues = {};
     this.__styleValues = {};
+    this.__eventValues = {};
     
     // Used to schedule modifications after initial display
     this.__attribJobs = {};
@@ -1153,7 +1154,10 @@ qx.Class.define("qx.html.Element",
       if (this.__element) 
       {
         this.__styleJobs[key] = true;
-        this.__scheduleSync();
+        
+        if (this.__visible) {
+          this.__scheduleSync();
+        }
       }
       
       return this;
@@ -1179,7 +1183,9 @@ qx.Class.define("qx.html.Element",
           this.__styleJobs[key] = true;
         }
         
-        this.__scheduleSync();
+        if (this.__visible) {
+          this.__scheduleSync();
+        }
       }
       
       return this;
@@ -1223,7 +1229,9 @@ qx.Class.define("qx.html.Element",
       {
         this.__attribJobs[key] = true;
         
-        this.__scheduleSync();
+        if (this.__visible) {
+          this.__scheduleSync();
+        }
       }      
       
       return this;
@@ -1249,7 +1257,9 @@ qx.Class.define("qx.html.Element",
           this.__attribJobs[key] = true;
         }
         
-        this.__scheduleSync();
+        if (this.__visible) {
+          this.__scheduleSync();
+        }
       }
       
       return this;
