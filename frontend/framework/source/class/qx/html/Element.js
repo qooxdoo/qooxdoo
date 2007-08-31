@@ -424,13 +424,17 @@ qx.Class.define("qx.html.Element",
      */
     flush : function()
     {
-      if (this.__inFlush) {
+      if (this.__inFlush) 
+      {
+        console.warn("Already in flush!");
         return;
       }
 
       var modified = this.__modified;
       
-      if (qx.lang.Object.isEmpty(modified)) {
+      if (qx.lang.Object.isEmpty(modified)) 
+      {
+        console.warn("Flush with no modificiations!");
         return; 
       }
 
@@ -736,13 +740,10 @@ qx.Class.define("qx.html.Element",
       child.__parent = this;
 
       // Register job and add to queue for existing elements
-      if (this.__element && !this.__modifiedChildren)
+      if (this.__element)
       {
         this.__modifiedChildren = true;
-        
-        if (this.__visible) {
-          this.__scheduleSync();
-        }
+        this.__scheduleSync();
       }
     },
 
@@ -762,13 +763,10 @@ qx.Class.define("qx.html.Element",
       }
 
       // Register job and add to queue for existing elements
-      if (this.__element && !this.__modifiedChildren)
+      if (this.__element)
       {
         this.__modifiedChildren = true;
-        
-        if (this.__visible) {
-          this.__scheduleSync();
-        }
+        this.__scheduleSync();
       }
 
       // Remove reference to old parent
@@ -791,13 +789,10 @@ qx.Class.define("qx.html.Element",
       }      
       
       // Register job and add to queue for existing elements
-      if (this.__element && !this.__modifiedChildren)
+      if (this.__element)
       {
         this.__modifiedChildren = true;
-        
-        if (this.__visible) {
-          this.__scheduleSync();
-        }
+        this.__scheduleSync();
       }
     },
 
@@ -1157,10 +1152,7 @@ qx.Class.define("qx.html.Element",
       if (this.__element) 
       {
         this.__styleJobs[key] = true;
-        
-        if (this.__visible) {
-          this.__scheduleSync();
-        }
+        this.__scheduleSync();
       }
       
       return this;
@@ -1186,9 +1178,7 @@ qx.Class.define("qx.html.Element",
           this.__styleJobs[key] = true;
         }
         
-        if (this.__visible) {
-          this.__scheduleSync();
-        }
+        this.__scheduleSync();
       }
       
       return this;
@@ -1232,9 +1222,7 @@ qx.Class.define("qx.html.Element",
       {
         this.__attribJobs[key] = true;
         
-        if (this.__visible) {
-          this.__scheduleSync();
-        }
+        this.__scheduleSync();
       }      
       
       return this;
@@ -1260,9 +1248,7 @@ qx.Class.define("qx.html.Element",
           this.__attribJobs[key] = true;
         }
         
-        if (this.__visible) {
-          this.__scheduleSync();
-        }
+        this.__scheduleSync();
       }
       
       return this;
