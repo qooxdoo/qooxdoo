@@ -94,22 +94,7 @@ qx.Class.define("qx.html.Element",
     */
     
     __debug : true,
-    
-    
-    
-    
-    
-    /*
-    ---------------------------------------------------------------------------
-      OBJECT MODIFICATION MANAGMENT
-    ---------------------------------------------------------------------------
-    */
-
     __modified : {},
-
-
-
-
 
 
 
@@ -144,12 +129,18 @@ qx.Class.define("qx.html.Element",
     
     
     
+    
+    
     /*
     ---------------------------------------------------------------------------
       SUPPORT FOR ATTRIBUTE/STYLE/EVENT FLUSH
     ---------------------------------------------------------------------------
     */
         
+    /**
+     *
+     *
+     */
     __copyData : function(obj)
     {
       var elem = obj.__element;
@@ -173,7 +164,11 @@ qx.Class.define("qx.html.Element",
       // TODO
     },
     
-    
+
+    /**
+     *
+     *
+     */    
     __syncData : function(obj)
     {
       var elem = obj.__element;
@@ -215,6 +210,10 @@ qx.Class.define("qx.html.Element",
     ---------------------------------------------------------------------------
     */    
     
+    /**
+     *
+     *
+     */    
     __insertChildren : function(obj)
     {
       var domElement = obj.__element;
@@ -579,6 +578,10 @@ qx.Class.define("qx.html.Element",
     },
 
 
+    /**
+     *
+     *
+     */
     __recursivelyCollectVisibleChildren : function(res)
     {
       if (!res) {
@@ -608,6 +611,10 @@ qx.Class.define("qx.html.Element",
     }, 
     
     
+    /**
+     *
+     *
+     */    
     __hasJobs : function() 
     {
       var tool = qx.lang.Object;
@@ -615,19 +622,24 @@ qx.Class.define("qx.html.Element",
     },
     
     
+    /**
+     *
+     *
+     */    
     __markAsHidden : function() {
       this.__visible = false; 
     },
     
+    
+    /**
+     *
+     *
+     */    
     __markAsVisible : function() {
       this.__visible = true; 
     },
     
     
-    
-    
-
-
     /**
      * Internal helper to generate the DOM element
      *
