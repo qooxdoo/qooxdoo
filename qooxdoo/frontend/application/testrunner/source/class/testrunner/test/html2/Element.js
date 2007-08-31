@@ -58,8 +58,8 @@ qx.Class.define("testrunner.test.html2.Element",
       this.assertIdentical(el2a.getAttribute("id"), "el2a");
       // ...
 
-      el1.addList(el2a, el2b);
-      el2a.addList(el3a, el3b);
+      el1.add(el2a, el2b);
+      el2a.add(el3a, el3b);
       doc.add(el1);
 
       el3a.setAttribute("html", "<b>hello</b>");
@@ -231,7 +231,7 @@ qx.Class.define("testrunner.test.html2.Element",
 
       // RE-ADD
 
-      doc.addList(before2, after2);
+      doc.add(before2, after2);
 
       this.assertIdentical(doc.getChildren()[0], before1);
       this.assertIdentical(doc.getChildren()[1], el1);
@@ -253,10 +253,10 @@ qx.Class.define("testrunner.test.html2.Element",
       // REMOVE, ADD, REMOVE, ADD
       // should be identical afterwards
 
-      doc.removeList(before2, after2);
-      doc.addList(before2, after2);
-      doc.removeList(before2, after2);
-      doc.addList(before2, after2);
+      doc.remove(before2, after2);
+      doc.add(before2, after2);
+      doc.remove(before2, after2);
+      doc.add(before2, after2);
 
       this.assertIdentical(doc.getChildren()[0], before1);
       this.assertIdentical(doc.getChildren()[1], el1);
