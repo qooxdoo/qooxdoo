@@ -800,7 +800,7 @@ qx.Class.define("qx.html.Element",
           this.__addChildHelper(arguments[i]);
         }
         
-        this.__children.push.apply(this.__children, childs);
+        this.__children.push.apply(this.__children, arguments);
       }
       else
       {
@@ -1107,6 +1107,27 @@ qx.Class.define("qx.html.Element",
 
 
     /**
+     * Apply the given styles
+     *
+     * @type member
+     * @param map {Map} Incoming style map (key=property name, value=property value)
+     * @return {qx.html.Element} this object (for chaining support)
+     */
+    setStyles : function(map)
+    {
+      for (var key in map) 
+      {
+        this.__styleJobs[key] = true;
+        this.__styleCache[key] = map[key];
+      }
+      
+      qx.html.Element.addToQueue(this);
+      
+      return this;
+    },
+    
+
+    /**
      * Get the value of the given style attribute.
      *
      * @type member
@@ -1144,6 +1165,27 @@ qx.Class.define("qx.html.Element",
         this.__attribJobs[key] = true;
         qx.html.Element.addToQueue(this);
       }      
+      
+      return this;
+    },
+    
+    
+    /**
+     * Apply the given attributes
+     *
+     * @type member
+     * @param map {Map} Incoming attribute map (key=attribute name, value=attribute value)
+     * @return {qx.html.Element} this object (for chaining support)
+     */
+    setAttributes : function(map)
+    {
+      for (var key in map) 
+      {
+        this.__attribJobs[key] = true;
+        this.__attribCache[key] = map[key];
+      }
+      
+      qx.html.Element.addToQueue(this);
       
       return this;
     },

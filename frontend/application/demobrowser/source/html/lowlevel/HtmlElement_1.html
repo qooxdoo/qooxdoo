@@ -43,9 +43,16 @@
     doc.add(el1);
 
     el3a.setAttribute("html", "<b>hello</b>");
+    el3b.setAttribute("text", "hello");
+    el3b.setStyles({
+      fontWeight : "bold",
+      fontSize : "18px",
+      fontFamily : "sans-serif"
+    });
 
     el1.setStyle("color", "blue");
     el1.setStyle("width", "100px").setStyle("height", "100px");
+    
 
     qx.html.Element.flush();
 
