@@ -137,6 +137,48 @@
     
     
     
+    
+    this.info("Internal move while hidden");
+    
+    el4.__markAsHidden();
+    
+    el4.moveTo(el4_3, 0);
+    el4.remove(el4_2);
+    
+    qx.html.Element.flush();
+
+    /**
+     * Current:
+     *
+     * doc
+     * - el1
+     * - el2
+     * - el3
+     * - el5
+     */     
+    
+    
+    
+    this.info("Internal move while hidden -> show again");
+    
+    el4.__markAsVisible();
+    
+    qx.html.Element.flush();
+
+    /**
+     * Current:
+     *
+     * doc
+     * - el1
+     * - el2
+     * - el3
+     * - el4
+     *   - el4_3
+     *   - el4_1
+     * - el5
+     */ 
+    
+    
   });
   </script>
 </body>
