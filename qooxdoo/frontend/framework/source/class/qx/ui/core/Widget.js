@@ -2580,17 +2580,7 @@ qx.Class.define("qx.ui.core.Widget",
           }
 
           this._beforeRemoveDom();
-
-          try
-          {
-            this._oldParent._getTargetNode().removeChild(elem);
-          }
-          catch (e)
-          {
-            this.warn("Could not remove child " + elem +
-                      " from " + this._oldParent._getTargetNode());
-          }
-
+          this._oldParent._getTargetNode().removeChild(elem);
           this._afterRemoveDom();
 
           if (this.getVisibility()) {
