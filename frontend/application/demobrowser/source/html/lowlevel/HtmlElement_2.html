@@ -1,0 +1,85 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+  <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
+</head>
+<body>  
+  <div id="description">
+  </div>
+
+  <div id="test"></div>
+
+  <p><a href="javascript:qx.html.Element.flush()">Flush queue</a></p>
+
+  <script type="text/javascript">
+  qx.core.Init.getInstance().defineMain(function()
+  {
+    this.info("Create document");
+    
+    var doc = new qx.html.Element;
+    doc.setDomElement(document.getElementById("test"));
+    doc.setAttribute("id", "doc");
+
+
+    
+    this.info("Create five elements (2 hidden)");
+    
+    var el1 = new qx.html.Element;
+    el1.setAttribute("id", "el1");
+    
+    var el2 = new qx.html.Element;
+    el2.setAttribute("id", "el2");
+
+    var el3 = new qx.html.Element;
+    el3.setAttribute("id", "el3");
+
+    var el4 = new qx.html.Element;
+    el4.setAttribute("id", "el4");
+
+    var el5 = new qx.html.Element;
+    el5.setAttribute("id", "el5");
+    
+    
+    doc.add(el1, el2, el3, el4, el5);
+    
+    el2.__markAsHidden();
+    el4.__markAsHidden();
+    
+    qx.html.Element.flush();
+    
+    
+
+    
+    this.info("Make simple hidden element visible");
+    
+    el2.__markAsVisible();
+    
+    qx.html.Element.flush();
+    
+    
+    
+    this.info("Make complex hidden element visible");
+    
+    var el4_1 = new qx.html.Element;
+    el4_1.setAttribute("id", "el4_1");
+    
+    var el4_2 = new qx.html.Element;
+    el4_2.setAttribute("id", "el4_2");
+
+    var el4_3 = new qx.html.Element;
+    el4_3.setAttribute("id", "el4_3");
+    
+    el4.add(el4_1, el4_2, el4_3);
+    
+    el4.__markAsVisible();
+    
+    qx.html.Element.flush();    
+
+    
+    
+  });
+  </script>
+</body>
+</html>

@@ -249,8 +249,11 @@ qx.Class.define("qx.html.Element",
       var domElement = obj.__element;
       var source = domElement.childNodes;
       var target = [];
-      for (var i=0, ch=obj.__children, cl=ch.length; i<cl; i++) {
-        target.push(ch[i].__element); 
+      for (var i=0, ch=obj.__children, cl=ch.length; i<cl; i++) 
+      {
+        if (ch[i].__visible) {
+          target.push(ch[i].__element); 
+        }
       }
 
       // Compute edit operations
@@ -626,7 +629,18 @@ qx.Class.define("qx.html.Element",
      *
      *
      */    
-    __markAsHidden : function() {
+    __markAsHidden : function() 
+    {
+      if (!this.__visible) {
+        return; 
+      }
+      
+      if (this.__parent && this.__parent.isDomRendered()) 
+      {
+        this.__parent.__modifiedChildren = true;
+        this.__parent.__scheduleSync(); 
+      }      
+      
       this.__visible = false; 
     },
     
@@ -635,7 +649,18 @@ qx.Class.define("qx.html.Element",
      *
      *
      */    
-    __markAsVisible : function() {
+    __markAsVisible : function() 
+    {
+      if (this.__visible) {
+        return; 
+      }
+      
+      if (this.__parent && this.__parent.isDomRendered()) 
+      {
+        this.__parent.__modifiedChildren = true;
+        this.__parent.__scheduleSync(); 
+      }
+      
       this.__visible = true; 
     },
     
