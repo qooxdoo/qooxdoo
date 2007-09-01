@@ -25,13 +25,36 @@
 
 require "JSON.phps";
 
+/*
+ * There may be cases where all services need use of some libraries or
+ * system-wide definitions.  Those may be provided by a file named
+ * "global_settings.php" in the same directory as this file.  If it exists, we
+ * include it.
+ *
+ * The global settings file may provide values for the following manifest
+ * constants whose default values are otherwise provided below:
+ *
+ *   servicePathPrefix
+ *   defaultAccessibility
+ *
+ */
+if (file_exists("global_settings.php"))
+{
+    require "global_settings.php";
+}
+
 
 /**
  * The location of the service class directories.
+ *
+ * The service path prefix may have been set by the global settings file
+ * included above, in which case that value is used instead of this hard-coded
+ * default.
  */
-define("servicePathPrefix",                "");
-
-
+if (! defined("servicePathPrefix"))
+{
+    define("servicePathPrefix",                "");
+}
 
 /*
  * Method Accessibility values
@@ -61,8 +84,15 @@ define("Accessibility_Fail",               "fail");
 
 /**
  * Default accessibility for methods when not overridden by the service class.
+ *
+ * The default accessibility value may have been set by the global settings
+ * file included above, in which case that value is used instead of this
+ * hard-coded default.
  */
-define("defaultAccessibility",             Accessibility_Domain);
+if (! defined("defaultAccessibility"))
+{
+    define("defaultAccessibility",             Accessibility_Domain);
+}
 
 
 
@@ -601,14 +631,12 @@ case Accessibility_Public:
     
 case Accessibility_Domain:
     /* Determine the protocol used for the request */
-    if (isset($_SERVER["SSL_PROTOCOL"]))
-    {
-        $requestUriDomain = "https://";
-    }
-    else
-    {
-        $requestUriDomain = "http://";
-    }
+    $bIsSSL =
+        (isset($_SERVER["SSL_PROTOCOL"]) ||
+         (isset($_SERVER["HTTPS"]) &&
+          strtolower($_SERVER["HTTPS"] != "off")));
+    
+    $requestUriDomain = ($bIsSSL ? "https://" : "http://");
 
     // Add the server name
     $requestUriDomain .= $_SERVER["SERVER_NAME"];
@@ -616,8 +644,8 @@ case Accessibility_Domain:
     // The port number optionally follows.  We don't know if they manually
     // included the default port number, so we just have to assume they
     // didn't.
-    if ((! isset($_SERVER["SSL_PROTOCOL"]) && $_SERVER["SERVER_PORT"] != 80) ||
-        (  isset($_SERVER["SSL_PROTOCOL"]) && $_SERVER["SERVER_PORT"] != 443))
+    if ((! $bIsSSL && $_SERVER["SERVER_PORT"] != 80) ||
+        (  $bIsSSL && $_SERVER["SERVER_PORT"] != 443))
     {
         // Non-default port number, so append it.
         $requestUriDomain .= ":" . $_SERVER["SERVER_PORT"];
