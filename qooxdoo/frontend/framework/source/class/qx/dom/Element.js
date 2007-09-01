@@ -107,7 +107,7 @@ qx.Class.define("qx.dom.Element",
      */
     insertAt : function(node, parent, index)
     {
-      var ref = parent.childNodes[i];
+      var ref = parent.childNodes[index];
 
       if (ref) {
         parent.insertBefore(node, ref);
