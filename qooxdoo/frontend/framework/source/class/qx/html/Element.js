@@ -67,6 +67,7 @@ qx.Class.define("qx.html.Element",
     this.__eventValues = {};
     
     // Used to schedule modifications after initial display
+    // TODO: Do not create them initially
     this.__attribJobs = {};
     this.__styleJobs = {};
     this.__eventJobs = {};
@@ -123,10 +124,16 @@ qx.Class.define("qx.html.Element",
         console.debug("Flush: " + obj.getAttribute("id") + " [existing]");
         
         this.__syncData(obj);
-        this.__syncChildren(obj);
+        
+        if (obj.__modifiedChildren) 
+        {
+          this.__useEditDistance ? this.__syncChildrenComplex(obj) : this.__syncChildrenFast(obj);
+          obj.__modifiedChildren = false;
+        }
       }
     },
     
+    __useEditDistance : false,
     
     
     
@@ -231,6 +238,71 @@ qx.Class.define("qx.html.Element",
       }
     },
     
+    
+    /**
+     * The fast syncronisation is built upon simple
+     * index comparison and reduce the overhead produced
+     * by the edit distance logic by bringing comparable
+     * results. Often the number of DOM transactions is
+     * equal. Sometimes one of them uses slightly more
+     * DOM transactions.
+     *
+     * Especially interesting is that the edit distance
+     * based algorithm is sometimes ot as good as the more
+     * basic index based approach. The reason for this
+     * is that edit distance based models are not thought
+     * out for reference types. For typical moves these 
+     * the edit distance creates two actions were normally
+     * only one is needed.
+     *
+     * My suggestion is to remove edit distance support
+     * completely. It seems that this way it in no way
+     * preferable so it just means some unused junk.
+     *
+     * Would be good to remember this final thought somewhere.
+     */
+    
+    // TODO: It should be possible to migrate the first two loops
+    // in some way. Would mean another improvement regarding performance
+    __syncChildrenFast : function(obj)
+    {
+      var domElement = obj.__element;
+      var source = domElement.childNodes;
+      var target = [];
+      for (var i=0, ch=obj.__children, cl=ch.length; i<cl; i++) 
+      {
+        if (ch[i].__visible) {
+          target.push(ch[i].__element); 
+        }
+      }
+      
+      // Start from begin and bring in sync
+      var domOperations = 0;
+      for (var i=0, l=target.length; i<l; i++)
+      {
+        if (target[i] != source[i]) 
+        {
+          domOperations++;
+          qx.dom.Element.insertAt(target[i], domElement, i);
+        }
+      }
+      
+      // Remove remaining children
+      for (l=source.length-1;l>=i;l--) 
+      {
+        domOperations++;
+        domElement.removeChild(source[l]);
+      }
+            
+      // User feedback
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (this.__debug) {
+          console.debug("  - " + domOperations + " DOM operations made (fast)");
+        }
+      }      
+    },
+    
 
     /**
      * Internal helper to apply the DOM structure of the
@@ -239,14 +311,8 @@ qx.Class.define("qx.html.Element",
      * @type static
      * @param obj {qx.html.Element} the element to flush
      */
-    __syncChildren : function(obj)
-    {
-      if (!obj.__modifiedChildren) {
-        return;  
-      }
-      
-      delete obj.__modifiedChildren;
-      
+    __syncChildrenComplex : function(obj)
+    { 
       // **********************************************************************
       //   Compute needed operations
       // **********************************************************************
@@ -412,7 +478,7 @@ qx.Class.define("qx.html.Element",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (this.__debug) {
-          console.debug("  - " + domOperations + " DOM operations made");
+          console.debug("  - " + domOperations + " DOM operations made (complex)");
         }
       }
     },
@@ -504,8 +570,6 @@ qx.Class.define("qx.html.Element",
       {
         if (this.__debug) 
         {
-          console.debug("Ignoring " + qx.lang.Object.getLength(modified) + " hidden elements");
-
           console.debug("Updating " + qx.lang.Object.getLength(domInvisible) + " DOM invisible elements");
           for (var hc in domInvisible) {
             console.debug("  - " + domInvisible[hc].getAttribute("id")); 
@@ -710,7 +774,6 @@ qx.Class.define("qx.html.Element",
     __createDomElement : function() 
     {
       // console.log("Creating: " + this.getAttribute("id"));
-      
       this.__element = qx.bom.Element.create(this.__nodeName);
       this.__element.QxElement = this;
       
@@ -1053,7 +1116,9 @@ qx.Class.define("qx.html.Element",
       this.__new = true;
       
       // Queue apply of already inserted children and applied styles etc.
-      this.__scheduleSync();
+      if (this.__visible) {
+        this.__scheduleSync();
+      }
     },
 
 
