@@ -37,6 +37,8 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
 
 
 
+
+
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -425,7 +427,7 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
      */
     _isIdentifiableKeyCode : function(keyCode)
     {
-      // A-Z
+      // A-Z (TODO: is this lower or uppercase?)
       if (keyCode >= this._charCodeA && keyCode <= this._charCodeZ) {
         return true;
       }

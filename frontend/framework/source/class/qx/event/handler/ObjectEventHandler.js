@@ -30,8 +30,8 @@ qx.Class.define("qx.event.handler.ObjectEventHandler",
   members :
   {
     // overridden
-    canHandleEvent : function(element, type) {
-      return element instanceof qx.core.Object;
+    canHandleEvent : function(obj, type) {
+      return obj instanceof qx.core.Object;
     },
 
     // overridden
@@ -42,7 +42,6 @@ qx.Class.define("qx.event.handler.ObjectEventHandler",
 
     // overridden
     removeAllListeners : function() {}
-
   },
 
 
@@ -58,5 +57,4 @@ qx.Class.define("qx.event.handler.ObjectEventHandler",
     var manager = qx.event.Manager;
     manager.registerEventHandler(statics, manager.PRIORITY_NORMAL);
   }
-
 });

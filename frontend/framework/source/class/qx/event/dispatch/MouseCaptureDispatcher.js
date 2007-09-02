@@ -23,16 +23,15 @@
 
 ************************************************************************ */
 
- /**
-  * Implementation of the Internet Explorer specific event capturing mode for
-  * mouse events http://msdn2.microsoft.com/en-us/library/ms536742.aspx.
-  *
-  * This class is used internally by {@link qx.event.Manager} to do mouse event
-  * capturing.
-  */
- qx.Class.define("qx.event.dispatch.MouseCaptureDispatcher",
- {
-
+/**
+ * Implementation of the Internet Explorer specific event capturing mode for
+ * mouse events http://msdn2.microsoft.com/en-us/library/ms536742.aspx.
+ *
+ * This class is used internally by {@link qx.event.Manager} to do mouse event
+ * capturing.
+ */
+qx.Class.define("qx.event.dispatch.MouseCaptureDispatcher",
+{
   extend : qx.core.Object,
   implement : qx.event.dispatch.IEventDispatcher,
 
@@ -53,10 +52,9 @@
 
     this.__manager = manager;
     this.__captureElement = null;
-    var win = manager.getWindow();
-
     this.__eventPool = qx.event.type.EventPool.getInstance();
 
+    var win = manager.getWindow();
     manager.addListener(win, "blur", this.releaseCapture, this);
     manager.addListener(win, "focus", this.releaseCapture, this);
     manager.addListener(win, "scroll", this.releaseCapture, this);
@@ -131,6 +129,7 @@
         }
       }
 
+      // TODO: What should this do? Why? Documentation missing.
       if (type == "click")
       {
         event.preventDefault();
@@ -152,7 +151,7 @@
         this.releaseCapture();
       }
 
-      // TODO: capture event?
+      // TODO: capture event? name? "gotcapture"?
 
       this.__captureElement = element;
     },
@@ -168,6 +167,8 @@
       }
 
       // create synthetic losecapture event
+      // TODO: Create custom events should work a lot simpler!!!
+      // What's abot qx.event.Manager.createEvent() and qx.event.Manager.createAndDispatchEvent()
       var event = this.__eventPool.getEventInstance("qx.event.type.Event").init({});
       event.setType("losecapture");
       event.setTarget(this.__captureElement);
@@ -175,9 +176,11 @@
       this.__manager.dispatchEvent(event);
       this.__captureElement = null;
 
+      // TODO: What's about a event function like
+      // event.freeze() or event.pool(); 
+      // Looks better IMHO
       this.__eventPool.poolEvent(event);
     }
-
   },
 
 
@@ -193,5 +196,4 @@
     var manager = qx.event.Manager;
     manager.registerEventDispatcher(statics, manager.PRIORITY_FIRST);
   }
-
- });
+});

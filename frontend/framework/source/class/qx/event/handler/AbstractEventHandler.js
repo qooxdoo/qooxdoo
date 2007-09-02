@@ -23,6 +23,9 @@
 
 ************************************************************************ */
 
+// TODO: Abstract class, but no Interface here? Is a unification possible
+// between Dispatcher() and Handler()?
+
 /**
  * Abstract base class for the special event handlers for mouse and key events.
  *
@@ -64,6 +67,7 @@ qx.Class.define("qx.event.handler.AbstractEventHandler",
   *****************************************************************************
   */
 
+  // TODO: destruct() to bottom, please
   destruct : function()
   {
     this.removeAllListeners();
@@ -134,18 +138,20 @@ qx.Class.define("qx.event.handler.AbstractEventHandler",
       for (var id in this.__registeredEvents)
       {
         var eventData = this.__registeredEvents[id];
+        
         qx.event.Manager.removeNativeListener(
           eventData.element,
           eventData.type,
           eventData.listener
         );
       }
+      
       this.__registeredEvents = {};
     },
 
 
     /**
-     * Attach a a collection of event handlers to the element.
+     * Attach a collection of event handlers to the element.
      *
      * @param element {Element} DOM elemnt the event handlers should be
      *     attached to.
@@ -160,7 +166,7 @@ qx.Class.define("qx.event.handler.AbstractEventHandler",
 
 
     /**
-     * Detach a a collection of event handlers from the element.
+     * Detach a collection of event handlers from the element.
      *
      * @param element {Element} DOM elemnt the event handlers should be
      *     attached to.
@@ -173,6 +179,10 @@ qx.Class.define("qx.event.handler.AbstractEventHandler",
       }
     },
 
+
+    // TODO: Is the unmanaged event handling in qx.event.Manager still needed?
+    // Just curious. We create wrappers around wrappers around wrappers which
+    // slows down the whole thing. A small diet could work out wonders here.
 
     /**
      * Add an event listener from a DOM node a keep track of all events registered
@@ -188,8 +198,11 @@ qx.Class.define("qx.event.handler.AbstractEventHandler",
     _managedAddNativeListener : function(element, type, listener)
     {
       qx.event.Manager.addNativeListener(element, type, listener);
+      
       var obj = qx.core.Object;
       var id = obj.toHashCode(element) + type + obj.toHashCode(listener);
+      
+      // TODO: Shouldn't "self" and "capture" also be part of this ID?
       this.__registeredEvents[id] =
       {
         element : element,
@@ -213,11 +226,12 @@ qx.Class.define("qx.event.handler.AbstractEventHandler",
     _managedRemoveNativeListener : function(element, type, listener)
     {
       qx.event.Manager.removeNativeListener(element, type, listener);
+      
       var obj = qx.core.Object;
       var id = obj.toHashCode(element) + type + obj.toHashCode(listener);
-      delete(this.__registeredEvents[id]);
+      
+      // TODO: Shouldn't "self" and "capture" also be part of this ID?
+      delete this.__registeredEvents[id];
     }
-
   }
-
 });

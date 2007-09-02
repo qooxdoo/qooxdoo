@@ -32,7 +32,6 @@ qx.Mixin.define("qx.event.type.MModifierKeys",
 {
   members :
   {
-
     /**
      * Returns whether the the ctrl key is pressed.
      *
@@ -80,6 +79,11 @@ qx.Mixin.define("qx.event.type.MModifierKeys",
     /**
      * Returns whether the ctrl key or (on the Mac) the command key is pressed.
      *
+     * TODO: Better name or remove at all. If we want the identical behavior cross
+     * platform this is OK, but this is part of the widget or even application logic
+     * We should move it into there.
+     *
+     * @deprecated: Use isMetaPressed or isCtrlPressed instead. 
      * @type member
      * @return {Boolean} <code>true</code> if the command key is pressed on the Mac
      *             or the ctrl key is pressed on another system.

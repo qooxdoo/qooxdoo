@@ -63,8 +63,10 @@ qx.Class.define("qx.event.handler.MouseEventHandler",
       "DOMMouseScroll" : buttonHandler
     };
 
+    // TODO: Rename: FireEventWrapper?
     this.__mouseMoveHandler = qx.lang.Function.bind(this.__fireEvent, this);
 
+    // TODO: Remove... is not really needed or?
     this.__lastMouseDownTarget = null;
   },
 
@@ -97,7 +99,6 @@ qx.Class.define("qx.event.handler.MouseEventHandler",
 
   members :
   {
-
     __mouseMoveEvents :
     {
       "mousemove" : "mousemove",
@@ -106,9 +107,13 @@ qx.Class.define("qx.event.handler.MouseEventHandler",
     },
 
 
+    // This is only relevant for the attach and could be simply handled in the constructor 
     __normalizeEventNames : {
       "mousewheel" : qx.core.Variant.isSet("qx.client", "mshtml") ? "mousewheel" : "DOMMouseScroll"
     },
+    
+    
+    
 
 
     /*
@@ -118,7 +123,10 @@ qx.Class.define("qx.event.handler.MouseEventHandler",
     */
 
     // overridden
-    canHandleEvent : function(element, type) {
+    canHandleEvent : function(element, type) 
+    {
+      // TODO: Another reason for whitelists. But we don't need exceptions here. We need them
+      // in the manager if an event is not handleable.
       if (type == "DOMMouseScroll") {
         throw new Error("'DOMMouseScroll' is not supported, please use 'mousewheel' instead.");
       }
@@ -127,6 +135,8 @@ qx.Class.define("qx.event.handler.MouseEventHandler",
 
 
     // overridden
+    // TODO: Baah. I (wpbasti) really don't like this. Why not simply attach all of them
+    // directly on creation (like the focs handler does)
     registerEvent : function(element, type)
     {
       var type = this.__normalizeEventNames[type] || type;
@@ -184,12 +194,15 @@ qx.Class.define("qx.event.handler.MouseEventHandler",
       if (type) {
         event.setType(type);
       }
+      
       if (target) {
         event.setTarget(target);
       }
 
+      // TODO: wouldn't it be a good idea to auto-pool events
+      // when the dispatch is done. I see the code in this order
+      // all over the place (in this NS).
       this._manager.dispatchEvent(event);
-
       this._eventPool.poolEvent(event);
     },
 
@@ -271,6 +284,9 @@ qx.Class.define("qx.event.handler.MouseEventHandler",
      *  1. mousedown  <- not fired by Webkit
      *  2. mouseup  <- not fired by Webkit
      *  3. contextmenu <- not fired by Opera
+     *
+     * TODO: Just curious. Where is the webkit version? is the
+     * documentation up-to-date?
      *
      * @param domEvent {Event} original DOM event
      * @param type {String} event type
@@ -373,5 +389,4 @@ qx.Class.define("qx.event.handler.MouseEventHandler",
     var manager = qx.event.Manager;
     manager.registerEventHandler(statics, manager.PRIORITY_NORMAL);
   }
-
 });
