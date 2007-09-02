@@ -136,6 +136,9 @@ qx.Class.define("qx.event.handler.FocusHandler",
 
 
     canHandleEvent : function(element, type) {
+      // TODO baaaahhhhhh!
+      // We should list the supported names in the documentation. No body is interested in these
+      // cross-browser ugliness.
       if (this.__invalidTypes[type]) {
         throw new Error("The event '"+type+"' is not supported. Please use '"+this.__invalidTypes[type]+"' instead!");
       }

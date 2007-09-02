@@ -73,6 +73,12 @@ qx.Class.define("qx.event.handler.InlineEventHandler",
   {
 
     // Events, which don't bubble
+    // TODO: Better to invert this map and move it to the documentHandler
+    // Reason: Inline events work for nearly anything. Even for upcoming stuff
+    // other events do not.
+    // TODO: Even better. Create both maps. Reduce both by the ones they really
+    // support and which are tested. A whitelist is much better in this case.
+    // Things which only works partly cross-browser should not be listed here.
     __inlineEvent :
     {
       abort                       : 1,
@@ -161,8 +167,12 @@ qx.Class.define("qx.event.handler.InlineEventHandler",
           eventData.listener
         );
       }
+      
       this.__registeredEvents = {};
     },
+
+
+
 
 
     /*
@@ -190,11 +200,11 @@ qx.Class.define("qx.event.handler.InlineEventHandler",
 
       // this point can be reached after the unload handler has taken place
       // and disposed the event pool.
+      // TODO: This is something which should be done in poolEvent. This is
+      // definitely the better place.
       if (!this.getDisposed()) {
         this._eventPool.poolEvent(event);
       }
     }
-
   }
-
 });

@@ -26,6 +26,8 @@
 /**
  * Central instance pool for event objects. All event objects dispatched by the
  * event loader are pooled using this class.
+ *
+ * TODO: Wrong location. Better move this one level up to "qx.event.Pool"
  */
 qx.Class.define("qx.event.type.EventPool",
 {
@@ -43,6 +45,7 @@ qx.Class.define("qx.event.type.EventPool",
   construct : function()
   {
     this.base(arguments);
+    
     this._pool = new qx.util.ObjectPool();
     this._pool.setPoolSize(5);
   },
@@ -69,7 +72,6 @@ qx.Class.define("qx.event.type.EventPool",
 
   members :
   {
-
     /**
      * This method finds and returns an instance of a requested type in the pool,
      * if there is one.  Note that the pool determines which instance (if any) to
@@ -82,9 +84,12 @@ qx.Class.define("qx.event.type.EventPool",
     getEventInstance : function(classname)
     {
       var event = this._pool.getObjectOfType(classname);
-      if (!event) {
-        event = new (qx.Class.getByName(classname))();
+      if (!event) 
+      {
+        var clazz = qx.Class.getByName(classname);
+        event = new clazz;
       }
+      
       return event;
     },
 
@@ -100,10 +105,8 @@ qx.Class.define("qx.event.type.EventPool",
      *
      * @param event {qx.bom.type.Event} An Event instance to pool.
      */
-    poolEvent : function(event)
-    {
+    poolEvent : function(event) {
       this._pool.poolObject(event);
     }
-
   }
 });
