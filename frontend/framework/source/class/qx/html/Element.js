@@ -26,12 +26,13 @@
 /**
  * High-performance, high-level DOM element creation and managment.
  *
- * Includes support for HTML and style attributes. Allows to
- * add children or to apply text or HTML content.
+ * Includes support for HTML and style attributes. Elements also have
+ * got a powerful children and visibility managment.
  *
- * Processes DOM insertion and modification based on the concept
- * of edit distance in an optimal way. This means that operations
- * on visible DOM nodes will be reduced at all needs.
+ * Processes DOM insertion and modification with a advanced logic
+ * to reduce the real transactions.
+ *
+ * TODO: Any chance to support domInserted or domRemoved events?
  */
 qx.Class.define("qx.html.Element",
 {
@@ -532,6 +533,7 @@ qx.Class.define("qx.html.Element",
       // logically invisible children in the old modified.
       var domRendered = {};
       var domInvisible = {};
+      var entry;
       
       for (var hc in modified)
       {
@@ -539,6 +541,9 @@ qx.Class.define("qx.html.Element",
         
         if (entry.hasVisibleRoot())
         {
+          // TODO: Optimize this. Remove overlap in children collect
+          // ...
+          
           // Add self to modified
           if (entry.isDomRendered()) {
             domRendered[entry.toHashCode()] = entry;
@@ -621,6 +626,29 @@ qx.Class.define("qx.html.Element",
   },
 
 
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+  
+  // TODO: Add apply rountines, correct names
+
+  properties :
+  {
+    "nodeName___" : 
+    {
+      check : "String",
+      init : "div"
+    },
+    
+    "domElement___" : 
+    {
+      check : "Element"
+    }
+  },
 
 
 
@@ -734,10 +762,11 @@ qx.Class.define("qx.html.Element",
       
       // If the parent element is created, schedule 
       // the modification for it
-      if (this.__parent && this.__parent.__element) 
+      var pa = this.__parent;
+      if (pa && pa.__element) 
       {
-        this.__parent.__modifiedChildren = true;
-        this.__parent.__scheduleSync(); 
+        pa.__modifiedChildren = true;
+        pa.__scheduleSync(); 
       }      
       
       this.__visible = false; 
@@ -756,10 +785,11 @@ qx.Class.define("qx.html.Element",
       
       // If the parent element is created, schedule 
       // the modification for it
-      if (this.__parent && this.__parent.__element) 
+      var pa = this.__parent;
+      if (pa && pa.__element) 
       {
-        this.__parent.__modifiedChildren = true;
-        this.__parent.__scheduleSync(); 
+        pa.__modifiedChildren = true;
+        pa.__scheduleSync(); 
       }
       
       this.__visible = true; 
@@ -1128,6 +1158,7 @@ qx.Class.define("qx.html.Element",
      * API rather than to the underlying DOM element.
      *
      * @type member
+     * @internal
      * @return {Element} the DOM element node
      * @throws an error if the element was not yet created
      */
@@ -1159,6 +1190,7 @@ qx.Class.define("qx.html.Element",
     {
       var pa = this;
       
+      // Any chance to cache this information in the parents?
       while(pa)
       {
         if (pa.__root) {
@@ -1189,6 +1221,7 @@ qx.Class.define("qx.html.Element",
         return false; 
       }
       
+      // Any faster solution here?
       var doc = qx.dom.Node.getDocument(el);
       return qx.dom.Hierarchy.contains(doc, el);
     },
@@ -1216,10 +1249,18 @@ qx.Class.define("qx.html.Element",
     {
       this.__styleValues[key] = value;
       
+      // Uncreated elements simply copy all data
+      // on creation. We don't need to remember any
+      // jobs. It is a simple full list copy.
       if (this.__element) 
       {
         this.__styleJobs[key] = true;
         
+        // Normally we should made a deep look here (go parents up)
+        // but this is too slow. To just have a look at this element
+        // itself is fast and also could save the function call at all.
+        // The real control visible/inRoot will be done when the element
+        // is scheduled and should be flushed.
         if (this.__visible) {
           this.__scheduleSync();
         }
@@ -1242,12 +1283,20 @@ qx.Class.define("qx.html.Element",
         this.__styleValues[key] = map[key];
       }
       
+      // Uncreated elements simply copy all data
+      // on creation. We don't need to remember any
+      // jobs. It is a simple full list copy.        
       if (this.__element) 
       {
         for (var key in map) {
           this.__styleJobs[key] = true;
         }
         
+        // Normally we should made a deep look here (go parents up)
+        // but this is too slow. To just have a look at this element
+        // itself is fast and also could save the function call at all.
+        // The real control visible/inRoot will be done when the element
+        // is scheduled and should be flushed.
         if (this.__visible) {
           this.__scheduleSync();
         }
@@ -1290,10 +1339,18 @@ qx.Class.define("qx.html.Element",
     {
       this.__attribValues[key] = value;
       
+      // Uncreated elements simply copy all data
+      // on creation. We don't need to remember any
+      // jobs. It is a simple full list copy.
       if (this.__element) 
       {
         this.__attribJobs[key] = true;
         
+        // Normally we should made a deep look here (go parents up)
+        // but this is too slow. To just have a look at this element
+        // itself is fast and also could save the function call at all.
+        // The real control visible/inRoot will be done when the element
+        // is scheduled and should be flushed.        
         if (this.__visible) {
           this.__scheduleSync();
         }
@@ -1316,12 +1373,20 @@ qx.Class.define("qx.html.Element",
         this.__attribValues[key] = map[key];
       }
       
+      // Uncreated elements simply copy all data
+      // on creation. We don't need to remember any
+      // jobs. It is a simple full list copy.
       if (this.__element) 
       {
         for (var key in map) {
           this.__attribJobs[key] = true;
         }
         
+        // Normally we should made a deep look here (go parents up)
+        // but this is too slow. To just have a look at this element
+        // itself is fast and also could save the function call at all.
+        // The real control visible/inRoot will be done when the element
+        // is scheduled and should be flushed.
         if (this.__visible) {
           this.__scheduleSync();
         }
