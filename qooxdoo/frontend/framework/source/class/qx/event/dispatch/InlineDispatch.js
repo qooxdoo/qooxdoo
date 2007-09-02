@@ -24,13 +24,12 @@
 ************************************************************************ */
 
 /**
- * Event dispatcher for non bubbling events.
+ * Event dispatcher for simple inline events (no bubbling nor capturing).
  *
  * @internal
  */
 qx.Class.define("qx.event.dispatch.InlineDispatch",
 {
-
   extend : qx.core.Object,
   implement : qx.event.dispatch.IEventDispatcher,
 
@@ -49,6 +48,8 @@ qx.Class.define("qx.event.dispatch.InlineDispatch",
   construct : function(manager) {
     this._manager = manager;
   },
+  
+  
 
 
   /*
@@ -59,7 +60,6 @@ qx.Class.define("qx.event.dispatch.InlineDispatch",
 
   members :
   {
-
     /**
      * Whether the dispatcher is responsible for the this event.
      *
@@ -70,6 +70,9 @@ qx.Class.define("qx.event.dispatch.InlineDispatch",
     canDispatchEvent : function(event, type) {
       return !event.getBubbles();
     },
+
+
+
 
 
     /*
@@ -102,7 +105,5 @@ qx.Class.define("qx.event.dispatch.InlineDispatch",
         listeners[i].handler.call(context, event);
       }
     }
-
   }
-
 });

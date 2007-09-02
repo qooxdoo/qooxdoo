@@ -25,14 +25,17 @@
 
 /**
  * Event dispatcher for all bubbling events.
+ * TODO: Rename to DomBubblingDispatch
  *
  * @internal
  */
 qx.Class.define("qx.event.dispatch.BubblingDispatch",
 {
-
   extend : qx.core.Object,
   implement : qx.event.dispatch.IEventDispatcher,
+
+
+
 
 
   /*
@@ -50,6 +53,9 @@ qx.Class.define("qx.event.dispatch.BubblingDispatch",
   },
 
 
+
+
+
   /*
   *****************************************************************************
      MEMBERS
@@ -58,7 +64,6 @@ qx.Class.define("qx.event.dispatch.BubblingDispatch",
 
   members :
   {
-
     /**
      * Whether the dispatcher is responsible for the this event.
      *
@@ -68,6 +73,8 @@ qx.Class.define("qx.event.dispatch.BubblingDispatch",
     canDispatchEvent : function(event, type) {
       return event.getBubbles();
     },
+
+
 
 
     /*
@@ -118,6 +125,9 @@ qx.Class.define("qx.event.dispatch.BubblingDispatch",
           bubbleTargets.push(node);
         }
 
+        // TODO: Is this exception block really needed. Have nowhere seen
+        // that we need to protect a parentNode call. Normally the last one is
+        // just undefined which should not be a problem in this case.
         try {
           node = node.parentNode;
         } catch (vDomEvent) {
@@ -175,7 +185,5 @@ qx.Class.define("qx.event.dispatch.BubblingDispatch",
         }
       }
     }
-
   }
-
 });

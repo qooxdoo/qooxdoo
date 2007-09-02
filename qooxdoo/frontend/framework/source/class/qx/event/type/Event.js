@@ -80,7 +80,6 @@ qx.Class.define("qx.event.type.Event",
     /** The current event phase is the bubbling phase. */
     BUBBLING_PHASE : 3,
 
-
     getInstance : function()
     {
       if (!this._instance) {
@@ -89,7 +88,6 @@ qx.Class.define("qx.event.type.Event",
 
       return this._instance;
     }
-
   },
 
 
@@ -102,6 +100,9 @@ qx.Class.define("qx.event.type.Event",
 
   members :
   {
+    // TODO: the setters ala setTarget etc. are at least internal
+    // This is nothing for the user outside!
+    
     /**
      * Initialize the fileds of the event.
      *
@@ -111,6 +112,9 @@ qx.Class.define("qx.event.type.Event",
      */
     init : function(domEvent)
     {
+      // TODO: Divide this class into two. DomEvents and non-domEvents
+      // Not all events are dom based so this looks a bit unflexibel. Even
+      // if it is not.
       if (!domEvent) {
         domEvent = {};
       }
@@ -260,6 +264,7 @@ qx.Class.define("qx.event.type.Event",
         var node = this._dom.target;
 
         // Safari takes text nodes as targets for events
+        // TODO: Is this really true, even for 3.0?
         if (node && (node.nodeType == qx.dom.Node.TEXT)) {
           node = node.parentNode;
         }
@@ -330,6 +335,5 @@ qx.Class.define("qx.event.type.Event",
     setBubbles : function(bubbles) {
       this._bubbles = bubbles;
     }
-
   }
 });

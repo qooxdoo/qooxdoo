@@ -270,6 +270,7 @@ qx.Class.define("qx.event.type.MouseEvent",
       "default" : function() {
         return this._dom.wheelDelta / 120;
       },
+      
       "gecko" : function() {
         return -(this._dom.detail / 3);
       }
