@@ -89,7 +89,7 @@ import config, tokenizer, tree, treegenerator, treeutil, optparseext, filetool
 import compiler, textutil, mapper
 import variantoptimizer
 import variableoptimizer, stringoptimizer, basecalloptimizer, privateoptimizer
-
+import api
 
 
 
@@ -105,8 +105,8 @@ def main():
         
     parser = optparse.OptionParser(option_class=optparseext.ExtendAction)
     
-    parser.add_option("--config", dest="config", metavar="FILENAME", help="Configuration file")
-    parser.add_option("--jobs", action="extend", dest="jobs", metavar="DIRECTORY", type="string", default=[], help="Selected jobs")
+    parser.add_option("-c", "--config", dest="config", metavar="FILENAME", help="Configuration file")
+    parser.add_option("-j", "--jobs", action="extend", dest="jobs", metavar="DIRECTORY", type="string", default=[], help="Selected jobs")
     parser.add_option("-q", "--quiet", action="store_true", dest="quiet", default=False, help="Quiet output mode (Extra quiet).")
     parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False, help="Verbose output mode (Extra verbose).")
     
@@ -175,6 +175,13 @@ def process(options):
             "sourceScript" : "source.js"
         },
       
+      
+        "api-feedreader" :
+        {
+            "extend" : ["common"],
+            "apiScript" : "api-feedreader",
+            "include" : ["feedreader.Application"]
+        },
 
 
 
@@ -379,7 +386,7 @@ def execute(job, config):
     print "============================================================================"
 
     generateScript()
-    
+
 
 
 
@@ -415,6 +422,7 @@ def generateScript():
     # Script names
     buildScript = getJobConfig("buildScript")
     sourceScript = getJobConfig("sourceScript")
+    apiScript = getJobConfig("apiScript")
 
     # Dynamic dependencies
     dynLoadDeps = getJobConfig("require", {})
@@ -435,6 +443,8 @@ def generateScript():
     
     collapseParts = getJobConfig("collapseParts", [])
     optimizeLatency = getJobConfig("optimizeLatency")
+    
+    
     
     if len(userParts) > 0:
         execMode = "parts"
@@ -550,7 +560,7 @@ def generateScript():
         
         
         # Detect dependencies
-        print ">>> Resolving dependencies..."
+        print ">>> Resolving application dependencies..."
         includeDict = resolveDependencies(smartInclude, smartExclude, dynLoadDeps, dynRunDeps, variants)
         
     
@@ -573,21 +583,32 @@ def generateScript():
                 for entry in optionals:
                     print "  - %s" % entry
                     
-                    
+        
+        if apiScript != None:
+            storeApiScript(includeDict, apiScript, dynLoadDeps, dynRunDeps)
                        
         
-        if execMode == "parts":
-            processParts(partClasses, partBits, includeDict, dynLoadDeps, dynRunDeps, variants, collapseParts, optimizeLatency, buildScript, buildProcess)
-        else:
-            sys.stdout.write(">>> Compiling classes:")
-            sys.stdout.flush()
-            packageFileName = buildScript + "_$variants_$process.js" 
-            packageSize = storeCompiledPackage(includeDict, packageFileName, dynLoadDeps, dynRunDeps, variants, buildProcess)            
-            print "    - Done: %s" % packageSize
+        if buildScript != None:
+            if execMode == "parts":
+                processParts(partClasses, partBits, includeDict, dynLoadDeps, dynRunDeps, variants, collapseParts, optimizeLatency, buildScript, buildProcess)
+            else:
+                sys.stdout.write(">>> Compiling classes:")
+                sys.stdout.flush()
+                packageFileName = buildScript + "_$variants_$process.js" 
+                packageSize = storeCompiledPackage(includeDict, packageFileName, dynLoadDeps, dynRunDeps, variants, buildProcess)            
+                print "    - Done: %s" % packageSize
 
     
 
 
+
+
+def storeApiScript(includeDict, apiScript, dynLoadDeps, dynRunDeps):
+    
+    for entry in includeDict:
+        print "API of %s" % entry
+        apidata = getApi(entry)
+        print apidata
 
 
 
@@ -666,6 +687,36 @@ def toHashCode(id):
     
     return hashes[id]
     
+    
+    
+    
+    
+
+######################################################################
+#  API DATA SUPPORT
+######################################################################
+
+def getApi(id):
+    global classes
+    
+    entry = classes[id]
+    path = entry["path"]
+    
+    cache = readCache(id, "api", path)
+    if cache != None:
+        return cache
+      
+    tree = getTree(id)
+    
+    if verbose:
+        print "  - Generating API data: %s..." % id
+    apidata = api.createDoc(tree)
+        
+    writeCache(id, "api", apidata)
+    
+    return apidata        
+        
+            
 
 
      
@@ -679,7 +730,6 @@ def getMeta(id):
     
     entry = classes[id]
     path = entry["path"]
-    encoding = entry["encoding"]
     
     cache = readCache(id, "meta", path)
     if cache != None:
@@ -695,7 +745,7 @@ def getMeta(id):
         meta["loadtimeDeps"] = ["qx.locale.Locale", "qx.locale.Manager"]
         
     elif category == "qx.impl":
-        content = filetool.read(path, encoding)
+        content = filetool.read(path, entry["encoding"])
         
         meta["loadtimeDeps"] = _extractQxLoadtimeDeps(content, id)
         meta["runtimeDeps"] = _extractQxRuntimeDeps(content, id)
@@ -988,7 +1038,7 @@ def processParts(partClasses, partBits, includeDict, loadDeps, runDeps, variants
     if not quiet:
         print
         
-    print ">>> Resolving dependencies..."
+    print ">>> Resolving part dependencies..."
     partDeps = {}
     length = len(partClasses.keys())
     for pos, partId in enumerate(partClasses.keys()):
