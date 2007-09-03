@@ -96,7 +96,11 @@ qx.Class.define("qx.html.Element",
     ---------------------------------------------------------------------------
     */
     
+    /** {Boolean} If debugging should be enabled */
     __debug : true,
+    
+    
+    /** {Map} Contains the modified {@link qx.html.Element}s. The key is the hash code. */
     __modified : {},
 
 
@@ -109,6 +113,13 @@ qx.Class.define("qx.html.Element",
     ---------------------------------------------------------------------------
     */
     
+    /**
+     * Syncs data of an HtmlElement object to the DOM.
+     *
+     * @type static
+     * @param obj {qx.html.Element} Element to flush
+     * @return {void}
+     */
     __flushObject : function(obj)
     {
       if (obj.__new) 
@@ -146,8 +157,13 @@ qx.Class.define("qx.html.Element",
     */
         
     /**
+     * Copies data between the internal representation and the DOM. This
+     * simply copies all the data and only works well directly after
+     * element creation. After this the data must be synced using {@link #__syncData}
      *
-     *
+     * @type static
+     * @param obj {qx.html.Element} Element to process
+     * @return {void}
      */
     __copyData : function(obj)
     {
@@ -174,9 +190,14 @@ qx.Class.define("qx.html.Element",
     
 
     /**
+     * Syncronizes data between the internal representation and the DOM. This
+     * is the counterpart of {@link #__copyData} and is used for further updates
+     * after the element has been created.
      *
-     *
-     */    
+     * @type static
+     * @param obj {qx.html.Element} Element to process
+     * @return {void}
+     */  
     __syncData : function(obj)
     {
       var elem = obj.__element;
@@ -219,12 +240,14 @@ qx.Class.define("qx.html.Element",
     */    
     
     /**
-     * Internal helper to append all child nodes to the DOM
+     * Append all child nodes to the DOM
      * element. This function is used when the element is initially
-     * created.
+     * created. After this initial apply {@link #__syncChildren} is used
+     * instead.
      *
      * @type static
-     * @param obj {qx.html.Element} the element to flush
+     * @param obj {qx.html.Element} the element to process
+     * @return {void}
      */    
     __insertChildren : function(obj)
     {
@@ -238,9 +261,19 @@ qx.Class.define("qx.html.Element",
       }
     },
     
-    
-    __syncChildren : function(dataParent)
+
+    /**
+     * Syncronize internal children hierarchy to the DOM. This is used
+     * for further runtime updates after the element has been created
+     * initially.
+     *    
+     * @type static
+     * @param obj {qx.html.Element} the element to process
+     * @return {void}
+     */    
+    __syncChildren : function(obj)
     {
+      var dataParent = obj;
       var dataChildren = dataParent.__children;
       var dataLength = dataChildren.length
       var dataChild;
@@ -285,8 +318,17 @@ qx.Class.define("qx.html.Element",
     },
     
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PUBLIC ELEMENT FLUSH
+    ---------------------------------------------------------------------------
+    */ 
+    
     /**
-     * Flush the global modified for all existing element needs
+     * Flush the global modified list
      *
      * @type static
      */
@@ -426,29 +468,6 @@ qx.Class.define("qx.html.Element",
   },
 
 
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-  
-  // TODO: Add apply rountines, correct names
-
-  properties :
-  {
-    "nodeName___" : 
-    {
-      check : "String",
-      init : "div"
-    },
-    
-    "domElement___" : 
-    {
-      check : "Element"
-    }
-  },
 
 
 
