@@ -128,13 +128,12 @@ qx.Class.define("qx.html.Element",
         
         if (obj.__modifiedChildren) 
         {
-          this.__useEditDistance ? this.__syncChildrenComplex(obj) : this.__syncChildrenFast(obj);
+          this.__syncChildren(obj);
           obj.__modifiedChildren = false;
         }
       }
     },
     
-    __useEditDistance : false,
     
     
     
@@ -240,32 +239,9 @@ qx.Class.define("qx.html.Element",
     },
     
     
-    /**
-     * The fast syncronisation is built upon simple
-     * index comparison and reduce the overhead produced
-     * by the edit distance logic by bringing comparable
-     * results. Often the number of DOM transactions is
-     * equal. Sometimes one of them uses slightly more
-     * DOM transactions.
-     *
-     * Especially interesting is that the edit distance
-     * based algorithm is sometimes ot as good as the more
-     * basic index based approach. The reason for this
-     * is that edit distance based models are not thought
-     * out for reference types. For typical moves these 
-     * the edit distance creates two actions were normally
-     * only one is needed.
-     *
-     * My suggestion is to remove edit distance support
-     * completely. It seems that this way it in no way
-     * preferable so it just means some unused junk.
-     *
-     * Would be good to remember this final thought somewhere.
-     */
-    
     // TODO: It should be possible to migrate the first two loops
     // in some way. Would mean another improvement regarding performance
-    __syncChildrenFast : function(obj)
+    __syncChildren : function(obj)
     {
       var domElement = obj.__element;
       var source = domElement.childNodes;
@@ -304,186 +280,6 @@ qx.Class.define("qx.html.Element",
       }      
     },
     
-
-    /**
-     * Internal helper to apply the DOM structure of the
-     * defined children.
-     *
-     * @type static
-     * @param obj {qx.html.Element} the element to flush
-     */
-    __syncChildrenComplex : function(obj)
-    { 
-      // **********************************************************************
-      //   Compute needed operations
-      // **********************************************************************
-      
-      var domElement = obj.__element;
-      var source = domElement.childNodes;
-      var target = [];
-      for (var i=0, ch=obj.__children, cl=ch.length; i<cl; i++) 
-      {
-        if (ch[i].__visible) {
-          target.push(ch[i].__element); 
-        }
-      }
-
-      // Compute edit operations
-      var operations = qx.util.EditDistance.getEditOperations(source, target);
-
-      /*
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        // We need to convert the collection to an array otherwise
-        // FireBug sometimes will display a live view of the DOM and not the
-        // the snapshot at this moment.
-        source = qx.lang.Array.fromCollection(source);
-        
-        console.log("Source: ", source.length + ": ", source);
-        console.log("Target: ", target.length + ": ", target);
-        console.log("Operations: ", operations);
-      }
-      */
-
-
-
-      // **********************************************************************
-      //   Process operations
-      // **********************************************************************
-      var job;
-      var domOperations = 0;
-
-      // Store offsets which are a result of element moves
-      var offsets = [];
-
-      for (var i=0, l=operations.length; i<l; i++)
-      {
-        job = operations[i];
-
-
-
-        // ********************************************************************
-        //   Apply offset
-        // ********************************************************************
-        if (offsets[job.pos] !== undefined)
-        {
-          job.pos -= offsets[job.pos];
-
-          // We need to be sure that we don't get negative indexes.
-          // This will otherwise break array/collection index access.
-          if (job.pos < 0) {
-            job.pos = 0;
-          }
-        }
-
-
-
-        // ********************************************************************
-        //   Process DOM
-        // ********************************************************************
-        if (job.operation === qx.util.EditDistance.OPERATION_DELETE)
-        {
-          // Ignore elements which are not placed at their original position anymore.
-          if (domElement.childNodes[job.pos] === job.old)
-          {
-            // console.log("Remove: ", job.old);
-            domElement.removeChild(job.old);
-            domOperations++;
-          }
-        }
-        else
-        {
-          // Operations: insert and replace
-          // ******************************************************************
-          //   Offset calculation
-          // ******************************************************************
-          // Element will be moved around in the same parent
-          // We use the element on its old position and scan
-          // to the begin. A counter will increment on each
-          // step.
-          //
-          // This way we get the index of the element
-          // from the beginning.
-          //
-          // After this we increment the offset of all affected
-          // children (the following ones) until we reached the
-          // current position in our operation modified. The reason
-          // we stop at this point is that the following
-          // childrens should already be placed correctly through
-          // the operation method from the end to begin of the
-          // edit distance algorithm.
-          if (job.value.parentNode === domElement)
-          {
-            // find the position/index where the element is stored currently
-            previousIndex = -1;
-            iterator = job.value;
-
-            do
-            {
-              previousIndex++;
-              iterator = iterator.previousSibling;
-            }
-            while (iterator);
-
-            // increment all affected offsets
-            for (var j=previousIndex+1; j<=job.pos; j++)
-            {
-              if (offsets[j] === undefined) {
-                offsets[j] = 1;
-              } else {
-                offsets[j]++;
-              }
-            }
-          }
-
-
-
-          // ******************************************************************
-          //   The real DOM work
-          // ******************************************************************
-          if (job.operation === qx.util.EditDistance.OPERATION_REPLACE)
-          {
-            if (domElement.childNodes[job.pos] === job.old)
-            {
-              // console.log("Replace: ", job.old, " with ", job.value);
-              domElement.replaceChild(job.value, job.old);
-              domOperations++;
-            }
-            else
-            {
-              // console.log("Pseudo replace: ", job.old, " with ", job.value);
-              job.operation = qx.util.EditDistance.OPERATION_INSERT;
-            }
-          }
-
-          if (job.operation === qx.util.EditDistance.OPERATION_INSERT)
-          {
-            var before = domElement.childNodes[job.pos];
-
-            if (before)
-            {
-              // console.log("Insert: ", job.value, " at: ", job.pos);
-              domElement.insertBefore(job.value, before);
-              domOperations++;
-            }
-            else
-            {
-              // console.log("Append: ", job.value);
-              domElement.appendChild(job.value);
-              domOperations++;
-            }
-          }
-        }
-      }
-
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (this.__debug) {
-          console.debug("  - " + domOperations + " DOM operations made (complex)");
-        }
-      }
-    },
-
 
     /**
      * Flush the global modified for all existing element needs
