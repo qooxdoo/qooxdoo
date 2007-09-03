@@ -355,9 +355,8 @@ qx.Class.define("qx.html.Element",
       // User feedback
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (this.__debug) 
-        {
-          console.debug("Modified DOM with " + domOperations + " transactions");
+        if (this.__debug) {
+          console.debug("  - Modified DOM with " + domOperations + " operations");
         }
       }
     },
@@ -541,7 +540,7 @@ qx.Class.define("qx.html.Element",
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
           if (this.__debug) {
-            console.debug("  - " + domOperations + " DOM operations made (complex)");
+            console.debug("  - Modified DOM with " + domOperations + " operations (editdistance)");
           }
         }
       }
