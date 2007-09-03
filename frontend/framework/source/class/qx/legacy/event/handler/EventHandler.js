@@ -643,43 +643,6 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
       var vFocusRoot = this.getFocusRoot();
       var vTarget = this.getCaptureWidget() || (vFocusRoot == null ? null : vFocusRoot.getActiveChild());
 
-      if (vTarget == null || !vTarget.getEnabled()) {
-        return false;
-      }
-
-      var vDomEventTarget = vTarget.getElement();
-
-      // Hide Menus
-      switch(vKeyIdentifier)
-      {
-        case "Escape":
-        case "Tab":
-          if (qx.Class.isDefined("qx.ui.menu.Manager")) {
-            qx.ui.menu.Manager.getInstance().update(vTarget, vType);
-          }
-
-          break;
-      }
-
-      // TODO: Move this to KeyEvent?
-      // Prohibit CTRL+A
-      if (!this.getAllowClientSelectAll())
-      {
-        if (vDomEvent.ctrlKey && vKeyIdentifier == "A")
-        {
-          switch(vDomTarget.tagName.toLowerCase())
-          {
-            case "input":
-            case "textarea":
-            case "iframe":
-              break;
-
-            default:
-              qx.legacy.event.handler.EventHandler.stopDomEvent(vDomEvent);
-          }
-        }
-      }
-
       // Create Event Object
       var vKeyEventObject = new qx.legacy.event.type.KeyEvent(vType, vDomEvent, vDomTarget, vTarget, null, vKeyCode, vCharCode, vKeyIdentifier);
 
@@ -688,28 +651,59 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
         this._checkKeyEventMatch(vKeyEventObject);
       }
 
-      try
+      if (vTarget != null && vTarget.getEnabled())
       {
-        // Starting Objects Internal Event Dispatcher
-        // This handles the real event action
-        vTarget.dispatchEvent(vKeyEventObject);
+        // Hide Menus
+        switch(vKeyIdentifier)
+        {
+          case "Escape":
+          case "Tab":
+            if (qx.Class.isDefined("qx.ui.menu.Manager")) {
+              qx.ui.menu.Manager.getInstance().update(vTarget, vType);
+            }
 
-        // Send event to qx.legacy.event.handler.DragAndDropHandler
-        if (qx.Class.isDefined("qx.legacy.event.handler.DragAndDropHandler")) {
-          qx.legacy.event.handler.DragAndDropHandler.getInstance().handleKeyEvent(vKeyEventObject);
+            break;
         }
-      }
-      catch(ex)
-      {
-        this.error("Failed to dispatch key event", ex);
-        this.createDispatchDataEvent("error", ex);
+
+        // TODO: Move this to KeyEvent?
+        // Prohibit CTRL+A
+        if (!this.getAllowClientSelectAll())
+        {
+          if (vDomEvent.ctrlKey && vKeyIdentifier == "A")
+          {
+            switch(vDomTarget.tagName.toLowerCase())
+            {
+              case "input":
+              case "textarea":
+              case "iframe":
+                break;
+
+              default:
+                qx.legacy.event.handler.EventHandler.stopDomEvent(vDomEvent);
+            }
+          }
+        }
+
+        try
+        {
+          // Starting Objects Internal Event Dispatcher
+          // This handles the real event action
+          vTarget.dispatchEvent(vKeyEventObject);
+
+          // Send event to qx.legacy.event.handler.DragAndDropHandler
+          if (qx.Class.isDefined("qx.legacy.event.handler.DragAndDropHandler")) {
+            qx.legacy.event.handler.DragAndDropHandler.getInstance().handleKeyEvent(vKeyEventObject);
+          }
+        }
+        catch(ex)
+        {
+          this.error("Failed to dispatch key event", ex);
+          this.createDispatchDataEvent("error", ex);
+        }
       }
 
       // Cleanup Event Object
       vKeyEventObject.dispose();
-
-      // Flush Queues
-      qx.ui.core.Widget.flushGlobalQueues();
     },
 
 
@@ -936,8 +930,6 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
           }
         }
 
-        var vDomEventTarget = vTarget.getElement();
-
         // Find related target object
         switch(vType)
         {
@@ -998,9 +990,6 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
         // Dispose Event Object
         vEventObject.dispose();
         vEventObject = null;
-
-        // Flush Queues
-        qx.ui.core.Widget.flushGlobalQueues();
 
         // Fix Click (Gecko Bug, see above)
         if (vFixClick)
