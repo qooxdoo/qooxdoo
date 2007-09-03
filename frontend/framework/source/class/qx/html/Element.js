@@ -239,45 +239,49 @@ qx.Class.define("qx.html.Element",
     },
     
     
-    // TODO: It should be possible to migrate the first two loops
-    // in some way. Would mean another improvement regarding performance
-    __syncChildren : function(obj)
+    __syncChildren : function(dataParent)
     {
-      var domElement = obj.__element;
-      var source = domElement.childNodes;
-      var target = [];
-      for (var i=0, ch=obj.__children, cl=ch.length; i<cl; i++) 
-      {
-        if (ch[i].__visible) {
-          target.push(ch[i].__element); 
-        }
-      }
+      var dataChildren = dataParent.__children;
+      var dataLength = dataChildren.length
+      var dataChild;
+      var dataPos = 0;
+      var dataEl;
+
+      var domParent = dataParent.__element;
+      var domChildren = domParent.childNodes;
+      var domEl;
       
-      // Start from begin and bring in sync
-      var domOperations = 0;
-      for (var i=0, l=target.length; i<l; i++)
+      // Start from beginning and bring DOM in sync 
+      // with the data structure
+      for (var i=0; i<dataLength; i++) 
       {
-        if (target[i] != source[i]) 
+        dataChild = dataChildren[i];
+        
+        // Only process visible childs
+        if (dataChild.__visible) 
         {
-          domOperations++;
-          qx.dom.Element.insertAt(target[i], domElement, i);
+          dataEl = dataChild.__element;
+          domEl = domChildren[dataPos];
+          
+          // Only do something when out of sync
+          if (dataEl != domEl) 
+          {
+            if (domEl) {
+              domParent.insertBefore(dataEl, domEl);
+            } else {
+              domParent.appendChild(dataEl);  
+            }
+          }
+          
+          // Increase counter which ignores invisible entries
+          dataPos++;
         }
       }
       
       // Remove remaining children
-      for (l=source.length-1;l>=i;l--) 
-      {
-        domOperations++;
-        domElement.removeChild(source[l]);
+      while (domChildren[dataLength]) {
+        domParent.removeChild(domParent.lastChild); 
       }
-            
-      // User feedback
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (this.__debug) {
-          console.debug("  - " + domOperations + " DOM operations made (fast)");
-        }
-      }      
     },
     
 
