@@ -67,12 +67,6 @@ qx.Class.define("qx.html.Element",
     this.__styleValues = {};
     this.__eventValues = {};
     
-    // Used to schedule modifications after initial display
-    // TODO: Do not create them initially
-    this.__attribJobs = {};
-    this.__styleJobs = {};
-    this.__eventJobs = {};
-    
     // Add hashcode (temporary, while development)
     if (qx.core.Variant.isSet("qx.debug", "on")) {
       this.setAttribute("hashCode", this.toHashCode());
@@ -184,8 +178,11 @@ qx.Class.define("qx.html.Element",
         Style.set(elem, key, data[key]);
       }
       
-      // Attach/Detach events
-      // TODO
+      // Copy events
+      var data = obj.__eventValues;
+      for (var key in data) {
+        // TODO
+      }
     },
     
 
@@ -206,26 +203,40 @@ qx.Class.define("qx.html.Element",
       var Style = qx.bom.element.Style;
       
       // Sync attributes
-      var data = obj.__attribValues;
       var jobs = obj.__attribJobs;
-      for (var key in jobs) {
-        Attribute.set(elem, key, data[key]);
+      if (jobs)
+      {
+        var data = obj.__attribValues;
+        for (var key in jobs) {
+          Attribute.set(elem, key, data[key]);
+        }
+        
+        obj.__attribJobs = null;
       }
       
       // Sync styles
-      var data = obj.__styleValues;
       var jobs = obj.__styleJobs;
-      for (var key in data) {
-        Style.set(elem, key, data[key]);
+      if (jobs)
+      {
+        var data = obj.__styleValues;
+        for (var key in data) {
+          Style.set(elem, key, data[key]);
+        }
+        
+        obj.__styleJobs = null;
       }
       
-      // Attach/Detach events
-      // TODO
-      
-      // Cleanup jobs
-      this.__attribJobs = {};
-      this.__styleJobs = {};
-      this.__eventJobs = {};
+      // Sync events
+      var jobs = obj.__eventJobs;
+      if (jobs)
+      {
+        var data = obj.__eventValues;
+        for (var key in data) {
+          // TODO 
+        }
+        
+        obj.__eventJobs = null;
+      }
     },
     
     
@@ -486,12 +497,24 @@ qx.Class.define("qx.html.Element",
     ---------------------------------------------------------------------------
     */    
     
+    /** {String} Node name of the element to create */
     __nodeName : "div",
-    __element : null,
-    __new : false,
-    __root : false,
-    __visible : true,
     
+    
+    /** {Element} DOM element of this object */
+    __element : null,
+    
+    
+    /** {Boolean} Temporary marker for just created elements */
+    __new : false,
+    
+    
+    /** {Boolean} Marker for always visible root nodes (often the body node) */
+    __root : false,
+    
+    
+    /** {Boolean} Whether the element should be visible */
+    __visible : true,
     
     
     /**
@@ -570,8 +593,11 @@ qx.Class.define("qx.html.Element",
     
     
     /**
+     * Marks the element as hidden which means it will be removed
+     * from the DOM and ignored for updates until get visible again.
      *
-     *
+     * @type member
+     * @return {void}
      */    
     __markAsHidden : function() 
     {
@@ -593,9 +619,12 @@ qx.Class.define("qx.html.Element",
     
     
     /**
+     * Marks the element as visible which means it will be moved into
+     * the DOM again and synced with the internal data representation.
      *
-     *
-     */    
+     * @type member
+     * @return {void}
+     */   
     __markAsVisible : function() 
     {
       if (this.__visible) {
@@ -622,6 +651,11 @@ qx.Class.define("qx.html.Element",
      */
     __createDomElement : function() 
     {
+      // TODO: Support different node types
+      // e.g. "flash" for Flash.create() ?
+      // e.g. "iframe" for Iframe.create() ?
+      // or is this better placed in separate classes which extends this one?
+      
       // console.log("Creating: " + this.getAttribute("id"));
       this.__element = qx.bom.Element.create(this.__nodeName);
       this.__element.QxElement = this;
@@ -964,7 +998,7 @@ qx.Class.define("qx.html.Element",
       // Mark as new
       this.__new = true;
       
-      // Queue apply of already inserted children and applied styles etc.
+      // Register for syncronization
       if (this.__visible) {
         this.__scheduleSync();
       }
@@ -1073,6 +1107,12 @@ qx.Class.define("qx.html.Element",
       // jobs. It is a simple full list copy.
       if (this.__element) 
       {
+        // Dynamically create if needed
+        if (!this.__styleJobs) {
+          this.__styleJobs = {};
+        }
+        
+        // Store job info
         this.__styleJobs[key] = true;
         
         // Normally we should made a deep look here (go parents up)
@@ -1107,6 +1147,12 @@ qx.Class.define("qx.html.Element",
       // jobs. It is a simple full list copy.        
       if (this.__element) 
       {
+        // Dynamically create if needed
+        if (!this.__styleJobs) {
+          this.__styleJobs = {};
+        }
+        
+        // Copy to jobs map
         for (var key in map) {
           this.__styleJobs[key] = true;
         }
@@ -1163,6 +1209,12 @@ qx.Class.define("qx.html.Element",
       // jobs. It is a simple full list copy.
       if (this.__element) 
       {
+        // Dynamically create if needed
+        if (!this.__attribJobs) {
+          this.__attribJobs = {};
+        }
+        
+        // Store job info
         this.__attribJobs[key] = true;
         
         // Normally we should made a deep look here (go parents up)
@@ -1197,6 +1249,12 @@ qx.Class.define("qx.html.Element",
       // jobs. It is a simple full list copy.
       if (this.__element) 
       {
+        // Dynamically create if needed
+        if (!this.__attribJobs) {
+          this.__attribJobs = {};
+        }
+
+        // Copy to jobs map
         for (var key in map) {
           this.__attribJobs[key] = true;
         }
@@ -1224,6 +1282,50 @@ qx.Class.define("qx.html.Element",
      */
     getAttribute : function(key) {
       return this.__attribValues[key];
+    },
+    
+    
+    
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      EVENT SUPPORT
+    ---------------------------------------------------------------------------
+    */
+    
+    /**
+     * Adds an event listener to the element.
+     *
+     * @type member
+     * @param name {String} Name of the event
+     * @param callback {Function} Function to execute on event
+     * @param self {Object} Execution context of given function
+     * @param capture {Boolean ? false} Whether capturing should be enabled
+     * @return {qx.html.Element} this object (for chaining support)
+     */
+    addEventListener : function(name, callback, self, capture)
+    {
+      // TODO
+      return this;
+    },
+    
+    
+    /**
+     * Removes an event listener from the element.
+     *
+     * @type member
+     * @param name {String} Name of the event
+     * @param callback {Function} Function to execute on event
+     * @param self {Object} Execution context of given function
+     * @param capture {Boolean ? false} Whether capturing should be enabled
+     * @return {qx.html.Element} this object (for chaining support)
+     */
+    removeEventListener : function(name, callback, self, capture)
+    {
+      // TODO
+      return this;
     }
   }
 });
