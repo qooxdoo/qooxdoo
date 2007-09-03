@@ -308,7 +308,7 @@ qx.Class.define("qx.html.Element",
       var domEl;
       
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        var domModCounter = 0;
+        var domOperations = 0;
       }
       
       // Start from beginning and bring DOM in sync 
@@ -327,7 +327,7 @@ qx.Class.define("qx.html.Element",
           if (dataEl != domEl) 
           {
             if (qx.core.Variant.isSet("qx.debug", "on")) {
-              domModCounter++
+              domOperations++
             }
             
             if (domEl) {
@@ -346,7 +346,7 @@ qx.Class.define("qx.html.Element",
       while (domChildren[dataPos]) 
       {
         if (qx.core.Variant.isSet("qx.debug", "on")) {
-          domModCounter++
+          domOperations++
         }
         
         domParent.removeChild(domParent.lastChild); 
@@ -357,7 +357,7 @@ qx.Class.define("qx.html.Element",
       {
         if (this.__debug) 
         {
-          console.debug("Modified DOM with " + domModCounter + " transactions");
+          console.debug("Modified DOM with " + domOperations + " transactions");
         }
       }
     },
