@@ -222,7 +222,7 @@ qx.Class.define("qx.Class",
           qx.core.Variant.define(key, config.variants[key].allowedValues, config.variants[key].defaultValue);
         }
       }
-
+      
       // Interface support for non-static classes
       if (config.implement)
       {
@@ -958,9 +958,11 @@ qx.Class.define("qx.Class",
             if (qx.core.Variant.isSet("qx.aspects", "on"))
             {
               var staticValue = statics[key];
+              
               if (staticValue instanceof Function) {
                 staticValue = qx.core.Aspect.wrap(name + "." + key, staticValue, "static");
               }
+              
               clazz[key] = staticValue;
             }
             else
@@ -1014,20 +1016,14 @@ qx.Class.define("qx.Class",
         construct.self = clazz.constructor = proto.constructor = clazz;
 
         // Store destruct onto class
-        if (destruct) {
+        if (destruct) 
+        {
           if (qx.core.Variant.isSet("qx.aspects", "on")) {
             destruct = qx.core.Aspect.wrap(name, destruct, "destructor");
           }
+          
           clazz.$$destructor = destruct;
         }
-      }
-
-      // Compatibility to qooxdoo 0.6.6
-      if (qx.core.Variant.isSet("qx.compatibility", "on"))
-      {
-        qx.Clazz = clazz;
-        qx.Proto = proto || null;
-        qx.Super = extend || null;
       }
 
       // Store class reference in global class registry
