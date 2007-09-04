@@ -30,12 +30,14 @@ qx.Class.define("qx.event.handler.ObjectEventHandler",
   members :
   {
     // overridden
-    canHandleEvent : function(obj, type) {
-      return obj instanceof qx.core.Object;
+    canHandleEvent : function(target, type) {
+      return target instanceof qx.core.Object && qx.Class.supportsEvent(target.constructor, type);
     },
 
     // overridden
-    registerEvent : function(element, type) {},
+    registerEvent : function(element, type) {
+      // no registration at the browser is required
+    },
 
     // overridden
     unregisterEvent : function(element, type) {},

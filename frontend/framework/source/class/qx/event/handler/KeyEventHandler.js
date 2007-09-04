@@ -110,12 +110,12 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
     },
 
 
-    canHandleEvent : function(element, type) {
+    canHandleEvent : function(target, type) {
       return this.__keyHandler[type];
     },
 
 
-    registerEvent : function(element, type)
+    registerEvent : function(target, type)
     {
       this.__keyEventListenerCount += 1;
       if (this.__keyEventListenerCount == 1) {
@@ -124,7 +124,7 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
     },
 
 
-    unregisterEvent : function(element, type)
+    unregisterEvent : function(target, type)
     {
       this.__keyEventListenerCount -= 1;
       if (this.__keyEventListenerCount == 0) {
