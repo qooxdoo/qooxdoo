@@ -490,6 +490,7 @@ qx.Class.define("qx.event.Manager",
       var removeIndex = -1;
       for (var i=0; i<listeners.length; i++)
       {
+        // FIXME: This should be unique key based!!!
         if (listeners[i].handler == listener)
         {
           removeIndex = i;
