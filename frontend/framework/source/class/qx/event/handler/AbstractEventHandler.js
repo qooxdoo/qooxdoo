@@ -91,18 +91,18 @@ qx.Class.define("qx.event.handler.AbstractEventHandler",
   {
 
     // interface implementation
-    canHandleEvent : function(element, type) {
+    canHandleEvent : function(target, type) {
       return false;
     },
 
 
     // interface implementation
-    registerEvent : function(element, type) {
+    registerEvent : function(target, type) {
     },
 
 
     // interface implementation
-    unregisterEvent : function(element, type) {
+    unregisterEvent : function(target, type) {
     },
 
 

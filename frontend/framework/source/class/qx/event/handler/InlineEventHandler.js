@@ -119,24 +119,24 @@ qx.Class.define("qx.event.handler.InlineEventHandler",
     */
 
     // overridden
-    canHandleEvent : function(element, type) {
+    canHandleEvent : function(target, type) {
       return this.__inlineEvent[type];
     },
 
 
     // overridden
-    registerEvent : function(element, type)
+    registerEvent : function(target, type)
     {
-      var elementId = qx.core.Object.toHashCode(element);
+      var elementId = qx.core.Object.toHashCode(target);
       var listener = qx.lang.Function.bind(this.__handleEvent, this, false, [elementId]);
 
-      qx.event.Manager.addNativeListener(element, type, listener);
+      qx.event.Manager.addNativeListener(target, type, listener);
 
       var id = elementId + type;
 
       this.__registeredEvents[id] =
       {
-        element : element,
+        element : target,
         type : type,
         listener : listener
       };
@@ -167,7 +167,7 @@ qx.Class.define("qx.event.handler.InlineEventHandler",
           eventData.listener
         );
       }
-      
+
       this.__registeredEvents = {};
     },
 
