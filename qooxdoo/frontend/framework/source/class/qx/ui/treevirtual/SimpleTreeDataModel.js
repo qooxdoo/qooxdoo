@@ -119,7 +119,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     this._selections = {}; // list of indexes of selected nodes
 
     // the root node, needed to store its children
-    this._nodeArr.push(this.self(arguments).__emptyTree);
+    this._nodeArr.push(this.self(arguments).__getEmptyTree());
   },
 
 
@@ -137,11 +137,14 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     __tree : null,
 
     // An empty tree contains only this one node
-    __emptyTree :
+    __getEmptyTree() : function()
     {
-      label    : "<virtual root>",
-      bOpened  : true,
-      children : []
+      return {
+               label    : "<virtual root>",
+               nodeId   : 0,
+               bOpened  : true,
+               children : []
+             };
     },
 
     // We currently support these types of tree nodes
@@ -794,7 +797,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     clearData : function ()
     {
       this._clearSelections();
-      this.setData([ this.self(arguments).__emptyTree ]);
+      this.setData([ this.self(arguments).__getEmptyTree() ]);
     },
 
 
