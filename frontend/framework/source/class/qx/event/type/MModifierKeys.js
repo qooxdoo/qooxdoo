@@ -39,7 +39,7 @@ qx.Mixin.define("qx.event.type.MModifierKeys",
      * @return {Boolean} whether the the ctrl key is pressed.
      */
     isCtrlPressed : function() {
-      return this._dom.ctrlKey;
+      return this._event.ctrlKey;
     },
 
 
@@ -50,7 +50,7 @@ qx.Mixin.define("qx.event.type.MModifierKeys",
      * @return {Boolean} whether the the shift key is pressed.
      */
     isShiftPressed : function() {
-      return this._dom.shiftKey;
+      return this._event.shiftKey;
     },
 
 
@@ -61,7 +61,7 @@ qx.Mixin.define("qx.event.type.MModifierKeys",
      * @return {Boolean} whether the the alt key is pressed.
      */
     isAltPressed : function() {
-      return this._dom.altKey;
+      return this._event.altKey;
     },
 
 
@@ -72,7 +72,7 @@ qx.Mixin.define("qx.event.type.MModifierKeys",
      * @return {Boolean} whether the the meta key is pressed.
      */
     isMetaPressed : function() {
-      return this._dom.metaKey;
+      return this._event.metaKey;
     },
 
 
@@ -83,7 +83,7 @@ qx.Mixin.define("qx.event.type.MModifierKeys",
      * platform this is OK, but this is part of the widget or even application logic
      * We should move it into there.
      *
-     * @deprecated: Use isMetaPressed or isCtrlPressed instead. 
+     * @deprecated: Use isMetaPressed or isCtrlPressed instead.
      * @type member
      * @return {Boolean} <code>true</code> if the command key is pressed on the Mac
      *             or the ctrl key is pressed on another system.
@@ -91,9 +91,9 @@ qx.Mixin.define("qx.event.type.MModifierKeys",
     isCtrlOrCommandPressed : function()
     {
       if (qx.core.Client.getInstance().runsOnMacintosh()) {
-        return this._dom.metaKey;
+        return this._event.metaKey;
       } else {
-        return this._dom.ctrlKey;
+        return this._event.ctrlKey;
       }
     }
 

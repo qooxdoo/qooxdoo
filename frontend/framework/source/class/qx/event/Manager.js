@@ -157,10 +157,10 @@ qx.Class.define("qx.event.Manager",
       } else {
         var win = window;
       }
-      
+
       var id = qx.core.Object.toHashCode(win);
       var manager = this.__managers[id];
-      
+
       if (!manager)
       {
         manager = new qx.event.Manager(win);
@@ -285,12 +285,12 @@ qx.Class.define("qx.event.Manager",
      */
     __sortByPriority : function(handlerList)
     {
-      return handlerList.sort(function(a,b) 
+      return handlerList.sort(function(a,b)
       {
         if (a.priority == b.priority) {
           return 0;
         }
-        
+
         return a.priority < b.priority ? -1 : 1;
       });
     },
@@ -303,7 +303,7 @@ qx.Class.define("qx.event.Manager",
       EVENT HANDLER REGISTRATION
     ---------------------------------------------------------------------------
     */
-    
+
     __eventHandler : [],
 
 
@@ -334,11 +334,11 @@ qx.Class.define("qx.event.Manager",
     getRegisteredEventHandler : function() {
       return this.__sortByPriority(this.__eventHandler);
     },
-    
-    
-    
-    
-    
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       EVENT DISPATCHER REGISTRATION
@@ -346,7 +346,7 @@ qx.Class.define("qx.event.Manager",
     */
 
     __eventDispatcher : [],
-    
+
 
     /**
      * Register an event dispatcher.
@@ -365,7 +365,7 @@ qx.Class.define("qx.event.Manager",
       }
 
       this.__eventDispatcher.push({handler: handler, priority: priority});
-      
+
       for (var winId in this.__managers) {
         this.__managers[winId].__updateDispatcher();
       }
@@ -421,20 +421,19 @@ qx.Class.define("qx.event.Manager",
     addListener : function(element, type, listener, self, capture)
     {
       // if we are currently dispatching an event, defer this call after the
-      // dispatcher. It is critical to not modify the listener registry while
-      // dispatching.
-      // TODO: Why exactly? References? Szenarios?
-      if (this.__inEventDispatch) 
+      // dispatcher has completed. It is critical to not modify the listener
+      // registry while dispatching. This code is needed to support "addListener"
+      // and "removeListener" calls inside of event handler code.
+      if (this.__inEventDispatch)
       {
         this.__jobQueue.push({
           method : "addListener",
           arguments : arguments
         });
-        
+
         return;
       }
 
-      // TODO: Crazy name: registryGetListeners? really?
       var eventListeners = this.registryGetListeners(element, type, capture, true);
 
       // This is the first event handler for this type and element
@@ -455,10 +454,10 @@ qx.Class.define("qx.event.Manager",
       if (!this.__listenerCountOfType[type]) {
         this.__listenerCountOfType[type] = 0;
       }
-      
+
       this.__listenerCountOfType[type] += 1;
     },
-    
+
 
     /**
      * Remove an event listener from a DOM node.
@@ -527,13 +526,13 @@ qx.Class.define("qx.event.Manager",
 
 
 
-   
+
     /*
     ---------------------------------------------------------------------------
       HANDLER EVENT TYPE REGISTRATION
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * This method is called each time an event listener for one of the
      * supported events is added using {qx.event.Manager#addListener}.
@@ -542,12 +541,12 @@ qx.Class.define("qx.event.Manager",
      *     be attached
      * @param type {String} event type
      */
-    __registerEventAtHandler : function(element, type) 
+    __registerEventAtHandler : function(element, type)
     {
       // TODO: What's about priority of these handlers here. Is this really
       // not important. What if two handler can handle the same event type?
       // At least the "break" would be problematic then...
-      
+
       // iterate over all event handlers and check whether they are responsible
       // for this event type
       var handlers = this.__eventHandlers;
@@ -560,7 +559,7 @@ qx.Class.define("qx.event.Manager",
         }
       }
     },
-    
+
 
     /**
      * This method is called each time the an event listener for one of the
@@ -575,11 +574,11 @@ qx.Class.define("qx.event.Manager",
     {
       // TODO: What's about priority of these handlers here. Is this really
       // not important. What if two handler can handle the same event type?
-      // At least the "break" would be problematic then...      
-      var handlers = this.__eventHandlers;      
+      // At least the "break" would be problematic then...
+      var handlers = this.__eventHandlers;
       for (var i=0, l=handlers.length; i<l; i++)
       {
-        if (handlers[i].canHandleEvent(element, type)) 
+        if (handlers[i].canHandleEvent(element, type))
         {
           handlers[i].unregisterEvent(element, type);
           break;
@@ -620,8 +619,8 @@ qx.Class.define("qx.event.Manager",
       for (var i=0,l=this.__dispatchHandlers.length; i<l; i++)
       {
         var dispatchHandler = this.__dispatchHandlers[i];
-        
-        if (dispatchHandler.canDispatchEvent(event, type)) 
+
+        if (dispatchHandler.canDispatchEvent(event, type))
         {
           dispatchHandler.dispatchEvent(event, type);
           break;
@@ -637,7 +636,7 @@ qx.Class.define("qx.event.Manager",
           var job = this.__jobQueue[i];
           this[job.method].apply(this, job.arguments);
         }
-        
+
         this.__jobQueue = [];
       }
     },
@@ -652,7 +651,7 @@ qx.Class.define("qx.event.Manager",
       MOUSE CAPTURE
     ---------------------------------------------------------------------------
     */
-    
+
     // TODO: Any chance to get this removed here. Do we really need
     // this accesspoint here?
 
@@ -695,9 +694,9 @@ qx.Class.define("qx.event.Manager",
     __onunload : function(domEvent) {
       this.dispose();
     },
-    
-    
-    
+
+
+
 
 
     /*
@@ -775,7 +774,7 @@ qx.Class.define("qx.event.Manager",
       if (!typeEvents[listenerList]) {
         typeEvents[listenerList] = []
       }
-      
+
       return typeEvents[listenerList];
     },
 
@@ -848,7 +847,7 @@ qx.Class.define("qx.event.Manager",
   defer : function(statics)
   {
     statics.registerEventHandler(qx.event.handler.InlineEventHandler, statics.PRIORITY_NORMAL);
-    
+
     statics.registerEventDispatcher(qx.event.dispatch.InlineDispatch, statics.PRIORITY_NORMAL);
     statics.registerEventDispatcher(qx.event.dispatch.BubblingDispatch, statics.PRIORITY_NORMAL);
   }

@@ -25,7 +25,6 @@
 
 /**
  * Event dispatcher for all bubbling events.
- * TODO: Rename to DomBubblingDispatch
  *
  * @internal
  */
@@ -125,14 +124,7 @@ qx.Class.define("qx.event.dispatch.BubblingDispatch",
           bubbleTargets.push(node);
         }
 
-        // TODO: Is this exception block really needed. Have nowhere seen
-        // that we need to protect a parentNode call. Normally the last one is
-        // just undefined which should not be a problem in this case.
-        try {
-          node = node.parentNode;
-        } catch (vDomEvent) {
-          node = null;
-        }
+        node = node.parentNode;
       }
 
       // capturing phase
