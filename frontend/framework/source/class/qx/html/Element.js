@@ -322,7 +322,7 @@ qx.Class.define("qx.html.Element",
       for (var i=0, children=obj.__children, l=children.length; i<l; i++) 
       {
         // TODO: documentFragment helpful here?
-        if (children[i].__visible) {
+        if (children[i].__included) {
           domElement.appendChild(children[i].__element);
         }
       }
@@ -362,7 +362,7 @@ qx.Class.define("qx.html.Element",
         dataChild = dataChildren[i];
         
         // Only process visible childs
-        if (dataChild.__visible) 
+        if (dataChild.__included) 
         {
           dataEl = dataChild.__element;
           domEl = domChildren[dataPos];
@@ -428,7 +428,7 @@ qx.Class.define("qx.html.Element",
         var target = [];
         for (var i=0, ch=obj.__children, cl=ch.length; i<cl; i++) 
         {
-          if (ch[i].__visible) {
+          if (ch[i].__included) {
             target.push(ch[i].__element); 
           }
         }
@@ -669,7 +669,7 @@ qx.Class.define("qx.html.Element",
           // Test children
           if (!entry.__element || entry.__new || entry.__modifiedChildren)
           {
-            children = entry.__recursivelyCollectVisibleChildren();
+            children = entry.__collectIncludedChildren();
             
             for (var j=0, cl=children.length; j<cl; j++)
             {
@@ -775,8 +775,8 @@ qx.Class.define("qx.html.Element",
     __root : false,
     
     
-    /** {Boolean} Whether the element should be visible */
-    __visible : true,
+    /** {Boolean} Whether the element should be included in the render result */
+    __included : true,
     
     
     /** {Boolean} Whether the elements children should be syncronized using the edit distance algorithm. */
@@ -813,7 +813,7 @@ qx.Class.define("qx.html.Element",
      *   Normally only used by the recursion
      * @return {Array} list of all found children
      */
-    __recursivelyCollectVisibleChildren : function(res)
+    __collectIncludedChildren : function(res)
     {
       if (!res) {
         var res = []; 
@@ -825,7 +825,7 @@ qx.Class.define("qx.html.Element",
         for (var i=0, l=ch.length; i<l; i++) 
         {
           // Ignore invisible children (and all their children)
-          if (ch[i].__visible)
+          if (ch[i].__included)
           {
             // Only add to modified when uncreated or new or has jobs
             if (!ch[i].__element || ch[i].__new || ch[i].__hasJobs()) {
@@ -833,13 +833,58 @@ qx.Class.define("qx.html.Element",
             }
             
             // Test children, too
-            ch[i].__recursivelyCollectVisibleChildren(res);
+            ch[i].__collectIncludedChildren(res);
           }
         }
       }
       
       return res;
-    }, 
+    },
+    
+    
+    /**
+     * Walk up the internal children hierarchy and 
+     * look if one of the children is marked as root
+     */
+    __hasVisibleRoot : function()
+    {
+      var pa = this;
+      
+      // Any chance to cache this information in the parents?
+      while(pa)
+      {
+        if (pa.__root) {
+          return true; 
+        }
+        
+        if (!pa.__included) {
+          return false; 
+        }
+        
+        pa = pa.__parent;
+      }
+      
+      return false;
+    },
+    
+    
+    /**
+     * If the element is created and inserted into the DOM
+     * structure of the underlying document.
+     *
+     */
+    __isDomRendered : function()
+    {
+      var el = this.__element;
+      
+      if (!el) {
+        return false; 
+      }
+      
+      // Any faster solution here?
+      var doc = qx.dom.Node.getDocument(el);
+      return qx.dom.Hierarchy.contains(doc, el);
+    },    
     
     
     /**
@@ -934,7 +979,7 @@ qx.Class.define("qx.html.Element",
       {
         this.__modifiedChildren = true;
         
-        if (this.__visible && child.__visible) {
+        if (this.__included && child.__included) {
           this.__scheduleSync();
         }
       }
@@ -960,7 +1005,7 @@ qx.Class.define("qx.html.Element",
       {
         this.__modifiedChildren = true;
         
-        if (this.__visible && child.__visible) {
+        if (this.__included && child.__included) {
           this.__scheduleSync();
         }
       }
@@ -989,58 +1034,12 @@ qx.Class.define("qx.html.Element",
       {
         this.__modifiedChildren = true;
         
-        if (this.__visible && child.__visible) {
+        if (this.__included && child.__included) {
           this.__scheduleSync();
         }
       }
     },
 
-
-    /**
-     * Walk up the internal children hierarchy and 
-     * look if one of the children is marked as root
-     */
-    __hasVisibleRoot : function()
-    {
-      var pa = this;
-      
-      // Any chance to cache this information in the parents?
-      while(pa)
-      {
-        if (pa.__root) {
-          return true; 
-        }
-        
-        if (!pa.__visible) {
-          return false; 
-        }
-        
-        pa = pa.__parent;
-      }
-      
-      return false;
-    },
-    
-    
-    /**
-     * If the element is created and inserted into the DOM
-     * structure of the underlying document.
-     *
-     */
-    __isDomRendered : function()
-    {
-      var el = this.__element;
-      
-      if (!el) {
-        return false; 
-      }
-      
-      // Any faster solution here?
-      var doc = qx.dom.Node.getDocument(el);
-      return qx.dom.Hierarchy.contains(doc, el);
-    },
-    
-    
 
 
 
@@ -1296,7 +1295,7 @@ qx.Class.define("qx.html.Element",
       this.__new = true;
       
       // Register for syncronization
-      if (this.__visible) {
+      if (this.__included) {
         this.__scheduleSync();
       }
     },
@@ -1334,15 +1333,15 @@ qx.Class.define("qx.html.Element",
     */
 
     /**
-     * Marks the element as hidden which means it will be removed
-     * from the DOM and ignored for updates until get visible again.
+     * Marks the element as excluded which means it will be removed
+     * from the DOM and ignored for updates until get included again.
      *
      * @type member
      * @return {void}
      */    
     exclude : function() 
     {
-      if (!this.__visible) {
+      if (!this.__included) {
         return; 
       }
       
@@ -1355,12 +1354,12 @@ qx.Class.define("qx.html.Element",
         pa.__scheduleSync(); 
       }      
       
-      this.__visible = false; 
+      this.__included = false; 
     },
     
     
     /**
-     * Marks the element as visible which means it will be moved into
+     * Marks the element as included which means it will be moved into
      * the DOM again and synced with the internal data representation.
      *
      * @type member
@@ -1368,7 +1367,7 @@ qx.Class.define("qx.html.Element",
      */   
     include : function() 
     {
-      if (this.__visible) {
+      if (this.__included) {
         return; 
       }
       
@@ -1381,7 +1380,7 @@ qx.Class.define("qx.html.Element",
         pa.__scheduleSync(); 
       }
       
-      this.__visible = true; 
+      this.__included = true; 
     },
 
 
@@ -1429,7 +1428,7 @@ qx.Class.define("qx.html.Element",
         // itself is fast and also could save the function call at all.
         // The real control visible/inRoot will be done when the element
         // is scheduled and should be flushed.
-        if (this.__visible) {
+        if (this.__included) {
           this.__scheduleSync();
         }
       }
@@ -1475,7 +1474,7 @@ qx.Class.define("qx.html.Element",
         // itself is fast and also could save the function call at all.
         // The real control visible/inRoot will be done when the element
         // is scheduled and should be flushed.
-        if (this.__visible) {
+        if (this.__included) {
           this.__scheduleSync();
         }
       }
@@ -1539,7 +1538,7 @@ qx.Class.define("qx.html.Element",
         // itself is fast and also could save the function call at all.
         // The real control visible/inRoot will be done when the element
         // is scheduled and should be flushed.        
-        if (this.__visible) {
+        if (this.__included) {
           this.__scheduleSync();
         }
       }      
@@ -1585,7 +1584,7 @@ qx.Class.define("qx.html.Element",
         // itself is fast and also could save the function call at all.
         // The real control visible/inRoot will be done when the element
         // is scheduled and should be flushed.
-        if (this.__visible) {
+        if (this.__included) {
           this.__scheduleSync();
         }
       }
