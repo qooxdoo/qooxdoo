@@ -118,12 +118,8 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 
     this._selections = {}; // list of indexes of selected nodes
 
-    this._nodeArr.push( // the root node, needed to store its children
-    {
-      label    : "<virtual root>",
-      bOpened  : true,
-      children : []
-    });
+    // the root node, needed to store its children
+    this._nodeArr.push(this.self(arguments).__emptyTree);
   },
 
 
@@ -139,6 +135,14 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
   {
     // The tree to which this data model is attached
     __tree : null,
+
+    // An empty tree contains only this one node
+    __emptyTree :
+    {
+      label    : "<virtual root>",
+      bOpened  : true,
+      children : []
+    },
 
     // We currently support these types of tree nodes
     Type :
@@ -303,7 +307,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
             lastColumn  : columnIndex
           };
 
-          this.dispatchEvent(new qx.legacy.event.type.DataEvent("dataChanged", data),
+          this.dispatchEvent(new qx.event.type.DataEvent("dataChanged", data),
                              true);
         }
       }
@@ -736,7 +740,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
             lastColumn  : _this.getColumnCount() - 1
           };
 
-          _this.dispatchEvent(new qx.legacy.event.type.DataEvent("dataChanged",
+          _this.dispatchEvent(new qx.event.type.DataEvent("dataChanged",
                                                           data), true);
         }
       }
@@ -779,6 +783,18 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     getData : function()
     {
       return this._nodeArr;
+    },
+
+
+    /**
+     * Clears the tree of all nodes
+     *
+     * @return {void}
+     */
+    clearData : function ()
+    {
+      this._clearSelections();
+      this.setData(this.self(arguments).__emptyTree);
     },
 
 
