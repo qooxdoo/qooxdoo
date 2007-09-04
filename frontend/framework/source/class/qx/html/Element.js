@@ -126,7 +126,7 @@ qx.Class.define("qx.html.Element",
     {
       if (obj.__new) 
       {
-        console.debug("Flush: " + obj.getAttribute("id") + " [new] (" + obj.__children.length + " children)");
+        console.debug("Flush: " + obj.getAttribute("id") + " [new]");
         
         this.__copyData(obj); 
         this.__insertChildren(obj);
@@ -183,13 +183,12 @@ qx.Class.define("qx.html.Element",
     {
       var elem = obj.__element;
       
-      var Attribute = qx.bom.element.Attribute;
-      var Style = qx.bom.element.Style;
-      
       // Copy attributes
       var data = obj.__attribValues;
       if (data)
       {
+        var Attribute = qx.bom.element.Attribute;
+        
         for (var key in data) {
           Attribute.set(elem, key, data[key]);
         }
@@ -199,22 +198,35 @@ qx.Class.define("qx.html.Element",
       var data = obj.__styleValues;
       if (data)
       {
+        var Style = qx.bom.element.Style;
+        
         for (var key in data) {
           Style.set(elem, key, data[key]);
         }
       }
       
-      // Copy events
+      // Attach events
       var data = obj.__eventValues;
       if (data)
       {
-        for (var key in data) {
-          // TODO
+        var Event = qx.event.Manager;
+        
+        var entry;
+        for (var key in data) 
+        {
+          entry = data[key];
+          Event.addListener(entry.type, entry.listener, entry.self, entry.capture); 
         }
+        
+        // Cleanup old event map
+        // Events are directly used through event manager
+        // after intial creation. This differs from the 
+        // handling of styles and attributes.
+        delete obj.__eventValues;
       }
     },
     
-
+    
     /**
      * Syncronizes data between the internal representation and the DOM. This
      * is the counterpart of {@link #__copyData} and is used for further updates
@@ -239,8 +251,16 @@ qx.Class.define("qx.html.Element",
         
         if (data)
         {
-          for (var key in jobs) {
-            Attribute.set(elem, key, data[key]);
+          var value;
+          for (var key in jobs) 
+          {
+            value = data[key];
+            
+            if (value !== undefined) {
+              Attribute.set(elem, key, value);
+            } else {
+              Attribute.reset(elem, key); 
+            }
           }
         }
         
@@ -255,28 +275,20 @@ qx.Class.define("qx.html.Element",
         
         if (data)
         {
-          for (var key in data) {
-            Style.set(elem, key, data[key]);
+          var value;
+          for (var key in data) 
+          {
+            value = data[key];
+            
+            if (value !== undefined) {
+              Style.set(elem, key, value);
+            } else {
+              Style.reset(elem, key);
+            }
           }
         }
         
         obj.__styleJobs = null;
-      }
-      
-      // Sync events
-      var jobs = obj.__eventJobs;
-      if (jobs)
-      {
-        var data = obj.__eventValues;
-        
-        if (data)
-        {
-          for (var key in data) {
-            // TODO 
-          }
-        }
-        
-        obj.__eventJobs = null;
       }
     },
     
@@ -1300,7 +1312,7 @@ qx.Class.define("qx.html.Element",
 
     /*
     ---------------------------------------------------------------------------
-      LOGICAL HELPERS FOR FLUSH LOGIC
+      HELPERS FOR FLUSH LOGIC
     ---------------------------------------------------------------------------
     */    
     
@@ -1584,15 +1596,38 @@ qx.Class.define("qx.html.Element",
      * Adds an event listener to the element.
      *
      * @type member
-     * @param name {String} Name of the event
-     * @param callback {Function} Function to execute on event
+     * @param type {String} Name of the event
+     * @param listener {Function} Function to execute on event
      * @param self {Object} Execution context of given function
      * @param capture {Boolean ? false} Whether capturing should be enabled
      * @return {qx.html.Element} this object (for chaining support)
      */
-    addEventListener : function(name, callback, self, capture)
+    addEventListener : function(type, listener, self, capture)
     {
-      // TODO
+      if (this.__element) 
+      {
+        qx.event.Manager.addListener(this.__element, type, listener, self, capture); 
+      }
+      else
+      {
+        if (!this.__eventValues) {
+          this.__eventValues = {};
+        }
+        
+        var key = this.__generateListenerId(type, listener, self, capture);
+        
+        if (this.__eventValues[key]) {
+          throw new Error("A listener of this configuration does already exist!"); 
+        }        
+              
+        this.__eventValues[key] = {
+          type : type,
+          listener : listener,
+          self : self,
+          capture : capture
+        };        
+      }
+
       return this;
     },
     
@@ -1601,17 +1636,83 @@ qx.Class.define("qx.html.Element",
      * Removes an event listener from the element.
      *
      * @type member
-     * @param name {String} Name of the event
-     * @param callback {Function} Function to execute on event
+     * @param type {String} Name of the event
+     * @param listener {Function} Function to execute on event
      * @param self {Object} Execution context of given function
      * @param capture {Boolean ? false} Whether capturing should be enabled
      * @return {qx.html.Element} this object (for chaining support)
      */
-    removeEventListener : function(name, callback, self, capture)
+    removeEventListener : function(type, listener, self, capture)
     {
-      // TODO
+      if (this.__element) 
+      {
+        qx.event.Manager.removeListener(this.__element, type, listener, self, capture); 
+      }
+      else
+      {
+        var key = this.__generateListenerId(type, listener, self, capture);
+        
+        if (!this.__eventValues || !this.__eventValues[key]) {
+          throw new Error("A listener of this configuration does not exist!"); 
+        }
+        
+        delete this.__eventValues[key];
+      }
+      
       return this;
-    }
+    },
+    
+    
+    /**
+     * Whether an element has the specified event listener
+     *
+     * @type member
+     * @param type {String} Name of the event
+     * @param listener {Function} Function to execute on event
+     * @param self {Object} Execution context of given function
+     * @param capture {Boolean ? false} Whether capturing should be enabled
+     * @return {Boolean} <code>true</code> when such an event listener already exists
+     */
+    hasEventListener : function(type, listener, self, capture)
+    {
+      if (this.__element)
+      {
+        return qx.event.Manager.hasListener(this.__element, type, listener, self, capture);
+      }
+      else
+      {
+        var key = this.__generateListenerId(type, listener, self, capture);
+        return (this.__eventValues && this.__eventValues[key]);
+      }
+    },
+    
+    
+    /**
+     * Generates a unique key for a listener configuration
+     *
+     * @type member
+     * @param type {String} Name of the event
+     * @param listener {Function} Function to execute on event
+     * @param self {Object} Execution context of given function
+     * @param capture {Boolean ? false} Whether capturing should be enabled
+     * @return {String} A unique ID for this configuration
+     */
+    __generateListenerId : function(type, listener, self, capture)
+    {
+      var Object = qx.core.Object;
+      
+      var id = "evt" + Object.toHashCode(type) + "-" + Object.toHashCode(listener);
+      
+      if (self) {
+        id += "-" + Object.toHashCode(self);
+      }
+      
+      if (capture) {
+        id += "-capture"; 
+      }
+      
+      return id;
+    }   
   },
   
 
