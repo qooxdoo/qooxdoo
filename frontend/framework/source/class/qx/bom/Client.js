@@ -234,6 +234,7 @@ qx.Class.define("qx.bom.Client",
       var ns = qx.bom.client;
       var prop;
       var value;
+      var clazz;
 
       // "main" is the name of the Class
       for (var main in keys)
