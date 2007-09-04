@@ -35,13 +35,20 @@ qx.Class.define("qx.event.type.Event",
 {
   extend : qx.core.Object,
 
-  construct : function(domEvent)
+  /**
+   * @param event {Event|Map} DOM event or an event like JSON map. Valid keys
+   *   for the map are:
+   *   <ul>
+   *     <li>type (required)</li>
+   *     <li>target (rewuired)</li>
+   *     <li>bubbles</li>
+   *     <li>timestamp</li>
+   *   <ul>
+   */
+  construct : function(event)
   {
     this.base(arguments);
-
-    if (domEvent) {
-      this.init(domEvent);
-    }
+    this.init(event);
   },
 
 
@@ -55,7 +62,7 @@ qx.Class.define("qx.event.type.Event",
   destruct : function()
   {
     this._disposeFields(
-      "_dom",
+      "_event",
       "_target",
       "_currentTarget"
     );
@@ -78,16 +85,7 @@ qx.Class.define("qx.event.type.Event",
     AT_TARGET : 2,
 
     /** The current event phase is the bubbling phase. */
-    BUBBLING_PHASE : 3,
-
-    getInstance : function()
-    {
-      if (!this._instance) {
-        this._instance = new this;
-      }
-
-      return this._instance;
-    }
+    BUBBLING_PHASE : 3
   },
 
 
@@ -100,32 +98,36 @@ qx.Class.define("qx.event.type.Event",
 
   members :
   {
-    // TODO: the setters ala setTarget etc. are at least internal
-    // This is nothing for the user outside!
-    
     /**
      * Initialize the fileds of the event.
      *
      * @type member
-     * @param domEvent {Event} DOM event
+     * @param event {Event|Map} DOM event or an event like JSON map. Valid keys
+     *   for the map are:
+     *   <ul>
+     *     <li>type (required)</li>
+     *     <li>target (rewuired)</li>
+     *     <li>bubbles</li>
+     *     <li>timestamp</li>
+     *   <ul>
      * @return {qx.event.type.Event} The initialized event instance
      */
-    init : function(domEvent)
+    init : function(event)
     {
       // TODO: Divide this class into two. DomEvents and non-domEvents
       // Not all events are dom based so this looks a bit unflexibel. Even
       // if it is not.
-      if (!domEvent) {
-        domEvent = {};
+      if (!event) {
+        event = {};
       }
 
-      this._dom = domEvent;
-      this._type = domEvent.type;
-      this._target = domEvent.target || domEvent.srcElement;
+      this._event = event;
+      this._type = event.type;
+      this._target = event.target || event.srcElement;
       this._currentTarget = null;
       this._stopPropagation = false;
-      this._bubbles = true;
-      this._timeStamp = domEvent.timeStamp || (new Date()).getTime();
+      this._bubbles = event.bubbles !== undefined ? event.bubbles : true;
+      this._timeStamp = event.timeStamp || (new Date()).getTime();
 
       return this;
     },
@@ -133,20 +135,13 @@ qx.Class.define("qx.event.type.Event",
 
     /**
      * Prevent browser default behaviour, e.g. opening the context menu, ...
-     * @signature function()
      */
-    preventDefault : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function() {
-        this._dom.returnValue = false;
-      },
-
-      "default" : function()
-      {
-        this._dom.preventDefault();
-        this._dom.returnValue = false;
+    preventDefault : function() {
+      if (this._event.preventDefault) {
+        this._event.preventDefault();
       }
-    }),
+      this._event.returnValue = false;
+    },
 
 
     /**
@@ -162,13 +157,13 @@ qx.Class.define("qx.event.type.Event",
       // MSDN doccumantation http://msdn2.microsoft.com/en-us/library/ms533545.aspx
       "mshtml" : function()
       {
-        this._dom.cancelBubble = true;
+        this._event.cancelBubble = true;
         this._stopPropagation = true;
       },
 
       "default" : function()
       {
-        this._dom.stopPropagation();
+        this._event.stopPropagation();
         this._stopPropagation = true;
       }
     }),
@@ -247,35 +242,10 @@ qx.Class.define("qx.event.type.Event",
      *
      * @return {Element} DOM element to which the event was originally
      *     dispatched.
-     * @signature function()
      */
-    getTarget : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function() {
-        return this._target || this._dom.target || this._dom.srcElement;
-      },
-
-      "webkit" : function()
-      {
-        if (this._target) {
-          return this._target;
-        }
-
-        var node = this._dom.target;
-
-        // Safari takes text nodes as targets for events
-        // TODO: Is this really true, even for 3.0?
-        if (node && (node.nodeType == qx.dom.Node.TEXT)) {
-          node = node.parentNode;
-        }
-
-        return node;
-      },
-
-      "default" : function() {
-        return this._target || this._dom.target;
-      }
-    }),
+    getTarget : function() {
+      return this._target;
+    },
 
 
     /**
