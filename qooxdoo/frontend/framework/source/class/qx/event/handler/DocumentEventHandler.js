@@ -43,7 +43,7 @@ qx.Class.define("qx.event.handler.DocumentEventHandler",
   construct : function(manager)
   {
     this.base(arguments, manager);
-    
+
     this.__handleEventWrapper = qx.lang.Function.bind(this.__handleEvent, this);
     this.__documentElement = manager.getWindow().document.documentElement;
 
@@ -82,17 +82,17 @@ qx.Class.define("qx.event.handler.DocumentEventHandler",
       EVENT HANDLER INTERFACE
     ---------------------------------------------------------------------------
     */
- 
+
     // TODO: This is bad idea IMHO
     // We should not come with a default or the default must be the inline listener
     // to default to the document is ugly because this does not work out well
     // for most event types (which do not bubble etc.)
-    canHandleEvent : function(element, type) {
+    canHandleEvent : function(target, type) {
       return true;
     },
 
 
-    registerEvent : function(element, type) 
+    registerEvent : function(element, type)
     {
       if (!this.__typeListenerCount[type])
       {
@@ -136,7 +136,7 @@ qx.Class.define("qx.event.handler.DocumentEventHandler",
     __handleEvent : function(domEvent)
     {
       var event = this._eventPool.getEventInstance("qx.event.type.Event").init(domEvent);
-      
+
       this._manager.dispatchEvent(event);
       this._eventPool.poolEvent(event);
     }
@@ -152,7 +152,7 @@ qx.Class.define("qx.event.handler.DocumentEventHandler",
 
   defer : function(statics)
   {
-    var manager = qx.event.Manager;
-    manager.registerEventHandler(statics, manager.PRIORITY_LAST);
+    //var manager = qx.event.Manager;
+    //manager.registerEventHandler(statics, manager.PRIORITY_LAST);
   }
 });

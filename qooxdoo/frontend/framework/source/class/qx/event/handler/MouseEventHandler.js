@@ -107,13 +107,13 @@ qx.Class.define("qx.event.handler.MouseEventHandler",
     },
 
 
-    // This is only relevant for the attach and could be simply handled in the constructor 
+    // This is only relevant for the attach and could be simply handled in the constructor
     __normalizeEventNames : {
       "mousewheel" : qx.core.Variant.isSet("qx.client", "mshtml") ? "mousewheel" : "DOMMouseScroll"
     },
-    
-    
-    
+
+
+
 
 
     /*
@@ -123,13 +123,7 @@ qx.Class.define("qx.event.handler.MouseEventHandler",
     */
 
     // overridden
-    canHandleEvent : function(element, type) 
-    {
-      // TODO: Another reason for whitelists. But we don't need exceptions here. We need them
-      // in the manager if an event is not handleable.
-      if (type == "DOMMouseScroll") {
-        throw new Error("'DOMMouseScroll' is not supported, please use 'mousewheel' instead.");
-      }
+    canHandleEvent : function(target, type) {
       return this.__mouseButtonHandler[type] || this.__mouseMoveEvents[type];
     },
 
@@ -137,7 +131,7 @@ qx.Class.define("qx.event.handler.MouseEventHandler",
     // overridden
     // TODO: Baah. I (wpbasti) really don't like this. Why not simply attach all of them
     // directly on creation (like the focs handler does)
-    registerEvent : function(element, type)
+    registerEvent : function(target, type)
     {
       var type = this.__normalizeEventNames[type] || type;
       if (this.__mouseButtonHandler[type])
@@ -156,7 +150,7 @@ qx.Class.define("qx.event.handler.MouseEventHandler",
 
 
     // overridden
-    unregisterEvent : function(element, type)
+    unregisterEvent : function(target, type)
     {
       if (this.__mouseButtonHandler[type])
       {
@@ -194,7 +188,7 @@ qx.Class.define("qx.event.handler.MouseEventHandler",
       if (type) {
         event.setType(type);
       }
-      
+
       if (target) {
         event.setTarget(target);
       }
