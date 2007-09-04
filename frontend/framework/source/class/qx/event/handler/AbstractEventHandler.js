@@ -23,8 +23,6 @@
 
 ************************************************************************ */
 
-// TODO: Abstract class, but no Interface here? Is a unification possible
-// between Dispatcher() and Handler()?
 
 /**
  * Abstract base class for the special event handlers for mouse and key events.
@@ -34,6 +32,7 @@
 qx.Class.define("qx.event.handler.AbstractEventHandler",
 {
   extend : qx.core.Object,
+  implement : qx.event.handler.IEventHandler,
   type : "abstract",
 
 
@@ -90,62 +89,37 @@ qx.Class.define("qx.event.handler.AbstractEventHandler",
 
   members :
   {
-    /**
-     * Whether the event handler can handle events of the given type.
-     *
-     * @param element {Element} DOM element to, which the event handler should
-     *     be attached
-     * @param type {String} event type
-     * @return {Boolean} Whether the event handler can handle events of the
-     *     given type.
-     */
+
+    // interface implementation
     canHandleEvent : function(element, type) {
       return false;
     },
 
 
-    /**
-     * This method is called each time the an event listener for one of the
-     * supported events is added using {qx.event.Manager#addListener}.
-     *
-     * @param element {Element} DOM element to, which the event handler should
-     *     be attached
-     * @param type {String} event type
-     */
+    // interface implementation
     registerEvent : function(element, type) {
     },
 
 
-    /**
-     * This method is called each time the an event listener for one of the
-     * supported events is removed by using {qx.event.Manager#removeListener}
-     * and no other event listener is listening on this type.
-     *
-     * @param element {Element} DOM element from, which the event handler should
-     *     be removed
-     * @param type {String} event type
-     */
+    // interface implementation
     unregisterEvent : function(element, type) {
     },
 
 
-    /**
-     * Removes all event handlers handled by the class from the DOM. This
-     * function is called on unload of the the document.
-     */
+    // interface implementation
     removeAllListeners : function()
     {
       for (var id in this.__registeredEvents)
       {
         var eventData = this.__registeredEvents[id];
-        
+
         qx.event.Manager.removeNativeListener(
           eventData.element,
           eventData.type,
           eventData.listener
         );
       }
-      
+
       this.__registeredEvents = {};
     },
 
@@ -198,11 +172,10 @@ qx.Class.define("qx.event.handler.AbstractEventHandler",
     _managedAddNativeListener : function(element, type, listener)
     {
       qx.event.Manager.addNativeListener(element, type, listener);
-      
+
       var obj = qx.core.Object;
       var id = obj.toHashCode(element) + type + obj.toHashCode(listener);
-      
-      // TODO: Shouldn't "self" and "capture" also be part of this ID?
+
       this.__registeredEvents[id] =
       {
         element : element,
@@ -226,11 +199,10 @@ qx.Class.define("qx.event.handler.AbstractEventHandler",
     _managedRemoveNativeListener : function(element, type, listener)
     {
       qx.event.Manager.removeNativeListener(element, type, listener);
-      
+
       var obj = qx.core.Object;
       var id = obj.toHashCode(element) + type + obj.toHashCode(listener);
-      
-      // TODO: Shouldn't "self" and "capture" also be part of this ID?
+
       delete this.__registeredEvents[id];
     }
   }
