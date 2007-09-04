@@ -326,8 +326,6 @@ qx.Class.define("qx.event.Manager",
 
     /**
      * Get a sorted list of registered event handlers.
-     * TODO: Is this function used often? Then is should be a good idea to cache this result
-     * on each register instead of on every get.
      *
      * @return {qx.legacy.event.handler.AbstractEventHandler[]} registered event handlers
      */
@@ -749,12 +747,7 @@ qx.Class.define("qx.event.Manager",
 
       if (!buildRegistry)
       {
-        // TODO: Exceptions are slow. Any chance to work around this
-        // without the usage of them? Is performance relevant for this
-        // function?
-        try {
-          return reg[elementId][type][listenerList]
-        } catch (e) {
+        if (!(reg[elementId] && reg[elementId][type] && reg[elementId][type][listenerList])) {
           return null;
         }
       }
