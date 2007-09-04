@@ -129,7 +129,8 @@ qx.Class.define("qx.event.dispatch.MouseCaptureDispatcher",
         }
       }
 
-      // TODO: What should this do? Why? Documentation missing.
+      // Conforming to the MS implementation a mouse click will stop mouse
+      // capturing. The event is "eaten" by the capturing handler.
       if (type == "click")
       {
         event.preventDefault();
@@ -169,15 +170,16 @@ qx.Class.define("qx.event.dispatch.MouseCaptureDispatcher",
       // create synthetic losecapture event
       // TODO: Create custom events should work a lot simpler!!!
       // What's abot qx.event.Manager.createEvent() and qx.event.Manager.createAndDispatchEvent()
-      var event = this.__eventPool.getEventInstance("qx.event.type.Event").init({});
-      event.setType("losecapture");
-      event.setTarget(this.__captureElement);
+      var event = this.__eventPool.getEventInstance("qx.event.type.Event").init({
+        type : "losecapture",
+        target : this.__captureElement
+      });
 
       this.__manager.dispatchEvent(event);
       this.__captureElement = null;
 
       // TODO: What's about a event function like
-      // event.freeze() or event.pool(); 
+      // event.freeze() or event.pool();
       // Looks better IMHO
       this.__eventPool.poolEvent(event);
     }
