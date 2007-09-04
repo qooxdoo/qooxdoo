@@ -290,6 +290,8 @@ qx.Class.define("qx.html.Element",
         
         obj.__styleJobs = null;
       }
+      
+      // Events are directly kept in sync
     },
     
     
@@ -319,6 +321,7 @@ qx.Class.define("qx.html.Element",
       
       for (var i=0, children=obj.__children, l=children.length; i<l; i++) 
       {
+        // TODO: documentFragment helpful here?
         if (children[i].__visible) {
           domElement.appendChild(children[i].__element);
         }
@@ -590,6 +593,7 @@ qx.Class.define("qx.html.Element",
 
 
 
+
     /*
     ---------------------------------------------------------------------------
       PUBLIC ELEMENT FLUSH
@@ -650,13 +654,13 @@ qx.Class.define("qx.html.Element",
       {
         entry = modified[hc];
         
-        if (entry.hasVisibleRoot())
+        if (entry.__hasVisibleRoot())
         {
           // TODO: Optimize this. Remove overlap in children collect
           // ...
           
           // Add self to modified
-          if (entry.isDomRendered()) {
+          if (entry.__isDomRendered()) {
             domRendered[entry.toHashCode()] = entry;
           } else {
             domInvisible[entry.toHashCode()] = entry;
@@ -669,7 +673,7 @@ qx.Class.define("qx.html.Element",
             
             for (var j=0, cl=children.length; j<cl; j++)
             {
-              if (children[j].isDomRendered()) {
+              if (children[j].__isDomRendered()) {
                 domRendered[children[j].toHashCode()] = children[j];
               } else {
                 domInvisible[children[j].toHashCode()] = children[j];
@@ -874,6 +878,34 @@ qx.Class.define("qx.html.Element",
       this.__new = true;
     },
 
+    
+    /**
+     * Generates a unique key for a listener configuration
+     *
+     * @type member
+     * @param type {String} Name of the event
+     * @param listener {Function} Function to execute on event
+     * @param self {Object} Execution context of given function
+     * @param capture {Boolean ? false} Whether capturing should be enabled
+     * @return {String} A unique ID for this configuration
+     */
+    __generateListenerId : function(type, listener, self, capture)
+    {
+      var Object = qx.core.Object;
+      
+      var id = "evt" + Object.toHashCode(type) + "-" + Object.toHashCode(listener);
+      
+      if (self) {
+        id += "-" + Object.toHashCode(self);
+      }
+      
+      if (capture) {
+        id += "-capture"; 
+      }
+      
+      return id;
+    },
+    
 
     /**
      * Internal helper for all children addition needs
@@ -963,6 +995,52 @@ qx.Class.define("qx.html.Element",
       }
     },
 
+
+    /**
+     * Walk up the internal children hierarchy and 
+     * look if one of the children is marked as root
+     */
+    __hasVisibleRoot : function()
+    {
+      var pa = this;
+      
+      // Any chance to cache this information in the parents?
+      while(pa)
+      {
+        if (pa.__root) {
+          return true; 
+        }
+        
+        if (!pa.__visible) {
+          return false; 
+        }
+        
+        pa = pa.__parent;
+      }
+      
+      return false;
+    },
+    
+    
+    /**
+     * If the element is created and inserted into the DOM
+     * structure of the underlying document.
+     *
+     */
+    __isDomRendered : function()
+    {
+      var el = this.__element;
+      
+      if (!el) {
+        return false; 
+      }
+      
+      // Any faster solution here?
+      var doc = qx.dom.Node.getDocument(el);
+      return qx.dom.Hierarchy.contains(doc, el);
+    },
+    
+    
 
 
 
@@ -1186,69 +1264,7 @@ qx.Class.define("qx.html.Element",
 
 
 
-    /*
-    ---------------------------------------------------------------------------
-      VISIBILITY MANAGMENT
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Marks the element as hidden which means it will be removed
-     * from the DOM and ignored for updates until get visible again.
-     *
-     * @type member
-     * @return {void}
-     */    
-    exclude : function() 
-    {
-      if (!this.__visible) {
-        return; 
-      }
-      
-      // If the parent element is created, schedule 
-      // the modification for it
-      var pa = this.__parent;
-      if (pa && pa.__element) 
-      {
-        pa.__modifiedChildren = true;
-        pa.__scheduleSync(); 
-      }      
-      
-      this.__visible = false; 
-    },
-    
-    
-    /**
-     * Marks the element as visible which means it will be moved into
-     * the DOM again and synced with the internal data representation.
-     *
-     * @type member
-     * @return {void}
-     */   
-    include : function() 
-    {
-      if (this.__visible) {
-        return; 
-      }
-      
-      // If the parent element is created, schedule 
-      // the modification for it
-      var pa = this.__parent;
-      if (pa && pa.__element) 
-      {
-        pa.__modifiedChildren = true;
-        pa.__scheduleSync(); 
-      }
-      
-      this.__visible = true; 
-    },
-
-
-
-
-
-
-    /*
+   /*
     ---------------------------------------------------------------------------
       DOM ELEMENT ACCESS
     ---------------------------------------------------------------------------
@@ -1306,62 +1322,70 @@ qx.Class.define("qx.html.Element",
     },
     
     
-    
-    
+
+
+
 
 
     /*
     ---------------------------------------------------------------------------
-      HELPERS FOR FLUSH LOGIC
+      VISIBILITY SUPPORT
     ---------------------------------------------------------------------------
-    */    
-    
+    */
+
     /**
-     * Walk up the internal children hierarchy and 
-     * look if one of the children is marked as root
-     */
-    hasVisibleRoot : function()
-    {
-      var pa = this;
-      
-      // Any chance to cache this information in the parents?
-      while(pa)
-      {
-        if (pa.__root) {
-          return true; 
-        }
-        
-        if (!pa.__visible) {
-          return false; 
-        }
-        
-        pa = pa.__parent;
-      }
-      
-      return false;
-    },
-    
-    
-    /**
-     * If the element is created and inserted into the DOM
-     * structure of the underlying document.
+     * Marks the element as hidden which means it will be removed
+     * from the DOM and ignored for updates until get visible again.
      *
-     */
-    isDomRendered : function()
+     * @type member
+     * @return {void}
+     */    
+    exclude : function() 
     {
-      var el = this.__element;
-      
-      if (!el) {
-        return false; 
+      if (!this.__visible) {
+        return; 
       }
       
-      // Any faster solution here?
-      var doc = qx.dom.Node.getDocument(el);
-      return qx.dom.Hierarchy.contains(doc, el);
+      // If the parent element is created, schedule 
+      // the modification for it
+      var pa = this.__parent;
+      if (pa && pa.__element) 
+      {
+        pa.__modifiedChildren = true;
+        pa.__scheduleSync(); 
+      }      
+      
+      this.__visible = false; 
     },
     
     
-    
+    /**
+     * Marks the element as visible which means it will be moved into
+     * the DOM again and synced with the internal data representation.
+     *
+     * @type member
+     * @return {void}
+     */   
+    include : function() 
+    {
+      if (this.__visible) {
+        return; 
+      }
+      
+      // If the parent element is created, schedule 
+      // the modification for it
+      var pa = this.__parent;
+      if (pa && pa.__element) 
+      {
+        pa.__modifiedChildren = true;
+        pa.__scheduleSync(); 
+      }
+      
+      this.__visible = true; 
+    },
+
+
+
     
     
     
@@ -1684,35 +1708,7 @@ qx.Class.define("qx.html.Element",
         var key = this.__generateListenerId(type, listener, self, capture);
         return (this.__eventValues && this.__eventValues[key]);
       }
-    },
-    
-    
-    /**
-     * Generates a unique key for a listener configuration
-     *
-     * @type member
-     * @param type {String} Name of the event
-     * @param listener {Function} Function to execute on event
-     * @param self {Object} Execution context of given function
-     * @param capture {Boolean ? false} Whether capturing should be enabled
-     * @return {String} A unique ID for this configuration
-     */
-    __generateListenerId : function(type, listener, self, capture)
-    {
-      var Object = qx.core.Object;
-      
-      var id = "evt" + Object.toHashCode(type) + "-" + Object.toHashCode(listener);
-      
-      if (self) {
-        id += "-" + Object.toHashCode(self);
-      }
-      
-      if (capture) {
-        id += "-capture"; 
-      }
-      
-      return id;
-    }   
+    }  
   },
   
 
