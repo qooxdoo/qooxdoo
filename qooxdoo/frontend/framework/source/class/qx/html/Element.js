@@ -814,58 +814,6 @@ qx.Class.define("qx.html.Element",
     
     
     /**
-     * Marks the element as hidden which means it will be removed
-     * from the DOM and ignored for updates until get visible again.
-     *
-     * @type member
-     * @return {void}
-     */    
-    __markAsHidden : function() 
-    {
-      if (!this.__visible) {
-        return; 
-      }
-      
-      // If the parent element is created, schedule 
-      // the modification for it
-      var pa = this.__parent;
-      if (pa && pa.__element) 
-      {
-        pa.__modifiedChildren = true;
-        pa.__scheduleSync(); 
-      }      
-      
-      this.__visible = false; 
-    },
-    
-    
-    /**
-     * Marks the element as visible which means it will be moved into
-     * the DOM again and synced with the internal data representation.
-     *
-     * @type member
-     * @return {void}
-     */   
-    __markAsVisible : function() 
-    {
-      if (this.__visible) {
-        return; 
-      }
-      
-      // If the parent element is created, schedule 
-      // the modification for it
-      var pa = this.__parent;
-      if (pa && pa.__element) 
-      {
-        pa.__modifiedChildren = true;
-        pa.__scheduleSync(); 
-      }
-      
-      this.__visible = true; 
-    },
-    
-    
-    /**
      * Internal helper to generate the DOM element
      *
      * @type member
@@ -1190,6 +1138,68 @@ qx.Class.define("qx.html.Element",
      */
     moveAfter : function(child, rel) {
       return this.moveTo(child, this.__children.indexOf(rel) + 1);
+    },
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      VISIBILITY MANAGMENT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Marks the element as hidden which means it will be removed
+     * from the DOM and ignored for updates until get visible again.
+     *
+     * @type member
+     * @return {void}
+     */    
+    exclude : function() 
+    {
+      if (!this.__visible) {
+        return; 
+      }
+      
+      // If the parent element is created, schedule 
+      // the modification for it
+      var pa = this.__parent;
+      if (pa && pa.__element) 
+      {
+        pa.__modifiedChildren = true;
+        pa.__scheduleSync(); 
+      }      
+      
+      this.__visible = false; 
+    },
+    
+    
+    /**
+     * Marks the element as visible which means it will be moved into
+     * the DOM again and synced with the internal data representation.
+     *
+     * @type member
+     * @return {void}
+     */   
+    include : function() 
+    {
+      if (this.__visible) {
+        return; 
+      }
+      
+      // If the parent element is created, schedule 
+      // the modification for it
+      var pa = this.__parent;
+      if (pa && pa.__element) 
+      {
+        pa.__modifiedChildren = true;
+        pa.__scheduleSync(); 
+      }
+      
+      this.__visible = true; 
     },
 
 
