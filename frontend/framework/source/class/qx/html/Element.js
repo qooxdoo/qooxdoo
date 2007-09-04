@@ -63,9 +63,17 @@ qx.Class.define("qx.html.Element",
     // They always reflect the presently choosen values.
     // Please note that these need not to be always in
     // sync with the DOM.
-    this.__attribValues = {};
-    this.__styleValues = {};
-    this.__eventValues = {};
+    // These are created dynamically as required.
+    // this.__attribValues = {};
+    // this.__styleValues = {};
+    // this.__eventValues = {};
+    
+    // Maps which contains the names / identifiers of the attributes,
+    // styles or events which needs syncronization to the DOM.
+    // These are created dynamically as required.
+    // this.__attribJobs = {};
+    // this.__styleJobs = {};
+    // this.__eventJobs = {};
     
     // Add hashcode (temporary, while development)
     if (qx.core.Variant.isSet("qx.debug", "on")) {
@@ -180,20 +188,29 @@ qx.Class.define("qx.html.Element",
       
       // Copy attributes
       var data = obj.__attribValues;
-      for (var key in data) {
-        Attribute.set(elem, key, data[key]);
+      if (data)
+      {
+        for (var key in data) {
+          Attribute.set(elem, key, data[key]);
+        }
       }
       
       // Copy styles
       var data = obj.__styleValues;
-      for (var key in data) {
-        Style.set(elem, key, data[key]);
+      if (data)
+      {
+        for (var key in data) {
+          Style.set(elem, key, data[key]);
+        }
       }
       
       // Copy events
       var data = obj.__eventValues;
-      for (var key in data) {
-        // TODO
+      if (data)
+      {
+        for (var key in data) {
+          // TODO
+        }
       }
     },
     
@@ -219,8 +236,12 @@ qx.Class.define("qx.html.Element",
       if (jobs)
       {
         var data = obj.__attribValues;
-        for (var key in jobs) {
-          Attribute.set(elem, key, data[key]);
+        
+        if (data)
+        {
+          for (var key in jobs) {
+            Attribute.set(elem, key, data[key]);
+          }
         }
         
         obj.__attribJobs = null;
@@ -231,8 +252,12 @@ qx.Class.define("qx.html.Element",
       if (jobs)
       {
         var data = obj.__styleValues;
-        for (var key in data) {
-          Style.set(elem, key, data[key]);
+        
+        if (data)
+        {
+          for (var key in data) {
+            Style.set(elem, key, data[key]);
+          }
         }
         
         obj.__styleJobs = null;
@@ -243,8 +268,12 @@ qx.Class.define("qx.html.Element",
       if (jobs)
       {
         var data = obj.__eventValues;
-        for (var key in data) {
-          // TODO 
+        
+        if (data)
+        {
+          for (var key in data) {
+            // TODO 
+          }
         }
         
         obj.__eventJobs = null;
@@ -1340,6 +1369,10 @@ qx.Class.define("qx.html.Element",
      */
     setStyle : function(key, value)
     {
+      if (!this.__styleValues) {
+        this.__styleValues = {};
+      }
+            
       this.__styleValues[key] = value;
       
       // Uncreated elements simply copy all data
@@ -1378,6 +1411,10 @@ qx.Class.define("qx.html.Element",
      */
     setStyles : function(map)
     {
+      if (!this.__styleValues) {
+        this.__styleValues = {};
+      }
+            
       for (var key in map) {
         this.__styleValues[key] = map[key];
       }
@@ -1419,7 +1456,7 @@ qx.Class.define("qx.html.Element",
      * @return {var} the value of the style attribute
      */
     getStyle : function(key) {
-      return this.__styleValues[key];
+      return this.__styleValues ? this.__styleValues[key] : null;
     },
 
 
@@ -1442,6 +1479,10 @@ qx.Class.define("qx.html.Element",
      */
     setAttribute : function(key, value)
     {
+      if (!this.__attribValues) {
+        this.__attribValues = {};
+      }
+      
       this.__attribValues[key] = value;
       
       // Uncreated elements simply copy all data
@@ -1480,6 +1521,10 @@ qx.Class.define("qx.html.Element",
      */
     setAttributes : function(map)
     {
+      if (!this.__attribValues) {
+        this.__attribValues = {};
+      }
+            
       for (var key in map) {
         this.__attribValues[key] = map[key];
       }
@@ -1521,7 +1566,7 @@ qx.Class.define("qx.html.Element",
      * @return {var} the value of the attribute
      */
     getAttribute : function(key) {
-      return this.__attribValues[key];
+      return this.__attribValues ? this.__attribValues[key] : null;
     },
     
     
