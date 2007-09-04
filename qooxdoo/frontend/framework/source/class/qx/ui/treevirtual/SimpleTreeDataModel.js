@@ -794,7 +794,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     clearData : function ()
     {
       this._clearSelections();
-      this.setData(this.self(arguments).__emptyTree);
+      this.setData([ this.self(arguments).__emptyTree ]);
     },
 
 
