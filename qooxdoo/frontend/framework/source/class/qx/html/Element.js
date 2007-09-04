@@ -656,29 +656,24 @@ qx.Class.define("qx.html.Element",
         
         if (entry.__hasVisibleRoot())
         {
-          // TODO: Optimize this. Remove overlap in children collect
-          // ...
-          
           // Add self to modified
           if (entry.__isDomRendered()) {
-            domRendered[entry.toHashCode()] = entry;
+            domRendered[hc] = entry;
           } else {
-            domInvisible[entry.toHashCode()] = entry;
+            domInvisible[hc] = entry;
           }
 
-          // Test children
-          if (!entry.__element || entry.__new || entry.__modifiedChildren)
+          // Add children on all newly created elements or 
+          // elements with new children
+          if (!entry.__element || entry.__new) 
           {
-            children = entry.__collectIncludedChildren();
-            
-            for (var j=0, cl=children.length; j<cl; j++)
-            {
-              if (children[j].__isDomRendered()) {
-                domRendered[children[j].toHashCode()] = children[j];
-              } else {
-                domInvisible[children[j].toHashCode()] = children[j];
-              }                
-            }
+            // Add all (included) children (recursively)
+            entry.__addIncludedSubTree(domRendered, domInvisible, false);
+          }
+          else if (entry.__modifiedChildren) 
+          {
+            // Add all newly added children (and these recursively)
+            entry.__addIncludedSubTree(domRendered, domInvisible, true);
           }
         }
       }
@@ -704,17 +699,7 @@ qx.Class.define("qx.html.Element",
       
       
       
-      // Flush queues: Create first
-      // This is done previously because the other
-      // elements flushed could already need one of these
-      // currently missing elements.
-      for (var hc in domInvisible)
-      {
-        if (!domInvisible[hc].__element) {
-          domInvisible[hc].__createDomElement();
-        }
-      }    
-      
+
       // Flush queues: Apply children, styles and attributes
       for (var hc in domInvisible) {
         this.__flushObject(domInvisible[hc]);
@@ -813,32 +798,53 @@ qx.Class.define("qx.html.Element",
      *   Normally only used by the recursion
      * @return {Array} list of all found children
      */
-    __collectIncludedChildren : function(res)
+    __addIncludedSubTree : function(domRendered, domInvisible, filter)
     {
-      if (!res) {
-        var res = []; 
-      }
+      var children = this.__children;      
+      var child;
+      var hc;
+      var process;
       
-      var ch = this.__children;      
-      if (ch)
+      if (children)
       {
-        for (var i=0, l=ch.length; i<l; i++) 
+        for (var i=0, l=children.length; i<l; i++) 
         {
-          // Ignore invisible children (and all their children)
-          if (ch[i].__included)
+          child = children[i];
+
+          if (filter)
           {
-            // Only add to modified when uncreated or new or has jobs
-            if (!ch[i].__element || ch[i].__new || ch[i].__hasJobs()) {
-              res.push(ch[i]);
+            // Uncreated elements are processed as out-of-date
+            if (child.__element && child.__element.parentNode == this.__element) 
+            {
+              console.info("OPTIMIZE: " + child.getAttribute("id"));
+              continue;
+            }
+          }
+          
+          // Ignore invisible children (and all their children)
+          if (child.__included)
+          {
+            hc = child.toHashCode();
+            
+            if (!child.__element)
+            {
+              child.__createDomElement();
+              domInvisible[hc] = child;
+            }
+            else if (child.__new || child.__hasJobs()) 
+            {
+              if (child.__isDomRendered()) {
+                domRendered[hc] = child;
+              } else {
+                domInvisible[hc] = child;
+              }    
             }
             
-            // Test children, too
-            ch[i].__collectIncludedChildren(res);
+            // Add children, too
+            child.__addIncludedSubTree(domRendered, domInvisible, false);
           }
         }
       }
-      
-      return res;
     },
     
     
