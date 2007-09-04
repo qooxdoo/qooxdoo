@@ -535,11 +535,11 @@ qx.Class.define("qx.event.Manager",
      * This method is called each time an event listener for one of the
      * supported events is added using {qx.event.Manager#addListener}.
      *
-     * @param element {Element} DOM element to, which the event handler should
+     * @param target {Element|Object} The target to, which the event handler should
      *     be attached
      * @param type {String} event type
      */
-    __registerEventAtHandler : function(element, type)
+    __registerEventAtHandler : function(target, type)
     {
       // TODO: What's about priority of these handlers here. Is this really
       // not important. What if two handler can handle the same event type?
@@ -548,13 +548,20 @@ qx.Class.define("qx.event.Manager",
       // iterate over all event handlers and check whether they are responsible
       // for this event type
       var handlers = this.__eventHandlers;
+      var hasHandler = false;
+
       for (var i=0, l=handlers.length; i<l; i++)
       {
-        if (handlers[i].canHandleEvent(element, type))
+        if (handlers[i].canHandleEvent(target, type))
         {
-          handlers[i].registerEvent(element, type);
+          handlers[i].registerEvent(target, type);
+          hasHandler = true;
           break;
         }
+      }
+
+      if (!hasHandler) {
+        throw new Error("There is no event handler for the event '"+type+"'!");
       }
     },
 
@@ -564,11 +571,11 @@ qx.Class.define("qx.event.Manager",
      * supported events is removed by using {qx.event.Manager#removeListener}
      * and no other event listener is listening on this type.
      *
-     * @param element {Element} DOM element from, which the event handler should
+     * @param target {Element|Object} The target from, which the event handler should
      *     be removed
      * @param type {String} event type
      */
-    __unregisterEventAtHandler : function(element, type)
+    __unregisterEventAtHandler : function(target, type)
     {
       // TODO: What's about priority of these handlers here. Is this really
       // not important. What if two handler can handle the same event type?
@@ -576,9 +583,9 @@ qx.Class.define("qx.event.Manager",
       var handlers = this.__eventHandlers;
       for (var i=0, l=handlers.length; i<l; i++)
       {
-        if (handlers[i].canHandleEvent(element, type))
+        if (handlers[i].canHandleEvent(target, type))
         {
-          handlers[i].unregisterEvent(element, type);
+          handlers[i].unregisterEvent(target, type);
           break;
         }
       }
@@ -610,9 +617,6 @@ qx.Class.define("qx.event.Manager",
       }
 
       // dispatch event
-      // TODO: Is the choose of the dispatcher only dependend from the type?
-      // Then it might be better to create a map here instead of iterating
-      // through such an array every time.
       this.__inEventDispatch = true;
       for (var i=0,l=this.__dispatchHandlers.length; i<l; i++)
       {
@@ -649,9 +653,6 @@ qx.Class.define("qx.event.Manager",
       MOUSE CAPTURE
     ---------------------------------------------------------------------------
     */
-
-    // TODO: Any chance to get this removed here. Do we really need
-    // this accesspoint here?
 
     /**
      * Get the capture handler for the element.
