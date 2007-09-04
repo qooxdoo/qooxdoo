@@ -44,8 +44,8 @@
     
     doc.add(el1, el2, el3, el4, el5);
     
-    el2.__markAsHidden();
-    el4.__markAsHidden();
+    el2.exclude();
+    el4.exclude();
     
     qx.html.Element.flush();
     
@@ -63,7 +63,7 @@
     
     this.info("Make simple hidden element visible");
     
-    el2.__markAsVisible();
+    el2.include();
     
     qx.html.Element.flush();
     
@@ -89,14 +89,14 @@
     el4_2.setAttribute("id", "el4_2");
     el4_2.setStyle("color", "red");
     el4_2.setAttribute("text", "el4_2");
-    el4_2.__markAsHidden();
+    el4_2.exclude();
 
     var el4_3 = new qx.html.Element;
     el4_3.setAttribute("id", "el4_3");
     
     el4.add(el4_1, el4_2, el4_3);
     
-    el4.__markAsVisible();
+    el4.include();
     
     qx.html.Element.flush();    
 
@@ -117,7 +117,7 @@
     
     this.info("Show inner element");
     
-    el4_2.__markAsVisible();
+    el4_2.include();
     
     qx.html.Element.flush();
 
@@ -140,7 +140,7 @@
     
     this.info("Internal move while hidden");
     
-    el4.__markAsHidden();
+    el4.exclude();
     
     el4.moveTo(el4_3, 0);
     el4.remove(el4_2);
@@ -167,7 +167,7 @@
     
     this.info("Internal move while hidden -> show again");
     
-    el4.__markAsVisible();
+    el4.include();
     
     qx.html.Element.flush();
 
