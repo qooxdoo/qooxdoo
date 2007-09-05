@@ -141,19 +141,7 @@ qx.Class.define("qx.html.Element",
         
         if (obj.__modifiedChildren) 
         {
-          if (qx.core.Variant.isSet("qx.domEditDistance", "on")) 
-          {
-            if (obj.__useEditDistance) {
-              this.__syncChildrenEditDistance(obj)
-            } else {
-              this.__syncChildren(obj);
-            }
-          }
-          else
-          {
-            this.__syncChildren(obj);
-          }
-          
+          this.__syncChildren(obj);
           obj.__modifiedChildren = false;
         }
       }
@@ -408,190 +396,6 @@ qx.Class.define("qx.html.Element",
     },
     
 
-    /**
-     * Apply the DOM structure of the given parent. Used edit distance 
-     * algorithm which means quadratic, more intensive computing but may 
-     * reduce the number of DOM transactions needed.
-     *
-     * @type static
-     * @param obj {qx.html.Element} the element to syncronize
-     * @return {void}
-     */
-    __syncChildrenEditDistance : function(obj)
-    { 
-      if (qx.core.Variant.isSet("qx.domEditDistance", "on"))
-      {
-        // **********************************************************************
-        //   Compute needed operations
-        // **********************************************************************
-        
-        var domElement = obj.__element;
-        var source = domElement.childNodes;
-        var target = [];
-        for (var i=0, ch=obj.__children, cl=ch.length; i<cl; i++) 
-        {
-          if (ch[i].__included) {
-            target.push(ch[i].__element); 
-          }
-        }
-  
-        // Compute edit operations
-        var operations = qx.util.EditDistance.getEditOperations(source, target);
-  
-        /*
-        if (qx.core.Variant.isSet("qx.debug", "on"))
-        {
-          // We need to convert the collection to an array otherwise
-          // FireBug sometimes will display a live view of the DOM and not the
-          // the snapshot at this moment.
-          source = qx.lang.Array.fromCollection(source);
-          
-          console.log("Source: ", source.length + ": ", source);
-          console.log("Target: ", target.length + ": ", target);
-          console.log("Operations: ", operations);
-        }
-        */
-  
-  
-  
-        // **********************************************************************
-        //   Process operations
-        // **********************************************************************
-        var job;
-        var domOperations = 0;
-  
-        // Store offsets which are a result of element moves
-        var offsets = [];
-  
-        for (var i=0, l=operations.length; i<l; i++)
-        {
-          job = operations[i];
-  
-  
-  
-          // ********************************************************************
-          //   Apply offset
-          // ********************************************************************
-          if (offsets[job.pos] !== undefined)
-          {
-            job.pos -= offsets[job.pos];
-  
-            // We need to be sure that we don't get negative indexes.
-            // This will otherwise break array/collection index access.
-            if (job.pos < 0) {
-              job.pos = 0;
-            }
-          }
-  
-  
-  
-          // ********************************************************************
-          //   Process DOM
-          // ********************************************************************
-          if (job.operation === qx.util.EditDistance.OPERATION_DELETE)
-          {
-            // Ignore elements which are not placed at their original position anymore.
-            if (domElement.childNodes[job.pos] === job.old)
-            {
-              // console.log("Remove: ", job.old);
-              domElement.removeChild(job.old);
-              domOperations++;
-            }
-          }
-          else
-          {
-            // Operations: insert and replace
-            // ******************************************************************
-            //   Offset calculation
-            // ******************************************************************
-            // Element will be moved around in the same parent
-            // We use the element on its old position and scan
-            // to the begin. A counter will increment on each
-            // step.
-            //
-            // This way we get the index of the element
-            // from the beginning.
-            //
-            // After this we increment the offset of all affected
-            // children (the following ones) until we reached the
-            // current position in our operation modified. The reason
-            // we stop at this point is that the following
-            // childrens should already be placed correctly through
-            // the operation method from the end to begin of the
-            // edit distance algorithm.
-            if (job.value.parentNode === domElement)
-            {
-              // find the position/index where the element is stored currently
-              previousIndex = -1;
-              iterator = job.value;
-  
-              do
-              {
-                previousIndex++;
-                iterator = iterator.previousSibling;
-              }
-              while (iterator);
-  
-              // increment all affected offsets
-              for (var j=previousIndex+1; j<=job.pos; j++)
-              {
-                if (offsets[j] === undefined) {
-                  offsets[j] = 1;
-                } else {
-                  offsets[j]++;
-                }
-              }
-            }
-  
-  
-  
-            // ******************************************************************
-            //   The real DOM work
-            // ******************************************************************
-            if (job.operation === qx.util.EditDistance.OPERATION_REPLACE)
-            {
-              if (domElement.childNodes[job.pos] === job.old)
-              {
-                // console.log("Replace: ", job.old, " with ", job.value);
-                domElement.replaceChild(job.value, job.old);
-                domOperations++;
-              }
-              else
-              {
-                // console.log("Pseudo replace: ", job.old, " with ", job.value);
-                job.operation = qx.util.EditDistance.OPERATION_INSERT;
-              }
-            }
-  
-            if (job.operation === qx.util.EditDistance.OPERATION_INSERT)
-            {
-              var before = domElement.childNodes[job.pos];
-  
-              if (before)
-              {
-                // console.log("Insert: ", job.value, " at: ", job.pos);
-                domElement.insertBefore(job.value, before);
-                domOperations++;
-              }
-              else
-              {
-                // console.log("Append: ", job.value);
-                domElement.appendChild(job.value);
-                domOperations++;
-              }
-            }
-          }
-        }
-  
-        if (qx.core.Variant.isSet("qx.debug", "on"))
-        {
-          if (this.__debug) {
-            console.debug("  - Modified DOM with " + domOperations + " operations (editdistance)");
-          }
-        }
-      }
-    },
-    
 
 
 
@@ -746,12 +550,8 @@ qx.Class.define("qx.html.Element",
     __included : true,
     
     
-    /** {Boolean} Whether the elements children should be syncronized using the edit distance algorithm. */
-    __useEditDistance : false,
-    
-    
     /** {Boolean} If the element is dirty (changes have applied to it or to one of its children) */
-    __isDirty : false,
+    __dirty : false,
     
     
     /**
@@ -785,9 +585,9 @@ qx.Class.define("qx.html.Element",
     __makeDirty : function()
     {
       pa = this;
-      while (pa && !pa.__isDirty)
+      while (pa && !pa.__dirty)
       {
-        pa.__isDirty = true;
+        pa.__dirty = true;
         pa = pa.__parent;
       }
     },
@@ -823,7 +623,7 @@ qx.Class.define("qx.html.Element",
             if (child.__element)
             {
               // All elements which are not dirty are ignored (including their children)
-              if (!child.__isDirty) 
+              if (!child.__dirty) 
               {
                 // console.info("OPTIMIZE: " + child.getAttribute("id"));
                 continue;
@@ -846,7 +646,7 @@ qx.Class.define("qx.html.Element",
             }
             
             // Remove dirty flag
-            delete child.__isDirty;
+            delete child.__dirty;
             
             // Add children, too
             child.__addDirtyChildren(domRendered, domInvisible);
@@ -1291,43 +1091,11 @@ qx.Class.define("qx.html.Element",
 
 
 
-   /*
+    /*
     ---------------------------------------------------------------------------
       DOM ELEMENT ACCESS
     ---------------------------------------------------------------------------
     */
-    
-    /**
-     * Sets the element to an already existing node. It will be
-     * assumed that this DOM element is already visible e.g.
-     * like a normal displayed element in the document's body.
-     *
-     * @type member
-     * @param elem {Element} the dom element to set
-     * @return {void}
-     * @throws TODOC
-     */
-    setDomElement : function(elem)
-    {
-      if (this.__element) {
-        throw new Error("Elements could not be replaced!");
-      }
-
-      // Initialize based on given element
-      this.__element = elem;
-      
-      // Mark as root
-      this.__root = true;
-      
-      // Mark as new
-      this.__new = true;
-      
-      // Register for syncronization
-      if (this.__included) {
-        this.__scheduleSync();
-      }
-    },
-
 
     /**
      * Returns the DOM element (if created). Please use this with caution.
@@ -1754,25 +1522,5 @@ qx.Class.define("qx.html.Element",
     this._disposeObjectDeep("__children", 1);
     this._disposeFields("__attribValues", "__styleValues", "__eventValues");
     this._disposeFields("__attribJobs", "__styleJobs", "__eventJobs");
-  },
-  
-  
-  
-  
-
-
-  /*
-  *****************************************************************************
-     VARIANTS
-  *****************************************************************************
-  */  
-  
-  variants : 
-  {
-    "qx.domEditDistance" : 
-    {
-      allowedValues : [ "on", "off" ],
-      defaultValue : "off" 
-    } 
   }
 });
