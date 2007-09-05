@@ -514,7 +514,7 @@ qx.Class.define("qx.io.remote.Request",
       this.setState("queued");
 
       // Bubbling up
-      this.dispatchEvent(e);
+      this.dispatchEvent(e.clone());
     },
 
 
@@ -531,7 +531,7 @@ qx.Class.define("qx.io.remote.Request",
       this.setState("sending");
 
       // Bubbling up
-      this.dispatchEvent(e);
+      this.dispatchEvent(e.clone());
     },
 
 
@@ -548,7 +548,7 @@ qx.Class.define("qx.io.remote.Request",
       this.setState("receiving");
 
       // Bubbling up
-      this.dispatchEvent(e);
+      this.dispatchEvent(e.clone());
     },
 
 
@@ -565,7 +565,7 @@ qx.Class.define("qx.io.remote.Request",
       this.setState("completed");
 
       // Bubbling up
-      this.dispatchEvent(e);
+      this.dispatchEvent(e.clone());
 
       // Automatically dispose after event completion
       this.dispose();
@@ -585,7 +585,7 @@ qx.Class.define("qx.io.remote.Request",
       this.setState("aborted");
 
       // Bubbling up
-      this.dispatchEvent(e);
+      this.dispatchEvent(e.clone());
 
       // Automatically dispose after event completion
       this.dispose();
@@ -613,13 +613,13 @@ qx.Class.define("qx.io.remote.Request",
             // then don't bubble up the timeout event
             return;
         }
-      */
 
-      // Modify internal state
+
+    */  // Modify internal state
       this.setState("timeout");
 
       // Bubbling up
-      this.dispatchEvent(e);
+      this.dispatchEvent(e.clone());
 
       // Automatically dispose after event completion
       this.dispose();
@@ -639,7 +639,7 @@ qx.Class.define("qx.io.remote.Request",
       this.setState("failed");
 
       // Bubbling up
-      this.dispatchEvent(e);
+      this.dispatchEvent(e.clone());
 
       // Automatically dispose after event completion
       this.dispose();
