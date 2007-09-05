@@ -33,8 +33,7 @@
  */
 qx.Class.define("qx.event.type.MouseEvent",
 {
-  extend : qx.event.type.Event,
-  include : qx.event.type.MModifierKeys,
+  extend : qx.event.type.DomEvent,
 
 
 

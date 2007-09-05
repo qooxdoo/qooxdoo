@@ -26,10 +26,12 @@
 ************************************************************************ */
 
 /**
- * Common functions to access the state of modifier keys.
+ * Common base class for all DOM events.
  */
-qx.Mixin.define("qx.event.type.MModifierKeys",
+qx.Class.define("qx.event.type.DomEvent",
 {
+  extend : qx.event.type.Event,
+
   members :
   {
     /**

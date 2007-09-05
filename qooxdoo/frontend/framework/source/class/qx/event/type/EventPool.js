@@ -45,9 +45,9 @@ qx.Class.define("qx.event.type.EventPool",
   construct : function()
   {
     this.base(arguments);
-    
+
     this._pool = new qx.util.ObjectPool();
-    this._pool.setPoolSize(5);
+    this._pool.setPoolSize(30);
   },
 
 
@@ -84,12 +84,12 @@ qx.Class.define("qx.event.type.EventPool",
     getEventInstance : function(classname)
     {
       var event = this._pool.getObjectOfType(classname);
-      if (!event) 
+      if (!event)
       {
         var clazz = qx.Class.getByName(classname);
         event = new clazz;
       }
-      
+
       return event;
     },
 
