@@ -234,9 +234,7 @@ qx.Class.define("qx.io.image.Preloader",
       this._isLoaded = true;
       this._isErroneous = false;
 
-      if (this.hasEventListeners("load")) {
-        this.dispatchEvent(new qx.legacy.event.type.Event("load"), true);
-      }
+      this.createDispatchEvent("load", true);
     },
 
 
@@ -257,9 +255,7 @@ qx.Class.define("qx.io.image.Preloader",
       this._isLoaded = false;
       this._isErroneous = true;
 
-      if (this.hasEventListeners("error")) {
-        this.dispatchEvent(new qx.legacy.event.type.Event("error"), true);
-      }
+      this.createDispatchEvent("error", true);
     }
   },
 

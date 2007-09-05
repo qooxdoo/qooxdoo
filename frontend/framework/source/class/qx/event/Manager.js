@@ -213,6 +213,20 @@ qx.Class.define("qx.event.Manager",
 
 
     /**
+     * Check whether there are one or more listeners for an event type
+     * registered at the target.
+     * @param target {Element|Object} The event target
+     * @param type {String} The event type
+     * @param capture {Boolean ? false} Whether to check for listeners of
+     *       the bubbling or of the capturing phase.
+     * @return {Boolean} Whether the target has event listeners of the given type.
+     */
+    hasListeners : function(target, type, capture) {
+      return this.getManager(element).hasListeners(target, type, capture);
+    },
+
+
+    /**
      * Use the low level browser functionality to attach event listeners
      * to DOM nodes. Uses <code>attachEvent</code> in IE and
      * <code>addEventListener</code> in all oother browsers.
@@ -523,6 +537,23 @@ qx.Class.define("qx.event.Manager",
 
 
 
+    /**
+     * Check whether there are one or more listeners for an event type
+     * registered at the target.
+     * @param target {Element|Object} The event target
+     * @param type {String} The event type
+     * @param capture {Boolean ? false} Whether to check for listeners of
+     *       the bubbling or of the capturing phase.
+     * @return {Boolean} Whether the target has event listeners of the given type.
+     */
+    hasListeners : function(target, type, capture)
+    {
+      var listeners = this.registryGetListeners(target, type, capture, false);
+      if (!listeners || listeners.length <= 0) {
+        return false;
+      }
+      return true;
+    },
 
 
 
@@ -562,7 +593,9 @@ qx.Class.define("qx.event.Manager",
       }
 
       if (!hasHandler) {
-        throw new Error("There is no event handler for the event '"+type+"'!");
+        //console.log(target);
+        //this.printStackTrace();
+        throw new Error("There is no event handler for the event '"+type+"' on target '"+target+"'!");
       }
     },
 
@@ -625,6 +658,7 @@ qx.Class.define("qx.event.Manager",
 
         if (dispatchHandler.canDispatchEvent(event, type))
         {
+          //console.log("dispatchevent: ", type, dispatchHandler.classname);
           dispatchHandler.dispatchEvent(event, type);
           break;
         }

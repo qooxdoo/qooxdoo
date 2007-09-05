@@ -120,7 +120,13 @@ qx.Class.define("qx.event.handler.InlineEventHandler",
 
     // overridden
     canHandleEvent : function(target, type) {
-      return this.__inlineEvent[type];
+      return (
+        this.__inlineEvent[type] &&
+        (
+          typeof(target.nodeType) === "number" ||
+          typeof(target.document) === "object"
+        )
+      );
     },
 
 
