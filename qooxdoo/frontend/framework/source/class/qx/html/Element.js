@@ -1002,7 +1002,7 @@ qx.Class.define("qx.html.Element",
       delete child.__parent;
       
       // Remove from scheduler
-      this.__unscheduleSync();
+      child.__unscheduleSync();
     },
     
     
