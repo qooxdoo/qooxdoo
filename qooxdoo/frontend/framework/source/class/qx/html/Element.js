@@ -779,6 +779,8 @@ qx.Class.define("qx.html.Element",
     /** 
      * Marks the element as dirty
      *
+     * @type static
+     * @return {void}
      */
     __makeDirty : function()
     {
@@ -838,6 +840,8 @@ qx.Class.define("qx.html.Element",
             else
             {
               child.__createDomElement();
+              child.__new = true;
+              
               domInvisible[hc] = child;              
             }
             
@@ -893,9 +897,6 @@ qx.Class.define("qx.html.Element",
       // console.log("Creating: " + this.getAttribute("id"));
       this.__element = qx.bom.Element.create(this.__nodeName);
       this.__element.QxElement = this;
-      
-      // Mark as new
-      this.__new = true;
     },
 
     
@@ -1032,7 +1033,32 @@ qx.Class.define("qx.html.Element",
     },
 
 
-
+    /**
+     * Internal helper to manage children include/exclude changes
+     *
+     * @type member
+     * @return {void}
+     */
+    __includeExcludeHelper : function()
+    {
+      // If the parent element is created, schedule 
+      // the modification for it
+      var pa = this.__parent;
+      if (pa && pa.__element && pa.__included) 
+      {
+        // Remember job
+        pa.__modifiedChildren = true;
+        
+        // Add to scheduler
+        pa.__scheduleSync();
+        
+        // Mark as dirty
+        pa.__makeDirty();
+      }      
+    },
+    
+    
+    
 
 
 
@@ -1336,19 +1362,10 @@ qx.Class.define("qx.html.Element",
         return; 
       }
       
-      // If the parent element is created, schedule 
-      // the modification for it
-      var pa = this.__parent;
-      if (pa && pa.__element) 
-      {
-        pa.__modifiedChildren = true;
-        pa.__scheduleSync(); 
-        
-        // Mark as dirty
-        pa.__makeDirty();
-      }      
-      
       this.__included = false; 
+      this.__includeExcludeHelper();
+      
+      return this;
     },
     
     
@@ -1365,21 +1382,13 @@ qx.Class.define("qx.html.Element",
         return; 
       }
       
-      // If the parent element is created, schedule 
-      // the modification for it
-      var pa = this.__parent;
-      if (pa && pa.__element) 
-      {
-        pa.__modifiedChildren = true;
-        pa.__scheduleSync();
-        
-        // Mark as dirty
-        pa.__makeDirty();
-      }
+      delete this.__included;
+      this.__includeExcludeHelper();
       
-      this.__included = true; 
+      return this;
     },
-
+    
+    
 
 
     
