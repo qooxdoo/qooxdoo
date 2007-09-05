@@ -28,6 +28,10 @@
 /**
  * Wrapper for DOM events.
  *
+ * Event objects are only valid during the event dispatch. After the dispatch
+ * event objects are pooled or disposed. If you want to safe a reference to an
+ * event instance use the {@link #clone} method.
+ *
  * The interface is modeled after the DOM level 2 event interface:
  * http://www.w3.org/TR/DOM-Level-2-Events/events.html#Events-interface
  */
@@ -130,6 +134,12 @@ qx.Class.define("qx.event.type.Event",
     },
 
 
+    /**
+     * Create a clone of the event object, which is not automatically disposed
+     * or pooled after an event dispatch.
+     *
+     * @return {qx.event.type.Event} a clone of this class.
+     */
     clone : function()
     {
       var clone = new this.constructor;

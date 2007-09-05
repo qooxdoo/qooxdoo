@@ -33,8 +33,7 @@
  */
 qx.Class.define("qx.event.type.KeyEvent",
 {
-  extend : qx.event.type.Event,
-  include : qx.event.type.MModifierKeys,
+  extend : qx.event.type.DomEvent,
 
 
 
@@ -64,6 +63,17 @@ qx.Class.define("qx.event.type.KeyEvent",
       this._charCode = charCode;
       this._keyIdentifier = keyIdentifier;
       return this;
+    },
+
+
+    // overridden
+    clone : function()
+    {
+      var clone = this.base(arguments);
+      clone._keyCode = this._keyCode;
+      clone._charCode = this._charCode;
+      clone._keyIdentifier = this._keyIdentifier;
+      return clone;
     },
 
 
