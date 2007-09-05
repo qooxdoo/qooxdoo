@@ -31,8 +31,6 @@
  *
  * Processes DOM insertion and modification with a advanced logic
  * to reduce the real transactions.
- *
- * TODO: Any chance to support domInserted or domRemoved events?
  */
 qx.Class.define("qx.html.Element",
 {
@@ -305,15 +303,16 @@ qx.Class.define("qx.html.Element",
      */    
     __insertChildren : function(obj)
     {
-      var domElement = obj.__element;
+      var domElement = document.createDocumentFragment();
       
       for (var i=0, children=obj.__children, l=children.length; i<l; i++) 
       {
-        // TODO: documentFragment helpful here?
         if (children[i].__included) {
           domElement.appendChild(children[i].__element);
         }
       }
+      
+      obj.__element.appendChild(domElement);
     },
     
 
