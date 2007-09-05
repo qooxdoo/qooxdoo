@@ -23,10 +23,26 @@
 
 ************************************************************************ */
 
+/** 
+ * This is the root element for a set of {@link qx.html.Element}s.
+ *
+ * To make other elements visible these elements must be inserted
+ * into an root element at any level.
+ * 
+ * A root element uses an existing DOM element where is assumed that
+ * this element is always visible. In the easiest case, the root element
+ * is identical to the document's body.
+ */
 qx.Class.define("qx.html.Root",
 {
   extend : qx.html.Element,
   
+  /**
+   * Creates a root element
+   *
+   * @constructor
+   * @param elem {Element?null} DOM element to use 
+   */
   construct : function(elem)
   {
     this.base(arguments);
