@@ -1000,6 +1000,9 @@ qx.Class.define("qx.html.Element",
 
       // Remove reference to old parent
       delete child.__parent;
+      
+      // Remove from scheduler
+      this.__unscheduleSync();
     },
     
     
@@ -1044,17 +1047,25 @@ qx.Class.define("qx.html.Element",
       // If the parent element is created, schedule 
       // the modification for it
       var pa = this.__parent;
-      if (pa && pa.__element && pa.__included) 
+      if (pa && pa.__element) 
       {
         // Remember job
         pa.__modifiedChildren = true;
         
-        // Add to scheduler
-        pa.__scheduleSync();
-        
-        // Mark as dirty
-        pa.__makeDirty();
-      }      
+        if (pa.__included)
+        {
+          // Mark as dirty
+          pa.__makeDirty();
+
+          // Add to scheduler
+          pa.__scheduleSync();
+        }
+      }  
+      
+      // Remove from scheduler
+      if (!this.__included) {
+        this.__unscheduleSync();
+      }    
     },
     
     
@@ -1354,7 +1365,7 @@ qx.Class.define("qx.html.Element",
      * from the DOM and ignored for updates until get included again.
      *
      * @type member
-     * @return {void}
+     * @return {qx.html.Element} this object (for chaining support)
      */    
     exclude : function() 
     {
@@ -1374,7 +1385,7 @@ qx.Class.define("qx.html.Element",
      * the DOM again and synced with the internal data representation.
      *
      * @type member
-     * @return {void}
+     * @return {qx.html.Element} this object (for chaining support)
      */   
     include : function() 
     {
