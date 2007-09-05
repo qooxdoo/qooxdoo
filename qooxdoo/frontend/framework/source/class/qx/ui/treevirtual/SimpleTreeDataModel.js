@@ -137,7 +137,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     __tree : null,
 
     // An empty tree contains only this one node
-    __getEmptyTree() : function()
+    __getEmptyTree : function()
     {
       return {
                label    : "<virtual root>",
