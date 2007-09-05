@@ -28,8 +28,7 @@ qx.Class.define("testrunner.test.html.Element",
       var helper = document.createElement("div");
       document.body.appendChild(helper);
 
-      var doc = new qx.html.Element;
-      doc.setDomElement(helper);
+      var doc = new qx.html.Root(helper);
       doc.setAttribute("id", "doc");
 
 
@@ -368,8 +367,7 @@ qx.Class.define("testrunner.test.html.Element",
       var helper = document.createElement("div");
       document.body.appendChild(helper);      
       
-      var doc = new qx.html.Element;
-      doc.setDomElement(helper);
+      var doc = new qx.html.Root(helper);
       doc.setAttribute("id", "doc");
   
   
