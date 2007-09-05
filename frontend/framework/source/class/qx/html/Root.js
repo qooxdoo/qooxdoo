@@ -50,22 +50,22 @@ qx.Class.define("qx.html.Root",
      */    
     useElement : function(elem)
     {
-      if (this.__element) {
+      if (this._element) {
         throw new Error("Elements could not be replaced!");
       }
 
       // Initialize based on given element
-      this.__element = elem;
+      this._element = elem;
       
       // Mark as root
-      this.__root = true;
+      this._root = true;
       
       // Mark as new
-      this.__new = true;
+      this._new = true;
       
       // Register for syncronization
-      if (this.__included) {
-        this.__scheduleSync();
+      if (this._included) {
+        this._scheduleSync();
       }      
     }   
   }  
