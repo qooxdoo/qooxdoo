@@ -336,13 +336,28 @@ qx.Class.define("qx.html.Element",
 
       var domParent = dataParent.__element;
       var domChildren = domParent.childNodes;
+      var domChild;
       var domEl;
       
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         var domOperations = 0;
       }
       
-      // TODO: remove children first
+      // Remove children from DOM which are excluded or remove first
+      for (var i=domChildren.length-1; i>=0; i--) 
+      {
+        domChild = domChildren[i];
+        dataChild = domChild.QxElement;
+        
+        if (!dataChild.__included || dataChild.__parent !== obj)
+        {
+          if (qx.core.Variant.isSet("qx.debug", "on")) {
+            domOperations++;
+          }
+          
+          domParent.removeChild(domChild);
+        }  
+      }
       
       // Start from beginning and bring DOM in sync 
       // with the data structure
@@ -373,16 +388,6 @@ qx.Class.define("qx.html.Element",
           // Increase counter which ignores invisible entries
           dataPos++;
         }
-      }
-      
-      // Remove remaining children
-      while (domChildren[dataPos]) 
-      {
-        if (qx.core.Variant.isSet("qx.debug", "on")) {
-          domOperations++
-        }
-        
-        domParent.removeChild(domParent.lastChild); 
       }
       
       // User feedback
@@ -1518,8 +1523,13 @@ qx.Class.define("qx.html.Element",
   
   destruct : function()
   {
+    if (this.__element) {
+      delete this.__element.QxElement;
+    }
+    
     this._disposeObjectDeep("__children", 1);
     this._disposeFields("__attribValues", "__styleValues", "__eventValues");
     this._disposeFields("__attribJobs", "__styleJobs", "__eventJobs");
+    this._disposeFields("__element");
   }
 });
