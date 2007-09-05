@@ -654,7 +654,7 @@ qx.Class.define("qx.html.Element",
       {
         entry = modified[hc];
         
-        if (entry.__hasVisibleRoot())
+        if (entry.__hasIncludedRoot())
         {
           // Add self to modified
           if (entry.__isDomRendered()) {
@@ -665,15 +665,8 @@ qx.Class.define("qx.html.Element",
 
           // Add children on all newly created elements or 
           // elements with new children
-          if (!entry.__element || entry.__new) 
-          {
-            // Add all (included) children (recursively)
-            entry.__addIncludedSubTree(domRendered, domInvisible, false);
-          }
-          else if (entry.__modifiedChildren) 
-          {
-            // Add all newly added children (and these recursively)
-            entry.__addIncludedSubTree(domRendered, domInvisible, true);
+          if (!entry.__element || entry.__new || entry.__modifiedChildren) {
+            entry.__addDirtyChildren(domRendered, domInvisible);
           }
         }
       }
@@ -768,6 +761,10 @@ qx.Class.define("qx.html.Element",
     __useEditDistance : false,
     
     
+    /** {Boolean} If the element is dirty (changes have applied to it or to one of its children) */
+    __isDirty : false,
+    
+    
     /**
      * Add the element to the global modification list.
      *
@@ -788,60 +785,77 @@ qx.Class.define("qx.html.Element",
     __unscheduleSync : function() {
       delete qx.html.Element.__modified[this.toHashCode()];
     },
+    
+    
+    /** 
+     * Marks the element as dirty
+     *
+     */
+    __makeDirty : function()
+    {
+      pa = this;
+      while (pa && !pa.__isDirty)
+      {
+        pa.__isDirty = true;
+        pa = pa.__parent;
+      }
+    },
 
 
     /**
-     * Finds all visible marked children of this element.
+     * Finds all children (recursivly) of this element which are included
+     * and marked as dirty.
      *
      * @type static
      * @param res {Array?} Optional array of already found children.
      *   Normally only used by the recursion
      * @return {Array} list of all found children
      */
-    __addIncludedSubTree : function(domRendered, domInvisible, filter)
+    __addDirtyChildren : function(domRendered, domInvisible)
     {
       var children = this.__children;      
-      var child;
-      var hc;
-      var process;
+      var child, hc;
       
       if (children)
       {
         for (var i=0, l=children.length; i<l; i++) 
         {
           child = children[i];
-
-          if (filter)
-          {
-            // Uncreated elements are processed as out-of-date
-            if (child.__element && child.__element.parentNode == this.__element) 
-            {
-              console.info("OPTIMIZE: " + child.getAttribute("id"));
-              continue;
-            }
-          }
           
-          // Ignore invisible children (and all their children)
+          // All elements which are not included are ignored (including their children)
           if (child.__included)
           {
             hc = child.toHashCode();
             
-            if (!child.__element)
+            // Differ between created and new elements
+            if (child.__element)
+            {
+              // All elements which are not dirty are ignored (including their children)
+              if (!child.__isDirty) 
+              {
+                // console.info("OPTIMIZE: " + child.getAttribute("id"));
+                continue;
+              }
+              else if (child.__new || child.__hasJobs())
+              {
+                if (child.__isDomRendered()) {
+                  domRendered[hc] = child;
+                } else {
+                  domInvisible[hc] = child;
+                }                  
+              }
+            }
+            else
             {
               child.__createDomElement();
-              domInvisible[hc] = child;
-            }
-            else if (child.__new || child.__hasJobs()) 
-            {
-              if (child.__isDomRendered()) {
-                domRendered[hc] = child;
-              } else {
-                domInvisible[hc] = child;
-              }    
+              domInvisible[hc] = child;              
             }
             
+            // Remove dirty flag
+            delete child.__isDirty;
+            
             // Add children, too
-            child.__addIncludedSubTree(domRendered, domInvisible, false);
+            child.__addDirtyChildren(domRendered, domInvisible);
           }
         }
       }
@@ -852,7 +866,7 @@ qx.Class.define("qx.html.Element",
      * Walk up the internal children hierarchy and 
      * look if one of the children is marked as root
      */
-    __hasVisibleRoot : function()
+    __hasIncludedRoot : function()
     {
       var pa = this;
       
@@ -979,6 +993,9 @@ qx.Class.define("qx.html.Element",
 
       // Convert to child of this object
       child.__parent = this;
+      
+      // Mark as dirty
+      this.__makeDirty();
 
       // Register job and add to queue for existing elements
       if (this.__element)
@@ -1018,6 +1035,9 @@ qx.Class.define("qx.html.Element",
 
       // Remove reference to old parent
       delete child.__parent;
+      
+      // Mark as dirty
+      this.__makeDirty();      
     },
     
     
@@ -1044,6 +1064,9 @@ qx.Class.define("qx.html.Element",
           this.__scheduleSync();
         }
       }
+      
+      // Mark as dirty
+      this.__makeDirty();      
     },
 
 
@@ -1358,6 +1381,9 @@ qx.Class.define("qx.html.Element",
       {
         pa.__modifiedChildren = true;
         pa.__scheduleSync(); 
+        
+        // Mark as dirty
+        pa.__makeDirty();
       }      
       
       this.__included = false; 
@@ -1383,7 +1409,10 @@ qx.Class.define("qx.html.Element",
       if (pa && pa.__element) 
       {
         pa.__modifiedChildren = true;
-        pa.__scheduleSync(); 
+        pa.__scheduleSync();
+        
+        // Mark as dirty
+        pa.__makeDirty();
       }
       
       this.__included = true; 
@@ -1421,6 +1450,9 @@ qx.Class.define("qx.html.Element",
       // jobs. It is a simple full list copy.
       if (this.__element) 
       {
+        // Mark as dirty
+        this.__makeDirty();
+
         // Dynamically create if needed
         if (!this.__styleJobs) {
           this.__styleJobs = {};
@@ -1465,6 +1497,9 @@ qx.Class.define("qx.html.Element",
       // jobs. It is a simple full list copy.        
       if (this.__element) 
       {
+        // Mark as dirty
+        this.__makeDirty();
+
         // Dynamically create if needed
         if (!this.__styleJobs) {
           this.__styleJobs = {};
@@ -1531,6 +1566,9 @@ qx.Class.define("qx.html.Element",
       // jobs. It is a simple full list copy.
       if (this.__element) 
       {
+        // Mark as dirty
+        this.__makeDirty();
+        
         // Dynamically create if needed
         if (!this.__attribJobs) {
           this.__attribJobs = {};
@@ -1575,6 +1613,9 @@ qx.Class.define("qx.html.Element",
       // jobs. It is a simple full list copy.
       if (this.__element) 
       {
+        // Mark as dirty
+        this.__makeDirty();
+        
         // Dynamically create if needed
         if (!this.__attribJobs) {
           this.__attribJobs = {};
