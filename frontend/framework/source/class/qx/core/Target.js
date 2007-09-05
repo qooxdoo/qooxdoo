@@ -175,7 +175,6 @@ qx.Class.define("qx.core.Target",
      *
      * @type member
      * @param evt {qx.legacy.event.type.Event} event to dispatch
-     * @param dispose {Boolean} whether the event object should be disposed after all event handlers run.
      * @return {Boolean} whether the event default was prevented or not. Returns true, when the event was NOT prevented.
      */
     dispatchEvent : function(evt)
@@ -188,6 +187,5 @@ qx.Class.define("qx.core.Target",
       evt.setTarget(this);
       qx.event.Manager.getManager(this).dispatchEvent(evt);
     }
-
   }
 });
