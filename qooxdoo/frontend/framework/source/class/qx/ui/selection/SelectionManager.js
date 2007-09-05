@@ -1513,7 +1513,7 @@ qx.Class.define("qx.ui.selection.SelectionManager",
         return;
       }
 
-      this.createDispatchDataEvent("changeSelection", this.getSelectedItems, true);
+      this.createDispatchDataEvent("changeSelection", this.getSelectedItems(), true);
     },
 
 
