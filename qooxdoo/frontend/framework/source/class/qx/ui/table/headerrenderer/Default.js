@@ -97,7 +97,6 @@ qx.Class.define("qx.ui.table.headerrenderer.Default",
       var widget = new qx.ui.basic.Atom();
       widget.setAppearance("table-header-cell");
       widget.setSelectable(false);
-      widget.setHorizontalChildrenAlign("left");
 
       this.updateHeaderCell(cellInfo, widget);
 
