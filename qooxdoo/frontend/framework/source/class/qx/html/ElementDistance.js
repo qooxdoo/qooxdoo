@@ -61,7 +61,7 @@ qx.Class.define("qx.html.ElementDistance",
      * @param obj {qx.html.Element} the element to syncronize
      * @return {void}
      */
-    __syncChildren : function(obj)
+    _syncChildren : function(obj)
     { 
       if (qx.core.Variant.isSet("qx.domEditDistance", "on"))
       {
@@ -69,13 +69,13 @@ qx.Class.define("qx.html.ElementDistance",
         //   Compute needed operations
         // **********************************************************************
         
-        var domElement = obj.__element;
+        var domElement = obj._element;
         var source = domElement.childNodes;
         var target = [];
-        for (var i=0, ch=obj.__children, cl=ch.length; i<cl; i++) 
+        for (var i=0, ch=obj._children, cl=ch.length; i<cl; i++) 
         {
-          if (ch[i].__included) {
-            target.push(ch[i].__element); 
+          if (ch[i]._included) {
+            target.push(ch[i]._element); 
           }
         }
   
@@ -229,7 +229,7 @@ qx.Class.define("qx.html.ElementDistance",
   
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          if (this.__debug) {
+          if (this._debug) {
             console.debug("  - Modified DOM with " + domOperations + " operations (editdistance)");
           }
         }
