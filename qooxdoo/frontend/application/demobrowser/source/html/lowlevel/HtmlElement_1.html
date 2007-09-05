@@ -16,8 +16,7 @@
   <script type="text/javascript">
   qx.core.Init.getInstance().defineMain(function()
   {
-    var doc = new qx.html.Element;
-    doc.setDomElement(document.getElementById("test"));
+    var doc = new qx.html.Root(document.getElementById("test"));
     doc.setAttribute("id", "doc");
 
 
