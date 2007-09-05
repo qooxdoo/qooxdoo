@@ -26,7 +26,7 @@
 
 qx.Class.define("qx.io.remote.Response",
 {
-  extend : qx.legacy.event.type.Event,
+  extend : qx.event.type.Event,
 
 
 
@@ -37,8 +37,10 @@ qx.Class.define("qx.io.remote.Response",
   *****************************************************************************
   */
 
-  construct : function(eventType) {
-    this.base(arguments, eventType);
+  construct : function(eventType)
+  {
+    this.base(arguments);
+    this.setType(eventType);
   },
 
 
@@ -99,6 +101,18 @@ qx.Class.define("qx.io.remote.Response",
       USER METHODS
     ---------------------------------------------------------------------------
     */
+
+    clone : function()
+    {
+      var clone = this.base(arguments);
+      clone.setType(this.getType());
+      clone.setState(this.getState());
+      clone.setStatusCode(this.getStatusCode());
+      clone.setContent(this.getContent());
+      clone.setResponseHeaders(this.getResponseHeaders());
+      return clone;
+    },
+
 
     /**
      * TODOC

@@ -130,6 +130,19 @@ qx.Class.define("qx.event.type.Event",
     },
 
 
+    clone : function()
+    {
+      var clone = new this.constructor;
+      clone._event = this._event;
+      clone._type = this._type;
+      clone._target = this._target;
+      clone._currentTarget = this._currentTarget;
+      clone._stopPropagation = this._stopPropagation;
+      clone._bubbles = this._bubbles;
+      return clone;
+    },
+
+
     /**
      * Prevent browser default behaviour, e.g. opening the context menu, ...
      */
