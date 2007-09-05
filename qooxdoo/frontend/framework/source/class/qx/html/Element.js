@@ -604,12 +604,6 @@ qx.Class.define("qx.html.Element",
      */
     _createDomElement : function() 
     {
-      // TODO: Support different node types
-      // e.g. "flash" for Flash.create() ?
-      // e.g. "iframe" for Iframe.create() ?
-      // or is this better placed in separate classes which extends this one?
-      
-      // console.log("Creating: " + this.getAttribute("id"));
       this._element = qx.bom.Element.create(this._nodeName);
       this._element.QxElement = this;
     },
