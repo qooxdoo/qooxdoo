@@ -341,7 +341,7 @@ qx.Class.define("qx.io.remote.Exchange",
             }
 
             qx.log.Logger.getClassLogger(qx.io.remote.Exchange).debug("Unknown status code: " + vStatusCode + " (" + vReadyState + ")");
-            throw new Error("Unknown status code: " + vStatusCode);
+            return false;
         }
       }
     },
