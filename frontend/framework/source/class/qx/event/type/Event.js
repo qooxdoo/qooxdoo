@@ -114,9 +114,6 @@ qx.Class.define("qx.event.type.Event",
      */
     init : function(event)
     {
-      // TODO: Divide this class into two. DomEvents and non-domEvents
-      // Not all events are dom based so this looks a bit unflexibel. Even
-      // if it is not.
       if (!event) {
         event = {};
       }
@@ -149,33 +146,27 @@ qx.Class.define("qx.event.type.Event",
      * flow. If this method is called by any event listener the event will cease
      * propagating through the tree. The event will complete dispatch to all listeners
      * on the current event target before event flow stops.
-     *
-     * @signature function()
      */
-    stopPropagation : qx.core.Variant.select("qx.client",
+    stopPropagation :  function()
     {
-      // MSDN doccumantation http://msdn2.microsoft.com/en-us/library/ms533545.aspx
-      "mshtml" : function()
-      {
-        this._event.cancelBubble = true;
-        this._stopPropagation = true;
-      },
-
-      "default" : function()
-      {
+      if (this._event.stopPropagation) {
         this._event.stopPropagation();
-        this._stopPropagation = true;
       }
-    }),
+
+      // MSDN doccumantation http://msdn2.microsoft.com/en-us/library/ms533545.aspx
+      this._event.cancelBubble = true;
+
+      this._stopPropagation = true;
+    },
 
 
     /**
-     * Should only be called by the EventHandler.
+     * Get whether further event propagation has been stopped.
      *
      * @type member
-     * @return {Boolean} Whether further propagation should be stopped.
+     * @return {Boolean} Whether further propagation has been stopped.
      */
-    getStopPropagation : function() {
+    getPropagationStopped : function() {
       return this._stopPropagation;
     },
 

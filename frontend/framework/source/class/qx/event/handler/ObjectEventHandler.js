@@ -31,7 +31,8 @@ qx.Class.define("qx.event.handler.ObjectEventHandler",
   {
     // overridden
     canHandleEvent : function(target, type) {
-      return target instanceof qx.core.Object && qx.Class.supportsEvent(target.constructor, type);
+      if (type == "init") debugger;
+      return target instanceof qx.core.Target && qx.Class.supportsEvent(target.constructor, type);
     },
 
     // overridden

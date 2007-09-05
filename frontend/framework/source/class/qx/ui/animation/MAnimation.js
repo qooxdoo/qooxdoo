@@ -217,7 +217,7 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
             this.setOpacity(this._computeFadeOpacity());
             this.getFadeTimer().restart();
           }
-          else if (this.hasEventListeners(qx.ui.animation.MAnimation.FADE_FINISHED))
+          else
           {
             this.createDispatchDataEvent(qx.ui.animation.MAnimation.FADE_FINISHED, qx.ui.animation.MAnimation.FADE_IN);
           }
@@ -232,7 +232,7 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
             this.setOpacity(this._computeFadeOpacity());
             this.getFadeTimer().restart();
           }
-          else if (this.hasEventListeners(qx.ui.animation.MAnimation.FADE_FINISHED))
+          else
           {
             this.createDispatchDataEvent(qx.ui.animation.MAnimation.FADE_FINISHED, qx.ui.animation.MAnimation.FADE_OUT);
           }

@@ -170,12 +170,7 @@ qx.Class.define("qx.event.Command",
      */
     execute : function(vTarget)
     {
-      if (this.hasEventListeners("execute"))
-      {
-        var event = new qx.legacy.event.type.DataEvent("execute", vTarget);
-        this.dispatchEvent(event, true);
-      }
-
+      this.createDispatchDataEvent("execute", vTarget);
       return false;
     },
 
