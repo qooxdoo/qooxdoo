@@ -97,7 +97,7 @@ qx.Class.define("qx.html.Element",
     */
     
     /** {Boolean} If debugging should be enabled */
-    _debug : true,
+    _debug : false,
     
     
     /** {Map} Contains the modified {@link qx.html.Element}s. The key is the hash code. */
@@ -124,7 +124,12 @@ qx.Class.define("qx.html.Element",
     {
       if (obj._new) 
       {
-        console.debug("Flush: " + obj.getAttribute("id") + " [new]");
+        if (qx.core.Variant.isSet("qx.debug", "on")) 
+        {
+          if (this._debug) {
+            console.debug("Flush: " + obj.getAttribute("id") + " [new]");
+          }
+        }
         
         this._copyData(obj); 
         this._insertChildren(obj);
@@ -133,7 +138,12 @@ qx.Class.define("qx.html.Element",
       }
       else
       {
-        console.debug("Flush: " + obj.getAttribute("id") + " [existing]");
+        if (qx.core.Variant.isSet("qx.debug", "on")) 
+        {
+          if (this._debug) {
+            console.debug("Flush: " + obj.getAttribute("id") + " [existing]");
+          }
+        }
         
         this._syncData(obj);
         
