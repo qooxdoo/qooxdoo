@@ -1852,7 +1852,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
           backgroundColor       : backgroundColor,
           icon                  : states.sorted ?
             (states.sortedAscending ? "widget/table/ascending.png" : "widget/table/descending.png")
-            : null
+            : null,
+          horizontalChildrenAlign : "left"
         };
       }
     },
@@ -1872,7 +1873,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           bgcolEven                : "table-row-background-even",
           bgcolOdd                 : "table-row-background-odd",
           colSelected              : "table-row-selected",
-          colNormal                : "table-row"
+          colNormal                : "table-row",
         };
       }
     },
