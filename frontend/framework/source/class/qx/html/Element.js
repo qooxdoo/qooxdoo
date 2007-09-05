@@ -804,6 +804,7 @@ qx.Class.define("qx.html.Element",
     {
       var children = this.__children;      
       var child, hc;
+      var Map = qx.lang.Object;
       
       if (children)
       {
@@ -825,9 +826,9 @@ qx.Class.define("qx.html.Element",
                 // console.info("OPTIMIZE: " + child.getAttribute("id"));
                 continue;
               }
-              else if (child.__new || child.__hasJobs())
+              else if (child.__modifiedChildren || !Map.isEmpty(child.__styleJobs) || !Map.isEmpty(this.__attribJobs) || !Map.isEmpty(child.__eventJobs))
               {
-                if (child.__element && qx.dom.Hierarchy.isRendered(child.__element)) {
+                if (qx.dom.Hierarchy.isRendered(child.__element)) {
                   domRendered[hc] = child;
                 } else {
                   domInvisible[hc] = child;
@@ -874,22 +875,6 @@ qx.Class.define("qx.html.Element",
       }
       
       return false;
-    },
-    
-    
-    /**
-     * If this element has any jobs todo when it becomes visible
-     * This only succeeds for already created elements. New elements
-     * never have any jobs. (In this case it is just a copy-paste, the
-     * element is processed as if it is empty).
-     *
-     * @type static
-     * @return {Boolean} <code>true</code> when the element has at least one job
-     */    
-    __hasJobs : function() 
-    {
-      var tool = qx.lang.Object;
-      return this.__modifiedChildren || !tool.isEmpty(this.__styleJobs) || !tool.isEmpty(this.__attribJobs) || !tool.isEmpty(this.__eventJobs);
     },
     
     
