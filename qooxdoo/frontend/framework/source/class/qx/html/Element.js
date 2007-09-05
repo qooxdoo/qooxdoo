@@ -355,6 +355,8 @@ qx.Class.define("qx.html.Element",
         var domOperations = 0;
       }
       
+      // TODO: remove children first
+      
       // Start from beginning and bring DOM in sync 
       // with the data structure
       for (var i=0; i<dataLength; i++) 
@@ -657,7 +659,7 @@ qx.Class.define("qx.html.Element",
         if (entry.__hasIncludedRoot())
         {
           // Add self to modified
-          if (entry.__isDomRendered()) {
+          if (entry.__element && qx.dom.Hierarchy.isRendered(entry.__element)) {
             domRendered[hc] = entry;
           } else {
             domInvisible[hc] = entry;
@@ -838,7 +840,7 @@ qx.Class.define("qx.html.Element",
               }
               else if (child.__new || child.__hasJobs())
               {
-                if (child.__isDomRendered()) {
+                if (child.__element && qx.dom.Hierarchy.isRendered(child.__element)) {
                   domRendered[hc] = child;
                 } else {
                   domInvisible[hc] = child;
@@ -886,25 +888,6 @@ qx.Class.define("qx.html.Element",
       
       return false;
     },
-    
-    
-    /**
-     * If the element is created and inserted into the DOM
-     * structure of the underlying document.
-     *
-     */
-    __isDomRendered : function()
-    {
-      var el = this.__element;
-      
-      if (!el) {
-        return false; 
-      }
-      
-      // Any faster solution here?
-      var doc = qx.dom.Node.getDocument(el);
-      return qx.dom.Hierarchy.contains(doc, el);
-    },    
     
     
     /**
@@ -984,6 +967,10 @@ qx.Class.define("qx.html.Element",
     {
       if (child.__parent === this) {
         throw new Error("Child is already in: " + child);
+      }
+      
+      if (child.__root) {
+        throw new Error("Root elements could not be inserted into other ones."); 
       }
 
       // Remove from previous parent
