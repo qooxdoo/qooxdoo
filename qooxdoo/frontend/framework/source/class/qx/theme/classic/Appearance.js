@@ -1852,7 +1852,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
           backgroundColor       : backgroundColor,
           icon                  : states.sorted ?
             (states.sortedAscending ? "widget/table/ascending.png" : "widget/table/descending.png")
-            : null
+            : null,
+          horizontalChildrenAlign : "left"
         };
       }
     },
