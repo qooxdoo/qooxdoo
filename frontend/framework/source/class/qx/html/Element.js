@@ -1438,7 +1438,7 @@ qx.Class.define("qx.html.Element",
         // Store job info
         this.__styleJobs[key] = true;
         
-        // Normally we should made a deep look here (go parents up)
+        // Normally we need to do a deep lookup here (go parents up)
         // but this is too slow. To just have a look at this element
         // itself is fast and also could save the function call at all.
         // The real control visible/inRoot will be done when the element
@@ -1487,7 +1487,7 @@ qx.Class.define("qx.html.Element",
           this.__styleJobs[key] = true;
         }
         
-        // Normally we should made a deep look here (go parents up)
+        // Normally we need to do a deep lookup here (go parents up)
         // but this is too slow. To just have a look at this element
         // itself is fast and also could save the function call at all.
         // The real control visible/inRoot will be done when the element
@@ -1554,7 +1554,7 @@ qx.Class.define("qx.html.Element",
         // Store job info
         this.__attribJobs[key] = true;
         
-        // Normally we should made a deep look here (go parents up)
+        // Normally we need to do a deep lookup here (go parents up)
         // but this is too slow. To just have a look at this element
         // itself is fast and also could save the function call at all.
         // The real control visible/inRoot will be done when the element
@@ -1603,7 +1603,7 @@ qx.Class.define("qx.html.Element",
           this.__attribJobs[key] = true;
         }
         
-        // Normally we should made a deep look here (go parents up)
+        // Normally we need to do a deep lookup here (go parents up)
         // but this is too slow. To just have a look at this element
         // itself is fast and also could save the function call at all.
         // The real control visible/inRoot will be done when the element
@@ -1649,7 +1649,7 @@ qx.Class.define("qx.html.Element",
      * @param capture {Boolean ? false} Whether capturing should be enabled
      * @return {qx.html.Element} this object (for chaining support)
      */
-    addEventListener : function(type, listener, self, capture)
+    addListener : function(type, listener, self, capture)
     {
       if (this.__element) 
       {
@@ -1689,7 +1689,7 @@ qx.Class.define("qx.html.Element",
      * @param capture {Boolean ? false} Whether capturing should be enabled
      * @return {qx.html.Element} this object (for chaining support)
      */
-    removeEventListener : function(type, listener, self, capture)
+    removeListener : function(type, listener, self, capture)
     {
       if (this.__element) 
       {
@@ -1720,7 +1720,7 @@ qx.Class.define("qx.html.Element",
      * @param capture {Boolean ? false} Whether capturing should be enabled
      * @return {Boolean} <code>true</code> when such an event listener already exists
      */
-    hasEventListener : function(type, listener, self, capture)
+    hasListener : function(type, listener, self, capture)
     {
       if (this.__element)
       {
