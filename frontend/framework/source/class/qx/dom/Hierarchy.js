@@ -111,7 +111,8 @@ qx.Class.define("qx.dom.Hierarchy",
     /**
      * Whether the first element contains the second one
      *
-     * Uses native non-standard contains() in Opera and Internet Explorer
+     * Uses native non-standard contains() in Internet Explorer,
+     * Opera and Webkit (supported since Safari 3.0 beta)
      *
      * @type static
      * @signature function(element, target)
@@ -121,21 +122,45 @@ qx.Class.define("qx.dom.Hierarchy",
      */
     contains : qx.core.Variant.select("qx.client",
     {
-      "mshtml|opera" : function(element, target)
-      {
-        var clazz = qx.dom.Node;
-        return clazz.isDocument(element) ? element === clazz.getDocument(target) : element !== target && element.contains(target);
+      "mshtml|opera|webkit" : function(element, target) {
+        return element.contains(target);
+      },
+      
+      // http://developer.mozilla.org/en/docs/DOM:Node.compareDocumentPosition
+      "gecko" : function(element, target) {
+        return !!(element.compareDocumentPosition(target) & 16)
       },
 
       "default" : function(element, target)
       {
-        while (target && (target = target.parentNode) && element != target) {
-          continue;
+        while(target)
+        {
+          if (element == target) {
+            return true; 
+          }
+          
+          target = target.parentNode;
         }
-
-        return !!target;
+        
+        return false;
       }
     }),
+    
+    
+    /**
+     * Whether the element is inserted into the document
+     * for which it was created.
+     *
+     * @type static
+     * @param element {Element} DOM element to check
+     * @return {Boolean} <code>true</code> when the element is inserted 
+     *    into the document.
+     */
+    isRendered : function(element)
+    {
+      var doc = qx.dom.Node.getDocument(element);
+      return this.contains(doc, element);
+    },
 
 
     /**
