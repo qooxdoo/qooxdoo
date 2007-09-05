@@ -346,7 +346,6 @@ qx.Class.define("qx.html.Element",
 
       var domParent = dataParent._element;
       var domChildren = domParent.childNodes;
-      var domChild;
       var domEl;
       
       if (qx.core.Variant.isSet("qx.debug", "on")) {
@@ -356,16 +355,16 @@ qx.Class.define("qx.html.Element",
       // Remove children from DOM which are excluded or remove first
       for (var i=domChildren.length-1; i>=0; i--) 
       {
-        domChild = domChildren[i];
-        dataChild = domChild.QxElement;
+        domEl = domChildren[i];
+        dataEl = domEl.QxElement;
         
-        if (!dataChild._included || dataChild.__parent !== obj)
+        if (!dataEl._included || dataEl.__parent !== obj)
         {
           if (qx.core.Variant.isSet("qx.debug", "on")) {
             domOperations++;
           }
           
-          domParent.removeChild(domChild);
+          domParent.removeChild(domEl);
         }  
       }
       
