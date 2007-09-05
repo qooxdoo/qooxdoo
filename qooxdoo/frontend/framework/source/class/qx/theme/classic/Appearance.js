@@ -1873,7 +1873,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           bgcolEven                : "table-row-background-even",
           bgcolOdd                 : "table-row-background-odd",
           colSelected              : "table-row-selected",
-          colNormal                : "table-row",
+          colNormal                : "table-row"
         };
       }
     },
