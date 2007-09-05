@@ -53,6 +53,9 @@ qx.Class.define("qx.html.Root",
       if (this._element) {
         throw new Error("Elements could not be replaced!");
       }
+      
+      // Store reference to "this"
+      elem.QxElement = this;
 
       // Initialize based on given element
       this._element = elem;
