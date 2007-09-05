@@ -53,7 +53,7 @@ qx.Class.define("qx.html.Element",
     this.base(arguments);
 
     // All added children (each one is a qx.html.Element itself)
-    this.__children = [];
+    this._children = [];
     
     // Maps which contains styles and attribute
     // These are used to keep data for pre-creation
@@ -97,11 +97,11 @@ qx.Class.define("qx.html.Element",
     */
     
     /** {Boolean} If debugging should be enabled */
-    __debug : true,
+    _debug : true,
     
     
     /** {Map} Contains the modified {@link qx.html.Element}s. The key is the hash code. */
-    __modified : {},
+    _modified : {},
 
 
 
@@ -122,25 +122,25 @@ qx.Class.define("qx.html.Element",
      */
     __flushObject : function(obj)
     {
-      if (obj.__new) 
+      if (obj._new) 
       {
         console.debug("Flush: " + obj.getAttribute("id") + " [new]");
         
-        this.__copyData(obj); 
-        this.__insertChildren(obj);
+        this._copyData(obj); 
+        this._insertChildren(obj);
         
-        delete obj.__new;
+        delete obj._new;
       }
       else
       {
         console.debug("Flush: " + obj.getAttribute("id") + " [existing]");
         
-        this.__syncData(obj);
+        this._syncData(obj);
         
-        if (obj.__modifiedChildren) 
+        if (obj._modifiedChildren) 
         {
-          this.__syncChildren(obj);
-          obj.__modifiedChildren = false;
+          this._syncChildren(obj);
+          obj._modifiedChildren = false;
         }
       }
     },
@@ -159,15 +159,15 @@ qx.Class.define("qx.html.Element",
     /**
      * Copies data between the internal representation and the DOM. This
      * simply copies all the data and only works well directly after
-     * element creation. After this the data must be synced using {@link #__syncData}
+     * element creation. After this the data must be synced using {@link #_syncData}
      *
      * @type static
      * @param obj {qx.html.Element} Element to process
      * @return {void}
      */
-    __copyData : function(obj)
+    _copyData : function(obj)
     {
-      var elem = obj.__element;
+      var elem = obj._element;
       
       // Copy attributes
       var data = obj.__attribValues;
@@ -215,16 +215,16 @@ qx.Class.define("qx.html.Element",
     
     /**
      * Syncronizes data between the internal representation and the DOM. This
-     * is the counterpart of {@link #__copyData} and is used for further updates
+     * is the counterpart of {@link #_copyData} and is used for further updates
      * after the element has been created.
      *
      * @type static
      * @param obj {qx.html.Element} Element to process
      * @return {void}
      */  
-    __syncData : function(obj)
+    _syncData : function(obj)
     {
-      var elem = obj.__element;
+      var elem = obj._element;
       
       var Attribute = qx.bom.element.Attribute;
       var Style = qx.bom.element.Style;
@@ -294,25 +294,25 @@ qx.Class.define("qx.html.Element",
     /**
      * Append all child nodes to the DOM
      * element. This function is used when the element is initially
-     * created. After this initial apply {@link #__syncChildren} is used
+     * created. After this initial apply {@link #_syncChildren} is used
      * instead.
      *
      * @type static
      * @param obj {qx.html.Element} the element to process
      * @return {void}
      */    
-    __insertChildren : function(obj)
+    _insertChildren : function(obj)
     {
       var domElement = document.createDocumentFragment();
       
-      for (var i=0, children=obj.__children, l=children.length; i<l; i++) 
+      for (var i=0, children=obj._children, l=children.length; i<l; i++) 
       {
-        if (children[i].__included) {
-          domElement.appendChild(children[i].__element);
+        if (children[i]._included) {
+          domElement.appendChild(children[i]._element);
         }
       }
       
-      obj.__element.appendChild(domElement);
+      obj._element.appendChild(domElement);
     },
     
 
@@ -325,16 +325,16 @@ qx.Class.define("qx.html.Element",
      * @param obj {qx.html.Element} the element to process
      * @return {void}
      */    
-    __syncChildren : function(obj)
+    _syncChildren : function(obj)
     {
       var dataParent = obj;
-      var dataChildren = dataParent.__children;
+      var dataChildren = dataParent._children;
       var dataLength = dataChildren.length
       var dataChild;
       var dataPos = 0;
       var dataEl;
 
-      var domParent = dataParent.__element;
+      var domParent = dataParent._element;
       var domChildren = domParent.childNodes;
       var domChild;
       var domEl;
@@ -349,7 +349,7 @@ qx.Class.define("qx.html.Element",
         domChild = domChildren[i];
         dataChild = domChild.QxElement;
         
-        if (!dataChild.__included || dataChild.__parent !== obj)
+        if (!dataChild._included || dataChild.__parent !== obj)
         {
           if (qx.core.Variant.isSet("qx.debug", "on")) {
             domOperations++;
@@ -366,9 +366,9 @@ qx.Class.define("qx.html.Element",
         dataChild = dataChildren[i];
         
         // Only process visible childs
-        if (dataChild.__included) 
+        if (dataChild._included) 
         {
-          dataEl = dataChild.__element;
+          dataEl = dataChild._element;
           domEl = domChildren[dataPos];
           
           // Only do something when out of sync
@@ -393,7 +393,7 @@ qx.Class.define("qx.html.Element",
       // User feedback
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (this.__debug) {
+        if (this._debug) {
           console.debug("  - Modified DOM with " + domOperations + " operations");
         }
       }
@@ -417,7 +417,7 @@ qx.Class.define("qx.html.Element",
      */
     flush : function()
     {
-      var modified = this.__modified;
+      var modified = this._modified;
       
       if (qx.lang.Object.isEmpty(modified)) 
       {
@@ -431,7 +431,7 @@ qx.Class.define("qx.html.Element",
       // User feedback
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (this.__debug) 
+        if (this._debug) 
         {
           console.debug("Processing " + qx.lang.Object.getLength(modified) + " scheduled modifications...");
           
@@ -457,7 +457,7 @@ qx.Class.define("qx.html.Element",
         if (entry.__hasIncludedRoot())
         {
           // Add self to modified
-          if (entry.__element && qx.dom.Hierarchy.isRendered(entry.__element)) {
+          if (entry._element && qx.dom.Hierarchy.isRendered(entry._element)) {
             domRendered[hc] = entry;
           } else {
             domInvisible[hc] = entry;
@@ -465,7 +465,7 @@ qx.Class.define("qx.html.Element",
 
           // Add children on all newly created elements or 
           // elements with new children
-          if (!entry.__element || entry.__new || entry.__modifiedChildren) {
+          if (!entry._element || entry._new || entry._modifiedChildren) {
             entry.__addDirtyChildren(domRendered, domInvisible);
           }
         }
@@ -476,7 +476,7 @@ qx.Class.define("qx.html.Element",
       // User feedback
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (this.__debug) 
+        if (this._debug) 
         {
           console.debug("Updating " + qx.lang.Object.getLength(domInvisible) + " DOM invisible elements");
           for (var hc in domInvisible) {
@@ -511,7 +511,7 @@ qx.Class.define("qx.html.Element",
       // will dynamically readded to the queue.
       // This action keep the modified data small even
       // after some unsynced elements are invisible.
-      this.__modified = {};     
+      this._modified = {};     
     }
   },
 
@@ -530,32 +530,32 @@ qx.Class.define("qx.html.Element",
   {
     /*
     ---------------------------------------------------------------------------
-      INTERNAL HELPERS
+      PROTECTED HELPERS/DATA
     ---------------------------------------------------------------------------
     */    
     
     /** {String} Node name of the element to create */
-    __nodeName : "div",
+    _nodeName : "div",
     
     
     /** {Element} DOM element of this object */
-    __element : null,
+    _element : null,
     
     
     /** {Boolean} Temporary marker for just created elements */
-    __new : false,
+    _new : false,
     
     
     /** {Boolean} Marker for always visible root nodes (often the body node) */
-    __root : false,
+    _root : false,
     
     
     /** {Boolean} Whether the element should be included in the render result */
-    __included : true,
+    _included : true,
     
     
     /** {Boolean} If the element is dirty (changes have applied to it or to one of its children) */
-    __dirty : false,
+    _dirty : false,
     
     
     /**
@@ -564,8 +564,8 @@ qx.Class.define("qx.html.Element",
      * @type static
      * @return {void}
      */
-    __scheduleSync : function() {
-      qx.html.Element.__modified[this.toHashCode()] = this;
+    _scheduleSync : function() {
+      qx.html.Element._modified[this.toHashCode()] = this;
     },
     
     
@@ -575,8 +575,8 @@ qx.Class.define("qx.html.Element",
      * @type static
      * @return {void}
      */
-    __unscheduleSync : function() {
-      delete qx.html.Element.__modified[this.toHashCode()];
+    _unscheduleSync : function() {
+      delete qx.html.Element._modified[this.toHashCode()];
     },
     
     
@@ -586,17 +586,47 @@ qx.Class.define("qx.html.Element",
      * @type static
      * @return {void}
      */
-    __makeDirty : function()
+    _makeDirty : function()
     {
       pa = this;
-      while (pa && !pa.__dirty)
+      while (pa && !pa._dirty)
       {
-        pa.__dirty = true;
+        pa._dirty = true;
         pa = pa.__parent;
       }
     },
+    
+    
+    /**
+     * Internal helper to generate the DOM element
+     *
+     * @type member
+     */
+    _createDomElement : function() 
+    {
+      // TODO: Support different node types
+      // e.g. "flash" for Flash.create() ?
+      // e.g. "iframe" for Iframe.create() ?
+      // or is this better placed in separate classes which extends this one?
+      
+      // console.log("Creating: " + this.getAttribute("id"));
+      this._element = qx.bom.Element.create(this._nodeName);
+      this._element.QxElement = this;
+    },
 
 
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PRIVATE HELPERS/DATA
+    ---------------------------------------------------------------------------
+    */ 
+    
     /**
      * Finds all children (recursivly) of this element which are included
      * and marked as dirty.
@@ -608,7 +638,7 @@ qx.Class.define("qx.html.Element",
      */
     __addDirtyChildren : function(domRendered, domInvisible)
     {
-      var children = this.__children;      
+      var children = this._children;      
       var child, hc;
       var Map = qx.lang.Object;
       
@@ -619,22 +649,22 @@ qx.Class.define("qx.html.Element",
           child = children[i];
           
           // All elements which are not included are ignored (including their children)
-          if (child.__included)
+          if (child._included)
           {
             hc = child.toHashCode();
             
             // Differ between created and new elements
-            if (child.__element)
+            if (child._element)
             {
               // All elements which are not dirty are ignored (including their children)
-              if (!child.__dirty) 
+              if (!child._dirty) 
               {
                 // console.info("OPTIMIZE: " + child.getAttribute("id"));
                 continue;
               }
-              else if (child.__modifiedChildren || !Map.isEmpty(child.__styleJobs) || !Map.isEmpty(this.__attribJobs) || !Map.isEmpty(child.__eventJobs))
+              else if (child._modifiedChildren || !Map.isEmpty(child.__styleJobs) || !Map.isEmpty(this.__attribJobs) || !Map.isEmpty(child.__eventJobs))
               {
-                if (qx.dom.Hierarchy.isRendered(child.__element)) {
+                if (qx.dom.Hierarchy.isRendered(child._element)) {
                   domRendered[hc] = child;
                 } else {
                   domInvisible[hc] = child;
@@ -643,14 +673,14 @@ qx.Class.define("qx.html.Element",
             }
             else
             {
-              child.__createDomElement();
-              child.__new = true;
+              child._createDomElement();
+              child._new = true;
               
               domInvisible[hc] = child;              
             }
             
             // Remove dirty flag
-            delete child.__dirty;
+            delete child._dirty;
             
             // Add children, too
             child.__addDirtyChildren(domRendered, domInvisible);
@@ -659,7 +689,7 @@ qx.Class.define("qx.html.Element",
       }
     },
     
-    
+        
     /**
      * Walk up the internal children hierarchy and 
      * look if one of the children is marked as root
@@ -671,11 +701,11 @@ qx.Class.define("qx.html.Element",
       // Any chance to cache this information in the parents?
       while(pa)
       {
-        if (pa.__root) {
+        if (pa._root) {
           return true; 
         }
         
-        if (!pa.__included) {
+        if (!pa._included) {
           return false; 
         }
         
@@ -684,25 +714,7 @@ qx.Class.define("qx.html.Element",
       
       return false;
     },
-    
-    
-    /**
-     * Internal helper to generate the DOM element
-     *
-     * @type member
-     */
-    __createDomElement : function() 
-    {
-      // TODO: Support different node types
-      // e.g. "flash" for Flash.create() ?
-      // e.g. "iframe" for Iframe.create() ?
-      // or is this better placed in separate classes which extends this one?
-      
-      // console.log("Creating: " + this.getAttribute("id"));
-      this.__element = qx.bom.Element.create(this.__nodeName);
-      this.__element.QxElement = this;
-    },
-
+        
     
     /**
      * Generates a unique key for a listener configuration
@@ -746,7 +758,7 @@ qx.Class.define("qx.html.Element",
         throw new Error("Child is already in: " + child);
       }
       
-      if (child.__root) {
+      if (child._root) {
         throw new Error("Root elements could not be inserted into other ones."); 
       }
 
@@ -759,16 +771,16 @@ qx.Class.define("qx.html.Element",
       child.__parent = this;
       
       // Register job and add to queue for existing elements
-      if (this.__element)
+      if (this._element)
       {
         // Mark as dirty
-        this.__makeDirty();
+        this._makeDirty();
 
         // Store job hint
-        this.__modifiedChildren = true;
+        this._modifiedChildren = true;
         
-        if (this.__included && child.__included) {
-          this.__scheduleSync();
+        if (this._included && child._included) {
+          this._scheduleSync();
         }
       }
     },
@@ -789,16 +801,16 @@ qx.Class.define("qx.html.Element",
       }
 
       // Register job and add to queue for existing elements
-      if (this.__element)
+      if (this._element)
       {
         // Mark as dirty
-        this.__makeDirty();      
+        this._makeDirty();      
         
         // Store job hint
-        this.__modifiedChildren = true;
+        this._modifiedChildren = true;
         
-        if (this.__included && child.__included) {
-          this.__scheduleSync();
+        if (this._included && child._included) {
+          this._scheduleSync();
         }
       }
 
@@ -806,7 +818,7 @@ qx.Class.define("qx.html.Element",
       delete child.__parent;
       
       // Remove from scheduler
-      child.__unscheduleSync();
+      child._unscheduleSync();
     },
     
     
@@ -825,16 +837,16 @@ qx.Class.define("qx.html.Element",
       }      
       
       // Register job and add to queue for existing elements
-      if (this.__element)
+      if (this._element)
       {
         // Mark as dirty
-        this.__makeDirty();      
+        this._makeDirty();      
         
         // Store job hint
-        this.__modifiedChildren = true;
+        this._modifiedChildren = true;
         
-        if (this.__included && child.__included) {
-          this.__scheduleSync();
+        if (this._included && child._included) {
+          this._scheduleSync();
         }
       }
     },
@@ -851,29 +863,30 @@ qx.Class.define("qx.html.Element",
       // If the parent element is created, schedule 
       // the modification for it
       var pa = this.__parent;
-      if (pa && pa.__element) 
+      if (pa && pa._element) 
       {
         // Remember job
-        pa.__modifiedChildren = true;
+        pa._modifiedChildren = true;
         
-        if (pa.__included)
+        if (pa._included)
         {
           // Mark as dirty
-          pa.__makeDirty();
+          pa._makeDirty();
 
           // Add to scheduler
-          pa.__scheduleSync();
+          pa._scheduleSync();
         }
       }  
       
       // Remove from scheduler
-      if (!this.__included) {
-        this.__unscheduleSync();
+      if (!this._included) {
+        this._unscheduleSync();
       }    
     },
     
     
     
+
 
 
 
@@ -892,7 +905,7 @@ qx.Class.define("qx.html.Element",
     getChildren : function()
     {
       // protect structure using a copy
-      return qx.lang.Array.copy(this.__children);
+      return qx.lang.Array.copy(this._children);
     },
 
 
@@ -905,7 +918,7 @@ qx.Class.define("qx.html.Element",
      *     is not a child <code>-1</code> will be returned.
      */
     indexOf : function(child) {
-      return this.__children.indexOf(child);
+      return this._children.indexOf(child);
     },
         
     
@@ -924,12 +937,12 @@ qx.Class.define("qx.html.Element",
           this.__addChildHelper(arguments[i]);
         }
         
-        this.__children.push.apply(this.__children, arguments);
+        this._children.push.apply(this._children, arguments);
       }
       else
       {
         this.__addChildHelper(childs);
-        this.__children.push(childs); 
+        this._children.push(childs); 
       }
 
       return this;
@@ -947,7 +960,7 @@ qx.Class.define("qx.html.Element",
     insertAfter : function(child, rel)
     {
       this.__addChildHelper(child);
-      qx.lang.Array.insertAfter(this.__children, child, rel);
+      qx.lang.Array.insertAfter(this._children, child, rel);
 
       return this;
     },
@@ -964,7 +977,7 @@ qx.Class.define("qx.html.Element",
     insertBefore : function(child, rel)
     {
       this.__addChildHelper(child);
-      qx.lang.Array.insertBefore(this.__children, child, rel);
+      qx.lang.Array.insertBefore(this._children, child, rel);
 
       return this;
     },
@@ -983,7 +996,7 @@ qx.Class.define("qx.html.Element",
     insertAt : function(child, index)
     {
       this.__addChildHelper(child);
-      qx.lang.Array.insertAt(this.__children, child, index);
+      qx.lang.Array.insertAt(this._children, child, index);
 
       return this;
     },
@@ -1006,13 +1019,13 @@ qx.Class.define("qx.html.Element",
           child = arguments[i];
           
           this.__removeChildHelper(child);
-          qx.lang.Array.remove(this.__children, child);
+          qx.lang.Array.remove(this._children, child);
         }
       }
       else
       {
         this.__removeChildHelper(childs);
-        qx.lang.Array.remove(this.__children, childs);        
+        qx.lang.Array.remove(this._children, childs);        
       }
 
       return this;
@@ -1030,7 +1043,7 @@ qx.Class.define("qx.html.Element",
     removeAt : function(index)
     {
       this.__removeChildHelper(child);
-      return qx.lang.Array.removeAt(this.__children, index);
+      return qx.lang.Array.removeAt(this._children, index);
     },
 
 
@@ -1050,7 +1063,7 @@ qx.Class.define("qx.html.Element",
     {
       this.__moveChildHelper(child);
 
-      var oldIndex = this.__children.indexOf(child);
+      var oldIndex = this._children.indexOf(child);
 
       if (oldIndex === index) {
         throw new Error("Could not move to same index!");
@@ -1058,8 +1071,8 @@ qx.Class.define("qx.html.Element",
         index--;
       }
 
-      qx.lang.Array.removeAt(this.__children, oldIndex);
-      qx.lang.Array.insertAt(this.__children, child, index);
+      qx.lang.Array.removeAt(this._children, oldIndex);
+      qx.lang.Array.insertAt(this._children, child, index);
 
       return this;
     },
@@ -1074,7 +1087,7 @@ qx.Class.define("qx.html.Element",
      * @return {qx.html.Element} this object (for chaining support)
      */
     moveBefore : function(child, rel) {
-      return this.moveTo(child, this.__children.indexOf(rel));
+      return this.moveTo(child, this._children.indexOf(rel));
     },
 
 
@@ -1087,7 +1100,7 @@ qx.Class.define("qx.html.Element",
      * @return {qx.html.Element} this object (for chaining support)
      */
     moveAfter : function(child, rel) {
-      return this.moveTo(child, this.__children.indexOf(rel) + 1);
+      return this.moveTo(child, this._children.indexOf(rel) + 1);
     },
 
 
@@ -1113,11 +1126,11 @@ qx.Class.define("qx.html.Element",
      */
     getDomElement : function()
     {
-      if (!this.__element) {
+      if (!this._element) {
         throw new Error("Element is not yet created!");
       }
 
-      return this.__element;
+      return this._element;
     },
     
     
@@ -1141,11 +1154,11 @@ qx.Class.define("qx.html.Element",
      */    
     exclude : function() 
     {
-      if (!this.__included) {
+      if (!this._included) {
         return; 
       }
       
-      this.__included = false; 
+      this._included = false; 
       this.__includeExcludeHelper();
       
       return this;
@@ -1161,11 +1174,11 @@ qx.Class.define("qx.html.Element",
      */   
     include : function() 
     {
-      if (this.__included) {
+      if (this._included) {
         return; 
       }
       
-      delete this.__included;
+      delete this._included;
       this.__includeExcludeHelper();
       
       return this;
@@ -1202,10 +1215,10 @@ qx.Class.define("qx.html.Element",
       // Uncreated elements simply copy all data
       // on creation. We don't need to remember any
       // jobs. It is a simple full list copy.
-      if (this.__element) 
+      if (this._element) 
       {
         // Mark as dirty
-        this.__makeDirty();
+        this._makeDirty();
 
         // Dynamically create if needed
         if (!this.__styleJobs) {
@@ -1220,8 +1233,8 @@ qx.Class.define("qx.html.Element",
         // itself is fast and also could save the function call at all.
         // The real control visible/inRoot will be done when the element
         // is scheduled and should be flushed.
-        if (this.__included) {
-          this.__scheduleSync();
+        if (this._included) {
+          this._scheduleSync();
         }
       }
       
@@ -1249,10 +1262,10 @@ qx.Class.define("qx.html.Element",
       // Uncreated elements simply copy all data
       // on creation. We don't need to remember any
       // jobs. It is a simple full list copy.        
-      if (this.__element) 
+      if (this._element) 
       {
         // Mark as dirty
-        this.__makeDirty();
+        this._makeDirty();
 
         // Dynamically create if needed
         if (!this.__styleJobs) {
@@ -1269,8 +1282,8 @@ qx.Class.define("qx.html.Element",
         // itself is fast and also could save the function call at all.
         // The real control visible/inRoot will be done when the element
         // is scheduled and should be flushed.
-        if (this.__included) {
-          this.__scheduleSync();
+        if (this._included) {
+          this._scheduleSync();
         }
       }
       
@@ -1318,10 +1331,10 @@ qx.Class.define("qx.html.Element",
       // Uncreated elements simply copy all data
       // on creation. We don't need to remember any
       // jobs. It is a simple full list copy.
-      if (this.__element) 
+      if (this._element) 
       {
         // Mark as dirty
-        this.__makeDirty();
+        this._makeDirty();
         
         // Dynamically create if needed
         if (!this.__attribJobs) {
@@ -1336,8 +1349,8 @@ qx.Class.define("qx.html.Element",
         // itself is fast and also could save the function call at all.
         // The real control visible/inRoot will be done when the element
         // is scheduled and should be flushed.        
-        if (this.__included) {
-          this.__scheduleSync();
+        if (this._included) {
+          this._scheduleSync();
         }
       }      
       
@@ -1365,10 +1378,10 @@ qx.Class.define("qx.html.Element",
       // Uncreated elements simply copy all data
       // on creation. We don't need to remember any
       // jobs. It is a simple full list copy.
-      if (this.__element) 
+      if (this._element) 
       {
         // Mark as dirty
-        this.__makeDirty();
+        this._makeDirty();
         
         // Dynamically create if needed
         if (!this.__attribJobs) {
@@ -1385,8 +1398,8 @@ qx.Class.define("qx.html.Element",
         // itself is fast and also could save the function call at all.
         // The real control visible/inRoot will be done when the element
         // is scheduled and should be flushed.
-        if (this.__included) {
-          this.__scheduleSync();
+        if (this._included) {
+          this._scheduleSync();
         }
       }
       
@@ -1428,9 +1441,9 @@ qx.Class.define("qx.html.Element",
      */
     addListener : function(type, listener, self, capture)
     {
-      if (this.__element) 
+      if (this._element) 
       {
-        qx.event.Manager.addListener(this.__element, type, listener, self, capture); 
+        qx.event.Manager.addListener(this._element, type, listener, self, capture); 
       }
       else
       {
@@ -1468,9 +1481,9 @@ qx.Class.define("qx.html.Element",
      */
     removeListener : function(type, listener, self, capture)
     {
-      if (this.__element) 
+      if (this._element) 
       {
-        qx.event.Manager.removeListener(this.__element, type, listener, self, capture); 
+        qx.event.Manager.removeListener(this._element, type, listener, self, capture); 
       }
       else
       {
@@ -1499,9 +1512,9 @@ qx.Class.define("qx.html.Element",
      */
     hasListener : function(type, listener, self, capture)
     {
-      if (this.__element)
+      if (this._element)
       {
-        return qx.event.Manager.hasListener(this.__element, type, listener, self, capture);
+        return qx.event.Manager.hasListener(this._element, type, listener, self, capture);
       }
       else
       {
@@ -1523,13 +1536,13 @@ qx.Class.define("qx.html.Element",
   
   destruct : function()
   {
-    if (this.__element) {
-      delete this.__element.QxElement;
+    if (this._element) {
+      delete this._element.QxElement;
     }
     
-    this._disposeObjectDeep("__children", 1);
+    this._disposeObjectDeep("_children", 1);
     this._disposeFields("__attribValues", "__styleValues", "__eventValues");
     this._disposeFields("__attribJobs", "__styleJobs", "__eventJobs");
-    this._disposeFields("__element");
+    this._disposeFields("_element");
   }
 });
