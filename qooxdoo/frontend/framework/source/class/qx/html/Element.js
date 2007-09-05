@@ -609,12 +609,6 @@ qx.Class.define("qx.html.Element",
      */
     flush : function()
     {
-      if (this.__inFlush) 
-      {
-        console.warn("Already in flush!");
-        return;
-      }
-
       var modified = this.__modified;
       
       if (qx.lang.Object.isEmpty(modified)) 
@@ -622,10 +616,6 @@ qx.Class.define("qx.html.Element",
         console.warn("Flush with no modificiations!");
         return; 
       }
-
-      // Block repeated flush calls
-      // TODO: Is this really needed? (Javascript has no threads)
-      this.__inFlush = true;
 
 
 
@@ -714,9 +704,6 @@ qx.Class.define("qx.html.Element",
       // This action keep the modified data small even
       // after some unsynced elements are invisible.
       this.__modified = {};     
-  
-      // Remove process flag
-      delete this.__inFlush;
     }
   },
 
@@ -981,12 +968,13 @@ qx.Class.define("qx.html.Element",
       // Convert to child of this object
       child.__parent = this;
       
-      // Mark as dirty
-      this.__makeDirty();
-
       // Register job and add to queue for existing elements
       if (this.__element)
       {
+        // Mark as dirty
+        this.__makeDirty();
+
+        // Store job hint
         this.__modifiedChildren = true;
         
         if (this.__included && child.__included) {
@@ -1013,6 +1001,10 @@ qx.Class.define("qx.html.Element",
       // Register job and add to queue for existing elements
       if (this.__element)
       {
+        // Mark as dirty
+        this.__makeDirty();      
+        
+        // Store job hint
         this.__modifiedChildren = true;
         
         if (this.__included && child.__included) {
@@ -1022,9 +1014,6 @@ qx.Class.define("qx.html.Element",
 
       // Remove reference to old parent
       delete child.__parent;
-      
-      // Mark as dirty
-      this.__makeDirty();      
     },
     
     
@@ -1045,15 +1034,16 @@ qx.Class.define("qx.html.Element",
       // Register job and add to queue for existing elements
       if (this.__element)
       {
+        // Mark as dirty
+        this.__makeDirty();      
+        
+        // Store job hint
         this.__modifiedChildren = true;
         
         if (this.__included && child.__included) {
           this.__scheduleSync();
         }
       }
-      
-      // Mark as dirty
-      this.__makeDirty();      
     },
 
 
