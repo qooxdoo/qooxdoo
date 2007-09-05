@@ -29,7 +29,7 @@
  */
 qx.Class.define("qx.legacy.event.type.Event",
 {
-  extend : qx.core.Object,
+  extend : qx.event.type.Event,
 
 
 
@@ -43,7 +43,6 @@ qx.Class.define("qx.legacy.event.type.Event",
   construct : function(vType)
   {
     this.base(arguments);
-
     this.setType(vType);
   },
 
@@ -56,13 +55,16 @@ qx.Class.define("qx.legacy.event.type.Event",
   *****************************************************************************
   */
 
+
   properties :
   {
+    /*
     type :
     {
       _fast       : true,
       setOnlyOnce : true
     },
+    */
 
     originalTarget :
     {
@@ -70,18 +72,19 @@ qx.Class.define("qx.legacy.event.type.Event",
       setOnlyOnce : true
     },
 
+    /*
     target :
     {
       _fast       : true,
       setOnlyOnce : true
     },
-
+    */
     relatedTarget :
     {
       _fast       : true,
       setOnlyOnce : true
-    },
-
+    }
+    /*
     currentTarget : { _fast : true },
 
     bubbles :
@@ -104,6 +107,7 @@ qx.Class.define("qx.legacy.event.type.Event",
       defaultValue : false,
       noCompute    : true
     }
+    */
   },
 
 
@@ -132,10 +136,17 @@ qx.Class.define("qx.legacy.event.type.Event",
      * @type member
      * @return {void}
      */
+    /*
     preventDefault : function() {
       this.setDefaultPrevented(true);
     },
+    */
 
+    setPropagationStopped : function(val) {
+      if (val) {
+        this.stopPropagation();
+      }
+    }
 
     /**
      * TODOC
@@ -143,9 +154,12 @@ qx.Class.define("qx.legacy.event.type.Event",
      * @type member
      * @return {void}
      */
+    /*
     stopPropagation : function() {
       this.setPropagationStopped(true);
     }
+    */
+
   },
 
 

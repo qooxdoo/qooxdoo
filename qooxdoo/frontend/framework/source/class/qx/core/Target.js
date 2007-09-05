@@ -21,6 +21,7 @@
 /* ************************************************************************
 
 #module(core)
+#require(qx.event.handler.ObjectEventHandler)
 
 ************************************************************************ */
 
@@ -68,8 +69,6 @@ qx.Class.define("qx.core.Target",
      * @param type {String} name of the event type
      * @param func {Function} event callback function
      * @param obj {Object ? window} reference to the 'this' variable inside the callback
-     * @return {void}
-     * @throws TODOC
      */
     addEventListener : function(type, func, obj)
     {
@@ -77,45 +76,7 @@ qx.Class.define("qx.core.Target",
         return;
       }
 
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (typeof type !== "string")
-        {
-          this.warn("addEventListener(" + type + "): '" + type + "' is not a string!");
-          return;
-        }
-
-        if (typeof func !== "function")
-        {
-          this.warn("addEventListener(" + type + "): '" + func + "' is not a function!");
-          return;
-        }
-
-        // Event validation is only available in modern classes
-        if (this.constructor.classname && !qx.Class.supportsEvent(this.constructor, type)) {
-          this.warn("Objects of class '" + this.constructor.classname + "' does not support the event '" + type + "'", new Error());
-        }
-      }
-
-      // If this is the first event of given type, we need to create a subobject
-      // that contains all the actions that will be assigned to this type
-      if (this.__listeners === undefined) {
-        this.__listeners = {};
-      }
-
-      if (this.__listeners[type] === undefined) {
-        this.__listeners[type] = {};
-      }
-
-      // Create a special key string to allow identification of each bound action
-      var key = "event" + qx.core.Object.toHashCode(func) + (obj ? "$" + qx.core.Object.toHashCode(obj) : "");
-
-      // Finally set up the listeners object
-      this.__listeners[type][key] =
-      {
-        handler : func,
-        object  : obj
-      };
+      qx.event.Manager.getManager(this).addListener(this, type, func, obj, false);
     },
 
 
@@ -135,21 +96,7 @@ qx.Class.define("qx.core.Target",
         return;
       }
 
-      var listeners = this.__listeners;
-
-      if (!listeners || listeners[type] === undefined) {
-        return;
-      }
-
-      if (typeof func !== "function") {
-        throw new Error("qx.core.Target: removeEventListener(" + type + "): '" + func + "' is not a function!");
-      }
-
-      // Create a special key string to allow identification of each bound action
-      var key = "event" + qx.core.Object.toHashCode(func) + (obj ? "$" + qx.core.Object.toHashCode(obj) : "");
-
-      // Delete object entry for this action
-      delete this.__listeners[type][key];
+      qx.event.Manager.getManager(this).removeListener(this, type, func, obj, false);
     },
 
 
@@ -169,7 +116,8 @@ qx.Class.define("qx.core.Target",
      * @return {var} TODOC
      */
     hasEventListeners : function(type) {
-      return this.__listeners && this.__listeners[type] !== undefined && !qx.lang.Object.isEmpty(this.__listeners[type]);
+      return true;
+      return qx.event.Manager.getManager(this).hasListeners(this, type);
     },
 
 
@@ -182,9 +130,7 @@ qx.Class.define("qx.core.Target",
      */
     createDispatchEvent : function(type)
     {
-      if (this.hasEventListeners(type)) {
-        this.dispatchEvent(new qx.legacy.event.type.Event(type), true);
-      }
+      this.dispatchEvent(new qx.legacy.event.type.Event(type), true);
     },
 
 
@@ -198,9 +144,7 @@ qx.Class.define("qx.core.Target",
      */
     createDispatchDataEvent : function(type, data)
     {
-      if (this.hasEventListeners(type)) {
-        this.dispatchEvent(new qx.legacy.event.type.DataEvent(type, data), true);
-      }
+      this.dispatchEvent(new qx.legacy.event.type.DataEvent(type, data), true);
     },
 
 
@@ -213,11 +157,8 @@ qx.Class.define("qx.core.Target",
      * @param old {Object} old property value attached to the event object
      * @return {void}
      */
-    createDispatchChangeEvent : function(type, value, old)
-    {
-      if (this.hasEventListeners(type)) {
-        this.dispatchEvent(new qx.legacy.event.type.ChangeEvent(type, value, old), true);
-      }
+    createDispatchChangeEvent : function(type, value, old) {
+      this.dispatchEvent(new qx.legacy.event.type.ChangeEvent(type, value, old), true);
     },
 
 
@@ -237,93 +178,16 @@ qx.Class.define("qx.core.Target",
      * @param dispose {Boolean} whether the event object should be disposed after all event handlers run.
      * @return {Boolean} whether the event default was prevented or not. Returns true, when the event was NOT prevented.
      */
-    dispatchEvent : function(evt, dispose)
+    dispatchEvent : function(evt)
     {
       // Ignore event if eventTarget is disposed
       if (this.getDisposed()) {
         return;
       }
 
-      if (evt.getTarget() == null) {
-        evt.setTarget(this);
-      }
-
-      if (evt.getCurrentTarget() == null) {
-        evt.setCurrentTarget(this);
-      }
-
-      // Dispatch Event
-      this._dispatchEvent(evt, dispose);
-
-      // Read default prevented
-      var defaultPrevented = evt._defaultPrevented;
-
-      // enable dispose for event?
-      dispose && evt.dispose();
-
-      return !defaultPrevented;
-    },
-
-
-    /**
-     * Internal event dispatch method
-     *
-     * @type member
-     * @param evt {qx.legacy.event.type.Event} event to dispatch
-     * @return {void}
-     */
-    _dispatchEvent : function(evt)
-    {
-      var listeners = this.__listeners;
-
-      if (listeners)
-      {
-        // Setup current target
-        evt.setCurrentTarget(this);
-
-        // Shortcut for listener data
-        var typeListeners = listeners[evt.getType()];
-
-        if (typeListeners)
-        {
-          var func, obj;
-
-          // Handle all events for the specified type
-          for (var vHashCode in typeListeners)
-          {
-            // Shortcuts for handler and object
-            func = typeListeners[vHashCode].handler;
-            obj = typeListeners[vHashCode].object || this;
-
-            // Call object function
-            func.call(obj, evt);
-          }
-        }
-      }
-
-      // Bubble event to parents
-      // TODO: Move this to Parent or Widget?
-      if (evt.getBubbles() && !evt.getPropagationStopped() && typeof(this.getParent) == "function")
-      {
-        var parent = this.getParent();
-
-        if (parent && !parent.getDisposed() && parent.getEnabled()) {
-          parent._dispatchEvent(evt);
-        }
-      }
+      evt.setTarget(this);
+      qx.event.Manager.getManager(this).dispatchEvent(evt);
     }
-  },
 
-
-
-  /*
-  *****************************************************************************
-     DESTRUCT
-  *****************************************************************************
-  */
-
-  destruct : function()
-  {
-    this._disposeObjectDeep("__listeners", 2);
   }
 });

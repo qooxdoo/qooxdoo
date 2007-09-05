@@ -1513,9 +1513,7 @@ qx.Class.define("qx.ui.selection.SelectionManager",
         return;
       }
 
-      if (this.hasEventListeners("changeSelection")) {
-        this.dispatchEvent(new qx.legacy.event.type.DataEvent("changeSelection", this.getSelectedItems()), true);
-      }
+      this.createDispatchDataEvent("changeSelection", this.getSelectedItems, true);
     },
 
 

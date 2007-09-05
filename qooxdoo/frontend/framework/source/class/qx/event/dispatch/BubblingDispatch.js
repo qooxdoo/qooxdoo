@@ -69,7 +69,8 @@ qx.Class.define("qx.event.dispatch.BubblingDispatch",
      * @param event {qx.event.type.Event} The event object
      * @param type {String} the event type
      */
-    canDispatchEvent : function(event, type) {
+    canDispatchEvent : function(event, type)
+    {
       return event.getBubbles();
     },
 
@@ -143,7 +144,7 @@ qx.Class.define("qx.event.dispatch.BubblingDispatch",
           callbackData.handler.call(context, event);
         }
 
-        if (event.getStopPropagation()) {
+        if (event.getPropagationStopped()) {
           return;
         }
       }
@@ -172,7 +173,7 @@ qx.Class.define("qx.event.dispatch.BubblingDispatch",
           callbackData.handler.call(context, event);
         }
 
-        if (event.getStopPropagation()) {
+        if (event.getPropagationStopped()) {
           return;
         }
       }
