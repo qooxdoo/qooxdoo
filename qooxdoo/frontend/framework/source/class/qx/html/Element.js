@@ -598,9 +598,9 @@ qx.Class.define("qx.html.Element",
      * and marked as dirty.
      *
      * @type static
-     * @param res {Array?} Optional array of already found children.
-     *   Normally only used by the recursion
-     * @return {Array} list of all found children
+     * @param domRendered {Map} Map of all rendered elements
+     * @param domInvisible {Map} Map of all invisible elements
+     * @return {void}
      */
     __addDirtyChildren : function(domRendered, domInvisible)
     {
