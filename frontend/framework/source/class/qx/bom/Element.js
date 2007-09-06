@@ -41,26 +41,86 @@ qx.Class.define("qx.bom.Element",
       CREATION
     ---------------------------------------------------------------------------
     */
-
+    
+    __specialAttributes :
+    {
+      "onload" : true,
+      "onunload" : true,
+      "onbeforeunload" : true,
+      "onreadystatechange" : true,
+      "name" : true,
+      "type" : true,
+      "checked" : true
+    },
+    
+    
     /**
-     * Creates an DOM element
+     * Creates an DOM element.
+     *
+     * Attributes may be given directly with this call. This is critical
+     * for some attributes e.g. name, type, ... in many clients.
      *
      * @type static
      * @param name {String} Tag name of the element
+     * @param attributes {Map} Map of attributes to apply
      * @param win {Window} Window to create document for
-     * @return {Element} the created element node
+     * @return {Element} The created element node
      */
-    create : function(name, win)
+    create : function(name, attributes, win)
     {
       if (!win) {
         win = window;
       }
       
-      if (win.document.createElementNS) {
-        return win.document.createElementNS("http://www.w3.org/1999/xhtml", name);
-      } else {
-        return win.document.createElement(name);
+      var special = this.__specialAttributes;
+      var attributesHtml = "";
+      
+      for (var key in attributes) 
+      {
+        if (special[key]) {
+          attributesHtml += key + "='" + attributes[key] + "'"; 
+        }
       }
+      
+      var element;
+
+      // If specific attributes are defined we need to process
+      // the element creation in a more complex way.
+      if (attributesHtml != "")
+      {
+        // Internet Explorer supports attribute within createElement()
+        // This is not standard, but a welcome addition here.
+        if (qx.html.Engine.MSHTML)
+        {
+          element = win.document.createElement("<" + name + " " + attributesHtml + ">");
+        }
+        
+        // Other browsers create an helper element to put some generated HTML 
+        // into it and extract the interesting content via 'firstChild'
+        else
+        {
+          var helper = win.document.createElement("div");
+          helper.innerHTML = "<" + name + " " + attributesHtml + "></" + name + ">";
+          element = helper.firstChild;
+        }
+      }
+      else
+      {      
+        if (win.document.createElementNS) {
+          element = win.document.createElementNS("http://www.w3.org/1999/xhtml", name);
+        } else {
+          element = win.document.createElement(name);
+        }
+      }
+      
+      for (var key in attributes) 
+      {
+        if (!special[key]) {
+          qx.bom.element.Attribute.set(element, key, attributes[key]);
+        }
+      }
+      
+      return element;
     },
 
 
