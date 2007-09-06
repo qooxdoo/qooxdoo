@@ -35,6 +35,20 @@ qx.Class.define("qx.event.type.DomEvent",
   members :
   {
 
+    init : function(domEvent)
+    {
+      this.base(arguments, domEvent.type, domEvent.bubbles);
+      this._target = domEvent.target || domEvent.srcElement;
+
+      if (domEvent.timeStamp) {
+        this._timeStamp = domEvent.timeStamp;
+      }
+
+      this._event = domEvent;
+      return this;
+    },
+
+
     /**
      * Prevent browser default behaviour, e.g. opening the context menu, ...
      */

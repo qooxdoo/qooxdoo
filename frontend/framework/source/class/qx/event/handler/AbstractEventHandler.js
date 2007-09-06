@@ -55,7 +55,6 @@ qx.Class.define("qx.event.handler.AbstractEventHandler",
 
     this._manager = manager;
     this.__registeredEvents = {};
-    this._eventPool = qx.event.type.EventPool.getInstance();
   },
 
 
@@ -75,8 +74,6 @@ qx.Class.define("qx.event.handler.AbstractEventHandler",
       "_manager",
       "__registeredEvents"
     );
-
-    this._disposeObjects("_eventPool");
   },
 
 

@@ -24,34 +24,12 @@
 
 ************************************************************************ */
 
-/** Event object for property changes. */
+/**
+ * Event object for property changes.
+ */
 qx.Class.define("qx.event.type.ChangeEvent",
 {
   extend : qx.event.type.Event,
-
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
- /**
-  * @param type {String} the type name of the event
-  * @param value {var} additional value which should be passed to the event listener
-  * @param value {var} additional old value which should be passed to the event listener
-  */
-  construct : function(type, value, old)
-  {
-    this.base(arguments, type);
-
-    this.setValue(value);
-    this.setOldValue(old);
-  },
-
-
 
 
   /*
@@ -62,7 +40,10 @@ qx.Class.define("qx.event.type.ChangeEvent",
 
   properties :
   {
+    /** The new value of the property */
     value : { _fast : true },
+
+    /** The old value of the property */
     oldValue : { _fast : true }
   },
 
@@ -80,26 +61,19 @@ qx.Class.define("qx.event.type.ChangeEvent",
   {
 
    /**
+    * Initializes an event onject.
+    *
     * @param type {String} the type name of the event
     * @param value {var} additional value which should be passed to the event listener
     * @param value {var} additional old value which should be passed to the event listener
+    * @return {qx.event.type.ChangeEvent} the initialized instance.
     */
     init : function(type, value, old)
     {
-      this.base(arguments);
-      this.setType(type);
+      this.base(arguments, type, false);
       this.setValue(value);
       this.setOldValue(old);
-    },
-
-
-    /**
-     * Returns the event data
-     *
-     * @deprecated use {@link #getValue} instead
-     */
-    getData : function() {
-      return this.getValue();
+      return this;
     }
   },
 

@@ -86,10 +86,8 @@ qx.Class.define("qx.event.type.EventPool",
       var classname = eventClass.classname;
 
       var event = this._pool.getObjectOfType(classname);
-      if (!event)
-      {
-        var clazz = qx.Class.getByName(classname);
-        event = new clazz;
+      if (!event) {
+        event = new eventClass;
       }
 
       return event;
