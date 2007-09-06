@@ -38,6 +38,45 @@ qx.Class.define("qx.bom.Iframe",
   statics :
   {
     /**
+     * Callback for some event types on iframes. Automatically route
+     * these events to the {@link qx.event.handler.IframeHandler}.
+     *
+     * @type static
+     * @internal
+     * @param name {String} Name of the event
+     * @param target {Element} DOM element which is the target of this event
+     * @return {void}
+     */
+    __onevent : function(name, target) {
+      qx.event.handler.IframeHandler.onevent(name, target);
+    },
+    
+    
+    /**
+     * Creates an DOM element.
+     *
+     * Attributes may be given directly with this call. This is critical
+     * for some attributes e.g. name, type, ... in many clients.
+     *
+     * @type static
+     * @param attributes {Map} Map of attributes to apply
+     * @param win {Window} Window to create document for
+     * @return {Element} The created iframe node
+     */
+    create : function(win, attributes)
+    {
+      var attributes = qx.lang.Object.copy(attributes);
+      
+      attributes.onload = "qx.bom.Iframe.__onevent('load', this)";
+      attributes.onunload = "qx.bom.Iframe.__onevent('unload', this)";
+      attributes.onbeforeunload = "qx.bom.Iframe.__onevent('beforeunload', this)";
+      attributes.onreadystatechange = "qx.bom.Iframe.__onevent('readystatechange', this)";
+      
+      return qx.bom.Element.create("iframe", attributes, win);      
+    },
+    
+    
+    /**
      * Get the DOM window object of an iframe.
      *
      * @type static
