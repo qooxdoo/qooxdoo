@@ -95,6 +95,49 @@ qx.Class.define("qx.event.handler.FocusHandler",
 
 
 
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+  
+  statics :
+  {
+    /*
+    ---------------------------------------------------------------------------
+      FOCUS/BLUR USER INTERFACE
+    ---------------------------------------------------------------------------
+    */
+    
+    /**
+     * Focus the given DOM element
+     *
+     * @type member
+     * @param element {Element} DOM element to focus
+     * @return {void}
+     */
+    focus : function(element)
+    {
+      // TODO
+    },
+
+
+    /**
+     * Activate the given DOM element
+     *
+     * @type member
+     * @param element {Element} DOM element to activate
+     * @return {void}
+     */
+    activate : function(element) 
+    {
+      // TODO
+    }
+  },
+    
+
+
+
 
 
   /*
@@ -111,14 +154,29 @@ qx.Class.define("qx.event.handler.FocusHandler",
     ---------------------------------------------------------------------------
     */
     
-    focus : function(el)
+    /**
+     * Focus the given DOM element
+     *
+     * @type member
+     * @param element {Element} DOM element to focus
+     * @return {void}
+     */
+    focus : function(element)
     {
-      this.setActive(el);
-      this.setFocus(el);
+      this.setActive(element);
+      this.setFocus(element);
     },
 
-    activate : function(el) {
-      this.setActive(el);
+
+    /**
+     * Activate the given DOM element
+     *
+     * @type member
+     * @param element {Element} DOM element to activate
+     * @return {void}
+     */
+    activate : function(element) {
+      this.setActive(element);
     },
     
     
@@ -133,6 +191,7 @@ qx.Class.define("qx.event.handler.FocusHandler",
     ---------------------------------------------------------------------------
     */
     
+    /** {Map} Internal data structure with all supported event types */
     __focusTypes :
     {
       "focus" : 1,
@@ -145,20 +204,27 @@ qx.Class.define("qx.event.handler.FocusHandler",
       "deactivate" : 1
     },
 
-
+    
     // overridden
     canHandleEvent : function(target, type) {
       return this.__focusTypes[type];
     },
     
-        
-    __fireCustom : function(target, type)
-    {
+    
+    /**
+     * Shorthand to fire events from within this class.
+     *
+     * @type member
+     * @param target {Element} DOM element which is the target
+     * @param type {String} Name of the event to fire
+     * @return {void}
+     */
+    _fireEvent : function(target, type) {
       this._manager.createAndDispatchEvent(target, qx.event.type.Event, [type]);
     },
     
     
-  
+     
     
 
 
@@ -174,8 +240,16 @@ qx.Class.define("qx.event.handler.FocusHandler",
     ---------------------------------------------------------------------------
     */
     
+    /** {Boolean} Whether the window is focussed currently */
     _windowFocussed : true,
 
+
+    /** 
+     * Helper for native event listeners to react on window blur
+     *
+     * @type member
+     * @return {void}
+     */
     _doWindowBlur : function()
     {
       // Omit doubled blur events
@@ -188,10 +262,17 @@ qx.Class.define("qx.event.handler.FocusHandler",
         this.resetFocus();
 
         // this.debug("Window blurred");
-        this.__fireCustom(this._window, "blur");
+        this._fireEvent(this._window, "blur");
       }
     },
 
+
+    /** 
+     * Helper for native event listeners to react on window focus
+     *
+     * @type member
+     * @return {void}
+     */
     _doWindowFocus : function()
     {
       // Omit doubled focus events
@@ -201,7 +282,7 @@ qx.Class.define("qx.event.handler.FocusHandler",
         this._windowFocussed = true;
 
         // this.debug("Window focussed");
-        this.__fireCustom(this._window, "focus");
+        this._fireEvent(this._window, "focus");
       }
     },
 
@@ -216,6 +297,13 @@ qx.Class.define("qx.event.handler.FocusHandler",
     ---------------------------------------------------------------------------
     */
     
+    /** 
+     * Helper for native event listeners to react on element focus
+     *
+     * @type member
+     * @param element {Element} DOM element which should be focussed
+     * @return {void}
+     */    
     _doElementFocus : function(element)
     {
       if (element === this._document) {
@@ -241,12 +329,26 @@ qx.Class.define("qx.event.handler.FocusHandler",
     ---------------------------------------------------------------------------
     */
     
+    /**
+     * Initializes the native mouse event listeners.
+     * 
+     * @type member
+     * @return {void}
+     */
     _initMouseObserver : function()
     {
       this.__onNativeMouseDown = qx.lang.Function.bind(this._onNativeMouseDown, this);
       qx.event.Manager.addNativeListener(this._document, "mousedown", this.__onNativeMouseDown);
     },
 
+
+    /**
+     * Initializes the native focus event listeners.
+     * 
+     * @type member
+     * @signature function()
+     * @return {void}
+     */
     _initFocusObserver : qx.core.Variant.select("qx.client",
     {
       "gecko" : function()
@@ -298,15 +400,29 @@ qx.Class.define("qx.event.handler.FocusHandler",
 
     /*
     ---------------------------------------------------------------------------
-      OBSERVER STOPß
+      OBSERVER STOP
     ---------------------------------------------------------------------------
     */
     
+    /**
+     * Disconnect the native mouse event listeners.
+     * 
+     * @type member
+     * @return {void}
+     */    
     _stopMouseObserver : function()
     {
       qx.event.Manager.removeNativeListener(this._document, "mousedown", this.__onNativeMouseDown);
     },
     
+    
+    /**
+     * Disconnect the native focus event listeners.
+     * 
+     * @type member
+     * @signature function()
+     * @return {void}
+     */    
     _stopFocusObserver : qx.core.Variant.select("qx.client",
     {
       "gecko" : function()
@@ -329,11 +445,7 @@ qx.Class.define("qx.event.handler.FocusHandler",
       }
     }),
 
-    removeAllListeners : function()
-    {
-      this._stopMouseObserver();
-      this._stopFocusObserver();
-    },     
+
 
 
 
@@ -345,6 +457,15 @@ qx.Class.define("qx.event.handler.FocusHandler",
     ---------------------------------------------------------------------------
     */
     
+    /**
+     * Native event listener for <code>DOMFocusOut</code> or <code>focusout</code>
+     * depending on the client's engine.
+     *
+     * @type member
+     * @signature function(e)
+     * @param e {Event} Native event
+     * @return {void}
+     */
     _onNativeFocusOut : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(e)
@@ -364,7 +485,17 @@ qx.Class.define("qx.event.handler.FocusHandler",
 
       "default" : null
     }),
+    
 
+    /**
+     * Native event listener for <code>DOMFocusIn</code> or <code>focusin</code>
+     * depending on the client's engine.
+     *
+     * @type member
+     * @signature function(e)
+     * @param e {Event} Native event
+     * @return {void}
+     */
     _onNativeFocusIn : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(e)
@@ -399,6 +530,15 @@ qx.Class.define("qx.event.handler.FocusHandler",
       "default" : null
     }),
 
+
+    /**
+     * Native event listener for <code>blur</code>.
+     *
+     * @type member
+     * @signature function(e)
+     * @param e {Event} Native event
+     * @return {void}
+     */
     _onNativeBlur : qx.core.Variant.select("qx.client",
     {
       "gecko|opera|webkit" : function(e)
@@ -421,6 +561,15 @@ qx.Class.define("qx.event.handler.FocusHandler",
       "default" : null
     }),
 
+
+    /**
+     * Native event listener for <code>focus</code>.
+     *
+     * @type member
+     * @signature function(e)
+     * @param e {Event} Native event
+     * @return {void}
+     */
     _onNativeFocus : qx.core.Variant.select("qx.client",
     {
       "gecko|opera|webkit" : function(e)
@@ -457,12 +606,12 @@ qx.Class.define("qx.event.handler.FocusHandler",
     ---------------------------------------------------------------------------
     */
     
-    
     /**
-     * onclick handler
+     * Native event listener for <code>mousedown</code>.
      *
      * @type member
-     * @param e {Event}
+     * @param e {Event} Native event
+     * @return {void}
      */
     _onNativeMouseDown : function(e)
     {
@@ -478,7 +627,15 @@ qx.Class.define("qx.event.handler.FocusHandler",
       this.setFocus(this.__findFocusNode(target));
     },
     
-        
+    
+    /**
+     * Returns the next focusable parent node of a activated DOM element.
+     * 
+     * @type member
+     * @signature function(node)
+     * @param node {Event} Native event
+     * @return {void}
+     */
     __findFocusNode : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(node)
@@ -562,42 +719,44 @@ qx.Class.define("qx.event.handler.FocusHandler",
     ---------------------------------------------------------------------------
     */
     
+    // apply routine
     _applyActive : function(value, old)
     {
       if (old) {
-        this.__fireCustom(old, "beforedeactivate");
+        this._fireEvent(old, "beforedeactivate");
       }
 
       if (value) {
-        this.__fireCustom(value, "beforeactivate");
+        this._fireEvent(value, "beforeactivate");
       }
 
       if (old) {
-        this.__fireCustom(old, "deactivate");
+        this._fireEvent(old, "deactivate");
       }
 
       if (value) {
-        this.__fireCustom(value, "activate");
+        this._fireEvent(value, "activate");
       }
     },
 
 
+    // apply routine
     _applyFocus : function(value, old)
     {
       if (old) {
-        this.__fireCustom(old, "focusout");
+        this._fireEvent(old, "focusout");
       }
 
       if (value) {
-        this.__fireCustom(value, "focusin");
+        this._fireEvent(value, "focusin");
       }
 
       if (old) {
-        this.__fireCustom(old, "blur");
+        this._fireEvent(old, "blur");
       }
 
       if (value) {
-        this.__fireCustom(value, "focus");
+        this._fireEvent(value, "focus");
       }
     }
   },
@@ -605,6 +764,23 @@ qx.Class.define("qx.event.handler.FocusHandler",
 
 
 
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._stopMouseObserver();
+    this._stopFocusObserver();    
+    
+    this._disposeFields("_window", "_document", "_root", "_body");
+  },
+  
+  
+    
 
 
   /*
