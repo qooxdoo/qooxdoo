@@ -133,15 +133,17 @@ qx.Class.define("qx.lang.String",
 
 
     /**
-     * Pad a string up to a given length. Padding characters are added to the left of the string.
+     * Pad a string up to a given length. By default, padding characters are added to the 
+     * left of the string.
      *
      * @type static
      * @param str {String} the string to pad
      * @param length {Integer} the final length of the string
      * @param ch {String} character used to fill up the string
+     * @param addRight {Boolean} true to add the padding characters to the right of the string
      * @return {String} paddded string
      */
-    pad : function(str, length, ch)
+    pad : function(str, length, ch, addRight)
     {
       if (typeof ch === "undefined") {
         ch = "0";
@@ -153,7 +155,11 @@ qx.Class.define("qx.lang.String",
         temp += ch;
       }
 
-      return temp + str;
+      if (addRight == true){
+        return str + temp;        
+      } else {
+        return temp + str;
+      }
     },
 
 
