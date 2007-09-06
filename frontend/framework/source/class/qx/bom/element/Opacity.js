@@ -58,11 +58,6 @@ qx.Class.define("qx.bom.element.Opacity",
 
   statics :
   {
-
-    /** shorthand to style class */
-    __style : qx.bom.element.Style,
-
-
     /**
      * Sets opacity of given element. Accepts numbers between zero and one
      * where "0" means transparent, "1" means opaque.
@@ -78,7 +73,7 @@ qx.Class.define("qx.bom.element.Opacity",
       "mshtml" : function(element, opacity)
       {
         // Read in computed filter
-        var filter = this.__style.getComputed(element, "filter");
+        var filter = qx.bom.element.Style.get(element, "filter", qx.bom.element.Style.COMPUTED_MODE, false);
 
         // Remove opacity filter
         if (opacity >= 1)
@@ -138,6 +133,9 @@ qx.Class.define("qx.bom.element.Opacity",
     {
       "mshtml" : function(element)
       {
+        // Read in computed filter
+        var filter = qx.bom.element.Style.get(element, "filter", qx.bom.element.Style.COMPUTED_MODE, false);
+        
         // Remove old alpha filter
         element.style.filter = filter.replace(/alpha\([^\)]*\)/gi, "");
       },
@@ -163,14 +161,17 @@ qx.Class.define("qx.bom.element.Opacity",
      *
      * @type static
      * @param element {Element} DOM element to modify
+     * @param mode {Number} Choose one of the modes {@link qx.bom.element.Style#COMPUTED_MODE}, 
+     *   {@link qx.bom.element.Style#CASCADED_MODE}, {@link qx.bom.element.Style#LOCAL_MODE}. 
+     *   The computed mode is the default one.
      * @return {Float} A float number between 0 and 1
-     * @signature function(element)
+     * @signature function(element, mode)
      */
     get : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(element)
+      "mshtml" : function(element, mode)
       {
-        var filter = this.__style.getComputed(element, "filter");
+        var filter = qx.bom.element.Style.get(element, "filter", mode, false);
 
         if (filter)
         {
@@ -184,9 +185,9 @@ qx.Class.define("qx.bom.element.Opacity",
         return 1.0;
       },
 
-      "gecko" : function(element)
+      "gecko" : function(element, mode)
       {
-        var opacity = this.__style.getComputed(element, qx.bom.client.Engine.VERSION < 1.7 ? "MozOpacity" : "opacity");
+        var opacity = qx.bom.element.Style.get(element, qx.bom.client.Engine.VERSION < 1.7 ? "MozOpacity" : "opacity", mode, false);
 
         if (opacity == 0.999999) {
           opacity = 1.0;
@@ -199,9 +200,9 @@ qx.Class.define("qx.bom.element.Opacity",
         return 1.0;
       },
 
-      "default" : function(element)
+      "default" : function(element, mode)
       {
-        var opacity = this.__style.getComputed(element, "opacity");
+        var opacity = qx.bom.element.Style.get(element, "opacity", mode, false);
 
         if (opacity != null) {
           return parseFloat(opacity);

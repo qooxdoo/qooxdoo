@@ -54,8 +54,11 @@ qx.Class.define("qx.bom.element.Overflow",
      * Returns the computed value of the horizontal overflow
      * 
      * @type static
-     * @signature function(element)
+     * @signature function(element, mode)
      * @param element {Element} DOM element to query
+     * @param mode {Number} Choose one of the modes {@link qx.bom.element.Style#COMPUTED_MODE}, 
+     *   {@link qx.bom.element.Style#CASCADED_MODE}, {@link qx.bom.element.Style#LOCAL_MODE}. 
+     *   The computed mode is the default one.
      * @return {String} computed overflow value
      */
     getX : qx.core.Variant.select("qx.client",
@@ -66,9 +69,9 @@ qx.Class.define("qx.bom.element.Overflow",
         // older geckos do not support overflowX
         // it's also more safe to translate hidden to -moz-scrollbars-none
         // because of issues in older geckos
-        "version<1.8" : function(element)
+        "version<1.8" : function(element, mode)
         {
-          var overflow = qx.bom.element.Style.getComputed(element, "overflow");
+          var overflow = qx.bom.element.Style.get(element, "overflow", mode, false);
 
           if (overflow == "-moz-scrollbars-horizontal") {
             return "scroll";
@@ -80,14 +83,14 @@ qx.Class.define("qx.bom.element.Overflow",
         },
         
         // gecko >= 1.8 supports overflowX, too
-        "default" : function(element) {
-          return qx.bom.element.Style.getComputed(element, "overflowX");
+        "default" : function(element, mode) {
+          return qx.bom.element.Style.get(element, "overflowX", mode, false);
         }
       }),
       
       // use native overflowX property
-      "default" : function(element) {
-        return qx.bom.element.Style.getComputed(element, "overflowX");
+      "default" : function(element, mode) {
+        return qx.bom.element.Style.get(element, "overflowX", mode, false);
       }
     }),
 
@@ -112,7 +115,7 @@ qx.Class.define("qx.bom.element.Overflow",
         "version<1.8" : function(element, value)
         {
           // Initialize overflowY from computed style
-          var orig = qx.bom.element.Style.getComputed(element, "overflow");
+          var orig = qx.bom.element.Style.get(element, "overflow", qx.bom.element.Style.COMPUTED_MODE, false);
 
           if (!element._overflowY)
           {
@@ -144,18 +147,18 @@ qx.Class.define("qx.bom.element.Overflow",
           }
 
           // Apply style
-          qx.bom.element.Style.set(element, "overflow", value);
+          element.style.overflow = value;
         },
 
         // gecko >= 1.8 supports overflowX, too
         "default" : function(element, value) {
-          qx.bom.element.Style.set(element, "overflowX", value);
+          element.style.overflowX = value;
         }
       }),
       
       // use native overflowX property
       "default" : function(element, value) {
-        qx.bom.element.Style.set(element, "overflowX", value);
+        element.style.overflowX = value;
       }      
     }),
     
@@ -178,13 +181,13 @@ qx.Class.define("qx.bom.element.Overflow",
         
         // gecko >= 1.8 supports overflowX, too
         "default" : function(element) {
-          return qx.bom.element.Style.reset(element, "overflowX");
+          element.style.overflowX = "";
         }
       }),
       
       // use native overflowY property
       "default" : function(element) {
-        qx.bom.element.Style.reset(element, "overflowX");
+        element.style.overflowX = "";
       }
     }),
 
@@ -193,8 +196,11 @@ qx.Class.define("qx.bom.element.Overflow",
      * Returns the computed value of the vertical overflow
      * 
      * @type static
-     * @signature function(element)
+     * @signature function(element, mode)
      * @param element {Element} DOM element to query
+     * @param mode {Number} Choose one of the modes {@link qx.bom.element.Style#COMPUTED_MODE}, 
+     *   {@link qx.bom.element.Style#CASCADED_MODE}, {@link qx.bom.element.Style#LOCAL_MODE}. 
+     *   The computed mode is the default one.
      * @return {String} computed overflow value
      */
     getY : qx.core.Variant.select("qx.client",
@@ -207,7 +213,7 @@ qx.Class.define("qx.bom.element.Overflow",
         // because of issues in older geckos
         "version<1.8" : function(element)
         {
-          var overflow = qx.bom.element.Style.getComputed(element, "overflow");
+          var overflow = qx.bom.element.Style.get(element, "overflow", mode, false);
 
           if (overflow == "-moz-scrollbars-vertical") {
             return "scroll";
@@ -220,13 +226,13 @@ qx.Class.define("qx.bom.element.Overflow",
         
         // gecko >= 1.8 supports overflowY, too
         "default" : function(element) {
-          return qx.bom.element.Style.getComputed(element, "overflowY");
+          return qx.bom.element.Style.get(element, "overflowY", mode, false);
         }
       }),
       
       // use native overflowY property
       "default" : function(element) {
-        return qx.bom.element.Style.getComputed(element, "overflowY");
+        return qx.bom.element.Style.get(element, "overflowY", mode, false);
       }      
     }),
 
@@ -251,7 +257,7 @@ qx.Class.define("qx.bom.element.Overflow",
         "version<1.8" : function(element, value)
         {
           // Initialize overflowX from computed style
-          var orig = qx.bom.element.Style.getComputed(element, "overflow");
+          var orig = qx.bom.element.Style.get(element, "overflow", qx.bom.element.Style.COMPUTED_MODE, false);
 
           if (!element._overflowX)
           {
@@ -283,18 +289,18 @@ qx.Class.define("qx.bom.element.Overflow",
           }
 
           // Apply style
-          qx.bom.element.Style.set(element, "overflow", value);
+          element.style.overflow = value;
         },
 
         // gecko >= 1.8 supports overflowY, too
         "default" : function(element, value) {
-          qx.bom.element.Style.set(element, "overflowY", value);
+          element.style.overflowY = value;
         }
       }),
     
       // use native overflowY property
       "default" : function(element, value) {
-        qx.bom.element.Style.set(element, "overflowY", value);
+        element.style.overflowY = value;
       }
     }),
     
@@ -317,13 +323,13 @@ qx.Class.define("qx.bom.element.Overflow",
         
         // gecko >= 1.8 supports overflowX, too
         "default" : function(element) {
-          return qx.bom.element.Style.reset(element, "overflowY");
+          element.style.overflowY = "";
         }
       }),
       
       // use native overflowY property
       "default" : function(element) {
-        qx.bom.element.Style.reset(element, "overflowY");
+        element.style.overflowY = "";
       }
     })    
   }

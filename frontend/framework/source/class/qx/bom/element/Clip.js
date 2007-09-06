@@ -41,13 +41,16 @@ qx.Class.define("qx.bom.element.Clip",
      *
      * @type static
      * @param element {Element} DOM element to query
+     * @param mode {Number} Choose one of the modes {@link qx.bom.element.Style#COMPUTED_MODE}, 
+     *   {@link qx.bom.element.Style#CASCADED_MODE}, {@link qx.bom.element.Style#LOCAL_MODE}. 
+     *   The computed mode is the default one.
      * @return {Map} Map which contains <code>left</code>, <code>top</code>
      *   <code>width</code> and <code>height</code> of the clipped area.
      *   Each one could be null or any integer value.
      */
-    get : function(element)
+    get : function(element, mode)
     {
-      var clip = qx.bom.element.Style.getComputed(element, "clip");
+      var clip = qx.bom.element.Style.get(element, "clip", mode);
 
       var left, top, width, height;
       var right, bottom;
@@ -144,14 +147,17 @@ qx.Class.define("qx.bom.element.Clip",
      *
      * @type static
      * @param element {Element} DOM element to modify
-     * @param left {Integer|null} Could be null or any integer value
-     * @param top {Integer|null} Could be null or any integer value
-     * @param width {Integer|null} Could be null or any integer value
-     * @param height {Integer|null} Could be null or any integer value
+     * @param map {Map} A map with one or more of these available keys:
+     *   <code>left</code>, <code>top</code>, <code>width</code>, <code>height</code>.
      * @return {void}
      */
-    set : function(element, left, top, width, height)
+    set : function(element, map)
     {
+      var left = map.left;
+      var top = map.top;
+      var width = map.width;
+      var height = map.height;
+            
       var right, bottom;
 
       if (left == null)
@@ -176,7 +182,7 @@ qx.Class.define("qx.bom.element.Clip",
         top = top + "px";
       }
 
-      qx.bom.element.Style.set(element, "clip", "rect(" + top + "," + right + "," + bottom + "," + left + ")");
+      element.style.clip = "rect(" + top + "," + right + "," + bottom + "," + left + ")";
     },
      
      
@@ -188,7 +194,7 @@ qx.Class.define("qx.bom.element.Clip",
      * @return {void}
      */
     reset : function(element) {
-      qx.bom.element.Style.reset(element, "clip");
+      element.style.clip = "";
     }
   }
 });
