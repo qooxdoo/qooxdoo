@@ -88,7 +88,6 @@ qx.Class.define("qx.core.Target",
      * @param func {Function} event callback function
      * @param obj {Object ? window} reference to the 'this' variable inside the callback
      * @return {void}
-     * @throws TODOC
      */
     removeEventListener : function(type, func, obj)
     {
@@ -116,7 +115,6 @@ qx.Class.define("qx.core.Target",
      * @return {var} TODOC
      */
     hasEventListeners : function(type) {
-      return true;
       return qx.event.Manager.getManager(this).hasListeners(this, type);
     },
 
@@ -128,8 +126,7 @@ qx.Class.define("qx.core.Target",
      * @param type {String} name of the event type
      * @return {void}
      */
-    createDispatchEvent : function(type)
-    {
+    createDispatchEvent : function(type) {
       this.dispatchEvent(new qx.legacy.event.type.Event(type), true);
     },
 
@@ -142,8 +139,7 @@ qx.Class.define("qx.core.Target",
      * @param data {Object} user defined data attached to the event object
      * @return {void}
      */
-    createDispatchDataEvent : function(type, data)
-    {
+    createDispatchDataEvent : function(type, data) {
       this.dispatchEvent(new qx.legacy.event.type.DataEvent(type, data), true);
     },
 
