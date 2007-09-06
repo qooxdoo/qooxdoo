@@ -278,7 +278,7 @@ qx.Class.define("qx.bom.element.Style",
      *   {@link #LOCAL_MODE}. The computed mode is the default one.
      * @param smart {Boolean?true} Whether the implementation should automatically use 
      *    special implementations for some properties
-     * @return {String|null} The value of the property
+     * @return {var} The value of the property
      */
     get : qx.core.Variant.select("qx.client",
     {
