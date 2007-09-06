@@ -57,7 +57,7 @@
  * * win95, win98, winme, winnt4, win2000, winxp, win2003, winvista, wince
  * * linux, sunos, freebsd, netbsd
  * * osx, os9
- * * symbian, psp, nintendods
+ * * symbian, psp, nintendods, iphone
  *
  * Types: <code>version</code> is a floating point number. All others
  * are <code>boolean</code>.
@@ -209,7 +209,7 @@ qx.Class.define("qx.bom.Client",
       [
         "SP1", "SP2", "WIN95", "WIN98", "WINME", "WINNT4", "WIN2000", "WINXP",
         "WIN2003", "WINVISTA", "WINCE", "LINUX", "SUNOS", "FREEBSD", "NETBSD",
-        "OSX", "OS9", "SYMBIAN", "PSP", "NINTENDODS"
+        "OSX", "OS9", "SYMBIAN", "PSP", "NINTENDODS", "IPHONE"
       ]
     },
 
