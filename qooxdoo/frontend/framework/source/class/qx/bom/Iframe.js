@@ -47,8 +47,12 @@ qx.Class.define("qx.bom.Iframe",
      * @param target {Element} DOM element which is the target of this event
      * @return {void}
      */
-    __onevent : function(name, target) {
-      qx.event.handler.IframeHandler.onevent(name, target);
+    __onevent : function(name, target) 
+    {
+      console.debug("Event " + name + " occoured on target: " + target);
+      
+      // TODO: Get correct IframeHandler and fire an event
+      // qx.event.handler.IframeHandler.onevent(name, target);
     },
     
     
