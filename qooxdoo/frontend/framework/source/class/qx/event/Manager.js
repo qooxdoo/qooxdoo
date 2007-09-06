@@ -91,6 +91,9 @@ qx.Class.define("qx.event.Manager",
     this.__knownDispatcher = {};
     this.__updateDispatcher();
 
+    // the event pool
+    this.__eventPool = qx.event.type.EventPool.getInstance();
+
     // add unload listener to prevent memory leaks
     this.addListener(win, "unload", this.__onunload, this);
   },
@@ -119,7 +122,8 @@ qx.Class.define("qx.event.Manager",
       "__dispatchHandlers",
       "__knownHandler",
       "__dispatchHandlers",
-      "__knownDispatcher"
+      "__knownDispatcher",
+      "__eventPool"
     );
   },
 
@@ -226,7 +230,21 @@ qx.Class.define("qx.event.Manager",
     },
 
 
-    createEvent : function() {},
+    /**
+     * Get an inevent instance of the given class, which can be dispatched using
+     * an event manager. The created events must be initialized using
+     * {@link qx.event.type.Event#init}.
+     *
+     * @param eventClass {Object} The even class
+     * @return {qx.event.type.Event} An instance of the given class.
+     */
+    createEvent : function(eventClass)
+    {
+      if (!this.__eventPool) {
+        this.__eventPool = qx.event.type.EventPool.getInstance();
+      }
+      return this.__eventPool.getEventInstance(eventClass);
+    },
 
 
     /**
@@ -629,7 +647,6 @@ qx.Class.define("qx.event.Manager",
     },
 
 
-
     /*
     ---------------------------------------------------------------------------
       EVENT DISPATCH
@@ -639,7 +656,8 @@ qx.Class.define("qx.event.Manager",
     /**
      * Dispatches an event object using the qooxdoo event handler system. The
      * event will only be visible in event listeners attached using
-     * {@link #addListener}.
+     * {@link #addListener}. After dispatching the event object will be pooled
+     * for later reuse or disposed.
      *
      * @param target {Element|qx.core.Object} Target object on which the event
      *     should be dispatched.
@@ -670,6 +688,14 @@ qx.Class.define("qx.event.Manager",
           break;
         }
       }
+
+      // release the event instance to the event pool
+      // the event handler may have disposed the app.
+      if (this.getDisposed()) {
+        return;
+      }
+      this.__eventPool.poolEvent(event);
+
       this.__inEventDispatch = false;
 
       // flush job queue
@@ -686,7 +712,21 @@ qx.Class.define("qx.event.Manager",
     },
 
 
-
+    /**
+     * Create an event object and dispatch it on the given target.
+     *
+     * @param target {Element|qx.core.Object} Target object on which the event
+     *     should be dispatched.
+     * @param eventClass {qx.event.type.Event} The even class
+     * @param eventInitArgs {Array} Array or arguments, which will be passed to
+     *     the event's init method.
+     */
+    createAndDispatchEvent : function(target, eventClass, eventInitArgs)
+    {
+      var event = qx.event.Manager.createEvent(eventClass);
+      event.init.apply(event, eventInitArgs);
+      this.dispatchEvent(target, event);
+    },
 
 
 

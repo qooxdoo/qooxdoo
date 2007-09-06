@@ -39,23 +39,6 @@ qx.Class.define("qx.event.type.Event",
 {
   extend : qx.core.Object,
 
-  /**
-   * @param event {Event|Map} DOM event or an event like JSON map. Valid keys
-   *   for the map are:
-   *   <ul>
-   *     <li>type (required)</li>
-   *     <li>target (required)</li>
-   *     <li>bubbles</li>
-   *     <li>timestamp</li>
-   *   <ul>
-   */
-  construct : function(event)
-  {
-    this.base(arguments);
-    this.init(event);
-  },
-
-
 
   /*
   *****************************************************************************
@@ -103,33 +86,22 @@ qx.Class.define("qx.event.type.Event",
   members :
   {
     /**
-     * Initialize the fileds of the event.
+     * Initialize the fields of the event. The event must be initialized before
+     * it can be dispatched.
      *
      * @type member
-     * @param event {Event|Map} DOM event or an event like JSON map. Valid keys
-     *   for the map are:
-     *   <ul>
-     *     <li>type (required)</li>
-     *     <li>target (rewuired)</li>
-     *     <li>bubbles</li>
-     *     <li>timestamp</li>
-     *   <ul>
+     * @param type {String} The name of the event (case-sensitive).
+     * @param bubbles {Boolean?true} Whether or not an event is a bubbling event
      * @return {qx.event.type.Event} The initialized event instance
      */
-    init : function(event)
+    init : function(type, bubbles)
     {
-      if (!event) {
-        event = {};
-      }
-
-      this._event = event;
-      this._type = event.type;
-      this._target = event.target || event.srcElement;
+      this._type = type;
+      this._target = null;
       this._currentTarget = null;
       this._stopPropagation = false;
-      this._bubbles = event.bubbles !== undefined ? event.bubbles : true;
-      this._timeStamp = event.timeStamp || (new Date()).getTime();
-
+      this._bubbles = bubbles !== undefined ? bubbles : true;
+      this._timeStamp = (new Date()).getTime();
       return this;
     },
 
@@ -143,7 +115,6 @@ qx.Class.define("qx.event.type.Event",
     clone : function()
     {
       var clone = new this.constructor;
-      clone._event = this._event;
       clone._type = this._type;
       clone._target = this._target;
       clone._currentTarget = this._currentTarget;

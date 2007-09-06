@@ -52,7 +52,6 @@ qx.Class.define("qx.event.dispatch.MouseCaptureDispatcher",
 
     this.__manager = manager;
     this.__captureElement = null;
-    this.__eventPool = qx.event.type.EventPool.getInstance();
 
     var win = manager.getWindow();
     manager.addListener(win, "blur", this.releaseCapture, this);
@@ -71,7 +70,6 @@ qx.Class.define("qx.event.dispatch.MouseCaptureDispatcher",
   destruct : function()
   {
     this._disposeFields("__captureElement", "__manager");
-    this._disposeObjects("__eventPool");
   },
 
 
@@ -156,18 +154,13 @@ qx.Class.define("qx.event.dispatch.MouseCaptureDispatcher",
         return;
       }
 
-      // create synthetic losecapture event
-      // TODO: Create custom events should work a lot simpler!!!
-      // What's abot qx.event.Manager.createEvent() and qx.event.Manager.createAndDispatchEvent()
-      var event = this.__eventPool.getEventInstance(qx.event.type.Event).init({
-        type : "losecapture",
-        target : this.__captureElement
-      });
+      this.__manager.createAndDispatchEvent(
+        this.__captureElement,
+        qx.event.type.Event,
+        ["losecapture", true]
+      );
 
-      this.__manager.dispatchEvent(target, event);
       this.__captureElement = null;
-
-      this.__eventPool.poolEvent(event);
     }
   },
 
