@@ -80,10 +80,8 @@ qx.Interface.define("qx.event.handler.IEventHandler",
      * Removes all event handlers handled by the class. This
      * function is called on unload of the the document.
      */
-    removeAllListeners : function()
-    {
+    removeAllListeners : function() {
       return true;
     }
-
   }
 });
