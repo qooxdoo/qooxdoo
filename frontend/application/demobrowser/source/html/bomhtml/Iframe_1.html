@@ -6,7 +6,7 @@
   <script type="text/javascript">
     qxsettings = { "qx.enableApplicationLayout" : false };
   </script>
-  
+
   <script type="text/javascript" src="../../script/demo.js"></script>
   <script type="text/javascript" src="../util.js"></script>
 </head>
@@ -26,10 +26,14 @@ qx.Class.define("BasicSample",
     main : function()
     {
       this.base(arguments);
-      
+
       var iframe = qx.bom.Iframe.create({
         name : "testFrame",
         src : "http://google.com"
+      });
+
+      qx.event.Manager.addListener(iframe, "load", function(e) {
+        console.log("Juhu", e);
       });
 
       document.body.appendChild(iframe);
