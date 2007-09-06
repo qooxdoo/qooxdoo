@@ -63,14 +63,14 @@ qx.Class.define("qx.bom.Iframe",
      * @param win {Window} Window to create document for
      * @return {Element} The created iframe node
      */
-    create : function(win, attributes)
+    create : function(attributes, win)
     {
-      var attributes = qx.lang.Object.copy(attributes);
+      var attributes = attributes ? qx.lang.Object.copy(attributes) : {};
       
-      attributes.onload = "qx.bom.Iframe.__onevent('load', this)";
-      attributes.onunload = "qx.bom.Iframe.__onevent('unload', this)";
-      attributes.onbeforeunload = "qx.bom.Iframe.__onevent('beforeunload', this)";
-      attributes.onreadystatechange = "qx.bom.Iframe.__onevent('readystatechange', this)";
+      attributes.onload = "qx.bom.Iframe.__onevent(\"load\", this)";
+      attributes.onunload = "qx.bom.Iframe.__onevent(\"unload\", this)";
+      attributes.onbeforeunload = "qx.bom.Iframe.__onevent(\"beforeunload\", this)";
+      attributes.onreadystatechange = "qx.bom.Iframe.__onevent(\"readystatechange\", this)";
       
       return qx.bom.Element.create("iframe", attributes, win);      
     },
