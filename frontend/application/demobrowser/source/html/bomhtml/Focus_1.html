@@ -82,33 +82,28 @@ qx.Class.define("Gui2Test",
       this.base(arguments);
 
       document.body.focus();
-      this.oldFocus = document.body;
 
-      qx.event.Manager.addListener(document.documentElement, "activate", this._changeActive, this, true);
-      qx.event.Manager.addListener(document.documentElement, "deactivate", this._changeActive, this, true);
-      qx.event.Manager.addListener(document.documentElement, "focusin", this._changeFocus, this);
+      qx.event.Manager.addListener(document.documentElement, "activate", this._onActivate, this, true);
+      qx.event.Manager.addListener(document.documentElement, "deactivate", this._onDeactive, this, true);
+      qx.event.Manager.addListener(document.documentElement, "focusin", this._onFocusIn, this);
+      qx.event.Manager.addListener(document.documentElement, "focusout", this._onFocusOut, this);
     },
-
-    _changeActive : function(e)
-    {
-      switch(e.getType()) {
-        case "deactivate":
-          e.getTarget().style.borderColor = "black";
-          break;
-
-        case "activate":
-          e.getTarget().style.borderColor = "red";
-          break;
-      }
+    
+    _onActivate : function(e) {
+      e.getTarget().style.borderColor = "red";
     },
-
-    _changeFocus : function(e)
-    {
-      this.oldFocus.style.backgroundColor = "";
+    
+    _onDeactivate : function(e) {
+      e.getTarget().style.borderColor = "black";
+    },
+    
+    _onFocusIn : function(e) {
       e.getTarget().style.backgroundColor = "#aeaeae";
-      this.oldFocus = e.getTarget();
+    },
+    
+    _onFocusOut : function(e) {
+      e.getTarget().style.backgroundColor = "";
     }
-
   }
 });
 
