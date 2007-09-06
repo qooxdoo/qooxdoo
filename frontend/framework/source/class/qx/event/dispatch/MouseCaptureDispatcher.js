@@ -178,9 +178,6 @@ qx.Class.define("qx.event.dispatch.MouseCaptureDispatcher",
       this.__manager.dispatchEvent(event);
       this.__captureElement = null;
 
-      // TODO: What's about a event function like
-      // event.freeze() or event.pool();
-      // Looks better IMHO
       this.__eventPool.poolEvent(event);
     }
   },
