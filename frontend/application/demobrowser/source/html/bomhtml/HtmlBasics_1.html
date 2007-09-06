@@ -62,7 +62,7 @@ qx.Class.define("BasicSample",
       this.debug("value: " + attrib.get(document.getElementById("test2"), "value"));
       this.debug("type: " + attrib.get(document.getElementById("test2"), "type"));
       this.debug("max: " + attrib.get(document.getElementById("test2"), "maxlength"));
-      this.debug("left: " + style.getComputed(document.getElementById("test2"), "left"));
+      this.debug("left: " + style.get(document.getElementById("test2"), "left"));
       
       this.info("test3");
       this.debug("name: " + attrib.get(document.getElementById("test3"), "name"));
@@ -84,13 +84,13 @@ qx.Class.define("BasicSample",
       this.debug("href: " + attrib.get(document.getElementById("test6"), "href"));
       this.debug("style: " + attrib.get(document.getElementById("test6"), "style"));
       this.debug("css: " + style.getCss(document.getElementById("test6")));
-      this.debug("color: " + style.getComputed(document.getElementById("test6"), "color"));
-      this.debug("bg: " + style.getComputed(document.getElementById("test6"), "backgroundColor"));
+      this.debug("color: " + style.get(document.getElementById("test6"), "color"));
+      this.debug("bg: " + style.get(document.getElementById("test6"), "backgroundColor"));
       
       // shorthand properties are not supported
       // this.debug("font: " + style.getComputed(document.getElementById("test6"), "font"));
       
-      this.debug("family: " + style.getComputed(document.getElementById("test6"), "fontFamily"));
+      this.debug("family: " + style.get(document.getElementById("test6"), "fontFamily"));
       this.debug("text: " + attrib.get(document.getElementById("test6"), "text"));
       this.debug("html: " + attrib.get(document.getElementById("test6"), "html"));
       this.debug("opacity: " + opac.get(document.getElementById("test6")));
