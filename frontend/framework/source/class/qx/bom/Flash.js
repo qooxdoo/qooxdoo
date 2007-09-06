@@ -80,36 +80,7 @@ qx.Class.define("qx.bom.Flash",
      * The dimension of the movie should define through CSS styles {@link qx.bom.element.Style}
      * 
      * It is possible to add these parameters as supported by Flash movies:
-     *
-     * * <code>play</code> - Possible values: true, false. Specifies whether the movie begins playing immediately on loading in the browser. The default value is true if this attribute is omitted.
-     * * <code>loop</code> - Possible values: true, false. Specifies whether the movie repeats indefinitely or stops when it reaches the last frame. The default value is true if this attribute is omitted.
-     * * <code>menu</code> - Possible values: true, false.
-     * ** <code>true</code> displays the full menu, allowing the user a variety of options to enhance or control playback.
-     * ** <code>false</code> displays a menu that contains only the Settings option and the About Flash option.
-     * * <code>quality</code> - Possible values: low, high, autolow, autohigh, best.
-     * ** <code>low</code> favors playback speed over appearance and never uses anti-aliasing.
-     * ** <code>autolow</code> emphasizes speed at first but improves appearance whenever possible. Playback begins with anti-aliasing turned off. If the Flash Player detects that the processor can handle it, anti-aliasing is turned on.
-     * ** <code>autohigh</code> emphasizes playback speed and appearance equally at first but sacrifices appearance for playback speed if necessary. Playback begins with anti-aliasing turned on. If the actual frame rate drops below the specified frame rate, anti-aliasing is turned off to improve playback speed. Use this setting to emulate the View > Antialias setting in Flash.
-     * ** <code>medium</code> applies some anti-aliasing and does not smooth bitmaps. It produces a better quality than the Low setting, but lower quality than the High setting.
-     * ** <code>high</code> favors appearance over playback speed and always applies anti-aliasing. If the movie does not contain animation, bitmaps are smoothed; if the movie has animation, bitmaps are not smoothed.
-     * ** <code>best</code> provides the best display quality and does not consider playback speed. All output is anti-aliased and all bitmaps are smoothed.
-     * * <code>scale</code> - Possible values: showall, noborder, exactfit.
-     * ** <code>default</code> (Show all) makes the entire movie visible in the specified area without distortion, while maintaining the original aspect ratio of the movie. Borders may appear on two sides of the movie.
-     * ** <code>noorder</code> scales the movie to fill the specified area, without distortion but possibly with some cropping, while maintaining the original aspect ratio of the movie.
-     * ** <code>exactfit</code> makes the entire movie visible in the specified area without trying to preserve the original aspect ratio. Distortion may occur.
-     * * <code>align</code> (attribute for Object) - Possible values: l, t, r, b.
-     * ** Default centers the movie in the browser window and crops edges if the browser window is smaller than the movie.
-     * ** <code>l</code> (left), <code>r</code> (right), <code>t</code> (top), and <code>b</code> (bottom) align the movie along the corresponding edge of the browser window and crop the remaining three sides as needed.
-     * * <code>salign</code> - Possible values: l, t, r, b, tl, tr, bl, br.
-     * ** <code>l</code>, <code>r</code>, <code>t</code>, and <code>b</code> align the movie along the left, right, top or bottom edge, respectively, of the browser window and crop the remaining three sides as needed.
-     * ** <code>tl</code> and <code>tr</code> align the movie to the top left and top right corner, respectively, of the browser window and crop the bottom and remaining right or left side as needed.
-     * ** <code>bl</code> and <code>br</code> align the movie to the bottom left and bottom right corner, respectively, of the browser window and crop the top and remaining right or left side as needed.
-     * * <code>wmode</code> - Possible values: window, opaque, transparent. Sets the Window Mode property of the Flash movie for transparency, layering, and positioning in the browser.
-     * ** <code>window</code> - movie plays in its own rectangular window on a web page.
-     * ** <code>opaque</code> - the movie hides everything on the page behind it.
-     * ** <code>transparent</code> - the background of the HTML page shows through all transparent portions of the movie, this may slow animation performance.
-     * * <code>bgcolor</code> - [ hexadecimal RGB value] in the format #RRGGBB . Specifies the background color of the movie. Use this attribute to override the background color setting specified in the Flash file. This attribute does not affect the background color of the HTML page.
-     * * <code>base</code> - . or [base directory] or [URL]. Specifies the base directory or URL used to resolve all relative path statements in the Flash Player movie. This attribute is helpful when your Flash Player movies are kept in a different directory from your other files.     
+     * http://kb.adobe.com/selfservice/viewContent.do?externalId=tn_12701
      *
      * @type static
      * @param movie {String} URI to the movie
