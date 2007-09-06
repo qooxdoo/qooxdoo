@@ -60,7 +60,7 @@ qx.Class.define("qx.bom.Element",
      * @type static
      * @param name {String} Tag name of the element
      * @param attributes {Map} Map of attributes to apply
-     * @param win {Window} Window to create document for
+     * @param win {Window} Window to create the element for
      * @return {Element} The created element node
      */
     create : function(name, attributes, win)
