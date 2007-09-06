@@ -80,6 +80,14 @@ qx.Class.define("qx.bom.element.Style",
         right : "pixelRight",
         top : "pixelTop",
         bottom : "pixelBottom"
+      },
+      
+      special :
+      {
+        clip : true,
+        cursor : true,
+        opacity : true,
+        overflow : true
       }
     },
 

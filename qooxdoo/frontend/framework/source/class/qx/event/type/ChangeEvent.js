@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 /** Event object for property changes. */
-qx.Class.define("qx.legacy.event.type.ChangeEvent",
+qx.Class.define("qx.event.type.ChangeEvent",
 {
   extend : qx.legacy.event.type.Event,
 
