@@ -88,6 +88,20 @@ qx.Class.define("qx.event.type.ChangeEvent",
       clone.setValue(this.getValue());
       clone.setOldValue(this.getOldValue());
       return clone;
+    },
+
+
+    /**
+     * Get the new (current) value of the property
+     *
+     * @return {var} The new value
+     * @deprecated
+     */
+    getData : function()
+    {
+      this.warn("The method qx.event.type.getData() id deprecated. Use 'getValue' instead!.");
+      this.printStackTrace();
+      return this.getValue();
     }
 
   },

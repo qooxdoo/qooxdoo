@@ -47,15 +47,12 @@ qx.Class.define("qx.bom.Iframe",
      * @param target {Element} DOM element which is the target of this event
      * @return {void}
      */
-    __onevent : function(name, target) 
+    __onevent : function(name, target)
     {
-      qx.core.Log.debug("Event " + name + " occured on target: " + target);
-      
-      // TODO: Get correct IframeHandler and fire an event
-      // qx.event.handler.IframeHandler.onevent(name, target);
+      qx.event.handler.IframeEventHandler.onevent(target, name);
     },
-    
-    
+
+
     /**
      * Creates an DOM element.
      *
@@ -72,11 +69,11 @@ qx.Class.define("qx.bom.Iframe",
       // Work on a copy to not modify given attributes map
       var attributes = attributes ? qx.lang.Object.copy(attributes) : {};
       attributes.onload = "qx.bom.Iframe.__onevent(\"load\", this)";
-      
-      return qx.bom.Element.create("iframe", attributes, win);      
+
+      return qx.bom.Element.create("iframe", attributes, win);
     },
-    
-    
+
+
     /**
      * Get the DOM window object of an iframe.
      *
