@@ -44,7 +44,7 @@ qx.Class.define("qx.event.type.Event",
    *   for the map are:
    *   <ul>
    *     <li>type (required)</li>
-   *     <li>target (rewuired)</li>
+   *     <li>target (required)</li>
    *     <li>bubbles</li>
    *     <li>timestamp</li>
    *   <ul>
@@ -154,31 +154,12 @@ qx.Class.define("qx.event.type.Event",
 
 
     /**
-     * Prevent browser default behaviour, e.g. opening the context menu, ...
-     */
-    preventDefault : function() {
-      if (this._event.preventDefault) {
-        this._event.preventDefault();
-      }
-      this._event.returnValue = false;
-    },
-
-
-    /**
      * This method is used to prevent further propagation of an event during event
      * flow. If this method is called by any event listener the event will cease
      * propagating through the tree. The event will complete dispatch to all listeners
      * on the current event target before event flow stops.
      */
-    stopPropagation :  function()
-    {
-      if (this._event.stopPropagation) {
-        this._event.stopPropagation();
-      }
-
-      // MSDN doccumantation http://msdn2.microsoft.com/en-us/library/ms533545.aspx
-      this._event.cancelBubble = true;
-
+    stopPropagation :  function() {
       this._stopPropagation = true;
     },
 

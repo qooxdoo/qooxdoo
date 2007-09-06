@@ -195,14 +195,14 @@ qx.Class.define("qx.event.handler.InlineEventHandler",
      */
     __handleEvent : function(elementId, domEvent)
     {
-      var event = this._eventPool.getEventInstance("qx.event.type.Event").init(domEvent);
+      var event = this._eventPool.getEventInstance(qx.event.type.DomEvent).init(domEvent);
       event.setBubbles(false);
 
       var eventData = this.__registeredEvents[elementId + event.getType()];
       var element = eventData ? eventData.element : event.getTarget();
       event.setCurrentTarget(element);
 
-      this._manager.dispatchEvent(event);
+      this._manager.dispatchEvent(domEvent.target, event);
 
       // this point can be reached after the unload handler has taken place
       // and disposed the event pool.

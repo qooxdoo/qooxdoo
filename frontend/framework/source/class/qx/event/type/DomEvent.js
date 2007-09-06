@@ -34,6 +34,31 @@ qx.Class.define("qx.event.type.DomEvent",
 
   members :
   {
+
+    /**
+     * Prevent browser default behaviour, e.g. opening the context menu, ...
+     */
+    preventDefault : function() {
+      if (this._event.preventDefault) {
+        this._event.preventDefault();
+      }
+      this._event.returnValue = false;
+    },
+
+
+    // overridden
+    stopPropagation :  function()
+    {
+      if (this._event.stopPropagation) {
+        this._event.stopPropagation();
+      }
+
+      // MSDN doccumantation http://msdn2.microsoft.com/en-us/library/ms533545.aspx
+      this._event.cancelBubble = true;
+      this._stopPropagation = true;
+    },
+
+
     /**
      * Returns whether the the ctrl key is pressed.
      *

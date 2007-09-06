@@ -443,17 +443,13 @@ qx.Class.define("qx.event.handler.FocusHandler",
 
     __fireCustom : function(target, type)
     {
-      var event = this._eventPool.getEventInstance("qx.event.type.Event").init({});
-
-      if (target) {
-        event.setTarget(target);
-      }
+      var event = this._eventPool.getEventInstance(qx.event.type.Event).init({});
 
       if (type) {
         event.setType(type);
       }
 
-      this._manager.dispatchEvent(event);
+      this._manager.dispatchEvent(target, event);
       this._eventPool.poolEvent(event);
     },
 

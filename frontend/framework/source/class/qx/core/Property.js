@@ -67,7 +67,7 @@
  *   </td></tr>
  *   <tr><th>event</th><td>String</td><td>
  *     On change of the property value an event with the given name will be dispached. The event type is
- *     {@link qx.legacy.event.type.ChangeEvent}.
+ *     {@link qx.event.type.ChangeEvent}.
  *   </td></tr>
  *   <tr><th>themeable</th><td>Boolean</td><td>
  *     Whether this property can be set using themes.
