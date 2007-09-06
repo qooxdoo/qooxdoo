@@ -67,10 +67,13 @@ qx.Class.define("qx.bom.element.Cursor",
      *
      * @type static
      * @param element {Element} The element to query
+     * @param mode {Number} Choose one of the modes {@link qx.bom.element.Style#COMPUTED_MODE}, 
+     *   {@link qx.bom.element.Style#CASCADED_MODE}, {@link qx.bom.element.Style#LOCAL_MODE}. 
+     *   The computed mode is the default one.
      * @return {String} Computed cursor value of the given element.
      */
-    get : function(element) {
-      return qx.bom.element.Style.getComputed(element, "cursor");
+    get : function(element, mode) {
+      return qx.bom.element.Style.get(element, "cursor", mode, false);
     },
 
 
@@ -83,7 +86,7 @@ qx.Class.define("qx.bom.element.Cursor",
      * @return {void}
      */
     set : function(element, value) {
-      qx.bom.element.Style.set(element, "cursor", this.__map[value] || value);
+      element.style.cursor = this.__map[value] || value;
     },
     
     
@@ -95,7 +98,7 @@ qx.Class.define("qx.bom.element.Cursor",
      * @return {void}
      */
     reset : function(element) {
-      qx.bom.element.Style.reset(element, "cursor"); 
+      element.style.cursor = "";
     }
   }
 });

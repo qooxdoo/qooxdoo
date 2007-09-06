@@ -45,10 +45,7 @@
  * Style querying and modification of HTML elements.
  *
  * Automatically normalizes cross-browser differences. Optimized for
- * performance. This class does not contain cross-browser support
- * for special things like <code>opacity</code> which otherwise will
- * result in a much bigger implementation. For special things like
- * these please use the appropriate classes in this namespace.
+ * performance.
  */
 qx.Class.define("qx.bom.element.Style",
 {
@@ -87,41 +84,9 @@ qx.Class.define("qx.bom.element.Style",
         clip : true,
         cursor : true,
         opacity : true,
-        overflow : true
+        overflowX : true,
+        overflowY : true
       }
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      STRING HELPERS
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Converts a script style property name to the CSS variant e.g. marginTop => margin-top
-     *
-     * @type static
-     * @param name {String} Name of the style attribute (CSS variant e.g. marginTop, wordSpacing)
-     * @return {String} the CSS style name e.g. margin-top, word-spacing
-     */
-    toCssStyle : function(name) {
-      return name.replace(/([A-Z])/g, '-$1').toLowerCase();
-    },
-
-
-    /**
-     * Converts a CSS style property name to the script variant e.g. margin-top => marginTop
-     *
-     * @type static
-     * @param name {String} Name of the style attribute (CSS variant e.g. margin-top, word-spacing)
-     * @return {String} the script style name e.g. marginTop, wordSpacing
-     */
-    toScriptStyle : function(name)
-    {
-      return name.replace(/\-([a-z])/g, function(match, chr) {
-        return chr.toUpperCase();
-      });
     },
 
 
@@ -180,9 +145,24 @@ qx.Class.define("qx.bom.element.Style",
 
     /*
     ---------------------------------------------------------------------------
-      LOCAL
+      STYLE ATTRIBUTE SUPPORT
     ---------------------------------------------------------------------------
     */
+    
+    /** {Integer} Computed value of a style property. Compared to the cascaded style,
+     * this one also interprets the values e.g. translates <code>em</code> units to
+     * <code>px</code>.
+     */    
+    COMPUTED_MODE : 1,
+
+    
+    /** {Integer} Cascaded value of a style property. */
+    CASCADED_MODE : 2,
+    
+
+    /** {Integer} Local value of a style property. Ignores inheritance cascade. Does not interpret values. */
+    LOCAL_MODE : 3,
+
 
     /**
      * Sets the value of a style property
@@ -190,39 +170,42 @@ qx.Class.define("qx.bom.element.Style",
      * @type static
      * @param element {Element} The DOM element to modify
      * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)
-     * @param value {var} the value for the given style
+     * @param value {var} The value for the given style
+     * @param smart {Boolean?true} Whether the implementation should automatically use 
+     *    special implementations for some properties
      * @return {void}
      */
-    set : function(element, name, value)
+    set : function(element, name, value, smart)
     {
       var hints = this.__hints;
 
       // normalize name
       name = hints.names[name] || name;
+      
+      // special handling
+      if (smart!==false && hints.special[name])
+      {
+        switch(name)
+        {
+          case "clip":
+            return qx.bom.element.Clip.set(element, value);
+          
+          case "cursor":
+            return qx.bom.element.Cursor.set(element, value);
+
+          case "opacity":
+            return qx.bom.element.Opacity.set(element, value);
+            
+          case "overflowX":
+            return qx.bom.element.Overflow.setX(element, value);
+            
+          case "overflowY":
+            return qx.bom.element.Overflow.setY(element, value);
+        } 
+      }
 
       // apply style
       element.style[name] = value || "";
-    },
-
-
-    /**
-     * Gets the local value of a style property.
-     * Ignores inheritance cascade. Does not interpret values.
-     *
-     * @type static
-     * @param element {Element} The DOM element to modify
-     * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)
-     * @return {String|null} value of the property
-     */
-    get : function(element, name)
-    {
-      var hints = this.__hints;
-
-      // normalize name
-      name = hints.names[name] || name;
-
-      // query style
-      return element.style[name] || "";
     },
     
     
@@ -232,158 +215,218 @@ qx.Class.define("qx.bom.element.Style",
      * @type static
      * @param element {Element} The DOM element to modify
      * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)
+     * @param smart {Boolean?true} Whether the implementation should automatically use 
+     *    special implementations for some properties
      * @return {void}
      */
-    reset : function(element, name)
+    reset : function(element, name, smart)
     {
       var hints = this.__hints;
 
       // normalize name
       name = hints.names[name] || name;
+      
+      // special handling
+      if (smart!==false && hints.special[name])
+      {
+        switch(name)
+        {
+          case "clip":
+            return qx.bom.element.Clip.reset(element);
+          
+          case "cursor":
+            return qx.bom.element.Cursor.reset(element);
+
+          case "opacity":
+            return qx.bom.element.Opacity.reset(element);
+            
+          case "overflowX":
+            return qx.bom.element.Overflow.resetX(element);
+            
+          case "overflowY":
+            return qx.bom.element.Overflow.resetY(element);
+        } 
+      }      
 
       // apply style
       element.style[name] = "";
-    },    
+    },
 
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      CASCADED
-    ---------------------------------------------------------------------------
-    */
 
     /**
-     * Returns the cascaded value of a style property.
+     * Gets the value of a style property.
      *
-     * @type static
-     * @param element {Element} The DOM element to query
-     * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)
-     * @signature function(element, name)
-     * @return {var} the cascaded value of the given style
-     */
-    getCascaded : qx.core.Variant.select("qx.client",
-    {
-      // Mshtml uses currentStyle to query the cascaded style.
-      // This is a propertiery property of mshtml.
-      // Opera supports currentStyle, too
-      "mshtml|opera" : function(element, name)
-      {
-        var hints = this.__hints;
-
-        // Normalize name
-        name = hints.names[name] || name;
-
-        // return currentStyle of element
-        return element.currentStyle[name];
-      },
-
-      "default" : function(element, name)
-      {
-        var hints = this.__hints;
-
-        throw new Error("Cascaded styles are not supported on this client");
-      }
-    }),
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      COMPUTED
-    ---------------------------------------------------------------------------
-    */
-
-    /**
+     * *Computed*
+     *
      * Returns the computed value of a style property. Compared to the cascaded style,
      * this one also interprets the values e.g. translates <code>em</code> units to
      * <code>px</code>.
      *
+     * *Cascaded*
+     *
+     * Returns the cascaded value of a style property.
+     *
+     * *Local*
+     *
+     * Ignores inheritance cascade. Does not interpret values.
+     *
      * @type static
-     * @param element {Element} The DOM element to query
+     * @signature function(element, name, mode, smart)
+     * @param element {Element} The DOM element to modify
      * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)
-     * @signature function(element, name)
-     * @return {var} the computed value of the given style
+     * @param mode {Number} Choose one of the modes {@link #COMPUTED_MODE}, {@link #CASCADED_MODE},
+     *   {@link #LOCAL_MODE}. The computed mode is the default one.
+     * @param smart {Boolean?true} Whether the implementation should automatically use 
+     *    special implementations for some properties
+     * @return {String|null} The value of the property
      */
-    getComputed : qx.core.Variant.select("qx.client",
+    get : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(element, name)
+      "mshtml" : function(element, name, mode, smart)
       {
         var hints = this.__hints;
-
-        // Normalize name
+  
+        // normalize name
         name = hints.names[name] || name;
-
-        // Read cascaded style
-        var currentStyle = element.currentStyle[name];
-
-        // Pixel values are always OK
-        if (/^-?[\.\d]+(px)?$/i.test(currentStyle)) {
-          return currentStyle;
-        }
-
-        // Try to convert non-pixel values
-        var pixel = hints.mshtmlPixel[name];
-        if (pixel)
+  
+        // special handling
+        if (smart!==false && hints.special[name])
         {
-          // Backup local and runtime style
-          var localStyle = element.style[name];
-
-          // Overwrite local value with cascaded value
-          // This is needed to have the pixel value setupped
-          element.style[name] = currentStyle || 0;
-
-          // Read pixel value and add "px"
-          var value = element.style[pixel] + "px";
-
-          // Recover old local value
-          element.style[name] = localStyle;
-
-          // Return value
-          return value;
+          switch(name)
+          {
+            case "clip":
+              return qx.bom.element.Clip.get(element, mode);
+            
+            case "cursor":
+              return qx.bom.element.Cursor.get(element, mode);
+  
+            case "opacity":
+              return qx.bom.element.Opacity.get(element, mode);
+              
+            case "overflowX":
+              return qx.bom.element.Overflow.getX(element, mode);
+              
+            case "overflowY":
+              return qx.bom.element.Overflow.getY(element, mode);
+          } 
+        } 
+  
+        // switch to right mode
+        switch(mode)
+        {
+          case this.LOCAL_MODE:
+            return element.style[name] || "";
+          
+          case this.CASCADED_MODE:
+            return element.currentStyle[name];
+          
+          default:
+            // Read cascaded style
+            var currentStyle = element.currentStyle[name];
+    
+            // Pixel values are always OK
+            if (/^-?[\.\d]+(px)?$/i.test(currentStyle)) {
+              return currentStyle;
+            }
+    
+            // Try to convert non-pixel values
+            var pixel = hints.mshtmlPixel[name];
+            if (pixel)
+            {
+              // Backup local and runtime style
+              var localStyle = element.style[name];
+    
+              // Overwrite local value with cascaded value
+              // This is needed to have the pixel value setupped
+              element.style[name] = currentStyle || 0;
+    
+              // Read pixel value and add "px"
+              var value = element.style[pixel] + "px";
+    
+              // Recover old local value
+              element.style[name] = localStyle;
+    
+              // Return value
+              return value;
+            }
+    
+            // Non-Pixel values may be problematic
+            if (/^-?[\.\d]+(em|pt|%)?$/i.test(currentStyle)) {
+              throw new Error("Untranslated computed property value: " + name + ". Only pixel values work well across different clients.");
+            }
+    
+            // Just the current style
+            return currentStyle;          
         }
-
-        // Non-Pixel values may be problematic
-        if (/^-?[\.\d]+(em|pt|%)?$/i.test(currentStyle)) {
-          throw new Error("Untranslated computed property value: " + name + ". Only pixel values work well across different clients.");
-        }
-
-        // Just the current style
-        return currentStyle;
-      },
-
-
-      // Support for the DOM2 getComputedStyle method
-      //
-      // Safari >= 3 & Gecko > 1.4 expose all properties to the returned
-      // CSSStyleDeclaration object. In older browsers the function
-      // "getPropertyValue" is needed to access the values.
-      //
-      // On a computed style object all properties are read-only which is
-      // identical to the behavior of MSHTML's "currentStyle".
-      "default" : function(element, name)
+      },      
+      
+      "default" : function(element, name, mode, smart)
       {
         var hints = this.__hints;
-
-        // Normalize name
+  
+        // normalize name
         name = hints.names[name] || name;
-
-        // Opera, Mozilla and Safari 3+ also have a global getComputedStyle which is identical
-        // to the one found under document.defaultView.
-
-        // The problem with this is however that this does not work correctly
-        // when working with frames and access an element of another frame.
-        // Then we must use the <code>getComputedStyle</code> of the document
-        // where the element is defined.
-        var doc = qx.dom.Node.getDocument(element);
-        var computed = doc.defaultView.getComputedStyle(element, null);
-
-        // All relevant browsers expose the configured style properties to
-        // the CSSStyleDeclaration objects
-        return computed ? computed[name] : null;
-      }
+  
+        // special handling
+        if (smart!==false && hints.special[name])
+        {
+          switch(name)
+          {
+            case "clip":
+              return qx.bom.element.Clip.get(element, mode);
+            
+            case "cursor":
+              return qx.bom.element.Cursor.get(element, mode);
+  
+            case "opacity":
+              return qx.bom.element.Opacity.get(element, mode);
+              
+            case "overflowX":
+              return qx.bom.element.Overflow.getX(element, mode);
+              
+            case "overflowY":
+              return qx.bom.element.Overflow.getY(element, mode);
+          } 
+        } 
+        
+        // switch to right mode
+        switch(mode)
+        {
+          case this.LOCAL_MODE:
+            return element.style[name];
+          
+          case this.CASCADED_MODE:
+            // Currently only supported by Opera and Internet Explorer
+            if (element.currentStyle) {
+              return element.currentStyle[name];
+            }
+            
+            throw new Error("Cascaded styles are not supported in this browser!");
+          
+          // Support for the DOM2 getComputedStyle method
+          //
+          // Safari >= 3 & Gecko > 1.4 expose all properties to the returned
+          // CSSStyleDeclaration object. In older browsers the function
+          // "getPropertyValue" is needed to access the values.
+          //
+          // On a computed style object all properties are read-only which is
+          // identical to the behavior of MSHTML's "currentStyle".          
+          default:
+            // Opera, Mozilla and Safari 3+ also have a global getComputedStyle which is identical
+            // to the one found under document.defaultView.
+    
+            // The problem with this is however that this does not work correctly
+            // when working with frames and access an element of another frame.
+            // Then we must use the <code>getComputedStyle</code> of the document
+            // where the element is defined.
+            var doc = qx.dom.Node.getDocument(element);
+            var computed = doc.defaultView.getComputedStyle(element, null);
+    
+            // All relevant browsers expose the configured style properties to
+            // the CSSStyleDeclaration objects
+            return computed ? computed[name] : null;          
+        }
+      }   
     })
   }
 });
