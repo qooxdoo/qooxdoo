@@ -53,9 +53,9 @@ qx.Class.define("BasicSample",
       this.debug("title: " + attrib.get(document.getElementById("test1"), "title"));
       
       // throws exception in IE
-      // this.debug("margin-left: " + style.getComputed(document.getElementById("test1"), "marginLeft"));
+      // this.debug("margin-left: " + style.get(document.getElementById("test1"), "marginLeft"));
       
-      this.debug("top: " + style.getComputed(document.getElementById("test1"), "top"));
+      this.debug("top: " + style.get(document.getElementById("test1"), "top"));
   
       this.info("test2");
       this.debug("name: " + attrib.get(document.getElementById("test2"), "name"));
@@ -88,7 +88,7 @@ qx.Class.define("BasicSample",
       this.debug("bg: " + style.get(document.getElementById("test6"), "backgroundColor"));
       
       // shorthand properties are not supported
-      // this.debug("font: " + style.getComputed(document.getElementById("test6"), "font"));
+      // this.debug("font: " + style.get(document.getElementById("test6"), "font"));
       
       this.debug("family: " + style.get(document.getElementById("test6"), "fontFamily"));
       this.debug("text: " + attrib.get(document.getElementById("test6"), "text"));
