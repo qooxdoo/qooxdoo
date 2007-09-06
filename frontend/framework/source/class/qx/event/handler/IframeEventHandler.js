@@ -53,7 +53,7 @@ qx.Class.define("qx.event.handler.IframeEventHandler",
      */
     onevent : function(target, type)
     {
-      var manager = qx.event.Manager.getManager(target);
+      var manager = qx.event.Manager.getManager(target, false);
       manager.createAndDispatchEvent(target, qx.event.type.Event, [type]);
     }
   },
