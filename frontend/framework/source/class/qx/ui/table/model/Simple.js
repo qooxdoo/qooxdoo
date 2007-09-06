@@ -307,7 +307,7 @@ qx.Class.define("qx.ui.table.model.Simple",
             lastColumn  : columnIndex
           };
 
-          this.dispatchEvent(new qx.legacy.event.type.DataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data), true);
+          this.createDispatchDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
         }
 
         if (columnIndex == this._sortColumnIndex) {
@@ -398,18 +398,14 @@ qx.Class.define("qx.ui.table.model.Simple",
       Array.prototype.splice.apply(this._rowArr, rowArr);
 
       // Inform the listeners
-      if (this.hasEventListeners(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED))
+      var data =
       {
-        var data =
-        {
-          firstRow    : startIndex,
-          lastRow     : this._rowArr.length - 1,
-          firstColumn : 0,
-          lastColumn  : this.getColumnCount() - 1
-        };
-
-        this.dispatchEvent(new qx.legacy.event.type.DataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data), true);
-      }
+        firstRow    : startIndex,
+        lastRow     : this._rowArr.length - 1,
+        firstColumn : 0,
+        lastColumn  : this.getColumnCount() - 1
+      };
+      this.createDispatchDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
 
       this._clearSorting();
     },
@@ -445,18 +441,15 @@ qx.Class.define("qx.ui.table.model.Simple",
       this._rowArr.splice(startIndex, howMany);
 
       // Inform the listeners
-      if (this.hasEventListeners(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED))
+      var data =
       {
-        var data =
-        {
-          firstRow    : startIndex,
-          lastRow     : this._rowArr.length - 1,
-          firstColumn : 0,
-          lastColumn  : this.getColumnCount() - 1
-        };
+        firstRow    : startIndex,
+        lastRow     : this._rowArr.length - 1,
+        firstColumn : 0,
+        lastColumn  : this.getColumnCount() - 1
+      };
 
-        this.dispatchEvent(new qx.legacy.event.type.DataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data), true);
-      }
+      this.createDispatchDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
 
       this._clearSorting();
     },

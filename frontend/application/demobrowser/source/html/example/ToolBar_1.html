@@ -5,13 +5,13 @@
   <script type="text/javascript" src="../../script/demo.js"></script>
   <script type="text/javascript" src="../util.js"></script>
 </head>
-<body>  
+<body>
   <div id="description">
     <p>Introduce all classes needed for creating real qx.ui.toolbar.ToolBars. This includes qx.ui.toolbar.ToolBars,
     qx.ui.toolbar.ToolBarParts, qx.ui.toolbar.Separator and qx.ui.toolbar.ToolBarButtons.</p>
 
     <p>The qx.ui.toolbar.ToolBarButtons and QxRadioButtons in this example are beautifully
-    decoupled by "global" qx.legacy.event.type.DataEvent.</p>
+    decoupled by "global" qx.event.type.DataEvent.</p>
   </div>
 
   <script type="text/javascript">
@@ -147,7 +147,7 @@
 
       // beautiful decoupling: radio boxes don't know about toolbar buttons
       rbm.addEventListener("changeSelected", function(e) {
-        d.dispatchEvent( new qx.legacy.event.type.DataEvent("changeLayout", e.getData().getValue() ) );
+        d.createDispatchDataEvent("changeLayout", e.getData().getValue() );
       });
 
       d.add(rd1, rd2, rd3);
@@ -205,7 +205,7 @@
       };
 
       b3.addEventListener("execute", function(e) {
-        d.dispatchEvent(new qx.legacy.event.type.DataEvent("changeSize", 22));
+        d.createDispatchDataEvent("changeSize", 22);
       });
 
       var b4 = new qx.ui.form.Button("Icons: 32 Pixel", "icon/16/actions/format-color.png");
@@ -218,7 +218,7 @@
       };
 
       b4.addEventListener("execute", function(e) {
-        d.dispatchEvent(new qx.legacy.event.type.DataEvent("changeSize", 32));
+        d.createDispatchDataEvent("changeSize", 32);
       });
 
       d.add(b3, b4);

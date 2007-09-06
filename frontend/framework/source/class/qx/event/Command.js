@@ -41,7 +41,7 @@ qx.Class.define("qx.event.Command",
      * Fired when the command is executed. Sets the "data" property of the event to
      * the object that issued the command.
      */
-    "execute" : "qx.legacy.event.type.DataEvent"
+    "execute" : "qx.event.type.DataEvent"
   },
 
 

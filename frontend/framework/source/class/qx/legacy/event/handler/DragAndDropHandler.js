@@ -356,19 +356,17 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
      */
     _fireUserEvents : function(fromWidget, toWidget, e)
     {
-      if (fromWidget && fromWidget != toWidget && fromWidget.hasEventListeners("dragout")) {
+      if (fromWidget && fromWidget != toWidget) {
         fromWidget.dispatchEvent(new qx.legacy.event.type.DragEvent("dragout", e, fromWidget, toWidget), true);
       }
 
       if (toWidget)
       {
-        if (fromWidget != toWidget && toWidget.hasEventListeners("dragover")) {
+        if (fromWidget != toWidget) {
           toWidget.dispatchEvent(new qx.legacy.event.type.DragEvent("dragover", e, toWidget, fromWidget), true);
         }
 
-        if (toWidget.hasEventListeners("dragmove")) {
-          toWidget.dispatchEvent(new qx.legacy.event.type.DragEvent("dragmove", e, toWidget, null), true);
-        }
+        toWidget.dispatchEvent(new qx.legacy.event.type.DragEvent("dragmove", e, toWidget, null), true);
       }
     },
 
