@@ -63,17 +63,17 @@ qx.Class.define("qx.event.dispatch.WidgetDispatch",
   {
 
     // interface implementation
-    canDispatchEvent : function(event, type) {
-      return (event.getBubbles() && event.getTarget() instanceof qx.ui.core.Widget);
+    canDispatchEvent : function(target, event, type) {
+      return (event.getBubbles() && target instanceof qx.ui.core.Widget);
     },
 
 
     // interface implementation
-    dispatchEvent : function(event, type)
+    dispatchEvent : function(target, event, type)
     {
       event.setEventPhase(qx.event.type.Event.AT_TARGET);
 
-      var currentTarget = event.getCurrentTarget();
+      var currentTarget = target;
 
       while (currentTarget)
       {

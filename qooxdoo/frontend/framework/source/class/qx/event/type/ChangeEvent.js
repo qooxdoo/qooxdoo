@@ -27,7 +27,7 @@
 /** Event object for property changes. */
 qx.Class.define("qx.event.type.ChangeEvent",
 {
-  extend : qx.legacy.event.type.Event,
+  extend : qx.event.type.Event,
 
 
 
@@ -78,6 +78,21 @@ qx.Class.define("qx.event.type.ChangeEvent",
 
   members :
   {
+
+   /**
+    * @param type {String} the type name of the event
+    * @param value {var} additional value which should be passed to the event listener
+    * @param value {var} additional old value which should be passed to the event listener
+    */
+    init : function(type, value, old)
+    {
+      this.base(arguments);
+      this.setType(type);
+      this.setValue(value);
+      this.setOldValue(old);
+    },
+
+
     /**
      * Returns the event data
      *

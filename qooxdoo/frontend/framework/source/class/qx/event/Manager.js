@@ -226,6 +226,9 @@ qx.Class.define("qx.event.Manager",
     },
 
 
+    createEvent : function() {},
+
+
     /**
      * Use the low level browser functionality to attach event listeners
      * to DOM nodes. Uses <code>attachEvent</code> in IE and
@@ -627,8 +630,6 @@ qx.Class.define("qx.event.Manager",
 
 
 
-
-
     /*
     ---------------------------------------------------------------------------
       EVENT DISPATCH
@@ -640,9 +641,13 @@ qx.Class.define("qx.event.Manager",
      * event will only be visible in event listeners attached using
      * {@link #addListener}.
      *
-     * @param event {qx.event.type.Event} qooxdoo event object
+     * @param target {Element|qx.core.Object} Target object on which the event
+     *     should be dispatched.
+     * @param event {qx.event.type.Event} The event object to dispatch. The event
+     *     object must be obtained using {@link #createEvent} and initialized
+     *     using {@link qx.event.type.Event#init}.
      */
-    dispatchEvent : function(event)
+    dispatchEvent : function(target, event)
     {
       // only dispatch if listeners are registered
       var type = event.getType();
@@ -650,16 +655,18 @@ qx.Class.define("qx.event.Manager",
         return;
       }
 
+      event.setTarget(target);
+
       // dispatch event
       this.__inEventDispatch = true;
       for (var i=0,l=this.__dispatchHandlers.length; i<l; i++)
       {
         var dispatchHandler = this.__dispatchHandlers[i];
 
-        if (dispatchHandler.canDispatchEvent(event, type))
+        if (dispatchHandler.canDispatchEvent(target, event, type))
         {
           //console.log("dispatchevent: ", type, dispatchHandler.classname);
-          dispatchHandler.dispatchEvent(event, type);
+          dispatchHandler.dispatchEvent(target, event, type);
           break;
         }
       }

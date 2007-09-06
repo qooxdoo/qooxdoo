@@ -154,7 +154,7 @@ qx.Class.define("qx.core.Target",
      * @return {void}
      */
     createDispatchChangeEvent : function(type, value, old) {
-      this.dispatchEvent(new qx.legacy.event.type.ChangeEvent(type, value, old), true);
+      this.dispatchEvent(new qx.event.type.ChangeEvent(type, value, old), true);
     },
 
 
@@ -180,8 +180,7 @@ qx.Class.define("qx.core.Target",
         return;
       }
 
-      evt.setTarget(this);
-      qx.event.Manager.getManager(this).dispatchEvent(evt);
+      qx.event.Manager.getManager(this).dispatchEvent(this, evt);
     }
   }
 });

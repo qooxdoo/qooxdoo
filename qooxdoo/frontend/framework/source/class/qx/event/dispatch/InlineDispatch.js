@@ -48,8 +48,8 @@ qx.Class.define("qx.event.dispatch.InlineDispatch",
   construct : function(manager) {
     this._manager = manager;
   },
-  
-  
+
+
 
 
   /*
@@ -60,14 +60,8 @@ qx.Class.define("qx.event.dispatch.InlineDispatch",
 
   members :
   {
-    /**
-     * Whether the dispatcher is responsible for the this event.
-     *
-     * @param event {qx.event.type.Event} The event object
-     * @param type {String} the event type
-     * @return {Boolean} Whether the event dispatcher is responsible for the this event
-     */
-    canDispatchEvent : function(event, type) {
+    // interface implementation
+    canDispatchEvent : function(target, event, type) {
       return !event.getBubbles();
     },
 
@@ -81,14 +75,8 @@ qx.Class.define("qx.event.dispatch.InlineDispatch",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * This function dispatches an  inline event to the event handlers.
-     *
-     * @type member
-     * @param event {qx.event.type.Event} event object to dispatch
-     * @param type {String} the event type
-     */
-    dispatchEvent : function(event, type)
+    // interface implementation
+    dispatchEvent : function(target, event, type)
     {
       event.setEventPhase(qx.event.type.Event.AT_TARGET);
 

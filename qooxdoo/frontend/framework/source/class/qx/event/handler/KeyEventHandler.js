@@ -101,11 +101,11 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
      */
     __fireEvent : function(domEvent, eventType, keyCode, charCode, keyIdentifier)
     {
-      var event = this._eventPool.getEventInstance("qx.event.type.KeyEvent").init(
+      var event = this._eventPool.getEventInstance(qx.event.type.KeyEvent).init(
         domEvent, keyCode, charCode, keyIdentifier
       );
       event.setType(eventType);
-      this._manager.dispatchEvent(event);
+      this._manager.dispatchEvent(domEvent.target, event);
       this._eventPool.poolEvent(event);
     },
 
