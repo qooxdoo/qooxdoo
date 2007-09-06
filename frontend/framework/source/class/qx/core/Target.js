@@ -22,6 +22,7 @@
 
 #module(core)
 #require(qx.event.handler.ObjectEventHandler)
+#require(qx.event.type.ChangeEvent)
 
 ************************************************************************ */
 
@@ -124,7 +125,6 @@ qx.Class.define("qx.core.Target",
      *
      * @type member
      * @param type {String} name of the event type
-     * @return {void}
      */
     createDispatchEvent : function(type) {
       this.dispatchEvent(new qx.legacy.event.type.Event(type), true);
@@ -137,10 +137,14 @@ qx.Class.define("qx.core.Target",
      * @type member
      * @param type {String} name of the event type
      * @param data {Object} user defined data attached to the event object
-     * @return {void}
      */
-    createDispatchDataEvent : function(type, data) {
-      this.dispatchEvent(new qx.legacy.event.type.DataEvent(type, data), true);
+    createDispatchDataEvent : function(type, data)
+    {
+      qx.event.Manager.getManager(this).createAndDispatchEvent(
+        this,
+        qx.event.type.DataEvent,
+        [type, data]
+      );
     },
 
 
