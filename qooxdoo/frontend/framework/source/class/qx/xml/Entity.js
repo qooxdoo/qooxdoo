@@ -31,7 +31,8 @@ qx.Class.define("qx.xml.Entity",
       "quot" : 34, // " - double-quote
       "amp"  : 38, // &
       "lt"   : 60, // <
-      "gt"   : 62 // >
+      "gt"   : 62, // >
+      "apos" : 39 // XML apostrophe
     },
 
     /** Mapping of char codes to XML entity names */
@@ -40,7 +41,8 @@ qx.Class.define("qx.xml.Entity",
       34: "quot", // " - double-quote
       38: "amp",  // &
       60: "lt",   // <
-      62: "gt"   // >
+      62: "gt",   // >
+      39: "apos"  // XML apostrophe
     }
   }
 });
