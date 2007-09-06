@@ -183,20 +183,16 @@ qx.Class.define("qx.event.handler.MouseEventHandler",
      */
     __fireEvent : function(domEvent, type, target)
     {
-      var event = this._eventPool.getEventInstance("qx.event.type.MouseEvent").init(domEvent);
+      var event = this._eventPool.getEventInstance(qx.event.type.MouseEvent).init(domEvent);
 
       if (type) {
         event.setType(type);
       }
 
-      if (target) {
-        event.setTarget(target);
-      }
-
       // TODO: wouldn't it be a good idea to auto-pool events
       // when the dispatch is done. I see the code in this order
       // all over the place (in this NS).
-      this._manager.dispatchEvent(event);
+      this._manager.dispatchEvent(target, event);
       this._eventPool.poolEvent(event);
     },
 
@@ -210,7 +206,7 @@ qx.Class.define("qx.event.handler.MouseEventHandler",
      */
     onMouseButtonEvent : function(domEvent)
     {
-      var event = this._eventPool.getEventInstance("qx.event.type.MouseEvent").init(domEvent);
+      var event = this._eventPool.getEventInstance(qx.event.type.MouseEvent).init(domEvent);
       var type = event.getType();
       var target = event.getTarget();
 

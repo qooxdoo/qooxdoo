@@ -96,25 +96,14 @@ qx.Class.define("qx.event.dispatch.MouseCaptureDispatcher",
     },
 
 
-    /**
-     * Whether the event should be captured.
-     *
-     * @param event {qx.event.type.Event} Event
-     * @param type {String} the event type
-     * @return {Boolean} whether the event should be captured.
-     */
-    canDispatchEvent : function(event, type) {
+    // interface implementation
+    canDispatchEvent : function(target, event, type) {
       return this.__captureElement && this.__captureEvents[type];
     },
 
 
-    /**
-     * Dispatch the event on the capturing node
-     *
-     * @param event {qx.event.type.Event} Event
-     * @param type {String} the event type
-     */
-    dispatchEvent : function(event, type)
+    // interface implementation
+    dispatchEvent : function(target, event, type)
     {
       var listeners = this.__manager.registryGetListeners(this.__captureElement, type, false, false);
 
@@ -170,12 +159,12 @@ qx.Class.define("qx.event.dispatch.MouseCaptureDispatcher",
       // create synthetic losecapture event
       // TODO: Create custom events should work a lot simpler!!!
       // What's abot qx.event.Manager.createEvent() and qx.event.Manager.createAndDispatchEvent()
-      var event = this.__eventPool.getEventInstance("qx.event.type.Event").init({
+      var event = this.__eventPool.getEventInstance(qx.event.type.Event).init({
         type : "losecapture",
         target : this.__captureElement
       });
 
-      this.__manager.dispatchEvent(event);
+      this.__manager.dispatchEvent(target, event);
       this.__captureElement = null;
 
       this.__eventPool.poolEvent(event);

@@ -78,11 +78,13 @@ qx.Class.define("qx.event.type.EventPool",
      * return to the client.  The client cannot get a specific instance from the
      * pool.
      *
-     * @param classname {String} The name of the Object type to return.
+     * @param eventClass {Class} The event class.
      * @return {Object} An instance of the requested type
      */
-    getEventInstance : function(classname)
+    getEventInstance : function(eventClass)
     {
+      var classname = eventClass.classname;
+
       var event = this._pool.getObjectOfType(classname);
       if (!event)
       {

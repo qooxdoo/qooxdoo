@@ -63,13 +63,9 @@ qx.Class.define("qx.event.dispatch.BubblingDispatch",
 
   members :
   {
-    /**
-     * Whether the dispatcher is responsible for the this event.
-     *
-     * @param event {qx.event.type.Event} The event object
-     * @param type {String} the event type
-     */
-    canDispatchEvent : function(event, type)
+
+    // interface implementation
+    canDispatchEvent : function(target, event, type)
     {
       return event.getBubbles();
     },
@@ -83,17 +79,9 @@ qx.Class.define("qx.event.dispatch.BubblingDispatch",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * This function dispatches the event to the event handlers and emulates
-     * the capturing and bubbling phase.
-     *
-     * @type member
-     * @param event {qx.event.type.Event} event object to dispatch
-     * @param type {String} the event type
-     */
-    dispatchEvent : function(event, type)
+    // interface implementation
+    dispatchEvent : function(target, event, type)
     {
-      var target = event.getTarget();
       var node = target;
 
       var manager = this._manager;
