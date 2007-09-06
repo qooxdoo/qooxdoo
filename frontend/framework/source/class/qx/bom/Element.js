@@ -45,9 +45,6 @@ qx.Class.define("qx.bom.Element",
     __specialAttributes :
     {
       "onload" : true,
-      "onunload" : true,
-      "onbeforeunload" : true,
-      "onreadystatechange" : true,
       "name" : true,
       "type" : true,
       "checked" : true

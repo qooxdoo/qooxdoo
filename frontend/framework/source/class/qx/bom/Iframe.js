@@ -49,7 +49,7 @@ qx.Class.define("qx.bom.Iframe",
      */
     __onevent : function(name, target) 
     {
-      console.debug("Event " + name + " occoured on target: " + target);
+      qx.core.Log.debug("Event " + name + " occured on target: " + target);
       
       // TODO: Get correct IframeHandler and fire an event
       // qx.event.handler.IframeHandler.onevent(name, target);
@@ -69,12 +69,9 @@ qx.Class.define("qx.bom.Iframe",
      */
     create : function(attributes, win)
     {
+      // Work on a copy to not modify given attributes map
       var attributes = attributes ? qx.lang.Object.copy(attributes) : {};
-      
       attributes.onload = "qx.bom.Iframe.__onevent(\"load\", this)";
-      attributes.onunload = "qx.bom.Iframe.__onevent(\"unload\", this)";
-      attributes.onbeforeunload = "qx.bom.Iframe.__onevent(\"beforeunload\", this)";
-      attributes.onreadystatechange = "qx.bom.Iframe.__onevent(\"readystatechange\", this)";
       
       return qx.bom.Element.create("iframe", attributes, win);      
     },
