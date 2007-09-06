@@ -136,7 +136,6 @@ qx.Class.define("qx.event.handler.DocumentEventHandler",
     __handleEvent : function(domEvent)
     {
       var event = this._eventPool.getEventInstance("qx.event.type.Event").init(domEvent);
-
       this._manager.dispatchEvent(event);
       this._eventPool.poolEvent(event);
     }
