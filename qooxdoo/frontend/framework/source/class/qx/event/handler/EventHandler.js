@@ -991,6 +991,9 @@ qx.Class.define("qx.event.handler.EventHandler",
         vEventObject.dispose();
         vEventObject = null;
 
+        // Flush Queues
+        qx.ui.core.Widget.flushGlobalQueues();
+        
         // Fix Click (Gecko Bug, see above)
         if (vFixClick)
         {
