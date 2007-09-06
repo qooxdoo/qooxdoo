@@ -79,23 +79,23 @@ qx.Class.define("qx.bom.Flash",
      *
      * @type static
      * @param movie {String} URI to the movie
-     * @param width {String|Integer} Width of the movie
-     * @param height {String|Integer} Height of the movie
      * @param variables? {Map} Flash variable data (these are available in the movie later)
-     * @param attribs? {Map} Flash attribute data
-     * @param params? {Map} Flash parameter data
+     * @param params? {Map} Flash parameter data (these are used to configure the movie itself)
      * @return {Element} DOM element node with the Flash movie
      */
-    create : function(movie, width, height, variables, attribs, params)
+    create : function(movie, variables, params, win)
     {
       // Work on copies
-      var attribs = attribs ? qx.lang.Object.copy(attribs) : {};
+      var attributes = attributes ? qx.lang.Object.copy(attributes) : {};
       var params = params ? qx.lang.Object.copy(params) : {};
       
       // Copy params into attributes
-      attribs.data = movie;
-      attribs.width = width;
-      attribs.height = height;
+      var attributes = 
+      {
+        data : movie,
+        width : "100%",
+        height : "100%"
+      };
       
       // Copy over variables (into params)
       if (variables)
@@ -109,9 +109,16 @@ qx.Class.define("qx.bom.Flash",
           }
         }
       }
+      
+      // Create SWF
+      var swf = this.__createSwf(attributes, params, win);
+      
+      // Objects do not allow styling. We create a DIV wrapper around.
+      var frame = qx.bom.Element.create("div", win);
+      frame.appendChild(swf);
                 
       // Return element from cross-browser wrapper
-      return this.__createSwf(attribs, params);
+      return frame;
     },
     
     
@@ -119,7 +126,7 @@ qx.Class.define("qx.bom.Flash",
      * Creates a DOM element with a flash movie
      *
      * @type static
-     * @param attribs {Map} Flash attribute data
+     * @param attributes {Map} Flash attribute data
      * @param params {Map} Flash parameter data
      * @return {Element} DOM element node with the Flash movie
      */
@@ -128,20 +135,14 @@ qx.Class.define("qx.bom.Flash",
       // Note: Old webkit support < 312 was removed.
       // This is not needed in qooxdoo.
             
-      "mshtml" : function(attribs, params)
+      "mshtml" : function(attributes, params, win)
       {
         // Move data from params to attributes
-        params.movie = attribs.data;
-        delete attribs.data;
+        params.movie = attributes.data;
+        delete attributes.data;
         
         // Cleanup classid
-        delete attribs.classid;
-  
-        // Prepare attributes
-        var attribsStr = "";
-        for (name in attribs) {
-          attribsStr += ' ' + name + '="' + attribs[name] + '"';
-        }
+        delete attributes.classid;
   
         // Prepare parameters
         var paramsStr = "";
@@ -151,37 +152,46 @@ qx.Class.define("qx.bom.Flash",
   
         // Create element
         // Note: outerHTML seems not to work for me. At least in IE7/WinVista
-        var elem = qx.bom.Element.create("div");
-        elem.innerHTML = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"' + attribsStr + '>' + paramsStr + '</object>';
+        var elem = qx.bom.Element.create("div", null, win);
+        elem.innerHTML = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">' + paramsStr + '</object>';
         
-        return elem.firstChild;
+        // Extract relevant node
+        var swf = elem.firstChild;
+        
+        // Apply attributes
+        delete attributes.classid;
+        for (var name in attributes) {
+          swf.setAttribute(name, attributes[name]);
+        }        
+        
+        return swf;
       },
       
-      "default" : function(attribs, params)
+      "default" : function(attributes, params, win)
       {
-        var elem = qx.bom.Element.create("object");
-        elem.setAttribute("type", "application/x-shockwave-flash");
-        
+        var swf = qx.bom.Element.create("object", attributes, win);
+        swf.setAttribute("type", "application/x-shockwave-flash");
+
         // Cleanup
-        delete attribs.classid;
+        delete attributes.classid;
         delete params.movie;
-  
+        
         // Apply attributes
-        for (var name in attribs) {
-          elem.setAttribute(name, attribs[name]);
+        for (var name in attributes) {
+          swf.setAttribute(name, attributes[name]);
         }
   
-        // Apply parameters
-        var paramElem;
+        // Add parameters
+        var param;
         for (var name in params) 
         {
-          paramElem = document.createElement("param");
-          paramElem.setAttribute("name", name);
-          paramElem.setAttribute("value", params[value]);
-          elem.appendChild(paramElem);
+          param = document.createElement("param");
+          param.setAttribute("name", name);
+          param.setAttribute("value", params[value]);
+          swf.appendChild(param);
         }
         
-        return elem;
+        return swf;
       }
     })  
   }

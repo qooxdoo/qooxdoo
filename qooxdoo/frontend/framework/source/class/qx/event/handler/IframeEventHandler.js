@@ -35,6 +35,8 @@ qx.Class.define("qx.event.handler.IframeEventHandler",
 
 
 
+
+
   /*
   *****************************************************************************
      MEMBERS
@@ -45,18 +47,19 @@ qx.Class.define("qx.event.handler.IframeEventHandler",
   {
     /**
      * Internal function called by iframes created using {@link qx.bom.Iframe}.
-     * @internal
      *
-     * @param target {var} The target to, which the event handler should
-     *     be attached
-     * @param type {String} event type
+     * @internal
+     * @param type {String} Name of the event
+     * @param target {Element} DOM element which is the target of this event
+     * @return {void}
      */
-    onevent : function(target, type)
+    onevent : function(type, target)
     {
       var manager = qx.event.Manager.getManager(target);
       manager.createAndDispatchEvent(target, qx.event.type.Event, [type, false]);
     }
   },
+
 
 
 
@@ -68,23 +71,16 @@ qx.Class.define("qx.event.handler.IframeEventHandler",
 
   members :
   {
-    __eventTypes :
-    {
-      load : true,
-      unbeforeunload : true,
-      unload : true,
-      onreadystatechange : true
-    },
-
-
     // overridden
     canHandleEvent : function(target, type)
     {
       return target.nodeType !== undefined &&
         target.tagName.toLowerCase() === "iframe" &&
-        this.__eventTypes[type];
+        type === "load";
     }
   },
+  
+  
 
 
 
