@@ -195,7 +195,7 @@ qx.Class.define("qx.util.ObjectPool",
       {
         if (this._pool[classname][i] == vObject)
         {
-          this.warn("poolObject() Cannot pool " + vObject + " because it is already in the pool.");
+          //this.warn("poolObject() Cannot pool " + vObject + " because it is already in the pool.");
           pooled = true;
           break;
         }
@@ -205,14 +205,14 @@ qx.Class.define("qx.util.ObjectPool",
       var full = this._isPoolFull(classname);
 
       if (full) {
-        this.warn("poolObject() Cannot pool " + vObject + " because the pool is already full.");
+        //this.warn("poolObject() Cannot pool " + vObject + " because the pool is already full.");
       }
 
       // Pool instance if possible
       if (!pooled && !full) {
         this._pool[classname].push(vObject);
       } else {
-        this.warn("poolObject() Cannot pool " + vObject + "; lost an instance of type " + classname);
+        //this.warn("poolObject() Cannot pool " + vObject + "; lost an instance of type " + classname);
       }
     },
 
