@@ -155,7 +155,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * The "data" property of the event is set to the new value
      * of the spinner.
      */
-    "change" : "qx.legacy.event.type.DataEvent"
+    "change" : "qx.event.type.DataEvent"
   },
 
 
@@ -635,7 +635,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * hold by the "checkValue" property.
      *
      * @type member
-     * @param e {qx.legacy.event.type.DataEvent} input event
+     * @param e {qx.event.type.DataEvent} input event
      * @return {void}
      */
     _oninput : function(e) {

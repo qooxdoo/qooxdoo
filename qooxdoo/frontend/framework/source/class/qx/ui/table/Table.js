@@ -213,7 +213,7 @@ qx.Class.define("qx.ui.table.Table",
      * may add additional items to the menu, which appear at the top of the
      * menu.
      */
-    "columnVisibilityMenuCreateStart" : "qx.legacy.event.type.DataEvent",
+    "columnVisibilityMenuCreateStart" : "qx.event.type.DataEvent",
 
     /**
      * Dispatched after adding the column list to the column visibility menu.
@@ -221,19 +221,19 @@ qx.Class.define("qx.ui.table.Table",
      * may add additional items to the menu, which appear at the bottom of the
      * menu.
      */
-    "columnVisibilityMenuCreateEnd" : "qx.legacy.event.type.DataEvent",
+    "columnVisibilityMenuCreateEnd" : "qx.event.type.DataEvent",
 
      /**
       * Dispatched when the inner width of the table has changed.
       */
-    "tableWidthChanged" : "qx.legacy.event.type.DataEvent",
+    "tableWidthChanged" : "qx.event.type.DataEvent",
 
     /**
      * Dispatched when updating scrollbars discovers that a vertical scrollbar
      * is needed when it previously was not, or vice versa.  The data is a
      * boolean indicating whether a vertical scrollbar is now being used.
      */
-    "verticalScrollBarChanged" : "qx.legacy.event.type.DataEvent"
+    "verticalScrollBarChanged" : "qx.event.type.DataEvent"
   },
 
 
@@ -1655,17 +1655,12 @@ qx.Class.define("qx.ui.table.Table",
       var columnModel = this.getTableColumnModel();
 
       // Inform listeners who may want to insert menu items at the beginning
-      if (this.hasEventListeners("columnVisibilityMenuCreateStart"))
+      var data =
       {
-        var data =
-        {
-          table : this,
-          menu  : menu
-        };
-
-        var event = new qx.legacy.event.type.DataEvent("columnVisibilityMenuCreateStart", data);
-        this.dispatchEvent(event, true);
-      }
+        table : this,
+        menu  : menu
+      };
+      this.createDispatchDataEvent("columnVisibilityMenuCreateStart", data, true);
 
       for (var x=0; x<columnModel.getOverallColumnCount(); x++)
       {
@@ -1682,17 +1677,12 @@ qx.Class.define("qx.ui.table.Table",
       }
 
       // Inform listeners who may want to insert menu items at the end
-      if (this.hasEventListeners("columnVisibilityMenuCreateEnd"))
+      var data =
       {
-        var data =
-        {
-          table : this,
-          menu  : menu
-        };
-
-        var event = new qx.legacy.event.type.DataEvent("columnVisibilityMenuCreateEnd", data);
-        this.dispatchEvent(event, true);
-      }
+        table : this,
+        menu  : menu
+      };
+      this.createDispatchDataEvent("columnVisibilityMenuCreateEnd", data, true);
 
       menu.setParent(this.getTopLevelWidget());
 

@@ -251,33 +251,28 @@ qx.Class.define("qx.ui.core.Parent",
       if (vBlurValid)
       {
         // Dispatch FocusOut
-        if (old.hasEventListeners("focusout"))
-        {
-          var vEventObject = new qx.legacy.event.type.FocusEvent("focusout", old);
+        var vEventObject = new qx.legacy.event.type.FocusEvent("focusout", old);
 
-          if (vFocusValid) {
-            vEventObject.setRelatedTarget(value);
-          }
-
-          old.dispatchEvent(vEventObject);
-          vEventObject.dispose();
+        if (vFocusValid) {
+          vEventObject.setRelatedTarget(value);
         }
+
+        old.dispatchEvent(vEventObject);
+        vEventObject.dispose();
       }
+
 
       if (vFocusValid)
       {
-        if (value.hasEventListeners("focusin"))
-        {
-          // Dispatch FocusIn
-          var vEventObject = new qx.legacy.event.type.FocusEvent("focusin", value);
+        // Dispatch FocusIn
+        var vEventObject = new qx.legacy.event.type.FocusEvent("focusin", value);
 
-          if (vBlurValid) {
-            vEventObject.setRelatedTarget(old);
-          }
-
-          value.dispatchEvent(vEventObject);
-          vEventObject.dispose();
+        if (vBlurValid) {
+          vEventObject.setRelatedTarget(old);
         }
+
+        value.dispatchEvent(vEventObject);
+        vEventObject.dispose();
       }
 
       if (vBlurValid)

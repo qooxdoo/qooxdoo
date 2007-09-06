@@ -76,7 +76,7 @@ qx.Class.define("qx.ui.embed.GalleryList",
      * control which tooltip is shown. The data property holds a reference to
      * the hovered item.
      */
-    "beforeToolTipAppear"     : "qx.legacy.event.type.DataEvent",
+    "beforeToolTipAppear"     : "qx.event.type.DataEvent",
     "loadComplete"            : "qx.legacy.event.type.Event"
   },
 
@@ -416,12 +416,10 @@ qx.Class.define("qx.ui.embed.GalleryList",
 
       if (vItem)
       {
-        if (this.hasEventListeners("beforeToolTipAppear")) {
-        this.dispatchEvent(new qx.legacy.event.type.DataEvent("beforeToolTipAppear", vItem), true);
-        }
+        this.createDispatchDataEvent("beforeToolTipAppear", vItem);
 
         if (!this.getToolTip()) {
-        return;
+          return;
         }
 
         var vEventObject = new qx.legacy.event.type.MouseEvent("mouseout", e, false, vItem);

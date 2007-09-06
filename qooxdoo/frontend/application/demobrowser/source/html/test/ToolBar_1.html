@@ -5,7 +5,7 @@
   <script type="text/javascript" src="../../script/demo.js"></script>
   <script type="text/javascript" src="../util.js"></script>
 </head>
-<body>  
+<body>
   <div id="description">
     <p>Introduce qx.ui.menu.Menu which opens on qx.ui.toolbar.ToolBarMenuButtons.</p>
   </div>
@@ -161,7 +161,7 @@
 
       // beautiful decoupling: radio boxes don't know about toolbar buttons
       rbm.addEventListener("changeSelected", function(e) {
-        d.dispatchEvent( new qx.legacy.event.type.DataEvent("changeLayout", e.getData().getValue() ) );
+        d.createDispatchDataEvent("changeLayout", e.getData().getValue() );
       });
 
       d.add(rd1, rd2, rd3);

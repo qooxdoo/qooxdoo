@@ -525,7 +525,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * Listener method for the "input" event of the text field widget
      *
      * @type member
-     * @param e {qx.legacy.event.type.DataEvent} Input event
+     * @param e {qx.event.type.DataEvent} Input event
      * @return {void}
      */
     _oninput : function(e)

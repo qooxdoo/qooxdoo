@@ -126,7 +126,7 @@ qx.Class.define("qx.bom.History",
      * Fired when the user moved in the history. The data property of the event
      * holds the state, which was passed to {@link #addToHistory}.
      */
-    "request" : "qx.legacy.event.type.DataEvent"
+    "request" : "qx.event.type.DataEvent"
   },
 
 

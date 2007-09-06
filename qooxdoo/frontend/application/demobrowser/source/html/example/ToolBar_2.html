@@ -5,7 +5,7 @@
   <script type="text/javascript" src="../../script/demo.js"></script>
   <script type="text/javascript" src="../util.js"></script>
 </head>
-<body>  
+<body>
   <div id="description">
     <p>Introducing qx.ui.toolbar.CheckBox and qx.ui.toolbar.RadioButton.</p>
   </div>
@@ -150,7 +150,7 @@
       // beautiful decoupling: radio boxes don't know about toolbar buttons
       rbm.addEventListener("changeSelected", function(e)
       {
-        d.dispatchEvent( new qx.legacy.event.type.DataEvent("changeLayout", e.getData().getValue() ) );
+        d.createDispatchDataEvent("changeLayout", e.getData().getValue());
       });
 
       d.add(rd1, rd2, rd3);
@@ -227,7 +227,7 @@
       };
 
       b4.addEventListener("execute", function(e) {
-        d.dispatchEvent(new qx.legacy.event.type.DataEvent("changeSize", 32));
+        d.createDispatchDataEvent("changeSize", 32);
       });
 
       d.add(b3, b4);

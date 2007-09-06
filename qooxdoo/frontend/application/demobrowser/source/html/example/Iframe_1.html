@@ -5,7 +5,7 @@
   <script type="text/javascript" src="../../script/demo.js"></script>
   <script type="text/javascript" src="../util.js"></script>
 </head>
-<body>  
+<body>
   <div id="description">
     <p>Iframe implementation. Elastic.</p>
   </div>
@@ -57,7 +57,7 @@
       // elements of radio group fire event "surfTo"
       rbm.addEventListener("changeSelected", function(e)
       {
-        d.dispatchEvent( new qx.legacy.event.type.DataEvent("surfTo", e.getData().getValue() ) );
+        d.createDispatchDataEvent("surfTo", e.getData().getValue() );
       });
 
       d.add(rd1, rd2);

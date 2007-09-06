@@ -41,8 +41,8 @@ qx.Class.define("showcase.Application",
 
   events :
   {
-    "changeSize" : "qx.legacy.event.type.DataEvent",
-    "changeLayout" : "qx.legacy.event.type.DataEvent"
+    "changeSize" : "qx.event.type.DataEvent",
+    "changeLayout" : "qx.event.type.DataEvent"
   },
 
 
@@ -100,7 +100,7 @@ qx.Class.define("showcase.Application",
 
       // update state on selection change
       barView.getBar().getManager().addEventListener("changeSelected", function(e) {
-        var stateData = e.getData().getUserData("state");
+        var stateData = e.getValue().getUserData("state");
         this._history.addToHistory(stateData.state, "qooxdoo » Showcase - " + stateData.title);
       }, this);
 
@@ -530,7 +530,7 @@ qx.Class.define("showcase.Application",
       var rbm = new qx.ui.selection.RadioManager(null, [ radio1, radio2, radio3 ]);
 
       rbm.addEventListener("changeSelected", function(e) {
-        this.dispatchEvent(new qx.legacy.event.type.DataEvent("changeLayout", e.getData().getValue()));
+        this.createDispatchDataEvent("changeLayout", e.getData().getValue());
       }, this);
 
       // Alignment
@@ -567,7 +567,7 @@ qx.Class.define("showcase.Application",
       button.setHorizontalAlign("center");
 
       button.addEventListener("execute", function(e) {
-        this.dispatchEvent(new qx.legacy.event.type.DataEvent("changeSize", 32));
+        this.createDispatchDataEvent("changeSize", 32);
       }, this);
 
       vert.add(button);
