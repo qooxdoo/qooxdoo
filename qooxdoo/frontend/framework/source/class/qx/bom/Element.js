@@ -72,13 +72,17 @@ qx.Class.define("qx.bom.Element",
         win = window;
       }
       
+      if (!name) {
+        throw new Error("The tag name is missing!"); 
+      }
+      
       var special = this.__specialAttributes;
       var attributesHtml = "";
       
       for (var key in attributes) 
       {
         if (special[key]) {
-          attributesHtml += key + "='" + attributes[key] + "'"; 
+          attributesHtml += key + "='" + attributes[key] + "' "; 
         }
       }
       
@@ -90,7 +94,7 @@ qx.Class.define("qx.bom.Element",
       {
         // Internet Explorer supports attribute within createElement()
         // This is not standard, but a welcome addition here.
-        if (qx.html.Engine.MSHTML)
+        if (qx.bom.client.Engine.MSHTML)
         {
           element = win.document.createElement("<" + name + " " + attributesHtml + ">");
         }
