@@ -109,6 +109,9 @@ qx.Class.define("qx.bom.client.System",
 
     /** {Boolean} Flag to detect if the client system is Playstation Portable */
     PSP : false,
+    
+    /** {Boolean} Flag to detect if the client system is an iPhone or iPod touch */
+    IPHONE : false,
 
     /** Maps user agent names to system IDs */
     __ids :
@@ -162,16 +165,23 @@ qx.Class.define("qx.bom.client.System",
       if (!reg.test(agent)) {
         throw new Error("Could not detect system: " + agent);
       }
-
-      this.NAME = this.__ids[RegExp.$1];
-      this[this.NAME.toUpperCase()] = true;
-
-      if (qx.bom.client.Platform.WIN)
+      
+      if (qx.bom.client.Engine.WEBKIT && RegExp(" Mobile/").test(navigator.userAgent)) 
       {
-        if (agent.indexOf("Windows NT 5.01")!==-1) {
-          this.SP1 = true;
-        } else if (qx.bom.client.Engine.MSHTML && agent.indexOf("SV1")!==-1) {
-          this.SP2 = true;
+        this.IPHONE = true;
+      }
+      else
+      {
+        this.NAME = this.__ids[RegExp.$1];
+        this[this.NAME.toUpperCase()] = true;
+  
+        if (qx.bom.client.Platform.WIN)
+        {
+          if (agent.indexOf("Windows NT 5.01")!==-1) {
+            this.SP1 = true;
+          } else if (qx.bom.client.Engine.MSHTML && agent.indexOf("SV1")!==-1) {
+            this.SP2 = true;
+          }
         }
       }
     }
