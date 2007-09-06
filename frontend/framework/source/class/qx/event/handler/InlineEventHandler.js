@@ -195,7 +195,7 @@ qx.Class.define("qx.event.handler.InlineEventHandler",
      */
     __handleEvent : function(elementId, domEvent)
     {
-      var event = this._eventPool.getEventInstance(qx.event.type.DomEvent).init(domEvent);
+      var event = qx.event.Manager.createEvent(qx.event.type.DomEvent).init(domEvent);
       event.setBubbles(false);
 
       var eventData = this.__registeredEvents[elementId + event.getType()];
@@ -203,14 +203,6 @@ qx.Class.define("qx.event.handler.InlineEventHandler",
       event.setCurrentTarget(element);
 
       this._manager.dispatchEvent(domEvent.target, event);
-
-      // this point can be reached after the unload handler has taken place
-      // and disposed the event pool.
-      // TODO: This is something which should be done in poolEvent. This is
-      // definitely the better place.
-      if (!this.getDisposed()) {
-        this._eventPool.poolEvent(event);
-      }
     }
   }
 });
