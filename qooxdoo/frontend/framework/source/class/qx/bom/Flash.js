@@ -86,11 +86,7 @@ qx.Class.define("qx.bom.Flash",
      */
     create : function(movie, variables, params, win)
     {
-      // Work on copies
-      var attributes = attributes ? qx.lang.Object.copy(attributes) : {};
-      var params = params ? qx.lang.Object.copy(params) : {};
-      
-      // Copy params into attributes
+      // Generates attributes for flash movie
       var attributes = 
       {
         data : movie,
@@ -98,6 +94,9 @@ qx.Class.define("qx.bom.Flash",
         height : "100%"
       };
       
+      // Work on param copy
+      var params = params ? qx.lang.Object.copy(params) : {};
+
       // Copy over variables (into params)
       if (variables)
       {
@@ -111,10 +110,10 @@ qx.Class.define("qx.bom.Flash",
         }
       }
       
-      // Create SWF
+      // Finally create the SWF
       var swf = this.__createSwf(attributes, params, win);
       
-      // Objects do not allow styling. We create a DIV wrapper around.
+      // Objects do not allow styling well. We create a DIV wrapper around.
       var frame = qx.bom.Element.create("div", win);
       frame.appendChild(swf);
                 
