@@ -74,7 +74,22 @@ qx.Class.define("qx.event.type.ChangeEvent",
       this.setValue(value);
       this.setOldValue(old);
       return this;
+    },
+
+
+    /**
+     * Get a copy of this object
+     *
+     * @return {qx.event.type.ChangeEvent} a copy of this object
+     */
+    clone : function()
+    {
+      var clone = this.base(arguments);
+      clone.setValue(this.getValue());
+      clone.setOldValue(this.getOldValue());
+      return clone;
     }
+
   },
 
 
