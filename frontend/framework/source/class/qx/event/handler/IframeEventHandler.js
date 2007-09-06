@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 /**
- * This handler handles "load" and "unload" events of iframes
+ * This handler handles "load" events of iframes
  *
  * @internal
  */
@@ -74,9 +74,8 @@ qx.Class.define("qx.event.handler.IframeEventHandler",
     // overridden
     canHandleEvent : function(target, type)
     {
-      return target.nodeType !== undefined &&
-        target.tagName.toLowerCase() === "iframe" &&
-        type === "load";
+      return target.nodeType !== undefined && type === "load" &&
+        target.tagName.toLowerCase() === "iframe";
     }
   },
   

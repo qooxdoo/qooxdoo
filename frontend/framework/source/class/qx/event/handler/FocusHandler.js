@@ -24,14 +24,13 @@
 
 ************************************************************************ */
 
+// Notes:
+// Webkit/Opera<9.5 does not support tabIndex for all elements:
+// http://bugs.webkit.org/show_bug.cgi?id=7138
+
 /**
- *
- * Notes:
- *
- * Webkit/Opera<9.5 does not support tabIndex for all elements:
- * http://bugs.webkit.org/show_bug.cgi?id=7138
- *
- *
+ * This handler is used to normalize all focus/activation requirements
+ * and normalize all cross browser quirks in this area.
  */
 qx.Class.define("qx.event.handler.FocusHandler",
 {
@@ -50,13 +49,13 @@ qx.Class.define("qx.event.handler.FocusHandler",
   {
     this.base(arguments, manager);
 
-    // Initialize shorthands
+    // Define shorthands
     this._window = manager.getWindow();
     this._document = this._window.document;
     this._root = this._document.documentElement;
     this._body = this._document.body;
 
-    // Init observers
+    // Initialize observers
     this._initMouseObserver();
     this._initFocusObserver();
   },
