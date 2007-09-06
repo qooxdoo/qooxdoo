@@ -99,19 +99,19 @@ qx.Class.define("qx.ui.tree.TreeFolder",
      * Called when a tree folder with content is opened. The data property
      * contains the opened {@link TreeFolder}.
      */
-    "treeOpenWithContent" : "qx.legacy.event.type.DataEvent",
+    "treeOpenWithContent" : "qx.event.type.DataEvent",
 
     /**
      * Called when a tree folder without content is opened. The data property
      * contains the opened {@link TreeFolder}.
      */
-    "treeOpenWhileEmpty" : "qx.legacy.event.type.DataEvent",
+    "treeOpenWhileEmpty" : "qx.event.type.DataEvent",
 
     /**
      * Called when a tree folder is closed. The data property
      * contains the {@link TreeFolder} being closed.
      */
-    "treeClose" : "qx.legacy.event.type.DataEvent"
+    "treeClose" : "qx.event.type.DataEvent"
   },
 
 
@@ -223,25 +223,16 @@ qx.Class.define("qx.ui.tree.TreeFolder",
 
       if (this.hasContent())
       {
-        // If there are listeners waiting for a treeOpenWithContent event...
-        if (this.getTree().hasEventListeners("treeOpenWithContent"))
-        {
-          // ... then issue the event
-          this.getTree().dispatchEvent(new qx.legacy.event.type.DataEvent("treeOpenWithContent", this), true);
-        }
+        // issue the event
+        this.getTree().createDispatchDataEvent("treeOpenWithContent", this);
 
         this.getTopLevelWidget().setGlobalCursor("progress");
         qx.event.Timer.once(this._openCallback, this, 0);
       }
       else
       {
-        // If there are listeners waiting for a treeOpenWithContent event...
-        if (this.getTree().hasEventListeners("treeOpenWhileEmpty"))
-        {
-          // ... then issue the event
-          this.getTree().dispatchEvent(new qx.legacy.event.type.DataEvent("treeOpenWhileEmpty", this), true);
-        }
-
+        // issue the event
+        this.getTree().createDispatchDataEvent("treeOpenWhileEmpty", this);
         this.setOpen(true);
       }
     },
@@ -255,13 +246,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
      */
     close : function()
     {
-      // If there are listeners waiting for a treeClose event...
-      if (this.getTree().hasEventListeners("treeClose"))
-      {
-        // ... then issue the event
-        this.getTree().dispatchEvent(new qx.legacy.event.type.DataEvent("treeClose", this), true);
-      }
-
+      this.getTree().createDispatchDataEvent("treeClose", this);
       this.setOpen(false);
     },
 

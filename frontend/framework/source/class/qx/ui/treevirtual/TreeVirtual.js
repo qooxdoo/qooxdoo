@@ -250,10 +250,10 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
   events :
   {
-    "treeOpenWithContent" : "qx.legacy.event.type.DataEvent",
-    "treeOpenWhileEmpty"  : "qx.legacy.event.type.DataEvent",
-    "treeClose"           : "qx.legacy.event.type.DataEvent",
-    "changeSelection"     : "qx.legacy.event.type.DataEvent"
+    "treeOpenWithContent" : "qx.event.type.DataEvent",
+    "treeOpenWhileEmpty"  : "qx.event.type.DataEvent",
+    "treeClose"           : "qx.event.type.DataEvent",
+    "changeSelection"     : "qx.event.type.DataEvent"
   },
 
 
@@ -359,19 +359,15 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
       dcr.setUseTreeLines(b);
 
       // Inform the listeners
-      if (stdcm.hasEventListeners("dataChanged"))
+      var data =
       {
-        var data =
-        {
-          firstRow    : 0,
-          lastRow     : stdcm._rowArr.length - 1,
-          firstColumn : 0,
-          lastColumn  : stdcm.getColumnCount() - 1
-        };
+        firstRow    : 0,
+        lastRow     : stdcm._rowArr.length - 1,
+        firstColumn : 0,
+        lastColumn  : stdcm.getColumnCount() - 1
+      };
 
-        stdcm.dispatchEvent(new qx.legacy.event.type.DataEvent("dataChanged", data),
-                            true);
-      }
+      stdcm.createDispatchDataEvent("dataChanged", data);
     },
 
 
@@ -412,19 +408,15 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
       dcr.setAlwaysShowOpenCloseSymbol(b);
 
       // Inform the listeners
-      if (stdcm.hasEventListeners("dataChanged"))
+      var data =
       {
-        var data =
-        {
-          firstRow    : 0,
-          lastRow     : stdcm._rowArr.length - 1,
-          firstColumn : 0,
-          lastColumn  : stdcm.getColumnCount() - 1
-        };
+        firstRow    : 0,
+        lastRow     : stdcm._rowArr.length - 1,
+        firstColumn : 0,
+        lastColumn  : stdcm.getColumnCount() - 1
+      };
 
-        stdcm.dispatchEvent(new qx.legacy.event.type.DataEvent("dataChanged", data),
-                            true);
-      }
+      stdcm.createDispatchDataEvent("dataChanged", data);
     },
 
 
@@ -448,19 +440,15 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
       dcr.setExcludeFirstLevelTreeLines(b);
 
       // Inform the listeners
-      if (stdcm.hasEventListeners("dataChanged"))
+      var data =
       {
-        var data =
-        {
-          firstRow    : 0,
-          lastRow     : stdcm._rowArr.length - 1,
-          firstColumn : 0,
-          lastColumn  : stdcm.getColumnCount() - 1
-        };
+        firstRow    : 0,
+        lastRow     : stdcm._rowArr.length - 1,
+        firstColumn : 0,
+        lastColumn  : stdcm.getColumnCount() - 1
+      };
 
-        stdcm.dispatchEvent(new qx.legacy.event.type.DataEvent("dataChanged", data),
-                            true);
-      }
+      stdcm.createDispatchDataEvent("dataChanged", data);
     },
 
 

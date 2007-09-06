@@ -336,7 +336,7 @@ qx.Class.define("qx.ui.treevirtual.RecursiveSelectionModel",
         node.bSelected = selected;
         this._selectionChanged = true;
         // Update the UI
-        /*mod.dispatchEvent(new qx.legacy.event.type.DataEvent('dataChanged', {
+        /*mod.dispatchEvent(new qx.event.type.DataEvent('dataChanged', {
           firstRow    : node.nodeId,
           lastRow     : node.nodeId,
           firstColumn : 0,
