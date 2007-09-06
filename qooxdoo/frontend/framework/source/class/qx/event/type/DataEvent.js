@@ -25,30 +25,9 @@
 ************************************************************************ */
 
 /** Event object for data transfers. */
-qx.Class.define("qx.legacy.event.type.DataEvent",
+qx.Class.define("qx.event.type.DataEvent",
 {
-  extend : qx.legacy.event.type.Event,
-
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
- /**
-  * @param vType {String} the type name of the event
-  * @param vData {var} additional data which should be passed to the event listener
-  */
-  construct : function(vType, vData)
-  {
-    this.base(arguments, vType);
-
-    this.setData(vData);
-  },
-
+  extend : qx.event.type.Event,
 
 
 
@@ -69,6 +48,45 @@ qx.Class.define("qx.legacy.event.type.DataEvent",
     data : { _fast : true }
   },
 
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+
+   /**
+    * Initializes an event onject.
+    *
+    * @param vType {String} the type name of the event
+    * @param vData {var} additional data which should be passed to the event listener
+    * @return {qx.event.type.DataEvent} the initialized instance.
+    */
+    init : function(type, data)
+    {
+      this.base(arguments, type, false);
+      this.setData(data);
+      return this;
+    },
+
+
+    /**
+     * Get a copy of this object
+     *
+     * @return {qx.event.type.DataEvent} a copy of this object
+     */
+    clone : function()
+    {
+      var clone = this.base(arguments);
+      clone.setData(this.getData());
+      return clone;
+    }
+
+  },
 
 
 
