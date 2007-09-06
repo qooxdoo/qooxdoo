@@ -24,7 +24,9 @@
 
 ************************************************************************ */
 
-/** Event object for data transfers. */
+/**
+ * Generic event object for data transfers.
+ */
 qx.Class.define("qx.event.type.DataEvent",
 {
   extend : qx.event.type.Event,
@@ -39,12 +41,10 @@ qx.Class.define("qx.event.type.DataEvent",
 
   properties :
   {
-    propagationStopped :
-    {
-      _fast        : true,
-      defaultValue : false
-    },
-
+    /**
+     * The data field attached to this object. The data type and format are
+     * defined. by the sender
+     */
     data : { _fast : true }
   },
 
