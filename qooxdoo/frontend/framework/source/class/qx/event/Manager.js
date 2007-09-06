@@ -614,8 +614,8 @@ qx.Class.define("qx.event.Manager",
       }
 
       if (!hasHandler) {
-        //console.log(target);
-        //this.printStackTrace();
+        // console.log(target);
+        this.printStackTrace();
         throw new Error("There is no event handler for the event '"+type+"' on target '"+target+"'!");
       }
     },
