@@ -169,6 +169,7 @@ qx.Class.define("qx.bom.client.System",
       if (qx.bom.client.Engine.WEBKIT && RegExp(" Mobile/").test(navigator.userAgent)) 
       {
         this.IPHONE = true;
+        this.NAME = "iphone";
       }
       else
       {
