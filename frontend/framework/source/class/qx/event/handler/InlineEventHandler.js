@@ -110,6 +110,18 @@ qx.Class.define("qx.event.handler.InlineEventHandler",
       submit                      : 1,
       unload                      : 1
     },
+    
+    
+    // clean list
+    __inlineEvent :
+    {
+      beforeunload : true,
+      load : true,
+      unload : true,
+      scroll : true,
+      submit : true,
+      change : true
+    },
 
 
     /*

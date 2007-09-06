@@ -84,24 +84,45 @@ qx.Class.define("Gui2Test",
       document.body.focus();
 
       qx.event.Manager.addListener(document.documentElement, "activate", this._onActivate, this, true);
-      qx.event.Manager.addListener(document.documentElement, "deactivate", this._onDeactive, this, true);
+      qx.event.Manager.addListener(document.documentElement, "deactivate", this._onDeactivate, this, true);
       qx.event.Manager.addListener(document.documentElement, "focusin", this._onFocusIn, this);
       qx.event.Manager.addListener(document.documentElement, "focusout", this._onFocusOut, this);
+      
+      qx.event.Manager.addListener(window, "focus", this._onWindowFocus, this);
+      qx.event.Manager.addListener(window, "blur", this._onWindowBlur, this);
     },
     
-    _onActivate : function(e) {
+    _onWindowFocus : function(e)
+    {
+      this.debug("Window focussed");
+    },
+    
+    _onWindowBlur : function(e)
+    {
+      this.debug("Window blurred");
+    },
+    
+    _onActivate : function(e) 
+    {
+      this.debug("Activate: " + e.getTarget());      
       e.getTarget().style.borderColor = "red";
     },
     
-    _onDeactivate : function(e) {
+    _onDeactivate : function(e) 
+    {
+      this.debug("Deactivate: " + e.getTarget());
       e.getTarget().style.borderColor = "black";
     },
     
-    _onFocusIn : function(e) {
+    _onFocusIn : function(e) 
+    {
+      this.debug("FocusIn: " + e.getTarget());
       e.getTarget().style.backgroundColor = "#aeaeae";
     },
     
-    _onFocusOut : function(e) {
+    _onFocusOut : function(e) 
+    {
+      this.debug("FocusOut: " + e.getTarget());
       e.getTarget().style.backgroundColor = "";
     }
   }
