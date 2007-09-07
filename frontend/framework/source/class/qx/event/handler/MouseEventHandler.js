@@ -48,10 +48,8 @@ qx.Class.define("qx.event.handler.MouseEventHandler",
   {
     this.base(arguments, manager);
 
-    // Define shorthands
-    this._window = manager.getWindow();
-    this._document = this._window.document;
-    this._root = this._document.documentElement;
+    // Define shorthand
+    this._root = manager.getWindow().document.documentElement;
     
     // Initialize observers
     this._initButtonObserver();
@@ -254,7 +252,7 @@ qx.Class.define("qx.event.handler.MouseEventHandler",
 
     /*
     ---------------------------------------------------------------------------
-      EVENT-HANDLER
+      NATIVE EVENT OBSERVERS
     ---------------------------------------------------------------------------
     */
     
@@ -470,7 +468,7 @@ qx.Class.define("qx.event.handler.MouseEventHandler",
     this._stopMoveObserver();
     this._stopWheelObserver();
     
-    this._disposeFields("_window", "_document", "_root");
+    this._disposeFields("_root");
   },
   
   
