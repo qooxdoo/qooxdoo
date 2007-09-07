@@ -30,68 +30,10 @@
  */
 qx.Class.define("qx.event.type.DomEvent",
 {
-  extend : qx.event.type.Event,
+  extend : qx.event.type.NativeEvent,
 
   members :
   {
-    /**
-     * Initialize the fields of the event. The event must be initialized before
-     * it can be dispatched.
-     *
-     * @type member
-     * @param nativeEvent {Event} The DOM event to use
-     * @return {qx.event.type.Event} The initialized event instance
-     */
-    init : function(nativeEvent)
-    {
-      this.base(arguments, nativeEvent.type, nativeEvent.bubbles);
-
-      this._target = nativeEvent.target || nativeEvent.srcElement;
-
-      if (nativeEvent.timeStamp) {
-        this._timeStamp = nativeEvent.timeStamp;
-      }
-
-      this._native = nativeEvent;
-
-      return this;
-    },
-
-
-    /**
-     * Prevent browser default behaviour, e.g. opening the context menu, ...
-     *
-     * @type member
-     * @return {void} 
-     */
-    preventDefault : function()
-    {
-      if (this._native.preventDefault) {
-        this._native.preventDefault();
-      }
-
-      this._native.returnValue = false;
-    },
-
-
-    /**
-     * Stops the propagation of the event
-     *
-     * @type member
-     * @return {void} 
-     */
-    stopPropagation : function()
-    {
-      if (this._native.stopPropagation) {
-        this._native.stopPropagation();
-      }
-
-      // MSDN doccumantation http://msdn2.microsoft.com/en-us/library/ms533545.aspx
-      this._native.cancelBubble = true;
-      this._stopPropagation = true;
-    },
-
-
     /**
      * Returns whether the the ctrl key is pressed.
      *
@@ -134,18 +76,5 @@ qx.Class.define("qx.event.type.DomEvent",
     isMetaPressed : function() {
       return this._native.metaKey;
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this._disposeFields("_native");
   }
 });
