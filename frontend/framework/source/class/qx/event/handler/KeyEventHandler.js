@@ -50,36 +50,16 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
   {
     this.base(arguments, manager);
 
-    this._documentElement = manager.getWindow().document.documentElement;
-
-    this.__keyEventListenerCount = 0;
-    var keyUpDownHandler = qx.lang.Function.bind(this.onKeyUpDown, this);
-
-    this.__keyHandler =
-    {
-      "keydown": keyUpDownHandler,
-      "keyup": keyUpDownHandler,
-      "keypress": qx.lang.Function.bind(this.onKeyPress, this)
-    };
+    // Define shorthand
+    this._root = manager.getWindow().document.documentElement;
+    
+    // Initialize observer
+    this._initKeyObserver();
   },
 
 
 
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
 
-  destruct : function()
-  {
-    this._disposeFields(
-      "_documentElement",
-      "_lastUpDownType",
-      "__keyHandler",
-      "__keyEventListenerCount"
-    );
-  },
 
 
 
@@ -91,6 +71,12 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      EVENT HANDLER INTERFACE
+    ---------------------------------------------------------------------------
+    */
+        
     /**
      * Fire a key event with the given parameters
      *
@@ -100,7 +86,7 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
      * @param charCode {Integer} character code
      * @param keyIdentifier {String} key identifier
      */
-    __fireEvent : function(domEvent, eventType, keyCode, charCode, keyIdentifier)
+    _fireEvent : function(domEvent, eventType, keyCode, charCode, keyIdentifier)
     {
       var event = qx.event.Manager.createEvent(qx.event.type.KeyEvent);
       event.init(domEvent, keyCode, charCode, keyIdentifier);
@@ -115,28 +101,45 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
     },
 
 
-    registerEvent : function(target, type)
-    {
-      this.__keyEventListenerCount += 1;
-      if (this.__keyEventListenerCount == 1) {
-        this._attachEvents(this._documentElement, this.__keyHandler);
-      }
-    },
 
 
-    unregisterEvent : function(target, type)
-    {
-      this.__keyEventListenerCount -= 1;
-      if (this.__keyEventListenerCount == 0) {
-        this._detachEvents(this._documentElement, this.__keyHandler);
-      }
-    },
 
 
 
     /*
     ---------------------------------------------------------------------------
-      EVENT-HANDLER
+      OBSERVER INIT/STOP
+    ---------------------------------------------------------------------------
+    */
+
+    _initKeyObserver : function()
+    {
+      this._onKeyUpDownWrapper = qx.lang.Function.bind(this._onKeyUpDown, this);
+      this._onKeyPressWrapper = qx.lang.Function.bind(this._onKeyPress, this);      
+      
+      var Manager = qx.event.Manager;
+      
+      Manager.addNativeListener(this._root, "keyup", this._onKeyUpDownWrapper);
+      Manager.addNativeListener(this._root, "keydown", this._onKeyUpDownWrapper);
+      Manager.addNativeListener(this._root, "keypress", this._onKeyPressWrapper);
+    },
+    
+    _stopKeyObserver : function()
+    {
+      var Manager = qx.event.Manager;
+      
+      Manager.removeNativeListener(this._root, "keyup", this._onKeyUpDownWrapper);
+      Manager.removeNativeListener(this._root, "keydown", this._onKeyUpDownWrapper);
+      Manager.removeNativeListener(this._root, "keypress", this._onKeyPressWrapper);
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      NATIVE EVENT OBSERVERS
     ---------------------------------------------------------------------------
     */
 
@@ -146,7 +149,7 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
      * @param domEvent {Event} DOM event object
      * @signature function(domEvent)
      */
-    onKeyUpDown : qx.core.Variant.select("qx.client",
+    _onKeyUpDown : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(domEvent)
       {
@@ -234,7 +237,7 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
      * @param domEvent {Event} DOM event object
      * @signature function(domEvent)
      */
-    onKeyPress : qx.core.Variant.select("qx.client",
+    _onKeyPress : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(domEvent)
       {
@@ -576,19 +579,37 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
       if (keyCode)
       {
         keyIdentifier = this._keyCodeToIdentifier(keyCode);
-        this.__fireEvent(domEvent, eventType, keyCode, charCode, keyIdentifier);
+        this._fireEvent(domEvent, eventType, keyCode, charCode, keyIdentifier);
       }
 
       // Use: charCode
       else
       {
         keyIdentifier = this._charCodeToIdentifier(charCode);
-        this.__fireEvent(domEvent, "keypress", keyCode, charCode, keyIdentifier);
-        this.__fireEvent(domEvent, "keyinput", keyCode, charCode, keyIdentifier);
+        this._fireEvent(domEvent, "keypress", keyCode, charCode, keyIdentifier);
+        this._fireEvent(domEvent, "keyinput", keyCode, charCode, keyIdentifier);
       }
     }
   },
 
+
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._stopKeyObserver();
+    this._disposeFields("_root");
+  },
+  
+  
 
 
 
