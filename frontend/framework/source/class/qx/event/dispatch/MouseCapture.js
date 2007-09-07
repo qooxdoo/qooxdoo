@@ -39,6 +39,7 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
 
 
 
+
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -52,27 +53,19 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
   {
     this.base(arguments);
 
-    this.__manager = manager;
-    this.__captureElement = null;
+    this._manager = manager;
+    this._window = manager.getWindow();
 
-    var win = manager.getWindow();
-    manager.addListener(win, "blur", this.releaseCapture, this);
-    manager.addListener(win, "focus", this.releaseCapture, this);
-    manager.addListener(win, "scroll", this.releaseCapture, this);
+    manager.addListener(this._window, "blur", this.releaseCapture, this);
+    manager.addListener(this._window, "focus", this.releaseCapture, this);
+    manager.addListener(this._window, "scroll", this.releaseCapture, this);
   },
+  
+  
 
 
 
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
 
-  destruct : function()
-  {
-    this._disposeFields("__captureElement", "__manager");
-  },
 
 
 
@@ -84,32 +77,26 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
 
   members:
   {
-    __captureEvents :
-    {
-      "mouseup": 1,
-      "mousedown": 1,
-      "click": 1,
-      "dblclick": 1,
-      "mousemove": 1,
-      "mouseout": 1,
-      "mouseover": 1
-    },
-
-
+    /*
+    ---------------------------------------------------------------------------
+      EVENT DISPATCHER INTERFACE
+    ---------------------------------------------------------------------------
+    */ 
+    
     // interface implementation
     canDispatchEvent : function(target, event, type) {
-      return this.__captureElement && this.__captureEvents[type];
+      return this._captureElement && this.__captureEvents[type];
     },
 
 
     // interface implementation
     dispatchEvent : function(target, event, type)
     {
-      var listeners = this.__manager.registryGetListeners(this.__captureElement, type, false, false);
+      var listeners = this._manager.registryGetListeners(this._captureElement, type, false, false);
 
       if (listeners)
       {
-        event.setCurrentTarget(this.__captureElement);
+        event.setCurrentTarget(this._captureElement);
         event.setEventPhase(qx.event.type.Event.AT_TARGET);
 
         for (var i=0; i<listeners.length; i++) {
@@ -127,9 +114,39 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
 
         this.releaseCapture();
       }
+    },    
+    
+    
+        
+        
+    /*
+    ---------------------------------------------------------------------------
+      HELPER
+    ---------------------------------------------------------------------------
+    */         
+    
+    __captureEvents :
+    {
+      "mouseup": 1,
+      "mousedown": 1,
+      "click": 1,
+      "dblclick": 1,
+      "mousemove": 1,
+      "mouseout": 1,
+      "mouseover": 1
     },
 
 
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      USER ACCESS
+    ---------------------------------------------------------------------------
+    */ 
+    
     /**
      * Set the given element as target for event
      *
@@ -137,13 +154,17 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
      */
     setCapture : function(element)
     {
-      if (this.__captureElement != element) {
+      if (this._captureElement !== element) {
         this.releaseCapture();
       }
 
-      // TODO: capture event? name? "gotcapture"?
+      this._captureElement = element;
 
-      this.__captureElement = element;
+      this._manager.createAndDispatchEvent(
+        this._captureElement,
+        qx.event.type.Event,
+        ["capture", true]
+      );
     },
 
 
@@ -152,21 +173,40 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
      */
     releaseCapture : function()
     {
-      if (this.__captureElement == null) {
+      if (this._captureElement == null) {
         return;
       }
 
-      this.__manager.createAndDispatchEvent(
-        this.__captureElement,
+      this._captureElement = null;
+      
+      this._manager.createAndDispatchEvent(
+        this._captureElement,
         qx.event.type.Event,
         ["losecapture", true]
       );
-
-      this.__captureElement = null;
     }
   },
 
 
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() 
+  {
+    manager.removeListener(this._window, "blur", this.releaseCapture, this);
+    manager.removeListener(this._window, "focus", this.releaseCapture, this);
+    manager.removeListener(this._window, "scroll", this.releaseCapture, this);    
+    
+    this._disposeFields("_captureElement", "_manager", "_window");
+  },
+  
+  
+  
+  
 
   /*
   *****************************************************************************
