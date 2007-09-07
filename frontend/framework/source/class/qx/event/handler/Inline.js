@@ -45,10 +45,8 @@ qx.Class.define("qx.event.handler.Inline",
     this.base(arguments);
     
     this._manager = manager;
-    this.__registeredEvents = {};
+    this._registeredEvents = {};
   },
-
-
 
 
 
@@ -65,6 +63,61 @@ qx.Class.define("qx.event.handler.Inline",
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER INTERFACE
+    ---------------------------------------------------------------------------
+    */
+    
+    // interface implementation
+    canHandleEvent : function(target, type) 
+    {
+      return (
+        (this._windowEvents[type] || this._elementEvents[type]) &&
+        (
+          typeof(target.nodeType) === "number" ||
+          typeof(target.document) === "object"
+        )
+      );
+    },
+
+
+    // interface implementation
+    registerEvent : function(target, type)
+    {
+      var elementId = qx.core.Object.toHashCode(target);
+      var listener = qx.lang.Function.bind(this._onEvent, this, false, [elementId]);
+
+      qx.event.Manager.addNativeListener(target, type, listener);
+
+      var id = elementId + type;
+
+      this._registeredEvents[id] =
+      {
+        element : target,
+        type : type,
+        listener : listener
+      };
+    },
+
+
+    // interface implementation
+    unregisterEvent : function(target, type)
+    {
+      var id = qx.core.Object.toHashCode(target) + type;
+
+      var eventData = this._registeredEvents[id];
+      qx.event.Manager.removeNativeListener(target, type, eventData.listener);
+
+      delete(this._registeredEvents[id]);
+    },
+
+    
+    
+    
+    
+        
+    
+    /*
+    ---------------------------------------------------------------------------
+      HELPER
     ---------------------------------------------------------------------------
     */
         
@@ -91,61 +144,6 @@ qx.Class.define("qx.event.handler.Inline",
     },
 
 
-    // interface implementation
-    canHandleEvent : function(target, type) 
-    {
-      return (
-        (this._windowEvents[type] || this._elementEvents[type]) &&
-        (
-          typeof(target.nodeType) === "number" ||
-          typeof(target.document) === "object"
-        )
-      );
-    },
-
-
-    // interface implementation
-    registerEvent : function(target, type) {
-      // Nothing needs to be done here
-    },
-
-
-    // interface implementation
-    unregisterEvent : function(target, type) {
-      // Nothing needs to be done here
-    },
-    
-
-    // overridden
-    registerEvent : function(target, type)
-    {
-      var elementId = qx.core.Object.toHashCode(target);
-      var listener = qx.lang.Function.bind(this._onEvent, this, false, [elementId]);
-
-      qx.event.Manager.addNativeListener(target, type, listener);
-
-      var id = elementId + type;
-
-      this.__registeredEvents[id] =
-      {
-        element : target,
-        type : type,
-        listener : listener
-      };
-    },
-
-
-    // overridden
-    unregisterEvent : function(target, type)
-    {
-      var id = qx.core.Object.toHashCode(target) + type;
-
-      var eventData = this.__registeredEvents[id];
-      qx.event.Manager.removeNativeListener(target, type, eventData.listener);
-
-      delete(this.__registeredEvents[id]);
-    },
-
 
 
 
@@ -169,7 +167,7 @@ qx.Class.define("qx.event.handler.Inline",
       var event = qx.event.Manager.createEvent(qx.event.type.Dom).init(domEvent);
       event.setBubbles(false);
 
-      var eventData = this.__registeredEvents[elementId + event.getType()];
+      var eventData = this._registeredEvents[elementId + event.getType()];
       var element = eventData ? eventData.element : event.getTarget();
       event.setCurrentTarget(element);
 
@@ -189,9 +187,9 @@ qx.Class.define("qx.event.handler.Inline",
 
   destruct : function()
   {
-    for (var id in this.__registeredEvents)
+    for (var id in this._registeredEvents)
     {
-      var eventData = this.__registeredEvents[id];
+      var eventData = this._registeredEvents[id];
       
       qx.event.Manager.removeNativeListener(
         eventData.element,
@@ -200,6 +198,6 @@ qx.Class.define("qx.event.handler.Inline",
       );
     }
 
-    this._disposeFields("_manager", "__registeredEvents");
+    this._disposeFields("_manager", "_registeredEvents");
   }
 });

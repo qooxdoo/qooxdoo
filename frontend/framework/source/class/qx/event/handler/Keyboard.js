@@ -127,16 +127,6 @@ qx.Class.define("qx.event.handler.Keyboard",
     ---------------------------------------------------------------------------
     */
 
-    /** {Map} Internal data structure with all supported keyboard events */
-    __keyEvents :
-    {
-      keyup : 1,
-      keydown : 1,
-      keypress : 1,
-      keyinput : 1
-    },
-
-
     // interface implementation
     canHandleEvent : function(target, type) {
       return target.nodeType !== undefined && this.__keyEvents[type];
@@ -155,6 +145,26 @@ qx.Class.define("qx.event.handler.Keyboard",
     },
     
 
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      HELPER
+    ---------------------------------------------------------------------------
+    */
+
+    /** {Map} Internal data structure with all supported keyboard events */
+    __keyEvents :
+    {
+      keyup : 1,
+      keydown : 1,
+      keypress : 1,
+      keyinput : 1
+    },
+    
+    
     /**
      * Fire a key input event with the given parameters
      *

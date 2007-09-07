@@ -70,6 +70,12 @@ qx.Class.define("qx.event.handler.Iframe",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      EVENT HANDLER INTERFACE
+    ---------------------------------------------------------------------------
+    */
+        
     // interface implementation
     canHandleEvent : function(target, type)
     {
