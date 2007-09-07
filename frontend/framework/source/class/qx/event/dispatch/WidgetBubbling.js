@@ -19,7 +19,7 @@
 
 /* ************************************************************************
 
-#module(event2)
+#module(event)
 
 ************************************************************************ */
 
@@ -29,10 +29,11 @@
  *
  * @internal
  */
-qx.Class.define("qx.event.dispatch.Widget",
+qx.Class.define("qx.event.dispatch.WidgetBubbling",
 {
   extend : qx.core.Object,
   implement : qx.event.IEventDispatcher,
+
 
 
 
@@ -53,6 +54,7 @@ qx.Class.define("qx.event.dispatch.Widget",
 
 
 
+
   /*
   *****************************************************************************
      MEMBERS
@@ -61,7 +63,12 @@ qx.Class.define("qx.event.dispatch.Widget",
 
   members :
   {
-
+    /*
+    ---------------------------------------------------------------------------
+      EVENT DISPATCHER INTERFACE
+    ---------------------------------------------------------------------------
+    */ 
+    
     // interface implementation
     canDispatchEvent : function(target, event, type) {
       return (event.getBubbles() && target instanceof qx.ui.core.Widget);
@@ -74,18 +81,18 @@ qx.Class.define("qx.event.dispatch.Widget",
       event.setEventPhase(qx.event.type.Event.AT_TARGET);
 
       var currentTarget = target;
+      var listeners;
 
       while (currentTarget)
       {
-        var listeners = this._manager.registryGetListeners(currentTarget, type, false, false);
-        if (!listeners) {
-          listeners = [];
-        }
-
-        for (var i=0; i<listeners.length; i++)
+        listeners = this._manager.registryGetListeners(currentTarget, type, false, false);
+        if (listeners) 
         {
-          var context = listeners[i].context || currentTarget;
-          listeners[i].handler.call(context, event);
+          for (var i=0; i<listeners.length; i++)
+          {
+            var context = listeners[i].context || currentTarget;
+            listeners[i].handler.call(context, event);
+          }
         }
 
         if (event.getPropagationStopped()) {
@@ -93,6 +100,7 @@ qx.Class.define("qx.event.dispatch.Widget",
         }
 
         currentTarget = currentTarget.getParent();
+        
         event.setCurrentTarget(currentTarget);
         event.setEventPhase(qx.event.type.Event.BUBBLING_PHASE);
       }
