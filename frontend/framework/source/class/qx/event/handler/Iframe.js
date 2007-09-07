@@ -25,9 +25,7 @@
 ************************************************************************ */
 
 /**
- * This handler handles "load" events of iframes
- *
- * @internal
+ * This handler provides a "load" event for iframes
  */
 qx.Class.define("qx.event.handler.Iframe",
 {
