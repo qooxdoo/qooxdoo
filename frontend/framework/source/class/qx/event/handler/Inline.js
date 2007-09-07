@@ -70,7 +70,7 @@ qx.Class.define("qx.event.handler.Inline",
     canHandleEvent : function(target, type) 
     {
       return (
-        (this._windowEvents[type] || this._elementEvents[type]) &&
+        (this._eventTypes[type]) &&
         (
           typeof(target.nodeType) === "number" ||
           typeof(target.document) === "object"
@@ -83,7 +83,7 @@ qx.Class.define("qx.event.handler.Inline",
     registerEvent : function(target, type)
     {
       var elementId = qx.core.Object.toHashCode(target);
-      var listener = qx.lang.Function.bind(this._onEvent, this, false, [elementId]);
+      var listener = qx.lang.Function.bind(this._onNative, this, false, [elementId]);
 
       qx.event.Manager.addNativeListener(target, type, listener);
 
@@ -121,19 +121,8 @@ qx.Class.define("qx.event.handler.Inline",
     ---------------------------------------------------------------------------
     */
         
-    /** {Map} Internal data structure with all supported BOM window events */
-    _windowEvents :
-    {
-      // Window 
-      error : true,
-      beforeunload : true,
-      load : true,
-      unload : true,
-      resize : true
-    },
-    
     /** {Map} Internal data structure with all supported BOM element events */
-    _elementEvents :
+    _eventTypes :
     {
       abort : true,    // Image elements only
       scroll : true,    
@@ -162,7 +151,7 @@ qx.Class.define("qx.event.handler.Inline",
      * @param domEvent {Event} DOM event
      * @return {void}
      */
-    _onEvent : function(elementId, domEvent)
+    _onNative : function(elementId, domEvent)
     {
       var event = qx.event.Manager.createEvent(qx.event.type.Dom).init(domEvent);
       event.setBubbles(false);
