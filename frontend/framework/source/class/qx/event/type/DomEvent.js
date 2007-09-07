@@ -34,18 +34,25 @@ qx.Class.define("qx.event.type.DomEvent",
 
   members :
   {
-    // overridden
-    init : function(domEvent)
+    /**
+     * Initialize the fields of the event. The event must be initialized before
+     * it can be dispatched.
+     *
+     * @type member
+     * @param nativeEvent {Event} The DOM event to use
+     * @return {qx.event.type.Event} The initialized event instance
+     */
+    init : function(nativeEvent)
     {
-      this.base(arguments, domEvent.type, domEvent.bubbles);
+      this.base(arguments, nativeEvent.type, nativeEvent.bubbles);
       
-      this._target = domEvent.target || domEvent.srcElement;
+      this._target = nativeEvent.target || nativeEvent.srcElement;
 
-      if (domEvent.timeStamp) {
-        this._timeStamp = domEvent.timeStamp;
+      if (nativeEvent.timeStamp) {
+        this._timeStamp = nativeEvent.timeStamp;
       }
 
-      this._dom = domEvent;
+      this._native = nativeEvent;
       
       return this;
     },
@@ -56,23 +63,23 @@ qx.Class.define("qx.event.type.DomEvent",
      */
     preventDefault : function() 
     {
-      if (this._dom.preventDefault) {
-        this._dom.preventDefault();
+      if (this._native.preventDefault) {
+        this._native.preventDefault();
       }
       
-      this._dom.returnValue = false;
+      this._native.returnValue = false;
     },
 
 
     // overridden
     stopPropagation :  function()
     {
-      if (this._dom.stopPropagation) {
-        this._dom.stopPropagation();
+      if (this._native.stopPropagation) {
+        this._native.stopPropagation();
       }
 
       // MSDN doccumantation http://msdn2.microsoft.com/en-us/library/ms533545.aspx
-      this._dom.cancelBubble = true;
+      this._native.cancelBubble = true;
       this._stopPropagation = true;
     },
 
@@ -84,7 +91,7 @@ qx.Class.define("qx.event.type.DomEvent",
      * @return {Boolean} whether the the ctrl key is pressed.
      */
     isCtrlPressed : function() {
-      return this._dom.ctrlKey;
+      return this._native.ctrlKey;
     },
 
 
@@ -95,7 +102,7 @@ qx.Class.define("qx.event.type.DomEvent",
      * @return {Boolean} whether the the shift key is pressed.
      */
     isShiftPressed : function() {
-      return this._dom.shiftKey;
+      return this._native.shiftKey;
     },
 
 
@@ -106,7 +113,7 @@ qx.Class.define("qx.event.type.DomEvent",
      * @return {Boolean} whether the the alt key is pressed.
      */
     isAltPressed : function() {
-      return this._dom.altKey;
+      return this._native.altKey;
     },
 
 
@@ -117,7 +124,7 @@ qx.Class.define("qx.event.type.DomEvent",
      * @return {Boolean} whether the the meta key is pressed.
      */
     isMetaPressed : function() {
-      return this._dom.metaKey;
+      return this._native.metaKey;
     }
   },
   
@@ -131,7 +138,7 @@ qx.Class.define("qx.event.type.DomEvent",
   */
 
   destruct : function() {
-    this._disposeFields("_dom");
+    this._disposeFields("_native");
   } 
 });
 

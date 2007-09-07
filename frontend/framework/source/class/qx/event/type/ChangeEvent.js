@@ -32,22 +32,6 @@ qx.Class.define("qx.event.type.ChangeEvent",
   extend : qx.event.type.Event,
 
 
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-    /** The new value of the property */
-    value : { _fast : true },
-
-    /** The old value of the property */
-    oldValue : { _fast : true }
-  },
-
-
 
 
 
@@ -59,6 +43,31 @@ qx.Class.define("qx.event.type.ChangeEvent",
 
   members :
   {
+    /**
+     * The value field attached to this object. The type and format are
+     * defined by the sender. Normally this is the same type as the property
+     * type itself is.
+     *
+     * @type member
+     * @return {var}
+     */    
+    getValue : function() {
+      return this._value; 
+    }
+    
+    
+    /**
+     * The old value field attached to this object. The type and format are
+     * defined by the sender. Normally this is the same type as the property
+     * type itself is.
+     *
+     * @type member
+     * @return {var}
+     */    
+    getOldValue : function() {
+      return this._old;
+    },
+    
 
    /**
     * Initializes an event onject.
@@ -71,8 +80,10 @@ qx.Class.define("qx.event.type.ChangeEvent",
     init : function(type, value, old)
     {
       this.base(arguments, type, false);
-      this.setValue(value);
-      this.setOldValue(old);
+      
+      this._value = value;
+      this._old = old;
+
       return this;
     },
 
@@ -85,25 +96,12 @@ qx.Class.define("qx.event.type.ChangeEvent",
     clone : function()
     {
       var clone = this.base(arguments);
-      clone.setValue(this.getValue());
-      clone.setOldValue(this.getOldValue());
+      
+      clone._value = this._value;
+      clone._old = this._old;
+      
       return clone;
-    },
-
-
-    /**
-     * Get the new (current) value of the property
-     *
-     * @return {var} The new value
-     * @deprecated
-     */
-    getData : function()
-    {
-      this.warn("The method qx.event.type.getData() id deprecated. Use 'getValue' instead!.");
-      this.printStackTrace();
-      return this.getValue();
     }
-
   },
 
 
@@ -117,6 +115,6 @@ qx.Class.define("qx.event.type.ChangeEvent",
   */
 
   destruct : function() {
-    this._disposeFields("_valueValue", "_valueOldValue");
+    this._disposeFields("_value", "_old");
   }
 });
