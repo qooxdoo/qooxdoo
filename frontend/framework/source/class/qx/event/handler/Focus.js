@@ -108,6 +108,34 @@ qx.Class.define("qx.event.handler.Focus",
   {
     /*
     ---------------------------------------------------------------------------
+      EVENT HANDLER INTERFACE
+    ---------------------------------------------------------------------------
+    */
+    
+    // interface implementation
+    canHandleEvent : function(target, type) {
+      return this._focusTypes[type];
+    },
+    
+    
+    // interface implementation
+    registerEvent : function(target, type) {
+      // Nothing needs to be done here
+    },
+
+
+    // interface implementation
+    unregisterEvent : function(target, type) {
+      // Nothing needs to be done here
+    },
+    
+    
+    
+    
+        
+    
+    /*
+    ---------------------------------------------------------------------------
       FOCUS/BLUR USER INTERFACE
     ---------------------------------------------------------------------------
     */
@@ -138,19 +166,20 @@ qx.Class.define("qx.event.handler.Focus",
     },
     
     
-    
-    
-    
-        
-        
+
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
-      EVENT HANDLER INTERFACE
+      HELPER
     ---------------------------------------------------------------------------
     */
-    
+        
     /** {Map} Internal data structure with all supported event types */
-    __focusTypes :
+    _focusTypes :
     {
       "focus" : 1,
       "blur" : 1,
@@ -161,26 +190,8 @@ qx.Class.define("qx.event.handler.Focus",
       "activate" : 1,
       "deactivate" : 1
     },
-
     
-    // interface implementation
-    canHandleEvent : function(target, type) {
-      return this.__focusTypes[type];
-    },
-    
-    
-    // interface implementation
-    registerEvent : function(target, type) {
-      // Nothing needs to be done here
-    },
-
-
-    // interface implementation
-    unregisterEvent : function(target, type) {
-      // Nothing needs to be done here
-    },
         
-    
     /**
      * Shorthand to fire events from within this class.
      *
@@ -196,10 +207,6 @@ qx.Class.define("qx.event.handler.Focus",
     
      
     
-
-
-
-
 
 
 
