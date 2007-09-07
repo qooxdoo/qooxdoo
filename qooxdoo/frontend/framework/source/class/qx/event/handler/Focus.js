@@ -200,13 +200,24 @@ qx.Class.define("qx.event.handler.Focus",
      * @param type {String} Name of the event to fire
      * @return {void}
      */
-    _fireEvent : function(target, type) {
-      this._manager.createAndDispatchEvent(target, qx.event.type.Event, [type]);
+    _fireDirectEvent : function(target, type) {
+      this._manager.createAndDispatchEvent(target, qx.event.type.Event, [type, false]);
     },
     
     
-     
+    /**
+     * Shorthand to fire events from within this class.
+     *
+     * @type member
+     * @param target {Element} DOM element which is the target
+     * @param type {String} Name of the event to fire
+     * @return {void}
+     */
+    _fireBubblingEvent : function(target, type) {
+      this._manager.createAndDispatchEvent(target, qx.event.type.Event, [type, true]);
+    },     
     
+
 
 
 
@@ -239,7 +250,7 @@ qx.Class.define("qx.event.handler.Focus",
         this.resetFocus();
 
         // this.debug("Window blurred");
-        this._fireEvent(this._window, "blur");
+        this._fireDirectEvent(this._window, "blur");
       }
     },
 
@@ -259,7 +270,7 @@ qx.Class.define("qx.event.handler.Focus",
         this._windowFocussed = true;
 
         // this.debug("Window focussed");
-        this._fireEvent(this._window, "focus");
+        this._fireDirectEvent(this._window, "focus");
       }
     },
 
@@ -699,19 +710,19 @@ qx.Class.define("qx.event.handler.Focus",
     _applyActive : function(value, old)
     {
       if (old) {
-        this._fireEvent(old, "beforedeactivate");
+        this._fireBubblingEvent(old, "beforedeactivate");
       }
 
       if (value) {
-        this._fireEvent(value, "beforeactivate");
+        this._fireBubblingEvent(value, "beforeactivate");
       }
 
       if (old) {
-        this._fireEvent(old, "deactivate");
+        this._fireBubblingEvent(old, "deactivate");
       }
 
       if (value) {
-        this._fireEvent(value, "activate");
+        this._fireBubblingEvent(value, "activate");
       }
     },
 
@@ -720,19 +731,19 @@ qx.Class.define("qx.event.handler.Focus",
     _applyFocus : function(value, old)
     {
       if (old) {
-        this._fireEvent(old, "focusout");
+        this._fireBubblingEvent(old, "focusout");
       }
 
       if (value) {
-        this._fireEvent(value, "focusin");
+        this._fireBubblingEvent(value, "focusin");
       }
 
       if (old) {
-        this._fireEvent(old, "blur");
+        this._fireDirectEvent(old, "blur");
       }
 
       if (value) {
-        this._fireEvent(value, "focus");
+        this._fireDirectEvent(value, "focus");
       }
     }
   },

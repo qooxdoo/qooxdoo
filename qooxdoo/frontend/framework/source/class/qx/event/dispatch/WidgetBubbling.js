@@ -118,6 +118,6 @@ qx.Class.define("qx.event.dispatch.WidgetBubbling",
   defer : function(statics)
   {
     var manager = qx.event.Manager;
-    manager.registerEventDispatcher(statics, manager.PRIORITY_FIRST);
+    manager.registerEventDispatcher(statics, manager.PRIORITY_NORMAL);
   }
 });
