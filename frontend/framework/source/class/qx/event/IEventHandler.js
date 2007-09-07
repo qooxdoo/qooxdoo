@@ -29,7 +29,7 @@
  * All custom event handler like mouse or keyboard event handler must implement
  * this interface.
  */
-qx.Interface.define("qx.event.handler.IHandler",
+qx.Interface.define("qx.event.IEventHandler",
 {
   members :
   {

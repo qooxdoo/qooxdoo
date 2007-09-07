@@ -30,7 +30,7 @@
 qx.Class.define("qx.event.handler.Iframe",
 {
   extend : qx.core.Object,
-  implement : qx.event.handler.IHandler,
+  implement : qx.event.IEventHandler,
 
 
 

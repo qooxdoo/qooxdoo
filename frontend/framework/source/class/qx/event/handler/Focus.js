@@ -35,7 +35,7 @@
 qx.Class.define("qx.event.handler.Focus",
 {
   extend : qx.core.Object,
-  implement : qx.event.handler.IHandler,
+  implement : qx.event.IEventHandler,
 
 
 

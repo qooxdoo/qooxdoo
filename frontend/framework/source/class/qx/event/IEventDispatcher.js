@@ -28,7 +28,7 @@
  * register themselves at the event Manager using
  * {@link qx.event.Manager#registerEventDispatcher}.
  */
-qx.Interface.define("qx.event.dispatch.IEventDispatcher",
+qx.Interface.define("qx.event.IEventDispatcher",
 {
   members:
   {
