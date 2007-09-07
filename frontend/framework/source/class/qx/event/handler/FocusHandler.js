@@ -94,49 +94,6 @@ qx.Class.define("qx.event.handler.FocusHandler",
 
 
 
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-  
-  statics :
-  {
-    /*
-    ---------------------------------------------------------------------------
-      FOCUS/BLUR USER INTERFACE
-    ---------------------------------------------------------------------------
-    */
-    
-    /**
-     * Focus the given DOM element
-     *
-     * @type member
-     * @param element {Element} DOM element to focus
-     * @return {void}
-     */
-    focus : function(element)
-    {
-      // TODO
-    },
-
-
-    /**
-     * Activate the given DOM element
-     *
-     * @type member
-     * @param element {Element} DOM element to activate
-     * @return {void}
-     */
-    activate : function(element) 
-    {
-      // TODO
-    }
-  },
-    
-
-
-
 
 
   /*

@@ -142,6 +142,13 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Initializes the native key event listeners.
+     * 
+     * @type member
+     * @signature function()
+     * @return {void}
+     */ 
     _initKeyObserver : function()
     {
       this._onKeyUpDownWrapper = qx.lang.Function.bind(this._onKeyUpDown, this);
@@ -154,6 +161,14 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
       Manager.addNativeListener(this._root, "keypress", this._onKeyPressWrapper);
     },
     
+    
+    /**
+     * Stops the native key event listeners.
+     * 
+     * @type member
+     * @signature function()
+     * @return {void}
+     */     
     _stopKeyObserver : function()
     {
       var Manager = qx.event.Manager;
