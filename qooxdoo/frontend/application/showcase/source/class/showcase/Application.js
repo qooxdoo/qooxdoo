@@ -558,7 +558,7 @@ qx.Class.define("showcase.Application",
       button.setHorizontalAlign("center");
 
       button.addEventListener("execute", function(e) {
-        this.dispatchEvent(new qx.legacy.event.type.DataEvent("changeSize", 22));
+        this.dispatchEvent(new qx.event.type.DataEvent("changeSize", 22));
       }, this);
 
       vert.add(button);
