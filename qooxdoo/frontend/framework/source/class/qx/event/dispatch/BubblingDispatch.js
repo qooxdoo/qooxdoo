@@ -117,7 +117,7 @@ qx.Class.define("qx.event.dispatch.BubblingDispatch",
       }
 
       // capturing phase
-      event.setEventPhase(qx.event.type.Simple.CAPTURING_PHASE);
+      event.setEventPhase(qx.event.type.Event.CAPTURING_PHASE);
 
       for (var i=(captureList.length-1); i>=0; i--)
       {
@@ -139,8 +139,8 @@ qx.Class.define("qx.event.dispatch.BubblingDispatch",
 
 
       // bubbling phase
-      var BUBBLE_PHASE = qx.event.type.Simple.BUBBLING_PHASE;
-      var AT_TARGET = qx.event.type.Simple.AT_TARGET;
+      var BUBBLE_PHASE = qx.event.type.Event.BUBBLING_PHASE;
+      var AT_TARGET = qx.event.type.Event.AT_TARGET;
 
       for (var i=0, l=bubbleList.length; i<l; i++)
       {

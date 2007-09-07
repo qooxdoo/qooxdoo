@@ -83,7 +83,7 @@ qx.Class.define("qx.io.image.PreloaderSystem",
   events:
   {
     /** Fired after the pre loading of the images is complete */
-    "completed" : "qx.legacy.event.type.Event"
+    "completed" : "qx.event.type.Event"
   },
 
 

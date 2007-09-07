@@ -321,7 +321,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
      * @param tableColumnModel {qx.ui.table.columnmodel.Resize}
      *   The table column model in use.
      *
-     * @param event {qx.legacy.event.type.Event}
+     * @param event {qx.event.type.Event}
      *   The event object.
      *
      * @return {void}

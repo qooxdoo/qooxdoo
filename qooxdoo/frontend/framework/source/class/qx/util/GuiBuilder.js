@@ -82,7 +82,7 @@ qx.Class.define("qx.util.GuiBuilder",
 
     /**
      * Asynchronous method - fetches XML data from the URL then delegates to build to process the xml
-     * Dispatches a qx.legacy.event.type.Event("done") after the hierarchy is built
+     * Dispatches a qx.event.type.Event("done") after the hierarchy is built
      *
      * @type member
      * @param parent {qx.ui.core.Widget} can either be the application instance, or a widget to append the xml toplevel widgets to

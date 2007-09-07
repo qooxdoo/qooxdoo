@@ -110,10 +110,10 @@ qx.Class.define("qx.io.remote.Rpc",
 
   events :
   {
-    "completed" : "qx.legacy.event.type.Event",
-    "aborted" : "qx.legacy.event.type.Event",
-    "failed" : "qx.legacy.event.type.Event",
-    "timeout" : "qx.legacy.event.type.Event"
+    "completed" : "qx.event.type.Event",
+    "aborted" : "qx.event.type.Event",
+    "failed" : "qx.event.type.Event",
+    "timeout" : "qx.event.type.Event"
   },
 
 

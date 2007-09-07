@@ -30,7 +30,7 @@
  */
 qx.Class.define("qx.event.type.Native",
 {
-  extend : qx.event.type.Simple,
+  extend : qx.event.type.Event,
 
   members :
   {
@@ -41,7 +41,7 @@ qx.Class.define("qx.event.type.Native",
      * @type member
      * @param nativeEvent {Event} The DOM event to use
      * @param type {String} Type of the event (overrides native event type)
-     * @return {qx.event.type.Simple} The initialized event instance
+     * @return {qx.event.type.Event} The initialized event instance
      */
     init : function(nativeEvent, type)
     {

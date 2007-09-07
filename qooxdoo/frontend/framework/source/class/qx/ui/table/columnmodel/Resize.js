@@ -215,7 +215,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
      *
      * @type member
      *
-     * @param event {qx.legacy.event.type.Event}
+     * @param event {qx.event.type.Event}
      *   The "onappear" event object.
      *
      * @return {void}
@@ -263,7 +263,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
      *
      * @type member
      *
-     * @param event {qx.legacy.event.type.Event}
+     * @param event {qx.event.type.Event}
      *   The "onwindowresize" event object.
      *
      * @return {void}

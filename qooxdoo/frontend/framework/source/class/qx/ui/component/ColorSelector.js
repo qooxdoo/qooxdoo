@@ -93,8 +93,8 @@ qx.Class.define("qx.ui.component.ColorSelector",
   */
 
   events: {
-    "dialogok"     : "qx.legacy.event.type.Event",
-    "dialogcancel" : "qx.legacy.event.type.Event"
+    "dialogok"     : "qx.event.type.Event",
+    "dialogcancel" : "qx.event.type.Event"
   },
 
 

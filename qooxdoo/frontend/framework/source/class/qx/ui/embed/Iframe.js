@@ -73,7 +73,7 @@ qx.Class.define("qx.ui.embed.Iframe",
     /**
      * The "load" event is fired after the iframe content has successfully been loaded.
      */
-    "load" : "qx.legacy.event.type.Event"
+    "load" : "qx.event.type.Event"
   },
 
 

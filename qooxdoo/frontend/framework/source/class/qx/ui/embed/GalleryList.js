@@ -77,7 +77,7 @@ qx.Class.define("qx.ui.embed.GalleryList",
      * the hovered item.
      */
     "beforeToolTipAppear"     : "qx.event.type.Data",
-    "loadComplete"            : "qx.legacy.event.type.Event"
+    "loadComplete"            : "qx.event.type.Event"
   },
 
 
@@ -710,7 +710,7 @@ qx.Class.define("qx.ui.embed.GalleryList",
       this._processedImages++;
 
       if (this._processedImages == this._listSize) {
-        this.dispatchEvent(new qx.legacy.event.type.Event("loadComplete"), true);
+        this.createDispatchEvent("loadComplete");
       }
     }
   },

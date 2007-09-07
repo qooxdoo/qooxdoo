@@ -26,7 +26,7 @@
 
 qx.Class.define("qx.io.remote.Response",
 {
-  extend : qx.event.type.Simple,
+  extend : qx.event.type.Event,
 
 
 

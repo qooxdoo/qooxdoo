@@ -805,7 +805,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * the new interval.
      *
      * @type member
-     * @param e {qx.legacy.event.type.Event} interval event
+     * @param e {qx.event.type.Event} interval event
      * @return {void}
      */
     _oninterval : function(e)

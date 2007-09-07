@@ -101,16 +101,16 @@ qx.Class.define("qx.ui.core.ClientDocument",
   events:
   {
     /** (Fired by {@link qx.legacy.event.handler.EventHandler}) */
-    "focus"         : "qx.legacy.event.type.Event",
+    "focus"         : "qx.event.type.Event",
 
     /** Fired when the window looses the focus (Fired by {@link qx.legacy.event.handler.EventHandler}) */
-    "windowblur"    : "qx.legacy.event.type.Event",
+    "windowblur"    : "qx.event.type.Event",
 
     /**  Fired when the window gets the focus (Fired by {@link qx.legacy.event.handler.EventHandler}) */
-    "windowfocus"   : "qx.legacy.event.type.Event",
+    "windowfocus"   : "qx.event.type.Event",
 
     /** Fired when the window has been resized (Fired by {@link qx.legacy.event.handler.EventHandler}) */
-    "windowresize"  : "qx.legacy.event.type.Event"
+    "windowresize"  : "qx.event.type.Event"
   },
 
 

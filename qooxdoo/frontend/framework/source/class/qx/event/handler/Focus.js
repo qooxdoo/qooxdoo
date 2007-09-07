@@ -176,7 +176,7 @@ qx.Class.define("qx.event.handler.Focus",
      * @return {void}
      */
     _fireEvent : function(target, type) {
-      this._manager.createAndDispatchEvent(target, qx.event.type.Simple, [type]);
+      this._manager.createAndDispatchEvent(target, qx.event.type.Event, [type]);
     },
     
     
