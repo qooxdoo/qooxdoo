@@ -26,7 +26,7 @@
 /**
  * 
  */
-qx.Class.define("qx.event.handler.Inline",
+qx.Class.define("qx.event.handler.Element",
 {
   extend : qx.core.Object,
   implement : qx.event.IEventHandler,
