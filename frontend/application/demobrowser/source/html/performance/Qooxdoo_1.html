@@ -5,14 +5,14 @@
   <script type="text/javascript" src="../../script/demo.js"></script>
   <script type="text/javascript" src="../util.js"></script>
 </head>
-<body>  
+<body>
   <div id="description">
     <p>Tests for qooxdoo object performance</p>
     <ol>
       <li>qx.core.Object</li>
       <li>qx.core.Target</li>
-      <li>qx.legacy.event.type.Event</li>
-      <li>qx.legacy.event.type.MouseEvent</li>
+      <li>qx.event.type.Event</li>
+      <li>qx.event.type.MouseEvent</li>
       <li>qx.ui.basic.Terminator</li>
       <li>qx.ui.layout.CanvasLayout</li>
       <li>qx.ui.layout.BoxLayout</li>
@@ -39,14 +39,14 @@
     function TestEvent(vLoops)
     {
       for (var i=0; i<vLoops; i++) {
-        new qx.legacy.event.type.Event;
+        new qx.event.type.Event;
       };
     };
 
     function TestMouseEvent(vLoops)
     {
       for (var i=0; i<vLoops; i++) {
-        new qx.legacy.event.type.MouseEvent;
+        new qx.event.type.MouseEvent;
       };
     };
 

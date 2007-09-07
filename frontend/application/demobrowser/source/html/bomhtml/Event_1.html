@@ -116,6 +116,16 @@ qx.Class.define("BasicSample",
     {
       this.base(arguments);
 
+      var cmd = new qx.event.Command("Shift-Meta-F1");
+      cmd.addEventListener("execute", function() {
+        this.debug(cmd.toString());
+      }, this);
+
+      var cmd2 = new qx.event.Command("Ctrl-A");
+      cmd2.addEventListener("execute", function() {
+        this.debug(cmd2.toString());
+      }, this);
+
       this._juhu = document.getElementById("juhu");
       this._inner = document.getElementById("inner");
 
@@ -130,12 +140,12 @@ qx.Class.define("BasicSample",
         "keydown",
         this._onkeydown, this
       );
-      
+
       qx.event.Manager.addListener(
         document.getElementById("input"),
         "keyinput",
         this._onkeyinput, this
-      );      
+      );
 
       for (var i=1; i<10; i++) {
         var div = document.getElementById("div"+i);
@@ -153,7 +163,7 @@ qx.Class.define("BasicSample",
       //qx.event.Manager.addListener(document.documentElement, "click", this._positionDiv, this);
 
       qx.event.Manager.addListener(this._juhu, "click", function() {
-        var e = qx.event.Pool.getInstance().getEventInstance("qx.event.type.Simple").init({});
+        var e = qx.event.Pool.getInstance().getEventInstance("qx.event.type.Event").init({});
         e.setType("juhu");
         e.setCurrentTarget(this);
         e.setTarget(this);

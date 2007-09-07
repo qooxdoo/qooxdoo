@@ -41,10 +41,10 @@ qx.Class.define("qx.io.image.Preloader",
   events :
   {
     /** Dispatched after the images has successfully been loaded */
-    "load" : "qx.legacy.event.type.Event",
+    "load" : "qx.event.type.Event",
 
     /** Dispatched if the image could not be loaded */
-    "error" : "qx.legacy.event.type.Event"
+    "error" : "qx.event.type.Event"
   },
 
 

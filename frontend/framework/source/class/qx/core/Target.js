@@ -27,7 +27,7 @@
 ************************************************************************ */
 
 /**
- * This is the main constructor for all objects that need to be connected to qx.legacy.event.type.Event objects.
+ * This is the main constructor for all objects that need to be connected to qx.event.type.Event objects.
  *
  * In objects created with this constructor, you find functions to addEventListener or
  * removeEventListener to or from the created object. Each event to connect to has a type in
@@ -121,18 +121,24 @@ qx.Class.define("qx.core.Target",
 
 
     /**
-     * Checks if the event is registered. If so it creates an event object and dispatches it.
+     * Checks if the event is registered. If so it creates an event object and
+     * dispatches it.
      *
      * @type member
      * @param type {String} name of the event type
      */
     createDispatchEvent : function(type) {
-      this.dispatchEvent(new qx.legacy.event.type.Event(type), true);
+      qx.event.Manager.getManager(this).createAndDispatchEvent(
+        this,
+        qx.event.type.Event,
+        [type]
+      );
     },
 
 
     /**
-     * Checks if the event is registered. If so it creates an event object and dispatches it.
+     * Checks if the event is registered. If so it creates an event object and
+     * dispatches it.
      *
      * @type member
      * @param type {String} name of the event type
@@ -158,7 +164,7 @@ qx.Class.define("qx.core.Target",
      * Dispatch an event
      *
      * @type member
-     * @param evt {qx.legacy.event.type.Event} event to dispatch
+     * @param evt {qx.event.type.Event} event to dispatch
      * @return {Boolean} whether the event default was prevented or not. Returns true, when the event was NOT prevented.
      */
     dispatchEvent : function(evt)

@@ -40,7 +40,7 @@ qx.Class.define("qx.util.range.Range",
      * Dispatched if the current value, the minimum value of the mximum value
      * changes.
      */
-    "change" : "qx.legacy.event.type.Event"
+    "change" : "qx.event.type.Event"
   },
 
 

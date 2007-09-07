@@ -61,7 +61,7 @@ qx.Class.define("qx.ui.table.selection.Model",
 
   events: {
     /** Fired when the selection has changed. */
-    "changeSelection" : "qx.legacy.event.type.Event"
+    "changeSelection" : "qx.event.type.Event"
   },
 
 
@@ -616,9 +616,7 @@ qx.Class.define("qx.ui.table.selection.Model",
       }
 
       // If not in batch mode, throw event
-      else if (this.hasEventListeners("changeSelection")) {
-        this.dispatchEvent(new qx.legacy.event.type.Event("changeSelection"), true);
-      }
+      this.createDispatchEvent("changeSelection");
     }
   },
 

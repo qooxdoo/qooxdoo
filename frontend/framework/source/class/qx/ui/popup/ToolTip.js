@@ -417,7 +417,7 @@ qx.Class.define("qx.ui.popup.ToolTip",
      * {@link #show} method.
      *
      * @type member
-     * @param e {qx.legacy.event.type.Event} interval event
+     * @param e {qx.event.type.Event} interval event
      */
     _onshowtimer : function(e)
     {
@@ -433,7 +433,7 @@ qx.Class.define("qx.ui.popup.ToolTip",
      * Hides the tooltip by calling the corresponding {@link #hide} method.
      *
      * @type member
-     * @param e {qx.legacy.event.type.Event} interval event
+     * @param e {qx.event.type.Event} interval event
      * @return {var} TODOC
      */
     _onhidetimer : function(e) {

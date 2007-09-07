@@ -1202,7 +1202,7 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * Stops every mouse click on the window by calling {@link qx.legacy.event.type.Event#stopPropagation}
+     * Stops every mouse click on the window by calling {@link qx.event.type.Event#stopPropagation}
      *
      * @type member
      * @param e {qx.legacy.event.type.MouseEvent} mouse click event
@@ -1236,7 +1236,7 @@ qx.Class.define("qx.ui.window.Window",
 
     /**
      * Stops every mouse down event on each button in the captionbar
-     * by calling {@link qx.legacy.event.type.Event#stopPropagation}
+     * by calling {@link qx.event.type.Event#stopPropagation}
      *
      * @type member
      * @param e {qx.legacy.event.type.MouseEvent} mouse down event
@@ -1249,7 +1249,7 @@ qx.Class.define("qx.ui.window.Window",
 
     /**
      * Minmizes the window, removes all states from the minimize button and
-     * stops the further propagation of the event (calling {@link qx.legacy.event.type.Event#stopPropagation}).
+     * stops the further propagation of the event (calling {@link qx.event.type.Event#stopPropagation}).
      *
      * @type member
      * @param e {qx.legacy.event.type.MouseEvent} mouse click event
@@ -1271,7 +1271,7 @@ qx.Class.define("qx.ui.window.Window",
 
     /**
      * Restores the window, removes all states from the restore button and
-     * stops the further propagation of the event (calling {@link qx.legacy.event.type.Event#stopPropagation}).
+     * stops the further propagation of the event (calling {@link qx.event.type.Event#stopPropagation}).
      *
      * @type member
      * @param e {qx.legacy.event.type.MouseEvent} mouse click event
@@ -1293,7 +1293,7 @@ qx.Class.define("qx.ui.window.Window",
 
     /**
      * Maximizes the window, removes all states from the maximize button and
-     * stops the further propagation of the event (calling {@link qx.legacy.event.type.Event#stopPropagation}).
+     * stops the further propagation of the event (calling {@link qx.event.type.Event#stopPropagation}).
      *
      * @type member
      * @param e {qx.legacy.event.type.MouseEvent} mouse click event
@@ -1315,7 +1315,7 @@ qx.Class.define("qx.ui.window.Window",
 
     /**
      * Closes the window, removes all states from the close button and
-     * stops the further propagation of the event (calling {@link qx.legacy.event.type.Event#stopPropagation}).
+     * stops the further propagation of the event (calling {@link qx.event.type.Event#stopPropagation}).
      *
      * @type member
      * @param e {qx.legacy.event.type.MouseEvent} mouse click event
@@ -1465,7 +1465,7 @@ qx.Class.define("qx.ui.window.Window",
      * of the window (or frame) at runtime using direct dom methods.
      *
      * @type member
-     * @param e {qx.legacy.event.type.Event} mouse move event
+     * @param e {qx.event.type.Event} mouse move event
      * @return {void}
      */
     _oncaptionmousemove : function(e)

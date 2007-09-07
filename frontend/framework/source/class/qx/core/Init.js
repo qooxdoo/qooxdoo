@@ -76,19 +76,19 @@ qx.Class.define("qx.core.Init",
      * Fired in the load event of the document window and before the main init
      * function is called
      */
-    "load" : "qx.legacy.event.type.Event",
+    "load" : "qx.event.type.Event",
 
     /**
      * Fired in the beforeunload event of the document window and before the default
      * handler is called.
      */
-    "beforeunload" : "qx.legacy.event.type.Event",
+    "beforeunload" : "qx.event.type.Event",
 
     /**
      * Fired in the unload event of the document window and before the default
      * handler is called.
      */
-    "unload" : "qx.legacy.event.type.Event"
+    "unload" : "qx.event.type.Event"
   },
 
 
@@ -167,7 +167,7 @@ qx.Class.define("qx.core.Init",
       // Print browser information
       this.debug("engine: " + qx.bom.client.Engine.NAME + "-" + qx.bom.client.Engine.FULLVERSION);
       this.debug("system: " + qx.bom.client.Platform.NAME + " | " + qx.bom.client.System.NAME);
-      
+
       var express = qx.bom.client.Flash.EXPRESSINSTALL ? " (express)" : " (no-express)";
       this.debug("flash: " + qx.bom.client.Flash.FULLVERSION + express);
 

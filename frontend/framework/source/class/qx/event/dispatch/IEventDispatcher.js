@@ -36,12 +36,12 @@ qx.Interface.define("qx.event.dispatch.IEventDispatcher",
      * Whether the dispatcher is responsible for the this event.
      *
      * @param target {Element|qx.core.Event} The event dispatch target
-     * @param event {qx.event.type.Simple} The event object
+     * @param event {qx.event.type.Event} The event object
      * @param type {String} the event type
      * @return {Boolean} Whether the event dispatcher is responsible for the this event
      */
     canDispatchEvent : function(target, event, type) {
-      return event instanceof qx.event.type.Simple && typeof type === "string";
+      return event instanceof qx.event.type.Event && typeof type === "string";
     },
 
 
@@ -49,11 +49,11 @@ qx.Interface.define("qx.event.dispatch.IEventDispatcher",
      * This function dispatches the event to the event listeners.
      *
      * @param target {Element|qx.core.Event} The event dispatch target
-     * @param event {qx.event.type.Simple} event object to dispatch
+     * @param event {qx.event.type.Event} event object to dispatch
      * @param type {String} the event type
      */
     dispatchEvent : function(target, event, type) {
-      return event instanceof qx.event.type.Simple && typeof type === "string";
+      return event instanceof qx.event.type.Event && typeof type === "string";
     }
   }
 });

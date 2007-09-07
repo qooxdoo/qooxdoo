@@ -133,7 +133,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
   */
 
   events: {
-    "beforeInitialOpen" : "qx.legacy.event.type.Event"
+    "beforeInitialOpen" : "qx.event.type.Event"
   },
 
 

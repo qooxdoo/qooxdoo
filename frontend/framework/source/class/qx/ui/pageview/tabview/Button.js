@@ -46,7 +46,7 @@ qx.Class.define("qx.ui.pageview.tabview.Button",
   */
 
   events: {
-    "closetab" : "qx.legacy.event.type.Event"
+    "closetab" : "qx.event.type.Event"
   },
 
 

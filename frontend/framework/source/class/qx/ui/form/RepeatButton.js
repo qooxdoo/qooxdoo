@@ -60,7 +60,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * This event gets dispatched with every interval. The timer gets executed
      * as long as the user holds down the mouse button.
      */
-    "execute" : "qx.legacy.event.type.Event"
+    "execute" : "qx.event.type.Event"
   },
 
 
@@ -175,7 +175,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * "execute" event.
      *
      * @type member
-     * @param e {qx.legacy.event.type.Event} interval event
+     * @param e {qx.event.type.Event} interval event
      * @return {void}
      */
     _oninterval : function(e)

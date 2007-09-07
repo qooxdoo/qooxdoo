@@ -672,7 +672,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      *
      * @type member
      *
-     * @param event {qx.legacy.event.type.Event}
+     * @param event {qx.event.type.Event}
      *   The event to add to the event queue for processing after state change.
      *
      * @return {void}
@@ -689,8 +689,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      * Copy an event
      *
      * @type member
-     * @param event {qx.legacy.event.type.Event} The event to be copied
-     * @return {qx.legacy.event.type.Event} The new copy of the provided event
+     * @param event {qx.event.type.Event} The event to be copied
+     * @return {qx.event.type.Event} The new copy of the provided event
      */
     copyEvent : function(event)
     {
@@ -710,7 +710,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      *
      * @type member
      *
-     * @param event {qx.legacy.event.type.Event}
+     * @param event {qx.event.type.Event}
      *   The event to be enqueued
      *
      * @param bAddAtHead {Boolean}
@@ -753,7 +753,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      * Event listener for all event types in the finite state machine
      *
      * @type member
-     * @param event {qx.legacy.event.type.Event} The event that was dispatched.
+     * @param event {qx.event.type.Event} The event that was dispatched.
      * @return {void}
      */
     eventListener : function(event)
@@ -819,7 +819,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      *
      * @type member
      *
-     * @param event {qx.legacy.event.type.Event}
+     * @param event {qx.event.type.Event}
      *   An event that has been dispatched.  The event may be handled (if the
      *   current state handles this event type), queued (if the current state
      *   blocks this event type), or discarded (if the current state neither

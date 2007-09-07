@@ -29,7 +29,7 @@
  */
 qx.Class.define("qx.legacy.event.type.Event",
 {
-  extend : qx.event.type.Simple,
+  extend : qx.event.type.Event,
 
 
 

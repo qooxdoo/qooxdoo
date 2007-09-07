@@ -71,7 +71,7 @@ qx.Class.define("qx.event.dispatch.WidgetDispatch",
     // interface implementation
     dispatchEvent : function(target, event, type)
     {
-      event.setEventPhase(qx.event.type.Simple.AT_TARGET);
+      event.setEventPhase(qx.event.type.Event.AT_TARGET);
 
       var currentTarget = target;
 
@@ -94,7 +94,7 @@ qx.Class.define("qx.event.dispatch.WidgetDispatch",
 
         currentTarget = currentTarget.getParent();
         event.setCurrentTarget(currentTarget);
-        event.setEventPhase(qx.event.type.Simple.BUBBLING_PHASE);
+        event.setEventPhase(qx.event.type.Event.BUBBLING_PHASE);
       }
     }
   },

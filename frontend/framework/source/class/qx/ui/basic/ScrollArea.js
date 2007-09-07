@@ -57,7 +57,7 @@ qx.Class.define("qx.ui.basic.ScrollArea",
   events :
   {
     /** Fired each time the widget gets scrolled. */
-    "scroll" : "qx.legacy.event.type.Event"
+    "scroll" : "qx.event.type.Event"
   },
 
 

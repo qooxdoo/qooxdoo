@@ -70,10 +70,10 @@ qx.Class.define("qx.bom.Window",
   events :
   {
     /** Fired when the browser fires the load event of the document */
-    "load" : "qx.legacy.event.type.Event",
+    "load" : "qx.event.type.Event",
 
     /** Fired when the window was closed */
-    "close" : "qx.legacy.event.type.Event"
+    "close" : "qx.event.type.Event"
   },
 
 

@@ -148,7 +148,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * This event is dispatched right before the popup of the combo box
      * is opened the first time (the popup object is not rendered at that time).
      */
-    "beforeInitialOpen" : "qx.legacy.event.type.Event"
+    "beforeInitialOpen" : "qx.event.type.Event"
   },
 
 
@@ -508,7 +508,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * Listener method for the "appear" event of the popup widget
      *
      * @type member
-     * @param e {qx.legacy.event.type.Event} Appear event
+     * @param e {qx.event.type.Event} Appear event
      * @return {void}
      */
     _onpopupappear : function(e)
@@ -549,7 +549,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * if the popup widget is closed.
      *
      * @type member
-     * @param e {qx.legacy.event.type.Event} Disappear event
+     * @param e {qx.event.type.Event} Disappear event
      * @return {void}
      */
     _onbeforedisappear : function(e) {
