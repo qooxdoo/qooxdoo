@@ -24,9 +24,7 @@
 ************************************************************************ */
 
 /**
- * This class is the default event handler for all bubbling events.
- *
- * @internal
+ * 
  */
 qx.Class.define("qx.event.handler.Inline",
 {

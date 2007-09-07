@@ -29,8 +29,6 @@
 /**
  * This class provides unified key event handler for Internet Explorer,
  * Firefox, Opera and Safari.
- *
- * @internal
  */
 qx.Class.define("qx.event.handler.Keyboard",
 {
