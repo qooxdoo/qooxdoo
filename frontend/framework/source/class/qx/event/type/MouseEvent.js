@@ -73,7 +73,7 @@ qx.Class.define("qx.event.type.MouseEvent",
      */
     getButton : function()
     {
-      switch(this.getType())
+      switch(this._type)
       {
         case "click":
         case "dblclick":
@@ -94,7 +94,7 @@ qx.Class.define("qx.event.type.MouseEvent",
      * @type member
      * @return {Boolean} true when the left button is pressed
      */
-    isLeftButtonPressed : function() {
+    isLeftPressed : function() {
       return this.getButton() === "left";
     },
 
@@ -105,7 +105,7 @@ qx.Class.define("qx.event.type.MouseEvent",
      * @type member
      * @return {Boolean} true when the middle button is pressed
      */
-    isMiddleButtonPressed : function() {
+    isMiddlePressed : function() {
       return this.getButton() === "middle";
     },
 
@@ -116,7 +116,7 @@ qx.Class.define("qx.event.type.MouseEvent",
      * @type member
      * @return {Boolean} true when the right button is pressed
      */
-    isRightButtonPressed : function() {
+    isRightPressed : function() {
       return this.getButton() === "right";
     },
 
