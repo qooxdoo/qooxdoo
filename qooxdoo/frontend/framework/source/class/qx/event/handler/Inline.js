@@ -30,7 +30,8 @@
  */
 qx.Class.define("qx.event.handler.Inline",
 {
-  extend : qx.event.handler.Abstract,
+  extend : qx.core.Object,
+  implement : qx.event.handler.IHandler,
 
 
 
@@ -43,7 +44,9 @@ qx.Class.define("qx.event.handler.Inline",
 
   construct : function(manager)
   {
-    this.base(arguments, manager);
+    this.base(arguments);
+    
+    this._manager = manager;
     this.__registeredEvents = {};
   },
 
@@ -90,7 +93,7 @@ qx.Class.define("qx.event.handler.Inline",
     },
 
 
-    // overridden
+    // interface implementation
     canHandleEvent : function(target, type) 
     {
       return (
@@ -102,6 +105,18 @@ qx.Class.define("qx.event.handler.Inline",
       );
     },
 
+
+    // interface implementation
+    registerEvent : function(target, type) {
+      // Nothing needs to be done here
+    },
+
+
+    // interface implementation
+    unregisterEvent : function(target, type) {
+      // Nothing needs to be done here
+    },
+    
 
     // overridden
     registerEvent : function(target, type)
@@ -187,6 +202,6 @@ qx.Class.define("qx.event.handler.Inline",
       );
     }
 
-    this._disposeFields("__registeredEvents");
+    this._disposeFields("_manager", "__registeredEvents");
   }
 });
