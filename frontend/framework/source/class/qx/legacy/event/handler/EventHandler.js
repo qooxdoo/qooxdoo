@@ -79,7 +79,7 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
       * Fired when an exception was thrown when dispatching the event to the listeners.
       * The event's property "data" holds the exception.
       */
-    "error" : "qx.event.type.DataEvent"
+    "error" : "qx.event.type.Data"
   },
 
 

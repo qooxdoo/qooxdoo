@@ -182,7 +182,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
      *
      * @type member
      *
-     * @param event {qx.event.type.DataEvent}
+     * @param event {qx.event.type.Data}
      *   The "columnVisibilityMenuCreateEnd" event indicating that the menu is
      *   being generated.  The data is a map containing propeties <i>table</i>
      *   and <i>menu</i>.
@@ -297,7 +297,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
      *
      * @type member
      *
-     * @param event {qx.event.type.DataEvent}
+     * @param event {qx.event.type.Data}
      *   The "verticalScrollBarChanged" event object.  The data is a boolean
      *   indicating whether a vertical scroll bar is now present.
      *
@@ -344,7 +344,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
      *
      * @type member
      *
-     * @param event {qx.event.type.DataEvent}
+     * @param event {qx.event.type.Data}
      *   The "widthChanged" event object.
      *
      * @return {void}
@@ -378,7 +378,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
      *
      * @type member
      *
-     * @param event {qx.event.type.DataEvent}
+     * @param event {qx.event.type.Data}
      *   The "visibilityChanged" event object.
      *
      * @return {void}

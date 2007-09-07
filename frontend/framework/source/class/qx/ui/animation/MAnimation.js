@@ -35,7 +35,7 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
 
   events : {
     /** This event is fired after the fading has finished. */
-    "FADE_FINISHED"   : "qx.event.type.DataEvent"
+    "FADE_FINISHED"   : "qx.event.type.Data"
   },
 
   statics :

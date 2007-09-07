@@ -250,10 +250,10 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
   events :
   {
-    "treeOpenWithContent" : "qx.event.type.DataEvent",
-    "treeOpenWhileEmpty"  : "qx.event.type.DataEvent",
-    "treeClose"           : "qx.event.type.DataEvent",
-    "changeSelection"     : "qx.event.type.DataEvent"
+    "treeOpenWithContent" : "qx.event.type.Data",
+    "treeOpenWhileEmpty"  : "qx.event.type.Data",
+    "treeClose"           : "qx.event.type.Data",
+    "changeSelection"     : "qx.event.type.Data"
   },
 
 

@@ -48,7 +48,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
 
   events :
   {
-    "draghover" : "qx.event.type.DataEvent"
+    "draghover" : "qx.event.type.Data"
   },
 
   /*

@@ -71,7 +71,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
   events :
   {
     /** This event if dispatched if one of the internal links is clicked */
-    "classLinkClicked" : "qx.event.type.DataEvent"
+    "classLinkClicked" : "qx.event.type.Data"
   },
 
 
