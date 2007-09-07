@@ -33,7 +33,7 @@
 qx.Class.define("qx.event.handler.Keyboard",
 {
   extend : qx.core.Object,
-  implement : qx.event.handler.IHandler,
+  implement : qx.event.IEventHandler,
 
 
 

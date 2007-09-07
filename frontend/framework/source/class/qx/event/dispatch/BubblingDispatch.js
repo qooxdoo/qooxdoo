@@ -31,7 +31,7 @@
 qx.Class.define("qx.event.dispatch.BubblingDispatch",
 {
   extend : qx.core.Object,
-  implement : qx.event.dispatch.IEventDispatcher,
+  implement : qx.event.IEventDispatcher,
 
 
 

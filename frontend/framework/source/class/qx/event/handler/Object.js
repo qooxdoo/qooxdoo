@@ -29,7 +29,7 @@
 qx.Class.define("qx.event.handler.Object",
 {
   extend : qx.core.Object,
-  implement : qx.event.handler.IHandler,
+  implement : qx.event.IEventHandler,
 
 
 

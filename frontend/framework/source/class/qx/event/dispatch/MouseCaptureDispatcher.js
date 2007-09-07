@@ -34,7 +34,7 @@
 qx.Class.define("qx.event.dispatch.MouseCaptureDispatcher",
 {
   extend : qx.core.Object,
-  implement : qx.event.dispatch.IEventDispatcher,
+  implement : qx.event.IEventDispatcher,
 
 
 

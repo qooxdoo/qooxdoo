@@ -392,8 +392,8 @@ qx.Class.define("qx.event.Manager",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (!qx.Class.hasInterface(handler, qx.event.dispatch.IEventDispatcher)) {
-          throw new Error("The dispatch handler does not implement the interface qx.event.dispatch.IEventDispatcher!");
+        if (!qx.Class.hasInterface(handler, qx.event.IEventDispatcher)) {
+          throw new Error("The dispatch handler does not implement the interface qx.event.IEventDispatcher!");
         }
       }
 
