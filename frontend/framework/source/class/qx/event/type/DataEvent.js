@@ -47,7 +47,7 @@ qx.Class.define("qx.event.type.DataEvent",
      * defined by the sender.
      *
      * @type member
-     * @return {var} TODOC
+     * @return {var} Attached data
      */
     getData : function() {
       return this._data;
@@ -58,8 +58,8 @@ qx.Class.define("qx.event.type.DataEvent",
      * Initializes an event onject.
      *
      * @type member
-     * @param type {var} TODOC
-     * @param data {var} TODOC
+     * @param type {String} Event type
+     * @param data {var} Data to attach to the event
      * @return {qx.event.type.DataEvent} the initialized instance.
      */
     init : function(type, data)

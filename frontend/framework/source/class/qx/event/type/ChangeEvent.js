@@ -48,7 +48,7 @@ qx.Class.define("qx.event.type.ChangeEvent",
      * type itself is.
      *
      * @type member
-     * @return {var} TODOC
+     * @return {var} The current property value
      */
     getValue : function() {
       return this._value;
@@ -61,7 +61,7 @@ qx.Class.define("qx.event.type.ChangeEvent",
      * type itself is.
      *
      * @type member
-     * @return {var} TODOC
+     * @return {var} The old property value
      */
     getOldValue : function() {
       return this._old;
@@ -73,8 +73,8 @@ qx.Class.define("qx.event.type.ChangeEvent",
      *
      * @type member
      * @param type {String} the type name of the event
-     * @param value {var} additional value which should be passed to the event listener
-     * @param old {var} TODOC
+     * @param value {var} current property value
+     * @param old {var} old property value
      * @return {qx.event.type.ChangeEvent} the initialized instance.
      */
     init : function(type, value, old)
