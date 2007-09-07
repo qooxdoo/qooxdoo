@@ -64,7 +64,7 @@
 
   <div id="moveable">
     <div style="position:absolute;left:14px;top:0px; width:1px; height:29px; background-color:black;"></div>
-  <div style="position:absolute;left:0px;top:14px; width:29px; height:1px; background-color:black;"></div>
+    <div style="position:absolute;left:0px;top:14px; width:29px; height:1px; background-color:black;"></div>
   </div>
 
   <div id="juhu" tabindex="1">
@@ -155,11 +155,12 @@ qx.Class.define("BasicSample",
         qx.event.type.EventPool.getInstance().poolEvent(e);
       }, this);
 
-      qx.event.Manager.addListener(this, "juhu", this._onJuhu, this);
+      // Does not seem to work
+      // qx.event.Manager.addListener(this, "juhu", this._onJuhu, this);
 
       qx.event.Manager.addListener(document.getElementById("div9"), "mousewheel", function(e)
       {
-        this.debug("wheel: " + e.getTarget().id + " " + e.getWheelDelta() + " " + e._dom.wheelDelta + " " + e._dom.detail);
+        this.debug("wheel: " + e.getTarget().id + " " + e.getWheelDelta());
       }, this);
 
     },

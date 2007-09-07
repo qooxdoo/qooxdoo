@@ -311,7 +311,7 @@ qx.Class.define("qx.event.handler.MouseEventHandler",
      * @param domEvent {Event} DOM event
      */     
     _onWheelEvent : function(domEvent) {
-      this._fireEvent(domEvent, "mousewheel", target);
+      this._fireEvent(domEvent, "mousewheel");
     },
 
 
