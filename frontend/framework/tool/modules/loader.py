@@ -501,7 +501,8 @@ def indexFile(filePath, filePathId, classPath, listIndex, classEncoding, classUr
 
         if fileId != filePathId:
             print "    - ID mismatch: CONTENT=%s != PATH=%s" % (fileContentId, filePathId)
-            sys.exit(1)
+            if not options.migrateSource:
+                sys.exit(1)
 
         fileEntry = {
             "autoDependencies" : False,
