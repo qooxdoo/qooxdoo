@@ -73,15 +73,6 @@ qx.Interface.define("qx.event.handler.IHandler",
      */
     unregisterEvent : function(target, type) {
       return true;
-    },
-
-
-    /**
-     * Removes all event handlers handled by the class. This
-     * function is called on unload of the the document.
-     */
-    removeAllListeners : function() {
-      return true;
     }
   }
 });

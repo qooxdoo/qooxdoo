@@ -67,7 +67,7 @@ qx.Class.define("qx.event.handler.Inline",
     ---------------------------------------------------------------------------
     */
         
-    /** {Map} Internal data structure with all supported DOM events */
+    /** {Map} Internal data structure with all supported BOM window events */
     _windowEvents :
     {
       // Window 
@@ -78,6 +78,7 @@ qx.Class.define("qx.event.handler.Inline",
       resize : true
     },
     
+    /** {Map} Internal data structure with all supported BOM element events */
     _elementEvents :
     {
       abort : true,    // Image elements only
@@ -90,7 +91,8 @@ qx.Class.define("qx.event.handler.Inline",
 
 
     // overridden
-    canHandleEvent : function(target, type) {
+    canHandleEvent : function(target, type) 
+    {
       return (
         (this._windowEvents[type] || this._elementEvents[type]) &&
         (
@@ -105,7 +107,7 @@ qx.Class.define("qx.event.handler.Inline",
     registerEvent : function(target, type)
     {
       var elementId = qx.core.Object.toHashCode(target);
-      var listener = qx.lang.Function.bind(this.__handleEvent, this, false, [elementId]);
+      var listener = qx.lang.Function.bind(this._onEvent, this, false, [elementId]);
 
       qx.event.Manager.addNativeListener(target, type, listener);
 
@@ -121,31 +123,14 @@ qx.Class.define("qx.event.handler.Inline",
 
 
     // overridden
-    unregisterEvent : function(element, type)
+    unregisterEvent : function(target, type)
     {
-      var id = qx.core.Object.toHashCode(element) + type;
+      var id = qx.core.Object.toHashCode(target) + type;
 
       var eventData = this.__registeredEvents[id];
-      qx.event.Manager.removeNativeListener(element, type, eventData.listener);
+      qx.event.Manager.removeNativeListener(target, type, eventData.listener);
 
       delete(this.__registeredEvents[id]);
-    },
-
-
-    // overridden
-    removeAllListeners : function()
-    {
-      for (var id in this.__registeredEvents)
-      {
-        var eventData = this.__registeredEvents[id];
-        qx.event.Manager.removeNativeListener(
-          eventData.element,
-          eventData.type,
-          eventData.listener
-        );
-      }
-
-      this.__registeredEvents = {};
     },
 
 
@@ -161,10 +146,12 @@ qx.Class.define("qx.event.handler.Inline",
     /**
      * Default event handler.
      *
+     * @type member
      * @param elementId {Integer} element id of the current target
      * @param domEvent {Event} DOM event
+     * @return {void}
      */
-    __handleEvent : function(elementId, domEvent)
+    _onEvent : function(elementId, domEvent)
     {
       var event = qx.event.Manager.createEvent(qx.event.type.Dom).init(domEvent);
       event.setBubbles(false);
@@ -189,7 +176,17 @@ qx.Class.define("qx.event.handler.Inline",
 
   destruct : function()
   {
-    this.removeAllListeners();
+    for (var id in this.__registeredEvents)
+    {
+      var eventData = this.__registeredEvents[id];
+      
+      qx.event.Manager.removeNativeListener(
+        eventData.element,
+        eventData.type,
+        eventData.listener
+      );
+    }
+
     this._disposeFields("__registeredEvents");
   }
 });
