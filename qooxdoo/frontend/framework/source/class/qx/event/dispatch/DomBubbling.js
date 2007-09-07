@@ -28,7 +28,7 @@
  *
  * @internal
  */
-qx.Class.define("qx.event.dispatch.BubblingDispatch",
+qx.Class.define("qx.event.dispatch.DomBubbling",
 {
   extend : qx.core.Object,
   implement : qx.event.IEventDispatcher,

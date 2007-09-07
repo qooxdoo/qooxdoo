@@ -31,7 +31,7 @@
  * This class is used internally by {@link qx.event.Manager} to do mouse event
  * capturing.
  */
-qx.Class.define("qx.event.dispatch.MouseCaptureDispatcher",
+qx.Class.define("qx.event.dispatch.MouseCapture",
 {
   extend : qx.core.Object,
   implement : qx.event.IEventDispatcher,
