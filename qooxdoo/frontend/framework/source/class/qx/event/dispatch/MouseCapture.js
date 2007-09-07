@@ -21,6 +21,7 @@
 
 #module(event2)
 #require(qx.event.handler.Focus)
+#require(qx.event.handler.Window)
 
 ************************************************************************ */
 
