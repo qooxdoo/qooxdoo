@@ -31,7 +31,7 @@
  * the interface of this class is based on the DOM Level 3 keyboard event
  * interface: http://www.w3.org/TR/DOM-Level-3-Events/events.html#Events-KeyboardEvent
  */
-qx.Class.define("qx.event.type.KeyUpDownEvent",
+qx.Class.define("qx.event.type.KeySequenceEvent",
 {
   extend : qx.event.type.DomEvent,
 
@@ -77,8 +77,6 @@ qx.Class.define("qx.event.type.KeyUpDownEvent",
     /**
      * Identifier of the pressed key. This property is modeled after the <em>KeyboardEvent.keyIdentifier</em> property
      * of the W3C DOM 3 event specification (http://www.w3.org/TR/2003/NOTE-DOM-Level-3-Events-20031107/events.html#Events-KeyboardEvent-keyIdentifier).
-     *
-     * It is not valid in "keyinput" events"
      *
      * Printable keys are represented by a unicode string, non-printable keys have one of the following
      * values:
