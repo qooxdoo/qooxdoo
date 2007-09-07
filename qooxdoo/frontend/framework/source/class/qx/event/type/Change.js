@@ -43,48 +43,13 @@ qx.Class.define("qx.event.type.Change",
   members :
   {
     /**
-     * Wrapper around {@link #getValue} for the moment of deprecation
-     * @deprecated
-     */
-    getData : function() {
-      throw new Error("ChangeEvents do not support getData() anymore. Use getValue() instead!");
-    },
-    
-    
-    /**
-     * The value field attached to this object. The type and format are
-     * defined by the sender. Normally this is the same type as the property
-     * type itself is.
-     *
-     * @type member
-     * @return {var} The current property value
-     */
-    getValue : function() {
-      return this._value;
-    },
-
-
-    /**
-     * The old value field attached to this object. The type and format are
-     * defined by the sender. Normally this is the same type as the property
-     * type itself is.
-     *
-     * @type member
-     * @return {var} The old property value
-     */
-    getOldValue : function() {
-      return this._old;
-    },
-
-
-    /**
      * Initializes an event onject.
      *
      * @type member
      * @param type {String} the type name of the event
-     * @param value {var} current property value
-     * @param old {var} old property value
-     * @return {qx.event.type.Change} the initialized instance.
+     * @param value {var} The property's new value
+     * @param old {var} The property's old value
+     * @return {qx.event.type.ChangeEvent} the initialized instance.
      */
     init : function(type, value, old)
     {
@@ -111,6 +76,30 @@ qx.Class.define("qx.event.type.Change",
       clone._old = this._old;
 
       return clone;
+    },
+
+
+    /**
+     * The new value of the property sending this change event.
+     * The return data type is the same as the property data type.
+     *
+     * @type member
+     * @return {var} The new value of the property
+     */
+    getValue : function() {
+      return this._value;
+    },
+
+
+    /**
+     * The old value of the property sending this change event.
+     * The return data type is the same as the property data type.
+     *
+     * @type member
+     * @return {var} The old value of the property
+     */
+    getOldValue : function() {
+      return this._old;
     }
   },
 
