@@ -32,7 +32,7 @@
 qx.Class.define("qx.event.dispatch.WidgetDispatch",
 {
   extend : qx.core.Object,
-  implement : qx.event.dispatch.IEventDispatcher,
+  implement : qx.event.IEventDispatcher,
 
 
 

@@ -32,7 +32,7 @@
 qx.Class.define("qx.event.handler.Mouse",
 {
   extend : qx.core.Object,
-  implement : qx.event.handler.IHandler,
+  implement : qx.event.IEventHandler,
 
 
 
