@@ -116,25 +116,11 @@ qx.Class.define("qx.ui.table.pane.Pane",
   members :
   {
     // property modifier
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
     _applyFirstVisibleRow : function(value, old) {
       this._updateContent(false, value-old);
     },
 
     // property modifier
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
     _applyVisibleRowCount : function(value, old) {
       this._updateContent();
     },
@@ -514,6 +500,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
         }
 
         var rowStyle = rowRenderer.createRowStyle(cellInfo);
+        rowStyle += ';line-height:' + (rowHeight-2) + 'px;';
         if (rowStyle) {
           rowHtml.push('style="', rowStyle, '" ');
         }
@@ -705,7 +692,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
       this._layoutPending = window.setTimeout(function()
       {
         elem.innerHTML = data;
-        elem.childNodes[0].offsetHeight;
 
         // force immediate layouting
         // this prevents Firefox from flickering
