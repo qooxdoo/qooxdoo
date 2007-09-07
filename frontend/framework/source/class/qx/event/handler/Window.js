@@ -74,7 +74,7 @@ qx.Class.define("qx.event.handler.Window",
     
     // interface implementation
     canHandleEvent : function(target, type) {
-      return this._eventTypes[type];
+      return qx.dom.Node.isWindow(target) && this._eventTypes[type];
     },
     
     
@@ -106,7 +106,8 @@ qx.Class.define("qx.event.handler.Window",
       load : 1,
       beforeunload : 1,
       unload : 1,
-      resize : 1
+      resize : 1,
+      scroll : 1
     },
     
         
@@ -118,7 +119,7 @@ qx.Class.define("qx.event.handler.Window",
      * @return {void}
      */
     _fireEvent : function(type) {
-      this._manager.createAndDispatchEvent(this._window, qx.event.type.Event, [type]);
+      this._manager.createAndDispatchEvent(this._window, qx.event.type.Event, [type, false]);
     },
     
     

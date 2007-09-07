@@ -676,16 +676,24 @@ qx.Class.define("qx.event.Manager",
 
       // dispatch event
       this.__inEventDispatch = true;
+      
+      var dispatched = false;
       for (var i=0,l=this.__dispatchHandlers.length; i<l; i++)
       {
         var dispatchHandler = this.__dispatchHandlers[i];
+        // console.log("Trying: " + type + " : " + dispatchHandler);
 
         if (dispatchHandler.canDispatchEvent(target, event, type))
         {
-          //console.log("dispatchevent: ", type, dispatchHandler.classname);
+          // console.log("dispatchevent: ", type, dispatchHandler.classname);
           dispatchHandler.dispatchEvent(target, event, type);
+          dispatched = true;
           break;
         }
+      }
+      
+      if (!dispatched) {
+        throw new Error("Could not dispatch: " + type + " on " + target); 
       }
 
       // release the event instance to the event pool

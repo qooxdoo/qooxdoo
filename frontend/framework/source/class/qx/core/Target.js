@@ -131,7 +131,7 @@ qx.Class.define("qx.core.Target",
       qx.event.Manager.getManager(this).createAndDispatchEvent(
         this,
         qx.event.type.Event,
-        [type]
+        [type, false]
       );
     },
 

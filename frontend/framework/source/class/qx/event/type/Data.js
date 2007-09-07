@@ -43,18 +43,6 @@ qx.Class.define("qx.event.type.Data",
   members :
   {
     /**
-     * The data field attached to this object. The data type and format are
-     * defined by the sender.
-     *
-     * @type member
-     * @return {var} Attached data
-     */
-    getData : function() {
-      return this._data;
-    },
-
-
-    /**
      * Initializes an event onject.
      *
      * @type member
@@ -67,7 +55,7 @@ qx.Class.define("qx.event.type.Data",
       this.base(arguments, type, false);
 
       this._data = data;
-
+      
       return this;
     },
 
@@ -85,7 +73,19 @@ qx.Class.define("qx.event.type.Data",
       clone._data = this._data;
 
       return clone;
-    }
+    },
+    
+    
+    /**
+     * The data field attached to this object. The data type and format are
+     * defined by the sender.
+     *
+     * @type member
+     * @return {var} Attached data
+     */
+    getData : function() {
+      return this._data;
+    }    
   },
 
 
