@@ -87,7 +87,7 @@ qx.Class.define("qx.ui.basic.Image",
 
   events : {
     /** Fires if an image could not be preloaded  */
-    "error" : "qx.legacy.event.type.Event"
+    "error" : "qx.event.type.Event"
   },
 
 

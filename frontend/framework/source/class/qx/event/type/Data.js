@@ -29,7 +29,7 @@
  */
 qx.Class.define("qx.event.type.Data",
 {
-  extend : qx.event.type.Simple,
+  extend : qx.event.type.Event,
 
 
 

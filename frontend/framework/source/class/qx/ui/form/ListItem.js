@@ -66,7 +66,7 @@ qx.Class.define("qx.ui.form.ListItem",
 
   events: {
     /** (Fired by {@link qx.ui.form.List}) */
-    "action" : "qx.legacy.event.type.Event"
+    "action" : "qx.event.type.Event"
   },
 
 

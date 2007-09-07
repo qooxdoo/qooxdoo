@@ -94,16 +94,16 @@ qx.Class.define("qx.io.remote.Request",
   events : {
 
     /** Fired when the Request object changes its state to 'created' */
-    "created" : "qx.legacy.event.type.Event",
+    "created" : "qx.event.type.Event",
 
     /** Fired when the Request object changes its state to 'configured' */
-    "configured" : "qx.legacy.event.type.Event",
+    "configured" : "qx.event.type.Event",
 
     /** Fired when the Request object changes its state to 'sending' */
-    "sending" : "qx.legacy.event.type.Event",
+    "sending" : "qx.event.type.Event",
 
     /** Fired when the Request object changes its state to 'receiving' */
-    "receiving" : "qx.legacy.event.type.Event",
+    "receiving" : "qx.event.type.Event",
 
     /**
      * Fired once the request has finished successfully. The event object
@@ -505,7 +505,7 @@ qx.Class.define("qx.io.remote.Request",
      * Event handler called when the request enters the queued state.
      *
      * @type member
-     * @param e {qx.legacy.event.type.Event} Event indicating state change
+     * @param e {qx.event.type.Event} Event indicating state change
      * @return {void}
      */
     _onqueued : function(e)
@@ -522,7 +522,7 @@ qx.Class.define("qx.io.remote.Request",
      * Event handler called when the request enters the sending state.
      *
      * @type member
-     * @param e {qx.legacy.event.type.Event} Event indicating state change
+     * @param e {qx.event.type.Event} Event indicating state change
      * @return {void}
      */
     _onsending : function(e)
@@ -539,7 +539,7 @@ qx.Class.define("qx.io.remote.Request",
      * Event handler called when the request enters the receiving state.
      *
      * @type member
-     * @param e {qx.legacy.event.type.Event} Event indicating state change
+     * @param e {qx.event.type.Event} Event indicating state change
      * @return {void}
      */
     _onreceiving : function(e)
@@ -556,7 +556,7 @@ qx.Class.define("qx.io.remote.Request",
      * Event handler called when the request enters the completed state.
      *
      * @type member
-     * @param e {qx.legacy.event.type.Event} Event indicating state change
+     * @param e {qx.event.type.Event} Event indicating state change
      * @return {void}
      */
     _oncompleted : function(e)
@@ -576,7 +576,7 @@ qx.Class.define("qx.io.remote.Request",
      * Event handler called when the request enters the aborted state.
      *
      * @type member
-     * @param e {qx.legacy.event.type.Event} Event indicating state change
+     * @param e {qx.event.type.Event} Event indicating state change
      * @return {void}
      */
     _onaborted : function(e)
@@ -596,7 +596,7 @@ qx.Class.define("qx.io.remote.Request",
      * Event handler called when the request enters the timeout state.
      *
      * @type member
-     * @param e {qx.legacy.event.type.Event} Event indicating state change
+     * @param e {qx.event.type.Event} Event indicating state change
      * @return {void}
      */
     _ontimeout : function(e)
@@ -630,7 +630,7 @@ qx.Class.define("qx.io.remote.Request",
      * Event handler called when the request enters the failed state.
      *
      * @type member
-     * @param e {qx.legacy.event.type.Event} Event indicating state change
+     * @param e {qx.event.type.Event} Event indicating state change
      * @return {void}
      */
     _onfailed : function(e)

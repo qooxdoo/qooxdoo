@@ -1,4 +1,5 @@
 
+\bqx\.legacy\.event\.type\.Event\b=qx.event.type.Event
 \bqx\.legacy\.event\.type\.DataEvent\b=qx.event.type.DataEvent
 \bqx\.legacy\.event\.type\.ChangeEvent\b=qx.event.type.ChangeEvent
 
@@ -9,7 +10,6 @@
 \bqx\.event\.type\.ChangeEvent\b=qx.event.type.Change
 \bqx\.event\.type\.DataEvent\b=qx.event.type.Data
 \bqx\.event\.type\.DomEvent\b=qx.event.type.Dom
-\bqx\.event\.type\.Event\b=qx.event.type.Simple
 \bqx\.event\.type\.KeyInputEvent\b=qx.event.type.KeyInput
 \bqx\.event\.type\.KeySequenceEvent\b=qx.event.type.KeySequence
 \bqx\.event\.type\.MouseEvent\b=qx.event.type.Mouse

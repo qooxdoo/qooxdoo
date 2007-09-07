@@ -74,16 +74,16 @@ qx.Class.define("qx.ui.core.Widget",
 
   events:
   {
-    "beforeAppear"    : "qx.legacy.event.type.Event",
-    "appear"          : "qx.legacy.event.type.Event",
-    "beforeDisappear" : "qx.legacy.event.type.Event",
-    "disappear"       : "qx.legacy.event.type.Event",
-    "beforeInsertDom" : "qx.legacy.event.type.Event",
-    "insertDom"       : "qx.legacy.event.type.Event",
-    "beforeRemoveDom" : "qx.legacy.event.type.Event",
-    "removeDom"       : "qx.legacy.event.type.Event",
-    "create"          : "qx.legacy.event.type.Event",
-    "execute"         : "qx.legacy.event.type.Event",
+    "beforeAppear"    : "qx.event.type.Event",
+    "appear"          : "qx.event.type.Event",
+    "beforeDisappear" : "qx.event.type.Event",
+    "disappear"       : "qx.event.type.Event",
+    "beforeInsertDom" : "qx.event.type.Event",
+    "insertDom"       : "qx.event.type.Event",
+    "beforeRemoveDom" : "qx.event.type.Event",
+    "removeDom"       : "qx.event.type.Event",
+    "create"          : "qx.event.type.Event",
+    "execute"         : "qx.event.type.Event",
 
     /** (Fired by {@link qx.legacy.event.handler.EventHandler}) */
     "mouseover"       : "qx.legacy.event.type.MouseEvent",

@@ -35,7 +35,7 @@
  * The interface is modeled after the DOM level 2 event interface:
  * http://www.w3.org/TR/DOM-Level-2-Events/events.html#Events-interface
  */
-qx.Class.define("qx.event.type.Simple",
+qx.Class.define("qx.event.type.Event",
 {
   extend : qx.core.Object,
 
@@ -79,7 +79,7 @@ qx.Class.define("qx.event.type.Simple",
      * @type member
      * @param type {String} The name of the event (case-sensitive).
      * @param bubbles {Boolean ? true} Whether or not an event is a bubbling event
-     * @return {qx.event.type.Simple} The initialized event instance
+     * @return {qx.event.type.Event} The initialized event instance
      */
     init : function(type, bubbles)
     {
@@ -99,7 +99,7 @@ qx.Class.define("qx.event.type.Simple",
      * or pooled after an event dispatch.
      *
      * @type member
-     * @return {qx.event.type.Simple} a clone of this class.
+     * @return {qx.event.type.Event} a clone of this class.
      */
     clone : function()
     {

@@ -71,7 +71,7 @@ qx.Class.define("qx.event.Timer",
   events :
   {
     /** This event if fired each time the interval time has elapsed */
-    "interval" : "qx.legacy.event.type.Event"
+    "interval" : "qx.event.type.Event"
   },
 
 

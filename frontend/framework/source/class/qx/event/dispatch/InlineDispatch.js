@@ -78,7 +78,7 @@ qx.Class.define("qx.event.dispatch.InlineDispatch",
     // interface implementation
     dispatchEvent : function(target, event, type)
     {
-      event.setEventPhase(qx.event.type.Simple.AT_TARGET);
+      event.setEventPhase(qx.event.type.Event.AT_TARGET);
 
       var currentTarget = event.getCurrentTarget();
 

@@ -67,8 +67,8 @@ qx.Class.define("qx.io.remote.Exchange",
   */
 
   events : {
-    "sending" : "qx.legacy.event.type.Event",
-    "receiving" : "qx.legacy.event.type.Event",
+    "sending" : "qx.event.type.Event",
+    "receiving" : "qx.event.type.Event",
     "completed" : "qx.io.remote.Response",
     "aborted" : "qx.io.remote.Response",
     "failed" : "qx.io.remote.Response",
