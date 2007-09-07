@@ -52,7 +52,7 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
 
     // Define shorthand
     this._root = manager.getWindow().document.documentElement;
-    
+
     // Initialize observer
     this._initKeyObserver();
   },
@@ -60,6 +60,56 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
 
 
 
+
+
+
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics :
+  {
+
+    /**
+     * Checks whether a given string is a valid keyIdentifier
+     *
+     * @type member
+     * @param keyIdentifier {String} The key identifier.
+     * @return {Boolean} whether the given string is a valid keyIdentifier
+     */
+    isValidKeyIdentifier : function(keyIdentifier)
+    {
+      if (this._identifierToKeyCodeMap[keyIdentifier]) {
+        return true;
+      }
+
+      if (keyIdentifier.length != 1) {
+        return false;
+      }
+
+      if (keyIdentifier >= "0" && keyIdentifier <= "9") {
+        return true;
+      }
+
+      if (keyIdentifier >= "A" && keyIdentifier <= "Z") {
+        return true;
+      }
+
+      switch(keyIdentifier)
+      {
+        case "+":
+        case "-":
+        case "*":
+        case "/":
+          return true;
+
+        default:
+          return false;
+      }
+    }
+  },
 
 
 
@@ -85,14 +135,14 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
       keypress : 1,
       keyinput : 1
     },
-    
-    
+
+
     // overridden
     canHandleEvent : function(target, type) {
       return target.nodeType !== undefined && this.__keyEvents[type];
-    },    
-    
-    
+    },
+
+
     /**
      * Fire a key input event with the given parameters
      *
@@ -102,13 +152,13 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
     _fireInputEvent : function(domEvent, charCode)
     {
       var event = qx.event.Manager.createEvent(qx.event.type.KeyInputEvent);
-      
+
       event.init(domEvent, charCode);
 
       this._manager.dispatchEvent(domEvent.target, event);
     },
-    
-    
+
+
     /**
      * Fire a key up/down/press event with the given parameters
      *
@@ -119,13 +169,13 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
     _fireSequenceEvent : function(domEvent, eventType, keyIdentifier)
     {
       var event = qx.event.Manager.createEvent(qx.event.type.KeySequenceEvent);
-      
+
       event.init(domEvent, keyIdentifier);
       event.setType(eventType);
 
       this._manager.dispatchEvent(domEvent.target, event);
-    },        
-    
+    },
+
 
 
 
@@ -144,35 +194,35 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
 
     /**
      * Initializes the native key event listeners.
-     * 
+     *
      * @type member
      * @signature function()
      * @return {void}
-     */ 
+     */
     _initKeyObserver : function()
     {
       this._onKeyUpDownWrapper = qx.lang.Function.bind(this._onKeyUpDown, this);
-      this._onKeyPressWrapper = qx.lang.Function.bind(this._onKeyPress, this);      
-      
+      this._onKeyPressWrapper = qx.lang.Function.bind(this._onKeyPress, this);
+
       var Manager = qx.event.Manager;
-      
+
       Manager.addNativeListener(this._root, "keyup", this._onKeyUpDownWrapper);
       Manager.addNativeListener(this._root, "keydown", this._onKeyUpDownWrapper);
       Manager.addNativeListener(this._root, "keypress", this._onKeyPressWrapper);
     },
-    
-    
+
+
     /**
      * Stops the native key event listeners.
-     * 
+     *
      * @type member
      * @signature function()
      * @return {void}
-     */     
+     */
     _stopKeyObserver : function()
     {
       var Manager = qx.event.Manager;
-      
+
       Manager.removeNativeListener(this._root, "keyup", this._onKeyUpDownWrapper);
       Manager.removeNativeListener(this._root, "keydown", this._onKeyUpDownWrapper);
       Manager.removeNativeListener(this._root, "keypress", this._onKeyPressWrapper);
@@ -394,17 +444,17 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
       else
       {
         keyIdentifier = this._charCodeToIdentifier(charCode);
-        
+
         this._fireSequenceEvent(domEvent, "keypress", keyIdentifier);
         this._fireInputEvent(domEvent, charCode);
       }
     },
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       KEY MAPS
@@ -554,45 +604,6 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
 
 
     /**
-     * Checks whether a given string is a valid keyIdentifier
-     *
-     * @type member
-     * @param keyIdentifier {String} The key identifier.
-     * @return {Boolean} whether the given string is a valid keyIdentifier
-     */
-    isValidKeyIdentifier : function(keyIdentifier)
-    {
-      if (this._identifierToKeyCodeMap[keyIdentifier]) {
-        return true;
-      }
-
-      if (keyIdentifier.length != 1) {
-        return false;
-      }
-
-      if (keyIdentifier >= "0" && keyIdentifier <= "9") {
-        return true;
-      }
-
-      if (keyIdentifier >= "A" && keyIdentifier <= "Z") {
-        return true;
-      }
-
-      switch(keyIdentifier)
-      {
-        case "+":
-        case "-":
-        case "*":
-        case "/":
-          return true;
-
-        default:
-          return false;
-      }
-    },
-
-
-    /**
      * converts a keyboard code to the corresponding identifier
      *
      * @type member
@@ -638,8 +649,8 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
      * @return {Integer} keyboard code
      */
     _identifierToKeyCode : function(keyIdentifier) {
-      return this._identifierToKeyCodeMap[keyIdentifier] || keyIdentifier.charCodeAt(0);
-    }    
+      return qx.event.handler.KeyEventHandler._identifierToKeyCodeMap[keyIdentifier] || keyIdentifier.charCodeAt(0);
+    }
   },
 
 
@@ -658,8 +669,8 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
     this._stopKeyObserver();
     this._disposeFields("_root");
   },
-  
-  
+
+
 
 
 
@@ -677,16 +688,16 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
 
 
     // construct invers of keyCodeToIdentifierMap
-    if (!members._identifierToKeyCodeMap)
+    if (!statics._identifierToKeyCodeMap)
     {
-      members._identifierToKeyCodeMap = {};
+      statics._identifierToKeyCodeMap = {};
 
       for (var key in members._keyCodeToIdentifierMap) {
-        members._identifierToKeyCodeMap[members._keyCodeToIdentifierMap[key]] = parseInt(key);
+        statics._identifierToKeyCodeMap[members._keyCodeToIdentifierMap[key]] = parseInt(key);
       }
 
       for (var key in members._specialCharCodeMap) {
-        members._identifierToKeyCodeMap[members._specialCharCodeMap[key]] = parseInt(key);
+        statics._identifierToKeyCodeMap[members._specialCharCodeMap[key]] = parseInt(key);
       }
     }
 
