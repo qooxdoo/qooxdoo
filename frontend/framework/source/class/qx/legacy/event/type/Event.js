@@ -83,7 +83,7 @@ qx.Class.define("qx.legacy.event.type.Event",
     {
       _fast       : true,
       setOnlyOnce : true
-    }
+    },
     /*
     currentTarget : { _fast : true },
 
@@ -100,14 +100,14 @@ qx.Class.define("qx.legacy.event.type.Event",
       defaultValue : true,
       noCompute    : true
     },
-
+*/
     defaultPrevented :
     {
       _fast        : true,
       defaultValue : false,
       noCompute    : true
     }
-    */
+
   },
 
 
@@ -136,11 +136,11 @@ qx.Class.define("qx.legacy.event.type.Event",
      * @type member
      * @return {void}
      */
-    /*
+
     preventDefault : function() {
       this.setDefaultPrevented(true);
     },
-    */
+
 
     setPropagationStopped : function(val) {
       if (val) {

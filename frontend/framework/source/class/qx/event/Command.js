@@ -60,11 +60,9 @@ qx.Class.define("qx.event.Command",
    *    keys Control, Alt, Shift, Meta and a non modifier key.
    *    If no non modifier key is specified, the second paramater is evaluated.
    *    The key must be seperated by a <code>+</code> or <code>-</code> character.
-   *    Examples: Alt+F1, Control+C, Control+Alt+Enf
-   *
-   * @param keyCode {Integer}  Additional key of the command interpreted as a keyCode.
+   *    Examples: Alt+F1, Control+C, Control+Alt+Delete
    */
-  construct : function(shortcut, keyCode)
+  construct : function(shortcut)
   {
     this.base(arguments);
 
@@ -73,12 +71,6 @@ qx.Class.define("qx.event.Command",
 
     if (shortcut != null) {
       this.setShortcut(shortcut);
-    }
-
-    if (keyCode != null)
-    {
-      this.warn("The use of keyCode in command is deprecated. Use keyIdentifier instead.");
-      this.setKeyCode(keyCode);
     }
 
     // OSX warning for Alt key combinations
@@ -92,7 +84,7 @@ qx.Class.define("qx.event.Command",
       }
     }
 
-    qx.legacy.event.handler.EventHandler.getInstance().addCommand(this);
+    this.initEnabled();
   },
 
 
@@ -111,7 +103,8 @@ qx.Class.define("qx.event.Command",
     {
       init : true,
       check : "Boolean",
-      event : "changeEnabled"
+      event : "changeEnabled",
+      apply : "_applyEnabled"
     },
 
 
@@ -121,28 +114,8 @@ qx.Class.define("qx.event.Command",
       check : "String",
       apply : "_applyShortcut",
       nullable : true
-    },
-
-
-    /**
-     * Supports old keyCode layer
-     * Still there for compatibility with the old key handler/commands
-     *
-     * @deprecated
-     */
-    keyCode :
-    {
-      check : "Number",
-      nullable : true
-    },
-
-
-    /** The key identifier */
-    keyIdentifier :
-    {
-      check : "String",
-      nullable : true
     }
+
   },
 
 
@@ -168,13 +141,26 @@ qx.Class.define("qx.event.Command",
      * @type member
      * @param vTarget {Object} Object which issued the execute event
      */
-    execute : function(vTarget)
-    {
+    execute : function(vTarget) {
       this.createDispatchDataEvent("execute", vTarget);
-      return false;
     },
 
 
+    /**
+     * Key press event handler.
+     *
+     * @type member
+     * @param event {qx.event.type.KeyEvent} The key event object
+     */
+    __onKeyPress : function(event)
+    {
+      if (this.getEnabled() && this.matchesKeyEvent(event))
+      {
+        this.execute(event.getTarget());
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    },
 
 
     /*
@@ -183,14 +169,19 @@ qx.Class.define("qx.event.Command",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     * @throws TODOC
-     */
+
+    // property apply
+    _applyEnabled : function(value, old)
+    {
+      if (value) {
+        qx.event.Manager.addListener(document.documentElement, "keydown", this.__onKeyPress, this);
+      } else {
+        qx.event.Manager.removeListener(document.documentElement, "keydown", this.__onKeyPress, this);
+      }
+    },
+
+
+    // property apply
     _applyShortcut : function(value, old)
     {
       if (value)
@@ -205,7 +196,7 @@ qx.Class.define("qx.event.Command",
 
         for (var i=0; i<al; i++)
         {
-          var identifier = this.__oldKeyNameToKeyIdentifier(a[i]);
+          var identifier = this.__noramlizeKeyIdentifier(a[i]);
 
           switch(identifier)
           {
@@ -250,40 +241,31 @@ qx.Class.define("qx.event.Command",
      * Checks whether the given key event matches the command's shortcut
      *
      * @type member
-     * @param e {qx.legacy.event.type.KeyEvent} the key event object
+     * @param e {qx.legacy.event.type.KeySequenceEvent} the key event object
      * @return {Boolean} whether the commands shortcut matches the key event
      */
     matchesKeyEvent : function(e)
     {
-      var key = this.__key || this.getKeyIdentifier();
+      var key = this.__key;
 
-      if (!key && !this.getKeyCode())
+      if (!key)
       {
         // no shortcut defined.
         return ;
       }
 
-      // pre-check for check special keys
-      // we handle this here to omit to check this later again.
-      if ((this.__modifier.Shift && !e.isShiftPressed()) ||
-      (this.__modifier.Control && !e.isCtrlPressed()) ||
-
-      //    (this.__modifier.Meta && !e.getMetaKey()) ||
-      (this.__modifier.Alt && !e.isAltPressed())) {
+      // for check special keys
+      if (
+        (this.__modifier.Shift && !e.isShiftPressed()) ||
+        (this.__modifier.Control && !e.isCtrlPressed()) ||
+        (this.__modifier.Meta && !e.isMetaPressed()) ||
+        (this.__modifier.Alt && !e.isAltPressed())
+      ) {
         return false;
       }
 
-      if (key)
-      {
-        if (key == e.getKeyIdentifier()) {
-          return true;
-        }
-      }
-      else
-      {
-        if (this.getKeyCode() == e.getKeyCode()) {
-          return true;
-        }
+      if (key == e.getKeyIdentifier()) {
+        return true;
       }
 
       return false;
@@ -326,19 +308,18 @@ qx.Class.define("qx.event.Command",
 
 
     /**
-     * converts an old key name as found in {@link qx.legacy.event.type.KeyEvent.keys} to
-     * the new keyIdentifier.
+     * Checks and normalizes the key identifier.
      *
      * @type member
-     * @param keyName {String} old name of the key.
-     * @return {String} corresponding keyIdentifier or "Unidentified" if a conversion was not possible
+     * @param keyName {String} name of the key.
+     * @return {String} normalized keyIdentifier or "Unidentified" if a conversion was not possible
      */
-    __oldKeyNameToKeyIdentifier : function(keyName)
+    __noramlizeKeyIdentifier : function(keyName)
     {
-      var keyHandler = qx.legacy.event.handler.KeyEventHandler.getInstance();
+      var KeyHandler = qx.event.handler.KeyEventHandler;
       var keyIdentifier = "Unidentified";
 
-      if (keyHandler.isValidKeyIdentifier(keyName)) {
+      if (KeyHandler.isValidKeyIdentifier(keyName)) {
         return keyName;
       }
 
@@ -347,18 +328,12 @@ qx.Class.define("qx.event.Command",
       }
 
       keyName = keyName.toLowerCase();
+      var keyIdentifier = this.__oldKeyNameToKeyIdentifierMap[keyName] || qx.lang.String.firstUp(keyName);
 
-      // check whether its a valid old key name
-      if (!qx.legacy.event.type.KeyEvent.keys[keyName]) {
-        return "Unidentified";
-      }
-
-      var keyIdentifier = this.__oldKeyNameToKeyIdentifierMap[keyName];
-
-      if (keyIdentifier) {
+      if (KeyHandler.isValidKeyIdentifier(keyIdentifier)) {
         return keyIdentifier;
       } else {
-        return qx.lang.String.firstUp(keyName);
+        return "Unidentified";
       }
     },
 
@@ -379,8 +354,7 @@ qx.Class.define("qx.event.Command",
      */
     toString : function()
     {
-      var keyCode = this.getKeyCode();
-      var key = this.__key || this.getKeyIdentifier();
+      var key = this.__key;
 
       var str = [];
 
@@ -390,12 +364,6 @@ qx.Class.define("qx.event.Command",
 
       if (key) {
         str.push(qx.locale.Key.getKeyName("short", key));
-      }
-
-      if (keyCode != null)
-      {
-        var vTemp = qx.legacy.event.type.KeyEvent.codes[keyCode];
-        str.push(vTemp ? qx.lang.String.firstUp(vTemp) : String(keyCode));
       }
 
       return str.join("-");
@@ -413,11 +381,8 @@ qx.Class.define("qx.event.Command",
 
   destruct : function()
   {
-    var mgr = qx.legacy.event.handler.EventHandler.getInstance();
-
-    if (mgr) {
-      mgr.removeCommand(this);
-    }
+    // this will remove the event listener
+    this.setEnabled(false);
 
     this._disposeFields("__modifier", "__key");
   }
