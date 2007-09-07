@@ -662,7 +662,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _onScrollX : function(evt)
     {
-      var scrollLeft = evt.getData();
+      var scrollLeft = evt.getValue();
 
       // Workaround: See _updateContent
       this._header.setLeft(-scrollLeft);
@@ -685,7 +685,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     _onScrollY : function(evt)
     {
       this._postponedUpdateContent();
-      this.setScrollY(evt.getData());
+      this.setScrollY(evt.getValue());
     },
 
 

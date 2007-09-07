@@ -276,7 +276,7 @@ qx.Class.define("qx.ui.table.Table",
     rowHeight :
     {
       check : "Number",
-      init : 15,
+      init : 18,
       event : "changeRowHeight"
     },
 
@@ -932,7 +932,7 @@ qx.Class.define("qx.ui.table.Table",
         var scrollerArr = this._getPaneScrollerArr();
 
         for (var i=0; i<scrollerArr.length; i++) {
-          scrollerArr[i].setScrollY(evt.getData());
+          scrollerArr[i].setScrollY(evt.getValue());
         }
 
         this._internalChange = false;

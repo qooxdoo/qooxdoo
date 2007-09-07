@@ -123,7 +123,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
      *     access to any other features of the table, for use in calculating widths
      *     of columns.
      * @param event {var} The <i>verticalScrollBarChanged</i> event object.  This event has data,
-     *     obtained via event.getData(), which is a boolean indicating whether a
+     *     obtained via event.getValue(), which is a boolean indicating whether a
      *     vertical scroll bar is now present.
      * @return {void}
      * @throws the abstract function warning.
@@ -143,7 +143,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
      *     access to any other features of the table, for use in calculating widths
      *     of columns.
      * @param event {var} The <i>widthChanged</i> event object.  This event has data, obtained via
-     *     event.getData(), which is an object with three properties: the column
+     *     event.getValue(), which is an object with three properties: the column
      *     which changed width (data.col), the old width (data.oldWidth) and the new
      *     width (data.newWidth).
      * @return {void}
@@ -164,7 +164,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
      *     access to any other features of the table, for use in calculating widths
      *     of columns.
      * @param event {var} The <i>visibilityChanged</i> event object.  This event has data, obtained
-     *     via event.getData(), which is an object with two properties: the column
+     *     via event.getValue(), which is an object with two properties: the column
      *     which changed width (data.col) and the new visibility of the column
      *     (data.visible).
      * @return {void}
