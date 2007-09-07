@@ -50,7 +50,6 @@ qx.Class.define("qx.event.type.Event",
 
   statics :
   {
-
     /** The current event phase is the capturing phase. */
     CAPTURING_PHASE : 1,
 
