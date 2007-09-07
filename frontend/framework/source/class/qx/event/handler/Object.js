@@ -27,25 +27,31 @@ qx.Class.define("qx.event.handler.Object",
 {
   extend : qx.event.handler.Abstract,
 
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+  
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      EVENT HANDLER INTERFACE
+    ---------------------------------------------------------------------------
+    */
+        
     // overridden
     canHandleEvent : function(target, type) {
-      if (type == "init") debugger;
       return target instanceof qx.core.Target && qx.Class.supportsEvent(target.constructor, type);
-    },
-
-    // overridden
-    registerEvent : function(element, type) {
-      // no registration at the browser is required
-    },
-
-    // overridden
-    unregisterEvent : function(element, type) {},
-
-    // overridden
-    removeAllListeners : function() {}
+    }
   },
+
+
+
 
 
 
