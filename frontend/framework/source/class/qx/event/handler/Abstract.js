@@ -68,8 +68,6 @@ qx.Class.define("qx.event.handler.Abstract",
   // TODO: destruct() to bottom, please
   destruct : function()
   {
-    this.removeAllListeners();
-
     this._disposeFields(
       "_manager",
       "__registeredEvents"
@@ -100,24 +98,6 @@ qx.Class.define("qx.event.handler.Abstract",
 
     // interface implementation
     unregisterEvent : function(target, type) {
-    },
-
-
-    // interface implementation
-    removeAllListeners : function()
-    {
-      for (var id in this.__registeredEvents)
-      {
-        var eventData = this.__registeredEvents[id];
-
-        qx.event.Manager.removeNativeListener(
-          eventData.element,
-          eventData.type,
-          eventData.listener
-        );
-      }
-
-      this.__registeredEvents = {};
     },
 
 
