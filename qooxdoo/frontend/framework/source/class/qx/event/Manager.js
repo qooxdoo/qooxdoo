@@ -922,7 +922,7 @@ qx.Class.define("qx.event.Manager",
 
   defer : function(statics)
   {
-    statics.registerEventHandler(qx.event.handler.InlineEventHandler, statics.PRIORITY_NORMAL);
+    statics.registerEventHandler(qx.event.handler.InlineEventHandler, statics.PRIORITY_LAST);
 
     statics.registerEventDispatcher(qx.event.dispatch.InlineDispatch, statics.PRIORITY_NORMAL);
     statics.registerEventDispatcher(qx.event.dispatch.BubblingDispatch, statics.PRIORITY_NORMAL);
