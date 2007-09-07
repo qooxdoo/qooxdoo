@@ -28,7 +28,7 @@
  * The message bus registers subscriptions and notifies subscribers when
  * a matching message is dispatched
  */
-qx.Class.define("qx.legacy.event.message.Bus",
+qx.Class.define("qx.event.message.Bus",
 {
   statics :
   {

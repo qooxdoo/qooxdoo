@@ -1145,7 +1145,7 @@ qx.Class.define("qx.Class",
         // register event name
         if (config.event !== undefined) {
           var event = {}
-          event[config.event] = "qx.legacy.event.type.ChangeEvent";
+          event[config.event] = "qx.event.type.ChangeEvent";
           this.__addEvents(clazz, event, patch);
         }
 
