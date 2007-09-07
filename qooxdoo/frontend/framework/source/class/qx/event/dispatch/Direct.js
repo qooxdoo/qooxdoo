@@ -60,20 +60,17 @@ qx.Class.define("qx.event.dispatch.Direct",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      EVENT DISPATCHER INTERFACE
+    ---------------------------------------------------------------------------
+    */    
+    
     // interface implementation
     canDispatchEvent : function(target, event, type) {
       return !event.getBubbles();
     },
 
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      EVENT DISPATCH
-    ---------------------------------------------------------------------------
-    */
 
     // interface implementation
     dispatchEvent : function(target, event, type)

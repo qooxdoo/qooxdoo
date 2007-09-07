@@ -19,7 +19,7 @@
 
 /* ************************************************************************
 
-#module(event2)
+#module(event)
 
 ************************************************************************ */
 
@@ -63,21 +63,17 @@ qx.Class.define("qx.event.dispatch.DomBubbling",
 
   members :
   {
-
-    // interface implementation
-    canDispatchEvent : function(target, event, type)
-    {
-      return event.getBubbles();
-    },
-
-
-
-
     /*
     ---------------------------------------------------------------------------
-      EVENT DISPATCH
+      EVENT DISPATCHER INTERFACE
     ---------------------------------------------------------------------------
-    */
+    */ 
+    
+    // interface implementation
+    canDispatchEvent : function(target, event, type) {
+      return target.nodeType !== undefined && event.getBubbles();
+    },
+
 
     // interface implementation
     dispatchEvent : function(target, event, type)
