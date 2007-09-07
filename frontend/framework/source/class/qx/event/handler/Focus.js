@@ -34,7 +34,8 @@
  */
 qx.Class.define("qx.event.handler.Focus",
 {
-  extend : qx.event.handler.Abstract,
+  extend : qx.core.Object,
+  implement : qx.event.handler.IHandler,
 
 
 
@@ -47,9 +48,10 @@ qx.Class.define("qx.event.handler.Focus",
   
   construct : function(manager)
   {
-    this.base(arguments, manager);
+    this.base(arguments);
 
     // Define shorthands
+    this._manager = manager;
     this._window = manager.getWindow();
     this._document = this._window.document;
     this._root = this._document.documentElement;
@@ -161,11 +163,23 @@ qx.Class.define("qx.event.handler.Focus",
     },
 
     
-    // overridden
+    // interface implementation
     canHandleEvent : function(target, type) {
       return this.__focusTypes[type];
     },
     
+    
+    // interface implementation
+    registerEvent : function(target, type) {
+      // Nothing needs to be done here
+    },
+
+
+    // interface implementation
+    unregisterEvent : function(target, type) {
+      // Nothing needs to be done here
+    },
+        
     
     /**
      * Shorthand to fire events from within this class.
@@ -732,7 +746,7 @@ qx.Class.define("qx.event.handler.Focus",
     this._stopMouseObserver();
     this._stopFocusObserver();    
     
-    this._disposeFields("_window", "_document", "_root", "_body");
+    this._disposeFields("_manager", "_window", "_document", "_root", "_body");
   },
   
   

@@ -34,7 +34,8 @@
  */
 qx.Class.define("qx.event.handler.Keyboard",
 {
-  extend : qx.event.handler.Abstract,
+  extend : qx.core.Object,
+  implement : qx.event.handler.IHandler,
 
 
 
@@ -48,9 +49,10 @@ qx.Class.define("qx.event.handler.Keyboard",
 
   construct : function(manager)
   {
-    this.base(arguments, manager);
+    this.base(arguments);
 
-    // Define shorthand
+    // Define shorthands
+    this._manager = manager;
     this._root = manager.getWindow().document.documentElement;
 
     // Initialize observer
@@ -137,11 +139,23 @@ qx.Class.define("qx.event.handler.Keyboard",
     },
 
 
-    // overridden
+    // interface implementation
     canHandleEvent : function(target, type) {
       return target.nodeType !== undefined && this.__keyEvents[type];
     },
 
+
+    // interface implementation
+    registerEvent : function(target, type) {
+      // Nothing needs to be done here
+    },
+
+
+    // interface implementation
+    unregisterEvent : function(target, type) {
+      // Nothing needs to be done here
+    },
+    
 
     /**
      * Fire a key input event with the given parameters
@@ -666,7 +680,7 @@ qx.Class.define("qx.event.handler.Keyboard",
   destruct : function()
   {
     this._stopKeyObserver();
-    this._disposeFields("_root");
+    this._disposeFields("_manager", "_root");
   },
 
 

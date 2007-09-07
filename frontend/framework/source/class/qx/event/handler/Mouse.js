@@ -33,7 +33,8 @@
  */
 qx.Class.define("qx.event.handler.Mouse",
 {
-  extend : qx.event.handler.Abstract,
+  extend : qx.core.Object,
+  implement : qx.event.handler.IHandler,
 
 
 
@@ -46,9 +47,10 @@ qx.Class.define("qx.event.handler.Mouse",
 
   construct : function(manager)
   {
-    this.base(arguments, manager);
+    this.base(arguments);
 
-    // Define shorthand
+    // Define shorthands
+    this._manager = manager;
     this._root = manager.getWindow().document.documentElement;
     
     // Initialize observers
@@ -93,11 +95,23 @@ qx.Class.define("qx.event.handler.Mouse",
     },
     
 
-    // overridden
+    // interface implementation
     canHandleEvent : function(target, type) {
       return target.nodeType !== undefined && this.__mouseEvents[type];
     },
 
+
+    // interface implementation
+    registerEvent : function(target, type) {
+      // Nothing needs to be done here
+    },
+
+
+    // interface implementation
+    unregisterEvent : function(target, type) {
+      // Nothing needs to be done here
+    },
+    
 
     /**
      * Fire a mouse event with the given parameters
@@ -468,7 +482,7 @@ qx.Class.define("qx.event.handler.Mouse",
     this._stopMoveObserver();
     this._stopWheelObserver();
     
-    this._disposeFields("_root");
+    this._disposeFields("_manager", "_root");
   },
   
   
