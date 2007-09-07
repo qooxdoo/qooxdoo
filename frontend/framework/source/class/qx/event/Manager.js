@@ -601,23 +601,18 @@ qx.Class.define("qx.event.Manager",
       // iterate over all event handlers and check whether they are responsible
       // for this event type
       var handlers = this.__eventHandlers;
-      var hasHandler = false;
 
       for (var i=0, l=handlers.length; i<l; i++)
       {
         if (handlers[i].canHandleEvent(target, type))
         {
           handlers[i].registerEvent(target, type);
-          hasHandler = true;
-          break;
+          return;
         }
       }
 
-      if (!hasHandler) {
-        // console.log(target);
-        this.printStackTrace();
-        throw new Error("There is no event handler for the event '"+type+"' on target '"+target+"'!");
-      }
+      this.printStackTrace();
+      throw new Error("There is no event handler for the event '"+type+"' on target '"+target+"'!");
     },
 
 
@@ -641,9 +636,12 @@ qx.Class.define("qx.event.Manager",
         if (handlers[i].canHandleEvent(target, type))
         {
           handlers[i].unregisterEvent(target, type);
-          break;
+          return;
         }
       }
+      
+      this.printStackTrace();
+      throw new Error("There is no event handler for the event '"+type+"' on target '"+target+"'!");
     },
 
 
