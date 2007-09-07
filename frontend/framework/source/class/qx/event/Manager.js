@@ -95,7 +95,7 @@ qx.Class.define("qx.event.Manager",
     this.__eventPool = qx.event.Pool.getInstance();
 
     // add unload listener to prevent memory leaks
-    this.addListener(win, "unload", this.__onunload, this);
+    // this.addListener(win, "unload", this.__onunload, this);
   },
 
 

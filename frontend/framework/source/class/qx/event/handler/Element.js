@@ -188,5 +188,22 @@ qx.Class.define("qx.event.handler.Element",
     }
 
     this._disposeFields("_manager", "_registeredEvents");
-  }
+  },
+  
+  
+  
+    
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function(statics)
+  {
+    var manager = qx.event.Manager;
+    manager.registerEventHandler(statics, manager.PRIORITY_LAST);
+  }  
 });
