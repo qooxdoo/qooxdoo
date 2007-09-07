@@ -63,13 +63,8 @@ qx.Class.define("qx.event.type.KeySequenceEvent",
       return this;
     },
 
+
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
     clone : function()
     {
       var clone = this.base(arguments);

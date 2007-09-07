@@ -73,9 +73,9 @@ qx.Class.define("qx.event.type.DomEvent",
       this._native.returnValue = false;
     },
 
-    // overridden
+
     /**
-     * TODOC
+     * Stops the propagation of the event
      *
      * @type member
      * @return {void} 
