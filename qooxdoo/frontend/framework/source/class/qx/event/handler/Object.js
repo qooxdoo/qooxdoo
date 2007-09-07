@@ -23,6 +23,9 @@
 
 ************************************************************************ */
 
+/**
+ * This class provides qooxdoo object event support.
+ */
 qx.Class.define("qx.event.handler.Object",
 {
   extend : qx.core.Object,
