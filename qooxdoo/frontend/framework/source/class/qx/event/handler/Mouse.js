@@ -76,23 +76,6 @@ qx.Class.define("qx.event.handler.Mouse",
     ---------------------------------------------------------------------------
     */
     
-    /** {Map} Internal data structure with all supported mouse events */
-    __mouseEvents :
-    {
-      mousemove : 1,
-      mouseover : 1,
-      mouseout : 1,
-      
-      mousedown : 1,
-      mouseup : 1,
-      click : 1,
-      dblclick : 1,
-      contextmenu : 1,
-      
-      mousewheel : 1
-    },
-    
-
     // interface implementation
     canHandleEvent : function(target, type) {
       return target.nodeType !== undefined && this.__mouseEvents[type];
@@ -111,6 +94,33 @@ qx.Class.define("qx.event.handler.Mouse",
     },
     
 
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      HELPER
+    ---------------------------------------------------------------------------
+    */
+    
+    /** {Map} Internal data structure with all supported mouse events */
+    __mouseEvents :
+    {
+      mousemove : 1,
+      mouseover : 1,
+      mouseout : 1,
+      
+      mousedown : 1,
+      mouseup : 1,
+      click : 1,
+      dblclick : 1,
+      contextmenu : 1,
+      
+      mousewheel : 1
+    },
+    
+    
     /**
      * Fire a mouse event with the given parameters
      *
