@@ -29,7 +29,7 @@
  *
  * @internal
  */
-qx.Class.define("qx.event.dispatch.WidgetDispatch",
+qx.Class.define("qx.event.dispatch.Widget",
 {
   extend : qx.core.Object,
   implement : qx.event.IEventDispatcher,
