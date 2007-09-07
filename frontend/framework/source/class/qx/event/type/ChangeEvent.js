@@ -43,6 +43,15 @@ qx.Class.define("qx.event.type.ChangeEvent",
   members :
   {
     /**
+     * Wrapper around {@link #getValue} for the moment of deprecation
+     * @deprecated
+     */
+    getData : function() {
+      throw new Error("ChangeEvents do not support getData() anymore. Use getValue() instead!");
+    },
+    
+    
+    /**
      * The value field attached to this object. The type and format are
      * defined by the sender. Normally this is the same type as the property
      * type itself is.
