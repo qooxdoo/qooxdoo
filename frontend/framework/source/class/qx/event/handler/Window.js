@@ -30,7 +30,7 @@
 qx.Class.define("qx.event.handler.Window",
 {
   extend : qx.core.Object,
-  implement : qx.event.IHandler,
+  implement : qx.event.IEventHandler,
 
 
 
@@ -102,11 +102,11 @@ qx.Class.define("qx.event.handler.Window",
     /** {Map} Internal data structure with all supported event types */
     _eventTypes :
     {
-      error : true,
-      beforeunload : true,
-      load : true,
-      unload : true,
-      resize : true
+      error : 1,
+      load : 1,
+      beforeunload : 1,
+      unload : 1,
+      resize : 1
     },
     
         
@@ -140,8 +140,13 @@ qx.Class.define("qx.event.handler.Window",
      */
     _initWindowObserver : function()
     {
-      this._onNativeWrapper = qx.lang.Function.bind(this._onNativeMouseDown, this);
-      qx.event.Manager.addNativeListener(this._document, "mousedown", this.__onNative);
+      this._onNativeWrapper = qx.lang.Function.bind(this._onNative, this);
+      
+      qx.event.Manager.addNativeListener(this._window, "error", this._onNativeWrapper);
+      qx.event.Manager.addNativeListener(this._window, "load", this._onNativeWrapper);
+      qx.event.Manager.addNativeListener(this._window, "beforeunload", this._onNativeWrapper);
+      qx.event.Manager.addNativeListener(this._window, "unload", this._onNativeWrapper);
+      qx.event.Manager.addNativeListener(this._window, "resize", this._onNativeWrapper);
     },
 
     
@@ -151,8 +156,13 @@ qx.Class.define("qx.event.handler.Window",
      * @type member
      * @return {void}
      */    
-    _stopWindowObserver : function() {
-      qx.event.Manager.removeNativeListener(this._document, "mousedown", this._onNativeWrapper);
+    _stopWindowObserver : function() 
+    {
+      qx.event.Manager.removeNativeListener(this._window, "error", this._onNativeWrapper);
+      qx.event.Manager.removeNativeListener(this._window, "load", this._onNativeWrapper);
+      qx.event.Manager.removeNativeListener(this._window, "beforeunload", this._onNativeWrapper);
+      qx.event.Manager.removeNativeListener(this._window, "unload", this._onNativeWrapper);
+      qx.event.Manager.removeNativeListener(this._window, "resize", this._onNativeWrapper);
     },
     
     
@@ -166,7 +176,7 @@ qx.Class.define("qx.event.handler.Window",
     ---------------------------------------------------------------------------
     */
     
-    __onNative : function(e)
+    _onNative : function(e)
     {
       if (!e) {
         e = window.event;

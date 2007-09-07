@@ -24,6 +24,7 @@
 #optional(qx.Theme)
 #optional(qx.locale.Manager)
 #require(qx.event.Manager)
+#require(qx.event.handler.Window)
 
 ************************************************************************ */
 
