@@ -130,6 +130,12 @@ qx.Class.define("BasicSample",
         "keydown",
         this._onkeydown, this
       );
+      
+      qx.event.Manager.addListener(
+        document.getElementById("input"),
+        "keyinput",
+        this._onkeyinput, this
+      );      
 
       for (var i=1; i<10; i++) {
         var div = document.getElementById("div"+i);
@@ -172,6 +178,10 @@ qx.Class.define("BasicSample",
 
     _onkeydown: function(e) {
       this.debug("keydown: " + e.getKeyIdentifier());
+    },
+
+    _onkeyinput: function(e) {
+      this.debug("keyinput: " + e.getCharCode());
     },
 
     _scroll: function(e) {
