@@ -41,6 +41,7 @@ qx.Class.define("qx.event.type.Event",
 
 
 
+
   /*
   *****************************************************************************
      STATICS
@@ -49,14 +50,15 @@ qx.Class.define("qx.event.type.Event",
 
   statics :
   {
+
     /** The current event phase is the capturing phase. */
     CAPTURING_PHASE : 1,
 
     /** The event is currently being evaluated at the target */
-    AT_TARGET : 2,
+    AT_TARGET       : 2,
 
     /** The current event phase is the bubbling phase. */
-    BUBBLING_PHASE : 3
+    BUBBLING_PHASE  : 3
   },
 
 
@@ -76,7 +78,7 @@ qx.Class.define("qx.event.type.Event",
      *
      * @type member
      * @param type {String} The name of the event (case-sensitive).
-     * @param bubbles {Boolean?true} Whether or not an event is a bubbling event
+     * @param bubbles {Boolean ? true} Whether or not an event is a bubbling event
      * @return {qx.event.type.Event} The initialized event instance
      */
     init : function(type, bubbles)
@@ -87,7 +89,7 @@ qx.Class.define("qx.event.type.Event",
       this._stopPropagation = false;
       this._bubbles = bubbles !== false;
       this._timeStamp = (new Date()).getTime();
-      
+
       return this;
     },
 
@@ -96,18 +98,19 @@ qx.Class.define("qx.event.type.Event",
      * Create a clone of the event object, which is not automatically disposed
      * or pooled after an event dispatch.
      *
+     * @type member
      * @return {qx.event.type.Event} a clone of this class.
      */
     clone : function()
     {
       var clone = new this.constructor;
-      
+
       clone._type = this._type;
       clone._target = this._target;
       clone._currentTarget = this._currentTarget;
       clone._stopPropagation = this._stopPropagation;
       clone._bubbles = this._bubbles;
-      
+
       return clone;
     },
 
@@ -117,8 +120,11 @@ qx.Class.define("qx.event.type.Event",
      * flow. If this method is called by any event listener the event will cease
      * propagating through the tree. The event will complete dispatch to all listeners
      * on the current event target before event flow stops.
+     *
+     * @type member
+     * @return {void} 
      */
-    stopPropagation :  function() {
+    stopPropagation : function() {
       this._stopPropagation = true;
     },
 
@@ -148,8 +154,9 @@ qx.Class.define("qx.event.type.Event",
     /**
      * Override the event type
      *
+     * @type member
      * @param type {String} new event type
-     * @internal
+     * @return {void} 
      */
     setType : function(type) {
       this._type = type;
@@ -161,7 +168,7 @@ qx.Class.define("qx.event.type.Event",
      *
      * @type member
      * @return {Integer} The current event phase. Possible values are
-     *       {@link #CAPTURING_PHASE}, {@link #AT_TARGET} and {@link #BUBBLING_PHASE}.
+     *         {@link #CAPTURING_PHASE}, {@link #AT_TARGET} and {@link #BUBBLING_PHASE}.
      */
     getEventPhase : function() {
       return this._eventPhase;
@@ -171,8 +178,9 @@ qx.Class.define("qx.event.type.Event",
     /**
      * Override the event phase
      *
+     * @type member
      * @param eventPhase {Integer} new event phase
-     * @internal
+     * @return {void} 
      */
     setEventPhase : function(eventPhase) {
       this._eventPhase = eventPhase;
@@ -194,8 +202,9 @@ qx.Class.define("qx.event.type.Event",
      * Indicates the DOM event target to which the event was originally
      * dispatched.
      *
+     * @type member
      * @return {Element} DOM element to which the event was originally
-     *     dispatched.
+     *       dispatched.
      */
     getTarget : function() {
       return this._target;
@@ -205,8 +214,9 @@ qx.Class.define("qx.event.type.Event",
     /**
      * Override event target.
      *
+     * @type member
      * @param target {Element} new event target
-     * @internal
+     * @return {void} 
      */
     setTarget : function(target) {
       this._target = target;
@@ -218,10 +228,9 @@ qx.Class.define("qx.event.type.Event",
      * processed. This is particularly useful during event capturing and
      * bubbling.
      *
+     * @type member
      * @return {Element} The DOM element the event listener is currently
-     *     dispatched on.
-     *
-     * @signature function()
+     *       dispatched on.
      */
     getCurrentTarget : function() {
       return this._currentTarget || this._target;
@@ -231,8 +240,9 @@ qx.Class.define("qx.event.type.Event",
     /**
      * Override current target.
      *
+     * @type member
      * @param currentTarget {Element} new current target
-     * @internal
+     * @return {void} 
      */
     setCurrentTarget : function(currentTarget) {
       this._currentTarget = currentTarget;
@@ -243,6 +253,7 @@ qx.Class.define("qx.event.type.Event",
      * Check whether or not the event is a bubbling event. If the event can
      * bubble the value is true, else the value is false.
      *
+     * @type member
      * @return {Boolean} Whether the event bubbles
      */
     getBubbles : function() {
@@ -253,16 +264,18 @@ qx.Class.define("qx.event.type.Event",
     /**
      * Set whether the event bubbles.
      *
+     * @type member
      * @param bubbles {Booblean} Whether the event bubbles
-     * @internal
+     * @return {void} 
      */
     setBubbles : function(bubbles) {
       this._bubbles = bubbles;
     }
   },
-  
-  
-  
+
+
+
+
   /*
   *****************************************************************************
      DESTRUCTOR
@@ -271,5 +284,5 @@ qx.Class.define("qx.event.type.Event",
 
   destruct : function() {
     this._disposeFields("_target", "_currentTarget");
-  }  
+  }
 });
