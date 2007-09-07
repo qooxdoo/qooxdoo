@@ -24,11 +24,11 @@
 ************************************************************************ */
 
 /**
- * Event dispatcher for simple inline events (no bubbling nor capturing).
+ * Dispatches events directly on the event target (no bubbling nor capturing).
  *
  * @internal
  */
-qx.Class.define("qx.event.dispatch.InlineDispatch",
+qx.Class.define("qx.event.dispatch.Direct",
 {
   extend : qx.core.Object,
   implement : qx.event.IEventDispatcher,
