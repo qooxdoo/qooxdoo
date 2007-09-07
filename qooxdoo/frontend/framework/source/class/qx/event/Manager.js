@@ -94,6 +94,7 @@ qx.Class.define("qx.event.Manager",
     // the event pool
     this.__eventPool = qx.event.Pool.getInstance();
 
+    // FIXME: Cannot use own system already in this place
     // add unload listener to prevent memory leaks
     // this.addListener(win, "unload", this.__onunload, this);
   },
@@ -907,20 +908,5 @@ qx.Class.define("qx.event.Manager",
         this.__knownDispatcher[handlerId] = i;
       }
     }
-
-  },
-
-
-
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
-
-  defer : function(statics)
-  {
-    statics.registerEventDispatcher(qx.event.dispatch.Direct, statics.PRIORITY_NORMAL);
-    statics.registerEventDispatcher(qx.event.dispatch.DomBubbling, statics.PRIORITY_NORMAL);
   }
 });

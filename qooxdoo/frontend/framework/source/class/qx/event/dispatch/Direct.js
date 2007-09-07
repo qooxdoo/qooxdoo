@@ -19,7 +19,7 @@
 
 /* ************************************************************************
 
-#module(event2)
+#module(event)
 
 ************************************************************************ */
 
@@ -93,5 +93,19 @@ qx.Class.define("qx.event.dispatch.Direct",
         listeners[i].handler.call(context, event);
       }
     }
+  },
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function(statics)
+  {
+    var manager = qx.event.Manager;
+    manager.registerEventDispatcher(statics, manager.PRIORITY_LAST);
   }
 });
