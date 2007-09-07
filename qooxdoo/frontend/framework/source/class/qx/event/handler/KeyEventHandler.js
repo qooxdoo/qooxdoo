@@ -82,7 +82,8 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
     {
       keyup : 1,
       keydown : 1,
-      keypress : 1
+      keypress : 1,
+      keyinput : 1
     },
     
     
@@ -96,15 +97,13 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
      * Fire a key input event with the given parameters
      *
      * @param domEvent {Event} DOM event
-     * @param eventType {String} type og the event
      * @param charCode {Integer} character code
      */
-    _fireInputEvent : function(domEvent, eventType, charCode)
+    _fireInputEvent : function(domEvent, charCode)
     {
       var event = qx.event.Manager.createEvent(qx.event.type.KeyInputEvent);
       
       event.init(domEvent, charCode);
-      event.setType(eventType);
 
       this._manager.dispatchEvent(domEvent.target, event);
     },
@@ -373,7 +372,7 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
       {
         keyIdentifier = this._keyCodeToIdentifier(keyCode);
 
-        this._fireSequenceEvent(domEvent, eventType, charCode, keyIdentifier);
+        this._fireSequenceEvent(domEvent, eventType, keyIdentifier);
       }
 
       // Use: charCode
@@ -381,8 +380,8 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
       {
         keyIdentifier = this._charCodeToIdentifier(charCode);
         
-        this._fireSequenceEvent(domEvent, "keypress", charCode, keyIdentifier);
-        this._fireInputEvent(domEvent, "keyinput", charCode);
+        this._fireSequenceEvent(domEvent, "keypress", keyIdentifier);
+        this._fireInputEvent(domEvent, charCode);
       }
     },
     
