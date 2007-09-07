@@ -21,7 +21,7 @@
 
 /* ************************************************************************
 
-#module(event2)
+#module(event)
 
 ************************************************************************ */
 
@@ -31,7 +31,7 @@
  * the interface of this class is based on the DOM Level 3 keyboard event
  * interface: http://www.w3.org/TR/DOM-Level-3-Events/events.html#Events-KeyboardEvent
  */
-qx.Class.define("qx.event.type.KeyEvent",
+qx.Class.define("qx.event.type.KeyUpDownEvent",
 {
   extend : qx.event.type.DomEvent,
 
@@ -50,17 +50,13 @@ qx.Class.define("qx.event.type.KeyEvent",
      *
      * @type member
      * @param domEvent {Event} DOM event
-     * @param keyCode {Integer} the key code
-     * @param charCode {Integer} the character code
      * @param keyIdentifier {String} Key identifier
      * @return {qx.event.type.KeyEvent} The initialized key event instance
      */
-    init : function(domEvent, keyCode, charCode, keyIdentifier)
+    init : function(domEvent, keyIdentifier)
     {
       this.base(arguments, domEvent);
 
-      this._keyCode = keyCode;
-      this._charCode = charCode;
       this._keyIdentifier = keyIdentifier;
       
       return this;
@@ -72,23 +68,9 @@ qx.Class.define("qx.event.type.KeyEvent",
     {
       var clone = this.base(arguments);
       
-      clone._keyCode = this._keyCode;
-      clone._charCode = this._charCode;
       clone._keyIdentifier = this._keyIdentifier;
       
       return clone;
-    },
-
-
-    /**
-     * Unicode number of the pressed character.
-     * Only valid in "keyinput" events
-     *
-     * @type member
-     * @return {Integer} Unicode number of the pressed character
-     */
-    getCharCode : function() {
-      return this._charCode;
     },
 
 

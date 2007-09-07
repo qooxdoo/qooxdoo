@@ -109,6 +109,44 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
 
       this._manager.dispatchEvent(domEvent.target, event);
     },
+    
+    /**
+     * Fire a key input event with the given parameters
+     *
+     * @param domEvent {Event} DOM event
+     * @param eventType {String} type og the event
+     * @param keyCode {Integer} key code
+     * @param charCode {Integer} character code
+     * @param keyIdentifier {String} key identifier
+     */
+    _fireInputEvent : function(domEvent, eventType, charCode)
+    {
+      var event = qx.event.Manager.createEvent(qx.event.type.KeyInputEvent);
+      event.init(domEvent, charCode);
+      event.setType(eventType);
+
+      this._manager.dispatchEvent(domEvent.target, event);
+    },
+    
+    
+    /**
+     * Fire a key up/down event with the given parameters
+     *
+     * @param domEvent {Event} DOM event
+     * @param eventType {String} type og the event
+     * @param keyCode {Integer} key code
+     * @param charCode {Integer} character code
+     * @param keyIdentifier {String} key identifier
+     */
+    _fireUpDownEvent : function(domEvent, eventType, keyIdentifier)
+    {
+      var event = qx.event.Manager.createEvent(qx.event.type.KeyUpDownEvent);
+      event.init(domEvent, keyIdentifier);
+      event.setType(eventType);
+
+      this._manager.dispatchEvent(domEvent.target, event);
+    },        
+    
 
 
 
@@ -354,15 +392,17 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
       if (keyCode)
       {
         keyIdentifier = this._keyCodeToIdentifier(keyCode);
-        this._fireEvent(domEvent, eventType, keyCode, charCode, keyIdentifier);
+
+        this._fireUpDownEvent(domEvent, eventType, charCode, keyIdentifier);
       }
 
       // Use: charCode
       else
       {
         keyIdentifier = this._charCodeToIdentifier(charCode);
-        this._fireEvent(domEvent, "keypress", keyCode, charCode, keyIdentifier);
-        this._fireEvent(domEvent, "keyinput", keyCode, charCode, keyIdentifier);
+        
+        this._fireUpDownEvent(domEvent, "keypress", charCode, keyIdentifier);
+        this._fireInputEvent(domEvent, "keyinput", charCode);
       }
     },
     

@@ -21,7 +21,7 @@
 
 /* ************************************************************************
 
-#module(event2)
+#module(event)
 
 ************************************************************************ */
 
@@ -38,22 +38,6 @@
 qx.Class.define("qx.event.type.Event",
 {
   extend : qx.core.Object,
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function()
-  {
-    this._disposeFields(
-      "_event",
-      "_target",
-      "_currentTarget"
-    );
-  },
 
 
 
@@ -74,6 +58,7 @@ qx.Class.define("qx.event.type.Event",
     /** The current event phase is the bubbling phase. */
     BUBBLING_PHASE : 3
   },
+
 
 
 
@@ -100,8 +85,9 @@ qx.Class.define("qx.event.type.Event",
       this._target = null;
       this._currentTarget = null;
       this._stopPropagation = false;
-      this._bubbles = bubbles !== undefined ? bubbles : true;
+      this._bubbles = bubbles !== false;
       this._timeStamp = (new Date()).getTime();
+      
       return this;
     },
 
@@ -115,11 +101,13 @@ qx.Class.define("qx.event.type.Event",
     clone : function()
     {
       var clone = new this.constructor;
+      
       clone._type = this._type;
       clone._target = this._target;
       clone._currentTarget = this._currentTarget;
       clone._stopPropagation = this._stopPropagation;
       clone._bubbles = this._bubbles;
+      
       return clone;
     },
 
@@ -271,5 +259,17 @@ qx.Class.define("qx.event.type.Event",
     setBubbles : function(bubbles) {
       this._bubbles = bubbles;
     }
-  }
+  },
+  
+  
+  
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields("_target", "_currentTarget");
+  }  
 });
