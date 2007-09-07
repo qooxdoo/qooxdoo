@@ -76,7 +76,6 @@ qx.Class.define("qx.event.type.KeyInputEvent",
 
     /**
      * Unicode number of the pressed character.
-     * Only valid in "keyinput" events
      *
      * @type member
      * @return {Integer} Unicode number of the pressed character

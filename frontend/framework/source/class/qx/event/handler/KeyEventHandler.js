@@ -91,37 +91,18 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
       return target.nodeType !== undefined && this.__keyEvents[type];
     },    
     
-            
-    /**
-     * Fire a key event with the given parameters
-     *
-     * @param domEvent {Event} DOM event
-     * @param eventType {String} type og the event
-     * @param keyCode {Integer} key code
-     * @param charCode {Integer} character code
-     * @param keyIdentifier {String} key identifier
-     */
-    _fireEvent : function(domEvent, eventType, keyCode, charCode, keyIdentifier)
-    {
-      var event = qx.event.Manager.createEvent(qx.event.type.KeyEvent);
-      event.init(domEvent, keyCode, charCode, keyIdentifier);
-      event.setType(eventType);
-
-      this._manager.dispatchEvent(domEvent.target, event);
-    },
     
     /**
      * Fire a key input event with the given parameters
      *
      * @param domEvent {Event} DOM event
      * @param eventType {String} type og the event
-     * @param keyCode {Integer} key code
      * @param charCode {Integer} character code
-     * @param keyIdentifier {String} key identifier
      */
     _fireInputEvent : function(domEvent, eventType, charCode)
     {
       var event = qx.event.Manager.createEvent(qx.event.type.KeyInputEvent);
+      
       event.init(domEvent, charCode);
       event.setType(eventType);
 
@@ -130,17 +111,16 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
     
     
     /**
-     * Fire a key up/down event with the given parameters
+     * Fire a key up/down/press event with the given parameters
      *
      * @param domEvent {Event} DOM event
      * @param eventType {String} type og the event
-     * @param keyCode {Integer} key code
-     * @param charCode {Integer} character code
      * @param keyIdentifier {String} key identifier
      */
-    _fireUpDownEvent : function(domEvent, eventType, keyIdentifier)
+    _fireSequenceEvent : function(domEvent, eventType, keyIdentifier)
     {
-      var event = qx.event.Manager.createEvent(qx.event.type.KeyUpDownEvent);
+      var event = qx.event.Manager.createEvent(qx.event.type.KeySequenceEvent);
+      
       event.init(domEvent, keyIdentifier);
       event.setType(eventType);
 
@@ -393,7 +373,7 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
       {
         keyIdentifier = this._keyCodeToIdentifier(keyCode);
 
-        this._fireUpDownEvent(domEvent, eventType, charCode, keyIdentifier);
+        this._fireSequenceEvent(domEvent, eventType, charCode, keyIdentifier);
       }
 
       // Use: charCode
@@ -401,7 +381,7 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
       {
         keyIdentifier = this._charCodeToIdentifier(charCode);
         
-        this._fireUpDownEvent(domEvent, "keypress", charCode, keyIdentifier);
+        this._fireSequenceEvent(domEvent, "keypress", charCode, keyIdentifier);
         this._fireInputEvent(domEvent, "keyinput", charCode);
       }
     },
@@ -748,5 +728,4 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
       };
     }
   }
-
 });
