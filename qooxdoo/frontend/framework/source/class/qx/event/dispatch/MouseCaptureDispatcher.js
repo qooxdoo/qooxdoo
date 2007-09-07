@@ -20,7 +20,7 @@
 /* ************************************************************************
 
 #module(event2)
-#require(qx.event.handler.FocusHandler)
+#require(qx.event.handler.Focus)
 
 ************************************************************************ */
 
@@ -109,7 +109,7 @@ qx.Class.define("qx.event.dispatch.MouseCaptureDispatcher",
       if (listeners)
       {
         event.setCurrentTarget(this.__captureElement);
-        event.setEventPhase(qx.event.type.Event.AT_TARGET);
+        event.setEventPhase(qx.event.type.Simple.AT_TARGET);
 
         for (var i=0; i<listeners.length; i++) {
           var context = listeners[i].context || event.getCurrentTarget();
@@ -157,7 +157,7 @@ qx.Class.define("qx.event.dispatch.MouseCaptureDispatcher",
 
       this.__manager.createAndDispatchEvent(
         this.__captureElement,
-        qx.event.type.Event,
+        qx.event.type.Simple,
         ["losecapture", true]
       );
 

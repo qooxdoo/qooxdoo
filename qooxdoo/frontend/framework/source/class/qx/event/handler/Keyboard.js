@@ -32,9 +32,9 @@
  *
  * @internal
  */
-qx.Class.define("qx.event.handler.KeyEventHandler",
+qx.Class.define("qx.event.handler.Keyboard",
 {
-  extend : qx.event.handler.AbstractEventHandler,
+  extend : qx.event.handler.Abstract,
 
 
 
@@ -151,7 +151,7 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
      */
     _fireInputEvent : function(domEvent, charCode)
     {
-      var event = qx.event.Manager.createEvent(qx.event.type.KeyInputEvent);
+      var event = qx.event.Manager.createEvent(qx.event.type.KeyInput);
 
       event.init(domEvent, charCode);
 
@@ -168,7 +168,7 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
      */
     _fireSequenceEvent : function(domEvent, type, keyIdentifier)
     {
-      var event = qx.event.Manager.createEvent(qx.event.type.KeySequenceEvent);
+      var event = qx.event.Manager.createEvent(qx.event.type.KeySequence);
 
       event.init(domEvent, type, keyIdentifier);
 
@@ -648,7 +648,7 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
      * @return {Integer} keyboard code
      */
     _identifierToKeyCode : function(keyIdentifier) {
-      return qx.event.handler.KeyEventHandler._identifierToKeyCodeMap[keyIdentifier] || keyIdentifier.charCodeAt(0);
+      return qx.event.handler.Keyboard._identifierToKeyCodeMap[keyIdentifier] || keyIdentifier.charCodeAt(0);
     }
   },
 

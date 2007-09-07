@@ -32,9 +32,9 @@
  * This handler is used to normalize all focus/activation requirements
  * and normalize all cross browser quirks in this area.
  */
-qx.Class.define("qx.event.handler.FocusHandler",
+qx.Class.define("qx.event.handler.Focus",
 {
-  extend : qx.event.handler.AbstractEventHandler,
+  extend : qx.event.handler.Abstract,
 
 
 
@@ -176,7 +176,7 @@ qx.Class.define("qx.event.handler.FocusHandler",
      * @return {void}
      */
     _fireEvent : function(target, type) {
-      this._manager.createAndDispatchEvent(target, qx.event.type.Event, [type]);
+      this._manager.createAndDispatchEvent(target, qx.event.type.Simple, [type]);
     },
     
     

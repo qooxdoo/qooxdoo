@@ -253,7 +253,7 @@ qx.Class.define("qx.ui.component.DateChooser",
 
   events: {
     /** Fired when a date was selected. The event holds the new selected date in its data property.*/
-    "select"     : "qx.event.type.DataEvent"
+    "select"     : "qx.event.type.Data"
   },
 
 

@@ -1,0 +1,97 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2004-2007 1&1 Internet AG, Germany, http://www.1and1.org
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Sebastian Werner (wpbasti)
+     * Fabian Jakobs (fjakobs)
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#module(event2)
+
+************************************************************************ */
+
+/**
+ * This handler handles "load" events of iframes
+ *
+ * @internal
+ */
+qx.Class.define("qx.event.handler.Iframe",
+{
+  extend : qx.event.handler.Abstract,
+
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  statics :
+  {
+    /**
+     * Internal function called by iframes created using {@link qx.bom.Iframe}.
+     *
+     * @internal
+     * @param type {String} Name of the event
+     * @param target {Element} DOM element which is the target of this event
+     * @return {void}
+     */
+    onevent : function(type, target)
+    {
+      var manager = qx.event.Manager.getManager(target);
+      manager.createAndDispatchEvent(target, qx.event.type.Simple, [type, false]);
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    // overridden
+    canHandleEvent : function(target, type)
+    {
+      return target.nodeType !== undefined && type === "load" &&
+        target.tagName.toLowerCase() === "iframe";
+    }
+  },
+  
+  
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function(statics)
+  {
+    var manager = qx.event.Manager;
+    manager.registerEventHandler(statics, manager.PRIORITY_FIRST);
+  }
+});

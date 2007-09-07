@@ -66,13 +66,13 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      *   <li>oldWidth: The old width of the column in pixels.</li>
      * </ul>
      */
-    "widthChanged" : "qx.event.type.DataEvent",
+    "widthChanged" : "qx.event.type.Data",
 
     /**
      * Fired when the visibility of a column has changed. This event is equal to
       * "visibilityChanged", but is fired right before.
      */
-    "visibilityChangedPre" : "qx.event.type.DataEvent",
+    "visibilityChangedPre" : "qx.event.type.Data",
 
     /**
      * Fired when the visibility of a column has changed. The data property of the
@@ -82,7 +82,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      *   <li>visible: Whether the column is now visible.</li>
      * </ul>
      */
-    "visibilityChanged" : "qx.event.type.DataEvent",
+    "visibilityChanged" : "qx.event.type.Data",
 
     /**
      * Fired when the column order has changed. The data property of the
@@ -93,7 +93,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      *   <li>toOverXPos: The new overall x position of the column.</li>
      * </ul>
      */
-    "orderChanged" : "qx.event.type.DataEvent"
+    "orderChanged" : "qx.event.type.Data"
   },
 
 

@@ -155,7 +155,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * The "data" property of the event is set to the new value
      * of the spinner.
      */
-    "change" : "qx.event.type.DataEvent"
+    "change" : "qx.event.type.Data"
   },
 
 
@@ -635,7 +635,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * hold by the "checkValue" property.
      *
      * @type member
-     * @param e {qx.event.type.DataEvent} input event
+     * @param e {qx.event.type.Data} input event
      * @return {void}
      */
     _oninput : function(e) {
@@ -651,7 +651,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * Dispatched the "change" event.
      *
      * @type member
-     * @param e {qx.event.type.ChangeEvent} change event
+     * @param e {qx.event.type.Change} change event
      * @return {void}
      */
     _onchange : function(e)

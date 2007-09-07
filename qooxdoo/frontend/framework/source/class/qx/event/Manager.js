@@ -92,7 +92,7 @@ qx.Class.define("qx.event.Manager",
     this.__updateDispatcher();
 
     // the event pool
-    this.__eventPool = qx.event.type.EventPool.getInstance();
+    this.__eventPool = qx.event.Pool.getInstance();
 
     // add unload listener to prevent memory leaks
     this.addListener(win, "unload", this.__onunload, this);
@@ -233,15 +233,15 @@ qx.Class.define("qx.event.Manager",
     /**
      * Get an inevent instance of the given class, which can be dispatched using
      * an event manager. The created events must be initialized using
-     * {@link qx.event.type.Event#init}.
+     * {@link qx.event.type.Simple#init}.
      *
      * @param eventClass {Object} The even class
-     * @return {qx.event.type.Event} An instance of the given class.
+     * @return {qx.event.type.Simple} An instance of the given class.
      */
     createEvent : function(eventClass)
     {
       if (!this.__eventPool) {
-        this.__eventPool = qx.event.type.EventPool.getInstance();
+        this.__eventPool = qx.event.Pool.getInstance();
       }
       return this.__eventPool.getEventInstance(eventClass);
     },
@@ -661,9 +661,9 @@ qx.Class.define("qx.event.Manager",
      *
      * @param target {Element|qx.core.Object} Target object on which the event
      *     should be dispatched.
-     * @param event {qx.event.type.Event} The event object to dispatch. The event
+     * @param event {qx.event.type.Simple} The event object to dispatch. The event
      *     object must be obtained using {@link #createEvent} and initialized
-     *     using {@link qx.event.type.Event#init}.
+     *     using {@link qx.event.type.Simple#init}.
      */
     dispatchEvent : function(target, event)
     {
@@ -717,7 +717,7 @@ qx.Class.define("qx.event.Manager",
      *
      * @param target {Element|qx.core.Object} Target object on which the event
      *     should be dispatched.
-     * @param eventClass {qx.event.type.Event} The even class
+     * @param eventClass {qx.event.type.Simple} The even class
      * @param eventInitArgs {Array} Array or arguments, which will be passed to
      *     the event's init method.
      */
@@ -922,7 +922,7 @@ qx.Class.define("qx.event.Manager",
 
   defer : function(statics)
   {
-    statics.registerEventHandler(qx.event.handler.InlineEventHandler, statics.PRIORITY_LAST);
+    statics.registerEventHandler(qx.event.handler.Inline, statics.PRIORITY_LAST);
 
     statics.registerEventDispatcher(qx.event.dispatch.InlineDispatch, statics.PRIORITY_NORMAL);
     statics.registerEventDispatcher(qx.event.dispatch.BubblingDispatch, statics.PRIORITY_NORMAL);

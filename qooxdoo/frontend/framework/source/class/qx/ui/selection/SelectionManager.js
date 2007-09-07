@@ -66,7 +66,7 @@ qx.Class.define("qx.ui.selection.SelectionManager",
      * Fired on a selection change. The "data" proeprty is set to an array of
      * selected items as returned by {@link #getSelectedItems}.
      **/
-    "changeSelection" : "qx.event.type.DataEvent"
+    "changeSelection" : "qx.event.type.Data"
   },
 
 

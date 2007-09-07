@@ -23,9 +23,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.event.handler.ObjectEventHandler",
+qx.Class.define("qx.event.handler.Object",
 {
-  extend : qx.event.handler.AbstractEventHandler,
+  extend : qx.event.handler.Abstract,
 
   members :
   {

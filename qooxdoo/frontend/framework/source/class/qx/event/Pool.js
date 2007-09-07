@@ -29,7 +29,7 @@
  *
  * TODO: Wrong location. Better move this one level up to "qx.event.Pool"
  */
-qx.Class.define("qx.event.type.EventPool",
+qx.Class.define("qx.event.Pool",
 {
   extend : qx.core.Object,
   type : "singleton",

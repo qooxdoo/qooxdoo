@@ -99,19 +99,19 @@ qx.Class.define("qx.ui.tree.TreeFolder",
      * Called when a tree folder with content is opened. The data property
      * contains the opened {@link TreeFolder}.
      */
-    "treeOpenWithContent" : "qx.event.type.DataEvent",
+    "treeOpenWithContent" : "qx.event.type.Data",
 
     /**
      * Called when a tree folder without content is opened. The data property
      * contains the opened {@link TreeFolder}.
      */
-    "treeOpenWhileEmpty" : "qx.event.type.DataEvent",
+    "treeOpenWhileEmpty" : "qx.event.type.Data",
 
     /**
      * Called when a tree folder is closed. The data property
      * contains the {@link TreeFolder} being closed.
      */
-    "treeClose" : "qx.event.type.DataEvent"
+    "treeClose" : "qx.event.type.Data"
   },
 
 
