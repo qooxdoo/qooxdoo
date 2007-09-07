@@ -76,7 +76,22 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
       EVENT HANDLER INTERFACE
     ---------------------------------------------------------------------------
     */
-        
+
+    /** {Map} Internal data structure with all supported keyboard events */
+    __keyEvents :
+    {
+      keyup : 1,
+      keydown : 1,
+      keypress : 1
+    },
+    
+    
+    // overridden
+    canHandleEvent : function(target, type) {
+      return target.nodeType !== undefined && this.__keyEvents[type];
+    },    
+    
+            
     /**
      * Fire a key event with the given parameters
      *
@@ -96,9 +111,7 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
     },
 
 
-    canHandleEvent : function(target, type) {
-      return this.__keyHandler[type];
-    },
+
 
 
 
@@ -311,6 +324,53 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
 
 
 
+
+    /*
+    ---------------------------------------------------------------------------
+      IDEAL KEY HANDLER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Key handler for an idealized browser.
+     * Runs after the browser specific key handlers have normalized the key events.
+     *
+     * @type member
+     * @param keyCode {String} keyboard code
+     * @param charCode {String} character code
+     * @param eventType {String} type of the event (keydown, keypress, keyup)
+     * @param domEvent {Element} DomEvent
+     * @return {void}
+     */
+    _idealKeyHandler : function(keyCode, charCode, eventType, domEvent)
+    {
+      if (!keyCode && !charCode) {
+        return;
+      }
+
+      var keyIdentifier;
+
+      // Use: keyCode
+      if (keyCode)
+      {
+        keyIdentifier = this._keyCodeToIdentifier(keyCode);
+        this._fireEvent(domEvent, eventType, keyCode, charCode, keyIdentifier);
+      }
+
+      // Use: charCode
+      else
+      {
+        keyIdentifier = this._charCodeToIdentifier(charCode);
+        this._fireEvent(domEvent, "keypress", keyCode, charCode, keyIdentifier);
+        this._fireEvent(domEvent, "keyinput", keyCode, charCode, keyIdentifier);
+      }
+    },
+    
+    
+    
+    
+    
+    
     /*
     ---------------------------------------------------------------------------
       KEY-MAPS
@@ -545,51 +605,7 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
      */
     _identifierToKeyCode : function(keyIdentifier) {
       return this._identifierToKeyCodeMap[keyIdentifier] || keyIdentifier.charCodeAt(0);
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      IDEALIZED-KEY-HANDLER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Key handler for an idealized browser.
-     * Runs after the browser specific key handlers have normalized the key events.
-     *
-     * @type member
-     * @param keyCode {String} keyboard code
-     * @param charCode {String} character code
-     * @param eventType {String} type of the event (keydown, keypress, keyup)
-     * @param domEvent {Element} DomEvent
-     * @return {void}
-     */
-    _idealKeyHandler : function(keyCode, charCode, eventType, domEvent)
-    {
-      if (!keyCode && !charCode) {
-        return;
-      }
-
-      var keyIdentifier;
-
-      // Use: keyCode
-      if (keyCode)
-      {
-        keyIdentifier = this._keyCodeToIdentifier(keyCode);
-        this._fireEvent(domEvent, eventType, keyCode, charCode, keyIdentifier);
-      }
-
-      // Use: charCode
-      else
-      {
-        keyIdentifier = this._charCodeToIdentifier(charCode);
-        this._fireEvent(domEvent, "keypress", keyCode, charCode, keyIdentifier);
-        this._fireEvent(domEvent, "keyinput", keyCode, charCode, keyIdentifier);
-      }
-    }
+    }    
   },
 
 

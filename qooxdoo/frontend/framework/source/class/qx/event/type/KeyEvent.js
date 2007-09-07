@@ -62,6 +62,7 @@ qx.Class.define("qx.event.type.KeyEvent",
       this._keyCode = keyCode;
       this._charCode = charCode;
       this._keyIdentifier = keyIdentifier;
+      
       return this;
     },
 
@@ -70,9 +71,11 @@ qx.Class.define("qx.event.type.KeyEvent",
     clone : function()
     {
       var clone = this.base(arguments);
+      
       clone._keyCode = this._keyCode;
       clone._charCode = this._charCode;
       clone._keyIdentifier = this._keyIdentifier;
+      
       return clone;
     },
 
@@ -144,6 +147,6 @@ qx.Class.define("qx.event.type.KeyEvent",
      */
     getKeyIdentifier : function() {
       return this._keyIdentifier;
-    }
+    }    
   }
 });
