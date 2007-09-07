@@ -51,14 +51,15 @@ qx.Class.define("qx.event.type.KeySequenceEvent",
      *
      * @type member
      * @param domEvent {Event} DOM event
-     * @param keyIdentifier {String} Key identifier
+     * @param type {String} Type of the event (overrides native event type)
+     * @param identifier {String} Key identifier
      * @return {qx.event.type.KeyEvent} The initialized key event instance
      */
-    init : function(domEvent, keyIdentifier)
+    init : function(domEvent, type, identifier)
     {
-      this.base(arguments, domEvent);
+      this.base(arguments, domEvent, type);
 
-      this._keyIdentifier = keyIdentifier;
+      this._identifier = identifier;
 
       return this;
     },
@@ -69,7 +70,7 @@ qx.Class.define("qx.event.type.KeySequenceEvent",
     {
       var clone = this.base(arguments);
 
-      clone._keyIdentifier = this._keyIdentifier;
+      clone._identifier = this._identifier;
 
       return clone;
     },
@@ -127,7 +128,7 @@ qx.Class.define("qx.event.type.KeySequenceEvent",
      * @return {String} The key identifier
      */
     getKeyIdentifier : function() {
-      return this._keyIdentifier;
+      return this._identifier;
     }
   }
 });

@@ -163,15 +163,14 @@ qx.Class.define("qx.event.handler.KeyEventHandler",
      * Fire a key up/down/press event with the given parameters
      *
      * @param domEvent {Event} DOM event
-     * @param eventType {String} type og the event
+     * @param type {String} type og the event
      * @param keyIdentifier {String} key identifier
      */
-    _fireSequenceEvent : function(domEvent, eventType, keyIdentifier)
+    _fireSequenceEvent : function(domEvent, type, keyIdentifier)
     {
       var event = qx.event.Manager.createEvent(qx.event.type.KeySequenceEvent);
 
-      event.init(domEvent, keyIdentifier);
-      event.setType(eventType);
+      event.init(domEvent, type, keyIdentifier);
 
       this._manager.dispatchEvent(domEvent.target, event);
     },

@@ -109,8 +109,8 @@ qx.Class.define("qx.event.handler.MouseEventHandler",
     _fireEvent : function(domEvent, type, target)
     {
       var event = qx.event.Manager.createEvent(qx.event.type.MouseEvent);
-      event.init(domEvent);
-      event.setType(type);
+
+      event.init(domEvent, type);
 
       this._manager.dispatchEvent(domEvent.target, event);
     },
