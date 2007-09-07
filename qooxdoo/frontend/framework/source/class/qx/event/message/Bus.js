@@ -175,12 +175,18 @@ qx.Class.define("qx.event.message.Bus",
      * dispatch message and call subscribed functions
      *
      * @type static
-     * @param msg {qx.messagebus.Message} message which is being dispatched
+     * @param msg {qx.messagebus.Message|String} message which is being dispatched
      * @return {boolean} TODOC
      */
     dispatch : function(msg)
     {
-      // todo: check for valid qx.messagebus.Message
+      // if string value has been supplied, create new message
+      if ( typeof msg == "string" )
+      {
+        var value = typeof arguments[1] != "undefined" ? arguments[1] : true;
+        msg = new qx.event.message.Message( msg, value );
+      }
+      
       var sub = this.getSubscriptions();
       var msgName = msg.getName();
 
