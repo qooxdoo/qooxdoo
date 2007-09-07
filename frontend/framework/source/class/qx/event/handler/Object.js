@@ -25,7 +25,8 @@
 
 qx.Class.define("qx.event.handler.Object",
 {
-  extend : qx.event.handler.Abstract,
+  extend : qx.core.Object,
+  implement : qx.event.handler.IHandler,
 
 
 
@@ -44,10 +45,22 @@ qx.Class.define("qx.event.handler.Object",
     ---------------------------------------------------------------------------
     */
         
-    // overridden
+    // interface implementation
     canHandleEvent : function(target, type) {
       return target instanceof qx.core.Target && qx.Class.supportsEvent(target.constructor, type);
-    }
+    },
+    
+
+    // interface implementation
+    registerEvent : function(target, type) {
+      // Nothing needs to be done here
+    },
+
+
+    // interface implementation
+    unregisterEvent : function(target, type) {
+      // Nothing needs to be done here
+    }    
   },
 
 

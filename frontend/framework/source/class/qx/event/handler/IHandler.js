@@ -23,7 +23,6 @@
 
 ************************************************************************ */
 
-
 /**
  * Event handler Interface.
  *
@@ -32,7 +31,6 @@
  */
 qx.Interface.define("qx.event.handler.IHandler",
 {
-
   members :
   {
     /**
