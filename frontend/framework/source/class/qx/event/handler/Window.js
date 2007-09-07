@@ -217,6 +217,6 @@ qx.Class.define("qx.event.handler.Window",
   defer : function(statics)
   {
     var manager = qx.event.Manager;
-    manager.registerEventHandler(statics, manager.PRIORITY_FIRST);
+    manager.registerEventHandler(statics, manager.PRIORITY_NORMAL);
   }
 });

@@ -204,6 +204,6 @@ qx.Class.define("qx.event.handler.Element",
   defer : function(statics)
   {
     var manager = qx.event.Manager;
-    manager.registerEventHandler(statics, manager.PRIORITY_LAST);
+    manager.registerEventHandler(statics, manager.PRIORITY_NORMAL);
   }  
 });
