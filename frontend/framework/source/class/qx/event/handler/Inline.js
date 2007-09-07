@@ -49,17 +49,7 @@ qx.Class.define("qx.event.handler.Inline",
 
 
 
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
 
-  destruct : function()
-  {
-    this.removeAllListeners();
-    this._disposeFields("__registeredEvents");
-  },
 
 
 
@@ -71,69 +61,38 @@ qx.Class.define("qx.event.handler.Inline",
 
   members :
   {
-
-    // Events, which don't bubble
-    // TODO: Better to invert this map and move it to the documentHandler
-    // Reason: Inline events work for nearly anything. Even for upcoming stuff
-    // other events do not.
-    // TODO: Even better. Create both maps. Reduce both by the ones they really
-    // support and which are tested. A whitelist is much better in this case.
-    // Things which only works partly cross-browser should not be listed here.
-    __inlineEvent :
-    {
-      abort                       : 1,
-      afterprint                  : 1,  // IE
-      beforeprint                 : 1,  // IE
-      beforeunload                : 1,
-      blur                        : 1,
-      change                      : 1,
-      dragdrop                    : 1,
-      DOMNodeInsertedIntoDocument : 1,  // DOM2
-      DOMNodeRemovedFromDocument  : 1,  // DOM2
-      error                       : 1,
-      focus                       : 1,
-      formchange                  : 1,  // Opera (Webforms 2)
-      forminput                   : 1,  // Opera (Webforms 2)
-      load                        : 1,
-      losecapture                 : 1,  // IE
-      mouseenter                  : 1,  // IE
-      mouseleave                  : 1,  // IE
-      mousewheel                  : 1,  // IE
-      propertychange              : 1,  // IE
-      readystatechange            : 1,
-      reset                       : 1,
-      scroll                      : 1,
-      select                      : 1,
-      selectionchange             : 1,  // IE
-      selectstart                 : 1,  // IE
-      stop                        : 1,  // IE
-      submit                      : 1,
-      unload                      : 1
-    },
-    
-    
-    // clean list
-    __inlineEvent :
-    {
-      beforeunload : true,
-      load : true,
-      unload : true,
-      scroll : true,
-      submit : true,
-      change : true
-    },
-
-
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER INTERFACE
     ---------------------------------------------------------------------------
     */
+        
+    /** {Map} Internal data structure with all supported DOM events */
+    _windowEvents :
+    {
+      // Window 
+      error : true,
+      beforeunload : true,
+      load : true,
+      unload : true,
+      resize : true
+    },
+    
+    _elementEvents :
+    {
+      abort : true,    // Image elements only
+      scroll : true,    
+      change : true,
+      select : true,
+      reset : true,    // Form Elements only
+      submit : true    // Form Elements
+    },
+
 
     // overridden
     canHandleEvent : function(target, type) {
       return (
-        this.__inlineEvent[type] &&
+        (this._windowEvents[type] || this._elementEvents[type]) &&
         (
           typeof(target.nodeType) === "number" ||
           typeof(target.document) === "object"
@@ -216,5 +175,21 @@ qx.Class.define("qx.event.handler.Inline",
 
       this._manager.dispatchEvent(domEvent.target, event);
     }
+  },
+  
+  
+  
+  
+  
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this.removeAllListeners();
+    this._disposeFields("__registeredEvents");
   }
 });
