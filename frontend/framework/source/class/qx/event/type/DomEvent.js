@@ -21,7 +21,7 @@
 
 /* ************************************************************************
 
-#module(event2)
+#module(event)
 
 ************************************************************************ */
 
@@ -34,17 +34,19 @@ qx.Class.define("qx.event.type.DomEvent",
 
   members :
   {
-
+    // overridden
     init : function(domEvent)
     {
       this.base(arguments, domEvent.type, domEvent.bubbles);
+      
       this._target = domEvent.target || domEvent.srcElement;
 
       if (domEvent.timeStamp) {
         this._timeStamp = domEvent.timeStamp;
       }
 
-      this._event = domEvent;
+      this._dom = domEvent;
+      
       return this;
     },
 
@@ -52,23 +54,25 @@ qx.Class.define("qx.event.type.DomEvent",
     /**
      * Prevent browser default behaviour, e.g. opening the context menu, ...
      */
-    preventDefault : function() {
-      if (this._event.preventDefault) {
-        this._event.preventDefault();
+    preventDefault : function() 
+    {
+      if (this._dom.preventDefault) {
+        this._dom.preventDefault();
       }
-      this._event.returnValue = false;
+      
+      this._dom.returnValue = false;
     },
 
 
     // overridden
     stopPropagation :  function()
     {
-      if (this._event.stopPropagation) {
-        this._event.stopPropagation();
+      if (this._dom.stopPropagation) {
+        this._dom.stopPropagation();
       }
 
       // MSDN doccumantation http://msdn2.microsoft.com/en-us/library/ms533545.aspx
-      this._event.cancelBubble = true;
+      this._dom.cancelBubble = true;
       this._stopPropagation = true;
     },
 
@@ -80,7 +84,7 @@ qx.Class.define("qx.event.type.DomEvent",
      * @return {Boolean} whether the the ctrl key is pressed.
      */
     isCtrlPressed : function() {
-      return this._event.ctrlKey;
+      return this._dom.ctrlKey;
     },
 
 
@@ -91,7 +95,7 @@ qx.Class.define("qx.event.type.DomEvent",
      * @return {Boolean} whether the the shift key is pressed.
      */
     isShiftPressed : function() {
-      return this._event.shiftKey;
+      return this._dom.shiftKey;
     },
 
 
@@ -102,7 +106,7 @@ qx.Class.define("qx.event.type.DomEvent",
      * @return {Boolean} whether the the alt key is pressed.
      */
     isAltPressed : function() {
-      return this._event.altKey;
+      return this._dom.altKey;
     },
 
 
@@ -113,31 +117,21 @@ qx.Class.define("qx.event.type.DomEvent",
      * @return {Boolean} whether the the meta key is pressed.
      */
     isMetaPressed : function() {
-      return this._event.metaKey;
-    },
-
-
-    /**
-     * Returns whether the ctrl key or (on the Mac) the command key is pressed.
-     *
-     * TODO: Better name or remove at all. If we want the identical behavior cross
-     * platform this is OK, but this is part of the widget or even application logic
-     * We should move it into there.
-     *
-     * @deprecated: Use isMetaPressed or isCtrlPressed instead.
-     * @type member
-     * @return {Boolean} <code>true</code> if the command key is pressed on the Mac
-     *             or the ctrl key is pressed on another system.
-     */
-    isCtrlOrCommandPressed : function()
-    {
-      if (qx.core.Client.getInstance().runsOnMacintosh()) {
-        return this._event.metaKey;
-      } else {
-        return this._event.ctrlKey;
-      }
+      return this._dom.metaKey;
     }
+  },
+  
+  
+  
+  
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
 
-  }
+  destruct : function() {
+    this._disposeFields("_dom");
+  } 
 });
 
