@@ -37,6 +37,7 @@ qx.Class.define("qx.event.type.KeyInputEvent",
 
 
 
+
   /*
   *****************************************************************************
      MEMBERS
@@ -59,18 +60,23 @@ qx.Class.define("qx.event.type.KeyInputEvent",
 
       this._charCode = charCode;
       this._type = "keyinput";
-      
+
       return this;
     },
 
-
     // overridden
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
     clone : function()
     {
       var clone = this.base(arguments);
-      
+
       clone._charCode = this._charCode;
-      
+
       return clone;
     },
 
@@ -83,6 +89,6 @@ qx.Class.define("qx.event.type.KeyInputEvent",
      */
     getCharCode : function() {
       return this._charCode;
-    } 
+    }
   }
 });

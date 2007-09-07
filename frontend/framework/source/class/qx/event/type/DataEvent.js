@@ -47,32 +47,31 @@ qx.Class.define("qx.event.type.DataEvent",
      * defined by the sender.
      *
      * @type member
-     * @return {var}
+     * @return {var} TODOC
      */
     getData : function() {
       return this._data;
     },
-    
-    
 
-   /**
-    * Initializes an event onject.
-    *
-    * @type member
-    * @param vType {String} the type name of the event
-    * @param vData {var} additional data which should be passed to the event listener
-    * @return {qx.event.type.DataEvent} the initialized instance.
-    */
+
+    /**
+     * Initializes an event onject.
+     *
+     * @type member
+     * @param type {var} TODOC
+     * @param data {var} TODOC
+     * @return {qx.event.type.DataEvent} the initialized instance.
+     */
     init : function(type, data)
     {
       this.base(arguments, type, false);
-      
+
       this._data = data;
-      
+
       return this;
     },
-  
-  
+
+
     /**
      * Get a copy of this object
      *
@@ -82,13 +81,13 @@ qx.Class.define("qx.event.type.DataEvent",
     clone : function()
     {
       var clone = this.base(arguments);
-      
+
       clone._data = this._data;
-      
+
       return clone;
     }
   },
-  
+
 
 
 

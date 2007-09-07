@@ -37,6 +37,7 @@ qx.Class.define("qx.event.type.KeySequenceEvent",
 
 
 
+
   /*
   *****************************************************************************
      MEMBERS
@@ -58,18 +59,23 @@ qx.Class.define("qx.event.type.KeySequenceEvent",
       this.base(arguments, domEvent);
 
       this._keyIdentifier = keyIdentifier;
-      
+
       return this;
     },
 
-
     // overridden
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
     clone : function()
     {
       var clone = this.base(arguments);
-      
+
       clone._keyIdentifier = this._keyIdentifier;
-      
+
       return clone;
     },
 
@@ -77,10 +83,10 @@ qx.Class.define("qx.event.type.KeySequenceEvent",
     /**
      * Identifier of the pressed key. This property is modeled after the <em>KeyboardEvent.keyIdentifier</em> property
      * of the W3C DOM 3 event specification (http://www.w3.org/TR/2003/NOTE-DOM-Level-3-Events-20031107/events.html#Events-KeyboardEvent-keyIdentifier).
-     *
+     * 
      * Printable keys are represented by a unicode string, non-printable keys have one of the following
      * values:
-     *
+     * 
      * <table>
      * <tr><th>Backspace</th><td>The Backspace (Back) key.</td></tr>
      * <tr><th>Tab</th><td>The Horizontal Tabulation (Tab) key.</td></tr>
@@ -127,6 +133,6 @@ qx.Class.define("qx.event.type.KeySequenceEvent",
      */
     getKeyIdentifier : function() {
       return this._keyIdentifier;
-    }    
+    }
   }
 });

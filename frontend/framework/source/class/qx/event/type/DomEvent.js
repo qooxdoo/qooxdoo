@@ -45,7 +45,7 @@ qx.Class.define("qx.event.type.DomEvent",
     init : function(nativeEvent)
     {
       this.base(arguments, nativeEvent.type, nativeEvent.bubbles);
-      
+
       this._target = nativeEvent.target || nativeEvent.srcElement;
 
       if (nativeEvent.timeStamp) {
@@ -53,26 +53,34 @@ qx.Class.define("qx.event.type.DomEvent",
       }
 
       this._native = nativeEvent;
-      
+
       return this;
     },
 
 
     /**
      * Prevent browser default behaviour, e.g. opening the context menu, ...
+     *
+     * @type member
+     * @return {void} 
      */
-    preventDefault : function() 
+    preventDefault : function()
     {
       if (this._native.preventDefault) {
         this._native.preventDefault();
       }
-      
+
       this._native.returnValue = false;
     },
 
-
     // overridden
-    stopPropagation :  function()
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    stopPropagation : function()
     {
       if (this._native.stopPropagation) {
         this._native.stopPropagation();
@@ -127,10 +135,10 @@ qx.Class.define("qx.event.type.DomEvent",
       return this._native.metaKey;
     }
   },
-  
-  
-  
-  
+
+
+
+
   /*
   *****************************************************************************
      DESTRUCTOR
@@ -139,6 +147,5 @@ qx.Class.define("qx.event.type.DomEvent",
 
   destruct : function() {
     this._disposeFields("_native");
-  } 
+  }
 });
-
