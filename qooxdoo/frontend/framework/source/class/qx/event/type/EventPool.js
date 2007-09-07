@@ -52,16 +52,6 @@ qx.Class.define("qx.event.type.EventPool",
 
 
 
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this._disposeObjects("_pool");
-  },
-
 
 
   /*
@@ -108,5 +98,18 @@ qx.Class.define("qx.event.type.EventPool",
     poolEvent : function(event) {
       this._pool.poolObject(event);
     }
-  }
+  },
+  
+  
+  
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeObjects("_pool");
+  }  
 });
