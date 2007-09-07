@@ -33,22 +33,6 @@ qx.Class.define("qx.event.type.DataEvent",
 
 
 
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-    /**
-     * The data field attached to this object. The data type and format are
-     * defined. by the sender
-     */
-    data : { _fast : true }
-  },
-
-
 
   /*
   *****************************************************************************
@@ -58,10 +42,23 @@ qx.Class.define("qx.event.type.DataEvent",
 
   members :
   {
+    /**
+     * The data field attached to this object. The data type and format are
+     * defined by the sender.
+     *
+     * @type member
+     * @return {var}
+     */
+    getData : function() {
+      return this._data;
+    },
+    
+    
 
    /**
     * Initializes an event onject.
     *
+    * @type member
     * @param vType {String} the type name of the event
     * @param vData {var} additional data which should be passed to the event listener
     * @return {qx.event.type.DataEvent} the initialized instance.
@@ -69,24 +66,29 @@ qx.Class.define("qx.event.type.DataEvent",
     init : function(type, data)
     {
       this.base(arguments, type, false);
-      this.setData(data);
+      
+      this._data = data;
+      
       return this;
     },
-
-
+  
+  
     /**
      * Get a copy of this object
      *
+     * @type member
      * @return {qx.event.type.DataEvent} a copy of this object
      */
     clone : function()
     {
       var clone = this.base(arguments);
-      clone.setData(this.getData());
+      
+      clone._data = this._data;
+      
       return clone;
     }
-
   },
+  
 
 
 
@@ -97,6 +99,6 @@ qx.Class.define("qx.event.type.DataEvent",
   */
 
   destruct : function() {
-    this._disposeFields("_valueData");
+    this._disposeFields("_data");
   }
 });
