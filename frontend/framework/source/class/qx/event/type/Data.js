@@ -27,9 +27,9 @@
 /**
  * Generic event object for data transfers.
  */
-qx.Class.define("qx.event.type.DataEvent",
+qx.Class.define("qx.event.type.Data",
 {
-  extend : qx.event.type.Event,
+  extend : qx.event.type.Simple,
 
 
 
@@ -60,7 +60,7 @@ qx.Class.define("qx.event.type.DataEvent",
      * @type member
      * @param type {String} Event type
      * @param data {var} Data to attach to the event
-     * @return {qx.event.type.DataEvent} the initialized instance.
+     * @return {qx.event.type.Data} the initialized instance.
      */
     init : function(type, data)
     {
@@ -76,7 +76,7 @@ qx.Class.define("qx.event.type.DataEvent",
      * Get a copy of this object
      *
      * @type member
-     * @return {qx.event.type.DataEvent} a copy of this object
+     * @return {qx.event.type.Data} a copy of this object
      */
     clone : function()
     {

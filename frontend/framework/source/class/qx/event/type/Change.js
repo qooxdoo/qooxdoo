@@ -27,9 +27,9 @@
 /**
  * Event object for property changes.
  */
-qx.Class.define("qx.event.type.ChangeEvent",
+qx.Class.define("qx.event.type.Change",
 {
-  extend : qx.event.type.Event,
+  extend : qx.event.type.Simple,
 
 
 
@@ -84,7 +84,7 @@ qx.Class.define("qx.event.type.ChangeEvent",
      * @param type {String} the type name of the event
      * @param value {var} current property value
      * @param old {var} old property value
-     * @return {qx.event.type.ChangeEvent} the initialized instance.
+     * @return {qx.event.type.Change} the initialized instance.
      */
     init : function(type, value, old)
     {
@@ -101,7 +101,7 @@ qx.Class.define("qx.event.type.ChangeEvent",
      * Get a copy of this object
      *
      * @type member
-     * @return {qx.event.type.ChangeEvent} a copy of this object
+     * @return {qx.event.type.Change} a copy of this object
      */
     clone : function()
     {

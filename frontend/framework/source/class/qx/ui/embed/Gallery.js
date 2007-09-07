@@ -81,7 +81,7 @@ qx.Class.define("qx.ui.embed.Gallery",
      * control which tooltip is shown. The data property holds a reference to
      * the hovered item.
      */
-    "beforeToolTipAppear"     : "qx.event.type.DataEvent",
+    "beforeToolTipAppear"     : "qx.event.type.Data",
     "loadComplete"            : "qx.legacy.event.type.Event"
   },
 

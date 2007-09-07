@@ -28,9 +28,9 @@
  *
  * @internal
  */
-qx.Class.define("qx.event.handler.InlineEventHandler",
+qx.Class.define("qx.event.handler.Inline",
 {
-  extend : qx.event.handler.AbstractEventHandler,
+  extend : qx.event.handler.Abstract,
 
 
 
@@ -207,7 +207,7 @@ qx.Class.define("qx.event.handler.InlineEventHandler",
      */
     __handleEvent : function(elementId, domEvent)
     {
-      var event = qx.event.Manager.createEvent(qx.event.type.DomEvent).init(domEvent);
+      var event = qx.event.Manager.createEvent(qx.event.type.Dom).init(domEvent);
       event.setBubbles(false);
 
       var eventData = this.__registeredEvents[elementId + event.getType()];

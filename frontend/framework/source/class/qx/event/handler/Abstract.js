@@ -29,10 +29,10 @@
  *
  * @internal
  */
-qx.Class.define("qx.event.handler.AbstractEventHandler",
+qx.Class.define("qx.event.handler.Abstract",
 {
   extend : qx.core.Object,
-  implement : qx.event.handler.IEventHandler,
+  implement : qx.event.handler.IHandler,
   type : "abstract",
 
 

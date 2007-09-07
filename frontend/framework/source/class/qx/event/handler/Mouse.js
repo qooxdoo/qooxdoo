@@ -31,9 +31,9 @@
  *
  * @internal
  */
-qx.Class.define("qx.event.handler.MouseEventHandler",
+qx.Class.define("qx.event.handler.Mouse",
 {
-  extend : qx.event.handler.AbstractEventHandler,
+  extend : qx.event.handler.Abstract,
 
 
 
@@ -108,7 +108,7 @@ qx.Class.define("qx.event.handler.MouseEventHandler",
      */
     _fireEvent : function(domEvent, type, target)
     {
-      var event = qx.event.Manager.createEvent(qx.event.type.MouseEvent);
+      var event = qx.event.Manager.createEvent(qx.event.type.Mouse);
 
       event.init(domEvent, type);
 

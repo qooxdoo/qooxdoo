@@ -213,7 +213,7 @@ qx.Class.define("qx.ui.table.Table",
      * may add additional items to the menu, which appear at the top of the
      * menu.
      */
-    "columnVisibilityMenuCreateStart" : "qx.event.type.DataEvent",
+    "columnVisibilityMenuCreateStart" : "qx.event.type.Data",
 
     /**
      * Dispatched after adding the column list to the column visibility menu.
@@ -221,19 +221,19 @@ qx.Class.define("qx.ui.table.Table",
      * may add additional items to the menu, which appear at the bottom of the
      * menu.
      */
-    "columnVisibilityMenuCreateEnd" : "qx.event.type.DataEvent",
+    "columnVisibilityMenuCreateEnd" : "qx.event.type.Data",
 
      /**
       * Dispatched when the inner width of the table has changed.
       */
-    "tableWidthChanged" : "qx.event.type.DataEvent",
+    "tableWidthChanged" : "qx.event.type.Data",
 
     /**
      * Dispatched when updating scrollbars discovers that a vertical scrollbar
      * is needed when it previously was not, or vice versa.  The data is a
      * boolean indicating whether a vertical scrollbar is now being used.
      */
-    "verticalScrollBarChanged" : "qx.event.type.DataEvent"
+    "verticalScrollBarChanged" : "qx.event.type.Data"
   },
 
 

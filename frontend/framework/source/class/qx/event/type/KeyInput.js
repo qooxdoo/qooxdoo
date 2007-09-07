@@ -31,9 +31,9 @@
  * the interface of this class is based on the DOM Level 3 keyboard event
  * interface: http://www.w3.org/TR/DOM-Level-3-Events/events.html#Events-KeyboardEvent
  */
-qx.Class.define("qx.event.type.KeyInputEvent",
+qx.Class.define("qx.event.type.KeyInput",
 {
-  extend : qx.event.type.DomEvent,
+  extend : qx.event.type.Dom,
 
 
 

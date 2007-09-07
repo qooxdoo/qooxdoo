@@ -31,10 +31,10 @@ qx.Class.define("testrunner.TestResult",
 
   events :
   {
-    startTest : "qx.event.type.DataEvent",
-    endTest   : "qx.event.type.DataEvent",
-    error     : "qx.event.type.DataEvent",
-    failure   : "qx.event.type.DataEvent"
+    startTest : "qx.event.type.Data",
+    endTest   : "qx.event.type.Data",
+    error     : "qx.event.type.Data",
+    failure   : "qx.event.type.Data"
   },
 
 

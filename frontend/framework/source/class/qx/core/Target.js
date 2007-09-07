@@ -21,8 +21,8 @@
 /* ************************************************************************
 
 #module(core)
-#require(qx.event.handler.ObjectEventHandler)
-#require(qx.event.type.ChangeEvent)
+#require(qx.event.handler.Object)
+#require(qx.event.type.Change)
 
 ************************************************************************ */
 
@@ -142,7 +142,7 @@ qx.Class.define("qx.core.Target",
     {
       qx.event.Manager.getManager(this).createAndDispatchEvent(
         this,
-        qx.event.type.DataEvent,
+        qx.event.type.Data,
         [type, data]
       );
     },

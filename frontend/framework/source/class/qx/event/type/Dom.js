@@ -28,9 +28,9 @@
 /**
  * Common base class for all DOM events.
  */
-qx.Class.define("qx.event.type.DomEvent",
+qx.Class.define("qx.event.type.Dom",
 {
-  extend : qx.event.type.NativeEvent,
+  extend : qx.event.type.Native,
 
   members :
   {

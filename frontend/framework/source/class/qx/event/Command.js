@@ -41,7 +41,7 @@ qx.Class.define("qx.event.Command",
      * Fired when the command is executed. Sets the "data" property of the event to
      * the object that issued the command.
      */
-    "execute" : "qx.event.type.DataEvent"
+    "execute" : "qx.event.type.Data"
   },
 
 
@@ -316,7 +316,7 @@ qx.Class.define("qx.event.Command",
      */
     __noramlizeKeyIdentifier : function(keyName)
     {
-      var KeyHandler = qx.event.handler.KeyEventHandler;
+      var KeyHandler = qx.event.handler.Keyboard;
       var keyIdentifier = "Unidentified";
 
       if (KeyHandler.isValidKeyIdentifier(keyName)) {

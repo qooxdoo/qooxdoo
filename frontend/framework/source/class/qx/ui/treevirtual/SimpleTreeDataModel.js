@@ -310,7 +310,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
             lastColumn  : columnIndex
           };
 
-          this.dispatchEvent(new qx.event.type.DataEvent("dataChanged", data),
+          this.dispatchEvent(new qx.event.type.Data("dataChanged", data),
                              true);
         }
       }
@@ -743,7 +743,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
             lastColumn  : _this.getColumnCount() - 1
           };
 
-          _this.dispatchEvent(new qx.event.type.DataEvent("dataChanged",
+          _this.dispatchEvent(new qx.event.type.Data("dataChanged",
                                                           data), true);
         }
       }

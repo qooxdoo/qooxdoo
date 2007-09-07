@@ -153,12 +153,12 @@ qx.Class.define("BasicSample",
       //qx.event.Manager.addListener(document.documentElement, "click", this._positionDiv, this);
 
       qx.event.Manager.addListener(this._juhu, "click", function() {
-        var e = qx.event.type.EventPool.getInstance().getEventInstance("qx.event.type.Event").init({});
+        var e = qx.event.Pool.getInstance().getEventInstance("qx.event.type.Simple").init({});
         e.setType("juhu");
         e.setCurrentTarget(this);
         e.setTarget(this);
         qx.event.Manager.getManager(this).dispatchEvent(e);
-        qx.event.type.EventPool.getInstance().poolEvent(e);
+        qx.event.Pool.getInstance().poolEvent(e);
       }, this);
 
       // Does not seem to work
