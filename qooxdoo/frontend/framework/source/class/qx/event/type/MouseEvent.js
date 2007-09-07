@@ -37,6 +37,7 @@ qx.Class.define("qx.event.type.MouseEvent",
 
 
 
+
   /*
   *****************************************************************************
      MEMBERS
@@ -49,16 +50,16 @@ qx.Class.define("qx.event.type.MouseEvent",
     {
       "mshtml" :
       {
-        1: "left",
-        2: "right",
-        4: "middle"
+        1 : "left",
+        2 : "right",
+        4 : "middle"
       },
 
       "default" :
       {
-        0: "left",
-        2: "right",
-        1: "middle"
+        0 : "left",
+        2 : "right",
+        1 : "middle"
       }
     }),
 
@@ -67,11 +68,12 @@ qx.Class.define("qx.event.type.MouseEvent",
      * During mouse events caused by the depression or release of a mouse button,
      * this method can be used to check which mouse button changed state.
      *
+     * @type member
      * @return {String} One of "left", "right", "middle" or "none"
      */
     getButton : function()
     {
-      switch (this.getType())
+      switch(this.getType())
       {
         case "click":
         case "dblclick":
@@ -89,6 +91,7 @@ qx.Class.define("qx.event.type.MouseEvent",
     /**
      * Whether the left button is pressed
      *
+     * @type member
      * @return {Boolean} true when the left button is pressed
      */
     isLeftButtonPressed : function() {
@@ -99,6 +102,7 @@ qx.Class.define("qx.event.type.MouseEvent",
     /**
      * Whether the middle button is pressed
      *
+     * @type member
      * @return {Boolean} true when the middle button is pressed
      */
     isMiddleButtonPressed : function() {
@@ -109,6 +113,7 @@ qx.Class.define("qx.event.type.MouseEvent",
     /**
      * Whether the right button is pressed
      *
+     * @type member
      * @return {Boolean} true when the right button is pressed
      */
     isRightButtonPressed : function() {
@@ -199,7 +204,7 @@ qx.Class.define("qx.event.type.MouseEvent",
         return this._native.pageX;
       },
 
-      "default": function() {
+      "default" : function() {
         return this._native.clientX;
       }
     }),
@@ -225,7 +230,7 @@ qx.Class.define("qx.event.type.MouseEvent",
         return this._native.pageY;
       },
 
-      "default": function() {
+      "default" : function() {
         return this._native.clientY;
       }
     }),
@@ -234,10 +239,11 @@ qx.Class.define("qx.event.type.MouseEvent",
     /**
      * Get the horizontal coordinate at which the event occurred relative to
      * the origin of the screen coordinate system.
-     *
+     * 
      * Note: This value is usually not very useful unless you want to
      * position a native popup window at this coordiante.
      *
+     * @type member
      * @return {Integer} The horizontal mouse position on the screen.
      */
     getScreenLeft : function() {
@@ -248,10 +254,11 @@ qx.Class.define("qx.event.type.MouseEvent",
     /**
      * Get the vertical coordinate at which the event occurred relative to
      * the origin of the screen coordinate system.
-     *
+     * 
      * Note: This value is usually not very useful unless you want to
      * position a native popup window at this coordiante.
      *
+     * @type member
      * @return {Integer} The vertical mouse position on the screen.
      */
     getScreenTop : function() {

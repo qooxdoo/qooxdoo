@@ -34,7 +34,6 @@ qx.Class.define("qx.event.type.ChangeEvent",
 
 
 
-
   /*
   *****************************************************************************
      MEMBERS
@@ -49,38 +48,39 @@ qx.Class.define("qx.event.type.ChangeEvent",
      * type itself is.
      *
      * @type member
-     * @return {var}
-     */    
+     * @return {var} TODOC
+     */
     getValue : function() {
-      return this._value; 
-    }
-    
-    
+      return this._value;
+    },
+
+
     /**
      * The old value field attached to this object. The type and format are
      * defined by the sender. Normally this is the same type as the property
      * type itself is.
      *
      * @type member
-     * @return {var}
-     */    
+     * @return {var} TODOC
+     */
     getOldValue : function() {
       return this._old;
     },
-    
 
-   /**
-    * Initializes an event onject.
-    *
-    * @param type {String} the type name of the event
-    * @param value {var} additional value which should be passed to the event listener
-    * @param value {var} additional old value which should be passed to the event listener
-    * @return {qx.event.type.ChangeEvent} the initialized instance.
-    */
+
+    /**
+     * Initializes an event onject.
+     *
+     * @type member
+     * @param type {String} the type name of the event
+     * @param value {var} additional value which should be passed to the event listener
+     * @param old {var} TODOC
+     * @return {qx.event.type.ChangeEvent} the initialized instance.
+     */
     init : function(type, value, old)
     {
       this.base(arguments, type, false);
-      
+
       this._value = value;
       this._old = old;
 
@@ -91,19 +91,19 @@ qx.Class.define("qx.event.type.ChangeEvent",
     /**
      * Get a copy of this object
      *
+     * @type member
      * @return {qx.event.type.ChangeEvent} a copy of this object
      */
     clone : function()
     {
       var clone = this.base(arguments);
-      
+
       clone._value = this._value;
       clone._old = this._old;
-      
+
       return clone;
     }
   },
-
 
 
 
