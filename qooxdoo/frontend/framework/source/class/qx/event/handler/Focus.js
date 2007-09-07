@@ -114,7 +114,7 @@ qx.Class.define("qx.event.handler.Focus",
     
     // interface implementation
     canHandleEvent : function(target, type) {
-      return this._focusTypes[type];
+      return this._eventTypes[type];
     },
     
     
@@ -179,16 +179,16 @@ qx.Class.define("qx.event.handler.Focus",
     */
         
     /** {Map} Internal data structure with all supported event types */
-    _focusTypes :
+    _eventTypes :
     {
-      "focus" : 1,
-      "blur" : 1,
-      "focusin" : 1,
-      "focusout" : 1,
-      "beforedeactivate" : 1,
-      "beforeactivate" : 1,
-      "activate" : 1,
-      "deactivate" : 1
+      focus : 1,
+      blur : 1,
+      focusin : 1,
+      focusout : 1,
+      beforedeactivate : 1,
+      beforeactivate : 1,
+      activate : 1,
+      deactivate : 1
     },
     
         
@@ -314,8 +314,8 @@ qx.Class.define("qx.event.handler.Focus",
      */
     _initMouseObserver : function()
     {
-      this.__onNativeMouseDown = qx.lang.Function.bind(this._onNativeMouseDown, this);
-      qx.event.Manager.addNativeListener(this._document, "mousedown", this.__onNativeMouseDown);
+      this._onNativeMouseDownWrapper = qx.lang.Function.bind(this._onNativeMouseDown, this);
+      qx.event.Manager.addNativeListener(this._document, "mousedown", this._onNativeMouseDownWrapper);
     },
 
 
@@ -331,42 +331,42 @@ qx.Class.define("qx.event.handler.Focus",
       "gecko" : function()
       {
         // Bind methods
-        this.__onNativeFocus = qx.lang.Function.bind(this._onNativeFocus, this);
-        this.__onNativeBlur = qx.lang.Function.bind(this._onNativeBlur, this);
+        this._onNativeFocusWrapper = qx.lang.Function.bind(this._onNativeFocus, this);
+        this._onNativeBlurWrapper = qx.lang.Function.bind(this._onNativeBlur, this);
   
         // Capturing is needed for gecko to correctly
         // handle focus of input and textarea fields
-        this._window.addEventListener("focus", this.__onNativeFocus, true);
-        this._window.addEventListener("blur", this.__onNativeBlur, true);        
+        this._window.addEventListener("focus", this._onNativeFocusWrapper, true);
+        this._window.addEventListener("blur", this._onNativeBlurWrapper, true);        
       },
       
       "mshtml" : function()
       {
         // Bind methods
-        this.__onNativeFocusIn = qx.lang.Function.bind(this._onNativeFocusIn, this);
-        this.__onNativeFocusOut = qx.lang.Function.bind(this._onNativeFocusOut, this);
+        this._onNativeFocusInWrapper = qx.lang.Function.bind(this._onNativeFocusIn, this);
+        this._onNativeFocusOutWrapper = qx.lang.Function.bind(this._onNativeFocusOut, this);
   
         // MSHTML supports their own focusin and focusout events
         // To detect which elements get focus the target is useful
         // The window blur can detected using focusout and look
         // for the relatedTarget which is empty in this case.
-        qx.event.Manager.addNativeListener(this._document, "focusin", this.__onNativeFocusIn);
-        qx.event.Manager.addNativeListener(this._document, "focusout", this.__onNativeFocusOut);        
+        qx.event.Manager.addNativeListener(this._document, "focusin", this._onNativeFocusInWrapper);
+        qx.event.Manager.addNativeListener(this._document, "focusout", this._onNativeFocusOutWrapper);        
       },
       
       "webkit|opera" : function()
       {
         // Bind methods
-        this.__onNativeFocus = qx.lang.Function.bind(this._onNativeFocus, this);
-        this.__onNativeBlur = qx.lang.Function.bind(this._onNativeBlur, this);
-        this.__onNativeFocusIn = qx.lang.Function.bind(this._onNativeFocusIn, this);
+        this._onNativeFocusWrapper = qx.lang.Function.bind(this._onNativeFocus, this);
+        this._onNativeBlurWrapper = qx.lang.Function.bind(this._onNativeBlur, this);
+        this._onNativeFocusInWrapper = qx.lang.Function.bind(this._onNativeFocusIn, this);
   
         // Opera 9.2 ignores the event when capturing is enabled
-        this._window.addEventListener("focus", this.__onNativeFocus, false);
-        this._window.addEventListener("blur", this.__onNativeBlur, false);
+        this._window.addEventListener("focus", this._onNativeFocusWrapper, false);
+        this._window.addEventListener("blur", this._onNativeBlurWrapper, false);
   
         // Opera 9.x supports DOMFocusOut which is needed to detect the element focus
-        qx.event.Manager.addNativeListener(this._document, "DOMFocusIn", this.__onNativeFocusIn);        
+        qx.event.Manager.addNativeListener(this._document, "DOMFocusIn", this._onNativeFocusInWrapper);        
       }
     }),
     
@@ -387,9 +387,8 @@ qx.Class.define("qx.event.handler.Focus",
      * @type member
      * @return {void}
      */    
-    _stopMouseObserver : function()
-    {
-      qx.event.Manager.removeNativeListener(this._document, "mousedown", this.__onNativeMouseDown);
+    _stopMouseObserver : function() {
+      qx.event.Manager.removeNativeListener(this._document, "mousedown", this._onNativeMouseDownWrapper);
     },
     
     
@@ -404,21 +403,21 @@ qx.Class.define("qx.event.handler.Focus",
     {
       "gecko" : function()
       {
-        this._window.removeEventListener("focus", this.__onNativeFocus, true);
-        this._window.removeEventListener("blur", this.__onNativeBlur, true);
+        this._window.removeEventListener("focus", this._onNativeFocusWrapper, true);
+        this._window.removeEventListener("blur", this._onNativeBlurWrapper, true);
       },
 
       "mshtml" : function()
       {
-        qx.event.Manager.removeNativeListener(this._document, "focusin", this.__onNativeFocusIn);
-        qx.event.Manager.removeNativeListener(this._document, "focusout", this.__onNativeFocusOut);
+        qx.event.Manager.removeNativeListener(this._document, "focusin", this._onNativeFocusInWrapper);
+        qx.event.Manager.removeNativeListener(this._document, "focusout", this._onNativeFocusOutWrapper);
       },
 
       "webkit|opera" : function()
       {
-        this._window.removeEventListener("focus", this.__onNativeFocus, false);
-        this._window.removeEventListener("blur", this.__onNativeBlur, false);
-        qx.event.Manager.removeNativeListener(this._document, "DOMFocusIn", this.__onNativeFocusIn);
+        this._window.removeEventListener("focus", this._onNativeFocusWrapper, false);
+        this._window.removeEventListener("blur", this._onNativeBlurWrapper, false);
+        qx.event.Manager.removeNativeListener(this._document, "DOMFocusIn", this._onNativeFocusInWrapper);
       }
     }),
 

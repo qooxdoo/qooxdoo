@@ -115,6 +115,8 @@ qx.Class.define("BasicSample",
     main : function()
     {
       this.base(arguments);
+      
+      qx.event.Manager.addListener(window, "resize", this._onResize, this);
 
       var cmd = new qx.event.Command("Shift-Meta-F1");
       cmd.addEventListener("execute", function() {
@@ -180,7 +182,10 @@ qx.Class.define("BasicSample",
       }, this);
 
     },
-
+    
+    _onResize : function(e) {
+      this.debug("Resize:" + e);
+    },
 
     _onJuhu : function(e) {
       this.debug("Juhu:" + e);
