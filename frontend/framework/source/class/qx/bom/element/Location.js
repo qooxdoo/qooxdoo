@@ -63,7 +63,7 @@ qx.Class.define("qx.bom.element.Location",
      * @return {String} Value of given style property
      */
     __style : function(elem, style) {
-      return qx.bom.element.Style.getComputed(elem, style);
+      return qx.bom.element.Style.get(elem, style, qx.bom.element.Style.COMPUTED_MODE, false);
     },
 
 
@@ -76,7 +76,7 @@ qx.Class.define("qx.bom.element.Location",
      * @return {Integer} Value of given style property
      */
     __num : function(elem, style) {
-      return parseInt(qx.bom.element.Style.getComputed(elem, style)) || 0;
+      return parseInt(qx.bom.element.Style.get(elem, style, qx.bom.element.Style.COMPUTED_MODE, false)) || 0;
     },
 
 
@@ -502,7 +502,7 @@ qx.Class.define("qx.bom.element.Location",
         bottom : top + elem.offsetHeight
       };
     },
-    
+
 
     /**
      * Computes the location of the given element in context of
@@ -520,12 +520,12 @@ qx.Class.define("qx.bom.element.Location",
      * @param mode {String} A supported option. See comment above.
      * @return {Integer} The left distance
      *   of the element relative to the document.
-     */    
+     */
     getLeft : function(elem, mode) {
       return this.get(elem, mode).left;
     },
-    
-    
+
+
     /**
      * Computes the location of the given element in context of
      * the document dimenions.
@@ -542,9 +542,53 @@ qx.Class.define("qx.bom.element.Location",
      * @param mode {String} A supported option. See comment above.
      * @return {Integer} The top distance
      *   of the element relative to the document.
-     */    
+     */
     getTop : function(elem, mode) {
       return this.get(elem, mode).top;
+    },
+
+
+    /**
+     * Computes the location of the given element in context of
+     * the document dimenions.
+     *
+     * Supported modes:
+     *
+     * * <code>margin</code>: Align to the margin of the given element (incl. padding, border and margin)
+     * * <code>box</code> (default): Align to the box of the given element (incl. padding and border)
+     * * <code>border</code>: Align to the border of the given element (incl. padding)
+     * * <code>content</code>: Align to the content of the given element (does not contain border, padding or margin)
+     *
+     * @type static
+     * @param elem {Element} DOM element to query
+     * @param mode {String} A supported option. See comment above.
+     * @return {Integer} The right distance
+     *   of the element relative to the document.
+     */
+    getRight : function(elem, mode) {
+      return this.get(elem, mode).right;
+    },
+
+
+    /**
+     * Computes the location of the given element in context of
+     * the document dimenions.
+     *
+     * Supported modes:
+     *
+     * * <code>margin</code>: Align to the margin of the given element (incl. padding, border and margin)
+     * * <code>box</code> (default): Align to the box of the given element (incl. padding and border)
+     * * <code>border</code>: Align to the border of the given element (incl. padding)
+     * * <code>content</code>: Align to the content of the given element (does not contain border, padding or margin)
+     *
+     * @type static
+     * @param elem {Element} DOM element to query
+     * @param mode {String} A supported option. See comment above.
+     * @return {Integer} The bottom distance
+     *   of the element relative to the document.
+     */
+    getBottom : function(elem, mode) {
+      return this.get(elem, mode).bottom;
     },
 
 
