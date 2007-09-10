@@ -29,6 +29,8 @@
 #optional(qx.ui.menu.Menu)
 #optional(qx.ui.basic.Inline)
 
+#require(qx.event.dispatch.WidgetBubbling)
+
 ************************************************************************ */
 
 /**
