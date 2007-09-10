@@ -618,8 +618,12 @@ qx.Class.define("qx.bom.Window",
      * @type member
      * @return {void}
      */
-    centerToScreenArea : function() {
-      this._centerHelper((screen.availWidth - this.getWidth()) / 2, (screen.availHeight - this.getHeight()) / 2);
+    centerToScreenArea : function()
+    {
+      this._centerHelper(
+        (screen.availWidth - this.getWidth()) / 2,
+        (screen.availHeight - this.getHeight()) / 2
+      );
     },
 
 
@@ -629,8 +633,13 @@ qx.Class.define("qx.bom.Window",
      * @type member
      * @return {void}
      */
-    centerToOpener : function() {
-      this._centerHelper(((qx.legacy.html.Window.getInnerWidth(window) - this.getWidth()) / 2) + qx.legacy.html.Location.getScreenBoxLeft(window.document.body), ((qx.legacy.html.Window.getInnerHeight(window) - this.getHeight()) / 2) + qx.legacy.html.Location.getScreenBoxTop(window.document.body));
+    centerToOpener : function()
+    {
+      this._centerHelper(
+        ((qx.legacy.html.Window.getInnerWidth(window) - this.getWidth()) / 2) +
+        qx.legacy.html.Location.getScreenBoxLeft(window.document.body),
+        ((qx.legacy.html.Window.getInnerHeight(window) - this.getHeight()) / 2) +
+        qx.legacy.html.Location.getScreenBoxTop(window.document.body));
     },
 
 
