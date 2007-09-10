@@ -1468,7 +1468,7 @@ qx.Class.define("qx.ui.table.Table",
       {
         var elem = scrollerArr[i].getElement();
 
-        if (pageX >= qx.legacy.html.Location.getPageBoxLeft(elem) && pageX <= qx.legacy.html.Location.getPageBoxRight(elem)) {
+        if (pageX >= qx.bom.element.Location.getLeft(elem) && pageX <= qx.bom.element.Location.getRight(elem)) {
           return i;
         }
       }
@@ -1691,7 +1691,7 @@ qx.Class.define("qx.ui.table.Table",
       // Show the menu
       var btElem = this._columnVisibilityBt.getElement();
       menu.setRestrictToPageOnOpen(false);
-      menu.setTop(qx.legacy.html.Location.getClientBoxBottom(btElem));
+      menu.setTop(qx.bom.element.Location.getBottom(btElem));
       menu.setLeft(-1000);
 
       // NOTE: We have to show the menu in a timeout, otherwise it won't be shown
@@ -1707,7 +1707,7 @@ qx.Class.define("qx.ui.table.Table",
         menu.show();
         qx.ui.core.Widget.flushGlobalQueues();
 
-        menu.setLeft(qx.legacy.html.Location.getClientBoxRight(btElem) - menu.getOffsetWidth());
+        menu.setLeft(qx.bom.element.Location.getRight(btElem) - menu.getOffsetWidth());
       },
       0);
     },

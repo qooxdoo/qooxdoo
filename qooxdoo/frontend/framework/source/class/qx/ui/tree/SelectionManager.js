@@ -224,7 +224,7 @@ qx.Class.define("qx.ui.tree.SelectionManager",
     getItemTop : function(vItem)
     {
       // Alternate method:
-      // return qx.legacy.html.Location.getPageBoxTop(vItem.getElement()) - qx.legacy.html.Location.getPageInnerTop(this.getBoundedWidget().getElement());
+      // return qx.bom.element.Location.getTop(vItem.getElement()) - qx.bom.element.Location.getTop(this.getBoundedWidget().getElement(), "content");
       var vBoundedWidget = this.getBoundedWidget();
       var vElement = vItem.getElement();
       var vOffset = 0;
