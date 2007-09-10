@@ -474,6 +474,9 @@ qx.Class.define("qx.bom.element.Location",
       // qx.core.Init.getInstance().debug("Details left: " + offset.left + " | " + body.left + " | " + scroll.left);
       // qx.core.Init.getInstance().debug("Details top: " + offset.top + " | " + body.top + " | " + scroll.top);
 
+      var right = left + elem.offsetWidth;
+      var bottom = top + elem.offsetHeight;
+
       if (mode)
       {
         switch(mode)
@@ -481,16 +484,22 @@ qx.Class.define("qx.bom.element.Location",
           case "margin":
             left -= this.__num(elem, "marginLeft");
             top -= this.__num(elem, "marginTop");
+            right += this.__num(elem, "marginRight");
+            bottom += this.__num(elem, "marginBottom");
             break;
 
           case "content":
             left += this.__num(elem, "paddingLeft");
             top += this.__num(elem, "paddingTop");
+            right -= this.__num(elem, "paddingRight");
+            bottom -= this.__num(elem, "paddingBottom");
             // no break here
 
           case "border":
             left += this.__num(elem, "borderLeftWidth");
             top += this.__num(elem, "borderTopWidth");
+            right -= this.__num(elem, "borderRightWidth");
+            bottom -= this.__num(elem, "borderBottomWidth");
             break;
         }
       }
@@ -498,8 +507,8 @@ qx.Class.define("qx.bom.element.Location",
       return {
         left : left,
         top : top,
-        right : left + elem.offsetWidth,
-        bottom : top + elem.offsetHeight
+        right : right,
+        bottom : bottom
       };
     },
 
