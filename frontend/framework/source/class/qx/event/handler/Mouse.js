@@ -134,7 +134,7 @@ qx.Class.define("qx.event.handler.Mouse",
 
       event.init(domEvent, type);
 
-      this._manager.dispatchEvent(domEvent.target, event);
+      this._manager.dispatchEvent(domEvent.target || domEvent.srcElement, event);
     },
     
     
