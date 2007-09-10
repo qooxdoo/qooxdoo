@@ -2,6 +2,12 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>qooxdoo &raquo; Demo Browser</title>
+
+  <script type="text/javascript">
+	  qxsettings = {};
+	  qxsettings["qx.enableApplicationLayout"] = false;
+  </script>
+
   <script type="text/javascript" src="../../script/demo.js"></script>
   <script type="text/javascript" src="../util.js"></script>
 
@@ -135,7 +141,7 @@ qx.Class.define("BasicSample",
     {
       this.base(arguments);
 
-      this.tableHead = "<table><tr><th>Target</th><th>Event</th><th>button</th><th>screenX</th><th>screenY</th><th>clientX</th><th>clientY</th><th>relatedTarget</th></tr>";
+      this.tableHead = "<table><tr><th>Target</th><th>Event</th><th>button</th><th>pageX</th><th>pageY</th><th>clientX</th><th>clientY</th><th>screenX</th><th>screenY</th><th>relatedTarget</th></tr>";
   		this.keyEvents = [];
   		this.maxLogSize = 50;
   		this.logDiv = document.getElementById("keylogger");
@@ -170,6 +176,7 @@ qx.Class.define("BasicSample",
         }
       }, this);
 
+      /*
       qx.event.Manager.addListener(
         mouseDiv,
         "losecapture",
@@ -177,13 +184,14 @@ qx.Class.define("BasicSample",
         this
       );
 
+
       qx.event.Manager.addListener(
         document.body,
         "selectstart",
         function(e) { e.preventDefault(); },
         this
       )
-
+      */
       qx.event.Manager.addListener(
         document.getElementById("btnClear"),
         "click",
@@ -233,6 +241,8 @@ qx.Class.define("BasicSample",
         target: mouseEvent.getTarget().id,
 				type: mouseEvent.getType(),
 				button: mouseEvent.getButton(),
+        pageX: mouseEvent.getDocumentLeft(),
+        pageY: mouseEvent.getDocumentTop(),
 				screenX: mouseEvent.getScreenLeft(),
         screenY: mouseEvent.getScreenTop(),
         clientX: mouseEvent.getViewportLeft(),
@@ -251,13 +261,17 @@ qx.Class.define("BasicSample",
 				str.push("</td><td>");
 				str.push(e.button);
 				str.push("</td><td>");
-				str.push(e.screenX);
+				str.push(e.pageX);
 				str.push("</td><td>");
-				str.push(e.screenY);
+				str.push(e.pageY);
 				str.push("</td><td>");
 				str.push(e.clientX);
 				str.push("</td><td>");
 				str.push(e.clientY);
+				str.push("</td><td>");
+				str.push(e.screenX);
+				str.push("</td><td>");
+				str.push(e.screenY);
 				str.push("</td><td>");
 				str.push(e.relatedTarget);
 				str.push("</td></tr>");
