@@ -40,8 +40,8 @@ qx.Class.define("qx.bom.element.Dimension",
     ---------------------------------------------------------------------------
       QUERY
     ---------------------------------------------------------------------------
-    */    
-    
+    */
+
     /**
      * Returns the (box) width of the given element.
      *
@@ -50,20 +50,20 @@ qx.Class.define("qx.bom.element.Dimension",
      * @return {Integer} width of the element
      */
     getWidth : function(element) {
-      return element.offsetWidth; 
+      return element.offsetWidth;
     },
-    
+
     /**
      * Returns the (box) height of the given element.
      *
      * @type static
      * @param element {Element} DOM element to query
      * @return {Integer} height of the element
-     */    
+     */
     getHeight : function(element) {
       return element.offsetHeight;
     },
-    
+
     /**
      * Returns the client width of the given element.
      *
@@ -72,9 +72,9 @@ qx.Class.define("qx.bom.element.Dimension",
      * @return {Integer} inner width of the element
      */
     getClientWidth : function(element) {
-      return element.clientWidth; 
+      return element.clientWidth;
     },
-    
+
     /**
      * Returns the client height of the given element.
      *
@@ -85,7 +85,7 @@ qx.Class.define("qx.bom.element.Dimension",
     getClientHeight : function(element) {
       return element.clientHeight;
     },
-    
+
     /**
      * Returns the scroll width of the given element.
      *
@@ -94,9 +94,9 @@ qx.Class.define("qx.bom.element.Dimension",
      * @return {Integer} scroll width of the element
      */
     getScrollWidth : function(element) {
-      return element.scrollWidth; 
+      return element.scrollWidth;
     },
-    
+
     /**
      * Returns the scroll height of the given element.
      *
@@ -106,12 +106,12 @@ qx.Class.define("qx.bom.element.Dimension",
      */
     getScrollHeight : function(element) {
       return element.scrollHeight;
-    },        
-    
-    
-    
-    
-    
+    },
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       BOX SIZING
@@ -205,7 +205,7 @@ qx.Class.define("qx.bom.element.Dimension",
     {
       // Gecko properitary
       "gecko" : function(element) {
-        return qx.bom.element.Style.getComputed(element, "MozBoxSizing");
+        return qx.bom.element.Style.get(element, "MozBoxSizing", qx.bom.element.Style.COMPUTED_MODE, false);
       },
 
       // Not directly supported in MSHTML, using render mode
@@ -223,7 +223,7 @@ qx.Class.define("qx.bom.element.Dimension",
 
       // Webkit & Opera
       "default" : function(element) {
-        return qx.bom.element.Style.getComputed(element, "boxSizing");
+        return qx.bom.element.Style.get(element, "boxSizing", qx.bom.element.Style.COMPUTED_MODE, false);
       }
     })
   }
