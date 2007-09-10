@@ -376,49 +376,44 @@ qx.Class.define("qx.legacy.event.type.MouseEvent",
     },
 
 
+    __buttons : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" :
+      {
+        1 : "left",
+        2 : "right",
+        4 : "middle"
+      },
+
+      "default" :
+      {
+        0 : "left",
+        2 : "right",
+        1 : "middle"
+      }
+    }),
+
+
     /**
-     * TODOC
+     * During mouse events caused by the depression or release of a mouse button,
+     * this method can be used to check which mouse button changed state.
      *
      * @type member
-     * @return {var} TODOC
+     * @return {String} One of "left", "right", "middle" or "none"
      */
-    _computeButton : function()
+    getButton : function()
     {
-      var e = this.getDomEvent();
-
-      if (e.which != null)
+      switch(this.getDomEvent().type)
       {
-        switch(e.which)
-        {
-          case 1:
-            return qx.legacy.event.type.MouseEvent.C_BUTTON_LEFT;
+        case "click":
+        case "dblclick":
+          return "left";
 
-          case 3:
-            return qx.legacy.event.type.MouseEvent.C_BUTTON_RIGHT;
+        case "contextmenu":
+          return "right";
 
-          case 2:
-            return qx.legacy.event.type.MouseEvent.C_BUTTON_MIDDLE;
-
-          default:
-            return qx.legacy.event.type.MouseEvent.C_BUTTON_NONE;
-        }
-      }
-      else
-      {
-        switch(e.button)
-        {
-          case 1:
-            return qx.legacy.event.type.MouseEvent.C_BUTTON_LEFT;
-
-          case 2:
-            return qx.legacy.event.type.MouseEvent.C_BUTTON_RIGHT;
-
-          case 4:
-            return qx.legacy.event.type.MouseEvent.C_BUTTON_MIDDLE;
-
-          default:
-            return qx.legacy.event.type.MouseEvent.C_BUTTON_NONE;
-        }
+        default:
+          return this.__buttons[this.getDomEvent().button] || "none";
       }
     },
 
