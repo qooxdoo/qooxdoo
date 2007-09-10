@@ -177,7 +177,7 @@ qx.Class.define("qx.event.handler.Keyboard",
 
       event.init(domEvent, charCode);
 
-      this._manager.dispatchEvent(domEvent.target, event);
+      this._manager.dispatchEvent(domEvent.target || domEvent.srcElement, event);
     },
 
 
@@ -194,7 +194,7 @@ qx.Class.define("qx.event.handler.Keyboard",
 
       event.init(domEvent, type, keyIdentifier);
 
-      this._manager.dispatchEvent(domEvent.target, event);
+      this._manager.dispatchEvent(domEvent.target || domEvent.srcElement, event);
     },
 
 
