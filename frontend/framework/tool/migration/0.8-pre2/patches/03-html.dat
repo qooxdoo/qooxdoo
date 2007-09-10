@@ -1,0 +1,3 @@
+
+\bqx\.legacy\.html\.Location\.getPageBox\b=qx.bom.element.Dimension.get
+\bqx\.legacy\.html\.Dimension\.getPage\b=qx.bom.element.Location.get
