@@ -160,7 +160,7 @@ qx.Class.define("qx.event.handler.Element",
       var element = eventData ? eventData.element : event.getTarget();
       event.setCurrentTarget(element);
 
-      this._manager.dispatchEvent(domEvent.target, event);
+      this._manager.dispatchEvent(domEvent.target || domEvent.srcElement, event);
     }
   },
   

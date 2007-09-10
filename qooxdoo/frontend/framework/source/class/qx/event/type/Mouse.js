@@ -147,20 +147,10 @@ qx.Class.define("qx.event.type.Mouse",
      * to the viewport.
      *
      * @return {Integer} The horizontal mouse position
-     * @signature function()
      */
-    getViewportLeft : qx.core.Variant.select("qx.client",
-    {
-      "mshtml|gecko" : function() {
-        return this._native.clientX;
-      },
-
-      "default" : function()
-      {
-        var win = qx.dom.Node.getWindow(this.getTarget());
-        return this._native.clientX + qx.bom.Viewport.getScrollLeft(win);
-      }
-    }),
+    getViewportLeft : function() {
+      return this._native.clientX;
+    },
 
 
     /**
@@ -170,23 +160,15 @@ qx.Class.define("qx.event.type.Mouse",
      * @return {Integer} The vertical mouse position
      * @signature function()
      */
-    getViewportTop : qx.core.Variant.select("qx.client",
-    {
-      "mshtml|gecko" : function() {
-        return this._native.clientY;
-      },
-
-      "default" : function()
-      {
-        var win = qx.dom.Node.getWindow(this.getTarget());
-        return this._native.clientY + qx.bom.Viewport.getScrollTop(win);
-      }
-    }),
+    getViewportTop : function() {
+      return this._native.clientY;
+    },
 
 
     /**
      * Get the horizontal position at which the event occured relative to the
-     * left of the document.
+     * left of the document. This property takes into account any scrolling of
+     * the page.
      *
      * @type member
      * @return {Integer} The horizontal mouse position in the document.
@@ -196,23 +178,21 @@ qx.Class.define("qx.event.type.Mouse",
     {
       "mshtml" : function()
       {
-        var doc = qx.dom.Node.getDocument(this.getTarget());
-        return this._native.clientX + qx.bom.Viewport.getScrollLeft(doc);
+        var win = qx.dom.Node.getWindow(this.getTarget());
+        return this._native.clientX + qx.bom.Viewport.getScrollLeft(win);
       },
 
-      "gecko" : function() {
-        return this._native.pageX;
-      },
-
+      // opera, webkit and gecko
       "default" : function() {
-        return this._native.clientX;
+        return this._native.pageX;
       }
     }),
 
 
     /**
      * Get the vertical position at which the event occured relative to the
-     * top of the document.
+     * top of the document. This property takes into account any scrolling of
+     * the page.
      *
      * @type member
      * @return {Integer} The vertical mouse position in the document.
@@ -222,16 +202,13 @@ qx.Class.define("qx.event.type.Mouse",
     {
       "mshtml" : function()
       {
-        var doc = qx.dom.Node.getDocument(this.getTarget());
-        return this._native.clientY + qx.bom.Viewport.getScrollTop(doc);
+        var win = qx.dom.Node.getWindow(this.getTarget());
+        return this._native.clientY + qx.bom.Viewport.getScrollTop(win);
       },
 
-      "gecko" : function() {
-        return this._native.pageY;
-      },
-
+      // opera, webkit and gecko
       "default" : function() {
-        return this._native.clientY;
+        return this._native.pageY;
       }
     }),
 
@@ -239,7 +216,7 @@ qx.Class.define("qx.event.type.Mouse",
     /**
      * Get the horizontal coordinate at which the event occurred relative to
      * the origin of the screen coordinate system.
-     * 
+     *
      * Note: This value is usually not very useful unless you want to
      * position a native popup window at this coordiante.
      *
@@ -254,7 +231,7 @@ qx.Class.define("qx.event.type.Mouse",
     /**
      * Get the vertical coordinate at which the event occurred relative to
      * the origin of the screen coordinate system.
-     * 
+     *
      * Note: This value is usually not very useful unless you want to
      * position a native popup window at this coordiante.
      *
