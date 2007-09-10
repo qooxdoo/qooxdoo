@@ -1374,8 +1374,8 @@ qx.Class.define("qx.ui.window.Window",
 
       this._dragSession =
       {
-        offsetX                   : e.getPageX() - qx.legacy.html.Location.getPageBoxLeft(el) + l,
-        offsetY                   : e.getPageY() - qx.legacy.html.Location.getPageBoxTop(el) + t,
+        offsetX                   : e.getPageX() - qx.bom.element.Location.getLeft(el) + l,
+        offsetY                   : e.getPageY() - qx.bom.element.Location.getTop(el) + t,
         parentAvailableAreaLeft   : l + 5,
         parentAvailableAreaTop    : t + 5,
         parentAvailableAreaRight  : r - 5,
@@ -1401,8 +1401,8 @@ qx.Class.define("qx.ui.window.Window",
             qx.ui.core.Widget.flushGlobalQueues();
           }
 
-          f._renderRuntimeLeft(qx.legacy.html.Location.getPageBoxLeft(el) - l);
-          f._renderRuntimeTop(qx.legacy.html.Location.getPageBoxTop(el) - t);
+          f._renderRuntimeLeft(qx.bom.element.Location.getLeft(el) - l);
+          f._renderRuntimeTop(qx.bom.element.Location.getTop(el) - t);
 
           f._renderRuntimeWidth(qx.legacy.html.Dimension.getBoxWidth(el));
           f._renderRuntimeHeight(qx.legacy.html.Dimension.getBoxHeight(el));

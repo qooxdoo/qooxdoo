@@ -246,12 +246,8 @@ qx.Class.define("qx.legacy.event.type.MouseEvent",
         }
       }),
 
-      "gecko" : function() {
+      "default" : function() {
         return this.getDomEvent().pageX;
-      },
-
-     "default": function() {
-        return this.getDomEvent().clientX;
       }
     }),
 
@@ -275,12 +271,8 @@ qx.Class.define("qx.legacy.event.type.MouseEvent",
         }
       }),
 
-      "gecko" : function() {
+      "default" : function() {
         return this.getDomEvent().pageY;
-      },
-
-      "default": function() {
-        return this.getDomEvent().clientY;
       }
     }),
 
@@ -292,35 +284,13 @@ qx.Class.define("qx.legacy.event.type.MouseEvent",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * @signature function()
-     */
-    getClientX : qx.core.Variant.select("qx.client",
-    {
-      "mshtml|gecko" : function() {
-        return this.getDomEvent().clientX;
-      },
+    getClientX : function() {
+      return this.getDomEvent().clientX;
+    },
 
-      "default" : function() {
-        return this.getDomEvent().clientX + (document.body && document.body.scrollLeft != null ? document.body.scrollLeft : 0);
-      }
-    }),
-
-    /**
-     * @signature function()
-     */
-    getClientY : qx.core.Variant.select("qx.client",
-    {
-      "mshtml|gecko" : function() {
-        return this.getDomEvent().clientY;
-      },
-
-      "default" : function() {
-        return this.getDomEvent().clientY + (document.body && document.body.scrollTop != null ? document.body.scrollTop : 0);
-      }
-    }),
-
-
+    getClientY : function() {
+      return this.getDomEvent().clientY;
+    },
 
 
 
