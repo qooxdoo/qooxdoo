@@ -245,7 +245,7 @@ qx.Class.define("qx.ui.table.pane.Header",
         feedback.setHeight(cellWidget.getBoxHeight());
         feedback.setZIndex(1000000);
         feedback.setOpacity(0.8);
-        feedback.setTop(qx.legacy.html.Location.getClientBoxTop(elem));
+        feedback.setTop(qx.html.Location.getClientBoxTop(elem));
         this.getTopLevelWidget().add(feedback);
         this._moveFeedback = feedback;
       }
