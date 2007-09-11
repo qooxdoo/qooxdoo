@@ -92,6 +92,7 @@ qx.Class.define("qx.client.History",
 
       this._titles = {};
       this._state = decodeURIComponent(this.__getHash());
+      this._locationState = decodeURIComponent(this.__getHash());
 
       this.__waitForIFrame(function()
       {
@@ -172,8 +173,10 @@ qx.Class.define("qx.client.History",
      * qooxdoo versions
      * @deprecated
      */
-    init : function()
+    init : function()    
     {
+      this.warn("dprecated");
+      this.printStacktrace();
     },
 
 
@@ -294,13 +297,24 @@ qx.Class.define("qx.client.History",
     {
       "mshtml" : function()
       {
+        // the location only changes if the user manually changes the fragment
+        // identifier.
+        var locationState = decodeURIComponent(this.__getHash());
+        if (locationState != this._locationState)
+        {
+          this._locationState = locationState;
+          this.__storeState(locationState);
+          return locationState;
+        }
+
         var doc = this._iframe.contentWindow.document;
         var elem = doc.getElementById("state");
-        return elem ? decodeURIComponent(elem.innerText) : "";
+        var iframeState = elem ? decodeURIComponent(elem.innerText) : "";
+
+        return iframeState;
       },
 
-      "default" : function()
-      {
+      "default" : function() {
         return decodeURIComponent(this.__getHash());
       }
     }),
