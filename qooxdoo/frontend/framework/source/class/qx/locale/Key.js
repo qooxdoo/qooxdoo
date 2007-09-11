@@ -20,7 +20,7 @@
 ************************************************************************ */
 
 /**
- * Create a new instance of qx.locale.Key
+ * Static class, which contains functionality to localize key names.
  */
 qx.Class.define("qx.locale.Key",
 {
