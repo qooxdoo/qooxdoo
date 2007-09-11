@@ -14,6 +14,7 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
+     * Sebastian Werner (wpbasti)
 
 ************************************************************************ */
 
@@ -24,34 +25,13 @@
 ************************************************************************ */
 
 /**
- * Event dispatcher for all bubbling events.
+ * Event dispatcher for all bubbling events on DOM elements.
  *
  * @internal
  */
 qx.Class.define("qx.event.dispatch.DomBubbling",
 {
-  extend : qx.core.Object,
-  implement : qx.event.IEventDispatcher,
-
-
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  /**
-   * @param manager {qx.event.Manager} reference to the event manager using
-   *     this class.
-   */
-  construct : function(manager) {
-    this._manager = manager;
-  },
-
-
+  extend : qx.event.dispatch.AbstractBubbling,
 
 
 
@@ -65,6 +45,20 @@ qx.Class.define("qx.event.dispatch.DomBubbling",
   {
     /*
     ---------------------------------------------------------------------------
+      EVENT DISPATCHER HELPER
+    ---------------------------------------------------------------------------
+    */ 
+
+    // overridden
+    getParent : function(target) {
+      return target.parentNode;
+    },
+    
+    
+        
+    
+    /*
+    ---------------------------------------------------------------------------
       EVENT DISPATCHER INTERFACE
     ---------------------------------------------------------------------------
     */ 
@@ -72,95 +66,6 @@ qx.Class.define("qx.event.dispatch.DomBubbling",
     // interface implementation
     canDispatchEvent : function(target, event, type) {
       return target.nodeType !== undefined && event.getBubbles();
-    },
-
-
-    // interface implementation
-    dispatchEvent : function(target, event, type)
-    {
-      var node = target;
-
-      var manager = this._manager;
-
-      var bubbleList = [];
-      var bubbleTargets = [];
-
-      var captureList = [];
-      var captureTargets = [];
-
-      // Walk up the tree and look for event listeners
-      while (node != null)
-      {
-        if (node !== target)
-        {
-          var captureListeners = manager.registryGetListeners(node, type, true, false);
-
-          if (captureListeners)
-          {
-            captureList.push(captureListeners);
-            captureTargets.push(node);
-          }
-        }
-
-        var bubbleListeners = manager.registryGetListeners(node, type, false, false);
-        if (bubbleListeners)
-        {
-          bubbleList.push(bubbleListeners);
-          bubbleTargets.push(node);
-        }
-
-        node = node.parentNode;
-      }
-
-      // capturing phase
-      event.setEventPhase(qx.event.type.Event.CAPTURING_PHASE);
-
-      for (var i=(captureList.length-1); i>=0; i--)
-      {
-        var currentTarget = captureTargets[i]
-        event.setCurrentTarget(currentTarget);
-
-        var captureListLength = captureList[i].length;
-        for (var j=0; j<captureListLength; j++)
-        {
-          var callbackData = captureList[i][j];
-          var context = callbackData.context || currentTarget;
-          callbackData.handler.call(context, event);
-        }
-
-        if (event.getPropagationStopped()) {
-          return;
-        }
-      }
-
-
-      // bubbling phase
-      var BUBBLE_PHASE = qx.event.type.Event.BUBBLING_PHASE;
-      var AT_TARGET = qx.event.type.Event.AT_TARGET;
-
-      for (var i=0, l=bubbleList.length; i<l; i++)
-      {
-        var currentTarget = bubbleTargets[i];
-        event.setCurrentTarget(currentTarget);
-
-        if (bubbleTargets[i] == target) {
-          event.setEventPhase(AT_TARGET);
-        } else {
-          event.setEventPhase(BUBBLE_PHASE);
-        }
-
-        var bubbleListLength = bubbleList[i].length;
-        for (var j=0; j<bubbleListLength; j++)
-        {
-          var callbackData = bubbleList[i][j];
-          var context = callbackData.context || currentTarget;
-          callbackData.handler.call(context, event);
-        }
-
-        if (event.getPropagationStopped()) {
-          return;
-        }
-      }
     }
   },
 
