@@ -69,7 +69,7 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
     ---------------------------------------------------------------------------
       EVENT DISPATCHER HELPER
     ---------------------------------------------------------------------------
-    */ 
+    */
 
     /**
      * Returns the parent of the given target
@@ -85,24 +85,24 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
 
 
 
-    
+
     /*
     ---------------------------------------------------------------------------
       EVENT DISPATCHER INTERFACE
     ---------------------------------------------------------------------------
-    */ 
-    
+    */
+
     // interface implementation
     canDispatchEvent : function(target, event, type) {
       return event.getBubbles();
     },
-    
-    
+
+
     // interface implementation
     dispatchEvent : function(target, event, type)
     {
       // TODO: I think we could optimize this. We don't really need
-      // to collect all these data when any of the targets do a 
+      // to collect all these data when any of the targets do a
       // stopPropagation(). Maybe we can process it incrementally instead.
 
       var parent = target;

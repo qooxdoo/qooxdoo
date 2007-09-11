@@ -349,8 +349,8 @@ qx.Class.define("qx.legacy.html.String",
       // rsaquo is proposed but not yet ISO standardized
       "euro"     : 8364 //  -- euro sign, U+20AC NEW
     },
-    
-    
+
+
     /**
      * Escapes the characters in a <code>String</code> using HTML entities.
      *

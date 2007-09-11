@@ -14,7 +14,7 @@
 
    Authors:
      * Sebastian Werner (wpbasti)
-     
+
    ======================================================================
 
    This class contains code based on the following work:
@@ -64,7 +64,7 @@ qx.Class.define("qx.bom.client.Flash",
 
     /** {Float} Version of the installed flash player e.g. 9.0, 6.0, ... */
     VERSION : 0.0,
-    
+
     /** {Boolean} Whether the system supports express installation */
     EXPRESSINSTALL : false,
 
@@ -76,17 +76,17 @@ qx.Class.define("qx.bom.client.Flash",
      * @param input {String} Version string e.g. 6.0.64
      * @return {Boolean} <code>true</code> when supported, otherwise <code>false</code>
      */
-    supportsVersion : function(input) 
+    supportsVersion : function(input)
     {
       var input = input.split(".");
       var system = qx.bom.client.Flash.FULLVERSION.split(".");
-      
+
       return (system[0] > input[0] || (system[0] == input[0] && system[1] > input[1]) || (system[0] == input[0] && system[1] == input[1] && system[2] >= input[2])) ? true : false;
     },
-    
-    
+
+
     /**
-     * Internal helper to prevent leaks in IE 
+     * Internal helper to prevent leaks in IE
      *
      * @type static
      * @return {void}
@@ -96,22 +96,22 @@ qx.Class.define("qx.bom.client.Flash",
       // IE Memory Leak Fix
       __flash_unloadHandler = function() {};
       __flash_savedUnloadHandler = function() {};
-    
+
       // Remove listener again
       window.detachEvent("onbeforeunload", qx.bom.client.Flash.__fixOutOfMemoryError);
     },
-    
+
 
     /**
      * Internal initialize helper
      *
      * @type static
-     * @return {void} 
+     * @return {void}
      */
     __init : function()
     {
       var full = [0,0,0];
-      
+
       if (navigator.plugins && typeof navigator.plugins["Shockwave Flash"] == "object")
       {
         var desc = navigator.plugins["Shockwave Flash"].description;
@@ -171,7 +171,7 @@ qx.Class.define("qx.bom.client.Flash",
       this.FULLVERSION = full.join(".");
       this.VERSION = parseFloat(full);
       this.AVAILABLE = this.VERSION > 0;
-      
+
       var platform = qx.bom.client.Platform;
       this.EXPRESSINSTALL = (platform.WIN || platform.MAC) && this.supportsVersion("6.0.65");
     }
@@ -186,11 +186,11 @@ qx.Class.define("qx.bom.client.Flash",
   *****************************************************************************
   */
 
-  defer : function(statics) 
+  defer : function(statics)
   {
     statics.__init();
 
-    if (qx.core.Variant.isSet("qx.client", "mshtml")) { 
+    if (qx.core.Variant.isSet("qx.client", "mshtml")) {
       window.attachEvent("onbeforeunload", statics.__fixOutOfMemoryError);
     }
   }

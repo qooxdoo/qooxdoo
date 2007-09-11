@@ -121,7 +121,7 @@ qx.Class.define("qx.event.type.Event",
      * on the current event target before event flow stops.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     stopPropagation : function() {
       this._stopPropagation = true;
@@ -156,7 +156,7 @@ qx.Class.define("qx.event.type.Event",
      * @internal
      * @type member
      * @param type {String} new event type
-     * @return {void} 
+     * @return {void}
      */
     setType : function(type) {
       this._type = type;
@@ -181,7 +181,7 @@ qx.Class.define("qx.event.type.Event",
      * @internal
      * @type member
      * @param eventPhase {Integer} new event phase
-     * @return {void} 
+     * @return {void}
      */
     setEventPhase : function(eventPhase) {
       this._eventPhase = eventPhase;
@@ -218,7 +218,7 @@ qx.Class.define("qx.event.type.Event",
      * @internal
      * @type member
      * @param target {Element} new event target
-     * @return {void} 
+     * @return {void}
      */
     setTarget : function(target) {
       this._target = target;
@@ -245,7 +245,7 @@ qx.Class.define("qx.event.type.Event",
      * @internal
      * @type member
      * @param currentTarget {Element} new current target
-     * @return {void} 
+     * @return {void}
      */
     setCurrentTarget : function(currentTarget) {
       this._currentTarget = currentTarget;
@@ -270,7 +270,7 @@ qx.Class.define("qx.event.type.Event",
      * @internal
      * @type member
      * @param bubbles {Boolean} Whether the event bubbles
-     * @return {void} 
+     * @return {void}
      */
     setBubbles : function(bubbles) {
       this._bubbles = bubbles;

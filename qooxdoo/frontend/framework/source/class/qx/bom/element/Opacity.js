@@ -119,36 +119,36 @@ qx.Class.define("qx.bom.element.Opacity",
         element.style.opacity = opacity;
       }
     }),
-    
-    
+
+
     /**
-     * Resets opacity of given element. 
+     * Resets opacity of given element.
      *
      * @type static
      * @param element {Element} DOM element to modify
      * @return {void}
      * @signature function(element)
-     */    
+     */
     reset : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(element)
       {
         // Read in computed filter
         var filter = qx.bom.element.Style.get(element, "filter", qx.bom.element.Style.COMPUTED_MODE, false);
-        
+
         // Remove old alpha filter
         element.style.filter = filter.replace(/alpha\([^\)]*\)/gi, "");
       },
-      
+
       "gecko" : function(element)
       {
         if (qx.bom.client.Engine.VERSION < 1.7) {
           element.style.MozOpacity = "";
         } else {
           element.style.opacity = "";
-        }        
+        }
       },
-      
+
       "default" : function(element) {
         element.style.opacity = "";
       }
@@ -161,8 +161,8 @@ qx.Class.define("qx.bom.element.Opacity",
      *
      * @type static
      * @param element {Element} DOM element to modify
-     * @param mode {Number} Choose one of the modes {@link qx.bom.element.Style#COMPUTED_MODE}, 
-     *   {@link qx.bom.element.Style#CASCADED_MODE}, {@link qx.bom.element.Style#LOCAL_MODE}. 
+     * @param mode {Number} Choose one of the modes {@link qx.bom.element.Style#COMPUTED_MODE},
+     *   {@link qx.bom.element.Style#CASCADED_MODE}, {@link qx.bom.element.Style#LOCAL_MODE}.
      *   The computed mode is the default one.
      * @return {Float} A float number between 0 and 1
      * @signature function(element, mode)

@@ -64,8 +64,8 @@ qx.Class.define("qx.event.dispatch.Direct",
     ---------------------------------------------------------------------------
       EVENT DISPATCHER INTERFACE
     ---------------------------------------------------------------------------
-    */    
-    
+    */
+
     // interface implementation
     canDispatchEvent : function(target, event, type) {
       return !event.getBubbles();
@@ -80,7 +80,7 @@ qx.Class.define("qx.event.dispatch.Direct",
       var currentTarget = event.getCurrentTarget();
 
       var listeners = this._manager.registryGetListeners(currentTarget, type, false, false);
-      if (listeners) 
+      if (listeners)
       {
         for (var i=0, l=listeners.length; i<l; i++)
         {

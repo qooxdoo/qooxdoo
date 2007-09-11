@@ -41,8 +41,8 @@ qx.Class.define("qx.bom.element.Clip",
      *
      * @type static
      * @param element {Element} DOM element to query
-     * @param mode {Number} Choose one of the modes {@link qx.bom.element.Style#COMPUTED_MODE}, 
-     *   {@link qx.bom.element.Style#CASCADED_MODE}, {@link qx.bom.element.Style#LOCAL_MODE}. 
+     * @param mode {Number} Choose one of the modes {@link qx.bom.element.Style#COMPUTED_MODE},
+     *   {@link qx.bom.element.Style#CASCADED_MODE}, {@link qx.bom.element.Style#LOCAL_MODE}.
      *   The computed mode is the default one.
      * @return {Map} Map which contains <code>left</code>, <code>top</code>
      *   <code>width</code> and <code>height</code> of the clipped area.
@@ -70,24 +70,24 @@ qx.Class.define("qx.bom.element.Clip",
           right = qx.lang.String.trim(split[1]);
           bottom = qx.lang.String.trim(split[2]);
           left = qx.lang.String.trim(split[3]);
-          
+
           // Normalize "auto" to null
           if (left === "auto") {
-            left = null; 
+            left = null;
           }
-    
+
           if (top === "auto") {
-            top = null; 
+            top = null;
           }
-          
+
           if (right === "auto") {
-            right = null; 
+            right = null;
           }
-    
+
           if (bottom === "auto") {
-            bottom = null; 
-          }          
-    
+            bottom = null;
+          }
+
           // Convert to integer values
           if (top != null) {
             top = parseInt(top);
@@ -109,13 +109,13 @@ qx.Class.define("qx.bom.element.Clip",
           if (right != null && left != null) {
             width = right - left;
           } else if (right != null) {
-            width = right; 
+            width = right;
           }
 
           if (bottom != null && top != null) {
             height = bottom - top;
           } else if (bottom != null) {
-            height = bottom; 
+            height = bottom;
           }
         }
         else
@@ -123,10 +123,10 @@ qx.Class.define("qx.bom.element.Clip",
           throw new Error("Could not parse clip string: " + clip);
         }
       }
-      
+
       // Simplify return value when nothing set
       if (left == null && top == null && width == null && height == null) {
-        return null; 
+        return null;
       }
 
       // Return map when any value is available.
@@ -157,7 +157,7 @@ qx.Class.define("qx.bom.element.Clip",
       var top = map.top;
       var width = map.width;
       var height = map.height;
-            
+
       var right, bottom;
 
       if (left == null)
@@ -184,8 +184,8 @@ qx.Class.define("qx.bom.element.Clip",
 
       element.style.clip = "rect(" + top + "," + right + "," + bottom + "," + left + ")";
     },
-     
-     
+
+
     /**
      * Resets the clipping of the given DOM element.
      *

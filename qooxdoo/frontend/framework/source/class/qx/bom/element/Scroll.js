@@ -90,18 +90,18 @@ qx.Class.define("qx.bom.element.Scroll",
     getY : function(element) {
       return parseInt(element.scrollTop);
     },
-    
-    
-    
-    
+
+
+
+
 
     /*
     ---------------------------------------------------------------------------
       SCROLL INTO VIEW
     ---------------------------------------------------------------------------
     */
-        
-    /** 
+
+    /**
      * The method scrolls the element into view (y-axis only).
      *
      * @type static
@@ -115,7 +115,7 @@ qx.Class.define("qx.bom.element.Scroll",
     {
       var parent = element.parentNode;
       var body = qx.dom.Node.getDocument(element).body;
-      
+
       var parentLocation, parentTop, parentBottom;
       var parentOuterHeight, parentClientHeight, parentScrollHeight;
       var parentTopBorder, parentBottomBorder, parentScrollBarHeight;
@@ -124,15 +124,15 @@ qx.Class.define("qx.bom.element.Scroll",
 
       var alignTop = align === "top";
       var alignBottom = align === "bottom";
-              
+
       // Go up the parent chain
       while (parent)
       {
         // "overflow" is always visible for both: document.body and document.documentElement
-        if (parent.scrollHeight > parent.clientHeight && (parent === body || qx.bom.element.Overflow.getY(parent) != "visible")) 
+        if (parent.scrollHeight > parent.clientHeight && (parent === body || qx.bom.element.Overflow.getY(parent) != "visible"))
         {
           // console.debug("Process...")
-          
+
           // Calculate parent data
           // Special handling for body element
           if (parent === body)
@@ -165,27 +165,27 @@ qx.Class.define("qx.bom.element.Scroll",
           elementBottom = elementLocation.bottom;
           elementHeight = element.offsetHeight;
 
-          // Relative position from each other        
+          // Relative position from each other
           topOffset = elementTop - parentTop - parentTopBorder;
           bottomOffset = elementBottom - parentBottom + parentBottomBorder;
-        
+
           // Scroll position rearrangment
           scrollDiff = 0;
-        
+
           // be sure that element is on top edge
           if (alignTop)
           {
             // console.debug("Align top...");
             scrollDiff = topOffset;
           }
-        
+
           // be sure that element is on bottom edge
           else if (alignBottom)
           {
             // console.debug("Align bottom...");
             scrollDiff = bottomOffset + parentScrollBarHeight;
           }
-        
+
           // element must go down
           // * when current top offset is smaller than 0
           // * when height is bigger than the inner height of the parent
@@ -194,7 +194,7 @@ qx.Class.define("qx.bom.element.Scroll",
             // console.debug("Go Down...");
             scrollDiff = topOffset;
           }
-        
+
           // element must go up
           // * when current bottom offset is bigger than 0
           else if (bottomOffset > 0)
@@ -202,11 +202,11 @@ qx.Class.define("qx.bom.element.Scroll",
             // console.debug("Go Up...");
             scrollDiff = bottomOffset + parentScrollBarHeight;
           }
-        
+
           // console.log("Scroll by: " + scrollDiff);
           parent.scrollTop += scrollDiff;
         }
-        
+
         if (parent === body) {
           break;
         }
@@ -214,9 +214,9 @@ qx.Class.define("qx.bom.element.Scroll",
         parent = parent.parentNode;
       }
     },
-    
-    
-    /** 
+
+
+    /**
      * The method scrolls the element into view (x-axis only).
      *
      * @type static
@@ -230,7 +230,7 @@ qx.Class.define("qx.bom.element.Scroll",
     {
       var parent = element.parentNode;
       var body = qx.dom.Node.getDocument(element).body;
-      
+
       var parentLocation, parentLeft, parentRight;
       var parentOuterWidth, parentClientWidth, parentScrollWidth;
       var parentLeftBorder, parentRightBorder, parentScrollBarWidth;
@@ -239,15 +239,15 @@ qx.Class.define("qx.bom.element.Scroll",
 
       var alignLeft = align === "left";
       var alignRight = align === "right";
-              
+
       // Go up the parent chain
       while (parent)
       {
         // "overflow" is always visible for both: document.body and document.documentElement
-        if (parent.scrollWidth > parent.clientWidth && (parent === body || qx.bom.element.Overflow.getY(parent) != "visible")) 
+        if (parent.scrollWidth > parent.clientWidth && (parent === body || qx.bom.element.Overflow.getY(parent) != "visible"))
         {
           // console.debug("Process...")
-          
+
           // Calculate parent data
           // Special handling for body element
           if (parent === body)
@@ -280,27 +280,27 @@ qx.Class.define("qx.bom.element.Scroll",
           elementRight = elementLocation.right;
           elementWidth = element.offsetWidth;
 
-          // Relative position from each other        
+          // Relative position from each other
           leftOffset = elementLeft - parentLeft - parentLeftBorder;
           rightOffset = elementRight - parentRight + parentRightBorder;
-        
+
           // Scroll position rearrangment
           scrollDiff = 0;
-        
+
           // be sure that element is on left edge
           if (alignLeft)
           {
             // console.debug("Align left...");
             scrollDiff = leftOffset;
           }
-        
+
           // be sure that element is on right edge
           else if (alignRight)
           {
             // console.debug("Align right...");
             scrollDiff = rightOffset + parentScrollBarWidth;
           }
-        
+
           // element must go down
           // * when current left offset is smaller than 0
           // * when width is bigger than the inner width of the parent
@@ -309,7 +309,7 @@ qx.Class.define("qx.bom.element.Scroll",
             // console.debug("Go Down...");
             scrollDiff = leftOffset;
           }
-        
+
           // element must go up
           // * when current right offset is bigger than 0
           else if (rightOffset > 0)
@@ -317,11 +317,11 @@ qx.Class.define("qx.bom.element.Scroll",
             // console.debug("Go Up...");
             scrollDiff = rightOffset + parentScrollBarWidth;
           }
-        
+
           // console.log("Scroll by: " + scrollDiff);
           parent.scrollLeft += scrollDiff;
         }
-        
+
         if (parent === body) {
           break;
         }
@@ -329,9 +329,9 @@ qx.Class.define("qx.bom.element.Scroll",
         parent = parent.parentNode;
       }
     },
-    
-    
-    /** 
+
+
+    /**
      * The method scrolls the element into view.
      *
      * @type static
@@ -349,6 +349,6 @@ qx.Class.define("qx.bom.element.Scroll",
     {
       this.intoViewX(element, alignX);
       this.intoViewY(element, alignY);
-    }    
+    }
   }
 });

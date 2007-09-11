@@ -17,7 +17,7 @@
      * Andreas Ecker (ecker)
 
    ======================================================================
-     
+
    This class contains code based on the following work:
 
    * Mootools
@@ -28,8 +28,8 @@
        (c) 2007 Valerio Proietti
 
      License:
-       MIT: http://www.opensource.org/licenses/mit-license.php     
-       
+       MIT: http://www.opensource.org/licenses/mit-license.php
+
 ************************************************************************ */
 
 /* ************************************************************************
@@ -116,7 +116,7 @@ qx.Class.define("qx.lang.Function",
     returnZero : function() {
       return 0;
     },
-    
+
 
     /**
      * Base function for creating functional closures which is used by all other Function prototypes.
@@ -148,7 +148,7 @@ qx.Class.define("qx.lang.Function",
     create : function(func, options)
     {
       var options = options || {};
-      
+
       if (!options.bind) {
         options.bind = func;
       }
@@ -158,11 +158,11 @@ qx.Class.define("qx.lang.Function",
         // Convert incoming arguments
         var args = options.event ? [] : Array.prototype.slice.call(arguments, 0);
 
-        // Prepand static arguments        
+        // Prepand static arguments
         if (options.args) {
           args.unshift.apply(args, options.args);
         }
-        
+
         // Prepand event object
         if (options.event) {
           args.unshift(event || window.event);
@@ -170,20 +170,20 @@ qx.Class.define("qx.lang.Function",
 
         if (options.delay || options.periodical)
         {
-          var returns = function() 
+          var returns = function()
           {
             func.context = options.bind;
-            
+
             var ret = func.apply(options.bind, args);
-            
+
             func.context = null;
             return ret;
           };
-  
+
           if (options.delay) {
             return setTimeout(returns, options.delay);
           }
-          
+
           if (options.periodical) {
             return setInterval(returns, options.periodical);
           }
@@ -192,26 +192,26 @@ qx.Class.define("qx.lang.Function",
         {
           var ret = false;
           func.context = options.bind;
-          
+
           try {
             ret = func.apply(options.bind, args);
           } catch(ex) {}
-          
+
           func.context = null;
           return ret;
         }
         else
         {
           func.context = options.bind;
-          
+
           var ret = func.apply(options.bind, args);
-          
-          func.context = null;          
+
+          func.context = null;
           return ret;
         }
       };
     },
-    
+
 
     /**
      * Returns a closure with arguments and bind.
@@ -233,12 +233,12 @@ qx.Class.define("qx.lang.Function",
      * }
      * var myHello = qx.lang.Function.pass(myFunction, 'hello');
      * var myItems = qx.lang.Function.pass(myFunction, ['peach', 'apple', 'orange']);
-     *  
+     *
      * //when ready I can execute the functions.
      * alert(myHello());
      * alert(myItems());
      * </pre>
-     * 
+     *
      * @type static
      * @param func {Function} Original function to wrap
      * @param args {Array ? []} The arguments to pass to the function (must be an array if passing more than one argument).
@@ -247,13 +247,13 @@ qx.Class.define("qx.lang.Function",
      */
     pass : function(func, args, bind)
     {
-      return this.create(func, 
+      return this.create(func,
       {
         args : args,
         bind : bind
       });
     },
-    
+
 
     /**
      * Tries to execute the function.
@@ -261,21 +261,21 @@ qx.Class.define("qx.lang.Function",
      * *Syntax*
      *
      * <pre class='javascript'>var result = qx.lang.Function.attempt(myFunction, [args[, bind]]);</pre>
-     * 
-     * *Example*   
+     *
+     * *Example*
      *
      * <pre class='javascript'>
      * var myObject = {
      *   'cow': 'moo!'
      * };
-     * 
+     *
      * var myFunction = function()
      * {
      *   for(var i = 0; i < arguments.length; i++) {
      *     if(!this[arguments[i]]) throw('doh!');
      *   }
      * };
-     * 
+     *
      * var result = qx.lang.Function.attempt(myFunction, ['pig', 'cow'], myObject); // false
      * </pre>
      *
@@ -287,7 +287,7 @@ qx.Class.define("qx.lang.Function",
      */
     attempt : function(func, args, bind)
     {
-      return this.create(func, 
+      return this.create(func,
       {
         args    : args,
         bind    : bind,
@@ -326,7 +326,7 @@ qx.Class.define("qx.lang.Function",
      */
     bind : function(func, bind, evt, args)
     {
-      return this.create(func, 
+      return this.create(func,
       {
         bind  : bind,
         args  : args,
@@ -350,7 +350,7 @@ qx.Class.define("qx.lang.Function",
      * qx.lang.Function.delay(myFunction, 50, myElement); // alerts: 'moo! Element id is: ... '
      *
      * // An anonymous function, example
-     * qx.lang.Function.delay(function(){ alert('one second later...'); }, 1000); //wait a second and alert     
+     * qx.lang.Function.delay(function(){ alert('one second later...'); }, 1000); //wait a second and alert
      * </pre>
      *
      * @type static
@@ -362,14 +362,14 @@ qx.Class.define("qx.lang.Function",
      */
     delay : function(func, delay, bind, args)
     {
-      return this.create(func, 
+      return this.create(func,
       {
         delay : delay,
         bind  : bind,
         args  : args
       })();
     },
-    
+
 
     /**
      * Executes a function in the specified intervals of time
@@ -377,7 +377,7 @@ qx.Class.define("qx.lang.Function",
      * *Syntax*
      *
      * <pre class='javascript'>var intervalID = qx.lang.Function.periodical(myFunction, [period[, bind[, args]]]);</pre>
-     * 
+     *
      * *Example*
      *
      * <pre class='javascript'>
@@ -395,14 +395,14 @@ qx.Class.define("qx.lang.Function",
      */
     periodical : function(func, interval, bind, args)
     {
-      return this.create(func, 
+      return this.create(func,
       {
         periodical : interval,
         bind       : bind,
         args       : args
       })();
     },
-    
+
 
     /**
      * Extract the caller of a function from the arguments variable.

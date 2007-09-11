@@ -118,16 +118,16 @@ qx.Class.define("qx.bom.element.Attribute",
         src  : true,
         type : true
       },
-      
+
       // Block these properties when trying to apply new value to them
-      readOnly : 
+      readOnly :
       {
         offsetWidth : true,
         offsetHeight : true,
         scrollWidth : true,
         scrollHeight : true,
         clientWidth : true,
-        clientHeight : true       
+        clientHeight : true
       }
     },
 
@@ -149,7 +149,7 @@ qx.Class.define("qx.bom.element.Attribute",
 
         // normalize name
         name = hints.names[name] || name;
-        
+
         // respect properties
         if (hints.property[name]) {
           return element[name];
@@ -163,7 +163,7 @@ qx.Class.define("qx.bom.element.Attribute",
 
         return element.getAttribute(name);
       },
-      
+
       // currently only supported by gecko
       "default" : function(element, name)
       {
@@ -178,7 +178,7 @@ qx.Class.define("qx.bom.element.Attribute",
         // This is the case for example tabIndex in Opera,
         // Safari and Gecko
         if (hints.dual[name]) {
-          return element.getAttribute(name) || element[name]; 
+          return element.getAttribute(name) || element[name];
         }
 
         // respect properties
@@ -203,10 +203,10 @@ qx.Class.define("qx.bom.element.Attribute",
     set : function(element, name, value)
     {
       var hints = this.__hints;
-      
+
       // block read only ones
       if (hints.readOnly[name]) {
-        throw new Error("Attribute " + name + " is read only!"); 
+        throw new Error("Attribute " + name + " is read only!");
       }
 
       // normalize name
@@ -223,8 +223,8 @@ qx.Class.define("qx.bom.element.Attribute",
         element.setAttribute(name, value);
       }
     },
-    
-    
+
+
     /**
      * Resets an HTML attribute on the given DOM element
      *
@@ -232,9 +232,9 @@ qx.Class.define("qx.bom.element.Attribute",
      * @param element {Element} The DOM element to modify
      * @param name {String} Name of the attribute
      * @return {void}
-     */    
+     */
     reset : function(element, name) {
-      this.set(element, name, null); 
+      this.set(element, name, null);
     }
   }
 });

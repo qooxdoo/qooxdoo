@@ -75,15 +75,15 @@ qx.Class.define("qx.event.handler.Iframe",
       EVENT HANDLER INTERFACE
     ---------------------------------------------------------------------------
     */
-        
+
     // interface implementation
     canHandleEvent : function(target, type)
     {
       return target.nodeType !== undefined && type === "load" &&
         target.tagName.toLowerCase() === "iframe";
     },
-    
-    
+
+
     // interface implementation
     registerEvent : function(target, type) {
       // Nothing needs to be done here
@@ -93,10 +93,10 @@ qx.Class.define("qx.event.handler.Iframe",
     // interface implementation
     unregisterEvent : function(target, type) {
       // Nothing needs to be done here
-    }  
+    }
   },
-  
-  
+
+
 
 
 

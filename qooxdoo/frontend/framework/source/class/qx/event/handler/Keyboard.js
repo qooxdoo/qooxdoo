@@ -143,7 +143,7 @@ qx.Class.define("qx.event.handler.Keyboard",
     unregisterEvent : function(target, type) {
       // Nothing needs to be done here
     },
-    
+
 
 
 
@@ -163,8 +163,8 @@ qx.Class.define("qx.event.handler.Keyboard",
       keypress : 1,
       keyinput : 1
     },
-    
-    
+
+
     /**
      * Fire a key input event with the given parameters
      *
