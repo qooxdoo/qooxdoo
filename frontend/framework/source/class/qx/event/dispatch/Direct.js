@@ -67,9 +67,7 @@ qx.Class.define("qx.event.dispatch.Direct",
     */    
     
     // interface implementation
-    canDispatchEvent : function(target, event, type) 
-    {
-      // console.log("TEST: " + type + " :: " + event.getBubbles() + " :: " + event);
+    canDispatchEvent : function(target, event, type) {
       return !event.getBubbles();
     },
 
@@ -84,7 +82,7 @@ qx.Class.define("qx.event.dispatch.Direct",
       var listeners = this._manager.registryGetListeners(currentTarget, type, false, false);
       if (listeners) 
       {
-        for (var i=0; i<listeners.length; i++)
+        for (var i=0, l=listeners.length; i<l; i++)
         {
           var context = listeners[i].context || currentTarget;
           listeners[i].handler.call(context, event);
