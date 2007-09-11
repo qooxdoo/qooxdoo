@@ -55,11 +55,8 @@ qx.Class.define("qx.ui.menu.Menu",
     this.add(l);
 
     // Timer
-    this._openTimer = new qx.event.Timer(this.getOpenInterval());
-    this._openTimer.addEventListener("interval", this._onopentimer, this);
-
-    this._closeTimer = new qx.event.Timer(this.getCloseInterval());
-    this._closeTimer.addEventListener("interval", this._onclosetimer, this);
+    this.initOpenInterval();
+    this.initCloseInterval();
 
     // Event Listeners
     this.addEventListener("mouseover", this._onmouseover);
@@ -187,20 +184,22 @@ qx.Class.define("qx.ui.menu.Menu",
       init : false
     },
 
-    /** Interval in ms after the menu should be openend */
+    /** Interval in ms after which sub menus should be openend */
     openInterval :
     {
       check : "Integer",
       themeable : true,
-      init : 250
+      init : 250,
+      apply : "_applyOpenInterval"
     },
 
-    /** Interval in ms after the menu should be closed  */
+    /** Interval in ms after which sub menus should be closed  */
     closeInterval :
     {
       check : "Integer",
       themeable : true,
-      init : 250
+      init : 250,
+      apply : "_applyCloseInterval"
     },
 
     /** Horizontal offset in pixels of the sub menu  */
@@ -387,13 +386,31 @@ qx.Class.define("qx.ui.menu.Menu",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+    // property apply
+    _applyOpenInterval : function(value, old)
+    {
+      if (!this._openTimer) {
+        this._openTimer = new qx.event.Timer(value);
+        this._openTimer.addEventListener("interval", this._onopentimer, this);
+      } else {
+        this._openTimer.setInterval(value);
+      }
+    },
+
+
+    // property apply
+    _applyCloseInterval : function(value, old)
+    {
+      if (!this._closeTimer) {
+        this._closeTimer = new qx.event.Timer(this.getCloseInterval());
+        this._closeTimer.addEventListener("interval", this._onclosetimer, this);
+      } else {
+        this._closeTimer.setInterval(value);
+      }
+    },
+
+
+    // property apply
     _applyHoverItem : function(value, old)
     {
       if (old) {
@@ -406,13 +423,7 @@ qx.Class.define("qx.ui.menu.Menu",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+    // property apply
     _applyOpenItem : function(value, old)
     {
       var vMakeActive = false;
