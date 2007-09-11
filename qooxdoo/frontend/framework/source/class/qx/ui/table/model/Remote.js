@@ -201,15 +201,15 @@ qx.Class.define("qx.ui.table.model.Remote",
       // If there is currently a request on its way, then this request will bring
       // obsolete data -> Ignore it
       if (this._firstLoadingBlock != -1) {
-      var cancelingSuceed = this._cancelCurrentRequest();
-      if (cancelingSuceed) {
-        // The request was cancelled -> We're not loading any blocks any more
-        this._firstLoadingBlock = -1;
-        this._ignoreCurrentRequest = false;
-      } else {
-        // The request was not cancelled -> Ignore it
-        this._ignoreCurrentRequest = true;
-      }
+        var cancelingSuceed = this._cancelCurrentRequest();
+        if (cancelingSuceed) {
+          // The request was cancelled -> We're not loading any blocks any more
+          this._firstLoadingBlock = -1;
+          this._ignoreCurrentRequest = false;
+        } else {
+          // The request was not cancelled -> Ignore it
+          this._ignoreCurrentRequest = true;
+        }
       }
 
       // Forget a possibly outstanding request
@@ -262,15 +262,17 @@ qx.Class.define("qx.ui.table.model.Remote",
      * @param cacheContent {Map} An old cache state.
      */
     restoreCacheContent : function(cacheContent) {
-      // Try to cancel the current request
-      var cancelingSuceed = this._cancelCurrentRequest();
-      if (cancelingSuceed) {
-        // The request was cancelled -> We're not loading any blocks any more
-        this._firstLoadingBlock = -1;
-        this._ignoreCurrentRequest = false;
-      } else {
-        // The request was not cancelled -> Ignore it
-        this._ignoreCurrentRequest = true;
+      if (this._firstLoadingBlock != -1) {
+        // Try to cancel the current request
+        var cancelingSuceed = this._cancelCurrentRequest();
+        if (cancelingSuceed) {
+          // The request was cancelled -> We're not loading any blocks any more
+          this._firstLoadingBlock = -1;
+          this._ignoreCurrentRequest = false;
+        } else {
+          // The request was not cancelled -> Ignore it
+          this._ignoreCurrentRequest = true;
+        }
       }
 
       // Restore the cache content
