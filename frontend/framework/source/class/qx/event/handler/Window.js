@@ -111,17 +111,6 @@ qx.Class.define("qx.event.handler.Window",
     },
 
 
-    /**
-     * Shorthand to fire events from within this class.
-     *
-     * @type member
-     * @param type {String} Name of the event to fire
-     * @return {void}
-     */
-    _fireEvent : function(type) {
-      this._manager.createAndDispatchEvent(this._window, qx.event.type.Event, [type, false]);
-    },
-
 
 
 
@@ -143,11 +132,9 @@ qx.Class.define("qx.event.handler.Window",
     {
       this._onNativeWrapper = qx.lang.Function.bind(this._onNative, this);
 
-      qx.event.Manager.addNativeListener(this._window, "error", this._onNativeWrapper);
-      qx.event.Manager.addNativeListener(this._window, "load", this._onNativeWrapper);
-      qx.event.Manager.addNativeListener(this._window, "beforeunload", this._onNativeWrapper);
-      qx.event.Manager.addNativeListener(this._window, "unload", this._onNativeWrapper);
-      qx.event.Manager.addNativeListener(this._window, "resize", this._onNativeWrapper);
+      for (var key in this._eventTypes) {
+        qx.event.Manager.addNativeListener(this._window, key, this._onNativeWrapper);
+      }
     },
 
 
@@ -159,11 +146,9 @@ qx.Class.define("qx.event.handler.Window",
      */
     _stopWindowObserver : function()
     {
-      qx.event.Manager.removeNativeListener(this._window, "error", this._onNativeWrapper);
-      qx.event.Manager.removeNativeListener(this._window, "load", this._onNativeWrapper);
-      qx.event.Manager.removeNativeListener(this._window, "beforeunload", this._onNativeWrapper);
-      qx.event.Manager.removeNativeListener(this._window, "unload", this._onNativeWrapper);
-      qx.event.Manager.removeNativeListener(this._window, "resize", this._onNativeWrapper);
+      for (var key in this._eventTypes) {
+        qx.event.Manager.removeNativeListener(this._window, key, this._onNativeWrapper);
+      }
     },
 
 
@@ -183,7 +168,7 @@ qx.Class.define("qx.event.handler.Window",
         e = window.event;
       }
 
-      this._fireEvent(e.type);
+      this._manager.createAndDispatchEvent(this._window, qx.event.type.Event, [e.type, false]);
     }
   },
 

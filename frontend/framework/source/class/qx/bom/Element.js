@@ -134,6 +134,61 @@ qx.Class.define("qx.bom.Element",
      */
     empty : function(element) {
       return element.innerHTML = "";
+    },
+    
+    
+    /**
+     * Add an event listener to a DOM element. The event listener is passed an
+     * instance of {@link Event} containing all relevant information
+     * about the event as parameter.
+     *
+     * @type static
+     * @param element {Element} DOM element to attach the event on.
+     * @param type {String} Name of the event e.g. "click", "keydown", ...
+     * @param listener {Function} Event listener function
+     * @param self {Object} Reference to the 'this' variable inside
+     *       the event listener.
+     * @param capture {Boolean} Whether to attach the event to the
+     *       capturing phase of the bubbling phase of the event. The default is
+     *       to attach the event handler to the bubbling phase.
+     */
+    addListener : function(element, type, listener, self, capture) {
+      return qx.event.Manager.addListener(element, type, listener, self, capture);
+    },
+
+
+    /**
+     * Remove an event listener from a from DOM node.
+     *
+     * Note: All registered event listeners will automatically be removed from
+     *   the DOM at page unload so it is not necessary to detach events yourself.
+     *
+     * @type static
+     * @param element {Element} DOM Element
+     * @param type {String} Name of the event
+     * @param listener {Function} The pointer to the event listener
+     * @param self {Object} Reference to the 'this' variable inside
+     *       the event listener.
+     * @param capture {Boolean} Whether to remove the event listener of
+     *       the bubbling or of the capturing phase.
+     */
+    removeListener : function(element, type, listener, self, capture) {
+      return qx.event.Manager.removeListener(element, type, listener, self, capture);
+    },
+    
+    
+    /**
+     * Check whether there are one or more listeners for an event type
+     * registered at the element.
+     *
+     * @param element {Element} DOM element
+     * @param type {String} The event type
+     * @param capture {Boolean ? false} Whether to check for listeners of
+     *       the bubbling or of the capturing phase.
+     * @return {Boolean} Whether the element has event listeners of the given type.
+     */
+    hasListeners : function(element, type, capture) {
+      return qx.event.Manager.getManager(element).hasListeners(element, type, capture);
     }
   }
 });
