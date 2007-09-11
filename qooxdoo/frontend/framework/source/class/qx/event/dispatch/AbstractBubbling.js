@@ -189,19 +189,5 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
         }
       }
     }
-  },
-
-
-
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
-
-  defer : function(statics)
-  {
-    var manager = qx.event.Manager;
-    manager.registerEventDispatcher(statics, manager.PRIORITY_NORMAL);
   }
 });
