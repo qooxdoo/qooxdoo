@@ -390,7 +390,7 @@ qx.Class.define("qx.ui.menu.Menu",
     _applyOpenInterval : function(value, old)
     {
       if (!this._openTimer) {
-        this._openTimer = new qx.event.Timer(value);
+        this._openTimer = new qx.client.Timer(value);
         this._openTimer.addEventListener("interval", this._onopentimer, this);
       } else {
         this._openTimer.setInterval(value);
@@ -402,7 +402,7 @@ qx.Class.define("qx.ui.menu.Menu",
     _applyCloseInterval : function(value, old)
     {
       if (!this._closeTimer) {
-        this._closeTimer = new qx.event.Timer(this.getCloseInterval());
+        this._closeTimer = new qx.client.Timer(this.getCloseInterval());
         this._closeTimer.addEventListener("interval", this._onclosetimer, this);
       } else {
         this._closeTimer.setInterval(value);
