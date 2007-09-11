@@ -73,7 +73,7 @@ qx.Class.define("qx.event.Manager",
 
     this.__window = win;
 
-    // registry for events
+    // Registry for events
     // structure: elementId -> type
     this.__registry = {};
 
@@ -81,52 +81,26 @@ qx.Class.define("qx.event.Manager",
     this.__jobQueue = [];
     this.__listenerCountOfType = {};
 
-    // get event handler
+    // Get event handler
     this.__eventHandlers = [];
     this.__knownHandler = {};
     this.__updateHandler();
 
-    // get event dispatcher
+    // Get event dispatcher
     this.__dispatchHandlers = [];
     this.__knownDispatcher = {};
     this.__updateDispatcher();
 
-    // the event pool
+    // The event pool
     this.__eventPool = qx.event.Pool.getInstance();
 
-    // FIXME: Cannot use own system already in this place
-    // add unload listener to prevent memory leaks
-    // this.addListener(win, "unload", this.__onunload, this);
+    // Register itself to the unload handling
+    this.__disposeWrapper = qx.lang.Function.bind(this.dispose, this);
+    qx.event.Manager.addNativeListener(this.__window, "unload", this.__disposeWrapper);
   },
 
 
 
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function()
-  {
-    var id = qx.core.Object.toHashCode(this.getWindow());
-    delete qx.event.Manager.__managers[id];
-
-    this._disposeObjects("__captureHandler");
-
-    this._disposeFields(
-      "__registry",
-      "__jobQueue",
-      "__listenerCountOfType",
-      "__window",
-      "__eventHandlers",
-      "__dispatchHandlers",
-      "__knownHandler",
-      "__dispatchHandlers",
-      "__knownDispatcher",
-      "__eventPool"
-    );
-  },
 
 
 
@@ -149,16 +123,16 @@ qx.Class.define("qx.event.Manager",
      * Get an instance of the event manager, which can handle events for the
      * given element.
      *
-     * @param element {Element} DOM element
+     * @param target {Element|Window|Object} DOM element / Window object or other object
      * @return {qx.event.Manager} The event manger for the element.
      */
-    getManager : function(element)
+    getManager : function(target)
     {
       // get the corresponding default view (window)
-      if (qx.dom.Node.isWindow(element)) {
-        var win = element;
-      } else if (qx.dom.Node.isElement(element)) {
-        var win = qx.dom.Node.getWindow(element);
+      if (qx.dom.Node.isWindow(target)) {
+        var win = target;
+      } else if (qx.dom.Node.isElement(target)) {
+        var win = qx.dom.Node.getWindow(target);
       } else {
         var win = window;
       }
@@ -177,12 +151,12 @@ qx.Class.define("qx.event.Manager",
 
 
     /**
-     * Add an event listener to a DOM element. The event listener is passed an
+     * Add an event listener to a DOM target. The event listener is passed an
      * instance of {@link Event} containing all relevant information
      * about the event as parameter.
      *
      * @type static
-     * @param element {Element} DOM element to attach the event on.
+     * @param target {Element|Window|Object} DOM element / Window object or other object
      * @param type {String} Name of the event e.g. "click", "keydown", ...
      * @param listener {Function} Event listener function
      * @param self {Object} Reference to the 'this' variable inside
@@ -191,8 +165,10 @@ qx.Class.define("qx.event.Manager",
      *       capturing phase of the bubbling phase of the event. The default is
      *       to attach the event handler to the bubbling phase.
      */
-    addListener : function(element, type, listener, self, capture) {
-      return this.getManager(element).addListener(element, type, listener, self, capture);
+    addListener : function(target, type, listener, self, capture) 
+    {
+      var mgr = this.getManager(target);
+      return mgr.addListener(target, type, listener, self, capture);
     },
 
 
@@ -204,7 +180,7 @@ qx.Class.define("qx.event.Manager",
      *   destructor.
      *
      * @type static
-     * @param element {Element} DOM Element
+     * @param target {Element|Window|Object} DOM element / Window object or other object
      * @param type {String} Name of the event
      * @param listener {Function} The pointer to the event listener
      * @param self {Object} Reference to the 'this' variable inside
@@ -212,22 +188,25 @@ qx.Class.define("qx.event.Manager",
      * @param capture {Boolean} Whether to remove the event listener of
      *       the bubbling or of the capturing phase.
      */
-    removeListener : function(element, type, listener, self, capture) {
-      return this.getManager(element).removeListener(element, type, listener, self, capture);
+    removeListener : function(target, type, listener, self, capture) 
+    {
+      var mgr = this.getManager(target);
+      return mgr.removeListener(target, type, listener, self, capture);
     },
-
+    
 
     /**
      * Check whether there are one or more listeners for an event type
      * registered at the target.
-     * @param target {Element|Object} The event target
+     *
+     * @param target {Element|Window|Object} DOM element / Window object or other object
      * @param type {String} The event type
      * @param capture {Boolean ? false} Whether to check for listeners of
      *       the bubbling or of the capturing phase.
      * @return {Boolean} Whether the target has event listeners of the given type.
      */
     hasListeners : function(target, type, capture) {
-      return this.getManager(element).hasListeners(target, type, capture);
+      return this.getManager(target).hasListeners(target, type, capture);
     },
 
 
@@ -244,6 +223,7 @@ qx.Class.define("qx.event.Manager",
       if (!this.__eventPool) {
         this.__eventPool = qx.event.Pool.getInstance();
       }
+      
       return this.__eventPool.getEventInstance(eventClass);
     },
 
@@ -251,8 +231,12 @@ qx.Class.define("qx.event.Manager",
     /**
      * Use the low level browser functionality to attach event listeners
      * to DOM nodes. Uses <code>attachEvent</code> in IE and
-     * <code>addEventListener</code> in all oother browsers.
+     * <code>addEventListener</code> in all other browsers.
      *
+     * Use this with caution. This is only thought for event handlers and
+     * not for the user.
+     *
+     * @internal
      * @type static
      * @param element {Element} DOM Element
      * @param type {String} Name of the event
@@ -276,6 +260,10 @@ qx.Class.define("qx.event.Manager",
      * from DOM nodes. Uses <code>detachEvent</code> in IE and
      * <code>removeEventListener</code> in all oother browsers.
      *
+     * Use this with caution. This is only thought for event handlers and
+     * not for the user.
+     *     
+     * @internal
      * @type static
      * @param element {Element} DOM Element
      * @param type {String} Name of the event
@@ -303,8 +291,6 @@ qx.Class.define("qx.event.Manager",
     ---------------------------------------------------------------------------
     */
 
-
-
     /**
      * Position at which the handler should be inserted into the handler list.
      */
@@ -316,8 +302,8 @@ qx.Class.define("qx.event.Manager",
     /**
      * Sort the event handler/dispatcher list by priority.
      *
-     * @param handlerList {qx.legacy.event.handler.AbstractEventHandler[]} handler list
-     * @return {qx.legacy.event.handler.AbstractEventHandler[]} sorted handler list
+     * @param handlerList {Object[]} handler/disposer list
+     * @return {Object[]} sorted handler/disposer list
      */
     __sortByPriority : function(handlerList)
     {
@@ -330,6 +316,8 @@ qx.Class.define("qx.event.Manager",
         return a.priority < b.priority ? -1 : 1;
       });
     },
+    
+    
 
 
 
@@ -352,6 +340,13 @@ qx.Class.define("qx.event.Manager",
      */
     registerEventHandler : function(handler, priority)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (!qx.Class.hasInterface(handler, qx.event.IEventHandler)) {
+          throw new Error("The event handler does not implement the interface qx.event.IEventHandler!");
+        }
+      }
+            
       this.__eventHandler.push({handler: handler, priority: priority});
 
       for (var winId in this.__managers) {
@@ -368,6 +363,8 @@ qx.Class.define("qx.event.Manager",
     getRegisteredEventHandler : function() {
       return this.__sortByPriority(this.__eventHandler);
     },
+
+
 
 
 
@@ -558,7 +555,6 @@ qx.Class.define("qx.event.Manager",
     },
 
 
-
     /**
      * Check whether there are one or more listeners for an event type
      * registered at the target.
@@ -571,11 +567,15 @@ qx.Class.define("qx.event.Manager",
     hasListeners : function(target, type, capture)
     {
       var listeners = this.registryGetListeners(target, type, capture, false);
+      
       if (!listeners || listeners.length <= 0) {
         return false;
       }
+      
       return true;
     },
+
+
 
 
 
@@ -644,6 +644,9 @@ qx.Class.define("qx.event.Manager",
       this.printStackTrace();
       throw new Error("There is no event handler for the event '"+type+"' on target '"+target+"'!");
     },
+
+
+
 
 
     /*
@@ -737,29 +740,12 @@ qx.Class.define("qx.event.Manager",
 
 
 
-    /*
-    ---------------------------------------------------------------------------
-      MOUSE CAPTURE
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Get the capture handler for the element.
-     *
-     * @return {qx.event.handler.MouseCaptureHandler} the mouse capture handler
-     *     reponsible for the given element.
-     */
-    getCaptureHandler : function() {
-      return this.__captureHandler;
-    },
-
-
 
 
 
     /*
     ---------------------------------------------------------------------------
-      HELPER
+      GENERAL HELPER
     ---------------------------------------------------------------------------
     */
 
@@ -773,15 +759,7 @@ qx.Class.define("qx.event.Manager",
     },
 
 
-    /**
-     * Unload handler for each window with event listeners attached. Removes
-     * all event listeners from the unloading window.
-     *
-     * @param domEvent {Event} DOM event object
-     */
-    __onunload : function(domEvent) {
-      this.dispose();
-    },
+
 
 
 
@@ -916,5 +894,41 @@ qx.Class.define("qx.event.Manager",
         this.__knownDispatcher[handlerId] = i;
       }
     }
+  },
+  
+  
+  
+  
+  
+  
+  
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    // Remove own unload listener
+    qx.event.Manager.removeNativeListener(this.__window, "unload", this.__disposeWrapper);
+    
+    // Remove from manager list
+    var id = qx.core.Object.toHashCode(this.getWindow());
+    delete qx.event.Manager.__managers[id];
+
+    // Dispose data fields   
+    this._disposeFields(
+      "__registry",
+      "__jobQueue",
+      "__listenerCountOfType",
+      "__window",
+      "__eventHandlers",
+      "__dispatchHandlers",
+      "__knownHandler",
+      "__dispatchHandlers",
+      "__knownDispatcher",
+      "__eventPool"
+    );
   }
 });
