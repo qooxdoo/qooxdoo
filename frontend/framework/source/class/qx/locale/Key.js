@@ -20,7 +20,7 @@
 ************************************************************************ */
 
 /**
- * Create a new instance of qx.nls.Date
+ * Static class, which contains functionality to localize key names.
  */
 qx.Class.define("qx.locale.Key",
 {
@@ -34,15 +34,14 @@ qx.Class.define("qx.locale.Key",
   {
     /**
      * Return localized name of a key identifier
-     * @{link qx.legacy.event.handler.KeyEventHandler}
+     * @{link qx.event.type.KeySequence}
      *
      * @type static
      * @param size {String} format of the key identifier.
      *       Possible values: "short", "full"
-     * @param keyIdentifier {String} key identifier to translate {@link qx.legacy.event.handler.KeyEventHandler}
+     * @param keyIdentifier {String} key identifier to translate {@link qx.event.type.KeySequence}
      * @param locale {String} optional locale to be used
      * @return {String} localized key name
-     * @throws TODOC
      */
     getKeyName : function(size, keyIdentifier, locale)
     {
