@@ -198,6 +198,8 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
 
   destruct : function()
   {
+    var manager = this._manager;
+    
     manager.removeListener(this._window, "blur", this.releaseCapture, this);
     manager.removeListener(this._window, "focus", this.releaseCapture, this);
     manager.removeListener(this._window, "scroll", this.releaseCapture, this);
