@@ -67,7 +67,7 @@ qx.Class.define("qx.log.appender.Native",
     {
       var log = qx.log.Logger;
       var msg = this.formatLogEvent(evt);
-      
+
       switch(evt.level)
       {
         case log.LEVEL_DEBUG:

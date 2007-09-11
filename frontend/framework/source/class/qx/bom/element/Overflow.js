@@ -52,12 +52,12 @@ qx.Class.define("qx.bom.element.Overflow",
 
     /**
      * Returns the computed value of the horizontal overflow
-     * 
+     *
      * @type static
      * @signature function(element, mode)
      * @param element {Element} DOM element to query
-     * @param mode {Number} Choose one of the modes {@link qx.bom.element.Style#COMPUTED_MODE}, 
-     *   {@link qx.bom.element.Style#CASCADED_MODE}, {@link qx.bom.element.Style#LOCAL_MODE}. 
+     * @param mode {Number} Choose one of the modes {@link qx.bom.element.Style#COMPUTED_MODE},
+     *   {@link qx.bom.element.Style#CASCADED_MODE}, {@link qx.bom.element.Style#LOCAL_MODE}.
      *   The computed mode is the default one.
      * @return {String} computed overflow value
      */
@@ -81,13 +81,13 @@ qx.Class.define("qx.bom.element.Overflow",
 
           return overflow;
         },
-        
+
         // gecko >= 1.8 supports overflowX, too
         "default" : function(element, mode) {
           return qx.bom.element.Style.get(element, "overflowX", mode, false);
         }
       }),
-      
+
       // use native overflowX property
       "default" : function(element, mode) {
         return qx.bom.element.Style.get(element, "overflowX", mode, false);
@@ -97,7 +97,7 @@ qx.Class.define("qx.bom.element.Overflow",
 
     /**
      * Sets the local horizontal overflow value to the given value
-     * 
+     *
      * @type static
      * @signature function(element, value)
      * @param element {Element} DOM element to modify
@@ -155,14 +155,14 @@ qx.Class.define("qx.bom.element.Overflow",
           element.style.overflowX = value;
         }
       }),
-      
+
       // use native overflowX property
       "default" : function(element, value) {
         element.style.overflowX = value;
-      }      
+      }
     }),
-    
-    
+
+
     /**
      * Removes the locally configured horizontal overflow property
      *
@@ -178,13 +178,13 @@ qx.Class.define("qx.bom.element.Overflow",
         "version<1.8" : function(element) {
           this.setX(element, "");
         },
-        
+
         // gecko >= 1.8 supports overflowX, too
         "default" : function(element) {
           element.style.overflowX = "";
         }
       }),
-      
+
       // use native overflowY property
       "default" : function(element) {
         element.style.overflowX = "";
@@ -194,12 +194,12 @@ qx.Class.define("qx.bom.element.Overflow",
 
     /**
      * Returns the computed value of the vertical overflow
-     * 
+     *
      * @type static
      * @signature function(element, mode)
      * @param element {Element} DOM element to query
-     * @param mode {Number} Choose one of the modes {@link qx.bom.element.Style#COMPUTED_MODE}, 
-     *   {@link qx.bom.element.Style#CASCADED_MODE}, {@link qx.bom.element.Style#LOCAL_MODE}. 
+     * @param mode {Number} Choose one of the modes {@link qx.bom.element.Style#COMPUTED_MODE},
+     *   {@link qx.bom.element.Style#CASCADED_MODE}, {@link qx.bom.element.Style#LOCAL_MODE}.
      *   The computed mode is the default one.
      * @return {String} computed overflow value
      */
@@ -223,23 +223,23 @@ qx.Class.define("qx.bom.element.Overflow",
 
           return overflow;
         },
-        
+
         // gecko >= 1.8 supports overflowY, too
         "default" : function(element) {
           return qx.bom.element.Style.get(element, "overflowY", mode, false);
         }
       }),
-      
+
       // use native overflowY property
       "default" : function(element) {
         return qx.bom.element.Style.get(element, "overflowY", mode, false);
-      }      
+      }
     }),
 
 
     /**
      * Sets the local vertical overflow value to the given value
-     * 
+     *
      * @type static
      * @signature function(element, value)
      * @param element {Element} DOM element to modify
@@ -297,14 +297,14 @@ qx.Class.define("qx.bom.element.Overflow",
           element.style.overflowY = value;
         }
       }),
-    
+
       // use native overflowY property
       "default" : function(element, value) {
         element.style.overflowY = value;
       }
     }),
-    
-    
+
+
     /**
      * Removes the locally configured vertical overflow property
      *
@@ -320,17 +320,17 @@ qx.Class.define("qx.bom.element.Overflow",
         "version<1.8" : function(element) {
           this.setY(element, "");
         },
-        
+
         // gecko >= 1.8 supports overflowX, too
         "default" : function(element) {
           element.style.overflowY = "";
         }
       }),
-      
+
       // use native overflowY property
       "default" : function(element) {
         element.style.overflowY = "";
       }
-    })    
+    })
   }
 });

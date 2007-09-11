@@ -55,7 +55,7 @@ qx.Class.define("qx.event.type.Data",
       this.base(arguments, type, false);
 
       this._data = data;
-      
+
       return this;
     },
 
@@ -74,8 +74,8 @@ qx.Class.define("qx.event.type.Data",
 
       return clone;
     },
-    
-    
+
+
     /**
      * The data field attached to this object. The data type and format are
      * defined by the sender.
@@ -85,7 +85,7 @@ qx.Class.define("qx.event.type.Data",
      */
     getData : function() {
       return this._data;
-    }    
+    }
   },
 
 

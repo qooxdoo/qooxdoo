@@ -60,8 +60,8 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
     manager.addListener(this._window, "focus", this.releaseCapture, this);
     manager.addListener(this._window, "scroll", this.releaseCapture, this);
   },
-  
-  
+
+
 
 
 
@@ -81,8 +81,8 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
     ---------------------------------------------------------------------------
       EVENT DISPATCHER INTERFACE
     ---------------------------------------------------------------------------
-    */ 
-    
+    */
+
     // interface implementation
     canDispatchEvent : function(target, event, type) {
       return this._captureElement && this.__captureEvents[type];
@@ -114,17 +114,17 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
 
         this.releaseCapture();
       }
-    },    
-    
-    
-        
-        
+    },
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       HELPER
     ---------------------------------------------------------------------------
-    */         
-    
+    */
+
     __captureEvents :
     {
       "mouseup": 1,
@@ -145,8 +145,8 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
     ---------------------------------------------------------------------------
       USER ACCESS
     ---------------------------------------------------------------------------
-    */ 
-    
+    */
+
     /**
      * Set the given element as target for event
      *
@@ -178,7 +178,7 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
       }
 
       this._captureElement = null;
-      
+
       this._manager.createAndDispatchEvent(
         this._captureElement,
         qx.event.type.Event,
@@ -195,18 +195,18 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
   *****************************************************************************
   */
 
-  destruct : function() 
+  destruct : function()
   {
     manager.removeListener(this._window, "blur", this.releaseCapture, this);
     manager.removeListener(this._window, "focus", this.releaseCapture, this);
-    manager.removeListener(this._window, "scroll", this.releaseCapture, this);    
-    
+    manager.removeListener(this._window, "scroll", this.releaseCapture, this);
+
     this._disposeFields("_captureElement", "_manager", "_window");
   },
-  
-  
-  
-  
+
+
+
+
 
   /*
   *****************************************************************************

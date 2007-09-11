@@ -50,7 +50,7 @@ qx.Class.define("qx.event.handler.Mouse",
     // Define shorthands
     this._manager = manager;
     this._root = manager.getWindow().document.documentElement;
-    
+
     // Initialize observers
     this._initButtonObserver();
     this._initMoveObserver();
@@ -75,7 +75,7 @@ qx.Class.define("qx.event.handler.Mouse",
       EVENT HANDLER INTERFACE
     ---------------------------------------------------------------------------
     */
-    
+
     // interface implementation
     canHandleEvent : function(target, type) {
       return target.nodeType !== undefined && this.__mouseEvents[type];
@@ -92,7 +92,7 @@ qx.Class.define("qx.event.handler.Mouse",
     unregisterEvent : function(target, type) {
       // Nothing needs to be done here
     },
-    
+
 
 
 
@@ -103,24 +103,24 @@ qx.Class.define("qx.event.handler.Mouse",
       HELPER
     ---------------------------------------------------------------------------
     */
-    
+
     /** {Map} Internal data structure with all supported mouse events */
     __mouseEvents :
     {
       mousemove : 1,
       mouseover : 1,
       mouseout : 1,
-      
+
       mousedown : 1,
       mouseup : 1,
       click : 1,
       dblclick : 1,
       contextmenu : 1,
-      
+
       mousewheel : 1
     },
-    
-    
+
+
     /**
      * Fire a mouse event with the given parameters
      *
@@ -136,9 +136,9 @@ qx.Class.define("qx.event.handler.Mouse",
 
       this._manager.dispatchEvent(domEvent.target || domEvent.srcElement, event);
     },
-    
-    
-    
+
+
+
 
 
 
@@ -147,128 +147,128 @@ qx.Class.define("qx.event.handler.Mouse",
       OBSERVER INIT
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Initializes the native mouse button event listeners.
-     * 
+     *
      * @type member
      * @signature function()
      * @return {void}
-     */    
+     */
     _initButtonObserver : function()
     {
       this._onButtonEventWrapper = qx.lang.Function.bind(this._onButtonEvent, this, true);
-      
+
       var Manager = qx.event.Manager;
-      
+
       Manager.addNativeListener(this._root, "mousedown", this._onButtonEventWrapper);
       Manager.addNativeListener(this._root, "mouseup", this._onButtonEventWrapper);
       Manager.addNativeListener(this._root, "click", this._onButtonEventWrapper);
       Manager.addNativeListener(this._root, "dblclick", this._onButtonEventWrapper);
       Manager.addNativeListener(this._root, "contextmenu", this._onButtonEventWrapper);
     },
-    
-    
+
+
     /**
      * Initializes the native mouse move event listeners.
-     * 
+     *
      * @type member
      * @signature function()
      * @return {void}
-     */    
+     */
     _initMoveObserver : function()
     {
       this._onMoveEventWrapper = qx.lang.Function.bind(this._onMoveEvent, this, true);
-      
+
       var Manager = qx.event.Manager;
-      
+
       Manager.addNativeListener(this._root, "mousemove", this._onMoveEventWrapper);
       Manager.addNativeListener(this._root, "mouseover", this._onMoveEventWrapper);
       Manager.addNativeListener(this._root, "mouseout", this._onMoveEventWrapper);
     },
-    
-    
+
+
     /**
      * Initializes the native mouse wheel event listeners.
-     * 
+     *
      * @type member
      * @signature function()
      * @return {void}
-     */    
+     */
     _initWheelObserver : function()
     {
       this._onWheelEventWrapper = qx.lang.Function.bind(this._onWheelEvent, this, true);
-      
+
       var Manager = qx.event.Manager;
       var name = qx.bom.client.Engine.MSHTML ? "mousewheel" : "DOMMouseScroll";
-      
+
       Manager.addNativeListener(this._root, name, this._onWheelEventWrapper);
-    },    
-    
-    
-    
-    
-    
+    },
+
+
+
+
+
 
     /*
     ---------------------------------------------------------------------------
       OBSERVER STOP
     ---------------------------------------------------------------------------
-    */    
-    
+    */
+
     /**
      * Disconnects the native mouse button event listeners.
-     * 
+     *
      * @type member
      * @signature function()
      * @return {void}
-     */    
+     */
     _stopButtonObserver : function()
     {
       var Manager = qx.event.Manager;
-      
+
       Manager.removeNativeListener(this._root, "mousedown", this._onButtonEventWrapper);
       Manager.removeNativeListener(this._root, "mouseup", this._onButtonEventWrapper);
       Manager.removeNativeListener(this._root, "click", this._onButtonEventWrapper);
       Manager.removeNativeListener(this._root, "dblclick", this._onButtonEventWrapper);
-      Manager.removeNativeListener(this._root, "contextmenu", this._onButtonEventWrapper);      
+      Manager.removeNativeListener(this._root, "contextmenu", this._onButtonEventWrapper);
     },
-    
-    
+
+
     /**
      * Disconnects the native mouse move event listeners.
-     * 
+     *
      * @type member
      * @signature function()
      * @return {void}
-     */    
+     */
     _stopMoveObserver : function()
     {
       var Manager = qx.event.Manager;
-      
+
       Manager.removeNativeListener(this._root, "mousemove", this._onMoveEventWrapper);
       Manager.removeNativeListener(this._root, "mouseover", this._onMoveEventWrapper);
-      Manager.removeNativeListener(this._root, "mouseout", this._onMoveEventWrapper);      
+      Manager.removeNativeListener(this._root, "mouseout", this._onMoveEventWrapper);
     },
-    
-    
+
+
     /**
      * Disconnects the native mouse wheel event listeners.
-     * 
+     *
      * @type member
      * @signature function()
      * @return {void}
-     */    
-    _stopWheelObserver : function() 
+     */
+    _stopWheelObserver : function()
     {
       var Manager = qx.event.Manager;
       var name = qx.bom.client.Engine.MSHTML ? "mousewheel" : "DOMMouseScroll";
-      
+
       Manager.removeNativeListener(this._root, name, this._onWheelEventWrapper);
     },
-    
-    
-    
+
+
+
 
 
 
@@ -277,14 +277,14 @@ qx.Class.define("qx.event.handler.Mouse",
       NATIVE EVENT OBSERVERS
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Global handler for all mouse move related events like "mousemove",
      * "mouseout" and "mouseover".
      *
      * @type member
      * @param domEvent {Event} DOM event
-     */    
+     */
     _onMoveEvent : function(domEvent) {
       this._fireEvent(domEvent);
     },
@@ -322,14 +322,14 @@ qx.Class.define("qx.event.handler.Mouse",
 
       this._lastEventType = type;
     },
-    
-    
+
+
     /**
      * Global handler for the mouse wheel event.
      *
      * @type member
      * @param domEvent {Event} DOM event
-     */     
+     */
     _onWheelEvent : function(domEvent) {
       this._fireEvent(domEvent, "mousewheel");
     },
@@ -345,7 +345,7 @@ qx.Class.define("qx.event.handler.Mouse",
       CROSS BROWSER SUPPORT FIXES
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Normalizes the click sequence of right click events in Webkit and Opera.
      * The normalized sequence is:
@@ -489,12 +489,12 @@ qx.Class.define("qx.event.handler.Mouse",
     this._stopButtonObserver();
     this._stopMoveObserver();
     this._stopWheelObserver();
-    
+
     this._disposeFields("_manager", "_root");
   },
-  
-  
-  
+
+
+
 
 
   /*

@@ -45,7 +45,7 @@ qx.Class.define("qx.event.handler.Focus",
      CONSTRUCTOR
   *****************************************************************************
   */
-  
+
   construct : function(manager)
   {
     this.base(arguments);
@@ -72,7 +72,7 @@ qx.Class.define("qx.event.handler.Focus",
      PROPERTIES
   *****************************************************************************
   */
-  
+
   properties :
   {
     /** The active DOM element */
@@ -103,7 +103,7 @@ qx.Class.define("qx.event.handler.Focus",
      MEMBERS
   *****************************************************************************
   */
-  
+
   members :
   {
     /*
@@ -111,13 +111,13 @@ qx.Class.define("qx.event.handler.Focus",
       EVENT HANDLER INTERFACE
     ---------------------------------------------------------------------------
     */
-    
+
     // interface implementation
     canHandleEvent : function(target, type) {
       return this._eventTypes[type];
     },
-    
-    
+
+
     // interface implementation
     registerEvent : function(target, type) {
       // Nothing needs to be done here
@@ -128,18 +128,18 @@ qx.Class.define("qx.event.handler.Focus",
     unregisterEvent : function(target, type) {
       // Nothing needs to be done here
     },
-    
-    
-    
-    
-        
-    
+
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       FOCUS/BLUR USER INTERFACE
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Focus the given DOM element
      *
@@ -164,8 +164,8 @@ qx.Class.define("qx.event.handler.Focus",
     activate : function(element) {
       this.setActive(element);
     },
-    
-    
+
+
 
 
 
@@ -177,7 +177,7 @@ qx.Class.define("qx.event.handler.Focus",
       HELPER
     ---------------------------------------------------------------------------
     */
-        
+
     /** {Map} Internal data structure with all supported event types */
     _eventTypes :
     {
@@ -190,8 +190,8 @@ qx.Class.define("qx.event.handler.Focus",
       activate : 1,
       deactivate : 1
     },
-    
-        
+
+
     /**
      * Shorthand to fire events from within this class.
      *
@@ -203,8 +203,8 @@ qx.Class.define("qx.event.handler.Focus",
     _fireDirectEvent : function(target, type) {
       this._manager.createAndDispatchEvent(target, qx.event.type.Event, [type, false]);
     },
-    
-    
+
+
     /**
      * Shorthand to fire events from within this class.
      *
@@ -215,8 +215,8 @@ qx.Class.define("qx.event.handler.Focus",
      */
     _fireBubblingEvent : function(target, type) {
       this._manager.createAndDispatchEvent(target, qx.event.type.Event, [type, true]);
-    },     
-    
+    },
+
 
 
 
@@ -227,12 +227,12 @@ qx.Class.define("qx.event.handler.Focus",
       WINDOW FOCUS/BLUR SUPPORT
     ---------------------------------------------------------------------------
     */
-    
+
     /** {Boolean} Whether the window is focussed currently */
     _windowFocussed : true,
 
 
-    /** 
+    /**
      * Helper for native event listeners to react on window blur
      *
      * @type member
@@ -255,7 +255,7 @@ qx.Class.define("qx.event.handler.Focus",
     },
 
 
-    /** 
+    /**
      * Helper for native event listeners to react on window focus
      *
      * @type member
@@ -284,14 +284,14 @@ qx.Class.define("qx.event.handler.Focus",
       ELEMENT FOCUS SUPPORT
     ---------------------------------------------------------------------------
     */
-    
-    /** 
+
+    /**
      * Helper for native event listeners to react on element focus
      *
      * @type member
      * @param element {Element} DOM element which should be focussed
      * @return {void}
-     */    
+     */
     _doElementFocus : function(element)
     {
       if (element === this._document) {
@@ -316,10 +316,10 @@ qx.Class.define("qx.event.handler.Focus",
       OBSERVER INIT
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Initializes the native mouse event listeners.
-     * 
+     *
      * @type member
      * @return {void}
      */
@@ -332,7 +332,7 @@ qx.Class.define("qx.event.handler.Focus",
 
     /**
      * Initializes the native focus event listeners.
-     * 
+     *
      * @type member
      * @signature function()
      * @return {void}
@@ -344,46 +344,46 @@ qx.Class.define("qx.event.handler.Focus",
         // Bind methods
         this._onNativeFocusWrapper = qx.lang.Function.bind(this._onNativeFocus, this);
         this._onNativeBlurWrapper = qx.lang.Function.bind(this._onNativeBlur, this);
-  
+
         // Capturing is needed for gecko to correctly
         // handle focus of input and textarea fields
         this._window.addEventListener("focus", this._onNativeFocusWrapper, true);
-        this._window.addEventListener("blur", this._onNativeBlurWrapper, true);        
+        this._window.addEventListener("blur", this._onNativeBlurWrapper, true);
       },
-      
+
       "mshtml" : function()
       {
         // Bind methods
         this._onNativeFocusInWrapper = qx.lang.Function.bind(this._onNativeFocusIn, this);
         this._onNativeFocusOutWrapper = qx.lang.Function.bind(this._onNativeFocusOut, this);
-  
+
         // MSHTML supports their own focusin and focusout events
         // To detect which elements get focus the target is useful
         // The window blur can detected using focusout and look
         // for the relatedTarget which is empty in this case.
         qx.event.Manager.addNativeListener(this._document, "focusin", this._onNativeFocusInWrapper);
-        qx.event.Manager.addNativeListener(this._document, "focusout", this._onNativeFocusOutWrapper);        
+        qx.event.Manager.addNativeListener(this._document, "focusout", this._onNativeFocusOutWrapper);
       },
-      
+
       "webkit|opera" : function()
       {
         // Bind methods
         this._onNativeFocusWrapper = qx.lang.Function.bind(this._onNativeFocus, this);
         this._onNativeBlurWrapper = qx.lang.Function.bind(this._onNativeBlur, this);
         this._onNativeFocusInWrapper = qx.lang.Function.bind(this._onNativeFocusIn, this);
-  
+
         // Opera 9.2 ignores the event when capturing is enabled
         this._window.addEventListener("focus", this._onNativeFocusWrapper, false);
         this._window.addEventListener("blur", this._onNativeBlurWrapper, false);
-  
+
         // Opera 9.x supports DOMFocusOut which is needed to detect the element focus
-        qx.event.Manager.addNativeListener(this._document, "DOMFocusIn", this._onNativeFocusInWrapper);        
+        qx.event.Manager.addNativeListener(this._document, "DOMFocusIn", this._onNativeFocusInWrapper);
       }
     }),
-    
-    
-    
-    
+
+
+
+
 
 
     /*
@@ -391,25 +391,25 @@ qx.Class.define("qx.event.handler.Focus",
       OBSERVER STOP
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Disconnect the native mouse event listeners.
-     * 
+     *
      * @type member
      * @return {void}
-     */    
+     */
     _stopMouseObserver : function() {
       qx.event.Manager.removeNativeListener(this._document, "mousedown", this._onNativeMouseDownWrapper);
     },
-    
-    
+
+
     /**
      * Disconnect the native focus event listeners.
-     * 
+     *
      * @type member
      * @signature function()
      * @return {void}
-     */    
+     */
     _stopFocusObserver : qx.core.Variant.select("qx.client",
     {
       "gecko" : function()
@@ -443,7 +443,7 @@ qx.Class.define("qx.event.handler.Focus",
       NATIVE FOCUS EVENT SUPPORT
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Native event listener for <code>DOMFocusOut</code> or <code>focusout</code>
      * depending on the client's engine.
@@ -472,7 +472,7 @@ qx.Class.define("qx.event.handler.Focus",
 
       "default" : null
     }),
-    
+
 
     /**
      * Native event listener for <code>DOMFocusIn</code> or <code>focusin</code>
@@ -592,7 +592,7 @@ qx.Class.define("qx.event.handler.Focus",
       NATIVE MOUSE EVENT SUPPORT
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Native event listener for <code>mousedown</code>.
      *
@@ -613,11 +613,11 @@ qx.Class.define("qx.event.handler.Focus",
       this.setActive(target);
       this.setFocus(this.__findFocusNode(target));
     },
-    
-    
+
+
     /**
      * Returns the next focusable parent node of a activated DOM element.
-     * 
+     *
      * @type member
      * @signature function(node)
      * @param node {Event} Native event
@@ -705,7 +705,7 @@ qx.Class.define("qx.event.handler.Focus",
       PROPERTY APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
-    
+
     // apply routine
     _applyActive : function(value, old)
     {
@@ -761,13 +761,13 @@ qx.Class.define("qx.event.handler.Focus",
   destruct : function()
   {
     this._stopMouseObserver();
-    this._stopFocusObserver();    
-    
+    this._stopFocusObserver();
+
     this._disposeFields("_manager", "_window", "_document", "_root", "_body");
   },
-  
-  
-    
+
+
+
 
 
   /*

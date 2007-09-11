@@ -41,7 +41,7 @@ qx.Class.define("qx.bom.Element",
       CREATION
     ---------------------------------------------------------------------------
     */
-    
+
     __specialAttributes :
     {
       "onload" : true,
@@ -49,8 +49,8 @@ qx.Class.define("qx.bom.Element",
       "type" : true,
       "checked" : true
     },
-    
-    
+
+
     /**
      * Creates an DOM element.
      *
@@ -68,21 +68,21 @@ qx.Class.define("qx.bom.Element",
       if (!win) {
         win = window;
       }
-      
+
       if (!name) {
-        throw new Error("The tag name is missing!"); 
+        throw new Error("The tag name is missing!");
       }
-      
+
       var special = this.__specialAttributes;
       var attributesHtml = "";
-      
-      for (var key in attributes) 
+
+      for (var key in attributes)
       {
         if (special[key]) {
-          attributesHtml += key + "='" + attributes[key] + "' "; 
+          attributesHtml += key + "='" + attributes[key] + "' ";
         }
       }
-      
+
       var element;
 
       // If specific attributes are defined we need to process
@@ -95,8 +95,8 @@ qx.Class.define("qx.bom.Element",
         {
           element = win.document.createElement("<" + name + " " + attributesHtml + ">");
         }
-        
-        // Other browsers create an helper element to put some generated HTML 
+
+        // Other browsers create an helper element to put some generated HTML
         // into it and extract the interesting content via 'firstChild'
         else
         {
@@ -106,21 +106,21 @@ qx.Class.define("qx.bom.Element",
         }
       }
       else
-      {      
+      {
         if (win.document.createElementNS) {
           element = win.document.createElementNS("http://www.w3.org/1999/xhtml", name);
         } else {
           element = win.document.createElement(name);
         }
       }
-      
-      for (var key in attributes) 
+
+      for (var key in attributes)
       {
         if (!special[key]) {
           qx.bom.element.Attribute.set(element, key, attributes[key]);
         }
       }
-      
+
       return element;
     },
 

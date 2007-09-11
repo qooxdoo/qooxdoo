@@ -99,8 +99,8 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
 
     /**
      * whether it is possible to drag an item out of the tree to a different widget
-     * this is currently only respected if the drop targets supportsDrop method 
-     * checks for it 
+     * this is currently only respected if the drop targets supportsDrop method
+     * checks for it
      * defaults to true
      **/
     allowDragOut :
@@ -339,7 +339,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
     {
         return this.getTreePaneScroller()._focusIndicator;
     },
-    
+
 
     //---------------------------------------------------------------------------
     // event handling functions
@@ -600,16 +600,16 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
           // we do not have any compatible datatype
           return false;
         }
-        
+
         var sourceNode   = sourceData.nodeData[0]; // use only the first node to determine node type
         if ( ! sourceNode )
         {
           // no node to drag
           return false;
         }
-        
+
         var sourceWidget = sourceData.sourceWidget;
-        
+
         // dragging from other tree allowed?
         if ( typeof sourceWidget.getAllowDragOut == "function" && sourceWidget.getAllowDragOut() )
 

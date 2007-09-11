@@ -39,7 +39,7 @@ qx.Class.define("qx.event.handler.Object",
      MEMBERS
   *****************************************************************************
   */
-  
+
   members :
   {
     /*
@@ -47,12 +47,12 @@ qx.Class.define("qx.event.handler.Object",
       EVENT HANDLER INTERFACE
     ---------------------------------------------------------------------------
     */
-        
+
     // interface implementation
     canHandleEvent : function(target, type) {
       return target instanceof qx.core.Target && qx.Class.supportsEvent(target.constructor, type);
     },
-    
+
 
     // interface implementation
     registerEvent : function(target, type) {
@@ -63,7 +63,7 @@ qx.Class.define("qx.event.handler.Object",
     // interface implementation
     unregisterEvent : function(target, type) {
       // Nothing needs to be done here
-    }    
+    }
   },
 
 

@@ -125,7 +125,7 @@ qx.Class.define("qx.dom.Hierarchy",
       "mshtml|opera|webkit" : function(element, target) {
         return element.contains(target);
       },
-      
+
       // http://developer.mozilla.org/en/docs/DOM:Node.compareDocumentPosition
       "gecko" : function(element, target) {
         return !!(element.compareDocumentPosition(target) & 16)
@@ -136,24 +136,24 @@ qx.Class.define("qx.dom.Hierarchy",
         while(target)
         {
           if (element == target) {
-            return true; 
+            return true;
           }
-          
+
           target = target.parentNode;
         }
-        
+
         return false;
       }
     }),
-    
-    
+
+
     /**
      * Whether the element is inserted into the document
      * for which it was created.
      *
      * @type static
      * @param element {Element} DOM element to check
-     * @return {Boolean} <code>true</code> when the element is inserted 
+     * @return {Boolean} <code>true</code> when the element is inserted
      *    into the document.
      */
     isRendered : function(element)
