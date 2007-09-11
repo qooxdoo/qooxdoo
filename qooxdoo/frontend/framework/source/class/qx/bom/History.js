@@ -93,6 +93,7 @@ qx.Class.define("qx.bom.History",
 
       this._titles = {};
       this._state = decodeURIComponent(this.__getHash());
+      this._locationState = decodeURIComponent(this.__getHash());
 
       this.__waitForIFrame(function()
       {
@@ -167,17 +168,6 @@ qx.Class.define("qx.bom.History",
 
   members :
   {
-
-    /**
-     * This function is only there to ensure compatibility with older
-     * qooxdoo versions
-     * @deprecated
-     */
-    init : function()
-    {
-    },
-
-
     /**
      * Adds an entry to the browser history.
      *
@@ -295,13 +285,24 @@ qx.Class.define("qx.bom.History",
     {
       "mshtml" : function()
       {
+        // the location only changes if the user manually changes the fragment
+        // identifier.
+        var locationState = decodeURIComponent(this.__getHash());
+        if (locationState != this._locationState)
+        {
+          this._locationState = locationState;
+          this.__storeState(locationState);
+          return locationState;
+        }
+
         var doc = this._iframe.contentWindow.document;
         var elem = doc.getElementById("state");
-        return elem ? decodeURIComponent(elem.innerText) : "";
+        var iframeState = elem ? decodeURIComponent(elem.innerText) : "";
+
+        return iframeState;
       },
 
-      "default" : function()
-      {
+      "default" : function() {
         return decodeURIComponent(this.__getHash());
       }
     }),
