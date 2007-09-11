@@ -626,6 +626,11 @@ qx.Class.define("qx.ui.tree.Tree",
 
               if (vParent instanceof qx.ui.tree.TreeFolder)
               {
+                // The first node (if hidden) should be ignored for selection
+                if (vParent instanceof qx.ui.tree.Tree && vParent.getHideNode()) {
+                  return;
+                }
+
                 if (!(vParent instanceof qx.ui.tree.Tree)) {
                   vParent.close();
                 }
