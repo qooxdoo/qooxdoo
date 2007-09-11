@@ -1227,7 +1227,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       var paneModel = this.getTablePaneModel();
       var columnModel = this.getTable().getTableColumnModel();
-      var paneLeftX = qx.html.Location.getClientBoxLeft(this._tablePane.getElement());
+      var paneLeftX = qx.bom.element.Location.getLeft(this._tablePane.getElement());
       var colCount = paneModel.getColumnCount();
 
       var targetXPos = 0;
@@ -1249,7 +1249,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       }
 
       // Ensure targetX is visible
-      var clipperLeftX = qx.html.Location.getClientBoxLeft(this._paneClipper.getElement());
+      var clipperLeftX = qx.bom.element.Location.getLeft(this._paneClipper.getElement());
       var clipperWidth = this._paneClipper.getBoxWidth();
       var scrollX = clipperLeftX - paneLeftX;
 
@@ -1630,7 +1630,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _getColumnForPageX : function(pageX)
     {
-      var headerLeftX = qx.html.Location.getClientBoxLeft(this._header.getElement());
+      var headerLeftX = qx.bom.element.Location.getLeft(this._header.getElement());
 
       var columnModel = this.getTable().getTableColumnModel();
       var paneModel = this.getTablePaneModel();
@@ -1662,7 +1662,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _getResizeColumnForPageX : function(pageX)
     {
-      var headerLeftX = qx.html.Location.getClientBoxLeft(this._header.getElement());
+      var headerLeftX = qx.bom.element.Location.getLeft(this._header.getElement());
 
       var columnModel = this.getTable().getTableColumnModel();
       var paneModel = this.getTablePaneModel();
@@ -1698,19 +1698,15 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     _getRowForPagePos : function(pageX, pageY)
     {
       var paneClipperElem = this._paneClipper.getElement();
-      var paneClipperLeftX = qx.html.Location.getClientBoxLeft(paneClipperElem);
-      var paneClipperRightX = qx.html.Location.getClientBoxRight(paneClipperElem);
+      var paneClipperPos = qx.bom.element.Location.get(paneClipperElem);
 
-      if (pageX < paneClipperLeftX || pageX > paneClipperRightX)
+      if (pageX < paneClipperPos.left || pageX > paneClipperPos.right)
       {
         // There was no cell or header cell hit
         return null;
       }
 
-      var paneClipperTopY = qx.html.Location.getClientBoxTop(paneClipperElem);
-      var paneClipperBottomY = qx.html.Location.getClientBoxBottom(paneClipperElem);
-
-      if (pageY >= paneClipperTopY && pageY <= paneClipperBottomY)
+      if (pageY >= paneClipperPos.top && pageY <= paneClipperPos.bottom)
       {
         // This event is in the pane -> Get the row
         var rowHeight = this.getTable().getRowHeight();
@@ -1721,16 +1717,19 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           scrollY = Math.floor(scrollY / rowHeight) * rowHeight;
         }
 
-        var tableY = scrollY + pageY - paneClipperTopY;
+        var tableY = scrollY + pageY - paneClipperPos.top;
         var row = Math.floor(tableY / rowHeight);
 
         var rowCount = this.getTable().getTableModel().getRowCount();
         return (row < rowCount) ? row : null;
       }
 
-      var headerElem = this._headerClipper.getElement();
+      var headerPos = qx.bom.element.Location.get(this._headerClipper.getElement());
 
-      if (pageY >= qx.html.Location.getClientBoxTop(headerElem) && pageY <= qx.html.Location.getClientBoxBottom(headerElem) && pageX <= qx.html.Location.getClientBoxRight(headerElem))
+      if (
+        pageY >= headerPos.top &&
+        pageY <= headerPos.bottom &&
+        pageX <= headerPos.right)
       {
         // This event is in the pane -> Return -1 for the header
         return -1;

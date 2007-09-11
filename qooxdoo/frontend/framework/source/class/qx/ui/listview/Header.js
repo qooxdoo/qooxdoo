@@ -160,9 +160,12 @@ qx.Class.define("qx.ui.listview.Header",
 
       var vParent = this.getParent();
       var vLine = vParent.getResizeLine();
-      var vLeft = qx.html.Location.getPageBoxLeft(this._resizeSeparator.getElement()) - qx.html.Location.getPageInnerLeft(this.getElement());
-      var vTop = qx.html.Dimension.getBoxHeight(vParent.getHeader().getElement());
-      var vHeight = qx.html.Dimension.getBoxHeight(vParent.getElement()) - vTop;
+      var vLeft =
+        qx.bom.element.Location.getLeft(this._resizeSeparator.getElement()) -
+        qx.bom.element.Location.getLeft(this.getElement(), "content");
+
+      var vTop = qx.bom.element.Dimension.getHeight(vParent.getHeader().getElement());
+      var vHeight = qx.bom.element.Dimension.getHeight(vParent.getElement()) - vTop;
 
       vLine._renderRuntimeTop(vTop);
       vLine._renderRuntimeHeight(vHeight);
@@ -222,8 +225,8 @@ qx.Class.define("qx.ui.listview.Header",
       {
         var vTarget = e.getTarget();
         var vEventPos = e.getPageX();
-        var vTargetPosLeft = qx.html.Location.getPageBoxLeft(vTarget.getElement());
-        var vTargetPosRight = vTargetPosLeft + qx.html.Dimension.getBoxWidth(vTarget.getElement());
+        var vTargetPosLeft = qx.bom.element.Location.getLeft(vTarget.getElement());
+        var vTargetPosRight = vTargetPosLeft + qx.bom.element.Dimension.getWidth(vTarget.getElement());
 
         var vResizeCursor = false;
         var vResizeSeparator = null;

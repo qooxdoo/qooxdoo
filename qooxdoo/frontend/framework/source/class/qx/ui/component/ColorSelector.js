@@ -830,7 +830,9 @@ qx.Class.define("qx.ui.component.ColorSelector",
       this._brightnessHandle.setCapture(true);
 
       // Calculate subtract: Position of Brightness Field - Current Mouse Offset
-      this._brightnessSubtract = qx.html.Location.getPageOuterTop(this._brightnessField.getElement()) + (e.getPageY() - qx.html.Location.getPageBoxTop(this._brightnessHandle.getElement()));
+      this._brightnessSubtract =
+        qx.bom.element.Location.getTop(this._brightnessField.getElement()) +
+        (e.getPageY() - qx.bom.element.Location.getTop(this._brightnessHandle.getElement()));
 
       // Block field event handling
       e.setPropagationStopped(true);
@@ -877,7 +879,9 @@ qx.Class.define("qx.ui.component.ColorSelector",
     _onBrightnessFieldMouseDown : function(e)
     {
       // Calculate substract: Half height of handler
-      this._brightnessSubtract = qx.html.Location.getPageOuterTop(this._brightnessField.getElement()) + Math.round(qx.html.Dimension.getBoxHeight(this._brightnessHandle.getElement()) / 2);
+      this._brightnessSubtract =
+        qx.bom.element.Location.getTop(this._brightnessField.getElement(), "margin") +
+        Math.round(qx.bom.element.Dimension.getHeight(this._brightnessHandle.getElement()) / 2);
 
       // Update
       this._setBrightnessOnFieldEvent(e);
@@ -969,8 +973,13 @@ qx.Class.define("qx.ui.component.ColorSelector",
       this._hueSaturationHandle.setCapture(true);
 
       // Calculate subtract: Position of HueSaturation Field - Current Mouse Offset
-      this._hueSaturationSubtractTop = qx.html.Location.getPageOuterTop(this._hueSaturationField.getElement()) + (e.getPageY() - qx.html.Location.getPageBoxTop(this._hueSaturationHandle.getElement()));
-      this._hueSaturationSubtractLeft = qx.html.Location.getPageOuterLeft(this._hueSaturationField.getElement()) + (e.getPageX() - qx.html.Location.getPageBoxLeft(this._hueSaturationHandle.getElement()));
+      this._hueSaturationSubtractTop =
+        qx.bom.element.Location.getTop(this._hueSaturationField.getElement(), "margin") +
+        (e.getPageY() - qx.bom.element.Location.getTop(this._hueSaturationHandle.getElement()));
+
+      this._hueSaturationSubtractLeft =
+        qx.bom.element.Location.getLeft(this._hueSaturationField.getElement(), "margin") +
+        (e.getPageX() - qx.bom.element.Location.getLeft(this._hueSaturationHandle.getElement()));
 
       // Block field event handling
       e.setPropagationStopped(true);
@@ -1017,8 +1026,13 @@ qx.Class.define("qx.ui.component.ColorSelector",
     _onHueSaturationFieldMouseDown : function(e)
     {
       // Calculate substract: Half width/height of handler
-      this._hueSaturationSubtractTop = qx.html.Location.getPageOuterTop(this._hueSaturationField.getElement()) + Math.round(qx.html.Dimension.getBoxHeight(this._hueSaturationHandle.getElement()) / 2);
-      this._hueSaturationSubtractLeft = qx.html.Location.getPageOuterLeft(this._hueSaturationField.getElement()) + Math.round(qx.html.Dimension.getBoxWidth(this._hueSaturationHandle.getElement()) / 2);
+      this._hueSaturationSubtractTop =
+        qx.bom.element.Location.getTop(this._hueSaturationField.getElement(), "margin") +
+        Math.round(qx.bom.element.Dimension.getHeight(this._hueSaturationHandle.getElement()) / 2);
+
+      this._hueSaturationSubtractLeft =
+        qx.bom.element.Location.getLeft(this._hueSaturationField.getElement(), "margin") +
+        Math.round(qx.bom.element.Dimension.getWidth(this._hueSaturationHandle.getElement()) / 2);
 
       // Update
       this._setHueSaturationOnFieldEvent(e);

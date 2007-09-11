@@ -436,8 +436,8 @@ qx.Class.define("qx.ui.menu.Menu",
           var pl = value.getElement();
           var el = this.getElement();
 
-          vSub.setTop(qx.html.Location.getPageBoxTop(pl) + this.getSubMenuVerticalOffset());
-          vSub.setLeft(qx.html.Location.getPageBoxLeft(el) + qx.html.Dimension.getBoxWidth(el) + this.getSubMenuHorizontalOffset());
+          vSub.setTop(qx.bom.element.Location.getTop(pl) + this.getSubMenuVerticalOffset());
+          vSub.setLeft(qx.bom.element.Location.getLeft(el) + qx.legacy.html.Dimension.getBoxWidth(el) + this.getSubMenuHorizontalOffset());
 
           vSub.show();
         }

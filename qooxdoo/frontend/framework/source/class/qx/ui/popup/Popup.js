@@ -478,14 +478,11 @@ qx.Class.define("qx.ui.popup.Popup",
 
       if (el)
       {
-        var loc = qx.html.Location;
-        this.setLocation(
-          loc.getClientAreaLeft(el) -
-          (qx.core.Variant.isSet("qx.client", "gecko") ? qx.html.Style.getBorderLeft(el) : 0) +
-          (offsetX || 0), loc.getClientAreaTop(el) -
-          (qx.core.Variant.isSet("qx.client", "gecko") ? qx.html.Style.getBorderTop(el) : 0) +
-          (offsetY || 0)
-        );
+       var elementPos = qx.bom.element.Location.get(el);
+       this.setLocation(
+         elementPos.left + (offsetX || 0),
+         elementPos.top + (offsetY || 0)
+       );
       }
       else
       {
