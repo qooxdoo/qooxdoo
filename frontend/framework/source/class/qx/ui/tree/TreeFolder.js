@@ -247,6 +247,16 @@ qx.Class.define("qx.ui.tree.TreeFolder",
     close : function()
     {
       this.getTree().createDispatchDataEvent("treeClose", this);
+
+      // If we get closed and the current selection is inside of this node.
+      // set the selection to this folder
+      if (this.getOpen())
+      {
+        if(qx.lang.Array.contains(this.getItems(true, true), this.getTree().getSelectedElement())) {
+          this.getTree().getManager().setSelectedItem(this);
+        }
+      }
+
       this.setOpen(false);
     },
 
@@ -738,13 +748,10 @@ qx.Class.define("qx.ui.tree.TreeFolder",
           // delay the dispose until return from current call stack.  if we
           // were called via an event, e.g. a mouse click, the global queue
           // will be flushed so we can't yet be disposed.
-          qx.event.Timer.once(function()
-                               {
-                                 item.dispose();
-                                 delete items[i]
-                               },
-                               this,
-                               0);
+          qx.event.Timer.once(function() {
+            item.dispose();
+            delete items[i]
+          }, this, 0);
         }
       }
     },
@@ -850,9 +857,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
       switch(vOriginalTarget)
       {
         case this._indentObject:
-          if (this._indentObject.getElement().firstChild == e.getDomTarget())
-          {
-            this.getTree().getManager().handleMouseDown(this, e);
+          if (this._indentObject.getElement().firstChild == e.getDomTarget()) {
             this.toggle();
           }
 
