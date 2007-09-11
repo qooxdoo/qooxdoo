@@ -14,6 +14,7 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
+     * Sebastian Werner (wpbasti)
 
 ************************************************************************ */
 
@@ -24,34 +25,13 @@
 ************************************************************************ */
 
 /**
- * This class dispatches bubbling events, which have widgets as targets.
- * The events bubble up the widget hierarchy.
+ * Event dispatcher for all bubbling events on DOM elements.
  *
  * @internal
  */
 qx.Class.define("qx.event.dispatch.WidgetBubbling",
 {
-  extend : qx.core.Object,
-  implement : qx.event.IEventDispatcher,
-
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  /**
-   * @param manager {qx.event.Manager} reference to the event manager using
-   *     this class.
-   */
-  construct : function(manager) {
-    this._manager = manager;
-  },
-
-
+  extend : qx.event.dispatch.AbstractBubbling,
 
 
 
@@ -65,45 +45,27 @@ qx.Class.define("qx.event.dispatch.WidgetBubbling",
   {
     /*
     ---------------------------------------------------------------------------
+      EVENT DISPATCHER HELPER
+    ---------------------------------------------------------------------------
+    */ 
+
+    // overridden
+    getParent : function(target) {
+      return target.getParent();
+    },
+    
+    
+        
+    
+    /*
+    ---------------------------------------------------------------------------
       EVENT DISPATCHER INTERFACE
     ---------------------------------------------------------------------------
     */ 
     
     // interface implementation
     canDispatchEvent : function(target, event, type) {
-      return (event.getBubbles() && target instanceof qx.ui.core.Widget);
-    },
-
-
-    // interface implementation
-    dispatchEvent : function(target, event, type)
-    {
-      event.setEventPhase(qx.event.type.Event.AT_TARGET);
-
-      var currentTarget = target;
-      var listeners;
-
-      while (currentTarget)
-      {
-        listeners = this._manager.registryGetListeners(currentTarget, type, false, false);
-        if (listeners) 
-        {
-          for (var i=0; i<listeners.length; i++)
-          {
-            var context = listeners[i].context || currentTarget;
-            listeners[i].handler.call(context, event);
-          }
-        }
-
-        if (event.getPropagationStopped()) {
-          return;
-        }
-
-        currentTarget = currentTarget.getParent();
-        
-        event.setCurrentTarget(currentTarget);
-        event.setEventPhase(qx.event.type.Event.BUBBLING_PHASE);
-      }
+      return target instanceof qx.ui.core.Widget && event.getBubbles();
     }
   },
 
