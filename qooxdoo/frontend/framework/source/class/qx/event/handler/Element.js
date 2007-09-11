@@ -124,12 +124,13 @@ qx.Class.define("qx.event.handler.Element",
     /** {Map} Internal data structure with all supported BOM element events */
     _eventTypes :
     {
-      abort : true,    // Image elements only
+      abort : true,    // Image elements
       scroll : true,
       change : true,
       select : true,
-      reset : true,    // Form Elements only
-      submit : true    // Form Elements
+      reset : true,    // Form Elements
+      submit : true,   // Form Elements
+      input : true     // Input Elements only (type=text / textarea)
     },
 
 
