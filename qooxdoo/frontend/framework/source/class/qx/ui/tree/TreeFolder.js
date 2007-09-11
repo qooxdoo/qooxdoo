@@ -262,6 +262,15 @@ qx.Class.define("qx.ui.tree.TreeFolder",
         this.getTree().dispatchEvent(new qx.event.type.DataEvent("treeClose", this), true);
       }
 
+      // If we get closed and the current selection is inside of this node.
+      // set the selection to this folder
+      if (this.getOpen())
+      {
+        if(qx.lang.Array.contains(this.getItems(true, true), this.getTree().getSelectedElement())) {
+          this.getTree().getManager().setSelectedItem(this);
+        }
+      }
+
       this.setOpen(false);
     },
 
@@ -863,9 +872,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
       switch(vOriginalTarget)
       {
         case this._indentObject:
-          if (this._indentObject.getElement().firstChild == e.getDomTarget())
-          {
-            this.getTree().getManager().handleMouseDown(this, e);
+          if (this._indentObject.getElement().firstChild == e.getDomTarget()) {
             this.toggle();
           }
 
