@@ -24,7 +24,10 @@
 
 ************************************************************************ */
 
-/** Font implementation for qx.ui.core.Widget instances. */
+/**
+ * A wrapper for CSS font styles. Fond objects can be aplpied to widgets
+ * or DOM elements.
+ */
 qx.Class.define("qx.ui.core.Font",
 {
   extend : qx.core.Object,
@@ -38,6 +41,10 @@ qx.Class.define("qx.ui.core.Font",
   *****************************************************************************
   */
 
+  /**
+   * @param size {String} The font size (Unit: pixel)
+   * @param family {String[]} A sorted list of font families
+   */
   construct : function(size, family)
   {
     this.base(arguments);
@@ -118,7 +125,7 @@ qx.Class.define("qx.ui.core.Font",
      *
      * @type static
      * @param config {Map} map of property values
-     * @return {qx.ui.core.Border} the created instance
+     * @return {qx.ui.core.Font} the created instance
      */
     fromConfig : function(config)
     {
@@ -128,6 +135,11 @@ qx.Class.define("qx.ui.core.Font",
     },
 
 
+    /**
+     * Removes all fond styles from this widget
+     *
+     * @param widget {qx.ui.core.Widget} widget to reset
+     */
     reset : function(widget)
     {
       widget.removeStyleProperty("fontFamily");
@@ -137,6 +149,12 @@ qx.Class.define("qx.ui.core.Font",
       widget.removeStyleProperty("textDecoration");
     },
 
+
+    /**
+     * Removes all fond styles from this DOM element
+     *
+     * @param element {Element} DOM element to reset
+     */
     resetElement : function(element)
     {
       var style = element.style;
@@ -148,10 +166,11 @@ qx.Class.define("qx.ui.core.Font",
       style.textDecoration = "";
     },
 
+
     /**
      * Reset a style map by setting the font attributes to empty.
      *
-     * @param style {Map}
+     * @param style {Map} The style map
      * @type static
      * @return {void}
      */
@@ -176,6 +195,8 @@ qx.Class.define("qx.ui.core.Font",
 
   properties :
   {
+
+    /** The font size (Unit: pixel) */
     size :
     {
       check : "Integer",
@@ -183,6 +204,7 @@ qx.Class.define("qx.ui.core.Font",
       apply : "_applySize"
     },
 
+    /** A sorted list of font families */
     family :
     {
       check : "Array",
@@ -190,6 +212,7 @@ qx.Class.define("qx.ui.core.Font",
       apply : "_applyFamily"
     },
 
+    /** Whether the font is bold */
     bold :
     {
       check : "Boolean",
@@ -197,6 +220,7 @@ qx.Class.define("qx.ui.core.Font",
       apply : "_applyBold"
     },
 
+    /** Whether the font is italic */
     italic :
     {
       check : "Boolean",
@@ -204,6 +228,7 @@ qx.Class.define("qx.ui.core.Font",
       apply : "_applyItalic"
     },
 
+    /** The text decoration for this font */
     decoration :
     {
       check : [ "underline", "line-through", "overline" ],
@@ -263,6 +288,12 @@ qx.Class.define("qx.ui.core.Font",
       this.__decoration = value === null ? null : value;
     },
 
+
+    /**
+     * Apply the font to the given widget.
+     *
+     * @param widget {qx.ui.core.Widget} The widget to apply the font to
+     */
     render : function(widget)
     {
       widget.setStyleProperty("fontFamily", this.__family);
@@ -272,10 +303,11 @@ qx.Class.define("qx.ui.core.Font",
       widget.setStyleProperty("textDecoration", this.__decoration);
     },
 
+
     /**
      * Generate a style map with the current font attributes.
      *
-     * @param style {Map}
+     * @param style {Map} The style map
      * @type member
      * @return {void}
      */
@@ -288,6 +320,12 @@ qx.Class.define("qx.ui.core.Font",
       style.textDecoration = this.__decoration || "";
     },
 
+
+    /**
+     * Apply the font styles to the given DOM element.
+     *
+     * @param element {Element} The DOM element to apply the font to
+     */
     renderElement : function(element)
     {
       var style = element.style;
@@ -302,7 +340,7 @@ qx.Class.define("qx.ui.core.Font",
      * Generate a style string with the current font attributes.
      *
      * @type member
-     * @return {String}
+     * @return {String} The generated style string for this font
      */
     generateStyle : function() {
       return ( this.__family ? "font-family:" + this.__family.replace(/\"/g, "'") + ";" : "" ) +
