@@ -403,7 +403,7 @@ qx.Class.define("qx.Theme",
     patch : function(theme, mixinTheme)
     {
       var keyCurrent = this.__extractInheritableKey(mixinTheme);
-      if (keyCurrent !== this.__extractInheritableKey(mixinTheme)) {
+      if (keyCurrent !== this.__extractInheritableKey(theme)) {
         throw new Error("The mixins '" + theme.name + "' are not compatible '" + mixinTheme.name + "'!");
       }
 
@@ -428,7 +428,7 @@ qx.Class.define("qx.Theme",
     include : function(theme, mixinTheme)
     {
       var keyCurrent = this.__extractInheritableKey(mixinTheme);
-      if (keyCurrent !== this.__extractInheritableKey(mixinTheme)) {
+      if (keyCurrent !== this.__extractInheritableKey(theme)) {
         throw new Error("The mixins '" + theme.name + "' are not compatible '" + mixinTheme.name + "'!");
       }
 
