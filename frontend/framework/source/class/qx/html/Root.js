@@ -23,12 +23,12 @@
 
 ************************************************************************ */
 
-/** 
+/**
  * This is the root element for a set of {@link qx.html.Element}s.
  *
  * To make other elements visible these elements must be inserted
  * into an root element at any level.
- * 
+ *
  * A root element uses an existing DOM element where is assumed that
  * this element is always visible. In the easiest case, the root element
  * is identical to the document's body.
@@ -36,23 +36,23 @@
 qx.Class.define("qx.html.Root",
 {
   extend : qx.html.Element,
-  
+
   /**
    * Creates a root element
    *
    * @constructor
-   * @param elem {Element?null} DOM element to use 
+   * @param elem {Element?null} DOM element to use
    */
   construct : function(elem)
   {
     this.base(arguments);
-    
+
     if (elem != null) {
       this.useElement(elem);
     }
   },
-  
-  members : 
+
+  members :
   {
     /**
      * Sets the element to an already existing node. It will be
@@ -63,29 +63,29 @@ qx.Class.define("qx.html.Root",
      * @param elem {Element} the dom element to set
      * @return {void}
      * @throws an exception if the element is assigned again
-     */    
+     */
     useElement : function(elem)
     {
       if (this._element) {
         throw new Error("Elements could not be replaced!");
       }
-      
+
       // Store reference to "this"
       elem.QxElement = this;
 
       // Initialize based on given element
       this._element = elem;
-      
+
       // Mark as root
       this._root = true;
-      
+
       // Mark as new
       this._new = true;
-      
+
       // Register for syncronization
       if (this._included) {
         this._scheduleSync();
-      }      
-    }   
-  }  
+      }
+    }
+  }
 });

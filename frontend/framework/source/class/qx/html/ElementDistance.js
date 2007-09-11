@@ -28,7 +28,7 @@
  * an edit distance based algorithm to reflect children
  * modifications to the DOM.
  *
- * The fast syncronisation of {@link qx.html.Element} is built 
+ * The fast syncronisation of {@link qx.html.Element} is built
  * upon simple index comparison and produces less overhead than
  * the edit distance logic by bringing comparable
  * results. Often the number of DOM transactions is
@@ -39,9 +39,9 @@
  * based algorithm is sometimes not as good as the more
  * basic index based approach. The reason for this
  * is that edit distance based models are not thought
- * out for reference types. For typical moves 
+ * out for reference types. For typical moves
  * the edit distance creates two actions were normally
- * only one is needed. 
+ * only one is needed.
  *
  * Choose one or the other depending on your induvidual needs.
  * Generally {qx.html.Element} is the better choice.
@@ -49,12 +49,12 @@
 qx.Class.define("qx.html.ElementDistance",
 {
   extend : qx.html.Element,
-  
-  members : 
+
+  members :
   {
     /**
-     * Apply the DOM structure of the given parent. Used edit distance 
-     * algorithm which means quadratic, more intensive computing but may 
+     * Apply the DOM structure of the given parent. Used edit distance
+     * algorithm which means quadratic, more intensive computing but may
      * reduce the number of DOM transactions needed.
      *
      * @type static
@@ -62,26 +62,26 @@ qx.Class.define("qx.html.ElementDistance",
      * @return {void}
      */
     _syncChildren : function(obj)
-    { 
+    {
       if (qx.core.Variant.isSet("qx.domEditDistance", "on"))
       {
         // **********************************************************************
         //   Compute needed operations
         // **********************************************************************
-        
+
         var domElement = obj._element;
         var source = domElement.childNodes;
         var target = [];
-        for (var i=0, ch=obj._children, cl=ch.length; i<cl; i++) 
+        for (var i=0, ch=obj._children, cl=ch.length; i<cl; i++)
         {
           if (ch[i]._included) {
-            target.push(ch[i]._element); 
+            target.push(ch[i]._element);
           }
         }
-  
+
         // Compute edit operations
         var operations = qx.util.EditDistance.getEditOperations(source, target);
-  
+
         /*
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
@@ -89,46 +89,46 @@ qx.Class.define("qx.html.ElementDistance",
           // FireBug sometimes will display a live view of the DOM and not the
           // the snapshot at this moment.
           source = qx.lang.Array.fromCollection(source);
-          
+
           console.log("Source: ", source.length + ": ", source);
           console.log("Target: ", target.length + ": ", target);
           console.log("Operations: ", operations);
         }
         */
-  
-  
-  
+
+
+
         // **********************************************************************
         //   Process operations
         // **********************************************************************
         var job;
         var domOperations = 0;
-  
+
         // Store offsets which are a result of element moves
         var offsets = [];
-  
+
         for (var i=0, l=operations.length; i<l; i++)
         {
           job = operations[i];
-  
-  
-  
+
+
+
           // ********************************************************************
           //   Apply offset
           // ********************************************************************
           if (offsets[job.pos] !== undefined)
           {
             job.pos -= offsets[job.pos];
-  
+
             // We need to be sure that we don't get negative indexes.
             // This will otherwise break array/collection index access.
             if (job.pos < 0) {
               job.pos = 0;
             }
           }
-  
-  
-  
+
+
+
           // ********************************************************************
           //   Process DOM
           // ********************************************************************
@@ -168,14 +168,14 @@ qx.Class.define("qx.html.ElementDistance",
               // find the position/index where the element is stored currently
               previousIndex = -1;
               iterator = job.value;
-  
+
               do
               {
                 previousIndex++;
                 iterator = iterator.previousSibling;
               }
               while (iterator);
-  
+
               // increment all affected offsets
               for (var j=previousIndex+1; j<=job.pos; j++)
               {
@@ -186,9 +186,9 @@ qx.Class.define("qx.html.ElementDistance",
                 }
               }
             }
-  
-  
-  
+
+
+
             // ******************************************************************
             //   The real DOM work
             // ******************************************************************
@@ -206,11 +206,11 @@ qx.Class.define("qx.html.ElementDistance",
                 job.operation = qx.util.EditDistance.OPERATION_INSERT;
               }
             }
-  
+
             if (job.operation === qx.util.EditDistance.OPERATION_INSERT)
             {
               var before = domElement.childNodes[job.pos];
-  
+
               if (before)
               {
                 // console.log("Insert: ", job.value, " at: ", job.pos);
@@ -226,7 +226,7 @@ qx.Class.define("qx.html.ElementDistance",
             }
           }
         }
-  
+
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
           if (this._debug) {
@@ -235,5 +235,5 @@ qx.Class.define("qx.html.ElementDistance",
         }
       }
     }
-  }  
+  }
 });

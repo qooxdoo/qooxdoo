@@ -99,9 +99,9 @@ qx.Class.define("qx.event.Pool",
       this._pool.poolObject(event);
     }
   },
-  
-  
-  
+
+
+
 
   /*
   *****************************************************************************
@@ -111,5 +111,5 @@ qx.Class.define("qx.event.Pool",
 
   destruct : function() {
     this._disposeObjects("_pool");
-  }  
+  }
 });

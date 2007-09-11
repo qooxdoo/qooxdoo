@@ -1029,7 +1029,7 @@ qx.Class.define("qx.ui.selection.SelectionManager",
       // stop propagation of the event here to prevent
       // reaction of subwidgets
       e.stopPropagation();
-      
+
       // Only allow left and right button
       if (!e.isLeftButtonPressed() && !e.isRightButtonPressed()) {
         return;

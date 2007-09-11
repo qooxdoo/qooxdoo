@@ -140,8 +140,8 @@ qx.Class.define("qx.core.Bootstrap",
     since : function() {
       return this.time() - this.LOADSTART;
     },
-    
-    
+
+
     /** Stores all defined classes */
     $$registry : {}
   }

@@ -40,7 +40,7 @@ qx.Class.define("qx.event.handler.Window",
      CONSTRUCTOR
   *****************************************************************************
   */
-  
+
   construct : function(manager)
   {
     this.base(arguments);
@@ -63,7 +63,7 @@ qx.Class.define("qx.event.handler.Window",
      MEMBERS
   *****************************************************************************
   */
-  
+
   members :
   {
     /*
@@ -71,13 +71,13 @@ qx.Class.define("qx.event.handler.Window",
       EVENT HANDLER INTERFACE
     ---------------------------------------------------------------------------
     */
-    
+
     // interface implementation
     canHandleEvent : function(target, type) {
       return qx.dom.Node.isWindow(target) && this._eventTypes[type];
     },
-    
-    
+
+
     // interface implementation
     registerEvent : function(target, type) {
       // Nothing needs to be done here
@@ -88,17 +88,17 @@ qx.Class.define("qx.event.handler.Window",
     unregisterEvent : function(target, type) {
       // Nothing needs to be done here
     },
-    
-    
-    
-    
-        
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       HELPER
     ---------------------------------------------------------------------------
     */
-        
+
     /** {Map} Internal data structure with all supported event types */
     _eventTypes :
     {
@@ -109,8 +109,8 @@ qx.Class.define("qx.event.handler.Window",
       resize : 1,
       scroll : 1
     },
-    
-        
+
+
     /**
      * Shorthand to fire events from within this class.
      *
@@ -121,28 +121,28 @@ qx.Class.define("qx.event.handler.Window",
     _fireEvent : function(type) {
       this._manager.createAndDispatchEvent(this._window, qx.event.type.Event, [type, false]);
     },
-    
-    
-     
-    
-    
+
+
+
+
+
 
     /*
     ---------------------------------------------------------------------------
       OBSERVER INIT/STOP
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Initializes the native mouse event listeners.
-     * 
+     *
      * @type member
      * @return {void}
      */
     _initWindowObserver : function()
     {
       this._onNativeWrapper = qx.lang.Function.bind(this._onNative, this);
-      
+
       qx.event.Manager.addNativeListener(this._window, "error", this._onNativeWrapper);
       qx.event.Manager.addNativeListener(this._window, "load", this._onNativeWrapper);
       qx.event.Manager.addNativeListener(this._window, "beforeunload", this._onNativeWrapper);
@@ -150,14 +150,14 @@ qx.Class.define("qx.event.handler.Window",
       qx.event.Manager.addNativeListener(this._window, "resize", this._onNativeWrapper);
     },
 
-    
+
     /**
      * Disconnect the native mouse event listeners.
-     * 
+     *
      * @type member
      * @return {void}
-     */    
-    _stopWindowObserver : function() 
+     */
+    _stopWindowObserver : function()
     {
       qx.event.Manager.removeNativeListener(this._window, "error", this._onNativeWrapper);
       qx.event.Manager.removeNativeListener(this._window, "load", this._onNativeWrapper);
@@ -165,18 +165,18 @@ qx.Class.define("qx.event.handler.Window",
       qx.event.Manager.removeNativeListener(this._window, "unload", this._onNativeWrapper);
       qx.event.Manager.removeNativeListener(this._window, "resize", this._onNativeWrapper);
     },
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       NATIVE EVENT SUPPORT
     ---------------------------------------------------------------------------
     */
-    
+
     _onNative : function(e)
     {
       if (!e) {
@@ -200,13 +200,13 @@ qx.Class.define("qx.event.handler.Window",
   destruct : function()
   {
     this._stopWindowObserver();
-    
+
     this._disposeFields("_manager", "_window");
   },
-  
-  
-  
-    
+
+
+
+
 
 
   /*

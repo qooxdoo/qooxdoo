@@ -7079,7 +7079,7 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @type member
      *
-     * @param dragCache {var} 
+     * @param dragCache {var}
      *   An object describing the event, containing at least these members:
      *     <ul>
      *       <li>startScreenX</li>

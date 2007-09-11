@@ -640,7 +640,7 @@ qx.Class.define("qx.event.Manager",
           return;
         }
       }
-      
+
       this.printStackTrace();
       throw new Error("There is no event handler for the event '"+type+"' on target '"+target+"'!");
     },
@@ -676,7 +676,7 @@ qx.Class.define("qx.event.Manager",
 
       // dispatch event
       this.__inEventDispatch = true;
-      
+
       var dispatched = false;
       for (var i=0,l=this.__dispatchHandlers.length; i<l; i++)
       {
@@ -691,9 +691,9 @@ qx.Class.define("qx.event.Manager",
           break;
         }
       }
-      
+
       if (!dispatched) {
-        throw new Error("Could not dispatch: " + type + " on " + target); 
+        throw new Error("Could not dispatch: " + type + " on " + target);
       }
 
       // release the event instance to the event pool

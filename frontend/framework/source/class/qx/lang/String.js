@@ -15,9 +15,9 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
-     
+
    ======================================================================
-     
+
    This class contains code based on the following work:
 
    * Mootools
@@ -28,7 +28,7 @@
        (c) 2007 Valerio Proietti
 
      License:
-       MIT: http://www.opensource.org/licenses/mit-license.php     
+       MIT: http://www.opensource.org/licenses/mit-license.php
 
 ************************************************************************ */
 
@@ -85,13 +85,13 @@ qx.Class.define("qx.lang.String",
      * @param str {String} camelcased string
      * @return {String} hyphenated string
      */
-  	hyphenate: function(str)
-  	{
-  		return str.replace(/[A-Z]/g, function(match){
-  			return ('-' + match.charAt(0).toLowerCase());
-  		});
-  	},
-  	
+    hyphenate: function(str)
+    {
+      return str.replace(/[A-Z]/g, function(match){
+        return ('-' + match.charAt(0).toLowerCase());
+      });
+    },
+
 
     /**
      * Converts a string to camel case.
@@ -102,13 +102,13 @@ qx.Class.define("qx.lang.String",
      * @type static
      * @param str {String} any string
      * @return {String} capitalized string
-     */  	
-  	capitalize: function(str){
-  		return str.replace(/\b[a-z]/g, function(match){
-  			return match.toUpperCase();
-  		});
-  	}, 
-  	 	
+     */
+    capitalize: function(str){
+      return str.replace(/\b[a-z]/g, function(match){
+        return match.toUpperCase();
+      });
+    },
+
 
     /**
      * removes white space from the left side of a string

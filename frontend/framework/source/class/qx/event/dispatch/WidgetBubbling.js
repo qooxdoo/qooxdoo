@@ -47,22 +47,22 @@ qx.Class.define("qx.event.dispatch.WidgetBubbling",
     ---------------------------------------------------------------------------
       EVENT DISPATCHER HELPER
     ---------------------------------------------------------------------------
-    */ 
+    */
 
     // overridden
     getParent : function(target) {
       return target.getParent();
     },
-    
-    
-        
-    
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       EVENT DISPATCHER INTERFACE
     ---------------------------------------------------------------------------
-    */ 
-    
+    */
+
     // interface implementation
     canDispatchEvent : function(target, event, type) {
       return target instanceof qx.ui.core.Widget && event.getBubbles();

@@ -24,7 +24,7 @@
 ************************************************************************ */
 
 /**
- * 
+ *
  */
 qx.Class.define("qx.event.handler.Element",
 {
@@ -43,7 +43,7 @@ qx.Class.define("qx.event.handler.Element",
   construct : function(manager)
   {
     this.base(arguments);
-    
+
     this._manager = manager;
     this._registeredEvents = {};
   },
@@ -65,9 +65,9 @@ qx.Class.define("qx.event.handler.Element",
       EVENT HANDLER INTERFACE
     ---------------------------------------------------------------------------
     */
-    
+
     // interface implementation
-    canHandleEvent : function(target, type) 
+    canHandleEvent : function(target, type)
     {
       return (
         (this._eventTypes[type]) &&
@@ -109,23 +109,23 @@ qx.Class.define("qx.event.handler.Element",
       delete(this._registeredEvents[id]);
     },
 
-    
-    
-    
-    
-        
-    
+
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       HELPER
     ---------------------------------------------------------------------------
     */
-        
+
     /** {Map} Internal data structure with all supported BOM element events */
     _eventTypes :
     {
       abort : true,    // Image elements only
-      scroll : true,    
+      scroll : true,
       change : true,
       select : true,
       reset : true,    // Form Elements only
@@ -163,11 +163,11 @@ qx.Class.define("qx.event.handler.Element",
       this._manager.dispatchEvent(domEvent.target || domEvent.srcElement, event);
     }
   },
-  
-  
-  
-  
-  
+
+
+
+
+
   /*
   *****************************************************************************
      DESTRUCTOR
@@ -179,7 +179,7 @@ qx.Class.define("qx.event.handler.Element",
     for (var id in this._registeredEvents)
     {
       var eventData = this._registeredEvents[id];
-      
+
       qx.event.Manager.removeNativeListener(
         eventData.element,
         eventData.type,
@@ -189,10 +189,10 @@ qx.Class.define("qx.event.handler.Element",
 
     this._disposeFields("_manager", "_registeredEvents");
   },
-  
-  
-  
-    
+
+
+
+
 
 
   /*
@@ -205,5 +205,5 @@ qx.Class.define("qx.event.handler.Element",
   {
     var manager = qx.event.Manager;
     manager.registerEventHandler(statics, manager.PRIORITY_NORMAL);
-  }  
+  }
 });

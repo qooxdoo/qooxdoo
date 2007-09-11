@@ -43,8 +43,8 @@ qx.Class.define("qx.xml.String",
       62: "gt",   // >
       39: "apos"  // XML apostrophe
     },
-    
-        
+
+
     /**
      * Escapes the characters in a <code>String</code> using XML entities.
      *

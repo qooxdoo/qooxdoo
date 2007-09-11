@@ -185,7 +185,7 @@ qx.Class.define("qx.xml.Element",
      * @return {String} the joined text content of the found element or null if not appropriate.
      * @signature function(element, query)
      */
-    getSingleNodeText : function(element, query) 
+    getSingleNodeText : function(element, query)
     {
       var node = this.selectSingleNode(element, query);
       return this.getText(node);

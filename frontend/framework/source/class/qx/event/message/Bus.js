@@ -186,7 +186,7 @@ qx.Class.define("qx.event.message.Bus",
         var value = typeof arguments[1] != "undefined" ? arguments[1] : true;
         msg = new qx.event.message.Message( msg, value );
       }
-      
+
       var sub = this.getSubscriptions();
       var msgName = msg.getName();
 

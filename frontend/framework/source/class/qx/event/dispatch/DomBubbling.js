@@ -47,22 +47,22 @@ qx.Class.define("qx.event.dispatch.DomBubbling",
     ---------------------------------------------------------------------------
       EVENT DISPATCHER HELPER
     ---------------------------------------------------------------------------
-    */ 
+    */
 
     // overridden
     getParent : function(target) {
       return target.parentNode;
     },
-    
-    
-        
-    
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       EVENT DISPATCHER INTERFACE
     ---------------------------------------------------------------------------
-    */ 
-    
+    */
+
     // interface implementation
     canDispatchEvent : function(target, event, type) {
       return target.nodeType !== undefined && event.getBubbles();
