@@ -779,6 +779,6 @@ qx.Class.define("qx.event.handler.Focus",
   defer : function(statics)
   {
     var manager = qx.event.Manager;
-    manager.registerEventHandler(statics, manager.PRIORITY_FIRST);
+    manager.registerHandler(statics, manager.PRIORITY_FIRST);
   }
 });

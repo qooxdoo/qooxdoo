@@ -316,7 +316,7 @@ qx.Class.define("qx.event.Manager",
      * @param priority {Integer} One of {@link #PRIORITY_FIRST}, {@link PRIORITY_NORMAL}
      *     or {@link #PRIORITY_LAST}.
      */
-    registerEventHandler : function(handler, priority)
+    registerHandler : function(handler, priority)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -345,7 +345,7 @@ qx.Class.define("qx.event.Manager",
      *
      * @return {qx.legacy.event.handler.AbstractEventHandler[]} registered event handlers
      */
-    getRegisteredEventHandler : function() {
+    getHandlers : function() {
       return this.__handlers;
     },
 
@@ -372,7 +372,7 @@ qx.Class.define("qx.event.Manager",
      * @param priority {Integer} One of {@link #PRIORITY_FIRST}, {@link PRIORITY_NORMAL}
      *     or {@link #PRIORITY_LAST}.
      */
-    registerEventDispatcher : function(handler, priority)
+    registerDispatcher : function(handler, priority)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -401,7 +401,7 @@ qx.Class.define("qx.event.Manager",
      *
      * @return {qx.legacy.event.dispatch.IEventDispatch[]} all registered event dispatcher
      */
-    getRegisteredEventDispatcher : function() {
+    getDispatchers : function() {
       return this.__dispatchers;
     }
   },
@@ -825,7 +825,7 @@ qx.Class.define("qx.event.Manager",
 
     /**
      * Synchronizes the internal event handler list with the event handlers
-     * registered using {@link #registerEventHandler}.
+     * registered using {@link #registerHandler}.
      */
     __updateHandler : function()
     {
@@ -833,7 +833,7 @@ qx.Class.define("qx.event.Manager",
       var oldHandlers = this.__eventHandlers;
       this.__eventHandlers = [];
 
-      var registeredHandler = this.self(arguments).getRegisteredEventHandler();
+      var registeredHandler = this.self(arguments).getHandlers();
 
       for (var i=0, l=registeredHandler.length; i<l; i++)
       {
@@ -853,7 +853,7 @@ qx.Class.define("qx.event.Manager",
 
     /**
      * Synchronizes the internal event dispatcher list with the event dispatcher
-     * registered using {@link #registerEventDispatcher}.
+     * registered using {@link #registerDispatcher}.
      */
     __updateDispatcher : function()
     {
@@ -861,7 +861,7 @@ qx.Class.define("qx.event.Manager",
       var oldHandlers = this.__dispatchHandlers;
       this.__dispatchHandlers = [];
 
-      var registeredHandler = this.self(arguments).getRegisteredEventDispatcher();
+      var registeredHandler = this.self(arguments).getDispatchers();
 
       for (var i=0, l=registeredHandler.length; i<l; i++)
       {
