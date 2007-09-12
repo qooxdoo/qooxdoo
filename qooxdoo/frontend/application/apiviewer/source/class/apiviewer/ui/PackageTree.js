@@ -123,6 +123,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
       } while (i<nameParts.length);
 
       treeNode.setSelected(true);
+      treeNode.scrollIntoView();
       return true;
     },
 
