@@ -499,12 +499,9 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
       // delay the dispose until return from current call stack.  if we were
       // called via an event, e.g. a mouse click, the global queue will be
       // flushed so we can't yet be disposed.
-      qx.event.Timer.once(function()
-                           {
-                             this.dispose();
-                           },
-                           this,
-                           0);
+      qx.event.Timer.once(function() {
+        this.dispose();
+      }, this, 0);
     },
 
 
