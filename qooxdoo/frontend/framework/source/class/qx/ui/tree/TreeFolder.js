@@ -890,6 +890,11 @@ qx.Class.define("qx.ui.tree.TreeFolder",
      */
     _onmouseup : function(e)
     {
+      // no explicit base call!
+      if (e._treeProcessed) {
+        return;
+      }
+
       var vOriginalTarget = e.getOriginalTarget();
 
       switch(vOriginalTarget)
@@ -902,6 +907,8 @@ qx.Class.define("qx.ui.tree.TreeFolder",
         default:
           if (!this.getTree().getUseDoubleClick()) {
             this.open();
+            this.getTree().getManager().handleMouseUp(this, e);
+            e._treeProcessed = true;
           }
       }
     },

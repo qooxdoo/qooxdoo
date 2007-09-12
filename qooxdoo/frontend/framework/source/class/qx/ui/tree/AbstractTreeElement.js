@@ -289,12 +289,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
       }
 
       var vManager = this.getTree().getManager();
-
-      if (old && vManager.getSelectedItem() == this) {
-        vManager.deselectAll();
-      } else if (value && vManager.getSelectedItem() != this) {
-        vManager.setSelectedItem(this);
-      }
+      vManager.setItemSelected(this, value);
     },
 
 
@@ -717,7 +712,26 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
     /**
      * @signature function()
      */
-    _onmouseup : qx.lang.Function.returnTrue,
+    _onmouseup : function(e)
+    {
+      if (e._treeProcessed) {
+        return;
+      }
+
+      var vOriginalTarget = e.getOriginalTarget();
+
+      switch(vOriginalTarget)
+      {
+        case this._indentObject:
+        case this._containerObject:
+        case this:
+          break;
+
+        default:
+          this.getTree().getManager().handleMouseUp(this, e);
+          e._treeProcessed = true;
+      }
+    },
 
 
 
