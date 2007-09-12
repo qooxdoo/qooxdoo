@@ -88,14 +88,16 @@ qx.Class.define("qx.event.Manager",
     this.__jobs = [];
 
     // The handlers
-    this.__eventHandlers = [];
-    this.__knownHandler = {};
-    this.__updateHandler();
-
+    this.__handlers = [];
+    this.__knownHandlers = {};
+    
     // The dispatchers
-    this.__dispatchHandlers = [];
-    this.__knownDispatcher = {};
-    this.__updateDispatcher();
+    this.__dispatchers = [];
+    this.__knownDispatchers = {};
+
+    // Update handler and dispatcher data
+    this.__updateDispatchers();
+    this.__updateHandlers();
 
     // The event pool
     this.__eventPool = qx.event.Pool.getInstance();
@@ -338,7 +340,7 @@ qx.Class.define("qx.event.Manager",
 
       // Inform all manager instances
       for (var winId in this.__managers) {
-        this.__managers[winId].__updateHandler();
+        this.__managers[winId].__updateHandlers();
       }
     },
 
@@ -396,7 +398,7 @@ qx.Class.define("qx.event.Manager",
       
       // Inform all manager instances
       for (var winId in this.__managers) {
-        this.__managers[winId].__updateDispatcher();
+        this.__managers[winId].__updateDispatchers();
       }
     },
 
@@ -427,10 +429,43 @@ qx.Class.define("qx.event.Manager",
   {
     /*
     ---------------------------------------------------------------------------
-      ADD/REMOVE EVENT LISTENER
+      EVENT LISTENER MANAGMENT
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Get all event listeners for the given target, event type and phase. 
+     *
+     * @param target {Object} any valid event target
+     * @param type {String} DOM event type
+     * @param capture {Boolean ? false} Whether the listener is for the
+     *       capturing phase of the bubbling phase.
+     * @return {Function[]|null} Array of registered event handlers for this event
+     *     and type. Will return null if <code>setup</code> and no entry
+     *     is found.
+     */
+    getListeners : function(target, type, capture) {
+      return this.__listeners[this._generateUniqueId(target, type, capture)] || null;
+    },
+    
+
+    /**
+     * Check whether there are one or more listeners for an event type
+     * registered at the target.
+     *
+     * @param target {Object} Any valid event target
+     * @param type {String} The event type
+     * @param capture {Boolean ? false} Whether to check for listeners of
+     *       the bubbling or of the capturing phase.
+     * @return {Boolean} Whether the target has event listeners of the given type.
+     */
+    hasListeners : function(target, type, capture)
+    {
+      var listeners = this.__listeners[this._generateUniqueId(target, type, capture)];
+      return listeners != null && listeners.length > 0;
+    }, 
+    
+        
     /**
      * Add an event listener to any valid target. The event listener is passed an
      * instance of {@link Event} containing all relevant information
@@ -515,7 +550,7 @@ qx.Class.define("qx.event.Manager",
      */
     __registerEventAtHandler : function(target, type)
     {
-      var handlers = this.__eventHandlers;
+      var handlers = this.__handlers;
 
       for (var i=0, l=handlers.length; i<l; i++)
       {
@@ -630,7 +665,7 @@ qx.Class.define("qx.event.Manager",
      */
     __unregisterEventAtHandler : function(target, type)
     {
-      var handlers = this.__eventHandlers;
+      var handlers = this.__handlers;
       
       for (var i=0, l=handlers.length; i<l; i++)
       {
@@ -680,9 +715,9 @@ qx.Class.define("qx.event.Manager",
       this.__inEventDispatch = true;
 
       var dispatched = false;
-      for (var i=0,l=this.__dispatchHandlers.length; i<l; i++)
+      for (var i=0, l=this.__dispatchers.length; i<l; i++)
       {
-        var dispatchHandler = this.__dispatchHandlers[i];
+        var dispatchHandler = this.__dispatchers[i];
 
         if (dispatchHandler.canDispatchEvent(target, event, type))
         {
@@ -742,7 +777,74 @@ qx.Class.define("qx.event.Manager",
 
     /*
     ---------------------------------------------------------------------------
-      GENERAL HELPER
+      HANDLER/DISPATCHER MANAGMENT
+    ---------------------------------------------------------------------------
+    */
+    
+    /**
+     * Synchronizes the internal event handler list with the event handlers
+     * registered using {@link #registerHandler}.
+     */
+    __updateHandlers : function()
+    {
+      // get event handler
+      var oldHandlers = this.__handlers;
+      this.__handlers = [];
+
+      var registeredHandler = this.self(arguments).getHandlers();
+
+      for (var i=0, l=registeredHandler.length; i<l; i++)
+      {
+        var handler = registeredHandler[i].handler;
+        var handlerId = qx.core.Object.toHashCode(handler);
+
+        if (this.__knownHandlers[handlerId] !== undefined) {
+          this.__handlers[i] = oldHandlers[this.__knownHandlers[handlerId]];
+        } else {
+          this.__handlers[i] = new handler(this);
+        }
+
+        this.__knownHandlers[handlerId] = i;
+      }
+    },
+
+
+    /**
+     * Synchronizes the internal event dispatcher list with the event dispatcher
+     * registered using {@link #registerDispatcher}.
+     */
+    __updateDispatchers : function()
+    {
+      // get event handler
+      var oldHandlers = this.__dispatchers;
+      this.__dispatchers = [];
+
+      var registeredHandler = this.self(arguments).getDispatchers();
+
+      for (var i=0, l=registeredHandler.length; i<l; i++)
+      {
+        var handler = registeredHandler[i].handler;
+        var handlerId = qx.core.Object.toHashCode(handler);
+
+        if (this.__knownDispatchers[handlerId] !== undefined) {
+          this.__dispatchers[i] = oldHandlers[this.__knownDispatchers[handlerId]];
+        } else {
+          this.__dispatchers[i] = new handler(this);
+        }
+
+        this.__knownDispatchers[handlerId] = i;
+      }
+    },
+    
+    
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      HELPERS
     ---------------------------------------------------------------------------
     */
 
@@ -756,121 +858,9 @@ qx.Class.define("qx.event.Manager",
     },
 
 
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      REGISTRY HELPER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Get all event listeners for the given target, event type and phase. 
-     *
-     * @param target {Object} any valid event target
-     * @param type {String} DOM event type
-     * @param capture {Boolean ? false} Whether the listener is for the
-     *       capturing phase of the bubbling phase.
-     * @return {Function[]|null} Array of registered event handlers for this event
-     *     and type. Will return null if <code>setup</code> and no entry
-     *     is found.
-     */
-    getListeners : function(target, type, capture) {
-      return this.__listeners[this._generateUniqueId(target, type, capture)] || null;
-    },
-    
-    
-
-    /**
-     * Check whether there are one or more listeners for an event type
-     * registered at the target.
-     *
-     * @param target {Object} Any valid event target
-     * @param type {String} The event type
-     * @param capture {Boolean ? false} Whether to check for listeners of
-     *       the bubbling or of the capturing phase.
-     * @return {Boolean} Whether the target has event listeners of the given type.
-     */
-    hasListeners : function(target, type, capture)
-    {
-      var listeners = this.__listeners[this._generateUniqueId(target, type, capture)];
-      return listeners != null && listeners.length > 0;
-    },    
-    
-    
     
     _generateUniqueId : function(target, type, capture) {
       return qx.core.Object.toHashCode(target) + "|" + type + (capture ? "|capture" : "|bubble");;
-    },
-    
-    
-    
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      HANDLER/DISPATCHER MANAGMENT
-    ---------------------------------------------------------------------------
-    */
-    
-    /**
-     * Synchronizes the internal event handler list with the event handlers
-     * registered using {@link #registerHandler}.
-     */
-    __updateHandler : function()
-    {
-      // get event handler
-      var oldHandlers = this.__eventHandlers;
-      this.__eventHandlers = [];
-
-      var registeredHandler = this.self(arguments).getHandlers();
-
-      for (var i=0, l=registeredHandler.length; i<l; i++)
-      {
-        var handler = registeredHandler[i].handler;
-        var handlerId = qx.core.Object.toHashCode(handler);
-
-        if (this.__knownHandler[handlerId] !== undefined) {
-          this.__eventHandlers[i] = oldHandlers[this.__knownHandler[handlerId]];
-        } else {
-          this.__eventHandlers[i] = new handler(this);
-        }
-
-        this.__knownHandler[handlerId] = i;
-      }
-    },
-
-
-    /**
-     * Synchronizes the internal event dispatcher list with the event dispatcher
-     * registered using {@link #registerDispatcher}.
-     */
-    __updateDispatcher : function()
-    {
-      // get event handler
-      var oldHandlers = this.__dispatchHandlers;
-      this.__dispatchHandlers = [];
-
-      var registeredHandler = this.self(arguments).getDispatchers();
-
-      for (var i=0, l=registeredHandler.length; i<l; i++)
-      {
-        var handler = registeredHandler[i].handler;
-        var handlerId = qx.core.Object.toHashCode(handler);
-
-        if (this.__knownDispatcher[handlerId] !== undefined) {
-          this.__dispatchHandlers[i] = oldHandlers[this.__knownDispatcher[handlerId]];
-        } else {
-          this.__dispatchHandlers[i] = new handler(this);
-        }
-
-        this.__knownDispatcher[handlerId] = i;
-      }
     }
   },
   
@@ -900,11 +890,11 @@ qx.Class.define("qx.event.Manager",
       "__listeners",
       "__jobs",
       "__window",
-      "__eventHandlers",
-      "__dispatchHandlers",
-      "__knownHandler",
-      "__dispatchHandlers",
-      "__knownDispatcher",
+      "__handlers",
+      "__dispatchers",
+      "__knownHandlers",
+      "__dispatchers",
+      "__knownDispatchers",
       "__eventPool"
     );
   }
