@@ -705,7 +705,7 @@ qx.Class.define("qx.event.handler.Keyboard",
   {
     // register at the event handler
     var manager = qx.event.Manager;
-    manager.registerEventHandler(statics, manager.PRIORITY_NORMAL);
+    manager.registerHandler(statics, manager.PRIORITY_NORMAL);
 
 
     // construct invers of keyCodeToIdentifierMap

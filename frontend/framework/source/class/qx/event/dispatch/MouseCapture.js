@@ -218,6 +218,6 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
   defer : function(statics)
   {
     var manager = qx.event.Manager;
-    manager.registerEventDispatcher(statics, manager.PRIORITY_FIRST);
+    manager.registerDispatcher(statics, manager.PRIORITY_FIRST);
   }
 });
