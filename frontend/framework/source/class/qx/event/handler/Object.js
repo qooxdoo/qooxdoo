@@ -14,12 +14,13 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
+     * Sebastian Werner (wpbasti)
 
 ************************************************************************ */
 
 /* ************************************************************************
 
-#module(event2)
+#module(event)
 
 ************************************************************************ */
 
@@ -34,6 +35,23 @@ qx.Class.define("qx.event.handler.Object",
 
 
 
+
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+  
+  statics : 
+  {
+    /** {Integer} Priority of this handler */
+    PRIORITY : qx.event.Manager.PRIORITY_NORMAL
+  },
+  
+  
+  
+  
+  
   /*
   *****************************************************************************
      MEMBERS
@@ -77,9 +95,7 @@ qx.Class.define("qx.event.handler.Object",
   *****************************************************************************
   */
 
-  defer : function(statics)
-  {
-    var manager = qx.event.Manager;
-    manager.registerHandler(statics, manager.PRIORITY_NORMAL);
+  defer : function(statics) {
+    qx.event.Manager.registerHandler(statics);
   }
 });

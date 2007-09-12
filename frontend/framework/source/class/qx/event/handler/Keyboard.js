@@ -22,7 +22,7 @@
 
 /* ************************************************************************
 
-#module(event2)
+#module(event)
 
 ************************************************************************ */
 
@@ -61,8 +61,6 @@ qx.Class.define("qx.event.handler.Keyboard",
 
 
 
-
-
   /*
   *****************************************************************************
      STATICS
@@ -71,6 +69,9 @@ qx.Class.define("qx.event.handler.Keyboard",
 
   statics :
   {
+    /** {Integer} Priority of this handler */
+    PRIORITY : qx.event.Manager.PRIORITY_NORMAL,
+
 
     /**
      * Checks whether a given string is a valid keyIdentifier
@@ -704,8 +705,7 @@ qx.Class.define("qx.event.handler.Keyboard",
   defer : function(statics, members, properties)
   {
     // register at the event handler
-    var manager = qx.event.Manager;
-    manager.registerHandler(statics, manager.PRIORITY_NORMAL);
+    qx.event.Manager.registerHandler(statics);
 
 
     // construct invers of keyCodeToIdentifierMap
