@@ -144,10 +144,7 @@ qx.Class.define("qx.event.handler.Mouse",
      */
     _fireEvent : function(domEvent, type, target)
     {
-      var event = qx.event.Manager.createEvent(qx.event.type.Mouse);
-
-      event.init(domEvent, type);
-
+      var event = qx.event.Manager.createEvent(qx.event.type.Mouse, [domEvent, type]);
       this._manager.dispatchEvent(domEvent.target || domEvent.srcElement, event);
     },
 
