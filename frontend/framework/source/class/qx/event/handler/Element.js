@@ -24,7 +24,8 @@
 ************************************************************************ */
 
 /**
- *
+ * This class supports typical DOM element inline events like scroll,
+ * change, select, ... 
  */
 qx.Class.define("qx.event.handler.Element",
 {
@@ -41,7 +42,7 @@ qx.Class.define("qx.event.handler.Element",
   */
 
   /**
-   * Creates a new instance
+   * Create a new instance
    *
    * @type constructor
    * @param manager {qx.event.Manager} Event manager for the window to use
@@ -150,8 +151,7 @@ qx.Class.define("qx.event.handler.Element",
       change : true,
       select : true,
       reset : true,    // Form Elements
-      submit : true,   // Form Elements
-      input : true     // Input Elements only (type=text / textarea)
+      submit : true   // Form Elements
     },
 
 

@@ -26,8 +26,6 @@
 /**
  * Central instance pool for event objects. All event objects dispatched by the
  * event loader are pooled using this class.
- *
- * TODO: Wrong location. Better move this one level up to "qx.event.Pool"
  */
 qx.Class.define("qx.event.Pool",
 {
