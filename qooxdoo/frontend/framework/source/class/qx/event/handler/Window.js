@@ -177,6 +177,13 @@ qx.Class.define("qx.event.handler.Window",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Native listener for all supported events.
+     *
+     * @type member
+     * @param e {Event} Native event
+     * @return {void}
+     */
     _onNative : function(e)
     {
       if (!e) {
