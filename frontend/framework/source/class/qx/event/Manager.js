@@ -125,7 +125,7 @@ qx.Class.define("qx.event.Manager",
      * Get an instance of the event manager, which can handle events for the
      * given target.
      *
-     * @param target {var} Any valid event target
+     * @param target {Object} Any valid event target
      * @return {qx.event.Manager} The event manger for the target.
      */
     getManager : function(target)
@@ -158,7 +158,7 @@ qx.Class.define("qx.event.Manager",
      * about the event as parameter.
      *
      * @type static
-     * @param target {var} Any valid event target
+     * @param target {Object} Any valid event target
      * @param type {String} Name of the event e.g. "click", "keydown", ...
      * @param listener {Function} Event listener function
      * @param self {Object} Reference to the 'this' variable inside
@@ -182,7 +182,7 @@ qx.Class.define("qx.event.Manager",
      *   destructor.
      *
      * @type static
-     * @param target {var} Any valid event target
+     * @param target {Object} Any valid event target
      * @param type {String} Name of the event
      * @param listener {Function} The pointer to the event listener
      * @param self {Object} Reference to the 'this' variable inside
@@ -201,7 +201,7 @@ qx.Class.define("qx.event.Manager",
      * Check whether there are one or more listeners for an event type
      * registered at the target.
      *
-     * @param target {var} Any valid event target
+     * @param target {Object} Any valid event target
      * @param type {String} The event type
      * @param capture {Boolean ? false} Whether to check for listeners of
      *       the bubbling or of the capturing phase.
@@ -235,7 +235,7 @@ qx.Class.define("qx.event.Manager",
      *
      * @internal
      * @type static
-     * @param target {var} Any valid native event target
+     * @param target {Object} Any valid native event target
      * @param type {String} Name of the event
      * @param listener {Function} The pointer to the function to assign
      * @signature function(target, type, listener)
@@ -262,7 +262,7 @@ qx.Class.define("qx.event.Manager",
      *     
      * @internal
      * @type static
-     * @param target {var} Any valid native event target
+     * @param target {Object} Any valid native event target
      * @param type {String} Name of the event
      * @param listener {Function} The pointer to the function to assign
      * @signature function(target, type, listener)
@@ -437,7 +437,7 @@ qx.Class.define("qx.event.Manager",
      * about the event as parameter.
      *
      * @type member
-     * @param target {var} Any valid event target
+     * @param target {Object} Any valid event target
      * @param type {String} Name of the event e.g. "click", "keydown", ...
      * @param listener {Function} Event listener function
      * @param self {Object ? window} Reference to the 'this' variable inside
@@ -448,6 +448,29 @@ qx.Class.define("qx.event.Manager",
      */
     addListener : function(target, type, listener, self, capture)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (!(target instanceof Object)) {
+          throw new Error("Could not add listeners to non-objects!");
+        }
+        
+        if (typeof type !== "string") {
+          throw new Error("Invalid event type '" + type + "'");
+        }
+        
+        if (typeof listener !== "function") {
+          throw new Error("Invalid listener for event handling: " + listener); 
+        }
+        
+        if (self !== undefined && !(self instanceof Object)) {
+          throw new Error("Invalid self for event handling: " + self); 
+        }
+        
+        if (capture !== undefined && typeof capture !== "boolean") {
+          throw new Error("Capture flags needs to be boolean!"); 
+        }
+      }      
+      
       // if we are currently dispatching an event, defer this call after the
       // dispatcher has completed. It is critical to not modify the listener
       // registry while dispatching. This code is needed to support "addListener"
@@ -487,7 +510,7 @@ qx.Class.define("qx.event.Manager",
      * This method is called each time an event listener for one of the
      * supported events is added using {qx.event.Manager#addListener}.
      *
-     * @param target {var} Any valid event target
+     * @param target {Object} Any valid event target
      * @param type {String} event type
      */
     __registerEventAtHandler : function(target, type)
@@ -515,7 +538,7 @@ qx.Class.define("qx.event.Manager",
      * Remove an event listener from a DOM node.
      *
      * @type member
-     * @param target {var} Any valid event target
+     * @param target {Object} Any valid event target
      * @param type {String} Name of the event
      * @param listener {Function} The pointer to the event listener
      * @param self {Object ? window} Reference to the 'this' variable inside
@@ -525,6 +548,29 @@ qx.Class.define("qx.event.Manager",
      */
     removeListener : function(target, type, listener, self, capture)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (!(target instanceof Object)) {
+          throw new Error("Could not add listeners to non-objects!");
+        }
+        
+        if (typeof type !== "string") {
+          throw new Error("Invalid event type '" + type + "'");
+        }
+        
+        if (typeof listener !== "function") {
+          throw new Error("Invalid listener for event handling: " + listener); 
+        }
+        
+        if (self !== undefined && !(self instanceof Object)) {
+          throw new Error("Invalid self for event handling: " + self); 
+        }
+        
+        if (capture !== undefined && typeof capture !== "boolean") {
+          throw new Error("Capture flags needs to be boolean!"); 
+        }
+      }  
+            
       // if we are currently dispatching an event, defer this call after the
       // dispatcher. It is critical to not modify the listener registry while
       // dispatching.
@@ -579,7 +625,7 @@ qx.Class.define("qx.event.Manager",
      * supported events is removed by using {qx.event.Manager#removeListener}
      * and no other event listener is listening on this type.
      *
-     * @param target {var} Any valid event target
+     * @param target {Object} Any valid event target
      * @param type {String} event type
      */
     __unregisterEventAtHandler : function(target, type)
@@ -618,7 +664,7 @@ qx.Class.define("qx.event.Manager",
      * {@link #addListener}. After dispatching the event object will be pooled
      * for later reuse or disposed.
      *
-     * @param target {var} Any valid event target
+     * @param target {Object} Any valid event target
      * @param event {qx.event.type.Event} The event object to dispatch. The event
      *     object must be obtained using {@link #createEvent} and initialized
      *     using {@link qx.event.type.Event#init}.
@@ -676,7 +722,7 @@ qx.Class.define("qx.event.Manager",
     /**
      * Create an event object and dispatch it on the given target.
      *
-     * @param target {var} Any valid event target
+     * @param target {Object} Any valid event target
      *     should be dispatched.
      * @param eventClass {qx.event.type.Event} The even class
      * @param eventInitArgs {Array} Array or arguments, which will be passed to
@@ -725,7 +771,7 @@ qx.Class.define("qx.event.Manager",
     /**
      * Get all event listeners for the given target, event type and phase. 
      *
-     * @param target {var} any valid event target
+     * @param target {Object} any valid event target
      * @param type {String} DOM event type
      * @param capture {Boolean ? false} Whether the listener is for the
      *       capturing phase of the bubbling phase.
@@ -743,7 +789,7 @@ qx.Class.define("qx.event.Manager",
      * Check whether there are one or more listeners for an event type
      * registered at the target.
      *
-     * @param target {var} Any valid event target
+     * @param target {Object} Any valid event target
      * @param type {String} The event type
      * @param capture {Boolean ? false} Whether to check for listeners of
      *       the bubbling or of the capturing phase.
