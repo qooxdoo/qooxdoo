@@ -43,7 +43,7 @@ qx.Class.define("qx.event.dispatch.Direct",
 
 
   /**
-   * Creates a new instance
+   * Create a new instance
    *
    * @type constructor
    * @param manager {qx.event.Manager} Event manager for the window to use
