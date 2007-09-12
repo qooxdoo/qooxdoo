@@ -46,6 +46,13 @@ qx.Class.define("qx.event.handler.Focus",
   *****************************************************************************
   */
 
+
+  /**
+   * Creates a new instance
+   *
+   * @type constructor
+   * @param manager {qx.event.Manager} Event manager for the window to use
+   */
   construct : function(manager)
   {
     this.base(arguments);
