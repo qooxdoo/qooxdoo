@@ -1043,7 +1043,11 @@ qx.Class.define("qx.ui.selection.SelectionManager",
       // Shift Key
       //   or
       // Click on an unseleted item (without Ctrl)
-      if (e.isShiftPressed() || this.getDragSelection() || (!this.getItemSelected(vItem) && !e.isCtrlPressed()))
+      if (
+        e.isShiftPressed() ||
+        this.getDragSelection() ||
+        (!this.getItemSelected(vItem) && !e.isCtrlPressed())
+      )
       {
         // Handle event
         this._onmouseevent(vItem, e);
@@ -1190,7 +1194,10 @@ qx.Class.define("qx.ui.selection.SelectionManager",
       // ********************************************************************
       //   Do we need to update the anchor?
       // ********************************************************************
-      if (!currentAnchorItem || selectedCount == 0 || (vCtrlKey && !vShiftKey && this.getMultiSelection() && !this.getDragSelection()))
+      if (
+        !currentAnchorItem ||
+        selectedCount == 0 ||
+        (vCtrlKey && !vShiftKey && this.getMultiSelection() && !this.getDragSelection()))
       {
         this.setAnchorItem(oItem);
         currentAnchorItem = oItem;
