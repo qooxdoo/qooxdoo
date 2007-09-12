@@ -48,7 +48,10 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
   */
 
   /**
-   * @param win {Window} DOM window the capture handler will be responsible for.
+   * Creates a new instance
+   *
+   * @type constructor
+   * @param manager {qx.event.Manager} Event manager for the window to use
    */
   construct : function(manager)
   {
