@@ -93,7 +93,7 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
     // interface implementation
     dispatchEvent : function(target, event, type)
     {
-      var listeners = this._manager.getListeners(this._captureElement, type, false, false);
+      var listeners = this._manager.getListeners(this._captureElement, type, false);
 
       if (listeners)
       {

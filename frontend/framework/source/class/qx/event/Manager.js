@@ -79,7 +79,6 @@ qx.Class.define("qx.event.Manager",
 
     this.__inEventDispatch = false;
     this.__jobQueue = [];
-    this.__listenerCountOfType = {};
 
     // Get event handler
     this.__eventHandlers = [];
@@ -455,26 +454,25 @@ qx.Class.define("qx.event.Manager",
 
         return;
       }
-
-      var eventListeners = this.getListeners(element, type, capture, true);
-
-      // This is the first event handler for this type and element
-      if (eventListeners.length == 0)
-      {
-        // Inform the event handler about the new event
-        // they perform the event registration at DOM level if needed
+      
+      // Preparations
+      var uniqueId = this.generateUniqueId(element, type, capture);
+      var listeners = this.__registry[uniqueId];
+      
+      // Create data hierarchy
+      if (!listeners) {
+        listeners = this.__registry[uniqueId] = [];
+      }
+      
+      // This is the first event listener for this type and element
+      // Inform the event handler about the new event
+      // they perform the event registration at DOM level if needed
+      if (listeners.length === 0) {
         this.__registerEventAtHandler(element, type);
       }
-
-      // Store event listener
-      eventListeners.push({handler: listener, context: self});
-
-      // Increase the event type count
-      if (!this.__listenerCountOfType[type]) {
-        this.__listenerCountOfType[type] = 0;
-      }
-
-      this.__listenerCountOfType[type] += 1;
+      
+      // Append listener to list
+      listeners.push({handler: listener, context: self});
     },
 
 
@@ -485,78 +483,55 @@ qx.Class.define("qx.event.Manager",
      * @param element {Element} DOM Element
      * @param type {String} Name of the event
      * @param listener {Function} The pointer to the event listener
+     * @param self {Object ? window} Reference to the 'this' variable inside
+     *       the event listener.     
      * @param capture {Boolean ? false} Whether to remove the event listener of
      *       the bubbling or of the capturing phase.
      */
-    removeListener : function(element, type, listener, capture)
+    removeListener : function(element, type, listener, self, capture)
     {
       // if we are currently dispatching an event, defer this call after the
       // dispatcher. It is critical to not modify the listener registry while
       // dispatching.
-      if (this.__inEventDispatch) {
+      if (this.__inEventDispatch) 
+      {
         this.__jobQueue.push({
           method : "removeListener",
           arguments : arguments
         });
+        
         return;
       }
 
-      // get event listeners
-      var listeners = this.getListeners(element, type, false, false);
-      if (!listeners) {
-        return;
+      // Preparations
+      var uniqueId = this.generateUniqueId(element, type, capture);
+      var listeners = this.__registry[uniqueId];
+      
+      // Directly return if there are no listeners
+      if (!listeners || listeners.length === 0) {
+        return; 
       }
-
-      // find listener
-      var removeIndex = -1;
-      for (var i=0; i<listeners.length; i++)
+      
+      // Remove listener from list
+      var entry;
+      for (var i=0, l=listeners.length; i<l; i++) 
       {
-        // FIXME: This should be unique key based!!!
-        if (listeners[i].handler == listener)
+        if (entry.handler === listener && entry.context === self) 
         {
-          removeIndex = i;
+          qx.lang.Array.removeAt(listeners, i);
           break;
         }
       }
-
-      // remove listener if found
-      if (removeIndex != -1)
-      {
-        qx.lang.Array.removeAt(listeners, removeIndex);
-
-        if (listeners.length == 0)
-        {
-          this.__unregisterEventAtHandler(element, type);
-          this.__registryRemoveListeners(element, type);
-        }
-      }
-
-      // decrement listener count of type
-      if (this.__listenerCountOfType[type] == undefined) {
-        return;
-      }
-
-      this.__listenerCountOfType[type] -= 1;
-      if (this.__listenerCountOfType[type] <= 0) {
-        delete(this.__listenerCountOfType[type]);
+      
+      // This was the last event listener for this type and element
+      // Inform the event handler about the event removal so that
+      // they perform the event deregistration at DOM level if needed      
+      if (listeners.length === 0) {
+        this.__unregisterEventAtHandler(element, type);
       }
     },
 
 
-    /**
-     * Check whether there are one or more listeners for an event type
-     * registered at the target.
-     * @param target {Element|Object} The event target
-     * @param type {String} The event type
-     * @param capture {Boolean ? false} Whether to check for listeners of
-     *       the bubbling or of the capturing phase.
-     * @return {Boolean} Whether the target has event listeners of the given type.
-     */
-    hasListeners : function(target, type, capture)
-    {
-      var listeners = this.getListeners(target, type, capture, false);
-      return listeners != null && listeners.length > 0;
-    },
 
 
 
@@ -654,9 +629,6 @@ qx.Class.define("qx.event.Manager",
     {
       // only dispatch if listeners are registered
       var type = event.getType();
-      if (!this.__listenerCountOfType[type]) {
-        return;
-      }
 
       event.setTarget(target);
 
@@ -755,72 +727,48 @@ qx.Class.define("qx.event.Manager",
     */
 
     /**
-     * Remove the registry entry for the given event type from the event data of
-     * the given element.
-     *
-     * @param element {Element} DOM element
-     * @param type {String} DOM event type
-     */
-    __registryRemoveListeners : function(element, type)
-    {
-      var elementId = qx.core.Object.toHashCode(element);
-      var reg = this.__registry;
-
-      if (!reg[elementId]) {
-        return;
-      }
-
-      delete reg[type];
-    },
-
-
-    /**
-     * Get all event listeners for the given element and event type. If no
+     * Get all event listeners for the given element, event type and phase. If no
      * registry data is available for this element and type and the
-     * third parameter <code>buildRegistry</code> is true the registry is build
+     * third parameter <code>setup</code> is true the registry is build
      * up and an empty array is returned.
      *
      * @param element {Element} DOM element.
      * @param type {String} DOM event type
-     * @param capture {Boolean ? false} Whether to attach the event to the
-     *       capturing phase of the bubbling phase of the event.
-     * @param buildRegistry {Boolean?false} Whether to build up the registry if
-     *     no entry is found
+     * @param capture {Boolean ? false} Whether the listener is for the
+     *       capturing phase of the bubbling phase.
      * @return {Function[]|null} Array of registered event handlers for this event
-     *     and type. Will return null if <code>buildRegistry</code> and no entry
+     *     and type. Will return null if <code>setup</code> and no entry
      *     is found.
      */
-    getListeners : function(element, type, capture, buildRegistry)
-    {
-      var elementId = qx.core.Object.toHashCode(element);
-      var listenerList = capture ? "captureListeners" : "bubbleListeners";
-      var reg = this.__registry;
-
-      if (!buildRegistry)
-      {
-        if (!(reg[elementId] && reg[elementId][type] && reg[elementId][type][listenerList])) {
-          return null;
-        }
-      }
-
-      if (!reg[elementId]) {
-        reg[elementId] = {};
-      }
-
-      // create entry for the event type
-      var elementEvents = reg[elementId];
-
-      if (!elementEvents[type]) {
-        elementEvents[type] = {};
-      }
-
-      var typeEvents = elementEvents[type];
-      if (!typeEvents[listenerList]) {
-        typeEvents[listenerList] = []
-      }
-
-      return typeEvents[listenerList];
+    getListeners : function(element, type, capture) {
+      return this.__registry[this.generateUniqueId(element, type, capture)] || null;
     },
+    
+    
+
+    /**
+     * Check whether there are one or more listeners for an event type
+     * registered at the target.
+     * @param target {Element|Object} The event target
+     * @param type {String} The event type
+     * @param capture {Boolean ? false} Whether to check for listeners of
+     *       the bubbling or of the capturing phase.
+     * @return {Boolean} Whether the target has event listeners of the given type.
+     */
+    hasListeners : function(target, type, capture)
+    {
+      var listeners = this.__registry[this.generateUniqueId(element, type, capture)];
+      return listeners != null && listeners.length > 0;
+    },    
+    
+    
+    
+    generateUniqueId : function(element, type, capture) {
+      return qx.core.Object.toHashCode(element) + "|" + type + (capture ? "|capture" : "|bubble");;
+    },
+    
+    
+    
 
 
     /**
@@ -904,7 +852,6 @@ qx.Class.define("qx.event.Manager",
     this._disposeFields(
       "__registry",
       "__jobQueue",
-      "__listenerCountOfType",
       "__window",
       "__eventHandlers",
       "__dispatchHandlers",

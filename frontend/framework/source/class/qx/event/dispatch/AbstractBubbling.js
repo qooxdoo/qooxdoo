@@ -120,7 +120,7 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
       {
         if (parent !== target)
         {
-          var captureListeners = manager.getListeners(parent, type, true, false);
+          var captureListeners = manager.getListeners(parent, type, true);
 
           if (captureListeners)
           {
@@ -129,7 +129,7 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
           }
         }
 
-        var bubbleListeners = manager.getListeners(parent, type, false, false);
+        var bubbleListeners = manager.getListeners(parent, type, false);
         if (bubbleListeners)
         {
           bubbleList.push(bubbleListeners);
