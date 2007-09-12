@@ -183,7 +183,7 @@ qx.Class.define("qx.event.handler.Window",
         e = window.event;
       }
 
-      this._manager.createAndDispatchEvent(this._window, qx.event.type.Event, [e.type, false]);
+      this._manager.fireEvent(this._window, qx.event.type.Event, [e.type, false]);
     }
   },
 

@@ -180,7 +180,7 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
       }
 
       this._captureElement = element;
-      this._manager.createAndDispatchEvent(element, qx.event.type.Event, ["capture", true]);
+      this._manager.fireEvent(element, qx.event.type.Event, ["capture", true]);
     },
 
 
@@ -196,7 +196,7 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
       }
       
       this._captureElement = null;
-      this._manager.createAndDispatchEvent(element, qx.event.type.Event, ["losecapture", true]);
+      this._manager.fireEvent(element, qx.event.type.Event, ["losecapture", true]);
     }
   },
 
