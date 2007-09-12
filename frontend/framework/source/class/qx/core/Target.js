@@ -128,7 +128,7 @@ qx.Class.define("qx.core.Target",
      * @param type {String} name of the event type
      */
     createDispatchEvent : function(type) {
-      qx.event.Manager.getManager(this).createAndDispatchEvent(
+      qx.event.Manager.getManager(this).fireEvent(
         this,
         qx.event.type.Event,
         [type, false]
@@ -146,7 +146,7 @@ qx.Class.define("qx.core.Target",
      */
     createDispatchDataEvent : function(type, data)
     {
-      qx.event.Manager.getManager(this).createAndDispatchEvent(
+      qx.event.Manager.getManager(this).fireEvent(
         this,
         qx.event.type.Data,
         [type, data]
