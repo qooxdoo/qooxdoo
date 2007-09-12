@@ -50,7 +50,7 @@ qx.Class.define("qx.event.dispatch.DomBubbling",
     */
 
     // overridden
-    getParent : function(target) {
+    _getParent : function(target) {
       return target.parentNode;
     },
 

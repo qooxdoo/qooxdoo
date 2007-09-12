@@ -50,7 +50,7 @@ qx.Class.define("qx.event.dispatch.WidgetBubbling",
     */
 
     // overridden
-    getParent : function(target) {
+    _getParent : function(target) {
       return target.getParent();
     },
 

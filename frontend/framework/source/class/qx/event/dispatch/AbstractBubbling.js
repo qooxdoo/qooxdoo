@@ -79,7 +79,7 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
      * @param target {var} The target which parent should be found
      * @return {var} The parent of the given target
      */
-    getParent : function(target) {
+    _getParent : function(target) {
       throw new Error("Missing implementation");
     },
 
@@ -136,7 +136,7 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
           bubbleTargets.push(parent);
         }
 
-        parent = this.getParent(parent);
+        parent = this._getParent(parent);
       }
 
       // capturing phase
