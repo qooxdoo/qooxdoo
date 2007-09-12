@@ -704,6 +704,8 @@ qx.Class.define("qx.event.Manager",
 
       for (var i=0, l=listeners.length; i<l; i++)
       {
+        entry = listeners[i];
+        
         if (entry.handler === listener && entry.context === self)
         {
           qx.lang.Array.removeAt(listeners, i);
@@ -712,8 +714,10 @@ qx.Class.define("qx.event.Manager",
         }
       }
 
-      if (!found) {
-        throw new Error("Can not remove event listener. There is no event listener with such a configuration!");
+      if (!found) 
+      {
+        // this.warn("Cannot remove event listener: " + listener + " :: " + self);
+        return;  
       }
 
       // This was the last event listener for this type and target

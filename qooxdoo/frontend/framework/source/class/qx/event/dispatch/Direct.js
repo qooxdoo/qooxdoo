@@ -41,9 +41,12 @@ qx.Class.define("qx.event.dispatch.Direct",
   *****************************************************************************
   */
 
+
   /**
-   * @param manager {qx.event.Manager} reference to the event manager using
-   *     this class.
+   * Creates a new instance
+   *
+   * @type constructor
+   * @param manager {qx.event.Manager} Event manager for the window to use
    */
   construct : function(manager) {
     this._manager = manager;
