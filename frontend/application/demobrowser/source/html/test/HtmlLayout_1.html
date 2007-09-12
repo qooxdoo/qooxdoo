@@ -18,7 +18,7 @@
   </div>
 
   <table height="2000" width="2000"><tr><td>
-  <div id="qxframe" style="hight:100%"></div>
+  <div id="qxframe" style="height:100%"></div>
   </td></tr></table>
 
   <script type="text/javascript">
@@ -74,12 +74,15 @@
       mypop.addToDocument();
 
 
+
       // combo box
       var combo = new qx.ui.form.ComboBox();
       for(var i=1; i<=30; i++)
       {
-        item = new qx.ui.form.ListItem("Item No " + i);
-        !(i % 10) && (item.setEnabled(false));
+        var item = new qx.ui.form.ListItem("Item No " + i);
+        if (!(i % 10)) {
+          item.setEnabled(false);
+        }
         combo.add(item);
       };
       vbx.add(combo);
