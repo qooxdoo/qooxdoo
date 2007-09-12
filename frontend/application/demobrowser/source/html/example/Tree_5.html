@@ -213,7 +213,7 @@
 
       commandFrame.add(tDoubleClick);
 
-      tDoubleClick.addEventListener("changeChecked", function(e) { t.setUseDoubleClick(e.getData()); });
+      tDoubleClick.addEventListener("changeChecked", function(e) { t.setUseDoubleClick(e.getValue()); });
 
 
 
@@ -228,7 +228,7 @@
 
       commandFrame.add(tTreeLines);
 
-      tTreeLines.addEventListener("changeChecked", function(e) { t.setUseTreeLines(e.getData()); });
+      tTreeLines.addEventListener("changeChecked", function(e) { t.setUseTreeLines(e.getValue()); });
 
 
       var tHideNode = new qx.ui.form.CheckBox("Hide the root node?");
@@ -241,7 +241,7 @@
 
       commandFrame.add(tHideNode);
 
-      tHideNode.addEventListener("changeChecked", function(e) { t.setHideNode(e.getData()); });
+      tHideNode.addEventListener("changeChecked", function(e) { t.setHideNode(e.getValue()); });
 
       var tIncludeRootOpenClose =
         new qx.ui.form.CheckBox("Include root open/close button?");
@@ -254,7 +254,7 @@
 
       commandFrame.add(tIncludeRootOpenClose);
 
-      tIncludeRootOpenClose.addEventListener("changeChecked", function(e) { t.setRootOpenClose(e.getData()); });
+      tIncludeRootOpenClose.addEventListener("changeChecked", function(e) { t.setRootOpenClose(e.getValue()); });
 
       tExcludeTreeLines0 =
         new qx.ui.form.CheckBox("Exclude tree lines at level 0?");
@@ -272,7 +272,7 @@
           function(e)
           {
               var excl = t.getExcludeSpecificTreeLines();
-              if (e.getData()) {
+              if (e.getValue()) {
                   excl[0] = true;
               } else {
                   delete(excl[0]);
@@ -296,7 +296,7 @@
           function(e)
           {
               var excl = t.getExcludeSpecificTreeLines();
-              if (e.getData()) {
+              if (e.getValue()) {
                   excl[1] = true;
               } else {
                   delete(excl[1]);
@@ -320,7 +320,7 @@
           function(e)
           {
               var excl = t.getExcludeSpecificTreeLines();
-              if (e.getData()) {
+              if (e.getValue()) {
                   excl[2] = true;
               } else {
                   delete(excl[2]);
@@ -344,7 +344,7 @@
           function(e)
           {
               var excl = t.getExcludeSpecificTreeLines();
-              if (e.getData()) {
+              if (e.getValue()) {
                   excl[3] = true;
               } else {
                   delete(excl[3]);
@@ -368,7 +368,7 @@
           function(e)
           {
               var excl = t.getExcludeSpecificTreeLines();
-              if (e.getData()) {
+              if (e.getValue()) {
                   excl[4] = true;
               } else {
                   delete(excl[4]);
