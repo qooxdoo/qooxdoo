@@ -918,6 +918,7 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
             var vFocusTarget = vTarget;
 
             while (!vFocusTarget.isFocusable() && vFocusTarget != vRoot) {
+              if (!vFocusTarget.getParent()) debugger;
               vFocusTarget = vFocusTarget.getParent();
             }
 
