@@ -96,8 +96,8 @@ qx.Class.define("qx.event.Manager",
     this.__knownDispatchers = {};
 
     // Update handler and dispatcher data
-    this.__updateDispatchers();
-    this.__updateHandlers();
+    this.__syncDispatchers();
+    this.__syncHandlers();
 
     // The event pool
     this.__eventPool = qx.event.Pool.getInstance();
@@ -340,7 +340,7 @@ qx.Class.define("qx.event.Manager",
 
       // Inform all manager instances
       for (var winId in this.__managers) {
-        this.__managers[winId].__updateHandlers();
+        this.__managers[winId].__syncHandlers();
       }
     },
 
@@ -398,7 +398,7 @@ qx.Class.define("qx.event.Manager",
       
       // Inform all manager instances
       for (var winId in this.__managers) {
-        this.__managers[winId].__updateDispatchers();
+        this.__managers[winId].__syncDispatchers();
       }
     },
 
@@ -777,7 +777,7 @@ qx.Class.define("qx.event.Manager",
 
     /*
     ---------------------------------------------------------------------------
-      HANDLER/DISPATCHER MANAGMENT
+      HANDLER/DISPATCHER SYNCRONIZATION
     ---------------------------------------------------------------------------
     */
     
@@ -785,7 +785,7 @@ qx.Class.define("qx.event.Manager",
      * Synchronizes the internal event handler list with the event handlers
      * registered using {@link #registerHandler}.
      */
-    __updateHandlers : function()
+    __syncHandlers : function()
     {
       // get event handler
       var oldHandlers = this.__handlers;
@@ -813,7 +813,7 @@ qx.Class.define("qx.event.Manager",
      * Synchronizes the internal event dispatcher list with the event dispatcher
      * registered using {@link #registerDispatcher}.
      */
-    __updateDispatchers : function()
+    __syncDispatchers : function()
     {
       // get event handler
       var oldHandlers = this.__dispatchers;
