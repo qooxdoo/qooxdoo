@@ -73,13 +73,15 @@ qx.Class.define("qx.event.type.MouseEvent",
 
     buttons : qx.core.Variant.select("qx.client",
     {
-      "mshtml" :   {
+      "mshtml" :
+      {
         left   : 1,
         right  : 2,
         middle : 4
       },
 
-      "default" : {
+      "default" :
+      {
         left   : 0,
         right  : 2,
         middle : 1
@@ -233,23 +235,12 @@ qx.Class.define("qx.event.type.MouseEvent",
      */
     getPageX : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : qx.lang.Object.select(qx.core.Client.getInstance().isInQuirksMode() ? "quirks" : "standard",
-      {
-        "quirks" : function() {
-          return this.getDomEvent().clientX + document.documentElement.scrollLeft;
-        },
-
-        "standard" : function() {
-          return this.getDomEvent().clientX + document.body.scrollLeft;
-        }
-      }),
-
-      "gecko" : function() {
-        return this.getDomEvent().pageX;
+      "mshtml" : function() {
+        return this.getDomEvent().clientX + qx.bom.Viewport.getScrollLeft(window);
       },
 
-     "default": function() {
-        return this.getDomEvent().clientX;
+      "default" : function() {
+        return this.getDomEvent().pageX;
       }
     }),
 
@@ -262,23 +253,12 @@ qx.Class.define("qx.event.type.MouseEvent",
      */
     getPageY : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : qx.lang.Object.select(qx.core.Client.getInstance().isInQuirksMode() ? "quirks" : "standard",
-      {
-        "quirks" : function() {
-          return this.getDomEvent().clientY + document.documentElement.scrollTop;
-        },
-
-        "standard" : function() {
-          return this.getDomEvent().clientY + document.body.scrollTop;
-        }
-      }),
-
-      "gecko" : function() {
-        return this.getDomEvent().pageY;
+      "mshtml" : function() {
+        return this.getDomEvent().clientY + qx.bom.Viewport.getScrollTop(window);
       },
 
-      "default": function() {
-        return this.getDomEvent().clientY;
+      "default" : function() {
+        return this.getDomEvent().pageY;
       }
     }),
 
@@ -290,35 +270,13 @@ qx.Class.define("qx.event.type.MouseEvent",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * @signature function()
-     */
-    getClientX : qx.core.Variant.select("qx.client",
-    {
-      "mshtml|gecko" : function() {
-        return this.getDomEvent().clientX;
-      },
+    getClientX : function() {
+      return this.getDomEvent().clientX;
+    },
 
-      "default" : function() {
-        return this.getDomEvent().clientX + (document.body && document.body.scrollLeft != null ? document.body.scrollLeft : 0);
-      }
-    }),
-
-    /**
-     * @signature function()
-     */
-    getClientY : qx.core.Variant.select("qx.client",
-    {
-      "mshtml|gecko" : function() {
-        return this.getDomEvent().clientY;
-      },
-
-      "default" : function() {
-        return this.getDomEvent().clientY + (document.body && document.body.scrollTop != null ? document.body.scrollTop : 0);
-      }
-    }),
-
-
+    getClientY : function() {
+      return this.getDomEvent().clientY;
+    },
 
 
 
