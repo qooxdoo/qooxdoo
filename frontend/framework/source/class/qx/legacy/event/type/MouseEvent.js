@@ -235,16 +235,9 @@ qx.Class.define("qx.legacy.event.type.MouseEvent",
      */
     getPageX : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : qx.lang.Object.select(qx.core.Client.getInstance().isInQuirksMode() ? "quirks" : "standard",
-      {
-        "quirks" : function() {
-          return this.getDomEvent().clientX + document.documentElement.scrollLeft;
-        },
-
-        "standard" : function() {
-          return this.getDomEvent().clientX + document.body.scrollLeft;
-        }
-      }),
+      "mshtml" : function() {
+        return this.getDomEvent().clientX + qx.bom.Viewport.getScrollLeft(window);
+      },
 
       "default" : function() {
         return this.getDomEvent().pageX;
@@ -260,16 +253,9 @@ qx.Class.define("qx.legacy.event.type.MouseEvent",
      */
     getPageY : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : qx.lang.Object.select(qx.core.Client.getInstance().isInQuirksMode() ? "quirks" : "standard",
-      {
-        "quirks" : function() {
-          return this.getDomEvent().clientY + document.documentElement.scrollTop;
-        },
-
-        "standard" : function() {
-          return this.getDomEvent().clientY + document.body.scrollTop;
-        }
-      }),
+      "mshtml" : function() {
+        return this.getDomEvent().clientY + qx.bom.Viewport.getScrollTop(window);
+      },
 
       "default" : function() {
         return this.getDomEvent().pageY;
