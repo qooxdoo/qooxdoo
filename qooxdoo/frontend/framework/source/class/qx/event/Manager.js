@@ -209,13 +209,36 @@ qx.Class.define("qx.event.Manager",
      * an event manager. The created events must be initialized using
      * {@link qx.event.type.Event#init}.
      *
-     * @param eventClass {Object} The even class
+     * @param clazz {Object} The even class
+     * @param args {Array} Array or arguments, which will be passed to
+     *     the event's init method.
      * @return {qx.event.type.Event} An instance of the given class.
      */
-    createEvent : function(eventClass) {
-      return qx.event.Pool.getInstance().getEventInstance(eventClass);
+    createEvent : function(clazz, args) 
+    {
+      var obj = qx.event.Pool.getInstance().getEventInstance(clazz);
+      
+      if (args) {
+        obj.init.apply(obj, args);
+      }
+      
+      return obj;
     },
-
+    
+    
+    /**
+     * Create an event object and dispatch it on the given target.
+     *
+     * @type member
+     * @param target {Object} Any valid event target
+     * @param clazz {qx.event.type.Event} The even class
+     * @param args {Array} Array or arguments, which will be passed to
+     *     the event's init method.
+     */
+    fireEvent : function(target, clazz, args) {
+      return this.getManager(target).fireEvent(target, clazz, args);
+    },
+    
 
     /**
      * Use the low level browser functionality to attach event listeners
@@ -409,6 +432,40 @@ qx.Class.define("qx.event.Manager",
   {
     /*
     ---------------------------------------------------------------------------
+      HELPERS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Get the window instance the event manager is reponsible for
+     *
+     * @return {Window} DOM window instance
+     */
+    getWindow : function() {
+      return this.__window;
+    },
+
+
+    /**
+     * Generates a unique ID for a combination of target, type and capturing
+     *
+     * @type member
+     * @param target {Object} Any valid event target
+     * @param type {String} Event name
+     * @param capture {Boolean ? false} Event for capture phase?
+     * @return {String} the unique ID
+     */
+    __generateUniqueId : function(target, type, capture) {
+      return qx.core.Object.toHashCode(target) + "|" + type + (capture ? "|capture" : "|bubble");
+    },
+    
+    
+    
+    
+    
+        
+    /*
+    ---------------------------------------------------------------------------
       EVENT LISTENER MANAGMENT
     ---------------------------------------------------------------------------
     */
@@ -425,7 +482,7 @@ qx.Class.define("qx.event.Manager",
      *     is found.
      */
     getListeners : function(target, type, capture) {
-      return this.__listeners[this._generateUniqueId(target, type, capture)] || null;
+      return this.__listeners[this.__generateUniqueId(target, type, capture)] || null;
     },
     
 
@@ -441,7 +498,7 @@ qx.Class.define("qx.event.Manager",
      */
     hasListeners : function(target, type, capture)
     {
-      var listeners = this.__listeners[this._generateUniqueId(target, type, capture)];
+      var listeners = this.__listeners[this.__generateUniqueId(target, type, capture)];
       return listeners != null && listeners.length > 0;
     }, 
     
@@ -501,7 +558,7 @@ qx.Class.define("qx.event.Manager",
       }
       
       // Preparations
-      var uniqueId = this._generateUniqueId(target, type, capture);
+      var uniqueId = this.__generateUniqueId(target, type, capture);
       var listeners = this.__listeners[uniqueId];
       
       // Create data hierarchy
@@ -616,7 +673,7 @@ qx.Class.define("qx.event.Manager",
       }
 
       // Preparations
-      var uniqueId = this._generateUniqueId(target, type, capture);
+      var uniqueId = this.__generateUniqueId(target, type, capture);
       var listeners = this.__listeners[uniqueId];
       
       // Directly return if there are no listeners
@@ -704,6 +761,7 @@ qx.Class.define("qx.event.Manager",
      * {@link #addListener}. After dispatching the event object will be pooled
      * for later reuse or disposed.
      *
+     * @type member
      * @param target {Object} Any valid event target
      * @param event {qx.event.type.Event} The event object to dispatch. The event
      *     object must be obtained using {@link #createEvent} and initialized
@@ -790,51 +848,16 @@ qx.Class.define("qx.event.Manager",
     /**
      * Create an event object and dispatch it on the given target.
      *
-     * @param target {Object} Any valid event target
-     *     should be dispatched.
-     * @param eventClass {qx.event.type.Event} The even class
-     * @param eventInitArgs {Array} Array or arguments, which will be passed to
-     *     the event's init method.
-     */
-    createAndDispatchEvent : function(target, eventClass, eventInitArgs)
-    {
-      var event = qx.event.Manager.createEvent(eventClass);
-      event.init.apply(event, eventInitArgs);
-      this.dispatchEvent(target, event);
-    },
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      HELPERS
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Get the window instance the event manager is reponsible for
-     *
-     * @return {Window} DOM window instance
-     */
-    getWindow : function() {
-      return this.__window;
-    },
-
-
-    /**
-     * Generates a unique ID for a combination of target, type and capturing
-     *
      * @type member
      * @param target {Object} Any valid event target
-     * @param type {String} Event name
-     * @param capture {Boolean ? false} Event for capture phase?
-     * @return {String} the unique ID
+     * @param clazz {qx.event.type.Event} The even class
+     * @param args {Array} Array or arguments, which will be passed to
+     *     the event's init method.
      */
-    _generateUniqueId : function(target, type, capture) {
-      return qx.core.Object.toHashCode(target) + "|" + type + (capture ? "|capture" : "|bubble");
+    fireEvent : function(target, clazz, args)
+    {
+      var event = qx.event.Manager.createEvent(clazz, args);
+      this.dispatchEvent(target, event);
     }
   },
   
