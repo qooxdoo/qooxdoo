@@ -883,12 +883,7 @@ qx.Class.define("qx.event.Manager",
     delete qx.event.Manager.__managers[id];
 
     // Dispose data fields   
-    this._disposeFields(
-      "__listeners",
-      "__jobs",
-      "__window",
-      "__handlers",
-      "__dispatchers"
-    );
+    this._disposeFields("__listeners", "__jobs", "__window",
+      "__handlers", "__dispatchers");
   }
 });

@@ -21,6 +21,7 @@
 /* ************************************************************************
 
 #module(core)
+
 #require(qx.event.handler.Object)
 #require(qx.event.type.Change)
 

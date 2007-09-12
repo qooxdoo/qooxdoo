@@ -22,6 +22,9 @@
 
 #module(bom)
 
+#require(qx.event.dispatch.Direct)
+#require(qx.event.handler.Window)
+
 ************************************************************************ */
 
 /**
