@@ -157,7 +157,13 @@ qx.Class.define("apiviewer.Controller",
           this.__updateHistory(nodeName);
         }
       }, this);
-
+      
+      this._tree.addEventListener("appear", function(e) {
+        var item =  this._tree.getManager().getSelectedItem();
+        if (item) {
+          this._tree.getManager().scrollItemIntoView(item);
+        }
+      }, this);
     },
 
 
