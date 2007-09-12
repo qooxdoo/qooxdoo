@@ -20,7 +20,7 @@
 
 /* ************************************************************************
 
-#module(event2)
+#module(event)
 
 ************************************************************************ */
 
@@ -96,6 +96,21 @@ qx.Class.define("qx.event.handler.Focus",
 
 
 
+
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+  
+  statics : 
+  {
+    /** {Integer} Priority of this handler */
+    PRIORITY : qx.event.Manager.PRIORITY_FIRST
+  },
+  
+  
+  
 
 
   /*
@@ -776,9 +791,7 @@ qx.Class.define("qx.event.handler.Focus",
   *****************************************************************************
   */
 
-  defer : function(statics)
-  {
-    var manager = qx.event.Manager;
-    manager.registerHandler(statics, manager.PRIORITY_FIRST);
+  defer : function(statics) {
+    qx.event.Manager.registerHandler(statics);
   }
 });

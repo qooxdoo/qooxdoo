@@ -35,6 +35,23 @@ qx.Class.define("qx.event.dispatch.WidgetBubbling",
 
 
 
+
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+  
+  statics : 
+  {
+    /** {Integer} Priority of this dispatcher */
+    PRIORITY : qx.event.Manager.PRIORITY_NORMAL
+  },
+  
+  
+  
+  
+  
   /*
   *****************************************************************************
      MEMBERS
@@ -77,9 +94,7 @@ qx.Class.define("qx.event.dispatch.WidgetBubbling",
   *****************************************************************************
   */
 
-  defer : function(statics)
-  {
-    var manager = qx.event.Manager;
-    manager.registerDispatcher(statics, manager.PRIORITY_NORMAL);
+  defer : function(statics) {
+    qx.event.Manager.registerDispatcher(statics);
   }
 });

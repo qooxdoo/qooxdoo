@@ -14,12 +14,13 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
+     * Sebastian Werner (wpbasti)
 
 ************************************************************************ */
 
 /* ************************************************************************
 
-#module(event2)
+#module(event)
 
 ************************************************************************ */
 
@@ -87,20 +88,9 @@ qx.Class.define("qx.event.Manager",
     // when changed during event dispatching phases.
     this.__jobs = [];
 
-    // The handlers
-    this.__handlers = [];
-    this.__knownHandlers = {};
-    
-    // The dispatchers
-    this.__dispatchers = [];
-    this.__knownDispatchers = {};
-
-    // Update handler and dispatcher data
-    this.__syncDispatchers();
-    this.__syncHandlers();
-
-    // The event pool
-    this.__eventPool = qx.event.Pool.getInstance();
+    // The handler and dispatcher instances
+    this.__handlers = {};
+    this.__dispatchers = {};
   },
 
 
@@ -331,17 +321,12 @@ qx.Class.define("qx.event.Manager",
       }
             
       // Append to list
-      this.__handlers.push({handler: handler, priority: priority});
+      this.__handlers.push(handler);
       
       // Re-sort list
       this.__handlers.sort(function(a,b) {
-        return a.priority - b.priority;
+        return a.PRIORITY - b.PRIORITY;
       });
-
-      // Inform all manager instances
-      for (var winId in this.__managers) {
-        this.__managers[winId].__syncHandlers();
-      }
     },
 
 
@@ -375,31 +360,26 @@ qx.Class.define("qx.event.Manager",
      * Register an event dispatcher.
      *
      * @internal
-     * @param handler {qx.legacy.event.dispatch.IEventDispatch} Event dispatcher to add
+     * @param dispatcher {qx.legacy.event.dispatch.IEventDispatch} Event dispatcher to add
      * @param priority {Integer} One of {@link #PRIORITY_FIRST}, {@link PRIORITY_NORMAL}
      *     or {@link #PRIORITY_LAST}.
      */
-    registerDispatcher : function(handler, priority)
+    registerDispatcher : function(dispatcher, priority)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (!qx.Class.hasInterface(handler, qx.event.IEventDispatcher)) {
-          throw new Error("The dispatch handler does not implement the interface qx.event.IEventDispatcher!");
+        if (!qx.Class.hasInterface(dispatcher, qx.event.IEventDispatcher)) {
+          throw new Error("The dispatch dispatcher does not implement the interface qx.event.IEventDispatcher!");
         }
       }
 
       // Append to list
-      this.__dispatchers.push({handler: handler, priority: priority});
+      this.__dispatchers.push(dispatcher);
       
       // Re-sort list
       this.__dispatchers.sort(function(a,b) {
-        return a.priority - b.priority;
+        return a.PRIORITY - b.PRIORITY;
       });
-      
-      // Inform all manager instances
-      for (var winId in this.__managers) {
-        this.__managers[winId].__syncDispatchers();
-      }
     },
 
 
@@ -533,7 +513,7 @@ qx.Class.define("qx.event.Manager",
       // Inform the event handler about the new event
       // they perform the event registration at DOM level if needed
       if (listeners.length === 0) {
-        this.__registerEventAtHandler(target, type);
+        this.__registerAtHandler(target, type);
       }
       
       // Append listener to list
@@ -548,15 +528,31 @@ qx.Class.define("qx.event.Manager",
      * @param target {Object} Any valid event target
      * @param type {String} event type
      */
-    __registerEventAtHandler : function(target, type)
+    __registerAtHandler : function(target, type)
     {
-      var handlers = this.__handlers;
-
-      for (var i=0, l=handlers.length; i<l; i++)
+      var classes = this.self(arguments).getHandlers();
+      var instances = this.__handlers;
+      var clazz, instance;
+      
+      for (var i=0, l=classes.length; i<l; i++)
       {
-        if (handlers[i].canHandleEvent(target, type))
+        clazz = classes[i];
+        instance = instances[clazz.classname];
+        
+        if (!instance) 
         {
-          handlers[i].registerEvent(target, type);
+          /*
+          if (qx.core.Variant.isSet("qx.debug", "on")) {
+            console.debug("Dynamically creating handler instance: " + clazz.classname);
+          }
+          */
+          
+          instance = instances[clazz.classname] = new clazz(this);
+        }
+        
+        if (instance.canHandleEvent(target, type))
+        {
+          instance.registerEvent(target, type);
           return;
         }
       }
@@ -650,7 +646,7 @@ qx.Class.define("qx.event.Manager",
       // Inform the event handler about the event removal so that
       // they perform the event deregistration at DOM level if needed      
       if (listeners.length === 0) {
-        this.__unregisterEventAtHandler(target, type);
+        this.__unregisterAtHandler(target, type);
       }
     },
 
@@ -663,18 +659,27 @@ qx.Class.define("qx.event.Manager",
      * @param target {Object} Any valid event target
      * @param type {String} event type
      */
-    __unregisterEventAtHandler : function(target, type)
+    __unregisterAtHandler : function(target, type)
     {
-      var handlers = this.__handlers;
+      var classes = this.self(arguments).getHandlers();
+      var instances = this.__handlers;
+      var clazz, instance;
       
-      for (var i=0, l=handlers.length; i<l; i++)
+      for (var i=0, l=classes.length; i<l; i++)
       {
-        if (handlers[i].canHandleEvent(target, type))
+        clazz = classes[i];
+        instance = instances[clazz.classname];
+        
+        if (!instance) {
+          continue;
+        }
+        
+        if (instance.canHandleEvent(target, type))
         {
-          handlers[i].unregisterEvent(target, type);
+          instance.unregisterEvent(target, type);
           return;
         }
-      }
+      }      
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -706,22 +711,45 @@ qx.Class.define("qx.event.Manager",
      */
     dispatchEvent : function(target, event)
     {
-      // only dispatch if listeners are registered
-      var type = event.getType();
-
-      event.setTarget(target);
-
-      // dispatch event
+      if (this.getDisposed()) {
+        return; 
+      }
+      
+      // Mark as in dispatch state
       this.__inEventDispatch = true;
 
-      var dispatched = false;
-      for (var i=0, l=this.__dispatchers.length; i<l; i++)
-      {
-        var dispatchHandler = this.__dispatchers[i];
+      // Preparations
+      var type = event.getType();
+      event.setTarget(target);
 
-        if (dispatchHandler.canDispatchEvent(target, event, type))
+      // Interation data
+      var classes = this.self(arguments).getDispatchers();
+      var instances = this.__dispatchers;
+      var clazz, instance;
+      
+      // Loop through the dispatchers
+      var dispatched = false;
+      for (var i=0, l=classes.length; i<l; i++)
+      {
+        clazz = classes[i];
+        instance = instances[clazz.classname];
+        
+        // Create if missing
+        if (!instance) 
         {
-          dispatchHandler.dispatchEvent(target, event, type);
+          /*
+          if (qx.core.Variant.isSet("qx.debug", "on")) {
+            console.debug("Dynamically creating dispatcher instance: " + clazz.classname);
+          }
+          */
+          
+          instance = instances[clazz.classname] = new clazz(this);
+        }
+
+        // Ask if the dispatcher can handle this event
+        if (instance.canDispatchEvent(target, event, type))
+        {
+          instance.dispatchEvent(target, event, type);
           dispatched = true;
           break;
         }
@@ -731,21 +759,26 @@ qx.Class.define("qx.event.Manager",
         throw new Error("Could not dispatch: " + type + " on " + target);
       }
 
-      // release the event instance to the event pool
-      // the event handler may have disposed the app.
+      // The event handler may have disposed the app.
       if (this.getDisposed()) {
         return;
       }
-      this.__eventPool.poolEvent(event);
 
+      // Release the event instance to the event pool
+      qx.event.Pool.getInstance().poolEvent(event);
+      
+      // Reset dispatch flag
       this.__inEventDispatch = false;
 
-      // flush job queue
-      if (this.__jobs && this.__jobs.length > 0)
+      // Flush the job queue
+      var jobs = this.__jobs;
+      if (jobs && jobs.length > 0)
       {
-        for (var i=0, l=this.__jobs.length; i<l; i++)
+        var job;
+        
+        for (var i=0, l=jobs.length; i<l; i++)
         {
-          var job = this.__jobs[i];
+          job = jobs[i];
           this[job.method].apply(this, job.arguments);
         }
 
@@ -770,73 +803,6 @@ qx.Class.define("qx.event.Manager",
       this.dispatchEvent(target, event);
     },
 
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      HANDLER/DISPATCHER SYNCRONIZATION
-    ---------------------------------------------------------------------------
-    */
-    
-    /**
-     * Synchronizes the internal event handler list with the event handlers
-     * registered using {@link #registerHandler}.
-     */
-    __syncHandlers : function()
-    {
-      // get event handler
-      var oldHandlers = this.__handlers;
-      this.__handlers = [];
-
-      var registeredHandler = this.self(arguments).getHandlers();
-
-      for (var i=0, l=registeredHandler.length; i<l; i++)
-      {
-        var handler = registeredHandler[i].handler;
-        var handlerId = qx.core.Object.toHashCode(handler);
-
-        if (this.__knownHandlers[handlerId] !== undefined) {
-          this.__handlers[i] = oldHandlers[this.__knownHandlers[handlerId]];
-        } else {
-          this.__handlers[i] = new handler(this);
-        }
-
-        this.__knownHandlers[handlerId] = i;
-      }
-    },
-
-
-    /**
-     * Synchronizes the internal event dispatcher list with the event dispatcher
-     * registered using {@link #registerDispatcher}.
-     */
-    __syncDispatchers : function()
-    {
-      // get event handler
-      var oldHandlers = this.__dispatchers;
-      this.__dispatchers = [];
-
-      var registeredHandler = this.self(arguments).getDispatchers();
-
-      for (var i=0, l=registeredHandler.length; i<l; i++)
-      {
-        var handler = registeredHandler[i].handler;
-        var handlerId = qx.core.Object.toHashCode(handler);
-
-        if (this.__knownDispatchers[handlerId] !== undefined) {
-          this.__dispatchers[i] = oldHandlers[this.__knownDispatchers[handlerId]];
-        } else {
-          this.__dispatchers[i] = new handler(this);
-        }
-
-        this.__knownDispatchers[handlerId] = i;
-      }
-    },
-    
-    
 
 
 
@@ -899,11 +865,7 @@ qx.Class.define("qx.event.Manager",
       "__jobs",
       "__window",
       "__handlers",
-      "__dispatchers",
-      "__knownHandlers",
-      "__dispatchers",
-      "__knownDispatchers",
-      "__eventPool"
+      "__dispatchers"
     );
   }
 });

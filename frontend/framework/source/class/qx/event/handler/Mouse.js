@@ -21,7 +21,7 @@
 
 /* ************************************************************************
 
-#module(event2)
+#module(event)
 
 ************************************************************************ */
 
@@ -60,7 +60,21 @@ qx.Class.define("qx.event.handler.Mouse",
 
 
 
-
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+  
+  statics : 
+  {
+    /** {Integer} Priority of this handler */
+    PRIORITY : qx.event.Manager.PRIORITY_NORMAL
+  },
+  
+  
+  
+  
 
   /*
   *****************************************************************************
@@ -503,9 +517,7 @@ qx.Class.define("qx.event.handler.Mouse",
   *****************************************************************************
   */
 
-  defer : function(statics)
-  {
-    var manager = qx.event.Manager;
-    manager.registerHandler(statics, manager.PRIORITY_NORMAL);
+  defer : function(statics) {
+    qx.event.Manager.registerHandler(statics);
   }
 });

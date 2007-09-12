@@ -19,7 +19,7 @@
 
 /* ************************************************************************
 
-#module(event2)
+#module(event)
 
 #require(qx.event.handler.Focus)
 #require(qx.event.handler.Window)
@@ -67,6 +67,21 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
 
 
 
+
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+  
+  statics : 
+  {
+    /** {Integer} Priority of this dispatcher */
+    PRIORITY : qx.event.Manager.PRIORITY_FIRST
+  },
+  
+  
+  
 
 
 
@@ -215,9 +230,7 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
   *****************************************************************************
   */
 
-  defer : function(statics)
-  {
-    var manager = qx.event.Manager;
-    manager.registerDispatcher(statics, manager.PRIORITY_FIRST);
+  defer : function(statics) {
+    qx.event.Manager.registerDispatcher(statics);
   }
 });

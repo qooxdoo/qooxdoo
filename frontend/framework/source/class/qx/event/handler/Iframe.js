@@ -20,7 +20,7 @@
 
 /* ************************************************************************
 
-#module(event2)
+#module(event)
 
 ************************************************************************ */
 
@@ -38,12 +38,16 @@ qx.Class.define("qx.event.handler.Iframe",
 
   /*
   *****************************************************************************
-     MEMBERS
+     STATICS
   *****************************************************************************
   */
 
   statics :
   {
+    /** {Integer} Priority of this handler */
+    PRIORITY : qx.event.Manager.PRIORITY_FIRST,
+        
+    
     /**
      * Internal function called by iframes created using {@link qx.bom.Iframe}.
      *
@@ -58,6 +62,7 @@ qx.Class.define("qx.event.handler.Iframe",
       manager.createAndDispatchEvent(target, qx.event.type.Event, [type, false]);
     }
   },
+  
 
 
 
@@ -106,9 +111,7 @@ qx.Class.define("qx.event.handler.Iframe",
   *****************************************************************************
   */
 
-  defer : function(statics)
-  {
-    var manager = qx.event.Manager;
-    manager.registerHandler(statics, manager.PRIORITY_FIRST);
+  defer : function(statics) {
+    qx.event.Manager.registerHandler(statics);
   }
 });
