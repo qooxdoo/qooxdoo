@@ -74,7 +74,7 @@ qx.Class.define("qx.event.Manager",
     this.__window = win;
 
     // Registry for events
-    // structure: elementId -> type
+    // structure: element/type/phase[]
     this.__registry = {};
 
     this.__inEventDispatch = false;
@@ -218,13 +218,8 @@ qx.Class.define("qx.event.Manager",
      * @param eventClass {Object} The even class
      * @return {qx.event.type.Event} An instance of the given class.
      */
-    createEvent : function(eventClass)
-    {
-      if (!this.__eventPool) {
-        this.__eventPool = qx.event.Pool.getInstance();
-      }
-      
-      return this.__eventPool.getEventInstance(eventClass);
+    createEvent : function(eventClass) {
+      return qx.event.Pool.getInstance().getEventInstance(eventClass);
     },
 
 
@@ -287,35 +282,17 @@ qx.Class.define("qx.event.Manager",
 
     /*
     ---------------------------------------------------------------------------
-      EVENT HANDLER/DISPATCHER REGISTRATION
+      EVENT HANDLER/DISPATCHER PRIORITY
     ---------------------------------------------------------------------------
     */
 
     /**
-     * Position at which the handler should be inserted into the handler list.
+     * Position at which the handler/dispatcher should be inserted into the list.
      */
     PRIORITY_FIRST : -32000,
     PRIORITY_NORMAL : 0,
     PRIORITY_LAST : 32000,
 
-
-    /**
-     * Sort the event handler/dispatcher list by priority.
-     *
-     * @param handlerList {Object[]} handler/disposer list
-     * @return {Object[]} sorted handler/disposer list
-     */
-    __sortByPriority : function(handlerList)
-    {
-      return handlerList.sort(function(a,b)
-      {
-        if (a.priority == b.priority) {
-          return 0;
-        }
-
-        return a.priority < b.priority ? -1 : 1;
-      });
-    },
     
     
 
@@ -328,7 +305,8 @@ qx.Class.define("qx.event.Manager",
     ---------------------------------------------------------------------------
     */
 
-    __eventHandler : [],
+    /** {Array} Contains all known event handlers */
+    __handlers : [],
 
 
     /**
@@ -347,8 +325,15 @@ qx.Class.define("qx.event.Manager",
         }
       }
             
-      this.__eventHandler.push({handler: handler, priority: priority});
+      // Append to list
+      this.__handlers.push({handler: handler, priority: priority});
+      
+      // Re-sort list
+      this.__handlers.sort(function(a,b) {
+        return a.priority - b.priority;
+      });
 
+      // Inform all manager instances
       for (var winId in this.__managers) {
         this.__managers[winId].__updateHandler();
       }
@@ -356,12 +341,12 @@ qx.Class.define("qx.event.Manager",
 
 
     /**
-     * Get a sorted list of registered event handlers.
+     * Get a list of registered event handlers.
      *
      * @return {qx.legacy.event.handler.AbstractEventHandler[]} registered event handlers
      */
     getRegisteredEventHandler : function() {
-      return this.__sortByPriority(this.__eventHandler);
+      return this.__handlers;
     },
 
 
@@ -376,7 +361,8 @@ qx.Class.define("qx.event.Manager",
     ---------------------------------------------------------------------------
     */
 
-    __eventDispatcher : [],
+    /** {Array} Contains all known event dispatchers */
+    __dispatchers : [],
 
 
     /**
@@ -395,8 +381,15 @@ qx.Class.define("qx.event.Manager",
         }
       }
 
-      this.__eventDispatcher.push({handler: handler, priority: priority});
-
+      // Append to list
+      this.__dispatchers.push({handler: handler, priority: priority});
+      
+      // Re-sort list
+      this.__dispatchers.sort(function(a,b) {
+        return a.priority - b.priority;
+      });
+      
+      // Inform all manager instances
       for (var winId in this.__managers) {
         this.__managers[winId].__updateDispatcher();
       }
@@ -404,14 +397,12 @@ qx.Class.define("qx.event.Manager",
 
 
     /**
-     * Get a sorted list of registered event dispatcher.
-     * TODO: Is this function used often? Then is should be a good idea to cache this result
-     * on each register instead of on every get.
+     * Get a list of registered event dispatchers.
      *
      * @return {qx.legacy.event.dispatch.IEventDispatch[]} all registered event dispatcher
      */
     getRegisteredEventDispatcher : function() {
-      return this.__sortByPriority(this.__eventDispatcher);
+      return this.__dispatchers;
     }
   },
 
@@ -465,21 +456,18 @@ qx.Class.define("qx.event.Manager",
         return;
       }
 
-      var eventListeners = this.registryGetListeners(element, type, capture, true);
+      var eventListeners = this.getListeners(element, type, capture, true);
 
       // This is the first event handler for this type and element
       if (eventListeners.length == 0)
       {
         // Inform the event handler about the new event
-        // they perform the event registration at DOM level
+        // they perform the event registration at DOM level if needed
         this.__registerEventAtHandler(element, type);
       }
 
       // Store event listener
-      eventListeners.push({
-        handler: listener,
-        context: self
-      });
+      eventListeners.push({handler: listener, context: self});
 
       // Increase the event type count
       if (!this.__listenerCountOfType[type]) {
@@ -514,7 +502,7 @@ qx.Class.define("qx.event.Manager",
       }
 
       // get event listeners
-      var listeners = this.registryGetListeners(element, type, false, false);
+      var listeners = this.getListeners(element, type, false, false);
       if (!listeners) {
         return;
       }
@@ -566,13 +554,8 @@ qx.Class.define("qx.event.Manager",
      */
     hasListeners : function(target, type, capture)
     {
-      var listeners = this.registryGetListeners(target, type, capture, false);
-      
-      if (!listeners || listeners.length <= 0) {
-        return false;
-      }
-      
-      return true;
+      var listeners = this.getListeners(target, type, capture, false);
+      return listeners != null && listeners.length > 0;
     },
 
 
@@ -807,7 +790,7 @@ qx.Class.define("qx.event.Manager",
      *     and type. Will return null if <code>buildRegistry</code> and no entry
      *     is found.
      */
-    registryGetListeners : function(element, type, capture, buildRegistry)
+    getListeners : function(element, type, capture, buildRegistry)
     {
       var elementId = qx.core.Object.toHashCode(element);
       var listenerList = capture ? "captureListeners" : "bubbleListeners";

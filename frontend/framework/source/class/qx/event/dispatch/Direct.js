@@ -79,7 +79,7 @@ qx.Class.define("qx.event.dispatch.Direct",
 
       var currentTarget = event.getCurrentTarget();
 
-      var listeners = this._manager.registryGetListeners(currentTarget, type, false, false);
+      var listeners = this._manager.getListeners(currentTarget, type, false, false);
       if (listeners)
       {
         for (var i=0, l=listeners.length; i<l; i++)
