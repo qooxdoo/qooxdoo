@@ -169,11 +169,12 @@ qx.Class.define("qx.event.handler.Element",
      */
     _onNative : function(elementId, domEvent)
     {
-      var event = qx.event.Manager.createEvent(qx.event.type.Dom).init(domEvent);
+      var event = qx.event.Manager.createEvent(qx.event.type.Dom, [domEvent]);
       event.setBubbles(false);
 
       var eventData = this._registeredEvents[elementId + event.getType()];
       var element = eventData ? eventData.element : event.getTarget();
+
       event.setCurrentTarget(element);
 
       this._manager.dispatchEvent(domEvent.target || domEvent.srcElement, event);
