@@ -858,9 +858,17 @@ qx.Class.define("qx.event.Manager",
     },
 
 
-    
+    /**
+     * Generates a unique ID for a combination of target, type and capturing
+     *
+     * @type member
+     * @param target {Object} Any valid event target
+     * @param type {String} Event name
+     * @param capture {Boolean ? false} Event for capture phase?
+     * @return {String} the unique ID
+     */
     _generateUniqueId : function(target, type, capture) {
-      return qx.core.Object.toHashCode(target) + "|" + type + (capture ? "|capture" : "|bubble");;
+      return qx.core.Object.toHashCode(target) + "|" + type + (capture ? "|capture" : "|bubble");
     }
   },
   
