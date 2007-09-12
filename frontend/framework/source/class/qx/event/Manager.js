@@ -74,11 +74,11 @@ qx.Class.define("qx.event.Manager",
     this.__window = win;
 
     // Registry for events
-    // structure: element/type/phase[]
+    // structure: target/type/phase[]
     this.__registry = {};
 
     this.__inEventDispatch = false;
-    this.__jobQueue = [];
+    this.__jobs = [];
 
     // Get event handler
     this.__eventHandlers = [];
@@ -120,10 +120,10 @@ qx.Class.define("qx.event.Manager",
 
     /**
      * Get an instance of the event manager, which can handle events for the
-     * given element.
+     * given target.
      *
-     * @param target {Element|Window|Object} DOM element / Window object or other object
-     * @return {qx.event.Manager} The event manger for the element.
+     * @param target {Element|Object} Any valid event target
+     * @return {qx.event.Manager} The event manger for the target.
      */
     getManager : function(target)
     {
@@ -155,7 +155,7 @@ qx.Class.define("qx.event.Manager",
      * about the event as parameter.
      *
      * @type static
-     * @param target {Element|Window|Object} DOM element / Window object or other object
+     * @param target {Element|Object} Any valid event target
      * @param type {String} Name of the event e.g. "click", "keydown", ...
      * @param listener {Function} Event listener function
      * @param self {Object} Reference to the 'this' variable inside
@@ -179,7 +179,7 @@ qx.Class.define("qx.event.Manager",
      *   destructor.
      *
      * @type static
-     * @param target {Element|Window|Object} DOM element / Window object or other object
+     * @param target {Element|Object} Any valid event target
      * @param type {String} Name of the event
      * @param listener {Function} The pointer to the event listener
      * @param self {Object} Reference to the 'this' variable inside
@@ -198,7 +198,7 @@ qx.Class.define("qx.event.Manager",
      * Check whether there are one or more listeners for an event type
      * registered at the target.
      *
-     * @param target {Element|Window|Object} DOM element / Window object or other object
+     * @param target {Element|Object} Any valid event target
      * @param type {String} The event type
      * @param capture {Boolean ? false} Whether to check for listeners of
      *       the bubbling or of the capturing phase.
@@ -232,19 +232,19 @@ qx.Class.define("qx.event.Manager",
      *
      * @internal
      * @type static
-     * @param element {Element} DOM Element
+     * @param target {Element|Object} Any valid native event target
      * @param type {String} Name of the event
      * @param listener {Function} The pointer to the function to assign
-     * @signature function(element, type, listener)
+     * @signature function(target, type, listener)
      */
     addNativeListener : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(element, type, listener) {
-        element.attachEvent("on" + type, listener);
+      "mshtml" : function(target, type, listener) {
+        target.attachEvent("on" + type, listener);
       },
 
-      "default" : function(element, type, listener) {
-        element.addEventListener(type, listener, false);
+      "default" : function(target, type, listener) {
+        target.addEventListener(type, listener, false);
       }
     }),
 
@@ -259,19 +259,19 @@ qx.Class.define("qx.event.Manager",
      *     
      * @internal
      * @type static
-     * @param element {Element} DOM Element
+     * @param target {Element|Object} Any valid native event target
      * @param type {String} Name of the event
      * @param listener {Function} The pointer to the function to assign
-     * @signature function(element, type, listener)
+     * @signature function(target, type, listener)
      */
     removeNativeListener : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(element, type, listener) {
-        element.detachEvent("on" + type, listener);
+      "mshtml" : function(target, type, listener) {
+        target.detachEvent("on" + type, listener);
       },
 
-      "default" : function(element, type, listener) {
-        element.removeEventListener(type, listener, false);
+      "default" : function(target, type, listener) {
+        target.removeEventListener(type, listener, false);
       }
     }),
 
@@ -311,6 +311,7 @@ qx.Class.define("qx.event.Manager",
     /**
      * Register an event handler.
      *
+     * @internal
      * @param handler {qx.legacy.event.handler.AbstractEventHandler} Event handler to add
      * @param priority {Integer} One of {@link #PRIORITY_FIRST}, {@link PRIORITY_NORMAL}
      *     or {@link #PRIORITY_LAST}.
@@ -342,6 +343,7 @@ qx.Class.define("qx.event.Manager",
     /**
      * Get a list of registered event handlers.
      *
+     * @internal
      * @return {qx.legacy.event.handler.AbstractEventHandler[]} registered event handlers
      */
     getHandlers : function() {
@@ -367,6 +369,7 @@ qx.Class.define("qx.event.Manager",
     /**
      * Register an event dispatcher.
      *
+     * @internal
      * @param handler {qx.legacy.event.dispatch.IEventDispatch} Event dispatcher to add
      * @param priority {Integer} One of {@link #PRIORITY_FIRST}, {@link PRIORITY_NORMAL}
      *     or {@link #PRIORITY_LAST}.
@@ -398,6 +401,7 @@ qx.Class.define("qx.event.Manager",
     /**
      * Get a list of registered event dispatchers.
      *
+     * @internal
      * @return {qx.legacy.event.dispatch.IEventDispatch[]} all registered event dispatcher
      */
     getDispatchers : function() {
@@ -425,12 +429,12 @@ qx.Class.define("qx.event.Manager",
     */
 
     /**
-     * Add an event listener to a DOM element. The event listener is passed an
+     * Add an event listener to any valid target. The event listener is passed an
      * instance of {@link Event} containing all relevant information
      * about the event as parameter.
      *
      * @type member
-     * @param element {Element} DOM element to attach the event on.
+     * @param target {Element|Object} Any valid event target
      * @param type {String} Name of the event e.g. "click", "keydown", ...
      * @param listener {Function} Event listener function
      * @param self {Object ? window} Reference to the 'this' variable inside
@@ -439,7 +443,7 @@ qx.Class.define("qx.event.Manager",
      *       capturing phase of the bubbling phase of the event. The default is
      *       to attach the event handler to the bubbling phase.
      */
-    addListener : function(element, type, listener, self, capture)
+    addListener : function(target, type, listener, self, capture)
     {
       // if we are currently dispatching an event, defer this call after the
       // dispatcher has completed. It is critical to not modify the listener
@@ -447,7 +451,7 @@ qx.Class.define("qx.event.Manager",
       // and "removeListener" calls inside of event handler code.
       if (this.__inEventDispatch)
       {
-        this.__jobQueue.push({
+        this.__jobs.push({
           method : "addListener",
           arguments : arguments
         });
@@ -456,7 +460,7 @@ qx.Class.define("qx.event.Manager",
       }
       
       // Preparations
-      var uniqueId = this.generateUniqueId(element, type, capture);
+      var uniqueId = this._generateUniqueId(target, type, capture);
       var listeners = this.__registry[uniqueId];
       
       // Create data hierarchy
@@ -464,11 +468,11 @@ qx.Class.define("qx.event.Manager",
         listeners = this.__registry[uniqueId] = [];
       }
       
-      // This is the first event listener for this type and element
+      // This is the first event listener for this type and target
       // Inform the event handler about the new event
       // they perform the event registration at DOM level if needed
       if (listeners.length === 0) {
-        this.__registerEventAtHandler(element, type);
+        this.__registerEventAtHandler(target, type);
       }
       
       // Append listener to list
@@ -477,88 +481,14 @@ qx.Class.define("qx.event.Manager",
 
 
     /**
-     * Remove an event listener from a DOM node.
-     *
-     * @type member
-     * @param element {Element} DOM Element
-     * @param type {String} Name of the event
-     * @param listener {Function} The pointer to the event listener
-     * @param self {Object ? window} Reference to the 'this' variable inside
-     *       the event listener.     
-     * @param capture {Boolean ? false} Whether to remove the event listener of
-     *       the bubbling or of the capturing phase.
-     */
-    removeListener : function(element, type, listener, self, capture)
-    {
-      // if we are currently dispatching an event, defer this call after the
-      // dispatcher. It is critical to not modify the listener registry while
-      // dispatching.
-      if (this.__inEventDispatch) 
-      {
-        this.__jobQueue.push({
-          method : "removeListener",
-          arguments : arguments
-        });
-        
-        return;
-      }
-
-      // Preparations
-      var uniqueId = this.generateUniqueId(element, type, capture);
-      var listeners = this.__registry[uniqueId];
-      
-      // Directly return if there are no listeners
-      if (!listeners || listeners.length === 0) {
-        return; 
-      }
-      
-      // Remove listener from list
-      var entry;
-      for (var i=0, l=listeners.length; i<l; i++) 
-      {
-        if (entry.handler === listener && entry.context === self) 
-        {
-          qx.lang.Array.removeAt(listeners, i);
-          break;
-        }
-      }
-      
-      // This was the last event listener for this type and element
-      // Inform the event handler about the event removal so that
-      // they perform the event deregistration at DOM level if needed      
-      if (listeners.length === 0) {
-        this.__unregisterEventAtHandler(element, type);
-      }
-    },
-
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      HANDLER EVENT TYPE REGISTRATION
-    ---------------------------------------------------------------------------
-    */
-
-    /**
      * This method is called each time an event listener for one of the
      * supported events is added using {qx.event.Manager#addListener}.
      *
-     * @param target {Element|Object} The target to, which the event handler should
-     *     be attached
+     * @param target {Element|Object} Any valid event target
      * @param type {String} event type
      */
     __registerEventAtHandler : function(target, type)
     {
-      // TODO: What's about priority of these handlers here. Is this really
-      // not important. What if two handler can handle the same event type?
-      // At least the "break" would be problematic then...
-
-      // iterate over all event handlers and check whether they are responsible
-      // for this event type
       var handlers = this.__eventHandlers;
 
       for (var i=0, l=handlers.length; i<l; i++)
@@ -570,8 +500,74 @@ qx.Class.define("qx.event.Manager",
         }
       }
 
-      this.printStackTrace();
-      throw new Error("There is no event handler for the event '"+type+"' on target '"+target+"'!");
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        this.printStackTrace();
+        throw new Error("There is no event handler for the event '"+type+"' on target '"+target+"'!");
+      }
+    },
+    
+
+    /**
+     * Remove an event listener from a DOM node.
+     *
+     * @type member
+     * @param target {Element|Object} Any valid event target
+     * @param type {String} Name of the event
+     * @param listener {Function} The pointer to the event listener
+     * @param self {Object ? window} Reference to the 'this' variable inside
+     *       the event listener.     
+     * @param capture {Boolean ? false} Whether to remove the event listener of
+     *       the bubbling or of the capturing phase.
+     */
+    removeListener : function(target, type, listener, self, capture)
+    {
+      // if we are currently dispatching an event, defer this call after the
+      // dispatcher. It is critical to not modify the listener registry while
+      // dispatching.
+      if (this.__inEventDispatch) 
+      {
+        this.__jobs.push({
+          method : "removeListener",
+          arguments : arguments
+        });
+        
+        return;
+      }
+
+      // Preparations
+      var uniqueId = this._generateUniqueId(target, type, capture);
+      var listeners = this.__registry[uniqueId];
+      
+      // Directly return if there are no listeners
+      if (!listeners || listeners.length === 0) {
+        return; 
+      }
+      
+      // Remove listener from list
+      var entry;
+      var found = false;
+      
+      for (var i=0, l=listeners.length; i<l; i++) 
+      {
+        if (entry.handler === listener && entry.context === self) 
+        {
+          qx.lang.Array.removeAt(listeners, i);
+          found = true;
+          break;
+        }
+      }
+      
+      if (!found) {
+        throw new Error("Can not remove event listener. There is no event listener with such a configuration!"); 
+      }
+      
+      // This was the last event listener for this type and target
+      // Inform the event handler about the event removal so that
+      // they perform the event deregistration at DOM level if needed      
+      if (listeners.length === 0) {
+        this.__unregisterEventAtHandler(target, type);
+      }
     },
 
 
@@ -580,16 +576,13 @@ qx.Class.define("qx.event.Manager",
      * supported events is removed by using {qx.event.Manager#removeListener}
      * and no other event listener is listening on this type.
      *
-     * @param target {Element|Object} The target from, which the event handler should
-     *     be removed
+     * @param target {Element|Object} Any valid event target
      * @param type {String} event type
      */
     __unregisterEventAtHandler : function(target, type)
     {
-      // TODO: What's about priority of these handlers here. Is this really
-      // not important. What if two handler can handle the same event type?
-      // At least the "break" would be problematic then...
       var handlers = this.__eventHandlers;
+      
       for (var i=0, l=handlers.length; i<l; i++)
       {
         if (handlers[i].canHandleEvent(target, type))
@@ -599,8 +592,11 @@ qx.Class.define("qx.event.Manager",
         }
       }
 
-      this.printStackTrace();
-      throw new Error("There is no event handler for the event '"+type+"' on target '"+target+"'!");
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        this.printStackTrace();
+        throw new Error("There is no event handler for the event '"+type+"' on target '"+target+"'!");
+      }
     },
 
 
@@ -619,8 +615,7 @@ qx.Class.define("qx.event.Manager",
      * {@link #addListener}. After dispatching the event object will be pooled
      * for later reuse or disposed.
      *
-     * @param target {Element|qx.core.Object} Target object on which the event
-     *     should be dispatched.
+     * @param target {Element|Object} Any valid event target
      * @param event {qx.event.type.Event} The event object to dispatch. The event
      *     object must be obtained using {@link #createEvent} and initialized
      *     using {@link qx.event.type.Event#init}.
@@ -639,11 +634,9 @@ qx.Class.define("qx.event.Manager",
       for (var i=0,l=this.__dispatchHandlers.length; i<l; i++)
       {
         var dispatchHandler = this.__dispatchHandlers[i];
-        // console.log("Trying: " + type + " : " + dispatchHandler);
 
         if (dispatchHandler.canDispatchEvent(target, event, type))
         {
-          // console.log("dispatchevent: ", type, dispatchHandler.classname);
           dispatchHandler.dispatchEvent(target, event, type);
           dispatched = true;
           break;
@@ -664,15 +657,15 @@ qx.Class.define("qx.event.Manager",
       this.__inEventDispatch = false;
 
       // flush job queue
-      if (this.__jobQueue && this.__jobQueue.length > 0)
+      if (this.__jobs && this.__jobs.length > 0)
       {
-        for (var i=0, l=this.__jobQueue.length; i<l; i++)
+        for (var i=0, l=this.__jobs.length; i<l; i++)
         {
-          var job = this.__jobQueue[i];
+          var job = this.__jobs[i];
           this[job.method].apply(this, job.arguments);
         }
 
-        this.__jobQueue = [];
+        this.__jobs = [];
       }
     },
 
@@ -680,7 +673,7 @@ qx.Class.define("qx.event.Manager",
     /**
      * Create an event object and dispatch it on the given target.
      *
-     * @param target {Element|qx.core.Object} Target object on which the event
+     * @param target {Element|Object} Any valid event target
      *     should be dispatched.
      * @param eventClass {qx.event.type.Event} The even class
      * @param eventInitArgs {Array} Array or arguments, which will be passed to
@@ -727,12 +720,9 @@ qx.Class.define("qx.event.Manager",
     */
 
     /**
-     * Get all event listeners for the given element, event type and phase. If no
-     * registry data is available for this element and type and the
-     * third parameter <code>setup</code> is true the registry is build
-     * up and an empty array is returned.
+     * Get all event listeners for the given target, event type and phase. 
      *
-     * @param element {Element} DOM element.
+     * @param target {Element|Object} any valid event target
      * @param type {String} DOM event type
      * @param capture {Boolean ? false} Whether the listener is for the
      *       capturing phase of the bubbling phase.
@@ -740,8 +730,8 @@ qx.Class.define("qx.event.Manager",
      *     and type. Will return null if <code>setup</code> and no entry
      *     is found.
      */
-    getListeners : function(element, type, capture) {
-      return this.__registry[this.generateUniqueId(element, type, capture)] || null;
+    getListeners : function(target, type, capture) {
+      return this.__registry[this._generateUniqueId(target, type, capture)] || null;
     },
     
     
@@ -749,7 +739,8 @@ qx.Class.define("qx.event.Manager",
     /**
      * Check whether there are one or more listeners for an event type
      * registered at the target.
-     * @param target {Element|Object} The event target
+     *
+     * @param target {Element|Object} Any valid event target
      * @param type {String} The event type
      * @param capture {Boolean ? false} Whether to check for listeners of
      *       the bubbling or of the capturing phase.
@@ -757,20 +748,27 @@ qx.Class.define("qx.event.Manager",
      */
     hasListeners : function(target, type, capture)
     {
-      var listeners = this.__registry[this.generateUniqueId(element, type, capture)];
+      var listeners = this.__registry[this._generateUniqueId(target, type, capture)];
       return listeners != null && listeners.length > 0;
     },    
     
     
     
-    generateUniqueId : function(element, type, capture) {
-      return qx.core.Object.toHashCode(element) + "|" + type + (capture ? "|capture" : "|bubble");;
+    _generateUniqueId : function(target, type, capture) {
+      return qx.core.Object.toHashCode(target) + "|" + type + (capture ? "|capture" : "|bubble");;
     },
     
     
     
 
 
+
+    /*
+    ---------------------------------------------------------------------------
+      HANDLER/DISPATCHER MANAGMENT
+    ---------------------------------------------------------------------------
+    */
+    
     /**
      * Synchronizes the internal event handler list with the event handlers
      * registered using {@link #registerHandler}.
@@ -851,7 +849,7 @@ qx.Class.define("qx.event.Manager",
     // Dispose data fields   
     this._disposeFields(
       "__registry",
-      "__jobQueue",
+      "__jobs",
       "__window",
       "__eventHandlers",
       "__dispatchHandlers",
