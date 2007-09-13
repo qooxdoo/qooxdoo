@@ -570,7 +570,8 @@ qx.Class.define("qx.event.Manager",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (!(target instanceof Object)) {
+        // In IE the window element is not instanceof Object
+        if (!(target instanceof Object) && !qx.dom.Node.isWindow(target)) {
           throw new Error("Could not add listeners to non-objects!");
         }
 
@@ -683,8 +684,9 @@ qx.Class.define("qx.event.Manager",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (!(target instanceof Object)) {
-          throw new Error("Could not add listeners to non-objects!");
+        // In IE the window element is not instanceof Object
+        if (!(target instanceof Object) && !qx.dom.Node.isWindow(target)) {
+          throw new Error("Could not remove listeners from non-objects!");
         }
 
         if (typeof type !== "string") {

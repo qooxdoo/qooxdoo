@@ -163,21 +163,19 @@ qx.Class.define("qx.event.handler.Focus",
     */
 
     /**
-     * Focus the given DOM element
+     * Focusses the given DOM element
      *
      * @type member
      * @param element {Element} DOM element to focus
      * @return {void}
      */
-    focus : function(element)
-    {
-      this.setActive(element);
-      this.setFocus(element);
+    focus : function(element) {
+      element.focus();
     },
 
 
     /**
-     * Activate the given DOM element
+     * Activates the given DOM element
      *
      * @type member
      * @param element {Element} DOM element to activate
@@ -185,6 +183,40 @@ qx.Class.define("qx.event.handler.Focus",
      */
     activate : function(element) {
       this.setActive(element);
+    },
+    
+    
+    /**
+     * Blurs the given DOM element
+     *
+     * @type member
+     * @param element {Element} DOM element to focus
+     * @return {void}
+     */
+    blur : function(element)
+    {
+      if (this.getFocus() === element) {
+        element.blur();
+      }
+
+      if (this.getActive() === element) {
+        this.resetActive();
+      }
+    },
+
+
+    /**
+     * Deactivates the given DOM element
+     *
+     * @type member
+     * @param element {Element} DOM element to activate
+     * @return {void}
+     */
+    deactivate : function(element) 
+    {
+      if (this.getActive() === element) {
+        this.resetActive();
+      }
     },
 
 
