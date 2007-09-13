@@ -200,11 +200,11 @@ qx.Class.define("qx.dom.Node",
     /**
      * Check whether the given object is a browser window object.
      *
-     * @param node {Object} the object which should be tested
+     * @param obj {Object} the object which should be tested
      * @return {Boolean} true if the object is a window object.
      */
-    isWindow : function(node) {
-      return node.document && this.getWindow(node.document) == node;
+    isWindow : function(obj) {
+      return !!(typeof obj === "object" && obj.Array);
     },
 
 
