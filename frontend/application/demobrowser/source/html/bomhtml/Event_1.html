@@ -203,14 +203,20 @@ qx.Class.define("BasicSample",
       this.debug("scroll:" + e.getTarget());
     },
 
-    _cascadeCapture : function(e) {
+    _cascadeCapture : function(e) 
+    {
       var elem = e.getCurrentTarget();
-      this.debug("capture: " + elem.id + " " + e.getEventPhase());
+      var title = e.getEventPhase() == 2 ? "at-target: " : "capture: ";
+      
+      this.debug(title + elem.id + " (capture-listener)");
     },
 
-    _cascadeBubble : function(e) {
+    _cascadeBubble : function(e) 
+    {
       var elem = e.getCurrentTarget();
-      this.debug("bubble: " + elem.id + " " + e.getEventPhase());
+      var title = e.getEventPhase() == 2 ? "at-target: " : "bubble: ";
+      
+      this.debug(title + elem.id + " (bubble-listener)");
     },
 
     _preventDefault : function(e)
