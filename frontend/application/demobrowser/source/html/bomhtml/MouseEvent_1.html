@@ -45,7 +45,7 @@
     left: 30px;
     top: 10px;
     height: 180px;
-    width: 500;
+    width: 600;
     background-color: orange;
     border: 1px inset;
     padding: 2px;
@@ -67,7 +67,7 @@
   #form {
     position: absolute;
     top: 250px;
-    left: 550px;
+    left: 650px;
     width: 200px;
   }
 
@@ -141,7 +141,7 @@ qx.Class.define("BasicSample",
     {
       this.base(arguments);
 
-      this.tableHead = "<table><tr><th>Target</th><th>Event</th><th>button</th><th>pageX</th><th>pageY</th><th>clientX</th><th>clientY</th><th>screenX</th><th>screenY</th><th>relatedTarget</th></tr>";
+      this.tableHead = "<table><tr><th>Target</th><th>Event</th><th>button</th><th>pageX</th><th>pageY</th><th>clientX</th><th>clientY</th><th>screenX</th><th>screenY</th><th>relatedTarget</th><th>Phase</th></tr>";
   		this.keyEvents = [];
   		this.maxLogSize = 50;
   		this.logDiv = document.getElementById("keylogger");
@@ -170,13 +170,13 @@ qx.Class.define("BasicSample",
       qx.event.Manager.addListener(captureDiv, "change", function(e) {
         var checked = e.getTarget().checked;
         if (checked) {
-          qx.event.Manager.getManager(mouseDiv).getCaptureHandler().setCapture(mouseDiv);
+          qx.bom.Element.capture(mouseDiv);
         } else {
-          qx.event.Manager.getManager(mouseDiv).getCaptureHandler().releaseCapture();
+          qx.bom.Element.release(mouseDiv);
         }
       }, this);
 
-      /*
+      
       qx.event.Manager.addListener(
         mouseDiv,
         "losecapture",
@@ -184,7 +184,7 @@ qx.Class.define("BasicSample",
         this
       );
 
-
+      /*
       qx.event.Manager.addListener(
         document.body,
         "selectstart",
@@ -192,6 +192,7 @@ qx.Class.define("BasicSample",
         this
       )
       */
+      
       qx.event.Manager.addListener(
         document.getElementById("btnClear"),
         "click",
@@ -241,13 +242,14 @@ qx.Class.define("BasicSample",
         target: mouseEvent.getTarget().id,
 				type: mouseEvent.getType(),
 				button: mouseEvent.getButton(),
-        pageX: mouseEvent.getDocumentLeft(),
-        pageY: mouseEvent.getDocumentTop(),
+        documentX: mouseEvent.getDocumentLeft(),
+        documentY: mouseEvent.getDocumentTop(),
 				screenX: mouseEvent.getScreenLeft(),
         screenY: mouseEvent.getScreenTop(),
-        clientX: mouseEvent.getViewportLeft(),
-        clientY: mouseEvent.getViewportTop(),
-        relatedTarget: mouseEvent.getRelatedTarget() ? mouseEvent.getRelatedTarget().id : ""
+        viewportX: mouseEvent.getViewportLeft(),
+        viewportY: mouseEvent.getViewportTop(),
+        relatedTarget: mouseEvent.getRelatedTarget() ? mouseEvent.getRelatedTarget().id : "",
+        phase: mouseEvent.getEventPhase()
 			}
 			this.keyEvents.unshift(eventCopy);
 			this.keyEvents = this.keyEvents.slice(0, this.maxLogSize);
@@ -261,19 +263,21 @@ qx.Class.define("BasicSample",
 				str.push("</td><td>");
 				str.push(e.button);
 				str.push("</td><td>");
-				str.push(e.pageX);
+				str.push(e.documentX);
 				str.push("</td><td>");
-				str.push(e.pageY);
+				str.push(e.documentY);
 				str.push("</td><td>");
-				str.push(e.clientX);
+				str.push(e.viewportX);
 				str.push("</td><td>");
-				str.push(e.clientY);
+				str.push(e.viewportY);
 				str.push("</td><td>");
 				str.push(e.screenX);
 				str.push("</td><td>");
 				str.push(e.screenY);
 				str.push("</td><td>");
 				str.push(e.relatedTarget);
+				str.push("</td><td>");
+				str.push(e.phase);
 				str.push("</td></tr>");
 			}
 			str.push("</table>");
