@@ -266,7 +266,7 @@ qx.Class.define("qx.bom.Element",
      * @param element {Element} DOM element to release
      * @return {void}
      */
-    release : function(element) {
+    releaseCapture : function(element) {
       qx.event.Manager.getManager(element).getDispatcher(qx.event.dispatch.MouseCapture).releaseCapture(element);
     }
   }
