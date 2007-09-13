@@ -444,6 +444,48 @@ exec-api-build:
 	  --use-setting $(APIVIEWER_NAMESPACE).resourceUri:resource/$(APIVIEWER_NAMESPACE_PATH) \
 	  --use-setting $(APIVIEWER_NAMESPACE).title:$(APPLICATION_API_TITLE)
 
+#
+# TestRunner/UnitTest targets
+#
+ 
+exec-testrunner-build:
+	@( cd $(TESTRUNNER_PATH); \
+          make -f Makefile.runner APPLICATION_ADDITIONAL_BUILD_OPTIONS='\
+                  --use-setting qx.testPageUri:html/tests.html \
+                  --use-setting qx.testNameSpace:$(APPLICATION_NAMESPACE)' \
+                build )
+	$(SILENCE) $(CMD_DIR) $(APPLICATION_TEST_PATH)/script
+	$(SILENCE) $(CMD_DIR) $(APPLICATION_TEST_PATH)/html
+	$(SILENCE) $(CMD_DIR) $(APPLICATION_TEST_PATH)/resource
+	@cp -f $(TESTRUNNER_BUILD_PATH)/script/testrunner.js $(APPLICATION_TEST_PATH)/script
+	@cp -f $(TESTRUNNER_BUILD_PATH)/index.html $(APPLICATION_TEST_PATH)
+	@cp -f $(TESTRUNNER_BUILD_PATH)/html/QooxdooTest.html $(APPLICATION_TEST_PATH)/html/tests.html
+	@cp -Rf $(TESTRUNNER_BUILD_PATH)/resource $(APPLICATION_TEST_PATH)
+
+
+exec-tests-build:
+	$(CMD_GENERATOR) \
+	   --class-path $(FRAMEWORK_SOURCE_PATH)/class \
+	   --class-path $(TESTRUNNER_SOURCE_PATH)/class \
+	   --class-path $(APPLICATION_SOURCE_PATH)/class \
+	   --include testrunner.TestLoader \
+	   --include $(APPLICATION_NAMESPACE).* \
+	   --include qx.theme.ClassicRoyale,qx.theme.classic.color.Royale,qx.theme.classic.Border,qx.theme.classic.font.Default,qx.theme.classic.Widget,qx.theme.classic.Appearance,qx.theme.icon.Nuvola \
+	   --add-require qx.log.Logger:qx.log.appender.Native \
+	   --resource-input $(FRAMEWORK_SOURCE_PATH)/resource \
+	   --resource-output $(APPLICATION_TEST_PATH)/resource/$(FRAMEWORK_NAMESPACE_PATH) \
+	   --resource-input $(TESTRUNNER_SOURCE_PATH)/resource \
+	   --resource-output $(APPLICATION_TEST_PATH)/resource/$(TESTRUNNER_NAMESPACE_PATH) \
+	   --resource-input $(APPLICATION_SOURCE_PATH)/resource \
+	   --resource-output $(APPLICATION_TEST_PATH)/resource/$(APPLICATION_NAMESPACE_PATH) \
+	   --use-setting qx.minLogLevel:700 \
+	   --use-setting qx.application:testrunner.TestLoader \
+	   --use-setting qx.theme:qx.theme.ClassicRoyale \
+	   --use-variant qx.debug:off \
+	   --copy-resources \
+	   --optimize-strings --optimize-variables \
+	   --generate-compiled-script \
+	   --compiled-script-file $(APPLICATION_TEST_PATH)/script/tests.js
 
 
 
@@ -544,3 +586,10 @@ info-debug:
 	@echo "****************************************************************************"
 	@echo "  CREATING DEBUG DATA FOR $(APPLICATION_MAKE_TITLE)"
 	@echo "****************************************************************************"
+
+info-test:
+	@echo
+	@echo "****************************************************************************"
+	@echo "  GENERATING TEST RUNNER FOR $(APPLICATION_MAKE_TITLE)"
+	@echo "****************************************************************************"
+

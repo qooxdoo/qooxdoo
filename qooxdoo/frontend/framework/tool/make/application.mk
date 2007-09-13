@@ -25,6 +25,7 @@
 
 include $(QOOXDOO_PATH)/frontend/framework/tool/make/framework.mk
 include $(QOOXDOO_PATH)/frontend/framework/tool/make/apiviewer.mk
+include $(QOOXDOO_PATH)/frontend/framework/tool/make/testrunner.mk
 
 
 
@@ -490,6 +491,16 @@ endif
 ifndef APPLICATION_PUBLISH_PATH
   APPLICATION_PUBLISH_PATH = ./publish
 endif
+ 
+#
+# The folder that will contain a unit test appliction for your classes, defined
+# from the directory which contains the Makefile (if defined relatively). This
+# is the destination folder for the "make test" target.  The default is ./test.
+#
+ifndef APPLICATION_TEST_PATH
+  APPLICATION_TEST_PATH = ./test
+endif
+ 
 
 
 
