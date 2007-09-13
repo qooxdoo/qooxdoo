@@ -14,7 +14,7 @@
 	<style type="text/css">
 	#keylogger {
 		position: absolute;
-		width: 500px;
+		width: 600px;
 		height: 500px;
 		left: 30px;
 		top: 200px;
@@ -36,7 +36,7 @@
 
   #btnClear {
     position: absolute;
-    left: 550px;
+    left: 650px;
     top: 200px;
   }
 
@@ -141,7 +141,7 @@ qx.Class.define("BasicSample",
     {
       this.base(arguments);
 
-      this.tableHead = "<table><tr><th>Target</th><th>Event</th><th>button</th><th>pageX</th><th>pageY</th><th>clientX</th><th>clientY</th><th>screenX</th><th>screenY</th><th>relatedTarget</th><th>Phase</th></tr>";
+      this.tableHead = "<table><tr><th>Target</th><th>Event</th><th>button</th><th>pageX</th><th>pageY</th><th>clientX</th><th>clientY</th><th>screenX</th><th>screenY</th><th>phase</th><th>relatedTarget</th></tr>";
   		this.keyEvents = [];
   		this.maxLogSize = 50;
   		this.logDiv = document.getElementById("keylogger");
@@ -275,9 +275,9 @@ qx.Class.define("BasicSample",
 				str.push("</td><td>");
 				str.push(e.screenY);
 				str.push("</td><td>");
-				str.push(e.relatedTarget);
-				str.push("</td><td>");
 				str.push(e.phase);
+				str.push("</td><td>");
+				str.push(e.relatedTarget);
 				str.push("</td></tr>");
 			}
 			str.push("</table>");
