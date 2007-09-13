@@ -128,7 +128,7 @@ qx.Class.define("qx.event.Manager",
       } else {
         var win = window;
       }
-
+      
       var id = qx.core.Object.toHashCode(win);
       var manager = this.__managers[id];
 
@@ -518,8 +518,10 @@ qx.Class.define("qx.event.Manager",
      *       and type. Will return null if <code>setup</code> and no entry
      *       is found.
      */
-    getListeners : function(target, type, capture) {
-      return this.__listeners[this.__generateUniqueId(target, type, capture)] || null;
+    getListeners : function(target, type, capture) 
+    {
+      var uniqueId = this.__generateUniqueId(target, type, capture);
+      return this.__listeners[uniqueId] || null;
     },
 
 
@@ -536,7 +538,8 @@ qx.Class.define("qx.event.Manager",
      */
     hasListeners : function(target, type, capture)
     {
-      var listeners = this.__listeners[this.__generateUniqueId(target, type, capture)];
+      var uniqueId = this.__generateUniqueId(target, type, capture);
+      var listeners = this.__listeners[uniqueId];
       return listeners != null && listeners.length > 0;
     },
 
@@ -562,8 +565,7 @@ qx.Class.define("qx.event.Manager",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        // In IE the window element is not instanceof Object
-        if (!(target instanceof Object) && !qx.dom.Node.isWindow(target)) {
+        if (typeof target !== "object") {
           throw new Error("Could not add listeners to non-objects!");
         }
 
@@ -602,7 +604,7 @@ qx.Class.define("qx.event.Manager",
       // Preparations
       var uniqueId = this.__generateUniqueId(target, type, capture);
       var listeners = this.__listeners[uniqueId];
-
+      
       // Create data hierarchy
       if (!listeners) {
         listeners = this.__listeners[uniqueId] = [];
@@ -676,8 +678,7 @@ qx.Class.define("qx.event.Manager",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        // In IE the window element is not instanceof Object
-        if (!(target instanceof Object) && !qx.dom.Node.isWindow(target)) {
+        if (typeof target !== "object") {
           throw new Error("Could not remove listeners from non-objects!");
         }
 
