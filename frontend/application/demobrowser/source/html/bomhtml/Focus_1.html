@@ -160,6 +160,10 @@ qx.Class.define("Gui2Test",
       if (e.getKeyIdentifier() === "Enter" || e.getKeyIdentifier() === "Escape") 
       {
         this.debug("Blur field");
+        
+        // These both should work identical
+        // qx.bom.Element.blur(e.getTarget());
+        
         e.getTarget().blur();
       } 
     }

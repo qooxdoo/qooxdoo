@@ -335,7 +335,7 @@ qx.Class.define("qx.event.handler.Focus",
 
     /*
     ---------------------------------------------------------------------------
-      ELEMENT FOCUS SUPPORT
+      ELEMENT FOCUS/BLUR SUPPORT
     ---------------------------------------------------------------------------
     */
 
@@ -360,6 +360,32 @@ qx.Class.define("qx.event.handler.Focus",
         this.setFocus(element);
       }
     },
+    
+    
+    /**
+     * Helper for native event listeners to react on element blur
+     *
+     * @type member
+     * @param element {Element} DOM element which should be blurred
+     * @return {void}
+     */
+    _doElementBlur : function(element)
+    {
+      if (element === this._document) {
+        element = this._root;
+      }
+      
+      if (element)
+      {
+        if (this.getFocus() === element) {
+          this.resetFocus(); 
+        }
+  
+        if (this.getActive() === element) {
+          this.resetActive();
+        }
+      }
+    },    
 
 
 
@@ -596,6 +622,9 @@ qx.Class.define("qx.event.handler.Focus",
           case this._root:
             this._doWindowBlur();
             break;
+            
+          default:
+            this._doElementBlur(e.target);
         }
       },
 
