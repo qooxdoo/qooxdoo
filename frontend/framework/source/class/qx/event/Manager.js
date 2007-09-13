@@ -451,6 +451,44 @@ qx.Class.define("qx.event.Manager",
 
 
     /**
+     * Returns an instance of the given handler class for this manager(window).
+     *
+     * @type member
+     * @param clazz {Class} Any class which implements {@link qx.event.IEventHandler}
+     * @return {Object} The instance used by this manager
+     */
+    getHandler : function(clazz)
+    {
+      var handler = this.__handlers[clazz.classname];
+      
+      if (handler) {
+        return handler; 
+      }
+      
+      return this.__handlers[clazz.classname] = new clazz(this);
+    },
+    
+
+    /**
+     * Returns an instance of the given dispatcher class for this manager(window).
+     *
+     * @type member
+     * @param clazz {Class} Any class which implements {@link qx.event.IEventHandler}
+     * @return {Object} The instance used by this manager
+     */
+    getDispatcher : function(clazz)
+    {
+      var dispatcher = this.__dispatchers[clazz.classname];
+      
+      if (dispatcher) {
+        return dispatcher; 
+      }
+      
+      return this.__dispatchers[clazz.classname] = new clazz(this);
+    }, 
+    
+
+    /**
      * Generates a unique ID for a combination of target, type and capturing
      *
      * @type member
@@ -462,6 +500,10 @@ qx.Class.define("qx.event.Manager",
     __generateUniqueId : function(target, type, capture) {
       return qx.core.Object.toHashCode(target) + "|" + type + (capture ? "|capture" : "|bubble");
     },
+    
+    
+   
+        
 
 
 
@@ -587,8 +629,8 @@ qx.Class.define("qx.event.Manager",
         context : self
       });
     },
-
-
+    
+    
     /**
      * This method is called each time an event listener for one of the
      * supported events is added using {qx.event.Manager#addListener}.
@@ -602,25 +644,12 @@ qx.Class.define("qx.event.Manager",
     __registerAtHandler : function(target, type)
     {
       var classes = this.self(arguments).getHandlers();
-      var instances = this.__handlers;
-      var clazz, instance;
+      var instance;
 
       for (var i=0, l=classes.length; i<l; i++)
       {
-        clazz = classes[i];
-        instance = instances[clazz.classname];
-
-        if (!instance)
-        {
-          /*
-          if (qx.core.Variant.isSet("qx.debug", "on")) {
-            console.debug("Dynamically creating handler instance: " + clazz.classname);
-          }
-          */
-
-          instance = instances[clazz.classname] = new clazz(this);
-        }
-
+        instance = this.getHandler(classes[i]);
+        
         if (instance.canHandleEvent(target, type))
         {
           instance.registerEvent(target, type);
@@ -743,18 +772,12 @@ qx.Class.define("qx.event.Manager",
     __unregisterAtHandler : function(target, type)
     {
       var classes = this.self(arguments).getHandlers();
-      var instances = this.__handlers;
-      var clazz, instance;
+      var instance;
 
       for (var i=0, l=classes.length; i<l; i++)
       {
-        clazz = classes[i];
-        instance = instances[clazz.classname];
-
-        if (!instance) {
-          continue;
-        }
-
+        instance = this.getHandler(classes[i]);
+        
         if (instance.canHandleEvent(target, type))
         {
           instance.unregisterEvent(target, type);
@@ -807,28 +830,14 @@ qx.Class.define("qx.event.Manager",
 
       // Interation data
       var classes = this.self(arguments).getDispatchers();
-      var instances = this.__dispatchers;
-      var clazz, instance;
+      var instance;
 
       // Loop through the dispatchers
       var dispatched = false;
 
       for (var i=0, l=classes.length; i<l; i++)
       {
-        clazz = classes[i];
-        instance = instances[clazz.classname];
-
-        // Create if missing
-        if (!instance)
-        {
-          /*
-          if (qx.core.Variant.isSet("qx.debug", "on")) {
-            console.debug("Dynamically creating dispatcher instance: " + clazz.classname);
-          }
-          */
-
-          instance = instances[clazz.classname] = new clazz(this);
-        }
+        instance = this.getDispatcher(classes[i]);
 
         // Ask if the dispatcher can handle this event
         if (instance.canDispatchEvent(target, event, type))
