@@ -137,7 +137,7 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
           bubbleList.push(bubbleListeners);
           bubbleTargets.push(parent);
         }
-
+      
         parent = this._getParent(parent);
       }
 
@@ -166,7 +166,7 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
       // bubbling phase
       var BUBBLE_PHASE = qx.event.type.Event.BUBBLING_PHASE;
       var AT_TARGET = qx.event.type.Event.AT_TARGET;
-
+      
       for (var i=0, l=bubbleList.length; i<l; i++)
       {
         var currentTarget = bubbleTargets[i];

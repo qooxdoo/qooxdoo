@@ -81,7 +81,7 @@ qx.Class.define("Gui2Test",
     {
       this.base(arguments);
 
-      document.body.focus();
+      // document.body.focus();
 
       qx.event.Manager.addListener(document.documentElement, "activate", this._onActivate, this, true);
       qx.event.Manager.addListener(document.documentElement, "deactivate", this._onDeactivate, this, true);
@@ -97,7 +97,7 @@ qx.Class.define("Gui2Test",
       var f1 = document.getElementById("f1");
       qx.bom.Element.addListener(f1, "keydown", this._onInputKeyDown, this);
       
-      qx.bom.Element.addListener(document.documentElement, "keydown", this._onAnyKeyDown, this);
+      qx.bom.Element.addListener(document.body, "keydown", this._onAnyKeyDown, this);
     },
     
     _onWindowFocus : function(e)

@@ -366,24 +366,16 @@ qx.Class.define("qx.event.handler.Focus",
      * Helper for native event listeners to react on element blur
      *
      * @type member
-     * @param element {Element} DOM element which should be blurred
      * @return {void}
      */
-    _doElementBlur : function(element)
+    _doElementBlur : function()
     {
-      if (element === this._document) {
-        element = this._root;
+      if (this.getFocus()) {
+        this.resetFocus(); 
       }
-      
-      if (element)
-      {
-        if (this.getFocus() === element) {
-          this.resetFocus(); 
-        }
-  
-        if (this.getActive() === element) {
-          this.resetActive();
-        }
+
+      if (this.getActive()) {
+        this.resetActive();
       }
     },    
 
@@ -451,6 +443,7 @@ qx.Class.define("qx.event.handler.Focus",
         this._onNativeFocusWrapper = qx.lang.Function.bind(this._onNativeFocus, this);
         this._onNativeBlurWrapper = qx.lang.Function.bind(this._onNativeBlur, this);
         this._onNativeFocusInWrapper = qx.lang.Function.bind(this._onNativeFocusIn, this);
+        this._onNativeFocusOutWrapper = qx.lang.Function.bind(this._onNativeFocusOut, this);
 
         // Opera 9.2 ignores the event when capturing is enabled
         this._window.addEventListener("focus", this._onNativeFocusWrapper, false);
@@ -458,6 +451,7 @@ qx.Class.define("qx.event.handler.Focus",
 
         // Opera 9.x supports DOMFocusOut which is needed to detect the element focus
         qx.event.Manager.addNativeListener(this._document, "DOMFocusIn", this._onNativeFocusInWrapper);
+        qx.event.Manager.addNativeListener(this._document, "DOMFocusOut", this._onNativeFocusOutWrapper);
       }
     }),
 
@@ -508,7 +502,9 @@ qx.Class.define("qx.event.handler.Focus",
       {
         this._window.removeEventListener("focus", this._onNativeFocusWrapper, false);
         this._window.removeEventListener("blur", this._onNativeBlurWrapper, false);
+
         qx.event.Manager.removeNativeListener(this._document, "DOMFocusIn", this._onNativeFocusInWrapper);
+        qx.event.Manager.removeNativeListener(this._document, "DOMFocusOut", this._onNativeFocusOutWrapper);
       }
     }),
 
@@ -542,12 +538,17 @@ qx.Class.define("qx.event.handler.Focus",
         }
 
         var related = e.relatedTarget || e.toElement;
-
+        
+        // var target = e.target || e.srcElement;
         // this.debug("FocusOut: " + target + " :: " + related);
 
         if (!related) {
           this._doWindowBlur();
         }
+      },
+      
+      "webkit|opera" : function(e) {
+        this._doElementBlur();
       },
 
       "default" : null
@@ -610,6 +611,8 @@ qx.Class.define("qx.event.handler.Focus",
     {
       "gecko|opera|webkit" : function(e)
       {
+        this._doElementBlur();
+        
         switch(e.target)
         {
           case null:
@@ -622,9 +625,6 @@ qx.Class.define("qx.event.handler.Focus",
           case this._root:
             this._doWindowBlur();
             break;
-            
-          default:
-            this._doElementBlur(e.target);
         }
       },
 
