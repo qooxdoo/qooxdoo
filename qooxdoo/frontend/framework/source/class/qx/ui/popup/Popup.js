@@ -54,6 +54,27 @@ qx.Class.define("qx.ui.popup.Popup",
 
     this.initHeight();
     this.initWidth();
+    
+    // if the settings are defined apply them to the restrictToPage[Left|Right|Top|Bottom] properties
+    if (qx.core.Setting.get("qx.restrictToPageLeft"))
+    {
+      this.setRestrictToPageLeft(qx.core.Setting.get("qx.restrictToPageLeft"));
+    }
+    
+    if (qx.core.Setting.get("qx.restrictToPageRight"))
+    {
+      this.setRestrictToPageRight(qx.core.Setting.get("qx.restrictToPageRight"));
+    }
+    
+    if (qx.core.Setting.get("qx.restrictToPageTop"))
+    {
+      this.setRestrictToPageTop(qx.core.Setting.get("qx.restrictToPageTop"));
+    }
+    
+    if (qx.core.Setting.get("qx.restrictToPageBottom"))
+    {
+      this.setRestrictToPageBottom(qx.core.Setting.get("qx.restrictToPageBottom"));
+    }
   },
 
 
@@ -516,8 +537,21 @@ qx.Class.define("qx.ui.popup.Popup",
   },
 
 
-
-
+  /*
+  *****************************************************************************
+     SETTINGS
+  *****************************************************************************
+  */
+  settings : 
+  {
+    "qx.restrictToPageLeft"   : null,
+    "qx.restrictToPageRight"  : null,
+    "qx.restrictToPageTop"    : null,
+    "qx.restrictToPageBottom" : null
+  },
+  
+  
+  
   /*
   *****************************************************************************
      DESTRUCTOR
