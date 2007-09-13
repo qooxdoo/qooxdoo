@@ -339,10 +339,6 @@ qx.Class.define("qx.event.Manager",
         if (!qx.Class.hasInterface(handler, qx.event.IEventHandler)) {
           throw new Error("The event handler does not implement the interface qx.event.IEventHandler!");
         }
-
-        if (window.console) {
-          console.debug("Register event handler " + handler.classname);
-        }
       }
 
       // Append to list
@@ -394,10 +390,6 @@ qx.Class.define("qx.event.Manager",
       {
         if (!qx.Class.hasInterface(dispatcher, qx.event.IEventDispatcher)) {
           throw new Error("The dispatch dispatcher does not implement the interface qx.event.IEventDispatcher!");
-        }
-
-        if (window.console) {
-          console.debug("Register event dispatcher " + dispatcher.classname);
         }
       }
 
