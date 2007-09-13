@@ -103,14 +103,33 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
     // interface implementation
     dispatchEvent : function(target, event, type)
     {
-      // TODO: I think we could optimize this. We don't really need
-      // to collect all these data when any of the targets do a
-      // stopPropagation(). Maybe we can process it incrementally instead.
-
       var parent = target;
-
       var manager = this._manager;
+      var captureListeners, bubbleListeners;
+      var localList;
+      var listener, context;
+      var currentTarget;
 
+
+      // Cache list for AT_TARGET
+      var targetList = [];
+      
+      captureListeners = manager.getListeners(target, type, true);
+      bubbleListeners = manager.getListeners(target, type, false)
+      
+      if (captureListeners) {
+        targetList.push(captureListeners);
+      }
+      
+      if (bubbleListeners) {
+        targetList.push(bubbleListeners);
+      }
+      
+      
+
+      // Cache list for CAPTURING_PHASE and BUBBLING_PHASE
+      var parent = this._getParent(target);
+      
       var bubbleList = [];
       var bubbleTargets = [];
 
@@ -120,18 +139,20 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
       // Walk up the tree and look for event listeners
       while (parent != null)
       {
-        if (parent !== target)
+        // Attention:
+        // We do not follow the DOM2 events specifications here
+        // http://www.w3.org/TR/2000/REC-DOM-Level-2-Events-20001113/events.html#Events-flow-capture
+        // Opera is the only browser which conforms to the spec.
+        // Safari and Mozilla do it the same way like qooxdoo does
+        // and add the capture events of the target to the execution list.
+        captureListeners = manager.getListeners(parent, type, true);
+        if (captureListeners)
         {
-          var captureListeners = manager.getListeners(parent, type, true);
-
-          if (captureListeners)
-          {
-            captureList.push(captureListeners);
-            captureTargets.push(parent);
-          }
+          captureList.push(captureListeners);
+          captureTargets.push(parent);
         }
 
-        var bubbleListeners = manager.getListeners(parent, type, false);
+        bubbleListeners = manager.getListeners(parent, type, false);
         if (bubbleListeners)
         {
           bubbleList.push(bubbleListeners);
@@ -141,49 +162,65 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
         parent = this._getParent(parent);
       }
 
-      // capturing phase
-      event.setEventPhase(qx.event.type.Event.CAPTURING_PHASE);
 
-      for (var i=(captureList.length-1); i>=0; i--)
+      // capturing phase
+      // loop through the hierarchy in reverted order (from root)
+      event.setEventPhase(qx.event.type.Event.CAPTURING_PHASE);
+      for (var i=captureList.length-1; i>=0; i--)
       {
-        var currentTarget = captureTargets[i]
+        currentTarget = captureTargets[i]
         event.setCurrentTarget(currentTarget);
 
-        var captureListLength = captureList[i].length;
-        for (var j=0; j<captureListLength; j++)
+        localList = captureList[i];
+        for (var j=0, jl=localList.length; j<jl; j++)
         {
-          var callbackData = captureList[i][j];
-          var context = callbackData.context || currentTarget;
-          callbackData.handler.call(context, event);
+          listener = localList[j];
+          context = listener.context || currentTarget;
+          
+          listener.handler.call(context, event);
         }
 
         if (event.getPropagationStopped()) {
           return;
         }
       }
-
+      
+      
+      // at target
+      event.setEventPhase(qx.event.type.Event.AT_TARGET);
+      event.setCurrentTarget(target);
+      for (var i=0, il=targetList.length; i<il; i++)
+      {
+        localList = targetList[i];
+        for (var j=0, jl=localList.length; j<jl; j++)
+        {
+          listener = localList[j];
+          context = listener.context || target;
+          
+          listener.handler.call(context, event);
+        } 
+       
+        if (event.getPropagationStopped()) {
+          return;
+        }              
+      }      
+      
 
       // bubbling phase
-      var BUBBLE_PHASE = qx.event.type.Event.BUBBLING_PHASE;
-      var AT_TARGET = qx.event.type.Event.AT_TARGET;
-      
-      for (var i=0, l=bubbleList.length; i<l; i++)
+      // loop through the hierarchy in normal order (to root)
+      event.setEventPhase(qx.event.type.Event.BUBBLING_PHASE);      
+      for (var i=0, il=bubbleList.length; i<il; i++)
       {
-        var currentTarget = bubbleTargets[i];
+        currentTarget = bubbleTargets[i];
         event.setCurrentTarget(currentTarget);
 
-        if (bubbleTargets[i] == target) {
-          event.setEventPhase(AT_TARGET);
-        } else {
-          event.setEventPhase(BUBBLE_PHASE);
-        }
-
-        var bubbleListLength = bubbleList[i].length;
-        for (var j=0; j<bubbleListLength; j++)
+        localList = bubbleList[i];
+        for (var j=0, jl=localList.length; j<jl; j++)
         {
-          var callbackData = bubbleList[i][j];
-          var context = callbackData.context || currentTarget;
-          callbackData.handler.call(context, event);
+          listener = localList[j];
+          context = listener.context || currentTarget;
+          
+          listener.handler.call(context, event);
         }
 
         if (event.getPropagationStopped()) {
