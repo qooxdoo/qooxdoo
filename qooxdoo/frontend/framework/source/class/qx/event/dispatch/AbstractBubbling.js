@@ -26,8 +26,6 @@
 
 /**
  * Event dispatcher for all bubbling events.
- *
- * @internal
  */
 qx.Class.define("qx.event.dispatch.AbstractBubbling",
 {

@@ -26,8 +26,6 @@
 
 /**
  * Event dispatcher for all bubbling events on DOM elements.
- *
- * @internal
  */
 qx.Class.define("qx.event.dispatch.DomBubbling",
 {
