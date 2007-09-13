@@ -451,23 +451,18 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       if (this._list)
       {
         this._list.getTableModel().setData(data);
-
-        // Try to preserve currently selected value
-        if (!this.getEditable())
-        {
-          if (newValue != null && newValue != this.getValue()) {
-            this.setValue(newValue);
-          }
-          else
-          {
-            // Checks if the value is in the list, and recalculates the selected index
-            this._applyValue(this.getValue());
-          }
-        }
       }
-      else
+      // Try to preserve currently selected value
+      if (!this.getEditable())
       {
-        this.setValue(newValue != null ? newValue:this.getValue());
+        if (newValue != null && newValue != this.getValue()) {
+          this.setValue(newValue);
+        }
+        else
+        {
+          // Checks if the value is in the list, and recalculates the selected index
+          this._applyValue(this.getValue());
+        }
       }
     },
 
@@ -518,6 +513,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
         else
         {
           this._manager && this._manager.clearSelection();
+          this._onChangeSelection(index);
         }
       }
     },
@@ -1243,9 +1239,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
         {
           var index = typeof e == 'number' ? e:this.getSelectedIndex();
 
-          if (index >= 0) {
-            var row = this.getSelection()[index];
-          }
+          var row = index >= 0 ? this.getSelection()[index]:null;
 
           if (row || !this.getEditable()) {
             this.setValue(row && row[0]);
