@@ -273,10 +273,15 @@ qx.Class.define("qx.ui.popup.Popup",
         var doc = qx.ui.core.ClientDocument.getInstance();
         var docWidth = doc.getClientWidth();
         var docHeight = doc.getClientHeight();
-        var restrictToPageLeft = this.getRestrictToPageLeft();
-        var restrictToPageRight = this.getRestrictToPageRight();
-        var restrictToPageTop = this.getRestrictToPageTop();
-        var restrictToPageBottom = this.getRestrictToPageBottom();
+
+        var scroolTop = qx.bom.getScrollTop();
+        var scroolLeft = qx.bom.getScrollLeft();
+
+        var restrictToPageLeft = this.getRestrictToPageLeft() + offsetLeft;
+        var restrictToPageRight = this.getRestrictToPageRight() - offsetLeft;
+        var restrictToPageTop = this.getRestrictToPageTop() + offsetTop;
+        var restrictToPageBottom = this.getRestrictToPageBottom() - offsetTop;
+
         var left = (this._wantedLeft == null) ? this.getLeft() : this._wantedLeft;
         var top = this.getTop();
         var width = this.getBoxWidth();
