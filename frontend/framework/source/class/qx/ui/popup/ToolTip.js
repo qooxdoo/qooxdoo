@@ -249,10 +249,10 @@ qx.Class.define("qx.ui.popup.ToolTip",
         var doc = qx.ui.core.ClientDocument.getInstance();
         var docWidth = doc.getClientWidth();
         var docHeight = doc.getClientHeight();
-        var restrictToPageLeft   = parseInt(this._restrictToPageLeft);
-        var restrictToPageRight  = parseInt(this._restrictToPageRight);
-        var restrictToPageTop    = parseInt(this._restrictToPageTop);
-        var restrictToPageBottom = parseInt(this._restrictToPageBottom);
+        var restrictToPageLeft   = parseInt(this.getRestrictToPageLeft());
+        var restrictToPageRight  = parseInt(this.getRestrictToPageRight());
+        var restrictToPageTop    = parseInt(this.getRestrictToPageTop());
+        var restrictToPageBottom = parseInt(this.getRestrictToPageBottom());
         var left   = (this._wantedLeft == null) ? this.getLeft() : this._wantedLeft;
         var top    = this.getTop();
         var width  = this.getBoxWidth();
