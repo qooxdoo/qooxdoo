@@ -199,6 +199,25 @@ qx.Class.define("qx.ui.table.pane.Scroller",
   *****************************************************************************
   */
 
+  events :
+  {
+    /** Dispatched if the pane is scolled horizontally */
+    "changeScrollY" : "qx.event.type.ChangeEvent",
+
+    /** Dispatched if the pane is scrolled vertically */
+    "changeScrollX" : "qx.event.type.ChangeEvent"
+  },
+
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
   properties :
   {
 
@@ -226,24 +245,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       check : "qx.ui.table.pane.Model",
       apply : "_applyTablePaneModel",
       event : "changeTablePaneModel"
-    },
-
-    /** The current position of the the horizontal scroll bar. */
-    scrollX :
-    {
-      check : "Number",
-      init : 0,
-      apply : "_applyScrollX",
-      event : "changeScrollX"
-    },
-
-    /** The current position of the the vertical scroll bar. */
-    scrollY :
-    {
-      check : "Number",
-      init : 0,
-      apply : "_applyScrollY",
-      event : "changeScrollY"
     },
 
 
@@ -318,13 +319,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
   members :
   {
     // property modifier
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
     _applyHorizontalScrollBarVisible : function(value, old)
     {
       // Workaround: We can't use setDisplay, because the scroll bar needs its
@@ -340,14 +334,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       this._updateContent();
     },
 
+
     // property modifier
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
     _applyVerticalScrollBarVisible : function(value, old)
     {
       // Workaround: See _applyHorizontalScrollBarVisible
@@ -364,14 +352,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       this._spacer.setWidth(scrollBarWidth);
     },
 
+
     // property modifier
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
     _applyTablePaneModel : function(value, old)
     {
       if (old != null) {
@@ -381,39 +363,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       value.addEventListener("modelChanged", this._onPaneModelChanged, this);
     },
 
-    // property modifier
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
-    _applyScrollX : function(value, old) {
-      this._horScrollBar.setValue(value);
-    },
 
     // property modifier
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
-    _applyScrollY : function(value, old) {
-      this._verScrollBar.setValue(value);
-    },
-
-
-    // property modifier
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
     _applyShowCellFocusIndicator : function(value, old) {
       this._showCellFocusIndicator = value;
 
@@ -425,6 +376,55 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           this._focusIndicator.hide();
         }
       }
+    },
+
+
+    /**
+     * Get the current position of the vertical scroll bar.
+     *
+     * @return {Integer} The current scroll position.
+     */
+    getScrollY : function() {
+      return this._verScrollBar.getValue();
+    },
+
+
+    /**
+     * Set the current position of the vertical scroll bar.
+     *
+     * @param scrollY {Integer} The new scroll position.
+     * @param renderSync {Boolean?false} Whether the table update should be
+     *     performed synchonously.
+     */
+    setScrollY : function(scrollY, renderSync)
+    {
+      this._ignoreScrollYEvent = renderSync;
+      this._verScrollBar.setValue(scrollY);
+      if (renderSync) {
+        this._updateContent()
+      }
+      this._ignoreScrollYEvent = false;
+    },
+
+
+    /**
+     * Get the current position of the vertical scroll bar.
+     *
+     * @return {Integer} The current scroll position.
+     */
+    getScrollX : function() {
+      return this._horScrollBar.getValue();
+    },
+
+
+    /**
+     * Set the current position of the vertical scroll bar.
+     *
+     * @return scrollX {Integer} The new scroll position.
+     */
+    setScrollX : function(scrollX)
+    {
+      this._horScrollBar.setValue(scrollX);
     },
 
 
@@ -662,6 +662,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _onScrollX : function(evt)
     {
+      // propagate scroll event
+      var changeEvent = evt.clone();
+      changeEvent.setType("changeScrollX");
+      this.dispatchEvent(changeEvent);
       var scrollLeft = evt.getValue();
 
       // Workaround: See _updateContent
@@ -671,7 +675,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       //
       this._paneClipper.__scrollLeft = scrollLeft;
       this._paneClipper.setScrollLeft(scrollLeft);
-      this.setScrollX(scrollLeft);
     },
 
 
@@ -684,8 +687,12 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _onScrollY : function(evt)
     {
+      // propagate scroll event
+      var changeEvent = evt.clone();
+      changeEvent.setType("changeScrollY");
+      this.dispatchEvent(changeEvent);
+
       this._postponedUpdateContent();
-      this.setScrollY(evt.getValue());
     },
 
 
@@ -1156,12 +1163,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         return;
       }
 
-      /*
-      // Workaround: See _onmousemove
-      this._lastMousePageX = null;
-      this._lastMousePageY = null;
-      */
-
       // Reset the resize cursor when the mouse leaves the header
       // If currently a column is resized then do nothing
       // (the cursor will be reset on mouseup)
@@ -1386,7 +1387,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         }
 
         var maxScrollY = rowTop;
-        this.setScrollY(Math.max(minScrollY, Math.min(maxScrollY, scrollY)));
+        this.setScrollY(Math.max(minScrollY, Math.min(maxScrollY, scrollY)), true);
       }
     },
 
@@ -1560,30 +1561,31 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           // Defer the actual disposing of the cell editor briefly, as there
           // may be more accesses to it for a short while after we leave this
           // function.
-          qx.event.Timer.once(function()
-                               {
-                                 var d =
-                                   qx.ui.core.ClientDocument.getInstance();
-                                 d.remove(this._cellEditor);
-                                 this._cellEditor.removeEventListener(
-                                   "disappear",
-                                   _onCellEditorModalWindowClose,
-                                   this);
-                                 this._cellEditor.dispose();
-                                 this._cellEditor = null;
-                                 this._cellEditorFactory = null;
-                               },
-                               this,
-                               0);
+          qx.event.Timer.once(function() {
+            var d =
+              qx.ui.core.ClientDocument.getInstance();
+            d.remove(this._cellEditor);
+            this._cellEditor.removeEventListener(
+              "disappear",
+              _onCellEditorModalWindowClose,
+              this);
+            this._cellEditor.dispose();
+            this._cellEditor = null;
+            this._cellEditorFactory = null;
+          },
+          this, 0);
+
           this._cellEditor.pendingDispose = true;
         }
         else
         {
           this._focusIndicator.remove(this._cellEditor);
           this._focusIndicator.removeState("editing");
-          this._cellEditor.removeEventListener("changeFocused",
-                                               this._onCellEditorFocusChanged,
-                                               this);
+          this._cellEditor.removeEventListener(
+            "changeFocused",
+            this._onCellEditorFocusChanged,
+            this
+          );
           this._cellEditor.dispose();
           this._cellEditor = null;
           this._cellEditorFactory = null;
