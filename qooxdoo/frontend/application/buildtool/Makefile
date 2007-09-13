@@ -21,25 +21,15 @@
 # BASIC SETTINGS
 ####################################################################################
 
-QOOXDOO_PATH = ../../../qooxdoo.legacy_0_7_x
-QOOXDOO_URI = ../$(QOOXDOO_PATH)
-QOOXDOO_VERSION = 0.7.2
+QOOXDOO_PATH = ../../..
 
 APPLICATION_NAMESPACE = qxadmin
-APPLICATION_CLASSNAME = Application
-APPLICATION_MAKE_TITLE = QxAdmin
-APPLICATION_API_TITLE = QxAdmin
 APPLICATION_FILES = index.html help_overview.html
-APPLICATION_RESOURCE_FILTER = true
-APPLICATION_LINEBREAKS_BUILD = true
-APPLICATION_LINEBREAKS_SOURCE = true
-APPLICATION_COMPLETE_BUILD = false
 APPLICATION_COMPLETE_SOURCE = true
-APPLICATION_BUILD_LOG_LEVEL = error
 
 #APPLICATION_ADDITIONAL_SOURCE_OPTIONS = --include $(APPLICATION_NAMESPACE).*
-QOOXDOO_CONTRIB_PATH = ../..
-APPLICATION_INCLUDES = $(QOOXDOO_CONTRIB_PATH)/Inspector/trunk
+#QOOXDOO_CONTRIB_PATH = ../..
+#APPLICATION_INCLUDES = $(QOOXDOO_CONTRIB_PATH)/Inspector/trunk
 ####################################################################################
 # INTERNALS (PLEASE DO NOT CHANGE)
 ####################################################################################
