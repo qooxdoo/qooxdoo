@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo framework\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-09-11 21:03+0200\n"
+"POT-Creation-Date: 2007-09-13 16:12+0200\n"
 "PO-Revision-Date: 2006-12-18 14:30+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -296,18 +296,18 @@ msgstr ""
 msgid "ID"
 msgstr ""
 
-#: class/qx/ui/form/ComboBoxEx.js:957
+#: class/qx/ui/form/ComboBoxEx.js:953
 msgid "Search"
 msgstr ""
 
-#: class/qx/ui/form/ComboBoxEx.js:1073
+#: class/qx/ui/form/ComboBoxEx.js:1069
 msgid "Case sensitive"
 msgstr ""
 
-#: class/qx/ui/form/ComboBoxEx.js:1115
+#: class/qx/ui/form/ComboBoxEx.js:1111
 msgid "Search next occurrence"
 msgstr ""
 
-#: class/qx/ui/form/ComboBoxEx.js:1159
+#: class/qx/ui/form/ComboBoxEx.js:1155
 msgid "Search items in list"
 msgstr ""
