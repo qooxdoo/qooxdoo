@@ -96,6 +96,8 @@ qx.Class.define("Gui2Test",
       
       var f1 = document.getElementById("f1");
       qx.bom.Element.addListener(f1, "keydown", this._onInputKeyDown, this);
+      
+      qx.bom.Element.addListener(document.documentElement, "keydown", this._onAnyKeyDown, this);
     },
     
     _onWindowFocus : function(e)
@@ -156,7 +158,7 @@ qx.Class.define("Gui2Test",
     
     _onInputKeyDown : function(e)
     {
-      this.debug("Pressed: " + e.getKeyIdentifier());
+      this.debug("Input-Field: " + e.getKeyIdentifier());
       if (e.getKeyIdentifier() === "Enter" || e.getKeyIdentifier() === "Escape") 
       {
         this.debug("Blur field");
@@ -166,6 +168,12 @@ qx.Class.define("Gui2Test",
         
         e.getTarget().blur();
       } 
+    },
+    
+    _onAnyKeyDown : function(e)
+    {
+      this.debug("Key-Action on " + e.getTarget() + " [" + e.getKeyIdentifier() + "]");
+       
     }
   }
 });

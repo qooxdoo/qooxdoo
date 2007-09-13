@@ -181,7 +181,11 @@ qx.Class.define("qx.event.handler.Keyboard",
     _fireInputEvent : function(domEvent, charCode)
     {
       var event = qx.event.Manager.createEvent(qx.event.type.KeyInput, [domEvent, charCode]);
-      this._manager.dispatchEvent(domEvent.target || domEvent.srcElement, event);
+      var target = this._manager.getHandler(qx.event.handler.Focus).getActive();
+      
+      if (target) {
+        this._manager.dispatchEvent(target, event);
+      }
     },
 
 
@@ -195,7 +199,11 @@ qx.Class.define("qx.event.handler.Keyboard",
     _fireSequenceEvent : function(domEvent, type, keyIdentifier)
     {
       var event = qx.event.Manager.createEvent(qx.event.type.KeySequence, [domEvent, type, keyIdentifier]);
-      this._manager.dispatchEvent(domEvent.target || domEvent.srcElement, event);
+      var target = this._manager.getHandler(qx.event.handler.Focus).getActive();
+
+      if (target) {
+        this._manager.dispatchEvent(target, event);
+      }
     },
 
 
