@@ -25,8 +25,6 @@
 
 /**
  * Dispatches events directly on the event target (no bubbling nor capturing).
- *
- * @internal
  */
 qx.Class.define("qx.event.dispatch.Direct",
 {
