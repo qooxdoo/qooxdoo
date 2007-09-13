@@ -22,10 +22,7 @@
 #module(bom)
 
 #require(qx.event.dispatch.Direct)
-#require(qx.event.dispatch.MouseCapture)
 #require(qx.event.dispatch.DomBubbling)
-
-#require(qx.event.handler.Focus)
 #require(qx.event.handler.Keyboard)
 #require(qx.event.handler.Mouse)
 
@@ -50,7 +47,8 @@ qx.Class.define("qx.bom.Element",
     ---------------------------------------------------------------------------
     */
 
-    __specialAttributes :
+    /** {Map} A list of all attributes which needs to be part of the initial element to work correctly */
+    __initialAttributes :
     {
       "onload" : true,
       "name" : true,
@@ -81,12 +79,12 @@ qx.Class.define("qx.bom.Element",
         throw new Error("The tag name is missing!");
       }
 
-      var special = this.__specialAttributes;
+      var initial = this.__initialAttributes;
       var attributesHtml = "";
 
       for (var key in attributes)
       {
-        if (special[key]) {
+        if (initial[key]) {
           attributesHtml += key + "='" + attributes[key] + "' ";
         }
       }
@@ -124,7 +122,7 @@ qx.Class.define("qx.bom.Element",
 
       for (var key in attributes)
       {
-        if (!special[key]) {
+        if (!initial[key]) {
           qx.bom.element.Attribute.set(element, key, attributes[key]);
         }
       }
@@ -189,6 +187,7 @@ qx.Class.define("qx.bom.Element",
      * Check whether there are one or more listeners for an event type
      * registered at the element.
      *
+     * @type static
      * @param element {Element} DOM element
      * @param type {String} The event type
      * @param capture {Boolean ? false} Whether to check for listeners of
@@ -197,6 +196,78 @@ qx.Class.define("qx.bom.Element",
      */
     hasListeners : function(element, type, capture) {
       return qx.event.Manager.getManager(element).hasListeners(element, type, capture);
+    },
+    
+    
+    /**
+     * Focusses the given element. The element needs to have a positive <code>tabIndex</code> value.
+     *
+     * @type static
+     * @param element {Element} DOM element to focus
+     * @return {void}
+     */
+    focus : function(element) {
+      qx.event.Manager.getManager(element).getHandler(qx.event.handler.Focus).focus(element);
+    },
+    
+    
+    /**
+     * Blurs the given element
+     *
+     * @type static
+     * @param element {Element} DOM element to blur
+     * @return {void}
+     */
+    blur : function(element) {
+      qx.event.Manager.getManager(element).getHandler(qx.event.handler.Focus).blur(element);
+    },
+    
+    
+    /**
+     * Activates the given element. The active element receives all key board events.
+     *
+     * @type static
+     * @param element {Element} DOM element to focus
+     * @return {void}
+     */
+    activate : function(element) {
+      qx.event.Manager.getManager(element).getHandler(qx.event.handler.Focus).activate(element);
+    },
+    
+    
+    /**
+     * Deactivates the given element. The active element receives all key board events.
+     *
+     * @type static
+     * @param element {Element} DOM element to focus
+     * @return {void}
+     */
+    deactivate : function(element) {
+      qx.event.Manager.getManager(element).getHandler(qx.event.handler.Focus).deactivate(element);
+    },        
+    
+    
+    /**
+     * Captures the given element
+     *
+     * @type static
+     * @param element {Element} DOM element to capture
+     * @return {void}
+     */
+    capture : function(element) {
+      qx.event.Manager.getManager(element).getDispatcher(qx.event.dispatch.MouseCapture).activateCapture(element);
+    },
+    
+
+    /**
+     * Releases the given element (from a previous {@link #capture} call)
+     *
+     * @type static
+     * @param element {Element} DOM element to release
+     * @return {void}
+     */
+    release : function(element) {
+      qx.event.Manager.getManager(element).getDispatcher(qx.event.dispatch.MouseCapture).releaseCapture(element);
     }
   }
 });
