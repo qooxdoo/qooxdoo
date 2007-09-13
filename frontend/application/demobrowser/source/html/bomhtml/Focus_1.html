@@ -71,9 +71,9 @@ appender.setElement(document.getElementById("log"));
 qx.log.Logger.ROOT_LOGGER.removeAllAppenders();
 qx.log.Logger.ROOT_LOGGER.addAppender(appender);
 
-qx.Class.define("Gui2Test",
+qx.Class.define("BasicSample",
 {
-  extend : qx.application.Gui2,
+  extend : qx.application.Basic,
 
   members :
   {
@@ -178,7 +178,7 @@ qx.Class.define("Gui2Test",
   }
 });
 
-qx.core.Init.getInstance().setApplication(new Gui2Test);
+qx.core.Init.getInstance().setApplication(new BasicSample);
   </script>
 </body>
 </html>

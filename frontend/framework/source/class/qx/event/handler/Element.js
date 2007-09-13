@@ -89,15 +89,8 @@ qx.Class.define("qx.event.handler.Element",
     */
 
     // interface implementation
-    canHandleEvent : function(target, type)
-    {
-      return (
-        (this._eventTypes[type]) &&
-        (
-          typeof(target.nodeType) === "number" ||
-          typeof(target.document) === "object"
-        )
-      );
+    canHandleEvent : function(target, type) {
+      return this._eventTypes[type] && target.nodeType !== undefined;
     },
 
 
