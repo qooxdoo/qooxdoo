@@ -16,8 +16,8 @@
       background: white;
     }
 
-    body, div, span, h1, input, textarea, iframe {
-      border : 2px solid black;
+    body, div, span, h1, iframe, input, textarea {
+      border : 1px solid black;
     }
 
     body, div {
@@ -38,7 +38,7 @@
   <div id="log" style="height:200px;overflow:auto">
   </div>
 
-  <h1>TabIndex</h1>
+  <h1 id="h1">TabIndex</h1>
   <div id="hello" tabIndex="0">
     <div id="bar">
       <div id="foo" tabIndex="0">
@@ -53,14 +53,14 @@
     </div>
   </div>
 
-  <h1>Fields</h1>
-  <input type="text" value="text field"></input>
+  <h1 id="h2">Fields</h1>
+  <input id="f1" type="text" value="text field"></input>
   <textarea>hello</textarea>
   <input type="checkbox" id="chk1"/><label for="chk1">Check 1</label>
   <input type="radio" id="rd1"/><label for="rd1">Radio 1</label>
   <input type="radio" id="rd2"/><label for="rd2">Radio 2</label>
 
-  <h1>Iframe</h1>
+  <h1 id="h3">Iframe</h1>
   <iframe src="Empty_1.html" style="width:200px;height:100px">
   </iframe>
 
@@ -73,7 +73,7 @@ qx.log.Logger.ROOT_LOGGER.addAppender(appender);
 
 qx.Class.define("Gui2Test",
 {
-  extend : qx.application.Gui,
+  extend : qx.application.Gui2,
 
   members :
   {
@@ -90,6 +90,12 @@ qx.Class.define("Gui2Test",
       
       qx.event.Manager.addListener(window, "focus", this._onWindowFocus, this);
       qx.event.Manager.addListener(window, "blur", this._onWindowBlur, this);
+      
+      var h2 = document.getElementById("h2");
+      qx.bom.Element.addListener(h2, "mouseup", this._onHeaderMouseUp, this);
+      
+      var f1 = document.getElementById("f1");
+      qx.bom.Element.addListener(f1, "keydown", this._onInputKeyDown, this);
     },
     
     _onWindowFocus : function(e)
@@ -105,25 +111,57 @@ qx.Class.define("Gui2Test",
     _onActivate : function(e) 
     {
       this.debug("Activate: " + e.getTarget());      
-      e.getTarget().style.borderColor = "red";
+      e.getTarget().style.background = "#E8ECF6";
     },
     
     _onDeactivate : function(e) 
     {
       this.debug("Deactivate: " + e.getTarget());
-      e.getTarget().style.borderColor = "black";
+      e.getTarget().style.background = "";
     },
     
     _onFocusIn : function(e) 
     {
       this.debug("FocusIn: " + e.getTarget());
-      e.getTarget().style.backgroundColor = "#aeaeae";
+      
+      if (qx.bom.client.Engine.MSHTML) 
+      {
+        e.getTarget().style.border = "1px dotted black";
+      }
+      else 
+      {
+        e.getTarget().style.outline = "1px dotted black";
+      }
     },
     
     _onFocusOut : function(e) 
     {
       this.debug("FocusOut: " + e.getTarget());
-      e.getTarget().style.backgroundColor = "";
+
+      if (qx.bom.client.Engine.MSHTML) {
+        e.getTarget().style.border = "1px solid black";
+      } else {
+        e.getTarget().style.outline = "";
+      }
+    },
+    
+    _onHeaderMouseUp : function(e)
+    {
+      var f1 = document.getElementById("f1");
+      
+      // These both should work identical
+      // qx.bom.Element.focus(f1); 
+      f1.focus();
+    },
+    
+    _onInputKeyDown : function(e)
+    {
+      this.debug("Pressed: " + e.getKeyIdentifier());
+      if (e.getKeyIdentifier() === "Enter" || e.getKeyIdentifier() === "Escape") 
+      {
+        this.debug("Blur field");
+        e.getTarget().blur();
+      } 
     }
   }
 });
