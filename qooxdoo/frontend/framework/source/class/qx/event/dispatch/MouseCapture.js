@@ -235,6 +235,6 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
   */
 
   defer : function(statics) {
-    qx.event.Manager.addDispatcher(statics);
+    qx.event.Registration.addDispatcher(statics);
   }
 });

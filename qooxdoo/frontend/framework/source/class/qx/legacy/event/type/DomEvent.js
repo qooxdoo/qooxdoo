@@ -26,7 +26,7 @@
 
 qx.Class.define("qx.legacy.event.type.DomEvent",
 {
-  extend : qx.legacy.event.type.Event,
+  extend : qx.event.type.Event,
 
 
 

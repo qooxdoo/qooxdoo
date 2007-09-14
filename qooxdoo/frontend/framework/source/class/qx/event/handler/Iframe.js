@@ -58,7 +58,7 @@ qx.Class.define("qx.event.handler.Iframe",
      */
     onevent : function(type, target)
     {
-      var manager = qx.event.Manager.getManager(target);
+      var manager = qx.event.Registration.getManager(target);
       manager.fireEvent(target, qx.event.type.Event, [type, false]);
     }
   },
@@ -112,6 +112,6 @@ qx.Class.define("qx.event.handler.Iframe",
   */
 
   defer : function(statics) {
-    qx.event.Manager.addHandler(statics);
+    qx.event.Registration.addHandler(statics);
   }
 });

@@ -174,9 +174,9 @@ qx.Class.define("qx.event.Command",
     _applyEnabled : function(value, old)
     {
       if (value) {
-        qx.event.Manager.addListener(document.documentElement, "keydown", this.__onKeyPress, this);
+        qx.event.Registration.addListener(document.documentElement, "keydown", this.__onKeyPress, this);
       } else {
-        qx.event.Manager.removeListener(document.documentElement, "keydown", this.__onKeyPress, this);
+        qx.event.Registration.removeListener(document.documentElement, "keydown", this.__onKeyPress, this);
       }
     },
 

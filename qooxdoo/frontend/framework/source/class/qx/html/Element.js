@@ -1504,7 +1504,7 @@ qx.Class.define("qx.html.Element",
     {
       if (this._element)
       {
-        qx.event.Manager.addListener(this._element, type, listener, self, capture);
+        qx.event.Registration.addListener(this._element, type, listener, self, capture);
       }
       else
       {
@@ -1544,7 +1544,7 @@ qx.Class.define("qx.html.Element",
     {
       if (this._element)
       {
-        qx.event.Manager.removeListener(this._element, type, listener, self, capture);
+        qx.event.Registration.removeListener(this._element, type, listener, self, capture);
       }
       else
       {

@@ -83,13 +83,13 @@ qx.Class.define("BasicSample",
 
       // document.body.focus();
 
-      qx.event.Manager.addListener(document.documentElement, "activate", this._onActivate, this, true);
-      qx.event.Manager.addListener(document.documentElement, "deactivate", this._onDeactivate, this, true);
-      qx.event.Manager.addListener(document.documentElement, "focusin", this._onFocusIn, this);
-      qx.event.Manager.addListener(document.documentElement, "focusout", this._onFocusOut, this);
+      qx.event.Registration.addListener(document.documentElement, "activate", this._onActivate, this, true);
+      qx.event.Registration.addListener(document.documentElement, "deactivate", this._onDeactivate, this, true);
+      qx.event.Registration.addListener(document.documentElement, "focusin", this._onFocusIn, this);
+      qx.event.Registration.addListener(document.documentElement, "focusout", this._onFocusOut, this);
       
-      qx.event.Manager.addListener(window, "focus", this._onWindowFocus, this);
-      qx.event.Manager.addListener(window, "blur", this._onWindowBlur, this);
+      qx.event.Registration.addListener(window, "focus", this._onWindowFocus, this);
+      qx.event.Registration.addListener(window, "blur", this._onWindowBlur, this);
       
       var h2 = document.getElementById("h2");
       qx.bom.Element.addListener(h2, "mouseup", this._onHeaderMouseUp, this);

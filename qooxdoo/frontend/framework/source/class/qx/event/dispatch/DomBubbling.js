@@ -96,6 +96,6 @@ qx.Class.define("qx.event.dispatch.DomBubbling",
   */
 
   defer : function(statics) {
-    qx.event.Manager.addDispatcher(statics);
+    qx.event.Registration.addDispatcher(statics);
   }
 });

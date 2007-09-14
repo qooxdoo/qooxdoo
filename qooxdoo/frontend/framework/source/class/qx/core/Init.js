@@ -59,9 +59,9 @@ qx.Class.define("qx.core.Init",
     this.base(arguments);
 
     // Attach DOM events
-    qx.event.Manager.addListener(window, "load", this._onload, this);
-    qx.event.Manager.addListener(window, "beforeunload", this._onbeforeunload, this);
-    qx.event.Manager.addListener(window, "unload", this._onunload, this);
+    qx.event.Registration.addListener(window, "load", this._onload, this);
+    qx.event.Registration.addListener(window, "beforeunload", this._onbeforeunload, this);
+    qx.event.Registration.addListener(window, "unload", this._onunload, this);
   },
 
 

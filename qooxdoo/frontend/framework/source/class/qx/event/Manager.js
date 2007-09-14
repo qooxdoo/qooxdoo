@@ -78,7 +78,7 @@ qx.Class.define("qx.event.Manager",
 
     // Register to the page unload event
     this.__disposeWrapper = qx.lang.Function.bind(this.dispose, this);
-    qx.event.Manager.addNativeListener(this.__window, "unload", this.__disposeWrapper);
+    qx.event.Registration.addNativeListener(this.__window, "unload", this.__disposeWrapper);
 
     // Registry for event listeners
     this.__listeners = {};
@@ -567,7 +567,7 @@ qx.Class.define("qx.event.Manager",
      */
     fireEvent : function(target, clazz, args)
     {
-      var event = qx.event.Manager.createEvent(clazz, args);
+      var event = qx.event.Registration.createEvent(clazz, args);
       this.dispatchEvent(target, event);
     }
   },
@@ -584,7 +584,7 @@ qx.Class.define("qx.event.Manager",
   destruct : function()
   {
     // Remove own unload listener
-    qx.event.Manager.removeNativeListener(this.__window, "unload", this.__disposeWrapper);
+    qx.event.Registration.removeNativeListener(this.__window, "unload", this.__disposeWrapper);
 
     // Remove from manager list
     var id = qx.core.Object.toHashCode(this.getWindow());

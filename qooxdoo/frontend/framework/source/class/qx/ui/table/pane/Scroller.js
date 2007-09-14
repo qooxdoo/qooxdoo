@@ -202,13 +202,13 @@ qx.Class.define("qx.ui.table.pane.Scroller",
   events :
   {
     /** Dispatched if the pane is scolled horizontally */
-    "changeScrollY" : "qx.event.type.ChangeEvent",
+    "changeScrollY" : "qx.event.type.Change",
 
     /** Dispatched if the pane is scrolled vertically */
-    "changeScrollX" : "qx.event.type.ChangeEvent",
+    "changeScrollX" : "qx.event.type.Change"
 
     /** Dispatched if the user double clicks on a table row */
-    "rowdblclick" : "qx.event.type.DataEvent"
+    "rowdblclick" : "qx.event.type.Data"
   },
 
 

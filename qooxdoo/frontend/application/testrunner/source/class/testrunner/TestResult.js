@@ -91,7 +91,7 @@ qx.Class.define("testrunner.TestResult",
       {
         var error = true;
 
-        if (e.classname == "testrunner.AssertionError") {
+        if (e.classname == "qx.dev.unit.AssertionError") {
           this.__createError("failure", e, test);
         } else {
           this.__createError("error", e, test);

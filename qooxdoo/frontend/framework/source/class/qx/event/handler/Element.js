@@ -100,7 +100,7 @@ qx.Class.define("qx.event.handler.Element",
       var elementId = qx.core.Object.toHashCode(target);
       var listener = qx.lang.Function.bind(this._onNative, this, false, [elementId]);
 
-      qx.event.Manager.addNativeListener(target, type, listener);
+      qx.event.Registration.addNativeListener(target, type, listener);
 
       var id = elementId + type;
 
@@ -119,7 +119,7 @@ qx.Class.define("qx.event.handler.Element",
       var id = qx.core.Object.toHashCode(target) + type;
 
       var eventData = this._registeredEvents[id];
-      qx.event.Manager.removeNativeListener(target, type, eventData.listener);
+      qx.event.Registration.removeNativeListener(target, type, eventData.listener);
 
       delete this._registeredEvents[id];
     },
@@ -168,7 +168,7 @@ qx.Class.define("qx.event.handler.Element",
      */
     _onNative : function(elementId, domEvent)
     {
-      var event = qx.event.Manager.createEvent(qx.event.type.Dom, [domEvent]);
+      var event = qx.event.Registration.createEvent(qx.event.type.Dom, [domEvent]);
       event.setBubbles(false);
 
       var eventData = this._registeredEvents[elementId + event.getType()];
@@ -196,7 +196,7 @@ qx.Class.define("qx.event.handler.Element",
     {
       var eventData = this._registeredEvents[id];
 
-      qx.event.Manager.removeNativeListener(
+      qx.event.Registration.removeNativeListener(
         eventData.element,
         eventData.type,
         eventData.listener
@@ -218,6 +218,6 @@ qx.Class.define("qx.event.handler.Element",
   */
 
   defer : function(statics) {
-    qx.event.Manager.addHandler(statics);
+    qx.event.Registration.addHandler(statics);
   }
 });
