@@ -190,8 +190,10 @@ qx.Class.define("testrunner.runner.TestRunner",
 
   members :
   {
+    /** This one is called by Application.js
+     */
     load : function() {
-      this.iframe.setSource("html/QooxdooTest.html?testclass=testrunner.test");
+      this.iframe.setSource(this.__testSuiteUrl);
     },
 
 
@@ -233,7 +235,10 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       toolbar.add(new qx.ui.toolbar.Separator);
 
-      this.testSuiteUrl = new qx.ui.form.TextField("html/QooxdooTest.html?testclass=testrunner.test");
+      var testUri   = qx.core.Setting.get("qx.testPageUri");
+      var nameSpace = qx.core.Setting.get("qx.testNameSpace");
+      this.__testSuiteUrl = testUri+"?testclass="+nameSpace;
+      this.testSuiteUrl = new qx.ui.form.TextField(this.__testSuiteUrl);
       toolbar.add(this.testSuiteUrl);
       this.testSuiteUrl.setToolTip(new qx.ui.popup.ToolTip("Test backend application URL"));
 
@@ -1024,7 +1029,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       }
 
       // build list of individual tests to perform
-      tlist = buildList(modelNode);
+      var tlist = buildList(modelNode);
 
       if (this.reloadswitch.getChecked())
       {
@@ -1215,6 +1220,13 @@ qx.Class.define("testrunner.runner.TestRunner",
       "tree1",
       "loader"
     );
+  },
+
+
+  defer : function()
+  {
+    qx.core.Setting.define("qx.testPageUri",   "html/QooxdooTest.html");
+    qx.core.Setting.define("qx.testNameSpace", "testrunner.test");
   }
 
 });

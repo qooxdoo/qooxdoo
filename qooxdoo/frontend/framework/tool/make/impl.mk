@@ -464,7 +464,7 @@ exec-testrunner-build:
 
 
 exec-tests-build:
-	$(CMD_GENERATOR) \
+	$(SILENCE) $(CMD_GENERATOR) \
 	   --class-path $(FRAMEWORK_SOURCE_PATH)/class \
 	   --class-path $(TESTRUNNER_SOURCE_PATH)/class \
 	   --class-path $(APPLICATION_SOURCE_PATH)/class \
