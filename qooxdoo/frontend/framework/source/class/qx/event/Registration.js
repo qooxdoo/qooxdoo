@@ -184,7 +184,7 @@ qx.Class.define("qx.event.Registration",
      * {@link qx.event.type.Event#init}.
      *
      * @type static
-     * @param clazz {Object} The even class
+     * @param clazz {Object} The event class
      * @param args {Array} Array or arguments, which will be passed to
      *       the event's init method.
      * @return {qx.event.type.Event} An instance of the given class.
@@ -202,11 +202,26 @@ qx.Class.define("qx.event.Registration",
 
 
     /**
+     * Dispatch an event object on the given target.
+     *
+     * @type static
+     * @param target {Object} Any valid event target
+     * @param event {qx.event.type.Event} The event object to dispatch. The event
+     *       object must be obtained using {@link #createEvent} and initialized
+     *       using {@link qx.event.type.Event#init}.
+     * @return {void} 
+     */
+    dispatchEvent : function(target, event) {
+      this.getManager(target).dispatchEvent(target, event);
+    },
+    
+
+    /**
      * Create an event object and dispatch it on the given target.
      *
      * @type static
      * @param target {Object} Any valid event target
-     * @param clazz {qx.event.type.Event} The even class
+     * @param clazz {qx.event.type.Event} The event class
      * @param args {Array} Array or arguments, which will be passed to
      *       the event's init method.
      */
