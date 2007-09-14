@@ -155,6 +155,20 @@ qx.Class.define("qx.core.Target",
     },
 
 
+    /**
+     * Create an event object and dispatch it.
+     *
+     * @type member
+     * @param clazz {qx.event.type.Event} The even class
+     * @param args {Array} Array or arguments, which will be passed to
+     *       the event's init method.
+     * @return {void}
+     */
+    fireEvent : function(clazz, args) {
+      qx.event.Registration.getManager.fireEvent(this, clazz, args)
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       EVENT DISPATCH

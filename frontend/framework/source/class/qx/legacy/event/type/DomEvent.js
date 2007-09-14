@@ -39,8 +39,9 @@ qx.Class.define("qx.legacy.event.type.DomEvent",
 
   construct : function(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget)
   {
-    this.base(arguments, vType);
+    this.base(arguments);
 
+    this.setType(vType);
     this.setDomEvent(vDomEvent);
     this.setDomTarget(vDomTarget);
 
@@ -112,6 +113,17 @@ qx.Class.define("qx.legacy.event.type.DomEvent",
       noCompute   : true
     },
 
+    originalTarget :
+    {
+      _fast       : true,
+      setOnlyOnce : true
+    },
+
+    relatedTarget :
+    {
+      _fast       : true,
+      setOnlyOnce : true
+    },
 
     /**
      * The modifiers. A mask of the pressed modifier keys. This is an OR-combination of

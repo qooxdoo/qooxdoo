@@ -35,17 +35,45 @@ qx.Class.define("qx.legacy.event.type.FocusEvent",
 {
   extend : qx.event.type.Event,
 
-  construct : function(type, target)
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
   {
-    this.base(arguments, type);
+    relatedTarget : {}
+  },
 
-    this.setTarget(target);
 
-    switch(type)
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+
+    init : function(type)
     {
-      case "focusin":
-      case "focusout":
-        this.setBubbles(true);
+      switch(type)
+      {
+        case "focusin":
+        case "focusout":
+          var bubbles = true;
+          break;
+
+        default:
+          var bubbles = false;
+      }
+
+      this.base(arguments, type, bubbles);
     }
   }
 });
