@@ -25,7 +25,11 @@
 ************************************************************************ */
 
 /**
- * This handler provides "input" event for input elements
+ * This handler provides an "change" event for all form fields and an 
+ * "input" event for form fields of type "text" and "textarea".
+ * 
+ * To let these events work it is needed to create the elements using 
+ * {@link qx.bom.Input}
  */
 qx.Class.define("qx.event.handler.Input",
 {
@@ -63,12 +67,14 @@ qx.Class.define("qx.event.handler.Input",
     // Change on blur for textfields, textareas and file
     // Instant change event on checkboxes, radiobuttons
     
-    // Select field differ when using keyboard: 
-    // mshtml,opera=instant; mozilla,safari=onblur
-    // when using popup: identical = on mousedown/select
+    // Select field fires on select (when using popup)
+    // but differs when using keyboard: 
+    // mshtml+opera=keypress; mozilla+safari=blur
     
     // Input event for textareas does not work in Safari 3 beta (WIN)
     // Safari 3 beta (WIN) repeats change event for select box on blur when selected using popup
+    
+    // Opera fires "change" on radio buttons two times for each change
     
     /**
      * Internal function called by input elements created using {@link qx.bom.Input}.
