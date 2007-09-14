@@ -112,6 +112,6 @@ qx.Class.define("qx.event.handler.Iframe",
   */
 
   defer : function(statics) {
-    qx.event.Manager.registerHandler(statics);
+    qx.event.Manager.addHandler(statics);
   }
 });
