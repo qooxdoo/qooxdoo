@@ -49,7 +49,7 @@ qx.Interface.define("qx.event.IEventHandler",
 
     /**
      * This method is called each time the an event listener for one of the
-     * supported events is added using {qx.event.Manager#addListener}.
+     * supported events is added using {@link qx.event.Manager#addListener}.
      *
      * @param target {var} The target to, which the event handler should
      *     be attached
@@ -62,7 +62,7 @@ qx.Interface.define("qx.event.IEventHandler",
 
     /**
      * This method is called each time the an event listener for one of the
-     * supported events is removed by using {qx.event.Manager#removeListener}
+     * supported events is removed by using {@link qx.event.Manager#removeListener}
      * and no other event listener is listening on this type.
      *
      * @param target {var} The target from, which the event handler should
