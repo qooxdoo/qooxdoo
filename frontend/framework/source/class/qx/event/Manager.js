@@ -25,31 +25,7 @@
 ************************************************************************ */
 
 /**
- * Wrapper for browser DOM event handling.
- *
- * The following feature are supported in a browser independend way:
- * <ul>
- *   <li>cancelling of events <code>stopPropagation</code></li>
- *   <li>prevention of the browser's default behaviour <code>preventDefault</code>
- *   <li>unified event objects matching the DOM 2 event interface
- *       http://www.w3.org/TR/DOM-Level-2-Events/events.html#Events-interface
- *   </li>
- *   <li>Support for the event <i>bubbling</i> and <i>capturing</i> phase even
- *       in the Internet Explorer
- *   </li>
- *   <li>Support for mouse event capturing
- *      http://msdn2.microsoft.com/en-us/library/ms537630.aspx
- *   </li>
- * </ul>
- *
- * Available Events
- * <ul>
- *   <li>Internet Explorer events:
- *       http://msdn2.microsoft.com/en-us/library/ms533051.aspx</li>
- *   <li>Mozilla element events:
- *       http://developer.mozilla.org/en/docs/DOM:element#Event_Handlers
- *   </li>
- * </ul>
+ * Wrapper for browser DOM event handling for each browser window/frame.
  */
 qx.Class.define("qx.event.Manager",
 {

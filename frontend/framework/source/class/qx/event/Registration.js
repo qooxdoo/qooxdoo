@@ -31,25 +31,15 @@
  * <ul>
  *   <li>cancelling of events <code>stopPropagation</code></li>
  *   <li>prevention of the browser's default behaviour <code>preventDefault</code>
- *   <li>unified event objects matching the DOM 2 event interface
- *       http://www.w3.org/TR/DOM-Level-2-Events/events.html#Events-interface
- *   </li>
- *   <li>Support for the event <i>bubbling</i> and <i>capturing</i> phase even
- *       in the Internet Explorer
- *   </li>
- *   <li>Support for mouse event capturing
- *      http://msdn2.microsoft.com/en-us/library/ms537630.aspx
- *   </li>
+ *   <li>unified event objects matching the DOM 2 event interface (<a href="http://www.w3.org/TR/DOM-Level-2-Events/events.html#Events-interface">Reference</a>)</li>
+ *   <li>Support for the event <i>bubbling</i> and <i>capturing</i> phase</li>
+ *   <li>Support for mouse event capturing (<a href="http://msdn2.microsoft.com/en-us/library/ms537630.aspx">Reference</a>)</li>
+ *   <li>Support for normalized focus and activation handling</li>
  * </ul>
  *
- * Available Events
- * <ul>
- *   <li>Internet Explorer events:
- *       http://msdn2.microsoft.com/en-us/library/ms533051.aspx</li>
- *   <li>Mozilla element events:
- *       http://developer.mozilla.org/en/docs/DOM:element#Event_Handlers
- *   </li>
- * </ul>
+ * Supported events differ from target to target. Generally the handlers
+ * in {@link qx.event.handler} defines the available features.
+ * 
  */
 qx.Class.define("qx.event.Registration",
 {
