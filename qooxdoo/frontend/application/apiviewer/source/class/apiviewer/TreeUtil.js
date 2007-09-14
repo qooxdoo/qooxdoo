@@ -282,6 +282,9 @@ qx.Class.define("apiviewer.TreeUtil",
     /** {string} The URL of the info icon. */
     ICON_INFO : "api/image/information18.png",
 
+    /** {string} The URL of the search icon. */
+    ICON_SEARCH : "api/image/search18.png",
+
     /** {string} The URL of the overlay "abstract". */
     OVERLAY_ABSTRACT : "api/image/overlay_abstract18.gif",
 
@@ -406,6 +409,7 @@ qx.Class.define("apiviewer.TreeUtil",
     /** {string[]} images to preload */
     statics.PRELOAD_IMAGES = [
       statics.ICON_INFO,
+      statics.ICON_SEARCH,
       statics.OVERLAY_ABSTRACT,
       statics.OVERLAY_ERROR,
       statics.OVERLAY_INHERITED,
@@ -440,6 +444,7 @@ qx.Class.define("apiviewer.TreeUtil",
       statics.ICON_METHOD_PUB_INHERITED,
       statics.ICON_CTOR,
       statics.ICON_METHOD_PROT,
+      statics.ICON_METHOD_PRIV,
       statics.ICON_CONSTANT
     ];
   }

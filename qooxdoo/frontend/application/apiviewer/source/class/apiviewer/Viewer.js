@@ -55,7 +55,8 @@ qx.Class.define("apiviewer.Viewer",
 
     var buttonView = this.__createButtonView(
       tree,
-      new apiviewer.ui.LegendView()
+      new apiviewer.ui.LegendView(),
+      new apiviewer.ui.SearchView()
     );
 
     var mainFrame = this.__createMainFrame(
@@ -114,7 +115,7 @@ qx.Class.define("apiviewer.Viewer",
      * @param infoWidget {qx.ui.core.Widget} The widget for the "legend" pane
      * @return {qx.ui.pageview.buttonview.ButtonView} The configured button view widget
      */
-    __createButtonView : function(treeWidget, infoWidget)
+    __createButtonView : function(treeWidget, infoWidget, searchWidget)
     {
       var buttonView = new qx.ui.pageview.buttonview.ButtonView();
       buttonView.set({
@@ -129,19 +130,24 @@ qx.Class.define("apiviewer.Viewer",
       var infoButton = new qx.ui.pageview.buttonview.Button("Legend", apiviewer.TreeUtil.ICON_INFO);
       infoButton.setShow("icon");
       infoButton.setToolTip( new qx.ui.popup.ToolTip("Information"));
+      var searchButton = new qx.ui.pageview.buttonview.Button("Search", apiviewer.TreeUtil.ICON_SEARCH);
+      searchButton.setShow("icon");
+      searchButton.setToolTip( new qx.ui.popup.ToolTip("Search"));
 
       treeButton.setChecked(true);
-      buttonView.getBar().add(treeButton, infoButton);
+      buttonView.getBar().add(treeButton, infoButton, searchButton);
 
       var treePane = new qx.ui.pageview.buttonview.Page(treeButton);
       var infoPane = new qx.ui.pageview.buttonview.Page(infoButton);
+      var searchPane = new qx.ui.pageview.buttonview.Page(searchButton);
 
       var pane = buttonView.getPane();
-      pane.add(treePane, infoPane);
+      pane.add(treePane, infoPane, searchPane);
       pane.setPadding(0);
 
       treePane.add(treeWidget);
       infoPane.add(infoWidget);
+      searchPane.add(searchWidget);
 
       return buttonView;
     },
@@ -226,7 +232,8 @@ qx.Class.define("apiviewer.Viewer",
       {
         width           : "100%",
         height          : "1*",
-        backgroundColor : "white"
+        backgroundColor : "white",
+        id              : "content"
       });
 
       detailFrame.setHtmlProperty("id", "content");
@@ -280,8 +287,8 @@ qx.Class.define("apiviewer.Viewer",
      */
     __createVerticalSplitter : function(leftWidget, rightWidget)
     {
-      var mainSplitPane = new qx.ui.splitpane.HorizontalSplitPane(250, "1*");
-      mainSplitPane.setLiveResize(true);
+      var mainSplitPane = new qx.ui.splitpane.HorizontalSplitPane("1*", "4*");
+      mainSplitPane.setLiveResize(false);
       mainSplitPane.addLeft(leftWidget);
       mainSplitPane.addRight(rightWidget);
       return mainSplitPane;
