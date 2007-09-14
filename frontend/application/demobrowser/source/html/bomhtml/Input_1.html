@@ -83,13 +83,12 @@ qx.Class.define("BasicSample",
         value : "val2" 
       });
       
-      qx.event.Registration.addListener(radioBox1, "change", function(e) {
-        this.debug("Changed radio 1: " + e.getData());
-      }, this);
+      function radioChange(e) {
+        this.debug("Changed radio: " + e.getTarget().name + " = " + e.getData());
+      }
       
-      qx.event.Registration.addListener(radioBox2, "change", function(e) {
-        this.debug("Changed radio 2: " + e.getData());
-      }, this);      
+      qx.event.Registration.addListener(radioBox1, "change", radioChange, this);
+      qx.event.Registration.addListener(radioBox2, "change", radioChange, this);      
 
       document.body.appendChild(radioBox1);
       document.body.appendChild(radioBox2);      
