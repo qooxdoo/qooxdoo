@@ -45,7 +45,7 @@ qx.Class.define("qx.event.dispatch.DomBubbling",
   statics : 
   {
     /** {Integer} Priority of this dispatcher */
-    PRIORITY : qx.event.Manager.PRIORITY_NORMAL
+    PRIORITY : qx.event.Registration.PRIORITY_NORMAL
   },
   
   

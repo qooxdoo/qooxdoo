@@ -113,7 +113,7 @@ qx.Class.define("qx.event.handler.Focus",
   statics : 
   {
     /** {Integer} Priority of this handler */
-    PRIORITY : qx.event.Manager.PRIORITY_FIRST
+    PRIORITY : qx.event.Registration.PRIORITY_FIRST
   },
   
   

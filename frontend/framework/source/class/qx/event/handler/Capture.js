@@ -45,7 +45,7 @@ qx.Class.define("qx.event.handler.Capture",
   statics : 
   {
     /** {Integer} Priority of this handler */
-    PRIORITY : qx.event.Manager.PRIORITY_NORMAL
+    PRIORITY : qx.event.Registration.PRIORITY_NORMAL
   },
   
   
