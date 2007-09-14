@@ -164,12 +164,10 @@ qx.Class.define("BasicSample",
 
       //qx.event.Registration.addListener(document.documentElement, "click", this._positionDiv, this);
 
-      qx.event.Registration.addListener(this._juhu, "click", function() {
-        var e = qx.event.Pool.getInstance().getEventInstance("qx.event.type.Event").init({});
-        e.setType("juhu");
-        e.setCurrentTarget(this);
-        e.setTarget(this);
-        qx.event.Registration.getManager(this).dispatchEvent(e);
+      qx.event.Registration.addListener(this._juhu, "click", function() 
+      {
+        var e = qx.event.Registration.createEvent(qx.event.type.Event, ["juhu"]);
+        qx.event.Registration.dispatchEvent(this, e);
         qx.event.Pool.getInstance().poolEvent(e);
       }, this);
 

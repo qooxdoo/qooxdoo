@@ -484,8 +484,8 @@ qx.Class.define("qx.event.Manager",
      * @type member
      * @param target {Object} Any valid event target
      * @param event {qx.event.type.Event} The event object to dispatch. The event
-     *       object must be obtained using {@link #createEvent} and initialized
-     *       using {@link qx.event.type.Event#init}.
+     *       object must be obtained using {@link qx.event.Registration#createEvent} 
+     *       and initialized using {@link qx.event.type.Event#init}.
      * @return {void} 
      * @throws an error if there is no dispatcher for the event
      */
@@ -523,7 +523,7 @@ qx.Class.define("qx.event.Manager",
       }
 
       if (!dispatched) {
-        throw new Error("Could not dispatch: " + type + " on " + target);
+        throw new Error("No dispatcher can handle event of type " + type + " on " + target);
       }
 
       // The event handler may have disposed the app.
