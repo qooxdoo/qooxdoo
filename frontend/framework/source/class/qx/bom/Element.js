@@ -51,6 +51,9 @@ qx.Class.define("qx.bom.Element",
     __initialAttributes :
     {
       "onload" : true,
+      "onpropertychange" : true,
+      "oninput" : true,
+      "onchange" : true,
       "name" : true,
       "type" : true,
       "checked" : true

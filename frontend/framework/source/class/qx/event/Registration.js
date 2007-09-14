@@ -212,7 +212,7 @@ qx.Class.define("qx.event.Registration",
      *
      * @type static
      * @param target {Object} Any valid event target
-     * @param clazz {qx.event.type.Event} The event class
+     * @param clazz {Class} The event class
      * @param args {Array} Array or arguments, which will be passed to
      *       the event's init method.
      */
