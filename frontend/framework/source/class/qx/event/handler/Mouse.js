@@ -150,7 +150,7 @@ qx.Class.define("qx.event.handler.Mouse",
      */
     _fireEvent : function(domEvent, type, target)
     {
-      var event = qx.event.Manager.createEvent(qx.event.type.Mouse, [domEvent, type]);
+      var event = qx.event.Registration.createEvent(qx.event.type.Mouse, [domEvent, type]);
       this._manager.dispatchEvent(domEvent.target || domEvent.srcElement, event);
     },
 
@@ -521,6 +521,6 @@ qx.Class.define("qx.event.handler.Mouse",
   */
 
   defer : function(statics) {
-    qx.event.Manager.addHandler(statics);
+    qx.event.Registration.addHandler(statics);
   }
 });

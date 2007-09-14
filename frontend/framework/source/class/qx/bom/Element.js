@@ -159,7 +159,7 @@ qx.Class.define("qx.bom.Element",
      *       to attach the event handler to the bubbling phase.
      */
     addListener : function(element, type, listener, self, capture) {
-      return qx.event.Manager.addListener(element, type, listener, self, capture);
+      return qx.event.Registration.addListener(element, type, listener, self, capture);
     },
 
 
@@ -179,7 +179,7 @@ qx.Class.define("qx.bom.Element",
      *       the bubbling or of the capturing phase.
      */
     removeListener : function(element, type, listener, self, capture) {
-      return qx.event.Manager.removeListener(element, type, listener, self, capture);
+      return qx.event.Registration.removeListener(element, type, listener, self, capture);
     },
     
     
@@ -195,7 +195,7 @@ qx.Class.define("qx.bom.Element",
      * @return {Boolean} Whether the element has event listeners of the given type.
      */
     hasListeners : function(element, type, capture) {
-      return qx.event.Manager.getManager(element).hasListeners(element, type, capture);
+      return qx.event.Registration.getManager(element).hasListeners(element, type, capture);
     },
     
     
@@ -207,7 +207,7 @@ qx.Class.define("qx.bom.Element",
      * @return {void}
      */
     focus : function(element) {
-      qx.event.Manager.getManager(element).getHandler(qx.event.handler.Focus).focus(element);
+      qx.event.Registration.getManager(element).getHandler(qx.event.handler.Focus).focus(element);
     },
     
     
@@ -219,7 +219,7 @@ qx.Class.define("qx.bom.Element",
      * @return {void}
      */
     blur : function(element) {
-      qx.event.Manager.getManager(element).getHandler(qx.event.handler.Focus).blur(element);
+      qx.event.Registration.getManager(element).getHandler(qx.event.handler.Focus).blur(element);
     },
     
     
@@ -231,7 +231,7 @@ qx.Class.define("qx.bom.Element",
      * @return {void}
      */
     activate : function(element) {
-      qx.event.Manager.getManager(element).getHandler(qx.event.handler.Focus).activate(element);
+      qx.event.Registration.getManager(element).getHandler(qx.event.handler.Focus).activate(element);
     },
     
     
@@ -243,7 +243,7 @@ qx.Class.define("qx.bom.Element",
      * @return {void}
      */
     deactivate : function(element) {
-      qx.event.Manager.getManager(element).getHandler(qx.event.handler.Focus).deactivate(element);
+      qx.event.Registration.getManager(element).getHandler(qx.event.handler.Focus).deactivate(element);
     },        
     
     
@@ -255,7 +255,7 @@ qx.Class.define("qx.bom.Element",
      * @return {void}
      */
     capture : function(element) {
-      qx.event.Manager.getManager(element).getDispatcher(qx.event.dispatch.MouseCapture).activateCapture(element);
+      qx.event.Registration.getManager(element).getDispatcher(qx.event.dispatch.MouseCapture).activateCapture(element);
     },
     
 
@@ -267,7 +267,7 @@ qx.Class.define("qx.bom.Element",
      * @return {void}
      */
     releaseCapture : function(element) {
-      qx.event.Manager.getManager(element).getDispatcher(qx.event.dispatch.MouseCapture).releaseCapture(element);
+      qx.event.Registration.getManager(element).getDispatcher(qx.event.dispatch.MouseCapture).releaseCapture(element);
     }
   }
 });
