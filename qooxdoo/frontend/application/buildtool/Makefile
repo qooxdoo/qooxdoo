@@ -84,3 +84,19 @@ build-makvars: source-makvars
 # Framework Interface
 source-addon: source-makvars
 build-addon: build-makvars
+
+# 
+# Special Target 'deploy'  -- construct a directory which contains everything
+#   to export this application
+#
+
+#deploy: build
+deploy:
+	@echo
+	@echo "  GENERATION OF DEPLOY VERSION OF WEB ADMIN"
+	@$(CMD_LINE)
+	@echo "  * Creating ./deploy..."
+	@$(CMD_DIR) ./deploy
+	@cp -fr ./build/* ./deploy
+	@cp -fr ./admin/* ./deploy
+
