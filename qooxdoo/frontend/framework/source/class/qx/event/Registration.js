@@ -283,9 +283,13 @@ qx.Class.define("qx.event.Registration",
     ---------------------------------------------------------------------------
     */
 
-    // Position at which the handler/dispatcher should be inserted into the list.
+    /** {Integer} Highest priority. Used by handlers and dispatchers. */
     PRIORITY_FIRST : -32000,
+    
+    /** {Integer} Default priority. Used by handlers and dispatchers. */
     PRIORITY_NORMAL : 0,
+    
+    /** {Integer} Lowest priority. Used by handlers and dispatchers. */
     PRIORITY_LAST : 32000,
 
 
