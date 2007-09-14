@@ -176,13 +176,13 @@ qx.Class.define("qx.event.handler.Mouse",
     {
       this._onButtonEventWrapper = qx.lang.Function.bind(this._onButtonEvent, this, true);
 
-      var Manager = qx.event.Manager;
+      var Registration = qx.event.Registration;
 
-      Manager.addNativeListener(this._root, "mousedown", this._onButtonEventWrapper);
-      Manager.addNativeListener(this._root, "mouseup", this._onButtonEventWrapper);
-      Manager.addNativeListener(this._root, "click", this._onButtonEventWrapper);
-      Manager.addNativeListener(this._root, "dblclick", this._onButtonEventWrapper);
-      Manager.addNativeListener(this._root, "contextmenu", this._onButtonEventWrapper);
+      Registration.addNativeListener(this._root, "mousedown", this._onButtonEventWrapper);
+      Registration.addNativeListener(this._root, "mouseup", this._onButtonEventWrapper);
+      Registration.addNativeListener(this._root, "click", this._onButtonEventWrapper);
+      Registration.addNativeListener(this._root, "dblclick", this._onButtonEventWrapper);
+      Registration.addNativeListener(this._root, "contextmenu", this._onButtonEventWrapper);
     },
 
 
@@ -197,11 +197,11 @@ qx.Class.define("qx.event.handler.Mouse",
     {
       this._onMoveEventWrapper = qx.lang.Function.bind(this._onMoveEvent, this, true);
 
-      var Manager = qx.event.Manager;
+      var Manager = qx.event.Registration;
 
-      Manager.addNativeListener(this._root, "mousemove", this._onMoveEventWrapper);
-      Manager.addNativeListener(this._root, "mouseover", this._onMoveEventWrapper);
-      Manager.addNativeListener(this._root, "mouseout", this._onMoveEventWrapper);
+      Registration.addNativeListener(this._root, "mousemove", this._onMoveEventWrapper);
+      Registration.addNativeListener(this._root, "mouseover", this._onMoveEventWrapper);
+      Registration.addNativeListener(this._root, "mouseout", this._onMoveEventWrapper);
     },
 
 
@@ -216,10 +216,10 @@ qx.Class.define("qx.event.handler.Mouse",
     {
       this._onWheelEventWrapper = qx.lang.Function.bind(this._onWheelEvent, this, true);
 
-      var Manager = qx.event.Manager;
+      var Registration = qx.event.Manager;
       var name = qx.bom.client.Engine.MSHTML ? "mousewheel" : "DOMMouseScroll";
 
-      Manager.addNativeListener(this._root, name, this._onWheelEventWrapper);
+      Registration.addNativeListener(this._root, name, this._onWheelEventWrapper);
     },
 
 
@@ -242,13 +242,13 @@ qx.Class.define("qx.event.handler.Mouse",
      */
     _stopButtonObserver : function()
     {
-      var Manager = qx.event.Manager;
+      var Registration = qx.event.Registration;
 
-      Manager.removeNativeListener(this._root, "mousedown", this._onButtonEventWrapper);
-      Manager.removeNativeListener(this._root, "mouseup", this._onButtonEventWrapper);
-      Manager.removeNativeListener(this._root, "click", this._onButtonEventWrapper);
-      Manager.removeNativeListener(this._root, "dblclick", this._onButtonEventWrapper);
-      Manager.removeNativeListener(this._root, "contextmenu", this._onButtonEventWrapper);
+      Registration.removeNativeListener(this._root, "mousedown", this._onButtonEventWrapper);
+      Registration.removeNativeListener(this._root, "mouseup", this._onButtonEventWrapper);
+      Registration.removeNativeListener(this._root, "click", this._onButtonEventWrapper);
+      Registration.removeNativeListener(this._root, "dblclick", this._onButtonEventWrapper);
+      Registration.removeNativeListener(this._root, "contextmenu", this._onButtonEventWrapper);
     },
 
 
@@ -261,11 +261,11 @@ qx.Class.define("qx.event.handler.Mouse",
      */
     _stopMoveObserver : function()
     {
-      var Manager = qx.event.Manager;
+      var Manager = qx.event.Registration;
 
-      Manager.removeNativeListener(this._root, "mousemove", this._onMoveEventWrapper);
-      Manager.removeNativeListener(this._root, "mouseover", this._onMoveEventWrapper);
-      Manager.removeNativeListener(this._root, "mouseout", this._onMoveEventWrapper);
+      Registration.removeNativeListener(this._root, "mousemove", this._onMoveEventWrapper);
+      Registration.removeNativeListener(this._root, "mouseover", this._onMoveEventWrapper);
+      Registration.removeNativeListener(this._root, "mouseout", this._onMoveEventWrapper);
     },
 
 
@@ -278,10 +278,10 @@ qx.Class.define("qx.event.handler.Mouse",
      */
     _stopWheelObserver : function()
     {
-      var Manager = qx.event.Manager;
+      var Manager = qx.event.Registration;
       var name = qx.bom.client.Engine.MSHTML ? "mousewheel" : "DOMMouseScroll";
 
-      Manager.removeNativeListener(this._root, name, this._onWheelEventWrapper);
+      Registration.removeNativeListener(this._root, name, this._onWheelEventWrapper);
     },
 
 

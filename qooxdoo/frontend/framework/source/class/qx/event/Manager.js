@@ -317,7 +317,7 @@ qx.Class.define("qx.event.Manager",
      */
     __registerAtHandler : function(target, type)
     {
-      var classes = this.self(arguments).getHandlers();
+      var classes = qx.event.Registration.getHandlers();
       var instance;
 
       for (var i=0, l=classes.length; i<l; i++)
@@ -445,7 +445,7 @@ qx.Class.define("qx.event.Manager",
      */
     __unregisterAtHandler : function(target, type)
     {
-      var classes = this.self(arguments).getHandlers();
+      var classes = qx.event.Registration.getHandlers();
       var instance;
 
       for (var i=0, l=classes.length; i<l; i++)
@@ -503,7 +503,7 @@ qx.Class.define("qx.event.Manager",
       event.setTarget(target);
 
       // Interation data
-      var classes = this.self(arguments).getDispatchers();
+      var classes = qx.event.Registration.getDispatchers();
       var instance;
 
       // Loop through the dispatchers
@@ -587,8 +587,7 @@ qx.Class.define("qx.event.Manager",
     qx.event.Registration.removeNativeListener(this.__window, "unload", this.__disposeWrapper);
 
     // Remove from manager list
-    var id = qx.core.Object.toHashCode(this.getWindow());
-    delete qx.event.Manager.__managers[id];
+    qx.event.Registration.removeManager(this);
 
     // Dispose data fields
     this._disposeFields("__listeners", "__jobs", "__window", "__handlers", "__dispatchers");

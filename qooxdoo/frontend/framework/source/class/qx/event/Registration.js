@@ -98,6 +98,23 @@ qx.Class.define("qx.event.Registration",
 
       return manager;
     },
+    
+    
+    /**
+     * Removes a manager for a specific window from the list. 
+     * Normally only used when the manager gets disposed through
+     * an unload event of the attached window.
+     *
+     * @internal
+     * @type static
+     * @param mgr {qx.event.Manager} The manager to remove
+     * @return {void}
+     */
+    removeManager : function(mgr)
+    {
+      var id = qx.core.Object.toHashCode(mgr.getWindow());
+      delete this.__managers[id];
+    },
 
 
     /**
