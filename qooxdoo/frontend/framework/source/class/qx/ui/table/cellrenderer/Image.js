@@ -37,8 +37,8 @@ qx.Class.define("qx.ui.table.cellrenderer.Image",
 
 
   /**
-   * @param height {int} The height of the image. The default is 11.
-   * @param width {int} The width of the image. The default is 11.
+   * @param height {Integer?16} The height of the image. The default is 16.
+   * @param width {Integer?16} The width of the image. The default is 16.
    */
   construct : function(width, height)
   {

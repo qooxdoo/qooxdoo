@@ -87,12 +87,12 @@ qx.Class.define("qx.ui.table.model.Simple",
     // overridden
     getRowData : function(rowIndex)
     {
-    var rowData = this._rowArr[rowIndex];
-    if (rowData == null || rowData.originalData == null) {
-      return rowData;
-    } else {
-      return rowData.originalData;
-    }
+      var rowData = this._rowArr[rowIndex];
+      if (rowData == null || rowData.originalData == null) {
+        return rowData;
+      } else {
+        return rowData.originalData;
+      }
     },
 
 
