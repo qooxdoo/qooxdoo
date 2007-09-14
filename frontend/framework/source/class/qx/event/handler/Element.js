@@ -67,7 +67,7 @@ qx.Class.define("qx.event.handler.Element",
   statics : 
   {
     /** {Integer} Priority of this handler */
-    PRIORITY : qx.event.Manager.PRIORITY_NORMAL
+    PRIORITY : qx.event.Registration.PRIORITY_NORMAL
   },
   
   

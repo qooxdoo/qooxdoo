@@ -333,7 +333,7 @@ qx.Class.define("qx.event.Registration",
 
       // Append to list
       this.__handlers.push(handler);
-
+      
       // Re-sort list
       this.__handlers.sort(function(a, b) {
         return a.PRIORITY - b.PRIORITY;
