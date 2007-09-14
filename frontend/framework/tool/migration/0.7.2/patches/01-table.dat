@@ -1,0 +1,4 @@
+\bqx\.ui\.table\.cellrenderer\.Basic\b=qx.ui.table.ICellRenderer
+\bqx\.ui\.table\.headerrenderer\.Basic\b=qx.ui.table.IHeaderRenderer
+\bqx\.ui\.table\.model\.Basic\b=qx.ui.table.ITableModel
+\bqx\.ui\.table\.rowrenderer\.Basic\b=qx.ui.table.IRowRenderer
