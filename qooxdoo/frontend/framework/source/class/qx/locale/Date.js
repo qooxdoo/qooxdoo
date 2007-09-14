@@ -215,6 +215,13 @@ qx.Class.define("qx.locale.Date",
         throw new Error('format must be one of "short", "medium", "long", "full"');
       }
 
+      var key = "cldr_time_format_" + size;
+      var localizedFormat = qx.locale.Manager.getInstance().translate(key, [], locale);
+
+      if (localizedFormat != key) {
+        return localizedFormat;
+      }
+
       switch(size)
       {
         case "short":
