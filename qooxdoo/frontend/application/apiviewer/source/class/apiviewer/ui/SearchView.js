@@ -294,7 +294,6 @@ qx.Class.define("apiviewer.ui.SearchView",
      * Sets the output
      *
      * @type member
-     * @param sArray {SelectionManager} selected item
      * @param svalue {String} input value or 1st RegExp subexpression from _validateInput
      * @param spath {String} matched 2nd subexpression from _validateInput
      */
@@ -382,7 +381,7 @@ qx.Class.define("apiviewer.ui.SearchView",
     _load : function()
     {
       var loadStart = new Date();
-      var url = "./script/apiindex.js";
+      var url = "./resource/script/apiindex.js";
       var req = new qx.io.remote.Request(url);
 
       req.setAsynchronous(true);
