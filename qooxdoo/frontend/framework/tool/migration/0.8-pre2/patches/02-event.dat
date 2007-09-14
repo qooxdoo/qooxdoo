@@ -3,6 +3,8 @@
 \bqx\.legacy\.event\.type\.DataEvent\b=qx.event.type.DataEvent
 \bqx\.legacy\.event\.type\.ChangeEvent\b=qx.event.type.ChangeEvent
 
+\b\.setPropagationStopped\(true\)=stopPropagation()
+
 \bqx\.legacy\.event\.message\b=qx.event.message
 
 \bqx\.event\.type\.EventPool\b=qx.event.Pool
