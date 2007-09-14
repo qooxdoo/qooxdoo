@@ -67,7 +67,7 @@ qx.Class.define("qx.event.handler.Input",
     // Change on blur for textfields, textareas and file
     // Instant change event on checkboxes, radiobuttons
     
-    // Select field fires on select (when using popup)
+    // Select field fires on select (when using popup or size>1)
     // but differs when using keyboard: 
     // mshtml+opera=keypress; mozilla+safari=blur
     
@@ -95,8 +95,22 @@ qx.Class.define("qx.event.handler.Input",
      * @param target {Element} DOM element which is the target of this event
      * @return {void}
      */    
-    onchangevalueevent : function(target) {
-      qx.event.Registration.fireEvent(target, qx.event.type.Data, ["change", target.value]);
+    onchangevalueevent : function(target) 
+    {
+      var data = target.value;
+      
+      if (target.type === "select-multiple")
+      {
+        var data = [];
+        for (var i=0, o=target.options, l=o.length; i<l; i++) 
+        {
+          if (o[i].selected) {
+            data.push(o[i].value); 
+          }
+        }
+      }
+      
+      qx.event.Registration.fireEvent(target, qx.event.type.Data, ["change", data]);
     },
     
     
