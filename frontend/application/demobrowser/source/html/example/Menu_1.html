@@ -5,7 +5,7 @@
   <script type="text/javascript" src="../../script/demo.js"></script>
   <script type="text/javascript" src="../util.js"></script>
 </head>
-<body>  
+<body>
   <div id="description">
     <p>qx.ui.menu.Menu Implementation.</p>
     <p>Added qx.event.Command support tests.</p>
@@ -160,12 +160,12 @@
           m1.show();
         };
 
-        e.setPropagationStopped(true);
+        e.stopPropagation();
       });
 
       w1.addEventListener("mousedown", function(e)
       {
-        e.setPropagationStopped(true);
+        e.stopPropagation();
       });
 
 

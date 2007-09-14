@@ -1493,11 +1493,11 @@ qx.Class.define("showcase.Application",
           m1.show();
         }
 
-        e.setPropagationStopped(true);
+        e.stopPropagation();
       });
 
       w1.addEventListener("mousedown", function(e) {
-        e.setPropagationStopped(true);
+        e.stopPropagation();
       });
 
       controls.add(w1);

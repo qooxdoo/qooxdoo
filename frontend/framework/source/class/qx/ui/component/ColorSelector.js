@@ -835,7 +835,7 @@ qx.Class.define("qx.ui.component.ColorSelector",
         (e.getPageY() - qx.bom.element.Location.getTop(this._brightnessHandle.getElement()));
 
       // Block field event handling
-      e.setPropagationStopped(true);
+      e.stopPropagation();
     },
 
 
@@ -982,7 +982,7 @@ qx.Class.define("qx.ui.component.ColorSelector",
         (e.getPageX() - qx.bom.element.Location.getLeft(this._hueSaturationHandle.getElement()));
 
       // Block field event handling
-      e.setPropagationStopped(true);
+      e.stopPropagation();
     },
 
 

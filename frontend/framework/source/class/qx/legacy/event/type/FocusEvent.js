@@ -46,7 +46,6 @@ qx.Class.define("qx.legacy.event.type.FocusEvent",
       case "focusin":
       case "focusout":
         this.setBubbles(true);
-        this.setPropagationStopped(false);
     }
   }
 });
