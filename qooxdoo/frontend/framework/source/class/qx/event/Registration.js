@@ -73,6 +73,7 @@ qx.Class.define("qx.event.Registration",
      * given target.
      *
      * @type static
+     * @internal
      * @param target {Object} Any valid event target
      * @return {qx.event.Manager} The event manger for the target.
      */
@@ -292,9 +293,7 @@ qx.Class.define("qx.event.Registration",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * Position at which the handler/dispatcher should be inserted into the list.
-     */
+    // Position at which the handler/dispatcher should be inserted into the list.
     PRIORITY_FIRST : -32000,
     PRIORITY_NORMAL : 0,
     PRIORITY_LAST : 32000,
@@ -315,6 +314,7 @@ qx.Class.define("qx.event.Registration",
     /**
      * Register an event handler.
      *
+     * @internal
      * @type static
      * @param handler {qx.legacy.event.handler.AbstractEventHandler} Event handler to add
      * @param priority {Integer} One of {@link #PRIORITY_FIRST}, {@link PRIORITY_NORMAL}
@@ -344,6 +344,7 @@ qx.Class.define("qx.event.Registration",
     /**
      * Get a list of registered event handlers.
      *
+     * @internal
      * @type static
      * @return {qx.legacy.event.handler.AbstractEventHandler[]} registered event handlers
      */
@@ -367,6 +368,7 @@ qx.Class.define("qx.event.Registration",
     /**
      * Register an event dispatcher.
      *
+     * @internal
      * @type static
      * @param dispatcher {qx.legacy.event.dispatch.IEventDispatch} Event dispatcher to add
      * @param priority {Integer} One of {@link #PRIORITY_FIRST}, {@link PRIORITY_NORMAL}
@@ -396,6 +398,7 @@ qx.Class.define("qx.event.Registration",
     /**
      * Get a list of registered event dispatchers.
      *
+     * @internal
      * @type static
      * @return {qx.legacy.event.dispatch.IEventDispatch[]} all registered event dispatcher
      */
