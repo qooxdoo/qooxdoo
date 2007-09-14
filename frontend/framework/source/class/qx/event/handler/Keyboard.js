@@ -234,11 +234,11 @@ qx.Class.define("qx.event.handler.Keyboard",
       this._onKeyUpDownWrapper = qx.lang.Function.bind(this._onKeyUpDown, this);
       this._onKeyPressWrapper = qx.lang.Function.bind(this._onKeyPress, this);
 
-      var Manager = qx.event.Manager;
+      var Registration = qx.event.Registration;
 
-      Manager.addNativeListener(this._root, "keyup", this._onKeyUpDownWrapper);
-      Manager.addNativeListener(this._root, "keydown", this._onKeyUpDownWrapper);
-      Manager.addNativeListener(this._root, "keypress", this._onKeyPressWrapper);
+      Registration.addNativeListener(this._root, "keyup", this._onKeyUpDownWrapper);
+      Registration.addNativeListener(this._root, "keydown", this._onKeyUpDownWrapper);
+      Registration.addNativeListener(this._root, "keypress", this._onKeyPressWrapper);
     },
 
 
@@ -251,11 +251,11 @@ qx.Class.define("qx.event.handler.Keyboard",
      */
     _stopKeyObserver : function()
     {
-      var Manager = qx.event.Manager;
+      var Registration = qx.event.Registration;
 
-      Manager.removeNativeListener(this._root, "keyup", this._onKeyUpDownWrapper);
-      Manager.removeNativeListener(this._root, "keydown", this._onKeyUpDownWrapper);
-      Manager.removeNativeListener(this._root, "keypress", this._onKeyPressWrapper);
+      Registration.removeNativeListener(this._root, "keyup", this._onKeyUpDownWrapper);
+      Registration.removeNativeListener(this._root, "keydown", this._onKeyUpDownWrapper);
+      Registration.removeNativeListener(this._root, "keypress", this._onKeyPressWrapper);
     },
 
 
