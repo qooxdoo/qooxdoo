@@ -120,6 +120,6 @@ qx.Class.define("qx.event.dispatch.Direct",
   */
 
   defer : function(statics) {
-    qx.event.Manager.registerDispatcher(statics);
+    qx.event.Manager.addDispatcher(statics);
   }
 });

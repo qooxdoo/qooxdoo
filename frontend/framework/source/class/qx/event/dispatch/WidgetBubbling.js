@@ -93,6 +93,6 @@ qx.Class.define("qx.event.dispatch.WidgetBubbling",
   */
 
   defer : function(statics) {
-    qx.event.Manager.registerDispatcher(statics);
+    qx.event.Manager.addDispatcher(statics);
   }
 });

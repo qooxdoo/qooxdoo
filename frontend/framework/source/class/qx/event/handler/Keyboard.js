@@ -713,7 +713,7 @@ qx.Class.define("qx.event.handler.Keyboard",
   defer : function(statics, members, properties)
   {
     // register at the event handler
-    qx.event.Manager.registerHandler(statics);
+    qx.event.Manager.addHandler(statics);
 
 
     // construct invers of keyCodeToIdentifierMap
