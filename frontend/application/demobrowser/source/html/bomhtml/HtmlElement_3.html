@@ -1,0 +1,50 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+  <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
+</head>
+<body>  
+  <div id="description">
+  </div>
+
+  <div id="test"></div>
+
+  <p><a href="javascript:qx.html.Element.flush()">Flush queue</a></p>
+
+  <script type="text/javascript">
+qx.Class.define("BasicSample",
+{
+  extend : qx.application.Basic,
+
+  members :
+  {
+    main : function()
+    {
+      this.base(arguments);
+      
+      var body = new qx.html.Root(document.body);
+      
+      var inp1 = new qx.html.Element;
+      inp1._nodeName = "input";
+      inp1.setAttribute("type", "text");
+      inp1.focus();
+      
+      qx.bom.Element.addListener(inp1, "focus", function(e) {
+        this.debug("Element focussed");
+      }, inp1);
+      
+      qx.bom.Element.addListener(document.documentElement, "focusin", function(e) {
+        this.debug("FocusIn: " + e.getTarget());
+      }, inp1);      
+      
+      body.add(inp1);
+    }
+  }
+});
+
+qx.core.Init.getInstance().setApplication(new BasicSample);
+  </script>
+</body>
+</html>
