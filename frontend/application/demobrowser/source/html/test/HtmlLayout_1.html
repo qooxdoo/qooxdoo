@@ -133,9 +133,17 @@
 
       var rowData = [];
       for (var row = 0; row < 1000; row++) {
-        rowData.push([ "xxxx", "xxxx", "xxxx" ]);
+        rowData.push([ row, "xxxx", "xxxx" ]);
       }
       tableModel.setData(rowData);
+
+      table.getPaneScroller(0).addEventListener("rowdblclick", function (e) {
+        var row = e.getData();
+        var data = table.getTableModel().getRowData(row);
+        this.debug(row + ": " + data);
+
+      });
+
       vbx.add(table);
 
 

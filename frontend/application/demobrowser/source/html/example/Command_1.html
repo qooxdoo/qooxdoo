@@ -5,7 +5,7 @@
   <script type="text/javascript" src="../../script/demo.js"></script>
   <script type="text/javascript" src="../util.js"></script>
 </head>
-<body>  
+<body>
   <div id="description">
     <p>An example showing global shortcut commands in action. The commands are linked with menu-items, but
     could also be executed with the corresponding shortcut.</p>
@@ -120,12 +120,12 @@
         m1.show();
       };
 
-      e.setPropagationStopped(true);
+      e.stopPropagation();
     });
 
     w1.addEventListener("mousedown", function(e)
     {
-      e.setPropagationStopped(true);
+      e.stopPropagation();
     });
 
 
