@@ -15,28 +15,12 @@
       border: 2px inset;
     }
 
-    #moveable {
-      position: absolute;
-      top: 110px;
-      left: 250px;
-      width: 30px;
-      height: 30px;
-      border: 2px dashed red;
-      background-color: white;
-      opacity : 0.5;
-      -moz-opacity: 0.5;
-      z-index: 50;
-      display: none;
-    }
-
   </style>
 </head>
 <body>
   <div id="description">
     <p>Demonstrate that the new event handler works for iframes as well.</p>
   </div>
-
-  <div id="moveable"></div>
 
   <script type="text/javascript">
 
@@ -79,34 +63,14 @@ qx.Class.define("BasicSample",
       qx.event.Registration.addListener(
         document.getElementById("scroll"),
         "scroll",
-        this.throttle(150, this._scroll, this),
+        this._scroll,
         this
       );
 
-      /*
-      qx.event.Registration.addListener(
-        document.documentElement,
-        "click",
-        this._positionDiv,
-        this
-      );
-      */
     },
 
 
-    throttle : function(minIntervalTime, fcn, self)
-    {
-      var timeoutId = 0;
-
-      return function() {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(function() {
-          self ? fcn.call(self) : fcn();
-        }, minIntervalTime);
-      }
-    },
-
-    _onkeydown: function(e) {
+     _onkeydown: function(e) {
       this.debug("keydown: " + e.getKeyIdentifier());
     },
 
@@ -146,13 +110,6 @@ qx.Class.define("BasicSample",
     _onclick2 : function(e)
     {
       this.debug(e.getType() + " 2: " + e);
-    },
-
-    _positionDiv : function(e)
-    {
-      var div = document.getElementById("moveable");
-      div.style.left = e.getViewportLeft() + "px";
-      div.style.top = e.getViewportTop() + "px";
     }
   }
 });
