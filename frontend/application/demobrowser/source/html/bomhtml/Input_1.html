@@ -72,6 +72,30 @@ qx.Class.define("BasicSample",
       
       
       
+      var radioBox1 = qx.bom.Input.create("radio", {
+        name : "radio1",
+        value : "val1",
+        checked : true
+      });
+
+      var radioBox2 = qx.bom.Input.create("radio", {
+        name : "radio1",
+        value : "val2" 
+      });
+      
+      qx.event.Registration.addListener(radioBox1, "change", function(e) {
+        this.debug("Changed radio 1: " + e.getData());
+      }, this);
+      
+      qx.event.Registration.addListener(radioBox2, "change", function(e) {
+        this.debug("Changed radio 2: " + e.getData());
+      }, this);      
+
+      document.body.appendChild(radioBox1);
+      document.body.appendChild(radioBox2);      
+      
+      
+      
       var selectBox = qx.bom.Input.create("select");
       var op;
       for (var i=0; i<10; i++) 

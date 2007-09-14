@@ -77,7 +77,7 @@ qx.Class.define("qx.bom.Input",
       {
         attributes.onpropertychange = "qx.event.handler.Input.onpropertyevent(this)";  
         
-        if (type === "textarea" || type === "text") {
+        if (type === "textarea" || type === "text" || type === "file") {
           attributes.onchange = "qx.event.handler.Input.onchangevalueevent(this)"; 
         }
       }
