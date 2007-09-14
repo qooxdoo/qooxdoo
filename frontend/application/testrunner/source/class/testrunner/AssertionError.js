@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("testrunner.AssertionError",
+qx.Class.define("qx.dev.unit.AssertionError",
 {
   extend : Error,
 

@@ -78,7 +78,7 @@ qx.Class.define("qx.core.Target",
         return;
       }
 
-      qx.event.Manager.getManager(this).addListener(this, type, func, obj, false);
+      qx.event.Registration.getManager(this).addListener(this, type, func, obj, false);
     },
 
 
@@ -97,7 +97,7 @@ qx.Class.define("qx.core.Target",
         return;
       }
 
-      qx.event.Manager.getManager(this).removeListener(this, type, func, obj, false);
+      qx.event.Registration.getManager(this).removeListener(this, type, func, obj, false);
     },
 
 
@@ -117,7 +117,7 @@ qx.Class.define("qx.core.Target",
      * @return {var} TODOC
      */
     hasEventListeners : function(type) {
-      return qx.event.Manager.getManager(this).hasListeners(this, type);
+      return qx.event.Registration.getManager(this).hasListeners(this, type);
     },
 
 
@@ -129,7 +129,7 @@ qx.Class.define("qx.core.Target",
      * @param type {String} name of the event type
      */
     createDispatchEvent : function(type) {
-      qx.event.Manager.getManager(this).fireEvent(
+      qx.event.Registration.getManager(this).fireEvent(
         this,
         qx.event.type.Event,
         [type, false]
@@ -147,7 +147,7 @@ qx.Class.define("qx.core.Target",
      */
     createDispatchDataEvent : function(type, data)
     {
-      qx.event.Manager.getManager(this).fireEvent(
+      qx.event.Registration.getManager(this).fireEvent(
         this,
         qx.event.type.Data,
         [type, data]
@@ -175,7 +175,7 @@ qx.Class.define("qx.core.Target",
         return;
       }
 
-      qx.event.Manager.getManager(this).dispatchEvent(this, evt);
+      qx.event.Registration.getManager(this).dispatchEvent(this, evt);
     }
   }
 });

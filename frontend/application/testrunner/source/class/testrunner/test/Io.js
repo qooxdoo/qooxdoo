@@ -19,7 +19,7 @@
 
 qx.Class.define("testrunner.test.Io",
 {
-  extend : testrunner.TestCase,
+  extend : qx.dev.unit.TestCase,
 
   members :
   {

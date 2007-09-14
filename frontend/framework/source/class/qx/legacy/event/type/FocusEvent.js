@@ -33,7 +33,7 @@
  */
 qx.Class.define("qx.legacy.event.type.FocusEvent",
 {
-  extend : qx.legacy.event.type.Event,
+  extend : qx.event.type.Event,
 
   construct : function(type, target)
   {

@@ -398,7 +398,7 @@ qx.Class.define("qx.event.handler.Focus",
     _initMouseObserver : function()
     {
       this._onNativeMouseDownWrapper = qx.lang.Function.bind(this._onNativeMouseDown, this);
-      qx.event.Manager.addNativeListener(this._document, "mousedown", this._onNativeMouseDownWrapper);
+      qx.event.Registration.addNativeListener(this._document, "mousedown", this._onNativeMouseDownWrapper);
     },
 
 
@@ -433,8 +433,8 @@ qx.Class.define("qx.event.handler.Focus",
         // To detect which elements get focus the target is useful
         // The window blur can detected using focusout and look
         // for the relatedTarget which is empty in this case.
-        qx.event.Manager.addNativeListener(this._document, "focusin", this._onNativeFocusInWrapper);
-        qx.event.Manager.addNativeListener(this._document, "focusout", this._onNativeFocusOutWrapper);
+        qx.event.Registration.addNativeListener(this._document, "focusin", this._onNativeFocusInWrapper);
+        qx.event.Registration.addNativeListener(this._document, "focusout", this._onNativeFocusOutWrapper);
       },
 
       "webkit|opera" : function()
@@ -450,8 +450,8 @@ qx.Class.define("qx.event.handler.Focus",
         this._window.addEventListener("blur", this._onNativeBlurWrapper, false);
 
         // Opera 9.x supports DOMFocusOut which is needed to detect the element focus
-        qx.event.Manager.addNativeListener(this._document, "DOMFocusIn", this._onNativeFocusInWrapper);
-        qx.event.Manager.addNativeListener(this._document, "DOMFocusOut", this._onNativeFocusOutWrapper);
+        qx.event.Registration.addNativeListener(this._document, "DOMFocusIn", this._onNativeFocusInWrapper);
+        qx.event.Registration.addNativeListener(this._document, "DOMFocusOut", this._onNativeFocusOutWrapper);
       }
     }),
 
@@ -473,7 +473,7 @@ qx.Class.define("qx.event.handler.Focus",
      * @return {void}
      */
     _stopMouseObserver : function() {
-      qx.event.Manager.removeNativeListener(this._document, "mousedown", this._onNativeMouseDownWrapper);
+      qx.event.Registration.removeNativeListener(this._document, "mousedown", this._onNativeMouseDownWrapper);
     },
 
 
@@ -494,8 +494,8 @@ qx.Class.define("qx.event.handler.Focus",
 
       "mshtml" : function()
       {
-        qx.event.Manager.removeNativeListener(this._document, "focusin", this._onNativeFocusInWrapper);
-        qx.event.Manager.removeNativeListener(this._document, "focusout", this._onNativeFocusOutWrapper);
+        qx.event.Registration.removeNativeListener(this._document, "focusin", this._onNativeFocusInWrapper);
+        qx.event.Registration.removeNativeListener(this._document, "focusout", this._onNativeFocusOutWrapper);
       },
 
       "webkit|opera" : function()
@@ -503,8 +503,8 @@ qx.Class.define("qx.event.handler.Focus",
         this._window.removeEventListener("focus", this._onNativeFocusWrapper, false);
         this._window.removeEventListener("blur", this._onNativeBlurWrapper, false);
 
-        qx.event.Manager.removeNativeListener(this._document, "DOMFocusIn", this._onNativeFocusInWrapper);
-        qx.event.Manager.removeNativeListener(this._document, "DOMFocusOut", this._onNativeFocusOutWrapper);
+        qx.event.Registration.removeNativeListener(this._document, "DOMFocusIn", this._onNativeFocusInWrapper);
+        qx.event.Registration.removeNativeListener(this._document, "DOMFocusOut", this._onNativeFocusOutWrapper);
       }
     }),
 
@@ -860,6 +860,6 @@ qx.Class.define("qx.event.handler.Focus",
   */
 
   defer : function(statics) {
-    qx.event.Manager.addHandler(statics);
+    qx.event.Registration.addHandler(statics);
   }
 });

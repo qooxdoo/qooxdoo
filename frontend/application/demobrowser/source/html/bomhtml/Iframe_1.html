@@ -32,7 +32,7 @@ qx.Class.define("BasicSample",
         src : "http://google.com"
       });
 
-      qx.event.Manager.addListener(iframe, "load", function(e) {
+      qx.event.Registration.addListener(iframe, "load", function(e) {
         console.log("Juhu", e);
       });
 

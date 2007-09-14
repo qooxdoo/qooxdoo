@@ -96,6 +96,6 @@ qx.Class.define("qx.event.handler.Object",
   */
 
   defer : function(statics) {
-    qx.event.Manager.addHandler(statics);
+    qx.event.Registration.addHandler(statics);
   }
 });

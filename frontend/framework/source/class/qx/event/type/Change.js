@@ -49,7 +49,7 @@ qx.Class.define("qx.event.type.Change",
      * @param type {String} the type name of the event
      * @param value {var} The property's new value
      * @param old {var} The property's old value
-     * @return {qx.event.type.ChangeEvent} the initialized instance.
+     * @return {qx.event.type.Change} the initialized instance.
      */
     init : function(type, value, old)
     {
