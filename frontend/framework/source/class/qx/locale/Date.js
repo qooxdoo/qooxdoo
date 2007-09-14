@@ -20,7 +20,7 @@
 ************************************************************************ */
 
 /**
- * Create a new instance of qx.nls.Date
+ * Create a new instance of qx.locale.Date
  */
 qx.Class.define("qx.locale.Date",
 {
@@ -213,6 +213,13 @@ qx.Class.define("qx.locale.Date",
     {
       if (size != "short" && size != "medium" && size != "long" && size != "full") {
         throw new Error('format must be one of "short", "medium", "long", "full"');
+      }
+
+      var key = "cldr_time_format_" + size;
+      var localizedFormat = qx.locale.Manager.getInstance().translate(key, [], locale);
+
+      if (localizedFormat != key) {
+        return localizedFormat;
       }
 
       switch(size)
