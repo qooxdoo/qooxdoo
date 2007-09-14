@@ -1,0 +1,108 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+
+  <script type="text/javascript">
+    qxsettings = { "qx.enableApplicationLayout" : false };
+  </script>
+
+  <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
+</head>
+<body>
+  <div id="description">
+  </div>
+
+  <div id="test"></div>
+
+  <script type="text/javascript">
+qx.Class.define("BasicSample",
+{
+  extend : qx.application.Basic,
+
+  members :
+  {
+    main : function()
+    {
+      this.base(arguments);
+
+      var textField = qx.bom.Input.create("text");
+
+      qx.event.Registration.addListener(textField, "input", function(e) {
+        this.debug("Input (Single): " + e.getData());
+      }, this);
+      
+      qx.event.Registration.addListener(textField, "change", function(e) {
+        this.debug("Change (Single): " + e.getData());
+      }, this);
+
+      var textArea = qx.bom.Input.create("textarea");
+      
+      qx.event.Registration.addListener(textArea, "input", function(e) {
+        this.debug("Input (Multi): " + e.getData());
+      }, this);
+      
+      qx.event.Registration.addListener(textArea, "change", function(e) {
+        this.debug("Change (Multi): " + e.getData());
+      }, this);            
+
+      document.body.appendChild(textField);
+      document.body.appendChild(textArea);
+
+
+
+      
+      var checkBox1 = qx.bom.Input.create("checkbox");
+
+      var checkBox2 = qx.bom.Input.create("checkbox", {
+        checked : true 
+      });
+      
+      qx.event.Registration.addListener(checkBox1, "change", function(e) {
+        this.debug("Changed checkbox 1: " + e.getData());
+      }, this);
+      
+      qx.event.Registration.addListener(checkBox2, "change", function(e) {
+        this.debug("Changed checkbox 2: " + e.getData());
+      }, this);      
+
+      document.body.appendChild(checkBox1);
+      document.body.appendChild(checkBox2);
+      
+      
+      
+      var selectBox = qx.bom.Input.create("select");
+      var op;
+      for (var i=0; i<10; i++) 
+      {
+        op = document.createElement("option");
+        op.value = "VAL" + i;
+        op.appendChild(document.createTextNode("Value " + i));
+        selectBox.appendChild(op);
+      }
+      
+      qx.event.Registration.addListener(selectBox, "change", function(e) {
+        this.debug("Changed selectbox: " + e.getData());
+      }, this);
+      
+      document.body.appendChild(selectBox);
+      
+      
+      
+      
+      var fileSelect = qx.bom.Input.create("file");
+      
+      qx.event.Registration.addListener(fileSelect, "change", function(e) {
+        this.debug("Changed file select: " + e.getData());
+      }, this);
+      
+      document.body.appendChild(fileSelect);
+    }
+  }
+});
+
+qx.core.Init.getInstance().setApplication(new BasicSample);
+  </script>
+</body>
+</html>

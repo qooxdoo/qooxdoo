@@ -52,14 +52,11 @@ qx.Class.define("qx.event.handler.Iframe",
      * Internal function called by iframes created using {@link qx.bom.Iframe}.
      *
      * @internal
-     * @param type {String} Name of the event
      * @param target {Element} DOM element which is the target of this event
      * @return {void}
      */
-    onevent : function(type, target)
-    {
-      var manager = qx.event.Registration.getManager(target);
-      manager.fireEvent(target, qx.event.type.Event, [type, false]);
+    onevent : function(target) {
+      qx.event.Registration.fireEvent(target, qx.event.type.Event, ["load", false]);
     }
   },
   

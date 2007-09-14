@@ -54,7 +54,7 @@ qx.Class.define("qx.bom.Iframe",
     {
       // Work on a copy to not modify given attributes map
       var attributes = attributes ? qx.lang.Object.copy(attributes) : {};
-      attributes.onload = "qx.event.handler.Iframe.onevent(\"load\", this)";
+      attributes.onload = "qx.event.handler.Iframe.onevent(this)";
 
       return qx.bom.Element.create("iframe", attributes, win);
     },
