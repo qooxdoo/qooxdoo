@@ -83,7 +83,7 @@ qx.Class.define("qx.bom.Iframe",
       {
         try
         {
-          var doc = qx.legacy.html.Iframe.getDocument(iframe);
+          var doc = this.getDocument(iframe);
           return doc ? doc.defaultView : null;
         }
         catch(ex)
@@ -108,7 +108,7 @@ qx.Class.define("qx.bom.Iframe",
       {
         try
         {
-          var win = qx.legacy.html.Iframe.getWindow(iframe);
+          var win = this.getWindow(iframe);
           return win ? win.document : null;
         }
         catch(ex)
@@ -137,7 +137,7 @@ qx.Class.define("qx.bom.Iframe",
      */
     getBody : function(iframe)
     {
-      var doc = qx.legacy.html.Iframe.getDocument(iframe);
+      var doc = this.getDocument(iframe);
       return doc ? doc.getElementsByTagName("body")[0] : null;
     }
   }
