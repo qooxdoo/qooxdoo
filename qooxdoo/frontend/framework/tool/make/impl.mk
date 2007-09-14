@@ -449,6 +449,13 @@ exec-api-build:
 #
  
 exec-testrunner-build:
+	@# save old testrunner build contents
+	@( if [ -d $(TESTRUNNER_PATH)/build ]; then \
+				rm -fr $(TESTRUNNER_PATH)/build.bak; \
+				mv -f $(TESTRUNNER_PATH)/build $(TESTRUNNER_PATH)/build.bak; \
+		 fi)
+
+	@# make a specific testrunner build
 	@( cd $(TESTRUNNER_PATH); \
           make -f Makefile.runner APPLICATION_ADDITIONAL_BUILD_OPTIONS='\
                   --use-setting qx.testPageUri:html/tests.html \
@@ -461,6 +468,14 @@ exec-testrunner-build:
 	@cp -f $(TESTRUNNER_BUILD_PATH)/index.html $(APPLICATION_TEST_PATH)
 	@cp -f $(TESTRUNNER_SOURCE_PATH)/html/QooxdooTest.html $(APPLICATION_TEST_PATH)/html/tests.html
 	@cp -Rf $(TESTRUNNER_BUILD_PATH)/resource $(APPLICATION_TEST_PATH)
+
+	@# restore old testrunner build contents
+	@( if [ -d $(TESTRUNNER_PATH)/build.bak ]; then \
+				rm -fr $(TESTRUNNER_PATH)/build; \
+				mv -f $(TESTRUNNER_PATH)/build.bak $(TESTRUNNER_PATH)/build; \
+		 else \
+		    rm -fr $(TESTRUNNER_PATH)/build; \
+		 fi)
 
 
 exec-tests-build:
