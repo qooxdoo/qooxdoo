@@ -95,21 +95,66 @@ qx.Class.define("BasicSample",
       
       
       
-      var selectBox = qx.bom.Input.create("select");
+      var selectBox1 = qx.bom.Input.create("select");
       var op;
       for (var i=0; i<10; i++) 
       {
         op = document.createElement("option");
         op.value = "VAL" + i;
         op.appendChild(document.createTextNode("Value " + i));
-        selectBox.appendChild(op);
+        selectBox1.appendChild(op);
       }
       
-      qx.event.Registration.addListener(selectBox, "change", function(e) {
-        this.debug("Changed selectbox: " + e.getData());
+      qx.event.Registration.addListener(selectBox1, "change", function(e) {
+        this.debug("Changed selectbox1: " + e.getData());
       }, this);
       
-      document.body.appendChild(selectBox);
+      document.body.appendChild(selectBox1);
+      
+      
+      
+      
+
+      var selectBox2 = qx.bom.Input.create("select", {
+        size : 3 
+      });
+      var op;
+      for (var i=0; i<10; i++) 
+      {
+        op = document.createElement("option");
+        op.value = "VAL" + i;
+        op.appendChild(document.createTextNode("Value " + i));
+        selectBox2.appendChild(op);
+      }
+      
+      qx.event.Registration.addListener(selectBox2, "change", function(e) {
+        this.debug("Changed selectbox2: " + e.getData());
+      }, this);
+      
+      document.body.appendChild(selectBox2);
+      
+      
+      
+      
+      
+      var selectBox3 = qx.bom.Input.create("select", {
+        size : 3,
+        multiple : true 
+      });
+      var op;
+      for (var i=0; i<10; i++) 
+      {
+        op = document.createElement("option");
+        op.value = "VAL" + i;
+        op.appendChild(document.createTextNode("Value " + i));
+        selectBox3.appendChild(op);
+      }
+      
+      qx.event.Registration.addListener(selectBox3, "change", function(e) {
+        this.debug("Changed selectbox3: " + e.getData());
+      }, this);
+      
+      document.body.appendChild(selectBox3);            
       
       
       
