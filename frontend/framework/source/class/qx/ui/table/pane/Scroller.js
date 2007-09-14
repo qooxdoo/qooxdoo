@@ -205,7 +205,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     "changeScrollY" : "qx.event.type.ChangeEvent",
 
     /** Dispatched if the pane is scrolled vertically */
-    "changeScrollX" : "qx.event.type.ChangeEvent"
+    "changeScrollX" : "qx.event.type.ChangeEvent",
+
+    /** Dispatched if the user double clicks on a table row */
+    "rowdblclick" : "qx.event.type.DataEvent"
   },
 
 
@@ -1140,9 +1143,17 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _ondblclickPane : function(evt)
     {
+      var pageX = evt.getPageX();
+      var pageY = evt.getPageY();
+
+      var row = this._getRowForPagePos(pageX, pageY);
+      if (row != -1 && row != null) {
+        this.createDispatchDataEvent("rowdblclick", row);
+      }
+
       if (!this.isEditing())
       {
-        this._focusCellAtPagePos(evt.getPageX(), evt.getPageY());
+        this._focusCellAtPagePos(pageX, pageY);
         this.startEditing();
       }
     },
