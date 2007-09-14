@@ -366,16 +366,20 @@ qx.Class.define("qx.event.handler.Focus",
      * Helper for native event listeners to react on element blur
      *
      * @type member
+     * @param element {Element} DOM element which should be blurred
      * @return {void}
      */
-    _doElementBlur : function()
+    _doElementBlur : function(element)
     {
-      if (this.getFocus()) {
-        this.resetFocus(); 
-      }
-
-      if (this.getActive()) {
-        this.resetActive();
+      if (element)
+      {
+        if (this.getFocus() === element) {
+          this.resetFocus(); 
+        }
+  
+        if (this.getActive() === element) {
+          this.resetActive();
+        }
       }
     },    
 
@@ -611,7 +615,7 @@ qx.Class.define("qx.event.handler.Focus",
     {
       "gecko|opera|webkit" : function(e)
       {
-        this._doElementBlur();
+        this._doElementBlur(e.target);
         
         switch(e.target)
         {
