@@ -55,6 +55,7 @@ qx.Class.define("qx.bom.Element",
       "oninput" : true,
       "onchange" : true,
       "name" : true,
+      "value" : true,
       "type" : true,
       "checked" : true
     },

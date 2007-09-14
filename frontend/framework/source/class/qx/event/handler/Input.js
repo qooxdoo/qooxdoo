@@ -47,28 +47,28 @@ qx.Class.define("qx.event.handler.Input",
     /** {Integer} Priority of this handler */
     PRIORITY : qx.event.Registration.PRIORITY_FIRST,
     
-    // Hints:
+    // Original behavior:
+    // ================================================================
     // Normally a "change" event should occour on blur of the element
     // (http://www.w3.org/TR/DOM-Level-2-Events/events.html)
+    
     // However this is not true for "file" upload fields
-    // And this is also not true for checkboxes and radiofields (Gecko + Webkit)
+    
+    // And this is also not true for checkboxes and radiofields (all non mshtml)
     // And this is also not true for select boxes where the selections 
     // happens in the opened popup (Gecko + Webkit)
     
     // Normalized behavior:
-    
-    // Change on blur for textfields, textareas and file (when using dialog)
-    // Instant change event on checkboxes, radiobuttons and file (when using keyboard)
-    // File elements using keyboard are always instant in mshtml.
+    // ================================================================
+    // Change on blur for textfields, textareas and file
+    // Instant change event on checkboxes, radiobuttons
     
     // Select field differ when using keyboard: 
     // mshtml,opera=instant; mozilla,safari=onblur
-    // when using popup: identical = instant (on select)
+    // when using popup: identical = on mousedown/select
     
     // Input event for textareas does not work in Safari 3 beta (WIN)
-    // Safari 3 beta (WIN) repeats changed event for select box onblur when selected using popup
-    
-    // TODO: Normalize file and select when possible
+    // Safari 3 beta (WIN) repeats change event for select box on blur when selected using popup
     
     /**
      * Internal function called by input elements created using {@link qx.bom.Input}.
@@ -101,8 +101,18 @@ qx.Class.define("qx.event.handler.Input",
      * @param target {Element} DOM element which is the target of this event
      * @return {void}
      */    
-    onchangecheckedevent : function(target) {
-      qx.event.Registration.fireEvent(target, qx.event.type.Data, ["change", target.checked]);
+    onchangecheckedevent : function(target) 
+    {
+      if (target.type === "radio") 
+      {
+        if (target.checked) {
+          qx.event.Registration.fireEvent(target, qx.event.type.Data, ["change", target.value]); 
+        } 
+      }
+      else
+      {
+        qx.event.Registration.fireEvent(target, qx.event.type.Data, ["change", target.checked]);
+      }
     },
     
     
@@ -125,13 +135,13 @@ qx.Class.define("qx.event.handler.Input",
             qx.event.Registration.fireEvent(target, qx.event.type.Data, ["input", target.value]);
           }
         }
-        else if (prop === "value" && target.type === "file") 
-        {
-          qx.event.Registration.fireEvent(target, qx.event.type.Data, ["change", target.value]);
-        }
         else if (prop === "checked")
         {
-          qx.event.Registration.fireEvent(target, qx.event.type.Data, ["change", target.checked]);
+          if (target.type === "checkbox") {
+            qx.event.Registration.fireEvent(target, qx.event.type.Data, ["change", target.checked]);
+          } else if (target.checked) {
+            qx.event.Registration.fireEvent(target, qx.event.type.Data, ["change", target.value]);
+          }
         }
         else if (prop === "selectedIndex") 
         {
