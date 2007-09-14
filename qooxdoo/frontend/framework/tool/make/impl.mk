@@ -459,7 +459,7 @@ exec-testrunner-build:
 	$(SILENCE) $(CMD_DIR) $(APPLICATION_TEST_PATH)/resource
 	@cp -f $(TESTRUNNER_BUILD_PATH)/script/testrunner.js $(APPLICATION_TEST_PATH)/script
 	@cp -f $(TESTRUNNER_BUILD_PATH)/index.html $(APPLICATION_TEST_PATH)
-	@cp -f $(TESTRUNNER_BUILD_PATH)/html/QooxdooTest.html $(APPLICATION_TEST_PATH)/html/tests.html
+	@cp -f $(TESTRUNNER_SOURCE_PATH)/html/QooxdooTest.html $(APPLICATION_TEST_PATH)/html/tests.html
 	@cp -Rf $(TESTRUNNER_BUILD_PATH)/resource $(APPLICATION_TEST_PATH)
 
 
