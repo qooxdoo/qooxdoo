@@ -56,6 +56,14 @@
     }
 
   </style>
+
+	<script type="text/javascript">
+	  function domReady() {
+			qx.core.Init.getInstance().debug("DOM Ready... juhi :)")
+		}
+		
+    qx.event.Registration.addListener(window, "domready", domReady, this);
+	</script>
 </head>
 <body>
   <div id="description">
