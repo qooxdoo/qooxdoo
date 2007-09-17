@@ -77,7 +77,7 @@ qx.Class.define("qx.event.Registration",
       } else {
         var win = window;
       }
-      
+
       var id = qx.core.Object.toHashCode(win);
       var manager = this.__managers[id];
 
@@ -89,10 +89,10 @@ qx.Class.define("qx.event.Registration",
 
       return manager;
     },
-    
-    
+
+
     /**
-     * Removes a manager for a specific window from the list. 
+     * Removes a manager for a specific window from the list.
      * Normally only used when the manager gets disposed through
      * an unload event of the attached window.
      *
@@ -132,7 +132,7 @@ qx.Class.define("qx.event.Registration",
 
     /**
      * Remove an event listener from a from DOM node.
-     * 
+     *
      * Note: All registered event listeners will automatically be removed from
      *   the DOM at page unload so it is not necessary to detach events in the
      *   destructor.
@@ -200,12 +200,12 @@ qx.Class.define("qx.event.Registration",
      * @param event {qx.event.type.Event} The event object to dispatch. The event
      *       object must be obtained using {@link #createEvent} and initialized
      *       using {@link qx.event.type.Event#init}.
-     * @return {void} 
+     * @return {void}
      */
     dispatchEvent : function(target, event) {
       this.getManager(target).dispatchEvent(target, event);
     },
-    
+
 
     /**
      * Create an event object and dispatch it on the given target.
@@ -255,7 +255,7 @@ qx.Class.define("qx.event.Registration",
      *
      * Use this with caution. This is only thought for event handlers and
      * not for the user.
-     *     
+     *
      * @internal
      * @type static
      * @param target {Object} Any valid native event target
@@ -313,7 +313,7 @@ qx.Class.define("qx.event.Registration",
      * @param handler {qx.legacy.event.handler.AbstractEventHandler} Event handler to add
      * @param priority {Integer} One of {@link #PRIORITY_FIRST}, {@link PRIORITY_NORMAL}
      *       or {@link #PRIORITY_LAST}.
-     * @return {void} 
+     * @return {void}
      * @throws an error if the handler does not have the IEventHandler interface.
      */
     addHandler : function(handler, priority)
@@ -327,7 +327,7 @@ qx.Class.define("qx.event.Registration",
 
       // Append to list
       this.__handlers.push(handler);
-      
+
       // Re-sort list
       this.__handlers.sort(function(a, b) {
         return a.PRIORITY - b.PRIORITY;
@@ -367,7 +367,7 @@ qx.Class.define("qx.event.Registration",
      * @param dispatcher {qx.legacy.event.dispatch.IEventDispatch} Event dispatcher to add
      * @param priority {Integer} One of {@link #PRIORITY_FIRST}, {@link PRIORITY_NORMAL}
      *       or {@link #PRIORITY_LAST}.
-     * @return {void} 
+     * @return {void}
      * @throws an error if the dispatcher does not have the IEventHandler interface.
      */
     addDispatcher : function(dispatcher, priority)
