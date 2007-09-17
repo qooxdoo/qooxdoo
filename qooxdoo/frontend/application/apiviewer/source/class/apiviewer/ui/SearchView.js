@@ -224,7 +224,7 @@ qx.Class.define("apiviewer.ui.SearchView",
           this.listdata = [];
 
           var listfield = {
-            icon : { label:" ", width:"10%", type:"iconHtml", align:"center", sortable:false },
+            icon : { label:" ", width:"10%", type:"iconHtml", align:"center", sortable:true, sortMethod:this._sortByIcons, sortProp:"icon"  },
             result : { label:results + " Results (" + duration + " s)", width:"90%", type:"text", sortable:true, sortProp:"text" }};
 
           this.rlv = new qx.ui.listview.ListView(this.listdata, listfield);
@@ -350,21 +350,54 @@ qx.Class.define("apiviewer.ui.SearchView",
              return 1;
           return 0;
       });   
-        
-      for (var i = 0; i < sresult.length; i++) {
-        if (sresult[i][0] instanceof Array) {
-          var iconDisplay = sresult[i][0][0];
-        } else {
-          var iconDisplay = sresult[i][0];
-        }
-
+      for (var i=0, l=sresult.length; i<l; i++) {
+        var iconDisplay = sresult[i][0];
         var ldicon = {icon:iconDisplay, html:"", iconWidth:18, iconHeight:18};
         this.listdata.push({icon:ldicon, result:{text:sresult[i][1]}});
       }
     },
 
 
-    __setLivesearch : function()
+    /**
+     * Sort elements in order of type
+     *
+     * @type member
+     * @param a {String} icon url first argument
+     * @param b {String} icon url second argument
+     */
+    _sortByIcons : function(a, b)
+    {      
+      var icons =
+      {
+        "package":0,
+        "class":1,
+        "interface":2,
+        "mixin":3,
+        "method_public":4,
+        "method_protected":5,
+        "method_private":6,
+        "property":7,
+        "property_protected":8,
+        "property_private":9,
+        "event":10,
+        "constructor":11,
+        "constant":12
+      };
+      var iconurl = a.substr(a.lastIndexOf("/")+1);
+      a = icons[iconurl.substr(0, iconurl.length-6)];
+      var iconurlNext = b.substr(b.lastIndexOf("/")+1);
+      b = icons[iconurlNext.substr(0, iconurlNext.length-6)];
+
+      return a - b;
+    },
+
+
+
+
+    /**
+     * Toggle the live search functionality
+     */
+    __toggleLivesearch : function()
     {
       if (this.__livesearch === false) {
         this.__livesearch = true;
