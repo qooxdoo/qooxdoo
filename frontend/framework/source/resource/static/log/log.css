@@ -23,6 +23,8 @@ a:hover {
 }
 
 #log {
+    font-family: Consolas, Monaco, "Bitstream Vera Sans Mono", monospace;
+    font-size: 11px;
     overflow: auto;
     position: absolute;
     left: 0;
@@ -50,7 +52,6 @@ a:hover {
 }
 
 .logRow-command {
-    font-family: Monaco, monospace;
     color: blue;
 }
 
@@ -62,7 +63,6 @@ a:hover {
 }
 
 .objectBox-string {
-    font-family: Monaco, monospace;
     color: red;
     white-space: pre;
 }
@@ -72,7 +72,6 @@ a:hover {
 }
 
 .objectBox-function {
-    font-family: Monaco, monospace;
     color: DarkGreen;
 }
 
@@ -142,7 +141,6 @@ a:hover {
 .selectorTag,
 .selectorId,
 .selectorClass {
-    font-family: Monaco, monospace;
     font-weight: normal;
 }
 
@@ -161,7 +159,6 @@ a:hover {
 /************************************************************************************************/
 
 .objectBox-element {
-    font-family: Monaco, monospace;
     color: #000088;
 }
 
