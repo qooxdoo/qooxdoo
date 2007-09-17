@@ -173,7 +173,7 @@ qx.Class.define("qx.event.Manager",
     {
       var uniqueId = this.__generateUniqueId(target, type, capture);
       var res = this.__listeners[uniqueId];
-      if (res) {
+      if (res && res.length > 0) {
         return res.concat();
       }
       
