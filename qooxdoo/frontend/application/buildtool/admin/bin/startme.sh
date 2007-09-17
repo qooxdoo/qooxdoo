@@ -43,9 +43,9 @@
 #
 ##
 
-typeset -i DEBUG=0  # don't use this on MacX
+typeset -i DEBUG=1  # don't use this on MacX
 typeset -i rc=0
-typeset adminUrl=http://127.0.0.1:8000/admin/index.html
+typeset adminUrl=http://127.0.0.1:8000/buildtool/index.html
 #typeset adminUrl=http://127.0.0.1:8000/source/index.html
 #typeset testUrl=http://127.0.0.1:8000/
 typeset testUrl=$adminUrl
@@ -53,6 +53,7 @@ typeset adminHost=127.0.0.1
 typeset adminPort=8000
 typeset pybin=python
 typeset Browsers="firefox mozilla webkit safari"
+typeset websrvPath=buildtool/bin/cgiserver.py
 typeset -i WebSvrWait=5
 
 # -- Functions ------------
@@ -111,13 +112,13 @@ startServer () {
     return -1
   fi
   if [ $DEBUG -eq 0 ]; then
-    $pybin admin/bin/cgiserver.py >/dev/null 2>&1 &
+    $pybin $websrvPath >/dev/null 2>&1 &
   else
     if is_darwin ; then
       # this doesn't work yet, just for docu
       /Applications/Utilities/Terminal.app/Contents/MacOS/Terminal &
     else
-      xterm -e $pybin admin/bin/cgiserver.py &
+      xterm -e "$pybin $websrvPath" &
     fi
   fi
   ServerPid=$!
@@ -226,15 +227,21 @@ is_darwin () {
   fi
 }
 
+checkDir () {
+  [ -f Makefile ] || {
+    echo_ Changing directory
+    pushd ../.. >/dev/null
+    [ -f Makefile ] || {
+      echo_ Looks like the wrong directory _no Makefile_ - aborting ...
+      exit 1
+    }
+  }
+}
+
 # -- Main ------------------
 
-# change directory
-echo_ Changing directory
-pushd ../.. >/dev/null
-[ -f Makefile ] || {
-  echo_ Looks like the wrong directory _no Makefile_ - aborting ...
-  exit 1
-}
+# possibly change directory
+checkDir
 
 # start mini web server
 echo_ Starting mini web server
@@ -245,7 +252,7 @@ echo_ Waiting a few seconds for the web server
 checkWebServer
 if [ $? -ne 0 ]; then
   echo_ "Problems starting web server; aborting ..."
-  echo_ "Try invoking \"python admin/bin/cgiserver.py\". If that works,"
+  echo_ "Try invoking \"python $websrvPath\". If that works,"
   echo_ "open the URL $adminUrl in your web browser."
   shutDown
   exit 3

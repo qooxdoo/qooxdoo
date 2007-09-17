@@ -89,9 +89,9 @@ build-addon: build-makvars
 # Special Target 'deploy'  -- construct a directory which contains everything
 #   to export this application
 #
+deploy: exec-deploy
 
-#deploy: build
-deploy:
+exec-deploy: 
 	@echo
 	@echo "  GENERATION OF DEPLOY VERSION OF BUILD TOOL"
 	@$(CMD_LINE)

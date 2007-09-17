@@ -402,8 +402,15 @@ exec-files-api:
   done
 
 
-
-
+exec-files-buildtool:
+	@echo
+	@echo "  COPYING OF FILES"
+	@$(CMD_LINE)
+	@echo "  * Copying files..."
+	@mkdir -p $(BUILDTOOL_NAMESPACE)
+	@cp -Rf $(BUILDTOOL_DEPLOY_PATH)/* $(BUILDTOOL_NAMESPACE); 
+	@mv $(BUILDTOOL_NAMESPACE)/bin/startme.sh ./buildtool_start.sh
+	@mv $(BUILDTOOL_NAMESPACE)/bin/startme.bat ./buildtool_start.bat
 
 
 
@@ -502,6 +509,12 @@ exec-tests-build:
 	   --generate-compiled-script \
 	   --compiled-script-file $(APPLICATION_TEST_PATH)/script/tests.js
 
+#
+# BuildTool targets
+#
+
+exec-buildtool-build:
+	@( cd $(BUILDTOOL_PATH); make deploy )
 
 
 #
@@ -606,5 +619,11 @@ info-test:
 	@echo
 	@echo "****************************************************************************"
 	@echo "  GENERATING TEST RUNNER FOR $(APPLICATION_MAKE_TITLE)"
+	@echo "****************************************************************************"
+
+info-buildtool:
+	@echo
+	@echo "****************************************************************************"
+	@echo "  GENERATING BUILD TOOL FOR $(APPLICATION_MAKE_TITLE)"
 	@echo "****************************************************************************"
 

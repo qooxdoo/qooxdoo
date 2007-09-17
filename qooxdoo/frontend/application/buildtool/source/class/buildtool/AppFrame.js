@@ -164,7 +164,7 @@ qx.Class.define("buildtool.AppFrame",
     */
     adminHost : "127.0.0.1",  // some machines dont know localhost
     adminPort : "8000",
-    adminPath : "/admin/bin/nph-qxadmin_cgi.py",
+    adminPath : "/buildtool/bin/nph-qxadmin_cgi.py",
     adminUrl  : "http://"+this.adminHost+":"+this.adminPort+this.adminPath,
 
     /*

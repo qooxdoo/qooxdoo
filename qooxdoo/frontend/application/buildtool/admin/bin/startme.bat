@@ -19,10 +19,11 @@
 :: Config Section
   @echo off
   setlocal ENABLEDELAYEDEXPANSION
-  set DEBUG=1
+  set DEBUG=0
   set WebSvrWait=5
+  set websrvPath=buildtool/bin/cgiserver.py
   set rc=0
-  set adminUrl=http://127.0.0.1:8000/admin/index.html
+  set adminUrl=http://127.0.0.1:8000/buildtool/index.html
   set testUrl=http://127.0.0.1:8000/
   set pybin=python
   set tmpFile="%TEMP%.\qxtmp.txt"
@@ -47,13 +48,8 @@
     echo. Found cygwin as !CygwinPath!, containing bash
   )
 :: cd to Makefile dir
-  echo. Changing directory
-  pushd ..\..
-  if not exist "Makefile" (
-    echo. Looks like the wrong directory _no Makefile_ - aborting ...
-    set rc=1
-    goto:END
-  )
+  call :_checkDir
+
 :: find python
   :: in cygwin
   set CygwinPath >nul 2>&1
@@ -85,9 +81,9 @@
 :: start mini web server
   :GotPython
   if %pybin%=="" (
-    set pcmd=admin/bin/cgiserver.py
+    set pcmd=%websrvPath%
   ) else (
-    set pcmd=%pybin% admin/bin/cgiserver.py
+    set pcmd=%pybin% %websrvPath%
   )
   echo. Starting mini web server
   if %DEBUG%==1 (
@@ -100,7 +96,7 @@
   call :_checkWebServer
   if not !CheckWebServer!==1 (
     echo. Problems starting web server; aborting ...
-    echo. Try invoking "python admin\bin\cgiserver.py". If that works,
+    echo. Try invoking "python %websrvPath%". If that works,
     echo. open the URL %adminUrl%?cygwin=!CgwinPath! in your web browser.
     goto:END
   )
@@ -250,6 +246,20 @@
     set myfound=1
   )
   endlocal & set YesNo=%myfound%
+  goto:EOF
+
+:_checkDir
+  setlocal
+  if not exist "Makefile" (
+    echo. Changing directory
+    pushd ..\..
+    if not exist "Makefile" (
+        echo. Looks like the wrong directory _no Makefile_ - aborting ...
+        set rc=1
+        goto:END
+    )
+  )
+  endlocal
   goto:EOF
 
 :_checkWebServer

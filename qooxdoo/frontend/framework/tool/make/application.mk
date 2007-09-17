@@ -26,6 +26,7 @@
 include $(QOOXDOO_PATH)/frontend/framework/tool/make/framework.mk
 include $(QOOXDOO_PATH)/frontend/framework/tool/make/apiviewer.mk
 include $(QOOXDOO_PATH)/frontend/framework/tool/make/testrunner.mk
+include $(QOOXDOO_PATH)/frontend/framework/tool/make/buildtool.mk
 
 
 
