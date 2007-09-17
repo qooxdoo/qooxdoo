@@ -41,7 +41,7 @@ qx.Mixin.define("qx.core.MLegacyInit",
 
       this.getApplication().main = function()
       {
-        qx.application.Gui.prototype.main();
+        qx.application.Gui.prototype.main.call(this);
         if (this.initialize) {
           this.initialize();
         }
@@ -91,7 +91,7 @@ qx.Mixin.define("qx.core.MLegacyInit",
 
       this.getApplication().close = function()
       {
-        qx.application.Gui.prototype.close();
+        qx.application.Gui.prototype.close.call(this);
         func.call(this);
       }
     },
@@ -114,7 +114,7 @@ qx.Mixin.define("qx.core.MLegacyInit",
 
       this.getApplication().terminate = function()
       {
-        qx.application.Gui.prototype.terminate();
+        qx.application.Gui.prototype.terminate.call(this);
         func.call(this);
       }
     }
