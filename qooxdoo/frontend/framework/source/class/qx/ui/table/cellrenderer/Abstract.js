@@ -38,14 +38,11 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
     if (!clazz.stylesheet)
     {
       clazz.stylesheet = qx.html.StyleSheet.createElement(
-        ".qooxdoo-table-cell div {" +
-        "  white-space: nowrap;" +
-        "}" +
         ".qooxdoo-table-cell {" +
+        "  position: absolute;" +
+        "  top: 0px;" +
+        "  height: 100%;" +
         "  overflow:hidden;" +
-        "  text-overflow:ellipsis;" +
-        "  -o-text-overflow: ellipsis;" +
-        "  white-space:nowrap;" +
         "  border-right:1px solid #eeeeee;" +
         "  border-bottom:1px solid #eeeeee;" +
         "  padding : 0px 2px;" +
@@ -102,7 +99,12 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
      */
     _getCellStyle : function(cellInfo)
     {
-      return cellInfo.style || "";
+      var style = [
+        "left:", cellInfo.styleLeft, "px;",
+        "width:", cellInfo.styleWidth, "px;",
+        cellInfo.style || ""
+      ];
+      return style.join("");
     },
 
 
@@ -124,7 +126,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
     // interface implementation
     createDataCellHtml : function(cellInfo, htmlArr)
     {
-      htmlArr.push('<td class="');
+      htmlArr.push('<div class="');
       htmlArr.push(this._getCellClass(cellInfo));
 
       var cellStyle = this._getCellStyle(cellInfo);
@@ -132,19 +134,12 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
         htmlArr.push('" style="');
         htmlArr.push(cellStyle);
       }
-
       htmlArr.push('">');
 
-      // IE cannot handle overflow of table cells correctly so we have to
-      // wrap the contents in a div.
       var content = this._getContentHtml(cellInfo);
-      if (qx.core.Variant.isSet("qx.client", "mshtml") && /[\s\f\n\r]/g.test(content)) {
-        htmlArr.push('<div>', content, '</div>');
-      } else {
-        htmlArr.push(content);
-      }
+      htmlArr.push(content);
 
-      htmlArr.push("</td>");
+      htmlArr.push("</div>");
     }
 
   }

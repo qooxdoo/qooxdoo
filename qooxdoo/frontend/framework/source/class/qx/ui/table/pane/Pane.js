@@ -53,8 +53,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
     this._lastColCount = 0;
     this._lastRowCount = 0;
-
-    this.__initTableArray();
   },
 
 
@@ -116,25 +114,11 @@ qx.Class.define("qx.ui.table.pane.Pane",
   members :
   {
     // property modifier
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
     _applyFirstVisibleRow : function(value, old) {
       this._updateContent(false, value-old);
     },
 
     // property modifier
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
     _applyVisibleRowCount : function(value, old) {
       this._updateContent();
     },
@@ -439,7 +423,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
         return;
       }
 
-      var rowNodes = elem.firstChild.childNodes[1].childNodes;
+      var rowNodes = elem.firstChild.childNodes;
       var cellInfo = { table : table };
 
       for (var y=0, l=rowNodes.length; y<l; y++)
@@ -505,8 +489,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
         cellInfo.focusedRow = focusedRow;
         cellInfo.rowData = tableModel.getRowData(row);
 
-        rowHtml.push('<tr height="');
-        rowHtml.push(rowHeight, 'px" ');
+        rowHtml.push('<div ');
 
         var rowClass = rowRenderer.getRowClass(cellInfo);
         if (rowClass) {
@@ -514,7 +497,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
         }
 
         var rowStyle = rowRenderer.createRowStyle(cellInfo);
-        rowStyle += ';line-height:' + (rowHeight-2) + 'px;';
+        rowStyle += ";position:relative;height:" + rowHeight + "px; width:" + paneModel.getTotalWidth() + "px;";
         if (rowStyle) {
           rowHtml.push('style="', rowStyle, '" ');
         }
@@ -540,7 +523,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
           left += cellWidth;
         }
-        rowHtml.push('</tr>');
+        rowHtml.push('</div>');
 
         var rowString = rowHtml.join("");
 
@@ -564,7 +547,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
         return;
       }
 
-      var tableBody = this.getElement().firstChild.childNodes[1];
+      var tableBody = this.getElement().firstChild;
       var tableChildNodes = tableBody.childNodes;
       var rowCount = this.getVisibleRowCount();
       var firstRow = this.getFirstVisibleRow();
@@ -596,11 +579,11 @@ qx.Class.define("qx.ui.table.pane.Pane",
       if (!this._tableContainer) {
         this._tableContainer = document.createElement("div");
       }
-      var tableDummy = '<table><tbody>';
+      var tableDummy = '<div>';
       tableDummy += this._getRowsHtml(firstRow + addRowBase, Math.abs(rowOffset));
-      tableDummy += '</tbody></table>';
+      tableDummy += '</div>';
       this._tableContainer.innerHTML = tableDummy;
-      var newTableRows = this._tableContainer.firstChild.firstChild.childNodes;
+      var newTableRows = this._tableContainer.firstChild.childNodes;
 
       // append new lines
       if (rowOffset > 0)
@@ -633,27 +616,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
 
     /**
-     * Initialize the table HTML template.
-     */
-    __initTableArray : function()
-    {
-      this.TABLE_ARR = [];
-
-      var i=0;
-      this.TABLE_ARR[i++] = '<table cellspacing="0" cellpadding="0" style="table-layout:fixed;empty-cells: show;font-family:';
-      this.TABLE_ARR[i++] = "'Segoe UI', Corbel, Calibri, Tahoma, 'Lucida Sans Unicode', sans-serif";
-      this.TABLE_ARR[i++] = ';font-size: 11px';
-      this.TABLE_ARR[i++] = ';width:';
-      this.TAB_ROW_WIDTH = i++;
-      this.TABLE_ARR[i++] = 'px"><colgroup>';
-      this.TAB_COLGROUP = i++;
-      this.TABLE_ARR[i++] = '</colgroup><tbody>';
-      this.TAB_BODY = i++;
-      this.TABLE_ARR[i++] = '</tbody></table>';
-    },
-
-
-    /**
      * Updates the content of the pane (implemented using array joins).
      */
     _updateAllRows : function()
@@ -677,30 +639,23 @@ qx.Class.define("qx.ui.table.pane.Pane",
         rowCount = Math.max(0, modelRowCount - firstRow);
       }
 
-      var htmlArr = [];
       var rowWidth = paneModel.getTotalWidth();
 
-      this.TABLE_ARR[this.TAB_ROW_WIDTH] = rowWidth;
-
-      var i=0;
-      var colArr = [];
-      for (var x=0; x<colCount; x++)
-      {
-        var col = paneModel.getColumnAtX(x);
-
-        colArr[i++] = '<col width="';
-        colArr[i++] = columnModel.getColumnWidth(col);
-        colArr[i++] = '" />';
-      }
-
-      this.TABLE_ARR[this.TAB_COLGROUP] = colArr.join("");
-      this.TABLE_ARR[this.TAB_BODY] = this._getRowsHtml(firstRow, rowCount);
-
-      //this.debug(">>>" + this.TABLE_ARR.join("") + "<<<")
+      var htmlArr = [
+        "<div style='",
+        "width: ", rowWidth, "px;",
+        "overflow: hidden;",
+        "font-size: 11px;",
+        "font-family: 'Segoe UI', Corbel, Calibri, Tahoma, 'Lucida Sans Unicode', sans-serif",
+        "'>",
+        this._getRowsHtml(firstRow, rowCount),
+        "</div>"
+      ];
 
       var elem = this.getElement();
-      var data = this.TABLE_ARR.join("");
+      var data = htmlArr.join("");
 
+      //this.debug(">>>" + data + "<<<")
 
       var self = this;
       this._layoutPending = window.setTimeout(function()
