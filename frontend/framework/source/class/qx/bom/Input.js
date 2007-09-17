@@ -73,27 +73,6 @@ qx.Class.define("qx.bom.Input",
         attributes.type = type;
       }
       
-      if (qx.core.Variant.isSet("qx.client", "mshtml")) 
-      {
-        attributes.onpropertychange = "qx.event.handler.Input.onpropertyevent(this)";  
-        
-        if (type === "textarea" || type === "text" || type === "file") {
-          attributes.onchange = "qx.event.handler.Input.onchangevalueevent(this)"; 
-        }
-      }
-      else
-      {
-        if (type === "radio" || type === "checkbox") {
-          attributes.onchange = "qx.event.handler.Input.onchangecheckedevent(this)";
-        } else {
-          attributes.onchange = "qx.event.handler.Input.onchangevalueevent(this)";
-        }
-        
-        if (type === "textarea" || type === "text") {
-          attributes.oninput = "qx.event.handler.Input.oninputevent(this)"; 
-        }
-      }
-
       return qx.bom.Element.create(tag, attributes, win);
     },
     
