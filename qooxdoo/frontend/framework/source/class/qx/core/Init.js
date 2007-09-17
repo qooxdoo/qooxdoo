@@ -206,7 +206,7 @@ qx.Class.define("qx.core.Init",
       }
 
       // Debug info
-      this.debug("application: " + this.getApplication().classname);
+      this.debug("application: " + this.getApplication().classname + "[" + this.getApplication().toHashCode() + "]");
 
       // Send onload
       var start = new Date;
