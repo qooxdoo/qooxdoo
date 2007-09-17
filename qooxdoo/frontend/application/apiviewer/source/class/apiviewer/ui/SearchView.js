@@ -383,10 +383,12 @@ qx.Class.define("apiviewer.ui.SearchView",
         "constructor":11,
         "constant":12
       };
-      var iconurl = a.substr(a.lastIndexOf("/")+1);
-      a = icons[iconurl.substr(0, iconurl.length-6)];
-      var iconurlNext = b.substr(b.lastIndexOf("/")+1);
-      b = icons[iconurlNext.substr(0, iconurlNext.length-6)];
+      // Get the filename
+      var iconfile = a.substr(a.lastIndexOf("/")+1);
+      var iconfileNext = b.substr(b.lastIndexOf("/")+1);
+      // Get the type number
+      a = icons[iconfile.substr(0, iconfile.length-6)];
+      b = icons[iconfileNext.substr(0, iconfileNext.length-6)];
 
       return a - b;
     },
