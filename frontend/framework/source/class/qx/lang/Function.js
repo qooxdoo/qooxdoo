@@ -147,6 +147,13 @@ qx.Class.define("qx.lang.Function",
      */
     create : function(func, options)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on")) 
+      {
+        if (typeof func !== "function") {
+          throw new Error("Could not bind non-function: " + func); 
+        } 
+      }
+      
       var options = options || {};
 
       if (!options.bind) {
