@@ -454,7 +454,7 @@ qx.Class.define("qx.log.appender.Window",
         }
 
         // Scroll to bottom
-        this._logWindow.scrollTop = this._logElem.offsetHeight;
+        this._logLinesDiv.scrollTop = this._logLinesDiv.scrollHeight;
       }
     },
 
