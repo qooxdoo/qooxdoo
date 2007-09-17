@@ -340,9 +340,12 @@ qx.Class.define("qx.core.Log",
       this._consoleLog = doc.getElementById("log");
       this._commandLine = doc.getElementById("commandLine");
       
+      this._onUnloadWrapped = qx.lang.Function.bind(this._onUnload, this);
       this._onResizeWrapped = qx.lang.Function.bind(this._onResize, this);
       this._onCommandLineKeyDownWrapped = qx.lang.Function.bind(this._onCommandLineKeyDown, this);
 
+      this._addEvent(window, "unload", this._onUnloadWrapped);
+      this._addEvent(win, "unload", this._onUnloadWrapped);
       this._addEvent(win, "resize", this._onResizeWrapped);
       this._addEvent(this._commandLine, "keydown", this._onCommandLineKeyDownWrapped);
 
@@ -923,6 +926,21 @@ qx.Class.define("qx.core.Log",
      */    
     _onResize : function(event) {
       this._syncLayout();
+    },
+    
+    
+    _onUnload : function(event) 
+    {
+      var win = this._consoleWindow;
+      
+      if (win) {
+        win.close(); 
+      }
+      
+      this._removeEvent(window, "unload", this._onUnloadWrapped);
+      this._removeEvent(win, "unload", this._onUnloadWrapped);
+      this._removeEvent(win, "resize", this._onResizeWrapped);
+      this._removeEvent(this._commandLine, "keydown", this._onCommandLineKeyDownWrapped);      
     }
   }
 });
