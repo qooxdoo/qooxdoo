@@ -144,7 +144,7 @@ qx.Class.define("qx.event.handler.DomReady",
       else if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
         win.document.write("<script id=__ie_onload defer src=javascript:void(0)><\/script>");
-        var script = win.document.getElementById("__ie_onload");
+        var script = this._script = win.document.getElementById("__ie_onload");
         script.onreadystatechange = function() 
         {
           if (this.readyState == "complete") {
@@ -189,12 +189,13 @@ qx.Class.define("qx.event.handler.DomReady",
       }
       else if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
-        var script = win.document.getElementById("__ie_onload");
-        script.onreadystatechange = null;
+        this._script.onreadystatechange = null;
+        delete this._script;
       }
       else if (qx.core.Variant.isSet("qx.client", "webkit"))
       {
         win.clearInterval(this._timer);
+        delete this._timer;
       }
 
       qx.event.Registration.removeNativeListener(this._window, "load", this._onNativeWrapper); 
