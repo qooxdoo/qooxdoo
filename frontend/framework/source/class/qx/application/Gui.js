@@ -89,7 +89,7 @@ qx.Class.define("qx.application.Gui",
 
       // Force creation of client document
       qx.ui.core.ClientDocument.getInstance();
-
+      
       // Call preloader
       qx.event.Timer.once(this._preload, this, 0);
     },
