@@ -932,15 +932,24 @@ qx.Class.define("qx.core.Log",
     _onUnload : function(event) 
     {
       var win = this._consoleWindow;
-      
-      if (win) {
-        win.close(); 
+      var cmd = this._commandLine;
+
+      this._consoleWindow = null;
+      this._consoleDocument = null;
+      this._consoleLog = null;
+      this._commandLine = null;      
+     
+      if (win) 
+      {
+        try {
+          win.close(); 
+        } catch(ex) {};
       }
       
       this._removeEvent(window, "unload", this._onUnloadWrapped);
       this._removeEvent(win, "unload", this._onUnloadWrapped);
       this._removeEvent(win, "resize", this._onResizeWrapped);
-      this._removeEvent(this._commandLine, "keydown", this._onCommandLineKeyDownWrapped);      
+      this._removeEvent(cmd, "keydown", this._onCommandLineKeyDownWrapped);      
     }
   }
 });
