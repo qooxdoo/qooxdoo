@@ -208,7 +208,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     "changeScrollX" : "qx.event.type.ChangeEvent",
 
     /** Dispatched if the user double clicks on a table row */
-    "rowdblclick" : "qx.event.type.DataEvent"
+    "rowdblclick" : "qx.event.type.Data"
   },
 
 
