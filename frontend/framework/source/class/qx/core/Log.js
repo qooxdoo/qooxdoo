@@ -496,6 +496,10 @@ qx.Class.define("qx.core.Log",
      */
     _logFormatted : function(objects, className)
     {
+      if (window.__firebug__ && window.console) {
+        return window.console[className].apply(window.console, objects);
+      }
+      
       var html = [];
 
       var format = objects[0];
