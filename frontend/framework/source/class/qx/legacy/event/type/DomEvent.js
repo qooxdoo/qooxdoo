@@ -274,8 +274,7 @@ qx.Class.define("qx.legacy.event.type.DomEvent",
 
     preventDefault : function() {
       this.setDefaultPrevented(true);
-    },
-
+    }
   },
 
 
