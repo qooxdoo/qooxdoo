@@ -68,6 +68,10 @@ qx.Class.define("qx.event.type.Mouse",
      * During mouse events caused by the depression or release of a mouse button,
      * this method can be used to check which mouse button changed state.
      *
+     * Only internet explorer can compute the button during mouse move events. For
+     * all other browsers the button only contains sensible data during
+     * "click" events like "click", "dblclick", "mousedown", "mouseup" or "contextmenu".
+     *
      * @type member
      * @return {String} One of "left", "right", "middle" or "none"
      */

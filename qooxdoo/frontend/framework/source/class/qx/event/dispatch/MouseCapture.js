@@ -24,6 +24,7 @@
 #require(qx.event.handler.Focus)
 #require(qx.event.handler.Window)
 #require(qx.event.handler.Capture)
+#require(qx.event.handler.MouseViewportLeave)
 
 ************************************************************************ */
 
@@ -77,15 +78,15 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
      STATICS
   *****************************************************************************
   */
-  
-  statics : 
+
+  statics :
   {
     /** {Integer} Priority of this dispatcher */
     PRIORITY : qx.event.Registration.PRIORITY_FIRST
   },
-  
-  
-  
+
+
+
 
 
 
@@ -119,7 +120,7 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
         event.setCurrentTarget(this._captureElement);
         event.setEventPhase(qx.event.type.Event.AT_TARGET);
 
-        for (var i=0, l=listeners.length; i<l; i++) 
+        for (var i=0, l=listeners.length; i<l; i++)
         {
           var context = listeners[i].context || event.getCurrentTarget();
           listeners[i].handler.call(context, event);
@@ -176,9 +177,9 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
     activateCapture : function(element)
     {
       if (this._captureElement === element) {
-        return; 
+        return;
       }
-      
+
       if (this._captureElement) {
         this.releaseCapture();
       }
@@ -194,11 +195,11 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
     releaseCapture : function()
     {
       var element = this._captureElement;
-      
+
       if (!element) {
         return;
       }
-      
+
       this._captureElement = null;
       this._manager.fireEvent(element, qx.event.type.Event, ["losecapture", false]);
     }
@@ -216,7 +217,7 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
   {
     var manager = this._manager;
     var win = this._window;
-    
+
     manager.removeListener(win, "blur", this.releaseCapture, this);
     manager.removeListener(win, "focus", this.releaseCapture, this);
     manager.removeListener(win, "scroll", this.releaseCapture, this);
