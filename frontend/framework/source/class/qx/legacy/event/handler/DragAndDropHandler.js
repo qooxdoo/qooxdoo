@@ -415,7 +415,8 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
      */
     _handleMouseDown : function(e)
     {
-      if (e.getDefaultPrevented() || !e.isLeftButtonPressed()) {
+      //if (e.getDefaultPrevented() || !e.isLeftButtonPressed()) {
+      if (!e.isLeftButtonPressed()) {
         return;
       }
 
