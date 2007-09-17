@@ -60,7 +60,6 @@ qx.Class.define("qx.core.Object",
   {
     
     this._hashCode = qx.core.Object.__availableHashCode++;
-    //qx.core.Log.debug("Assign hashcode " + this._hashCode + " to " + this);
 
     if (this._autoDispose)
     {
