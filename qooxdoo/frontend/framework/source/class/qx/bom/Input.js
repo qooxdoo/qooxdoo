@@ -39,6 +39,20 @@ qx.Class.define("qx.bom.Input",
 
   statics :
   {
+    __types :
+    {
+      text : 1,
+      textarea : 1,
+      select : 1,
+      checkbox : 1,
+      radio : 1,
+      password : 1,
+      hidden : 1,
+      submit : 1,
+      image : 1,
+      file : 1
+    },
+    
     /**
      * Creates an DOM input/textarea/select element.
      *
@@ -57,6 +71,13 @@ qx.Class.define("qx.bom.Input",
      */
     create : function(type, attributes, win)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (!this.__types[type]) {
+          throw new Error("Unsupported input type: " + type); 
+        }
+      }
+      
       // Work on a copy to not modify given attributes map
       var attributes = attributes ? qx.lang.Object.copy(attributes) : {};      
 
