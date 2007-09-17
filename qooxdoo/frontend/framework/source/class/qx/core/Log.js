@@ -63,7 +63,7 @@ qx.Class.define("qx.core.Log",
      * @return {void}
      */
     log : function(varargs) {
-      this.logFormatted(arguments, "");
+      this._logFormatted(arguments, "");
     },
 
 
@@ -75,7 +75,7 @@ qx.Class.define("qx.core.Log",
      * @return {void}
      */
     debug : function(varargs) {
-      this.logFormatted(arguments, "debug");
+      this._logFormatted(arguments, "debug");
     },
 
 
@@ -87,7 +87,7 @@ qx.Class.define("qx.core.Log",
      * @return {void}
      */
     info : function(varargs) {
-      this.logFormatted(arguments, "info");
+      this._logFormatted(arguments, "info");
     },
 
 
@@ -99,7 +99,7 @@ qx.Class.define("qx.core.Log",
      * @return {void}
      */
     warn : function(varargs) {
-      this.logFormatted(arguments, "warn");
+      this._logFormatted(arguments, "warn");
     },
 
 
@@ -111,7 +111,7 @@ qx.Class.define("qx.core.Log",
      * @return {void}
      */
     error : function(varargs) {
-      this.logFormatted(arguments, "error");
+      this._logFormatted(arguments, "error");
     },
 
 
@@ -134,7 +134,7 @@ qx.Class.define("qx.core.Log",
         var args = [];
         for (var i=1; i<arguments.length; ++i) args.push(arguments[i]);
 
-        this.logFormatted(args.length ? args : [ "Assertion Failure" ], "error");
+        this._logFormatted(args.length ? args : [ "Assertion Failure" ], "error");
         throw message ? message : "Assertion Failure";
       }
     },
@@ -170,14 +170,14 @@ qx.Class.define("qx.core.Log",
       {
         var name = pairs[i][0], value = pairs[i][1];
 
-        html.push('<tr>', '<td class="propertyNameCell"><span class="propertyName">', this.escapeHTML(name), '</span></td>', '<td><span class="propertyValue">');
-        this.appendObject(value, html);
+        html.push('<tr>', '<td class="propertyNameCell"><span class="propertyName">', this._escapeHTML(name), '</span></td>', '<td><span class="propertyValue">');
+        this._appendObject(value, html);
         html.push('</span></td></tr>');
       }
 
       html.push('</table>');
 
-      this.logRow(html, "dir");
+      this._logRow(html, "dir");
     },
 
 
@@ -192,8 +192,8 @@ qx.Class.define("qx.core.Log",
     {
       var html = [];
 
-      this.appendNode(node, html);
-      this.logRow(html, "dirxml");
+      this._appendNode(node, html);
+      this._logRow(html, "dirxml");
     },
 
 
@@ -205,7 +205,7 @@ qx.Class.define("qx.core.Log",
      * @return {void}
      */
     time : function(name) {
-      this.timeMap[name] = (new Date()).getTime();
+      this._timeMap[name] = (new Date()).getTime();
     },
 
 
@@ -218,11 +218,11 @@ qx.Class.define("qx.core.Log",
      */
     timeEnd : function(name)
     {
-      if (name in this.timeMap)
+      if (name in this._timeMap)
       {
-        var delta = (new Date()).getTime() - this.timeMap[name];
-        this.logFormatted([ name + ":", delta + "ms" ]);
-        delete timeMap[name];
+        var delta = (new Date()).getTime() - this._timeMap[name];
+        this._logFormatted([ name + ":", delta + "ms" ]);
+        delete _timeMap[name];
       }
     },
 
@@ -234,7 +234,7 @@ qx.Class.define("qx.core.Log",
      * @return {void}
      */
     clear : function() {
-      this.consoleLog.innerHTML = "";
+      this._consoleLog.innerHTML = "";
     },
 
 
@@ -248,37 +248,34 @@ qx.Class.define("qx.core.Log",
     */
 
     /** div element in which the console messages get rendered */
-    consoleLog : null,
+    _consoleLog : null,
 
     /** input element which gets used as commandline */
-    commandLine : null,
-
-    /** Flag whether the frame is visible or not */
-    frameVisible : false,
+    _commandLine : null,
 
     /** Queue with all messages to display */
-    messageQueue : [],
+    _messageQueue : [],
 
     /** Hash which holds the several named timer */
-    timeMap : {},
+    _timeMap : {},
 
     /** Command-line prefix */
-    clPrefix : ">>> ",
+    _clPrefix : ">>> ",
 
     /** Console shortcuts so the user can type in debug() instead of console.debug() */
-    consoleShortcuts :
+    _consoleShortcuts :
     {
-      log      : "console.log",
-      info     : "console.info",
-      debug    : "console.debug",
-      warn     : "console.warn",
-      error    : "console.error",
-      assert   : "console.assert",
-      dir      : "console.dir",
-      dirxml   : "console.dirxml",
-      time     : "console.time",
-      timeEnd  : "console.timeEnd",
-      clear    : "console.clear"
+      log      : "qx.core.Log.log",
+      info     : "qx.core.Log.info",
+      debug    : "qx.core.Log.debug",
+      warn     : "qx.core.Log.warn",
+      error    : "qx.core.Log.error",
+      assert   : "qx.core.Log.assert",
+      dir      : "qx.core.Log.dir",
+      dirxml   : "qx.core.Log.dirxml",
+      time     : "qx.core.Log.time",
+      timeEnd  : "qx.core.Log.timeEnd",
+      clear    : "qx.core.Log.clear"
     },
 
 
@@ -300,10 +297,10 @@ qx.Class.define("qx.core.Log",
      * @type static
      * @return {void}
      */
-    focusCommandLine : function()
+    _focusCommandLine : function()
     {
-      if (this.commandLine) {
-        this.commandLine.focus();
+      if (this._commandLine) {
+        this._commandLine.focus();
       }
     },
 
@@ -314,14 +311,14 @@ qx.Class.define("qx.core.Log",
      * @type static
      * @return {void}
      */
-    initializeWindow : function()
+    _initializeWindow : function()
     {
-      if (this.consoleWindow) {
+      if (this._consoleWindow) {
         return;
       }
       
       var file = qx.io.Alias.getInstance().resolve("static/log/log.html");
-      var win = this.consoleWindow = window.open(file, "win", "width=400,height=200,dependent=yes,resizable=yes,status=no,location=no,menubar=no,toolbar=no,scrollbars=no");
+      var win = this._consoleWindow = window.open(file, "win", "width=500,height=250,dependent=yes,resizable=yes,status=no,location=no,menubar=no,toolbar=no,scrollbars=no");
     },
 
 
@@ -334,29 +331,28 @@ qx.Class.define("qx.core.Log",
      * @param win {Window} Window object
      * @return {void}
      */
-    onLogReady : function(win)
+    _onLogReady : function(win)
     {
       var doc = win.document;
       
-      this.consoleWindow = win;
-      this.consoleDocument = doc;
-      this.consoleLog = doc.getElementById("log");
-      this.commandLine = doc.getElementById("commandLine");
+      this._consoleWindow = win;
+      this._consoleDocument = doc;
+      this._consoleLog = doc.getElementById("log");
+      this._commandLine = doc.getElementById("commandLine");
       
-      this.onResizeWrapped = qx.lang.Function.bind(this.onResize, this);
-      this.onCommandLineKeyDownWrapped = qx.lang.Function.bind(this.onCommandLineKeyDown, this);
+      this._onResizeWrapped = qx.lang.Function.bind(this._onResize, this);
+      this._onCommandLineKeyDownWrapped = qx.lang.Function.bind(this._onCommandLineKeyDown, this);
 
-      this.addEvent(win, "resize", this.onResizeWrapped);
-      this.addEvent(this.commandLine, "keydown", this.onCommandLineKeyDownWrapped);
+      this._addEvent(win, "resize", this._onResizeWrapped);
+      this._addEvent(this._commandLine, "keydown", this._onCommandLineKeyDownWrapped);
 
-      this.syncLayout();
-      this.flush();
+      this._syncLayout();
+      this._flush();
     },
     
     
-    syncLayout : function()
-    {
-      this.consoleLog.style.height = (qx.bom.Viewport.getHeight(this.consoleWindow) - 42) + "px"; 
+    _syncLayout : function() {
+      this._consoleLog.style.height = (qx.bom.Viewport.getHeight(this._consoleWindow) - 42) + "px"; 
     },
 
 
@@ -366,12 +362,12 @@ qx.Class.define("qx.core.Log",
      * @type static
      * @return {void}
      */
-    evalCommandLine : function()
+    _evalCommandLine : function()
     {
-      var text = this.commandLine.value;
-      this.commandLine.value = "";
+      var text = this._commandLine.value;
+      this._commandLine.value = "";
 
-      this.logRow([ this.clPrefix, text ], "command");
+      this._logRow([ this._clPrefix, text ], "command");
 
       // get the command
       var search = /^([a-z]+)\(/;
@@ -379,8 +375,8 @@ qx.Class.define("qx.core.Log",
 
       if (result != null)
       {
-        if (this.consoleShortcuts[result[1]]) {
-          text = this.consoleShortcuts[result[1]] + text.substring(result[1].length);
+        if (this._consoleShortcuts[result[1]]) {
+          text = this._consoleShortcuts[result[1]] + text.substring(result[1].length);
         }
       }
 
@@ -410,16 +406,16 @@ qx.Class.define("qx.core.Log",
      * @param className {String} Controls the format of the message
      * @return {void}
      */
-    logRow : function(message, className)
+    _logRow : function(message, className)
     {
-      if (this.consoleLog) 
+      if (this._consoleLog) 
       {
-        this.writeMessage(message, className);
+        this._writeMessage(message, className);
       }
       else
       {
-        this.messageQueue.push([ message, className ]);
-        this.initializeWindow();
+        this._messageQueue.push([ message, className ]);
+        this._initializeWindow();
       }
     },
 
@@ -430,13 +426,13 @@ qx.Class.define("qx.core.Log",
      * @type static
      * @return {void}
      */
-    flush : function()
+    _flush : function()
     {
-      var queue = this.messageQueue;
-      this.messageQueue = [];
+      var queue = this._messageQueue;
+      this._messageQueue = [];
 
       for (var i=0; i<queue.length; ++i) {
-        this.writeMessage(queue[i][0], queue[i][1], queue[i][2]);
+        this._writeMessage(queue[i][0], queue[i][1]);
       }
     },
 
@@ -449,14 +445,14 @@ qx.Class.define("qx.core.Log",
      * @param className {String} Controls the format of the message
      * @return {void}
      */
-    writeMessage : function(message, className)
+    _writeMessage : function(message, className)
     {
-      var isScrolledToBottom = this.consoleLog.scrollTop + this.consoleLog.offsetHeight >= this.consoleLog.scrollHeight;
+      var isScrolledToBottom = this._consoleLog.scrollTop + this._consoleLog.offsetHeight >= this._consoleLog.scrollHeight;
 
-      this.writeRow(message, className);
+      this._writeRow(message, className);
 
       if (isScrolledToBottom) {
-        this.consoleLog.scrollTop = this.consoleLog.scrollHeight - this.consoleLog.offsetHeight;
+        this._consoleLog.scrollTop = this._consoleLog.scrollHeight - this._consoleLog.offsetHeight;
       }
     },
 
@@ -468,25 +464,25 @@ qx.Class.define("qx.core.Log",
      * @param row {Node} Complete row element
      * @return {void}
      */
-    appendRow : function(row) {
-      this.consoleLog.appendChild(row);
+    _appendRow : function(row) {
+      this._consoleLog.appendChild(row);
     },
 
 
     /**
-     * Writes a single row using {@link #appendRow}
+     * Writes a single row using {@link #_appendRow}
      *
      * @type static
      * @param message {Array} Array of message parts
      * @param className {String} Controls the format of the message
      * @return {void}
      */
-    writeRow : function(message, className)
+    _writeRow : function(message, className)
     {
-      var row = this.consoleLog.ownerDocument.createElement("div");
+      var row = this._consoleLog.ownerDocument.createElement("div");
       row.className = "logRow" + (className ? " logRow-" + className : "");
       row.innerHTML = message.join("");
-      this.appendRow(row);
+      this._appendRow(row);
     },
 
 
@@ -498,7 +494,7 @@ qx.Class.define("qx.core.Log",
      * @param className {String} Controls the format of the message
      * @return {void}
      */
-    logFormatted : function(objects, className)
+    _logFormatted : function(objects, className)
     {
       var html = [];
 
@@ -511,7 +507,7 @@ qx.Class.define("qx.core.Log",
         objIndex = -1;
       }
 
-      var parts = this.parseFormat(format);
+      var parts = this._parseFormat(format);
 
       for (var i=0; i<parts.length; ++i)
       {
@@ -522,20 +518,20 @@ qx.Class.define("qx.core.Log",
           var object = objects[++objIndex];
           part.appender(object, html);
         }
-        else this.appendText(part, html);
+        else this._appendText(part, html);
       }
 
       for (var i=objIndex+1; i<objects.length; ++i)
       {
-        this.appendText(" ", html);
+        this._appendText(" ", html);
 
         var object = objects[i];
 
-        if (typeof (object) == "string") this.appendText(object, html);
-        else this.appendObject(object, html);
+        if (typeof (object) == "string") this._appendText(object, html);
+        else this._appendObject(object, html);
       }
 
-      this.logRow(html, className);
+      this._logRow(html, className);
     },
 
 
@@ -546,7 +542,7 @@ qx.Class.define("qx.core.Log",
      * @param format {String} format to parse
      * @return {Array} format parts
      */
-    parseFormat : function(format)
+    _parseFormat : function(format)
     {
       var parts = [];
 
@@ -554,16 +550,16 @@ qx.Class.define("qx.core.Log",
 
       var appenderMap =
       {
-        s : this.appendText,
-        d : this.appendInteger,
-        i : this.appendInteger,
-        f : this.appendFloat
+        s : this._appendText,
+        d : this._appendInteger,
+        i : this._appendInteger,
+        f : this._appendFloat
       };
 
       for (var m=reg.exec(format); m; m=reg.exec(format))
       {
         var type = m[8] ? m[8] : m[5];
-        var appender = type in appenderMap ? appenderMap[type] : appendObject;
+        var appender = type in appenderMap ? appenderMap[type] : _appendObject;
         var precision = m[3] ? parseInt(m[3]) : (m[4] == "." ? -1 : 0);
 
         parts.push(format.substr(0, m[0][0] == "%" ? m.index : m.index + 1));
@@ -590,7 +586,7 @@ qx.Class.define("qx.core.Log",
      * @param value {String} value to escape
      * @return {String} escaped value
      */
-    escapeHTML : function(value)
+    _escapeHTML : function(value)
     {
       function replaceChars(ch)
       {
@@ -626,7 +622,7 @@ qx.Class.define("qx.core.Log",
      * @param object {Object} given object
      * @return {String} Returns the converted string or null
      */
-    objectToString : function(object)
+    _objectToString : function(object)
     {
       try {
         return object + "";
@@ -656,8 +652,8 @@ qx.Class.define("qx.core.Log",
      * @param html {String} output
      * @return {void}
      */
-    appendText : function(object, html) {
-      html.push(this.escapeHTML(this.objectToString(object)));
+    _appendText : function(object, html) {
+      html.push(this._escapeHTML(this._objectToString(object)));
     },
 
 
@@ -669,8 +665,8 @@ qx.Class.define("qx.core.Log",
      * @param html {String} output
      * @return {void}
      */
-    appendNull : function(object, html) {
-      html.push('<span class="objectBox-null">', this.escapeHTML(this.objectToString(object)), '</span>');
+    _appendNull : function(object, html) {
+      html.push('<span class="objectBox-null">', this._escapeHTML(this._objectToString(object)), '</span>');
     },
 
 
@@ -682,8 +678,8 @@ qx.Class.define("qx.core.Log",
      * @param html {String} output
      * @return {void}
      */
-    appendString : function(object, html) {
-      html.push('<span class="objectBox-string">&quot;', this.escapeHTML(this.objectToString(object)), '&quot;</span>');
+    _appendString : function(object, html) {
+      html.push('<span class="objectBox-string">&quot;', this._escapeHTML(this._objectToString(object)), '&quot;</span>');
     },
 
 
@@ -695,8 +691,8 @@ qx.Class.define("qx.core.Log",
      * @param html {String} output
      * @return {void}
      */
-    appendInteger : function(object, html) {
-      html.push('<span class="objectBox-number">', this.escapeHTML(this.objectToString(object)), '</span>');
+    _appendInteger : function(object, html) {
+      html.push('<span class="objectBox-number">', this._escapeHTML(this._objectToString(object)), '</span>');
     },
 
 
@@ -708,8 +704,8 @@ qx.Class.define("qx.core.Log",
      * @param html {String} output
      * @return {void}
      */
-    appendFloat : function(object, html) {
-      html.push('<span class="objectBox-number">', this.escapeHTML(this.objectToString(object)), '</span>');
+    _appendFloat : function(object, html) {
+      html.push('<span class="objectBox-number">', this._escapeHTML(this._objectToString(object)), '</span>');
     },
 
 
@@ -721,12 +717,12 @@ qx.Class.define("qx.core.Log",
      * @param html {String} output
      * @return {void}
      */
-    appendFunction : function(object, html)
+    _appendFunction : function(object, html)
     {
       var reName = /function ?(.*?)\(/;
-      var m = reName.exec(this.objectToString(object));
+      var m = reName.exec(this._objectToString(object));
       var name = m ? m[1] : "function";
-      html.push('<span class="objectBox-function">', this.escapeHTML(name), '()</span>');
+      html.push('<span class="objectBox-function">', this._escapeHTML(name), '()</span>');
     },
 
 
@@ -738,19 +734,19 @@ qx.Class.define("qx.core.Log",
      * @param html {String} output
      * @return {void}
      */
-    appendObject : function(object, html)
+    _appendObject : function(object, html)
     {
       try
       {
-        if (object == undefined) this.appendNull("undefined", html); 
-        else if (object == null) this.appendNull("null", html); 
-        else if (typeof object == "string") this.appendString(object, html);
-        else if (typeof object == "number") this.appendInteger(object, html); 
-        else if (object.toString) this.appendText(object.toString(), html);
-        else if (typeof object == "function") this.appendFunction(object, html); 
-        else if (object.nodeType == 1) this.appendSelector(object, html); 
-        else if (typeof object == "object") this.appendObjectFormatted(object, html);
-        else this.appendText(object, html);
+        if (object == undefined) this._appendNull("undefined", html); 
+        else if (object == null) this._appendNull("null", html); 
+        else if (typeof object == "string") this._appendString(object, html);
+        else if (typeof object == "number") this._appendInteger(object, html); 
+        else if (object.toString) this._appendText(object.toString(), html);
+        else if (typeof object == "function") this._appendFunction(object, html); 
+        else if (object.nodeType == 1) this._appendSelector(object, html); 
+        else if (typeof object == "object") this._appendObjectFormatted(object, html);
+        else this._appendText(object, html);
       }
       catch(exc) {}
     },
@@ -764,9 +760,9 @@ qx.Class.define("qx.core.Log",
      * @param html {String} output
      * @return {void}
      */
-    appendObjectFormatted : function(object, html)
+    _appendObjectFormatted : function(object, html)
     {
-      var text = this.objectToString(object);
+      var text = this._objectToString(object);
       var reObject = /\[object (.*?)\]/;
 
       var m = reObject.exec(text);
@@ -782,13 +778,13 @@ qx.Class.define("qx.core.Log",
      * @param html {String} output
      * @return {void}
      */
-    appendSelector : function(object, html)
+    _appendSelector : function(object, html)
     {
       html.push('<span class="objectBox-selector">');
 
-      html.push('<span class="selectorTag">', this.escapeHTML(object.nodeName.toLowerCase()), '</span>');
-      if (object.id) html.push('<span class="selectorId">#', this.escapeHTML(object.id), '</span>');
-      if (object.className) html.push('<span class="selectorClass">.', this.escapeHTML(object.className), '</span>');
+      html.push('<span class="selectorTag">', this._escapeHTML(object.nodeName.toLowerCase()), '</span>');
+      if (object.id) html.push('<span class="selectorId">#', this._escapeHTML(object.id), '</span>');
+      if (object.className) html.push('<span class="selectorClass">.', this._escapeHTML(object.className), '</span>');
 
       html.push('</span>');
     },
@@ -802,7 +798,7 @@ qx.Class.define("qx.core.Log",
      * @param html {String} output
      * @return {void}
      */
-    appendNode : function(node, html)
+    _appendNode : function(node, html)
     {
       if (node.nodeType == 1)
       {
@@ -813,14 +809,14 @@ qx.Class.define("qx.core.Log",
           var attr = node.attributes[i];
           if (!attr.specified) continue;
 
-          html.push('&nbsp;<span class="nodeName">', attr.nodeName.toLowerCase(), '</span>=&quot;<span class="nodeValue">', this.escapeHTML(attr.nodeValue), '</span>&quot;');
+          html.push('&nbsp;<span class="nodeName">', attr.nodeName.toLowerCase(), '</span>=&quot;<span class="nodeValue">', this._escapeHTML(attr.nodeValue), '</span>&quot;');
         }
 
         if (node.firstChild)
         {
           html.push('&gt;</div><div class="nodeChildren">');
 
-          for (var child=node.firstChild; child; child=child.nextSibling) this.appendNode(child, html);
+          for (var child=node.firstChild; child; child=child.nextSibling) this._appendNode(child, html);
 
           html.push('</div><div class="objectBox-element">&lt;/<span class="nodeTag">', node.nodeName.toLowerCase(), '&gt;</span></div>');
         }
@@ -828,7 +824,7 @@ qx.Class.define("qx.core.Log",
       }
       else if (node.nodeType == 3)
       {
-        html.push('<div class="nodeText">', this.escapeHTML(node.nodeValue), '</div>');
+        html.push('<div class="nodeText">', this._escapeHTML(node.nodeValue), '</div>');
       }
     },
 
@@ -852,7 +848,7 @@ qx.Class.define("qx.core.Log",
      * @param handler {Function} Event handler method
      * @return {void}
      */
-    addEvent : function(object, name, handler)
+    _addEvent : function(object, name, handler)
     {
       if (document.all) object.attachEvent("on" + name, handler);
       else object.addEventListener(name, handler, false);
@@ -868,7 +864,7 @@ qx.Class.define("qx.core.Log",
      * @param handler {Function} Event handler method
      * @return {void}
      */
-    removeEvent : function(object, name, handler)
+    _removeEvent : function(object, name, handler)
     {
       if (document.all) object.detachEvent("on" + name, handler);
       else object.removeEventListener(name, handler, false);
@@ -882,7 +878,7 @@ qx.Class.define("qx.core.Log",
      * @param event {String} Event name
      * @return {void}
      */
-    cancelEvent : function(event)
+    _cancelEvent : function(event)
     {
       if (document.all) event.cancelBubble = true;
       else event.stopPropagation();
@@ -907,10 +903,10 @@ qx.Class.define("qx.core.Log",
      * @param event {Object} Event object
      * @return {void}
      */
-    onCommandLineKeyDown : function(event)
+    _onCommandLineKeyDown : function(event)
     {
-      if (event.keyCode == 13) this.evalCommandLine(); 
-      else if (event.keyCode == 27) this.commandLine.value = "";
+      if (event.keyCode == 13) this._evalCommandLine(); 
+      else if (event.keyCode == 27) this._commandLine.value = "";
     },
     
     
@@ -921,8 +917,8 @@ qx.Class.define("qx.core.Log",
      * @param event {Object} Event object
      * @return {void}
      */    
-    onResize : function(event) {
-      this.syncLayout();
+    _onResize : function(event) {
+      this._syncLayout();
     }
   }
 });
