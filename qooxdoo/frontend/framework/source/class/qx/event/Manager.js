@@ -59,10 +59,6 @@ qx.Class.define("qx.event.Manager",
     // Registry for event listeners
     this.__listeners = {};
 
-    // Queue for event registration/deregistration jobs
-    // when changed during event dispatching phases.
-    this.__jobs = [];
-
     // The handler and dispatcher instances
     this.__handlers = {};
     this.__dispatchers = {};
@@ -176,7 +172,12 @@ qx.Class.define("qx.event.Manager",
     getListeners : function(target, type, capture) 
     {
       var uniqueId = this.__generateUniqueId(target, type, capture);
-      return this.__listeners[uniqueId] || null;
+      var res = this.__listeners[uniqueId];
+      if (res) {
+        return res.concat();
+      }
+      
+      return null;
     },
 
 
@@ -235,21 +236,6 @@ qx.Class.define("qx.event.Manager",
         if (capture !== undefined && typeof capture !== "boolean") {
           throw new Error("Capture flags needs to be boolean!");
         }
-      }
-
-      // if we are currently dispatching an event, defer this call after the
-      // dispatcher has completed. It is critical to not modify the listener
-      // registry while dispatching. This code is needed to support "addListener"
-      // and "removeListener" calls inside of event handler code.
-      if (this.__inEventDispatch)
-      {
-        this.__jobs.push(
-        {
-          method    : "addListener",
-          arguments : arguments
-        });
-
-        return;
       }
 
       // Preparations
@@ -344,20 +330,6 @@ qx.Class.define("qx.event.Manager",
         if (capture !== undefined && typeof capture !== "boolean") {
           throw new Error("Capture flags needs to be boolean!");
         }
-      }
-
-      // if we are currently dispatching an event, defer this call after the
-      // dispatcher. It is critical to not modify the listener registry while
-      // dispatching.
-      if (this.__inEventDispatch)
-      {
-        this.__jobs.push(
-        {
-          method    : "removeListener",
-          arguments : arguments
-        });
-
-        return;
       }
 
       // Preparations
@@ -463,9 +435,6 @@ qx.Class.define("qx.event.Manager",
         return;
       }
 
-      // Mark as in dispatch state
-      this.__inEventDispatch = true;
-
       // Preparations
       var type = event.getType();
       event.setTarget(target);
@@ -501,25 +470,6 @@ qx.Class.define("qx.event.Manager",
 
       // Release the event instance to the event pool
       qx.event.Pool.getInstance().poolEvent(event);
-
-      // Reset dispatch flag
-      this.__inEventDispatch = false;
-
-      // Flush the job queue
-      var jobs = this.__jobs;
-
-      if (jobs && jobs.length > 0)
-      {
-        var job;
-
-        for (var i=0, l=jobs.length; i<l; i++)
-        {
-          job = jobs[i];
-          this[job.method].apply(this, job.arguments);
-        }
-
-        this.__jobs = [];
-      }
     },
 
 
@@ -558,6 +508,6 @@ qx.Class.define("qx.event.Manager",
     qx.event.Registration.removeManager(this);
 
     // Dispose data fields
-    this._disposeFields("__listeners", "__jobs", "__window", "__handlers", "__dispatchers");
+    this._disposeFields("__listeners", "__window", "__handlers", "__dispatchers");
   }
 });
