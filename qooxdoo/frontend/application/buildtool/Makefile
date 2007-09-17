@@ -23,7 +23,7 @@
 
 QOOXDOO_PATH = ../../..
 
-APPLICATION_NAMESPACE = qxadmin
+APPLICATION_NAMESPACE = buildtool
 APPLICATION_FILES = index.html help_overview.html
 APPLICATION_COMPLETE_SOURCE = true
 
@@ -48,7 +48,7 @@ error:
 ################################################################################
 
 TMP_XML = $(FRAMEWORK_CACHE_PATH)/mak.xml
-MAK_VARS = makvars.js
+MAK_VARS = applicationvars.js
 CMD_XSLT = xsltproc
 CMD_COPY = cp -f
 
@@ -61,14 +61,14 @@ $(FRAMEWORK_CACHE_PATH):
 	@(cd $(FRAMEWORK_PATH) && make)
 
 # the next one is an alias for the real target
-source-makvars: check-framework source/script/makvars.js
+source-makvars: check-framework source/script/applicationvars.js
 
 # this target is less readable, but is actually *checked* by make
-source/script/makvars.js: tool/mk-doc2admin-json.xsl $(FRAMEWORK_TOOL_PATH)/make/application.mk
+source/script/applicationvars.js: tool/mk-doc2admin-json.xsl $(FRAMEWORK_TOOL_PATH)/make/application.mk
 	@echo
-	@echo "  GENERATION OF QOOXDOO WEB ADMIN DATA"
+	@echo "  GENERATION OF QOOXDOO BUILD TOOL DATA"
 	@$(CMD_LINE)
-	@echo "  * Generating source/script/makvars.js..."
+	@echo "  * Generating source/script/applicationvars.js..."
 	@$(CMD_PYTHON) $(FRAMEWORK_TOOL_PATH)/make/makefile_doc.py \
 	  -e $(FRAMEWORK_TOOL_PATH)/make/application.mk > $(TMP_XML)
 	@$(CMD_XSLT) tool/mk-doc2admin-json.xsl $(TMP_XML) > \
@@ -93,7 +93,7 @@ build-addon: build-makvars
 #deploy: build
 deploy:
 	@echo
-	@echo "  GENERATION OF DEPLOY VERSION OF WEB ADMIN"
+	@echo "  GENERATION OF DEPLOY VERSION OF BUILD TOOL"
 	@$(CMD_LINE)
 	@echo "  * Creating ./deploy..."
 	@$(CMD_DIR) ./deploy

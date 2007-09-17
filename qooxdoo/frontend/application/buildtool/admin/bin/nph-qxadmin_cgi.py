@@ -120,6 +120,11 @@ def normalize_path(dospath):
     else:
         return err
 
+def do_getroot(form):
+    print "Content-type: text/plain"
+    print
+    print os.getcwd()
+
 def do_reldir(form):
     rc = 0
     print "Content-type: text/plain"
@@ -179,7 +184,7 @@ def do_save(form):
     save_makvars(json)
     rc = gen_makefile(makvars)
     if rc==0:
-        print "Successfully saved Makefile"
+        print "Successfully saved Configuration"
     else:
         print ("Problem saving Makefile (return code of gen_makefile was: %d);" % rc + 
                "please check the Makefile by hand.")
@@ -374,6 +379,8 @@ def dispatch_action(form):
             do_getmakvars(form)
         elif (action == 'reldir'): # relativize absolute path
             do_reldir(form)
+        elif (action == 'getroot'): # get web server's pwd
+            do_getroot(form)
         else:
             print "Content-type: text/plain"
             print
