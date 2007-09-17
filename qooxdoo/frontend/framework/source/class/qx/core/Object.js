@@ -24,7 +24,6 @@
 #module(core)
 #use(qx.core.Init)
 #require(qx.core.Property)
-#require(qx.core.LegacyProperty)
 #resource(qx.static:static)
 
 ************************************************************************ */
@@ -41,7 +40,7 @@
 qx.Class.define("qx.core.Object",
 {
   extend : Object,
-  include : [ qx.locale.MTranslation, qx.log.MLogging, qx.core.MUserData ],
+  include : [ qx.locale.MTranslation ],
 
 
 
@@ -420,6 +419,84 @@ qx.Class.define("qx.core.Object",
 
 
 
+
+
+    /*
+    ---------------------------------------------------------------------------
+      DEBUG
+    ---------------------------------------------------------------------------
+    */
+    
+    
+    /**
+     * Internal helper which returns the prefix of all debug
+     * messages.
+     *
+     * @type member
+     * @return {String}
+     */
+    __dbg : function() {
+      return this.classname + "[" + this.toHashCode() + "]: ";
+    },
+    
+    
+    /**
+     * Logs a debug message.
+     *
+     * @type member
+     * @param msg {var} the message to log. If this is not a string, the
+     *          object dump will be logged.
+     * @param exc {var} the exception to log.
+     * @return {void}
+     */
+    debug : function(msg, exc) {
+      qx.core.Log.debug(this.__dbg(), msg, exc||"");
+    },
+    
+
+    /**
+     * Logs an info message.
+     *
+     * @type member
+     * @param msg {var} the message to log. If this is not a string, the
+     *      object dump will be logged.
+     * @param exc {var} the exception to log.
+     * @return {void}
+     */
+    info : function(msg, exc) {
+      qx.core.Log.info(this.__dbg(), msg, exc||"");
+    },
+    
+
+    /**
+     * Logs a warning message.
+     *
+     * @type member
+     * @param msg {var} the message to log. If this is not a string, the
+     *      object dump will be logged.
+     * @param exc {var} the exception to log.
+     * @return {void}
+     */
+    warn : function(msg, exc) {
+      qx.core.Log.warn(this.__dbg(), msg, exc||"");
+    },
+    
+
+    /**
+     * Logs an error message.
+     *
+     * @type member
+     * @param msg {var} the message to log. If this is not a string, the
+     *      object dump will be logged.
+     * @param exc {var} the exception to log.
+     * @return {void}
+     */
+    error : function(msg, exc) {
+      qx.core.Log.error(this.__dbg(), msg, exc||"");
+    },
+    
+        
+    
 
 
 

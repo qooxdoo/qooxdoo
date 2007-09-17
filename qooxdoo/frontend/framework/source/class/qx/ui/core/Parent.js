@@ -24,6 +24,7 @@
 #optional(qx.legacy.event.handler.FocusHandler)
 #optional(qx.ui.popup.ToolTipManager)
 #optional(qx.ui.popup.PopupManager)
+#require(qx.core.LegacyProperty)
 
 ************************************************************************ */
 
