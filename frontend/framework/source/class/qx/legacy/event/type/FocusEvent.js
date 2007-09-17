@@ -73,7 +73,7 @@ qx.Class.define("qx.legacy.event.type.FocusEvent",
           var bubbles = false;
       }
 
-      this.base(arguments, type, bubbles);
+      return this.base(arguments, type, bubbles);
     }
   }
 });
