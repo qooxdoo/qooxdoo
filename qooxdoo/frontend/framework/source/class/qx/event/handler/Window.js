@@ -95,7 +95,7 @@ qx.Class.define("qx.event.handler.Window",
 
     // interface implementation
     canHandleEvent : function(target, type) {
-      return qx.dom.Node.isWindow(target) && this._eventTypes[type];
+      return target === this._window && this._eventTypes[type];
     },
 
 
