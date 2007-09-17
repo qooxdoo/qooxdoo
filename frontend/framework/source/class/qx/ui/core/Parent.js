@@ -259,7 +259,6 @@ qx.Class.define("qx.ui.core.Parent",
         }
 
         old.dispatchEvent(vEventObject);
-        vEventObject.dispose();
       }
 
 
@@ -273,7 +272,6 @@ qx.Class.define("qx.ui.core.Parent",
         }
 
         value.dispatchEvent(vEventObject);
-        vEventObject.dispose();
       }
 
       if (vBlurValid)
@@ -301,8 +299,6 @@ qx.Class.define("qx.ui.core.Parent",
             vMgr.handleBlur(vEventObject);
           }
         }
-
-        vEventObject.dispose();
       }
 
       if (vFocusValid)
@@ -318,6 +314,7 @@ qx.Class.define("qx.ui.core.Parent",
           vEventObject.setRelatedTarget(old);
         }
 
+        var eventClone = vEventObject.clone();
         value.dispatchEvent(vEventObject);
 
         if (qx.Class.isDefined("qx.ui.popup.ToolTipManager"))
@@ -325,11 +322,12 @@ qx.Class.define("qx.ui.core.Parent",
           var vMgr = qx.ui.popup.ToolTipManager.getInstance();
 
           if (vMgr) {
-            vMgr.handleFocus(vEventObject);
+            eventClone.setTarget(value);
+            vMgr.handleFocus(eventClone);
           }
         }
 
-        vEventObject.dispose();
+        eventClone.dispose();
       }
     },
 
