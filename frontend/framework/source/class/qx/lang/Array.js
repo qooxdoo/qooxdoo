@@ -91,7 +91,6 @@ qx.Class.define("qx.lang.Array",
 
         case 2:
           result[2] = result[0];
-
           // no break here
 
         case 3:
