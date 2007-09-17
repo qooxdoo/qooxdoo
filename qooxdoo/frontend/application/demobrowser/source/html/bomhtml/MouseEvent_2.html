@@ -1,0 +1,305 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+
+  <script type="text/javascript">
+	  qxsettings = {};
+	  qxsettings["qx.enableApplicationLayout"] = false;
+  </script>
+
+  <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
+
+	<style type="text/css">
+	#keylogger {
+		position: absolute;
+		width: 600px;
+		height: 500px;
+		left: 30px;
+		top: 200px;
+		color: black;
+		background-color: #EEE;
+		padding: 5px;
+		border: 1px inset;
+		overflow: scroll;
+		/* display:none; */
+	}
+
+	table {
+		width: 100%;
+	}
+
+	td {
+		text-align: center;
+	}
+
+  #btnClear {
+    position: absolute;
+    left: 650px;
+    top: 200px;
+  }
+
+  #mouse {
+    position: absolute;
+    left: 30px;
+    top: 10px;
+    height: 180px;
+    width: 600;
+    background-color: orange;
+    border: 1px inset;
+    padding: 2px;
+  }
+
+  #innerMouse1, #innerMouse2 {
+    border: 1px solid black;
+    margin: 2px;
+    padding: 2px;
+  }
+
+  #frame {
+    border: 1px solid red;
+    width: 200px;
+    margin-left: 150px;
+    padding: 2px;
+  }
+
+  #form {
+    position: absolute;
+    top: 250px;
+    left: 650px;
+    width: 200px;
+  }
+
+	</style>
+
+</head>
+<body id="body">
+  <div id="description">
+    <p>Mouse handler Test</p>
+		<p>Native mouse events</p>
+  </div>
+
+
+	<div id="mouse">
+    Click here (mouse)
+    <div id="frame">
+      (frame)
+      <div id="innerMouse1">(innerMouse1)</div>
+      <div id="innerMouse2">(innerMouse2)</div>
+    </div>
+  </div>
+
+  <div id="keylogger">
+	</div>
+
+  <div id="form">
+    <table>
+      <tr>
+        <td><input type="checkbox" id="check_mousedown" checked="checked"></td>
+        <td><label for="check_mousedown">mousedown</label></td>
+      </tr><tr>
+        <td><input type="checkbox" id="check_mouseup" checked="checked"></td>
+        <td><label for="check_mouseup">mouseup</label></td>
+      </tr><tr>
+        <td><input type="checkbox" id="check_click" checked="checked"></td>
+        <td><label for="check_click">click</label></td>
+      </tr><tr>
+        <td><input type="checkbox" id="check_dblclick" checked="checked"></td>
+        <td><label for="check_dblclick">dblclick</label></td>
+      </tr><tr>
+        <td><input type="checkbox" id="check_contextmenu" checked="checked"></td>
+        <td><label for="check_contextmenu">contextmenu</label></td>
+      </tr><tr>
+        <td><input type="checkbox" id="check_mousemove"></td>
+        <td><label for="check_mousemove">mousemove</label></td>
+      </tr><tr>
+        <td><input type="checkbox" id="check_mouseover"></td>
+        <td><label for="check_mouseover">mouseover</label></td>
+      </tr><tr>
+        <td><input type="checkbox" id="check_mouseout"></td>
+        <td><label for="check_mouseout">mouseout</label></td>
+      </tr><tr>
+        <td colspan="2"><hr /></td>
+      </tr><tr>
+        <td><input type="checkbox" id="capture"></td>
+        <td><label for="capture">enable event capturing for #mouse</label></td>
+      </tr>
+    </table>
+  </div>
+  <input type="button" id="btnClear" value="clear">
+
+	<script type="text/javascript">
+
+qx.Class.define("BasicSample",
+{
+  extend : qx.application.Basic,
+
+  members :
+  {
+    main : function()
+    {
+      this.base(arguments);
+
+      this.tableHead =
+        "<table><tr><th>Target</th><th>Event</th><th>button</th>"+
+        "<th>viewportX</th><th>viewportY</th><th>phase</th><th>relatedTarget</th></tr>";
+
+  		this.keyEvents = [];
+  		this.maxLogSize = 50;
+  		this.logDiv = document.getElementById("keylogger");
+
+  		this.initializeLogger();
+
+      var mouseDiv = document.getElementById("mouse");
+
+      var innerMouse = document.getElementById("innerMouse1");
+
+      qx.event.Registration.addListener(
+        window,
+        "viewportleave",
+        function(e) {
+          innerMouse.style.backgroundColor = "red";
+        },
+        this
+      );
+
+      qx.event.Registration.addListener(
+        window,
+        "viewportenter",
+        function(e) {
+          innerMouse.style.backgroundColor = "green";
+        },
+        this
+      );
+
+
+      qx.event.Registration.addListener(
+        document.body,
+        "mouseout",
+        this.logMouseEvent,
+        this
+      );
+
+      qx.event.Registration.addListener(
+        document.body,
+        "mouseover",
+        this.logMouseEvent,
+        this
+      );
+
+
+      qx.event.Registration.addListener(
+        document.getElementById("btnClear"),
+        "click",
+        this.initializeLogger,
+        this
+      );
+
+    },
+
+
+    __changeCheckbox : function(e) {
+      var type = e.getTarget().id.split("_")[1];
+      var checked = e.getTarget().checked;
+      var mouseDiv = document.getElementById("mouse");
+
+      if (checked) {
+        qx.event.Registration.addListener(
+          mouseDiv,
+          type,
+          this.logMouseEvent,
+          this
+        )
+      }
+      else
+      {
+        qx.event.Registration.removeListener(
+          mouseDiv,
+          type,
+          this.logMouseEvent
+        )
+
+      }
+    },
+
+
+    initializeLogger: function()
+    {
+			this.logDiv.innerHTML = this.tableHead + "</table>";
+			this.keyEvents = [];
+		},
+
+
+    logMouseEvent: function(mouseEvent)
+    {
+      mouseEvent.preventDefault();
+      var eventCopy = {
+        target: mouseEvent.getTarget().tagName + ":" + mouseEvent.getTarget().id,
+				type: mouseEvent.getType(),
+				button: mouseEvent.getButton(),
+        /*
+        documentX: mouseEvent.getDocumentLeft(),
+        documentY: mouseEvent.getDocumentTop(),
+				screenX: mouseEvent.getScreenLeft(),
+        screenY: mouseEvent.getScreenTop(),
+        */
+        viewportX: mouseEvent.getViewportLeft(),
+        viewportY: mouseEvent.getViewportTop(),
+
+        relatedTarget: mouseEvent.getRelatedTarget() ? mouseEvent.getRelatedTarget().tagName + ":" + mouseEvent.getRelatedTarget().id: "null",
+        phase: mouseEvent.getEventPhase()
+			}
+
+      /*
+      if (eventCopy.relatedTarget != null && eventCopy.type == "mouseout") {
+        debugger;
+      }
+      */
+
+
+			this.keyEvents.unshift(eventCopy);
+			this.keyEvents = this.keyEvents.slice(0, this.maxLogSize);
+			str = [this.tableHead];
+			for (var i=0; i<this.keyEvents.length; i++) {
+				var e = this.keyEvents[i];
+				str.push("<tr><td>");
+				str.push(e.target);
+				str.push("</td><td>");
+				str.push(e.type);
+				str.push("</td><td>");
+				str.push(e.button);
+				/*
+        str.push("</td><td>");
+				str.push(e.documentX);
+				str.push("</td><td>");
+				str.push(e.documentY);
+				*/
+				str.push("</td><td>");
+				str.push(e.viewportX);
+				str.push("</td><td>");
+				str.push(e.viewportY);
+        /*
+				str.push("</td><td>");
+				str.push(e.screenX);
+				str.push("</td><td>");
+				str.push(e.screenY);
+				*/
+				str.push("</td><td>");
+				str.push(e.phase);
+				str.push("</td><td>");
+				str.push(e.relatedTarget);
+				str.push("</td></tr>");
+			}
+			str.push("</table>");
+			this.logDiv.innerHTML = str.join("");
+			this.logDiv.scrollTop = 0;
+		}
+  }
+});
+
+qx.core.Init.getInstance().setApplication(new BasicSample);
+
+		</script>
+</body>
+</html>
