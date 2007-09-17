@@ -193,7 +193,7 @@ qx.Class.define("qx.io.image.PreloaderSystem",
      */
     __oninterval : function(e)
     {
-      this.warn("Cannot preload: " + qx.lang.Object.getKeysAsString(this._list));
+      this.debug("Cannot preload: " + qx.lang.Object.getKeysAsString(this._list));
 
       this._stopped = true;
       this._timer.stop();
