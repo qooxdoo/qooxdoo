@@ -158,7 +158,7 @@ qx.Class.define("qx.event.handler.DomReady",
       // http://bugs.webkit.org/show_bug.cgi?id=5122
       else if (qx.core.Variant.isSet("qx.client", "webkit"))
       {
-        var timer = win.setInterval(function() 
+        var timer = this._timer = win.setInterval(function() 
         {
           if (/loaded|complete/.test(win.document.readyState)) 
           {
@@ -181,10 +181,22 @@ qx.Class.define("qx.event.handler.DomReady",
      */
     _stopWindowObserver : function()
     {
-      if (qx.core.Variant.isSet("qx.client", "gecko|opera")) {
-        qx.event.Registration.removeNativeListener(this._window, "DOMContentLoaded", this._onNativeWrapper);
-      }     
+      var win = this._window;
       
+      if (qx.core.Variant.isSet("qx.client", "gecko|opera")) 
+      {
+        qx.event.Registration.removeNativeListener(win, "DOMContentLoaded", this._onNativeWrapper);
+      }
+      else if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        var script = win.document.getElementById("__ie_onload");
+        script.onreadystatechange = null;
+      }
+      else if (qx.core.Variant.isSet("qx.client", "webkit"))
+      {
+        win.clearInterval(this._timer);
+      }
+
       qx.event.Registration.removeNativeListener(this._window, "load", this._onNativeWrapper); 
     },
 
