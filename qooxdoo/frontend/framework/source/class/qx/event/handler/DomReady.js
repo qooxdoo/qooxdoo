@@ -52,7 +52,7 @@ qx.Class.define("qx.event.handler.DomReady",
   construct : function(manager)
   {
     this.base(arguments);
-
+    
     // Define shorthands
     this._manager = manager;
     this._window = manager.getWindow();
@@ -97,7 +97,7 @@ qx.Class.define("qx.event.handler.DomReady",
 
     // interface implementation
     canHandleEvent : function(target, type) {
-      return qx.dom.Node.isWindow(target) && type === "domready";
+      return this._window === target && type === "domready";
     },
 
 
@@ -143,8 +143,7 @@ qx.Class.define("qx.event.handler.DomReady",
       // Using IE-only "defer" attribute by Matthias Miller
       else if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
-        win.document.write("<script id=__ie_onload defer src=javascript:void(0)><\/script>");
-        var script = this._script = win.document.getElementById("__ie_onload");
+        var script = this._script = win.document.createElement("<script id='__ie_onload' defer src='javascript:void(0)'>");
         script.onreadystatechange = function() 
         {
           if (this.readyState == "complete") {
@@ -242,7 +241,6 @@ qx.Class.define("qx.event.handler.DomReady",
   destruct : function()
   {
     this._stopWindowObserver();
-
     this._disposeFields("_manager", "_window");
   },
 
