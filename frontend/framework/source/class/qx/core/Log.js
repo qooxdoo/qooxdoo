@@ -742,7 +742,14 @@ qx.Class.define("qx.core.Log",
     {
       try
       {
-        if (object == undefined) this.appendNull("undefined", html); else if (object == null) this.appendNull("null", html); else if (typeof object == "string") this.appendString(object, html); else if (typeof object == "number") this.appendInteger(object, html); else if (typeof object == "function") this.appendFunction(object, html); else if (object.nodeType == 1) this.appendSelector(object, html); else if (typeof object == "object") this.appendObjectFormatted(object, html);
+        if (object == undefined) this.appendNull("undefined", html); 
+        else if (object == null) this.appendNull("null", html); 
+        else if (typeof object == "string") this.appendString(object, html);
+        else if (typeof object == "number") this.appendInteger(object, html); 
+        else if (object.toString) this.appendText(object.toString(), html);
+        else if (typeof object == "function") this.appendFunction(object, html); 
+        else if (object.nodeType == 1) this.appendSelector(object, html); 
+        else if (typeof object == "object") this.appendObjectFormatted(object, html);
         else this.appendText(object, html);
       }
       catch(exc) {}
