@@ -71,16 +71,16 @@ qx.Class.define("qx.event.handler.Mouse",
      STATICS
   *****************************************************************************
   */
-  
-  statics : 
+
+  statics :
   {
     /** {Integer} Priority of this handler */
     PRIORITY : qx.event.Registration.PRIORITY_NORMAL
   },
-  
-  
-  
-  
+
+
+
+
 
   /*
   *****************************************************************************
