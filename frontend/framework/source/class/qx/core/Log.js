@@ -320,8 +320,8 @@ qx.Class.define("qx.core.Log",
         return;
       }
       
-      var baseURL = this.getLogURL();
-      var win = this.consoleWindow = window.open(baseURL + "/log.html", "win", "width=400,height=200,dependent=yes,resizable=yes,status=no,location=no,menubar=no,toolbar=no,scrollbars=no");
+      var file = qx.io.Alias.getInstance().resolve("static/log/log.html");
+      var win = this.consoleWindow = window.open(file, "win", "width=400,height=200,dependent=yes,resizable=yes,status=no,location=no,menubar=no,toolbar=no,scrollbars=no");
     },
 
 
@@ -357,17 +357,6 @@ qx.Class.define("qx.core.Log",
     syncLayout : function()
     {
       this.consoleLog.style.height = (qx.bom.Viewport.getHeight(this.consoleWindow) - 42) + "px"; 
-    },
-
-
-    /**
-     * Returns the URL to the log files
-     *
-     * @type static
-     * @return {String} URL to log files
-     */
-    getLogURL : function() {
-      return qx.io.Alias.getInstance().resolve("static/log");
     },
 
 
