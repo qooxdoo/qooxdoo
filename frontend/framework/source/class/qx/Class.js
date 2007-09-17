@@ -343,10 +343,12 @@ qx.Class.define("qx.Class",
      */
     include : function(clazz, mixin)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if (qx.core.Variant.isSet("qx.debug", "on")) 
+      {
         if (!mixin) {
-          throw new Error("Includes of mixins must be mixins. The mixin of class '" + clazz.classname + "' is undefined/null!");
+          throw new Error("Includes of mixins must be mixins. A dynamic mixin of class '" + clazz.classname + "' is undefined/null!");
         }
+        
         qx.Mixin.isCompatible(mixin, clazz);
       }
 
@@ -370,7 +372,12 @@ qx.Class.define("qx.Class",
      */
     patch : function(clazz, mixin)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
+      if (qx.core.Variant.isSet("qx.debug", "on")) 
+      {
+        if (!mixin) {
+          throw new Error("Includes of mixins must be mixins. A dynamic mixin of class '" + clazz.classname + "' is undefined/null!");
+        }
+        
         qx.Mixin.isCompatible(mixin, clazz);
       }
 
