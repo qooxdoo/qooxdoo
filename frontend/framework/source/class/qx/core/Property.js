@@ -21,6 +21,7 @@
 /* ************************************************************************
 
 #module(core)
+#optional(qx.Interface)
 
 ************************************************************************ */
 
@@ -873,7 +874,7 @@ qx.Class.define("qx.core.Property",
           {
             code.push('!(value instanceof ', config.check, ')');
           }
-          else if (qx.Interface.isDefined(config.check))
+          else if (qx.Interface && qx.Interface.isDefined(config.check))
           {
             code.push('!(value && qx.Class.hasInterface(value.constructor, ', config.check, '))');
           }
