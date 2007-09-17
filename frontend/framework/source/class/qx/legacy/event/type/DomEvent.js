@@ -258,8 +258,6 @@ qx.Class.define("qx.legacy.event.type.DomEvent",
         }
 
         this.getDomEvent().returnValue = false;
-
-        this.base(arguments, vValue);
       },
 
       "default" : function(vValue)
@@ -270,10 +268,13 @@ qx.Class.define("qx.legacy.event.type.DomEvent",
 
         this.getDomEvent().preventDefault();
         this.getDomEvent().returnValue = false;
-
-        this.base(arguments, vValue);
       }
-    })
+    }),
+
+    preventDefault : function() {
+      this.setDefaultPrevented(true);
+    },
+
   },
 
 
