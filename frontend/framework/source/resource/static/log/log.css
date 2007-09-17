@@ -1,4 +1,3 @@
-
 html, body {
     margin: 0;
     background: #FFFFFF;
@@ -23,16 +22,11 @@ a:hover {
     background: ThreeDFace;
 }
 
-.toolbarRight {
-    position: absolute;
-    top: 4px;
-    right: 6px;
-}
-
 #log {
     overflow: auto;
     position: absolute;
     left: 0;
+    right: 0;
     width: 100%;
 }
 

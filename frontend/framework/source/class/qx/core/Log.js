@@ -49,9 +49,12 @@ qx.Class.define("qx.core.Log",
 {
   statics :
   {
-    // ***************************************************
-    // CONSOLE OUTPUT OPTIONS/CONTROL
-    // ***************************************************
+    /*
+    ---------------------------------------------------------------------------
+      USER INTERFACE
+    ---------------------------------------------------------------------------
+    */
+    
     /**
      * Outputs a log message
      *
@@ -195,30 +198,6 @@ qx.Class.define("qx.core.Log",
 
 
     /**
-     * Start grouping messages
-     *
-     * @type static
-     * @param varargs {arguments} One or multiple messages
-     * @return {void}
-     */
-    group : function(varargs) {
-      this.logRow(arguments, "group", this.pushGroup);
-    },
-
-
-    /**
-     * End grouping messages
-     *
-     * @type static
-     * @param varargs {arguments} One or multiple messages
-     * @return {void}
-     */
-    groupEnd : function(varargs) {
-      this.logRow(arguments, "", this.popGroup);
-    },
-
-
-    /**
      * Start named timer
      *
      * @type static
@@ -249,115 +228,27 @@ qx.Class.define("qx.core.Log",
 
 
     /**
-     * Currently not supported
-     *
-     * @type static
-     * @return {void}
-     */
-    count : function() {
-      if (window.console && console.count)
-      {
-        console.count();
-        return;
-      }
-
-      this.warn([ "count() not supported." ]);
-    },
-
-
-    /**
-     * Currently not supported
-     *
-     * @type static
-     * @return {void}
-     */
-    trace : function()
-    {
-      if (window.console && console.trace)
-      {
-        console.trace();
-        return;
-      }
-
-      this.warn([ "trace() not supported." ]);
-    },
-
-
-    /**
-     * Currently not supported
-     *
-     * @type static
-     * @return {void}
-     */
-    profile : function()
-    {
-      if (window.console && console.profile)
-      {
-        console.profile();
-        return;
-      }
-      this.warn([ "profile() not supported." ]);
-    },
-
-
-    /**
-     * Currently not supported
-     *
-     * @type static
-     * @return {void}
-     */
-    profileEnd : function()
-    {
-      if (window.console && console.profileEnd)
-      {
-        console.profileEnd();
-        return;
-      }
-      this.warn([ "profileEnd() not supported." ]);
-    },
-
-
-    /**
      * Clears the console
      *
      * @type static
      * @return {void}
      */
     clear : function() {
-      this.consoleBody.innerHTML = "";
+      this.consoleLog.innerHTML = "";
     },
 
 
-    /**
-     * Opens the console
-     *
-     * @type static
-     * @return {void}
-     */
-    open : function() {
-      this.toggleConsole(true);
-    },
 
 
-    /**
-     * Closes the console
-     *
-     * @type static
-     * @return {void}
-     */
-    close : function()
-    {
-      if (this.frameVisible) {
-        this.toggleConsole();
-      }
-    },
 
-    // ********************************************************************************************
-    /** Iframe element in which the console gets rendered */
-    consoleFrame : null,
+    /*
+    ---------------------------------------------------------------------------
+      INTERNAL DATA
+    ---------------------------------------------------------------------------
+    */
 
     /** div element in which the console messages get rendered */
-    consoleBody : null,
+    consoleLog : null,
 
     /** input element which gets used as commandline */
     commandLine : null,
@@ -367,9 +258,6 @@ qx.Class.define("qx.core.Log",
 
     /** Queue with all messages to display */
     messageQueue : [],
-
-    /** Array used to display grouped messages */
-    groupStack : [],
 
     /** Hash which holds the several named timer */
     timeMap : {},
@@ -388,35 +276,24 @@ qx.Class.define("qx.core.Log",
       assert   : "console.assert",
       dir      : "console.dir",
       dirxml   : "console.dirxml",
-      group    : "console.group",
-      groupEnd : "console.groupEnd",
       time     : "console.time",
       timeEnd  : "console.timeEnd",
-      clear    : "console.clear",
-      close    : "console.close"
-    },
-
-    /** flag for load status */
-    loaded : false,
-
-    // ********************************************************************************************
-    /**
-     * Toogles the display of the console
-     *
-     * @type static
-     * @param forceOpen {boolean} Flag to force the console to open/close
-     * @return {void}
-     */
-    toggleConsole : function(forceOpen)
-    {
-      this.frameVisible = forceOpen || !this.frameVisible;
-
-      if (this.consoleFrame) {
-        this.consoleFrame.style.visibility = this.frameVisible ? "visible" : "hidden";
-      }
+      clear    : "console.clear"
     },
 
 
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      INTERNAL METHODS
+    ---------------------------------------------------------------------------
+    */
+    
     /**
      * Focuses the command line
      *
@@ -425,41 +302,9 @@ qx.Class.define("qx.core.Log",
      */
     focusCommandLine : function()
     {
-      this.toggleConsole(true);
-
       if (this.commandLine) {
         this.commandLine.focus();
       }
-    },
-
-
-    /**
-     * Listener method for "load" event of qx.core.Init
-     *
-     * @type static
-     * @param e {Event} The event object
-     * @return {void}
-     */
-    onload : function(e)
-    {
-      // set the flag and create frame if the current console is FireBug Lite
-      this.loaded = true;
-
-      // WebKit defines its own console object.
-      if (!this.hasFireBug()) {
-        this.createFrame();
-      }
-    },
-
-
-    /**
-     * Whether the browser has firebug installed.
-     *
-     * @return {Boolean} Whether the browser has firebug installed.
-     */
-    hasFireBug : function() {
-      // WebKit defines its own console object.
-      return (window.console && !qx.core.Variant.isSet("qx.client", "webkit"));
     },
 
 
@@ -469,28 +314,14 @@ qx.Class.define("qx.core.Log",
      * @type static
      * @return {void}
      */
-    createFrame : function()
+    initializeWindow : function()
     {
-      if (qx.core.Log.consoleFrame) {
+      if (this.consoleWindow) {
         return;
       }
-
-      var baseURL = qx.core.Log.getLogURL();
-      var consoleFrame = qx.core.Log.consoleFrame;
-
-      consoleFrame = document.createElement("iframe");
-      consoleFrame.setAttribute("src", baseURL + "/log.html");
-      consoleFrame.setAttribute("frameBorder", "0");
-      consoleFrame.style.visibility = (this.frameVisible ? "visible" : "hidden");
-      consoleFrame.style.zIndex = 1e6;
-      consoleFrame.style.position = "absolute";
-      consoleFrame.style.width = "100%";
-      consoleFrame.style.left = "0px";
-      consoleFrame.style.bottom = "0px";
-      consoleFrame.style.height = "200px";
-
-      qx.core.Log.consoleFrame = consoleFrame;
-      document.body.appendChild(consoleFrame);
+      
+      var baseURL = this.getLogURL();
+      var win = this.consoleWindow = window.open(baseURL + "/log.html", "win", "width=400,height=200,dependent=yes,resizable=yes,status=no,location=no,menubar=no,toolbar=no,scrollbars=no");
     },
 
 
@@ -500,29 +331,32 @@ qx.Class.define("qx.core.Log",
      * and layouts the console
      *
      * @type static
-     * @param doc {Node} Document node
+     * @param win {Window} Window object
      * @return {void}
      */
-    onLogReady : function(doc)
+    onLogReady : function(win)
     {
-      var toolbar = doc.getElementById("toolbar");
-
-      toolbar.onmousedown = function(e) {
-        qx.core.Log.onSplitterMouseDown.call(qx.core.Log, e);
-      };
-
+      var doc = win.document;
+      
+      this.consoleWindow = win;
+      this.consoleDocument = doc;
+      this.consoleLog = doc.getElementById("log");
       this.commandLine = doc.getElementById("commandLine");
-      this.addEvent(this.commandLine, "keydown", this.onCommandLineKeyDown);
+      
+      this.onResizeWrapped = qx.lang.Function.bind(this.onResize, this);
+      this.onCommandLineKeyDownWrapped = qx.lang.Function.bind(this.onCommandLineKeyDown, this);
 
-      /* add the keydown events to the log document AND the parent document */
+      this.addEvent(win, "resize", this.onResizeWrapped);
+      this.addEvent(this.commandLine, "keydown", this.onCommandLineKeyDownWrapped);
 
-      this.addEvent(doc, qx.core.Client.isMshtml() || qx.core.Client.isWebkit() ? "keydown" : "keypress", qx.core.Log.onKeyDown);
-      this.addEvent(parent.document, qx.core.Client.isMshtml() || qx.core.Client.isWebkit() ? "keydown" : "keypress", qx.core.Log.onKeyDown);
-
-      this.consoleBody = doc.getElementById("log");
-      this.layout();
+      this.syncLayout();
       this.flush();
-      this.toggleConsole(true);
+    },
+    
+    
+    syncLayout : function()
+    {
+      this.consoleLog.style.height = (qx.bom.Viewport.getHeight(this.consoleWindow) - 42) + "px"; 
     },
 
 
@@ -563,29 +397,18 @@ qx.Class.define("qx.core.Log",
 
       var value;
 
-      try {
+      try
+      {
         value = eval(text);
-      } catch(exc) {}
+      }
+      catch(ex)
+      {
+        this.error(ex); 
+      }
 
-      window.console.log(value);
-    },
-
-
-    /**
-     * layout the console
-     *
-     * @type static
-     * @return {void}
-     */
-    layout : function()
-    {
-      var toolbar = this.consoleBody.ownerDocument.getElementById("toolbar");
-      var height = this.consoleFrame.offsetHeight - (toolbar.offsetHeight + this.commandLine.offsetHeight);
-
-      this.consoleBody.style.top = toolbar.offsetHeight + "px";
-      this.consoleBody.style.height = height <= 0 ? "1px" : height + "px";  // prevent consoleBody from completely disappearing
-
-      this.commandLine.style.top = (this.consoleFrame.offsetHeight - this.commandLine.offsetHeight) + "px";
+      if (value !== undefined) {
+        this.log(value);
+      }
     },
 
 
@@ -596,19 +419,18 @@ qx.Class.define("qx.core.Log",
      * @type static
      * @param message {String} message to log
      * @param className {String} Controls the format of the message
-     * @param handler {String} Name of the handler method
      * @return {void}
      */
-    logRow : function(message, className, handler)
+    logRow : function(message, className)
     {
-      if (this.consoleBody) this.writeMessage(message, className, handler);
+      if (this.consoleLog) 
+      {
+        this.writeMessage(message, className);
+      }
       else
       {
-        this.messageQueue.push([ message, className, handler ]);
-
-        if (this.loaded == true) {
-          this.createFrame();
-        }
+        this.messageQueue.push([ message, className ]);
+        this.initializeWindow();
       }
     },
 
@@ -636,21 +458,16 @@ qx.Class.define("qx.core.Log",
      * @type static
      * @param message {Array} Array of message parts
      * @param className {String} Controls the format of the message
-     * @param handler {String} Name of the handler method
      * @return {void}
      */
-    writeMessage : function(message, className, handler)
+    writeMessage : function(message, className)
     {
-      var isScrolledToBottom = this.consoleBody.scrollTop + this.consoleBody.offsetHeight >= this.consoleBody.scrollHeight;
+      var isScrolledToBottom = this.consoleLog.scrollTop + this.consoleLog.offsetHeight >= this.consoleLog.scrollHeight;
 
-      if (!handler) {
-        handler = this.writeRow;
-      }
-
-      handler(message, className);
+      this.writeRow(message, className);
 
       if (isScrolledToBottom) {
-        this.consoleBody.scrollTop = this.consoleBody.scrollHeight - this.consoleBody.offsetHeight;
+        this.consoleLog.scrollTop = this.consoleLog.scrollHeight - this.consoleLog.offsetHeight;
       }
     },
 
@@ -662,10 +479,8 @@ qx.Class.define("qx.core.Log",
      * @param row {Node} Complete row element
      * @return {void}
      */
-    appendRow : function(row)
-    {
-      var container = this.groupStack.length ? this.groupStack[this.groupStack.length - 1] : this.consoleBody;
-      container.appendChild(row);
+    appendRow : function(row) {
+      this.consoleLog.appendChild(row);
     },
 
 
@@ -679,48 +494,13 @@ qx.Class.define("qx.core.Log",
      */
     writeRow : function(message, className)
     {
-      var row = qx.core.Log.consoleBody.ownerDocument.createElement("div");
+      var row = this.consoleLog.ownerDocument.createElement("div");
       row.className = "logRow" + (className ? " logRow-" + className : "");
       row.innerHTML = message.join("");
-      qx.core.Log.appendRow(row);
+      this.appendRow(row);
     },
 
 
-    /**
-     * Handler method for grouping messages
-     *
-     * @type static
-     * @param message {Array} Array of message parts
-     * @param className {String} Controls the format of the message
-     * @return {void}
-     */
-    pushGroup : function(message, className)
-    {
-      this.logFormatted(message, className);
-
-      var groupRow = this.consoleBody.ownerDocument.createElement("div");
-      groupRow.className = "logGroup";
-
-      var groupRowBox = this.consoleBody.ownerDocument.createElement("div");
-      groupRowBox.className = "logGroupBox";
-
-      groupRow.appendChild(groupRowBox);
-      this.appendRow(groupRowBox);
-      this.groupStack.push(groupRowBox);
-    },
-
-
-    /**
-     * Handler method for ungrouping messages
-     *
-     * @type static
-     * @return {void}
-     */
-    popGroup : function() {
-      this.groupStack.pop();
-    },
-
-    // ********************************************************************************************
     /**
      * Formats a log message
      *
@@ -731,16 +511,6 @@ qx.Class.define("qx.core.Log",
      */
     logFormatted : function(objects, className)
     {
-      // check for FireBug extension and delegate it to the extension
-      if (this.hasFireBug())
-      {
-        for (var i=0, j=objects.length; i<j; i++) {
-          console[className].call(console, this.objectToString(objects[i]));
-        }
-
-        return;
-      }
-
       var html = [];
 
       var format = objects[0];
@@ -875,8 +645,20 @@ qx.Class.define("qx.core.Log",
         return null;
       }
     },
+    
+    
+    
+    
+    
+    
+    
 
-    // ********************************************************************************************
+    /*
+    ---------------------------------------------------------------------------
+      DATA APPENDERS
+    ---------------------------------------------------------------------------
+    */
+
     /**
      * Outputs the given object in "text" datatype style.
      *
@@ -1054,7 +836,17 @@ qx.Class.define("qx.core.Log",
       }
     },
 
-    // ********************************************************************************************
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENT UTILITIES
+    ---------------------------------------------------------------------------
+    */
+    
     /**
      * Adds an event to the given object
      *
@@ -1099,117 +891,19 @@ qx.Class.define("qx.core.Log",
       if (document.all) event.cancelBubble = true;
       else event.stopPropagation();
     },
+    
+    
+    
+    
+    
+    
 
-
-    /**
-     * Outputs an error log message
-     *
-     * @type static
-     * @param msg {String} Message to log
-     * @param href {String} Link to the filename
-     * @param lineNo {String} Line number
-     * @return {void}
-     */
-    onError : function(msg, href, lineNo)
-    {
-      var html = [];
-
-      var lastSlash = href.lastIndexOf("/");
-      var fileName = lastSlash == -1 ? href : href.substr(lastSlash + 1);
-
-      html.push('<span class="errorMessage">', msg, '</span>', '<div class="objectBox-sourceLink">', fileName, ' (line ', lineNo, ')</div>');
-
-      qx.core.Log.logRow(html, "error");
-    },
-
-
-    /**
-     * Event handler method for the keydown event
-     *
-     * @type static
-     * @param event {Object} Event object
-     * @return {void}
-     */
-    onKeyDown : function(event)
-    {
-      if (event.keyCode == 123)  // F12 key
-      {
-        qx.core.Log.toggleConsole();
-      } else if ((event.keyCode == 108 || event.keyCode == 76) && event.shiftKey && (event.metaKey || event.ctrlKey)) {
-        qx.core.Log.focusCommandLine();
-      } else {
-        return;
-      }
-
-      qx.core.Log.cancelEvent(event);
-    },
-
-
-    /**
-     * Event handler method for the mousedown event at the splitter
-     *
-     * @type static
-     * @param event {Object} Event object
-     * @return {void}
-     */
-    onSplitterMouseDown : function(event)
-    {
-      if (qx.core.Client.isWebkit() || qx.core.Client.isOpera()) return;
-
-      this.addEvent(document, "mousemove", qx.core.Log.onSplitterMouseMove);
-      this.addEvent(document, "mouseup", qx.core.Log.onSplitterMouseUp);
-
-      for (var i=0; i<frames.length; ++i)
-      {
-        this.addEvent(frames[i].document, "mousemove", qx.core.Log.onSplitterMouseMove);
-        this.addEvent(frames[i].document, "mouseup", qx.core.Log.onSplitterMouseUp);
-      }
-    },
-
-
-    /**
-     * Event handler method for the mousemove event at the splitter
-     *
-     * @type static
-     * @param event {Object} Event object
-     * @return {void}
-     */
-    onSplitterMouseMove : function(event)
-    {
-      var win = document.all ? event.srcElement.ownerDocument.parentWindow : event.target.ownerDocument.defaultView;
-
-      var clientY = event.clientY;
-      if (win != win.parent) clientY += win.frameElement ? win.frameElement.offsetTop : 0;
-
-      var height = qx.core.Log.consoleFrame.offsetTop + qx.core.Log.consoleFrame.clientHeight;
-      var y = height - clientY;
-      var minimumHeight = qx.core.Log.consoleBody.ownerDocument.getElementById("toolbar").offsetHeight + qx.core.Log.commandLine.offsetHeight;
-
-      qx.core.Log.consoleFrame.style.height = y <= minimumHeight ? minimumHeight + "px" : y + "px";
-      qx.core.Log.layout();
-    },
-
-
-    /**
-     * Event handler method for the mouseup event at the splitter
-     *
-     * @type static
-     * @param event {Object} Event object
-     * @return {void}
-     */
-    onSplitterMouseUp : function(event)
-    {
-      qx.core.Log.removeEvent(document, "mousemove", qx.core.Log.onSplitterMouseMove);
-      qx.core.Log.removeEvent(document, "mouseup", qx.core.Log.onSplitterMouseUp);
-
-      for (var i=0; i<frames.length; ++i)
-      {
-        qx.core.Log.removeEvent(frames[i].document, "mousemove", qx.core.Log.onSplitterMouseMove);
-        qx.core.Log.removeEvent(frames[i].document, "mouseup", qx.core.Log.onSplitterMouseUp);
-      }
-    },
-
-
+    /*
+    ---------------------------------------------------------------------------
+      NATIVE EVENT HANDLERS
+    ---------------------------------------------------------------------------
+    */
+    
     /**
      * Event handler method for the keydown event at the command line
      *
@@ -1219,13 +913,20 @@ qx.Class.define("qx.core.Log",
      */
     onCommandLineKeyDown : function(event)
     {
-      if (event.keyCode == 13) qx.core.Log.evalCommandLine(); else if (event.keyCode == 27) qx.core.Log.commandLine.value = "";
+      if (event.keyCode == 13) this.evalCommandLine(); 
+      else if (event.keyCode == 27) this.commandLine.value = "";
+    },
+    
+    
+    /**
+     * Event handler method for the resize event 
+     *
+     * @type static
+     * @param event {Object} Event object
+     * @return {void}
+     */    
+    onResize : function(event) {
+      this.syncLayout();
     }
-  },
-
-  defer : function(statics, members, properties)
-  {
-    // add listener - DO NOT poll for "document.body"
-    qx.core.Init.getInstance().addEventListener("load", qx.core.Log.onload, qx.core.Log);
   }
 });
