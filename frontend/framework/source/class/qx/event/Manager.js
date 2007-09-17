@@ -232,10 +232,6 @@ qx.Class.define("qx.event.Manager",
           throw new Error("Invalid listener for event handling: " + listener);
         }
 
-        if (self !== undefined && !(self instanceof Object)) {
-          throw new Error("Invalid self for event handling: " + self);
-        }
-
         if (capture !== undefined && typeof capture !== "boolean") {
           throw new Error("Capture flags needs to be boolean!");
         }
@@ -343,10 +339,6 @@ qx.Class.define("qx.event.Manager",
 
         if (typeof listener !== "function") {
           throw new Error("Invalid listener for event handling: " + listener);
-        }
-
-        if (self !== undefined && !(self instanceof Object)) {
-          throw new Error("Invalid self for event handling: " + self);
         }
 
         if (capture !== undefined && typeof capture !== "boolean") {
