@@ -37,6 +37,12 @@
 /* ************************************************************************
 
 #module(core)
+#ignore(auto-use)
+#ignore(auto-require)
+#require(qx.core.Bootstrap)
+#use(qx.lang.Function)
+#use(qx.io.Alias)
+#use(qx.bom.Viewport)
 
 ************************************************************************ */
 
@@ -317,8 +323,11 @@ qx.Class.define("qx.core.Log",
         return;
       }
       
-      var file = qx.io.Alias.getInstance().resolve("static/log/log.html");
-      var win = this._consoleWindow = window.open(file, "win", "width=500,height=250,dependent=yes,resizable=yes,status=no,location=no,menubar=no,toolbar=no,scrollbars=no");
+      if (qx.io && qx.io.Alias)
+      {
+        var file = qx.io.Alias.getInstance().resolve("static/log/log.html");
+        var win = this._consoleWindow = window.open(file, "win", "width=500,height=250,dependent=yes,resizable=yes,status=no,location=no,menubar=no,toolbar=no,scrollbars=no");
+      }
     },
 
 
@@ -939,17 +948,21 @@ qx.Class.define("qx.core.Log",
       this._consoleLog = null;
       this._commandLine = null;      
      
+      this._removeEvent(window, "unload", this._onUnloadWrapped);
+      
       if (win) 
       {
         try {
           win.close(); 
         } catch(ex) {};
+
+        this._removeEvent(win, "unload", this._onUnloadWrapped);
+        this._removeEvent(win, "resize", this._onResizeWrapped);
       }
       
-      this._removeEvent(window, "unload", this._onUnloadWrapped);
-      this._removeEvent(win, "unload", this._onUnloadWrapped);
-      this._removeEvent(win, "resize", this._onResizeWrapped);
-      this._removeEvent(cmd, "keydown", this._onCommandLineKeyDownWrapped);      
+      if (cmd) {
+        this._removeEvent(cmd, "keydown", this._onCommandLineKeyDownWrapped);      
+      }
     }
   }
 });

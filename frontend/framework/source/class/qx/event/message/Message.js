@@ -39,12 +39,17 @@ qx.Class.define("qx.event.message.Message",
   *****************************************************************************
   */
 
-  construct : function(vName, vData)
+  construct : function(name, data)
   {
     this.base(arguments);
 
-    this.setName(vName);
-    this.setData(vData);
+    if (name != null) {
+      this.setName(name);
+    }
+    
+    if (data != null) {
+      this.setData(data);
+    }
   },
 
 
@@ -64,37 +69,20 @@ qx.Class.define("qx.event.message.Message",
      */
     name :
     {
-      _fast       : true,
-      setOnlyOnce : true,
       check       : "String"
     },
 
     /**
      * Any data the sender wants to pass with the event.
      */
-    data : { _fast : true },
+    data : {},
 
     /**
      * A reference to the sending object.
      */
     sender :
     {
-      _fast       : true,
-      setOnlyOnce : true,
       check       : "Object"
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this._disposeFields("_valueData", "_valueSender");
   }
 });

@@ -22,6 +22,7 @@
 
 #module(ui_basic)
 #module(ui_layout)
+#require(qx.core.LegacyProperty)
 
 ************************************************************************ */
 

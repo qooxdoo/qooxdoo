@@ -22,6 +22,11 @@
 
 #module(core)
 #module(oo)
+#optional(qx.Interface)
+#optional(qx.Mixin)
+#optional(qx.core.Target)
+#optional(qx.core.Property)
+#optional(qx.core.LegacyProperty)
 #require(qx.core.Setting)
 #require(qx.core.Variant)
 
@@ -889,7 +894,7 @@ qx.Class.define("qx.Class",
           for (var key in config.settings)
           {
             if (key.substr(0, key.indexOf(".")) != name.substr(0, name.indexOf("."))) {
-              qx.log.Logger.ROOT_LOGGER.error('Forbidden setting "' + key + '" found in "' + name + '". It is forbidden to define a default setting for an external namespace!');
+              throw new Error('Forbidden setting "' + key + '" found in "' + name + '". It is forbidden to define a default setting for an external namespace!');
             }
           }
         }

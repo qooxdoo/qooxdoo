@@ -22,7 +22,6 @@
 
 #module(core)
 #ignore(auto-require)
-#use(qx.lang.Generics)
 
 ************************************************************************ */
 

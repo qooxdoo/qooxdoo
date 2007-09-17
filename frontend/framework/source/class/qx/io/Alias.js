@@ -158,6 +158,8 @@ qx.Class.define("qx.io.Alias",
      */
     resolve : function(path)
     {
+      // TODO: Optimize preprocess call, does not really
+      // need to be a separate function
       if (path !== null) {
         path = this._preprocess(path);
       }

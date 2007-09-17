@@ -23,8 +23,12 @@
 #module(core)
 #optional(qx.Theme)
 #optional(qx.locale.Manager)
-#require(qx.event.Manager)
+#optional(qx.bom.client.Engine)
+#optional(qx.bom.client.Platform)
+#optional(qx.bom.client.System)
+#optional(qx.bom.client.Flash)
 
+#require(qx.event.Registration)
 #require(qx.event.handler.Window)
 #require(qx.event.dispatch.Direct)
 
@@ -153,26 +157,40 @@ qx.Class.define("qx.core.Init",
 
       this.createDispatchEvent("load");
 
-      this.debug("qooxdoo " + qx.core.Version.toString());
-
-      this.debug("loaded " + qx.Class.getTotalNumber() + " classes");
-      this.debug("loaded " + qx.Interface.getTotalNumber() + " interfaces");
-      this.debug("loaded " + qx.Mixin.getTotalNumber() + " mixins");
-
-      if (qx.Theme) {
-        this.debug("loaded " + qx.Theme.getTotalNumber() + " themes");
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        this.debug("qooxdoo " + qx.core.Version.toString());
+  
+        this.debug("loaded " + qx.Class.getTotalNumber() + " classes");
+        this.debug("loaded " + qx.Interface.getTotalNumber() + " interfaces");
+        this.debug("loaded " + qx.Mixin.getTotalNumber() + " mixins");
+  
+        if (qx.Theme) {
+          this.debug("loaded " + qx.Theme.getTotalNumber() + " themes");
+        }
+  
+        if (qx.locale && qx.locale.Manager) {
+          this.debug("loaded " + qx.locale.Manager.getInstance().getAvailableLocales().length + " locales");
+        }
+        
+        // Print browser information
+        if (qx.bom && qx.bom.client)
+        {
+          if (qx.bom.client.Engine) {
+            this.debug("engine: " + qx.bom.client.Engine.NAME + "-" + qx.bom.client.Engine.FULLVERSION);
+          }
+          
+          if (qx.bom.client.Platform && qx.bom.client.System) {
+            this.debug("system: " + qx.bom.client.Platform.NAME + " | " + qx.bom.client.System.NAME);
+          }
+    
+          if (qx.bom.client.Flash)
+          {
+            var express = qx.bom.client.Flash.EXPRESSINSTALL ? " (express)" : " (no-express)";
+            this.debug("flash: " + qx.bom.client.Flash.FULLVERSION + express);
+          }
+        }
       }
-
-      if (qx.locale && qx.locale.Manager) {
-        this.debug("loaded " + qx.locale.Manager.getInstance().getAvailableLocales().length + " locales");
-      }
-
-      // Print browser information
-      this.debug("engine: " + qx.bom.client.Engine.NAME + "-" + qx.bom.client.Engine.FULLVERSION);
-      this.debug("system: " + qx.bom.client.Platform.NAME + " | " + qx.bom.client.System.NAME);
-
-      var express = qx.bom.client.Flash.EXPRESSINSTALL ? " (express)" : " (no-express)";
-      this.debug("flash: " + qx.bom.client.Flash.FULLVERSION + express);
 
       // Init application from settings
       if (!this.getApplication())

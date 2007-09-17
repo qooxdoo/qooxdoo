@@ -30,6 +30,7 @@
 #optional(qx.ui.basic.Inline)
 
 #require(qx.event.dispatch.WidgetBubbling)
+#require(qx.core.LegacyProperty)
 
 ************************************************************************ */
 
