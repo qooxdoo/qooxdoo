@@ -52,7 +52,7 @@ qx.Class.define("qx.event.handler.DomReady",
   construct : function(manager)
   {
     this.base(arguments);
-    
+
     // Define shorthands
     this._manager = manager;
     this._window = manager.getWindow();
@@ -64,19 +64,18 @@ qx.Class.define("qx.event.handler.DomReady",
 
 
 
-
   /*
   *****************************************************************************
      STATICS
   *****************************************************************************
   */
-  
-  statics : 
+
+  statics :
   {
+
     /** {Integer} Priority of this handler */
     PRIORITY : qx.event.Registration.PRIORITY_FIRST
   },
-
 
 
 
@@ -100,12 +99,10 @@ qx.Class.define("qx.event.handler.DomReady",
       return this._window === target && type === "domready";
     },
 
-
     // interface implementation
     registerEvent : function(target, type) {
       // Nothing needs to be done here
     },
-
 
     // interface implementation
     unregisterEvent : function(target, type) {
@@ -115,8 +112,7 @@ qx.Class.define("qx.event.handler.DomReady",
 
 
 
-
-
+    
     /*
     ---------------------------------------------------------------------------
       OBSERVER INIT/STOP
@@ -127,7 +123,7 @@ qx.Class.define("qx.event.handler.DomReady",
      * Initializes the native mouse event listeners.
      *
      * @type member
-     * @return {void}
+     * @return {void} 
      */
     _initWindowObserver : function()
     {
@@ -135,40 +131,41 @@ qx.Class.define("qx.event.handler.DomReady",
       var nativeWrapper = this._onNativeWrapper = qx.lang.Function.bind(this._onNative, this);
 
       // Using most native method supported by Mozilla and Opera >= 9.0
-      if (qx.core.Variant.isSet("qx.client", "gecko|opera"))
-      {
+      if (qx.core.Variant.isSet("qx.client", "gecko|opera")) {
         qx.event.Registration.addNativeListener(win, "DOMContentLoaded", nativeWrapper);
       }
-      
+
       // Using IE-only "defer" attribute by Matthias Miller
       else if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
         var script = this._script = win.document.createElement("<script id='__ie_onload' defer src='javascript:void(0)'>");
-        script.onreadystatechange = function() 
+
+        script.onreadystatechange = function()
         {
           if (this.readyState == "complete") {
             nativeWrapper();
           }
-        }
+        };
       }
-      
+
       // Using webkit workaround by John Resig
       // Native implementation still missing by webkit. See also:
       // http://bugs.webkit.org/show_bug.cgi?id=5122
       else if (qx.core.Variant.isSet("qx.client", "webkit"))
       {
-        var timer = this._timer = win.setInterval(function() 
+        var timer = this._timer = win.setInterval(function()
         {
-          if (/loaded|complete/.test(win.document.readyState)) 
+          if (/loaded|complete/.test(win.document.readyState))
           {
             win.clearInterval(timer);
             nativeWrapper();
           }
-        }, 10);
+        },
+        10);
       }
-      
+
       // Additional load listener as fallback
-      qx.event.Registration.addNativeListener(this._window, "load", nativeWrapper);      
+      qx.event.Registration.addNativeListener(this._window, "load", nativeWrapper);
     },
 
 
@@ -176,14 +173,13 @@ qx.Class.define("qx.event.handler.DomReady",
      * Disconnect the native mouse event listeners.
      *
      * @type member
-     * @return {void}
+     * @return {void} 
      */
     _stopWindowObserver : function()
     {
       var win = this._window;
-      
-      if (qx.core.Variant.isSet("qx.client", "gecko|opera")) 
-      {
+
+      if (qx.core.Variant.isSet("qx.client", "gecko|opera")) {
         qx.event.Registration.removeNativeListener(win, "DOMContentLoaded", this._onNativeWrapper);
       }
       else if (qx.core.Variant.isSet("qx.client", "mshtml"))
@@ -197,10 +193,8 @@ qx.Class.define("qx.event.handler.DomReady",
         delete this._timer;
       }
 
-      qx.event.Registration.removeNativeListener(this._window, "load", this._onNativeWrapper); 
+      qx.event.Registration.removeNativeListener(this._window, "load", this._onNativeWrapper);
     },
-
-
 
 
 
@@ -215,18 +209,17 @@ qx.Class.define("qx.event.handler.DomReady",
      * Native listener for browser implementations.
      *
      * @type member
-     * @return {void}
+     * @return {void} 
      */
-    _onNative : function() 
+    _onNative : function()
     {
       if (!this._fired)
       {
-        this._manager.fireEvent(this._window, qx.event.type.Event, ["domready", false]);
+        this._manager.fireEvent(this._window, qx.event.type.Event, [ "domready", false ]);
         this._fired = true;
       }
     }
   },
-
 
 
 
@@ -246,14 +239,12 @@ qx.Class.define("qx.event.handler.DomReady",
 
 
 
-
-
   /*
   *****************************************************************************
      DEFER
   *****************************************************************************
   */
-  
+
   defer : function(statics) {
     qx.event.Registration.addHandler(statics);
   }

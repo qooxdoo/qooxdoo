@@ -73,10 +73,10 @@ qx.Class.define("qx.event.handler.MouseViewportLeave",
 
   statics :
   {
+
     /** {Integer} Priority of this handler */
     PRIORITY : qx.event.Registration.PRIORITY_NORMAL
   },
-
 
 
 
@@ -100,24 +100,18 @@ qx.Class.define("qx.event.handler.MouseViewportLeave",
       return this._eventTypes[type];
     },
 
-
     // interface implementation
-    registerEvent : function(target, type) { 
+    registerEvent : function(target, type) {
+      // Nothing needs to be done here  
+    },
+    
+    // interface implementation
+    unregisterEvent : function(target, type) {
       // Nothing needs to be done here
     },
 
 
-    // interface implementation
-    unregisterEvent : function(target, type) { 
-      // Nothing needs to be done here  
-    },
-
-
-
-
-
-
-
+    
     /*
     ---------------------------------------------------------------------------
       HELPER
@@ -135,15 +129,18 @@ qx.Class.define("qx.event.handler.MouseViewportLeave",
     /**
      * Fire a mouse event with the given parameters
      *
+     * @type member
      * @param domEvent {Event} DOM event
      * @param type {String} type og the event
+     * @return {void} 
      */
     _fireEvent : function(domEvent, type)
     {
-      var event = qx.event.Registration.createEvent(qx.event.type.Mouse, [domEvent, type]);
+      var event = qx.event.Registration.createEvent(qx.event.type.Mouse, [ domEvent, type ]);
       event.setBubbles(false);
       this._manager.dispatchEvent(this._window, event);
     },
+
 
 
 
@@ -198,7 +195,8 @@ qx.Class.define("qx.event.handler.MouseViewportLeave",
         var relatedTarget = domEvent.fromElement;
 
         if (relatedTarget === null) {
-          this._fireEvent(domEvent, "viewportenter");        }
+          this._fireEvent(domEvent, "viewportenter");
+        }
       },
 
       "gecko|webkit" : function(domEvent)
@@ -222,6 +220,7 @@ qx.Class.define("qx.event.handler.MouseViewportLeave",
 
 
 
+
     /*
     ---------------------------------------------------------------------------
       OBSERVER INIT
@@ -232,7 +231,7 @@ qx.Class.define("qx.event.handler.MouseViewportLeave",
      * Initializes the native mouse event listeners.
      *
      * @type member
-     * @return {void}
+     * @return {void} 
      */
     _initMouseObserver : function()
     {
@@ -248,15 +247,14 @@ qx.Class.define("qx.event.handler.MouseViewportLeave",
      * Disconnect the native mouse event listeners.
      *
      * @type member
-     * @return {void}
+     * @return {void} 
      */
     _stopMouseObserver : function()
     {
       qx.event.Registration.removeNativeListener(this._document.documentElement, "mouseout", this._onNativeMouseOutWrapper);
       qx.event.Registration.removeNativeListener(this._document.documentElement, "mouseover", this._onNativeMouseOverWrapper);
     }
-   },
-
+  },
 
 
 
@@ -272,8 +270,6 @@ qx.Class.define("qx.event.handler.MouseViewportLeave",
     this._stopMouseObserver();
     this._disposeFields("_manager", "_window", "_document", "_body");
   },
-
-
 
 
 
