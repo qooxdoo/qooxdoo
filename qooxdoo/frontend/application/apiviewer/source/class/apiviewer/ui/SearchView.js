@@ -85,27 +85,20 @@ qx.Class.define("apiviewer.ui.SearchView",
 
       // Search form
       var sform = new qx.ui.layout.HorizontalBoxLayout;
-      var sformBorder = new qx.ui.core.Border;
     	sform.set({
-    	  width           : "100%",
     	  height          : "auto",
-    	  paddingTop      : 5,
-    	  paddingBottom   : 5,
-          marginBottom    : 5,
-          backgroundColor : "white",
-          border          : sformBorder
+    	  padding         : 5,
+        backgroundColor : "white",
+        border          : "line-bottom",
+        spacing         : 4,
+        verticalChildrenAlign : "middle"
     	});
-    	sformBorder.set({
-           width          : 1,
-           style          : null,
-           styleBottom    : "solid",
-           color          : "#ececec" 
-        });
+
 
       // Search form - input field
       this.sinput = new qx.ui.form.TextField();
-      this.sinput.setMargin(1, 5);
       this.sinput.setLiveUpdate(true);
+      this.sinput.setWidth("1*");
 
       // Search form - submit button
       this.__button = new qx.ui.form.Button("Find");
@@ -236,11 +229,12 @@ qx.Class.define("apiviewer.ui.SearchView",
           this.listdata = [];
 
           var listfield = {
-            icon : { label:" ", width:"10%", type:"iconHtml", align:"center", sortable:true, sortMethod:this._sortByIcons, sortProp:"icon"  },
-            result : { label:results + " Results (" + duration + " s)", width:"90%", type:"text", sortable:true, sortProp:"text" }};
+            icon : { label:" ", width:30, type:"iconHtml", align:"center", sortable:true, sortMethod:this._sortByIcons, sortProp:"icon"  },
+            result : { label:results + " Results (" + duration + " s)", width:"80%", type:"text", sortable:true, sortProp:"text" }};
 
           this.rlv = new qx.ui.listview.ListView(this.listdata, listfield);
           this.rlv.setHeight("1*");
+          this.rlv.setBorder(null);
 
           this.add(this.rlv);
 
