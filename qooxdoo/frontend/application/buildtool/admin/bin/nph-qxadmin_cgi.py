@@ -309,9 +309,10 @@ def find_custom_section(text):
     " text is an array of lines representing the current Makefile"
     reg1 = re.compile(r'^#+\s*$')
     reg2 = re.compile(r'^# INTERNALS \(PLEASE DO NOT CHANGE\)\s*$')
+    reg3 = re.compile(r'^# INCLUDE CORE\s*$')
     for i in range(0,len(text)-2):
         if (reg1.search(text[i]) and
-           reg2.search(text[i+1]) and
+           (reg2.search(text[i+1]) or reg3.search(text[i+1])) and
            reg1.search(text[i+2])):
            return i-1
     return -1
