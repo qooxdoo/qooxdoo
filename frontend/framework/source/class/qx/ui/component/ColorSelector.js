@@ -1252,7 +1252,9 @@ qx.Class.define("qx.ui.component.ColorSelector",
      * @return {void}
      */
     _setHexFromRgb : function() {
-      this._hexField.setValue(qx.lang.String.pad(this.getRed().toString(16).toUpperCase(), 2) + qx.lang.String.pad(this.getGreen().toString(16).toUpperCase(), 2) + qx.lang.String.pad(this.getBlue().toString(16).toUpperCase(), 2));
+      this._hexField.setValue(
+        qx.util.ColorUtil.rgbToHexString([this.getRed(),this.getGreen(),this.getBlue()])
+      );
     },
 
 
