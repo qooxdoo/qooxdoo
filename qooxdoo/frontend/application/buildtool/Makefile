@@ -61,10 +61,10 @@ $(FRAMEWORK_CACHE_PATH):
 	@(cd $(FRAMEWORK_PATH) && make)
 
 # the next one is an alias for the real target
-source-makvars: check-framework source/script/applicationvars.js
+source-makvars: check-framework gen-vardata
 
 # this target is less readable, but is actually *checked* by make
-source/script/applicationvars.js: tool/mk-doc2admin-json.xsl $(FRAMEWORK_TOOL_PATH)/make/application.mk
+gen-vardata: tool/mk-doc2admin-json.xsl $(FRAMEWORK_TOOL_PATH)/make/application.mk
 	@echo
 	@echo "  GENERATION OF BUILD TOOL DATA"
 	@$(CMD_LINE)
