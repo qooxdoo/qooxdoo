@@ -949,6 +949,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         return;
       }
 
+      if (this.isEditing()) {
+        this.stopEditing();
+      }
+
       var pageX = evt.getPageX();
       var pageY = evt.getPageY();
       var row = this._getRowForPagePos(pageX, pageY);
@@ -1144,11 +1148,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         this.createDispatchDataEvent("rowdblclick", row);
       }
 
-      if (!this.isEditing())
-      {
-        this._focusCellAtPagePos(pageX, pageY);
-        this.startEditing();
-      }
+      this._focusCellAtPagePos(pageX, pageY);
+      this.startEditing();
     },
 
 
@@ -1472,9 +1473,11 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           this._cellEditor.addToDocument();
 
           // Arrange to be notified when it is closed.
-          this._cellEditor.addEventListener("disappear",
-                                            this._onCellEditorModalWindowClose,
-                                            this);
+          this._cellEditor.addEventListener(
+            "disappear",
+            this._onCellEditorModalWindowClose,
+            this
+          );
 
           // If there's a pre-open function defined for the table...
           var f = table.getModalCellEditorPreOpenFunction();
@@ -1495,11 +1498,13 @@ qx.Class.define("qx.ui.table.pane.Scroller",
             height : "100%"
           });
 
+          // prevent click event from bubbling up to the table
+          this._focusIndicator.addEventListener("mousedown", function(e) {
+            e.stopPropagation();
+          });
+
           this._focusIndicator.add(this._cellEditor);
           this._focusIndicator.addState("editing");
-          this._cellEditor.addEventListener("changeFocused",
-                                            this._onCellEditorFocusChanged,
-                                            this);
 
           // Workaround: Calling focus() directly has no effect
           qx.client.Timer.once(function()
@@ -1567,50 +1572,31 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           // may be more accesses to it for a short while after we leave this
           // function.
           qx.client.Timer.once(function()
-                               {
-                                 var d =
-                                   qx.ui.core.ClientDocument.getInstance();
-                                 d.remove(this._cellEditor);
-                                 this._cellEditor.removeEventListener(
-                                   "disappear",
-                                   _onCellEditorModalWindowClose,
-                                   this);
-                                 this._cellEditor.dispose();
-                                 this._cellEditor = null;
-                                 this._cellEditorFactory = null;
-                               },
-                               this,
-                               0);
+          {
+            var d = qx.ui.core.ClientDocument.getInstance();
+            d.remove(this._cellEditor);
+
+            this._cellEditor.removeEventListener(
+              "disappear",
+              _onCellEditorModalWindowClose,
+              this
+            );
+
+            this._cellEditor.dispose();
+            this._cellEditor = null;
+            this._cellEditorFactory = null;
+          }, this, 0);
+
           this._cellEditor.pendingDispose = true;
         }
         else
         {
           this._focusIndicator.remove(this._cellEditor);
           this._focusIndicator.removeState("editing");
-          this._cellEditor.removeEventListener(
-            "changeFocused",
-            this._onCellEditorFocusChanged,
-            this
-          );
           this._cellEditor.dispose();
           this._cellEditor = null;
           this._cellEditorFactory = null;
         }
-      }
-    },
-
-
-    /**
-     * Event handler. Called when the focused state of the cell editor changed.
-     *
-     * @type member
-     * @param evt {Map} the event.
-     * @return {void}
-     */
-    _onCellEditorFocusChanged : function(evt)
-    {
-      if (!this._cellEditor.getFocused()) {
-        this.stopEditing();
       }
     },
 
