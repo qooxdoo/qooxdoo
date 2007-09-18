@@ -40,6 +40,7 @@ qx.Interface.define("qx.ui.table.ICellEditorFactory",
      * <li>row (int): the model index of the row the cell belongs to.</li>
      * <li>col (int): the model index of the column the cell belongs to.</li>
      * <li>xPos (int): the x position of the cell in the table pane.</li>
+     * <li>table (qx.ui.table.Table) reference to the table, the cell belongs to. </li>
      * </ul>
      *
      * @type member

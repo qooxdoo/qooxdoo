@@ -1444,7 +1444,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           col   : col,
           row   : row,
           xPos  : xPos,
-          value : value
+          value : value,
+          table : table
         };
 
         // Get a cell editor
