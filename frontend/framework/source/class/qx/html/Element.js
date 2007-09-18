@@ -1222,24 +1222,51 @@ qx.Class.define("qx.html.Element",
     ---------------------------------------------------------------------------
     */
     
+    /**
+     * Mark this element to get focussed on the next flush of the queue
+     *
+     * @type member
+     * @return {void}
+     */
     focus : function()
     {
       qx.html.Element._post.focus = this;
       this._scheduleSync();
     },
     
+
+    /**
+     * Mark this element to get blurred on the next flush of the queue
+     *
+     * @type member
+     * @return {void}
+     */
     blur : function()
     {
       qx.html.Element._post.blur = this;
       this._scheduleSync();
     },
     
+
+    /**
+     * Mark this element to get activated on the next flush of the queue
+     *
+     * @type member
+     * @return {void}
+     */
     activate : function()
     {
       qx.html.Element._post.activate = this;
       this._scheduleSync();
     },
     
+
+    /**
+     * Mark this element to get deactivated on the next flush of the queue
+     *
+     * @type member
+     * @return {void}
+     */
     deactivate : function()
     {
       qx.html.Element._post.deactivate = this;
