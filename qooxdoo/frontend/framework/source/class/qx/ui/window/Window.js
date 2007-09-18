@@ -191,6 +191,8 @@ qx.Class.define("qx.ui.window.Window",
     //   FUNCTIONAL
     // ************************************************************************
     this.setAutoHide(false);
+    this.activateFocusRoot();
+
 
     // ************************************************************************
     //   EVENTS: WINDOW
