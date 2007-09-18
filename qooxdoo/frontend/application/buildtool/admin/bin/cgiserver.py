@@ -7,7 +7,7 @@ import os, sys
 
 
 class Handler(CGIHTTPServer.CGIHTTPRequestHandler):
-    cgi_directories = ["/buildtool/bin"]
+    cgi_directories = ["/tool/buildtool/bin"]
 
 
 PORT = 8000

@@ -21,9 +21,9 @@
   setlocal ENABLEDELAYEDEXPANSION
   set DEBUG=0
   set WebSvrWait=5
-  set websrvPath=buildtool/bin/cgiserver.py
+  set websrvPath=tool/buildtool/bin/cgiserver.py
   set rc=0
-  set adminUrl=http://127.0.0.1:8000/buildtool/index.html
+  set adminUrl=http://127.0.0.1:8000/tool/buildtool/index.html
   set testUrl=http://127.0.0.1:8000/
   set pybin=python
   set tmpFile="%TEMP%.\qxtmp.txt"
