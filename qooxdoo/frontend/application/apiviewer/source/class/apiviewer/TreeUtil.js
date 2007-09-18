@@ -44,7 +44,7 @@ qx.Class.define("apiviewer.TreeUtil",
   */
 
   construct : function() {
-    qx.core.Object.call(this);
+    this.base(arguments);
   },
 
 
