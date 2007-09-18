@@ -16,6 +16,7 @@
 ::   * Thomas Herchenroeder (thron7)
 ::
 :: ********************************************************************* */
+@echo off
 rem
 rem NAME
 rem  startme.bat -- start script for qooxdoo Build Tool on Windows systems
@@ -39,7 +40,6 @@ rem    it uses network connections); don't try it from a remote host
 rem
 rem
 :: Config Section
-  @echo off
   setlocal ENABLEDELAYEDEXPANSION
   set DEBUG=0
   set WebSvrWait=5
