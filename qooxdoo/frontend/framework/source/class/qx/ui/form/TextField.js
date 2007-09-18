@@ -823,7 +823,7 @@ qx.Class.define("qx.ui.form.TextField",
       {
         this.base(arguments);
 
-        if (!this._firstInputFixApplied) {
+        if (!this._firstInputFixApplied && this._inputElement) {
           qx.client.Timer.once(this._ieFirstInputFix, this, 1);
         }
       },
