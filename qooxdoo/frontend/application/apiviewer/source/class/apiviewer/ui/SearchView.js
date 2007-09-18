@@ -44,6 +44,7 @@ qx.Class.define("apiviewer.ui.SearchView",
     this.__initialized = false;
     this.__initresult = false;
     this.__livesearch = true;
+    this.__showoptions = false;
 
     this.apiindex = {};
 
@@ -110,6 +111,17 @@ qx.Class.define("apiviewer.ui.SearchView",
       this.__button = new qx.ui.form.Button("Find");
       this.__button.setEnabled(false);
 
+      // Label for options
+      var optLabel = new qx.ui.basic.Label("Options");
+        optLabel.set({
+          marginTop       : 5,
+          marginLeft      : 15
+        });
+      optLabel.addEventListener("click", function() {
+        this.__toggleOptions(sform);
+      }, this);
+
+      //this.add(sform.add(this.sinput, this.__button, optLabel));
       this.add(sform.add(this.sinput, this.__button));
 
       // Load index file
@@ -386,7 +398,7 @@ qx.Class.define("apiviewer.ui.SearchView",
       // Get the filename
       var iconfile = a.substr(a.lastIndexOf("/")+1);
       var iconfileNext = b.substr(b.lastIndexOf("/")+1);
-      // Get the type number
+      // Map the type to a number
       a = icons[iconfile.substr(0, iconfile.length-6)];
       b = icons[iconfileNext.substr(0, iconfileNext.length-6)];
 
@@ -407,6 +419,23 @@ qx.Class.define("apiviewer.ui.SearchView",
         this.__livesearch = false;
       }
     },
+
+
+    /**
+     * Toggle the options field
+     */
+    __toggleOptions : function(field)
+    {
+      if (this.__showoptions === false) {
+        this.__showoptions = true;
+        
+        field.setHeight(200);
+      } else {
+        this.__showoptions = false;
+        field.setHeight("auto");
+      }
+    },
+
 
 
 
@@ -497,5 +526,17 @@ qx.Class.define("apiviewer.ui.SearchView",
         }, controller);
     }
 
+  },
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeFields("apiindex");
+    this._disposeObjects("sinput", "__button");
   }
 });
