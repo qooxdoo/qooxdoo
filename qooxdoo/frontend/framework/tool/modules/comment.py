@@ -309,7 +309,11 @@ def qt2javadoc(text):
     attribList = parseText(text, False)
     res = "/**"
 
-    desc = getAttrib(attribList, "description")["text"]
+    desc = getAttrib(attribList, "description")
+    if desc.has_key("text"):
+        desc = desc["text"]
+    else:
+        desc = ""
 
     if "\n" in desc:
         res += "\n"
