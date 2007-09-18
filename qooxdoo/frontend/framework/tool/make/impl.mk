@@ -49,6 +49,12 @@ exec-distclean:
 	@echo "  * Deleting debug..."
 	@$(CMD_REMOVE) $(APPLICATION_DEBUG_PATH)
 
+	@echo "  * Deleting buildtool..."
+	@$(CMD_REMOVE) $(APPLICATION_BUILDTOOL_PATH)
+
+	@echo "  * Deleting test..."
+	@$(CMD_REMOVE) $(APPLICATION_TEST_PATH)
+
 	@echo "  * Cleaning up source..."
 	@$(CMD_REMOVE) $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)
 	@$(CMD_REMOVE) $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TRANSLATION_FOLDERNAME)/messages.pot
@@ -407,10 +413,10 @@ exec-files-buildtool:
 	@echo "  COPYING OF FILES"
 	@$(CMD_LINE)
 	@echo "  * Copying files..."
-	@mkdir -p $(BUILDTOOL_NAMESPACE)
-	@cp -Rf $(BUILDTOOL_DEPLOY_PATH)/* $(BUILDTOOL_NAMESPACE); 
-	@mv $(BUILDTOOL_NAMESPACE)/bin/startme.sh ./buildtool_start.sh
-	@mv $(BUILDTOOL_NAMESPACE)/bin/startme.bat ./buildtool_start.bat
+	@mkdir -p $(APPLICATION_BUILDTOOL_PATH)
+	@cp -Rf $(BUILDTOOL_DEPLOY_PATH)/* $(APPLICATION_BUILDTOOL_PATH); 
+	@mv $(APPLICATION_BUILDTOOL_PATH)/bin/startme.sh ./buildtool_start.sh
+	@mv $(APPLICATION_BUILDTOOL_PATH)/bin/startme.bat ./buildtool_start.bat
 
 
 
