@@ -1505,10 +1505,19 @@ qx.Class.define("qx.ui.table.pane.Scroller",
             height : "100%"
           });
 
-          // prevent click event from bubbling up to the table
-          this._focusIndicator.addEventListener("mousedown", function(e) {
+          // prevent click events from bubbling up to the table
+          this._cellEditor.addEventListener("mousedown", function(e) {
             e.stopPropagation();
           });
+
+          this._cellEditor.addEventListener("click", function(e) {
+            e.stopPropagation();
+          });
+
+          this._cellEditor.addEventListener("mouseup", function(e) {
+            e.stopPropagation();
+          });
+
 
           this._focusIndicator.add(this._cellEditor);
           this._focusIndicator.addState("editing");
