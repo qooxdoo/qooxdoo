@@ -66,6 +66,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     // List
     var l = this._list = new qx.ui.form.List;
     l.setAppearance("combo-box-list");
+    l.setTabIndex(-1);
     l.setEdge(0);
 
     // Manager

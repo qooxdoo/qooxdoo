@@ -56,8 +56,6 @@ qx.Class.define("qx.ui.popup.PopupAtom",
 
   members :
   {
-    _isFocusRoot : false,
-
 
     /**
      * Accessor method to get the atom sub widget
