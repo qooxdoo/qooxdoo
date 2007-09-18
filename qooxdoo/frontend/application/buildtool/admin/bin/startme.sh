@@ -20,10 +20,10 @@
 
 ##
 # NAME
-#  startme.sh -- start script for qooxdoo Web Admin on Unix-like systems
+#  startme.sh -- start script for qooxdoo Build Tool on Unix-like systems
 #
 # DESCRIPTION
-#  This script starts the qooxdoo Web Admin, a small application to control the
+#  This script starts the qooxdoo Build Tool, a small application to control the
 #  build process of skeleton-based applications.
 #
 #  It has two basic functions, (a) to start a small Python-based web server, and

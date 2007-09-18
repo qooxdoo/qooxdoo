@@ -16,6 +16,28 @@
 ::   * Thomas Herchenroeder (thron7)
 ::
 :: ********************************************************************* */
+rem
+rem NAME
+rem  startme.bat -- start script for qooxdoo Build Tool on Windows systems
+rem
+rem DESCRIPTION
+rem  This script starts the qooxdoo Build Tool, a small application to control the
+rem  build process of skeleton-based applications.
+rem
+rem  It has two basic functions, (a) to start a small Python-based web server, and
+rem  (b) to launch a URL on that web server with any availabe browser. The URL
+rem  will open the admin GUI (itself a qooxdoo application), which in turn will
+rem  interact with the web server to perform various actions like saving
+rem  configuraton settings and invoking build processes.
+rem
+rem CAVEATS
+rem  - Port 8000 for the web server is hard-coded; if this port is occupied on
+rem    your machine, you have to change it here and in the GUI Javascript source
+rem    code (which implies you need a source version of this app).
+rem  - The whole application is intentionally restricted to local usage (althrough
+rem    it uses network connections); don't try it from a remote host
+rem
+rem
 :: Config Section
   @echo off
   setlocal ENABLEDELAYEDEXPANSION

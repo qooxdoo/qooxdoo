@@ -208,7 +208,7 @@ qx.Class.define("buildtool.AppFrame",
      */
     __makeHeader : function()
     {
-      var header = new qx.ui.embed.HtmlEmbed("<h1>" + "<span>" + "qooxdoo Web Admin" + "</span>" + "</h1>" + "<div class='version'>qooxdoo " + qx.core.Version.toString() + "</div>");
+      var header = new qx.ui.embed.HtmlEmbed("<h1>" + "<span>" + "qooxdoo Build Tool" + "</span>" + "</h1>" + "<div class='version'>qooxdoo " + qx.core.Version.toString() + "</div>");
       header.setHtmlProperty("id", "header");
       header.setStyleProperty("background", "#134275 url(" + qx.io.Alias.getInstance().resolve("buildtool/image/colorstrip.gif") + ") top left repeat-x");
       header.setHeight(70);
