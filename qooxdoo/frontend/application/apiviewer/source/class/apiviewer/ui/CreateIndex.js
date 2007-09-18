@@ -190,7 +190,7 @@ qx.Class.define("apiviewer.ui.CreateIndex",
                 types[lj] = index[ikey][i].type;
                 keytype = lj;
               }
-    
+
               //fullNames
               var keyfn = 0;
               var lk = fullNames.length;
@@ -213,10 +213,10 @@ qx.Class.define("apiviewer.ui.CreateIndex",
                 fullNames[lk] = index[ikey][i].fullName;
                 keyfn = lk;
               }
-    
+
               //replace texts and set references
               index[ikey][i] = [keytype, keyfn];
-    
+
             }
         }
 

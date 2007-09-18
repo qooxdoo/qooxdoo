@@ -47,7 +47,7 @@ qx.Class.define("qx.ui.table.celleditor.Dynamic",
     this.base(arguments);
     if (cellEditorFactoryFunction)
     {
-      this.setCellEditorFactoryFunction(cellEditorFactoryFunction);  
+      this.setCellEditorFactoryFunction(cellEditorFactoryFunction);
     }
   },
 
@@ -61,27 +61,27 @@ qx.Class.define("qx.ui.table.celleditor.Dynamic",
   properties :
   {
 
-    /** 
-     * Function that returns a cellEditorFactory instance which will be 
+    /**
+     * Function that returns a cellEditorFactory instance which will be
      * used for the row that is currently being edited. The function is
      * defined like this:
      * <pre class="javascript">
      * myTable.getTableColumnModel().setCellEditorFactory(function(cellInfo){
-     *   // based on the cellInfo map or other information, return the 
+     *   // based on the cellInfo map or other information, return the
      *   // appropriate cellEditorFactory
      *   if (cellInfo.row == 5)
      *     return new qx.ui.table.celleditor.CheckBox;
      *   else
-     *     return new qx.ui.table.celleditor.TextField;    
+     *     return new qx.ui.table.celleditor.TextField;
      * });
      * </pre>
-     **/ 
+     **/
     cellEditorFactoryFunction :
     {
       check : "Function",
       nullable : true,
       init : null
-    }    
+    }
   },
 
   /*
@@ -104,14 +104,14 @@ qx.Class.define("qx.ui.table.celleditor.Dynamic",
       {
         this.error("No function provided! Aborting.");
       }
-      this._cellEditorFactory = cellEditorFactoryFunction(cellInfo); 
+      this._cellEditorFactory = cellEditorFactoryFunction(cellInfo);
       var cellEditor = this._cellEditorFactory.createCellEditor(cellInfo);
-      
+
       return cellEditor;
     },
 
     /**
-     * Retrieves the value  the cell editor based on the current cellEditorFactory 
+     * Retrieves the value  the cell editor based on the current cellEditorFactory
      * instance.
      */
     getCellEditorValue : function(cellEditor)
@@ -120,7 +120,7 @@ qx.Class.define("qx.ui.table.celleditor.Dynamic",
       if ( ! cellEditorFactoryFunction )
       {
         this.error("No function provided! Aborting.");
-      }      
+      }
       var value = this._cellEditorFactory.getCellEditorValue(cellEditor);
       return value;
     }

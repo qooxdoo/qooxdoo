@@ -87,14 +87,14 @@ qx.Class.define("apiviewer.ui.SearchView",
 
       // Search form
       var sform = new qx.ui.layout.HorizontalBoxLayout;
-    	sform.set({
-    	  height          : "auto",
-    	  padding         : 5,
+      sform.set({
+        height          : "auto",
+        padding         : 5,
         backgroundColor : "white",
         border          : "line-bottom",
         spacing         : 4,
         verticalChildrenAlign : "middle"
-    	});
+      });
 
 
       // Search form - input field
@@ -123,7 +123,7 @@ qx.Class.define("apiviewer.ui.SearchView",
       qx.client.Timer.once(this._load, this, 0);
 
       // Give keyboard focus to the search field
-      this.sinput.addEventListener("appear", function(e) 
+      this.sinput.addEventListener("appear", function(e)
       {
         if (this.sinput.getInputElement()) {
           this.sinput.getInputElement().focus();
@@ -252,7 +252,7 @@ qx.Class.define("apiviewer.ui.SearchView",
           rlvpane.addEventListener("keydown", function(e) {
             if (e.getKeyIdentifier() == "Enter") {
               this._callDetailFrame(e.getCurrentTarget().getManager());
-            }  
+            }
           }, this);
 
           this._setListdata(sresult);
@@ -274,8 +274,8 @@ qx.Class.define("apiviewer.ui.SearchView",
     {
       var validated = [];
 
-      // RegExp matches full pathname (RegExp.$1) and 
-      // method (RegExp.$2) stated with path#method or path.method() 
+      // RegExp matches full pathname (RegExp.$1) and
+      // method (RegExp.$2) stated with path#method or path.method()
       // ([\w\.]*\w+) -> RegExp.$1: Matches any alphanumeric character including the dot (.) e.g. "qx.application.basic"
       // (#\w+|\.\w+\(\)|#\.[\*|\+|\?]?)? -> RegExp.$2: Matches a method statement noted with a hash (#meth) or parentheses (.meth())
       if (/^([\w\.]*\w+)(#\w+|\.\w+\(\)|#\.[\*|\+|\?]?)?$/.test(svalue))
@@ -349,7 +349,7 @@ qx.Class.define("apiviewer.ui.SearchView",
      * @param sresult {Array} search value
      */
     _setListdata : function(sresult)
-    {      
+    {
       sresult.sort(function(a, b)
       {
           if (a[1] < b[1])
@@ -357,7 +357,7 @@ qx.Class.define("apiviewer.ui.SearchView",
           if (a[1] > b[1])
              return 1;
           return 0;
-      });   
+      });
       for (var i=0, l=sresult.length; i<l; i++) {
         var iconDisplay = sresult[i][0];
         var ldicon = {icon:iconDisplay, html:"", iconWidth:18, iconHeight:18};
@@ -374,7 +374,7 @@ qx.Class.define("apiviewer.ui.SearchView",
      * @param b {String} icon url second argument
      */
     _sortByIcons : function(a, b)
-    {      
+    {
       var icons =
       {
         "package":0,
@@ -424,7 +424,7 @@ qx.Class.define("apiviewer.ui.SearchView",
     {
       if (this.__showoptions === false) {
         this.__showoptions = true;
-        
+
         field.setHeight(200);
       } else {
         this.__showoptions = false;
@@ -444,7 +444,7 @@ qx.Class.define("apiviewer.ui.SearchView",
 
       // var url = "./script/apiindex.js";
       var url = qx.io.Alias.getInstance().resolve("api/script/apiindex.js");
-      
+
       var req = new qx.io.remote.Request(url);
 
       req.setAsynchronous(true);
@@ -505,9 +505,9 @@ qx.Class.define("apiviewer.ui.SearchView",
             btn_private.setChecked(true);
             classViewer.setShowPrivate(true);
           }
-        }        
+        }
 
-        // Highlight item 
+        // Highlight item
         controller.__selectClass(apiviewer.dao.Class.getClassByName(className), function()
         {
           if (itemName) {

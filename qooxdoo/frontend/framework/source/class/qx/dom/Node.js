@@ -41,24 +41,24 @@ qx.Class.define("qx.dom.Node",
     ---------------------------------------------------------------------------
       NODE TYPES
     ---------------------------------------------------------------------------
-    */    
+    */
 
     /**
      * {Map} Node type:
      *
-     * * ELEMENT               
-     * * ATTRIBUTE             
-     * * TEXT                  
-     * * CDATA_SECTION         
-     * * ENTITY_REFERENCE      
-     * * ENTITY                
+     * * ELEMENT
+     * * ATTRIBUTE
+     * * TEXT
+     * * CDATA_SECTION
+     * * ENTITY_REFERENCE
+     * * ENTITY
      * * PROCESSING_INSTRUCTION
-     * * COMMENT               
-     * * DOCUMENT              
-     * * DOCUMENT_TYPE         
-     * * DOCUMENT_FRAGMENT     
+     * * COMMENT
+     * * DOCUMENT
+     * * DOCUMENT_TYPE
+     * * DOCUMENT_FRAGMENT
      * * NOTATION
-     */    
+     */
     ELEMENT                : 1,
     ATTRIBUTE              : 2,
     TEXT                   : 3,
@@ -71,12 +71,12 @@ qx.Class.define("qx.dom.Node",
     DOCUMENT_TYPE          : 10,
     DOCUMENT_FRAGMENT      : 11,
     NOTATION               : 12,
-    
-    
-    
-    
-        
-    
+
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       DOCUMENT ACCESS
@@ -90,12 +90,12 @@ qx.Class.define("qx.dom.Node",
      * @param node {Node} the node which should be tested
      * @return {Document | null} The document of the given DOM node
      */
-    getDocument : function(node) 
+    getDocument : function(node)
     {
       if (this.isDocument(node)) {
         return node;
       }
-      
+
       return node.ownerDocument || node.document || null;
     },
 
@@ -118,8 +118,8 @@ qx.Class.define("qx.dom.Node",
         return this.getDocument(node).defaultView;
       }
     }),
-    
-    
+
+
     /**
      * Returns the document element. (Logical root node)
      *
@@ -134,7 +134,7 @@ qx.Class.define("qx.dom.Node",
     getDocumentElement : function(node) {
       return this.getDocument(node).documentElement;
     },
-    
+
 
     /**
      * Returns the body element. (Visual root node)
@@ -149,7 +149,7 @@ qx.Class.define("qx.dom.Node",
     getBodyElement : function(node) {
       return this.getDocument(node).body;
     },
-    
+
 
 
 
@@ -206,18 +206,18 @@ qx.Class.define("qx.dom.Node",
     isWindow : function(node) {
       return node.document && this.getWindow(node.document) == node;
     },
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       UTILITIES
     ---------------------------------------------------------------------------
-    */    
-    
+    */
+
     /**
      * Returns the text content of an node where the node may be of node type NODE_ELEMENT, NODE_ATTRIBUTE or NODE_TEXT
      *
@@ -252,6 +252,6 @@ qx.Class.define("qx.dom.Node",
       }
 
       return null;
-    }    
+    }
   }
 });

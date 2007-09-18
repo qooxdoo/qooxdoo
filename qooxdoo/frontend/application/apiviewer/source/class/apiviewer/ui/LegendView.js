@@ -69,9 +69,9 @@ qx.Class.define("apiviewer.ui.LegendView",
      */
     _showHtml : function()
     {
-    	if (this.getHtml() !== "") {
-    		return;
-    	}
+      if (this.getHtml() !== "") {
+        return;
+      }
 
       var TreeUtil = apiviewer.TreeUtil;
       var legend = [

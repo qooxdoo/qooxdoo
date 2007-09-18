@@ -133,7 +133,7 @@ qx.Class.define("qx.lang.String",
 
 
     /**
-     * Pad a string up to a given length. By default, padding characters are added to the 
+     * Pad a string up to a given length. By default, padding characters are added to the
      * left of the string.
      *
      * @type static
@@ -156,7 +156,7 @@ qx.Class.define("qx.lang.String",
       }
 
       if (addRight == true){
-        return str + temp;        
+        return str + temp;
       } else {
         return temp + str;
       }

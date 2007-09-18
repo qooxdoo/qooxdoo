@@ -60,13 +60,13 @@ qx.Class.define("qx.ui.table.celleditor.ComboBox",
     {
       check : "Boolean",
       init : true
-    }, 
+    },
 
-    /** 
+    /**
      * function that validates the result
      * the function will be called with the new value and the old value and is
-     * supposed to return the value that is set as the table value.  
-     **/ 
+     * supposed to return the value that is set as the table value.
+     **/
     validationFunction :
     {
       check : "Function",
@@ -81,7 +81,7 @@ qx.Class.define("qx.ui.table.celleditor.ComboBox",
       init : null,
       nullable : true
     }
-    
+
   },
 
   /*
@@ -99,40 +99,40 @@ qx.Class.define("qx.ui.table.celleditor.ComboBox",
       cellEditor.setEditable(this.getEditable());
       cellEditor.setBorder(null);
       cellEditor.originalValue = cellInfo.value;
-      
+
       var field = cellEditor.getField();
       field.setLiveUpdate(true);
       field.setAppearance("table-editor-textfield");
-      
-      var value = cellInfo.value; 
-      
+
+      var value = cellInfo.value;
+
       // check if renderer does something with value
       var cellRenderer = cellInfo.table.getTableColumnModel().getDataCellRenderer(cellInfo.col);
-      var label        = cellRenderer._getContentHtml(cellInfo); 
+      var label        = cellRenderer._getContentHtml(cellInfo);
       if ( value != label )
       {
         value = label;
       }
-      
+
       // replace null values
       if ( value === null )
       {
         value = "";
       }
-      
+
       field.setValue("" + value);
 
       field.addEventListener("appear", function() {
         this.selectAll();
       });
 
-      var list = cellEditor.getList(); 
+      var list = cellEditor.getList();
       if ( this.getListData() )
       {
         this.getListData().forEach(function(row){
           if ( row instanceof Array )
           {
-            list.add( new qx.ui.form.ListItem ( row[0],row[1],row[2]));  
+            list.add( new qx.ui.form.ListItem ( row[0],row[1],row[2]));
           }
           else
           {
@@ -140,18 +140,18 @@ qx.Class.define("qx.ui.table.celleditor.ComboBox",
           }
         })
       }
-      
+
       return cellEditor;
     },
 
     /**
-     * retrieves value from TextField (editable combobox) or 
+     * retrieves value from TextField (editable combobox) or
      * selected ListItem (non-editable combobox) and validates value
      */
     getCellEditorValue : function(cellEditor)
     {
       var value;
-      
+
       if (cellEditor.isEditable())
       {
         value = cellEditor.getValue();
@@ -164,15 +164,15 @@ qx.Class.define("qx.ui.table.celleditor.ComboBox",
       {
         value = "";
       }
-                        
+
       // validation function will be called with new and old value
-      var validationFunc = this.getValidationFunction(); 
+      var validationFunc = this.getValidationFunction();
       if ( ! this._done && validationFunc )
       {
          value = validationFunc( value, cellEditor.originalValue );
-         this._done = true;      
+         this._done = true;
       }
-      
+
       if (typeof cellEditor.originalValue == "number") {
         value = parseFloat(value);
       }

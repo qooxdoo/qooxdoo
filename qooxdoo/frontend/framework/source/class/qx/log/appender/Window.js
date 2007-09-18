@@ -63,7 +63,7 @@ qx.Class.define("qx.log.appender.Window",
       for (var i = 0; i < url.length; i++) {
         hash = (hash + url.charCodeAt(i)) % 10000000;
       }
-  
+
       this._name = "qx_log_" + hash;
     }
 

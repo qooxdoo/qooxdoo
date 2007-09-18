@@ -261,12 +261,12 @@ qx.Class.define("qx.io.image.PreloaderSystem",
 
   destruct : function()
   {
-    if (this._timer) 
+    if (this._timer)
     {
       this._timer.removeEventListener("interval", this.__oninterval, this);
       this._disposeObjects("_timer");
     }
-    
+
     this._disposeFields("_list");
   }
 });

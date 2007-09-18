@@ -173,7 +173,7 @@ qx.Class.define("qx.client.History",
      * qooxdoo versions
      * @deprecated
      */
-    init : function()    
+    init : function()
     {
       this.warn("dprecated");
       this.printStacktrace();

@@ -101,7 +101,7 @@ qx.Class.define("qx.ui.treevirtual.CheckBoxDataCellRenderer",
       }
     },
 
-    /** 
+    /**
      * TODOC
      * @return {Map}
      */

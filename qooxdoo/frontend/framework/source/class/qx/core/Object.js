@@ -315,9 +315,9 @@ qx.Class.define("qx.core.Object",
 
 
     /**
-     * Returns the key of the object used in the objects DB 
+     * Returns the key of the object used in the objects DB
      * received by {@link #getDb()}.
-     *  
+     *
      * @type member
      * @internal
      * @return {Integer} The key in the db for the current object.

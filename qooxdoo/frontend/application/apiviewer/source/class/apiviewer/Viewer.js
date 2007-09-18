@@ -47,7 +47,7 @@ qx.Class.define("apiviewer.Viewer",
   construct : function()
   {
     this.base(arguments);
-    
+
     this.setEdge(0);
 
     this.addTop(this.__createHeader());

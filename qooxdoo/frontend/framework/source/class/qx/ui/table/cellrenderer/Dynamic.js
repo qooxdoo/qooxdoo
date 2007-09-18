@@ -47,7 +47,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Dynamic",
     this.base(arguments);
     if (cellRendererFactoryFunction)
     {
-      this.setCellRendererFactoryFunction(cellRendererFactoryFunction);  
+      this.setCellRendererFactoryFunction(cellRendererFactoryFunction);
     }
   },
 
@@ -61,30 +61,30 @@ qx.Class.define("qx.ui.table.cellrenderer.Dynamic",
   properties :
   {
 
-    /** 
-     * Function that returns a cellRenderer instance which will be 
+    /**
+     * Function that returns a cellRenderer instance which will be
      * used for the row that is currently being edited. The function is
      * defined like this:
-     * 
+     *
      * <pre class="javascript">
      * myTable.getTableColumnModel().setCellRenderer(function(cellInfo){
-     *   // based on the cellInfo map or other information, return the 
+     *   // based on the cellInfo map or other information, return the
      *   // appropriate cell renderer
      *   if (cellInfo.row == 5)
      *     return new qx.ui.table.cellrenderer.Boolean;
      *   else
-     *     return new qx.ui.table.cellrenderer.Default;    
+     *     return new qx.ui.table.cellrenderer.Default;
      * });
      * </pre>
-     * 
+     *
      * the function MUST return at least a qx.ui.table.cellrenderer.Default
-     **/ 
+     **/
     cellRendererFactoryFunction :
     {
       check : "Function",
       nullable : true,
       init : null
-    }    
+    }
   },
 
 
@@ -98,9 +98,9 @@ qx.Class.define("qx.ui.table.cellrenderer.Dynamic",
   {
 
     /**
-     * Overridden; called whenever the cell updates. The cell will call the 
+     * Overridden; called whenever the cell updates. The cell will call the
      * function stored in the cellRendererFactoryFunction to retrieve the
-     * cell renderer which should be used for this particular cell 
+     * cell renderer which should be used for this particular cell
      * @type member
      * @param cellInfo {Map} The information about the cell.
      *          See {@link #createDataCellHtml}.

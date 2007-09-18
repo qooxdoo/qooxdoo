@@ -993,7 +993,7 @@ qx.Class.define("qx.event.handler.EventHandler",
 
         // Flush Queues
         qx.ui.core.Widget.flushGlobalQueues();
-        
+
         // Fix Click (Gecko Bug, see above)
         if (vFixClick)
         {

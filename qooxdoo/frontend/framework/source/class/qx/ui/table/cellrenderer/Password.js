@@ -54,8 +54,8 @@ qx.Class.define("qx.ui.table.cellrenderer.Password",
   {
 
     /**
-     * Overridden; called whenever the cell updates. 
-     * 
+     * Overridden; called whenever the cell updates.
+     *
      * @type member
      * @param cellInfo {Map} The information about the cell.
      *          See {@link #createDataCellHtml}.
@@ -63,7 +63,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Password",
      */
     _getContentHtml : function(cellInfo)
     {
-      cellInfo.value = cellInfo.value.replace(/./g,"*"); 
+      cellInfo.value = cellInfo.value.replace(/./g,"*");
       return qx.html.String.escape(this._formatValue(cellInfo));
     }
   }
