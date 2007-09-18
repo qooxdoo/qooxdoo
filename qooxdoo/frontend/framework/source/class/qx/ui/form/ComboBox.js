@@ -66,6 +66,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     // List
     var l = this._list = new qx.ui.form.List;
     l.setAppearance("combo-box-list");
+    l.setTabIndex(-1);
     l.setEdge(0);
 
     // Manager
@@ -104,6 +105,8 @@ qx.Class.define("qx.ui.form.ComboBox",
     // Mouse Events
     this.addEventListener("mousedown", this._onmousedown);
     this.addEventListener("mouseup", this._onmouseup);
+    this.addEventListener("click", this._onclick);
+
     this.addEventListener("mouseover", this._onmouseover);
     this.addEventListener("mousewheel", this._onmousewheel);
 
@@ -579,9 +582,6 @@ qx.Class.define("qx.ui.form.ComboBox",
 
     /**
      * Listener method of the "mousedown" event of the combo box.<br/>
-     * Opens the popup or delegates the event to the list widget if the user
-     * clicked on the list. Hides the popup and release the event capturing if
-     * the user is clicking outside the combo box.
      *
      * @type member
      * @param e {qx.event.type.MouseEvent} MouseDown event
@@ -602,7 +602,6 @@ qx.Class.define("qx.ui.form.ComboBox",
           if (this.getEditable()) {
             break;
           }
-
           // no break here
 
         case this._button:
@@ -610,6 +609,36 @@ qx.Class.define("qx.ui.form.ComboBox",
           this._togglePopup();
           break;
 
+
+        default:
+          break;
+      }
+    },
+
+
+    /**
+     * Listener method of the "click" event of the combo box.<br/>
+     * Opens the popup or delegates the event to the list widget if the user
+     * clicked on the list. Hides the popup and release the event capturing if
+     * the user is clicking outside the combo box.
+     *
+     * @type member
+     * @param e {qx.legacy.event.type.MouseEvent} MouseDown event
+     * @return {void}
+     */
+    _onclick : function(e)
+    {
+      // only react on left mouse button
+      if (! e.isLeftButtonPressed()) {
+        return;
+      }
+
+      var vTarget = e.getTarget();
+
+      switch(vTarget)
+      {
+        case this._field:
+        case this._button:
         case this:
         case this._list:
           break;
