@@ -103,14 +103,14 @@ qx.Class.define("qx.event.Manager",
     getHandler : function(clazz)
     {
       var handler = this.__handlers[clazz.classname];
-      
+
       if (handler) {
-        return handler; 
+        return handler;
       }
-      
+
       return this.__handlers[clazz.classname] = new clazz(this);
     },
-    
+
 
     /**
      * Returns an instance of the given dispatcher class for this manager(window).
@@ -122,14 +122,14 @@ qx.Class.define("qx.event.Manager",
     getDispatcher : function(clazz)
     {
       var dispatcher = this.__dispatchers[clazz.classname];
-      
+
       if (dispatcher) {
-        return dispatcher; 
+        return dispatcher;
       }
-      
+
       return this.__dispatchers[clazz.classname] = new clazz(this);
-    }, 
-    
+    },
+
 
     /**
      * Generates a unique ID for a combination of target, type and capturing
@@ -143,10 +143,10 @@ qx.Class.define("qx.event.Manager",
     __generateUniqueId : function(target, type, capture) {
       return qx.core.Object.toHashCode(target) + "|" + type + (capture ? "|capture" : "|bubble");
     },
-    
-    
-   
-        
+
+
+
+
 
 
 
@@ -169,14 +169,14 @@ qx.Class.define("qx.event.Manager",
      *       and type. Will return null if <code>setup</code> and no entry
      *       is found.
      */
-    getListeners : function(target, type, capture) 
+    getListeners : function(target, type, capture)
     {
       var uniqueId = this.__generateUniqueId(target, type, capture);
       var res = this.__listeners[uniqueId];
       if (res && res.length > 0) {
         return res.concat();
       }
-      
+
       return null;
     },
 
@@ -214,7 +214,7 @@ qx.Class.define("qx.event.Manager",
      * @param capture {Boolean ? false} Whether to attach the event to the
      *         capturing phase of the bubbling phase of the event. The default is
      *         to attach the event handler to the bubbling phase.
-     * @return {void} 
+     * @return {void}
      * @throws an error if the parameters are wrong
      */
     addListener : function(target, type, listener, self, capture)
@@ -241,7 +241,7 @@ qx.Class.define("qx.event.Manager",
       // Preparations
       var uniqueId = this.__generateUniqueId(target, type, capture);
       var listeners = this.__listeners[uniqueId];
-      
+
       // Create data hierarchy
       if (!listeners) {
         listeners = this.__listeners[uniqueId] = [];
@@ -261,8 +261,8 @@ qx.Class.define("qx.event.Manager",
         context : self
       });
     },
-    
-    
+
+
     /**
      * This method is called each time an event listener for one of the
      * supported events is added using {qx.event.Manager#addListener}.
@@ -270,7 +270,7 @@ qx.Class.define("qx.event.Manager",
      * @type member
      * @param target {Object} Any valid event target
      * @param type {String} event type
-     * @return {void} 
+     * @return {void}
      * @throws an error if there is no handler for the event
      */
     __registerAtHandler : function(target, type)
@@ -281,7 +281,7 @@ qx.Class.define("qx.event.Manager",
       for (var i=0, l=classes.length; i<l; i++)
       {
         instance = this.getHandler(classes[i]);
-        
+
         if (instance.canHandleEvent(target, type))
         {
           instance.registerEvent(target, type);
@@ -308,7 +308,7 @@ qx.Class.define("qx.event.Manager",
      *         the event listener.
      * @param capture {Boolean ? false} Whether to remove the event listener of
      *         the bubbling or of the capturing phase.
-     * @return {void} 
+     * @return {void}
      * @throws an error if the parameters are wrong
      */
     removeListener : function(target, type, listener, self, capture)
@@ -348,7 +348,7 @@ qx.Class.define("qx.event.Manager",
       for (var i=0, l=listeners.length; i<l; i++)
       {
         entry = listeners[i];
-        
+
         if (entry.handler === listener && entry.context === self)
         {
           qx.lang.Array.removeAt(listeners, i);
@@ -357,10 +357,10 @@ qx.Class.define("qx.event.Manager",
         }
       }
 
-      if (!found) 
+      if (!found)
       {
         // this.warn("Cannot remove event listener: " + listener + " :: " + self);
-        return;  
+        return;
       }
 
       // This was the last event listener for this type and target
@@ -380,7 +380,7 @@ qx.Class.define("qx.event.Manager",
      * @type member
      * @param target {Object} Any valid event target
      * @param type {String} event type
-     * @return {void} 
+     * @return {void}
      * @throws an error if there is no handler for the event
      */
     __unregisterAtHandler : function(target, type)
@@ -391,7 +391,7 @@ qx.Class.define("qx.event.Manager",
       for (var i=0, l=classes.length; i<l; i++)
       {
         instance = this.getHandler(classes[i]);
-        
+
         if (instance.canHandleEvent(target, type))
         {
           instance.unregisterEvent(target, type);
@@ -424,9 +424,9 @@ qx.Class.define("qx.event.Manager",
      * @type member
      * @param target {Object} Any valid event target
      * @param event {qx.event.type.Event} The event object to dispatch. The event
-     *       object must be obtained using {@link qx.event.Registration#createEvent} 
+     *       object must be obtained using {@link qx.event.Registration#createEvent}
      *       and initialized using {@link qx.event.type.Event#init}.
-     * @return {void} 
+     * @return {void}
      * @throws an error if there is no dispatcher for the event
      */
     dispatchEvent : function(target, event)
@@ -437,7 +437,9 @@ qx.Class.define("qx.event.Manager",
 
       // Preparations
       var type = event.getType();
-      event.setTarget(target);
+      if (!event.getTarget()) {
+        event.setTarget(target);
+      }
 
       // Interation data
       var classes = qx.event.Registration.getDispatchers();
@@ -481,7 +483,7 @@ qx.Class.define("qx.event.Manager",
      * @param clazz {qx.event.type.Event} The even class
      * @param args {Array} Array or arguments, which will be passed to
      *       the event's init method.
-     * @return {void} 
+     * @return {void}
      */
     fireEvent : function(target, clazz, args)
     {
