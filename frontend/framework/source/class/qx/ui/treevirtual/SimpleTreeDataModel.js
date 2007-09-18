@@ -300,19 +300,15 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
         this.setData();
 
         // Inform the listeners
-        if (this.hasEventListeners("dataChanged"))
+        var data =
         {
-          var data =
-          {
-            firstRow    : node.nodeId,
-            lastRow     : node.nodeId,
-            firstColumn : columnIndex,
-            lastColumn  : columnIndex
-          };
+          firstRow    : node.nodeId,
+          lastRow     : node.nodeId,
+          firstColumn : columnIndex,
+          lastColumn  : columnIndex
+        };
 
-          this.dispatchEvent(new qx.event.type.Data("dataChanged", data),
-                             true);
-        }
+        this.createDispatchDataEvent("dataChanged", data);
       }
     },
 
@@ -732,20 +728,15 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
         // _rowArr.
         inorder(0, 1);
 
-        // Inform the listeners
-        if (_this.hasEventListeners("dataChanged"))
+        var data =
         {
-          var data =
-          {
-            firstRow    : 0,
-            lastRow     : _this._rowArr.length - 1,
-            firstColumn : 0,
-            lastColumn  : _this.getColumnCount() - 1
-          };
+          firstRow    : 0,
+          lastRow     : _this._rowArr.length - 1,
+          firstColumn : 0,
+          lastColumn  : _this.getColumnCount() - 1
+        };
 
-          _this.dispatchEvent(new qx.event.type.Data("dataChanged",
-                                                          data), true);
-        }
+        _this.createDispatchDataEvent("dataChanged", data);
       }
 
       if (nodeArr instanceof Array)
