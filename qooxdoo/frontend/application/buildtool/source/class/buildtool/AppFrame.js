@@ -88,9 +88,9 @@ qx.Class.define("buildtool.AppFrame",
 
     right.set(
     {
+      //border : "line-left",
       height : "100%",
-      width  : "100%",
-      border : "line-left"
+      width  : "100%"
     });
 
     mainsplit.addRight(right);
@@ -998,25 +998,40 @@ qx.Class.define("buildtool.AppFrame",
     {
       var treeNode = e.getData()[0];
 
+      this.__setRunButtons(treeNode);
+
+    }, //handleRunTreeSelection
+
+
+    __setRunButtons : function(treeNode)
+    {
       // handle enable "Open Application" button
-      if (treeNode instanceof qx.ui.tree.TreeFolder || treeNode.getLabel() == "source") 
+      if (treeNode == null) {
+        this._cmdOpenPage.setEnabled(false);
+      } else if (treeNode instanceof qx.ui.tree.TreeFolder || treeNode.getLabel() == "source") 
       {
-        this.widgets["toolrun.openb"].setEnabled(false);
+        //this.widgets["toolrun.openb"].setEnabled(false);
+        this._cmdOpenPage.setEnabled(false);
       } else 
       {
-        this.widgets["toolrun.openb"].setEnabled(true);
+        //this.widgets["toolrun.openb"].setEnabled(true);
+        this._cmdOpenPage.setEnabled(true);
       }
 
       // handle enable "Generate Application" button
-      if (treeNode instanceof qx.ui.tree.TreeFile) 
+      if (treeNode == null) {
+        this._cmdRunBuild.setEnabled(false);
+      } else if (treeNode instanceof qx.ui.tree.TreeFile) 
       {
-        this.widgets["toolrun.runb"].setEnabled(true);
+        //this.widgets["toolrun.runb"].setEnabled(true);
+        this._cmdRunBuild.setEnabled(true);
       } else 
       {
-        this.widgets["toolrun.runb"].setEnabled(false);
+        //this.widgets["toolrun.runb"].setEnabled(false);
+        this._cmdRunBuild.setEnabled(false);
       }
 
-    }, //handleRunTreeSelection
+    }, // setRunButtons
 
 
     /**
@@ -1806,8 +1821,8 @@ qx.Class.define("buildtool.AppFrame",
       if (this.app.run.during_build) {
         alert("Build finished");
         this.app.run.during_build = false;
-        this._cmdRunBuild.resetEnabled();
-        this._cmdOpenPage.resetEnabled();
+        var treeNode = this.widgets["treeview.trun"].getSelectedElement();
+        this.__setRunButtons(treeNode);
       }
       var ifrm = e.getTarget();
       ifrm.setScrollTop(ifrm.getScrollHeight());
