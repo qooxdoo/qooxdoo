@@ -170,6 +170,7 @@ qx.Class.define("qx.theme.manager.Appearance",
         if (qx.core.Variant.isSet("qx.debug", "on")) {
           this.warn("Missing appearance entry: " + id);
         }
+        
         return null;
       }
 
