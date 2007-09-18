@@ -1655,17 +1655,12 @@ qx.Class.define("qx.ui.table.Table",
       var columnModel = this.getTableColumnModel();
 
       // Inform listeners who may want to insert menu items at the beginning
-      if (this.hasEventListeners("columnVisibilityMenuCreateStart"))
+      var data =
       {
-        var data =
-        {
-          table : this,
-          menu  : menu
-        };
-
-        var event = new qx.event.type.DataEvent("columnVisibilityMenuCreateStart", data);
-        this.dispatchEvent(event, true);
-      }
+        table : this,
+        menu  : menu
+      };
+      this.createDispatchDataEvent("columnVisibilityMenuCreateStart", data, true);
 
       for (var x=0; x<columnModel.getOverallColumnCount(); x++)
       {
@@ -1682,17 +1677,12 @@ qx.Class.define("qx.ui.table.Table",
       }
 
       // Inform listeners who may want to insert menu items at the end
-      if (this.hasEventListeners("columnVisibilityMenuCreateEnd"))
+      var data =
       {
-        var data =
-        {
-          table : this,
-          menu  : menu
-        };
-
-        var event = new qx.event.type.DataEvent("columnVisibilityMenuCreateEnd", data);
-        this.dispatchEvent(event, true);
-      }
+        table : this,
+        menu  : menu
+      };
+      this.createDispatchDataEvent("columnVisibilityMenuCreateEnd", data, true);
 
       menu.setParent(this.getTopLevelWidget());
 

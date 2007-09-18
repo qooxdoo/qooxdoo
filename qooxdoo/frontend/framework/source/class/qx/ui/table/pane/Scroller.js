@@ -1437,7 +1437,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           col   : col,
           row   : row,
           xPos  : xPos,
-          value : value
+          value : value,
+          table : table
         };
 
         // Get a cell editor
@@ -1586,9 +1587,11 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         {
           this._focusIndicator.remove(this._cellEditor);
           this._focusIndicator.removeState("editing");
-          this._cellEditor.removeEventListener("changeFocused",
-                                               this._onCellEditorFocusChanged,
-                                               this);
+          this._cellEditor.removeEventListener(
+            "changeFocused",
+            this._onCellEditorFocusChanged,
+            this
+          );
           this._cellEditor.dispose();
           this._cellEditor = null;
           this._cellEditorFactory = null;
@@ -1703,6 +1706,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     _getRowForPagePos : function(pageX, pageY)
     {
       var paneClipperElem = this._paneClipper.getElement();
+
       var paneClipperPos = qx.bom.element.Location.get(paneClipperElem);
 
       if (pageX < paneClipperPos.left || pageX > paneClipperPos.right)

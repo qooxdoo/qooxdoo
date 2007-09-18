@@ -26,7 +26,8 @@
 ************************************************************************ */
 
 /**
- * A data cell renderer for boolean values.
+ * A template class for cell renderers, which display images. Concrete
+ * implementations must implement the method @{link #_identifyImage}.
  */
 qx.Class.define("qx.ui.table.cellrenderer.Icon",
 {
@@ -70,7 +71,8 @@ qx.Class.define("qx.ui.table.cellrenderer.Icon",
   members :
   {
     /**
-     * Identifies the Image to show.
+     * Identifies the Image to show. This is a template method, which must be
+     * implements by sub classes.
      *
      * @type member
      * @abstract
