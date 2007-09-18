@@ -214,7 +214,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this._cmdSampleInOwnWindow.addEventListener("execute", function(e)
       {
         var sampUrl = this.f1.getContentWindow().location.href;
-        var nw = new qx.bom.Window(sampUrl, "Sample");
+        var nw = new qx.legacy.Window(sampUrl, "Sample");
         this.widgets["nativewindow"] = nw;
         nw.setDimension(700, 550);
         nw.open();

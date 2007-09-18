@@ -32,7 +32,7 @@
  * It wraps the window.open command to a useable cross-browser
  * compatible API.
  */
-qx.Class.define("qx.bom.Window",
+qx.Class.define("qx.legacy.Window",
 {
   extend : qx.core.Target,
 

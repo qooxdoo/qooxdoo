@@ -1660,7 +1660,7 @@ qx.Class.define("showcase.Application",
         spacing : 5
       });
 
-      var win = new qx.bom.Window("http://qooxdoo.org");
+      var win = new qx.legacy.Window("http://qooxdoo.org");
       win.setDimension(600, 400);
 
       var openBt = new qx.ui.form.Button("Open Native Window", "icon/16/apps/system-users.png");

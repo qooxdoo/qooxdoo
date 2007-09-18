@@ -21,7 +21,7 @@
 /* ************************************************************************
 
 #module(ui_core)
-#optional(qx.bom.Window)
+#optional(qx.legacy.Window)
 #optional(qx.ui.window.Window)
 #optional(qx.ui.popup.PopupManager)
 
@@ -362,7 +362,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
         this._getBlocker().setZIndex(vOrigIndex);
         vActiveChild.setZIndex(vOrigIndex + 1);
       }
-      else if (qx.Class.isDefined("qx.bom.Window") && vActiveChild instanceof qx.bom.Window)
+      else if (qx.Class.isDefined("qx.legacy.Window") && vActiveChild instanceof qx.legacy.Window)
       {
         this._modalNativeWindow = vActiveChild;
         this._getBlocker().setZIndex(1e7);
@@ -382,7 +382,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
       // this.debug("RELEASE: " + vActiveChild.toHashCode());
       if (vActiveChild)
       {
-        if (qx.Class.isDefined("qx.bom.Window") && vActiveChild instanceof qx.bom.Window) {
+        if (qx.Class.isDefined("qx.legacy.Window") && vActiveChild instanceof qx.legacy.Window) {
           this._modalNativeWindow = null;
         } else {
           qx.lang.Array.remove(this._modalWidgets, vActiveChild);
