@@ -269,8 +269,6 @@ qx.Class.define("qx.ui.menu.Menu",
   {
     _remappingChildTable : [ "add", "remove", "addAt", "addAtBegin", "addAtEnd", "removeAt", "addBefore", "addAfter", "removeAll", "getFirstChild", "getFirstActiveChild", "getLastChild", "getLastActiveChild" ],
 
-    _isFocusRoot : false,
-
 
 
 

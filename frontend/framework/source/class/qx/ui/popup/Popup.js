@@ -185,8 +185,6 @@ qx.Class.define("qx.ui.popup.Popup",
 
   members :
   {
-    _isFocusRoot : true,
-
     _showTimeStamp : (new Date(0)).valueOf(),
     _hideTimeStamp : (new Date(0)).valueOf(),
 
