@@ -137,6 +137,9 @@ qx.Class.define("qx.event.handler.Input",
 
 
     // interface implementation
+    /**
+     * @signature function(target, type)
+     */
     registerEvent : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(target, type) 
@@ -180,11 +183,49 @@ qx.Class.define("qx.event.handler.Input",
   
 
     // interface implementation
-    unregisterEvent : function(target, type) 
+    /**
+     * @signature function(target, type)
+     */
+    unregisterEvent : qx.core.Variant.select("qx.client",
     {
+      "mshtml" : function(target, type) 
+      {
+        if (!target.__inputHandlerAttached)
+        {
+          var tag = target.tagName.toLowerCase();
+          var type = target.type;
+          
+          if (type === "text" || tag === "textarea" || type === "checkbox" || type === "radio") {
+            qx.event.Registration.removeNativeListener(target, "propertychange", this._onPropertyWrapper);
+          }
+          
+          if (type !== "checkbox" && type !== "radio") {
+            qx.event.Registration.removeNativeListener(target, "change", this._onChangeValueWrapper);
+          }
+          
+          delete target.__inputHandlerAttached;
+        }
+      },
       
-    },
-    
+      "default" : function(target, type)
+      {
+        if (type === "input") 
+        {
+          qx.event.Registration.removeNativeListener(target, "input", this._onInputWrapper);
+        } 
+        else if (type === "change") 
+        {
+          if (target.type === "radio" || target.type === "checkbox")
+          {
+            qx.event.Registration.removeNativeListener(target, "change", this._onChangeCheckedWrapper);
+          }
+          else
+          {
+            qx.event.Registration.removeNativeListener(target, "change", this._onChangeValueWrapper);
+          }
+        }
+      }
+    }),
     
     
 
@@ -198,7 +239,8 @@ qx.Class.define("qx.event.handler.Input",
     /**
      * Internal function called by input elements created using {@link qx.bom.Input}.
      *
-     * @internal
+     * @type member
+     * @param e {Event} Native DOM event
      * @return {void}
      */
     _onInput : function(e) 
@@ -211,7 +253,8 @@ qx.Class.define("qx.event.handler.Input",
     /**
      * Internal function called by input elements created using {@link qx.bom.Input}.
      *
-     * @internal
+     * @type member
+     * @param e {Event} Native DOM event
      * @return {void}
      */    
     _onChangeValue : function(e) 
@@ -237,7 +280,8 @@ qx.Class.define("qx.event.handler.Input",
     /**
      * Internal function called by input elements created using {@link qx.bom.Input}.
      *
-     * @internal
+     * @type member
+     * @param e {Event} Native DOM event
      * @return {void}
      */    
     _onChangeChecked : function(e) 
@@ -260,7 +304,9 @@ qx.Class.define("qx.event.handler.Input",
     /**
      * Internal function called by input elements created using {@link qx.bom.Input}.
      *
-     * @internal
+     * @type member
+     * @signature function(e)
+     * @param e {Event} Native DOM event
      * @return {void}
      */
     _onProperty : qx.core.Variant.select("qx.client",
