@@ -403,8 +403,9 @@ exec-files-build:
 	@mkdir -p $(APPLICATION_BUILD_PATH)
 	@for file in $(APPLICATION_FILES); do \
 		echo "    - Processing $$file"; \
-		cp -Rf $(APPLICATION_SOURCE_PATH)/$$file $(APPLICATION_BUILD_PATH); \
+		$(CMD_SYNC_OFFLINE) $(APPLICATION_SOURCE_PATH)/$$file $(APPLICATION_BUILD_PATH); \
 	done
+
 
 exec-files-api:
 	@echo
@@ -414,7 +415,7 @@ exec-files-api:
 	@mkdir -p $(APPLICATION_API_PATH)
 	@for file in $(APIVIEWER_FILES); do \
 		echo "    - Processing $$file"; \
-		cp -Rf $(APIVIEWER_SOURCE_PATH)/$$file $(APPLICATION_API_PATH); \
+		$(CMD_SYNC_OFFLINE) $(APIVIEWER_SOURCE_PATH)/$$file $(APPLICATION_API_PATH); \
   done
 
 
