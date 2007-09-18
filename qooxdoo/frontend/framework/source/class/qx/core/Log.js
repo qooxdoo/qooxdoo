@@ -363,6 +363,12 @@ qx.Class.define("qx.core.Log",
     },
     
     
+    /**
+     * Synchronizes the height of the log console to the inner height of the window
+     * 
+     * @type static
+     * @return {void}
+     */    
     _syncLayout : function() {
       this._consoleLog.style.height = (qx.bom.Viewport.getHeight(this._consoleWindow) - 42) + "px"; 
     },
@@ -916,7 +922,7 @@ qx.Class.define("qx.core.Log",
      * Event handler method for the keydown event at the command line
      *
      * @type static
-     * @param event {Object} Event object
+     * @param event {Event} Event object
      * @return {void}
      */
     _onCommandLineKeyDown : function(event)
@@ -930,7 +936,7 @@ qx.Class.define("qx.core.Log",
      * Event handler method for the resize event 
      *
      * @type static
-     * @param event {Object} Event object
+     * @param event {Event} Event object
      * @return {void}
      */    
     _onResize : function(event) {
@@ -938,6 +944,13 @@ qx.Class.define("qx.core.Log",
     },
     
     
+    /**
+     * Event handler for unload event
+     *
+     * @type static
+     * @param event {Event} DOM Event
+     * @return {void}
+     */
     _onUnload : function(event) 
     {
       var win = this._consoleWindow;
