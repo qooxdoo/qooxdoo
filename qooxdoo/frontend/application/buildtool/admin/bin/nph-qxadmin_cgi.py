@@ -210,7 +210,7 @@ def save_makvars(json):
 
 def gen_makefile(makvars):
     "Generate Makefile from the passed makvars"
-    import shutil
+    import shutil, StringIO
     rc = 0
     mkfile=config['makefile']
     mkback=mkfile+".bak"
@@ -221,7 +221,7 @@ def gen_makefile(makvars):
     # backup copy
     shutil.copy(mkfile, mkback)
     infile = open(mkback,'rU')
-    f = open(mkfile,'w')
+    f = StringIO.StringIO()
 
     # Processing
     # copy prolog
@@ -301,6 +301,18 @@ def gen_makefile(makvars):
     # Processing - Done
 
     infile.close()
+    # write new contents
+    f.seek(0)
+    outtext = f.readlines()
+    if len(outtext) > 20:  # heuristic for a correct Makefile
+        mf = open(mkfile,'w')
+        if mf:
+            for line in outtext:
+                mf.write(line)
+            mf.close()
+        else:
+            print "Cannot write to Makefile; changes were not saved"
+            return -2
     f.close()
 
     return rc
