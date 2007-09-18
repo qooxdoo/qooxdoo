@@ -526,7 +526,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
         rowHtml.push('</div>');
 
         var rowString = rowHtml.join("");
-        //console.log(rowString);
 
         this.__rowCacheSet(row, rowString, selected, focusedRow);
         rowsArr.push(rowString);
