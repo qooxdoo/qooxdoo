@@ -86,17 +86,11 @@ qx.Class.define("qx.legacy.event.type.DomEvent",
 
   properties :
   {
+
     bubbles :
     {
       _fast        : true,
       defaultValue : true,
-      noCompute    : true
-    },
-
-    propagationStopped :
-    {
-      _fast        : true,
-      defaultValue : false,
       noCompute    : true
     },
 
@@ -271,6 +265,7 @@ qx.Class.define("qx.legacy.event.type.DomEvent",
         this.getDomEvent().returnValue = false;
       }
     }),
+
 
     preventDefault : function() {
       this.setDefaultPrevented(true);
