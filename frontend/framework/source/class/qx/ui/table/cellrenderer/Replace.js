@@ -110,9 +110,9 @@ qx.Class.define("qx.ui.table.cellrenderer.Replace",
      * <pre class='javascript'>
      * var propertyCellRenderer = new qx.ui.table.cellrenderer.Replace;
      * propertyCellRenderer.setReplaceMap({
-     * 	 1 : "Active",
+     *   1 : "Active",
      *   0 : "Inactive",
-     *   2	: "Waiting",
+     *   2 : "Waiting",
      *   'admin' : "System Administrator",
      *   'manager' : "User Manager",
      *   'user' : "Website User"
