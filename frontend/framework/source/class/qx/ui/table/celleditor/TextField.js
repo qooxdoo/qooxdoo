@@ -46,7 +46,28 @@ qx.Class.define("qx.ui.table.celleditor.TextField",
   },
 
 
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
 
+  properties :
+  {
+
+    /** 
+     * function that validates the result
+     * the function will be called with the new value and the old value and is
+     * supposed to return the value that is set as the table value.  
+     **/ 
+    validationFunction :
+    {
+      check : "Function",
+      nullable : true,
+      init : null
+    }
+    
+  },
 
   /*
   *****************************************************************************
@@ -63,6 +84,10 @@ qx.Class.define("qx.ui.table.celleditor.TextField",
       cellEditor.setAppearance("table-editor-textfield");
       cellEditor.setLiveUpdate(true);
       cellEditor.originalValue = cellInfo.value;
+      if ( cellInfo.value === null )
+      {
+        cellInfo.value = "";
+      }
       cellEditor.setValue("" + cellInfo.value);
 
       cellEditor.addEventListener("appear", function() {
@@ -76,7 +101,15 @@ qx.Class.define("qx.ui.table.celleditor.TextField",
     getCellEditorValue : function(cellEditor)
     {
       var value = cellEditor.getValue();
-
+      
+      // validation function will be called with new and old value
+      var validationFunc = this.getValidationFunction(); 
+      if ( ! this._done && validationFunc )
+      {
+         value = validationFunc( value, cellEditor.originalValue ); 
+         this._done = true;      
+      }
+      
       if (typeof cellEditor.originalValue == "number") {
         value = parseFloat(value);
       }
