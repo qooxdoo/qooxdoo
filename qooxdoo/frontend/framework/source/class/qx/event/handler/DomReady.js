@@ -215,7 +215,6 @@ qx.Class.define("qx.event.handler.DomReady",
      * Native listener for browser implementations.
      *
      * @type member
-     * @param e {Event} Native event
      * @return {void}
      */
     _onNative : function() 

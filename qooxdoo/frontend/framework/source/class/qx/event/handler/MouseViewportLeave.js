@@ -102,11 +102,15 @@ qx.Class.define("qx.event.handler.MouseViewportLeave",
 
 
     // interface implementation
-    registerEvent : function(target, type) { },
+    registerEvent : function(target, type) { 
+      // Nothing needs to be done here
+    },
 
 
     // interface implementation
-    unregisterEvent : function(target, type) { },
+    unregisterEvent : function(target, type) { 
+      // Nothing needs to be done here  
+    },
 
 
 
@@ -133,7 +137,6 @@ qx.Class.define("qx.event.handler.MouseViewportLeave",
      *
      * @param domEvent {Event} DOM event
      * @param type {String} type og the event
-     * @param target {Element} event target
      */
     _fireEvent : function(domEvent, type)
     {
@@ -150,6 +153,9 @@ qx.Class.define("qx.event.handler.MouseViewportLeave",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * @signature function(domEvent)
+     */
     _onNativeMouseOut : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(domEvent)
@@ -182,6 +188,9 @@ qx.Class.define("qx.event.handler.MouseViewportLeave",
     }),
 
 
+    /**
+     * @signature function(domEvent)
+     */
     _onNativeMouseOver : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(domEvent)
