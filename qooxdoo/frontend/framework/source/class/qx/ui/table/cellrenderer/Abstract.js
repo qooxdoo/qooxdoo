@@ -104,7 +104,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
       var style = [
         "left:", cellInfo.styleLeft, "px;",
         "width:", cellInfo.styleWidth, "px;",
-        cellInfo.style || ""
+        cellInfo.style || "", ";"
       ];
       return style.join("");
     },

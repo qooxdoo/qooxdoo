@@ -162,9 +162,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
     },
 
     // overridden
-    /**
-     * @return {Object}
-     */
     _getCellStyle : function(cellInfo)
     {
       var node = cellInfo.value;
@@ -172,7 +169,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       // Return the style for the div for the cell.  If there's cell-specific
       // style information provided, append it.
       var html =
-        cellInfo.style +
+        this.base(arguments, cellInfo) +
         qx.ui.treevirtual.SimpleTreeDataCellRenderer.MAIN_DIV_STYLE +
         (node.cellStyle ? node.cellStyle + ";" : "");
       return html;
@@ -238,9 +235,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
     },
 
     // overridden
-    /**
-     * @return {String}
-     */
     _getContentHtml : function(cellInfo)
     {
       var html = "";
@@ -304,20 +298,20 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         imageHeight : 16
       });
 
-      // Add the node's label. We want
-      // 5 pixels between the folder icon and the label
+      // Add the node's label.  We calculate the "left" property with: each
+      // tree line (indentation) icon is 19 pixels wide; the folder icon is 16
+      // pixels wide, there are two pixels of padding at the left, and we want
+      // 2 pixels between the folder icon and the label
       html +=
-        '<span style="position:relative;' +
-        'left: 5px;' +
-        'top: -3px;' +
+        '<div style="position:absolute;' +
+        'left:' +
+        ((node.level * 19) + 16 + 2 + 2) +
+        ';' +
+        'top:0' +
         (node.labelStyle ? ";" + node.labelStyle : "") +
         ';">' +
         node.label +
         '</div>';
-
-      // wrap the cell in a div to make sure the line does not get higher than
-      // the line height
-      html = "<div style='overflow:hidden; height:"+(cellInfo.table.getRowHeight()-1)+"px'>" + html + "</div>";
 
       return html;
     },
