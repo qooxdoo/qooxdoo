@@ -20,6 +20,8 @@
 /* ************************************************************************
 
 #module(apiviewer)
+#resource(apiviewer.script:script)
+#embed(apiviewer.script/*)
 
 ************************************************************************ */
 
@@ -439,7 +441,10 @@ qx.Class.define("apiviewer.ui.SearchView",
     _load : function()
     {
       var loadStart = new Date();
-      var url = "./resource/script/apiindex.js";
+
+      // var url = "./script/apiindex.js";
+      var url = qx.io.Alias.getInstance().resolve("api/script/apiindex.js");
+      
       var req = new qx.io.remote.Request(url);
 
       req.setAsynchronous(true);
