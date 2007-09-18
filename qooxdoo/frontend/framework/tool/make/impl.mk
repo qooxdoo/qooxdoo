@@ -393,8 +393,9 @@ exec-files-build:
 	@mkdir -p $(APPLICATION_BUILD_PATH)
 	@for file in $(APPLICATION_FILES); do \
 		echo "    - Processing $$file"; \
-		cp -Rf $(APPLICATION_SOURCE_PATH)/$$file $(APPLICATION_BUILD_PATH); \
+		$(CMD_SYNC_OFFLINE) $(APPLICATION_SOURCE_PATH)/$$file $(APPLICATION_BUILD_PATH); \
 	done
+
 
 exec-files-api:
 	@echo
@@ -404,7 +405,7 @@ exec-files-api:
 	@mkdir -p $(APPLICATION_API_PATH)
 	@for file in $(APIVIEWER_FILES); do \
 		echo "    - Processing $$file"; \
-		cp -Rf $(APIVIEWER_SOURCE_PATH)/$$file $(APPLICATION_API_PATH); \
+		$(CMD_SYNC_OFFLINE) $(APIVIEWER_SOURCE_PATH)/$$file $(APPLICATION_API_PATH); \
   done
 
 
@@ -414,10 +415,9 @@ exec-files-buildtool:
 	@$(CMD_LINE)
 	@echo "  * Copying files..."
 	@mkdir -p $(APPLICATION_BUILDTOOL_PATH)
-	@cp -Rf $(BUILDTOOL_DEPLOY_PATH)/* $(APPLICATION_BUILDTOOL_PATH); 
+	@$(CMD_SYNC_OFFLINE) $(BUILDTOOL_DEPLOY_PATH)/* $(APPLICATION_BUILDTOOL_PATH); 
 	@mv $(APPLICATION_BUILDTOOL_PATH)/bin/startme.sh ./buildtool_start.sh
 	@mv $(APPLICATION_BUILDTOOL_PATH)/bin/startme.bat ./buildtool_start.bat
-
 
 
 #
