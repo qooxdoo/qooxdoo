@@ -46,7 +46,8 @@ qx.Class.define("apiviewer.Viewer",
   */
   construct : function()
   {
-    qx.ui.layout.DockLayout.call(this);
+    this.base(arguments);
+    
     this.setEdge(0);
 
     this.addTop(this.__createHeader());
