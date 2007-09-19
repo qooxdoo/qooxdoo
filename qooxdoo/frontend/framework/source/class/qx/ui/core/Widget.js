@@ -1537,7 +1537,8 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Boolean",
       init : false,
-      apply : "_applyCapture"
+      apply : "_applyCapture",
+      event : "changeCapture"
     },
 
 

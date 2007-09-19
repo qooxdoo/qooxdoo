@@ -120,6 +120,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this.add(this._top, scrollerBody, this._horScrollBar);
 
     // init event handlers
+    this._headerClipper.addEventListener("changeCapture", this._onChangeCaptureHeader, this);
+    
     this._headerClipper.addEventListener("mousemove", this._onmousemoveHeader, this);
     this._paneClipper.addEventListener("mousemove", this._onmousemovePane, this);
 
@@ -925,38 +927,64 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _onmousedownHeader : function(evt)
     {
-      var table = this.getTable();
-
-      if (! table.getEnabled()) {
+      if (! this.getTable().getEnabled()) {
         return;
       }
 
-      var tableModel = table.getTableModel();
-      var columnModel = table.getTableColumnModel();
-
       var pageX = evt.getPageX();
-      var pageY = evt.getPageY();
 
       // mouse is in header
       var resizeCol = this._getResizeColumnForPageX(pageX);
       if (resizeCol != -1) {
         // The mouse is over a resize region -> Start resizing
-        this._resizeColumn = resizeCol;
-        this._lastResizeMousePageX = pageX;
-        this._lastResizeWidth = columnModel.getColumnWidth(this._resizeColumn);
-        this._headerClipper.setCapture(true);
+        this._startResizeHeader(resizeCol, pageX);
       } else {
         // The mouse is not in a resize region
-        var col = this._getColumnForPageX(pageX);
-        if (col != null) {
-          // Prepare column moving
-          this._moveColumn = col;
-          this._lastMoveMousePageX = pageX;
-          this._lastMoveColPos = this.getTablePaneModel().getColumnLeft(col);
-          this._headerClipper.setCapture(true);
+        var moveCol = this._getColumnForPageX(pageX);
+        if (moveCol != null) {
+          this._startMoveHeader(moveCol, pageX);
         }
       }
     },
+    
+    
+    /**
+     * Start a resize session of the header.
+     *
+     * @type member
+     * @param resizeCol {Integer} the column index
+     * @param pageX {Integer} x coordinate of the mouse event
+     * @return {void}
+     */
+    _startResizeHeader : function(resizeCol, pageX)
+    {
+      var columnModel = this.getTable().getTableColumnModel();
+      
+      // The mouse is over a resize region -> Start resizing
+      this._resizeColumn = resizeCol;
+      this._lastResizeMousePageX = pageX;
+      this._lastResizeWidth = columnModel.getColumnWidth(this._resizeColumn);
+      this._headerClipper.setCapture(true);
+    },
+    
+    
+    /**
+     * Start a move session of the header.
+     *
+     * @type member
+     * @param moveCol {Integer} the column index
+     * @param pageX {Integer} x coordinate of the mouse event
+     * @return {void}
+     */
+    _startMoveHeader : function(moveCol, pageX)
+    {
+      // Prepare column moving
+      this._moveColumn = moveCol;
+      this._lastMoveMousePageX = pageX;
+      this._lastMoveColPos = this.getTablePaneModel().getColumnLeft(moveCol);
+      this._headerClipper.setCapture(true);
+    },
+    
 
 
     /**
@@ -1020,50 +1048,96 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       var paneModel = this.getTablePaneModel();
 
       if (this._resizeColumn != null) {
-        // We are currently resizing -> Finish resizing
-        if (! this.getLiveResize()) {
-          this._hideResizeLine();
-          columnModel.setColumnWidth(this._resizeColumn, this._lastResizeWidth);
-        }
-
-        this._resizeColumn = null;
-        this._headerClipper.setCapture(false);
-
-        this.getTopLevelWidget().setGlobalCursor(null);
+        this._stopResizeHeader();
       } else if (this._moveColumn != null) {
-        // We are moving a column -> Drop the column
-        this._header.hideColumnMoveFeedback();
-        if (this._lastMoveTargetScroller) {
-          this._lastMoveTargetScroller.hideColumnMoveFeedback();
-        }
-
-        if (this._lastMoveTargetX != null) {
-          var fromVisXPos = paneModel.getFirstColumnX() + paneModel.getX(this._moveColumn);
-          var toVisXPos = this._lastMoveTargetX;
-          if (toVisXPos != fromVisXPos && toVisXPos != fromVisXPos + 1) {
-            // The column was really moved to another position
-            // (and not moved before or after itself, which is a noop)
-
-            // Translate visible positions to overall positions
-            var fromCol = columnModel.getVisibleColumnAtX(fromVisXPos);
-            var toCol   = columnModel.getVisibleColumnAtX(toVisXPos);
-            var fromOverXPos = columnModel.getOverallX(fromCol);
-            var toOverXPos = (toCol != null) ? columnModel.getOverallX(toCol) : columnModel.getOverallColumnCount();
-
-            if (toOverXPos > fromOverXPos) {
-              // Don't count the column itself
-              toOverXPos--;
-            }
-
-            // Move the column
-            columnModel.moveColumn(fromOverXPos, toOverXPos);
-          }
-        }
-
-        this._moveColumn = null;
-        this._lastMoveTargetX = null;
-        this._headerClipper.setCapture(false);
+        this._stopMoveHeader();
       }
+    },
+    
+    
+    /**
+     * Event handler. Called when the event capturing of the header changed.
+     * Stops/finishes an active header resize/move session if it lost capturing 
+     * during the session to stay in a stable state.
+     */
+    _onChangeCaptureHeader : function(e)
+    {
+      if (this._resizeColumn != null && e.getValue() == false) {
+        this._stopResizeHeader();
+      }
+      
+      if (this._moveColumn != null && e.getValue() == false) {
+        this._stopMoveHeader();
+      }
+    },
+    
+    
+    /**
+     * Stop a resize session of the header.
+     *
+     * @type member
+     * @return {void}
+     */
+    _stopResizeHeader : function()
+    {
+      var columnModel = this.getTable().getTableColumnModel();
+      
+      // We are currently resizing -> Finish resizing
+      if (! this.getLiveResize()) {
+        this._hideResizeLine();
+        columnModel.setColumnWidth(this._resizeColumn, this._lastResizeWidth);
+      }
+
+      this._resizeColumn = null;
+      this._headerClipper.setCapture(false);
+
+      this.getTopLevelWidget().setGlobalCursor(null);
+    },
+    
+    
+    /**
+     * Stop a move session of the header.
+     *
+     * @type member
+     * @return {void}
+     */
+    _stopMoveHeader : function()
+    {
+      var columnModel = this.getTable().getTableColumnModel();
+      var paneModel = this.getTablePaneModel();
+      
+      // We are moving a column -> Drop the column
+      this._header.hideColumnMoveFeedback();
+      if (this._lastMoveTargetScroller) {
+        this._lastMoveTargetScroller.hideColumnMoveFeedback();
+      }
+
+      if (this._lastMoveTargetX != null) {
+        var fromVisXPos = paneModel.getFirstColumnX() + paneModel.getX(this._moveColumn);
+        var toVisXPos = this._lastMoveTargetX;
+        if (toVisXPos != fromVisXPos && toVisXPos != fromVisXPos + 1) {
+          // The column was really moved to another position
+          // (and not moved before or after itself, which is a noop)
+
+          // Translate visible positions to overall positions
+          var fromCol = columnModel.getVisibleColumnAtX(fromVisXPos);
+          var toCol   = columnModel.getVisibleColumnAtX(toVisXPos);
+          var fromOverXPos = columnModel.getOverallX(fromCol);
+          var toOverXPos = (toCol != null) ? columnModel.getOverallX(toCol) : columnModel.getOverallColumnCount();
+
+          if (toOverXPos > fromOverXPos) {
+            // Don't count the column itself
+            toOverXPos--;
+          }
+
+          // Move the column
+          columnModel.moveColumn(fromOverXPos, toOverXPos);
+        }
+      }
+
+      this._moveColumn = null;
+      this._lastMoveTargetX = null;
+      this._headerClipper.setCapture(false);
     },
 
 
