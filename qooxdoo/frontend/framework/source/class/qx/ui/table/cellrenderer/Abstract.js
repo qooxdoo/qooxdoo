@@ -99,14 +99,8 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
      *          See {@link #createDataCellHtml}.
      * @return {var} the CSS styles of the main div.
      */
-    _getCellStyle : function(cellInfo)
-    {
-      var style = [
-        "left:", cellInfo.styleLeft, "px;",
-        "width:", cellInfo.styleWidth, "px;",
-        cellInfo.style || "", ";"
-      ];
-      return style.join("");
+    _getCellStyle : function(cellInfo) {
+      return cellInfo.style || "";
     },
 
 
@@ -128,20 +122,17 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
     // interface implementation
     createDataCellHtml : function(cellInfo, htmlArr)
     {
-      htmlArr.push('<div class="');
-      htmlArr.push(this._getCellClass(cellInfo));
-
-      var cellStyle = this._getCellStyle(cellInfo);
-      if (cellStyle) {
-        htmlArr.push('" style="');
-        htmlArr.push(cellStyle);
-      }
-      htmlArr.push('">');
-
-      var content = this._getContentHtml(cellInfo);
-      htmlArr.push(content);
-
-      htmlArr.push("</div>");
+      htmlArr.push(
+        '<div class="',
+        this._getCellClass(cellInfo),
+        '" style="',
+        'left:', cellInfo.styleLeft, 'px;',
+        'width:', cellInfo.styleWidth, 'px;',
+        this._getCellStyle(cellInfo),
+        '">',
+        this._getContentHtml(cellInfo),
+        "</div>"
+      );
     }
 
   }
