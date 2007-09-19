@@ -238,17 +238,17 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Dispatched when a data cell has been clicked.
      */
-    "cellClick" : "qx.event.type.CellEvent",
+    "cellClick" : "qx.ui.table.pane.CellEvent",
 
     /**
      * Dispatched when a data cell has been clicked.
      */
-    "cellDblclick" : "qx.event.type.CellEvent"
+    "cellDblclick" : "qx.ui.table.pane.CellEvent",
     
     /**
      * Dispatched when the context menu is needed in a data cell
      */
-    //"cellContextmenu" : "qx.event.type.CellEvent"
+    "cellContextmenu" : "qx.ui.table.pane.CellEvent"
   },
 
 

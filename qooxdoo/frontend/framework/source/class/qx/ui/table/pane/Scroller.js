@@ -131,7 +131,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
     this._headerClipper.addEventListener("click", this._onclickHeader, this);
     this._paneClipper.addEventListener("click", this._onclickPane, this);
-
+    this._paneClipper.addEventListener("contextmenu", this._onContextMenu, this);
     this._paneClipper.addEventListener("dblclick", this._ondblclickPane, this);
 
     this.addEventListener("mouseout", this._onmouseout, this);
@@ -153,17 +153,17 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * See {@link qx.ui.table.Table#cellClick}.
      */
-    "cellClick" : "qx.event.type.CellEvent",
+    "cellClick" : "qx.ui.table.pane.CellEvent",
 
     /**
      * See {@link qx.ui.table.Table#cellDblclick}.
      */
-    "cellDblclick" : "qx.event.type.CellEvent"
+    "cellDblclick" : "qx.ui.table.pane.CellEvent",
     
     /**
      * See {@link qx.ui.table.Table#cellContextmenu}.
      */
-    //"cellContextmenu" : "qx.event.type.CellEvent"
+    "cellContextmenu" : "qx.ui.table.pane.CellEvent"
   },
 
 
@@ -1154,11 +1154,25 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         table._getSelectionManager().handleClick(row, evt);
        if (this.hasEventListeners("cellClick"))
        {
-         this.dispatchEvent(new qx.event.type.CellEvent(this, evt), true);
+         this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, evt), true);
        }
       }
     },
 
+    /**
+     * Event handler. Called when a context menu is invoked in a cell.
+     *
+     * @type member
+     * @param evt {qx.event.type.MouseEvent} the event.
+     * @return {void}
+     */
+    _onContextMenu : function(evt)
+    {
+       if (this.hasEventListeners("cellContextmenu"))
+       {
+         this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, evt), true);
+       }
+    },
 
     /**
      * Event handler. Called when the user double clicked a mouse button over the pane.
@@ -1180,7 +1194,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         var row = this._getRowForPagePos(pageX, pageY);
         if (row != -1 && row != null)
         {
-          this.dispatchEvent(new qx.event.type.CellEvent(this, evt), true);
+          this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, evt), true);
         }
       }
     },
