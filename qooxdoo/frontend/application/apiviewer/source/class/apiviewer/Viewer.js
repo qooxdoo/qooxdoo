@@ -116,7 +116,7 @@ qx.Class.define("apiviewer.Viewer",
      * @param infoWidget {qx.ui.core.Widget} The widget for the "legend" pane
      * @return {qx.ui.pageview.buttonview.ButtonView} The configured button view widget
      */
-    __createButtonView : function(treeWidget, infoWidget, searchWidget)
+    __createButtonView : function(treeWidget, searchWidget, infoWidget)
     {
       var buttonView = new qx.ui.pageview.buttonview.ButtonView();
       buttonView.set({
@@ -128,27 +128,27 @@ qx.Class.define("apiviewer.Viewer",
       var treeButton = new qx.ui.pageview.buttonview.Button("Packages", apiviewer.TreeUtil.ICON_PACKAGE);
       treeButton.setShow("icon");
       treeButton.setToolTip( new qx.ui.popup.ToolTip("Packages"));
-      var infoButton = new qx.ui.pageview.buttonview.Button("Legend", apiviewer.TreeUtil.ICON_INFO);
-      infoButton.setShow("icon");
-      infoButton.setToolTip( new qx.ui.popup.ToolTip("Information"));
       var searchButton = new qx.ui.pageview.buttonview.Button("Search", apiviewer.TreeUtil.ICON_SEARCH);
       searchButton.setShow("icon");
       searchButton.setToolTip( new qx.ui.popup.ToolTip("Search"));
+      var infoButton = new qx.ui.pageview.buttonview.Button("Legend", apiviewer.TreeUtil.ICON_INFO);
+      infoButton.setShow("icon");
+      infoButton.setToolTip( new qx.ui.popup.ToolTip("Information"));
 
       treeButton.setChecked(true);
-      buttonView.getBar().add(treeButton, infoButton, searchButton);
+      buttonView.getBar().add(treeButton, searchButton, infoButton);
 
       var treePane = new qx.ui.pageview.buttonview.Page(treeButton);
-      var infoPane = new qx.ui.pageview.buttonview.Page(infoButton);
       var searchPane = new qx.ui.pageview.buttonview.Page(searchButton);
+      var infoPane = new qx.ui.pageview.buttonview.Page(infoButton);
 
       var pane = buttonView.getPane();
-      pane.add(treePane, infoPane, searchPane);
+      pane.add(treePane, searchPane, infoPane);
       pane.setPadding(0);
 
       treePane.add(treeWidget);
-      infoPane.add(infoWidget);
       searchPane.add(searchWidget);
+      infoPane.add(infoWidget);
 
       return buttonView;
     },
