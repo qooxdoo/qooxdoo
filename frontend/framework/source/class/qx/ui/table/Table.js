@@ -233,10 +233,38 @@ qx.Class.define("qx.ui.table.Table",
      * is needed when it previously was not, or vice versa.  The data is a
      * boolean indicating whether a vertical scrollbar is now being used.
      */
-    "verticalScrollBarChanged" : "qx.event.type.Data"
+    "verticalScrollBarChanged" : "qx.event.type.Data",
+    
+    /**
+     * Dispatched when a data cell has been clicked.
+     */
+    "cellClick" : "qx.ui.table.pane.CellEvent",
+
+    /**
+     * Dispatched when a data cell has been clicked.
+     */
+    "cellDblclick" : "qx.ui.table.pane.CellEvent",
+    
+    /**
+     * Dispatched when the context menu is needed in a data cell
+     */
+    "cellContextmenu" : "qx.ui.table.pane.CellEvent"
   },
 
 
+
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics :
+  {
+  	/**Events that must be redirected to the scrollers.*/
+    __redirectEvents : { cellClick: 1, cellDblclick: 1, cellContextmenu: 1 }
+  },
+  
 
   /*
   *****************************************************************************
@@ -1811,6 +1839,44 @@ qx.Class.define("qx.ui.table.Table",
       this.base(arguments);
 
       this._updateScrollBarVisibility();
+    },
+
+    
+    /**
+     * Add event listener to an object.
+     */
+    addEventListener : function(type, func, obj)
+    {
+    	if (this.self(arguments).__redirectEvents[type])
+    	{
+    		for (var i = 0, arr = this._getPaneScrollerArr(); i < arr.length; i++)
+    		{
+    			arr[i].addEventListener.apply(arr[i], arguments);
+    		}
+    	}
+    	else
+    	{
+    		arguments.callee.base.apply(this, arguments);
+    	}
+    },
+
+
+    /**
+     * Remove event listener from object
+     */
+    removeEventListener : function(type, func, obj)
+    {
+    	if (this.self(arguments).__redirectEvents[type])
+    	{
+    		for (var i = 0, arr = this._getPaneScrollerArr(); i < arr.length; i++)
+    		{
+    			arr[i].removeEventListener.apply(arr[i], arguments);
+    		}
+    	}
+    	else
+    	{
+    		arguments.callee.base.apply(this, arguments);
+    	}
     }
   },
 
