@@ -131,6 +131,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
           treeNode.scrollIntoView();
         }, this, 100);
       }
+      
       return true;
     },
 
