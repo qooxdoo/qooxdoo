@@ -5,7 +5,7 @@
   <script type="text/javascript" src="../../script/demo.js"></script>
   <script type="text/javascript" src="../util.js"></script>
 </head>
-<body>  
+<body>
   <div id="description">
     <p>Testing qx.ui.form.ComboBox implementation.</p>
     <p>Testing object creation (the list content will be filled then) on first open.</p>
@@ -71,11 +71,11 @@
       c1.setSelected(c1.getList().getFirstChild());
 
       c1.addEventListener("changeValue", function(e) {
-        this.debug("New value: " + e.getData());
+        this.debug("New value: " + e.getValue());
       });
 
       c1.addEventListener("changeSelected", function(e) {
-        this.debug("New selected: " + e.getData());
+        this.debug("New selected: " + e.getValue());
       });
 
 
@@ -86,7 +86,7 @@
       b1.set({ top: 50, left: 150 });
 
       b1.addEventListener("changeChecked", function(e) {
-        c1.setEditable(e.getData());
+        c1.setEditable(e.getValue());
       });
 
 
