@@ -36,7 +36,9 @@
  * This class contains methods for:
  *
  * * object management (creation and destruction)
- * * generic setter support
+ * * interfaces for event system
+ * * generic setter/getter support
+ * * interfaces for logging console
  * * user friendly OO interfaces like {@link #self} or {@link #base}
  */
 qx.Class.define("qx.core.Object",
