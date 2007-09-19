@@ -463,20 +463,6 @@ qx.Class.define("qx.log.Logger",
       this.debug(msg, instanceId, exc);
 
       this._lastMeasureTime = new Date().getTime();
-    },
-
-
-    /**
-     * Logs the current stack trace as a debug message.
-     *
-     * @type member
-     * @return {void}
-     */
-    printStackTrace : function()
-    {
-      var trace = qx.dev.StackTrace.getStackTrace();
-      qx.lang.Array.removeAt(trace, 0);
-      this.log(qx.log.Logger.LEVEL_DEBUG, "Current stack trace", "", null, trace);
     }
   },
 
