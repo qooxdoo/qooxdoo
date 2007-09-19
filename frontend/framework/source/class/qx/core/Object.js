@@ -24,6 +24,7 @@
 #module(core)
 #use(qx.core.Init)
 #require(qx.core.Property)
+#use(qx.event.type.Change)
 #resource(qx.static:static)
 
 ************************************************************************ */
@@ -231,7 +232,24 @@ qx.Class.define("qx.core.Object",
      */
     inGlobalDispose : function() {
       return this.__disposed;
-    }
+    },
+    
+    
+    /**
+     * Logs the current stack trace as a debug message.
+     *
+     * @type member
+     * @return {void}
+     */
+    printStackTrace : function()
+    {
+      var trace = qx.dev.StackTrace.getStackTrace();
+      
+      qx.core.Log.debug("Current stack trace: ");
+      for (var i=1, l=trace.length; i<l; i++) {
+        qx.core.Log.debug("  - " + trace[i]);
+      }
+    }    
   },
 
 
@@ -438,7 +456,7 @@ qx.Class.define("qx.core.Object",
      */
     addEventListener : function(type, func, obj)
     {
-      if (!this.getDisposed()) {
+      if (!this.__disposed) {
         qx.event.Registration.addListener(this, type, func, obj, false);
       }
     },
@@ -455,7 +473,7 @@ qx.Class.define("qx.core.Object",
      */
     removeEventListener : function(type, func, obj)
     {
-      if (!this.getDisposed()) {
+      if (!this.__disposed) {
         qx.event.Registration.removeListener(this, type, func, obj, false);
       }
     },
@@ -482,7 +500,7 @@ qx.Class.define("qx.core.Object",
      */
     dispatchEvent : function(evt)
     {
-      if (!this.getDisposed()) {
+      if (!this.__disposed) {
         qx.event.Registration.dispatchEvent(this, evt);
       }
     },
@@ -497,8 +515,11 @@ qx.Class.define("qx.core.Object",
      *       the event's init method.
      * @return {void}
      */
-    fireCustomEvent : function(clazz, args) {
-      qx.event.Registration.fireCustomEvent(this, clazz, args);
+    fireCustomEvent : function(clazz, args) 
+    {
+      if (!this.__disposed) {
+        qx.event.Registration.fireCustomEvent(this, clazz, args);
+      }
     },
         
     
@@ -603,7 +624,18 @@ qx.Class.define("qx.core.Object",
       qx.core.Log.error(this.__dbg(), msg, exc||"");
     },
     
-        
+
+    /**
+     * Logs the current stack trace as a debug message.
+     *
+     * @type member
+     * @return {void}
+     */
+    printStackTrace : function() {
+      qx.core.Object.printStackTrace();
+    },
+    
+            
     
 
 
