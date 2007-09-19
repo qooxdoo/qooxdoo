@@ -144,6 +144,31 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
   /*
   *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events :
+  {
+    /**
+     * See {@link qx.ui.table.Table#cellClick}.
+     */
+    "cellClick" : "qx.event.type.CellEvent",
+
+    /**
+     * See {@link qx.ui.table.Table#cellDblclick}.
+     */
+    "cellDblclick" : "qx.event.type.CellEvent"
+    
+    /**
+     * See {@link qx.ui.table.Table#cellContextmenu}.
+     */
+    //"cellContextmenu" : "qx.event.type.CellEvent"
+  },
+
+
+  /*
+  *****************************************************************************
      STATICS
   *****************************************************************************
   */
@@ -1127,6 +1152,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       if (row != null && this._getColumnForPageX(pageX) != null)
       {
         table._getSelectionManager().handleClick(row, evt);
+       if (this.hasEventListeners("cellClick"))
+       {
+         this.dispatchEvent(new qx.event.type.CellEvent(this, evt), true);
+       }
       }
     },
 
@@ -1143,13 +1172,17 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       var pageX = evt.getPageX();
       var pageY = evt.getPageY();
 
-      var row = this._getRowForPagePos(pageX, pageY);
-      if (row != -1 && row != null) {
-        this.createDispatchDataEvent("rowdblclick", row);
-      }
 
       this._focusCellAtPagePos(pageX, pageY);
       this.startEditing();
+      if (this.hasEventListeners("cellDblclick"))
+      {
+        var row = this._getRowForPagePos(pageX, pageY);
+        if (row != -1 && row != null)
+        {
+          this.dispatchEvent(new qx.event.type.CellEvent(this, evt), true);
+        }
+      }
     },
 
 
