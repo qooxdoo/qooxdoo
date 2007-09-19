@@ -110,11 +110,11 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
     },
 
     /**
-     * drag action
+     * drag action(s). If you supply an array, multiple drag actions will be added
      */
     dragAction :
     {
-      check :  ['move','copy','alias'],
+      nullable : false,
       init : 'move'
     },
 
@@ -393,7 +393,21 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
       };
 
       event.addData(this.getDragDataMimeType(), dragData);
-      event.addAction(this.getDragAction());
+      
+      // add actions
+      var action = this.getDragAction();
+      if ( action instanceof Array )
+      {
+        action.forEach(function(a){
+          event.addAction(a);
+        } );
+      }
+      else
+      {
+        event.addAction(action);
+      }
+      
+      // start drag session
       event.startDrag();
      },
 
@@ -464,7 +478,8 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
         'nodeData' : dragData.nodeData,
         'sourceWidget' : dragData.sourceWidget,
         'targetNode' : this.getDropTarget(),
-        'position' : this.getDropTargetRelativePosition()
+        'position' : this.getDropTargetRelativePosition(),
+        'action' : event.getAction()
       }
     },
 
@@ -764,18 +779,21 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
      * @param sourceNode {Object}
      * @param targetNode {Object}
      * @param position {Integer}
+     * @param action {String} 
      *    position source node will be inserted above target if -1,
      *    below target if 1, and as a child if 0 or undefined
      */
-    moveNode : function ( first, sourceNodes, targetNode, position )
+    moveNode : function ( first, sourceNodes, targetNode, position, action )
     {
+      
       // one-parameter signature
       if ( arguments.length == 1)
       {
         var sourceWidget = first.sourceWidget,
             sourceNodes = first.nodeData,
             targetNode = first.targetNode,
-            position = first.position;
+            position = first.position,
+            action = first.action;
       }
       else
       {
@@ -791,7 +809,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
       if ( typeof sourceNodes == "object" && sourceNodes.length )
       {
         sourceNodes.forEach(function(sourceNode){
-          this.moveNode(sourceWidget,sourceNode,targetNode,position);
+          this.moveNode(sourceWidget,sourceNode,targetNode,position,action);
         },this);
         return true;
       }
@@ -819,8 +837,10 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
         throw new Error("Sorry, a LEAF may not have children.");
       }
 
-      // action
-      var action = this.getDragAction();
+      // moving / copying the node
+      
+
+      // copy action
 
       // if we move a copy or from a different tree, we need to create a new node
       if ( action == "copy" || sourceWidget != this )
@@ -843,7 +863,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
         }
       }
 
-      // action
+      // move action
       if ( action == "move" )
       {
         qx.lang.Array.removeAt( sourceParentNode.children, sourceNodeIndex );
