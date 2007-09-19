@@ -654,6 +654,8 @@ def nodeToIndexString(tree, prefix = "", childPrefix = "  ", newline="\n"):
                     sfx = '_prot'
                 elif acc == 'private':
                     sfx = '_priv'
+                else:
+                    sfx = '_pub'  # there seem to be methods with weird access attribs
             else:
                 sfx = "_pub"  # force unqualified to public
             n_type = node.type + sfx
