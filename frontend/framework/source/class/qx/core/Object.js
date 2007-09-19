@@ -25,6 +25,8 @@
 #use(qx.core.Init)
 #require(qx.core.Property)
 #use(qx.event.type.Change)
+#use(qx.event.handler.Object)
+#use(qx.event.type.Change)
 #resource(qx.static:static)
 
 ************************************************************************ */
