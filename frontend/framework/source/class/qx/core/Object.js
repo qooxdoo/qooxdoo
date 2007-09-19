@@ -424,6 +424,113 @@ qx.Class.define("qx.core.Object",
 
     /*
     ---------------------------------------------------------------------------
+      EVENT HANDLING
+    ---------------------------------------------------------------------------
+    */    
+    
+    /**
+     * Add event listener to an object.
+     *
+     * @type member
+     * @param type {String} name of the event type
+     * @param func {Function} event callback function
+     * @param obj {Object ? window} reference to the 'this' variable inside the callback
+     */
+    addEventListener : function(type, func, obj)
+    {
+      if (!this.getDisposed()) {
+        qx.event.Registration.addListener(this, type, func, obj, false);
+      }
+    },
+
+
+    /**
+     * Remove event listener from object
+     *
+     * @type member
+     * @param type {String} name of the event type
+     * @param func {Function} event callback function
+     * @param obj {Object ? window} reference to the 'this' variable inside the callback
+     * @return {void}
+     */
+    removeEventListener : function(type, func, obj)
+    {
+      if (!this.getDisposed()) {
+        qx.event.Registration.removeListener(this, type, func, obj, false);
+      }
+    },
+
+
+    /**
+     * Check if there are one or more listeners for an event type.
+     *
+     * @type member
+     * @param type {String} name of the event type
+     * @return {var} TODOC
+     */
+    hasEventListeners : function(type) {
+      return qx.event.Registration.hasListeners(this, type);
+    },
+
+
+    /**
+     * Dispatch an event
+     *
+     * @type member
+     * @param evt {qx.event.type.Event} event to dispatch
+     * @return {Boolean} whether the event default was prevented or not. Returns true, when the event was NOT prevented.
+     */
+    dispatchEvent : function(evt)
+    {
+      if (!this.getDisposed()) {
+        qx.event.Registration.dispatchEvent(this, evt);
+      }
+    },
+    
+
+    /**
+     * Create an event object and dispatch it.
+     *
+     * @type member
+     * @param clazz {qx.event.type.Event} The even class
+     * @param args {Array} Array or arguments, which will be passed to
+     *       the event's init method.
+     * @return {void}
+     */
+    fireCustomEvent : function(clazz, args) {
+      qx.event.Registration.fireCustomEvent(this, clazz, args);
+    },
+        
+    
+    /**
+     * Checks if the event is registered. If so it creates an event object and
+     * dispatches it.
+     *
+     * @type member
+     * @param type {String} name of the event type
+     */
+    fireEvent : function(type) {
+      this.fireCustomEvent(qx.event.type.Event, [type, false]);
+    },
+
+
+    /**
+     * Checks if the event is registered. If so it creates an event object and
+     * dispatches it.
+     *
+     * @type member
+     * @param type {String} name of the event type
+     * @param data {Object} user defined data attached to the event object
+     */
+    fireDataEvent : function(type, data) {
+      this.fireCustomEvent(qx.event.type.Data, [type, data]);
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
       DEBUG
     ---------------------------------------------------------------------------
     */
