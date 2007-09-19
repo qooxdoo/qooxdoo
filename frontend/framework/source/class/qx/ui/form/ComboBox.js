@@ -607,6 +607,7 @@ qx.Class.define("qx.ui.form.ComboBox",
         case this._button:
           this._button.addState("pressed");
           this._togglePopup();
+          this.setCapture(true);
           break;
 
 
@@ -670,18 +671,10 @@ qx.Class.define("qx.ui.form.ComboBox",
      */
     _onmouseup : function(e)
     {
-      switch(e.getTarget())
-      {
-        case this._field:
-          if (this.getEditable()) {
-            break;
-          }
+      this._button.removeState("pressed");
 
-          // no break here
-
-        default:
-          this._button.removeState("pressed");
-          break;
+      if (!this._popup.isSeeable()) {
+        this.setCapture(false);
       }
     },
 
