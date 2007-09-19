@@ -531,6 +531,30 @@ class Node:
         options.prettypCommentsInlinePadding = "  "
         return compiler.compile(self, options)
 
+    def nodeIter(self):
+        "A generator/iterator method, to traverse a tree and 'yield' each node"
+        yield self
+
+        if self.hasChildren():
+            for child in self.children: 
+                for node in child.nodeIter():
+                    yield node
+
+    def nodeTreeMap(self, fn):
+        """As an alternative, a pure recursion walk that applies a function fn to each node.
+           This allows to control the recursion through fn's return value.
+           Signature of fn: fn(node,isLeaf)."""
+        if not self.hasChildren():
+            rc = fn(self,True)
+            return
+        else:
+            rc = fn(self,False)
+            if rc == 0:  # != 0 means prune this subtree
+                for child in self.children:
+                    child.nodeTreeMap(fn)
+            return
+
+
 
 def nodeToXmlString(node, prefix = "", childPrefix = "  ", newLine="\n", encoding="utf-8"):
     hasText = False
@@ -591,6 +615,62 @@ def nodeToJsonString(node, prefix = "", childPrefix = "  ", newLine="\n"):
             asString = asString[:-2] + newLine + prefix + ']'
 
     asString += '}'
+
+    return asString
+
+
+
+def nodeToIndexString(tree, prefix = "", childPrefix = "  ", newline="\n"):
+    #sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), ".."))
+    import simplejson
+    types = []
+    fullNames = []
+    indexs = {}
+    currClass = [0]
+
+    def processNode(node,isLeaf):
+        if not node.hasAttributes():
+            return 0  # continue traversal
+
+        if 'fullName' in node.attributes:
+            longestName = node.attributes['fullName']
+        elif 'name' in node.attributes :
+            longestName = node.attributes['name']
+        else: # cannot handle unnamed entities
+            #raise NodeAccessException("Unnamed doctree node",node)
+            print "Unnamed doctree node: %s" % node.type
+            longestName = ""
+
+        # add type?
+        if node.type not in types:
+            types.append(node.type)
+        tyx = types.index(node.type)
+        # add to fullNames
+        fullNames.append(longestName)
+        fnx = fullNames.index(longestName)
+        
+        if node.type in ['class','interface','package','mixin']:
+            # commemorate current container
+            currClass[0] = fnx
+            idx = fnx # for later use
+        else:  # must be a class feature
+            longestName = '#' + longestName
+            idx = currClass[0]
+
+        # maintain index
+        if longestName in indexs:
+            indexs[longestName].append([tyx, idx])
+        else:
+            indexs[longestName]=[[tyx, idx]]
+
+        return 0
+
+    tree.nodeTreeMap(processNode)
+
+    index = { "__types__" : types,
+              "__fullNames__" : fullNames,
+              "__index__" : indexs }
+    asString = simplejson.dumps(index)
 
     return asString
 
