@@ -429,6 +429,7 @@ exec-api-data:
 	  --generate-api-documentation \
 	  --api-separate-files \
 	  --api-documentation-json-file $(APPLICATION_API_PATH)/script/apidata.js \
+	  --api-documentation-index-file $(APPLICATION_API_PATH)/script/apiindex.js \
 	  $(COMPUTED_CLASS_PATH) \
 	  $(COMPUTED_API_INCLUDE)
 
