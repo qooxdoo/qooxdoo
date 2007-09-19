@@ -39,6 +39,7 @@ qx.Class.define("qx.bom.Input",
 
   statics :
   {
+    /** {Map} Internal data structures with all supported input types */
     __types :
     {
       text : 1,
@@ -50,8 +51,11 @@ qx.Class.define("qx.bom.Input",
       hidden : 1,
       submit : 1,
       image : 1,
-      file : 1
+      file : 1,
+      search : 1,
+      reset : 1
     },
+    
     
     /**
      * Creates an DOM input/textarea/select element.
