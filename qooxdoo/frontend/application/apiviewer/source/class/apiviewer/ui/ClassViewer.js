@@ -572,7 +572,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
      */
     _onSelectItem : function(itemName)
     {
-      this.createDispatchDataEvent("classLinkClicked", itemName);
+      this.fireDataEvent("classLinkClicked", itemName);
     },
 
 

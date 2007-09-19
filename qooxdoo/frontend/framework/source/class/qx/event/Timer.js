@@ -291,7 +291,7 @@ qx.Class.define("qx.event.Timer",
     _oninterval : function()
     {
       if (this.getEnabled()) {
-        this.createDispatchEvent("interval");
+        this.fireEvent("interval");
       }
     }
   },

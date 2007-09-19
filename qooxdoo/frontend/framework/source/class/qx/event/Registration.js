@@ -216,8 +216,8 @@ qx.Class.define("qx.event.Registration",
      * @param args {Array} Array or arguments, which will be passed to
      *       the event's init method.
      */
-    fireEvent : function(target, clazz, args) {
-      this.getManager(target).fireEvent(target, clazz, args);
+    fireCustomEvent : function(target, clazz, args) {
+      this.getManager(target).fireCustomEvent(target, clazz, args);
     },
 
 

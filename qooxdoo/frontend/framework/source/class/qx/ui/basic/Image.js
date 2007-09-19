@@ -236,7 +236,7 @@ qx.Class.define("qx.ui.basic.Image",
       this.warn("Could not load: " + this.getSource());
 
       this.setLoaded(false);
-      this.createDispatchEvent("error", true);
+      this.fireEvent("error", true);
     },
 
 

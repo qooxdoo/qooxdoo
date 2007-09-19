@@ -416,7 +416,7 @@ qx.Class.define("qx.ui.embed.GalleryList",
 
       if (vItem)
       {
-        this.createDispatchDataEvent("beforeToolTipAppear", vItem);
+        this.fireDataEvent("beforeToolTipAppear", vItem);
 
         if (!this.getToolTip()) {
           return;
@@ -710,7 +710,7 @@ qx.Class.define("qx.ui.embed.GalleryList",
       this._processedImages++;
 
       if (this._processedImages == this._listSize) {
-        this.createDispatchEvent("loadComplete");
+        this.fireEvent("loadComplete");
       }
     }
   },

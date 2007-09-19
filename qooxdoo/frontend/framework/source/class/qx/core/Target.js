@@ -128,8 +128,8 @@ qx.Class.define("qx.core.Target",
      * @type member
      * @param type {String} name of the event type
      */
-    createDispatchEvent : function(type) {
-      qx.event.Registration.getManager(this).fireEvent(
+    fireEvent : function(type) {
+      qx.event.Registration.getManager(this).fireCustomEvent(
         this,
         qx.event.type.Event,
         [type, false]
@@ -145,9 +145,9 @@ qx.Class.define("qx.core.Target",
      * @param type {String} name of the event type
      * @param data {Object} user defined data attached to the event object
      */
-    createDispatchDataEvent : function(type, data)
+    fireDataEvent : function(type, data)
     {
-      qx.event.Registration.getManager(this).fireEvent(
+      qx.event.Registration.getManager(this).fireCustomEvent(
         this,
         qx.event.type.Data,
         [type, data]
@@ -164,8 +164,8 @@ qx.Class.define("qx.core.Target",
      *       the event's init method.
      * @return {void}
      */
-    fireEvent : function(clazz, args) {
-      qx.event.Registration.getManager.fireEvent(this, clazz, args)
+    fireCustomEvent : function(clazz, args) {
+      qx.event.Registration.getManager.fireCustomEvent(this, clazz, args)
     },
 
 

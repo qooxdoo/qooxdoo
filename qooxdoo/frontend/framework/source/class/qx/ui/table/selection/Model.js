@@ -616,7 +616,7 @@ qx.Class.define("qx.ui.table.selection.Model",
       }
 
       // If not in batch mode, throw event
-      this.createDispatchEvent("changeSelection");
+      this.fireEvent("changeSelection");
     }
   },
 

@@ -849,11 +849,11 @@ qx.Class.define("qx.io.remote.Exchange",
       switch(value)
       {
         case "sending":
-          this.createDispatchEvent("sending");
+          this.fireEvent("sending");
           break;
 
         case "receiving":
-          this.createDispatchEvent("receiving");
+          this.fireEvent("receiving");
           break;
 
         case "completed":
@@ -931,7 +931,7 @@ qx.Class.define("qx.io.remote.Exchange",
           vImpl.dispose();
 
           // Fire event to listeners
-          //this.createDispatchDataEvent(vEventType, vResponse);
+          //this.fireDataEvent(vEventType, vResponse);
 
           break;
       }

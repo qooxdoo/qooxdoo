@@ -852,12 +852,12 @@ qx.Class.define("qx.ui.form.TextField",
       "mshtml" : function(e)
       {
         if (!this._inValueProperty && e.propertyName === "value") {
-          this.createDispatchDataEvent("input", this.getComputedValue());
+          this.fireDataEvent("input", this.getComputedValue());
         }
       },
 
       "default" : function(e) {
-        this.createDispatchDataEvent("input", this.getComputedValue());
+        this.fireDataEvent("input", this.getComputedValue());
       }
     }),
 

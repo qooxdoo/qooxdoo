@@ -367,7 +367,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
         lastColumn  : stdcm.getColumnCount() - 1
       };
 
-      stdcm.createDispatchDataEvent("dataChanged", data);
+      stdcm.fireDataEvent("dataChanged", data);
     },
 
 
@@ -416,7 +416,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
         lastColumn  : stdcm.getColumnCount() - 1
       };
 
-      stdcm.createDispatchDataEvent("dataChanged", data);
+      stdcm.fireDataEvent("dataChanged", data);
     },
 
 
@@ -448,7 +448,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
         lastColumn  : stdcm.getColumnCount() - 1
       };
 
-      stdcm.createDispatchDataEvent("dataChanged", data);
+      stdcm.fireDataEvent("dataChanged", data);
     },
 
 
@@ -936,7 +936,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
         var selectedNodes = this._calculateSelectedNodes();
 
         // Get the now-focused
-        this.createDispatchDataEvent("changeSelection", selectedNodes);
+        this.fireDataEvent("changeSelection", selectedNodes);
       }
 
       // Call the superclass method

@@ -256,7 +256,7 @@ qx.Class.define("qx.event.handler.Focus",
      * @return {void}
      */
     _fireDirectEvent : function(target, type) {
-      this._manager.fireEvent(target, qx.event.type.Event, [type, false]);
+      this._manager.fireCustomEvent(target, qx.event.type.Event, [type, false]);
     },
 
 
@@ -269,7 +269,7 @@ qx.Class.define("qx.event.handler.Focus",
      * @return {void}
      */
     _fireBubblingEvent : function(target, type) {
-      this._manager.fireEvent(target, qx.event.type.Event, [type, true]);
+      this._manager.fireCustomEvent(target, qx.event.type.Event, [type, true]);
     },
 
 

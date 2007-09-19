@@ -215,7 +215,7 @@ qx.Class.define("qx.event.handler.DomReady",
     {
       if (!this._fired)
       {
-        this._manager.fireEvent(this._window, qx.event.type.Event, [ "domready", false ]);
+        this._manager.fireCustomEvent(this._window, qx.event.type.Event, [ "domready", false ]);
         this._fired = true;
       }
     }

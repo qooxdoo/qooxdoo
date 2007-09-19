@@ -155,7 +155,7 @@ qx.Class.define("qx.core.Init",
     {
       this.LOADED = true;
 
-      this.createDispatchEvent("load");
+      this.fireEvent("load");
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -226,7 +226,7 @@ qx.Class.define("qx.core.Init",
      */
     _onbeforeunload : function(e)
     {
-      this.createDispatchEvent("beforeunload");
+      this.fireEvent("beforeunload");
 
       if (this.getApplication())
       {
@@ -248,7 +248,7 @@ qx.Class.define("qx.core.Init",
      */
     _onunload : function(e)
     {
-      this.createDispatchEvent("unload");
+      this.fireEvent("unload");
 
       if (this.getApplication())
       {

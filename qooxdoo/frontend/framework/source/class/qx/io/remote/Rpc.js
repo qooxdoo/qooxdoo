@@ -395,7 +395,7 @@ qx.Class.define("qx.io.remote.Rpc",
             // Dispatch the event to our listeners.
             if (!ex)
             {
-              eventTarget.createDispatchDataEvent(eventType, response);
+              eventTarget.fireDataEvent(eventType, response);
             }
             else
             {
@@ -406,12 +406,12 @@ qx.Class.define("qx.io.remote.Rpc",
               {
                 // They requested that we coalesce all failure types to
                 // "failed"
-                eventTarget.createDispatchDataEvent("failed", ex);
+                eventTarget.fireDataEvent("failed", ex);
               }
               else
               {
                 // No coalese so use original event type
-                eventTarget.createDispatchDataEvent(eventType, ex);
+                eventTarget.fireDataEvent(eventType, ex);
               }
             }
         }
