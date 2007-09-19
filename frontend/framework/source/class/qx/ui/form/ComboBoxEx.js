@@ -727,7 +727,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
         p.auto();
         p.setAppearance('combo-box-ex-popup');
         p.addEventListener("appear", this._onpopupappear, this);
-        this.createDispatchEvent("beforeInitialOpen");
+        this.fireEvent("beforeInitialOpen");
       }
       if (!this._list)
       {
@@ -1187,15 +1187,15 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
         switch(e.getKeyIdentifier())
         {
           case "Enter":
-            butOk.createDispatchEvent('execute');
+            butOk.fireEvent('execute');
             break;
 
           case "Escape":
-            butCancel.createDispatchEvent('execute');
+            butCancel.fireEvent('execute');
             break;
 
           case "F3":
-            butNext.createDispatchEvent('execute');
+            butNext.fireEvent('execute');
             break;
 
           default:

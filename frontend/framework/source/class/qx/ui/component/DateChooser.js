@@ -482,7 +482,7 @@ qx.Class.define("qx.ui.component.DateChooser",
      * @return {void}
      */
     _onDayDblClicked : function() {
-      this.createDispatchDataEvent("select", this.getDate());
+      this.fireDataEvent("select", this.getDate());
     },
 
 
@@ -539,7 +539,7 @@ qx.Class.define("qx.ui.component.DateChooser",
           case "Enter":
           case "Space":
             if (this.getDate() != null) {
-              this.createDispatchDataEvent("select", this.getDate());
+              this.fireDataEvent("select", this.getDate());
             }
 
             return;

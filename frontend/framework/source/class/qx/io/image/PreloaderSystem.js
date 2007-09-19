@@ -118,7 +118,7 @@ qx.Class.define("qx.io.image.PreloaderSystem",
     {
       if (qx.lang.Object.isEmpty(this._list))
       {
-        this.createDispatchEvent("completed");
+        this.fireEvent("completed");
         return;
       }
 
@@ -198,7 +198,7 @@ qx.Class.define("qx.io.image.PreloaderSystem",
       this._stopped = true;
       this._timer.stop();
 
-      this.createDispatchEvent("completed");
+      this.fireEvent("completed");
     },
 
 
@@ -225,7 +225,7 @@ qx.Class.define("qx.io.image.PreloaderSystem",
       if (qx.lang.Object.isEmpty(this._list))
       {
         this._timer.stop();
-        this.createDispatchEvent("completed");
+        this.fireEvent("completed");
       }
       else
       {

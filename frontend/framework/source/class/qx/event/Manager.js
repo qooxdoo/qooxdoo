@@ -485,7 +485,7 @@ qx.Class.define("qx.event.Manager",
      *       the event's init method.
      * @return {void}
      */
-    fireEvent : function(target, clazz, args)
+    fireCustomEvent : function(target, clazz, args)
     {
       var event = qx.event.Registration.createEvent(clazz, args);
       this.dispatchEvent(target, event);

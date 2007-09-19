@@ -57,7 +57,7 @@
       // elements of radio group fire event "surfTo"
       rbm.addEventListener("changeSelected", function(e)
       {
-        d.createDispatchDataEvent("surfTo", e.getData().getValue() );
+        d.fireDataEvent("surfTo", e.getData().getValue() );
       });
 
       d.add(rd1, rd2);

@@ -577,7 +577,7 @@ qx.Class.define("qx.ui.embed.Iframe",
       if (!this._isLoaded)
       {
         this._isLoaded = true;
-        this.createDispatchEvent("load");
+        this.fireEvent("load");
       }
     },
 

@@ -191,7 +191,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
           oldWidth : oldWidth
         };
 
-        this.createDispatchDataEvent("widthChanged", data);
+        this.fireDataEvent("widthChanged", data);
       }
     },
 
@@ -465,8 +465,8 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
             visible : visible
           };
 
-          this.createDispatchDataEvent("visibilityChangedPre", data);
-          this.createDispatchDataEvent("visibilityChanged", data);
+          this.fireDataEvent("visibilityChangedPre", data);
+          this.fireDataEvent("visibilityChanged", data);
         }
       }
     },
@@ -512,7 +512,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
         toOverXPos   : toOverXPos
       };
 
-      this.createDispatchDataEvent("orderChanged", data);
+      this.fireDataEvent("orderChanged", data);
     }
   },
 

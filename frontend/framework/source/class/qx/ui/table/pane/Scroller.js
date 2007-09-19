@@ -1152,7 +1152,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
       var row = this._getRowForPagePos(pageX, pageY);
       if (row != -1 && row != null) {
-        this.createDispatchDataEvent("rowdblclick", row);
+        this.fireDataEvent("rowdblclick", row);
       }
 
       this._focusCellAtPagePos(pageX, pageY);

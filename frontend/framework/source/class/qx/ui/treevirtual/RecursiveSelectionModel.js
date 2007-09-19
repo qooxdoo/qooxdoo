@@ -357,7 +357,7 @@ qx.Class.define("qx.ui.treevirtual.RecursiveSelectionModel",
     {
       if (this._selectionChanged)
       {
-        this.createDispatchEvent("changeSelection");
+        this.fireEvent("changeSelection");
         this._selectionChanged = false;
       }
     }

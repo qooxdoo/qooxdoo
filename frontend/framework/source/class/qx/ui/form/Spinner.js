@@ -682,7 +682,7 @@ qx.Class.define("qx.ui.form.Spinner",
         this._upbutton.resetEnabled();
       }
 
-      this.createDispatchDataEvent("change", vValue);
+      this.fireDataEvent("change", vValue);
     },
 
 
