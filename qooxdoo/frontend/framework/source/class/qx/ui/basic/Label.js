@@ -272,8 +272,7 @@ qx.Class.define("qx.ui.basic.Label",
      */
     setHtml : function(html)
     {
-      this.warn("Deprecated: please use setText() instead.");
-      this.printStackTrace();
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "please use setText() instead.");
       this.setText(html);
     },
 
@@ -286,8 +285,7 @@ qx.Class.define("qx.ui.basic.Label",
      */
     getHtml : function()
     {
-      this.warn("Deprecated: please use getText() instead.");
-      this.printStackTrace();
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "please use getText() instead.");
       return this.getText();
     },
 

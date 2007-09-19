@@ -124,12 +124,7 @@ qx.Class.define("qx.client.Command",
     },
 
 
-    /**
-     * Supports old keyCode layer
-     * Still there for compatibility with the old key handler/commands
-     *
-     * @deprecated
-     */
+
     keyCode :
     {
       check : "Number",
@@ -161,6 +156,32 @@ qx.Class.define("qx.client.Command",
       USER METHODS
     ---------------------------------------------------------------------------
     */
+
+    /**
+     * Supports old keyCode layer
+     * Still there for compatibility with the old key handler/commands
+     *
+     * @deprecated
+     * @return {Integer} keyCode
+     */
+    getKeyCode : function() {
+      return this._keyCode;
+    },
+
+
+    /**
+     * Supports old keyCode layer
+     * Still there for compatibility with the old key handler/commands
+     *
+     * @param code {Integer} keyCode
+     * @deprecated
+     */
+    setKeyCode : function(code)
+    {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee);
+      this._keyCode = code;
+    },
+
 
     /**
      * Fire the "execute" event on this command.

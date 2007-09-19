@@ -70,6 +70,8 @@ if (qx.core.Variant.isSet("qx.compatibility", "on"))
        */
       defineClass : function(vClassName, vSuper, vConstructor)
       {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use qx.Class.define instead");
+
         var vSplitName = vClassName.split(".");
         var vNameLength = vSplitName.length - 1;
         var vTempObject = window;
@@ -131,6 +133,7 @@ if (qx.core.Variant.isSet("qx.compatibility", "on"))
        * @return {Boolean} Whether the class is available
        */
       isAvailable : function(vClassName) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee);
         return qx.OO.classes[vClassName] != null;
       },
 
@@ -202,10 +205,7 @@ if (qx.core.Variant.isSet("qx.compatibility", "on"))
        */
       changeProperty : function(config)
       {
-        if (qx.core.Variant.isSet("qx.debug", "on")) {
-          //console.debug(qx.Class.classname + ": Use of old changeProperty implementation for property " + config.name);
-        }
-
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee);
         return qx.core.LegacyProperty.addProperty(config, qx.Proto);
       },
 
@@ -217,10 +217,7 @@ if (qx.core.Variant.isSet("qx.compatibility", "on"))
        */
       addProperty : function(config)
       {
-        if (qx.core.Variant.isSet("qx.debug", "on")) {
-          //console.debug(qx.Class.classname + ": Use of old addProperty implementation for property " + config.name);
-        }
-
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee);
         return qx.core.LegacyProperty.addProperty(config, qx.Proto);
       }
     }

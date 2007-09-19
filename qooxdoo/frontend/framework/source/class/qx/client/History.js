@@ -173,10 +173,8 @@ qx.Class.define("qx.client.History",
      * qooxdoo versions
      * @deprecated
      */
-    init : function()
-    {
-      this.warn("dprecated");
-      this.printStacktrace();
+    init : function() {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "This method call is no longer needed.");
     },
 
 

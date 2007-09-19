@@ -259,6 +259,7 @@ qx.Class.define("qx.ui.tree.Tree",
      */
     useDoubleClick : function()
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use getUseDoubleClick instead");
       return this.getUseDoubleClick();
     },
 
@@ -267,6 +268,7 @@ qx.Class.define("qx.ui.tree.Tree",
      */
     useTreeLines : function()
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use getUseTreeLines instead");
       return this.getUseTreeLines();
     },
 
@@ -275,6 +277,7 @@ qx.Class.define("qx.ui.tree.Tree",
      */
     hideNode : function()
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use getHideNode instead");
       return this.getHideNode();
     },
 

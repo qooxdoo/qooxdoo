@@ -5454,6 +5454,8 @@ qx.Class.define("qx.ui.core.Widget",
      */
     setHtmlAttribute : function(propName, value)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use setHtmlProperty instead");
+
       if (!this._htmlAttributes) {
         this._htmlAttributes = {};
       }
@@ -5478,6 +5480,8 @@ qx.Class.define("qx.ui.core.Widget",
      */
     removeHtmlAttribute : function(propName)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use removeHtmlProperty instead");
+
       if (!this._htmlAttributes) {
         return;
       }

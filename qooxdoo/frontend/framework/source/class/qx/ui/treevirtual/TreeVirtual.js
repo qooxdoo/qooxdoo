@@ -1038,8 +1038,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      */
     setState : function(nodeReference, attributes)
     {
-      throw new Error("setState() is deprecated: " +
-                      "Replace with nodeSetState() in mixin MNode");
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Replace with nodeSetState() in mixin MNode");
     },
 
 
@@ -1062,7 +1061,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      */
     toggleOpened : function(nodeReference)
     {
-      throw new Error("toggleOpened() is deprecated. " +
+       qx.log.Logger.deprecatedMethodWarning(arguments.callee,
                       "Replace with nodeToggleOpened() or consider using " +
                       "new method nodeSetOpened(), both in mixin " +
                       "MNode.");
@@ -1087,8 +1086,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      */
     getFirstChild : function(nodeReference)
     {
-      throw new Error("getFirstChild is deprecated. " +
-                      "Replace with familyGetFirstChild in mixin MFamily");
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Replace with familyGetFirstChild in mixin MFamily");
     },
 
 
@@ -1133,8 +1131,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      */
     getNextSibling : function(nodeReference)
     {
-      throw new Error("getNextSibling is deprecated. " +
-                      "Replace with familyGetNextSibling in mixin MFamily");
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Replace with familyGetNextSibling in mixin MFamily");
     },
 
 
@@ -1156,8 +1153,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      */
     getPrevSibling : function(nodeReference)
     {
-      throw new Error("getPrevSibling is deprecated. " +
-                      "Replace with familyGetPrevSibling in mixin MFamily");
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Replace with familyGetPrevSibling in mixin MFamily");
     }
   }
 });

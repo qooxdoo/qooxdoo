@@ -220,8 +220,7 @@ qx.Class.define("qx.event.type.KeyEvent",
      * @deprecated Will be removed with qooxdoo 0.7
      */
     getKeyCode : function() {
-      this.warn("Deprecated: please use getKeyIdentifier() instead.");
-      this.printStackTrace();
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use getKeyIdentifier() instead.");
       return this._keyCode;
     }
   },

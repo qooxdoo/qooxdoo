@@ -84,6 +84,7 @@ qx.Class.define("qx.event.type.ChangeEvent",
      * @deprecated use {@link #getValue} instead
      */
     getData : function() {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use getValue() instead!");
       return this.getValue();
     }
   },

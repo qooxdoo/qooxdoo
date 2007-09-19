@@ -14,6 +14,8 @@ qx.Mixin.define("qx.core.MLegacyInit",
      */
     defineInitialize : function(func)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please sub class qx.application.Gui");
+
       if (!this.getApplication()) {
         this.setApplication(new qx.application.Gui);
       }
@@ -35,6 +37,8 @@ qx.Mixin.define("qx.core.MLegacyInit",
      */
     defineMain : function(func)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please sub class qx.application.Gui");
+
       if (!this.getApplication()) {
         this.setApplication(new qx.application.Gui);
       }
@@ -64,6 +68,8 @@ qx.Mixin.define("qx.core.MLegacyInit",
      */
     defineFinalize : function(func)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please sub class qx.application.Gui");
+
       if (!this.getApplication()) {
         this.setApplication(new qx.application.Gui);
       }
@@ -85,6 +91,8 @@ qx.Mixin.define("qx.core.MLegacyInit",
      */
     defineClose : function(func)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please sub class qx.application.Gui");
+
       if (!this.getApplication()) {
         this.setApplication(new qx.application.Gui);
       }
@@ -108,6 +116,8 @@ qx.Mixin.define("qx.core.MLegacyInit",
      */
     defineTerminate : function(func)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please sub class qx.application.Gui");
+
       if (!this.getApplication()) {
         this.setApplication(new qx.application.Gui);
       }

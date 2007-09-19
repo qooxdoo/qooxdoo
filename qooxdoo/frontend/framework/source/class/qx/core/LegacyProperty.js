@@ -229,6 +229,8 @@ qx.Class.define("qx.core.LegacyProperty",
      */
     addProperty : function(config, proto)
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Legacy properties are deprecated");
+
       if (typeof config !== "object") {
         throw new Error("AddProperty: Param should be an object!");
       }

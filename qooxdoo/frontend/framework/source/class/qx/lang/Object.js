@@ -225,6 +225,7 @@ qx.Class.define("qx.lang.Object",
      * @deprecated
      */
     carefullyMergeWith : function(target, source) {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee);
       return qx.lang.Object.mergeWith(target, source, false);
     },
 

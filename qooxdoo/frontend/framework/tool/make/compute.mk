@@ -330,8 +330,8 @@ endif
 # Compute variant configuration
 # ==============================================================================
 
-COMPUTED_BUILD_VARIANT =
-COMPUTED_SOURCE_VARIANT =
+COMPUTED_BUILD_VARIANT = --use-variant qx.deprecationWarnings:off
+COMPUTED_SOURCE_VARIANT = 
 
 ifeq ($(APPLICATION_OPTIMIZE_REMOVE_DEBUG),true)
   COMPUTED_BUILD_VARIANT += --use-variant qx.debug:off
