@@ -47,7 +47,7 @@
 qx.Class.define("qx.core.Init",
 {
   type : "singleton",
-  extend : qx.core.Target,
+  extend : qx.core.Object,
 
 
 

@@ -29,7 +29,7 @@
  */
 qx.Class.define("qx.ui.selection.RadioManager",
 {
-  extend : qx.core.Target,
+  extend : qx.core.Object,
 
 
 

@@ -38,7 +38,7 @@
  */
 qx.Class.define("qx.ui.treevirtual.RecursiveSelectionModel",
 {
-  //extend : qx.core.Target,
+  //extend : qx.core.Object,
   extend : qx.ui.table.selection.Model,
 
 

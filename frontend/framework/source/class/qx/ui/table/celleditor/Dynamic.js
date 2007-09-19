@@ -33,7 +33,7 @@
  */
 qx.Class.define("qx.ui.table.celleditor.Dynamic",
 {
-  extend : qx.core.Target,
+  extend : qx.core.Object,
   implement : qx.ui.table.ICellEditorFactory,
 
 

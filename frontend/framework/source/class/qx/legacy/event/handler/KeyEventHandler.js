@@ -32,7 +32,7 @@
 qx.Class.define("qx.legacy.event.handler.KeyEventHandler",
 {
   type : "singleton",
-  extend : qx.core.Target,
+  extend : qx.core.Object,
 
 
 

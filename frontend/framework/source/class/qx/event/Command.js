@@ -33,7 +33,7 @@
  */
 qx.Class.define("qx.event.Command",
 {
-  extend : qx.core.Target,
+  extend : qx.core.Object,
 
   events :
   {

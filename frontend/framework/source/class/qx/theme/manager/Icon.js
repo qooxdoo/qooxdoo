@@ -28,7 +28,7 @@
 qx.Class.define("qx.theme.manager.Icon",
 {
   type : "singleton",
-  extend : qx.core.Target,
+  extend : qx.core.Object,
 
 
 

@@ -28,7 +28,7 @@
 qx.Class.define("qx.theme.manager.Widget",
 {
   type : "singleton",
-  extend : qx.core.Target,
+  extend : qx.core.Object,
 
 
 

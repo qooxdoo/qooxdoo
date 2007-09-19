@@ -32,7 +32,7 @@
  */
 qx.Class.define("qx.event.Timer",
 {
-  extend : qx.core.Target,
+  extend : qx.core.Object,
 
 
 
