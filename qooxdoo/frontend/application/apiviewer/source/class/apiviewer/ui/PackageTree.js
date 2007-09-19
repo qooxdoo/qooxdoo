@@ -123,7 +123,14 @@ qx.Class.define("apiviewer.ui.PackageTree",
       } while (i<nameParts.length);
 
       treeNode.setSelected(true);
-      treeNode.scrollIntoView();
+      
+      if (treeNode.isMaterialized()) {
+        treeNode.scrollIntoView();
+      } else {
+        qx.client.Timer.once(function() {
+          treeNode.scrollIntoView();
+        }, this, 100);
+      }
       return true;
     },
 
