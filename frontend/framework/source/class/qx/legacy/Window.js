@@ -592,7 +592,7 @@ qx.Class.define("qx.legacy.Window",
       this._window = null;
       this._loaded = false;
 
-      this.createDispatchEvent("close");
+      this.fireEvent("close");
     },
 
 
@@ -666,7 +666,7 @@ qx.Class.define("qx.legacy.Window",
           if (this._window.document && this._window.document.readyState == "complete")
           {
             this._loaded = true;
-            this.createDispatchEvent("load");
+            this.fireEvent("load");
           }
         }
         catch(ex) {}
@@ -688,7 +688,7 @@ qx.Class.define("qx.legacy.Window",
       if (!obj._loaded)
       {
         obj._loaded = true;
-        obj.createDispatchEvent("load");
+        obj.fireEvent("load");
       }
     }
   },

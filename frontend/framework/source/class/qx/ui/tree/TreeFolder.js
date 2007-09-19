@@ -224,7 +224,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
       if (this.hasContent())
       {
         // issue the event
-        this.getTree().createDispatchDataEvent("treeOpenWithContent", this);
+        this.getTree().fireDataEvent("treeOpenWithContent", this);
 
         this.getTopLevelWidget().setGlobalCursor("progress");
         qx.event.Timer.once(this._openCallback, this, 0);
@@ -232,7 +232,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
       else
       {
         // issue the event
-        this.getTree().createDispatchDataEvent("treeOpenWhileEmpty", this);
+        this.getTree().fireDataEvent("treeOpenWhileEmpty", this);
         this.setOpen(true);
       }
     },
@@ -246,7 +246,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
      */
     close : function()
     {
-      this.getTree().createDispatchDataEvent("treeClose", this);
+      this.getTree().fireDataEvent("treeClose", this);
 
       // If we get closed and the current selection is inside of this node.
       // set the selection to this folder

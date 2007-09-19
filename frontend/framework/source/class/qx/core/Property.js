@@ -1249,7 +1249,7 @@ qx.Class.define("qx.core.Property",
         // Fire event
         if (config.event) {
           code.push(
-            "qx.event.Registration.getManager(this).fireEvent(",
+            "qx.event.Registration.getManager(this).fireCustomEvent(",
             "  this, qx.event.type.Change,",
             "  ['", config.event, "', computed, old]",
             ");"

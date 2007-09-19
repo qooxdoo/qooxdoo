@@ -132,7 +132,7 @@ qx.Class.define("qx.ui.table.model.Simple",
         this._editableColArr[col] = editable;
       }
 
-      this.createDispatchEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
+      this.fireEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
     },
 
 
@@ -154,7 +154,7 @@ qx.Class.define("qx.ui.table.model.Simple",
 
         this._editableColArr[columnIndex] = editable;
 
-        this.createDispatchEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
+        this.fireEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
       }
     },
 
@@ -179,7 +179,7 @@ qx.Class.define("qx.ui.table.model.Simple",
         }
 
         this._sortableColArr[columnIndex] = sortable;
-        this.createDispatchEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
+        this.fireEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
       }
     },
 
@@ -218,7 +218,7 @@ qx.Class.define("qx.ui.table.model.Simple",
       this._sortColumnIndex = columnIndex;
       this._sortAscending = ascending;
 
-      this.createDispatchEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
+      this.fireEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
     },
 
 
@@ -260,7 +260,7 @@ qx.Class.define("qx.ui.table.model.Simple",
         this._sortColumnIndex = -1;
         this._sortAscending = true;
 
-        this.createDispatchEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
+        this.fireEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
       }
     },
 
@@ -307,7 +307,7 @@ qx.Class.define("qx.ui.table.model.Simple",
             lastColumn  : columnIndex
           };
 
-          this.createDispatchDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
+          this.fireDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
         }
 
         if (columnIndex == this._sortColumnIndex) {
@@ -333,7 +333,7 @@ qx.Class.define("qx.ui.table.model.Simple",
 
       // Inform the listeners
       if (this.hasEventListeners(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED)) {
-        this.createDispatchEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED);
+        this.fireEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED);
       }
 
     if (clearSorting) {
@@ -405,7 +405,7 @@ qx.Class.define("qx.ui.table.model.Simple",
         firstColumn : 0,
         lastColumn  : this.getColumnCount() - 1
       };
-      this.createDispatchDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
+      this.fireDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
 
       this._clearSorting();
     },
@@ -449,7 +449,7 @@ qx.Class.define("qx.ui.table.model.Simple",
         lastColumn  : this.getColumnCount() - 1
       };
 
-      this.createDispatchDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
+      this.fireDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
 
       this._clearSorting();
     },

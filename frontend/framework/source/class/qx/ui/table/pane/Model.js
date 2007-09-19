@@ -140,7 +140,7 @@ qx.Class.define("qx.ui.table.pane.Model",
     _applyFirstColumnX : function(value, old)
     {
       this._columnCount = null;
-      this.createDispatchEvent(qx.ui.table.pane.Model.EVENT_TYPE_MODEL_CHANGED);
+      this.fireEvent(qx.ui.table.pane.Model.EVENT_TYPE_MODEL_CHANGED);
     },
 
     // property modifier
@@ -154,7 +154,7 @@ qx.Class.define("qx.ui.table.pane.Model",
     _applyMaxColumnCount : function(value, old)
     {
       this._columnCount = null;
-      this.createDispatchEvent(qx.ui.table.pane.Model.EVENT_TYPE_MODEL_CHANGED);
+      this.fireEvent(qx.ui.table.pane.Model.EVENT_TYPE_MODEL_CHANGED);
     },
 
 
@@ -172,7 +172,7 @@ qx.Class.define("qx.ui.table.pane.Model",
       // TODO: Check whether the column is in this model (This is a little bit
       //     tricky, because the column could _have been_ in this model, but is
       //     not in it after the change)
-      this.createDispatchEvent(qx.ui.table.pane.Model.EVENT_TYPE_MODEL_CHANGED);
+      this.fireEvent(qx.ui.table.pane.Model.EVENT_TYPE_MODEL_CHANGED);
     },
 
 

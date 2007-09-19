@@ -237,7 +237,7 @@ qx.Class.define("qx.bom.History",
      */
     __onHistoryLoad : function(state) {
       this._state = state;
-      this.createDispatchDataEvent("request", state);
+      this.fireDataEvent("request", state);
       if (this._titles[state] != null) {
         document.title = this._titles[state];
       }

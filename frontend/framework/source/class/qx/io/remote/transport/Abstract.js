@@ -433,35 +433,35 @@ qx.Class.define("qx.io.remote.transport.Abstract",
       switch(value)
       {
         case "created":
-          this.createDispatchEvent("created");
+          this.fireEvent("created");
           break;
 
         case "configured":
-          this.createDispatchEvent("configured");
+          this.fireEvent("configured");
           break;
 
         case "sending":
-          this.createDispatchEvent("sending");
+          this.fireEvent("sending");
           break;
 
         case "receiving":
-          this.createDispatchEvent("receiving");
+          this.fireEvent("receiving");
           break;
 
         case "completed":
-          this.createDispatchEvent("completed");
+          this.fireEvent("completed");
           break;
 
         case "aborted":
-          this.createDispatchEvent("aborted");
+          this.fireEvent("aborted");
           break;
 
         case "failed":
-          this.createDispatchEvent("failed");
+          this.fireEvent("failed");
           break;
 
         case "timeout":
-          this.createDispatchEvent("timeout");
+          this.fireEvent("timeout");
           break;
       }
 

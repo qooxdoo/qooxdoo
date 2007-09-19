@@ -184,7 +184,7 @@ qx.Class.define("qx.ui.table.model.Remote",
         lastColumn  : this.getColumnCount() - 1
       };
 
-      this.createDispatchDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
+      this.fireDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
     },
 
 
@@ -285,7 +285,7 @@ qx.Class.define("qx.ui.table.model.Remote",
 
       // Inform the listeners
       var data = { firstRow:0, lastRow:this._rowCount - 1, firstColumn:0, lastColumn:this.getColumnCount() - 1 };
-      this.createDispatchDataEvent(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, data);
+      this.fireDataEvent(qx.ui.table.TableModel.EVENT_TYPE_DATA_CHANGED, data);
     },
 
 
@@ -475,7 +475,7 @@ qx.Class.define("qx.ui.table.model.Remote",
           lastColumn  : this.getColumnCount() - 1
         };
 
-        this.createDispatchDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
+        this.fireDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
       }
 
       // We're not loading any blocks any more
@@ -560,7 +560,7 @@ qx.Class.define("qx.ui.table.model.Remote",
           lastColumn  : this.getColumnCount() - 1
         };
 
-        this.createDispatchDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
+        this.fireDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
       }
       else
       {
@@ -628,7 +628,7 @@ qx.Class.define("qx.ui.table.model.Remote",
             lastColumn  : this.getColumnCount() - 1
           };
 
-          this.createDispatchDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
+          this.fireDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
         }
       }
     },
@@ -700,7 +700,7 @@ qx.Class.define("qx.ui.table.model.Remote",
 
         this._sortableColArr[columnIndex] = sortable;
 
-        this.createDispatchEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
+        this.fireEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
       }
     },
 
@@ -720,7 +720,7 @@ qx.Class.define("qx.ui.table.model.Remote",
         this.clearCache();
 
         // Inform the listeners
-        this.createDispatchEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
+        this.fireEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
       }
     },
 

@@ -689,7 +689,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
             this.__dragHoverTimeoutFunc = window.setTimeout(function(){
               // dispatch event with targetNode with row hint
               targetNode.row = row;
-              _this.createDispatchDataEvent(dragHoverEventName,targetNode);
+              _this.fireDataEvent(dragHoverEventName,targetNode);
            }, dragHoverTimeout );
           }
         }

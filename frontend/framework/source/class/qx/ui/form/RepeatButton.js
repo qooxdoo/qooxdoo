@@ -185,7 +185,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
       this._timer.start();
 
       this._executed = true;
-      this.createDispatchEvent("execute");
+      this.fireEvent("execute");
     }
   },
 

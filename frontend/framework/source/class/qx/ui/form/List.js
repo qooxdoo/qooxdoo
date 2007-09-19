@@ -302,7 +302,7 @@ qx.Class.define("qx.ui.form.List",
         var currentItem;
 
         for (var i=0; i<items.length; i++) {
-          items[i].createDispatchEvent("action");
+          items[i].fireEvent("action");
         }
       }
     },

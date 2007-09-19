@@ -219,7 +219,7 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
           }
           else
           {
-            this.createDispatchDataEvent(qx.ui.animation.MAnimation.FADE_FINISHED, qx.ui.animation.MAnimation.FADE_IN);
+            this.fireDataEvent(qx.ui.animation.MAnimation.FADE_FINISHED, qx.ui.animation.MAnimation.FADE_IN);
           }
 
           break;
@@ -234,7 +234,7 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
           }
           else
           {
-            this.createDispatchDataEvent(qx.ui.animation.MAnimation.FADE_FINISHED, qx.ui.animation.MAnimation.FADE_OUT);
+            this.fireDataEvent(qx.ui.animation.MAnimation.FADE_FINISHED, qx.ui.animation.MAnimation.FADE_OUT);
           }
 
           break;

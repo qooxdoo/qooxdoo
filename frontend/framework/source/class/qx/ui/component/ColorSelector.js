@@ -936,7 +936,7 @@ qx.Class.define("qx.ui.component.ColorSelector",
      * @return {void}
      */
     _onButtonOkExecute : function(e) {
-      this.createDispatchEvent("dialogok");
+      this.fireEvent("dialogok");
     },
 
 
@@ -948,7 +948,7 @@ qx.Class.define("qx.ui.component.ColorSelector",
      * @return {void}
      */
     _onButtonCancelExecute : function(e) {
-      this.createDispatchEvent("dialogcancel");
+      this.fireEvent("dialogcancel");
     },
 
 

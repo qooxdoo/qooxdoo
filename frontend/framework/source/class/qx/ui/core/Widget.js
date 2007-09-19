@@ -2660,7 +2660,7 @@ qx.Class.define("qx.ui.core.Widget",
     _beforeAppear : function()
     {
       // this.debug("_beforeAppear");
-      this.createDispatchEvent("beforeAppear");
+      this.fireEvent("beforeAppear");
     },
 
 
@@ -2674,7 +2674,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       // this.debug("_afterAppear");
       this._isSeeable = true;
-      this.createDispatchEvent("appear");
+      this.fireEvent("appear");
     },
 
 
@@ -2697,7 +2697,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       // this.debug("_beforeDisappear");
-      this.createDispatchEvent("beforeDisappear");
+      this.fireEvent("beforeDisappear");
     },
 
 
@@ -2711,7 +2711,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       // this.debug("_afterDisappear");
       this._isSeeable = false;
-      this.createDispatchEvent("disappear");
+      this.fireEvent("disappear");
     },
 
     _isSeeable : false,
@@ -2760,7 +2760,7 @@ qx.Class.define("qx.ui.core.Widget",
     _beforeInsertDom : function()
     {
       // this.debug("_beforeInsertDom");
-      this.createDispatchEvent("beforeInsertDom");
+      this.fireEvent("beforeInsertDom");
     },
 
 
@@ -2773,7 +2773,7 @@ qx.Class.define("qx.ui.core.Widget",
     _afterInsertDom : function()
     {
       // this.debug("_afterInsertDom");
-      this.createDispatchEvent("insertDom");
+      this.fireEvent("insertDom");
     },
 
 
@@ -2786,7 +2786,7 @@ qx.Class.define("qx.ui.core.Widget",
     _beforeRemoveDom : function()
     {
       // this.debug("_beforeRemoveDom");
-      this.createDispatchEvent("beforeRemoveDom");
+      this.fireEvent("beforeRemoveDom");
     },
 
 
@@ -2799,7 +2799,7 @@ qx.Class.define("qx.ui.core.Widget",
     _afterRemoveDom : function()
     {
       // this.debug("_afterRemoveDom");
-      this.createDispatchEvent("removeDom");
+      this.fireEvent("removeDom");
     },
 
 
@@ -2993,7 +2993,7 @@ qx.Class.define("qx.ui.core.Widget",
         this._applyElementData(value);
 
         // send out create event
-        this.createDispatchEvent("create");
+        this.fireEvent("create");
 
         // add created instances to state queue
         this.addToStateQueue();
@@ -6809,7 +6809,7 @@ qx.Class.define("qx.ui.core.Widget",
         cmd.execute(this);
       }
 
-      this.createDispatchEvent("execute");
+      this.fireEvent("execute");
     },
 
 

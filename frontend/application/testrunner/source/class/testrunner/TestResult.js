@@ -82,7 +82,7 @@ qx.Class.define("testrunner.TestResult",
      */
     run : function(test, testFunction)
     {
-      this.createDispatchDataEvent("startTest", test);
+      this.fireDataEvent("startTest", test);
 
       try {
         testFunction();
@@ -98,7 +98,7 @@ qx.Class.define("testrunner.TestResult",
         }
       }
 
-      this.createDispatchDataEvent("endTest", test);
+      this.fireDataEvent("endTest", test);
     },
 
 
@@ -119,7 +119,7 @@ qx.Class.define("testrunner.TestResult",
         exception : exception,
         test      : test
       };
-      this.createDispatchDataEvent(eventName, error);
+      this.fireDataEvent(eventName, error);
     }
   }
 });

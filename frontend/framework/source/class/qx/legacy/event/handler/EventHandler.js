@@ -698,7 +698,7 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
         catch(ex)
         {
           this.error("Failed to dispatch key event", ex);
-          this.createDispatchDataEvent("error", ex);
+          this.fireDataEvent("error", ex);
         }
       }
 
@@ -974,7 +974,7 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
           //catch(ex)
           //{
           //  this.error("Failed to dispatch mouse event", ex);
-          //  this.createDispatchDataEvent("error", ex);
+          //  this.fireDataEvent("error", ex);
           //}
         }
         else
@@ -1251,7 +1251,7 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
       }
 
       // Send blur event to client document
-      qx.ui.core.ClientDocument.getInstance().createDispatchEvent("windowblur");
+      qx.ui.core.ClientDocument.getInstance().fireEvent("windowblur");
     },
 
 
@@ -1273,7 +1273,7 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
 
       // this.debug("Window focus...");
       // Send focus event to client document
-      qx.ui.core.ClientDocument.getInstance().createDispatchEvent("windowfocus");
+      qx.ui.core.ClientDocument.getInstance().fireEvent("windowfocus");
     },
 
 
@@ -1287,7 +1287,7 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
     _onwindowresize : function(e)
     {
       // Send resize event to client document
-      qx.ui.core.ClientDocument.getInstance().createDispatchEvent("windowresize");
+      qx.ui.core.ClientDocument.getInstance().fireEvent("windowresize");
     }
   },
 

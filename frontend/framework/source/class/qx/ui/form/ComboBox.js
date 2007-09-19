@@ -441,7 +441,7 @@ qx.Class.define("qx.ui.form.ComboBox",
       var el = this.getElement();
 
       if (!p.isCreated()) {
-        this.createDispatchEvent("beforeInitialOpen");
+        this.fireEvent("beforeInitialOpen");
       }
 
       if (this._list.getChildrenLength() == 0) {
