@@ -56,8 +56,8 @@ qx.Class.define("apiviewer.Viewer",
 
     var buttonView = this.__createButtonView(
       tree,
-      new apiviewer.ui.LegendView(),
-      new apiviewer.ui.SearchView()
+      new apiviewer.ui.SearchView(),
+      new apiviewer.ui.LegendView()
     );
 
     var mainFrame = this.__createMainFrame(

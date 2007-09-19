@@ -80,8 +80,6 @@ qx.Class.define("apiviewer.ui.SearchView",
       //--------------------------------------------------------
       // Outputs the generated index file content to a textarea
       //--------------------------------------------------------
-      //new apiviewer.ui.CreateIndex();
-
 
       // Search form
       var sform = new qx.ui.layout.HorizontalBoxLayout;
