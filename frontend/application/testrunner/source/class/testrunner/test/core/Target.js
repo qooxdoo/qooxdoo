@@ -33,7 +33,7 @@ qx.Class.define("testrunner.test.core.Target",
     {
       qx.Class.define("testrunner.Event",
       {
-        extend : qx.core.Target,
+        extend : qx.core.Object,
         events : { "click" : "qx.event.type.Event" }
       });
 

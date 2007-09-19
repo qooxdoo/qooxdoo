@@ -30,7 +30,7 @@
  */
 qx.Class.define("qx.ui.table.pane.Model",
 {
-  extend : qx.core.Target,
+  extend : qx.core.Object,
 
 
 

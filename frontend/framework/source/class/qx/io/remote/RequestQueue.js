@@ -37,7 +37,7 @@
 qx.Class.define("qx.io.remote.RequestQueue",
 {
   type : "singleton",
-  extend : qx.core.Target,
+  extend : qx.core.Object,
 
 
 

@@ -48,7 +48,7 @@
  */
 qx.Class.define("qx.io.remote.Rpc",
 {
-  extend : qx.core.Target,
+  extend : qx.core.Object,
 
 
 

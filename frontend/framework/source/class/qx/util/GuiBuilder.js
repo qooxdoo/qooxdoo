@@ -29,7 +29,7 @@
  */
 qx.Class.define("qx.util.GuiBuilder",
 {
-  extend : qx.core.Target,
+  extend : qx.core.Object,
 
 
 

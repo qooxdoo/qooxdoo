@@ -30,7 +30,7 @@
  */
 qx.Class.define("qx.ui.table.celleditor.TextField",
 {
-  extend : qx.core.Target,
+  extend : qx.core.Object,
   implement : qx.ui.table.ICellEditorFactory,
 
 

@@ -32,7 +32,7 @@
  */
 qx.Class.define("qx.util.manager.Object",
 {
-  extend : qx.core.Target,
+  extend : qx.core.Object,
 
 
 

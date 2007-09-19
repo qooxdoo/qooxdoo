@@ -26,7 +26,7 @@
  */
 qx.Class.define("testrunner.runner.TestResultData",
 {
-  extend : qx.core.Target,
+  extend : qx.core.Object,
 
 
 

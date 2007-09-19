@@ -33,7 +33,7 @@ qx.Class.define("testrunner.test.core.Property",
     {
       qx.Class.define("testrunner.Node",
       {
-        extend : qx.core.Target,
+        extend : qx.core.Object,
 
         construct : function() {
           this._children = [];

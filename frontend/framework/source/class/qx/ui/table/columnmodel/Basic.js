@@ -31,7 +31,7 @@
  */
 qx.Class.define("qx.ui.table.columnmodel.Basic",
 {
-  extend : qx.core.Target,
+  extend : qx.core.Object,
 
 
 

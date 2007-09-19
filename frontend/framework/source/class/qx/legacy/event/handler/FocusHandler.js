@@ -31,7 +31,7 @@
  */
 qx.Class.define("qx.legacy.event.handler.FocusHandler",
 {
-  extend : qx.core.Target,
+  extend : qx.core.Object,
 
 
 
