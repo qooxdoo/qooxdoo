@@ -131,7 +131,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
     this._headerClipper.addEventListener("click", this._onclickHeader, this);
     this._paneClipper.addEventListener("click", this._onclickPane, this);
-
+    this._paneClipper.addEventListener("contextmenu", this._onContextMenu, this);
     this._paneClipper.addEventListener("dblclick", this._ondblclickPane, this);
 
     this.addEventListener("mouseout", this._onmouseout, this);
@@ -140,6 +140,31 @@ qx.Class.define("qx.ui.table.pane.Scroller",
   },
 
 
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events :
+  {
+    /**
+     * See {@link qx.ui.table.Table#cellClick}.
+     */
+    "cellClick" : "qx.ui.table.pane.CellEvent",
+
+    /**
+     * See {@link qx.ui.table.Table#cellDblclick}.
+     */
+    "cellDblclick" : "qx.ui.table.pane.CellEvent",
+    
+    /**
+     * See {@link qx.ui.table.Table#cellContextmenu}.
+     */
+    "cellContextmenu" : "qx.ui.table.pane.CellEvent"
+  },
 
 
   /*
@@ -1134,7 +1159,27 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       if (row != null && this._getColumnForPageX(pageX) != null)
       {
         table._getSelectionManager().handleClick(row, evt);
+       if (this.hasEventListeners("cellClick"))
+       {
+         this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, evt), true);
+       }
       }
+    },
+
+
+    /**
+     * Event handler. Called when a context menu is invoked in a cell.
+     *
+     * @type member
+     * @param evt {qx.event.type.MouseEvent} the event.
+     * @return {void}
+     */
+    _onContextMenu : function(evt)
+    {
+       if (this.hasEventListeners("cellContextmenu"))
+       {
+         this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, evt), true);
+       }
     },
 
 
@@ -1150,13 +1195,16 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       var pageX = evt.getPageX();
       var pageY = evt.getPageY();
 
-      var row = this._getRowForPagePos(pageX, pageY);
-      if (row != -1 && row != null) {
-        this.fireDataEvent("rowdblclick", row);
-      }
-
       this._focusCellAtPagePos(pageX, pageY);
       this.startEditing();
+      if (this.hasEventListeners("cellDblclick"))
+      {
+        var row = this._getRowForPagePos(pageX, pageY);
+        if (row != -1 && row != null)
+        {
+          this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, evt), true);
+        }
+      }
     },
 
 
