@@ -68,7 +68,7 @@ qx.Class.define("qx.event.handler.Object",
 
     // interface implementation
     canHandleEvent : function(target, type) {
-      return target instanceof qx.core.Target && qx.Class.supportsEvent(target.constructor, type);
+      return target instanceof qx.core.Object && qx.Class.supportsEvent(target.constructor, type);
     },
 
 

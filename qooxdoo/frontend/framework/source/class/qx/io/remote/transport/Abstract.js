@@ -28,7 +28,7 @@
 qx.Class.define("qx.io.remote.transport.Abstract",
 {
   type : "abstract",
-  extend : qx.core.Target,
+  extend : qx.core.Object,
 
 
 

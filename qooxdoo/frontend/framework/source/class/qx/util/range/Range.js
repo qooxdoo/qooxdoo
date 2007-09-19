@@ -23,7 +23,7 @@
  */
 qx.Class.define("qx.util.range.Range",
 {
-  extend : qx.core.Target,
+  extend : qx.core.Object,
   implement : [ qx.util.range.IRange ],
 
 

@@ -34,7 +34,7 @@
  */
 qx.Class.define("qx.legacy.Window",
 {
-  extend : qx.core.Target,
+  extend : qx.core.Object,
 
 
 

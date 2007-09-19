@@ -30,7 +30,7 @@
  */
 qx.Class.define("qx.ui.selection.SelectionManager",
 {
-  extend : qx.core.Target,
+  extend : qx.core.Object,
 
 
 

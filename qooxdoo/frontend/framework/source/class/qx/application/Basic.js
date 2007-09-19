@@ -32,7 +32,7 @@
  */
 qx.Class.define("qx.application.Basic",
 {
-  extend : qx.core.Target,
+  extend : qx.core.Object,
   implement : qx.application.IApplication,
 
 

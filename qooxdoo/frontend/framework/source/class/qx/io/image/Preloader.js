@@ -36,7 +36,7 @@
  */
 qx.Class.define("qx.io.image.Preloader",
 {
-  extend : qx.core.Target,
+  extend : qx.core.Object,
 
   events :
   {

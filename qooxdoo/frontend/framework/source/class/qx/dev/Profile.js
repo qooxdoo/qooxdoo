@@ -82,12 +82,12 @@ qx.Class.define("qx.dev.Profile", {
      *     "name":"qx.core.Object.toHashCode",
      *     "type":"static"
      *   },
-     *   "qx.core.Target.addEventListener (member)":{
+     *   "qx.core.Object.addEventListener (member)":{
      *     "totalTime":19,
      *     "ownTime":12,
      *     "callCount":59,
      *     "subRoutineCalls":251,
-     *     "name":"qx.core.Target.addEventListener",
+     *     "name":"qx.core.Object.addEventListener",
      *     "type":"member"
      *   },
      *   "qx.ui.table.cellrenderer.Default (constructor)":{

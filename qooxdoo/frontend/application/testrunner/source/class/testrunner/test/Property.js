@@ -308,7 +308,7 @@ qx.Class.define("testrunner.test.Property",
 
 qx.Class.define("testrunner.test.PropertyHelper",
 {
-  extend : qx.core.Target,
+  extend : qx.core.Object,
 
   construct : function(delegate) {
     this.base(arguments);

@@ -32,7 +32,7 @@
  */
 qx.Class.define("qx.util.fsm.FiniteStateMachine",
 {
-  extend : qx.core.Target,
+  extend : qx.core.Object,
 
 
 
