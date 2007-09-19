@@ -20,6 +20,7 @@
 /* ************************************************************************
 
 #module(apiviewer)
+#embed(apiviewer.image/*)
 
 ************************************************************************ */
 
@@ -53,7 +54,9 @@ qx.Class.define("apiviewer.ui.SearchView",
       height : "100%"
     });
 
-    this.addEventListener("appear", this._showSearchForm, this);
+    this.addEventListener("appear", function() {
+      qx.client.Timer.once(this._showSearchForm, this, 0);
+    }, this);
   },
 
 
@@ -87,7 +90,6 @@ qx.Class.define("apiviewer.ui.SearchView",
         height          : "auto",
         padding         : 5,
         backgroundColor : "white",
-        border          : "line-bottom",
         spacing         : 4,
         verticalChildrenAlign : "middle"
       });
@@ -103,17 +105,42 @@ qx.Class.define("apiviewer.ui.SearchView",
       this.__button.setEnabled(false);
 
       // Label for options
-      var optLabel = new qx.ui.basic.Label("Options");
-        optLabel.set({
-          marginTop       : 5,
-          marginLeft      : 15
-        });
-      optLabel.addEventListener("click", function() {
-        this.__toggleOptions(sform);
+      this.optLabel = new qx.ui.toolbar.Button(null, "widget/arrows/down.gif");
+      this.optLabel.set({
+        marginLeft        : 10,
+        backgroundColor   : "white"
+      });
+      // Tooltips for options
+      this.optTooltipShow = new qx.ui.popup.ToolTip("Show options");
+      this.optTooltipHide = new qx.ui.popup.ToolTip("Hide options");
+      this.optLabel.setToolTip(this.optTooltipShow);
+
+      this.optLabel.addEventListener("click", function() {
+        this.__toggleOptions(options);
       }, this);
 
-      //this.add(sform.add(this.sinput, this.__button, optLabel));
-      this.add(sform.add(this.sinput, this.__button));
+      this.add(sform.add(this.sinput, this.__button, this.optLabel));
+
+      // Options
+      var options = new qx.ui.layout.HorizontalBoxLayout;
+      options.set({
+        width             : "100%",
+        height            : 1,
+        padding           : 5,
+        overflow          : "hidden",
+        backgroundColor   : "white",
+        border            : "line-bottom",
+        spacing           : 4
+      });
+      var optCheckboxLivesearch = new qx.ui.form.CheckBox("Enable live search", "lschecked", "ls", true);
+
+
+      this.add(options.add(optCheckboxLivesearch));
+
+      optCheckboxLivesearch.addEventListener("changeChecked", function(e)
+      {
+        this.__toggleLivesearch();
+      }, this);
 
       // Load index file
       qx.client.Timer.once(this._load, this, 0);
@@ -121,9 +148,7 @@ qx.Class.define("apiviewer.ui.SearchView",
       // Give keyboard focus to the search field
       this.sinput.addEventListener("appear", function(e)
       {
-        if (this.sinput.getInputElement()) {
-          this.sinput.getInputElement().focus();
-        }
+        this.sinput.getInputElement().focus();
       }, this);
 
       // Submit events
@@ -420,11 +445,14 @@ qx.Class.define("apiviewer.ui.SearchView",
     {
       if (this.__showoptions === false) {
         this.__showoptions = true;
-
-        field.setHeight(200);
+        this.optLabel.setIcon("widget/arrows/up.gif");
+        this.optLabel.setToolTip(this.optTooltipHide);
+        field.setHeight("auto");
       } else {
         this.__showoptions = false;
-        field.setHeight("auto");
+        this.optLabel.setIcon("widget/arrows/down.gif");
+        this.optLabel.setToolTip(this.optTooltipShow);
+        field.setHeight(1);
       }
     },
 
