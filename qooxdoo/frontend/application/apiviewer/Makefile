@@ -56,12 +56,15 @@ error:
 # EXTENSIONS
 ################################################################################
 
+
 source:
 	@$(CMD_GENERATOR) \
+		--disable-internal-check \
 	  --generate-api-documentation \
 	  --api-separate-files \
 	  --add-new-lines \
 	  --api-documentation-json-file $(APPLICATION_SOURCE_PATH)/script/apidata.js \
+	  --api-documentation-index-file $(APPLICATION_SOURCE_PATH)/script/apiindex.js \
 	  --class-path $(FRAMEWORK_SOURCE_PATH)/class
 
 build:
@@ -69,6 +72,7 @@ build:
 	  --generate-api-documentation \
 	  --api-separate-files \
 	  --api-documentation-json-file $(APPLICATION_BUILD_PATH)/script/apidata.js \
+	  --api-documentation-index-file $(APPLICATION_BUILD_PATH)/script/apiindex.js \
 	  --class-path $(FRAMEWORK_SOURCE_PATH)/class
 
 clean:

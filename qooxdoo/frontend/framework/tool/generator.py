@@ -83,7 +83,7 @@ def getparser():
     parser.add_option("--api-documentation-json-file", dest="apiDocumentationJsonFile", metavar="FILENAME", help="Name of JSON API file.")
     parser.add_option("--api-documentation-xml-file", dest="apiDocumentationXmlFile", metavar="FILENAME", help="Name of XML API file.")
     parser.add_option("--api-separate-files", action="store_true", dest="apiSeparateFiles", default=False, help="Output each class documentation into a separate file.")
-    parser.add_option("--api-documentation-index-file", dest="apiDocumentationIndexFile", default="apiindex.js", metavar="FILENAME", help="Name of API search index file.")
+    parser.add_option("--api-documentation-index-file", dest="apiDocumentationIndexFile", metavar="FILENAME", help="Name of API search index file.")
 
     # Encoding
     parser.add_option("--script-output-encoding", dest="scriptOutputEncoding", default="utf-8", metavar="ENCODING", help="Defines the encoding used for script output files.")
@@ -1039,10 +1039,12 @@ def execute(fileDb, moduleDb, options, pkgid="", names=[]):
                 filetool.save(options.apiDocumentationJsonFile, jsonContent, options.scriptOutputEncoding)
 
         # create search index
-        print "  * Writing API search index to %s" % options.apiDocumentationIndexFile
+        if options.apiDocumentationIndexFile != None:
 
-        jsonContent = tree.nodeToIndexString(docTree, "", childPrefix, newLine)
-        filetool.save(options.apiDocumentationIndexFile, jsonContent, options.scriptOutputEncoding)
+            print "  * Generating API index..."
+            jsonContent = tree.nodeToIndexString(docTree, "", childPrefix, newLine)
+            print "  * Writing API search index to %s" % options.apiDocumentationIndexFile
+            filetool.save(options.apiDocumentationIndexFile, jsonContent, options.scriptOutputEncoding)
 
 
 

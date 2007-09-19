@@ -629,39 +629,60 @@ def nodeToIndexString(tree, prefix = "", childPrefix = "  ", newline="\n"):
     currClass = [0]
 
     def processNode(node,isLeaf):
+        # filters
         if not node.hasAttributes():
             return 0  # continue traversal
+        if node.type in ['state', 'param', 'see']:  # skip those currently
+            return 0
 
+        # construct a name string
         if 'fullName' in node.attributes:
             longestName = node.attributes['fullName']
         elif 'name' in node.attributes :
             longestName = node.attributes['name']
         else: # cannot handle unnamed entities
-            #raise NodeAccessException("Unnamed doctree node",node)
-            print "Unnamed doctree node: %s" % node.type
-            longestName = ""
+            return 0
+
+        # construct type string
+        if node.type == "method":
+            sfx = ""
+            if 'access' in node.attributes:
+                acc = node.attributes['access']
+                if acc == "public":
+                    sfx = "_pub"
+                elif acc == 'protected':
+                    sfx = '_prot'
+                elif acc == 'private':
+                    sfx = '_priv'
+            else:
+                sfx = "_pub"  # force unqualified to public
+            n_type = node.type + sfx
+        elif node.type == "property":
+            sfx = "_pub"
+            n_type = node.type + sfx
+        else:
+            n_type = node.type
 
         # add type?
-        if node.type not in types:
-            types.append(node.type)
-        tyx = types.index(node.type)
-        # add to fullNames
-        fullNames.append(longestName)
-        fnx = fullNames.index(longestName)
+        if n_type not in types:
+            types.append(n_type)
+        tyx = types.index(n_type)
         
         if node.type in ['class','interface','package','mixin']:
+            # add to fullNames - assuming uniqueness
+            fullNames.append(longestName)
+            fnx = fullNames.index(longestName)
             # commemorate current container
             currClass[0] = fnx
-            idx = fnx # for later use
         else:  # must be a class feature
             longestName = '#' + longestName
-            idx = currClass[0]
+            fnx = currClass[0]
 
         # maintain index
         if longestName in indexs:
-            indexs[longestName].append([tyx, idx])
+            indexs[longestName].append([tyx, fnx])
         else:
-            indexs[longestName]=[[tyx, idx]]
+            indexs[longestName]=[[tyx, fnx]]
 
         return 0
 
@@ -670,7 +691,7 @@ def nodeToIndexString(tree, prefix = "", childPrefix = "  ", newline="\n"):
     index = { "__types__" : types,
               "__fullNames__" : fullNames,
               "__index__" : indexs }
-    asString = simplejson.dumps(index)
+    asString = simplejson.dumps(index, separators=(',',':')) # compact encoding
 
     return asString
 
