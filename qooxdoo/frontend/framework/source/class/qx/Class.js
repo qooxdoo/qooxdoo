@@ -24,7 +24,6 @@
 #module(oo)
 #optional(qx.Interface)
 #optional(qx.Mixin)
-#optional(qx.core.Object)
 #optional(qx.core.Property)
 #optional(qx.core.LegacyProperty)
 #require(qx.core.Setting)
@@ -1067,10 +1066,6 @@ qx.Class.define("qx.Class",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (!qx.core.Object) {
-          throw new Error(clazz.classname + ": the class 'qx.core.Object' must be availabe to use events!");
-        }
-
         if (typeof events !== "object" || events instanceof Array) {
           throw new Error(clazz.classname + ": the events must be defined as map!");
         }
@@ -1264,11 +1259,6 @@ qx.Class.define("qx.Class",
           if (!(typeof config.check == "string" ||config.check instanceof Array || config.check instanceof Function)) {
             throw new Error('Invalid check definition of property "' + name + '" in class "' + clazz.classname + '"! Needs to be a String, Array or Function.');
           }
-        }
-
-        if (config.event != null && !this.isSubClassOf(clazz, qx.core.Object))
-        {
-          throw new Error("Invalid property '"+name+"' in class '"+clazz.classname+"': Properties defining an event can only be defined in sub classes of 'qx.core.Object'!");
         }
       },
 
