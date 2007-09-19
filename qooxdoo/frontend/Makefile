@@ -532,6 +532,10 @@ release-sdk-unix-collect:
 	  $(CMD_DIR) $(RELEASE_SDK_UNIX)/frontend/application/$$APPLICATION; \
 	  $(CMD_SYNC_OFFLINE) --exclude script --exclude build --exclude publish application/$$APPLICATION/* $(RELEASE_SDK_UNIX)/frontend/application/$$APPLICATION; \
 	done
+	
+	@echo "  * Synchronizing buildtool..."
+	@$(CMD_DIR) $(RELEASE_SDK_UNIX)/frontend/application/buildtool
+	@$(CMD_SYNC_OFFLINE) --exclude script --exclude build --exclude publish --exclude deploy application/buildtool/* $(RELEASE_SDK_UNIX)/frontend/application/buildtool
 
 	@echo "  * Synchronizing framework..."
 	@$(CMD_DIR) $(RELEASE_SDK_UNIX)/frontend/framework
@@ -574,6 +578,10 @@ release-sdk-dos-collect:
 	  $(CMD_DIR) $(RELEASE_SDK_DOS)/frontend/application/$$APPLICATION; \
 	  $(CMD_SYNC_OFFLINE) --exclude script --exclude build --exclude publish application/$$APPLICATION/* $(RELEASE_SDK_DOS)/frontend/application/$$APPLICATION; \
 	done
+	
+	@echo "  * Synchronizing buildtool..."
+	@$(CMD_DIR) $(RELEASE_SDK_DOS)/frontend/application/buildtool
+	@$(CMD_SYNC_OFFLINE) --exclude script --exclude build --exclude publish --exclude deploy application/buildtool/* $(RELEASE_SDK_DOS)/frontend/application/buildtool
 
 	@echo "  * Synchronizing framework..."
 	@$(CMD_DIR) $(RELEASE_SDK_DOS)/frontend/framework
