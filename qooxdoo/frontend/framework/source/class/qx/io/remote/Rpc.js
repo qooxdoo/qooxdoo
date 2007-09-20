@@ -456,7 +456,7 @@ qx.Class.define("qx.io.remote.Rpc",
 
       req.addListener("failed", function(evt)
       {
-        var code = evt.getData().getStatusCode();
+        var code = evt.getStatusCode();
         ex = makeException(qx.io.remote.Rpc.origin.transport,
                            code,
                            qx.io.remote.Exchange.statusCodeToString(code));
@@ -466,7 +466,7 @@ qx.Class.define("qx.io.remote.Rpc",
 
       req.addListener("timeout", function(evt)
       {
-this.debug("TIMEOUT OCCURRED");
+        this.debug("TIMEOUT OCCURRED");
         ex = makeException(qx.io.remote.Rpc.origin.local,
                            qx.io.remote.Rpc.localError.timeout,
                            "Local time-out expired");
@@ -485,7 +485,7 @@ this.debug("TIMEOUT OCCURRED");
 
       req.addListener("completed", function(evt)
       {
-        response = evt.getData().getContent();
+        response = evt.getContent();
         id = response["id"];
 
         if (id != this.getSequenceNumber())
