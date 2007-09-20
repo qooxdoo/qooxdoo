@@ -5,7 +5,7 @@
   <script type="text/javascript" src="../../script/demo.js"></script>
   <script type="text/javascript" src="../util.js"></script>
 </head>
-<body>  
+<body>
   <div id="description">
   </div>
 
@@ -23,22 +23,21 @@ qx.Class.define("BasicSample",
     main : function()
     {
       this.base(arguments);
-      
+
       var body = new qx.html.Root(document.body);
-      
-      var inp1 = new qx.html.Element;
-      inp1._nodeName = "input";
+
+      var inp1 = new qx.html.Element("input");
       inp1.setAttribute("type", "text");
       inp1.focus();
-      
+
       qx.bom.Element.addListener(inp1, "focus", function(e) {
         this.debug("Element focussed");
       }, inp1);
-      
+
       qx.bom.Element.addListener(document.documentElement, "focusin", function(e) {
         this.debug("FocusIn: " + e.getTarget());
-      }, inp1);      
-      
+      }, inp1);
+
       body.add(inp1);
     }
   }
