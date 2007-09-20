@@ -145,8 +145,8 @@ qx.Class.define("qx.bom.Element",
     empty : function(element) {
       return element.innerHTML = "";
     },
-    
-    
+
+
     /**
      * Add an event listener to a DOM element. The event listener is passed an
      * instance of {@link Event} containing all relevant information
@@ -185,8 +185,8 @@ qx.Class.define("qx.bom.Element",
     removeListener : function(element, type, listener, self, capture) {
       return qx.event.Registration.removeListener(element, type, listener, self, capture);
     },
-    
-    
+
+
     /**
      * Check whether there are one or more listeners for an event type
      * registered at the element.
@@ -201,8 +201,8 @@ qx.Class.define("qx.bom.Element",
     hasListeners : function(element, type, capture) {
       return qx.event.Registration.getManager(element).hasListeners(element, type, capture);
     },
-    
-    
+
+
     /**
      * Focusses the given element. The element needs to have a positive <code>tabIndex</code> value.
      *
@@ -213,8 +213,8 @@ qx.Class.define("qx.bom.Element",
     focus : function(element) {
       qx.event.Registration.getManager(element).getHandler(qx.event.handler.Focus).focus(element);
     },
-    
-    
+
+
     /**
      * Blurs the given element
      *
@@ -225,8 +225,8 @@ qx.Class.define("qx.bom.Element",
     blur : function(element) {
       qx.event.Registration.getManager(element).getHandler(qx.event.handler.Focus).blur(element);
     },
-    
-    
+
+
     /**
      * Activates the given element. The active element receives all key board events.
      *
@@ -237,8 +237,8 @@ qx.Class.define("qx.bom.Element",
     activate : function(element) {
       qx.event.Registration.getManager(element).getHandler(qx.event.handler.Focus).activate(element);
     },
-    
-    
+
+
     /**
      * Deactivates the given element. The active element receives all key board events.
      *
@@ -248,9 +248,9 @@ qx.Class.define("qx.bom.Element",
      */
     deactivate : function(element) {
       qx.event.Registration.getManager(element).getHandler(qx.event.handler.Focus).deactivate(element);
-    },        
-    
-    
+    },
+
+
     /**
      * Captures the given element
      *
@@ -261,7 +261,7 @@ qx.Class.define("qx.bom.Element",
     capture : function(element) {
       qx.event.Registration.getManager(element).getDispatcher(qx.event.dispatch.MouseCapture).activateCapture(element);
     },
-    
+
 
     /**
      * Releases the given element (from a previous {@link #capture} call)

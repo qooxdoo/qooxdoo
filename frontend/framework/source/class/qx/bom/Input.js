@@ -55,7 +55,7 @@ qx.Class.define("qx.bom.Input",
       search : 1,
       reset : 1
     },
-    
+
     
     /**
      * Creates an DOM input/textarea/select element.
@@ -63,11 +63,11 @@ qx.Class.define("qx.bom.Input",
      * Attributes may be given directly with this call. This is critical
      * for some attributes e.g. name, type, ... in many clients.
      *
-     * Note: <code>select</code> and <code>textarea</code> elements are created 
+     * Note: <code>select</code> and <code>textarea</code> elements are created
      * using the identically named <code>type</code>.
      *
      * @type static
-     * @param type {String} Any valid type for HTML, <code>select</code> 
+     * @param type {String} Any valid type for HTML, <code>select</code>
      *   and <code>textarea</code>
      * @param attributes {Map} Map of attributes to apply
      * @param win {Window} Window to create the element for
@@ -78,30 +78,30 @@ qx.Class.define("qx.bom.Input",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (!this.__types[type]) {
-          throw new Error("Unsupported input type: " + type); 
+          throw new Error("Unsupported input type: " + type);
         }
       }
-      
+
       // Work on a copy to not modify given attributes map
-      var attributes = attributes ? qx.lang.Object.copy(attributes) : {};      
+      var attributes = attributes ? qx.lang.Object.copy(attributes) : {};
 
       var elem;
       var tag;
-      
-      if (type === "textarea" || type === "select") 
+
+      if (type === "textarea" || type === "select")
       {
-        tag = type; 
+        tag = type;
       }
-      else 
+      else
       {
-        tag = "input"; 
+        tag = "input";
         attributes.type = type;
       }
-      
+
       return qx.bom.Element.create(tag, attributes, win);
     },
-    
-    
+
+
     /**
      * Sets the value of the given element.
      *
@@ -117,9 +117,9 @@ qx.Class.define("qx.bom.Input",
         element.value = value;
         delete element.__inValueSet;
       },
-      
+
       "default" : function(element, value) {
-        element.value = value;   
+        element.value = value;
       }
     })
   }

@@ -182,7 +182,7 @@ qx.Class.define("qx.event.handler.Keyboard",
     {
       var event = qx.event.Registration.createEvent(qx.event.type.KeyInput, [domEvent, charCode]);
       var target = this._manager.getHandler(qx.event.handler.Focus).getActive();
-      
+
       if (target) {
         this._manager.dispatchEvent(target, event);
       }

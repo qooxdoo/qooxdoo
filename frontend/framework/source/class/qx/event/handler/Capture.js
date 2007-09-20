@@ -41,17 +41,17 @@ qx.Class.define("qx.event.handler.Capture",
      STATICS
   *****************************************************************************
   */
-  
-  statics : 
+
+  statics :
   {
     /** {Integer} Priority of this handler */
     PRIORITY : qx.event.Registration.PRIORITY_NORMAL
   },
-  
-  
-  
-  
-  
+
+
+
+
+
   /*
   *****************************************************************************
      MEMBERS
@@ -82,11 +82,11 @@ qx.Class.define("qx.event.handler.Capture",
     unregisterEvent : function(target, type) {
       // Nothing needs to be done here
     },
-    
-    
-    
-    
-    
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       HELPER
@@ -98,7 +98,7 @@ qx.Class.define("qx.event.handler.Capture",
     {
       capture : true,
       losecapture : true
-    }    
+    }
   },
 
 

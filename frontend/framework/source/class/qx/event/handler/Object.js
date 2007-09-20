@@ -41,17 +41,17 @@ qx.Class.define("qx.event.handler.Object",
      STATICS
   *****************************************************************************
   */
-  
-  statics : 
+
+  statics :
   {
     /** {Integer} Priority of this handler */
     PRIORITY : qx.event.Registration.PRIORITY_NORMAL
   },
-  
-  
-  
-  
-  
+
+
+
+
+
   /*
   *****************************************************************************
      MEMBERS

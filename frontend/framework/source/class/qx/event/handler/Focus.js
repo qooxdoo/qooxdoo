@@ -110,15 +110,15 @@ qx.Class.define("qx.event.handler.Focus",
      STATICS
   *****************************************************************************
   */
-  
-  statics : 
+
+  statics :
   {
     /** {Integer} Priority of this handler */
     PRIORITY : qx.event.Registration.PRIORITY_FIRST
   },
-  
-  
-  
+
+
+
 
 
   /*
@@ -185,8 +185,8 @@ qx.Class.define("qx.event.handler.Focus",
     activate : function(element) {
       this.setActive(element);
     },
-    
-    
+
+
     /**
      * Blurs the given DOM element
      *
@@ -213,7 +213,7 @@ qx.Class.define("qx.event.handler.Focus",
      * @param element {Element} DOM element to activate
      * @return {void}
      */
-    deactivate : function(element) 
+    deactivate : function(element)
     {
       if (this.getActive() === element) {
         this.resetActive();
@@ -361,8 +361,8 @@ qx.Class.define("qx.event.handler.Focus",
         this.setFocus(element);
       }
     },
-    
-    
+
+
     /**
      * Helper for native event listeners to react on element blur
      *
@@ -375,14 +375,14 @@ qx.Class.define("qx.event.handler.Focus",
       if (element)
       {
         if (this.getFocus() === element) {
-          this.resetFocus(); 
+          this.resetFocus();
         }
-  
+
         if (this.getActive() === element) {
           this.resetActive();
         }
       }
-    },    
+    },
 
 
 
@@ -543,7 +543,7 @@ qx.Class.define("qx.event.handler.Focus",
         }
 
         var related = e.relatedTarget || e.toElement;
-        
+
         // var target = e.target || e.srcElement;
         // this.debug("FocusOut: " + target + " :: " + related);
 
@@ -551,7 +551,7 @@ qx.Class.define("qx.event.handler.Focus",
           this._doWindowBlur();
         }
       },
-      
+
       "webkit|opera" : function(e) {
         this._doElementBlur();
       },
@@ -617,7 +617,7 @@ qx.Class.define("qx.event.handler.Focus",
       "gecko|opera|webkit" : function(e)
       {
         this._doElementBlur(e.target);
-        
+
         switch(e.target)
         {
           case null:

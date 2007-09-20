@@ -39,7 +39,7 @@
  *
  * Supported events differ from target to target. Generally the handlers
  * in {@link qx.event.handler} defines the available features.
- * 
+ *
  */
 qx.Class.define("qx.event.Registration",
 {
@@ -285,10 +285,10 @@ qx.Class.define("qx.event.Registration",
 
     /** {Integer} Highest priority. Used by handlers and dispatchers. */
     PRIORITY_FIRST : -32000,
-    
+
     /** {Integer} Default priority. Used by handlers and dispatchers. */
     PRIORITY_NORMAL : 0,
-    
+
     /** {Integer} Lowest priority. Used by handlers and dispatchers. */
     PRIORITY_LAST : 32000,
 
