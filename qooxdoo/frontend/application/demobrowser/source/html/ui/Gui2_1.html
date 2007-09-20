@@ -26,6 +26,50 @@ qx.Class.define("BasicSample",
 
       var doc = new qx.ui2.core.RootWidget(document.body);
 
+      var w1 = new qx.ui2.core.Widget;
+      var w2 = new qx.ui2.core.Widget;
+      var w3 = new qx.ui2.core.Widget;
+      var w4 = new qx.ui2.core.Widget;
+
+      doc.add(w1, w2, w3, w4);
+
+      w1.setId("w1");
+      w2.setId("w2");
+      w3.setId("w3");
+      w4.setId("w4");
+
+      w1.setHtml("<b>W1</b>");
+      w2.setHtml("<b>W2</b>");
+      w3.setHtml("<b>W3</b>");
+      w4.setHtml("<b>W4</b>");
+
+      w1.setBackgroundColor("red");
+      w2.setBackgroundColor("blue");
+      w3.setBackgroundColor("green");
+      w4.setBackgroundColor("yellow");
+
+      w1.setWidth(200);
+      w2.setWidth(200);
+      w3.setWidth(200);
+      w4.setWidth(200);
+
+      w1.setHeight(50);
+      w2.setHeight(50);
+      w3.setHeight(50);
+      w4.setHeight(50);
+
+      w1.setTop(100);
+      w2.setTop(200);
+      w3.setTop(300);
+      w4.setTop(400);
+
+      w1.setLeft(20);
+      w2.setLeft(20);
+      w3.setLeft(20);
+      w4.setLeft(20);
+
+
+
     }
   }
 });
