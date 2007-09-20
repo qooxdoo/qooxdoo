@@ -118,7 +118,7 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       check : "Integer",
       init : 100,
-      apply : "_applyOuterStyle",
+      apply : "_applyWidth",
       event : "changeWidth"
     },
 
@@ -158,7 +158,7 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       check : "Number",
       init : 0,
-      apply : "_applyPaddingRight",
+      apply : "_applyWidth",
       themeable : true
     },
 
@@ -178,7 +178,7 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       check : "Number",
       init : 0,
-      apply : "_applyPaddingLeft",
+      apply : "_applyWidth",
       themeable : true
     },
 
@@ -195,14 +195,14 @@ qx.Class.define("qx.ui2.core.Widget",
     color :
     {
       check : "String",
-      apply : "_applyColor",
+      apply : "_applyOuterStyle",
       themeable : true
     },
 
     backgroundColor :
     {
       check : "String",
-      apply : "_applyBackgroundColor",
+      apply : "_applyOuterStyle",
       themeable : true
     }
   },
@@ -830,42 +830,24 @@ qx.Class.define("qx.ui2.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-   _applyOuterStyle : function(value, old, propName) {
-      if (value == null) {
-        this._outerElement.resetStyle(propName);
-      } else {
-        this._outerElement.setStyle(propName, value);
-      }
+   _applyOuterStyle : function(value, old, propName)
+   {
+     if (value == null) {
+       this._outerElement.resetStyle(propName);
+     } else {
+       this._outerElement.setStyle(propName, value);
+     }
    },
 
 
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PUBLIC API
-      COLOR PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
-    _applyColor : function(value, old)
-    {
-      if (value == null) {
-        this._outerElement.resetStyle("color");
-      } else {
-        this._outerElement.setStyle("color", value);
-      }
-    },
-
-
-    _applyBackgroundColor : function(value, old)
-    {
-      if (value == null) {
-        this._outerElement.resetStyle("backgroundColor");
-      } else {
-        this._outerElement.setStyle("backgroundColor", value);
-      }
-    }
+   _applyWidth : function(value, old, propName)
+   {
+     if (propName == "width") {
+       this._outerElement.setStyle("width", value);
+     }
+     var innerWidth = this.getWidth() - this.getPaddingLeft() - this.getPaddingRight();
+     this._innerElement.setStyle("width", innerWidth);
+   }
 
 
 
