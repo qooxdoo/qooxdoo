@@ -450,7 +450,7 @@ qx.Class.define("qx.core.Object",
     */    
     
     /**
-     * Add event listener to an object.
+     * Add event listener to this object.
      *
      * @type member
      * @param type {String} name of the event type
@@ -466,7 +466,7 @@ qx.Class.define("qx.core.Object",
 
 
     /**
-     * Remove event listener from object
+     * Remove event listener from this object
      *
      * @type member
      * @param type {String} name of the event type
@@ -495,7 +495,7 @@ qx.Class.define("qx.core.Object",
 
 
     /**
-     * Dispatch an event
+     * Dispatch an event on this object
      *
      * @type member
      * @param evt {qx.event.type.Event} event to dispatch
@@ -510,7 +510,7 @@ qx.Class.define("qx.core.Object",
     
 
     /**
-     * Create an event object and dispatch it.
+     * Create an event object and dispatch it on this object.
      *
      * @type member
      * @param clazz {qx.event.type.Event} The even class
@@ -527,8 +527,7 @@ qx.Class.define("qx.core.Object",
         
     
     /**
-     * Checks if the event is registered. If so it creates an event object and
-     * dispatches it.
+     * Creates and dispatches an event on this object.
      *
      * @type member
      * @param type {String} name of the event type
@@ -539,12 +538,11 @@ qx.Class.define("qx.core.Object",
 
 
     /**
-     * Checks if the event is registered. If so it creates an event object and
-     * dispatches it.
+     * Creates and dispatches an data event on this object.
      *
      * @type member
      * @param type {String} name of the event type
-     * @param data {Object} user defined data attached to the event object
+     * @param data {var} user defined data attached to the event object
      */
     fireDataEvent : function(type, data) {
       this.fireCustomEvent(qx.event.type.Data, [type, data]);
