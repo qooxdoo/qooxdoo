@@ -122,8 +122,21 @@ qx.Class.define("qx.dom.Hierarchy",
      */
     contains : qx.core.Variant.select("qx.client",
     {
-      "mshtml|opera|webkit" : function(element, target) {
+      "mshtml|opera" : function(element, target) {
         return element.contains(target);
+      },
+
+      "webkit" : function(element, target)
+      {
+        if (qx.dom.Node.isDocument(element))
+        {
+          var doc = qx.dom.Node.getDocument(target);
+          return element && doc == element;
+        }
+        else
+        {
+          return element.contains(target);
+        }
       },
 
       // http://developer.mozilla.org/en/docs/DOM:Node.compareDocumentPosition
