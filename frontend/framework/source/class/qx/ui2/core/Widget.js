@@ -36,13 +36,14 @@ qx.Class.define("qx.ui2.core.Widget",
     this.base(arguments);
 
     this._children = [];
-    this._outerElement = new qx.html.Element;
-    this._innerElement = new qx.html.Element;
+    this._outerElement = this._createOuterElement();
+    this._innerElement = this._createInnerElement();
+    this._childContainer = this;
   },
 
 
 
-    this._childContainer = this;
+
   /*
   *****************************************************************************
      EVENTS
@@ -200,6 +201,33 @@ qx.Class.define("qx.ui2.core.Widget",
 
   members :
   {
+
+    /*
+    ---------------------------------------------------------------------------
+      HTML ELEMENT MANAGEMENT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Create the widget's outer HTML element.
+     *
+     * @return {qx.html.Element} The outer HTML element
+     */
+    _createOuterElement : function() {
+      return new qx.html.Element("div");
+    },
+
+
+    /**
+     * Create the widget's outer HTML element.
+     *
+     * @return {qx.html.Element} The outer HTML element
+     */
+    _createInnerElement : function() {
+      return new qx.html.Element("div");
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       CHILDREN MANAGEMENT INTERNALS
