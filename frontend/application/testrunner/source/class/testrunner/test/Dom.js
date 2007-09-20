@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("testrunner.test.bom.Hierarchy",
+qx.Class.define("testrunner.test.Dom",
 {
   extend : qx.dev.unit.TestCase,
 
