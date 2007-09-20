@@ -45,6 +45,8 @@ qx.Class.define("qx.ui2.core.Widget",
 
     this._outerElement.setStyle("position", "absolute");
     this._innerElement.setStyle("position", "absolute");
+
+    this._innerElement.setStyle("overflow", "hidden");
   },
 
 
@@ -845,22 +847,22 @@ qx.Class.define("qx.ui2.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-   _applyOuterStyle : function(value, old, propName)
+   _applyOuterStyle : function(value, old, name)
    {
      if (value == null) {
-       this._outerElement.resetStyle(propName);
+       this._outerElement.resetStyle(name);
      } else {
-       this._outerElement.setStyle(propName, value);
+       this._outerElement.setStyle(name, value);
      }
    },
 
 
-   _applyWidth : function(value, old, propName)
+   _applyWidth : function(value, old, name)
    {
-     if (propName == "width") {
+     if (name == "width") {
        this._outerElement.setStyle("width", value + "px");
      }
-     if (propName == "paddingLeft") {
+     if (name == "paddingLeft") {
        this._innerElement.setStyle("left", value + "px");
      }
      var innerWidth = this.getWidth() - this.getPaddingLeft() - this.getPaddingRight();
@@ -868,12 +870,12 @@ qx.Class.define("qx.ui2.core.Widget",
    },
 
 
-   _applyHeight : function(value, old, propName)
+   _applyHeight : function(value, old, name)
    {
-     if (propName == "height") {
+     if (name == "height") {
        this._outerElement.setStyle("height", value + "px");
      }
-     if (propName == "paddingTop") {
+     if (name == "paddingTop") {
        this._innerElement.setStyle("top", value + "px");
      }
      var innerHeight = this.getWidth() - this.getPaddingTop() - this.getPaddingBottom();
