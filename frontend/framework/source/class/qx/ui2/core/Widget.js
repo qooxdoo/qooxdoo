@@ -43,6 +43,8 @@ qx.Class.define("qx.ui2.core.Widget",
 
     this._outerElement.add(this._innerElement);
 
+    this._outerElement.setStyle("position", "absolute");
+    this._innerElement.setStyle("position", "absolute");
   },
 
 
