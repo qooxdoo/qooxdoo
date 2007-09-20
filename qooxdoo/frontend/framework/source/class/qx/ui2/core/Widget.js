@@ -85,7 +85,7 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       check : "Integer",
       init : 0,
-      apply : "_applyLeft",
+      apply : "_applyOuterStyle",
       event : "changeLeft"
     },
 
@@ -97,7 +97,7 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       check : "Integer",
       init : 0,
-      apply : "_applyTop",
+      apply : "_applyOuterStyle",
       event : "changeTop"
     },
 
@@ -118,7 +118,7 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       check : "Integer",
       init : 100,
-      apply : "_applyWidth",
+      apply : "_applyOuterStyle",
       event : "changeWidth"
     },
 
@@ -130,7 +130,7 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       check : "Integer",
       init : 100,
-      apply : "_applyHeight",
+      apply : "_applyOuterStyle",
       event : "changeHeight"
     },
 
@@ -237,9 +237,9 @@ qx.Class.define("qx.ui2.core.Widget",
   members :
   {
     /**
-     * Returns the HTML element.
+     * Returns the (outer) HTML element.
      *
-     * @return {qx.html.Element}
+     * @return {qx.html.Element} The outer HTML element
      */
     getElement : function() {
       return this._outerElement;
@@ -248,6 +248,17 @@ qx.Class.define("qx.ui2.core.Widget",
     _getInnerElement : function() {
       return this._innerElement;
     },
+
+
+    /**
+     * Return the inner element, which contains the widget contents.
+     *
+     * @return {qx.html.Element} The inner HTML element.
+     */
+    _getInnerElement : function() {
+      return this._innerElement;
+    },
+
 
     setHtml : function(value) {
       this._innerElement.setAttribute("html", value);
@@ -270,7 +281,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
-    /*
+   /*
     ---------------------------------------------------------------------------
       HTML ELEMENT MANAGEMENT
     ---------------------------------------------------------------------------
@@ -797,7 +808,19 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      PADDING PROPERTIES
+    ---------------------------------------------------------------------------
+    */
 
+   _applyOuterStyle : function(value, old, propName) {
+      if (value == null) {
+        this._outerElement.resetStyle(propName);
+      } else {
+        this._outerElement.setStyle(propName, value);
+      }
+   },
 
 
 
