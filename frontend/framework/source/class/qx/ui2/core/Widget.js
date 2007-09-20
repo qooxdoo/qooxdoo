@@ -258,11 +258,11 @@ qx.Class.define("qx.ui2.core.Widget",
     },
 
     setId : function(value) {
-      this._innerElement.setAttribute("id", value);
+      this._outerElement.setAttribute("id", value);
     },
 
     getId : function(value) {
-      this._innerElement.getAttribute("id");
+      this._outerElement.getAttribute("id");
     },
 
 
