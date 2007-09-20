@@ -40,12 +40,14 @@ qx.Class.define("qx.ui2.core.Widget",
 
     this._outerElement = this._createOuterElement();
     this._innerElement = this._createInnerElement();
+    this._borderElement = null;
 
     this._outerElement.add(this._innerElement);
 
     this._outerElement.setStyle("position", "absolute");
     this._innerElement.setStyle("position", "absolute");
 
+    this._innerElement.setAttribute("z-index", 10);
     this._innerElement.setStyle("overflow", "hidden");
   },
 
@@ -60,8 +62,34 @@ qx.Class.define("qx.ui2.core.Widget",
 
   events :
   {
+    // mouse events
+    mousemove : "qx.event.type.Mouse",
+    mouseover : "qx.event.type.Mouse",
+    mouseout : "qx.event.type.Mouse",
+    mousedown : "qx.event.type.Mouse",
+    mouseup : "qx.event.type.Mouse",
+    click : "qx.event.type.Mouse",
+    dblclick : "qx.event.type.Mouse",
+    contextmenu : "qx.event.type.Mouse",
+    mousewheel : "qx.event.type.Mouse",
 
+    // key events
+    keyup : "qx.event.type.KeySequence",
+    keydown : "qx.event.type.KeySequence",
+    keypress : "qx.event.type.KeySequence",
+    keyinput : "qx.event.type.KeyInput",
 
+    // focus events
+    focus : "qx.event.type.Event",
+    blur : "qx.event.type.Event",
+    focusin : "qx.event.type.Event",
+    focusout : "qx.event.type.Event",
+    beforedeactivate : "qx.event.type.Event",
+    beforeactivate : "qx.event.type.Event",
+    activate : "qx.event.type.Event",
+    deactivate : "qx.event.type.Event",
+
+    scroll : "qx.event.type.Dom"
   },
 
 
@@ -205,6 +233,32 @@ qx.Class.define("qx.ui2.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
+      BORDER PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    borderRenderer :
+    {
+      check : "qx.ui2.border.IBorderRenderer",
+      nullable : true,
+      init : null,
+      apply : "_applyBorderRenderer",
+      themeable : true
+    },
+
+
+    borderData :
+    {
+      check : "Map",
+      nullable : true,
+      apply : "_applyBorderData",
+      event : "changeBorderData",
+      themeable : true
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
       COLOR PROPERTIES
     ---------------------------------------------------------------------------
     */
@@ -219,7 +273,7 @@ qx.Class.define("qx.ui2.core.Widget",
     backgroundColor :
     {
       check : "String",
-      apply : "_applyOuterStyle",
+      apply : "_applyBackgroundColor",
       themeable : true
     }
   },
@@ -262,10 +316,6 @@ qx.Class.define("qx.ui2.core.Widget",
       return this._outerElement;
     },
 
-    _getInnerElement : function() {
-      return this._innerElement;
-    },
-
 
     /**
      * Return the inner element, which contains the widget contents.
@@ -274,6 +324,17 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     _getInnerElement : function() {
       return this._innerElement;
+    },
+
+
+    /**
+     * Return the element representing the widget's border and background. This
+     * may be null if no border is set.
+     *
+     * @return {qx.html.Element} The border HTML element.
+     */
+    _getBorderElement : function() {
+      return this._borderElement;
     },
 
 
@@ -689,10 +750,84 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      EVENT HANDLING
+    ---------------------------------------------------------------------------
+    */
+
+    /** Event which are dispatched on the outer element */
+    _outerElementEvents :
+    {
+      // mouse events
+      mousemove : 1,
+      mouseover : 1,
+      mouseout : 1,
+      mousedown : 1,
+      mouseup : 1,
+      click : 1,
+      dblclick : 1,
+      contextmenu : 1,
+      mousewheel : 1,
+
+      // key events
+      keyup : 1,
+      keydown : 1,
+      keypress : 1,
+      keyinput : 1,
+
+      // focus events
+      focus : 1,
+      blur : 1,
+      focusin : 1,
+      focusout : 1,
+      beforedeactivate : 1,
+      beforeactivate : 1,
+      activate : 1,
+      deactivate : 1
+    },
+
+    /** Event which are dispatched on the inner element */
+    _innerElementEvents :
+    {
+      scroll : 1
+    },
 
 
+    // overridden
+    addListener : function(type, func, obj)
+    {
+      if (this._innerElementEvents[type])
+      {
+        this._innerElement.addListener(type, func, obj);
+      }
+      else if (this._outerElementEvents[type])
+      {
+        this._outerElement.addListener(type, func, obj);
+      }
+      else
+      {
+        this.base(arguments, type, func, obj);
+      }
+    },
 
 
+    // overridden
+    removeListener : function(type, func, obj)
+    {
+      if (this._innerElementEvents[type])
+      {
+        this._innerElement.removeListener(type, func, obj);
+      }
+      else if (this._outerElementEvents[type])
+      {
+        this._outerElement.removeListener(type, func, obj);
+      }
+      else
+      {
+        this.base(arguments, type, func, obj);
+      }
+    },
 
 
 
@@ -880,6 +1015,48 @@ qx.Class.define("qx.ui2.core.Widget",
      }
      var innerHeight = this.getHeight() - this.getPaddingTop() - this.getPaddingBottom();
      this._innerElement.setStyle("height", innerHeight + "px");
+   },
+
+
+   _applyBackgroundColor : function(value, old)
+   {
+     var el = this._borderElement || this._outerElement;
+     if (value == null) {
+       el.resetStyle("backgroundColor");
+     } else {
+       el.setStyle("backgroundColor", value);
+     }
+   },
+
+    /*
+    ---------------------------------------------------------------------------
+      BORDER PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+   _applyBorderRenderer : function(value, old)
+   {
+     if (this._borderElement) {
+       this._borderElement.free();
+       this._borderElement.dispose();
+     }
+
+     if (value !== null) {
+       this._borderElement = value.createBorderElement(this);
+       this._outerElement.add(this._borderElement);
+       this._outerElement.setStyle("backgroundColor", null);
+     }
+
+     var backgroundColor = this.getBackgroundColor();
+     this._applyBackgroundColor(backgroundColor, backgroundColor);
+   },
+
+
+   _applyBorderData : function(value, old)
+   {
+     if (this.getBorderRenderer() !== null) {
+       this.getBorderRenderer().update(this, this._borderElement);
+     }
    }
 
   },
