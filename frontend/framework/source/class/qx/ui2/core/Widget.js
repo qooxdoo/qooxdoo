@@ -36,9 +36,13 @@ qx.Class.define("qx.ui2.core.Widget",
     this.base(arguments);
 
     this._children = [];
+    this._childContainer = this;
+
     this._outerElement = this._createOuterElement();
     this._innerElement = this._createInnerElement();
-    this._childContainer = this;
+
+    this._outerElement.add(this._innerElement);
+
   },
 
 
@@ -248,6 +252,9 @@ qx.Class.define("qx.ui2.core.Widget",
     _createInnerElement : function() {
       return new qx.html.Element("div");
     },
+
+
+
 
 
     /*
