@@ -109,8 +109,8 @@ qx.Class.define("qx.ui.window.Window",
     bm.setAppearance("window-captionbar-minimize-button");
     bm.setTabIndex(-1);
 
-    bm.addEventListener("execute", this._onminimizebuttonclick, this);
-    bm.addEventListener("mousedown", this._onbuttonmousedown, this);
+    bm.addListener("execute", this._onminimizebuttonclick, this);
+    bm.addListener("mousedown", this._onbuttonmousedown, this);
 
     cb.add(bm);
 
@@ -122,8 +122,8 @@ qx.Class.define("qx.ui.window.Window",
     br.setAppearance("window-captionbar-restore-button");
     br.setTabIndex(-1);
 
-    br.addEventListener("execute", this._onrestorebuttonclick, this);
-    br.addEventListener("mousedown", this._onbuttonmousedown, this);
+    br.addListener("execute", this._onrestorebuttonclick, this);
+    br.addListener("mousedown", this._onbuttonmousedown, this);
 
     // don't add initially
     // cb.add(br);
@@ -135,8 +135,8 @@ qx.Class.define("qx.ui.window.Window",
     bx.setAppearance("window-captionbar-maximize-button");
     bx.setTabIndex(-1);
 
-    bx.addEventListener("execute", this._onmaximizebuttonclick, this);
-    bx.addEventListener("mousedown", this._onbuttonmousedown, this);
+    bx.addListener("execute", this._onmaximizebuttonclick, this);
+    bx.addListener("mousedown", this._onbuttonmousedown, this);
 
     cb.add(bx);
 
@@ -148,8 +148,8 @@ qx.Class.define("qx.ui.window.Window",
     bc.setAppearance("window-captionbar-close-button");
     bc.setTabIndex(-1);
 
-    bc.addEventListener("execute", this._onclosebuttonclick, this);
-    bc.addEventListener("mousedown", this._onbuttonmousedown, this);
+    bc.addListener("execute", this._onclosebuttonclick, this);
+    bc.addListener("mousedown", this._onbuttonmousedown, this);
 
     cb.add(bc);
 
@@ -197,16 +197,16 @@ qx.Class.define("qx.ui.window.Window",
     // ************************************************************************
     //   EVENTS: WINDOW
     // ************************************************************************
-    this.addEventListener("mousedown", this._onwindowmousedown);
-    this.addEventListener("click", this._onwindowclick);
+    this.addListener("mousedown", this._onwindowmousedown);
+    this.addListener("click", this._onwindowclick);
 
     // ************************************************************************
     //   EVENTS: CAPTIONBAR
     // ************************************************************************
-    cb.addEventListener("mousedown", this._oncaptionmousedown, this);
-    cb.addEventListener("mouseup", this._oncaptionmouseup, this);
-    cb.addEventListener("mousemove", this._oncaptionmousemove, this);
-    cb.addEventListener("dblclick", this._oncaptiondblblick, this);
+    cb.addListener("mousedown", this._oncaptionmousedown, this);
+    cb.addListener("mouseup", this._oncaptionmouseup, this);
+    cb.addListener("mousemove", this._oncaptionmousemove, this);
+    cb.addListener("dblclick", this._oncaptiondblblick, this);
 
     // ************************************************************************
     //   REMAPPING

@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
 
     this._timer = new qx.event.Timer;
     this._timer.setInterval(this.getInterval());
-    this._timer.addEventListener("interval", this._oninterval, this);
+    this._timer.addListener("interval", this._oninterval, this);
   },
 
 

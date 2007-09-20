@@ -90,7 +90,7 @@ qx.Class.define("qx.ui.table.celleditor.PasswordField",
       }
       cellEditor.setValue("" + cellInfo.value);
 
-      cellEditor.addEventListener("appear", function() {
+      cellEditor.addListener("appear", function() {
         this.selectAll();
       });
 

@@ -72,7 +72,7 @@
       alert("Submitting Form Replacement...");
     });
 
-    btn.addEventListener("execute", function() {
+    btn.addListener("execute", function() {
       area.setValue(qx.legacy.html.Form.encodeForm(document.getElementById("mainform")));
     });
   });

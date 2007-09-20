@@ -22,7 +22,7 @@
 
     var hist = qx.bom.History.getInstance();
 
-    hist.addEventListener("request", callback);
+    hist.addListener("request", callback);
 
     hist.addToHistory("Juhu1", "Juhu1");
 		hist.addToHistory("Juhu2", "Juhu2");
@@ -56,7 +56,7 @@
 			height: 20,
 			width: 100
 		});
-		b1.addEventListener("execute", function() {
+		b1.addListener("execute", function() {
 			var data = t1.getComputedValue();
 			if (!data) return;
 			t1.setValue("");

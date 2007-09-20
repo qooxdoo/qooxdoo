@@ -145,30 +145,30 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
       this._table = table;
 
       // We'll do our column resizing when the table appears, ...
-      table.addEventListener("appear", this._onappear, this);
+      table.addListener("appear", this._onappear, this);
 
       // ... when the inner width of the table changes, ...
-      table.addEventListener("tableWidthChanged",
+      table.addListener("tableWidthChanged",
                              this._ontablewidthchanged,
                              this);
 
       // ... when a vertical scroll bar appears or disappears
-      table.addEventListener("verticalScrollBarChanged",
+      table.addListener("verticalScrollBarChanged",
                              this._onverticalscrollbarchanged,
                              this);
 
       // ... when columns are resized, ...
-      this.addEventListener("widthChanged",
+      this.addListener("widthChanged",
                             this._oncolumnwidthchanged,
                             this);
 
       // ... and when a column visibility changes.
-      this.addEventListener("visibilityChanged",
+      this.addListener("visibilityChanged",
                             this._onvisibilitychanged,
                             this);
 
       // We want to manipulate the button visibility menu
-      this._table.addEventListener("columnVisibilityMenuCreateEnd",
+      this._table.addListener("columnVisibilityMenuCreateEnd",
                                    this._addResetColumnWidthButton,
                                    this);
 
@@ -206,7 +206,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
       // Add a button to reset the column widths
       o = new qx.ui.menu.Button("Reset column widths", icon);
       menu.add(o);
-      o.addEventListener("execute", this._onappear, this);
+      o.addListener("execute", this._onappear, this);
     },
 
 

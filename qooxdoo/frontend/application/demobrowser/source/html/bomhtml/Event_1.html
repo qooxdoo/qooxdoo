@@ -127,12 +127,12 @@ qx.Class.define("BasicSample",
       qx.event.Registration.addListener(window, "resize", this._onResize, this);
 
       var cmd = new qx.event.Command("Shift-Meta-F1");
-      cmd.addEventListener("execute", function() {
+      cmd.addListener("execute", function() {
         this.debug(cmd.toString());
       }, this);
 
       var cmd2 = new qx.event.Command("Ctrl-A");
-      cmd2.addEventListener("execute", function() {
+      cmd2.addListener("execute", function() {
         this.debug(cmd2.toString());
       }, this);
 

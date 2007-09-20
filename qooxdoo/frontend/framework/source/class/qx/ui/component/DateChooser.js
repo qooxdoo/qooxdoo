@@ -109,10 +109,10 @@ qx.Class.define("qx.ui.component.DateChooser",
     nextMonthBt.setAppearance("datechooser-toolbar-button");
     nextYearBt.setAppearance("datechooser-toolbar-button");
 
-    lastYearBt.addEventListener("click", this._onNavButtonClicked, this);
-    lastMonthBt.addEventListener("click", this._onNavButtonClicked, this);
-    nextMonthBt.addEventListener("click", this._onNavButtonClicked, this);
-    nextYearBt.addEventListener("click", this._onNavButtonClicked, this);
+    lastYearBt.addListener("click", this._onNavButtonClicked, this);
+    lastMonthBt.addListener("click", this._onNavButtonClicked, this);
+    nextMonthBt.addListener("click", this._onNavButtonClicked, this);
+    nextYearBt.addListener("click", this._onNavButtonClicked, this);
 
     this._lastYearBt = lastYearBt;
     this._lastMonthBt = lastMonthBt;
@@ -215,8 +215,8 @@ qx.Class.define("qx.ui.component.DateChooser",
           height : "100%"
         });
 
-        label.addEventListener("mousedown", this._onDayClicked, this);
-        label.addEventListener("dblclick", this._onDayDblClicked, this);
+        label.addListener("mousedown", this._onDayClicked, this);
+        label.addListener("dblclick", this._onDayDblClicked, this);
         datePane.add(label, x + 1, y + 1);
         this._dayLabelArr.push(label);
       }
@@ -224,14 +224,14 @@ qx.Class.define("qx.ui.component.DateChooser",
 
     // Make focusable
     this.setTabIndex(1);
-    this.addEventListener("keypress", this._onkeypress);
+    this.addListener("keypress", this._onkeypress);
 
     // Show the right date
     var shownDate = (date != null) ? date : new Date();
     this.showMonth(shownDate.getMonth(), shownDate.getFullYear());
 
     // listen for locale changes
-    qx.locale.Manager.getInstance().addEventListener("changeLocale", this._updateDatePane, this);
+    qx.locale.Manager.getInstance().addListener("changeLocale", this._updateDatePane, this);
 
     // Add the main widgets
     this.add(navBar);

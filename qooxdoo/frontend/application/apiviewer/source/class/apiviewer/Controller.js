@@ -90,7 +90,7 @@ qx.Class.define("apiviewer.Controller",
       req.setTimeout(180000);
       req.setProhibitCaching(false);
 
-      req.addEventListener("completed", function(evt)
+      req.addListener("completed", function(evt)
       {
         var loadEnd = new Date();
         this.debug("Time to load data from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
@@ -124,7 +124,7 @@ qx.Class.define("apiviewer.Controller",
         }, this, 0);
       }, this);
 
-      req.addEventListener("failed", function(evt) {
+      req.addListener("failed", function(evt) {
         this.error("Couldn't load file: " + url);
       }, this);
 
@@ -138,7 +138,7 @@ qx.Class.define("apiviewer.Controller",
      */
     __bindClassViewer : function()
     {
-      this._classViewer.addEventListener("classLinkClicked", function(e) {
+      this._classViewer.addListener("classLinkClicked", function(e) {
           this.__selectItem(e.getData());
       }, this);
     },
@@ -149,7 +149,7 @@ qx.Class.define("apiviewer.Controller",
      */
     __bindTree : function()
     {
-      this._tree.getManager().addEventListener("changeSelection", function(evt) {
+      this._tree.getManager().addListener("changeSelection", function(evt) {
         var treeNode = evt.getData()[0];
         if (treeNode && treeNode.getUserData("nodeName") && !this._ignoreTreeSelection)
         {
@@ -169,17 +169,17 @@ qx.Class.define("apiviewer.Controller",
     __bindToolbar : function()
     {
       var btn_inherited = this._widgetRegistry.getWidgetById("btn_inherited");
-      btn_inherited.addEventListener("changeChecked", function(e) {
+      btn_inherited.addListener("changeChecked", function(e) {
         this._classViewer.setShowInherited(e.getValue());
       }, this);
 
       var btn_protected = this._widgetRegistry.getWidgetById("btn_protected");
-      btn_protected.addEventListener("changeChecked", function(e) {
+      btn_protected.addListener("changeChecked", function(e) {
         this._classViewer.setShowProtected(e.getValue());
       }, this);
 
       var btn_private = this._widgetRegistry.getWidgetById("btn_private");
-      btn_private.addEventListener("changeChecked", function(e) {
+      btn_private.addListener("changeChecked", function(e) {
         this._classViewer.setShowPrivate(e.getValue());
       }, this);
     },
@@ -190,7 +190,7 @@ qx.Class.define("apiviewer.Controller",
      */
     __bindHistory : function()
     {
-      this._history.addEventListener("request", function(evt) {
+      this._history.addListener("request", function(evt) {
         var item = this.__decodeState(evt.getData());
         if (item) {
           this.__selectItem(item);

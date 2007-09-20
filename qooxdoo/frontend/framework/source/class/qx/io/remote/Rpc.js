@@ -454,7 +454,7 @@ qx.Class.define("qx.io.remote.Rpc",
         return ex;
       };
 
-      req.addEventListener("failed", function(evt)
+      req.addListener("failed", function(evt)
       {
         var code = evt.getData().getStatusCode();
         ex = makeException(qx.io.remote.Rpc.origin.transport,
@@ -464,7 +464,7 @@ qx.Class.define("qx.io.remote.Rpc",
         handleRequestFinished("failed", eventTarget);
       });
 
-      req.addEventListener("timeout", function(evt)
+      req.addListener("timeout", function(evt)
       {
 this.debug("TIMEOUT OCCURRED");
         ex = makeException(qx.io.remote.Rpc.origin.local,
@@ -474,7 +474,7 @@ this.debug("TIMEOUT OCCURRED");
         handleRequestFinished("timeout", eventTarget);
       });
 
-      req.addEventListener("aborted", function(evt)
+      req.addListener("aborted", function(evt)
       {
         ex = makeException(qx.io.remote.Rpc.origin.local,
                            qx.io.remote.Rpc.localError.abort,
@@ -483,7 +483,7 @@ this.debug("TIMEOUT OCCURRED");
         handleRequestFinished("aborted", eventTarget);
       });
 
-      req.addEventListener("completed", function(evt)
+      req.addListener("completed", function(evt)
       {
         response = evt.getData().getContent();
         id = response["id"];

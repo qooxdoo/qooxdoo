@@ -67,9 +67,9 @@ qx.Class.define("qx.ui.form.TextField",
     this.__oninput = qx.lang.Function.bind(this._oninputDom, this, true);
 
     // Add listeners
-    this.addEventListener("blur", this._onblur);
-    this.addEventListener("focus", this._onfocus);
-    this.addEventListener("input", this._oninput);
+    this.addListener("blur", this._onblur);
+    this.addListener("focus", this._onfocus);
+    this.addListener("input", this._oninput);
   },
 
 
@@ -349,7 +349,7 @@ qx.Class.define("qx.ui.form.TextField",
         if (qx.core.Variant.isSet("qx.client", "mshtml")) {
           inp.onpropertychange = this.__oninput;
         } else {
-          inp.addEventListener("input", this.__oninput, false);
+          inp.addListener("input", this.__oninput, false);
         }
 
         // Append to real element
@@ -1260,7 +1260,7 @@ qx.Class.define("qx.ui.form.TextField",
       if (qx.core.Variant.isSet("qx.client", "mshtml")) {
         this._inputElement.onpropertychange = null;
       } else {
-        this._inputElement.removeEventListener("input", this.__oninput, false);
+        this._inputElement.removeListener("input", this.__oninput, false);
       }
     }
 

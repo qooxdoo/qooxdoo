@@ -224,7 +224,7 @@ qx.Class.define("qx.event.Registration",
     /**
      * Use the low level browser functionality to attach event listeners
      * to DOM nodes. Uses <code>attachEvent</code> in IE and
-     * <code>addEventListener</code> in all other browsers.
+     * <code>addListener</code> in all other browsers.
      *
      * Use this with caution. This is only thought for event handlers and
      * not for the user.
@@ -243,7 +243,7 @@ qx.Class.define("qx.event.Registration",
       },
 
       "default" : function(target, type, listener) {
-        target.addEventListener(type, listener, false);
+        target.addListener(type, listener, false);
       }
     }),
 
@@ -251,7 +251,7 @@ qx.Class.define("qx.event.Registration",
     /**
      * Use the low level browser functionality to remove event listeners
      * from DOM nodes. Uses <code>detachEvent</code> in IE and
-     * <code>removeEventListener</code> in all oother browsers.
+     * <code>removeListener</code> in all oother browsers.
      *
      * Use this with caution. This is only thought for event handlers and
      * not for the user.
@@ -270,7 +270,7 @@ qx.Class.define("qx.event.Registration",
       },
 
       "default" : function(target, type, listener) {
-        target.removeEventListener(type, listener, false);
+        target.removeListener(type, listener, false);
       }
     }),
 

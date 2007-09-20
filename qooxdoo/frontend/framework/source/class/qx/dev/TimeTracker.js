@@ -120,19 +120,19 @@ qx.Class.define("qx.dev.TimeTracker",
       var btnStart3 = new qx.ui.form.Button("Start 15x", "icon/16/actions/dialog-ok.png");
       var btnStart4 = new qx.ui.form.Button("Start 25x", "icon/16/actions/dialog-ok.png");
 
-      btnStart1.addEventListener("execute", function() {
+      btnStart1.addListener("execute", function() {
         this.start(3, parseInt(loopInput.getValue()));
       }, this);
 
-      btnStart2.addEventListener("execute", function() {
+      btnStart2.addListener("execute", function() {
         this.start(7, parseInt(loopInput.getValue()));
       }, this);
 
-      btnStart3.addEventListener("execute", function() {
+      btnStart3.addListener("execute", function() {
         this.start(15, parseInt(loopInput.getValue()));
       }, this);
 
-      btnStart4.addEventListener("execute", function() {
+      btnStart4.addListener("execute", function() {
         this.start(25, parseInt(loopInput.getValue()));
       }, this);
 

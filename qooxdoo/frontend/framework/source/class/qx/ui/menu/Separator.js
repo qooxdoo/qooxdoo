@@ -63,7 +63,7 @@ qx.Class.define("qx.ui.menu.Separator",
     //   EVENTS
     // ************************************************************************
     // needed to stop the event, and keep the menu showing
-    this.addEventListener("mousedown", this._onmousedown);
+    this.addListener("mousedown", this._onmousedown);
   },
 
 

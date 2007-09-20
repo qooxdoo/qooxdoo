@@ -44,7 +44,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
   {
     this.base(arguments);
 
-    this.addEventListener("keypress", this._onkeypress);
+    this.addListener("keypress", this._onkeypress);
 
     // Initialize properties
     this.initHeight();

@@ -81,9 +81,9 @@ qx.Class.define("qx.ui.listview.HeaderCell",
     this.add(this._spacer, this._arrowup, this._arrowdown);
 
     // Event Listeners
-    this.addEventListener("mouseup", this._onmouseup);
-    this.addEventListener("mouseover", this._onmouseover);
-    this.addEventListener("mouseout", this._onmouseout);
+    this.addListener("mouseup", this._onmouseup);
+    this.addListener("mouseover", this._onmouseover);
+    this.addListener("mouseout", this._onmouseout);
 
     // Property initialization
     this.initOverflow();

@@ -229,8 +229,8 @@ qx.Class.define("qx.ui.component.ColorSelector",
       this._btncancel = new qx.ui.form.Button(this.tr("Cancel"), "icon/16/actions/dialog-cancel.png");
       this._btnok = new qx.ui.form.Button(this.tr("OK"), "icon/16/actions/dialog-ok.png");
 
-      this._btncancel.addEventListener("execute", this._onButtonCancelExecute, this);
-      this._btnok.addEventListener("execute", this._onButtonOkExecute, this);
+      this._btncancel.addListener("execute", this._onButtonCancelExecute, this);
+      this._btnok.addListener("execute", this._onButtonOkExecute, this);
 
       this._btnbar.add(this._btncancel, this._btnok);
     },
@@ -273,22 +273,22 @@ qx.Class.define("qx.ui.component.ColorSelector",
       this._hueSaturationPane.setPadding(6, 4);
       this._hueSaturationPane.setParent(this._controlBar);
 
-      this._hueSaturationPane.addEventListener("mousewheel", this._onHueSaturationPaneMouseWheel, this);
+      this._hueSaturationPane.addListener("mousewheel", this._onHueSaturationPaneMouseWheel, this);
 
       this._hueSaturationField = new qx.ui.basic.Image("widget/colorselector/huesaturation-field.jpg");
       this._hueSaturationField.setBorder("inset-thin");
       this._hueSaturationField.setMargin(5);
       this._hueSaturationField.setParent(this._hueSaturationPane);
 
-      this._hueSaturationField.addEventListener("mousedown", this._onHueSaturationFieldMouseDown, this);
+      this._hueSaturationField.addListener("mousedown", this._onHueSaturationFieldMouseDown, this);
 
       this._hueSaturationHandle = new qx.ui.basic.Image("widget/colorselector/huesaturation-handle.gif");
       this._hueSaturationHandle.setLocation(0, 256);
       this._hueSaturationHandle.setParent(this._hueSaturationPane);
 
-      this._hueSaturationHandle.addEventListener("mousedown", this._onHueSaturationHandleMouseDown, this);
-      this._hueSaturationHandle.addEventListener("mouseup", this._onHueSaturationHandleMouseUp, this);
-      this._hueSaturationHandle.addEventListener("mousemove", this._onHueSaturationHandleMouseMove, this);
+      this._hueSaturationHandle.addListener("mousedown", this._onHueSaturationHandleMouseDown, this);
+      this._hueSaturationHandle.addListener("mouseup", this._onHueSaturationHandleMouseUp, this);
+      this._hueSaturationHandle.addListener("mousemove", this._onHueSaturationHandleMouseMove, this);
     },
 
 
@@ -305,22 +305,22 @@ qx.Class.define("qx.ui.component.ColorSelector",
       this._brightnessPane.setPadding(6, 4);
       this._brightnessPane.setParent(this._controlBar);
 
-      this._brightnessPane.addEventListener("mousewheel", this._onBrightnessPaneMouseWheel, this);
+      this._brightnessPane.addListener("mousewheel", this._onBrightnessPaneMouseWheel, this);
 
       this._brightnessField = new qx.ui.basic.Image("widget/colorselector/brightness-field.jpg");
       this._brightnessField.setBorder("inset-thin");
       this._brightnessField.setMargin(5, 7);
       this._brightnessField.setParent(this._brightnessPane);
 
-      this._brightnessField.addEventListener("mousedown", this._onBrightnessFieldMouseDown, this);
+      this._brightnessField.addListener("mousedown", this._onBrightnessFieldMouseDown, this);
 
       this._brightnessHandle = new qx.ui.basic.Image("widget/colorselector/brightness-handle.gif");
       this._brightnessHandle.setLocation(0, 0);
       this._brightnessHandle.setParent(this._brightnessPane);
 
-      this._brightnessHandle.addEventListener("mousedown", this._onBrightnessHandleMouseDown, this);
-      this._brightnessHandle.addEventListener("mouseup", this._onBrightnessHandleMouseUp, this);
-      this._brightnessHandle.addEventListener("mousemove", this._onBrightnessHandleMouseMove, this);
+      this._brightnessHandle.addListener("mousedown", this._onBrightnessHandleMouseDown, this);
+      this._brightnessHandle.addListener("mouseup", this._onBrightnessHandleMouseUp, this);
+      this._brightnessHandle.addListener("mousemove", this._onBrightnessHandleMouseMove, this);
     },
 
 
@@ -375,7 +375,7 @@ qx.Class.define("qx.ui.component.ColorSelector",
           colorField = new qx.ui.basic.Terminator;
           colorField.setBorder("inset-thin");
           colorField.setBackgroundColor(this._presetTable[i * 10 + j]);
-          colorField.addEventListener("mousedown", this._onColorFieldClick, this);
+          colorField.addListener("mousedown", this._onColorFieldClick, this);
 
           this._presetGrid.add(colorField, j, i);
         }
@@ -456,7 +456,7 @@ qx.Class.define("qx.ui.component.ColorSelector",
       this._hexField.setWidth(50);
       this._hexField.setParent(this._hexLayout);
 
-      this._hexField.addEventListener("changeValue", this._onHexFieldChange, this);
+      this._hexField.addListener("changeValue", this._onHexFieldChange, this);
     },
 
 
@@ -489,9 +489,9 @@ qx.Class.define("qx.ui.component.ColorSelector",
 
       this._rgbSpinLayout.add(this._rgbSpinRed, this._rgbSpinGreen, this._rgbSpinBlue);
 
-      this._rgbSpinRed.addEventListener("change", this._setRedFromSpinner, this);
-      this._rgbSpinGreen.addEventListener("change", this._setGreenFromSpinner, this);
-      this._rgbSpinBlue.addEventListener("change", this._setBlueFromSpinner, this);
+      this._rgbSpinRed.addListener("change", this._setRedFromSpinner, this);
+      this._rgbSpinGreen.addListener("change", this._setGreenFromSpinner, this);
+      this._rgbSpinBlue.addListener("change", this._setBlueFromSpinner, this);
     },
 
 
@@ -524,9 +524,9 @@ qx.Class.define("qx.ui.component.ColorSelector",
 
       this._hsbSpinLayout.add(this._hsbSpinHue, this._hsbSpinSaturation, this._hsbSpinBrightness);
 
-      this._hsbSpinHue.addEventListener("change", this._setHueFromSpinner, this);
-      this._hsbSpinSaturation.addEventListener("change", this._setSaturationFromSpinner, this);
-      this._hsbSpinBrightness.addEventListener("change", this._setBrightnessFromSpinner, this);
+      this._hsbSpinHue.addListener("change", this._setHueFromSpinner, this);
+      this._hsbSpinSaturation.addListener("change", this._setSaturationFromSpinner, this);
+      this._hsbSpinBrightness.addListener("change", this._setBrightnessFromSpinner, this);
     },
 
 

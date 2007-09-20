@@ -58,9 +58,9 @@ qx.Class.define("qx.ui.form.CheckBox",
       this.initChecked();
     }
 
-    this.addEventListener("click", this._onclick);
-    this.addEventListener("keydown", this._onkeydown);
-    this.addEventListener("keyup", this._onkeyup);
+    this.addListener("click", this._onclick);
+    this.addListener("keydown", this._onkeydown);
+    this.addListener("keyup", this._onkeyup);
   },
 
 

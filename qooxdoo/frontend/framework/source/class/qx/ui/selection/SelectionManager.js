@@ -1064,7 +1064,7 @@ qx.Class.define("qx.ui.selection.SelectionManager",
       if (this._activeDragSession)
       {
         // Add mouseup listener and register as capture widget
-        this.getBoundedWidget().addEventListener("mouseup", this._ondragup, this);
+        this.getBoundedWidget().addListener("mouseup", this._ondragup, this);
         this.getBoundedWidget().setCapture(true);
       }
     },
@@ -1079,7 +1079,7 @@ qx.Class.define("qx.ui.selection.SelectionManager",
      */
     _ondragup : function(e)
     {
-      this.getBoundedWidget().removeEventListener("mouseup", this._ondragup, this);
+      this.getBoundedWidget().removeListener("mouseup", this._ondragup, this);
       this.getBoundedWidget().setCapture(false);
       this._activeDragSession = false;
     },

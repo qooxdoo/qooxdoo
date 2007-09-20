@@ -163,7 +163,7 @@ qx.Class.define("qx.ui.table.Table",
 
     this._columnVisibilityBt = new qx.ui.form.Button;
     this._columnVisibilityBt.setAppearance("table-menubar-button");
-    this._columnVisibilityBt.addEventListener("execute", this._onColumnVisibilityBtExecuted, this);
+    this._columnVisibilityBt.addListener("execute", this._onColumnVisibilityBtExecuted, this);
 
     // Allocate a default data row renderer
     this.setDataRowRenderer(new qx.ui.table.rowrenderer.Default());
@@ -185,15 +185,15 @@ qx.Class.define("qx.ui.table.Table",
 
     // Make focusable
     this.setTabIndex(1);
-    this.addEventListener("keydown", this._onkeydown);
-    this.addEventListener("keypress", this._onkeypress);
-    this.addEventListener("changeFocused", this._onFocusChanged);
+    this.addListener("keydown", this._onkeydown);
+    this.addListener("keypress", this._onkeypress);
+    this.addListener("changeFocused", this._onFocusChanged);
 
     this._focusedCol = 0;
     this._focusedRow = 0;
 
     // add an event listener which updates the table content on locale change
-    qx.locale.Manager.getInstance().addEventListener("changeLocale", this._onChangeLocale, this);
+    qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this);
   },
 
 
@@ -545,10 +545,10 @@ qx.Class.define("qx.ui.table.Table",
       this._selectionManager.setSelectionModel(value);
 
       if (old != null) {
-        old.removeEventListener("changeSelection", this._onSelectionChanged, this);
+        old.removeListener("changeSelection", this._onSelectionChanged, this);
       }
 
-      value.addEventListener("changeSelection", this._onSelectionChanged, this);
+      value.addListener("changeSelection", this._onSelectionChanged, this);
     },
 
     // property modifier
@@ -565,12 +565,12 @@ qx.Class.define("qx.ui.table.Table",
 
       if (old != null)
       {
-        old.removeEventListener(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
-        old.removeEventListener(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
+        old.removeListener(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
+        old.removeListener(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
       }
 
-      value.addEventListener(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
-      value.addEventListener(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
+      value.addListener(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
+      value.addListener(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
 
       // Update the status bar
       this._updateStatusBar();
@@ -588,14 +588,14 @@ qx.Class.define("qx.ui.table.Table",
     {
       if (old != null)
       {
-        old.removeEventListener("visibilityChanged", this._onColVisibilityChanged, this);
-        old.removeEventListener("widthChanged", this._onColWidthChanged, this);
-        old.removeEventListener("orderChanged", this._onColOrderChanged, this);
+        old.removeListener("visibilityChanged", this._onColVisibilityChanged, this);
+        old.removeListener("widthChanged", this._onColWidthChanged, this);
+        old.removeListener("orderChanged", this._onColOrderChanged, this);
       }
 
-      value.addEventListener("visibilityChanged", this._onColVisibilityChanged, this);
-      value.addEventListener("widthChanged", this._onColWidthChanged, this);
-      value.addEventListener("orderChanged", this._onColOrderChanged, this);
+      value.addListener("visibilityChanged", this._onColVisibilityChanged, this);
+      value.addListener("widthChanged", this._onColWidthChanged, this);
+      value.addListener("orderChanged", this._onColOrderChanged, this);
 
       // Get the current table model
       var tm = this.getTableModel();
@@ -693,7 +693,7 @@ qx.Class.define("qx.ui.table.Table",
           paneScroller.setTablePaneModel(paneModel);
 
           // Register event listener for vertical scrolling
-          paneScroller.addEventListener("changeScrollY", this._onScrollY, this);
+          paneScroller.addListener("changeScrollY", this._onScrollY, this);
 
           this._scrollerParent.add(paneScroller);
         }
@@ -1673,7 +1673,7 @@ qx.Class.define("qx.ui.table.Table",
       // Create the new menu
       var menu = new qx.ui.menu.Menu;
 
-      menu.addEventListener("disappear", function(evt)
+      menu.addListener("disappear", function(evt)
       {
         this._cleanupColumnVisibilityMenu();
         this._columnVisibilityMenuCloseTime = new Date().getTime();
@@ -1699,7 +1699,7 @@ qx.Class.define("qx.ui.table.Table",
 
         var handler = this._createColumnVisibilityCheckBoxHandler(col);
         bt._handler = handler;
-        bt.addEventListener("execute", handler, this);
+        bt.addListener("execute", handler, this);
 
         menu.add(bt);
       }
@@ -1845,13 +1845,13 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Add event listener to an object.
      */
-    addEventListener : function(type, func, obj)
+    addListener : function(type, func, obj)
     {
     	if (this.self(arguments).__redirectEvents[type])
     	{
     		for (var i = 0, arr = this._getPaneScrollerArr(); i < arr.length; i++)
     		{
-    			arr[i].addEventListener.apply(arr[i], arguments);
+    			arr[i].addListener.apply(arr[i], arguments);
     		}
     	}
     	else
@@ -1864,13 +1864,13 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Remove event listener from object
      */
-    removeEventListener : function(type, func, obj)
+    removeListener : function(type, func, obj)
     {
     	if (this.self(arguments).__redirectEvents[type])
     	{
     		for (var i = 0, arr = this._getPaneScrollerArr(); i < arr.length; i++)
     		{
-    			arr[i].removeEventListener.apply(arr[i], arguments);
+    			arr[i].removeListener.apply(arr[i], arguments);
     		}
     	}
     	else

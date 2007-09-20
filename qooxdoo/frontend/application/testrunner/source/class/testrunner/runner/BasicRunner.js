@@ -47,7 +47,7 @@ qx.Class.define("testrunner.runner.BasicRunner",
       width  : 300
     });
 
-    iframe.addEventListener("load", function()
+    iframe.addListener("load", function()
     {
       var testLoader = iframe.getContentWindow().testrunner.TestLoader.getInstance();
 
@@ -60,13 +60,13 @@ qx.Class.define("testrunner.runner.BasicRunner",
 
       var testResult = new (iframe.getContentWindow().testrunner.TestResult)();
 
-      testResult.addEventListener("startTest", function(e)
+      testResult.addListener("startTest", function(e)
       {
         var test = e.getData();
         this.debug("Test '" + test.getFullName() + "' started.");
       });
 
-      testResult.addEventListener("failure", function(e)
+      testResult.addListener("failure", function(e)
       {
         var ex = e.getData().exception;
         var test = e.getData().test;
@@ -74,7 +74,7 @@ qx.Class.define("testrunner.runner.BasicRunner",
       });
 
       // this.error(ex.getStackTrace());
-      testResult.addEventListener("error", function(e)
+      testResult.addListener("error", function(e)
       {
         var ex = e.getData().exception;
         this.error("The test '" + e.getData().test.getFullName() + "' had an error: " + ex, ex);
@@ -83,7 +83,7 @@ qx.Class.define("testrunner.runner.BasicRunner",
       this.debug(testLoader.getTestDescriptions());
       gb.setEnabled(true);
 
-      this.run.addEventListener("execute", function() {
+      this.run.addListener("execute", function() {
         testLoader.runTestsFromNamespace(testResult, this.input.getValue());
       }, this);
     },

@@ -206,16 +206,16 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
       {
         old.setOpener(null);
 
-        old.removeEventListener("appear", this._onmenuappear, this);
-        old.removeEventListener("disappear", this._onmenudisappear, this);
+        old.removeListener("appear", this._onmenuappear, this);
+        old.removeListener("disappear", this._onmenudisappear, this);
       }
 
       if (value)
       {
         value.setOpener(this);
 
-        value.addEventListener("appear", this._onmenuappear, this);
-        value.addEventListener("disappear", this._onmenudisappear, this);
+        value.addListener("appear", this._onmenuappear, this);
+        value.addListener("disappear", this._onmenudisappear, this);
       }
     },
 
