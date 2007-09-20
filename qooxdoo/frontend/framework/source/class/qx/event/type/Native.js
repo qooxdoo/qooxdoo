@@ -59,6 +59,15 @@ qx.Class.define("qx.event.type.Native",
     },
 
 
+    // overridden
+    clone : function()
+    {
+      var clone = this.base(arguments);
+      clone._native = this._native;
+      return clone;
+    },
+
+
     /**
      * Prevent browser default behaviour, e.g. opening the context menu, ...
      *
@@ -90,6 +99,17 @@ qx.Class.define("qx.event.type.Native",
       // MSDN doccumantation http://msdn2.microsoft.com/en-us/library/ms533545.aspx
       this._native.cancelBubble = true;
       this._stopPropagation = true;
+    },
+
+
+    /**
+     * Get the native browser event object of this event.
+     *
+     * @return {Event} The native browser event
+     * @internal
+     */
+    getNativeEvent : function() {
+      return this._native;
     }
   },
 
