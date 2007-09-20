@@ -46,7 +46,7 @@ qx.Class.define("qx.event.message.Message",
     if (name != null) {
       this.setName(name);
     }
-    
+
     if (data != null) {
       this.setData(data);
     }

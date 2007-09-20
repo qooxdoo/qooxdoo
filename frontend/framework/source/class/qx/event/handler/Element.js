@@ -25,7 +25,7 @@
 
 /**
  * This class supports typical DOM element inline events like scroll,
- * change, select, ... 
+ * change, select, ...
  */
 qx.Class.define("qx.event.handler.Element",
 {
@@ -63,15 +63,15 @@ qx.Class.define("qx.event.handler.Element",
      STATICS
   *****************************************************************************
   */
-  
-  statics : 
+
+  statics :
   {
     /** {Integer} Priority of this handler */
     PRIORITY : qx.event.Registration.PRIORITY_NORMAL
   },
-  
-  
-  
+
+
+
 
 
   /*

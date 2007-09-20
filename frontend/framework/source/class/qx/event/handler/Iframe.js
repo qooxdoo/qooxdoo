@@ -46,8 +46,8 @@ qx.Class.define("qx.event.handler.Iframe",
   {
     /** {Integer} Priority of this handler */
     PRIORITY : qx.event.Registration.PRIORITY_FIRST,
-        
-    
+
+
     /**
      * Internal function called by iframes created using {@link qx.bom.Iframe}.
      *
@@ -59,7 +59,7 @@ qx.Class.define("qx.event.handler.Iframe",
       qx.event.Registration.fireCustomEvent(target, qx.event.type.Event, ["load", false]);
     }
   },
-  
+
 
 
 

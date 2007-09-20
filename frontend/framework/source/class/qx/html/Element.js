@@ -102,10 +102,10 @@ qx.Class.define("qx.html.Element",
 
     /** {Map} Contains the modified {@link qx.html.Element}s. The key is the hash code. */
     _modified : {},
-    
-    
+
+
     /** {Map} Map of post actions for elements */
-    _post : {},    
+    _post : {},
 
 
 
@@ -525,24 +525,24 @@ qx.Class.define("qx.html.Element",
       // This action keep the modified data small even
       // after some unsynced elements are invisible.
       this._modified = {};
-      
-      
-      
+
+
+
       // Process post flush list
       var post = this._post;
       var actions = [ "deactivate", "blur", "activate", "focus" ];
       var action;
-      
-      for (var i=0, l=actions.length; i<l; i++) 
+
+      for (var i=0, l=actions.length; i<l; i++)
       {
         action = actions[i];
-        
-        if (post[action]) 
+
+        if (post[action])
         {
           if (post[action]._element) {
             qx.bom.Element[action](post[action]._element);
           }
-          
+
           delete post[action];
         }
       }
@@ -1221,7 +1221,7 @@ qx.Class.define("qx.html.Element",
       FOCUS/ACTIVATE SUPPORT
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Mark this element to get focussed on the next flush of the queue
      *
@@ -1233,7 +1233,7 @@ qx.Class.define("qx.html.Element",
       qx.html.Element._post.focus = this;
       this._scheduleSync();
     },
-    
+
 
     /**
      * Mark this element to get blurred on the next flush of the queue
@@ -1246,7 +1246,7 @@ qx.Class.define("qx.html.Element",
       qx.html.Element._post.blur = this;
       this._scheduleSync();
     },
-    
+
 
     /**
      * Mark this element to get activated on the next flush of the queue
@@ -1259,7 +1259,7 @@ qx.Class.define("qx.html.Element",
       qx.html.Element._post.activate = this;
       this._scheduleSync();
     },
-    
+
 
     /**
      * Mark this element to get deactivated on the next flush of the queue
@@ -1272,10 +1272,10 @@ qx.Class.define("qx.html.Element",
       qx.html.Element._post.deactivate = this;
       this._scheduleSync();
     },
-    
-    
-    
-    
+
+
+
+
 
 
     /*

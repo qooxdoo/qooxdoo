@@ -68,8 +68,8 @@ qx.Class.define("qx.event.handler.Window",
      STATICS
   *****************************************************************************
   */
-  
-  statics : 
+
+  statics :
   {
     /** {Integer} Priority of this handler */
     PRIORITY : qx.event.Registration.PRIORITY_NORMAL
@@ -227,7 +227,7 @@ qx.Class.define("qx.event.handler.Window",
      DEFER
   *****************************************************************************
   */
-  
+
   defer : function(statics) {
     qx.event.Registration.addHandler(statics);
   }

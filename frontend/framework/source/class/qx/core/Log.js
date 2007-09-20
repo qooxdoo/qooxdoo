@@ -60,7 +60,7 @@ qx.Class.define("qx.core.Log",
       USER INTERFACE
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Outputs a log message
      *
@@ -296,7 +296,7 @@ qx.Class.define("qx.core.Log",
       INTERNAL METHODS
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Focuses the command line
      *
@@ -322,7 +322,7 @@ qx.Class.define("qx.core.Log",
       if (this._consoleWindow) {
         return;
       }
-      
+
       if (qx.io && qx.io.Alias)
       {
         var file = qx.io.Alias.getInstance().resolve("static/log/log.html");
@@ -343,12 +343,12 @@ qx.Class.define("qx.core.Log",
     _onLogReady : function(win)
     {
       var doc = win.document;
-      
+
       this._consoleWindow = win;
       this._consoleDocument = doc;
       this._consoleLog = doc.getElementById("log");
       this._commandLine = doc.getElementById("commandLine");
-      
+
       this._onUnloadWrapped = qx.lang.Function.bind(this._onUnload, this);
       this._onResizeWrapped = qx.lang.Function.bind(this._onResize, this);
       this._onCommandLineKeyDownWrapped = qx.lang.Function.bind(this._onCommandLineKeyDown, this);
@@ -361,16 +361,16 @@ qx.Class.define("qx.core.Log",
       this._syncLayout();
       this._flush();
     },
-    
-    
+
+
     /**
      * Synchronizes the height of the log console to the inner height of the window
-     * 
+     *
      * @type static
      * @return {void}
-     */    
+     */
     _syncLayout : function() {
-      this._consoleLog.style.height = (qx.bom.Viewport.getHeight(this._consoleWindow) - 42) + "px"; 
+      this._consoleLog.style.height = (qx.bom.Viewport.getHeight(this._consoleWindow) - 42) + "px";
     },
 
 
@@ -406,7 +406,7 @@ qx.Class.define("qx.core.Log",
       }
       catch(ex)
       {
-        this.error(ex); 
+        this.error(ex);
       }
 
       if (value !== undefined) {
@@ -426,7 +426,7 @@ qx.Class.define("qx.core.Log",
      */
     _logRow : function(message, className)
     {
-      if (this._consoleLog) 
+      if (this._consoleLog)
       {
         this._writeMessage(message, className);
       }
@@ -517,7 +517,7 @@ qx.Class.define("qx.core.Log",
       if (window.__firebug__ && window.console) {
         return window.console[className].apply(window.console, objects);
       }
-      
+
       var html = [];
 
       var format = objects[0];
@@ -652,13 +652,13 @@ qx.Class.define("qx.core.Log",
         return null;
       }
     },
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
 
     /*
     ---------------------------------------------------------------------------
@@ -760,13 +760,13 @@ qx.Class.define("qx.core.Log",
     {
       try
       {
-        if (object == undefined) this._appendNull("undefined", html); 
-        else if (object == null) this._appendNull("null", html); 
+        if (object == undefined) this._appendNull("undefined", html);
+        else if (object == null) this._appendNull("null", html);
         else if (typeof object == "string") this._appendString(object, html);
-        else if (typeof object == "number") this._appendInteger(object, html); 
+        else if (typeof object == "number") this._appendInteger(object, html);
         else if (object.toString) this._appendText(object.toString(), html);
-        else if (typeof object == "function") this._appendFunction(object, html); 
-        else if (object.nodeType == 1) this._appendSelector(object, html); 
+        else if (typeof object == "function") this._appendFunction(object, html);
+        else if (object.nodeType == 1) this._appendSelector(object, html);
         else if (typeof object == "object") this._appendObjectFormatted(object, html);
         else this._appendText(object, html);
       }
@@ -860,7 +860,7 @@ qx.Class.define("qx.core.Log",
       EVENT UTILITIES
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Adds an event to the given object
      *
@@ -905,19 +905,19 @@ qx.Class.define("qx.core.Log",
       if (document.all) event.cancelBubble = true;
       else event.stopPropagation();
     },
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
 
     /*
     ---------------------------------------------------------------------------
       NATIVE EVENT HANDLERS
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Event handler method for the keydown event at the command line
      *
@@ -927,23 +927,23 @@ qx.Class.define("qx.core.Log",
      */
     _onCommandLineKeyDown : function(event)
     {
-      if (event.keyCode == 13) this._evalCommandLine(); 
+      if (event.keyCode == 13) this._evalCommandLine();
       else if (event.keyCode == 27) this._commandLine.value = "";
     },
-    
-    
+
+
     /**
-     * Event handler method for the resize event 
+     * Event handler method for the resize event
      *
      * @type static
      * @param event {Event} Event object
      * @return {void}
-     */    
+     */
     _onResize : function(event) {
       this._syncLayout();
     },
-    
-    
+
+
     /**
      * Event handler for unload event
      *
@@ -951,7 +951,7 @@ qx.Class.define("qx.core.Log",
      * @param event {Event} DOM Event
      * @return {void}
      */
-    _onUnload : function(event) 
+    _onUnload : function(event)
     {
       var win = this._consoleWindow;
       var cmd = this._commandLine;
@@ -959,22 +959,22 @@ qx.Class.define("qx.core.Log",
       this._consoleWindow = null;
       this._consoleDocument = null;
       this._consoleLog = null;
-      this._commandLine = null;      
-     
+      this._commandLine = null;
+
       this._removeEvent(window, "unload", this._onUnloadWrapped);
-      
-      if (win) 
+
+      if (win)
       {
         try {
-          win.close(); 
+          win.close();
         } catch(ex) {};
 
         this._removeEvent(win, "unload", this._onUnloadWrapped);
         this._removeEvent(win, "resize", this._onResizeWrapped);
       }
-      
+
       if (cmd) {
-        this._removeEvent(cmd, "keydown", this._onCommandLineKeyDownWrapped);      
+        this._removeEvent(cmd, "keydown", this._onCommandLineKeyDownWrapped);
       }
     }
   }
