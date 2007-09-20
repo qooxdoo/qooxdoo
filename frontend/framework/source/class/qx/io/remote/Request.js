@@ -502,6 +502,20 @@ qx.Class.define("qx.io.remote.Request",
     */
 
     /**
+     * Dispatches a clone of the given event on this instance
+     *
+     * @param e {qx.event.type.Event} The original event
+     */
+    __forwardEvent : function(e)
+    {
+      var clonedEvent = e.clone();
+      clonedEvent.setTarget(this);
+      this.dispatchEvent(clonedEvent);
+    },
+
+
+
+    /**
      * Event handler called when the request enters the queued state.
      *
      * @type member
@@ -514,7 +528,7 @@ qx.Class.define("qx.io.remote.Request",
       this.setState("queued");
 
       // Bubbling up
-      this.dispatchEvent(e.clone());
+      this.__forwardEvent(e);
     },
 
 
@@ -531,7 +545,7 @@ qx.Class.define("qx.io.remote.Request",
       this.setState("sending");
 
       // Bubbling up
-      this.dispatchEvent(e.clone());
+      this.__forwardEvent(e);
     },
 
 
@@ -548,7 +562,7 @@ qx.Class.define("qx.io.remote.Request",
       this.setState("receiving");
 
       // Bubbling up
-      this.dispatchEvent(e.clone());
+      this.__forwardEvent(e);
     },
 
 
@@ -565,7 +579,7 @@ qx.Class.define("qx.io.remote.Request",
       this.setState("completed");
 
       // Bubbling up
-      this.dispatchEvent(e.clone());
+      this.__forwardEvent(e);
 
       // Automatically dispose after event completion
       this.dispose();
@@ -585,7 +599,7 @@ qx.Class.define("qx.io.remote.Request",
       this.setState("aborted");
 
       // Bubbling up
-      this.dispatchEvent(e.clone());
+      this.__forwardEvent(e);
 
       // Automatically dispose after event completion
       this.dispose();
@@ -619,7 +633,7 @@ qx.Class.define("qx.io.remote.Request",
       this.setState("timeout");
 
       // Bubbling up
-      this.dispatchEvent(e.clone());
+      this.__forwardEvent(e);
 
       // Automatically dispose after event completion
       this.dispose();
@@ -639,7 +653,7 @@ qx.Class.define("qx.io.remote.Request",
       this.setState("failed");
 
       // Bubbling up
-      this.dispatchEvent(e.clone());
+      this.__forwardEvent(e);
 
       // Automatically dispose after event completion
       this.dispose();
