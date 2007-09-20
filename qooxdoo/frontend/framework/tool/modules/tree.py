@@ -621,7 +621,6 @@ def nodeToJsonString(node, prefix = "", childPrefix = "  ", newLine="\n"):
 
 
 def nodeToIndexString(tree, prefix = "", childPrefix = "  ", newline="\n"):
-    #sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), ".."))
     import simplejson
     types = []
     fullNames = []
