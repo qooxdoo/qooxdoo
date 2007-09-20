@@ -146,31 +146,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
   /*
   *****************************************************************************
-     EVENTS
-  *****************************************************************************
-  */
-
-  events :
-  {
-    /**
-     * See {@link qx.ui.table.Table#cellClick}.
-     */
-    "cellClick" : "qx.ui.table.pane.CellEvent",
-
-    /**
-     * See {@link qx.ui.table.Table#cellDblclick}.
-     */
-    "cellDblclick" : "qx.ui.table.pane.CellEvent",
-    
-    /**
-     * See {@link qx.ui.table.Table#cellContextmenu}.
-     */
-    "cellContextmenu" : "qx.ui.table.pane.CellEvent"
-  },
-
-
-  /*
-  *****************************************************************************
      STATICS
   *****************************************************************************
   */
@@ -234,8 +209,14 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /** Dispatched if the pane is scrolled vertically */
     "changeScrollX" : "qx.event.type.ChangeEvent",
 
-    /** Dispatched if the user double clicks on a table row */
-    "rowdblclick" : "qx.event.type.Data"
+    /**See {@link qx.ui.table.Table#cellClick}.*/
+    "cellClick" : "qx.ui.table.pane.CellEvent",
+
+    /*** See {@link qx.ui.table.Table#cellDblclick}.*/
+    "cellDblclick" : "qx.ui.table.pane.CellEvent",
+    
+    /**See {@link qx.ui.table.Table#cellContextmenu}.*/
+    "cellContextmenu" : "qx.ui.table.pane.CellEvent"
   },
 
 
