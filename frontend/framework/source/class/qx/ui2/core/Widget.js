@@ -549,7 +549,7 @@ qx.Class.define("qx.ui2.core.Widget",
       qx.lang.Array.remove(parent._children, this);
 
       return this;
-    }
+    },
 
 
 
