@@ -79,7 +79,10 @@ qx.Class.define("BasicSample",
       w3.setLeft(20);
       w4.setLeft(20);
 
-
+      w4.getElement().addListener("click", function(e) {
+        w4.setBackgroundColor("orange");
+        qx.html.Element.flush()
+      })
 
     }
   }

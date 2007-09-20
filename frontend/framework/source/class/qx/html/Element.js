@@ -225,13 +225,13 @@ qx.Class.define("qx.html.Element",
       var data = obj.__eventValues;
       if (data)
       {
-        var Event = qx.event.Manager;
+        var Event = qx.event.Registration;
 
         var entry;
         for (var key in data)
         {
           entry = data[key];
-          Event.addListener(entry.type, entry.listener, entry.self, entry.capture);
+          Event.addListener(entry.target._element, entry.type, entry.listener, entry.self, entry.capture);
         }
 
         // Cleanup old event map
@@ -1678,6 +1678,7 @@ qx.Class.define("qx.html.Element",
         }
 
         this.__eventValues[key] = {
+          target : this,
           type : type,
           listener : listener,
           self : self,
