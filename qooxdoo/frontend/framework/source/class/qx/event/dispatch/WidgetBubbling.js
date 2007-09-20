@@ -39,17 +39,17 @@ qx.Class.define("qx.event.dispatch.WidgetBubbling",
      STATICS
   *****************************************************************************
   */
-  
-  statics : 
+
+  statics :
   {
     /** {Integer} Priority of this dispatcher */
     PRIORITY : qx.event.Registration.PRIORITY_NORMAL
   },
-  
-  
-  
-  
-  
+
+
+
+
+
   /*
   *****************************************************************************
      MEMBERS

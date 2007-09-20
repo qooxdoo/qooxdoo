@@ -111,23 +111,23 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
 
       // Cache list for AT_TARGET
       var targetList = [];
-      
+
       captureListeners = manager.getListeners(target, type, true);
       bubbleListeners = manager.getListeners(target, type, false)
-      
+
       if (captureListeners) {
         targetList.push(captureListeners);
       }
-      
+
       if (bubbleListeners) {
         targetList.push(bubbleListeners);
       }
-      
-      
+
+
 
       // Cache list for CAPTURING_PHASE and BUBBLING_PHASE
       var parent = this._getParent(target);
-      
+
       var bubbleList = [];
       var bubbleTargets = [];
 
@@ -156,7 +156,7 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
           bubbleList.push(bubbleListeners);
           bubbleTargets.push(parent);
         }
-      
+
         parent = this._getParent(parent);
       }
 
@@ -174,7 +174,7 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
         {
           listener = localList[j];
           context = listener.context || currentTarget;
-          
+
           listener.handler.call(context, event);
         }
 
@@ -182,8 +182,8 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
           return;
         }
       }
-      
-      
+
+
       // at target
       event.setEventPhase(qx.event.type.Event.AT_TARGET);
       event.setCurrentTarget(target);
@@ -194,19 +194,19 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
         {
           listener = localList[j];
           context = listener.context || target;
-          
+
           listener.handler.call(context, event);
-        } 
-       
+        }
+
         if (event.getPropagationStopped()) {
           return;
-        }              
-      }      
-      
+        }
+      }
+
 
       // bubbling phase
       // loop through the hierarchy in normal order (to root)
-      event.setEventPhase(qx.event.type.Event.BUBBLING_PHASE);      
+      event.setEventPhase(qx.event.type.Event.BUBBLING_PHASE);
       for (var i=0, il=bubbleList.length; i<il; i++)
       {
         currentTarget = bubbleTargets[i];
@@ -217,7 +217,7 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
         {
           listener = localList[j];
           context = listener.context || currentTarget;
-          
+
           listener.handler.call(context, event);
         }
 

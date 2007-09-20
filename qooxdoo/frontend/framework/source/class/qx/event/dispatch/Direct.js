@@ -60,17 +60,17 @@ qx.Class.define("qx.event.dispatch.Direct",
      STATICS
   *****************************************************************************
   */
-  
-  statics : 
+
+  statics :
   {
     /** {Integer} Priority of this dispatcher */
     PRIORITY : qx.event.Registration.PRIORITY_LAST
   },
-  
-  
-  
-  
-  
+
+
+
+
+
 
   /*
   *****************************************************************************

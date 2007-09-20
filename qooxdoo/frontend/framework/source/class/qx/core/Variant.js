@@ -387,6 +387,8 @@ qx.Class.define("qx.core.Variant",
     statics.define("qx.compatibility", [ "on", "off" ], "on");
     statics.define("qx.eventMonitorNoListeners", [ "on", "off" ], "off");
     statics.define("qx.aspects", [ "on", "off" ], "off");
+    statics.define("qx.deprecationWarnings", [ "on", "off" ], "on");
+
     statics.__init();
   }
 });
