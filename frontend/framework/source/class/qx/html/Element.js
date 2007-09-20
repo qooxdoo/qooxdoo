@@ -31,6 +31,17 @@
  *
  * Processes DOM insertion and modification with a advanced logic
  * to reduce the real transactions.
+ *
+ * From the view of the parent you can use the following children managment
+ * methods:
+ * {@link #getChildren}, {@link #indexOf}, {@link #hasChild}, {@link #add}, 
+ * {@link #addAt}, {@link #remove}, {@link #removeAt}, {@link #removeAll}
+ *
+ * Each child itself also has got some powerful methods to control its
+ * position:
+ * {@link #getParent}, {@link #free},
+ * {@link #insertInto}, {@link #insertBefore}, {@link #insertAfter}, 
+ * {@link #moveTo}, {@link #moveBefore}, {@link #moveAfter}, 
  */
 qx.Class.define("qx.html.Element",
 {
@@ -948,6 +959,19 @@ qx.Class.define("qx.html.Element",
     indexOf : function(child) {
       return this._children.indexOf(child);
     },
+    
+    
+    /**
+     * Whether the given element is a child of this element.
+     *
+     * @type member
+     * @param child {qx.html.Element} the child
+     * @return {Boolean} Returns <code>true</code> when the given
+     *    element is a child of this element.
+     */
+    hasChild : function(child) {
+      return this._children.indexOf(child) !== -1;
+    },    
 
 
     /**
@@ -1085,6 +1109,17 @@ qx.Class.define("qx.html.Element",
     */
     
     /**
+     * Returns the parent of this element.
+     *
+     * @type member
+     * @return {qx.html.Element|null} The parent of this element
+     */
+    getParent : function() {
+      return this._parent | null; 
+    },
+    
+    
+    /**
      * Insert self into the given parent. Normally appends self to the end,
      * but optionally a position can be defined. <code>0</code> will insert
      * at the begin.
@@ -1094,7 +1129,7 @@ qx.Class.define("qx.html.Element",
      * @param index {Integer?null} Optional position
      * @return {qx.html.Element} this object (for chaining support)
      */
-    insertInto : function(parent, pos)
+    insertInto : function(parent, index)
     {
       parent.__addChildHelper(this);
       
