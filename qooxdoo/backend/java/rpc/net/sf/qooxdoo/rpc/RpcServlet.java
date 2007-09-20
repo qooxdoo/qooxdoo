@@ -268,8 +268,14 @@ public class RpcServlet extends HttpServlet {
     
     
     private String makeJavaScriptServerInfo(HttpServletRequest request) {
-        return "if (!qx || !qx.core || !qx.core.ServerSettings) {" +
-                 "qx.OO.defineClass(\"qx.core.ServerSettings\");" +
+        return  "if (!qx) {" +
+                  "qx = new Object();" +
+                "}" +
+                "if (!qx.core) {" +
+                  "qx.core = new Object();" +
+                "}" +
+                "if (!qx.core.ServerSettings) {" +
+                  "qx.core.ServerSettings = new Object();" +
                 "}" +
                 "qx.core.ServerSettings.serverPathPrefix = \"" + getContextURL(request) + "\";" +
                 "qx.core.ServerSettings.serverPathSuffix = \";jsessionid=" + request.getSession().getId() + "\";" +
