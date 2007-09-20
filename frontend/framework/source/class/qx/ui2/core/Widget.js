@@ -103,6 +103,8 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       DIMENSION PROPERTIES
@@ -133,9 +135,11 @@ qx.Class.define("qx.ui2.core.Widget",
     },
 
 
+
+
     /*
     ---------------------------------------------------------------------------
-      MARGIN/PADDING PROPERTIES
+      PADDING PROPERTIES
     ---------------------------------------------------------------------------
     */
 
@@ -181,6 +185,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
+
     /*
     ---------------------------------------------------------------------------
       COLOR PROPERTIES
@@ -204,6 +209,8 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
+
+
   /*
   *****************************************************************************
      STATICS
@@ -219,6 +226,8 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
+
+
   /*
   *****************************************************************************
      MEMBERS
@@ -227,6 +236,16 @@ qx.Class.define("qx.ui2.core.Widget",
 
   members :
   {
+    /**
+     * Returns the HTML element.
+     *
+     * @return {qx.html.Element}
+     */
+    getElement : function() {
+      return this._outerElement;
+    },
+
+
 
     /*
     ---------------------------------------------------------------------------
@@ -257,6 +276,8 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       CHILDREN MANAGEMENT INTERNALS
@@ -265,12 +286,12 @@ qx.Class.define("qx.ui2.core.Widget",
 
     __addChildHelper : function(child)
     {
-
+      this._innerElement.add(child.getElement());
     },
 
     __removeChildHelper : function(child)
     {
-
+      this._innerElement.remove(child.getElement());
     },
 
     __moveChildHelper : function(child)
