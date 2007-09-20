@@ -58,6 +58,11 @@ def get_computed_conf():
         help="All output to terminal"
     )
 
+    parser.add_option(
+        "-s", "--log-size", dest="logSize", type="long", default=None, 
+        help="Log file size (in byte; default: unlimited)"
+    )
+
     (options, args) = parser.parse_args()
 
     if options.zapOut:
@@ -76,8 +81,14 @@ def prepare_output(logfile):
     if (logfile != None):
         sold = sys.stdout
         eold = sys.stderr
-        sys.stdout = open(logfile, 'w')
+        sys.stdout = open(logfile, 'a')
         sys.stderr = sys.stdout
+
+def check_logfile(logfile):
+    if (logfile != None):
+        logfile.flush()
+        if options.logSize != None:
+            logfile.truncate(options.logSize)
 
 def invoke_external(cmd):
     import subprocess
@@ -179,9 +190,11 @@ def main():
     release = options.release
     if (options.demonMode):
         while (1):
+            check_logfile(options.logfile)
             rc = build_targets(buildconf['targets'])
             time.sleep(buildconf['checkInterval']*60)
     else:
+        check_logfile(options.logfile)
         rc = build_targets([target])
 
     return rc
