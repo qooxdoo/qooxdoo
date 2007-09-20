@@ -203,7 +203,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
   events :
   {
-    /** Dispatched if the pane is scolled horizontally */
+    /** Dispatched if the pane is scrolled horizontally */
     "changeScrollY" : "qx.event.type.Change",
 
     /** Dispatched if the pane is scrolled vertically */
