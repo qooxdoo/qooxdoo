@@ -437,9 +437,10 @@ qx.Class.define("qx.event.Manager",
 
       // Preparations
       var type = event.getType();
-      //if (!event.getTarget()) {
+
+      if (!event.getTarget()) {
         event.setTarget(target);
-      //}
+      }
 
       // Interation data
       var classes = qx.event.Registration.getDispatchers();
