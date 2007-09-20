@@ -1419,7 +1419,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         var loadEnd = new Date();
         this.debug("Time to load page source from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
 
-        var content = evt.getData().getContent();
+        var content = evt.getContent();
 
         if (content) {
           //this.widgets["outputviews.sourcepage.page"].setValue(content);
@@ -1457,7 +1457,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         var loadEnd = new Date();
         this.debug("Time to load data from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
 
-        var content = evt.getData().getContent();
+        var content = evt.getContent();
 
         var start = new Date();
         var treeData = eval(content);

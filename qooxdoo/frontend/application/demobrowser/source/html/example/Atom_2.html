@@ -124,44 +124,55 @@
   <script type="text/javascript">
   var at1;
 
-  qx.core.Init.getInstance().defineMain(function()
+  qx.Class.define("BasicSample",
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
-
-    at1 = new qx.ui.basic.Atom("My first qx.ui.basic.Atom", "icon/32/actions/format-color.png");
-
-    with(at1)
+    extend : qx.application.Gui,
+  
+    members :
     {
-      setTop(20);
-      setLeft(20);
-
-      setIconPosition("right");
-
-      setBorder("black");
-      setBackgroundColor("white");
-      setPadding(2, 4);
-    };
-
-    var ct1 = new qx.ui.basic.Label(document.getElementById("control").innerHTML);
-
-    with(ct1)
-    {
-      setWidth(300);
-      setRight(20);
-
-      setHeight(null);
-      setTop(20);
-      setBottom(20);
-
-      setOverflow("auto");
-
-      setBackgroundColor("white");
-      setBorder("groove");
-      setPadding(10);
-    };
-
-    d.add(at1, ct1);
+      main : function()
+      {
+        this.base(arguments);
+        var d = qx.ui.core.ClientDocument.getInstance();
+    
+        at1 = new qx.ui.basic.Atom("My first qx.ui.basic.Atom", "icon/32/actions/format-color.png");
+    
+        with(at1)
+        {
+          setTop(20);
+          setLeft(20);
+    
+          setIconPosition("right");
+    
+          setBorder("black");
+          setBackgroundColor("white");
+          setPadding(2, 4);
+        };
+    
+        var ct1 = new qx.ui.basic.Label(document.getElementById("control").innerHTML);
+    
+        with(ct1)
+        {
+          setWidth(300);
+          setRight(20);
+    
+          setHeight(null);
+          setTop(20);
+          setBottom(20);
+    
+          setOverflow("auto");
+    
+          setBackgroundColor("white");
+          setBorder("groove");
+          setPadding(10);
+        };
+    
+        d.add(at1, ct1);
+      }
+    }
   });
+  
+  qx.core.Init.getInstance().setApplication(new BasicSample);
   </script>
 </body>
 </html>
