@@ -63,7 +63,7 @@ qx.Class.define("qx.core.Object",
    */
   construct : function()
   {
-    
+
     this._hashCode = qx.core.Object.__availableHashCode++;
 
     if (this._autoDispose)
@@ -237,8 +237,8 @@ qx.Class.define("qx.core.Object",
     inGlobalDispose : function() {
       return this.__disposed;
     },
-    
-    
+
+
     /**
      * Logs the current stack trace as a debug message.
      *
@@ -250,7 +250,7 @@ qx.Class.define("qx.core.Object",
       if (qx.dev && qx.dev.StackTrace)
       {
         var trace = qx.dev.StackTrace.getStackTrace();
-        
+
         qx.core.Log.debug("Current stack trace: ");
         for (var i=1, l=trace.length; i<l; i++) {
           qx.core.Log.debug("  - " + trace[i]);
@@ -258,9 +258,9 @@ qx.Class.define("qx.core.Object",
       }
       else
       {
-        qx.core.Log.warn("Stacktraces are not support by your build!"); 
+        qx.core.Log.warn("Stacktraces are not support by your build!");
       }
-    }    
+    }
   },
 
 
@@ -455,8 +455,8 @@ qx.Class.define("qx.core.Object",
     ---------------------------------------------------------------------------
       EVENT HANDLING
     ---------------------------------------------------------------------------
-    */    
-    
+    */
+
     /**
      * Add event listener to this object.
      *
@@ -515,7 +515,7 @@ qx.Class.define("qx.core.Object",
         qx.event.Registration.dispatchEvent(this, evt);
       }
     },
-    
+
 
     /**
      * Create an event object and dispatch it on this object.
@@ -526,14 +526,14 @@ qx.Class.define("qx.core.Object",
      *       the event's init method.
      * @return {void}
      */
-    fireCustomEvent : function(clazz, args) 
+    fireCustomEvent : function(clazz, args)
     {
       if (!this.__disposed) {
         qx.event.Registration.fireCustomEvent(this, clazz, args);
       }
     },
-        
-    
+
+
     /**
      * Creates and dispatches an event on this object.
      *
@@ -564,8 +564,8 @@ qx.Class.define("qx.core.Object",
       DEBUG
     ---------------------------------------------------------------------------
     */
-    
-    
+
+
     /**
      * Internal helper which returns the prefix of all debug
      * messages.
@@ -576,8 +576,8 @@ qx.Class.define("qx.core.Object",
     __dbg : function() {
       return this.classname + "[" + this.toHashCode() + "]: ";
     },
-    
-    
+
+
     /**
      * Logs a debug message.
      *
@@ -590,7 +590,7 @@ qx.Class.define("qx.core.Object",
     debug : function(msg, exc) {
       qx.core.Log.debug(this.__dbg(), msg, exc||"");
     },
-    
+
 
     /**
      * Logs an info message.
@@ -604,7 +604,7 @@ qx.Class.define("qx.core.Object",
     info : function(msg, exc) {
       qx.core.Log.info(this.__dbg(), msg, exc||"");
     },
-    
+
 
     /**
      * Logs a warning message.
@@ -618,7 +618,7 @@ qx.Class.define("qx.core.Object",
     warn : function(msg, exc) {
       qx.core.Log.warn(this.__dbg(), msg, exc||"");
     },
-    
+
 
     /**
      * Logs an error message.
@@ -632,7 +632,7 @@ qx.Class.define("qx.core.Object",
     error : function(msg, exc) {
       qx.core.Log.error(this.__dbg(), msg, exc||"");
     },
-    
+
 
     /**
      * Logs the current stack trace as a debug message.
@@ -643,9 +643,12 @@ qx.Class.define("qx.core.Object",
     printStackTrace : function() {
       qx.core.Object.printStackTrace();
     },
-    
-            
-    
+
+
+
+
+
+
 
 
 
