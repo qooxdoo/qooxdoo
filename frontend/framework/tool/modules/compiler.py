@@ -392,9 +392,20 @@ def compile(node, opts, enableBreaks=False, enableVerbose=False):
     options.prettypCommentsInlinePadding = eval("'" + options.prettypCommentsInlinePadding + "'")
                                                               # allow for escapes like "\t"
     # split trailing comment cols into an array
-    if options.prettypCommentsTrailingCommentCols:
+    if (options.prettypCommentsTrailingCommentCols and
+        isinstance(options.prettypCommentsTrailingCommentCols, basestring)):
         options.prettypCommentsTrailingCommentCols = [int(column.strip()) for column in options.prettypCommentsTrailingCommentCols.split(",")]
         options.prettypCommentsTrailingCommentCols.sort() # make sure they are ascending!
+    # or make sure it's a list of int's
+    elif (isinstance(options.prettypCommentsTrailingCommentCols, list) and
+        reduce(lambda y,z: y and z,
+               [isinstance(x,int) for x in options.prettypCommentsTrailingCommentCols],
+               True)):
+        options.prettypCommentsTrailingCommentCols.sort() # make sure they are ascending!
+    # or bomb
+    else:
+        raise TypeError, "Unsuitable type for option --pretty-print-comments-trailing-commentCols"
+
     indent       = 0
     result       = u""
     pretty       = opts.prettyPrint
