@@ -59,6 +59,10 @@ qx.Class.define("BasicSample",
       w3.setBackgroundColor("green");
       w4.setBackgroundColor("yellow");
 
+      w4.setBorderRenderer(qx.ui2.border.CssRoundedBorder.getInstance());
+      w4.setBorderData({radius: 15});
+      w4.setPadding(10);
+
       w1.setWidth(200);
       w2.setWidth(200);
       w3.setWidth(200);
@@ -79,10 +83,12 @@ qx.Class.define("BasicSample",
       w3.setLeft(20);
       w4.setLeft(20);
 
-      w4.getElement().addListener("click", function(e) {
+      w4.addListener("click", function(e) {
         w4.setBackgroundColor(w4.getBackgroundColor() == "yellow" ? "orange" : "yellow");
         qx.html.Element.flush()
       })
+
+      qx.html.Element.flush()
 
     }
   }
