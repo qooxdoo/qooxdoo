@@ -245,6 +245,29 @@ qx.Class.define("qx.ui2.core.Widget",
       return this._outerElement;
     },
 
+    _getInnerElement : function() {
+      return this._innerElement;
+    },
+
+    setHtml : function(value) {
+      this._innerElement.setAttribute("html", value);
+    },
+
+    getHtml : function(value) {
+      return this._innerElement.getAttribute("html");
+    },
+
+    setId : function(value) {
+      this._innerElement.setAttribute("id", value);
+    },
+
+    getId : function(value) {
+      this._innerElement.getAttribute("id");
+    },
+
+
+
+
 
 
     /*
