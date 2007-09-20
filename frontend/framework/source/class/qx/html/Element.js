@@ -1116,7 +1116,7 @@ qx.Class.define("qx.html.Element",
      * @return {qx.html.Element|null} The parent of this element
      */
     getParent : function() {
-      return this._parent | null;
+      return this._parent || null;
     },
 
 
