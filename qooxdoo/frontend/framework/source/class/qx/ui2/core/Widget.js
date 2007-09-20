@@ -98,9 +98,10 @@ qx.Class.define("qx.ui2.core.Widget",
     },
 
 
+
     /*
     ---------------------------------------------------------------------------
-      POSITION PROPERTIES
+      DIMENSION PROPERTIES
     ---------------------------------------------------------------------------
     */
 
@@ -171,9 +172,30 @@ qx.Class.define("qx.ui2.core.Widget",
       init : 0,
       apply : "_applyPaddingLeft",
       themeable : true
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      COLOR PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    color :
+    {
+      check : "String",
+      apply : "_applyColor",
+      themeable : true
+    },
+
+    backgroundColor :
+    {
+      check : "String",
+      apply : "_applyBackgroundColor",
+      themeable : true
     }
-
-
   },
 
 
@@ -255,6 +277,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
+      PROTECTED API
       CHILDREN MANAGEMENT (EXECUTED ON THE PARENT)
     ---------------------------------------------------------------------------
     */
@@ -426,6 +449,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
+      PROTECTED API
       CHILDREN MANAGEMENT (EXECUTED ON THE CHILD)
     ---------------------------------------------------------------------------
     */
@@ -595,6 +619,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
+      PUBLIC API
       CHILDREN MANAGEMENT (EXECUTED ON THE PARENT)
     ---------------------------------------------------------------------------
     */
@@ -726,7 +751,31 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      PUBLIC API
+      COLOR PROPERTIES
+    ---------------------------------------------------------------------------
+    */
 
+    _applyColor : function(value, old)
+    {
+      if (value == null) {
+        this._outerElement.resetStyle("color");
+      } else {
+        this._outerElement.setStyle("color", value);
+      }
+    },
+
+
+    _applyBackgroundColor : function(value, old)
+    {
+      if (value == null) {
+        this._outerElement.resetStyle("backgroundColor");
+      } else {
+        this._outerElement.setStyle("backgroundColor", value);
+      }
+    }
 
 
 
