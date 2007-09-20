@@ -22,8 +22,9 @@
 /* ************************************************************************
 
 #module(core)
-#use(qx.core.Init)
+#optional(qx.dev.StackTrace)
 #require(qx.core.Property)
+#use(qx.core.Init)
 #use(qx.event.type.Change)
 #use(qx.event.handler.Object)
 #resource(qx.static:static)
@@ -246,11 +247,18 @@ qx.Class.define("qx.core.Object",
      */
     printStackTrace : function()
     {
-      var trace = qx.dev.StackTrace.getStackTrace();
-      
-      qx.core.Log.debug("Current stack trace: ");
-      for (var i=1, l=trace.length; i<l; i++) {
-        qx.core.Log.debug("  - " + trace[i]);
+      if (qx.dev && qx.dev.StackTrace)
+      {
+        var trace = qx.dev.StackTrace.getStackTrace();
+        
+        qx.core.Log.debug("Current stack trace: ");
+        for (var i=1, l=trace.length; i<l; i++) {
+          qx.core.Log.debug("  - " + trace[i]);
+        }
+      }
+      else
+      {
+        qx.core.Log.warn("Stacktraces are not support by your build!"); 
       }
     }    
   },
