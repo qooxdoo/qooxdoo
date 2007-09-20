@@ -741,7 +741,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
       // Chaining support
       return this;
-    }
+    },
 
 
 
