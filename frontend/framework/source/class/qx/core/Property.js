@@ -1243,7 +1243,7 @@ qx.Class.define("qx.core.Property",
       {
         // Execute user configured setter
         if (config.apply) {
-          code.push('this.', config.apply, '(computed, old', config.name, ');');
+          code.push('this.', config.apply, '(computed, old, "', name, '");');
         }
 
         // Fire event
