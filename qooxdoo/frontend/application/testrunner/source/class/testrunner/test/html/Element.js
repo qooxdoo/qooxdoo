@@ -106,11 +106,11 @@ qx.Class.define("testrunner.test.html.Element",
 
       var before1 = new qx.html.Element;
       before1.setAttribute("id", "before1");
-      doc.insertBefore(before1, el1);
+      before1.insertBefore(el1);
 
       var after1 = new qx.html.Element;
       after1.setAttribute("id", "after1");
-      doc.insertAfter(after1, el1);
+      after1.insertAfter(el1);
 
       this.assertIdentical(doc.getChildren()[0], before1);
       this.assertIdentical(doc.getChildren()[1], el1);
@@ -131,11 +131,11 @@ qx.Class.define("testrunner.test.html.Element",
 
       var before2 = new qx.html.Element;
       before2.setAttribute("id", "before2");
-      doc.insertAt(before2, 0);
+      doc.addAt(before2, 0);
 
       var after2 = new qx.html.Element;
       after2.setAttribute("id", "after2");
-      doc.insertAt(after2, 10);
+      doc.addAt(after2, 10);
 
       this.assertIdentical(doc.getChildren()[0], before2);
       this.assertIdentical(doc.getChildren()[1], before1);
@@ -158,8 +158,8 @@ qx.Class.define("testrunner.test.html.Element",
       // MOVE
       //
 
-      doc.moveAfter(before2, before1);
-      doc.moveBefore(after2, after1);
+      before2.moveAfter(before1);
+      after2.moveBefore(after1);
 
       this.assertIdentical(doc.getChildren()[0], before1);
       this.assertIdentical(doc.getChildren()[1], before2);
@@ -188,8 +188,8 @@ qx.Class.define("testrunner.test.html.Element",
       this.assertIdentical(in1, 1);
       this.assertIdentical(in2, 3);
 
-      doc.moveTo(before2, in2);
-      doc.moveTo(after2, in1);
+      before2.moveTo(in2);
+      after2.moveTo(in1);
 
       this.assertIdentical(doc.getChildren()[0], before1);
       this.assertIdentical(doc.getChildren()[1], after2);
@@ -279,8 +279,8 @@ qx.Class.define("testrunner.test.html.Element",
       // REMOVER, MOVE AND INSERT IN ONE STEP
 
       doc.remove(before2);
-      doc.moveAfter(before1, after1);
-      doc.insertBefore(before2, before1);
+      before1.moveAfter(after1);
+      before2.insertBefore(before1);
 
       this.assertIdentical(doc.getChildren()[0], el1);
       this.assertIdentical(doc.getChildren()[1], after1);
@@ -315,7 +315,7 @@ qx.Class.define("testrunner.test.html.Element",
 
       var a = doc.getChildren();
       for (var i=1, l=a.length; i<l; i++) {
-        doc.moveTo(a[i], 0);
+        a[i].moveTo(0);
       }
 
       this.assertIdentical(doc.getChildren()[0], after2);
@@ -340,7 +340,7 @@ qx.Class.define("testrunner.test.html.Element",
 
       // ROTATION
 
-      doc.moveAfter(before1, before2);
+      before1.moveAfter(before2);
 
       this.assertIdentical(doc.getChildren()[0], after2);
       this.assertIdentical(doc.getChildren()[1], before2);
@@ -526,7 +526,7 @@ qx.Class.define("testrunner.test.html.Element",
 
       el4.exclude();
 
-      el4.moveTo(el4_3, 0);
+      el4_3.moveTo(0);
       el4.remove(el4_2);
 
       el4_1.setStyle("fontSize", "20px");

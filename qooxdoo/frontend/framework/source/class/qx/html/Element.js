@@ -362,7 +362,7 @@ qx.Class.define("qx.html.Element",
         domEl = domChildren[i];
         dataEl = domEl.QxElement;
 
-        if (!dataEl._included || dataEl.__parent !== obj)
+        if (!dataEl._included || dataEl._parent !== obj)
         {
           if (qx.core.Variant.isSet("qx.debug", "on")) {
             domOperations++;
@@ -626,7 +626,7 @@ qx.Class.define("qx.html.Element",
       while (pa && !pa._dirty)
       {
         pa._dirty = true;
-        pa = pa.__parent;
+        pa = pa._parent;
       }
     },
 
@@ -737,7 +737,7 @@ qx.Class.define("qx.html.Element",
           return false;
         }
 
-        pa = pa.__parent;
+        pa = pa._parent;
       }
 
       return false;
@@ -782,7 +782,7 @@ qx.Class.define("qx.html.Element",
      */
     __addChildHelper : function(child)
     {
-      if (child.__parent === this) {
+      if (child._parent === this) {
         throw new Error("Child is already in: " + child);
       }
 
@@ -791,12 +791,12 @@ qx.Class.define("qx.html.Element",
       }
 
       // Remove from previous parent
-      if (child.__parent) {
-        child.__parent.remove(child);
+      if (child._parent) {
+        child._parent.remove(child);
       }
 
       // Convert to child of this object
-      child.__parent = this;
+      child._parent = this;
 
       // Register job and add to queue for existing elements
       if (this._element)
@@ -824,7 +824,7 @@ qx.Class.define("qx.html.Element",
      */
     __removeChildHelper : function(child)
     {
-      if (child.__parent !== this) {
+      if (child._parent !== this) {
         throw new Error("Has no child: " + child);
       }
 
@@ -843,7 +843,7 @@ qx.Class.define("qx.html.Element",
       }
 
       // Remove reference to old parent
-      delete child.__parent;
+      delete child._parent;
 
       // Remove from scheduler
       child._unscheduleSync();
@@ -860,7 +860,7 @@ qx.Class.define("qx.html.Element",
      */
     __moveChildHelper : function(child)
     {
-      if (child.__parent !== this) {
+      if (child._parent !== this) {
         throw new Error("Has no child: " + child);
       }
 
@@ -890,7 +890,7 @@ qx.Class.define("qx.html.Element",
     {
       // If the parent element is created, schedule
       // the modification for it
-      var pa = this.__parent;
+      var pa = this._parent;
       if (pa && pa._element)
       {
         // Remember job
@@ -920,7 +920,7 @@ qx.Class.define("qx.html.Element",
 
     /*
     ---------------------------------------------------------------------------
-      CHILDREN MANAGEMENT
+      CHILDREN MANAGEMENT (EXECUTED ON THE PARENT)
     ---------------------------------------------------------------------------
     */
 
@@ -973,46 +973,13 @@ qx.Class.define("qx.html.Element",
         this._children.push(childs);
       }
 
+      // Chaining support
       return this;
     },
-
-
+    
+    
     /**
-     * Inserts the given element after the given child.
-     *
-     * @type member
-     * @param child {qx.html.Element} the element to insert
-     * @param rel {qx.html.Element} the related child
-     * @return {qx.html.Element} this object (for chaining support)
-     */
-    insertAfter : function(child, rel)
-    {
-      this.__addChildHelper(child);
-      qx.lang.Array.insertAfter(this._children, child, rel);
-
-      return this;
-    },
-
-
-    /**
-     * Inserts the given element before the given child.
-     *
-     * @type member
-     * @param child {qx.html.Element} the element to insert
-     * @param rel {qx.html.Element} the related child
-     * @return {qx.html.Element} this object (for chaining support)
-     */
-    insertBefore : function(child, rel)
-    {
-      this.__addChildHelper(child);
-      qx.lang.Array.insertBefore(this._children, child, rel);
-
-      return this;
-    },
-
-
-    /**
-     * Inserts a new element at the given position
+     * Inserts a new element into this element at the given position.
      *
      * @type member
      * @param child {qx.html.Element} the element to insert
@@ -1021,21 +988,22 @@ qx.Class.define("qx.html.Element",
      *     children will be increased by one)
      * @return {qx.html.Element} this object (for chaining support)
      */
-    insertAt : function(child, index)
+    addAt : function(child, index)
     {
       this.__addChildHelper(child);
       qx.lang.Array.insertAt(this._children, child, index);
 
+      // Chaining support
       return this;
     },
 
 
     /**
-     * Remove all given children from this element.
+     * Removes all given children
      *
      * @type member
      * @param childs {qx.html.Element...} children to remove
-     * @return {qx.html.Element} the removed element
+     * @return {qx.html.Element} this object (for chaining support)
      */
     remove : function(childs)
     {
@@ -1056,42 +1024,142 @@ qx.Class.define("qx.html.Element",
         qx.lang.Array.remove(this._children, childs);
       }
 
+      // Chaining support
       return this;
     },
 
 
     /**
-     * Remove the child at the given index from this element.
+     * Removes the child at the given index
      *
      * @type member
      * @param index {Integer} the position of the
      *     child (starts at 0 for the first child)
-     * @return {qx.html.Element} the removed element
+     * @return {qx.html.Element} this object (for chaining support)
      */
     removeAt : function(index)
     {
+      var child = this._children[index];
+      
+      if (!child) {
+        throw new Error("Has no child at this position!"); 
+      }
+      
       this.__removeChildHelper(child);
-      return qx.lang.Array.removeAt(this._children, index);
+      qx.lang.Array.removeAt(this._children, index);
+      
+      // Chaining support
+      return this;
     },
-
-
+    
+    
     /**
-     * Move the given child to the given index. The index
-     * of the child on this index (if so) and all following
-     * siblings will be increased by one.
+     * Remove all children from this element.
      *
      * @type member
-     * @param child {var} the child to move
+     * @return
+     */
+    removeAll : function()
+    {
+      var children = this._children;
+      for (var i=0, l=children.length; i<l; i++) {
+        this.__removeChildHelper(children[i]);
+      }
+      
+      // Clear array
+      children.length = 0;
+      
+      // Chaining support
+      return this;
+    },
+    
+    
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      CHILDREN MANAGEMENT (EXECUTED ON THE CHILD)
+    ---------------------------------------------------------------------------
+    */
+    
+    /**
+     * Insert self into the given parent. Normally appends self to the end,
+     * but optionally a position can be defined. <code>0</code> will insert
+     * at the begin.
+     *
+     * @type member
+     * @param parent {qx.html.Element} The new parent of this element
+     * @param index {Integer?null} Optional position
+     * @return {qx.html.Element} this object (for chaining support)
+     */
+    insertInto : function(parent, pos)
+    {
+      parent.__addChildHelper(this);
+      
+      if (index == null) {
+        parent._children.push(this);  
+      } else {
+        qx.lang.Array.insertAt(this._children, child, index);
+      }
+
+      return this;
+    },
+    
+
+    /**
+     * Insert self before the given (related) element
+     *
+     * @type member
+     * @param rel {qx.html.Element} the related element
+     * @return {qx.html.Element} this object (for chaining support)
+     */
+    insertBefore : function(rel)
+    {
+      var parent = rel._parent;
+      
+      parent.__addChildHelper(this);
+      qx.lang.Array.insertBefore(parent._children, this, rel);
+
+      return this;
+    },
+    
+    
+    /**
+     * Insert self after the given (related) element
+     *
+     * @type member
+     * @param rel {qx.html.Element} the related element
+     * @return {qx.html.Element} this object (for chaining support)
+     */
+    insertAfter : function(rel)
+    {
+      var parent = rel._parent;
+      
+      parent.__addChildHelper(this);
+      qx.lang.Array.insertAfter(parent._children, this, rel);
+
+      return this;
+    },
+    
+
+    /**
+     * Move self to the given index in the current parent.
+     *
+     * @type member
      * @param index {Integer} the index (starts at 0 for the first child)
      * @return {qx.html.Element} this object (for chaining support)
      * @throws an exception when the given element is not child
      *      of this element.
      */
-    moveTo : function(child, index)
+    moveTo : function(index)
     {
-      this.__moveChildHelper(child);
+      var parent = this._parent;
+      
+      parent.__moveChildHelper(this);
 
-      var oldIndex = this._children.indexOf(child);
+      var oldIndex = parent._children.indexOf(this);
 
       if (oldIndex === index) {
         throw new Error("Could not move to same index!");
@@ -1099,36 +1167,59 @@ qx.Class.define("qx.html.Element",
         index--;
       }
 
-      qx.lang.Array.removeAt(this._children, oldIndex);
-      qx.lang.Array.insertAt(this._children, child, index);
+      qx.lang.Array.removeAt(parent._children, oldIndex);
+      qx.lang.Array.insertAt(parent._children, this, index);
 
       return this;
     },
 
 
     /**
-     * Move the given <code>child</code> before the child <code>rel</code>.
+     * Move self before the given (related) child.
      *
      * @type member
-     * @param child {qx.html.Element} the child to move
      * @param rel {qx.html.Element} the related child
      * @return {qx.html.Element} this object (for chaining support)
      */
-    moveBefore : function(child, rel) {
-      return this.moveTo(child, this._children.indexOf(rel));
+    moveBefore : function(rel) 
+    {
+      var parent = this._parent;
+      return this.moveTo(parent._children.indexOf(rel));
     },
 
 
     /**
-     * Move the given <code>child</code> after the child <code>rel</code>.
+     * Move self after the given (related) child.
      *
      * @type member
-     * @param child {qx.html.Element} the child to move
      * @param rel {qx.html.Element} the related child
      * @return {qx.html.Element} this object (for chaining support)
      */
-    moveAfter : function(child, rel) {
-      return this.moveTo(child, this._children.indexOf(rel) + 1);
+    moveAfter : function(rel) 
+    {
+      var parent = this._parent;
+      return this.moveTo(parent._children.indexOf(rel) + 1);
+    },
+    
+    
+    /**
+     * Remove self from the current parent.
+     * 
+     * @type member
+     * @return {qx.html.Element} this object (for chaining support)
+     */
+    free : function()
+    {
+      var parent = this._parent;
+      
+      if (!parent) {
+        throw new Error("Has no parent to remove from."); 
+      }
+      
+      parent.__removeChildHelper(this);
+      qx.lang.Array.remove(parent._children, this);
+      
+      return this;
     },
 
 
