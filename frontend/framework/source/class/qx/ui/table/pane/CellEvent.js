@@ -26,29 +26,7 @@
 /** A cell event instance contains all data for mouse events related to cells in a table. */
 qx.Class.define("qx.ui.table.pane.CellEvent",
 {
-  extend : qx.event.type.MouseEvent,
-
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  /**
-   * @param scroller    {qx.ui.table.pane.Scroller}
-   * @param me          {qx.event.type.MouseEvent}
-   */
-  construct : function(scroller, me)
-  {
-    this.base(arguments, 'cell'+qx.lang.String.toFirstUp(me.getType()), me.getDomEvent(), me.getDomTarget(), me.getTarget(), me.getOriginalTarget(), me.getRelatedTarget());
-    console.debug('evento '+this.getType());
-    this._scroller = scroller;
-  },
-
-
+  extend : qx.event.type.Mouse,
 
 
   /*
@@ -83,6 +61,26 @@ qx.Class.define("qx.ui.table.pane.CellEvent",
 
   members :
   {
+    /**
+     * @param scroller    {qx.ui.table.pane.Scroller}
+     * @param me          {qx.event.type.MouseEvent}
+     */
+    init : function(scroller, me)
+    {
+      this.base(arguments, me.getNativeEvent(), 'cell'+qx.lang.String.toFirstUp(me.getType()));
+      this._scroller = scroller;
+    },
+
+
+    // overridden
+    clone : function()
+    {
+      var clone = this.base(arguments);
+      clone._scroller = this._scroller;
+      return clone;
+    },
+
+
     /**
      * Compute the row where the event has happened.
      *
