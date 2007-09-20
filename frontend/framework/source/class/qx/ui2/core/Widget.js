@@ -35,6 +35,10 @@ qx.Class.define("qx.ui2.core.Widget",
   {
     this.base(arguments);
     
+    this._children = [];
+    this._outerElement = new qx.html.Element;
+    this._innerElement = new qx.html.Element;
+    
   },
   
   
@@ -78,6 +82,21 @@ qx.Class.define("qx.ui2.core.Widget",
     
   members : 
   {
+    /*
+    ---------------------------------------------------------------------------
+      CHILDREN MANAGEMENT
+    ---------------------------------------------------------------------------
+    */
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
