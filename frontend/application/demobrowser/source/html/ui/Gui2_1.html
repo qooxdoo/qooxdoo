@@ -29,6 +29,8 @@ qx.Class.define("BasicSample",
       doc.getElement().setStyle("font", "11px Tahoma, sans-serif");
       doc.setColor("black");
       doc.setBackgroundColor("white");
+      doc.setWidth(document.body.offsetWidth);
+      doc.setHeight(document.body.offsetHeight);
 
       var w1 = new qx.ui2.core.Widget;
       var w2 = new qx.ui2.core.Widget;
