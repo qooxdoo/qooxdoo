@@ -38,10 +38,6 @@ qx.Class.define("qx.ui2.core.Widget",
     this._children = [];
     this._outerElement = new qx.html.Element;
     this._innerElement = new qx.html.Element;
-
-
-
-
   },
 
 
@@ -59,6 +55,125 @@ qx.Class.define("qx.ui2.core.Widget",
 
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+
+    /*
+    ---------------------------------------------------------------------------
+      POSITION PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * The distance from the outer left border to the parent's left edge.
+     */
+    left :
+    {
+      check : "Integer",
+      init : 0,
+      apply : "_applyLeft",
+      event : "changeLeft"
+    },
+
+
+    /**
+     * The distance from the outer right border to the parent's right edge.
+     */
+    top :
+    {
+      check : "Integer",
+      init : 0,
+      apply : "_applyTop",
+      event : "changeTop"
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      POSITION PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * The width of the widget (including padding and border).
+     */
+    width :
+    {
+      check : "Integer",
+      width : 100,
+      apply : "_applyWidth",
+      event : "changeWidth"
+    },
+
+
+    /**
+     * The height of the widget (including padding and border).
+     */
+    height :
+    {
+      check : "Integer",
+      width : 100,
+      apply : "_applyHeight",
+      event : "changeHeight"
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      MARGIN/PADDING PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    /** Padding of the widget (top) */
+    paddingTop :
+    {
+      check : "Number",
+      init : 0,
+      apply : "_applyPaddingTop",
+      themeable : true
+    },
+
+
+    /** Padding of the widget (right) */
+    paddingRight :
+    {
+      check : "Number",
+      init : 0,
+      apply : "_applyPaddingRight",
+      themeable : true
+    },
+
+
+    /** Padding of the widget (bottom) */
+    paddingBottom :
+    {
+      check : "Number",
+      init : 0,
+      apply : "_applyPaddingBottom",
+      themeable : true
+    },
+
+
+    /** Padding of the widget (left) */
+    paddingLeft :
+    {
+      check : "Number",
+      init : 0,
+      apply : "_applyPaddingLeft",
+      themeable : true
+    }
+
+
+  },
 
 
 
