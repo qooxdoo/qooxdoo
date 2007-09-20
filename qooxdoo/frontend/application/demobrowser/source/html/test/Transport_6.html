@@ -5,7 +5,7 @@
   <script type="text/javascript" src="../../script/demo.js"></script>
   <script type="text/javascript" src="../util.js"></script>
 </head>
-<body>  
+<body>
   <div id="description">
     <p>Simple test for qooxdoo's transport implementation using some data for an addressbook.</p>
     <p>Using javascript/json content in this case.</p>
@@ -93,7 +93,7 @@
     hlay.add(checken);
 
     checken.addEventListener("changeChecked", function(e) {
-      qx.io.remote.RequestQueue.getInstance().setEnabled(e.getData());
+      qx.io.remote.RequestQueue.getInstance().setEnabled(e.getValue());
     });
 
 
@@ -166,11 +166,11 @@
         req.addEventListener("completed", function(e)
         {
           inf.setValue("Completed");
-          typ.setValue(e.getData().getResponseHeader("Content-Type"));
-          len.setValue(e.getData().getResponseHeader("Content-Length"));
-          code.setValue(e.getData().getStatusCode().toString());
+          typ.setValue(e.getResponseHeader("Content-Type"));
+          len.setValue(e.getResponseHeader("Content-Length"));
+          code.setValue(e.getStatusCode().toString());
 
-          var vContent = e.getData().getContent();
+          var vContent = e.getContent();
 
           fgivenname.setText(vContent.givenName.toString());
           fname.setText(vContent.name.toString());
@@ -187,25 +187,25 @@
         req.addEventListener("failed", function(e)
         {
           inf.setValue("Failed");
-          typ.setValue(e.getData().getResponseHeader("Content-Type"));
-          len.setValue(e.getData().getResponseHeader("Content-Length"));
-          code.setValue(e.getData().getStatusCode().toString());
+          typ.setValue(e.getResponseHeader("Content-Type"));
+          len.setValue(e.getResponseHeader("Content-Length"));
+          code.setValue(e.getStatusCode().toString());
         });
 
         req.addEventListener("timeout", function(e)
         {
           inf.setValue("Timeout");
-          typ.setValue(e.getData().getResponseHeader("Content-Type"));
-          len.setValue(e.getData().getResponseHeader("Content-Length"));
-          code.setValue(e.getData().getStatusCode().toString());
+          typ.setValue(e.getResponseHeader("Content-Type"));
+          len.setValue(e.getResponseHeader("Content-Length"));
+          code.setValue(e.getStatusCode().toString());
         });
 
         req.addEventListener("aborted", function(e)
         {
           inf.setValue("Aborted");
-          typ.setValue(e.getData().getResponseHeader("Content-Type"));
-          len.setValue(e.getData().getResponseHeader("Content-Length"));
-          code.setValue(e.getData().getStatusCode().toString());
+          typ.setValue(e.getResponseHeader("Content-Type"));
+          len.setValue(e.getResponseHeader("Content-Length"));
+          code.setValue(e.getStatusCode().toString());
         });
 
         req.send();
