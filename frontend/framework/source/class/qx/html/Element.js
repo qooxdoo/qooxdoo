@@ -454,6 +454,8 @@ qx.Class.define("qx.html.Element",
         return;
       }
 
+      var start = new Date;
+
 
 
 
@@ -562,6 +564,9 @@ qx.Class.define("qx.html.Element",
           delete post[action];
         }
       }
+
+      var stop = new Date;
+      qx.core.Log.debug("Element Flush Runtime: " + (stop-start) + "ms");
     }
   },
 
