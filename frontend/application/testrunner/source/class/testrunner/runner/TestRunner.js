@@ -131,7 +131,7 @@ qx.Class.define("testrunner.runner.TestRunner",
     // add eventhandler now, after objects are created
     this.widgets["treeview"].getBar().getManager().addListener("changeSelected", function(e)
     {
-      if (e.getData().getUserData('tree').getSelectedElement() == null) {
+      if (e.getValue().getUserData('tree').getSelectedElement() == null) {
         this.widgets["toolbar.runbutton"].setEnabled(false);
       }
     },
@@ -367,7 +367,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.logappender = new testrunner.runner.TestAppender(this.f2);
 
       // this.getLogger().addAppender(this.logappender);
-      this.getLogger().getParentLogger().getParentLogger().addAppender(this.logappender);
+      // this.getLogger().getParentLogger().getParentLogger().addAppender(this.logappender);
 
       // testrunner.getLogger().addAppender(this.logappender);
       // this.getParent().getParent().getLogger().addAppender(this.logappender);
@@ -1099,7 +1099,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.frameWindow = iframe.getContentWindow();
 
       this.loader = this.frameWindow.testrunner.TestLoader.getInstance();
-      this.loader.getLogger().getParentLogger().addAppender(this.logappender);
+      // this.loader.getLogger().getParentLogger().addAppender(this.logappender);
       var testRep = this.loader.getTestDescriptions();
       this.tests.handler = new testrunner.runner.TestHandler(testRep);
       this.tests.firstrun = true;
