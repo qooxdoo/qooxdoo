@@ -89,7 +89,7 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       check : "Integer",
       init : 0,
-      apply : "_applyOuterStyle",
+      apply : "_applyOuterPixel",
       event : "changeLeft"
     },
 
@@ -101,7 +101,7 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       check : "Integer",
       init : 0,
-      apply : "_applyOuterStyle",
+      apply : "_applyOuterPixel",
       event : "changeTop"
     },
 
@@ -847,6 +847,16 @@ qx.Class.define("qx.ui2.core.Widget",
    },
 
 
+   _applyOuterPixel : function(value, old, propName)
+   {
+     if (value == null) {
+       this._outerElement.resetStyle(propName);
+     } else {
+       this._outerElement.setStyle(propName, value + "px");
+     }
+   },
+
+
    _applyWidth : function(value, old, name)
    {
      if (name == "width") {
@@ -868,7 +878,7 @@ qx.Class.define("qx.ui2.core.Widget",
      if (name == "paddingTop") {
        this._innerElement.setStyle("top", value + "px");
      }
-     var innerHeight = this.getWidth() - this.getPaddingTop() - this.getPaddingBottom();
+     var innerHeight = this.getHeight() - this.getPaddingTop() - this.getPaddingBottom();
      this._innerElement.setStyle("height", innerHeight + "px");
    }
 
