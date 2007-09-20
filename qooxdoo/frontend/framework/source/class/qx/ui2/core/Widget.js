@@ -132,7 +132,7 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       check : "Integer",
       init : 100,
-      apply : "_applyOuterStyle",
+      apply : "_applyHeight",
       event : "changeHeight"
     },
 
@@ -150,7 +150,7 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       check : "Number",
       init : 0,
-      apply : "_applyPaddingTop",
+      apply : "_applyHeight",
       themeable : true
     },
 
@@ -170,7 +170,7 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       check : "Number",
       init : 0,
-      apply : "_applyPaddingBottom",
+      apply : "_applyHeight",
       themeable : true
     },
 
@@ -185,7 +185,20 @@ qx.Class.define("qx.ui2.core.Widget",
     },
 
 
-
+    /**
+     * The 'padding' property is a shorthand property for setting 'paddingTop',
+     * 'paddingRight', 'paddingBottom' and 'paddingLeft' at the same time.
+     *
+     * If four values are specified they apply to top, right, bottom and left respectively.
+     * If there is only one value, it applies to all sides, if there are two or three,
+     * the missing values are taken from the opposite side.
+     */
+    padding :
+    {
+      group : [ "paddingTop", "paddingRight", "paddingBottom", "paddingLeft" ],
+      mode  : "shorthand",
+      themeable : true
+    },
 
 
     /*
@@ -845,13 +858,27 @@ qx.Class.define("qx.ui2.core.Widget",
    _applyWidth : function(value, old, propName)
    {
      if (propName == "width") {
-       this._outerElement.setStyle("width", value);
+       this._outerElement.setStyle("width", value + "px");
+     }
+     if (propName == "paddingLeft") {
+       this._innerElement.setStyle("left", value + "px");
      }
      var innerWidth = this.getWidth() - this.getPaddingLeft() - this.getPaddingRight();
-     this._innerElement.setStyle("width", innerWidth);
+     this._innerElement.setStyle("width", innerWidth + "px");
+   },
+
+
+   _applyHeight : function(value, old, propName)
+   {
+     if (propName == "height") {
+       this._outerElement.setStyle("height", value + "px");
+     }
+     if (propName == "paddingTop") {
+       this._innerElement.setStyle("top", value + "px");
+     }
+     var innerHeight = this.getWidth() - this.getPaddingTop() - this.getPaddingBottom();
+     this._innerElement.setStyle("height", innerHeight + "px");
    }
-
-
 
   },
 
