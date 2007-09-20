@@ -15,7 +15,7 @@ def main(dist, scan):
 
   firstCategory = True
   # for category in os.listdir(scan):
-  for category in [ "example", "test", "performance", "bomhtml", "iu" ]:
+  for category in [ "example", "test", "performance", "bomhtml", "ui" ]:
     if category == ".svn":
       continue
 
