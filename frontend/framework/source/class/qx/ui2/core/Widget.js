@@ -749,14 +749,9 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     add : function(childs)
     {
-      if (arguments[1])
-      {
-        var args = qx.lang.Array.fromArguments(arguments);
-        this._childContainer._add.apply(this._childContainer, args);
-      }
-      else
-      {
-        this._childContainer._add(childs);
+      var cont = this._childContainer;
+      for (var i=0, l=arguments.length; i<l; i++) {
+        cont._add(arguments[i]);
       }
 
       // Chaining support
@@ -792,14 +787,9 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     remove : function(childs)
     {
-      if (arguments[1])
-      {
-        var args = qx.lang.Array.fromArguments(arguments);
-        this._childContainer._remove.apply(this._childContainer, args);
-      }
-      else
-      {
-        this._childContainer._remove(childs);
+      var cont = this._childContainer;
+      for (var i=0, l=arguments.length; i<l; i++) {
+        cont._remove(arguments[i]);
       }
 
       // Chaining support
