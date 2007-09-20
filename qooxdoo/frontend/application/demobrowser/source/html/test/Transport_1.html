@@ -92,7 +92,7 @@
     hlay.add(checken);
 
     checken.addListener("changeChecked", function(e) {
-      qx.io.remote.RequestQueue.getInstance().setEnabled(e.getData());
+      qx.io.remote.RequestQueue.getInstance().setEnabled(e.getValue());
     });
 
 
@@ -149,37 +149,37 @@
         req.addListener("completed", function(e)
         {
           inf.setValue("Completed");
-          typ.setValue(e.getData().getResponseHeader("Content-Type"));
-          len.setValue(e.getData().getResponseHeader("Content-Length"));
-          code.setValue(e.getData().getStatusCode());
-          area.setValue(e.getData().getContent());
+          typ.setValue(e.getResponseHeader("Content-Type"));
+          len.setValue(e.getResponseHeader("Content-Length"));
+          code.setValue(e.getStatusCode());
+          area.setValue(e.getContent());
         });
 
         req.addListener("failed", function(e)
         {
           inf.setValue("Failed");
-          typ.setValue(e.getData().getResponseHeader("Content-Type"));
-          len.setValue(e.getData().getResponseHeader("Content-Length"));
-          code.setValue(e.getData().getStatusCode().toString());
-          area.setValue(e.getData().getContent());
+          typ.setValue(e.getResponseHeader("Content-Type"));
+          len.setValue(e.getResponseHeader("Content-Length"));
+          code.setValue(e.getStatusCode().toString());
+          area.setValue(e.getContent());
         });
 
         req.addListener("timeout", function(e)
         {
           inf.setValue("Timeout");
-          typ.setValue(e.getData().getResponseHeader("Content-Type"));
-          len.setValue(e.getData().getResponseHeader("Content-Length"));
-          code.setValue(e.getData().getStatusCode().toString());
-          area.setValue(e.getData().getContent());
+          typ.setValue(e.getResponseHeader("Content-Type"));
+          len.setValue(e.getResponseHeader("Content-Length"));
+          code.setValue(e.getStatusCode().toString());
+          area.setValue(e.getContent());
         });
 
         req.addListener("aborted", function(e)
         {
           inf.setValue("Aborted");
-          typ.setValue(e.getData().getResponseHeader("Content-Type"));
-          len.setValue(e.getData().getResponseHeader("Content-Length"));
-          code.setValue(e.getData().getStatusCode().toString());
-          area.setValue(e.getData().getContent());
+          typ.setValue(e.getResponseHeader("Content-Type"));
+          len.setValue(e.getResponseHeader("Content-Length"));
+          code.setValue(e.getStatusCode().toString());
+          area.setValue(e.getContent());
         });
 
         req.send();
