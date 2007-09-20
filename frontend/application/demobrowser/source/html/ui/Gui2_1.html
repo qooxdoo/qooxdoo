@@ -80,7 +80,7 @@ qx.Class.define("BasicSample",
       w4.setLeft(20);
 
       w4.getElement().addListener("click", function(e) {
-        w4.setBackgroundColor("orange");
+        w4.setBackgroundColor(w4.getBackgroundColor() == "yellow" ? "orange" : "yellow");
         qx.html.Element.flush()
       })
 
