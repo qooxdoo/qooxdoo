@@ -109,7 +109,7 @@ qx.Class.define("qx.ui2.core.Widget",
     width :
     {
       check : "Integer",
-      width : 100,
+      init : 100,
       apply : "_applyWidth",
       event : "changeWidth"
     },
@@ -121,7 +121,7 @@ qx.Class.define("qx.ui2.core.Widget",
     height :
     {
       check : "Integer",
-      width : 100,
+      init : 100,
       apply : "_applyHeight",
       event : "changeHeight"
     },
