@@ -42,7 +42,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
-
+    this._childContainer = this;
   /*
   *****************************************************************************
      EVENTS
@@ -550,6 +550,149 @@ qx.Class.define("qx.ui2.core.Widget",
 
       return this;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      CHILDREN MANAGEMENT (EXECUTED ON THE PARENT)
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Returns a copy of the internal children structure.
+     *
+     * @type member
+     * @return {Array} the children list
+     */
+    getChildren : function() {
+      return this._childContainer._getChildren();
+    },
+
+
+    /**
+     * Find the position of the given child
+     *
+     * @type member
+     * @param child {qx.html.Element} the child
+     * @return {Integer} returns the position. If the element
+     *     is not a child <code>-1</code> will be returned.
+     */
+    indexOf : function(child) {
+      return this._childContainer._indexOf(child);
+    },
+
+
+    /**
+     * Whether the given element is a child of this element.
+     *
+     * @type member
+     * @param child {qx.html.Element} the child
+     * @return {Boolean} Returns <code>true</code> when the given
+     *    element is a child of this element.
+     */
+    hasChild : function(child) {
+      return this._childContainer._hasChild(child);
+    },
+
+
+    /**
+     * Append all given children at the end of this element.
+     *
+     * @type member
+     * @param childs {qx.html.Element...} elements to insert
+     * @return {qx.html.Element} this object (for chaining support)
+     */
+    add : function(childs)
+    {
+      this._childContainer._add(childs);
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Inserts a new element into this element at the given position.
+     *
+     * @type member
+     * @param child {qx.html.Element} the element to insert
+     * @param index {Integer} the index (starts at 0 for the
+     *     first child) to insert (the index of the following
+     *     children will be increased by one)
+     * @return {qx.html.Element} this object (for chaining support)
+     */
+    addAt : function(child, index)
+    {
+      this._childContainer._addAt(child, index);
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Removes all given children
+     *
+     * @type member
+     * @param childs {qx.html.Element...} children to remove
+     * @return {qx.html.Element} this object (for chaining support)
+     */
+    remove : function(childs)
+    {
+      this._childContainer._remove(childs);
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Removes the child at the given index
+     *
+     * @type member
+     * @param index {Integer} the position of the
+     *     child (starts at 0 for the first child)
+     * @return {qx.html.Element} this object (for chaining support)
+     */
+    removeAt : function(index)
+    {
+      this._childContainer._removeAt(index);
+
+      // Chaining support
+      return this;
+    },
+
+
+    /**
+     * Remove all children from this element.
+     *
+     * @type member
+     * @return
+     */
+    removeAll : function()
+    {
+      this._childContainer._removeAll();
+
+      // Chaining support
+      return this;
+    }
+
+
+
+
 
 
 
