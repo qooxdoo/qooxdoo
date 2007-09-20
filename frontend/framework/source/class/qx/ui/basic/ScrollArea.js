@@ -80,7 +80,7 @@ qx.Class.define("qx.ui.basic.ScrollArea",
         if (qx.core.Variant.isSet("qx.client", "mshtml")) {
           value.attachEvent("onscroll", this.__onscroll);
         } else {
-          value.addEventListener("scroll", this.__onscroll, false);
+          value.addListener("scroll", this.__onscroll, false);
         }
       }
     },
@@ -115,7 +115,7 @@ qx.Class.define("qx.ui.basic.ScrollArea",
       if (qx.core.Variant.isSet("qx.client", "mshtml")) {
         el.detachEvent("onscroll", this.__onscroll);
       } else {
-        el.removeEventListener("scroll", this.__onscroll, false);
+        el.removeListener("scroll", this.__onscroll, false);
       }
 
       delete this.__onscroll;

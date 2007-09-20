@@ -151,7 +151,7 @@ qx.Class.define("qx.legacy.html.Form",
      */
     bind : function(vForm, vMethod)
     {
-      qx.legacy.html.EventRegistration.addEventListener(vForm, "submit", function(e)
+      qx.legacy.html.EventRegistration.addListener(vForm, "submit", function(e)
       {
         e.returnValue = false;
 

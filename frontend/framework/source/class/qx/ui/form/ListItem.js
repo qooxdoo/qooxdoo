@@ -48,7 +48,7 @@ qx.Class.define("qx.ui.form.ListItem",
       this.setValue(vValue);
     }
 
-    this.addEventListener("dblclick", this._ondblclick);
+    this.addListener("dblclick", this._ondblclick);
 
     // Initialize properties
     // Hint: width is already initialized in Atom

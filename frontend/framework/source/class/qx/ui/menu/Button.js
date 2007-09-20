@@ -77,7 +77,7 @@ qx.Class.define("qx.ui.menu.Button",
       this.setCommand(vCommand);
 
       // force update of the shortcut string
-      qx.locale.Manager.getInstance().addEventListener("changeLocale", function(e) {
+      qx.locale.Manager.getInstance().addListener("changeLocale", function(e) {
         this._applyCommand(vCommand, vCommand);
       }, this);
     }
@@ -93,7 +93,7 @@ qx.Class.define("qx.ui.menu.Button",
 
 
 
-    this.addEventListener("mouseup", this._onmouseup);
+    this.addListener("mouseup", this._onmouseup);
   },
 
 

@@ -89,7 +89,7 @@ qx.Class.define("qx.util.StringBuilder",
         // first use the plain IE StringBuilder and on window load replace it with a sub class
         // of Array obtained from an IFrame. This technique is described by Dean Edwards at
         // http://dean.edwards.name/weblog/2006/11/hooray/
-        qx.core.Init.getInstance().addEventListener("load", this.__onload, this);
+        qx.core.Init.getInstance().addListener("load", this.__onload, this);
       },
 
       "default" : null

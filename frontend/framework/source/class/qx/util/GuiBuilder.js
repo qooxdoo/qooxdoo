@@ -94,7 +94,7 @@ qx.Class.define("qx.util.GuiBuilder",
       var req = new qx.io.remote.Request(url, "GET", qx.util.Mime.XML);
       var self = this;
 
-      req.addEventListener("completed", function(e)
+      req.addListener("completed", function(e)
       {
         self.build(parent, e.getData().getContent());
       });
@@ -180,7 +180,7 @@ qx.Class.define("qx.util.GuiBuilder",
           var o = p[0];
           var m = p[1];
 
-          widget.addEventListener(args.type, function(e)
+          widget.addListener(args.type, function(e)
           {
             if (!window[o]) {
               throw self._newError('delegate not found', { delegate : args.delegate });
@@ -196,7 +196,7 @@ qx.Class.define("qx.util.GuiBuilder",
         else
         {
           // delegation to a global method
-          widget.addEventListener(args.type, function(e)
+          widget.addListener(args.type, function(e)
           {
             if (!window[args.delegate]) {
               throw self._newError('delegate not found', { delegate : args.delegate });
@@ -217,7 +217,7 @@ qx.Class.define("qx.util.GuiBuilder",
         }
 
         var f = new Function(args.args, text);
-        widget.addEventListener(args.type, f);
+        widget.addListener(args.type, f);
       }
     },
 

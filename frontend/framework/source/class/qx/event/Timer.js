@@ -100,7 +100,7 @@ qx.Class.define("qx.event.Timer",
       var timer = new qx.event.Timer(timeout);
 
       // Add event listener to interval
-      timer.addEventListener("interval", function(e)
+      timer.addListener("interval", function(e)
       {
         timer.dispose();
         func.call(obj, e);

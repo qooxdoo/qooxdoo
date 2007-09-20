@@ -38,7 +38,7 @@ qx.Class.define("testrunner.test.core.Target",
       });
 
       var target = new testrunner.Event();
-      target.addEventListener("click", function() {});
+      target.addListener("click", function() {});
     }
   }
 });

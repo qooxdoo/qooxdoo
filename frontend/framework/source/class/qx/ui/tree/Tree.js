@@ -102,9 +102,9 @@ qx.Class.define("qx.ui.tree.Tree",
     // ************************************************************************
     //   KEY EVENT LISTENER
     // ************************************************************************
-    this.addEventListener("keydown", this._onkeydown);
-    this.addEventListener("keypress", this._onkeypress);
-    this.addEventListener("keyup", this._onkeyup);
+    this.addListener("keydown", this._onkeydown);
+    this.addListener("keypress", this._onkeypress);
+    this.addListener("keyup", this._onkeyup);
   },
 
 

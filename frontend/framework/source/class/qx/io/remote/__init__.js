@@ -11,7 +11,7 @@
  * example:
  * <pre class='javascript'>
  * var req = new qx.io.remote.Request("/my/resource/url.txt");
- * req.addEventListener("completed", function (e) {
+ * req.addListener("completed", function (e) {
  *   alert(e.getContent());
  * });
  * req.send();

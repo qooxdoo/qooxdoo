@@ -216,13 +216,13 @@ qx.Class.define("qx.ui.pageview.tabview.Button",
 
       if (value)
       {
-        this._closeButtonImage.addEventListener("click", this._ontabclose, this);
+        this._closeButtonImage.addListener("click", this._ontabclose, this);
         this.add(this._closeButtonImage);
       }
       else
       {
         this.remove(this._closeButtonImage);
-        this._closeButtonImage.removeEventListener("click", this._ontabclose);
+        this._closeButtonImage.removeListener("click", this._ontabclose);
       }
     },
 

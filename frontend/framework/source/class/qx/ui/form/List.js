@@ -46,15 +46,15 @@ qx.Class.define("qx.ui.form.List",
 
     this._manager = new qx.ui.selection.SelectionManager(this);
 
-    this.addEventListener("mouseover", this._onmouseover);
-    this.addEventListener("mousedown", this._onmousedown);
-    this.addEventListener("mouseup", this._onmouseup);
-    this.addEventListener("click", this._onclick);
-    this.addEventListener("dblclick", this._ondblclick);
+    this.addListener("mouseover", this._onmouseover);
+    this.addListener("mousedown", this._onmousedown);
+    this.addListener("mouseup", this._onmouseup);
+    this.addListener("click", this._onclick);
+    this.addListener("dblclick", this._ondblclick);
 
-    this.addEventListener("keydown", this._onkeydown);
-    this.addEventListener("keypress", this._onkeypress);
-    this.addEventListener("keyinput", this._onkeyinput);
+    this.addListener("keydown", this._onkeydown);
+    this.addListener("keypress", this._onkeypress);
+    this.addListener("keyinput", this._onkeyinput);
 
     // Initialize properties
     this.initOverflow();

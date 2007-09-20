@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.pageview.AbstractBar",
 
     this._manager = new qx.ui.selection.RadioManager;
 
-    this.addEventListener("mousewheel", this._onmousewheel);
+    this.addListener("mousewheel", this._onmousewheel);
   },
 
 

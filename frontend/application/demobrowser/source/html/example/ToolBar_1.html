@@ -108,10 +108,10 @@ qx.Class.define("GuiSample",
 
               // beautiful decoupling: toolbar buttons don't know about radio boxes
 
-              this.addEventListener("changeLayout", changeLayout, o);
-              this.addEventListener("changeSize", changeSize, o);
+              this.addListener("changeLayout", changeLayout, o);
+              this.addListener("changeSize", changeSize, o);
 
-              o.addEventListener("execute", buttonExecute);
+              o.addListener("execute", buttonExecute);
               break;
           };
 
@@ -169,7 +169,7 @@ qx.Class.define("GuiSample",
 
 
       // beautiful decoupling: radio boxes don't know about toolbar buttons
-      rbm.addEventListener("changeSelected", function(e) {
+      rbm.addListener("changeSelected", function(e) {
         this.setLayout(e.getValue().getValue());
       }, this);
 
@@ -210,7 +210,7 @@ qx.Class.define("GuiSample",
 
       d.add(ra1, ra2, ra3);
 
-      ram.addEventListener("changeSelected", function(e) {
+      ram.addListener("changeSelected", function(e) {
         tb.setHorizontalChildrenAlign(e.getValue().getValue());
       });
 
@@ -227,7 +227,7 @@ qx.Class.define("GuiSample",
         setHorizontalAlign("center");
       };
 
-      b3.addEventListener("execute", function(e) {
+      b3.addListener("execute", function(e) {
         this.setSize(22);
       }, this);
 
@@ -240,7 +240,7 @@ qx.Class.define("GuiSample",
         setHorizontalAlign("center");
       };
 
-      b4.addEventListener("execute", function(e) {
+      b4.addListener("execute", function(e) {
         this.setSize(32);
       }, this);
 

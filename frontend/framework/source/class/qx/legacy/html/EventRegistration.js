@@ -49,14 +49,14 @@ qx.Class.define("qx.legacy.html.EventRegistration",
      * @return {void}
      * @signature function(vElement, vType, vFunction)
      */
-    addEventListener : qx.core.Variant.select("qx.client",
+    addListener : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(vElement, vType, vFunction) {
         vElement.attachEvent("on" + vType, vFunction);
       },
 
       "default" : function(vElement, vType, vFunction) {
-        vElement.addEventListener(vType, vFunction, false);
+        vElement.addListener(vType, vFunction, false);
       }
     }),
 
@@ -70,14 +70,14 @@ qx.Class.define("qx.legacy.html.EventRegistration",
      * @param vFunction {Function} The pointer to the function to assign
      * @signature function(vElement, vType, vFunction)
      */
-    removeEventListener : qx.core.Variant.select("qx.client",
+    removeListener : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(vElement, vType, vFunction) {
         vElement.detachEvent("on" + vType, vFunction);
       },
 
       "default" :  function(vElement, vType, vFunction) {
-        vElement.removeEventListener(vType, vFunction, false);
+        vElement.removeListener(vType, vFunction, false);
       }
     })
   }

@@ -873,7 +873,7 @@ qx.Class.define("qx.core.Log",
     _addEvent : function(object, name, handler)
     {
       if (document.all) object.attachEvent("on" + name, handler);
-      else object.addEventListener(name, handler, false);
+      else object.addListener(name, handler, false);
     },
 
 
@@ -889,7 +889,7 @@ qx.Class.define("qx.core.Log",
     _removeEvent : function(object, name, handler)
     {
       if (document.all) object.detachEvent("on" + name, handler);
-      else object.removeEventListener(name, handler, false);
+      else object.removeListener(name, handler, false);
     },
 
 

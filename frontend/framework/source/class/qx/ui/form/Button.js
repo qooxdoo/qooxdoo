@@ -51,13 +51,13 @@ qx.Class.define("qx.ui.form.Button",
 
     this.initTabIndex();
 
-    this.addEventListener("mouseover", this._onmouseover);
-    this.addEventListener("mouseout", this._onmouseout);
-    this.addEventListener("mousedown", this._onmousedown);
-    this.addEventListener("mouseup", this._onmouseup);
+    this.addListener("mouseover", this._onmouseover);
+    this.addListener("mouseout", this._onmouseout);
+    this.addListener("mousedown", this._onmousedown);
+    this.addListener("mouseup", this._onmouseup);
 
-    this.addEventListener("keydown", this._onkeydown);
-    this.addEventListener("keyup", this._onkeyup);
+    this.addListener("keydown", this._onkeydown);
+    this.addListener("keyup", this._onkeyup);
   },
 
 

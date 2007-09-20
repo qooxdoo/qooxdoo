@@ -187,7 +187,7 @@ qx.Class.define("qx.ui.core.Parent",
       if (value)
       {
         // Add Key Handler
-        this.addEventListener("keypress", this._onfocuskeyevent);
+        this.addListener("keypress", this._onfocuskeyevent);
 
         // Activate focus handling (but keep already configured tabIndex)
         if (this.getTabIndex() < 1) {
@@ -203,8 +203,8 @@ qx.Class.define("qx.ui.core.Parent",
       else
       {
         // Remove Key Handler
-        this.removeEventListener("keydown", this._onfocuskeyevent);
-        this.removeEventListener("keypress", this._onfocuskeyevent);
+        this.removeListener("keydown", this._onfocuskeyevent);
+        this.removeListener("keypress", this._onfocuskeyevent);
 
         // Deactivate focus handling
         this.setTabIndex(-1);

@@ -792,12 +792,12 @@ qx.Class.define("qx.io.remote.Exchange",
     {
       if (old)
       {
-        old.removeEventListener("sending", this._onsending, this);
-        old.removeEventListener("receiving", this._onreceiving, this);
-        old.removeEventListener("completed", this._oncompleted, this);
-        old.removeEventListener("aborted", this._onabort, this);
-        old.removeEventListener("timeout", this._ontimeout, this);
-        old.removeEventListener("failed", this._onfailed, this);
+        old.removeListener("sending", this._onsending, this);
+        old.removeListener("receiving", this._onreceiving, this);
+        old.removeListener("completed", this._oncompleted, this);
+        old.removeListener("aborted", this._onabort, this);
+        old.removeListener("timeout", this._ontimeout, this);
+        old.removeListener("failed", this._onfailed, this);
       }
 
       if (value)
@@ -818,12 +818,12 @@ qx.Class.define("qx.io.remote.Exchange",
 
         value.setResponseType(vRequest.getResponseType());
 
-        value.addEventListener("sending", this._onsending, this);
-        value.addEventListener("receiving", this._onreceiving, this);
-        value.addEventListener("completed", this._oncompleted, this);
-        value.addEventListener("aborted", this._onabort, this);
-        value.addEventListener("timeout", this._ontimeout, this);
-        value.addEventListener("failed", this._onfailed, this);
+        value.addListener("sending", this._onsending, this);
+        value.addListener("receiving", this._onreceiving, this);
+        value.addListener("completed", this._oncompleted, this);
+        value.addListener("aborted", this._onabort, this);
+        value.addListener("timeout", this._ontimeout, this);
+        value.addListener("failed", this._onfailed, this);
       }
     },
 
@@ -868,7 +868,7 @@ qx.Class.define("qx.io.remote.Exchange",
             break;
           }
 
-          if (this.hasEventListeners(value))
+          if (this.hasListeners(value))
           {
             var vResponse = new qx.io.remote.Response(value);
 

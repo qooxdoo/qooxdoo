@@ -56,14 +56,14 @@ qx.Class.define("qx.ui.embed.Gallery",
 
     this._manager.setMultiColumnSupport(true);
 
-    this.addEventListener("mousedown", this._onmousedown);
-    this.addEventListener("mouseup", this._onmouseup);
-    this.addEventListener("mousemove", this._onmousemove);
+    this.addListener("mousedown", this._onmousedown);
+    this.addListener("mouseup", this._onmouseup);
+    this.addListener("mousemove", this._onmousemove);
 
-    this.addEventListener("click", this._onclick);
-    this.addEventListener("dblclick", this._ondblclick);
+    this.addListener("click", this._onclick);
+    this.addListener("dblclick", this._ondblclick);
 
-    this.addEventListener("keypress", this._onkeypress);
+    this.addListener("keypress", this._onkeypress);
   },
 
 
@@ -829,7 +829,7 @@ qx.Class.define("qx.ui.embed.Gallery",
      */
     createImageCell : function(inode, d)
     {
-      if (this.hasEventListeners("loadComplete"))
+      if (this.hasListeners("loadComplete"))
       {
         inode.onload = qx.ui.embed.Gallery.imageOnLoad;
         inode.onerror = qx.ui.embed.Gallery.imageOnError;

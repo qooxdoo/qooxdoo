@@ -24,11 +24,11 @@
     c1.setBorder("black");
     c1.setPadding(2, 4);
 
-    c1.addEventListener("mouseover", function(e) {
+    c1.addListener("mouseover", function(e) {
       this.setFont(qx.ui.core.Font.fromString("20px bold"));
     });
 
-    c1.addEventListener("mouseout", function(e) {
+    c1.addListener("mouseout", function(e) {
       this.setFont(null);
     });
 
@@ -52,7 +52,7 @@
     c3.setPadding(4, 6);
     c3.setBackgroundColor("white");
 
-    c3.addEventListener("click", function()
+    c3.addListener("click", function()
     {
       if (this.getText() == "Delete temporary data")
       {
@@ -104,7 +104,7 @@
     c7.setBorder("outset");
     c7.setBackgroundColor("white");
 
-    c7.addEventListener("click", function(e)
+    c7.addListener("click", function(e)
     {
       switch(this.getWidth())
       {

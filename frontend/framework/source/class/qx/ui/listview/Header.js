@@ -79,10 +79,10 @@ qx.Class.define("qx.ui.listview.Header",
     }
 
     // Event Listeners
-    this.addEventListener("mousemove", this._onmousemove);
-    this.addEventListener("mousedown", this._onmousedown);
-    this.addEventListener("mouseup", this._onmouseup);
-    this.addEventListener("mouseout", this._onmouseout);
+    this.addListener("mousemove", this._onmousemove);
+    this.addListener("mousedown", this._onmousedown);
+    this.addListener("mouseup", this._onmouseup);
+    this.addListener("mouseout", this._onmouseout);
   },
 
 

@@ -142,11 +142,11 @@ qx.Class.define("testrunner.test.Xml",
       req.setAsynchronous(false);
       var failed = "";
       var xmlDocument;
-      req.addEventListener("aborted", error("aborted"));
-      req.addEventListener("failed", error("failed"));
-      req.addEventListener("timeout", error("timeout"));
+      req.addListener("aborted", error("aborted"));
+      req.addListener("failed", error("failed"));
+      req.addListener("timeout", error("timeout"));
 
-      req.addEventListener("completed", function(e) {
+      req.addListener("completed", function(e) {
         xmlDocument = e.getData().getContent();
       });
 

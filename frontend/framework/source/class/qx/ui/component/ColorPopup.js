@@ -47,7 +47,7 @@ qx.Class.define("qx.ui.component.ColorPopup",
     this._createPreview();
     this._createSelectorBtn();
 
-    this.addEventListener("beforeAppear", this._onBeforeAppear);
+    this.addListener("beforeAppear", this._onBeforeAppear);
   },
 
 
@@ -161,7 +161,7 @@ qx.Class.define("qx.ui.component.ColorPopup",
       this._automaticBtn = new qx.ui.form.Button(this.tr("Automatic"));
       this._automaticBtn.setWidth(null);
       this._automaticBtn.setAllowStretchX(true);
-      this._automaticBtn.addEventListener("execute", this._onAutomaticBtnExecute, this);
+      this._automaticBtn.addListener("execute", this._onAutomaticBtnExecute, this);
 
       this._layout.add(this._automaticBtn);
     },
@@ -209,8 +209,8 @@ qx.Class.define("qx.ui.component.ColorPopup",
           field.setBackgroundColor(table.values[i] || null);
           field.setDimension(this._fieldWidth, this._fieldHeight);
 
-          field.addEventListener("mousedown", this._onFieldMouseDown, this);
-          field.addEventListener("mouseover", this._onFieldMouseOver, this);
+          field.addListener("mousedown", this._onFieldMouseDown, this);
+          field.addListener("mouseover", this._onFieldMouseOver, this);
 
           boxLayout.add(field);
         }
@@ -262,7 +262,7 @@ qx.Class.define("qx.ui.component.ColorPopup",
       this._selectorButton = new qx.ui.form.Button(this.tr("Open ColorSelector"));
       this._selectorButton.setWidth(null);
       this._selectorButton.setAllowStretchX(true);
-      this._selectorButton.addEventListener("execute", this._onSelectorButtonExecute, this);
+      this._selectorButton.addListener("execute", this._onSelectorButtonExecute, this);
 
       this._layout.add(this._selectorButton);
     },
@@ -289,8 +289,8 @@ qx.Class.define("qx.ui.component.ColorPopup",
       this._colorSelector = new qx.ui.component.ColorSelector;
       this._colorSelector.setBorder(null);
       this._colorSelector.setLocation(0, 0);
-      this._colorSelector.addEventListener("dialogok", this._onColorSelectorOk, this);
-      this._colorSelector.addEventListener("dialogcancel", this._onColorSelectorCancel, this);
+      this._colorSelector.addListener("dialogok", this._onColorSelectorOk, this);
+      this._colorSelector.addListener("dialogcancel", this._onColorSelectorCancel, this);
 
       this._colorSelectorWindow.add(this._colorSelector);
       this._colorSelectorWindow.addToDocument();

@@ -169,17 +169,17 @@
 
     d.add(w11);
 
-    w8.addEventListener("click", function(e) {
+    w8.addListener("click", function(e) {
       w11.toggleDisplay();
     });
 
 
     /*
-    w11.addEventListener("show", function(e) {
+    w11.addListener("show", function(e) {
       this.debug("Show W11");
     });
 
-    w11.addEventListener("hide", function(e) {
+    w11.addListener("hide", function(e) {
       this.debug("Hide W11");
     });
     */
@@ -257,7 +257,7 @@
 
 
 
-    w16a.addEventListener("click", function(e)
+    w16a.addListener("click", function(e)
     {
       var v16Margin = w16a.getMarginTop() + 20;
       if (v16Margin > 240) {
@@ -290,7 +290,7 @@
     d.add(w17);
 
 
-    w17.addEventListener("click", function(e)
+    w17.addListener("click", function(e)
     {
       if (w17.getBorder() == w17_b1)
       {
@@ -343,7 +343,7 @@
 
 
     var _t22 = true;
-    w19.addEventListener("click", function(e)
+    w19.addListener("click", function(e)
     {
       if (_t22)
       {
@@ -391,7 +391,7 @@
     d.add(w21);
 
 
-    w21.addEventListener("click", function(e)
+    w21.addListener("click", function(e)
     {
       if (w21.getBorder() == w21_b1)
       {
@@ -435,13 +435,13 @@
 
     d.add(w23);
 
-    w23.addEventListener("mouseover", function(e)
+    w23.addListener("mouseover", function(e)
     {
       w23_b1.setColor("blue");
       w23_b1.setStyle("dotted");
     });
 
-    w23.addEventListener("mouseout", function(e)
+    w23.addListener("mouseout", function(e)
     {
       w23_b1.setColor("black");
       w23_b1.setStyle("solid");
@@ -483,7 +483,7 @@
     d.add(w25);
 
 
-    w25.addEventListener("click", function(e)
+    w25.addListener("click", function(e)
     {
       if (w25.getBorder() == w25_b1)
       {
@@ -528,7 +528,7 @@
     d.add(w27);
 
 
-    w27.addEventListener("click", function(e)
+    w27.addListener("click", function(e)
     {
       if (w27.getBorder() == "outset")
       {
@@ -579,7 +579,7 @@
     d.add(w29);
 
 
-    w29.addEventListener("click", function(e)
+    w29.addListener("click", function(e)
     {
       if (w29.getBorder() == w29_b1)
       {

@@ -265,11 +265,11 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
       if ( old && ! value )
       {
         // remove default listeners
-        this.removeEventListener("dragstart",this._handleDragStart);
-        this.removeEventListener("dragover",this._handleDragOver);
-        this.removeEventListener("dragout",this._handleDragOut);
-        this.removeEventListener("dragout",this._handleDragDrop);
-        this.removeEventListener("dragend",this._handleDragEnd);
+        this.removeListener("dragstart",this._handleDragStart);
+        this.removeListener("dragover",this._handleDragOver);
+        this.removeListener("dragout",this._handleDragOut);
+        this.removeListener("dragout",this._handleDragDrop);
+        this.removeListener("dragend",this._handleDragEnd);
       }
 
       if ( value && ! old )
@@ -284,29 +284,29 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
         }
 
         // set default listeners if not set already
-        if ( ! this.hasEventListeners ("dragstart") )
+        if ( ! this.hasListeners ("dragstart") )
         {
-          this.addEventListener("dragstart",this._handleDragStart,this);
+          this.addListener("dragstart",this._handleDragStart,this);
         }
 
-        if ( ! this.hasEventListeners ("dragover") )
+        if ( ! this.hasListeners ("dragover") )
         {
-          this.addEventListener("dragover",this._handleDragOver,this);
+          this.addListener("dragover",this._handleDragOver,this);
         }
 
-        if ( ! this.hasEventListeners ("dragout") )
+        if ( ! this.hasListeners ("dragout") )
         {
-          this.addEventListener("dragout",this._handleDragOut,this);
+          this.addListener("dragout",this._handleDragOut,this);
         }
 
-        if ( ! this.hasEventListeners ("dragdrop") )
+        if ( ! this.hasListeners ("dragdrop") )
         {
-          this.addEventListener("dragdrop",this._handleDragDrop,this);
+          this.addListener("dragdrop",this._handleDragDrop,this);
         }
 
-        if ( ! this.hasEventListeners ("dragend") )
+        if ( ! this.hasListeners ("dragend") )
         {
-          this.addEventListener("dragend",this._handleDragEnd,this);
+          this.addListener("dragend",this._handleDragEnd,this);
         }
       }
     },

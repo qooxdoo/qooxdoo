@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.form.RadioButton",
   {
     this.base(arguments, vText, vValue, vName, vChecked);
 
-    this.addEventListener("keypress", this._onkeypress);
+    this.addListener("keypress", this._onkeypress);
   },
 
 

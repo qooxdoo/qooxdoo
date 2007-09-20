@@ -67,7 +67,7 @@
     toggleButton.setBottom(48);
     toggleButton.setLeft(20);
     toggleButton.addToDocument();
-    toggleButton.addEventListener("execute", function(e)
+    toggleButton.addListener("execute", function(e)
     {
       if (splitpane.getOrientation() == "horizontal")
       {

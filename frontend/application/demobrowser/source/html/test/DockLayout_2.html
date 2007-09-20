@@ -40,7 +40,7 @@
     t1.setBackgroundColor("red");
     t1.setVerticalAlign("top");
     t1.setBorder("black");
-    t1.addEventListener("click", selfRemove);
+    t1.addListener("click", selfRemove);
 
     var t2 = new qx.ui.basic.Terminator;
     // t2.setWidth(150);
@@ -48,33 +48,33 @@
     t2.setBackgroundColor("gray");
     t2.setHorizontalAlign("left");
     t2.setBorder("black");
-    t2.addEventListener("click", selfRemove);
+    t2.addListener("click", selfRemove);
 
     var t3 = new qx.ui.basic.Terminator;
     t3.setHeight(100);
     t3.setBackgroundColor("yellow");
     t3.setVerticalAlign("top");
     t3.setBorder("black");
-    t3.addEventListener("click", selfRemove);
+    t3.addListener("click", selfRemove);
 
     var t4 = new qx.ui.basic.Terminator;
     t4.setWidth(40);
     t4.setBackgroundColor("orange");
     t4.setHorizontalAlign("right");
     t4.setBorder("black");
-    t4.addEventListener("click", selfRemove);
+    t4.addListener("click", selfRemove);
 
     var t5 = new qx.ui.basic.Terminator;
     t5.setHeight(80);
     t5.setBackgroundColor("blue");
     t5.setVerticalAlign("bottom");
     t5.setBorder("black");
-    t5.addEventListener("click", selfRemove);
+    t5.addListener("click", selfRemove);
 
     var t6 = new qx.ui.basic.Terminator;
     t6.setBackgroundColor("green");
     t6.setBorder("black");
-    t6.addEventListener("click", selfRemove);
+    t6.addListener("click", selfRemove);
 
     dl1.add(t1, t2, t3, t4, t5, t6);
 
@@ -93,15 +93,15 @@
     var btn1_2 = new qx.ui.form.Button("Horizontal", "icon/16/actions/dialog-ok.png");
     var btn1_3 = new qx.ui.form.Button("Ordered", "icon/16/actions/dialog-ok.png");
 
-    btn1_1.addEventListener("click", function(e) {
+    btn1_1.addListener("click", function(e) {
       dl1.setMode("vertical");
     });
 
-    btn1_2.addEventListener("click", function(e) {
+    btn1_2.addListener("click", function(e) {
       dl1.setMode("horizontal");
     });
 
-    btn1_3.addEventListener("click", function(e) {
+    btn1_3.addListener("click", function(e) {
       dl1.setMode("ordered");
     });
 
@@ -131,7 +131,7 @@
     var btn2_6 = new qx.ui.form.Button("Add Left", "icon/16/actions/dialog-ok.png");
     var btn2_7 = new qx.ui.form.Button("Add Auto", "icon/16/actions/dialog-ok.png");
 
-    btn2_1.addEventListener("execute", function(e)
+    btn2_1.addListener("execute", function(e)
     {
       var c = dl1.getFirstChild();
       if (c) {
@@ -139,7 +139,7 @@
       };
     });
 
-    btn2_2.addEventListener("execute", function(e)
+    btn2_2.addListener("execute", function(e)
     {
       var c = dl1.getLastChild();
       if (c) {
@@ -147,61 +147,61 @@
       };
     });
 
-    btn2_3.addEventListener("execute", function(e)
+    btn2_3.addListener("execute", function(e)
     {
       var t = new qx.ui.basic.Terminator();
 
       t.setBackgroundColor(qx.util.ColorUtil.randomColor());
       t.setHeight(2+Math.round(Math.random()*50));
       t.setBorder("black");
-      t.addEventListener("click", selfRemove);
+      t.addListener("click", selfRemove);
 
       dl1.addTop(t);
     });
 
-    btn2_4.addEventListener("execute", function(e)
+    btn2_4.addListener("execute", function(e)
     {
       var t = new qx.ui.basic.Terminator();
 
       t.setBackgroundColor(qx.util.ColorUtil.randomColor());
       t.setWidth(2+Math.round(Math.random()*50));
       t.setBorder("black");
-      t.addEventListener("click", selfRemove);
+      t.addListener("click", selfRemove);
 
       dl1.addRight(t);
     });
 
-    btn2_5.addEventListener("execute", function(e)
+    btn2_5.addListener("execute", function(e)
     {
       var t = new qx.ui.basic.Terminator();
 
       t.setBackgroundColor(qx.util.ColorUtil.randomColor());
       t.setHeight(2+Math.round(Math.random()*50));
       t.setBorder("black");
-      t.addEventListener("click", selfRemove);
+      t.addListener("click", selfRemove);
 
       dl1.addBottom(t);
     });
 
-    btn2_6.addEventListener("execute", function(e)
+    btn2_6.addListener("execute", function(e)
     {
       var t = new qx.ui.basic.Terminator();
 
       t.setBackgroundColor(qx.util.ColorUtil.randomColor());
       t.setWidth(2+Math.round(Math.random()*50));
       t.setBorder("black");
-      t.addEventListener("click", selfRemove);
+      t.addListener("click", selfRemove);
 
       dl1.addLeft(t);
     });
 
-    btn2_7.addEventListener("execute", function(e)
+    btn2_7.addListener("execute", function(e)
     {
       var t = new qx.ui.basic.Terminator();
 
       t.setBackgroundColor(qx.util.ColorUtil.randomColor());
       t.setBorder("black");
-      t.addEventListener("click", selfRemove);
+      t.addListener("click", selfRemove);
 
       dl1.add(t);
     });

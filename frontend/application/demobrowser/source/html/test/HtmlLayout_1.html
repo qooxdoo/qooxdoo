@@ -43,7 +43,7 @@
 
       // color popup
       var mybtn = new qx.ui.form.Button("Open Popup");
-      mybtn.addEventListener("execute", function()
+      mybtn.addListener("execute", function()
       {
         mypop.positionRelativeTo(mybtn.getElement(), 0, 20);
         mypop.show();
@@ -137,7 +137,7 @@
       }
       tableModel.setData(rowData);
 
-      table.getPaneScroller(0).addEventListener("rowdblclick", function (e) {
+      table.getPaneScroller(0).addListener("rowdblclick", function (e) {
         var row = e.getData();
         var data = table.getTableModel().getRowData(row);
         this.debug(row + ": " + data);

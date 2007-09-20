@@ -131,7 +131,7 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
       this._fadeMode = qx.ui.animation.MAnimation.FADE_IN;
       this.setFadeCounter(0);
       var timer = this.getFadeTimer();
-      timer.addEventListener("interval", this._onInterval, this);
+      timer.addListener("interval", this._onInterval, this);
       timer.start();
     },
 
@@ -151,7 +151,7 @@ qx.Mixin.define("qx.ui.animation.MAnimation", {
       this._fadeMode = qx.ui.animation.MAnimation.FADE_OUT;
       this.setFadeCounter(this.getFadeSteps());
       var timer = this.getFadeTimer();
-      timer.addEventListener("interval", this._onInterval, this);
+      timer.addListener("interval", this._onInterval, this);
       timer.start();
     },
 

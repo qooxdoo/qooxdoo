@@ -219,7 +219,7 @@
 
       commandFrame.add(tCurrentInput);
 
-      t.getManager().addEventListener("changeSelection", function(e) {
+      t.getManager().addListener("changeSelection", function(e) {
         tCurrentInput.setValue(e.getData()[0]._labelObject.getText());
       });
 
@@ -234,7 +234,7 @@
 
       commandFrame.add(tDoubleClick);
 
-      tDoubleClick.addEventListener("changeChecked", function(e) { t.setUseDoubleClick(e.getData()); });
+      tDoubleClick.addListener("changeChecked", function(e) { t.setUseDoubleClick(e.getData()); });
 
 
 
@@ -250,7 +250,7 @@
 
       commandFrame.add(tTreeLines);
 
-      tTreeLines.addEventListener("changeChecked", function(e) { t.setUseTreeLines(e.getData()); });
+      tTreeLines.addListener("changeChecked", function(e) { t.setUseTreeLines(e.getData()); });
 
 
 

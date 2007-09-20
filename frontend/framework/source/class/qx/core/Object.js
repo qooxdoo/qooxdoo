@@ -457,7 +457,7 @@ qx.Class.define("qx.core.Object",
      * @param func {Function} event callback function
      * @param obj {Object ? window} reference to the 'this' variable inside the callback
      */
-    addEventListener : function(type, func, obj)
+    addListener : function(type, func, obj)
     {
       if (!this.__disposed) {
         qx.event.Registration.addListener(this, type, func, obj, false);
@@ -474,7 +474,7 @@ qx.Class.define("qx.core.Object",
      * @param obj {Object ? window} reference to the 'this' variable inside the callback
      * @return {void}
      */
-    removeEventListener : function(type, func, obj)
+    removeListener : function(type, func, obj)
     {
       if (!this.__disposed) {
         qx.event.Registration.removeListener(this, type, func, obj, false);
@@ -489,7 +489,7 @@ qx.Class.define("qx.core.Object",
      * @param type {String} name of the event type
      * @return {var} TODOC
      */
-    hasEventListeners : function(type) {
+    hasListeners : function(type) {
       return qx.event.Registration.hasListeners(this, type);
     },
 

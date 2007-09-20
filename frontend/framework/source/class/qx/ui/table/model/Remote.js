@@ -618,7 +618,7 @@ qx.Class.define("qx.ui.table.model.Remote",
         }
 
         // Inform the listeners
-        if (this.hasEventListeners(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED))
+        if (this.hasListeners(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED))
         {
           var data =
           {
