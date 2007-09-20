@@ -337,7 +337,7 @@ endif
 # Compute variant configuration
 # ==============================================================================
 
-COMPUTED_BUILD_VARIANT = --use-variant qx.domEditDistance:off
+COMPUTED_BUILD_VARIANT = --use-variant qx.domEditDistance:off --use-variant qx.deprecationWarnings:off
 COMPUTED_SOURCE_VARIANT = 
 
 ifeq ($(APPLICATION_OPTIMIZE_REMOVE_DEBUG),true)
