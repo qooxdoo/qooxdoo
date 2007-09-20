@@ -64,11 +64,11 @@ qx.Class.define("qx.io.image.PreloaderSystem",
 
     // Create timer
     this._timer = new qx.event.Timer(qx.core.Setting.get("qx.preloaderTimeout"));
-    this._timer.addEventListener("interval", this.__oninterval, this);
+    this._timer.addListener("interval", this.__oninterval, this);
 
     // If we use the compact syntax, automatically add an event listeners and start the loading process
     if (vCallBack) {
-      this.addEventListener("completed", vCallBack, vCallBackScope || null);
+      this.addListener("completed", vCallBack, vCallBackScope || null);
     }
   },
 
@@ -133,8 +133,8 @@ qx.Class.define("qx.io.image.PreloaderSystem",
         {
           vPreloader._origSource = vSource;
 
-          vPreloader.addEventListener("load", this.__onload, this);
-          vPreloader.addEventListener("error", this.__onerror, this);
+          vPreloader.addListener("load", this.__onload, this);
+          vPreloader.addListener("error", this.__onerror, this);
         }
       }
 
@@ -263,7 +263,7 @@ qx.Class.define("qx.io.image.PreloaderSystem",
   {
     if (this._timer) 
     {
-      this._timer.removeEventListener("interval", this.__oninterval, this);
+      this._timer.removeListener("interval", this.__oninterval, this);
       this._disposeObjects("_timer");
     }
     

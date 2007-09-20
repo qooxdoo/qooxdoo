@@ -116,7 +116,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     this._history = qx.bom.History.getInstance();
 
     // listen for state changes
-    this._history.addEventListener("request", function(e)
+    this._history.addListener("request", function(e)
     {
       var newSample = e.getData().replace("~", "/");
 
@@ -192,7 +192,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     __makeCommands : function()
     {
       this._cmdObjectSummary = new qx.event.Command("Ctrl-O");
-      this._cmdObjectSummary.addEventListener("execute", function() {
+      this._cmdObjectSummary.addListener("execute", function() {
         var cw = this.f1.getContentWindow();
         if (cw && cw.qx) {
           alert(cw.qx.dev.ObjectSummary.getInfo());
@@ -202,16 +202,16 @@ qx.Class.define("demobrowser.DemoBrowser",
       }, this);
 
       this._cmdRunSample = new qx.event.Command("F5");
-      this._cmdRunSample.addEventListener("execute", this.runSample, this);
+      this._cmdRunSample.addListener("execute", this.runSample, this);
 
       this._cmdPrevSample = new qx.event.Command("Ctrl-Left");
-      this._cmdPrevSample.addEventListener("execute", this.playPrev, this);
+      this._cmdPrevSample.addListener("execute", this.playPrev, this);
 
       this._cmdNextSample = new qx.event.Command("Ctrl-Right");
-      this._cmdNextSample.addEventListener("execute", this.playNext, this);
+      this._cmdNextSample.addListener("execute", this.playNext, this);
 
       this._cmdSampleInOwnWindow = new qx.event.Command();
-      this._cmdSampleInOwnWindow.addEventListener("execute", function(e)
+      this._cmdSampleInOwnWindow.addListener("execute", function(e)
       {
         var sampUrl = this.f1.getContentWindow().location.href;
         var nw = new qx.legacy.Window(sampUrl, "Sample");
@@ -222,7 +222,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       }, this);
 
       this._cmdLoadProfile = new qx.event.Command();
-      this._cmdLoadProfile.addEventListener("execute", function(e)
+      this._cmdLoadProfile.addListener("execute", function(e)
       {
         var checked = e.getData().getChecked();
         this._useProfile = checked;
@@ -230,7 +230,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       }, this);
 
       this._cmdProfile = new qx.event.Command("Ctrl-Shift-P");
-      this._cmdProfile.addEventListener("execute", function(e)
+      this._cmdProfile.addListener("execute", function(e)
       {
         var checked = e.getData().getChecked();
         var cw = this.f1.getContentWindow();
@@ -252,7 +252,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this._cmdProfile.setUserData("checked", true);
 
       this._cmdShowLastProfile = new qx.event.Command();
-      this._cmdShowLastProfile.addEventListener("execute", function() {
+      this._cmdShowLastProfile.addListener("execute", function() {
         var cw = this.f1.getContentWindow();
         if (cw && cw.qx) {
           cw.qx.dev.Profile.normalizeProfileData();
@@ -261,7 +261,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       }, this);
 
       this._cmdDisposeSample = new qx.event.Command();
-      this._cmdDisposeSample.addEventListener("execute", function(e) {
+      this._cmdDisposeSample.addListener("execute", function(e) {
         var cw = this.f1.getContentWindow();
 
         if (cw && cw.qx)
@@ -277,7 +277,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       }, this);
 
       this._cmdNamespacePollution = new qx.event.Command();
-      this._cmdNamespacePollution.addEventListener("execute", function(e)
+      this._cmdNamespacePollution.addListener("execute", function(e)
       {
         var cw = this.f1.getContentWindow();
 
@@ -427,7 +427,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           var checked = (theme == mgr.getTheme());
           var item = new qx.ui.menu.RadioButton(theme.title, null, checked);
           item.setUserData("theme", theme);
-          item.addEventListener("execute", function(e) {
+          item.addListener("execute", function(e) {
             mgr.setTheme(e.getTarget().getUserData("theme"));
           })
           radioMgr.add(item);
@@ -525,7 +525,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           self.widgets[widgetData.id] = widget;
         }
         if (widgetData.command !== undefined) {
-          widgetData.command.addEventListener("changeEnabled", function(e) {
+          widgetData.command.addListener("changeEnabled", function(e) {
             widget.setEnabled(e.getValue());
           });
         }
@@ -578,7 +578,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     __bindCommand: function(widget, command) {
       widget.setCommand(command);
-      command.addEventListener("changeEnabled", function(e) {
+      command.addListener("changeEnabled", function(e) {
         widget.setEnabled(e.getValue());
       });
     },
@@ -611,7 +611,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       var playallb = new qx.ui.toolbar.Button("Play All", demobrowser.DemoBrowser.Img_PlayAll_Default);
       this.widgets["toolbar.playall"] = playallb;
       mb.add(playallb);
-      playallb.addEventListener("execute", this.__ehPlayAll, this);
+      playallb.addListener("execute", this.__ehPlayAll, this);
       playallb.setToolTip(new qx.ui.popup.ToolTip("Run all examples"));
 
       // -- previous navigation
@@ -786,7 +786,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         border   : "dark-shadow"
       });
 
-      f1.addEventListener("load", this.__ehIframeLoaded, this);
+      f1.addListener("load", this.__ehIframeLoaded, this);
 
 
       // Second Page
@@ -823,7 +823,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.logger = new qx.log.Logger("Demo Browser");
       this.logger.addAppender(this.logappender);
 
-      this.f2.addEventListener("appear", function(e) {
+      this.f2.addListener("appear", function(e) {
         this.logappender.setElement(this.f2.getElement());
       }, this);
 
@@ -913,9 +913,9 @@ qx.Class.define("demobrowser.DemoBrowser",
         overflow : "auto"
       });
 
-      tree.getManager().addEventListener("changeSelection", this.treeGetSelection, this);
+      tree.getManager().addListener("changeSelection", this.treeGetSelection, this);
 
-      tree.addEventListener("dblclick", function(e)
+      tree.addListener("dblclick", function(e)
       {
         if (e.getTarget() instanceof qx.ui.tree.TreeFile)
         {
@@ -954,7 +954,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         overflow : "auto"
       });
 
-      tree1.getManager().addEventListener("changeSelection", this.treeGetSelection, this);
+      tree1.getManager().addListener("changeSelection", this.treeGetSelection, this);
 
       // fake unique tree for selection (better to have a selection on the model)
       this.tree = {};
@@ -1068,7 +1068,7 @@ qx.Class.define("demobrowser.DemoBrowser",
             t.setUserData("node", currNode);
             t.setAlwaysShowPlusMinusSymbol(true);
 
-            t.addEventListener("changeOpen", function(e)
+            t.addListener("changeOpen", function(e)
             {
               if (!this.getUserData("filled"))
               {
@@ -1456,7 +1456,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       req.setTimeout(180000);
       req.setProhibitCaching(false);
 
-      req.addEventListener("completed", function(evt)
+      req.addListener("completed", function(evt)
       {
         var loadEnd = new Date();
         this.debug("Time to load page source from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
@@ -1471,7 +1471,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       },
       this);
 
-      req.addEventListener("failed", function(evt) {
+      req.addListener("failed", function(evt) {
         this.error("Couldn't load file: " + url);
       }, this);
 
@@ -1494,7 +1494,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       req.setTimeout(180000);
       req.setProhibitCaching(false);
 
-      req.addEventListener("completed", function(evt)
+      req.addListener("completed", function(evt)
       {
         var loadEnd = new Date();
         this.debug("Time to load data from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
@@ -1531,7 +1531,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       },
       this);
 
-      req.addEventListener("failed", function(evt) {
+      req.addListener("failed", function(evt) {
         this.error("Couldn't load file: " + url);
       }, this);
 

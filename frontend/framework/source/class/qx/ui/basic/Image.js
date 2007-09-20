@@ -379,8 +379,8 @@ qx.Class.define("qx.ui.basic.Image",
       if (old)
       {
         // remove event connection
-        old.removeEventListener("load", this._onload, this);
-        old.removeEventListener("error", this._onerror, this);
+        old.removeListener("load", this._onload, this);
+        old.removeListener("error", this._onerror, this);
       }
 
       var imageMgr = qx.io.image.Manager.getInstance();
@@ -398,8 +398,8 @@ qx.Class.define("qx.ui.basic.Image",
         }
         else
         {
-          value.addEventListener("load", this._onload, this);
-          value.addEventListener("error", this._onerror, this);
+          value.addListener("load", this._onload, this);
+          value.addListener("error", this._onerror, this);
         }
       }
       else

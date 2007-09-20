@@ -108,16 +108,16 @@ qx.Class.define("qx.ui.form.Spinner",
     // ************************************************************************
     //   EVENTS
     // ************************************************************************
-    this.addEventListener("keypress", this._onkeypress, this);
-    this.addEventListener("keydown", this._onkeydown, this);
-    this.addEventListener("keyup", this._onkeyup, this);
-    this.addEventListener("mousewheel", this._onmousewheel, this);
+    this.addListener("keypress", this._onkeypress, this);
+    this.addListener("keydown", this._onkeydown, this);
+    this.addListener("keyup", this._onkeyup, this);
+    this.addListener("mousewheel", this._onmousewheel, this);
 
-    this._textfield.addEventListener("input", this._oninput, this);
-    this._textfield.addEventListener("blur", this._onblur, this);
-    this._upbutton.addEventListener("mousedown", this._onmousedown, this);
-    this._downbutton.addEventListener("mousedown", this._onmousedown, this);
-    this._timer.addEventListener("interval", this._oninterval, this);
+    this._textfield.addListener("input", this._oninput, this);
+    this._textfield.addListener("blur", this._onblur, this);
+    this._upbutton.addListener("mousedown", this._onmousedown, this);
+    this._downbutton.addListener("mousedown", this._onmousedown, this);
+    this._timer.addListener("interval", this._oninterval, this);
 
     // ************************************************************************
     //   INITIALIZATION
@@ -331,12 +331,12 @@ qx.Class.define("qx.ui.form.Spinner",
     {
       if (old)
       {
-        old.removeEventListener("change", this._onchange, this);
+        old.removeListener("change", this._onchange, this);
       }
 
       if (value)
       {
-        value.addEventListener("change", this._onchange, this);
+        value.addListener("change", this._onchange, this);
       }
 
       // apply initital value
@@ -552,8 +552,8 @@ qx.Class.define("qx.ui.form.Spinner",
 
       vButton.addState("pressed");
 
-      vButton.addEventListener("mouseup", this._onmouseup, this);
-      vButton.addEventListener("mouseout", this._onmouseup, this);
+      vButton.addListener("mouseup", this._onmouseup, this);
+      vButton.addListener("mouseout", this._onmouseup, this);
 
       this._intervalIncrease = vButton == this._upbutton;
       this._resetIncrements();
@@ -582,8 +582,8 @@ qx.Class.define("qx.ui.form.Spinner",
 
       vButton.removeState("pressed");
 
-      vButton.removeEventListener("mouseup", this._onmouseup, this);
-      vButton.removeEventListener("mouseout", this._onmouseup, this);
+      vButton.removeListener("mouseup", this._onmouseup, this);
+      vButton.removeListener("mouseout", this._onmouseup, this);
 
       this._textfield.selectAll();
       this._textfield.setFocused(true);

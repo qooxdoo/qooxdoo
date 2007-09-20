@@ -50,7 +50,7 @@ qx.Class.define("qx.legacy.Window",
     this.base(arguments);
 
     this._timer = new qx.event.Timer(100);
-    this._timer.addEventListener("interval", this._oninterval, this);
+    this._timer.addListener("interval", this._oninterval, this);
 
     if (url != null) {
       this.setUrl(url);

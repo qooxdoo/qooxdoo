@@ -44,11 +44,11 @@ qx.Class.define("qx.ui.pageview.AbstractButton",
     this.initChecked();
     this.initTabIndex();
 
-    this.addEventListener("mouseover", this._onmouseover);
-    this.addEventListener("mouseout", this._onmouseout);
-    this.addEventListener("mousedown", this._onmousedown);
-    this.addEventListener("keydown", this._onkeydown);
-    this.addEventListener("keypress", this._onkeypress);
+    this.addListener("mouseover", this._onmouseover);
+    this.addListener("mouseout", this._onmouseout);
+    this.addListener("mousedown", this._onmousedown);
+    this.addListener("keydown", this._onkeydown);
+    this.addListener("keypress", this._onkeypress);
   },
 
 

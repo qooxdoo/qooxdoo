@@ -23,22 +23,22 @@
         list.add(new qx.ui.form.ListItem('Carol',null,'6'));
         
         var btn1 = new qx.ui.form.Button('Sort By Label'); btn1.set({top:50,left:200});
-        btn1.addEventListener('click',function(e){
+        btn1.addListener('click',function(e){
             list.sortItemsByString();
         });
 
         var btn2 = new qx.ui.form.Button('Sort By Label Reverse'); btn2.set({top:80,left:200});
-        btn2.addEventListener('click',function(e){
+        btn2.addListener('click',function(e){
             list.sortItemsByString(true);
         });
 
         var btn3 = new qx.ui.form.Button('Sort By Value'); btn3.set({top:140,left:200});
-        btn3.addEventListener('click',function(e){
+        btn3.addListener('click',function(e){
             list.sortItemsByValue();
         });
 
         var btn4 = new qx.ui.form.Button('Sort By Value Reverse'); btn4.set({top:170,left:200});
-        btn4.addEventListener('click',function(e){
+        btn4.addListener('click',function(e){
             list.sortItemsByValue(true);
         });
 

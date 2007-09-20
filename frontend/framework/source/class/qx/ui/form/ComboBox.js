@@ -103,28 +103,28 @@ qx.Class.define("qx.ui.form.ComboBox",
     this.add(b);
 
     // Mouse Events
-    this.addEventListener("mousedown", this._onmousedown);
-    this.addEventListener("mouseup", this._onmouseup);
-    this.addEventListener("click", this._onclick);
+    this.addListener("mousedown", this._onmousedown);
+    this.addListener("mouseup", this._onmouseup);
+    this.addListener("click", this._onclick);
 
-    this.addEventListener("mouseover", this._onmouseover);
-    this.addEventListener("mousewheel", this._onmousewheel);
+    this.addListener("mouseover", this._onmouseover);
+    this.addListener("mousewheel", this._onmousewheel);
 
     // Key Events
-    this.addEventListener("keydown", this._onkeydown);
-    this.addEventListener("keypress", this._onkeypress);
-    this.addEventListener("keyinput", this._onkeyinput);
+    this.addListener("keydown", this._onkeydown);
+    this.addListener("keypress", this._onkeypress);
+    this.addListener("keyinput", this._onkeyinput);
 
     // Other Events
-    this.addEventListener("beforeDisappear", this._onbeforedisappear);
-    this._popup.addEventListener("appear", this._onpopupappear, this);
-    this._field.addEventListener("input", this._oninput, this);
+    this.addListener("beforeDisappear", this._onbeforedisappear);
+    this._popup.addListener("appear", this._onpopupappear, this);
+    this._field.addListener("input", this._oninput, this);
 
     // force update of value on locale change
-    qx.locale.Manager.getInstance().addEventListener("changeLocale", this._onlocalechange, this);
+    qx.locale.Manager.getInstance().addListener("changeLocale", this._onlocalechange, this);
 
     var vDoc = qx.ui.core.ClientDocument.getInstance();
-    vDoc.addEventListener("windowblur", this._testClosePopup, this);
+    vDoc.addListener("windowblur", this._testClosePopup, this);
 
     // Remapping
     this.remapChildrenHandlingTo(l);
@@ -989,10 +989,10 @@ qx.Class.define("qx.ui.form.ComboBox",
 
     // Remove cross-object event listeners
     var vDoc = qx.ui.core.ClientDocument.getInstance();
-    vDoc.removeEventListener("windowblur", this._testClosePopup, this);
+    vDoc.removeListener("windowblur", this._testClosePopup, this);
 
     var vMgr = qx.locale.Manager.getInstance();
-    vMgr.removeEventListener("changeLocale", this._onlocalechange, this);
+    vMgr.removeListener("changeLocale", this._onlocalechange, this);
 
     this._disposeObjects("_popup", "_list", "_manager", "_field", "_button");
   }

@@ -195,7 +195,7 @@ qx.Class.define("feedreader.Application",
       // define commands
       var reload_cmd = new qx.event.Command("Control+R");
 
-      reload_cmd.addEventListener("execute", function(e)
+      reload_cmd.addListener("execute", function(e)
       {
         this.fetchFeeds();
         this.debug(this.tr("reloading ...").toString());
@@ -204,7 +204,7 @@ qx.Class.define("feedreader.Application",
 
       var about_cmd = new qx.event.Command("F1");
 
-      about_cmd.addEventListener("execute", function(e) {
+      about_cmd.addListener("execute", function(e) {
         alert(this.tr("qooxdoo feed reader."));
       }, this);
 
@@ -222,7 +222,7 @@ qx.Class.define("feedreader.Application",
       toolBar.add(new qx.ui.toolbar.Separator());
 
       var pref_btn = new qx.ui.toolbar.Button(this.tr("Preferences"), "icon/16/apps/preferences.png");
-      pref_btn.addEventListener("execute", this.showPreferences, this);
+      pref_btn.addListener("execute", this.showPreferences, this);
       pref_btn.setToolTip(new qx.ui.popup.ToolTip(this.tr("Open preferences window.")));
       toolBar.add(pref_btn);
 
@@ -258,7 +258,7 @@ qx.Class.define("feedreader.Application",
         radioManager.add(menuButton);
       }
 
-      radioManager.addEventListener("changeSelected", function(e)
+      radioManager.addListener("changeSelected", function(e)
       {
         var lang = e.getData().getUserData("locale");
         this.debug("lang:" + lang);
@@ -293,7 +293,7 @@ qx.Class.define("feedreader.Application",
       {
         var folder = new qx.ui.tree.TreeFolder(feedDesc[i].name);
 
-        tree.getManager().addEventListener("changeSelection", function(e)
+        tree.getManager().addListener("changeSelection", function(e)
         {
           if (e.getData()[0].getParentFolder()) {
             this.displayFeed(e.getData()[0].getLabel());
@@ -345,7 +345,7 @@ qx.Class.define("feedreader.Application",
       table.getTableColumnModel().setColumnVisible(3, false);
 
 
-      table.getSelectionModel().addEventListener("changeSelection", function(e)
+      table.getSelectionModel().addListener("changeSelection", function(e)
       {
         var selectedEntry = table.getSelectionModel().getAnchorSelectionIndex();
         var feedName = this.getSelectedFeed()
@@ -397,7 +397,7 @@ qx.Class.define("feedreader.Application",
 
       dockLayout.addToDocument();
 
-      qx.theme.manager.Meta.getInstance().addEventListener("changeTheme", this.onChangeTheme, this);
+      qx.theme.manager.Meta.getInstance().addListener("changeTheme", this.onChangeTheme, this);
       this.onChangeTheme();
 
       // load and display feed data
@@ -468,9 +468,9 @@ qx.Class.define("feedreader.Application",
         });
 
         var btn_cancel = new qx.ui.form.Button(this.tr("Cancel"));
-        btn_cancel.addEventListener("execute", win.close, win);
+        btn_cancel.addListener("execute", win.close, win);
         var btn_ok = new qx.ui.form.Button(this.tr("OK"));
-        btn_ok.addEventListener("execute", function() {
+        btn_ok.addListener("execute", function() {
           if (btn_ext.getChecked()) {
             qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Ext);
           } else {
@@ -484,7 +484,7 @@ qx.Class.define("feedreader.Application",
         winLayout.add(hb);
 
         this._prefWindow = win;
-        win.addEventListener("appear", win.centerToBrowser, win);
+        win.addListener("appear", win.centerToBrowser, win);
       }
 
       this._prefWindow.open();
@@ -502,7 +502,7 @@ qx.Class.define("feedreader.Application",
       var req = new qx.io.remote.Request(qx.io.Alias.getInstance().resolve("feedreader/feeds/febo-feeds.opml.xml"), "GET", qx.util.Mime.XML);
       feedreader.Application._feedDesc = [];
 
-      req.addEventListener("completed", function(e)
+      req.addListener("completed", function(e)
       {
         var xml = e.getContent();
         var eItems = xml.getElementsByTagName("outline");
@@ -549,7 +549,7 @@ qx.Class.define("feedreader.Application",
       for (var i=0; i<feedDesc.length; i++)
       {
         var req = new qx.io.remote.Request(qx.io.Alias.getInstance().resolve(feedDesc[i].url), "GET", qx.util.Mime.XML);
-        req.addEventListener("completed", getCallback(feedDesc[i].name));
+        req.addListener("completed", getCallback(feedDesc[i].name));
         req.send();
       }
     },

@@ -27,11 +27,11 @@
 
 
 
-    b1.addEventListener("execute", function(e) {
+    b1.addListener("execute", function(e) {
       f1.setValue(qx.io.local.CookieTransport.get("fieldContent"));
     });
 
-    b2.addEventListener("execute", function(e) {
+    b2.addListener("execute", function(e) {
       qx.io.local.CookieTransport.set("fieldContent", f1.getValue());
     });
   });

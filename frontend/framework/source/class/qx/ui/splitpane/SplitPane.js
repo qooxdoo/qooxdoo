@@ -405,12 +405,12 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
       {
         case "horizontal":
           // remove old listeners
-          this._splitter.removeEventListener("mousedown", this._onSplitterMouseDownX, this);
-          this._splitter.removeEventListener("mousemove", this._onSplitterMouseMoveX, this);
-          this._splitter.removeEventListener("mouseup", this._onSplitterMouseUpX, this);
-          this._knob.removeEventListener("mousedown", this._onSplitterMouseDownX, this);
-          this._knob.removeEventListener("mousemove", this._onSplitterMouseMoveX, this);
-          this._knob.removeEventListener("mouseup", this._onSplitterMouseUpX, this);
+          this._splitter.removeListener("mousedown", this._onSplitterMouseDownX, this);
+          this._splitter.removeListener("mousemove", this._onSplitterMouseMoveX, this);
+          this._splitter.removeListener("mouseup", this._onSplitterMouseUpX, this);
+          this._knob.removeListener("mousedown", this._onSplitterMouseDownX, this);
+          this._knob.removeListener("mousemove", this._onSplitterMouseMoveX, this);
+          this._knob.removeListener("mouseup", this._onSplitterMouseUpX, this);
 
           // reconfigure states
           this._splitter.removeState("horizontal");
@@ -425,12 +425,12 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
 
         case "vertical":
           // remove old listeners
-          this._splitter.removeEventListener("mousedown", this._onSplitterMouseDownY, this);
-          this._splitter.removeEventListener("mousemove", this._onSplitterMouseMoveY, this);
-          this._splitter.removeEventListener("mouseup", this._onSplitterMouseUpY, this);
-          this._knob.removeEventListener("mousedown", this._onSplitterMouseDownY, this);
-          this._knob.removeEventListener("mousemove", this._onSplitterMouseMoveY, this);
-          this._knob.removeEventListener("mouseup", this._onSplitterMouseUpY, this);
+          this._splitter.removeListener("mousedown", this._onSplitterMouseDownY, this);
+          this._splitter.removeListener("mousemove", this._onSplitterMouseMoveY, this);
+          this._splitter.removeListener("mouseup", this._onSplitterMouseUpY, this);
+          this._knob.removeListener("mousedown", this._onSplitterMouseDownY, this);
+          this._knob.removeListener("mousemove", this._onSplitterMouseMoveY, this);
+          this._knob.removeListener("mouseup", this._onSplitterMouseUpY, this);
 
           // reconfigure states
           this._splitter.removeState("vertical");
@@ -448,12 +448,12 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
       {
         case "horizontal":
           // add new listeners
-          this._splitter.addEventListener("mousemove", this._onSplitterMouseMoveX, this);
-          this._splitter.addEventListener("mousedown", this._onSplitterMouseDownX, this);
-          this._splitter.addEventListener("mouseup", this._onSplitterMouseUpX, this);
-          this._knob.addEventListener("mousemove", this._onSplitterMouseMoveX, this);
-          this._knob.addEventListener("mousedown", this._onSplitterMouseDownX, this);
-          this._knob.addEventListener("mouseup", this._onSplitterMouseUpX, this);
+          this._splitter.addListener("mousemove", this._onSplitterMouseMoveX, this);
+          this._splitter.addListener("mousedown", this._onSplitterMouseDownX, this);
+          this._splitter.addListener("mouseup", this._onSplitterMouseUpX, this);
+          this._knob.addListener("mousemove", this._onSplitterMouseMoveX, this);
+          this._knob.addListener("mousedown", this._onSplitterMouseDownX, this);
+          this._knob.addListener("mouseup", this._onSplitterMouseUpX, this);
 
           // reconfigure states
           this._splitter.addState("horizontal");
@@ -463,12 +463,12 @@ qx.Class.define("qx.ui.splitpane.SplitPane",
 
         case "vertical":
           // add new listeners
-          this._splitter.addEventListener("mousedown", this._onSplitterMouseDownY, this);
-          this._splitter.addEventListener("mousemove", this._onSplitterMouseMoveY, this);
-          this._splitter.addEventListener("mouseup", this._onSplitterMouseUpY, this);
-          this._knob.addEventListener("mousedown", this._onSplitterMouseDownY, this);
-          this._knob.addEventListener("mousemove", this._onSplitterMouseMoveY, this);
-          this._knob.addEventListener("mouseup", this._onSplitterMouseUpY, this);
+          this._splitter.addListener("mousedown", this._onSplitterMouseDownY, this);
+          this._splitter.addListener("mousemove", this._onSplitterMouseMoveY, this);
+          this._splitter.addListener("mouseup", this._onSplitterMouseUpY, this);
+          this._knob.addListener("mousedown", this._onSplitterMouseDownY, this);
+          this._knob.addListener("mousemove", this._onSplitterMouseMoveY, this);
+          this._knob.addListener("mouseup", this._onSplitterMouseUpY, this);
 
           // reconfigure states
           this._splitter.addState("vertical");

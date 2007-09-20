@@ -81,8 +81,8 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       tabIndex: -1,
       appearance : 'combo-box-ex-text-field'
     });
-    f.addEventListener("input", this._oninput, this);
-    f.addEventListener("contextmenu", this._onContextMenu, this);
+    f.addListener("input", this._oninput, this);
+    f.addListener("contextmenu", this._onContextMenu, this);
     this.add(f);
     this.setEditable(false);
 
@@ -102,20 +102,20 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
     this.add(b);
 
     // Events
-    this.addEventListener("mousedown", this._onmousedown);
-    this.addEventListener("mouseup", this._onmouseup);
-    this.addEventListener("mousewheel", this._onmousewheel);
+    this.addListener("mousedown", this._onmousedown);
+    this.addListener("mouseup", this._onmouseup);
+    this.addListener("mousewheel", this._onmousewheel);
 
-    this.addEventListener("dblclick", function()
+    this.addListener("dblclick", function()
     {
       if (this.getAllowSearch()) {
         this.openSearchDialog();
       }
     });
 
-    this.addEventListener("keydown", this._onkeydown);
-    this.addEventListener("keypress", this._onkeypress);
-    this.addEventListener("beforeDisappear", this._closePopup);
+    this.addListener("keydown", this._onkeydown);
+    this.addListener("keypress", this._onkeypress);
+    this.addListener("beforeDisappear", this._closePopup);
 
     // Initialize properties
     this.initWidth();
@@ -389,7 +389,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
 
       this._applyIdColumnVisible(this.getIdColumnVisible());
       this._manager = l.getSelectionModel();
-      this._manager.addEventListener('changeSelection', this._onChangeSelection, this);
+      this._manager.addListener('changeSelection', this._onChangeSelection, this);
 
       // Avoid deselection from user
       this._manager.removeSelectionInterval = function() {};
@@ -726,7 +726,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
         });
         p.auto();
         p.setAppearance('combo-box-ex-popup');
-        p.addEventListener("appear", this._onpopupappear, this);
+        p.addListener("appear", this._onpopupappear, this);
         this.fireEvent("beforeInitialOpen");
       }
       if (!this._list)
@@ -949,7 +949,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       if (this.getAllowSearch()) {
         var menu = new qx.ui.menu.Menu;
         var cmd = new qx.event.Command();
-        cmd.addEventListener('execute', this.openSearchDialog, this);
+        cmd.addListener('execute', this.openSearchDialog, this);
         menu.add(new qx.ui.menu.Button(this.tr("Search"), 'icon/16/actions/edit-find.png', cmd));
         menu.addToDocument();
         menu.setLocation(ev.getPageX(), ev.getPageY());
@@ -1061,7 +1061,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
         width    : '100%'
       });
 
-      searchField.addEventListener("input", function() {
+      searchField.addListener("input", function() {
         search();
       });
 
@@ -1110,7 +1110,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       var butNext = new qx.ui.form.Button('', 'icon/16/actions/edit-find.png');
       butNext.set({ toolTip : new qx.ui.popup.ToolTip(this.tr("Search next occurrence")) });
 
-      butNext.addEventListener("execute", function()
+      butNext.addListener("execute", function()
       {
         startIndex = (this.getSelectedIndex() + 1) % sel.length;
         search();
@@ -1119,7 +1119,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
 
       var butOk = new qx.ui.form.Button('', 'icon/16/actions/dialog-ok.png');
 
-      butOk.addEventListener('execute', function()
+      butOk.addListener('execute', function()
       {
         oldSelectedIndex = null;
         win.close();
@@ -1128,7 +1128,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
 
       var butCancel = new qx.ui.form.Button('', 'icon/16/actions/dialog-cancel.png');
 
-      butCancel.addEventListener('execute', function() {
+      butCancel.addListener('execute', function() {
         win.close();
       }, this);
 
@@ -1165,11 +1165,11 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
         showMinimize  : false
       });
 
-      win.addEventListener("appear", function() {
+      win.addListener("appear", function() {
         searchField.focus();
       });
 
-      win.addEventListener("disappear", function()
+      win.addListener("disappear", function()
       {
         if (oldSelectedIndex != null)
         {
@@ -1182,7 +1182,7 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       },
       this);
 
-      win.addEventListener("keydown", function(e)
+      win.addListener("keydown", function(e)
       {
         switch(e.getKeyIdentifier())
         {

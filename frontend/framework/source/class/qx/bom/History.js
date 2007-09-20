@@ -252,7 +252,7 @@ qx.Class.define("qx.bom.History",
     {
       this._timer = new qx.event.Timer(this.getTimeoutInterval());
 
-      this._timer.addEventListener("interval", function(e) {
+      this._timer.addListener("interval", function(e) {
         var newHash = this.__getState();
         if (newHash != this._state) {
           this.__onHistoryLoad(newHash);

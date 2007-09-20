@@ -114,8 +114,8 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
     this._labelObject.setAppearance("tree-element-label");
 
     // Register event listeners
-    this.addEventListener("mousedown", this._onmousedown);
-    this.addEventListener("mouseup", this._onmouseup);
+    this.addListener("mousedown", this._onmousedown);
+    this.addListener("mouseup", this._onmouseup);
   },
 
 

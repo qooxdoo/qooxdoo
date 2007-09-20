@@ -50,7 +50,7 @@ qx.Class.define("qx.ui.table.pane.Model",
   {
     this.base(arguments);
 
-    tableColumnModel.addEventListener("visibilityChangedPre", this._onColVisibilityChanged, this);
+    tableColumnModel.addListener("visibilityChangedPre", this._onColVisibilityChanged, this);
 
     this._tableColumnModel = tableColumnModel;
   },

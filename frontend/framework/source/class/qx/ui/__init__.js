@@ -21,7 +21,7 @@
  * h.add(b);
  * var l = new qx.ui.basic.Label("Don't push this button!");
  * h.add(l);
- * b.addEventListener("execute", function (e) {
+ * b.addListener("execute", function (e) {
  *    alert("Argh ... you did it!");
  * }, this);
  * </pre>

@@ -54,7 +54,7 @@ qx.Class.define("qx.ui.basic.ScrollBar",
     }
 
     this._scrollBar.setOverflow(horizontal ? "scrollX" : "scrollY");
-    this._scrollBar.addEventListener("scroll", this._onscroll, this);
+    this._scrollBar.addListener("scroll", this._onscroll, this);
 
     this._scrollContent = new qx.ui.basic.Terminator;
 

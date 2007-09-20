@@ -103,7 +103,7 @@
     o = new qx.ui.form.TextField();
     o.set({ left: 4, right: 0, top: 20, readOnly: true });
     commandFrame.add(o);
-    tree.addEventListener(
+    tree.addListener(
       "changeSelection",
       function(e)
       {
@@ -118,7 +118,7 @@
     var buttonRemove = new qx.ui.form.Button("Remove");
     buttonRemove.set({ top: 42, left: 0, enabled: false });
     commandFrame.add(buttonRemove);
-    buttonRemove.addEventListener(
+    buttonRemove.addListener(
       "execute",
       function(e)
       {
@@ -133,7 +133,7 @@
     o = new qx.ui.form.CheckBox("Use tree lines?");
     o.set({ top: 80, left: 0, checked: true });
     commandFrame.add(o);
-    o.addEventListener("changeChecked",
+    o.addListener("changeChecked",
                        function(e)
                        {
                          tree.setUseTreeLines(e.getData());
@@ -142,7 +142,7 @@
     o = new qx.ui.form.CheckBox("Exclude first-level tree lines?");
     o.set({ top: 100, left: 0, checked: false });
     commandFrame.add(o);
-    o.addEventListener("changeChecked",
+    o.addListener("changeChecked",
                        function(e)
                        {
                          tree.setExcludeFirstLevelTreeLines(e.getData());
@@ -151,7 +151,7 @@
     o = new qx.ui.form.CheckBox("Always show open/close symbol?");
     o.set({ top: 120, left: 0, checked: true });
     commandFrame.add(o);
-    o.addEventListener("changeChecked",
+    o.addListener("changeChecked",
                        function(e)
                        {
                          tree.setAlwaysShowOpenCloseSymbol(e.getData());
@@ -160,7 +160,7 @@
     o = new qx.ui.form.CheckBox("Remove open/close if found empty?");
     o.set({ top: 140, left: 0, checked: true });
     commandFrame.add(o);
-    tree.addEventListener("treeOpenWhileEmpty",
+    tree.addListener("treeOpenWhileEmpty",
                           function(e)
                           {
                             if (this.getChecked())
@@ -174,7 +174,7 @@
     o = new qx.ui.form.CheckBox("Open/close click selects row?");
     o.set({ top: 160, left: 0, checked: false });
     commandFrame.add(o);
-    o.addEventListener("changeChecked",
+    o.addListener("changeChecked",
                        function(e)
                        {
                          tree.setOpenCloseClickSelectsRow(e.getData());
@@ -183,7 +183,7 @@
     o = new qx.ui.form.CheckBox("Disable the tree?");
     o.set({ top: 180, left: 0, checked: false });
     commandFrame.add(o);
-    o.addEventListener("changeChecked",
+    o.addListener("changeChecked",
                        function(e)
                        {
                          tree.setEnabled(! e.getData());
@@ -192,7 +192,7 @@
     o = new qx.ui.form.CheckBox("Display a cell focus indicator?");
     o.set({ top: 200, left: 0, checked: true });
     commandFrame.add(o);
-    o.addEventListener("changeChecked",
+    o.addListener("changeChecked",
                        function(e)
                        {
                          if (e.getData())

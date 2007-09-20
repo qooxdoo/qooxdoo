@@ -55,16 +55,16 @@ qx.Class.define("qx.ui.popup.ToolTip",
     //   TIMER
     // ************************************************************************
     this._showTimer = new qx.event.Timer(this.getShowInterval());
-    this._showTimer.addEventListener("interval", this._onshowtimer, this);
+    this._showTimer.addListener("interval", this._onshowtimer, this);
 
     this._hideTimer = new qx.event.Timer(this.getHideInterval());
-    this._hideTimer.addEventListener("interval", this._onhidetimer, this);
+    this._hideTimer.addListener("interval", this._onhidetimer, this);
 
     // ************************************************************************
     //   EVENTS
     // ************************************************************************
-    this.addEventListener("mouseover", this._onmouseover);
-    this.addEventListener("mouseout", this._onmouseover);
+    this.addListener("mouseover", this._onmouseover);
+    this.addListener("mouseout", this._onmouseover);
   },
 
 

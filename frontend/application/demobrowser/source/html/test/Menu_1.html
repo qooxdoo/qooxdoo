@@ -81,7 +81,7 @@
       w1.setTop(48);
       w1.setLeft(20);
 
-      w1.addEventListener("click", function(e)
+      w1.addListener("click", function(e)
       {
         if (m1.isSeeable())
         {
@@ -100,7 +100,7 @@
         e.stopPropagation();
       });
 
-      w1.addEventListener("mousedown", function(e)
+      w1.addListener("mousedown", function(e)
       {
         e.stopPropagation();
       });

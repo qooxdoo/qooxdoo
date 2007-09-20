@@ -72,32 +72,32 @@
     var bc4 = new qx.ui.form.Button("0x10", "icon/16/actions/dialog-ok.png");
     var bc5 = new qx.ui.form.Button("10x0", "icon/16/actions/dialog-ok.png");
     
-    bc0.addEventListener("execute", function(e) {
+    bc0.addListener("execute", function(e) {
       flow1.setHorizontalSpacing(0);
       flow1.setVerticalSpacing(0);
     });
 
-    bc1.addEventListener("execute", function(e) {
+    bc1.addListener("execute", function(e) {
       flow1.setHorizontalSpacing(4);
       flow1.setVerticalSpacing(4);
     });
 
-    bc2.addEventListener("execute", function(e) {
+    bc2.addListener("execute", function(e) {
       flow1.setHorizontalSpacing(8);
       flow1.setVerticalSpacing(8);
     });
 
-    bc3.addEventListener("execute", function(e) {
+    bc3.addListener("execute", function(e) {
       flow1.setHorizontalSpacing(20);
       flow1.setVerticalSpacing(20);
     });
 
-    bc4.addEventListener("execute", function(e) {
+    bc4.addListener("execute", function(e) {
       flow1.setHorizontalSpacing(0);
       flow1.setVerticalSpacing(10);
     });
 
-    bc5.addEventListener("execute", function(e) {
+    bc5.addListener("execute", function(e) {
       flow1.setHorizontalSpacing(10);
       flow1.setVerticalSpacing(0);
     });
@@ -121,11 +121,11 @@
     var br0 = new qx.ui.form.Button("Default", "icon/16/actions/dialog-ok.png");
     var br1 = new qx.ui.form.Button("Reversed", "icon/16/actions/dialog-ok.png");    
     
-    br0.addEventListener("execute", function(e) {
+    br0.addListener("execute", function(e) {
       flow1.setReverseChildrenOrder(false);
     });
     
-    br1.addEventListener("execute", function(e) {
+    br1.addListener("execute", function(e) {
       flow1.setReverseChildrenOrder(true);
     });   
     
@@ -154,23 +154,23 @@
     var ba3 = new qx.ui.form.Button("New Image to #6", "icon/16/actions/dialog-ok.png");    
     var ba4 = new qx.ui.form.Button("Remove First", "icon/16/actions/dialog-ok.png");    
     
-    ba0.addEventListener("execute", function(e) {
+    ba0.addListener("execute", function(e) {
       flow1.add(new qx.ui.basic.Atom("New Atom", "icon/16/places/services.png"));
     });
     
-    ba1.addEventListener("execute", function(e) {
+    ba1.addListener("execute", function(e) {
       flow1.add(new qx.ui.basic.Image("icon/64/apps/accessories-disk-usage.png"));
     });   
     
-    ba2.addEventListener("execute", function(e) {
+    ba2.addListener("execute", function(e) {
       flow1.addAt(new qx.ui.basic.Atom("New Atom", "icon/16/apps/preferences-desktop-multimedia.png"), 3);
     });  
     
-    ba3.addEventListener("execute", function(e) {
+    ba3.addListener("execute", function(e) {
       flow1.addAt(new qx.ui.basic.Image("icon/64/actions/format-color.png"), 6);
     });  
     
-    ba4.addEventListener("execute", function(e) {
+    ba4.addListener("execute", function(e) {
       flow1.remove(flow1.getFirstChild());
     });              
     

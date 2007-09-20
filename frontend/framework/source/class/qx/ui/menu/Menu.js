@@ -60,12 +60,12 @@ qx.Class.define("qx.ui.menu.Menu",
     this.initCloseInterval();
 
     // Event Listeners
-    this.addEventListener("mouseover", this._onmouseover);
-    this.addEventListener("mousemove", this._onmouseover);
-    this.addEventListener("mouseout", this._onmouseout);
+    this.addListener("mouseover", this._onmouseover);
+    this.addListener("mousemove", this._onmouseover);
+    this.addListener("mouseout", this._onmouseout);
 
-    this.addEventListener("keydown", this._onkeydown);
-    this.addEventListener("keypress", this._onkeypress);
+    this.addListener("keydown", this._onkeydown);
+    this.addListener("keypress", this._onkeypress);
 
     // Activate remapping
     this.remapChildrenHandlingTo(this._layout);
@@ -390,7 +390,7 @@ qx.Class.define("qx.ui.menu.Menu",
     {
       if (!this._openTimer) {
         this._openTimer = new qx.event.Timer(value);
-        this._openTimer.addEventListener("interval", this._onopentimer, this);
+        this._openTimer.addListener("interval", this._onopentimer, this);
       } else {
         this._openTimer.setInterval(value);
       }
@@ -402,7 +402,7 @@ qx.Class.define("qx.ui.menu.Menu",
     {
       if (!this._closeTimer) {
         this._closeTimer = new qx.event.Timer(this.getCloseInterval());
-        this._closeTimer.addEventListener("interval", this._onclosetimer, this);
+        this._closeTimer.addListener("interval", this._onclosetimer, this);
       } else {
         this._closeTimer.setInterval(value);
       }

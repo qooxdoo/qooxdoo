@@ -72,7 +72,7 @@
       rpc.setTimeout(10000);
       var mycall = null;
 
-      send.addEventListener("execute", function() {
+      send.addListener("execute", function() {
         // Allow the user to reset the URL and Service on each call
         rpc.setUrl(url.getValue());
         rpc.setServiceName(service.getValue());
@@ -101,7 +101,7 @@
         }
       });
 
-      abort.addEventListener("execute", function() {
+      abort.addListener("execute", function() {
         rpc.abort(mycall);
       });
 

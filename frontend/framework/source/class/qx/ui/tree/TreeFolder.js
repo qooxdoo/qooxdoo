@@ -73,7 +73,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
     this._iconObject.setAppearance("tree-folder-icon");
     this._labelObject.setAppearance("tree-folder-label");
 
-    this.addEventListener("dblclick", this._ondblclick);
+    this.addListener("dblclick", this._ondblclick);
 
     // Remapping of add/remove methods
     // not done in defer because this.base needs the original methods.

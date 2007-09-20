@@ -49,7 +49,7 @@ qx.Class.define("qx.util.ThemeList",
 
         button.setUserData("theme", theme);
         button.setLocation(x, y);
-        button.addEventListener("execute", callback);
+        button.addListener("execute", callback);
 
         parent.add(button);
         y += 30;

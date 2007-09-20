@@ -73,7 +73,7 @@ qx.Class.define("qx.ui.core.ClientDocument",
     this._cachedInnerHeight = this._document.body.offsetHeight;
 
     // Add Resize Handler
-    this.addEventListener("windowresize", this._onwindowresize);
+    this.addListener("windowresize", this._onwindowresize);
 
     // Dialog Support
     this._modalWidgets = [];
@@ -308,8 +308,8 @@ qx.Class.define("qx.ui.core.ClientDocument",
         this._blocker = new qx.ui.core.ClientDocumentBlocker;
 
         // Add blocker events
-        this._blocker.addEventListener("mousedown", this.blockHelper, this);
-        this._blocker.addEventListener("mouseup", this.blockHelper, this);
+        this._blocker.addListener("mousedown", this.blockHelper, this);
+        this._blocker.addListener("mouseup", this.blockHelper, this);
 
         // Add blocker to client document
         this.add(this._blocker);

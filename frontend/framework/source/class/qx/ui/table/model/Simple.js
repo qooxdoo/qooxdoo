@@ -297,7 +297,7 @@ qx.Class.define("qx.ui.table.model.Simple",
         this._rowArr[rowIndex][columnIndex] = value;
 
         // Inform the listeners
-        if (this.hasEventListeners(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED))
+        if (this.hasListeners(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED))
         {
           var data =
           {
@@ -332,7 +332,7 @@ qx.Class.define("qx.ui.table.model.Simple",
       this._rowArr = rowArr;
 
       // Inform the listeners
-      if (this.hasEventListeners(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED)) {
+      if (this.hasListeners(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED)) {
         this.fireEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED);
       }
 

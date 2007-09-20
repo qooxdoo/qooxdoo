@@ -322,7 +322,7 @@ qx.Class.define("qx.ui.tree.SelectionManager",
         }
         else
         {
-          treeNode.addEventListener("appear", function(e) {
+          treeNode.addListener("appear", function(e) {
             this.scrollItemIntoView(treeNode);
           }, this);
         }

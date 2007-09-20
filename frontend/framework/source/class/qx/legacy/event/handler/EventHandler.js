@@ -519,9 +519,9 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
       qx.legacy.event.handler.KeyEventHandler.getInstance()._attachEvents();
 
       // Register window events
-      qx.legacy.html.EventRegistration.addEventListener(window, "blur", this.__onwindowblur);
-      qx.legacy.html.EventRegistration.addEventListener(window, "focus", this.__onwindowfocus);
-      qx.legacy.html.EventRegistration.addEventListener(window, "resize", this.__onwindowresize);
+      qx.legacy.html.EventRegistration.addListener(window, "blur", this.__onwindowblur);
+      qx.legacy.html.EventRegistration.addListener(window, "focus", this.__onwindowfocus);
+      qx.legacy.html.EventRegistration.addListener(window, "resize", this.__onwindowresize);
 
       // Register selection events
       document.body.onselect = document.onselectstart = document.onselectionchange = this.__onselectevent;
@@ -544,9 +544,9 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
       qx.legacy.event.handler.KeyEventHandler.getInstance()._detachEvents();
 
       // Unregister window events
-      qx.legacy.html.EventRegistration.removeEventListener(window, "blur", this.__onwindowblur);
-      qx.legacy.html.EventRegistration.removeEventListener(window, "focus", this.__onwindowfocus);
-      qx.legacy.html.EventRegistration.removeEventListener(window, "resize", this.__onwindowresize);
+      qx.legacy.html.EventRegistration.removeListener(window, "blur", this.__onwindowblur);
+      qx.legacy.html.EventRegistration.removeListener(window, "focus", this.__onwindowfocus);
+      qx.legacy.html.EventRegistration.removeListener(window, "resize", this.__onwindowresize);
 
       // Unregister selection events
       document.body.onselect = document.onselectstart = document.onselectionchange = null;
@@ -581,7 +581,7 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
         var el = qx.core.Variant.isSet("qx.client", "gecko") ? window : document.body;
 
         for (var i=0, l=vEventTypes.length; i<l; i++) {
-          qx.legacy.html.EventRegistration.addEventListener(el, vEventTypes[i], vFunctionPointer);
+          qx.legacy.html.EventRegistration.addListener(el, vEventTypes[i], vFunctionPointer);
         }
       }
       catch(ex)
@@ -607,7 +607,7 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
         var el = qx.core.Variant.isSet("qx.client", "gecko") ? window : document.body;
 
         for (var i=0, l=vEventTypes.length; i<l; i++) {
-          qx.legacy.html.EventRegistration.removeEventListener(el, vEventTypes[i], vFunctionPointer);
+          qx.legacy.html.EventRegistration.removeListener(el, vEventTypes[i], vFunctionPointer);
         }
       }
       catch(ex)

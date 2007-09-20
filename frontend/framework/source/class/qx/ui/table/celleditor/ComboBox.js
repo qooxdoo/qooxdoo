@@ -122,7 +122,7 @@ qx.Class.define("qx.ui.table.celleditor.ComboBox",
       
       field.setValue("" + value);
 
-      field.addEventListener("appear", function() {
+      field.addListener("appear", function() {
         this.selectAll();
       });
 

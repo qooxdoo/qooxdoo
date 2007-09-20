@@ -59,7 +59,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
 
     // timeout handling
     this._timer = new qx.event.Timer(500);
-    this._timer.addEventListener("interval", this._oninterval, this);
+    this._timer.addListener("interval", this._oninterval, this);
   },
 
 
@@ -194,19 +194,19 @@ qx.Class.define("qx.io.remote.RequestQueue",
 
       // Establish event connection between qx.io.remote.Exchange instance and
       // qx.io.remote.Request
-      vTransport.addEventListener("sending", vRequest._onsending, vRequest);
-      vTransport.addEventListener("receiving", vRequest._onreceiving, vRequest);
-      vTransport.addEventListener("completed", vRequest._oncompleted, vRequest);
-      vTransport.addEventListener("aborted", vRequest._onaborted, vRequest);
-      vTransport.addEventListener("timeout", vRequest._ontimeout, vRequest);
-      vTransport.addEventListener("failed", vRequest._onfailed, vRequest);
+      vTransport.addListener("sending", vRequest._onsending, vRequest);
+      vTransport.addListener("receiving", vRequest._onreceiving, vRequest);
+      vTransport.addListener("completed", vRequest._oncompleted, vRequest);
+      vTransport.addListener("aborted", vRequest._onaborted, vRequest);
+      vTransport.addListener("timeout", vRequest._ontimeout, vRequest);
+      vTransport.addListener("failed", vRequest._onfailed, vRequest);
 
       // Establish event connection between qx.io.remote.Exchange and me.
-      vTransport.addEventListener("sending", this._onsending, this);
-      vTransport.addEventListener("completed", this._oncompleted, this);
-      vTransport.addEventListener("aborted", this._oncompleted, this);
-      vTransport.addEventListener("timeout", this._oncompleted, this);
-      vTransport.addEventListener("failed", this._oncompleted, this);
+      vTransport.addListener("sending", this._onsending, this);
+      vTransport.addListener("completed", this._oncompleted, this);
+      vTransport.addListener("aborted", this._oncompleted, this);
+      vTransport.addListener("timeout", this._oncompleted, this);
+      vTransport.addListener("failed", this._oncompleted, this);
 
       // Store send timestamp
       vTransport._start = (new Date).valueOf();

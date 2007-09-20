@@ -89,7 +89,7 @@ qx.Class.define("qx.ui.listview.ListView",
     this._scroll = new qx.ui.basic.ScrollBar(false);
     this._scroll.setWidth("auto");
     this._scroll.setParent(this._frame);
-    this._scroll.addEventListener("changeValue", this._onscroll, this);
+    this._scroll.addListener("changeValue", this._onscroll, this);
 
     // ************************************************************************
     //   RESIZE LINE
@@ -102,7 +102,7 @@ qx.Class.define("qx.ui.listview.ListView",
     // ************************************************************************
     //   EVENTS
     // ************************************************************************
-    this.addEventListener("mousedown", this._onmousedown);
+    this.addListener("mousedown", this._onmousedown);
 
     // Initialize properties
     this.initOverflow();

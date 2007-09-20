@@ -18,62 +18,62 @@
       var d = qx.ui.core.ClientDocument.getInstance();
 
       var q1 = new qx.event.Command("Ctrl+Z");
-      q1.addEventListener("execute", function(e) {
+      q1.addListener("execute", function(e) {
         alert("Undo");
       });
 
       var q2 = new qx.event.Command("Ctrl+Y");
-      q2.addEventListener("execute", function(e) {
+      q2.addListener("execute", function(e) {
         alert("Redo");
       });
 
       var q3 = new qx.event.Command("Ctrl+X");
-      q3.addEventListener("execute", function(e) {
+      q3.addListener("execute", function(e) {
         alert("Cut");
       });
 
       var q4 = new qx.event.Command("Ctrl+C");
-      q4.addEventListener("execute", function(e) {
+      q4.addListener("execute", function(e) {
         alert("Copy");
       });
 
       var q5 = new qx.event.Command("Ctrl+V");
-      q5.addEventListener("execute", function(e) {
+      q5.addListener("execute", function(e) {
         alert("Paste");
       });
 
       var q6 = new qx.event.Command("Del");
-      q6.addEventListener("execute", function(e) {
+      q6.addListener("execute", function(e) {
         alert("Delete");
       });
 
       var q7 = new qx.event.Command("Ctrl+A");
-      q7.addEventListener("execute", function(e) {
+      q7.addListener("execute", function(e) {
         alert("Select All");
       });
 
       var q8 = new qx.event.Command("Ctrl+F");
-      q8.addEventListener("execute", function(e) {
+      q8.addListener("execute", function(e) {
         alert("Search");
       });
 
       var q9 = new qx.event.Command("Ctrl+G");
-      q9.addEventListener("execute", function(e) {
+      q9.addListener("execute", function(e) {
         alert("Search Again");
       });
 
       var q10 = new qx.event.Command();
-      q10.addEventListener("execute", function(e) {
+      q10.addListener("execute", function(e) {
         alert("Syntax Highlighting");
       });
 
       var q11 = new qx.event.Command("Esc");
-      q11.addEventListener("execute", function(e) {
+      q11.addListener("execute", function(e) {
         alert("Escape");
       });
 
       var q12 = new qx.event.Command("Space");
-      q12.addEventListener("execute", function(e) {
+      q12.addListener("execute", function(e) {
         alert("Space");
       });
 
@@ -148,7 +148,7 @@
       w1.setTop(48);
       w1.setLeft(20);
 
-      w1.addEventListener("click", function(e)
+      w1.addListener("click", function(e)
       {
         if (!m1) {
           createMenus();
@@ -171,7 +171,7 @@
         e.stopPropagation();
       });
 
-      w1.addEventListener("mousedown", function(e)
+      w1.addListener("mousedown", function(e)
       {
         e.stopPropagation();
       });

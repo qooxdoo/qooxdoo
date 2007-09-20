@@ -67,18 +67,18 @@ qx.Class.define("qx.ui.listview.ListViewPane",
     // Add handling for mouse wheel events
     // Needed because the virtual scroll area does not fire browser
     // understandable events above this pane.
-    this.addEventListener("mousewheel", this._onmousewheel);
+    this.addListener("mousewheel", this._onmousewheel);
 
-    this.addEventListener("mouseover", this._onmouseover);
-    this.addEventListener("mousedown", this._onmousedown);
-    this.addEventListener("mouseup", this._onmouseup);
-    this.addEventListener("click", this._onclick);
-    this.addEventListener("dblclick", this._ondblclick);
+    this.addListener("mouseover", this._onmouseover);
+    this.addListener("mousedown", this._onmousedown);
+    this.addListener("mouseup", this._onmouseup);
+    this.addListener("click", this._onclick);
+    this.addListener("dblclick", this._ondblclick);
 
     // ************************************************************************
     //   KEY EVENT LISTENER
     // ************************************************************************
-    this.addEventListener("keypress", this._onkeypress);
+    this.addListener("keypress", this._onkeypress);
 
     // Initialize properties
     this.initWidth();

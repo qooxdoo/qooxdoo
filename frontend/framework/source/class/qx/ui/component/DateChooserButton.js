@@ -66,7 +66,7 @@ qx.Class.define("qx.ui.component.DateChooserButton",
     // create dateFormat instance
     //
     this._dateFormat = new qx.util.format.DateFormat(qx.locale.Date.getDateFormat(this.getDateFormatSize()));
-    qx.locale.Manager.getInstance().addEventListener("changeLocale", this._changeLocaleHandler, this);
+    qx.locale.Manager.getInstance().addListener("changeLocale", this._changeLocaleHandler, this);
 
     if (vTargetWidget) {
       this.setTargetWidget(vTargetWidget);
@@ -76,7 +76,7 @@ qx.Class.define("qx.ui.component.DateChooserButton",
       this.setChooserTitle(vChooserTitle);
     }
 
-    this.addEventListener("execute", this._executeHandler, this);
+    this.addListener("execute", this._executeHandler, this);
   },
 
 
@@ -201,8 +201,8 @@ qx.Class.define("qx.ui.component.DateChooserButton",
     {
       var win = this._chooserWindow = new qx.ui.window.Window(this.getChooserTitle());
 
-      win.addEventListener("keydown", this._chooserWindowKeydownHandler, this);
-      win.addEventListener("appear", this._chooserWindowAppearHandler, this);
+      win.addListener("keydown", this._chooserWindowKeydownHandler, this);
+      win.addListener("appear", this._chooserWindowAppearHandler, this);
 
       win.set(
       {
@@ -236,7 +236,7 @@ qx.Class.define("qx.ui.component.DateChooserButton",
       cp.auto();
       cp.setBorder(null);
 
-      cp.addEventListener("select", this._chooserSelectHandler, this);
+      cp.addListener("select", this._chooserSelectHandler, this);
     },
 
 

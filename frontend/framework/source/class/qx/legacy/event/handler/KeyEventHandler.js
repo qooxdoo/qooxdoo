@@ -80,9 +80,9 @@ qx.Class.define("qx.legacy.event.handler.KeyEventHandler",
     {
       var el = qx.core.Variant.isSet("qx.client", "gecko") ? window : document.body;
 
-      qx.legacy.html.EventRegistration.addEventListener(el, "keypress", this.__onkeypress);
-      qx.legacy.html.EventRegistration.addEventListener(el, "keyup", this.__onkeyupdown);
-      qx.legacy.html.EventRegistration.addEventListener(el, "keydown", this.__onkeyupdown);
+      qx.legacy.html.EventRegistration.addListener(el, "keypress", this.__onkeypress);
+      qx.legacy.html.EventRegistration.addListener(el, "keyup", this.__onkeyupdown);
+      qx.legacy.html.EventRegistration.addListener(el, "keydown", this.__onkeyupdown);
     },
 
 
@@ -98,9 +98,9 @@ qx.Class.define("qx.legacy.event.handler.KeyEventHandler",
       var el = qx.core.Variant.isSet("qx.client", "gecko") ? window : document.body;
 
       // Unregister dom events
-      qx.legacy.html.EventRegistration.removeEventListener(el, "keypress", this.__onkeypress);
-      qx.legacy.html.EventRegistration.removeEventListener(el, "keyup", this.__onkeyupdown);
-      qx.legacy.html.EventRegistration.removeEventListener(el, "keydown", this.__onkeyupdown);
+      qx.legacy.html.EventRegistration.removeListener(el, "keypress", this.__onkeypress);
+      qx.legacy.html.EventRegistration.removeListener(el, "keyup", this.__onkeyupdown);
+      qx.legacy.html.EventRegistration.removeListener(el, "keydown", this.__onkeyupdown);
     },
 
 

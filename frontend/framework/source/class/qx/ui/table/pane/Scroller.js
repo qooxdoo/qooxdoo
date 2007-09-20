@@ -61,8 +61,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this._verScrollBar.setWidth("auto");
     this._horScrollBar.setHeight("auto");
     this._horScrollBar.setPaddingRight(scrollBarWidth);
-    this._horScrollBar.addEventListener("changeValue", this._onScrollX, this);
-    this._verScrollBar.addEventListener("changeValue", this._onScrollY, this);
+    this._horScrollBar.addListener("changeValue", this._onScrollX, this);
+    this._verScrollBar.addListener("changeValue", this._onScrollY, this);
 
     // init header
     this._header = this.getTable().getNewTablePaneHeader()(this);
@@ -110,7 +110,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this._paneClipper.setWidth("1*");
     this._paneClipper.setOverflow("hidden");
     this._paneClipper.add(this._tablePane, this._focusIndicator);
-    this._paneClipper.addEventListener("mousewheel", this._onmousewheel, this);
+    this._paneClipper.addListener("mousewheel", this._onmousewheel, this);
 
     // add all child widgets
     var scrollerBody = new qx.ui.layout.HorizontalBoxLayout;
@@ -120,21 +120,21 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this.add(this._top, scrollerBody, this._horScrollBar);
 
     // init event handlers
-    this._headerClipper.addEventListener("mousemove", this._onmousemoveHeader, this);
-    this._paneClipper.addEventListener("mousemove", this._onmousemovePane, this);
+    this._headerClipper.addListener("mousemove", this._onmousemoveHeader, this);
+    this._paneClipper.addListener("mousemove", this._onmousemovePane, this);
 
-    this._headerClipper.addEventListener("mousedown", this._onmousedownHeader, this);
-    this._paneClipper.addEventListener("mousedown", this._onmousedownPane, this);
+    this._headerClipper.addListener("mousedown", this._onmousedownHeader, this);
+    this._paneClipper.addListener("mousedown", this._onmousedownPane, this);
 
-    this._headerClipper.addEventListener("mouseup", this._onmouseupHeader, this);
-    this._paneClipper.addEventListener("mouseup", this._onmouseupPane, this);
+    this._headerClipper.addListener("mouseup", this._onmouseupHeader, this);
+    this._paneClipper.addListener("mouseup", this._onmouseupPane, this);
 
-    this._headerClipper.addEventListener("click", this._onclickHeader, this);
-    this._paneClipper.addEventListener("click", this._onclickPane, this);
-    this._paneClipper.addEventListener("contextmenu", this._onContextMenu, this);
-    this._paneClipper.addEventListener("dblclick", this._ondblclickPane, this);
+    this._headerClipper.addListener("click", this._onclickHeader, this);
+    this._paneClipper.addListener("click", this._onclickPane, this);
+    this._paneClipper.addListener("contextmenu", this._onContextMenu, this);
+    this._paneClipper.addListener("dblclick", this._ondblclickPane, this);
 
-    this.addEventListener("mouseout", this._onmouseout, this);
+    this.addListener("mouseout", this._onmouseout, this);
 
     this.initScrollTimeout();
   },
@@ -385,10 +385,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     _applyTablePaneModel : function(value, old)
     {
       if (old != null) {
-        old.removeEventListener("modelChanged", this._onPaneModelChanged, this);
+        old.removeListener("modelChanged", this._onPaneModelChanged, this);
       }
 
-      value.addEventListener("modelChanged", this._onPaneModelChanged, this);
+      value.addListener("modelChanged", this._onPaneModelChanged, this);
     },
 
 
@@ -1159,7 +1159,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       if (row != null && this._getColumnForPageX(pageX) != null)
       {
         table._getSelectionManager().handleClick(row, evt);
-       if (this.hasEventListeners("cellClick"))
+       if (this.hasListeners("cellClick"))
        {
          this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, evt), true);
        }
@@ -1176,7 +1176,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _onContextMenu : function(evt)
     {
-       if (this.hasEventListeners("cellContextmenu"))
+       if (this.hasListeners("cellContextmenu"))
        {
          this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, evt), true);
        }
@@ -1197,7 +1197,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
       this._focusCellAtPagePos(pageX, pageY);
       this.startEditing();
-      if (this.hasEventListeners("cellDblclick"))
+      if (this.hasListeners("cellDblclick"))
       {
         var row = this._getRowForPagePos(pageX, pageY);
         if (row != -1 && row != null)
@@ -1528,7 +1528,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           this._cellEditor.addToDocument();
 
           // Arrange to be notified when it is closed.
-          this._cellEditor.addEventListener(
+          this._cellEditor.addListener(
             "disappear",
             this._onCellEditorModalWindowClose,
             this
@@ -1554,15 +1554,15 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           });
 
           // prevent click events from bubbling up to the table
-          this._cellEditor.addEventListener("mousedown", function(e) {
+          this._cellEditor.addListener("mousedown", function(e) {
             e.stopPropagation();
           });
 
-          this._cellEditor.addEventListener("click", function(e) {
+          this._cellEditor.addListener("click", function(e) {
             e.stopPropagation();
           });
 
-          this._cellEditor.addEventListener("mouseup", function(e) {
+          this._cellEditor.addListener("mouseup", function(e) {
             e.stopPropagation();
           });
 
@@ -1640,7 +1640,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
             var d = qx.ui.core.ClientDocument.getInstance();
             d.remove(this._cellEditor);
 
-            this._cellEditor.removeEventListener(
+            this._cellEditor.removeListener(
               "disappear",
               _onCellEditorModalWindowClose,
               this
