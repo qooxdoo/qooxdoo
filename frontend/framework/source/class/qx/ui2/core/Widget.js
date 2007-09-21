@@ -35,21 +35,21 @@ qx.Class.define("qx.ui2.core.Widget",
   {
     this.base(arguments);
 
-    this._children = [];
+    // Where to add the children, too
+    // Normally the widget itself, but could also be an inner pane
+    // e.g. for windows, groupboxes, comboboxes, etc.
     this._childContainer = this;
 
-    this._outerElement = this._createOuterElement();
+    // Create inner element
     this._innerElement = this._createInnerElement();
-    this._borderElement = null;
-
-    this._outerElement.add(this._innerElement);
-
-    this._outerElement.setStyle("position", "absolute");
     this._innerElement.setStyle("position", "absolute");
-
     this._innerElement.setStyle("zIndex", 10);
     this._innerElement.setStyle("overflow", "hidden");
 
+    // Create outer element
+    this._outerElement = this._createOuterElement();
+    this._outerElement.add(this._innerElement);
+    this._outerElement.setStyle("position", "absolute");
 
     // Border sizes
     this._borderWidthLeft = 0;
