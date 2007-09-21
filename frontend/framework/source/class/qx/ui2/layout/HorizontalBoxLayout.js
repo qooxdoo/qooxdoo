@@ -81,26 +81,27 @@ qx.Class.define("qx.ui2.layout.HorizontalBoxLayout",
     },
 
     // overridden
-    setGeometry : function(geometry)
+    getChildren : function() {
+      return this._children;
+    },
+
+    // overridden
+    setGeometry : function(left, top, width, height)
     {
       var posX = 0;
       var spacing = this.getSpacing();
 
+
       for (var i=0, l=this._children.length; i<l; i++)
       {
         var child = this._children[i];
-        childWidth = child.getPreferredWidth()
+        var childWidth = 100; //child.getPreferredWidth()
 
-        child.setGeometry({
-          top : 0,
-          left : posX,
-          width : childWidth,
-          height : child.getPreferredHeight()
-        });
+        child.setGeometry(posX, 0, childWidth, 50)//child.getPreferredHeight()
 
         posX += childWidth + spacing;
 
-        if (posX >= geometry.width) {
+        if (posX >= width) {
           break;
         }
       }

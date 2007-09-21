@@ -24,28 +24,19 @@ qx.Class.define("BasicSample",
     {
       this.base(arguments);
 
-      var doc = new qx.ui2.core.Document(document);
+      var doc = new qx.ui2.core.Document(document.body);
 
       doc.getElement().setStyle("font", "11px Tahoma, sans-serif");
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
+      doc.setGeometry(0, 0, document.body.offsetWidth, document.body.offsetHeight);
+
+      var layout = new qx.ui2.layout.HorizontalBoxLayout();
 
       var w1 = new qx.ui2.core.Widget;
       var w2 = new qx.ui2.core.Widget;
       var w3 = new qx.ui2.core.Widget;
       var w4 = new qx.ui2.core.Widget;
-
-      doc.add(w1, w2, w3, w4);
-
-      w1.setId("w1");
-      w2.setId("w2");
-      w3.setId("w3");
-      w4.setId("w4");
-
-      w1.setPaddingLeft(10);
-      w1.setPaddingRight(10);
-      w2.setPadding(3);
-
 
       w1.setHtml("<b>W1</b>");
       w2.setHtml("<b>W2</b>");
@@ -57,22 +48,20 @@ qx.Class.define("BasicSample",
       w3.setBackgroundColor("green");
       w4.setBackgroundColor("yellow");
 
-      //w4.setBorderRenderer(qx.ui2.border.CssRoundedBorder.getInstance());
-      //w4.setBorderData({radius: 15});
-      w4.setPadding(10);
+      w1.setPadding(10);
 
-      w1.setGeometry(10, 10, 100, 50);
-      w2.setGeometry(20, 200, 100, 150);
-      w3.setGeometry(50, 350, 90, 50);
-      w4.setGeometry(100, 500, 400, 50);
+      layout.add(w1);
+      layout.add(w2);
+      layout.add(w3);
+      layout.add(w4);
 
+      doc.setLayout(layout)
 
-      w4.addListener("click", function(e) {
-        w4.setBackgroundColor(w4.getBackgroundColor() == "yellow" ? "orange" : "yellow");
-        qx.html.Element.flush()
-      })
+      layout.setGeometry(0,0,500, 400)
 
       qx.html.Element.flush()
+
+
 
     }
   }
