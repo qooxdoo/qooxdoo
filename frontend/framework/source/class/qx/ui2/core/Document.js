@@ -96,11 +96,6 @@ qx.Class.define("qx.ui2.core.Document",
 
   members :
   {
-    // overridden
-    setGeometry : function(left, top, width, height) {
-      // nothing todo here
-    },
-
 
     /**
      * Listener for window's resize event
@@ -111,16 +106,20 @@ qx.Class.define("qx.ui2.core.Document",
      */
     _onResize : function(e)
     {
+
       var width = qx.bom.Document.getWidth(this._window);
       var height = qx.bom.Document.getHeight(this._window);
 
+      this.setGeometry(0, 0, width, height);
+
       // Sync to layouter
-      this.addHint("width", width);
-      this.addHint("height", height);
+      //this.addHint("width", width);
+      //this.addHint("height", height);
 
       // Debug
       qx.core.Log.debug("Resize document: " + width + "x" + height);
     }
+
   },
 
 
