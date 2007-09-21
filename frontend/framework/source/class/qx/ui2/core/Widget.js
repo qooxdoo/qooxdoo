@@ -56,6 +56,9 @@ qx.Class.define("qx.ui2.core.Widget",
     this._borderWidthTop = 0;
     this._borderWidthRight = 0;
     this._borderWidthBottom = 0;
+
+    // Track changes
+    this._layoutChanges = {};
   },
 
 
@@ -213,19 +216,71 @@ qx.Class.define("qx.ui2.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    color :
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      THEMEABLE PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * The backgroundColor style property of the rendered widget.
+     */
+    backgroundColor :
     {
-      check : "String",
-      apply : "_applyOuterStyle",
+      nullable : true,
+      init : null,
+      check : "Color",
+      apply : "_applyBackgroundColor",
+      event : "changeBackgroundColor",
       themeable : true
     },
 
-    backgroundColor :
+
+    /**
+     * The color (textColor) style property of the rendered widget.
+     */
+    textColor :
     {
-      check : "String",
-      apply : "_applyOuterStyle",
+      nullable : true,
+      init : "inherit",
+      check : "Color",
+      apply : "_applyTextColor",
+      event : "changeTextColor",
+      themeable : true,
+      inheritable : true
+    },
+
+
+    /**
+     * The border property describes how to paint the border on the widget.
+     */
+    border :
+    {
+      nullable : true,
+      init : null,
+      apply : "_applyBorder",
+      event : "changeBorder",
+      check : "Border",
       themeable : true
+    },
+
+
+    /** The font property describes how to paint the font on the widget. */
+    font :
+    {
+      nullable : true,
+      init : "inherit",
+      apply : "_applyFont",
+      check : "Font",
+      event : "changeFont",
+      themeable : true,
+      inheritable : true
     }
+
+
   },
 
 
@@ -501,33 +556,83 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      THEMEABLE PROPERTIES
+    ---------------------------------------------------------------------------
+    */
 
-    _applyOuterStyle : function(value, old, name)
+    /** apply routine for property {@link #border} */
+    _applyBorder : function(value, old) {
+      qx.theme.manager.Border.getInstance().connect(this._styleBorder, this, value);
+    },
+
+    _styleBorder : function(value) {
+      // TODO
+    },
+
+
+
+    _applyBackgroundColor : function(value, old) {
+      qx.theme.manager.Color.getInstance().connect(this._styleBackgroundColor, this, value);
+    },
+
+    _styleBackgroundColor : function(value)
     {
-      if (value == null) {
-        this._outerElement.resetStyle(name);
+      if (value) {
+        this._outerElement.setStyle("backgroundColor", value);
       } else {
-        this._outerElement.setStyle(name, value);
+        this._outerElement.resetStyle("backgroundColor");
       }
     },
 
-    _applyXSize : function(value, old)
+
+
+    _applyTextColor : function(value, old) {
+      qx.theme.manager.Color.getInstance().connect(this._styleTextColor, this, value);
+    },
+
+    _styleTextColor : function(value)
     {
+      if (value) {
+        this._outerElement.setStyle("color", value);
+      } else {
+        this._outerElement.resetStyle("color");
+      }
+    },
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    _applyXSize : function(value, old, name)
+    {
+      this._layoutChanges[name] = true;
 
     },
 
-    _applyYSize : function(value, old)
+    _applyYSize : function(value, old, name)
     {
+      this._layoutChanges[name] = true;
 
     },
 
-    _applyXPosition : function(value, old)
+    _applyXPosition : function(value, old, name)
     {
+      this._layoutChanges[name] = true;
 
     },
 
-    _applyYPosition : function(value, old)
+    _applyYPosition : function(value, old, name)
     {
+      this._layoutChanges[name] = true;
 
     }
   },
