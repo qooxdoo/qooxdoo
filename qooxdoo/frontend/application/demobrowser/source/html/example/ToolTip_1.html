@@ -13,94 +13,105 @@
   </div>
 
   <script type="text/javascript">
-  qx.core.Init.getInstance().defineMain(function()
+  qx.Class.define("BasicSample",
   {
-    var d = qx.ui.core.ClientDocument.getInstance();
-
-    var c1 = new qx.ui.basic.Atom("Hover me");
-    with(c1)
+    extend : qx.application.Gui,
+  
+    members :
     {
-      setTop(20);
-      setLeft(20);
-      setBackgroundColor("#BDD2EF");
-      setWidth(100);
-      setHeight(100);
-      setTabIndex(1);
-      setBorder("outset");
-    };
-    d.add(c1);
-
-
-
-    var c2 = new qx.ui.basic.Atom("Hover me");
-    with(c2)
-    {
-      setTop(20);
-      setLeft(140);
-      setBackgroundColor("#D1DFAD");
-      setWidth(100);
-      setHeight(100);
-      setTabIndex(1);
-      setBorder("outset");
-    };
-    d.add(c2);
-
-
-    var c3 = new qx.ui.basic.Atom("Hover me");
-    with(c3)
-    {
-      setTop(20);
-      setLeft(260);
-      setBackgroundColor("#D1A4AD");
-      setWidth(100);
-      setHeight(100);
-      setTabIndex(1);
-      setBorder("outset");
-    };
-    d.add(c3);
-
-
-    var c4 = new qx.ui.basic.Atom("Hover me");
-    with(c4)
-    {
-      setTop(20);
-      setLeft(380);
-      setBackgroundColor("#F5E0BB");
-      setWidth(100);
-      setHeight(100);
-      setTabIndex(1);
-      setBorder("outset");
-    };
-    d.add(c4);
-
-
-    var c5 = new qx.ui.basic.Atom("Hover me", "icon/32/actions/format-color.png");
-    with(c5)
-    {
-      setTop(248);
-      setLeft(20);
-      setBackgroundColor("#F5E0BB");
-      setTabIndex(1);
-      setBorder("outset");
-      setPadding(4);
-    };
-    d.add(c5);
-
-
-    var tt1 = new qx.ui.popup.ToolTip("Hello World #1");
-    c1.setToolTip(tt1);
-    c2.setToolTip(tt1);
-
-    var tt2 = new qx.ui.popup.ToolTip(null, "icon/16/actions/help-about.png");
-    c3.setToolTip(tt2);
-
-    var tt3 = new qx.ui.popup.ToolTip("Hello World #3", "icon/16/actions/help-about.png");
-    c4.setToolTip(tt3);
-
-    var tt4 = new qx.ui.popup.ToolTip("Such a great tooltip with a<br/>(show) timeout of 50ms.", "icon/32/apps/graphics-snapshot.png");
-    c5.setToolTip(tt4);
-    tt4.setShowInterval(50);
+      main : function()
+      {
+        this.base(arguments);
+        var d = qx.ui.core.ClientDocument.getInstance();
+    
+        var c1 = new qx.ui.basic.Atom("Hover me");
+        with(c1)
+        {
+          setTop(20);
+          setLeft(20);
+          setBackgroundColor("#BDD2EF");
+          setWidth(100);
+          setHeight(100);
+          setTabIndex(1);
+          setBorder("outset");
+        };
+        d.add(c1);
+    
+    
+    
+        var c2 = new qx.ui.basic.Atom("Hover me");
+        with(c2)
+        {
+          setTop(20);
+          setLeft(140);
+          setBackgroundColor("#D1DFAD");
+          setWidth(100);
+          setHeight(100);
+          setTabIndex(1);
+          setBorder("outset");
+        };
+        d.add(c2);
+    
+    
+        var c3 = new qx.ui.basic.Atom("Hover me");
+        with(c3)
+        {
+          setTop(20);
+          setLeft(260);
+          setBackgroundColor("#D1A4AD");
+          setWidth(100);
+          setHeight(100);
+          setTabIndex(1);
+          setBorder("outset");
+        };
+        d.add(c3);
+    
+    
+        var c4 = new qx.ui.basic.Atom("Hover me");
+        with(c4)
+        {
+          setTop(20);
+          setLeft(380);
+          setBackgroundColor("#F5E0BB");
+          setWidth(100);
+          setHeight(100);
+          setTabIndex(1);
+          setBorder("outset");
+        };
+        d.add(c4);
+    
+    
+        var c5 = new qx.ui.basic.Atom("Hover me", "icon/32/actions/format-color.png");
+        with(c5)
+        {
+          setTop(248);
+          setLeft(20);
+          setBackgroundColor("#F5E0BB");
+          setTabIndex(1);
+          setBorder("outset");
+          setPadding(4);
+        };
+        d.add(c5);
+    
+    
+        var tt1 = new qx.ui.popup.ToolTip("Hello World #1");
+        c1.setToolTip(tt1);
+        c2.setToolTip(tt1);
+    
+        var tt2 = new qx.ui.popup.ToolTip(null, "icon/16/actions/help-about.png");
+        c3.setToolTip(tt2);
+    
+        var tt3 = new qx.ui.popup.ToolTip("Hello World #3", "icon/16/actions/help-about.png");
+        c4.setToolTip(tt3);
+    
+        var tt4 = new qx.ui.popup.ToolTip("Such a great tooltip with a<br/>(show) timeout of 50ms.", "icon/32/apps/graphics-snapshot.png");
+        c5.setToolTip(tt4);
+        tt4.setShowInterval(50);
+      }
+    }      
   });
+  
+  qx.core.Init.getInstance().setApplication(new BasicSample);
   </script>
 </body>
 </html>
