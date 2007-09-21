@@ -22,9 +22,9 @@
  * Useful for application like layouts where top-level scrollbars
  * are not available (internal panes scroll however)
  */
-qx.Class.define("qx.ui2.top.Application",
+qx.Class.define("qx.ui2.root.Application",
 {
-  extend : qx.ui2.top.Root,
+  extend : qx.ui2.core.Widget,
 
 
 
@@ -39,7 +39,10 @@ qx.Class.define("qx.ui2.top.Application",
     var html = doc.documentElement;
     var body = doc.body;
 
-    this.base(arguments, body);
+    this.base(arguments);
+
+    // Create content element
+    this._contentElement = new qx.html.Root(body);
 
     // Symbolic links
     this._window = qx.dom.Node.getWindow(doc);
@@ -99,7 +102,7 @@ qx.Class.define("qx.ui2.top.Application",
       this.addHint("height", height);
 
       // Debug
-      qx.core.Log.debug("Resize viewport: " + width + "x" + height);
+      qx.core.Log.debug("Resize application: " + width + "x" + height);
     }
   },
 
