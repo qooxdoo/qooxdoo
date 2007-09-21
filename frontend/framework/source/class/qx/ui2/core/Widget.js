@@ -128,6 +128,17 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
+    top :
+    {
+      apply : "_applyXPosition",
+      nullable : true
+    },
+
+    left :
+    {
+      apply : "_applyYPosition",
+      nullable : true
+    },
 
     width :
     {
@@ -141,17 +152,32 @@ qx.Class.define("qx.ui2.core.Widget",
       nullable : true
     },
 
-    top :
+    minWidth :
     {
-      apply : "_applyXPosition",
+      apply : "_applyXSize",
       nullable : true
     },
 
-    left :
+    minHeight :
     {
-      apply : "_applyYPosition",
+      apply : "_applyYSize",
       nullable : true
     },
+
+    maxWidth :
+    {
+      apply : "_applyXSize",
+      nullable : true
+    },
+
+    maxHeight :
+    {
+      apply : "_applyYSize",
+      nullable : true
+    },
+
+
+
 
 
 
@@ -216,16 +242,6 @@ qx.Class.define("qx.ui2.core.Widget",
       themeable : true
     },
 
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      COLOR PROPERTIES
-    ---------------------------------------------------------------------------
-    */
 
 
 
@@ -626,7 +642,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
     _applyLayout : function(value, old)
     {
-
+      // TODO
     },
 
 
@@ -673,26 +689,51 @@ qx.Class.define("qx.ui2.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    _getMiniumContentWidth : function()
+    /**
+     * Returns the minimum width the content is able to shrink.
+     *
+     * Normally this depends on the technical minimums of the
+     * children or the content in general (HTML, images, ...)
+     */
+    _getTechnicalMinimumContentWidth : function()
     {
       return 0; //TODO
     },
 
-    _getMiniumContentHeight : function()
+
+    /**
+     * Returns the minimum height the content is able to shrink.
+     *
+     * Normally this depends on the technical minimums of the
+     * children or the content in general (HTML, images, ...)
+     */
+    _getTechnicalMinimumContentHeight : function()
     {
       return 0; //TODO
     },
 
-    getMinimumWidth : function()
+
+    /**
+     * Returns the minium width of the widget
+     *
+     * This is the minimum content width plus paddings and borders.
+     */
+    getTechnicalMinimumWidth : function()
     {
-      return this._getMinimunContentWidth() +
+      return this._getTechnicalMinimunContentWidth() +
         this.getPaddingLeft() + this.getPaddingRight() +
         this._borderWidthLeft + this._borderWidthRight;
     },
 
-    getMinimumHeight : function()
+
+    /**
+     * Returns the minium height of the widget
+     *
+     * This is the minimum content height plus paddings and borders.
+     */
+    getTechnicalMinimumHeight : function()
     {
-      return this._getMinimumContentHeight() +
+      return this._getTechnicalMinimumContentHeight() +
         this.getPaddingTop() + this.getPaddingBottom() +
         this._borderWidthTop + this._borderWidthBottom;
     },
@@ -705,7 +746,112 @@ qx.Class.define("qx.ui2.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      SIZE HINT
+      MAXIMUM SIZE
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Returns the maximum width the content is able to grow.
+     *
+     * Normally this depends on the technical maximums of the
+     * children or the content in general (HTML, images, ...)
+     */
+    _getTechnicalMaximumContentWidth : function()
+    {
+      return 0; //TODO
+    },
+
+
+    /**
+     * Returns the maximum height the content is able to grow.
+     *
+     * Normally this depends on the technical maximums of the
+     * children or the content in general (HTML, images, ...)
+     */
+    _getTechnicalMaximumContentHeight : function()
+    {
+      return 0; //TODO
+    },
+
+
+    /**
+     * Returns the minium width of the widget
+     *
+     * This is the maximum content width plus paddings and borders.
+     */
+    getTechnicalMaximumWidth : function()
+    {
+      return this._getTechnicalMinimunContentWidth() +
+        this.getPaddingLeft() + this.getPaddingRight() +
+        this._borderWidthLeft + this._borderWidthRight;
+    },
+
+
+    /**
+     * Returns the minium height of the widget
+     *
+     * This is the maximum content height plus paddings and borders.
+     */
+    getTechnicalMaximumHeight : function()
+    {
+      return this._getTechnicalMaximumContentHeight() +
+        this.getPaddingTop() + this.getPaddingBottom() +
+        this._borderWidthTop + this._borderWidthBottom;
+    },
+
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      COMPUTED SIZE
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Returns the available width for the content of this widget.
+     *
+     */
+    getComputedInnerWidth : function()
+    {
+      return this.getComputedWidth() -
+        this.getPaddingLeft() - this.getPaddingRight() -
+        this._borderWidthLeft - this._borderWidthRight;
+    },
+
+
+    /**
+     * Returns the available height for the content of this widget.
+     *
+     */
+    getComputedInnerHeight : function()
+    {
+      return this.getComputedHeight() -
+        this.getPaddingTop() - this.getPaddingBottom() -
+        this._borderWidthTop - this._borderWidthBottom;
+    },
+
+    getComputedWidth : function()
+    {
+      return this.getLayout().getComputedWidth();
+    },
+
+    getComputedHeight : function()
+    {
+      return this.getLayout().getComputedHeight();
+    },
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      SIZE POLICY
     ---------------------------------------------------------------------------
     */
 
