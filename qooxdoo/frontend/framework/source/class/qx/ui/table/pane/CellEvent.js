@@ -44,7 +44,6 @@ qx.Class.define("qx.ui.table.pane.CellEvent",
   construct : function(scroller, me)
   {
     this.base(arguments, 'cell'+qx.lang.String.toFirstUp(me.getType()), me.getDomEvent(), me.getDomTarget(), me.getTarget(), me.getOriginalTarget(), me.getRelatedTarget());
-    console.debug('evento '+this.getType());
     this._scroller = scroller;
   },
 
