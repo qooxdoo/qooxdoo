@@ -47,6 +47,7 @@ qx.Class.define("qx.bom.TextSize",
       style.left = style.top = 0;
       style.visibility = "hidden";
       style.position = "absolute";
+      style.overflow = "visible";
 
       document.body.insertBefore(el, document.body.firstChild);
 
@@ -85,8 +86,8 @@ qx.Class.define("qx.bom.TextSize",
 
       // compute size and return
       return {
-        width : element.offsetWidth,
-        height : element.offsetHeight
+        width : element.scrollWidth,
+        height : element.scrollHeight
       }
     }
   }
