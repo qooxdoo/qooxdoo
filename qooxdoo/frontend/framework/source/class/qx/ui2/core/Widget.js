@@ -386,8 +386,8 @@ qx.Class.define("qx.ui2.core.Widget",
       // its outer size.
       var insetTop = this.getPaddingTop() + this._borderWidthTop;
       var insetLeft = this.getPaddingLeft() + this._borderWidthLeft;
-      var insetRight = this.getPaddingRight() - this._borderWidthRight;
-      var insetBottom = this.getPaddingBottom() - this._borderWidthBottom;
+      var insetRight = this.getPaddingRight() + this._borderWidthRight;
+      var insetBottom = this.getPaddingBottom() + this._borderWidthBottom;
 
       var innerLeft = insetLeft;
       var innerTop = insetTop;
