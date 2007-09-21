@@ -70,17 +70,17 @@ source:
 	@echo
 	@echo "  GENERATION OF DEMO BROWSER DATA"
 	@$(CMD_LINE)
-	@echo "  * Generating source/script/demodata.js..."
-	@$(CMD_PYTHON) tool/gendata.py source/script/demodata.js source/html
+	@echo "  * Generating $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js..."
+	@$(CMD_PYTHON) tool/gendata.py $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js $(APPLICATION_SOURCE_PATH)/html
 
 build:
 	@echo
 	@echo "  GENERATION OF DEMO BROWSER DATA"
 	@$(CMD_LINE)
-	@echo "  * Generating build/script/demodata.js..."
-	@$(CMD_PYTHON) tool/gendata.py build/script/demodata.js build/html
+	@echo "  * Generating $(APPLICATION_BUILD_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js..."
+	@$(CMD_PYTHON) tool/gendata.py $(APPLICATION_BUILD_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js $(APPLICATION_BUILD_PATH)/html
 
 clean:
-	@$(CMD_REMOVE) source/script/demodata.js
-	@$(CMD_REMOVE) build/script/demodata.js
+	@$(CMD_REMOVE) $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js
+	@$(CMD_REMOVE) $(APPLICATION_BUILD_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js
 
