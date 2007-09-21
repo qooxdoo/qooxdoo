@@ -39,8 +39,7 @@ qx.Class.define("qx.ui2.core.Document",
 
     this._window = qx.dom.Node.getWindow(doc);
 
-    this._onResizeWrapper = qx.lang.Function.bind(this._onResize, this);
-    qx.event.Registration.addListener(this._window, "resize", this._onResizeWrapper);
+    qx.event.Registration.addListener(this._window, "resize", this._onResize, this);
 
     // Don't use overflow: hidden
     this._innerElement.removeStyle("overflow");
@@ -98,11 +97,18 @@ qx.Class.define("qx.ui2.core.Document",
   members :
   {
     // overridden
-    setGeometry : function(left, top, width, height)
-    {
-
+    setGeometry : function(left, top, width, height) {
+      // nothing todo here
     },
 
+
+    /**
+     * Listener for window's resize event
+     *
+     * @type member
+     * @param e {qx.type.Event} Event object
+     * @return {void}
+     */
     _onResize : function(e)
     {
       var width = qx.bom.Document.getWidth(this._window);
