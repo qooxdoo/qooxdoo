@@ -90,13 +90,14 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
     /** Add this widget to the layout */
     add : function(widget) {},
 
-    getChildren : function() {},
-
     /** Remove this from the layout */
     remove : function(widget) {},
 
     /** Whether the widget is a child of this layout */
     has : function(widget) {},
+
+    /** Returns the children list */
+    getChildren : function() {},
 
     /** Sets the geometry */
     setGeometry : function(left, top, width, height) {}

@@ -89,7 +89,7 @@ qx.Class.define("qx.bom.TextSize",
       return {
         width : element.scrollWidth,
         height : element.scrollHeight
-      }
+      };
     }
   }
 });
