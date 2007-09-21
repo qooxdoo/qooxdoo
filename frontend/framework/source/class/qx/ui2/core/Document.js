@@ -43,6 +43,8 @@ qx.Class.define("qx.ui2.core.Document",
 
     // Don't use overflow: hidden
     this._innerElement.removeStyle("overflow");
+    this._innerElement.setStyle("top", "0px");
+    this._innerElement.setStyle("left", "0px");
 
     this._onResize();
   },
