@@ -57,10 +57,11 @@ qx.Class.define("qx.ui2.core.Widget",
     this._borderWidthRight = 0;
     this._borderWidthBottom = 0;
 
-    // Track changes
+    // Layout data
+    this._layoutHints = {};
     this._layoutChanges = {};
 
-    // whether the widget has a layout manager
+    // Whether the widget has a layout manager
     this._hasLayout = false;
   },
 
@@ -121,6 +122,12 @@ qx.Class.define("qx.ui2.core.Widget",
 
   properties :
   {
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT
+    ---------------------------------------------------------------------------
+    */
+
     /** Selected layout of instance {@link qx.ui2.layout.AbstractLayout} */
     layout :
     {
@@ -131,30 +138,6 @@ qx.Class.define("qx.ui2.core.Widget",
     },
 
 
-    minWidth :
-    {
-      apply : "_applyXSize",
-      nullable : true
-    },
-
-    minHeight :
-    {
-      apply : "_applyYSize",
-      nullable : true
-    },
-
-    maxWidth :
-    {
-      apply : "_applyXSize",
-      nullable : true
-    },
-
-    maxHeight :
-    {
-      apply : "_applyYSize",
-      nullable : true
-    },
-
 
 
 
@@ -162,7 +145,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      PADDING PROPERTIES
+      PADDING
     ---------------------------------------------------------------------------
     */
 
@@ -227,7 +210,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      THEMEABLE PROPERTIES
+      THEMEABLE
     ---------------------------------------------------------------------------
     */
 
@@ -285,8 +268,6 @@ qx.Class.define("qx.ui2.core.Widget",
       themeable : true,
       inheritable : true
     }
-
-
   },
 
 
@@ -447,7 +428,94 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
-   /*
+    /*
+    ---------------------------------------------------------------------------
+      HINTS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Adds a layout hint.
+     *
+     * @type member
+     * @param name {String} Name of the hint (width, top, minHeight, ...)
+     * @param value {var} Any acceptable value (depends on the selected parent layout manager)
+     * @return {qx.ui2.core.Widget} This widget (for chaining support)
+     */
+    addHint : function(name, value)
+    {
+      this._layoutHints[name] = value;
+
+      return this;
+    },
+
+
+    /**
+     * Removes a layout hint.
+     *
+     * @type member
+     * @param name {String} Name of the hint (width, top, minHeight, ...)
+     * @return {qx.ui2.core.Widget} This widget (for chaining support)
+     */
+    removeHint : function(name)
+    {
+      delete this._layoutHints[name];
+
+      return this;
+    },
+
+
+    /**
+     * Returns the value of a specific hint
+     *
+     * @type member
+     * @param name {String} Name of the hint (width, top, minHeight, ...)
+     * @return {var|null} Configured value
+     */
+    getHint : function(name)
+    {
+      var value = this._layoutHints[name];
+      return value == null ? null : value;
+    },
+
+
+    /**
+     * Whether this widget has a specific hint
+     *
+     * @type member
+     * @param name {String} Name of the hint (width, top, minHeight, ...)
+     * @return {Boolean} <code>true</code> when this hint is defined
+     */
+    hasHint : function(name) {
+      return this._layoutHints[name] != null;
+    },
+
+
+    /**
+     * Imports a set of hints. Ideal for initial setup.
+     *
+     * @type member
+     * @param map {Map} Incoming data structure
+     * @return {qx.ui2.core.Widget} This widget (for chaining support)
+     */
+    importHints : function(map)
+    {
+      var hints = this._layoutHints;
+
+      for (var name in map) {
+        hints[name] = map[name];
+      }
+
+      return this;
+    },
+
+
+
+
+
+
+
+    /*
     ---------------------------------------------------------------------------
       HTML ELEMENT MANAGEMENT
     ---------------------------------------------------------------------------

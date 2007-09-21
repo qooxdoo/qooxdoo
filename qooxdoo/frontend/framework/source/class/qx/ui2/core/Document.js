@@ -41,6 +41,8 @@ qx.Class.define("qx.ui2.core.Document",
 
     this._onResizeWrapper = qx.lang.Function.bind(this._onResize, this);
     qx.event.Registration.addListener(this._window, "resize", this._onResizeWrapper);
+
+    this._onResize();
   },
 
 
