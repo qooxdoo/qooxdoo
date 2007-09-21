@@ -384,10 +384,15 @@ qx.Class.define("qx.ui2.core.Widget",
 
       // Scrollbars are applied to the inner element and does not influence
       // its outer size.
-      var innerLeft = this.getPaddingLeft() + this._borderWidthLeft;
-      var innerTop = this.getPaddingLeft() + this._borderWidthTop;
-      var innerWidth = width - this.getPaddingRight() - this._borderWidthRight;
-      var innerHeight = height - this.getPaddingBottom() - this._borderWidthBottom;
+      var insetTop = this.getPaddingTop() + this._borderWidthTop;
+      var insetLeft = this.getPaddingLeft() + this._borderWidthLeft;
+      var insetRight = this.getPaddingRight() - this._borderWidthRight;
+      var insetBottom = this.getPaddingBottom() - this._borderWidthBottom;
+
+      var innerLeft = insetLeft;
+      var innerTop = insetTop;
+      var innerWidth = width - insetLeft - insetRight;
+      var innerHeight = height - insetTop - insetBottom;
 
       this._innerElement.setStyle("left", innerLeft + "px");
       this._innerElement.setStyle("top", innerTop + "px");
