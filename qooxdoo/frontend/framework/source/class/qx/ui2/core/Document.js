@@ -35,7 +35,7 @@ qx.Class.define("qx.ui2.core.Document",
 
   construct : function(doc)
   {
-    this.base(arguments, doc);
+    this.base(arguments, doc.body);
 
     this._window = qx.dom.Node.getWindow(doc);
 
@@ -110,8 +110,16 @@ qx.Class.define("qx.ui2.core.Document",
 
     _onResize : function(e)
     {
-      this.addHint("width", qx.bom.Document.getWidth(this._window));
-      this.addHint("height", qx.bom.Document.getHeight(this._window));
+      var width = qx.bom.Document.getWidth(this._window);
+      var height = qx.bom.Document.getHeight(this._window);
+
+      // Sync to layouter
+      this.addHint("width", width);
+      this.addHint("height", height);
+
+      // Sync to inner element (little bit hacky, any better idea?)
+      this._innerElement.setStyle("width", width + "px");
+      this._innerElement.setStyle("height", height + "px");
     }
   },
 
