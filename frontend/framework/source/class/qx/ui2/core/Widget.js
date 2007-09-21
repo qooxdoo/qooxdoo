@@ -139,10 +139,6 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       PADDING
@@ -748,7 +744,7 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     _getPreferredContentWidth : function()
     {
-      return 20; // TODO
+      return 100; // TODO
     },
 
 
@@ -766,7 +762,7 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     _getPreferredContentHeight : function()
     {
-      return 10; // TODO
+      return 50; // TODO
     },
 
 
