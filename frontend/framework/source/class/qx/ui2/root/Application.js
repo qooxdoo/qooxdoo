@@ -34,22 +34,21 @@ qx.Class.define("qx.ui2.root.Application",
   *****************************************************************************
   */
 
+  /**
+   * @param doc {Document} Document to use
+   */
   construct : function(doc)
   {
-    var html = doc.documentElement;
-    var body = doc.body;
-
-    this.base(arguments);
-
-    // Create content element
-    this._contentElement = new qx.html.Root(body);
-
     // Symbolic links
     this._window = qx.dom.Node.getWindow(doc);
+    this._body = doc.body;
+
+    // Base call
+    this.base(arguments);
 
     // Apply application layout
-    var hstyle = html.style;
-    var bstyle = body.style;
+    var hstyle = doc.documentElement.style;
+    var bstyle = doc.body.style;
 
     hstyle.overflow = bstyle.overflow = "hidden";
     hstyle.padding = hstyle.margin = bstyle.padding = bstyle.margin = "0px";
@@ -78,9 +77,13 @@ qx.Class.define("qx.ui2.root.Application",
 
 
     // overridden
-    _createContentElement : function()
-    {
-      // TODO: Ugly... how to workaround this?
+    _createOuterElement : function() {
+      return new qx.html.Root(this._body);
+    },
+
+
+    // overridden
+    _createContentElement : function() {
       return this._outerElement;
     },
 
@@ -116,6 +119,6 @@ qx.Class.define("qx.ui2.root.Application",
   */
 
   destruct : function() {
-    this._disposeFields("_window", "_contentElement");
+    this._disposeFields("_window");
   }
 });
