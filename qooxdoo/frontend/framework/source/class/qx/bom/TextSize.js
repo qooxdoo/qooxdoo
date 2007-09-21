@@ -67,13 +67,14 @@ qx.Class.define("qx.bom.TextSize",
     getDimension : function(markup, styles, width)
     {
       var element = this._element || this._prepare();
+
+      // sync styles
       var keys = this._styles;
 
       if (!styles) {
         styles = {};
       }
 
-      // sync styles
       for (var key in keys) {
         element.style[key] = styles[key] || "";
       }
