@@ -18,9 +18,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui2.layout.AbstractLayout",
+qx.Class.define("qx.ui2.layout.Basic",
 {
-  extend : qx.core.Object,
+  extend : qx.ui2.layout.AbstractLayout,
 
 
 
@@ -36,19 +36,7 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
   construct : function()
   {
     this.base(arguments);
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     EVENTS
-  *****************************************************************************
-  */
-
-  events :
-  {
+    this._children = [];
   },
 
 
@@ -66,18 +54,6 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
 
 
 
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-  },
-
-
-
 
   /*
   *****************************************************************************
@@ -87,20 +63,42 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
 
   members :
   {
-    /** Add this widget to the layout */
-    add : function(widget, layoutHints) {},
 
-    /** Remove this from the layout */
-    remove : function(widget) {},
+    // overridden
+    add : function(widget, layoutHints)
+    {
+      this._children.push(widget);
+      if (layoutHints !== undefined) {
+        widget.importHints(layoutHints);
+      }
+    },
 
-    /** Whether the widget is a child of this layout */
-    has : function(widget) {},
+    // overridden
+    remove : function(widget) {
+      qx.lang.Array.remove(this._children, widget);
+    },
 
-    /** Returns the children list */
-    getChildren : function() {},
+    // overridden
+    getChildren : function() {
+      return this._children;
+    },
 
-    /** Sets the geometry */
-    setGeometry : function(left, top, width, height) {}
+    // overridden
+    setGeometry : function(left, top, width, height)
+    {
+      for (var i=0, l=this._children.length; i<l; i++)
+      {
+        var child = this._children[i];
+
+        var childWidth = child.getHint("width") || child.getPreferredWidth();
+        var childHeight = child.getHint("height") || child.getPreferredHeight();
+        var childLeft = child.getHint("left") || 0;
+        var childTop = child.getHint("top") || 0;
+
+        child.setGeometry(childLeft, childTop, childWidth, childHeight);
+      }
+    }
+
   },
 
 

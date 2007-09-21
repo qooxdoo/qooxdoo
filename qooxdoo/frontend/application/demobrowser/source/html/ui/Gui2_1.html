@@ -35,8 +35,6 @@ qx.Class.define("BasicSample",
       var w3 = new qx.ui2.core.Widget;
       var w4 = new qx.ui2.core.Widget;
 
-      doc.add(w1, w2, w3, w4);
-
       w1.setId("w1");
       w2.setId("w2");
       w3.setId("w3");
@@ -57,17 +55,44 @@ qx.Class.define("BasicSample",
       w3.setBackgroundColor("green");
       w4.setBackgroundColor("yellow");
 
-      w1.setGeometry(10, 10, 100, 50);
-      w2.setGeometry(20, 200, 100, 150);
-      w3.setGeometry(50, 350, 90, 50);
-      w4.setGeometry(100, 500, 400, 50);
+      var layout = new qx.ui2.layout.Basic();
+      layout.add(w1, {
+        top: 10,
+        left: 10,
+        width: 100,
+        height: 50
+      });
 
+      layout.add(w2, {
+        top: 20,
+        left: 200,
+        width: 100,
+        height: 150
+      });
+
+      layout.add(w3, {
+        top: 50,
+        left: 350,
+        width: 90,
+        height: 50
+      });
+
+      layout.add(w4, {
+        top: 100,
+        left: 500,
+        width: 400,
+        height: 50
+      });
+
+      doc.setLayout(layout);
 
       w4.addListener("click", function(e)
       {
         w4.setBackgroundColor(w4.getBackgroundColor() == "yellow" ? "orange" : "yellow");
         qx.html.Element.flush();
       })
+
+      layout.setGeometry(0,0,qx.bom.Document.getWidth(), qx.bom.Document.getHeight());
 
       qx.html.Element.flush();
     }

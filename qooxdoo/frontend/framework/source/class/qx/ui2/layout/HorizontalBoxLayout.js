@@ -95,15 +95,19 @@ qx.Class.define("qx.ui2.layout.HorizontalBoxLayout",
       for (var i=0, l=this._children.length; i<l; i++)
       {
         var child = this._children[i];
-        var childWidth = 100; //child.getPreferredWidth()
+        var childWidth = child.getPreferredWidth()
 
-        child.setGeometry(posX, 0, childWidth, 50)//child.getPreferredHeight()
+        if (posX < width)
+        {
+          child.setGeometry(posX, 0, childWidth, child.getPreferredHeight());
+          child.getElement().include();
+        }
+        else
+        {
+          child.getElement().exclude();
+        }
 
         posX += childWidth + spacing;
-
-        if (posX >= width) {
-          break;
-        }
       }
     }
 
