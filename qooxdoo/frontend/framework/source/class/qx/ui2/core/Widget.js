@@ -36,13 +36,13 @@ qx.Class.define("qx.ui2.core.Widget",
     this.base(arguments);
 
     // Where to add the children, too
-    // Normally the widget itself, but could also be an inner pane
+    // Normally the widget itself, but could also be an content pane
     // e.g. for windows, groupboxes, comboboxes, etc.
     this._childContainer = this;
 
-    // Create inner element
+    // Create content element
     this._outerElement = this._createOuterElement();
-    this._innerElement = this._createInnerElement();
+    this._contentElement = this._createContentElement();
 
     // Border sizes
     this._borderWidthLeft = 0;
@@ -271,7 +271,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
   statics :
   {
-    /** {Map} Event which are dispatched on the outer/inner element */
+    /** {Map} Event which are dispatched on the outer/content element */
     _eventHints :
     {
       outer :
@@ -302,7 +302,7 @@ qx.Class.define("qx.ui2.core.Widget",
         deactivate : 1
       },
 
-      inner :
+      content :
       {
         // focus, blur events (do not bubble)
         focus : 1,
@@ -357,7 +357,7 @@ qx.Class.define("qx.ui2.core.Widget",
       this._outerElement.setStyle("width", width + "px");
       this._outerElement.setStyle("height", height + "px");
 
-      // Scrollbars are applied to the inner element and does not influence
+      // Scrollbars are applied to the content element and does not influence
       // its outer size.
       var insetTop = this.getPaddingTop() + this._borderWidthTop;
       var insetLeft = this.getPaddingLeft() + this._borderWidthLeft;
@@ -369,10 +369,10 @@ qx.Class.define("qx.ui2.core.Widget",
       var innerWidth = width - insetLeft - insetRight;
       var innerHeight = height - insetTop - insetBottom;
 
-      this._innerElement.setStyle("left", innerLeft + "px");
-      this._innerElement.setStyle("top", innerTop + "px");
-      this._innerElement.setStyle("width", innerWidth + "px");
-      this._innerElement.setStyle("height", innerHeight + "px");
+      this._contentElement.setStyle("left", innerLeft + "px");
+      this._contentElement.setStyle("top", innerTop + "px");
+      this._contentElement.setStyle("width", innerWidth + "px");
+      this._contentElement.setStyle("height", innerHeight + "px");
     },
 
 
@@ -387,22 +387,22 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
     /**
-     * Return the inner element, which contains the widget contents.
+     * Return the content element, which contains the widget contents.
      *
-     * @return {qx.html.Element} The inner HTML element.
+     * @return {qx.html.Element} The content HTML element.
      */
     _getInnerElement : function() {
-      return this._innerElement;
+      return this._contentElement;
     },
 
 
 
     setHtml : function(value) {
-      this._innerElement.setAttribute("html", value);
+      this._contentElement.setAttribute("html", value);
     },
 
     getHtml : function(value) {
-      return this._innerElement.getAttribute("html");
+      return this._contentElement.getAttribute("html");
     },
 
     setId : function(value) {
@@ -531,7 +531,7 @@ qx.Class.define("qx.ui2.core.Widget",
      *
      * @return {qx.html.Element} The outer HTML element
      */
-    _createInnerElement : function()
+    _createContentElement : function()
     {
       var el = new qx.html.Element("div");
 
@@ -563,8 +563,8 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       var hints = this.self(arguments)._eventHints;
 
-      if (hints.inner[type]) {
-        this._innerElement.addListener(type, func, obj);
+      if (hints.content[type]) {
+        this._contentElement.addListener(type, func, obj);
       } else if (hints.outer[type]) {
         this._outerElement.addListener(type, func, obj);
       } else {
@@ -578,8 +578,8 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       var hints = this.self(arguments)._eventHints;
 
-      if (hints.inner[type]) {
-        this._innerElement.removeListener(type, func, obj);
+      if (hints.content[type]) {
+        this._contentElement.removeListener(type, func, obj);
       } else if (hints.outer[type]) {
         this._outerElement.removeListener(type, func, obj);
       } else {
@@ -713,7 +713,7 @@ qx.Class.define("qx.ui2.core.Widget",
         var children = value.getChildren();
         for (var i=0, l=children.length; i<l; i++)
         {
-          this._innerElement.add(children[i].getElement());
+          this._contentElement.add(children[i].getElement());
         }
       }
     },

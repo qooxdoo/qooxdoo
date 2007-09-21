@@ -18,9 +18,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui2.top.Page",
+qx.Class.define("qx.ui2.root.Page",
 {
-  extend : qx.ui2.top.Root,
+  extend : qx.ui2.core.Widget,
 
 
 
@@ -35,57 +35,21 @@ qx.Class.define("qx.ui2.top.Page",
 
   construct : function(doc)
   {
-    this.base(arguments, doc.body);
+    var body = doc.body;
 
+    this.base(arguments);
+
+    // Create content element
+    this._contentElement = new qx.html.Root(body);
+
+    // Symbolic links
     this._window = qx.dom.Node.getWindow(doc);
 
+    // Resize handling
     qx.event.Registration.addListener(this._window, "resize", this._onResize, this);
-
-    // Don't use overflow: hidden
-    this._innerElement.removeStyle("overflow");
-    this._innerElement.setStyle("top", "0px");
-    this._innerElement.setStyle("left", "0px");
-
     this._onResize();
   },
 
-
-
-
-  /*
-  *****************************************************************************
-     EVENTS
-  *****************************************************************************
-  */
-
-  events :
-  {
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-  },
-
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-  },
 
 
 
@@ -108,20 +72,16 @@ qx.Class.define("qx.ui2.top.Page",
      */
     _onResize : function(e)
     {
-
       var width = qx.bom.Document.getWidth(this._window);
       var height = qx.bom.Document.getHeight(this._window);
 
-      this.setGeometry(0, 0, width, height);
-
       // Sync to layouter
-      //this.addHint("width", width);
-      //this.addHint("height", height);
+      this.addHint("width", width);
+      this.addHint("height", height);
 
       // Debug
-      qx.core.Log.debug("Resize document: " + width + "x" + height);
+      qx.core.Log.debug("Resize page: " + width + "x" + height);
     }
-
   },
 
 
