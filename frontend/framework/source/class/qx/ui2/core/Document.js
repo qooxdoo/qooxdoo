@@ -18,9 +18,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui2.core.Root",
+qx.Class.define("qx.ui2.core.Document",
 {
-  extend : qx.ui2.core.Widget,
+  extend : qx.ui2.core.Root,
 
 
 
@@ -33,11 +33,14 @@ qx.Class.define("qx.ui2.core.Root",
   *****************************************************************************
   */
 
-  construct : function(el)
+  construct : function(doc)
   {
-    this._rootElem = el;
+    this.base(arguments, doc);
 
-    this.base(arguments);
+    this._window = qx.dom.Node.getWindow(doc);
+
+    this._onResizeWrapper = qx.lang.Function.bind(this._onResize, this);
+    qx.event.Registration.addListener(this._window, "resize", this._onResizeWrapper);
   },
 
 
@@ -90,12 +93,23 @@ qx.Class.define("qx.ui2.core.Root",
   members :
   {
     // overridden
-    _createOuterElement : function()
+    setGeometry : function(left, top, width, height)
     {
-      var root = this._rootElem;
-      delete this._rootElem;
+      var innerLeft = left + this.getPaddingLeft() + this._borderWidthLeft;
+      var innerTop = left + this.getPaddingLeft() + this._borderWidthTop;
+      var innerWidth = width - this.getPaddingRight() - this._borderWidthRight;
+      var innerHeight = height - this.getPaddingBottom() - this._borderWidthBottom;
 
-      return new qx.html.Root(root);
+      this._innerElement.setStyle("left", innerLeft + "px");
+      this._innerElement.setStyle("top", innerTop + "px");
+      this._innerElement.setStyle("width", innerWidth + "px");
+      this._innerElement.setStyle("height", innerHeight + "px");
+    },
+
+    _onResize : function(e)
+    {
+      this.setWidth(qx.bom.Document.getWidth(this._window));
+      this.setHeight(qx.bom.Document.getHeight(this._window));
     }
   },
 
