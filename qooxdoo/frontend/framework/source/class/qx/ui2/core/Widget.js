@@ -41,15 +41,8 @@ qx.Class.define("qx.ui2.core.Widget",
     this._childContainer = this;
 
     // Create inner element
-    this._innerElement = this._createInnerElement();
-    this._innerElement.setStyle("position", "absolute");
-    this._innerElement.setStyle("zIndex", 10);
-    this._innerElement.setStyle("overflow", "hidden");
-
-    // Create outer element
     this._outerElement = this._createOuterElement();
-    this._outerElement.add(this._innerElement);
-    this._outerElement.setStyle("position", "absolute");
+    this._innerElement = this._createInnerElement();
 
     // Border sizes
     this._borderWidthLeft = 0;
@@ -346,6 +339,7 @@ qx.Class.define("qx.ui2.core.Widget",
      * Used by the layouters to apply coordinates and dimensions.
      *
      * @type member
+     * @internal: Only for layout managers
      * @param left {Integer} Any positive integer value for the left position,
      *   always in pixels
      * @param top {Integer} Any positive integer value for the top position,
@@ -522,8 +516,13 @@ qx.Class.define("qx.ui2.core.Widget",
      *
      * @return {qx.html.Element} The outer HTML element
      */
-    _createOuterElement : function() {
-      return new qx.html.Element("div");
+    _createOuterElement : function()
+    {
+      var el = new qx.html.Element("div");
+
+      el.setStyle("position", "absolute");
+
+      return el;
     },
 
 
@@ -532,8 +531,19 @@ qx.Class.define("qx.ui2.core.Widget",
      *
      * @return {qx.html.Element} The outer HTML element
      */
-    _createInnerElement : function() {
-      return new qx.html.Element("div");
+    _createInnerElement : function()
+    {
+      var el = new qx.html.Element("div");
+
+      el.setStyle("position", "absolute");
+      el.setStyle("zIndex", 10);
+      el.setStyle("overflow", "hidden");
+      el.setStyle("backgroundColor", "white");
+      el.setStyle("opacity", 0.5);
+
+      this._outerElement.add(el);
+
+      return el;
     },
 
 
