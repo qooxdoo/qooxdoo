@@ -402,9 +402,10 @@ def compile(node, opts, enableBreaks=False, enableVerbose=False):
                [isinstance(x,int) for x in options.prettypCommentsTrailingCommentCols],
                True)):
         options.prettypCommentsTrailingCommentCols.sort() # make sure they are ascending!
-    # or bomb
+    # or pass
     else:
-        raise TypeError, "Unsuitable type for option --pretty-print-comments-trailing-commentCols"
+        #raise TypeError, "Unsuitable type for option --pretty-print-comments-trailing-commentCols"
+        pass
 
     indent       = 0
     result       = u""
