@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui2.root.Page",
+qx.Class.define("qx.ui2.root.Inline",
 {
   extend : qx.ui2.core.Widget,
 
@@ -33,21 +33,16 @@ qx.Class.define("qx.ui2.root.Page",
   *****************************************************************************
   */
 
-  /**
-   * @param doc {Document} Document to use
-   */
-  construct : function(doc)
+  construct : function(el)
   {
     // Symbolic links
-    this._window = qx.dom.Node.getWindow(doc);
-    this._body = doc.body;
+    this._elem = el;
 
     // Base call
     this.base(arguments);
 
-    // Resize handling
-    qx.event.Registration.addListener(this._window, "resize", this._onResize, this);
-    this._onResize();
+    // Make relative
+    el.style.position = "relative";
   },
 
 
@@ -63,41 +58,22 @@ qx.Class.define("qx.ui2.root.Page",
   members :
   {
     // overridden
-    setGeometry : function() {
-      // nothing todo here
+    setGeometry : function(left, top, width, height)
+    {
+      this._contentElement.setStyle("width", width + "px");
+      this._contentElement.setStyle("height", height + "px");
     },
 
 
     // overridden
     _createOuterElement : function() {
-      return new qx.html.Root(this._body);
+      return new qx.html.Root(this._elem);
     },
 
 
     // overridden
     _createContentElement : function() {
       return this._outerElement;
-    },
-
-
-    /**
-     * Listener for window's resize event
-     *
-     * @type member
-     * @param e {qx.type.Event} Event object
-     * @return {void}
-     */
-    _onResize : function(e)
-    {
-      var width = qx.bom.Document.getWidth(this._window);
-      var height = qx.bom.Document.getHeight(this._window);
-
-      // Sync to layouter
-      this.addHint("width", width);
-      this.addHint("height", height);
-
-      // Debug
-      qx.core.Log.debug("Resize page: " + width + "x" + height);
     }
   },
 
@@ -111,6 +87,6 @@ qx.Class.define("qx.ui2.root.Page",
   */
 
   destruct : function() {
-    this._disposeFields("_window");
+    this._disposeFields("_elem");
   }
 });
