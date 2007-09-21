@@ -110,8 +110,8 @@ qx.Class.define("qx.ui2.core.Document",
 
     _onResize : function(e)
     {
-      this.setWidth(qx.bom.Document.getWidth(this._window));
-      this.setHeight(qx.bom.Document.getHeight(this._window));
+      this.addHint("width", qx.bom.Document.getWidth(this._window));
+      this.addHint("height", qx.bom.Document.getHeight(this._window));
     }
   },
 
