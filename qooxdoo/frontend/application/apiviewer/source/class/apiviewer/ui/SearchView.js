@@ -473,7 +473,7 @@ qx.Class.define("apiviewer.ui.SearchView",
       req.setTimeout(30000); // 30 sec
       req.setProhibitCaching(false);
       req.addEventListener("completed", function(evt) {
-        this.apiindex = eval("(" + evt.getData().getContent() + ")");
+        this.apiindex = eval("(" + evt.getContent() + ")");
         var loadEnd = new Date();
         this.info("Time to load api indexfile from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
       }, this);

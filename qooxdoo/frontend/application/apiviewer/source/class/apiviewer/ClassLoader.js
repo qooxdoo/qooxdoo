@@ -51,7 +51,7 @@ qx.Class.define("apiviewer.ClassLoader",
       req.setProhibitCaching(false);
       req.addEventListener("completed", function(evt)
       {
-        var content = eval("(" + evt.getData().getContent() + ")");
+        var content = eval("(" + evt.getContent() + ")");
 
         var packageName = className.substring(0, className.lastIndexOf("."));
         var pkg = apiviewer.dao.Class.getClassByName(packageName);

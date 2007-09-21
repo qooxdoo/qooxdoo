@@ -95,7 +95,7 @@ qx.Class.define("apiviewer.Controller",
         var loadEnd = new Date();
         this.debug("Time to load data from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
 
-        var content = evt.getData().getContent();
+        var content = evt.getContent();
 
         var start = new Date();
         var treeData = eval("(" + content + ")");

@@ -100,7 +100,7 @@ qx.Class.define("showcase.Application",
 
       // update state on selection change
       barView.getBar().getManager().addEventListener("changeSelected", function(e) {
-        var stateData = e.getData().getUserData("state");
+        var stateData = e.getValue().getUserData("state");
         this._history.addToHistory(stateData.state, "qooxdoo » Showcase - " + stateData.title);
       }, this);
 
@@ -530,7 +530,7 @@ qx.Class.define("showcase.Application",
       var rbm = new qx.ui.selection.RadioManager(null, [ radio1, radio2, radio3 ]);
 
       rbm.addEventListener("changeSelected", function(e) {
-        this.dispatchEvent(new qx.event.type.DataEvent("changeLayout", e.getData().getValue()));
+        this.dispatchEvent(new qx.event.type.DataEvent("changeLayout", e.getValue().getValue()));
       }, this);
 
       // Alignment
@@ -546,7 +546,7 @@ qx.Class.define("showcase.Application",
       var rbm = new qx.ui.selection.RadioManager(null, [ radio1, radio2, radio3 ]);
 
       rbm.addEventListener("changeSelected", function(e) {
-        tb.setHorizontalChildrenAlign(e.getData().getValue());
+        tb.setHorizontalChildrenAlign(e.getValue().getValue());
       });
 
       // Icon Sizes
@@ -625,11 +625,11 @@ qx.Class.define("showcase.Application",
       p1_1.add(c1, c2);
 
       c1.addEventListener("changeChecked", function(e) {
-        tf1.setPlaceBarOnTop(e.getData());
+        tf1.setPlaceBarOnTop(e.getValue());
       });
 
       c2.addEventListener("changeChecked", function(e) {
-        tf1.setAlignTabsToLeft(e.getData());
+        tf1.setAlignTabsToLeft(e.getValue());
       });
 
       // Inner tab view
@@ -800,7 +800,7 @@ qx.Class.define("showcase.Application",
       var rm = new qx.ui.selection.RadioManager(null, [ r1, r2, r3, r4 ]);
 
       rm.addEventListener("changeSelected", function(e) {
-        bs.setBarPosition(e.getData().getValue());
+        bs.setBarPosition(e.getValue().getValue());
       });
 
       return main;
@@ -949,7 +949,7 @@ qx.Class.define("showcase.Application",
       var tDoubleClick = new qx.ui.form.CheckBox("Use double click?");
 
       tDoubleClick.addEventListener("changeChecked", function(e) {
-        t.setUseDoubleClick(e.getData());
+        t.setUseDoubleClick(e.getValue());
       });
 
       command.add(tDoubleClick);
@@ -958,7 +958,7 @@ qx.Class.define("showcase.Application",
       tTreeLines.setChecked(true);
 
       tTreeLines.addEventListener("changeChecked", function(e) {
-        t.setUseTreeLines(e.getData());
+        t.setUseTreeLines(e.getValue());
       });
 
       command.add(tTreeLines);
@@ -1056,19 +1056,19 @@ qx.Class.define("showcase.Application",
       c4.setChecked(true);
 
       c1.addEventListener("changeChecked", function(e) {
-        list.getManager().setMultiSelection(e.getData());
+        list.getManager().setMultiSelection(e.getValue());
       });
 
       c2.addEventListener("changeChecked", function(e) {
-        list.getManager().setDragSelection(e.getData());
+        list.getManager().setDragSelection(e.getValue());
       });
 
       c3.addEventListener("changeChecked", function(e) {
-        list.getManager().setCanDeselect(e.getData());
+        list.getManager().setCanDeselect(e.getValue());
       });
 
       c4.addEventListener("changeChecked", function(e) {
-        list.setEnableInlineFind(e.getData());
+        list.setEnableInlineFind(e.getValue());
       });
 
       var rd1 = new qx.ui.form.RadioButton("Show Label", "label");
@@ -1081,7 +1081,7 @@ qx.Class.define("showcase.Application",
       rbm.addEventListener("changeSelected", function(e)
       {
         for (var i=0; i<list.getChildrenLength(); i++) {
-          list.getChildren()[i].setShow(e.getData().getValue());
+          list.getChildren()[i].setShow(e.getValue().getValue());
         }
       });
 
@@ -1367,7 +1367,7 @@ qx.Class.define("showcase.Application",
 
       select.addEventListener("changeSelected", function(e)
       {
-        var locale = e.getData().getLabel();
+        var locale = e.getValue().getLabel();
         qx.locale.Manager.getInstance().setLocale(locale);
       });
 
@@ -1673,56 +1673,56 @@ qx.Class.define("showcase.Application",
       chk1.setChecked(true);
 
       chk1.addEventListener("changeChecked", function(e) {
-        win.setResizable(e.getData());
+        win.setResizable(e.getValue());
       });
 
       var chk2 = new qx.ui.form.CheckBox("Show Statusbar");
       chk2.setChecked(false);
 
       chk2.addEventListener("changeChecked", function(e) {
-        win.setShowStatusbar(e.getData());
+        win.setShowStatusbar(e.getValue());
       });
 
       var chk3 = new qx.ui.form.CheckBox("Show Menubar");
       chk3.setChecked(false);
 
       chk3.addEventListener("changeChecked", function(e) {
-        win.setShowMenubar(e.getData());
+        win.setShowMenubar(e.getValue());
       });
 
       var chk4 = new qx.ui.form.CheckBox("Show Location");
       chk4.setChecked(false);
 
       chk4.addEventListener("changeChecked", function(e) {
-        win.setShowLocation(e.getData());
+        win.setShowLocation(e.getValue());
       });
 
       var chk5 = new qx.ui.form.CheckBox("Show Toolbar");
       chk5.setChecked(false);
 
       chk5.addEventListener("changeChecked", function(e) {
-        win.setShowToolbar(e.getData());
+        win.setShowToolbar(e.getValue());
       });
 
       var chk6 = new qx.ui.form.CheckBox("Allow Scrollbars");
       chk6.setChecked(true);
 
       chk6.addEventListener("changeChecked", function(e) {
-        win.setAllowScrollbars(e.getData());
+        win.setAllowScrollbars(e.getValue());
       });
 
       var chk7 = new qx.ui.form.CheckBox("Modal");
       chk7.setChecked(false);
 
       chk7.addEventListener("changeChecked", function(e) {
-        win.setModal(e.getData());
+        win.setModal(e.getValue());
       });
 
       var chk8 = new qx.ui.form.CheckBox("Dependent");
       chk8.setChecked(true);
 
       chk8.addEventListener("changeChecked", function(e) {
-        win.setDependent(e.getData());
+        win.setDependent(e.getValue());
       });
 
       vert.add(chk1, chk2, chk3, chk4, chk5, chk6, chk7, chk8);
@@ -1955,7 +1955,7 @@ qx.Class.define("showcase.Application",
       });
 
       chk1.addEventListener("changeChecked", function(e) {
-        w2.setShowIcon(e.getData());
+        w2.setShowIcon(e.getValue());
       });
 
       var chk2 = new qx.ui.form.CheckBox("Show Caption");
@@ -1968,7 +1968,7 @@ qx.Class.define("showcase.Application",
       });
 
       chk2.addEventListener("changeChecked", function(e) {
-        w2.setShowCaption(e.getData());
+        w2.setShowCaption(e.getValue());
       });
 
       var chk3 = new qx.ui.form.CheckBox("Resizeable");
@@ -1981,7 +1981,7 @@ qx.Class.define("showcase.Application",
       });
 
       chk3.addEventListener("changeChecked", function(e) {
-        w2.setResizable(e.getData());
+        w2.setResizable(e.getValue());
       });
 
       var chk4 = new qx.ui.form.CheckBox("Moveable");
@@ -1994,7 +1994,7 @@ qx.Class.define("showcase.Application",
       });
 
       chk4.addEventListener("changeChecked", function(e) {
-        w2.setMoveable(e.getData());
+        w2.setMoveable(e.getValue());
       });
 
       var chk5 = new qx.ui.form.CheckBox("Show Close");
@@ -2007,7 +2007,7 @@ qx.Class.define("showcase.Application",
       });
 
       chk5.addEventListener("changeChecked", function(e) {
-        w2.setShowClose(e.getData());
+        w2.setShowClose(e.getValue());
       });
 
       var chk6 = new qx.ui.form.CheckBox("Show Maximize/Restore");
@@ -2020,7 +2020,7 @@ qx.Class.define("showcase.Application",
       });
 
       chk6.addEventListener("changeChecked", function(e) {
-        w2.setShowMaximize(e.getData());
+        w2.setShowMaximize(e.getValue());
       });
 
       var chk7 = new qx.ui.form.CheckBox("Show Minimize");
@@ -2033,7 +2033,7 @@ qx.Class.define("showcase.Application",
       });
 
       chk7.addEventListener("changeChecked", function(e) {
-        w2.setShowMinimize(e.getData());
+        w2.setShowMinimize(e.getValue());
       });
 
       var chk8 = new qx.ui.form.CheckBox("Allow Close");
@@ -2046,7 +2046,7 @@ qx.Class.define("showcase.Application",
       });
 
       chk8.addEventListener("changeChecked", function(e) {
-        w2.setAllowClose(e.getData());
+        w2.setAllowClose(e.getValue());
       });
 
       var chk9 = new qx.ui.form.CheckBox("Allow Maximize");
@@ -2059,7 +2059,7 @@ qx.Class.define("showcase.Application",
       });
 
       chk9.addEventListener("changeChecked", function(e) {
-        w2.setAllowMaximize(e.getData());
+        w2.setAllowMaximize(e.getValue());
       });
 
       var chk10 = new qx.ui.form.CheckBox("Allow Minimize");
@@ -2072,7 +2072,7 @@ qx.Class.define("showcase.Application",
       });
 
       chk10.addEventListener("changeChecked", function(e) {
-        w2.setAllowMinimize(e.getData());
+        w2.setAllowMinimize(e.getValue());
       });
 
       var l1 = new qx.ui.basic.Atom("Move Method", "icon/16/apps/preferences-desktop-wallpaper.png");
@@ -2091,7 +2091,7 @@ qx.Class.define("showcase.Application",
       var rbm1 = new qx.ui.selection.RadioManager("move", [ rb1, rb2, rb3 ]);
 
       rbm1.addEventListener("changeSelected", function(e) {
-        w2.setMoveMethod(e.getData().getValue());
+        w2.setMoveMethod(e.getValue().getValue());
       });
 
       var l2 = new qx.ui.basic.Atom("Resize Method", "icon/16/apps/preferences-desktop-wallpaper.png");
@@ -2113,7 +2113,7 @@ qx.Class.define("showcase.Application",
       var rbm2 = new qx.ui.selection.RadioManager("resize", [ rb4, rb5, rb6, rb7 ]);
 
       rbm2.addEventListener("changeSelected", function(e) {
-        w2.setResizeMethod(e.getData().getValue());
+        w2.setResizeMethod(e.getValue().getValue());
       });
 
       var chk11 = new qx.ui.form.CheckBox("Show Statusbar");
@@ -2121,7 +2121,7 @@ qx.Class.define("showcase.Application",
       chk11.setChecked(false);
 
       chk11.addEventListener("changeChecked", function(e) {
-        w2.setShowStatusbar(e.getData());
+        w2.setShowStatusbar(e.getValue());
       });
 
       var btnpack = new qx.ui.form.Button("Pack Window", "icon/16/devices/media-optical.png");
@@ -2157,7 +2157,7 @@ qx.Class.define("showcase.Application",
       wm1.add(chkm1);
 
       chkm1.addEventListener("changeChecked", function(e) {
-        wm1.setModal(e.getData());
+        wm1.setModal(e.getValue());
       });
 
       // Fill modal window 2

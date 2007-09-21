@@ -61,12 +61,17 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
     },
 
     /** The name of the list containing the items in the tree data structure */
-    listName : { _legacy: true, type: "string"},
+    listName : { check : "String" },
 
     /** whether the info panel is open */
-    isOpen : { _legacy: true, type: "boolean", defaultValue: true},
+    isOpen :
+    { 
+      check : "Boolean",
+      init : true
+    },
 
-    docNode : {
+    docNode :
+    {
       check : "apiviewer.dao.Node",
       nullable : true
     }
