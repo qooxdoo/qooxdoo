@@ -29,6 +29,11 @@ qx.Class.define("qx.ui2.border.CssRoundedBorder",
         "WebkitBorderRadius": radius,
         "border": "1px solid black"
       });
+    },
+
+    updateEdge : function(widget, borderElement)
+    {
+      this.update(widget, borderElement);
     }
   }
 });
