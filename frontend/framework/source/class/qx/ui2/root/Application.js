@@ -18,9 +18,13 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui2.core.Application",
+/**
+ * Useful for application like layouts where top-level scrollbars
+ * are not available (internal panes scroll however)
+ */
+qx.Class.define("qx.ui2.top.Application",
 {
-  extend : qx.ui2.core.Root,
+  extend : qx.ui2.top.Root,
 
 
 

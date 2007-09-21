@@ -18,9 +18,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui2.core.Document",
+qx.Class.define("qx.ui2.top.Page",
 {
-  extend : qx.ui2.core.Root,
+  extend : qx.ui2.top.Root,
 
 
 
