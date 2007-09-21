@@ -655,16 +655,49 @@ qx.Class.define("qx.ui2.core.Widget",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * The natural way the content would display if no dimensions are applied.
+     *
+     * For labels and other HTML content this is the simple size of this content.
+     * For images the size of the image (without scaling).
+     *
+     * For children the preferred width of each children positioned in the selected
+     * layout when each children has no own dimensions configured.
+     *
+     * @type member
+     * @return {Integer} The preferred content width, always in pixels
+     */
     _getPreferredContentWidth : function()
     {
       return 0; // TODO
     },
 
+
+    /**
+     * The natural way the content would display if no dimensions are applied.
+     *
+     * For labels and other HTML content this is the simple size of this content.
+     * For images the size of the image (without scaling).
+     *
+     * For children the preferred height of each children positioned in the selected
+     * layout when each children has no own dimensions configured.
+     *
+     * @type member
+     * @return {Integer} The preferred content height, always in pixels
+     */
     _getPreferredContentHeight : function()
     {
       return 0; // TODO
     },
 
+
+    /**
+     * The preferred width of this widget (simulates the case
+     * when no layout properties have been applied at all)
+     *
+     * @type member
+     * @return {Integer} The preferred width, always in pixels
+     */
     getPreferredWidth : function()
     {
       return this._getPreferredContentWidth() +
@@ -672,6 +705,14 @@ qx.Class.define("qx.ui2.core.Widget",
         this._borderWidthLeft + this._borderWidthRight;
     },
 
+
+    /**
+     * The preferred height of this widget (simulates the case
+     * when no layout properties have been applied at all)
+     *
+     * @type member
+     * @return {Integer} The preferred height, always in pixels
+     */
     getPreferredHeight : function()
     {
       return this._getPreferredContentHeight() +
