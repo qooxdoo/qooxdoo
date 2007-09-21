@@ -42,6 +42,9 @@ qx.Class.define("qx.ui2.core.Document",
     this._onResizeWrapper = qx.lang.Function.bind(this._onResize, this);
     qx.event.Registration.addListener(this._window, "resize", this._onResizeWrapper);
 
+    // Don't use overflow: hidden
+    this._innerElement.removeStyle("overflow");
+
     this._onResize();
   },
 
@@ -97,15 +100,7 @@ qx.Class.define("qx.ui2.core.Document",
     // overridden
     setGeometry : function(left, top, width, height)
     {
-      var innerLeft = left + this.getPaddingLeft() + this._borderWidthLeft;
-      var innerTop = left + this.getPaddingLeft() + this._borderWidthTop;
-      var innerWidth = width - this.getPaddingRight() - this._borderWidthRight;
-      var innerHeight = height - this.getPaddingBottom() - this._borderWidthBottom;
 
-      this._innerElement.setStyle("left", innerLeft + "px");
-      this._innerElement.setStyle("top", innerTop + "px");
-      this._innerElement.setStyle("width", innerWidth + "px");
-      this._innerElement.setStyle("height", innerHeight + "px");
     },
 
     _onResize : function(e)
@@ -117,9 +112,8 @@ qx.Class.define("qx.ui2.core.Document",
       this.addHint("width", width);
       this.addHint("height", height);
 
-      // Sync to inner element (little bit hacky, any better idea?)
-      this._innerElement.setStyle("width", width + "px");
-      this._innerElement.setStyle("height", height + "px");
+      // Debug
+      qx.core.Log.debug("Resize document: " + width + "x" + height);
     }
   },
 

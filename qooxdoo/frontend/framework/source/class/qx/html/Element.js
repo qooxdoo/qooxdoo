@@ -1430,7 +1430,11 @@ qx.Class.define("qx.html.Element",
         this.__styleValues = {};
       }
 
-      this.__styleValues[key] = value;
+      if (value == null) {
+        delete this.__styleValues[key];
+      } else {
+        this.__styleValues[key] = value;
+      }
 
       // Uncreated elements simply copy all data
       // on creation. We don't need to remember any
@@ -1459,6 +1463,18 @@ qx.Class.define("qx.html.Element",
       }
 
       return this;
+    },
+
+
+    /**
+     * Removes the given style attribute
+     *
+     * @type member
+     * @param key {String} the name of the style attribute
+     * @return {qx.html.Element} this object (for chaining support)
+     */
+    removeStyle : function(key) {
+      this.setStyle(key, null);
     },
 
 
@@ -1546,7 +1562,11 @@ qx.Class.define("qx.html.Element",
         this.__attribValues = {};
       }
 
-      this.__attribValues[key] = value;
+      if (value == null) {
+        delete this.__attribValues[key];
+      } else {
+        this.__attribValues[key] = value;
+      }
 
       // Uncreated elements simply copy all data
       // on creation. We don't need to remember any
@@ -1575,6 +1595,18 @@ qx.Class.define("qx.html.Element",
       }
 
       return this;
+    },
+
+
+    /**
+     * Removes the given attribute
+     *
+     * @type member
+     * @param key {String} the name of the attribute
+     * @return {qx.html.Element} this object (for chaining support)
+     */
+    removeAttribute : function(key, value) {
+      this.setAttribute(key, null);
     },
 
 
