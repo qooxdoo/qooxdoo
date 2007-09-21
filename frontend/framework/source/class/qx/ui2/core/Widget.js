@@ -108,7 +108,29 @@ qx.Class.define("qx.ui2.core.Widget",
 
   properties :
   {
+    width :
+    {
+      apply : "_applyXSize",
+      nullable : true
+    },
 
+    height :
+    {
+      apply : "_applyYSize",
+      nullable : true
+    },
+
+    top :
+    {
+      apply : "_applyXPosition",
+      nullable : true
+    },
+
+    left :
+    {
+      apply : "_applyYPosition",
+      nullable : true
+    },
 
 
 
@@ -123,7 +145,7 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       check : "Number",
       init : 0,
-      apply : "_applyHeight",
+      apply : "_applyYSize",
       themeable : true
     },
 
@@ -133,7 +155,7 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       check : "Number",
       init : 0,
-      apply : "_applyWidth",
+      apply : "_applyXSize",
       themeable : true
     },
 
@@ -143,7 +165,7 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       check : "Number",
       init : 0,
-      apply : "_applyHeight",
+      apply : "_applyYSize",
       themeable : true
     },
 
@@ -153,7 +175,7 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       check : "Number",
       init : 0,
-      apply : "_applyWidth",
+      apply : "_applyXSize",
       themeable : true
     },
 
@@ -194,7 +216,7 @@ qx.Class.define("qx.ui2.core.Widget",
     backgroundColor :
     {
       check : "String",
-      apply : "_applyBackgroundColor",
+      apply : "_applyOuterStyle",
       themeable : true
     }
   },
@@ -275,6 +297,37 @@ qx.Class.define("qx.ui2.core.Widget",
 
   members :
   {
+    /**
+     * Used by the layouters to apply coordinates and dimensions.
+     *
+     * @type member
+     * @param left {Integer} Any positive integer value for the left position
+     * @param top {Integer} Any positive integer value for the top position
+     * @param width {Integer} Any positive integer value for the width
+     * @param height {Integer} Any positive integer value for the height
+     * @return {void}
+     */
+    setGeometry : function(left, top, width, height)
+    {
+      this._outerElement.setStyle("left", left + "px");
+      this._outerElement.setStyle("top", top + "px");
+      this._outerElement.setStyle("width", width + "px");
+      this._outerElement.setStyle("height", height + "px");
+
+      // Scrollbars are applied to the inner element and does not influence
+      // its outer size.
+      var innerLeft = left + this.getPaddingLeft() + this._borderWidthLeft;
+      var innerTop = left + this.getPaddingLeft() + this._borderWidthTop;
+      var innerWidth = width - this.getPaddingRight() - this._borderWidthRight;
+      var innerHeight = height - this.getPaddingBottom() - this._borderWidthBottom;
+
+      this._innerElement.setStyle("left", innerLeft + "px");
+      this._innerElement.setStyle("top", innerTop + "px");
+      this._innerElement.setStyle("width", innerWidth + "px");
+      this._innerElement.setStyle("height", innerHeight + "px");
+    },
+
+
     /**
      * Returns the (outer) HTML element.
      *
@@ -442,43 +495,34 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
+    _applyOuterStyle : function(value, old, name)
+    {
+      if (value == null) {
+        this._outerElement.resetStyle(name);
+      } else {
+        this._outerElement.setStyle(name, value);
+      }
+    },
 
-    /*
-    ---------------------------------------------------------------------------
-      PADDING PROPERTIES
-    ---------------------------------------------------------------------------
-    */
+    _applyXSize : function(value, old)
+    {
 
-   _applyOuterStyle : function(value, old, name)
-   {
-     if (value == null) {
-       this._outerElement.resetStyle(name);
-     } else {
-       this._outerElement.setStyle(name, value);
-     }
-   },
+    },
 
+    _applyYSize : function(value, old)
+    {
 
-   _applyOuterPixelStyle : function(value, old, propName)
-   {
-     if (value == null) {
-       this._outerElement.resetStyle(propName);
-     } else {
-       this._outerElement.setStyle(propName, value + "px");
-     }
-   },
+    },
 
+    _applyXPosition : function(value, old)
+    {
 
-   _applyBackgroundColor : function(value, old)
-   {
-     var el = this._borderElement || this._outerElement;
+    },
 
-     if (value == null) {
-       el.resetStyle("backgroundColor");
-     } else {
-       el.setStyle("backgroundColor", value);
-     }
-   }
+    _applyYPosition : function(value, old)
+    {
+
+    }
   },
 
 
