@@ -61,7 +61,26 @@ qx.Class.define("BasicSample",
       w3.setBackgroundColor("green");
       w4.setBackgroundColor("yellow");
 
+      qx.theme.manager.Color.getInstance().setColorTheme(qx.theme.classic.color.Royale);
+      qx.ui2.border.BorderManager.getInstance().setBorderTheme(qx.theme.classic.Border);
+
+      var borderColor = "black";
+      var border = new qx.ui2.border.Basic(3, "solid", borderColor);
+
+      w1.setBorder(border);
+      w3.setBorder(border);
+      w4.setBorder("black");
+
+      w1.addListener("click", function(e)
+      {
+        borderColor = borderColor == "black" ? "purple" : "black";
+        border.setColor(borderColor);
+        qx.html.Element.flush();
+      });
+
+
       var layout = new qx.ui2.layout.Basic();
+
       layout.add(w1, {
         top: 10,
         left: 10,
