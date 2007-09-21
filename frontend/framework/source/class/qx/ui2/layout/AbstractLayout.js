@@ -98,14 +98,13 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
     /** Remove this from the layout */
     remove : function(widget) {},
 
-    indexOf : function(widget) {},
+    /** Whether the widget is a child of this layout */
+    has : function(widget) {},
 
-    getAt : function(index) {},
-
-    setGeometry : function(geometry) {},
+    /** Sets the geometry */
+    setGeometry : function(left, top, width, height) {},
 
     _applyWidget : function(value, old) {}
-
   },
 
 
