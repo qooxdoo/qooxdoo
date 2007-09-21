@@ -35,15 +35,13 @@ qx.Class.define("qx.ui2.root.Page",
 
   construct : function(doc)
   {
-    var body = doc.body;
-
     this.base(arguments);
-
-    // Create content element
-    this._contentElement = new qx.html.Root(body);
 
     // Symbolic links
     this._window = qx.dom.Node.getWindow(doc);
+
+    // Create content element
+    this._contentElement = new qx.html.Root(doc.body);
 
     // Resize handling
     qx.event.Registration.addListener(this._window, "resize", this._onResize, this);
@@ -62,6 +60,19 @@ qx.Class.define("qx.ui2.root.Page",
 
   members :
   {
+    // overridden
+    setGeometry : function() {
+      // nothing todo here
+    },
+
+
+    // overridden
+    _createContentElement : function()
+    {
+      // TODO: Ugly... how to workaround this?
+      return this._outerElement;
+    },
+
 
     /**
      * Listener for window's resize event
@@ -72,7 +83,7 @@ qx.Class.define("qx.ui2.root.Page",
      */
     _onResize : function(e)
     {
-      var width = qx.bom.Document.getWidth(this._window);
+      var width = qx.bom.Viewport.getWidth(this._window);
       var height = qx.bom.Document.getHeight(this._window);
 
       // Sync to layouter
@@ -93,9 +104,7 @@ qx.Class.define("qx.ui2.root.Page",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-
-
+  destruct : function() {
+    this._disposeFields("_window", "_contentElement");
   }
 });

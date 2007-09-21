@@ -20,7 +20,7 @@
 
 /**
  * Useful for application like layouts where top-level scrollbars
- * are not available (internal panes scroll however)
+ * are not available (internal panes scroll however).
  */
 qx.Class.define("qx.ui2.root.Application",
 {
@@ -47,7 +47,7 @@ qx.Class.define("qx.ui2.root.Application",
     // Symbolic links
     this._window = qx.dom.Node.getWindow(doc);
 
-    // Apply full width layout
+    // Apply application layout
     var hstyle = html.style;
     var bstyle = body.style;
 
@@ -78,7 +78,7 @@ qx.Class.define("qx.ui2.root.Application",
 
 
     // overridden
-    _createInnerElement : function()
+    _createContentElement : function()
     {
       // TODO: Ugly... how to workaround this?
       return this._outerElement;
@@ -116,6 +116,6 @@ qx.Class.define("qx.ui2.root.Application",
   */
 
   destruct : function() {
-    this._disposeFields("_window");
+    this._disposeFields("_window", "_contentElement");
   }
 });
