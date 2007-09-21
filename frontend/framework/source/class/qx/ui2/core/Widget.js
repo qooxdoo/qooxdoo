@@ -59,6 +59,9 @@ qx.Class.define("qx.ui2.core.Widget",
 
     // Track changes
     this._layoutChanges = {};
+
+    // whether the widget has a layout manager
+    this._hasLayout = false;
   },
 
 
@@ -118,39 +121,15 @@ qx.Class.define("qx.ui2.core.Widget",
 
   properties :
   {
-    /** Selected layout of instance {@link qx.ui2.layout.Layout} */
+    /** Selected layout of instance {@link qx.ui2.layout.AbstractLayout} */
     layout :
     {
-      nullable : true
+      check : "qx.ui2.layout.AbstractLayout",
+      nullable : true,
+      init : null,
+      apply : "_applyLayout"
     },
 
-
-
-
-
-    top :
-    {
-      apply : "_applyXPosition",
-      nullable : true
-    },
-
-    left :
-    {
-      apply : "_applyYPosition",
-      nullable : true
-    },
-
-    width :
-    {
-      apply : "_applyXSize",
-      nullable : true
-    },
-
-    height :
-    {
-      apply : "_applyYSize",
-      nullable : true
-    },
 
     minWidth :
     {
@@ -405,8 +384,8 @@ qx.Class.define("qx.ui2.core.Widget",
 
       // Scrollbars are applied to the inner element and does not influence
       // its outer size.
-      var innerLeft = left + this.getPaddingLeft() + this._borderWidthLeft;
-      var innerTop = left + this.getPaddingLeft() + this._borderWidthTop;
+      var innerLeft = this.getPaddingLeft() + this._borderWidthLeft;
+      var innerTop = this.getPaddingLeft() + this._borderWidthTop;
       var innerWidth = width - this.getPaddingRight() - this._borderWidthRight;
       var innerHeight = height - this.getPaddingBottom() - this._borderWidthBottom;
 
@@ -537,10 +516,11 @@ qx.Class.define("qx.ui2.core.Widget",
     ---------------------------------------------------------------------------
     */
 
+/*
     _getChildren : function() {
       return this.getLayout().getChildren();
     },
-
+*/
     _hasChild : function() {
       return this.getLayout().hasChild();
     },
@@ -561,10 +541,11 @@ qx.Class.define("qx.ui2.core.Widget",
      * @type member
      * @return {Array} the children list
      */
+    /*
     getChildren : function() {
       return this._childContainer._getChildren();
     },
-
+*/
 
     /**
      * Whether the given element is a child of this element.
@@ -642,10 +623,31 @@ qx.Class.define("qx.ui2.core.Widget",
 
     _applyLayout : function(value, old)
     {
-      // TODO
+      this._hasLayout = (value !== null);
+
+      if (value)
+      {
+        var children = value.getChildren();
+        for (var i=0, l=children.length; i<l; i++)
+        {
+          this._innerElement.add(children[i].getElement());
+        }
+      }
+    },
+
+/*
+    invalidateLayout : function()
+    {
+      var widget = this;
+
+      this._layoutValid =
     },
 
 
+    isLayoutValid : function() {
+      return this._layoutValid;
+    }
+*/
 
 
 
@@ -669,7 +671,7 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     _getPreferredContentWidth : function()
     {
-      return 0; // TODO
+      return 20; // TODO
     },
 
 
@@ -687,7 +689,7 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     _getPreferredContentHeight : function()
     {
-      return 0; // TODO
+      return 10; // TODO
     },
 
 
@@ -814,7 +816,7 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     _getTechnicalMaximumContentWidth : function()
     {
-      return 0; //TODO
+      return 100; //TODO
     },
 
 
@@ -829,7 +831,7 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     _getTechnicalMaximumContentHeight : function()
     {
-      return 0; //TODO
+      return 100; //TODO
     },
 
 
