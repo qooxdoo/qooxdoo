@@ -42,6 +42,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
     // Create content element
     this._outerElement = this._createOuterElement();
+    this._styleElement = this._createStyleElement();
     this._contentElement = this._createContentElement();
 
     // Border sizes
@@ -357,6 +358,9 @@ qx.Class.define("qx.ui2.core.Widget",
       this._outerElement.setStyle("width", width + "px");
       this._outerElement.setStyle("height", height + "px");
 
+      this._styleElement.setStyle("width", width + "px");
+      this._styleElement.setStyle("height", height + "px");
+
       // Scrollbars are applied to the content element and does not influence
       // its outer size.
       var insetTop = this.getPaddingTop() + this._borderWidthTop;
@@ -374,9 +378,45 @@ qx.Class.define("qx.ui2.core.Widget",
       this._contentElement.setStyle("width", innerWidth + "px");
       this._contentElement.setStyle("height", innerHeight + "px");
 
-      if (this._computedBorder !== null && this._borderElement) {
-        this._computedBorder.updateSize(this, this._borderElement, width, height);
+      // Resize/Move detection
+      var resize = width != this._oldWidth || height != this._oldHeight;
+      var move = left != this._oldLeft || top != this._oldTop;
+      
+      if (resize) {
+        this.fireEvent("resize");
       }
+      
+      if (move) {
+        this.fireEvent("move");
+      }
+      
+      // Remember old values
+      this._oldWidth = width;
+      this._oldHeight = height;
+      this._oldLeft = left;
+      this._oldTop = top;
+      
+      // Sync styles
+      this._syncStyle(width, height);
+    },
+    
+    
+    _syncStyle : function(width, height)
+    {
+      var border = this.getBorder();
+      var background = this.getBackground();
+      var markup = "";
+      
+      if (border)
+      {
+        markup = borderObject.getMarkup(this, width, height);
+      }
+      else if (background)
+      {
+        markup = backgroundObject.getMarkup(this, width, height);
+      }
+      
+      this._styleElement.setAttribute("html", markup);
     },
 
 
@@ -390,17 +430,20 @@ qx.Class.define("qx.ui2.core.Widget",
     },
 
 
-    /**
-     * Return the content element, which contains the widget contents.
-     *
-     * @return {qx.html.Element} The content HTML element.
-     */
-    _getInnerElement : function() {
-      return this._contentElement;
-    },
 
 
 
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PRELIMINARY ELEMENT INTERFACES
+    ---------------------------------------------------------------------------
+    */
+    
     setHtml : function(value) {
       this._contentElement.setAttribute("html", value);
     },
@@ -528,6 +571,26 @@ qx.Class.define("qx.ui2.core.Widget",
 
       return el;
     },
+    
+    
+    /**
+     * Create the widget's style HTML element.
+     *
+     * @return {qx.html.Element} The style HTML element
+     */    
+    __createStyleElement : function()
+    {
+      var el = new qx.html.Element("div");
+
+      el.setStyle("position", "absolute");
+      el.setStyle("zIndex", 5);
+      el.setStyle("left", "0px");
+      el.setStyle("top", "0px");
+            
+      this._outerElement.add(el);
+
+      return el;
+    },
 
 
     /**
@@ -542,8 +605,6 @@ qx.Class.define("qx.ui2.core.Widget",
       el.setStyle("position", "absolute");
       el.setStyle("zIndex", 10);
       el.setStyle("overflow", "hidden");
-      //el.setStyle("backgroundColor", "white");
-      //el.setStyle("opacity", 0.5);
 
       this._outerElement.add(el);
 
@@ -596,58 +657,6 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
-    /*
-    ---------------------------------------------------------------------------
-      PROTECTED API
-      CHILDREN MANAGEMENT (EXECUTED ON THE PARENT)
-    ---------------------------------------------------------------------------
-    */
-
-/*
-    _getChildren : function() {
-      return this.getLayout().getChildren();
-    },
-*/
-    _hasChild : function() {
-      return this.getLayout().hasChild();
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PUBLIC API
-      CHILDREN MANAGEMENT (EXECUTED ON THE PARENT)
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Returns a copy of the internal children structure.
-     *
-     * @type member
-     * @return {Array} the children list
-     */
-    /*
-    getChildren : function() {
-      return this._childContainer._getChildren();
-    },
-*/
-
-    /**
-     * Whether the given element is a child of this element.
-     *
-     * @type member
-     * @param child {qx.html.Element} the child
-     * @return {Boolean} Returns <code>true</code> when the given
-     *    element is a child of this element.
-     */
-    hasChild : function(child) {
-      return this._childContainer._hasChild(child);
-    },
-
-
-
 
 
 
@@ -658,23 +667,8 @@ qx.Class.define("qx.ui2.core.Widget",
     */
 
     /** apply routine for property {@link #border} */
-    _applyBorder : function(value, old)
-    {
-      if (this._borderElement)
-      {
-        this._borderElement.free();
-        this._borderElement.dispose();
-        this._computedBorder = null;
-      }
-
-      if (value !== null)
-      {
-        this._computedBorder = qx.ui2.border.BorderManager.getInstance().resolveDynamic(value);
-        this._borderElement = this._computedBorder.createBorderElement(this);
-        this._outerElement.add(this._borderElement);
-
-        qx.ui2.border.BorderManager.getInstance().connect(this._styleBorder, this, value);
-      }
+    _applyBorder : function(value, old) {
+      qx.ui2.border.BorderManager.getInstance().connect(this._styleBorder, this, value);
     },
 
 
@@ -682,15 +676,11 @@ qx.Class.define("qx.ui2.core.Widget",
      * Callback for border manager connection
      *
      * @param border {qx.ui2.border.IBorderRenderer} the border object
-     * @param edge {String} top, right, bottom or left
+     * @param edge {String?null} top, right, bottom or left
      */
     _styleBorder : function(border, edge)
     {
-      if (!edge) {
-        border.update(this, this._borderElement);
-      } else {
-        border.updateEdge(this, this._borderElement, edge);
-      }
+      // TODO: Add to layout queue?
     },
 
 
@@ -978,61 +968,6 @@ qx.Class.define("qx.ui2.core.Widget",
       return this._getTechnicalMaximumContentHeight() +
         this.getPaddingTop() + this.getPaddingBottom() +
         this._borderWidthTop + this._borderWidthBottom;
-    },
-
-
-
-
-
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      SIZE POLICY
-    ---------------------------------------------------------------------------
-    */
-
-
-
-
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      LAYOUT PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
-    _applyXSize : function(value, old, name)
-    {
-      this._layoutChanges[name] = true;
-
-    },
-
-    _applyYSize : function(value, old, name)
-    {
-      this._layoutChanges[name] = true;
-
-    },
-
-    _applyXPosition : function(value, old, name)
-    {
-      this._layoutChanges[name] = true;
-
-    },
-
-    _applyYPosition : function(value, old, name)
-    {
-      this._layoutChanges[name] = true;
-
     }
   },
 
