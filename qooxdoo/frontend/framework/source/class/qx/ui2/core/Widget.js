@@ -47,8 +47,15 @@ qx.Class.define("qx.ui2.core.Widget",
     this._outerElement.setStyle("position", "absolute");
     this._innerElement.setStyle("position", "absolute");
 
-    this._innerElement.setAttribute("z-index", 10);
+    this._innerElement.setStyle("zIndex", 10);
     this._innerElement.setStyle("overflow", "hidden");
+
+
+    // Border sizes
+    this._borderWidthLeft = 0;
+    this._borderWidthTop = 0;
+    this._borderWidthRight = 0;
+    this._borderWidthBottom = 0;
   },
 
 
