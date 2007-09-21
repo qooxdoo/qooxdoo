@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui2.core.RootWidget",
+qx.Class.define("qx.ui2.core.Root",
 {
   extend : qx.ui2.core.Widget,
 
