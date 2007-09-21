@@ -369,10 +369,14 @@ qx.Class.define("qx.ui2.core.Widget",
      * Used by the layouters to apply coordinates and dimensions.
      *
      * @type member
-     * @param left {Integer} Any positive integer value for the left position
-     * @param top {Integer} Any positive integer value for the top position
-     * @param width {Integer} Any positive integer value for the width
-     * @param height {Integer} Any positive integer value for the height
+     * @param left {Integer} Any positive integer value for the left position,
+     *   always in pixels
+     * @param top {Integer} Any positive integer value for the top position,
+     *   always in pixels
+     * @param width {Integer} Any positive integer value for the width,
+     *   always in pixels
+     * @param height {Integer} Any positive integer value for the height,
+     *   always in pixels
      * @return {void}
      */
     setGeometry : function(left, top, width, height)
