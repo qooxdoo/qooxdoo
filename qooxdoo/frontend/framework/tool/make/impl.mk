@@ -346,14 +346,15 @@ exec-application-translation:
 
 	@rm -f $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TRANSLATION_FOLDERNAME)/messages.pot
 	@touch $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TRANSLATION_FOLDERNAME)/messages.pot
+	@# the artificial 'for' loop assures that xgettext is never called with empty arguments
 	@for file in `find $(APPLICATION_SOURCE_PATH)/$(APPLICATION_CLASS_FOLDERNAME) -name "*.js"`; do \
-	  LC_ALL=C xgettext --language=Java --from-code=UTF-8 \
+	  eval LC_ALL=C xgettext --language=Java --from-code=UTF-8 \
 	  -kthis.trc -kthis.tr -kthis.marktr -kthis.trn:1,2 \
 	  -kself.trc -kself.tr -kself.marktr -kself.trn:1,2 \
 	  -kManager.trc -kManager.tr -kManager.marktr -kManager.trn:1,2 \
 	  --sort-by-file --add-comments=TRANSLATION \
-	  -o $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TRANSLATION_FOLDERNAME)/messages.pot \
-	  `find $(APPLICATION_SOURCE_PATH)/$(APPLICATION_CLASS_FOLDERNAME) -name "*.js"` 2>&1 | grep -v warning; \
+	  -o `printf "%q" $(APPLICATION_SOURCE_PATH)/$(APPLICATION_TRANSLATION_FOLDERNAME)`/messages.pot \
+	  `find $(APPLICATION_SOURCE_PATH)/$(APPLICATION_CLASS_FOLDERNAME) -name "*.js" -exec bash -c "printf '%q ' \"{}\"" \;` 2>&1 | grep -v warning; \
 	  break; done
 
 	@echo "  * Processing translations..."
@@ -496,7 +497,7 @@ exec-tests-build:
 	$(SILENCE) $(CMD_GENERATOR) \
 	   --class-path $(FRAMEWORK_SOURCE_PATH)/class \
 	   --class-path $(TESTRUNNER_SOURCE_PATH)/class \
-	   --class-path $(APPLICATION_SOURCE_PATH)/class \
+	   --class-path $(APPLICATION_SOURCE_PATH)/$(APPLICATION_CLASS_FOLDERNAME) \
 	   --include testrunner.TestLoader \
 	   --include $(APPLICATION_NAMESPACE).* \
 	   --include qx.theme.ClassicRoyale,qx.theme.classic.color.Royale,qx.theme.classic.Border,qx.theme.classic.font.Default,qx.theme.classic.Widget,qx.theme.classic.Appearance,qx.theme.icon.Nuvola \
