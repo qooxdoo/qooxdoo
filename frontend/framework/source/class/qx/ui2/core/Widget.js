@@ -694,6 +694,9 @@ qx.Class.define("qx.ui2.core.Widget",
      *
      * Normally this depends on the technical minimums of the
      * children or the content in general (HTML, images, ...)
+     *
+     * @type member
+     * @return {Integer} The minimum technical content width, always in pixels
      */
     _getTechnicalMinimumContentWidth : function()
     {
@@ -706,6 +709,9 @@ qx.Class.define("qx.ui2.core.Widget",
      *
      * Normally this depends on the technical minimums of the
      * children or the content in general (HTML, images, ...)
+     *
+     * @type member
+     * @return {Integer} The minimum technical content height, always in pixels
      */
     _getTechnicalMinimumContentHeight : function()
     {
@@ -717,6 +723,9 @@ qx.Class.define("qx.ui2.core.Widget",
      * Returns the minium width of the widget
      *
      * This is the minimum content width plus paddings and borders.
+     *
+     * @type member
+     * @return {Integer} The minimum technical width, always in pixels
      */
     getTechnicalMinimumWidth : function()
     {
@@ -730,6 +739,9 @@ qx.Class.define("qx.ui2.core.Widget",
      * Returns the minium height of the widget
      *
      * This is the minimum content height plus paddings and borders.
+     *
+     * @type member
+     * @return {Integer} The minimum technical height, always in pixels
      */
     getTechnicalMinimumHeight : function()
     {
@@ -755,6 +767,9 @@ qx.Class.define("qx.ui2.core.Widget",
      *
      * Normally this depends on the technical maximums of the
      * children or the content in general (HTML, images, ...)
+     *
+     * @type member
+     * @return {Integer} The maximum technical content width, always in pixels
      */
     _getTechnicalMaximumContentWidth : function()
     {
@@ -767,6 +782,9 @@ qx.Class.define("qx.ui2.core.Widget",
      *
      * Normally this depends on the technical maximums of the
      * children or the content in general (HTML, images, ...)
+     *
+     * @type member
+     * @return {Integer} The maximum technical content height, always in pixels
      */
     _getTechnicalMaximumContentHeight : function()
     {
@@ -778,6 +796,9 @@ qx.Class.define("qx.ui2.core.Widget",
      * Returns the minium width of the widget
      *
      * This is the maximum content width plus paddings and borders.
+     *
+     * @type member
+     * @return {Integer} The maximum technical width, always in pixels
      */
     getTechnicalMaximumWidth : function()
     {
@@ -791,6 +812,9 @@ qx.Class.define("qx.ui2.core.Widget",
      * Returns the minium height of the widget
      *
      * This is the maximum content height plus paddings and borders.
+     *
+     * @type member
+     * @return {Integer} The maximum technical height, always in pixels
      */
     getTechnicalMaximumHeight : function()
     {
@@ -814,6 +838,10 @@ qx.Class.define("qx.ui2.core.Widget",
     /**
      * Returns the available width for the content of this widget.
      *
+     * Please note: This size need not to be applied to the DOM already.
+     *
+     * @type member
+     * @return {Integer} Available content width, always in pixels
      */
     getComputedInnerWidth : function()
     {
@@ -826,6 +854,10 @@ qx.Class.define("qx.ui2.core.Widget",
     /**
      * Returns the available height for the content of this widget.
      *
+     * Please note: This size need not to be applied to the DOM already.
+     *
+     * @type member
+     * @return {Integer} Available content height, always in pixels
      */
     getComputedInnerHeight : function()
     {
@@ -834,11 +866,29 @@ qx.Class.define("qx.ui2.core.Widget",
         this._borderWidthTop - this._borderWidthBottom;
     },
 
+
+    /**
+     * Returns the outer computed height of this widget.
+     *
+     * Please note: This size need not to be applied to the DOM already.
+     *
+     * @type member
+     * @return {Integer} Available content width, always in pixels
+     */
     getComputedWidth : function()
     {
       return this.getLayout().getComputedWidth();
     },
 
+
+    /**
+     * Returns the outer computed height of this widget.
+     *
+     * Please note: This size need not to be applied to the DOM already.
+     *
+     * @type member
+     * @return {Integer} Available content height, always in pixels
+     */
     getComputedHeight : function()
     {
       return this.getLayout().getComputedHeight();
