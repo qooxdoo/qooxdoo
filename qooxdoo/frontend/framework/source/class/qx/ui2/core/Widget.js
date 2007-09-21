@@ -605,6 +605,63 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      PREFERRED SIZE
+    ---------------------------------------------------------------------------
+    */
+
+    _getPreferredContentWidth : function()
+    {
+      return 0; // TODO
+    },
+
+    _getPreferredContentHeight : function()
+    {
+      return 0; // TODO
+    },
+
+    getPreferredWidth : function()
+    {
+      return this._getPreferredContentWidth()
+        + this.getPaddingLeft() + this.getPaddingRight() +
+        this._borderWidthLeft + this._borderWidthRight;
+    },
+
+    getPreferredHeight : function()
+    {
+      return this._getPreferredContentWidth()
+        + this.getPaddingTop() + this.getPaddingBottom() +
+        this._borderWidthTop + this._borderWidthBottom;
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      MINIMUM SIZE
+    ---------------------------------------------------------------------------
+    */
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      SIZE HINT
+    ---------------------------------------------------------------------------
+    */
+
+
+
+
+
+
+
+
+
 
     /*
     ---------------------------------------------------------------------------
