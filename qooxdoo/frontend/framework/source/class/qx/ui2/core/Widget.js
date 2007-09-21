@@ -118,6 +118,17 @@ qx.Class.define("qx.ui2.core.Widget",
 
   properties :
   {
+    /** Selected layout of instance {@link qx.ui2.layout.Layout} */
+    layout :
+    {
+      nullable : true
+    },
+
+
+
+
+
+
     width :
     {
       apply : "_applyXSize",
@@ -605,6 +616,23 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT
+    ---------------------------------------------------------------------------
+    */
+
+    _applyLayout : function(value, old)
+    {
+
+    },
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       PREFERRED SIZE
@@ -623,15 +651,15 @@ qx.Class.define("qx.ui2.core.Widget",
 
     getPreferredWidth : function()
     {
-      return this._getPreferredContentWidth()
-        + this.getPaddingLeft() + this.getPaddingRight() +
+      return this._getPreferredContentWidth() +
+        this.getPaddingLeft() + this.getPaddingRight() +
         this._borderWidthLeft + this._borderWidthRight;
     },
 
     getPreferredHeight : function()
     {
-      return this._getPreferredContentWidth()
-        + this.getPaddingTop() + this.getPaddingBottom() +
+      return this._getPreferredContentHeight() +
+        this.getPaddingTop() + this.getPaddingBottom() +
         this._borderWidthTop + this._borderWidthBottom;
     },
 
@@ -644,6 +672,33 @@ qx.Class.define("qx.ui2.core.Widget",
       MINIMUM SIZE
     ---------------------------------------------------------------------------
     */
+
+    _getMiniumContentWidth : function()
+    {
+      return 0; //TODO
+    },
+
+    _getMiniumContentHeight : function()
+    {
+      return 0; //TODO
+    },
+
+    getMinimumWidth : function()
+    {
+      return this._getMinimunContentWidth() +
+        this.getPaddingLeft() + this.getPaddingRight() +
+        this._borderWidthLeft + this._borderWidthRight;
+    },
+
+    getMinimumHeight : function()
+    {
+      return this._getMinimumContentHeight() +
+        this.getPaddingTop() + this.getPaddingBottom() +
+        this._borderWidthTop + this._borderWidthBottom;
+    },
+
+
+
 
 
 
