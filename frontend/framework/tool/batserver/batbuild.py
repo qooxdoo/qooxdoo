@@ -86,9 +86,9 @@ def prepare_output(logfile):
 
 def check_logfile(logfile):
     if (logfile != None):
-        logfile.flush()
+        sys.stdout.flush()
         if options.logSize != None:
-            logfile.truncate(options.logSize)
+            sys.stdout.truncate(options.logSize)
 
 def invoke_external(cmd):
     import subprocess
