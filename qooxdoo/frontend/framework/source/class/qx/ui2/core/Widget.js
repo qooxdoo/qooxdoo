@@ -89,7 +89,12 @@ qx.Class.define("qx.ui2.core.Widget",
     activate : "qx.event.type.Event",
     deactivate : "qx.event.type.Event",
 
-    scroll : "qx.event.type.Dom"
+    // inline events
+    scroll : "qx.event.type.Dom",
+    change : "qx.event.type.Data",
+    input : "qx.event.type.Data",
+    load : "qx.event.type.Event",
+    select : "qx.event.type.Event"
   },
 
 
@@ -117,7 +122,7 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       check : "Integer",
       init : 0,
-      apply : "_applyOuterPixel",
+      apply : "_applyOuterPixelStyle",
       event : "changeLeft"
     },
 
@@ -129,7 +134,7 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       check : "Integer",
       init : 0,
-      apply : "_applyOuterPixel",
+      apply : "_applyOuterPixelStyle",
       event : "changeTop"
     },
 
@@ -290,8 +295,55 @@ qx.Class.define("qx.ui2.core.Widget",
 
   statics :
   {
+    /** {Map} Event which are dispatched on the outer/inner element */
+    _eventHints :
+    {
+      outer :
+      {
+        // mouse events
+        mousemove : 1,
+        mouseover : 1,
+        mouseout : 1,
+        mousedown : 1,
+        mouseup : 1,
+        click : 1,
+        dblclick : 1,
+        contextmenu : 1,
+        mousewheel : 1,
 
+        // key events
+        keyup : 1,
+        keydown : 1,
+        keypress : 1,
+        keyinput : 1,
 
+        // focus events (do bubble)
+        focusin : 1,
+        focusout : 1,
+        beforedeactivate : 1,
+        beforeactivate : 1,
+        activate : 1,
+        deactivate : 1
+      },
+
+      inner :
+      {
+        // focus, blur events (do not bubble)
+        focus : 1,
+        blur : 1,
+
+        // all elements
+        scroll : 1,
+        select : 1,
+
+        // input elements
+        change : 1,
+        input : 1,
+
+        // iframe elements
+        load : 1
+      }
+    }
   },
 
 
@@ -756,57 +808,16 @@ qx.Class.define("qx.ui2.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    /** Event which are dispatched on the outer element */
-    _outerElementEvents :
-    {
-      // mouse events
-      mousemove : 1,
-      mouseover : 1,
-      mouseout : 1,
-      mousedown : 1,
-      mouseup : 1,
-      click : 1,
-      dblclick : 1,
-      contextmenu : 1,
-      mousewheel : 1,
-
-      // key events
-      keyup : 1,
-      keydown : 1,
-      keypress : 1,
-      keyinput : 1,
-
-      // focus events
-      focus : 1,
-      blur : 1,
-      focusin : 1,
-      focusout : 1,
-      beforedeactivate : 1,
-      beforeactivate : 1,
-      activate : 1,
-      deactivate : 1
-    },
-
-    /** Event which are dispatched on the inner element */
-    _innerElementEvents :
-    {
-      scroll : 1
-    },
-
-
     // overridden
     addListener : function(type, func, obj)
     {
-      if (this._innerElementEvents[type])
-      {
+      var hints = this.self(arguments)._eventHints;
+
+      if (hints.inner[type]) {
         this._innerElement.addListener(type, func, obj);
-      }
-      else if (this._outerElementEvents[type])
-      {
+      } else if (hints.outer[type]) {
         this._outerElement.addListener(type, func, obj);
-      }
-      else
-      {
+      } else {
         this.base(arguments, type, func, obj);
       }
     },
@@ -815,19 +826,19 @@ qx.Class.define("qx.ui2.core.Widget",
     // overridden
     removeListener : function(type, func, obj)
     {
-      if (this._innerElementEvents[type])
-      {
+      var hints = this.self(arguments)._eventHints;
+
+      if (hints.inner[type]) {
         this._innerElement.removeListener(type, func, obj);
-      }
-      else if (this._outerElementEvents[type])
-      {
+      } else if (hints.outer[type]) {
         this._outerElement.removeListener(type, func, obj);
-      }
-      else
-      {
+      } else {
         this.base(arguments, type, func, obj);
       }
     },
+
+
+
 
 
 
@@ -846,19 +857,6 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     getChildren : function() {
       return this._childContainer._getChildren();
-    },
-
-
-    /**
-     * Find the position of the given child
-     *
-     * @type member
-     * @param child {qx.html.Element} the child
-     * @return {Integer} returns the position. If the element
-     *     is not a child <code>-1</code> will be returned.
-     */
-    indexOf : function(child) {
-      return this._childContainer._indexOf(child);
     },
 
 
@@ -895,25 +893,6 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
     /**
-     * Inserts a new element into this element at the given position.
-     *
-     * @type member
-     * @param child {qx.html.Element} the element to insert
-     * @param index {Integer} the index (starts at 0 for the
-     *     first child) to insert (the index of the following
-     *     children will be increased by one)
-     * @return {qx.html.Element} this object (for chaining support)
-     */
-    addAt : function(child, index)
-    {
-      this._childContainer._addAt(child, index);
-
-      // Chaining support
-      return this;
-    },
-
-
-    /**
      * Removes all given children
      *
      * @type member
@@ -926,23 +905,6 @@ qx.Class.define("qx.ui2.core.Widget",
       for (var i=0, l=arguments.length; i<l; i++) {
         cont._remove(arguments[i]);
       }
-
-      // Chaining support
-      return this;
-    },
-
-
-    /**
-     * Removes the child at the given index
-     *
-     * @type member
-     * @param index {Integer} the position of the
-     *     child (starts at 0 for the first child)
-     * @return {qx.html.Element} this object (for chaining support)
-     */
-    removeAt : function(index)
-    {
-      this._childContainer._removeAt(index);
 
       // Chaining support
       return this;
@@ -966,6 +928,8 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       PADDING PROPERTIES
@@ -982,7 +946,7 @@ qx.Class.define("qx.ui2.core.Widget",
    },
 
 
-   _applyOuterPixel : function(value, old, propName)
+   _applyOuterPixelStyle : function(value, old, propName)
    {
      if (value == null) {
        this._outerElement.resetStyle(propName);
@@ -997,9 +961,11 @@ qx.Class.define("qx.ui2.core.Widget",
      if (name == "width") {
        this._outerElement.setStyle("width", value + "px");
      }
+
      if (name == "paddingLeft") {
        this._innerElement.setStyle("left", value + "px");
      }
+
      var innerWidth = this.getWidth() - this.getPaddingLeft() - this.getPaddingRight();
      this._innerElement.setStyle("width", innerWidth + "px");
    },
@@ -1010,9 +976,11 @@ qx.Class.define("qx.ui2.core.Widget",
      if (name == "height") {
        this._outerElement.setStyle("height", value + "px");
      }
+
      if (name == "paddingTop") {
        this._innerElement.setStyle("top", value + "px");
      }
+
      var innerHeight = this.getHeight() - this.getPaddingTop() - this.getPaddingBottom();
      this._innerElement.setStyle("height", innerHeight + "px");
    },
@@ -1021,6 +989,7 @@ qx.Class.define("qx.ui2.core.Widget",
    _applyBackgroundColor : function(value, old)
    {
      var el = this._borderElement || this._outerElement;
+
      if (value == null) {
        el.resetStyle("backgroundColor");
      } else {
@@ -1028,37 +997,42 @@ qx.Class.define("qx.ui2.core.Widget",
      }
    },
 
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       BORDER PROPERTIES
     ---------------------------------------------------------------------------
     */
 
-   _applyBorderRenderer : function(value, old)
-   {
-     if (this._borderElement) {
-       this._borderElement.free();
-       this._borderElement.dispose();
-     }
+    _applyBorderRenderer : function(value, old)
+    {
+      if (this._borderElement) {
+        this._borderElement.free();
+        this._borderElement.dispose();
+      }
 
-     if (value !== null) {
-       this._borderElement = value.createBorderElement(this);
-       this._outerElement.add(this._borderElement);
-       this._outerElement.setStyle("backgroundColor", null);
-     }
+      if (value !== null)
+      {
+        this._borderElement = value.createBorderElement(this);
+        this._outerElement.add(this._borderElement);
+        this._outerElement.setStyle("backgroundColor", null);
+      }
 
-     var backgroundColor = this.getBackgroundColor();
-     this._applyBackgroundColor(backgroundColor, backgroundColor);
-   },
+      var backgroundColor = this.getBackgroundColor();
+      this._applyBackgroundColor(backgroundColor, backgroundColor);
+    },
 
 
-   _applyBorderData : function(value, old)
-   {
-     if (this.getBorderRenderer() !== null) {
-       this.getBorderRenderer().update(this, this._borderElement);
-     }
-   }
-
+    _applyBorderData : function(value, old)
+    {
+      if (this.getBorderRenderer() !== null) {
+        this.getBorderRenderer().update(this, this._borderElement);
+      }
+    }
   },
 
 
