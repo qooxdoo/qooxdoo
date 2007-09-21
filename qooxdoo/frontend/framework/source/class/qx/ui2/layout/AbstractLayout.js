@@ -62,11 +62,6 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
 
   properties :
   {
-    widget :
-    {
-      check : "qx.ui2.core.Widget",
-      apply : "_applyWidget"
-    }
   },
 
 
@@ -95,6 +90,8 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
     /** Add this widget to the layout */
     add : function(widget) {},
 
+    getChildren : function() {},
+
     /** Remove this from the layout */
     remove : function(widget) {},
 
@@ -102,9 +99,7 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
     has : function(widget) {},
 
     /** Sets the geometry */
-    setGeometry : function(left, top, width, height) {},
-
-    _applyWidget : function(value, old) {}
+    setGeometry : function(left, top, width, height) {}
   },
 
 
