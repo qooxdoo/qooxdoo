@@ -241,7 +241,7 @@ qx.Class.define("qx.ui2.core.Widget",
       init : null,
       apply : "_applyBorder",
       event : "changeBorder",
-      check : "Border",
+      //check : "qx.ui2.border.IBorderRenderer",
       themeable : true
     },
 
@@ -373,6 +373,10 @@ qx.Class.define("qx.ui2.core.Widget",
       this._contentElement.setStyle("top", innerTop + "px");
       this._contentElement.setStyle("width", innerWidth + "px");
       this._contentElement.setStyle("height", innerHeight + "px");
+
+      if (this._computedBorder !== null && this._borderElement) {
+        this._computedBorder.updateSize(this, this._borderElement, width, height);
+      }
     },
 
 
@@ -538,8 +542,8 @@ qx.Class.define("qx.ui2.core.Widget",
       el.setStyle("position", "absolute");
       el.setStyle("zIndex", 10);
       el.setStyle("overflow", "hidden");
-      el.setStyle("backgroundColor", "white");
-      el.setStyle("opacity", 0.5);
+      //el.setStyle("backgroundColor", "white");
+      //el.setStyle("opacity", 0.5);
 
       this._outerElement.add(el);
 
@@ -654,12 +658,39 @@ qx.Class.define("qx.ui2.core.Widget",
     */
 
     /** apply routine for property {@link #border} */
-    _applyBorder : function(value, old) {
-      qx.theme.manager.Border.getInstance().connect(this._styleBorder, this, value);
+    _applyBorder : function(value, old)
+    {
+      if (this._borderElement)
+      {
+        this._borderElement.free();
+        this._borderElement.dispose();
+        this._computedBorder = null;
+      }
+
+      if (value !== null)
+      {
+        this._computedBorder = qx.ui2.border.BorderManager.getInstance().resolveDynamic(value);
+        this._borderElement = this._computedBorder.createBorderElement(this);
+        this._outerElement.add(this._borderElement);
+
+        qx.ui2.border.BorderManager.getInstance().connect(this._styleBorder, this, value);
+      }
     },
 
-    _styleBorder : function(value) {
-      // TODO
+
+    /**
+     * Callback for border manager connection
+     *
+     * @param border {qx.ui2.border.IBorderRenderer} the border object
+     * @param edge {String} top, right, bottom or left
+     */
+    _styleBorder : function(border, edge)
+    {
+      if (!edge) {
+        border.update(this, this._borderElement);
+      } else {
+        border.updateEdge(this, this._borderElement, edge);
+      }
     },
 
 
