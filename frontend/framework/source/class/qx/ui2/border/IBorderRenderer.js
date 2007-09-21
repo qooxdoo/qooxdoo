@@ -31,7 +31,12 @@ qx.Interface.define("qx.ui2.border.IBorderRenderer",
         widget instanceof qx.ui2.core.Widget &&
         borderElement instanceof qx.html.Element
       );
+    },
+
+    updateEdge : function(widget, borderElement, edge) {
+      return true
     }
+
   }
 
 });
