@@ -424,8 +424,8 @@ qx.Class.define("qx.event.handler.Focus",
 
         // Capturing is needed for gecko to correctly
         // handle focus of input and textarea fields
-        this._window.addEventListener("focus", this._onNativeFocusWrapper, true);
-        this._window.addEventListener("blur", this._onNativeBlurWrapper, true);
+        this._window.addListener("focus", this._onNativeFocusWrapper, true);
+        this._window.addListener("blur", this._onNativeBlurWrapper, true);
       },
 
       "mshtml" : function()
@@ -451,8 +451,8 @@ qx.Class.define("qx.event.handler.Focus",
         this._onNativeFocusOutWrapper = qx.lang.Function.bind(this._onNativeFocusOut, this);
 
         // Opera 9.2 ignores the event when capturing is enabled
-        this._window.addEventListener("focus", this._onNativeFocusWrapper, false);
-        this._window.addEventListener("blur", this._onNativeBlurWrapper, false);
+        this._window.addListener("focus", this._onNativeFocusWrapper, false);
+        this._window.addListener("blur", this._onNativeBlurWrapper, false);
 
         // Opera 9.x supports DOMFocusOut which is needed to detect the element focus
         qx.event.Registration.addNativeListener(this._document, "DOMFocusIn", this._onNativeFocusInWrapper);
@@ -493,8 +493,8 @@ qx.Class.define("qx.event.handler.Focus",
     {
       "gecko" : function()
       {
-        this._window.removeEventListener("focus", this._onNativeFocusWrapper, true);
-        this._window.removeEventListener("blur", this._onNativeBlurWrapper, true);
+        this._window.removeListener("focus", this._onNativeFocusWrapper, true);
+        this._window.removeListener("blur", this._onNativeBlurWrapper, true);
       },
 
       "mshtml" : function()
@@ -505,8 +505,8 @@ qx.Class.define("qx.event.handler.Focus",
 
       "webkit|opera" : function()
       {
-        this._window.removeEventListener("focus", this._onNativeFocusWrapper, false);
-        this._window.removeEventListener("blur", this._onNativeBlurWrapper, false);
+        this._window.removeListener("focus", this._onNativeFocusWrapper, false);
+        this._window.removeListener("blur", this._onNativeBlurWrapper, false);
 
         qx.event.Registration.removeNativeListener(this._document, "DOMFocusIn", this._onNativeFocusInWrapper);
         qx.event.Registration.removeNativeListener(this._document, "DOMFocusOut", this._onNativeFocusOutWrapper);

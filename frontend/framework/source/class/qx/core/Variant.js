@@ -45,7 +45,7 @@
  * debugging code from the build version. It is very similar to conditional
  * compilation in C/C++.
  */
-qx.core.Bootstrap.define("qx.core.Variant",
+qx.Bootstrap.define("qx.core.Variant",
 {
   statics :
   {

@@ -35,7 +35,7 @@ qx =
   core :
   {
     /**
-     * Bootstrap qx.core.Bootstrap to create myself later
+     * Bootstrap qx.Bootstrap to create myself later
      * This is needed for the API browser etc. to let them detect me
      */
     Bootstrap :
@@ -75,7 +75,7 @@ qx =
         }
 
         // Store class reference in global class registry
-        qx.core.Bootstrap.$$registry[name] = config.statics;
+        qx.Bootstrap.$$registry[name] = config.statics;
       }    
     }
   }
@@ -89,7 +89,7 @@ qx =
  * Automatically loads JavaScript language fixes, core logging possibilities
  * and language addons for arrays, strings, etc.
  */
-qx.core.Bootstrap.define("qx.core.Bootstrap",
+qx.Bootstrap.define("qx.Bootstrap",
 {
   statics :
   {
@@ -107,7 +107,7 @@ qx.core.Bootstrap.define("qx.core.Bootstrap",
      * @param object {var} TODOC
      * @return {var} TODOC
      */    
-    createNamespace : qx.core.Bootstrap.createNamespace,
+    createNamespace : qx.Bootstrap.createNamespace,
 
 
     /**
@@ -120,7 +120,7 @@ qx.core.Bootstrap.define("qx.core.Bootstrap",
      * @param config {var} TODOC
      * @return {void}
      */
-    define : qx.core.Bootstrap.define,
+    define : qx.Bootstrap.define,
 
 
     /**

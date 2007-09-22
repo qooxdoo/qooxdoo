@@ -243,7 +243,7 @@ qx.Class.define("qx.event.Registration",
       },
 
       "default" : function(target, type, listener) {
-        target.addEventListener(type, listener, false);
+        target.addListener(type, listener, false);
       }
     }),
 
@@ -270,7 +270,7 @@ qx.Class.define("qx.event.Registration",
       },
 
       "default" : function(target, type, listener) {
-        target.addEventListener(type, listener, false);
+        target.addListener(type, listener, false);
       }
     }),
 

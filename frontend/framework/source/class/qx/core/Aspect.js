@@ -46,7 +46,7 @@
  *
  * One example for a qooxdoo aspect is profiling ({@link qx.dev.Profile}).
  */
-qx.core.Bootstrap.define("qx.core.Aspect",
+qx.Bootstrap.define("qx.core.Aspect",
 {
   statics :
   {

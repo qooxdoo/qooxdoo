@@ -113,7 +113,7 @@ qx.Class.define("qx.log.appender.Abstract",
       var text = "";
 
       // Append the time stamp
-      var time = new String(new Date().getTime() - qx.core.Bootstrap.LOADSTART);
+      var time = new String(new Date().getTime() - qx.Bootstrap.LOADSTART);
 
       while (time.length < 6) {
         time = "0" + time;

@@ -102,7 +102,7 @@ qx.Class.define("qx.log.appender.RingBuffer",
     // overridden
     appendLogEvent : function(evt)
     {
-      evt.time = new Date().getTime() - qx.core.Bootstrap.LOADSTART;
+      evt.time = new Date().getTime() - qx.Bootstrap.LOADSTART;
 
       var maxMessages = this.getMaxMessages();
 
