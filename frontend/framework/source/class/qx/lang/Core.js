@@ -47,7 +47,7 @@
  * * Array.every()
  * * String.quote()
  */
-qx.core.Bootstrap.define("qx.lang.Core");
+qx.Bootstrap.define("qx.lang.Core");
 
 
 /*

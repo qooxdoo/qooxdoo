@@ -70,7 +70,7 @@
  * }
  * </pre>
  */
-qx.core.Bootstrap.define("qx.Class",
+qx.Bootstrap.define("qx.Class",
 {
   statics :
   {
@@ -758,7 +758,7 @@ qx.core.Bootstrap.define("qx.Class",
 
 
     /** Stores all defined classes */
-    $$registry : qx.core.Bootstrap.$$registry,
+    $$registry : qx.Bootstrap.$$registry,
 
 
     /** {Map} allowed keys in non-static class definition */

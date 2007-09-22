@@ -46,7 +46,7 @@
  * extension. It is relatively lightweight and only implement the basic
  * features.
  */
-qx.core.Bootstrap.define("qx.core.Log",
+qx.Bootstrap.define("qx.core.Log",
 {
   statics :
   {
@@ -869,7 +869,7 @@ qx.core.Bootstrap.define("qx.core.Log",
     _addEvent : function(object, name, handler)
     {
       if (document.all) object.attachEvent("on" + name, handler);
-      else object.addEventListener(name, handler, false);
+      else object.addListener(name, handler, false);
     },
 
 
@@ -885,7 +885,7 @@ qx.core.Bootstrap.define("qx.core.Log",
     _removeEvent : function(object, name, handler)
     {
       if (document.all) object.detachEvent("on" + name, handler);
-      else object.removeEventListener(name, handler, false);
+      else object.removeListener(name, handler, false);
     },
 
 

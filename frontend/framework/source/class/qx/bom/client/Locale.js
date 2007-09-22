@@ -32,7 +32,7 @@
  * phase of the class. The defaults listed in the API viewer need not
  * to be identical to the values at runtime.
  */
-qx.core.Bootstrap.define("qx.bom.client.Locale",
+qx.Bootstrap.define("qx.bom.client.Locale",
 {
   /*
   *****************************************************************************

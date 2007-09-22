@@ -32,7 +32,7 @@
  * by a setting in {@link qx.lang.Prototypes}. This feature is not enabled by
  * default.
  */
-qx.core.Bootstrap.define("qx.lang.Number",
+qx.Bootstrap.define("qx.lang.Number",
 {
   statics :
   {
