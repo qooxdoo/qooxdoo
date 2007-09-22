@@ -102,16 +102,16 @@ qx.Class.define("qx.event.handler.MouseViewportLeave",
 
     // interface implementation
     registerEvent : function(target, type) {
-      // Nothing needs to be done here  
+      // Nothing needs to be done here
     },
-    
+
     // interface implementation
     unregisterEvent : function(target, type) {
       // Nothing needs to be done here
     },
 
 
-    
+
     /*
     ---------------------------------------------------------------------------
       HELPER
@@ -132,7 +132,7 @@ qx.Class.define("qx.event.handler.MouseViewportLeave",
      * @type member
      * @param domEvent {Event} DOM event
      * @param type {String} type og the event
-     * @return {void} 
+     * @return {void}
      */
     _fireEvent : function(domEvent, type)
     {
@@ -231,7 +231,7 @@ qx.Class.define("qx.event.handler.MouseViewportLeave",
      * Initializes the native mouse event listeners.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _initMouseObserver : function()
     {
@@ -247,7 +247,7 @@ qx.Class.define("qx.event.handler.MouseViewportLeave",
      * Disconnect the native mouse event listeners.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _stopMouseObserver : function()
     {

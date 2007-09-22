@@ -234,7 +234,7 @@ qx.Class.define("qx.ui.table.Table",
      * boolean indicating whether a vertical scrollbar is now being used.
      */
     "verticalScrollBarChanged" : "qx.event.type.Data",
-    
+
     /**
      * Dispatched when a data cell has been clicked.
      */
@@ -244,7 +244,7 @@ qx.Class.define("qx.ui.table.Table",
      * Dispatched when a data cell has been clicked.
      */
     "cellDblclick" : "qx.ui.table.pane.CellEvent",
-    
+
     /**
      * Dispatched when the context menu is needed in a data cell
      */
@@ -261,10 +261,10 @@ qx.Class.define("qx.ui.table.Table",
 
   statics :
   {
-  	/**Events that must be redirected to the scrollers.*/
+    /**Events that must be redirected to the scrollers.*/
     __redirectEvents : { cellClick: 1, cellDblclick: 1, cellContextmenu: 1 }
   },
-  
+
 
   /*
   *****************************************************************************
@@ -1841,23 +1841,23 @@ qx.Class.define("qx.ui.table.Table",
       this._updateScrollBarVisibility();
     },
 
-    
+
     /**
      * Add event listener to an object.
      */
     addListener : function(type, func, obj)
     {
-    	if (this.self(arguments).__redirectEvents[type])
-    	{
-    		for (var i = 0, arr = this._getPaneScrollerArr(); i < arr.length; i++)
-    		{
-    			arr[i].addListener.apply(arr[i], arguments);
-    		}
-    	}
-    	else
-    	{
-    		arguments.callee.base.apply(this, arguments);
-    	}
+      if (this.self(arguments).__redirectEvents[type])
+      {
+        for (var i = 0, arr = this._getPaneScrollerArr(); i < arr.length; i++)
+        {
+          arr[i].addListener.apply(arr[i], arguments);
+        }
+      }
+      else
+      {
+        arguments.callee.base.apply(this, arguments);
+      }
     },
 
 
@@ -1866,17 +1866,17 @@ qx.Class.define("qx.ui.table.Table",
      */
     removeListener : function(type, func, obj)
     {
-    	if (this.self(arguments).__redirectEvents[type])
-    	{
-    		for (var i = 0, arr = this._getPaneScrollerArr(); i < arr.length; i++)
-    		{
-    			arr[i].removeListener.apply(arr[i], arguments);
-    		}
-    	}
-    	else
-    	{
-    		arguments.callee.base.apply(this, arguments);
-    	}
+      if (this.self(arguments).__redirectEvents[type])
+      {
+        for (var i = 0, arr = this._getPaneScrollerArr(); i < arr.length; i++)
+        {
+          arr[i].removeListener.apply(arr[i], arguments);
+        }
+      }
+      else
+      {
+        arguments.callee.base.apply(this, arguments);
+      }
     }
   },
 

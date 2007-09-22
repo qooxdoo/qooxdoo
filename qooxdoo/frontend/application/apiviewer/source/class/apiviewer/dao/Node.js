@@ -36,7 +36,7 @@ qx.Class.define("apiviewer.dao.Node", {
   construct : function(classDocNode)
   {
     this.base(arguments);
-    
+
     this._docNode = classDocNode;
     classDocNode.children = classDocNode.children || [];
     classDocNode.attributes = classDocNode.attributes || {};

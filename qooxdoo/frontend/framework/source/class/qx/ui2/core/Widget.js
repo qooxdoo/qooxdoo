@@ -381,32 +381,32 @@ qx.Class.define("qx.ui2.core.Widget",
       // Resize/Move detection
       var resize = width != this._oldWidth || height != this._oldHeight;
       var move = left != this._oldLeft || top != this._oldTop;
-      
+
       if (resize) {
         this.fireEvent("resize");
       }
-      
+
       if (move) {
         this.fireEvent("move");
       }
-      
+
       // Remember old values
       this._oldWidth = width;
       this._oldHeight = height;
       this._oldLeft = left;
       this._oldTop = top;
-      
+
       // Sync styles
       this._syncStyle(width, height);
     },
-    
-    
+
+
     _syncStyle : function(width, height)
     {
       var border = this.getBorder();
       var background = this.getBackground();
       var markup = "";
-      
+
       if (border)
       {
         markup = borderObject.getMarkup(this, width, height);
@@ -415,7 +415,7 @@ qx.Class.define("qx.ui2.core.Widget",
       {
         markup = backgroundObject.getMarkup(this, width, height);
       }
-      
+
       this._styleElement.setAttribute("html", markup);
     },
 
@@ -443,7 +443,7 @@ qx.Class.define("qx.ui2.core.Widget",
       PRELIMINARY ELEMENT INTERFACES
     ---------------------------------------------------------------------------
     */
-    
+
     setHtml : function(value) {
       this._contentElement.setAttribute("html", value);
     },
@@ -571,13 +571,13 @@ qx.Class.define("qx.ui2.core.Widget",
 
       return el;
     },
-    
-    
+
+
     /**
      * Create the widget's style HTML element.
      *
      * @return {qx.html.Element} The style HTML element
-     */    
+     */
     __createStyleElement : function()
     {
       var el = new qx.html.Element("div");
@@ -586,7 +586,7 @@ qx.Class.define("qx.ui2.core.Widget",
       el.setStyle("zIndex", 5);
       el.setStyle("left", "0px");
       el.setStyle("top", "0px");
-            
+
       this._outerElement.add(el);
 
       return el;

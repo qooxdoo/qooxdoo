@@ -49,7 +49,7 @@ qx.Class.define("apiviewer.Controller",
   construct : function(widgetRegistry)
   {
     this.base(arguments);
-    
+
     this._widgetRegistry = apiviewer.MWidgetRegistry;
 
     this._titlePrefix = qx.core.Setting.get("apiviewer.title") + " API Documentation";

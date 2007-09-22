@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 /**
- * This handler provides a cross-browser "domready" event which fires when 
+ * This handler provides a cross-browser "domready" event which fires when
  * the DOM is completely loaded, but the content e.g. images are still
  * missing.
  */
@@ -112,7 +112,7 @@ qx.Class.define("qx.event.handler.DomReady",
 
 
 
-    
+
     /*
     ---------------------------------------------------------------------------
       OBSERVER INIT/STOP
@@ -123,7 +123,7 @@ qx.Class.define("qx.event.handler.DomReady",
      * Initializes the native mouse event listeners.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _initWindowObserver : function()
     {
@@ -173,7 +173,7 @@ qx.Class.define("qx.event.handler.DomReady",
      * Disconnect the native mouse event listeners.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _stopWindowObserver : function()
     {
@@ -209,7 +209,7 @@ qx.Class.define("qx.event.handler.DomReady",
      * Native listener for browser implementations.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _onNative : function()
     {

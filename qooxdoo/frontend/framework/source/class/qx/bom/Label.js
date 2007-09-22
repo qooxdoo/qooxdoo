@@ -60,7 +60,7 @@ qx.Class.define("qx.bom.Label",
       if (!win) {
         win = window;
       }
-            
+
       if (html)
       {
         var el = win.document.createElement("div");
@@ -70,31 +70,31 @@ qx.Class.define("qx.bom.Label",
       {
         var el = win.document.createElementNS("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul", "label");
       }
-      else 
+      else
       {
         var el = win.document.createElement("div");
 
         var prop = qx.core.Variant.isSet("qx.client", "opera") ? "OTextOverflow" : "textOverflow";
         el.style[prop] = "ellipsis";
-        
+
         el.style.overflow = "hidden";
         el.style.whiteSpace = "nowrap";
       }
-      
+
       el.useHtml = !!html;
-      
+
       if (content) {
         this.setContent(el, content);
       }
-      
+
       return el;
     },
-    
+
     setContent : function(element, value)
     {
       if (element.useHtml)
       {
-        element.innerHTML = value;        
+        element.innerHTML = value;
       }
       else if (qx.core.Variant.isSet("qx.client", "gecko"))
       {
@@ -103,9 +103,9 @@ qx.Class.define("qx.bom.Label",
       else
       {
         qx.bom.element.Attribute.set(element, "text", value);
-      }      
+      }
     },
-    
+
     getContent : function(element)
     {
       if (element.useHtml)
@@ -119,10 +119,10 @@ qx.Class.define("qx.bom.Label",
       else
       {
         return qx.bom.element.Attribute.get(element, "text");
-      }      
+      }
     },
-    
-    
+
+
     /** {Map} Contains all supported styles */
     _styles :
     {
@@ -156,8 +156,8 @@ qx.Class.define("qx.bom.Label",
 
       return this._textElement = el;
     },
-    
-    
+
+
     /**
      * Generates the helper DOM element for HTML measuring
      *
@@ -180,15 +180,15 @@ qx.Class.define("qx.bom.Label",
 
       return this._htmlElement = el;
     },
-    
-    
+
+
     /**
      * Returns the preferred dimensions of the given HTML content.
      *
      * @type static
      * @param content {String} The HTML markup to measure
      * @param styles {Map} Optional styles to apply
-     * @param width {Integer} To support width for height it is possible to limit the width 
+     * @param width {Integer} To support width for height it is possible to limit the width
      * @return {Map} A map with preferred <code>width</code> and <code>height</code>.
      */
     getHtmlSize : function(content, styles, width)
@@ -218,8 +218,8 @@ qx.Class.define("qx.bom.Label",
         height : element.scrollHeight
       };
     },
-    
-        
+
+
     /**
      * Returns the preferred dimensions of the given text.
      *
@@ -242,19 +242,19 @@ qx.Class.define("qx.bom.Label",
       for (var key in keys) {
         element.style[key] = styles[key] || "";
       }
-      
+
       // insert text
       if (qx.core.Variant.isSet("qx.client", "mshtml|opera")) {
         element.innerText = text;
       } else {
         element.textContent = text;
-      }      
+      }
 
       // compute size and return
       return {
         width : element.offsetWidth,
         height : element.offsetHeight
       };
-    }    
+    }
   }
 });
