@@ -56,7 +56,7 @@ qx.Class.define("qx.legacy.html.EventRegistration",
       },
 
       "default" : function(vElement, vType, vFunction) {
-        vElement.addEventListener(vType, vFunction, false);
+        vElement.addListener(vType, vFunction, false);
       }
     }),
 
@@ -77,7 +77,7 @@ qx.Class.define("qx.legacy.html.EventRegistration",
       },
 
       "default" :  function(vElement, vType, vFunction) {
-        vElement.removeEventListener(vType, vFunction, false);
+        vElement.removeListener(vType, vFunction, false);
       }
     })
   }

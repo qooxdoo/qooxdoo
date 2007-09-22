@@ -72,7 +72,7 @@
  * by hand and should be defined before loading qooxdoo. After the import
  * the settings system deletes the map.
  */
-qx.core.Bootstrap.define("qx.core.Setting",
+qx.Bootstrap.define("qx.core.Setting",
 {
   statics :
   {

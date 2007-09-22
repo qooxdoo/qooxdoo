@@ -72,7 +72,7 @@
  * * concat
  * * slice
  */
-qx.core.Bootstrap.define("qx.lang.Generics",
+qx.Bootstrap.define("qx.lang.Generics",
 {
   statics :
   {

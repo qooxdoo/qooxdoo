@@ -35,7 +35,7 @@
  * applications. Further more the variant <code>qx.aspect</code> must be set to
  * <code>on</code>.
  */
-qx.core.Bootstrap.define("qx.dev.Profile", 
+qx.Bootstrap.define("qx.dev.Profile", 
 {
   statics :
   {
@@ -290,9 +290,9 @@ qx.core.Bootstrap.define("qx.dev.Profile",
     statics.__calibrateHelper = qx.core.Aspect.wrap("qx.dev.Profile.__calibrateHelper", statics.__calibrateHelper, "static");
     qx.core.Aspect.wrap = qx.core.Aspect.wrap("qx.core.Aspect.wrap", qx.core.Aspect.wrap, "static");
 
-    for (var classname in qx.core.Bootstrap.$$registry)
+    for (var classname in qx.Bootstrap.$$registry)
     {
-      var statics = qx.core.Bootstrap.$$registry[classname];
+      var statics = qx.Bootstrap.$$registry[classname];
       for (var key in statics) {
         // only functions, no regexps
         if (statics[key] instanceof Function) {

@@ -23,7 +23,7 @@
 
 ************************************************************************ */
 
-qx.core.Bootstrap.define("qx.core.Loader",
+qx.Bootstrap.define("qx.core.Loader",
 {
   statics :
   {
