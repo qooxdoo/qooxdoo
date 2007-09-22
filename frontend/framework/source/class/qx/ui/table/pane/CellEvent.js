@@ -89,11 +89,11 @@ qx.Class.define("qx.ui.table.pane.CellEvent",
      */
     _computeRow : function()
     {
-    	if (this._row == null)
-    	{
-    		this._row = this._scroller._getRowForPagePos(this.getPageX(), this.getPageY());
-    	}
-    	return this._row;
+      if (this._row == null)
+      {
+        this._row = this._scroller._getRowForPagePos(this.getPageX(), this.getPageY());
+      }
+      return this._row;
     },
 
 
@@ -105,11 +105,11 @@ qx.Class.define("qx.ui.table.pane.CellEvent",
      */
     _computeColumn : function()
     {
-    	if (this._column == null)
-    	{
-    		this._column = this._scroller._getColumnForPageX(this.getPageX());
-    	}
-    	return this._column;
+      if (this._column == null)
+      {
+        this._column = this._scroller._getColumnForPageX(this.getPageX());
+      }
+      return this._column;
     }
   }
 });

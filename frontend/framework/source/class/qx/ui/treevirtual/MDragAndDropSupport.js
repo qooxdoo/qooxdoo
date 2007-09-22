@@ -393,7 +393,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
       };
 
       event.addData(this.getDragDataMimeType(), dragData);
-      
+
       // add actions
       var action = this.getDragAction();
       if ( action instanceof Array )
@@ -406,7 +406,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
       {
         event.addAction(action);
       }
-      
+
       // start drag session
       event.startDrag();
      },
@@ -779,13 +779,13 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
      * @param sourceNode {Object}
      * @param targetNode {Object}
      * @param position {Integer}
-     * @param action {String} 
+     * @param action {String}
      *    position source node will be inserted above target if -1,
      *    below target if 1, and as a child if 0 or undefined
      */
     moveNode : function ( first, sourceNodes, targetNode, position, action )
     {
-      
+
       // one-parameter signature
       if ( arguments.length == 1)
       {
@@ -838,7 +838,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
       }
 
       // moving / copying the node
-      
+
 
       // copy action
 

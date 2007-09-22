@@ -145,15 +145,15 @@ qx.Class.define("qx.ui.embed.IconHtmlEmbed",
       if (qx.util.Validation.isValidString(this.getIcon()))
       {
         vHtml.push("<img src=\"");
-        
+
         if (qx.core.Variant.isSet("qx.client", "mshtml") && vIsPng) {
           vSource = "static/image/blank.gif";
         } else {
           vSource = this.getIcon();
         }
-        
+
         vHtml.push(qx.io.Alias.getInstance().resolve(vSource));
-        
+
         vHtml.push("\" style=\"vertical-align:middle;");
 
         if (this.getSpacing() != null)
