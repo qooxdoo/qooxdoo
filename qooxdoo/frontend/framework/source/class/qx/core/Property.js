@@ -22,6 +22,7 @@
 
 #module(core)
 #optional(qx.Interface)
+#use(qx.event.type.Change)
 
 ************************************************************************ */
 
@@ -1254,7 +1255,6 @@ qx.Class.define("qx.core.Property",
             "  ['", config.event, "', computed, old]",
             ");"
           );
-          //code.push('this.createDispatchChangeEvent("', config.event, '", computed, old);');
         }
 
         // Refresh children

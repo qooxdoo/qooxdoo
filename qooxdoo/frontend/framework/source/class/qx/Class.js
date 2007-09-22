@@ -21,13 +21,12 @@
 /* ************************************************************************
 
 #module(core)
-#module(oo)
+#require(qx.core.Setting)
+#require(qx.core.Variant)
 #optional(qx.Interface)
 #optional(qx.Mixin)
 #optional(qx.core.Property)
 #optional(qx.core.LegacyProperty)
-#require(qx.core.Setting)
-#require(qx.core.Variant)
 
 ************************************************************************ */
 
@@ -71,7 +70,7 @@
  * }
  * </pre>
  */
-qx.Class.define("qx.Class",
+qx.core.Bootstrap.define("qx.Class",
 {
   statics :
   {
@@ -1529,8 +1528,10 @@ qx.Class.define("qx.Class",
   defer : function(statics)
   {
     // profiling
-    if (qx.core.Variant.isSet("qx.aspects", "on")) {
-      for (var key in statics) {
+    if (qx.core.Variant.isSet("qx.aspects", "on")) 
+    {
+      for (var key in statics) 
+      {
         // only functions, no regexps
         if (statics[key] instanceof Function) {
           statics[key] = qx.core.Aspect.wrap("qx.Class." + key, statics[key], "static");
