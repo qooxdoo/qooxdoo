@@ -21,7 +21,6 @@
 /* ************************************************************************
 
 #module(core)
-#ignore(auto-require)
 #require(qx.lang.Core)
 
 ************************************************************************ */
@@ -73,7 +72,7 @@
  * * concat
  * * slice
  */
-qx.Class.define("qx.lang.Generics",
+qx.core.Bootstrap.define("qx.lang.Generics",
 {
   statics :
   {

@@ -35,14 +35,13 @@
 /* ************************************************************************
 
 #module(core)
-#ignore(auto-require)
 
 ************************************************************************ */
 
 /**
  * Collection of helper methods operating on functions.
  */
-qx.Class.define("qx.lang.Function",
+qx.core.Bootstrap.define("qx.lang.Function",
 {
   statics :
   {

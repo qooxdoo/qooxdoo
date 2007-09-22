@@ -21,13 +21,13 @@
 /* ************************************************************************
 
 #module(core)
-#ignore(auto-require)
-#require(qx.core.Variant)
 
 ************************************************************************ */
 
 /**
  * Basic client detection implementation.
+ *
+ * @deprecated: Use qx.bom.client.* instead.
  *
  * Version names follow the wikipedia scheme: major.minor[.revision[.build]] at
  * http://en.wikipedia.org/wiki/Software_version
@@ -36,7 +36,6 @@ qx.Class.define("qx.core.Client",
 {
   statics :
   {
-
     /**
      * Initializer for the static class called by defer
      */
@@ -635,7 +634,6 @@ qx.Class.define("qx.core.Client",
     getInstance: function() {
       return this;
     }
-
   },
 
 
@@ -647,9 +645,7 @@ qx.Class.define("qx.core.Client",
   *****************************************************************************
   */
 
-  defer : function(statics, members, properties)
-  {
+  defer : function(statics, members, properties) {
     statics.__init();
-    qx.core.Variant.define("qx.client", [ "gecko", "mshtml", "opera", "webkit", "khtml" ], qx.core.Client.getInstance().getEngine());
   }
 });

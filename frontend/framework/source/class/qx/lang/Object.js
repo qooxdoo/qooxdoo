@@ -21,16 +21,13 @@
 /* ************************************************************************
 
 #module(core)
-#ignore(auto-require)
-#require(qx.core.Client)
-#require(qx.core.Variant)
 
 ************************************************************************ */
 
 /**
  * Helper functions to handle Object as a Hash map.
  */
-qx.Class.define("qx.lang.Object",
+qx.core.Bootstrap.define("qx.lang.Object",
 {
   statics :
   {

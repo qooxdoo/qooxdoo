@@ -189,7 +189,7 @@ qx.Class.define("qx.bom.Client",
     {
       Engine :
       [
-        "KHTML", "OPERA", "WEBKIT", "GECKO", "MSHTML", "VERSION"
+        "OPERA", "WEBKIT", "GECKO", "MSHTML", "VERSION"
       ],
 
       Feature :
