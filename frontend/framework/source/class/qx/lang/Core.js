@@ -21,7 +21,6 @@
 /* ************************************************************************
 
 #module(core)
-#ignore(auto-require)
 
 ************************************************************************ */
 
@@ -48,7 +47,7 @@
  * * Array.every()
  * * String.quote()
  */
-qx.Class.define("qx.lang.Core");
+qx.core.Bootstrap.define("qx.lang.Core");
 
 
 /*

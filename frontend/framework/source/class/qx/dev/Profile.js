@@ -20,7 +20,6 @@
 /* ************************************************************************
 
 #require(qx.core.Aspect)
-#ignore(auto-require)
 
 ************************************************************************ */
 
@@ -36,11 +35,10 @@
  * applications. Further more the variant <code>qx.aspect</code> must be set to
  * <code>on</code>.
  */
-qx.Class.define("qx.dev.Profile", {
-
+qx.core.Bootstrap.define("qx.dev.Profile", 
+{
   statics :
   {
-
     __profileData : {},
     __callStack : [],
     __doProfile : true,
@@ -103,8 +101,7 @@ qx.Class.define("qx.dev.Profile", {
      *
      * @return {Map} The current profiling data.
      */
-    getProfileData : function()
-    {
+    getProfileData : function() {
       return this.__profileData;
     },
 
@@ -281,7 +278,6 @@ qx.Class.define("qx.dev.Profile", {
       functionData.callCount += 1;
       functionData.subRoutineCalls += callData.subRoutineCalls;
     }
-
   },
 
 
@@ -305,5 +301,4 @@ qx.Class.define("qx.dev.Profile", {
       }
     }
   }
-
 });

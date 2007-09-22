@@ -22,11 +22,8 @@
 /* ************************************************************************
 
 #module(core)
-#require(qx.core.Bootstrap)
 #require(qx.core.Setting)
-#require(qx.lang.Array)
-#ignore(auto-require)
-#ignore(auto-use)
+#require(qx.bom.client.Engine)
 
 /* ************************************************************************ */
 
@@ -48,7 +45,7 @@
  * debugging code from the build version. It is very similar to conditional
  * compilation in C/C++.
  */
-qx.Class.define("qx.core.Variant",
+qx.core.Bootstrap.define("qx.core.Variant",
 {
   statics :
   {
@@ -186,16 +183,21 @@ qx.Class.define("qx.core.Variant",
       }
 
       var urlVariants = document.location.search.slice(1).split("&");
+      
       for (var i=0; i<urlVariants.length; i++)
       {
         var variant = urlVariants[i].split(":");
+        
         if (variant.length != 3 || variant[0] != "qxvariant") {
           continue;
         }
+        
         var key = variant[1];
+        
         if (!this.__variants[key]) {
           this.__variants[key] = {};
         }
+        
         this.__variants[key].value = decodeURIComponent(variant[2]);
       }
     },
@@ -383,6 +385,7 @@ qx.Class.define("qx.core.Variant",
 
   defer : function(statics)
   {
+    statics.define("qx.client", [ "gecko", "mshtml", "opera", "webkit", "khtml" ], qx.bom.client.Engine.NAME);
     statics.define("qx.debug", [ "on", "off" ], "on");
     statics.define("qx.compatibility", [ "on", "off" ], "on");
     statics.define("qx.eventMonitorNoListeners", [ "on", "off" ], "off");

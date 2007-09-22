@@ -21,10 +21,6 @@
 /* ************************************************************************
 
 #module(core)
-#require(qx.core.Bootstrap)
-#require(qx.core.Setting)
-#ignore(auto-require)
-#ignore(auto-use)
 
 ************************************************************************ */
 
@@ -50,7 +46,7 @@
  *
  * One example for a qooxdoo aspect is profiling ({@link qx.dev.Profile}).
  */
-qx.Class.define("qx.core.Aspect",
+qx.core.Bootstrap.define("qx.core.Aspect",
 {
   statics :
   {
@@ -157,5 +153,4 @@ qx.Class.define("qx.core.Aspect",
   defer : function() {
     qx.core.Setting.define("qx.enableAspect", false);
   }
-
 });

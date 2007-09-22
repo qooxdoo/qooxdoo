@@ -31,7 +31,7 @@
  * phase of the class. The defaults listed in the API viewer need not
  * to be identical to the values at runtime.
  */
-qx.Class.define("qx.bom.client.Engine",
+qx.core.Bootstrap.define("qx.bom.client.Engine",
 {
   /*
   *****************************************************************************
@@ -55,9 +55,6 @@ qx.Class.define("qx.bom.client.Engine",
 
     /** {Boolean} Flag to detect if the client is based on the Opera HTML/JS engine */
     OPERA : false,
-
-    /** {Boolean} Flag to detect if the client is based on the KHTML HTML/JS engine */
-    KHTML : false,
 
     /** {Boolean} Flag to detect if the client is based on the Webkit HTML/JS engine */
     WEBKIT : false,
@@ -94,17 +91,6 @@ qx.Class.define("qx.bom.client.Engine",
           version = RegExp.$1.substring(0, 3) + "." + RegExp.$1.substring(3);
         } else {
           throw new Error("Could not detect Opera version: " + agent + "!");
-        }
-      }
-      else if (navigator.vendor === "KDE")
-      {
-        engine = "khtml";
-        this.KHTML = true;
-
-        if (/KHTML\/([0-9-\.]*)/.test(agent)) {
-          version = RegExp.$1;
-        } else {
-          throw new Error("Could not detect KHTML version: " + agent + "!");
         }
       }
       else if (agent.indexOf("AppleWebKit") != -1)

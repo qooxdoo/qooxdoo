@@ -24,10 +24,7 @@
 #module(core)
 #optional(qx.dev.StackTrace)
 #require(qx.core.Property)
-#use(qx.core.Init)
-#use(qx.event.type.Change)
 #use(qx.event.handler.Object)
-#resource(qx.static:static)
 
 ************************************************************************ */
 
@@ -540,8 +537,11 @@ qx.Class.define("qx.core.Object",
      * @type member
      * @param type {String} name of the event type
      */
-    fireEvent : function(type) {
-      this.fireCustomEvent(qx.event.type.Event, [type, false]);
+    fireEvent : function(type) 
+    {
+      if (!this.__disposed) {
+        qx.event.Registration.fireCustomEvent(this, qx.event.type.Event, [type, false]);
+      }
     },
 
 
@@ -552,8 +552,11 @@ qx.Class.define("qx.core.Object",
      * @param type {String} name of the event type
      * @param data {var} user defined data attached to the event object
      */
-    fireDataEvent : function(type, data) {
-      this.fireCustomEvent(qx.event.type.Data, [type, data]);
+    fireDataEvent : function(type, data) 
+    {
+      if (!this.__disposed) {
+        qx.event.Registration.fireCustomEvent(this, qx.event.type.Data, [type, data]);
+      }
     },
 
 

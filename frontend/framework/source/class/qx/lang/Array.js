@@ -21,8 +21,6 @@
 /* ************************************************************************
 
 #module(core)
-#use(qx.lang.Core)
-#ignore(auto-require)
 
 ************************************************************************ */
 
@@ -36,7 +34,7 @@
  * The string/array generics introduced in JavaScript 1.6 are supported by
  * {@link qx.lang.Generics}.
  */
-qx.Class.define("qx.lang.Array",
+qx.core.Bootstrap.define("qx.lang.Array",
 {
   statics :
   {

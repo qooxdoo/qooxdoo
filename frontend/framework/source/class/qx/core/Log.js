@@ -14,6 +14,7 @@
 
    Authors:
      * Alexander Back (aback)
+     * Sebastian Werner (wpbasti)
 
    ======================================================================
 
@@ -37,12 +38,6 @@
 /* ************************************************************************
 
 #module(core)
-#ignore(auto-use)
-#ignore(auto-require)
-#require(qx.core.Bootstrap)
-#use(qx.lang.Function)
-#use(qx.io.Alias)
-#use(qx.bom.Viewport)
 
 ************************************************************************ */
 
@@ -51,7 +46,7 @@
  * extension. It is relatively lightweight and only implement the basic
  * features.
  */
-qx.Class.define("qx.core.Log",
+qx.core.Bootstrap.define("qx.core.Log",
 {
   statics :
   {
@@ -323,9 +318,10 @@ qx.Class.define("qx.core.Log",
         return;
       }
 
-      if (qx.io && qx.io.Alias)
+      // Test for 'Setting' class
+      if (qx.core.Setting)
       {
-        var file = qx.io.Alias.getInstance().resolve("static/log/log.html");
+        var file = qx.core.Setting.get("qx.resourceUri") + "/static/log/log.html";
         var win = this._consoleWindow = window.open(file, "win", "width=500,height=250,dependent=yes,resizable=yes,status=no,location=no,menubar=no,toolbar=no,scrollbars=no");
       }
     },
