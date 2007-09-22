@@ -32,52 +32,49 @@
  */
 qx =
 {
-  core :
+  /**
+   * Bootstrap qx.Bootstrap to create myself later
+   * This is needed for the API browser etc. to let them detect me
+   */
+  Bootstrap :
   {
-    /**
-     * Bootstrap qx.Bootstrap to create myself later
-     * This is needed for the API browser etc. to let them detect me
-     */
-    Bootstrap :
+    createNamespace : function(name, object)
     {
-      createNamespace : function(name, object)
+      var splits = name.split(".");
+      var parent = window;
+      var part = splits[0];
+
+      for (var i=0, len=splits.length-1; i<len; i++, part=splits[i])
       {
-        var splits = name.split(".");
-        var parent = window;
-        var part = splits[0];
-
-        for (var i=0, len=splits.length-1; i<len; i++, part=splits[i])
-        {
-          if (!parent[part]) {
-            parent = parent[part] = {};
-          } else {
-            parent = parent[part];
-          }
+        if (!parent[part]) {
+          parent = parent[part] = {};
+        } else {
+          parent = parent[part];
         }
+      }
 
-        // store object
-        parent[part] = object;
+      // store object
+      parent[part] = object;
 
-        // return last part name (e.g. classname)
-        return part;
-      },
+      // return last part name (e.g. classname)
+      return part;
+    },
 
-      define : function(name, config)
-      {
-        if (!config) {
-          var config = { statics : {} };
-        }
+    define : function(name, config)
+    {
+      if (!config) {
+        var config = { statics : {} };
+      }
 
-        this.createNamespace(name, config.statics);
+      this.createNamespace(name, config.statics);
 
-        if (config.defer) {
-          config.defer(config.statics);
-        }
+      if (config.defer) {
+        config.defer(config.statics);
+      }
 
-        // Store class reference in global class registry
-        qx.Bootstrap.$$registry[name] = config.statics;
-      }    
-    }
+      // Store class reference in global class registry
+      qx.Bootstrap.$$registry[name] = config.statics;
+    }    
   }
 };
 

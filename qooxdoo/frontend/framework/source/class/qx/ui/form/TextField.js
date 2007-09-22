@@ -349,7 +349,7 @@ qx.Class.define("qx.ui.form.TextField",
         if (qx.core.Variant.isSet("qx.client", "mshtml")) {
           inp.onpropertychange = this.__oninput;
         } else {
-          inp.addListener("input", this.__oninput, false);
+          inp.addEventListener("input", this.__oninput, false);
         }
 
         // Append to real element
@@ -1260,7 +1260,7 @@ qx.Class.define("qx.ui.form.TextField",
       if (qx.core.Variant.isSet("qx.client", "mshtml")) {
         this._inputElement.onpropertychange = null;
       } else {
-        this._inputElement.removeListener("input", this.__oninput, false);
+        this._inputElement.removeEventListener("input", this.__oninput, false);
       }
     }
 
