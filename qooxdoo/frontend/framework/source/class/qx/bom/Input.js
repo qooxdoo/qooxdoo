@@ -106,6 +106,7 @@ qx.Class.define("qx.bom.Input",
      * Sets the value of the given element.
      *
      * @type static
+     * @signature function(element, value)
      * @param element {Element} DOM element to modify
      * @param value {
      */
