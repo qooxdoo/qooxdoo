@@ -33,7 +33,7 @@ qx.Class.define("apiviewer.ClassLoader",
   construct : function(baseUri)
   {
     this.base(arguments);
-    
+
     this._baseUri = baseUri;
   },
 

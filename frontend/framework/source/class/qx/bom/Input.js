@@ -56,7 +56,7 @@ qx.Class.define("qx.bom.Input",
       reset : 1
     },
 
-    
+
     /**
      * Creates an DOM input/textarea/select element.
      *
