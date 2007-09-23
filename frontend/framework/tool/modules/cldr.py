@@ -72,7 +72,7 @@ def getJavaScript(data, locale, language, territory="", namespace="qx.locale.dat
     	str += "#use(%s.%s)\n" % (namespace, language)
     str += '''
 */
-qx.locale.Locale.define("%s.%s", {
+qx.Locale.define("%s.%s", {
 ''' % (namespace, locale)
     lines = []
     keys = data.keys()
