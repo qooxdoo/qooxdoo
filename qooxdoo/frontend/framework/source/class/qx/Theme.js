@@ -298,6 +298,7 @@ qx.Class.define("qx.Theme",
      * Validates incoming configuration and checks keys and values
      *
      * @type static
+     * @signature function(name, config)
      * @param name {String} The name of the class
      * @param config {Map} Configuration map
      * @return {void}

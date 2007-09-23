@@ -69,7 +69,7 @@ QXHEAD = {
     "defineClass" : re.compile('qx.OO.defineClass\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\'](\s*\,\s*([\.a-zA-Z0-9_-]+))?', re.M),
 
     # 0.7 class style
-    "classDefine" : re.compile('qx.(Bootstrap|Class|Locale|Mixin|Interface|Theme).define\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M),
+    "classDefine" : re.compile('qx.(Bootstrap|List|Class|Locale|Mixin|Interface|Theme).define\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M),
 
     # Loader hints
     "module" : re.compile("^#module\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),

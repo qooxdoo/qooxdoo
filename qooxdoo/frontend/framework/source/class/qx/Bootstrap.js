@@ -83,8 +83,8 @@ qx =
  * Internal class that is responsible for bootstrapping the qooxdoo
  * framework at load time.
  *
- * Automatically loads JavaScript language fixes, core logging possibilities
- * and language addons for arrays, strings, etc.
+ * Automatically loads JavaScript language fixes and enhancements to
+ * bring all engines to at least JavaScript 1.6.
  */
 qx.Bootstrap.define("qx.Bootstrap",
 {
@@ -95,26 +95,28 @@ qx.Bootstrap.define("qx.Bootstrap",
     
 
     /**
-     * Create namespace.
+     * Creates a namespace and assigns the given object to it.
      * Lightweight version of {@link qx.Class#createNamespace} only used during bootstrap phase.
      *
-     * @type map
-     * @signature function(name, object)
-     * @param name {var} TODOC
-     * @param object {var} TODOC
-     * @return {var} TODOC
-     */    
+     * @type static
+     * @internal
+     * @param name {String} The complete namespace to create. Typically, the last part is the class name itself
+     * @param object {Object} The object to attach to the namespace
+     * @return {Object} last part of the namespace (typically the class name)
+     * @throws an exception when the given object already exists.
+     */
     createNamespace : qx.Bootstrap.createNamespace,
 
 
     /**
-     * Define class.
+     * Define a new class using the qooxdoo class system.
      * Lightweight version of {@link qx.Class#define} only used during bootstrap phase.
      *
      * @type map
+     * @internal
      * @signature function(name, config)
-     * @param name {var} TODOC
-     * @param config {var} TODOC
+     * @param name {String} Name of the class
+     * @param config {Map ? null} Class definition structure.
      * @return {void}
      */
     define : qx.Bootstrap.define,
@@ -142,7 +144,7 @@ qx.Bootstrap.define("qx.Bootstrap",
     },
 
 
-    /** Stores all defined classes */
+    /** {Map} Stores all defined classes */
     $$registry : {}
   }
 });
