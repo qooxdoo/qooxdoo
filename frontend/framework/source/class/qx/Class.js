@@ -149,7 +149,6 @@ qx.Bootstrap.define("qx.Class",
      *       <tr><th>destruct</th><td>Function</td><td>The destructor of the class.</td></tr>
      *     </table>
      * @return {void}
-     * @throws TODOC
      */
     define : function(name, config)
     {
@@ -251,7 +250,6 @@ qx.Bootstrap.define("qx.Class",
           }
         });
       }
-
     },
 
 
