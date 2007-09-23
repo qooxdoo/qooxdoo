@@ -35,6 +35,7 @@ qx.Class.define("qx.application.Gui",
 {
   extend : qx.core.Object,
   implement : qx.application.IApplication,
+  include : [ qx.locale.MTranslation ],
 
 
   /*
