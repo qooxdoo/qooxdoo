@@ -14,14 +14,12 @@
 
    Authors:
      * Sebastian Werner (wpbasti)
-     * Andreas Ecker (ecker)
 
 ************************************************************************ */
 
 /* ************************************************************************
 
-#embed(qx.static/stringbuilder/helper.html)
-#require(qx.core.Init)
+#module(util)
 
 ************************************************************************ */
 
@@ -40,255 +38,70 @@
  * So this class seems to be the best compromise to handle
  * string concatenation.
  */
-qx.Class.define("qx.util.StringBuilder",
+qx.List.define("qx.util.StringBuilder",
 {
-  extend : Array,
-
-
-
-
   /*
   *****************************************************************************
-     CONSTRUCTOR
+    MEMBERS
   *****************************************************************************
   */
-
-  /**
-   * @param varargs {String} variable number of strings to be added initially
-   */
-  construct : function(varargs)
-  {
-    Array.call(this);
-
-    this.init();
-    if (varargs != null) {
-      this.add.apply(this, arguments);
-    }
-  },
-
-
-
-
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
+    
+  members : 
   {
     /**
-     * @internal
-     */
-    __init : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function()
-      {
-        // first use the plain IE StringBuilder and on window load replace it with a sub class
-        // of Array obtained from an IFrame. This technique is described by Dean Edwards at
-        // http://dean.edwards.name/weblog/2006/11/hooray/
-        qx.core.Init.getInstance().addListener("load", this.__onload, this);
-      },
-
-      "default" : null
-    }),
-
-
-    /**
-     * @internal
-     */
-    __onload : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function()
-      {
-        // create an <iframe>
-        this._frame = document.createElement("iframe");
-        this._frame.style.visibility = "hidden";
-        this._frame.src = qx.io.Alias.getInstance().resolve("static/stringbuilder/helper.html")
-        document.body.appendChild(this._frame);
-      },
-
-      "default" : null
-    }),
-
-
-    /**
-     * @internal
-     */
-    rebuild : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function(arr)
-      {
-        var prot = arr.prototype;
-
-        // Patch instance methods
-        prot.add = prot.push;
-        prot.toString = prot.get = new Function("return this.join('');");
-        prot.clear = prot.init = new Function("this.length = 0;");
-        prot.isEmpty = new Function("return this.length === 0;");
-
-        // Store under StringBuilder
-        qx.util.StringBuilder = arr;
-
-        // Remove helper frame
-        document.body.removeChild(this._frame);
-      },
-
-      "default" : null
-    })
-  },
-
-
-
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
-  members :
-  {
-    /**
-     * Resets the contents of the Stringbuilder
-     * equivalent to <pre class='javascript'>str = ""; </pre>
+     * Removes all content
      *
      * @type member
      * @return {void}
-     * @signature function()
      */
-    clear : qx.core.Variant.select("qx.client",
-    {
-      "default" : function() {
-        this.length = 0;
-      },
-
-      "mshtml" : function()  {
-        this._array = [];
-      }
-    }),
-
+    clear : function() {
+      this.length = 0;
+    },
+    
 
     /**
-     * Returns the contents of the concatenated string
+     * Returns the concatted strings.
      *
      * @type member
-     * @return {String} string content
-     * @signature function()
+     * @return {String} Concatted strings
      */
-    get : qx.core.Variant.select("qx.client",
-    {
-      "default" : function() {
-        return this.join("");
-      },
-
-      "mshtml" : function() {
-        return this._array.join("");
-      }
-    }),
-
+    get : function() {
+      return this.join("");
+    },
+    
 
     /**
-     * Append a variable number of string arguments. To only append
-     * one use {@link #addOne} instead.
+     * Adds new strings.
      *
      * @type member
-     * @param varargs {String} variable number of strings to be added
+     * @signature function(strings)
+     * @param strings {String...} The separate strings to add
      * @return {void}
-     * @signature function(varargs)
      */
-    add : qx.core.Variant.select("qx.client",
-    {
-      "default" : function() {},
-
-      "mshtml" : function() {
-        this._array.push.apply(this._array, arguments);
-      }
-    }),
-
+    add : null,
+    
 
     /**
-     * Initializes the contents of the Stringbuilder
-     * equivalent to <pre class='javascript'>str = ""; </pre>
+     * Whether the string builder is empty
      *
      * @type member
-     * @return {void}
-     * @signature function()
+     * @return {Boolean} <code>true</code> when the builder is empty
      */
-    init : qx.core.Variant.select("qx.client",
-    {
-      "default" : function() {
-        this.length = 0;
-      },
-
-      "mshtml" :function() {
-        this._array = [];
-      }
-    }),
-
-
-    /**
-     * Checks whether the strinb builder instance represents the epty string.
-     *
-     * @return {Boolean} whether the string is empty
-     * @signature function()
-     */
-    isEmpty : qx.core.Variant.select("qx.client",
-    {
-      "default" : function() {
-        return this.length == 0;
-      },
-
-      "mshtml" :function()
-      {
-        if (this._array.length == 0) {
-          return true;
-        }
-
-        for (var i=0; i< this._array.length; i++) {
-          if (this._array[i] != "") {
-            return false;
-          }
-        }
-
-        return true;
-      }
-    }),
-
-
-    /**
-     * Returns the contents of the concatenated string
-     *
-     * @type member
-     * @return {String} string content
-     */
-    toString : function() {}
+    isEmpty : function() {
+      return this.length === 0;
+    }    
   },
-
-
-
+  
+  
+  
 
   /*
   *****************************************************************************
      DEFER
   *****************************************************************************
-  */
-
-  defer : qx.core.Variant.select("qx.client",
-  {
-    "default" : function(statics, members)
-    {
-      members.add = Array.prototype.push;
-      members.toString = members.get;
-    },
-
-    "mshtml" : function(statics, members)
-    {
-      members.toString = members.get;
-      statics.__init();
-    }
-  })
+  */  
+  
+  defer : function(statics, members) {
+    members.add = members.push;
+  } 
 });
