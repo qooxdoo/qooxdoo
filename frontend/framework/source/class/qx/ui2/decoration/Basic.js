@@ -331,41 +331,58 @@ qx.Class.define("qx.ui2.decoration.Basic",
   members :
   {
 
-    createElement : function(widget)
+    __htmlTemplate :
+    [
+      "<div style='",
+      "border-top-width: ", null,        // 2
+      "px;border-top-style: ", null,     // 4
+      ";border-top-color: ", null,       // 6
+      ";border-right-width: ", null,     // 8
+      "px;border-right-style: ", null,   // 10
+      ";border-right-color: ", null,     // 12
+      ";border-bottom-width: ", null,    // 14
+      "px;border-bottom-style: ", null,  // 16
+      ";border-bottom-color: ", null,    // 18
+      ";border-left-width: ", null,      // 20
+      "px;border-left-style: ", null,    // 22
+      ";border-left-color: ", null,      // 24
+      ";width: ", null,                  // 26
+      "px;height: ", null,               // 28
+      "px;background-color: ", null,      // 30
+      ";position:absolute",
+      ";top:0px;left:0px",
+      "'></div>"
+    ],
+
+    getHtml : function(widget, width, height)
     {
-      var border = new qx.html.Element("div");
-      return border;
-    },
+      var template = this.__htmlTemplate;
 
+      template[2] = this.getWidthTop() || "0";
+      template[4] = this.getStyleTop() || "none";
+      template[6] = this.__colorTop || "";
 
-    update : function(widget, borderElement)
-    {
-      borderElement.setStyles({
-        borderLeftWidth : this.getWidthLeft() || "0px",
-        borderLeftStyle : this.getStyleLeft() || "none",
-        borderLeftColor : this.__colorLeft || "",
-        borderTopWidth : this.getWidthTop() || "0px",
-        borderTopStyle : this.getStyleTop() || "none",
-        borderTopColor : this.__colorTop || "",
-        borderRightWidth : this.getWidthRight() || "0px",
-        borderRightStyle : this.getStyleRight() || "none",
-        borderRightColor : this.__colorRight || "",
-        borderBottomWidth : this.getWidthBottom() || "0px",
-        borderBottomStyle : this.getStyleBottom() || "none",
-        borderBottomColor : this.__colorBottom || "",
-        backgroundColor : widget.getBackgroundColor()
-      });
-    },
+      template[8] = this.getWidthRight() || "0";
+      template[10] = this.getStyleRight() || "none";
+      template[12] = this.__colorRight || "";
 
+      template[14] = this.getWidthBottom() || "0";
+      template[16] = this.getStyleBottom() || "none";
+      template[18] = this.__colorBottom || "";
 
-    updateSize : function(widget, borderElement, width, height)
-    {
+      template[20] = this.getWidthLeft() || "0";
+      template[22] = this.getStyleLeft() || "none";
+      template[24] = this.__colorLeft || "";
+
       var borderWidth = this.getWidthLeft() + this.getWidthRight();
       var borderHeight = this.getWidthTop() + this.getWidthBottom();
-      borderElement.setStyles({
-        width: (width - borderWidth) + "px",
-        height: (height - borderHeight) + "px"
-      });
+
+      template[26] = width - borderWidth;
+      template[28] = height - borderHeight;
+
+      template[30] = widget.getBackgroundColor();
+
+      return template.join("");
     },
 
 
