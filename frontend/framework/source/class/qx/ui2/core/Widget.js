@@ -354,37 +354,68 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     layout : function(left, top, width, height)
     {
-      this._outerElement.setStyle("left", left + "px");
-      this._outerElement.setStyle("top", top + "px");
-      this._outerElement.setStyle("width", width + "px");
-      this._outerElement.setStyle("height", height + "px");
+      var locationChange = (left !== this._left || top !== this._top);
+      var sizeChange = (width !== this._width || height !== this._height);
 
-      // Scrollbars are applied to the content element and does not influence
-      // its outer size.
-      var insetTop = this.getInsetTop();
-      var insetLeft = this.getInsetLeft();
-      var insetRight = this.getInsetRight();
-      var insetBottom = this.getInsetBottom();
+      if (locationChange)
+      {
+        this._left = left;
+        this._top = top;
 
-      var innerLeft = insetLeft;
-      var innerTop = insetTop;
-      var innerWidth = width - insetLeft - insetRight;
-      var innerHeight = height - insetTop - insetBottom;
-
-      console.log(innerHeight, " ", innerWidth);
-
-      this._contentElement.setStyle("left", innerLeft + "px");
-      this._contentElement.setStyle("top", innerTop + "px");
-      this._contentElement.setStyle("width", innerWidth + "px");
-      this._contentElement.setStyle("height", innerHeight + "px");
-
-      // Sync styles
-      this._syncDecoration(width, height);
-
-      var mgr = this.getLayout();
-      if (mgr) {
-        mgr.layout(width, height);
+        this._outerElement.setStyle("left", left + "px");
+        this._outerElement.setStyle("top", top + "px");
       }
+
+      if (sizeChange)
+      {
+        this._width = width;
+        this._height = height;
+
+        this._outerElement.setStyle("width", width + "px");
+        this._outerElement.setStyle("height", height + "px");
+
+        // Scrollbars are applied to the content element and does not influence
+        // its outer size.
+        var insetTop = this.getInsetTop();
+        var insetLeft = this.getInsetLeft();
+        var insetRight = this.getInsetRight();
+        var insetBottom = this.getInsetBottom();
+
+        var innerLeft = insetLeft;
+        var innerTop = insetTop;
+        var innerWidth = width - insetLeft - insetRight;
+        var innerHeight = height - insetTop - insetBottom;
+
+        this._contentElement.setStyle("left", innerLeft + "px");
+        this._contentElement.setStyle("top", innerTop + "px");
+        this._contentElement.setStyle("width", innerWidth + "px");
+        this._contentElement.setStyle("height", innerHeight + "px");
+
+        // Sync style
+        // TODO: do style updates in a different queue
+        this._syncDecoration(width, height);
+      }
+
+      // if the current layout is invalid force a relayout even if the size
+      // has not changed
+      if (!this.isLayoutValid() || sizeChange)
+      {
+        var mgr = this.getLayout();
+        if (mgr) {
+          mgr.layout(width, height);
+        }
+      }
+
+      // TODO: after doing the layout fire change events
+      if (locationChange) {
+        this.debug("Location change: " + left +", " + top);
+      }
+
+      if (sizeChange) {
+        this.debug("Size change: " + width + ", " + height);
+      }
+
+      this.markLayoutValid();
     },
 
 
@@ -426,6 +457,32 @@ qx.Class.define("qx.ui2.core.Widget",
     invalidateLayout : function()
     {
       qx.ui2.core.LayoutQueue.add(this);
+    },
+
+    isLayoutValid : function() {
+      return !this._layoutInvalid;
+    },
+
+    /**
+     * Called by the laypot manager to mark this widget's layout as invalid.
+     *
+     * @internal
+     */
+    markLayoutInvalid : function()
+    {
+      this._layoutInvalid = true;
+      var mgr = this.getLayout();
+      if (mgr) {
+        mgr.invalidate();
+      }
+    },
+
+    /**
+     * After doing the layout, mark the layout as valid.
+     */
+    markLayoutValid : function()
+    {
+      this._layoutInvalid = false;
     },
 
     _applyLayoutChange : function()
@@ -815,7 +872,8 @@ qx.Class.define("qx.ui2.core.Widget",
       if (layout) {
         return layout.getPreferredWidth();
       }
-      return 100; // TODO
+      // default width
+      return 100;
     },
 
 
@@ -837,7 +895,8 @@ qx.Class.define("qx.ui2.core.Widget",
       if (layout) {
         return layout.getPreferredHeight();
       }
-      return 50; // TODO
+      // default height
+      return 50;
     },
 
 
