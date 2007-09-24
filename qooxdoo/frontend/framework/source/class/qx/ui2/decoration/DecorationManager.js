@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui2.border.BorderManager",
+qx.Class.define("qx.ui2.decoration.DecorationManager",
 {
   type : "singleton",
   extend : qx.util.manager.Value,
@@ -136,7 +136,7 @@ qx.Class.define("qx.ui2.border.BorderManager",
       if (value)
       {
         var source = value.borders;
-        var border = qx.ui2.border.Basic;
+        var border = qx.ui2.decoration.Basic;
 
         for (var key in source)
         {
