@@ -42,7 +42,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
     // Create content element
     this._outerElement = this._createOuterElement();
-    this._styleElement = null;
+    this._decorationElement = this._createDecorationElement();
     this._contentElement = this._createContentElement();
 
     // Border sizes
@@ -404,7 +404,8 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       var decoration = this.getDecoration();
       if (decoration) {
-        decoration.updateSize(this, this._styleElement, width, height);
+        var decorationHtml = decoration.getHtml(this, width, height);
+        this._decorationElement.setAttribute("html", decorationHtml);
       }
     },
 
@@ -581,6 +582,19 @@ qx.Class.define("qx.ui2.core.Widget",
     },
 
 
+    /**
+     * Create the widget's decoration HTML element.
+     *
+     * @return {qx.html.Element} The decoration HTML element
+     */
+    _createDecorationElement : function()
+    {
+      var el = new qx.html.Element("div");
+      el.setStyle("zIndex", 5);
+      this._outerElement.add(el);
+
+      return el;
+    },
 
 
 
@@ -635,20 +649,7 @@ qx.Class.define("qx.ui2.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    _applyDecoration : function(value, old)
-    {
-      if (this._styleElement)
-      {
-        this._styleElement.free();
-        this._styleElement.dispose();
-      }
-
-      if (value !== null)
-      {
-        this._styleElement = value.createElement(this);
-        this._outerElement.add(this._styleElement);
-      }
-
+    _applyDecoration : function(value, old) {
       qx.ui2.decoration.DecorationManager.getInstance().connect(this._styleDecoration, this, value);
     },
 
@@ -658,8 +659,11 @@ qx.Class.define("qx.ui2.core.Widget",
      *
      * @param decoration {qx.ui2.decoration.IDecoration} the decoration object
      */
-    _styleDecoration : function(decoration) {
-      decoration.update(this, this._styleElement);
+    _styleDecoration : function(decoration)
+    {
+      if (this._oldWidth && this._oldHeight) {
+        this._syncDecoration(this._oldWidth, this._oldHeight);
+      }
     },
 
 
