@@ -1,0 +1,66 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+  <script type="text/javascript">
+    qxsettings = {
+      "qx.enableApplicationLayout" : false,
+      "qx.boxModelCorrection" : false
+    };
+  </script>
+  <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
+</head>
+<body>
+  <div id="description">
+  </div>
+
+  <div id="test"></div>
+
+  <p><a href="javascript:qx.html.Element.flush()">Flush queue</a></p>
+
+  <script type="text/javascript">
+qx.Class.define("BasicSample",
+{
+  extend : qx.application.Gui2,
+
+  members :
+  {
+    main : function()
+    {
+      this.base(arguments);
+
+      var doc = new qx.ui2.root.Application(document);
+
+      var layout = new qx.ui2.layout.Basic();
+
+      var label1 = new qx.ui2.core.Label("Hello World");
+      layout.add(label1, {
+        top: 300,
+        left: 300,
+        width : 50,
+        height : 50
+      });
+
+      var foo2 = new qx.ui2.core.Widget;
+      layout.add(foo2, {
+        top : 200,
+        left : 200,
+        width : 50,
+        height : 50
+      });
+
+      foo2.setHtml("hello world");
+
+      doc.setLayout(layout);
+      layout.setGeometry(0, 0, qx.bom.Document.getWidth(), qx.bom.Document.getHeight());
+
+      qx.html.Element.flush();
+    }
+  }
+});
+
+qx.core.Init.getInstance().setApplication(new BasicSample);
+  </script>
+</body>
+</html>

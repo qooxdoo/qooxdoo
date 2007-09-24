@@ -22,10 +22,13 @@ qx.Class.define("qx.ui2.core.Label",
 {
   extend : qx.ui2.core.Widget,
 
-  construct : function()
+  construct : function(content)
   {
     this.base(arguments);
 
+    if (content != null) {
+      this.setContent(content);
+    }
   },
 
   properties :
