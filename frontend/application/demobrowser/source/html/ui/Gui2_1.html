@@ -30,16 +30,16 @@ qx.Class.define("BasicSample",
     {
       this.base(arguments);
 
-      var doc = new qx.ui2.root.Application(document);
+      doc = new qx.ui2.root.Application(document);
 
       doc.getElement().setStyle("font", "11px Tahoma, sans-serif");
       doc.setTextColor("black");
       doc.setBackgroundColor("white");
 
-      var w1 = new qx.ui2.core.Widget;
-      var w2 = new qx.ui2.core.Widget;
-      var w3 = new qx.ui2.core.Widget;
-      var w4 = new qx.ui2.core.Widget;
+      w1 = new qx.ui2.core.Widget;
+      w2 = new qx.ui2.core.Widget;
+      w3 = new qx.ui2.core.Widget;
+      w4 = new qx.ui2.core.Widget;
 
       w1.setId("w1");
       w2.setId("w2");
@@ -80,7 +80,7 @@ qx.Class.define("BasicSample",
       });
 
 
-      var layout = new qx.ui2.layout.Basic();
+      layout = new qx.ui2.layout.Basic();
 
       layout.add(w1, {
         top: 10,
@@ -111,13 +111,13 @@ qx.Class.define("BasicSample",
       doc.setLayout(layout);
 
 
-      var layout2 = new qx.ui2.layout.HorizontalBoxLayout();
+      layout2 = new qx.ui2.layout.HorizontalBoxLayout();
 
-      var w02 = new qx.ui2.core.Label("Hello");
-      var w12 = new qx.ui2.core.Widget;
-      var w22 = new qx.ui2.core.Widget;
-      var w32 = new qx.ui2.core.Widget;
-      var w42 = new qx.ui2.core.Widget;
+      w02 = new qx.ui2.core.Label("Hello");
+      w12 = new qx.ui2.core.Widget;
+      w22 = new qx.ui2.core.Widget;
+      w32 = new qx.ui2.core.Widget;
+      w42 = new qx.ui2.core.Widget;
 
       w12.setHtml("<b>W1</b>");
       w22.setHtml("<b>W2</b>");
