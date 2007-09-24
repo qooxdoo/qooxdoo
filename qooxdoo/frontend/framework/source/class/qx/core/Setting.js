@@ -149,7 +149,7 @@ qx.Class.define("qx.core.Setting",
       {
         for (var key in qxsettings)
         {
-          if ((key.split(".")).length !== 2) {
+          if ((key.split(".")).length < 2) {
             throw new Error('Malformed settings key "' + key + '". Must be following the schema "namespace.key".');
           }
 

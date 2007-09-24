@@ -150,7 +150,7 @@ qx.Class.define("qx.core.Variant",
         {
           if (qx.core.Variant.compilerIsSet("qx.debug", "on"))
           {
-            if ((key.split(".")).length !== 2) {
+            if ((key.split(".")).length < 2) {
               throw new Error('Malformed settings key "' + key + '". Must be following the schema "namespace.key".');
             }
           }
