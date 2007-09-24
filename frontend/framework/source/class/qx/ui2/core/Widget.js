@@ -685,20 +685,6 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
-    _applyBackgroundColor : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._styleBackgroundColor, this, value);
-    },
-
-    _styleBackgroundColor : function(value)
-    {
-      if (value) {
-        this._outerElement.setStyle("backgroundColor", value);
-      } else {
-        this._outerElement.resetStyle("backgroundColor");
-      }
-    },
-
-
 
     _applyTextColor : function(value, old) {
       qx.theme.manager.Color.getInstance().connect(this._styleTextColor, this, value);
@@ -713,6 +699,60 @@ qx.Class.define("qx.ui2.core.Widget",
       }
     },
 
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      INSET
+    ---------------------------------------------------------------------------
+    */
+
+    getInsetLeft : function()
+    {
+      var value = this.getPaddingLeft();
+
+      if (this.getDecoration()) {
+        value += this.getDecoration().getInsetLeft();
+      }
+
+      return value;
+    },
+
+    getInsetTop : function()
+    {
+      var value = this.getPaddingTop();
+
+      if (this.getDecoration()) {
+        value += this.getDecoration().getInsetTop();
+      }
+
+      return value;
+    },
+
+    getInsetRight : function()
+    {
+      var value = this.getPaddingRight();
+
+      if (this.getDecoration()) {
+        value += this.getDecoration().getInsetRight();
+      }
+
+      return value;
+    },
+
+    getInsetBottom : function()
+    {
+      var value = this.getPaddingBottom();
+
+      if (this.getDecoration()) {
+        value += this.getDecoration().getInsetBottom();
+      }
+
+      return value;
+    },
 
 
 
@@ -806,11 +846,8 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     getPreferredWidth : function()
     {
-      var dec = this.getDecoration();
-      var inset = dec ? dec.getInsetLeft() + dec.getInsetRight() : 0;
-
       return this._getPreferredContentWidth() +
-        this.getPaddingLeft() + this.getPaddingRight() + inset;
+        this.getInsetLeft() + this.getInsetRight();
     },
 
 
@@ -823,11 +860,8 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     getPreferredHeight : function()
     {
-      var dec = this.getDecoration();
-      var inset = dec ? dec.getInsetTop() + dec.getInsetBottom() : 0;
-
       return this._getPreferredContentHeight() +
-        this.getPaddingTop() + this.getPaddingBottom() + inset;
+        this.getInsetTop() + this.getInsetBottom();
     },
 
 
@@ -881,8 +915,7 @@ qx.Class.define("qx.ui2.core.Widget",
     getTechnicalMinimumWidth : function()
     {
       return this._getTechnicalMinimunContentWidth() +
-        this.getPaddingLeft() + this.getPaddingRight() +
-        this._borderWidthLeft + this._borderWidthRight;
+        this.getInsetLeft() + this.getInsetRight();
     },
 
 
@@ -897,8 +930,7 @@ qx.Class.define("qx.ui2.core.Widget",
     getTechnicalMinimumHeight : function()
     {
       return this._getTechnicalMinimumContentHeight() +
-        this.getPaddingTop() + this.getPaddingBottom() +
-        this._borderWidthTop + this._borderWidthBottom;
+        this.getInsetTop() + this.getInsetBottom();
     },
 
 
@@ -954,8 +986,7 @@ qx.Class.define("qx.ui2.core.Widget",
     getTechnicalMaximumWidth : function()
     {
       return this._getTechnicalMinimunContentWidth() +
-        this.getPaddingLeft() + this.getPaddingRight() +
-        this._borderWidthLeft + this._borderWidthRight;
+        this.getInsetLeft() + this.getInsetRight();
     },
 
 
@@ -970,8 +1001,7 @@ qx.Class.define("qx.ui2.core.Widget",
     getTechnicalMaximumHeight : function()
     {
       return this._getTechnicalMaximumContentHeight() +
-        this.getPaddingTop() + this.getPaddingBottom() +
-        this._borderWidthTop + this._borderWidthBottom;
+        this.getInsetTop() + this.getInsetBottom();
     }
   },
 
