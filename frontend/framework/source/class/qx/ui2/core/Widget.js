@@ -220,14 +220,16 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
     /**
-     * The border property describes how to paint the border on the widget.
+     * The decoration property points to a an instanced, which is responsible
+     * for drawing the widget's decoration, e.g. border, background or shadow
      */
-    border :
+    decoration :
     {
       nullable : true,
       init : null,
-      apply : "_applyBorder",
-      event : "changeBorder",
+      apply : "_applyDecoration",
+      event : "changeDecoration",
+      //check : "qx.ui2.border.IDecoration",
       themeable : true
     },
 
@@ -382,26 +384,16 @@ qx.Class.define("qx.ui2.core.Widget",
       this._oldTop = top;
 
       // Sync styles
-      this._syncStyle(width, height);
+      this._syncDecoration(width, height);
     },
 
 
     _syncStyle : function(width, height)
     {
-      var border = this.getBorder();
-      var background = this.getBackground();
-      var markup = "";
-
-      if (border)
-      {
-        markup = borderObject.getMarkup(this, width, height);
+      var decoration = this.getDecoration();
+      if (decoration) {
+        this.decoration.update(this, this._styleElement, width, height);
       }
-      else if (background)
-      {
-        markup = backgroundObject.getMarkup(this, width, height);
-      }
-
-      this._styleElement.setAttribute("html", markup);
     },
 
 
@@ -651,21 +643,18 @@ qx.Class.define("qx.ui2.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    /** apply routine for property {@link #border} */
-    _applyBorder : function(value, old) {
-      qx.ui2.border.BorderManager.getInstance().connect(this._styleBorder, this, value);
+    _applyDecoration : function(value, old) {
+      qx.ui2.decoration.DecorationManager.getInstance().connect(this._styleDecoration, this, value);
     },
 
 
     /**
-     * Callback for border manager connection
+     * Callback for decoration manager connection
      *
-     * @param border {qx.ui2.border.IBorderRenderer} the border object
-     * @param edge {String?null} top, right, bottom or left
+     * @param decoration {qx.ui2.decoration.IDecoration} the decoration object
      */
-    _styleBorder : function(border, edge)
-    {
-      // TODO: Add to layout queue?
+    _styleDecoration : function(decoration) {
+      decoration.update(this, this._styleElement);
     },
 
 
