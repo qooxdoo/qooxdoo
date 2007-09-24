@@ -124,8 +124,13 @@ qx.Class.define("BasicSample",
       w32.setHtml("<b>W3</b>");
       w42.setHtml("<b>W4</b>");
 
+      var rounded = new qx.ui2.decoration.CssRoundedBorder(1, "solid", "black");
+      rounded.setRadius(15);
+      rounded.setRadiusTopLeft(0);
+      rounded.setRadiusBottomRight(5);
+
       w02.setDecoration(border);
-      w12.setDecoration(border);
+      w12.setDecoration(rounded);
       w22.setDecoration(border);
       w32.setDecoration(border);
       w42.setDecoration(border);
