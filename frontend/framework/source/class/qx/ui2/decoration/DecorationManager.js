@@ -24,6 +24,8 @@
 
 ************************************************************************ */
 
+// TODO: rename border to decoration!!
+
 qx.Class.define("qx.ui2.decoration.DecorationManager",
 {
   type : "singleton",
@@ -97,13 +99,12 @@ qx.Class.define("qx.ui2.decoration.DecorationManager",
 
 
     /**
-     * Update all objects which use the given border. Only updates one edge at each call.
+     * Update all objects which use the given border.
      *
      * @type member
      * @param border {qx.ui.core.Border} the border which have been modified
-     * @param edge {String} top, right, bottom or left
      */
-    updateObjectsEdge : function(border, edge)
+    updateObjects : function(border)
     {
       var reg = this._registry;
       var dynamics = this._dynamic;
@@ -114,7 +115,7 @@ qx.Class.define("qx.ui2.decoration.DecorationManager",
         entry = reg[key];
 
         if (entry.value === border || dynamics[entry.value] === border) {
-          entry.callback.call(entry.object, border, edge);
+          entry.callback.call(entry.object, border);
         }
       }
     },

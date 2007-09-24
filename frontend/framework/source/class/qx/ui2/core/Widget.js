@@ -42,7 +42,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
     // Create content element
     this._outerElement = this._createOuterElement();
-    this._styleElement = this._createStyleElement();
+    this._styleElement = null;
     this._contentElement = this._createContentElement();
 
     // Border sizes
@@ -205,6 +205,21 @@ qx.Class.define("qx.ui2.core.Widget",
     */
 
     /**
+     * The background color of the rendered widget.
+     */
+    backgroundColor :
+    {
+      nullable : true,
+      init : "inherit",
+      check : "Color",
+      apply : "_applyBackgroundColor",
+      event : "changeBackgroundColor",
+      themeable : true,
+      inheritable : true
+    },
+
+
+    /**
      * The color (textColor) style property of the rendered widget.
      */
     textColor :
@@ -229,7 +244,7 @@ qx.Class.define("qx.ui2.core.Widget",
       init : null,
       apply : "_applyDecoration",
       event : "changeDecoration",
-      //check : "qx.ui2.decoration.IDecoration",
+      check : "qx.ui2.decoration.IDecoration",
       themeable : true
     },
 
@@ -345,9 +360,6 @@ qx.Class.define("qx.ui2.core.Widget",
       this._outerElement.setStyle("width", width + "px");
       this._outerElement.setStyle("height", height + "px");
 
-      this._styleElement.setStyle("width", width + "px");
-      this._styleElement.setStyle("height", height + "px");
-
       // Scrollbars are applied to the content element and does not influence
       // its outer size.
       var insetTop = this.getPaddingTop() + this._borderWidthTop;
@@ -388,11 +400,11 @@ qx.Class.define("qx.ui2.core.Widget",
     },
 
 
-    _syncStyle : function(width, height)
+    _syncDecoration : function(width, height)
     {
       var decoration = this.getDecoration();
       if (decoration) {
-        this.decoration.update(this, this._styleElement, width, height);
+        decoration.updateSize(this, this._styleElement, width, height);
       }
     },
 
@@ -551,26 +563,6 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
     /**
-     * Create the widget's style HTML element.
-     *
-     * @return {qx.html.Element} The style HTML element
-     */
-    _createStyleElement : function()
-    {
-      var el = new qx.html.Element("div");
-
-      el.setStyle("position", "absolute");
-      el.setStyle("zIndex", 5);
-      el.setStyle("left", "0px");
-      el.setStyle("top", "0px");
-
-      this._outerElement.add(el);
-
-      return el;
-    },
-
-
-    /**
      * Create the widget's outer HTML element.
      *
      * @return {qx.html.Element} The outer HTML element
@@ -643,7 +635,20 @@ qx.Class.define("qx.ui2.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    _applyDecoration : function(value, old) {
+    _applyDecoration : function(value, old)
+    {
+     if (this._styleElement)
+     {
+       this._styleElement.free();
+       this._styleElement.dispose();
+     }
+
+     if (value !== null)
+     {
+       this._styleElement = value.createElement(this);
+       this._outerElement.add(this._styleElement);
+     }
+
       qx.ui2.decoration.DecorationManager.getInstance().connect(this._styleDecoration, this, value);
     },
 
@@ -658,6 +663,13 @@ qx.Class.define("qx.ui2.core.Widget",
     },
 
 
+    _applyBackgroundColor : function(value, old)
+    {
+      var decoration = this.getDecoration();
+      if(decoration !== null) {
+        this._styleDecoration();
+      }
+    },
 
 
     _applyTextColor : function(value, old) {
@@ -672,9 +684,6 @@ qx.Class.define("qx.ui2.core.Widget",
         this._outerElement.resetStyle("color");
       }
     },
-
-
-
 
 
 
