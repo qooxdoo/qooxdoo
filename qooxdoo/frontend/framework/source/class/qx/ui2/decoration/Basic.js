@@ -386,6 +386,22 @@ qx.Class.define("qx.ui2.decoration.Basic",
     },
 
 
+    getInsetLeft : function() {
+      return this.getWidthLeft();
+    },
+
+    getInsetTop : function() {
+      return this.getWidthTop();
+    },
+
+    getInsetRight : function() {
+      this.getWidthRight();
+    },
+
+    getInsetBottom : function() {
+      this.getWidthBottom();
+    },
+
 
     /*
     ---------------------------------------------------------------------------
