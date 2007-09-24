@@ -53,7 +53,6 @@ qx.Class.define("qx.ui2.core.Widget",
 
     // Layout data
     this._layoutHints = {};
-    this._layoutChanges = {};
 
     // Whether the widget has a layout manager
     this._hasLayout = false;
@@ -144,7 +143,7 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       check : "Number",
       init : 0,
-      apply : "_applyYSize",
+      apply : "_applyLayoutChange",
       themeable : true
     },
 
@@ -154,7 +153,7 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       check : "Number",
       init : 0,
-      apply : "_applyXSize",
+      apply : "_applyLayoutChange",
       themeable : true
     },
 
@@ -164,7 +163,7 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       check : "Number",
       init : 0,
-      apply : "_applyYSize",
+      apply : "_applyLayoutChange",
       themeable : true
     },
 
@@ -174,7 +173,7 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       check : "Number",
       init : 0,
-      apply : "_applyXSize",
+      apply : "_applyLayoutChange",
       themeable : true
     },
 
@@ -353,7 +352,7 @@ qx.Class.define("qx.ui2.core.Widget",
      *   always in pixels
      * @return {void}
      */
-    setGeometry : function(left, top, width, height)
+    layout : function(left, top, width, height)
     {
       this._outerElement.setStyle("left", left + "px");
       this._outerElement.setStyle("top", top + "px");
@@ -377,26 +376,13 @@ qx.Class.define("qx.ui2.core.Widget",
       this._contentElement.setStyle("width", innerWidth + "px");
       this._contentElement.setStyle("height", innerHeight + "px");
 
-      // Resize/Move detection
-      var resize = width != this._oldWidth || height != this._oldHeight;
-      var move = left != this._oldLeft || top != this._oldTop;
-
-      if (resize) {
-        this.fireEvent("resize");
-      }
-
-      if (move) {
-        this.fireEvent("move");
-      }
-
-      // Remember old values
-      this._oldWidth = width;
-      this._oldHeight = height;
-      this._oldLeft = left;
-      this._oldTop = top;
-
       // Sync styles
       this._syncDecoration(width, height);
+
+      var mgr = this.getLayout();
+      if (mgr) {
+        mgr.layout(width, height);
+      }
     },
 
 
@@ -417,6 +403,32 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     getElement : function() {
       return this._outerElement;
+    },
+
+
+    isLayoutRoot : function() {
+      return false;
+    },
+
+
+    getParent : function()
+    {
+      return this._parent;
+    },
+
+    setParent : function(parent)
+    {
+      this._parent = parent;
+    },
+
+    invalidateLayout : function()
+    {
+      qx.ui2.core.LayoutQueue.add(this);
+    },
+
+    _applyLayoutChange : function()
+    {
+      this.invalidateLayout();
     },
 
 
@@ -472,6 +484,7 @@ qx.Class.define("qx.ui2.core.Widget",
     addHint : function(name, value)
     {
       this._layoutHints[name] = value;
+      this.invalidateLayout();
 
       return this;
     },
@@ -487,6 +500,7 @@ qx.Class.define("qx.ui2.core.Widget",
     removeHint : function(name)
     {
       delete this._layoutHints[name];
+      this.invalidateLayout();
 
       return this;
     },
@@ -532,6 +546,8 @@ qx.Class.define("qx.ui2.core.Widget",
       for (var name in map) {
         hints[name] = map[name];
       }
+
+      this.invalidateLayout();
 
       return this;
     },
@@ -664,6 +680,8 @@ qx.Class.define("qx.ui2.core.Widget",
       if (this._oldWidth && this._oldHeight) {
         this._syncDecoration(this._oldWidth, this._oldHeight);
       }
+
+      qx.ui2.core.LayoutQueue.add(this);
     },
 
 
@@ -702,7 +720,7 @@ qx.Class.define("qx.ui2.core.Widget",
       var value = this.getPaddingLeft();
 
       if (this.getDecoration()) {
-        value += this.getDecoration().getInsetLeft();
+        //value += this.getDecoration().getInsetLeft();
       }
 
       return value;
@@ -713,7 +731,7 @@ qx.Class.define("qx.ui2.core.Widget",
       var value = this.getPaddingTop();
 
       if (this.getDecoration()) {
-        value += this.getDecoration().getInsetTop();
+        //value += this.getDecoration().getInsetTop();
       }
 
       return value;
@@ -724,7 +742,7 @@ qx.Class.define("qx.ui2.core.Widget",
       var value = this.getPaddingRight();
 
       if (this.getDecoration()) {
-        value += this.getDecoration().getInsetRight();
+        //value += this.getDecoration().getInsetRight();
       }
 
       return value;
@@ -735,7 +753,7 @@ qx.Class.define("qx.ui2.core.Widget",
       var value = this.getPaddingBottom();
 
       if (this.getDecoration()) {
-        value += this.getDecoration().getInsetBottom();
+        //value += this.getDecoration().getInsetBottom();
       }
 
       return value;
@@ -754,7 +772,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
     _applyLayout : function(value, old)
     {
-      this._hasLayout = (value !== null);
+      this._hasLayout = !!value;
 
       if (value)
       {
@@ -762,23 +780,12 @@ qx.Class.define("qx.ui2.core.Widget",
         for (var i=0, l=children.length; i<l; i++)
         {
           this._contentElement.add(children[i].getElement());
+          children[i].setParent(this);
         }
       }
     },
 
-/*
-    invalidateLayout : function()
-    {
-      var widget = this;
 
-      this._layoutValid =
-    },
-
-
-    isLayoutValid : function() {
-      return this._layoutValid;
-    }
-*/
 
 
 

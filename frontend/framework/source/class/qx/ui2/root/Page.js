@@ -63,6 +63,11 @@ qx.Class.define("qx.ui2.root.Page",
   members :
   {
     // overridden
+    isLayoutRoot : function() {
+      return true;
+    },
+
+    // overridden
     setGeometry : function() {
       // nothing todo here
     },

@@ -100,7 +100,7 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
     getChildren : function() {},
 
     /** Sets the geometry */
-    setGeometry : function(left, top, width, height) {}
+    layout : function(width, height) {}
   },
 
 

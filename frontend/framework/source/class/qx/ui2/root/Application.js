@@ -71,8 +71,17 @@ qx.Class.define("qx.ui2.root.Application",
   members :
   {
     // overridden
-    setGeometry : function() {
-      // nothing todo here
+    isLayoutRoot : function() {
+      return true;
+    },
+
+    // overridden
+    layout : function(left, top, width, height)
+    {
+      var mgr = this.getLayout();
+      if (mgr) {
+        mgr.layout(width, height);
+      }
     },
 
 
@@ -97,15 +106,17 @@ qx.Class.define("qx.ui2.root.Application",
      */
     _onResize : function(e)
     {
-      var width = qx.bom.Viewport.getWidth(this._window);
-      var height = qx.bom.Viewport.getHeight(this._window);
+      qx.ui2.core.LayoutQueue.add(this);
+    },
 
-      // Sync to layouter
-      this.addHint("width", width);
-      this.addHint("height", height);
+    getPreferredHeight : function()
+    {
+      return qx.bom.Viewport.getHeight(this._window);
+    },
 
-      // Debug
-      qx.core.Log.debug("Resize application: " + width + "x" + height);
+    getPreferredWidth : function()
+    {
+      return qx.bom.Viewport.getWidth(this._window);
     }
   },
 
