@@ -144,6 +144,7 @@ qx.Class.define("qx.ui2.decoration.Basic",
 
   properties :
   {
+
     /*
     ---------------------------------------------------------------------------
       PROPERTY: WIDTH
@@ -155,7 +156,7 @@ qx.Class.define("qx.ui2.decoration.Basic",
     {
       check : "Number",
       init : 0,
-      apply : "_applyBorderTop"
+      apply : "_applyBorderChange"
     },
 
     /** right width of border */
@@ -163,7 +164,7 @@ qx.Class.define("qx.ui2.decoration.Basic",
     {
       check : "Number",
       init : 0,
-      apply : "_applyBorderRight"
+      apply : "_applyBorderChange"
     },
 
     /** bottom width of border */
@@ -171,7 +172,7 @@ qx.Class.define("qx.ui2.decoration.Basic",
     {
       check : "Number",
       init : 0,
-      apply : "_applyBorderBottom"
+      apply : "_applyBorderChange"
     },
 
     /** left width of border */
@@ -179,7 +180,7 @@ qx.Class.define("qx.ui2.decoration.Basic",
     {
       check : "Number",
       init : 0,
-      apply : "_applyBorderLeft"
+      apply : "_applyBorderChange"
     },
 
 
@@ -197,7 +198,7 @@ qx.Class.define("qx.ui2.decoration.Basic",
       nullable : true,
       check : [ "solid", "dotted", "dashed", "double", "outset", "inset", "ridge", "groove" ],
       init : "solid",
-      apply : "_applyBorderTop"
+      apply : "_applyBorderChange"
     },
 
     /** right style of border */
@@ -206,7 +207,7 @@ qx.Class.define("qx.ui2.decoration.Basic",
       nullable : true,
       check : [ "solid", "dotted", "dashed", "double", "outset", "inset", "ridge", "groove" ],
       init : "solid",
-      apply : "_applyBorderRight"
+      apply : "_applyBorderChange"
     },
 
     /** bottom style of border */
@@ -215,7 +216,7 @@ qx.Class.define("qx.ui2.decoration.Basic",
       nullable : true,
       check : [ "solid", "dotted", "dashed", "double", "outset", "inset", "ridge", "groove" ],
       init : "solid",
-      apply : "_applyBorderBottom"
+      apply : "_applyBorderChange"
     },
 
     /** left style of border */
@@ -224,7 +225,7 @@ qx.Class.define("qx.ui2.decoration.Basic",
       nullable : true,
       check : [ "solid", "dotted", "dashed", "double", "outset", "inset", "ridge", "groove" ],
       init : "solid",
-      apply : "_applyBorderLeft"
+      apply : "_applyBorderChange"
     },
 
 
@@ -267,7 +268,6 @@ qx.Class.define("qx.ui2.decoration.Basic",
       check : "Color",
       apply : "_applyColorLeft"
     },
-
 
 
     /*
@@ -331,7 +331,7 @@ qx.Class.define("qx.ui2.decoration.Basic",
   members :
   {
 
-    createBorderElement : function(widget)
+    createElement : function(widget)
     {
       var border = new qx.html.Element("div");
       return border;
@@ -340,10 +340,21 @@ qx.Class.define("qx.ui2.decoration.Basic",
 
     update : function(widget, borderElement)
     {
-      this.updateEdge(widget, borderElement, "left");
-      this.updateEdge(widget, borderElement, "top");
-      this.updateEdge(widget, borderElement, "right");
-      this.updateEdge(widget, borderElement, "bottom");
+      borderElement.setStyles({
+        borderLeftWidth : this.getWidthLeft() || "0px",
+        borderLeftStyle : this.getStyleLeft() || "none",
+        borderLeftColor : this.__colorLeft || "",
+        borderTopWidth : this.getWidthTop() || "0px",
+        borderTopStyle : this.getStyleTop() || "none",
+        borderTopColor : this.__colorTop || "",
+        borderRightWidth : this.getWidthRight() || "0px",
+        borderRightStyle : this.getStyleRight() || "none",
+        borderRightColor : this.__colorRight || "",
+        borderBottomWidth : this.getWidthBottom() || "0px",
+        borderBottomStyle : this.getStyleBottom() || "none",
+        borderBottomColor : this.__colorBottom || "",
+        backgroundColor : widget.getBackgroundColor()
+      });
     },
 
 
@@ -358,48 +369,6 @@ qx.Class.define("qx.ui2.decoration.Basic",
     },
 
 
-    updateEdge : function(widget, borderElement, edge)
-    {
-      switch(edge)
-      {
-        case "left":
-          borderElement.setStyles({
-            borderLeftWidth : this.getWidthLeft() || "0px",
-            borderLeftStyle : this.getStyleLeft() || "none",
-            borderLeftColor : this.__colorLeft || ""
-          });
-          break;
-
-        case "top":
-          borderElement.setStyles({
-            borderTopWidth : this.getWidthTop() || "0px",
-            borderTopStyle : this.getStyleTop() || "none",
-            borderTopColor : this.__colorTop || ""
-          });
-          break;
-
-        case "right":
-          borderElement.setStyles({
-            borderRightWidth : this.getWidthRight() || "0px",
-            borderRightStyle : this.getStyleRight() || "none",
-            borderRightColor : this.__colorRight || ""
-          });
-          break;
-
-        case "bottom":
-          borderElement.setStyles({
-            borderBottomWidth : this.getWidthBottom() || "0px",
-            borderBottomStyle : this.getStyleBottom() || "none",
-            borderBottomColor : this.__colorBottom || ""
-          });
-          break;
-
-        default:
-          throw new Error("Invalid value for parameter 'edge': " + edge);
-      }
-    },
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -407,22 +376,9 @@ qx.Class.define("qx.ui2.decoration.Basic",
     ---------------------------------------------------------------------------
     */
 
-    _applyBorderLeft : function(value, old, name) {
-      this.__informManager("left");
+    _applyBorderChange : function(value, old, name) {
+      this.__informManager();
     },
-
-    _applyBorderTop : function(value, old, name) {
-      this.__informManager("top");
-    },
-
-    _applyBorderRight : function(value, old, name) {
-      this.__informManager("right");
-    },
-
-    _applyBorderBottom : function(value, old, name) {
-      this.__informManager("bottom");
-    },
-
 
     _applyColorTop : function(value, old) {
       qx.theme.manager.Color.getInstance().connect(this._changeColorTop, this, value);
@@ -457,7 +413,7 @@ qx.Class.define("qx.ui2.decoration.Basic",
     _changeColorTop : function(value)
     {
       this.__colorTop = value;
-      this.__informManager("top");
+      this.__informManager();
     },
 
 
@@ -470,7 +426,7 @@ qx.Class.define("qx.ui2.decoration.Basic",
     _changeColorRight : function(value)
     {
       this.__colorRight = value;
-      this.__informManager("right");
+      this.__informManager();
     },
 
 
@@ -483,7 +439,7 @@ qx.Class.define("qx.ui2.decoration.Basic",
     _changeColorBottom : function(value)
     {
       this.__colorBottom = value;
-      this.__informManager("bottom");
+      this.__informManager();
     },
 
 
@@ -496,7 +452,7 @@ qx.Class.define("qx.ui2.decoration.Basic",
     _changeColorLeft : function(value)
     {
       this.__colorLeft = value;
-      this.__informManager("left");
+      this.__informManager();
     },
 
 
@@ -511,10 +467,9 @@ qx.Class.define("qx.ui2.decoration.Basic",
      * Send information to BorderManager
      *
      * @type member
-     * @param edge {String} the edge which was updated
      */
-    __informManager : function(edge) {
-      qx.ui2.decoration.DecorationManager.getInstance().updateObjectsEdge(this, edge);
+    __informManager : function() {
+      qx.ui2.decoration.DecorationManager.getInstance().updateObjects(this);
     }
 
   },

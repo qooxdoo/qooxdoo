@@ -69,9 +69,9 @@ qx.Class.define("BasicSample",
       var borderColor = "black";
       var border = new qx.ui2.decoration.Basic(3, "solid", borderColor);
 
-      w1.setBorder(border);
-      w3.setBorder(border);
-      w4.setBorder("black");
+      w1.setDecoration(border);
+      w3.setDecoration(border);
+      //w4.setBorder("black");
 
       w1.addListener("click", function(e)
       {
