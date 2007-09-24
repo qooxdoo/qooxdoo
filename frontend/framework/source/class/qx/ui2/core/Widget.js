@@ -811,6 +811,10 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     _getPreferredContentWidth : function()
     {
+      var layout = this.getLayout();
+      if (layout) {
+        return layout.getPreferredWidth();
+      }
       return 100; // TODO
     },
 
@@ -829,6 +833,10 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     _getPreferredContentHeight : function()
     {
+      var layout = this.getLayout();
+      if (layout) {
+        return layout.getPreferredHeight();
+      }
       return 50; // TODO
     },
 
