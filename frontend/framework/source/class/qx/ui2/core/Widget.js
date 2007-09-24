@@ -806,9 +806,11 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     getPreferredWidth : function()
     {
+      var dec = this.getDecoration();
+      var inset = dec ? dec.getInsetLeft() + dec.getInsetRight() : 0;
+
       return this._getPreferredContentWidth() +
-        this.getPaddingLeft() + this.getPaddingRight() +
-        this._borderWidthLeft + this._borderWidthRight;
+        this.getPaddingLeft() + this.getPaddingRight() + inset;
     },
 
 
@@ -821,9 +823,11 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     getPreferredHeight : function()
     {
+      var dec = this.getDecoration();
+      var inset = dec ? dec.getInsetTop() + dec.getInsetBottom() : 0;
+
       return this._getPreferredContentHeight() +
-        this.getPaddingTop() + this.getPaddingBottom() +
-        this._borderWidthTop + this._borderWidthBottom;
+        this.getPaddingTop() + this.getPaddingBottom() + inset;
     },
 
 
