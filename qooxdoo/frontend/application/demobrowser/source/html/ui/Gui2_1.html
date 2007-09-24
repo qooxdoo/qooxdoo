@@ -17,7 +17,7 @@
 
   <div id="test"></div>
 
-  <p><a href="javascript:qx.html.Element.flush()">Flush queue</a></p>
+  <p><a href="javascript: qx.ui2.core.LayoutQueue.flush();">Flush queue</a></p>
 
   <script type="text/javascript">
 qx.Class.define("BasicSample",
@@ -54,7 +54,7 @@ qx.Class.define("BasicSample",
       w1.setHtml("<b>W1</b>");
       w2.setHtml("<b>W2</b>");
       w3.setHtml("<b>W3</b>");
-      w4.setHtml("<b>W4</b>");
+      //w4.setHtml("<b>W4</b>");
 
       w1.setBackgroundColor("red");
       w2.setBackgroundColor("blue");
@@ -68,13 +68,15 @@ qx.Class.define("BasicSample",
       var border = new qx.ui2.decoration.Basic(3, "solid", borderColor);
 
       w1.setDecoration(border);
+      w2.setDecoration(border);
       w3.setDecoration(border);
+      w4.setDecoration(border);
 
       w1.addListener("click", function(e)
       {
         borderColor = borderColor == "black" ? "orange" : "black";
         border.setColor(borderColor);
-        qx.html.Element.flush();
+        qx.ui2.core.LayoutQueue.flush();
       });
 
 
@@ -110,10 +112,44 @@ qx.Class.define("BasicSample",
 
       doc.setLayout(layout);
 
+
+      var layout2 = new qx.ui2.layout.HorizontalBoxLayout();
+
+      var w12 = new qx.ui2.core.Widget;
+      var w22 = new qx.ui2.core.Widget;
+      var w32 = new qx.ui2.core.Widget;
+      var w42 = new qx.ui2.core.Widget;
+
+      w12.setHtml("<b>W1</b>");
+      w22.setHtml("<b>W2</b>");
+      w32.setHtml("<b>W3</b>");
+      w42.setHtml("<b>W4</b>");
+
+      w12.setDecoration(border);
+      w22.setDecoration(border);
+      w32.setDecoration(border);
+      w42.setDecoration(border);
+
+      w12.setBackgroundColor("red");
+      w22.setBackgroundColor("blue");
+      w32.setBackgroundColor("green");
+      w42.setBackgroundColor("yellow");
+
+      w12.setPadding(10);
+
+      layout2.add(w12);
+      layout2.add(w22);
+      layout2.add(w32);
+      layout2.add(w42);
+
+      w4.setLayout(layout2);
+
       w4.addListener("click", function(e)
       {
         w4.setBackgroundColor(w4.getBackgroundColor() == "yellow" ? "orange" : "yellow");
       })
+
+       qx.ui2.core.LayoutQueue.flush();
     }
   }
 });
