@@ -115,6 +115,7 @@ qx.Class.define("BasicSample",
 
       var layout2 = new qx.ui2.layout.HorizontalBoxLayout();
 
+      var w02 = new qx.ui2.core.Label("Hello");
       var w12 = new qx.ui2.core.Widget;
       var w22 = new qx.ui2.core.Widget;
       var w32 = new qx.ui2.core.Widget;
@@ -125,18 +126,21 @@ qx.Class.define("BasicSample",
       w32.setHtml("<b>W3</b>");
       w42.setHtml("<b>W4</b>");
 
+      w02.setDecoration(border);
       w12.setDecoration(border);
       w22.setDecoration(border);
       w32.setDecoration(border);
       w42.setDecoration(border);
 
+      w02.setBackgroundColor("orange");
       w12.setBackgroundColor("red");
       w22.setBackgroundColor("blue");
       w32.setBackgroundColor("green");
-      w42.setBackgroundColor("yellow");
+      w42.setBackgroundColor("grey");
 
       w12.setPadding(10);
 
+      layout2.add(w02);
       layout2.add(w12);
       layout2.add(w22);
       layout2.add(w32);
@@ -149,7 +153,7 @@ qx.Class.define("BasicSample",
         w4.setBackgroundColor(w4.getBackgroundColor() == "yellow" ? "orange" : "yellow");
       })
 
-       qx.ui2.core.LayoutQueue.flush();
+      qx.ui2.core.LayoutQueue.flush();
     }
   }
 });
