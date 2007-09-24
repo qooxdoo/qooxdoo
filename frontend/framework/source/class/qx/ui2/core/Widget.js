@@ -229,7 +229,7 @@ qx.Class.define("qx.ui2.core.Widget",
       init : null,
       apply : "_applyDecoration",
       event : "changeDecoration",
-      //check : "qx.ui2.border.IDecoration",
+      //check : "qx.ui2.decoration.IDecoration",
       themeable : true
     },
 

@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Interface.define("qx.ui2.border.IBorderRenderer",
+qx.Interface.define("qx.ui2.decoration.IDecoration",
 {
   members :
   {
