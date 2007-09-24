@@ -578,7 +578,7 @@ qx.Class.define("qx.ui2.core.Widget",
      *
      * @return {qx.html.Element} The style HTML element
      */
-    __createStyleElement : function()
+    _createStyleElement : function()
     {
       var el = new qx.html.Element("div");
 
