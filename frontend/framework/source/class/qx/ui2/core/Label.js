@@ -42,6 +42,16 @@ qx.Class.define("qx.ui2.core.Label",
 
   members :
   {
+    _getPreferredContentWidth : function()
+    {
+      return qx.bom.Label.getTextSize(this.getContent()).width;
+    },
+
+    _getPreferredContentHeight : function()
+    {
+      return qx.bom.Label.getTextSize(this.getContent()).height;
+    },
+
     /**
      * Create the widget's outer HTML element.
      *
@@ -52,6 +62,9 @@ qx.Class.define("qx.ui2.core.Label",
       var el = new qx.html.Label;
 
       this._outerElement.add(el);
+
+      el.setStyle("position", "absolute");
+      el.setStyle("zIndex", 10);
 
       return el;
     },
