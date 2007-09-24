@@ -22,17 +22,6 @@ qx.Interface.define("qx.ui2.decoration.IDecoration",
 {
   members :
   {
-    createElement : function(widget) {
-      return widget instanceof qx.ui2.core.Widget;
-    },
-
-    update : function(widget, borderElement) {
-      return (
-        widget instanceof qx.ui2.core.Widget &&
-        borderElement instanceof qx.html.Element
-      );
-    }
-
+    getHtml : function(widget, height, width) { return true; }
   }
-
 });
