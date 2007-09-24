@@ -22,7 +22,7 @@ qx.Interface.define("qx.ui2.decoration.IDecoration",
 {
   members :
   {
-    createBorderElement : function(widget) {
+    createElement : function(widget) {
       return widget instanceof qx.ui2.core.Widget;
     },
 
@@ -31,10 +31,6 @@ qx.Interface.define("qx.ui2.decoration.IDecoration",
         widget instanceof qx.ui2.core.Widget &&
         borderElement instanceof qx.html.Element
       );
-    },
-
-    updateEdge : function(widget, borderElement, edge) {
-      return true
     }
 
   }
