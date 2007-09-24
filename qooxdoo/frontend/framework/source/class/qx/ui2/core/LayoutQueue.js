@@ -6,10 +6,10 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
 
     add : function(widget)
     {
-      while(widget && !widget._layoutInvalid)
+      while(widget && widget.isLayoutValid())
       {
         qx.core.Log.debug("Add: ", widget, ": ", widget.isLayoutRoot());
-        widget._layoutInvalid = true;
+        widget.markLayoutInvalid();
 
         if (widget.isLayoutRoot())
         {
@@ -24,7 +24,7 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
     flush : function()
     {
       var roots = this._roots;
-//debugger;
+
       for (var hc in roots)
       {
         var root = roots[hc];
