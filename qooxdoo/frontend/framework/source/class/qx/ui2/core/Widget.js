@@ -205,20 +205,6 @@ qx.Class.define("qx.ui2.core.Widget",
     */
 
     /**
-     * The backgroundColor style property of the rendered widget.
-     */
-    backgroundColor :
-    {
-      nullable : true,
-      init : null,
-      check : "Color",
-      apply : "_applyBackgroundColor",
-      event : "changeBackgroundColor",
-      themeable : true
-    },
-
-
-    /**
      * The color (textColor) style property of the rendered widget.
      */
     textColor :
@@ -242,7 +228,6 @@ qx.Class.define("qx.ui2.core.Widget",
       init : null,
       apply : "_applyBorder",
       event : "changeBorder",
-      //check : "qx.ui2.border.IBorderRenderer",
       themeable : true
     },
 
