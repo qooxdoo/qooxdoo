@@ -18,10 +18,10 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui2.border.Basic",
+qx.Class.define("qx.ui2.decoration.Basic",
 {
   extend : qx.core.Object,
-  implement : qx.ui2.border.IBorderRenderer,
+  implement : qx.ui2.decoration.IDecoration,
 
 
 
@@ -80,7 +80,7 @@ qx.Class.define("qx.ui2.border.Basic",
      */
     fromString : function(str)
     {
-      var border = new qx.ui2.border.Basic;
+      var border = new qx.ui2.decoration.Basic;
       var parts = str.split(/\s+/);
       var part, temp;
 
@@ -128,7 +128,7 @@ qx.Class.define("qx.ui2.border.Basic",
      */
     fromConfig : function(config)
     {
-      var border = new qx.ui2.border.Basic;
+      var border = new qx.ui2.decoration.Basic;
       border.set(config);
       return border;
     }
@@ -514,7 +514,7 @@ qx.Class.define("qx.ui2.border.Basic",
      * @param edge {String} the edge which was updated
      */
     __informManager : function(edge) {
-      qx.ui2.border.BorderManager.getInstance().updateObjectsEdge(this, edge);
+      qx.ui2.decoration.DecorationManager.getInstance().updateObjectsEdge(this, edge);
     }
 
   },
