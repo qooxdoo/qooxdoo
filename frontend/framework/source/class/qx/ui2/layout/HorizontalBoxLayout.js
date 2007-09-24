@@ -86,7 +86,7 @@ qx.Class.define("qx.ui2.layout.HorizontalBoxLayout",
     },
 
     // overridden
-    setGeometry : function(left, top, width, height)
+    layout : function(width, height)
     {
       var posX = 0;
       var spacing = this.getSpacing();
@@ -99,7 +99,7 @@ qx.Class.define("qx.ui2.layout.HorizontalBoxLayout",
 
         if (posX < width)
         {
-          child.setGeometry(posX, 0, childWidth, child.getPreferredHeight());
+          child.layout(posX, 0, childWidth, child.getPreferredHeight());
           child.getElement().include();
         }
         else

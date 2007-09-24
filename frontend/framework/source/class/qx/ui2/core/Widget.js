@@ -371,6 +371,8 @@ qx.Class.define("qx.ui2.core.Widget",
       var innerWidth = width - insetLeft - insetRight;
       var innerHeight = height - insetTop - insetBottom;
 
+      console.log(innerHeight, " ", innerWidth);
+
       this._contentElement.setStyle("left", innerLeft + "px");
       this._contentElement.setStyle("top", innerTop + "px");
       this._contentElement.setStyle("width", innerWidth + "px");
@@ -717,10 +719,10 @@ qx.Class.define("qx.ui2.core.Widget",
 
     getInsetLeft : function()
     {
-      var value = this.getPaddingLeft();
+      var value = this.getPaddingLeft() || 0;
 
       if (this.getDecoration()) {
-        value += this.getDecoration().getInsetLeft();
+        value += this.getDecoration().getInsetLeft() || 0;
       }
 
       return value;
@@ -728,10 +730,10 @@ qx.Class.define("qx.ui2.core.Widget",
 
     getInsetTop : function()
     {
-      var value = this.getPaddingTop();
+      var value = this.getPaddingTop() || 0;
 
       if (this.getDecoration()) {
-        value += this.getDecoration().getInsetTop();
+        value += this.getDecoration().getInsetTop() || 0;
       }
 
       return value;
@@ -739,10 +741,10 @@ qx.Class.define("qx.ui2.core.Widget",
 
     getInsetRight : function()
     {
-      var value = this.getPaddingRight();
+      var value = this.getPaddingRight() || 0;
 
       if (this.getDecoration()) {
-        value += this.getDecoration().getInsetRight();
+        value += this.getDecoration().getInsetRight() || 0;
       }
 
       return value;
@@ -750,10 +752,10 @@ qx.Class.define("qx.ui2.core.Widget",
 
     getInsetBottom : function()
     {
-      var value = this.getPaddingBottom();
+      var value = this.getPaddingBottom() || 0;
 
       if (this.getDecoration()) {
-        value += this.getDecoration().getInsetBottom();
+        value += this.getDecoration().getInsetBottom() || 0;
       }
 
       return value;
