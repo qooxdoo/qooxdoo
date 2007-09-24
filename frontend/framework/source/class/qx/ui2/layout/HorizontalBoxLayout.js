@@ -95,7 +95,7 @@ qx.Class.define("qx.ui2.layout.HorizontalBoxLayout",
       for (var i=0, l=this._children.length; i<l; i++)
       {
         var child = this._children[i];
-        var childWidth = child.getPreferredWidth()
+        var childWidth = child.getPreferredWidth();
 
         if (posX < width)
         {
@@ -109,7 +109,36 @@ qx.Class.define("qx.ui2.layout.HorizontalBoxLayout",
 
         posX += childWidth + spacing;
       }
+    },
+
+    // overridden
+    getPreferredWidth : function()
+    {
+      var width = 0;
+
+      for (var i=0, l=this._children.length; i<l; i++)
+      {
+        var child = this._children[i];
+        width += child.getPreferredWidth();
+      }
+      width += this.getSpacing() * (this._children.length-1);
+      return width;
+    },
+
+
+    /** Get the layout's preferred height */
+    getPreferredHeight : function()
+    {
+      var height = 0;
+
+      for (var i=0, l=this._children.length; i<l; i++)
+      {
+        var child = this._children[i];
+        height = Math.max(height, child.getPreferredHeight());
+      }
+      return height;
     }
+
 
   },
 
