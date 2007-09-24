@@ -46,12 +46,10 @@ qx.Class.define("BasicSample",
       w3.setId("w3");
       w4.setId("w4");
 
-      /*
       w1.setPaddingLeft(10);
       w1.setPaddingRight(10);
       w2.setPadding(3);
       w4.setPadding(10);
-      */
 
       w1.setHtml("<b>W1</b>");
       w2.setHtml("<b>W2</b>");
@@ -71,7 +69,6 @@ qx.Class.define("BasicSample",
 
       w1.setDecoration(border);
       w3.setDecoration(border);
-      //w4.setBorder("black");
 
       w1.addListener("click", function(e)
       {
@@ -116,12 +113,7 @@ qx.Class.define("BasicSample",
       w4.addListener("click", function(e)
       {
         w4.setBackgroundColor(w4.getBackgroundColor() == "yellow" ? "orange" : "yellow");
-        qx.html.Element.flush();
       })
-
-      layout.setGeometry(0,0,qx.bom.Document.getWidth(), qx.bom.Document.getHeight());
-
-      qx.html.Element.flush();
     }
   }
 });

@@ -63,11 +63,11 @@ qx.Class.define("qx.ui2.layout.Basic",
 
   members :
   {
-
     // overridden
     add : function(widget, layoutHints)
     {
       this._children.push(widget);
+
       if (layoutHints !== undefined) {
         widget.importHints(layoutHints);
       }
@@ -84,7 +84,7 @@ qx.Class.define("qx.ui2.layout.Basic",
     },
 
     // overridden
-    setGeometry : function(left, top, width, height)
+    layout : function(width, height)
     {
       for (var i=0, l=this._children.length; i<l; i++)
       {
@@ -95,7 +95,7 @@ qx.Class.define("qx.ui2.layout.Basic",
         var childLeft = child.getHint("left") || 0;
         var childTop = child.getHint("top") || 0;
 
-        child.setGeometry(childLeft, childTop, childWidth, childHeight);
+        child.layout(childLeft, childTop, childWidth, childHeight);
       }
     }
 
