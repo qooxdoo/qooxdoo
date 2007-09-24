@@ -362,10 +362,10 @@ qx.Class.define("qx.ui2.core.Widget",
 
       // Scrollbars are applied to the content element and does not influence
       // its outer size.
-      var insetTop = this.getPaddingTop() + this._borderWidthTop;
-      var insetLeft = this.getPaddingLeft() + this._borderWidthLeft;
-      var insetRight = this.getPaddingRight() + this._borderWidthRight;
-      var insetBottom = this.getPaddingBottom() + this._borderWidthBottom;
+      var insetTop = this.getInsetTop();
+      var insetLeft = this.getInsetLeft();
+      var insetRight = this.getInsetRight();
+      var insetBottom = this.getInsetBottom();
 
       var innerLeft = insetLeft;
       var innerTop = insetTop;
@@ -637,17 +637,17 @@ qx.Class.define("qx.ui2.core.Widget",
 
     _applyDecoration : function(value, old)
     {
-     if (this._styleElement)
-     {
-       this._styleElement.free();
-       this._styleElement.dispose();
-     }
+      if (this._styleElement)
+      {
+        this._styleElement.free();
+        this._styleElement.dispose();
+      }
 
-     if (value !== null)
-     {
-       this._styleElement = value.createElement(this);
-       this._outerElement.add(this._styleElement);
-     }
+      if (value !== null)
+      {
+        this._styleElement = value.createElement(this);
+        this._outerElement.add(this._styleElement);
+      }
 
       qx.ui2.decoration.DecorationManager.getInstance().connect(this._styleDecoration, this, value);
     },
