@@ -58,6 +58,11 @@ qx.Class.define("qx.ui2.root.Inline",
   members :
   {
     // overridden
+    isLayoutRoot : function() {
+      return true;
+    },
+
+    // overridden
     setGeometry : function(left, top, width, height)
     {
       this._contentElement.setStyle("width", width + "px");
