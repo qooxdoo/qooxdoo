@@ -166,8 +166,23 @@ def parsePart(part):
 
                 # print "ITEM: '%s'" % item
 
-                for char in item:
+                # doing the per-char iteration by hand, to be able to leap
+                # forward
+                i = 0
+                while item[i:]:
+                #for char in item:
+                    # look for a regexp
+                    mo = R_REGEXP.match(item[i:])
+                    if mo:
+                        tokens.append({ "type" : "regexp", "detail" : "", "source" : recoverEscape(mo.group(0)), "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn })
+                        parseColumn += len(mo.group(0))
+                        i += len(mo.group(0))
+                        
+
                     # work on single character tokens, otherwise concat to a bigger element
+
+                    char = item[i]
+                    i += 1
                     if config.JSTOKENS.has_key(char):
                         # convert existing element
                         if element != "":
