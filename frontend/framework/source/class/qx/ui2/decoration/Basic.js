@@ -131,7 +131,31 @@ qx.Class.define("qx.ui2.decoration.Basic",
       var border = new qx.ui2.decoration.Basic;
       border.set(config);
       return border;
-    }
+    },
+
+
+    /** The template for the CSS style */
+    __styleTemplate :
+    [
+      "border-top-width: ", null,        // 1
+      "px;border-top-style: ", null,     // 3
+      ";border-top-color: ", null,       // 5
+      ";border-right-width: ", null,     // 7
+      "px;border-right-style: ", null,   // 9
+      ";border-right-color: ", null,     // 11
+      ";border-bottom-width: ", null,    // 13
+      "px;border-bottom-style: ", null,  // 15
+      ";border-bottom-color: ", null,    // 17
+      ";border-left-width: ", null,      // 19
+      "px;border-left-style: ", null,    // 21
+      ";border-left-color: ", null,      // 23
+      ";width: ", null,                  // 25
+      "px;height: ", null,               // 27
+      "px;background-color: ", null,      // 29
+      ";position:absolute",
+      ";top:0px;left:0px"
+    ]
+
 
   },
 
@@ -331,58 +355,41 @@ qx.Class.define("qx.ui2.decoration.Basic",
   members :
   {
 
-    __htmlTemplate :
-    [
-      "<div style='",
-      "border-top-width: ", null,        // 2
-      "px;border-top-style: ", null,     // 4
-      ";border-top-color: ", null,       // 6
-      ";border-right-width: ", null,     // 8
-      "px;border-right-style: ", null,   // 10
-      ";border-right-color: ", null,     // 12
-      ";border-bottom-width: ", null,    // 14
-      "px;border-bottom-style: ", null,  // 16
-      ";border-bottom-color: ", null,    // 18
-      ";border-left-width: ", null,      // 20
-      "px;border-left-style: ", null,    // 22
-      ";border-left-color: ", null,      // 24
-      ";width: ", null,                  // 26
-      "px;height: ", null,               // 28
-      "px;background-color: ", null,      // 30
-      ";position:absolute",
-      ";top:0px;left:0px",
-      "'></div>"
-    ],
-
-    getHtml : function(widget, width, height)
+    _getStyle : function(widget, width, height)
     {
-      var template = this.__htmlTemplate;
+      var template = qx.ui2.decoration.Basic.__styleTemplate;
 
-      template[2] = this.getWidthTop() || "0";
-      template[4] = this.getStyleTop() || "none";
-      template[6] = this.__colorTop || "";
+      template[1] = this.getWidthTop() || "0";
+      template[3] = this.getStyleTop() || "none";
+      template[5] = this.__colorTop || "";
 
-      template[8] = this.getWidthRight() || "0";
-      template[10] = this.getStyleRight() || "none";
-      template[12] = this.__colorRight || "";
+      template[7] = this.getWidthRight() || "0";
+      template[9] = this.getStyleRight() || "none";
+      template[11] = this.__colorRight || "";
 
-      template[14] = this.getWidthBottom() || "0";
-      template[16] = this.getStyleBottom() || "none";
-      template[18] = this.__colorBottom || "";
+      template[13] = this.getWidthBottom() || "0";
+      template[15] = this.getStyleBottom() || "none";
+      template[17] = this.__colorBottom || "";
 
-      template[20] = this.getWidthLeft() || "0";
-      template[22] = this.getStyleLeft() || "none";
-      template[24] = this.__colorLeft || "";
+      template[19] = this.getWidthLeft() || "0";
+      template[21] = this.getStyleLeft() || "none";
+      template[23] = this.__colorLeft || "";
 
+      // TODO: rspect box model
       var borderWidth = this.getWidthLeft() + this.getWidthRight();
       var borderHeight = this.getWidthTop() + this.getWidthBottom();
 
-      template[26] = width - borderWidth;
-      template[28] = height - borderHeight;
+      template[25] = width - borderWidth;
+      template[27] = height - borderHeight;
 
-      template[30] = widget.getBackgroundColor();
+      template[29] = widget.getBackgroundColor();
 
       return template.join("");
+    },
+
+
+    getHtml : function(widget, width, height) {
+      return "<div style='" + this._getStyle(widget, width, height) + "'></div>";
     },
 
 
