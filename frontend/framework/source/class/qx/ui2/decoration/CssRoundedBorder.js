@@ -124,8 +124,6 @@ qx.Class.define("qx.ui2.decoration.CssRoundedBorder",
         style.push("px;");
       }
 
-      this.debug(style.join(""))
-
       return style.join("");
     }
 
