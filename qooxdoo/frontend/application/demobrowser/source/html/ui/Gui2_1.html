@@ -123,7 +123,7 @@ qx.Class.define("BasicSample",
       w32 = new qx.ui2.core.Widget;
       w42 = new qx.ui2.core.Widget;
 
-      w12.setHtml("<b>W1</b>");
+      //w12.setHtml("<b>W1</b>");
       w22.setHtml("<b>W2</b>");
       w32.setHtml("<b>W3</b>");
       w42.setHtml("<b>W4</b>");
@@ -154,6 +154,31 @@ qx.Class.define("BasicSample",
       layout2.add(w42);
 
       w4.setLayout(layout2);
+
+      layout3 = new qx.ui2.layout.Basic();
+
+      w13 = new qx.ui2.core.Widget();
+      w13.setBackgroundColor("blue");
+      w13.setDecoration(border);
+      layout3.add(w13, {
+        top: 3,
+        left: 4,
+        width: 20,
+        height: 20
+      });
+
+      w23 = new qx.ui2.core.Widget();
+      w23.setBackgroundColor("blue");
+      w23.setDecoration(border);
+      layout3.add(w23, {
+        top: 50,
+        left: 40,
+        width: 30,
+        height: 18
+      });
+
+      w12.setLayout(layout3);
+
 
       w4.addListener("click", function(e)
       {
