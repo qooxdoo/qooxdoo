@@ -36,10 +36,7 @@ qx.Class.define("qx.ui2.layout.HBox",
   construct : function()
   {
     this.base(arguments);
-
     this._children = [];
-    this._preferredWidth = null;
-    this._preferredHeight = null;
   },
 
 
@@ -71,6 +68,11 @@ qx.Class.define("qx.ui2.layout.HBox",
 
   members :
   {
+    /** {Integer} Currently cached preferred width */
+    _preferredWidth : null,
+
+    /** {Integer} Currently cached preferred height */
+    _preferredHeight : null,
 
     // overridden
     add : function(widget) {
@@ -90,26 +92,32 @@ qx.Class.define("qx.ui2.layout.HBox",
     // overridden
     layout : function(width, height)
     {
-      var posX = 0;
+      var left = 0;
+      var top = 0;
+
       var spacing = this.getSpacing();
 
+      var children = this._children;
+      var child, childWidth, childHeight;
 
-      for (var i=0, l=this._children.length; i<l; i++)
+      for (var i=0, l=children.length; i<l; i++)
       {
-        var child = this._children[i];
-        var childWidth = child.getPreferredWidth();
+        child = children[i];
 
-        if (posX < width)
+        if (left < width)
         {
-          child.layout(posX, 0, childWidth, child.getPreferredHeight());
-          child.getElement().include();
+          childWidth = child.getPreferredWidth();
+          childHeight = child.getPreferredHeight();
+
+          child.layout(left, top, childWidth, childHeight);
+          child.include();
         }
         else
         {
-          child.getElement().exclude();
+          child.exclude();
         }
 
-        posX += childWidth + spacing;
+        left += childWidth + spacing;
       }
     },
 
@@ -117,6 +125,7 @@ qx.Class.define("qx.ui2.layout.HBox",
     invalidate : function()
     {
       this.debug("Clear layout cache.");
+
       this._preferredWidth = null;
       this._preferredHeight = null;
     },
