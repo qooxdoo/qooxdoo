@@ -101,34 +101,92 @@ qx.Class.define("qx.ui2.layout.HBox",
       var left = 0;
       var top = 0;
 
+      var hint = this.getSizeHint();
+
       var spacing = this.getSpacing();
 
       var children = this._children;
       var child, childHint;
-      var flexSum = 0;
 
-      for (var i=0, l=children.length; i<l; i++)
+      if (hint.width != width)
       {
-        child = children[i];
+        var flexDiff = hint.width - width;
+        var flexSum = 0;
 
-        if (child.canStretchX())
+        var flexOffsets = {};
+        var flexWidgets = [];
+
+        for (var i=0, l=children.length; i<l; i++)
         {
-          childFlex = child.getLayoutProperty("hFlex");
+          child = children[i];
 
-          if (childFlex == null || childFlex > 0) {
-            flexSum += (childFlex || 1);
+          if (child.canStretchX())
+          {
+            childFlex = child.getLayoutProperty("hFlex");
+
+            if (childFlex == null || childFlex > 0)
+            {
+              flexSum += (childFlex || 1);
+              hint = child.getSizeHint();
+
+              flexWidgets.push({
+                widget : child,
+                max : hint.maxWidth,
+                orig : hint.width,
+                flex : child.getLayoutProperty("hFlex"),
+                hc : child.toHashCode(),
+                offset : 0
+              });
+            }
           }
         }
+
+        while (flexWidgets.length > 0)
+        {
+          var minFlexUnit = 32000;
+          var minEntry;
+
+          for (var i=0, l=flexWidgets.length; i<l; i++)
+          {
+            child = flexWidgets[i];
+            flexUnit = (child.max - child.orig - child.offset) / child.flex;
+            if (flexUnit < minFlexUnit)
+            {
+              minFlexUnit = flexUnit;
+              minEntry = child;
+            }
+          }
+
+          for (var i=0, l=flexWidgets.length; i<l; i++)
+          {
+            child = flexWidgets[i];
+            child.offset += flexUnit * child.flex;
+          }
+
+          flexOffsets[minEntry.hc] = minEntry.offset;
+          qx.lang.Array.remove(flexWidgets, minEntry);
+        }
       }
+
+      // decide, stretch or shrink
+
+      // initialize widget widths
+
+      // loop
+
+      // calculate smallest flexUnit = (widget.max - widget.current) / widget.flex;
+
+      // distribute delta among remaining
 
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
         childHint = child.getSizeHint();
+        childOffset = flexOffsets[child.toHashCode()] || 0;
 
         if (left < width)
         {
-          child.layout(left, top, childHint.width, childHint.height);
+          child.layout(left, top, childHint.width + childOffset, childHint.height);
           child.include();
         }
         else
@@ -136,7 +194,7 @@ qx.Class.define("qx.ui2.layout.HBox",
           child.exclude();
         }
 
-        left += childHint.width + spacing;
+        left += childHint.width + childOffset + spacing;
       }
     },
 
