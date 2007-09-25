@@ -42,15 +42,19 @@ qx.Class.define("qx.ui2.core.Label",
 
   members :
   {
-    _getPreferredContentWidth : function()
+    _getContentHint : function()
     {
-      return qx.bom.Label.getTextSize(this.getContent()).width;
+      var text = qx.bom.Label.getTextSize(this.getContent());
+      return {
+        width : text.width,
+        minWidth : 0,
+        maxWidth : 32000,
+        height : text.height,
+        minHeight : 0,
+        maxHeight : 32000
+      };
     },
 
-    _getPreferredContentHeight : function()
-    {
-      return qx.bom.Label.getTextSize(this.getContent()).height;
-    },
 
     /**
      * Create the widget's outer HTML element.

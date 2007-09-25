@@ -1007,7 +1007,12 @@ qx.Class.define("qx.ui2.core.Widget",
     */
 
     /**
-     * The recommended size for the widget.
+     * Computes the technical size limitations and preferences of the widget.
+     *
+     * @type member
+     * @return {Map} Map with <code>width</code>, <code>minWidth</code>,
+     *   <code>maxWidth</code>, <code>height</code>, <code>minHeight</code>,
+     *   <code>maxHeight</code>
      */
     getSizeHint : function()
     {
@@ -1018,11 +1023,11 @@ qx.Class.define("qx.ui2.core.Widget",
       var yInset = this.getInsetTop() + this.getInsetBottom();
 
       var layout = this.getLayout();
-      var contentSize = layout ? layout.getSizeHint() : this.getContentHint();
+      var contentSize = layout ? layout.getSizeHint() : this._getContentHint();
       // width, minWidth, maxWidth, height, minHeight, maxHeight
 
 
-      // WIDTH
+      // Compute width
       width = this.getWidth();
 
       if (width == null) {
@@ -1039,7 +1044,7 @@ qx.Class.define("qx.ui2.core.Widget",
       width = Math.max(xInset, Math.min(maxWidth, Math.max(minWidth, width)));
 
 
-      // HEIGHT
+      // Compute height
       height = this.getHeight();
 
       if (height == null) {
@@ -1056,7 +1061,7 @@ qx.Class.define("qx.ui2.core.Widget",
       height = Math.max(yInset, Math.min(maxHeight, Math.max(minHeight, height)));
 
 
-      // RETURN
+      // Return map
       return {
         width : width,
         minWidth : minWidth,
@@ -1068,95 +1073,25 @@ qx.Class.define("qx.ui2.core.Widget",
     },
 
 
-
-
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      MINIMUM SIZE
-    ---------------------------------------------------------------------------
-    */
-
     /**
-     * Returns the minimum width the content is able to shrink.
-     *
-     * Normally this depends on the technical minimums of the
-     * children or the content in general (HTML, images, ...)
+     * Computes the technical size limitations and preferences of the content.
      *
      * @type member
-     * @return {Integer} The minimum technical content width, always in pixels
+     * @return {Map} Map with <code>width</code>, <code>minWidth</code>,
+     *   <code>maxWidth</code>, <code>height</code>, <code>minHeight</code>,
+     *   <code>maxHeight</code>
      */
-    _getTechnicalMinContentWidth : function()
+    _getContentHint : function()
     {
-      var layout = this.getLayout();
-      if (layout) {
-        return layout.getMinWidth();
-      }
-
-      return 0;
+      return {
+        width : 100,
+        minWidth : 0,
+        maxWidth : 32000,
+        height : 50,
+        minHeight : 0,
+        maxHeight : 32000
+      };
     },
-
-
-    /**
-     * Returns the minimum height the content is able to shrink.
-     *
-     * Normally this depends on the technical minimums of the
-     * children or the content in general (HTML, images, ...)
-     *
-     * @type member
-     * @return {Integer} The minimum technical content height, always in pixels
-     */
-    _getTechnicalMinContentHeight : function() {
-      return 0;
-    },
-
-
-
-
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      MAXIMUM SIZE
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Returns the maximum width the content is able to grow.
-     *
-     * Normally this depends on the technical maximums of the
-     * children or the content in general (HTML, images, ...)
-     *
-     * @type member
-     * @return {Integer} The maximum technical content width, always in pixels
-     */
-    _getTechnicalMaxContentWidth : function() {
-      return 32000;
-    },
-
-
-    /**
-     * Returns the maximum height the content is able to grow.
-     *
-     * Normally this depends on the technical maximums of the
-     * children or the content in general (HTML, images, ...)
-     *
-     * @type member
-     * @return {Integer} The maximum technical content height, always in pixels
-     */
-    _getTechnicalMaxContentHeight : function() {
-      return 32000;
-    },
-
 
 
 
@@ -1175,7 +1110,6 @@ qx.Class.define("qx.ui2.core.Widget",
     canStretchY : function() {
       return true;
     }
-
   },
 
 
