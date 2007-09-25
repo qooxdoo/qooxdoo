@@ -160,41 +160,41 @@ qx.Class.define("qx.ui2.layout.HBox",
     // overridden
     getSizeHint : function()
     {
-      if (this._sizeHint !== null) {
-        this.debug("cached preferred hint: ", this._sizeHint);
+      if (this._sizeHint != null)
+      {
+        this.debug("Cached size hint: ", this._sizeHint);
         return this._sizeHint;
       }
 
-      var hint = {
-        minWidth : 0,
-        width : 0,
-        maxWidth : 0,
-        minHeight : 0,
-        height : 0,
-        maxHeight : 0
-      };
+      var minWidth=0, width=0, maxWidth=0;
+      var minHeight=0, width=0, maxHeight=0;
 
       for (var i=0, l=this._children.length; i<l; i++)
       {
         var child = this._children[i];
         var childHint = child.getSizeHint();
 
-        hint.minWidth += childHint.minWidth;
-        hint.width += childHint.width;
-        hint.maxWidth += childHint.maxWidth;
+        minWidth += childHint.minWidth;
+        width += childHint.width;
+        maxWidth += childHint.maxWidth;
 
-        hint.minHeight = Math.max(hint.minHeight, childHint.minHeight);
-        hint.height = Math.max(hint.height, childHint.height);
-        hint.maxHeight = Math.max(hint.maxHeight, childHint.maxHeight);
+        minHeight = Math.max(minHeight, childHint.minHeight);
+        height = Math.max(height, childHint.height);
+        maxHeight = Math.max(maxHeight, childHint.maxHeight);
       }
 
       var spacing = this.getSpacing() * (this._children.length - 1);
-      hint.minWidth += spacing;
-      hint.width += spacing;
-      hint.maxWidth += spacing;
+      var hint = {
+        minWidth : minWidth + spacing,
+        width : width + spacing,
+        maxWidth : maxWidth + spacing,
+        minHeight : minHeight,
+        height : height,
+        maxHeight : maxHeight
+      };
 
       this._sizeHint = hint;
-      this.debug("computed preferred width: ", this._sizeHint);
+      this.debug("Computed size hint: ", this._sizeHint);
 
       return hint;
     }
