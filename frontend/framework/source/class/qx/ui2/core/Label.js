@@ -63,7 +63,7 @@ qx.Class.define("qx.ui2.core.Label",
 
       this._outerElement.add(el);
 
-      el.setStyle("position", "absolute");
+      el.setStyle("position", "relative");
       el.setStyle("zIndex", 10);
 
       return el;
