@@ -116,6 +116,7 @@ qx.Class.define("qx.ui2.layout.HorizontalBoxLayout",
     // overridden
     invalidate : function()
     {
+      this.debug("Clear layout cache.");
       this._preferredWidth = null;
       this._preferredHeight = null;
     },
@@ -124,6 +125,7 @@ qx.Class.define("qx.ui2.layout.HorizontalBoxLayout",
     getPreferredWidth : function()
     {
       if (this._preferredWidth !== null) {
+        this.debug("cached preferred width: ", this._preferredWidth);
         return this._preferredWidth;
       }
 
@@ -137,6 +139,8 @@ qx.Class.define("qx.ui2.layout.HorizontalBoxLayout",
       width += this.getSpacing() * (this._children.length-1);
 
       this._preferredWidth = width;
+      this.debug("computed preferred width: ", this._preferredWidth);
+
       return width;
     },
 
@@ -145,6 +149,7 @@ qx.Class.define("qx.ui2.layout.HorizontalBoxLayout",
     getPreferredHeight : function()
     {
       if (this._preferredHeight !== null) {
+        this.debug("cached computed height: ", this._preferredHeight);
         return this._preferredHeight;
       }
 
@@ -157,6 +162,8 @@ qx.Class.define("qx.ui2.layout.HorizontalBoxLayout",
       }
 
       this._preferredHeight = height;
+      this.debug("computed preferred height: ", this._preferredHeight);
+
       return height;
     }
 
