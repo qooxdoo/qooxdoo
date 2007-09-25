@@ -58,11 +58,9 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
       for (var hc in roots)
       {
         var root = roots[hc];
+        var rootHint = root.getSizeHint();
 
-        var width = root.getPreferredWidth();
-        var height = root.getPreferredHeight();
-
-        root.layout(0, 0, width, height);
+        root.layout(0, 0, rootHint.width, rootHint.height);
         root.markLayoutValid();
       }
 
