@@ -68,12 +68,16 @@ qx.Class.define("qx.ui2.layout.Basic",
   members :
   {
     // overridden
-    add : function(widget, layoutHints)
+    add : function(widget, left, top)
     {
       this._children.push(widget);
 
-      if (layoutHints !== undefined) {
-        widget.importHints(layoutHints);
+      if (left != null) {
+        widget.addLayoutProperty("left", left);
+      }
+
+      if (top != null) {
+        widget.addLayoutProperty("top", top);
       }
     },
 
@@ -98,12 +102,11 @@ qx.Class.define("qx.ui2.layout.Basic",
           continue;
         }
 
-        var childWidth = child.getHint("width") || child.getPreferredWidth();
-        var childHeight = child.getHint("height") || child.getPreferredHeight();
-        var childLeft = child.getHint("left") || 0;
-        var childTop = child.getHint("top") || 0;
+        var childHint = child.getSizeHint();
+        var childLeft = child.getLayoutProperty("left") || 0;
+        var childTop = child.getLayoutProperty("top") || 0;
 
-        child.layout(childLeft, childTop, childWidth, childHeight);
+        child.layout(childLeft, childTop, childHint.width, childHint.height);
       }
     },
 
@@ -128,11 +131,10 @@ qx.Class.define("qx.ui2.layout.Basic",
       for (var i=0, l=this._children.length; i<l; i++)
       {
         var child = this._children[i];
+        var childHint = child.getSizeHint();
+        var childLeft = child.getLayoutProperty("left") || 0;
 
-        var childWidth = child.getHint("width") || child.getPreferredWidth();
-        var childLeft = child.getHint("left") || 0;
-
-        width = Math.max(width, childLeft + childWidth);
+        width = Math.max(width, childLeft + childHint.width);
       }
 
       this._preferredWidth = width;
@@ -155,11 +157,10 @@ qx.Class.define("qx.ui2.layout.Basic",
       for (var i=0, l=this._children.length; i<l; i++)
       {
         var child = this._children[i];
+        var childHint = child.getSizeHint();
+        var childTop = child.getLayoutProperty("top") || 0;
 
-        var childHeight = child.getHint("height") || child.getPreferredHeight();
-        var childTop = child.getHint("top") || 0;
-
-        height = Math.max(height, childHeight + childTop);
+        height = Math.max(height, childTop + childHint.height);
       }
 
       this._preferredHeight = height;

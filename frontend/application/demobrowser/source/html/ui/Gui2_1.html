@@ -86,31 +86,10 @@ qx.Class.define("BasicSample",
 
       layout = new qx.ui2.layout.Basic();
 
-      layout.add(w1, {
-        top: 10,
-        left: 10,
-        width: 100,
-        height: 50
-      });
-
-      layout.add(w2, {
-        top: 20,
-        left: 200,
-        width: 100,
-        height: 150
-      });
-
-      layout.add(w3, {
-        top: 50,
-        left: 350,
-        width: 90,
-        height: 50
-      });
-
-      layout.add(w4, {
-        top: 100,
-        left: 500
-      });
+      layout.add(w1, 10, 10);
+      layout.add(w2, 200, 20);
+      layout.add(w3, 350, 50);
+      layout.add(w4, 500, 100);
 
       doc.setLayout(layout);
 
@@ -160,22 +139,12 @@ qx.Class.define("BasicSample",
       w13 = new qx.ui2.core.Widget();
       w13.setBackgroundColor("blue");
       w13.setDecoration(border);
-      layout3.add(w13, {
-        top: 3,
-        left: 4,
-        width: 20,
-        height: 20
-      });
+      layout3.add(w13, 4,3);
 
       w23 = new qx.ui2.core.Widget();
       w23.setBackgroundColor("blue");
       w23.setDecoration(border);
-      layout3.add(w23, {
-        top: 50,
-        left: 40,
-        width: 30,
-        height: 18
-      });
+      layout3.add(w23, 40, 50);
 
       w12.setLayout(layout3);
 

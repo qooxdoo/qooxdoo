@@ -98,49 +98,16 @@ qx.Class.define("qx.ui2.layout.HBox",
       var spacing = this.getSpacing();
 
       var children = this._children;
-      var child;
-      var childWidth, childMinWidth, childMaxWidth, childPrefWidth;
-      var childHeight, childMinHeight, childMaxHeight, childPrefHeight;
-      var flexChildren = [];
-      var flexSum = 0;
+      var child, childHint;
 
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
-
-        if (typeof childWidth === "string")
-        {
-
-        }
-      }
-
-      for (var i=0, l=children.length; i<l; i++)
-      {
-        child = children[i];
+        childHint = child.getSizeHint();
 
         if (left < width)
         {
-          childWidth = child.getHint("width");
-          childHeight = child.getHint("height");
-
-          if (typeof childWidth === "number")
-          {
-            applyWidth = childWidth;
-          }
-          else
-          {
-            if (qx.lang.String.endswith(childWidth, "*"))
-            {
-              flexChildren
-            }
-          }
-
-
-
-          childPrefWidth = child.getPreferredWidth();
-          childPrefHeight = child.getPreferredHeight();
-
-          child.layout(left, top, childWidth, childHeight);
+          child.layout(left, top, childHint.width, childHint.height);
           child.include();
         }
         else
@@ -148,7 +115,7 @@ qx.Class.define("qx.ui2.layout.HBox",
           child.exclude();
         }
 
-        left += childWidth + spacing;
+        left += childHint.width + spacing;
       }
     },
 
@@ -174,7 +141,7 @@ qx.Class.define("qx.ui2.layout.HBox",
       for (var i=0, l=this._children.length; i<l; i++)
       {
         var child = this._children[i];
-        width += child.getPreferredWidth();
+        width += child.getSizeHint().width;
       }
       width += this.getSpacing() * (this._children.length-1);
 
@@ -198,7 +165,7 @@ qx.Class.define("qx.ui2.layout.HBox",
       for (var i=0, l=this._children.length; i<l; i++)
       {
         var child = this._children[i];
-        height = Math.max(height, child.getPreferredHeight());
+        height = Math.max(height, child.getSizeHint().height);
       }
 
       this._preferredHeight = height;
