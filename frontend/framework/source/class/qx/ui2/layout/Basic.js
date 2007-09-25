@@ -36,7 +36,11 @@ qx.Class.define("qx.ui2.layout.Basic",
   construct : function()
   {
     this.base(arguments);
+
     this._children = [];
+
+    this._preferredWidth = null;
+    this._preferredHeight = null;
   },
 
 
@@ -97,6 +101,67 @@ qx.Class.define("qx.ui2.layout.Basic",
 
         child.layout(childLeft, childTop, childWidth, childHeight);
       }
+    },
+
+    // overridden
+    invalidate : function()
+    {
+      this.debug("Clear layout cache.");
+      this._preferredWidth = null;
+      this._preferredHeight = null;
+    },
+
+    // overridden
+    getPreferredWidth : function()
+    {
+      if (this._preferredWidth !== null) {
+        this.debug("cached preferred width: ", this._preferredWidth);
+        return this._preferredWidth;
+      }
+
+      var width = 0;
+
+      for (var i=0, l=this._children.length; i<l; i++)
+      {
+        var child = this._children[i];
+
+        var childWidth = child.getHint("width") || child.getPreferredWidth();
+        var childLeft = child.getHint("left") || 0;
+
+        width = Math.max(width, childLeft + childWidth);
+      }
+
+      this._preferredWidth = width;
+      this.debug("computed preferred width: ", this._preferredWidth);
+
+      return width;
+    },
+
+
+    // overridden
+    getPreferredHeight : function()
+    {
+      if (this._preferredHeight !== null) {
+        this.debug("cached computed height: ", this._preferredHeight);
+        return this._preferredHeight;
+      }
+
+      var height = 0;
+
+      for (var i=0, l=this._children.length; i<l; i++)
+      {
+        var child = this._children[i];
+
+        var childHeight = child.getHint("height") || child.getPreferredHeight();
+        var childTop = child.getHint("top") || 0;
+
+        height = Math.max(height, childHeight + childTop);
+      }
+
+      this._preferredHeight = height;
+      this.debug("computed preferred height: ", this._preferredHeight);
+
+      return height;
     }
 
   },

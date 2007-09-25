@@ -390,11 +390,11 @@ qx.Class.define("qx.ui2.core.Widget",
         this._contentElement.setStyle("top", innerTop + "px");
         this._contentElement.setStyle("width", innerWidth + "px");
         this._contentElement.setStyle("height", innerHeight + "px");
-
-        // Sync style
-        // TODO: do style updates in a different queue
-        this._syncDecoration(width, height);
       }
+
+      // Sync style
+      // TODO: do style updates in a different queue
+      this._syncDecoration(width, height);
 
       // if the current layout is invalid force a relayout even if the size
       // has not changed
@@ -408,11 +408,11 @@ qx.Class.define("qx.ui2.core.Widget",
 
       // TODO: after doing the layout fire change events
       if (locationChange) {
-        this.debug("Location change: " + left +", " + top);
+        this.debug("Location change: " + left +", " + top + " " + this);
       }
 
       if (sizeChange) {
-        this.debug("Size change: " + width + ", " + height);
+        this.debug("Size change: " + width + ", " + height + " " + this);
       }
 
       this.markLayoutValid();
@@ -493,7 +493,15 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
-
+    toString : function()
+    {
+      var str = this.base(arguments);
+      var color = this.getBackgroundColor();
+      if(color) {
+        str += " (" + color + ")";
+      }
+      return str;
+    },
 
 
 
