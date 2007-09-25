@@ -167,7 +167,7 @@ qx.Class.define("qx.ui2.layout.HBox",
       }
 
       var minWidth=0, width=0, maxWidth=0;
-      var minHeight=0, width=0, maxHeight=0;
+      var minHeight=0, height=0, maxHeight=0;
 
       for (var i=0, l=this._children.length; i<l; i++)
       {
