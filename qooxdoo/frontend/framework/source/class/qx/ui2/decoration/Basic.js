@@ -402,11 +402,11 @@ qx.Class.define("qx.ui2.decoration.Basic",
     },
 
     getInsetRight : function() {
-      this.getWidthRight();
+      return this.getWidthRight();
     },
 
     getInsetBottom : function() {
-      this.getWidthBottom();
+      return this.getWidthBottom();
     },
 
 
