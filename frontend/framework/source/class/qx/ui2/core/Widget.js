@@ -460,7 +460,7 @@ qx.Class.define("qx.ui2.core.Widget",
     },
 
     isLayoutValid : function() {
-      return !this._layoutInvalid;
+      return this._layoutInvalid !== true;
     },
 
     /**
@@ -470,6 +470,7 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     markLayoutInvalid : function()
     {
+      this.debug("Mark widget layout invalid: " + this);
       this._layoutInvalid = true;
       var mgr = this.getLayout();
       if (mgr) {

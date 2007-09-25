@@ -34,11 +34,11 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
     {
       while(widget && widget.isLayoutValid())
       {
-        qx.core.Log.debug("Add: ", widget, ": ", widget.isLayoutRoot());
         widget.markLayoutInvalid();
 
         if (widget.isLayoutRoot())
         {
+          qx.core.Log.debug("Add layout root: " + widget);
           this._roots[widget.toHashCode()] = widget;
           break;
         }
@@ -63,6 +63,7 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
         var height = root.getPreferredHeight();
 
         root.layout(0, 0, width, height);
+        root.markLayoutValid();
       }
 
       this._roots = [];
