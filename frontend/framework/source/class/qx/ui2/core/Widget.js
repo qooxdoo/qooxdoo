@@ -931,12 +931,8 @@ qx.Class.define("qx.ui2.core.Widget",
      * @type member
      * @return {Integer} The preferred content width, always in pixels
      */
-    _getPreferredContentWidth : function()
-    {
-      var layout = this.getLayout();
-      if (layout) {
-        return layout.getPreferredWidth();
-      }
+    _getPreferredContentWidth : function() {
+      return 0;
     },
 
 
@@ -1018,39 +1014,46 @@ qx.Class.define("qx.ui2.core.Widget",
       var width, minWidth, maxWidth;
       var height, minHeight, maxHeight;
 
+      var xInset = this.getInsetLeft() + this.getInsetRight();
+      var yInset = this.getInsetTop() + this.getInsetBottom();
+
+      var layout = this.getLayout();
+      var contentSize = layout ? layout.getSizeHint() : this.getContentHint();
+      // width, minWidth, maxWidth, height, minHeight, maxHeight
+
 
       // WIDTH
       width = this.getWidth();
 
       if (width == null) {
-        width = this._getPreferredWidth();
+        width = contentSize.width + xInset;
       }
 
       if (width == null) {
-        width = 100;
+        width = 100 + xInset;
       }
 
-      minWidth = Math.max(this.getMinWidth(), this.getTechnicalMinWidth());
-      maxWidth = Math.min(this.getMaxWidth(), this.getTechnicalMaxWidth());
+      minWidth = Math.max(this.getMinWidth(), contentSize.minWidth + xInset);
+      maxWidth = Math.min(this.getMaxWidth(), contentSize.maxWidth + xInset);
 
-      width = Math.min(maxWidth, Math.max(minWidth, width));
+      width = Math.max(xInset, Math.min(maxWidth, Math.max(minWidth, width)));
 
 
       // HEIGHT
       height = this.getHeight();
 
       if (height == null) {
-        height = this._getPreferredHeight();
+        height = contentSize.height + yInset;
       }
 
       if (height == null) {
-        height = 100;
+        height = 100 + yInset;
       }
 
-      minHeight = Math.max(this.getMinHeight(), this.getTechnicalMinHeight());
-      maxHeight = Math.min(this.getMaxHeight(), this.getTechnicalMaxHeight());
+      minHeight = Math.max(this.getMinHeight(), contentSize.minHeight + yInset);
+      maxHeight = Math.min(this.getMaxHeight(), contentSize.maxHeight + yInset);
 
-      height = Math.min(maxHeight, Math.max(minHeight, height));
+      height = Math.max(yInset, Math.min(maxHeight, Math.max(minHeight, height)));
 
 
       // RETURN
@@ -1088,7 +1091,13 @@ qx.Class.define("qx.ui2.core.Widget",
      * @type member
      * @return {Integer} The minimum technical content width, always in pixels
      */
-    _getTechnicalMinContentWidth : function() {
+    _getTechnicalMinContentWidth : function()
+    {
+      var layout = this.getLayout();
+      if (layout) {
+        return layout.getMinWidth();
+      }
+
       return 0;
     },
 
@@ -1107,34 +1116,7 @@ qx.Class.define("qx.ui2.core.Widget",
     },
 
 
-    /**
-     * Returns the minium width of the widget
-     *
-     * This is the minimum content width plus paddings and borders.
-     *
-     * @type member
-     * @return {Integer} The minimum technical width, always in pixels
-     */
-    getTechnicalMinWidth : function()
-    {
-      return this._getTechnicalMinContentWidth() +
-        this.getInsetLeft() + this.getInsetRight();
-    },
 
-
-    /**
-     * Returns the minium height of the widget
-     *
-     * This is the minimum content height plus paddings and borders.
-     *
-     * @type member
-     * @return {Integer} The minimum technical height, always in pixels
-     */
-    getTechnicalMinHeight : function()
-    {
-      return this._getTechnicalMinContentHeight() +
-        this.getInsetTop() + this.getInsetBottom();
-    },
 
 
 
@@ -1175,35 +1157,6 @@ qx.Class.define("qx.ui2.core.Widget",
       return 32000;
     },
 
-
-    /**
-     * Returns the minium width of the widget
-     *
-     * This is the maximum content width plus paddings and borders.
-     *
-     * @type member
-     * @return {Integer} The maximum technical width, always in pixels
-     */
-    getTechnicalMaxWidth : function()
-    {
-      return this._getTechnicalMaxContentWidth() +
-        this.getInsetLeft() + this.getInsetRight();
-    },
-
-
-    /**
-     * Returns the minium height of the widget
-     *
-     * This is the maximum content height plus paddings and borders.
-     *
-     * @type member
-     * @return {Integer} The maximum technical height, always in pixels
-     */
-    getTechnicalMaxHeight : function()
-    {
-      return this._getTechnicalMaxContentHeight() +
-        this.getInsetTop() + this.getInsetBottom();
-    },
 
 
 
