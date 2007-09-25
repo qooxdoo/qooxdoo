@@ -779,10 +779,6 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       THEMEABLE PROPERTIES
@@ -833,6 +829,9 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
+
+
+
     /*
     ---------------------------------------------------------------------------
       INSET
@@ -841,7 +840,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
     getInsetLeft : function()
     {
-      var value = this.getPaddingLeft() || 0;
+      var value = this.getPaddingLeft();
 
       if (this.getDecoration()) {
         value += this.getDecoration().getInsetLeft() || 0;
@@ -852,7 +851,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
     getInsetTop : function()
     {
-      var value = this.getPaddingTop() || 0;
+      var value = this.getPaddingTop();
 
       if (this.getDecoration()) {
         value += this.getDecoration().getInsetTop() || 0;
@@ -863,7 +862,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
     getInsetRight : function()
     {
-      var value = this.getPaddingRight() || 0;
+      var value = this.getPaddingRight();
 
       if (this.getDecoration()) {
         value += this.getDecoration().getInsetRight() || 0;
@@ -874,7 +873,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
     getInsetBottom : function()
     {
-      var value = this.getPaddingBottom() || 0;
+      var value = this.getPaddingBottom();
 
       if (this.getDecoration()) {
         value += this.getDecoration().getInsetBottom() || 0;
@@ -933,46 +932,48 @@ qx.Class.define("qx.ui2.core.Widget",
       var width, minWidth, maxWidth;
       var height, minHeight, maxHeight;
 
-      var xInset = this.getInsetLeft() + this.getInsetRight();
-      var yInset = this.getInsetTop() + this.getInsetBottom();
 
-      var layout = this.getLayout();
-      var contentSize = layout ? layout.getSizeHint() : this._getContentHint();
-      // width, minWidth, maxWidth, height, minHeight, maxHeight
+      // Prepare insets
+      var insetX = this.getInsetLeft() + this.getInsetRight();
+      var insetY = this.getInsetTop() + this.getInsetBottom();
+
+
+      // Prepare content size
+      var contentSize = this._getContentHint();
 
 
       // Compute width
       width = this.getWidth();
 
       if (width == null) {
-        width = contentSize.width + xInset;
+        width = contentSize.width + insetX;
       }
 
       if (width == null) {
-        width = 100 + xInset;
+        width = 100 + insetX;
       }
 
-      minWidth = Math.max(this.getMinWidth(), contentSize.minWidth + xInset);
-      maxWidth = Math.min(this.getMaxWidth(), contentSize.maxWidth + xInset);
+      minWidth = Math.max(this.getMinWidth(), contentSize.minWidth + insetX);
+      maxWidth = Math.min(this.getMaxWidth(), contentSize.maxWidth + insetX);
 
-      width = Math.max(xInset, Math.min(maxWidth, Math.max(minWidth, width)));
+      width = Math.max(insetX, Math.min(maxWidth, Math.max(minWidth, width)));
 
 
       // Compute height
       height = this.getHeight();
 
       if (height == null) {
-        height = contentSize.height + yInset;
+        height = contentSize.height + insetY;
       }
 
       if (height == null) {
-        height = 100 + yInset;
+        height = 100 + insetY;
       }
 
-      minHeight = Math.max(this.getMinHeight(), contentSize.minHeight + yInset);
-      maxHeight = Math.min(this.getMaxHeight(), contentSize.maxHeight + yInset);
+      minHeight = Math.max(this.getMinHeight(), contentSize.minHeight + insetY);
+      maxHeight = Math.min(this.getMaxHeight(), contentSize.maxHeight + insetY);
 
-      height = Math.max(yInset, Math.min(maxHeight, Math.max(minHeight, height)));
+      height = Math.max(insetY, Math.min(maxHeight, Math.max(minHeight, height)));
 
 
       // Return map
@@ -997,6 +998,11 @@ qx.Class.define("qx.ui2.core.Widget",
      */
     _getContentHint : function()
     {
+      var layout = this.getLayout();
+      if (layout) {
+        return layout.getSizeHint();
+      }
+
       return {
         width : 100,
         minWidth : 0,
