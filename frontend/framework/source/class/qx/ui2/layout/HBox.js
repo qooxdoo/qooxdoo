@@ -75,8 +75,17 @@ qx.Class.define("qx.ui2.layout.HBox",
     _preferredHeight : null,
 
     // overridden
-    add : function(widget) {
+    add : function(widget, hFlex, vAlign)
+    {
       this._children.push(widget);
+
+      if (hFlex != null) {
+        widget.addLayoutProperty("hFlex", hFlex);
+      }
+
+      if (vAlign != null) {
+        widget.addLayoutProperty("vAlign", vAlign);
+      }
     },
 
     // overridden
@@ -99,6 +108,21 @@ qx.Class.define("qx.ui2.layout.HBox",
 
       var children = this._children;
       var child, childHint;
+      var flexSum = 0;
+
+      for (var i=0, l=children.length; i<l; i++)
+      {
+        child = children[i];
+
+        if (child.canStretchX())
+        {
+          childFlex = widget.getLayoutProperty("hFlex");
+
+          if (childFlex == null || childFlex > 0) {
+            flexSum += (childFlex || 1);
+          }
+        }
+      }
 
       for (var i=0, l=children.length; i<l; i++)
       {
