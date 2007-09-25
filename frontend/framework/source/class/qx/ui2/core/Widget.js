@@ -479,8 +479,6 @@ qx.Class.define("qx.ui2.core.Widget",
       }
 
       this.markLayoutValid();
-
-
     },
 
 

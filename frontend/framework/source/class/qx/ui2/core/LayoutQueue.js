@@ -25,10 +25,12 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
     _roots : {},
 
     /**
-     * Mark a widget's layout as invalid and add its layout root the the layout
-     * Queue.
+     * Mark a widget's layout as invalid and add its layout root to
+     * the queue.
      *
+     * @type static
      * @param widget {qx.ui2.core.Widget} Widget to add.
+     * @return {void}
      */
     add : function(widget)
     {
@@ -39,6 +41,7 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
         if (widget.isLayoutRoot())
         {
           qx.core.Log.debug("Add layout root: " + widget);
+
           this._roots[widget.toHashCode()] = widget;
           break;
         }
@@ -49,7 +52,10 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
 
 
     /**
-     * Update the layout of all widgets, which layout is marked as invalid.‚
+     * Update the layout of all widgets, which layout is marked as invalid.
+     *
+     * @type static
+     * @return {void}
      */
     flush : function()
     {
@@ -61,11 +67,9 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
         var rootHint = root.getSizeHint();
 
         root.layout(0, 0, rootHint.width, rootHint.height);
-        root.markLayoutValid();
       }
 
-      this._roots = [];
-
+      this._roots.length = 0;
       qx.html.Element.flush();
     }
   }
