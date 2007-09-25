@@ -22,6 +22,15 @@ qx.Class.define("qx.ui2.core.Label",
 {
   extend : qx.ui2.core.Widget,
 
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   construct : function(content)
   {
     this.base(arguments);
@@ -30,6 +39,14 @@ qx.Class.define("qx.ui2.core.Label",
       this.setContent(content);
     }
   },
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
 
   properties :
   {
@@ -40,8 +57,23 @@ qx.Class.define("qx.ui2.core.Label",
     }
   },
 
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      WIDGET API
+    ---------------------------------------------------------------------------
+    */
+
+    // overridden
     _getContentHint : function()
     {
       var text = qx.bom.Label.getTextSize(this.getContent());
@@ -56,11 +88,7 @@ qx.Class.define("qx.ui2.core.Label",
     },
 
 
-    /**
-     * Create the widget's outer HTML element.
-     *
-     * @return {qx.html.Element} The outer HTML element
-     */
+    // overridden
     _createContentElement : function()
     {
       var el = new qx.html.Label;
@@ -73,12 +101,30 @@ qx.Class.define("qx.ui2.core.Label",
       return el;
     },
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY APPLIER
+    ---------------------------------------------------------------------------
+    */
+
     _applyContent : function(value, old)
     {
       this._contentElement.setContent(value);
       this.invalidateLayout();
     }
   },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
 
   destruct : function()
   {
