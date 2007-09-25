@@ -68,7 +68,10 @@ qx.Class.define("qx.bom.Label",
       }
       else if (qx.core.Variant.isSet("qx.client", "gecko"))
       {
-        var el = win.document.createElementNS("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul", "label");
+        var el = win.document.createElement("div");
+        var elInner = win.document.createElementNS("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul", "label");
+
+        el.appendChild(elInner);
       }
       else
       {
@@ -98,7 +101,7 @@ qx.Class.define("qx.bom.Label",
       }
       else if (qx.core.Variant.isSet("qx.client", "gecko"))
       {
-        element.setAttribute("value", value);
+        element.firstChild.setAttribute("value", value);
       }
       else
       {
@@ -114,7 +117,7 @@ qx.Class.define("qx.bom.Label",
       }
       else if (qx.core.Variant.isSet("qx.client", "gecko"))
       {
-        return element.getAttribute("value") || "";
+        return element.firstChild.getAttribute("value") || "";
       }
       else
       {
