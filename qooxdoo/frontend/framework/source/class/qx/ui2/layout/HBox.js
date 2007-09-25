@@ -113,7 +113,7 @@ qx.Class.define("qx.ui2.layout.HBox",
 
         if (child.canStretchX())
         {
-          childFlex = widget.getLayoutProperty("hFlex");
+          childFlex = child.getLayoutProperty("hFlex");
 
           if (childFlex == null || childFlex > 0) {
             flexSum += (childFlex || 1);
@@ -168,10 +168,10 @@ qx.Class.define("qx.ui2.layout.HBox",
       var hint = {
         minWidth : 0,
         width : 0,
-        maxWidth : 32000,
+        maxWidth : 0,
         minHeight : 0,
         height : 0,
-        maxHeight : 32000
+        maxHeight : 0
       };
 
       for (var i=0, l=this._children.length; i<l; i++)
@@ -179,14 +179,19 @@ qx.Class.define("qx.ui2.layout.HBox",
         var child = this._children[i];
         var childHint = child.getSizeHint();
 
-        hint.minWidth += child.getSizeHint().minWidth;
-        hint.width += child.getSizeHint().width;
-        hint.maxWidth += child.getSizeHint().maxWidth;
+        hint.minWidth += childHint.minWidth;
+        hint.width += childHint.width;
+        hint.maxWidth += childHint.maxWidth;
 
         hint.minHeight = Math.max(hint.minHeight, childHint.minHeight);
         hint.height = Math.max(hint.height, childHint.height);
         hint.maxHeight = Math.max(hint.maxHeight, childHint.maxHeight);
       }
+
+      var spacing = this.getSpacing() * (this._children.length - 1);
+      hint.minWidth += spacing;
+      hint.width += spacing;
+      hint.maxWidth += spacing;
 
       this._sizeHint = hint;
       this.debug("computed preferred width: ", this._sizeHint);
