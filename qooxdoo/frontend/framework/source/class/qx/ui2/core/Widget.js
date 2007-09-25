@@ -396,6 +396,15 @@ qx.Class.define("qx.ui2.core.Widget",
       // TODO: do style updates in a different queue
       this._syncDecoration(width, height);
 
+      // TODO: after doing the layout fire change events
+      if (locationChange) {
+        this.debug("Location change: " + left +", " + top + " " + this);
+      }
+
+      if (sizeChange) {
+        this.debug("Size change: " + width + ", " + height + " " + this);
+      }
+
       // if the current layout is invalid force a relayout even if the size
       // has not changed
       if (!this.isLayoutValid() || sizeChange)
@@ -406,16 +415,9 @@ qx.Class.define("qx.ui2.core.Widget",
         }
       }
 
-      // TODO: after doing the layout fire change events
-      if (locationChange) {
-        this.debug("Location change: " + left +", " + top + " " + this);
-      }
-
-      if (sizeChange) {
-        this.debug("Size change: " + width + ", " + height + " " + this);
-      }
-
       this.markLayoutValid();
+
+
     },
 
 
@@ -444,18 +446,15 @@ qx.Class.define("qx.ui2.core.Widget",
     },
 
 
-    getParent : function()
-    {
+    getParent : function() {
       return this._parent;
     },
 
-    setParent : function(parent)
-    {
+    setParent : function(parent) {
       this._parent = parent;
     },
 
-    invalidateLayout : function()
-    {
+    invalidateLayout : function() {
       qx.ui2.core.LayoutQueue.add(this);
     },
 
@@ -480,6 +479,8 @@ qx.Class.define("qx.ui2.core.Widget",
 
     /**
      * After doing the layout, mark the layout as valid.
+     *
+     * @internal
      */
     markLayoutValid : function()
     {

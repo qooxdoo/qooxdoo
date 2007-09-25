@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui2.layout.HorizontalBoxLayout",
+qx.Class.define("qx.ui2.layout.HBox",
 {
   extend : qx.ui2.layout.AbstractLayout,
 
@@ -149,7 +149,7 @@ qx.Class.define("qx.ui2.layout.HorizontalBoxLayout",
     getPreferredHeight : function()
     {
       if (this._preferredHeight !== null) {
-        this.debug("cached computed height: ", this._preferredHeight);
+        this.debug("cached preferred height: ", this._preferredHeight);
         return this._preferredHeight;
       }
 
