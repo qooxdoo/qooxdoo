@@ -52,7 +52,7 @@ qx.Class.define("qx.ui2.core.Widget",
     this._borderWidthBottom = 0;
 
     // Layout data
-    this._layoutHints = {};
+    this._layoutProperties = {};
 
     // Whether the widget has a layout manager
     this._hasLayout = false;
@@ -617,16 +617,16 @@ qx.Class.define("qx.ui2.core.Widget",
     */
 
     /**
-     * Adds a layout hint.
+     * Adds a layout property.
      *
      * @type member
      * @param name {String} Name of the hint (width, top, minHeight, ...)
      * @param value {var} Any acceptable value (depends on the selected parent layout manager)
      * @return {qx.ui2.core.Widget} This widget (for chaining support)
      */
-    addHint : function(name, value)
+    addLayoutProperty : function(name, value)
     {
-      this._layoutHints[name] = value;
+      this._layoutProperties[name] = value;
       this.invalidateLayout();
 
       return this;
@@ -634,15 +634,15 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
     /**
-     * Removes a layout hint.
+     * Removes a layout property.
      *
      * @type member
      * @param name {String} Name of the hint (width, top, minHeight, ...)
      * @return {qx.ui2.core.Widget} This widget (for chaining support)
      */
-    removeHint : function(name)
+    removeLayoutProperty : function(name)
     {
-      delete this._layoutHints[name];
+      delete this._layoutProperties[name];
       this.invalidateLayout();
 
       return this;
@@ -650,50 +650,31 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
     /**
-     * Returns the value of a specific hint
+     * Returns the value of a specific property
      *
      * @type member
      * @param name {String} Name of the hint (width, top, minHeight, ...)
      * @return {var|null} Configured value
      */
-    getHint : function(name)
+    getLayoutProperty : function(name)
     {
-      var value = this._layoutHints[name];
+      var value = this._layoutProperties[name];
       return value == null ? null : value;
     },
 
 
     /**
-     * Whether this widget has a specific hint
+     * Whether this widget has a specific property
      *
      * @type member
      * @param name {String} Name of the hint (width, top, minHeight, ...)
      * @return {Boolean} <code>true</code> when this hint is defined
      */
-    hasHint : function(name) {
-      return this._layoutHints[name] != null;
+    hasLayoutProperty : function(name) {
+      return this._layoutProperties[name] != null;
     },
 
 
-    /**
-     * Imports a set of hints. Ideal for initial setup.
-     *
-     * @type member
-     * @param map {Map} Incoming data structure
-     * @return {qx.ui2.core.Widget} This widget (for chaining support)
-     */
-    importHints : function(map)
-    {
-      var hints = this._layoutHints;
-
-      for (var name in map) {
-        hints[name] = map[name];
-      }
-
-      this.invalidateLayout();
-
-      return this;
-    },
 
 
 
@@ -987,8 +968,15 @@ qx.Class.define("qx.ui2.core.Widget",
      * @type member
      * @return {Integer} The preferred width, always in pixels
      */
-    _getPreferredWidth : function() {
-      return this._getPreferredContentWidth() + this.getInsetLeft() + this.getInsetRight();
+    _getPreferredWidth : function()
+    {
+      var content = this._getPreferredContentWidth();
+
+      if (content != null) {
+        return content + this.getInsetLeft() + this.getInsetRight();
+      }
+
+      return null;
     },
 
 
@@ -999,10 +987,15 @@ qx.Class.define("qx.ui2.core.Widget",
      * @type member
      * @return {Integer} The preferred height, always in pixels
      */
-    getPreferredHeight : function()
+    _getPreferredHeight : function()
     {
-      return this._getPreferredContentHeight() +
-        this.getInsetTop() + this.getInsetBottom();
+      var content = this._getPreferredContentHeight();
+
+      if (content != null) {
+        return content + this.getInsetTop() + this.getInsetBottom();
+      }
+
+      return null;
     },
 
 
@@ -1018,43 +1011,61 @@ qx.Class.define("qx.ui2.core.Widget",
     */
 
     /**
-     * The recommended width for the widget. Used by the layout
-     * manager to measure preferred sizes of the parent
+     * The recommended size for the widget.
      */
-    getWidthHint : function()
+    getSizeHint : function()
     {
-      var width = this.getWidth();
-      if (width != null) {
-        return width;
+      var width, minWidth, maxWidth;
+      var height, minHeight, maxHeight;
+
+
+      // WIDTH
+      width = this.getWidth();
+
+      if (width == null) {
+        width = this._getPreferredWidth();
       }
 
-      width = this._getPreferredWidth();
-      if (width != null) {
-        return width;
+      if (width == null) {
+        width = 100;
       }
 
-      return 100;
+      minWidth = Math.max(this.getMinWidth(), this.getTechnicalMinWidth());
+      maxWidth = Math.min(this.getMaxWidth(), this.getTechnicalMaxWidth());
+
+      width = Math.min(maxWidth, Math.max(minWidth, width));
+
+
+      // HEIGHT
+      height = this.getHeight();
+
+      if (height == null) {
+        height = this._getPreferredHeight();
+      }
+
+      if (height == null) {
+        height = 100;
+      }
+
+      minHeight = Math.max(this.getMinHeight(), this.getTechnicalMinHeight());
+      maxHeight = Math.min(this.getMaxHeight(), this.getTechnicalMaxHeight());
+
+      height = Math.min(maxHeight, Math.max(minHeight, height));
+
+
+      // RETURN
+      return {
+        width : width,
+        minWidth : minWidth,
+        maxWidth : maxWidth,
+        height : height,
+        minHeight : minHeight,
+        maxHeight : maxHeight
+      };
     },
 
 
-    /**
-     * The recommended height for the widget. Used by the layout
-     * manager to measure preferred sizes of the parent
-     */
-    getHeightHint : function()
-    {
-      var height = this.getHeight();
-      if (height != null) {
-        return height;
-      }
 
-      height = this._getPreferredHeight();
-      if (height != null) {
-        return height;
-      }
-
-      return 100;
-    },
 
 
 
@@ -1077,9 +1088,8 @@ qx.Class.define("qx.ui2.core.Widget",
      * @type member
      * @return {Integer} The minimum technical content width, always in pixels
      */
-    _getTechnicalMinimumContentWidth : function()
-    {
-      return 0; //TODO
+    _getTechnicalMinContentWidth : function() {
+      return 0;
     },
 
 
@@ -1092,9 +1102,8 @@ qx.Class.define("qx.ui2.core.Widget",
      * @type member
      * @return {Integer} The minimum technical content height, always in pixels
      */
-    _getTechnicalMinimumContentHeight : function()
-    {
-      return 0; //TODO
+    _getTechnicalMinContentHeight : function() {
+      return 0;
     },
 
 
@@ -1106,9 +1115,9 @@ qx.Class.define("qx.ui2.core.Widget",
      * @type member
      * @return {Integer} The minimum technical width, always in pixels
      */
-    getTechnicalMinimumWidth : function()
+    getTechnicalMinWidth : function()
     {
-      return this._getTechnicalMinimunContentWidth() +
+      return this._getTechnicalMinContentWidth() +
         this.getInsetLeft() + this.getInsetRight();
     },
 
@@ -1121,9 +1130,9 @@ qx.Class.define("qx.ui2.core.Widget",
      * @type member
      * @return {Integer} The minimum technical height, always in pixels
      */
-    getTechnicalMinimumHeight : function()
+    getTechnicalMinHeight : function()
     {
-      return this._getTechnicalMinimumContentHeight() +
+      return this._getTechnicalMinContentHeight() +
         this.getInsetTop() + this.getInsetBottom();
     },
 
@@ -1148,9 +1157,8 @@ qx.Class.define("qx.ui2.core.Widget",
      * @type member
      * @return {Integer} The maximum technical content width, always in pixels
      */
-    _getTechnicalMaximumContentWidth : function()
-    {
-      return 100; //TODO
+    _getTechnicalMaxContentWidth : function() {
+      return 32000;
     },
 
 
@@ -1163,9 +1171,8 @@ qx.Class.define("qx.ui2.core.Widget",
      * @type member
      * @return {Integer} The maximum technical content height, always in pixels
      */
-    _getTechnicalMaximumContentHeight : function()
-    {
-      return 100; //TODO
+    _getTechnicalMaxContentHeight : function() {
+      return 32000;
     },
 
 
@@ -1177,9 +1184,9 @@ qx.Class.define("qx.ui2.core.Widget",
      * @type member
      * @return {Integer} The maximum technical width, always in pixels
      */
-    getTechnicalMaximumWidth : function()
+    getTechnicalMaxWidth : function()
     {
-      return this._getTechnicalMinimunContentWidth() +
+      return this._getTechnicalMaxContentWidth() +
         this.getInsetLeft() + this.getInsetRight();
     },
 
@@ -1192,9 +1199,9 @@ qx.Class.define("qx.ui2.core.Widget",
      * @type member
      * @return {Integer} The maximum technical height, always in pixels
      */
-    getTechnicalMaximumHeight : function()
+    getTechnicalMaxHeight : function()
     {
-      return this._getTechnicalMaximumContentHeight() +
+      return this._getTechnicalMaxContentHeight() +
         this.getInsetTop() + this.getInsetBottom();
     },
 
