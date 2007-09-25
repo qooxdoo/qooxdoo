@@ -127,311 +127,6 @@ qx.Class.define("qx.html.Element",
 
 
 
-    /*
-    ---------------------------------------------------------------------------
-      FLUSH OBJECT
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Syncs data of an HtmlElement object to the DOM.
-     *
-     * @type static
-     * @param obj {qx.html.Element} Element to flush
-     * @return {void}
-     */
-    __flushObject : function(obj)
-    {
-      if (obj._new)
-      {
-        if (qx.core.Variant.isSet("qx.debug", "on"))
-        {
-          if (this._debug) {
-            console.debug("Flush: " + obj.getAttribute("id") + " [new]");
-          }
-        }
-
-        this._copyData(obj);
-        this._insertChildren(obj);
-
-        delete obj._new;
-      }
-      else
-      {
-        if (qx.core.Variant.isSet("qx.debug", "on"))
-        {
-          if (this._debug) {
-            console.debug("Flush: " + obj.getAttribute("id") + " [existing]");
-          }
-        }
-
-        this._syncData(obj);
-
-        if (obj._modifiedChildren)
-        {
-          this._syncChildren(obj);
-          obj._modifiedChildren = false;
-        }
-      }
-    },
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      SUPPORT FOR ATTRIBUTE/STYLE/EVENT FLUSH
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Copies data between the internal representation and the DOM. This
-     * simply copies all the data and only works well directly after
-     * element creation. After this the data must be synced using {@link #_syncData}
-     *
-     * @type static
-     * @param obj {qx.html.Element} Element to process
-     * @return {void}
-     */
-    _copyData : function(obj)
-    {
-      var elem = obj._element;
-
-      // Copy attributes
-      var data = obj.__attribValues;
-      if (data)
-      {
-        var Attribute = qx.bom.element.Attribute;
-
-        for (var key in data) {
-          Attribute.set(elem, key, data[key]);
-        }
-      }
-
-      // Copy styles
-      var data = obj.__styleValues;
-      if (data)
-      {
-        var Style = qx.bom.element.Style;
-
-        for (var key in data) {
-          Style.set(elem, key, data[key]);
-        }
-      }
-
-      // Attach events
-      var data = obj.__eventValues;
-      if (data)
-      {
-        var Event = qx.event.Registration;
-
-        var entry;
-        for (var key in data)
-        {
-          entry = data[key];
-          Event.addListener(entry.target._element, entry.type, entry.listener, entry.self, entry.capture);
-        }
-
-        // Cleanup old event map
-        // Events are directly used through event manager
-        // after intial creation. This differs from the
-        // handling of styles and attributes.
-        delete obj.__eventValues;
-      }
-    },
-
-
-    /**
-     * Syncronizes data between the internal representation and the DOM. This
-     * is the counterpart of {@link #_copyData} and is used for further updates
-     * after the element has been created.
-     *
-     * @type static
-     * @param obj {qx.html.Element} Element to process
-     * @return {void}
-     */
-    _syncData : function(obj)
-    {
-      var elem = obj._element;
-
-      var Attribute = qx.bom.element.Attribute;
-      var Style = qx.bom.element.Style;
-
-      // Sync attributes
-      var jobs = obj.__attribJobs;
-      if (jobs)
-      {
-        var data = obj.__attribValues;
-
-        if (data)
-        {
-          var value;
-          for (var key in jobs)
-          {
-            value = data[key];
-
-            if (value !== undefined) {
-              Attribute.set(elem, key, value);
-            } else {
-              Attribute.reset(elem, key);
-            }
-          }
-        }
-
-        obj.__attribJobs = null;
-      }
-
-      // Sync styles
-      var jobs = obj.__styleJobs;
-      if (jobs)
-      {
-        var data = obj.__styleValues;
-
-        if (data)
-        {
-          var value;
-          for (var key in data)
-          {
-            value = data[key];
-
-            if (value !== undefined) {
-              Style.set(elem, key, value);
-            } else {
-              Style.reset(elem, key);
-            }
-          }
-        }
-
-        obj.__styleJobs = null;
-      }
-
-      // Events are directly kept in sync
-    },
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      SUPPORT FOR CHILDREN FLUSH
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Append all child nodes to the DOM
-     * element. This function is used when the element is initially
-     * created. After this initial apply {@link #_syncChildren} is used
-     * instead.
-     *
-     * @type static
-     * @param obj {qx.html.Element} the element to process
-     * @return {void}
-     */
-    _insertChildren : function(obj)
-    {
-      var domElement = document.createDocumentFragment();
-
-      for (var i=0, children=obj._children, l=children.length; i<l; i++)
-      {
-        if (children[i]._included) {
-          domElement.appendChild(children[i]._element);
-        }
-      }
-
-      obj._element.appendChild(domElement);
-    },
-
-
-    /**
-     * Syncronize internal children hierarchy to the DOM. This is used
-     * for further runtime updates after the element has been created
-     * initially.
-     *
-     * @type static
-     * @param obj {qx.html.Element} the element to process
-     * @return {void}
-     */
-    _syncChildren : function(obj)
-    {
-      var dataParent = obj;
-      var dataChildren = dataParent._children;
-      var dataLength = dataChildren.length
-      var dataChild;
-      var dataPos = 0;
-      var dataEl;
-
-      var domParent = dataParent._element;
-      var domChildren = domParent.childNodes;
-      var domEl;
-
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        var domOperations = 0;
-      }
-
-      // Remove children from DOM which are excluded or remove first
-      for (var i=domChildren.length-1; i>=0; i--)
-      {
-        domEl = domChildren[i];
-        dataEl = domEl.QxElement;
-
-        if (!dataEl._included || dataEl._parent !== obj)
-        {
-          if (qx.core.Variant.isSet("qx.debug", "on")) {
-            domOperations++;
-          }
-
-          domParent.removeChild(domEl);
-        }
-      }
-
-      // Start from beginning and bring DOM in sync
-      // with the data structure
-      for (var i=0; i<dataLength; i++)
-      {
-        dataChild = dataChildren[i];
-
-        // Only process visible childs
-        if (dataChild._included)
-        {
-          dataEl = dataChild._element;
-          domEl = domChildren[dataPos];
-
-          // Only do something when out of sync
-          if (dataEl != domEl)
-          {
-            if (qx.core.Variant.isSet("qx.debug", "on")) {
-              domOperations++
-            }
-
-            if (domEl) {
-              domParent.insertBefore(dataEl, domEl);
-            } else {
-              domParent.appendChild(dataEl);
-            }
-          }
-
-          // Increase counter which ignores invisible entries
-          dataPos++;
-        }
-      }
-
-      // User feedback
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (this._debug) {
-          console.debug("  - Modified DOM with " + domOperations + " operations");
-        }
-      }
-    },
-
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -464,10 +159,10 @@ qx.Class.define("qx.html.Element",
       {
         if (this._debug)
         {
-          console.debug("Processing " + qx.lang.Object.getLength(modified) + " scheduled modifications...");
+          qx.core.Log.debug("Processing " + qx.lang.Object.getLength(modified) + " scheduled modifications...");
 
           for (var hc in modified) {
-            console.debug("  - " + modified[hc].getAttribute("id"));
+            qx.core.Log.debug("  - " + modified[hc].getAttribute("id"));
           }
         }
       }
@@ -509,14 +204,14 @@ qx.Class.define("qx.html.Element",
       {
         if (this._debug)
         {
-          console.debug("Updating " + qx.lang.Object.getLength(domInvisible) + " DOM invisible elements");
+          qx.core.Log.debug("Updating " + qx.lang.Object.getLength(domInvisible) + " DOM invisible elements");
           for (var hc in domInvisible) {
-            console.debug("  - " + domInvisible[hc].getAttribute("id"));
+            qx.core.Log.debug("  - " + domInvisible[hc].getAttribute("id"));
           }
 
-          console.debug("Updating " + qx.lang.Object.getLength(domRendered) + " DOM rendered elements");
+          qx.core.Log.debug("Updating " + qx.lang.Object.getLength(domRendered) + " DOM rendered elements");
           for (var hc in domRendered) {
-            console.debug("  - " + domRendered[hc].getAttribute("id"));
+            qx.core.Log.debug("  - " + domRendered[hc].getAttribute("id"));
           }
         }
       }
@@ -526,11 +221,11 @@ qx.Class.define("qx.html.Element",
 
       // Flush queues: Apply children, styles and attributes
       for (var hc in domInvisible) {
-        this.__flushObject(domInvisible[hc]);
+        domInvisible[hc]._flush();
       }
 
       for (var hc in domRendered) {
-        this.__flushObject(domRendered[hc]);
+        domRendered[hc]._flush();
       }
 
 
@@ -657,6 +352,306 @@ qx.Class.define("qx.html.Element",
     {
       this._element = qx.bom.Element.create(this._nodeName);
       this._element.QxElement = this;
+    },
+
+
+
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      FLUSH OBJECT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Syncs data of an HtmlElement object to the DOM.
+     *
+     * @type member
+     * @return {void}
+     */
+    _flush : function()
+    {
+      if (this._new)
+      {
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {
+          if (this._debug) {
+            this.debug("Flush: " + this.getAttribute("id") + " [new]");
+          }
+        }
+
+        this._copyData();
+        this._insertChildren(this);
+
+        delete this._new;
+      }
+      else
+      {
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {
+          if (this._debug) {
+            this.debug("Flush: " + this.getAttribute("id") + " [existing]");
+          }
+        }
+
+        this._syncData();
+
+        if (this._modifiedChildren)
+        {
+          this._syncChildren(this);
+          this._modifiedChildren = false;
+        }
+      }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      SUPPORT FOR CHILDREN FLUSH
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Append all child nodes to the DOM
+     * element. This function is used when the element is initially
+     * created. After this initial apply {@link #_syncChildren} is used
+     * instead.
+     *
+     * @type member
+     * @return {void}
+     */
+    _insertChildren : function()
+    {
+      var domElement = document.createDocumentFragment();
+
+      for (var i=0, children=this._children, l=children.length; i<l; i++)
+      {
+        if (children[i]._included) {
+          domElement.appendChild(children[i]._element);
+        }
+      }
+
+      this._element.appendChild(domElement);
+    },
+
+
+    /**
+     * Syncronize internal children hierarchy to the DOM. This is used
+     * for further runtime updates after the element has been created
+     * initially.
+     *
+     * @type member
+     * @return {void}
+     */
+    _syncChildren : function()
+    {
+      var dataChildren = this._children;
+      var dataLength = dataChildren.length
+      var dataChild;
+      var dataPos = 0;
+      var dataEl;
+
+      var domParent = this._element;
+      var domChildren = domParent.childNodes;
+      var domEl;
+
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        var domOperations = 0;
+      }
+
+      // Remove children from DOM which are excluded or remove first
+      for (var i=domChildren.length-1; i>=0; i--)
+      {
+        domEl = domChildren[i];
+        dataEl = domEl.QxElement;
+
+        if (!dataEl._included || dataEl._parent !== this)
+        {
+          if (qx.core.Variant.isSet("qx.debug", "on")) {
+            domOperations++;
+          }
+
+          domParent.removeChild(domEl);
+        }
+      }
+
+      // Start from beginning and bring DOM in sync
+      // with the data structure
+      for (var i=0; i<dataLength; i++)
+      {
+        dataChild = dataChildren[i];
+
+        // Only process visible childs
+        if (dataChild._included)
+        {
+          dataEl = dataChild._element;
+          domEl = domChildren[dataPos];
+
+          // Only do something when out of sync
+          if (dataEl != domEl)
+          {
+            if (qx.core.Variant.isSet("qx.debug", "on")) {
+              domOperations++
+            }
+
+            if (domEl) {
+              domParent.insertBefore(dataEl, domEl);
+            } else {
+              domParent.appendChild(dataEl);
+            }
+          }
+
+          // Increase counter which ignores invisible entries
+          dataPos++;
+        }
+      }
+
+      // User feedback
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (this._debug) {
+          this.debug("  - Modified DOM with " + domOperations + " operations");
+        }
+      }
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      SUPPORT FOR ATTRIBUTE/STYLE/EVENT FLUSH
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Copies data between the internal representation and the DOM. This
+     * simply copies all the data and only works well directly after
+     * element creation. After this the data must be synced using {@link #_syncData}
+     *
+     * @type member
+     * @return {void}
+     */
+    _copyData : function()
+    {
+      var elem = this._element;
+
+      // Copy attributes
+      var data = this.__attribValues;
+      if (data)
+      {
+        var Attribute = qx.bom.element.Attribute;
+
+        for (var key in data) {
+          Attribute.set(elem, key, data[key]);
+        }
+      }
+
+      // Copy styles
+      var data = this.__styleValues;
+      if (data)
+      {
+        var Style = qx.bom.element.Style;
+
+        for (var key in data) {
+          Style.set(elem, key, data[key]);
+        }
+      }
+
+      // Attach events
+      var data = this.__eventValues;
+      if (data)
+      {
+        var Event = qx.event.Registration;
+
+        var entry;
+        for (var key in data)
+        {
+          entry = data[key];
+          Event.addListener(entry.target._element, entry.type, entry.listener, entry.self, entry.capture);
+        }
+
+        // Cleanup old event map
+        // Events are directly used through event manager
+        // after intial creation. This differs from the
+        // handling of styles and attributes.
+        delete this.__eventValues;
+      }
+    },
+
+
+    /**
+     * Syncronizes data between the internal representation and the DOM. This
+     * is the counterpart of {@link #_copyData} and is used for further updates
+     * after the element has been created.
+     *
+     * @type member
+     * @return {void}
+     */
+    _syncData : function()
+    {
+      var elem = this._element;
+
+      var Attribute = qx.bom.element.Attribute;
+      var Style = qx.bom.element.Style;
+
+      // Sync attributes
+      var jobs = this.__attribJobs;
+      if (jobs)
+      {
+        var data = this.__attribValues;
+
+        if (data)
+        {
+          var value;
+          for (var key in jobs)
+          {
+            value = data[key];
+
+            if (value !== undefined) {
+              Attribute.set(elem, key, value);
+            } else {
+              Attribute.reset(elem, key);
+            }
+          }
+        }
+
+        this.__attribJobs = null;
+      }
+
+      // Sync styles
+      var jobs = this.__styleJobs;
+      if (jobs)
+      {
+        var data = this.__styleValues;
+
+        if (data)
+        {
+          var value;
+          for (var key in data)
+          {
+            value = data[key];
+
+            if (value !== undefined) {
+              Style.set(elem, key, value);
+            } else {
+              Style.reset(elem, key);
+            }
+          }
+        }
+
+        this.__styleJobs = null;
+      }
+
+      // Events are directly kept in sync
     },
 
 
