@@ -98,7 +98,21 @@ qx.Class.define("qx.ui2.layout.HBox",
       var spacing = this.getSpacing();
 
       var children = this._children;
-      var child, childWidth, childHeight;
+      var child;
+      var childWidth, childMinWidth, childMaxWidth, childPrefWidth;
+      var childHeight, childMinHeight, childMaxHeight, childPrefHeight;
+      var flexChildren = [];
+      var flexSum = 0;
+
+      for (var i=0, l=children.length; i<l; i++)
+      {
+        child = children[i];
+
+        if (typeof childWidth === "string")
+        {
+
+        }
+      }
 
       for (var i=0, l=children.length; i<l; i++)
       {
@@ -106,8 +120,25 @@ qx.Class.define("qx.ui2.layout.HBox",
 
         if (left < width)
         {
-          childWidth = child.getPreferredWidth();
-          childHeight = child.getPreferredHeight();
+          childWidth = child.getHint("width");
+          childHeight = child.getHint("height");
+
+          if (typeof childWidth === "number")
+          {
+            applyWidth = childWidth;
+          }
+          else
+          {
+            if (qx.lang.String.endswith(childWidth, "*"))
+            {
+              flexChildren
+            }
+          }
+
+
+
+          childPrefWidth = child.getPreferredWidth();
+          childPrefHeight = child.getPreferredHeight();
 
           child.layout(left, top, childWidth, childHeight);
           child.include();

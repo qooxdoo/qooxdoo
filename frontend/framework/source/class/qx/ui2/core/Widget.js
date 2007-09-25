@@ -132,6 +132,69 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
+
+
+    /*
+    ---------------------------------------------------------------------------
+      DIMENSION
+    ---------------------------------------------------------------------------
+    */
+
+    minWidth :
+    {
+      check : "Integer",
+      apply : "_applyLayoutChange",
+      themeable : true,
+      init : 0
+    },
+
+    width :
+    {
+      check : "Integer",
+      apply : "_applyLayoutChange",
+      themeable : true,
+      nullable : true
+    },
+
+    maxWidth :
+    {
+      check : "Integer",
+      apply : "_applyLayoutChange",
+      themeable : true,
+      init : 32000
+    },
+
+    minHeight :
+    {
+      check : "Integer",
+      apply : "_applyLayoutChange",
+      themeable : true,
+      init : 0
+    },
+
+    height :
+    {
+      check : "Integer",
+      apply : "_applyLayoutChange",
+      themeable : true,
+      nullable : true
+    },
+
+    maxHeight :
+    {
+      check : "Integer",
+      apply : "_applyLayoutChange",
+      themeable : true,
+      init : 32000
+    },
+
+
+
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       PADDING
@@ -916,8 +979,7 @@ qx.Class.define("qx.ui2.core.Widget",
       if (layout) {
         return layout.getPreferredHeight();
       }
-      // default height
-      return 50;
+
     },
 
 
@@ -928,10 +990,28 @@ qx.Class.define("qx.ui2.core.Widget",
      * @type member
      * @return {Integer} The preferred width, always in pixels
      */
-    getPreferredWidth : function()
+    _getPreferredWidth : function()
     {
-      return this._getPreferredContentWidth() +
-        this.getInsetLeft() + this.getInsetRight();
+      return this._getPreferredContentWidth() + this.getInsetLeft() + this.getInsetRight();
+    },
+
+
+    /**
+     * The recommended size for the widget.
+     */
+    getWidthHint : function()
+    {
+      var width = this.getWidth();
+      if (width != null) {
+        return width;
+      }
+
+      width = this._getPreferredWidth();
+      if (width != null) {
+        return width;
+      }
+
+      return 100;
     },
 
 
@@ -1086,7 +1166,26 @@ qx.Class.define("qx.ui2.core.Widget",
     {
       return this._getTechnicalMaximumContentHeight() +
         this.getInsetTop() + this.getInsetBottom();
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      FLEX POLICY
+    ---------------------------------------------------------------------------
+    */
+
+    canStretchX : function() {
+      return true;
+    },
+
+    canStretchY : function() {
+      return true;
     }
+
   },
 
 
