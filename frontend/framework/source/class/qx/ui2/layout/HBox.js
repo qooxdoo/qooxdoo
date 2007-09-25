@@ -157,6 +157,12 @@ qx.Class.define("qx.ui2.layout.HBox",
             }
           }
 
+          // limit flex unit to remaining space
+          var sizeChange = flexUnit * minEntry.flex * flexWidgets.length;
+          if (sizeChange > remainingSpace) {
+            // recompute flexUnit
+          }
+
           for (var i=0, l=flexWidgets.length; i<l; i++)
           {
             child = flexWidgets[i];
