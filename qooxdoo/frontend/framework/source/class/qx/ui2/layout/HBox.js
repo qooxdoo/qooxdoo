@@ -36,7 +36,9 @@ qx.Class.define("qx.ui2.layout.HBox",
   construct : function()
   {
     this.base(arguments);
+
     this._children = [];
+    this._sizeHint = null;
   },
 
 
@@ -68,11 +70,6 @@ qx.Class.define("qx.ui2.layout.HBox",
 
   members :
   {
-    /** {Integer} Currently cached preferred width */
-    _preferredWidth : null,
-
-    /** {Integer} Currently cached preferred height */
-    _preferredHeight : null,
 
     // overridden
     add : function(widget, hFlex, vAlign)
@@ -152,52 +149,50 @@ qx.Class.define("qx.ui2.layout.HBox",
       this._preferredHeight = null;
     },
 
+
     // overridden
-    getPreferredWidth : function()
+    invalidate : function()
     {
-      if (this._preferredWidth !== null) {
-        this.debug("cached preferred width: ", this._preferredWidth);
-        return this._preferredWidth;
-      }
-
-      var width = 0;
-
-      for (var i=0, l=this._children.length; i<l; i++)
-      {
-        var child = this._children[i];
-        width += child.getSizeHint().width;
-      }
-      width += this.getSpacing() * (this._children.length-1);
-
-      this._preferredWidth = width;
-      this.debug("computed preferred width: ", this._preferredWidth);
-
-      return width;
+      this.debug("Clear layout cache.");
+      this._sizeHint = null;
     },
 
-
     // overridden
-    getPreferredHeight : function()
+    getSizeHint : function()
     {
-      if (this._preferredHeight !== null) {
-        this.debug("cached preferred height: ", this._preferredHeight);
-        return this._preferredHeight;
+      if (this._sizeHint !== null) {
+        this.debug("cached preferred hint: ", this._sizeHint);
+        return this._sizeHint;
       }
 
-      var height = 0;
+      var hint = {
+        minWidth : 0,
+        width : 0,
+        maxWidth : 32000,
+        minHeight : 0,
+        height : 0,
+        maxHeight : 32000
+      };
 
       for (var i=0, l=this._children.length; i<l; i++)
       {
         var child = this._children[i];
-        height = Math.max(height, child.getSizeHint().height);
+        var childHint = child.getSizeHint();
+
+        hint.minWidth += child.getSizeHint().minWidth;
+        hint.width += child.getSizeHint().width;
+        hint.maxWidth += child.getSizeHint().maxWidth;
+
+        hint.minHeight = Math.max(hint.minHeight, childHint.minHeight);
+        hint.height = Math.max(hint.height, childHint.height);
+        hint.maxHeight = Math.max(hint.maxHeight, childHint.maxHeight);
       }
 
-      this._preferredHeight = height;
-      this.debug("computed preferred height: ", this._preferredHeight);
+      this._sizeHint = hint;
+      this.debug("computed preferred width: ", this._sizeHint);
 
-      return height;
+      return hint;
     }
-
 
   },
 
