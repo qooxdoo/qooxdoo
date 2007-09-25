@@ -103,13 +103,10 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
     layout : function(width, height) {},
 
     /**
-     * Get the layout's preferred width. The layout manager should always cache
-     * this value 
+     * Get the layout's preferred size. The layout manager should always cache
+     * this value
      */
-    getPreferredWidth : function() {},
-
-    /** Get the layout's preferred height */
-    getPreferredHeight : function() {},
+    getSizeHint : function() {},
 
     /** Invalidate all leyout relevant caches */
     invalidate : function() {}
