@@ -126,10 +126,10 @@ qx.Class.define("qx.ui2.layout.Basic",
       var hint = {
         minWidth : 0,
         width : 0,
-        maxWidth : 32000,
+        maxWidth : 0,
         minHeight : 0,
         height : 0,
-        maxHeight : 32000
+        maxHeight : 0
       };
 
       for (var i=0, l=this._children.length; i<l; i++)
