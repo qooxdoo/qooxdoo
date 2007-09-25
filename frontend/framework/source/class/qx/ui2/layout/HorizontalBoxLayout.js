@@ -38,6 +38,8 @@ qx.Class.define("qx.ui2.layout.HorizontalBoxLayout",
     this.base(arguments);
 
     this._children = [];
+    this._preferredWidth = null;
+    this._preferredHeight = null;
   },
 
 
@@ -112,8 +114,19 @@ qx.Class.define("qx.ui2.layout.HorizontalBoxLayout",
     },
 
     // overridden
+    invalidate : function()
+    {
+      this._preferredWidth = null;
+      this._preferredHeight = null;
+    },
+
+    // overridden
     getPreferredWidth : function()
     {
+      if (this._preferredWidth !== null) {
+        return this._preferredWidth;
+      }
+
       var width = 0;
 
       for (var i=0, l=this._children.length; i<l; i++)
@@ -122,13 +135,19 @@ qx.Class.define("qx.ui2.layout.HorizontalBoxLayout",
         width += child.getPreferredWidth();
       }
       width += this.getSpacing() * (this._children.length-1);
+
+      this._preferredWidth = width;
       return width;
     },
 
 
-    /** Get the layout's preferred height */
+    // overridden
     getPreferredHeight : function()
     {
+      if (this._preferredHeight !== null) {
+        return this._preferredHeight;
+      }
+
       var height = 0;
 
       for (var i=0, l=this._children.length; i<l; i++)
@@ -136,6 +155,8 @@ qx.Class.define("qx.ui2.layout.HorizontalBoxLayout",
         var child = this._children[i];
         height = Math.max(height, child.getPreferredHeight());
       }
+
+      this._preferredHeight = height;
       return height;
     }
 
