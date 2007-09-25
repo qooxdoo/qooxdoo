@@ -506,6 +506,17 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
+    exclude : function()
+    {
+      this._outerElement.exclude();
+    },
+
+    include : function()
+    {
+      this._outerElement.include();
+    },
+
+
 
 
 
