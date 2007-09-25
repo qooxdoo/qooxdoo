@@ -115,7 +115,7 @@ qx.Class.define("BasicSample",
       doc.setLayout(layout);
 
 
-      layout2 = new qx.ui2.layout.HorizontalBoxLayout();
+      layout2 = new qx.ui2.layout.HBox();
 
       w02 = new qx.ui2.core.Label("Hello");
       w12 = new qx.ui2.core.Widget;
@@ -183,6 +183,7 @@ qx.Class.define("BasicSample",
       w4.addListener("click", function(e)
       {
         w4.setBackgroundColor(w4.getBackgroundColor() == "yellow" ? "orange" : "yellow");
+        qx.ui2.core.LayoutQueue.flush();
       })
 
       qx.ui2.core.LayoutQueue.flush();

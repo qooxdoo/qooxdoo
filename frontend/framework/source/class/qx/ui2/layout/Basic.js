@@ -94,6 +94,10 @@ qx.Class.define("qx.ui2.layout.Basic",
       {
         var child = this._children[i];
 
+        if (child.isLayoutValid()) {
+          continue;
+        }
+
         var childWidth = child.getHint("width") || child.getPreferredWidth();
         var childHeight = child.getHint("height") || child.getPreferredHeight();
         var childLeft = child.getHint("left") || 0;
