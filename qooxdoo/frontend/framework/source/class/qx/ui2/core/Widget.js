@@ -956,8 +956,6 @@ qx.Class.define("qx.ui2.core.Widget",
       if (layout) {
         return layout.getPreferredWidth();
       }
-      // default width
-      return 100;
     },
 
 
@@ -979,7 +977,6 @@ qx.Class.define("qx.ui2.core.Widget",
       if (layout) {
         return layout.getPreferredHeight();
       }
-
     },
 
 
@@ -990,14 +987,39 @@ qx.Class.define("qx.ui2.core.Widget",
      * @type member
      * @return {Integer} The preferred width, always in pixels
      */
-    _getPreferredWidth : function()
-    {
+    _getPreferredWidth : function() {
       return this._getPreferredContentWidth() + this.getInsetLeft() + this.getInsetRight();
     },
 
 
     /**
-     * The recommended size for the widget.
+     * The preferred height of this widget (simulates the case
+     * when no layout properties have been applied at all)
+     *
+     * @type member
+     * @return {Integer} The preferred height, always in pixels
+     */
+    getPreferredHeight : function()
+    {
+      return this._getPreferredContentHeight() +
+        this.getInsetTop() + this.getInsetBottom();
+    },
+
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      SIZE HINTS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * The recommended width for the widget. Used by the layout
+     * manager to measure preferred sizes of the parent
      */
     getWidthHint : function()
     {
@@ -1016,17 +1038,25 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
     /**
-     * The preferred height of this widget (simulates the case
-     * when no layout properties have been applied at all)
-     *
-     * @type member
-     * @return {Integer} The preferred height, always in pixels
+     * The recommended height for the widget. Used by the layout
+     * manager to measure preferred sizes of the parent
      */
-    getPreferredHeight : function()
+    getHeightHint : function()
     {
-      return this._getPreferredContentHeight() +
-        this.getInsetTop() + this.getInsetBottom();
+      var height = this.getHeight();
+      if (height != null) {
+        return height;
+      }
+
+      height = this._getPreferredHeight();
+      if (height != null) {
+        return height;
+      }
+
+      return 100;
     },
+
+
 
 
 
