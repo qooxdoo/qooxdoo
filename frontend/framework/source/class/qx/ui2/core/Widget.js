@@ -471,7 +471,7 @@ qx.Class.define("qx.ui2.core.Widget",
       {
         var mgr = this.getLayout();
         if (mgr) {
-          mgr.layout(width, height);
+          mgr.layout(innerWidth, innerHeight);
         }
       }
 
