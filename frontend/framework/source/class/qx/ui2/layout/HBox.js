@@ -99,23 +99,17 @@ qx.Class.define("qx.ui2.layout.HBox",
     _getFlexOffsets : function(width, height)
     {
       var hint = this.getSizeHint();
-      var flexOffsets = {};
-
       var remainingSpace = width - hint.width;
+
       this.debug("Remaining space: " + remainingSpace);
 
       if (remainingSpace == 0) {
-        return flexOffsets;
+        return {};
       }
 
-      var fillUp = remainingSpace > 0;
-      var shrinkDown = remainingSpace < 0;
-      remainingSpace = Math.abs(remainingSpace);
-
+      // collect all flex widgets
       var flexWidgets = [];
       var children = this._children;
-
-      // collect all flex widgets
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
@@ -130,10 +124,7 @@ qx.Class.define("qx.ui2.layout.HBox",
 
             flexWidgets.push({
               widget : child,
-              max : hint.maxWidth,
-              min : hint.minWidth,
-              orig : hint.width,
-              remain : fillUp ? hint.maxWidth - hint.width : hint.width - hint.minWidth,
+              remain : remainingSpace > 0 ? hint.maxWidth - hint.width : hint.width - hint.minWidth,
               flex : child.getLayoutProperty("hFlex") || 1,
               hc : child.toHashCode(),
               offset : 0
@@ -142,7 +133,15 @@ qx.Class.define("qx.ui2.layout.HBox",
         }
       }
 
+      return this._computeFlexOffsets(flexWidgets, remainingSpace);
+    },
 
+    _computeFlexOffsets : function(flexWidgets, remainingSpace)
+    {
+      var fillUp = remainingSpace > 0;
+      remainingSpace = Math.abs(remainingSpace);
+
+      var flexOffsets = {};
 
       // compute largest flex unit each widget can grow
       while (flexWidgets.length > 0 && remainingSpace != 0)
