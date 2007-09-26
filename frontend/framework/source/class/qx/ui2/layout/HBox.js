@@ -127,6 +127,7 @@ qx.Class.define("qx.ui2.layout.HBox",
             flexWidgets.push({
               widget : child,
               max : hint.maxWidth,
+              min : hint.minWidth,
               orig : hint.width,
               remain : hint.maxWidth - hint.width,
               flex : child.getLayoutProperty("hFlex") || 1,
@@ -180,6 +181,15 @@ qx.Class.define("qx.ui2.layout.HBox",
           child = flexWidgets[i];
 
           childGrow = Math.min(remainingSpace, child.remain, Math.ceil(minFlexUnit * child.flex));
+          roundingError += childGrow - (minFlexUnit * child.flex);
+
+          if (roundingError >= 1)
+          {
+            roundingError -= 1;
+            childGrow -= 1;
+          }
+
+          console.log("Rounding error: ", roundingError);
 
           child.offset += childGrow;
           child.remain -= childGrow;
