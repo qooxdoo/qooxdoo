@@ -123,10 +123,12 @@ qx.Class.define("qx.ui2.layout.HBox",
           if (childFlex == null || childFlex > 0)
           {
             hint = child.getSizeHint();
+
             flexWidgets.push({
               widget : child,
               max : hint.maxWidth,
               orig : hint.width,
+              remain : hint.maxWidth - hint.width,
               flex : child.getLayoutProperty("hFlex") || 1,
               hc : child.toHashCode(),
               offset : 0
@@ -135,9 +137,13 @@ qx.Class.define("qx.ui2.layout.HBox",
         }
       }
 
+
+
       // compute largest flex unit each widget can grow
-      while (flexWidgets.length > 0)
+      while (flexWidgets.length > 0 && remainingSpace > 0)
       {
+        console.log("!! Flex loop, remaining space: " + remainingSpace);
+
         var minFlexUnit = 32000;
         var minEntry;
         var flexCount = 0;
@@ -145,54 +151,56 @@ qx.Class.define("qx.ui2.layout.HBox",
         for (var i=0, l=flexWidgets.length; i<l; i++)
         {
           child = flexWidgets[i];
+
           flexCount += child.flex;
+          flexUnit = child.remain / child.flex; // pixel per flex unit
 
-          flexUnit = (child.max - child.orig - child.offset) / child.flex;
+          console.log("  - remain: " + child.remain + ", flex unit: " + flexUnit);
 
-          this.debug("Compute flex unit: " + flexUnit + " " + child.widget);
-
-          if (flexUnit < minFlexUnit)
-          {
+          if (flexUnit < minFlexUnit) {
             minFlexUnit = flexUnit;
-            minEntry = child;
           }
         }
 
-        // limit flex unit to remaining space
-        var sizeChange = flexUnit * minEntry.flex * flexWidgets.length;
-        if (sizeChange > remainingSpace)
-        {
-          this.debug("widgets can grow to remainig size");
+        console.log("Min Flex Unit: " + minFlexUnit);
 
-          var flexUnit = remainingSpace / flexCount;
-          var roundingError = 0;
-          for (var i=0, l=flexWidgets.length; i<l; i++)
-          {
-            child = flexWidgets[i];
-            var childOffset = child.offset + (flexUnit * child.flex);
-            var roundedOffset = Math.floor(childOffset);
-            roundingError += childOffset - roundedOffset;
-            if (roundingError >= 1)
-            {
-              roundingError -= 1;
-              roundedOffset += 1;
-            }
-            flexOffsets[child.hc] = roundedOffset;
-            this.debug("computed flex offset: " + roundedOffset + " " + child.widget);
-          }
-          break;
-        }
+        pixelIncrement = minFlexUnit * flexCount // pixel to grow
+        pixelTodo = Math.min(remainingSpace, pixelIncrement);
+        minFlexUnit = pixelTodo / flexCount; // corrected flex unit minimum
+        childRounding = 0;
 
-        remainingSpace -= sizeChange;
+        console.log("Pixel to grow: " + pixelIncrement);
+        console.log("Pixel todo: " + pixelTodo);
+        console.log("Corrected minFlexUnit: " + minFlexUnit);
 
-        for (var i=0, l=flexWidgets.length; i<l; i++)
+        var roundingError = 0;
+
+        for (var i=flexWidgets.length-1; i>=0; i--)
         {
           child = flexWidgets[i];
-          child.offset += flexUnit * child.flex;
+
+          childGrow = Math.min(remainingSpace, child.remain, Math.ceil(minFlexUnit * child.flex));
+
+          child.offset += childGrow;
+          child.remain -= childGrow;
+
+          remainingSpace -= childGrow;
+
+          console.log("  - grow by: " + childGrow);
+          console.log("  - remain: " + child.remain);
+
+          if (child.remain == 0)
+          {
+            flexOffsets[child.hc] = child.offset;
+            qx.lang.Array.remove(flexWidgets, child);
+          }
         }
 
-        flexOffsets[minEntry.hc] = minEntry.offset;
-        qx.lang.Array.remove(flexWidgets, minEntry);
+        for (var i=flexWidgets.length-1; i>=0; i--)
+        {
+          child = flexWidgets[i];
+          flexOffsets[child.hc] = child.offset;
+        }
       }
 
       return flexOffsets;
