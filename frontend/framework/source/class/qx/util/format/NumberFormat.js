@@ -193,8 +193,6 @@ qx.Class.define("qx.util.format.NumberFormat",
      */
     format : function(num)
     {
-      var NumberFormat = qx.util.format.NumberFormat;
-
       // handle special cases
       switch (num) {
         case Infinity:
@@ -293,8 +291,6 @@ qx.Class.define("qx.util.format.NumberFormat",
      */
     parse : function(str)
     {
-      var NumberFormat = qx.util.format.NumberFormat;
-
       // use the escaped separators for regexp
       var groupSepEsc = qx.lang.String.escapeRegexpChars(qx.locale.Number.getGroupSeparator(this._locale) + "");
       var decimalSepEsc = qx.lang.String.escapeRegexpChars(qx.locale.Number.getDecimalSeparator(this._locale) + "");

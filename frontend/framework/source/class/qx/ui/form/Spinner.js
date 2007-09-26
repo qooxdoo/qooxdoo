@@ -67,6 +67,7 @@ qx.Class.define("qx.ui.form.Spinner",
     this._textfield.setWidth("1*");
     this._textfield.setAllowStretchY(true);
     this._textfield.setHeight(null);
+    this._textfield.setLiveUpdate(true);
     this._textfield.setVerticalAlign("middle");
     this._textfield.setAppearance("spinner-text-field");
     this.add(this._textfield);
@@ -113,6 +114,7 @@ qx.Class.define("qx.ui.form.Spinner",
     this.addListener("keyup", this._onkeyup, this);
     this.addListener("mousewheel", this._onmousewheel, this);
 
+    this._textfield.addListener("changeValue", this._ontextchange, this);
     this._textfield.addListener("input", this._oninput, this);
     this._textfield.addListener("blur", this._onblur, this);
     this._upbutton.addListener("mousedown", this._onmousedown, this);
@@ -135,9 +137,12 @@ qx.Class.define("qx.ui.form.Spinner",
     }
 
     this._checkValue = this.__checkValue;
+    this._numberFormat = null;
 
     this.initWidth();
     this.initHeight();
+
+    this._last_value = "";
   },
 
 
@@ -199,7 +204,7 @@ qx.Class.define("qx.ui.form.Spinner",
     /** The amount to increment on each event (keypress or mousedown). */
     incrementAmount :
     {
-      check : "Integer",
+      check : "Number",
       init : 1,
       apply : "_applyIncrementAmount"
     },
@@ -208,7 +213,7 @@ qx.Class.define("qx.ui.form.Spinner",
     /** The amount to increment on each event (keypress or mousedown). */
     wheelIncrementAmount :
     {
-      check : "Integer",
+      check : "Number",
       init : 1
     },
 
@@ -216,7 +221,7 @@ qx.Class.define("qx.ui.form.Spinner",
     /** The amount to increment on each pageup / pagedown keypress */
     pageIncrementAmount :
     {
-      check : "Integer",
+      check : "Number",
       init : 10
     },
 
@@ -253,7 +258,7 @@ qx.Class.define("qx.ui.form.Spinner",
     },
 
 
-    /** If minTimer was reached, how much the amount of each interval should growth (in relation to the previous interval). */
+    /** If minTimer was reached, how much the amount of each interval should grow (in relation to the previous interval). */
     amountGrowth :
     {
       check : "Number",
@@ -292,6 +297,22 @@ qx.Class.define("qx.ui.form.Spinner",
     checkValueFunction :
     {
       apply : "_applyCheckValueFunction"
+    },
+
+
+    /**  */
+    numberFormat :
+    {
+      check : "qx.util.format.NumberFormat",
+      apply : "_applyNumberFormat"
+    },
+
+
+    /**  */
+    selectTextOnInteract :
+    {
+      check : "Boolean",
+      init : true
     }
   },
 
@@ -349,6 +370,13 @@ qx.Class.define("qx.ui.form.Spinner",
     },
 
 
+    _applyNumberFormat : function(value, old) {
+      this._numberFormat = value;
+      this.getManager().setPrecision(value.getMaximumFractionDigits());
+      this._onchange();
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       PREFERRED DIMENSIONS
@@ -403,8 +431,10 @@ qx.Class.define("qx.ui.form.Spinner",
 
       if (vIdentifier == "Enter" && !e.isAltPressed())
       {
-        this._checkValue(true, false, false);
-        this._textfield.selectAll();
+        this._checkValue(true, false);
+        if (this.getSelectTextOnInteract()) {
+          this._textfield.selectAll();
+        }
       }
       else
       {
@@ -430,8 +460,15 @@ qx.Class.define("qx.ui.form.Spinner",
             break;
 
           default:
-            if (vIdentifier >= "0" && vIdentifier <= "9") {
+            if ((vIdentifier >= "0" && vIdentifier <= "9") || 
+                (vIdentifier == '-')) {
               return;
+            }
+            if (this._numberFormat) {
+              var locale = this._numberFormat._locale;
+              if ((vIdentifier == qx.locale.Number.getGroupSeparator(locale)) ||
+                  (vIdentifier == qx.locale.Number.getDecimalSeparator(locale)))
+                return;
             }
 
             // supress all key events without modifier
@@ -469,7 +506,7 @@ qx.Class.define("qx.ui.form.Spinner",
             this._intervalMode = "single";
 
             this._resetIncrements();
-            this._checkValue(true, false, false);
+            this._checkValue(true, false);
 
             this._increment();
             this._timer.startWith(this.getFirstInterval());
@@ -482,7 +519,7 @@ qx.Class.define("qx.ui.form.Spinner",
             this._intervalMode = "page";
 
             this._resetIncrements();
-            this._checkValue(true, false, false);
+            this._checkValue(true, false);
 
             this._pageIncrement();
             this._timer.startWith(this.getFirstInterval());
@@ -559,7 +596,9 @@ qx.Class.define("qx.ui.form.Spinner",
       this._resetIncrements();
       this._increment();
 
-      this._textfield.selectAll();
+      if (this.getSelectTextOnInteract()) {
+        this._textfield.selectAll();
+      }
 
       this._timer.setInterval(this.getFirstInterval());
       this._timer.start();
@@ -585,7 +624,9 @@ qx.Class.define("qx.ui.form.Spinner",
       vButton.removeListener("mouseup", this._onmouseup, this);
       vButton.removeListener("mouseout", this._onmouseup, this);
 
-      this._textfield.selectAll();
+      if (this.getSelectTextOnInteract()) {
+        this._textfield.selectAll();
+      }
       this._textfield.setFocused(true);
 
       this._timer.stop();
@@ -604,6 +645,7 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     _onmousewheel : function(e)
     {
+      this._checkValue(true);
       if (this.getManager().incrementValue)
       {
         this.getManager().incrementValue(this.getWheelIncrementAmount() *
@@ -628,6 +670,10 @@ qx.Class.define("qx.ui.form.Spinner",
       OTHER EVENT-HANDLING
     ---------------------------------------------------------------------------
     */
+
+    _ontextchange : function(e) {
+      this._last_value = e.getOldValue();
+    },
 
     /**
      * Callback method for the "input" event.<br/>
@@ -657,8 +703,11 @@ qx.Class.define("qx.ui.form.Spinner",
     _onchange : function(e)
     {
       var vValue = this.getManager().getValue();
-
-      this._textfield.setValue(String(vValue));
+      if (this._numberFormat) {  
+        this._textfield.setValue(this._numberFormat.format(vValue));
+      } else {
+        this._textfield.setValue(String(vValue));
+      }
 
       if (vValue == this.getMin() && !this.getWrap())
       {
@@ -727,6 +776,7 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     getValue : function()
     {
+      // make sure the manager is uptodate with what is on screen  
       this._checkValue(true);
       return this.getManager().getValue();
     },
@@ -869,7 +919,7 @@ qx.Class.define("qx.ui.form.Spinner",
         return;
       }
 
-      if (el.value == "")
+      if ((el.value == "") || (el.value == "-"))
       {
         if (!acceptEmpty)
         {
@@ -880,73 +930,71 @@ qx.Class.define("qx.ui.form.Spinner",
       }
       else
       {
-        // cache working variable
-        var val = el.value;
+        // cache original value
+        var str_val = el.value;
 
-        // fix leading '0'
-        if (val.length > 1)
+        // prepare for parsing. We don't use numberFormat itself to parse the
+        // string, as we want to be a little more liberal at this point since 
+        // we might be currently editing the string. For example, we accept
+        // things like "4000."
+        var parsable_str;
+
+        if (this._numberFormat) 
         {
-          while (val.charAt(0) == "0") {
-            val = val.substr(1, val.length);
-          }
-
-          var f1 = parseInt(val) || 0;
-
-          if (f1 != el.value)
-          {
-            el.value = f1;
-            return;
-          }
+          var groupSepEsc =
+    qx.lang.String.escapeRegexpChars(qx.locale.Number.getGroupSeparator(this._numberFormat._locale) + "");
+          var decimalSepEsc =
+    qx.lang.String.escapeRegexpChars(qx.locale.Number.getDecimalSeparator(this._numberFormat._locale) + "");
+          parsable_str = str_val.replace(new RegExp(decimalSepEsc), ".");
+          parsable_str = parsable_str.replace(new RegExp(groupSepEsc, "g"), "");
         }
-
-        // fix for negative integer handling
-        if (val == "-" && acceptEmpty && this.getMin() < 0)
+        else 
         {
-          if (el.value != val) {
-            el.value = val;
-          }
-
-          return;
+          parsable_str = str_val;
         }
 
         // parse the string
-        val = parseInt(val);
+        var val = parseFloat(parsable_str);
+        var limitedVal = this.getManager().limit(val);
+        var oldValue = this.getManager().getValue();
+        var fixedVal = limitedVal;
 
-        // main check routine
-        var doFix = true;
-        var fixedVal = this.getManager().limit(val);
-
-        if (isNaN(fixedVal)) {
-          fixedVal = this.getManager().getValue();
-        }
-
-        // handle empty string
-        if (acceptEmpty && val == "") {
-          doFix = false;
-        }
-        else if (!isNaN(val))
+        // NaN means we had a parse error, but we'll be more picky than
+        // parseFloat (refuse stuff like 5.55-12.5 which parseFloat
+        // parses as 5.55). We also refuse values outside the range.
+        if (isNaN(val) || (limitedVal != val) || (val != parsable_str)) 
         {
-          // check for editmode in keypress events
-          if (acceptEdit)
-          {
-            // fix min/max values
-            if (val > fixedVal && !(val > 0 && fixedVal <= 0) && String(val).length < String(fixedVal).length) {
-              doFix = false;
-            } else if (val < fixedVal && !(val < 0 && fixedVal >= 0) && String(val).length < String(fixedVal).length) {
-              doFix = false;
+          if (acceptEdit) {
+            this._textfield.setValue(this._last_value);
+          } else {
+            if (isNaN(limitedVal)) {
+              // reset to last correct value
+              fixedVal = oldValue;
+            } else {
+              fixedVal = limitedVal;
             }
           }
         }
+        if (acceptEdit)
+          return;
 
-        // apply value fix
-        if (doFix && el.value != fixedVal) {
-          el.value = fixedVal;
+        var formattedValue;
+
+        if (this._numberFormat) {
+          formattedValue = this._numberFormat.format(fixedVal);
+        } else {
+          formattedValue = String(fixedVal);
+        }
+
+        if ((fixedVal === oldValue) && (str_val !== formattedValue)) {
+          // "silently" update the displayed value as it won't get
+          // updated by the range manager since it considers the value as
+          // unchanged.
+          this._textfield.setValue(formattedValue);
         }
 
         // inform manager
-        if (!acceptEdit) {
-          this.getManager().setValue(fixedVal);
-        }
+        this.getManager().setValue(fixedVal);
       }
     },
 

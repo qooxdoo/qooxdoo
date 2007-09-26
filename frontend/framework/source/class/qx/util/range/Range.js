@@ -64,6 +64,15 @@ qx.Class.define("qx.util.range.Range",
       event : "change"
     },
 
+    /** maximum fraction digits */
+    precision :
+    {
+      check : "Integer",
+      nullable : true,
+      event : "change",
+      init : 0
+    },
+
     /** minimal value of the Range object */
     min :
     {
@@ -127,8 +136,15 @@ qx.Class.define("qx.util.range.Range",
 
     limit : function(value)
     {
+      var precision = this.getPrecision();
+      if (precision != null)
+        var mover = Math.pow(10, precision);
+
       if (this.getWrap()) {
-        var value = Math.round(value);
+        if (precision != null) {
+          // round to the precision'th digit
+          var value = Math.round(value * mover) / mover;
+        }
 
         if (value < this.getMin()) {
           return (this.getMax() - (this.getMin() - value)) + 1;
@@ -146,7 +162,11 @@ qx.Class.define("qx.util.range.Range",
         return this.getMax();
       }
 
-      return Math.round(value);
+      if (precision != null) {
+        return Math.round(value * mover) / mover;
+      } else {
+        return value;
+      }
     }
   }
 });
