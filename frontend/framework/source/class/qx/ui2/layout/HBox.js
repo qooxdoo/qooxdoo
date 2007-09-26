@@ -100,8 +100,6 @@ qx.Class.define("qx.ui2.layout.HBox",
       var hint = this.getSizeHint();
       var diff = width - hint.width;
 
-      console.debug("Flex offsets diff: " + diff + " (" + width + " != " + hint.width + ")");
-
       if (diff == 0) {
         return {};
       }

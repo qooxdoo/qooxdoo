@@ -1050,7 +1050,7 @@ qx.Class.define("qx.ui2.core.Widget",
         maxHeight : maxHeight
       };
 
-      this.debug("Compute size hint: ", hint);
+      // this.debug("Compute size hint: ", hint);
       return hint;
     },
 
