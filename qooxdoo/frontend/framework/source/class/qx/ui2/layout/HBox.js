@@ -147,7 +147,7 @@ qx.Class.define("qx.ui2.layout.HBox",
       // compute largest flex unit each widget can grow
       while (flexWidgets.length > 0 && remainingSpace != 0)
       {
-        console.log("!! Flex loop, remaining space: " + remainingSpace);
+        qx.core.Log.debug("!! Flex loop, remaining space: " + remainingSpace);
 
         var minFlexUnit = 32000;
         var minEntry;
@@ -164,23 +164,23 @@ qx.Class.define("qx.ui2.layout.HBox",
           flexCount += child.flex;
           flexUnit = child.remain / child.flex; // pixel per flex unit
 
-          console.log("  - remain: " + child.remain + ", flex unit: " + flexUnit);
+          qx.core.Log.debug("  - remain: " + child.remain + ", flex unit: " + flexUnit);
 
           if (flexUnit < minFlexUnit) {
             minFlexUnit = flexUnit;
           }
         }
 
-        console.log("Min Flex Unit: " + minFlexUnit);
+        qx.core.Log.debug("Min Flex Unit: " + minFlexUnit);
 
         pixelIncrement = minFlexUnit * flexCount // pixel to grow
         pixelTodo = Math.min(remainingSpace, pixelIncrement);
         minFlexUnit = pixelTodo / flexCount; // corrected flex unit minimum
         childRounding = 0;
 
-        console.log("Pixel to grow: " + pixelIncrement);
-        console.log("Pixel todo: " + pixelTodo);
-        console.log("Corrected minFlexUnit: " + minFlexUnit);
+        qx.core.Log.debug("Pixel to grow: " + pixelIncrement);
+        qx.core.Log.debug("Pixel todo: " + pixelTodo);
+        qx.core.Log.debug("Corrected minFlexUnit: " + minFlexUnit);
 
         var roundingError = 0;
 
@@ -201,15 +201,14 @@ qx.Class.define("qx.ui2.layout.HBox",
             childGrow -= 1;
           }
 
-          console.log("Rounding error: ", roundingError);
+          qx.core.Log.debug("Rounding error: ", roundingError);
 
           child.offset += childGrow;
           child.remain -= childGrow;
 
           remainingSpace -= childGrow;
 
-          console.log("  - grow by: " + childGrow);
-          console.log("  - remain: " + child.remain);
+          qx.core.Log.debug("  - grow by: " + childGrow + " (remain: " + child.remain + ")");
         }
 
         for (var i=flexWidgets.length-1; i>=0; i--)
@@ -217,7 +216,6 @@ qx.Class.define("qx.ui2.layout.HBox",
           child = flexWidgets[i];
           flexOffsets[child.hc] = fillUp ? child.offset : -child.offset;
         }
-
       }
 
       return flexOffsets;
