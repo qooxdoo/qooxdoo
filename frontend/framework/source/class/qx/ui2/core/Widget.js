@@ -889,14 +889,8 @@ qx.Class.define("qx.ui2.core.Widget",
 
     _applyLayout : function(value, old)
     {
-      if (value)
-      {
-        var children = value.getChildren();
-        for (var i=0, l=children.length; i<l; i++)
-        {
-          this._contentElement.add(children[i].getElement());
-          children[i].setParent(this);
-        }
+      if (value) {
+        value.setWidget(this);
       }
     },
 

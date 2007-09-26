@@ -62,6 +62,13 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
 
   properties :
   {
+    widget :
+    {
+      check : "qx.ui2.core.Widget",
+      init : null,
+      nullable : true,
+      apply : "_applyWidget"
+    }
   },
 
 
@@ -113,7 +120,31 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
     getSizeHint : function() {},
 
     /** Invalidate all leyout relevant caches */
-    invalidate : function() {}
+    invalidate : function() {},
+
+
+    // property apply
+    _applyWidget : function(value, old)
+    {
+      var children = this.getChildren();
+
+      if (old)
+      {
+        for (var i=0, l=children.length; i<l; i++) {
+          children[i].free();
+          children[i].setParent(null);
+        }
+      }
+
+      if (value)
+      {
+        for (var i=0, l=children.length; i<l; i++) {
+          value._contentElement.add(children[i].getElement());
+          children[i].setParent(value);
+        }
+      }
+    }
+
 
   },
 
