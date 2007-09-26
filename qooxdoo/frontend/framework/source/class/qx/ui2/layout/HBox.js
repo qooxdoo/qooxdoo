@@ -101,7 +101,9 @@ qx.Class.define("qx.ui2.layout.HBox",
       var hint = this.getSizeHint();
       var flexOffsets = {};
 
-      var remainingSpace = hint.width - width;
+      var remainingSpace = width - hint.width;
+      this.debug("Remaining space: " + remainingSpace);
+
       if (remainingSpace == 0) {
         return flexOffsets;
       }
@@ -146,6 +148,9 @@ qx.Class.define("qx.ui2.layout.HBox",
           flexCount += child.flex;
 
           flexUnit = (child.max - child.orig - child.offset) / child.flex;
+
+          this.debug("Compute flex unit: " + flexUnit + " " + child.widget);
+
           if (flexUnit < minFlexUnit)
           {
             minFlexUnit = flexUnit;
@@ -157,6 +162,8 @@ qx.Class.define("qx.ui2.layout.HBox",
         var sizeChange = flexUnit * minEntry.flex * flexWidgets.length;
         if (sizeChange > remainingSpace)
         {
+          this.debug("widgets can grow to remainig size");
+
           var flexUnit = remainingSpace / flexCount;
           var roundingError = 0;
           for (var i=0, l=flexWidgets.length; i<l; i++)
@@ -168,12 +175,15 @@ qx.Class.define("qx.ui2.layout.HBox",
             if (roundingError >= 1)
             {
               roundingError -= 1;
-              roundOffset += 1;
+              roundedOffset += 1;
             }
-            flexOffsets[minEntry.hc] = roundOffset;
+            flexOffsets[child.hc] = roundedOffset;
+            this.debug("computed flex offset: " + roundedOffset + " " + child.widget);
           }
           break;
         }
+
+        remainingSpace -= sizeChange;
 
         for (var i=0, l=flexWidgets.length; i<l; i++)
         {
@@ -197,7 +207,7 @@ qx.Class.define("qx.ui2.layout.HBox",
 
       var spacing = this.getSpacing();
 
-      var flexOffsets = {}; //this.__getFlexOffsets();
+      var flexOffsets = this.__getFlexOffsets(width, height);
 
       var children = this._children;
       var child, childHint;
