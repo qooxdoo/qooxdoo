@@ -110,6 +110,16 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
      */
     createRequestObject : function() {
       return qx.net.HttpRequest.create();
+    },
+
+
+    /**
+     * Dummy function to use for onreadystatechange after disposal
+     *
+     * @type static
+     * @return {var} none
+     */
+    __dummy : function() {
     }
   },
 
@@ -883,13 +893,11 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
 
     if (vRequest)
     {
-      // Should be right,
-      // but is not compatible to mshtml (throws an exception)
-      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-      } else { // empty to help the generator to optimize this variant
-        vRequest.onreadystatechange = null;
-      }
-
+      // Clean up state change handler
+      // Note that for IE the proper way to do this is to set it to a
+      // dummy function, not null (Google on "onreadystatechange dummy IE unhook")
+      // http://groups.google.com/group/Google-Web-Toolkit-Contributors/browse_thread/thread/7e7ee67c191a6324
+      vRequest.onreadystatechange = qx.io.remote.XmlHttpTransport.__dummy;
       // Aborting
       switch(vRequest.readyState)
       {
