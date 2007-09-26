@@ -69,7 +69,7 @@ qx.Class.define("qx.ui2.core.LayoutQueue",
         root.layout(0, 0, rootHint.width, rootHint.height);
       }
 
-      this._roots.length = 0;
+      this._roots = {};
       qx.html.Element.flush();
     }
   }
