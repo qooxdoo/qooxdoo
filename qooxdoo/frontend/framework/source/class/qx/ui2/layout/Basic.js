@@ -132,12 +132,14 @@ qx.Class.define("qx.ui2.layout.Basic",
         return this._sizeHint;
       }
 
-      var minWidth=0, width=0, maxWidth=0;
-      var minHeight=0, height=0, maxHeight=0;
+      var minWidth=0, width=0, maxWidth=32000;
+      var minHeight=0, height=0, maxHeight=32000;
 
       var children = this._children;
       var child, childHint, childLeft, childTop;
 
+
+      // Iterate
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
@@ -145,15 +147,22 @@ qx.Class.define("qx.ui2.layout.Basic",
         childLeft = child.getLayoutProperty("left") || 0;
         childTop = child.getLayoutProperty("top") || 0;
 
-        minWidth = Math.max(minWidth, childLeft + childHint.minWidth);
         width = Math.max(width, childLeft + childHint.width);
-        maxWidth = Math.max(maxWidth, childLeft + childHint.maxWidth);
-
-        minHeight = Math.max(minHeight, childTop + childHint.minHeight);
         height = Math.max(height, childTop + childHint.height);
-        maxHeight = Math.max(maxHeight, childTop + childHint.maxHeight);
       }
 
+
+      // Limit to integer range
+      minWidth = Math.min(32000, Math.max(0, minWidth));
+      width = Math.min(32000, Math.max(0, width));
+      maxWidth = Math.min(32000, Math.max(0, maxWidth));
+
+      minHeight = Math.min(32000, Math.max(0, minHeight));
+      height = Math.min(32000, Math.max(0, height));
+      maxHeight = Math.min(32000, Math.max(0, maxHeight));
+
+
+      // Build hint
       var hint = {
         minWidth : minWidth,
         width : width,
