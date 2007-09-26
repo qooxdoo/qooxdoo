@@ -16,6 +16,21 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
 
+   ======================================================================
+
+   This class contains code based on the following work:
+
+   * The Dojo Toolkit
+       http://dojotoolkit.org/
+       Version 0.3
+
+     Copyright:
+       Copyright (c) 2005-2006, The Dojo Foundation
+
+     License:
+       Academic Free License v2.1
+       http://dojotoolkit.org/about/license
+
 ************************************************************************ */
 
 qx.Class.define("qx.xml.Namespace",
