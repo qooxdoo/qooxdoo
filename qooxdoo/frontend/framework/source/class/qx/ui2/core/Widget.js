@@ -945,10 +945,16 @@ qx.Class.define("qx.ui2.core.Widget",
         width = 100 + insetX;
       }
 
-      minWidth = Math.max(this.getMinWidth(), contentSize.minWidth + insetX);
-      maxWidth = Math.min(this.getMaxWidth(), contentSize.maxWidth + insetX);
+      var userMinWidth = this.getMinWidth();
+      var userMaxWidth = this.getMaxWidth();
 
-      width = Math.max(insetX, Math.min(maxWidth, Math.max(minWidth, width)));
+      minWidth = userMinWidth !== null ? userMinWidth : contentSize.minWidth + insetX;
+      minWidth = Math.max(insetX, minWidth);
+
+      maxWidth = userMaxWidth !== null ? userMaxWidth : contentSize.maxWidth + insetX;
+      maxWidth = Math.max(insetX, maxWidth);
+
+      width = Math.min(maxWidth, Math.max(minWidth, width));
 
 
       // Compute height
@@ -962,11 +968,16 @@ qx.Class.define("qx.ui2.core.Widget",
         height = 100 + insetY;
       }
 
-      minHeight = Math.max(this.getMinHeight(), contentSize.minHeight + insetY);
-      maxHeight = Math.min(this.getMaxHeight(), contentSize.maxHeight + insetY);
+      var userMinHeight = this.getMinHeight();
+      var userMaxHeight = this.getMaxHeight();
 
-      height = Math.max(insetY, Math.min(maxHeight, Math.max(minHeight, height)));
+      minHeight = userMinHeight !== null ? userMinHeight : contentSize.minHeight + insetY;
+      minHeight = Math.max(insetY, minHeight);
 
+      maxHeight = userMaxHeight !== null ? userMaxHeight : contentSize.maxHeight + insetY;
+      maxHeight = Math.max(insetY, maxHeight);
+
+      height = Math.min(maxHeight, Math.max(minHeight, height));
 
       // Return map
       return {
