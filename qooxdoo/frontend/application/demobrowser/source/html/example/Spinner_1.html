@@ -99,6 +99,26 @@
           top: 36,
           enabled: false
         }));
+
+        var s6 = new qx.ui.form.Spinner;
+
+        s6.set({
+          max: 3000,
+          min: -3000,
+          left: 420,
+          top: 36
+        });
+        var nf = new qx.util.format.NumberFormat();
+        nf.setMaximumFractionDigits(2);
+        s6.setNumberFormat(nf);
+        s6.getManager().setPrecision(2);
+        s6.setSelectTextOnInteract(false);
+        
+        d.add(s6);
+
+        d.add( (new qx.ui.basic.Label("3000").set({left:420, top:20})) );
+        d.add( (new qx.ui.basic.Label("-3000").set({left:420, top:60})) );
+
       }
     }
   });
