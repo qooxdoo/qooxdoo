@@ -25,11 +25,9 @@ qx.Class.define("qx.ui2.layout.Util",
     computeFlexOffsets : function(flexibles, spaceDifference)
     {
       var child;
-      var flexCount, hasFlexPotential;
-      var roundingError, childOffset;
+      var flexSum, flexStep;
+      var roundingOffset, childOffset;
       var flexLength = flexibles.length;
-      var flexUnit;
-      var minFlexUnit, pixelIncrement, pixelTodo;
 
 
       // Normalize space difference
@@ -47,78 +45,63 @@ qx.Class.define("qx.ui2.layout.Util",
       // Continue as long as we need to do anything
       while (remaining != 0)
       {
-        // qx.core.Log.debug("Flex loop, remaining space: " + remaining);
-
-        minFlexUnit = 32000;
-        flexCount = 0;
-        hasFlexPotential = false;
+        // qx.core.Log.debug("Flex loop, remaining: " + remaining);
 
         // Find minimum potential for next correction
+        flexStep = 32000;
+        flexSum = 0;
         for (var i=0; i<flexLength; i++)
         {
           child = flexibles[i];
 
-          if (child.potential == 0) {
-            continue;
-          }
-
-          hasFlexPotential = true;
-
-          flexCount += child.flex;
-          flexUnit = child.potential / child.flex;
-
-          // qx.core.Log.debug("  - potential: " + child.potential + ", flex unit: " + flexUnit);
-
-          if (flexUnit < minFlexUnit) {
-            minFlexUnit = flexUnit;
+          if (child.potential > 0)
+          {
+            flexSum += child.flex;
+            flexStep = Math.min(flexStep, child.potential / child.flex);
           }
         }
 
-        if (!hasFlexPotential) {
+
+        // No potential found, quit here
+        if (flexSum == 0) {
           break;
         }
 
-        // qx.core.Log.debug("Min Flex Unit: " + minFlexUnit);
 
-        pixelIncrement = minFlexUnit * flexCount;
-        pixelTodo = Math.min(remaining, pixelIncrement);
-        minFlexUnit = pixelTodo / flexCount;
+        // Respect maximum potential given through remaining space
+        // The parent should always win in such conflicts.
+        flexStep = Math.min(remaining, flexStep * flexSum) / flexSum;
+        // qx.core.Log.debug("Flex Step (corrected): " + flexStep);
 
-        // qx.core.Log.debug("Pixel to grow: " + pixelIncrement);
-        // qx.core.Log.debug("Pixel todo: " + pixelTodo);
-        // qx.core.Log.debug("Corrected minFlexUnit: " + minFlexUnit);
 
-        roundingError = 0;
+        // Start with correction
+        roundingOffset = 0;
         for (var i=flexLength-1; i>=0; i--)
         {
           child = flexibles[i];
 
-          if (child.potential == 0) {
-            continue;
-          }
-
-          childOffset = Math.min(remaining, child.potential, Math.ceil(minFlexUnit * child.flex));
-
-          // Fix rounding issue
-          roundingError += childOffset - (minFlexUnit * child.flex);
-          if (roundingError >= 1)
+          if (child.potential > 0)
           {
-            roundingError -= 1;
-            childOffset -= 1;
+            // Compute offset for this step
+            childOffset = Math.min(remaining, child.potential, Math.ceil(flexStep * child.flex));
+
+            // Fix rounding issues
+            roundingOffset += childOffset - (flexStep * child.flex);
+            if (roundingOffset >= 1)
+            {
+              roundingOffset -= 1;
+              childOffset -= 1;
+            }
+
+            // Update child status
+            child.potential -= childOffset;
+            offsets[child.id] += (fillUp ? childOffset : -childOffset);
+
+            // Update parent status
+            remaining -= childOffset;
+
+            // qx.core.Log.debug("  - grow by: " + childOffset + " (potential: " + child.potential + ")");
           }
-
-          // qx.core.Log.debug("Rounding error: ", roundingError);
-
-          // Update child status
-          child.potential -= childOffset;
-
-          // Update parent status
-          remaining -= childOffset;
-
-          // Store child offset
-          offsets[child.id] += (fillUp ? childOffset : -childOffset);
-
-          // qx.core.Log.debug("  - grow by: " + childOffset + " (potential: " + child.potential + ")");
         }
       }
 
