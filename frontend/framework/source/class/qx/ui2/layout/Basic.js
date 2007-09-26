@@ -79,15 +79,18 @@ qx.Class.define("qx.ui2.layout.Basic",
       }
     },
 
+
     // overridden
     remove : function(widget) {
       qx.lang.Array.remove(this._children, widget);
     },
 
+
     // overridden
     getChildren : function() {
       return this._children;
     },
+
 
     // overridden
     layout : function(width, height)
@@ -108,52 +111,61 @@ qx.Class.define("qx.ui2.layout.Basic",
       }
     },
 
+
     // overridden
     invalidate : function()
     {
-      this.debug("Clear layout cache.");
-      this._sizeHint = null;
+      if (this._sizeHint)
+      {
+        this.debug("Clear old size hint");
+        this._sizeHint = null;
+      }
     },
+
 
     // overridden
     getSizeHint : function()
     {
-      if (this._sizeHint !== null) {
-        this.debug("cached preferred hint: ", this._sizeHint);
+      if (this._sizeHint)
+      {
+        this.debug("Cached size hint: ", this._sizeHint);
         return this._sizeHint;
       }
 
-      var hint = {
-        minWidth : 0,
-        width : 0,
-        maxWidth : 0,
-        minHeight : 0,
-        height : 0,
-        maxHeight : 0
-      };
+      var minWidth=0, width=0, maxWidth=0;
+      var minHeight=0, height=0, maxHeight=0;
 
-      for (var i=0, l=this._children.length; i<l; i++)
+      var children = this._children;
+      var child, childHint, childLeft, childTop;
+
+      for (var i=0, l=children.length; i<l; i++)
       {
-        var child = this._children[i];
-        var childHint = child.getSizeHint();
-        var childLeft = child.getLayoutProperty("left") || 0;
-        var childTop = child.getLayoutProperty("top") || 0;
+        child = children[i];
+        childHint = child.getSizeHint();
+        childLeft = child.getLayoutProperty("left") || 0;
+        childTop = child.getLayoutProperty("top") || 0;
 
-        hint.minWidth = Math.max(hint.minWidth, childLeft + childHint.minWidth);
-        hint.width = Math.max(hint.width, childLeft + childHint.width);
-        hint.maxWidth = Math.max(hint.maxWidth, childLeft + childHint.maxWidth);
+        minWidth = Math.max(minWidth, childLeft + childHint.minWidth);
+        width = Math.max(width, childLeft + childHint.width);
+        maxWidth = Math.max(maxWidth, childLeft + childHint.maxWidth);
 
-        hint.minHeight = Math.max(hint.minHeight, childTop + childHint.minHeight);
-        hint.height = Math.max(hint.height, childTop + childHint.height);
-        hint.maxHeight = Math.max(hint.maxHeight, childTop + childHint.maxHeight);
+        minHeight = Math.max(minHeight, childTop + childHint.minHeight);
+        height = Math.max(height, childTop + childHint.height);
+        maxHeight = Math.max(maxHeight, childTop + childHint.maxHeight);
       }
 
-      this._sizeHint = hint;
-      this.debug("computed preferred width: ", this._sizeHint);
+      var hint = {
+        minWidth : minWidth,
+        width : width,
+        maxWidth : maxWidth,
+        minHeight : minHeight,
+        height : height,
+        maxHeight : maxHeight
+      };
 
-      return hint;
+      this.debug("Computed size hint: ", hint);
+      return this._sizeHint = hint;
     }
-
   },
 
 
