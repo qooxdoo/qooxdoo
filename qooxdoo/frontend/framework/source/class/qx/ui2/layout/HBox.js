@@ -70,7 +70,6 @@ qx.Class.define("qx.ui2.layout.HBox",
 
   members :
   {
-
     // overridden
     add : function(widget, hFlex, vAlign)
     {
@@ -99,11 +98,9 @@ qx.Class.define("qx.ui2.layout.HBox",
     _getFlexOffsets : function(width, height)
     {
       var hint = this.getSizeHint();
-      var spaceDifference = width - hint.width;
+      var diff = width - hint.width;
 
-      this.debug("Space difference: " + spaceDifference);
-
-      if (spaceDifference == 0) {
+      if (diff == 0) {
         return {};
       }
 
@@ -125,14 +122,14 @@ qx.Class.define("qx.ui2.layout.HBox",
 
             flexibles.push({
               id : child.toHashCode(),
-              potential : spaceDifference > 0 ? hint.maxWidth - hint.width : hint.width - hint.minWidth,
+              potential : diff > 0 ? hint.maxWidth - hint.width : hint.width - hint.minWidth,
               flex : child.getLayoutProperty("hFlex") || 1
             });
           }
         }
       }
 
-      return qx.ui2.layout.Util.computeFlexOffsets(flexibles, spaceDifference);
+      return qx.ui2.layout.Util.computeFlexOffsets(flexibles, diff);
     },
 
 
@@ -143,17 +140,16 @@ qx.Class.define("qx.ui2.layout.HBox",
       var top = 0;
 
       var spacing = this.getSpacing();
-
-      var flexOffsets = this._getFlexOffsets(width, height);
+      var offsets = this._getFlexOffsets(width, height);
 
       var children = this._children;
-      var child, childHint;
+      var child, childHint, childOffset;
 
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
         childHint = child.getSizeHint();
-        childOffset = flexOffsets[child.toHashCode()] || 0;
+        childOffset = offsets[child.toHashCode()] || 0;
 
         if (left < width)
         {
@@ -227,7 +223,6 @@ qx.Class.define("qx.ui2.layout.HBox",
 
       return hint;
     }
-
   },
 
 
