@@ -223,6 +223,7 @@ qx.Class.define("qx.ui2.layout.HBox",
 
       return hint;
     }
+
   },
 
 
