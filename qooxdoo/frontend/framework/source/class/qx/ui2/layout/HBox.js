@@ -108,6 +108,10 @@ qx.Class.define("qx.ui2.layout.HBox",
         return flexOffsets;
       }
 
+      var fillUp = remainingSpace > 0;
+      var shrinkDown = remainingSpace < 0;
+      remainingSpace = Math.abs(remainingSpace);
+
       var flexWidgets = [];
       var children = this._children;
 
@@ -129,7 +133,7 @@ qx.Class.define("qx.ui2.layout.HBox",
               max : hint.maxWidth,
               min : hint.minWidth,
               orig : hint.width,
-              remain : hint.maxWidth - hint.width,
+              remain : fillUp ? hint.maxWidth - hint.width : hint.width - hint.minWidth,
               flex : child.getLayoutProperty("hFlex") || 1,
               hc : child.toHashCode(),
               offset : 0
@@ -141,7 +145,7 @@ qx.Class.define("qx.ui2.layout.HBox",
 
 
       // compute largest flex unit each widget can grow
-      while (flexWidgets.length > 0 && remainingSpace > 0)
+      while (flexWidgets.length > 0 && remainingSpace != 0)
       {
         console.log("!! Flex loop, remaining space: " + remainingSpace);
 
@@ -201,7 +205,7 @@ qx.Class.define("qx.ui2.layout.HBox",
 
           if (child.remain == 0)
           {
-            flexOffsets[child.hc] = child.offset;
+            flexOffsets[child.hc] = fillUp ? child.offset : -child.offset;
             qx.lang.Array.remove(flexWidgets, child);
           }
         }
@@ -209,8 +213,9 @@ qx.Class.define("qx.ui2.layout.HBox",
         for (var i=flexWidgets.length-1; i>=0; i--)
         {
           child = flexWidgets[i];
-          flexOffsets[child.hc] = child.offset;
+          flexOffsets[child.hc] = fillUp ? child.offset : -child.offset;
         }
+
       }
 
       return flexOffsets;
