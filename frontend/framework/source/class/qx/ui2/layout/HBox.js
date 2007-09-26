@@ -96,7 +96,7 @@ qx.Class.define("qx.ui2.layout.HBox",
     },
 
 
-    __getFlexOffsets : function(width, height)
+    _getFlexOffsets : function(width, height)
     {
       var hint = this.getSizeHint();
       var flexOffsets = {};
@@ -157,6 +157,10 @@ qx.Class.define("qx.ui2.layout.HBox",
         {
           child = flexWidgets[i];
 
+          if (child.remain == 0) {
+            continue;
+          }
+
           flexCount += child.flex;
           flexUnit = child.remain / child.flex; // pixel per flex unit
 
@@ -184,6 +188,10 @@ qx.Class.define("qx.ui2.layout.HBox",
         {
           child = flexWidgets[i];
 
+          if (child.remain == 0) {
+            continue;
+          }
+
           childGrow = Math.min(remainingSpace, child.remain, Math.ceil(minFlexUnit * child.flex));
           roundingError += childGrow - (minFlexUnit * child.flex);
 
@@ -202,12 +210,6 @@ qx.Class.define("qx.ui2.layout.HBox",
 
           console.log("  - grow by: " + childGrow);
           console.log("  - remain: " + child.remain);
-
-          if (child.remain == 0)
-          {
-            flexOffsets[child.hc] = fillUp ? child.offset : -child.offset;
-            qx.lang.Array.remove(flexWidgets, child);
-          }
         }
 
         for (var i=flexWidgets.length-1; i>=0; i--)
@@ -230,7 +232,7 @@ qx.Class.define("qx.ui2.layout.HBox",
 
       var spacing = this.getSpacing();
 
-      var flexOffsets = this.__getFlexOffsets(width, height);
+      var flexOffsets = this._getFlexOffsets(width, height);
 
       var children = this._children;
       var child, childHint;
