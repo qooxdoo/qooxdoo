@@ -31,7 +31,7 @@ qx.Class.define("qx.ui2.core.Widget",
   *****************************************************************************
   */
 
-  construct : function()
+  construct : function(props)
   {
     this.base(arguments);
 
@@ -56,6 +56,10 @@ qx.Class.define("qx.ui2.core.Widget",
 
     // Whether the widget has a layout manager
     this._hasLayout = false;
+
+    if (props) {
+      this.set(props);
+    }
   },
 
 
