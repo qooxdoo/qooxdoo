@@ -482,7 +482,7 @@ def main():
     if options.from_version == "":
         if options.makefile:
             print """
-WARNING: The qooxdoo version, this project uses is unknown.
+WARNING: The qooxdoo version this project uses is unknown.
 
 Please set the variable QOOXDOO_VERSION in your Makefile to the qooxdoo
 version this project currently uses.
@@ -564,6 +564,19 @@ WARNING: The JavaScript files will be pretty printed. You can customize the
          pretty printer using the PRETTY_PRINT_OPTIONS variable in your
          Makefile. You can find a complete list of pretty printing options
          at http://qooxdoo.org/documentation/articles/code_style."""
+
+    choice = raw_input("""
+NOTE:    It is advised to do a 'make distclean' before migrating any files.
+         If you choose 'yes', a subprocess will be invoked to run distclean,
+         and after completion you will be prompted if you want to
+         continue with the migration. If you choose 'no', the making distclean
+         step will be skipped (which might result in potentially unnecessary
+         files being migrated).
+
+Do you want to run 'make distclean' now? [yes] : """)
+
+    if choice.lower() in ["j", "ja", "y", "yes", ""]:
+        os.system("make distclean")
 
     choice = raw_input("""
 
