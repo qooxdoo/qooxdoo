@@ -100,6 +100,8 @@ qx.Class.define("qx.ui2.layout.HBox",
       var hint = this.getSizeHint();
       var diff = width - hint.width;
 
+      console.debug("Flex offsets diff: " + diff + " (" + width + " != " + hint.width + ")");
+
       if (diff == 0) {
         return {};
       }
@@ -185,15 +187,22 @@ qx.Class.define("qx.ui2.layout.HBox",
     // overridden
     getSizeHint : function()
     {
-      if (this._sizeHint != null)
-      {
-        this.debug("Cached size hint: ", this._sizeHint);
+      if (this._sizeHint) {
         return this._sizeHint;
       }
 
-      var minWidth=0, width=0, maxWidth=0;
-      var minHeight=0, height=0, maxHeight=0;
+      // Start with spacing
+      var spacing = this.getSpacing() * (this._children.length - 1);
 
+
+      // Initialize
+      var minWidth=spacing, width=spacing, maxWidth=spacing;
+      var minHeight=0, height=0, maxHeight=32000;
+
+
+      // Iterate
+      // - sum children width
+      // - find max heights
       for (var i=0, l=this._children.length; i<l; i++)
       {
         var child = this._children[i];
@@ -205,20 +214,26 @@ qx.Class.define("qx.ui2.layout.HBox",
 
         minHeight = Math.max(minHeight, childHint.minHeight);
         height = Math.max(height, childHint.height);
-        maxHeight = Math.max(maxHeight, childHint.maxHeight);
+        maxHeight = Math.min(maxHeight, childHint.maxHeight);
       }
 
-      var spacing = this.getSpacing() * (this._children.length - 1);
+
+      // Limit integer range
+      minWidth = Math.max(0, minWidth);
+      maxWidth = Math.min(32000, maxWidth);
+
+
+      // Build hint
       var hint = {
-        minWidth : minWidth + spacing,
-        width : width + spacing,
-        maxWidth : maxWidth + spacing,
+        minWidth : minWidth,
+        width : width,
+        maxWidth : maxWidth,
         minHeight : minHeight,
         height : height,
         maxHeight : maxHeight
       };
 
-      this.debug("Computed size hint: ", hint);
+      this.debug("Compute size hint: ", hint);
       this._sizeHint = hint;
 
       return hint;

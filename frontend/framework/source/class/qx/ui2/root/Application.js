@@ -106,17 +106,41 @@ qx.Class.define("qx.ui2.root.Application",
      */
     _onResize : function(e)
     {
+      this.invalidate();
       qx.ui2.core.LayoutQueue.add(this);
     },
 
-    getPreferredHeight : function()
+
+    // overridden
+    invalidate : function()
     {
-      return qx.bom.Viewport.getHeight(this._window);
+      this.debug("Clear layout cache.");
+      this._sizeHint = null;
     },
 
-    getPreferredWidth : function()
+
+    getSizeHint : function()
     {
-      return qx.bom.Viewport.getWidth(this._window);
+      if (this._sizeHint) {
+        return this._sizeHint;
+      }
+
+      var width = qx.bom.Viewport.getWidth(this._window);
+      var height = qx.bom.Viewport.getHeight(this._window);
+
+      var hint = {
+        minWidth : 0,
+        width : width,
+        maxWidth : width,
+        minHeight : 0,
+        height : height,
+        maxHeight : height
+      };
+
+      this._sizeHint = hint;
+      this.debug("Compute size hint: ", hint);
+
+      return hint;
     }
   },
 
