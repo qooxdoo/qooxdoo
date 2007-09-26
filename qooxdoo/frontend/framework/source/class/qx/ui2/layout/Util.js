@@ -25,9 +25,11 @@ qx.Class.define("qx.ui2.layout.Util",
     computeFlexOffsets : function(flexibles, spaceDifference)
     {
       var child;
-      var minFlexUnit, flexCount, hasFlexPotential;
+      var flexCount, hasFlexPotential;
       var roundingError, childOffset;
       var flexLength = flexibles.length;
+      var flexUnit;
+      var minFlexUnit, pixelIncrement, pixelTodo;
 
 
       // Normalize space difference
