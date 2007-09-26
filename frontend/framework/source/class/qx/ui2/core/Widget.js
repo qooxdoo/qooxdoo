@@ -31,7 +31,7 @@ qx.Class.define("qx.ui2.core.Widget",
   *****************************************************************************
   */
 
-  construct : function(props)
+  construct : function()
   {
     this.base(arguments);
 
@@ -53,13 +53,6 @@ qx.Class.define("qx.ui2.core.Widget",
 
     // Layout data
     this._layoutProperties = {};
-
-    // Whether the widget has a layout manager
-    this._hasLayout = false;
-
-    if (props) {
-      this.set(props);
-    }
   },
 
 
@@ -571,13 +564,11 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
-    exclude : function()
-    {
+    exclude : function() {
       this._outerElement.exclude();
     },
 
-    include : function()
-    {
+    include : function() {
       this._outerElement.include();
     },
 
@@ -742,6 +733,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
+
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLING
@@ -897,8 +889,6 @@ qx.Class.define("qx.ui2.core.Widget",
 
     _applyLayout : function(value, old)
     {
-      this._hasLayout = !!value;
-
       if (value)
       {
         var children = value.getChildren();
@@ -922,12 +912,12 @@ qx.Class.define("qx.ui2.core.Widget",
     */
 
     /**
-     * Computes the technical size limitations and preferences of the widget.
+     * Computes the widgets dimensions and possible ranges of these.
      *
      * @type member
-     * @return {Map} Map with <code>width</code>, <code>minWidth</code>,
-     *   <code>maxWidth</code>, <code>height</code>, <code>minHeight</code>,
-     *   <code>maxHeight</code>
+     * @return {Map} The map with the preferred width/height and the allowed
+     *   minimum and maximum values in cases where shrinking or growing
+     *   is required.
      */
     getSizeHint : function()
     {

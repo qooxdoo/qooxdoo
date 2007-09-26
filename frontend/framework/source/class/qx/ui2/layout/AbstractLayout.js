@@ -103,8 +103,12 @@ qx.Class.define("qx.ui2.layout.AbstractLayout",
     layout : function(width, height) {},
 
     /**
-     * Get the layout's preferred size. The layout manager should always cache
-     * this value
+     * Computes the layout dimensions and possible ranges of these.
+     *
+     * @type member
+     * @return {Map} The map with the preferred width/height and the allowed
+     *   minimum and maximum values in cases where shrinking or growing
+     *   is required.
      */
     getSizeHint : function() {},
 
