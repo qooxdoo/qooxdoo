@@ -1038,6 +1038,17 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
+
+      // LIMITING DIMENSIONS
+      // ----------------------------------------
+
+      width = Math.max(Math.min(width, maxWidth), minWidth);
+      height = Math.max(Math.min(height, maxHeight), minHeight);
+
+
+
+
+
       // RESULT
       // ----------------------------------------
 
