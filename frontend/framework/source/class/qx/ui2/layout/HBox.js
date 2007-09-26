@@ -121,7 +121,7 @@ qx.Class.define("qx.ui2.layout.HBox",
             hint = child.getSizeHint();
 
             flexibles.push({
-              id : child.toHashCode(),
+              id : i,
               potential : diff > 0 ? hint.maxWidth - hint.width : hint.width - hint.minWidth,
               flex : child.getLayoutProperty("hFlex") || 1
             });
@@ -149,7 +149,7 @@ qx.Class.define("qx.ui2.layout.HBox",
       {
         child = children[i];
         childHint = child.getSizeHint();
-        childOffset = offsets[child.toHashCode()] || 0;
+        childOffset = offsets[i] || 0;
 
         if (left < width)
         {
