@@ -55,8 +55,17 @@ qx.Class.define("qx.util.range.Range",
     {
       check : "!isNaN(value)&&value>=this.getMin()&&value<=this.getMax()",
       nullable : true,
-      init : 0,
-      event : "change"
+      event : "change",
+      init : 0
+    },
+
+    /** maximum fraction digits */
+    precision :
+    {
+      check : "Integer",
+      nullable : true,
+      event : "change",
+      init : 0
     },
 
     /** minimal value of the Range object */
@@ -107,7 +116,6 @@ qx.Class.define("qx.util.range.Range",
       this.setValue(Math.min(this.getValue(), value));
     },
 
-
     /**
      * TODOC
      *
@@ -119,11 +127,17 @@ qx.Class.define("qx.util.range.Range",
       this.setValue(Math.max(this.getValue(), value));
     },
 
-
     limit : function(value)
     {
+      var precision = this.getPrecision();
+      if (precision != null)
+        var mover = Math.pow(10, precision);
+
       if (this.getWrap()) {
-        var value = Math.round(value);
+        if (precision != null) {
+          // round to the precision'th digit
+          var value = Math.round(value * mover) / mover;
+        }
 
         if (value < this.getMin()) {
           return (this.getMax() - (this.getMin() - value)) + 1;
@@ -141,7 +155,11 @@ qx.Class.define("qx.util.range.Range",
         return this.getMax();
       }
 
-      return Math.round(value);
+      if (precision != null) {
+        return Math.round(value * mover) / mover;
+      } else {
+        return value;
+      }
     }
   }
 });
