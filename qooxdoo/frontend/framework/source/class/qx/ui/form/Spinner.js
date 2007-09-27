@@ -25,6 +25,41 @@
 ************************************************************************ */
 
 /**
+ * A *spinner* is a control that allows you to adjust a numerical value,
+ * typically within an allowed range. An obvious example would be to specify the
+ * month of a year as a number in the range 1 - 12.
+ *
+ * To do so, a spinner encompasses a field to display the current value (a
+ * textfield) and controls such as up and down buttons to change that value. The
+ * current value can also be changed by editing the display field directly, or
+ * using mouse wheel and cursor keys.
+ *
+ * To implement the range of a spinner's value, a {@link qx.util.range.Range
+ * Range} object is deployed as the {@link #manager} object. Here you can define the
+ * boundaries of the range (*min* and *max* properties), the *default* value,
+ * the *precision* and whether the range should *wrap* when stepping beyond a
+ * border (see the Range documentation for more information). An optional {@link
+ * #numberFormat} property allows you to control the format of how a value can
+ * be entered and will be displayed.
+ *
+ * A brief, but non-trivial example:
+ *
+ * <pre>
+ * var s = new qx.ui.form.Spinner;                                           
+ * s.set({                                                                   
+ *   max: 3000,                                                               
+ *   min: -3000                                                              
+ * });                                                                        
+ * var nf = new qx.util.format.NumberFormat();                                
+ * nf.setMaximumFractionDigits(2);                                            
+ * s.setNumberFormat(nf);                                                    
+ * s.getManager().setPrecision(2);                                           
+ * </pre>
+ *
+ * A spinner instance without any further properties specified in the
+ * constructor or a subsequent *set* command will appear with default
+ * values and behaviour.
+ *
  * @appearance spinner
  *
  * @appearance spinner-field {qx.ui.form.TextField}
