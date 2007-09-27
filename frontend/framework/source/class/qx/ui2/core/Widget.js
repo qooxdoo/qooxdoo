@@ -1026,28 +1026,33 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
       // Compute min width
-      minWidth = this.getMinWidth();
+      if (this.canStretchX())
+      {
+        minWidth = this.getMinWidth();
 
-      if (minWidth === "auto") {
-        minWidth = contentSize.minWidth + insetX;
+        if (minWidth === "auto") {
+          minWidth = contentSize.minWidth + insetX;
+        } else if (minWidth === "pref") {
+          minWidth = contentSize.width + insetX;
+        }
+
+        // Compute max width
+        maxWidth = this.getMaxWidth();
+
+        if (maxWidth === "auto") {
+          maxWidth = contentSize.maxWidth + insetX;
+        } else if (maxWidth === "pref") {
+          maxWidth = contentSize.width + insetX;
+        }
       }
-      else if (minWidth === "pref") {
-        minWidth = contentSize.width + insetX;
+      else
+      {
+        minWidth = width;
+        maxWidth = width;
       }
 
+      // Always respect technical limitations
       minWidth = Math.max(insetX, minWidth, this._getTechnicalMinWidth());
-
-
-      // Compute max width
-      maxWidth = this.getMaxWidth();
-
-      if (maxWidth === "auto") {
-        maxWidth = contentSize.maxWidth + insetX;
-      }
-      else if (maxWidth === "pref") {
-        maxWidth = contentSize.width + insetX;
-      }
-
       maxWidth = Math.min(32000, maxWidth, this._getTechnicalMaxWidth());
 
 
@@ -1065,26 +1070,33 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
       // Compute min height
-      minHeight = this.getMinHeight();
+      if (this.canStretchY())
+      {
+        minHeight = this.getMinHeight();
 
-      if (minHeight === "auto") {
-        minHeight = contentSize.minHeight + insetY;
-      } else if (minHeight === "pref") {
-        minHeight = contentSize.height + insetY;
+        if (minHeight === "auto") {
+          minHeight = contentSize.minHeight + insetY;
+        } else if (minHeight === "pref") {
+          minHeight = contentSize.height + insetY;
+        }
+
+        // Compute max height
+        maxHeight = this.getMaxHeight();
+
+        if (maxHeight === "auto") {
+          maxHeight = contentSize.maxHeight + insetY;
+        } else if (maxHeight === "pref") {
+          maxHeight = contentSize.height + insetY;
+        }
+      }
+      else
+      {
+        minHeight = height;
+        maxHeight = height;
       }
 
+      // Always respect technical limitations
       minHeight = Math.max(insetY, minHeight, this._getTechnicalMinHeight());
-
-
-      // Compute max height
-      maxHeight = this.getMaxHeight();
-
-      if (maxHeight === "auto") {
-        maxHeight = contentSize.maxHeight + insetY;
-      } else if (maxHeight === "pref") {
-        maxHeight = contentSize.height + insetY;
-      }
-
       maxHeight = Math.min(32000, maxHeight, this._getTechnicalMaxHeight());
 
 
@@ -1095,7 +1107,6 @@ qx.Class.define("qx.ui2.core.Widget",
 
       width = Math.max(Math.min(width, maxWidth), minWidth);
       height = Math.max(Math.min(height, maxHeight), minHeight);
-
 
 
 
