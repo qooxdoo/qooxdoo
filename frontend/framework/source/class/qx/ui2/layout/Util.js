@@ -106,6 +106,57 @@ qx.Class.define("qx.ui2.layout.Util",
       }
 
       return offsets;
+    },
+
+
+    computeHorizontalAlignOffset : function(hAlign, widgetWidth, outerWidth)
+    {
+      if (widgetWidth !== outerWidth)
+      {
+        switch (hAlign)
+        {
+          case "left":
+            return 0;
+            break;
+
+          case "center":
+            return Math.floor((outerWidth - widgetWidth) / 2);
+            break;
+
+          case "right":
+            return outerWidth - widgetWidth;
+            break;
+
+          default:
+            throw new Error("Invalid state!")
+        }
+      }
+      return 0;
+    },
+
+
+    computeVerticalAlignOffset : function(vAlign, widgetHeight, outerHeight)
+    {
+      if (widgetHeight !== outerHeight)
+      {
+        switch (vAlign)
+        {
+          case "top":
+            return 0;
+
+          case "middle":
+            return Math.floor((outerHeight - widgetHeight) / 2);
+            break;
+
+          case "bottom":
+            return outerHeight - widgetHeight;
+            break;
+
+          default:
+            throw new Error("Invalid state!")
+        }
+      }
+      return 0;
     }
   }
 });
