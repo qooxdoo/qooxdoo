@@ -698,6 +698,7 @@ qx.Class.define("qx.ui2.core.Widget",
     /**
      * Adds a layout property.
      *
+     * @internal
      * @type member
      * @param name {String} Name of the property (width, top, minHeight, ...)
      * @param value {var} Any acceptable value (depends on the selected parent layout manager)
@@ -715,6 +716,7 @@ qx.Class.define("qx.ui2.core.Widget",
     /**
      * Removes a layout property.
      *
+     * @internal
      * @type member
      * @param name {String} Name of the hint (width, top, minHeight, ...)
      * @return {qx.ui2.core.Widget} This widget (for chaining support)
@@ -731,6 +733,7 @@ qx.Class.define("qx.ui2.core.Widget",
     /**
      * Returns the value of a specific property
      *
+     * @internal
      * @type member
      * @param name {String} Name of the hint (width, top, minHeight, ...)
      * @return {var|null} Configured value
@@ -745,6 +748,7 @@ qx.Class.define("qx.ui2.core.Widget",
     /**
      * Whether this widget has a specific property
      *
+     * @internal
      * @type member
      * @param name {String} Name of the hint (width, top, minHeight, ...)
      * @return {Boolean} <code>true</code> when this hint is defined
