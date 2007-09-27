@@ -53,6 +53,12 @@ qx.Class.define("qx.ui2.layout.HBox",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT INTERFACE
+    ---------------------------------------------------------------------------
+    */
+
     // overridden
     add : function(widget, hFlex, vAlign)
     {
@@ -67,46 +73,6 @@ qx.Class.define("qx.ui2.layout.HBox",
       }
 
       this._addToParent(widget);
-    },
-
-    _addFlexOffsets : function(availWidth, childWidths)
-    {
-      var hint = this.getSizeHint();
-      var diff = availWidth - hint.width;
-
-      if (diff == 0) {
-        return {};
-      }
-
-      // collect all flexible children
-      var children = this._children;
-      var flexibles = [];
-
-      for (var i=0, l=children.length; i<l; i++)
-      {
-        child = children[i];
-
-        if (child.canStretchX())
-        {
-          childFlex = child.getLayoutProperty("hFlex");
-
-          if (childFlex == null || childFlex > 0)
-          {
-            hint = child.getSizeHint();
-
-            flexibles.push({
-              potential : diff > 0 ? hint.maxWidth - childWidths[i] : childWidths[i] - hint.minWidth,
-              flex : childFlex || 1
-            });
-          }
-        }
-      }
-
-      var offsets = qx.ui2.layout.Util.computeFlexOffsets(flexibles, diff);
-
-      for (var i=0, l=flexibles.length; i<l; i++) {
-        childWidths[i] += offsets[i];
-      }
     },
 
 
@@ -148,6 +114,7 @@ qx.Class.define("qx.ui2.layout.HBox",
       }
     },
 
+
     // overridden
     invalidate : function()
     {
@@ -157,6 +124,7 @@ qx.Class.define("qx.ui2.layout.HBox",
         this._sizeHint = null;
       }
     },
+
 
     // overridden
     getSizeHint : function()
@@ -216,6 +184,57 @@ qx.Class.define("qx.ui2.layout.HBox",
       this._sizeHint = hint;
 
       return hint;
+    },
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      HELPERS
+    ---------------------------------------------------------------------------
+    */
+
+    _addFlexOffsets : function(availWidth, childWidths)
+    {
+      var hint = this.getSizeHint();
+      var diff = availWidth - hint.width;
+
+      if (diff == 0) {
+        return {};
+      }
+
+      // collect all flexible children
+      var children = this._children;
+      var flexibles = [];
+
+      for (var i=0, l=children.length; i<l; i++)
+      {
+        child = children[i];
+
+        if (child.canStretchX())
+        {
+          childFlex = child.getLayoutProperty("hFlex");
+
+          if (childFlex == null || childFlex > 0)
+          {
+            hint = child.getSizeHint();
+
+            flexibles.push({
+              potential : diff > 0 ? hint.maxWidth - childWidths[i] : childWidths[i] - hint.minWidth,
+              flex : childFlex || 1
+            });
+          }
+        }
+      }
+
+      var offsets = qx.ui2.layout.Util.computeFlexOffsets(flexibles, diff);
+
+      for (var i=0, l=flexibles.length; i<l; i++) {
+        childWidths[i] += offsets[i];
+      }
     }
   },
 
