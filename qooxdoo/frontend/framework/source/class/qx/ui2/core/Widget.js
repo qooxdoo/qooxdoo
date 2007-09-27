@@ -35,21 +35,10 @@ qx.Class.define("qx.ui2.core.Widget",
   {
     this.base(arguments);
 
-    // Where to add the children, too
-    // Normally the widget itself, but could also be an content pane
-    // e.g. for windows, groupboxes, comboboxes, etc.
-    this._childContainer = this;
-
     // Create content element
     this._outerElement = this._createOuterElement();
     this._decorationElement = this._createDecorationElement();
     this._contentElement = this._createContentElement();
-
-    // Border sizes
-    this._borderWidthLeft = 0;
-    this._borderWidthTop = 0;
-    this._borderWidthRight = 0;
-    this._borderWidthBottom = 0;
 
     // Layout data
     this._layoutProperties = {};
@@ -140,51 +129,44 @@ qx.Class.define("qx.ui2.core.Widget",
     minWidth :
     {
       apply : "_applyLayoutChange",
-      themeable : true,
-      nullable : true
+      init : "auto",
+      themeable : true
     },
 
     width :
     {
-      check : "Integer",
+      init : "auto",
       apply : "_applyLayoutChange",
-      themeable : true,
-      nullable : true
+      themeable : true
     },
 
     maxWidth :
     {
       apply : "_applyLayoutChange",
-      themeable : true,
-      nullable : true
+      init : 32000,
+      themeable : true
     },
 
     minHeight :
     {
       apply : "_applyLayoutChange",
-      themeable : true,
-      nullable : true
+      init : "auto",
+      themeable : true
     },
 
     height :
     {
-      check : "Integer",
       apply : "_applyLayoutChange",
-      themeable : true,
-      nullable : true
+      init : "auto",
+      themeable : true
     },
 
     maxHeight :
     {
       apply : "_applyLayoutChange",
-      themeable : true,
-      nullable : true
-    },
-
-
-
-
-
+      init : 32000,
+      themeable : true
+   },
 
 
 
@@ -251,6 +233,79 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      MARGIN
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * The minimum space between the widget's outer border and sibling widgets (top).
+     * Not all layout manager respect this property.
+     */
+    marginTop :
+    {
+      check : "Number",
+      init : 0,
+      apply : "_applyLayoutChange",
+      themeable : true
+    },
+
+
+    /**
+     * The minimum space between the widget's outer border and sibling widgets (right).
+     * Not all layout manager respect this property.
+     */
+    marginRight :
+    {
+      check : "Number",
+      init : 0,
+      apply : "_applyLayoutChange",
+      themeable : true
+    },
+
+
+    /**
+     * The minimum space between the widget's outer border and sibling widgets (bottom).
+     * Not all layout manager respect this property.
+     */
+    marginBottom :
+    {
+      check : "Number",
+      init : 0,
+      apply : "_applyLayoutChange",
+      themeable : true
+    },
+
+
+    /**
+     * The minimum space between the widget's outer border and sibling widgets (left).
+     * Not all layout manager respect this property.
+     */
+    marginLeft :
+    {
+      check : "Number",
+      init : 0,
+      apply : "_applyLayoutChange",
+      themeable : true
+    },
+
+
+    /**
+     * The 'margin' property is a shorthand property for setting 'marginTop',
+     * 'marginRight', 'marginBottom' and 'marginLeft' at the same time.
+     *
+     * If four values are specified they apply to top, right, bottom and left respectively.
+     * If there is only one value, it applies to all sides, if there are two or three,
+     * the missing values are taken from the opposite side.
+     */
+    margin :
+    {
+      group : [ "marginTop", "marginRight", "marginBottom", "marginLeft" ],
+      mode  : "shorthand",
+      themeable : true
+    },
+
 
 
     /*
@@ -273,7 +328,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
     /**
-     * The color (textColor) style property of the rendered widget.
+     * The text color the rendered widget.
      */
     textColor :
     {
@@ -288,7 +343,7 @@ qx.Class.define("qx.ui2.core.Widget",
 
 
     /**
-     * The decoration property points to a an instanced, which is responsible
+     * The decoration property points to an object, which is responsible
      * for drawing the widget's decoration, e.g. border, background or shadow
      */
     decoration :
@@ -395,7 +450,7 @@ qx.Class.define("qx.ui2.core.Widget",
      * Used by the layouters to apply coordinates and dimensions.
      *
      * @type member
-     * @internal: Only for layout managers
+     * @internal Only for layout managers
      * @param left {Integer} Any positive integer value for the left position,
      *   always in pixels
      * @param top {Integer} Any positive integer value for the top position,
@@ -473,6 +528,12 @@ qx.Class.define("qx.ui2.core.Widget",
     },
 
 
+    /**
+     * Update the decoration (background, border, ...)
+     *
+     * @param width {Integer} The widget's current width
+     * @param height {Integer} The widget's current height
+     */
     _syncDecoration : function(width, height)
     {
       var decoration = this.getDecoration();
@@ -493,19 +554,45 @@ qx.Class.define("qx.ui2.core.Widget",
     },
 
 
+    /**
+     * Whether the widget is a layout root. If the widget is a layout root,
+     * layout changes inside the widget will not be propagated up to the
+     * layout root's parent.
+     *
+     * @return {Boolean} Whether the widget is a layout root.
+     */
     isLayoutRoot : function() {
       return false;
     },
 
 
+    /**
+     * Get the widget's parent widget. Even if the widget has been added to a
+     * layout, the parent is always a child of the containing widget. The parent
+     * widget may be <code>null</code>.
+     *
+     * @return {qx.ui2.core.Widget|null} The widget's parent.
+     */
     getParent : function() {
       return this._parent;
     },
 
+
+    /**
+     * Set the widget's parent
+     *
+     * @internal: Should only be used by the layout managers
+     * @param parent {qx.ui2.core.Widget|null} The widget's new parent.
+     */
     setParent : function(parent) {
       this._parent = parent;
     },
 
+
+    /**
+     * Indicate that the widget has layout changes and propagate this information
+     * up the widget hierarchy.
+     */
     invalidateLayout : function() {
       qx.ui2.core.LayoutQueue.add(this);
     },
@@ -514,12 +601,14 @@ qx.Class.define("qx.ui2.core.Widget",
       return this._layoutInvalid !== true;
     },
 
+
     /**
-     * Called by the laypot manager to mark this widget's layout as invalid.
+     * Called by the layout manager to mark this widget's layout as invalid.
+     * This function should clear all layout relevant caches.
      *
      * @internal
      */
-    markLayoutInvalid : function()
+    invalidate : function()
     {
       this.debug("Mark widget layout invalid: " + this);
       this._layoutInvalid = true;
@@ -528,6 +617,7 @@ qx.Class.define("qx.ui2.core.Widget",
         mgr.invalidate();
       }
     },
+
 
     /**
      * After doing the layout, mark the layout as valid.
@@ -539,13 +629,15 @@ qx.Class.define("qx.ui2.core.Widget",
       this._layoutInvalid = false;
     },
 
+
+    // generic property apply method for all layout relevant properties
     _applyLayoutChange : function()
     {
       this.invalidateLayout();
     },
 
 
-
+    // TODO: dbugging code
     toString : function()
     {
       var str = this.base(arguments);
@@ -557,7 +649,7 @@ qx.Class.define("qx.ui2.core.Widget",
     },
 
 
-
+    // Maybe rename to show/hide?
     exclude : function() {
       this._outerElement.exclude();
     },
@@ -607,7 +699,7 @@ qx.Class.define("qx.ui2.core.Widget",
      * Adds a layout property.
      *
      * @type member
-     * @param name {String} Name of the hint (width, top, minHeight, ...)
+     * @param name {String} Name of the property (width, top, minHeight, ...)
      * @param value {var} Any acceptable value (depends on the selected parent layout manager)
      * @return {qx.ui2.core.Widget} This widget (for chaining support)
      */
@@ -950,7 +1042,7 @@ qx.Class.define("qx.ui2.core.Widget",
           minWidth += insetX;
         }
       }
-      else if (minWidth === "pref") 
+      else if (minWidth === "pref")
       {
         minWidth = contentSize.width;
 
@@ -975,14 +1067,14 @@ qx.Class.define("qx.ui2.core.Widget",
           maxWidth += insetX;
         }
       }
-      else if (maxWidth === "pref") 
+      else if (maxWidth === "pref")
       {
         maxWidth = contentSize.width;
 
         if (maxWidth != null) {
           maxWidth += insetX;
         }
-      }      
+      }
 
       if (maxWidth == null) {
         maxWidth = 32000;
@@ -1032,7 +1124,7 @@ qx.Class.define("qx.ui2.core.Widget",
         if (minHeight != null) {
           minHeight += insetY;
         }
-      }      
+      }
 
       if (minHeight == null) {
         minHeight = insetY;
