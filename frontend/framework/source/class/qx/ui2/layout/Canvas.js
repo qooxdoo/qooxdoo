@@ -36,6 +36,14 @@ qx.Class.define("qx.ui2.layout.Canvas",
   members :
   {
     // overridden
+    add : function(widget, left, top, right, bottom)
+    {
+      this.base(arguments, widget);
+      this._importProperties(widget, arguments, "left", "top", "right", "bottom");
+    },
+
+
+    // overridden
     layout : function(width, height)
     {
       var children = this.getChildren();
@@ -49,22 +57,12 @@ qx.Class.define("qx.ui2.layout.Canvas",
         }
 
         var childHint = child.getSizeHint();
+
         var childLeft = child.getLayoutProperty("left") || 0;
         var childTop = child.getLayoutProperty("top") || 0;
 
         child.layout(childLeft, childTop, childHint.width, childHint.height);
       }
-    },
-
-
-    // overridden
-    invalidate : function() {
-    },
-
-
-    // overridden
-    getSizeHint : function() {
-      return null;
     }
   },
 

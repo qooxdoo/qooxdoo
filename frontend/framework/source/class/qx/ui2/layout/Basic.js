@@ -38,14 +38,7 @@ qx.Class.define("qx.ui2.layout.Basic",
     add : function(widget, left, top)
     {
       this.base(arguments, widget);
-
-      if (left != null) {
-        widget.addLayoutProperty("left", left);
-      }
-
-      if (top != null) {
-        widget.addLayoutProperty("top", top);
-      }
+      this._importProperties(widget, arguments, "left", "top");
     },
 
 
