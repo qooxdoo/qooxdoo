@@ -56,6 +56,7 @@ qx.Class.define("qx.ui2.layout.Canvas",
       var child, childHint;
       var childLeft, childTop, childRight, childBottom;
       var childWidth, childHeight;
+      var percent = /[0-9.]+%/;
 
       for (var i=0, l=children.length; i<l; i++)
       {
@@ -65,42 +66,60 @@ qx.Class.define("qx.ui2.layout.Canvas",
         {
           childHint = child.getSizeHint();
 
+
+          // Processing location data
           childLeft = child.getLayoutProperty("left");
           childTop = child.getLayoutProperty("top");
           childRight = child.getLayoutProperty("right");
           childBottom = child.getLayoutProperty("bottom");
 
-          if (typeof childLeft === "string") {
+          if (typeof childLeft === "string" && percent.test(childLeft)) {
             childLeft = Math.round(parseFloat(childLeft) * availWidth / 100);
+          } else if (childLeft != null) {
+            throw new Error("Could not parse percent value for left position: " + childLeft);
           }
 
-          if (typeof childTop === "string") {
+          if (typeof childTop === "string" && percent.test(childTop)) {
             childTop = Math.round(parseFloat(childTop) * availHeight / 100);
+          } else if (childTop != null) {
+            throw new Error("Could not parse percent value for top position: " + childTop);
           }
 
-          if (typeof childRight === "string") {
+          if (typeof childRight === "string" && percent.test(childRight)) {
             childRight = Math.round(parseFloat(childRight) * availWidth / 100);
+          } else if (childRight != null) {
+            throw new Error("Could not parse percent value for right position: " + childRight);
           }
 
-          if (typeof childBottom === "string") {
+          if (typeof childBottom === "string" && percent.test(childBottom)) {
             childBottom = Math.round(parseFloat(childBottom) * availHeight / 100);
+          } else if (childBottom != null) {
+            throw new Error("Could not parse percent value for bottom position: " + childBottom);
           }
 
+
+          // Processing dimension data
           childWidth = child.getLayoutProperty("width");
           childHeight = child.getLayoutProperty("height");
 
-          if (typeof childWidth === "string") {
+          if (typeof childWidth === "string" && percent.test(childWidth)) {
             childWidth = Math.round(parseFloat(childWidth) * availWidth / 100);
+          } else if (childWidth != null) {
+            throw new Error("Could not parse percent value for width: " + childWidth);
           } else {
             childWidth = childHint.width;
           }
 
-          if (typeof childHeight === "string") {
+          if (typeof childHeight === "string" && percent.test(childHeight)) {
             childHeight = Math.round(parseFloat(childHeight) * availHeight / 100);
+          } else if (childHeight != null) {
+            throw new Error("Could not parse percent value for width: " + childHeight);
           } else {
             childHeight = childHint.height;
           }
 
+
+          // Normalize right
           if (childRight != null)
           {
             if (childLeft != null) {
@@ -112,6 +131,8 @@ qx.Class.define("qx.ui2.layout.Canvas",
             }
           }
 
+
+          // Normalize bottom
           if (childBottom != null)
           {
             if (childTop != null) {
@@ -123,6 +144,8 @@ qx.Class.define("qx.ui2.layout.Canvas",
             }
           }
 
+
+          // Layout child
           child.layout(childLeft, childTop, childWidth, childHeight);
         }
       }
@@ -145,12 +168,20 @@ qx.Class.define("qx.ui2.layout.Canvas",
       widget.removeLayoutProperty("width");
     },
 
+    getWidth : function(widget) {
+      return widget.getLayoutProperty("width");
+    },
+
     setHeight : function(widget, value) {
       widget.addLayoutProperty("height", value);
     },
 
     resetHeight : function(widget) {
       widget.removeLayoutProperty("height");
+    },
+
+    getHeight : function(widget) {
+      return widget.getLayoutProperty("height");
     }
   },
 
