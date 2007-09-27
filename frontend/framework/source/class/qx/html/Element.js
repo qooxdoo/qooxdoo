@@ -1302,7 +1302,7 @@ qx.Class.define("qx.html.Element",
 
     /**
      * Marks the element as excluded which means it will be removed
-     * from the DOM and ignored for updates until get included again.
+     * from the DOM and ignored for updates until it gets included again.
      *
      * @type member
      * @return {qx.html.Element} this object (for chaining support)

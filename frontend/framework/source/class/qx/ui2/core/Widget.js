@@ -475,6 +475,16 @@ qx.Class.define("qx.ui2.core.Widget",
         this._outerElement.setStyle("top", top + "px");
       }
 
+      // Scrollbars are applied to the content element and does not influence
+      // its outer size.
+      var insetTop = this.getInsetTop();
+      var insetLeft = this.getInsetLeft();
+      var insetRight = this.getInsetRight();
+      var insetBottom = this.getInsetBottom();
+
+      var innerWidth = width - insetLeft - insetRight;
+      var innerHeight = height - insetTop - insetBottom;
+
       if (sizeChange)
       {
         this._width = width;
@@ -483,17 +493,8 @@ qx.Class.define("qx.ui2.core.Widget",
         this._outerElement.setStyle("width", width + "px");
         this._outerElement.setStyle("height", height + "px");
 
-        // Scrollbars are applied to the content element and does not influence
-        // its outer size.
-        var insetTop = this.getInsetTop();
-        var insetLeft = this.getInsetLeft();
-        var insetRight = this.getInsetRight();
-        var insetBottom = this.getInsetBottom();
-
         var innerLeft = insetLeft;
         var innerTop = insetTop;
-        var innerWidth = width - insetLeft - insetRight;
-        var innerHeight = height - insetTop - insetBottom;
 
         this._contentElement.setStyle("left", innerLeft + "px");
         this._contentElement.setStyle("top", innerTop + "px");
@@ -758,7 +759,16 @@ qx.Class.define("qx.ui2.core.Widget",
     },
 
 
-
+    /**
+     * Remove all layout properties. This happens, when the widget
+     * if removed from a layout.
+     *
+     * @internal
+     * @type member
+     */
+    hasLayoutProperty : function(name) {
+      this._layoutProperties = {};
+    },
 
 
 
