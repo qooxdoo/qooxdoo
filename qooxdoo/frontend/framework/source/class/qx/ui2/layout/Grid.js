@@ -38,6 +38,9 @@ qx.Class.define("qx.ui2.layout.Grid",
     this.base(arguments);
 
     this._grid = [];
+    this._rowData = [];
+    this._colData = [];
+
     this._children = [];
     this._sizeHint = null;
 
@@ -97,6 +100,89 @@ qx.Class.define("qx.ui2.layout.Grid",
       this._addToParent(widget);
     },
 
+
+    _validateArgument : function(arg, validValues)
+    {
+      if (validValues.indexOf(arg) == -1) {
+        throw new Error(
+          "Invalid argument '" + arg +"'! Valid arguments are: '" +
+          validValues.join(", ") + "'"
+        );
+      }
+    },
+
+
+    _setRowData : function(row, props)
+    {
+      var rowData = this._rowData[row];
+      if (!rowData)
+      {
+        this._rowData[row] = props;
+        return;
+      }
+      for (var key in props) {
+        rowData[key] = props[key];
+      }
+    },
+
+
+    _getRowData : function(row)
+    {
+      var data = this._rowData[row] || {};
+      return {
+        hAlign : data.hAlign || "left"
+      }
+    },
+
+
+    _setColumnData : function(column, props)
+    {
+      var colData = this._colData[column];
+      if (!colData)
+      {
+        this._colData[column] = props;
+        return;
+      }
+      for (var key in props) {
+        colData[key] = props[key];
+      }
+    },
+
+
+    _getColumnData : function(column)
+    {
+      var data = this._colData[column] || {};
+      return {
+        vAlign : data.vAlign || "top"
+      }
+    },
+
+
+    setRowAlign : function(row, hAlign)
+    {
+      this._validateArgument(hAlign, ["left", "center", "right"]);
+      this._setRowData(row, {hAlign: hAlign});
+    },
+
+
+    setColumnAlign : function(column, vAlign)
+    {
+      this._validateArgument(vAlign, ["top", "middle", "bottom"]);
+      this._setColumnData(column, {vAlign: vAlign});
+    },
+
+
+    getCellData : function(row, column)
+    {
+      var rowData = this._getRowData(row);
+      var colData = this._getColumnData(column);
+      return {
+        vAlign : colData.vAlign,
+        hAlign : rowData.hAlign
+      }
+    },
+
+
     // overridden
     remove : function(widget) {
       throw new Error("Not yet implemented.");
@@ -134,6 +220,7 @@ qx.Class.define("qx.ui2.layout.Grid",
           height = Math.max(height, cellSize.height);
           maxHeight = Math.max(maxHeight, cellSize.maxHeight);
         }
+
         rowHeights[row] = {
           minHeight : minHeight,
           height : height,
@@ -213,7 +300,62 @@ qx.Class.define("qx.ui2.layout.Grid",
           var height = rowHeights[row].height;
 
           var cell = grid[row][col];
-          cell.layout(left, top, width, height);
+          var cellHint = cell.getSizeHint();
+          var cellData = this.getCellData(row, col);
+
+          var cellWidth = Math.min(width, cellHint.maxWidth);
+          var cellHeight = Math.min(height, cellHint.maxHeight);
+          var cellLeft = left;
+          var cellTop = top;
+
+          console.log(cellData);
+
+          if (cellWidth !== width)
+          {
+            switch (cellData.hAlign)
+            {
+              case "left":
+                break;
+
+              case "center":
+                cellLeft += Math.floor((width - cellWidth) / 2);
+                break;
+
+              case "right":
+                cellLeft += (width - cellWidth)
+                break;
+
+              default:
+                throw new Error("Invalid state!")
+            }
+          }
+
+          if (cellHeight !== height)
+          {
+            switch (cellData.vAlign)
+            {
+              case "top":
+                break;
+
+              case "middle":
+                cellTop += Math.floor((height - cellHeight) / 2);
+                break;
+
+              case "bottom":
+                cellTop += (height - cellHeight)
+                break;
+
+              default:
+                throw new Error("Invalid state!")
+            }
+          }
+
+          cell.layout(
+            cellLeft,
+            cellTop,
+            cellWidth,
+            cellHeight
+          );
 
           top += height + spacing;
         }
